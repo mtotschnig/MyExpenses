@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Meine Ausgaben</string>
+    <string name="no_expenses">Noch keine Ausgaben!</string>
+    <string name="menu_insert_exp">Neue Ausgabe</string>
+    <string name="menu_insert_inc">Neue Einnahme</string>
+    <string name="menu_edit_inc">Einnahme verändern</string>
+    <string name="menu_edit_exp">Ausgabe verändern</string>
+    <string name="menu_delete">Löschen</string>
+    <string name="title">Titel</string>
+    <string name="date">Datum</string>
+    <string name="amount">Betrag</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="edit_preferences">Einstellungen</string>
+</resources>

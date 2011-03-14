@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_height="fill_parent"
+android:layout_width="fill_parent"
+android:id="@+id/Table">
+<TableRow>
+<TextView
+android:textColor="#ffffff" android:text="Datum:"/>
+<EditText android:id="@+id/Date" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+</TableRow>
+
+<TableRow>
+<TextView
+android:textColor="#ffffff" android:text="Zeit:"/>
+<EditText android:id="@+id/Time" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+</TableRow>
+
+<TableRow>
+<TextView
+android:textColor="#ffffff" android:text="Betrag:"/>
+<EditText android:id="@+id/Amount" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+</TableRow>
+
+<TableRow>
+<TextView android:textColor="#ffffff" android:text="Kommentar:" />
+<EditText android:id="@+id/Comment" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+</TableRow>
+
+<TableRow>
+<TextView android:textColor="#ffffff" android:text="Kategorie:" />
+<Button android:id="@+id/Category" android:text="Select"></Button>
+</TableRow>
+
+<TableRow>
+<Button android:id="@+id/Confirm" android:text="Fertig"/>
+</TableRow>
+</TableLayout>

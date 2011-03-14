@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/SelectCategory"
+android:layout_width="wrap_content" android:layout_height="wrap_content">
+<ViewFlipper android:id="@+id/ViewFlipper01"
+android:layout_width="wrap_content" android:layout_height="wrap_content">
+<!--adding views to ViewFlipper-->
+<ListView android:id="@+id/android:maincat"
+          android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"/>
+<ListView android:id="@+id/android:subcat"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"/>
+</ViewFlipper>
+</LinearLayout>

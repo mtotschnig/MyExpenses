@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Expenses</string>
+    <string name="no_expenses">No Expenses Yet!</string>
+    <string name="menu_insert_exp">Add Expense</string>
+    <string name="menu_insert_inc">Add Income</string>
+    <string name="menu_edit_inc">Edit Income</string>
+    <string name="menu_edit_exp">Edit Expense</string>
+    <string name="menu_delete">Delete Expense</string>
+    <string name="menu_reset">Reset</string>
+    <string name="title">Title</string>
+    <string name="date">Date</string>
+    <string name="amount">Amount</string>
+    <string name="confirm">Confirm</string>
+    <string name="edit_preferences">Edit preferences</string>
+</resources>

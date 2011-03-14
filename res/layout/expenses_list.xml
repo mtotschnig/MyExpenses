@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical">
+   <TextView android:text="START" android:id="@+id/start" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" android:textAppearance="@style/MyDefaultTextAppearance" />
+    <ListView android:id="@+id/android:list"
+          android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"/>
+  	<TextView android:id="@+id/android:empty"
+          android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/no_expenses"/> 
+ <TextView android:text="END" android:id="@+id/end" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" 
+     android:textAppearance="@style/MyDefaultTextAppearance"/>
+</LinearLayout>
