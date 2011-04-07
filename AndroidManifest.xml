@@ -9,6 +9,7 @@
         </activity>
         <activity android:name=".ExpenseEdit"/>
         <activity android:name=".MyPreferenceActivity"  android:label="@string/edit_preferences">
-</activity>/>
+</activity>
+        <activity android:name=".SelectCategory"></activity>/>
     </application>
 </manifest> 

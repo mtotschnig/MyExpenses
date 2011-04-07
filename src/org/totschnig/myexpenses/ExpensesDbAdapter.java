@@ -49,13 +49,17 @@ public class ExpensesDbAdapter {
     /**
      * Database creation sql statement
      */
-    private static final String DATABASE_CREATE =
-            "create table expenses (_id integer primary key autoincrement, "
-                    + "comment text not null, date DATETIME not null, amount float not null);";
-
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "expenses";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
+    
+    private static final String DATABASE_CREATE =
+            "create table " + DATABASE_TABLE  +  "(_id integer primary key autoincrement, "
+                    + "comment text not null, date DATETIME not null, amount float not null, "
+                    + "category_id integer);";
+   private static final String CATEGORIES_CREATE =
+	   		"create table categories (_id integer primary key, label text not null, parent_id integer);";
+
 
     private final Context mCtx;
 
@@ -69,13 +73,15 @@ public class ExpensesDbAdapter {
         public void onCreate(SQLiteDatabase db) {
 
             db.execSQL(DATABASE_CREATE);
+            db.execSQL(CATEGORIES_CREATE);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS notes");
+            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS categories");
             onCreate(db);
         }
     }
