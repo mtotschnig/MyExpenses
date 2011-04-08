@@ -51,14 +51,16 @@ public class ExpensesDbAdapter {
      */
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "expenses";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 6;
     
     private static final String DATABASE_CREATE =
             "create table " + DATABASE_TABLE  +  "(_id integer primary key autoincrement, "
                     + "comment text not null, date DATETIME not null, amount float not null, "
                     + "category_id integer);";
+    // Table definition reflects format of Grisbis categories
    private static final String CATEGORIES_CREATE =
-	   		"create table categories (_id integer primary key, label text not null, parent_id integer);";
+	   		"create table categories (_id integer, label text not null, parent_id integer, "
+	   			+ "PRIMARY KEY (_id,parent_id));";
 
 
     private final Context mCtx;
@@ -204,5 +206,31 @@ public class ExpensesDbAdapter {
     	Cursor mCursor = mDb.rawQuery("select sum(" + KEY_AMOUNT + ") from " + DATABASE_TABLE, null);
     	mCursor.moveToFirst();
     	return mCursor.getFloat(0);
+    }
+    
+    //Categories
+    public long createCategory(String label, String id, String parent_id) {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put("label", label);
+        initialValues.put("_id", id);
+        initialValues.put("parent_id", parent_id);
+
+        return mDb.insert("categories", null, initialValues);
+    }
+    
+    public Cursor fetchMainCategories() {
+        return mDb.query("categories",
+        		new String[] {KEY_ROWID, "label"},
+        		"parent_id is null",
+        		null,
+        		null,
+        		null,
+        		null
+        );
+    }
+
+    public Cursor fetchSubCategories(String parent_id) {
+    	 return mDb.query("categories", new String[] {KEY_ROWID,
+         "label"}, "parent_id = " + parent_id, null, null, null, null);
     }
 }

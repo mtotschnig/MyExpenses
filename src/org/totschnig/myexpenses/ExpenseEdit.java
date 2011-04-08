@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 public class ExpenseEdit extends Activity {
 
@@ -185,5 +186,12 @@ public class ExpenseEdit extends Activity {
             mDbHelper.updateExpense(mRowId, strDate, amount, comment);
         }
     }
-    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, 
+                                    Intent intent) {
+        //Here we will have to set the category for the expense
+        int main_cat = intent.getIntExtra("main_cat",0);
+        int sub_cat = intent.getIntExtra("sub_cat",0);
+        Toast.makeText(this, "Select category returned main_cat :" +main_cat+";sub_cat :"+sub_cat, Toast.LENGTH_LONG).show();
+    }   
 }

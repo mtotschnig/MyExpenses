@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Xml;
@@ -25,30 +26,58 @@ public class MyPreferenceActivity extends PreferenceActivity {
         importButton = (Button) findViewById(R.id.import_cat);
         importButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	Context context = getApplicationContext();
-            	CharSequence text = "Importing Categories now!";
-            	int duration = Toast.LENGTH_SHORT;
-            	Toast toast = Toast.makeText(context, text, duration);
-            	toast.show();
-            	importCats();
+            	 new MyAsyncTask(MyPreferenceActivity.this).execute();
             }
           });
     }
+    private class MyAsyncTask extends AsyncTask<Void, Void, Void> {
+        private Context context;
+        public MyAsyncTask(Context context) {
+            this.context = context;
+        }
+        protected void onPostExecute(Void ignore) {
+            super.onPostExecute(ignore);
+            Toast.makeText(context, "Categories imported!", Toast.LENGTH_LONG).show();
+        }
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(context, "Importing categories!", Toast.LENGTH_LONG).show();
+        }
+		@Override
+		protected Void doInBackground(Void... params) {
+			importCats();
+			return null;
+		}
+    }
+
     private void importCats() {
+    	//TODO warn if there are already cats in the db
         XmlPullParser parser = Xml.newPullParser();
+        ExpensesDbAdapter mDbHelper = new ExpensesDbAdapter(this);
+        mDbHelper.open();
+        String tagName;
+        String label;
+        String id;
+        String parent_id;
         try {
             // auto-detect the encoding from the stream
             parser.setInput(new FileInputStream("/sdcard/categories.xml"), null);
             int eventType = parser.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT){
-                String name = null;
                 switch (eventType){
                     case XmlPullParser.START_TAG:
-                        name = parser.getName();
-                       if (name == "Category") {
-                    	   //String getAttributeValue
-                       } else if (name == "Sub_category") {
-                    	   //TODOgetAttributeValue
+                        tagName = parser.getName();
+                       if (tagName == "Category") {
+                    	   label = parser.getAttributeValue(null, "Na");
+                    	   id = parser.getAttributeValue(null, "Nb");
+                    	   Log.w("MyPreferenceActivity", "Creating category with label " + 
+                    			   label + " and id " + id);
+                    	   mDbHelper.createCategory(label,id,null);
+                       } else if (tagName == "Sub_category") {
+                    	   label = parser.getAttributeValue(null, "Na");
+                    	   id = parser.getAttributeValue(null, "Nb");
+                    	   parent_id = parser.getAttributeValue(null, "Nbc");
+                    	   mDbHelper.createCategory(label, id, parent_id);
                         }
                         break;
                 }
