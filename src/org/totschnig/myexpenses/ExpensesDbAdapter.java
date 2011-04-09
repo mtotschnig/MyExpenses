@@ -22,6 +22,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 
@@ -41,6 +42,8 @@ public class ExpensesDbAdapter {
     public static final String KEY_AMOUNT = "amount";
     public static final String KEY_COMMENT = "comment";
     public static final String KEY_ROWID = "_id";
+    public static final String KEY_MAINCATID = "main_cat_id";
+    public static final String KEY_SUBCATID = "sub_cat_id";
 
     private static final String TAG = "ExpensesDbAdapter";
     private DatabaseHelper mDbHelper;
@@ -51,12 +54,12 @@ public class ExpensesDbAdapter {
      */
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "expenses";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
     
     private static final String DATABASE_CREATE =
             "create table " + DATABASE_TABLE  +  "(_id integer primary key autoincrement, "
                     + "comment text not null, date DATETIME not null, amount float not null, "
-                    + "category_id integer);";
+                    + "main_cat_id integer, sub_cat_id integer);";
     // Table definition reflects format of Grisbis categories
    private static final String CATEGORIES_CREATE =
 	   		"create table categories (_id integer, label text not null, parent_id integer, "
@@ -128,12 +131,14 @@ public class ExpensesDbAdapter {
      * @param comment the comment describing the expense
      * @return rowId or -1 if failed
      */
-    public long createExpense(String date, String amount, String comment) {
+    public long createExpense(String date, String amount, String comment,String main_cat_id,String sub_cat_id) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_COMMENT, comment);
-        initialValues.put(KEY_DATE, date.toString());
+        initialValues.put(KEY_DATE, date);
         initialValues.put(KEY_AMOUNT, amount);
-
+        initialValues.put(KEY_MAINCATID, main_cat_id);
+        initialValues.put(KEY_SUBCATID, sub_cat_id);
+        
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
 
@@ -159,7 +164,7 @@ public class ExpensesDbAdapter {
     public Cursor fetchAllExpenses() {
 
         return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID,
-                KEY_DATE,KEY_AMOUNT, KEY_COMMENT}, null, null, null, null, null);
+                KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_MAINCATID, KEY_SUBCATID}, null, null, null, null, null);
     }
 
     /**
@@ -173,8 +178,8 @@ public class ExpensesDbAdapter {
 
         Cursor mCursor =
 
-                mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                        KEY_DATE,KEY_AMOUNT,KEY_COMMENT}, KEY_ROWID + "=" + rowId, null,
+                mDb.query(true, DATABASE_TABLE + " LEFT JOIN categories on (main_cat_id = parent_id and sub_cat_id = categories._id)", new String[] {DATABASE_TABLE+"."+KEY_ROWID,
+                        KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_MAINCATID, KEY_SUBCATID, "label"}, DATABASE_TABLE+"."+KEY_ROWID + "=" + rowId, null,
                         null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -194,11 +199,13 @@ public class ExpensesDbAdapter {
      * @param comment value to set
      * @return true if the note was successfully updated, false otherwise
      */
-    public boolean updateExpense(long rowId, String date, String amount, String comment) {
+    public boolean updateExpense(long rowId, String date, String amount, String comment,String main_cat_id,String sub_cat_id) {
         ContentValues args = new ContentValues();
         args.put(KEY_DATE, date);
         args.put(KEY_AMOUNT, amount);
         args.put(KEY_COMMENT, comment);
+        args.put(KEY_MAINCATID, main_cat_id);
+        args.put(KEY_SUBCATID, sub_cat_id);
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
@@ -228,9 +235,11 @@ public class ExpensesDbAdapter {
         		null
         );
     }
-
     public Cursor fetchSubCategories(String parent_id) {
     	 return mDb.query("categories", new String[] {KEY_ROWID,
          "label"}, "parent_id = " + parent_id, null, null, null, null);
+    }
+    public int getCategoriesCount() {
+    	return (int) mDb.compileStatement("select count(_id) from categories").simpleQueryForLong();
     }
 }

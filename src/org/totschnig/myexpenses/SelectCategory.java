@@ -14,19 +14,20 @@ import android.widget.ExpandableListAdapter;
 public class SelectCategory extends ExpandableListActivity {
     private ExpandableListAdapter mAdapter;
     private ExpensesDbAdapter mDbHelper;
+    private Cursor groupCursor;
+    int groupIdColumnIndex;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Set up our adapter
-        // Query for people
         mDbHelper = new ExpensesDbAdapter(SelectCategory.this);
         mDbHelper.open();
-		Cursor groupCursor = mDbHelper.fetchMainCategories();
+		groupCursor = mDbHelper.fetchMainCategories();
 
         // Cache the ID column index
-        //mGroupIdColumnIndex = groupCursor.getColumnIndexOrThrow(People._ID);
+        groupIdColumnIndex = groupCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ROWID);
 
         // Set up our adapter
         mAdapter = new MyExpandableListAdapter(groupCursor,
@@ -43,10 +44,15 @@ public class SelectCategory extends ExpandableListActivity {
     }
     @Override
     public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-    	Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
+    	//Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
     	Intent intent=new Intent();
-        intent.putExtra("main_cat", groupPosition);
-        intent.putExtra("sub_cat", childPosition);
+    	int main_cat = groupCursor.getInt(groupIdColumnIndex);
+    	int sub_cat = (int) id;
+    	Cursor childCursor = (Cursor) mAdapter.getChild(groupPosition,childPosition);
+    	String label =  childCursor.getString(childCursor.getColumnIndexOrThrow("label"));
+        intent.putExtra("main_cat", main_cat);
+        intent.putExtra("sub_cat",sub_cat);
+        intent.putExtra("label", label);
         setResult(RESULT_OK,intent);
     	finish();
     	return true;
@@ -62,7 +68,7 @@ public class SelectCategory extends ExpandableListActivity {
         @Override
         protected Cursor getChildrenCursor(Cursor groupCursor) {
             // Given the group, we return a cursor for all the children within that group
-        	String parent_id = groupCursor.getString(groupCursor.getColumnIndexOrThrow("_id"));
+        	String parent_id = groupCursor.getString(groupIdColumnIndex);
         	return mDbHelper.fetchSubCategories(parent_id);
         }
     }

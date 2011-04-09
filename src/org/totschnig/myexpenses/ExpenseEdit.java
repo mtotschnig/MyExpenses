@@ -34,9 +34,12 @@ public class ExpenseEdit extends Activity {
 	private EditText mTimeText;
 	private EditText mAmountText;
     private EditText mCommentText;
+    private Button categoryButton;
     private Long mRowId;
     private boolean type;
     private ExpensesDbAdapter mDbHelper;
+    private int main_cat_id;
+    private int sub_cat_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,6 @@ public class ExpenseEdit extends Activity {
 									: 0;
 		}
 		type = extras.getBoolean("type");
-		populateFields();
 		
         confirmButton.setOnClickListener(new View.OnClickListener() {
 
@@ -71,18 +73,23 @@ public class ExpenseEdit extends Activity {
         	}
           
         });
-        Button categoryButton = (Button) findViewById(R.id.Category);
+        categoryButton = (Button) findViewById(R.id.Category);
         categoryButton.setOnClickListener(new View.OnClickListener() {
 
         	public void onClick(View view) {
         		startSelectCategory();
         	} 
-        }); 
+        });
+		populateFields();
     }
     private void startSelectCategory() {
-    	Intent i = new Intent(this, SelectCategory.class);
-        //i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
-        startActivityForResult(i, 0);
+    	if ( mDbHelper.getCategoriesCount() == 0 ) {
+    		Toast.makeText(this, "No categories imported yet", Toast.LENGTH_LONG).show();
+    	} else {
+    		Intent i = new Intent(this, SelectCategory.class);
+		    //i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
+		    startActivityForResult(i, 0);
+    	}
    	}
 //    protected Dialog onCreateDialog(int id) {
 //    	//TODO check for id
@@ -126,6 +133,9 @@ public class ExpenseEdit extends Activity {
             mAmountText.setText(Float.toString(amount));
             mCommentText.setText(note.getString(
                     note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)));
+            main_cat_id = note.getInt(note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_MAINCATID));
+            sub_cat_id = note.getInt(note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_SUBCATID));
+            categoryButton.setText(note.getString(note.getColumnIndexOrThrow("label")));
         } else {
         	Date date =  new Date();
         	setDate(date);
@@ -178,20 +188,23 @@ public class ExpenseEdit extends Activity {
     		amount = "-"+ amount;
     	}
         if (mRowId == 0) {
-            long id = mDbHelper.createExpense(strDate, amount, comment);
+            long id = mDbHelper.createExpense(strDate, amount, comment,String.valueOf(main_cat_id),String.valueOf(sub_cat_id));
             if (id > 0) {
                 mRowId = id;
             }
         } else {
-            mDbHelper.updateExpense(mRowId, strDate, amount, comment);
+            mDbHelper.updateExpense(mRowId, strDate, amount, comment,String.valueOf(main_cat_id),String.valueOf(sub_cat_id));
         }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, 
                                     Intent intent) {
-        //Here we will have to set the category for the expense
-        int main_cat = intent.getIntExtra("main_cat",0);
-        int sub_cat = intent.getIntExtra("sub_cat",0);
-        Toast.makeText(this, "Select category returned main_cat :" +main_cat+";sub_cat :"+sub_cat, Toast.LENGTH_LONG).show();
-    }   
+    	if (intent != null) {
+	        //Here we will have to set the category for the expense
+	        main_cat_id = intent.getIntExtra("main_cat",0);
+	        sub_cat_id = intent.getIntExtra("sub_cat",0);
+	        categoryButton.setText(intent.getStringExtra("label"));
+	        Toast.makeText(this, "Select category returned main_cat :" +main_cat_id+";sub_cat :"+sub_cat_id, Toast.LENGTH_LONG).show();
+    	}
+    }
 }
