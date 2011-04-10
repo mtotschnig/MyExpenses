@@ -58,7 +58,6 @@ public class MyExpenses extends ListActivity {
     public static final boolean EXPENSE = false;
 
     private ExpensesDbAdapter mDbHelper;
-    private SimpleDateFormat formatter = new SimpleDateFormat("dd.MM KK:mm");
 
 	float start;
 	float end;
@@ -76,7 +75,11 @@ public class MyExpenses extends ListActivity {
         fillData();
         registerForContextMenu(getListView());
     }
-    
+    @Override
+    public void onDestroy() {
+    	super.onDestroy();
+    	mDbHelper.close();
+    }
     private void fillData() {
     	expensesCursor = mDbHelper.fetchAllExpenses();
         startManagingCursor(expensesCursor);
@@ -125,6 +128,7 @@ public class MyExpenses extends ListActivity {
         endView.setText(NumberFormat.getCurrencyInstance().format(end));
     }
     private String convText(TextView v, String text) {
+    	SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
     	float amount;
         switch (v.getId()) {
           case R.id.date1:
@@ -194,24 +198,27 @@ public class MyExpenses extends ListActivity {
         startActivityForResult(i, ACTIVITY_PREF);
     }
     private void exportAll() {
-    	SimpleDateFormat now = new SimpleDateFormat("ddMM-KKmm");
+    	SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm");
+    	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     	Log.e("MyExpenses","now starting export");
     	try {
     		File appDir = new File("/sdcard/myexpenses/");
     		appDir.mkdir();
-    		File outputFile = new File(appDir, "expenses" + now.format(new Date()) + ".csv");
+    		File outputFile = new File(appDir, "expenses" + now.format(new Date()) + ".qif");
     		FileOutputStream out = new FileOutputStream(outputFile);
+    		String header = "!Type:Oth L\n";
+    		out.write(header.getBytes());
         	expensesCursor.moveToFirst();
         	while( expensesCursor.getPosition() < expensesCursor.getCount() ) {
-        		String row = expensesCursor.getString(
-        				expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE)) +
-        				"," +
-        				expensesCursor.getString(
+        		String row = "D"+formatter.format(Timestamp.valueOf(expensesCursor.getString(
+        				expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE)))) +
+        				"\nT"+expensesCursor.getString(
                 				expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)) +
-          				"," +
-          				expensesCursor.getString(
+          				"\nM" +expensesCursor.getString(
                    				expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)) +
-                   		"\n";
+                   		"\nL" +expensesCursor.getString(
+                   				expensesCursor.getColumnIndexOrThrow("label")) +
+                   		"\n^\n";
         		out.write(row.getBytes());
         		expensesCursor.moveToNext();
         	}

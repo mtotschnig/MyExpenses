@@ -43,6 +43,11 @@ public class SelectCategory extends ExpandableListActivity {
         //registerForContextMenu(getExpandableListView());
     }
     @Override
+    public void onDestroy() {
+    	super.onDestroy();
+    	mDbHelper.close();
+    }
+    @Override
     public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
     	//Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
     	Intent intent=new Intent();

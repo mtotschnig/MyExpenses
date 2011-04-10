@@ -82,6 +82,11 @@ public class ExpenseEdit extends Activity {
         });
 		populateFields();
     }
+    @Override
+    public void onDestroy() {
+    	super.onDestroy();
+    	mDbHelper.close();
+    }
     private void startSelectCategory() {
     	if ( mDbHelper.getCategoriesCount() == 0 ) {
     		Toast.makeText(this, "No categories imported yet", Toast.LENGTH_LONG).show();
@@ -168,18 +173,6 @@ public class ExpenseEdit extends Activity {
         outState.putLong(ExpensesDbAdapter.KEY_ROWID, mRowId);
     }
     
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //saveState();
-    }
-    
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //populateFields();
-    }
-    
     private void saveState() {
         String amount = mAmountText.getText().toString();
         String comment = mCommentText.getText().toString();
@@ -204,7 +197,7 @@ public class ExpenseEdit extends Activity {
 	        main_cat_id = intent.getIntExtra("main_cat",0);
 	        sub_cat_id = intent.getIntExtra("sub_cat",0);
 	        categoryButton.setText(intent.getStringExtra("label"));
-	        Toast.makeText(this, "Select category returned main_cat :" +main_cat_id+";sub_cat :"+sub_cat_id, Toast.LENGTH_LONG).show();
+	        //Toast.makeText(this, "Select category returned main_cat :" +main_cat_id+";sub_cat :"+sub_cat_id, Toast.LENGTH_LONG).show();
     	}
     }
 }

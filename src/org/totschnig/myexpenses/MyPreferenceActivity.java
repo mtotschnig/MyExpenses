@@ -30,27 +30,32 @@ public class MyPreferenceActivity extends PreferenceActivity {
             }
           });
     }
-    private class MyAsyncTask extends AsyncTask<Void, Void, Void> {
+    private class MyAsyncTask extends AsyncTask<Void, Void, Integer> {
         private Context context;
         public MyAsyncTask(Context context) {
             this.context = context;
         }
-        protected void onPostExecute(Void ignore) {
-            super.onPostExecute(ignore);
-            Toast.makeText(context, "Categories imported!", Toast.LENGTH_LONG).show();
+        protected void onPostExecute(Integer result) {
+        	String msg;
+            super.onPostExecute(result);
+            if (result == 1) {
+            	msg = "Categories imported!";
+            } else {
+            	msg = "Categories import failed";
+            }
+            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
         }
         protected void onPreExecute() {
             super.onPreExecute();
             Toast.makeText(context, "Importing categories!", Toast.LENGTH_LONG).show();
         }
 		@Override
-		protected Void doInBackground(Void... params) {
-			importCats();
-			return null;
+		protected Integer doInBackground(Void... params) {
+			return importCats();
 		}
     }
-
-    private void importCats() {
+    //returns 1 upon success, 0 upon failure
+    private int importCats() {
     	//TODO warn if there are already cats in the db
         XmlPullParser parser = Xml.newPullParser();
         ExpensesDbAdapter mDbHelper = new ExpensesDbAdapter(this);
@@ -59,9 +64,10 @@ public class MyPreferenceActivity extends PreferenceActivity {
         String label;
         String id;
         String parent_id;
+        int result;
         try {
             // auto-detect the encoding from the stream
-            parser.setInput(new FileInputStream("/sdcard/categories.xml"), null);
+            parser.setInput(new FileInputStream("/sdcard/myexpenses/categories.xml"), null);
             int eventType = parser.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT){
                 switch (eventType){
@@ -83,9 +89,11 @@ public class MyPreferenceActivity extends PreferenceActivity {
                 }
                 eventType = parser.next();
             }
+            result = 1;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+        	result = 0;
         }
-
+        mDbHelper.close();
+        return result;
     }
 }
