@@ -8,19 +8,19 @@ android:id="@+id/Table">
 <TableRow>
 <TextView
 android:textColor="#ffffff" android:text="Datum:"/>
-<EditText android:id="@+id/Date" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+<EditText android:inputType="date" android:id="@+id/Date" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
 </TableRow>
 
 <TableRow>
 <TextView
 android:textColor="#ffffff" android:text="Zeit:"/>
-<EditText android:id="@+id/Time" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+<EditText android:inputType="time" android:id="@+id/Time" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
 </TableRow>
 
 <TableRow>
 <TextView
 android:textColor="#ffffff" android:text="Betrag:"/>
-<EditText android:id="@+id/Amount" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+<EditText android:inputType="phone" android:id="@+id/Amount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:numeric="decimal"></EditText>
 </TableRow>
 
 <TableRow>
@@ -30,10 +30,10 @@ android:textColor="#ffffff" android:text="Betrag:"/>
 
 <TableRow>
 <TextView android:textColor="#ffffff" android:text="Kategorie:" />
-<Button android:id="@+id/Category" android:text="Select"></Button>
+<Button android:id="@+id/Category" android:text="@string/select"></Button>
 </TableRow>
 
 <TableRow>
-<Button android:id="@+id/Confirm" android:text="Fertig"/>
+<Button android:id="@+id/Confirm" android:text="@string/done"/>
 </TableRow>
 </TableLayout>

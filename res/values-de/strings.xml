@@ -7,9 +7,13 @@
     <string name="menu_edit_inc">Einnahme verändern</string>
     <string name="menu_edit_exp">Ausgabe verändern</string>
     <string name="menu_delete">Löschen</string>
+    <string name="menu_show_detail">Details anzeigen</string>
+    <string name="menu_reset">Zurücksetzen</string>
     <string name="title">Titel</string>
     <string name="date">Datum</string>
     <string name="amount">Betrag</string>
     <string name="confirm">Bestätigen</string>
     <string name="edit_preferences">Einstellungen</string>
+    <string name="select">Auwählen</string>
+    <string name="done">Fertig</string>
 </resources>

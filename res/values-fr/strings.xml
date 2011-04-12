@@ -7,9 +7,13 @@
     <string name="menu_edit_inc">Éditer rentrée</string>
     <string name="menu_edit_exp">Éditer dépense</string>
     <string name="menu_delete">Effacer</string>
+    <string name="menu_show_detail">Afficher détails</string>
+    <string name="menu_reset">réinitialiser</string>
     <string name="title">Titre</string>
     <string name="date">Date</string>
     <string name="amount">Montant</string>
     <string name="confirm">Confirmer</string>
     <string name="edit_preferences">Réglages</string>
+    <string name="select">Selectioner</string>
+    <string name="done">Appliquer</string>
 </resources>
