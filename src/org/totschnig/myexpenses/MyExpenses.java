@@ -38,6 +38,7 @@ import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 import android.preference.PreferenceManager;
@@ -53,6 +54,7 @@ public class MyExpenses extends ListActivity {
     private static final int PREF_ID = Menu.FIRST + 2;
     private static final int RESET_ID = Menu.FIRST + 3;
     private static final int DELETE_ID = Menu.FIRST +4;
+    private static final int SHOW_DETAIL_ID = Menu.FIRST +5;
     
     public static final boolean INCOME = true;
     public static final boolean EXPENSE = false;
@@ -92,9 +94,9 @@ public class MyExpenses extends ListActivity {
         startView.setText(NumberFormat.getCurrencyInstance().format(start));
         
         // Create an array to specify the fields we want to display in the list
-        String[] from = new String[]{ExpensesDbAdapter.KEY_COMMENT,ExpensesDbAdapter.KEY_DATE,ExpensesDbAdapter.KEY_AMOUNT};
+        String[] from = new String[]{"label",ExpensesDbAdapter.KEY_DATE,ExpensesDbAdapter.KEY_AMOUNT};
         
-        // and an array of the fields we want to bind those fields to (in this case just text1)
+        // and an array of the fields we want to bind those fields to 
         int[] to = new int[]{R.id.text1,R.id.date1,R.id.float1};
         
         // Now create a simple cursor adapter and set it to display
@@ -175,16 +177,22 @@ public class MyExpenses extends ListActivity {
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
         menu.add(0, DELETE_ID, 0, R.string.menu_delete);
+        menu.add(0, SHOW_DETAIL_ID, 0, R.string.menu_show_detail);
 	}
 
     @Override
 	public boolean onContextItemSelected(MenuItem item) {
+    	AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch(item.getItemId()) {
     	case DELETE_ID:
-    		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 	        mDbHelper.deleteExpense(info.id);
 	        fillData();
 	        return true;
+    	case SHOW_DETAIL_ID:
+    		expensesCursor.moveToPosition(info.position);
+    		Toast.makeText(getBaseContext(), expensesCursor.getString(
+       				expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)), Toast.LENGTH_LONG).show();
+    		return true;
 		}
 		return super.onContextItemSelected(item);
 	}	
