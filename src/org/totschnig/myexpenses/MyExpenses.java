@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.text.NumberFormat;
 import java.sql.Timestamp;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.NumberFormatException;
@@ -205,11 +206,10 @@ public class MyExpenses extends ListActivity {
     	Intent i = new Intent(this, MyPreferenceActivity.class);
         startActivityForResult(i, ACTIVITY_PREF);
     }
-    private void exportAll() {
+    private void exportAll() throws IOException {
     	SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm");
     	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     	Log.e("MyExpenses","now starting export");
-    	try {
     		File appDir = new File("/sdcard/myexpenses/");
     		appDir.mkdir();
     		File outputFile = new File(appDir, "expenses" + now.format(new Date()) + ".qif");
@@ -231,15 +231,18 @@ public class MyExpenses extends ListActivity {
         		expensesCursor.moveToNext();
         	}
     	    out.close();
-    	} catch (IOException e) {
-    		Log.e("MyExpenses",e.getMessage());
-    	}
+    	
     }
     private void reset() {
-    	exportAll();
-    	mDbHelper.deleteAll();
-    	settings.edit().putString("start_amount", Float.toString(end)).commit();
-    	fillData();
+    	try {
+    		exportAll();
+    		mDbHelper.deleteAll();
+        	settings.edit().putString("start_amount", Float.toString(end)).commit();
+        	fillData();
+    	} catch (IOException e) {
+    		Log.e("MyExpenses",e.getMessage());
+    		Toast.makeText(getBaseContext(),"Failed to write expenses to sdcard", Toast.LENGTH_LONG).show();
+    	}
     }
     
     @Override
