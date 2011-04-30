@@ -165,7 +165,7 @@ public class ExpensesDbAdapter {
         return mDb.query(DATABASE_TABLE + " LEFT JOIN categories as main on (main_cat_id = main._id and main.parent_id is null) " +
         			"LEFT JOIN categories as sub on (main_cat_id = sub.parent_id and sub_cat_id = sub._id)",
         		new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_MAINCATID, KEY_SUBCATID,"main.label||' : '||sub.label as label"}, 
-        		null, null, null, null, null);
+        		null, null, null, null, KEY_DATE);
     }
 
     /**
