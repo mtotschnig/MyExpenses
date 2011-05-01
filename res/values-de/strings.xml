@@ -10,10 +10,20 @@
     <string name="menu_show_detail">Details anzeigen</string>
     <string name="menu_reset">Zurücksetzen</string>
     <string name="title">Titel</string>
+    <string name="time">Zeit</string>
+    <string name="comment">Kommentar</string>
+    <string name="category">Kategorie</string>
     <string name="date">Datum</string>
     <string name="amount">Betrag</string>
     <string name="confirm">Bestätigen</string>
     <string name="edit_preferences">Einstellungen</string>
     <string name="select">Auwählen</string>
     <string name="done">Fertig</string>
+    <string name="select_category">Kategorie auswählen</string>
+    <string name="opening_balance">Anfangssaldo</string>
+    <string name="import_categories">Kategorien importieren</string>
+    <string name="import_categories_success">Kategorien erfolgreich importiert</string>
+    <string name="import_categories_failure">Fehler beim Kategorien-Import</string>
+    <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
+    <string name="no_categories">Noch keine Kategorien importiert</string>
 </resources>

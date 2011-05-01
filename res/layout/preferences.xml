@@ -1,6 +1,6 @@
 <PreferenceScreen
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:key="first_preferencescreen">
-	<EditTextPreference android:key="start_amount" android:numeric="decimal"
-		android:title="Start amount" android:summary="Amount available at the outset"/>
+	<EditTextPreference android:key="opening_balance" android:numeric="decimal"
+		android:title="@string/opening_balance" />
 </PreferenceScreen> 

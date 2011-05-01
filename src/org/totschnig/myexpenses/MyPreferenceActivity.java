@@ -39,15 +39,15 @@ public class MyPreferenceActivity extends PreferenceActivity {
         	String msg;
             super.onPostExecute(result);
             if (result == 1) {
-            	msg = "Categories imported!";
+            	msg = getString(R.string.import_categories_success);
             } else {
-            	msg = "Categories import failed";
+            	msg = getString(R.string.import_categories_failure);
             }
             Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
         }
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(context, "Importing categories!", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, getString(R.string.import_categories), Toast.LENGTH_LONG).show();
         }
 		@Override
 		protected Integer doInBackground(Void... params) {

@@ -113,7 +113,7 @@ public class ExpenseEdit extends Activity {
     }
     private void startSelectCategory() {
     	if ( mDbHelper.getCategoriesCount() == 0 ) {
-    		Toast.makeText(this, "No categories imported yet", Toast.LENGTH_LONG).show();
+    		Toast.makeText(this, getString(R.string.no_categories), Toast.LENGTH_LONG).show();
     	} else {
     		Intent i = new Intent(this, SelectCategory.class);
 		    //i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
@@ -266,7 +266,6 @@ public class ExpenseEdit extends Activity {
 	        main_cat_id = intent.getIntExtra("main_cat",0);
 	        sub_cat_id = intent.getIntExtra("sub_cat",0);
 	        categoryButton.setText(intent.getStringExtra("label"));
-	        //Toast.makeText(this, "Select category returned main_cat :" +main_cat_id+";sub_cat :"+sub_cat_id, Toast.LENGTH_LONG).show();
     	}
     }
 }

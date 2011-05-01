@@ -20,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.text.NumberFormat;
 import java.sql.Timestamp;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.NumberFormatException;
@@ -87,7 +86,7 @@ public class MyExpenses extends ListActivity {
     	expensesCursor = mDbHelper.fetchAllExpenses();
         startManagingCursor(expensesCursor);
     	try {
-    		  start = Float.parseFloat(settings.getString("start_amount", "0"));
+    		  start = Float.parseFloat(settings.getString("opening_balance", "0"));
     		} catch (NumberFormatException e) {
     			start = 0;
     		}
@@ -237,11 +236,11 @@ public class MyExpenses extends ListActivity {
     	try {
     		exportAll();
     		mDbHelper.deleteAll();
-        	settings.edit().putString("start_amount", Float.toString(end)).commit();
+        	settings.edit().putString("opening_balance", Float.toString(end)).commit();
         	fillData();
     	} catch (IOException e) {
     		Log.e("MyExpenses",e.getMessage());
-    		Toast.makeText(getBaseContext(),"Failed to write expenses to sdcard", Toast.LENGTH_LONG).show();
+    		Toast.makeText(getBaseContext(),getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
     	}
     }
     

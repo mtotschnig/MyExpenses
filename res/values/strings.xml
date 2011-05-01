@@ -11,9 +11,19 @@
     <string name="menu_reset">Reset</string>
     <string name="title">Title</string>
     <string name="date">Date</string>
+    <string name="time">Time</string>
     <string name="amount">Amount</string>
+    <string name="comment">Comment</string>
+    <string name="category">Category</string>
     <string name="confirm">Confirm</string>
     <string name="edit_preferences">Edit preferences</string>
     <string name="select">Select</string>
     <string name="done">Done</string>
+    <string name="select_category">Select category</string>
+    <string name="opening_balance">Opening balance</string>
+    <string name="import_categories">Import categories</string>
+    <string name="import_categories_success">Categories imported successfully</string>
+    <string name="import_categories_failure">Categories import failed</string>
+    <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
+    <string name="no_categories">No categories imported yet</string>
 </resources>

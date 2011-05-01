@@ -20,7 +20,7 @@ public class SelectCategory extends ExpandableListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setTitle(R.string.select_category);
         // Set up our adapter
         mDbHelper = new ExpensesDbAdapter(SelectCategory.this);
         mDbHelper.open();
