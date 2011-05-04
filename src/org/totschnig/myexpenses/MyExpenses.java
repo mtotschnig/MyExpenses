@@ -25,12 +25,16 @@ import java.io.IOException;
 import java.lang.NumberFormatException;
 import java.util.Date;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,6 +59,7 @@ public class MyExpenses extends ListActivity {
     private static final int RESET_ID = Menu.FIRST + 3;
     private static final int DELETE_ID = Menu.FIRST +4;
     private static final int SHOW_DETAIL_ID = Menu.FIRST +5;
+    private static final int HELP_ID = Menu.FIRST +6;
     
     public static final boolean INCOME = true;
     public static final boolean EXPENSE = false;
@@ -153,6 +158,7 @@ public class MyExpenses extends ListActivity {
         menu.add(0, INSERT_INC_ID, 0, R.string.menu_insert_inc);
         menu.add(0, PREF_ID,1,R.string.edit_preferences);
         menu.add(0, RESET_ID,1,R.string.menu_reset);
+        menu.add(0, HELP_ID,1,R.string.menu_help);
         return true;
     }
 
@@ -169,7 +175,12 @@ public class MyExpenses extends ListActivity {
         	return true;
         case RESET_ID:
         	reset();
+        	return true;
+        case HELP_ID:
+        	openHelpDialog();
+        	return true;
         }
+        	
         return super.onMenuItemSelected(featureId, item);
     }
     @Override
@@ -258,4 +269,40 @@ public class MyExpenses extends ListActivity {
         super.onActivityResult(requestCode, resultCode, intent);
         fillData();
     }
+    //from Mathdoku
+    private void openHelpDialog() {
+        LayoutInflater li = LayoutInflater.from(this);
+        View view = li.inflate(R.layout.aboutview, null); 
+        TextView tv = (TextView)view.findViewById(R.id.aboutVersionCode);
+        tv.setText(getVersionName() + " (revision " + getVersionNumber() + ")");
+        new AlertDialog.Builder(MyExpenses.this)
+        .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
+        .setIcon(R.drawable.about)
+        .setView(view)
+        .show();  
+    }
+    
+    public int getVersionNumber() {
+        int version = -1;
+          try {
+              PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+              version = pi.versionCode;
+          } catch (Exception e) {
+              Log.e("MyExpenses", "Package name not found", e);
+          }
+          return version;
+      }
+    
+    public String getVersionName() {
+        String versionname = "";
+          try {
+              PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+              versionname = pi.versionName;
+          } catch (Exception e) {
+              Log.e("MyExpenses", "Package name not found", e);
+          }
+          return versionname;
+      }
+
+
 }
