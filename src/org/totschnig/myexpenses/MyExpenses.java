@@ -279,6 +279,11 @@ public class MyExpenses extends ListActivity {
         .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
         .setIcon(R.drawable.about)
         .setView(view)
+        .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+        	  dialog.dismiss();
+          }
+        })
         .show();  
     }
     

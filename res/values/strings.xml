@@ -28,4 +28,19 @@
     <string name="no_categories">No categories imported yet</string>
     <string name="menu_help">Help</string>
     <string name="close">Close</string>
+      <!-- The first line in the help screen. -->
+    <string name="help_leading">Thanks for installing MyExpenses for Android.</string>
+      <!-- The bulk of the help text. -->
+    <string name="help_text">Blabla</string>
+            <!-- The version title in the help screen. -->
+        <string name="help_version">Version</string>
+        <!-- The license title in the help screen. -->
+        <string name="help_license">License</string>
+        <!-- The project home title in the help screen. -->
+        <string name="help_project_home">Project Home</string>
+        <!-- The author title in the help screen. -->
+        <string name="help_author">Author</string>
+         <!-- The credits title in the help screen. -->
+        <string name="help_credits">Credits</string>
+        <string name="credits_text">Started from the Notes tutorial. Help screen design copied from Mathdoku</string>
 </resources>
