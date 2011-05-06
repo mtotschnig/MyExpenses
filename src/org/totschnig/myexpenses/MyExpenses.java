@@ -80,6 +80,7 @@ public class MyExpenses extends ListActivity {
         mDbHelper.open();
         settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         fillData();
+        newVersionCheck();
         registerForContextMenu(getListView());
     }
     @Override
@@ -286,7 +287,18 @@ public class MyExpenses extends ListActivity {
         })
         .show();  
     }
-    
+    public void newVersionCheck() {
+        int pref_version = settings.getInt("currentversion", -1);
+        int current_version = getVersionNumber();
+        if (pref_version == -1 || pref_version != current_version) {
+          settings.edit().
+          	putInt("currentversion", current_version).
+          	commit();
+          openHelpDialog();
+          return;
+        }
+    }
+
     public int getVersionNumber() {
         int version = -1;
           try {

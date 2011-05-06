@@ -72,7 +72,7 @@
                                 android:textStyle="bold"
                                 android:textColor="#ffffff"
                                 android:textSize="18sp" />
-                        <TextView android:text="http://totschnig.org/michael/MyExpenses"
+                        <TextView android:text="http://bettercodes.org/projects/myexpenses"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:autoLink="web"

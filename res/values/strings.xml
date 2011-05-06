@@ -31,7 +31,12 @@
       <!-- The first line in the help screen. -->
     <string name="help_leading">Thanks for installing MyExpenses for Android.</string>
       <!-- The bulk of the help text. -->
-    <string name="help_text">Blabla</string>
+    <string name="help_text">MyExpenses is designed to keep track of expenses during a short period of time, and to export these expenses into the Grisbi program.
+    MyExpenses calculates the sum of expenses and incomes, and the current balance.
+    \nThe "Reset" menu entry exports expenses onto SD-Card in the QIF format, that Grisbi understands, deletes the expenses and updates the opening balance.
+    \nUnder "Preferences", categories can be imported from the XML structure that Grisbi uses for its expenses.
+    MyExpenses expects the XML file at "/sdcard/myexpenses/categories.xml".
+    </string>
             <!-- The version title in the help screen. -->
         <string name="help_version">Version</string>
         <!-- The license title in the help screen. -->
@@ -42,5 +47,5 @@
         <string name="help_author">Author</string>
          <!-- The credits title in the help screen. -->
         <string name="help_credits">Credits</string>
-        <string name="credits_text">Started from the Notes tutorial. Help screen design copied from Mathdoku</string>
+        <string name="credits_text">Initially inspired by the Android Notepad tutorial. Help screen design copied from Mathdoku.</string>
 </resources>

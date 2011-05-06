@@ -26,4 +26,24 @@
     <string name="import_categories_failure">Erreur lors de l\'import des catégories</string>
     <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses ver SD-Card</string>
     <string name="no_categories">Aucune catégorie importée</string>
+    <string name="menu_help">Aide</string>
+    <string name="close">Fermer</string>
+      <!-- The first line in the help screen. -->
+    <string name="help_leading">Merci d\'essayer MyExpenses pour Android.</string>
+      <!-- The bulk of the help text. -->
+    <string name="help_text">MyExpenses permet de gérer les rentrées d\'argent et les dépenses, dans un format compatible avec Grisbi.
+    \nLa commande "Réinitialiser" exporte toutes les transactions dans und fichier QIF sur la carte SD, efface les transactions, et transfère le dernier solde en nouveau solde d\'ouverture.
+    \nSous les réglages, les catégories peuvent être importées à partir d\'un fichier Grisbi, stocké sous  "/sdcard/myexpenses/categories.xml" .
+    </string>
+            <!-- The version title in the help screen. -->
+        <string name="help_version">Version</string>
+        <!-- The license title in the help screen. -->
+        <string name="help_license">Licence</string>
+        <!-- The project home title in the help screen. -->
+        <string name="help_project_home">Page d\'accueil</string>
+        <!-- The author title in the help screen. -->
+        <string name="help_author">Auteur</string>
+         <!-- The credits title in the help screen. -->
+        <string name="help_credits">Inspiration</string>
+        <string name="credits_text">Point de départ Android Notes Tutorial. Design de la page Aide copié de Mathdoku.</string>
 </resources>

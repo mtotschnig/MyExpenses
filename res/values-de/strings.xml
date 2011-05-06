@@ -26,4 +26,25 @@
     <string name="import_categories_failure">Fehler beim Kategorien-Import</string>
     <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
     <string name="no_categories">Noch keine Kategorien importiert</string>
+      <string name="menu_help">Hilfe</string>
+    <string name="close">Schließen</string>
+      <!-- The first line in the help screen. -->
+    <string name="help_leading">Danke fürs Ausprobieren von MyExpenses für Android.</string>
+      <!-- The bulk of the help text. -->
+    <string name="help_text">MyExpenses ist eine einfache Anwendung zur Verwaltung von Ausgaben, mit dem Ziel, diese einfach in das Finanzprogramm Grisbi exportieren zu können.
+    \nMenübefehl "Zurücksetzen" exportiert Einträge in eine QIF-Datei auf der SD-Karte, löscht die Einträge, und setzt den Anfangssaldo zurück.
+    \nIn den Einstellungen können Kategorien aus einer Grisbi-Datei importiert werden.
+    MyExpenses erwartet die Datei unter "/sdcard/myexpenses/categories.xml" .
+    </string>
+            <!-- The version title in the help screen. -->
+        <string name="help_version">Version</string>
+        <!-- The license title in the help screen. -->
+        <string name="help_license">Lizenz</string>
+        <!-- The project home title in the help screen. -->
+        <string name="help_project_home">Projekt Homepage</string>
+        <!-- The author title in the help screen. -->
+        <string name="help_author">Autor</string>
+         <!-- The credits title in the help screen. -->
+        <string name="help_credits">Inspiration</string>
+        <string name="credits_text">Ausgangspunkt Android Notes Tutorial. Hilfe-Screen Design von Mathdoku.</string>
 </resources>
