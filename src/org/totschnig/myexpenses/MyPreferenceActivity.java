@@ -91,6 +91,7 @@ public class MyPreferenceActivity extends PreferenceActivity {
             }
             result = 1;
         } catch (Exception e) {
+        	Log.e("MyExpenses",e.toString());
         	result = 0;
         }
         mDbHelper.close();

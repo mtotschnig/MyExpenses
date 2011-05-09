@@ -46,5 +46,5 @@
         <string name="help_author">Autor</string>
          <!-- The credits title in the help screen. -->
         <string name="help_credits">Inspiration</string>
-        <string name="credits_text">Ausgangspunkt Android Notes Tutorial. Hilfe-Screen Design von Mathdoku.</string>
+        <string name="credits_text">Ausgangspunkt Android Notes Tutorial. Design des Hilfe-Dialogs von Mathdoku. Design der App-Graphik von Sipdroid.</string>
 </resources>

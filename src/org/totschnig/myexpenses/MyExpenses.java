@@ -89,8 +89,12 @@ public class MyExpenses extends ListActivity {
     	mDbHelper.close();
     }
     private void fillData() {
-    	expensesCursor = mDbHelper.fetchAllExpenses();
-        startManagingCursor(expensesCursor);
+    	if (expensesCursor == null) {
+    		expensesCursor = mDbHelper.fetchAllExpenses();
+            startManagingCursor(expensesCursor);
+    	} else {
+    		expensesCursor.requery();
+    	}
     	try {
     		  start = Float.parseFloat(settings.getString("opening_balance", "0"));
     		} catch (NumberFormatException e) {
@@ -242,6 +246,8 @@ public class MyExpenses extends ListActivity {
         		expensesCursor.moveToNext();
         	}
     	    out.close();
+    	    expensesCursor.moveToFirst();
+    	    Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
     	
     }
     private void reset() {

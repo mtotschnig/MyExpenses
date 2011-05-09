@@ -53,16 +53,19 @@ public class ExpensesDbAdapter {
      */
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "expenses";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
     
     private static final String DATABASE_CREATE =
             "create table " + DATABASE_TABLE  +  "(_id integer primary key autoincrement, "
                     + "comment text not null, date DATETIME not null, amount float not null, "
                     + "main_cat_id integer, sub_cat_id integer);";
     // Table definition reflects format of Grisbis categories
+    //Main Categories have parent_id null
    private static final String CATEGORIES_CREATE =
-	   		"create table categories (_id integer, label text not null, parent_id integer, "
+	   		"create table categories (_id integer, label text not null, parent_id integer, usages integer default 0, "
 	   			+ "PRIMARY KEY (_id,parent_id));";
+   
+
 
 
     private final Context mCtx;
@@ -83,10 +86,14 @@ public class ExpensesDbAdapter {
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-                    + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
-            db.execSQL("DROP TABLE IF EXISTS categories");
-            onCreate(db);
+                    + newVersion + ".");
+            switch (newVersion) {
+            	case 8:
+            		db.execSQL("ALTER table categories add column usages int;");
+            		break;
+            	default:
+            		break;
+            }
         }
     }
 
@@ -121,7 +128,7 @@ public class ExpensesDbAdapter {
 
 
     /**
-     * Create a new note using the date, amount and comment provided. If the note is
+     * Create a new expense using the date, amount and comment provided. If the note is
      * successfully created return the new rowId for that note, otherwise return
      * a -1 to indicate failure.
      * 
@@ -138,7 +145,9 @@ public class ExpensesDbAdapter {
         initialValues.put(KEY_MAINCATID, main_cat_id);
         initialValues.put(KEY_SUBCATID, sub_cat_id);
         
-        return mDb.insert(DATABASE_TABLE, null, initialValues);
+        long _id = mDb.insert(DATABASE_TABLE, null, initialValues);
+        recordCatUsage(main_cat_id, sub_cat_id);
+        return _id;
     }
 
     /**
@@ -190,7 +199,7 @@ public class ExpensesDbAdapter {
     }
 
     /**
-     * Update the note using the details provided. The expense to be updated is
+     * Update the expense using the details provided. The expense to be updated is
      * specified using the rowId, and it is altered to use the date, amount and comment
      * values passed in
      * 
@@ -200,7 +209,7 @@ public class ExpensesDbAdapter {
      * @param comment value to set
      * @return true if the note was successfully updated, false otherwise
      */
-    public boolean updateExpense(long rowId, String date, String amount, String comment,String main_cat_id,String sub_cat_id) {
+    public void updateExpense(long rowId, String date, String amount, String comment,String main_cat_id,String sub_cat_id) {
         ContentValues args = new ContentValues();
         args.put(KEY_DATE, date);
         args.put(KEY_AMOUNT, amount);
@@ -208,12 +217,21 @@ public class ExpensesDbAdapter {
         args.put(KEY_MAINCATID, main_cat_id);
         args.put(KEY_SUBCATID, sub_cat_id);
 
-        return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
+        mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null);
+        recordCatUsage(main_cat_id, sub_cat_id);
     }
     public float getSum() {
     	Cursor mCursor = mDb.rawQuery("select sum(" + KEY_AMOUNT + ") from " + DATABASE_TABLE, null);
     	mCursor.moveToFirst();
     	return mCursor.getFloat(0);
+    }
+    public void recordCatUsage(String main_cat_id,String sub_cat_id) {
+    	if (main_cat_id != null) {
+    		mDb.execSQL("update categories set usages = usages + 1 where _id = " + main_cat_id + " and parent_id is null");
+    		if (sub_cat_id != null) {
+    			mDb.execSQL("update categories set usages = usages + 1 where _id = " + sub_cat_id + " and parent_id = " + main_cat_id);
+    		}
+    	}
     }
     
     //Categories
@@ -233,12 +251,12 @@ public class ExpensesDbAdapter {
         		null,
         		null,
         		null,
-        		null
+        		"usages DESC"
         );
     }
     public Cursor fetchSubCategories(String parent_id) {
     	 return mDb.query("categories", new String[] {KEY_ROWID,
-         "label"}, "parent_id = " + parent_id, null, null, null, null);
+         "label"}, "parent_id = " + parent_id, null, null, null, "usages DESC");
     }
     public int getCategoriesCount() {
     	return (int) mDb.compileStatement("select count(_id) from categories").simpleQueryForLong();

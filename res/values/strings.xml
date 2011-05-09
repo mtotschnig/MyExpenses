@@ -25,6 +25,7 @@
     <string name="import_categories_success">Categories imported successfully</string>
     <string name="import_categories_failure">Categories import failed</string>
     <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
+    <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
     <string name="no_categories">No categories imported yet</string>
     <string name="menu_help">Help</string>
     <string name="close">Close</string>
@@ -47,5 +48,5 @@
         <string name="help_author">Author</string>
          <!-- The credits title in the help screen. -->
         <string name="help_credits">Credits</string>
-        <string name="credits_text">Initially inspired by the Android Notepad tutorial. Help screen design copied from Mathdoku.</string>
+        <string name="credits_text">Initially inspired by the Android Notepad tutorial. Help screen design copied from Mathdoku. App icon design copied from Sipdroid.</string>
 </resources>
