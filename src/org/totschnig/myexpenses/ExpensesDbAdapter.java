@@ -64,6 +64,9 @@ public class ExpensesDbAdapter {
    private static final String CATEGORIES_CREATE =
 	   		"create table categories (_id integer, label text not null, parent_id integer, usages integer default 0, "
 	   			+ "PRIMARY KEY (_id,parent_id));";
+   private static final String JOIN_EXP = DATABASE_TABLE + " LEFT JOIN categories as main on (main_cat_id = main._id and main.parent_id is null) " +
+	"LEFT JOIN categories as sub on (main_cat_id = sub.parent_id and sub_cat_id = sub._id)";
+   private static final String CAT_LABEL_CONCAT = "main.label||' : '||coalesce(sub.label,'') as label";
    
 
 
@@ -171,9 +174,8 @@ public class ExpensesDbAdapter {
      */
     public Cursor fetchAllExpenses() {
 
-        return mDb.query(DATABASE_TABLE + " LEFT JOIN categories as main on (main_cat_id = main._id and main.parent_id is null) " +
-        			"LEFT JOIN categories as sub on (main_cat_id = sub.parent_id and sub_cat_id = sub._id)",
-        		new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_MAINCATID, KEY_SUBCATID,"main.label||' : '||sub.label as label"}, 
+        return mDb.query(JOIN_EXP,
+        		new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_MAINCATID, KEY_SUBCATID,CAT_LABEL_CONCAT}, 
         		null, null, null, null, KEY_DATE);
     }
 
@@ -188,9 +190,10 @@ public class ExpensesDbAdapter {
 
         Cursor mCursor =
 
-                mDb.query(true, DATABASE_TABLE + " LEFT JOIN categories on (main_cat_id = parent_id and sub_cat_id = categories._id)", new String[] {DATABASE_TABLE+"."+KEY_ROWID,
-                        KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_MAINCATID, KEY_SUBCATID, "label"}, DATABASE_TABLE+"."+KEY_ROWID + "=" + rowId, null,
-                        null, null, null, null);
+                mDb.query(JOIN_EXP,
+                		new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_MAINCATID, KEY_SUBCATID, CAT_LABEL_CONCAT},
+                        DATABASE_TABLE+"."+KEY_ROWID + "=" + rowId,
+                        null, null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
@@ -223,7 +226,9 @@ public class ExpensesDbAdapter {
     public float getSum() {
     	Cursor mCursor = mDb.rawQuery("select sum(" + KEY_AMOUNT + ") from " + DATABASE_TABLE, null);
     	mCursor.moveToFirst();
-    	return mCursor.getFloat(0);
+    	float result = mCursor.getFloat(0);
+    	mCursor.close();
+    	return result;
     }
     public void recordCatUsage(String main_cat_id,String sub_cat_id) {
     	if (main_cat_id != null) {

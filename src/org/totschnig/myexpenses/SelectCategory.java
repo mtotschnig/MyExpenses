@@ -6,10 +6,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ExpandableListView;
 import android.widget.SimpleCursorTreeAdapter;
 import android.widget.ExpandableListAdapter;
+import android.widget.TextView;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 public class SelectCategory extends ExpandableListActivity {
     private ExpandableListAdapter mAdapter;
@@ -40,8 +45,36 @@ public class SelectCategory extends ExpandableListActivity {
                 new int[] {android.R.id.text1});
 
         setListAdapter(mAdapter);
-        //registerForContextMenu(getExpandableListView());
+        registerForContextMenu(getExpandableListView());
     }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+
+    	    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
+    	    int type = ExpandableListView
+    	            .getPackedPositionType(info.packedPosition);
+    	
+    	    // Only create a context menu for the group
+    	    if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+    	    	menu.add(0,0,0,R.string.select_parent_category);
+    	    }
+    }
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
+
+    	String label =   ((TextView) info.targetView).getText().toString();
+    	Intent intent=new Intent();
+    	int main_cat = groupCursor.getInt(groupIdColumnIndex);
+        intent.putExtra("main_cat", main_cat);
+        intent.putExtra("sub_cat",0);
+        intent.putExtra("label", label);
+        setResult(RESULT_OK,intent);
+    	finish();
+        return true;
+        }
+
     @Override
     public void onDestroy() {
     	super.onDestroy();
