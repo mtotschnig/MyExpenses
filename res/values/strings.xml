@@ -26,7 +26,7 @@
     <string name="import_categories_failure">Categories import failed</string>
     <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
     <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
-    <string name="no_categories">No categories imported yet</string>
+    <string name="no_categories">No categories. Use the menu to add or import.</string>
     <string name="menu_help">Help</string>
     <string name="close">Close</string>
       <!-- The first line in the help screen. -->

@@ -32,6 +32,7 @@ public class SelectCategory extends ExpandableListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.select_category);
         setTitle(R.string.select_category);
         // Set up our adapter
         mDbHelper = new ExpensesDbAdapter(SelectCategory.this);
