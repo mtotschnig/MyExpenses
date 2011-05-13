@@ -78,12 +78,12 @@ public class MyPreferenceActivity extends PreferenceActivity {
                     	   id = parser.getAttributeValue(null, "Nb");
                     	   Log.w("MyPreferenceActivity", "Creating category with label " + 
                     			   label + " and id " + id);
-                    	   mDbHelper.createCategory(label,id,null);
+                    	   mDbHelper.createCategory(label,null);
                        } else if (tagName == "Sub_category") {
                     	   label = parser.getAttributeValue(null, "Na");
                     	   id = parser.getAttributeValue(null, "Nb");
                     	   parent_id = parser.getAttributeValue(null, "Nbc");
-                    	   mDbHelper.createCategory(label, id, parent_id);
+                    	   mDbHelper.createCategory(label, parent_id);
                         }
                         break;
                 }

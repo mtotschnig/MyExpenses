@@ -53,7 +53,7 @@ public class ExpensesDbAdapter {
      */
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "expenses";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
     
     private static final String DATABASE_CREATE =
             "create table " + DATABASE_TABLE  +  "(_id integer primary key autoincrement, "
@@ -62,8 +62,7 @@ public class ExpensesDbAdapter {
     // Table definition reflects format of Grisbis categories
     //Main Categories have parent_id null
    private static final String CATEGORIES_CREATE =
-	   		"create table categories (_id integer, label text not null, parent_id integer, usages integer default 0, "
-	   			+ "PRIMARY KEY (_id,parent_id));";
+	   		"create table categories (_id integer primary key autoincrement, label text not null, parent_id integer, usages integer default 0);";
    private static final String JOIN_EXP = DATABASE_TABLE + " LEFT JOIN categories as main on (main_cat_id = main._id and main.parent_id is null) " +
 	"LEFT JOIN categories as sub on (main_cat_id = sub.parent_id and sub_cat_id = sub._id)";
    private static final String CAT_LABEL_CONCAT = "main.label||' : '||coalesce(sub.label,'') as label";
@@ -91,8 +90,9 @@ public class ExpensesDbAdapter {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ".");
             switch (newVersion) {
-            	case 8:
-            		db.execSQL("ALTER table categories add column usages int;");
+            	case 9:
+            		db.execSQL("DROP TABLE categories;");
+            		db.execSQL(CATEGORIES_CREATE);
             		break;
             	default:
             		break;
@@ -240,10 +240,9 @@ public class ExpensesDbAdapter {
     }
     
     //Categories
-    public long createCategory(String label, String id, String parent_id) {
+    public long createCategory(String label, String parent_id) {
         ContentValues initialValues = new ContentValues();
         initialValues.put("label", label);
-        initialValues.put("_id", id);
         initialValues.put("parent_id", parent_id);
 
         return mDb.insert("categories", null, initialValues);
@@ -263,7 +262,7 @@ public class ExpensesDbAdapter {
     	 return mDb.query("categories", new String[] {KEY_ROWID,
          "label"}, "parent_id = " + parent_id, null, null, null, "usages DESC");
     }
-    public int getCategoriesCount() {
+/*    public int getCategoriesCount() {
     	return (int) mDb.compileStatement("select count(_id) from categories").simpleQueryForLong();
-    }
+    }*/
 }

@@ -1,25 +1,32 @@
 package org.totschnig.myexpenses;
 
+import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.SimpleCursorTreeAdapter;
-import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 public class SelectCategory extends ExpandableListActivity {
-    private ExpandableListAdapter mAdapter;
+    private MyExpandableListAdapter mAdapter;
     private ExpensesDbAdapter mDbHelper;
     private Cursor groupCursor;
+    private static final int CREATE_MAIN_CAT = Menu.FIRST;
+    private static final int CREATE_SUB_CAT = Menu.FIRST+2;
+    private static final int SELECT_MAIN_CAT = Menu.FIRST+1;
     int groupIdColumnIndex;
 
     @Override
@@ -30,6 +37,7 @@ public class SelectCategory extends ExpandableListActivity {
         mDbHelper = new ExpensesDbAdapter(SelectCategory.this);
         mDbHelper.open();
 		groupCursor = mDbHelper.fetchMainCategories();
+		startManagingCursor(groupCursor);
 
         // Cache the ID column index
         groupIdColumnIndex = groupCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ROWID);
@@ -57,23 +65,46 @@ public class SelectCategory extends ExpandableListActivity {
     	
     	    // Only create a context menu for the group
     	    if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-    	    	menu.add(0,0,0,R.string.select_parent_category);
+    	    	menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
+    	    	menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
     	    }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        menu.add(0, CREATE_MAIN_CAT, 0, R.string.menu_create_main_cat);
+        return true;
+    }
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch(item.getItemId()) {
+        case CREATE_MAIN_CAT:
+            createCat(null);
+            return true;
+        }
+        return super.onMenuItemSelected(featureId, item);
     }
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
+        int groupId = ExpandableListView.getPackedPositionGroup(info.packedPosition);
 
-    	String label =   ((TextView) info.targetView).getText().toString();
-    	Intent intent=new Intent();
-    	int main_cat = groupCursor.getInt(groupIdColumnIndex);
-        intent.putExtra("main_cat", main_cat);
-        intent.putExtra("sub_cat",0);
-        intent.putExtra("label", label);
-        setResult(RESULT_OK,intent);
-    	finish();
-        return true;
+        int main_cat = groupCursor.getInt(groupIdColumnIndex);
+		switch(item.getItemId()) {
+			case SELECT_MAIN_CAT:
+		    	String label =   ((TextView) info.targetView).getText().toString();
+		    	Intent intent=new Intent();		    	
+		        intent.putExtra("main_cat", main_cat);
+		        intent.putExtra("sub_cat",0);
+		        intent.putExtra("label", label);
+		        setResult(RESULT_OK,intent);
+		    	finish();
+		        return true;
+			case CREATE_SUB_CAT:
+				createCat(String.valueOf(main_cat));
+				return true;
         }
+		return false;
+	}
 
     @Override
     public void onDestroy() {
@@ -107,7 +138,36 @@ public class SelectCategory extends ExpandableListActivity {
         protected Cursor getChildrenCursor(Cursor groupCursor) {
             // Given the group, we return a cursor for all the children within that group
         	String parent_id = groupCursor.getString(groupIdColumnIndex);
-        	return mDbHelper.fetchSubCategories(parent_id);
+        	Cursor itemsCursor = mDbHelper.fetchSubCategories(parent_id);
+        	startManagingCursor(itemsCursor);
+        	return itemsCursor;
+
         }
+    }
+    public void createCat(final String parent_id) {
+    	AlertDialog.Builder alert = new AlertDialog.Builder(this);
+    	alert.setTitle("Create new category");
+
+    	// Set an EditText view to get user input 
+    	final EditText input = new EditText(this);
+    	alert.setView(input);
+
+    	alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+    	public void onClick(DialogInterface dialog, int whichButton) {
+    	  String value = input.getText().toString();
+    	  mDbHelper.createCategory(value,parent_id);
+          groupCursor.requery();
+          mAdapter.notifyDataSetChanged();
+          //getExpandableListView().invalidateViews();
+    	  }
+    	});
+
+    	alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+    	  public void onClick(DialogInterface dialog, int whichButton) {
+    		  dialog.dismiss();
+    	  }
+    	});
+
+    	alert.show();
     }
 }

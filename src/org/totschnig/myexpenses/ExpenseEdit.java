@@ -112,13 +112,9 @@ public class ExpenseEdit extends Activity {
     	mDbHelper.close();
     }
     private void startSelectCategory() {
-    	if ( mDbHelper.getCategoriesCount() == 0 ) {
-    		Toast.makeText(this, getString(R.string.no_categories), Toast.LENGTH_LONG).show();
-    	} else {
     		Intent i = new Intent(this, SelectCategory.class);
 		    //i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
 		    startActivityForResult(i, 0);
-    	}
    	}
     private DatePickerDialog.OnDateSetListener mDateSetListener =
         new DatePickerDialog.OnDateSetListener() {

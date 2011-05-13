@@ -50,4 +50,6 @@
         <string name="help_credits">Credits</string>
         <string name="credits_text">Initially inspired by the Android Notepad tutorial. Help screen design copied from Mathdoku. App icon design copied from Sipdroid.</string>
         <string name="select_parent_category">Select this category</string>
+        <string name="menu_create_main_cat">Create new main category</string>
+        <string name="menu_create_sub_cat">Create new sub category</string>
 </resources>
