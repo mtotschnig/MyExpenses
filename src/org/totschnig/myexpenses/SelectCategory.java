@@ -87,15 +87,13 @@ public class SelectCategory extends ExpandableListActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
-        int groupId = ExpandableListView.getPackedPositionGroup(info.packedPosition);
 
         int main_cat = groupCursor.getInt(groupIdColumnIndex);
 		switch(item.getItemId()) {
 			case SELECT_MAIN_CAT:
 		    	String label =   ((TextView) info.targetView).getText().toString();
 		    	Intent intent=new Intent();		    	
-		        intent.putExtra("main_cat", main_cat);
-		        intent.putExtra("sub_cat",0);
+		        intent.putExtra("cat_id", main_cat);
 		        intent.putExtra("label", label);
 		        setResult(RESULT_OK,intent);
 		    	finish();
@@ -116,12 +114,10 @@ public class SelectCategory extends ExpandableListActivity {
     public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
     	//Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
     	Intent intent=new Intent();
-    	int main_cat = groupCursor.getInt(groupIdColumnIndex);
     	int sub_cat = (int) id;
     	Cursor childCursor = (Cursor) mAdapter.getChild(groupPosition,childPosition);
     	String label =  childCursor.getString(childCursor.getColumnIndexOrThrow("label"));
-        intent.putExtra("main_cat", main_cat);
-        intent.putExtra("sub_cat",sub_cat);
+        intent.putExtra("cat_id",sub_cat);
         intent.putExtra("label", label);
         setResult(RESULT_OK,intent);
     	finish();

@@ -43,8 +43,7 @@ public class ExpenseEdit extends Activity {
     private Long mRowId;
     private boolean type;
     private ExpensesDbAdapter mDbHelper;
-    private int main_cat_id;
-    private int sub_cat_id;
+    private int cat_id;
     private int mYear;
     private int mMonth;
     private int mDay;
@@ -191,8 +190,7 @@ public class ExpenseEdit extends Activity {
             mAmountText.setText(Float.toString(amount));
             mCommentText.setText(note.getString(
                     note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)));
-            main_cat_id = note.getInt(note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_MAINCATID));
-            sub_cat_id = note.getInt(note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_SUBCATID));
+            cat_id = note.getInt(note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
             categoryButton.setText(note.getString(note.getColumnIndexOrThrow("label")));
         } else {
         	Date date =  new Date();
@@ -246,12 +244,12 @@ public class ExpenseEdit extends Activity {
     		amount = "-"+ amount;
     	}
         if (mRowId == 0) {
-            long id = mDbHelper.createExpense(strDate, amount, comment,String.valueOf(main_cat_id),String.valueOf(sub_cat_id));
+            long id = mDbHelper.createExpense(strDate, amount, comment,String.valueOf(cat_id));
             if (id > 0) {
                 mRowId = id;
             }
         } else {
-            mDbHelper.updateExpense(mRowId, strDate, amount, comment,String.valueOf(main_cat_id),String.valueOf(sub_cat_id));
+            mDbHelper.updateExpense(mRowId, strDate, amount, comment,String.valueOf(cat_id));
         }
     }
     @Override
@@ -259,8 +257,7 @@ public class ExpenseEdit extends Activity {
                                     Intent intent) {
     	if (intent != null) {
 	        //Here we will have to set the category for the expense
-	        main_cat_id = intent.getIntExtra("main_cat",0);
-	        sub_cat_id = intent.getIntExtra("sub_cat",0);
+	        cat_id = intent.getIntExtra("cat_id",0);
 	        categoryButton.setText(intent.getStringExtra("label"));
     	}
     }

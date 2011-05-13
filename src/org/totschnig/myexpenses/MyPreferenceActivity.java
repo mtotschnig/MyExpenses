@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses;
 
 import java.io.FileInputStream;
+import java.util.Hashtable;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -64,7 +65,9 @@ public class MyPreferenceActivity extends PreferenceActivity {
         String label;
         String id;
         String parent_id;
+        long _id;
         int result;
+        Hashtable<String,String> Foreign2LocalIdMap = new Hashtable<String,String>();
         try {
             // auto-detect the encoding from the stream
             parser.setInput(new FileInputStream("/sdcard/myexpenses/categories.xml"), null);
@@ -78,12 +81,14 @@ public class MyPreferenceActivity extends PreferenceActivity {
                     	   id = parser.getAttributeValue(null, "Nb");
                     	   Log.w("MyPreferenceActivity", "Creating category with label " + 
                     			   label + " and id " + id);
-                    	   mDbHelper.createCategory(label,null);
+                    	   _id = mDbHelper.createCategory(label,null);
+                    	   Foreign2LocalIdMap.put(id, String.valueOf(_id));
+                    	   
                        } else if (tagName == "Sub_category") {
                     	   label = parser.getAttributeValue(null, "Na");
                     	   id = parser.getAttributeValue(null, "Nb");
                     	   parent_id = parser.getAttributeValue(null, "Nbc");
-                    	   mDbHelper.createCategory(label, parent_id);
+                    	   mDbHelper.createCategory(label, Foreign2LocalIdMap.get(parent_id));
                         }
                         break;
                 }
