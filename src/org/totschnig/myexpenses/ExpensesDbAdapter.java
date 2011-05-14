@@ -62,8 +62,13 @@ public class ExpensesDbAdapter {
     //Main Categories have parent_id null
    private static final String CATEGORIES_CREATE =
 	   		"create table categories (_id integer primary key autoincrement, label text not null, parent_id integer, usages integer default 0);";
-   private static final String JOIN_EXP = DATABASE_TABLE + " LEFT JOIN categories on (cat_id = categories._id)";
-   //private static final String CAT_LABEL_CONCAT = "main.label||' : '||coalesce(sub.label,'') as full_label";
+   private static final String JOIN_EXP = DATABASE_TABLE + " LEFT JOIN categories cat on (cat_id = cat._id)";
+   private static final String FULL_LABEL = "case when parent_id " +
+   	" then " +
+   		" (select label from categories where _id = cat.parent_id) || ' : ' || label " +
+    " else " +
+    	" label " +
+    " end as label";
    
 
 
@@ -167,20 +172,20 @@ public class ExpensesDbAdapter {
     }
 
     /**
-     * Return a Cursor over the list of all notes in the database
-     * 
-     * @return Cursor over all notes
+     * Return a Cursor over the list of all expenses in the database
+     * exposes the full label which concatenate main and sub label if appropriate
+     * @return Cursor over all expenses
      */
     public Cursor fetchAllExpenses() {
 
         return mDb.query(JOIN_EXP,
-        		new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_CATID,"label"}, 
+        		new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_CATID,FULL_LABEL}, 
         		null, null, null, null, KEY_DATE);
     }
 
     /**
      * Return a Cursor positioned at the note that matches the given rowId
-     * 
+     * exposes just the label for the linked category
      * @param rowId id of note to retrieve
      * @return Cursor positioned to matching note, if found
      * @throws SQLException if note could not be found/retrieved
