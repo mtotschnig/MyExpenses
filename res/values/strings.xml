@@ -22,7 +22,7 @@
     <string name="select_category">Select category</string>
     <string name="opening_balance">Opening balance</string>
     <string name="import_categories">Import categories</string>
-    <string name="import_categories_success">Categories imported successfully</string>
+    <string name="import_categories_success">%1$d categories imported successfully</string>
     <string name="import_categories_failure">Categories import failed</string>
     <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
     <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>

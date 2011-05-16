@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +16,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.SimpleCursorTreeAdapter;
 import android.widget.TextView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 public class SelectCategory extends ExpandableListActivity {
@@ -79,7 +78,7 @@ public class SelectCategory extends ExpandableListActivity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch(item.getItemId()) {
         case CREATE_MAIN_CAT:
-            createCat(null);
+            createCat("0");
             return true;
         }
         return super.onMenuItemSelected(featureId, item);
@@ -152,9 +151,12 @@ public class SelectCategory extends ExpandableListActivity {
     	alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
     	public void onClick(DialogInterface dialog, int whichButton) {
     	  String value = input.getText().toString();
-    	  mDbHelper.createCategory(value,parent_id);
-          groupCursor.requery();
-          mAdapter.notifyDataSetChanged();
+    	  if (mDbHelper.createCategory(value,parent_id) != -1) {
+    		  groupCursor.requery();
+    		  mAdapter.notifyDataSetChanged();
+    	  } else {
+    		  Toast.makeText(SelectCategory.this, "Category " + value + " already defined", Toast.LENGTH_LONG).show();
+    	  }
           //getExpandableListView().invalidateViews();
     	  }
     	});

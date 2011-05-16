@@ -52,7 +52,7 @@ public class ExpensesDbAdapter {
      */
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "expenses";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
     
     private static final String DATABASE_CREATE =
             "create table " + DATABASE_TABLE  +  "(_id integer primary key autoincrement, "
@@ -61,7 +61,7 @@ public class ExpensesDbAdapter {
     // Table definition reflects format of Grisbis categories
     //Main Categories have parent_id null
    private static final String CATEGORIES_CREATE =
-	   		"create table categories (_id integer primary key autoincrement, label text not null, parent_id integer, usages integer default 0);";
+	   		"create table categories (_id integer primary key autoincrement, label text not null, parent_id integer not null default 0, usages integer default 0, unique (label,parent_id));";
    private static final String JOIN_EXP = DATABASE_TABLE + " LEFT JOIN categories cat on (cat_id = cat._id)";
    private static final String FULL_LABEL = "case when parent_id " +
    	" then " +
@@ -93,7 +93,7 @@ public class ExpensesDbAdapter {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ".");
             switch (newVersion) {
-            	case 10:
+            	case 11:
             		db.execSQL("DROP TABLE expenses;");
             		db.execSQL("DROP TABLE categories;");
             		db.execSQL(DATABASE_CREATE);
@@ -245,13 +245,14 @@ public class ExpensesDbAdapter {
         initialValues.put("label", label);
         initialValues.put("parent_id", parent_id);
 
+        //should return -1 if unique constraint is not met
         return mDb.insert("categories", null, initialValues);
     }
     
     public Cursor fetchMainCategories() {
         return mDb.query("categories",
         		new String[] {KEY_ROWID, "label"},
-        		"parent_id is null",
+        		"parent_id = 0",
         		null,
         		null,
         		null,
