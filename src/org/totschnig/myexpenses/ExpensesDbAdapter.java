@@ -245,8 +245,19 @@ public class ExpensesDbAdapter {
         initialValues.put("label", label);
         initialValues.put("parent_id", parent_id);
 
-        //should return -1 if unique constraint is not met
+        //should return -1 if unique constraint is not met	
         return mDb.insert("categories", null, initialValues);
+    }
+    public long getCategoryId(String label, String parent_id) {
+    	Cursor mCursor = mDb.rawQuery("select _id from categories where parent_id = ? and label = ?",  new String[] {parent_id, label});
+    	if (mCursor.getCount() == 0) {
+    		return -1;
+    	} else {
+	    	mCursor.moveToFirst();
+	    	long result = mCursor.getLong(0);
+	    	mCursor.close();
+	    	return result;
+    	}
     }
     
     public Cursor fetchMainCategories() {

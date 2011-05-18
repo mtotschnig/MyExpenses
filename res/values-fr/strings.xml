@@ -22,10 +22,10 @@
     <string name="select_category">Selectioner une catégorie</string>
     <string name="opening_balance">solde d\'ouverture</string>
     <string name="import_categories">Importer les catégories</string>
-    <string name="import_categories_success">Les catégories ont été importées</string>
+    <string name="import_categories_success">%1$d catégories ont été importées</string>
     <string name="import_categories_failure">Erreur lors de l\'import des catégories</string>
     <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses ver SD-Card</string>
-    <string name="no_categories">Aucune catégorie importée</string>
+    <string name="no_categories">Aucune catégorie. Catégories peuvent être ajoutées par le menu ou être importées par les règlages.</string>
     <string name="menu_help">Aide</string>
     <string name="close">Fermer</string>
       <!-- The first line in the help screen. -->
@@ -35,15 +35,23 @@
     \nLa commande "Réinitialiser" exporte toutes les transactions dans und fichier QIF sur la carte SD, efface les transactions, et transfère le dernier solde en nouveau solde d\'ouverture.
     \nSous les réglages, les catégories peuvent être importées à partir d\'un fichier Grisbi, stocké sous  "/sdcard/myexpenses/categories.xml" .
     </string>
-            <!-- The version title in the help screen. -->
-        <string name="help_version">Version</string>
-        <!-- The license title in the help screen. -->
-        <string name="help_license">Licence</string>
-        <!-- The project home title in the help screen. -->
-        <string name="help_project_home">Page d\'accueil</string>
-        <!-- The author title in the help screen. -->
-        <string name="help_author">Auteur</string>
-         <!-- The credits title in the help screen. -->
-        <string name="help_credits">Inspiration</string>
-        <string name="credits_text">Point de départ Android Notes Tutorial. Design de la page Aide copié de Mathdoku. Design de l\'icone de l\'App copié de Sipdroid.</string>
+    <!-- The version title in the help screen. -->
+    <string name="help_version">Version</string>
+    <!-- The license title in the help screen. -->
+    <string name="help_license">Licence</string>
+    <!-- The project home title in the help screen. -->
+    <string name="help_project_home">Page d\'accueil</string>
+    <!-- The author title in the help screen. -->
+    <string name="help_author">Auteur</string>
+     <!-- The credits title in the help screen. -->
+    <string name="help_credits">Inspiration</string>
+    <string name="credits_text">Point de départ Android Notes Tutorial. Design de la page Aide copié de Mathdoku. Design de l\'icone de l\'App copié de Sipdroid.</string>
+    <string name="select_parent_category">Choisir cette catégorie</string>
+    <string name="menu_create_main_cat">Nouvelle catégorie principale</string>
+    <string name="menu_create_sub_cat">Nouvelle sous-catégorie</string>
+    <string name="categories_loading">Import des catégories à partir de %1$s</string>
+    <string name="create_category">Nouvelle catégorie</string>
+    <string name="category_already_defined">Catégorie %1$s existe</string>
+    <string name="menu_changes">Changements</string>
+    
 </resources>

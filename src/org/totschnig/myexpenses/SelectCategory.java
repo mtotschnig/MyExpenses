@@ -142,7 +142,7 @@ public class SelectCategory extends ExpandableListActivity {
     }
     public void createCat(final String parent_id) {
     	AlertDialog.Builder alert = new AlertDialog.Builder(this);
-    	alert.setTitle("Create new category");
+    	alert.setTitle(R.string.create_category);
 
     	// Set an EditText view to get user input 
     	final EditText input = new EditText(this);
@@ -155,7 +155,7 @@ public class SelectCategory extends ExpandableListActivity {
     		  groupCursor.requery();
     		  mAdapter.notifyDataSetChanged();
     	  } else {
-    		  Toast.makeText(SelectCategory.this, "Category " + value + " already defined", Toast.LENGTH_LONG).show();
+    		  Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
     	  }
           //getExpandableListView().invalidateViews();
     	  }

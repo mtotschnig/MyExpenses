@@ -22,10 +22,10 @@
     <string name="select_category">Kategorie auswählen</string>
     <string name="opening_balance">Anfangssaldo</string>
     <string name="import_categories">Kategorien importieren</string>
-    <string name="import_categories_success">Kategorien erfolgreich importiert</string>
+    <string name="import_categories_success">%1$d Kategorien erfolgreich importiert</string>
     <string name="import_categories_failure">Fehler beim Kategorien-Import</string>
     <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
-    <string name="no_categories">Noch keine Kategorien importiert</string>
+    <string name="no_categories">Noch keine Kategorien vorhanden. Kategorien können über das Menü hinzugefügt oder über Einstellungen importiert werden</string>
       <string name="menu_help">Hilfe</string>
     <string name="close">Schließen</string>
       <!-- The first line in the help screen. -->
@@ -36,15 +36,23 @@
     \nIn den Einstellungen können Kategorien aus einer Grisbi-Datei importiert werden.
     MyExpenses erwartet die Datei unter "/sdcard/myexpenses/categories.xml" .
     </string>
-            <!-- The version title in the help screen. -->
-        <string name="help_version">Version</string>
-        <!-- The license title in the help screen. -->
-        <string name="help_license">Lizenz</string>
-        <!-- The project home title in the help screen. -->
-        <string name="help_project_home">Projekt Homepage</string>
-        <!-- The author title in the help screen. -->
-        <string name="help_author">Autor</string>
-         <!-- The credits title in the help screen. -->
-        <string name="help_credits">Inspiration</string>
-        <string name="credits_text">Ausgangspunkt Android Notes Tutorial. Design des Hilfe-Dialogs von Mathdoku. Design der App-Graphik von Sipdroid.</string>
+    <!-- The version title in the help screen. -->
+    <string name="help_version">Version</string>
+    <!-- The license title in the help screen. -->
+    <string name="help_license">Lizenz</string>
+    <!-- The project home title in the help screen. -->
+    <string name="help_project_home">Projekt Homepage</string>
+    <!-- The author title in the help screen. -->
+    <string name="help_author">Autor</string>
+     <!-- The credits title in the help screen. -->
+    <string name="help_credits">Inspiration</string>
+    <string name="credits_text">Ausgangspunkt Android Notes Tutorial. Design des Hilfe-Dialogs von Mathdoku. Design der App-Graphik von Sipdroid.</string>
+    <string name="select_parent_category">Wähle diese Kategorie</string>
+    <string name="menu_create_main_cat">Neue Hauptkategorie</string>
+    <string name="menu_create_sub_cat">Neue Unterkategorie</string>
+    <string name="categories_loading">Kategorien werden von %1$s geladen</string>
+    <string name="create_category">Neue Kategorie</string>
+    <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
+    <string name="menu_changes">Änderungen</string>
+         
 </resources>

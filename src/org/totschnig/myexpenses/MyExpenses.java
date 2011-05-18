@@ -286,6 +286,11 @@ public class MyExpenses extends ListActivity {
         .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
         .setIcon(R.drawable.about)
         .setView(view)
+        .setNeutralButton(R.string.menu_changes, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+              MyExpenses.this.openChangesDialog();
+          }
+        })
         .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
         	  dialog.dismiss();
@@ -293,6 +298,21 @@ public class MyExpenses extends ListActivity {
         })
         .show();  
     }
+    private void openChangesDialog() {
+        LayoutInflater li = LayoutInflater.from(this);
+        View view = li.inflate(R.layout.changeview, null); 
+        new AlertDialog.Builder(MyExpenses.this)
+        .setTitle(R.string.menu_changes)
+        .setIcon(R.drawable.about)
+        .setView(view)
+        .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+              //
+          }
+        })
+        .show();  
+      }
+
     public void newVersionCheck() {
         int pref_version = settings.getInt("currentversion", -1);
         int current_version = getVersionNumber();

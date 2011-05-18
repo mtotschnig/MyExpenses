@@ -12,6 +12,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
 import android.preference.PreferenceActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.content.Context;
@@ -60,7 +61,7 @@ public class MyPreferenceActivity extends PreferenceActivity {
             super.onPreExecute();
             progressDialog = new ProgressDialog(MyPreferenceActivity.this);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progressDialog.setTitle("Loading categories from " + CATEGORIES_XML);
+            progressDialog.setTitle(getString(R.string.categories_loading,CATEGORIES_XML));
             progressDialog.setProgress(0);
             progressDialog.show();
         }
@@ -112,12 +113,19 @@ public class MyPreferenceActivity extends PreferenceActivity {
         		NamedNodeMap category = categories.item(i).getAttributes();
         		label = category.getNamedItem("Na").getNodeValue();
         		id =  category.getNamedItem("Nb").getNodeValue();
-        		_id = mDbHelper.createCategory(label,"0");
+        		_id = mDbHelper.getCategoryId(label, "0");
         		if (_id != -1) {
         			Foreign2LocalIdMap.put(id, String.valueOf(_id));
-        			totalImported++;
+        		} else {
+        			_id = mDbHelper.createCategory(label,"0");
+        			if (_id != -1) {
+        				Foreign2LocalIdMap.put(id, String.valueOf(_id));
+        				totalImported++;
+        			} else {
+        				//this should not happen
+        				Log.w("MyExpenses","could neither retrieve nor store main category " + label);
+        			}
         		}
-
         		if ((start+i) % 10 == 0) {
         			publishProgress(start+i);
         		}
@@ -126,14 +134,14 @@ public class MyPreferenceActivity extends PreferenceActivity {
         private void importCatsSub() {
         	int start = categories.getLength() + 1;
             String label;
-            String id;
+            //String id;
             String parent_id;
             String mapped_parent_id;
             long _id;
         	for (int i=0;i<sub_categories.getLength();i++){
         		NamedNodeMap sub_category = sub_categories.item(i).getAttributes();
         		label = sub_category.getNamedItem("Na").getNodeValue();
-        		id =  sub_category.getNamedItem("Nb").getNodeValue();
+        		//id =  sub_category.getNamedItem("Nb").getNodeValue();
         		parent_id = sub_category.getNamedItem("Nbc").getNodeValue();
         		mapped_parent_id = Foreign2LocalIdMap.get(parent_id);
         		//TODO: for the moment, we do not deal with subcategories,
@@ -144,6 +152,8 @@ public class MyPreferenceActivity extends PreferenceActivity {
 	        		if (_id != -1) {
 	        			totalImported++;
 	        		}
+        		} else {
+        			Log.w("MyExpenses","could not store sub category " + label);
         		}
         		if ((start+i) % 10 == 0) {
         			publishProgress(start+i);

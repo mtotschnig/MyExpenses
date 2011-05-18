@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+	<ScrollView android:id="@+id/aboutscrollview" 
+		android:orientation="vertical"
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent">    
+		<LinearLayout
+		    android:orientation="vertical"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent">
+			<TextView android:text="@string/menu_changes"
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content"
+				android:paddingLeft="15px"
+				android:textStyle="bold"
+				android:textColor="#ffffff"
+				android:textSize="18sp" />
+			<TextView android:text="v1.1.2 (May 18 2011): Sort categories by usages; Allow assignment of main category; Allow manual creation of categories; Improved handling of categories import."
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content"
+				android:paddingLeft="15px"			
+				android:textColor="#ffffff" />
+			<TextView android:text="v1.0 (May 4 2011): Initial version."
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content"
+				android:paddingLeft="15px"			
+				android:textColor="#ffffff" />
+			</LinearLayout>
+		</ScrollView>			
+</LinearLayout>

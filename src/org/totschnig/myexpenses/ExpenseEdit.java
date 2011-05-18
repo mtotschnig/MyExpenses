@@ -31,7 +31,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 public class ExpenseEdit extends Activity {
 
@@ -148,21 +147,6 @@ public class ExpenseEdit extends Activity {
         }
     	return null;
     }
-//    protected Dialog onCreateDialog(int id) {
-//    	//TODO check for id
-///*    	ArrayList<Category> items = new ArrayList<Category>();
-//    	items.add(new Category("red"));
-//    	items.add(new Category("green"));
-//    	items.add(new Category("blue"));
-//    	Dialog dialog = new Dialog(this);
-//    	dialog.setTitle("Pick a category");
-//    	dialog.setContentView(R.layout.select_category);
-//    	ListView catlist = (ListView) dialog.findViewById(R.id.maincatlist);
-//    	catlist.setAdapter(new ArrayAdapter<Category>(this,R.layout.category_row,items));
-//    	return dialog;
-//*/    
-//    }
-//    
     private void populateFields() {
     	float amount;
     	TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
