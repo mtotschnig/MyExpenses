@@ -251,6 +251,7 @@ public class ExpensesDbAdapter {
     public long getCategoryId(String label, String parent_id) {
     	Cursor mCursor = mDb.rawQuery("select _id from categories where parent_id = ? and label = ?",  new String[] {parent_id, label});
     	if (mCursor.getCount() == 0) {
+    		mCursor.close();
     		return -1;
     	} else {
 	    	mCursor.moveToFirst();
