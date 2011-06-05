@@ -1,15 +1,20 @@
 package org.totschnig.myexpenses;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Hashtable;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import android.preference.PreferenceActivity;
 import android.util.Log;
@@ -48,6 +53,8 @@ public class MyPreferenceActivity extends PreferenceActivity {
         NodeList categories;
         NodeList sub_categories;
         ExpensesDbAdapter mDbHelper;
+        FileInputStream catXML;
+        Document dom;
         Hashtable<String,String> Foreign2LocalIdMap;
         int totalImported;
         
@@ -59,6 +66,26 @@ public class MyPreferenceActivity extends PreferenceActivity {
         }
         protected void onPreExecute() {
             super.onPreExecute();
+            try {
+            	catXML = new FileInputStream(CATEGORIES_XML);
+            } catch (FileNotFoundException e) {
+        		Toast.makeText(context, "Could not find file "+CATEGORIES_XML, Toast.LENGTH_LONG).show();
+        		cancel(false);
+        		return;
+        	}
+            try {
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                dom = builder.parse(catXML);
+        	} catch (SAXParseException e) {
+        		Toast.makeText(context, "Could not parse file "+CATEGORIES_XML, Toast.LENGTH_LONG).show();
+        		cancel(false);
+        		return;
+        	} catch (Exception e) {
+        		Toast.makeText(context, "An error occured: "+e.getMessage(), Toast.LENGTH_LONG).show();
+        		cancel(false);
+        		return;
+			}
             progressDialog = new ProgressDialog(MyPreferenceActivity.this);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setTitle(getString(R.string.categories_loading,CATEGORIES_XML));
@@ -84,16 +111,9 @@ public class MyPreferenceActivity extends PreferenceActivity {
         @Override
          protected Integer doInBackground(Void... params) {
         	//first we do the parsing
-        	try {
-	        	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	            DocumentBuilder builder = factory.newDocumentBuilder();
-	            Document dom = builder.parse(new FileInputStream(CATEGORIES_XML));
-	            Element root = dom.getDocumentElement();
-	            categories = root.getElementsByTagName("Category");
-	            sub_categories = root.getElementsByTagName("Sub_category");
-        	} catch (Exception e) {
-        		return -1;
-        	}
+            Element root = dom.getDocumentElement();
+            categories = root.getElementsByTagName("Category");
+            sub_categories = root.getElementsByTagName("Sub_category");
             totalCategories = categories.getLength() + sub_categories.getLength();
             progressDialog.setMax(totalCategories);
             

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<!-- the following command executed from res directory, shows differences in string names between the default strings and a given locale, defined in the first statement (lang= )
+lang=de;grep -o "name=\".*\"" values/strings.xml|sort >/tmp/strings; grep -o "name=\".*\"" values-$lang/strings.xml|sort >/tmp/strings-$lang;diff /tmp/strings /tmp/strings-$lang
+-->
     <string name="app_name">Meine Ausgaben</string>
     <string name="no_expenses">Noch keine Ausgaben!</string>
     <string name="menu_insert_exp">Neue Ausgabe</string>
@@ -17,7 +20,7 @@
     <string name="amount">Betrag</string>
     <string name="confirm">Bestätigen</string>
     <string name="edit_preferences">Einstellungen</string>
-    <string name="select">Auwählen</string>
+    <string name="select">Auswählen</string>
     <string name="done">Fertig</string>
     <string name="select_category">Kategorie auswählen</string>
     <string name="opening_balance">Anfangssaldo</string>
@@ -25,6 +28,7 @@
     <string name="import_categories_success">%1$d Kategorien erfolgreich importiert</string>
     <string name="import_categories_failure">Fehler beim Kategorien-Import</string>
     <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
+    <string name="export_expenses_sdcard_success">Ausgaben in Datei %1$s exportiert</string>
     <string name="no_categories">Noch keine Kategorien vorhanden. Kategorien können über das Menü hinzugefügt oder über Einstellungen importiert werden</string>
       <string name="menu_help">Hilfe</string>
     <string name="close">Schließen</string>

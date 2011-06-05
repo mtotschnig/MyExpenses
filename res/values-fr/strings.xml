@@ -25,6 +25,7 @@
     <string name="import_categories_success">%1$d catégories ont été importées</string>
     <string name="import_categories_failure">Erreur lors de l\'import des catégories</string>
     <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses ver SD-Card</string>
+    <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers le fichier %1$s</string>
     <string name="no_categories">Aucune catégorie. Catégories peuvent être ajoutées par le menu ou être importées par les règlages.</string>
     <string name="menu_help">Aide</string>
     <string name="close">Fermer</string>

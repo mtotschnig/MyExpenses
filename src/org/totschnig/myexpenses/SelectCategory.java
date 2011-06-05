@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses;
 
+import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
+
 import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
 import android.content.Context;
@@ -14,7 +16,6 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.SimpleCursorTreeAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
@@ -122,7 +123,7 @@ public class SelectCategory extends ExpandableListActivity {
     	finish();
     	return true;
     }
-    public class MyExpandableListAdapter extends SimpleCursorTreeAdapter {
+    public class MyExpandableListAdapter extends SimpleCursorTreeAdapter2 {
     	
         public MyExpandableListAdapter(Cursor cursor, Context context, int groupLayout,
                 int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
@@ -153,7 +154,7 @@ public class SelectCategory extends ExpandableListActivity {
     	  String value = input.getText().toString();
     	  if (mDbHelper.createCategory(value,parent_id) != -1) {
     		  groupCursor.requery();
-    		  mAdapter.notifyDataSetChanged();
+    		  //mAdapter.notifyDataSetChanged();
     	  } else {
     		  Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
     	  }
