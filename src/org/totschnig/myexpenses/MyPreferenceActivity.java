@@ -2,18 +2,14 @@ package org.totschnig.myexpenses;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Hashtable;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import android.preference.PreferenceActivity;
@@ -78,13 +74,14 @@ public class MyPreferenceActivity extends PreferenceActivity {
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 dom = builder.parse(catXML);
         	} catch (SAXParseException e) {
+        		Log.w("MyExpenses",e.getMessage());
         		Toast.makeText(context, "Could not parse file "+CATEGORIES_XML, Toast.LENGTH_LONG).show();
         		cancel(false);
         		return;
         	} catch (Exception e) {
-        		Toast.makeText(context, "An error occured: "+e.getMessage(), Toast.LENGTH_LONG).show();
-        		cancel(false);
-        		return;
+        	    Toast.makeText(context, "An error occured: "+e.getMessage(), Toast.LENGTH_LONG).show();
+        	    cancel(false);
+                return;
 			}
             progressDialog = new ProgressDialog(MyPreferenceActivity.this);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
