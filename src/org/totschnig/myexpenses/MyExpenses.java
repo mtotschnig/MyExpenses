@@ -320,6 +320,9 @@ public class MyExpenses extends ListActivity {
           settings.edit().
           	putInt("currentversion", current_version).
           	commit();
+          if (current_version == 5) {
+        	  mDbHelper.setAccountAll(mDbHelper.createAccount("Default"));
+          }
           openHelpDialog();
           return;
         }

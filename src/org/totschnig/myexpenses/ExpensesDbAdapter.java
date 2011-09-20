@@ -52,12 +52,14 @@ public class ExpensesDbAdapter {
      */
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "expenses";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 13;
     
     private static final String DATABASE_CREATE =
             "create table " + DATABASE_TABLE  +  "(_id integer primary key autoincrement, "
                     + "comment text not null, date DATETIME not null, amount float not null, "
-                    + "cat_id integer);";
+                    + "cat_id integer, account_id integer);";
+    private static final String ACCOUNTS_CREATE = 
+    	"create table accounts (_id integer primary key autoincrement, label text not null);";
     // Table definition reflects format of Grisbis categories
     //Main Categories have parent_id null
    private static final String CATEGORIES_CREATE =
@@ -86,6 +88,7 @@ public class ExpensesDbAdapter {
 
             db.execSQL(DATABASE_CREATE);
             db.execSQL(CATEGORIES_CREATE);
+            db.execSQL(ACCOUNTS_CREATE);
         }
 
         @Override
@@ -93,11 +96,9 @@ public class ExpensesDbAdapter {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ".");
             switch (newVersion) {
-            	case 11:
-            		db.execSQL("DROP TABLE expenses;");
-            		db.execSQL("DROP TABLE categories;");
-            		db.execSQL(DATABASE_CREATE);
-            		db.execSQL(CATEGORIES_CREATE);
+            	case 13:
+            		db.execSQL(ACCOUNTS_CREATE);
+            		db.execSQL("alter table expenses add column account_id integer");
             		break;
             	default:
             		break;
@@ -116,7 +117,7 @@ public class ExpensesDbAdapter {
     }
 
     /**
-     * Open the notes database. If it cannot be opened, try to create a new
+     * Open the expenses database. If it cannot be opened, try to create a new
      * instance of the database. If it cannot be created, throw an exception to
      * signal the failure
      * 
@@ -247,6 +248,14 @@ public class ExpensesDbAdapter {
 
         //should return -1 if unique constraint is not met	
         return mDb.insert("categories", null, initialValues);
+    }
+    public long createAccount(String label) {
+    	ContentValues initialValues = new ContentValues();
+        initialValues.put("label", label);
+        return mDb.insert("accounts", null, initialValues);
+    }
+    public void setAccountAll(long account_id) {
+    	mDb.execSQL("update expenses set account_id = " + account_id);
     }
     public long getCategoryId(String label, String parent_id) {
     	Cursor mCursor = mDb.rawQuery("select _id from categories where parent_id = ? and label = ?",  new String[] {parent_id, label});
