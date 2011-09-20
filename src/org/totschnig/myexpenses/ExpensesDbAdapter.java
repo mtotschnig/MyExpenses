@@ -42,6 +42,7 @@ public class ExpensesDbAdapter {
     public static final String KEY_COMMENT = "comment";
     public static final String KEY_ROWID = "_id";
     public static final String KEY_CATID = "cat_id";
+    public static final String KEY_ACCOUNTID = "account_id";
 
     private static final String TAG = "ExpensesDbAdapter";
     private DatabaseHelper mDbHelper;
@@ -59,7 +60,7 @@ public class ExpensesDbAdapter {
                     + "comment text not null, date DATETIME not null, amount float not null, "
                     + "cat_id integer, account_id integer);";
     private static final String ACCOUNTS_CREATE = 
-    	"create table accounts (_id integer primary key autoincrement, label text not null);";
+    	"create table accounts (_id integer primary key autoincrement, label text not null, opening_balance float, description text, currency text not null);";
     // Table definition reflects format of Grisbis categories
     //Main Categories have parent_id null
    private static final String CATEGORIES_CREATE =
@@ -146,12 +147,13 @@ public class ExpensesDbAdapter {
      * @param comment the comment describing the expense
      * @return rowId or -1 if failed
      */
-    public long createExpense(String date, String amount, String comment,String cat_id) {
+    public long createExpense(String date, String amount, String comment,String cat_id,String account_id) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_COMMENT, comment);
         initialValues.put(KEY_DATE, date);
         initialValues.put(KEY_AMOUNT, amount);
         initialValues.put(KEY_CATID, cat_id);
+        initialValues.put(KEY_ACCOUNTID, account_id);
         
         long _id = mDb.insert(DATABASE_TABLE, null, initialValues);
         recordCatUsage(cat_id);
@@ -177,11 +179,11 @@ public class ExpensesDbAdapter {
      * exposes the full label which concatenate main and sub label if appropriate
      * @return Cursor over all expenses
      */
-    public Cursor fetchAllExpenses() {
+    public Cursor fetchAllExpenses(int account_id) {
 
         return mDb.query(JOIN_EXP,
         		new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_CATID,FULL_LABEL}, 
-        		null, null, null, null, KEY_DATE);
+        		"account_id =" + account_id, null, null, null, KEY_DATE);
     }
 
     /**
@@ -249,10 +251,24 @@ public class ExpensesDbAdapter {
         //should return -1 if unique constraint is not met	
         return mDb.insert("categories", null, initialValues);
     }
-    public long createAccount(String label) {
+    public long createAccount(String label, float opening_balance, String description, String currency) {
     	ContentValues initialValues = new ContentValues();
         initialValues.put("label", label);
+        initialValues.put("opening_balance",opening_balance);
+  		initialValues.put("description",description);
+		initialValues.put("currency",currency);
         return mDb.insert("accounts", null, initialValues);
+    }
+    public Cursor fetchAccount(long rowId) throws SQLException {
+      Cursor mCursor =
+              mDb.query("accounts",
+                      new String[] {"label","opening_balance","currency"},
+                      KEY_ROWID + "=" + rowId,
+                      null, null, null, null, null);
+      if (mCursor != null) {
+          mCursor.moveToFirst();
+      }
+      return mCursor;
     }
     public void setAccountAll(long account_id) {
     	mDb.execSQL("update expenses set account_id = " + account_id);

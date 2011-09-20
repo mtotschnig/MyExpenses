@@ -40,6 +40,7 @@ public class ExpenseEdit extends Activity {
     private EditText mCommentText;
     private Button categoryButton;
     private Long mRowId;
+    private int mAccountId;
     private boolean type;
     private ExpensesDbAdapter mDbHelper;
     private int cat_id;
@@ -83,6 +84,9 @@ public class ExpenseEdit extends Activity {
 		if (mRowId == null) {
 			mRowId = extras != null ? extras.getLong(ExpensesDbAdapter.KEY_ROWID) 
 									: 0;
+			if (extras != null) {
+			  mAccountId = extras.getInt(ExpensesDbAdapter.KEY_ACCOUNTID);
+			}
 		}
 		type = extras.getBoolean("type");
 		
@@ -228,7 +232,7 @@ public class ExpenseEdit extends Activity {
     		amount = "-"+ amount;
     	}
         if (mRowId == 0) {
-            long id = mDbHelper.createExpense(strDate, amount, comment,String.valueOf(cat_id));
+            long id = mDbHelper.createExpense(strDate, amount, comment,String.valueOf(cat_id),String.valueOf(mAccountId));
             if (id > 0) {
                 mRowId = id;
             }

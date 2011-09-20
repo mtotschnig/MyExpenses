@@ -30,6 +30,7 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -66,10 +67,11 @@ public class MyExpenses extends ListActivity {
 
     private ExpensesDbAdapter mDbHelper;
 
-	float start;
-	float end;
-	SharedPreferences settings;
-	Cursor expensesCursor;
+    int current_account;
+    float start;
+    float end;
+    SharedPreferences settings;
+    Cursor expensesCursor;
     
     /** Called when the activity is first created. */
     @Override
@@ -79,27 +81,31 @@ public class MyExpenses extends ListActivity {
         mDbHelper = new ExpensesDbAdapter(this);
         mDbHelper.open();
         settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        fillData();
         newVersionCheck();
+        fillData();
         registerForContextMenu(getListView());
     }
     @Override
     public void onDestroy() {
-    	super.onDestroy();
-    	mDbHelper.close();
+      super.onDestroy();
+      mDbHelper.close();
     }
     private void fillData() {
-    	if (expensesCursor == null) {
-    		expensesCursor = mDbHelper.fetchAllExpenses();
+      current_account = settings.getInt("current_account", 1);
+      if (expensesCursor == null) {
+        expensesCursor = mDbHelper.fetchAllExpenses(current_account);
             startManagingCursor(expensesCursor);
-    	} else {
-    		expensesCursor.requery();
-    	}
-    	try {
-    		  start = Float.parseFloat(settings.getString("opening_balance", "0"));
-    		} catch (NumberFormatException e) {
-    			start = 0;
-    		}
+      } else {
+        expensesCursor.requery();
+      }
+      Cursor account = mDbHelper.fetchAccount(current_account);
+      start = account.getInt(account.getColumnIndexOrThrow("opening_balance"));
+      account.close();
+      try {
+        start = Float.parseFloat(settings.getString("opening_balance", "0"));
+      } catch (NumberFormatException e) {
+        start = 0;
+      }
         TextView startView= (TextView) findViewById(R.id.start);
         startView.setText(NumberFormat.getCurrencyInstance().format(start));
         
@@ -117,18 +123,18 @@ public class MyExpenses extends ListActivity {
         }
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-            	View row=super.getView(position, convertView, parent);
+              View row=super.getView(position, convertView, parent);
                 Cursor c = getCursor();
                 c.moveToPosition(position);
                 int col = c.getColumnIndex(ExpensesDbAdapter.KEY_AMOUNT);
                 float amount = c.getFloat(col);
                 boolean type = amount > 0;
                 if (type == EXPENSE) {
-                	row.setBackgroundColor(android.graphics.Color.RED);
+                  row.setBackgroundColor(android.graphics.Color.RED);
                     // Set the background color of the text.
                 }
                 else {
-                	row.setBackgroundColor(android.graphics.Color.BLACK);
+                  row.setBackgroundColor(android.graphics.Color.BLACK);
                 }
                 return row;
            }
@@ -140,18 +146,18 @@ public class MyExpenses extends ListActivity {
         endView.setText(NumberFormat.getCurrencyInstance().format(end));
     }
     private String convText(TextView v, String text) {
-    	SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
-    	float amount;
+      SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
+      float amount;
         switch (v.getId()) {
           case R.id.date1:
-        	  return formatter.format(Timestamp.valueOf(text));
+            return formatter.format(Timestamp.valueOf(text));
           case R.id.float1:
-        	  try {
-        		  amount = Float.valueOf(text);
-        	  } catch (NumberFormatException e) {
-        		  amount = 0;
-        	  }
-        	  return NumberFormat.getCurrencyInstance().format(amount);
+            try {
+              amount = Float.valueOf(text);
+            } catch (NumberFormatException e) {
+              amount = 0;
+            }
+            return NumberFormat.getCurrencyInstance().format(amount);
         }
           return text;
     } 
@@ -176,90 +182,91 @@ public class MyExpenses extends ListActivity {
             createRow(INCOME);
             return true;
         case PREF_ID:
-        	editPreferences();
-        	return true;
+          editPreferences();
+          return true;
         case RESET_ID:
-        	reset();
-        	return true;
+          reset();
+          return true;
         case HELP_ID:
-        	openHelpDialog();
-        	return true;
+          openHelpDialog();
+          return true;
         }
-        	
+          
         return super.onMenuItemSelected(featureId, item);
     }
     @Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
+  public void onCreateContextMenu(ContextMenu menu, View v,
+      ContextMenuInfo menuInfo) {
+    super.onCreateContextMenu(menu, v, menuInfo);
         menu.add(0, DELETE_ID, 0, R.string.menu_delete);
         menu.add(0, SHOW_DETAIL_ID, 0, R.string.menu_show_detail);
-	}
+  }
 
     @Override
-	public boolean onContextItemSelected(MenuItem item) {
-    	AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		switch(item.getItemId()) {
-    	case DELETE_ID:
-	        mDbHelper.deleteExpense(info.id);
-	        fillData();
-	        return true;
-    	case SHOW_DETAIL_ID:
-    		expensesCursor.moveToPosition(info.position);
-    		Toast.makeText(getBaseContext(), expensesCursor.getString(
-       				expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)), Toast.LENGTH_LONG).show();
-    		return true;
-		}
-		return super.onContextItemSelected(item);
-	}	
+  public boolean onContextItemSelected(MenuItem item) {
+      AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    switch(item.getItemId()) {
+      case DELETE_ID:
+          mDbHelper.deleteExpense(info.id);
+          fillData();
+          return true;
+      case SHOW_DETAIL_ID:
+        expensesCursor.moveToPosition(info.position);
+        Toast.makeText(getBaseContext(), expensesCursor.getString(
+               expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)), Toast.LENGTH_LONG).show();
+        return true;
+    }
+    return super.onContextItemSelected(item);
+  }  
     private void createRow(boolean type) {
         Intent i = new Intent(this, ExpenseEdit.class);
         i.putExtra("type",type);
+        i.putExtra("account_id",current_account);
         startActivityForResult(i, ACTIVITY_CREATE);
     }
     private void editPreferences() {
-    	Intent i = new Intent(this, MyPreferenceActivity.class);
+      Intent i = new Intent(this, MyPreferenceActivity.class);
         startActivityForResult(i, ACTIVITY_PREF);
     }
     private void exportAll() throws IOException {
-    	SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm");
-    	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    	Log.e("MyExpenses","now starting export");
-    		File appDir = new File("/sdcard/myexpenses/");
-    		appDir.mkdir();
-    		File outputFile = new File(appDir, "expenses" + now.format(new Date()) + ".qif");
-    		FileOutputStream out = new FileOutputStream(outputFile);
-    		String header = "!Type:Oth L\n";
-    		out.write(header.getBytes());
-        	expensesCursor.moveToFirst();
-        	while( expensesCursor.getPosition() < expensesCursor.getCount() ) {
-        		String row = "D"+formatter.format(Timestamp.valueOf(expensesCursor.getString(
-        				expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE)))) +
-        				"\nT"+expensesCursor.getString(
-                				expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)) +
-          				"\nM" +expensesCursor.getString(
-                   				expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)) +
-                   		"\nL" +expensesCursor.getString(
-                   				expensesCursor.getColumnIndexOrThrow("label")) +
-                   		"\n^\n";
-        		out.write(row.getBytes());
-        		expensesCursor.moveToNext();
-        	}
-    	    out.close();
-    	    expensesCursor.moveToFirst();
-    	    Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
-    	
+      SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm");
+      SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+      Log.e("MyExpenses","now starting export");
+        File appDir = new File("/sdcard/myexpenses/");
+        appDir.mkdir();
+        File outputFile = new File(appDir, "expenses" + now.format(new Date()) + ".qif");
+        FileOutputStream out = new FileOutputStream(outputFile);
+        String header = "!Type:Oth L\n";
+        out.write(header.getBytes());
+          expensesCursor.moveToFirst();
+          while( expensesCursor.getPosition() < expensesCursor.getCount() ) {
+            String row = "D"+formatter.format(Timestamp.valueOf(expensesCursor.getString(
+                expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE)))) +
+                "\nT"+expensesCursor.getString(
+                        expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)) +
+                  "\nM" +expensesCursor.getString(
+                           expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)) +
+                       "\nL" +expensesCursor.getString(
+                           expensesCursor.getColumnIndexOrThrow("label")) +
+                       "\n^\n";
+            out.write(row.getBytes());
+            expensesCursor.moveToNext();
+          }
+          out.close();
+          expensesCursor.moveToFirst();
+          Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
+      
     }
     private void reset() {
-    	try {
-    		exportAll();
-    		mDbHelper.deleteAll();
-        	settings.edit().putString("opening_balance", Float.toString(end)).commit();
-        	fillData();
-    	} catch (IOException e) {
-    		Log.e("MyExpenses",e.getMessage());
-    		Toast.makeText(getBaseContext(),getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
-    	}
+      try {
+        exportAll();
+        mDbHelper.deleteAll();
+          settings.edit().putString("opening_balance", Float.toString(end)).commit();
+          fillData();
+      } catch (IOException e) {
+        Log.e("MyExpenses",e.getMessage());
+        Toast.makeText(getBaseContext(),getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
+      }
     }
     
     @Override
@@ -293,7 +300,7 @@ public class MyExpenses extends ListActivity {
         })
         .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
-        	  dialog.dismiss();
+            dialog.dismiss();
           }
         })
         .show();  
@@ -306,7 +313,7 @@ public class MyExpenses extends ListActivity {
         .setIcon(R.drawable.about)
         .setView(view)
         .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
+            public void onClick(DialogInterface dialog, int whichButton) {
               //
           }
         })
@@ -317,12 +324,15 @@ public class MyExpenses extends ListActivity {
         int pref_version = settings.getInt("currentversion", -1);
         int current_version = getVersionNumber();
         if (pref_version == -1 || pref_version != current_version) {
-          settings.edit().
-          	putInt("currentversion", current_version).
-          	commit();
+          Editor edit = settings.edit();
+          edit.putInt("currentversion", current_version);
           if (current_version == 5) {
-        	  mDbHelper.setAccountAll(mDbHelper.createAccount("Default"));
+            float opening_balance = Float.parseFloat(settings.getString("opening_balance", "0"));
+            long account_id = mDbHelper.createAccount("Default",opening_balance,"Default account created upon installation","EUR");
+            mDbHelper.setAccountAll(account_id);
+            edit.putInt("current_account", (int) account_id);
           }
+          edit.commit();
           openHelpDialog();
           return;
         }
