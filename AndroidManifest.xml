@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.totschnig.myexpenses" android:versionCode="5" android:versionName="1.1.4">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.totschnig.myexpenses" android:versionCode="7" android:versionName="1.1.7">
     <uses-sdk android:minSdkVersion="5"></uses-sdk>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application android:icon="@drawable/icon" android:label="My Expenses">
         <activity android:name=".MyExpenses" android:label="@string/app_name">
             <intent-filter>
@@ -9,8 +10,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ExpenseEdit"/>
-        <activity android:name=".MyPreferenceActivity"  android:label="@string/edit_preferences">
-</activity>
-        <activity android:name=".SelectCategory"></activity>/>
+        <activity android:name=".AccountEdit"/>
+        <activity android:name=".SelectCategory"/>
+        <activity android:name=".SelectAccount"/>
     </application>
 </manifest> 

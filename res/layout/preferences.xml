@@ -1,6 +1,0 @@
-<PreferenceScreen
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:key="first_preferencescreen">
-	<EditTextPreference android:key="opening_balance" android:numeric="decimal"
-		android:title="@string/opening_balance" />
-</PreferenceScreen> 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/RelativeLayout01" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:orientation="horizontal"
+	android:layout_height="fill_parent">
+<TextView android:text="LABEL" android:id="@+id/label"
+    android:layout_width="100sp"
+    android:layout_height="wrap_content"  android:textAppearance="@style/MyDefaultTextAppearance"/>
+<TextView android:text="OPENING_BALANCE" android:id="@+id/opening_balance" 
+    android:layout_width="70sp"
+    android:layout_height="wrap_content" android:textAppearance="@style/MyDefaultTextAppearance"/>
+<TextView android:text="CURRENCY" android:id="@+id/currency" 
+    android:layout_width="70sp"
+    android:layout_height="wrap_content" android:textAppearance="@style/MyDefaultTextAppearance"/>
+</LinearLayout>

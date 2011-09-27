@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/SelectCategory"
+android:layout_width="fill_parent" android:layout_height="fill_parent">
+<!--adding views to ViewFlipper-->
+<ListView
+    android:id="@android:id/list"
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+    android:drawSelectorOnTop="false" />
+<TextView android:id="@+id/android:empty"
+          android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/no_accounts"/>
+</LinearLayout>
