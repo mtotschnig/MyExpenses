@@ -299,7 +299,7 @@ public class MyExpenses extends ListActivity {
     if (requestCode == ACTIVITY_SELECT_ACCOUNT) {
       if (resultCode == RESULT_OK) {
         current_account = intent.getIntExtra("account_id", 0);
-        settings.edit().putInt("current_account", currrent_account);
+        settings.edit().putInt("current_account", current_account);
       }
     }
     fillData();
