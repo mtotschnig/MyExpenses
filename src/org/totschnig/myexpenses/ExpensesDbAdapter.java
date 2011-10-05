@@ -184,7 +184,7 @@ public class ExpensesDbAdapter {
 
     return mDb.query(JOIN_EXP,
         new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_CATID,FULL_LABEL}, 
-        "account_id =" + account_id, null, null, null, KEY_DATE);
+        "account_id = " + account_id, null, null, null, KEY_DATE);
   }
 
   /**

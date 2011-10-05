@@ -102,6 +102,7 @@ public class MyExpenses extends ListActivity {
     mDbHelper.open();
     settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     newVersionCheck();
+    current_account = settings.getInt("current_account", 1);
     fillData();
     registerForContextMenu(getListView());
   }
@@ -111,13 +112,8 @@ public class MyExpenses extends ListActivity {
     mDbHelper.close();
   }
   private void fillData() {
-    current_account = settings.getInt("current_account", 1);
-    if (expensesCursor == null) {
-      expensesCursor = mDbHelper.fetchAllExpenses(current_account);
-      startManagingCursor(expensesCursor);
-    } else {
-      expensesCursor.requery();
-    }
+    expensesCursor = mDbHelper.fetchAllExpenses(current_account);
+    startManagingCursor(expensesCursor);
     Cursor account = mDbHelper.fetchAccount(current_account);
     start = account.getFloat(account.getColumnIndexOrThrow("opening_balance"));
     account.close();
@@ -208,7 +204,7 @@ public class MyExpenses extends ListActivity {
     case SELECT_ACCOUNT_ID:
       Intent i = new Intent(this, SelectAccount.class);
       //i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
-      startActivityForResult(i, 0);
+      startActivityForResult(i, ACTIVITY_SELECT_ACCOUNT);
       return true;
     }
     return super.onMenuItemSelected(featureId, item);
@@ -300,6 +296,12 @@ public class MyExpenses extends ListActivity {
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
+    if (requestCode == ACTIVITY_SELECT_ACCOUNT) {
+      if (resultCode == RESULT_OK) {
+        current_account = intent.getIntExtra("account_id", 0);
+        settings.edit().putInt("current_account", currrent_account);
+      }
+    }
     fillData();
   }
   //from Mathdoku

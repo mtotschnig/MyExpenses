@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">My Expenses</string>
     <string name="no_expenses">No Expenses Yet!</string>
+    <string name="menu_insert_account">Create new account</string>
     <string name="menu_insert_exp">Add Expense</string>
     <string name="menu_insert_inc">Add Income</string>
     <string name="menu_edit_inc">Edit Income</string>

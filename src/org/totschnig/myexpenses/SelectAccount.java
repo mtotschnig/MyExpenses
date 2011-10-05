@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -19,6 +20,7 @@ public class SelectAccount extends ListActivity {
   private static final int EDIT_ID = Menu.FIRST;
   private static final int DELETE_ID = Menu.FIRST +1;
   private static final int SHOW_DETAIL_ID = Menu.FIRST +2;
+  private static final int INSERT_ACCOUNT_ID = Menu.FIRST + 3;
   private ExpensesDbAdapter mDbHelper;
   Cursor accountsCursor;
 
@@ -32,6 +34,35 @@ public class SelectAccount extends ListActivity {
     mDbHelper.open();
     fillData();
     registerForContextMenu(getListView());
+  }
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    super.onCreateOptionsMenu(menu);
+    menu.add(0, INSERT_ACCOUNT_ID, 0, R.string.menu_insert_account);
+    return true;
+  }
+  public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    switch(item.getItemId()) {
+    case INSERT_ACCOUNT_ID:
+      Intent i = new Intent(this, AccountEdit.class);
+      startActivityForResult(i, ACTIVITY_CREATE);
+      return true;
+    }
+    return super.onMenuItemSelected(featureId, item);
+  }
+  @Override
+  protected void onListItemClick(ListView l, View v, int position, long id) {
+    super.onListItemClick(l, v, position, id);
+    Intent intent=new Intent();         
+    intent.putExtra("account_id", (int) id);
+    setResult(RESULT_OK,intent);
+    finish();
+  }
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, 
+      Intent intent) {
+    super.onActivityResult(requestCode, resultCode, intent);
+    fillData();
   }
   private void fillData () {
     if (accountsCursor == null) {
