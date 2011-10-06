@@ -25,7 +25,7 @@ android:textColor="#ffffff" android:text="@string/opening_balance"/>
 
 <TableRow>
 <TextView android:textColor="#ffffff" android:text="@string/currency" />
-<EditText android:id="@+id/Currency" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+<Button android:id="@+id/Currency" android:text="@string/select"></Button>
 </TableRow>
 
 <TableRow>

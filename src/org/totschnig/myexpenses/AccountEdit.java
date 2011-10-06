@@ -1,9 +1,7 @@
 package org.totschnig.myexpenses;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +13,7 @@ public class AccountEdit extends Activity {
   private EditText mLabelText;
   private EditText mDescriptionText;
   private EditText mOpeningBalanceText;
-  private EditText mCurrencyText;
+  private Button mCurrencyButton;
   private Long mRowId;
 
   @Override
@@ -28,7 +26,13 @@ public class AccountEdit extends Activity {
     mLabelText = (EditText) findViewById(R.id.Label);
     mDescriptionText = (EditText) findViewById(R.id.Description);
     mOpeningBalanceText = (EditText) findViewById(R.id.Opening_balance);
-    mCurrencyText = (EditText) findViewById(R.id.Currency);
+    mCurrencyButton = (Button) findViewById(R.id.Currency);
+    mCurrencyButton.setOnClickListener(new View.OnClickListener() {
+
+      public void onClick(View view) {
+        startSelectCurrency();
+      } 
+    });
 
     Button confirmButton = (Button) findViewById(R.id.Confirm);
 
@@ -55,7 +59,11 @@ public class AccountEdit extends Activity {
     super.onDestroy();
     mDbHelper.close();
   }
-
+  private void startSelectCurrency() {
+    Intent i = new Intent(this, SelectCurrency.class);
+    //i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
+    startActivityForResult(i, 0);
+  }
   private void populateFields() {
     float opening_balance;
     if (mRowId != 0) {
@@ -72,8 +80,8 @@ public class AccountEdit extends Activity {
       mDescriptionText.setText(note.getString(
           note.getColumnIndexOrThrow("description")));
       mOpeningBalanceText.setText(Float.toString(opening_balance));
-      mCurrencyText.setText(note.getString(
-          note.getColumnIndexOrThrow("currency")));
+      //mCurrencyButton.setText(note.getString(
+      //    note.getColumnIndexOrThrow("currency")));
     }
   }
 
@@ -87,8 +95,8 @@ public class AccountEdit extends Activity {
     String label = mLabelText.getText().toString();
     String description = mDescriptionText.getText().toString();
     String opening_balance = mOpeningBalanceText.getText().toString();
-    String currency = mCurrencyText.getText().toString();
-
+    //String currency = mCurrencyButton.getText().toString();
+    String currency = "EUR";
     if (mRowId == 0) {
       long id = mDbHelper.createAccount(label, opening_balance, description,currency);
       if (id > 0) {

@@ -13,5 +13,6 @@
         <activity android:name=".AccountEdit"/>
         <activity android:name=".SelectCategory"/>
         <activity android:name=".SelectAccount"/>
+        <activity android:name=".SelectCurrency"/>
     </application>
 </manifest> 
