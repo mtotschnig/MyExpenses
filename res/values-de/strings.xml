@@ -63,7 +63,6 @@ lang=de;grep -o "name=\".*\"" values/strings.xml|sort >/tmp/strings; grep -o "na
     <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
     <string name="menu_changes">Änderungen</string>
     <string name="select_account">Konto auswählen</string>
-    <string name="edit_account">Konto verändern</string>
     <string name="no_accounts">Keine Konten</string>
     <string name="label">Bezeichnung</string>
     <string name="description">Beschreibung</string>

@@ -4,12 +4,13 @@
 xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_height="fill_parent"
 android:layout_width="fill_parent"
-android:id="@+id/Table">
+android:id="@+id/Table"
+android:stretchColumns="1">
 
 <TableRow>
 <TextView
-android:textColor="#ffffff" android:text="@string/label"/>
-<EditText android:id="@+id/Label" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+android:textColor="#ffffff" android:text="@string/label" android:padding="3dip" />
+<EditText android:id="@+id/Label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="3dip"></EditText>
 </TableRow>
 
 <TableRow>

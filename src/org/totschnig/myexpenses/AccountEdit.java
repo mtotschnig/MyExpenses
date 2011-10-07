@@ -21,7 +21,6 @@ public class AccountEdit extends Activity {
     mDbHelper = new ExpensesDbAdapter(this);
     mDbHelper.open();
     setContentView(R.layout.one_account);
-    setTitle(R.string.edit_account);
 
     mLabelText = (EditText) findViewById(R.id.Label);
     mDescriptionText = (EditText) findViewById(R.id.Description);
@@ -57,6 +56,7 @@ public class AccountEdit extends Activity {
   private void populateFields() {
     float opening_balance;
     if (mRowId != 0) {
+      setTitle(R.string.menu_edit_account);
       Cursor note = mDbHelper.fetchAccount(mRowId);
       startManagingCursor(note);
       try {
@@ -72,6 +72,8 @@ public class AccountEdit extends Activity {
       mOpeningBalanceText.setText(Float.toString(opening_balance));
       mCurrencyText.setText(note.getString(
           note.getColumnIndexOrThrow("currency")));
+    } else {
+      setTitle(R.string.menu_insert_account);
     }
   }
 

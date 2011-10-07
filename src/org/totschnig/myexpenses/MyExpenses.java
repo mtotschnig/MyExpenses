@@ -347,21 +347,18 @@ public class MyExpenses extends ListActivity {
   }
 
   public void newVersionCheck() {
+    Editor edit = settings.edit();
     int pref_version = settings.getInt("currentversion", -1);
     int current_version = getVersionNumber();
-    if (pref_version == -1 || pref_version != current_version) {
-      Editor edit = settings.edit();
-      edit.putInt("currentversion", current_version);
-      if (current_version == 7) {
-        String opening_balance = settings.getString("opening_balance", "0");
-        long account_id = mDbHelper.createAccount("Default account",opening_balance,"Default account created upon installation","EUR");
-        mDbHelper.setAccountAll(account_id);
-        edit.putInt("current_account", (int) account_id);
-      }
-      edit.commit();
-      openHelpDialog();
-      return;
+    if (pref_version == -1) {
+      long account_id = mDbHelper.createAccount("Default account","0","Default account created upon installation","EUR");
+      edit.putInt("current_account", (int) account_id).commit();      
     }
+    if (pref_version != current_version) {
+      edit.putInt("currentversion", current_version).commit();
+      openHelpDialog();
+    }
+    return;
   }
 
   public int getVersionNumber() {

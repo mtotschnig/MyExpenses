@@ -60,7 +60,6 @@
     <string name="category_already_defined">Catégorie %1$s existe</string>
     <string name="menu_changes">Changements</string>
     <string name="select_account">Selectioner un compte</string>
-    <string name="edit_account">Éditer compte</string>
     <string name="no_accounts">Aucun compte!</string>
     <string name="label">intitulé</string>
     <string name="description">description</string>

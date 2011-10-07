@@ -4,12 +4,12 @@
 	android:orientation="horizontal"
 	android:layout_height="fill_parent">
 <TextView android:text="LABEL" android:id="@+id/label"
-    android:layout_width="100sp"
+    android:layout_width="250sp"
     android:layout_height="wrap_content"  android:textAppearance="@style/MyDefaultTextAppearance"/>
 <TextView android:text="OPENING_BALANCE" android:id="@+id/opening_balance" 
-    android:layout_width="70sp"
+    android:layout_width="30sp"
     android:layout_height="wrap_content" android:textAppearance="@style/MyDefaultTextAppearance"/>
 <TextView android:text="CURRENCY" android:id="@+id/currency" 
-    android:layout_width="70sp"
+    android:layout_width="10sp"
     android:layout_height="wrap_content" android:textAppearance="@style/MyDefaultTextAppearance"/>
 </LinearLayout>
