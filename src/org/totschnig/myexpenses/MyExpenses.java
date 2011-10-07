@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.lang.NumberFormatException;
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -116,7 +115,6 @@ public class MyExpenses extends ListActivity {
     expensesCursor = mDbHelper.fetchAllExpenses(current_account);
     startManagingCursor(expensesCursor);
     Cursor account = mDbHelper.fetchAccount(current_account);
-    setTitle(account.getString(account.getColumnIndexOrThrow("label")));
     start = account.getFloat(account.getColumnIndexOrThrow("opening_balance"));
     account.close();
     TextView startView= (TextView) findViewById(R.id.start);
@@ -155,7 +153,7 @@ public class MyExpenses extends ListActivity {
     setListAdapter(expense);
     TextView endView= (TextView) findViewById(R.id.end);
     end = start + mDbHelper.getSum();
-    endView.setText(NumberFormat.getCurrencyInstance(Locale.CANADA).format(end));
+    endView.setText(NumberFormat.getCurrencyInstance().format(end));
   }
   private String convText(TextView v, String text) {
     SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
@@ -351,7 +349,7 @@ public class MyExpenses extends ListActivity {
       edit.putInt("currentversion", current_version);
       if (current_version == 7) {
         String opening_balance = settings.getString("opening_balance", "0");
-        long account_id = mDbHelper.createAccount("Default account",opening_balance,"Default account created upon installation","EUR");
+        long account_id = mDbHelper.createAccount("Default",opening_balance,"Default account created upon installation","EUR");
         mDbHelper.setAccountAll(account_id);
         edit.putInt("current_account", (int) account_id);
       }
