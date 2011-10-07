@@ -88,6 +88,7 @@ public class MyExpenses extends ListActivity {
   float end;
   SharedPreferences settings;
   Cursor expensesCursor;
+  String currency;
   
   static final String CATEGORIES_XML = "/sdcard/myexpenses/categories.xml";
   ProgressDialog progressDialog;
@@ -115,10 +116,12 @@ public class MyExpenses extends ListActivity {
     expensesCursor = mDbHelper.fetchAllExpenses(current_account);
     startManagingCursor(expensesCursor);
     Cursor account = mDbHelper.fetchAccount(current_account);
+    setTitle(account.getString(account.getColumnIndexOrThrow("label")));
     start = account.getFloat(account.getColumnIndexOrThrow("opening_balance"));
+    currency = account.getString(account.getColumnIndexOrThrow("currency"));
     account.close();
     TextView startView= (TextView) findViewById(R.id.start);
-    startView.setText(NumberFormat.getCurrencyInstance().format(start));
+    startView.setText(formatCurrency(start));
 
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{"label",ExpensesDbAdapter.KEY_DATE,ExpensesDbAdapter.KEY_AMOUNT};
@@ -152,8 +155,11 @@ public class MyExpenses extends ListActivity {
     };
     setListAdapter(expense);
     TextView endView= (TextView) findViewById(R.id.end);
-    end = start + mDbHelper.getSum();
-    endView.setText(NumberFormat.getCurrencyInstance().format(end));
+    end = start + mDbHelper.getSum(current_account);
+    endView.setText(formatCurrency(end));
+  }
+  private String formatCurrency(float amount) {
+    return currency + " " + NumberFormat.getInstance().format(amount);
   }
   private String convText(TextView v, String text) {
     SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
@@ -167,7 +173,7 @@ public class MyExpenses extends ListActivity {
       } catch (NumberFormatException e) {
         amount = 0;
       }
-      return NumberFormat.getCurrencyInstance().format(amount);
+      return formatCurrency(amount);
     }
     return text;
   } 
@@ -274,9 +280,8 @@ public class MyExpenses extends ListActivity {
   private void reset() {
     try {
       exportAll();
-      mDbHelper.deleteAll();
+      mDbHelper.deleteAll(current_account);
       mDbHelper.setOpeningBalance(current_account,end);
-      settings.edit().putString("opening_balance", Float.toString(end)).commit();
       fillData();
     } catch (IOException e) {
       Log.e("MyExpenses",e.getMessage());
@@ -299,7 +304,7 @@ public class MyExpenses extends ListActivity {
     if (requestCode == ACTIVITY_SELECT_ACCOUNT) {
       if (resultCode == RESULT_OK) {
         current_account = intent.getIntExtra("account_id", 0);
-        settings.edit().putInt("current_account", current_account);
+        settings.edit().putInt("current_account", current_account).commit();
       }
     }
     fillData();
@@ -349,7 +354,7 @@ public class MyExpenses extends ListActivity {
       edit.putInt("currentversion", current_version);
       if (current_version == 7) {
         String opening_balance = settings.getString("opening_balance", "0");
-        long account_id = mDbHelper.createAccount("Default",opening_balance,"Default account created upon installation","EUR");
+        long account_id = mDbHelper.createAccount("Default account",opening_balance,"Default account created upon installation","EUR");
         mDbHelper.setAccountAll(account_id);
         edit.putInt("current_account", (int) account_id);
       }

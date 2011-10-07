@@ -171,8 +171,8 @@ public class ExpensesDbAdapter {
 
     return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
   }
-  public void deleteAll() {
-    mDb.execSQL("DELETE from expenses");
+  public void deleteAll(int account_id ) {
+    mDb.execSQL("DELETE from expenses WHERE account_id = " + account_id);
   }
 
   /**
@@ -230,8 +230,8 @@ public class ExpensesDbAdapter {
     mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null);
     recordCatUsage(cat_id);
   }
-  public float getSum() {
-    Cursor mCursor = mDb.rawQuery("select sum(" + KEY_AMOUNT + ") from " + DATABASE_TABLE, null);
+  public float getSum(int account_id) {
+    Cursor mCursor = mDb.rawQuery("select sum(" + KEY_AMOUNT + ") from " + DATABASE_TABLE +  " WHERE account_id = " + account_id, null);
     mCursor.moveToFirst();
     float result = mCursor.getFloat(0);
     mCursor.close();

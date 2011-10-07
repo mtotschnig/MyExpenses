@@ -1,8 +1,5 @@
 package org.totschnig.myexpenses;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -24,6 +21,7 @@ public class AccountEdit extends Activity {
     mDbHelper = new ExpensesDbAdapter(this);
     mDbHelper.open();
     setContentView(R.layout.one_account);
+    setTitle(R.string.edit_account);
 
     mLabelText = (EditText) findViewById(R.id.Label);
     mDescriptionText = (EditText) findViewById(R.id.Description);
