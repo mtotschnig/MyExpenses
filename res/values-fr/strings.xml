@@ -2,12 +2,15 @@
 <resources>
     <string name="app_name">Mes dépenses</string>
     <string name="no_expenses">Aucune dépense!</string>
+    <string name="menu_insert_account">Ajouter compte</string>
     <string name="menu_insert_exp">Ajouter dépense</string>
     <string name="menu_insert_inc">Ajouter rentrée</string>
     <string name="menu_edit_inc">Éditer rentrée</string>
     <string name="menu_edit_exp">Éditer dépense</string>
     <string name="menu_delete">Effacer</string>
     <string name="menu_show_detail">Afficher détails</string>
+    <string name="menu_edit_account">Éditer compte</string>
+    <string name="menu_delete_account">Effacer compte</string>
     <string name="menu_reset">Réinitialiser</string>
     <string name="title">Titre</string>
     <string name="time">Heure</string>
@@ -54,5 +57,11 @@
     <string name="create_category">Nouvelle catégorie</string>
     <string name="category_already_defined">Catégorie %1$s existe</string>
     <string name="menu_changes">Changements</string>
+    <string name="select_account">Selectioner un compte</string>
+    <string name="edit_account">Éditer compte</string>
+    <string name="no_accounts">Aucun compte!</string>
+    <string name="label">intitulé</string>
+    <string name="description">description</string>
+    <string name="currency">monnaie</string>
     
 </resources>

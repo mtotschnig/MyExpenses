@@ -5,6 +5,7 @@ lang=de;grep -o "name=\".*\"" values/strings.xml|sort >/tmp/strings; grep -o "na
 -->
     <string name="app_name">Meine Ausgaben</string>
     <string name="no_expenses">Noch keine Ausgaben!</string>
+    <string name="menu_insert_account">Neues Konto erstellen</string>
     <string name="menu_insert_exp">Neue Ausgabe</string>
     <string name="menu_insert_inc">Neue Einnahme</string>
     <string name="menu_edit_inc">Einnahme verändern</string>
@@ -12,6 +13,8 @@ lang=de;grep -o "name=\".*\"" values/strings.xml|sort >/tmp/strings; grep -o "na
     <string name="menu_delete">Löschen</string>
     <string name="menu_show_detail">Details anzeigen</string>
     <string name="menu_reset">Zurücksetzen</string>
+    <string name="menu_edit_account">Konto verändern</string>
+    <string name="menu_delete_account">Konto löschen</string>
     <string name="title">Titel</string>
     <string name="time">Zeit</string>
     <string name="comment">Kommentar</string>
@@ -58,5 +61,11 @@ lang=de;grep -o "name=\".*\"" values/strings.xml|sort >/tmp/strings; grep -o "na
     <string name="create_category">Neue Kategorie</string>
     <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
     <string name="menu_changes">Änderungen</string>
+    <string name="select_account">Konto auswählen</string>
+    <string name="edit_account">Konto verändern</string>
+    <string name="no_accounts">Keine Konten</string>
+    <string name="label">Bezeichnung</string>
+    <string name="description">Beschreibung</string>
+    <string name="currency">Währung</string>
          
 </resources>
