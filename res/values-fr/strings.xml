@@ -36,8 +36,10 @@
     <string name="help_leading">Merci d\'essayer MyExpenses pour Android.</string>
       <!-- The bulk of the help text. -->
     <string name="help_text">MyExpenses permet de gérer les rentrées d\'argent et les dépenses, dans un format compatible avec Grisbi.
-    \nLa commande "Réinitialiser" exporte toutes les transactions dans und fichier QIF sur la carte SD, efface les transactions, et transfère le dernier solde en nouveau solde d\'ouverture.
-    \nSous les réglages, les catégories peuvent être importées à partir d\'un fichier Grisbi, stocké sous  "/sdcard/myexpenses/categories.xml" .
+    \nLa commande \"Réinitialiser\" exporte toutes les transactions dans und fichier QIF sur la carte SD, efface les transactions, et transfère le dernier solde en nouveau solde d\'ouverture.
+    \nAvec la commande \"Importer catégories\" les catégories peuvent être importées à partir d\'un fichier Grisbi, stocké sous  \"/sdcard/myexpenses/categories.xml\" .
+    \n\"Choisir compte\" affiche la liste des comptes. Vous pouvez créer un nouveau compte (menu), les éditer ou effacer (menu contextuel) ou encore changer le compte utilisé (clic). 
+ 
     </string>
     <!-- The version title in the help screen. -->
     <string name="help_version">Version</string>

@@ -37,9 +37,10 @@
       <!-- The bulk of the help text. -->
     <string name="help_text">MyExpenses is designed to keep track of expenses during a short period of time, and to export these expenses into the Grisbi program.
     MyExpenses calculates the sum of expenses and incomes, and the current balance.
-    \nThe "Reset" menu entry exports expenses onto SD-Card in the QIF format, that Grisbi understands, deletes the expenses and updates the opening balance.
-    \nUnder "Preferences", categories can be imported from the XML structure that Grisbi uses for its expenses.
-    MyExpenses expects the XML file at "/sdcard/myexpenses/categories.xml".
+    \nThe \"Reset\" menu entry exports expenses onto SD-Card in the QIF format, that Grisbi understands, deletes the expenses and updates the opening balance.
+    \nVia the \"Import categories\" menu entry, categories can be imported from the XML structure that Grisbi uses for its expenses.
+    MyExpenses expects the XML file at \"/sdcard/myexpenses/categories.xml\".
+    \n\"Select account\" gives a list of defined accounts, where you can create new accounts (menu entry), edit or deleting existing ones (context menu) or change the currently displayed account (list click). 
     </string>
         <!-- The version title in the help screen. -->
     <string name="help_version">Version</string>
