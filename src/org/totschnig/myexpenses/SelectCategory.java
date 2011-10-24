@@ -27,6 +27,8 @@ public class SelectCategory extends ExpandableListActivity {
     private static final int CREATE_MAIN_CAT = Menu.FIRST;
     private static final int CREATE_SUB_CAT = Menu.FIRST+2;
     private static final int SELECT_MAIN_CAT = Menu.FIRST+1;
+    private static final int EDIT_CAT = Menu.FIRST+3;
+    private static final int DELETE_CAT = Menu.FIRST+4;
     int groupIdColumnIndex;
 
     @Override
@@ -37,8 +39,8 @@ public class SelectCategory extends ExpandableListActivity {
         // Set up our adapter
         mDbHelper = new ExpensesDbAdapter(SelectCategory.this);
         mDbHelper.open();
-		groupCursor = mDbHelper.fetchMainCategories();
-		startManagingCursor(groupCursor);
+        groupCursor = mDbHelper.fetchMainCategories();
+        startManagingCursor(groupCursor);
 
         // Cache the ID column index
         groupIdColumnIndex = groupCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ROWID);
@@ -69,6 +71,8 @@ public class SelectCategory extends ExpandableListActivity {
     	    	menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
     	    	menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
     	    }
+    	    menu.add(0,DELETE_CAT,0,R.string.menu_delete_cat);
+    	    menu.add(0,EDIT_CAT,0,R.string.menu_edit_cat);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,24 +90,46 @@ public class SelectCategory extends ExpandableListActivity {
     }
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        int cat_id;
         ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
-
-        int main_cat = groupCursor.getInt(groupIdColumnIndex);
-		switch(item.getItemId()) {
-			case SELECT_MAIN_CAT:
-		    	String label =   ((TextView) info.targetView).getText().toString();
-		    	Intent intent=new Intent();		    	
-		        intent.putExtra("cat_id", main_cat);
-		        intent.putExtra("label", label);
-		        setResult(RESULT_OK,intent);
-		    	finish();
-		        return true;
-			case CREATE_SUB_CAT:
-				createCat(String.valueOf(main_cat));
-				return true;
+        int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {         
+          Cursor childCursor = (Cursor) mAdapter.getChild(
+              ExpandableListView.getPackedPositionGroup(info.packedPosition),
+              ExpandableListView.getPackedPositionChild(info.packedPosition)
+          );
+          cat_id =  childCursor.getInt(childCursor.getColumnIndexOrThrow("_id"));
+        } else  {
+            cat_id = groupCursor.getInt(groupIdColumnIndex);
         }
-		return false;
-	}
+        String label =   ((TextView) info.targetView).getText().toString();
+        
+    		switch(item.getItemId()) {
+    			case SELECT_MAIN_CAT:  	
+    	    	Intent intent=new Intent();		    	
+    	      intent.putExtra("cat_id", cat_id);
+    	      intent.putExtra("label", label);
+    	      setResult(RESULT_OK,intent);
+    	    	finish();
+    	      return true;
+    			case CREATE_SUB_CAT:
+    				createCat(String.valueOf(cat_id));
+    				return true;
+    			case EDIT_CAT:
+    			  editCat(label,String.valueOf(cat_id));
+    			  return true;
+    			case DELETE_CAT:
+    			  if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && mDbHelper.getSubCatCount(cat_id) > 0) {
+    			    Toast.makeText(SelectCategory.this,"nicht löschbar wegen unterkategorien", Toast.LENGTH_LONG).show();
+    			  } else if (mDbHelper.getExpensesCount(cat_id) > 0 ) {
+    			    Toast.makeText(SelectCategory.this,"nicht löschbar wegen zugeordneten ausgaben", Toast.LENGTH_LONG).show();
+    			  } else {
+    			    mDbHelper.deleteCat(cat_id);
+    			    groupCursor.requery();
+    			  }
+        }
+    		return false;
+    	}
 
     @Override
     public void onDestroy() {
@@ -170,4 +196,34 @@ public class SelectCategory extends ExpandableListActivity {
 
     	alert.show();
     }
-}
+    public void editCat(String label, final String cat_id) {
+      AlertDialog.Builder alert = new AlertDialog.Builder(this);
+      alert.setTitle(R.string.edit_category);
+
+      // Set an EditText view to get user input 
+      final EditText input = new EditText(this);
+      input.setText(label);
+      alert.setView(input);
+
+      alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+      public void onClick(DialogInterface dialog, int whichButton) {
+        String value = input.getText().toString();
+        if (mDbHelper.renameCategory(value,cat_id) != -1) {
+          groupCursor.requery();
+          //mAdapter.notifyDataSetChanged();
+        } else {
+          Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
+        }
+          //getExpandableListView().invalidateViews();
+        }
+      });
+
+      alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int whichButton) {
+          dialog.dismiss();
+        }
+      });
+      
+      alert.show();
+    }
+  }

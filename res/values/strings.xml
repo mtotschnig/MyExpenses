@@ -56,8 +56,11 @@
     <string name="select_parent_category">Select this category</string>
     <string name="menu_create_main_cat">Create new main category</string>
     <string name="menu_create_sub_cat">Create new sub category</string>
+    <string name="menu_edit_cat">Edit category</string>
+    <string name="menu_delete_cat">Delete category</string>
     <string name="categories_loading">Loading categories from %1$s</string>
     <string name="create_category">Create new category</string>
+    <string name="edit_category">Edit category</string>
     <string name="category_already_defined">Category %1$s already defined</string>
     <string name="menu_changes">Changes</string>
     <string name="select_account">Select account</string>

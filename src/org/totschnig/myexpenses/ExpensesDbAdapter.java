@@ -20,6 +20,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -237,6 +238,13 @@ public class ExpensesDbAdapter {
     mCursor.close();
     return result;
   }
+  public int getExpensesCount(int cat_id) {
+    Cursor mCursor = mDb.rawQuery("select count(*) from " + DATABASE_TABLE +  " WHERE cat_id = " + cat_id, null);
+    mCursor.moveToFirst();
+    int result = mCursor.getInt(0);
+    mCursor.close();
+    return result;
+  }
   public void recordCatUsage(String cat_id) {
     if (cat_id != null) {
       mDb.execSQL("update categories set usages = usages +1 where _id = " + cat_id + " or _id = (select parent_id from categories where _id = " +cat_id + ")");
@@ -251,6 +259,17 @@ public class ExpensesDbAdapter {
 
     //should return -1 if unique constraint is not met	
     return mDb.insert("categories", null, initialValues);
+  }
+  public long renameCategory(String label, String cat_id) {
+    ContentValues args = new ContentValues();
+    args.put("label", label);
+
+    //should return -1 if unique constraint is not met
+    try {
+      return mDb.update("categories", args, "_id = " + cat_id, null);
+    } catch (SQLiteConstraintException e) {
+      return -1;
+    }
   }
   public long createAccount(String label, String opening_balance, String description, String currency) {
     ContentValues initialValues = new ContentValues();
@@ -310,6 +329,10 @@ public class ExpensesDbAdapter {
   public boolean deleteAccount(long rowId) {
     return mDb.delete("accounts", KEY_ROWID + "=" + rowId, null) > 0;
   }
+  
+  public boolean deleteCat(int cat_id) {
+    return mDb.delete("categories", KEY_ROWID + "=" + cat_id, null) > 0;
+  }
 
   public Cursor fetchMainCategories() {
     return mDb.query("categories",
@@ -320,6 +343,13 @@ public class ExpensesDbAdapter {
         null,
         "usages DESC"
     );
+  }
+  public int getSubCatCount(int parent_id){
+    Cursor mCursor = mDb.rawQuery("select count(*) from categories where parent_id = " + parent_id, null);
+    mCursor.moveToFirst();
+    int result = mCursor.getInt(0);
+    mCursor.close();
+    return result;
   }
   public Cursor fetchSubCategories(String parent_id) {
     return mDb.query("categories", new String[] {KEY_ROWID,
