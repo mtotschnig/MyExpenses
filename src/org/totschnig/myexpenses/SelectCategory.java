@@ -1,14 +1,31 @@
 package org.totschnig.myexpenses;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Hashtable;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXParseException;
+
 import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
 
 import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +46,11 @@ public class SelectCategory extends ExpandableListActivity {
     private static final int SELECT_MAIN_CAT = Menu.FIRST+1;
     private static final int EDIT_CAT = Menu.FIRST+3;
     private static final int DELETE_CAT = Menu.FIRST+4;
+    private static final int IMPORT_CAT_ID = Menu.FIRST + 5;
     int groupIdColumnIndex;
+    ProgressDialog progressDialog;
+    int totalCategories;
+    private final String[] items = {"Grisbi default (en)", "Grisbi default (fr)", "Grisbi default (de)", "/sdcard/myexpenses/categories.xml"};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +99,7 @@ public class SelectCategory extends ExpandableListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.add(0, CREATE_MAIN_CAT, 0, R.string.menu_create_main_cat);
+        menu.add(0, IMPORT_CAT_ID,1,R.string.import_categories);
         return true;
     }
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
@@ -85,6 +107,9 @@ public class SelectCategory extends ExpandableListActivity {
         case CREATE_MAIN_CAT:
             createCat("0");
             return true;
+        case IMPORT_CAT_ID:
+          importCategories();
+          return true;
         }
         return super.onMenuItemSelected(featureId, item);
     }
@@ -120,9 +145,9 @@ public class SelectCategory extends ExpandableListActivity {
     			  return true;
     			case DELETE_CAT:
     			  if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && mDbHelper.getSubCatCount(cat_id) > 0) {
-    			    Toast.makeText(SelectCategory.this,"nicht löschbar wegen unterkategorien", Toast.LENGTH_LONG).show();
+    			    Toast.makeText(SelectCategory.this,getString(R.string.not_deletable_subcats_exists), Toast.LENGTH_LONG).show();
     			  } else if (mDbHelper.getExpensesCount(cat_id) > 0 ) {
-    			    Toast.makeText(SelectCategory.this,"nicht löschbar wegen zugeordneten ausgaben", Toast.LENGTH_LONG).show();
+    			    Toast.makeText(SelectCategory.this,getString(R.string.not_deletable_mapped_expenses), Toast.LENGTH_LONG).show();
     			  } else {
     			    mDbHelper.deleteCat(cat_id);
     			    groupCursor.requery();
@@ -225,5 +250,169 @@ public class SelectCategory extends ExpandableListActivity {
       });
       
       alert.show();
+    }
+    private void importCategories() {
+      AlertDialog.Builder builder = new AlertDialog.Builder(this);
+      builder.setTitle("Pick a source for import");
+      builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int item) {
+            new MyAsyncTask(SelectCategory.this,item).execute();
+            dialog.cancel();
+          }
+      });
+      builder.show();
+    }
+    private class MyAsyncTask extends AsyncTask<Void, Integer, Integer> {
+      private Context context;
+      private int source;
+      NodeList categories;
+      NodeList sub_categories;
+      InputStream catXML;
+      Document dom;
+      Hashtable<String,String> Foreign2LocalIdMap;
+      int totalImported;
+
+      public MyAsyncTask(Context context,int source) {
+        this.context = context;
+        this.source = source;
+        Foreign2LocalIdMap = new Hashtable<String,String>();
+        totalImported = 0; 
+      }
+      protected void onPreExecute() {
+        String sourceStr = items[source];
+        super.onPreExecute();
+        //from sdcard
+        if (source == 3) {
+          try {
+            catXML = new FileInputStream(sourceStr);
+          } catch (FileNotFoundException e) {
+            Toast.makeText(context, "Could not find file "+sourceStr, Toast.LENGTH_LONG).show();
+            cancel(false);
+            return;
+          }
+        } else {
+          int sourceRes = 0;
+          switch(source) {
+          case 0:
+            sourceRes = R.raw.cat_en;
+            break;
+          case 1:
+            sourceRes = R.raw.cat_fr;
+            break;
+          case 2:
+            sourceRes = R.raw.cat_de;
+            break;
+          }
+          catXML = context.getResources().openRawResource(sourceRes);
+        }
+        try {
+          DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+          DocumentBuilder builder = factory.newDocumentBuilder();
+          dom = builder.parse(catXML);
+        } catch (SAXParseException e) {
+          Log.w("MyExpenses",e.getMessage());
+          Toast.makeText(context, "Could not parse file "+sourceStr, Toast.LENGTH_LONG).show();
+          cancel(false);
+          return;
+        } catch (Exception e) {
+          Toast.makeText(context, "An error occured: "+e.getMessage(), Toast.LENGTH_LONG).show();
+          cancel(false);
+          return;
+        }
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setTitle(getString(R.string.categories_loading,sourceStr));
+        progressDialog.setProgress(0);
+        progressDialog.show();
+      }
+      protected void onProgressUpdate(Integer... values) {
+        progressDialog.setProgress(values[0]);
+      }
+      protected void onPostExecute(Integer result) {
+        progressDialog.dismiss();
+        String msg;
+        super.onPostExecute(result);
+        if (result == -1) {
+          msg = getString(R.string.import_categories_failure);
+        } else {
+          msg = getString(R.string.import_categories_success,result);
+        }
+        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+        groupCursor.requery();
+      }
+
+
+      @Override
+      protected Integer doInBackground(Void... params) {
+        //first we do the parsing
+        Element root = dom.getDocumentElement();
+        categories = root.getElementsByTagName("Category");
+        sub_categories = root.getElementsByTagName("Sub_category");
+        totalCategories = categories.getLength() + sub_categories.getLength();
+        progressDialog.setMax(totalCategories);
+
+        mDbHelper.open();
+
+        importCatsMain();
+        importCatsSub();
+        return totalImported;
+      }
+      private void importCatsMain() {
+        int start = 1;
+        String label;
+        String id;
+        long _id;
+
+        for (int i=0;i<categories.getLength();i++){
+          NamedNodeMap category = categories.item(i).getAttributes();
+          label = category.getNamedItem("Na").getNodeValue();
+          id =  category.getNamedItem("Nb").getNodeValue();
+          _id = mDbHelper.getCategoryId(label, "0");
+          if (_id != -1) {
+            Foreign2LocalIdMap.put(id, String.valueOf(_id));
+          } else {
+            _id = mDbHelper.createCategory(label,"0");
+            if (_id != -1) {
+              Foreign2LocalIdMap.put(id, String.valueOf(_id));
+              totalImported++;
+            } else {
+              //this should not happen
+              Log.w("MyExpenses","could neither retrieve nor store main category " + label);
+            }
+          }
+          if ((start+i) % 10 == 0) {
+            publishProgress(start+i);
+          }
+        }
+      }
+      private void importCatsSub() {
+        int start = categories.getLength() + 1;
+        String label;
+        //String id;
+        String parent_id;
+        String mapped_parent_id;
+        long _id;
+        for (int i=0;i<sub_categories.getLength();i++){
+          NamedNodeMap sub_category = sub_categories.item(i).getAttributes();
+          label = sub_category.getNamedItem("Na").getNodeValue();
+          //id =  sub_category.getNamedItem("Nb").getNodeValue();
+          parent_id = sub_category.getNamedItem("Nbc").getNodeValue();
+          mapped_parent_id = Foreign2LocalIdMap.get(parent_id);
+          //TODO: for the moment, we do not deal with subcategories,
+          //if we were not able to import a matching category
+          //should check if the main category exists, but the subcategory is new
+          if (mapped_parent_id != null) {
+            _id = mDbHelper.createCategory(label, Foreign2LocalIdMap.get(parent_id));
+            if (_id != -1) {
+              totalImported++;
+            }
+          } else {
+            Log.w("MyExpenses","could not store sub category " + label);
+          }
+          if ((start+i) % 10 == 0) {
+            publishProgress(start+i);
+          }
+        }
+      }
     }
   }

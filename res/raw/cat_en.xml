@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<Grisbi_categ>
+	<General
+		File_version="0.6.0"
+		Grisbi_version="0.6.0" 
+		Title="Standard category set"
+		Description="Category set suitable for personal use" />
+	<Category Nb="1" Na="Other income" Kd="0" />
+	<Sub_category Nbc="1" Nb="1" Na="Unemployment benefit" />
+	<Sub_category Nbc="1" Nb="2" Na="Family allowance" />
+	<Sub_category Nbc="1" Nb="3" Na="Tax credit" />
+	<Sub_category Nbc="1" Nb="4" Na="Gambling" />
+	<Sub_category Nbc="1" Nb="5" Na="Mutual insurance" />
+	<Sub_category Nbc="1" Nb="6" Na="Social security" />
+	<Category Nb="2" Na="Retirement" Kd="0" />
+	<Sub_category Nbc="2" Nb="1" Na="Retirement Fund" />
+	<Sub_category Nbc="2" Nb="2" Na="Pension" />
+	<Sub_category Nbc="2" Nb="3" Na="Supplementary pension" />
+	<Category Nb="3" Na="Investment income" Kd="0" />
+	<Sub_category Nbc="3" Nb="1" Na="Dividend" />
+	<Sub_category Nbc="3" Nb="2" Na="Interest" />
+	<Sub_category Nbc="3" Nb="3" Na="Capital gain" />
+	<Category Nb="4" Na="Salary" Kd="0" />
+	<Sub_category Nbc="4" Nb="1" Na="Overtime" />
+	<Sub_category Nbc="4" Nb="2" Na="Leave allowance" />
+	<Sub_category Nbc="4" Nb="3" Na="Misc. premiums" />
+	<Sub_category Nbc="4" Nb="4" Na="Success fee" />
+	<Sub_category Nbc="4" Nb="5" Na="Net salary" />
+	<Category Nb="5" Na="Misc. income" Kd="0" />
+	<Sub_category Nbc="5" Nb="1" Na="Gifts" />
+	<Sub_category Nbc="5" Nb="2" Na="Refunds" />
+	<Sub_category Nbc="5" Nb="3" Na="Second hand sales" />
+	<Category Nb="6" Na="Food" Kd="1" />
+	<Sub_category Nbc="6" Nb="1" Na="Bar" />
+	<Sub_category Nbc="6" Nb="2" Na="Baker" />
+	<Sub_category Nbc="6" Nb="3" Na="Canteen" />
+	<Sub_category Nbc="6" Nb="4" Na="Sweets" />
+	<Sub_category Nbc="6" Nb="5" Na="Misc" />
+	<Sub_category Nbc="6" Nb="6" Na="Grocery" />
+	<Sub_category Nbc="6" Nb="7" Na="Restaurant" />
+	<Sub_category Nbc="6" Nb="8" Na="Self-service" />
+	<Sub_category Nbc="6" Nb="9" Na="Supermarket" />
+	<Category Nb="7" Na="Pets" Kd="1" />
+	<Sub_category Nbc="7" Nb="1" Na="Food" />
+	<Sub_category Nbc="7" Nb="2" Na="Various supplies" />
+	<Sub_category Nbc="7" Nb="3" Na="Grooming" />
+	<Sub_category Nbc="7" Nb="4" Na="Veterinary surgeon" />
+	<Category Nb="8" Na="Insurance" Kd="1" />
+	<Sub_category Nbc="8" Nb="1" Na="Car" />
+	<Sub_category Nbc="8" Nb="2" Na="Health" />
+	<Sub_category Nbc="8" Nb="3" Na="House" />
+	<Sub_category Nbc="8" Nb="4" Na="Civil liability" />
+	<Sub_category Nbc="8" Nb="5" Na="Life" />
+	<Category Nb="9" Na="Car" Kd="1" />
+	<Sub_category Nbc="9" Nb="1" Na="Fuel" />
+	<Sub_category Nbc="9" Nb="2" Na="Repairs" />
+	<Sub_category Nbc="9" Nb="3" Na="Maintenance" />
+	<Sub_category Nbc="9" Nb="4" Na="Parking" />
+	<Sub_category Nbc="9" Nb="5" Na="Fines" />
+	<Category Nb="11" Na="Gifts" Kd="1" />
+	<Category Nb="12" Na="Children" Kd="1" />
+	<Sub_category Nbc="12" Nb="1" Na="Nurse" />
+	<Sub_category Nbc="12" Nb="2" Na="Misc." />
+	<Sub_category Nbc="12" Nb="3" Na="Studies" />
+	<Category Nb="13" Na="Studies" Kd="1" />
+	<Sub_category Nbc="13" Nb="1" Na="Lessons" />
+	<Sub_category Nbc="13" Nb="2" Na="School fees" />
+	<Sub_category Nbc="13" Nb="3" Na="Books" />
+	<Category Nb="14" Na="Miscellaneous" Kd="1" />
+	<Sub_category Nbc="14" Nb="1" Na="Gifts" />
+	<Category Nb="15" Na="Financial expenses" Kd="1" />
+	<Sub_category Nbc="15" Nb="1" Na="Miscellaneous" />
+	<Sub_category Nbc="15" Nb="2" Na="Bank charges" />
+	<Sub_category Nbc="15" Nb="3" Na="Loan/Mortgage" />
+	<Sub_category Nbc="15" Nb="4" Na="Charges" />
+	<Sub_category Nbc="15" Nb="5" Na="Refunding" />
+	<Category Nb="16" Na="Professional expenses" Kd="1" />
+	<Sub_category Nbc="16" Nb="1" Na="Non refundable" />
+	<Sub_category Nbc="16" Nb="2" Na="Refundable" />
+	<Category Nb="17" Na="Taxes" Kd="1" />
+	<Sub_category Nbc="17" Nb="1" Na="Miscellaneous" />
+	<Sub_category Nbc="17" Nb="2" Na="Income" />
+	<Sub_category Nbc="17" Nb="3" Na="Land" />
+	<Category Nb="18" Na="Housing" Kd="1" />
+	<Sub_category Nbc="18" Nb="1" Na="Hotel" />
+	<Sub_category Nbc="18" Nb="2" Na="Rent" />
+	<Sub_category Nbc="18" Nb="3" Na="TV" />
+	<Sub_category Nbc="18" Nb="4" Na="Furnitures" />
+	<Sub_category Nbc="18" Nb="5" Na="Charges" />
+	<Sub_category Nbc="18" Nb="6" Na="Heating" />
+	<Sub_category Nbc="18" Nb="7" Na="Decoration" />
+	<Sub_category Nbc="18" Nb="8" Na="Water" />
+	<Sub_category Nbc="18" Nb="9" Na="Electricity" />
+	<Sub_category Nbc="18" Nb="10" Na="White goods" />
+	<Sub_category Nbc="18" Nb="11" Na="Equipment" />
+	<Sub_category Nbc="18" Nb="12" Na="Gas" />
+	<Sub_category Nbc="18" Nb="13" Na="Garden" />
+	<Sub_category Nbc="18" Nb="14" Na="House keeper" />
+	<Sub_category Nbc="18" Nb="15" Na="Phone" />
+	<Sub_category Nbc="18" Nb="16" Na="Mobile Phone" />
+	<Category Nb="19" Na="Leisures" Kd="1" />
+	<Sub_category Nbc="19" Nb="1" Na="Snooker" />
+	<Sub_category Nbc="19" Nb="2" Na="Bowling" />
+	<Sub_category Nbc="19" Nb="3" Na="Movies" />
+	<Sub_category Nbc="19" Nb="4" Na="Night club" />
+	<Sub_category Nbc="19" Nb="5" Na="IT" />
+	<Sub_category Nbc="19" Nb="6" Na="Games" />
+	<Sub_category Nbc="19" Nb="7" Na="Books" />
+	<Sub_category Nbc="19" Nb="8" Na="Parks" />
+	<Sub_category Nbc="19" Nb="9" Na="Concerts" />
+	<Sub_category Nbc="19" Nb="10" Na="Sports" />
+	<Sub_category Nbc="19" Nb="11" Na="Video" />
+	<Sub_category Nbc="19" Nb="12" Na="Travels" />
+	<Sub_category Nbc="19" Nb="13" Na="Equipment" />
+	<Sub_category Nbc="19" Nb="14" Na="Museums/Exhibitions" />
+	<Category Nb="20" Na="Loan/Mortgage" Kd="1" />
+	<Sub_category Nbc="20" Nb="1" Na="Capital" />
+	<Category Nb="21" Na="Health" Kd="1" />
+	<Sub_category Nbc="21" Nb="1" Na="Insurance" />
+	<Sub_category Nbc="21" Nb="2" Na="Dentist" />
+	<Sub_category Nbc="21" Nb="3" Na="Hospital" />
+	<Sub_category Nbc="21" Nb="4" Na="Kinesitherapist" />
+	<Sub_category Nbc="21" Nb="5" Na="Doctor" />
+	<Sub_category Nbc="21" Nb="6" Na="Ophtalmologist" />
+	<Sub_category Nbc="21" Nb="7" Na="Osteopath" />
+	<Sub_category Nbc="21" Nb="8" Na="Chemist" />
+	<Sub_category Nbc="21" Nb="9" Na="Social security" />
+	<Category Nb="22" Na="Care" Kd="1" />
+	<Sub_category Nbc="22" Nb="1" Na="Hairdresser" />
+	<Sub_category Nbc="22" Nb="2" Na="Clothing" />
+	<Category Nb="23" Na="Transport" Kd="1" />
+	<Sub_category Nbc="23" Nb="1" Na="Bus" />
+	<Sub_category Nbc="23" Nb="2" Na="Metro" />
+	<Sub_category Nbc="23" Nb="3" Na="Toll" />
+	<Sub_category Nbc="23" Nb="4" Na="Train" />
+	<Sub_category Nbc="23" Nb="5" Na="Tramway" />
+	<Sub_category Nbc="23" Nb="6" Na="Travels" />
+	<Sub_category Nbc="23" Nb="7" Na="Air" />
+	<Category Nb="24" Na="Holydays" Kd="1" />
+	<Sub_category Nbc="24" Nb="1" Na="Housing" />
+	<Sub_category Nbc="24" Nb="2" Na="Visits" />
+	<Sub_category Nbc="24" Nb="3" Na="Travels" />
+</Grisbi_categ>

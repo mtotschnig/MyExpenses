@@ -32,7 +32,7 @@ lang=de;grep -o "name=\".*\"" values/strings.xml|sort >/tmp/strings; grep -o "na
     <string name="import_categories_failure">Fehler beim Kategorien-Import</string>
     <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
     <string name="export_expenses_sdcard_success">Ausgaben in Datei %1$s exportiert</string>
-    <string name="no_categories">Noch keine Kategorien vorhanden. Kategorien können über das Menü hinzugefügt oder über Einstellungen importiert werden</string>
+    <string name="no_categories">Noch keine Kategorien vorhanden. Kategorien können über das Menü hinzugefügt oder importiert werden</string>
       <string name="menu_help">Hilfe</string>
     <string name="close">Schließen</string>
       <!-- The first line in the help screen. -->
@@ -67,5 +67,9 @@ lang=de;grep -o "name=\".*\"" values/strings.xml|sort >/tmp/strings; grep -o "na
     <string name="label">Bezeichnung</string>
     <string name="description">Beschreibung</string>
     <string name="currency">Währung</string>
-         
+    <string name="menu_edit_cat">Kategorie verändern</string>
+    <string name="menu_delete_cat">Kategorie löschen</string>
+    <string name="edit_category">Kategorie verändern</string>
+    <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie Unterkategorien hat.</string>
+    <string name="not_deletable_mapped_expenses">Diese Kategorie kann nicht gelöscht werden, weil ihr Ausgaben zugeordnet sind.</string> 
 </resources>

@@ -29,7 +29,7 @@
     <string name="import_categories_failure">Erreur lors de l\'import des catégories</string>
     <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses ver SD-Card</string>
     <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers le fichier %1$s</string>
-    <string name="no_categories">Aucune catégorie. Catégories peuvent être ajoutées par le menu ou être importées par les règlages.</string>
+    <string name="no_categories">Aucune catégorie. Catégories peuvent être ajoutées ou importées par le menu.</string>
     <string name="menu_help">Aide</string>
     <string name="close">Fermer</string>
       <!-- The first line in the help screen. -->
@@ -64,5 +64,9 @@
     <string name="label">intitulé</string>
     <string name="description">description</string>
     <string name="currency">monnaie</string>
-    
+    <string name="menu_edit_cat">Éditer catégorie</string>
+    <string name="menu_delete_cat">Supprimer catégorie</string>
+    <string name="edit_category">Éditer catégorie</string>
+    <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce qu\'elle contient des sous-catégories.</string>
+    <string name="not_deletable_mapped_expenses">Cette catégorie ne peut pas être supprimée, parce qu\'il existe des dépenses à qui elle est attribuée.</string>
 </resources>

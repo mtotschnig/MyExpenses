@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<Grisbi_categ>
+	<General
+		File_version="0.6.0"
+		Grisbi_version="0.6.0"
+		Title="Standardkategorien"
+		Description="Standardkategorien, vollständige Anzahl von Kategorien" />
+	<Category Nb="1" Na="Bankgebühren" Kd="1" />
+	<Sub_category Nbc="1" Nb="1" Na="Depotgebühren" />
+	<Sub_category Nbc="1" Nb="2" Na="Dispozinsen" />
+	<Sub_category Nbc="1" Nb="3" Na="Kontoführung" />
+	<Category Nb="2" Na="Bekleidung" Kd="1" />
+	<Sub_category Nbc="2" Nb="1" Na="Kleidung" />
+	<Sub_category Nbc="2" Nb="2" Na="Schuhe" />
+	<Category Nb="3" Na="Eigenheim" Kd="1" />
+	<Sub_category Nbc="3" Nb="1" Na="Eigenheimversicherung" />
+	<Sub_category Nbc="3" Nb="2" Na="Einrichtung" />
+	<Sub_category Nbc="3" Nb="3" Na="Garten" />
+	<Sub_category Nbc="3" Nb="4" Na="Gemeindeabgaben" />
+	<Sub_category Nbc="3" Nb="5" Na="Grundsteuer" />
+	<Sub_category Nbc="3" Nb="6" Na="Heizkosten" />
+	<Sub_category Nbc="3" Nb="7" Na="Müllabfuhr" />
+	<Sub_category Nbc="3" Nb="8" Na="Rundfunkgebühr" />
+	<Sub_category Nbc="3" Nb="9" Na="Strom" />
+	<Sub_category Nbc="3" Nb="10" Na="Telefon" />
+	<Sub_category Nbc="3" Nb="11" Na="Wasser" />
+	<Category Nb="4" Na="Einkünfte" Kd="0" />
+	<Sub_category Nbc="4" Nb="1" Na="Familienbeihilfe" />
+	<Sub_category Nbc="4" Nb="2" Na="Kindergeld" />
+	<Sub_category Nbc="4" Nb="3" Na="Steuerausgleich" />
+	<Category Nb="5" Na="Erträge" Kd="0" />
+	<Sub_category Nbc="5" Nb="1" Na="Dividenden" />
+	<Sub_category Nbc="5" Nb="2" Na="Kapitalertrag" />
+	<Category Nb="6" Na="Freizeit" Kd="1" />
+	<Sub_category Nbc="6" Nb="1" Na="Bücher" />
+	<Sub_category Nbc="6" Nb="2" Na="Filme" />
+	<Sub_category Nbc="6" Nb="3" Na="Internet" />
+	<Sub_category Nbc="6" Nb="4" Na="Kino" />
+	<Sub_category Nbc="6" Nb="5" Na="Konzerte" />
+	<Sub_category Nbc="6" Nb="6" Na="Mobiltelefon" />
+	<Sub_category Nbc="6" Nb="7" Na="Multimedia" />
+	<Sub_category Nbc="6" Nb="8" Na="Museen" />
+	<Sub_category Nbc="6" Nb="9" Na="Sport" />
+	<Sub_category Nbc="6" Nb="10" Na="Sportartikel" />
+	<Sub_category Nbc="6" Nb="11" Na="Zeitschriften" />
+	<Category Nb="7" Na="Gesundheit" Kd="1" />
+	<Sub_category Nbc="7" Nb="1" Na="Apotheke" />
+	<Sub_category Nbc="7" Nb="2" Na="Facharzt" />
+	<Sub_category Nbc="7" Nb="3" Na="Krankenhaus" />
+	<Sub_category Nbc="7" Nb="4" Na="Krankenversicherung" />
+	<Sub_category Nbc="7" Nb="5" Na="Pflege" />
+	<Sub_category Nbc="7" Nb="6" Na="Praktischer Arzt" />
+	<Category Nb="8" Na="Haushalt" Kd="1" />
+	<Sub_category Nbc="8" Nb="1" Na="Gartengeräte" />
+	<Sub_category Nbc="8" Nb="2" Na="Haushaltsgeräte" />
+	<Sub_category Nbc="8" Nb="3" Na="Werkzeug" />
+	<Category Nb="9" Na="Haustiere" Kd="1" />
+	<Sub_category Nbc="9" Nb="1" Na="Futter" />
+	<Sub_category Nbc="9" Nb="2" Na="Tierarzt" />
+	<Category Nb="10" Na="Kfzkosten" Kd="1" />
+	<Sub_category Nbc="10" Nb="1" Na="Autokauf" />
+	<Sub_category Nbc="10" Nb="2" Na="Autoversicherung" />
+	<Sub_category Nbc="10" Nb="3" Na="Kraftstoff" />
+	<Sub_category Nbc="10" Nb="4" Na="Leasingraten" />
+	<Sub_category Nbc="10" Nb="5" Na="Mautgebühren" />
+	<Sub_category Nbc="10" Nb="6" Na="Parkgebühren" />
+	<Sub_category Nbc="10" Nb="7" Na="Reparaturen" />
+	<Category Nb="11" Na="Kinder" Kd="1" />
+	<Sub_category Nbc="11" Nb="1" Na="Betreuung" />
+	<Sub_category Nbc="11" Nb="2" Na="Internat" />
+	<Sub_category Nbc="11" Nb="3" Na="Kindergarten" />
+	<Sub_category Nbc="11" Nb="4" Na="Schulgeld" />
+	<Sub_category Nbc="11" Nb="5" Na="Spielzeug" />
+	<Sub_category Nbc="11" Nb="6" Na="Taschengeld" />
+	<Category Nb="12" Na="Kredit" Kd="1" />
+	<Sub_category Nbc="12" Nb="1" Na="Bearbeitungsgebühr" />
+	<Sub_category Nbc="12" Nb="2" Na="Kreditrate" />
+	<Sub_category Nbc="12" Nb="3" Na="Kreditspesen" />
+	<Sub_category Nbc="12" Nb="4" Na="Kreditversicherung" />
+	<Sub_category Nbc="12" Nb="5" Na="Kreditzinsen" />
+	<Category Nb="13" Na="Lebensmittel" Kd="1" />
+	<Sub_category Nbc="13" Nb="1" Na="Nahrungsmittel" />
+	<Sub_category Nbc="13" Nb="2" Na="Restaurant" />
+	<Sub_category Nbc="13" Nb="3" Na="Supermarkt" />
+	<Category Nb="14" Na="Lohn" Kd="0" />
+	<Sub_category Nbc="14" Nb="1" Na="Nettogehalt" />
+	<Sub_category Nbc="14" Nb="2" Na="Prämien" />
+	<Sub_category Nbc="14" Nb="3" Na="Zuschläge" />
+	<Category Nb="15" Na="Pension" Kd="0" />
+	<Sub_category Nbc="15" Nb="1" Na="Private Rente" />
+	<Sub_category Nbc="15" Nb="2" Na="Staatliche Rente" />
+	<Sub_category Nbc="15" Nb="3" Na="Versehrtenrente" />
+	<Category Nb="16" Na="Sonstige Ausgaben" Kd="1" />
+	<Sub_category Nbc="16" Nb="1" Na="Kirchenbeitrag" />
+	<Sub_category Nbc="16" Nb="2" Na="Sparbeträge" />
+	<Sub_category Nbc="16" Nb="3" Na="Spenden" />
+	<Sub_category Nbc="16" Nb="4" Na="Unterhalt" />
+	<Category Nb="17" Na="Sonstige Einnahmen" Kd="0" />
+	<Sub_category Nbc="17" Nb="1" Na="Abfertigung" />
+	<Sub_category Nbc="17" Nb="2" Na="Alimente" />
+	<Sub_category Nbc="17" Nb="3" Na="Arbeitslosengeld" />
+	<Sub_category Nbc="17" Nb="4" Na="Sozialhilfe" />
+	<Category Nb="18" Na="Urlaub" Kd="1" />
+	<Sub_category Nbc="18" Nb="1" Na="Bahnkarten" />
+	<Sub_category Nbc="18" Nb="2" Na="Flugtickets" />
+	<Sub_category Nbc="18" Nb="3" Na="Hotel" />
+	<Sub_category Nbc="18" Nb="4" Na="Reisebüro" />
+	<Sub_category Nbc="18" Nb="5" Na="Sehenswürdigkeiten" />
+	<Category Nb="19" Na="Versicherungen" Kd="1" />
+	<Sub_category Nbc="19" Nb="1" Na="Haftpflichtversicherung" />
+	<Sub_category Nbc="19" Nb="2" Na="Lebensversicherung" />
+	<Sub_category Nbc="19" Nb="3" Na="Rechtsschutzversicherung" />
+	<Category Nb="20" Na="Wohnung" Kd="1" />
+	<Sub_category Nbc="20" Nb="1" Na="Betriebskosten" />
+	<Sub_category Nbc="20" Nb="2" Na="Einrichtung" />
+	<Sub_category Nbc="20" Nb="3" Na="Haushaltsversicherung" />
+	<Sub_category Nbc="20" Nb="4" Na="Kabeltv" />
+	<Sub_category Nbc="20" Nb="5" Na="Miete" />
+	<Sub_category Nbc="20" Nb="6" Na="Rundfunkgebühr" />
+	<Sub_category Nbc="20" Nb="7" Na="Strom" />
+	<Sub_category Nbc="20" Nb="8" Na="Telefon" />
+	<Sub_category Nbc="20" Nb="9" Na="Wasser" />
+</Grisbi_categ>

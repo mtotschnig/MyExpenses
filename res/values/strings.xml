@@ -29,7 +29,7 @@
     <string name="import_categories_failure">Categories import failed</string>
     <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
     <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
-    <string name="no_categories">No categories. Use the menu to add or go to preferences to import.</string>
+    <string name="no_categories">No categories. Use the menu to add or to import.</string>
     <string name="menu_help">Help</string>
     <string name="close">Close</string>
       <!-- The first line in the help screen. -->
@@ -68,4 +68,6 @@
     <string name="label">Label</string>
     <string name="description">Description</string>
     <string name="currency">Currency</string>
+    <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
+    <string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are mapped to it.</string>
 </resources>
