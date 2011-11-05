@@ -18,6 +18,11 @@
 				android:textStyle="bold"
 				android:textColor="#ffffff"
 				android:textSize="18sp" />
+			<TextView android:text="v1.2.6 (November 6 2011): Better management of categories: Default category files from Grisbi are now included in the app, categories can be deleted and renamed."
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:paddingLeft="15px"      
+        android:textColor="#ffffff" />
       <TextView android:text="v1.2.0 (October 7 2011): Support for multiple accounts"
         android:layout_width="fill_parent" 
         android:layout_height="wrap_content"
