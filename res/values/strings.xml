@@ -17,6 +17,7 @@
     <string name="time">Time</string>
     <string name="amount">Amount</string>
     <string name="comment">Comment</string>
+    <string name="payee">Payee</string>
     <string name="category">Category</string>
     <string name="confirm">Confirm</string>
     <string name="edit_preferences">Edit preferences</string>

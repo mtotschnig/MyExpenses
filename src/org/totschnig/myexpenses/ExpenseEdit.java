@@ -26,6 +26,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -39,6 +41,7 @@ public class ExpenseEdit extends Activity {
   private EditText mAmountText;
   private EditText mCommentText;
   private Button categoryButton;
+  private AutoCompleteTextView mPayeeText;
   private Long mRowId;
   private int mAccountId;
   private boolean type;
@@ -52,6 +55,7 @@ public class ExpenseEdit extends Activity {
 
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,18 @@ public class ExpenseEdit extends Activity {
     mCommentText = (EditText) findViewById(R.id.Comment);
 
     Button confirmButton = (Button) findViewById(R.id.Confirm);
+
+    Cursor allPayees = mDbHelper.fetchAllPayees();
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        android.R.layout.simple_dropdown_item_1line);
+    allPayees.moveToFirst();
+    while(!allPayees.isAfterLast()) {
+         adapter.add(allPayees.getString(allPayees.getColumnIndex("name")));
+         allPayees.moveToNext();
+    }
+    allPayees.close();
+    mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
+    mPayeeText.setAdapter(adapter);
 
     mRowId = savedInstanceState != null ? savedInstanceState.getLong(ExpensesDbAdapter.KEY_ROWID) 
         : null;
@@ -178,6 +194,8 @@ public class ExpenseEdit extends Activity {
       mAmountText.setText(Float.toString(amount));
       mCommentText.setText(note.getString(
           note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)));
+      mPayeeText.setText(note.getString(
+          note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE)));
       cat_id = note.getInt(note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
       categoryButton.setText(note.getString(note.getColumnIndexOrThrow("label")));
     } else {
@@ -228,17 +246,19 @@ public class ExpenseEdit extends Activity {
     String amount = mAmountText.getText().toString();
     String comment = mCommentText.getText().toString();
     String strDate = DateButton.getText().toString() + " " + TimeButton.getText().toString() + ":00.0";
+    String payee = mPayeeText.getText().toString();
     if (type == MyExpenses.EXPENSE) {
       amount = "-"+ amount;
     }
     if (mRowId == 0) {
-      long id = mDbHelper.createExpense(strDate, amount, comment,String.valueOf(cat_id),String.valueOf(mAccountId));
+      long id = mDbHelper.createExpense(strDate, amount, comment,String.valueOf(cat_id),String.valueOf(mAccountId),payee);
       if (id > 0) {
         mRowId = id;
       }
     } else {
-      mDbHelper.updateExpense(mRowId, strDate, amount, comment,String.valueOf(cat_id));
+      mDbHelper.updateExpense(mRowId, strDate, amount, comment,String.valueOf(cat_id),payee);
     }
+    mDbHelper.recordPayee(payee);
   }
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 

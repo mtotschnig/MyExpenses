@@ -44,6 +44,7 @@ public class ExpensesDbAdapter {
   public static final String KEY_ROWID = "_id";
   public static final String KEY_CATID = "cat_id";
   public static final String KEY_ACCOUNTID = "account_id";
+  public static final String KEY_PAYEE = "payee";
 
   private static final String TAG = "ExpensesDbAdapter";
   private DatabaseHelper mDbHelper;
@@ -54,12 +55,12 @@ public class ExpensesDbAdapter {
    */
   private static final String DATABASE_NAME = "data";
   private static final String DATABASE_TABLE = "expenses";
-  private static final int DATABASE_VERSION = 17;
+  private static final int DATABASE_VERSION = 18;
 
   private static final String DATABASE_CREATE =
     "create table " + DATABASE_TABLE  +  "(_id integer primary key autoincrement, "
     + "comment text not null, date DATETIME not null, amount float not null, "
-    + "cat_id integer, account_id integer);";
+    + "cat_id integer, account_id integer, payee text);";
   private static final String ACCOUNTS_CREATE = 
     "create table accounts (_id integer primary key autoincrement, label text not null, opening_balance float, description text, currency text not null);";
   // Table definition reflects format of Grisbis categories
@@ -73,9 +74,8 @@ public class ExpensesDbAdapter {
   " else " +
   " label " +
   " end as label";
-
-
-
+  private static final String PAYEE_CREATE = 
+    "create table payee (_id integer primary key autoincrement, name text unique not null);";
 
   private final Context mCtx;
 
@@ -91,20 +91,21 @@ public class ExpensesDbAdapter {
       db.execSQL(DATABASE_CREATE);
       db.execSQL(CATEGORIES_CREATE);
       db.execSQL(ACCOUNTS_CREATE);
+      db.execSQL(PAYEE_CREATE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
       Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
           + newVersion + ".");
-      switch (newVersion) {
-      case 17:
+      if (oldVersion < 17) {
         db.execSQL("drop table accounts");
         db.execSQL(ACCOUNTS_CREATE);
         //db.execSQL("alter table expenses add column account_id integer");
-        break;
-      default:
-        break;
+      }
+      if (oldVersion < 18) {
+        db.execSQL(PAYEE_CREATE);
+        db.execSQL("alter table expenses add column payee text");
       }
     }
   }
@@ -149,14 +150,14 @@ public class ExpensesDbAdapter {
    * @param comment the comment describing the expense
    * @return rowId or -1 if failed
    */
-  public long createExpense(String date, String amount, String comment,String cat_id,String account_id) {
+  public long createExpense(String date, String amount, String comment,String cat_id,String account_id, String payee) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_DATE, date);
     initialValues.put(KEY_AMOUNT, amount);
     initialValues.put(KEY_CATID, cat_id);
     initialValues.put(KEY_ACCOUNTID, account_id);
-
+    initialValues.put(KEY_PAYEE, payee);
     long _id = mDb.insert(DATABASE_TABLE, null, initialValues);
     recordCatUsage(cat_id);
     return _id;
@@ -184,7 +185,7 @@ public class ExpensesDbAdapter {
   public Cursor fetchAllExpenses(int account_id) {
 
     return mDb.query(JOIN_EXP,
-        new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_CATID,FULL_LABEL}, 
+        new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_CATID,FULL_LABEL,KEY_PAYEE}, 
         "account_id = " + account_id, null, null, null, KEY_DATE);
   }
 
@@ -200,7 +201,7 @@ public class ExpensesDbAdapter {
     Cursor mCursor =
 
       mDb.query(JOIN_EXP,
-          new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,"label"},
+          new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,"label",KEY_PAYEE},
           DATABASE_TABLE+"."+KEY_ROWID + "=" + rowId,
           null, null, null, null, null);
     if (mCursor != null) {
@@ -221,12 +222,13 @@ public class ExpensesDbAdapter {
    * @param comment value to set
    * @return true if the note was successfully updated, false otherwise
    */
-  public void updateExpense(long rowId, String date, String amount, String comment,String cat_id) {
+  public void updateExpense(long rowId, String date, String amount, String comment,String cat_id,String payee) {
     ContentValues args = new ContentValues();
     args.put(KEY_DATE, date);
     args.put(KEY_AMOUNT, amount);
     args.put(KEY_COMMENT, comment);
     args.put(KEY_CATID, cat_id);
+    args.put(KEY_PAYEE, payee);
 
     mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null);
     recordCatUsage(cat_id);
@@ -358,4 +360,17 @@ public class ExpensesDbAdapter {
   /*    public int getCategoriesCount() {
     	return (int) mDb.compileStatement("select count(_id) from categories").simpleQueryForLong();
     }*/
+
+  public void recordPayee(String name) {
+    mDb.execSQL("INSERT OR IGNORE INTO payee(name) values('" + name + "');");
+    return;
+  }
+  
+  public Cursor fetchAllPayees() {
+    return mDb.query("payee",
+        new String[] {"name"}, 
+        null, null, null, null, null);
+  }
+  
+
 }

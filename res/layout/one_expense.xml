@@ -32,6 +32,10 @@ android:textColor="#ffffff" android:text="@string/amount"/>
 <TextView android:textColor="#ffffff" android:text="@string/category" />
 <Button android:id="@+id/Category" android:text="@string/select"></Button>
 </TableRow>
+<TableRow>
+<TextView android:textColor="#ffffff" android:text="@string/payee" />
+<AutoCompleteTextView android:completionThreshold="1" android:id="@+id/Payee" android:layout_width="wrap_content" android:layout_height="wrap_content"></AutoCompleteTextView>>
+</TableRow>
 
 <TableRow>
 <Button android:id="@+id/Confirm" android:text="@string/done"/>

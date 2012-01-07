@@ -240,11 +240,13 @@ public class MyExpenses extends ListActivity {
           expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE)))) +
           "\nT"+expensesCursor.getString(
               expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)) +
-              "\nM" +expensesCursor.getString(
-                  expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)) +
-                  "\nL" +expensesCursor.getString(
-                      expensesCursor.getColumnIndexOrThrow("label")) +
-                      "\n^\n";
+          "\nM" +expensesCursor.getString(
+              expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)) +
+          "\nL" +expensesCursor.getString(
+              expensesCursor.getColumnIndexOrThrow("label")) +
+          "\nP" +expensesCursor.getString(
+              expensesCursor.getColumnIndexOrThrow("payee")) +  
+           "\n^\n";
       out.write(row.getBytes());
       expensesCursor.moveToNext();
     }
