@@ -14,7 +14,8 @@
     <string name="menu_reset">Réinitialiser</string>
     <string name="title">Titre</string>
     <string name="time">Heure</string>
-    <string name="comment">Note</string>
+    <string name="comment">Remarques</string>
+    <string name="payee">Tiers</string>
     <string name="category">Categorie</string>
     <string name="date">Date</string>
     <string name="amount">Montant</string>

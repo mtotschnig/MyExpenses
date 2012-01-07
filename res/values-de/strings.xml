@@ -17,7 +17,8 @@ lang=de;grep -o "name=\".*\"" values/strings.xml|sort >/tmp/strings; grep -o "na
     <string name="menu_delete_account">Konto löschen</string>
     <string name="title">Titel</string>
     <string name="time">Zeit</string>
-    <string name="comment">Kommentar</string>
+    <string name="comment">Notizen</string>
+    <string name="payee">Empfänger</string>
     <string name="category">Kategorie</string>
     <string name="date">Datum</string>
     <string name="amount">Betrag</string>

@@ -211,8 +211,12 @@ public class MyExpenses extends ListActivity {
       return true;
     case SHOW_DETAIL_ID:
       expensesCursor.moveToPosition(info.position);
-      Toast.makeText(getBaseContext(), expensesCursor.getString(
-          expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)), Toast.LENGTH_LONG).show();
+      Toast.makeText(getBaseContext(),
+          expensesCursor.getString(
+              expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)) +
+          "\n" +
+          getResources().getString(R.string.payee) + ": " + expensesCursor.getString(
+              expensesCursor.getColumnIndexOrThrow("payee")), Toast.LENGTH_LONG).show();
       return true;
     }
     return super.onContextItemSelected(item);
@@ -236,16 +240,22 @@ public class MyExpenses extends ListActivity {
     out.write(header.getBytes());
     expensesCursor.moveToFirst();
     while( expensesCursor.getPosition() < expensesCursor.getCount() ) {
+      String comment = expensesCursor.getString(
+          expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
+      comment = comment.equals("") ? "" : "\nM" + comment;
+      String label =  expensesCursor.getString(
+          expensesCursor.getColumnIndexOrThrow("label"));
+      label = (label == null) ? "" : "\nL" + label;
+      String payee = expensesCursor.getString(
+          expensesCursor.getColumnIndexOrThrow("payee"));
+      payee = payee.equals("") ? "" : "\nP" + payee;
       String row = "D"+formatter.format(Timestamp.valueOf(expensesCursor.getString(
           expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE)))) +
           "\nT"+expensesCursor.getString(
               expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)) +
-          "\nM" +expensesCursor.getString(
-              expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)) +
-          "\nL" +expensesCursor.getString(
-              expensesCursor.getColumnIndexOrThrow("label")) +
-          "\nP" +expensesCursor.getString(
-              expensesCursor.getColumnIndexOrThrow("payee")) +  
+          comment +
+          label +
+          payee +  
            "\n^\n";
       out.write(row.getBytes());
       expensesCursor.moveToNext();
