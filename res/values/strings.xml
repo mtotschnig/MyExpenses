@@ -39,7 +39,7 @@
     MyExpenses calculates the sum of expenses and incomes, and the current balance.
     \nThe \"Reset\" menu entry exports expenses onto SD-Card in the QIF format, that Grisbi understands, deletes the expenses and updates the opening balance.
     \nVia the \"Import categories\" menu entry, categories can be imported from the XML structure that Grisbi uses for its expenses.
-    MyExpenses expects the XML file at \"/sdcard/myexpenses/categories.xml\".
+    You either choose one of the provided default category files from Grisbi or use a custom one, that you store at \"/sdcard/myexpenses/categories.xml\". You can use your Grisbi XML file as is, or remove anything but the category definitions from it.
     \n\"Select account\" gives a list of defined accounts, where you can create new accounts (menu entry), edit or deleting existing ones (context menu) or change the currently displayed account (list click). 
     </string>
         <!-- The version title in the help screen. -->

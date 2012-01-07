@@ -38,9 +38,12 @@ lang=de;grep -o "name=\".*\"" values/strings.xml|sort >/tmp/strings; grep -o "na
       <!-- The first line in the help screen. -->
     <string name="help_leading">Danke fürs Ausprobieren von MyExpenses für Android.</string>
       <!-- The bulk of the help text. -->
-    <string name="help_text">MyExpenses ist eine einfache Anwendung zur Verwaltung von Ausgaben, mit dem Ziel, diese einfach in das Finanzprogramm Grisbi exportieren zu können.
+    <string name="help_text">MyExpenses ist eine einfache Anwendung zur Verwaltung von Ausgaben, mit dem Ziel, diese in das Finanzprogramm Grisbi exportieren zu können.
     \nMenübefehl \"Zurücksetzen\" exportiert Einträge in eine QIF-Datei auf der SD-Karte, löscht die Einträge, und setzt den Anfangssaldo zurück.
     \nMenübefehl \"Kategorien importieren\" erlaubt, Kategorien aus einer Grisbi-Datei zu importieren.
+    Sie können entweder die inkludierten von Grisbi verwendeten Standardkategorien auswählen, oder
+    eine eigene Datei unter \"/sdcard/myexpenses/categories.xml\" speichern. Dafür verwenden Sie entweder
+    Ihre Grisbi Datei, oder editieren diese, indem Sie alles außer der Kategorien entfernen.
     MyExpenses erwartet die Datei unter \"/sdcard/myexpenses/categories.xml\" .
     \n\"Konto auswählen\" erlaubt aus der Liste der definierten Konten das aktuell verwendete auszuwählen, über das Menü können neue Konten definiert werden, über das Kontextmenü bestehende verändert oder gelöscht. 
     </string>
