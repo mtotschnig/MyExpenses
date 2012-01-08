@@ -242,13 +242,13 @@ public class MyExpenses extends ListActivity {
     while( expensesCursor.getPosition() < expensesCursor.getCount() ) {
       String comment = expensesCursor.getString(
           expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
-      comment = comment.equals("") ? "" : "\nM" + comment;
+      comment = (comment == null || comment.length() == 0) ? "" : "\nM" + comment;
       String label =  expensesCursor.getString(
           expensesCursor.getColumnIndexOrThrow("label"));
-      label = (label == null) ? "" : "\nL" + label;
+      label = (label == null || label.length() == 0) ? "" : "\nL" + label;
       String payee = expensesCursor.getString(
           expensesCursor.getColumnIndexOrThrow("payee"));
-      payee = payee.equals("") ? "" : "\nP" + payee;
+      payee = (payee == null || payee.length() == 0) ? "" : "\nP" + payee;
       String row = "D"+formatter.format(Timestamp.valueOf(expensesCursor.getString(
           expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE)))) +
           "\nT"+expensesCursor.getString(
