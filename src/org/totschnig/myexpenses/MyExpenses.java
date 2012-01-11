@@ -120,17 +120,18 @@ public class MyExpenses extends ListActivity {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
         View row=super.getView(position, convertView, parent);
+        TextView tv1 = (TextView)row.findViewById(R.id.float1);
         Cursor c = getCursor();
         c.moveToPosition(position);
         int col = c.getColumnIndex(ExpensesDbAdapter.KEY_AMOUNT);
         float amount = c.getFloat(col);
         boolean type = amount > 0;
         if (type == EXPENSE) {
-          row.setBackgroundColor(android.graphics.Color.RED);
+          tv1.setTextColor(android.graphics.Color.RED);
           // Set the background color of the text.
         }
         else {
-          row.setBackgroundColor(android.graphics.Color.BLACK);
+          tv1.setTextColor(android.graphics.Color.BLACK);
         }
         return row;
       }

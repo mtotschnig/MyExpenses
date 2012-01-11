@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.totschnig.myexpenses" android:versionCode="11" android:versionName="1.2.8">
     <uses-sdk android:minSdkVersion="5"></uses-sdk>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <application android:icon="@drawable/icon" android:label="My Expenses">
+    <application android:icon="@drawable/icon" android:label="My Expenses" android:theme="@style/MyTheme">
         <activity android:name=".MyExpenses" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

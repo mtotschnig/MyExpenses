@@ -81,7 +81,8 @@ public class ExpenseEdit extends Activity {
     mCommentText = (EditText) findViewById(R.id.Comment);
 
     Button confirmButton = (Button) findViewById(R.id.Confirm);
-
+    Button cancelButton = (Button) findViewById(R.id.Cancel);
+    
     Cursor allPayees = mDbHelper.fetchAllPayees();
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
         android.R.layout.simple_dropdown_item_1line);
@@ -113,7 +114,13 @@ public class ExpenseEdit extends Activity {
         saveState();
         finish();
       }
+    });
+    cancelButton.setOnClickListener(new View.OnClickListener() {
 
+      public void onClick(View view) {
+        setResult(RESULT_OK);
+        finish();
+      }
     });
     categoryButton = (Button) findViewById(R.id.Category);
     categoryButton.setOnClickListener(new View.OnClickListener() {
