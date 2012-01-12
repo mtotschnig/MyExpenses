@@ -19,8 +19,7 @@ public class SelectAccount extends ListActivity {
   private static final int ACTIVITY_EDIT=1;
   private static final int EDIT_ID = Menu.FIRST;
   private static final int DELETE_ID = Menu.FIRST +1;
-  private static final int SHOW_DETAIL_ID = Menu.FIRST +2;
-  private static final int INSERT_ACCOUNT_ID = Menu.FIRST + 3;
+  private static final int INSERT_ACCOUNT_ID = Menu.FIRST + 2;
   private ExpensesDbAdapter mDbHelper;
   Cursor accountsCursor;
 
@@ -72,10 +71,10 @@ public class SelectAccount extends ListActivity {
       accountsCursor.requery();
     }
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{"label","opening_balance","currency"};
+    String[] from = new String[]{"description","label","opening_balance","currency"};
 
     // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.label,R.id.opening_balance,R.id.currency};
+    int[] to = new int[]{R.id.description,R.id.label,R.id.opening_balance,R.id.currency};
 
     // Now create a simple cursor adapter and set it to display
     SimpleCursorAdapter account = new SimpleCursorAdapter(this, R.layout.account_row, accountsCursor, from, to);
@@ -91,7 +90,6 @@ public class SelectAccount extends ListActivity {
     super.onCreateContextMenu(menu, v, menuInfo);
     menu.add(0, EDIT_ID, 0, R.string.menu_edit_account);
     menu.add(0, DELETE_ID, 0, R.string.menu_delete_account);
-    menu.add(0, SHOW_DETAIL_ID, 0, R.string.menu_show_detail);
   }
 
   @Override
@@ -106,11 +104,6 @@ public class SelectAccount extends ListActivity {
     case DELETE_ID:
       mDbHelper.deleteAccount(info.id);
       fillData();
-      return true;
-    case SHOW_DETAIL_ID:
-      accountsCursor.moveToPosition(info.position);
-      Toast.makeText(getBaseContext(), accountsCursor.getString(
-          accountsCursor.getColumnIndexOrThrow("description")), Toast.LENGTH_LONG).show();
       return true;
     }
     return super.onContextItemSelected(item);

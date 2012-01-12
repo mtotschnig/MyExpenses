@@ -31,8 +31,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TableLayout;
 import android.widget.TimePicker;
+import android.widget.TextView;
 
 public class ExpenseEdit extends Activity {
 
@@ -41,10 +41,11 @@ public class ExpenseEdit extends Activity {
   private EditText mAmountText;
   private EditText mCommentText;
   private Button categoryButton;
+  private Button typeButton;
   private AutoCompleteTextView mPayeeText;
+  private TextView PayeeLabel;
   private Long mRowId;
   private int mAccountId;
-  private boolean type;
   private ExpensesDbAdapter mDbHelper;
   private int cat_id;
   private int mYear;
@@ -52,9 +53,14 @@ public class ExpenseEdit extends Activity {
   private int mDay;
   private int mHours;
   private int mMinutes;
+  
+  public static final boolean INCOME = true;
+  public static final boolean EXPENSE = false;
+  private boolean type = EXPENSE;
 
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
+
 
 
   @Override
@@ -62,8 +68,11 @@ public class ExpenseEdit extends Activity {
     super.onCreate(savedInstanceState);
     mDbHelper = new ExpensesDbAdapter(this);
     mDbHelper.open();
+    //workaround for http://code.google.com/p/android/issues/detail?id=5237
+    //setTheme(android.R.style.Theme);
     setContentView(R.layout.one_expense);
 
+    PayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     DateButton = (Button) findViewById(R.id.Date);
     DateButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
@@ -105,7 +114,6 @@ public class ExpenseEdit extends Activity {
         mAccountId = extras.getInt(ExpensesDbAdapter.KEY_ACCOUNTID);
       }
     }
-    type = extras.getBoolean("type");
 
     confirmButton.setOnClickListener(new View.OnClickListener() {
 
@@ -116,7 +124,6 @@ public class ExpenseEdit extends Activity {
       }
     });
     cancelButton.setOnClickListener(new View.OnClickListener() {
-
       public void onClick(View view) {
         setResult(RESULT_OK);
         finish();
@@ -127,6 +134,13 @@ public class ExpenseEdit extends Activity {
 
       public void onClick(View view) {
         startSelectCategory();
+      } 
+    });
+    typeButton = (Button) findViewById(R.id.TaType);
+    typeButton.setOnClickListener(new View.OnClickListener() {
+
+      public void onClick(View view) {
+        toggleType();
       } 
     });
     populateFields();
@@ -175,8 +189,9 @@ public class ExpenseEdit extends Activity {
     return null;
   }
   private void populateFields() {
+    setTitle(R.string.menu_edit_ta);
     float amount;
-    TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
+    //TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
     if (mRowId != 0) {
       Cursor note = mDbHelper.fetchExpense(mRowId);
       startManagingCursor(note);
@@ -190,14 +205,13 @@ public class ExpenseEdit extends Activity {
       } catch (NumberFormatException e) {
         amount = 0;
       }
-      if (amount > 0) {
-        type = MyExpenses.INCOME;
-        setTitle(R.string.menu_edit_inc);
-      } else {
+      if (amount < 0) {
         amount = 0 - amount;
-        type = MyExpenses.EXPENSE;
-        setTitle(R.string.menu_edit_exp);
+      } else {
+        toggleType();
       }
+
+      
       mAmountText.setText(Float.toString(amount));
       mCommentText.setText(note.getString(
           note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)));
@@ -208,16 +222,6 @@ public class ExpenseEdit extends Activity {
     } else {
       Date date =  new Date();
       setDateTime(date);
-      if (type == MyExpenses.INCOME) {
-        setTitle(R.string.menu_insert_inc);
-      } else {
-        setTitle(R.string.menu_insert_exp);
-      }
-    }
-    if (type == MyExpenses.INCOME) {
-      mScreen.setBackgroundColor(android.graphics.Color.BLACK);
-    } else {
-      mScreen.setBackgroundColor(android.graphics.Color.RED);
     }
   }
   private void setDateTime(Date date) {
@@ -254,7 +258,7 @@ public class ExpenseEdit extends Activity {
     String comment = mCommentText.getText().toString();
     String strDate = DateButton.getText().toString() + " " + TimeButton.getText().toString() + ":00.0";
     String payee = mPayeeText.getText().toString();
-    if (type == MyExpenses.EXPENSE) {
+    if (type == EXPENSE) {
       amount = "-"+ amount;
     }
     if (mRowId == 0) {
@@ -275,5 +279,10 @@ public class ExpenseEdit extends Activity {
       cat_id = intent.getIntExtra("cat_id",0);
       categoryButton.setText(intent.getStringExtra("label"));
     }
+  }
+  private void toggleType() {
+    type = ! type;
+    typeButton.setText(type ? "+" : "-");
+    PayeeLabel.setText(type ? R.string.payer : R.string.payee);
   }
 }

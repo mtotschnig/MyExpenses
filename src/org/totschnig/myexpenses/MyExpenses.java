@@ -56,16 +56,12 @@ public class MyExpenses extends ListActivity {
   private static final int ACTIVITY_EDIT=1;
   private static final int ACTIVITY_SELECT_ACCOUNT=2;
 
-  private static final int INSERT_EXP_ID = Menu.FIRST;
-  private static final int INSERT_INC_ID = Menu.FIRST +1;
+  private static final int INSERT_TA_ID = Menu.FIRST;
   private static final int RESET_ID = Menu.FIRST + 3;
   private static final int DELETE_ID = Menu.FIRST +4;
   private static final int SHOW_DETAIL_ID = Menu.FIRST +5;
   private static final int HELP_ID = Menu.FIRST +6;
   private static final int SELECT_ACCOUNT_ID = Menu.FIRST +7;
-
-  public static final boolean INCOME = true;
-  public static final boolean EXPENSE = false;
 
   private ExpensesDbAdapter mDbHelper;
 
@@ -125,8 +121,7 @@ public class MyExpenses extends ListActivity {
         c.moveToPosition(position);
         int col = c.getColumnIndex(ExpensesDbAdapter.KEY_AMOUNT);
         float amount = c.getFloat(col);
-        boolean type = amount > 0;
-        if (type == EXPENSE) {
+        if (amount < 0) {
           tv1.setTextColor(android.graphics.Color.RED);
           // Set the background color of the text.
         }
@@ -164,8 +159,7 @@ public class MyExpenses extends ListActivity {
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    menu.add(0, INSERT_EXP_ID, 0, R.string.menu_insert_exp);
-    menu.add(0, INSERT_INC_ID, 0, R.string.menu_insert_inc);
+    menu.add(0, INSERT_TA_ID, 0, R.string.menu_insert_ta);
     menu.add(0, RESET_ID,1,R.string.menu_reset);
     menu.add(0, HELP_ID,1,R.string.menu_help);
     menu.add(0, SELECT_ACCOUNT_ID,1,R.string.select_account);
@@ -174,11 +168,8 @@ public class MyExpenses extends ListActivity {
 
   public boolean onMenuItemSelected(int featureId, MenuItem item) {
     switch(item.getItemId()) {
-    case INSERT_EXP_ID:
-      createRow(EXPENSE);
-      return true;
-    case INSERT_INC_ID:
-      createRow(INCOME);
+    case INSERT_TA_ID:
+      createRow();
       return true;
     case RESET_ID:
       reset();
@@ -222,9 +213,8 @@ public class MyExpenses extends ListActivity {
     }
     return super.onContextItemSelected(item);
   }  
-  private void createRow(boolean type) {
+  private void createRow() {
     Intent i = new Intent(this, ExpenseEdit.class);
-    i.putExtra("type",type);
     i.putExtra("account_id",current_account);
     startActivityForResult(i, ACTIVITY_CREATE);
   }

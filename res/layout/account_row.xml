@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:id="@+id/RelativeLayout01" xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
-	android:orientation="horizontal"
-	android:layout_height="fill_parent">
-<TextView android:text="LABEL" android:id="@+id/label"
-    android:layout_width="250sp"
-    android:layout_height="wrap_content" />
-<TextView android:text="OPENING_BALANCE" android:id="@+id/opening_balance" 
-    android:layout_width="30sp"
-    android:layout_height="wrap_content" />
-<TextView android:text="CURRENCY" android:id="@+id/currency" 
-    android:layout_width="10sp"
-    android:layout_height="wrap_content" />
+	android:orientation="vertical"
+	android:layout_height="fill_parent" android:background="@drawable/border">
+	<TextView android:text="LABEL" android:id="@+id/label"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" />
+	<TextView android:text="DESCRIPTION" android:id="@+id/description"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" />
+	<LinearLayout android:id="@+id/RelativeLayout01" xmlns:android="http://schemas.android.com/apk/res/android"
+	  android:layout_width="fill_parent"
+	  android:orientation="horizontal"
+	  android:layout_height="fill_parent">
+		<TextView android:text="OPENING_BALANCE" android:id="@+id/opening_balance" 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content" />
+		<TextView android:text="CURRENCY" android:id="@+id/currency" 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content" />
+  </LinearLayout>
 </LinearLayout>

@@ -3,11 +3,9 @@
     <string name="app_name">My Expenses</string>
     <string name="no_expenses">No Expenses Yet!</string>
     <string name="menu_insert_account">Create new account</string>
-    <string name="menu_insert_exp">Add Expense</string>
-    <string name="menu_insert_inc">Add Income</string>
-    <string name="menu_edit_inc">Edit Income</string>
-    <string name="menu_edit_exp">Edit Expense</string>
-    <string name="menu_delete">Delete Expense</string>
+    <string name="menu_insert_ta">Add Transaction</string>
+    <string name="menu_edit_ta">Edit Transaction</string>
+    <string name="menu_delete">Delete Transaction</string>
     <string name="menu_show_detail">Show details</string>
     <string name="menu_edit_account">Edit Account</string>
     <string name="menu_delete_account">Delete Account</string>
@@ -17,6 +15,7 @@
     <string name="time">Time</string>
     <string name="amount">Amount</string>
     <string name="comment">Notes</string>
+    <string name="payer">Payer</string>
     <string name="payee">Payee</string>
     <string name="category">Category</string>
     <string name="confirm">Confirm</string>

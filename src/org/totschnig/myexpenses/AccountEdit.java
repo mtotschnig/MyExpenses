@@ -28,6 +28,7 @@ public class AccountEdit extends Activity {
     mCurrencyText = (EditText) findViewById(R.id.Currency);
 
     Button confirmButton = (Button) findViewById(R.id.Confirm);
+    Button cancelButton = (Button) findViewById(R.id.Cancel);
 
     mRowId = savedInstanceState != null ? savedInstanceState.getLong(ExpensesDbAdapter.KEY_ROWID) 
         : null;
@@ -43,7 +44,12 @@ public class AccountEdit extends Activity {
         saveState();
         finish();
       }
-
+    });
+    cancelButton.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View view) {
+        setResult(RESULT_OK);
+        finish();
+      }
     });
     populateFields();
   }
