@@ -68,8 +68,7 @@ public class ExpenseEdit extends Activity {
     super.onCreate(savedInstanceState);
     mDbHelper = new ExpensesDbAdapter(this);
     mDbHelper.open();
-    //workaround for http://code.google.com/p/android/issues/detail?id=5237
-    //setTheme(android.R.style.Theme);
+
     setContentView(R.layout.one_expense);
 
     PayeeLabel = (TextView) findViewById(R.id.PayeeLabel);

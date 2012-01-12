@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <shape name="MyBorder" xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="20dp"/>
+    <padding android:left="10dp" android:right="10dp" android:top="10dp" android:bottom="10dp"/>
+    <solid android:color="#CCCCCC"/>
+</shape>

@@ -18,7 +18,6 @@
     <string name="payer">Payer</string>
     <string name="payee">Payee</string>
     <string name="category">Category</string>
-    <string name="confirm">Confirm</string>
     <string name="edit_preferences">Edit preferences</string>
     <string name="select">Select</string>
     <string name="done">Done</string>
@@ -70,6 +69,6 @@
     <string name="currency">Currency</string>
     <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
     <string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are mapped to it.</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">Revert</string>
     <string name="current_balance">Current balance</string>
     </resources>

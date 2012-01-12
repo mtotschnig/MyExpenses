@@ -3,10 +3,8 @@
     <string name="app_name">Mes dépenses</string>
     <string name="no_expenses">Aucune dépense!</string>
     <string name="menu_insert_account">Ajouter compte</string>
-    <string name="menu_insert_exp">Ajouter dépense</string>
-    <string name="menu_insert_inc">Ajouter rentrée</string>
-    <string name="menu_edit_inc">Éditer rentrée</string>
-    <string name="menu_edit_exp">Éditer dépense</string>
+    <string name="menu_insert_ta">Ajouter opération</string>
+    <string name="menu_edit_ta">Éditer opération</string>
     <string name="menu_delete">Effacer</string>
     <string name="menu_show_detail">Afficher détails</string>
     <string name="menu_edit_account">Éditer compte</string>
@@ -15,16 +13,16 @@
     <string name="title">Titre</string>
     <string name="time">Heure</string>
     <string name="comment">Remarques</string>
+    <string name="payer">Tiers</string>
     <string name="payee">Tiers</string>
     <string name="category">Categorie</string>
     <string name="date">Date</string>
     <string name="amount">Montant</string>
-    <string name="confirm">Confirmer</string>
     <string name="edit_preferences">Réglages</string>
     <string name="select">Selectioner</string>
-    <string name="done">Appliquer</string>
+    <string name="done">OK</string>
     <string name="select_category">Selectioner une catégorie</string>
-    <string name="opening_balance">solde d\'ouverture</string>
+    <string name="opening_balance">solde initial</string>
     <string name="import_categories">Importer les catégories</string>
     <string name="import_categories_success">%1$d catégories ont été importées</string>
     <string name="import_categories_failure">Erreur lors de l\'import des catégories</string>
@@ -72,4 +70,6 @@
     <string name="edit_category">Éditer catégorie</string>
     <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce qu\'elle contient des sous-catégories.</string>
     <string name="not_deletable_mapped_expenses">Cette catégorie ne peut pas être supprimée, parce qu\'il existe des dépenses à qui elle est attribuée.</string>
+    <string name="cancel">Annuler</string>
+    <string name="current_balance">solde courant</string>
 </resources>
