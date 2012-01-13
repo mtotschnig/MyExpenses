@@ -217,7 +217,10 @@ public class ExpenseEdit extends Activity {
       mPayeeText.setText(note.getString(
           note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE)));
       cat_id = note.getInt(note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
-      categoryButton.setText(note.getString(note.getColumnIndexOrThrow("label")));
+      String label =  note.getString(note.getColumnIndexOrThrow("label"));
+      if (label != null && label.length() != 0) {
+        categoryButton.setText(label);
+      }
     } else {
       Date date =  new Date();
       setDateTime(date);

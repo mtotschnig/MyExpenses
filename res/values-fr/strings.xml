@@ -17,6 +17,7 @@
     <string name="payee">Tiers</string>
     <string name="category">Categorie</string>
     <string name="date">Date</string>
+    <string name="date_time">Date / Heure</string>
     <string name="amount">Montant</string>
     <string name="edit_preferences">Réglages</string>
     <string name="select">Selectioner</string>

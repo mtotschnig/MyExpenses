@@ -13,6 +13,7 @@
     <string name="title">Title</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
+    <string name="date_time">Date / Time</string>
     <string name="amount">Amount</string>
     <string name="comment">Notes</string>
     <string name="payer">Payer</string>
