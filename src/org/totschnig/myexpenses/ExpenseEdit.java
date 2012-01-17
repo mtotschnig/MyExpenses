@@ -188,10 +188,10 @@ public class ExpenseEdit extends Activity {
     return null;
   }
   private void populateFields() {
-    setTitle(R.string.menu_edit_ta);
     float amount;
     //TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
     if (mRowId != 0) {
+      setTitle(R.string.menu_edit_ta);
       Cursor note = mDbHelper.fetchExpense(mRowId);
       startManagingCursor(note);
       String dateString = note.getString(
@@ -224,6 +224,7 @@ public class ExpenseEdit extends Activity {
     } else {
       Date date =  new Date();
       setDateTime(date);
+      setTitle(R.string.menu_insert_ta);
     }
   }
   private void setDateTime(Date date) {
