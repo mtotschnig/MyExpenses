@@ -38,7 +38,7 @@
     <string name="help_text">MyExpenses permet de gérer les rentrées d\'argent et les dépenses, dans un format compatible avec Grisbi.
     \nLa commande \"Réinitialiser\" exporte toutes les transactions dans und fichier QIF sur la carte SD, efface les transactions, et transfère le dernier solde en nouveau solde d\'ouverture.
     \n\"Choisir compte\" affiche la liste des comptes. Vous pouvez créer un nouveau compte (menu), les éditer ou effacer (menu contextuel) ou encore changer le compte utilisé (clic). 
-    \nLa gestion des categories est accesible à partir de l'activité \"Selectioner une catégorie\", qui s'affiche lors qu'on clique sur le bouton "Catégorie dans l'activité \"Edit transaction\". Avec la commande \"Importer catégories\" les catégories peuvent être importées à partir d\'un fichier Grisbi.
+    \nLa gestion des categories est accesible à partir de l\'activité \"Selectioner une catégorie\", qui s\'affiche lors qu\'on clique sur le bouton \"Catégorie\" dans l\'activité \"Edit transaction\". Avec la commande \"Importer catégories\" les catégories peuvent être importées à partir d\'un fichier Grisbi.
     Vous pouvez sélectionner les définitions standards utilisés par Grisbi, inclus dans MyExpenses, ou utiliser un fichier personnel, stocké sous \"/sdcard/myexpenses/categories.xml\".
     Pour ceci, vous pouvez copier votre fichier Grisbi tel quel, ou supprimer dans celui-ci tout sauf les définitions des catégories.
     </string>

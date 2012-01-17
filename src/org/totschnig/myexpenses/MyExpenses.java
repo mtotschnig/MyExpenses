@@ -50,6 +50,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.net.Uri;
 
 public class MyExpenses extends ListActivity {
   private static final int ACTIVITY_CREATE=0;
@@ -303,9 +304,9 @@ public class MyExpenses extends ListActivity {
         MyExpenses.this.openChangesDialog();
       }
     })
-    .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+    .setPositiveButton("Tutorial", new DialogInterface.OnClickListener() {
       public void onClick(DialogInterface dialog, int whichButton) {
-        dialog.dismiss();
+        startActivity( new Intent(MyExpenses.this, Tutorial.class) );
       }
     })
     .show();  

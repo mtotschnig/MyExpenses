@@ -1,0 +1,63 @@
+Quick tutorial for My Expenses
+
+= Managing accounts =
+
+The first thing you will probably want to do, is edit the default account, or create a new one:
+
+step1
+
+As in other Android appplications, a long click on the account brings up the context menu, from where you
+can edit or delete the account.
+
+step2
+
+Enter a label, a description, the opening balance, and a currency for the account.
+
+step3
+
+and return to the transaction list (either through a short click on the account or the back key). From there you can start entering transactions.
+
+= Managing transactions =
+
+step4
+step5
+
+Adjust date and time, click on the "-" Button to toggle between expense and income, enter amount, notes and payee. Clicking on the "Select" button, brings up the "Select category" activity. We will explain below, how to manage categories.
+
+Back at the transaction list, you can edit individual entries through a short click, the context menu allows deleting a transaction, or display full details (payee, notes) about it.
+
+step6
+
+= Managing categories =
+
+At the beginning, no categories are defined. You have two options for adding them, both accessible from the menu.
+
+step7
+
+"Import categories" allows to set up categories from files included from Grisbi in English, German or French. If with Grisbi you have already defined your own categories, you can also provide your Grisbi file, which is in XML. If you want, you can edit the file with an editor and remove any information other than the Category and Sub_category elements. Store this file as categories.xml in a folder myexpenses in the root of your sdcard.
+
+step8
+
+You now have a set up categories with subcategories you can associate with your transactions. 
+
+step9
+
+The second option is to add your own categories.  "Create new main category" brings up a dialog for providing a new category label.
+
+step10
+
+Clicking on a main category, opens up its subcategories. You select a subcategory for mapping to the current transaction by simply clicking on it. In order to map a main category, you have to call its context menu.
+
+step11
+
+From here you can also add new subcategories, delete a category or edit it. Subcategories have also context menus for deleting and editing.
+
+= Export transactions to Grisbi =
+
+Finally, the raison d'être of My Expenses is its support for export into QIF format. Call this function through the "Reset" menu entry from the transaction list. This will create a file on your sdcard with all transactions for the current account, delete them from the database, and adjust the opening balance to the last current balance.
+
+
+step12
+
+Voilà. You can now connect your phone to your computer, open Grisbi, and use its import functionality.
+
