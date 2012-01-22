@@ -73,4 +73,9 @@
     <string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are mapped to it.</string>
     <string name="cancel">Revert</string>
     <string name="current_balance">Current balance</string>
+    <string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
+    <string name="version_14_upgrade_info">Since version 1.3.3, currencies need to be expressed with their code defined in ISO 4217.
+        The following currency symbols currently used for your accounts, need to be fixed: %1$s </string>
+    <string name="important_version_information">New version: Important information</string>
+    <string name="button_continue">Continue</string>
     </resources>

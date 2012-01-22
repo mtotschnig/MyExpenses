@@ -1,19 +1,48 @@
 package org.totschnig.myexpenses;
 
+import java.util.Currency;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class AccountEdit extends Activity {
   private ExpensesDbAdapter mDbHelper;
   private EditText mLabelText;
   private EditText mDescriptionText;
   private EditText mOpeningBalanceText;
-  private EditText mCurrencyText;
+  private AutoCompleteTextView mCurrencyText;
   private Long mRowId;
+  
+  //from http://www.currency-iso.org/dl_iso_table_a1.xml
+  private static final String[] ISO_4217 = new String[] {
+    "AED" , "AFN" , "ALL" , "AMD" , "ANG" , "AOA" , "ARS" , "AUD" , "AWG" , "AZN" , 
+    "BAM" , "BBD" , "BDT" , "BGN" , "BHD" , "BIF" , "BMD" , "BND" , "BOB" , "BOV" , 
+    "BRL" , "BSD" , "BTN" , "BWP" , "BYR" , "BZD" , "CAD" , "CDF" , "CHE" , "CHF" , 
+    "CHW" , "CLF" , "CLP" , "CNY" , "COP" , "COU" , "CRC" , "CUC" , "CUP" , "CVE" , 
+    "CZK" , "DJF" , "DKK" , "DOP" , "DZD" , "EGP" , "ERN" , "ETB" , "EUR" , "FJD" , 
+    "FKP" , "GBP" , "GEL" , "GHS" , "GIP" , "GMD" , "GNF" , "GTQ" , "GYD" , "HKD" , 
+    "HNL" , "HRK" , "HTG" , "HUF" , "IDR" , "ILS" , "INR" , "IQD" , "IRR" , "ISK" , 
+    "JMD" , "JOD" , "JPY" , "KES" , "KGS" , "KHR" , "KMF" , "KPW" , "KRW" , "KWD" , 
+    "KYD" , "KZT" , "LAK" , "LBP" , "LKR" , "LRD" , "LSL" , "LTL" , "LVL" , "LYD" , 
+    "MAD" , "MDL" , "MGA" , "MKD" , "MMK" , "MNT" , "MOP" , "MRO" , "MUR" , "MVR" , 
+    "MWK" , "MXN" , "MXV" , "MYR" , "MZN" , "NAD" , "NGN" , "NIO" , "NOK" , "NPR" , 
+    "NZD" , "OMR" , "PAB" , "PEN" , "PGK" , "PHP" , "PKR" , "PLN" , "PYG" , "QAR" , 
+    "RON" , "RSD" , "RUB" , "RWF" , "SAR" , "SBD" , "SCR" , "SDG" , "SEK" , "SGD" , 
+    "SHP" , "SLL" , "SOS" , "SRD" , "SSP" , "STD" , "SVC" , "SYP" , "SZL" , "THB" , 
+    "TJS" , "TMT" , "TND" , "TOP" , "TRY" , "TTD" , "TWD" , "TZS" , "UAH" , "UGX" , 
+    "USD" , "USN" , "USS" , "UYI" , "UYU" , "UZS" , "VEF" , "VND" , "VUV" , "WST" , 
+    "XAF" , "XAG" , "XAU" , "XBA" , "XBB" , "XBC" , "XBD" , "XCD" , "XDR" , "XFU" , 
+    "XOF" , "XPD" , "XPF" , "XPT" , "XSU" , "XTS" , "XUA" , "XXX" , "YER" , "ZAR" , 
+    "ZMK" , "ZWL"
+};
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +54,10 @@ public class AccountEdit extends Activity {
     mLabelText = (EditText) findViewById(R.id.Label);
     mDescriptionText = (EditText) findViewById(R.id.Description);
     mOpeningBalanceText = (EditText) findViewById(R.id.Opening_balance);
-    mCurrencyText = (EditText) findViewById(R.id.Currency);
+    mCurrencyText = (AutoCompleteTextView) findViewById(R.id.Currency);
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        android.R.layout.simple_dropdown_item_1line, ISO_4217);
+    mCurrencyText.setAdapter(adapter);
 
     Button confirmButton = (Button) findViewById(R.id.Confirm);
     Button cancelButton = (Button) findViewById(R.id.Cancel);
@@ -41,8 +73,8 @@ public class AccountEdit extends Activity {
     confirmButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
         setResult(RESULT_OK);
-        saveState();
-        finish();
+        if (saveState())
+          finish();
       }
     });
     cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +112,7 @@ public class AccountEdit extends Activity {
           note.getColumnIndexOrThrow("currency")));
     } else {
       setTitle(R.string.menu_insert_account);
+      mCurrencyText.setText(Currency.getInstance(Locale.getDefault()).getCurrencyCode());
     }
   }
 
@@ -89,11 +122,17 @@ public class AccountEdit extends Activity {
     outState.putLong(ExpensesDbAdapter.KEY_ROWID, mRowId);
   }
 
-  private void saveState() {
+  private boolean saveState() {
+    String currency = mCurrencyText.getText().toString();
+    try {
+      Currency.getInstance(currency);
+    } catch (IllegalArgumentException e) {
+      Toast.makeText(this,getString(R.string.currency_not_iso4217,currency), Toast.LENGTH_LONG).show();
+      return false;
+    }
     String label = mLabelText.getText().toString();
     String description = mDescriptionText.getText().toString();
     String opening_balance = mOpeningBalanceText.getText().toString();
-    String currency = mCurrencyText.getText().toString();
 
     if (mRowId == 0) {
       long id = mDbHelper.createAccount(label, opening_balance, description,currency);
@@ -103,6 +142,7 @@ public class AccountEdit extends Activity {
     } else {
       mDbHelper.updateAccount(mRowId, label,opening_balance,description,currency);
     }
+    return true;
   }
 
 }

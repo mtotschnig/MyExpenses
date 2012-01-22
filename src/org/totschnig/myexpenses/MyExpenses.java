@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.NumberFormatException;
+import java.util.Currency;
 import java.util.Date;
 
 
@@ -49,8 +50,8 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import android.net.Uri;
 
 public class MyExpenses extends ListActivity {
   private static final int ACTIVITY_CREATE=0;
@@ -85,6 +86,8 @@ public class MyExpenses extends ListActivity {
     current_account = settings.getInt("current_account", 1);
     fillData();
     registerForContextMenu(getListView());
+    DisplayMetrics dm = getResources().getDisplayMetrics();
+    Log.i("SCREEN", dm.widthPixels + ":" + dm.density);
   }
   @Override
   public void onDestroy() {
@@ -92,12 +95,12 @@ public class MyExpenses extends ListActivity {
     mDbHelper.close();
   }
   private void fillData() {
-    expensesCursor = mDbHelper.fetchAllExpenses(current_account);
+    expensesCursor = mDbHelper.fetchExpenseAll(current_account);
     startManagingCursor(expensesCursor);
     Cursor account = mDbHelper.fetchAccount(current_account);
     setTitle(account.getString(account.getColumnIndexOrThrow("label")));
     start = account.getFloat(account.getColumnIndexOrThrow("opening_balance"));
-    currency = account.getString(account.getColumnIndexOrThrow("currency"));
+    currency = account.getString(account.getColumnIndexOrThrow("currency")).trim();
     account.close();
     TextView startView= (TextView) findViewById(R.id.start);
     startView.setText(formatCurrency(start));
@@ -134,11 +137,18 @@ public class MyExpenses extends ListActivity {
     };
     setListAdapter(expense);
     TextView endView= (TextView) findViewById(R.id.end);
-    end = start + mDbHelper.getSum(current_account);
+    end = start + mDbHelper.getExpenseSum(current_account);
     endView.setText(formatCurrency(end));
   }
   private String formatCurrency(float amount) {
-    return currency + " " + NumberFormat.getInstance().format(amount);
+    NumberFormat nf = NumberFormat.getCurrencyInstance();
+    try {
+      nf.setCurrency(Currency.getInstance(currency));
+    } catch (IllegalArgumentException e) {
+      Log.e("MyExpenses",currency + " is not defined in ISO 4217");
+    }
+    
+    return nf.format(amount);
   }
   private String convText(TextView v, String text) {
     SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
@@ -260,8 +270,8 @@ public class MyExpenses extends ListActivity {
   private void reset() {
     try {
       exportAll();
-      mDbHelper.deleteAll(current_account);
-      mDbHelper.setOpeningBalance(current_account,end);
+      mDbHelper.deleteExpenseAll(current_account);
+      mDbHelper.updateAccountOpeningBalance(current_account,end);
       fillData();
     } catch (IOException e) {
       Log.e("MyExpenses",e.getMessage());
@@ -311,9 +321,30 @@ public class MyExpenses extends ListActivity {
     })
     .show();  
   }
+  
+  //this dialog is shown, when a new version requires to present
+  //specific information to the user
+  private void openVersionDialog(String info) {
+    LayoutInflater li = LayoutInflater.from(this);
+    View view = li.inflate(R.layout.versiondialog, null);
+    TextView versionInfo= (TextView) view.findViewById(R.id.versionInfo);
+    versionInfo.setText(info);
+    new AlertDialog.Builder(MyExpenses.this)
+    .setTitle(R.string.important_version_information)
+    .setIcon(R.drawable.about)
+    .setView(view)
+    .setNeutralButton(R.string.button_continue, new DialogInterface.OnClickListener() {
+      public void onClick(DialogInterface dialog, int whichButton) {
+        MyExpenses.this.openHelpDialog();
+      }
+    })
+    .show();
+  }
+  
   private void openChangesDialog() {
     LayoutInflater li = LayoutInflater.from(this);
-    View view = li.inflate(R.layout.changeview, null); 
+    View view = li.inflate(R.layout.changeview, null);
+    
     new AlertDialog.Builder(MyExpenses.this)
     .setTitle(R.string.menu_changes)
     .setIcon(R.drawable.about)
@@ -336,9 +367,53 @@ public class MyExpenses extends ListActivity {
     }
     if (pref_version != current_version) {
       edit.putInt("currentversion", current_version).commit();
+      if (pref_version < 16) {
+        String non_conforming = checkCurrencies();
+        if (non_conforming.length() > 0 ) {
+          openVersionDialog(getString(R.string.version_14_upgrade_info,non_conforming));
+          return;
+        }
+      }
       openHelpDialog();
     }
     return;
+  }
+ 
+  //loop through defined accounts and check if currency is a valid ISO 4217 code
+  //returns String concatenation of non conforming symbols in use
+  private String checkCurrencies() {
+    String account_id;
+    String currency;
+    String non_conforming = "";
+    Cursor accountsCursor = mDbHelper.fetchAccountAll();
+    accountsCursor.moveToFirst();
+    while(!accountsCursor.isAfterLast()) {
+         currency = accountsCursor.getString(accountsCursor.getColumnIndex("currency")).trim();
+         account_id = accountsCursor.getString(accountsCursor.getColumnIndex("_id"));
+         try {
+           Currency.getInstance(currency);
+         } catch (IllegalArgumentException e) {
+           Log.d("DEBUG", currency);
+           //fix currency for countries from where users appear in the Markets publish console
+           if (currency == "RM")
+             mDbHelper.updateAccountCurrency(account_id,"MYR");
+           else if (currency.equals("₨"))
+             mDbHelper.updateAccountCurrency(account_id,"PKR");
+           else if (currency.equals("¥"))
+             mDbHelper.updateAccountCurrency(account_id,"CNY");
+           else if (currency.equals("€"))
+             mDbHelper.updateAccountCurrency(account_id,"EUR");
+           else if (currency.equals("$"))
+             mDbHelper.updateAccountCurrency(account_id,"USD");
+           else if (currency.equals("£"))
+             mDbHelper.updateAccountCurrency(account_id,"GBP");
+           else
+             non_conforming +=  currency + " ";
+         }
+         accountsCursor.moveToNext();
+    }
+    accountsCursor.close();
+    return non_conforming;
   }
 
   public int getVersionNumber() {

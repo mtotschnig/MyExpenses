@@ -139,6 +139,9 @@ public class ExpensesDbAdapter {
     mDbHelper.close();
   }
 
+  /**
+   * TRANSACTIONS
+   */
 
   /**
    * Create a new expense using the date, amount and comment provided. If the note is
@@ -159,7 +162,7 @@ public class ExpensesDbAdapter {
     initialValues.put(KEY_ACCOUNTID, account_id);
     initialValues.put(KEY_PAYEE, payee);
     long _id = mDb.insert(DATABASE_TABLE, null, initialValues);
-    recordCatUsage(cat_id);
+    incrCategoryUsage(cat_id);
     return _id;
   }
 
@@ -173,7 +176,7 @@ public class ExpensesDbAdapter {
 
     return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
   }
-  public void deleteAll(int account_id ) {
+  public void deleteExpenseAll(int account_id ) {
     mDb.execSQL("DELETE from expenses WHERE account_id = " + account_id);
   }
 
@@ -182,7 +185,7 @@ public class ExpensesDbAdapter {
    * exposes the full label which concatenate main and sub label if appropriate
    * @return Cursor over all expenses
    */
-  public Cursor fetchAllExpenses(int account_id) {
+  public Cursor fetchExpenseAll(int account_id) {
 
     return mDb.query(JOIN_EXP,
         new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_CATID,FULL_LABEL,KEY_PAYEE}, 
@@ -231,38 +234,42 @@ public class ExpensesDbAdapter {
     args.put(KEY_PAYEE, payee);
 
     mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null);
-    recordCatUsage(cat_id);
+    incrCategoryUsage(cat_id);
   }
-  public float getSum(int account_id) {
+  public float getExpenseSum(int account_id) {
     Cursor mCursor = mDb.rawQuery("select sum(" + KEY_AMOUNT + ") from " + DATABASE_TABLE +  " WHERE account_id = " + account_id, null);
     mCursor.moveToFirst();
     float result = mCursor.getFloat(0);
     mCursor.close();
     return result;
   }
-  public int getExpensesCount(int cat_id) {
+  public int getExpenseCount(int cat_id) {
     Cursor mCursor = mDb.rawQuery("select count(*) from " + DATABASE_TABLE +  " WHERE cat_id = " + cat_id, null);
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);
     mCursor.close();
     return result;
   }
-  public void recordCatUsage(String cat_id) {
-    if (cat_id != null) {
-      mDb.execSQL("update categories set usages = usages +1 where _id = " + cat_id + " or _id = (select parent_id from categories where _id = " +cat_id + ")");
-    }
+  
+  public void updateExpenseAccountAll(long account_id) {
+    ContentValues args = new ContentValues();
+    args.put("account_id",account_id);
+    mDb.update(DATABASE_TABLE,args,null,null);
   }
 
-  //Categories
+  /**
+   * CATEGORIES
+   */
+
   public long createCategory(String label, String parent_id) {
     ContentValues initialValues = new ContentValues();
     initialValues.put("label", label);
     initialValues.put("parent_id", parent_id);
 
-    //should return -1 if unique constraint is not met	
+    //should return -1 if unique constraint is not met  
     return mDb.insert("categories", null, initialValues);
   }
-  public long renameCategory(String label, String cat_id) {
+  public long updateCategoryLabel(String label, String cat_id) {
     ContentValues args = new ContentValues();
     args.put("label", label);
 
@@ -273,6 +280,66 @@ public class ExpensesDbAdapter {
       return -1;
     }
   }
+  
+  public void incrCategoryUsage(String cat_id) {
+    if (cat_id != null) {
+      mDb.execSQL("update categories set usages = usages +1 where _id = " + cat_id + " or _id = (select parent_id from categories where _id = " +cat_id + ")");
+    }
+  }
+  
+  public long getCategoryId(String label, String parent_id) {
+    Cursor mCursor = mDb.rawQuery("select _id from categories where parent_id = ? and label = ?",  new String[] {parent_id, label});
+    if (mCursor.getCount() == 0) {
+      mCursor.close();
+      return -1;
+    } else {
+      mCursor.moveToFirst();
+      long result = mCursor.getLong(0);
+      mCursor.close();
+      return result;
+    }
+  }
+  
+  public boolean deleteCategory(int cat_id) {
+    return mDb.delete("categories", KEY_ROWID + "=" + cat_id, null) > 0;
+  }
+
+  public Cursor fetchCategoryMain() {
+    return mDb.query("categories",
+        new String[] {KEY_ROWID, "label"},
+        "parent_id = 0",
+        null,
+        null,
+        null,
+        "usages DESC"
+    );
+  }
+  public int getCategoryCountSub(int parent_id){
+    Cursor mCursor = mDb.rawQuery("select count(*) from categories where parent_id = " + parent_id, null);
+    mCursor.moveToFirst();
+    int result = mCursor.getInt(0);
+    mCursor.close();
+    return result;
+  }
+  public Cursor fetchCategorySub(String parent_id) {
+    return mDb.query("categories", new String[] {KEY_ROWID,
+    "label"}, "parent_id = " + parent_id, null, null, null, "usages DESC");
+  }
+  /*    public int getCategoriesCount() {
+      return (int) mDb.compileStatement("select count(_id) from categories").simpleQueryForLong();
+    }*/
+
+
+
+  /**
+   * ACCOUNTS
+   */
+  
+  public void updateAccountCurrency(String account_id, String newStr) {
+    mDb.execSQL("update accounts set currency = '" + newStr + "' where _id = " + account_id);
+  }
+  
+
   public long createAccount(String label, String opening_balance, String description, String currency) {
     ContentValues initialValues = new ContentValues();
     initialValues.put("label", label);
@@ -289,7 +356,7 @@ public class ExpensesDbAdapter {
     args.put("currency",currency);
     mDb.update("accounts", args, KEY_ROWID + "=" + rowId, null);
   }
-  public Cursor fetchAllAccounts() {
+  public Cursor fetchAccountAll() {
     return mDb.query("accounts",
         new String[] {"accounts."+KEY_ROWID,"label","description","opening_balance","currency"}, 
         null, null, null, null, null);
@@ -305,68 +372,26 @@ public class ExpensesDbAdapter {
     }
     return mCursor;
   }
-  public void setOpeningBalance(long account_id,float opening_balance) {
+  public void updateAccountOpeningBalance(long account_id,float opening_balance) {
     ContentValues args = new ContentValues();
     args.put("opening_balance",opening_balance);
     mDb.update("accounts",args, KEY_ROWID + "=" + account_id,null);
   }
 
-  public void setAccountAll(long account_id) {
-    ContentValues args = new ContentValues();
-    args.put("account_id",account_id);
-    mDb.update(DATABASE_TABLE,args,null,null);
-  }
-  public long getCategoryId(String label, String parent_id) {
-    Cursor mCursor = mDb.rawQuery("select _id from categories where parent_id = ? and label = ?",  new String[] {parent_id, label});
-    if (mCursor.getCount() == 0) {
-      mCursor.close();
-      return -1;
-    } else {
-      mCursor.moveToFirst();
-      long result = mCursor.getLong(0);
-      mCursor.close();
-      return result;
-    }
-  }
   public boolean deleteAccount(long rowId) {
     return mDb.delete("accounts", KEY_ROWID + "=" + rowId, null) > 0;
   }
   
-  public boolean deleteCat(int cat_id) {
-    return mDb.delete("categories", KEY_ROWID + "=" + cat_id, null) > 0;
-  }
-
-  public Cursor fetchMainCategories() {
-    return mDb.query("categories",
-        new String[] {KEY_ROWID, "label"},
-        "parent_id = 0",
-        null,
-        null,
-        null,
-        "usages DESC"
-    );
-  }
-  public int getSubCatCount(int parent_id){
-    Cursor mCursor = mDb.rawQuery("select count(*) from categories where parent_id = " + parent_id, null);
-    mCursor.moveToFirst();
-    int result = mCursor.getInt(0);
-    mCursor.close();
-    return result;
-  }
-  public Cursor fetchSubCategories(String parent_id) {
-    return mDb.query("categories", new String[] {KEY_ROWID,
-    "label"}, "parent_id = " + parent_id, null, null, null, "usages DESC");
-  }
-  /*    public int getCategoriesCount() {
-    	return (int) mDb.compileStatement("select count(_id) from categories").simpleQueryForLong();
-    }*/
-
-  public void recordPayee(String name) {
+  /**
+   * PAYEES
+   */
+  
+  public void createPayeeOrIgnore(String name) {
     mDb.execSQL("INSERT OR IGNORE INTO payee(name) values('" + name + "');");
     return;
   }
   
-  public Cursor fetchAllPayees() {
+  public Cursor fetchPayeeAll() {
     return mDb.query("payee",
         new String[] {"name"}, 
         null, null, null, null, null);

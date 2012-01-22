@@ -35,7 +35,7 @@
 			
 			<TableRow>
 			<TextView android:text="@string/currency" />
-			<EditText android:id="@+id/Currency" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+			<AutoCompleteTextView android:completionThreshold="1" android:id="@+id/Currency" android:layout_width="wrap_content" android:layout_height="wrap_content"></AutoCompleteTextView>
 			</TableRow>
 			</TableLayout>
 	  </ScrollView>

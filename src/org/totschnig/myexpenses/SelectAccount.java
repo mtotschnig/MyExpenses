@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class SelectAccount extends ListActivity {
@@ -65,7 +64,7 @@ public class SelectAccount extends ListActivity {
   }
   private void fillData () {
     if (accountsCursor == null) {
-      accountsCursor = mDbHelper.fetchAllAccounts();
+      accountsCursor = mDbHelper.fetchAccountAll();
       startManagingCursor(accountsCursor);
     } else {
       accountsCursor.requery();

@@ -58,9 +58,9 @@ public class SelectCategory extends ExpandableListActivity {
         setContentView(R.layout.select_category);
         setTitle(R.string.select_category);
         // Set up our adapter
-        mDbHelper = new ExpensesDbAdapter(SelectCategory.this);
+        mDbHelper = new ExpensesDbAdapter(this);
         mDbHelper.open();
-        groupCursor = mDbHelper.fetchMainCategories();
+        groupCursor = mDbHelper.fetchCategoryMain();
         startManagingCursor(groupCursor);
 
         // Cache the ID column index
@@ -144,12 +144,12 @@ public class SelectCategory extends ExpandableListActivity {
     			  editCat(label,String.valueOf(cat_id));
     			  return true;
     			case DELETE_CAT:
-    			  if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && mDbHelper.getSubCatCount(cat_id) > 0) {
-    			    Toast.makeText(SelectCategory.this,getString(R.string.not_deletable_subcats_exists), Toast.LENGTH_LONG).show();
-    			  } else if (mDbHelper.getExpensesCount(cat_id) > 0 ) {
-    			    Toast.makeText(SelectCategory.this,getString(R.string.not_deletable_mapped_expenses), Toast.LENGTH_LONG).show();
+    			  if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && mDbHelper.getCategoryCountSub(cat_id) > 0) {
+    			    Toast.makeText(this,getString(R.string.not_deletable_subcats_exists), Toast.LENGTH_LONG).show();
+    			  } else if (mDbHelper.getExpenseCount(cat_id) > 0 ) {
+    			    Toast.makeText(this,getString(R.string.not_deletable_mapped_expenses), Toast.LENGTH_LONG).show();
     			  } else {
-    			    mDbHelper.deleteCat(cat_id);
+    			    mDbHelper.deleteCategory(cat_id);
     			    groupCursor.requery();
     			  }
         }
@@ -186,7 +186,7 @@ public class SelectCategory extends ExpandableListActivity {
         protected Cursor getChildrenCursor(Cursor groupCursor) {
             // Given the group, we return a cursor for all the children within that group
         	String parent_id = groupCursor.getString(groupIdColumnIndex);
-        	Cursor itemsCursor = mDbHelper.fetchSubCategories(parent_id);
+        	Cursor itemsCursor = mDbHelper.fetchCategorySub(parent_id);
         	startManagingCursor(itemsCursor);
         	return itemsCursor;
 
@@ -233,7 +233,7 @@ public class SelectCategory extends ExpandableListActivity {
       alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
       public void onClick(DialogInterface dialog, int whichButton) {
         String value = input.getText().toString();
-        if (mDbHelper.renameCategory(value,cat_id) != -1) {
+        if (mDbHelper.updateCategoryLabel(value,cat_id) != -1) {
           groupCursor.requery();
           //mAdapter.notifyDataSetChanged();
         } else {

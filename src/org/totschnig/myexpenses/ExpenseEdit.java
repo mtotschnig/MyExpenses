@@ -61,8 +61,6 @@ public class ExpenseEdit extends Activity {
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
 
-
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -91,7 +89,7 @@ public class ExpenseEdit extends Activity {
     Button confirmButton = (Button) findViewById(R.id.Confirm);
     Button cancelButton = (Button) findViewById(R.id.Cancel);
     
-    Cursor allPayees = mDbHelper.fetchAllPayees();
+    Cursor allPayees = mDbHelper.fetchPayeeAll();
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
         android.R.layout.simple_dropdown_item_1line);
     allPayees.moveToFirst();
@@ -272,7 +270,7 @@ public class ExpenseEdit extends Activity {
     } else {
       mDbHelper.updateExpense(mRowId, strDate, amount, comment,String.valueOf(cat_id),payee);
     }
-    mDbHelper.recordPayee(payee);
+    mDbHelper.createPayeeOrIgnore(payee);
   }
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
