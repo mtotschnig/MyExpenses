@@ -203,7 +203,7 @@ public class ExpensesDbAdapter {
     Cursor mCursor =
 
       mDb.query(JOIN_EXP,
-          new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,"label",KEY_PAYEE},
+          new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,"label",KEY_PAYEE,KEY_ACCOUNTID},
           DATABASE_TABLE+"."+KEY_ROWID + "=" + rowId,
           null, null, null, null, null);
     if (mCursor != null) {
@@ -313,6 +313,16 @@ public class ExpensesDbAdapter {
         "usages DESC"
     );
   }
+  //this methods appends a special "account transfer" category into
+  //the categories
+  public Cursor fetchCategoryMainUnionTransfer() {
+    return mDb.rawQuery(
+        "SELECT _id,label,usages FROM categories UNION " +
+        "SELECT -1,\"__TRANSFER__\",-1 WHERE (SELECT count(*) FROM accounts)>1 " +
+        "ORDER BY usages DESC;n", null);
+  }
+  
+  
   public int getCategoryCountSub(int parent_id){
     Cursor mCursor = mDb.rawQuery("select count(*) from categories where parent_id = " + parent_id, null);
     mCursor.moveToFirst();
@@ -360,12 +370,20 @@ public class ExpensesDbAdapter {
         new String[] {"accounts."+KEY_ROWID,"label","description","opening_balance","currency"}, 
         null, null, null, null, null);
   }
+  //fetches all accounts except one
+  public Cursor fetchAccountOther(int account_id) {
+    return mDb.query("accounts",
+        new String[] {"accounts."+KEY_ROWID,"label"}, 
+        KEY_ROWID + "!=" + account_id,
+        null, null, null, null);
+  }
+  
   public Cursor fetchAccount(long rowId) throws SQLException {
     Cursor mCursor =
       mDb.query("accounts",
           new String[] {"label","description","opening_balance","currency"},
           KEY_ROWID + "=" + rowId,
-          null, null, null, null, null);
+          null, null, null,null);
     if (mCursor != null) {
       mCursor.moveToFirst();
     }
