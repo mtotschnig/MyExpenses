@@ -35,18 +35,18 @@ import android.widget.TextView;
 
 public class ExpenseEdit extends Activity {
 
-  private Button DateButton;
-  private Button TimeButton;
+  private Button mDateButton;
+  private Button mTimeButton;
   private EditText mAmountText;
   private EditText mCommentText;
-  private Button categoryButton;
-  private Button typeButton;
+  private Button mcategoryButton;
+  private Button mtypeButton;
   private AutoCompleteTextView mPayeeText;
-  private TextView PayeeLabel;
+  private TextView mPayeeLabel;
   private Long mRowId;
   private int mAccountId;
   private ExpensesDbAdapter mDbHelper;
-  private int cat_id;
+  private int mCatId;
   private int mYear;
   private int mMonth;
   private int mDay;
@@ -55,7 +55,7 @@ public class ExpenseEdit extends Activity {
   
   public static final boolean INCOME = true;
   public static final boolean EXPENSE = false;
-  private boolean type = EXPENSE;
+  private boolean mType = EXPENSE;
 
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
@@ -68,16 +68,16 @@ public class ExpenseEdit extends Activity {
 
     setContentView(R.layout.one_expense);
 
-    PayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
-    DateButton = (Button) findViewById(R.id.Date);
-    DateButton.setOnClickListener(new View.OnClickListener() {
+    mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
+    mDateButton = (Button) findViewById(R.id.Date);
+    mDateButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         showDialog(DATE_DIALOG_ID);
       }
     });
 
-    TimeButton = (Button) findViewById(R.id.Time);
-    TimeButton.setOnClickListener(new View.OnClickListener() {
+    mTimeButton = (Button) findViewById(R.id.Time);
+    mTimeButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         showDialog(TIME_DIALOG_ID);
       }
@@ -120,15 +120,15 @@ public class ExpenseEdit extends Activity {
         finish();
       }
     });
-    categoryButton = (Button) findViewById(R.id.Category);
-    categoryButton.setOnClickListener(new View.OnClickListener() {
+    mcategoryButton = (Button) findViewById(R.id.Category);
+    mcategoryButton.setOnClickListener(new View.OnClickListener() {
 
       public void onClick(View view) {
         startSelectCategory();
       } 
     });
-    typeButton = (Button) findViewById(R.id.TaType);
-    typeButton.setOnClickListener(new View.OnClickListener() {
+    mtypeButton = (Button) findViewById(R.id.TaType);
+    mtypeButton.setOnClickListener(new View.OnClickListener() {
 
       public void onClick(View view) {
         toggleType();
@@ -208,10 +208,10 @@ public class ExpenseEdit extends Activity {
           note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)));
       mPayeeText.setText(note.getString(
           note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE)));
-      cat_id = note.getInt(note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
+      mCatId = note.getInt(note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
       String label =  note.getString(note.getColumnIndexOrThrow("label"));
       if (label != null && label.length() != 0) {
-        categoryButton.setText(label);
+        mcategoryButton.setText(label);
       }
     } else {
       Date date =  new Date();
@@ -230,10 +230,10 @@ public class ExpenseEdit extends Activity {
     setTime();
   }
   private void setDate() {
-    DateButton.setText(mYear + "-" + pad(mMonth + 1) + "-" + pad(mDay));
+    mDateButton.setText(mYear + "-" + pad(mMonth + 1) + "-" + pad(mDay));
   }
   private void setTime() {
-    TimeButton.setText(pad(mHours) + ":" + pad(mMinutes));
+    mTimeButton.setText(pad(mHours) + ":" + pad(mMinutes));
   }
   private static String pad(int c) {
     if (c >= 10)
@@ -252,18 +252,18 @@ public class ExpenseEdit extends Activity {
   private void saveState() {
     String amount = mAmountText.getText().toString();
     String comment = mCommentText.getText().toString();
-    String strDate = DateButton.getText().toString() + " " + TimeButton.getText().toString() + ":00.0";
+    String strDate = mDateButton.getText().toString() + " " + mTimeButton.getText().toString() + ":00.0";
     String payee = mPayeeText.getText().toString();
-    if (type == EXPENSE) {
+    if (mType == EXPENSE) {
       amount = "-"+ amount;
     }
     if (mRowId == 0) {
-      long id = mDbHelper.createExpense(strDate, amount, comment,String.valueOf(cat_id),String.valueOf(mAccountId),payee);
+      long id = mDbHelper.createExpense(strDate, amount, comment,String.valueOf(mCatId),String.valueOf(mAccountId),payee);
       if (id > 0) {
         mRowId = id;
       }
     } else {
-      mDbHelper.updateExpense(mRowId, strDate, amount, comment,String.valueOf(cat_id),payee);
+      mDbHelper.updateExpense(mRowId, strDate, amount, comment,String.valueOf(mCatId),payee);
     }
     mDbHelper.createPayeeOrIgnore(payee);
   }
@@ -272,13 +272,13 @@ public class ExpenseEdit extends Activity {
       Intent intent) {
     if (intent != null) {
       //Here we will have to set the category for the expense
-      cat_id = intent.getIntExtra("cat_id",0);
-      categoryButton.setText(intent.getStringExtra("label"));
+      mCatId = intent.getIntExtra("cat_id",0);
+      mcategoryButton.setText(intent.getStringExtra("label"));
     }
   }
   private void toggleType() {
-    type = ! type;
-    typeButton.setText(type ? "+" : "-");
-    PayeeLabel.setText(type ? R.string.payer : R.string.payee);
+    mType = ! mType;
+    mtypeButton.setText(mType ? "+" : "-");
+    mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
   }
 }

@@ -66,12 +66,12 @@ public class MyExpenses extends ListActivity {
 
   private ExpensesDbAdapter mDbHelper;
 
-  int current_account;
-  float start;
-  float end;
-  SharedPreferences settings;
-  Cursor expensesCursor;
-  String currency;
+  int mCurrentAccount;
+  float mStart;
+  float mEnd;
+  SharedPreferences mSettings;
+  Cursor mExpensesCursor;
+  String mCurrency;
 
   /** Called when the activity is first created. */
   @Override
@@ -80,9 +80,9 @@ public class MyExpenses extends ListActivity {
     setContentView(R.layout.expenses_list);
     mDbHelper = new ExpensesDbAdapter(this);
     mDbHelper.open();
-    settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    mSettings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     newVersionCheck();
-    current_account = settings.getInt("current_account", 1);
+    mCurrentAccount = mSettings.getInt("current_account", 1);
     fillData();
     registerForContextMenu(getListView());
     DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -94,15 +94,15 @@ public class MyExpenses extends ListActivity {
     mDbHelper.close();
   }
   private void fillData() {
-    expensesCursor = mDbHelper.fetchExpenseAll(current_account);
-    startManagingCursor(expensesCursor);
-    Cursor account = mDbHelper.fetchAccount(current_account);
+    mExpensesCursor = mDbHelper.fetchExpenseAll(mCurrentAccount);
+    startManagingCursor(mExpensesCursor);
+    Cursor account = mDbHelper.fetchAccount(mCurrentAccount);
     setTitle(account.getString(account.getColumnIndexOrThrow("label")));
-    start = account.getFloat(account.getColumnIndexOrThrow("opening_balance"));
-    currency = account.getString(account.getColumnIndexOrThrow("currency")).trim();
+    mStart = account.getFloat(account.getColumnIndexOrThrow("opening_balance"));
+    mCurrency = account.getString(account.getColumnIndexOrThrow("currency")).trim();
     account.close();
     TextView startView= (TextView) findViewById(R.id.start);
-    startView.setText(formatCurrency(start));
+    startView.setText(formatCurrency(mStart));
 
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{"label",ExpensesDbAdapter.KEY_DATE,ExpensesDbAdapter.KEY_AMOUNT};
@@ -111,7 +111,7 @@ public class MyExpenses extends ListActivity {
     int[] to = new int[]{R.id.text1,R.id.date1,R.id.float1};
 
     // Now create a simple cursor adapter and set it to display
-    SimpleCursorAdapter expense = new SimpleCursorAdapter(this, R.layout.expense_row, expensesCursor, from, to)  {
+    SimpleCursorAdapter expense = new SimpleCursorAdapter(this, R.layout.expense_row, mExpensesCursor, from, to)  {
       @Override
       public void setViewText(TextView v, String text) {
         super.setViewText(v, convText(v, text));
@@ -136,15 +136,15 @@ public class MyExpenses extends ListActivity {
     };
     setListAdapter(expense);
     TextView endView= (TextView) findViewById(R.id.end);
-    end = start + mDbHelper.getExpenseSum(current_account);
-    endView.setText(formatCurrency(end));
+    mEnd = mStart + mDbHelper.getExpenseSum(mCurrentAccount);
+    endView.setText(formatCurrency(mEnd));
   }
   private String formatCurrency(float amount) {
     NumberFormat nf = NumberFormat.getCurrencyInstance();
     try {
-      nf.setCurrency(Currency.getInstance(currency));
+      nf.setCurrency(Currency.getInstance(mCurrency));
     } catch (IllegalArgumentException e) {
-      Log.e("MyExpenses",currency + " is not defined in ISO 4217");
+      Log.e("MyExpenses",mCurrency + " is not defined in ISO 4217");
     }
     
     return nf.format(amount);
@@ -212,20 +212,20 @@ public class MyExpenses extends ListActivity {
       fillData();
       return true;
     case SHOW_DETAIL_ID:
-      expensesCursor.moveToPosition(info.position);
+      mExpensesCursor.moveToPosition(info.position);
       Toast.makeText(getBaseContext(),
-          expensesCursor.getString(
-              expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)) +
+          mExpensesCursor.getString(
+              mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)) +
           "\n" +
-          getResources().getString(R.string.payee) + ": " + expensesCursor.getString(
-              expensesCursor.getColumnIndexOrThrow("payee")), Toast.LENGTH_LONG).show();
+          getResources().getString(R.string.payee) + ": " + mExpensesCursor.getString(
+              mExpensesCursor.getColumnIndexOrThrow("payee")), Toast.LENGTH_LONG).show();
       return true;
     }
     return super.onContextItemSelected(item);
   }  
   private void createRow() {
     Intent i = new Intent(this, ExpenseEdit.class);
-    i.putExtra("account_id",current_account);
+    i.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID,mCurrentAccount);
     startActivityForResult(i, ACTIVITY_CREATE);
   }
 
@@ -239,38 +239,38 @@ public class MyExpenses extends ListActivity {
     FileOutputStream out = new FileOutputStream(outputFile);
     String header = "!Type:Oth L\n";
     out.write(header.getBytes());
-    expensesCursor.moveToFirst();
-    while( expensesCursor.getPosition() < expensesCursor.getCount() ) {
-      String comment = expensesCursor.getString(
-          expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
+    mExpensesCursor.moveToFirst();
+    while( mExpensesCursor.getPosition() < mExpensesCursor.getCount() ) {
+      String comment = mExpensesCursor.getString(
+          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
       comment = (comment == null || comment.length() == 0) ? "" : "\nM" + comment;
-      String label =  expensesCursor.getString(
-          expensesCursor.getColumnIndexOrThrow("label"));
+      String label =  mExpensesCursor.getString(
+          mExpensesCursor.getColumnIndexOrThrow("label"));
       label = (label == null || label.length() == 0) ? "" : "\nL" + label;
-      String payee = expensesCursor.getString(
-          expensesCursor.getColumnIndexOrThrow("payee"));
+      String payee = mExpensesCursor.getString(
+          mExpensesCursor.getColumnIndexOrThrow("payee"));
       payee = (payee == null || payee.length() == 0) ? "" : "\nP" + payee;
-      String row = "D"+formatter.format(Timestamp.valueOf(expensesCursor.getString(
-          expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE)))) +
-          "\nT"+expensesCursor.getString(
-              expensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)) +
+      String row = "D"+formatter.format(Timestamp.valueOf(mExpensesCursor.getString(
+          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE)))) +
+          "\nT"+mExpensesCursor.getString(
+              mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)) +
           comment +
           label +
           payee +  
            "\n^\n";
       out.write(row.getBytes());
-      expensesCursor.moveToNext();
+      mExpensesCursor.moveToNext();
     }
     out.close();
-    expensesCursor.moveToFirst();
+    mExpensesCursor.moveToFirst();
     Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
 
   }
   private void reset() {
     try {
       exportAll();
-      mDbHelper.deleteExpenseAll(current_account);
-      mDbHelper.updateAccountOpeningBalance(current_account,end);
+      mDbHelper.deleteExpenseAll(mCurrentAccount);
+      mDbHelper.updateAccountOpeningBalance(mCurrentAccount,mEnd);
       fillData();
     } catch (IOException e) {
       Log.e("MyExpenses",e.getMessage());
@@ -292,8 +292,8 @@ public class MyExpenses extends ListActivity {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == ACTIVITY_SELECT_ACCOUNT) {
       if (resultCode == RESULT_OK) {
-        current_account = intent.getIntExtra("account_id", 0);
-        settings.edit().putInt("current_account", current_account).commit();
+        mCurrentAccount = intent.getIntExtra("account_id", 0);
+        mSettings.edit().putInt("current_account", mCurrentAccount).commit();
       }
     }
     fillData();
@@ -357,8 +357,8 @@ public class MyExpenses extends ListActivity {
   }
 
   public void newVersionCheck() {
-    Editor edit = settings.edit();
-    int pref_version = settings.getInt("currentversion", -1);
+    Editor edit = mSettings.edit();
+    int pref_version = mSettings.getInt("currentversion", -1);
     int current_version = getVersionNumber();
     if (pref_version == -1) {
       long account_id = mDbHelper.createAccount("Default account","0","Default account created upon installation","EUR");

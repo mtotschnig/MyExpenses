@@ -51,21 +51,22 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
+import android.widget.SimpleCursorTreeAdapter.ViewBinder;
 
 public class SelectCategory extends ExpandableListActivity {
     private MyExpandableListAdapter mAdapter;
     private ExpensesDbAdapter mDbHelper;
-    private Cursor groupCursor;
+    private Cursor mGroupCursor;
     private static final int CREATE_MAIN_CAT = Menu.FIRST;
     private static final int CREATE_SUB_CAT = Menu.FIRST+2;
     private static final int SELECT_MAIN_CAT = Menu.FIRST+1;
     private static final int EDIT_CAT = Menu.FIRST+3;
     private static final int DELETE_CAT = Menu.FIRST+4;
     private static final int IMPORT_CAT_ID = Menu.FIRST + 5;
-    int groupIdColumnIndex;
-    ProgressDialog progressDialog;
-    int totalCategories;
-    private final String[] items = {"Grisbi default (en)", "Grisbi default (fr)", "Grisbi default (de)", "/sdcard/myexpenses/categories.xml"};
+    int mGroupIdColumnIndex;
+    ProgressDialog mProgressDialog;
+    int mTotalCategories;
+    private final String[] ITEMS = {"Grisbi default (en)", "Grisbi default (fr)", "Grisbi default (de)", "/sdcard/myexpenses/categories.xml"};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,14 +76,14 @@ public class SelectCategory extends ExpandableListActivity {
         // Set up our adapter
         mDbHelper = new ExpensesDbAdapter(this);
         mDbHelper.open();
-        groupCursor = mDbHelper.fetchCategoryMain();
-        startManagingCursor(groupCursor);
+        mGroupCursor = mDbHelper.fetchCategoryMainUnionTransfer();
+        startManagingCursor(mGroupCursor);
 
         // Cache the ID column index
-        groupIdColumnIndex = groupCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ROWID);
+        mGroupIdColumnIndex = mGroupCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ROWID);
 
         // Set up our adapter
-        mAdapter = new MyExpandableListAdapter(groupCursor,
+        mAdapter = new MyExpandableListAdapter(mGroupCursor,
                 this,
                 android.R.layout.simple_expandable_list_item_1,
                 android.R.layout.simple_expandable_list_item_1,
@@ -140,7 +141,7 @@ public class SelectCategory extends ExpandableListActivity {
           );
           cat_id =  childCursor.getInt(childCursor.getColumnIndexOrThrow("_id"));
         } else  {
-            cat_id = groupCursor.getInt(groupIdColumnIndex);
+            cat_id = mGroupCursor.getInt(mGroupIdColumnIndex);
         }
         String label =   ((TextView) info.targetView).getText().toString();
         
@@ -165,7 +166,7 @@ public class SelectCategory extends ExpandableListActivity {
     			    Toast.makeText(this,getString(R.string.not_deletable_mapped_expenses), Toast.LENGTH_LONG).show();
     			  } else {
     			    mDbHelper.deleteCategory(cat_id);
-    			    groupCursor.requery();
+    			    mGroupCursor.requery();
     			  }
         }
     		return false;
@@ -219,7 +220,7 @@ public class SelectCategory extends ExpandableListActivity {
     	public void onClick(DialogInterface dialog, int whichButton) {
     	  String value = input.getText().toString();
     	  if (mDbHelper.createCategory(value,parent_id) != -1) {
-    		  groupCursor.requery();
+    		  mGroupCursor.requery();
     		  //mAdapter.notifyDataSetChanged();
     	  } else {
     		  Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
@@ -249,7 +250,7 @@ public class SelectCategory extends ExpandableListActivity {
       public void onClick(DialogInterface dialog, int whichButton) {
         String value = input.getText().toString();
         if (mDbHelper.updateCategoryLabel(value,cat_id) != -1) {
-          groupCursor.requery();
+          mGroupCursor.requery();
           //mAdapter.notifyDataSetChanged();
         } else {
           Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
@@ -269,7 +270,7 @@ public class SelectCategory extends ExpandableListActivity {
     private void importCategories() {
       AlertDialog.Builder builder = new AlertDialog.Builder(this);
       builder.setTitle("Pick a source for import");
-      builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+      builder.setSingleChoiceItems(ITEMS, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
             new MyAsyncTask(SelectCategory.this,item).execute();
             dialog.cancel();
@@ -294,7 +295,7 @@ public class SelectCategory extends ExpandableListActivity {
         totalImported = 0; 
       }
       protected void onPreExecute() {
-        String sourceStr = items[source];
+        String sourceStr = ITEMS[source];
         super.onPreExecute();
         //from sdcard
         if (source == 3) {
@@ -334,17 +335,17 @@ public class SelectCategory extends ExpandableListActivity {
           cancel(false);
           return;
         }
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setTitle(getString(R.string.categories_loading,sourceStr));
-        progressDialog.setProgress(0);
-        progressDialog.show();
+        mProgressDialog = new ProgressDialog(context);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setTitle(getString(R.string.categories_loading,sourceStr));
+        mProgressDialog.setProgress(0);
+        mProgressDialog.show();
       }
       protected void onProgressUpdate(Integer... values) {
-        progressDialog.setProgress(values[0]);
+        mProgressDialog.setProgress(values[0]);
       }
       protected void onPostExecute(Integer result) {
-        progressDialog.dismiss();
+        mProgressDialog.dismiss();
         String msg;
         super.onPostExecute(result);
         if (result == -1) {
@@ -353,7 +354,7 @@ public class SelectCategory extends ExpandableListActivity {
           msg = getString(R.string.import_categories_success,result);
         }
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-        groupCursor.requery();
+        mGroupCursor.requery();
       }
 
 
@@ -363,8 +364,8 @@ public class SelectCategory extends ExpandableListActivity {
         Element root = dom.getDocumentElement();
         categories = root.getElementsByTagName("Category");
         sub_categories = root.getElementsByTagName("Sub_category");
-        totalCategories = categories.getLength() + sub_categories.getLength();
-        progressDialog.setMax(totalCategories);
+        mTotalCategories = categories.getLength() + sub_categories.getLength();
+        mProgressDialog.setMax(mTotalCategories);
 
         mDbHelper.open();
 

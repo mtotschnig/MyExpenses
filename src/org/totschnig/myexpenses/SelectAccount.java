@@ -35,7 +35,7 @@ public class SelectAccount extends ListActivity {
   private static final int DELETE_ID = Menu.FIRST +1;
   private static final int INSERT_ACCOUNT_ID = Menu.FIRST + 2;
   private ExpensesDbAdapter mDbHelper;
-  Cursor accountsCursor;
+  Cursor mAccountsCursor;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -78,11 +78,11 @@ public class SelectAccount extends ListActivity {
     fillData();
   }
   private void fillData () {
-    if (accountsCursor == null) {
-      accountsCursor = mDbHelper.fetchAccountAll();
-      startManagingCursor(accountsCursor);
+    if (mAccountsCursor == null) {
+      mAccountsCursor = mDbHelper.fetchAccountAll();
+      startManagingCursor(mAccountsCursor);
     } else {
-      accountsCursor.requery();
+      mAccountsCursor.requery();
     }
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{"description","label","opening_balance","currency"};
@@ -91,7 +91,7 @@ public class SelectAccount extends ListActivity {
     int[] to = new int[]{R.id.description,R.id.label,R.id.opening_balance,R.id.currency};
 
     // Now create a simple cursor adapter and set it to display
-    SimpleCursorAdapter account = new SimpleCursorAdapter(this, R.layout.account_row, accountsCursor, from, to);
+    SimpleCursorAdapter account = new SimpleCursorAdapter(this, R.layout.account_row, mAccountsCursor, from, to);
     setListAdapter(account);
   }
   public void onDestroy() {
