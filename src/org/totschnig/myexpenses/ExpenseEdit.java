@@ -100,16 +100,11 @@ public class ExpenseEdit extends Activity {
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
     mPayeeText.setAdapter(adapter);
 
-    mRowId = savedInstanceState != null ? savedInstanceState.getLong(ExpensesDbAdapter.KEY_ROWID) 
-        : null;
     Bundle extras = getIntent().getExtras();
-    if (mRowId == null) {
-      mRowId = extras != null ? extras.getLong(ExpensesDbAdapter.KEY_ROWID) 
+    mRowId = extras != null ? extras.getLong(ExpensesDbAdapter.KEY_ROWID) 
           : 0;
-      if (extras != null) {
-        mAccountId = extras.getInt(ExpensesDbAdapter.KEY_ACCOUNTID);
-      }
-    }
+    if (extras != null)
+     mAccountId = extras.getInt(ExpensesDbAdapter.KEY_ACCOUNTID);
 
     confirmButton.setOnClickListener(new View.OnClickListener() {
 
@@ -247,11 +242,12 @@ public class ExpenseEdit extends Activity {
       return "0" + String.valueOf(c);
   }
 
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putLong(ExpensesDbAdapter.KEY_ROWID, mRowId);
-  }
+//  //I am not sure if this needed
+//  @Override
+//  protected void onSaveInstanceState(Bundle outState) {
+//    outState.putLong(ExpensesDbAdapter.KEY_ROWID, mRowId);
+//    super.onSaveInstanceState(outState);
+//  }
 
   private void saveState() {
     String amount = mAmountText.getText().toString();
