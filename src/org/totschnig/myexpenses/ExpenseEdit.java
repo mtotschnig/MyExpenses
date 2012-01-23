@@ -52,6 +52,7 @@ public class ExpenseEdit extends Activity {
   private int mDay;
   private int mHours;
   private int mMinutes;
+  private boolean mTransferP = false;
   
   public static final boolean INCOME = true;
   public static final boolean EXPENSE = false;
@@ -253,20 +254,30 @@ public class ExpenseEdit extends Activity {
 //  }
 
   private void saveState() {
-    String amount = mAmountText.getText().toString();
+    long id;
+    float amount;
+    try {
+      amount = Float.valueOf(mAmountText.getText().toString());
+    } catch (NumberFormatException e) {
+      amount = 0;
+    }
     String comment = mCommentText.getText().toString();
     String strDate = mDateButton.getText().toString() + " " + mTimeButton.getText().toString() + ":00.0";
     String payee = mPayeeText.getText().toString();
     if (mType == EXPENSE) {
-      amount = "-"+ amount;
+      amount = 0 - amount;
     }
     if (mRowId == 0) {
-      long id = mDbHelper.createExpense(strDate, amount, comment,String.valueOf(mCatId),String.valueOf(mAccountId),payee);
+      if (mTransferP) {
+        id = mDbHelper.createTransfer(strDate, amount, comment, mAccountId, mCatId);
+      } else {
+        id = mDbHelper.createExpense(strDate, amount, comment,mCatId,mAccountId,payee);
+      }
       if (id > 0) {
         mRowId = id;
       }
     } else {
-      mDbHelper.updateExpense(mRowId, strDate, amount, comment,String.valueOf(mCatId),payee);
+      mDbHelper.updateExpense(mRowId, strDate, amount, comment,mCatId,payee);
     }
     mDbHelper.createPayeeOrIgnore(payee);
   }
@@ -275,6 +286,9 @@ public class ExpenseEdit extends Activity {
       Intent intent) {
     if (intent != null) {
       //Here we will have to set the category for the expense
+      if (intent.getBooleanExtra("transfer_p",false)) {
+       mTransferP = true;
+      }
       mCatId = intent.getIntExtra("cat_id",0);
       mcategoryButton.setText(intent.getStringExtra("label"));
     }

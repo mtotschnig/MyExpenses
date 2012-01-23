@@ -154,6 +154,8 @@ public class SelectCategory extends ExpandableListActivity {
           cat_id =  childCursor.getInt(childCursor.getColumnIndexOrThrow("_id"));
         } else  {
             cat_id = mGroupCursor.getInt(mGroupIdColumnIndex);
+            //TODO
+            //throw error if we selected transfer as parent
         }
         String label =   ((TextView) info.targetView).getText().toString();
         
@@ -193,11 +195,19 @@ public class SelectCategory extends ExpandableListActivity {
     public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
     	//Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
     	Intent intent=new Intent();
+    	int main_cat = mGroupCursor.getInt(mGroupIdColumnIndex);
     	int sub_cat = (int) id;
     	Cursor childCursor = (Cursor) mAdapter.getChild(groupPosition,childPosition);
     	String label =  childCursor.getString(childCursor.getColumnIndexOrThrow("label"));
+    	if (main_cat == -1) {
+    	  intent.putExtra("transfer_p", true);
+    	  intent.putExtra("cat_id", sub_cat);
+    	  intent.putExtra("label", "=>" + label);
+    	} else {
+    	  intent.putExtra("transfer_p", false);
         intent.putExtra("cat_id",sub_cat);
         intent.putExtra("label", label);
+    	}
         setResult(RESULT_OK,intent);
     	finish();
     	return true;
