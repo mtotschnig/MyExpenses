@@ -206,18 +206,13 @@ public class MyExpenses extends ListActivity {
   @Override
   public boolean onContextItemSelected(MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    mExpensesCursor.moveToPosition(info.position);
     switch(item.getItemId()) {
     case DELETE_ID:
-      int transfer_peer = mExpensesCursor.getInt(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
-      if (transfer_peer == 0)
-        mDbHelper.deleteExpense(info.id);
-      else
-        mDbHelper.deleteTransfer(info.id,transfer_peer);
+      mDbHelper.deleteExpense(info.id);
       fillData();
       return true;
     case SHOW_DETAIL_ID:
+      mExpensesCursor.moveToPosition(info.position);
       Toast.makeText(getBaseContext(),
           mExpensesCursor.getString(
               mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)) +

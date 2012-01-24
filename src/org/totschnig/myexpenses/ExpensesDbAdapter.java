@@ -43,7 +43,6 @@ public class ExpensesDbAdapter {
   public static final String KEY_ROWID = "_id";
   public static final String KEY_CATID = "cat_id";
   public static final String KEY_ACCOUNTID = "account_id";
-  public static final String KEY_TRANSFER_PEER = "transfer_peer";
   public static final String KEY_PAYEE = "payee";
 
   private static final String TAG = "ExpensesDbAdapter";
@@ -55,40 +54,25 @@ public class ExpensesDbAdapter {
    */
   private static final String DATABASE_NAME = "data";
   private static final String DATABASE_TABLE = "expenses";
-  private static final int DATABASE_VERSION = 19;
+  private static final int DATABASE_VERSION = 18;
 
   private static final String DATABASE_CREATE =
     "create table " + DATABASE_TABLE  +  "(_id integer primary key autoincrement, "
     + "comment text not null, date DATETIME not null, amount float not null, "
-    + "cat_id integer, account_id integer, payee text,transfer_peer integer default null);";
+    + "cat_id integer, account_id integer, payee text);";
   private static final String ACCOUNTS_CREATE = 
     "create table accounts (_id integer primary key autoincrement, label text not null, opening_balance float, description text, currency text not null);";
   // Table definition reflects format of Grisbis categories
   //Main Categories have parent_id null
   private static final String CATEGORIES_CREATE =
     "create table categories (_id integer primary key autoincrement, label text not null, parent_id integer not null default 0, usages integer default 0, unique (label,parent_id));";
-  //private static final String JOIN_EXP = DATABASE_TABLE + " LEFT JOIN categories cat on (cat_id = cat._id)";
-  private static final String FULL_LABEL = "case when \n" + 
-  		"  transfer_peer\n" + 
-  		"     then\n" + 
-  		"  '=>' || (select label from accounts where _id = cat_id)\n" + 
-  		"     else\n" + 
-  		"  case when \n" + 
-  		"    (select parent_id from categories where _id = cat_id)\n" + 
-  		"       then\n" + 
-  		"    (select label from categories where _id = (select parent_id from categories where _id = cat_id)) || ' : ' || (select label from categories where _id = cat_id)\n" + 
-  		"       else\n" + 
-  		"    (select label from categories where _id = cat_id)\n" + 
-  		"  end\n" + 
-  		"end as label";
-  private static final String SHORT_LABEL = "case when \n" + 
-  "  transfer_peer\n" + 
-  "     then\n" + 
-  "  '=>' || (select label from accounts where _id = cat_id)\n" + 
-  "     else\n" + 
-  "    (select label from categories where _id = cat_id)\n" + 
-  "end as label";
-
+  private static final String JOIN_EXP = DATABASE_TABLE + " LEFT JOIN categories cat on (cat_id = cat._id)";
+  private static final String FULL_LABEL = "case when parent_id " +
+  " then " +
+  " (select label from categories where _id = cat.parent_id) || ' : ' || label " +
+  " else " +
+  " label " +
+  " end as label";
   private static final String PAYEE_CREATE = 
     "create table payee (_id integer primary key autoincrement, name text unique not null);";
 
@@ -121,9 +105,6 @@ public class ExpensesDbAdapter {
       if (oldVersion < 18) {
         db.execSQL(PAYEE_CREATE);
         db.execSQL("alter table expenses add column payee text");
-      }
-      if (oldVersion < 19) {
-        db.execSQL("alter table expenses add column transfer_peer text");
       }
     }
   }
@@ -171,7 +152,7 @@ public class ExpensesDbAdapter {
    * @param comment the comment describing the expense
    * @return rowId or -1 if failed
    */
-  public long createExpense(String date, Float amount, String comment,int cat_id,int account_id, String payee) {
+  public long createExpense(String date, String amount, String comment,String cat_id,String account_id, String payee) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_DATE, date);
@@ -181,35 +162,6 @@ public class ExpensesDbAdapter {
     initialValues.put(KEY_PAYEE, payee);
     long _id = mDb.insert(DATABASE_TABLE, null, initialValues);
     incrCategoryUsage(cat_id);
-    return _id;
-  }
-  
-  /**
-   * Create a new transfer pair of expense using the date, amount and comment provided. 
-   * 
-   * 
-   * @param date the date of the expense
-   * @param amount the amount of the expense
-   * @param comment the comment describing the expense
-   * @return rowId or -1 if failed
-   */
-  public long createTransfer(String date, Float amount, String comment,int account_id, int account_peer) {
-    //the id of the account is stored in KEY_CATID, the id of the peer transaction is stored in KEY_TRANSFER_PEER
-    ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_COMMENT, comment);
-    initialValues.put(KEY_DATE, date);
-    initialValues.put(KEY_AMOUNT, amount);
-    initialValues.put(KEY_CATID, account_peer);
-    initialValues.put(KEY_ACCOUNTID, account_id);
-    long _id = mDb.insert(DATABASE_TABLE, null, initialValues);
-    initialValues.put(KEY_AMOUNT, 0 - amount);
-    initialValues.put(KEY_CATID, account_id);
-    initialValues.put(KEY_ACCOUNTID, account_peer);
-    initialValues.put(KEY_TRANSFER_PEER,_id);
-    long transfer_peer = mDb.insert(DATABASE_TABLE, null, initialValues);
-    ContentValues args = new ContentValues();
-    args.put(KEY_TRANSFER_PEER,transfer_peer);
-    mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + _id, null);
     return _id;
   }
 
@@ -223,9 +175,6 @@ public class ExpensesDbAdapter {
 
     return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
   }
-  public boolean deleteTransfer(long rowId, int transfer_peer) {
-    return mDb.delete(DATABASE_TABLE, KEY_ROWID + " in (" + rowId + "," + transfer_peer + ")", null) > 0;
-  }
   public void deleteExpenseAll(int account_id ) {
     mDb.execSQL("DELETE from expenses WHERE account_id = " + account_id);
   }
@@ -237,8 +186,8 @@ public class ExpensesDbAdapter {
    */
   public Cursor fetchExpenseAll(int account_id) {
 
-    return mDb.query(DATABASE_TABLE,
-        new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_CATID,FULL_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER}, 
+    return mDb.query(JOIN_EXP,
+        new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_CATID,FULL_LABEL,KEY_PAYEE}, 
         "account_id = " + account_id, null, null, null, KEY_DATE);
   }
 
@@ -253,8 +202,8 @@ public class ExpensesDbAdapter {
 
     Cursor mCursor =
 
-      mDb.query(DATABASE_TABLE,
-          new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,SHORT_LABEL,KEY_PAYEE,KEY_ACCOUNTID},
+      mDb.query(JOIN_EXP,
+          new String[] {DATABASE_TABLE+"."+KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,"label",KEY_PAYEE,KEY_ACCOUNTID},
           DATABASE_TABLE+"."+KEY_ROWID + "=" + rowId,
           null, null, null, null, null);
     if (mCursor != null) {
@@ -275,7 +224,7 @@ public class ExpensesDbAdapter {
    * @param comment value to set
    * @return true if the note was successfully updated, false otherwise
    */
-  public void updateExpense(long rowId, String date, float amount, String comment,int cat_id,String payee) {
+  public void updateExpense(long rowId, String date, String amount, String comment,String cat_id,String payee) {
     ContentValues args = new ContentValues();
     args.put(KEY_DATE, date);
     args.put(KEY_AMOUNT, amount);
@@ -331,8 +280,10 @@ public class ExpensesDbAdapter {
     }
   }
   
-  public void incrCategoryUsage(int cat_id) {
+  public void incrCategoryUsage(String cat_id) {
+    if (cat_id != null) {
       mDb.execSQL("update categories set usages = usages +1 where _id = " + cat_id + " or _id = (select parent_id from categories where _id = " +cat_id + ")");
+    }
   }
   
   public long getCategoryId(String label, String parent_id) {
@@ -366,7 +317,7 @@ public class ExpensesDbAdapter {
   //the categories
   public Cursor fetchCategoryMainUnionTransfer() {
     return mDb.rawQuery(
-        "SELECT _id,label,usages FROM categories WHERE parent_id = 0 UNION " +
+        "SELECT _id,label,usages FROM categories UNION " +
         "SELECT -1,\"__TRANSFER__\",-1 WHERE (SELECT count(*) FROM accounts)>1 " +
         "ORDER BY usages DESC;n", null);
   }
