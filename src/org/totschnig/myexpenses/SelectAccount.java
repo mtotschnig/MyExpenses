@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -36,6 +37,7 @@ public class SelectAccount extends ListActivity {
   private static final int INSERT_ACCOUNT_ID = Menu.FIRST + 2;
   private ExpensesDbAdapter mDbHelper;
   Cursor mAccountsCursor;
+  int mCurrentAccount;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,8 @@ public class SelectAccount extends ListActivity {
     // Set up our adapter
     mDbHelper = new ExpensesDbAdapter(SelectAccount.this);
     mDbHelper.open();
+    Bundle extras = getIntent().getExtras();
+    mCurrentAccount = extras.getInt("current_account");
     fillData();
     registerForContextMenu(getListView());
   }
@@ -102,8 +106,10 @@ public class SelectAccount extends ListActivity {
   public void onCreateContextMenu(ContextMenu menu, View v,
       ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
+    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
     menu.add(0, EDIT_ID, 0, R.string.menu_edit_account);
-    menu.add(0, DELETE_ID, 0, R.string.menu_delete_account);
+    if (info.id != mCurrentAccount)
+      menu.add(0, DELETE_ID, 0, R.string.menu_delete_account);
   }
 
   @Override

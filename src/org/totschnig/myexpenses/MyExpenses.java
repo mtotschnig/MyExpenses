@@ -197,7 +197,7 @@ public class MyExpenses extends ListActivity {
       return true;
     case SELECT_ACCOUNT_ID:
       Intent i = new Intent(this, SelectAccount.class);
-      //i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
+      i.putExtra("current_account", mCurrentAccount);
       startActivityForResult(i, ACTIVITY_SELECT_ACCOUNT);
       return true;
     }
