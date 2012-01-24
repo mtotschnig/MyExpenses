@@ -143,10 +143,9 @@ public class ExpenseEdit extends Activity {
   }
   private void startSelectCategory() {
     Intent i = new Intent(this, SelectCategory.class);
-    i.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID, mAccountId);
+    //i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
     startActivityForResult(i, 0);
   }
-
   private DatePickerDialog.OnDateSetListener mDateSetListener =
     new DatePickerDialog.OnDateSetListener() {
 
@@ -187,8 +186,6 @@ public class ExpenseEdit extends Activity {
       setTitle(R.string.menu_edit_ta);
       Cursor note = mDbHelper.fetchExpense(mRowId);
       startManagingCursor(note);
-      mAccountId = note.getInt(
-          note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ACCOUNTID));
       String dateString = note.getString(
           note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE));
       Timestamp date = Timestamp.valueOf(dateString);

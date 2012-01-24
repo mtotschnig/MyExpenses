@@ -66,7 +66,6 @@ public class SelectCategory extends ExpandableListActivity {
     int mGroupIdColumnIndex;
     ProgressDialog mProgressDialog;
     int mTotalCategories;
-    private int mAccountId;
     private final String[] ITEMS = {"Grisbi default (en)", "Grisbi default (fr)", "Grisbi default (de)", "/sdcard/myexpenses/categories.xml"};
 
     @Override
@@ -92,19 +91,8 @@ public class SelectCategory extends ExpandableListActivity {
                 new int[] {android.R.id.text1},
                 new String[] {"label"},
                 new int[] {android.R.id.text1});
-        mAdapter.setViewBinder(new ViewBinder() {
-          public boolean setViewValue(View aView, Cursor aCursor, int aColumnIndex) {
-            if (aCursor.getString(mGroupIdColumnIndex).equals("-1")) {
-              TextView textView = (TextView) aView;
-              textView.setText(R.string.transfer);
-               return true;
-            }
-            return false;
-          }
-        });
+
         setListAdapter(mAdapter);
-        Bundle extras = getIntent().getExtras();
-        mAccountId = extras.getInt(ExpensesDbAdapter.KEY_ACCOUNTID);
         registerForContextMenu(getExpandableListView());
     }
     
@@ -212,16 +200,12 @@ public class SelectCategory extends ExpandableListActivity {
         }
         @Override
         protected Cursor getChildrenCursor(Cursor groupCursor) {
-          Cursor itemsCursor;
-          // Given the group, we return a cursor for all the children within that group
-        	String parent_id = groupCursor.getString(mGroupIdColumnIndex);
-        	if (parent_id.equals("-1")) {
-        	  itemsCursor = mDbHelper.fetchAccountOther(mAccountId);
-        	} else {
-        	  itemsCursor = mDbHelper.fetchCategorySub(parent_id);
-        	}
+            // Given the group, we return a cursor for all the children within that group
+        	String parent_id = groupCursor.getString(groupIdColumnIndex);
+        	Cursor itemsCursor = mDbHelper.fetchCategorySub(parent_id);
         	startManagingCursor(itemsCursor);
         	return itemsCursor;
+
         }
     }
     public void createCat(final String parent_id) {
@@ -294,7 +278,6 @@ public class SelectCategory extends ExpandableListActivity {
       });
       builder.show();
     }
-    
     private class MyAsyncTask extends AsyncTask<Void, Integer, Integer> {
       private Context context;
       private int source;
