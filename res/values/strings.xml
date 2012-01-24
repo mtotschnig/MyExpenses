@@ -4,6 +4,7 @@
     <string name="no_expenses">No Expenses Yet!</string>
     <string name="menu_insert_account">Create new account</string>
     <string name="menu_insert_ta">Add Transaction</string>
+    <string name="menu_insert_transfer">Add Transfer</string>
     <string name="menu_edit_ta">Edit Transaction</string>
     <string name="menu_delete">Delete Transaction</string>
     <string name="menu_show_detail">Show details</string>
@@ -78,4 +79,5 @@
         The following currency symbols currently used for your accounts, need to be fixed: %1$s </string>
     <string name="important_version_information">New version: Important information</string>
     <string name="button_continue">Continue</string>
+    <string name="account">Account</string>
     </resources>

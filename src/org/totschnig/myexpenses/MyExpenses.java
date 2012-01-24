@@ -58,11 +58,14 @@ public class MyExpenses extends ListActivity {
   private static final int ACTIVITY_SELECT_ACCOUNT=2;
 
   private static final int INSERT_TA_ID = Menu.FIRST;
+  private static final int INSERT_TRANSFER_ID = Menu.FIRST + 1;
   private static final int RESET_ID = Menu.FIRST + 3;
   private static final int DELETE_ID = Menu.FIRST +4;
   private static final int SHOW_DETAIL_ID = Menu.FIRST +5;
   private static final int HELP_ID = Menu.FIRST +6;
   private static final int SELECT_ACCOUNT_ID = Menu.FIRST +7;
+  public static final boolean TYPE_TRANSACTION = true;
+  public static final boolean TYPE_TRANSFER = false;
 
   private ExpensesDbAdapter mDbHelper;
 
@@ -170,6 +173,8 @@ public class MyExpenses extends ListActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     menu.add(0, INSERT_TA_ID, 0, R.string.menu_insert_ta);
+    if (mDbHelper.getAccountCount() > 1)
+      menu.add(0, INSERT_TRANSFER_ID, 0, R.string.menu_insert_transfer);
     menu.add(0, RESET_ID,1,R.string.menu_reset);
     menu.add(0, HELP_ID,1,R.string.menu_help);
     menu.add(0, SELECT_ACCOUNT_ID,1,R.string.select_account);
@@ -179,7 +184,10 @@ public class MyExpenses extends ListActivity {
   public boolean onMenuItemSelected(int featureId, MenuItem item) {
     switch(item.getItemId()) {
     case INSERT_TA_ID:
-      createRow();
+      createRow(TYPE_TRANSACTION);
+      return true;
+    case INSERT_TRANSFER_ID:
+      createRow(TYPE_TRANSFER);
       return true;
     case RESET_ID:
       reset();
@@ -208,7 +216,12 @@ public class MyExpenses extends ListActivity {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case DELETE_ID:
-      mDbHelper.deleteExpense(info.id);
+      int transfer_peer = mExpensesCursor.getInt(
+          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
+      if (transfer_peer == 0)
+        mDbHelper.deleteExpense(info.id);
+      else
+        mDbHelper.deleteTransfer(info.id,transfer_peer);
       fillData();
       return true;
     case SHOW_DETAIL_ID:
@@ -223,8 +236,9 @@ public class MyExpenses extends ListActivity {
     }
     return super.onContextItemSelected(item);
   }  
-  private void createRow() {
+  private void createRow(boolean type) {
     Intent i = new Intent(this, ExpenseEdit.class);
+    i.putExtra("operationType", type);
     i.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID,mCurrentAccount);
     startActivityForResult(i, ACTIVITY_CREATE);
   }
@@ -281,8 +295,11 @@ public class MyExpenses extends ListActivity {
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
+    boolean operationType = mExpensesCursor.getInt(
+        mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER)) == 0;
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
+    i.putExtra("operationType", operationType);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
 

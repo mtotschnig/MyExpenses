@@ -43,11 +43,11 @@
 				</TableRow>
 				
 				<TableRow>
-					<TextView android:text="@string/category" />
+					<TextView android:id="@+id/CategoryLabel" android:text="@string/category" />
 					<Button android:id="@+id/Category" android:text="@string/select"></Button>
 				</TableRow>
 				
-				<TableRow>
+				<TableRow android:id="@+id/PayeeRow">
 					<TextView android:id="@+id/PayeeLabel" android:text="@string/payee" />
 					<AutoCompleteTextView android:completionThreshold="1" android:id="@+id/Payee" android:layout_width="wrap_content" android:layout_height="wrap_content"></AutoCompleteTextView>
 				</TableRow>

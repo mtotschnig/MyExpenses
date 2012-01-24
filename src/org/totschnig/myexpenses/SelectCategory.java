@@ -51,7 +51,6 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
-import android.widget.SimpleCursorTreeAdapter.ViewBinder;
 
 public class SelectCategory extends ExpandableListActivity {
     private MyExpandableListAdapter mAdapter;
@@ -76,7 +75,7 @@ public class SelectCategory extends ExpandableListActivity {
         // Set up our adapter
         mDbHelper = new ExpensesDbAdapter(this);
         mDbHelper.open();
-        mGroupCursor = mDbHelper.fetchCategoryMainUnionTransfer();
+        mGroupCursor = mDbHelper.fetchCategoryMain();
         startManagingCursor(mGroupCursor);
 
         // Cache the ID column index
@@ -201,7 +200,7 @@ public class SelectCategory extends ExpandableListActivity {
         @Override
         protected Cursor getChildrenCursor(Cursor groupCursor) {
             // Given the group, we return a cursor for all the children within that group
-        	String parent_id = groupCursor.getString(groupIdColumnIndex);
+        	String parent_id = groupCursor.getString(mGroupIdColumnIndex);
         	Cursor itemsCursor = mDbHelper.fetchCategorySub(parent_id);
         	startManagingCursor(itemsCursor);
         	return itemsCursor;

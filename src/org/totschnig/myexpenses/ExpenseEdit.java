@@ -17,10 +17,13 @@ package org.totschnig.myexpenses;
 
 import java.sql.Timestamp;
 import java.util.Date;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -39,13 +42,14 @@ public class ExpenseEdit extends Activity {
   private Button mTimeButton;
   private EditText mAmountText;
   private EditText mCommentText;
-  private Button mcategoryButton;
-  private Button mtypeButton;
+  private Button mCategoryButton;
+  private Button mTypeButton;
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel;
   private Long mRowId;
   private int mAccountId;
   private ExpensesDbAdapter mDbHelper;
+  //for transfers mCatId stores the peer account
   private int mCatId;
   private int mYear;
   private int mMonth;
@@ -56,6 +60,8 @@ public class ExpenseEdit extends Activity {
   public static final boolean INCOME = true;
   public static final boolean EXPENSE = false;
   private boolean mType = EXPENSE;
+  //normal transaction or transfer
+  private boolean mOperationType;
 
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
@@ -66,9 +72,13 @@ public class ExpenseEdit extends Activity {
     mDbHelper = new ExpensesDbAdapter(this);
     mDbHelper.open();
 
+    Bundle extras = getIntent().getExtras();
+    mRowId = extras.getLong(ExpensesDbAdapter.KEY_ROWID,0);
+    mAccountId = extras.getInt(ExpensesDbAdapter.KEY_ACCOUNTID);
+    mOperationType = extras.getBoolean("operationType");
+    
     setContentView(R.layout.one_expense);
 
-    mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mDateButton = (Button) findViewById(R.id.Date);
     mDateButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
@@ -82,30 +92,32 @@ public class ExpenseEdit extends Activity {
         showDialog(TIME_DIALOG_ID);
       }
     });
+
     mAmountText = (EditText) findViewById(R.id.Amount);
     mCommentText = (EditText) findViewById(R.id.Comment);
 
     Button confirmButton = (Button) findViewById(R.id.Confirm);
     Button cancelButton = (Button) findViewById(R.id.Cancel);
     
-    Cursor allPayees = mDbHelper.fetchPayeeAll();
-    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-        android.R.layout.simple_dropdown_item_1line);
-    allPayees.moveToFirst();
-    while(!allPayees.isAfterLast()) {
-         adapter.add(allPayees.getString(allPayees.getColumnIndex("name")));
-         allPayees.moveToNext();
+    
+    if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
+      mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
+      Cursor allPayees = mDbHelper.fetchPayeeAll();
+      ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+          android.R.layout.simple_dropdown_item_1line);
+      allPayees.moveToFirst();
+      while(!allPayees.isAfterLast()) {
+           adapter.add(allPayees.getString(allPayees.getColumnIndex("name")));
+           allPayees.moveToNext();
+      }
+      allPayees.close();
+      mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
+      mPayeeText.setAdapter(adapter);
+    } else {
+      View v = findViewById(R.id.PayeeRow);
+      v.setVisibility(View.GONE);
     }
-    allPayees.close();
-    mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
-    mPayeeText.setAdapter(adapter);
-
-    Bundle extras = getIntent().getExtras();
-    mRowId = extras != null ? extras.getLong(ExpensesDbAdapter.KEY_ROWID) 
-          : 0;
-    if (extras != null)
-     mAccountId = extras.getInt(ExpensesDbAdapter.KEY_ACCOUNTID);
-
+    
     confirmButton.setOnClickListener(new View.OnClickListener() {
 
       public void onClick(View view) {
@@ -120,15 +132,41 @@ public class ExpenseEdit extends Activity {
         finish();
       }
     });
-    mcategoryButton = (Button) findViewById(R.id.Category);
-    mcategoryButton.setOnClickListener(new View.OnClickListener() {
+    mCategoryButton = (Button) findViewById(R.id.Category);
+    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+      mCategoryButton.setText(R.string.account);
+    }
+    mCategoryButton.setOnClickListener(new View.OnClickListener() {
 
       public void onClick(View view) {
-        startSelectCategory();
-      } 
+        if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
+          startSelectCategory();
+        } else {
+          AlertDialog.Builder builder = new AlertDialog.Builder(ExpenseEdit.this);
+          builder.setTitle("Pick an account");
+          final Cursor otherAccounts = mDbHelper.fetchAccountOther(mAccountId);
+          final String[] accounts = new String[otherAccounts.getCount()];
+          if(otherAccounts.moveToFirst()){
+           for (int i = 0; i < otherAccounts.getCount(); i++){
+             accounts[i] = otherAccounts.getString(otherAccounts.getColumnIndex("label"));
+             otherAccounts.moveToNext();
+           }
+          }
+          builder.setSingleChoiceItems(accounts, -1, new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int item) {
+                otherAccounts.moveToPosition(item);
+                mCatId = otherAccounts.getInt(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+                mCategoryButton.setText("=>" + accounts[item]);
+                otherAccounts.close();
+                dialog.cancel();
+              }
+          });
+          builder.show();
+        }
+      }
     });
-    mtypeButton = (Button) findViewById(R.id.TaType);
-    mtypeButton.setOnClickListener(new View.OnClickListener() {
+    mTypeButton = (Button) findViewById(R.id.TaType);
+    mTypeButton.setOnClickListener(new View.OnClickListener() {
 
       public void onClick(View view) {
         toggleType();
@@ -206,12 +244,14 @@ public class ExpenseEdit extends Activity {
       mAmountText.setText(Float.toString(amount));
       mCommentText.setText(note.getString(
           note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)));
-      mPayeeText.setText(note.getString(
-          note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE)));
+      if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
+        mPayeeText.setText(note.getString(
+            note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE)));
+      }
       mCatId = note.getInt(note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
       String label =  note.getString(note.getColumnIndexOrThrow("label"));
       if (label != null && label.length() != 0) {
-        mcategoryButton.setText(label);
+        mCategoryButton.setText(label);
       }
     } else {
       Date date =  new Date();
@@ -250,22 +290,39 @@ public class ExpenseEdit extends Activity {
 //  }
 
   private void saveState() {
-    String amount = mAmountText.getText().toString();
+    long id;
+    float amount;
+    try {
+      amount = Float.valueOf(mAmountText.getText().toString());
+    } catch (NumberFormatException e) {
+      amount = 0;
+    }
     String comment = mCommentText.getText().toString();
     String strDate = mDateButton.getText().toString() + " " + mTimeButton.getText().toString() + ":00.0";
-    String payee = mPayeeText.getText().toString();
     if (mType == EXPENSE) {
-      amount = "-"+ amount;
+      amount = 0 - amount;
     }
-    if (mRowId == 0) {
-      long id = mDbHelper.createExpense(strDate, amount, comment,String.valueOf(mCatId),String.valueOf(mAccountId),payee);
-      if (id > 0) {
-        mRowId = id;
+    if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
+      String payee = mPayeeText.getText().toString();
+      mDbHelper.createPayeeOrIgnore(payee);
+      if (mRowId == 0) {
+        id = mDbHelper.createExpense(strDate, amount, comment,mCatId,mAccountId,payee);
+        if (id > 0) {
+          mRowId = id;
+        }
+      } else {
+        mDbHelper.updateExpense(mRowId, strDate, amount, comment,mCatId,payee);
       }
     } else {
-      mDbHelper.updateExpense(mRowId, strDate, amount, comment,String.valueOf(mCatId),payee);
+      if (mRowId == 0) {
+        id = mDbHelper.createTransfer(strDate, amount, comment,mCatId,mAccountId);
+        if (id > 0) {
+          mRowId = id;
+        }
+      } else {
+        mDbHelper.updateTransfer(mRowId, strDate, amount, comment,mCatId);
+      }
     }
-    mDbHelper.createPayeeOrIgnore(payee);
   }
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
@@ -273,12 +330,14 @@ public class ExpenseEdit extends Activity {
     if (intent != null) {
       //Here we will have to set the category for the expense
       mCatId = intent.getIntExtra("cat_id",0);
-      mcategoryButton.setText(intent.getStringExtra("label"));
+      mCategoryButton.setText(intent.getStringExtra("label"));
     }
   }
   private void toggleType() {
     mType = ! mType;
-    mtypeButton.setText(mType ? "+" : "-");
-    mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
+    mTypeButton.setText(mType ? "+" : "-");
+    if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
+      mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
+    }
   }
 }
