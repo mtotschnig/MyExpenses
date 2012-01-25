@@ -80,4 +80,5 @@
     <string name="important_version_information">New version: Important information</string>
     <string name="button_continue">Continue</string>
     <string name="account">Account</string>
+    <string name="warning_select_account">Please select an account!</string>
     </resources>

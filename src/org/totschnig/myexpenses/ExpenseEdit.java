@@ -35,6 +35,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ExpenseEdit extends Activity {
 
@@ -122,8 +123,8 @@ public class ExpenseEdit extends Activity {
 
       public void onClick(View view) {
         setResult(RESULT_OK);
-        saveState();
-        finish();
+        if (saveState())
+          finish();
       }
     });
     cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +145,7 @@ public class ExpenseEdit extends Activity {
         } else {
           AlertDialog.Builder builder = new AlertDialog.Builder(ExpenseEdit.this);
           builder.setTitle("Pick an account");
-          final Cursor otherAccounts = mDbHelper.fetchAccountOther(mAccountId);
+          final Cursor otherAccounts = mDbHelper.fetchAccountOtherWithCurrency(mAccountId);
           final String[] accounts = new String[otherAccounts.getCount()];
           if(otherAccounts.moveToFirst()){
            for (int i = 0; i < otherAccounts.getCount(); i++){
@@ -289,7 +290,7 @@ public class ExpenseEdit extends Activity {
 //    super.onSaveInstanceState(outState);
 //  }
 
-  private void saveState() {
+  private boolean saveState() {
     long id;
     float amount;
     try {
@@ -315,6 +316,10 @@ public class ExpenseEdit extends Activity {
       }
     } else {
       if (mRowId == 0) {
+        if (mCatId == 0) {
+          Toast.makeText(this,getString(R.string.warning_select_account), Toast.LENGTH_LONG).show();
+          return false;
+        }
         id = mDbHelper.createTransfer(strDate, amount, comment,mCatId,mAccountId);
         if (id > 0) {
           mRowId = id;
@@ -323,6 +328,7 @@ public class ExpenseEdit extends Activity {
         mDbHelper.updateTransfer(mRowId, strDate, amount, comment,mCatId);
       }
     }
+    return true;
   }
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 

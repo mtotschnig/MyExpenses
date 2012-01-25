@@ -423,10 +423,13 @@ public class ExpensesDbAdapter {
         new String[] {"accounts."+KEY_ROWID,"label","description","opening_balance","currency"}, 
         null, null, null, null, null);
   }
-  public Cursor fetchAccountOther(int account_id) {
+  //returns other Accounts WITH the same currency
+  public Cursor fetchAccountOtherWithCurrency(int account_id) {
     return mDb.query("accounts",
         new String[] {"accounts."+KEY_ROWID,"label"}, 
-        KEY_ROWID + "!=" + account_id,
+        KEY_ROWID + " != " + account_id + 
+            " AND currency = (select currency from accounts where " + 
+            KEY_ROWID + " = " + account_id + ")",
         null, null, null, null);
   }
   public Cursor fetchAccount(long rowId) throws SQLException {
