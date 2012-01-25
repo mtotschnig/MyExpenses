@@ -90,7 +90,7 @@ public class AccountEdit extends Activity {
     });
     cancelButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
-        setResult(RESULT_OK);
+        setResult(RESULT_CANCELED);
         finish();
       }
     });

@@ -79,7 +79,8 @@ public class SelectAccount extends ListActivity {
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    fillData();
+    if (resultCode == RESULT_OK)
+      fillData();
   }
   private void fillData () {
     if (mAccountsCursor == null) {

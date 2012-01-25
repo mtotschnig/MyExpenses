@@ -449,8 +449,8 @@ public class ExpensesDbAdapter {
   public boolean deleteAccount(long rowId) {
     return mDb.delete("accounts", KEY_ROWID + "=" + rowId, null) > 0;
   }
-  public int getAccountCount() {
-    Cursor mCursor = mDb.rawQuery("select count(*) from accounts", null);
+  public int getAccountCountWithCurrency(String currency) {
+    Cursor mCursor = mDb.rawQuery("select count(*) from accounts WHERE currency = ?", new String[] {currency});
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);
     mCursor.close();

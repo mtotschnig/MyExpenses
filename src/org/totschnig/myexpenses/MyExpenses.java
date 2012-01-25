@@ -69,12 +69,15 @@ public class MyExpenses extends ListActivity {
 
   private ExpensesDbAdapter mDbHelper;
 
-  int mCurrentAccount;
-  float mStart;
-  float mEnd;
-  SharedPreferences mSettings;
-  Cursor mExpensesCursor;
-  String mCurrency;
+  private int mCurrentAccount;
+  private String mCurrency;
+  private float mStart;
+  private float mEnd;
+  
+  private SharedPreferences mSettings;
+  private Cursor mExpensesCursor;
+  //this boolean stores if a new account has been added in SelectAccount
+  //we need this to recreate options menu
 
   /** Called when the activity is first created. */
   @Override
@@ -170,11 +173,18 @@ public class MyExpenses extends ListActivity {
   } 
 
   @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+    MenuItem item = menu.findItem(INSERT_TRANSFER_ID);
+    item.setVisible(mDbHelper.getAccountCountWithCurrency(mCurrency) > 1);
+    return true;
+  }
+
+  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     menu.add(0, INSERT_TA_ID, 0, R.string.menu_insert_ta);
-    if (mDbHelper.getAccountCount() > 1)
-      menu.add(0, INSERT_TRANSFER_ID, 0, R.string.menu_insert_transfer);
+    menu.add(0, INSERT_TRANSFER_ID, 0, R.string.menu_insert_transfer);
     menu.add(0, RESET_ID,1,R.string.menu_reset);
     menu.add(0, HELP_ID,1,R.string.menu_help);
     menu.add(0, SELECT_ACCOUNT_ID,1,R.string.select_account);
