@@ -47,8 +47,8 @@ public class ExpenseEdit extends Activity {
   private Button mTypeButton;
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel;
-  private Long mRowId;
-  private int mAccountId;
+  private long mRowId;
+  private long mAccountId;
   private ExpensesDbAdapter mDbHelper;
   //for transfers mCatId stores the peer account
   private int mCatId;
@@ -75,7 +75,7 @@ public class ExpenseEdit extends Activity {
 
     Bundle extras = getIntent().getExtras();
     mRowId = extras.getLong(ExpensesDbAdapter.KEY_ROWID,0);
-    mAccountId = extras.getInt(ExpensesDbAdapter.KEY_ACCOUNTID);
+    mAccountId = extras.getLong(ExpensesDbAdapter.KEY_ACCOUNTID);
     mOperationType = extras.getBoolean("operationType");
     
     setContentView(R.layout.one_expense);
@@ -144,7 +144,7 @@ public class ExpenseEdit extends Activity {
           startSelectCategory();
         } else {
           AlertDialog.Builder builder = new AlertDialog.Builder(ExpenseEdit.this);
-          builder.setTitle("Pick an account");
+          builder.setTitle(R.string.dialog_title_select_account);
           final Cursor otherAccounts = mDbHelper.fetchAccountOtherWithCurrency(mAccountId);
           final String[] accounts = new String[otherAccounts.getCount()];
           if(otherAccounts.moveToFirst()){
@@ -157,7 +157,7 @@ public class ExpenseEdit extends Activity {
               public void onClick(DialogInterface dialog, int item) {
                 otherAccounts.moveToPosition(item);
                 mCatId = otherAccounts.getInt(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
-                mCategoryButton.setText("=>" + accounts[item]);
+                mCategoryButton.setText((mType == EXPENSE ? "=> " :"<= ") + accounts[item]);
                 otherAccounts.close();
                 dialog.cancel();
               }
@@ -223,15 +223,14 @@ public class ExpenseEdit extends Activity {
     //TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
     if (mRowId != 0) {
       setTitle(R.string.menu_edit_ta);
-      Cursor note = mDbHelper.fetchExpense(mRowId);
-      startManagingCursor(note);
-      String dateString = note.getString(
-          note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE));
+      Cursor c = mDbHelper.fetchExpense(mRowId);
+      String dateString = c.getString(
+          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE));
       Timestamp date = Timestamp.valueOf(dateString);
       setDateTime(date);
       try {
-        amount = Float.valueOf(note.getString(
-            note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)));
+        amount = Float.valueOf(c.getString(
+            c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)));
       } catch (NumberFormatException e) {
         amount = 0;
       }
@@ -243,17 +242,18 @@ public class ExpenseEdit extends Activity {
 
       
       mAmountText.setText(Float.toString(amount));
-      mCommentText.setText(note.getString(
-          note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)));
+      mCommentText.setText(c.getString(
+          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)));
       if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
-        mPayeeText.setText(note.getString(
-            note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE)));
+        mPayeeText.setText(c.getString(
+            c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE)));
       }
-      mCatId = note.getInt(note.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
-      String label =  note.getString(note.getColumnIndexOrThrow("label"));
+      mCatId = c.getInt(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
+      String label =  c.getString(c.getColumnIndexOrThrow("label"));
       if (label != null && label.length() != 0) {
-        mCategoryButton.setText(label);
+        mCategoryButton.setText((mType == EXPENSE ? "=> " :"<= ") + label);
       }
+      c.close();
     } else {
       Date date =  new Date();
       setDateTime(date);

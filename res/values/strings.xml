@@ -81,4 +81,7 @@
     <string name="button_continue">Continue</string>
     <string name="account">Account</string>
     <string name="warning_select_account">Please select an account!</string>
+    <string name="dialog_title_select_account">Pick an account</string>
+    <string name="dialog_title_select_import_source"> Pick a source for import</string>
+    <string name="warning_reset_account">All expenses of this account will be deleted. Do you want to continue?</string>
     </resources>

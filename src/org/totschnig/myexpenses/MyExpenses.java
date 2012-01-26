@@ -49,7 +49,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
+//import android.util.DisplayMetrics;
 import android.util.Log;
 
 public class MyExpenses extends ListActivity {
@@ -69,10 +69,7 @@ public class MyExpenses extends ListActivity {
 
   private ExpensesDbAdapter mDbHelper;
 
-  private int mCurrentAccount;
-  private String mCurrency;
-  private float mStart;
-  private float mEnd;
+  private Account mCurrentAccount;
   
   private SharedPreferences mSettings;
   private Cursor mExpensesCursor;
@@ -88,11 +85,12 @@ public class MyExpenses extends ListActivity {
     mDbHelper.open();
     mSettings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     newVersionCheck();
-    mCurrentAccount = mSettings.getInt("current_account", 1);
+    int account_id = mSettings.getInt("current_account", 0);
+    mCurrentAccount = new Account(mDbHelper,account_id);
     fillData();
     registerForContextMenu(getListView());
-    DisplayMetrics dm = getResources().getDisplayMetrics();
-    Log.i("SCREEN", dm.widthPixels + ":" + dm.density);
+    //DisplayMetrics dm = getResources().getDisplayMetrics();
+    //Log.i("SCREEN", dm.widthPixels + ":" + dm.density);
   }
   @Override
   public void onDestroy() {
@@ -100,21 +98,19 @@ public class MyExpenses extends ListActivity {
     mDbHelper.close();
   }
   private void fillData() {
-    mExpensesCursor = mDbHelper.fetchExpenseAll(mCurrentAccount);
+    mExpensesCursor = mDbHelper.fetchExpenseAll(mCurrentAccount.id);
     startManagingCursor(mExpensesCursor);
-    Cursor account = mDbHelper.fetchAccount(mCurrentAccount);
-    setTitle(account.getString(account.getColumnIndexOrThrow("label")));
-    mStart = account.getFloat(account.getColumnIndexOrThrow("opening_balance"));
-    mCurrency = account.getString(account.getColumnIndexOrThrow("currency")).trim();
-    account.close();
+
+    setTitle(mCurrentAccount.label);
+
     TextView startView= (TextView) findViewById(R.id.start);
-    startView.setText(formatCurrency(mStart));
+    startView.setText(formatCurrency(mCurrentAccount.openingBalance));
 
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{"label",ExpensesDbAdapter.KEY_DATE,ExpensesDbAdapter.KEY_AMOUNT};
 
     // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.text1,R.id.date1,R.id.float1};
+    int[] to = new int[]{R.id.category,R.id.date,R.id.amount};
 
     // Now create a simple cursor adapter and set it to display
     SimpleCursorAdapter expense = new SimpleCursorAdapter(this, R.layout.expense_row, mExpensesCursor, from, to)  {
@@ -125,7 +121,7 @@ public class MyExpenses extends ListActivity {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
         View row=super.getView(position, convertView, parent);
-        TextView tv1 = (TextView)row.findViewById(R.id.float1);
+        TextView tv1 = (TextView)row.findViewById(R.id.amount);
         Cursor c = getCursor();
         c.moveToPosition(position);
         int col = c.getColumnIndex(ExpensesDbAdapter.KEY_AMOUNT);
@@ -137,31 +133,29 @@ public class MyExpenses extends ListActivity {
         else {
           tv1.setTextColor(android.graphics.Color.BLACK);
         }
+        TextView tv2 = (TextView)row.findViewById(R.id.category);
+        col = c.getColumnIndex(ExpensesDbAdapter.KEY_TRANSFER_PEER);
+        if (c.getLong(col) != 0) 
+          tv2.setText(((amount < 0) ? "=> " : "<= ") + tv2.getText());
         return row;
       }
     };
     setListAdapter(expense);
     TextView endView= (TextView) findViewById(R.id.end);
-    mEnd = mStart + mDbHelper.getExpenseSum(mCurrentAccount);
-    endView.setText(formatCurrency(mEnd));
+    endView.setText(formatCurrency(mCurrentAccount.getCurrentBalance()));
   }
   private String formatCurrency(float amount) {
     NumberFormat nf = NumberFormat.getCurrencyInstance();
-    try {
-      nf.setCurrency(Currency.getInstance(mCurrency));
-    } catch (IllegalArgumentException e) {
-      Log.e("MyExpenses",mCurrency + " is not defined in ISO 4217");
-    }
-    
+    nf.setCurrency(mCurrentAccount.currency);
     return nf.format(amount);
   }
   private String convText(TextView v, String text) {
     SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
     float amount;
     switch (v.getId()) {
-    case R.id.date1:
+    case R.id.date:
       return formatter.format(Timestamp.valueOf(text));
-    case R.id.float1:
+    case R.id.amount:
       try {
         amount = Float.valueOf(text);
       } catch (NumberFormatException e) {
@@ -176,7 +170,7 @@ public class MyExpenses extends ListActivity {
   public boolean onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
     MenuItem item = menu.findItem(INSERT_TRANSFER_ID);
-    item.setVisible(mDbHelper.getAccountCountWithCurrency(mCurrency) > 1);
+    item.setVisible(mDbHelper.getAccountCountWithCurrency(mCurrentAccount.currency.getCurrencyCode()) > 1);
     return true;
   }
 
@@ -200,14 +194,27 @@ public class MyExpenses extends ListActivity {
       createRow(TYPE_TRANSFER);
       return true;
     case RESET_ID:
-      reset();
+      AlertDialog.Builder builder = new AlertDialog.Builder(this);
+      builder.setMessage(R.string.warning_reset_account)
+        .setCancelable(false)
+        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+              reset();
+            }
+        })
+        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            dialog.cancel();
+          }
+        });
+      builder.show();
       return true;
     case HELP_ID:
       openHelpDialog();
       return true;
     case SELECT_ACCOUNT_ID:
       Intent i = new Intent(this, SelectAccount.class);
-      i.putExtra("current_account", mCurrentAccount);
+      i.putExtra("current_account", mCurrentAccount.id);
       startActivityForResult(i, ACTIVITY_SELECT_ACCOUNT);
       return true;
     }
@@ -249,7 +256,7 @@ public class MyExpenses extends ListActivity {
   private void createRow(boolean type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
-    i.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID,mCurrentAccount);
+    i.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID,mCurrentAccount.id);
     startActivityForResult(i, ACTIVITY_CREATE);
   }
 
@@ -270,7 +277,16 @@ public class MyExpenses extends ListActivity {
       comment = (comment == null || comment.length() == 0) ? "" : "\nM" + comment;
       String label =  mExpensesCursor.getString(
           mExpensesCursor.getColumnIndexOrThrow("label"));
-      label = (label == null || label.length() == 0) ? "" : "\nL" + label;
+
+      if (label == null || label.length() == 0) {
+        label =  "";
+      } else {
+        if (mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER) == 0) {
+          label = "[" + label + "]";
+        }
+        label = "\nL" + label;
+      }
+
       String payee = mExpensesCursor.getString(
           mExpensesCursor.getColumnIndexOrThrow("payee"));
       payee = (payee == null || payee.length() == 0) ? "" : "\nP" + payee;
@@ -288,13 +304,11 @@ public class MyExpenses extends ListActivity {
     out.close();
     mExpensesCursor.moveToFirst();
     Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
-
   }
   private void reset() {
     try {
       exportAll();
-      mDbHelper.deleteExpenseAll(mCurrentAccount);
-      mDbHelper.updateAccountOpeningBalance(mCurrentAccount,mEnd);
+      mCurrentAccount.reset();
       fillData();
     } catch (IOException e) {
       Log.e("MyExpenses",e.getMessage());
@@ -319,8 +333,11 @@ public class MyExpenses extends ListActivity {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == ACTIVITY_SELECT_ACCOUNT) {
       if (resultCode == RESULT_OK) {
-        mCurrentAccount = intent.getIntExtra("account_id", 0);
-        mSettings.edit().putInt("current_account", mCurrentAccount).commit();
+        int account_id = intent.getIntExtra("account_id", 0);
+        if (account_id != mCurrentAccount.id) {
+          mCurrentAccount = new Account(mDbHelper, account_id);
+          mSettings.edit().putInt("current_account", account_id).commit();
+        }
       }
     }
     fillData();
@@ -388,7 +405,7 @@ public class MyExpenses extends ListActivity {
     int pref_version = mSettings.getInt("currentversion", -1);
     int current_version = getVersionNumber();
     if (pref_version == -1) {
-      long account_id = mDbHelper.createAccount("Default account","0","Default account created upon installation","EUR");
+      long account_id = mDbHelper.createAccount("Default account",0,"Default account created upon installation","EUR");
       edit.putInt("current_account", (int) account_id).commit();      
     }
     if (pref_version != current_version) {
@@ -408,14 +425,14 @@ public class MyExpenses extends ListActivity {
   //loop through defined accounts and check if currency is a valid ISO 4217 code
   //returns String concatenation of non conforming symbols in use
   private String checkCurrencies() {
-    String account_id;
+    long account_id;
     String currency;
     String non_conforming = "";
     Cursor accountsCursor = mDbHelper.fetchAccountAll();
     accountsCursor.moveToFirst();
     while(!accountsCursor.isAfterLast()) {
          currency = accountsCursor.getString(accountsCursor.getColumnIndex("currency")).trim();
-         account_id = accountsCursor.getString(accountsCursor.getColumnIndex("_id"));
+         account_id = accountsCursor.getLong(accountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
          try {
            Currency.getInstance(currency);
          } catch (IllegalArgumentException e) {

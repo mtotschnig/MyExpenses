@@ -71,7 +71,7 @@ public class ExpensesDbAdapter {
   private static final String FULL_LABEL = "case when \n" + 
     "  transfer_peer\n" + 
     "     then\n" + 
-    "  '=>' || (select label from accounts where _id = cat_id)\n" + 
+    "  (select label from accounts where _id = cat_id)\n" + 
     "     else\n" + 
     "  case when \n" + 
     "    (select parent_id from categories where _id = cat_id)\n" + 
@@ -84,7 +84,7 @@ public class ExpensesDbAdapter {
   private static final String SHORT_LABEL = "case when \n" + 
     "  transfer_peer\n" + 
     "     then\n" + 
-    "  '=>' || (select label from accounts where _id = cat_id)\n" + 
+    "  (select label from accounts where _id = cat_id)\n" + 
     "     else\n" + 
     "    (select label from categories where _id = cat_id)\n" + 
     "end as label";
@@ -172,7 +172,7 @@ public class ExpensesDbAdapter {
    * @param comment the comment describing the expense
    * @return rowId or -1 if failed
    */
-  public long createExpense(String date, float amount, String comment,int cat_id,int account_id, String payee) {
+  public long createExpense(String date, float amount, String comment,long cat_id,long account_id, String payee) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_DATE, date);
@@ -193,7 +193,7 @@ public class ExpensesDbAdapter {
    * @param comment the comment describing the expense
    * @return rowId or -1 if failed
    */
-  public long createTransfer(String date, float amount, String comment, int cat_id,int account_id) {
+  public long createTransfer(String date, float amount, String comment, long cat_id,long account_id) {
     //the id of the account is stored in KEY_CATID, the id of the peer transaction is stored in KEY_TRANSFER_PEER
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
@@ -223,7 +223,7 @@ public class ExpensesDbAdapter {
    * @param comment value to set
    * @return true if the note was successfully updated, false otherwise
    */
-  public void updateExpense(long rowId, String date, float amount, String comment,int cat_id,String payee) {
+  public void updateExpense(long rowId, String date, float amount, String comment,long cat_id,String payee) {
     ContentValues args = new ContentValues();
     args.put(KEY_DATE, date);
     args.put(KEY_AMOUNT, amount);
@@ -234,8 +234,8 @@ public class ExpensesDbAdapter {
     mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null);
     incrCategoryUsage(cat_id);
   }
-  public void updateTransfer(Long rowId, String date, float amount,
-      String comment, int cat_id) {
+  public void updateTransfer(long rowId, String date, float amount,
+      String comment, long cat_id) {
     ContentValues args = new ContentValues();
     args.put(KEY_DATE, date);
     args.put(KEY_AMOUNT, amount);
@@ -264,7 +264,13 @@ public class ExpensesDbAdapter {
   public boolean deleteTransfer(long rowId, int transfer_peer) {
     return mDb.delete(DATABASE_TABLE, KEY_ROWID + " in (" + rowId + "," + transfer_peer + ")", null) > 0;
   }
-  public void deleteExpenseAll(int account_id ) {
+  /**
+   * Deletes all expenses for a give account
+   * For transfers the peer transaction will 
+   * 
+   * @param account_id
+   */
+  public void deleteExpenseAll(long account_id ) {
     mDb.execSQL("DELETE from expenses WHERE account_id = " + account_id);
   }
 
@@ -273,7 +279,7 @@ public class ExpensesDbAdapter {
    * exposes the full label which concatenate main and sub label if appropriate
    * @return Cursor over all expenses
    */
-  public Cursor fetchExpenseAll(int account_id) {
+  public Cursor fetchExpenseAll(long account_id) {
 
     return mDb.query(DATABASE_TABLE,
         new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, KEY_CATID,FULL_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER}, 
@@ -300,14 +306,14 @@ public class ExpensesDbAdapter {
     return mCursor;
   }
 
-  public float getExpenseSum(int account_id) {
+  public float getExpenseSum(long account_id) {
     Cursor mCursor = mDb.rawQuery("select sum(" + KEY_AMOUNT + ") from " + DATABASE_TABLE +  " WHERE account_id = " + account_id, null);
     mCursor.moveToFirst();
     float result = mCursor.getFloat(0);
     mCursor.close();
     return result;
   }
-  public int getExpenseCount(int cat_id) {
+  public int getExpenseCount(long cat_id) {
     Cursor mCursor = mDb.rawQuery("select count(*) from " + DATABASE_TABLE +  " WHERE cat_id = " + cat_id, null);
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);
@@ -325,7 +331,7 @@ public class ExpensesDbAdapter {
    * CATEGORIES
    */
 
-  public long createCategory(String label, String parent_id) {
+  public long createCategory(String label, long parent_id) {
     ContentValues initialValues = new ContentValues();
     initialValues.put("label", label);
     initialValues.put("parent_id", parent_id);
@@ -333,7 +339,7 @@ public class ExpensesDbAdapter {
     //should return -1 if unique constraint is not met  
     return mDb.insert("categories", null, initialValues);
   }
-  public long updateCategoryLabel(String label, String cat_id) {
+  public long updateCategoryLabel(String label, long cat_id) {
     ContentValues args = new ContentValues();
     args.put("label", label);
 
@@ -345,12 +351,15 @@ public class ExpensesDbAdapter {
     }
   }
   
-  public void incrCategoryUsage(int cat_id) {
+  public void incrCategoryUsage(long cat_id) {
       mDb.execSQL("update categories set usages = usages +1 where _id = " + cat_id + " or _id = (select parent_id from categories where _id = " +cat_id + ")");
   }
   
-  public long getCategoryId(String label, String parent_id) {
-    Cursor mCursor = mDb.rawQuery("select _id from categories where parent_id = ? and label = ?",  new String[] {parent_id, label});
+  public long getCategoryId(String label, long parent_id) {
+    Cursor mCursor = mDb.rawQuery(
+        "select _id from categories where parent_id = ? and label = ?",  
+        new String[] {String.valueOf(parent_id), label}
+    );
     if (mCursor.getCount() == 0) {
       mCursor.close();
       return -1;
@@ -362,7 +371,7 @@ public class ExpensesDbAdapter {
     }
   }
   
-  public boolean deleteCategory(int cat_id) {
+  public boolean deleteCategory(long cat_id) {
     return mDb.delete("categories", KEY_ROWID + "=" + cat_id, null) > 0;
   }
 
@@ -376,14 +385,14 @@ public class ExpensesDbAdapter {
         "usages DESC"
     );
   }
-  public int getCategoryCountSub(int parent_id){
+  public int getCategoryCountSub(long parent_id){
     Cursor mCursor = mDb.rawQuery("select count(*) from categories where parent_id = " + parent_id, null);
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);
     mCursor.close();
     return result;
   }
-  public Cursor fetchCategorySub(String parent_id) {
+  public Cursor fetchCategorySub(long parent_id) {
     return mDb.query("categories", new String[] {KEY_ROWID,
     "label"}, "parent_id = " + parent_id, null, null, null, "usages DESC");
   }
@@ -397,12 +406,11 @@ public class ExpensesDbAdapter {
    * ACCOUNTS
    */
   
-  public void updateAccountCurrency(String account_id, String newStr) {
+  public void updateAccountCurrency(long account_id, String newStr) {
     mDb.execSQL("update accounts set currency = '" + newStr + "' where _id = " + account_id);
   }
-  
 
-  public long createAccount(String label, String opening_balance, String description, String currency) {
+  public long createAccount(String label, float opening_balance, String description, String currency) {
     ContentValues initialValues = new ContentValues();
     initialValues.put("label", label);
     initialValues.put("opening_balance",opening_balance);
@@ -410,7 +418,7 @@ public class ExpensesDbAdapter {
     initialValues.put("currency",currency);
     return mDb.insert("accounts", null, initialValues);
   }
-  public void updateAccount(long rowId, String label, String opening_balance, String description, String currency) {
+  public void updateAccount(long rowId, String label, float opening_balance, String description, String currency) {
     ContentValues args = new ContentValues();
     args.put("label", label);
     args.put("opening_balance",opening_balance);
@@ -424,7 +432,7 @@ public class ExpensesDbAdapter {
         null, null, null, null, null);
   }
   //returns other Accounts WITH the same currency
-  public Cursor fetchAccountOtherWithCurrency(int account_id) {
+  public Cursor fetchAccountOtherWithCurrency(long account_id) {
     return mDb.query("accounts",
         new String[] {"accounts."+KEY_ROWID,"label"}, 
         KEY_ROWID + " != " + account_id + 

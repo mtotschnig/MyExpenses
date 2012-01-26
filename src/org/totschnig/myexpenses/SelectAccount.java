@@ -109,6 +109,7 @@ public class SelectAccount extends ListActivity {
     super.onCreateContextMenu(menu, v, menuInfo);
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
     menu.add(0, EDIT_ID, 0, R.string.menu_edit_account);
+    //currentAccount should not be deleted
     if (info.id != mCurrentAccount)
       menu.add(0, DELETE_ID, 0, R.string.menu_delete_account);
   }

@@ -120,7 +120,7 @@ public class SelectCategory extends ExpandableListActivity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch(item.getItemId()) {
         case CREATE_MAIN_CAT:
-            createCat("0");
+            createCat(0);
             return true;
         case IMPORT_CAT_ID:
           importCategories();
@@ -130,7 +130,7 @@ public class SelectCategory extends ExpandableListActivity {
     }
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        int cat_id;
+        long cat_id;
         ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
         int type = ExpandableListView.getPackedPositionType(info.packedPosition);
         if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {         
@@ -138,9 +138,9 @@ public class SelectCategory extends ExpandableListActivity {
               ExpandableListView.getPackedPositionGroup(info.packedPosition),
               ExpandableListView.getPackedPositionChild(info.packedPosition)
           );
-          cat_id =  childCursor.getInt(childCursor.getColumnIndexOrThrow("_id"));
+          cat_id =  childCursor.getLong(childCursor.getColumnIndexOrThrow("_id"));
         } else  {
-            cat_id = mGroupCursor.getInt(mGroupIdColumnIndex);
+          cat_id = mGroupCursor.getLong(mGroupIdColumnIndex);
         }
         String label =   ((TextView) info.targetView).getText().toString();
         
@@ -153,10 +153,10 @@ public class SelectCategory extends ExpandableListActivity {
     	    	finish();
     	      return true;
     			case CREATE_SUB_CAT:
-    				createCat(String.valueOf(cat_id));
+    				createCat(cat_id);
     				return true;
     			case EDIT_CAT:
-    			  editCat(label,String.valueOf(cat_id));
+    			  editCat(label,cat_id);
     			  return true;
     			case DELETE_CAT:
     			  if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && mDbHelper.getCategoryCountSub(cat_id) > 0) {
@@ -200,14 +200,14 @@ public class SelectCategory extends ExpandableListActivity {
         @Override
         protected Cursor getChildrenCursor(Cursor groupCursor) {
             // Given the group, we return a cursor for all the children within that group
-        	String parent_id = groupCursor.getString(mGroupIdColumnIndex);
+        	long parent_id = groupCursor.getLong(mGroupIdColumnIndex);
         	Cursor itemsCursor = mDbHelper.fetchCategorySub(parent_id);
         	startManagingCursor(itemsCursor);
         	return itemsCursor;
 
         }
     }
-    public void createCat(final String parent_id) {
+    public void createCat(final long parent_id) {
     	AlertDialog.Builder alert = new AlertDialog.Builder(this);
     	alert.setTitle(R.string.create_category);
 
@@ -236,7 +236,7 @@ public class SelectCategory extends ExpandableListActivity {
 
     	alert.show();
     }
-    public void editCat(String label, final String cat_id) {
+    public void editCat(String label, final long cat_id) {
       AlertDialog.Builder alert = new AlertDialog.Builder(this);
       alert.setTitle(R.string.edit_category);
 
@@ -268,7 +268,7 @@ public class SelectCategory extends ExpandableListActivity {
     }
     private void importCategories() {
       AlertDialog.Builder builder = new AlertDialog.Builder(this);
-      builder.setTitle("Pick a source for import");
+      builder.setTitle(R.string.dialog_title_select_import_source);
       builder.setSingleChoiceItems(ITEMS, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
             new MyAsyncTask(SelectCategory.this,item).execute();
@@ -284,13 +284,13 @@ public class SelectCategory extends ExpandableListActivity {
       NodeList sub_categories;
       InputStream catXML;
       Document dom;
-      Hashtable<String,String> Foreign2LocalIdMap;
+      Hashtable<String,Long> Foreign2LocalIdMap;
       int totalImported;
 
       public MyAsyncTask(Context context,int source) {
         this.context = context;
         this.source = source;
-        Foreign2LocalIdMap = new Hashtable<String,String>();
+        Foreign2LocalIdMap = new Hashtable<String,Long>();
         totalImported = 0; 
       }
       protected void onPreExecute() {
@@ -382,13 +382,13 @@ public class SelectCategory extends ExpandableListActivity {
           NamedNodeMap category = categories.item(i).getAttributes();
           label = category.getNamedItem("Na").getNodeValue();
           id =  category.getNamedItem("Nb").getNodeValue();
-          _id = mDbHelper.getCategoryId(label, "0");
+          _id = mDbHelper.getCategoryId(label, 0);
           if (_id != -1) {
-            Foreign2LocalIdMap.put(id, String.valueOf(_id));
+            Foreign2LocalIdMap.put(id, _id);
           } else {
-            _id = mDbHelper.createCategory(label,"0");
+            _id = mDbHelper.createCategory(label,0);
             if (_id != -1) {
-              Foreign2LocalIdMap.put(id, String.valueOf(_id));
+              Foreign2LocalIdMap.put(id, _id);
               totalImported++;
             } else {
               //this should not happen
@@ -405,7 +405,7 @@ public class SelectCategory extends ExpandableListActivity {
         String label;
         //String id;
         String parent_id;
-        String mapped_parent_id;
+        Long mapped_parent_id;
         long _id;
         for (int i=0;i<sub_categories.getLength();i++){
           NamedNodeMap sub_category = sub_categories.item(i).getAttributes();
@@ -417,7 +417,7 @@ public class SelectCategory extends ExpandableListActivity {
           //if we were not able to import a matching category
           //should check if the main category exists, but the subcategory is new
           if (mapped_parent_id != null) {
-            _id = mDbHelper.createCategory(label, Foreign2LocalIdMap.get(parent_id));
+            _id = mDbHelper.createCategory(label, mapped_parent_id);
             if (_id != -1) {
               totalImported++;
             }
