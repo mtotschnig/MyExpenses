@@ -51,7 +51,7 @@ public class ExpenseEdit extends Activity {
   private long mAccountId;
   private ExpensesDbAdapter mDbHelper;
   //for transfers mCatId stores the peer account
-  private int mCatId;
+  private long mCatId;
   private int mYear;
   private int mMonth;
   private int mDay;
@@ -156,7 +156,7 @@ public class ExpenseEdit extends Activity {
           builder.setSingleChoiceItems(accounts, -1, new DialogInterface.OnClickListener() {
               public void onClick(DialogInterface dialog, int item) {
                 otherAccounts.moveToPosition(item);
-                mCatId = otherAccounts.getInt(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+                mCatId = otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
                 mCategoryButton.setText((mType == EXPENSE ? "=> " :"<= ") + accounts[item]);
                 otherAccounts.close();
                 dialog.cancel();
@@ -248,7 +248,7 @@ public class ExpenseEdit extends Activity {
         mPayeeText.setText(c.getString(
             c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE)));
       }
-      mCatId = c.getInt(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
+      mCatId = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
       String label =  c.getString(c.getColumnIndexOrThrow("label"));
       if (label != null && label.length() != 0) {
         mCategoryButton.setText((mType == EXPENSE ? "=> " :"<= ") + label);
@@ -335,7 +335,7 @@ public class ExpenseEdit extends Activity {
       Intent intent) {
     if (intent != null) {
       //Here we will have to set the category for the expense
-      mCatId = intent.getIntExtra("cat_id",0);
+      mCatId = intent.getLongExtra("cat_id",0);
       mCategoryButton.setText(intent.getStringExtra("label"));
     }
   }

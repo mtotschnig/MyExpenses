@@ -180,7 +180,7 @@ public class SelectCategory extends ExpandableListActivity {
     public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
     	//Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
     	Intent intent=new Intent();
-    	int sub_cat = (int) id;
+    	long sub_cat = id;
     	Cursor childCursor = (Cursor) mAdapter.getChild(groupPosition,childPosition);
     	String label =  childCursor.getString(childCursor.getColumnIndexOrThrow("label"));
         intent.putExtra("cat_id",sub_cat);

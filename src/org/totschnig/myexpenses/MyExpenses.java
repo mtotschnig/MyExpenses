@@ -233,7 +233,7 @@ public class MyExpenses extends ListActivity {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case DELETE_ID:
-      int transfer_peer = mExpensesCursor.getInt(
+      long transfer_peer = mExpensesCursor.getLong(
           mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
       if (transfer_peer == 0)
         mDbHelper.deleteExpense(info.id);
@@ -281,7 +281,9 @@ public class MyExpenses extends ListActivity {
       if (label == null || label.length() == 0) {
         label =  "";
       } else {
-        if (mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER) == 0) {
+        long transfer_peer = mExpensesCursor.getLong(
+            mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
+        if (transfer_peer != 0) {
           label = "[" + label + "]";
         }
         label = "\nL" + label;
@@ -319,7 +321,7 @@ public class MyExpenses extends ListActivity {
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
-    boolean operationType = mExpensesCursor.getInt(
+    boolean operationType = mExpensesCursor.getLong(
         mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER)) == 0;
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
@@ -411,11 +413,13 @@ public class MyExpenses extends ListActivity {
     int current_version = getVersionNumber();
     if (pref_version == -1) {
       long account_id = mDbHelper.createAccount("Default account",0,"Default account created upon installation","EUR");
-      edit.putLong("current_account", account_id).commit();      
+      edit.putLong("current_account", account_id).commit();
+      edit.putInt("currentversion", current_version).commit();
+      return;
     }
     if (pref_version != current_version) {
       edit.putInt("currentversion", current_version).commit();
-      if (pref_version < 16) {
+      if (pref_version < 14) {
         String non_conforming = checkCurrencies();
         if (non_conforming.length() > 0 ) {
           openVersionDialog(getString(R.string.version_14_upgrade_info,non_conforming));

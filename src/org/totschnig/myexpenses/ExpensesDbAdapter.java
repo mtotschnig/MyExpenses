@@ -261,7 +261,7 @@ public class ExpensesDbAdapter {
 
     return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
   }
-  public boolean deleteTransfer(long rowId, int transfer_peer) {
+  public boolean deleteTransfer(long rowId, long transfer_peer) {
     return mDb.delete(DATABASE_TABLE, KEY_ROWID + " in (" + rowId + "," + transfer_peer + ")", null) > 0;
   }
   /**
