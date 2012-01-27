@@ -1,80 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <resources>
-<!-- the following command executed from res directory, shows differences in string names between the default strings and a given locale, defined in the first statement (lang= )
-lang=de;grep -o "name=\".*\"" values/strings.xml|sort >/tmp/strings; grep -o "name=\".*\"" values-$lang/strings.xml|sort >/tmp/strings-$lang;diff /tmp/strings /tmp/strings-$lang
--->
-    <string name="app_name">Meine Ausgaben</string>
-    <string name="no_expenses">Noch keine Ausgaben!</string>
-    <string name="menu_insert_account">Neues Konto erstellen</string>
-    <string name="menu_insert_ta">Neue Buchung</string>
-    <string name="menu_edit_ta">Buchung verändern</string>
-    <string name="menu_delete">Löschen</string>
-    <string name="menu_show_detail">Details anzeigen</string>
-    <string name="menu_reset">Zurücksetzen</string>
-    <string name="menu_edit_account">Konto verändern</string>
-    <string name="menu_delete_account">Konto löschen</string>
-    <string name="title">Titel</string>
-    <string name="time">Zeit</string>
-    <string name="comment">Notizen</string>
-    <string name="payer">Zahler</string>
-    <string name="payee">Empfänger</string>
-    <string name="category">Kategorie</string>
-    <string name="date">Datum</string>
-    <string name="date_time">Datum / Zeit</string>
-    <string name="amount">Betrag</string>
-    <string name="edit_preferences">Einstellungen</string>
-    <string name="select">Auswählen</string>
-    <string name="done">Fertig</string>
-    <string name="select_category">Kategorie auswählen</string>
-    <string name="opening_balance">Anfangssaldo</string>
-    <string name="import_categories">Kategorien importieren</string>
-    <string name="import_categories_success">%1$d Kategorien erfolgreich importiert</string>
-    <string name="import_categories_failure">Fehler beim Kategorien-Import</string>
-    <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
-    <string name="export_expenses_sdcard_success">Ausgaben in Datei %1$s exportiert</string>
-    <string name="no_categories">Noch keine Kategorien vorhanden. Kategorien können über das Menü hinzugefügt oder importiert werden</string>
-      <string name="menu_help">Hilfe</string>
-    <string name="close">Schließen</string>
-      <!-- The first line in the help screen. -->
-    <string name="help_leading">Danke fürs Ausprobieren von MyExpenses für Android.</string>
-      <!-- The bulk of the help text. -->
-    <string name="help_text">MyExpenses ist eine einfache Anwendung zur Verwaltung von Ausgaben, mit dem Ziel, diese in das Finanzprogramm Grisbi exportieren zu können.
-    \nMenübefehl \"Zurücksetzen\" exportiert Einträge in eine QIF-Datei auf der SD-Karte, löscht die Einträge, und setzt den Anfangssaldo zurück.
-    \n\"Konto auswählen\" erlaubt aus der Liste der definierten Konten das aktuell verwendete auszuwählen, über das Menü können neue Konten definiert werden, über das Kontextmenü bestehende verändert oder gelöscht. 
-    \nKategorien werden in der Aktivität\"Kategorie auswählen\" verwaltet, die über den "Kategorie" Button beim Editieren einer Buchung aufgerufen wird. Menübefehl \"Kategorien importieren\" erlaubt, Kategorien aus einer Grisbi-Datei zu importieren.
-    Sie können entweder die inkludierten von Grisbi verwendeten Standardkategorien auswählen, oder
-    eine eigene Datei unter \"/sdcard/myexpenses/categories.xml\" speichern. Dafür verwenden Sie entweder
-    Ihre Grisbi Datei, oder editieren diese, indem Sie alles außer der Kategorien entfernen.
-    MyExpenses erwartet die Datei unter \"/sdcard/myexpenses/categories.xml\" .
-    </string>
-    <!-- The version title in the help screen. -->
-    <string name="help_version">Version</string>
-    <!-- The license title in the help screen. -->
-    <string name="help_license">Lizenz</string>
-    <!-- The project home title in the help screen. -->
-    <string name="help_project_home">Projekt Homepage</string>
-    <!-- The author title in the help screen. -->
-    <string name="help_author">Autor</string>
-     <!-- The credits title in the help screen. -->
-    <string name="help_credits">Inspiration</string>
-    <string name="credits_text">Ausgangspunkt Android Notes Tutorial. Design des Hilfe-Dialogs von Mathdoku. Design der App-Graphik von Sipdroid.</string>
-    <string name="select_parent_category">Wähle diese Kategorie</string>
-    <string name="menu_create_main_cat">Neue Hauptkategorie</string>
-    <string name="menu_create_sub_cat">Neue Unterkategorie</string>
-    <string name="categories_loading">Kategorien werden von %1$s geladen</string>
-    <string name="create_category">Neue Kategorie</string>
-    <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
-    <string name="menu_changes">Änderungen</string>
-    <string name="select_account">Konto auswählen</string>
-    <string name="no_accounts">Keine Konten</string>
-    <string name="label">Bezeichnung</string>
-    <string name="description">Beschreibung</string>
-    <string name="currency">Währung</string>
-    <string name="menu_edit_cat">Kategorie verändern</string>
-    <string name="menu_delete_cat">Kategorie löschen</string>
-    <string name="edit_category">Kategorie verändern</string>
-    <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie Unterkategorien hat.</string>
-    <string name="not_deletable_mapped_expenses">Diese Kategorie kann nicht gelöscht werden, weil ihr Ausgaben zugeordnet sind.</string> 
-    <string name="cancel">Rückgängig</string>
-    <string name="current_balance">Aktueller Saldo</string>
-</resources>
+	  <string name="account">Konto</string>
+	  <string name="amount">Betrag</string>
+	  <string name="app_name">Meine Ausgaben</string>
+	  <string name="button_continue">Fortsetzen</string>
+	  <string name="cancel">Rückgängig</string>
+	  <string name="categories_loading">Kategorien werden von %1$s geladen</string>
+	  <string name="category">Kategorie</string>
+	  <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
+	  <string name="close">Schließen</string>
+	  <string name="comment">Notizen</string>
+	  <string name="create_category">Neue Kategorie</string>
+	  <string name="credits_text">Ausgangspunkt Android Notes Tutorial. Design des Hilfe-Dialogs von Mathdoku. Design der App-Graphik von Sipdroid.</string>
+	  <string name="currency">Währung</string>
+	  <string name="currency_not_iso4217">%1$s ist kein gültiger ISO 4217 Währungscode</string>
+	  <string name="current_balance">Aktueller Saldo</string>
+	  <string name="date">Datum</string>
+	  <string name="date_time">Datum / Zeit</string>
+	  <string name="description">Beschreibung</string>
+	  <string name="dialog_title_select_account">Konto auswählen</string>
+	  <string name="dialog_title_select_import_source">Quelle für Import auswählen</string>
+	  <string name="done">Fertig</string>
+	  <string name="edit_category">Kategorie verändern</string>
+	  <string name="edit_preferences">Einstellungen</string>
+	  <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
+	  <string name="export_expenses_sdcard_success">Ausgaben in Datei %1$s exportiert</string>
+	  <string name="help_author">Autor</string>
+	  <string name="help_credits">Inspiration</string>
+	  <string name="help_leading">Danke fürs Ausprobieren von MyExpenses für Android.</string>
+	  <string name="help_license">Lizenz</string>
+	  <string name="help_project_home">Projekt Homepage</string>
+	  <string name="help_text">MyExpenses ist eine einfache Anwendung zur Verwaltung von Ausgaben, mit dem Ziel, diese in das Finanzprogramm Grisbi exportieren zu können.
+	\nMenübefehl \"Zurücksetzen\" exportiert Einträge in eine QIF-Datei auf der SD-Karte, löscht die Einträge, und setzt den Anfangssaldo zurück.
+	\n\"Konto auswählen\" erlaubt aus der Liste der definierten Konten das aktuell verwendete auszuwählen, über das Menü können neue Konten definiert werden, über das Kontextmenü bestehende verändert oder gelöscht. 
+	\nKategorien werden in der Aktivität\"Kategorie auswählen\" verwaltet, die über den "Kategorie" Button beim Editieren einer Buchung aufgerufen wird. Menübefehl \"Kategorien importieren\" erlaubt, Kategorien aus einer Grisbi-Datei zu importieren.
+	Sie können entweder die inkludierten von Grisbi verwendeten Standardkategorien auswählen, oder
+	eine eigene Datei unter \"/sdcard/myexpenses/categories.xml\" speichern. Dafür verwenden Sie entweder
+	Ihre Grisbi Datei, oder editieren diese, indem Sie alles außer der Kategorien entfernen.
+	MyExpenses erwartet die Datei unter \"/sdcard/myexpenses/categories.xml\" .
+	</string>
+	  <string name="help_version">Version</string>
+	  <string name="import_categories">Kategorien importieren</string>
+	  <string name="import_categories_failure">Fehler beim Kategorien-Import</string>
+	  <string name="import_categories_success">%1$d Kategorien erfolgreich importiert</string>
+	  <string name="important_version_information">Neue Version: Wichtige Information</string>
+	  <string name="label">Bezeichnung</string>
+	  <string name="menu_changes">Änderungen</string>
+	  <string name="menu_create_main_cat">Neue Hauptkategorie</string>
+	  <string name="menu_create_sub_cat">Neue Unterkategorie</string>
+	  <string name="menu_delete">Löschen</string>
+	  <string name="menu_delete_account">Konto löschen</string>
+	  <string name="menu_delete_cat">Kategorie löschen</string>
+	  <string name="menu_edit_account">Konto verändern</string>
+	  <string name="menu_edit_cat">Kategorie verändern</string>
+	  <string name="menu_edit_ta">Buchung verändern</string>
+	  <string name="menu_help">Hilfe</string>
+	  <string name="menu_insert_account">Neues Konto erstellen</string>
+	  <string name="menu_insert_ta">Neue Buchung</string>
+	  <string name="menu_insert_transfer">Neue Umbuchung</string>
+	  <string name="menu_reset">Zurücksetzen</string>
+	  <string name="menu_show_detail">Details anzeigen</string>
+	  <string name="no_accounts">Keine Konten</string>
+	  <string name="no_categories">Noch keine Kategorien vorhanden. Kategorien können über das Menü hinzugefügt oder importiert werden</string>
+	  <string name="no_expenses">Noch keine Ausgaben!</string>
+	  <string name="not_deletable_mapped_expenses">Diese Kategorie kann nicht gelöscht werden, weil ihr Ausgaben zugeordnet sind.</string>
+	  <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie Unterkategorien hat.</string>
+	  <string name="opening_balance">Anfangssaldo</string>
+	  <string name="payee">Empfänger</string>
+	  <string name="payer">Zahler</string>
+	  <string name="select">Auswählen</string>
+	  <string name="select_account">Konto auswählen</string>
+	  <string name="select_category">Kategorie auswählen</string>
+	  <string name="select_parent_category">Wähle diese Kategorie</string>
+	  <string name="time">Zeit</string>
+	  <string name="title">Titel</string>
+	  <string name="version_14_upgrade_info">Seit Version 1.4.0, werden Währungen mit ihrem ISO 4217 Codes gespeichert.
+	    Folgende ungültige Symbole werden zur Zeit für Ihre Konten verwendet und müssen verändert werden: %1$s </string>
+	  <string name="warning_reset_account">Alle Transaktionen dieses Kontos werden gelöscht. Möchten Sie fortfahren?</string>
+    <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
+</resources>      

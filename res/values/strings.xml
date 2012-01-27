@@ -1,87 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">My Expenses</string>
-    <string name="no_expenses">No Expenses Yet!</string>
-    <string name="menu_insert_account">Create new account</string>
-    <string name="menu_insert_ta">Add Transaction</string>
-    <string name="menu_insert_transfer">Add Transfer</string>
-    <string name="menu_edit_ta">Edit Transaction</string>
-    <string name="menu_delete">Delete Transaction</string>
-    <string name="menu_show_detail">Show details</string>
-    <string name="menu_edit_account">Edit Account</string>
-    <string name="menu_delete_account">Delete Account</string>
-    <string name="menu_reset">Reset</string>
-    <string name="title">Title</string>
-    <string name="date">Date</string>
-    <string name="time">Time</string>
-    <string name="date_time">Date / Time</string>
-    <string name="amount">Amount</string>
-    <string name="comment">Notes</string>
-    <string name="payer">Payer</string>
-    <string name="payee">Payee</string>
-    <string name="category">Category</string>
-    <string name="edit_preferences">Edit preferences</string>
-    <string name="select">Select</string>
-    <string name="done">Done</string>
-    <string name="select_category">Select category</string>
-    <string name="opening_balance">Opening balance</string>
-    <string name="import_categories">Import categories</string>
-    <string name="import_categories_success">%1$d categories imported successfully</string>
-    <string name="import_categories_failure">Categories import failed</string>
-    <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
-    <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
-    <string name="no_categories">No categories. Use the menu to add or to import.</string>
-    <string name="menu_help">Help</string>
-    <string name="close">Close</string>
-      <!-- The first line in the help screen. -->
-    <string name="help_leading">Thanks for installing MyExpenses for Android.</string>
-      <!-- The bulk of the help text. -->
-    <string name="help_text">MyExpenses is designed to keep track of expenses during a short period of time, and to export these expenses into the Grisbi program.
-    MyExpenses calculates the sum of expenses and incomes, and the current balance.
-    \nThe \"Reset\" menu entry exports expenses onto SD-Card in the QIF format, that Grisbi understands, deletes the expenses and updates the opening balance.
-    \n\"Select account\" gives a list of defined accounts, where you can create new accounts (menu entry), edit or deleting existing ones (context menu) or change the currently displayed account (list click).
-    \nCategories are managed from the \"Select Category\" activity, launched from \"Edit transaction\" through the \"Category\" button. Via the \"Import categories\" menu entry, categories can be imported from the XML structure that Grisbi uses for its expenses.
-    You either choose one of the provided default category files from Grisbi or use a custom one, that you store at \"/sdcard/myexpenses/categories.xml\". You can use your Grisbi XML file as is, or remove anything but the category definitions from it.
-     
-    </string>
-        <!-- The version title in the help screen. -->
-    <string name="help_version">Version</string>
-    <!-- The license title in the help screen. -->
-    <string name="help_license">License</string>
-    <!-- The project home title in the help screen. -->
-    <string name="help_project_home">Project Home</string>
-    <!-- The author title in the help screen. -->
-    <string name="help_author">Author</string>
-     <!-- The credits title in the help screen. -->
-    <string name="help_credits">Credits</string>
-    <string name="credits_text">Initially inspired by the Android Notepad tutorial. Help screen design copied from Mathdoku. App icon design copied from Sipdroid.</string>
-    <string name="select_parent_category">Select this category</string>
-    <string name="menu_create_main_cat">Create new main category</string>
-    <string name="menu_create_sub_cat">Create new sub category</string>
-    <string name="menu_edit_cat">Edit category</string>
-    <string name="menu_delete_cat">Delete category</string>
-    <string name="categories_loading">Loading categories from %1$s</string>
-    <string name="create_category">Create new category</string>
-    <string name="edit_category">Edit category</string>
-    <string name="category_already_defined">Category %1$s already defined</string>
-    <string name="menu_changes">Changes</string>
-    <string name="select_account">Select account</string>
-    <string name="no_accounts">No Accounts!</string>
-    <string name="label">Label</string>
-    <string name="description">Description</string>
-    <string name="currency">Currency</string>
-    <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
-    <string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are mapped to it.</string>
-    <string name="cancel">Revert</string>
-    <string name="current_balance">Current balance</string>
-    <string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
-    <string name="version_14_upgrade_info">Since version 1.3.3, currencies need to be expressed with their code defined in ISO 4217.
-        The following currency symbols currently used for your accounts, need to be fixed: %1$s </string>
-    <string name="important_version_information">New version: Important information</string>
-    <string name="button_continue">Continue</string>
-    <string name="account">Account</string>
-    <string name="warning_select_account">Please select an account!</string>
-    <string name="dialog_title_select_account">Pick an account</string>
-    <string name="dialog_title_select_import_source"> Pick a source for import</string>
-    <string name="warning_reset_account">All expenses of this account will be deleted. Do you want to continue?</string>
-    </resources>
+		<string name="account">Account</string>
+		<string name="amount">Amount</string>
+		<string name="app_name">My Expenses</string>
+		<string name="button_continue">Continue</string>
+		<string name="cancel">Revert</string>
+		<string name="categories_loading">Loading categories from %1$s</string>
+		<string name="category_already_defined">Category %1$s already defined</string>
+		<string name="category">Category</string>
+		<string name="close">Close</string>
+		<string name="comment">Notes</string>
+		<string name="create_category">Create new category</string>
+		<string name="credits_text">Initially inspired by the Android Notepad tutorial. Help screen design copied from Mathdoku. App icon design copied from Sipdroid.</string>
+		<string name="currency">Currency</string>
+		<string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
+		<string name="current_balance">Current balance</string>
+		<string name="date">Date</string>
+		<string name="date_time">Date / Time</string>
+		<string name="description">Description</string>
+		<string name="dialog_title_select_account">Pick an account</string>
+		<string name="dialog_title_select_import_source"> Pick a source for import</string>
+		<string name="done">Done</string>
+		<string name="edit_category">Edit category</string>
+		<string name="edit_preferences">Edit preferences</string>
+		<string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
+		<string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>        
+		<!-- The author title in the help screen. -->
+		<string name="help_author">Author</string>
+		<!-- The credits title in the help screen. -->
+		<string name="help_credits">Credits</string>
+		<!-- The first line in the help screen. -->
+		<string name="help_leading">Thanks for installing MyExpenses for Android.</string>
+		<!-- The license title in the help screen. -->
+		<string name="help_license">License</string>
+		<!-- The project home title in the help screen. -->
+		<string name="help_project_home">Project Home</string>
+		<!-- The bulk of the help text. -->
+		   <string name="help_text">MyExpenses is designed to keep track of expenses during a short period of time, and to export these expenses into the Grisbi program.
+		   MyExpenses calculates the sum of expenses and incomes, and the current balance.
+		   \nThe \"Reset\" menu entry exports expenses onto SD-Card in the QIF format, that Grisbi understands, deletes the expenses and updates the opening balance.
+		   \n\"Select account\" gives a list of defined accounts, where you can create new accounts (menu entry), edit or deleting existing ones (context menu) or change the currently displayed account (list click).
+		   \nCategories are managed from the \"Select Category\" activity, launched from \"Edit transaction\" through the \"Category\" button. Via the \"Import categories\" menu entry, categories can be imported from the XML structure that Grisbi uses for its expenses.
+		   You either choose one of the provided default category files from Grisbi or use a custom one, that you store at \"/sdcard/myexpenses/categories.xml\". You can use your Grisbi XML file as is, or remove anything but the category definitions from it.
+		   </string>
+		<!-- The version title in the help screen. -->
+		<string name="help_version">Version</string>
+		<string name="important_version_information">New version: Important information</string>
+		<string name="import_categories_failure">Categories import failed</string>
+		<string name="import_categories">Import categories</string>
+		<string name="import_categories_success">%1$d categories imported successfully</string>
+		<string name="label">Label</string>
+		<string name="menu_changes">Changes</string>
+		<string name="menu_create_main_cat">Create new main category</string>
+		<string name="menu_create_sub_cat">Create new sub category</string>
+		<string name="menu_delete_account">Delete Account</string>
+		<string name="menu_delete_cat">Delete category</string>
+		<string name="menu_delete">Delete Transaction</string>
+		<string name="menu_edit_account">Edit Account</string>
+		<string name="menu_edit_cat">Edit category</string>
+		<string name="menu_edit_ta">Edit Transaction</string>
+		<string name="menu_help">Help</string>
+		<string name="menu_insert_account">Create new account</string>
+		<string name="menu_insert_ta">Add Transaction</string>
+		<string name="menu_insert_transfer">Add Transfer</string>
+		<string name="menu_reset">Reset</string>
+		<string name="menu_show_detail">Show details</string>
+		<string name="no_accounts">No Accounts!</string>
+		<string name="no_categories">No categories. Use the menu to add or to import.</string>
+		<string name="no_expenses">No Expenses Yet!</string>
+		<string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are mapped to it.</string>
+		<string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
+		<string name="opening_balance">Opening balance</string>
+		<string name="payee">Payee</string>
+		<string name="payer">Payer</string>
+		<string name="select_account">Select account</string>
+		<string name="select_category">Select category</string>
+		<string name="select_parent_category">Select this category</string>
+		<string name="select">Select</string>
+		<string name="time">Time</string>
+		<string name="title">Title</string>
+		<string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with their code defined in ISO 4217.
+		            The following currency symbols currently used for your accounts, need to be fixed: %1$s </string>
+		<string name="warning_reset_account">All transactions of this account will be deleted. Do you want to continue?</string>
+		<string name="warning_select_account">Please select an account!</string>
+</resources>
