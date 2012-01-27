@@ -13,13 +13,13 @@
     <string name="create_category">Nouvelle catégorie</string>
     <string name="credits_text">Point de départ Android Notes Tutorial. Design de la page Aide copié de Mathdoku. Design de l\'icone de l\'App copié de Sipdroid.</string>
     <string name="currency">monnaie</string>
-    <string name="currency_not_iso4217">%1$s n'est pas un code valide selon ISO 4217</string>
+    <string name="currency_not_iso4217">%1$s n\'est pas un code valide selon ISO 4217</string>
     <string name="current_balance">solde courant</string>
     <string name="date">Date</string>
     <string name="date_time">Date / Heure</string>
     <string name="description">description</string>
     <string name="dialog_title_select_account">Sélectioner un compte</string>
-    <string name="dialog_title_select_import_source">Sélectioner une source pour l'import</string>
+    <string name="dialog_title_select_import_source">Sélectioner une source pour l\'import</string>
     <string name="done">OK</string>
     <string name="edit_category">Éditer catégorie</string>
     <string name="edit_preferences">Réglages</string>
