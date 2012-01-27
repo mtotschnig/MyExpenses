@@ -37,7 +37,7 @@ public class SelectAccount extends ListActivity {
   private static final int INSERT_ACCOUNT_ID = Menu.FIRST + 2;
   private ExpensesDbAdapter mDbHelper;
   Cursor mAccountsCursor;
-  int mCurrentAccount;
+  long mCurrentAccount;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class SelectAccount extends ListActivity {
     mDbHelper = new ExpensesDbAdapter(SelectAccount.this);
     mDbHelper.open();
     Bundle extras = getIntent().getExtras();
-    mCurrentAccount = extras.getInt("current_account");
+    mCurrentAccount = extras.getLong("current_account");
     fillData();
     registerForContextMenu(getListView());
   }

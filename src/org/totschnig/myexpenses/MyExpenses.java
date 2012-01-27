@@ -85,7 +85,7 @@ public class MyExpenses extends ListActivity {
     mDbHelper.open();
     mSettings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     newVersionCheck();
-    int account_id = mSettings.getInt("current_account", 0);
+    long account_id = mSettings.getLong("current_account", 0);
     mCurrentAccount = new Account(mDbHelper,account_id);
     fillData();
     registerForContextMenu(getListView());
@@ -333,10 +333,10 @@ public class MyExpenses extends ListActivity {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == ACTIVITY_SELECT_ACCOUNT) {
       if (resultCode == RESULT_OK) {
-        int account_id = intent.getIntExtra("account_id", 0);
+        long account_id = intent.getIntExtra("account_id", 0);
         if (account_id != mCurrentAccount.id) {
           mCurrentAccount = new Account(mDbHelper, account_id);
-          mSettings.edit().putInt("current_account", account_id).commit();
+          mSettings.edit().putLong("current_account", account_id).commit();
         }
       }
     }
@@ -360,6 +360,11 @@ public class MyExpenses extends ListActivity {
     .setPositiveButton("Tutorial", new DialogInterface.OnClickListener() {
       public void onClick(DialogInterface dialog, int whichButton) {
         startActivity( new Intent(MyExpenses.this, Tutorial.class) );
+      }
+    })
+    .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+      public void onClick(DialogInterface dialog, int whichButton) {
+        //
       }
     })
     .show();  
@@ -406,7 +411,7 @@ public class MyExpenses extends ListActivity {
     int current_version = getVersionNumber();
     if (pref_version == -1) {
       long account_id = mDbHelper.createAccount("Default account",0,"Default account created upon installation","EUR");
-      edit.putInt("current_account", (int) account_id).commit();      
+      edit.putLong("current_account", account_id).commit();      
     }
     if (pref_version != current_version) {
       edit.putInt("currentversion", current_version).commit();
@@ -416,6 +421,8 @@ public class MyExpenses extends ListActivity {
           openVersionDialog(getString(R.string.version_14_upgrade_info,non_conforming));
           return;
         }
+        //made current_account long
+        edit.putLong("current_account", mSettings.getInt("current_account", 0)).commit();
       }
       openHelpDialog();
     }
