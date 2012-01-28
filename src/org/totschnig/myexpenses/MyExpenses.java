@@ -197,12 +197,12 @@ public class MyExpenses extends ListActivity {
       AlertDialog.Builder builder = new AlertDialog.Builder(this);
       builder.setMessage(R.string.warning_reset_account)
         .setCancelable(false)
-        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
               reset();
             }
         })
-        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+        .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int id) {
             dialog.cancel();
           }
