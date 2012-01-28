@@ -135,7 +135,13 @@ public class ExpenseEdit extends Activity {
     });
     mCategoryButton = (Button) findViewById(R.id.Category);
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      mCategoryButton.setText(R.string.account);
+      //if there is a label for the category input (portrait), we adjust it,
+      //otherwise directly the button (landscape)
+      TextView categoryLabel = (TextView) findViewById(R.id.CategoryLabel);
+      if (categoryLabel != null)
+        categoryLabel.setText(R.string.account);
+      else
+        mCategoryButton.setText(R.string.account);
     }
     mCategoryButton.setOnClickListener(new View.OnClickListener() {
 
@@ -251,7 +257,9 @@ public class ExpenseEdit extends Activity {
       mCatId = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
       String label =  c.getString(c.getColumnIndexOrThrow("label"));
       if (label != null && label.length() != 0) {
-        mCategoryButton.setText((mType == EXPENSE ? "=> " :"<= ") + label);
+        if (mOperationType == MyExpenses.TYPE_TRANSFER)
+          label = (mType == EXPENSE ? "=> " :"<= ") + label;
+        mCategoryButton.setText(label);
       }
       c.close();
     } else {
