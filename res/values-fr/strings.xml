@@ -18,8 +18,10 @@
     <string name="date">Date</string>
     <string name="date_time">Date / Heure</string>
     <string name="description">description</string>
+    <string name="dialog_no">Non</string>
     <string name="dialog_title_select_account">Sélectioner un compte</string>
     <string name="dialog_title_select_import_source">Sélectioner une source pour l\'import</string>
+    <string name="dialog_yes">Oui</string>
     <string name="done">OK</string>
     <string name="edit_category">Éditer catégorie</string>
     <string name="edit_preferences">Réglages</string>
