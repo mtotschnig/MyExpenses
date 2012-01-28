@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import android.app.Activity;
@@ -50,13 +49,12 @@ public class ExpenseEdit extends Activity {
   private long mRowId;
   private long mAccountId;
   private ExpensesDbAdapter mDbHelper;
-  //for transfers mCatId stores the peer account
-  private long mCatId;
   private int mYear;
   private int mMonth;
   private int mDay;
   private int mHours;
   private int mMinutes;
+  private Transaction mTransaction;
   
   public static final boolean INCOME = true;
   public static final boolean EXPENSE = false;
@@ -151,7 +149,7 @@ public class ExpenseEdit extends Activity {
         } else {
           AlertDialog.Builder builder = new AlertDialog.Builder(ExpenseEdit.this);
           builder.setTitle(R.string.dialog_title_select_account);
-          final Cursor otherAccounts = mDbHelper.fetchAccountOtherWithCurrency(mAccountId);
+          final Cursor otherAccounts = mDbHelper.fetchAccountOtherWithCurrency(mTransaction.account_id);
           final String[] accounts = new String[otherAccounts.getCount()];
           if(otherAccounts.moveToFirst()){
            for (int i = 0; i < otherAccounts.getCount(); i++){
@@ -162,7 +160,7 @@ public class ExpenseEdit extends Activity {
           builder.setSingleChoiceItems(accounts, -1, new DialogInterface.OnClickListener() {
               public void onClick(DialogInterface dialog, int item) {
                 otherAccounts.moveToPosition(item);
-                mCatId = otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+                mTransaction.cat_id = otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
                 mCategoryButton.setText((mType == EXPENSE ? "=> " :"<= ") + accounts[item]);
                 otherAccounts.close();
                 dialog.cancel();
@@ -225,48 +223,35 @@ public class ExpenseEdit extends Activity {
     return null;
   }
   private void populateFields() {
-    float amount;
     //TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
     if (mRowId != 0) {
+      mTransaction = Transaction.getInstanceFromDb(mDbHelper, mRowId);
       setTitle(R.string.menu_edit_ta);
-      Cursor c = mDbHelper.fetchExpense(mRowId);
-      String dateString = c.getString(
-          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE));
-      Timestamp date = Timestamp.valueOf(dateString);
-      setDateTime(date);
-      try {
-        amount = Float.valueOf(c.getString(
-            c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)));
-      } catch (NumberFormatException e) {
-        amount = 0;
-      }
-      if (amount < 0) {
-        amount = 0 - amount;
+      float amount;
+      if (mTransaction.amount < 0) {
+        amount = 0 - mTransaction.amount;
       } else {
+        amount = mTransaction.amount;
         toggleType();
-      }
-
-      
+      }      
       mAmountText.setText(Float.toString(amount));
-      mCommentText.setText(c.getString(
-          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)));
+      mCommentText.setText(mTransaction.comment);
       if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
-        mPayeeText.setText(c.getString(
-            c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE)));
+        mPayeeText.setText(mTransaction.payee);
       }
-      mCatId = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
-      String label =  c.getString(c.getColumnIndexOrThrow("label"));
+      String label =  mTransaction.label;
       if (label != null && label.length() != 0) {
         if (mOperationType == MyExpenses.TYPE_TRANSFER)
           label = (mType == EXPENSE ? "=> " :"<= ") + label;
         mCategoryButton.setText(label);
       }
-      c.close();
     } else {
-      Date date =  new Date();
-      setDateTime(date);
+      mTransaction = Transaction.getTypedNewInstance(mDbHelper,mOperationType);
+      mTransaction.account_id = mAccountId;
       setTitle(R.string.menu_insert_ta);
     }
+    setDateTime(mTransaction.date);
+    
   }
   private void setDateTime(Date date) {
     mYear = date.getYear()+1900;
@@ -299,43 +284,29 @@ public class ExpenseEdit extends Activity {
 //  }
 
   private boolean saveState() {
-    long id;
     float amount;
     try {
       amount = Float.valueOf(mAmountText.getText().toString());
+      if (mType == EXPENSE) {
+        amount = 0 - amount;
+      }
     } catch (NumberFormatException e) {
       amount = 0;
     }
-    String comment = mCommentText.getText().toString();
-    String strDate = mDateButton.getText().toString() + " " + mTimeButton.getText().toString() + ":00.0";
-    if (mType == EXPENSE) {
-      amount = 0 - amount;
-    }
+    mTransaction.amount = amount;
+    mTransaction.comment = mCommentText.getText().toString();
+    mTransaction.setDate(mDateButton.getText().toString() + 
+        " " + mTimeButton.getText().toString() + ":00.0");
+
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
-      String payee = mPayeeText.getText().toString();
-      mDbHelper.createPayeeOrIgnore(payee);
-      if (mRowId == 0) {
-        id = mDbHelper.createExpense(strDate, amount, comment,mCatId,mAccountId,payee);
-        if (id > 0) {
-          mRowId = id;
-        }
-      } else {
-        mDbHelper.updateExpense(mRowId, strDate, amount, comment,mCatId,payee);
-      }
+      mTransaction.setPayee(mPayeeText.getText().toString());
     } else {
-      if (mRowId == 0) {
-        if (mCatId == 0) {
-          Toast.makeText(this,getString(R.string.warning_select_account), Toast.LENGTH_LONG).show();
-          return false;
-        }
-        id = mDbHelper.createTransfer(strDate, amount, comment,mCatId,mAccountId);
-        if (id > 0) {
-          mRowId = id;
-        }
-      } else {
-        mDbHelper.updateTransfer(mRowId, strDate, amount, comment,mCatId);
+      if (mTransaction.cat_id == 0) {
+        Toast.makeText(this,getString(R.string.warning_select_account), Toast.LENGTH_LONG).show();
+        return false;
       }
     }
+    mTransaction.save();
     return true;
   }
   @Override
@@ -343,7 +314,7 @@ public class ExpenseEdit extends Activity {
       Intent intent) {
     if (intent != null) {
       //Here we will have to set the category for the expense
-      mCatId = intent.getLongExtra("cat_id",0);
+      mTransaction.cat_id = intent.getLongExtra("cat_id",0);
       mCategoryButton.setText(intent.getStringExtra("label"));
     }
   }

@@ -60,12 +60,12 @@ public class Account {
   public Account(ExpensesDbAdapter mDbHelper, long id) {
     this.mDbHelper = mDbHelper;
     this.id = id;
-    Cursor account = mDbHelper.fetchAccount(id);
-    this.label = account.getString(account.getColumnIndexOrThrow("label"));
-    this.openingBalance = account.getFloat(account.getColumnIndexOrThrow("opening_balance"));
-    this.description = account.getString(account.getColumnIndexOrThrow("description"));
-    setCurrency(account.getString(account.getColumnIndexOrThrow("currency")));
-    account.close();
+    Cursor c = mDbHelper.fetchAccount(id);
+    this.label = c.getString(c.getColumnIndexOrThrow("label"));
+    this.openingBalance = c.getFloat(c.getColumnIndexOrThrow("opening_balance"));
+    this.description = c.getString(c.getColumnIndexOrThrow("description"));
+    setCurrency(c.getString(c.getColumnIndexOrThrow("currency")));
+    c.close();
   }
   public void setCurrency(String currency) {
     try {

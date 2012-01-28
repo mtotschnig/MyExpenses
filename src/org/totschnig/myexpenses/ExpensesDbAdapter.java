@@ -26,14 +26,9 @@ import android.util.Log;
 
 
 /**
- * Simple notes database access helper class. Defines the basic CRUD operations
- * for the notepad example, and gives the ability to list all notes as well as
- * retrieve or modify a specific note.
+ * Simple  database access helper class. Defines the basic CRUD operations
+ * and gives the ability to manipulate transactions, accounts, categories, payees.
  * 
- * This has been improved from the first version of this tutorial through the
- * addition of better error handling and also using returning a Cursor instead
- * of using a collection of inner classes (which is less scalable and not
- * recommended).
  */
 public class ExpensesDbAdapter {
 
@@ -297,7 +292,7 @@ public class ExpensesDbAdapter {
 
     Cursor mCursor =
       mDb.query(DATABASE_TABLE,
-          new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,SHORT_LABEL,KEY_PAYEE},
+          new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_ACCOUNTID},
           KEY_ROWID + "=" + rowId,
           null, null, null, null, null);
     if (mCursor != null) {
