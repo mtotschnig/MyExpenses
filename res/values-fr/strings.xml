@@ -19,8 +19,8 @@
     <string name="date_time">Date / Heure</string>
     <string name="description">description</string>
     <string name="dialog_no">Non</string>
-    <string name="dialog_title_select_account">Sélectioner un compte</string>
-    <string name="dialog_title_select_import_source">Sélectioner une source pour l\'import</string>
+    <string name="dialog_title_select_account">Sélectionner un compte</string>
+    <string name="dialog_title_select_import_source">Sélectionner une source pour l\'import</string>
     <string name="dialog_yes">Oui</string>
     <string name="done">OK</string>
     <string name="edit_category">Éditer catégorie</string>
@@ -32,10 +32,10 @@
     <string name="help_leading">Merci d\'essayer MyExpenses pour Android.</string>
     <string name="help_license">Licence</string>
     <string name="help_project_home">Page d\'accueil</string>
-    <string name="help_text">MyExpenses permet de gérer les rentrées d\'argent et les dépenses, dans un format compatible avec Grisbi.
-    \nLa commande \"Réinitialiser\" exporte toutes les transactions dans und fichier QIF sur la carte SD, efface les transactions, et transfère le dernier solde en nouveau solde d\'ouverture.
+    <string name="help_text">MyExpenses permet de gérer les entrées d\'argent et les dépenses, dans un format compatible avec Grisbi.
+    \nLa commande \"Réinitialiser\" exporte toutes les transactions dans un fichier QIF sur la carte SD, efface les transactions, et transfère le dernier solde en nouveau solde d\'ouverture.
     \n\"Choisir compte\" affiche la liste des comptes. Vous pouvez créer un nouveau compte (menu), les éditer ou effacer (menu contextuel) ou encore changer le compte utilisé (clic). 
-    \nLa gestion des categories est accesible à partir de l\'activité \"Selectioner une catégorie\", qui s\'affiche lors qu\'on clique sur le bouton \"Catégorie\" dans l\'activité \"Edit transaction\". Avec la commande \"Importer catégories\" les catégories peuvent être importées à partir d\'un fichier Grisbi.
+    \nLa gestion des categories est accessible à partir de l\'activité \"Selectionner une catégorie\", qui s\'affiche lorsqu\'on clique sur le bouton \"Catégorie\" dans l\'activité \"Edit transaction\". Avec la commande \"Importer catégories\" les catégories peuvent être importées à partir d\'un fichier Grisbi.
     Vous pouvez sélectionner les définitions standards utilisés par Grisbi, inclus dans MyExpenses, ou utiliser un fichier personnel, stocké sous \"/sdcard/myexpenses/categories.xml\".
     Pour ceci, vous pouvez copier votre fichier Grisbi tel quel, ou supprimer dans celui-ci tout sauf les définitions des catégories.
     </string>
@@ -61,22 +61,22 @@
     <string name="menu_reset">Réinitialiser</string>
     <string name="menu_show_detail">Afficher détails</string>
     <string name="no_accounts">Aucun compte!</string>
-    <string name="no_categories">Aucune catégorie. Catégories peuvent être ajoutées ou importées par le menu.</string>
-    <string name="no_expenses">Aucune dépense!</string>
+    <string name="no_categories">Aucune catégorie. Les catégories peuvent être ajoutées ou importées par le menu.</string>
+    <string name="no_expenses">Aucune dépense !</string>
     <string name="not_deletable_mapped_expenses">Cette catégorie ne peut pas être supprimée, parce qu\'il existe des dépenses à qui elle est attribuée.</string>
     <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce qu\'elle contient des sous-catégories.</string>
     <string name="opening_balance">solde initial</string>
     <string name="payee">Tiers</string>
     <string name="payer">Tiers</string>
-    <string name="select">Selectioner</string>
+    <string name="select">Selectionner</string>
     <string name="select_account">Selectioner un compte</string>
-    <string name="select_category">Selectioner une catégorie</string>
+    <string name="select_category">Selectionner une catégorie</string>
     <string name="select_parent_category">Choisir cette catégorie</string>
     <string name="time">Heure</string>
     <string name="title">Titre</string>
     <string name="version_14_upgrade_info">À partir de la version 1.4.0, la monnaie est définie selon le code ISO 4217.
         Dans vos comptes vous utilisez les symbols suivants qui doivent être changés: %1$s </string>
             <string name="warning_reset_account">Toutes les opérations du compte seront effacées. Voulez-vous continuer?</string>
-    <string name="warning_select_account">Vous devez sélectioner un compte!</string>
+    <string name="warning_select_account">Vous devez sélectionner un compte!</string>
 </resources>
     
