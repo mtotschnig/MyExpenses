@@ -21,9 +21,11 @@ import java.sql.Timestamp;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.NumberFormatException;
 import java.util.Currency;
 import java.util.Date;
+import java.util.Properties;
 
 
 import android.app.AlertDialog;
@@ -34,6 +36,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
+import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -349,7 +352,7 @@ public class MyExpenses extends ListActivity {
     LayoutInflater li = LayoutInflater.from(this);
     View view = li.inflate(R.layout.aboutview, null); 
     TextView tv = (TextView)view.findViewById(R.id.aboutVersionCode);
-    tv.setText(getVersionName() + " (revision " + getVersionNumber() + ")");
+    tv.setText(getVersionInfo());
     new AlertDialog.Builder(MyExpenses.this)
     .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
     .setIcon(R.drawable.about)
@@ -469,6 +472,32 @@ public class MyExpenses extends ListActivity {
     accountsCursor.close();
     return non_conforming;
   }
+  
+  public String getVersionInfo() {
+    String version = "";
+    String versionname = "";
+    String versiontime = "";
+    try {
+      PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+      version = " (revision " + pi.versionCode + ") ";
+      versionname = pi.versionName;
+      //versiontime = ", " + R.string.installed + " " + sdf.format(new Date(pi.lastUpdateTime));
+    } catch (Exception e) {
+      Log.e("MyExpenses", "Package info not found", e);
+    }
+    try {
+      InputStream rawResource = getResources().openRawResource(R.raw.app);
+      Properties properties = new Properties();
+      properties.load(rawResource);
+      versiontime = properties.getProperty("build.date");
+    } catch (NotFoundException e) {
+      Log.w("MyExpenses","Did not find raw resource");
+    } catch (IOException e) {
+      Log.w("MyExpenses","Failed to open microlog property file");
+    }
+
+    return versionname + version  + versiontime;
+  }
 
   public int getVersionNumber() {
     int version = -1;
@@ -479,16 +508,5 @@ public class MyExpenses extends ListActivity {
       Log.e("MyExpenses", "Package name not found", e);
     }
     return version;
-  }
-
-  public String getVersionName() {
-    String versionname = "";
-    try {
-      PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
-      versionname = pi.versionName;
-    } catch (Exception e) {
-      Log.e("MyExpenses", "Package name not found", e);
-    }
-    return versionname;
   }
 }
