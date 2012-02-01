@@ -11,7 +11,10 @@
     <string name="close">Fermer</string>
     <string name="comment">Remarques</string>
     <string name="create_category">Nouvelle catégorie</string>
-    <string name="credits_text">Point de départ Android Notes Tutorial. Design de la page Aide copié de Mathdoku. Design de l\'icone de l\'App copié de Sipdroid.</string>
+    <string name="credits_text">Point de départ Android Notes Tutorial.
+        \nDesign de la page Aide copié de Mathdoku.
+        \nDesign de l\'icone de l\'App copié de Sipdroid.
+        \nTraduction française corrigée par Laurent Collombet.</string>
     <string name="currency">monnaie</string>
     <string name="currency_not_iso4217">%1$s n\'est pas un code valide selon ISO 4217</string>
     <string name="current_balance">solde courant</string>
@@ -27,8 +30,9 @@
     <string name="edit_preferences">Réglages</string>
     <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses ver SD-Card</string>
     <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers le fichier %1$s</string>
+    <string name="ftp_target">FTP URL where QIF while should be uploaded after export</string>
     <string name="help_author">Auteur</string>
-    <string name="help_credits">Inspiration</string>
+    <string name="help_credits">Générique</string>
     <string name="help_leading">Merci d\'essayer MyExpenses pour Android.</string>
     <string name="help_license">Licence</string>
     <string name="help_project_home">Page d\'accueil</string>
@@ -44,6 +48,7 @@
     <string name="import_categories_failure">Erreur lors de l\'import des catégories</string>
     <string name="import_categories_success">%1$d catégories ont été importées</string>
     <string name="important_version_information">Nouvelle version: Information importante</string>
+    <string name="invalid_number_format">Format de nombre non reconnu par votre Locale. Utilisez %1$s</string>
     <string name="label">intitulé</string>
     <string name="menu_changes">Changements</string>
     <string name="menu_create_main_cat">Nouvelle catégorie principale</string>
@@ -68,9 +73,9 @@
     <string name="opening_balance">solde initial</string>
     <string name="payee">Tiers</string>
     <string name="payer">Tiers</string>
-    <string name="select">Selectionner</string>
-    <string name="select_account">Selectioner un compte</string>
-    <string name="select_category">Selectionner une catégorie</string>
+    <string name="select">Sélectionner</string>
+    <string name="select_account">Sélectioner un compte</string>
+    <string name="select_category">Sélectionner une catégorie</string>
     <string name="select_parent_category">Choisir cette catégorie</string>
     <string name="time">Heure</string>
     <string name="title">Titre</string>

@@ -11,7 +11,10 @@
 		<string name="close">Close</string>
 		<string name="comment">Notes</string>
 		<string name="create_category">Create new category</string>
-		<string name="credits_text">Initially inspired by the Android Notepad tutorial. Help screen design copied from Mathdoku. App icon design copied from Sipdroid.</string>
+		<string name="credits_text">Initially inspired by the Android Notepad tutorial.
+		    \nHelp screen design copied from Mathdoku. 
+		    \nApp icon design copied from Sipdroid.
+		    \nFrench localization revised by Laurent Collombet.</string>
 		<string name="currency">Currency</string>
 		<string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
 		<string name="current_balance">Current balance</string>
@@ -51,6 +54,7 @@
 		<string name="import_categories_failure">Categories import failed</string>
 		<string name="import_categories">Import categories</string>
 		<string name="import_categories_success">%1$d categories imported successfully</string>
+		<string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>
 		<string name="label">Label</string>
 		<string name="menu_changes">Changes</string>
 		<string name="menu_create_main_cat">Create new main category</string>

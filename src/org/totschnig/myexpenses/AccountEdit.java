@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses;
 
+import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -34,6 +35,7 @@ public class AccountEdit extends Activity {
   private EditText mOpeningBalanceText;
   private AutoCompleteTextView mCurrencyText;
   Account mAccount;
+  private NumberFormat nfDLocal = NumberFormat.getNumberInstance();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +85,7 @@ public class AccountEdit extends Activity {
       setTitle(R.string.menu_edit_account);
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);
-      mOpeningBalanceText.setText(Float.toString(mAccount.openingBalance));
+      mOpeningBalanceText.setText(nfDLocal.format(mAccount.openingBalance));
       mCurrencyText.setText(mAccount.currency.getCurrencyCode());
     } else {
       mAccount = new Account(mDbHelper);
@@ -102,12 +104,12 @@ public class AccountEdit extends Activity {
     }
     mAccount.label = mLabelText.getText().toString();
     mAccount.description = mDescriptionText.getText().toString();
-    try {
-      mAccount.openingBalance = Float.valueOf(mOpeningBalanceText.getText().toString());
-    } catch (NumberFormatException e) {
-      mAccount.openingBalance = 0;
+    Float openingBalance = Utils.validateNumber(mOpeningBalanceText.getText().toString());
+    if (openingBalance == null) {
+      Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
+      return false;
     }
-
+    mAccount.openingBalance = openingBalance;
     mAccount.save();
     return true;
   }

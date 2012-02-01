@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses;
 
+import java.text.NumberFormat;
 import java.util.Date;
 
 import android.app.Activity;
@@ -58,9 +59,11 @@ public class ExpenseEdit extends Activity {
   
   public static final boolean INCOME = true;
   public static final boolean EXPENSE = false;
+  //stores if we deal with an EXPENSE or an INCOME
   private boolean mType = EXPENSE;
   //normal transaction or transfer
   private boolean mOperationType;
+  private NumberFormat nfDLocal = NumberFormat.getNumberInstance();
 
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
@@ -234,7 +237,7 @@ public class ExpenseEdit extends Activity {
         amount = mTransaction.amount;
         toggleType();
       }      
-      mAmountText.setText(Float.toString(amount));
+      mAmountText.setText(nfDLocal.format(amount));
       mCommentText.setText(mTransaction.comment);
       if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
         mPayeeText.setText(mTransaction.payee);
@@ -284,15 +287,16 @@ public class ExpenseEdit extends Activity {
 //  }
 
   private boolean saveState() {
-    float amount;
-    try {
-      amount = Float.valueOf(mAmountText.getText().toString());
-      if (mType == EXPENSE) {
-        amount = 0 - amount;
-      }
-    } catch (NumberFormatException e) {
-      amount = 0;
+    String strAmount = mAmountText.getText().toString();
+    Float amount = Utils.validateNumber(strAmount);
+    if (amount == null) {
+      Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
+      return false;
     }
+    if (mType == EXPENSE) {
+      amount = 0 - amount;
+    }
+    
     mTransaction.amount = amount;
     mTransaction.comment = mCommentText.getText().toString();
     mTransaction.setDate(mDateButton.getText().toString() + 
