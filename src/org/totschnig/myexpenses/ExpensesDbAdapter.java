@@ -308,8 +308,15 @@ public class ExpensesDbAdapter {
     mCursor.close();
     return result;
   }
+
+  /**
+   * @param cat_id
+   * @return number of transactions linked to a category
+   */
   public int getExpenseCount(long cat_id) {
-    Cursor mCursor = mDb.rawQuery("select count(*) from " + DATABASE_TABLE +  " WHERE cat_id = " + cat_id, null);
+    //since cat_id stores the account to which is transfered for transfers
+    //we have to restrict to normal transactions by checking if transfer_peer is null
+    Cursor mCursor = mDb.rawQuery("select count(*) from " + DATABASE_TABLE +  " WHERE transfer_peer is null and cat_id = " + cat_id, null);
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);
     mCursor.close();
