@@ -1,0 +1,5 @@
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:key="first_preferencescreen">
+	<EditTextPreference android:key="ftp_target" android:title="@string/ftp_target" />
+</PreferenceScreen> 

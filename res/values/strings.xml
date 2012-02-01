@@ -29,7 +29,13 @@
 		<string name="edit_category">Edit category</string>
 		<string name="edit_preferences">Edit preferences</string>
 		<string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
-		<string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>        
+		<string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
+		<string name="ftp_target">FTP URL where QIF while should be uploaded after export</string>
+		<string name="ftp_uri_malformed">Malformed URI %1$s</string>
+    <string name="ftp_success">Upload to %1$s successful</string>
+    <string name="ftp_failure">Failure while uploading to %1$s</string>
+    <string name="ftp_socket_exception">Socket exception while uploading to %1$s</string>
+    <string name="ftp_io_exception">IO exception while uploading to %1$s</string>
 		<!-- The author title in the help screen. -->
 		<string name="help_author">Author</string>
 		<!-- The credits title in the help screen. -->
@@ -70,6 +76,7 @@
 		<string name="menu_insert_ta">Add Transaction</string>
 		<string name="menu_insert_transfer">Add Transfer</string>
 		<string name="menu_reset">Reset</string>
+		<string name="menu_settings">Settings</string>
 		<string name="menu_show_detail">Show details</string>
 		<string name="no_accounts">No Accounts!</string>
 		<string name="no_categories">No categories. Use the menu to add or to import.</string>

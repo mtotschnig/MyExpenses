@@ -27,7 +27,6 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Properties;
 
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 
@@ -67,8 +66,10 @@ public class MyExpenses extends ListActivity {
   private static final int SHOW_DETAIL_ID = Menu.FIRST +5;
   private static final int HELP_ID = Menu.FIRST +6;
   private static final int SELECT_ACCOUNT_ID = Menu.FIRST +7;
+  private static final int SETTINGS_ID = Menu.FIRST +8;
   public static final boolean TYPE_TRANSACTION = true;
   public static final boolean TYPE_TRANSFER = false;
+  //private static final EXPORT_DIR_DEFAULT = "/sdcard/myexpenses"
 
   private ExpensesDbAdapter mDbHelper;
 
@@ -185,6 +186,7 @@ public class MyExpenses extends ListActivity {
     menu.add(0, RESET_ID,1,R.string.menu_reset);
     menu.add(0, HELP_ID,1,R.string.menu_help);
     menu.add(0, SELECT_ACCOUNT_ID,1,R.string.select_account);
+    menu.add(0,SETTINGS_ID,1,R.string.menu_settings);
     return true;
   }
 
@@ -220,6 +222,8 @@ public class MyExpenses extends ListActivity {
       i.putExtra("current_account", mCurrentAccount.id);
       startActivityForResult(i, ACTIVITY_SELECT_ACCOUNT);
       return true;
+    case SETTINGS_ID:
+      startActivity(new Intent(this, MyPreferenceActivity.class));
     }
     return super.onMenuItemSelected(featureId, item);
   }
@@ -255,7 +259,7 @@ public class MyExpenses extends ListActivity {
       return true;
     }
     return super.onContextItemSelected(item);
-  }  
+  }
   private void createRow(boolean type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
@@ -266,7 +270,7 @@ public class MyExpenses extends ListActivity {
   private void exportAll() throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm");
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    Log.e("MyExpenses","now starting export");
+    Log.i("MyExpenses","now starting export");
     File appDir = new File("/sdcard/myexpenses/");
     appDir.mkdir();
     File outputFile = new File(appDir, "expenses" + now.format(new Date()) + ".qif");
@@ -308,7 +312,12 @@ public class MyExpenses extends ListActivity {
     }
     out.close();
     mExpensesCursor.moveToFirst();
-    Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
+    String ftp_target = mSettings.getString("ftp_target","");
+    String ftp_result = "";
+    if (!ftp_target.equals("")) {
+      ftp_result = "\n" + getString(Utils.ftpUpload(outputFile, ftp_target),ftp_target);
+    }
+    Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success)+ftp_result, outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
   }
   private void reset() {
     try {
@@ -418,6 +427,8 @@ public class MyExpenses extends ListActivity {
       long account_id = mDbHelper.createAccount("Default account",0,"Default account created upon installation","EUR");
       edit.putLong("current_account", account_id).commit();
       edit.putInt("currentversion", current_version).commit();
+      File appDir = new File("/sdcard/myexpenses/");
+      appDir.mkdir();
       return;
     }
     if (pref_version != current_version) {
