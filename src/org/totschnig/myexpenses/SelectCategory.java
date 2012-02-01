@@ -52,20 +52,50 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
+/**
+ * SelectCategory activity allows to select categories while editing a transaction
+ * and also managing (creating, deleting, importing)
+ * @author Michael Totschnig
+ *
+ */
 public class SelectCategory extends ExpandableListActivity {
     private MyExpandableListAdapter mAdapter;
     private ExpensesDbAdapter mDbHelper;
     private Cursor mGroupCursor;
+    /**
+     * create a new main category
+     */
     private static final int CREATE_MAIN_CAT = Menu.FIRST;
+    /**
+     * create a new sub category
+     */
     private static final int CREATE_SUB_CAT = Menu.FIRST+2;
+    /**
+     * return the main cat to the calling activity
+     */
     private static final int SELECT_MAIN_CAT = Menu.FIRST+1;
+    /**
+     * edit the category label
+     */
     private static final int EDIT_CAT = Menu.FIRST+3;
+    /**
+     * delete the category after checking if
+     * there are mapped transactions or subcategories
+     */
     private static final int DELETE_CAT = Menu.FIRST+4;
+    /**
+     * calls the category import
+     */
     private static final int IMPORT_CAT_ID = Menu.FIRST + 5;
     int mGroupIdColumnIndex;
     ProgressDialog mProgressDialog;
     int mTotalCategories;
-    private final String[] ITEMS = {"Grisbi default (en)", "Grisbi default (fr)", "Grisbi default (de)", "/sdcard/myexpenses/categories.xml"};
+    
+    /**
+     * Choice of sources for importing categories presented to the user.
+     * The first three are internal to the app, the fourth one is provided by the user 
+     */
+    private final String[] IMPORT_SOURCES = {"Grisbi default (en)", "Grisbi default (fr)", "Grisbi default (de)", "/sdcard/myexpenses/categories.xml"};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,7 +132,7 @@ public class SelectCategory extends ExpandableListActivity {
     	    int type = ExpandableListView
     	            .getPackedPositionType(info.packedPosition);
     	
-    	    // Only create a context menu for the group
+    	    // Menu entries relevant only for the group
     	    if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
     	    	menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
     	    	menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
@@ -110,6 +140,7 @@ public class SelectCategory extends ExpandableListActivity {
     	    menu.add(0,DELETE_CAT,0,R.string.menu_delete_cat);
     	    menu.add(0,EDIT_CAT,0,R.string.menu_edit_cat);
     }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -117,6 +148,7 @@ public class SelectCategory extends ExpandableListActivity {
         menu.add(0, IMPORT_CAT_ID,1,R.string.import_categories);
         return true;
     }
+    
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch(item.getItemId()) {
         case CREATE_MAIN_CAT:
@@ -128,6 +160,7 @@ public class SelectCategory extends ExpandableListActivity {
         }
         return super.onMenuItemSelected(featureId, item);
     }
+    
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         long cat_id;
@@ -176,6 +209,10 @@ public class SelectCategory extends ExpandableListActivity {
     	super.onDestroy();
     	mDbHelper.close();
     }
+    /* (non-Javadoc)
+     * return the sub cat to the calling activity 
+     * @see android.app.ExpandableListActivity#onChildClick(android.widget.ExpandableListView, android.view.View, int, int, long)
+     */
     @Override
     public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
     	//Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
@@ -189,6 +226,11 @@ public class SelectCategory extends ExpandableListActivity {
     	finish();
     	return true;
     }
+    /**
+     * Mapping the categories table into the ExpandableList
+     * @author Michael Totschnig
+     *
+     */
     public class MyExpandableListAdapter extends SimpleCursorTreeAdapter2 {
     	
         public MyExpandableListAdapter(Cursor cursor, Context context, int groupLayout,
@@ -197,6 +239,10 @@ public class SelectCategory extends ExpandableListActivity {
             super(context, cursor, groupLayout, groupFrom, groupTo, childLayout, childrenFrom,
                     childrenTo);
         }
+        /* (non-Javadoc)
+         * returns a cursor with the subcategories for the group
+         * @see android.widget.CursorTreeAdapter#getChildrenCursor(android.database.Cursor)
+         */
         @Override
         protected Cursor getChildrenCursor(Cursor groupCursor) {
             // Given the group, we return a cursor for all the children within that group
@@ -207,6 +253,12 @@ public class SelectCategory extends ExpandableListActivity {
 
         }
     }
+    
+    /**
+     * presents AlertDialog for adding a new category
+     * if label is already used, shows an error
+     * @param parent_id
+     */
     public void createCat(final long parent_id) {
     	AlertDialog.Builder alert = new AlertDialog.Builder(this);
     	alert.setTitle(R.string.create_category);
@@ -236,6 +288,12 @@ public class SelectCategory extends ExpandableListActivity {
 
     	alert.show();
     }
+    /**
+     * presents AlertDialog for editing an existing category
+     * if label is already used, shows an error
+     * @param label
+     * @param cat_id
+     */
     public void editCat(String label, final long cat_id) {
       AlertDialog.Builder alert = new AlertDialog.Builder(this);
       alert.setTitle(R.string.edit_category);
@@ -266,10 +324,15 @@ public class SelectCategory extends ExpandableListActivity {
       
       alert.show();
     }
+    
+    /**
+     * Presents dialog for selecting an import source
+     * and executes the import as an asyncTask
+     */
     private void importCategories() {
       AlertDialog.Builder builder = new AlertDialog.Builder(this);
       builder.setTitle(R.string.dialog_title_select_import_source);
-      builder.setSingleChoiceItems(ITEMS, -1, new DialogInterface.OnClickListener() {
+      builder.setSingleChoiceItems(IMPORT_SOURCES, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
             new MyAsyncTask(SelectCategory.this,item).execute();
             dialog.cancel();
@@ -277,6 +340,14 @@ public class SelectCategory extends ExpandableListActivity {
       });
       builder.show();
     }
+    
+    /**
+     * This AsyncTaks has no input upond execution 
+     * report an integer for showing a progress update
+     * and gives as result the total number of imported categories
+     * @author Michael Totschnig
+     *
+     */
     private class MyAsyncTask extends AsyncTask<Void, Integer, Integer> {
       private Context context;
       private int source;
@@ -287,14 +358,22 @@ public class SelectCategory extends ExpandableListActivity {
       Hashtable<String,Long> Foreign2LocalIdMap;
       int totalImported;
 
+      /**
+       * @param context
+       * @param source Source for the import
+       */
       public MyAsyncTask(Context context,int source) {
         this.context = context;
         this.source = source;
         Foreign2LocalIdMap = new Hashtable<String,Long>();
         totalImported = 0; 
       }
+      /* (non-Javadoc)
+       * loads the XML from the source, parses it, and sets up progress dialog
+       * @see android.os.AsyncTask#onPreExecute()
+       */
       protected void onPreExecute() {
-        String sourceStr = ITEMS[source];
+        String sourceStr = IMPORT_SOURCES[source];
         super.onPreExecute();
         //from sdcard
         if (source == 3) {
@@ -340,9 +419,18 @@ public class SelectCategory extends ExpandableListActivity {
         mProgressDialog.setProgress(0);
         mProgressDialog.show();
       }
+      
+      /* (non-Javadoc)
+       * updates the progress dialog
+       * @see android.os.AsyncTask#onProgressUpdate(Progress[])
+       */
       protected void onProgressUpdate(Integer... values) {
         mProgressDialog.setProgress(values[0]);
       }
+      /* (non-Javadoc)
+       * reports on success (with total number of imported categories) or failure
+       * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+       */
       protected void onPostExecute(Integer result) {
         mProgressDialog.dismiss();
         String msg;
@@ -357,6 +445,12 @@ public class SelectCategory extends ExpandableListActivity {
       }
 
 
+      /* (non-Javadoc)
+       * this is where the bulk of the work is done via calls to {@link #importCatsMain()}
+       * and {@link #importCatsSub()}
+       * sets up {@link #categories} and {@link #sub_categories}
+       * @see android.os.AsyncTask#doInBackground(Params[])
+       */
       @Override
       protected Integer doInBackground(Void... params) {
         //first we do the parsing
@@ -372,6 +466,11 @@ public class SelectCategory extends ExpandableListActivity {
         importCatsSub();
         return totalImported;
       }
+      /**
+       * iterates over {@link #categories}
+       * maintains a map of the ids found in the XML and the ones inserted in the database
+       * needed for mapping subcats to their parents in {@link #importCatsSub()}
+       */
       private void importCatsMain() {
         int start = 1;
         String label;
@@ -400,6 +499,9 @@ public class SelectCategory extends ExpandableListActivity {
           }
         }
       }
+      /**
+       * iterates over {@link #sub_categories}
+       */
       private void importCatsSub() {
         int start = categories.getLength() + 1;
         String label;

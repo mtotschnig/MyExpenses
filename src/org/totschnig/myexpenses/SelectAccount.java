@@ -29,6 +29,12 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
+/**
+ * Activity for switching accounts
+ * also allows to manage accounts
+ * @author Michael Totschnig
+ *
+ */
 public class SelectAccount extends ListActivity {
   private static final int ACTIVITY_CREATE=0;
   private static final int ACTIVITY_EDIT=1;
@@ -58,6 +64,7 @@ public class SelectAccount extends ListActivity {
     menu.add(0, INSERT_ACCOUNT_ID, 0, R.string.menu_insert_account);
     return true;
   }
+  
   public boolean onMenuItemSelected(int featureId, MenuItem item) {
     switch(item.getItemId()) {
     case INSERT_ACCOUNT_ID:
@@ -103,6 +110,10 @@ public class SelectAccount extends ListActivity {
     super.onDestroy();
     mDbHelper.close();
   }
+  /* (non-Javadoc)
+   * makes sure that current account is not deleted
+   * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)
+   */
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
       ContextMenuInfo menuInfo) {

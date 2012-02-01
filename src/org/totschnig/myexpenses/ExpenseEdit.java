@@ -37,6 +37,10 @@ import android.widget.TimePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Activity for editing a transaction
+ * @author Michael Totschnig
+ */
 public class ExpenseEdit extends Activity {
 
   private Button mDateButton;
@@ -164,7 +168,10 @@ public class ExpenseEdit extends Activity {
               public void onClick(DialogInterface dialog, int item) {
                 otherAccounts.moveToPosition(item);
                 mTransaction.cat_id = otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
-                mCategoryButton.setText((mType == EXPENSE ? "=> " :"<= ") + accounts[item]);
+                mCategoryButton.setText(
+                    (mType == EXPENSE ? MyExpenses.TRANSFER_EXPENSE  : MyExpenses.TRANSFER_EXPENSE) + 
+                    accounts[item]
+                );
                 otherAccounts.close();
                 dialog.cancel();
               }
@@ -187,11 +194,17 @@ public class ExpenseEdit extends Activity {
     super.onDestroy();
     mDbHelper.close();
   }
+  /**
+   * calls the activity for selecting (and managing) categories
+   */
   private void startSelectCategory() {
     Intent i = new Intent(this, SelectCategory.class);
     //i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
     startActivityForResult(i, 0);
   }
+  /**
+   * listens on changes in the date dialog and sets the date on the button
+   */
   private DatePickerDialog.OnDateSetListener mDateSetListener =
     new DatePickerDialog.OnDateSetListener() {
 
@@ -203,6 +216,9 @@ public class ExpenseEdit extends Activity {
       setDate();
     }
   };
+  /**
+   * listens on changes in the time dialog and sets the time on hte button
+   */
   private TimePickerDialog.OnTimeSetListener mTimeSetListener =
     new TimePickerDialog.OnTimeSetListener() {
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -225,6 +241,10 @@ public class ExpenseEdit extends Activity {
     }
     return null;
   }
+  
+  /**
+   * populates the input fields with a transaction from the database or a new one
+   */
   private void populateFields() {
     //TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
     if (mRowId != 0) {
@@ -245,7 +265,10 @@ public class ExpenseEdit extends Activity {
       String label =  mTransaction.label;
       if (label != null && label.length() != 0) {
         if (mOperationType == MyExpenses.TYPE_TRANSFER)
-          label = (mType == EXPENSE ? "=> " :"<= ") + label;
+          label = (mType == EXPENSE ? 
+              MyExpenses.TRANSFER_EXPENSE : 
+              MyExpenses.TRANSFER_EXPENSE) 
+              + label;
         mCategoryButton.setText(label);
       }
     } else {
@@ -256,6 +279,10 @@ public class ExpenseEdit extends Activity {
     setDateTime(mTransaction.date);
     
   }
+  /**
+   * extracts the fields from a date object for setting them on the buttons
+   * @param date
+   */
   private void setDateTime(Date date) {
     mYear = date.getYear()+1900;
     mMonth = date.getMonth();
@@ -266,12 +293,24 @@ public class ExpenseEdit extends Activity {
     setDate();
     setTime();
   }
+  /**
+   * sets date on date button
+   */
   private void setDate() {
     mDateButton.setText(mYear + "-" + pad(mMonth + 1) + "-" + pad(mDay));
   }
+  
+  /**
+   * sets time on time button
+   */
   private void setTime() {
     mTimeButton.setText(pad(mHours) + ":" + pad(mMinutes));
   }
+  /**
+   * helper for padding integer values smaller than 10 with 0
+   * @param c
+   * @return
+   */
   private static String pad(int c) {
     if (c >= 10)
       return String.valueOf(c);
@@ -279,13 +318,11 @@ public class ExpenseEdit extends Activity {
       return "0" + String.valueOf(c);
   }
 
-//  //I am not sure if this needed
-//  @Override
-//  protected void onSaveInstanceState(Bundle outState) {
-//    outState.putLong(ExpensesDbAdapter.KEY_ROWID, mRowId);
-//    super.onSaveInstanceState(outState);
-//  }
-
+  /**
+   * validates (is number interpretable as float in current locale,
+   * is account selected for transfers) and saves
+   * @return true upon success, false if validation fails
+   */
   private boolean saveState() {
     String strAmount = mAmountText.getText().toString();
     Float amount = Utils.validateNumber(strAmount);
@@ -313,15 +350,20 @@ public class ExpenseEdit extends Activity {
     mTransaction.save();
     return true;
   }
+  /* (non-Javadoc)
+   * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+   */
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     if (intent != null) {
-      //Here we will have to set the category for the expense
       mTransaction.cat_id = intent.getLongExtra("cat_id",0);
       mCategoryButton.setText(intent.getStringExtra("label"));
     }
   }
+  /**
+   * updates interface if type is toggled between EXPENSE and INCOME
+   */
   private void toggleType() {
     mType = ! mType;
     mTypeButton.setText(mType ? "+" : "-");

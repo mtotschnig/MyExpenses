@@ -21,6 +21,13 @@ import java.util.Locale;
 import android.database.Cursor;
 import android.util.Log;
 
+/**
+ * Account represents an account stored in the database.
+ * Accounts have label, opening balance, description and currency
+ * 
+ * @author Michael Totschnig
+ *
+ */
 public class Account {
  
   public long id = 0;
@@ -31,11 +38,16 @@ public class Account {
    
   public String description;
    
+  /**
+   * java.util.Currency based on ISO 4217 currency symbols
+   */
   public Currency currency;
   
   private ExpensesDbAdapter mDbHelper;
   
-  //from http://www.currency-iso.org/dl_iso_table_a1.xml
+  /**
+   * @see <a href="http://www.currency-iso.org/dl_iso_table_a1.xml">http://www.currency-iso.org/dl_iso_table_a1.xml</a>
+   */
   public static final String[] ISO_4217 = new String[] {
     "AED" , "AFN" , "ALL" , "AMD" , "ANG" , "AOA" , "ARS" , "AUD" , "AWG" , "AZN" , 
     "BAM" , "BBD" , "BDT" , "BGN" , "BHD" , "BIF" , "BMD" , "BND" , "BOB" , "BOV" , 
@@ -58,20 +70,19 @@ public class Account {
     "ZMK" , "ZWL"
 };
 
-  //creates an empty account
+  /**
+   * returns an empty Account instance
+   * @param mDbHelper the database helper used in the activity
+   */
   public Account(ExpensesDbAdapter mDbHelper) {
     this.mDbHelper = mDbHelper;
   }
   
-  //creates a new account with given values
-  public Account(ExpensesDbAdapter mDbHelper, String label, float opening_balance, String description, String currency) {
-    this.mDbHelper = mDbHelper;
-    this.label = label;
-    this.openingBalance = opening_balance;
-    this.description = description;
-    setCurrency(currency);
-  }
-  //returns an account stored in DB with the given id
+  /**
+   * retrieves an Account instance from the database
+   * @param mDbHelper
+   * @param id
+   */
   public Account(ExpensesDbAdapter mDbHelper, long id) {
     this.mDbHelper = mDbHelper;
     this.id = id;
@@ -82,6 +93,10 @@ public class Account {
     setCurrency(c.getString(c.getColumnIndexOrThrow("currency")));
     c.close();
   }
+  /**
+   * @param currency if not a legal symbol, silently the currency from the Locale
+   * is used instead
+   */
   public void setCurrency(String currency) {
     try {
       this.currency = Currency.getInstance(currency);
@@ -91,16 +106,26 @@ public class Account {
     }
   }
   
+  /**
+   * @return the sum of opening balance and all transactions for the account
+   */
   public float getCurrentBalance() { 
     return openingBalance + mDbHelper.getExpenseSum(id);
   }
   
+  /**
+   * deletes all expenses and set the new opening balance to the current balance
+   */
   public void reset() {
     openingBalance = getCurrentBalance();
     mDbHelper.updateAccountOpeningBalance(id,openingBalance);
     mDbHelper.deleteExpenseAll(id);
   }
   
+  /**
+   * Saves the account, creating it new if necessary
+   * @return the id of the account. Upon creation it is returned from the database
+   */
   public long save() {
     if (id == 0) {
       id = mDbHelper.createAccount(label, openingBalance, description,currency.getCurrencyCode());

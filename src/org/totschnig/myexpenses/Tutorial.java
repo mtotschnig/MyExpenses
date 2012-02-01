@@ -20,6 +20,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.os.Bundle;
 
+/**
+ * opens a WebView with the tutorial stored in the assets folder
+ * @author Michael Totschnig
+ *
+ */
 public class Tutorial extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {

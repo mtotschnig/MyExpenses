@@ -17,6 +17,12 @@ package org.totschnig.myexpenses;
 
 import android.database.Cursor;
 
+/**
+ * a transfer consists of a pair of transactions, one for each account
+ * this class handles creation and update
+ * @author Michael Totschnig
+ *
+ */
 public class Transfer extends Transaction {
   
   public Transfer(ExpensesDbAdapter mDbHelper) {
@@ -27,6 +33,9 @@ public class Transfer extends Transaction {
     super(mDbHelper,id,c);
   }
 
+  /* (non-Javadoc)
+   * @see org.totschnig.myexpenses.Transaction#save()
+   */
   public long save() {
     if (id == 0) {
       id = mDbHelper.createTransfer(dateAsString, amount, comment,cat_id,account_id);

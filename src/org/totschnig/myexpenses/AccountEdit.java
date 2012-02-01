@@ -28,6 +28,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * Activity for editing an account
+ * @author Michael Totschnig
+ */
 public class AccountEdit extends Activity {
   private ExpensesDbAdapter mDbHelper;
   private EditText mLabelText;
@@ -76,6 +80,9 @@ public class AccountEdit extends Activity {
     mDbHelper.close();
   }
 
+  /**
+   * populates the input field either from the database or with default value for currency (from Locale)
+   */
   private void populateFields() {
     Bundle extras = getIntent().getExtras();
     long rowId = extras != null ? extras.getLong(ExpensesDbAdapter.KEY_ROWID)
@@ -94,6 +101,11 @@ public class AccountEdit extends Activity {
     }
   }
 
+  /**
+   * validates currency (must be code from ISO 4217) and opening balance
+   * (a valid float according to the format from the locale)
+   * @return true upon success, false if validation fails
+   */
   private boolean saveState() {
     String currency = mCurrencyText.getText().toString();
     try {
@@ -113,5 +125,4 @@ public class AccountEdit extends Activity {
     mAccount.save();
     return true;
   }
-
 }

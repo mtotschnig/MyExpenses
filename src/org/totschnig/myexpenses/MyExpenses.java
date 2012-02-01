@@ -54,6 +54,13 @@ import android.preference.PreferenceManager;
 //import android.util.DisplayMetrics;
 import android.util.Log;
 
+/**
+ * This is the main activity where all expenses are listed
+ * From the menu subactivities (Insert, Reset, SelectAccount, Help, Settings)
+ * are called
+ * @author Michael Totschnig
+ *
+ */
 public class MyExpenses extends ListActivity {
   private static final int ACTIVITY_CREATE=0;
   private static final int ACTIVITY_EDIT=1;
@@ -69,18 +76,21 @@ public class MyExpenses extends ListActivity {
   private static final int SETTINGS_ID = Menu.FIRST +8;
   public static final boolean TYPE_TRANSACTION = true;
   public static final boolean TYPE_TRANSFER = false;
-  //private static final EXPORT_DIR_DEFAULT = "/sdcard/myexpenses"
-
+  public static final String TRANSFER_EXPENSE = "=>";
+  public static final String TRANSFER_INCOME = "<=";
+    
+  
   private ExpensesDbAdapter mDbHelper;
 
   private Account mCurrentAccount;
   
   private SharedPreferences mSettings;
   private Cursor mExpensesCursor;
-  //this boolean stores if a new account has been added in SelectAccount
-  //we need this to recreate options menu
 
-  /** Called when the activity is first created. */
+  /* (non-Javadoc)
+   * Called when the activity is first created.
+   * @see android.app.Activity#onCreate(android.os.Bundle)
+   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -101,6 +111,9 @@ public class MyExpenses extends ListActivity {
     super.onDestroy();
     mDbHelper.close();
   }
+  /**
+   * binds the Cursor for all expenses to the list view
+   */
   private void fillData() {
     mExpensesCursor = mDbHelper.fetchExpenseAll(mCurrentAccount.id);
     startManagingCursor(mExpensesCursor);
@@ -118,10 +131,19 @@ public class MyExpenses extends ListActivity {
 
     // Now create a simple cursor adapter and set it to display
     SimpleCursorAdapter expense = new SimpleCursorAdapter(this, R.layout.expense_row, mExpensesCursor, from, to)  {
+      /* (non-Javadoc)
+       * calls {@link #convText for formatting the values retrieved from the cursor}
+       * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
+       */
       @Override
       public void setViewText(TextView v, String text) {
         super.setViewText(v, convText(v, text));
       }
+      /* (non-Javadoc)
+       * manipulates the view for amount (setting expenses to red) and
+       * category (indicate transfer direction with => or <=
+       * @see android.widget.CursorAdapter#getView(int, android.view.View, android.view.ViewGroup)
+       */
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
         View row=super.getView(position, convertView, parent);
@@ -140,7 +162,7 @@ public class MyExpenses extends ListActivity {
         TextView tv2 = (TextView)row.findViewById(R.id.category);
         col = c.getColumnIndex(ExpensesDbAdapter.KEY_TRANSFER_PEER);
         if (c.getLong(col) != 0) 
-          tv2.setText(((amount < 0) ? "=> " : "<= ") + tv2.getText());
+          tv2.setText(((amount < 0) ? TRANSFER_EXPENSE : TRANSFER_INCOME) + tv2.getText());
         return row;
       }
     };
@@ -148,11 +170,24 @@ public class MyExpenses extends ListActivity {
     TextView endView= (TextView) findViewById(R.id.end);
     endView.setText(formatCurrency(mCurrentAccount.getCurrentBalance()));
   }
+  
+  /**
+   * formats an amount with the currency of the current account
+   * @param amount
+   * @return formated string
+   */
   private String formatCurrency(float amount) {
     NumberFormat nf = NumberFormat.getCurrencyInstance();
     nf.setCurrency(mCurrentAccount.currency);
     return nf.format(amount);
   }
+  
+  /**
+   * utility method that calls formatters for date and amount
+   * @param v
+   * @param text
+   * @return formated string
+   */
   private String convText(TextView v, String text) {
     SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
     float amount;
@@ -170,6 +205,12 @@ public class MyExpenses extends ListActivity {
     return text;
   } 
 
+  /* (non-Javadoc)
+   * here we check if we have other accounts with the same category,
+   * only under this condition do we make the Insert Transfer Activity
+   * available
+   * @see android.app.Activity#onPrepareOptionsMenu(android.view.Menu)
+   */
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
@@ -260,6 +301,10 @@ public class MyExpenses extends ListActivity {
     }
     return super.onContextItemSelected(item);
   }
+  /**
+   * start ExpenseEdit Activity for a new transaction/transfer
+   * @param type either {@link #TYPE_TRANSACTION} or {@link #TYPE_TRANSFER}
+   */
   private void createRow(boolean type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
@@ -267,6 +312,11 @@ public class MyExpenses extends ListActivity {
     startActivityForResult(i, ACTIVITY_CREATE);
   }
 
+  /**
+   * writes all transactions of the current account to a QIF file
+   * if ftp_target preference is set, additionally does an FTP upload
+   * @throws IOException
+   */
   private void exportAll() throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm");
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -315,21 +365,31 @@ public class MyExpenses extends ListActivity {
     String ftp_target = mSettings.getString("ftp_target","");
     String ftp_result = "";
     if (!ftp_target.equals("")) {
-      ftp_result = "\n" + getString(Utils.ftpUpload(outputFile, ftp_target),ftp_target);
+      Utils.Result result = Utils.ftpUpload(outputFile, ftp_target);
+      ftp_result = "\n" + getString(result.message,ftp_target);
     }
     Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success)+ftp_result, outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
   }
+  
+  /**
+   * triggers export of transactions and resets the account
+   * (i.e. deletes transactions and updates opening balance)
+   */
   private void reset() {
     try {
       exportAll();
-      mCurrentAccount.reset();
-      fillData();
     } catch (IOException e) {
       Log.e("MyExpenses",e.getMessage());
       Toast.makeText(getBaseContext(),getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
     }
+    mCurrentAccount.reset();
+    fillData();
   }
 
+  /* (non-Javadoc)
+   * calls ExpenseEdit with a given rowid
+   * @see android.app.ListActivity#onListItemClick(android.widget.ListView, android.view.View, int, long)
+   */
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
@@ -341,6 +401,10 @@ public class MyExpenses extends ListActivity {
     startActivityForResult(i, ACTIVITY_EDIT);
   }
 
+  /* (non-Javadoc)
+   * upon return from SelectAccount updates current_account and refreshes view
+   * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+   */
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
@@ -356,7 +420,11 @@ public class MyExpenses extends ListActivity {
     }
     fillData();
   }
-  //from Mathdoku
+
+  /**
+   * shows Help screen with link to Changes and Tutorial
+   * seen in Mathdoku
+   */
   private void openHelpDialog() {
     LayoutInflater li = LayoutInflater.from(this);
     View view = li.inflate(R.layout.aboutview, null); 
@@ -384,8 +452,12 @@ public class MyExpenses extends ListActivity {
     .show();  
   }
   
-  //this dialog is shown, when a new version requires to present
-  //specific information to the user
+  
+  /**
+   * this dialog is shown, when a new version requires to present
+   * specific information to the user
+   * @param info a String presented to the user in an AlertDialog
+   */
   private void openVersionDialog(String info) {
     LayoutInflater li = LayoutInflater.from(this);
     View view = li.inflate(R.layout.versiondialog, null);
@@ -403,6 +475,9 @@ public class MyExpenses extends ListActivity {
     .show();
   }
   
+  /**
+   * opens AlertDialog with ChangeLog
+   */
   private void openChangesDialog() {
     LayoutInflater li = LayoutInflater.from(this);
     View view = li.inflate(R.layout.changeview, null);
@@ -419,6 +494,11 @@ public class MyExpenses extends ListActivity {
     .show();  
   }
 
+  /**
+   * check if this is the first invocation of a new version
+   * in which case help dialog is presented
+   * also is used for hooking version specific upgrade procedures
+   */
   public void newVersionCheck() {
     Editor edit = mSettings.edit();
     int pref_version = mSettings.getInt("currentversion", -1);
@@ -447,8 +527,12 @@ public class MyExpenses extends ListActivity {
     return;
   }
  
-  //loop through defined accounts and check if currency is a valid ISO 4217 code
-  //returns String concatenation of non conforming symbols in use
+  /**
+   * this utility function was used to check currency upon upgrade to version 14
+   * loop through defined accounts and check if currency is a valid ISO 4217 code
+   * tries to fix some cases, where currency symbols could have been used
+   * @return concatenation of non conforming symbols in use
+   */
   private String checkCurrencies() {
     long account_id;
     String currency;
@@ -484,6 +568,11 @@ public class MyExpenses extends ListActivity {
     return non_conforming;
   }
   
+  /**
+   * retrieve information about the current version
+   * @return concatenation of versionName, versionCode and buildTime
+   * buildTime is automatically stored in property file during build process
+   */
   public String getVersionInfo() {
     String version = "";
     String versionname = "";
@@ -504,12 +593,14 @@ public class MyExpenses extends ListActivity {
     } catch (NotFoundException e) {
       Log.w("MyExpenses","Did not find raw resource");
     } catch (IOException e) {
-      Log.w("MyExpenses","Failed to open microlog property file");
+      Log.w("MyExpenses","Failed to open property file");
     }
-
     return versionname + version  + versiontime;
   }
 
+  /**
+   * @return version number (versionCode)
+   */
   public int getVersionNumber() {
     int version = -1;
     try {
