@@ -8,7 +8,7 @@
     <string name="categories_loading">Import des catégories à partir de %1$s</string>
     <string name="category">Catégorie</string>
     <string name="category_already_defined">Catégorie %1$s existe</string>
-    <string name="close">Fermer</string>!
+    <string name="close">Fermer</string>
     <string name="comment">Remarques</string>
     <string name="create_category">Nouvelle catégorie</string>
     <string name="credits_text">Point de départ Android Notes Tutorial.
@@ -84,4 +84,3 @@
             <string name="warning_reset_account">Toutes les opérations du compte seront effacées. Voulez-vous continuer?</string>
     <string name="warning_select_account">Vous devez sélectionner un compte!</string>
 </resources>
-    
