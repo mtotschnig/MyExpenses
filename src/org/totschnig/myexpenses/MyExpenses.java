@@ -503,27 +503,27 @@ public class MyExpenses extends ListActivity {
     Editor edit = mSettings.edit();
     int pref_version = mSettings.getInt("currentversion", -1);
     int current_version = getVersionNumber();
+    if (pref_version == current_version)
+      return;
     if (pref_version == -1) {
       long account_id = mDbHelper.createAccount("Default account",0,"Default account created upon installation","EUR");
       edit.putLong("current_account", account_id).commit();
       edit.putInt("currentversion", current_version).commit();
       File appDir = new File("/sdcard/myexpenses/");
       appDir.mkdir();
-      return;
-    }
-    if (pref_version != current_version) {
+    } else if (pref_version != current_version) {
       edit.putInt("currentversion", current_version).commit();
       if (pref_version < 14) {
+        //made current_account long
+        edit.putLong("current_account", mSettings.getInt("current_account", 0)).commit();
         String non_conforming = checkCurrencies();
         if (non_conforming.length() > 0 ) {
           openVersionDialog(getString(R.string.version_14_upgrade_info,non_conforming));
           return;
         }
-        //made current_account long
-        edit.putLong("current_account", mSettings.getInt("current_account", 0)).commit();
       }
-      openHelpDialog();
     }
+    openHelpDialog();
     return;
   }
  
