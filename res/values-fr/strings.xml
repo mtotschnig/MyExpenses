@@ -6,9 +6,9 @@
     <string name="button_continue">Continuer</string>
     <string name="cancel">Annuler</string>
     <string name="categories_loading">Import des catégories à partir de %1$s</string>
-    <string name="category">Categorie</string>
+    <string name="category">Catégorie</string>
     <string name="category_already_defined">Catégorie %1$s existe</string>
-    <string name="close">Fermer</string>
+    <string name="close">Fermer</string>!
     <string name="comment">Remarques</string>
     <string name="create_category">Nouvelle catégorie</string>
     <string name="credits_text">Point de départ Android Notes Tutorial.
@@ -26,11 +26,11 @@
     <string name="dialog_title_select_import_source">Sélectionner une source pour l\'import</string>
     <string name="dialog_yes">Oui</string>
     <string name="done">OK</string>
-    <string name="edit_category">Éditer catégorie</string>
-    <string name="edit_preferences">Réglages</string>
-    <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses ver SD-Card</string>
+    <string name="edit_category">Éditer la catégorie</string>
+    <string name="edit_preferences">Paramètres</string>
+    <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses vers la carte SD</string>
     <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers le fichier %1$s</string>
-    <string name="ftp_target">FTP URL where QIF while should be uploaded after export</string>
+    <string name="ftp_target">URL FTP où sera téléchargé le fichier QIF après l\'exportation</string>
     <string name="help_author">Auteur</string>
     <string name="help_credits">Générique</string>
     <string name="help_leading">Merci d\'essayer MyExpenses pour Android.</string>
@@ -38,8 +38,8 @@
     <string name="help_project_home">Page d\'accueil</string>
     <string name="help_text">MyExpenses permet de gérer les entrées d\'argent et les dépenses, dans un format compatible avec Grisbi.
     \nLa commande \"Réinitialiser\" exporte toutes les transactions dans un fichier QIF sur la carte SD, efface les transactions, et transfère le dernier solde en nouveau solde d\'ouverture.
-    \n\"Choisir compte\" affiche la liste des comptes. Vous pouvez créer un nouveau compte (menu), les éditer ou effacer (menu contextuel) ou encore changer le compte utilisé (clic). 
-    \nLa gestion des categories est accessible à partir de l\'activité \"Selectionner une catégorie\", qui s\'affiche lorsqu\'on clique sur le bouton \"Catégorie\" dans l\'activité \"Edit transaction\". Avec la commande \"Importer catégories\" les catégories peuvent être importées à partir d\'un fichier Grisbi.
+    \n\"Choisir un compte\" affiche la liste des comptes. Vous pouvez créer un nouveau compte (menu), éditer, effacer (menu contextuel) ou encore changer le compte utilisé (clic). 
+    \nLa gestion des catégories est accessible à partir de l\'activité \"Sélectionner une catégorie\", qui s\'affiche lorsqu\'on clique sur le bouton \"Catégorie\" dans l\'activité \"Ajouter une opération\". Avec la commande \"Importer des catégories\" les catégories peuvent être importées à partir d\'un fichier Grisbi.
     Vous pouvez sélectionner les définitions standards utilisés par Grisbi, inclus dans MyExpenses, ou utiliser un fichier personnel, stocké sous \"/sdcard/myexpenses/categories.xml\".
     Pour ceci, vous pouvez copier votre fichier Grisbi tel quel, ou supprimer dans celui-ci tout sauf les définitions des catégories.
     </string>
@@ -54,33 +54,33 @@
     <string name="menu_create_main_cat">Nouvelle catégorie principale</string>
     <string name="menu_create_sub_cat">Nouvelle sous-catégorie</string>
     <string name="menu_delete">Effacer</string>
-    <string name="menu_delete_account">Effacer compte</string>
-    <string name="menu_delete_cat">Supprimer catégorie</string>
-    <string name="menu_edit_account">Éditer compte</string>
-    <string name="menu_edit_cat">Éditer catégorie</string>
-    <string name="menu_edit_ta">Éditer opération</string>
+    <string name="menu_delete_account">Effacer le compte</string>
+    <string name="menu_delete_cat">Supprimer la catégorie</string>
+    <string name="menu_edit_account">Éditer le compte</string>
+    <string name="menu_edit_cat">Éditer la catégorie</string>
+    <string name="menu_edit_ta">Éditer une opération</string>
     <string name="menu_help">Aide</string>
-    <string name="menu_insert_account">Ajouter compte</string>
-    <string name="menu_insert_ta">Ajouter opération</string>
-    <string name="menu_insert_transfer">Ajouter virement</string>
+    <string name="menu_insert_account">Ajouter un compte</string>
+    <string name="menu_insert_ta">Ajouter une opération</string>
+    <string name="menu_insert_transfer">Ajouter un virement</string>
     <string name="menu_reset">Réinitialiser</string>
-    <string name="menu_show_detail">Afficher détails</string>
+    <string name="menu_show_detail">Afficher les détails</string>
     <string name="no_accounts">Aucun compte!</string>
     <string name="no_categories">Aucune catégorie. Les catégories peuvent être ajoutées ou importées par le menu.</string>
     <string name="no_expenses">Aucune dépense !</string>
-    <string name="not_deletable_mapped_expenses">Cette catégorie ne peut pas être supprimée, parce qu\'il existe des dépenses à qui elle est attribuée.</string>
+    <string name="not_deletable_mapped_expenses">Cette catégorie ne peut pas être supprimée, parce qu\'il existe des dépenses qui lui sont attribuées.</string>
     <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce qu\'elle contient des sous-catégories.</string>
     <string name="opening_balance">solde initial</string>
     <string name="payee">Tiers</string>
     <string name="payer">Tiers</string>
     <string name="select">Sélectionner</string>
-    <string name="select_account">Sélectioner un compte</string>
+    <string name="select_account">Sélectionner un compte</string>
     <string name="select_category">Sélectionner une catégorie</string>
     <string name="select_parent_category">Choisir cette catégorie</string>
     <string name="time">Heure</string>
     <string name="title">Titre</string>
     <string name="version_14_upgrade_info">À partir de la version 1.4.0, la monnaie est définie selon le code ISO 4217.
-        Dans vos comptes vous utilisez les symbols suivants qui doivent être changés: %1$s </string>
+        Dans vos comptes vous utilisez les symboles suivants qui doivent être changés: %1$s </string>
             <string name="warning_reset_account">Toutes les opérations du compte seront effacées. Voulez-vous continuer?</string>
     <string name="warning_select_account">Vous devez sélectionner un compte!</string>
 </resources>
