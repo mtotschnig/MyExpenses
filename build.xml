@@ -79,8 +79,11 @@
          In all cases you must update the value of version-tag below to read 'custom' instead of an integer,
          in order to avoid having your file be overridden by tools such as "android update project"
     -->
-    <!-- version-tag: 1 -->
+    <!-- version-tag: custom -->
     <import file="${sdk.dir}/tools/ant/build_with_config.xml" />
+	<!-- build_with_config is the original build.xml from ADK with config added to the compile task
+	<target name="-compile" depends="-config, -build-setup, -pre-build, -code-gen, -pre-compile">
+	 -->
   <target name="-config">
   	<tstamp/>
     <echo>Configuring build date</echo>
