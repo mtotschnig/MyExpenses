@@ -18,6 +18,11 @@
 				android:textStyle="bold"
 				android:textColor="#ffffff"
 				android:textSize="18sp" />
+			<TextView android:text="v1.4.3 (February 3 2012): Improved parsing of number input in German locale. Upload of QIF file to FTP server."
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:paddingLeft="15px"      
+        android:textColor="#ffffff" />
 			<TextView android:text="v1.4.1 (January 31 2012): Input of transaction amounts now respects user's locale. Bug fix: Opening balance could not be set."
         android:layout_width="fill_parent" 
         android:layout_height="wrap_content"
