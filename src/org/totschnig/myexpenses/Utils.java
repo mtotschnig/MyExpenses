@@ -42,6 +42,7 @@ public class Utils {
   static Float validateNumber(String strFloat) {
     ParsePosition pp;
     NumberFormat nfDLocal = NumberFormat.getNumberInstance();
+    nfDLocal.setGroupingUsed(false);
     pp = new ParsePosition( 0 );
     pp.setIndex( 0 );
     Number n = nfDLocal.parse(strFloat,pp);
