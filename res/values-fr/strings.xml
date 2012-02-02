@@ -27,10 +27,14 @@
     <string name="dialog_yes">Oui</string>
     <string name="done">OK</string>
     <string name="edit_category">Éditer la catégorie</string>
-    <string name="edit_preferences">Paramètres</string>
     <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses vers la carte SD</string>
     <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers le fichier %1$s</string>
     <string name="ftp_target">URL FTP où sera téléchargé le fichier QIF après l\'exportation</string>
+    <string name="ftp_uri_malformed">Mauvaise syntaxe de l\'URI %1$s</string>
+    <string name="ftp_success">Téléchargement vers %1$s a réussi</string>
+    <string name="ftp_failure">Téléchargement vers %1$s a échoué</string>
+    <string name="ftp_socket_exception">Socket exception lors du téléchargement vers %1$s</string>
+    <string name="ftp_io_exception">IO exception lors du téléchargement vers %1$s</string>
     <string name="help_author">Auteur</string>
     <string name="help_credits">Générique</string>
     <string name="help_leading">Merci d\'essayer MyExpenses pour Android.</string>
@@ -64,6 +68,7 @@
     <string name="menu_insert_ta">Ajouter une opération</string>
     <string name="menu_insert_transfer">Ajouter un virement</string>
     <string name="menu_reset">Réinitialiser</string>
+    <string name="menu_settings">Paramètres</string>
     <string name="menu_show_detail">Afficher les détails</string>
     <string name="no_accounts">Aucun compte!</string>
     <string name="no_categories">Aucune catégorie. Les catégories peuvent être ajoutées ou importées par le menu.</string>

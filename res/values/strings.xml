@@ -14,7 +14,8 @@
 		<string name="credits_text">Initially inspired by the Android Notepad tutorial.
 		    \nHelp screen design copied from Mathdoku. 
 		    \nApp icon design copied from Sipdroid.
-		    \nFrench localization revised by Laurent Collombet.</string>
+		    \nFrench localization revised by Laurent Collombet.
+		</string>
 		<string name="currency">Currency</string>
 		<string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
 		<string name="current_balance">Current balance</string>
@@ -27,7 +28,6 @@
     <string name="dialog_yes">Yes</string>
 		<string name="done">Done</string>
 		<string name="edit_category">Edit category</string>
-		<string name="edit_preferences">Edit preferences</string>
 		<string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
 		<string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
 		<string name="ftp_target">FTP URL where QIF while should be uploaded after export</string>
