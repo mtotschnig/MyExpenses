@@ -97,4 +97,19 @@
                   </filterset>
           </copy>
   </target>
+  <target name="package-source">
+	<zip destfile="MyExpenses-source.zip">
+		<zipfileset dir="." includes="AndroidManifest.xml assets/** build.xml libs/** project.properties  res/**  src/**  template/**"/>		
+	</zip>
+  </target>
+<target name="javadoc">
+  <javadoc
+           destdir="doc/javadoc"
+           author="true"
+           version="true"
+           use="true">
+
+    <packageset dir="src"/>
+  </javadoc>
+</target>
 </project>
