@@ -16,15 +16,14 @@
 package org.totschnig.myexpenses;
 
 import java.text.SimpleDateFormat;
-import java.text.NumberFormat;
 import java.sql.Timestamp;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.NumberFormatException;
 import java.util.Currency;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
 
 import android.app.AlertDialog;
@@ -121,7 +120,7 @@ public class MyExpenses extends ListActivity {
     setTitle(mCurrentAccount.label);
 
     TextView startView= (TextView) findViewById(R.id.start);
-    startView.setText(formatCurrency(mCurrentAccount.openingBalance));
+    startView.setText(Utils.formatCurrency(mCurrentAccount.openingBalance,mCurrentAccount.currency));
 
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{"label",ExpensesDbAdapter.KEY_DATE,ExpensesDbAdapter.KEY_AMOUNT};
@@ -137,7 +136,15 @@ public class MyExpenses extends ListActivity {
        */
       @Override
       public void setViewText(TextView v, String text) {
-        super.setViewText(v, convText(v, text));
+        switch (v.getId()) {
+        case R.id.date:
+          text = Utils.convDate(text);
+          break;
+        case R.id.amount:
+          text = Utils.convAmount(text,mCurrentAccount.currency);
+          break;
+        }
+        super.setViewText(v, text);
       }
       /* (non-Javadoc)
        * manipulates the view for amount (setting expenses to red) and
@@ -168,42 +175,8 @@ public class MyExpenses extends ListActivity {
     };
     setListAdapter(expense);
     TextView endView= (TextView) findViewById(R.id.end);
-    endView.setText(formatCurrency(mCurrentAccount.getCurrentBalance()));
+    endView.setText(Utils.formatCurrency(mCurrentAccount.getCurrentBalance(),mCurrentAccount.currency));
   }
-  
-  /**
-   * formats an amount with the currency of the current account
-   * @param amount
-   * @return formated string
-   */
-  private String formatCurrency(float amount) {
-    NumberFormat nf = NumberFormat.getCurrencyInstance();
-    nf.setCurrency(mCurrentAccount.currency);
-    return nf.format(amount);
-  }
-  
-  /**
-   * utility method that calls formatters for date and amount
-   * @param v
-   * @param text
-   * @return formated string
-   */
-  private String convText(TextView v, String text) {
-    SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
-    float amount;
-    switch (v.getId()) {
-    case R.id.date:
-      return formatter.format(Timestamp.valueOf(text));
-    case R.id.amount:
-      try {
-        amount = Float.valueOf(text);
-      } catch (NumberFormatException e) {
-        amount = 0;
-      }
-      return formatCurrency(amount);
-    }
-    return text;
-  } 
 
   /* (non-Javadoc)
    * here we check if we have other accounts with the same category,
@@ -506,7 +479,14 @@ public class MyExpenses extends ListActivity {
     if (pref_version == current_version)
       return;
     if (pref_version == -1) {
-      long account_id = mDbHelper.createAccount("Default account",0,"Default account created upon installation","EUR");
+      Account account = new Account(
+          mDbHelper,
+          getString(R.string.app_name),
+          0,
+          getString(R.string.default_account_description),
+          Currency.getInstance(Locale.getDefault())
+      );
+      long account_id = account.save();
       edit.putLong("current_account", account_id).commit();
       edit.putInt("currentversion", current_version).commit();
       File appDir = new File("/sdcard/myexpenses/");

@@ -21,8 +21,11 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Currency;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -53,6 +56,41 @@ public class Utils {
     } else {
       return n.floatValue();
     }
+  }
+  /**
+   * formats an amount with a currency
+   * @param amount
+   * @param currency
+   * @return formated string
+   */
+  static String formatCurrency(float amount, Currency currency) {
+    NumberFormat nf = NumberFormat.getCurrencyInstance();
+    nf.setCurrency(currency);
+    return nf.format(amount);
+  }
+  /**
+   * utility method that calls formatters for date
+   * @param text
+   * @return formated string
+   */
+  static String convDate(String text) {
+    SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
+    return formatter.format(Timestamp.valueOf(text));
+  }
+  /**
+   * utility method that calls formatters for amount
+   * @param text amount as String retrieved from DB or UI
+   * @param currency 
+   * @return formated string
+   */
+  static String convAmount(String text, Currency currency) {
+    float amount;
+    try {
+      amount = Float.valueOf(text);
+    } catch (NumberFormatException e) {
+      amount = 0;
+    }
+    return formatCurrency(amount,currency);
   }
   
   /**

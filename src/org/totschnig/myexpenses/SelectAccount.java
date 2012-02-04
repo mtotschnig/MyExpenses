@@ -15,6 +15,9 @@
 
 package org.totschnig.myexpenses;
 
+import java.util.Currency;
+import java.util.Locale;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,10 +26,12 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 /**
@@ -97,13 +102,31 @@ public class SelectAccount extends ListActivity {
       mAccountsCursor.requery();
     }
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{"description","label","opening_balance","currency"};
+    String[] from = new String[]{"description","label","opening_balance"};
 
     // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.description,R.id.label,R.id.opening_balance,R.id.currency};
+    int[] to = new int[]{R.id.description,R.id.label,R.id.opening_balance};
 
     // Now create a simple cursor adapter and set it to display
-    SimpleCursorAdapter account = new SimpleCursorAdapter(this, R.layout.account_row, mAccountsCursor, from, to);
+    SimpleCursorAdapter account = new SimpleCursorAdapter(this, R.layout.account_row, mAccountsCursor, from, to) {
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+          View row=super.getView(position, convertView, parent);
+          TextView tv1 = (TextView)row.findViewById(R.id.opening_balance);
+          Cursor c = getCursor();
+          c.moveToPosition(position);
+          int col = c.getColumnIndex("currency");
+          String currencyStr = c.getString(col);
+          Currency currency;
+          try {
+            currency = Currency.getInstance(currencyStr);
+          } catch (IllegalArgumentException e) {
+            currency = Currency.getInstance(Locale.getDefault());
+          }
+          tv1.setText(Utils.convAmount(tv1.getText().toString(),currency));
+          return row;
+        }
+    };
     setListAdapter(account);
   }
   public void onDestroy() {

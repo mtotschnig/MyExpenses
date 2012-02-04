@@ -77,6 +77,13 @@ public class Account {
   public Account(ExpensesDbAdapter mDbHelper) {
     this.mDbHelper = mDbHelper;
   }
+  public Account(ExpensesDbAdapter mDbHelper, String label, float openingBalance, String description, Currency currency) {
+    this.mDbHelper = mDbHelper;
+    this.label = label;
+    this.openingBalance = openingBalance;
+    this.description = description;
+    this.currency = currency;
+  }
   
   /**
    * retrieves an Account instance from the database

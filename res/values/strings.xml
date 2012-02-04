@@ -21,6 +21,7 @@
 		<string name="current_balance">Current balance</string>
 		<string name="date">Date</string>
 		<string name="date_time">Date / Time</string>
+		<string name="default_account_description">This account was set up automatically during installation</string>    
 		<string name="description">Description</string>
 		<string name="dialog_no">No</string>
 		<string name="dialog_title_select_account">Pick an account</string>

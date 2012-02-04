@@ -20,6 +20,7 @@
 	  <string name="current_balance">Aktueller Saldo</string>
 	  <string name="date">Datum</string>
 	  <string name="date_time">Datum / Zeit</string>
+	  <string name="default_account_description">Dieses Konto wurde während der Installation automatisch eingerichtet.</string>    
 	  <string name="description">Beschreibung</string>
 	  <string name="dialog_no">Nein</string>
 	  <string name="dialog_title_select_account">Konto auswählen</string>
