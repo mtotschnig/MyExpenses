@@ -99,7 +99,8 @@
   </target>
   <target name="package-source">
 	<zip destfile="MyExpenses-source.zip">
-		<zipfileset dir="." includes="AndroidManifest.xml assets/** build.xml libs/** project.properties  res/**  src/**  template/**"/>		
+		<zipfileset dir="." includes="AndroidManifest.xml assets/** build.xml libs/** project.properties  res/**  src/**  template/**"/>
+		<zipfileset dir="tests" includes="AndroidManifest.xml project.properties src/**" prefix="tests"/>
 	</zip>
   </target>
 <target name="javadoc">
