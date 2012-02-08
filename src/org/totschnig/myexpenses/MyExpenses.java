@@ -49,7 +49,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
-import android.preference.PreferenceManager;
 //import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -96,7 +95,7 @@ public class MyExpenses extends ListActivity {
     setContentView(R.layout.expenses_list);
     mDbHelper = new ExpensesDbAdapter(this);
     mDbHelper.open();
-    mSettings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    mSettings = ((MyApplication) getApplicationContext()).getSettings();
     newVersionCheck();
     long account_id = mSettings.getLong("current_account", 0);
     mCurrentAccount = new Account(mDbHelper,account_id);

@@ -49,7 +49,7 @@ public class ExpensesDbAdapter {
   private SQLiteDatabase mDb;
 
 
-  private static final String DATABASE_NAME = "data";
+  private String mDatabaseName;
   private static final String DATABASE_TABLE = "expenses";
   private static final int DATABASE_VERSION = 19;
   
@@ -128,13 +128,11 @@ public class ExpensesDbAdapter {
 
   /**
    * the helper class with hooks for creating and updating the database
-   * @author Michael Totschnig
-   *
    */
   private static class DatabaseHelper extends SQLiteOpenHelper {
 
-    DatabaseHelper(Context context) {
-      super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    DatabaseHelper(Context context,String databaseName) {
+      super(context, databaseName, null, DATABASE_VERSION);
     }
 
     @Override
@@ -173,6 +171,7 @@ public class ExpensesDbAdapter {
    */
   public ExpensesDbAdapter(Context ctx) {
     this.mCtx = ctx;
+    mDatabaseName = ((MyApplication) ctx.getApplicationContext()).getDatabaseName();
   }
 
   /**
@@ -185,7 +184,7 @@ public class ExpensesDbAdapter {
    * @throws SQLException if the database could be neither opened or created
    */
   public ExpensesDbAdapter open() throws SQLException {
-    mDbHelper = new DatabaseHelper(mCtx);
+    mDbHelper = new DatabaseHelper(mCtx,mDatabaseName);
     mDb = mDbHelper.getWritableDatabase();
     return this;
   }
@@ -227,9 +226,11 @@ public class ExpensesDbAdapter {
    * @param date the date of the expense
    * @param amount the amount of the expense
    * @param comment the comment describing the expense
+   * @param cat_id this stores the peer account
+   * @param account_id stores the account in whose context the transaction is created
    * @return rowId or -1 if failed
    */
-  public long createTransfer(String date, float amount, String comment, long cat_id,long account_id) {
+  public long[] createTransfer(String date, float amount, String comment, long cat_id,long account_id) {
     //the id of the account is stored in KEY_CATID, the id of the peer transaction is stored in KEY_TRANSFER_PEER
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
@@ -246,7 +247,7 @@ public class ExpensesDbAdapter {
     ContentValues args = new ContentValues();
     args.put(KEY_TRANSFER_PEER,transfer_peer);
     mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + _id, null);
-    return _id;
+    return new long[] {_id,transfer_peer};
   }
   /**
    * Update the transaction using the details provided. The expense to be updated is
@@ -254,11 +255,11 @@ public class ExpensesDbAdapter {
    * values passed in
    * as a side effect, increases the usage counters for categories
    * 
-   * @param rowId id of note to update
+   * @param rowId id of transaction to update
    * @param date value to set 
    * @param amount value to set
    * @param comment value to set
-   * @return true if the note was successfully updated, false otherwise
+   * @return should return 1 if row has been successfully updated
    */
   public int updateExpense(long rowId, String date, float amount, String comment,long cat_id,String payee) {
     ContentValues args = new ContentValues();
@@ -278,11 +279,12 @@ public class ExpensesDbAdapter {
    * specified using the rowId, and it is altered to use the date, amount and comment
    * values passed in
    * 
-   * @param rowId
-   * @param date
-   * @param amount
-   * @param comment
-   * @param cat_id
+   * @param rowId id of transaction to update
+   * @param date value to set
+   * @param amount value to set
+   * @param comment value to set
+   * @param cat_id stores the peer_account, this can be altered by the user
+   * @return should return 2 if both transactions have been successfully updated
    */
   public int updateTransfer(long rowId, String date, float amount,
       String comment, long cat_id) {
