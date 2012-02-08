@@ -36,6 +36,9 @@
     <string name="ftp_failure">Upload nach %1$s gescheitert</string>
     <string name="ftp_socket_exception">Socket exception während des Uploads nach %1$s</string>
     <string name="ftp_io_exception">IO exception während des Uploads nach %1$s</string>
+    <string name="ftp_login_failure">Login Fehler während des Uploads nach %1$s</string>
+    <string name="ftp_setFileType_failure">Fehler bei der Konfiguration des Dateityps ASCII während des Uploads nach %1$s</string>
+    <string name="ftp_changeWorkingDirectory_failure">Fehler beim Wechseln des Verzeichnisses während des Uploads nach %1$s</string>
 	  <string name="help_author">Autor</string>
 	  <string name="help_credits">Abspann</string>
 	  <string name="help_leading">Danke fürs Ausprobieren von MyExpenses für Android.</string>

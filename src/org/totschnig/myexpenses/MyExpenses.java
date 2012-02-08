@@ -334,13 +334,11 @@ public class MyExpenses extends ListActivity {
     }
     out.close();
     mExpensesCursor.moveToFirst();
+    Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
     String ftp_target = mSettings.getString("ftp_target","");
-    String ftp_result = "";
     if (!ftp_target.equals("")) {
-      Utils.Result result = Utils.ftpUpload(outputFile, ftp_target);
-      ftp_result = "\n" + getString(result.message,ftp_target);
+     new Utils.FtpAsyncTask(MyExpenses.this,outputFile, ftp_target).execute();
     }
-    Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success)+ftp_result, outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
   }
   
   /**

@@ -36,6 +36,9 @@
     <string name="ftp_failure">Téléchargement vers %1$s a échoué</string>
     <string name="ftp_socket_exception">Socket exception lors du téléchargement vers %1$s</string>
     <string name="ftp_io_exception">IO exception lors du téléchargement vers %1$s</string>
+    <string name="ftp_login_failure">Erreur de login lors du téléchargement vers %1$s</string>
+    <string name="ftp_setFileType_failure">Erreur en configurant type de fichier ASCII lors du téléchargement vers %1$s</string>
+    <string name="ftp_changeWorkingDirectory_failure">Erreur en changant le repertoire lors du téléchargement vers %1$s</string>
     <string name="help_author">Auteur</string>
     <string name="help_credits">Générique</string>
     <string name="help_leading">Merci d\'essayer MyExpenses pour Android.</string>

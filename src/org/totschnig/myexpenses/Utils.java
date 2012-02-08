@@ -30,6 +30,11 @@ import java.util.Currency;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.widget.Toast;
+
 /**
  * Util class with helper methods
  * @author Michael Totschnig
@@ -166,6 +171,91 @@ public class Utils {
     public Result(boolean success,int message) {
       this.success = success;
       this.message = message;
+    }
+  }
+  static class FtpAsyncTask extends AsyncTask<Void, Void, Result> {
+    private Context context;
+    private String ftpTarget;
+    private File file;
+    ProgressDialog mProgressDialog;
+    
+    public FtpAsyncTask(Context context,File file,String ftpTarget) {
+      this.context = context;
+      this.ftpTarget = ftpTarget;
+      this.file = file;
+    }
+    protected void onPreExecute() {
+       mProgressDialog = ProgressDialog.show(context, "", 
+          "Uploading. Please wait...", true);
+    }
+    @Override
+    protected Result doInBackground(Void... params) {
+      boolean result;
+      //malformed:
+      //String ftpTarget = "bad.uri";
+      //bad password:
+      //String ftpTarget = "ftp://michael:foo@10.0.0.2/";
+      //bad directory:
+      //String ftpTarget = "ftp://michael:foo@10.0.0.2/foobar/";
+      FTPClient mFTP = new FTPClient();
+      URI uri = null;
+      try {
+        uri = new URI(ftpTarget);
+      } catch (URISyntaxException e1) {
+        // TODO Auto-generated catch block
+        return new Result(false,R.string.ftp_uri_malformed);
+      }
+      String host = uri.getHost();
+      if (host == null)
+        return new Result(false,R.string.ftp_uri_malformed);
+      String username = uri.getUserInfo();
+      String password = "";
+      String path = uri.getPath();
+      if (username != null)
+        {
+        int ci = username.indexOf(':');
+          if (ci != -1) {
+            password = username.substring(ci + 1);
+            username = username.substring(0, ci);
+          }
+        }
+      else {
+        username = "anonymous";
+      }
+      try {
+          // Connect to FTP Server
+          mFTP.connect(host);
+          
+          if (!mFTP.login(username,password)) {
+            return new Result(false, R.string.ftp_login_failure);
+          }
+          
+          if (!mFTP.setFileType(FTP.ASCII_FILE_TYPE)) {
+            return new Result(false, R.string.ftp_setFileType_failure);
+          }
+          mFTP.enterLocalPassiveMode();
+          if (!mFTP.changeWorkingDirectory(path)) {
+            return new Result(false, R.string.ftp_changeWorkingDirectory_failure);
+          }
+          
+          // Prepare file to be uploaded to FTP Server
+          FileInputStream ifile = new FileInputStream(file);
+          
+          // Upload file to FTP Server
+          result = mFTP.storeFile(file.getName(),ifile);
+          mFTP.disconnect();
+          return new Result(result, result ? R.string.ftp_success : R.string.ftp_failure);
+      } catch (SocketException e) {
+          return new Result(false, R.string.ftp_socket_exception);
+      } catch (IOException e) {
+          return new Result(false,R.string.ftp_io_exception);
+      }
+    }
+    protected void onPostExecute(Result result) {
+      mProgressDialog.dismiss();
+      super.onPostExecute(result);
+      String ftp_result = context.getString(result.message,ftpTarget);
+      Toast.makeText(context,String.format(ftp_result, file.getAbsolutePath() ), Toast.LENGTH_LONG).show();
     }
   }
 }
