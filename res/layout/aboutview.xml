@@ -16,15 +16,7 @@
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="15px"              
                                 android:layout_gravity="center_vertical"
-                                android:textColor="#ffffff" />  
-                       <TextView android:text="@string/menu_help"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"            
-                                android:paddingTop="15px"
-                                android:paddingLeft="15px"
-                                android:textStyle="bold"
-                                android:textColor="#ffffff"
-                                android:textSize="18sp" />
+                                android:textColor="#ffffff" />
                         <TextView android:text="@string/help_text"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
@@ -64,7 +56,7 @@
                                 android:textColorLink="#ffffff"
                                 android:paddingLeft="15px"
                                 android:textColor="#ffffff" />
-                         <TextView android:text="Includes FTP library from http://commons.apache.org/net/ retrieved at http://www.docjar.com/jar/commons-net-ftp-2.0.jar (licenced under http://www.apache.org/licenses/LICENSE-2.0.txt)"
+                         <TextView android:text="Includes FTP library from http://commons.apache.org/net/ (licenced under http://www.apache.org/licenses/LICENSE-2.0.txt)"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:autoLink="web"
