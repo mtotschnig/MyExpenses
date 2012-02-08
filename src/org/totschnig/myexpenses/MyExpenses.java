@@ -186,8 +186,11 @@ public class MyExpenses extends ListActivity {
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    MenuItem item = menu.findItem(INSERT_TRANSFER_ID);
-    item.setVisible(mDbHelper.getAccountCountWithCurrency(mCurrentAccount.currency.getCurrencyCode()) > 1);
+    menu.findItem(INSERT_TRANSFER_ID)
+      .setVisible(mDbHelper.getAccountCountWithCurrency(
+          mCurrentAccount.currency.getCurrencyCode()) > 1);
+    menu.findItem(RESET_ID)
+      .setVisible(mExpensesCursor.getCount() > 0);
     return true;
   }
 
