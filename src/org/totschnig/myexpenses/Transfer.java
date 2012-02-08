@@ -15,8 +15,6 @@
 
 package org.totschnig.myexpenses;
 
-import android.database.Cursor;
-
 /**
  * a transfer consists of a pair of transactions, one for each account
  * this class handles creation and update
@@ -29,16 +27,14 @@ public class Transfer extends Transaction {
     super(mDbHelper);
   }
 
-  public Transfer(ExpensesDbAdapter mDbHelper, long id, Cursor c) {
-    super(mDbHelper,id,c);
-  }
-
   /* (non-Javadoc)
    * @see org.totschnig.myexpenses.Transaction#save()
    */
   public long save() {
     if (id == 0) {
-      id = mDbHelper.createTransfer(dateAsString, amount, comment,cat_id,account_id);
+      long ids[] = mDbHelper.createTransfer(dateAsString, amount, comment,cat_id,account_id);
+      id = ids[0];
+      transfer_peer = ids[1];
     } else {
       mDbHelper.updateTransfer(id, dateAsString, amount, comment,cat_id);
     }

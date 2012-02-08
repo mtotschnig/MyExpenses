@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.database.Cursor;
@@ -44,20 +45,38 @@ public class Transaction {
   protected ExpensesDbAdapter mDbHelper;
   
   /**
-   * factory method for retrieving an instance from the db with the give id
+   * factory method for retrieving an instance from the db with the given id
    * @param mDbHelper
    * @param id
    * @return instance of {@link Transaction} or {@link Transfer}
    */
-  static Transaction getInstanceFromDb(ExpensesDbAdapter mDbHelper, long id) {
+  public static Transaction getInstanceFromDb(ExpensesDbAdapter mDbHelper, long id) {
     Transaction t;
     Cursor c = mDbHelper.fetchExpense(id);
     long transfer_peer = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
-    if (transfer_peer == 0)
-      t = new Transaction(mDbHelper,id,c);
+    if (transfer_peer != 0) {
+      t = new Transfer(mDbHelper);
+      t.transfer_peer = transfer_peer;
+    }
     else
-      t = new Transfer(mDbHelper,id,c);
-    c.close();
+      t = new Transaction(mDbHelper);
+    
+    t.id = id;
+    t.setDate(c.getString(
+        c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE)));
+    try {
+      t.amount = Float.valueOf(c.getString(
+          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)));
+    } catch (NumberFormatException e) {
+      t.amount = 0;
+    }
+    t.comment = c.getString(
+        c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
+    t.payee = c.getString(
+            c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE));
+    t.cat_id = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
+    t.label = c.getString(c.getColumnIndexOrThrow("label"));
+    t.account_id = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ACCOUNTID));
     return t;
   }
   /**
@@ -65,7 +84,7 @@ public class Transaction {
    * @param mDbHelper
    * @param mOperationType either {@link MyExpenses#TYPE_TRANSACTION} or
    * {@link MyExpenses#TYPE_TRANSFER}
-   * @return instance of {@link Transaction} or {@link Transfer}
+   * @return instance of {@link Transaction} or {@link Transfer} with date initialized to current date
    */
   public static Transaction getTypedNewInstance(ExpensesDbAdapter mDbHelper,
       boolean mOperationType) {
@@ -81,35 +100,7 @@ public class Transaction {
    */
   public Transaction(ExpensesDbAdapter mDbHelper) {
     this.mDbHelper = mDbHelper;
-    this.date = new Date();
-  }
-  /**
-   * transaction instace from db using the provided cursor
-   * @param mDbHelper
-   * @param id
-   * @param c since the {@link #getInstanceFromDb(ExpensesDbAdapter, long) factory method}
-   * already opens the cursor we accept it as input here
-   */
-  public Transaction(ExpensesDbAdapter mDbHelper, long id, Cursor c) {
-    this.mDbHelper = mDbHelper;
-    this.id = id;
-    dateAsString = c.getString(
-        c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE));
-    date = Timestamp.valueOf(dateAsString);
-    try {
-      amount = Float.valueOf(c.getString(
-          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)));
-    } catch (NumberFormatException e) {
-      amount = 0;
-    }
-    comment = c.getString(
-        c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
-    payee = c.getString(
-            c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE));
-    cat_id = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
-    transfer_peer = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
-    label = c.getString(c.getColumnIndexOrThrow("label"));
-    account_id = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ACCOUNTID));
+    setDate(new Date());
   }
   /**
    * we store the date string and create a date object from it
@@ -121,6 +112,11 @@ public class Transaction {
     //and have no time at the moment to test detour via Date class
     dateAsString = strDate;
     date = Timestamp.valueOf(strDate);
+  }
+  public void setDate(Date date){
+    this.date = date;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    dateAsString = dateFormat.format(date);
   }
   /**
    * as a side effect calls {@link ExpensesDbAdapter#createPayeeOrIgnore(String)}

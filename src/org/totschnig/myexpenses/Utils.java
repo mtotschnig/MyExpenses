@@ -42,7 +42,7 @@ public class Utils {
    * @param strFloat parsed as float with the number format defined in the locale
    * @return the float retrieved from the string or null if parse did not succeed
    */
-  static Float validateNumber(String strFloat) {
+  public static Float validateNumber(String strFloat) {
     ParsePosition pp;
     NumberFormat nfDLocal = NumberFormat.getNumberInstance();
     nfDLocal.setGroupingUsed(false);
