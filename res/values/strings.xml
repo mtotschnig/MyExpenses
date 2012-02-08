@@ -31,7 +31,7 @@
 		<string name="edit_category">Edit category</string>
 		<string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
 		<string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
-		<string name="ftp_target">FTP URL where QIF while should be uploaded after export</string>
+		<string name="ftp_target">FTP URL where QIF while should be uploaded after export like \"ftp://login:password@my.url.org:port/my/directory/\"</string>
 		<string name="ftp_uri_malformed">Malformed URI %1$s</string>
     <string name="ftp_success">Upload to %1$s successful</string>
     <string name="ftp_failure">Failure while uploading to %1$s</string>
