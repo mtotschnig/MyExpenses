@@ -60,18 +60,18 @@ import android.util.Log;
  *
  */
 public class MyExpenses extends ListActivity {
-  private static final int ACTIVITY_CREATE=0;
-  private static final int ACTIVITY_EDIT=1;
-  private static final int ACTIVITY_SELECT_ACCOUNT=2;
+  public static final int ACTIVITY_CREATE=0;
+  public static final int ACTIVITY_EDIT=1;
+  public static final int ACTIVITY_SELECT_ACCOUNT=2;
 
-  private static final int INSERT_TA_ID = Menu.FIRST;
-  private static final int INSERT_TRANSFER_ID = Menu.FIRST + 1;
-  private static final int RESET_ID = Menu.FIRST + 3;
-  private static final int DELETE_ID = Menu.FIRST +4;
-  private static final int SHOW_DETAIL_ID = Menu.FIRST +5;
-  private static final int HELP_ID = Menu.FIRST +6;
-  private static final int SELECT_ACCOUNT_ID = Menu.FIRST +7;
-  private static final int SETTINGS_ID = Menu.FIRST +8;
+  public static final int INSERT_TA_ID = Menu.FIRST;
+  public static final int INSERT_TRANSFER_ID = Menu.FIRST + 1;
+  public static final int RESET_ID = Menu.FIRST + 3;
+  public static final int DELETE_ID = Menu.FIRST +4;
+  public static final int SHOW_DETAIL_ID = Menu.FIRST +5;
+  public static final int HELP_ID = Menu.FIRST +6;
+  public static final int SELECT_ACCOUNT_ID = Menu.FIRST +7;
+  public static final int SETTINGS_ID = Menu.FIRST +8;
   public static final boolean TYPE_TRANSACTION = true;
   public static final boolean TYPE_TRANSFER = false;
   public static final String TRANSFER_EXPENSE = "=>";
