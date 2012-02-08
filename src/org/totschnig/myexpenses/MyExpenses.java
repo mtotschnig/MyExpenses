@@ -383,9 +383,10 @@ public class MyExpenses extends ListActivity {
       if (resultCode == RESULT_OK) {
         long account_id = intent.getIntExtra("account_id", 0);
         if (account_id != mCurrentAccount.id) {
-          mCurrentAccount = new Account(mDbHelper, account_id);
           mSettings.edit().putLong("current_account", account_id).commit();
         }
+        //refetch account since it might have been edited
+        mCurrentAccount = new Account(mDbHelper, account_id);
       }
     }
     fillData();
