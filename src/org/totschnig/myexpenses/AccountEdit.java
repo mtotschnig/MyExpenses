@@ -97,7 +97,10 @@ public class AccountEdit extends Activity {
     } else {
       mAccount = new Account(mDbHelper);
       setTitle(R.string.menu_insert_account);
-      mCurrencyText.setText(Currency.getInstance(Locale.getDefault()).getCurrencyCode());
+      Locale l = Locale.getDefault();
+      Currency c = Currency.getInstance(l);
+      String s = c.getCurrencyCode();
+      mCurrencyText.setText(s);
     }
   }
 
