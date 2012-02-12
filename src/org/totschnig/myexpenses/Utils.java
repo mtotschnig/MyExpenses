@@ -32,6 +32,9 @@ import org.apache.commons.net.ftp.FTPClient;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -98,61 +101,37 @@ public class Utils {
     return formatCurrency(amount,currency);
   }
   
-  /**
-   * @param file File to be uploaded
-   * @param ftpTarget FTP URL where the file should go to
-   * @return a {@link Utils.Result} instance with success flag and diagnostic message resource id
-   */
-  static Result ftpUpload(File file, String ftpTarget) {
-    FTPClient mFTP = new FTPClient();
+  static void share(Context context,File file,String target) {
     URI uri = null;
     try {
-      uri = new URI(ftpTarget);
+      uri = new URI(target);
     } catch (URISyntaxException e1) {
-      // TODO Auto-generated catch block
-      return new Result(false,R.string.ftp_uri_malformed);
+      Toast.makeText(context,context.getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
+      return;
     }
-    String host = uri.getHost();
-    if (host == null)
-      return new Result(false,R.string.ftp_uri_malformed);
-    String username = uri.getUserInfo();
-    String password = "";
-    String path = uri.getPath();
-    if (username != null)
-      {
-      int ci = username.indexOf(':');
-        if (ci != -1) {
-          password = username.substring(ci + 1);
-          username = username.substring(0, ci);
-        }
+    String scheme = uri.getScheme();
+    if (scheme.equals("ftp")) {
+      new Utils.FtpAsyncTask(context,file,uri).execute();
+      return;
+    } else if (scheme.equals("mailto")) {
+      final PackageManager packageManager = context.getPackageManager();
+      final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+      emailIntent.setType("text/qif");
+      emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{ uri.getSchemeSpecificPart()});
+      emailIntent.putExtra(Intent.EXTRA_SUBJECT, "My Expenses export");
+      emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+      if (packageManager.queryIntentActivities(emailIntent,0).size() == 0) {
+        Toast.makeText(context,"No app handling email available", Toast.LENGTH_LONG).show();
+        return;
       }
-    else {
-      username = "anonymous";
+      
+      context.startActivity(emailIntent);
     }
-    try {
-        // Connect to FTP Server
-        mFTP.connect(host);
-        
-        mFTP.login(username,password);
-        mFTP.setFileType(FTP.ASCII_FILE_TYPE);
-        mFTP.enterLocalPassiveMode();
-        mFTP.changeWorkingDirectory(path);
-        
-        // Prepare file to be uploaded to FTP Server
-        FileInputStream ifile = new FileInputStream(file);
-        
-        // Upload file to FTP Server
-        boolean result = mFTP.storeFile(file.getName(),ifile);
-        mFTP.disconnect();
-        return new Result(result, result ? R.string.ftp_success : R.string.ftp_failure);
-    } catch (SocketException e) {
-        // TODO Auto-generated catch block
-        return new Result(false, R.string.ftp_socket_exception);
-    } catch (IOException e) {
-        // TODO Auto-generated catch block
-        return new Result(false,R.string.ftp_io_exception);
+    else {
+      Toast.makeText(context,context.getString(R.string.share_scheme_not_supported,target), Toast.LENGTH_LONG).show();
     }
   }
+  
   /**
    * represents a tuple of success flag, and message as an R id
    * @author Michael Totschnig
@@ -175,13 +154,13 @@ public class Utils {
   }
   static class FtpAsyncTask extends AsyncTask<Void, Void, Result> {
     private Context context;
-    private String ftpTarget;
+    private URI target;
     private File file;
     ProgressDialog mProgressDialog;
     
-    public FtpAsyncTask(Context context,File file,String ftpTarget) {
+    public FtpAsyncTask(Context context,File file,URI uri) {
       this.context = context;
-      this.ftpTarget = ftpTarget;
+      this.target = uri;
       this.file = file;
     }
     protected void onPreExecute() {
@@ -198,19 +177,12 @@ public class Utils {
       //bad directory:
       //String ftpTarget = "ftp://michael:foo@10.0.0.2/foobar/";
       FTPClient mFTP = new FTPClient();
-      URI uri = null;
-      try {
-        uri = new URI(ftpTarget);
-      } catch (URISyntaxException e1) {
-        // TODO Auto-generated catch block
-        return new Result(false,R.string.ftp_uri_malformed);
-      }
-      String host = uri.getHost();
+      String host = target.getHost();
       if (host == null)
         return new Result(false,R.string.ftp_uri_malformed);
-      String username = uri.getUserInfo();
+      String username = target.getUserInfo();
       String password = "";
-      String path = uri.getPath();
+      String path = target.getPath();
       if (username != null)
         {
         int ci = username.indexOf(':');
@@ -254,8 +226,8 @@ public class Utils {
     protected void onPostExecute(Result result) {
       mProgressDialog.dismiss();
       super.onPostExecute(result);
-      String ftp_result = context.getString(result.message,ftpTarget);
-      Toast.makeText(context,String.format(ftp_result, file.getAbsolutePath() ), Toast.LENGTH_LONG).show();
+      String ftp_result = context.getString(result.message,target.toString());
+      Toast.makeText(context,ftp_result, Toast.LENGTH_LONG).show();
     }
   }
 }

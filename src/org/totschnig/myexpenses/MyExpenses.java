@@ -340,7 +340,7 @@ public class MyExpenses extends ListActivity {
     Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
     String ftp_target = mSettings.getString("ftp_target","");
     if (!ftp_target.equals("")) {
-     new Utils.FtpAsyncTask(MyExpenses.this,outputFile, ftp_target).execute();
+      Utils.share(MyExpenses.this,outputFile, ftp_target);
     }
   }
   
