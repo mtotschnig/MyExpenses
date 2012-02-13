@@ -503,6 +503,12 @@ public class MyExpenses extends ListActivity {
           return;
         }
       }
+      if (pref_version < 19) {
+        //renamed
+        edit.putString("share_target",mSettings.getString("ftp_target",""));
+        edit.remove("ftp_target");
+        edit.commit();
+      }
     }
     openHelpDialog();
     return;
