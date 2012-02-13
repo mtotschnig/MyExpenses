@@ -46,6 +46,10 @@ public class MyExpensesTest extends
     mInstrumentation = getInstrumentation();
   } // end of setUp() method definition
   
+  /**
+   * currently works only if locale is en
+   * @throws Exception
+   */
   public void testMainScreen() throws Exception {
     mAdapter = mActivity.getListAdapter();
     solo = new Solo(mInstrumentation, getActivity());

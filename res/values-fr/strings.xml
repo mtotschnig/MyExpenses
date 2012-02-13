@@ -30,7 +30,6 @@
     <string name="edit_category">Éditer la catégorie</string>
     <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses vers la carte SD</string>
     <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers le fichier %1$s</string>
-    <string name="ftp_target">URL FTP où sera téléchargé le fichier QIF après l\'exportation sous la forme \"ftp://login:password@my.url.org:port/my/directory/\"</string>
     <string name="ftp_uri_malformed">Mauvaise syntaxe de l\'URI %1$s</string>
     <string name="ftp_success">Téléchargement vers %1$s a réussi</string>
     <string name="ftp_failure">Téléchargement vers %1$s a échoué</string>
@@ -86,6 +85,11 @@
     <string name="select_account">Sélectionner un compte</string>
     <string name="select_category">Sélectionner une catégorie</string>
     <string name="select_parent_category">Choisir cette catégorie</string>
+    <string name="share_scheme_not_supported">Le schème %1$s n\'est pas supporté.</string>
+    <string name="share_target_title">URL où sera téléchargé le fichier QIF</string>
+    <string name="share_target_summary">Schèmes supportés:
+ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
+mailto (\"mailto:john@my.example.com\").</string>    
     <string name="time">Heure</string>
     <string name="title">Titre</string>
     <string name="version_14_upgrade_info">À partir de la version 1.4.0, la monnaie est définie selon le code ISO 4217.

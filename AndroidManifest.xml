@@ -15,6 +15,6 @@
         <activity android:name=".SelectCategory"/>
         <activity android:name=".SelectAccount"/>
         <activity android:name=".Tutorial"/>
-        <activity android:name=".MyPreferenceActivity"/>
+        <activity android:name=".MyPreferenceActivity" android:theme="@android:style/Theme.Light"/>
     </application>
 </manifest> 

@@ -93,13 +93,10 @@
 		<string name="select_category">Select category</string>
 		<string name="select_parent_category">Select this category</string>
 		<string name="select">Select</string>
-		<string name="share_scheme_not_supported">Scheme not supported %1$s</string>
-		
-    <string name="ftp_target">FTP URL where QIF while should be uploaded after export like </string>
-		    
-		<string name="share_target_title">URI for uploading QIF file</string>
-		<string name="share_target_summary">Supported schemes:\n
-* ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),\n
+		<string name="share_scheme_not_supported">Scheme %1$s not supported</string>	    
+		<string name="share_target_title">Upload URL QIF Export</string>
+		<string name="share_target_summary">Supported schemes:
+* ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
 * mailto (\"mailto:john@my.example.com\").</string>
 		<string name="time">Time</string>
 		<string name="title">Title</string>
