@@ -18,6 +18,11 @@
 				android:textStyle="bold"
 				android:textColor="#ffffff"
 				android:textSize="18sp" />
+			<TextView android:text="v1.4.5 (February 13 2012): Support for sending QIF file via email. Reduced memory footprint"
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:paddingLeft="15px"      
+        android:textColor="#ffffff" />
 			 <TextView android:text="v1.4.4 (February 8 2012): FTP upload done in background. Default account created in user's language and currency."
         android:layout_width="fill_parent" 
         android:layout_height="wrap_content"
