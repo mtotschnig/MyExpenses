@@ -289,7 +289,7 @@ public class MyExpenses extends ListActivity {
 
   /**
    * writes all transactions of the current account to a QIF file
-   * if ftp_target preference is set, additionally does an FTP upload
+   * if share_target preference is set, additionally does an FTP upload
    * @throws IOException
    */
   private void exportAll() throws IOException {
@@ -338,9 +338,9 @@ public class MyExpenses extends ListActivity {
     out.close();
     mExpensesCursor.moveToFirst();
     Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
-    String ftp_target = mSettings.getString("ftp_target","");
-    if (!ftp_target.equals("")) {
-      Utils.share(MyExpenses.this,outputFile, ftp_target);
+    String share_target = mSettings.getString("share_target","");
+    if (!share_target.equals("")) {
+      Utils.share(MyExpenses.this,outputFile, share_target);
     }
   }
   
