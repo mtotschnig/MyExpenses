@@ -17,7 +17,7 @@
         \nTraduction française corrigée par Laurent Collombet.</string>
     <string name="currency">monnaie</string>
     <string name="currency_not_iso4217">%1$s n\'est pas un code valide selon ISO 4217</string>
-    <string name="current_balance">solde courant</string>
+    <string name="current_balance">Solde courant</string>
     <string name="date">Date</string>
     <string name="date_time">Date / Heure</string>
     <string name="default_account_description">Ce compte a été créé automatiquement lors de l\'installation</string>
@@ -78,16 +78,16 @@
     <string name="no_expenses">Aucune dépense !</string>
     <string name="not_deletable_mapped_expenses">Cette catégorie ne peut pas être supprimée, parce qu\'il existe des dépenses qui lui sont attribuées.</string>
     <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce qu\'elle contient des sous-catégories.</string>
-    <string name="opening_balance">solde initial</string>
+    <string name="opening_balance">Solde initial</string>
     <string name="payee">Tiers</string>
     <string name="payer">Tiers</string>
     <string name="select">Sélectionner</string>
     <string name="select_account">Sélectionner un compte</string>
     <string name="select_category">Sélectionner une catégorie</string>
     <string name="select_parent_category">Choisir cette catégorie</string>
-    <string name="share_scheme_not_supported">Le schème %1$s n\'est pas supporté.</string>
+    <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
     <string name="share_target_title">URL où sera téléchargé le fichier QIF</string>
-    <string name="share_target_summary">Schèmes supportés:
+    <string name="share_target_summary">Formes supportées:
 ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
 mailto (\"mailto:john@my.example.com\").</string>    
     <string name="time">Heure</string>
