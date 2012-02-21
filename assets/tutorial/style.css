@@ -1,0 +1,12 @@
+span , div, h3 {
+  display:none;
+}
+div {
+  margin: 1em 0em;
+}
+#tut1 #nav1, #tut2 #nav2, #tut3 #nav3, #tut4 #nav4 {
+   pointer-events: none;
+   cursor: default;
+   text-decoration: none;
+   color: black;
+}
