@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -34,6 +36,9 @@ public class Tutorial extends Activity {
     wv = (WebView) findViewById(R.id.webview);
     WebSettings settings = wv.getSettings();
     settings.setDefaultTextEncodingName("utf-8");
+    settings.setJavaScriptEnabled(true);
+    //we abuse user agent string, since the language is not reported correctly 
+    settings.setUserAgentString(Locale.getDefault().getLanguage()); 
     wv.loadUrl("file:///android_asset/tutorial/tutorial1.html"); 
   }
 }
