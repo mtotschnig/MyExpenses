@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <script type="text/javascript" src="lang.js"></script>
 </head>
-  <body id="tut1">
+  <body id="tut1" onload="init()">
     <p class="navigation-bar">
         <script type="text/javascript" src="navigation.js"></script>
     </p>
@@ -17,7 +17,7 @@
       La première chose que vous voudriez peut-être faire, serait d'éditer le compte par défaut, ou d'en créer un nouveau :
     </div>
     <div style="display:block;text-align:center;margin-right:auto;margin-left:auto">
-      <img border="1" height="400" src="step1.png" />
+      <img id="step1" border="1" height="400">
     </div>
     <div lang="en">
       As in other Android applications, a long click on the account brings up the context menu, from where
@@ -27,7 +27,7 @@
       Comme toute application Android, un clic long sur le compte vous ouvre un menu contextuel, avec lequel vous pouvez éditer ou supprimer celui-ci. 
     </div>
     <div style="display:block;text-align:center;margin-right:auto;margin-left:auto">
-      <img border="1" height="400" src="step2.png" />
+      <img id="step2" border="1" height="400">
     </div>
     <div lang="en">
       Enter a label, a description, the opening balance, and a currency for the account.
@@ -36,7 +36,7 @@
       Entrez un libellé, une description, le solde d'ouverture et la devise de ce compte.
     </div>
     <div style="display:block;text-align:center;margin-right:auto;margin-left:auto">
-      <img border="1" height="400" src="step3.png" />
+      <img id="step3" border="1" height="400">
     </div>
     <div lang="en">
       When done, you see the list of accounts. You can set up as many accounts as you like through the menu entry "Create new account". 
@@ -44,5 +44,6 @@
     </div>
     <div lang="fr">
       Ceci effectué, vous verrez une liste de comptes. Vous pourrez entrer autant de comptes que vous désirez avec le menu "Créer un nouveau compte". Pour sélectionner un compte, il suffit d'un clic court sur celui-ci dans la liste.
-     </div>  </body>
+     </div>
+   </body>
 </html>

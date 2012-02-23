@@ -18,6 +18,8 @@ package org.totschnig.myexpenses;
 import java.util.Locale;
 
 import android.app.Activity;
+//import android.util.Log;
+//import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.os.Bundle;
@@ -34,6 +36,13 @@ public class Tutorial extends Activity {
     setContentView(R.layout.tutorial);
     WebView wv;
     wv = (WebView) findViewById(R.id.webview);
+/*    wv.setWebChromeClient(new WebChromeClient() {
+      public void onConsoleMessage(String message, int lineNumber, String sourceID) {
+        Log.d("MyExpenses", message + " -- From line "
+                             + lineNumber + " of "
+                             + sourceID);
+      }
+    });*/
     WebSettings settings = wv.getSettings();
     settings.setDefaultTextEncodingName("utf-8");
     settings.setJavaScriptEnabled(true);
