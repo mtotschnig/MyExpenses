@@ -7,15 +7,17 @@
     <p class="navigation-bar">
         <script type="text/javascript" src="navigation.js"></script>
     </p>
-    <h3 lang="en">Export transactions to Grisbi</h3>
-    <h3 lang="fr">Exporter les opérations vers Grisbi</h3>
+    <h3 lang="en">Export transactions</h3>
+    <h3 lang="fr">Exporter les opérations</h3>
+    <h3 lang="de">Buchungen exportieren</h3>
     <div lang="en">
       Finally, the raison d'être of MyExpenses is its support for export into QIF format. 
       Call this function through the "Reset" menu entry from the transaction list. 
       This will create a file on your sdcard with all transactions for the current account, delete them from the database, 
       and adjust the opening balance to the last current balance.
-      MyExpenses can share the file immediately after the export, either upload it to an FTP server or send it by email. You can configure the URL from the "Settings" menu entry.
-      <br />
+      MyExpenses can share the file immediately after the export, either upload it to an FTP server or send it by email. You can configure the URL from the "Settings" menu entry
+      (e.g. "ftp://login:password@my.example.org:port/my/directory/" or "mailto:john@my.example.com").
+      <br>
       Transfer operations will also be deleted from the account, but still be visible in the other account they refer to.
     </div>
     <div lang="fr">
@@ -23,18 +25,31 @@
       Vous pouvez appeler cette fonction par le bouton "Réinitialiser" dans la liste des opérations.
       Ceci va créer un fichier sur votre carte SD avec toutes les opérations du compte en cours, les enlever de la base de données, et ajuster le solde initial avec le solde final.
       MyExpenses peut utiliser ce fichier immédiatement après l'exportation en le téléchargeant sur un serveur FTP ou en l'envoyant par courriel.
-      Vous pouvez en configurer l'URL à partir du menu "Paramêtres".
-      </br>
+      Vous pouvez en configurer l'URL à partir du menu "Paramêtres"
+      (par exemple "ftp://login:password@my.example.org:port/my/directory/" ou "mailto:john@my.example.com").
+      <br>
       Les opérations de virement seront aussi enlevées du compte mais resteront visibles dans l'autre compte concerné.
+    </div>
+    <div lang="de">
+      Die Grundmotivation für MyExpenses ist der Export in eine QIF Datei.
+      Diese Funktion wird durch den Menüeintrag "Zurücksetzen" von der Buchungsliste aus aufgerufen.
+      Hiedurch wird eine Datei auf der SD-Karte erzeugt, die alle Buchungen des aktuellen Kontos enthält. Diese werden gelöscht und der aktuelle Saldo wird in den neuen Anfangssaldo übertragen.
+      Sofort nach dem Export kann die Datei weitergeleitet werden, entweder auf einen FTP Server übertragen, oder per Email verschickt. Die URL dafür kann in den Einstellungen eingerichtet werden
+      (z.B. "ftp://login:password@my.example.org:port/my/directory/" or "mailto:john@my.example.com").
+      <br>
+      Umbuchungen werden auch von dem Konto gelöscht, sind aber im anderen Konto, auf das sie sich beziehen, weiterhin sichtbar.
     </div>
     <div style="display:block;text-align:center;margin-right:auto;margin-left:auto">
       <img id="step12" border="1" height="400" />
     </div>
     <div lang="en">
-      Voilà. You can now connect your phone to your computer, open Grisbi, and use its import functionality.
+      Voilà. You can now connect your phone to your computer, open Grisbi (or Gnucash), and use its import functionality.
     </div>
     <div lang="fr">
-      Voilà. Maintenant, vous pouvez connecter votre téléphone à votre ordinateur, ouvrir Grisbi et utiliser sa fonction d'importation.
+      Voilà. Maintenant, vous pouvez connecter votre téléphone à votre ordinateur, ouvrir Grisbi (ou Gnucash) et utiliser sa fonction d'importation.
+    </div>
+    <div lang="de">
+      Voilà. Jetzt können Sie Ihr Telefon mit dem Computer verbinden, Grisbi (oder Gnucash) öffnen und seine Import-Funktion verwenden.
     </div>
   </body>
 </html>
