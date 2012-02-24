@@ -89,7 +89,8 @@ public class SelectCategory extends ExpandableListActivity {
     private static final int IMPORT_CAT_ID = Menu.FIRST + 5;
     int mGroupIdColumnIndex;
     ProgressDialog mProgressDialog;
-    int mTotalCategories;
+    String sourceStr;
+    private MyAsyncTask task=null;
     
     /**
      * Choice of sources for importing categories presented to the user.
@@ -103,8 +104,7 @@ public class SelectCategory extends ExpandableListActivity {
         setContentView(R.layout.select_category);
         setTitle(R.string.select_category);
         // Set up our adapter
-        mDbHelper = new ExpensesDbAdapter(this);
-        mDbHelper.open();
+        mDbHelper = MyApplication.db();
         mGroupCursor = mDbHelper.fetchCategoryMain();
         startManagingCursor(mGroupCursor);
 
@@ -123,6 +123,33 @@ public class SelectCategory extends ExpandableListActivity {
 
         setListAdapter(mAdapter);
         registerForContextMenu(getExpandableListView());
+        
+        mProgressDialog = new ProgressDialog(SelectCategory.this);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setProgress(0);
+        
+        task=(MyAsyncTask)getLastNonConfigurationInstance();
+        
+        if (task!=null) {
+          task.attach(this);
+          sourceStr = IMPORT_SOURCES[task.getSource()];
+          mProgressDialog.setTitle(getString(R.string.categories_loading,sourceStr));
+          mProgressDialog.setMax(task.getTotalCategories());
+          mProgressDialog.show();
+          updateProgress(task.getProgress());
+          
+          if (task.getStatus() == AsyncTask.Status.FINISHED) {
+            markAsDone(task.getTotalImported());
+          }
+        }
+    }
+    @Override
+    public void onStop() {
+      super.onStop();
+      mProgressDialog.dismiss();
+    }
+    void updateProgress(int progress) {
+      mProgressDialog.setProgress(progress);
     }
     
     @Override
@@ -203,12 +230,6 @@ public class SelectCategory extends ExpandableListActivity {
         }
     		return false;
     	}
-
-    @Override
-    public void onDestroy() {
-    	super.onDestroy();
-    	mDbHelper.close();
-    }
     /* (non-Javadoc)
      * return the sub cat to the calling activity 
      * @see android.app.ExpandableListActivity#onChildClick(android.widget.ExpandableListView, android.view.View, int, int, long)
@@ -334,53 +355,97 @@ public class SelectCategory extends ExpandableListActivity {
       builder.setTitle(R.string.dialog_title_select_import_source);
       builder.setSingleChoiceItems(IMPORT_SOURCES, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
-            new MyAsyncTask(SelectCategory.this,item).execute();
+            sourceStr = IMPORT_SOURCES[item];
+            mProgressDialog.setTitle(getString(R.string.categories_loading,sourceStr));
+            mProgressDialog.show();
+            task = new MyAsyncTask(SelectCategory.this,item);
+            task.execute();
             dialog.cancel();
           }
       });
       builder.show();
     }
+    void markAsDone(Integer result) {
+      mProgressDialog.dismiss();
+      String msg;
+      if (result == -1) {
+        msg = getString(R.string.import_categories_failure);
+      } else {
+        msg = getString(R.string.import_categories_success,result);
+      }
+      Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+      mGroupCursor.requery();
+      task = null;
+    }
+    
+    @Override
+    public Object onRetainNonConfigurationInstance() {
+      if (task != null)
+        task.detach();
+      return(task);
+    }
     
     /**
-     * This AsyncTaks has no input upond execution 
+     * This AsyncTaks has no input upon execution 
      * report an integer for showing a progress update
-     * and gives as result the total number of imported categories
+     * and gives no result
      * @author Michael Totschnig
      *
      */
-    private class MyAsyncTask extends AsyncTask<Void, Integer, Integer> {
-      private Context context;
+    static class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
+      private SelectCategory activity;
       private int source;
       NodeList categories;
       NodeList sub_categories;
       InputStream catXML;
       Document dom;
       Hashtable<String,Long> Foreign2LocalIdMap;
+      private int totalCategories;
       int totalImported;
+      private ExpensesDbAdapter mDbHelper;
+      int progress=0;
 
       /**
        * @param context
        * @param source Source for the import
        */
-      public MyAsyncTask(Context context,int source) {
-        this.context = context;
+      public MyAsyncTask(SelectCategory activity,int source) {
+        attach(activity);
         this.source = source;
         Foreign2LocalIdMap = new Hashtable<String,Long>();
-        totalImported = 0; 
+        totalImported = 0;
+        mDbHelper = MyApplication.db();
+      }
+      public Integer getSource() {
+        return source;
+      }
+      public Integer getTotalImported() {
+        return totalImported;
+      }
+      void attach(SelectCategory activity) {
+        this.activity=activity;
+      }
+      void detach() {
+        activity=null;
+      }
+      int getProgress() {
+        return(progress);
+      }
+      boolean isDone() {
+        return progress == totalCategories;
       }
       /* (non-Javadoc)
        * loads the XML from the source, parses it, and sets up progress dialog
        * @see android.os.AsyncTask#onPreExecute()
        */
       protected void onPreExecute() {
-        String sourceStr = IMPORT_SOURCES[source];
         super.onPreExecute();
         //from sdcard
         if (source == 3) {
           try {
-            catXML = new FileInputStream(sourceStr);
+            catXML = new FileInputStream(activity.sourceStr);
           } catch (FileNotFoundException e) {
-            Toast.makeText(context, "Could not find file "+sourceStr, Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Could not find file "+activity.sourceStr, Toast.LENGTH_LONG).show();
             cancel(false);
             return;
           }
@@ -397,7 +462,7 @@ public class SelectCategory extends ExpandableListActivity {
             sourceRes = R.raw.cat_de;
             break;
           }
-          catXML = context.getResources().openRawResource(sourceRes);
+          catXML = activity.getResources().openRawResource(sourceRes);
         }
         try {
           DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -405,19 +470,14 @@ public class SelectCategory extends ExpandableListActivity {
           dom = builder.parse(catXML);
         } catch (SAXParseException e) {
           Log.w("MyExpenses",e.getMessage());
-          Toast.makeText(context, "Could not parse file "+sourceStr, Toast.LENGTH_LONG).show();
+          Toast.makeText(activity, "Could not parse file "+activity.sourceStr, Toast.LENGTH_LONG).show();
           cancel(false);
           return;
         } catch (Exception e) {
-          Toast.makeText(context, "An error occured: "+e.getMessage(), Toast.LENGTH_LONG).show();
+          Toast.makeText(activity, "An error occured: "+e.getMessage(), Toast.LENGTH_LONG).show();
           cancel(false);
           return;
         }
-        mProgressDialog = new ProgressDialog(context);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgressDialog.setTitle(getString(R.string.categories_loading,sourceStr));
-        mProgressDialog.setProgress(0);
-        mProgressDialog.show();
       }
       
       /* (non-Javadoc)
@@ -425,23 +485,25 @@ public class SelectCategory extends ExpandableListActivity {
        * @see android.os.AsyncTask#onProgressUpdate(Progress[])
        */
       protected void onProgressUpdate(Integer... values) {
-        mProgressDialog.setProgress(values[0]);
+        progress = values[0];
+        if (activity==null) {
+          Log.w("MyAsyncTask", "onProgressUpdate() skipped -- no activity");
+        }
+        else {
+          activity.updateProgress(progress);
+        }
       }
       /* (non-Javadoc)
        * reports on success (with total number of imported categories) or failure
        * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
        */
-      protected void onPostExecute(Integer result) {
-        mProgressDialog.dismiss();
-        String msg;
-        super.onPostExecute(result);
-        if (result == -1) {
-          msg = getString(R.string.import_categories_failure);
-        } else {
-          msg = getString(R.string.import_categories_success,result);
+      protected void onPostExecute(Void unused) {
+        if (activity==null) {
+          Log.w("RotationAsync", "onPostExecute() skipped -- no activity");
         }
-        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-        mGroupCursor.requery();
+        else {
+          activity.markAsDone(totalImported);
+        }
       }
 
 
@@ -452,19 +514,17 @@ public class SelectCategory extends ExpandableListActivity {
        * @see android.os.AsyncTask#doInBackground(Params[])
        */
       @Override
-      protected Integer doInBackground(Void... params) {
+      protected Void doInBackground(Void... params) {
         //first we do the parsing
         Element root = dom.getDocumentElement();
         categories = root.getElementsByTagName("Category");
         sub_categories = root.getElementsByTagName("Sub_category");
-        mTotalCategories = categories.getLength() + sub_categories.getLength();
-        mProgressDialog.setMax(mTotalCategories);
-
-        mDbHelper.open();
+        totalCategories = categories.getLength() + sub_categories.getLength();
+        activity.mProgressDialog.setMax(totalCategories);
 
         importCatsMain();
         importCatsSub();
-        return totalImported;
+        return(null);
       }
       /**
        * iterates over {@link #categories}
@@ -530,6 +590,12 @@ public class SelectCategory extends ExpandableListActivity {
             publishProgress(start+i);
           }
         }
+      }
+      int getTotalCategories() {
+        return totalCategories;
+      }
+      void setTotalCategories(int totalCategories) {
+        this.totalCategories = totalCategories;
       }
     }
   }

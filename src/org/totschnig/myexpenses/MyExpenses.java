@@ -93,8 +93,7 @@ public class MyExpenses extends ListActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.expenses_list);
-    mDbHelper = new ExpensesDbAdapter(this);
-    mDbHelper.open();
+    mDbHelper = MyApplication.db();
     mSettings = ((MyApplication) getApplicationContext()).getSettings();
     newVersionCheck();
     long account_id = mSettings.getLong("current_account", 0);
@@ -103,11 +102,6 @@ public class MyExpenses extends ListActivity {
     registerForContextMenu(getListView());
     //DisplayMetrics dm = getResources().getDisplayMetrics();
     //Log.i("SCREEN", dm.widthPixels + ":" + dm.density);
-  }
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-    mDbHelper.close();
   }
   /**
    * binds the Cursor for all expenses to the list view

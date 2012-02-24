@@ -75,8 +75,7 @@ public class ExpenseEdit extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mDbHelper = new ExpensesDbAdapter(this);
-    mDbHelper.open();
+    mDbHelper = MyApplication.db();
 
     Bundle extras = getIntent().getExtras();
     mRowId = extras.getLong(ExpensesDbAdapter.KEY_ROWID,0);
@@ -189,11 +188,7 @@ public class ExpenseEdit extends Activity {
     });
     populateFields();
   }
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-    mDbHelper.close();
-  }
+
   /**
    * calls the activity for selecting (and managing) categories
    */

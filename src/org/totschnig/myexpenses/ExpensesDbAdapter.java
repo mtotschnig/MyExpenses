@@ -124,7 +124,7 @@ public class ExpensesDbAdapter {
   private static final String PAYEE_CREATE = 
     "create table payee (_id integer primary key autoincrement, name text unique not null);";
 
-  private final Context mCtx;
+  private final MyApplication mCtx;
 
   /**
    * the helper class with hooks for creating and updating the database
@@ -169,9 +169,9 @@ public class ExpensesDbAdapter {
    * 
    * @param ctx the Context within which to work
    */
-  public ExpensesDbAdapter(Context ctx) {
+  public ExpensesDbAdapter(MyApplication ctx) {
     this.mCtx = ctx;
-    mDatabaseName = ((MyApplication) ctx.getApplicationContext()).getDatabaseName();
+    mDatabaseName = ctx.getDatabaseName();
   }
 
   /**

@@ -56,8 +56,7 @@ public class SelectAccount extends ListActivity {
     setContentView(R.layout.select_account);
     setTitle(R.string.select_account);
     // Set up our adapter
-    mDbHelper = new ExpensesDbAdapter(SelectAccount.this);
-    mDbHelper.open();
+    mDbHelper = MyApplication.db();
     Bundle extras = getIntent().getExtras();
     mCurrentAccount = extras.getLong("current_account");
     fillData();
@@ -129,10 +128,7 @@ public class SelectAccount extends ListActivity {
     };
     setListAdapter(account);
   }
-  public void onDestroy() {
-    super.onDestroy();
-    mDbHelper.close();
-  }
+
   /* (non-Javadoc)
    * makes sure that current account is not deleted
    * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)

@@ -44,8 +44,7 @@ public class AccountEdit extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mDbHelper = new ExpensesDbAdapter(this);
-    mDbHelper.open();
+    mDbHelper = MyApplication.db();
     setContentView(R.layout.one_account);
 
     mLabelText = (EditText) findViewById(R.id.Label);
@@ -73,11 +72,6 @@ public class AccountEdit extends Activity {
       }
     });
     populateFields();
-  }
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-    mDbHelper.close();
   }
 
   /**
