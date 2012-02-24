@@ -1,5 +1,5 @@
 function init() {
-	var known = { en: true, fr: true };
+	var known = { en: true, fr: true, de: true };
 	//unfortunately navigator.language is broken in Androids Webkit
 	//we set userAgent to language through webview settings
 	var userLang = navigator.userAgent,
