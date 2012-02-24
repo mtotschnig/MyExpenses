@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/RelativeLayout01" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:orientation="vertical"
+	android:layout_height="fill_parent">
+	<TextView android:text="VERSION" android:id="@+id/version"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" />
+	<TextView android:text="DATE" android:id="@+id/date"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" />
+  <TextView android:text="CHANGES" android:id="@+id/changes" 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content" />
+</LinearLayout>

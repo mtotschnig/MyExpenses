@@ -1,93 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?> 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-	<ScrollView android:id="@+id/aboutscrollview" 
-		android:orientation="vertical"
-		android:layout_width="fill_parent" 
-		android:layout_height="fill_parent">    
-		<LinearLayout
 		    android:orientation="vertical"
 		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent">
-			<TextView android:text="@string/menu_changes"
-				android:layout_width="fill_parent" 
-				android:layout_height="wrap_content"
-				android:paddingLeft="15px"
-				android:textStyle="bold"
-				android:textColor="#ffffff"
-				android:textSize="18sp" />
-			<TextView android:text="v1.4.5 (February 13 2012): Support for sending QIF file via email. Reduced memory footprint"
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"      
-        android:textColor="#ffffff" />
-			 <TextView android:text="v1.4.4 (February 8 2012): FTP upload done in background. Default account created in user's language and currency."
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"      
-        android:textColor="#ffffff" />
-			<TextView android:text="v1.4.3 (February 3 2012): Improved parsing of number input in German locale. Upload of QIF file to FTP server."
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"      
-        android:textColor="#ffffff" />
-			<TextView android:text="v1.4.1 (January 31 2012): Input of transaction amounts now respects user's locale. Bug fix: Opening balance could not be set."
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"      
-        android:textColor="#ffffff" />
-			<TextView android:text="v1.4.0 (January 27 2012): Currencies now handled with java.util.Currency. Support for transfers between accounts."
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"      
-        android:textColor="#ffffff" />
-			<TextView android:text="v1.3.2 (January 17 2012): Improved help and included tutorial."
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"      
-        android:textColor="#ffffff" />
-			<TextView android:text="v1.3.0 (January 13 2012): Cleaned up layout."
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"      
-        android:textColor="#ffffff" />
-		  <TextView android:text="v1.2.8 (January 8 2012): Fixed bug in export."
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"      
-        android:textColor="#ffffff" />
-			<TextView android:text="v1.2.7 (January 7 2012): Added payee field. Ignore empty fields in QIF export."
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"      
-        android:textColor="#ffffff" />
-			<TextView android:text="v1.2.6 (November 6 2011): Better management of categories: Default category files from Grisbi are now included in the app, categories can be deleted and renamed."
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"      
-        android:textColor="#ffffff" />
-      <TextView android:text="v1.2.0 (October 7 2011): Support for multiple accounts"
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"      
-        android:textColor="#ffffff" />
-			<TextView android:text="v1.1.3 (June 5 2011): Use workaround class for bug in SimpleCursorTreeAdapter (NullPointerException when adding the first subcategory) from http://code.google.com/p/android/issues/detail?id=9170; better feedback when category import goes wrong."
-				android:layout_width="fill_parent" 
-				android:layout_height="wrap_content"
-				android:paddingLeft="15px"			
-				android:textColor="#ffffff" />
-			<TextView android:text="v1.1.2 (May 18 2011): Sort categories by usages; Allow assignment of main category; Allow manual creation of categories; Improved handling of categories import."
-				android:layout_width="fill_parent" 
-				android:layout_height="wrap_content"
-				android:paddingLeft="15px"			
-				android:textColor="#ffffff" />
-			<TextView android:text="v1.0 (May 4 2011): Initial version."
-				android:layout_width="fill_parent" 
-				android:layout_height="wrap_content"
-				android:paddingLeft="15px"			
-				android:textColor="#ffffff" />
-			</LinearLayout>
-		</ScrollView>			
-</LinearLayout>
+		    android:layout_height="wrap_content">
+  <ListView android:id="@+id/changelog"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"  android:layout_weight="1"
+  />
+</LinearLayout>	
