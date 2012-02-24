@@ -499,7 +499,7 @@ public class SelectCategory extends ExpandableListActivity {
        */
       protected void onPostExecute(Void unused) {
         if (activity==null) {
-          Log.w("RotationAsync", "onPostExecute() skipped -- no activity");
+          Log.w("MyAsyncTask", "onPostExecute() skipped -- no activity");
         }
         else {
           activity.markAsDone(totalImported);
