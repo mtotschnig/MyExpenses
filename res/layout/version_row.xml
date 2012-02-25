@@ -5,11 +5,14 @@
 	android:layout_height="fill_parent">
 	<TextView android:text="VERSION" android:id="@+id/version"
 	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" />
+	    android:layout_height="wrap_content"
+	    android:textColor="#FFFFFF" />
 	<TextView android:text="DATE" android:id="@+id/date"
 	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" />
+	    android:layout_height="wrap_content"
+      android:textColor="#FFFFFF" />
   <TextView android:text="CHANGES" android:id="@+id/changes" 
 		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content" />
+		    android:layout_height="wrap_content"
+      android:textColor="#FFFFFF" />
 </LinearLayout>

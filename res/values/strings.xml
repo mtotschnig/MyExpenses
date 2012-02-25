@@ -14,7 +14,7 @@
 		<string name="credits_text">Initially inspired by the Android Notepad tutorial.
 		    \nHelp screen design copied from Mathdoku. 
 		    \nApp icon design copied from Sipdroid.
-		    \nFrench localization revised by Laurent Collombet.
+		    \nFrench localization by Laurent Collombet.
 		</string>
 		<string name="currency">Currency</string>
 		<string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>

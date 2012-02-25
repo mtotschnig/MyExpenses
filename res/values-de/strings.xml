@@ -14,7 +14,7 @@
 	  <string name="credits_text">Ausgangspunkt Android Notes Tutorial.
 	      \nDesign des Hilfe-Dialogs von Mathdoku.
 	      \nDesign der App-Graphik von Sipdroid.
-	      \nKorrektur der französischen Übersetzung von Laurent Collombet.</string>
+	      \nFranzösische Übersetzung von Laurent Collombet.</string>
 	  <string name="currency">Währung</string>
 	  <string name="currency_not_iso4217">%1$s ist kein gültiger ISO 4217 Währungscode</string>
 	  <string name="current_balance">Aktueller Saldo</string>
@@ -46,7 +46,7 @@
 	  <string name="help_text">MyExpenses ist eine einfache Anwendung zur Verwaltung von Ausgaben, mit dem Ziel, diese in das Finanzprogramm Grisbi exportieren zu können.
 	\nMenübefehl \"Zurücksetzen\" exportiert Einträge in eine QIF-Datei auf der SD-Karte, löscht die Einträge, und setzt den Anfangssaldo zurück.
 	\n\"Konto auswählen\" erlaubt aus der Liste der definierten Konten das aktuell verwendete auszuwählen, über das Menü können neue Konten definiert werden, über das Kontextmenü bestehende verändert oder gelöscht. 
-	\nKategorien werden in der Aktivität\"Kategorie auswählen\" verwaltet, die über den "Kategorie" Button beim Editieren einer Buchung aufgerufen wird. Menübefehl \"Kategorien importieren\" erlaubt, Kategorien aus einer Grisbi-Datei zu importieren.
+	\nKategorien werden in der Aktivität \"Kategorie auswählen\" verwaltet, die über den "Kategorie" Button beim Editieren einer Buchung aufgerufen wird. Menübefehl \"Kategorien importieren\" erlaubt, Kategorien aus einer Grisbi-Datei zu importieren.
 	Sie können entweder die inkludierten von Grisbi verwendeten Standardkategorien auswählen, oder
 	eine eigene Datei. Dafür verwenden Sie entweder
 	Ihre Grisbi Datei, oder editieren diese, indem Sie alles außer der Kategorien entfernen.

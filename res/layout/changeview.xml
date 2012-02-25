@@ -5,6 +5,11 @@
 		    android:layout_height="wrap_content">
   <ListView android:id="@+id/changelog"
         android:layout_width="fill_parent"
-        android:layout_height="0px"  android:layout_weight="1"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:choiceMode="none"
+        android:focusableInTouchMode="false"
+        android:focusable="false"
+        android:cacheColorHint="#00000000"
   />
 </LinearLayout>	
