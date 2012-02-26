@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.Account;
 import org.totschnig.myexpenses.ExpensesDbAdapter;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.MyExpenses;
 import org.totschnig.myexpenses.Transaction;
 import org.totschnig.myexpenses.Transfer;
@@ -20,7 +21,7 @@ public class TransactionTest extends AndroidTestCase {
   @Override
   protected void setUp() throws Exception {
       super.setUp();
-      mDbHelper = new ExpensesDbAdapter(getContext());
+      mDbHelper = new ExpensesDbAdapter((MyApplication) getContext().getApplicationContext());
       mDbHelper.open();
       mAccount1 = new Account(mDbHelper,"TestAccount 1",100,"Main account",Currency.getInstance(Locale.getDefault()));
       mAccount1.save();
