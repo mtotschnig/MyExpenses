@@ -46,6 +46,7 @@ public class Tutorial extends Activity {
     WebSettings settings = wv.getSettings();
     settings.setDefaultTextEncodingName("utf-8");
     settings.setJavaScriptEnabled(true);
+    settings.setBuiltInZoomControls(true); 
     //we abuse user agent string, since the language is not reported correctly 
     settings.setUserAgentString(Locale.getDefault().getLanguage()); 
     wv.loadUrl("file:///android_asset/tutorial/tutorial1.html"); 

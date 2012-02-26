@@ -4,6 +4,12 @@ span , div, h3 {
 div {
   margin: 1em 0em;
 }
+div.screen {
+  display:block;
+  text-align:center;
+  margin-right:auto;
+  margin-left:auto
+}
 #tut1 #nav1, #tut2 #nav2, #tut3 #nav3, #tut4 #nav4 {
    pointer-events: none;
    cursor: default;
