@@ -21,14 +21,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Properties;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
 
 import android.content.DialogInterface;
@@ -80,6 +79,10 @@ public class MyExpenses extends ListActivity {
   public static final boolean TYPE_TRANSFER = false;
   public static final String TRANSFER_EXPENSE = "=>";
   public static final String TRANSFER_INCOME = "<=";
+  static final int HELP_DIALOG_ID = 0;
+  static final int CHANGES_DIALOG_ID = 1;
+  static final int VERSION_DIALOG_ID = 2;
+  private String mVersionInfo;
     
   
   private ExpensesDbAdapter mDbHelper;
@@ -229,7 +232,7 @@ public class MyExpenses extends ListActivity {
       builder.show();
       return true;
     case HELP_ID:
-      openHelpDialog();
+      showDialog(HELP_DIALOG_ID);
       return true;
     case SELECT_ACCOUNT_ID:
       Intent i = new Intent(this, SelectAccount.class);
@@ -273,6 +276,96 @@ public class MyExpenses extends ListActivity {
       return true;
     }
     return super.onContextItemSelected(item);
+  }
+  
+  @Override
+  protected Dialog onCreateDialog(int id) {
+    LayoutInflater li;
+    View view;
+    switch (id) {
+    case HELP_DIALOG_ID:
+      li = LayoutInflater.from(this);
+      view = li.inflate(R.layout.aboutview, null); 
+      TextView tv = (TextView)view.findViewById(R.id.aboutVersionCode);
+      tv.setText(getVersionInfo());
+      return new AlertDialog.Builder(MyExpenses.this)
+      .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
+      .setIcon(R.drawable.about)
+      .setView(view)
+      .setNeutralButton(R.string.menu_changes, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int whichButton) {
+          showDialog(CHANGES_DIALOG_ID);
+        }
+      })
+      .setPositiveButton("Tutorial", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int whichButton) {
+          startActivity( new Intent(MyExpenses.this, Tutorial.class) );
+        }
+      })
+      .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int whichButton) {
+          //
+        }
+      }).create();
+    case CHANGES_DIALOG_ID:
+      li = LayoutInflater.from(this);
+      view = li.inflate(R.layout.changeview, null);
+      ListView changeList = (ListView) view.findViewById(R.id.changelog);
+
+      ListAdapter adapter = new SimpleAdapter(this, VersionList.get() , R.layout.version_row, 
+          new String[] { "version", "date","changes" }, 
+          new int[] { R.id.version, R.id.date, R.id.changes }) {
+          public boolean isEnabled(int position) 
+          { 
+            return false; 
+          }
+          public boolean areAllItemsEnabled() 
+          { 
+            return false; 
+          }
+      };
+      changeList.setAdapter(adapter);
+
+      
+      
+      return new AlertDialog.Builder(MyExpenses.this)
+      .setTitle(R.string.menu_changes)
+      .setIcon(R.drawable.about)
+      .setView(view)
+      .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int whichButton) {
+          //
+        }
+      })
+      .create();
+    case VERSION_DIALOG_ID:
+      li = LayoutInflater.from(this);
+      view = li.inflate(R.layout.versiondialog, null);
+      TextView versionInfo= (TextView) view.findViewById(R.id.versionInfo);
+      versionInfo.setText(mVersionInfo);
+      return new AlertDialog.Builder(MyExpenses.this)
+      .setTitle(R.string.important_version_information)
+      .setIcon(R.drawable.about)
+      .setView(view)
+      .setNeutralButton(R.string.button_continue, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int whichButton) {
+          showDialog(HELP_DIALOG_ID);
+        }
+      })
+      .create();
+    }
+    return null;
+  }
+  
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+   super.onSaveInstanceState(outState);
+   outState.putString("versionInfo", mVersionInfo);
+  }
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+   super.onRestoreInstanceState(savedInstanceState);
+   mVersionInfo = savedInstanceState.getString("versionInfo");
   }
   /**
    * start ExpenseEdit Activity for a new transaction/transfer
@@ -392,38 +485,6 @@ public class MyExpenses extends ListActivity {
     }
     fillData();
   }
-
-  /**
-   * shows Help screen with link to Changes and Tutorial
-   * seen in Mathdoku
-   */
-  private void openHelpDialog() {
-    LayoutInflater li = LayoutInflater.from(this);
-    View view = li.inflate(R.layout.aboutview, null); 
-    TextView tv = (TextView)view.findViewById(R.id.aboutVersionCode);
-    tv.setText(getVersionInfo());
-    new AlertDialog.Builder(MyExpenses.this)
-    .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
-    .setIcon(R.drawable.about)
-    .setView(view)
-    .setNeutralButton(R.string.menu_changes, new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog, int whichButton) {
-        MyExpenses.this.openChangesDialog();
-      }
-    })
-    .setPositiveButton("Tutorial", new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog, int whichButton) {
-        startActivity( new Intent(MyExpenses.this, Tutorial.class) );
-      }
-    })
-    .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog, int whichButton) {
-        //
-      }
-    })
-    .show();  
-  }
-  
   
   /**
    * this dialog is shown, when a new version requires to present
@@ -431,56 +492,8 @@ public class MyExpenses extends ListActivity {
    * @param info a String presented to the user in an AlertDialog
    */
   private void openVersionDialog(String info) {
-    LayoutInflater li = LayoutInflater.from(this);
-    View view = li.inflate(R.layout.versiondialog, null);
-    TextView versionInfo= (TextView) view.findViewById(R.id.versionInfo);
-    versionInfo.setText(info);
-    new AlertDialog.Builder(MyExpenses.this)
-    .setTitle(R.string.important_version_information)
-    .setIcon(R.drawable.about)
-    .setView(view)
-    .setNeutralButton(R.string.button_continue, new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog, int whichButton) {
-        MyExpenses.this.openHelpDialog();
-      }
-    })
-    .show();
-  }
-  
-  /**
-   * opens AlertDialog with ChangeLog
-   */
-  private void openChangesDialog() {
-    LayoutInflater li = LayoutInflater.from(this);
-    View view = li.inflate(R.layout.changeview, null);
-    ListView changeList = (ListView) view.findViewById(R.id.changelog);
-
-    ListAdapter adapter = new SimpleAdapter(this, VersionList.get() , R.layout.version_row, 
-        new String[] { "version", "date","changes" }, 
-        new int[] { R.id.version, R.id.date, R.id.changes }) {
-        public boolean isEnabled(int position) 
-        { 
-          return false; 
-        }
-        public boolean areAllItemsEnabled() 
-        { 
-          return false; 
-        }
-    };
-    changeList.setAdapter(adapter);
-
-    
-    
-    new AlertDialog.Builder(MyExpenses.this)
-    .setTitle(R.string.menu_changes)
-    .setIcon(R.drawable.about)
-    .setView(view)
-    .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog, int whichButton) {
-        //
-      }
-    })
-    .show();  
+    mVersionInfo = info;
+    showDialog(VERSION_DIALOG_ID);
   }
 
   /**
@@ -525,7 +538,7 @@ public class MyExpenses extends ListActivity {
         edit.commit();
       }
     }
-    openHelpDialog();
+    showDialog(HELP_DIALOG_ID);
     return;
   }
  
