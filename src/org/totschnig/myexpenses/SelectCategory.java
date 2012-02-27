@@ -26,6 +26,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 
@@ -399,11 +400,15 @@ public class SelectCategory extends ExpandableListActivity {
       NodeList sub_categories;
       InputStream catXML;
       Document dom;
+      Element root;
       Hashtable<String,Long> Foreign2LocalIdMap;
       private int totalCategories;
       int totalImported;
       private ExpensesDbAdapter mDbHelper;
       int progress=0;
+      String grisbiFileVersion;
+      String mainElementName;
+      String subElementName;
 
       /**
        * @param context
@@ -478,6 +483,45 @@ public class SelectCategory extends ExpandableListActivity {
           cancel(false);
           return;
         }
+        //first we do the parsing
+        root = dom.getDocumentElement();
+        Node generalNode = root.getElementsByTagName("General").item(0);
+        if (generalNode != null) {
+          grisbiFileVersion = generalNode.getAttributes().getNamedItem("File_version").getNodeValue();
+          Log.i("MyExpenses","found Grisbi version" + grisbiFileVersion);
+        }
+        else {
+          Node versionNode = root.getElementsByTagName("Version_fichier_categ").item(0);
+          if (versionNode != null) {
+            //unfortunately we have to retrieve the first text node in order to get at the value
+            grisbiFileVersion = versionNode.getChildNodes().item(0).getNodeValue();
+            Log.i("MyExpenses","found Grisbi version" + grisbiFileVersion);
+          }
+          else {
+            Log.i("MyExpenses","did not find Grisbi version, assuming 0.6.0");
+            //we are mapping the existence of Categorie to 0.5.0
+            //and Category to 0.6.0
+            if (root.getElementsByTagName("Category").getLength() > 0)
+              grisbiFileVersion = "0.6.0";
+            else if (root.getElementsByTagName("Categorie").getLength() > 0)
+              grisbiFileVersion = "0.5.0";
+            else {
+              Toast.makeText(activity, "Unable to determine Grisbi file version", Toast.LENGTH_LONG).show();
+              cancel(false);
+            }
+              
+          }
+        }
+        if (grisbiFileVersion.equals("0.6.0")) {
+          mainElementName = "Category";
+          subElementName = "Sub_category";
+        } else if (grisbiFileVersion.equals("0.5.0")) {
+          mainElementName = "Categorie";
+          subElementName = "Sous-categorie";
+        } else {
+          Toast.makeText(activity, "Unsupported Grisbi File Version: "+grisbiFileVersion, Toast.LENGTH_LONG).show();
+          cancel(false);
+        }
       }
       
       /* (non-Javadoc)
@@ -515,16 +559,61 @@ public class SelectCategory extends ExpandableListActivity {
        */
       @Override
       protected Void doInBackground(Void... params) {
-        //first we do the parsing
-        Element root = dom.getDocumentElement();
-        categories = root.getElementsByTagName("Category");
-        sub_categories = root.getElementsByTagName("Sub_category");
+        categories = root.getElementsByTagName(mainElementName);
+        sub_categories = root.getElementsByTagName(subElementName);
         totalCategories = categories.getLength() + sub_categories.getLength();
         activity.mProgressDialog.setMax(totalCategories);
 
-        importCatsMain();
-        importCatsSub();
+        if (grisbiFileVersion.equals("0.6.0")) {
+          importCatsMain();
+          importCatsSub();
+        } else {
+          importCats050();
+        }
         return(null);
+      }
+      private void importCats050() {
+        int count = 0;
+        String label;
+        long main_id, sub_id;
+        NamedNodeMap atts;
+        
+        for (int i=0;i<categories.getLength();i++){
+          count++;
+          atts = categories.item(i).getAttributes();
+          label = atts.getNamedItem("Nom").getNodeValue();
+          main_id = mDbHelper.createCategory(label,0);
+          if (main_id != -1) {
+            totalImported++;
+          } else {
+            //this should not happen
+            Log.w("MyExpenses","could neither retrieve nor store main category " + label);
+            continue;
+          }
+          if (count % 10 == 0) {
+            publishProgress(count);
+          }
+          NodeList children = categories.item(i).getChildNodes();
+          for (int j=0;j<children.getLength();j++){
+            Node child = children.item(j);
+            String nodeName = child.getNodeName();
+            if ((nodeName != null) & (nodeName.equals(subElementName))) {
+              count++;
+              atts = child.getAttributes();
+              label = atts.getNamedItem("Nom").getNodeValue();
+              sub_id = mDbHelper.createCategory(label,main_id);
+              if (sub_id != -1) {
+                totalImported++;
+              } else {
+                //this should not happen
+                Log.w("MyExpenses","could neither retrieve nor store main category " + label);
+              }
+              if (count % 10 == 0) {
+                publishProgress(count);
+              }
+            }
+          }
+        }
       }
       /**
        * iterates over {@link #categories}
