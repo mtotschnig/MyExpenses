@@ -23,6 +23,10 @@ div.screen {
 #content {
   display: block;
 }
+#footnotes {
+  display: block;
+  font-size: smaller;
+}
 
 @media only screen and (min-device-width: 500px) {
   #content {

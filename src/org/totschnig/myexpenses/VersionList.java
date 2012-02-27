@@ -10,7 +10,7 @@ public class VersionList {
         {
           "1.4.5.2", 
           "February 27 2012",
-          "Tutorial translated to German and French. Fixed problems with orientation change during categories import and help and changelog dialog."
+          "Tutorial translated to German and French. Fixed problems with orientation change during categories import and help and changelog dialog. Support for Grisbi file format 0.5.0"
         },
         {
           "1.4.5.1",
