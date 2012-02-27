@@ -20,3 +20,12 @@ document.write('\
         <span lang="de">Buchungen exportieren</span>\
         </a>\
 ');
+document.write('<span class="langselector"><select onchange="selectLang(this.value)">');
+for (var lang in known) {
+  document.write('<option value="'+lang+'"');
+  if (lang == userLang) {
+    document.write(' selected');
+  }
+  document.write('>'+known[lang]+'</option>');
+}
+document.write('</select></span>');
