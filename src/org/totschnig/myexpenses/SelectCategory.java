@@ -140,7 +140,7 @@ public class SelectCategory extends ExpandableListActivity {
           updateProgress(task.getProgress());
           
           if (task.getStatus() == AsyncTask.Status.FINISHED) {
-            markAsDone(task.getTotalImported());
+            markAsDone();
           }
         }
     }
@@ -366,16 +366,15 @@ public class SelectCategory extends ExpandableListActivity {
       });
       builder.show();
     }
-    void markAsDone(Integer result) {
+    void markAsDone() {
       mProgressDialog.dismiss();
       String msg;
-      if (result == -1) {
-        msg = getString(R.string.import_categories_failure);
-      } else {
+      int result = task.getTotalImported();
+      if (result != -1) {
         msg = getString(R.string.import_categories_success,result);
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        mGroupCursor.requery();
       }
-      Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-      mGroupCursor.requery();
       task = null;
     }
     
@@ -418,7 +417,7 @@ public class SelectCategory extends ExpandableListActivity {
         attach(activity);
         this.source = source;
         Foreign2LocalIdMap = new Hashtable<String,Long>();
-        totalImported = 0;
+        totalImported = -1;
         mDbHelper = MyApplication.db();
       }
       public Integer getSource() {
@@ -435,9 +434,6 @@ public class SelectCategory extends ExpandableListActivity {
       }
       int getProgress() {
         return(progress);
-      }
-      boolean isDone() {
-        return progress == totalCategories;
       }
       /* (non-Javadoc)
        * loads the XML from the source, parses it, and sets up progress dialog
@@ -523,7 +519,13 @@ public class SelectCategory extends ExpandableListActivity {
           cancel(false);
         }
       }
-      
+      protected void onCancelled() {
+        if (activity==null) {
+          Log.w("MyAsyncTask", "onCancelled() skipped -- no activity");
+        } else {
+          activity.markAsDone();
+        }
+      }
       /* (non-Javadoc)
        * updates the progress dialog
        * @see android.os.AsyncTask#onProgressUpdate(Progress[])
@@ -546,7 +548,7 @@ public class SelectCategory extends ExpandableListActivity {
           Log.w("MyAsyncTask", "onPostExecute() skipped -- no activity");
         }
         else {
-          activity.markAsDone(totalImported);
+          activity.markAsDone();
         }
       }
 
@@ -559,6 +561,7 @@ public class SelectCategory extends ExpandableListActivity {
        */
       @Override
       protected Void doInBackground(Void... params) {
+        totalImported = 0;
         categories = root.getElementsByTagName(mainElementName);
         sub_categories = root.getElementsByTagName(subElementName);
         totalCategories = categories.getLength() + sub_categories.getLength();
