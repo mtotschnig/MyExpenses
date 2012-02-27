@@ -20,3 +20,13 @@ div.screen {
   display: inline;
   float: right;
 }
+#content {
+  display: block;
+}
+
+@media only screen and (min-device-width: 500px) {
+  #content {
+    width:500px;
+    margin:0px auto;
+  }
+}

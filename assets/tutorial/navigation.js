@@ -1,3 +1,5 @@
+if (!inAppP)
+  document.write('<h2><a href="http://michael.totschnig.org/myexpenses">MyExpenses</a> Tutorial</h2>');
 document.write('\
       <a id="nav1" href="tutorial1.html">\
         <span lang="en">Managing accounts</span>\

@@ -1,3 +1,4 @@
+var inAppP = false;
 var known = { en: "English", fr: "Français", de: "Deutsch"};
 var userLang;
 var doc = document,
@@ -5,12 +6,17 @@ var doc = document,
     style = doc.createElement('style');
 //unfortunately navigator.language is broken in Androids Webkit
 //we set userAgent to language through webview settings
+//and use this as test if we are displaying the tutorial as In-App-Activity
+var userAgent = navigator.userAgent;
+if (userAgent.length == 2)
+    inAppP = true;
 
 userLang = readCookie("lang");
 if (!userLang) {
-	userLang = navigator.userAgent;
-	if (userLang.length > 2)
-	   userLang = navigator.language.substr(0,2); 
+  if (inAppP)
+    userLang = userAgent;
+  else
+	  userLang = navigator.language.substr(0,2); 
 	if(!known[userLang])
 	  userLang = 'en';
   //console.log(userLang);
