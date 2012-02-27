@@ -9,8 +9,8 @@ public class VersionList {
     final String[][] versions = {
         {
           "1.4.5.2", 
-          "February 25 2012",
-          "Tutorial translated to German and French. Fixed problem with orientation change during categories import."
+          "February 27 2012",
+          "Tutorial translated to German and French. Fixed problems with orientation change during categories import and help and changelog dialog."
         },
         {
           "1.4.5.1",
