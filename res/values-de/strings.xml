@@ -94,6 +94,7 @@ ftp (\"ftp://login:password@my.example.org:port/my/directory/\");
 mailto (\"mailto:john@my.example.com\").</string>	      
 	  <string name="time">Zeit</string>
 	  <string name="title">Titel</string>
+    <string name="tutorial">Anleitung</string>  
 	  <string name="version_14_upgrade_info">Seit Version 1.4.0, werden Währungen mit ihrem ISO 4217 Codes gespeichert.
 	    Folgende ungültige Symbole werden zur Zeit für Ihre Konten verwendet und müssen verändert werden: %1$s </string>
 	  <string name="warning_reset_account">Alle Transaktionen dieses Kontos werden gelöscht. Möchten Sie fortfahren?</string>

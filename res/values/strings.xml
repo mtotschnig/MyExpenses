@@ -100,6 +100,7 @@
 * mailto (\"mailto:john@my.example.com\").</string>
 		<string name="time">Time</string>
 		<string name="title">Title</string>
+		<string name="tutorial">Tutorial</string>
 		<string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with their code defined in ISO 4217.
 		            The following currency symbols currently used for your accounts, need to be fixed: %1$s </string>
 		<string name="warning_reset_account">All transactions of this account will be deleted. Do you want to continue?</string>

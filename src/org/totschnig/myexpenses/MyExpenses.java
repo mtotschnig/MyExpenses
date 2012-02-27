@@ -297,7 +297,7 @@ public class MyExpenses extends ListActivity {
           showDialog(CHANGES_DIALOG_ID);
         }
       })
-      .setPositiveButton("Tutorial", new DialogInterface.OnClickListener() {
+      .setPositiveButton(R.string.tutorial, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int whichButton) {
           startActivity( new Intent(MyExpenses.this, Tutorial.class) );
         }
