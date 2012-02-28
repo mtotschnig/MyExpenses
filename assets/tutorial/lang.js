@@ -38,7 +38,8 @@ function setLang(lang) {
     var imgs = doc.getElementsByTagName('img');
     for (var i = 0; i<imgs.length;i++) {
 	if (imgs[i].id.substr(0,4) == "step") {
-	  console.log(imgs[i].id);
+	  //next line makes IE block when used without F12 !!!
+	  //console.log(imgs[i].id);
 	  imgs[i].src = lang + "/" + imgs[i].id + ".png";
     }
   }
