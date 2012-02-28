@@ -29,5 +29,7 @@ PreviewImage = function(uri) {
   imageTag.attr('src', uri);
  
   //When the image has loaded, display the dialog
-  imageDialog.dialog("open");
+  imageTag.load(function(){
+    imageDialog.dialog("open");
+  });
 }

@@ -15,4 +15,12 @@ do
 End-of-message
 	tail --lines=+6 $i
 done
+exec >../../tutorial/style.css
+cat style.css
+cat <<End-of-message
 
+div.screen img {
+  cursor:pointer;
+}
+
+End-of-message
