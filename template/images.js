@@ -1,11 +1,11 @@
 var imageDialog;
 
 $(document).ready(function() {
-imageDialog =$("<div id='dialog'><img id='image' src=''/></div>").dialog({
+imageDialog =$("<div id='dialog'><img height='550px' id='image' src=''/></div>").dialog({
       modal: true,
       resizable: false,
       draggable: false,
-      width: 'auto',
+      width: "410px",
       autoOpen: false
     });
        
@@ -25,11 +25,11 @@ PreviewImage = function(uri) {
   //Split the URI so we can get the file name
   uriParts = uri.split("/");
 
-  //Set the image src
-  imageTag.attr('src', uri);
- 
   //When the image has loaded, display the dialog
   imageTag.load(function(){
     imageDialog.dialog("open");
   });
+
+  //Set the image src
+  imageTag.attr('src', uri);
 }
