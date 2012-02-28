@@ -38,8 +38,10 @@ function setLang(lang) {
     head.appendChild( style);
     var imgs = doc.getElementsByTagName('img');
     for (var i = 0; i<imgs.length;i++) {
-        console.log(imgs[i].id);
-        imgs[i].src = lang + "/" + imgs[i].id + ".png";
+	if (imgs[i].id.substr(0,4) == "step") {
+	  console.log(imgs[i].id);
+	  imgs[i].src = lang + "/" + imgs[i].id + ".png";
+    }
   }
 }
 function readCookie(name) {
