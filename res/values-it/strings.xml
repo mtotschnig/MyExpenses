@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<resources >
+    <string name="account">Conto</string>
+    <string name="amount">Quantitá</string>
+    <string name="app_name">Le mie spese</string>
+    <string name="button_continue">Continuare</string>
+    <string name="cancel">Annullare</string>
+    <string name="categories_loading">Importazione delle categorie dalla %1$s</string>
+    <string name="category">Categoria</string>
+    <string name="category_already_defined">La categoria %1$s è già definita</string>
+    <string name="close">Chiudere</string>
+    <string name="comment">Note</string>
+    <string name="create_category">Nuova categoria</string>
+    <string name="credits_text">Inizialmente ispirato da Android Notes Tutorial.
+        \nDisegno della pagina della Guida copiato da Mathdoku.
+        \nDisegno dell\'icona dell\'App copiato da Sipdroid.
+        \nTraduzione francese di Laurent Collombet.</string>
+    <string name="currency">valuta</string>
+    <string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
+    <string name="current_balance">Saldo corrente</string>
+    <string name="date">Data</string>
+    <string name="date_time">Data / Ora</string>
+    <string name="default_account_description">Questo conto stato istituito automaticamente quando si installa</string>
+    <string name="description">descrizione</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_title_select_account">Scegli il conto</string>
+    <string name="dialog_title_select_import_source">Scegli un\'origine per l\'importazione</string>
+    <string name="dialog_yes">Sì</string>
+    <string name="done">OK</string>
+    <string name="edit_category">Modificare la categoria</string>
+    <string name="export_expenses_sdcard_failure">Esportazione delle speze nella cheda SD fallito</string>
+    <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers le fichier %1$s</string>
+    <string name="ftp_uri_malformed">Mauvaise syntaxe de l\'URI %1$s</string>
+    <string name="ftp_success">Téléchargement vers %1$s a réussi</string>
+    <string name="ftp_failure">Téléchargement vers %1$s a échoué</string>
+    <string name="ftp_socket_exception">Socket exception lors du téléchargement vers %1$s</string>
+    <string name="ftp_io_exception">IO exception lors du téléchargement vers %1$s</string>
+    <string name="ftp_login_failure">Erreur de login lors du téléchargement vers %1$s</string>
+    <string name="ftp_setFileType_failure">Erreur de configuration en type de fichier ASCII lors du téléchargement vers %1$s</string>
+    <string name="ftp_changeWorkingDirectory_failure">Erreur de changement de répertoire lors du téléchargement vers %1$s</string>
+    <string name="help_author">Autore</string>
+    <string name="help_credits">Generico</string>
+    <string name="help_leading">Merci d\'essayer MyExpenses pour Android.</string>
+    <string name="help_license">Licenza</string>
+    <string name="help_project_home">Pagina iniziale</string>
+    <string name="help_text">MyExpenses permet de gérer les entrées d\'argent et les dépenses, dans un format compatible avec Grisbi.
+    \nLa commande \"Réinitialiser\" exporte toutes les transactions dans un fichier QIF sur la carte SD, efface les transactions, et transfère le dernier solde en nouveau solde d\'ouverture.
+    \n\"Choisir un compte\" affiche la liste des comptes. Vous pouvez créer un nouveau compte (menu), Modificare, effacer (menu contextuel) ou encore changer le compte utilisé (clic). 
+    \nLa gestion delle categorie est accessible à partir de l\'activité \"Selezionare una categoria\", qui s\'affiche lorsqu\'on clique sur le bouton \"Categoria\" dans l\'activité \"Aggiungere une opération\". Avec la commande \"Importer des categorie\" les categorie peuvent être importées à partir d\'un fichier Grisbi.
+    Vous pouvez Selezionare les définitions standards utilisés par Grisbi, incluses dans MyExpenses, ou utiliser un fichier personnel, stocké sous \"/sdcard/myexpenses/categories.xml\".
+    Pour ceci, vous pouvez copier votre fichier Grisbi tel quel, ou supprimer dans celui-ci tout sauf les définitions des categorie.
+    </string>
+    <string name="help_version">Versione</string>
+    <string name="import_categories">Importare le categorie</string>
+    <string name="import_categories_failure">Errore durante l/'importazione categorie</string>
+    <string name="import_categories_success">%1$d categorie state importate</string>
+    <string name="important_version_information">Nuova versione: Informazioni importanti</string>
+    <string name="invalid_number_format">Format de nombre non reconnu par votre Locale. Utilisez %1$s</string>
+    <string name="label">intitulé</string>
+    <string name="menu_changes">Changements</string>
+    <string name="menu_create_main_cat">Nuova categoria principale</string>
+    <string name="menu_create_sub_cat">Nouvelle sous-categoria</string>
+    <string name="menu_delete">Effacer</string>
+    <string name="menu_delete_account">Cancellare il conto</string>
+    <string name="menu_delete_cat">Cancellare la categoria</string>
+    <string name="menu_edit_account">Modificare il conto</string>
+    <string name="menu_edit_cat">Modificare la categoria</string>
+    <string name="menu_edit_ta">Modificare operazione</string>
+    <string name="menu_help">Aiuto</string>
+    <string name="menu_insert_account">Aggiungere conto</string>
+    <string name="menu_insert_ta">Aggiungere operazione</string>
+    <string name="menu_insert_transfer">Aggiungere un trasferimento</string>
+    <string name="menu_reset">Réinitialiser</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="menu_show_detail">Afficher les détails</string>
+    <string name="no_accounts">Aucun compte!</string>
+    <string name="no_categories">No categoria. Le categorie peuvent être ajoutées ou importées par le menu.</string>
+    <string name="no_expenses">No speso !</string>
+    <string name="not_deletable_mapped_expenses">Questa categoria ne peut pas être supprimée, parce qu\'il existe des dépenses qui lui sont attribuées.</string>
+    <string name="not_deletable_subcats_exists">Cette categoria ne peut pas être supprimée, parce qu\'elle contient des sous-categorie.</string>
+    <string name="opening_balance">Solde initial</string>
+    <string name="payee">Tiers</string>
+    <string name="payer">Tiers</string>
+    <string name="select">Selezionare</string>
+    <string name="select_account">Selezionare un compte</string>
+    <string name="select_category">Selezionare une categoria</string>
+    <string name="select_parent_category">Choisir cette categoria</string>
+    <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
+    <string name="share_target_title">URL où sera téléchargé le fichier QIF</string>
+    <string name="share_target_summary">Formes supportées:
+ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
+mailto (\"mailto:john@my.example.com\").</string>    
+    <string name="time">Heure</string>
+    <string name="title">Titre</string>
+    <string name="tutorial">Tutoriel</string>
+    <string name="version_14_upgrade_info">À partir de la version 1.4.0, la monnaie est définie selon le code ISO 4217.
+        Dans vos comptes vous utilisez les symboles suivants qui doivent être changés: %1$s </string>
+            <string name="warning_reset_account">Toutes les opérations du compte seront effacées. Voulez-vous continuer?</string>
+    <string name="warning_select_account">Vous devez Selezionare un compte!</string>
+</resources>
