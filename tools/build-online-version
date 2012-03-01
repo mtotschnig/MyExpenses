@@ -19,6 +19,12 @@ exec >../../tutorial/style.css
 cat style.css
 cat <<End-of-message
 
+body {
+  margin-top: 1.0em;
+  background-color: #CEE3F6;
+  font-family: Helvetica, Arial, FreeSans, san-serif;
+  color: #000000;
+}
 div.screen img {
   cursor:pointer;
 }
