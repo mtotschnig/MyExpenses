@@ -48,6 +48,9 @@ public class MyApplication extends Application {
     public static ExpensesDbAdapter db() {
       if(mSelf.mDbOpenHelper == null) {
           mSelf.mDbOpenHelper = new ExpensesDbAdapter(mSelf);
+          if (mSelf.settings.getInt("currentversion", -1) == -1) {
+            mSelf.mDbOpenHelper.maybeRestore();
+          }
           mSelf.mDbOpenHelper.open();
       }
       return mSelf.mDbOpenHelper;

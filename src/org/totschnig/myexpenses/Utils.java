@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.widget.Toast;
 
 /**
@@ -99,6 +100,13 @@ public class Utils {
       amount = 0;
     }
     return formatCurrency(amount,currency);
+  }
+  
+  static File requireAppDir() {
+    File sd = Environment.getExternalStorageDirectory();
+    File appDir = new File(sd, "myexpenses");
+    appDir.mkdir();
+    return appDir;
   }
   
   static void share(Context context,File file,String target) {

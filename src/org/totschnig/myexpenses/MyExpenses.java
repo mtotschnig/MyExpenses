@@ -75,6 +75,7 @@ public class MyExpenses extends ListActivity {
   public static final int HELP_ID = Menu.FIRST +6;
   public static final int SELECT_ACCOUNT_ID = Menu.FIRST +7;
   public static final int SETTINGS_ID = Menu.FIRST +8;
+  public static final int BACKUP_ID = Menu.FIRST +9;
   public static final boolean TYPE_TRANSACTION = true;
   public static final boolean TYPE_TRANSFER = false;
   public static final String TRANSFER_EXPENSE = "=>";
@@ -204,6 +205,7 @@ public class MyExpenses extends ListActivity {
     menu.add(0, HELP_ID,1,R.string.menu_help);
     menu.add(0, SELECT_ACCOUNT_ID,1,R.string.select_account);
     menu.add(0,SETTINGS_ID,1,R.string.menu_settings);
+    menu.add(0,BACKUP_ID,1,R.string.menu_backup);
     return true;
   }
 
@@ -241,6 +243,14 @@ public class MyExpenses extends ListActivity {
       return true;
     case SETTINGS_ID:
       startActivity(new Intent(this, MyPreferenceActivity.class));
+      return true;
+    case BACKUP_ID:
+      if (mDbHelper.backup()) {
+        Toast.makeText(getBaseContext(),"Backup success", Toast.LENGTH_LONG).show();
+      } else {
+        Toast.makeText(getBaseContext(),"Backup failure", Toast.LENGTH_LONG).show();
+      }
+      return true;
     }
     return super.onMenuItemSelected(featureId, item);
   }
@@ -387,8 +397,7 @@ public class MyExpenses extends ListActivity {
     SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm");
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     Log.i("MyExpenses","now starting export");
-    File appDir = new File("/sdcard/myexpenses/");
-    appDir.mkdir();
+    File appDir = Utils.requireAppDir();
     File outputFile = new File(appDir, "expenses" + now.format(new Date()) + ".qif");
     FileOutputStream out = new FileOutputStream(outputFile);
     String header = "!Type:Oth L\n";
@@ -518,8 +527,6 @@ public class MyExpenses extends ListActivity {
       long account_id = account.save();
       edit.putLong("current_account", account_id).commit();
       edit.putInt("currentversion", current_version).commit();
-      File appDir = new File("/sdcard/myexpenses/");
-      appDir.mkdir();
     } else if (pref_version != current_version) {
       edit.putInt("currentversion", current_version).commit();
       if (pref_version < 14) {

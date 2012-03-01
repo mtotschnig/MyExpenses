@@ -65,6 +65,7 @@
 		<string name="import_categories_success">%1$d categories imported successfully</string>
 		<string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>
 		<string name="label">Label</string>
+		<string name="menu_backup">Backup</string>
 		<string name="menu_changes">Changes</string>
 		<string name="menu_create_main_cat">Create new main category</string>
 		<string name="menu_create_sub_cat">Create new sub category</string>

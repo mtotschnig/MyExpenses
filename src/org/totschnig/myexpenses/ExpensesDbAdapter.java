@@ -15,6 +15,11 @@
 
 package org.totschnig.myexpenses;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -192,6 +197,58 @@ public class ExpensesDbAdapter {
   public void close() {
     mDbHelper.close();
   }
+
+  public boolean backup() {
+    try {
+      File appDir = Utils.requireAppDir();
+      File currentDb = new File(mDb.getPath());
+  
+      if (appDir.canWrite()) {
+          String backupDbPath = "BACKUP";
+          File backupDb = new File(appDir, backupDbPath);
+  
+          if (currentDb.exists()) {
+              FileChannel src = new FileInputStream(currentDb).getChannel();
+              FileChannel dst = new FileOutputStream(backupDb).getChannel();
+              dst.transferFrom(src, 0, src.size());
+              src.close();
+              dst.close();
+              return true;
+          }
+      }
+    } catch (Exception e) {
+    }
+    return false;
+  }
+  /**
+   * should only be called during the first run, before the database is created 
+   * @return
+   */
+  public boolean maybeRestore() {
+    try {
+      File appDir = Utils.requireAppDir();
+      File dataDir = new File("/data/data/"+ mCtx.getPackageName()+ "/databases/");
+      dataDir.mkdir();
+      String backupDbPath = "BACKUP";
+      File backupDb = new File(appDir, backupDbPath);
+      //line below gives app_databases instead of databases ???
+      //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
+      File currentDb = new File(dataDir,mDatabaseName);
+
+      if (backupDb.exists()) {
+        FileChannel dst = new FileOutputStream(currentDb).getChannel();
+        FileChannel src = new FileInputStream(backupDb).getChannel();
+        dst.transferFrom(src, 0, src.size());
+        src.close();
+        dst.close();
+        return true;
+      }
+    } catch (Exception e) {
+      Log.e(TAG,e.getLocalizedMessage());
+    }
+    return false;
+  }
+
 
   /**
    * TRANSACTIONS
