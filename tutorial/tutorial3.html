@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="images.js"></script>
+<script type="text/javascript" src="lang.js"></script>
+</head>
+  <body id="tut3" onload="init()">
+      <div id="content">
+    <p class="navigation-bar">
+        <script type="text/javascript" src="navigation.js"></script>
+    </p>
+    <h3 lang="en">Managing categories</h3>
+    <h3 lang="fr">Gestion des catégories</h3>
+    <h3 lang="de">Verwaltung der Kategorien</h3>
+    <div lang="en">
+      At the beginning, no categories are defined. You have two options for adding them, both accessible from the menu.
+    </div>
+    <div lang="fr">
+      Au départ, aucune catégorie n'est prédéfinie. Vous avez deux possibilités à partir du menu pour les ajouter.
+    </div>
+    <div lang="de">
+      Zu Beginn gibt es noch keine Kategorien. Vom Menü aus gibt es zwei Möglichkeiten, diese anzulegen.
+    </div>
+    <div class="screen">
+      <img id="step7" border="1">
+    </div>
+    <div lang="en">
+	    "Import categories" allows to set up categories from files included from Grisbi in English, German or French. 
+	    If with Grisbi you have already defined your own categories, you can also provide your Grisbi file, which is in XML. 
+	    If you want, you can edit the file with an editor and remove any information other than the Category and Sub_category elements <a id="footnote-1-en-ref" href="#footnote-1-en">[1]</a>. 
+	    Store this file as categories.xml in a folder "myexpenses" in the root of your sdcard.
+    </div>
+    <div lang="fr">
+	    "Importer les catégories" vous permet de les entrer directement à partir des définitions standards de Grisbi en anglais, allemand ou français.
+            Si vous aviez déjà défini vos propres catégories, vous pouvez aussi utiliser votre fichier Grisbi qui est en format XML.
+            Dans ce cas, copiez votre fichier et enlevez toutes les informations autres que les blocs de catégories (Category) et de sous-catégories (Sub_category) <a id="footnote-1-fr-ref" href="#footnote-1-fr">[1]</a>.
+            Sauvegardez ce fichier sous le nom "categories.xml" dans le répertoire "myexpenses" de la racine de votre carte SD.
+    </div>
+    <div lang="de">
+      "Kategorien importieren" erlaubt die in Grisbi definierten Kategorien (Englisch, Deutsch oder Französisch) zu importieren.
+      Sie können auch eine Grisbi Datei (in XML) verwenden, die Ihre eigenen Kategorien enthält. Sie können diese Datei editieren und alle Informationen außer die Elemente "Category" und "Sub_category" entfernen <a id="footnote-1-de-ref" href="#footnote-1-de">[1]</a>.
+      Kopieren Sie diese Datei unter dem Namen categories.xml in einen Ordner "myexpenses" in das Wurzelverzeichnis der SD-Karte.
+    </div>
+    <div class="screen">
+      <img id="step8" border="1">
+    </div>
+    <div lang="en">
+	    You now have a set up categories with subcategories you can associate with your transactions.
+    </div>
+    <div lang="fr">
+      Vous avez maintenant un échantillon de catégories et de sous-catégories que vous pouvez utiliser pour vos opérations.
+    </div>
+    <div lang="de">
+      Sie können die importierten Kategorien und Unterkategorien jetzt Ihren Buchungen zuordnen.
+    </div>
+    <div class="screen">
+      <img id="step9" border="1">
+    </div>
+    <div lang="en">
+	    The second option is to add your own categories.  "Create new main category" brings up a dialog for providing a new category label.
+    </div>
+    <div lang="fr">
+      La seconde façon est d'ajouter vos propres catégories. "Nouvelle catégorie principale" vous ouvre une fenêtre pour entrer un nouveau libellé.
+    </div>
+    <div lang="de">
+      Die zweite Möglichkeit besteht darin, Kategorien selbst anzulegen. "Neue Hauptkategorie" öffnet einen Dialog zur Eingabe einer Bezeichnung.
+    </div>
+    <div class="screen">
+        <img id="step10" border="1">
+    </div>
+    <div lang="en">
+	    Clicking on a main category, opens up its subcategories. You select a subcategory for mapping to the current transaction by simply clicking on it. 
+	    In order to map a main category, you have to call its context menu.
+    </div>
+    <div lang="fr">
+            Cliquez sur une catégorie principale pour ouvrir ses sous-catégories. Vous pouvez sélectionner une sous-catégorie pour l'opération en cours en cliquant simplement dessus.
+            Si vous voulez utiliser la catégorie principale, il vous faudra passer par le menu contextuel.
+    </div>
+    <div lang="de">
+      Ein Klick auf eine Hauptkategorie öffnet die Liste der Unterkategorien. Die Zuordnung einer Unterkategorie zur aktuellen Buchung erfolgt durch kurzen Klick.
+      Die Zuordnung einer Hauptkategorie ist durch das Kontextmenü möglich.
+    </div>
+    <div class="screen">
+        <img id="step11" border="1">
+    </div>
+    <div lang="en">
+	    From here you can also add new subcategories, delete a category or edit it. Subcategories have also context menus for deleting and editing.
+    </div>
+    <div lang="fr">
+	    A partir de là, vous pouvez ajouter de nouvelles sous-catégories, effacer ou modifier une catégorie principale. Les sous-catégories ont aussi un menu contextuel afin de les effacer ou de les modifier. 
+    </div>
+    <div lang="de">
+      Dieses erlaubt auch das Anlegen neuer Unterkategorien, das Löschen und das Verändern einer Hauptkategorie. Die Unterkategorien verfügen auch über ein Kontextmenü mit Einträgen zum Löschen und Verändern.
+    </div>
+    </div>
+    <div id="footnotes">
+      <div id="footnote-1-en" lang="en">
+        [1] MyExpenses also support the Grisbi file format 0.5.0, where the elements are named Categorie and Sous_categorie. <a href="#footnote-1-en-ref">&#8617</a> 
+        
+      </div>
+      <div id="footnote-1-fr" lang="fr">
+        [1] MyExpenses supporte aussi la version 0.5.0 du format de fichier Grisib, où les éléments portent les noms Categorie et Sous_categorie (sic!). <a href="#footnote-1-fr-ref">&#8617</a> 
+        
+      </div>
+      <div id="footnote-1-de" lang="de">
+       [1] MyExpenses unterstützt auch das Grisbi Datei Format 0.5.0, in dem die Elemente Categorie und Sous_categorie heißen. <a href="#footnote-1-de-ref">&#8617</a> 
+       
+      </div>
+    </div>
+  </body>
+</html>
