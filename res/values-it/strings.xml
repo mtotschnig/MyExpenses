@@ -84,7 +84,7 @@
     <string name="select">Selezionare</string>
     <string name="select_account">Selezionare un compte</string>
     <string name="select_category">Selezionare une categoria</string>
-    <string name="select_parent_category">Choisir cette categoria</string>
+    <string name="select_parent_category">Selezionare questa categoria</string>
     <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
     <string name="share_target_title">URL où sera téléchargé le fichier QIF</string>
     <string name="share_target_summary">Formes supportées:
@@ -95,6 +95,7 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="tutorial">Tutoriel</string>
     <string name="version_14_upgrade_info">À partir de la version 1.4.0, la monnaie est définie selon le code ISO 4217.
         Dans vos comptes vous utilisez les symboles suivants qui doivent être changés: %1$s </string>
-            <string name="warning_reset_account">Toutes les opérations du compte seront effacées. Voulez-vous continuer?</string>
-    <string name="warning_select_account">Vous devez Selezionare un compte!</string>
+            <string name="warning_reset_account">Tutte le operazioni del conto saranno cancellati.
+Vuoi continuare?</string>
+    <string name="warning_select_account">Si deve selezionare un conto!</string>
 </resources>
