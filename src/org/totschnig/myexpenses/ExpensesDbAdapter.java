@@ -48,6 +48,7 @@ public class ExpensesDbAdapter {
   public static final String KEY_ACCOUNTID = "account_id";
   public static final String KEY_PAYEE = "payee";
   public static final String KEY_TRANSFER_PEER = "transfer_peer";
+  public static final String BACKUP_DB_PATH = "BACKUP";
 
   private static final String TAG = "ExpensesDbAdapter";
   private DatabaseHelper mDbHelper;
@@ -199,24 +200,12 @@ public class ExpensesDbAdapter {
   }
 
   public boolean backup() {
-    try {
-      File appDir = Utils.requireAppDir();
-      File currentDb = new File(mDb.getPath());
-  
-      if (appDir.canWrite()) {
-          String backupDbPath = "BACKUP";
-          File backupDb = new File(appDir, backupDbPath);
-  
-          if (currentDb.exists()) {
-              FileChannel src = new FileInputStream(currentDb).getChannel();
-              FileChannel dst = new FileOutputStream(backupDb).getChannel();
-              dst.transferFrom(src, 0, src.size());
-              src.close();
-              dst.close();
-              return true;
-          }
-      }
-    } catch (Exception e) {
+    File appDir = Utils.requireAppDir();
+    File currentDb = new File(mDb.getPath());
+
+    if (currentDb.exists() && appDir.canWrite()) {
+      File backupDb = new File(appDir, BACKUP_DB_PATH);
+      return Utils.copy(currentDb, backupDb);
     }
     return false;
   }
@@ -229,19 +218,13 @@ public class ExpensesDbAdapter {
       File appDir = Utils.requireAppDir();
       File dataDir = new File("/data/data/"+ mCtx.getPackageName()+ "/databases/");
       dataDir.mkdir();
-      String backupDbPath = "BACKUP";
-      File backupDb = new File(appDir, backupDbPath);
+      File backupDb = new File(appDir, BACKUP_DB_PATH);
       //line below gives app_databases instead of databases ???
       //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
       File currentDb = new File(dataDir,mDatabaseName);
 
       if (backupDb.exists()) {
-        FileChannel dst = new FileOutputStream(currentDb).getChannel();
-        FileChannel src = new FileInputStream(backupDb).getChannel();
-        dst.transferFrom(src, 0, src.size());
-        src.close();
-        dst.close();
-        return true;
+        return Utils.copy(backupDb,currentDb);
       }
     } catch (Exception e) {
       Log.e(TAG,e.getLocalizedMessage());

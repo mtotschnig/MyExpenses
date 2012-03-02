@@ -245,7 +245,7 @@ public class MyExpenses extends ListActivity {
       startActivity(new Intent(this, MyPreferenceActivity.class));
       return true;
     case BACKUP_ID:
-      if (mDbHelper.backup()) {
+      if (((MyApplication) getApplicationContext()).backup()) {
         Toast.makeText(getBaseContext(),"Backup success", Toast.LENGTH_LONG).show();
       } else {
         Toast.makeText(getBaseContext(),"Backup failure", Toast.LENGTH_LONG).show();
@@ -520,7 +520,7 @@ public class MyExpenses extends ListActivity {
       //we check if we already have an account
       Long account_id = mDbHelper.getFirstAccountId();
       if (account_id == null) {
-                Account account = new Account(
+        Account account = new Account(
             mDbHelper,
             getString(R.string.app_name),
             0,

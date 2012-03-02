@@ -17,10 +17,13 @@ package org.totschnig.myexpenses;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.channels.FileChannel;
 import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -37,6 +40,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -107,6 +111,23 @@ public class Utils {
     File appDir = new File(sd, "myexpenses");
     appDir.mkdir();
     return appDir;
+  }
+  
+  static boolean copy(File src, File dst) {
+    FileChannel srcC;
+    try {
+      srcC = new FileInputStream(src).getChannel();
+      FileChannel dstC = new FileOutputStream(dst).getChannel();
+      dstC.transferFrom(srcC, 0, srcC.size());
+      srcC.close();
+      dstC.close();
+      return true;
+    } catch (FileNotFoundException e) {
+      Log.e("MyExpenses",e.getLocalizedMessage());
+    } catch (IOException e) {
+      Log.e("MyExpenses",e.getLocalizedMessage());
+    }
+    return false;
   }
   
   static void share(Context context,File file,String target) {
