@@ -67,7 +67,7 @@ public class ExpenseEdit extends Activity {
   private boolean mType = EXPENSE;
   //normal transaction or transfer
   private boolean mOperationType;
-  private NumberFormat nfDLocal = NumberFormat.getNumberInstance();
+  private NumberFormat nfDLocal;
 
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
@@ -76,6 +76,8 @@ public class ExpenseEdit extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mDbHelper = MyApplication.db();
+    nfDLocal = NumberFormat.getNumberInstance();
+    nfDLocal.setGroupingUsed(false);
 
     Bundle extras = getIntent().getExtras();
     mRowId = extras.getLong(ExpensesDbAdapter.KEY_ROWID,0);

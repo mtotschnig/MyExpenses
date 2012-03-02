@@ -39,12 +39,15 @@ public class AccountEdit extends Activity {
   private EditText mOpeningBalanceText;
   private AutoCompleteTextView mCurrencyText;
   Account mAccount;
-  private NumberFormat nfDLocal = NumberFormat.getNumberInstance();
+  private NumberFormat nfDLocal;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mDbHelper = MyApplication.db();
+    nfDLocal = NumberFormat.getNumberInstance();
+    nfDLocal.setGroupingUsed(false);
+    
     setContentView(R.layout.one_account);
 
     mLabelText = (EditText) findViewById(R.id.Label);
