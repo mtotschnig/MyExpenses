@@ -14,7 +14,7 @@
     <string name="credits_text">Point de départ Android Notes Tutorial.
         \nDesign de la page Aide copié de Mathdoku.
         \nDesign de l\'icone de l\'App copié de Sipdroid.
-        \nTraduction française par Laurent Collombet.</string>
+        \nTraduction française et italienne par Laurent Collombet.</string>
     <string name="currency">monnaie</string>
     <string name="currency_not_iso4217">%1$s n\'est pas un code valide selon ISO 4217</string>
     <string name="current_balance">Solde courant</string>

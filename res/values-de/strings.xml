@@ -14,7 +14,7 @@
 	  <string name="credits_text">Ausgangspunkt Android Notes Tutorial.
 	      \nDesign des Hilfe-Dialogs von Mathdoku.
 	      \nDesign der App-Graphik von Sipdroid.
-	      \nFranzösische Übersetzung von Laurent Collombet.</string>
+	      \nFranzösische und italienische Übersetzung von Laurent Collombet.</string>
 	  <string name="currency">Währung</string>
 	  <string name="currency_not_iso4217">%1$s ist kein gültiger ISO 4217 Währungscode</string>
 	  <string name="current_balance">Aktueller Saldo</string>
