@@ -692,6 +692,18 @@ public class ExpensesDbAdapter {
     return result;
   }
   
+  public Long getFirstAccountId() {
+    Cursor mCursor = mDb.rawQuery("select min(_id) from accounts",null);
+    mCursor.moveToFirst();
+    Long result;
+    if (mCursor.isNull(0))
+      result = null;
+    else
+      result = mCursor.getLong(0);
+    mCursor.close();
+    return result;
+  }
+  
   /**
    * PAYEES
    */

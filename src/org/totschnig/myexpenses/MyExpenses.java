@@ -517,14 +517,18 @@ public class MyExpenses extends ListActivity {
     if (pref_version == current_version)
       return;
     if (pref_version == -1) {
-      Account account = new Account(
-          mDbHelper,
-          getString(R.string.app_name),
-          0,
-          getString(R.string.default_account_description),
-          Currency.getInstance(Locale.getDefault())
-      );
-      long account_id = account.save();
+      //we check if we already have an account
+      Long account_id = mDbHelper.getFirstAccountId();
+      if (account_id == null) {
+                Account account = new Account(
+            mDbHelper,
+            getString(R.string.app_name),
+            0,
+            getString(R.string.default_account_description),
+            Currency.getInstance(Locale.getDefault())
+        );
+        account_id = account.save();
+      }
       edit.putLong("current_account", account_id).commit();
       edit.putInt("currentversion", current_version).commit();
     } else if (pref_version != current_version) {
