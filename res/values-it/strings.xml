@@ -29,7 +29,7 @@
     <string name="done">OK</string>
     <string name="edit_category">Modificare la categoria</string>
     <string name="export_expenses_sdcard_failure">Esportazione delle speze nella cheda SD fallito</string>
-    <string name="export_expenses_sdcard_success">Le spese sono esportate nelle fichier %1$s</string>
+    <string name="export_expenses_sdcard_success">Le spese sono esportate nel file %1$s</string>
     <string name="ftp_uri_malformed">Sintassi male dell\'URI %1$s</string>
     <string name="ftp_success">Carica su %1$s è riuscita</string>
     <string name="ftp_failure">Carica su %1$s faillita</string>
