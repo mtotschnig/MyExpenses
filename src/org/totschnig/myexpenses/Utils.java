@@ -106,11 +106,28 @@ public class Utils {
     return formatCurrency(amount,currency);
   }
   
+  /**
+   * @return directory for storing backups and exports, null if external storage is not available
+   */
   static File requireAppDir() {
+    if (!isExternalStorageAvailable())
+      return null;
     File sd = Environment.getExternalStorageDirectory();
     File appDir = new File(sd, "myexpenses");
     appDir.mkdir();
     return appDir;
+  }
+  /**
+   * Helper Method to Test if external Storage is Available
+   * from http://www.ibm.com/developerworks/xml/library/x-androidstorage/index.html
+   */
+  static boolean isExternalStorageAvailable() {
+      boolean state = false;
+      String extStorageState = Environment.getExternalStorageState();
+      if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
+          state = true;
+      }
+      return state;
   }
   
   static boolean copy(File src, File dst) {
@@ -150,7 +167,7 @@ public class Utils {
       emailIntent.putExtra(Intent.EXTRA_SUBJECT, "My Expenses export");
       emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
       if (packageManager.queryIntentActivities(emailIntent,0).size() == 0) {
-        Toast.makeText(context,"No app handling email available", Toast.LENGTH_LONG).show();
+        Toast.makeText(context,R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
         return;
       }
       

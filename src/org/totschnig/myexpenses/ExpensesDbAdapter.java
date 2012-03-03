@@ -16,9 +16,6 @@
 package org.totschnig.myexpenses;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -199,12 +196,20 @@ public class ExpensesDbAdapter {
     mDbHelper.close();
   }
 
-  public boolean backup() {
+  public File getBackupFile() {
     File appDir = Utils.requireAppDir();
+    if (appDir == null)
+      return null;
+    return new File(appDir, BACKUP_DB_PATH);
+  }
+  
+  public boolean backup() {
+    File backupDb = getBackupFile();
+    if (backupDb == null)
+      return false;
     File currentDb = new File(mDb.getPath());
 
-    if (currentDb.exists() && appDir.canWrite()) {
-      File backupDb = new File(appDir, BACKUP_DB_PATH);
+    if (currentDb.exists() && backupDb.canWrite()) {
       return Utils.copy(currentDb, backupDb);
     }
     return false;
@@ -215,10 +220,11 @@ public class ExpensesDbAdapter {
    */
   public boolean maybeRestore() {
     try {
-      File appDir = Utils.requireAppDir();
       File dataDir = new File("/data/data/"+ mCtx.getPackageName()+ "/databases/");
       dataDir.mkdir();
-      File backupDb = new File(appDir, BACKUP_DB_PATH);
+      File backupDb = getBackupFile();
+      if (backupDb == null)
+        return false;
       //line below gives app_databases instead of databases ???
       //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
       File currentDb = new File(dataDir,mDatabaseName);
