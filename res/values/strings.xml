@@ -33,7 +33,7 @@
 		<string name="edit_category">Edit category</string>
 		<string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
 		<string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
-		<string name="external_storage_unavailable">External storage not available</string>
+		<string name="external_storage_unavailable">External storage (sdcard)not available</string>
 		<string name="ftp_uri_malformed">Malformed URI %1$s</string>
     <string name="ftp_success">Upload to %1$s successful</string>
     <string name="ftp_failure">Failure while uploading to %1$s</string>
@@ -86,6 +86,7 @@
 		<string name="menu_settings">Settings</string>
 		<string name="menu_show_detail">Show details</string>
 		<string name="no_accounts">No Accounts!</string>
+    <string name="no_app_handling_email_available">No app handling email available.</string>
 		<string name="no_categories">No categories. Use the menu to add or to import.</string>
 		<string name="no_expenses">No Expenses Yet!</string>
 		<string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are mapped to it.</string>
@@ -109,7 +110,7 @@
 		<string name="tutorial">Tutorial</string>
 		<string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with their code defined in ISO 4217.
 		            The following currency symbols currently used for your accounts, need to be fixed: %1$s </string>
-    <string name="warning_backup">Database and preferences will be saved to myexpenses folder on sdcard. Do you want to continue?</string>
+    <string name="warning_backup">Database and preferences will be saved to sdcard. Do you want to continue?</string>
     <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. Do you want to continue?</string>
 		<string name="warning_reset_account">All transactions of this account will be deleted. Do you want to continue?</string>
 		<string name="warning_select_account">Please select an account!</string>

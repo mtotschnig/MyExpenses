@@ -3,6 +3,8 @@
 	  <string name="account">Konto</string>
 	  <string name="amount">Betrag</string>
 	  <string name="app_name">Meine Ausgaben</string>
+	  <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
+    <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der SD-Karte gesichert.</string>
 	  <string name="button_continue">Fortsetzen</string>
 	  <string name="cancel">Rückgängig</string>
 	  <string name="categories_loading">Kategorien werden von %1$s geladen</string>
@@ -30,6 +32,7 @@
 	  <string name="edit_category">Kategorie verändern</string>
 	  <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
 	  <string name="export_expenses_sdcard_success">Ausgaben in Datei %1$s exportiert</string>
+    <string name="external_storage_unavailable">Externer Speicher (SD Karte) is nicht verfügbar</string>
     <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
     <string name="ftp_success">Upload nach %1$s erfolgreich</string>
     <string name="ftp_failure">Upload nach %1$s gescheitert</string>
@@ -59,6 +62,7 @@
 	  <string name="important_version_information">Neue Version: Wichtige Information</string>
 	  <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt. Bitte verwenden Sie %1$s</string>
 	  <string name="label">Bezeichnung</string>
+    <string name="menu_backup">Backup</string>
 	  <string name="menu_changes">Änderungen</string>
 	  <string name="menu_create_main_cat">Neue Hauptkategorie</string>
 	  <string name="menu_create_sub_cat">Neue Unterkategorie</string>
@@ -76,6 +80,7 @@
 	  <string name="menu_settings">Einstellungen</string>
 	  <string name="menu_show_detail">Details anzeigen</string>
 	  <string name="no_accounts">Keine Konten</string>
+    <string name="no_app_handling_email_available">Keine App für das Versenden von Email gefunden.</string>
 	  <string name="no_categories">Noch keine Kategorien vorhanden. Kategorien können über das Menü hinzugefügt oder importiert werden</string>
 	  <string name="no_expenses">Noch keine Ausgaben!</string>
 	  <string name="not_deletable_mapped_expenses">Diese Kategorie kann nicht gelöscht werden, weil ihr Ausgaben zugeordnet sind.</string>
@@ -83,6 +88,8 @@
 	  <string name="opening_balance">Anfangssaldo</string>
 	  <string name="payee">Empfänger</string>
 	  <string name="payer">Zahler</string>
+	  <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
+    <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
 	  <string name="select">Auswählen</string>
 	  <string name="select_account">Konto auswählen</string>
 	  <string name="select_category">Kategorie auswählen</string>
@@ -97,6 +104,8 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="tutorial">Anleitung</string>  
 	  <string name="version_14_upgrade_info">Seit Version 1.4.0, werden Währungen mit ihrem ISO 4217 Codes gespeichert.
 	    Folgende ungültige Symbole werden zur Zeit für Ihre Konten verwendet und müssen verändert werden: %1$s </string>
+    <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Wollen Sie fortfahren?</string>
+    <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Das bestehende Backup wird gelöscht. Wollen Sie fortfahren?</string>
 	  <string name="warning_reset_account">Alle Transaktionen dieses Kontos werden gelöscht. Möchten Sie fortfahren?</string>
     <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
 </resources>      
