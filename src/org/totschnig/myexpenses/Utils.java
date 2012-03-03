@@ -106,11 +106,28 @@ public class Utils {
     return formatCurrency(amount,currency);
   }
   
+  /**
+   * @return directory for storing backups and exports, null if external storage is not available
+   */
   static File requireAppDir() {
+    if (!isExternalStorageAvailable())
+      return null;
     File sd = Environment.getExternalStorageDirectory();
     File appDir = new File(sd, "myexpenses");
     appDir.mkdir();
     return appDir;
+  }
+  /**
+   * Helper Method to Test if external Storage is Available
+   * from http://www.ibm.com/developerworks/xml/library/x-androidstorage/index.html
+   */
+  static boolean isExternalStorageAvailable() {
+      boolean state = false;
+      String extStorageState = Environment.getExternalStorageState();
+      if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
+          state = true;
+      }
+      return state;
   }
   
   static boolean copy(File src, File dst) {

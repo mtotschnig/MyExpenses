@@ -3,6 +3,8 @@
 		<string name="account">Account</string>
 		<string name="amount">Amount</string>
 		<string name="app_name">My Expenses</string>
+		<string name="backup_failure">Backup to sdcard failed.</string>
+		<string name="backup_success">Database and preferences successfully written to sdcard.</string>
 		<string name="button_continue">Continue</string>
 		<string name="cancel">Revert</string>
 		<string name="categories_loading">Loading categories from %1$s</string>
@@ -31,6 +33,7 @@
 		<string name="edit_category">Edit category</string>
 		<string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
 		<string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
+		<string name="external_storage_unavailable">External storage not available</string>
 		<string name="ftp_uri_malformed">Malformed URI %1$s</string>
     <string name="ftp_success">Upload to %1$s successful</string>
     <string name="ftp_failure">Failure while uploading to %1$s</string>
@@ -90,6 +93,8 @@
 		<string name="opening_balance">Opening balance</string>
 		<string name="payee">Payee</string>
 		<string name="payer">Payer</string>
+		<string name="restore_db_success">Database has been restored from backup.</string>
+		<string name="restore_preferences_success">Preferences have been restored from backup.</string>
 		<string name="select_account">Select account</string>
 		<string name="select_category">Select category</string>
 		<string name="select_parent_category">Select this category</string>
@@ -104,6 +109,8 @@
 		<string name="tutorial">Tutorial</string>
 		<string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with their code defined in ISO 4217.
 		            The following currency symbols currently used for your accounts, need to be fixed: %1$s </string>
+    <string name="warning_backup">Database and preferences will be saved to myexpenses folder on sdcard. Do you want to continue?</string>
+    <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. Do you want to continue?</string>
 		<string name="warning_reset_account">All transactions of this account will be deleted. Do you want to continue?</string>
 		<string name="warning_select_account">Please select an account!</string>
 </resources>

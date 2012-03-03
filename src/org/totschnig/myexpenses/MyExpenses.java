@@ -83,6 +83,8 @@ public class MyExpenses extends ListActivity {
   static final int HELP_DIALOG_ID = 0;
   static final int CHANGES_DIALOG_ID = 1;
   static final int VERSION_DIALOG_ID = 2;
+  static final int RESET_DIALOG_ID = 3;
+  static final int BACKUP_DIALOG_ID = 4;
   private String mVersionInfo;
     
   
@@ -218,20 +220,10 @@ public class MyExpenses extends ListActivity {
       createRow(TYPE_TRANSFER);
       return true;
     case RESET_ID:
-      AlertDialog.Builder builder = new AlertDialog.Builder(this);
-      builder.setMessage(R.string.warning_reset_account)
-        .setCancelable(false)
-        .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-              reset();
-            }
-        })
-        .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            dialog.cancel();
-          }
-        });
-      builder.show();
+      if (Utils.isExternalStorageAvailable())
+        showDialog(RESET_DIALOG_ID);
+      else 
+        Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
       return true;
     case HELP_ID:
       showDialog(HELP_DIALOG_ID);
@@ -245,11 +237,10 @@ public class MyExpenses extends ListActivity {
       startActivity(new Intent(this, MyPreferenceActivity.class));
       return true;
     case BACKUP_ID:
-      if (((MyApplication) getApplicationContext()).backup()) {
-        Toast.makeText(getBaseContext(),"Backup success", Toast.LENGTH_LONG).show();
-      } else {
-        Toast.makeText(getBaseContext(),"Backup failure", Toast.LENGTH_LONG).show();
-      }
+      if (Utils.isExternalStorageAvailable())
+        showDialog(BACKUP_DIALOG_ID);
+      else 
+        Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
       return true;
     }
     return super.onMenuItemSelected(featureId, item);
@@ -281,7 +272,7 @@ public class MyExpenses extends ListActivity {
           mExpensesCursor.getString(
               mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)) +
           "\n" +
-          getResources().getString(R.string.payee) + ": " + mExpensesCursor.getString(
+          getString(R.string.payee) + ": " + mExpensesCursor.getString(
               mExpensesCursor.getColumnIndexOrThrow("payee")), Toast.LENGTH_LONG).show();
       return true;
     }
@@ -298,25 +289,25 @@ public class MyExpenses extends ListActivity {
       view = li.inflate(R.layout.aboutview, null); 
       TextView tv = (TextView)view.findViewById(R.id.aboutVersionCode);
       tv.setText(getVersionInfo());
-      return new AlertDialog.Builder(MyExpenses.this)
-      .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
-      .setIcon(R.drawable.about)
-      .setView(view)
-      .setNeutralButton(R.string.menu_changes, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-          showDialog(CHANGES_DIALOG_ID);
-        }
-      })
-      .setPositiveButton(R.string.tutorial, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-          startActivity( new Intent(MyExpenses.this, Tutorial.class) );
-        }
-      })
-      .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-          //
-        }
-      }).create();
+      return new AlertDialog.Builder(this)
+        .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
+        .setIcon(R.drawable.about)
+        .setView(view)
+        .setNeutralButton(R.string.menu_changes, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            showDialog(CHANGES_DIALOG_ID);
+          }
+        })
+        .setPositiveButton(R.string.tutorial, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            startActivity( new Intent(MyExpenses.this, Tutorial.class) );
+          }
+        })
+        .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            //
+          }
+        }).create();
     case CHANGES_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.changeview, null);
@@ -338,31 +329,71 @@ public class MyExpenses extends ListActivity {
 
       
       
-      return new AlertDialog.Builder(MyExpenses.this)
-      .setTitle(R.string.menu_changes)
-      .setIcon(R.drawable.about)
-      .setView(view)
-      .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-          //
-        }
-      })
-      .create();
+      return new AlertDialog.Builder(this)
+        .setTitle(R.string.menu_changes)
+        .setIcon(R.drawable.about)
+        .setView(view)
+        .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            //
+          }
+        })
+        .create();
     case VERSION_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.versiondialog, null);
       TextView versionInfo= (TextView) view.findViewById(R.id.versionInfo);
       versionInfo.setText(mVersionInfo);
-      return new AlertDialog.Builder(MyExpenses.this)
-      .setTitle(R.string.important_version_information)
-      .setIcon(R.drawable.about)
-      .setView(view)
-      .setNeutralButton(R.string.button_continue, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-          showDialog(HELP_DIALOG_ID);
-        }
+      return new AlertDialog.Builder(this)
+        .setTitle(R.string.important_version_information)
+        .setIcon(R.drawable.about)
+        .setView(view)
+        .setNeutralButton(R.string.button_continue, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            showDialog(HELP_DIALOG_ID);
+          }
+        })
+        .create();
+    case RESET_DIALOG_ID:
+      return new AlertDialog.Builder(this)
+        .setMessage(R.string.warning_reset_account)
+        .setCancelable(false)
+        .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+              if (Utils.isExternalStorageAvailable())
+                reset();
+              else 
+                Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
+            }
+        })
+        .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            dialog.cancel();
+          }
+        }).create();
+    case BACKUP_DIALOG_ID:
+      File backupDb = mDbHelper.getBackupFile();
+      int message = backupDb.exists() ? R.string.warning_backup_exists : R.string.warning_backup;
+      return new AlertDialog.Builder(this)
+      .setMessage(message)
+      .setCancelable(false)
+      .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            if (Utils.isExternalStorageAvailable()) {
+              if (((MyApplication) getApplicationContext()).backup()) {
+                Toast.makeText(getBaseContext(),getString(R.string.backup_success), Toast.LENGTH_LONG).show();
+              } else {
+                Toast.makeText(getBaseContext(),getString(R.string.backup_failure), Toast.LENGTH_LONG).show();
+              }
+            } else
+              Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
+          }
       })
-      .create();
+      .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          dialog.cancel();
+        }
+      }).create();
     }
     return null;
   }
@@ -398,6 +429,8 @@ public class MyExpenses extends ListActivity {
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     Log.i("MyExpenses","now starting export");
     File appDir = Utils.requireAppDir();
+    if (appDir == null)
+      throw new IOException();
     File outputFile = new File(appDir, "expenses" + now.format(new Date()) + ".qif");
     FileOutputStream out = new FileOutputStream(outputFile);
     String header = "!Type:Oth L\n";
@@ -451,12 +484,12 @@ public class MyExpenses extends ListActivity {
   private void reset() {
     try {
       exportAll();
+      mCurrentAccount.reset();
+      fillData();
     } catch (IOException e) {
       Log.e("MyExpenses",e.getMessage());
       Toast.makeText(getBaseContext(),getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
     }
-    mCurrentAccount.reset();
-    fillData();
   }
 
   /* (non-Javadoc)
