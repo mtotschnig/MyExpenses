@@ -15,7 +15,7 @@
         \nDisegno della pagina della Guida copiato da Mathdoku.
         \nDisegno dell\'icona dell\'App copiato da Sipdroid.
         \nTraduzione francese e italiane di Laurent Collombet.</string>
-    <string name="currency">valuta</string>
+    <string name="currency">Valuta</string>
     <string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
     <string name="current_balance">Saldo corrente</string>
     <string name="date">Data</string>
@@ -45,9 +45,9 @@
     <string name="help_project_home">Pagina iniziale</string>
     <string name="help_text">MyExpenses permet de gérer les entrées d\'argent et les dépenses, dans un format compatible avec Grisbi.
     \nLa commande \"Réinitialiser\" exporte toutes les transactions dans un fichier QIF sur la carte SD, efface les transactions, et transfère le dernier solde en nouveau solde d\'ouverture.
-    \n\"Choisir un compte\" affiche la liste des comptes. Vous pouvez créer un nouveau compte (menu), Modificare, effacer (menu contextuel) ou encore changer le compte utilisé (clic). 
-    \nLa gestion delle categorie est accessible à partir de l\'activité \"Selezionare una categoria\", qui s\'affiche lorsqu\'on clique sur le bouton \"Categoria\" dans l\'activité \"Aggiungere une opération\". Avec la commande \"Importer des categorie\" les categorie peuvent être importées à partir d\'un fichier Grisbi.
-    Vous pouvez selezionare les définitions standards utilisés par Grisbi, incluses dans MyExpenses, ou utiliser un fichier personnel, stocké sous \"/sdcard/myexpenses/categories.xml\".
+    \n\"Selezionare\" affiche la liste des comptes. Vous pouvez créer un nouveau compte (menu), Modificare, cancelare (menu contextuel) o encora cambiara il conto usato (clic). 
+    \nLa gestion delle categorie est accessible à partir de l\'activité \"Selezionare una categoria\", qui s\'affiche lorsqu\'on clique sur le bouton \"Categoria\" dans l\'activité \"Aggiungere operazione\". Avec la commande \"Importar le categorie\" les categorie peuvent être importées à partir d\'un fichier Grisbi.
+    Vous pouvez selectionner les définitions standards utilisés par Grisbi, incluses dans MyExpenses, ou utiliser un fichier personnel, stocké sous \"/sdcard/myexpenses/categories.xml\".
     Pour ceci, vous pouvez copier votre fichier Grisbi tel quel, ou supprimer dans celui-ci tout sauf les définitions des categorie.
     </string>
     <string name="help_version">Versione</string>
@@ -82,8 +82,8 @@
     <string name="payee">Ricevitore</string>
     <string name="payer">Pagatore</string>
     <string name="select">Selezionare</string>
-    <string name="select_account">Selezionare un compte</string>
-    <string name="select_category">Selezionare une categoria</string>
+    <string name="select_account">Selezionare un conto</string>
+    <string name="select_category">Selezionare una categoria</string>
     <string name="select_parent_category">Selezionare questa categoria</string>
     <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
     <string name="share_target_title">URL où sera téléchargé le fichier QIF</string>
@@ -93,8 +93,8 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="time">Ora</string>
     <string name="title">Titro</string>
     <string name="tutorial">Tutoriel</string>
-    <string name="version_14_upgrade_info">Depuis la version 1.4.0, la monnaie est définie selon le code ISO 4217.
-        Dans vos comptes vous utilisez les symboles suivants qui doivent être changés: %1$s </string>
+    <string name="version_14_upgrade_info">Dal versione 1.4.0, la valuta e definita secondo il codice ISO 4217.
+        Nel vostro contos vous utilisez les symboles suivants qui doivent être changés: %1$s </string>
             <string name="warning_reset_account">Tutte le operazioni del conto saranno cancellati.
 Vuoi continuare?</string>
     <string name="warning_select_account">Si deve selezionare un conto !</string>

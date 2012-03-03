@@ -15,7 +15,7 @@
         \nDesign de la page Aide copié de Mathdoku.
         \nDesign de l\'icone de l\'App copié de Sipdroid.
         \nTraduction française et italienne par Laurent Collombet.</string>
-    <string name="currency">monnaie</string>
+    <string name="currency">Monnaie</string>
     <string name="currency_not_iso4217">%1$s n\'est pas un code valide selon ISO 4217</string>
     <string name="current_balance">Solde courant</string>
     <string name="date">Date</string>
