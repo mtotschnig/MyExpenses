@@ -3,6 +3,8 @@
     <string name="account">Conto</string>
     <string name="amount">Quantitá</string>
     <string name="app_name">Le mie spese</string>
+    <string name="backup_failure">Backup su SD card non è riuscito.</string>
+    <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.</string>
     <string name="button_continue">Continuare</string>
     <string name="cancel">Annullare</string>
     <string name="categories_loading">Importazione delle categorie dalla %1$s</string>
@@ -30,6 +32,7 @@
     <string name="edit_category">Modificare la categoria</string>
     <string name="export_expenses_sdcard_failure">Esportazione delle speze nella cheda SD fallito</string>
     <string name="export_expenses_sdcard_success">Le spese sono esportate nel file %1$s</string>
+    <string name="external_storage_unavailable">Archiviazione esterna (SD card) non è disponibile</string>
     <string name="ftp_uri_malformed">Sintassi male dell\'URI %1$s</string>
     <string name="ftp_success">Carica su %1$s è riuscita</string>
     <string name="ftp_failure">Carica su %1$s faillita</string>
@@ -45,7 +48,7 @@
     <string name="help_project_home">Pagina iniziale</string>
     <string name="help_text">MyExpenses è stato progettato per tenere traccia delle spese nel corso di un breve periodo di tempo, e di esportare queste spese nel programma Grisbi.
 MyExpenses calcola la somma delle spese e dei redditi, e l'attuale equilibrio.
-\n\"Reinitializare\" esportazioni di Menu spese su cheda SD nel formato QIF, che comprende Grisbi, elimina le spese e aggiorna il bilancio di apertura.
+\n\"Reinitializare\" esportazioni di Menu spese su scheda SD nel formato QIF, che comprende Grisbi, elimina le spese e aggiorna il bilancio di apertura.
 \n\"Selezionare un conto\" fornisce una lista di account definiti, dove è possibile creare nuovi conto (voce di menu), modificare o eliminare quelli esistenti (menu contestuale) o modificare il conto attualmente visualizzato (clicca elenco).
 \nCategorie sono gestiti dal \"Selezionare una categoria\" attività, lanciato da \"Aggiungere operazione\" attraverso il pulsante \"Categoria\". Via i \"Importare le categorie\" voce di menu, le categorie possono essere importati dalla struttura XML che Grisbi utilizza per le sue spese.
 È scegliere uno dei file predefiniti forniti categoria da Grisbi o utilizzare uno personalizzato, che conservare a \"/sdcard/myexpenses/categories.xml\". È possibile utilizzare il Grisbi file XML come è, o rimuovere nulla, ma le definizioni delle categorie da esso.
@@ -75,6 +78,7 @@ MyExpenses calcola la somma delle spese e dei redditi, e l'attuale equilibrio.
     <string name="menu_settings">Parametri</string>
     <string name="menu_show_detail">Visualizza i dettagli</string>
     <string name="no_accounts">Nessun conto !</string>
+    <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail</string>
     <string name="no_categories">No categoria. Le categorie possono essere aggiunti o importati dal menu.</string>
     <string name="no_expenses">No speso !</string>
     <string name="not_deletable_mapped_expenses">Questa categoria non può essere cancellata, perché ci sono spese ad esso attribuite.</string>
@@ -82,6 +86,8 @@ MyExpenses calcola la somma delle spese e dei redditi, e l'attuale equilibrio.
     <string name="opening_balance">Saldo inizial</string>
     <string name="payee">Ricevitore</string>
     <string name="payer">Pagatore</string>
+    <string name="restore_db_success">Il database è stato ripristinato dal backup.</string>
+    <string name="restore_preferences_success">I parametri sono stati ripristinati dal backup.</string>
     <string name="select">Selezionare</string>
     <string name="select_account">Selezionare un conto</string>
     <string name="select_category">Selezionare una categoria</string>
@@ -94,9 +100,10 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="time">Ora</string>
     <string name="title">Titro</string>
     <string name="tutorial">Tutorial</string>
-    <string name="version_14_upgrade_info">Dalla versione 1.4.0, la valuta e definita secondo il codice ISO 4217.
-        Nei vostri contisi utilizza dei seguinti simboli che devono essere cambiati: %1$s </string>
-            <string name="warning_reset_account">Tutte le operazioni del conto saranno cancellati.
+    <string name="version_14_upgrade_info">Dalla versione 1.4.0, la valuta e definita secondo il codice ISO 4217. Nei vostri contisi utilizza dei seguinti simboli che devono essere cambiati: %1$s </string>
+    <string name="warning_backup">Database e le preferenze verranno salvate su scheda SD. Vuoi continuare?</string>
+    <string name="warning_backup_exists">Database e le preferenze verranno salvate su scheda SD. Backup esistente verrà sovrascritto. Vuoi continuare?</string> 
+     <string name="warning_reset_account">Tutte le operazioni del conto saranno cancellati.
 Vuoi continuare?</string>
     <string name="warning_select_account">Si deve selezionare un conto !</string>
 </resources>
