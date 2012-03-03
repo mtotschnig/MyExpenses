@@ -112,6 +112,6 @@
 		            The following currency symbols currently used for your accounts, need to be fixed: %1$s </string>
     <string name="warning_backup">Database and preferences will be saved to sdcard. Do you want to continue?</string>
     <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. Do you want to continue?</string>
-		<string name="warning_reset_account">All transactions of this account will be deleted. Do you want to continue?</string>
-		<string name="warning_select_account">Please select an account!</string>
+    <string name="warning_reset_account">All transactions of this account will be deleted. Do you want to continue?</string>
+    <string name="warning_select_account">Please select an account!</string>
 </resources>
