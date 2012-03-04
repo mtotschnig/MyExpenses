@@ -20,6 +20,11 @@ document.write('\
         <span lang="en">Export transactions to Grisbi</span>\
         <span lang="fr">Exporter les opérations vers Grisbi</span>\
         <span lang="de">Buchungen exportieren</span>\
+        </a> |\
+      <a id="nav5" href="tutorial5.html"> \
+        <span lang="en">Backup and restore</span>\
+        <span lang="fr">Sauvegarde et restauration</span>\
+        <span lang="de">Backup und Wiederherstellung</span>\
         </a>\
 ');
 document.write('<span class="langselector"><select onchange="selectLang(this.value)">');
