@@ -24,9 +24,11 @@ div.screenshot {
   font-size: smaller;
 }
 
+@media only screen and (min-device-width: 500px) {
 body {
     width:500px;
     margin:0px auto;
+}
 }
 body {
   margin-top: 1.0em;
