@@ -8,9 +8,14 @@ public class VersionList {
   public static ArrayList<HashMap<String, String>> get () {
     final String[][] versions = {
         {
+          "1.4.6",
+          "March 4 2012",
+          "Backup and restore of database and preferences. User interface translated to Italian."
+        },
+        {
           "1.4.5.2", 
           "February 27 2012",
-          "Tutorial translated to German and French. Fixed problems with orientation change during categories import and help and changelog dialog. Support for Grisbi file format 0.5.0"
+          "Tutorial translated to German and French. Fixed problems with orientation change during categories import and help and changelog dialog. Support for Grisbi file format 0.5.0."
         },
         {
           "1.4.5.1",

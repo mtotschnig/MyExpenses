@@ -47,7 +47,7 @@
     <string name="help_license">Licenza</string>
     <string name="help_project_home">Pagina iniziale</string>
     <string name="help_text">MyExpenses è stato progettato per tenere traccia delle spese nel corso di un breve periodo di tempo, e di esportare queste spese nel programma Grisbi.
-MyExpenses calcola la somma delle spese e dei redditi, e l'attuale equilibrio.
+MyExpenses calcola la somma delle spese e dei redditi, e l\'attuale equilibrio.
 \n\"Reinitializare\" esportazioni di Menu spese su scheda SD nel formato QIF, che comprende Grisbi, elimina le spese e aggiorna il bilancio di apertura.
 \n\"Selezionare un conto\" fornisce una lista di account definiti, dove è possibile creare nuovi conto (voce di menu), modificare o eliminare quelli esistenti (menu contestuale) o modificare il conto attualmente visualizzato (clicca elenco).
 \nCategorie sono gestiti dal \"Selezionare una categoria\" attività, lanciato da \"Aggiungere operazione\" attraverso il pulsante \"Categoria\". Via i \"Importare le categorie\" voce di menu, le categorie possono essere importati dalla struttura XML che Grisbi utilizza per le sue spese.
@@ -55,7 +55,7 @@ MyExpenses calcola la somma delle spese e dei redditi, e l'attuale equilibrio.
     </string>
     <string name="help_version">Versione</string>
     <string name="import_categories">Importare le categorie</string>
-    <string name="import_categories_failure">Errore durante l/'importazione categorie</string>
+    <string name="import_categories_failure">Errore durante l\'importazione categorie</string>
     <string name="import_categories_success">%1$d categorie state importate</string>
     <string name="important_version_information">Nuova versione: Informazioni importanti</string>
     <string name="invalid_number_format">Numero formato non riconosciuto dal vostro Locale. Usa %1$s</string>
