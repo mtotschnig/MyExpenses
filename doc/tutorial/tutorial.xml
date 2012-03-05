@@ -14,6 +14,11 @@
         <address><email>michael@totschnig.org</email></address>
       </affiliation>
     </author>
+    <othercredit>
+    <firstname>Laurent</firstname>
+    <surname>Collombet</surname>
+    <contrib>French translation</contrib>
+  </othercredit>
   </articleinfo>
     
     <!-- Tutorial1 -->
