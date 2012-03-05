@@ -1,9 +1,10 @@
 Workflow for producing Tutorial
+uses Ubuntu package docbook-xsl 1.75.2+dfsg-3
 
 Base dir doc/tutorial
 
 1)
-Create one Docbook file per english (filter stylesheet from http://docbooksml.sourceforge.net/)
+Create one Docbook file per language (filter stylesheet from http://docbooksml.sourceforge.net/)
 
 xsltproc --stringparam language en --output tutorial_en.xml xsl/filter_language.xsl tutorial.xml
 xsltproc --stringparam language fr --output tutorial_fr.xml xsl/filter_language.xsl tutorial.xml
