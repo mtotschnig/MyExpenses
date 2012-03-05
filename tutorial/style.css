@@ -35,4 +35,13 @@ body {
 div.screenshot img {
   cursor:pointer;
 }
-
+.application {
+  font-style: italic;
+}
+.guimenuitem, .guilabel {
+	font-weight: bold;
+}
+.guibutton {
+	background-color: #CFCFCF;
+	padding: 2px;
+}
