@@ -22,6 +22,7 @@ import android.app.Activity;
 //import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.os.Bundle;
 
 /**
@@ -36,6 +37,7 @@ public class Tutorial extends Activity {
     setContentView(R.layout.tutorial);
     WebView wv;
     wv = (WebView) findViewById(R.id.webview);
+    wv.setWebViewClient(new WebViewClient());
 /*    wv.setWebChromeClient(new WebChromeClient() {
       public void onConsoleMessage(String message, int lineNumber, String sourceID) {
         Log.d("MyExpenses", message + " -- From line "
@@ -45,10 +47,13 @@ public class Tutorial extends Activity {
     });*/
     WebSettings settings = wv.getSettings();
     settings.setDefaultTextEncodingName("utf-8");
-    settings.setJavaScriptEnabled(true);
+    //settings.setJavaScriptEnabled(true);
     settings.setBuiltInZoomControls(true); 
     //we abuse user agent string, since the language is not reported correctly 
-    settings.setUserAgentString(Locale.getDefault().getLanguage()); 
-    wv.loadUrl("file:///android_asset/tutorial/tutorial1.html"); 
+    String[] supportedLangs = {"en","fr","de"};
+    String lang =  Locale.getDefault().getLanguage();
+    if (!java.util.Arrays.asList(supportedLangs).contains(lang))
+      lang = "en";
+    wv.loadUrl("http://myexpenses.totschnig.org/tutorial/" + lang +  "/tutorial1.html"); 
   }
 }
