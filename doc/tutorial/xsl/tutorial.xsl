@@ -1,8 +1,13 @@
 <?xml version='1.0'?> 
 <xsl:stylesheet  
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"> 
-
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:custom="custom" exclude-result-prefixes="custom"> 
 <xsl:import href="/usr/share/xml/docbook/stylesheet/docbook-xsl/html/chunk.xsl"/>
+
+<custom:supported-langs>
+ <lang code="en">English</lang>
+ <lang code="fr">Français</lang>
+ <lang code="de">Deutsch</lang>
+</custom:supported-langs>
 
 <xsl:param name="html.stylesheet" select="'../style.css'"/>
 <xsl:param name="use.id.as.filename" select="'1'"/>
@@ -18,6 +23,23 @@
 </xsl:template>
 
 <xsl:template name="header.navigation">
+<xsl:variable name="doclang" select="/article/articleinfo/title/phrase/@lang"/>
+<xsl:variable name="chunkname">
+<xsl:apply-templates select="." mode="recursive-chunk-filename"/>
+</xsl:variable>
+<xsl:message>
+<xsl:value-of select="$chunkname"/>
+</xsl:message>
+<div class="langselector">
+<xsl:for-each select="document('')/*/custom:supported-langs/lang">
+<xsl:if test="@code != $doclang">
+  <a href="../{@code}/{$chunkname}">
+    <xsl:value-of select="."/>
+  </a>
+  <xsl:text> </xsl:text>
+  </xsl:if>
+</xsl:for-each>
+</div>
   <xsl:call-template name="make.toc">
     <xsl:with-param name="toc.title.p" select="false()"/>
     <xsl:with-param name="nodes" select="../sect1"/>
