@@ -1,0 +1,20 @@
+Workflow for producing Tutorial
+
+Base dir doc/tutorial
+
+1)
+Create one Docbook file per english (filter stylesheet from http://docbooksml.sourceforge.net/)
+
+xsltproc --stringparam language en --output tutorial_en.xml xsl/filter_language.xsl tutorial.xml
+xsltproc --stringparam language fr --output tutorial_fr.xml xsl/filter_language.xsl tutorial.xml
+xsltproc --stringparam language de --output tutorial_de.xml xsl/filter_language.xsl tutorial.xml
+
+2)
+Create html output assuming that gh-pages branch is checked.out into a folder MyExpenses.pages
+parallel to the project root
+
+xsltproc --stringparam base.dir ../../../MyExpenses.pages/tutorial/en/ xsl/tutorial.xsl tutorial_en.xml
+xsltproc --stringparam base.dir ../../../MyExpenses.pages/tutorial/fr/ xsl/tutorial.xsl tutorial_fr.xml
+xsltproc --stringparam base.dir ../../../MyExpenses.pages/tutorial/de/ xsl/tutorial.xsl tutorial_de.xml
+
+TODO: create ant target
