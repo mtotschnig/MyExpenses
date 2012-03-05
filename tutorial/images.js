@@ -9,7 +9,7 @@ imageDialog =$("<div id='dialog'><img height='550px' id='image' src=''/></div>")
       autoOpen: false
     });
        
-  $('.screen > img').click(function(event){
+  $('.screenshot img').click(function(event){
        
     event.preventDefault();
     PreviewImage($(this).attr('src'));

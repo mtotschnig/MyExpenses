@@ -1,0 +1,36 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Export transactions</title><link rel="stylesheet" href="../style.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="MyExpenses Tutorial"><link rel="up" href="index.html" title="MyExpenses Tutorial"><link rel="prev" href="tutorial3.html" title="Managing categories"><link rel="next" href="tutorial5.html" title="Backup and restore"><link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css"><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script><script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script><script type="text/javascript" src="../images.js"></script></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="toc"><dl><dt><span class="sect1"><a href="tutorial1.html">
+      <span lang="en">Managing accounts</span>
+      
+      
+    </a></span><span> | </span></dt><dt><span class="sect1"><a href="tutorial2.html">
+      <span lang="en">Managing transactions</span>
+      
+      
+    </a></span><span> | </span></dt><dt><span class="sect1"><a href="tutorial3.html">    
+      <span lang="en">Managing categories</span>
+      
+      
+    </a></span><span> | </span></dt><dt><span class="sect1"><a>      <span lang="en">Export transactions</span>
+    
+    
+    </a></span><span> | </span></dt><dt><span class="sect1"><a href="tutorial5.html">
+      <span lang="en">Backup and restore</span>
+      
+      
+    </a></span></dt></dl></div><div class="sect1" title="Export transactions"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="tutorial4"></a>      <span lang="en">Export transactions</span>
+    
+    
+    </h2></div></div></div><p lang="en">
+      Finally, the raison d'être of MyExpenses is its support for export into QIF format. 
+      Call this function through the "Reset" menu entry from the transaction list. 
+      This will create a file on your sdcard with all transactions for the current account, delete them from the database, 
+      and adjust the opening balance to the last current balance.
+      MyExpenses can share the file immediately after the export, either upload it to an FTP server or send it by email. You can configure the URL from the "Settings" menu entry
+      (e.g. "ftp://login:password@my.example.org:port/my/directory/" or "mailto:john@my.example.com").
+      <br>
+      Transfer operations will also be deleted from the account, but still be visible in the other account they refer to.
+    </p><p><a name="step12"></a>
+      </p><div class="screenshot"><div><img src="step12.png"></div></div><p>
+    </p><p lang="en">
+      Voilà. You can now connect your phone to your computer, open Grisbi (or Gnucash), and use its import functionality.
+    </p></div></body></html>

@@ -1,16 +1,15 @@
-span , div, h3 {
-  display:none;
+.toc dl dt {
+  display: inline;
 }
 div {
   margin: 1em 0em;
 }
-div.screen {
-  display:block;
+div.screenshot {
   text-align:center;
   margin-right:auto;
   margin-left:auto
 }
-#tut1 #nav1, #tut2 #nav2, #tut3 #nav3, #tut4 #nav4 {
+#tut1 #nav1, #tut2 #nav2, #tut3 #nav3, #tut4 #nav4, #tut5 #nav5 {
    pointer-events: none;
    cursor: default;
    text-decoration: none;
@@ -20,26 +19,22 @@ div.screen {
   display: inline;
   float: right;
 }
-#content {
-  display: block;
-}
 #footnotes {
   display: block;
   font-size: smaller;
 }
 
-@media only screen and (min-device-width: 500px) {
-  #content {
+body {
     width:500px;
     margin:0px auto;
-  }
-}body {
+}
+body {
   margin-top: 1.0em;
   background-color: #CEE3F6;
   font-family: Helvetica, Arial, FreeSans, san-serif;
   color: #000000;
 }
-div.screen img {
+div.screenshot img {
   cursor:pointer;
 }
 
