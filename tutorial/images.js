@@ -1,7 +1,14 @@
 var imageDialog;
 
 $(document).ready(function() {
-imageDialog =$("<div id='dialog'><img height='550px' id='image' src=''/></div>").dialog({
+  if( !(navigator.userAgent.match(/Android/i) ||
+    navigator.userAgent.match(/webOS/i) ||
+    navigator.userAgent.match(/iPhone/i) ||
+    navigator.userAgent.match(/iPod/i) ||
+    navigator.userAgent.match(/BlackBerry/))
+  ){
+
+    imageDialog =$("<div id='dialog'><img height='550px' id='image' src=''/></div>").dialog({
       modal: true,
       resizable: false,
       draggable: false,
@@ -9,12 +16,11 @@ imageDialog =$("<div id='dialog'><img height='550px' id='image' src=''/></div>")
       autoOpen: false
     });
        
-  $('.screenshot img').click(function(event){
-       
-    event.preventDefault();
-    PreviewImage($(this).attr('src'));
-                                       
-  });                     
+    $('.screenshot img').click(function(event){
+      event.preventDefault();
+      PreviewImage($(this).attr('src'));                                 
+    });   
+  }
 });
 
 PreviewImage = function(uri) {
