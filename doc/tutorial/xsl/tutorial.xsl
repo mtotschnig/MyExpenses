@@ -27,9 +27,6 @@
 <xsl:variable name="chunkname">
 <xsl:apply-templates select="." mode="recursive-chunk-filename"/>
 </xsl:variable>
-<xsl:message>
-<xsl:value-of select="$chunkname"/>
-</xsl:message>
 <div class="langselector">
 <xsl:for-each select="document('')/*/custom:supported-langs/lang">
 <xsl:if test="@code != $doclang">
