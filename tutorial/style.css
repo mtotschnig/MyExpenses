@@ -15,10 +15,6 @@ div.screenshot {
    text-decoration: none;
    color: black;
 }
-.langselector {
-  display: inline;
-  float: right;
-}
 #footnotes {
   display: block;
   font-size: smaller;
