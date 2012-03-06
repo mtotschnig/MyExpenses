@@ -70,6 +70,7 @@ MyExpenses calcola la somma delle spese e dei redditi, e l\'attuale equilibrio.
     <string name="menu_edit_account">Modificare il conto</string>
     <string name="menu_edit_cat">Modificare la categoria</string>
     <string name="menu_edit_ta">Modificare operazione</string>
+    <string name="menu_edit_transfer">Modificare un trasferimento</string>
     <string name="menu_help">Aiuto</string>
     <string name="menu_insert_account">Aggiungere conto</string>
     <string name="menu_insert_ta">Aggiungere operazione</string>

@@ -35,6 +35,7 @@ public class Tutorial extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.tutorial);
+    setTitle(getString(R.string.app_name) + " " + getString(R.string.tutorial));
     WebView wv;
     wv = (WebView) findViewById(R.id.webview);
     wv.setWebViewClient(new WebViewClient());

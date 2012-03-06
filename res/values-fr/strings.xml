@@ -70,6 +70,7 @@
     <string name="menu_edit_account">Éditer le compte</string>
     <string name="menu_edit_cat">Éditer la catégorie</string>
     <string name="menu_edit_ta">Éditer une opération</string>
+    <string name="menu_edit_transfer">Éditer un virement</string>
     <string name="menu_help">Aide</string>
     <string name="menu_insert_account">Ajouter un compte</string>
     <string name="menu_insert_ta">Ajouter une opération</string>

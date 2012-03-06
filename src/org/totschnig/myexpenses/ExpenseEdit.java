@@ -246,7 +246,6 @@ public class ExpenseEdit extends Activity {
     //TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
     if (mRowId != 0) {
       mTransaction = Transaction.getInstanceFromDb(mDbHelper, mRowId);
-      setTitle(R.string.menu_edit_ta);
       float amount;
       if (mTransaction.amount < 0) {
         amount = 0 - mTransaction.amount;
@@ -257,7 +256,10 @@ public class ExpenseEdit extends Activity {
       mAmountText.setText(nfDLocal.format(amount));
       mCommentText.setText(mTransaction.comment);
       if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
+        setTitle(R.string.menu_edit_ta);
         mPayeeText.setText(mTransaction.payee);
+      } else {
+        setTitle(R.string.menu_edit_transfer);
       }
       String label =  mTransaction.label;
       if (label != null && label.length() != 0) {
@@ -271,7 +273,8 @@ public class ExpenseEdit extends Activity {
     } else {
       mTransaction = Transaction.getTypedNewInstance(mDbHelper,mOperationType);
       mTransaction.account_id = mAccountId;
-      setTitle(R.string.menu_insert_ta);
+      setTitle(mOperationType == MyExpenses.TYPE_TRANSFER ? 
+          R.string.menu_insert_transfer : R.string.menu_insert_ta);
     }
     setDateTime(mTransaction.date);
     

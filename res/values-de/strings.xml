@@ -72,6 +72,7 @@
 	  <string name="menu_edit_account">Konto verändern</string>
 	  <string name="menu_edit_cat">Kategorie verändern</string>
 	  <string name="menu_edit_ta">Buchung verändern</string>
+	  <string name="menu_edit_transfer">Umbuchung verändern</string>
 	  <string name="menu_help">Hilfe</string>
 	  <string name="menu_insert_account">Neues Konto erstellen</string>
 	  <string name="menu_insert_ta">Neue Buchung</string>
