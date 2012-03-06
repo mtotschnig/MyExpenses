@@ -41,11 +41,12 @@
     <string name="ftp_login_failure">Login Fehler während des Uploads nach %1$s</string>
     <string name="ftp_setFileType_failure">Fehler bei der Konfiguration des Dateityps ASCII während des Uploads nach %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Fehler beim Wechseln des Verzeichnisses während des Uploads nach %1$s</string>
-	  <string name="help_author">Autor</string>
-	  <string name="help_credits">Abspann</string>
-	  <string name="help_leading">Danke fürs Ausprobieren von MyExpenses für Android.</string>
-	  <string name="help_license">Lizenz</string>
-	  <string name="help_project_home">Projekt Homepage</string>
+	  <string name="help_heading_author"><u>Autor</u></string>
+	  <string name="help_heading_credits"><u>Abspann</u></string>
+	  <string name="help_heading_license"><u>Lizenz</u></string>
+    <string name="help_heading_project_home"><u>Projekt Homepage</u></string>
+    <string name="help_heading_version"><u>Version</u></string>
+    <string name="help_leading"><u>Danke fürs Ausprobieren von MyExpenses für Android.</u></string>
 	  <string name="help_text">MyExpenses ist eine einfache Anwendung zur Verwaltung von Ausgaben, mit dem Ziel, diese in das Finanzprogramm Grisbi exportieren zu können.
 	\nMenübefehl \"Zurücksetzen\" exportiert Einträge in eine QIF-Datei auf der SD-Karte, löscht die Einträge, und setzt den Anfangssaldo zurück.
 	\n\"Konto auswählen\" erlaubt aus der Liste der definierten Konten das aktuell verwendete auszuwählen, über das Menü können neue Konten definiert werden, über das Kontextmenü bestehende verändert oder gelöscht. 
@@ -55,7 +56,6 @@
 	Ihre Grisbi Datei, oder editieren diese, indem Sie alles außer der Kategorien entfernen.
 	MyExpenses erwartet die Datei unter \"/sdcard/myexpenses/categories.xml\" .
 	</string>
-	  <string name="help_version">Version</string>
 	  <string name="import_categories">Kategorien importieren</string>
 	  <string name="import_categories_failure">Fehler beim Kategorien-Import</string>
 	  <string name="import_categories_success">%1$d Kategorien erfolgreich importiert</string>

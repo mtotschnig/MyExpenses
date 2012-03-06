@@ -12,6 +12,16 @@
   </style>
   <style name="Widget.DropDownItemLight" parent="@android:style/Widget.DropDownItem">
     <item name="android:textColor">@android:color/primary_text_light</item>
-</style>
-  
+  </style>
+  <style name="about_text">
+    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:textColorLink">#ffffff</item>
+    <item name="android:paddingLeft">15dp</item>           
+    <item name="android:textColor">#ffffff</item>
+  </style>
+  <style name="about_heading" parent="about_text">
+    <item name="android:paddingTop">15dp</item>
+    <item name="android:textSize">20sp</item>
+  </style>
 </resources>

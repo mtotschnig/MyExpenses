@@ -6,100 +6,28 @@
   <LinearLayout
 			android:orientation="vertical"
 			android:layout_width="fill_parent"
-			android:layout_height="fill_parent">
-    <TextView android:text="@string/help_leading"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:paddingLeft="15px"              
-				android:layout_gravity="center_vertical"
-				android:textColor="#ffffff" />
-    <TextView android:text="@string/help_text"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColorLink="#ffffff"
-        android:paddingLeft="15px"                      
-        android:textColor="#ffffff" />
-    <TextView android:text="@string/help_version"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="15px"
-        android:paddingLeft="15px"
-        android:textStyle="bold"
-        android:textColor="#ffffff"
-        android:textSize="18sp" />      
-    <TextView android:id="@+id/aboutVersionCode"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"                                      
-        android:textColor="#ffffff" />  
-    <TextView android:text="@string/help_license"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="15px"
-        android:paddingLeft="15px"
-        android:textStyle="bold"
-        android:textColor="#ffffff"
-        android:textSize="18sp" />
-    <TextView android:text="GNU General Public License version 2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"                                                              
-        android:textColor="#ffffff" />  
-    <TextView android:text="http://www.gnu.org/licenses/gpl.html"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:textColorLink="#ffffff"
-        android:paddingLeft="15px"
-        android:textColor="#ffffff" />
+			android:layout_height="wrap_content">
+    <TextView android:text="@string/help_leading" style="@style/about_heading" />
+    <TextView android:text="@string/help_text" style="@style/about_text" />
+    <TextView android:text="@string/help_heading_version" style="@style/about_heading" />      
+    <TextView android:id="@+id/aboutVersionCode" style="@style/about_text" />  
+    <TextView android:text="@string/help_heading_license" style="@style/about_heading" />
+    <TextView android:text="GNU General Public License version 2" style="@style/about_text" />  
+    <TextView android:text="http://www.gnu.org/licenses/gpl.html" style="@style/about_text" />
     <TextView android:text="Includes FTP library from http://commons.apache.org/net/ (licenced under http://www.apache.org/licenses/LICENSE-2.0.txt)"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:textColorLink="#ffffff"
-        android:paddingLeft="15px"
-        android:textColor="#ffffff" />                                         
-    <TextView android:text="@string/help_project_home"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="15px"
-        android:paddingLeft="15px"
-        android:textStyle="bold"
-        android:textColor="#ffffff"
-        android:textSize="18sp" />
-    <TextView android:text="http://michael.totschnig.org/myexpenses"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:textColorLink="#ffffff"
-        android:paddingLeft="15px"
-        android:textColor="#ffffff" />          
-    <TextView android:text="@string/help_author"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"            
-        android:paddingTop="15px"
-        android:paddingLeft="15px"
-        android:textStyle="bold"
-        android:textColor="#ffffff"
-        android:textSize="18sp" />
+         style="@style/about_text" />                                         
+    <TextView android:text="@string/help_heading_project_home"
+        style="@style/about_heading" />
+    <TextView android:text="http://myexpenses.totschnig.org/"
+        style="@style/about_text" />          
+    <TextView android:text="@string/help_heading_author"
+        style="@style/about_heading" />
     <TextView android:text="Michael Totschnig"
-	      android:layout_width="fill_parent"
-	      android:layout_height="wrap_content"
-	      android:paddingLeft="15px"                                                              
-	      android:textColor="#ffffff" />
-    <TextView android:text="@string/help_credits"
-	      android:layout_width="fill_parent"
-	      android:layout_height="wrap_content"            
-	      android:paddingTop="15px"
-	      android:paddingLeft="15px"
-	      android:textStyle="bold"
-	      android:textColor="#ffffff"
-	      android:textSize="18sp" />
+	      style="@style/about_text" />
+    <TextView android:text="@string/help_heading_credits"
+	      style="@style/about_heading" />
     <TextView android:text="@string/credits_text"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:paddingLeft="15px"                                                              
-				android:textColor="#ffffff" />
+				style="@style/about_text" />
   </LinearLayout>
 </ScrollView>
 

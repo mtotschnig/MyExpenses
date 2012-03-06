@@ -41,11 +41,12 @@
     <string name="ftp_login_failure">Erreur de login lors du téléchargement vers %1$s</string>
     <string name="ftp_setFileType_failure">Erreur de configuration en type de fichier ASCII lors du téléchargement vers %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Erreur de changement de répertoire lors du téléchargement vers %1$s</string>
-    <string name="help_author">Auteur</string>
-    <string name="help_credits">Générique</string>
-    <string name="help_leading">Merci d\'essayer MyExpenses pour Android.</string>
-    <string name="help_license">Licence</string>
-    <string name="help_project_home">Page d\'accueil</string>
+    <string name="help_heading_author"><u>Auteur</u></string>
+    <string name="help_heading_credits"><u>Générique</u></string>
+    <string name="help_heading_license"><u>Licence</u></string>
+    <string name="help_heading_project_home"><u>Page d\'accueil</u></string>
+    <string name="help_heading_version"><u>Version</u></string>
+    <string name="help_leading"><u>Merci d\'essayer MyExpenses pour Android.</u></string>
     <string name="help_text">MyExpenses permet de gérer les entrées d\'argent et les dépenses, dans un format compatible avec Grisbi.
     \nLa commande \"Réinitialiser\" exporte toutes les transactions dans un fichier QIF sur la carte SD, efface les transactions, et transfère le dernier solde en nouveau solde d\'ouverture.
     \n\"Choisir un compte\" affiche la liste des comptes. Vous pouvez créer un nouveau compte (menu), éditer, effacer (menu contextuel) ou encore changer le compte utilisé (clic). 
@@ -53,7 +54,6 @@
     Vous pouvez sélectionner les définitions standards utilisés par Grisbi, incluses dans MyExpenses, ou utiliser un fichier personnel, stocké sous \"/sdcard/myexpenses/categories.xml\".
     Pour ceci, vous pouvez copier votre fichier Grisbi tel quel, ou supprimer dans celui-ci tout sauf les définitions des catégories.
     </string>
-    <string name="help_version">Version</string>
     <string name="import_categories">Importer les catégories</string>
     <string name="import_categories_failure">Erreur lors de l\'import des catégories</string>
     <string name="import_categories_success">%1$d catégories ont été importées</string>
