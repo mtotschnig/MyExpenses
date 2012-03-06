@@ -23,20 +23,25 @@
 </xsl:template>
 
 <xsl:template name="header.navigation">
-<xsl:variable name="doclang" select="/article/articleinfo/title/phrase/@lang"/>
-<xsl:variable name="chunkname">
-<xsl:apply-templates select="." mode="recursive-chunk-filename"/>
-</xsl:variable>
-<div class="langselector">
-<xsl:for-each select="document('')/*/custom:supported-langs/lang">
-<xsl:if test="@code != $doclang">
-  <a href="../{@code}/{$chunkname}">
-    <xsl:value-of select="."/>
-  </a>
-  <xsl:text> </xsl:text>
-  </xsl:if>
-</xsl:for-each>
-</div>
+  <xsl:variable name="doclang" select="/article/articleinfo/title/phrase/@lang"/>
+  <xsl:variable name="chunkname">
+    <xsl:apply-templates select="." mode="recursive-chunk-filename"/>
+  </xsl:variable>
+  <div class="langselector">
+    <xsl:for-each select="document('')/*/custom:supported-langs/lang">
+      <xsl:choose>
+        <xsl:when test="@code != $doclang">
+          <a href="../{@code}/{$chunkname}">
+            <img title="{.}" src="../flags/{@code}.png" />
+          </a>
+        </xsl:when>
+        <xsl:otherwise>
+          <img width="22" title="{.}" src="../flags/{@code}.png" />
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:text> </xsl:text>
+    </xsl:for-each>
+  </div>
   <xsl:call-template name="make.toc">
     <xsl:with-param name="toc.title.p" select="false()"/>
     <xsl:with-param name="nodes" select="../sect1"/>
