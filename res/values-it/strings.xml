@@ -30,9 +30,9 @@
     <string name="dialog_yes">Sì</string>
     <string name="done">OK</string>
     <string name="edit_category">Modificare la categoria</string>
-    <string name="export_expenses_sdcard_failure">Esportazione delle speze nella cheda SD fallito</string>
+    <string name="export_expenses_sdcard_failure">Esportazione delle speze nella scheda SD fallito</string>
     <string name="export_expenses_sdcard_success">Le spese sono esportate nel file %1$s</string>
-    <string name="external_storage_unavailable">Archiviazione esterna (SD card) non è disponibile</string>
+    <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non è disponibile</string>
     <string name="ftp_uri_malformed">Sintassi male dell\'URI %1$s</string>
     <string name="ftp_success">Carica su %1$s è riuscita</string>
     <string name="ftp_failure">Carica su %1$s faillita</string>
@@ -50,7 +50,7 @@
     <string name="help_text">MyExpenses è stato progettato per tenere traccia delle spese nel corso di un breve periodo di tempo, e di esportare queste spese nel programma Grisbi.
 MyExpenses calcola la somma delle spese e dei redditi, e l\'attuale equilibrio.
 \n\"Reinitializare\" esportazioni di Menu spese su scheda SD nel formato QIF, che comprende Grisbi, elimina le spese e aggiorna il bilancio di apertura.
-\n\"Selezionare un conto\" fornisce una lista di account definiti, dove è possibile creare nuovi conto (voce di menu), modificare o eliminare quelli esistenti (menu contestuale) o modificare il conto attualmente visualizzato (clicca elenco).
+\n\"Selezionare un conto\" fornisce una lista di conti definiti, dove è possibile creare un nuovo conto (voce di menu), modificare o eliminare quelli esistenti (menu contestuale) o modificare il conto attualmente visualizzato (clicca elenco).
 \nCategorie sono gestiti dal \"Selezionare una categoria\" attività, lanciato da \"Aggiungere operazione\" attraverso il pulsante \"Categoria\". Via i \"Importare le categorie\" voce di menu, le categorie possono essere importati dalla struttura XML che Grisbi utilizza per le sue spese.
 È scegliere uno dei file predefiniti forniti categoria da Grisbi o utilizzare uno personalizzato, che conservare a \"/sdcard/myexpenses/categories.xml\". È possibile utilizzare il Grisbi file XML come è, o rimuovere nulla, ma le definizioni delle categorie da esso.
     </string>
@@ -58,7 +58,7 @@ MyExpenses calcola la somma delle spese e dei redditi, e l\'attuale equilibrio.
     <string name="import_categories_failure">Errore durante l\'importazione categorie</string>
     <string name="import_categories_success">%1$d categorie state importate</string>
     <string name="important_version_information">Nuova versione: Informazioni importanti</string>
-    <string name="invalid_number_format">Numero formato non riconosciuto dal vostro regione %1$s</string>
+    <string name="invalid_number_format">Numero formato non riconosciuto dal vostra regione. Uso %1$s</string>
     <string name="label">Titolo</string>
     <string name="menu_backup">Backup</string>
     <string name="menu_changes">Modifiche</string>
