@@ -58,7 +58,7 @@
     <string name="import_categories_failure">Erreur lors de l\'import des catégories</string>
     <string name="import_categories_success">%1$d catégories ont été importées</string>
     <string name="important_version_information">Nouvelle version: Information importante</string>
-    <string name="invalid_number_format">Format de nombre non reconnu par votre Locale. Utilisez %1$s</string>
+    <string name="invalid_number_format">Format de nombre non reconnu. Utilisez %1$s</string>
     <string name="label">Intitulé</string>
     <string name="menu_backup">Sauvegarde</string>
     <string name="menu_changes">Changements</string>

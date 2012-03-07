@@ -58,7 +58,7 @@ MyExpenses calcola la somma delle spese e dei redditi, e l\'attuale equilibrio.
     <string name="import_categories_failure">Errore durante l\'importazione categorie</string>
     <string name="import_categories_success">%1$d categorie state importate</string>
     <string name="important_version_information">Nuova versione: Informazioni importanti</string>
-    <string name="invalid_number_format">Numero formato non riconosciuto dal vostro Locale. Usa %1$s</string>
+    <string name="invalid_number_format">Numero formato non riconosciuto dal vostro regione %1$s</string>
     <string name="label">Titolo</string>
     <string name="menu_backup">Backup</string>
     <string name="menu_changes">Modifiche</string>
