@@ -123,7 +123,7 @@
       <phrase lang="en">Managing transactions</phrase>
       <phrase lang="fr">Gestion des opérations</phrase>
       <phrase lang="de">Verwaltung der Buchungen</phrase>
-      <phrase lang="it"></phrase>
+      <phrase lang="it">Gestione delle transazioni</phrase>
     </title>
     <para id="step4">
       <screenshot>
@@ -143,7 +143,7 @@
       neuen Buchung.
     </para>
     <para lang="it">
-      
+      <guimenuitem>Aggiungi operazione</guimenuitem> porta in primo piano l'attività per la creazione di una transazione:
     </para>
     <para id="step5">
       <screenshot>
@@ -171,7 +171,9 @@
       auswählen</guilabel>. Dieser wird später erklärt.
     </para>
     <para lang="it">
-      
+      Regolare data e ora, fare clico sul pulsante <guibutton>-</guibutton> per passare
+      gli oneri ei proventi, inserire importo, le note e il beneficiario (o debitore). Cliccando sul
+      <guibutton>Selezionare</guibutton> il pulsante, si apre la <guilabel>Selezionare una categoria</guilabel> attività. Vi spiegheremo di seguito, come gestire le categorie. 
     </para>
     <para lang="en">
       Back at the transaction list, you can edit individual entries through a short click,
@@ -189,7 +191,8 @@
       (Empfänger, Notizen).
     </para>
     <para lang="it">
-      
+      Ritorno alla lista transazione, è possibile modificare le singole voci attraverso un click breve,
+      il menu contestuale permette di cancellare una transazione, o visualizzare tutti i dettagli 		(beneficiario, note) su di esso.
     </para>
     <para id="step6">
       <screenshot>
@@ -219,7 +222,9 @@
         selben Währung gibt.
       </para>
       <para lang="it">
-      
+        <guimenuitem>Aggiungi il trasferimento</guimenuitem> consente di trasferire denaro tra
+        conti. Questo comando è disponibile solo se si dispone di più di uno conto con
+        la stessa valuta di quella attuale.
       </para>
     </sect2>
   </sect1>
