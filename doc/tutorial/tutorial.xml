@@ -4,8 +4,9 @@
   <articleinfo>
   <title>
     <phrase lang="en"><application>My Expenses</application> Tutorial</phrase>
-    <phrase lang="fr"><application>My Expenses</application> Tutorial</phrase>
+    <phrase lang="fr"><application>My Expenses</application> Tutoriel</phrase>
     <phrase lang="de"><application>My Expenses</application> Anleitung</phrase>
+    <phrase lang="it"><application>My Expenses</application> Tutorial</phrase>
   </title>
     <author>
       <firstname>Michael</firstname>
@@ -27,6 +28,7 @@
       <phrase lang="en">Managing accounts</phrase>
       <phrase lang="fr">Gestion des comptes</phrase>
       <phrase lang="de">Verwaltung der Konten</phrase>
+      <phrase lang="it">Gestione degli conti</phrase>
     </title>
     <para lang="en">
       The first thing you will probably want to do, is edit the default account, or create
@@ -40,6 +42,9 @@
       Als erstes möchten Sie wahrscheinlich das bei der Installation eingerichtete Konto
       verändern, oder ein neues Konto einrichten. Aktivieren Sie den Eintrag
       <guimenuitem>Konto auswählen</guimenuitem> im Menü.</para>
+    <para lang="it">
+      La prima cosa che probabilmente si desidera cambiare il conto creato durante l'installazione, o       	  creare un nuovo account. Aktivieren Sie den Eintrag
+      <guimenuitem>Selezionare un conto</guimenuitem> del menu</para>
     <para id="step1">
       <screenshot>
         <graphic fileref="step1.png"></graphic>
@@ -60,7 +65,12 @@
       Kontextmenü aufgerufen mit Befehlen zum Verändern oder Löschen. Das aktuell
       ausgewählte Konto kann nicht gelöscht werden.
     </para>
-    <para id="step2">
+     <para lang="it">
+      Come ogni applicazione Android, un clic lungo sul conto si apre un menu
+      contesto, con cui è possibile modificarlo o eliminarlo. il conto attualmente selezionato non può
+      essere cancellato.
+    </para>
+   <para id="step2">
       <screenshot>
         <graphic fileref="step2.png"></graphic>
       </screenshot>
@@ -74,6 +84,9 @@
     <para lang="de">
       Geben Sie eine Bezeichnung, eine Beschreibung, den Anfangssaldo und die Währung des
       Kontos ein.
+    </para>
+    <para lang="it">
+      Inserire una etichetta, una descrizione, il saldo di apertura, e una valuta per il conto.
     </para>
     <para id="step3">
       <screenshot>
@@ -98,6 +111,10 @@
       anzulegen. Durch einen kurzen Klick auf ein Konto in der Liste, wird dieses als
       aktuelles Konto ausgewählt.
     </para>
+    <para lang="it">
+      Confermare la voce, e si ritorna alla lista di conti. La voce di menu 
+      <guimenuitem>Aggiungere conto</guimenuitem> consente di aggiungere tutti gli conti che vuoi.
+    </para>
   </sect1>
    
    <!-- Tutorial2 -->
@@ -106,6 +123,7 @@
       <phrase lang="en">Managing transactions</phrase>
       <phrase lang="fr">Gestion des opérations</phrase>
       <phrase lang="de">Verwaltung der Buchungen</phrase>
+      <phrase lang="it"></phrase>
     </title>
     <para id="step4">
       <screenshot>
@@ -123,6 +141,9 @@
     <para lang="de">
       <guimenuitem>Neue Buchung</guimenuitem> öffnet den Bildschirm für die Eingabe einer
       neuen Buchung.
+    </para>
+    <para lang="it">
+      
     </para>
     <para id="step5">
       <screenshot>
@@ -149,6 +170,9 @@
       <guibutton>Auswählen</guibutton> kommen Sie zum Bildschirm <guilabel>Kategorie
       auswählen</guilabel>. Dieser wird später erklärt.
     </para>
+    <para lang="it">
+      
+    </para>
     <para lang="en">
       Back at the transaction list, you can edit individual entries through a short click,
       the context menu allows deleting a transaction, or display full details (payee,
@@ -164,6 +188,9 @@
       werden, das Kontextmenü erlaubt das Löschen und die Anzeige von Detailinformationen
       (Empfänger, Notizen).
     </para>
+    <para lang="it">
+      
+    </para>
     <para id="step6">
       <screenshot>
         <graphic fileref="step6.png"></graphic>
@@ -174,6 +201,7 @@
         <phrase lang="en">Transfer</phrase>
         <phrase lang="fr">Virement</phrase>
         <phrase lang="de">Umbuchung</phrase>
+        <phrase lang="it">Trasferimento</phrase>
       </title>
       <para lang="en">
         <guimenuitem>Add transfer</guimenuitem> allows you to transfer money between
@@ -190,6 +218,9 @@
         verschieben. Dieser Befehl steht nur zur Verfügung, wenn es mehrere Konten mit der
         selben Währung gibt.
       </para>
+      <para lang="it">
+      
+      </para>
     </sect2>
   </sect1>
    
@@ -199,6 +230,7 @@
       <phrase lang="en">Managing categories</phrase>
       <phrase lang="fr">Gestion des catégories</phrase>
       <phrase lang="de">Verwaltung der Kategorien</phrase>
+      <phrase lang="it"></phrase>
     </title>
     <para lang="en">
       At the beginning, no categories are defined. You have two options for adding them,
@@ -211,6 +243,9 @@
     <para lang="de">
       Zu Beginn gibt es noch keine Kategorien. Vom Menü aus gibt es zwei Möglichkeiten,
       diese anzulegen.
+    </para>
+    <para lang="it">
+      
     </para>
     <para id="step7">
       <screenshot>
@@ -259,6 +294,9 @@
       <filename>categories.xml</filename> in einen Ordner <filename>myexpenses</filename>
       in das Wurzelverzeichnis der SD-Karte.
     </para>
+    <para lang="it">
+      
+    </para>
     <para id="step8">
       <screenshot>
         <graphic fileref="step8.png"></graphic>
@@ -275,6 +313,9 @@
     <para lang="de">
       Sie können die importierten Kategorien und Unterkategorien jetzt Ihren Buchungen
       zuordnen.
+    </para>
+    <para lang="it">
+      
     </para>
     <para id="step9">
       <screenshot>
@@ -293,6 +334,9 @@
     <para lang="de">
       Die zweite Möglichkeit besteht darin, Kategorien selbst anzulegen. <guimenuitem>Neue
       Hauptkategorie</guimenuitem> öffnet einen Dialog zur Eingabe einer Bezeichnung.
+    </para>
+    <para lang="it">
+      
     </para>
     <para id="step10">
       <screenshot>
@@ -315,6 +359,9 @@
       Zuordnung einer Unterkategorie zur aktuellen Buchung erfolgt durch kurzen Klick. Die
       Zuordnung einer Hauptkategorie ist durch das Kontextmenü möglich.
     </para>
+    <para lang="it">
+      
+    </para>
     <para id="step11">
       <screenshot>
         <graphic fileref="step11.png"></graphic>
@@ -334,13 +381,18 @@
       einer Hauptkategorie. Die Unterkategorien verfügen auch über ein Kontextmenü mit
       Einträgen zum Löschen und Verändern.
     </para>
+    <para lang="it">
+      
+    </para>
   </sect1>
    
    <!-- Tutorial4 -->
   <sect1 id="tutorial4">
-    <title>      <phrase lang="en">Export transactions</phrase>
-    <phrase lang="fr">Exporter les opérations</phrase>
-    <phrase lang="de">Buchungen exportieren</phrase>
+    <title>
+      <phrase lang="en">Export transactions</phrase>
+      <phrase lang="fr">Exporter les opérations</phrase>
+      <phrase lang="de">Buchungen exportieren</phrase>
+      <phrase lang="it"></phrase>
     </title>
     <para lang="en">
       Finally, the raison d'être of <application>My Expenses</application> is its support
@@ -387,6 +439,9 @@
       Umbuchungen werden auch von dem Konto gelöscht, sind aber im anderen Konto, auf das
       sie sich beziehen, weiterhin sichtbar.
     </para>
+    <para lang="it">
+      
+    </para>
     <para id="step12">
       <screenshot>
         <graphic fileref="step12.png"></graphic>
@@ -404,6 +459,9 @@
       Voilà. Jetzt können Sie Ihr Telefon mit dem Computer verbinden, Grisbi (oder
       Gnucash) öffnen und seine Import-Funktion verwenden.
     </para>
+    <para lang="it">
+      
+    </para>
    </sect1>
 
    <!-- Tutorial5 -->
@@ -412,6 +470,7 @@
       <phrase lang="en">Backup and restore</phrase>
       <phrase lang="fr">Sauvegarde et restauration</phrase>
       <phrase lang="de">Backup und Wiederherstellung</phrase>
+      <phrase lang="it"></phrase>
     </title>
     <para lang="en">
       <guimenuitem>Backup</guimenuitem> creates a backup of database and preferences in
@@ -441,6 +500,9 @@
       installiert wird. Sie können also die Anwendungsdaten komplett auf ein weiteres
       Gerät kopieren, indem Sie diese beiden Dateien an denselben Ort auf diesem kopieren,
       bevor Sie <application>My Expenses</application> installieren.
+    </para>
+    <para lang="it">
+      
     </para>
   </sect1>
 </article>
