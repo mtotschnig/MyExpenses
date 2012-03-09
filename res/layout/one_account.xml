@@ -18,16 +18,17 @@
 
       <TableRow>
         <TextView android:text="@string/label" />
-        <EditText 
+        <EditText
+            android:layout_span="2"
             android:id="@+id/Label" 
             android:layout_width="wrap_content" 
-            android:layout_height="wrap_content" 
-            android:padding="3dip" />
+            android:layout_height="wrap_content" />
       </TableRow>
 
       <TableRow>
         <TextView android:text="@string/description" />
-        <EditText 
+        <EditText
+            android:layout_span="2"
             android:id="@+id/Description" 
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content" />
@@ -35,7 +36,8 @@
       
       <TableRow>
         <TextView android:text="@string/opening_balance"/>
-         <EditText 
+         <EditText
+             android:layout_span="2"
              android:inputType="phone" 
              android:id="@+id/Opening_balance" 
              android:layout_width="wrap_content" 
@@ -45,22 +47,14 @@
       
       <TableRow>
       <TextView android:text="@string/currency" />
-	      <LinearLayout android:orientation="horizontal">
 	        <AutoCompleteTextView 
 	            android:completionThreshold="1" 
 	            android:id="@+id/Currency" 
-	            android:layout_width="0dip"
-	            android:layout_weight="1"
-	            android:layout_height="fill_parent"
 	            android:maxLength="3"
 	            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" />
           <Button 
-              android:layout_width="0dip" 
-              android:layout_height="fill_parent"
-              android:layout_weight="1"
               android:id="@+id/Select" 
-              android:text="@string/select"></Button>
-	      </LinearLayout>
+              android:text="@string/select" />
       </TableRow>
     </TableLayout>
   </ScrollView>
