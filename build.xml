@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="MyExpenses" default="help">
-
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
     <!-- The local.properties file is created and updated by the 'android' tool.
          It contains the path to the SDK. It should *NOT* be checked into
          Version Control Systems. -->
@@ -85,32 +85,54 @@
 	<target name="-compile" depends="-config, -build-setup, -pre-build, -code-gen, -pre-compile">
 	 -->
   <target name="-config">
-  	<tstamp/>
+    <tstamp/>
     <echo>Configuring build date</echo>
-          <property name="config-target-path" value="res/raw"/>
-
-          <!-- Copy the configuration file, replacing tokens in the file. -->
-          <copy file="template/app.properties" todir="${config-target-path}" 
-                overwrite="true" encoding="utf-8">
-                  <filterset>
-                          <filter token="build.date" value="${DSTAMP}-${TSTAMP}"/>
-                  </filterset>
-          </copy>
+    <property name="config-target-path" value="res/raw"/>
+    <!-- Copy the configuration file, replacing tokens in the file. -->
+    <copy file="template/app.properties" todir="${config-target-path}" 
+        overwrite="true" encoding="utf-8">
+      <filterset>
+        <filter token="build.date" value="${DSTAMP}-${TSTAMP}"/>
+      </filterset>
+    </copy>
   </target>
   <target name="package-source">
-	<zip destfile="MyExpenses-source.zip">
-		<zipfileset dir="." includes="AndroidManifest.xml assets/** build.xml libs/** project.properties  res/**  src/**  template/**"/>
-		<zipfileset dir="tests" includes="AndroidManifest.xml project.properties src/**" prefix="tests"/>
-	</zip>
+  	<zip destfile="MyExpenses-source.zip">
+  		<zipfileset dir="." includes="AndroidManifest.xml assets/** build.xml libs/** project.properties  res/**  src/**  template/**"/>
+  		<zipfileset dir="tests" includes="AndroidManifest.xml project.properties src/**" prefix="tests"/>
+  	</zip>
   </target>
-<target name="javadoc">
-  <javadoc
-           destdir="doc/javadoc"
-           author="true"
-           version="true"
-           use="true">
-
-    <packageset dir="src"/>
-  </javadoc>
-</target>
+	<!-- for task from ant contrib -->
+  <target name="tutorial">
+    <for list="en,fr,de" param="language">
+      <sequential>
+    	<xslt in="doc/tutorial/tutorial.xml" out="doc/tutorial/tutorial_@{language}.xml"
+    	    style="doc/tutorial/xsl/filter_language.xsl">
+    	<param name="language" expression="@{language}"/>
+    	<xmlcatalog>
+    	  <dtd 
+    	    publicId="-//OASIS//DTD DocBook XML V4.4//EN"
+    		  location="/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd"/>
+    	</xmlcatalog>
+    	</xslt>
+  		  <!-- we run the Docbook stylesheet with xsltproc -->
+        <exec executable="xsltproc" failonerror="true">
+  			 	<arg value="--stringparam"/>
+  			 	<arg value="base.dir"/>
+  			 	<arg value="../MyExpenses.pages/tutorial/@{language}/"/>
+  			 	<arg value="doc/tutorial/xsl/tutorial.xsl"/>
+  			 	<arg value="doc/tutorial/tutorial_@{language}.xml"/>
+  			</exec>	
+      </sequential>
+  	</for>
+	</target>
+	<target name="javadoc">
+    <javadoc
+        destdir="doc/javadoc"
+        author="true"
+        version="true"
+        use="true">
+      <packageset dir="src"/>
+    </javadoc>
+  </target>
 </project>
