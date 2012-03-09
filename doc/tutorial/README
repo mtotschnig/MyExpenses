@@ -1,6 +1,6 @@
 Workflow for producing Tutorial
-uses Ubuntu package docbook-xsl 1.75.2+dfsg-3
 
+Uses Ubuntu package docbook-xsl 1.75.2+dfsg-3
 Base dir doc/tutorial
 
 1)
@@ -18,4 +18,27 @@ xsltproc --stringparam base.dir ../../../MyExpenses.pages/tutorial/en/ xsl/tutor
 xsltproc --stringparam base.dir ../../../MyExpenses.pages/tutorial/fr/ xsl/tutorial.xsl tutorial_fr.xml
 xsltproc --stringparam base.dir ../../../MyExpenses.pages/tutorial/de/ xsl/tutorial.xsl tutorial_de.xml
 
-TODO: create ant target
+now executed through ant target tutorial
+
+3) Screenshots
+
+I create screenshots with Eclipse DDMS from a virtual machine with Android-x86, 
+with screenresolution set to 400x600.
+The png should be stored into MyExpenses.pages/tutorial/{lang}/large.
+The smaller image can be created with the following shell command
+executed from MyExpenses.pages/tutorial and steps set to a list of numbers of changed
+screenshots
+steps="3 5 9"
+for lang in en fr de
+  do (
+    cd ${lang}/large
+    pwd
+    for i in 3
+      do
+        convert step${i}.png -resize 50%  step${i}_klein.png
+        pngnq step${i}_klein.png
+        mv step${i}_klein-nq8.png ../step${i}.png
+        rm step${i}_klein.png
+      done
+    )
+  done
