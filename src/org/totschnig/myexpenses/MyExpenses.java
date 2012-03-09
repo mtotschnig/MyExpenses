@@ -53,6 +53,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 //import android.util.DisplayMetrics;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 
 /**
@@ -286,9 +287,18 @@ public class MyExpenses extends ListActivity {
     switch (id) {
     case HELP_DIALOG_ID:
       li = LayoutInflater.from(this);
-      view = li.inflate(R.layout.aboutview, null); 
-      TextView tv = (TextView)view.findViewById(R.id.aboutVersionCode);
+      view = li.inflate(R.layout.aboutview, null);
+      TextView tv;
+      tv = (TextView)view.findViewById(R.id.aboutVersionCode);
       tv.setText(getVersionInfo());
+      tv = (TextView)view.findViewById(R.id.help_project_home);
+      tv.setMovementMethod(LinkMovementMethod.getInstance());
+      tv = (TextView)view.findViewById(R.id.help_author);
+      tv.setMovementMethod(LinkMovementMethod.getInstance());
+      tv = (TextView)view.findViewById(R.id.help_gpl);
+      tv.setMovementMethod(LinkMovementMethod.getInstance());
+      tv = (TextView)view.findViewById(R.id.help_apache);
+      tv.setMovementMethod(LinkMovementMethod.getInstance());
       return new AlertDialog.Builder(this)
         .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
         .setIcon(R.drawable.about)

@@ -116,4 +116,12 @@
     <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. Do you want to continue?</string>
     <string name="warning_reset_account">All transactions of this account will be deleted. Do you want to continue?</string>
     <string name="warning_select_account">Please select an account!</string>
+    
+    <!-- strings below this comment do not need translations -->
+    <string name="help_author"><a href="mailto:michael@totschnig.org">Michael Totschnig</a></string>
+    <string name="help_project_home"><a href="http://myexpenses.totschnig.org/">http://myexpenses.totschnig.org/</a></string>
+    <string name="help_gpl"><a href="http://www.gnu.org/licenses/gpl.html">http://www.gnu.org/licenses/gpl.html</a></string>
+    <string name="help_apache">Includes FTP library from 
+        <a href="http://commons.apache.org/net/">http://commons.apache.org/net/</a> (licenced under 
+        <a href="http://www.apache.org/licenses/LICENSE-2.0.txt">http://www.apache.org/licenses/LICENSE-2.0.txt</a>)</string>
 </resources>
