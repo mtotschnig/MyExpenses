@@ -5,6 +5,8 @@ Steps for preparing a new release
 * Set version info in Manifest
 * comment version in VersionList.java and gh-pages index.html
 * Create release tag in GIT
+* ant clean
 * ant release
 * cp APK and proguard folder into a new folder in releases
+* upload to Android Market
 
