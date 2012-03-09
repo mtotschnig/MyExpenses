@@ -88,7 +88,7 @@
     <para lang="de">
       Geben Sie eine Bezeichnung, eine Beschreibung, den Anfangssaldo und die Währung des
       Kontos ein. Die Währung muss anhand ihrer dreistelligen Abkürzung ISO 4217 eingegeben werden,
-      aber kann durch Klick auf auch <guibutton>Auswählen</guibutton> einfach aus einer Liste ausgewählt werden.
+      aber kann durch Klick auf <guibutton>Auswählen</guibutton> einfach aus einer Liste ausgewählt werden.
     </para>
     <para lang="it">
       Inserire una etichetta, una descrizione, il saldo di apertura, e una valuta per il conto.
