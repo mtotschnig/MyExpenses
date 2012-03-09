@@ -1,0 +1,10 @@
+Steps for preparing a new release
+
+* Run unit tests
+* Verify if tutorial and screenshots are up2date
+* Set version info in Manifest
+* comment version in VersionList.java and gh-pages index.html
+* Create release tag in GIT
+* ant release
+* cp APK and proguard folder into a new folder in releases
+
