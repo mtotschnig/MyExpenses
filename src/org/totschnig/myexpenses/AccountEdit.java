@@ -20,8 +20,14 @@ import java.util.Currency;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -33,13 +39,18 @@ import android.widget.Toast;
  * @author Michael Totschnig
  */
 public class AccountEdit extends Activity {
+  private static final int CURRENCY_DIALOG_ID = 0;
   private ExpensesDbAdapter mDbHelper;
   private EditText mLabelText;
   private EditText mDescriptionText;
   private EditText mOpeningBalanceText;
   private AutoCompleteTextView mCurrencyText;
+  private Button mCurrencyButton;
   Account mAccount;
   private NumberFormat nfDLocal;
+  private String[] currencyCodes;
+  private String[] currencyDescs;
+  private TextWatcher currencyInformer;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +59,9 @@ public class AccountEdit extends Activity {
     nfDLocal = NumberFormat.getNumberInstance();
     nfDLocal.setGroupingUsed(false);
     
+    currencyCodes = Account.getCurrencyCodes();
+    currencyDescs = Account.getCurrencyDescs();
+    
     setContentView(R.layout.one_account);
 
     mLabelText = (EditText) findViewById(R.id.Label);
@@ -55,9 +69,31 @@ public class AccountEdit extends Activity {
     mOpeningBalanceText = (EditText) findViewById(R.id.Opening_balance);
     mCurrencyText = (AutoCompleteTextView) findViewById(R.id.Currency);
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-        android.R.layout.simple_dropdown_item_1line, Account.ISO_4217);
+        android.R.layout.simple_dropdown_item_1line, currencyCodes);
     mCurrencyText.setAdapter(adapter);
+    
+    currencyInformer = new TextWatcher() {
+      public void afterTextChanged(Editable s) {
+        if (s.length() == 3) {
+          int index = java.util.Arrays.asList(currencyCodes).indexOf(
+              s.toString());
+          if (index > -1) {
+            Toast.makeText(AccountEdit.this,currencyDescs[index], Toast.LENGTH_LONG).show();
+          }
+        }
+      }
+      public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+      public void onTextChanged(CharSequence s, int start, int before, int count){}
+    };
 
+    mCurrencyButton = (Button) findViewById(R.id.Select);
+    mCurrencyButton.setOnClickListener(new View.OnClickListener() {
+
+      public void onClick(View view) {
+        mCurrencyText.removeTextChangedListener(currencyInformer);
+        showDialog(CURRENCY_DIALOG_ID);
+      }
+    });
     Button confirmButton = (Button) findViewById(R.id.Confirm);
     Button cancelButton = (Button) findViewById(R.id.Cancel);
 
@@ -76,7 +112,34 @@ public class AccountEdit extends Activity {
     });
     populateFields();
   }
-
+  /* (non-Javadoc)
+   * @see android.app.Activity#onPostCreate(android.os.Bundle)
+   * we add the textwatcher only here, to prevent it being triggered
+   * during orientation change
+   */
+  @Override
+  protected void onPostCreate (Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+    mCurrencyText.addTextChangedListener(currencyInformer);
+  }
+  @Override
+  protected Dialog onCreateDialog(int id) {
+    switch (id) {
+      case CURRENCY_DIALOG_ID:
+        int checked = java.util.Arrays.asList(currencyCodes).indexOf(
+            mCurrencyText.getText().toString());
+        return new AlertDialog.Builder(this)
+          .setTitle(R.string.dialog_title_select_currency)
+          .setSingleChoiceItems(currencyDescs, checked, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+              mCurrencyText.setText(currencyCodes[item]);
+              dialog.cancel();
+              mCurrencyText.addTextChangedListener(currencyInformer);
+            }
+          }).create();
+    }
+    return null;
+  }
   /**
    * populates the input field either from the database or with default value for currency (from Locale)
    */
