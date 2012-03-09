@@ -77,13 +77,18 @@
     </para>
     <para lang="en">
       Enter a label, a description, the opening balance, and a currency for the account.
+      The currency must be entered according to its three-letter code in ISO 4217, but can be chosen easily
+      from a list by clicking on the <guibutton>Select</guibutton> button.
     </para>
     <para lang="fr">
       Entrez un libellé, une description, le solde d'ouverture et la devise de ce compte.
+      La device doit être saisie selon le code en trois lettres ISO 4217, mais peut être facilement sélectionné
+      à partir d'une liste en cliquant sur <guibutton>Sélectionner</guibutton>
     </para>
     <para lang="de">
       Geben Sie eine Bezeichnung, eine Beschreibung, den Anfangssaldo und die Währung des
-      Kontos ein.
+      Kontos ein. Die Währung muss anhand ihrer dreistelligen Abkürzung ISO 4217 eingegeben werden,
+      aber kann durch Klick auf auch <guibutton>Auswählen</guibutton> einfach aus einer Liste ausgewählt werden.
     </para>
     <para lang="it">
       Inserire una etichetta, una descrizione, il saldo di apertura, e una valuta per il conto.
