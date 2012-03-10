@@ -209,7 +209,7 @@ public class ExpensesDbAdapter {
       return false;
     File currentDb = new File(mDb.getPath());
 
-    if (currentDb.exists() && backupDb.canWrite()) {
+    if (currentDb.exists()) {
       return Utils.copy(currentDb, backupDb);
     }
     return false;
