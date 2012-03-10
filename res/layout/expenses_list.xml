@@ -8,8 +8,8 @@
       android:paddingLeft="10dp"
       android:id="@+id/top"
       android:layout_width="fill_parent"
-	    android:orientation="horizontal"
-	    android:layout_height="fill_parent">
+      android:orientation="horizontal"
+      android:layout_height="fill_parent">
     <TextView
         android:layout_alignParentLeft="true"
         android:layout_height="wrap_content"
@@ -18,9 +18,9 @@
     <TextView
         android:text="START"
         android:id="@+id/start" 
-	      android:layout_alignParentRight="true"
-	      android:layout_height="wrap_content"
-	      android:layout_width="wrap_content" />
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
   </RelativeLayout>
   <ListView
       android:id="@+id/android:list"
@@ -28,11 +28,13 @@
       android:layout_height="0px"
       android:layout_weight="1"
       android:background="@drawable/border" />
- 	<TextView
- 	    android:id="@+id/android:empty"
-      android:layout_width="wrap_content"
-  	  android:layout_height="wrap_content"
-  	  android:text="@string/no_expenses" />
+   <TextView
+       android:paddingRight="10dp"
+       android:paddingLeft="10dp"
+       android:id="@+id/android:empty"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/no_expenses" />
   <RelativeLayout
       android:paddingRight="10dp"
       android:paddingLeft="10dp"
@@ -43,13 +45,13 @@
     <TextView 
         android:layout_alignParentLeft="true"
         android:layout_height="wrap_content"
-	      android:layout_width="wrap_content"
-	      android:text="@string/current_balance" />
+        android:layout_width="wrap_content"
+        android:text="@string/current_balance" />
     <TextView
         android:text="END"
         android:id="@+id/end" 
         android:layout_alignParentRight="true"
-	      android:layout_height="wrap_content"
-	      android:layout_width="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
   </RelativeLayout>
 </LinearLayout>
