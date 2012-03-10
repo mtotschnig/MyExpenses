@@ -23,6 +23,11 @@ public class VersionList {
   public static ArrayList<HashMap<String, String>> get () {
     final String[][] versions = {
         {
+          "1.4.7.1",
+          "March 10 2012",
+          "Fixed layout of expense list in landscape mode. Bug fix for backup." 
+        },
+        {
           "1.4.7",
           "March 9 2012",
           "Improved usability of currency input. Reduced apk size, since tutorial is no longer included, but hosted on Github." 
