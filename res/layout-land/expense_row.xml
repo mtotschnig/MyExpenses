@@ -6,9 +6,10 @@
 <TextView 
     android:text="DATE"
     android:id="@+id/date"
-    android:layout_width="55dp"
+    android:layout_width="wrap_content"
     android:layout_alignParentLeft="true"
-    android:layout_height="wrap_content" />
+    android:layout_height="wrap_content"
+    android:paddingRight="4dp"/>
 <TextView
     android:text="CATEGORY"
     android:id="@+id/category" 
