@@ -202,13 +202,13 @@ public class MyExpenses extends ListActivity {
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    menu.add(0, INSERT_TA_ID, 0, R.string.menu_insert_ta);
-    menu.add(0, INSERT_TRANSFER_ID, 0, R.string.menu_insert_transfer);
-    menu.add(0, RESET_ID,1,R.string.menu_reset);
-    menu.add(0, HELP_ID,1,R.string.menu_help);
-    menu.add(0, SELECT_ACCOUNT_ID,1,R.string.select_account);
-    menu.add(0,SETTINGS_ID,1,R.string.menu_settings);
-    menu.add(0,BACKUP_ID,1,R.string.menu_backup);
+    menu.add(0, INSERT_TA_ID, 0, R.string.menu_insert_ta).setIcon(android.R.drawable.ic_menu_add);
+    menu.add(0, INSERT_TRANSFER_ID, 0, R.string.menu_insert_transfer).setIcon(android.R.drawable.ic_menu_add);
+    menu.add(0, RESET_ID,1,R.string.menu_reset).setIcon(android.R.drawable.ic_menu_revert);
+    menu.add(0, HELP_ID,1,R.string.menu_help).setIcon(android.R.drawable.ic_menu_help);
+    menu.add(0, SELECT_ACCOUNT_ID,1,R.string.select_account).setIcon(android.R.drawable.ic_menu_manage);
+    menu.add(0,SETTINGS_ID,1,R.string.menu_settings).setIcon(android.R.drawable.ic_menu_preferences);
+    menu.add(0,BACKUP_ID,1,R.string.menu_backup).setIcon(android.R.drawable.ic_menu_save);
     return true;
   }
 

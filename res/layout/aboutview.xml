@@ -18,7 +18,9 @@
         style="@style/about_text" />
     <TextView android:text="@string/help_apache"
         android:id="@+id/help_apache"
-        style="@style/about_text" />                                         
+        style="@style/about_text" />
+    <TextView android:text="@string/help_glyphish"
+        style="@style/about_text" />                                            
     <TextView android:text="@string/help_heading_project_home"
         style="@style/about_heading" />
     <TextView android:text="@string/help_project_home"

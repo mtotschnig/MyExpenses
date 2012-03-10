@@ -172,8 +172,8 @@ public class SelectCategory extends ExpandableListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        menu.add(0, CREATE_MAIN_CAT, 0, R.string.menu_create_main_cat);
-        menu.add(0, IMPORT_CAT_ID,1,R.string.import_categories);
+        menu.add(0, CREATE_MAIN_CAT, 0, R.string.menu_create_main_cat).setIcon(android.R.drawable.ic_menu_add);;
+        menu.add(0, IMPORT_CAT_ID,1,R.string.import_categories).setIcon(R.drawable.squiggle);
         return true;
     }
     

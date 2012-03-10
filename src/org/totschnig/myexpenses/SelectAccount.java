@@ -65,7 +65,7 @@ public class SelectAccount extends ListActivity {
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    menu.add(0, INSERT_ACCOUNT_ID, 0, R.string.menu_insert_account);
+    menu.add(0, INSERT_ACCOUNT_ID, 0, R.string.menu_insert_account).setIcon(android.R.drawable.ic_menu_add);;
     return true;
   }
   
