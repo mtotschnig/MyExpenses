@@ -82,7 +82,7 @@
     </para>
     <para lang="fr">
       Entrez un libellé, une description, le solde d'ouverture et la devise de ce compte.
-      La device doit être saisie selon le code en trois lettres ISO 4217, mais peut être facilement sélectionné
+      La devise doit être saisie selon le code ISO 4217 en trois lettres, mais peut être facilement sélectionné
       à partir d'une liste en cliquant sur <guibutton>Sélectionner</guibutton>
     </para>
     <para lang="de">
@@ -92,7 +92,9 @@
     </para>
     <para lang="it">
       Inserire una etichetta, una descrizione, il saldo di apertura, e una valuta per il conto.
-    </para>
+      La valuta deve essere inserita secondo la ISO 4217 di tre lettere, ma può essere facilmente selezionato
+      da una lista, fare clico <guibutton>Selezionare</ guibutton>
+</para>
     <para id="step3">
       <screenshot>
         <graphic fileref="step3.png"></graphic>
