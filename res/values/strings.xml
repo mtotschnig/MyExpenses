@@ -43,8 +43,12 @@
     <string name="ftp_login_failure">Login failure while trying to upload to %1$s</string>
     <string name="ftp_setFileType_failure">Could not set file type to ASCII while trying to upload to %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Could not change working directory while trying to upload to %1$s</string>
+    <string name="help_feedback">If you find <i>My Expenses</i> useful, 
+        please leave a comment in the <a href="market://details?id=org.totschnig.myexpenses">Market</a>. 
+        If you find a problem, have a suggestion for an improvement, 
+        or would like to contribute, please contact <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
 		<!-- The author title in the help screen. -->
-		<string name="help_heading_author"><u>Author</u></string>
+		<string name="help_heading_feedback"><u>Feedback</u></string>
 		<!-- The credits title in the help screen. -->
 		<string name="help_heading_credits"><u>Credits</u></string>
 		<!-- The license title in the help screen. -->
@@ -56,7 +60,7 @@
     <!-- The first line in the help screen. -->
     <string name="help_leading"><u>Thanks for installing MyExpenses for Android.</u></string>
 		<!-- The bulk of the help text. -->
-		   <string name="help_text">MyExpenses is designed to keep track of expenses during a short period of time, and to export these expenses into the Grisbi program.
+		<string name="help_text">MyExpenses is designed to keep track of expenses during a short period of time, and to export these expenses into the Grisbi program.
 		   MyExpenses calculates the sum of expenses and incomes, and the current balance.
 		   \nThe \"Reset\" menu entry exports expenses onto SD-Card in the QIF format, that Grisbi understands, deletes the expenses and updates the opening balance.
 		   \n\"Select account\" gives a list of defined accounts, where you can create new accounts (menu entry), edit or deleting existing ones (context menu) or change the currently displayed account (list click).
@@ -118,7 +122,6 @@
     <string name="warning_select_account">Please select an account!</string>
     
     <!-- strings below this comment do not need translations -->
-    <string name="help_author"><a href="mailto:michael@totschnig.org">Michael Totschnig</a></string>
     <string name="help_project_home"><a href="http://myexpenses.totschnig.org/">http://myexpenses.totschnig.org/</a></string>
     <string name="help_gpl"><a href="http://www.gnu.org/licenses/gpl.html">http://www.gnu.org/licenses/gpl.html</a></string>
     <string name="help_apache">Includes FTP library from 

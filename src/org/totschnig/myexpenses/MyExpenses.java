@@ -293,7 +293,7 @@ public class MyExpenses extends ListActivity {
       tv.setText(getVersionInfo());
       tv = (TextView)view.findViewById(R.id.help_project_home);
       tv.setMovementMethod(LinkMovementMethod.getInstance());
-      tv = (TextView)view.findViewById(R.id.help_author);
+      tv = (TextView)view.findViewById(R.id.help_feedback);
       tv.setMovementMethod(LinkMovementMethod.getInstance());
       tv = (TextView)view.findViewById(R.id.help_gpl);
       tv.setMovementMethod(LinkMovementMethod.getInstance());

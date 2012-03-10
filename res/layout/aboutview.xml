@@ -24,10 +24,10 @@
     <TextView android:text="@string/help_project_home"
         android:id="@+id/help_project_home"
         style="@style/about_text" />          
-    <TextView android:text="@string/help_heading_author"
+    <TextView android:text="@string/help_heading_feedback"
         style="@style/about_heading" />
-    <TextView android:text="@string/help_author"
-        android:id="@+id/help_author"
+    <TextView android:text="@string/help_feedback"
+        android:id="@+id/help_feedback"
 	      style="@style/about_text" />
     <TextView android:text="@string/help_heading_credits"
 	      style="@style/about_heading" />

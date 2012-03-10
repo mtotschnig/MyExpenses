@@ -41,7 +41,7 @@
     <string name="ftp_login_failure">Errore di login durante il caricamento di %1$s</string>
     <string name="ftp_setFileType_failure">Impossibile impostare il tipo di file ASCII durante il caricamento di %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Impossibile cambiare la cartella di lavoro durante il caricamento di %1$s</string>
-    <string name="help_heading_author"><u>Autore</u></string>
+    <string name="help_heading_feedback"><u>Feedback</u></string>
     <string name="help_heading_credits"><u>Generico</u></string>
     <string name="help_heading_license"><u>Licenza</u></string>
     <string name="help_heading_project_home"><u>Pagina iniziale</u></string>

@@ -26,6 +26,7 @@
     <string name="description">Description</string>
     <string name="dialog_no">Non</string>
     <string name="dialog_title_select_account">Sélectionner un compte</string>
+    <string name="dialog_title_select_currency">Sélectonner une monnaie</string>
     <string name="dialog_title_select_import_source">Sélectionner une source pour l\'import</string>
     <string name="dialog_yes">Oui</string>
     <string name="done">OK</string>
@@ -41,7 +42,11 @@
     <string name="ftp_login_failure">Erreur de login lors du téléchargement vers %1$s</string>
     <string name="ftp_setFileType_failure">Erreur de configuration en type de fichier ASCII lors du téléchargement vers %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Erreur de changement de répertoire lors du téléchargement vers %1$s</string>
-    <string name="help_heading_author"><u>Auteur</u></string>
+    <string name="help_feedback">Si <i>My Expenses</i> vous est utile, 
+        laissez un commentaire dans le <a href="market://details?id=org.totschnig.myexpenses">Market</a>. 
+        Si vous rencontrez un problème, si vous avez une suggestion pour une amélioration,
+        ou si vous désirez contribuer, contactez <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
+    <string name="help_heading_feedback"><u>Feedback</u></string>
     <string name="help_heading_credits"><u>Générique</u></string>
     <string name="help_heading_license"><u>Licence</u></string>
     <string name="help_heading_project_home"><u>Page d\'accueil</u></string>
