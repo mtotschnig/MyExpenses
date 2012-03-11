@@ -45,7 +45,7 @@
     <para lang="it">
       La prima cosa che probabilmente si desidera cambiare il conto creato durante l'installazione, 
       o creare un nuovo account. Selezionare la voce <guimenuitem>Selezionare un conto</guimenuitem> 
-      del menu</para>
+      del menù</para>
     <para id="step1">
       <screenshot>
         <graphic fileref="step1.png"></graphic>
@@ -67,8 +67,8 @@
       ausgewählte Konto kann nicht gelöscht werden.
     </para>
      <para lang="it">
-      Come ogni applicazione Android, un clic lungo sul conto si apre un menu
-      contesto, con cui è possibile modificarlo o eliminarlo. il conto attualmente selezionato non può
+      Come ogni applicazione Android, un clic lungo sul conto si apre un menù contestuale, 
+      con cui è possibile modificarlo o eliminarlo. il conto attualmente selezionato non può
       essere cancellato.
     </para>
    <para id="step2">
@@ -120,7 +120,7 @@
       aktuelles Konto ausgewählt.
     </para>
     <para lang="it">
-      Confermare la voce, e si ritorna alla lista di conti. La voce di menu 
+      Confermare la voce, e si ritorna alla lista di conti. La voce di menù 
       <guimenuitem>Aggiungere conto</guimenuitem> consente di aggiungere tutti gli conti che vuoi.
     </para>
   </sect1>
@@ -202,7 +202,7 @@
     </para>
     <para lang="it">
       Ritorno alla lista transazione, è possibile modificare le singole voci attraverso un click breve,
-      il menu contestuale permette di cancellare una transazione, o visualizzare tutti i dettagli 
+      il menù contestuale permette di cancellare una transazione, o visualizzare tutti i dettagli 
       (beneficiario, note).
     </para>
     <para id="step6">
@@ -262,7 +262,7 @@
     </para>
     <para lang="it">
       All'inizio, categorie non sono definite. Sono disponibili due opzioni per l'aggiunta di loro,
-      entrambi accessibili dal menu.
+      entrambi accessibili dal menù.
     </para>
     <para id="step7">
       <screenshot>
@@ -544,7 +544,7 @@
       bevor Sie <application>My Expenses</application> installieren.
     </para>
     <para lang="it">
-      <guimenuitem>Backup</guimenuitem>crea un backup del database e delle preferenze nella
+      <guimenuitem>Backup</guimenuitem> crea un backup del database e delle preferenze nella
       cartella <filename>myexpenses</filename> sulla scheda SD. Il database viene memorizzato nel
       file chiamato <filename>BACKUP</filename> e le preferenze nel file <filename>BACKUP_PREF</filename>.
       Entrambi sono automaticamente ripristinate quando si reinstalla 
