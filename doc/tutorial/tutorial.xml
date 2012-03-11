@@ -390,7 +390,7 @@
     <para lang="it">
       Cliccando su una categoria principale, apre le sue sottocategorie. Si seleziona una sottocategoria
       per la transazione corrente, semplicemente cliccando.
-      Al fine di mappare un categoria principale, si deve chiamare il suo menu contestuale.     
+      Al fine di mappare un categoria principale, si deve chiamare il suo menù contestuale.     
     </para>
     <para id="step11">
       <screenshot>
@@ -413,7 +413,7 @@
     </para>
     <para lang="it">
       Da qui è inoltre possibile aggiungere nuove sottocategorie, eliminare una categoria o modificarlo.
-      Sottocategorie hanno anche menu di scelta rapida per la eliminazione e la modifica.
+      Sottocategorie hanno anche menù di scelta rapida per la eliminazione e la modifica.
     </para>
   </sect1>
    
@@ -423,7 +423,7 @@
       <phrase lang="en">Export transactions</phrase>
       <phrase lang="fr">Exporter les opérations</phrase>
       <phrase lang="de">Buchungen exportieren</phrase>
-      <phrase lang="it"></phrase>
+      <phrase lang="it">Esportazione di operazioni</phrase>
     </title>
     <para lang="en">
       Finally, the raison d'être of <application>My Expenses</application> is its support
@@ -471,7 +471,17 @@
       sie sich beziehen, weiterhin sichtbar.
     </para>
     <para lang="it">
-      
+      Infine, la ragion d'essere di <application>My Expenses</application> è il suo supporto
+      per l'esportazione in formato QIF. Chiama questa funzione attraverso la voce <guimenitem>
+      Reinitializare</guimenuitem> di menù dalla lista transazione. Questo sarà crea un file sul tuo 
+      scheda SD con tutte le transazioni per il conto corrente, eliminare dal database, e regolare 
+      il saldo di apertura con il saldo corrente. <application>My Expenses</application> posso
+      condividere il file subito dopo il export, sia caricarlo in un server FTP o inviarla via e-mail.
+      È possibile configurare il URL dalla voce di menù "Parametri" (ad esempio
+      "ftp://login:password@my.example.org:port/my/directory/" o "mailto:john@my.example.com").
+      <phrase role="br"/>
+      Operazioni di trasferimento verrà eliminato anche dal conto, ma ancora visibile in
+      l'altro conto a cui si riferiscono.
     </para>
     <para id="step12">
       <screenshot>
@@ -491,7 +501,8 @@
       Gnucash) öffnen und seine Import-Funktion verwenden.
     </para>
     <para lang="it">
-      
+      Voilà. È ora possibile collegare il telefono al computer, aprire Grisbi (o GnuCash),
+      e utilizzare la funzionalità di importazione.
     </para>
    </sect1>
 
