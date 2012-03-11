@@ -1,4 +1,4 @@
-<?xml version='1.0'?>
+﻿<?xml version='1.0'?>
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"   "docbookx.dtd">
 <article>
   <articleinfo>
@@ -94,7 +94,7 @@
     <para lang="it">
       Inserire una etichetta, una descrizione, il saldo di apertura, e una valuta per il conto.
       La valuta deve essere inserita secondo la ISO 4217 di tre lettere, ma può essere facilmente selezionato
-      da una lista, fare clico <guibutton>Selezionare</ guibutton>
+      da una lista, fare clico <guibutton>Selezionare</guibutton>
 </para>
     <para id="step3">
       <screenshot>
@@ -472,7 +472,7 @@
     </para>
     <para lang="it">
       Infine, la ragion d'essere di <application>My Expenses</application> è il suo supporto
-      per l'esportazione in formato QIF. Chiama questa funzione attraverso la voce <guimenitem>
+      per l'esportazione in formato QIF. Chiama questa funzione attraverso la voce <guimenuitem>
       Reinitializare</guimenuitem> di menù dalla lista transazione. Questo sarà crea un file sul tuo 
       scheda SD con tutte le transazioni per il conto corrente, eliminare dal database, e regolare 
       il saldo di apertura con il saldo corrente. <application>My Expenses</application> posso
