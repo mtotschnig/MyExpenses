@@ -246,7 +246,7 @@
       <phrase lang="en">Managing categories</phrase>
       <phrase lang="fr">Gestion des catégories</phrase>
       <phrase lang="de">Verwaltung der Kategorien</phrase>
-      <phrase lang="it"></phrase>
+      <phrase lang="it">Gestione delle categorie</phrase>
     </title>
     <para lang="en">
       At the beginning, no categories are defined. You have two options for adding them,
@@ -261,7 +261,8 @@
       diese anzulegen.
     </para>
     <para lang="it">
-      
+      All'inizio, categorie non sono definite. Sono disponibili due opzioni per l'aggiunta di loro,
+      entrambi accessibili dal menu.
     </para>
     <para id="step7">
       <screenshot>
@@ -311,19 +312,28 @@
       in das Wurzelverzeichnis der SD-Karte.
     </para>
     <para lang="it">
-      
+      <guimenuitem>Categorie di importazione</guimenuitem> permette di impostare le categorie di file
+      inclusa da Grisbi in inglese, tedesco o francese. Se con Grisbi hai già definite le proprie categorie, 	   è possibile anche fornire il file Grisbi, che è in XML.
+      Se si desidera, è possibile modificare il file con un editor e rimuovere ogni altra informazione
+      rispetto alla categoria e gli elementi Sub_category.<footnote id="ftn-it-1">
+      <para>
+        <application>My Expenses</application> supporta anche il formato di file Grisbi 0.5.0,
+        dove gli elementi sono denominati Categorie e Sous_categorie.
+      </para>
+      </footnote>Conservare questo file come <filename>categories.xml</filename> in un 
+      <filename>myexpenses</filename> cartella nella directory principale della vostra scheda SD.
     </para>
     <para id="step8">
       <screenshot>
         <graphic fileref="step8.png"></graphic>
       </screenshot>
     </para>
-    <para lang="en">
+    <para lang="en"> "
 	    You now have a set up categories with subcategories you can associate with your
 	    transactions.
     </para>
     <para lang="fr">
-      Vous avez maintenant un échantillon de catégories et de sous-catégories que vous
+      Vous avez maintenant une liste de catégories et de sous-catégories que vous
       pouvez utiliser pour vos opérations.
     </para>
     <para lang="de">
@@ -331,7 +341,7 @@
       zuordnen.
     </para>
     <para lang="it">
-      
+      Ora avete un elenco di categorie con sottocategorie che è possibile associare con il tuo transazioni.
     </para>
     <para id="step9">
       <screenshot>
@@ -352,7 +362,9 @@
       Hauptkategorie</guimenuitem> öffnet einen Dialog zur Eingabe einer Bezeichnung.
     </para>
     <para lang="it">
-      
+      La seconda opzione è quella di aggiungere proprie categorie. <guimenuitem>Nuova categoria principale
+      </guimenuitem> porta in primo piano una finestra di dialogo per la fornitura di una nuova 
+      etichetta di categoria.
     </para>
     <para id="step10">
       <screenshot>
@@ -376,7 +388,9 @@
       Zuordnung einer Hauptkategorie ist durch das Kontextmenü möglich.
     </para>
     <para lang="it">
-      
+      Cliccando su una categoria principale, apre le sue sottocategorie. Si seleziona una sottocategoria
+      per la transazione corrente, semplicemente cliccando.
+      Al fine di mappare un categoria principale, si deve chiamare il suo menu contestuale.     
     </para>
     <para id="step11">
       <screenshot>
@@ -398,7 +412,8 @@
       Einträgen zum Löschen und Verändern.
     </para>
     <para lang="it">
-      
+      Da qui è inoltre possibile aggiungere nuove sottocategorie, eliminare una categoria o modificarlo.
+      Sottocategorie hanno anche menu di scelta rapida per la eliminazione e la modifica.
     </para>
   </sect1>
    
