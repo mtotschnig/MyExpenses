@@ -512,7 +512,7 @@
       <phrase lang="en">Backup and restore</phrase>
       <phrase lang="fr">Sauvegarde et restauration</phrase>
       <phrase lang="de">Backup und Wiederherstellung</phrase>
-      <phrase lang="it">Backup e ripristino</phrase>
+      <phrase lang="it"></phrase>
     </title>
     <para lang="en">
       <guimenuitem>Backup</guimenuitem> creates a backup of database and preferences in
@@ -544,14 +544,7 @@
       bevor Sie <application>My Expenses</application> installieren.
     </para>
     <para lang="it">
-      <guimenuitem>Backup</guimenuitem>crea un backup del database e delle preferenze nella
-      cartella <filename>myexpenses</filename> sulla scheda SD. Il database viene memorizzato nel
-      file chiamato <filename>BACKUP</filename> e le preferenze nel file <filename>BACKUP_PREF</filename>.
-      Entrambi sono automaticamente ripristinate quando si reinstalla 
-      <application>My Expenses</application>.
-      In questo modo è possibile recuperare tutte le vostre applicazioni
-      dati su un dispositivo diverso da copiare questi due file nella stessa posizione là,
-      prima di installare <application>My Expenses</application>
+      
     </para>
   </sect1>
 </article>
