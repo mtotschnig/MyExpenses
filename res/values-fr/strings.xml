@@ -17,7 +17,7 @@
         \nDesign de la page Aide copié de Mathdoku.
         \nDesign de l\'icone de l\'App copié de Sipdroid.
         \nTraduction française et italienne par Laurent Collombet.</string>
-    <string name="currency">Monnaie</string>
+    <string name="currency">Devise</string>
     <string name="currency_not_iso4217">%1$s n\'est pas un code valide selon ISO 4217</string>
     <string name="current_balance">Solde courant</string>
     <string name="date">Date</string>
@@ -26,7 +26,7 @@
     <string name="description">Description</string>
     <string name="dialog_no">Non</string>
     <string name="dialog_title_select_account">Sélectionner un compte</string>
-    <string name="dialog_title_select_currency">Sélectonner une monnaie</string>
+    <string name="dialog_title_select_currency">Sélectonner une devise</string>
     <string name="dialog_title_select_import_source">Sélectionner une source pour l\'import</string>
     <string name="dialog_yes">Oui</string>
     <string name="done">OK</string>
@@ -106,7 +106,7 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="time">Heure</string>
     <string name="title">Titre</string>
     <string name="tutorial">Tutoriel</string>
-    <string name="version_14_upgrade_info">À partir de la version 1.4.0, la monnaie est définie selon le code ISO 4217.
+    <string name="version_14_upgrade_info">À partir de la version 1.4.0, la devise est définie selon le code ISO 4217.
         Dans vos comptes vous utilisez les symboles suivants qui doivent être changés: %1$s </string>
     <string name="warning_backup">La base des données et les paramètres vont être sauvegardés sur la carte SD. Voulez-vous continuer?</string>
     <string name="warning_backup_exists">La base des données et les paramètres vont être sauvegardés sur la carte SD. La sauvegarde existante sera effacée. Voulez-vous continuer?</string>
