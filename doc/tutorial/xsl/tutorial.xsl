@@ -7,6 +7,7 @@
  <lang code="en">English</lang>
  <lang code="fr">Français</lang>
  <lang code="de">Deutsch</lang>
+ <lang code="it">Italiano</lang>
 </custom:supported-langs>
 
 <xsl:param name="html.stylesheet" select="'../style.css'"/>
