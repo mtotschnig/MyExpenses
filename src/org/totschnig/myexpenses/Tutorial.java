@@ -51,7 +51,7 @@ public class Tutorial extends Activity {
     //settings.setJavaScriptEnabled(true);
     settings.setBuiltInZoomControls(true); 
     //we abuse user agent string, since the language is not reported correctly 
-    String[] supportedLangs = {"en","fr","de"};
+    String[] supportedLangs = {"en","fr","de","it"};
     String lang =  Locale.getDefault().getLanguage();
     if (!java.util.Arrays.asList(supportedLangs).contains(lang))
       lang = "en";
