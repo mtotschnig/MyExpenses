@@ -4,6 +4,7 @@ Steps for preparing a new release
 * Verify if tutorial and screenshots are up2date
 * Set version info in Manifest
 * comment version in VersionList.java and gh-pages index.html
+* make sure that backdoors for monkeyrunner are commented out
 * Create release tag in GIT
 * ant clean
 * ant release
