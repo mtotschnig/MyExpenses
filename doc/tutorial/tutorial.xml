@@ -3,10 +3,10 @@
 <article>
   <articleinfo>
   <title>
-    <phrase lang="en"><application>My Expenses</application> Tutorial</phrase>
-    <phrase lang="fr"><application>My Expenses</application> Tutoriel</phrase>
-    <phrase lang="de"><application>My Expenses</application> Anleitung</phrase>
-    <phrase lang="it"><application>My Expenses</application> Tutorial</phrase>
+    <phrase lang="en"><application role="app_name"/> Tutorial</phrase>
+    <phrase lang="fr"><application role="app_name"/> Tutoriel</phrase>
+    <phrase lang="de"><application role="app_name"/> Anleitung</phrase>
+    <phrase lang="it"><application role="app_name"/> Tutorial</phrase>
   </title>
     <author>
       <firstname>Michael</firstname>
@@ -32,19 +32,19 @@
     </title>
     <para lang="en">
       The first thing you will probably want to do, is edit the default account, or create
-      a new one. Select the <guimenuitem>Select Account</guimenuitem> entry from the menu.
+      a new one. Select the <guimenuitem role="select_account"/> entry from the menu.
     </para>
     <para lang="fr">
       En premier lieu, vous voudrez certainement modifier le compte par défaut ou en créer
-      un nouveau. Activez l'entrée <guimenuitem>Sélectionner un compte</guimenuitem> du
+      un nouveau. Activez l'entrée <guimenuitem role="select_account"/> du
       menu.</para>
     <para lang="de">
       Als erstes möchten Sie wahrscheinlich das bei der Installation eingerichtete Konto
       verändern, oder ein neues Konto einrichten. Aktivieren Sie den Eintrag
-      <guimenuitem>Konto auswählen</guimenuitem> im Menü.</para>
+      <guimenuitem role="select_account"/> im Menü.</para>
     <para lang="it">
       La prima cosa che probabilmente si desidera cambiare il conto creato durante l'installazione, 
-      o creare un nuovo account. Selezionare la voce <guimenuitem>Selezionare un conto</guimenuitem> 
+      o creare un nuovo account. Selezionare la voce <guimenuitem role="select_account"/> 
       del menù</para>
     <para id="step1">
       <screenshot>
@@ -79,22 +79,22 @@
     <para lang="en">
       Enter a label, a description, the opening balance, and a currency for the account.
       The currency must be entered according to its three-letter code in ISO 4217, but can be chosen easily
-      from a list by clicking on the <guibutton>Select</guibutton> button.
+      from a list by clicking on the <guibutton role="select"/> button.
     </para>
     <para lang="fr">
       Entrez un libellé, une description, le solde d'ouverture et la devise de ce compte.
       La devise doit être saisie selon le code ISO 4217 en trois lettres, mais peut être facilement sélectionné
-      à partir d'une liste en cliquant sur <guibutton>Sélectionner</guibutton>
+      à partir d'une liste en cliquant sur <guibutton role="select"/>
     </para>
     <para lang="de">
       Geben Sie eine Bezeichnung, eine Beschreibung, den Anfangssaldo und die Währung des
       Kontos ein. Die Währung muss anhand ihrer dreistelligen Abkürzung ISO 4217 eingegeben werden,
-      aber kann durch Klick auf <guibutton>Auswählen</guibutton> einfach aus einer Liste ausgewählt werden.
+      aber kann durch Klick auf <guibutton role="select"/> einfach aus einer Liste ausgewählt werden.
     </para>
     <para lang="it">
       Inserire una etichetta, una descrizione, il saldo di apertura, e una valuta per il conto.
       La valuta deve essere inserita secondo la ISO 4217 di tre lettere, ma può essere facilmente selezionato
-      da una lista, fare clico <guibutton>Selezionare</guibutton>
+      da una lista, fare clico <guibutton role="select"/>
 </para>
     <para id="step3">
       <screenshot>
@@ -103,25 +103,25 @@
     </para>
     <para lang="en">
       Confirm that you are done, and you get back to the list of accounts. You can set up
-      as many accounts as you like through the menu entry <guimenuitem>Create new
-      account</guimenuitem>. Selecting the current account is done through a short click
+      as many accounts as you like through the menu entry <guimenuitem role="menu_insert_account"/>.
+      Selecting the current account is done through a short click
       on it in the list.
     </para>
     <para lang="fr">
       Confirmez et vous reviendrez à la liste des comptes. Vous pourrez entrer autant de
-      comptes que vous le désirez avec le menu <guimenuitem>Créer un nouveau
-      compte</guimenuitem>. Pour sélectionner un compte, il suffit d'un clic court sur
+      comptes que vous le désirez avec le menu <guimenuitem role="menu_insert_account"/>.
+      Pour sélectionner un compte, il suffit d'un clic court sur
       celui-ci dans la liste.
     </para>
     <para lang="de">
       Bestätigen Sie die Eingabe, und Sie gelangen zurück zur Kontoliste. Der Menüeintrag
-      <guimenuitem>Neues Konto erstellen</guimenuitem> erlaubt beliebig viele Konten
+      <guimenuitem role="menu_insert_account"/> erlaubt beliebig viele Konten
       anzulegen. Durch einen kurzen Klick auf ein Konto in der Liste, wird dieses als
       aktuelles Konto ausgewählt.
     </para>
     <para lang="it">
       Confermare la voce, e si ritorna alla lista di conti. La voce di menù 
-      <guimenuitem>Aggiungere conto</guimenuitem> consente di aggiungere tutti gli conti che vuoi.
+      <guimenuitem role="menu_insert_account"/> consente di aggiungere tutti gli conti che vuoi.
     </para>
   </sect1>
    
@@ -134,19 +134,19 @@
       <phrase lang="it">Gestione delle transazioni</phrase>
     </title>
     <para lang="en">
-      <guimenuitem>Add transaction</guimenuitem> brings up  the activity for creating a
+      <guimenuitem role="menu_insert_ta"/> brings up  the activity for creating a
       transaction:
     </para>
     <para lang="fr">
-      <guimenuitem>Ajouter une opération</guimenuitem> vous ouvre la fenêtre pour créer
+      <guimenuitem role="menu_insert_ta"/> vous ouvre la fenêtre pour créer
       une opération :
     </para>
     <para lang="de">
-      <guimenuitem>Neue Buchung</guimenuitem> öffnet den Bildschirm für die Eingabe einer
+      <guimenuitem role="menu_insert_ta"/> öffnet den Bildschirm für die Eingabe einer
       neuen Buchung.
     </para>
     <para lang="it">
-      <guimenuitem>Aggiungi operazione</guimenuitem> porta in primo piano l'attività 
+      <guimenuitem role="menu_insert_ta"/> porta in primo piano l'attività 
       per la creazione di una transazione:
     </para>
     <para id="step5">
@@ -157,29 +157,30 @@
     <para lang="en">
       Adjust date and time, click on the <guibutton>-</guibutton> Button to toggle between
       expense and income, enter amount, notes and payee (or payer). Clicking on the
-      <guibutton>Select</guibutton> button, brings up the <guilabel>Select
-      category</guilabel> activity. We will explain below, how to manage categories.
+      <guibutton role="select"/> button, brings up the <guilabel role="select_category"/>
+      activity. We will explain below, how to manage categories.
     </para>
     <para lang="fr">
       Fixez la date et l'heure, cliquez sur le bouton <guibutton>-</guibutton> pour
       basculer entre dépense ou entrée, entrez la somme, une remarque et un tiers. Cliquez
-      sur le bouton <guibutton>Sélectionner</guibutton> vous ouvre la fenêtre
-      <guilabel>Sélectionner une catégorie</guilabel>. Nous vous expliquerons plus tard
+      sur le bouton <guibutton role="select"/> vous ouvre la fenêtre
+      <guilabel role="select_category"/>. Nous vous expliquerons plus tard
       comment gérer les catégories.
     </para>
     <para lang="de">
       Passen Sie Datum und Uhrzeit an, klicken Sie auf den Knopf <guibutton>-</guibutton>
       um zwischen Ausgabe und Einnahme zu wechseln, geben Sie Betrag, Notizen und
       Empfänger (bzw. Zahler) ein. Durch Klick auf den Knopf
-      <guibutton>Auswählen</guibutton> kommen Sie zum Bildschirm <guilabel>Kategorie
-      auswählen</guilabel>. Dieser wird später erklärt.
+      <guibutton role="select"/> kommen Sie zum Bildschirm <guilabel role="select_category"/>.
+      Dieser wird später erklärt.
     </para>
     <para lang="it">
       Regolare data e ora, fare clico sul pulsante <guibutton>-</guibutton> per passare
       gli oneri ei proventi, inserire importo, le note e il beneficiario (o debitore). Cliccando sul
-      <guibutton>Selezionare</guibutton> il pulsante, si apre la <guilabel>Selezionare una categoria 
-      </guilabel>attività. Vi spiegheremo di seguito, come gestire le categorie. 
+      <guibutton role="select"/> il pulsante, si apre la <guilabel role="select_category"/>
+      attività. Vi spiegheremo di seguito, come gestire le categorie. 
     </para>
+    
     <para lang="en">
       Back at the transaction list, you can edit individual entries through a short click,
       the context menu allows deleting a transaction, or display full details (payee,
@@ -213,22 +214,22 @@
         <phrase lang="it">Trasferimento</phrase>
       </title>
       <para lang="en">
-        <guimenuitem>Add transfer</guimenuitem> allows you to transfer money between
+        <guimenuitem role="menu_insert_transfer" /> allows you to transfer money between
         accounts. This command is only available, if you have more than one account with
         the same currency as the current one.
       </para>
-      <para lang="fr"><guimenuitem>
-        Ajouter un virement</guimenuitem> vous permet de virer une somme entre comptes.
+      <para lang="fr">
+        <guimenuitem role="menu_insert_transfer" /> vous permet de virer une somme entre comptes.
         Cette commande n'est disponible que si vous avez au moins deux comptes dans la
         même devise.
       </para>
       <para lang="de">
-        <guimenuitem>Neue Buchung</guimenuitem> erlaubt Beträge zwichen Konten zu
+        <guimenuitem role="menu_insert_transfer" /> erlaubt Beträge zwichen Konten zu
         verschieben. Dieser Befehl steht nur zur Verfügung, wenn es mehrere Konten mit der
         selben Währung gibt.
       </para>
       <para lang="it">
-        <guimenuitem>Aggiungi il trasferimento</guimenuitem> consente di trasferire denaro tra
+        <guimenuitem role="menu_insert_transfer" /> consente di trasferire denaro tra
         conti. Questo comando è disponibile solo se si dispone di più di uno conto con
         la stessa valuta di quella attuale.
       </para>
@@ -265,27 +266,27 @@
       </screenshot>
     </para>
     <para lang="en">
-	    <guimenuitem>Import categories</guimenuitem> allows to set up categories from files
+	    <guimenuitem role="import_categories"/> allows to set up categories from files
 	    included from Grisbi in English, German or French. If with Grisbi you have already
 	    defined your own categories, you can also provide your Grisbi file, which is in XML.
 	    If you want, you can edit the file with an editor and remove any information other
 	    than the Category and Sub_category elements<footnote id="ftn-en-1">
 	      <para>
-	        <application>My Expenses</application> also support the Grisbi file format 0.5.0,
+	        <application role="app_name"/> also support the Grisbi file format 0.5.0,
 	        where the elements are named Categorie and Sous_categorie.
 	      </para>
 	    </footnote>. Store this file as <filename>categories.xml</filename> in a folder
 	    <filename>myexpenses</filename> in the root of your sdcard.
     </para>
     <para lang="fr">
-	    <guimenuitem>Importer les catégories</guimenuitem> vous permet de les entrer
+	    <guimenuitem role="import_categories"/> vous permet de les entrer
 	    directement à partir des définitions standards de Grisbi en anglais, allemand ou
 	    français. Si vous aviez déjà défini vos propres catégories, vous pouvez aussi
 	    utiliser votre fichier Grisbi qui est en format XML. Dans ce cas, copiez votre
 	    fichier et enlevez toutes les informations autres que les blocs de catégories
 	    (Category) et de sous-catégories (Sub_category)<footnote id="ftn-fr-1">
 	    <para>
-        <application>My Expenses</application> supporte aussi la version 0.5.0 du format de
+        <application role="app_name"/> supporte aussi la version 0.5.0 du format de
         fichier Grisib, où les éléments portent les noms Categorie et Sous_categorie
         (sic!).
 	    </para>
@@ -293,13 +294,13 @@
 	    dans le répertoire <filename>myexpenses</filename> de la racine de votre carte SD.
     </para>
     <para lang="de">
-      <guimenuitem>Kategorien importieren</guimenuitem> erlaubt die in Grisbi definierten
+      <guimenuitem role="import_categories"/> erlaubt die in Grisbi definierten
       Kategorien (Englisch, Deutsch oder Französisch) zu importieren. Sie können auch eine
       Grisbi Datei (in XML) verwenden, die Ihre eigenen Kategorien enthält. Sie können
       diese Datei editieren und alle Informationen außer die Elemente "Category" und
       "Sub_category" entfernen<footnote id="ftn-de-1">
       <para>
-        <application>My Expenses</application> unterstützt auch das Grisbi Datei Format
+        <application role="app_name"/> unterstützt auch das Grisbi Datei Format
         0.5.0, in dem die Elemente Categorie und Sous_categorie heißen.
       </para>
       </footnote>. Kopieren Sie diese Datei unter dem Namen
@@ -307,12 +308,12 @@
       in das Wurzelverzeichnis der SD-Karte.
     </para>
     <para lang="it">
-      <guimenuitem>Categorie di importazione</guimenuitem> permette di impostare le categorie di file
+      <guimenuitem role="import_categories"/> permette di impostare le categorie di file
       inclusa da Grisbi in inglese, tedesco o francese. Se con Grisbi hai già definite le proprie categorie, 	   è possibile anche fornire il file Grisbi, che è in XML.
       Se si desidera, è possibile modificare il file con un editor e rimuovere ogni altra informazione
       rispetto alla categoria e gli elementi Sub_category.<footnote id="ftn-it-1">
       <para>
-        <application>My Expenses</application> supporta anche il formato di file Grisbi 0.5.0,
+        <application role="app_name"/> supporta anche il formato di file Grisbi 0.5.0,
         dove gli elementi sono denominati Categorie e Sous_categorie.
       </para>
       </footnote>Conservare questo file come <filename>categories.xml</filename> in un 
@@ -344,21 +345,21 @@
       </screenshot>
     </para>
     <para lang="en">
-	    The second option is to add your own categories.  <guimenuitem>Create new main
-	    category</guimenuitem> brings up a dialog for providing a new category label.
+	    The second option is to add your own categories.  <guimenuitem role="menu_create_main_cat"/>
+	    brings up a dialog for providing a new category label.
     </para>
     <para lang="fr">
-      La seconde façon est d'ajouter vos propres catégories. <guimenuitem>Nouvelle
-      catégorie principale</guimenuitem> vous ouvre une fenêtre pour entrer un nouveau
+      La seconde façon est d'ajouter vos propres catégories. <guimenuitem role="menu_create_main_cat"/>
+      vous ouvre une fenêtre pour entrer un nouveau
       libellé.
     </para>
     <para lang="de">
-      Die zweite Möglichkeit besteht darin, Kategorien selbst anzulegen. <guimenuitem>Neue
-      Hauptkategorie</guimenuitem> öffnet einen Dialog zur Eingabe einer Bezeichnung.
+      Die zweite Möglichkeit besteht darin, Kategorien selbst anzulegen. <guimenuitem role="menu_create_main_cat"/>
+      öffnet einen Dialog zur Eingabe einer Bezeichnung.
     </para>
     <para lang="it">
-      La seconda opzione è quella di aggiungere proprie categorie. <guimenuitem>Nuova categoria principale
-      </guimenuitem> porta in primo piano una finestra di dialogo per la fornitura di una nuova 
+      La seconda opzione è quella di aggiungere proprie categorie. <guimenuitem role="menu_create_main_cat"/>
+      porta in primo piano una finestra di dialogo per la fornitura di una nuova 
       etichetta di categoria.
     </para>
     <para id="step10">
@@ -421,12 +422,12 @@
       <phrase lang="it">Esportazione di operazioni</phrase>
     </title>
     <para lang="en">
-      Finally, the raison d'être of <application>My Expenses</application> is its support
+      Finally, the raison d'être of <application role="app_name"/> is its support
       for export into QIF format. Call this function through the
-      <guimenuitem>Reset</guimenuitem> menu entry from the transaction list. This will
+      <guimenuitem role="reset"/> menu entry from the transaction list. This will
       create a file on your sdcard with all transactions for the current account, delete
       them from the database, and adjust the opening balance to the last current balance.
-      <application>My Expenses</application> can share the file immediately after the
+      <application role="app_name"/> can share the file immediately after the
       export, either upload it to an FTP server or send it by email. You can configure the
       URL from the "Settings" menu entry (e.g.
       "ftp://login:password@my.example.org:port/my/directory/" or
@@ -436,12 +437,12 @@
       the other account they refer to.
     </para>
     <para lang="fr">
-      La raison d'être de <application>My Expenses</application> est de permettre
+      La raison d'être de <application role="app_name"/> est de permettre
       l'exportation vers un fichier de format QIF. Vous pouvez lancer cette fonction par
-      le bouton <guimenuitem>Réinitialiser</guimenuitem> dans la liste des opérations.
+      le bouton <guimenuitem role="reset"/> dans la liste des opérations.
       Ceci va créer un fichier sur votre carte SD avec toutes les opérations du compte en
       cours, les enlever de la base de données et ajuster le solde initial avec le solde
-      courant. <application>My Expenses</application> peut utiliser ce fichier
+      courant. <application role="app_name"/> peut utiliser ce fichier
       immédiatement en le téléchargeant sur un serveur FTP ou en l'envoyant par courriel.
       Vous pouvez en configurer l'URL à partir du menu "Paramêtres" (par exemple
       "ftp://login:password@my.example.org:port/my/directory/" ou
@@ -451,9 +452,9 @@
       dans l'autre compte concerné.
     </para>
     <para lang="de">
-      Die Grundmotivation für <application>My Expenses</application> ist der Export in eine
+      Die Grundmotivation für <application role="app_name"/> ist der Export in eine
       QIF Datei. Diese Funktion wird durch den Menüeintrag
-      <guimenuitem>Zurücksetzen</guimenuitem> von der Buchungsliste aus aufgerufen.
+      <guimenuitem role="reset"/> von der Buchungsliste aus aufgerufen.
       Hiedurch wird eine Datei auf der SD-Karte erzeugt, die alle Buchungen des aktuellen
       Kontos enthält. Diese werden gelöscht und der aktuelle Saldo wird in den neuen
       Anfangssaldo übertragen. Sofort nach dem Export kann die Datei weitergeleitet
@@ -466,11 +467,11 @@
       sie sich beziehen, weiterhin sichtbar.
     </para>
     <para lang="it">
-      Infine, la ragion d'essere di <application>My Expenses</application> è il suo supporto
-      per l'esportazione in formato QIF. Chiama questa funzione attraverso la voce <guimenuitem>
-      Reinitializare</guimenuitem> di menù dalla lista transazione. Questo sarà crea un file sul tuo 
+      Infine, la ragion d'essere di <application role="app_name"/> è il suo supporto
+      per l'esportazione in formato QIF. Chiama questa funzione attraverso la voce 
+      <guimenuitem role="reset"/> di menù dalla lista transazione. Questo sarà crea un file sul tuo 
       scheda SD con tutte le transazioni per il conto corrente, eliminare dal database, e regolare 
-      il saldo di apertura con il saldo corrente. <application>My Expenses</application> posso
+      il saldo di apertura con il saldo corrente. <application role="app_name"/> posso
       condividere il file subito dopo il export, sia caricarlo in un server FTP o inviarla via e-mail.
       È possibile configurare il URL dalla voce di menù "Parametri" (ad esempio
       "ftp://login:password@my.example.org:port/my/directory/" o "mailto:john@my.example.com").
@@ -510,43 +511,43 @@
       <phrase lang="it">Backup e ripristino</phrase>
     </title>
     <para lang="en">
-      <guimenuitem>Backup</guimenuitem> creates a backup of database and preferences in
+      <guimenuitem role="menu_backup"/> creates a backup of database and preferences in
       the <filename>myexpenses</filename> folder on the sdcard. The database is stored in
       a file named <filename>BACKUP</filename>, the preferences in a file named
       <filename>BACKUP_PREF</filename>. Both are automatically restored when you reinstall
-      <application>My Expenses</application>. Thus you can retrieve all your application
+      <application role="app_name"/>. Thus you can retrieve all your application
       data on a different device by copying these two files into the same location there,
-      before installing <application>My Expenses</application>.
+      before installing <application role="app_name"/>.
     </para>
     <para lang="fr">
-      <guimenuitem>Sauvegarde</guimenuitem> créé une sauvegarde de la base de données et
+      <guimenuitem role="menu_backup"/> créé une sauvegarde de la base de données et
       des préférences dans le répertoire <filename>myexpenses</filename> de la carte SD.
       La base de données est stockée dans le fichier <filename>BACKUP</filename> et les
       préférences dans <filename>BACKUP_PREF</filename>. Ceux-ci sont automatiquement
-      restaurés lorsque vous réinstallez <application>My Expenses</application>. Ainsi,
+      restaurés lorsque vous réinstallez <application role="app_name"/>. Ainsi,
       vous pouvez récupérez toutes vos données sur un périphérique différent en copiant
       ces deux fichiers au même endroit avant d'installer
-      <application>My Expenses</application>.
+      <application role="app_name"/>.
     </para>
     <para lang="de">
-      <guimenuitem>Backup</guimenuitem> erzeugt eine Sicherungskopie von Datenbank und
+      <guimenuitem role="menu_backup"/> erzeugt eine Sicherungskopie von Datenbank und
       Einstellungen im <filename>myexpenses</filename> Ordner auf der SD-Karte. Die
       Datenbank wird in der Datei <filename>BACKUP</filename> gespeichert, die
       Einstellungen in der Datei <filename>BACKUP_PREF</filename>. Beide werden
-      automatisch wiederhergestellt, wenn <application>My Expenses</application> neu
+      automatisch wiederhergestellt, wenn <application role="app_name"/> neu
       installiert wird. Sie können also die Anwendungsdaten komplett auf ein weiteres
       Gerät kopieren, indem Sie diese beiden Dateien an denselben Ort auf diesem kopieren,
-      bevor Sie <application>My Expenses</application> installieren.
+      bevor Sie <application role="app_name"/> installieren.
     </para>
     <para lang="it">
-      <guimenuitem>Backup</guimenuitem> crea un backup del database e delle preferenze nella
+      <guimenuitem role="menu_backup"/> crea un backup del database e delle preferenze nella
       cartella <filename>myexpenses</filename> sulla scheda SD. Il database viene memorizzato nel
       file chiamato <filename>BACKUP</filename> e le preferenze nel file <filename>BACKUP_PREF</filename>.
       Entrambi sono automaticamente ripristinate quando si reinstalla 
-      <application>My Expenses</application>.
+      <application role="app_name"/>.
       In questo modo è possibile recuperare tutte le vostre applicazioni
       dati su un dispositivo diverso da copiare questi due file nella stessa posizione là,
-      prima di installare <application>My Expenses</application>
+      prima di installare <application role="app_name"/>
     </para>
   </sect1>
 </article>

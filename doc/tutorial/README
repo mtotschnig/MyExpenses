@@ -6,7 +6,7 @@ Base dir doc/tutorial
 1)
 Create one Docbook file per language (en,fr,de,it) (filter stylesheet from http://docbooksml.sourceforge.net/)
 
-xsltproc --stringparam language {lang} --output tutorial_en.xml xsl/filter_language.xsl tutorial.xml
+xsltproc --stringparam language {lang} --output tutorial_{lang}.xml xsl/filter_language.xsl tutorial.xml
 
 2)
 Create html output assuming that gh-pages branch is checked.out into a folder MyExpenses.pages
