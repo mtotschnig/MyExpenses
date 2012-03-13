@@ -525,15 +525,18 @@ public class MyExpenses extends ListActivity {
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
+    long account_id;
     if (requestCode == ACTIVITY_SELECT_ACCOUNT) {
       if (resultCode == RESULT_OK) {
-        long account_id = intent.getIntExtra("account_id", 0);
+        account_id = intent.getIntExtra("account_id", 0);
         if (account_id != mCurrentAccount.id) {
           mSettings.edit().putLong("current_account", account_id).commit();
         }
-        //refetch account since it might have been edited
-        mCurrentAccount = new Account(mDbHelper, account_id);
+      } else {
+        account_id = mCurrentAccount.id;
       }
+      //refetch account since it might have been edited
+      mCurrentAccount = new Account(mDbHelper, account_id);
     }
     fillData();
   }
