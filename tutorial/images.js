@@ -8,11 +8,11 @@ $(document).ready(function() {
     navigator.userAgent.match(/BlackBerry/))
   ){
 
-    imageDialog =$("<div id='dialog'><img height='550px' id='image' src=''/></div>").dialog({
+    imageDialog =$("<div id='dialog'><img height='700px' id='image' src=''/></div>").dialog({
       modal: true,
       resizable: false,
       draggable: false,
-      width: "410px",
+      width: "450px",
       autoOpen: false
     });
        
