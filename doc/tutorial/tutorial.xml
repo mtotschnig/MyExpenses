@@ -133,11 +133,6 @@
       <phrase lang="de">Verwaltung der Buchungen</phrase>
       <phrase lang="it">Gestione delle transazioni</phrase>
     </title>
-    <para id="step4">
-      <screenshot>
-        <graphic fileref="step4.png"></graphic>
-      </screenshot>
-    </para>
     <para lang="en">
       <guimenuitem>Add transaction</guimenuitem> brings up  the activity for creating a
       transaction:
