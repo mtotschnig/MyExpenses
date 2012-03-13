@@ -95,9 +95,15 @@ public class SelectCategory extends ExpandableListActivity {
     
     /**
      * Choice of sources for importing categories presented to the user.
-     * The first three are internal to the app, the fourth one is provided by the user 
+     * The first four are internal to the app, the fourth one is provided by the user 
      */
-    private final String[] IMPORT_SOURCES = {"Grisbi default (en)", "Grisbi default (fr)", "Grisbi default (de)", "/sdcard/myexpenses/categories.xml"};
+    private final String[] IMPORT_SOURCES = {
+        "Grisbi default (en)", 
+        "Grisbi default (fr)", 
+        "Grisbi default (de)", 
+        "Grisbi default (it)", 
+        "/sdcard/myexpenses/categories.xml"
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
