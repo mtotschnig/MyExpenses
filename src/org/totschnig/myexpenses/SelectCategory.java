@@ -466,8 +466,8 @@ public class SelectCategory extends ExpandableListActivity {
        */
       protected void onPreExecute() {
         super.onPreExecute();
-        //from sdcard
-        if (source == 3) {
+        //the last entry in the array is the custom import from sdcard
+        if (source == activity.IMPORT_SOURCES.length -1) {
           try {
             catXML = new FileInputStream(activity.sourceStr);
           } catch (FileNotFoundException e) {
