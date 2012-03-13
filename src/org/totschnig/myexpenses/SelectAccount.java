@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,20 @@ public class SelectAccount extends ListActivity {
   private ExpensesDbAdapter mDbHelper;
   Cursor mAccountsCursor;
   long mCurrentAccount;
+  
+/*  private int monkey_state = 0;
+
+  @Override
+  public boolean onKeyUp (int keyCode, KeyEvent event) {
+    if (keyCode == KeyEvent.KEYCODE_ENVELOPE) {
+      switch (monkey_state) {
+      case 0:
+        getListView().requestFocus();
+        return true;
+      }
+    }
+    return super.onKeyUp(keyCode, event);
+  }*/
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -159,5 +174,5 @@ public class SelectAccount extends ListActivity {
       return true;
     }
     return super.onContextItemSelected(item);
-  }  
+  }
 }

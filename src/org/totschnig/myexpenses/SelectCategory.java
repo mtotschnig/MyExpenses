@@ -43,6 +43,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -105,6 +106,20 @@ public class SelectCategory extends ExpandableListActivity {
         "/sdcard/myexpenses/categories.xml"
     };
 
+/*    private int monkey_state = 0;
+
+    @Override
+    public boolean onKeyDown (int keyCode, KeyEvent event) {
+      if (keyCode == KeyEvent.KEYCODE_ENVELOPE) {
+        switch (monkey_state) {
+        case 0:
+          getExpandableListView().requestFocus();
+          return true;
+        }
+      }
+      return super.onKeyDown(keyCode, event);
+    }*/
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -71,6 +72,23 @@ public class ExpenseEdit extends Activity {
 
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
+  
+/*  private int monkey_state = 0;
+
+  @Override
+  public boolean onKeyDown (int keyCode, KeyEvent event) {
+    if (keyCode == KeyEvent.KEYCODE_ENVELOPE) {
+      switch (monkey_state) {
+      case 0:
+        mAmountText.setText("50");
+        setResult(RESULT_OK);
+        saveState();
+        finish();
+        return true;
+      }
+    }
+    return super.onKeyDown(keyCode, event);
+  }*/
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

@@ -26,8 +26,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -52,6 +52,27 @@ public class AccountEdit extends Activity {
   private String[] currencyDescs;
   private TextWatcher currencyInformer;
 
+/*  private int monkey_state = 0;
+
+  @Override
+  public boolean onKeyDown (int keyCode, KeyEvent event) {
+    if (keyCode == KeyEvent.KEYCODE_ENVELOPE) {
+      switch (monkey_state) {
+      case 0:
+        mOpeningBalanceText.setText("100");
+        mCurrencyText.setText("EUR");
+        monkey_state = 1;
+        return true;
+      case 1:
+        setResult(RESULT_OK);
+        saveState();
+        finish();
+        return true;
+      }
+    }
+    return super.onKeyDown(keyCode, event);
+  }*/
+  
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
