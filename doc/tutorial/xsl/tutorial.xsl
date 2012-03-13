@@ -117,7 +117,7 @@
     </xsl:choose>
   </xsl:variable>
   <xsl:variable name="resfile" select="concat('../../../res/',$resdir,'/strings.xml')"/>
-  <xsl:variable name="id" select="@moreinfo"/>
+  <xsl:variable name="id" select="@role"/>
   <xsl:choose>
   <xsl:when test="normalize-space(.)">
     <xsl:call-template name="anchor"/>
