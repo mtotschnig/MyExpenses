@@ -23,6 +23,11 @@ public class VersionList {
   public static ArrayList<HashMap<String, String>> get () {
     final String[][] versions = {
         {
+          "1.4.7.2",
+          "March 13 2012",
+          "Italian categories and tutorial. Added menu icons." 
+        },
+        {
           "1.4.7.1",
           "March 10 2012",
           "Fixed layout of expense list in landscape mode. Bug fix for backup." 
