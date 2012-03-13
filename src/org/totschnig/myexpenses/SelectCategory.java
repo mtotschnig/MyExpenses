@@ -487,6 +487,9 @@ public class SelectCategory extends ExpandableListActivity {
           case 2:
             sourceRes = R.raw.cat_de;
             break;
+          case 3:
+            sourceRes = R.raw.cat_it;
+            break;
           }
           catXML = activity.getResources().openRawResource(sourceRes);
         }
