@@ -4,41 +4,55 @@ Uses Ubuntu package docbook-xsl 1.75.2+dfsg-3
 Base dir doc/tutorial
 
 1)
-Create one Docbook file per language (filter stylesheet from http://docbooksml.sourceforge.net/)
+Create one Docbook file per language (en,fr,de,it) (filter stylesheet from http://docbooksml.sourceforge.net/)
 
-xsltproc --stringparam language en --output tutorial_en.xml xsl/filter_language.xsl tutorial.xml
-xsltproc --stringparam language fr --output tutorial_fr.xml xsl/filter_language.xsl tutorial.xml
-xsltproc --stringparam language de --output tutorial_de.xml xsl/filter_language.xsl tutorial.xml
+xsltproc --stringparam language {lang} --output tutorial_en.xml xsl/filter_language.xsl tutorial.xml
 
 2)
 Create html output assuming that gh-pages branch is checked.out into a folder MyExpenses.pages
 parallel to the project root
 
-xsltproc --stringparam base.dir ../../../MyExpenses.pages/tutorial/en/ xsl/tutorial.xsl tutorial_en.xml
-xsltproc --stringparam base.dir ../../../MyExpenses.pages/tutorial/fr/ xsl/tutorial.xsl tutorial_fr.xml
-xsltproc --stringparam base.dir ../../../MyExpenses.pages/tutorial/de/ xsl/tutorial.xsl tutorial_de.xml
+xsltproc --stringparam base.dir ../../../MyExpenses.pages/tutorial/{lang}/ xsl/tutorial.xsl tutorial_{lang}.xml
 
 now executed through ant target tutorial
 
 3) Screenshots
 
-I create screenshots with Eclipse DDMS from a virtual machine with Android-x86, 
-with screenresolution set to 400x600.
-The png should be stored into MyExpenses.pages/tutorial/{lang}/large.
-The smaller image can be created with the following shell command
+Screenshots are created with a monkeyrunner script with a Google Nexus S with 
+resolution 480 x 800. The script writes them into
+MyExpenses.pages/tutorial/{lang}/large. Before each run, the interface language 
+should be set to the language given as parameter for the run and THEN a fresh install
+should be done.
+The script makes use of a helping trick that must first be commented out in the following 
+JAVA files ExpenseEdit, AccountEdit, SelectAccount and SelectCategory.
+It sends a special KEYCODE that fills out the form with testing
+data, or sets the focus. Doing both with Monkeyrunners functions prooved to be unreliable. 
+ 
+
+#comment out onKeyUp handlers
+ant debug
+adb uninstall org.totschnig.myexpenses
+adb install bin/MyExpenses-debug.apk
+#now language must be set, app started by hand, and the help dialog closed.
+cd doc/tutorial
+monkeyrunner mk_screenshots.py {lang}
+
+
+The smaller images are be created with the following shell command
 executed from MyExpenses.pages/tutorial and steps set to a list of numbers of changed
 screenshots
-steps="3 5 9"
-for lang in en fr de
+for lang in en fr de it
   do (
     cd ${lang}/large
     pwd
-    for i in 3
+    for i in 1 2 3 5 6 7 8 9 10 11 12
       do
-        convert step${i}.png -resize 50%  step${i}_klein.png
+        convert step${i}.png -resize 40%  step${i}_klein.png
         pngnq step${i}_klein.png
         mv step${i}_klein-nq8.png ../step${i}.png
         rm step${i}_klein.png
       done
     )
   done
+  
+TODO: renumber screenshots (to get rid of hole)
