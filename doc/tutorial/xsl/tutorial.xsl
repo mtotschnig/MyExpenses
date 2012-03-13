@@ -103,4 +103,47 @@
 <br />
 </xsl:template>
 
+<xsl:template name="inline.charseq">
+  <xsl:param name="content">
+  <xsl:variable name="doclang" select="/article/articleinfo/title/phrase/@lang"/>
+  <xsl:variable name="resdir">
+    <xsl:choose>
+      <xsl:when test="$doclang = 'en'">
+        <xsl:text>values</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="concat('values-',$doclang)"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+  <xsl:variable name="resfile" select="concat('../../../res/',$resdir,'/strings.xml')"/>
+  <xsl:variable name="id" select="@moreinfo"/>
+  <xsl:choose>
+  <xsl:when test="normalize-space(.)">
+    <xsl:call-template name="anchor"/>
+    <xsl:call-template name="simple.xlink">
+      <xsl:with-param name="content">
+        <xsl:apply-templates/>
+      </xsl:with-param>
+    </xsl:call-template>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="document($resfile)/resources/string[@name = $id]"/>
+    </xsl:otherwise>
+  </xsl:choose>
+  </xsl:param>
+  <!-- * if you want output from the inline.charseq template wrapped in -->
+  <!-- * something other than a Span, call the template with some value -->
+  <!-- * for the 'wrapper-name' param -->
+  <xsl:param name="wrapper-name">span</xsl:param>
+  <xsl:element name="{$wrapper-name}">
+    <xsl:attribute name="class">
+      <xsl:value-of select="local-name(.)"/>
+    </xsl:attribute>
+    <xsl:call-template name="dir"/>
+    <xsl:call-template name="generate.html.title"/>
+    <xsl:copy-of select="$content"/>
+    <xsl:call-template name="apply-annotations"/>
+  </xsl:element>
+</xsl:template>
 </xsl:stylesheet>
