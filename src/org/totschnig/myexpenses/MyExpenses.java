@@ -26,10 +26,13 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.example.qberticus.quickactions.BetterPopupWindow;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,8 +46,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -95,6 +101,7 @@ public class MyExpenses extends ListActivity {
   
   private SharedPreferences mSettings;
   private Cursor mExpensesCursor;
+  private ImageButton mAddButton;
 
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -111,8 +118,23 @@ public class MyExpenses extends ListActivity {
     mCurrentAccount = new Account(mDbHelper,account_id);
     fillData();
     registerForContextMenu(getListView());
-    //DisplayMetrics dm = getResources().getDisplayMetrics();
-    //Log.i("SCREEN", dm.widthPixels + ":" + dm.density);
+    mAddButton = (ImageButton) findViewById(R.id.addOperation);
+    mAddButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        createRow(TYPE_TRANSACTION);
+      }
+    });
+    mAddButton.setOnLongClickListener(new View.OnLongClickListener() {
+      
+      @Override
+      public boolean onLongClick(View v) {
+        Log.i("DEBUG","onlongclick triggered");
+        DemoPopupWindow dw = new DemoPopupWindow(v);
+        dw.showLikeQuickAction();
+        return true;
+      }
+    });
   }
   /**
    * binds the Cursor for all expenses to the list view
@@ -422,7 +444,7 @@ public class MyExpenses extends ListActivity {
     }
     return null;
   }
-  
+ 
   @Override
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
@@ -697,5 +719,44 @@ public class MyExpenses extends ListActivity {
       Log.e("MyExpenses", "Package name not found", e);
     }
     return version;
+  }
+  /**
+   * Extends {@link BetterPopupWindow}
+   * <p>
+   * Overrides onCreate to create the view and register the button listeners
+   * 
+   * @author qbert
+   * 
+   */
+  private class DemoPopupWindow extends BetterPopupWindow {
+    public DemoPopupWindow(View anchor) {
+      super(anchor);
+    }
+
+    @Override
+    protected void onCreate() {
+      // inflate layout
+      LayoutInflater inflater =
+          (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+      ViewGroup root = (ViewGroup) inflater.inflate(R.layout.select_transaction_type, null);
+      root.findViewById(R.id.select_ta).setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          createRow(TYPE_TRANSACTION);
+          DemoPopupWindow.this.dismiss();
+        }
+      });
+      root.findViewById(R.id.select_transfer).setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          createRow(TYPE_TRANSFER);
+          DemoPopupWindow.this.dismiss();
+        }
+      });
+
+      // set the inflated view as what we want to display
+      this.setContentView(root);
+    }
   }
 }

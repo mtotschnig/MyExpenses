@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+        <ScrollView 
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_weight="1"
+        android:fillViewport="true">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical">
   <RelativeLayout
       android:paddingRight="10dp"
@@ -9,7 +18,7 @@
       android:id="@+id/top"
       android:layout_width="fill_parent"
       android:orientation="horizontal"
-      android:layout_height="fill_parent">
+      android:layout_height="wrap_content">
     <TextView
         android:layout_alignParentLeft="true"
         android:layout_height="wrap_content"
@@ -41,7 +50,7 @@
       android:id="@+id/bottom"
       android:layout_width="fill_parent"
       android:orientation="horizontal"
-      android:layout_height="fill_parent">
+      android:layout_height="wrap_content">
     <TextView 
         android:layout_alignParentLeft="true"
         android:layout_height="wrap_content"
@@ -53,5 +62,36 @@
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content" />
+  </RelativeLayout>
+  </LinearLayout>
+  </ScrollView>
+  <RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    style="@android:style/ButtonBar">
+        <LinearLayout 
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal" 
+      android:layout_centerInParent="true">
+        <ImageButton
+            android:longClickable="true"
+      android:id="@+id/addOperation"
+      android:background="@android:drawable/ic_menu_add"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+       <!--   <Button
+      android:id="@+id/addTransfer"
+      android:text="+"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:onClick="quickDo"/> --> 
+        <ImageButton
+      android:longClickable="true"
+      android:id="@+id/switchAccount"
+      android:background="@drawable/ic_menu_goto"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+        </LinearLayout>
   </RelativeLayout>
 </LinearLayout>
