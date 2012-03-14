@@ -544,13 +544,16 @@ public class ExpensesDbAdapter {
    * @return a Cursor that holds all main categories ordered by usage counter 
    */
   public Cursor fetchCategoryMain() {
+    boolean categories_sort = mCtx.getSettings()
+        .getBoolean("categories_sort_by_usages", true);
+    String orderBy = (categories_sort ? "usages DESC, " : "") + "label";
     return mDb.query("categories",
         new String[] {KEY_ROWID, "label"},
         "parent_id = 0",
         null,
         null,
         null,
-        "usages DESC"
+        orderBy
     );
   }
   
@@ -574,8 +577,16 @@ public class ExpensesDbAdapter {
    * @return a Cursor that holds all sub categories under a parent ordered by usage counter 
    */
   public Cursor fetchCategorySub(long parent_id) {
-    return mDb.query("categories", new String[] {KEY_ROWID,
-    "label"}, "parent_id = " + parent_id, null, null, null, "usages DESC");
+    boolean categories_sort = mCtx.getSettings()
+        .getBoolean("categories_sort_by_usages", true);
+    String orderBy = (categories_sort ? "usages DESC, " : "") + "label";
+    return mDb.query("categories", 
+        new String[] {KEY_ROWID,"label"}, 
+        "parent_id = " + parent_id, 
+        null, 
+        null, 
+        null, 
+        orderBy);
   }
 
   /**
