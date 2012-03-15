@@ -716,14 +716,21 @@ public class ExpensesDbAdapter {
   }
   
   /**
-   * @see #fetchAccountOtherWithCurrency(long)
+   * @see #fetchAccountOther(long)
    * @param currency
    * @return number of accounts with the same currency
+   * if currency is null return total number of accounts
    */
-  public int getAccountCountWithCurrency(String currency) {
+  public int getAccountCount(String currency) {
+    String query = "select count(*) from accounts";
+    String selectionArgs[] = null; 
+    if (currency != null) {
+      query += " WHERE currency = ?";
+      selectionArgs = new String[] {currency};
+    }
     Cursor mCursor = mDb.rawQuery(
-        "select count(*) from accounts WHERE currency = ?", 
-        new String[] {currency});
+        query, 
+        selectionArgs);
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);
     mCursor.close();

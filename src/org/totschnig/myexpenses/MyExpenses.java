@@ -118,8 +118,6 @@ public class MyExpenses extends ListActivity {
     newVersionCheck();
     long account_id = mSettings.getLong("current_account", 0);
     mCurrentAccount = new Account(mDbHelper,account_id);
-    fillData();
-    registerForContextMenu(getListView());
     
     mAddButton = (ImageButton) findViewById(R.id.addOperation);
     mAddButton.setOnClickListener(new View.OnClickListener() {
@@ -132,14 +130,19 @@ public class MyExpenses extends ListActivity {
       
       @Override
       public boolean onLongClick(View v) {
-        Log.i("DEBUG","onlongclick triggered");
-        TransactionTypePopupWindow dw = new TransactionTypePopupWindow(v);
-        dw.showLikeQuickAction();
-        return true;
+        //we need the popup only if transfers are enabled
+        if (transfersEnabledP()) {
+          TransactionTypePopupWindow dw = new TransactionTypePopupWindow(v);
+          dw.showLikeQuickAction();
+          return true;
+        } else {
+          return false;
+        }
       }
     });
     
     mSwitchButton = (ImageButton) findViewById(R.id.switchAccount);
+      
     mSwitchButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -150,12 +153,15 @@ public class MyExpenses extends ListActivity {
       
       @Override
       public boolean onLongClick(View v) {
-        Log.i("DEBUG","onlongclick triggered");
+        mDbHelper.getAccountCount(null);
         AccountListPopupWindow dw = new AccountListPopupWindow(v);
         dw.showLikeQuickAction();
         return true;
       }
     });
+
+    fillData();
+    registerForContextMenu(getListView());
   }
   /**
    * binds the Cursor for all expenses to the list view
@@ -223,6 +229,10 @@ public class MyExpenses extends ListActivity {
     setListAdapter(expense);
     TextView endView= (TextView) findViewById(R.id.end);
     endView.setText(Utils.formatCurrency(mCurrentAccount.getCurrentBalance(),mCurrentAccount.currency));
+    
+    mSwitchButton.setVisibility(mDbHelper.getAccountCount(null) > 1 ?
+        View.VISIBLE : View.GONE);
+
   }
 
   /* (non-Javadoc)
@@ -747,6 +757,11 @@ public class MyExpenses extends ListActivity {
     }
     return version;
   }
+  
+  public boolean transfersEnabledP() {
+    return mDbHelper.getAccountCount(mCurrentAccount.currency.getCurrencyCode()) > 1;
+  }
+  
   /**
    * Extends {@link BetterPopupWindow}
    * <p>
