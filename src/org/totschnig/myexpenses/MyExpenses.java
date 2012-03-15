@@ -490,14 +490,19 @@ public class MyExpenses extends ListActivity {
 
   private void switchAccount(long accountId) {
     if (accountId == 0) {
-      final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
-      if(otherAccounts.moveToFirst()){
-        accountId = otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+      accountId = mSettings.getLong("last_account", 0);
+      if (accountId == 0) {
+        final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
+        if(otherAccounts.moveToFirst()){
+          accountId = otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+        }
+        otherAccounts.close();
       }
-      otherAccounts.close();
     }
     if (accountId != 0) {
-      mSettings.edit().putLong("current_account", accountId).commit();
+      mSettings.edit().putLong("current_account", accountId)
+        .putLong("last_account", mCurrentAccount.id)
+        .commit();
       mCurrentAccount = new Account(mDbHelper, accountId);
       fillData();
     }
