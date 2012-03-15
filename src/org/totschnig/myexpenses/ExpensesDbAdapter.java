@@ -741,7 +741,7 @@ public class ExpensesDbAdapter {
    */
   public void createPayeeOrIgnore(String name) {
     mDb.execSQL("INSERT OR IGNORE INTO payee(name) values( ? );",
-        new String[] {"name"});
+        new String[] {name});
     return;
   }
   
