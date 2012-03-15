@@ -175,7 +175,7 @@ public class ExpenseEdit extends Activity {
         } else {
           AlertDialog.Builder builder = new AlertDialog.Builder(ExpenseEdit.this);
           builder.setTitle(R.string.dialog_title_select_account);
-          final Cursor otherAccounts = mDbHelper.fetchAccountOtherWithCurrency(mTransaction.account_id);
+          final Cursor otherAccounts = mDbHelper.fetchAccountOther(mTransaction.account_id,true);
           final String[] accounts = new String[otherAccounts.getCount()];
           if(otherAccounts.moveToFirst()){
            for (int i = 0; i < otherAccounts.getCount(); i++){

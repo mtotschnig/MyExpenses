@@ -49,6 +49,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
@@ -102,6 +103,7 @@ public class MyExpenses extends ListActivity {
   private SharedPreferences mSettings;
   private Cursor mExpensesCursor;
   private ImageButton mAddButton;
+  private ImageButton mSwitchButton;
 
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -118,6 +120,7 @@ public class MyExpenses extends ListActivity {
     mCurrentAccount = new Account(mDbHelper,account_id);
     fillData();
     registerForContextMenu(getListView());
+    
     mAddButton = (ImageButton) findViewById(R.id.addOperation);
     mAddButton.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -130,7 +133,25 @@ public class MyExpenses extends ListActivity {
       @Override
       public boolean onLongClick(View v) {
         Log.i("DEBUG","onlongclick triggered");
-        DemoPopupWindow dw = new DemoPopupWindow(v);
+        TransactionTypePopupWindow dw = new TransactionTypePopupWindow(v);
+        dw.showLikeQuickAction();
+        return true;
+      }
+    });
+    
+    mSwitchButton = (ImageButton) findViewById(R.id.switchAccount);
+    mSwitchButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        switchAccount(0);
+      }
+    });
+    mSwitchButton.setOnLongClickListener(new View.OnLongClickListener() {
+      
+      @Override
+      public boolean onLongClick(View v) {
+        Log.i("DEBUG","onlongclick triggered");
+        AccountListPopupWindow dw = new AccountListPopupWindow(v);
         dw.showLikeQuickAction();
         return true;
       }
@@ -213,9 +234,6 @@ public class MyExpenses extends ListActivity {
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    menu.findItem(INSERT_TRANSFER_ID)
-      .setVisible(mDbHelper.getAccountCountWithCurrency(
-          mCurrentAccount.currency.getCurrencyCode()) > 1);
     menu.findItem(RESET_ID)
       .setVisible(mExpensesCursor.getCount() > 0);
     return true;
@@ -225,12 +243,6 @@ public class MyExpenses extends ListActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     //numeric shortcuts are used from Monkeyrunner
-    menu.add(0, INSERT_TA_ID, 0, R.string.menu_insert_ta)
-        .setIcon(android.R.drawable.ic_menu_add)
-        .setAlphabeticShortcut('a');
-    menu.add(0, INSERT_TRANSFER_ID, 0, R.string.menu_insert_transfer)
-        .setIcon(android.R.drawable.ic_menu_add)
-        .setAlphabeticShortcut('b');
     menu.add(0, RESET_ID,1,R.string.menu_reset)
         .setIcon(android.R.drawable.ic_menu_revert)
         .setAlphabeticShortcut('c');;
@@ -464,6 +476,21 @@ public class MyExpenses extends ListActivity {
     i.putExtra("operationType", type);
     i.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID,mCurrentAccount.id);
     startActivityForResult(i, ACTIVITY_CREATE);
+  }
+
+  private void switchAccount(long accountId) {
+    if (accountId == 0) {
+      final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
+      if(otherAccounts.moveToFirst()){
+        accountId = otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+      }
+      otherAccounts.close();
+    }
+    if (accountId != 0) {
+      mSettings.edit().putLong("current_account", accountId).commit();
+      mCurrentAccount = new Account(mDbHelper, accountId);
+      fillData();
+    }
   }
 
   /**
@@ -728,8 +755,8 @@ public class MyExpenses extends ListActivity {
    * @author qbert
    * 
    */
-  private class DemoPopupWindow extends BetterPopupWindow {
-    public DemoPopupWindow(View anchor) {
+  private class TransactionTypePopupWindow extends BetterPopupWindow {
+    public TransactionTypePopupWindow(View anchor) {
       super(anchor);
     }
 
@@ -739,24 +766,65 @@ public class MyExpenses extends ListActivity {
       LayoutInflater inflater =
           (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-      ViewGroup root = (ViewGroup) inflater.inflate(R.layout.select_transaction_type, null);
+      ViewGroup root = (ViewGroup) inflater.inflate(R.layout.transaction_type_popup, null);
       root.findViewById(R.id.select_ta).setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
           createRow(TYPE_TRANSACTION);
-          DemoPopupWindow.this.dismiss();
+          TransactionTypePopupWindow.this.dismiss();
         }
       });
       root.findViewById(R.id.select_transfer).setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
           createRow(TYPE_TRANSFER);
-          DemoPopupWindow.this.dismiss();
+          TransactionTypePopupWindow.this.dismiss();
         }
       });
 
       // set the inflated view as what we want to display
       this.setContentView(root);
+    }
+  }
+  private class AccountListPopupWindow extends BetterPopupWindow {
+    public AccountListPopupWindow(View anchor) {
+      super(anchor);
+    }
+
+    @Override
+    protected void onCreate() {
+      // inflate layout
+      LayoutInflater inflater =
+          (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+      ViewGroup root = (ViewGroup) inflater.inflate(R.layout.account_list_popup, null);
+      //ListView accountList = (ListView) root.findViewById(R.id.account_list);
+      //ListView accountList = (ListView) inflater.inflate(R.layout.account_list_popup, null);
+      final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
+//      String[] from = new String[]{"label"};
+//      int[] to = new int[]{R.id.label};
+//      accountList.setAdapter(new SimpleCursorAdapter(MyExpenses.this, R.layout.account_list_popup_row, otherAccounts, from, to));
+      if(otherAccounts.moveToFirst()){
+        TextView accountTV;
+        for (int i = 0; i < otherAccounts.getCount(); i++){
+          accountTV = new TextView(MyExpenses.this);
+          accountTV.setText(otherAccounts.getString(otherAccounts.getColumnIndex("label")));
+          accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+          accountTV.setId((int) otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
+          accountTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              switchAccount(v.getId());
+              AccountListPopupWindow.this.dismiss();
+            }
+          });
+          root.addView(accountTV);
+          otherAccounts.moveToNext();
+        }
+       }
+      // set the inflated view as what we want to display
+      this.setContentView(root);
+      otherAccounts.close();
     }
   }
 }
