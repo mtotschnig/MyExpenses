@@ -73,7 +73,6 @@ import android.util.Log;
 public class MyExpenses extends ListActivity {
   public static final int ACTIVITY_CREATE=0;
   public static final int ACTIVITY_EDIT=1;
-  public static final int ACTIVITY_SELECT_ACCOUNT=2;
 
   public static final int INSERT_TA_ID = Menu.FIRST;
   public static final int INSERT_TRANSFER_ID = Menu.FIRST + 1;
@@ -81,9 +80,8 @@ public class MyExpenses extends ListActivity {
   public static final int DELETE_ID = Menu.FIRST +4;
   public static final int SHOW_DETAIL_ID = Menu.FIRST +5;
   public static final int HELP_ID = Menu.FIRST +6;
-  public static final int SELECT_ACCOUNT_ID = Menu.FIRST +7;
-  public static final int SETTINGS_ID = Menu.FIRST +8;
-  public static final int BACKUP_ID = Menu.FIRST +9;
+  public static final int SETTINGS_ID = Menu.FIRST +7;
+  public static final int BACKUP_ID = Menu.FIRST +8;
   public static final boolean TYPE_TRANSACTION = true;
   public static final boolean TYPE_TRANSFER = false;
   public static final String TRANSFER_EXPENSE = "=>";
@@ -259,9 +257,6 @@ public class MyExpenses extends ListActivity {
     menu.add(0, HELP_ID,1,R.string.menu_help)
         .setIcon(android.R.drawable.ic_menu_help)
         .setAlphabeticShortcut('d');
-    menu.add(0, SELECT_ACCOUNT_ID,1,R.string.select_account)
-        .setIcon(android.R.drawable.ic_menu_manage)
-        .setAlphabeticShortcut('e');
     menu.add(0,SETTINGS_ID,1,R.string.menu_settings)
         .setIcon(android.R.drawable.ic_menu_preferences)
         .setAlphabeticShortcut('f');
@@ -287,11 +282,6 @@ public class MyExpenses extends ListActivity {
       return true;
     case HELP_ID:
       showDialog(HELP_DIALOG_ID);
-      return true;
-    case SELECT_ACCOUNT_ID:
-      Intent i = new Intent(this, SelectAccount.class);
-      i.putExtra("current_account", mCurrentAccount.id);
-      startActivityForResult(i, ACTIVITY_SELECT_ACCOUNT);
       return true;
     case SETTINGS_ID:
       startActivity(new Intent(this, MyPreferenceActivity.class));
@@ -594,30 +584,6 @@ public class MyExpenses extends ListActivity {
     i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
     i.putExtra("operationType", operationType);
     startActivityForResult(i, ACTIVITY_EDIT);
-  }
-
-  /* (non-Javadoc)
-   * upon return from SelectAccount updates current_account and refreshes view
-   * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
-   */
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, 
-      Intent intent) {
-    super.onActivityResult(requestCode, resultCode, intent);
-    long account_id;
-    if (requestCode == ACTIVITY_SELECT_ACCOUNT) {
-      if (resultCode == RESULT_OK) {
-        account_id = intent.getIntExtra("account_id", 0);
-        if (account_id != mCurrentAccount.id) {
-          mSettings.edit().putLong("current_account", account_id).commit();
-        }
-      } else {
-        account_id = mCurrentAccount.id;
-      }
-      //refetch account since it might have been edited
-      mCurrentAccount = new Account(mDbHelper, account_id);
-    }
-    fillData();
   }
   
   /**

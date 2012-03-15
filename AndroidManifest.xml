@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.totschnig.myexpenses" android:versionCode="25" android:versionName="1.4.7.2">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.totschnig.myexpenses" android:versionCode="26" android:versionName="1.4.8a2">
     <uses-sdk android:minSdkVersion="5"></uses-sdk>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,7 +13,12 @@
         <activity android:name=".ExpenseEdit"/>
         <activity android:name=".AccountEdit"/>
         <activity android:name=".SelectCategory"/>
-        <activity android:name=".SelectAccount"/>
+        <activity android:name=".ManageAccounts">
+          <intent-filter>  
+              <action android:name="myexpenses.intent.manage.accounts"/>  
+              <category android:name="android.intent.category.DEFAULT" />  
+            </intent-filter>
+        </activity>
         <activity android:name=".Tutorial"/>
         <activity android:name=".MyPreferenceActivity" android:theme="@android:style/Theme.Light"/>
     </application>

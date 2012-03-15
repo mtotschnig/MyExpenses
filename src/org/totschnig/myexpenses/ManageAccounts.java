@@ -41,7 +41,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  * @author Michael Totschnig
  *
  */
-public class SelectAccount extends ListActivity {
+public class ManageAccounts extends ListActivity {
   private static final int ACTIVITY_CREATE=0;
   private static final int ACTIVITY_EDIT=1;
   private static final int EDIT_ID = Menu.FIRST;
@@ -72,8 +72,9 @@ public class SelectAccount extends ListActivity {
     setTitle(R.string.select_account);
     // Set up our adapter
     mDbHelper = MyApplication.db();
-    Bundle extras = getIntent().getExtras();
-    mCurrentAccount = extras.getLong("current_account");
+    mCurrentAccount = ((MyApplication) getApplicationContext())
+        .getSettings()
+        .getLong("current_account", 0);
     fillData();
     registerForContextMenu(getListView());
   }
@@ -96,10 +97,9 @@ public class SelectAccount extends ListActivity {
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
-    Intent intent=new Intent();         
-    intent.putExtra("account_id", (int) id);
-    setResult(RESULT_OK,intent);
-    finish();
+    Intent i = new Intent(this, AccountEdit.class);
+    i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
+    startActivityForResult(i, ACTIVITY_EDIT);
   }
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
@@ -163,11 +163,6 @@ public class SelectAccount extends ListActivity {
   public boolean onContextItemSelected(MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
-    case EDIT_ID:
-      Intent i = new Intent(this, AccountEdit.class);
-      i.putExtra(ExpensesDbAdapter.KEY_ROWID, info.id);
-      startActivityForResult(i, ACTIVITY_EDIT);
-      return true;
     case DELETE_ID:
       mDbHelper.deleteAccount(info.id);
       fillData();

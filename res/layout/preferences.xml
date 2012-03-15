@@ -1,15 +1,17 @@
-<PreferenceScreen
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:key="first_preferencescreen">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="first_preferencescreen">
+  <PreferenceScreen
+      android:title="Konten"
+      android:key="manage_accounts">
+    <intent android:action="myexpenses.intent.manage.accounts"/>      
+  </PreferenceScreen>
+  <CheckBoxPreference
+      android:defaultValue="true"
+      android:key="categories_sort_by_usages" 
+      android:title="@string/pref_categories_sort_by_usages_title" 
+      android:summary="@string/pref_categories_sort_by_usages_summary" /> 
 	<EditTextPreference 
 	    android:key="share_target" 
 	    android:title="@string/pref_share_target_title" 
-	    android:summary="@string/pref_share_target_summary"
-	    />
-	 <CheckBoxPreference
-	    android:defaultValue="true"
-      android:key="categories_sort_by_usages" 
-      android:title="@string/pref_categories_sort_by_usages_title" 
-      android:summary="@string/pref_categories_sort_by_usages_summary"
-      />
+	    android:summary="@string/pref_share_target_summary" />
 </PreferenceScreen> 
