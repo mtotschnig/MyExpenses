@@ -77,13 +77,15 @@
         <ImageButton
             android:longClickable="true"
       android:id="@+id/addOperation"
-      android:background="@android:drawable/ic_menu_add"
+      android:src="@android:drawable/ic_menu_add"
+      android:background="@android:drawable/menuitem_background"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"/>
         <ImageButton
       android:longClickable="true"
       android:id="@+id/switchAccount"
-      android:background="@drawable/ic_menu_goto"
+      android:src="@drawable/ic_menu_goto"
+      android:background="@android:drawable/menuitem_background"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"/>
         </LinearLayout>
