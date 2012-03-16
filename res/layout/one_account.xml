@@ -58,22 +58,25 @@
       </TableRow>
     </TableLayout>
   </ScrollView>
-  <LinearLayout
-      android:layout_width="fill_parent"
+      <RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    style="@android:style/ButtonBar">
+        <LinearLayout 
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      style="@android:style/ButtonBar">
-    <Button
-         android:layout_width="0dip"
-         android:layout_height="wrap_content"
-         android:layout_weight="1"
-         android:id="@+id/Confirm" 
-         android:text="@string/done"/>
-    <Button
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:id="@+id/Cancel" 
-        android:text="@string/cancel"/>
-  </LinearLayout>
+      android:orientation="horizontal" 
+      android:layout_centerInParent="true">
+        <Button
+            android:text="@string/done"
+            android:id="@+id/Confirm"
+            style="@style/buttonPort"
+            android:drawableTop="@drawable/ic_menu_mark" />
+        <Button 
+            android:id="@+id/Cancel" 
+            android:text="@string/cancel"
+            style="@style/buttonPort"
+            android:drawableTop="@android:drawable/ic_menu_close_clear_cancel" />
+    </LinearLayout>
+  </RelativeLayout>
 </LinearLayout>

@@ -14,4 +14,7 @@
 	    android:key="share_target" 
 	    android:title="@string/pref_share_target_title" 
 	    android:summary="@string/pref_share_target_summary" />
+	<Preference
+      android:title="Backup"
+      android:key="backup" />
 </PreferenceScreen> 

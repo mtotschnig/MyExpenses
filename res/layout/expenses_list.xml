@@ -69,20 +69,33 @@
       android:layout_height="wrap_content"
       android:orientation="horizontal" 
       android:layout_centerInParent="true">
-        <ImageButton
+        <Button
+            android:text="New"
+            style="@style/buttonPort"
             android:longClickable="true"
-      android:id="@+id/addOperation"
-      android:src="@android:drawable/ic_menu_add"
-      android:background="@android:drawable/menuitem_background"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"/>
-        <ImageButton
-      android:longClickable="true"
-      android:id="@+id/switchAccount"
-      android:src="@drawable/ic_menu_goto"
-      android:background="@android:drawable/menuitem_background"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"/>
+            android:id="@+id/addOperation"
+            android:drawableTop="@android:drawable/ic_menu_add" />
+        <Button
+            android:text="Accounts"
+            style="@style/buttonPort"
+            android:longClickable="true"
+            android:id="@+id/switchAccount"
+            android:drawableTop="@drawable/ic_menu_goto"/>
+        <Button
+            android:text="Reset"
+            style="@style/buttonPort"
+            android:id="@+id/reset"
+            android:drawableTop="@android:drawable/ic_menu_revert"/>
+        <Button
+            android:text="Settings"
+            style="@style/buttonPort"
+            android:id="@+id/settings"
+            android:drawableTop="@android:drawable/ic_menu_preferences"/>
+         <Button
+            android:text="Help"
+            style="@style/buttonPort"
+            android:id="@+id/help"
+            android:drawableTop="@android:drawable/ic_menu_help"/>        
         </LinearLayout>
   </RelativeLayout>
 </LinearLayout>

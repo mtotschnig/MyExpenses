@@ -24,6 +24,20 @@
     <item name="android:paddingTop">15dp</item>
     <item name="android:textSize">20sp</item>
   </style>
+  <style name="buttonPort" parent="buttonLand">
+    <item name="android:textSize">10dp</item>
+    <item name="android:paddingLeft">4dp</item>
+    <item name="android:paddingRight">4dp</item>
+  </style> 
+  <style name="buttonLand">
+    <item name="android:textSize">12dp</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:drawablePadding">-8dp</item>
+    <item name="android:paddingTop">0dp</item>
+    <item name="android:paddingBottom">7dp</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+  </style>
   <!-- Animations from http://code.google.com/p/simple-quickactions/source/browse/trunk/res/values/styles.xml -->
           <style name="Animations" />
 
