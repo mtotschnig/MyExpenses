@@ -30,6 +30,10 @@ import android.util.Log;
  */
 public class Account {
  
+  public class AccountNotFoundException extends Exception {
+
+  }
+
   public long id = 0;
    
   public String label;
@@ -246,13 +250,18 @@ public class Account {
   
   /**
    * retrieves an Account instance from the database
+   * returns null if no account exists with the given id
    * @param mDbHelper
    * @param id
+   * @throws AccountNotFoundException 
    */
-  public Account(ExpensesDbAdapter mDbHelper, long id) {
+  public Account(ExpensesDbAdapter mDbHelper, long id) throws AccountNotFoundException {
     this.mDbHelper = mDbHelper;
     this.id = id;
     Cursor c = mDbHelper.fetchAccount(id);
+    if (c.getCount() == 0) {
+      throw new AccountNotFoundException();
+    }
     this.label = c.getString(c.getColumnIndexOrThrow("label"));
     this.openingBalance = c.getFloat(c.getColumnIndexOrThrow("opening_balance"));
     this.description = c.getString(c.getColumnIndexOrThrow("description"));

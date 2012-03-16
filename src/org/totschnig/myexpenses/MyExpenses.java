@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
+import org.totschnig.myexpenses.Account.AccountNotFoundException;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -46,12 +47,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -73,15 +72,10 @@ import android.util.Log;
 public class MyExpenses extends ListActivity {
   public static final int ACTIVITY_CREATE=0;
   public static final int ACTIVITY_EDIT=1;
+  public static final int ACTIVITY_PREF=2;
 
-  public static final int INSERT_TA_ID = Menu.FIRST;
-  public static final int INSERT_TRANSFER_ID = Menu.FIRST + 1;
-  public static final int RESET_ID = Menu.FIRST + 3;
-  public static final int DELETE_ID = Menu.FIRST +4;
-  public static final int SHOW_DETAIL_ID = Menu.FIRST +5;
-  public static final int HELP_ID = Menu.FIRST +6;
-  public static final int SETTINGS_ID = Menu.FIRST +7;
-  public static final int BACKUP_ID = Menu.FIRST +8;
+  public static final int DELETE_ID = Menu.FIRST;
+  public static final int SHOW_DETAIL_ID = Menu.FIRST +1;
   public static final boolean TYPE_TRANSACTION = true;
   public static final boolean TYPE_TRANSFER = false;
   public static final String TRANSFER_EXPENSE = "=>";
@@ -91,8 +85,8 @@ public class MyExpenses extends ListActivity {
   static final int VERSION_DIALOG_ID = 2;
   static final int RESET_DIALOG_ID = 3;
   static final int BACKUP_DIALOG_ID = 4;
+
   private String mVersionInfo;
-    
   
   private ExpensesDbAdapter mDbHelper;
 
@@ -100,8 +94,11 @@ public class MyExpenses extends ListActivity {
   
   private SharedPreferences mSettings;
   private Cursor mExpensesCursor;
-  private ImageButton mAddButton;
-  private ImageButton mSwitchButton;
+  private Button mAddButton;
+  private Button mSwitchButton;
+  private Button mResetButton;
+  private Button mSettingsButton;
+  private Button mHelpButton;
 
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -114,10 +111,17 @@ public class MyExpenses extends ListActivity {
     mDbHelper = MyApplication.db();
     mSettings = ((MyApplication) getApplicationContext()).getSettings();
     newVersionCheck();
-    long account_id = mSettings.getLong("current_account", 0);
-    mCurrentAccount = new Account(mDbHelper,account_id);
+    if (mCurrentAccount == null) {
+      long account_id = mSettings.getLong("current_account", 0);
+      try {
+        mCurrentAccount = new Account(mDbHelper,account_id);
+      } catch (AccountNotFoundException e) {
+        //for any reason the account stored in pref no longer exists
+        mCurrentAccount = requireAccount();
+      }
+    }
     
-    mAddButton = (ImageButton) findViewById(R.id.addOperation);
+    mAddButton = (Button) findViewById(R.id.addOperation);
     mAddButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -125,7 +129,6 @@ public class MyExpenses extends ListActivity {
       }
     });
     mAddButton.setOnLongClickListener(new View.OnLongClickListener() {
-      
       @Override
       public boolean onLongClick(View v) {
         //we need the popup only if transfers are enabled
@@ -139,8 +142,7 @@ public class MyExpenses extends ListActivity {
       }
     });
     
-    mSwitchButton = (ImageButton) findViewById(R.id.switchAccount);
-      
+    mSwitchButton = (Button) findViewById(R.id.switchAccount);     
     mSwitchButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -155,6 +157,36 @@ public class MyExpenses extends ListActivity {
         AccountListPopupWindow dw = new AccountListPopupWindow(v);
         dw.showLikeQuickAction();
         return true;
+      }
+    });
+    
+    mResetButton = (Button) findViewById(R.id.reset);     
+    mResetButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if (Utils.isExternalStorageAvailable())
+          showDialog(RESET_DIALOG_ID);
+        else 
+          Toast.makeText(getBaseContext(),
+              getString(R.string.external_storage_unavailable), 
+              Toast.LENGTH_LONG)
+              .show();
+      }
+    });
+    
+    mSettingsButton = (Button) findViewById(R.id.settings);     
+    mSettingsButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
+      }
+    });
+    
+    mHelpButton = (Button) findViewById(R.id.help);     
+    mHelpButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        showDialog(HELP_DIALOG_ID);
       }
     });
 
@@ -228,72 +260,27 @@ public class MyExpenses extends ListActivity {
     TextView endView= (TextView) findViewById(R.id.end);
     endView.setText(Utils.formatCurrency(mCurrentAccount.getCurrentBalance(),mCurrentAccount.currency));
     
+    configButtons();
+  }
+
+  private void configButtons() {
     mSwitchButton.setVisibility(mDbHelper.getAccountCount(null) > 1 ?
         View.VISIBLE : View.GONE);
-
+    mResetButton.setVisibility(mExpensesCursor.getCount() > 0 ?
+        View.VISIBLE : View.GONE);    
   }
 
   /* (non-Javadoc)
-   * here we check if we have other accounts with the same category,
-   * only under this condition do we make the Insert Transfer Activity
-   * available
-   * @see android.app.Activity#onPrepareOptionsMenu(android.view.Menu)
-   */
+  * upon return from CREATE or EDIT we call fillData to renew state of reset button
+  * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+  */
   @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    super.onPrepareOptionsMenu(menu);
-    menu.findItem(RESET_ID)
-      .setVisible(mExpensesCursor.getCount() > 0);
-    return true;
-  }
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    super.onCreateOptionsMenu(menu);
-    //numeric shortcuts are used from Monkeyrunner
-    menu.add(0, RESET_ID,1,R.string.menu_reset)
-        .setIcon(android.R.drawable.ic_menu_revert)
-        .setAlphabeticShortcut('c');;
-    menu.add(0, HELP_ID,1,R.string.menu_help)
-        .setIcon(android.R.drawable.ic_menu_help)
-        .setAlphabeticShortcut('d');
-    menu.add(0,SETTINGS_ID,1,R.string.menu_settings)
-        .setIcon(android.R.drawable.ic_menu_preferences)
-        .setAlphabeticShortcut('f');
-    menu.add(0,BACKUP_ID,1,R.string.menu_backup)
-        .setIcon(android.R.drawable.ic_menu_save)
-        .setAlphabeticShortcut('g');
-    return true;
-  }
-
-  public boolean onMenuItemSelected(int featureId, MenuItem item) {
-    switch(item.getItemId()) {
-    case INSERT_TA_ID:
-      createRow(TYPE_TRANSACTION);
-      return true;
-    case INSERT_TRANSFER_ID:
-      createRow(TYPE_TRANSFER);
-      return true;
-    case RESET_ID:
-      if (Utils.isExternalStorageAvailable())
-        showDialog(RESET_DIALOG_ID);
-      else 
-        Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
-      return true;
-    case HELP_ID:
-      showDialog(HELP_DIALOG_ID);
-      return true;
-    case SETTINGS_ID:
-      startActivity(new Intent(this, MyPreferenceActivity.class));
-      return true;
-    case BACKUP_ID:
-      if (Utils.isExternalStorageAvailable())
-        showDialog(BACKUP_DIALOG_ID);
-      else 
-        Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
-      return true;
-    }
-    return super.onMenuItemSelected(featureId, item);
+  protected void onActivityResult(int requestCode, int resultCode, 
+      Intent intent) {
+      super.onActivityResult(requestCode, resultCode, intent);
+      configButtons();
+//      if (resultCode == RESULT_OK) {
+//      }
   }
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
@@ -479,8 +466,24 @@ public class MyExpenses extends ListActivity {
   }
 
   private void switchAccount(long accountId) {
+    //TODO: write a test if the case where the account stored in last_account
+    //is deleted, is correctly handled
     if (accountId == 0) {
+      //first check if we have the last_account stored
       accountId = mSettings.getLong("last_account", 0);
+      //if for any reason the last_account is identical to the current
+      //we ignore it
+      if (accountId == mCurrentAccount.id)
+        accountId = 0;
+      if (accountId != 0) {
+        try {
+          mCurrentAccount = new Account(mDbHelper, accountId);
+        } catch (AccountNotFoundException e) {
+         //the account stored in last_account has been deleted 
+         accountId = 0; 
+        }
+      }
+      //now we fetch the first account we retrieve
       if (accountId == 0) {
         final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
         if(otherAccounts.moveToFirst()){
@@ -490,11 +493,17 @@ public class MyExpenses extends ListActivity {
       }
     }
     if (accountId != 0) {
-      mSettings.edit().putLong("current_account", accountId)
-        .putLong("last_account", mCurrentAccount.id)
-        .commit();
-      mCurrentAccount = new Account(mDbHelper, accountId);
-      fillData();
+      try {
+        long last_account = mCurrentAccount.id;
+        mCurrentAccount = new Account(mDbHelper, accountId);
+        mSettings.edit().putLong("current_account", accountId)
+          .putLong("last_account", last_account)
+          .commit();
+        fillData();
+      } catch (AccountNotFoundException e) {
+        //should not happen
+        Log.w("MyExpenses","unable to switch to account " + accountId);
+      }
     }
   }
 
@@ -597,34 +606,52 @@ public class MyExpenses extends ListActivity {
   }
 
   /**
+   * if there are already accounts defined, return the first one
+   * otherwise create a new account, and return it
+   */
+  private Account requireAccount() {
+    Account account;
+    Long account_id = mDbHelper.getFirstAccountId();
+    if (account_id == null) {
+      account = new Account(
+          mDbHelper,
+          getString(R.string.app_name),
+          0,
+          getString(R.string.default_account_description),
+          Currency.getInstance(Locale.getDefault())
+      );
+      account.save();
+    } else {
+      try {
+        account =new Account(mDbHelper,account_id);
+      } catch (AccountNotFoundException e) {
+        // this should not happen, since we got the account_id from db
+        e.printStackTrace();
+        throw new RuntimeException();
+      }
+    }
+    return account;
+  }
+  /**
    * check if this is the first invocation of a new version
    * in which case help dialog is presented
    * also is used for hooking version specific upgrade procedures
    */
   public void newVersionCheck() {
     Editor edit = mSettings.edit();
-    int pref_version = mSettings.getInt("currentversion", -1);
+    int prev_version = mSettings.getInt("currentversion", -1);
     int current_version = getVersionNumber();
-    if (pref_version == current_version)
+    if (prev_version == current_version)
       return;
-    if (pref_version == -1) {
+    if (prev_version == -1) {
       //we check if we already have an account
-      Long account_id = mDbHelper.getFirstAccountId();
-      if (account_id == null) {
-        Account account = new Account(
-            mDbHelper,
-            getString(R.string.app_name),
-            0,
-            getString(R.string.default_account_description),
-            Currency.getInstance(Locale.getDefault())
-        );
-        account_id = account.save();
-      }
-      edit.putLong("current_account", account_id).commit();
+      mCurrentAccount = requireAccount();
+
+      edit.putLong("current_account", mCurrentAccount.id).commit();
       edit.putInt("currentversion", current_version).commit();
-    } else if (pref_version != current_version) {
+    } else if (prev_version != current_version) {
       edit.putInt("currentversion", current_version).commit();
-      if (pref_version < 14) {
+      if (prev_version < 14) {
         //made current_account long
         edit.putLong("current_account", mSettings.getInt("current_account", 0)).commit();
         String non_conforming = checkCurrencies();
@@ -633,7 +660,7 @@ public class MyExpenses extends ListActivity {
           return;
         }
       }
-      if (pref_version < 19) {
+      if (prev_version < 19) {
         //renamed
         edit.putString("share_target",mSettings.getString("ftp_target",""));
         edit.remove("ftp_target");

@@ -19,6 +19,8 @@ import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.Account.AccountNotFoundException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -169,7 +171,13 @@ public class AccountEdit extends Activity {
     long rowId = extras != null ? extras.getLong(ExpensesDbAdapter.KEY_ROWID)
           : 0;
     if (rowId != 0) {
-      mAccount = new Account(mDbHelper,rowId);
+      try {
+        mAccount = new Account(mDbHelper,rowId);
+      } catch (AccountNotFoundException e) {
+        e.printStackTrace();
+        setResult(RESULT_CANCELED);
+        finish();
+      }
       setTitle(R.string.menu_edit_account);
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);

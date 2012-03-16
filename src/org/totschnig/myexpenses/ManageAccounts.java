@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -46,10 +47,10 @@ public class ManageAccounts extends ListActivity {
   private static final int ACTIVITY_EDIT=1;
   private static final int EDIT_ID = Menu.FIRST;
   private static final int DELETE_ID = Menu.FIRST +1;
-  private static final int INSERT_ACCOUNT_ID = Menu.FIRST + 2;
   private ExpensesDbAdapter mDbHelper;
   Cursor mAccountsCursor;
   long mCurrentAccount;
+  private Button mAddButton;
   
 /*  private int monkey_state = 0;
 
@@ -76,24 +77,17 @@ public class ManageAccounts extends ListActivity {
         .getSettings()
         .getLong("current_account", 0);
     fillData();
+    mAddButton = (Button) findViewById(R.id.addOperation);
+    mAddButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent i = new Intent(ManageAccounts.this, AccountEdit.class);
+        startActivityForResult(i, ACTIVITY_CREATE);
+      }
+    });
     registerForContextMenu(getListView());
   }
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    super.onCreateOptionsMenu(menu);
-    menu.add(0, INSERT_ACCOUNT_ID, 0, R.string.menu_insert_account).setIcon(android.R.drawable.ic_menu_add);;
-    return true;
-  }
   
-  public boolean onMenuItemSelected(int featureId, MenuItem item) {
-    switch(item.getItemId()) {
-    case INSERT_ACCOUNT_ID:
-      Intent i = new Intent(this, AccountEdit.class);
-      startActivityForResult(i, ACTIVITY_CREATE);
-      return true;
-    }
-    return super.onMenuItemSelected(featureId, item);
-  }
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
