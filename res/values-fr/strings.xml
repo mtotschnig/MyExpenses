@@ -92,17 +92,17 @@
     <string name="opening_balance">Solde initial</string>
     <string name="payee">Tiers</string>
     <string name="payer">Tiers</string>
+    <string name="pref_share_target_title">URL où sera téléchargé le fichier QIF</string>
+    <string name="pref_share_target_summary">Formes supportées:
+ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
+mailto (\"mailto:john@my.example.com\").</string>   
     <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.</string>
     <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
     <string name="select">Sélectionner</string>
     <string name="select_account">Sélectionner un compte</string>
     <string name="select_category">Sélectionner une catégorie</string>
     <string name="select_parent_category">Choisir cette catégorie</string>
-    <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
-    <string name="share_target_title">URL où sera téléchargé le fichier QIF</string>
-    <string name="share_target_summary">Formes supportées:
-ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
-mailto (\"mailto:john@my.example.com\").</string>    
+    <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string> 
     <string name="time">Heure</string>
     <string name="title">Titre</string>
     <string name="tutorial">Tutoriel</string>

@@ -95,6 +95,10 @@
 	  <string name="opening_balance">Anfangssaldo</string>
 	  <string name="payee">Empfänger</string>
 	  <string name="payer">Zahler</string>
+	  <string name="pref_share_target_title">Upload URL QIF Export</string>
+    <string name="pref_share_target_summary">Unterstützte Schemen: 
+ftp (\"ftp://login:password@my.example.org:port/my/directory/\");
+mailto (\"mailto:john@my.example.com\").</string>
 	  <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
     <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
 	  <string name="select">Auswählen</string>
@@ -102,10 +106,6 @@
 	  <string name="select_category">Kategorie auswählen</string>
 	  <string name="select_parent_category">Wähle diese Kategorie</string>
 	  <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>      
-    <string name="share_target_title">Upload URL QIF Export</string>
-    <string name="share_target_summary">Unterstützte Schemen: 
-ftp (\"ftp://login:password@my.example.org:port/my/directory/\");
-mailto (\"mailto:john@my.example.com\").</string>	      
 	  <string name="time">Zeit</string>
 	  <string name="title">Titel</string>
     <string name="tutorial">Anleitung</string>  
