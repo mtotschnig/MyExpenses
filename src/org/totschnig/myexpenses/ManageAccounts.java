@@ -18,7 +18,10 @@ package org.totschnig.myexpenses;
 import java.util.Currency;
 import java.util.Locale;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -34,6 +37,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 /**
@@ -45,12 +49,13 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 public class ManageAccounts extends ListActivity {
   private static final int ACTIVITY_CREATE=0;
   private static final int ACTIVITY_EDIT=1;
-  private static final int EDIT_ID = Menu.FIRST;
-  private static final int DELETE_ID = Menu.FIRST +1;
+  private static final int DELETE_ID = Menu.FIRST;
   private ExpensesDbAdapter mDbHelper;
   Cursor mAccountsCursor;
   long mCurrentAccount;
   private Button mAddButton;
+  private long contextAccountId;
+  static final int DELETE_DIALOG_ID = 1;
   
 /*  private int monkey_state = 0;
 
@@ -102,6 +107,29 @@ public class ManageAccounts extends ListActivity {
     if (resultCode == RESULT_OK)
       fillData();
   }
+  @Override
+  protected Dialog onCreateDialog(int id) {
+    switch (id) {
+    case DELETE_DIALOG_ID:
+      return new AlertDialog.Builder(this)
+      .setMessage(R.string.warning_delete_account)
+      .setCancelable(false)
+      .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            //TODO will need to pass contextAccountId to instance state, otherwise dialog will not work
+            //after orientation change
+            mDbHelper.deleteAccount(contextAccountId);
+            fillData();
+          }
+      })
+      .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          dialog.cancel();
+        }
+      }).create();
+    }
+    return null;
+  }
   private void fillData () {
     if (mAccountsCursor == null) {
       mAccountsCursor = mDbHelper.fetchAccountAll();
@@ -147,7 +175,6 @@ public class ManageAccounts extends ListActivity {
       ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-    menu.add(0, EDIT_ID, 0, R.string.menu_edit_account);
     //currentAccount should not be deleted
     if (info.id != mCurrentAccount)
       menu.add(0, DELETE_ID, 0, R.string.menu_delete_account);
@@ -158,8 +185,11 @@ public class ManageAccounts extends ListActivity {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case DELETE_ID:
-      mDbHelper.deleteAccount(info.id);
-      fillData();
+      //passing a bundle to showDialog is available only with API level 8
+      contextAccountId = info.id;
+      showDialog(DELETE_DIALOG_ID);
+      //mDbHelper.deleteAccount(info.id);
+      //fillData();
       return true;
     }
     return super.onContextItemSelected(item);
