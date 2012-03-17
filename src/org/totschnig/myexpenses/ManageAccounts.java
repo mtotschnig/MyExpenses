@@ -54,7 +54,7 @@ public class ManageAccounts extends ListActivity {
   Cursor mAccountsCursor;
   long mCurrentAccount;
   private Button mAddButton;
-  private long contextAccountId;
+  private long mContextAccountId;
   static final int DELETE_DIALOG_ID = 1;
   
 /*  private int monkey_state = 0;
@@ -118,7 +118,7 @@ public class ManageAccounts extends ListActivity {
           public void onClick(DialogInterface dialog, int id) {
             //TODO will need to pass contextAccountId to instance state, otherwise dialog will not work
             //after orientation change
-            mDbHelper.deleteAccount(contextAccountId);
+            mDbHelper.deleteAccount(mContextAccountId);
             fillData();
           }
       })
@@ -186,12 +186,23 @@ public class ManageAccounts extends ListActivity {
     switch(item.getItemId()) {
     case DELETE_ID:
       //passing a bundle to showDialog is available only with API level 8
-      contextAccountId = info.id;
+      mContextAccountId = info.id;
       showDialog(DELETE_DIALOG_ID);
       //mDbHelper.deleteAccount(info.id);
       //fillData();
       return true;
     }
     return super.onContextItemSelected(item);
+  }
+  //safeguard for orientation change during dialog
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+   super.onSaveInstanceState(outState);
+   outState.putLong("contextAccountId", mContextAccountId);
+  }
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+   super.onRestoreInstanceState(savedInstanceState);
+   mContextAccountId = savedInstanceState.getLong("contextAccountId");
   }
 }
