@@ -70,7 +70,6 @@ import android.util.Log;
  *
  */
 public class MyExpenses extends ListActivity {
-  public static final int ACTIVITY_CREATE=0;
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_PREF=2;
 
@@ -257,12 +256,16 @@ public class MyExpenses extends ListActivity {
       }
     };
     setListAdapter(expense);
-    TextView endView= (TextView) findViewById(R.id.end);
-    endView.setText(Utils.formatCurrency(mCurrentAccount.getCurrentBalance(),mCurrentAccount.currency));
+    setCurrentBalance();
     
     configButtons();
   }
 
+  private void setCurrentBalance() {
+    TextView endView= (TextView) findViewById(R.id.end);
+    endView.setText(Utils.formatCurrency(mCurrentAccount.getCurrentBalance(),mCurrentAccount.currency));    
+  }
+  
   private void configButtons() {
     mSwitchButton.setVisibility(mDbHelper.getAccountCount(null) > 1 ?
         View.VISIBLE : View.GONE);
@@ -277,9 +280,14 @@ public class MyExpenses extends ListActivity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
-      super.onActivityResult(requestCode, resultCode, intent);
-      configButtons();
-//      if (resultCode == RESULT_OK) {
+    super.onActivityResult(requestCode, resultCode, intent);
+    //we call configButtons even with RESULT_CANCEL, since we
+    //might return from preferences on RESULT_CANCEL, but user has been
+    //changing accounts before
+    configButtons();
+    if (requestCode == ACTIVITY_EDIT && resultCode == RESULT_OK) {
+      setCurrentBalance();
+    }
 //      }
   }
   @Override
@@ -462,7 +470,7 @@ public class MyExpenses extends ListActivity {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
     i.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID,mCurrentAccount.id);
-    startActivityForResult(i, ACTIVITY_CREATE);
+    startActivityForResult(i, ACTIVITY_EDIT);
   }
 
   private void switchAccount(long accountId) {
