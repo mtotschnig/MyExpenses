@@ -132,7 +132,33 @@ public class MyExpenses extends ListActivity {
       public boolean onLongClick(View v) {
         //we need the popup only if transfers are enabled
         if (transfersEnabledP()) {
-          TransactionTypePopupWindow dw = new TransactionTypePopupWindow(v);
+          final BetterPopupWindow dw = new BetterPopupWindow(v) {
+            @Override
+            protected void onCreate() {
+              // inflate layout
+              LayoutInflater inflater =
+                  (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+              ViewGroup root = (ViewGroup) inflater.inflate(R.layout.transaction_type_popup, null);
+              root.findViewById(R.id.select_ta).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  createRow(TYPE_TRANSACTION);
+                  dismiss();
+                }
+              });
+              root.findViewById(R.id.select_transfer).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  createRow(TYPE_TRANSFER);
+                  dismiss();
+                }
+              });
+
+              // set the inflated view as what we want to display
+              this.setContentView(root);
+            }
+          };
           dw.showLikeQuickAction();
           return true;
         } else {
@@ -152,8 +178,39 @@ public class MyExpenses extends ListActivity {
       
       @Override
       public boolean onLongClick(View v) {
-        mDbHelper.getAccountCount(null);
-        AccountListPopupWindow dw = new AccountListPopupWindow(v);
+        final BetterPopupWindow dw = new BetterPopupWindow(v) {
+          @Override
+          protected void onCreate() {
+            // inflate layout
+            LayoutInflater inflater =
+                (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            ViewGroup root = (ViewGroup) inflater.inflate(R.layout.account_list_popup, null);
+
+            final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
+            if(otherAccounts.moveToFirst()){
+              TextView accountTV;
+              for (int i = 0; i < otherAccounts.getCount(); i++){
+                accountTV = new TextView(MyExpenses.this);
+                accountTV.setText(otherAccounts.getString(otherAccounts.getColumnIndex("label")));
+                accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+                accountTV.setId((int) otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
+                accountTV.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    switchAccount(v.getId());
+                    dismiss();
+                  }
+                });
+                root.addView(accountTV);
+                otherAccounts.moveToNext();
+              }
+             }
+            // set the inflated view as what we want to display
+            this.setContentView(root);
+            otherAccounts.close();
+          }
+        };
         dw.showLikeQuickAction();
         return true;
       }
@@ -180,12 +237,92 @@ public class MyExpenses extends ListActivity {
         startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
       }
     });
+    mSettingsButton.setOnLongClickListener(new View.OnLongClickListener() {
+      @Override
+      public boolean onLongClick(View v) {
+        final BetterPopupWindow dw = new BetterPopupWindow(v) {
+          @Override
+          protected void onCreate() {
+            // inflate layout
+            LayoutInflater inflater =
+                (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            ViewGroup root = (ViewGroup) inflater.inflate(R.layout.settings_categ_popup, null);
+            root.findViewById(R.id.select_accounts).setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                startActivityForResult(new Intent(MyExpenses.this, ManageAccounts.class),ACTIVITY_PREF);
+                dismiss();
+              }
+            });
+            root.findViewById(R.id.select_backup).setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                startActivityForResult(new Intent(MyExpenses.this, Backup.class),ACTIVITY_PREF);
+                dismiss();
+              }
+            });
+            root.findViewById(R.id.select_all).setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
+              }
+            });
+
+            // set the inflated view as what we want to display
+            this.setContentView(root);
+          }
+        };
+        dw.showLikeQuickAction();
+        return true;
+      }
+    });
     
     mHelpButton = (Button) findViewById(R.id.help);     
     mHelpButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         showDialog(HELP_DIALOG_ID);
+      }
+    });
+    mHelpButton.setOnLongClickListener(new View.OnLongClickListener() {
+      @Override
+      public boolean onLongClick(View v) {
+        final BetterPopupWindow dw = new BetterPopupWindow(v) {
+          @Override
+          protected void onCreate() {
+            // inflate layout
+            LayoutInflater inflater =
+                (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            ViewGroup root = (ViewGroup) inflater.inflate(R.layout.help_categ_popup, null);
+            root.findViewById(R.id.select_tutorial).setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                startActivity( new Intent(MyExpenses.this, Tutorial.class));
+                dismiss();
+              }
+            });
+            root.findViewById(R.id.select_changes).setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                showDialog(CHANGES_DIALOG_ID);
+                dismiss();
+              }
+            });
+            root.findViewById(R.id.select_help).setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                showDialog(HELP_DIALOG_ID);
+                dismiss();
+              }
+            });
+            // set the inflated view as what we want to display
+            this.setContentView(root);
+          }
+        };
+        dw.showLikeQuickAction();
+        return true;
       }
     });
 
@@ -256,8 +393,7 @@ public class MyExpenses extends ListActivity {
       }
     };
     setListAdapter(expense);
-    setCurrentBalance();
-    
+    setCurrentBalance(); 
     configButtons();
   }
 
@@ -284,11 +420,11 @@ public class MyExpenses extends ListActivity {
     //we call configButtons even with RESULT_CANCEL, since we
     //might return from preferences on RESULT_CANCEL, but user has been
     //changing accounts before
-    configButtons();
     if (requestCode == ACTIVITY_EDIT && resultCode == RESULT_OK) {
-      setCurrentBalance();
+      fillData();
+    } else {
+      configButtons();
     }
-//      }
   }
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
@@ -425,29 +561,6 @@ public class MyExpenses extends ListActivity {
             dialog.cancel();
           }
         }).create();
-    case BACKUP_DIALOG_ID:
-      File backupDb = mDbHelper.getBackupFile();
-      int message = backupDb.exists() ? R.string.warning_backup_exists : R.string.warning_backup;
-      return new AlertDialog.Builder(this)
-      .setMessage(message)
-      .setCancelable(false)
-      .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            if (Utils.isExternalStorageAvailable()) {
-              if (((MyApplication) getApplicationContext()).backup()) {
-                Toast.makeText(getBaseContext(),getString(R.string.backup_success), Toast.LENGTH_LONG).show();
-              } else {
-                Toast.makeText(getBaseContext(),getString(R.string.backup_failure), Toast.LENGTH_LONG).show();
-              }
-            } else
-              Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
-          }
-      })
-      .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-          dialog.cancel();
-        }
-      }).create();
     }
     return null;
   }
@@ -766,86 +879,5 @@ public class MyExpenses extends ListActivity {
   
   public boolean transfersEnabledP() {
     return mDbHelper.getAccountCount(mCurrentAccount.currency.getCurrencyCode()) > 1;
-  }
-  
-  /**
-   * Extends {@link BetterPopupWindow}
-   * <p>
-   * Overrides onCreate to create the view and register the button listeners
-   * 
-   * @author qbert
-   * 
-   */
-  private class TransactionTypePopupWindow extends BetterPopupWindow {
-    public TransactionTypePopupWindow(View anchor) {
-      super(anchor);
-    }
-
-    @Override
-    protected void onCreate() {
-      // inflate layout
-      LayoutInflater inflater =
-          (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-      ViewGroup root = (ViewGroup) inflater.inflate(R.layout.transaction_type_popup, null);
-      root.findViewById(R.id.select_ta).setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          createRow(TYPE_TRANSACTION);
-          TransactionTypePopupWindow.this.dismiss();
-        }
-      });
-      root.findViewById(R.id.select_transfer).setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          createRow(TYPE_TRANSFER);
-          TransactionTypePopupWindow.this.dismiss();
-        }
-      });
-
-      // set the inflated view as what we want to display
-      this.setContentView(root);
-    }
-  }
-  private class AccountListPopupWindow extends BetterPopupWindow {
-    public AccountListPopupWindow(View anchor) {
-      super(anchor);
-    }
-
-    @Override
-    protected void onCreate() {
-      // inflate layout
-      LayoutInflater inflater =
-          (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-      ViewGroup root = (ViewGroup) inflater.inflate(R.layout.account_list_popup, null);
-      //ListView accountList = (ListView) root.findViewById(R.id.account_list);
-      //ListView accountList = (ListView) inflater.inflate(R.layout.account_list_popup, null);
-      final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
-//      String[] from = new String[]{"label"};
-//      int[] to = new int[]{R.id.label};
-//      accountList.setAdapter(new SimpleCursorAdapter(MyExpenses.this, R.layout.account_list_popup_row, otherAccounts, from, to));
-      if(otherAccounts.moveToFirst()){
-        TextView accountTV;
-        for (int i = 0; i < otherAccounts.getCount(); i++){
-          accountTV = new TextView(MyExpenses.this);
-          accountTV.setText(otherAccounts.getString(otherAccounts.getColumnIndex("label")));
-          accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-          accountTV.setId((int) otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
-          accountTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              switchAccount(v.getId());
-              AccountListPopupWindow.this.dismiss();
-            }
-          });
-          root.addView(accountTV);
-          otherAccounts.moveToNext();
-        }
-       }
-      // set the inflated view as what we want to display
-      this.setContentView(root);
-      otherAccounts.close();
-    }
   }
 }

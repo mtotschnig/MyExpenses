@@ -33,52 +33,11 @@ import android.widget.Toast;
  *
  */
 public class MyPreferenceActivity extends PreferenceActivity {
-  static final int BACKUP_DIALOG_ID = 4;
   
 @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
-    Preference backupPref = (Preference) findPreference("backup");
-    backupPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {   
-      public boolean onPreferenceClick(Preference preference) {
-        if (Utils.isExternalStorageAvailable())
-          showDialog(BACKUP_DIALOG_ID);
-        else 
-          Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
-        return true;
-      }
-    });
-  }
-  @Override
-  protected Dialog onCreateDialog(int id) {
-    switch (id) {
-    case BACKUP_DIALOG_ID:
-      ExpensesDbAdapter mDbHelper = MyApplication.db();
-      File backupDb = mDbHelper.getBackupFile();
-      int message = backupDb.exists() ? R.string.warning_backup_exists : R.string.warning_backup;
-      return new AlertDialog.Builder(this)
-      .setMessage(message)
-      .setCancelable(false)
-      .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            if (Utils.isExternalStorageAvailable()) {
-              if (((MyApplication) getApplicationContext()).backup()) {
-                Toast.makeText(getBaseContext(),getString(R.string.backup_success), Toast.LENGTH_LONG).show();
-              } else {
-                Toast.makeText(getBaseContext(),getString(R.string.backup_failure), Toast.LENGTH_LONG).show();
-              }
-            } else
-              Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
-          }
-      })
-      .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-          dialog.cancel();
-        }
-      }).create();
-    }
-    return null;
-  }
+ }
 }

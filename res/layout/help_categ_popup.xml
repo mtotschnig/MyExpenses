@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/popupMenu">
+   <TextView
+       android:id="@+id/select_tutorial"
+      style="@style/popupMenuItem"
+       android:text="@string/tutorial" />
+   <TextView 
+       android:id="@+id/select_changes"
+       style="@style/popupMenuItem"
+       android:text="@string/menu_changes" />
+   <TextView 
+       android:id="@+id/select_help"
+       style="@style/popupMenuItem"
+       android:text="@string/menu_help" /> 
+</LinearLayout>

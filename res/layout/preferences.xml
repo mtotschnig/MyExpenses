@@ -14,7 +14,9 @@
 	    android:key="share_target" 
 	    android:title="@string/pref_share_target_title" 
 	    android:summary="@string/pref_share_target_summary" />
-	<Preference
+	<PreferenceScreen
       android:title="Backup"
-      android:key="backup" />
+      android:key="backup">
+      <intent android:action="myexpenses.intent.backup"/>      
+  </PreferenceScreen>
 </PreferenceScreen> 

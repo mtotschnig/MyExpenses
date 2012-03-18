@@ -64,38 +64,42 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     style="@android:style/ButtonBar">
-        <LinearLayout 
+        <RelativeLayout 
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:orientation="horizontal" 
       android:layout_centerInParent="true">
         <Button
-            android:text="New"
+            android:text="@string/menu_new"
             style="@style/buttonPort"
             android:longClickable="true"
             android:id="@+id/addOperation"
             android:drawableTop="@android:drawable/ic_menu_add" />
         <Button
-            android:text="Accounts"
+            android:text="@string/menu_accounts"
             style="@style/buttonPort"
             android:longClickable="true"
             android:id="@+id/switchAccount"
+            android:layout_toRightOf="@+id/addOperation"
             android:drawableTop="@drawable/ic_menu_goto"/>
         <Button
-            android:text="Reset"
+            android:text="@string/menu_reset"
             style="@style/buttonPort"
             android:id="@+id/reset"
+            android:layout_toRightOf="@+id/switchAccount"
             android:drawableTop="@android:drawable/ic_menu_revert"/>
         <Button
-            android:text="Settings"
+            android:text="@string/menu_settings"
             style="@style/buttonPort"
             android:id="@+id/settings"
+            android:layout_toRightOf="@+id/reset"
             android:drawableTop="@android:drawable/ic_menu_preferences"/>
          <Button
-            android:text="Help"
+            android:text="@string/menu_help"
             style="@style/buttonPort"
             android:id="@+id/help"
+            android:layout_toRightOf="@+id/settings"
             android:drawableTop="@android:drawable/ic_menu_help"/>        
-        </LinearLayout>
+        </RelativeLayout>
   </RelativeLayout>
 </LinearLayout>

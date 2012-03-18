@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@drawable/border">
-   <TextView android:id="@+id/select_ta" android:text="Transaction"         
-       android:layout_height="wrap_content"
-       android:layout_width="wrap_content" />
-   <TextView android:id="@+id/select_transfer" android:text="Transfer"
-       android:layout_height="wrap_content"
-       android:layout_width="wrap_content" /> 
+    style="@style/popupMenu">
+   <TextView
+       android:id="@+id/select_ta"
+      style="@style/popupMenuItem"
+       android:text="@string/transaction" />
+   <TextView 
+       android:id="@+id/select_transfer"
+       style="@style/popupMenuItem"
+       android:text="@string/transfer" /> 
 </LinearLayout>

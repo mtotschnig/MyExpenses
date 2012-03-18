@@ -185,7 +185,8 @@ public class BetterPopupWindow {
     int screenWidth = this.windowManager.getDefaultDisplay().getWidth();
     int screenHeight = this.windowManager.getDefaultDisplay().getHeight();
 
-    int xPos = ((screenWidth - rootWidth) / 2) + xOffset;
+    //changed by MT to display  aligned with left position of anchor
+    int xPos = anchorRect.left + xOffset;
     int yPos = anchorRect.top - rootHeight + yOffset;
 
     // display on bottom

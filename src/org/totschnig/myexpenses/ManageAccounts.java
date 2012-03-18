@@ -116,8 +116,6 @@ public class ManageAccounts extends ListActivity {
       .setCancelable(false)
       .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int id) {
-            //TODO will need to pass contextAccountId to instance state, otherwise dialog will not work
-            //after orientation change
             mDbHelper.deleteAccount(mContextAccountId);
             fillData();
           }

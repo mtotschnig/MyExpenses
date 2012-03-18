@@ -26,17 +26,31 @@
   </style>
   <style name="buttonPort" parent="buttonLand">
     <item name="android:textSize">10dp</item>
-    <item name="android:paddingLeft">4dp</item>
+    <item name="android:paddingBottom">5dp</item>
     <item name="android:paddingRight">4dp</item>
+    <item name="android:paddingLeft">2dp</item>
   </style> 
   <style name="buttonLand">
+    <item name="android:paddingLeft">0dp</item>
+    <item name="android:paddingRight">9dp</item>
     <item name="android:textSize">12dp</item>
     <item name="android:textStyle">normal</item>
-    <item name="android:drawablePadding">-8dp</item>
+    <item name="android:drawablePadding">-5dp</item>
     <item name="android:paddingTop">0dp</item>
-    <item name="android:paddingBottom">7dp</item>
+    <item name="android:paddingBottom">2dp</item>
     <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">wrap_content</item>
+  </style>
+  <style name="popupMenu">
+      <item name="android:layout_width">fill_parent</item>
+      <item name="android:layout_height">fill_parent</item>
+      <item name="android:orientation">vertical</item>
+      <item name="android:background">@android:drawable/btn_default</item>    
+  </style>
+  <style name="popupMenuItem">
+      <item name="android:layout_height">wrap_content</item>
+      <item name="android:layout_width">wrap_content</item>
+      <item name="android:background">@android:drawable/menuitem_background</item>
   </style>
   <!-- Animations from http://code.google.com/p/simple-quickactions/source/browse/trunk/res/values/styles.xml -->
           <style name="Animations" />

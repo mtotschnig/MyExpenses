@@ -68,6 +68,7 @@
 	  <string name="important_version_information">Neue Version: Wichtige Information</string>
 	  <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt. Bitte verwenden Sie %1$s</string>
 	  <string name="label">Bezeichnung</string>
+    <string name="menu_accounts">Konten</string>
     <string name="menu_backup">Backup</string>
 	  <string name="menu_changes">Änderungen</string>
 	  <string name="menu_create_main_cat">Neue Hauptkategorie</string>
@@ -83,8 +84,9 @@
 	  <string name="menu_insert_account">Neues Konto erstellen</string>
 	  <string name="menu_insert_ta">Neue Buchung</string>
 	  <string name="menu_insert_transfer">Neue Umbuchung</string>
+    <string name="menu_new">Neu</string>
 	  <string name="menu_reset">Zurücksetzen</string>
-	  <string name="menu_settings">Einstellungen</string>
+	  <string name="menu_settings">Einstel.</string>
 	  <string name="menu_show_detail">Details anzeigen</string>
 	  <string name="no_accounts">Keine Konten</string>
     <string name="no_app_handling_email_available">Keine App für das Versenden von Email gefunden.</string>
@@ -108,6 +110,8 @@ mailto (\"mailto:john@my.example.com\").</string>
 	  <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>      
 	  <string name="time">Zeit</string>
 	  <string name="title">Titel</string>
+	  <string name="transaction">Buchung</string>
+	  <string name="transfer">Umbuchung</string>
     <string name="tutorial">Anleitung</string>  
 	  <string name="version_14_upgrade_info">Seit Version 1.4.0, werden Währungen mit ihrem ISO 4217 Codes gespeichert.
 	    Folgende ungültige Symbole werden zur Zeit für Ihre Konten verwendet und müssen verändert werden: %1$s </string>
