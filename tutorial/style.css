@@ -9,12 +9,6 @@ div.screenshot {
   margin-right:auto;
   margin-left:auto
 }
-#tut1 #nav1, #tut2 #nav2, #tut3 #nav3, #tut4 #nav4, #tut5 #nav5 {
-   pointer-events: none;
-   cursor: default;
-   text-decoration: none;
-   color: black;
-}
 #footnotes {
   display: block;
   font-size: smaller;
@@ -44,4 +38,7 @@ div.screenshot img {
 .guibutton {
 	background-color: #CFCFCF;
 	padding: 2px;
+}
+.langselector {
+  float:right;
 }
