@@ -31,12 +31,12 @@ import android.os.Bundle;
  *
  */
 public class Tutorial extends Activity {
+  protected WebView wv;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.tutorial);
     setTitle(getString(R.string.app_name) + " " + getString(R.string.tutorial));
-    WebView wv;
     wv = (WebView) findViewById(R.id.webview);
     wv.setWebViewClient(new WebViewClient());
 /*    wv.setWebChromeClient(new WebChromeClient() {
@@ -56,5 +56,22 @@ public class Tutorial extends Activity {
     if (!java.util.Arrays.asList(supportedLangs).contains(lang))
       lang = "en";
     wv.loadUrl("http://myexpenses.totschnig.org/tutorial/" + lang +  "/tutorial1.html"); 
+  }
+  @Override
+  protected void onSaveInstanceState(Bundle outState)
+  {
+    super.onSaveInstanceState(outState);
+
+    // Save the state of the WebView
+    wv.saveState(outState);
+  }
+
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState)
+  {
+    super.onRestoreInstanceState(savedInstanceState);
+
+    // Restore the state of the WebView
+    wv.restoreState(savedInstanceState);
   }
 }
