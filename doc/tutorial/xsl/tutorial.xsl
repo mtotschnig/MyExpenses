@@ -31,7 +31,7 @@
   <h1>
   <!-- we want the title to be invisible from inapp webview: we set it to display none,
   and make it visible through javascript. the webview has javascript disabled-->
-  <span id="navigtitle" style="visibility:hidden"><xsl:apply-templates select="/article/articleinfo/title/phrase" /></span>
+  <span id="navigtitle" style="display:none"><xsl:apply-templates select="/article/articleinfo/title/phrase" /></span>
   <span class="langselector">
     <xsl:for-each select="document('')/*/custom:supported-langs/lang">
       <xsl:choose>
@@ -47,6 +47,7 @@
       <xsl:text> </xsl:text>
     </xsl:for-each>
   </span>
+  <span style="clear:both">&#160;</span>
   </h1>
   <xsl:call-template name="make.toc">
     <xsl:with-param name="toc.title.p" select="false()"/>
