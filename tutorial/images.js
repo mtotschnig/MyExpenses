@@ -13,7 +13,7 @@ $(document).ready(function() {
       event.preventDefault();
       PreviewImage($(this).attr('src'));                                 
     });
-    $('#navigtitle').css("visibility", "visible")
+    $('#navigtitle').css("display", "inline")
 });
 
 PreviewImage = function(uri) {
