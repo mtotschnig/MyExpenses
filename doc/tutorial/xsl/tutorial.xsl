@@ -28,7 +28,11 @@
   <xsl:variable name="chunkname">
     <xsl:apply-templates select="." mode="recursive-chunk-filename"/>
   </xsl:variable>
-  <div class="langselector">
+  <h1>
+  <!-- we want the title to be invisible from inapp webview: we set it to display none,
+  and make it visible through javascript. the webview has javascript disabled-->
+  <span id="navigtitle" style="visibility:hidden"><xsl:apply-templates select="/article/articleinfo/title/phrase" /></span>
+  <span class="langselector">
     <xsl:for-each select="document('')/*/custom:supported-langs/lang">
       <xsl:choose>
         <xsl:when test="@code != $doclang">
@@ -42,7 +46,8 @@
       </xsl:choose>
       <xsl:text> </xsl:text>
     </xsl:for-each>
-  </div>
+  </span>
+  </h1>
   <xsl:call-template name="make.toc">
     <xsl:with-param name="toc.title.p" select="false()"/>
     <xsl:with-param name="nodes" select="../sect1"/>

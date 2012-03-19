@@ -3,10 +3,10 @@
 <article>
   <articleinfo>
   <title>
-    <phrase lang="en"><application role="app_name"/> Tutorial</phrase>
-    <phrase lang="fr"><application role="app_name"/> Tutoriel</phrase>
-    <phrase lang="de"><application role="app_name"/> Anleitung</phrase>
-    <phrase lang="it"><application role="app_name"/> Tutorial</phrase>
+    <phrase lang="en"><ulink url="../../index.html"><application role="app_name"/></ulink> Tutorial</phrase>
+    <phrase lang="fr"><ulink url="../../index.html"><application role="app_name"/></ulink> Tutoriel</phrase>
+    <phrase lang="de"><ulink url="../../index.html"><application role="app_name"/></ulink> Anleitung</phrase>
+    <phrase lang="it"><ulink url="../../index.html"><application role="app_name"/></ulink> Tutorial</phrase>
   </title>
     <author>
       <firstname>Michael</firstname>
