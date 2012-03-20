@@ -187,23 +187,25 @@ public class MyExpenses extends ListActivity {
                 (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             ViewGroup root = (ViewGroup) inflater.inflate(R.layout.account_list_popup, null);
+            
+            TextView accountTV;
+            //allow easy access to new account creation
+            accountTV = new TextView(MyExpenses.this);
+            accountTV.setText(getString(R.string.menu_new) + " ...");
+            accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+            accountTV.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                Intent i = new Intent(MyExpenses.this, AccountEdit.class);
+                startActivityForResult(i, ACTIVITY_CREATE_ACCOUNT);
+                dismiss();
+              }
+            });
+            root.addView(accountTV);
 
             final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
             if(otherAccounts.moveToFirst()){
-              TextView accountTV;
-              //allow easy access to new account creation
-              accountTV = new TextView(MyExpenses.this);
-              accountTV.setText(getString(R.string.menu_new) + " ...");
-              accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-              accountTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  Intent i = new Intent(MyExpenses.this, AccountEdit.class);
-                  startActivityForResult(i, ACTIVITY_CREATE_ACCOUNT);
-                  dismiss();
-                }
-              });
-              root.addView(accountTV);              for (int i = 0; i < otherAccounts.getCount(); i++){
+                for (int i = 0; i < otherAccounts.getCount(); i++){
                 accountTV = new TextView(MyExpenses.this);
                 accountTV.setText(otherAccounts.getString(otherAccounts.getColumnIndex("label")));
                 accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
