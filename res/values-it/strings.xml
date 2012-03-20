@@ -60,7 +60,7 @@ MyExpenses calcola la somma delle spese e dei redditi, e l\'attuale equilibrio.
 È scegliere uno dei file predefiniti forniti categoria da Grisbi o utilizzare uno personalizzato, che conservare a \"/sdcard/myexpenses/categories.xml\". È possibile utilizzare il Grisbi file XML come è, o rimuovere nulla, ma le definizioni delle categorie da esso.
     </string>
     <string name="import_categories">Importare le categorie</string>
-    <string name="import_categories_failure">Errore durante l\'importazione categorie</string>
+    <string name="import_categories_failure">Errore durante l\'importazione delle categorie</string>
     <string name="import_categories_success">%1$d categorie state importate</string>
     <string name="important_version_information">Nuova versione: Informazioni importanti</string>
     <string name="invalid_number_format">Numero formato non riconosciuto dal vostra regione. Uso %1$s</string>
@@ -97,6 +97,8 @@ MyExpenses calcola la somma delle spese e dei redditi, e l\'attuale equilibrio.
     <string name="opening_balance">Saldo inizial</string>
     <string name="payee">Ricevitore</string>
     <string name="payer">Pagatore</string>
+    <string name="pref_categories_sort_by_usages_title">Sort order for categories</string>
+    <string name="pref_categories_sort_by_usages_summary">Use count of usages as primary sort criteria (plain alphanumeric order otherwise)</string>
     <string name="pref_share_target_title">Scarica file URL</string>
     <string name="pref_share_target_summary">Shemà supportata:
 ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
@@ -115,8 +117,9 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="tutorial">Tutorial</string>
     <string name="version_14_upgrade_info">Dalla versione 1.4.0, la valuta e definita secondo il codice ISO 4217. Nei vostri contisi utilizza dei seguinti simboli che devono essere cambiati: %1$s </string>
     <string name="warning_backup">Database e le preferenze verranno salvate su scheda SD. Vuoi continuare?</string>
-    <string name="warning_backup_exists">Database e le preferenze verranno salvate su scheda SD. Backup esistente verrà sovrascritto. Vuoi continuare?</string> 
-     <string name="warning_reset_account">Tutte le operazioni del conto saranno cancellati.
+    <string name="warning_backup_exists">Database e le preferenze verranno salvate su scheda SD. Backup esistente verrà sovrascritto. Vuoi continuare?</string>
+    <string name="warning_delete_account">Questo conto sarà cancelatto con tutte le sue operazioni. Vuoi continuare?</string>
+    <string name="warning_reset_account">Tutte le operazioni del conto saranno cancellati.
 Vuoi continuare?</string>
     <string name="warning_select_account">Si deve selezionare un conto !</string>
 </resources>
