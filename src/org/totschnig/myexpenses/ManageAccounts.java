@@ -56,20 +56,6 @@ public class ManageAccounts extends ListActivity {
   private Button mAddButton;
   private long mContextAccountId;
   static final int DELETE_DIALOG_ID = 1;
-  
-/*  private int monkey_state = 0;
-
-  @Override
-  public boolean onKeyUp (int keyCode, KeyEvent event) {
-    if (keyCode == KeyEvent.KEYCODE_ENVELOPE) {
-      switch (monkey_state) {
-      case 0:
-        getListView().requestFocus();
-        return true;
-      }
-    }
-    return super.onKeyUp(keyCode, event);
-  }*/
 
   @Override
   public void onCreate(Bundle savedInstanceState) {

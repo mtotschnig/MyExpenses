@@ -14,7 +14,7 @@ parallel to the project root
 
 xsltproc --stringparam base.dir ../../../MyExpenses.pages/tutorial/{lang}/ xsl/tutorial.xsl tutorial_{lang}.xml
 
-now executed through ant target tutorial
+1 and 2 now executed through ant target tutorial
 
 3) Screenshots
 
@@ -38,7 +38,7 @@ cd doc/tutorial
 monkeyrunner mk_screenshots.py {lang}
 
 
-The smaller images are be created with the following shell command
+The smaller images are created with the following shell command
 executed from MyExpenses.pages/tutorial and steps set to a list of numbers of changed
 screenshots
 for lang in en fr de it
