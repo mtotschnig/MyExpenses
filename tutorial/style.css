@@ -38,7 +38,7 @@ div.screenshot img {
 .guimenuitem, .guilabel {
 	font-weight: bold;
 }
-.guibutton {
+.guibutton, .guimenu {
 	background-color: #CFCFCF;
 	padding: 2px;
 }
