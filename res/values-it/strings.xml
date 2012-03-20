@@ -66,6 +66,7 @@ MyExpenses calcola la somma delle spese e dei redditi, e l\'attuale equilibrio.
     <string name="invalid_number_format">Numero formato non riconosciuto dal vostra regione. Uso %1$s</string>
     <string name="label">Titolo</string>
     <string name="menu_accounts">Conti</string>
+    <string name="menu_accounts_new">Nuovo &#8230;</string>
     <string name="menu_backup">Backup</string>
     <string name="menu_changes">Modifiche</string>
     <string name="menu_create_main_cat">Nuova categoria principale</string>

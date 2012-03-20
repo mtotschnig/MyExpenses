@@ -69,6 +69,7 @@
 	  <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt. Bitte verwenden Sie %1$s</string>
 	  <string name="label">Bezeichnung</string>
     <string name="menu_accounts">Konten</string>
+    <string name="menu_accounts_new">Neu &#8230;</string>
     <string name="menu_backup">Backup</string>
 	  <string name="menu_changes">Änderungen</string>
 	  <string name="menu_create_main_cat">Neue Hauptkategorie</string>
