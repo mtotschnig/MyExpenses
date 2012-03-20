@@ -43,6 +43,7 @@ import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -101,6 +102,39 @@ public class MyExpenses extends ListActivity {
   private Button mSettingsButton;
   private Button mHelpButton;
 
+/*  private int monkey_state = 0;
+
+  @Override
+  public boolean onKeyDown (int keyCode, KeyEvent event) {
+    Intent i;
+    if (keyCode == KeyEvent.KEYCODE_ENVELOPE) {
+      switch (monkey_state) {
+      case 0:
+        i = new Intent(MyExpenses.this, AccountEdit.class);
+        i.putExtra(ExpensesDbAdapter.KEY_ROWID, mCurrentAccount.id);
+        startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
+        monkey_state = 1;
+        return true;
+      case 1:
+        i = new Intent(this, ExpenseEdit.class);
+        i.putExtra("operationType", TYPE_TRANSACTION);
+        i.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID,mCurrentAccount.id);
+        startActivityForResult(i, ACTIVITY_EDIT);
+        monkey_state = 2;
+        return true;
+      case 2:
+        getListView().requestFocus();
+        monkey_state = 3;
+        return true;
+        
+      case 3:
+        showDialog(RESET_DIALOG_ID);
+        return true;
+      }
+    }
+    return super.onKeyDown(keyCode, event);
+  }*/
+  
   /* (non-Javadoc)
    * Called when the activity is first created.
    * @see android.app.Activity#onCreate(android.os.Bundle)
