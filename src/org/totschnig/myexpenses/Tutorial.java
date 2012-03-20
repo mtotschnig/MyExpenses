@@ -31,6 +31,8 @@ import android.os.Bundle;
  *
  */
 public class Tutorial extends Activity {
+  static final int TUTORIAL_RELEASE_VERSION = 2;
+  
   protected WebView wv;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +52,13 @@ public class Tutorial extends Activity {
     settings.setDefaultTextEncodingName("utf-8");
     //settings.setJavaScriptEnabled(true);
     settings.setBuiltInZoomControls(true); 
-    //we abuse user agent string, since the language is not reported correctly 
     String[] supportedLangs = {"en","fr","de","it"};
     String lang =  Locale.getDefault().getLanguage();
-    if (!java.util.Arrays.asList(supportedLangs).contains(lang))
+    if (!java.util.Arrays.asList(supportedLangs).contains(lang)) {
       lang = "en";
-    wv.loadUrl("http://myexpenses.totschnig.org/tutorial/" + lang +  "/tutorial1.html"); 
+    }
+    wv.loadUrl("http://myexpenses.totschnig.org/tutorial_r" + 
+      TUTORIAL_RELEASE_VERSION + "/" + lang +  "/introduction.html"); 
   }
   @Override
   protected void onSaveInstanceState(Bundle outState)
