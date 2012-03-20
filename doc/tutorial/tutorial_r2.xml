@@ -31,15 +31,40 @@
     </title>
   
     <para lang="en">
-      <application role="app_name"/> is designed to keep track of expenses, and to export
+      <application role="app_name"/> is designed to keep track of your expenses, and to export
       these expenses into a desktop finance tool, like Grisbi
       or Gnucash. It supports multiple accounts and a two-level hierarchy of categories.
     </para>
+    <para lang="fr">
+    
+    </para>
+    <para lang="de">
+      Mit <application role="app_name"/> können sie über Ihre Ausgaben Buch halten, und
+      diese in ein Desktop-Finanzprogrammm (Grisbi oder Gnucash) exportieren. Es
+      unterstützt mehrere Konten und zwei Ebenen von Kategorien.
+    </para>
+    <para lang="it">
+    
+    </para>
+    
     <para lang="en">
-      Its main activity displays the list of transactions for the current account. The
+      Its main screen displays the list of transactions for the current account. The
       button bar displayed at the bottom of the screen gives easy access to all
       functionalities. Each button executes a default action on short clicks and most open
       up a menu with further actions on long clicks.
+    </para>
+    <para lang="fr">
+    
+    </para>
+    <para lang="de">
+      In der Hauptansicht werden alle Buchungen des aktiven Kontos angezeigt. Am unteren
+      Rand des Bildschirms befinded sich eine Leiste mit Schaltknöpfen, die Zugriff auf
+      alle Funktionalitäten gewähren. Jeder Schaltknopf ruft mittels eines kurzen Klicks
+      eine Aktion auf, die meisten reagieren zusätzlich auf einen langen Klick, und öffnen
+      ein Menü.
+    </para>
+    <para lang="it">
+    
     </para>
 
     <para id="step1">
@@ -67,12 +92,24 @@
      </menuchoice>, whereas
      <menuchoice>
         <guimenu role="menu_accounts"/>
-        <guimenuitem role="menu_new"/>
+        <guimenuitem role="menu_accounts_new"/>
      </menuchoice> allows to create a new account.
     </para>
     <para lang="fr">
     </para>
     <para lang="de">
+      Beim ersten Aufruf von <application role="app_name"/> wird ein Standardkonto
+      angelegt, und Sie können sofort mit der Eingabe von Buchungen beginnen. Falls Sie
+      das Standardkonto verändern wollen, verwenden Sie 
+      <menuchoice>
+        <guimenu role="menu_settings"/>
+        <guimenuitem role="menu_settings_account"/>
+      </menuchoice>. Mittels
+      <menuchoice>
+        <guimenu role="menu_accounts"/>
+        <guimenuitem role="menu_accounts_new"/>
+     </menuchoice>
+     hingegen können Sie ein neues Konto anlegen.
     </para>
     <para lang="it">
     </para>
@@ -81,7 +118,6 @@
         <graphic fileref="step2.png"></graphic>
       </screenshot>
     </para>
-
     <para lang="en">
       Enter a label, a description, the opening balance, and a currency for the account.
       The currency must be entered according to its three-letter code in ISO 4217, but can be chosen easily
@@ -113,6 +149,11 @@
     <para lang="fr">
     </para>
     <para lang="de">
+      Nach Bestätigung der Eingabe, gelangen Sie wieder zur Liste der Buchungen. Wenn Sie
+      ein neues Konto angelegt haben, wird dieses automatisch zum aktiven Konto. Der
+      Schaltknopf <guibutton role="menu_accounts"/> erlaubt das Wechseln zwischen Konton.
+      Ein einfacher Klick wechselt zum zuletzt aktiven Konto, ein langer Klick öffnet ein
+      Menü mit allen Konten zur Auswahl.
     </para>
     <para lang="it">
     </para>
@@ -134,8 +175,8 @@
       <guimenuitem role="menu_insert_ta"/> vous ouvre la fenêtre pour créer
       une opération :
     </para>
-    <para lang="de"><!-- a reviser -->
-      <guimenuitem role="menu_insert_ta"/> öffnet den Bildschirm für die Eingabe einer
+    <para lang="de">
+      Kurzer Klick auf <guibutton role="menu_new"/>  öffnet den Bildschirm für die Eingabe einer
       neuen Buchung.
     </para>
     <para lang="it"><!-- a reviser -->
@@ -161,7 +202,7 @@
       comment gérer les catégories.
     </para>
     <para lang="de">
-      Passen Sie Datum und Uhrzeit an, klicken Sie auf den Knopf <guibutton>-</guibutton>
+      Passen Sie Datum und Uhrzeit an, klicken Sie auf den Schaltknopf <guibutton>-</guibutton>
       um zwischen Ausgabe und Einnahme zu wechseln, geben Sie Betrag, Notizen und
       Empfänger (bzw. Zahler) ein. Durch Klick auf den Knopf
       <guibutton role="select"/> kommen Sie zum Bildschirm <guilabel role="select_category"/>.
@@ -207,22 +248,34 @@
         <phrase lang="it">Trasferimento</phrase>
       </title>
       <para lang="en">
-        <guimenuitem role="menu_insert_transfer" /> allows you to transfer money between
+        <menuchoice>
+          <guimenu role="menu_new"/>
+          <guimenuitem role="transfer"/>
+       </menuchoice> allows you to transfer money between
         accounts. This command is enabled only if you have more than one account with
         the same currency as the current one.
       </para>
       <para lang="fr">
-        <guimenuitem role="menu_insert_transfer" /> vous permet de virer une somme entre comptes.
+        <menuchoice>
+          <guimenu role="menu_new"/>
+          <guimenuitem role="transfer"/>
+       </menuchoice> vous permet de virer une somme entre comptes.
         Cette commande n'est active que si vous avez au moins deux comptes dans la
         même devise.
       </para>
       <para lang="de">
-        <guimenuitem role="menu_insert_transfer" /> erlaubt Beträge zwichen Konten zu
+        <menuchoice>
+          <guimenu role="menu_new"/>
+          <guimenuitem role="transfer"/>
+       </menuchoice> erlaubt Beträge zwichen Konten zu
         verschieben. Dieser Befehl steht nur zur Verfügung, wenn es mehrere Konten mit der
         selben Währung gibt.
       </para>
       <para lang="it">
-        <guimenuitem role="menu_insert_transfer" /> consente di trasferire denaro tra
+        <menuchoice>
+          <guimenu role="menu_new"/>
+          <guimenuitem role="transfer"/>
+       </menuchoice> consente di trasferire denaro tra
         conti. Questo comando è disponibile solo se si dispone di più di uno conto con
         la stessa valuta di quella attuale.
       </para>
