@@ -25,6 +25,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -122,9 +123,12 @@ public class AccountEdit extends Activity {
 
     confirmButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
-        setResult(RESULT_OK);
-        if (saveState())
+        if (saveState()) {
+          Intent intent=new Intent();
+          intent.putExtra("account_id", mAccount.id);
+          setResult(RESULT_OK,intent);
           finish();
+        }
       }
     });
     cancelButton.setOnClickListener(new View.OnClickListener() {

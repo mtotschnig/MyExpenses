@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/popupMenu">
-   <TextView
-       android:id="@+id/select_ta"
-      style="@style/popupMenuItem"
-       android:text="@string/transaction" />
    <TextView 
        android:id="@+id/select_transfer"
        style="@style/popupMenuItem"
        android:text="@string/transfer" /> 
+   <TextView
+       android:id="@+id/select_ta"
+      style="@style/popupMenuItem"
+       android:text="@string/transaction" />
 </LinearLayout>

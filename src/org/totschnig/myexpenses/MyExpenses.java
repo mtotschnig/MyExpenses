@@ -72,6 +72,8 @@ import android.util.Log;
 public class MyExpenses extends ListActivity {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_PREF=2;
+  public static final int ACTIVITY_CREATE_ACCOUNT=3;
+  public static final int ACTIVITY_EDIT_ACCOUNT=4;
 
   public static final int DELETE_ID = Menu.FIRST;
   public static final int SHOW_DETAIL_ID = Menu.FIRST +1;
@@ -130,8 +132,6 @@ public class MyExpenses extends ListActivity {
     mAddButton.setOnLongClickListener(new View.OnLongClickListener() {
       @Override
       public boolean onLongClick(View v) {
-        //we need the popup only if transfers are enabled
-        if (transfersEnabledP()) {
           final BetterPopupWindow dw = new BetterPopupWindow(v) {
             @Override
             protected void onCreate() {
@@ -147,24 +147,25 @@ public class MyExpenses extends ListActivity {
                   dismiss();
                 }
               });
-              root.findViewById(R.id.select_transfer).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  createRow(TYPE_TRANSFER);
-                  dismiss();
-                }
-              });
-
+              TextView tv = (TextView) root.findViewById(R.id.select_transfer);
+              if (transfersEnabledP()) {
+                tv.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    createRow(TYPE_TRANSFER);
+                    dismiss();
+                  }
+                });
+              } else {
+                tv.setEnabled(false);
+              }
               // set the inflated view as what we want to display
               this.setContentView(root);
             }
           };
           dw.showLikeQuickAction();
           return true;
-        } else {
-          return false;
         }
-      }
     });
     
     mSwitchButton = (Button) findViewById(R.id.switchAccount);     
@@ -190,7 +191,19 @@ public class MyExpenses extends ListActivity {
             final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
             if(otherAccounts.moveToFirst()){
               TextView accountTV;
-              for (int i = 0; i < otherAccounts.getCount(); i++){
+              //allow easy access to new account creation
+              accountTV = new TextView(MyExpenses.this);
+              accountTV.setText(getString(R.string.menu_new) + " ...");
+              accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+              accountTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                  Intent i = new Intent(MyExpenses.this, AccountEdit.class);
+                  startActivityForResult(i, ACTIVITY_CREATE_ACCOUNT);
+                  dismiss();
+                }
+              });
+              root.addView(accountTV);              for (int i = 0; i < otherAccounts.getCount(); i++){
                 accountTV = new TextView(MyExpenses.this);
                 accountTV.setText(otherAccounts.getString(otherAccounts.getColumnIndex("label")));
                 accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
@@ -248,10 +261,12 @@ public class MyExpenses extends ListActivity {
                 (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             ViewGroup root = (ViewGroup) inflater.inflate(R.layout.settings_categ_popup, null);
-            root.findViewById(R.id.select_accounts).setOnClickListener(new View.OnClickListener() {
+            root.findViewById(R.id.select_account).setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-                startActivityForResult(new Intent(MyExpenses.this, ManageAccounts.class),ACTIVITY_PREF);
+                Intent i = new Intent(MyExpenses.this, AccountEdit.class);
+                i.putExtra(ExpensesDbAdapter.KEY_ROWID, mCurrentAccount.id);
+                startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
                 dismiss();
               }
             });
@@ -403,10 +418,8 @@ public class MyExpenses extends ListActivity {
   }
   
   private void configButtons() {
-    mSwitchButton.setVisibility(mDbHelper.getAccountCount(null) > 1 ?
-        View.VISIBLE : View.GONE);
-    mResetButton.setVisibility(mExpensesCursor.getCount() > 0 ?
-        View.VISIBLE : View.GONE);    
+    //mSwitchButton.setEnabled(mDbHelper.getAccountCount(null) > 1);
+    mResetButton.setEnabled(mExpensesCursor.getCount() > 0);    
   }
 
   /* (non-Javadoc)
@@ -417,6 +430,21 @@ public class MyExpenses extends ListActivity {
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
+    if (requestCode == ACTIVITY_CREATE_ACCOUNT && resultCode == RESULT_OK && intent != null) {
+         switchAccount(intent.getLongExtra("account_id",0));
+         return;
+    }
+    if (requestCode == ACTIVITY_EDIT_ACCOUNT && resultCode == RESULT_OK) {
+      //TODO: maybe store currentaccount in application class,
+      //thus we would not need to refetch it here
+      try {
+        mCurrentAccount = new Account(mDbHelper,mCurrentAccount.id);
+      } catch (AccountNotFoundException e) {
+        //should not happen
+        Log.w("MyExpenses","unable to refetch current account " + mCurrentAccount.id);
+      }
+      fillData();
+    }
     //we call configButtons even with RESULT_CANCEL, since we
     //might return from preferences on RESULT_CANCEL, but user has been
     //changing accounts before
@@ -589,6 +617,8 @@ public class MyExpenses extends ListActivity {
   private void switchAccount(long accountId) {
     //TODO: write a test if the case where the account stored in last_account
     //is deleted, is correctly handled
+    //store current account id since we need it for setting last_account in the end
+    long current_account_id = mCurrentAccount.id;
     if (accountId == 0) {
       //first check if we have the last_account stored
       accountId = mSettings.getLong("last_account", 0);
@@ -615,10 +645,9 @@ public class MyExpenses extends ListActivity {
     }
     if (accountId != 0) {
       try {
-        long last_account = mCurrentAccount.id;
         mCurrentAccount = new Account(mDbHelper, accountId);
         mSettings.edit().putLong("current_account", accountId)
-          .putLong("last_account", last_account)
+          .putLong("last_account", current_account_id)
           .commit();
         fillData();
       } catch (AccountNotFoundException e) {

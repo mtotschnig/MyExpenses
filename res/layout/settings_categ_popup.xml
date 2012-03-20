@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/popupMenu">
    <TextView
-       android:id="@+id/select_accounts"
+       android:id="@+id/select_account"
       style="@style/popupMenuItem"
-       android:text="@string/menu_accounts" />
+       android:text="@string/menu_settings_account" />
    <TextView 
        android:id="@+id/select_backup"
        style="@style/popupMenuItem"

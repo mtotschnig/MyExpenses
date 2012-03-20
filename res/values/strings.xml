@@ -73,6 +73,7 @@
 		<string name="import_categories_success">%1$d categories imported successfully</string>
 		<string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>
 		<string name="label">Label</string>
+    <string name="menu_settings_account">Account</string>
     <string name="menu_accounts">Accounts</string>
     <string name="menu_all">All</string>
 		<string name="menu_backup">Backup</string>
