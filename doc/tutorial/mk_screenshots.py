@@ -14,7 +14,7 @@ def snapshot(number):
   result.writeToFile(targetdir + filename,'png')
 
 def sleep(duration=1):
-  MonkeyRunner.sleep(duration+2)
+  MonkeyRunner.sleep(duration)
   print "sleeping"
   
 
