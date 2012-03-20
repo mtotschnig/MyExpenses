@@ -5,7 +5,7 @@ if (len(sys.argv) < 2):
   sys.exit(0)
 
 lang = sys.argv[1]
-targetdir = '../../../MyExpenses.pages/tutorial/' + lang + '/large/'
+targetdir = '../../../MyExpenses.pages/tutorial_r2/' + lang + '/large/'
 
 def snapshot(number):
   filename = 'step'+number+'.png'
@@ -14,7 +14,7 @@ def snapshot(number):
   result.writeToFile(targetdir + filename,'png')
 
 def sleep(duration=1):
-  MonkeyRunner.sleep(duration)
+  MonkeyRunner.sleep(duration+2)
   print "sleeping"
   
 
@@ -25,49 +25,41 @@ device = MonkeyRunner.waitForConnection()
 #runComponent = package + '/' + activity
 #device.startActivity(component=runComponent)
 
-##tutorial1 Managing accounts
-#open menu
-device.press('KEYCODE_MENU', MonkeyDevice.DOWN_AND_UP)
-sleep()
+#introduction
 snapshot('1')
-#triggers "Select Account" from menu
-device.press('KEYCODE_E', MonkeyDevice.DOWN)
-sleep()
-#open context (we use the backdoor to make sure list is focused)
+
+##tutorial1 Managing accounts
+#open "Edit Account" through backdoor
 device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
-device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
-device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
-sleep()
-snapshot('2')
-#open "Edit Account"
-device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep()
 #close the virtual keyboard
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 #call our "backdoor that enters data"
 device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
 sleep()
-snapshot('3')
+snapshot('2')
 #backdoor finishes
 device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
-MonkeyRunner.sleep(1)
-device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
-sleep()
+sleep(1)
 
 ## tutorial2 Managing transactions
-device.press('KEYCODE_MENU', MonkeyDevice.DOWN_AND_UP)
-sleep()
-#open "Add Transaction"
-device.press('KEYCODE_A', MonkeyDevice.DOWN_AND_UP)
-sleep()
-snapshot('5')
-#call our "backdoor that enters data"
+#open "New transaction" through backdoor
 device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
 sleep()
-#open "ContextMenu"
+#close the virtual keyboard
+device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
+sleep()
+snapshot('3')
+#call our "backdoor" that enters data amd finishes
+device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+sleep()
+#back at transaction list
+#open context (we use the backdoor to make sure list is focused)
+device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 sleep()
-snapshot('6')
+snapshot('4')
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep()
 
@@ -86,11 +78,11 @@ sleep()
 #show menu
 device.press('KEYCODE_MENU', MonkeyDevice.DOWN_AND_UP)
 sleep()
-snapshot('7')
+snapshot('5')
 #select Category import
 device.press('KEYCODE_B', MonkeyDevice.DOWN_AND_UP)
 sleep()
-snapshot('8')
+snapshot('6')
 #select import source based on lang
 if (lang == 'it'):
   device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
@@ -104,14 +96,14 @@ if (lang == 'fr'):
 #execute import and give it some time
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep(30)
-snapshot('9')
+snapshot('7')
 #show menu
 device.press('KEYCODE_MENU', MonkeyDevice.DOWN_AND_UP)
 sleep()
 #select "Add new category"
 device.press('KEYCODE_A', MonkeyDevice.DOWN_AND_UP)
 sleep()
-snapshot('10')
+snapshot('8')
 #Close dialog
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep(2)
@@ -120,7 +112,7 @@ device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 sleep()
-snapshot('11')
+snapshot('9')
 
 #Tutorial 4 Export transactions
 #back to main screen
@@ -130,14 +122,11 @@ device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep()
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep()
-#open menu
-device.press('KEYCODE_MENU', MonkeyDevice.DOWN_AND_UP)
-sleep()
-#call "Reset" and call
-device.press('KEYCODE_C', MonkeyDevice.DOWN)
+#open "Reset" through backdoor
+device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
 sleep()
 #confirm
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep()
-snapshot('12')
+snapshot('10')
 

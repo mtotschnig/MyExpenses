@@ -106,7 +106,7 @@
   <target name="tutorial">
     <for list="en,fr,de,it" param="language">
       <sequential>
-    	<xslt in="doc/tutorial/tutorial.xml" out="doc/tutorial/tutorial_@{language}.xml"
+    	<xslt in="doc/tutorial/tutorial_r2.xml" out="doc/tutorial/tutorial_@{language}.xml"
     	    style="doc/tutorial/xsl/filter_language.xsl">
     	<param name="language" expression="@{language}"/>
     	<xmlcatalog>
@@ -119,7 +119,7 @@
         <exec executable="xsltproc" failonerror="true">
   			 	<arg value="--stringparam"/>
   			 	<arg value="base.dir"/>
-  			 	<arg value="../MyExpenses.pages/tutorial/@{language}/"/>
+  			 	<arg value="../MyExpenses.pages/tutorial_r2/@{language}/"/>
   			 	<arg value="doc/tutorial/xsl/tutorial.xsl"/>
   			 	<arg value="doc/tutorial/tutorial_@{language}.xml"/>
   			</exec>	

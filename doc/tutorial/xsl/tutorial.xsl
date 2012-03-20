@@ -10,7 +10,7 @@
  <lang code="it">Italiano</lang>
 </custom:supported-langs>
 
-<xsl:param name="html.stylesheet" select="'../style.css'"/>
+<xsl:param name="html.stylesheet" select="'../../tutorial/style.css'"/>
 <xsl:param name="use.id.as.filename" select="'1'"/>
 <xsl:param name="chunk.first.sections" select="'1'"/>
 <xsl:param name="toc.section.depth" select="'1'"/>
@@ -19,7 +19,7 @@
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="../images.js"></script>
+	<script type="text/javascript" src="../../tutorial/images.js"></script>
 	<meta name="viewport" content="width=device-width;"/>
 </xsl:template>
 
@@ -37,11 +37,11 @@
       <xsl:choose>
         <xsl:when test="@code != $doclang">
           <a href="../{@code}/{$chunkname}">
-            <img title="{.}" src="../flags/{@code}.png" />
+            <img title="{.}" src="../../tutorial/flags/{@code}.png" />
           </a>
         </xsl:when>
         <xsl:otherwise>
-          <img width="22" title="{.}" src="../flags/{@code}.png" />
+          <img width="22" title="{.}" src="../../tutorial/flags/{@code}.png" />
         </xsl:otherwise>
       </xsl:choose>
       <xsl:text> </xsl:text>

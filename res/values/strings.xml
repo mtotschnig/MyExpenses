@@ -90,7 +90,7 @@
 		<string name="menu_insert_ta">Add Transaction</string>
 		<string name="menu_insert_transfer">Add Transfer</string>
     <string name="menu_new">New</string>
-		<string name="menu_reset">Reset\nReset</string>
+		<string name="menu_reset">Reset</string>
 		<string name="menu_settings">Settings</string>
     <!--  abrev strings are needed, where labels are too long to fit in menu -->
     <string name="menu_settings_abrev">Settings</string>
