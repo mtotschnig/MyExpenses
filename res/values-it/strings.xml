@@ -65,6 +65,7 @@ MyExpenses calcola la somma delle spese e dei redditi, e l\'attuale equilibrio.
     <string name="important_version_information">Nuova versione: Informazioni importanti</string>
     <string name="invalid_number_format">Numero formato non riconosciuto dal vostra regione. Uso %1$s</string>
     <string name="label">Titolo</string>
+    <string name="menu_accounts">Conti</string>
     <string name="menu_backup">Backup</string>
     <string name="menu_changes">Modifiche</string>
     <string name="menu_create_main_cat">Nuova categoria principale</string>
@@ -80,8 +81,11 @@ MyExpenses calcola la somma delle spese e dei redditi, e l\'attuale equilibrio.
     <string name="menu_insert_account">Aggiungere conto</string>
     <string name="menu_insert_ta">Aggiungere operazione</string>
     <string name="menu_insert_transfer">Aggiungere un trasferimento</string>
+    <string name="menu_new">Nuovo</string>
     <string name="menu_reset">Reinitializare</string>
     <string name="menu_settings">Parametri</string>
+    <string name="menu_settings_abrev">Param.</string>
+    <string name="menu_settings_account">Conto</string>
     <string name="menu_show_detail">Visualizza i dettagli</string>
     <string name="no_accounts">Nessun conto !</string>
     <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail</string>
@@ -105,6 +109,8 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
     <string name="time">Ora</string>
     <string name="title">Titro</string>
+    <string name="transaction">Operazione</string>
+    <string name="transfer">Trasferimento</string>
     <string name="tutorial">Tutorial</string>
     <string name="version_14_upgrade_info">Dalla versione 1.4.0, la valuta e definita secondo il codice ISO 4217. Nei vostri contisi utilizza dei seguinti simboli che devono essere cambiati: %1$s </string>
     <string name="warning_backup">Database e le preferenze verranno salvate su scheda SD. Vuoi continuare?</string>

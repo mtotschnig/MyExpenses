@@ -89,7 +89,7 @@
             android:layout_toRightOf="@+id/switchAccount"
             android:drawableTop="@android:drawable/ic_menu_revert"/>
         <Button
-            android:text="@string/menu_settings"
+            android:text="@string/menu_settings_abrev"
             style="@style/buttonPort"
             android:id="@+id/settings"
             android:layout_toRightOf="@+id/reset"

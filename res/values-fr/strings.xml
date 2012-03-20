@@ -83,7 +83,9 @@
     <string name="menu_insert_transfer">Ajouter un virement</string>
     <string name="menu_new">Nouveau</string>
     <string name="menu_reset">Réinit.</string>
-    <string name="menu_settings">Param.</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="menu_settings_abrev">Param.</string>
+    <string name="menu_settings_account">Compte</string>
     <string name="menu_show_detail">Afficher les détails</string>
     <string name="no_accounts">Aucun compte!</string>
     <string name="no_app_handling_email_available">Aucune application disponible pour envoyer un e-mail.</string>
@@ -94,6 +96,8 @@
     <string name="opening_balance">Solde initial</string>
     <string name="payee">Tiers</string>
     <string name="payer">Tiers</string>
+    <string name="pref_categories_sort_by_usages_title">Critère de tri pour catégories</string>
+    <string name="pref_categories_sort_by_usages_summary">Trier les catégories principalement par fréquence d\'usage (autrement par ordre alphabétique)</string>
     <string name="pref_share_target_title">URL où sera téléchargé le fichier QIF</string>
     <string name="pref_share_target_summary">Formes supportées:
 ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
@@ -114,6 +118,7 @@ mailto (\"mailto:john@my.example.com\").</string>
         Dans vos comptes vous utilisez les symboles suivants qui doivent être changés: %1$s </string>
     <string name="warning_backup">La base des données et les paramètres vont être sauvegardés sur la carte SD. Voulez-vous continuer?</string>
     <string name="warning_backup_exists">La base des données et les paramètres vont être sauvegardés sur la carte SD. La sauvegarde existante sera effacée. Voulez-vous continuer?</string>
+    <string name="warning_delete_account">Ce compte sera effaçé ainsi que toutes ses transactions. Voulez-vous continuer?</string>
     <string name="warning_reset_account">Toutes les opérations du compte seront effacées. Voulez-vous continuer?</string>
     <string name="warning_select_account">Vous devez sélectionner un compte!</string>
 </resources>

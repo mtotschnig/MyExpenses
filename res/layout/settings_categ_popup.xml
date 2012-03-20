@@ -12,5 +12,5 @@
    <TextView 
        android:id="@+id/select_all"
        style="@style/popupMenuItem"
-       android:text="@string/menu_settings_noabrev" /> 
+       android:text="@string/menu_settings" /> 
 </LinearLayout>

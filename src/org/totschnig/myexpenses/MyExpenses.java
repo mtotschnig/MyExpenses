@@ -205,7 +205,7 @@ public class MyExpenses extends ListActivity {
 
             final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
             if(otherAccounts.moveToFirst()){
-                for (int i = 0; i < otherAccounts.getCount(); i++){
+              for (int i = 0; i < otherAccounts.getCount(); i++){
                 accountTV = new TextView(MyExpenses.this);
                 accountTV.setText(otherAccounts.getString(otherAccounts.getColumnIndex("label")));
                 accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
