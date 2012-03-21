@@ -15,33 +15,16 @@
 
 package org.totschnig.myexpenses;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Hashtable;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXParseException;
-
 import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ExpandableListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -64,6 +47,14 @@ public class SelectCategory extends ExpandableListActivity {
     private MyExpandableListAdapter mAdapter;
     private ExpensesDbAdapter mDbHelper;
     private Cursor mGroupCursor;
+
+    static final int CAT_CREATE_DIALOG_ID = 1;
+    static final int CAT_EDIT_DIALOG_ID = 2;
+    static final int CAT_DIALOG_LABEL_EDIT_ID = 1;
+    private long mCatCreateDialogParentId;
+    private long mCatEditDialogCatId;
+    private String mCatDialogLabel;
+
     /**
      * create a new main category
      */
@@ -128,6 +119,47 @@ public class SelectCategory extends ExpandableListActivity {
 
         setListAdapter(mAdapter);
         registerForContextMenu(getExpandableListView());
+    }
+    @Override
+    protected Dialog onCreateDialog(final int id) {
+      if (id == CAT_EDIT_DIALOG_ID || id == CAT_CREATE_DIALOG_ID) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(id == CAT_CREATE_DIALOG_ID ? 
+            R.string.create_category : 
+            R.string.edit_category);
+        // Set an EditText view to get user input 
+        final EditText input = new EditText(this);
+        //only if the editText has an id, is its value restored after orientation change
+        input.setId(CAT_DIALOG_LABEL_EDIT_ID);
+        alert.setView(input);
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            String value = input.getText().toString();
+            long cat_id = (id == CAT_CREATE_DIALOG_ID ?
+                mDbHelper.createCategory(value,mCatCreateDialogParentId) :
+                mDbHelper.updateCategoryLabel(value,mCatEditDialogCatId));
+            if (cat_id != -1) {
+              mGroupCursor.requery();
+            } else {
+              Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
+            }
+          }
+        });
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            dismissDialog(id);
+          }
+        });
+        return alert.create();
+      }
+      return null;
+    }
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog) {
+      if (id == CAT_EDIT_DIALOG_ID || id == CAT_CREATE_DIALOG_ID) {
+        EditText input = (EditText) dialog.findViewById(CAT_DIALOG_LABEL_EDIT_ID);
+        input.setText(mCatDialogLabel);
+      }
     }
     
     @Override
@@ -263,33 +295,9 @@ public class SelectCategory extends ExpandableListActivity {
      * @param parent_id
      */
     public void createCat(final long parent_id) {
-    	AlertDialog.Builder alert = new AlertDialog.Builder(this);
-    	alert.setTitle(R.string.create_category);
-
-    	// Set an EditText view to get user input 
-    	final EditText input = new EditText(this);
-    	alert.setView(input);
-
-    	alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-    	public void onClick(DialogInterface dialog, int whichButton) {
-    	  String value = input.getText().toString();
-    	  if (mDbHelper.createCategory(value,parent_id) != -1) {
-    		  mGroupCursor.requery();
-    		  //mAdapter.notifyDataSetChanged();
-    	  } else {
-    		  Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
-    	  }
-          //getExpandableListView().invalidateViews();
-    	  }
-    	});
-
-    	alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-    	  public void onClick(DialogInterface dialog, int whichButton) {
-    		  dialog.dismiss();
-    	  }
-    	});
-
-    	alert.show();
+      mCatDialogLabel = "";
+      mCatCreateDialogParentId = parent_id;
+      showDialog(CAT_CREATE_DIALOG_ID);
     }
     /**
      * presents AlertDialog for editing an existing category
@@ -298,32 +306,22 @@ public class SelectCategory extends ExpandableListActivity {
      * @param cat_id
      */
     public void editCat(String label, final long cat_id) {
-      AlertDialog.Builder alert = new AlertDialog.Builder(this);
-      alert.setTitle(R.string.edit_category);
-
-      // Set an EditText view to get user input 
-      final EditText input = new EditText(this);
-      input.setText(label);
-      alert.setView(input);
-
-      alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog, int whichButton) {
-        String value = input.getText().toString();
-        if (mDbHelper.updateCategoryLabel(value,cat_id) != -1) {
-          mGroupCursor.requery();
-          //mAdapter.notifyDataSetChanged();
-        } else {
-          Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
-        }
-          //getExpandableListView().invalidateViews();
-        }
-      });
-
-      alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-          dialog.dismiss();
-        }
-      });
-      alert.show();
+      mCatDialogLabel = label;
+      mCatEditDialogCatId = cat_id;
+      showDialog(CAT_EDIT_DIALOG_ID);
+    }
+ 
+    //safeguard for orientation change during dialog
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+     super.onSaveInstanceState(outState);
+     outState.putLong("CatCreateDialogParentId", mCatCreateDialogParentId);
+     outState.putLong("CatEditDialogCatId", mCatEditDialogCatId);
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+     super.onRestoreInstanceState(savedInstanceState);
+     mCatCreateDialogParentId = savedInstanceState.getLong("CatCreateDialogParentId");
+     mCatEditDialogCatId = savedInstanceState.getLong("CatEditDialogCatId");
     }
 }
