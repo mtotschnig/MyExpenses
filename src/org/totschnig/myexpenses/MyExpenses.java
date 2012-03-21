@@ -225,7 +225,7 @@ public class MyExpenses extends ListActivity {
             TextView accountTV;
             //allow easy access to new account creation
             accountTV = new TextView(MyExpenses.this);
-            accountTV.setText(getString(R.string.menu_new) + " ...");
+            accountTV.setText(R.string.menu_accounts_new);
             accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
             accountTV.setOnClickListener(new View.OnClickListener() {
               @Override
