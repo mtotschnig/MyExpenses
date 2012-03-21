@@ -65,6 +65,7 @@
     <string name="important_version_information">Nouvelle version: Information importante</string>
     <string name="invalid_number_format">Format de nombre non reconnu. Utilisez %1$s</string>
     <string name="label">Intitulé</string>
+    <string name="manage_accounts">Gestion des comptes</string>
     <string name="menu_accounts">Comptes</string>
     <string name="menu_accounts_new">Nouveau &#8230;</string>
     <string name="menu_backup">Sauvegarde</string>
@@ -86,7 +87,7 @@
     <string name="menu_reset">Réinit.</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_settings_abrev">Param.</string>
-    <string name="menu_settings_account">Compte</string>
+    <string name="menu_settings_account">Compte en cours</string>
     <string name="menu_show_detail">Afficher les détails</string>
     <string name="no_accounts">Aucun compte!</string>
     <string name="no_app_handling_email_available">Aucune application disponible pour envoyer un e-mail.</string>

@@ -73,6 +73,7 @@
 		<string name="import_categories_success">%1$d categories imported successfully</string>
 		<string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>
 		<string name="label">Label</string>
+    <string name="manage_accounts">Manage accounts</string>
     <string name="menu_accounts">Accounts</string>
     <string name="menu_accounts_new">New &#8230;</string>
 		<string name="menu_backup">Backup</string>
@@ -95,7 +96,7 @@
 		<string name="menu_settings">Settings</string>
     <!--  abrev strings are needed, where labels are too long to fit in menu -->
     <string name="menu_settings_abrev">Settings</string>
-    <string name="menu_settings_account">Account</string>
+    <string name="menu_settings_account">Current account</string>
 		<string name="menu_show_detail">Show details</string>
 		<string name="no_accounts">No Accounts!</string>
     <string name="no_app_handling_email_available">No app handling email available.</string>
