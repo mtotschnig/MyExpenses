@@ -1,7 +1,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="first_preferencescreen">
   <PreferenceScreen
-      android:title="Konten"
+      android:title="@string/manage_accounts"
       android:key="manage_accounts">
     <intent android:action="myexpenses.intent.manage.accounts"/>      
   </PreferenceScreen>
@@ -15,7 +15,7 @@
 	    android:title="@string/pref_share_target_title" 
 	    android:summary="@string/pref_share_target_summary" />
 	<PreferenceScreen
-      android:title="Backup"
+      android:title="@string/menu_backup"
       android:key="backup">
       <intent android:action="myexpenses.intent.backup"/>      
   </PreferenceScreen>
