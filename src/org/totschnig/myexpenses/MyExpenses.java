@@ -126,9 +126,12 @@ public class MyExpenses extends ListActivity {
         getListView().requestFocus();
         monkey_state = 3;
         return true;
-        
       case 3:
         showDialog(RESET_DIALOG_ID);
+        monkey_state = 4;
+        return true;
+      case 4:
+        startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
         return true;
       }
     }
