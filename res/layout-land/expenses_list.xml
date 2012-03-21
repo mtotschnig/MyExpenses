@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:orientation="vertical">
+  <RelativeLayout
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:id="@+id/top"
+      android:layout_width="fill_parent"
+      android:orientation="horizontal"
+      android:layout_height="wrap_content">
+    <TextView
+        android:layout_alignParentLeft="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/opening_balance" />
+    <TextView
+        android:text="START"
+        android:id="@+id/start" 
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+  </RelativeLayout>
+  <ListView
+      android:id="@+id/android:list"
+      android:layout_width="fill_parent"
+      android:layout_height="0px"
+      android:layout_weight="1"
+      android:background="@drawable/border" />
+   <TextView
+       android:paddingRight="10dp"
+       android:paddingLeft="10dp"
+       android:id="@+id/android:empty"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/no_expenses" />
+  <RelativeLayout
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:id="@+id/bottom"
+      android:layout_width="fill_parent"
+      android:orientation="horizontal"
+      android:layout_height="wrap_content">
+    <TextView 
+        android:layout_alignParentLeft="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/current_balance" />
+    <TextView
+        android:text="END"
+        android:id="@+id/end" 
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+  </RelativeLayout>
+  </LinearLayout>
+  <RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    style="@android:style/ButtonBar">
+        <RelativeLayout 
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:layout_centerInParent="true">
+        <Button
+            android:text="@string/menu_new"
+            style="@style/buttonLand"
+            android:longClickable="true"
+            android:id="@+id/addOperation"
+            android:drawableLeft="@android:drawable/ic_menu_add" />  
+        <Button
+            android:text="@string/menu_accounts"
+            style="@style/buttonLand"
+            android:longClickable="true"
+            android:id="@+id/switchAccount"
+            android:layout_toRightOf="@+id/addOperation"
+            android:drawableLeft="@drawable/ic_menu_goto"/>
+        <Button
+            android:text="@string/menu_reset"
+            style="@style/buttonLand"
+             android:layout_alignParentTop="true"
+            android:id="@+id/reset"
+            android:layout_toRightOf="@+id/switchAccount"
+            android:drawableLeft="@android:drawable/ic_menu_revert"/>
+        <Button
+            android:text="@string/menu_settings_abrev"
+            style="@style/buttonLand"
+            android:id="@+id/settings"
+            android:layout_toRightOf="@+id/reset"
+            android:drawableLeft="@android:drawable/ic_menu_preferences"/>
+         <Button
+            android:text="@string/menu_help"
+            style="@style/buttonLand"
+            android:id="@+id/help"
+            android:layout_toRightOf="@+id/settings"
+            android:drawableLeft="@android:drawable/ic_menu_help"/>        
+        </RelativeLayout>
+  </RelativeLayout>
+</LinearLayout>
