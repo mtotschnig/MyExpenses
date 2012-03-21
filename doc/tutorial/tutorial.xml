@@ -424,7 +424,7 @@
     <para lang="en">
       Finally, the raison d'être of <application role="app_name"/> is its support
       for export into QIF format. Call this function through the
-      <guimenuitem role="reset"/> menu entry from the transaction list. This will
+      <guimenuitem role="menu_reset"/> menu entry from the transaction list. This will
       create a file on your sdcard with all transactions for the current account, delete
       them from the database, and adjust the opening balance to the last current balance.
       <application role="app_name"/> can share the file immediately after the
@@ -439,7 +439,7 @@
     <para lang="fr">
       La raison d'être de <application role="app_name"/> est de permettre
       l'exportation vers un fichier de format QIF. Vous pouvez lancer cette fonction par
-      le bouton <guimenuitem role="reset"/> dans la liste des opérations.
+      le bouton <guimenuitem role="menu_reset"/> dans la liste des opérations.
       Ceci va créer un fichier sur votre carte SD avec toutes les opérations du compte en
       cours, les enlever de la base de données et ajuster le solde initial avec le solde
       courant. <application role="app_name"/> peut utiliser ce fichier
@@ -454,7 +454,7 @@
     <para lang="de">
       Die Grundmotivation für <application role="app_name"/> ist der Export in eine
       QIF Datei. Diese Funktion wird durch den Menüeintrag
-      <guimenuitem role="reset"/> von der Buchungsliste aus aufgerufen.
+      <guimenuitem role="menu_reset"/> von der Buchungsliste aus aufgerufen.
       Hiedurch wird eine Datei auf der SD-Karte erzeugt, die alle Buchungen des aktuellen
       Kontos enthält. Diese werden gelöscht und der aktuelle Saldo wird in den neuen
       Anfangssaldo übertragen. Sofort nach dem Export kann die Datei weitergeleitet
@@ -469,7 +469,7 @@
     <para lang="it">
       Infine, la ragion d'essere di <application role="app_name"/> è il suo supporto
       per l'esportazione in formato QIF. Chiama questa funzione attraverso la voce 
-      <guimenuitem role="reset"/> di menù dalla lista transazione. Questo sarà crea un file sul tuo 
+      <guimenuitem role="menu_reset"/> di menù dalla lista transazione. Questo sarà crea un file sul tuo 
       scheda SD con tutte le transazioni per il conto corrente, eliminare dal database, e regolare 
       il saldo di apertura con il saldo corrente. <application role="app_name"/> posso
       condividere il file subito dopo il export, sia caricarlo in un server FTP o inviarla via e-mail.
