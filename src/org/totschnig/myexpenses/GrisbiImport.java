@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -17,6 +18,7 @@ import org.xml.sax.SAXParseException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -25,6 +27,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class GrisbiImport extends Activity {
+  static final int SOURCES_DIALOG_ID = 1;
   ProgressDialog mProgressDialog;
   String sourceStr;
   private MyAsyncTask task=null;
@@ -47,6 +50,7 @@ public class GrisbiImport extends Activity {
     mProgressDialog = new ProgressDialog(this);
     mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
     mProgressDialog.setProgress(0);
+    mProgressDialog.setCancelable(false);
     
     task=(MyAsyncTask)getLastNonConfigurationInstance();
     
@@ -61,9 +65,35 @@ public class GrisbiImport extends Activity {
       if (task.getStatus() == AsyncTask.Status.FINISHED) {
         markAsDone();
       }
-    } else {
-      importCategories();
+    } else if (savedInstanceState == null) {
+      showDialog(SOURCES_DIALOG_ID);
     }
+  }
+  @Override
+  protected Dialog onCreateDialog(int id) {
+    switch (id) {
+    case SOURCES_DIALOG_ID:
+      return new AlertDialog.Builder(this)
+        .setTitle(R.string.dialog_title_select_import_source)
+        .setCancelable(false)
+        .setSingleChoiceItems(IMPORT_SOURCES, -1, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int item) {
+            sourceStr = IMPORT_SOURCES[item];
+            mProgressDialog.setTitle(getString(R.string.categories_loading,sourceStr));
+            mProgressDialog.show();
+            task = new MyAsyncTask(GrisbiImport.this,item);
+            task.execute();
+            dialog.cancel();
+          }
+      })
+      .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          dialog.cancel();
+          finish();
+        }
+      }).create();
+    }
+    return null;
   }
   @Override
   public void onStop() {
@@ -73,25 +103,7 @@ public class GrisbiImport extends Activity {
   void updateProgress(int progress) {
     mProgressDialog.setProgress(progress);
   }
-  /**
-   * Presents dialog for selecting an import source
-   * and executes the import as an asyncTask
-   */
-  private void importCategories() {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setTitle(R.string.dialog_title_select_import_source);
-    builder.setSingleChoiceItems(IMPORT_SOURCES, -1, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int item) {
-          sourceStr = IMPORT_SOURCES[item];
-          mProgressDialog.setTitle(getString(R.string.categories_loading,sourceStr));
-          mProgressDialog.show();
-          task = new MyAsyncTask(GrisbiImport.this,item);
-          task.execute();
-          dialog.cancel();
-        }
-    });
-    builder.show();
-  }
+
   void markAsDone() {
     mProgressDialog.dismiss();
     String msg;
@@ -101,6 +113,7 @@ public class GrisbiImport extends Activity {
       Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
     task = null;
+    finish();
   }
   
   @Override

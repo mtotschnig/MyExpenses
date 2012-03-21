@@ -14,11 +14,13 @@ public class Backup extends Activity {
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (Utils.isExternalStorageAvailable())
-      showDialog(BACKUP_DIALOG_ID);
-    else {
-      Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
-      finish();
+    if (savedInstanceState == null) {
+      if (Utils.isExternalStorageAvailable())
+        showDialog(BACKUP_DIALOG_ID);
+      else {
+        Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
+        finish();
+      }
     }
   }
   @Override
