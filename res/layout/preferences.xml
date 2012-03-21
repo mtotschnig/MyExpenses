@@ -1,8 +1,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="first_preferencescreen">
   <PreferenceScreen
-      android:title="@string/manage_accounts"
-      android:key="manage_accounts">
+      android:title="@string/pref_manage_accounts_title"
+      android:key="manage_accounts"
+      android:summary="@string/pref_manage_accounts_summary">
     <intent android:action="myexpenses.intent.manage.accounts"/>      
   </PreferenceScreen>
   <CheckBoxPreference
@@ -15,8 +16,15 @@
 	    android:title="@string/pref_share_target_title" 
 	    android:summary="@string/pref_share_target_summary" />
 	<PreferenceScreen
-      android:title="@string/menu_backup"
+      android:title="@string/pref_backup_title"
+      android:summary="@string/pref_backup_summary"
       android:key="backup">
       <intent android:action="myexpenses.intent.backup"/>      
+  </PreferenceScreen>
+  <PreferenceScreen
+      android:title="@string/pref_import_from_grisbi_title"
+      android:key="import_from_grisbi"
+      android:summary="@string/pref_import_from_grisbi_summary">
+      <intent android:action="myexpenses.intent.import_from_grisbi"/>      
   </PreferenceScreen>
 </PreferenceScreen> 

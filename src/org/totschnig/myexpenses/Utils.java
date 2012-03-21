@@ -198,6 +198,7 @@ public class Utils {
       this.message = message;
     }
   }
+  //TODO check if correctly handling orientation changes
   static class FtpAsyncTask extends AsyncTask<Void, Void, Result> {
     private Context context;
     private URI target;

@@ -31,6 +31,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -47,7 +48,10 @@ public class SelectCategory extends ExpandableListActivity {
     private MyExpandableListAdapter mAdapter;
     private ExpensesDbAdapter mDbHelper;
     private Cursor mGroupCursor;
+    private Button mAddButton;
+    private Button mImportButton;
 
+    public static final int ACTIVITY_IMPORT_CATS=1;
     static final int CAT_CREATE_DIALOG_ID = 1;
     static final int CAT_EDIT_DIALOG_ID = 2;
     static final int CAT_DIALOG_LABEL_EDIT_ID = 1;
@@ -103,6 +107,14 @@ public class SelectCategory extends ExpandableListActivity {
         mDbHelper = MyApplication.db();
         mGroupCursor = mDbHelper.fetchCategoryMain();
         startManagingCursor(mGroupCursor);
+        
+        mAddButton = (Button) findViewById(R.id.addOperation);
+        mAddButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            createCat(0);
+          }
+        });
 
         // Cache the ID column index
         mGroupIdColumnIndex = mGroupCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ROWID);
@@ -176,30 +188,6 @@ public class SelectCategory extends ExpandableListActivity {
     	    }
     	    menu.add(0,DELETE_CAT,0,R.string.menu_delete_cat);
     	    menu.add(0,EDIT_CAT,0,R.string.menu_edit_cat);
-    }
-    
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        menu.add(0, CREATE_MAIN_CAT, 0, R.string.menu_create_main_cat)
-            .setIcon(android.R.drawable.ic_menu_add)
-            .setAlphabeticShortcut('a');
-/*        menu.add(0, IMPORT_CAT_ID,1,R.string.import_categories)
-            .setIcon(R.drawable.squiggle)
-            .setAlphabeticShortcut('b');*/
-        return true;
-    }
-    
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        switch(item.getItemId()) {
-        case CREATE_MAIN_CAT:
-            createCat(0);
-            return true;
-/*        case IMPORT_CAT_ID:
-          importCategories();
-          return true;*/
-        }
-        return super.onMenuItemSelected(featureId, item);
     }
     
     @Override
@@ -309,6 +297,15 @@ public class SelectCategory extends ExpandableListActivity {
       mCatDialogLabel = label;
       mCatEditDialogCatId = cat_id;
       showDialog(CAT_EDIT_DIALOG_ID);
+    }
+    
+    /**
+     * Callback from button
+     * @param v
+     */
+    public void importCats(View v) {
+      Intent i = new Intent(this, GrisbiImport.class);
+      startActivityForResult(i, ACTIVITY_IMPORT_CATS);
     }
  
     //safeguard for orientation change during dialog

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.totschnig.myexpenses" android:versionCode="26" android:versionName="1.4.8a3">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.totschnig.myexpenses" android:versionCode="26" android:versionName="1.4.8a5">
     <uses-sdk android:minSdkVersion="5"></uses-sdk>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -24,6 +24,13 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
           <intent-filter>
               <action android:name="myexpenses.intent.backup"/>  
+              <category android:name="android.intent.category.DEFAULT" />  
+            </intent-filter>
+        </activity>
+        <activity android:name=".GrisbiImport"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+          <intent-filter>
+              <action android:name="myexpenses.intent.import_from_grisbi"/>  
               <category android:name="android.intent.category.DEFAULT" />  
             </intent-filter>
         </activity>

@@ -73,7 +73,6 @@
 		<string name="import_categories_success">%1$d categories imported successfully</string>
 		<string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>
 		<string name="label">Label</string>
-    <string name="manage_accounts">Manage accounts</string>
     <string name="menu_accounts">Accounts</string>
     <string name="menu_accounts_new">New &#8230;</string>
 		<string name="menu_backup">Backup</string>
@@ -100,15 +99,22 @@
 		<string name="menu_show_detail">Show details</string>
 		<string name="no_accounts">No Accounts!</string>
     <string name="no_app_handling_email_available">No app handling email available.</string>
-		<string name="no_categories">No categories. Use the menu to add or to import.</string>
+		<string name="no_categories">No categories.</string>
 		<string name="no_expenses">No Expenses Yet!</string>
 		<string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are mapped to it.</string>
 		<string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
 		<string name="opening_balance">Opening balance</string>
 		<string name="payee">Payee</string>
 		<string name="payer">Payer</string>
+		<string name="pref_backup_title">Backup</string>
+		<string name="pref_backup_summary">Create a backup of database and preferences on the sdcard.</string>
 		<string name="pref_categories_sort_by_usages_title">Sort order for categories</string>
     <string name="pref_categories_sort_by_usages_summary">Use count of usages as primary sort criteria (plain alphanumeric order otherwise)</string>
+    <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
+    <string name="pref_import_from_grisbi_summary">Choose between the default Grisbi definitions internal to the app, 
+        or your own file stored as <i>categories.xml</i> in a folder <i>myexpenses</i> in the root of your sdcard. </string>
+    <string name="pref_manage_accounts_title">Manage accounts</string>
+    <string name="pref_manage_accounts_summary">Add, edit, delete accounts.</string>
 		<string name="pref_share_target_title">Upload URL QIF Export</string>
     <string name="pref_share_target_summary">Supported schemes:
 * ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),

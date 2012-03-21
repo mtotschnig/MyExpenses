@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/SelectCategory"
-android:layout_width="fill_parent" android:layout_height="fill_parent">
-<!--adding views to ViewFlipper-->
-<ExpandableListView
-    android:id="@android:id/list"
-    android:layout_width="fill_parent" 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:drawSelectorOnTop="false" />
-<TextView android:id="@+id/android:empty"
-          android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/no_categories"/>
+    android:orientation="vertical">
+	  <ExpandableListView
+		    android:id="@+id/android:list"
+		    android:layout_width="fill_parent" 
+        android:layout_height="0dp"
+        android:layout_weight="1"
+		    android:drawSelectorOnTop="false" />
+	  <RelativeLayout android:id="@+id/android:empty"
+        android:layout_width="fill_parent" 
+        android:layout_height="0dp"
+        android:layout_weight="1"
+	      android:orientation="vertical">
+	    <TextView
+          android:layout_centerInParent="true"
+	        android:id="@+id/noCategories"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/no_categories"/>
+			<Button
+			    android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+			    android:onClick="importCats"
+			    android:layout_marginTop="15dp"
+			    android:layout_below="@id/noCategories"
+			    android:drawableTop="@drawable/squiggle"
+			    android:text="@string/import_categories" />
+		</RelativeLayout>
+	  <RelativeLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    style="@android:style/ButtonBar">
+      <RelativeLayout 
+		      android:layout_width="wrap_content"
+		      android:layout_height="wrap_content"
+		      android:layout_centerInParent="true">
+        <Button
+            android:text="@string/menu_new"
+            style="@style/buttonPort"
+            android:longClickable="true"
+            android:id="@+id/addOperation"
+            android:drawableTop="@android:drawable/ic_menu_add" />
+       </RelativeLayout>
+     </RelativeLayout>
 </LinearLayout>

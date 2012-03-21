@@ -150,7 +150,7 @@ public class AccountEdit extends Activity {
     mCurrencyText.addTextChangedListener(currencyInformer);
   }
   @Override
-  protected Dialog onCreateDialog(int id) {
+  protected Dialog onCreateDialog(final int id) {
     switch (id) {
       case CURRENCY_DIALOG_ID:
         int checked = java.util.Arrays.asList(currencyCodes).indexOf(
@@ -160,7 +160,7 @@ public class AccountEdit extends Activity {
           .setSingleChoiceItems(currencyDescs, checked, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
               mCurrencyText.setText(currencyCodes[item]);
-              dialog.cancel();
+              dismissDialog(id);
               mCurrencyText.addTextChangedListener(currencyInformer);
             }
           }).create();

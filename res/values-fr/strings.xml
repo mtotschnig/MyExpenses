@@ -65,7 +65,6 @@
     <string name="important_version_information">Nouvelle version: Information importante</string>
     <string name="invalid_number_format">Format de nombre non reconnu. Utilisez %1$s</string>
     <string name="label">Intitulé</string>
-    <string name="manage_accounts">Gestion des comptes</string>
     <string name="menu_accounts">Comptes</string>
     <string name="menu_accounts_new">Nouveau &#8230;</string>
     <string name="menu_backup">Sauvegarde</string>
@@ -91,15 +90,23 @@
     <string name="menu_show_detail">Afficher les détails</string>
     <string name="no_accounts">Aucun compte!</string>
     <string name="no_app_handling_email_available">Aucune application disponible pour envoyer un e-mail.</string>
-    <string name="no_categories">Aucune catégorie. Les catégories peuvent être ajoutées ou importées par le menu.</string>
+    <string name="no_categories">Aucune catégorie.</string>
     <string name="no_expenses">Aucune dépense !</string>
     <string name="not_deletable_mapped_expenses">Cette catégorie ne peut pas être supprimée, parce qu\'il existe des dépenses qui lui sont attribuées.</string>
     <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce qu\'elle contient des sous-catégories.</string>
     <string name="opening_balance">Solde initial</string>
     <string name="payee">Tiers</string>
     <string name="payer">Tiers</string>
+    <string name="pref_backup_title">Sauvegarde</string>
+    <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences sur la carte SD.</string>
     <string name="pref_categories_sort_by_usages_title">Critères de tri pour catégories</string>
     <string name="pref_categories_sort_by_usages_summary">Trier les catégories principales par fréquence d\'utilisation (autrement par ordre alphabétique)</string>
+    <string name="pref_import_from_grisbi_title">Import des données Grisbi </string>
+    <string name="pref_import_from_grisbi_summary">Choississez entre les définitions standards de Grisbi, inclus dans l\'app, et votre propre fichier
+        sauvegardé sous le nom <i>categories.xml</i>
+      dans le répertoire <i>myexpenses</i> de la racine de votre carte SD</string>
+    <string name="pref_manage_accounts_title">Gestion des comptes</string>
+    <string name="pref_manage_accounts_summary">Ajouter, éditer et supprimer les comptes.</string>
     <string name="pref_share_target_title">URL où sera téléchargé le fichier QIF</string>
     <string name="pref_share_target_summary">Formes supportées:
 ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),

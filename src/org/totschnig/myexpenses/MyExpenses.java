@@ -320,6 +320,7 @@ public class MyExpenses extends ListActivity {
               @Override
               public void onClick(View v) {
                 startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
+                dismiss();
               }
             });
 
