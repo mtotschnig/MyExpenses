@@ -101,6 +101,7 @@ public class MyExpenses extends ListActivity {
   private Button mResetButton;
   private Button mSettingsButton;
   private Button mHelpButton;
+  private BetterPopupWindow dw;
 
 /*  private int monkey_state = 0;
 
@@ -169,7 +170,7 @@ public class MyExpenses extends ListActivity {
     mAddButton.setOnLongClickListener(new View.OnLongClickListener() {
       @Override
       public boolean onLongClick(View v) {
-          final BetterPopupWindow dw = new BetterPopupWindow(v) {
+          dw = new BetterPopupWindow(v) {
             @Override
             protected void onCreate() {
               // inflate layout
@@ -216,7 +217,7 @@ public class MyExpenses extends ListActivity {
       
       @Override
       public boolean onLongClick(View v) {
-        final BetterPopupWindow dw = new BetterPopupWindow(v) {
+        dw = new BetterPopupWindow(v) {
           @Override
           protected void onCreate() {
             // inflate layout
@@ -292,7 +293,7 @@ public class MyExpenses extends ListActivity {
     mSettingsButton.setOnLongClickListener(new View.OnLongClickListener() {
       @Override
       public boolean onLongClick(View v) {
-        final BetterPopupWindow dw = new BetterPopupWindow(v) {
+        dw = new BetterPopupWindow(v) {
           @Override
           protected void onCreate() {
             // inflate layout
@@ -343,7 +344,7 @@ public class MyExpenses extends ListActivity {
     mHelpButton.setOnLongClickListener(new View.OnLongClickListener() {
       @Override
       public boolean onLongClick(View v) {
-        final BetterPopupWindow dw = new BetterPopupWindow(v) {
+        dw = new BetterPopupWindow(v) {
           @Override
           protected void onCreate() {
             // inflate layout
@@ -383,6 +384,12 @@ public class MyExpenses extends ListActivity {
 
     fillData();
     registerForContextMenu(getListView());
+  }
+  @Override
+  public void onStop() {
+    super.onStop();
+    if (dw != null)
+    dw.dismiss();
   }
   /**
    * binds the Cursor for all expenses to the list view
