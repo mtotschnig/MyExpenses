@@ -45,7 +45,8 @@
     <ListView
         android:id="@+id/android:list"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
         android:background="@drawable/border" />
     <TextView
         android:paddingRight="10dp"
@@ -78,41 +79,41 @@
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       style="@android:style/ButtonBar">
-  <RelativeLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_centerInParent="true">
-    <Button
-        android:text="@string/menu_new"
-        style="@style/buttonPort"
-        android:longClickable="true"
-        android:id="@+id/addOperation"
-        android:drawableTop="@android:drawable/ic_menu_add" />
-    <Button
-        android:text="@string/menu_accounts"
-        style="@style/buttonPort"
-        android:longClickable="true"
-        android:id="@+id/switchAccount"
-        android:layout_toRightOf="@+id/addOperation"
-        android:drawableTop="@drawable/ic_menu_goto"/>
-    <Button
-        android:text="@string/menu_reset"
-        style="@style/buttonPort"
-        android:id="@+id/reset"
-        android:layout_toRightOf="@+id/switchAccount"
-        android:drawableTop="@android:drawable/ic_menu_revert"/>
-    <Button
-        android:text="@string/menu_settings_abrev"
-        style="@style/buttonPort"
-        android:id="@+id/settings"
-        android:layout_toRightOf="@+id/reset"
-        android:drawableTop="@android:drawable/ic_menu_preferences"/>
-     <Button
-        android:text="@string/menu_help"
-        style="@style/buttonPort"
-        android:id="@+id/help"
-        android:layout_toRightOf="@+id/settings"
-        android:drawableTop="@android:drawable/ic_menu_help"/>        
+	  <RelativeLayout
+	      android:layout_width="wrap_content"
+	      android:layout_height="wrap_content"
+	      android:layout_centerInParent="true">
+	    <Button
+	        android:text="@string/menu_new"
+	        style="@style/buttonPort"
+	        android:longClickable="true"
+	        android:id="@+id/addOperation"
+	        android:drawableTop="@android:drawable/ic_menu_add" />
+	    <Button
+	        android:text="@string/menu_accounts"
+	        style="@style/buttonPort"
+	        android:longClickable="true"
+	        android:id="@+id/switchAccount"
+	        android:layout_toRightOf="@+id/addOperation"
+	        android:drawableTop="@drawable/ic_menu_goto"/>
+	    <Button
+	        android:text="@string/menu_reset"
+	        style="@style/buttonPort"
+	        android:id="@+id/reset"
+	        android:layout_toRightOf="@+id/switchAccount"
+	        android:drawableTop="@android:drawable/ic_menu_revert"/>
+	    <Button
+	        android:text="@string/menu_settings_abrev"
+	        style="@style/buttonPort"
+	        android:id="@+id/settings"
+	        android:layout_toRightOf="@+id/reset"
+	        android:drawableTop="@android:drawable/ic_menu_preferences"/>
+	     <Button
+	        android:text="@string/menu_help"
+	        style="@style/buttonPort"
+	        android:id="@+id/help"
+	        android:layout_toRightOf="@+id/settings"
+	        android:drawableTop="@android:drawable/ic_menu_help"/>        
     </RelativeLayout>
   </RelativeLayout>
 </LinearLayout>
