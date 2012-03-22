@@ -66,8 +66,8 @@
             style="@style/buttonLand"
             android:drawableLeft="@drawable/ic_menu_mark" />
         <Button 
-            android:id="@+id/Cancel" 
-            android:text="@string/cancel"
+            android:id="@+id/Revert" 
+            android:text="@string/revert"
             style="@style/buttonLand"
             android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel" />
     </LinearLayout>

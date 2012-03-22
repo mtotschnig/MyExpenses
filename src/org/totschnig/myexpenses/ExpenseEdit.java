@@ -122,7 +122,7 @@ public class ExpenseEdit extends Activity {
     mCommentText = (EditText) findViewById(R.id.Comment);
 
     Button confirmButton = (Button) findViewById(R.id.Confirm);
-    Button cancelButton = (Button) findViewById(R.id.Cancel);
+    Button cancelButton = (Button) findViewById(R.id.Revert);
     
     
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {

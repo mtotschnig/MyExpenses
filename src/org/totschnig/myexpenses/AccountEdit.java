@@ -119,7 +119,7 @@ public class AccountEdit extends Activity {
       }
     });
     Button confirmButton = (Button) findViewById(R.id.Confirm);
-    Button cancelButton = (Button) findViewById(R.id.Cancel);
+    Button cancelButton = (Button) findViewById(R.id.Revert);
 
     confirmButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {

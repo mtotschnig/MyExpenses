@@ -5,8 +5,8 @@
     <string name="app_name">Mes dépenses</string>
     <string name="backup_failure">La sauvegarde sur carte SD a échoué.</string>
     <string name="backup_success">La base de données et les paramètres ont été sauvegardé sur la carte SD.</string>
+    <string name="button_cancel">Annuler</string>
     <string name="button_continue">Continuer</string>
-    <string name="cancel">Annuler</string>
     <string name="categories_loading">Import des catégories à partir de %1$s</string>
     <string name="category">Catégorie</string>
     <string name="category_already_defined">La catégorie %1$s existe</string>
@@ -113,6 +113,7 @@ ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
 mailto (\"mailto:john@my.example.com\").</string>   
     <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.</string>
     <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
+    <string name="revert">Annuler</string>
     <string name="select">Sélectionner</string>
     <string name="select_account">Sélectionner un compte</string>
     <string name="select_category">Sélectionner une catégorie</string>
