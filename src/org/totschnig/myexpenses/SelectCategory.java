@@ -49,7 +49,7 @@ public class SelectCategory extends ExpandableListActivity {
     private ExpensesDbAdapter mDbHelper;
     private Cursor mGroupCursor;
     private Button mAddButton;
-    private Button mImportButton;
+
 
     public static final int ACTIVITY_IMPORT_CATS=1;
     static final int CAT_CREATE_DIALOG_ID = 1;
