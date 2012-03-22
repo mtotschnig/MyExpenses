@@ -75,12 +75,9 @@ device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 #trigger it
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep()
-#show menu
-device.press('KEYCODE_MENU', MonkeyDevice.DOWN_AND_UP)
-sleep()
 snapshot('5')
-#select Category import
-device.press('KEYCODE_B', MonkeyDevice.DOWN_AND_UP)
+#select Category import through backdoor
+device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
 sleep()
 snapshot('6')
 #select import source based on lang
@@ -97,11 +94,8 @@ if (lang == 'fr'):
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep(30)
 snapshot('7')
-#show menu
-device.press('KEYCODE_MENU', MonkeyDevice.DOWN_AND_UP)
-sleep()
-#select "Add new category"
-device.press('KEYCODE_A', MonkeyDevice.DOWN_AND_UP)
+#select "Add new category through backdoor"
+device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
 sleep()
 snapshot('8')
 #Close dialog
@@ -129,4 +123,11 @@ sleep()
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep()
 snapshot('10')
+
+#Tutorial 5 Settings
+sleep()
+#open "Reset" through backdoor
+device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+sleep(3)
+snapshot('11')
 

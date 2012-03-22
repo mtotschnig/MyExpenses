@@ -91,6 +91,15 @@ public class SelectCategory extends ExpandableListActivity {
       if (keyCode == KeyEvent.KEYCODE_ENVELOPE) {
         switch (monkey_state) {
         case 0:
+          Intent i = new Intent(this, GrisbiImport.class);
+          startActivityForResult(i, ACTIVITY_IMPORT_CATS);
+          monkey_state = 1;
+          return true;
+        case 1:
+          createCat(0);
+          monkey_state = 2;
+          return true;
+        case 2:
           getExpandableListView().requestFocus();
           return true;
         }
@@ -320,5 +329,11 @@ public class SelectCategory extends ExpandableListActivity {
      super.onRestoreInstanceState(savedInstanceState);
      mCatCreateDialogParentId = savedInstanceState.getLong("CatCreateDialogParentId");
      mCatEditDialogCatId = savedInstanceState.getLong("CatEditDialogCatId");
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, 
+        Intent intent) {
+      super.onActivityResult(requestCode, resultCode, intent);
+      mGroupCursor.requery();
     }
 }

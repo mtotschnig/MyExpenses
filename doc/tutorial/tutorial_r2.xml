@@ -361,20 +361,17 @@
     
     <!-- BEGIN tutorial3 para 1 --> 
     <para lang="en">
-      At the beginning, no categories are defined. You have two options for adding them,
-      both accessible from the menu.
+      At the beginning, no categories are defined. You have two options for adding them.
     </para>
     <para lang="fr">
-      Au départ, aucune catégorie n'est prédéfinie. Vous avez deux possibilités à partir
-      du menu pour les ajouter.
+      Au départ, aucune catégorie n'est prédéfinie. Vous avez deux possibilités pour les ajouter.
     </para>
     <para lang="de">
-      Zu Beginn gibt es noch keine Kategorien. Vom Menü aus gibt es zwei Möglichkeiten,
+      Zu Beginn gibt es noch keine Kategorien. Es gibt zwei Möglichkeiten,
       diese anzulegen.
     </para>
     <para lang="it">
-      All'inizio, categorie non sono definite. Sono disponibili due opzioni per l'aggiunta di loro,
-      entrambi accessibili dal menù.
+      All'inizio, categorie non sono definite. Sono disponibili due opzioni per l'aggiunta di loro.
     </para>
     <!-- END tutorial3 para 1 --> 
     
@@ -386,59 +383,28 @@
 
     <!-- BEGIN tutorial3 para 2 --> 
     <para lang="en">
-	    <guimenuitem role="import_categories"/> allows to set up categories from files
-	    included from Grisbi in English, German or French. If with Grisbi you have already
-	    defined your own categories, you can also provide your Grisbi file, which is in XML.
-	    If you want, you can edit the file with an editor and remove any information other
-	    than the Category and Sub_category elements<footnote id="ftn-en-1">
-	      <para>
-	        <application role="app_name"/> also support the Grisbi file format 0.5.0,
-	        where the elements are named Categorie and Sous_categorie.
-	      </para>
-	    </footnote>. Store this file as <filename>categories.xml</filename> in a folder
-	    <filename>myexpenses</filename> in the root of your sdcard.
-    </para>
+      Either you click on the button <guibutton role="import_categories"/> which allows to
+      select between different sources, as explained in <link linkend='tutorial5_5'>
+      <guilabel role="pref_import_from_grisbi_title"/></link>. This button is visible, only as
+      long the categories list is stil empty, later you can always access the import
+      functionality from the <guilabel role="menu_settings"/> activity.
+      </para>
     <para lang="fr">
-	    <guimenuitem role="import_categories"/> vous permet de les entrer
-	    directement à partir des définitions standards de Grisbi en anglais, allemand ou
-	    français. Si vous aviez déjà défini vos propres catégories, vous pouvez aussi
-	    utiliser votre fichier Grisbi qui est en format XML. Dans ce cas, copiez votre
-	    fichier et enlevez toutes les informations autres que les blocs de catégories
-	    (Category) et de sous-catégories (Sub_category)<footnote id="ftn-fr-1">
-	    <para>
-        <application role="app_name"/> supporte aussi la version 0.5.0 du format de
-        fichier Grisib, où les éléments portent les noms Categorie et Sous_categorie
-        (sic!).
-	    </para>
-	    </footnote>. Sauvegardez ce fichier sous le nom <filename>categories.xml</filename>
-	    dans le répertoire <filename>myexpenses</filename> de la racine de votre carte SD.
+	    Soit vous cliquez sur le bouton <guibutton role="import_categories"/> qui vous permet de les entrer
+	    directement à partir des différents source, tel que expliqué dans <link linkend='tutorial5_5'>
+      <guilabel role="pref_import_from_grisbi_title"/></link>. Ce bouton n'est visible que
+      quand la liste des catégories est vide, mais vous pouvez toujours accéder à la
+      fonctionallité d'import à partir de l'écran <guilabel role="menu_settings"/>.
     </para>
     <para lang="de">
-      <guimenuitem role="import_categories"/> erlaubt die in Grisbi definierten
-      Kategorien (Englisch, Deutsch oder Französisch) zu importieren. Sie können auch eine
-      Grisbi Datei (in XML) verwenden, die Ihre eigenen Kategorien enthält. Sie können
-      diese Datei editieren und alle Informationen außer die Elemente "Category" und
-      "Sub_category" entfernen<footnote id="ftn-de-1">
-      <para>
-        <application role="app_name"/> unterstützt auch das Grisbi Datei Format
-        0.5.0, in dem die Elemente Categorie und Sous_categorie heißen.
-      </para>
-      </footnote>. Kopieren Sie diese Datei unter dem Namen
-      <filename>categories.xml</filename> in einen Ordner <filename>myexpenses</filename>
-      in das Wurzelverzeichnis der SD-Karte.
+      Der Schaltknopf <guibutton role="import_categories"/> erlaubt Kategorien aus
+      verschiedenen Quellen zu importieren wie in <link linkend='tutorial5_5'>
+      <guilabel role="pref_import_from_grisbi_title"/></link> erklärt. Dieser Schaltknopf
+      ist nur sichtbar solange es keine Kategorien gibt, aber Sie können jederzeit im
+      Bildschirm <guilabel role="menu_settings"/> auf die Import-Funktionalität zugreifen.
     </para>
     <para lang="it">
-      <guimenuitem role="import_categories"/> permette di impostare le categorie di file
-      inclusa da Grisbi in inglese, tedesco o francese. Se con Grisbi hai già definite le
-      proprie categorie, è possibile anche fornire il file Grisbi, che è in XML. 
-      Se si desidera, è possibile modificare il file con un editor e rimuovere ogni altra informazione
-      rispetto alla categoria e gli elementi Sub_category.<footnote id="ftn-it-1">
-      <para>
-        <application role="app_name"/> supporta anche il formato di file Grisbi 0.5.0,
-        dove gli elementi sono denominati Categorie e Sous_categorie.
-      </para>
-      </footnote>Conservare questo file come <filename>categories.xml</filename> in un 
-      <filename>myexpenses</filename> cartella nella directory principale della vostra scheda SD.
+      <guibutton role="import_categories"/> permette di impostare le categorie ..
     </para>
     <!-- END tutorial3 para 2 --> 
     
@@ -457,9 +423,14 @@
 	    If you prefer to have the categories sorted in plain alphabetical order, you can
 	    configure <link linkend='tutorial5_2'><guilabel role="pref_categories_sort_by_usages_title"/></link>.  
     </para>
-    <para lang="fr"><!-- a reviser -->
+    <para lang="fr">
       Vous avez maintenant une liste de catégories et de sous-catégories que vous
-      pouvez utiliser pour vos opérations.
+      pouvez utiliser pour vos opérations. Par défaut, les catégories sont triées par la
+      fréquence de leur utilisation (l'ordre alphabetique es utilisé en tant que critère
+      sécondaire. Ce fonctionnement vous donne un accès rapide aux catégories que vous
+      associez à vos transaction le plus souvent. Si vous préferez voire apparaître les
+      catégories dns l'ordre alphabétique, vous pouvez déactiver le paramètre <guilabel
+      role="pref_categories_sort_by_usages_title"/>.
     </para>
     <para lang="de">
       Sie können die importierten Kategorien und Unterkategorien jetzt Ihren Buchungen
@@ -482,20 +453,20 @@
     
     <!-- BEGIN tutorial3 para 4 --> 
     <para lang="en">
-	    The second option is to add your own categories.  <guimenuitem role="menu_create_main_cat"/>
+	    The second option is to add your own categories.  <guibutton role="menu_create_main_cat"/>
 	    brings up a dialog for providing a new category label.
     </para>
     <para lang="fr">
-      La seconde façon est d'ajouter vos propres catégories. <guimenuitem role="menu_create_main_cat"/>
+      La seconde façon est d'ajouter vos propres catégories. <guibutton role="menu_create_main_cat"/>
       vous ouvre une fenêtre pour entrer un nouveau
       libellé.
     </para>
     <para lang="de">
-      Die zweite Möglichkeit besteht darin, Kategorien selbst anzulegen. <guimenuitem role="menu_create_main_cat"/>
+      Die zweite Möglichkeit besteht darin, Kategorien selbst anzulegen. <guibutton role="menu_create_main_cat"/>
       öffnet einen Dialog zur Eingabe einer Bezeichnung.
     </para>
     <para lang="it">
-      La seconda opzione è quella di aggiungere proprie categorie. <guimenuitem role="menu_create_main_cat"/>
+      La seconda opzione è quella di aggiungere proprie categorie. <guibutton role="menu_create_main_cat"/>
       porta in primo piano una finestra di dialogo per la fornitura di una nuova 
       etichetta di categoria.
     </para>
@@ -849,6 +820,67 @@
       prima di installare <application role="app_name"/>
     </para>
     <!-- END tutorial5_4 para 1 --> 
+    </sect2>
+    
+    <sect2 id="tutorial5_5">
+      <title>
+        <guilabel role="pref_import_from_grisbi_title"/>
+      </title>
+    <para lang="en">
+    	    This entry allows to set up categories from files
+	    included from Grisbi in English, German or French. If with Grisbi you have already
+	    defined your own categories, you can also provide your Grisbi file, which is in XML.
+	    If you want, you can edit the file with an editor and remove any information other
+	    than the Category and Sub_category elements<footnote id="ftn-en-1">
+	      <para>
+	        <application role="app_name"/> also support the Grisbi file format 0.5.0,
+	        where the elements are named Categorie and Sous_categorie.
+	      </para>
+	    </footnote>. Store this file as <filename>categories.xml</filename> in a folder
+	    <filename>myexpenses</filename> in the root of your sdcard.
+    </para>
+    <para lang="fr">
+	    Cette entrée vous permet de les entrer
+	    directement à partir des définitions standards de Grisbi en anglais, allemand ou
+	    français. Si vous aviez déjà défini vos propres catégories, vous pouvez aussi
+	    utiliser votre fichier Grisbi qui est en format XML. Dans ce cas, copiez votre
+	    fichier et enlevez toutes les informations autres que les blocs de catégories
+	    (Category) et de sous-catégories (Sub_category)<footnote id="ftn-fr-1">
+	    <para>
+        <application role="app_name"/> supporte aussi la version 0.5.0 du format de
+        fichier Grisib, où les éléments portent les noms Categorie et Sous_categorie
+        (sic!).
+	    </para>
+	    </footnote>. Sauvegardez ce fichier sous le nom <filename>categories.xml</filename>
+	    dans le répertoire <filename>myexpenses</filename> de la racine de votre carte SD.
+    </para>
+    <para lang="de">
+      Dieser Eintrag erlaubt die in Grisbi definierten
+      Kategorien (Englisch, Deutsch oder Französisch) zu importieren. Sie können auch eine
+      Grisbi Datei (in XML) verwenden, die Ihre eigenen Kategorien enthält. Sie können
+      diese Datei editieren und alle Informationen außer die Elemente "Category" und
+      "Sub_category" entfernen<footnote id="ftn-de-1">
+      <para>
+        <application role="app_name"/> unterstützt auch das Grisbi Datei Format
+        0.5.0, in dem die Elemente Categorie und Sous_categorie heißen.
+      </para>
+      </footnote>. Kopieren Sie diese Datei unter dem Namen
+      <filename>categories.xml</filename> in einen Ordner <filename>myexpenses</filename>
+      in das Wurzelverzeichnis der SD-Karte.
+    </para>
+    <para lang="it">
+      <!-- a reviser <guibutton role="import_categories"/> --> permette di impostare le categorie di file
+      inclusa da Grisbi in inglese, tedesco o francese. Se con Grisbi hai già definite le
+      proprie categorie, è possibile anche fornire il file Grisbi, che è in XML. 
+      Se si desidera, è possibile modificare il file con un editor e rimuovere ogni altra informazione
+      rispetto alla categoria e gli elementi Sub_category.<footnote id="ftn-it-1">
+      <para>
+        <application role="app_name"/> supporta anche il formato di file Grisbi 0.5.0,
+        dove gli elementi sono denominati Categorie e Sous_categorie.
+      </para>
+      </footnote>Conservare questo file come <filename>categories.xml</filename> in un 
+      <filename>myexpenses</filename> cartella nella directory principale della vostra scheda SD.
+    </para>
     </sect2>
   </sect1>
   <!--
