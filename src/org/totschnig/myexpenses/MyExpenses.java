@@ -555,10 +555,6 @@ public class MyExpenses extends ListActivity {
       tv.setMovementMethod(LinkMovementMethod.getInstance());
       tv = (TextView)view.findViewById(R.id.help_feedback);
       tv.setMovementMethod(LinkMovementMethod.getInstance());
-      tv = (TextView)view.findViewById(R.id.help_gpl);
-      tv.setMovementMethod(LinkMovementMethod.getInstance());
-      tv = (TextView)view.findViewById(R.id.help_apache);
-      tv.setMovementMethod(LinkMovementMethod.getInstance());
       return new AlertDialog.Builder(this)
         .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
         .setIcon(R.drawable.about)

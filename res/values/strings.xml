@@ -56,18 +56,27 @@
 		<string name="help_heading_license"><u>License</u></string>
 		<!-- The project home title in the help screen. -->
 		<string name="help_heading_project_home"><u>Project Home</u></string>
+		<string name="help_heading_quick_guide"><u>Quick guide</u></string>
 		<!-- The version title in the help screen. -->
     <string name="help_heading_version"><u>Version</u></string>
     <!-- The first line in the help screen. -->
+    <!-- The intro of the help text. -->
+    <string name="help_intro">MyExpenses is designed to keep track of your expenses and incomes, and
+         to export these expenses into a desktop finance tool, like Grisbi or Gnucash.</string>
     <string name="help_leading"><u>Thanks for installing MyExpenses for Android.</u></string>
-		<!-- The bulk of the help text. -->
-		<string name="help_text">MyExpenses is designed to keep track of expenses during a short period of time, and to export these expenses into the Grisbi program.
-		   MyExpenses calculates the sum of expenses and incomes, and the current balance.
-		   \nThe \"Reset\" menu entry exports expenses onto SD-Card in the QIF format, that Grisbi understands, deletes the expenses and updates the opening balance.
-		   \n\"Select account\" gives a list of defined accounts, where you can create new accounts (menu entry), edit or deleting existing ones (context menu) or change the currently displayed account (list click).
-		   \nCategories are managed from the \"Select Category\" activity, launched from \"Edit transaction\" through the \"Category\" button. Via the \"Import categories\" menu entry, categories can be imported from the XML structure that Grisbi uses for its expenses.
-		   You either choose one of the provided default category files from Grisbi or use a custom one, that you store at \"/sdcard/myexpenses/categories.xml\". You can use your Grisbi XML file as is, or remove anything but the category definitions from it.
-		   </string>
+    <string name="help_quick_guide">Most buttons in the button bar open menus upon long clicks and
+        execute a default action on short clicks.
+        \n<u>Accounts -> New &#8230;</u> : Create a new account.
+        \n<u>Accounts</u> : Switch to different account.
+        \n<u>New</u> : Add a transaction.
+        \n<u>New -> Transfer</u> : Add a transfer, if you have more than one account in the same currency.
+        \n<u>Reset</u> : exports expenses onto SD-Card in QIFformat, deletes the expenses and updates the
+       opening balance.
+        \n<u>Settings</u>: Select <u>Import from Grisbi</u> to import from the XML structure that Grisbi 
+        uses for its expenses. You either choose one of the provided default category files from 
+        Grisbi or use a custom one, that you store at \"/sdcard/myexpenses/categories.xml\". You can
+        use your Grisbi XML file as is, or remove anything but the category definitions from it.
+     </string>
 		<string name="important_version_information">New version: Important information</string>
 		<string name="import_categories_failure">Categories import failed</string>
 		<string name="import_categories">Import categories</string>
@@ -147,10 +156,13 @@
     
     <!-- strings below this comment do not need translations -->
     <string name="help_project_home"><a href="http://myexpenses.totschnig.org/">http://myexpenses.totschnig.org/</a></string>
-    <string name="help_gpl"><a href="http://www.gnu.org/licenses/gpl.html">http://www.gnu.org/licenses/gpl.html</a></string>
-    <string name="help_apache">Includes FTP library from 
-        <a href="http://commons.apache.org/net/">http://commons.apache.org/net/</a> (licenced under 
-        <a href="http://www.apache.org/licenses/LICENSE-2.0.txt">http://www.apache.org/licenses/LICENSE-2.0.txt</a>)</string>
-    <string name="help_glyphish">Category Import Icon (squiggle) from glyphish.com, licensed under the Creative Commons Attribution 3.0 United States License.</string>
-    
+    <string name="help_licence_gpl">http://www.gnu.org/licenses/gpl.html</string>
+    <string name="help_licence_apache">Includes FTP library from http://commons.apache.org/net/ ,
+        licenced under http://www.apache.org/licenses/LICENSE-2.0.txt .</string>
+    <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 
+        licensed under the Creative Commons Attribution 3.0 United States License .</string>
+    <string name="help_licence_quickactions">Includes BetterPopupWindow class from 
+        http://code.google.com/p/simple-quickactions/ , licenced under 
+        http://www.opensource.org/licenses/bsd-license.php .</string>
+    <string name="help_enjoy"><u>Enjoy!</u></string>
 </resources>
