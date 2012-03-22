@@ -43,7 +43,7 @@
             style="@style/buttonLand"
             android:longClickable="true"
             android:id="@+id/addOperation"
-            android:drawableTop="@android:drawable/ic_menu_add" />
+            android:drawableLeft="@android:drawable/ic_menu_add" />
        </RelativeLayout>
      </RelativeLayout>
 </LinearLayout>
