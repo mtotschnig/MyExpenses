@@ -87,6 +87,7 @@ public class MyExpenses extends ListActivity {
   static final int VERSION_DIALOG_ID = 2;
   static final int RESET_DIALOG_ID = 3;
   static final int BACKUP_DIALOG_ID = 4;
+  static final int ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID = 5;
 
   private String mVersionInfo;
   
@@ -210,7 +211,11 @@ public class MyExpenses extends ListActivity {
     mSwitchButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        switchAccount(0);
+        if (mDbHelper.getAccountCount(null) > 1) {
+          switchAccount(0);
+        } else {
+          showDialog(ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID);
+        }
       }
     });
     mSwitchButton.setOnLongClickListener(new View.OnLongClickListener() {
@@ -636,6 +641,16 @@ public class MyExpenses extends ListActivity {
             dismissDialog(RESET_DIALOG_ID);
           }
         }).create();
+    case ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID:
+      return new AlertDialog.Builder(this)
+          .setMessage(R.string.menu_accounts_explain)
+          .setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
+           public void onClick(DialogInterface dialog, int id) {
+             dismissDialog(ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID);
+           }
+       })
+
+          .create();
     }
     return null;
   }

@@ -75,6 +75,10 @@
 		<string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>
 		<string name="label">Label</string>
     <string name="menu_accounts">Accounts</string>
+    <string name="menu_accounts_explain">The Accounts button will let you switch between accounts,
+        once you have defined multiple accounts. Currently there is only one account. You can add an
+        account, either by doing a long click on the Accounts button and selecting the New &#8230; 
+        command from the menu, or from the Accounts section in the settings screen.</string>
     <string name="menu_accounts_new">New &#8230;</string>
 		<string name="menu_backup">Backup</string>
 		<string name="menu_changes">Changes</string>

@@ -69,6 +69,10 @@
 	  <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt. Bitte verwenden Sie %1$s</string>
 	  <string name="label">Bezeichnung</string>
     <string name="menu_accounts">Konten</string>
+    <string name="menu_accounts_explain">Mit dem Schaltknopf Konten können Sie zwischen Konten 
+        wechseln, sobald Sie mehrere Konten angelegt haben. Zur Zeit gibt es nur ein Konto. Sie können
+        ein neues Konto hinzufügen, indem Sie lange auf den Konten Schaltknopf klicken und dann den 
+        Neu &#8230; Befehl auswählen, oder in dem Kontenabschnitt im Einstellungsbildschirm. </string>
     <string name="menu_accounts_new">Neu &#8230;</string>
     <string name="menu_backup">Backup</string>
 	  <string name="menu_changes">Änderungen</string>
