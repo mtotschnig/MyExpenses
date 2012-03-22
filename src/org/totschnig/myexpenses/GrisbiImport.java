@@ -86,7 +86,7 @@ public class GrisbiImport extends Activity {
             dialog.cancel();
           }
       })
-      .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+      .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int id) {
           dialog.cancel();
           finish();

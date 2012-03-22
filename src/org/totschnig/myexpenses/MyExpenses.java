@@ -529,7 +529,7 @@ public class MyExpenses extends ListActivity {
   }
   
   @Override
-  protected Dialog onCreateDialog(final int id) {
+  protected Dialog onCreateDialog(int id) {
     LayoutInflater li;
     View view;
     switch (id) {
@@ -563,7 +563,7 @@ public class MyExpenses extends ListActivity {
         })
         .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
-            dismissDialog(id);
+            dismissDialog(HELP_DIALOG_ID);
           }
         }).create();
     case CHANGES_DIALOG_ID:
@@ -593,7 +593,7 @@ public class MyExpenses extends ListActivity {
         .setView(view)
         .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
-            dismissDialog(id);
+            dismissDialog(CHANGES_DIALOG_ID);
           }
         })
         .create();
@@ -626,7 +626,7 @@ public class MyExpenses extends ListActivity {
         })
         .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int id) {
-            dismissDialog(id);
+            dismissDialog(RESET_DIALOG_ID);
           }
         }).create();
     }

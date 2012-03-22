@@ -49,7 +49,7 @@ public class Backup extends Activity {
       })
       .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int id) {
-          dialog.cancel();
+          dismissDialog(BACKUP_DIALOG_ID);
           finish();
         }
       }).create();

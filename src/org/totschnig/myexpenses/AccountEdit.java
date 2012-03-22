@@ -55,7 +55,7 @@ public class AccountEdit extends Activity {
   private String[] currencyDescs;
   private TextWatcher currencyInformer;
 
-/*  private int monkey_state = 0;
+  private int monkey_state = 0;
 
   @Override
   public boolean onKeyDown (int keyCode, KeyEvent event) {
@@ -74,7 +74,7 @@ public class AccountEdit extends Activity {
       }
     }
     return super.onKeyDown(keyCode, event);
-  }*/
+  }
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +150,7 @@ public class AccountEdit extends Activity {
     mCurrencyText.addTextChangedListener(currencyInformer);
   }
   @Override
-  protected Dialog onCreateDialog(final int id) {
+  protected Dialog onCreateDialog(int id) {
     switch (id) {
       case CURRENCY_DIALOG_ID:
         int checked = java.util.Arrays.asList(currencyCodes).indexOf(
@@ -160,7 +160,7 @@ public class AccountEdit extends Activity {
           .setSingleChoiceItems(currencyDescs, checked, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
               mCurrencyText.setText(currencyCodes[item]);
-              dismissDialog(id);
+              dismissDialog(CURRENCY_DIALOG_ID);
               mCurrencyText.addTextChangedListener(currencyInformer);
             }
           }).create();
