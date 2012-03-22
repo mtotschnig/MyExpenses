@@ -471,16 +471,18 @@ public class ExpensesDbAdapter {
    * Creates a new category under a parent
    * @param label
    * @param parent_id
-   * @return the row ID of the newly inserted row, or -1 if an error occurred 
-   * (this should indicate that the unique constraint for labels was not met)
+   * @return the row ID of the newly inserted row, or -1 if category already exists
    */
   public long createCategory(String label, long parent_id) {
     ContentValues initialValues = new ContentValues();
     initialValues.put("label", label);
     initialValues.put("parent_id", parent_id);
 
-    //should return -1 if unique constraint is not met  
-    return mDb.insert("categories", null, initialValues);
+    try {
+      return mDb.insertOrThrow("categories", null, initialValues);
+    } catch (SQLiteConstraintException e) {
+      return -1;
+    }
   }
   
   /**
