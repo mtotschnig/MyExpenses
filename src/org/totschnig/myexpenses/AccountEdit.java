@@ -55,7 +55,7 @@ public class AccountEdit extends Activity {
   private String[] currencyDescs;
   private TextWatcher currencyInformer;
 
-  private int monkey_state = 0;
+/*  private int monkey_state = 0;
 
   @Override
   public boolean onKeyDown (int keyCode, KeyEvent event) {
@@ -74,7 +74,7 @@ public class AccountEdit extends Activity {
       }
     }
     return super.onKeyDown(keyCode, event);
-  }
+  }*/
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {

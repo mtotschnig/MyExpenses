@@ -84,7 +84,7 @@ public class SelectCategory extends ExpandableListActivity {
     int mGroupIdColumnIndex;
     
 
-    private int monkey_state = 0;
+/*    private int monkey_state = 0;
 
     @Override
     public boolean onKeyDown (int keyCode, KeyEvent event) {
@@ -105,7 +105,7 @@ public class SelectCategory extends ExpandableListActivity {
         }
       }
       return super.onKeyDown(keyCode, event);
-    }
+    }*/
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
