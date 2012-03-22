@@ -14,10 +14,13 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
+<!DOCTYPE resources [
+  <!ENTITY app_name "My Expenses">
+]>
 <resources>
 		<string name="account">Account</string>
 		<string name="amount">Amount</string>
-		<string name="app_name">My Expenses</string>
+		<string name="app_name">&app_name;</string>
 		<string name="backup_failure">Backup to sdcard failed.</string>
 		<string name="backup_success">Database and preferences successfully written to sdcard.</string>
 		<string name="button_continue">Continue</string>
@@ -47,7 +50,7 @@
     <string name="dialog_yes">Yes</string>
 		<string name="done">Done</string>
 		<string name="edit_category">Edit category</string>
-		<string name="export_expenses_outputfile_exists">Output file already exists. Please wait at least one minute before exporting again.</string>
+		<string name="export_expenses_outputfile_exists">Output file already exists. Please wait one minute, and try again.</string>
 		<string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
 		<string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
 		<string name="external_storage_unavailable">External storage (sdcard)not available</string>
@@ -59,7 +62,7 @@
     <string name="ftp_login_failure">Login failure while trying to upload to %1$s</string>
     <string name="ftp_setFileType_failure">Could not set file type to ASCII while trying to upload to %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Could not change working directory while trying to upload to %1$s</string>
-    <string name="help_feedback">If you find <i>My Expenses</i> useful, 
+    <string name="help_feedback">If you find <i>&app_name;</i> useful, 
         please leave a comment in the <a href="market://details?id=org.totschnig.myexpenses">Market</a>. 
         If you find a problem, have a suggestion for an improvement, 
         or would like to contribute, please contact <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
@@ -76,16 +79,16 @@
     <string name="help_heading_version"><u>Version</u></string>
     <!-- The first line in the help screen. -->
     <!-- The intro of the help text. -->
-    <string name="help_intro">MyExpenses is designed to keep track of your expenses and incomes, and
+    <string name="help_intro"><i>&app_name;</i> is designed to keep track of your expenses and incomes, and
          to export these expenses into a desktop finance tool, like Grisbi or Gnucash.</string>
-    <string name="help_leading"><u>Thanks for installing MyExpenses for Android.</u></string>
+    <string name="help_leading"><u>Thanks for installing <i>&app_name;</i> for Android.</u></string>
     <string name="help_quick_guide">Most buttons in the button bar open menus upon long clicks and
         execute a default action on short clicks.
         \n<u>Accounts -> New &#8230;</u> : Create a new account.
         \n<u>Accounts</u> : Switch to different account.
         \n<u>New</u> : Add a transaction.
         \n<u>New -> Transfer</u> : Add a transfer, if you have more than one account in the same currency.
-        \n<u>Reset</u> : exports expenses onto SD-Card in QIFformat, deletes the expenses and updates the
+        \n<u>Reset</u> : exports expenses onto SD-Card in QIF format, deletes the expenses and updates the
        opening balance.
         \n<u>Settings</u>: Select <u>Import from Grisbi</u> to import from the XML structure that Grisbi 
         uses for its expenses. You either choose one of the provided default category files from 

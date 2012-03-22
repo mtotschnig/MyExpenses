@@ -14,10 +14,13 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
+<!DOCTYPE resources [
+  <!ENTITY app_name "Le mie spese">
+]>
 <resources >
     <string name="account">Conto</string>
     <string name="amount">Quantitá</string>
-    <string name="app_name">Le mie spese</string>
+    <string name="app_name">&app_name;</string>
     <string name="backup_failure">Backup su SD card non è riuscito.</string>
     <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.</string>
     <string name="button_cancel">Annullare</string>
@@ -57,7 +60,7 @@
     <string name="ftp_login_failure">Errore di login durante il caricamento di %1$s</string>
     <string name="ftp_setFileType_failure">Impossibile impostare il tipo di file ASCII durante il caricamento di %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Impossibile cambiare la cartella di lavoro durante il caricamento di %1$s</string>
-    <string name="help_feedback">Se si trova <i>My Expenses</i> utile,si prega di lasciare un commento 
+    <string name="help_feedback">Se si trova <i>&app_name;</i> utile,si prega di lasciare un commento 
 	nel <a href="market://details?id=org.totschnig.myexpenses">Mercato</a>.
          Se si trova un problema, un suggerimento per un miglioramento,
          o se volete contribuire, si prega di contattare <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
@@ -66,7 +69,7 @@
     <string name="help_heading_license"><u>Licenza</u></string>
     <string name="help_heading_project_home"><u>Pagina iniziale</u></string>
     <string name="help_heading_version"><u>Versione</u></string>
-    <string name="help_leading"><u>Grazie di probare MyExpenses por Android.</u></string>
+    <string name="help_leading"><u>Grazie di probare <i>&app_name;</i> por Android.</u></string>
     <string name="help_text">MyExpenses è stato progettato per tenere traccia delle spese nel corso di un breve periodo di tempo, e di esportare queste spese nel programma Grisbi.
 MyExpenses calcola la somma delle spese e dei redditi, e l\'attuale equilibrio.
 \n\"Reinitializare\" esportazioni di Menu spese su scheda SD nel formato QIF, che comprende Grisbi, elimina le spese e aggiorna il bilancio di apertura.
