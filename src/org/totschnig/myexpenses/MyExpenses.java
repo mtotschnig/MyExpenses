@@ -1,7 +1,7 @@
 /*   This file is part of My Expenses.
  *   My Expenses is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation, either version 2 of the License, or
+ *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
  *   My Expenses is distributed in the hope that it will be useful,
@@ -555,6 +555,9 @@ public class MyExpenses extends ListActivity {
       tv.setMovementMethod(LinkMovementMethod.getInstance());
       tv = (TextView)view.findViewById(R.id.help_feedback);
       tv.setMovementMethod(LinkMovementMethod.getInstance());
+      tv = (TextView)view.findViewById(R.id.help_licence_gpl);
+      tv.setMovementMethod(LinkMovementMethod.getInstance());
+
       return new AlertDialog.Builder(this)
         .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
         .setIcon(R.drawable.about)
