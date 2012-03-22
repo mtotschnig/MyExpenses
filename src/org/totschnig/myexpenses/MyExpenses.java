@@ -709,7 +709,13 @@ public class MyExpenses extends ListActivity {
     File appDir = Utils.requireAppDir();
     if (appDir == null)
       throw new IOException();
-    File outputFile = new File(appDir, "expenses" + now.format(new Date()) + ".qif");
+    File outputFile = new File(appDir,
+        mCurrentAccount.label.replaceAll("\\W","") + "-" +
+        now.format(new Date()) + ".qif");
+    if (outputFile.exists()) {
+      Toast.makeText(this,String.format(getString(R.string.export_expenses_outputfile_exists), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
+      return;
+    }
     FileOutputStream out = new FileOutputStream(outputFile);
     String header = "!Type:Oth L\n";
     out.write(header.getBytes());
