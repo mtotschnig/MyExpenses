@@ -51,9 +51,12 @@
     <TextView
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
+        android:gravity="center"
         android:id="@+id/android:empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:background="@drawable/border"
         android:text="@string/no_expenses" />
     <RelativeLayout
         android:paddingRight="10dp"
