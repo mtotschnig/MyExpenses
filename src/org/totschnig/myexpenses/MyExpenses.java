@@ -236,6 +236,7 @@ public class MyExpenses extends ListActivity {
             accountTV = new TextView(MyExpenses.this);
             accountTV.setText(R.string.menu_accounts_new);
             accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+            accountTV.setBackgroundResource(android.R.drawable.menuitem_background);
             accountTV.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
@@ -252,6 +253,7 @@ public class MyExpenses extends ListActivity {
                 accountTV = new TextView(MyExpenses.this);
                 accountTV.setText(otherAccounts.getString(otherAccounts.getColumnIndex("label")));
                 accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+                accountTV.setBackgroundResource(android.R.drawable.menuitem_background);
                 accountTV.setId((int) otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
                 accountTV.setOnClickListener(new View.OnClickListener() {
                   @Override
