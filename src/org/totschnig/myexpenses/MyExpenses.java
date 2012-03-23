@@ -28,6 +28,7 @@ import java.util.Properties;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.Account.AccountNotFoundException;
+import org.totschnig.myexpenses.ButtonBar.MenuButton;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -48,6 +49,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.ViewGroup.LayoutParams;
@@ -70,11 +73,23 @@ import android.util.Log;
  * @author Michael Totschnig
  *
  */
-public class MyExpenses extends ListActivity {
+public class MyExpenses extends ListActivity implements OnClickListener,OnLongClickListener {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_PREF=2;
   public static final int ACTIVITY_CREATE_ACCOUNT=3;
   public static final int ACTIVITY_EDIT_ACCOUNT=4;
+  
+  private static final int INSERT_TA_ID = 0;
+  private static final int INSERT_TRANSFER_ID = 1;
+  private static final int SWITCH_ACCOUNT_ID = 2;
+  private static final int CREATE_ACCOUNT_ID = 3;
+  private static final int RESET_ACCOUNT_ID = 4;
+  private static final int SETTINGS_ID = 5;
+  private static final int BACKUP_ID = 6;
+  private static final int EDIT_ACCOUNT_ID = 7;
+  private static final int HELP_ID = 8;
+  private static final int CHANGES_ID = 9;
+  private static final int TUTORIAL_ID = 10;
 
   public static final int DELETE_ID = Menu.FIRST;
   public static final int SHOW_DETAIL_ID = Menu.FIRST +1;
@@ -97,11 +112,15 @@ public class MyExpenses extends ListActivity {
   
   private SharedPreferences mSettings;
   private Cursor mExpensesCursor;
-  private Button mAddButton;
-  private Button mSwitchButton;
-  private Button mResetButton;
-  private Button mSettingsButton;
-  private Button mHelpButton;
+
+  private ButtonBar mButtonBar;
+  private MenuButton mAddButton;
+  private MenuButton mSwitchButton;
+  private MenuButton mResetButton;
+  private MenuButton mSettingsButton;
+  private MenuButton mHelpButton;
+  private TextView mTransferButton;
+
   private BetterPopupWindow dw;
 
 /*  private int monkey_state = 0;
@@ -160,237 +179,60 @@ public class MyExpenses extends ListActivity {
         mCurrentAccount = requireAccount();
       }
     }
-    
-    mAddButton = (Button) findViewById(R.id.addOperation);
-    mAddButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        createRow(TYPE_TRANSACTION);
-      }
-    });
-    mAddButton.setOnLongClickListener(new View.OnLongClickListener() {
-      @Override
-      public boolean onLongClick(View v) {
-          dw = new BetterPopupWindow(v) {
-            @Override
-            protected void onCreate() {
-              // inflate layout
-              LayoutInflater inflater =
-                  (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-              ViewGroup root = (ViewGroup) inflater.inflate(R.layout.transaction_type_popup, null);
-              root.findViewById(R.id.select_ta).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                  createRow(TYPE_TRANSACTION);
-                  dismiss();
-                }
-              });
-              TextView tv = (TextView) root.findViewById(R.id.select_transfer);
-              if (transfersEnabledP()) {
-                tv.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                    createRow(TYPE_TRANSFER);
-                    dismiss();
-                  }
-                });
-              } else {
-                tv.setEnabled(false);
-              }
-              // set the inflated view as what we want to display
-              this.setContentView(root);
-            }
-          };
-          dw.showLikeQuickAction();
-          return true;
-        }
-    });
-    
-    mSwitchButton = (Button) findViewById(R.id.switchAccount);     
-    mSwitchButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (mDbHelper.getAccountCount(null) > 1) {
-          switchAccount(0);
-        } else {
-          showDialog(ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID);
-        }
-      }
-    });
-    mSwitchButton.setOnLongClickListener(new View.OnLongClickListener() {
-      
-      @Override
-      public boolean onLongClick(View v) {
-        dw = new BetterPopupWindow(v) {
-          @Override
-          protected void onCreate() {
-            // inflate layout
-            LayoutInflater inflater =
-                (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            ViewGroup root = (ViewGroup) inflater.inflate(R.layout.account_list_popup, null);
-            
-            TextView accountTV;
-            //allow easy access to new account creation
-            accountTV = new TextView(MyExpenses.this);
-            accountTV.setText(R.string.menu_accounts_new);
-            accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-            accountTV.setBackgroundResource(android.R.drawable.menuitem_background);
-            accountTV.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                Intent i = new Intent(MyExpenses.this, AccountEdit.class);
-                startActivityForResult(i, ACTIVITY_CREATE_ACCOUNT);
-                dismiss();
-              }
-            });
-            root.addView(accountTV);
-
-            final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
-            if(otherAccounts.moveToFirst()){
-              for (int i = 0; i < otherAccounts.getCount(); i++){
-                accountTV = new TextView(MyExpenses.this);
-                accountTV.setText(otherAccounts.getString(otherAccounts.getColumnIndex("label")));
-                accountTV.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-                accountTV.setBackgroundResource(android.R.drawable.menuitem_background);
-                accountTV.setId((int) otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
-                accountTV.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                    switchAccount(v.getId());
-                    dismiss();
-                  }
-                });
-                root.addView(accountTV);
-                otherAccounts.moveToNext();
-              }
-             }
-            // set the inflated view as what we want to display
-            this.setContentView(root);
-            otherAccounts.close();
-          }
-        };
-        dw.showLikeQuickAction();
-        return true;
-      }
-    });
-    
-    mResetButton = (Button) findViewById(R.id.reset);     
-    mResetButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (Utils.isExternalStorageAvailable())
-          showDialog(RESET_DIALOG_ID);
-        else 
-          Toast.makeText(getBaseContext(),
-              getString(R.string.external_storage_unavailable), 
-              Toast.LENGTH_LONG)
-              .show();
-      }
-    });
-    
-    mSettingsButton = (Button) findViewById(R.id.settings);     
-    mSettingsButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
-      }
-    });
-    mSettingsButton.setOnLongClickListener(new View.OnLongClickListener() {
-      @Override
-      public boolean onLongClick(View v) {
-        dw = new BetterPopupWindow(v) {
-          @Override
-          protected void onCreate() {
-            // inflate layout
-            LayoutInflater inflater =
-                (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            ViewGroup root = (ViewGroup) inflater.inflate(R.layout.settings_categ_popup, null);
-            root.findViewById(R.id.select_account).setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                Intent i = new Intent(MyExpenses.this, AccountEdit.class);
-                i.putExtra(ExpensesDbAdapter.KEY_ROWID, mCurrentAccount.id);
-                startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
-                dismiss();
-              }
-            });
-            root.findViewById(R.id.select_backup).setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                startActivityForResult(new Intent(MyExpenses.this, Backup.class),ACTIVITY_PREF);
-                dismiss();
-              }
-            });
-            root.findViewById(R.id.select_all).setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
-                dismiss();
-              }
-            });
-
-            // set the inflated view as what we want to display
-            this.setContentView(root);
-          }
-        };
-        dw.showLikeQuickAction();
-        return true;
-      }
-    });
-    
-    mHelpButton = (Button) findViewById(R.id.help);     
-    mHelpButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        showDialog(HELP_DIALOG_ID);
-      }
-    });
-    mHelpButton.setOnLongClickListener(new View.OnLongClickListener() {
-      @Override
-      public boolean onLongClick(View v) {
-        dw = new BetterPopupWindow(v) {
-          @Override
-          protected void onCreate() {
-            // inflate layout
-            LayoutInflater inflater =
-                (LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            ViewGroup root = (ViewGroup) inflater.inflate(R.layout.help_categ_popup, null);
-            root.findViewById(R.id.select_tutorial).setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                startActivity( new Intent(MyExpenses.this, Tutorial.class));
-                dismiss();
-              }
-            });
-            root.findViewById(R.id.select_changes).setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                showDialog(CHANGES_DIALOG_ID);
-                dismiss();
-              }
-            });
-            root.findViewById(R.id.select_help).setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                showDialog(HELP_DIALOG_ID);
-                dismiss();
-              }
-            });
-            // set the inflated view as what we want to display
-            this.setContentView(root);
-          }
-        };
-        dw.showLikeQuickAction();
-        return true;
-      }
-    });
-
+    mButtonBar = (ButtonBar) findViewById(R.id.ButtonBar);
+    fillButtons();
     fillData();
     registerForContextMenu(getListView());
+  }
+  private void fillSwitchButton() {
+    mSwitchButton.addItem(R.string.menu_accounts_new,CREATE_ACCOUNT_ID);
+    final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
+    if(otherAccounts.moveToFirst()){
+      for (int i = 0; i < otherAccounts.getCount(); i++) {
+        TextView accountTV = mSwitchButton.addItem(
+            otherAccounts.getString(otherAccounts.getColumnIndex("label")),SWITCH_ACCOUNT_ID);
+        accountTV.setTag(
+            otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
+        otherAccounts.moveToNext();
+      }
+    }
+    otherAccounts.close();
+  }
+  private void fillButtons() {
+    mAddButton = mButtonBar.addButton(
+        R.string.menu_new,
+        android.R.drawable.ic_menu_add,
+        INSERT_TA_ID);
+    mTransferButton = mAddButton.addItem(R.string.transfer,INSERT_TRANSFER_ID);
+    mAddButton.addItem(R.string.transaction,INSERT_TA_ID);
+    
+    mSwitchButton = mButtonBar.addButton(
+        R.string.menu_accounts,
+        R.drawable.ic_menu_goto,
+        SWITCH_ACCOUNT_ID);
+    mSwitchButton.setTag(new Long(0));
+    fillSwitchButton();
+    
+    mResetButton = mButtonBar.addButton(
+        R.string.menu_reset,
+        android.R.drawable.ic_menu_revert,
+        RESET_ACCOUNT_ID);
+    
+    mSettingsButton = mButtonBar.addButton(
+        R.string.menu_settings_abrev,
+        android.R.drawable.ic_menu_preferences,
+        SETTINGS_ID);
+    mSettingsButton.addItem(R.string.menu_settings_account,EDIT_ACCOUNT_ID);
+    mSettingsButton.addItem(R.string.menu_backup,BACKUP_ID);
+    mSettingsButton.addItem(R.string.menu_settings,SETTINGS_ID);
+    
+    mHelpButton = mButtonBar.addButton(
+        R.string.menu_help,
+        android.R.drawable.ic_menu_help,
+        HELP_ID);
+    mHelpButton.addItem(R.string.tutorial,TUTORIAL_ID);
+    mHelpButton.addItem(R.string.menu_changes,CHANGES_ID);
+    mHelpButton.addItem(R.string.menu_help,HELP_ID); 
   }
   @Override
   public void onStop() {
@@ -473,7 +315,10 @@ public class MyExpenses extends ListActivity {
   
   private void configButtons() {
     //mSwitchButton.setEnabled(mDbHelper.getAccountCount(null) > 1);
-    mResetButton.setEnabled(mExpensesCursor.getCount() > 0);    
+    mResetButton.setEnabled(mExpensesCursor.getCount() > 0);
+    mTransferButton.setEnabled(transfersEnabledP());
+    mSwitchButton.clearMenu();
+    fillSwitchButton();
   }
 
   /* (non-Javadoc)
@@ -977,5 +822,70 @@ public class MyExpenses extends ListActivity {
   
   public boolean transfersEnabledP() {
     return mDbHelper.getAccountCount(mCurrentAccount.currency.getCurrencyCode()) > 1;
+  }
+  @Override
+  public void onClick(View v) {
+    Intent i;
+    switch (v.getId()) {
+    case INSERT_TA_ID:
+      createRow(TYPE_TRANSACTION);
+      break;
+    case INSERT_TRANSFER_ID:
+      createRow(TYPE_TRANSFER);
+      break;
+    case SWITCH_ACCOUNT_ID:
+      if (mDbHelper.getAccountCount(null) > 1) {
+        Long accountId = (Long) v.getTag();
+        switchAccount(accountId);
+      } else {
+        showDialog(ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID);
+      }
+      break;
+    case CREATE_ACCOUNT_ID:
+      i = new Intent(MyExpenses.this, AccountEdit.class);
+      startActivityForResult(i, ACTIVITY_CREATE_ACCOUNT);
+      break;
+    case RESET_ACCOUNT_ID:
+      if (Utils.isExternalStorageAvailable())
+        showDialog(RESET_DIALOG_ID);
+      else 
+        Toast.makeText(getBaseContext(),
+            getString(R.string.external_storage_unavailable), 
+            Toast.LENGTH_LONG)
+            .show();
+      break;
+    case SETTINGS_ID:
+      startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
+      break;
+    case EDIT_ACCOUNT_ID:
+      i = new Intent(MyExpenses.this, AccountEdit.class);
+      i.putExtra(ExpensesDbAdapter.KEY_ROWID, mCurrentAccount.id);
+      startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
+      break;
+    case BACKUP_ID:
+      startActivityForResult(new Intent(MyExpenses.this, Backup.class),ACTIVITY_PREF);
+      break;
+    case TUTORIAL_ID:
+      startActivity( new Intent(MyExpenses.this, Tutorial.class));
+      break;
+    case CHANGES_ID:
+      showDialog(CHANGES_DIALOG_ID);
+      break;
+    case HELP_ID:
+      showDialog(HELP_DIALOG_ID);
+    }
+    if (dw != null) {
+      dw.dismiss();
+      dw = null;
+    }
+  }
+  @Override
+  public boolean onLongClick(View v) {
+    MenuButton mb = (MenuButton) v;
+    dw = mb.getMenu();
+    if (dw == null)
+      return false;
+    dw.showLikeQuickAction();
+    return true;
   }
 }
