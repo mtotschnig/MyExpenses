@@ -49,8 +49,7 @@
     <string name="dialog_yes">Oui</string>
     <string name="done">OK</string>
     <string name="edit_category">Éditer la catégorie</string>
-    <string name="export_expenses_outputfile_exists">Le fichier d\'export existe déjà. Attendez
-        une minute avant de réessayer.</string>
+    <string name="export_expenses_outputfile_exists">Le fichier d\'export existe déjà. Attendez une minute avant de réessayer.</string>
     <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses vers la carte SD</string>
     <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers le fichier %1$s</string>
     <string name="external_storage_unavailable">Le stockage externe (carte SD) n\'est pas disponible</string>
@@ -75,20 +74,20 @@
     <string name="help_intro"><i>&app_name;</i> permet de gérer les entrées d\'argent et les
       dépenses, et de les exporter vers un logiciel de finance, tel que Grisbi ou Gnucash.</string>
     <string name="help_leading"><u>Merci d\'essayer <i>&app_name;</i> pour Android.</u></string>
-    <string name="help_quick_guide">Chaque bouton execute une action par défault en réaction à un 
-        clique court. La plupart affiche une ménu avec d\'autres actions sur un clique long.
+    <string name="help_quick_guide">Chaque bouton exécute une action par défaut avec un 
+        clic court. Beaucoup affichent un menu avec d\'autres actions sur un clic long.
         \n<u>Comptes -> Nouveau &#8230;</u> : Ajouter un compte.
-        \n<u>Comptes</u> : Changer de compte en cours.
+        \n<u>Comptes</u> : Changer de compte.
         \n<u>Nouveau</u> : Ajouter une transaction.
-        \n<u>Nouveau -> Virement</u> : Ajouter un virement, s\'il y a au moins deux comptes avec la 
-          même dévise.
+        \n<u>Nouveau -> Virement</u> : Ajouter un virement, s\'il existe au moins deux comptes de 
+          même devise.
         \n<u>Réinitialiser</u> : exporte toutes les transactions dans un fichier QIF sur la carte SD,
-          efface les transactions, et transfère le dernier solde en nouveau solde d\'ouverture.
-        \n<u>Paramètres</u>: Choississez <u>Import des données Grisbi</u>, pour importer les catégories 
-          à partir d\'un fichier Grisbi. Vous pouvez sélectionner les définitions standards utilisés 
+          efface les transactions, et transfère le solde courant en nouveau solde d\'ouverture.
+        \n<u>Paramètres</u>: Choisissez <u>Import des données Grisbi</u>, pour importer les catégories 
+          à partir d\'un fichier Grisbi. Vous pouvez sélectionner les définitions standards utilisées 
           par Grisbi, incluses dans MyExpenses, ou utiliser un fichier personnel, stocké sous 
-          \"/sdcard/myexpenses/categories.xml\". Pour ceci, vous pouvez copier votre fichier Grisbi 
-          tel quel, ou supprimer dans celui-ci tout sauf les définitions des catégories.
+          \"/sdcard/myexpenses/categories.xml\". Dan ce cas, vous pouvez copier votre fichier Grisbi 
+          tel quel, ou supprimer dans celui-ci tout sauf les définitions de catégories.
      </string>    
     <string name="import_categories">Importer les catégories</string>
     <string name="import_categories_failure">Erreur lors de l\'import des catégories</string>
@@ -97,11 +96,7 @@
     <string name="invalid_number_format">Format de nombre non reconnu. Utilisez %1$s</string>
     <string name="label">Intitulé</string>
     <string name="menu_accounts">Comptes</string>
-    <string name="menu_accounts_explain">Le bouton Comptes vous permet de changer le compte en cours
-        quand vous aurez défini plusieurs comptes. Actuellement il n\'y a qu\'un seul compte. Si vous 
-        désirez ajouter un nouveau compte, ouvrez le menu par un clique long sur le bouton Comptes,
-        et choississez la commande Nouveau &#8230;. Alternativement cette fonctionnalité est aussi
-        disponible dans la section Comptes de l\'écran Paramètres.</string>
+    <string name="menu_accounts_explain">Le bouton Comptes vous permet de changer de compte si vous en aviez défini plusieurs. Au départ, il n\'y en a qu\'un seul. Si vous désirez en ajouter d'autres, ouvrez le menu par un clic long sur le bouton Comptes, puis choisissez la commande Nouveau &#8230;. Cette fonction est aussi disponible dans la section Comptes de l\'écran des Paramètres.</string>
      <string name="menu_accounts_new">Nouveau &#8230;</string>
     <string name="menu_backup">Sauvegarde</string>
     <string name="menu_changes">Changements</string>
@@ -136,11 +131,10 @@
     <string name="pref_backup_title">Sauvegarde</string>
     <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences sur la carte SD.</string>
     <string name="pref_categories_sort_by_usages_title">Critères de tri pour catégories</string>
-    <string name="pref_categories_sort_by_usages_summary">Trier les catégories principales par fréquence d\'utilisation (autrement par ordre alphabétique)</string>
-    <string name="pref_import_from_grisbi_title">Import des données Grisbi</string>
-    <string name="pref_import_from_grisbi_summary">Choississez entre les définitions standards de Grisbi, inclus dans l\'app, et votre propre fichier
-        sauvegardé sous le nom <i>categories.xml</i>
+    <string name="pref_categories_sort_by_usages_summary">Trier les catégories principales par fréquence d\'utilisation (sinon par ordre alphabétique)</string>
+    <string name="pref_import_from_grisbi_summary">Choississez entre les définitions standards de Grisbi, incluses dans l\'application, et votre propre fichier sauvegardé sous le nom <i>categories.xml</i>
       dans le répertoire <i>myexpenses</i> de la racine de votre carte SD</string>
+    <string name="pref_import_from_grisbi_title">Import des données Grisbi</string>
     <string name="pref_manage_accounts_title">Gestion des comptes</string>
     <string name="pref_manage_accounts_summary">Ajouter, éditer et supprimer les comptes.</string>
     <string name="pref_share_target_title">URL où sera téléchargé le fichier QIF</string>
