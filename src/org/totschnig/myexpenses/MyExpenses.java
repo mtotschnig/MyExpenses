@@ -96,8 +96,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   
   public static final boolean TYPE_TRANSACTION = true;
   public static final boolean TYPE_TRANSFER = false;
-  public static final String TRANSFER_EXPENSE = "=>";
-  public static final String TRANSFER_INCOME = "<=";
+  public static final String TRANSFER_EXPENSE = "=> ";
+  public static final String TRANSFER_INCOME = "<= ";
   static final int HELP_DIALOG_ID = 0;
   static final int CHANGES_DIALOG_ID = 1;
   static final int VERSION_DIALOG_ID = 2;
@@ -327,7 +327,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   }
   
   private void configButtons() {
-    //mSwitchButton.setEnabled(mDbHelper.getAccountCount(null) > 1);
     if (!mUseStandardMenu) {
       mResetButton.setEnabled(mExpensesCursor.getCount() > 0);
       mTransferButton.setEnabled(transfersEnabledP());
