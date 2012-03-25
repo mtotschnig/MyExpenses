@@ -34,7 +34,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -54,8 +53,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -63,7 +60,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
-//import android.util.DisplayMetrics;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 

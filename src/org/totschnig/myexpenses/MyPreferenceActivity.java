@@ -15,17 +15,8 @@
 
 package org.totschnig.myexpenses;
 
-
-import java.io.File;
-
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
-import android.widget.Toast;
  
 /**
  * Present references screen defined in Layout file

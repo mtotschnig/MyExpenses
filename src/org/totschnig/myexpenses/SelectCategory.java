@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,10 +58,6 @@ public class SelectCategory extends ExpandableListActivity {
     private long mCatEditDialogCatId;
     private String mCatDialogLabel;
 
-    /**
-     * create a new main category
-     */
-    private static final int CREATE_MAIN_CAT = Menu.FIRST;
     /**
      * create a new sub category
      */
