@@ -151,6 +151,9 @@
     <string name="pref_share_target_summary">Supported schemes:
 * ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
 * mailto (\"mailto:john@my.example.com\").</string>
+    <string name="pref_use_standard_menu_title">Use standard Android menu</string>
+    <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
+        standard menu for accessing commands.</string>
 		<string name="restore_db_success">Database has been restored from backup.</string>
 		<string name="restore_preferences_success">Preferences have been restored from backup.</string>
     <string name="revert">Revert</string>
@@ -158,7 +161,9 @@
 		<string name="select_category">Select category</string>
 		<string name="select_parent_category">Select this category</string>
 		<string name="select">Select</string>
-		<string name="share_scheme_not_supported">Scheme %1$s not supported</string>	    
+		<string name="share_scheme_not_supported">Scheme %1$s not supported</string>
+		<string name="suggest_use_standard_menu">Do you want to use the standard Android menu
+		    for calling commands, and hide the button bar?</string>
 		<string name="time">Time</string>
 		<string name="title">Title</string>
 		<string name="transaction">Transaction</string>

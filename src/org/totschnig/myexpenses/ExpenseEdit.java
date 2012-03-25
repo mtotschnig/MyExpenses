@@ -173,25 +173,20 @@ public class ExpenseEdit extends Activity {
         if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
           startSelectCategory();
         } else {
+          //TODO another dialog that is not managed and handle cursor better
           AlertDialog.Builder builder = new AlertDialog.Builder(ExpenseEdit.this);
           builder.setTitle(R.string.dialog_title_select_account);
           final Cursor otherAccounts = mDbHelper.fetchAccountOther(mTransaction.account_id,true);
-          final String[] accounts = new String[otherAccounts.getCount()];
-          if(otherAccounts.moveToFirst()){
-           for (int i = 0; i < otherAccounts.getCount(); i++){
-             accounts[i] = otherAccounts.getString(otherAccounts.getColumnIndex("label"));
-             otherAccounts.moveToNext();
-           }
-          }
-          builder.setSingleChoiceItems(accounts, -1, new DialogInterface.OnClickListener() {
+          final String[] accountLabels = Utils.getStringArrayFromCursor(otherAccounts, "label");
+          final int[] accountIds = Utils.getIntArrayFromCursor(otherAccounts, ExpensesDbAdapter.KEY_ROWID);
+          otherAccounts.close();
+          builder.setSingleChoiceItems(accountLabels, -1, new DialogInterface.OnClickListener() {
               public void onClick(DialogInterface dialog, int item) {
-                otherAccounts.moveToPosition(item);
-                mTransaction.cat_id = otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+                mTransaction.cat_id = accountIds[item];
                 mCategoryButton.setText(
                     (mType == EXPENSE ? MyExpenses.TRANSFER_EXPENSE  : MyExpenses.TRANSFER_EXPENSE) + 
-                    accounts[item]
+                    accountLabels[item]
                 );
-                otherAccounts.close();
                 dialog.cancel();
               }
           });

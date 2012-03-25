@@ -26,7 +26,12 @@
       android:defaultValue="true"
       android:key="categories_sort_by_usages" 
       android:title="@string/pref_categories_sort_by_usages_title" 
-      android:summary="@string/pref_categories_sort_by_usages_summary" /> 
+      android:summary="@string/pref_categories_sort_by_usages_summary" />
+  <CheckBoxPreference
+      android:defaultValue="false"
+      android:key="use_standard_menu" 
+      android:title="@string/pref_use_standard_menu_title" 
+      android:summary="@string/pref_use_standard_menu_summary" /> 
 	<EditTextPreference 
 	    android:key="share_target" 
 	    android:title="@string/pref_share_target_title" 

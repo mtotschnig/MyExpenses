@@ -37,6 +37,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -104,6 +105,27 @@ public class Utils {
       amount = 0;
     }
     return formatCurrency(amount,currency);
+  }
+  //TODO: create generic function
+  static String[] getStringArrayFromCursor(Cursor c, String field) {
+    String[] result = new String[c.getCount()];
+    if(c.moveToFirst()){
+     for (int i = 0; i < c.getCount(); i++){
+       result[i] = c.getString(c.getColumnIndex(field));
+       c.moveToNext();
+     }
+    }
+    return result;
+  }
+  static int[] getIntArrayFromCursor(Cursor c, String field) {
+    int[] result = new int[c.getCount()];
+    if(c.moveToFirst()){
+     for (int i = 0; i < c.getCount(); i++){
+       result[i] = c.getInt(c.getColumnIndex(field));
+       c.moveToNext();
+     }
+    }
+    return result;
   }
   
   /**
