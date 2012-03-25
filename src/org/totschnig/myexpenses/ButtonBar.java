@@ -8,9 +8,7 @@ import org.example.qberticus.quickactions.BetterPopupWindow;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -18,21 +16,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.view.View.OnLongClickListener;
 
-public class ButtonBar extends RelativeLayout  {
+public class ButtonBar extends LinearLayout  {
   //this is where we add the buttons
-  ViewGroup center;
   int orientation;
 
   public ButtonBar(Context context, AttributeSet attrs) {
     super(context,attrs);
-    LayoutInflater inflater = LayoutInflater.from(context);
-    center = (ViewGroup) inflater.inflate(R.layout.button_bar, this, false);
-    addView(center);
     orientation = getResources().getConfiguration().orientation;
   }
   public MenuButton addButton(int text,int drawable,int id) {
     LayoutInflater inflater = LayoutInflater.from(getContext());
-    MenuButton b = (MenuButton) inflater.inflate(R.layout.button, center, false);
+    MenuButton b = (MenuButton) inflater.inflate(R.layout.button, this, false);
     b.setText(text);
     b.setId(id);
     if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -40,7 +34,7 @@ public class ButtonBar extends RelativeLayout  {
     } else {
       b.setCompoundDrawablesWithIntrinsicBounds(0, drawable,0, 0);
     }
-    center.addView(b);
+    addView(b);
     b.setOnClickListener((MyExpenses) getContext());
     b.setOnLongClickListener((MyExpenses) getContext());
     return b;
@@ -53,7 +47,6 @@ public class ButtonBar extends RelativeLayout  {
     public MenuButton(Context context, AttributeSet attrs) {
       super(context,attrs);
       mItems = new ArrayList<TextView>();
-      // TODO Auto-generated constructor stub
     }
     public TextView addItem(int text,int id) {
       return addItem(getContext().getString(text),id);
