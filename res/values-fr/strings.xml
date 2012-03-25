@@ -74,8 +74,9 @@
     <string name="help_intro"><i>&app_name;</i> permet de gérer les entrées d\'argent et les
       dépenses, et de les exporter vers un logiciel de finance, tel que Grisbi ou Gnucash.</string>
     <string name="help_leading"><u>Merci d\'essayer <i>&app_name;</i> pour Android.</u></string>
-    <string name="help_quick_guide"><i>&app_name;</i> possède deux interfaces de commande: une barre de     		boutons et un menu. Vous pouvez définir celle à utiliser dans l'écran des paramètres.
-	Dans la barre de boutons, chacun exécute une action par défaut par un 
+    <string name="help_quick_guide"><i>&app_name;</i> possède deux interfaces de commande: une barre de
+        boutons et un menu. Vous pouvez définir celle à utiliser dans l\'écran des paramètres.
+	      Dans la barre de boutons, chacun exécute une action par défaut par un 
         clic court. Beaucoup affichent un menu avec d\'autres actions sur un clic long.
         \n<u>Comptes -> Nouveau &#8230;</u> : Ajouter un compte.
         \n<u>Comptes</u> : Changer de compte.
@@ -143,7 +144,7 @@
 ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
 mailto (\"mailto:john@my.example.com\").</string>
     <string name="pref_use_standard_menu_title">Utiliser le menu standard d\'Android</string>
-    <string name="pref_use_standard_menu_summary">Au lieu d\'afficher une barre de boutons, utilisez le menu standard d\'Android pour accéder aux commandes.</tring>   
+    <string name="pref_use_standard_menu_summary">Au lieu d\'afficher une barre de boutons, utiliser le menu standard d\'Android pour accéder aux commandes.</string>   
     <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.</string>
     <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
     <string name="revert">Annuler</string>
@@ -160,7 +161,7 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="tutorial">Tutoriel</string>
     <string name="version_14_upgrade_info">À partir de la version 1.4.0, la devise est définie selon le code ISO 4217.
         Dans vos comptes vous utilisez les symboles suivants qui doivent être changés: %1$s </string>
-    <string name="version_26_upgrade_info"><i>&app_name;</i> dispose désormais d'une barre de boutons comme nouvelle interface de commande. Vous pouvez revenir à l'ancienne interface dans l'écran des paramètres.</string>    
+    <string name="version_26_upgrade_info"><i>&app_name;</i> dispose désormais d\'une barre de boutons comme nouvelle interface de commande. Vous pouvez revenir à l\'ancienne interface dans l\'écran des paramètres.</string>    
     <string name="warning_backup">La base des données et les paramètres vont être sauvegardés sur la carte SD. Voulez-vous continuer?</string>
     <string name="warning_backup_exists">La base des données et les paramètres vont être sauvegardés sur la carte SD. La sauvegarde existante sera effacée. Voulez-vous continuer?</string>
     <string name="warning_delete_account">Ce compte sera effaçé ainsi que toutes ses transactions. Voulez-vous continuer?</string>
