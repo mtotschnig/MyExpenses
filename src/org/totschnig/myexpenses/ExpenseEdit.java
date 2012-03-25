@@ -163,7 +163,8 @@ public class ExpenseEdit extends Activity {
     mTypeButton.setOnClickListener(new View.OnClickListener() {
 
       public void onClick(View view) {
-        toggleType();
+        mType = ! mType;
+        configureType();
       } 
     });
     mCategoryButton = (Button) findViewById(R.id.Category);
@@ -270,7 +271,8 @@ public class ExpenseEdit extends Activity {
         amount = 0 - mTransaction.amount;
       } else {
         amount = mTransaction.amount;
-        toggleType();
+        mType = INCOME;
+        configureType();
       }      
       mAmountText.setText(nfDLocal.format(amount));
       //3b  fill comment
@@ -416,10 +418,9 @@ public class ExpenseEdit extends Activity {
     }
   }
   /**
-   * updates interface if type is toggled between EXPENSE and INCOME
+   * updates interface based on type (EXPENSE or INCOME)
    */
-  private void toggleType() {
-    mType = ! mType;
+  private void configureType() {
     mTypeButton.setText(mType ? "+" : "-");
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
@@ -435,6 +436,16 @@ public class ExpenseEdit extends Activity {
         (mType == EXPENSE ? MyExpenses.TRANSFER_EXPENSE  : MyExpenses.TRANSFER_INCOME) + 
         mTransaction.label
     );
-
+  }
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+   super.onSaveInstanceState(outState);
+   outState.putBoolean("type", mType);
+  }
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+   super.onRestoreInstanceState(savedInstanceState);
+   mType = savedInstanceState.getBoolean("type");
+   configureType();
   }
 }
