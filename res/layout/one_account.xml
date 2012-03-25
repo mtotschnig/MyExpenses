@@ -73,25 +73,5 @@
       </TableRow>
     </TableLayout>
   </ScrollView>
-      <RelativeLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    style="@android:style/ButtonBar">
-        <LinearLayout 
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal" 
-      android:layout_centerInParent="true">
-        <Button
-            android:text="@string/done"
-            android:id="@+id/Confirm"
-            style="@style/buttonPort"
-            android:drawableTop="@drawable/ic_menu_mark" />
-        <Button 
-            android:id="@+id/Revert" 
-            android:text="@string/revert"
-            style="@style/buttonPort"
-            android:drawableTop="@android:drawable/ic_menu_close_clear_cancel" />
-    </LinearLayout>
-  </RelativeLayout>
+  <include layout="@layout/one_buttonbar"/>
 </LinearLayout>

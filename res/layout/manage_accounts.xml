@@ -33,21 +33,5 @@
 	    	android:layout_height="wrap_content"
 	    	android:text="@string/no_accounts"/>
   </LinearLayout>
-  <RelativeLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    style="@android:style/ButtonBar">
-        <LinearLayout 
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal" 
-      android:layout_centerInParent="true">
-        <Button
-            android:text="New"
-            style="@style/buttonPort"
-            android:longClickable="true"
-            android:id="@+id/addOperation"
-            android:drawableTop="@android:drawable/ic_menu_add" />   
-        </LinearLayout>
-  </RelativeLayout>
+  <include layout="@layout/new_buttonbar"/>
   </LinearLayout>

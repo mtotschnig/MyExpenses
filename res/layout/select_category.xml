@@ -45,20 +45,5 @@
 			    android:drawableTop="@drawable/squiggle"
 			    android:text="@string/import_categories" />
 		</RelativeLayout>
-	  <RelativeLayout
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    style="@android:style/ButtonBar">
-      <RelativeLayout 
-		      android:layout_width="wrap_content"
-		      android:layout_height="wrap_content"
-		      android:layout_centerInParent="true">
-        <Button
-            android:text="@string/menu_new"
-            style="@style/buttonPort"
-            android:longClickable="true"
-            android:id="@+id/addOperation"
-            android:drawableTop="@android:drawable/ic_menu_add" />
-       </RelativeLayout>
-     </RelativeLayout>
+  <include layout="@layout/new_buttonbar"/>
 </LinearLayout>

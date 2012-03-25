@@ -39,13 +39,19 @@
     <item name="android:paddingTop">15dp</item>
     <item name="android:textSize">20sp</item>
   </style>
+  <!-- this is the generic button, we use when we have plenty of space -->
+  <style name="button">
+     <item name="android:layout_width">wrap_content</item>
+     <item name="android:layout_height">wrap_content</item>
+  </style>
+   <!-- buttonPort and buttonLand are use in the expenses list, where we need to pack more buttons -->
   <style name="buttonPort" parent="buttonLand">
     <item name="android:textSize">10dp</item>
     <item name="android:paddingBottom">5dp</item>
     <item name="android:paddingRight">4dp</item>
     <item name="android:paddingLeft">2dp</item>
   </style> 
-  <style name="buttonLand">
+  <style name="buttonLand" parent="button">
     <item name="android:paddingLeft">0dp</item>
     <item name="android:paddingRight">9dp</item>
     <item name="android:textSize">12dp</item>
@@ -53,7 +59,8 @@
     <item name="android:drawablePadding">-5dp</item>
     <item name="android:paddingTop">0dp</item>
     <item name="android:paddingBottom">2dp</item>
-    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_width">0dip</item>
+    <item name="android:layout_weight">1</item>
     <item name="android:layout_height">wrap_content</item>
   </style>
   <style name="popupMenu">

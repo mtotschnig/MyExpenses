@@ -18,89 +18,69 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-    <ScrollView 
+  <ScrollView 
+      android:layout_width="fill_parent"
+      android:layout_height="1px"
+      android:layout_weight="1"
+      android:fillViewport="true">
+    <TableLayout
+        android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:layout_weight="1"
-        android:fillViewport="true">
-			<TableLayout
-				android:layout_height="fill_parent"
-				android:layout_width="fill_parent"
-				android:id="@+id/Table"
-				android:stretchColumns="1" 
-				android:shrinkColumns="1" 
-				android:background="@drawable/border">
-				<TableRow>
-					<TextView
-					android:text="@string/date"/>
-					<Button android:id="@+id/Date" android:text="@string/select" />
-				</TableRow>
-				
-				<TableRow>
-					<TextView android:text="@string/time"/>
-					<Button android:id="@+id/Time" android:text="@string/select" />
-				</TableRow>
-				
-				<TableRow>
-					<TextView android:text="@string/amount"/>
-					<LinearLayout
-				    android:orientation="horizontal">
-						<Button 
-						    android:layout_width="wrap_content" 
-						    android:layout_height="fill_parent" 
-						    android:id="@+id/TaType" 
-						    android:text="-" />
-						<EditText 
-						    android:inputType="phone" 
-						    android:id="@+id/Amount" 
-						    android:layout_width="fill_parent" 
-						    android:layout_height="fill_parent" 
-						    android:numeric="decimal"></EditText>
-				</LinearLayout>
-				</TableRow>
-				
-				<TableRow>
-					<TextView android:text="@string/comment" />
-					<EditText 
-					    android:id="@+id/Comment" 
-					    android:layout_width="wrap_content" 
-					    android:layout_height="wrap_content" />
-				</TableRow>
-				
-				<TableRow>
-					<TextView android:id="@+id/CategoryLabel" android:text="@string/category" />
-					<Button android:id="@+id/Category" android:text="@string/select" />
-				</TableRow>
-				
-				<TableRow android:id="@+id/PayeeRow">
-					<TextView android:id="@+id/PayeeLabel" android:text="@string/payee" />
-					<AutoCompleteTextView 
-					    android:completionThreshold="1" 
-					    android:id="@+id/Payee" 
-					    android:layout_width="wrap_content" 
-					    android:layout_height="wrap_content" />
-				</TableRow>
-     </TableLayout>
-    </ScrollView>
-      <RelativeLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    style="@android:style/ButtonBar">
-        <LinearLayout 
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal" 
-      android:layout_centerInParent="true">
-        <Button
-            android:text="@string/done"
-            android:id="@+id/Confirm"
-            style="@style/buttonPort"
-            android:drawableTop="@drawable/ic_menu_mark" />
-  		  <Button 
-	          android:id="@+id/Revert" 
-	          android:text="@string/revert"
-            style="@style/buttonPort"
-            android:drawableTop="@android:drawable/ic_menu_close_clear_cancel" />
-    </LinearLayout>
-  </RelativeLayout>
+        android:id="@+id/Table"
+        android:stretchColumns="1" 
+        android:shrinkColumns="1" 
+        android:background="@drawable/border">
+      <TableRow>
+        <TextView
+            android:text="@string/date"/>
+        <Button android:id="@+id/Date" android:text="@string/select" />
+      </TableRow>
+        
+      <TableRow>
+        <TextView android:text="@string/time"/>
+        <Button android:id="@+id/Time" android:text="@string/select" />
+      </TableRow>
+        
+      <TableRow>
+        <TextView android:text="@string/amount"/>
+        <LinearLayout
+            android:orientation="horizontal">
+          <Button 
+              android:layout_width="60dp" 
+              android:layout_height="fill_parent" 
+              android:id="@+id/TaType" 
+              android:text="-" />
+          <EditText 
+              android:inputType="phone" 
+              android:id="@+id/Amount" 
+              android:layout_width="fill_parent" 
+              android:layout_height="fill_parent" 
+              android:numeric="decimal"></EditText>
+        </LinearLayout>
+      </TableRow>
+        
+      <TableRow>
+        <TextView android:text="@string/comment" />
+        <EditText 
+            android:id="@+id/Comment" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" />
+      </TableRow>
+        
+      <TableRow>
+        <TextView android:id="@+id/CategoryLabel" android:text="@string/category" />
+        <Button android:id="@+id/Category" android:text="@string/select" />
+      </TableRow>
+        
+      <TableRow android:id="@+id/PayeeRow">
+        <TextView android:id="@+id/PayeeLabel" android:text="@string/payee" />
+        <AutoCompleteTextView 
+            android:completionThreshold="1" 
+            android:id="@+id/Payee" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" />
+      </TableRow>
+    </TableLayout>
+  </ScrollView>
+  <include layout="@layout/one_buttonbar"/>
 </LinearLayout>
