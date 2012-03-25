@@ -96,7 +96,7 @@
     <string name="invalid_number_format">Format de nombre non reconnu. Utilisez %1$s</string>
     <string name="label">Intitulé</string>
     <string name="menu_accounts">Comptes</string>
-    <string name="menu_accounts_explain">Le bouton Comptes vous permet de changer de compte si vous en aviez défini plusieurs. Au départ, il n\'y en a qu\'un seul. Si vous désirez en ajouter d'autres, ouvrez le menu par un clic long sur le bouton Comptes, puis choisissez la commande Nouveau &#8230;. Cette fonction est aussi disponible dans la section Comptes de l\'écran des Paramètres.</string>
+    <string name="menu_accounts_explain">Le bouton Comptes vous permet de changer de compte si vous en aviez défini plusieurs. Au départ, il n\'y en a qu\'un seul. Si vous désirez en ajouter d\'autres, ouvrez le menu par un clic long sur le bouton Comptes, puis choisissez la commande Nouveau &#8230;. Cette fonction est aussi disponible dans la section Comptes de l\'écran des Paramètres.</string>
      <string name="menu_accounts_new">Nouveau &#8230;</string>
     <string name="menu_backup">Sauvegarde</string>
     <string name="menu_changes">Changements</string>
