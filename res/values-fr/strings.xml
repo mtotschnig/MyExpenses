@@ -159,6 +159,7 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="tutorial">Tutoriel</string>
     <string name="version_14_upgrade_info">À partir de la version 1.4.0, la devise est définie selon le code ISO 4217.
         Dans vos comptes vous utilisez les symboles suivants qui doivent être changés: %1$s </string>
+    <string name="version_26_upgrade_info"><i>&app_name;</i> dispose désormais d'une barre de boutons comme nouvelle interface de commande. Vous pouvez revenir à l'ancienne interface dans l'écran des paramètres.</string>    
     <string name="warning_backup">La base des données et les paramètres vont être sauvegardés sur la carte SD. Voulez-vous continuer?</string>
     <string name="warning_backup_exists">La base des données et les paramètres vont être sauvegardés sur la carte SD. La sauvegarde existante sera effacée. Voulez-vous continuer?</string>
     <string name="warning_delete_account">Ce compte sera effaçé ainsi que toutes ses transactions. Voulez-vous continuer?</string>

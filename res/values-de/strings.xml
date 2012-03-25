@@ -163,6 +163,8 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="tutorial">Anleitung</string>  
 	  <string name="version_14_upgrade_info">Seit Version 1.4.0, werden Währungen mit ihrem ISO 4217 Codes gespeichert.
 	    Folgende ungültige Symbole werden zur Zeit für Ihre Konten verwendet und müssen verändert werden: %1$s </string>
+ <string name="version_26_upgrade_info"><i>&app_name;</i> hat nun eine Button-Leiste als neue Kommando-Schnittstelle. Sie können zum alten Interface im Einstellungen Bildschirm zurückwechseln.
+</string>
     <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Möchten Sie fortfahren?</string>
     <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Das bestehende Backup wird gelöscht. Möchten Sie fortfahren?</string>
     <string name="warning_delete_account">Dieses Konto wird mit all seinen Buchungen gelöscht. Möchten Sie fortfahren?</string>
