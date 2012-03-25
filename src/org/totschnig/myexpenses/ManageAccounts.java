@@ -60,7 +60,7 @@ public class ManageAccounts extends ListActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.select_account);
+    setContentView(R.layout.manage_accounts);
     setTitle(R.string.pref_manage_accounts_title);
     // Set up our adapter
     mDbHelper = MyApplication.db();
