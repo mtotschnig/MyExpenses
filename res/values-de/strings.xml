@@ -76,9 +76,11 @@
     <string name="help_intro">Mit <i>&app_name;</i> können sie über Ihre Ausgaben und Einnahmen Buch 
         halten, und diese in ein Desktop-Finanzprogrammm (Grisbi oder Gnucash) exportieren.</string>
     <string name="help_leading"><u>Danke fürs Ausprobieren von <i>&app_name;</i> für Android.</u></string>
-    <string name="help_quick_guide"><i>&app_name;</i> kommt mit zwei Kommando-Schnittstellen: eine Symbolleiste und ein Menü. Sie können festlegen, welche man in den Einstellungen-Bildschirm verwenden.
+    <string name="help_quick_guide"><i>&app_name;</i> kommt mit zwei Schnittstellen für die Befehlsaufrufe: 
+        einer Symbolleiste und dem Android Standardmenü (physischer Menü-Knopf). Im Einstellungs-Bildschirm können Sie festlegen, 
+        welches Sie verwenden wollen.
         Die meisten Schaltknöpfe in der Symbolleiste reagieren sowohl auf 
-        kurze Klicks (Standardaktion) als auch auf lange Klicks (Öffnen eines Menüs).
+        kurze Klicks (Standardaktion) als auch auf lange Klicks (Öffnen eines Popup-Menüs).
         \n<u>Konten -> Neu &#8230;</u> : Ein neues Konto erstellen.
         \n<u>Konten</u> : Zu einem anderen Konto wechseln.
         \n<u>Neu</u> : Eine Buchung hinzufügen.
@@ -102,7 +104,7 @@
     <string name="menu_accounts_explain">Mit dem Schaltknopf Konten können Sie zwischen Konten 
         wechseln, sobald Sie mehrere Konten angelegt haben. Zur Zeit gibt es nur ein Konto. Sie können
         ein neues Konto hinzufügen, indem Sie lange auf den Konten Schaltknopf klicken und dann den 
-        Neu &#8230; Befehl auswählen, oder in dem Kontenabschnitt im Einstellungsbildschirm. </string>
+        Neu &#8230; Befehl auswählen, oder in dem Kontenabschnitt im Einstellungs-Bildschirm. </string>
     <string name="menu_accounts_new">Neu &#8230;</string>
     <string name="menu_backup">Backup</string>
 	  <string name="menu_changes">Änderungen</string>
@@ -164,7 +166,8 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="tutorial">Anleitung</string>  
 	  <string name="version_14_upgrade_info">Seit Version 1.4.0, werden Währungen mit ihrem ISO 4217 Codes gespeichert.
 	    Folgende ungültige Symbole werden zur Zeit für Ihre Konten verwendet und müssen verändert werden: %1$s </string>
- <string name="version_26_upgrade_info"><i>&app_name;</i> hat nun eine Button-Leiste als neue Kommando-Schnittstelle. Sie können zum alten Interface im Einstellungen Bildschirm zurückwechseln.
+ <string name="version_26_upgrade_info"><i>&app_name;</i> hat nun eine Symbolleiste als neue Schnittstelle für die Befehlsaufrufe. 
+     Sie können im Einstellungs-Bildschirm zum alten Interface zurückwechseln.
 </string>
     <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Möchten Sie fortfahren?</string>
     <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Das bestehende Backup wird gelöscht. Möchten Sie fortfahren?</string>

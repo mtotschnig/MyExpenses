@@ -75,7 +75,7 @@
       dépenses, et de les exporter vers un logiciel de finance, tel que Grisbi ou Gnucash.</string>
     <string name="help_leading"><u>Merci d\'essayer <i>&app_name;</i> pour Android.</u></string>
     <string name="help_quick_guide"><i>&app_name;</i> possède deux interfaces de commande: une barre de
-        boutons et un menu. Vous pouvez définir celle à utiliser dans l\'écran des paramètres.
+        boutons et le menu standard d'Android (bouton Menu hardware). Vous pouvez définir celle à utiliser dans l\'écran des paramètres.
 	      Dans la barre de boutons, chacun exécute une action par défaut par un 
         clic court. Beaucoup affichent un menu avec d\'autres actions sur un clic long.
         \n<u>Comptes -> Nouveau &#8230;</u> : Ajouter un compte.

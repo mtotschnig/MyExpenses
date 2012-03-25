@@ -83,7 +83,7 @@
          to export these expenses into a desktop finance tool, like Grisbi or Gnucash.</string>
     <string name="help_leading"><u>Thanks for installing <i>&app_name;</i> for Android.</u></string>
     <string name="help_quick_guide"><i>&app_name;</i> comes with two command interfaces: A button bar
-        and a menu. You can set which one to use in the settings screen.
+        and the Android standard menu (hardware Menu button). You can set which one to use in the settings screen.
         In the button bar, most buttons open menus upon long clicks and
         execute a default action on short clicks.
         \n<u>Accounts -> New &#8230;</u> : Create a new account.
