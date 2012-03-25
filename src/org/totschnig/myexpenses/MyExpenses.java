@@ -453,7 +453,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     }
     return super.onContextItemSelected(item);
   }
-  
+
   @Override
   protected Dialog onCreateDialog(int id) {
     LayoutInflater li;
@@ -587,7 +587,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .setTitle(R.string.dialog_title_select_account)
         .setSingleChoiceItems(accountLabels, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
-            dismissDialog(SELECT_ACCOUNT_DIALOG_ID);
+            //we remove the dialog since the items are different dependend on each invocation
+            removeDialog(SELECT_ACCOUNT_DIALOG_ID);
             switchAccount(accountIds[item]);
           }
         }).create();
@@ -824,6 +825,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         edit.remove("ftp_target");
         edit.commit();
       }
+      if (prev_version < 26) {
+        openVersionDialog(getString(R.string.version_26_upgrade_info));
+        return;
+      }
     }
     showDialog(HELP_DIALOG_ID);
     return;
@@ -933,12 +938,17 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case SWITCH_ACCOUNT_COMMAND_ID:
       int accountCount = mDbHelper.getAccountCount(null);
       if (accountCount > 1) {
-        //we are called from menu
         if (tag == null) {
-         if (accountCount == 1)
+         //we are called from menu
+         if (accountCount == 2) {
            switchAccount(0);
-         else
+         } else {
+           //TODO: when the dialog is dismissed with back button,
+           //the dialog is not removed, and can get out of sync if
+           //the user renames an account or deletes/adds
+           //probably need ondismisslistener to handle that case
            showDialog(SELECT_ACCOUNT_DIALOG_ID);
+         }
         } else {
           Long accountId = tag != null ? (Long) tag : 0;
           switchAccount(accountId);
