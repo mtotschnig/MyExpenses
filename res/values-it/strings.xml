@@ -74,7 +74,8 @@
     <string name="help_heading_version"><u>Versione</u></string>
     <string name="help_intro"><i>&app_name;</i> è stato progettato per tenere traccia delle spese nel corso di un breve periodo di tempo, e di esportare queste spese nel programma Grisbi.</string>
     <string name="help_leading"><u>Grazie di probare <i>&app_name;</i> por Android.</u></string>
-    <string name="help_quick_guide">Ogni pulsante esegue un azione predefinita con un clico breve.
+    <string name="help_quick_guide"><i>&app_name;</i> è dotato di due interfacce di comando: una barra dei 	pulsanti e un menu. È possibile impostare quale usare nella schermata di parametri.
+	Nella barra dei pulsanti, ogni esegue un azione predefinita con un clico breve.
       Molti visualizzare un menu con altre azioni in un clico lungo.
       \n<u>Conti -> Nuovo &#8230;</u> : aggiungere un conto.
       \n<u>Conti</u> : cambiare conto.
