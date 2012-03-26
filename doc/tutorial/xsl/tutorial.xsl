@@ -53,6 +53,7 @@
     <xsl:with-param name="toc.title.p" select="false()"/>
     <xsl:with-param name="nodes" select="../sect1"/>
   </xsl:call-template>
+  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="/article/articleinfo/releaseinfo"/>
 </xsl:template>
 
 <!-- add separator between entries in toc and do not create link for current section-->

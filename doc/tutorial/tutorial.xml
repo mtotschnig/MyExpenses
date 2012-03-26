@@ -20,6 +20,22 @@
     <surname>Collombet</surname>
     <contrib>French translation</contrib>
   </othercredit>
+  <releaseinfo lang="en">This release (1) of the tutorial describes versions of
+    <application role="app_name"/> below 1.4.8. Please consider <ulink url="market://details?id=org.totschnig.myexpenses">upgrading</ulink> and
+    consult the <ulink url="../../tutorial_r2/en/introduction.html">current
+    release</ulink> (2) of this document.
+  </releaseinfo>
+  <releaseinfo lang="fr">Cette édition (1) du tutoriel décrit les version de
+    <application role="app_name"/> antérieur à 1.4.8. Pensez à la  <ulink url="market://details?id=org.totschnig.myexpenses">mettre à jour</ulink> et
+    consultez <ulink url="../../tutorial_r2/fr/introduction.html">l'édition
+    actuelle</ulink> (2) de ce document.
+  </releaseinfo>
+  <releaseinfo lang="de">Diese Ausgabe (1) der Anleitung beschreibt Versionen
+  von <application role="app_name"/> vor 1.4.8. Vergessen Sie nicht, die App
+   <ulink url="market://details?id=org.totschnig.myexpenses">upzudaten</ulink> und sehen Sie sich die <ulink
+  url="../../tutorial_r2/de/introduction.html">aktuelle Ausgabe</ulink> (2)
+  dieses Dokumentes an.
+  </releaseinfo>
   </articleinfo>
     
     <!-- Tutorial1 -->
