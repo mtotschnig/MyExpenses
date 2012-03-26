@@ -144,7 +144,7 @@
 ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
 mailto (\"mailto:john@my.example.com\").</string>
     <string name="pref_use_standard_menu_title">Utiliser le menu standard d\'Android</string>
-    <string name="pref_use_standard_menu_summary">Au lieu d\'afficher une barre de boutons, utiliser le menu standard d\'Android pour accéder aux commandes.</string>   
+    <string name="pref_use_standard_menu_summary">Au lieu d\'afficher une barre de boutons, utilisez le menu standard d\'Android pour accéder aux commandes.</string>   
     <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.</string>
     <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
     <string name="revert">Annuler</string>
