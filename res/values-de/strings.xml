@@ -164,7 +164,9 @@ mailto (\"mailto:john@my.example.com\").</string>
 	  <string name="select_account">Konto auswählen</string>
 	  <string name="select_category">Kategorie auswählen</string>
 	  <string name="select_parent_category">Wähle diese Kategorie</string>
-	  <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>      
+	  <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>
+	  <string name="suggest_use_standard_menu">Möchten Sie das Android Standardmenü anstatt der Symbolleiste
+	      verwenden, um Befehle aufzurufen</string>
 	  <string name="time">Zeit</string>
 	  <string name="title">Titel</string>
 	  <string name="transaction">Buchung</string>
