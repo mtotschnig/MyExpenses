@@ -107,6 +107,7 @@
         Neu &#8230; Befehl auswählen, oder in dem Kontenabschnitt im Einstellungs-Bildschirm. </string>
     <string name="menu_accounts_new">Neu &#8230;</string>
     <string name="menu_backup">Backup</string>
+    <string name="menu_change_account">Konto wechseln</string>
 	  <string name="menu_changes">Änderungen</string>
 	  <string name="menu_create_main_cat">Neue Hauptkategorie</string>
 	  <string name="menu_create_sub_cat">Neue Unterkategorie</string>
@@ -159,7 +160,6 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
     <string name="revert">Rückgängig</string>
 	  <string name="select">Auswählen</string>
-	  <string name="select_account">Konto auswählen</string>
 	  <string name="select_category">Kategorie auswählen</string>
 	  <string name="select_parent_category">Wähle diese Kategorie</string>
 	  <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>      

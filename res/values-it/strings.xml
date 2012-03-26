@@ -94,6 +94,7 @@
     <string name="menu_accounts_new">Nuovo &#8230;</string>
     <string name="menu_backup">Backup</string>
     <string name="menu_changes">Modifiche</string>
+    <string name="menu_change_account">Cambiare conto</string>
     <string name="menu_create_main_cat">Nuova categoria principale</string>
     <string name="menu_create_sub_cat">Nuova sottocategoria</string>
     <string name="menu_delete">Cancellare</string>
@@ -141,7 +142,6 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="restore_preferences_success">I parametri sono stati ripristinati dal backup.</string>
     <string name="revert">Annullare</string>
     <string name="select">Selezionare</string>
-    <string name="select_account">Selezionare un conto</string>
     <string name="select_category">Selezionare una categoria</string>
     <string name="select_parent_category">Selezionare questa categoria</string>
     <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>

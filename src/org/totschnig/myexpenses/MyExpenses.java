@@ -367,7 +367,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     menu.add(0, HELP_COMMAND_ID,1,R.string.menu_help)
         .setIcon(android.R.drawable.ic_menu_help)
         .setAlphabeticShortcut('d');
-    menu.add(0, SWITCH_ACCOUNT_COMMAND_ID,1,R.string.select_account)
+    menu.add(0, SWITCH_ACCOUNT_COMMAND_ID,1,R.string.menu_change_account)
         .setIcon(android.R.drawable.ic_menu_manage)
         .setAlphabeticShortcut('e');
     menu.add(0,SETTINGS_COMMAND_ID,1,R.string.menu_settings)

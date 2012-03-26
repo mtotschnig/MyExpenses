@@ -101,6 +101,7 @@
     <string name="menu_accounts_explain">Le bouton Comptes vous permet de changer de compte si vous en aviez défini plusieurs. Au départ, il n\'y en a qu\'un seul. Si vous désirez en ajouter d\'autres, ouvrez le menu par un clic long sur le bouton Comptes, puis choisissez la commande Nouveau &#8230;. Cette fonction est aussi disponible dans la section Comptes de l\'écran des Paramètres.</string>
      <string name="menu_accounts_new">Nouveau &#8230;</string>
     <string name="menu_backup">Sauvegarde</string>
+    <string name="menu_change_account">Changer de compte</string>
     <string name="menu_changes">Changements</string>
     <string name="menu_create_main_cat">Nouvelle catégorie principale</string>
     <string name="menu_create_sub_cat">Nouvelle sous-catégorie</string>
@@ -149,7 +150,6 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
     <string name="revert">Annuler</string>
     <string name="select">Sélectionner</string>
-    <string name="select_account">Sélectionner un compte</string>
     <string name="select_category">Sélectionner une catégorie</string>
     <string name="select_parent_category">Choisir cette catégorie</string>
     <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string> 

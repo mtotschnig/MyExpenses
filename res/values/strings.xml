@@ -110,6 +110,7 @@
         command from the menu, or from the Accounts section in the settings screen.</string>
     <string name="menu_accounts_new">New &#8230;</string>
 		<string name="menu_backup">Backup</string>
+    <string name="menu_change_account">Change account</string>
 		<string name="menu_changes">Changes</string>
 		<string name="menu_create_main_cat">Create new main category</string>
 		<string name="menu_create_sub_cat">Create new sub category</string>
@@ -159,7 +160,6 @@
 		<string name="restore_db_success">Database has been restored from backup.</string>
 		<string name="restore_preferences_success">Preferences have been restored from backup.</string>
     <string name="revert">Revert</string>
-		<string name="select_account">Select account</string>
 		<string name="select_category">Select category</string>
 		<string name="select_parent_category">Select this category</string>
 		<string name="select">Select</string>
