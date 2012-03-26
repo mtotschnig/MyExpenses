@@ -52,8 +52,6 @@
     <item name="android:paddingLeft">2dp</item>
   </style> 
   <style name="buttonLand" parent="button">
-    <item name="android:paddingLeft">0dp</item>
-    <item name="android:paddingRight">9dp</item>
     <item name="android:textSize">12dp</item>
     <item name="android:textStyle">normal</item>
     <item name="android:drawablePadding">-5dp</item>
