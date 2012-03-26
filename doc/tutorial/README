@@ -24,7 +24,7 @@ MyExpenses.pages/tutorial/{lang}/large. Before each run, the interface language
 should be set to the language given as parameter for the run and THEN a fresh install
 should be done.
 The script makes use of a helping trick that must first be commented out in the following 
-JAVA files ExpenseEdit, AccountEdit, SelectAccount and SelectCategory.
+JAVA files ExpenseEdit, AccountEdit, MyExpenses and SelectCategory.
 It sends a special KEYCODE that fills out the form with testing
 data, or sets the focus. Doing both with Monkeyrunners functions prooved to be unreliable. 
  

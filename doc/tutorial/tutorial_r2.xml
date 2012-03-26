@@ -56,20 +56,28 @@
       Its main screen displays the list of transactions for the current account. The
       button bar displayed at the bottom of the screen gives easy access to all
       functionalities. Each button executes a default action on short clicks and most open
-      up a menu with further actions on long clicks.
+      up a menu with further actions on long clicks. Alternatively, you can configure
+      <application role="app_name"/> in <link linkend='tutorial5_6'>
+      <guilabel role="pref_use_standard_menu_title"/></link> to use a command interface based on the Android
+      standard menu.
     </para>
     <para lang="fr">
       Sur l'écran principal s'affiche la liste des transactions du compte en cours. La
       barre de boutons en bas de l'écran donne accès à toutes les fonctionnalités. Chaque
       bouton execute une action par défault en réaction à un clique court. La plupart
-      affiche une ménu avec d'autres actions sur un clique long.
+      affiche une ménu avec d'autres actions sur un clique long. Alternativement, vous 
+      pouvez configurer <application role="app_name"/> de sorte qu'il utilise le menu
+      standard d'Android en tant qu'interface de commande (<link linkend='tutorial5_6'>
+      <guilabel role="pref_use_standard_menu_title"/></link>).
     </para>
     <para lang="de">
       In der Hauptansicht werden alle Buchungen des aktiven Kontos angezeigt. Am unteren
       Rand des Bildschirms befinded sich eine Symbolleiste, die Zugriff auf
       alle Funktionalitäten gewähren. Jeder Schaltknopf ruft mittels eines kurzen Klicks
       eine Aktion auf, die meisten reagieren zusätzlich auf einen langen Klick, und öffnen
-      ein Menü mit weiteren Aktionen.
+      ein Menü mit weiteren Aktionen. Anstatt der Menüleiste kann <application role="app_name"/> auch
+      das Android Standardmenü verwenden, wenn sie <link linkend='tutorial5_6'>
+      <guilabel role="pref_use_standard_menu_title"/></link> konfigurieren.
     </para>
     <para lang="it">
     
@@ -881,6 +889,30 @@
       </footnote>Conservare questo file come <filename>categories.xml</filename> in un 
       <filename>myexpenses</filename> cartella nella directory principale della vostra scheda SD.
     </para>
+    </sect2>
+        
+    <sect2 id="tutorial5_6">
+      <title>
+        <guilabel role="pref_use_standard_menu_title"/>
+      </title>
+    <para lang="en">
+      If this option is checked, Android's standard menu will be used in the
+      transaction list for accessing commands instead of displaying a button
+      bar. You will be offered to activate the menu based interface when
+      clicking on the hardware menu button.
+    </para>
+    <para lang="fr">
+      Si vous cochez cette option, au lieu d'afficher une barre de boutons,
+      vous pourrez utiliser le menu standard d\Android pour accéder aux
+      commandes. Vous pouvez aussi accèder à changement de configuration
+      simplement en acitvant le bouton Menu hardware.
+    </para>
+    <para lang="de">
+      Indem Sie diese Option anklicken, können Sie anstatt der Symbolleiste
+      Androids Standardmenü verwenden, um Befehle auszuführen. Sie können diesen
+      Parameter auch durch Drücken des Hardware Menüknopfes verändern.
+    </para>
+    <para lang="it"></para>
     </sect2>
   </sect1>
   <!--
