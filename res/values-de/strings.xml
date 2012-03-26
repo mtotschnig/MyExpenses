@@ -151,6 +151,10 @@
     <string name="pref_share_target_summary">Unterstützte Schemen: 
 ftp (\"ftp://login:password@my.example.org:port/my/directory/\");
 mailto (\"mailto:john@my.example.com\").</string>
+    <string name="pref_use_standard_menu_title">Androids Standardmenü verwenden</string>
+    <string name="pref_use_standard_menu_summary">Anstatt der Symbolleiste, verwenden Sie Androids
+        Standardmenü, um Befehle aufzurufen.</string>
+
 	  <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
     <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
     <string name="revert">Rückgängig</string>
