@@ -117,7 +117,8 @@
     <string name="menu_insert_ta">Ajouter une opération</string>
     <string name="menu_insert_transfer">Ajouter un virement</string>
     <string name="menu_new">Nouveau</string>
-    <string name="menu_reset">Réinit.</string>
+    <string name="menu_reset">Réinitialiser</string>
+    <string name="menu_reset_abrev">Réinit.</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_settings_abrev">Param.</string>
     <string name="menu_settings_account">Compte en cours</string>

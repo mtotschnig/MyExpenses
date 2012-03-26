@@ -110,6 +110,7 @@
     <string name="menu_insert_transfer">Aggiungere un trasferimento</string>
     <string name="menu_new">Nuovo</string>
     <string name="menu_reset">Reinitializare</string>
+    <string name="menu_reset_abrev">Reinit.</string>
     <string name="menu_settings">Parametri</string>
     <string name="menu_settings_abrev">Param.</string>
     <string name="menu_settings_account">Conto</string>
