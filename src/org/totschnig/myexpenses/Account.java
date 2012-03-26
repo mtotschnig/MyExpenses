@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses;
 
 import java.util.Currency;
+import java.util.HashMap;
 import java.util.Locale;
 
 import android.database.Cursor;
@@ -232,6 +233,17 @@ public class Account {
       descs[i] = CURRENCY_TABLE[i][0];
     return descs;
   }
+  static HashMap<Long,Account> accounts = new HashMap<Long,Account>();
+  
+  public static Account getInstanceFromDb(ExpensesDbAdapter mDbHelper, long id) throws AccountNotFoundException {
+    Account account;
+    account = accounts.get(id);
+    if (account != null)
+      return account;
+    account = new Account(mDbHelper,id);
+    accounts.put(id, account);
+    return account;
+  }
 
   /**
    * returns an empty Account instance
@@ -255,7 +267,7 @@ public class Account {
    * @param id
    * @throws AccountNotFoundException 
    */
-  public Account(ExpensesDbAdapter mDbHelper, long id) throws AccountNotFoundException {
+  private Account(ExpensesDbAdapter mDbHelper, long id) throws AccountNotFoundException {
     this.mDbHelper = mDbHelper;
     this.id = id;
     Cursor c = mDbHelper.fetchAccount(id);
@@ -307,6 +319,8 @@ public class Account {
     } else {
       mDbHelper.updateAccount(id, label,openingBalance,description,currency.getCurrencyCode());
     }
+    if (!accounts.containsKey(id))
+      accounts.put(id, this);
     return id;
   }
 }

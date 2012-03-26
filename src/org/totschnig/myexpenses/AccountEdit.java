@@ -175,7 +175,7 @@ public class AccountEdit extends Activity {
           : 0;
     if (rowId != 0) {
       try {
-        mAccount = new Account(mDbHelper,rowId);
+        mAccount = Account.getInstanceFromDb(mDbHelper,rowId);
       } catch (AccountNotFoundException e) {
         e.printStackTrace();
         setResult(RESULT_CANCELED);

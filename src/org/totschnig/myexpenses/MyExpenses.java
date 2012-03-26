@@ -174,7 +174,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     if (mCurrentAccount == null) {
       long account_id = mSettings.getLong("current_account", 0);
       try {
-        mCurrentAccount = new Account(mDbHelper,account_id);
+        mCurrentAccount = Account.getInstanceFromDb(mDbHelper,account_id);
       } catch (AccountNotFoundException e) {
         //for any reason the account stored in pref no longer exists
         mCurrentAccount = requireAccount();
@@ -395,26 +395,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
          switchAccount(intent.getLongExtra("account_id",0));
          return;
     }
-    if (requestCode == ACTIVITY_EDIT_ACCOUNT && resultCode == RESULT_OK) {
-      //TODO: maybe store currentaccount in application class,
-      //thus we would not need to refetch it here
-      try {
-        mCurrentAccount = new Account(mDbHelper,mCurrentAccount.id);
-      } catch (AccountNotFoundException e) {
-        //should not happen
-        Log.w("MyExpenses","unable to refetch current account " + mCurrentAccount.id);
-      }
+    //we call fillData when returning from ACTIVITY_PREF with RESULT_CANCEL,
+    //since we might have edited accounts from there
+    if (resultCode == RESULT_OK || requestCode == ACTIVITY_PREF)
       fillData();
-    }
-    //we call configButtons even with RESULT_CANCEL, since we
-    //might return from preferences on RESULT_CANCEL, but user has been
-    //changing accounts before
-    if (requestCode == ACTIVITY_EDIT && resultCode == RESULT_OK) {
-      fillData();
-    } else {
-      configButtons();
-    }
   }
+  
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
       ContextMenuInfo menuInfo) {
@@ -626,7 +612,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         accountId = 0;
       if (accountId != 0) {
         try {
-          mCurrentAccount = new Account(mDbHelper, accountId);
+          mCurrentAccount = Account.getInstanceFromDb(mDbHelper, accountId);
         } catch (AccountNotFoundException e) {
          //the account stored in last_account has been deleted 
          accountId = 0; 
@@ -643,7 +629,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     }
     if (accountId != 0) {
       try {
-        mCurrentAccount = new Account(mDbHelper, accountId);
+        mCurrentAccount = Account.getInstanceFromDb(mDbHelper, accountId);
         mSettings.edit().putLong("current_account", accountId)
           .putLong("last_account", current_account_id)
           .commit();
@@ -765,8 +751,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    */
   private Account requireAccount() {
     Account account;
-    Long account_id = mDbHelper.getFirstAccountId();
-    if (account_id == null) {
+    Long accountId = mDbHelper.getFirstAccountId();
+    if (accountId == null) {
       account = new Account(
           mDbHelper,
           getString(R.string.app_name),
@@ -777,7 +763,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       account.save();
     } else {
       try {
-        account =new Account(mDbHelper,account_id);
+        account =Account.getInstanceFromDb(mDbHelper, accountId);
       } catch (AccountNotFoundException e) {
         // this should not happen, since we got the account_id from db
         e.printStackTrace();
