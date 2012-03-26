@@ -50,14 +50,19 @@
     
       <h2>Summary</h2>
       <p>
-        <span class="application">My Expenses</span> is an Android application that lets you manage a list of transactions for a simple budget.<br />
-        It is designed to keep track of expenses during a short period of time, and to export these expenses into&nbsp; your favorite finance application, e.g. <a href="http://www.grisbi.org">Grisbi</a> .<br />
-        <span class="application">My Expenses</span> calculates the sum of expenses and incomes, and the current balance.<br />
-        The "Reset" menu entry exports expenses onto SD-Card in the QIF format, deletes the expenses and updates the opening balance.<br />
-        On the screen for selecting a category, new categories can be added, but also imported, either from the included default files from the Grisbi distribution, or from a custom XML file, expected at "/sdcard/myexpenses/categories.xml".<br />
-        <span class="application">My Expenses</span> supports multiple accounts, and also handles transfers between accounts.<br />
-        Requires Android 2.0 and up, tested with Google Nexus S.
+        <span class="application">My Expenses</span> is an Android application 
+        designed to keep track of your expenses and incomes, and
+         to export them as QIF files into a desktop finance tool, like 
+         <a href="http://www.grisbi.org">Grisbi</a> or <a href="http://www.gnucash.org">Gnucash</a>.<br />
+         Requires Android 2.0.
       </p>
+      <p>
+      Features:
+</p>
+<ul><li>multiple accounts with transfers.</li>
+<li>two levels of categories (import from Grisbi XML)</li>
+<li>upload QIF file via FTP or email</li>
+<li>data backup and restore</li></ul>
       <h2>Install</h2>
       <p>
         <a href="https://market.android.com/details?id=org.totschnig.myexpenses">https://market.android.com/details?id=org.totschnig.myexpenses</a>
@@ -66,27 +71,31 @@
         If you are adventurous, you can try an alpha release of a new versions in the <a href="https://github.com/mtotschnig/MyExpenses/downloads">Downloads</a> section.
       </p>
       <h2>Screenshots</h2>
-      <div style="display:block;text-align:center"><img alt="Screenshot 1" src="expense-list.png" height="240" width="400" /></div>
+      <div style="display:block;text-align:center"><img alt="Screenshot 1" src="expense-list.png" height="420" width="280" /></div>
       <div style="text-align:center">List of expenses
       </div>
-      <div style="display:block;text-align:center"><img alt="Screenshot 2" src="edit-expense.png" height="240" width="400" /></div>
+      <div style="display:block;text-align:center"><img alt="Screenshot 2" src="edit-expense.png" height="420" width="280" /></div>
       <div style="text-align:center">Edit expense
       </div>
-      <div style="display:block;text-align:center"><img alt="Screenshot 3" src="category_select.png" height="240" width="400" /></div>
+      <div style="display:block;text-align:center"><img alt="Screenshot 3" src="category_select.png" height="420" width="280" /></div>
       <div style="text-align:center">Select category
       </div>
-      <div style="display:block;text-align:center"><img alt="Screenshot 4" src="accounts.png" height="240" width="400" /></div>
+      <div style="display:block;text-align:center"><img alt="Screenshot 4" src="accounts.png" height="420" width="280" /></div>
       <div style="text-align:center">Manage accounts
+      </div>
+      <div style="display:block;text-align:center"><img alt="Screenshot 4" src="edit-account.png" height="420" width="280" /></div>
+      <div style="text-align:center">Edit account
       </div>
       <h2>Tutorial</h2>
       <p>
-        <a href="tutorial/en/tutorial1.html">English</a> / 
-        <a href="tutorial/de/tutorial1.html">Deutsch</a> / 
-        <a href="tutorial/fr/tutorial1.html">Français</a> /
-        <a href="tutorial/it/tutorial1.html">Italiano</a> 
+        <a href="tutorial_r2/en/introduction.html">English</a> / 
+        <a href="tutorial_r2/de/introduction.html">Deutsch</a> / 
+        <a href="tutorial_r2/fr/introduction.html">Français</a> /
+        Italiano (available soon) 
       </p>
       <h2>Changelog</h2>
       <p>
+        <b>1.4.8 (March 26 1012)</b>: Revamped user interface. Some bug-fixes.<br />
         <b>1.4.7.2 (March 13 1012)</b>: Italian categories and tutorial. Added menu icons.<br />
         <b>1.4.7.1 (March 10 1012)</b>: Fixed layout of expense list in landscape mode. Bug fix for backup.<br />
         <b>1.4.7 (March 9 1012)</b>: Improved usability of currency input. Reduced apk size, since tutorial is no longer included, but hosted on Github.<br />
