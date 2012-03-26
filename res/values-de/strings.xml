@@ -160,6 +160,7 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
     <string name="revert">Rückgängig</string>
 	  <string name="select">Auswählen</string>
+	  <string name="select_account">Konto auswählen</string>
 	  <string name="select_category">Kategorie auswählen</string>
 	  <string name="select_parent_category">Wähle diese Kategorie</string>
 	  <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>      
