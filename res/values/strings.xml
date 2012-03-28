@@ -25,7 +25,6 @@
 		<string name="backup_success">Database and preferences successfully written to sdcard.</string>
 		<string name="button_continue">Continue</string>
     <string name="button_cancel">Cancel</string>
-		<string name="categories_loading">Loading categories from %1$s</string>
 		<string name="category_already_defined">Category %1$s already defined</string>
 		<string name="category">Category</string>
 		<string name="close">Close</string>
@@ -62,6 +61,11 @@
     <string name="ftp_login_failure">Login failure while trying to upload to %1$s</string>
     <string name="ftp_setFileType_failure">Could not set file type to ASCII while trying to upload to %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Could not change working directory while trying to upload to %1$s</string>
+    <string name="grisbi_import_parsing">Parsing %1$s</string>
+    <string name="grisbi_import_categories_loading">Loading categories from %1$s</string>
+    <string name="grisbi_import_categories_success">%1$d categories imported successfully</string>
+    <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
+    <string name="grisbi_import_parties_success">%1$d parties imported successfully</string>
     <string name="help_feedback">If you find <i>&app_name;</i> useful, 
         please leave a comment in the <a href="market://details?id=org.totschnig.myexpenses">Market</a>. 
         If you find a problem, have a suggestion for an improvement, 
@@ -98,9 +102,7 @@
         use your Grisbi XML file as is, or remove anything but the category definitions from it.
      </string>
 		<string name="important_version_information">New version: Important information</string>
-		<string name="import_categories_failure">Categories import failed</string>
 		<string name="import_categories">Import categories</string>
-		<string name="import_categories_success">%1$d categories imported successfully</string>
 		<string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>
 		<string name="label">Label</string>
     <string name="menu_accounts">Accounts</string>

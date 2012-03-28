@@ -25,7 +25,6 @@
     <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der SD-Karte gesichert.</string>
 	  <string name="button_continue">Fortsetzen</string>
 	  <string name="button_cancel">Abbrechen</string>
-	  <string name="categories_loading">Kategorien werden von %1$s geladen</string>
 	  <string name="category">Kategorie</string>
 	  <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
 	  <string name="close">Schließen</string>
@@ -62,6 +61,11 @@
     <string name="ftp_login_failure">Login Fehler während des Uploads nach %1$s</string>
     <string name="ftp_setFileType_failure">Fehler bei der Konfiguration des Dateityps ASCII während des Uploads nach %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Fehler beim Wechseln des Verzeichnisses während des Uploads nach %1$s</string>
+    <string name="grisbi_import_parsing">Analyse von %1$s</string>
+    <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
+    <string name="grisbi_import_categories_success">%1$d Kategorien erfolgreich importiert</string>
+    <string name="grisbi_import_parties_loading">Partner werden von %1$s geladen</string>
+    <string name="grisbi_import_parties_success">%1$d Partner erfolgreich importiert</string>
     <string name="help_feedback">Wenn Ihnen <i>&app_name;</i> nützlich ist, 
         geben Sie doch im <a href="market://details?id=org.totschnig.myexpenses">Market</a> dazu einen Kommentar ab.
         Wenn Sie auf ein Problem stoßen, einen Verbesserungsvorschlag haben
@@ -95,8 +99,6 @@
           MyExpenses erwartet die Datei unter \"/sdcard/myexpenses/categories.xml\".
     </string>
     <string name="import_categories">Kategorien importieren</string>
-	  <string name="import_categories_failure">Fehler beim Kategorien-Import</string>
-	  <string name="import_categories_success">%1$d Kategorien erfolgreich importiert</string>
 	  <string name="important_version_information">Neue Version: Wichtige Information</string>
 	  <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt. Bitte verwenden Sie %1$s</string>
 	  <string name="label">Bezeichnung</string>

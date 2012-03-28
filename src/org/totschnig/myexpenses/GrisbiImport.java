@@ -93,7 +93,7 @@ public class GrisbiImport extends Activity {
         .setSingleChoiceItems(IMPORT_SOURCES, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
             sourceStr = IMPORT_SOURCES[item];
-            String title = "now parsing";
+            String title = getString(R.string.grisbi_import_parsing,sourceStr);
             mProgressDialog.setTitle(title);
             mProgressDialog.show();
             task = new MyAsyncTask(GrisbiImport.this,item);
@@ -125,11 +125,11 @@ public class GrisbiImport extends Activity {
     String msg;
     int result = task.getTotalImportedCat();
     if (result != -1) {
-      msg = getString(R.string.import_categories_success,result);
+      msg = getString(R.string.grisbi_import_categories_success,result);
       Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
     if (task.partiesAreToBeHandledP) {
-      msg = "handled parties:" + task.getTotalImportedParty();
+      msg = getString(R.string.grisbi_import_parties_success,task.getTotalImportedParty());
       Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
     task = null;
@@ -354,7 +354,7 @@ public class GrisbiImport extends Activity {
       parseXML();
       if (isCancelled())
         return(null);
-      setTitle("now importing");
+      setTitle(activity.getString(R.string.grisbi_import_categories_loading,activity.sourceStr));
       phaseChangedP = true;
       publishProgress(0);
       totalImportedCat = 0;
@@ -371,12 +371,12 @@ public class GrisbiImport extends Activity {
         importCats050();
       }
       if (partiesAreToBeHandledP)
+        setTitle(activity.getString(R.string.grisbi_import_parties_loading,activity.sourceStr));
         importParties();
       return(null);
     }
     private void importParties() {
       phaseChangedP = true;
-      setTitle("Now handling parties");
       setMax(parties.getLength());
       publishProgress(0);
       int count = 0;

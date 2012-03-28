@@ -25,7 +25,6 @@
     <string name="backup_success">La base de données et les paramètres ont été sauvegardé sur la carte SD.</string>
     <string name="button_cancel">Annuler</string>
     <string name="button_continue">Continuer</string>
-    <string name="categories_loading">Import des catégories à partir de %1$s</string>
     <string name="category">Catégorie</string>
     <string name="category_already_defined">La catégorie %1$s existe</string>
     <string name="close">Fermer</string>
@@ -61,6 +60,11 @@
     <string name="ftp_login_failure">Erreur de login lors du téléchargement vers %1$s</string>
     <string name="ftp_setFileType_failure">Erreur de configuration en type de fichier ASCII lors du téléchargement vers %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Erreur de changement de répertoire lors du téléchargement vers %1$s</string>
+    <string name="grisbi_import_parsing">Analyse de %1$s</string>
+    <string name="grisbi_import_categories_loading">Import des catégories à partir de %1$s</string>
+    <string name="grisbi_import_categories_success">%1$d catégories ont été importées</string>
+    <string name="grisbi_import_parties_loading">Import des tiers à partir de %1$s</string>
+    <string name="grisbi_import_parties_success">%1$d tiers ont été importées</string>
     <string name="help_feedback">Si <i>&app_name;</i> vous est utile, 
         laissez un commentaire dans le <a href="market://details?id=org.totschnig.myexpenses">Market</a>. 
         Si vous rencontrez un problème, si vous avez une suggestion pour une amélioration,
@@ -92,8 +96,6 @@
           tel quel, ou supprimer dans celui-ci tout sauf les définitions de catégories.
      </string>    
     <string name="import_categories">Importer les catégories</string>
-    <string name="import_categories_failure">Erreur lors de l\'import des catégories</string>
-    <string name="import_categories_success">%1$d catégories ont été importées</string>
     <string name="important_version_information">Nouvelle version: Information importante</string>
     <string name="invalid_number_format">Format de nombre non reconnu. Utilisez %1$s</string>
     <string name="label">Intitulé</string>

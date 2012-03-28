@@ -25,7 +25,6 @@
     <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.</string>
     <string name="button_cancel">Annullare</string>
     <string name="button_continue">Continuare</string>
-    <string name="categories_loading">Importazione delle categorie dalla %1$s</string>
     <string name="category">Categoria</string>
     <string name="category_already_defined">La categoria %1$s è già definita</string>
     <string name="close">Chiudere</string>
@@ -62,6 +61,8 @@
     <string name="ftp_login_failure">Errore di login durante il caricamento di %1$s</string>
     <string name="ftp_setFileType_failure">Impossibile impostare il tipo di file ASCII durante il caricamento di %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Impossibile cambiare la cartella di lavoro durante il caricamento di %1$s</string>
+    <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
+    <string name="grisbi_import_categories_success">%1$d catégories ont été importées</string>
     <string name="help_feedback">Se si trova <i>&app_name;</i> utile,si prega di lasciare un commento 
 	nel <a href="market://details?id=org.totschnig.myexpenses">Mercato</a>.
          Se si trova un problema, un suggerimento per un miglioramento,
