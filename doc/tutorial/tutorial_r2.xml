@@ -27,7 +27,7 @@
       <phrase lang="en">Introduction</phrase>
       <phrase lang="fr">Introduction</phrase>
       <phrase lang="de">Einleitung</phrase>
-      <phrase lang="it">???</phrase>
+      <phrase lang="it">Introduzione</phrase>
     </title>
 
     <!-- BEGIN introduction para 1 -->    
@@ -37,7 +37,7 @@
       or Gnucash. It supports multiple accounts and a two-level hierarchy of categories.
     </para>
     <para lang="fr">
-      <application role="app_name"/>  permet de gérer les entrées d\'argent et les
+      <application role="app_name"/>  permet de gérer les entrées d'argent et les
       dépenses, et de les exporter vers un logiciel de finance, tel que Grisbi ou Gnucash.
       Il supporte des comptes multiples et deux niveaux de catégories.
     </para>
@@ -47,7 +47,9 @@
       unterstützt mehrere Konten und zwei Ebenen von Kategorien.
     </para>
     <para lang="it">
-    
+      <application role="app_name"/> può gestire l'offerta di moneta e
+       le spese, ed esportarle in un software di finanza, come Grisbi o GnuCash.
+       Esso supporta più account e due livelli di categorie.
     </para>
     <!-- END introduction para 1 -->  
 
@@ -63,9 +65,9 @@
     </para>
     <para lang="fr">
       Sur l'écran principal s'affiche la liste des transactions du compte en cours. La
-      barre de boutons en bas de l'écran donne accès à toutes les fonctionnalités. Chaque
-      bouton execute une action par défault en réaction à un clique court. La plupart
-      affiche une ménu avec d'autres actions sur un clique long. Alternativement, vous 
+      barre de boutons en bas de l'écran donne accès à toutes les fonctions. Chaque
+      bouton execute une action par défault en réaction à un clic court. La plupart
+      affiche une menu avec d'autres actions sur un clic long. Alternativement, vous 
       pouvez configurer <application role="app_name"/> de sorte qu'il utilise le menu
       standard d'Android en tant qu'interface de commande (<link linkend='tutorial5_6'>
       <guilabel role="pref_use_standard_menu_title"/></link>).
@@ -80,7 +82,8 @@
       <guilabel role="pref_use_standard_menu_title"/></link> konfigurieren.
     </para>
     <para lang="it">
-    
+      Nella schermata principale mostra un elenco di operazioni in conto corrente. La barra nella parte inferiore dello schermo fornisce accesso a tutte le funzioni. Ogni pulsante esegue un'azione predefinita in risposta a un clic breve. La maggior parte visualizzare un menu con altre azioni in un clic lungo. In caso contrario, è possibile configurare in modo role <application role="app_name"/>  utilizza il menù standard di Android come interfaccia di controllo(<link linkend='tutorial5_6'>
+      <guilabel role="pref_use_standard_menu_title"/></link>).
     </para>
     <!-- END introduction para 2 -->
 
@@ -191,8 +194,8 @@
       Confirmez, et vous reviendrez à la liste des transactions. Si vous avez ajouté un
       nouveau compte, celui-ci deviendra automatiquement le compte en cours. Le bouton
       <guibutton role="menu_accounts"/> permet de facilement changer le compte en cours.
-      Un clique court active le dernier compte utilisé, un clique long ouvre un menu
-      permettant de choisir de la liste complète des cours.
+      Un clic court active le dernier compte utilisé, un clic long ouvre un menu
+      permettant de choisir un compte dans la liste complète.
     </para>
     <para lang="de">
       Nach Bestätigung der Eingabe, gelangen Sie wieder zur Liste der Buchungen. Wenn Sie
@@ -398,12 +401,11 @@
       functionality from the <guilabel role="menu_settings"/> activity.
       </para>
     <para lang="fr">
-	    Soit vous cliquez sur le bouton <guibutton role="import_categories"/> qui vous permet de les entrer
-	    directement à partir des différents source, tel que expliqué dans <link linkend='tutorial5_5'>
+	Soit vous cliquez sur le bouton <guibutton role="import_categories"/> qui vous permet de les 		entrer directement à partir des différents source, tel qu'expliqué dans <link linkend='tutorial5_5'>
       <guilabel role="pref_import_from_grisbi_title"/></link>. Ce bouton n'est visible que
       quand la liste des catégories est vide, mais vous pouvez toujours accéder à la
-      fonctionallité d'import à partir de l'écran <guilabel role="menu_settings"/>.
-    </para>
+      fonction d'import à partir de l'écran <guilabel role="menu_settings"/>.
+    </para>!
     <para lang="de">
       Der Schaltknopf <guibutton role="import_categories"/> erlaubt Kategorien aus
       verschiedenen Quellen zu importieren wie in <link linkend='tutorial5_5'>
@@ -434,10 +436,10 @@
     <para lang="fr">
       Vous avez maintenant une liste de catégories et de sous-catégories que vous
       pouvez utiliser pour vos opérations. Par défaut, les catégories sont triées par la
-      fréquence de leur utilisation (l'ordre alphabetique es utilisé en tant que critère
-      sécondaire. Ce fonctionnement vous donne un accès rapide aux catégories que vous
-      associez à vos transaction le plus souvent. Si vous préferez voire apparaître les
-      catégories dns l'ordre alphabétique, vous pouvez déactiver le paramètre <guilabel
+      fréquence de leur utilisation (l'ordre alphabetique est utilisé en tant que critère
+      secondaire). Ce fonctionnement vous donne un accès rapide aux catégories associées aux 
+      transactions les plus utilisées. Si vous préferez voir apparaître les
+      catégories dans l'ordre alphabétique, vous pouvez désactiver ce paramètre <guilabel
       role="pref_categories_sort_by_usages_title"/>.
     </para>
     <para lang="de">
