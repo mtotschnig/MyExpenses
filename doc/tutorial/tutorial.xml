@@ -25,8 +25,8 @@
     consult the <ulink url="../../tutorial_r2/en/introduction.html">current
     release</ulink> (2) of this document.
   </releaseinfo>
-  <releaseinfo lang="fr">Cette édition (1) du tutoriel décrit les version de
-    <application role="app_name"/> antérieur à 1.4.8. Pensez à la  <ulink url="market://details?id=org.totschnig.myexpenses">mettre à jour</ulink> et
+  <releaseinfo lang="fr">Cette édition (1) du tutoriel décrit la version de
+    <application role="app_name"/> antérieure à 1.4.8. Pensez à la  <ulink url="market://details?id=org.totschnig.myexpenses">mettre à jour</ulink> et
     consultez <ulink url="../../tutorial_r2/fr/introduction.html">l'édition
     actuelle</ulink> (2) de ce document.
   </releaseinfo>
@@ -35,6 +35,11 @@
    <ulink url="market://details?id=org.totschnig.myexpenses">upzudaten</ulink> und sehen Sie sich die <ulink
   url="../../tutorial_r2/de/introduction.html">aktuelle Ausgabe</ulink> (2)
   dieses Dokumentes an.
+  </releaseinfo>
+  <releaseinfo lang="it">Questa edizione (1) del tutorial descrive la versione di
+    <application role="app_name"/> prima 1.4.8. Ricordarsi di 
+    <ulink url="market://details?id=org.totschnig.myexpenses">aggiornare</ulink> e consulta 
+    <ulink url="../../tutorial_r2/it/introduction.html">l'attuale edizione </ulink> (2) di questo documento.
   </releaseinfo>
   </articleinfo>
     
@@ -150,7 +155,7 @@
       <phrase lang="it">Gestione delle transazioni</phrase>
     </title>
     <para lang="en">
-      <guimenuitem role="menu_insert_ta"/> brings up  the activity for creating a
+      <guimenuitem role="menu_insert_ta"/> brings up the activity for creating a
       transaction:
     </para>
     <para lang="fr">
