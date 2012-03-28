@@ -88,7 +88,7 @@
         \n<u>Paramètres</u>: Choisissez <u>Import des données Grisbi</u>, pour importer les catégories 
           à partir d\'un fichier Grisbi. Vous pouvez sélectionner les définitions standards utilisées 
           par Grisbi, incluses dans MyExpenses, ou utiliser un fichier personnel, stocké sous 
-          \"/sdcard/myexpenses/categories.xml\". Dan ce cas, vous pouvez copier votre fichier Grisbi 
+          \"/sdcard/myexpenses/categories.xml\". Dans ce cas, vous pouvez copier votre fichier Grisbi 
           tel quel, ou supprimer dans celui-ci tout sauf les définitions de catégories.
      </string>    
     <string name="import_categories">Importer les catégories</string>
@@ -166,7 +166,7 @@ mailto (\"mailto:john@my.example.com\").</string>
     <string name="version_26_upgrade_info"><i>&app_name;</i> dispose désormais d\'une barre de boutons comme nouvelle interface de commande. Vous pouvez revenir à l\'ancienne interface dans l\'écran des paramètres.</string>    
     <string name="warning_backup">La base des données et les paramètres vont être sauvegardés sur la carte SD. Voulez-vous continuer?</string>
     <string name="warning_backup_exists">La base des données et les paramètres vont être sauvegardés sur la carte SD. La sauvegarde existante sera effacée. Voulez-vous continuer?</string>
-    <string name="warning_delete_account">Ce compte sera effaçé ainsi que toutes ses transactions. Voulez-vous continuer?</string>
+    <string name="warning_delete_account">Ce compte sera effacé ainsi que toutes ses transactions. Voulez-vous continuer?</string>
     <string name="warning_reset_account">Toutes les opérations du compte seront effacées. Voulez-vous continuer?</string>
     <string name="warning_select_account">Vous devez sélectionner un compte!</string>
 </resources>
