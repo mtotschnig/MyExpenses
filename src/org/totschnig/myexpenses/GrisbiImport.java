@@ -55,7 +55,7 @@ public class GrisbiImport extends Activity {
       "Grisbi default (fr)", 
       "Grisbi default (de)", 
       "Grisbi default (it)", 
-      "/sdcard/myexpenses/categories.xml"
+      "/sdcard/myexpenses/grisbi.xml"
   };
   
   @Override
@@ -71,8 +71,8 @@ public class GrisbiImport extends Activity {
     if (task!=null) {
       task.attach(this);
       sourceStr = IMPORT_SOURCES[task.getSource()];
-      mProgressDialog.setTitle(getString(R.string.categories_loading,sourceStr));
-      mProgressDialog.setMax(task.getTotalCategories());
+      mProgressDialog.setTitle(task.getTitle());
+      mProgressDialog.setMax(task.getMax());
       mProgressDialog.show();
       updateProgress(task.getProgress());
       
@@ -93,19 +93,21 @@ public class GrisbiImport extends Activity {
         .setSingleChoiceItems(IMPORT_SOURCES, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
             sourceStr = IMPORT_SOURCES[item];
-            mProgressDialog.setTitle(getString(R.string.categories_loading,sourceStr));
+            String title = "now parsing";
+            mProgressDialog.setTitle(title);
             mProgressDialog.show();
             task = new MyAsyncTask(GrisbiImport.this,item);
+            task.setTitle(title);
+            dismissDialog(SOURCES_DIALOG_ID);
             task.execute();
-            dialog.cancel();
           }
-      })
-      .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-          dialog.cancel();
-          finish();
-        }
-      }).create();
+        })
+        .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            dismissDialog(SOURCES_DIALOG_ID);
+            finish();
+          }
+        }).create();
     }
     return null;
   }
@@ -121,9 +123,13 @@ public class GrisbiImport extends Activity {
   void markAsDone() {
     mProgressDialog.dismiss();
     String msg;
-    int result = task.getTotalImported();
+    int result = task.getTotalImportedCat();
     if (result != -1) {
       msg = getString(R.string.import_categories_success,result);
+      Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
+    if (task.partiesAreToBeHandledP) {
+      msg = "handled parties:" + task.getTotalImportedParty();
       Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
     task = null;
@@ -147,19 +153,29 @@ public class GrisbiImport extends Activity {
   static class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
     private GrisbiImport activity;
     private int source;
-    NodeList categories;
-    NodeList sub_categories;
+    NodeList categories, sub_categories, parties;
     InputStream catXML;
     Document dom;
     Element root;
     Hashtable<String,Long> Foreign2LocalIdMap;
-    private int totalCategories;
-    int totalImported;
+    private int max;
+    int totalImportedCat;
+    int totalImportedParty;
     private ExpensesDbAdapter mDbHelper;
     int progress=0;
     String grisbiFileVersion;
     String mainElementName;
     String subElementName;
+    /**
+     * should we handle parties as well?
+     */
+    boolean partiesAreToBeHandledP = true;
+    /**
+     * this is set when we finish one phase (parsing, importing categories, importing parties)
+     * so that we can adapt progress dialog in onProgressUpdate
+     */
+    boolean phaseChangedP = false;
+    private String title;
 
     /**
      * @param context
@@ -169,29 +185,23 @@ public class GrisbiImport extends Activity {
       attach(activity);
       this.source = source;
       Foreign2LocalIdMap = new Hashtable<String,Long>();
-      totalImported = -1;
+      totalImportedCat = -1;
       mDbHelper = MyApplication.db();
     }
-    public Integer getSource() {
-      return source;
+    public void setTitle(String title) {
+      this.title = title;
     }
-    public Integer getTotalImported() {
-      return totalImported;
+    public String getTitle() {
+      return title;
     }
-    void attach(GrisbiImport activity2) {
-      this.activity=activity2;
-    }
-    void detach() {
-      activity=null;
-    }
-    int getProgress() {
-      return(progress);
+    public void setPartiesAreToBeHandledP(boolean partiesAreToBeHandledP) {
+      this.partiesAreToBeHandledP = partiesAreToBeHandledP;      
     }
     /* (non-Javadoc)
-     * loads the XML from the source, parses it, and sets up progress dialog
-     * @see android.os.AsyncTask#onPreExecute()
-     */
-    protected void onPreExecute() {
+    * loads the XML from the source, parses it, and sets up progress dialog
+    * @see android.os.AsyncTask#onPreExecute()
+    */
+    protected void parseXML() {
       super.onPreExecute();
       //the last entry in the array is the custom import from sdcard
       if (source == activity.IMPORT_SOURCES.length -1) {
@@ -234,7 +244,7 @@ public class GrisbiImport extends Activity {
         cancel(false);
         return;
       }
-      //first we do the parsing
+
       root = dom.getDocumentElement();
       Node generalNode = root.getElementsByTagName("General").item(0);
       if (generalNode != null) {
@@ -259,8 +269,8 @@ public class GrisbiImport extends Activity {
           else {
             Toast.makeText(activity, "Unable to determine Grisbi file version", Toast.LENGTH_LONG).show();
             cancel(false);
+            return;
           }
-            
         }
       }
       if (grisbiFileVersion.equals("0.6.0")) {
@@ -272,7 +282,27 @@ public class GrisbiImport extends Activity {
       } else {
         Toast.makeText(activity, "Unsupported Grisbi File Version: "+grisbiFileVersion, Toast.LENGTH_LONG).show();
         cancel(false);
+        return;
       }
+      parties = root.getElementsByTagName("Party");
+    }
+    public Integer getSource() {
+      return source;
+    }
+    public Integer getTotalImportedCat() {
+      return totalImportedCat;
+    }
+    public Integer getTotalImportedParty() {
+      return totalImportedParty;
+    }
+    void attach(GrisbiImport activity2) {
+      this.activity=activity2;
+    }
+    void detach() {
+      activity=null;
+    }
+    int getProgress() {
+      return(progress);
     }
     protected void onCancelled() {
       if (activity==null) {
@@ -291,6 +321,11 @@ public class GrisbiImport extends Activity {
         Log.w("MyAsyncTask", "onProgressUpdate() skipped -- no activity");
       }
       else {
+        if (phaseChangedP) {
+          activity.mProgressDialog.setTitle(getTitle());
+          activity.mProgressDialog.setMax(getMax());
+          phaseChangedP = false;
+        }
         activity.updateProgress(progress);
       }
     }
@@ -316,11 +351,18 @@ public class GrisbiImport extends Activity {
      */
     @Override
     protected Void doInBackground(Void... params) {
-      totalImported = 0;
+      parseXML();
+      if (isCancelled())
+        return(null);
+      setTitle("now importing");
+      phaseChangedP = true;
+      publishProgress(0);
+      totalImportedCat = 0;
+      totalImportedParty = 0;
       categories = root.getElementsByTagName(mainElementName);
       sub_categories = root.getElementsByTagName(subElementName);
-      totalCategories = categories.getLength() + sub_categories.getLength();
-      activity.mProgressDialog.setMax(totalCategories);
+      setMax(categories.getLength() + sub_categories.getLength());
+      activity.mProgressDialog.setMax(getMax());
 
       if (grisbiFileVersion.equals("0.6.0")) {
         importCatsMain();
@@ -328,7 +370,27 @@ public class GrisbiImport extends Activity {
       } else {
         importCats050();
       }
+      if (partiesAreToBeHandledP)
+        importParties();
       return(null);
+    }
+    private void importParties() {
+      phaseChangedP = true;
+      setTitle("Now handling parties");
+      setMax(parties.getLength());
+      publishProgress(0);
+      int count = 0;
+      NamedNodeMap atts;
+      publishProgress(0);
+      for (int i=0;i<parties.getLength();i++){
+        count++;
+        atts = parties.item(i).getAttributes();
+        if (mDbHelper.createPayee(atts.getNamedItem("Na").getNodeValue()) != -1)
+          totalImportedParty++;
+        if (count % 10 == 0) {
+          publishProgress(count);
+        }
+      }
     }
     private void importCats050() {
       int count = 0;
@@ -342,7 +404,7 @@ public class GrisbiImport extends Activity {
         label = atts.getNamedItem("Nom").getNodeValue();
         main_id = mDbHelper.createCategory(label,0);
         if (main_id != -1) {
-          totalImported++;
+          totalImportedCat++;
         } else {
           //this should not happen
           Log.w("MyExpenses","could neither retrieve nor store main category " + label);
@@ -361,7 +423,7 @@ public class GrisbiImport extends Activity {
             label = atts.getNamedItem("Nom").getNodeValue();
             sub_id = mDbHelper.createCategory(label,main_id);
             if (sub_id != -1) {
-              totalImported++;
+              totalImportedCat++;
             } else {
               //this should not happen
               Log.w("MyExpenses","could neither retrieve nor store main category " + label);
@@ -395,7 +457,7 @@ public class GrisbiImport extends Activity {
           _id = mDbHelper.createCategory(label,0);
           if (_id != -1) {
             Foreign2LocalIdMap.put(id, _id);
-            totalImported++;
+            totalImportedCat++;
           } else {
             //this should not happen
             Log.w("MyExpenses","could neither retrieve nor store main category " + label);
@@ -428,7 +490,7 @@ public class GrisbiImport extends Activity {
         if (mapped_parent_id != null) {
           _id = mDbHelper.createCategory(label, mapped_parent_id);
           if (_id != -1) {
-            totalImported++;
+            totalImportedCat++;
           }
         } else {
           Log.w("MyExpenses","could not store sub category " + label);
@@ -438,11 +500,11 @@ public class GrisbiImport extends Activity {
         }
       }
     }
-    int getTotalCategories() {
-      return totalCategories;
+    int getMax() {
+      return max;
     }
-    void setTotalCategories(int totalCategories) {
-      this.totalCategories = totalCategories;
+    void setMax(int max) {
+      this.max = max;
     }
   }
 }

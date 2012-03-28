@@ -124,7 +124,7 @@ public class Transaction {
    */
   public void setPayee(String payee) {
     this.payee = payee;
-    mDbHelper.createPayeeOrIgnore(payee);
+    mDbHelper.createPayee(payee);
   }
   /**
    * Saves the transaction, creating it new if necessary

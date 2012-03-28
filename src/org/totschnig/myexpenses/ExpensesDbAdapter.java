@@ -759,10 +759,15 @@ public class ExpensesDbAdapter {
    * inserts a new payee if it does not exist yet
    * @param name
    */
-  public void createPayeeOrIgnore(String name) {
-    mDb.execSQL("INSERT OR IGNORE INTO payee(name) values( ? );",
-        new String[] {name});
-    return;
+  public long createPayee(String name) {
+    ContentValues initialValues = new ContentValues();
+    initialValues.put("name", name);
+    
+    try {
+      return mDb.insertOrThrow("payee", null, initialValues);
+    } catch (SQLiteConstraintException e) {
+      return -1;
+    }
   }
   
   /**
