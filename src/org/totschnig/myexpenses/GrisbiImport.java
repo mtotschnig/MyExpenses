@@ -40,10 +40,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-public class GrisbiImport extends Activity {
+public class GrisbiImport extends Activity implements DialogInterface.OnClickListener {
   static final int SOURCES_DIALOG_ID = 1;
   ProgressDialog mProgressDialog;
-  String sourceStr;
+  private AlertDialog mSourcesDialog;
+  //String sourceStr;
   private MyAsyncTask task=null;
   
   /**
@@ -57,6 +58,10 @@ public class GrisbiImport extends Activity {
       "Grisbi default (it)", 
       "/sdcard/myexpenses/grisbi.xml"
   };
+  /**
+   * stores the index of the source the user has selected
+   */
+  public int sourceIndex;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -66,11 +71,20 @@ public class GrisbiImport extends Activity {
     mProgressDialog.setProgress(0);
     mProgressDialog.setCancelable(false);
     
+    mSourcesDialog = new AlertDialog.Builder(this)
+    .setTitle(R.string.dialog_title_select_import_source)
+    .setCancelable(false)
+    .setSingleChoiceItems(IMPORT_SOURCES, -1, this)
+    .setNegativeButton(R.string.button_cancel, this)
+    .setNeutralButton("Categories only this",this)
+    .setPositiveButton("Categories and parties", this)
+    .create();
+    
     task=(MyAsyncTask)getLastNonConfigurationInstance();
     
     if (task!=null) {
       task.attach(this);
-      sourceStr = IMPORT_SOURCES[task.getSource()];
+      sourceIndex = task.getSource();
       mProgressDialog.setTitle(task.getTitle());
       mProgressDialog.setMax(task.getMax());
       mProgressDialog.show();
@@ -81,34 +95,16 @@ public class GrisbiImport extends Activity {
       }
     } else if (savedInstanceState == null) {
       showDialog(SOURCES_DIALOG_ID);
+      mSourcesDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+      mSourcesDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setEnabled(false);
     }
   }
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
     case SOURCES_DIALOG_ID:
-      return new AlertDialog.Builder(this)
-        .setTitle(R.string.dialog_title_select_import_source)
-        .setCancelable(false)
-        .setSingleChoiceItems(IMPORT_SOURCES, -1, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int item) {
-            sourceStr = IMPORT_SOURCES[item];
-            String title = getString(R.string.grisbi_import_parsing,sourceStr);
-            mProgressDialog.setTitle(title);
-            mProgressDialog.show();
-            task = new MyAsyncTask(GrisbiImport.this,item);
-            task.setTitle(title);
-            dismissDialog(SOURCES_DIALOG_ID);
-            task.execute();
-          }
-        })
-        .setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            dismissDialog(SOURCES_DIALOG_ID);
-            finish();
-          }
-        }).create();
-    }
+      return mSourcesDialog;
+      }
     return null;
   }
   @Override
@@ -203,12 +199,13 @@ public class GrisbiImport extends Activity {
     */
     protected void parseXML() {
       super.onPreExecute();
+      String sourceStr = activity.IMPORT_SOURCES[source];
       //the last entry in the array is the custom import from sdcard
       if (source == activity.IMPORT_SOURCES.length -1) {
         try {
-          catXML = new FileInputStream(activity.sourceStr);
+          catXML = new FileInputStream(sourceStr);
         } catch (FileNotFoundException e) {
-          Toast.makeText(activity, "Could not find file "+activity.sourceStr, Toast.LENGTH_LONG).show();
+          Toast.makeText(activity, "Could not find file " + sourceStr, Toast.LENGTH_LONG).show();
           cancel(false);
           return;
         }
@@ -236,7 +233,7 @@ public class GrisbiImport extends Activity {
         dom = builder.parse(catXML);
       } catch (SAXParseException e) {
         Log.w("MyExpenses",e.getMessage());
-        Toast.makeText(activity, "Could not parse file "+activity.sourceStr, Toast.LENGTH_LONG).show();
+        Toast.makeText(activity, "Could not parse file "+sourceStr, Toast.LENGTH_LONG).show();
         cancel(false);
         return;
       } catch (Exception e) {
@@ -351,10 +348,11 @@ public class GrisbiImport extends Activity {
      */
     @Override
     protected Void doInBackground(Void... params) {
+      String sourceStr = activity.IMPORT_SOURCES[source];
       parseXML();
       if (isCancelled())
         return(null);
-      setTitle(activity.getString(R.string.grisbi_import_categories_loading,activity.sourceStr));
+      setTitle(activity.getString(R.string.grisbi_import_categories_loading,sourceStr));
       phaseChangedP = true;
       publishProgress(0);
       totalImportedCat = 0;
@@ -371,7 +369,7 @@ public class GrisbiImport extends Activity {
         importCats050();
       }
       if (partiesAreToBeHandledP)
-        setTitle(activity.getString(R.string.grisbi_import_parties_loading,activity.sourceStr));
+        setTitle(activity.getString(R.string.grisbi_import_parties_loading,sourceStr));
         importParties();
       return(null);
     }
@@ -505,6 +503,33 @@ public class GrisbiImport extends Activity {
     }
     void setMax(int max) {
       this.max = max;
+    }
+  }
+
+  @Override
+  public void onClick(DialogInterface dialog, int id) {
+    switch (id) {
+    case AlertDialog.BUTTON_POSITIVE:
+    case AlertDialog.BUTTON_NEUTRAL:
+      String title = getString(R.string.grisbi_import_parsing,IMPORT_SOURCES[sourceIndex]);
+      mProgressDialog.setTitle(title);
+      mProgressDialog.show();
+      task = new MyAsyncTask(GrisbiImport.this,sourceIndex);
+      task.setTitle(title);
+      task.setPartiesAreToBeHandledP(id == AlertDialog.BUTTON_POSITIVE);
+      dismissDialog(SOURCES_DIALOG_ID);
+      task.execute();
+      return;
+    case AlertDialog.BUTTON_NEGATIVE:
+      dismissDialog(SOURCES_DIALOG_ID);
+      finish();
+    default:
+      sourceIndex = id;
+      //we enable import of categories only for any source
+      //categories and parties only for the last custom file
+      ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_NEUTRAL).setEnabled(true);
+      ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
+            id == IMPORT_SOURCES.length -1);    
     }
   }
 }
