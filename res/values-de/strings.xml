@@ -16,6 +16,7 @@
  -->
 <!DOCTYPE resources [
   <!ENTITY app_name "Meine Ausgaben">
+  <!ENTITY grisbi_file "grisbi.xml">
 ]>
 <resources>
 	  <string name="account">Konto</string>
@@ -61,11 +62,13 @@
     <string name="ftp_login_failure">Login Fehler während des Uploads nach %1$s</string>
     <string name="ftp_setFileType_failure">Fehler bei der Konfiguration des Dateityps ASCII während des Uploads nach %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Fehler beim Wechseln des Verzeichnisses während des Uploads nach %1$s</string>
+    <string name="grisbi_import_button_categories_only">Kategorien</string>
+    <string name="grisbi_import_button_categories_and_parties">Kategorien und Partner</string>
     <string name="grisbi_import_parsing">Analyse von %1$s</string>
+    <string name="grisbi_import_categories_and_parties_success">%1$d Kategorien und %1$d Partner erfolgreich importiert</string>
     <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
     <string name="grisbi_import_categories_success">%1$d Kategorien erfolgreich importiert</string>
     <string name="grisbi_import_parties_loading">Partner werden von %1$s geladen</string>
-    <string name="grisbi_import_parties_success">%1$d Partner erfolgreich importiert</string>
     <string name="help_feedback">Wenn Ihnen <i>&app_name;</i> nützlich ist, 
         geben Sie doch im <a href="market://details?id=org.totschnig.myexpenses">Market</a> dazu einen Kommentar ab.
         Wenn Sie auf ein Problem stoßen, einen Verbesserungsvorschlag haben
@@ -96,7 +99,7 @@
           importieren. Sie können entweder die inkludierten von Grisbi verwendeten Standardkategorien 
           auswählen, oder eine eigene Datei. Dafür verwenden Sie entweder Ihre Grisbi Datei, oder 
           editieren diese, indem Sie alles außer der Kategorien entfernen.
-          MyExpenses erwartet die Datei unter \"/sdcard/myexpenses/categories.xml\".
+          MyExpenses erwartet die Datei unter \"/sdcard/myexpenses/&grisbi_file;\".
     </string>
     <string name="import_categories">Kategorien importieren</string>
 	  <string name="important_version_information">Neue Version: Wichtige Information</string>
@@ -145,10 +148,10 @@
 	  <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge der Kategorien</string>
     <string name="pref_categories_sort_by_usages_summary">Benützungshäufigkeit als primäres Kriterium für Sortierung verwenden (andernfalls alphabetische Reihung)</string>
     <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
-    <string name="pref_import_from_grisbi_summary">Wählen Sie zwischen Grisbis in der App inkludierten Standard-Definitionen für Kategorien
+    <string name="pref_import_from_grisbi_summary">Kategorien (und Partner)  aus Grisbis in der App inkludierten Standard-Definitionen oder
         und Ihrer eigenen Datei, die Sie unter dem Namen
-      <i>categories.xml</i> in dem Ordner <i>myexpenses</i>
-      im Wurzelverzeichnis der SD-Karte speichern.</string>
+      <i>&grisbi_file;</i> in dem Ordner <i>myexpenses</i>
+      im Wurzelverzeichnis der SD-Karte speichern, importieren</string>
     <string name="pref_manage_accounts_title">Konten verwalten</string>
     <string name="pref_manage_accounts_summary">Hinzufügen, Editieren und Löschen von Konten.</string>
 	  <string name="pref_share_target_title">Upload URL QIF Export</string>

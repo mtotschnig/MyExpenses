@@ -16,6 +16,7 @@
  -->
 <!DOCTYPE resources [
   <!ENTITY app_name "Le mie spese">
+  <!ENTITY grisbi_file "grisbi.xml">
 ]>
 <resources >
     <string name="account">Conto</string>
@@ -83,7 +84,7 @@
       \n<u>Nuovo</u> : aggiungere un operazione      
       \n<u>Nuovo -> Trasferimento</u> : aggiungere un trasferimento, se ci sono più di due conti della 		stessa valuta.
       \n<u>Reinitializare</u> esporta tutte le operazioni sulla scheda SD nel formato QIF, elimina le spese 		e aggiorna il bilancio di apertura.
-      \n<u>Parametri</u>: Scegli <u>Importazione dei dati Grisbi</u> per importare le categorie da un file 	  Grisbi. È possibile selezionare le definizioni standard utilizzati da Grisbi, inclusi in myExpenses o 	    utilizzare un file personale, conservato come \"/sdcard/myexpenses/categories.xml\". In questo caso, 		è possibile copiare il file Grisbi come è, o cancellare tutto, tranne le definizioni delle 		categorie.</string>
+      \n<u>Parametri</u>: Scegli <u>Importazione dei dati Grisbi</u> per importare le categorie da un file 	  Grisbi. È possibile selezionare le definizioni standard utilizzati da Grisbi, inclusi in myExpenses o 	    utilizzare un file personale, conservato come \"/sdcard/myexpenses/&grisbi_file;\". In questo caso, 		è possibile copiare il file Grisbi come è, o cancellare tutto, tranne le definizioni delle 		categorie.</string>
     <string name="import_categories">Importare le categorie</string>
     <string name="import_categories_failure">Errore durante l\'importazione delle categorie</string>
     <string name="import_categories_success">%1$d categorie state importate</string>
@@ -129,7 +130,7 @@
     <string name="pref_backup_title">Backup</string>
     <string name="pref_categories_sort_by_usages_title">Criterio di ordinamento per le categorie</string>
     <string name="pref_categories_sort_by_usages_summary">Ordinare le principali categorie in base alla frequenza d\'uso (altrimenti in ordine alfabetico)</string>
-    <string name="pref_import_from_grisbi_summary">Scegli tra le definizioni standard di Grisbi, inclusi 	nell\'applicazione, e il vostro proprio file salvato come <i>categories.xml</i> nella cartellla
+    <string name="pref_import_from_grisbi_summary">Scegli tra le definizioni standard di Grisbi, inclusi 	nell\'applicazione, e il vostro proprio file salvato come <i>&grisbi_file;</i> nella cartellla
        <i>myexpenses</i> della radice della vostra scheda SD.</string>
     <string name="pref_import_from_grisbi_title">Importazione dei dati Grisbi</string>
     <string name="pref_manage_accounts_title">Gestione degli conti</string>

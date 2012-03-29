@@ -76,8 +76,8 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     .setCancelable(false)
     .setSingleChoiceItems(IMPORT_SOURCES, -1, this)
     .setNegativeButton(R.string.button_cancel, this)
-    .setNeutralButton("Categories only this",this)
-    .setPositiveButton("Categories and parties", this)
+    .setNeutralButton(R.string.grisbi_import_button_categories_only,this)
+    .setPositiveButton(R.string.grisbi_import_button_categories_and_parties, this)
     .create();
     
     task=(MyAsyncTask)getLastNonConfigurationInstance();
@@ -121,11 +121,11 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     String msg;
     int result = task.getTotalImportedCat();
     if (result != -1) {
-      msg = getString(R.string.grisbi_import_categories_success,result);
-      Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-    }
-    if (task.partiesAreToBeHandledP) {
-      msg = getString(R.string.grisbi_import_parties_success,task.getTotalImportedParty());
+      if (task.partiesAreToBeHandledP) {
+        msg = getString(R.string.grisbi_import_categories_and_parties_success,result, task.getTotalImportedParty());
+      } else {
+        msg = getString(R.string.grisbi_import_categories_success,result);
+      }
       Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
     task = null;
