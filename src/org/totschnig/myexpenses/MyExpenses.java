@@ -209,7 +209,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   private void fillButtons() {
     mAddButton = mButtonBar.addButton(
         R.string.menu_new,
-        R.drawable.ic_menu_add,
+        android.R.drawable.ic_menu_add,
         INSERT_TA_COMMAND_ID);
     mTransferButton = mAddButton.addItem(R.string.transfer,INSERT_TRANSFER_COMMAND_ID);
     mAddButton.addItem(R.string.transaction,INSERT_TA_COMMAND_ID);
@@ -223,12 +223,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     
     mResetButton = mButtonBar.addButton(
         R.string.menu_reset_abrev,
-        R.drawable.ic_menu_revert,
+        android.R.drawable.ic_menu_revert,
         RESET_ACCOUNT_COMMAND_ID);
     
     mSettingsButton = mButtonBar.addButton(
         R.string.menu_settings_abrev,
-        R.drawable.ic_menu_preferences,
+        android.R.drawable.ic_menu_preferences,
         SETTINGS_COMMAND_ID);
     mSettingsButton.addItem(R.string.menu_settings_account,EDIT_ACCOUNT_COMMAND_ID);
     mSettingsButton.addItem(R.string.menu_backup,BACKUP_COMMAND_ID);
@@ -236,7 +236,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     
     mHelpButton = mButtonBar.addButton(
         R.string.menu_help,
-        R.drawable.ic_menu_help,
+        android.R.drawable.ic_menu_help,
         HELP_COMMAND_ID);
     mHelpButton.addItem(R.string.tutorial,TUTORIAL_COMMAND_ID);
     mHelpButton.addItem(R.string.menu_changes,CHANGES_COMMAND_ID);
@@ -350,28 +350,28 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       .setVisible(mExpensesCursor.getCount() > 0);
     return true;
   }
-  
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     //numeric shortcuts are used from Monkeyrunner
     menu.add(0, INSERT_TA_COMMAND_ID, 0, R.string.menu_insert_ta)
-        .setIcon(R.drawable.ic_menu_add)
+        .setIcon(android.R.drawable.ic_menu_add)
         .setAlphabeticShortcut('a');
     menu.add(0, INSERT_TRANSFER_COMMAND_ID, 0, R.string.menu_insert_transfer)
-        .setIcon(R.drawable.ic_menu_add)
+        .setIcon(android.R.drawable.ic_menu_add)
         .setAlphabeticShortcut('b');
     menu.add(0, RESET_ACCOUNT_COMMAND_ID,1,R.string.menu_reset)
-        .setIcon(R.drawable.ic_menu_revert)
+        .setIcon(android.R.drawable.ic_menu_revert)
         .setAlphabeticShortcut('c');;
     menu.add(0, HELP_COMMAND_ID,1,R.string.menu_help)
-        .setIcon(R.drawable.ic_menu_help)
+        .setIcon(android.R.drawable.ic_menu_help)
         .setAlphabeticShortcut('d');
     menu.add(0, SWITCH_ACCOUNT_COMMAND_ID,1,R.string.menu_change_account)
         .setIcon(R.drawable.ic_menu_goto)
         .setAlphabeticShortcut('e');
     menu.add(0,SETTINGS_COMMAND_ID,1,R.string.menu_settings)
-        .setIcon(R.drawable.ic_menu_preferences)
+        .setIcon(android.R.drawable.ic_menu_preferences)
         .setAlphabeticShortcut('f');
     return true;
   }

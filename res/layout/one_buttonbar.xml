@@ -17,6 +17,6 @@
           android:id="@+id/Revert" 
           android:text="@string/revert"
           style="@style/button"
-          android:drawableLeft="@drawable/ic_menu_close_clear_cancel" />
+          android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel" />
     </LinearLayout>
   </RelativeLayout>

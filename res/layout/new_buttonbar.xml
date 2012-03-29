@@ -12,6 +12,6 @@
         style="@style/button"
         android:longClickable="true"
         android:id="@+id/addOperation"
-        android:drawableLeft="@drawable/ic_menu_add" />
+        android:drawableLeft="@android:drawable/ic_menu_add" />
   </RelativeLayout>
 </RelativeLayout>
