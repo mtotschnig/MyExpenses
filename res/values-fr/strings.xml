@@ -64,7 +64,7 @@
     <string name="grisbi_import_button_categories_only">Catégories</string>
     <string name="grisbi_import_button_categories_and_parties">Catégories et tiers</string>
     <string name="grisbi_import_parsing">Analyse de %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$d catégories et %1$d tiers ont été importées</string>
+    <string name="grisbi_import_categories_and_parties_success">%1$d catégories et %2$d tiers ont été importées</string>
     <string name="grisbi_import_categories_loading">Import des catégories à partir de %1$s</string>
     <string name="grisbi_import_categories_success">%1$d catégories ont été importées</string>
     <string name="grisbi_import_parties_loading">Import des tiers à partir de %1$s</string>
