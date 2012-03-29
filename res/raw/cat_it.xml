@@ -79,7 +79,7 @@
     <Sub_category Nbc="12" Nb="1" Na="Corso" />
     <Sub_category Nbc="12" Nb="2" Na="Libri" />
     <Sub_category Nbc="12" Nb="3" Na="Tasse e contributi" />
-    <Sub_category Nbc="13" Nb="Tariffe professionali" Na="1" />
+    <Category Nbc="13" Na="Tariffe professionali" Kd="1" />
     <Sub_category Nbc="13" Nb="1" Na="Non rimborsabile" />
     <Sub_category Nbc="13" Nb="2" Na="Rimborsabile" />
     <Category Nb="14" Na="Tasse" Kd="1" />
