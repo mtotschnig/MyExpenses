@@ -64,9 +64,9 @@
     <string name="ftp_changeWorkingDirectory_failure">Could not change working directory while trying to upload to %1$s</string>
     <string name="grisbi_import_button_categories_only">Categories</string>
     <string name="grisbi_import_button_categories_and_parties">Categories and parties</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$d categories and %2$d parties imported successfully</string>
+    <string name="grisbi_import_categories_and_parties_success">%1$s categories and %2$s parties imported successfully</string>
     <string name="grisbi_import_categories_loading">Loading categories from %1$s</string>
-    <string name="grisbi_import_categories_success">%1$d categories imported successfully</string>
+    <string name="grisbi_import_categories_success">%1$s categories imported successfully</string>
     <string name="grisbi_import_parsing">Parsing %1$s</string>
     <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
     <string name="help_feedback">If you find <i>&app_name;</i> useful, 
@@ -145,6 +145,11 @@
 		<string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are mapped to it.</string>
 		<string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
 		<string name="opening_balance">Opening balance</string>
+		<string name="parse_error_file_not_found">Could not find file %1$s</string>
+		<string name="parse_error_parse_exception">Could not parse file %1$s</string>
+		<string name="parse_error_other_exception">An error occured: %1$s</string>
+		<string name="parse_error_grisbi_version_not_determined">Unable to determine Grisbi file version</string>
+		<string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version: %1$s</string>
 		<string name="payee">Payee</string>
 		<string name="payer">Payer</string>
 		<string name="pref_backup_title">Backup</string>

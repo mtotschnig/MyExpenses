@@ -91,8 +91,6 @@
       \n<u>Reinitializare</u> esporta tutte le operazioni sulla scheda SD nel formato QIF, elimina le spese 		e aggiorna il bilancio di apertura.
       \n<u>Parametri</u>: Scegli <u>Importazione dei dati Grisbi</u> per importare le categorie da un file 	  Grisbi. È possibile selezionare le definizioni standard utilizzati da Grisbi, inclusi in myExpenses o 	    utilizzare un file personale, conservato come \"/sdcard/myexpenses/&grisbi_file;\". In questo caso, 		è possibile copiare il file Grisbi come è, o cancellare tutto, tranne le definizioni delle 		categorie.</string>
     <string name="import_categories">Importare le categorie</string>
-    <string name="import_categories_failure">Errore durante l\'importazione delle categorie</string>
-    <string name="import_categories_success">%1$d categorie state importate</string>
     <string name="important_version_information">Nuova versione: Informazioni importanti</string>
     <string name="invalid_number_format">Numero formato non riconosciuto dal vostra regione. Uso %1$s</string>
     <string name="label">Titolo</string>

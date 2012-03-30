@@ -65,9 +65,9 @@
     <string name="grisbi_import_button_categories_only">Kategorien</string>
     <string name="grisbi_import_button_categories_and_parties">Kategorien und Partner</string>
     <string name="grisbi_import_parsing">Analyse von %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$d Kategorien und %2$d Partner erfolgreich importiert</string>
+    <string name="grisbi_import_categories_and_parties_success">%1$s Kategorien und %2$s Partner erfolgreich importiert</string>
     <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
-    <string name="grisbi_import_categories_success">%1$d Kategorien erfolgreich importiert</string>
+    <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
     <string name="grisbi_import_parties_loading">Partner werden von %1$s geladen</string>
     <string name="help_feedback">Wenn Ihnen <i>&app_name;</i> nützlich ist, 
         geben Sie doch im <a href="market://details?id=org.totschnig.myexpenses">Market</a> dazu einen Kommentar ab.
@@ -141,6 +141,11 @@
 	  <string name="not_deletable_mapped_expenses">Diese Kategorie kann nicht gelöscht werden, weil ihr Ausgaben zugeordnet sind.</string>
 	  <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie Unterkategorien hat.</string>
 	  <string name="opening_balance">Anfangssaldo</string>
+	  <string name="parse_error_file_not_found">Konnte Datei %1$s nicht finden</string>
+    <string name="parse_error_parse_exception">Konnte Datei %1$s nicht analysieren</string>
+    <string name="parse_error_other_exception">Ein Fehler ist aufgetreten: %1$s</string>
+    <string name="parse_error_grisbi_version_not_determined">Konnte Version der Grisbi Datei nicht ermitteln</string>
+    <string name="parse_error_grisbi_version_not_supported">Grisbi Datei Version %1$s wird nicht unterstützt</string>
 	  <string name="payee">Empfänger</string>
 	  <string name="payer">Zahler</string>
     <string name="pref_backup_title">Backup</string>

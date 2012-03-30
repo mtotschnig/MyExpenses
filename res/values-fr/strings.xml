@@ -64,9 +64,9 @@
     <string name="grisbi_import_button_categories_only">Catégories</string>
     <string name="grisbi_import_button_categories_and_parties">Catégories et tiers</string>
     <string name="grisbi_import_parsing">Analyse de %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$d catégories et %2$d tiers ont été importés</string>
+    <string name="grisbi_import_categories_and_parties_success">%1$s catégories et %2$s tiers ont été importés</string>
     <string name="grisbi_import_categories_loading">Import des catégories à partir de %1$s</string>
-    <string name="grisbi_import_categories_success">%1$d catégories ont été importées</string>
+    <string name="grisbi_import_categories_success">%1$s catégories ont été importées</string>
     <string name="grisbi_import_parties_loading">Import des tiers à partir de %1$s</string>
     <string name="help_feedback">Si <i>&app_name;</i> vous est utile, 
         laissez un commentaire dans le <a href="market://details?id=org.totschnig.myexpenses">Market</a>. 
@@ -135,6 +135,11 @@
     <string name="not_deletable_mapped_expenses">Cette catégorie ne peut pas être supprimée, parce qu\'il existe des dépenses qui lui sont attribuées.</string>
     <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce qu\'elle contient des sous-catégories.</string>
     <string name="opening_balance">Solde initial</string>
+    <string name="parse_error_file_not_found">Le fichier %1$s n'existe pas</string>
+    <string name="parse_error_parse_exception">Le fichier %1$s ne peut pas être analysé</string>
+    <string name="parse_error_other_exception">Une erreur s'est produite: %1$s</string>
+    <string name="parse_error_grisbi_version_not_determined">La version du fichier Grisbi ne pouvait pas être determinée</string>
+    <string name="parse_error_grisbi_version_not_supported">La version du fichier Grisbi n'est pas supportée: %1$s</string>
     <string name="payee">Tiers</string>
     <string name="payer">Tiers</string>
     <string name="pref_backup_title">Sauvegarde</string>

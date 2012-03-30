@@ -23,6 +23,7 @@ import java.util.Hashtable;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.totschnig.myexpenses.Utils.Result;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -42,6 +43,12 @@ import android.widget.Toast;
 
 public class GrisbiImport extends Activity implements DialogInterface.OnClickListener {
   static final int SOURCES_DIALOG_ID = 1;
+  static final int PARSE_ERROR_FILE_NOT_FOUND = -1;
+  static final int PARSE_ERROR_PARSE_EXCEPTION = -2;
+  static final int PARSE_ERROR_OTHER_EXCEPTION = -3;
+  static final int PARSE_ERROR_GRISBI_VERSION_NOT_DETERMINED = -4;
+  static final int PARSE_ERROR_GRISBI_VERSION_NOT_SUPPORTED = -5;
+  static final int PARSE_SUCCESS = 1;
   ProgressDialog mProgressDialog;
   private AlertDialog mSourcesDialog;
   //String sourceStr;
@@ -119,15 +126,9 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
   void markAsDone() {
     mProgressDialog.dismiss();
     String msg;
-    int result = task.getTotalImportedCat();
-    if (result != -1) {
-      if (task.partiesAreToBeHandledP) {
-        msg = getString(R.string.grisbi_import_categories_and_parties_success,result, task.getTotalImportedParty());
-      } else {
-        msg = getString(R.string.grisbi_import_categories_success,result);
-      }
-      Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-    }
+    Result result = task.getResult();
+    msg = getString(result.message,result.extra);
+    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     task = null;
     finish();
   }
@@ -154,9 +155,8 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     Document dom;
     Element root;
     Hashtable<String,Long> Foreign2LocalIdMap;
-    private int max;
-    int totalImportedCat;
-    int totalImportedParty;
+    private int max, totalImportedCat, totalImportedParty;
+    Result result;
     private ExpensesDbAdapter mDbHelper;
     int progress=0;
     String grisbiFileVersion;
@@ -183,7 +183,6 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
       attach(activity);
       this.source = source;
       Foreign2LocalIdMap = new Hashtable<String,Long>();
-      totalImportedCat = -1;
       mDbHelper = MyApplication.db();
     }
     public void setTitle(String title) {
@@ -195,21 +194,18 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     public void setPartiesAreToBeHandledP(boolean partiesAreToBeHandledP) {
       this.partiesAreToBeHandledP = partiesAreToBeHandledP;      
     }
-    /* (non-Javadoc)
-    * loads the XML from the source, parses it, and sets up progress dialog
-    * @see android.os.AsyncTask#onPreExecute()
-    */
-    protected void parseXML() {
-      super.onPreExecute();
+    /**
+     * return false upon problem (and sets a result object) or true
+     */
+    protected boolean parseXML() {
       String sourceStr = activity.IMPORT_SOURCES[source];
       //the last entry in the array is the custom import from sdcard
       if (source == activity.IMPORT_SOURCES.length -1) {
         try {
           catXML = new FileInputStream(sourceStr);
         } catch (FileNotFoundException e) {
-          Toast.makeText(activity, "Could not find file " + sourceStr, Toast.LENGTH_LONG).show();
-          cancel(false);
-          return;
+          setResult(new Result(false,R.string.parse_error_file_not_found,sourceStr));
+          return false;
         }
       } else {
         int sourceRes = 0;
@@ -234,14 +230,12 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
         DocumentBuilder builder = factory.newDocumentBuilder();
         dom = builder.parse(catXML);
       } catch (SAXParseException e) {
-        Log.w("MyExpenses",e.getMessage());
-        Toast.makeText(activity, "Could not parse file "+sourceStr, Toast.LENGTH_LONG).show();
-        cancel(false);
-        return;
+        //Log.w("MyExpenses",e.getMessage());
+        setResult(new Result(false,R.string.parse_error_parse_exception,sourceStr));
+        return false;
       } catch (Exception e) {
-        Toast.makeText(activity, "An error occured: "+e.getMessage(), Toast.LENGTH_LONG).show();
-        cancel(false);
-        return;
+        setResult(new Result(false,R.string.parse_error_other_exception,e.getMessage()));
+        return false;
       }
 
       root = dom.getDocumentElement();
@@ -250,15 +244,18 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
         Node versionAttr = generalNode.getAttributes().getNamedItem("File_version");
         if (versionAttr != null) {
           grisbiFileVersion = versionAttr.getNodeValue();
-          Log.i("MyExpenses","found Grisbi version" + grisbiFileVersion);
+          Log.i("MyExpenses","found Grisbi version " + grisbiFileVersion);
         }
       }
       else {
         Node versionNode = root.getElementsByTagName("Version_fichier").item(0);
+        if (versionNode == null) {
+          versionNode = root.getElementsByTagName("Version_fichier_categ").item(0);
+        }
         if (versionNode != null) {
           //unfortunately we have to retrieve the first text node in order to get at the value
           grisbiFileVersion = versionNode.getChildNodes().item(0).getNodeValue();
-          Log.i("MyExpenses","found Grisbi version" + grisbiFileVersion);
+          Log.i("MyExpenses","found Grisbi version " + grisbiFileVersion);
         }
         else {
           Log.i("MyExpenses","did not find Grisbi version");
@@ -273,9 +270,8 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
             Log.i("MyExpenses","assuming Grisbi version 0.5.0");
           }
           else {
-            Toast.makeText(activity, "Unable to determine Grisbi file version", Toast.LENGTH_LONG).show();
-            cancel(false);
-            return;
+            setResult(new Result(false,R.string.parse_error_grisbi_version_not_determined));
+            return false;
           }
         }
       }
@@ -290,10 +286,10 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
         partiesElementName = "Tiers";
         nameAttributeName = "Nom";
       } else {
-        Toast.makeText(activity, "Unsupported Grisbi File Version: "+grisbiFileVersion, Toast.LENGTH_LONG).show();
-        cancel(false);
-        return;
+        setResult(new Result(false,R.string.parse_error_grisbi_version_not_supported,grisbiFileVersion));
+        return false;
       }
+      return true;
     }
     public Integer getSource() {
       return source;
@@ -313,13 +309,7 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     int getProgress() {
       return(progress);
     }
-    protected void onCancelled() {
-      if (activity==null) {
-        Log.w("MyAsyncTask", "onCancelled() skipped -- no activity");
-      } else {
-        activity.markAsDone();
-      }
-    }
+
     /* (non-Javadoc)
      * updates the progress dialog
      * @see android.os.AsyncTask#onProgressUpdate(Progress[])
@@ -361,8 +351,7 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     @Override
     protected Void doInBackground(Void... params) {
       String sourceStr = activity.IMPORT_SOURCES[source];
-      parseXML();
-      if (isCancelled())
+      if (!parseXML())
         return(null);
       setTitle(activity.getString(R.string.grisbi_import_categories_loading,sourceStr));
       phaseChangedP = true;
@@ -384,7 +373,18 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
         parties = root.getElementsByTagName(partiesElementName);
         setTitle(activity.getString(R.string.grisbi_import_parties_loading,sourceStr));
         importParties();
+        setResult(new Result(true,
+            R.string.grisbi_import_categories_and_parties_success,
+            String.valueOf(getTotalImportedCat()),
+            String.valueOf(getTotalImportedParty())
+        ));
+      } else {
+        setResult(new Result(true,
+            R.string.grisbi_import_categories_success,
+            String.valueOf(getTotalImportedCat())
+        ));
       }
+        
       return(null);
     }
     private void importParties() {
@@ -555,6 +555,12 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     }
     void setMax(int max) {
       this.max = max;
+    }
+    public Result getResult() {
+      return result;
+    }
+    public void setResult(Result result) {
+      this.result = result;
     }
   }
 
