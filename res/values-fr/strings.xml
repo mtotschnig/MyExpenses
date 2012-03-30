@@ -138,7 +138,7 @@
     <string name="parse_error_file_not_found">Le fichier %1$s n\'existe pas</string>
     <string name="parse_error_parse_exception">Le fichier %1$s ne peut pas être analysé</string>
     <string name="parse_error_other_exception">Une erreur s\'est produite: %1$s</string>
-    <string name="parse_error_grisbi_version_not_determined">La version du fichier Grisbi ne pouvait pas être determinée</string>
+    <string name="parse_error_grisbi_version_not_determined">La version du fichier Grisbi ne peut pas être determinée</string>
     <string name="parse_error_grisbi_version_not_supported">La version du fichier Grisbi n\'est pas supportée: %1$s</string>
     <string name="payee">Tiers</string>
     <string name="payer">Tiers</string>
