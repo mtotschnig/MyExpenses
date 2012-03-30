@@ -405,7 +405,7 @@
       <guilabel role="pref_import_from_grisbi_title"/></link>. Ce bouton n'est visible que
       quand la liste des catégories est vide, mais vous pouvez toujours accéder à la
       fonction d'import à partir de l'écran <guilabel role="menu_settings"/>.
-    </para>!
+    </para>
     <para lang="de">
       Der Schaltknopf <guibutton role="import_categories"/> erlaubt Kategorien aus
       verschiedenen Quellen zu importieren wie in <link linkend='tutorial5_5'>
@@ -417,12 +417,6 @@
       <guibutton role="import_categories"/> permette di impostare le categorie ..
     </para>
     <!-- END tutorial3 para 2 --> 
-    
-    <para id="step6">
-      <screenshot>
-        <graphic fileref="step6.png"></graphic>
-      </screenshot>
-    </para>
 
     <!-- BEGIN tutorial3 para 3 --> 
     <para lang="en">
@@ -837,7 +831,7 @@
         <guilabel role="pref_import_from_grisbi_title"/>
       </title>
     <para lang="en">
-    	    This entry allows to set up categories from files
+    	This entry allows to set up categories from files
 	    included from Grisbi in English, German or French. If with Grisbi you have already
 	    defined your own categories, you can also provide your Grisbi file, which is in XML.
 	    If you want, you can edit the file with an editor and remove any information other
@@ -846,8 +840,13 @@
 	        <application role="app_name"/> also support the Grisbi file format 0.5.0,
 	        where the elements are named Categorie and Sous_categorie.
 	      </para>
-	    </footnote>. Store this file as <filename>categories.xml</filename> in a folder
-	    <filename>myexpenses</filename> in the root of your sdcard.
+	    </footnote>. Store this file as <filename role="grisbi_file"/> in a folder
+	    <filename>myexpenses</filename> in the root of your sdcard. Since version
+	    1.4.9, you can also import the partners (payers and payees) stored in this
+	    file into. When you choose your custom file as import source, you can
+	    decide to import both partners and categories, or only categories.
+	    Partners will be used for the autocomplete function of the payer/payee
+	    field in the transaction form.
     </para>
     <para lang="fr">
 	    Cette entrée vous permet de les entrer
@@ -861,8 +860,12 @@
         fichier Grisib, où les éléments portent les noms Categorie et Sous_categorie
         (sic!).
 	    </para>
-	    </footnote>. Sauvegardez ce fichier sous le nom <filename>categories.xml</filename>
+	    </footnote>. Sauvegardez ce fichier sous le nom <filename role="grisbi_file"/>
 	    dans le répertoire <filename>myexpenses</filename> de la racine de votre carte SD.
+	    À partir de la version 1.4.9, vous avez aussi l'option d'importer les tiers que Grisbi
+	    enregistre dans le même fichier. Si vous choississez votre propre fichier en tant que
+	    source de l'import, vous pourrez soit importer tiers et catégories, soit uniquement les
+	    catégories. Les tiers vous seront proposés pour remplir automatiquement le champ "tiers" dans le formulaire des opérations.
     </para>
     <para lang="de">
       Dieser Eintrag erlaubt die in Grisbi definierten
@@ -875,8 +878,12 @@
         0.5.0, in dem die Elemente Categorie und Sous_categorie heißen.
       </para>
       </footnote>. Kopieren Sie diese Datei unter dem Namen
-      <filename>categories.xml</filename> in einen Ordner <filename>myexpenses</filename>
-      in das Wurzelverzeichnis der SD-Karte.
+      <filename role="grisbi_file"/> in einen Ordner <filename>myexpenses</filename>
+      in das Wurzelverzeichnis der SD-Karte. Seit Version 1.4.9, können Sie zusätzlich auch die 
+      von Grisbi gespeichertnen Partner (Empfänger und Zahler), aus dieser Datei importieren. Wenn Sie 
+      Ihre eigene Datei als Import-Quelle auswählen, können Sie entweder Partner und Kategorien oder nur
+      Kategorien importieren. Die Partner werden im Buchungsformular verwendet, um Ihnen für das Feld
+      Empfänger/Zahler ein automatische Ausfüllen vorzuschlagen.
     </para>
     <para lang="it">
       <!-- a reviser <guibutton role="import_categories"/> --> permette di impostare le categorie di file
@@ -888,8 +895,13 @@
         <application role="app_name"/> supporta anche il formato di file Grisbi 0.5.0,
         dove gli elementi sono denominati Categorie e Sous_categorie.
       </para>
-      </footnote>Conservare questo file come <filename>categories.xml</filename> in un 
+      </footnote>Conservare questo file come <filename role="grisbi_file"/> in un 
       <filename>myexpenses</filename> cartella nella directory principale della vostra scheda SD.
+    </para>
+    <para id="step6">
+      <screenshot>
+        <graphic fileref="step6.png"></graphic>
+      </screenshot>
     </para>
     </sect2>
         
