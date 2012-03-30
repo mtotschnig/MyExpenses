@@ -62,6 +62,7 @@
     <string name="ftp_login_failure">Login failure while trying to upload to %1$s</string>
     <string name="ftp_setFileType_failure">Could not set file type to ASCII while trying to upload to %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Could not change working directory while trying to upload to %1$s</string>
+    <string name="grisbi_file">&grisbi_file;</string>
     <string name="grisbi_import_button_categories_only">Categories</string>
     <string name="grisbi_import_button_categories_and_parties">Categories and parties</string>
     <string name="grisbi_import_categories_and_parties_success">%1$s categories and %2$s parties imported successfully</string>
@@ -161,6 +162,8 @@
         or your own file stored as <i>&grisbi_file;</i> in a folder <i>myexpenses</i> in the root of your sdcard. </string>
     <string name="pref_manage_accounts_title">Manage accounts</string>
     <string name="pref_manage_accounts_summary">Add, edit, delete accounts.</string>
+    <string name="pref_manage_parties_title">Manage parties</string>
+    <string name="pref_manage_parties_summary">Delete parties (payers and payees).</string>
 		<string name="pref_share_target_title">Upload URL QIF Export</string>
     <string name="pref_share_target_summary">Supported schemes:
 * ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),

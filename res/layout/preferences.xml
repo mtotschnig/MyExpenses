@@ -48,4 +48,10 @@
       android:summary="@string/pref_import_from_grisbi_summary">
       <intent android:action="myexpenses.intent.import_from_grisbi"/>      
   </PreferenceScreen>
+    <PreferenceScreen
+      android:title="@string/pref_manage_parties_title"
+      android:summary="@string/pref_manage_parties_summary"
+      android:key="backup">
+      <intent android:action="myexpenses.intent.manage.parties"/>      
+  </PreferenceScreen>
 </PreferenceScreen> 

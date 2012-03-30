@@ -62,13 +62,14 @@
     <string name="ftp_login_failure">Login Fehler während des Uploads nach %1$s</string>
     <string name="ftp_setFileType_failure">Fehler bei der Konfiguration des Dateityps ASCII während des Uploads nach %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Fehler beim Wechseln des Verzeichnisses während des Uploads nach %1$s</string>
+    <string name="grisbi_file">&grisbi_file;</string>
     <string name="grisbi_import_button_categories_only">Kategorien</string>
-    <string name="grisbi_import_button_categories_and_parties">Kategorien und Partner</string>
+    <string name="grisbi_import_button_categories_and_parties">Kategorien und Parteien</string>
     <string name="grisbi_import_parsing">Analyse von %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s Kategorien und %2$s Partner erfolgreich importiert</string>
+    <string name="grisbi_import_categories_and_parties_success">%1$s Kategorien und %2$s Parteien erfolgreich importiert</string>
     <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
     <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
-    <string name="grisbi_import_parties_loading">Partner werden von %1$s geladen</string>
+    <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
     <string name="help_feedback">Wenn Ihnen <i>&app_name;</i> nützlich ist, 
         geben Sie doch im <a href="market://details?id=org.totschnig.myexpenses">Market</a> dazu einen Kommentar ab.
         Wenn Sie auf ein Problem stoßen, einen Verbesserungsvorschlag haben
@@ -159,6 +160,8 @@
       im Wurzelverzeichnis der SD-Karte speichern, importieren</string>
     <string name="pref_manage_accounts_title">Konten verwalten</string>
     <string name="pref_manage_accounts_summary">Hinzufügen, Editieren und Löschen von Konten.</string>
+    <string name="pref_manage_parties_title">Parteien verwalten</string>
+    <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) löschen.</string>
 	  <string name="pref_share_target_title">Upload URL QIF Export</string>
     <string name="pref_share_target_summary">Unterstützte Schemen: 
 ftp (\"ftp://login:password@my.example.org:port/my/directory/\");

@@ -61,6 +61,7 @@
     <string name="ftp_login_failure">Erreur de login lors du téléchargement vers %1$s</string>
     <string name="ftp_setFileType_failure">Erreur de configuration en type de fichier ASCII lors du téléchargement vers %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Erreur de changement de répertoire lors du téléchargement vers %1$s</string>
+    <string name="grisbi_file">&grisbi_file;</string>
     <string name="grisbi_import_button_categories_only">Catégories</string>
     <string name="grisbi_import_button_categories_and_parties">Catégories et tiers</string>
     <string name="grisbi_import_parsing">Analyse de %1$s</string>
@@ -151,6 +152,8 @@
     <string name="pref_import_from_grisbi_title">Import des données Grisbi</string>
     <string name="pref_manage_accounts_title">Gestion des comptes</string>
     <string name="pref_manage_accounts_summary">Ajouter, éditer et supprimer les comptes.</string>
+    <string name="pref_manage_parties_title">Gestion des tiers</string>
+    <string name="pref_manage_parties_summary">Effacer les tiers.</string>
     <string name="pref_share_target_title">URL où sera téléchargé le fichier QIF</string>
     <string name="pref_share_target_summary">Formes supportées:
 ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
