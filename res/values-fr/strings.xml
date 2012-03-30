@@ -135,11 +135,11 @@
     <string name="not_deletable_mapped_expenses">Cette catégorie ne peut pas être supprimée, parce qu\'il existe des dépenses qui lui sont attribuées.</string>
     <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce qu\'elle contient des sous-catégories.</string>
     <string name="opening_balance">Solde initial</string>
-    <string name="parse_error_file_not_found">Le fichier %1$s n'existe pas</string>
+    <string name="parse_error_file_not_found">Le fichier %1$s n\'existe pas</string>
     <string name="parse_error_parse_exception">Le fichier %1$s ne peut pas être analysé</string>
-    <string name="parse_error_other_exception">Une erreur s'est produite: %1$s</string>
+    <string name="parse_error_other_exception">Une erreur s\'est produite: %1$s</string>
     <string name="parse_error_grisbi_version_not_determined">La version du fichier Grisbi ne pouvait pas être determinée</string>
-    <string name="parse_error_grisbi_version_not_supported">La version du fichier Grisbi n'est pas supportée: %1$s</string>
+    <string name="parse_error_grisbi_version_not_supported">La version du fichier Grisbi n\'est pas supportée: %1$s</string>
     <string name="payee">Tiers</string>
     <string name="payer">Tiers</string>
     <string name="pref_backup_title">Sauvegarde</string>
