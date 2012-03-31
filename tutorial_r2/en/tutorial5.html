@@ -42,13 +42,10 @@
       long click opens up a menu with shortcuts to the configuration of the current
       account (<span class="guimenuitem">Current account</span>) and to the backup
       (<span class="guimenuitem">Backup</span>).
-    </p><div class="sect2" title="Managing accounts"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_1"></a>
-      <span lang="en">Managing accounts</span>
-      
-      
-      
-      </h3></div></div></div><p lang="en">
-        Choosing the <span class="guilabel">Accounts</span> entry opens up the <span class="guilabel"></span> screen, where you see the complete account list. Clicking
+    </p><div class="sect2" title="Sort order for categories"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_1"></a>
+       <span class="guilabel">Sort order for categories</span>
+    </h3></div></div></div><p lang="en">
+        Herr you see the complete account list. Clicking
         on an item, opens up the configuration form (explained in <a class="link" href="tutorial1.html" title="Accounts">
       <span lang="en">Accounts</span>
       
@@ -86,12 +83,19 @@
     </p></div><div class="sect2" title="Import from Grisbi"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_5"></a>
         <span class="guilabel">Import from Grisbi</span>
       </h3></div></div></div><p lang="en">
-    	    This entry allows to set up categories from files
+    	This entry allows to set up categories from files
 	    included from Grisbi in English, German or French. If with Grisbi you have already
 	    defined your own categories, you can also provide your Grisbi file, which is in XML.
 	    If you want, you can edit the file with an editor and remove any information other
-	    than the Category and Sub_category elements<sup>[<a name="ftn-en-1" href="#ftn.ftn-en-1" class="footnote">1</a>]</sup>. Store this file as <code class="filename">categories.xml</code> in a folder
-	    <code class="filename">myexpenses</code> in the root of your sdcard.
+	    than the <code class="sgmltag-element">Category</code> and <code class="sgmltag-element">Sub_category</code> elements<sup>[<a name="ftn55-en-1" href="#ftn.ftn55-en-1" class="footnote">2</a>]</sup>. Store this file as <code class="filename"></code> in a folder
+	    <code class="filename">myexpenses</code> in the root of your sdcard. Since version
+	    1.4.9, you can also import the parties (payers and payees) stored in this
+	    file (element <code class="sgmltag-element">Party</code>). When you choose your custom file as import source, you can
+	    decide to import both parties and categories, or only categories.
+	    Partners will be used for the autocomplete function of the payer/payee
+	    field in the transaction form.
+    </p><p><a name="step6"></a>
+      </p><div class="screenshot"><div><img src="step6.png"></div></div><p>
     </p></div><div class="sect2" title="Use standard Android menu"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_6"></a>
         <span class="guilabel">Use standard Android menu</span>
       </h3></div></div></div><p lang="en">
@@ -99,7 +103,13 @@
       transaction list for accessing commands instead of displaying a button
       bar. You will be offered to activate the menu based interface when
       clicking on the hardware menu button.
-    </p></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.ftn-en-1" href="#ftn-en-1" class="para">1</a>] </sup>
+    </p></div><div class="sect2" title="Manage parties"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_7"></a>
+        <span class="guilabel">Manage parties</span>
+      </h3></div></div></div><p lang="en">
+      This screen lists the parties used for the autocompletion of the <span class="guilabel">Payer</span>/<span class="guilabel">Payee</span> field. You can remove entries from
+      this list, by checking the checkbox on their right side, and then clicking
+      on the <span class="guibutton">Delete</span> button.
+    </p></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.ftn55-en-1" href="#ftn55-en-1" class="para">2</a>] </sup>
 	        <span class="application">My Expenses</span> also support the Grisbi file format 0.5.0,
-	        where the elements are named Categorie and Sous_categorie.
+	        where the elements are named <code class="sgmltag-element">Categorie</code> and <code class="sgmltag-element">Sous_categorie</code> (<code class="sgmltag-element">Tiers</code> for parties).
 	      </p></div></div></div></body></html>
