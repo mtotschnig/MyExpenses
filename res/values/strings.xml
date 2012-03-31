@@ -122,7 +122,7 @@
 		<string name="menu_create_sub_cat">Create new sub category</string>
 		<string name="menu_delete_account">Delete Account</string>
 		<string name="menu_delete_cat">Delete category</string>
-		<string name="menu_delete">Delete Transaction</string>
+		<string name="menu_delete">Delete</string>
 		<string name="menu_edit_account">Edit Account</string>
 		<string name="menu_edit_cat">Edit category</string>
 		<string name="menu_edit_ta">Edit Transaction</string>
