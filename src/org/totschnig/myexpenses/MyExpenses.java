@@ -568,11 +568,18 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .setTitle(R.string.dialog_title_select_account)
         .setSingleChoiceItems(accountLabels, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
-            //we remove the dialog since the items are different dependend on each invocation
+            //we remove the dialog since the items are different dependent on each invocation
             removeDialog(SELECT_ACCOUNT_DIALOG_ID);
             switchAccount(accountIds[item]);
           }
-        }).create();
+        })
+        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+          @Override
+          public void onCancel(DialogInterface dialog) {
+            removeDialog(SELECT_ACCOUNT_DIALOG_ID);
+          }
+        })
+        .create();
     }
     return null;
   }
@@ -923,10 +930,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
          if (accountCount == 2) {
            switchAccount(0);
          } else {
-           //TODO: when the dialog is dismissed with back button,
-           //the dialog is not removed, and can get out of sync if
-           //the user renames an account or deletes/adds
-           //probably need ondismisslistener to handle that case
            showDialog(SELECT_ACCOUNT_DIALOG_ID);
          }
         } else {
