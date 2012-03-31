@@ -560,7 +560,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           }
         }).create();
     case SELECT_ACCOUNT_DIALOG_ID:
-      final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,true);
+      final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
       final String[] accountLabels = Utils.getStringArrayFromCursor(otherAccounts, "label");
       final int[] accountIds = Utils.getIntArrayFromCursor(otherAccounts, ExpensesDbAdapter.KEY_ROWID);
       otherAccounts.close();
