@@ -210,13 +210,16 @@
     
     <!-- BEGIN tutorial1 para 4 --> 
     <para lang="en">
-      For managing the complete account list, please refer to <link linkend='tutorial5_1' endterm="tutorial5_1.title"/>.
+      For managing the complete account list, please refer to <link linkend='tutorial5_1'> 
+      <guilabel role="pref_categories_sort_by_usages_title"/></link>.
     </para>
     <para lang="fr">
-      Comment gérer les comptes, est expliqué dans <link linkend='tutorial5_1' endterm="tutorial5_1.title"/>.
+      Comment gérer les comptes, est expliqué dans <link linkend='tutorial5_1'>
+      <guilabel role="pref_categories_sort_by_usages_title"/></link>.
     </para>
     <para lang="de">
-      Die Verwaltung der Konten wird in <link linkend='tutorial5_1' endterm="tutorial5_1.title"/> erklärt.
+      Die Verwaltung der Konten wird in <link linkend='tutorial5_1'>
+      <guilabel role="pref_categories_sort_by_usages_title"/></link> erklärt.
     </para>
     <para lang="it">
 
@@ -261,21 +264,49 @@
     <!-- BEGIN tutorial2 para 2 --> 
     <para lang="en">
       Adjust date and time, click on the <guibutton>-</guibutton> Button to toggle between
-      expense and income, enter amount, notes and payee (or payer). Clicking on the
+      expense and income, enter amount and notes. The payee (or payer) field remembers the values
+      you enter and will suggest them in the future<footnote id="ftn22-en-1">
+      <para>You can also import a list of parties for autocompleting the payee
+      field from your Grisbi file as explained in <link
+      linkend='tutorial5_5'><guilabel
+      role="pref_import_from_grisbi_title"/></link>. If you want to delete
+      entries from this list refer to <link linkend='tutorial5_7'><guilabel
+      role="pref_manage_parties_title"/></link>.
+      </para>
+      </footnote>. Clicking on the
       <guibutton role="select"/> button, brings up the <guilabel role="select_category"/>
       activity. We will explain below, how to manage categories.
     </para>
+    
     <para lang="fr">
       Fixez la date et l'heure, cliquez sur le bouton <guibutton>-</guibutton> pour
-      basculer entre dépense ou entrée, entrez la somme, une remarque et un tiers. Cliquez
+      basculer entre dépense ou entrée, entrez la somme et une remarque.
+      Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois
+      que vous entrez un tiers<footnote id="ftn22-fr-1">
+      <para>Vous pouvez importer la liste des tiers enregistré dans un fichier Grisbi,
+      tel qu'expliqué dans <link linkend='tutorial5_5'><guilabel
+      role="pref_import_from_grisbi_title"/></link>. Si vous désirez supprimer des valeurs
+      de cette liste, referez-vous à <link linkend='tutorial5_7'><guilabel
+      role="pref_manage_parties_title"/></link>.
+      </para>
+      </footnote>. Cliquez
       sur le bouton <guibutton role="select"/> vous ouvre la fenêtre
       <guilabel role="select_category"/>. Nous vous expliquerons plus tard
       comment gérer les catégories.
     </para>
     <para lang="de">
       Passen Sie Datum und Uhrzeit an, klicken Sie auf den Schaltknopf <guibutton>-</guibutton>
-      um zwischen Ausgabe und Einnahme zu wechseln, geben Sie Betrag, Notizen und
-      Empfänger (bzw. Zahler) ein. Durch Klick auf den Knopf
+      um zwischen Ausgabe und Einnahme zu wechseln, geben Sie Betrag und Notizen ein.
+      Das Feld für die Eingabe von Empfänger (bzw. Zahler) merkt sich die von Ihnen
+      eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld 
+      vor<footnote id="ftn22-de-1">
+      <para>Sie können auch die in einer Grisbi Datei gespeicherte Liste der Parteien
+      importieren (erklärt in <link linkend='tutorial5_5'><guilabel
+      role="pref_import_from_grisbi_title"/></link>). Wie Sie Werte aus dieser
+      Liste löschen können, erfahren Sie unter <link linkend='tutorial5_7'><guilabel
+      role="pref_manage_parties_title"/></link>.
+      </para>
+      </footnote>. Durch Klick auf den Knopf
       <guibutton role="select"/> kommen Sie zum Bildschirm <guilabel role="select_category"/>.
       Dieser wird später erklärt.
     </para>
@@ -676,33 +707,27 @@
     <!-- END tutorial5 para 1 --> 
     
     <sect2 id="tutorial5_1">
-      <title id="tutorial5_1.title">
-      <phrase lang="en">Managing accounts</phrase>
-      <phrase lang="fr">Gestion des comptes</phrase>
-      <phrase lang="de">Verwaltung der Konten</phrase>
-      <phrase lang="it">Gestione degli conti</phrase>
-      </title>
+    <title>
+       <guilabel role="pref_categories_sort_by_usages_title"/>
+    </title>
       
       <!-- BEGIN tutorial5_1 para 1 --> 
       <para lang="en">
-        Choosing the <guilabel role="menu_accounts"/> entry opens up the <guilabel
-        role="manage_accounts"/> screen, where you see the complete account list. Clicking
+        Herr you see the complete account list. Clicking
         on an item, opens up the configuration form (explained in <link
         linkend="tutorial1" endterm="tutorial1.title"/>). A long click on the account
         brings up the context menu, from where you can delete the account, unless it is
         the current account that cannot be deleted.
       </para>
       <para lang="fr">
-        L'entrée <guilabel role="menu_accounts"/> ouvre l'écran <guilabel
-        role="manage_accounts"/>, qui affiche la liste complète des comptes. En cliquant
+        Ici s'affiche la liste complète des comptes. En cliquant
         sur un compte, vous accédez au formulaire de configuration (expliqué dans <link
         linkend="tutorial1" endterm="tutorial1.title"/>). Un clique long affiche un menu
         contextuel permettant d'effacer le compte, à l'exception du compte en cours, qui
         ne peut pas être effaçé.
       </para>
       <para lang="de">
-        Der Eintrag <guilabel role="menu_accounts"/> öffnet den Bildschirm <guilabel
-        role="manage_accounts"/>, der eine komplette Liste der Konten anzeigt. Durch den
+        Hier wird eine komplette Liste der Konten angezeigt. Durch den
         Klick auf ein Konto wird das Konfigurationsformular geöffnet (erklärt in <link
         linkend="tutorial1" endterm="tutorial1.title"/>). Ein langer Klick bringt das
         Kontextmenü zum Vorschein, mit der Möglichkeit, das Konto zu löschen, mit der
@@ -830,74 +855,84 @@
       <title>
         <guilabel role="pref_import_from_grisbi_title"/>
       </title>
+      
+    <!-- BEGIN tutorial5_5 para 1 -->   
     <para lang="en">
     	This entry allows to set up categories from files
 	    included from Grisbi in English, German or French. If with Grisbi you have already
 	    defined your own categories, you can also provide your Grisbi file, which is in XML.
 	    If you want, you can edit the file with an editor and remove any information other
-	    than the Category and Sub_category elements<footnote id="ftn-en-1">
+	    than the <sgmltag>Category</sgmltag> and <sgmltag>Sub_category</sgmltag> elements<footnote id="ftn55-en-1">
 	      <para>
 	        <application role="app_name"/> also support the Grisbi file format 0.5.0,
-	        where the elements are named Categorie and Sous_categorie.
+	        where the elements are named <sgmltag>Categorie</sgmltag> and <sgmltag>Sous_categorie</sgmltag> (<sgmltag>Tiers</sgmltag> for parties).
 	      </para>
 	    </footnote>. Store this file as <filename role="grisbi_file"/> in a folder
 	    <filename>myexpenses</filename> in the root of your sdcard. Since version
-	    1.4.9, you can also import the partners (payers and payees) stored in this
-	    file into. When you choose your custom file as import source, you can
-	    decide to import both partners and categories, or only categories.
+	    1.4.9, you can also import the parties (payers and payees) stored in this
+	    file (element <sgmltag>Party</sgmltag>). When you choose your custom file as import source, you can
+	    decide to import both parties and categories, or only categories.
 	    Partners will be used for the autocomplete function of the payer/payee
 	    field in the transaction form.
     </para>
+    
     <para lang="fr">
 	    Cette entrée vous permet de les entrer
 	    directement à partir des définitions standards de Grisbi en anglais, allemand ou
 	    français. Si vous aviez déjà défini vos propres catégories, vous pouvez aussi
 	    utiliser votre fichier Grisbi qui est en format XML. Dans ce cas, copiez votre
 	    fichier et enlevez toutes les informations autres que les blocs de catégories
-	    (Category) et de sous-catégories (Sub_category)<footnote id="ftn-fr-1">
+	    (<sgmltag>Category</sgmltag>) et de sous-catégories (<sgmltag>Sub_category</sgmltag>)<footnote id="ftn55-fr-1">
 	    <para>
         <application role="app_name"/> supporte aussi la version 0.5.0 du format de
-        fichier Grisib, où les éléments portent les noms Categorie et Sous_categorie
-        (sic!).
+        fichier Grisib, où les éléments portent les noms <sgmltag>Categorie</sgmltag> et <sgmltag>Sous_categorie</sgmltag>
+        ((<sgmltag>Tiers</sgmltag> pour les tiers)).
 	    </para>
 	    </footnote>. Sauvegardez ce fichier sous le nom <filename role="grisbi_file"/>
 	    dans le répertoire <filename>myexpenses</filename> de la racine de votre carte SD.
 	    À partir de la version 1.4.9, vous avez aussi l'option d'importer les tiers que Grisbi
-	    enregistre dans le même fichier. Si vous choississez votre propre fichier en tant que
+	    enregistre dans le même fichier (élément <sgmltag>Party</sgmltag>). Si vous choississez votre propre fichier en tant que
 	    source de l'import, vous pourrez soit importer tiers et catégories, soit uniquement les
 	    catégories. Les tiers vous seront proposés pour remplir automatiquement le champ "tiers" dans le formulaire des opérations.
     </para>
+    
     <para lang="de">
       Dieser Eintrag erlaubt die in Grisbi definierten
       Kategorien (Englisch, Deutsch oder Französisch) zu importieren. Sie können auch eine
       Grisbi Datei (in XML) verwenden, die Ihre eigenen Kategorien enthält. Sie können
-      diese Datei editieren und alle Informationen außer die Elemente "Category" und
-      "Sub_category" entfernen<footnote id="ftn-de-1">
+      diese Datei editieren und alle Informationen außer die Elemente <sgmltag>Category</sgmltag> und
+      <sgmltag>Sub_category</sgmltag> entfernen<footnote id="ftn55-de-1">
       <para>
         <application role="app_name"/> unterstützt auch das Grisbi Datei Format
-        0.5.0, in dem die Elemente Categorie und Sous_categorie heißen.
+        0.5.0, in dem die Elemente <sgmltag>Categorie</sgmltag> und <sgmltag>Sous_categorie</sgmltag> heißen
+        (<sgmltag>Tiers</sgmltag> für Parteien).
       </para>
       </footnote>. Kopieren Sie diese Datei unter dem Namen
       <filename role="grisbi_file"/> in einen Ordner <filename>myexpenses</filename>
       in das Wurzelverzeichnis der SD-Karte. Seit Version 1.4.9, können Sie zusätzlich auch die 
-      von Grisbi gespeichertnen Partner (Empfänger und Zahler), aus dieser Datei importieren. Wenn Sie 
-      Ihre eigene Datei als Import-Quelle auswählen, können Sie entweder Partner und Kategorien oder nur
+      von Grisbi gespeichertnen Parteien (Empfänger und Zahler), aus dieser Datei importieren (Element <sgmltag>Party</sgmltag>). Wenn Sie 
+      Ihre eigene Datei als Import-Quelle auswählen, können Sie entweder Parteien und Kategorien oder nur
       Kategorien importieren. Die Partner werden im Buchungsformular verwendet, um Ihnen für das Feld
       Empfänger/Zahler ein automatische Ausfüllen vorzuschlagen.
     </para>
+    
     <para lang="it">
       <!-- a reviser <guibutton role="import_categories"/> --> permette di impostare le categorie di file
       inclusa da Grisbi in inglese, tedesco o francese. Se con Grisbi hai già definite le
       proprie categorie, è possibile anche fornire il file Grisbi, che è in XML. 
       Se si desidera, è possibile modificare il file con un editor e rimuovere ogni altra informazione
-      rispetto alla categoria e gli elementi Sub_category.<footnote id="ftn-it-1">
+      rispetto alla categoria e gli elementi 
+      <!-- a reviser reference to Category tag is missing -->
+      <sgmltag>Sub_category</sgmltag>.<footnote id="ftn-it-1">
       <para>
         <application role="app_name"/> supporta anche il formato di file Grisbi 0.5.0,
-        dove gli elementi sono denominati Categorie e Sous_categorie.
+        dove gli elementi sono denominati <sgmltag>Categorie</sgmltag> e <sgmltag>Sous_categorie</sgmltag>
+        <!-- (<sgmltag>Tiers</sgmltag> recivetori). -->
       </para>
       </footnote>Conservare questo file come <filename role="grisbi_file"/> in un 
       <filename>myexpenses</filename> cartella nella directory principale della vostra scheda SD.
     </para>
+    <!-- END tutorial5_5 para 1 --> 
     <para id="step6">
       <screenshot>
         <graphic fileref="step6.png"></graphic>
@@ -909,6 +944,7 @@
       <title>
         <guilabel role="pref_use_standard_menu_title"/>
       </title>
+    <!-- BEGIN tutorial5_6 para 1 --> 
     <para lang="en">
       If this option is checked, Android's standard menu will be used in the
       transaction list for accessing commands instead of displaying a button
@@ -925,6 +961,37 @@
       Indem Sie diese Option anklicken, können Sie anstatt der Symbolleiste
       Androids Standardmenü verwenden, um Befehle auszuführen. Sie können diesen
       Parameter auch durch Drücken des Hardware Menüknopfes verändern.
+    </para>
+    <para lang="it"></para>
+    <!-- END tutorial5_6 para 1 --> 
+    </sect2>
+    
+    <sect2 id="tutorial5_7">
+      <title>
+        <guilabel role="pref_manage_parties_title"/>
+      </title>
+    <!-- BEGIN tutorial5_7 para 1 -->
+    <para lang="en">
+      This screen lists the parties used for the autocompletion of the <guilabel
+      role="payer"/>/<guilabel role="payee"/> field. You can remove entries from
+      this list, by checking the checkbox on their right side, and then clicking
+      on the <guibutton role="menu_delete"/> button.
+    </para>
+    
+    <para lang="fr">
+      Sur cet écran s'affiche la liste des tiers utilisé pour le complément
+      automatique du champ <guilabel role="payer"/>. Pour supprimer des entrées
+      de cette liste, vous les sélectionnez en cochant la checkbox à leur
+      droite, et activez ensuite le bouton <guibutton role="menu_delete"/>.
+    </para>
+    
+    <para lang="de">
+      Auf diesem Bildschirm wird die Liste der Parteien angezeigt, die für die
+      automatische Komplettierung des Feldes <guilabel role="payer"/>/<guilabel
+      role="payee"/> verwendet wird. Sie können Einträge aus dieser Liste
+      entfernen, indem Sie das Markierungsfeld in der jeweiligen Zeile
+      ankreuzen, und dann den Schaltknopf <guibutton role="menu_delete"/>
+      betätigen.
     </para>
     <para lang="it"></para>
     </sect2>
