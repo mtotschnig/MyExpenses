@@ -754,7 +754,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     Long accountId = mDbHelper.getFirstAccountId();
     if (accountId == null) {
       account = new Account(
-          mDbHelper,
           getString(R.string.app_name),
           0,
           getString(R.string.default_account_description),

@@ -48,7 +48,7 @@ public class Account {
    */
   public Currency currency;
   
-  private ExpensesDbAdapter mDbHelper;
+  private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   
   /**
    * @see <a href="http://www.currency-iso.org/dl_iso_table_a1.xml">http://www.currency-iso.org/dl_iso_table_a1.xml</a>
@@ -238,22 +238,27 @@ public class Account {
   public static Account getInstanceFromDb(ExpensesDbAdapter mDbHelper, long id) throws AccountNotFoundException {
     Account account;
     account = accounts.get(id);
-    if (account != null)
+    if (account != null) {
       return account;
-    account = new Account(mDbHelper,id);
+    }
+    account = new Account(id);
     accounts.put(id, account);
     return account;
+  }
+  public static boolean delete(long id) {
+    if (accounts.containsValue(id)) {
+      accounts.remove(id);
+    }
+    return mDbHelper.deleteAccount(id);
   }
 
   /**
    * returns an empty Account instance
    * @param mDbHelper the database helper used in the activity
    */
-  public Account(ExpensesDbAdapter mDbHelper) {
-    this.mDbHelper = mDbHelper;
+  public Account() {
   }
-  public Account(ExpensesDbAdapter mDbHelper, String label, float openingBalance, String description, Currency currency) {
-    this.mDbHelper = mDbHelper;
+  public Account(String label, float openingBalance, String description, Currency currency) {
     this.label = label;
     this.openingBalance = openingBalance;
     this.description = description;
@@ -267,8 +272,7 @@ public class Account {
    * @param id
    * @throws AccountNotFoundException 
    */
-  private Account(ExpensesDbAdapter mDbHelper, long id) throws AccountNotFoundException {
-    this.mDbHelper = mDbHelper;
+  private Account(long id) throws AccountNotFoundException {
     this.id = id;
     Cursor c = mDbHelper.fetchAccount(id);
     if (c.getCount() == 0) {

@@ -100,7 +100,7 @@ public class ManageAccounts extends ListActivity {
       .setCancelable(false)
       .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int id) {
-            mDbHelper.deleteAccount(mContextAccountId);
+            Account.delete(mContextAccountId);
             fillData();
           }
       })
