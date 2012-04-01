@@ -246,7 +246,7 @@ public class Account {
     return account;
   }
   public static boolean delete(long id) {
-    if (accounts.containsValue(id)) {
+    if (accounts.containsKey(id)) {
       accounts.remove(id);
     }
     return mDbHelper.deleteAccount(id);
