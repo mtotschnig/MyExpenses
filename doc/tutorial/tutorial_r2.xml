@@ -150,10 +150,7 @@
     </para>
 
     <para lang="it">
-       Lors du premier lancement de <application role="app_name"/>, un compte par défaut est
-      créé, et vous pouvez immédiatement commencer à saisir des transactions. Si vous voulez
-      éditer le compte par défaut, utilisez
-Al primo avvio l'applicazione, un account predefinito è stato creato, e si può immediatamente iniziare a inserire le transazioni. Se si desidera modificare l'account predefinito, utilizzare
+       Al primo avvio di <application role="app_name"/>, un conto predefinito è stato creato, e si può immediatamente iniziare a inserire le transazioni. Se si desidera modificare il conto predefinito, utilizzare
       <menuchoice>
         <guimenu role="menu_settings"/>
         <guimenuitem role="menu_settings_account"/>
@@ -179,8 +176,7 @@ Al primo avvio l'applicazione, un account predefinito è stato creato, e si può
     </para>
     <para lang="fr">
       Entrez un libellé, une description, le solde d'ouverture et la devise de ce compte.
-      La devise doit être saisie selon le code ISO 4217 en trois lettres, mais peut être facilement sélectionné
-      à partir d'une liste en cliquant sur <guibutton role="select"/>
+      La devise doit être saisie selon le code ISO 4217 en trois lettres, mais peut être facilement sélectionné à partir d'une liste en cliquant sur <guibutton role="select"/>
     </para>
     <para lang="de">
       Geben Sie eine Bezeichnung, eine Beschreibung, den Anfangssaldo und die Währung des
@@ -296,15 +292,14 @@ Al primo avvio l'applicazione, un account predefinito è stato creato, e si può
       Fixez la date et l'heure, cliquez sur le bouton <guibutton>-</guibutton> pour
       basculer entre dépense ou entrée, entrez la somme et une remarque.
       Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois
-      que vous entrez un tiers<footnote id="ftn22-fr-1">
-      <para>Vous pouvez importer la liste des tiers enregistré dans un fichier Grisbi,
-      tel qu'expliqué dans <link linkend='tutorial5_5'><guilabel
+      que vous entrerez un tiers<footnote id="ftn22-fr-1">
+      <para>Vous pouvez importer la liste des tiers enregistrés de votre fichier Grisbi,
+      comme expliqué dans <link linkend='tutorial5_5'><guilabel
       role="pref_import_from_grisbi_title"/></link>. Si vous désirez supprimer des valeurs
-      de cette liste, referez-vous à <link linkend='tutorial5_7'><guilabel
+      de cette liste, consultez <link linkend='tutorial5_7'><guilabel
       role="pref_manage_parties_title"/></link>.
       </para>
-      </footnote>. Cliquez
-      sur le bouton <guibutton role="select"/> vous ouvre la fenêtre
+      </footnote>. Cliquez sur le bouton <guibutton role="select"/> vous ouvre la fenêtre
       <guilabel role="select_category"/>. Nous vous expliquerons plus tard
       comment gérer les catégories.
     </para>
@@ -326,9 +321,17 @@ Al primo avvio l'applicazione, un account predefinito è stato creato, e si può
     </para>
     <para lang="it">
       Regolare data e ora, fare clico sul pulsante <guibutton>-</guibutton> per passare
-      gli oneri ei proventi, inserire importo, le note e il beneficiario (o debitore). Cliccando sul
-      <guibutton role="select"/> il pulsante, si apre la <guilabel role="select_category"/>
-      attività. Vi spiegheremo di seguito, come gestire le categorie. 
+      gli oneri ei proventi, inserire importo, le note e il beneficiario (o debitore).
+      Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois
+      que vous entrerez un tiers<footnote id="ftn22-fr-1">
+      <para>Vous pouvez importer la liste des tiers enregistrés de votre fichier Grisbi,
+      comme expliqué dans <link linkend='tutorial5_5'><guilabel
+      role="pref_import_from_grisbi_title"/></link>. Si vous désirez supprimer des valeurs
+      de cette liste, consultez <link linkend='tutorial5_7'><guilabel
+      role="pref_manage_parties_title"/></link>.
+      </para>
+      </footnote> Cliccando sul <guibutton role="select"/> pulsante, si apre la 
+      <guilabel role="select_category"/> attività. Vi spiegheremo di seguito, come gestire le categorie. 
     </para>
     <!-- END tutorial2 para 2 --> 
     
