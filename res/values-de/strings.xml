@@ -139,6 +139,7 @@
     <string name="no_app_handling_email_available">Keine App für das Versenden von Email gefunden.</string>
 	  <string name="no_categories">Noch keine Kategorien vorhanden.</string>
 	  <string name="no_expenses">Noch keine Ausgaben!</string>
+    <string name="no_parties">Keine Parteien.</string>
 	  <string name="not_deletable_mapped_expenses">Diese Kategorie kann nicht gelöscht werden, weil ihr Ausgaben zugeordnet sind.</string>
 	  <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie Unterkategorien hat.</string>
 	  <string name="opening_balance">Anfangssaldo</string>

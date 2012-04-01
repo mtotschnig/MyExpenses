@@ -143,6 +143,7 @@
     <string name="no_app_handling_email_available">No app handling email available.</string>
 		<string name="no_categories">No categories.</string>
 		<string name="no_expenses">No Expenses Yet!</string>
+    <string name="no_parties">No parties.</string>
 		<string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are mapped to it.</string>
 		<string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
 		<string name="opening_balance">Opening balance</string>
