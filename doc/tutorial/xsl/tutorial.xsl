@@ -31,7 +31,15 @@
   <h1>
   <!-- we want the title to be invisible from inapp webview: we set it to display none,
   and make it visible through javascript. the webview has javascript disabled-->
-  <span id="navigtitle" style="display:none"><xsl:apply-templates select="/article/articleinfo/title/phrase" /></span>
+  <span id="navigtitle" style="display:none">
+  <a href="../../index.html"><span class="application">
+  <xsl:call-template name="getString">
+      <xsl:with-param name="id" select="'app_name'"/>
+  </xsl:call-template>
+  </span></a>
+  <xsl:text> </xsl:text>
+  <xsl:value-of select="/article/articleinfo/title/phrase" />
+  </span>
   <span class="langselector">
     <xsl:for-each select="document('')/*/custom:supported-langs/lang">
       <xsl:choose>
@@ -112,18 +120,6 @@
 
 <xsl:template name="inline.charseq">
   <xsl:param name="content">
-  <xsl:variable name="doclang" select="/article/articleinfo/title/phrase/@lang"/>
-  <xsl:variable name="resdir">
-    <xsl:choose>
-      <xsl:when test="$doclang = 'en'">
-        <xsl:text>values</xsl:text>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="concat('values-',$doclang)"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:variable>
-  <xsl:variable name="resfile" select="concat('../../../res/',$resdir,'/strings.xml')"/>
   <xsl:variable name="id" select="@role"/>
   <xsl:choose>
   <xsl:when test="normalize-space(.)">
@@ -135,8 +131,8 @@
     </xsl:call-template>
     </xsl:when>
     <xsl:otherwise>
-      <xsl:call-template name="unescape-android-string-resources">
-      <xsl:with-param name="string" select="document($resfile)/resources/string[@name = $id]"/>
+      <xsl:call-template name="getString">
+      <xsl:with-param name="id" select="$id"/>
       </xsl:call-template>
     </xsl:otherwise>
   </xsl:choose>
@@ -154,6 +150,25 @@
     <xsl:copy-of select="$content"/>
     <xsl:call-template name="apply-annotations"/>
   </xsl:element>
+</xsl:template>
+
+<xsl:template name="getString">
+  <xsl:param name="id"/>
+  <xsl:variable name="doclang" select="/article/articleinfo/title/phrase/@lang"/>
+  <xsl:variable name="resdir">
+    <xsl:choose>
+      <xsl:when test="$doclang = 'en'">
+        <xsl:text>values</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="concat('values-',$doclang)"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+  <xsl:variable name="resfile" select="concat('../../../res/',$resdir,'/strings.xml')"/>
+  <xsl:call-template name="unescape-android-string-resources">
+      <xsl:with-param name="string" select="document($resfile)/resources/string[@name = $id]"/>
+  </xsl:call-template>
 </xsl:template>
 
 <xsl:template name="unescape-android-string-resources">
