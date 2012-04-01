@@ -42,7 +42,7 @@ public class Transaction {
    * we store the date directly from UI to DB without creating a Date object
    */
   protected String dateAsString;
-  protected ExpensesDbAdapter mDbHelper;
+  private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   
   /**
    * factory method for retrieving an instance from the db with the given id
@@ -50,16 +50,16 @@ public class Transaction {
    * @param id
    * @return instance of {@link Transaction} or {@link Transfer}
    */
-  public static Transaction getInstanceFromDb(ExpensesDbAdapter mDbHelper, long id) {
+  public static Transaction getInstanceFromDb(long id) {
     Transaction t;
-    Cursor c = mDbHelper.fetchExpense(id);
+    Cursor c = mDbHelper.fetchTransaction(id);
     long transfer_peer = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
     if (transfer_peer != 0) {
-      t = new Transfer(mDbHelper);
+      t = new Transfer();
       t.transfer_peer = transfer_peer;
     }
     else
-      t = new Transaction(mDbHelper);
+      t = new Transaction();
     
     t.id = id;
     t.setDate(c.getString(
@@ -86,20 +86,22 @@ public class Transaction {
    * {@link MyExpenses#TYPE_TRANSFER}
    * @return instance of {@link Transaction} or {@link Transfer} with date initialized to current date
    */
-  public static Transaction getTypedNewInstance(ExpensesDbAdapter mDbHelper,
-      boolean mOperationType) {
+  public static Transaction getTypedNewInstance(boolean mOperationType) {
     if(mOperationType == MyExpenses.TYPE_TRANSACTION)
-      return new Transaction(mDbHelper);
+      return new Transaction();
     else 
-      return new Transfer(mDbHelper);
+      return new Transfer();
+  }
+  
+  public static boolean delete(long id) {
+    return mDbHelper.deleteTransaction(id);
   }
   
   /**
    * new empty transaction
    * @param mDbHelper
    */
-  public Transaction(ExpensesDbAdapter mDbHelper) {
-    this.mDbHelper = mDbHelper;
+  public Transaction() {
     setDate(new Date());
   }
   /**
@@ -119,22 +121,25 @@ public class Transaction {
     dateAsString = dateFormat.format(date);
   }
   /**
-   * as a side effect calls {@link ExpensesDbAdapter#createPayeeOrIgnore(String)}
+   * 
    * @param payee
    */
   public void setPayee(String payee) {
     this.payee = payee;
-    mDbHelper.createPayee(payee);
   }
   /**
    * Saves the transaction, creating it new if necessary
+   * as a side effect calls {@link ExpensesDbAdapter#createPayee(String)}
    * @return the id of the transaction. Upon creation it is returned from the database
    */
   public long save() {
+    if (!payee.equals("")) {
+      mDbHelper.createPayee(payee);
+    }
     if (id == 0) {
-      id = mDbHelper.createExpense(dateAsString, amount, comment,cat_id,account_id,payee);
+      id = mDbHelper.createTransaction(dateAsString, amount, comment,cat_id,account_id,payee);
     } else {
-      mDbHelper.updateExpense(id, dateAsString, amount, comment,cat_id,payee);
+      mDbHelper.updateTransaction(id, dateAsString, amount, comment,cat_id,payee);
     }
     return id;
   }

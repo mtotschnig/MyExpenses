@@ -227,7 +227,7 @@ public class SelectCategory extends ExpandableListActivity {
     			case DELETE_CAT:
     			  if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && mDbHelper.getCategoryCountSub(cat_id) > 0) {
     			    Toast.makeText(this,getString(R.string.not_deletable_subcats_exists), Toast.LENGTH_LONG).show();
-    			  } else if (mDbHelper.getExpenseCount(cat_id) > 0 ) {
+    			  } else if (mDbHelper.getTransactionCount(cat_id) > 0 ) {
     			    Toast.makeText(this,getString(R.string.not_deletable_mapped_expenses), Toast.LENGTH_LONG).show();
     			  } else {
     			    mDbHelper.deleteCategory(cat_id);

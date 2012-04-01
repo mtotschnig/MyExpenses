@@ -251,9 +251,9 @@ public class ExpenseEdit extends Activity {
     int otherAccountsCount = 0;
     //1. fetch the transaction or create a new instance
     if (mRowId != 0) {
-      mTransaction = Transaction.getInstanceFromDb(mDbHelper, mRowId);
+      mTransaction = Transaction.getInstanceFromDb(mRowId);
     } else {
-      mTransaction = Transaction.getTypedNewInstance(mDbHelper,mOperationType);
+      mTransaction = Transaction.getTypedNewInstance(mOperationType);
       mTransaction.account_id = mAccountId;
     }
     //2. get info about other accounts if we are editing a transfer

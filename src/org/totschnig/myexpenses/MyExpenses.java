@@ -253,7 +253,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    * binds the Cursor for all expenses to the list view
    */
   private void fillData() {
-    mExpensesCursor = mDbHelper.fetchExpenseAll(mCurrentAccount.id);
+    mExpensesCursor = mDbHelper.fetchTransactionAll(mCurrentAccount.id);
     startManagingCursor(mExpensesCursor);
 
     setTitle(mCurrentAccount.label);
@@ -416,10 +416,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case DELETE_COMMAND_ID:
       long transfer_peer = mExpensesCursor.getLong(
           mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
-      if (transfer_peer == 0)
-        mDbHelper.deleteExpense(info.id);
-      else
-        mDbHelper.deleteTransfer(info.id,transfer_peer);
+      if (transfer_peer == 0) {
+        Transaction.delete(info.id);
+      }
+      else {
+        Transfer.delete(info.id,transfer_peer);
+      }
       fillData();
       return true;
     case SHOW_DETAIL_COMMAND_ID:

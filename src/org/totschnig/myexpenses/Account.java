@@ -301,7 +301,7 @@ public class Account {
    * @return the sum of opening balance and all transactions for the account
    */
   public float getCurrentBalance() { 
-    return openingBalance + mDbHelper.getExpenseSum(id);
+    return openingBalance + mDbHelper.getTransactionSum(id);
   }
   
   /**
@@ -310,7 +310,7 @@ public class Account {
   public void reset() {
     openingBalance = getCurrentBalance();
     mDbHelper.updateAccountOpeningBalance(id,openingBalance);
-    mDbHelper.deleteExpenseAll(id);
+    mDbHelper.deleteTransactionAll(id);
   }
   
   /**

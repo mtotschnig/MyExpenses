@@ -256,7 +256,7 @@ public class ExpensesDbAdapter {
    * @param comment the comment describing the expense
    * @return rowId or -1 if failed
    */
-  public long createExpense(String date, float amount, String comment,
+  public long createTransaction(String date, float amount, String comment,
       long cat_id,long account_id, String payee) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
@@ -313,7 +313,7 @@ public class ExpensesDbAdapter {
    * @param comment value to set
    * @return should return 1 if row has been successfully updated
    */
-  public int updateExpense(long rowId, String date, float amount, 
+  public int updateTransaction(long rowId, String date, float amount, 
       String comment,long cat_id,String payee) {
     ContentValues args = new ContentValues();
     args.put(KEY_DATE, date);
@@ -367,7 +367,7 @@ public class ExpensesDbAdapter {
    * @param rowId id of note to delete
    * @return true if deleted, false otherwise
    */
-  public boolean deleteExpense(long rowId) {
+  public boolean deleteTransaction(long rowId) {
 
     return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
   }
@@ -375,7 +375,7 @@ public class ExpensesDbAdapter {
   /**
    * Delete both transactions that make up a transfer
    * it is the caller's responsibilty to pass in two ids that
-   * have actually are linked
+   * actually are linked
    * @param rowId
    * @param transfer_peer
    * @return
@@ -392,7 +392,7 @@ public class ExpensesDbAdapter {
    * 
    * @param account_id
    */
-  public void deleteExpenseAll(long account_id ) {
+  public void deleteTransactionAll(long account_id ) {
     mDb.delete(DATABASE_TABLE, 
         "account_id = ?", 
         new String[] { String.valueOf(account_id) });
@@ -403,7 +403,7 @@ public class ExpensesDbAdapter {
    * exposes the full label which concatenate main and sub label if appropriate
    * @return Cursor over all transactions
    */
-  public Cursor fetchExpenseAll(long account_id) {
+  public Cursor fetchTransactionAll(long account_id) {
 
     return mDb.query(DATABASE_TABLE,
         new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, 
@@ -418,7 +418,7 @@ public class ExpensesDbAdapter {
    * @return Cursor positioned to matching transaction, if found
    * @throws SQLException if transaction could not be found/retrieved
    */
-  public Cursor fetchExpense(long rowId) throws SQLException {
+  public Cursor fetchTransaction(long rowId) throws SQLException {
 
     Cursor mCursor =
       mDb.query(DATABASE_TABLE,
@@ -437,7 +437,7 @@ public class ExpensesDbAdapter {
    * @param account_id
    * @return
    */
-  public float getExpenseSum(long account_id) {
+  public float getTransactionSum(long account_id) {
     Cursor mCursor = mDb.rawQuery("select sum(" + KEY_AMOUNT + ") from " + 
         DATABASE_TABLE +  " WHERE account_id = " + account_id, 
         null);
@@ -451,7 +451,7 @@ public class ExpensesDbAdapter {
    * @param cat_id
    * @return number of transactions linked to a category
    */
-  public int getExpenseCount(long cat_id) {
+  public int getTransactionCount(long cat_id) {
     //since cat_id stores the account to which is transfered for transfers
     //we have to restrict to normal transactions by checking if transfer_peer is null
     Cursor mCursor = mDb.rawQuery("select count(*) from " + DATABASE_TABLE +  
