@@ -187,7 +187,7 @@ public class AccountEdit extends Activity {
       mOpeningBalanceText.setText(nfDLocal.format(mAccount.openingBalance));
       mCurrencyText.setText(mAccount.currency.getCurrencyCode());
     } else {
-      mAccount = new Account(mDbHelper);
+      mAccount = new Account();
       setTitle(R.string.menu_insert_account);
       Locale l = Locale.getDefault();
       Currency c = Currency.getInstance(l);

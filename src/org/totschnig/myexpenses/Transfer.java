@@ -22,9 +22,13 @@ package org.totschnig.myexpenses;
  *
  */
 public class Transfer extends Transaction {
+  private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   
-  public Transfer(ExpensesDbAdapter mDbHelper) {
-    super(mDbHelper);
+  public Transfer() {
+    super();
+  }
+  public static boolean delete(long id,long peer) {
+    return mDbHelper.deleteTransfer(id,peer);
   }
 
   /* (non-Javadoc)

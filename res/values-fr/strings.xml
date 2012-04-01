@@ -133,6 +133,7 @@
     <string name="no_app_handling_email_available">Aucune application disponible pour envoyer un e-mail.</string>
     <string name="no_categories">Aucune catégorie.</string>
     <string name="no_expenses">Aucune dépense !</string>
+    <string name="no_parties">Aucun tiers.</string>
     <string name="not_deletable_mapped_expenses">Cette catégorie ne peut pas être supprimée, parce qu\'il existe des dépenses qui lui sont attribuées.</string>
     <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce qu\'elle contient des sous-catégories.</string>
     <string name="opening_balance">Solde initial</string>

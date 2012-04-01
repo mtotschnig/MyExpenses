@@ -253,7 +253,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    * binds the Cursor for all expenses to the list view
    */
   private void fillData() {
-    mExpensesCursor = mDbHelper.fetchExpenseAll(mCurrentAccount.id);
+    mExpensesCursor = mDbHelper.fetchTransactionAll(mCurrentAccount.id);
     startManagingCursor(mExpensesCursor);
 
     setTitle(mCurrentAccount.label);
@@ -416,10 +416,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case DELETE_COMMAND_ID:
       long transfer_peer = mExpensesCursor.getLong(
           mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
-      if (transfer_peer == 0)
-        mDbHelper.deleteExpense(info.id);
-      else
-        mDbHelper.deleteTransfer(info.id,transfer_peer);
+      if (transfer_peer == 0) {
+        Transaction.delete(info.id);
+      }
+      else {
+        Transfer.delete(info.id,transfer_peer);
+      }
       fillData();
       return true;
     case SHOW_DETAIL_COMMAND_ID:
@@ -560,7 +562,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           }
         }).create();
     case SELECT_ACCOUNT_DIALOG_ID:
-      final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,true);
+      final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
       final String[] accountLabels = Utils.getStringArrayFromCursor(otherAccounts, "label");
       final int[] accountIds = Utils.getIntArrayFromCursor(otherAccounts, ExpensesDbAdapter.KEY_ROWID);
       otherAccounts.close();
@@ -568,11 +570,18 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .setTitle(R.string.dialog_title_select_account)
         .setSingleChoiceItems(accountLabels, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
-            //we remove the dialog since the items are different dependend on each invocation
+            //we remove the dialog since the items are different dependent on each invocation
             removeDialog(SELECT_ACCOUNT_DIALOG_ID);
             switchAccount(accountIds[item]);
           }
-        }).create();
+        })
+        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+          @Override
+          public void onCancel(DialogInterface dialog) {
+            removeDialog(SELECT_ACCOUNT_DIALOG_ID);
+          }
+        })
+        .create();
     }
     return null;
   }
@@ -754,7 +763,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     Long accountId = mDbHelper.getFirstAccountId();
     if (accountId == null) {
       account = new Account(
-          mDbHelper,
           getString(R.string.app_name),
           0,
           getString(R.string.default_account_description),
@@ -924,10 +932,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
          if (accountCount == 2) {
            switchAccount(0);
          } else {
-           //TODO: when the dialog is dismissed with back button,
-           //the dialog is not removed, and can get out of sync if
-           //the user renames an account or deletes/adds
-           //probably need ondismisslistener to handle that case
            showDialog(SELECT_ACCOUNT_DIALOG_ID);
          }
         } else {
