@@ -122,7 +122,7 @@
 
     <para lang="fr">
       Lors du premier lancement de <application role="app_name"/>, un compte par défaut est
-      crée, et vous pouvez immédiatement commencer à saisir des transactions. Si vous voulez
+      créé, et vous pouvez immédiatement commencer à saisir des transactions. Si vous voulez
       éditer le compte par défaut, utilisez
       <menuchoice>
         <guimenu role="menu_settings"/>
@@ -150,6 +150,18 @@
     </para>
 
     <para lang="it">
+       Lors du premier lancement de <application role="app_name"/>, un compte par défaut est
+      créé, et vous pouvez immédiatement commencer à saisir des transactions. Si vous voulez
+      éditer le compte par défaut, utilisez
+Al primo avvio l'applicazione, un account predefinito è stato creato, e si può immediatamente iniziare a inserire le transazioni. Se si desidera modificare l'account predefinito, utilizzare
+      <menuchoice>
+        <guimenu role="menu_settings"/>
+        <guimenuitem role="menu_settings_account"/>
+     </menuchoice>Se si desidera creare un nuovo conto, seleziona
+     <menuchoice>
+        <guimenu role="menu_accounts"/>
+        <guimenuitem role="menu_accounts_new"/>
+     </menuchoice>.
     </para>
     <!-- END tutorial1 para 1 --> 
     
@@ -204,7 +216,8 @@
       Ein einfacher Klick wechselt zum zuletzt aktiven Konto, ein langer Klick öffnet ein
       Menü mit allen Konten zur Auswahl.
     </para>
-    <para lang="it">
+    <para lang="it">i
+      Confermare la voce, e si ritorna alla lista di transazioni. Se si è aggiunto un nuovo conto, diventa automaticamente il conto corrente. La voce <guibutton role="menu_accounts"/> consente di cambiare il conto corrente. Un clic breve attiva il conto ultimo utilizzato, un clic lungo apre un menu per scegliere questo t dalla lista.
     </para>
     <!-- END tutorial1 para 3 --> 
     
@@ -214,7 +227,7 @@
       <guilabel role="pref_categories_sort_by_usages_title"/></link>.
     </para>
     <para lang="fr">
-      Comment gérer les comptes, est expliqué dans <link linkend='tutorial5_1'>
+      La gestion des comptes est expliqué dans <link linkend='tutorial5_1'>
       <guilabel role="pref_categories_sort_by_usages_title"/></link>.
     </para>
     <para lang="de">
@@ -222,7 +235,8 @@
       <guilabel role="pref_categories_sort_by_usages_title"/></link> erklärt.
     </para>
     <para lang="it">
-
+      La gestione degli conti è spiegato in <link linkend='tutorial5_1'>
+      <guilabel role="pref_categories_sort_by_usages_title"/></link>.
     </para>   
     <!-- END tutorial1 para 4 --> 
   </sect1>
@@ -688,10 +702,10 @@
       (<guimenuitem role="menu_backup"/>).
     </para>
     <para lang="fr">
-      Un clique court sur le bouton <guibutton role="menu_settings"/> ouvre l'écran des
+      Un clic court sur le bouton <guibutton role="menu_settings"/> ouvre l'écran des
       paramètres. Ici vous pouvez configurer quelques propriétés de <application
       role="app_name"/> et pouvez accéder à la gestion des comptes, ainsi qu'à la
-      sauvegarde. Un clique long ouvre un menu qui comporte l'accès direct à la
+      sauvegarde. Un clic long ouvre un menu qui comporte l'accès direct à la
       configuration du compte en cours, ainsi qu'à la sauvegarde.
     </para>
     <para lang="de">
@@ -722,7 +736,7 @@
       <para lang="fr">
         Ici s'affiche la liste complète des comptes. En cliquant
         sur un compte, vous accédez au formulaire de configuration (expliqué dans <link
-        linkend="tutorial1" endterm="tutorial1.title"/>). Un clique long affiche un menu
+        linkend="tutorial1" endterm="tutorial1.title"/>). Un clic long affiche un menu
         contextuel permettant d'effacer le compte, à l'exception du compte en cours, qui
         ne peut pas être effaçé.
       </para>

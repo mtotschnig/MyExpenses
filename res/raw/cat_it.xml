@@ -78,7 +78,7 @@
     <Category Nb="12" Na="Studi" Kd="1" />
     <Sub_category Nbc="12" Nb="1" Na="Corso" />
     <Sub_category Nbc="12" Nb="2" Na="Libri" />
-    <Sub_category Nbc="12" Nb="3" Na="Tasse e contributi" />
+    <Sub_category Nbc="12" Nb="3" Na="Costi d'istruzione" />
     <Category Nbc="13" Na="Tariffe professionali" Kd="1" />
     <Sub_category Nbc="13" Nb="1" Na="Non rimborsabile" />
     <Sub_category Nbc="13" Nb="2" Na="Rimborsabile" />
