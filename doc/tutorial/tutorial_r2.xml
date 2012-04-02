@@ -446,8 +446,7 @@
       </para>
     <para lang="fr">
 	Soit vous cliquez sur le bouton <guibutton role="import_categories"/> qui vous permet de les 		entrer directement à partir des différents source, tel qu'expliqué dans <link linkend='tutorial5_5'>
-      <guilabel role="pref_import_from_grisbi_title"/></link>. Ce bouton n'est visible que
-      quand la liste des catégories est vide, mais vous pouvez toujours accéder à la
+      <guilabel role="pref_import_from_grisbi_title"/></link>. Ce bouton est visible lorsque la liste des catégories est vide, mais vous pouvez toujours accéder à la
       fonction d'import à partir de l'écran <guilabel role="menu_settings"/>.
     </para>
     <para lang="de">
@@ -458,7 +457,9 @@
       Bildschirm <guilabel role="menu_settings"/> auf die Import-Funktionalität zugreifen.
     </para>
     <para lang="it">
-      <guibutton role="import_categories"/> permette di impostare le categorie ..
+      O si sceglie <guibutton role="import_categories"/> che consente di immettere direttamente dalla fonte diversa, come spiegato nel <link linkend='tutorial5_5'>
+      <guilabel role="pref_import_from_grisbi_title"/></link>. Questo pulsante è visibile quando l'elenco delle categorie è vuoto, ma è ancora possibile accedere al
+       funzione di importazione dallo schermo <guilabel role="menu_settings"/>.
     </para>
     <!-- END tutorial3 para 2 --> 
 
