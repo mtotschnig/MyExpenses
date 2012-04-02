@@ -82,7 +82,7 @@
       <guilabel role="pref_use_standard_menu_title"/></link> konfigurieren.
     </para>
     <para lang="it">
-      Nella schermata principale mostra un elenco di operazioni in conto corrente. La barra nella parte inferiore dello schermo fornisce accesso a tutte le funzioni. Ogni pulsante esegue un'azione predefinita in risposta a un clic breve. La maggior parte visualizzare un menu con altre azioni in un clic lungo. In caso contrario, è possibile configurare in modo role <application role="app_name"/>  utilizza il menù standard di Android come interfaccia di controllo(<link linkend='tutorial5_6'>
+      Nella schermata principale mostra un elenco di operazioni in conto corrente. La barra nella parte inferiore dello schermo fornisce accesso a tutte le funzioni. Ogni pulsante esegue un'azione predefinita in risposta a un clic breve. La maggior parte visualizzare un menu con altre azioni in un clic lungo. In caso contrario, è possibile configurare in modo role <application role="app_name"/> utilizza il menù standard di Android come interfaccia di controllo(<link linkend='tutorial5_6'>
       <guilabel role="pref_use_standard_menu_title"/></link>).
     </para>
     <!-- END introduction para 2 -->
@@ -213,7 +213,7 @@
       Menü mit allen Konten zur Auswahl.
     </para>
     <para lang="it">i
-      Confermare la voce, e si ritorna alla lista di transazioni. Se si è aggiunto un nuovo conto, diventa automaticamente il conto corrente. La voce <guibutton role="menu_accounts"/> consente di cambiare il conto corrente. Un clic breve attiva il conto ultimo utilizzato, un clic lungo apre un menu per scegliere questo t dalla lista.
+      Confermare la voce, e si ritorna alla lista di transazioni. Se si è aggiunto un nuovo conto, diventa automaticamente il conto corrente. La voce <guibutton role="menu_accounts"/> consente di cambiare il conto corrente. Un clic breve attiva il conto ultimo utilizzato, un clic lungo apre un menu per scegliere questo  dalla lista.
     </para>
     <!-- END tutorial1 para 3 --> 
     
@@ -233,7 +233,7 @@
     <para lang="it">
       La gestione degli conti è spiegato in <link linkend='tutorial5_1'>
       <guilabel role="pref_categories_sort_by_usages_title"/></link>.
-    </para>   
+    </para>
     <!-- END tutorial1 para 4 --> 
   </sect1>
    
@@ -251,16 +251,15 @@
       A short click on <guibutton role="menu_new"/> brings up  the activity for creating a
       transaction:
     </para>
-    <para lang="fr"><!-- a reviser -->
-      <guimenuitem role="menu_insert_ta"/> vous ouvre la fenêtre pour créer
-      une opération :
+    <para lang="fr">
+      <guimenuitem role="menu_new"/> vous ouvre la fenêtre pour créer une opération :
     </para>
     <para lang="de">
       Kurzer Klick auf <guibutton role="menu_new"/>  öffnet den Bildschirm für die Eingabe einer
       neuen Buchung.
     </para>
-    <para lang="it"><!-- a reviser -->
-      <guimenuitem role="menu_insert_ta"/> porta in primo piano l'attività 
+    <para lang="it">
+      <guimenuitem role="menu_new"/> porta in primo piano l'attività 
       per la creazione di una transazione:
     </para>
     <!-- END tutorial2 para 1 --> 
@@ -322,12 +321,9 @@
     <para lang="it">
       Regolare data e ora, fare clico sul pulsante <guibutton>-</guibutton> per passare
       gli oneri ei proventi, inserire importo, le note e il beneficiario (o debitore).
-      Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois
-      que vous entrerez un tiers<footnote id="ftn22-fr-1">
-      <para>Vous pouvez importer la liste des tiers enregistrés de votre fichier Grisbi,
-      comme expliqué dans <link linkend='tutorial5_5'><guilabel
-      role="pref_import_from_grisbi_title"/></link>. Si vous désirez supprimer des valeurs
-      de cette liste, consultez <link linkend='tutorial5_7'><guilabel
+      Il benficiario campo memorizza i valori inseriti, e suggeriscono la prossima volta che si 	 entra questo<footnote id="ftn22-fr-1">
+      <para>È possibile importare una lista di beneficiari iscritti nel file Grisbi, come spiegato in<link linkend='tutorial5_5'><guilabel
+      role="pref_import_from_grisbi_title"/></link>. Se si desidera eliminare valori da questo elenco, vedere<link linkend='tutorial5_7'><guilabel
       role="pref_manage_parties_title"/></link>.
       </para>
       </footnote> Cliccando sul <guibutton role="select"/> pulsante, si apre la 
