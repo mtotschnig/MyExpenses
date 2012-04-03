@@ -66,9 +66,9 @@
     <string name="grisbi_import_button_categories_only">Categorie</string>
     <string name="grisbi_import_button_categories_and_parties">Categorie e beneficiari</string>
     <string name="grisbi_import_parsing">Analisi di %1$s</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$d categorie e %2$d beneficiari state importati</string>
+    <string name="grisbi_import_categories_and_parties_success">%1$s categorie e %2$s beneficiari state importati</string>
     <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
-    <string name="grisbi_import_categories_success">%1$d categorie state importate</string>
+    <string name="grisbi_import_categories_success">%1$s categorie state importate</string>
     <string name="grisbi_import_parties_loading">Importazion dei beneficiari dalla %1$s</string>
     <string name="help_feedback">Se si trova <i>&app_name;</i> utile,si prega di lasciare un commento 
 	nel <a href="market://details?id=org.totschnig.myexpenses">Mercato</a>.
