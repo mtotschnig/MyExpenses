@@ -489,8 +489,9 @@
       Zugriff. Wenn Sie die Kategorien lieber alphabetisch geordnet wollen, können Sie die
       Einstellung <guilabel role="pref_categories_sort_by_usages_title"/> deaktivieren.
     </para>
-    <para lang="it"><!-- a reviser -->
+    <para lang="it">
       Ora avete un elenco di categorie con sottocategorie che è possibile associare con il tuo transazioni.
+      Per impostazione predefinita, le categorie sono ordinate per frequenza di utilizzo (in ordine alfabetico viene utilizzato come criterio secondario). Questa funzione consente di accedere rapidamente alle categorie relative alle operazioni che si utilizzano più. Se si preferisce vedere le categorie appaiono in ordine alfabetico, è possibile disabilitare questa impostazione <guilabel role="pref_categories_sort_by_usages_title"/>.
     </para>
     <!-- END tutorial3 para 3 --> 
     
@@ -507,8 +508,7 @@
     </para>
     <para lang="fr">
       La seconde façon est d'ajouter vos propres catégories. <guibutton role="menu_create_main_cat"/>
-      vous ouvre une fenêtre pour entrer un nouveau
-      libellé.
+      vous ouvre une fenêtre pour entrer un nouveau libellé.
     </para>
     <para lang="de">
       Die zweite Möglichkeit besteht darin, Kategorien selbst anzulegen. <guibutton role="menu_create_main_cat"/>
@@ -613,9 +613,7 @@
       cours, les enlever de la base de données et ajuster le solde initial avec le solde
       courant. <application role="app_name"/> peut utiliser ce fichier
       immédiatement en le téléchargeant sur un serveur FTP ou en l'envoyant par courriel.
-      Vous pouvez en configurer l'URL à partir du menu "Paramêtres" (par exemple
-      "ftp://login:password@my.example.org:port/my/directory/" ou
-      "mailto:john@my.example.com").
+      Vous pouvez en configurer l'URL à partir de <link linkend='tutorial5_3'><guilabel role="pref_share_target_title"/></link>. 
       <phrase role="br"/>
       Les opérations de virement seront aussi enlevées du compte mais resteront visibles
       dans l'autre compte concerné.
@@ -635,15 +633,14 @@
       Umbuchungen werden auch von dem Konto gelöscht, sind aber im anderen Konto, auf das
       sie sich beziehen, weiterhin sichtbar.
     </para>
-    <para lang="it"><!-- a reviser: menu_reset remplacer menu par bouton -->
+    <para lang="it">
       Infine, la ragion d'essere di <application role="app_name"/> è il suo supporto
       per l'esportazione in formato QIF. Chiama questa funzione attraverso la voce 
       <guibutton role="menu_reset"/> di menù dalla lista transazione. Questo sarà crea un file sul tuo 
       scheda SD con tutte le transazioni per il conto corrente, eliminare dal database, e regolare 
       il saldo di apertura con il saldo corrente. <application role="app_name"/> posso
       condividere il file subito dopo il export, sia caricarlo in un server FTP o inviarla via e-mail.
-      È possibile configurare il URL dalla voce di menù "Parametri" (ad esempio
-      "ftp://login:password@my.example.org:port/my/directory/" o "mailto:john@my.example.com").
+      È possibile configurare il URL dalla voce <link linkend='tutorial5_3'><guilabel role="pref_share_target_title"/></link>.
       <phrase role="br"/>
       Operazioni di trasferimento verrà eliminato anche dal conto, ma ancora visibile in
       l'altro conto a cui si riferiscono.
