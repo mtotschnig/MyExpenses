@@ -82,7 +82,7 @@
       <guilabel role="pref_use_standard_menu_title"/></link> konfigurieren.
     </para>
     <para lang="it">
-      Nella schermata principale mostra un elenco di operazioni in conto corrente. La barra nella parte inferiore dello schermo fornisce accesso a tutte le funzioni. Ogni pulsante esegue un'azione predefinita in risposta a un clic breve. La maggior parte visualizzare un menu con altre azioni in un clic lungo. In caso contrario, è possibile configurare in modo role <application role="app_name"/>  utilizza il menù standard di Android come interfaccia di controllo(<link linkend='tutorial5_6'>
+      Nella schermata principale mostra un elenco di operazioni in conto corrente. La barra nella parte inferiore dello schermo fornisce accesso a tutte le funzioni. Ogni pulsante esegue un'azione predefinita in risposta a un clic breve. La maggior parte visualizzare un menu con altre azioni in un clic lungo. In caso contrario, è possibile configurare in modo role <application role="app_name"/> utilizza il menù standard di Android come interfaccia di controllo(<link linkend='tutorial5_6'>
       <guilabel role="pref_use_standard_menu_title"/></link>).
     </para>
     <!-- END introduction para 2 -->
@@ -122,7 +122,7 @@
 
     <para lang="fr">
       Lors du premier lancement de <application role="app_name"/>, un compte par défaut est
-      crée, et vous pouvez immédiatement commencer à saisir des transactions. Si vous voulez
+      créé, et vous pouvez immédiatement commencer à saisir des transactions. Si vous voulez
       éditer le compte par défaut, utilisez
       <menuchoice>
         <guimenu role="menu_settings"/>
@@ -150,6 +150,15 @@
     </para>
 
     <para lang="it">
+       Al primo avvio di <application role="app_name"/>, un conto predefinito è stato creato, e si può immediatamente iniziare a inserire le transazioni. Se si desidera modificare il conto predefinito, utilizzare
+      <menuchoice>
+        <guimenu role="menu_settings"/>
+        <guimenuitem role="menu_settings_account"/>
+     </menuchoice>Se si desidera creare un nuovo conto, seleziona
+     <menuchoice>
+        <guimenu role="menu_accounts"/>
+        <guimenuitem role="menu_accounts_new"/>
+     </menuchoice>.
     </para>
     <!-- END tutorial1 para 1 --> 
     
@@ -167,8 +176,7 @@
     </para>
     <para lang="fr">
       Entrez un libellé, une description, le solde d'ouverture et la devise de ce compte.
-      La devise doit être saisie selon le code ISO 4217 en trois lettres, mais peut être facilement sélectionné
-      à partir d'une liste en cliquant sur <guibutton role="select"/>
+      La devise doit être saisie selon le code ISO 4217 en trois lettres, mais peut être facilement sélectionné à partir d'une liste en cliquant sur <guibutton role="select"/>
     </para>
     <para lang="de">
       Geben Sie eine Bezeichnung, eine Beschreibung, den Anfangssaldo und die Währung des
@@ -204,7 +212,8 @@
       Ein einfacher Klick wechselt zum zuletzt aktiven Konto, ein langer Klick öffnet ein
       Menü mit allen Konten zur Auswahl.
     </para>
-    <para lang="it">
+    <para lang="it">i
+      Confermare la voce, e si ritorna alla lista di transazioni. Se si è aggiunto un nuovo conto, diventa automaticamente il conto corrente. La voce <guibutton role="menu_accounts"/> consente di cambiare il conto corrente. Un clic breve attiva il conto ultimo utilizzato, un clic lungo apre un menu per scegliere questo  dalla lista.
     </para>
     <!-- END tutorial1 para 3 --> 
     
@@ -214,7 +223,7 @@
       <guilabel role="pref_categories_sort_by_usages_title"/></link>.
     </para>
     <para lang="fr">
-      Comment gérer les comptes, est expliqué dans <link linkend='tutorial5_1'>
+      La gestion des comptes est expliqué dans <link linkend='tutorial5_1'>
       <guilabel role="pref_categories_sort_by_usages_title"/></link>.
     </para>
     <para lang="de">
@@ -222,8 +231,9 @@
       <guilabel role="pref_categories_sort_by_usages_title"/></link> erklärt.
     </para>
     <para lang="it">
-
-    </para>   
+      La gestione degli conti è spiegato in <link linkend='tutorial5_1'>
+      <guilabel role="pref_categories_sort_by_usages_title"/></link>.
+    </para>
     <!-- END tutorial1 para 4 --> 
   </sect1>
    
@@ -241,16 +251,15 @@
       A short click on <guibutton role="menu_new"/> brings up  the activity for creating a
       transaction:
     </para>
-    <para lang="fr"><!-- a reviser -->
-      <guimenuitem role="menu_insert_ta"/> vous ouvre la fenêtre pour créer
-      une opération :
+    <para lang="fr">
+      <guimenuitem role="menu_new"/> vous ouvre la fenêtre pour créer une opération :
     </para>
     <para lang="de">
       Kurzer Klick auf <guibutton role="menu_new"/>  öffnet den Bildschirm für die Eingabe einer
       neuen Buchung.
     </para>
-    <para lang="it"><!-- a reviser -->
-      <guimenuitem role="menu_insert_ta"/> porta in primo piano l'attività 
+    <para lang="it">
+      <guimenuitem role="menu_new"/> porta in primo piano l'attività 
       per la creazione di una transazione:
     </para>
     <!-- END tutorial2 para 1 --> 
@@ -282,15 +291,14 @@
       Fixez la date et l'heure, cliquez sur le bouton <guibutton>-</guibutton> pour
       basculer entre dépense ou entrée, entrez la somme et une remarque.
       Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois
-      que vous entrez un tiers<footnote id="ftn22-fr-1">
-      <para>Vous pouvez importer la liste des tiers enregistré dans un fichier Grisbi,
-      tel qu'expliqué dans <link linkend='tutorial5_5'><guilabel
+      que vous entrerez un tiers<footnote id="ftn22-fr-1">
+      <para>Vous pouvez importer la liste des tiers enregistrés de votre fichier Grisbi,
+      comme expliqué dans <link linkend='tutorial5_5'><guilabel
       role="pref_import_from_grisbi_title"/></link>. Si vous désirez supprimer des valeurs
-      de cette liste, referez-vous à <link linkend='tutorial5_7'><guilabel
+      de cette liste, consultez <link linkend='tutorial5_7'><guilabel
       role="pref_manage_parties_title"/></link>.
       </para>
-      </footnote>. Cliquez
-      sur le bouton <guibutton role="select"/> vous ouvre la fenêtre
+      </footnote>. Cliquez sur le bouton <guibutton role="select"/> vous ouvre la fenêtre
       <guilabel role="select_category"/>. Nous vous expliquerons plus tard
       comment gérer les catégories.
     </para>
@@ -312,9 +320,14 @@
     </para>
     <para lang="it">
       Regolare data e ora, fare clico sul pulsante <guibutton>-</guibutton> per passare
-      gli oneri ei proventi, inserire importo, le note e il beneficiario (o debitore). Cliccando sul
-      <guibutton role="select"/> il pulsante, si apre la <guilabel role="select_category"/>
-      attività. Vi spiegheremo di seguito, come gestire le categorie. 
+      gli oneri ei proventi, inserire importo, le note e il beneficiario (o debitore).
+      Il benficiario campo memorizza i valori inseriti, e suggeriscono la prossima volta che si 	 entra questo<footnote id="ftn22-fr-1">
+      <para>È possibile importare una lista di beneficiari iscritti nel file Grisbi, come spiegato in<link linkend='tutorial5_5'><guilabel
+      role="pref_import_from_grisbi_title"/></link>. Se si desidera eliminare valori da questo elenco, vedere<link linkend='tutorial5_7'><guilabel
+      role="pref_manage_parties_title"/></link>.
+      </para>
+      </footnote> Cliccando sul <guibutton role="select"/> pulsante, si apre la 
+      <guilabel role="select_category"/> attività. Vi spiegheremo di seguito, come gestire le categorie. 
     </para>
     <!-- END tutorial2 para 2 --> 
     
@@ -433,8 +446,7 @@
       </para>
     <para lang="fr">
 	Soit vous cliquez sur le bouton <guibutton role="import_categories"/> qui vous permet de les 		entrer directement à partir des différents source, tel qu'expliqué dans <link linkend='tutorial5_5'>
-      <guilabel role="pref_import_from_grisbi_title"/></link>. Ce bouton n'est visible que
-      quand la liste des catégories est vide, mais vous pouvez toujours accéder à la
+      <guilabel role="pref_import_from_grisbi_title"/></link>. Ce bouton est visible lorsque la liste des catégories est vide, mais vous pouvez toujours accéder à la
       fonction d'import à partir de l'écran <guilabel role="menu_settings"/>.
     </para>
     <para lang="de">
@@ -445,7 +457,9 @@
       Bildschirm <guilabel role="menu_settings"/> auf die Import-Funktionalität zugreifen.
     </para>
     <para lang="it">
-      <guibutton role="import_categories"/> permette di impostare le categorie ..
+      O si sceglie <guibutton role="import_categories"/> che consente di immettere direttamente dalla fonte diversa, come spiegato nel <link linkend='tutorial5_5'>
+      <guilabel role="pref_import_from_grisbi_title"/></link>. Questo pulsante è visibile quando l'elenco delle categorie è vuoto, ma è ancora possibile accedere al
+       funzione di importazione dallo schermo <guilabel role="menu_settings"/>.
     </para>
     <!-- END tutorial3 para 2 --> 
 
@@ -475,8 +489,9 @@
       Zugriff. Wenn Sie die Kategorien lieber alphabetisch geordnet wollen, können Sie die
       Einstellung <guilabel role="pref_categories_sort_by_usages_title"/> deaktivieren.
     </para>
-    <para lang="it"><!-- a reviser -->
+    <para lang="it">
       Ora avete un elenco di categorie con sottocategorie che è possibile associare con il tuo transazioni.
+      Per impostazione predefinita, le categorie sono ordinate per frequenza di utilizzo (in ordine alfabetico viene utilizzato come criterio secondario). Questa funzione consente di accedere rapidamente alle categorie relative alle operazioni che si utilizzano più. Se si preferisce vedere le categorie appaiono in ordine alfabetico, è possibile disabilitare questa impostazione <guilabel role="pref_categories_sort_by_usages_title"/>.
     </para>
     <!-- END tutorial3 para 3 --> 
     
@@ -493,8 +508,7 @@
     </para>
     <para lang="fr">
       La seconde façon est d'ajouter vos propres catégories. <guibutton role="menu_create_main_cat"/>
-      vous ouvre une fenêtre pour entrer un nouveau
-      libellé.
+      vous ouvre une fenêtre pour entrer un nouveau libellé.
     </para>
     <para lang="de">
       Die zweite Möglichkeit besteht darin, Kategorien selbst anzulegen. <guibutton role="menu_create_main_cat"/>
@@ -599,9 +613,7 @@
       cours, les enlever de la base de données et ajuster le solde initial avec le solde
       courant. <application role="app_name"/> peut utiliser ce fichier
       immédiatement en le téléchargeant sur un serveur FTP ou en l'envoyant par courriel.
-      Vous pouvez en configurer l'URL à partir du menu "Paramêtres" (par exemple
-      "ftp://login:password@my.example.org:port/my/directory/" ou
-      "mailto:john@my.example.com").
+      Vous pouvez en configurer l'URL à partir de <link linkend='tutorial5_3'><guilabel role="pref_share_target_title"/></link>. 
       <phrase role="br"/>
       Les opérations de virement seront aussi enlevées du compte mais resteront visibles
       dans l'autre compte concerné.
@@ -621,15 +633,14 @@
       Umbuchungen werden auch von dem Konto gelöscht, sind aber im anderen Konto, auf das
       sie sich beziehen, weiterhin sichtbar.
     </para>
-    <para lang="it"><!-- a reviser: menu_reset remplacer menu par bouton -->
+    <para lang="it">
       Infine, la ragion d'essere di <application role="app_name"/> è il suo supporto
       per l'esportazione in formato QIF. Chiama questa funzione attraverso la voce 
       <guibutton role="menu_reset"/> di menù dalla lista transazione. Questo sarà crea un file sul tuo 
       scheda SD con tutte le transazioni per il conto corrente, eliminare dal database, e regolare 
       il saldo di apertura con il saldo corrente. <application role="app_name"/> posso
       condividere il file subito dopo il export, sia caricarlo in un server FTP o inviarla via e-mail.
-      È possibile configurare il URL dalla voce di menù "Parametri" (ad esempio
-      "ftp://login:password@my.example.org:port/my/directory/" o "mailto:john@my.example.com").
+      È possibile configurare il URL dalla voce <link linkend='tutorial5_3'><guilabel role="pref_share_target_title"/></link>.
       <phrase role="br"/>
       Operazioni di trasferimento verrà eliminato anche dal conto, ma ancora visibile in
       l'altro conto a cui si riferiscono.
@@ -688,10 +699,10 @@
       (<guimenuitem role="menu_backup"/>).
     </para>
     <para lang="fr">
-      Un clique court sur le bouton <guibutton role="menu_settings"/> ouvre l'écran des
+      Un clic court sur le bouton <guibutton role="menu_settings"/> ouvre l'écran des
       paramètres. Ici vous pouvez configurer quelques propriétés de <application
       role="app_name"/> et pouvez accéder à la gestion des comptes, ainsi qu'à la
-      sauvegarde. Un clique long ouvre un menu qui comporte l'accès direct à la
+      sauvegarde. Un clic long ouvre un menu qui comporte l'accès direct à la
       configuration du compte en cours, ainsi qu'à la sauvegarde.
     </para>
     <para lang="de">
@@ -722,7 +733,7 @@
       <para lang="fr">
         Ici s'affiche la liste complète des comptes. En cliquant
         sur un compte, vous accédez au formulaire de configuration (expliqué dans <link
-        linkend="tutorial1" endterm="tutorial1.title"/>). Un clique long affiche un menu
+        linkend="tutorial1" endterm="tutorial1.title"/>). Un clic long affiche un menu
         contextuel permettant d'effacer le compte, à l'exception du compte en cours, qui
         ne peut pas être effaçé.
       </para>

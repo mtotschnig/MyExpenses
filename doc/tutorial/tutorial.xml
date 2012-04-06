@@ -198,7 +198,7 @@
     <para lang="it">
       Regolare data e ora, fare clico sul pulsante <guibutton>-</guibutton> per passare
       gli oneri ei proventi, inserire importo, le note e il beneficiario (o debitore). Cliccando sul
-      <guibutton role="select"/> il pulsante, si apre la <guilabel role="select_category"/>
+      <guibutton role="select"/> pulsante, si apre la <guilabel role="select_category"/>
       attività. Vi spiegheremo di seguito, come gestire le categorie. 
     </para>
     
@@ -218,7 +218,7 @@
       (Empfänger, Notizen).
     </para>
     <para lang="it">
-      Ritorno alla lista transazione, è possibile modificare le singole voci attraverso un click breve,
+      Ritorno alla lista transazione, è possibile modificare le singole voci attraverso un clico breve,
       il menù contestuale permette di cancellare una transazione, o visualizzare tutti i dettagli 
       (beneficiario, note).
     </para>
