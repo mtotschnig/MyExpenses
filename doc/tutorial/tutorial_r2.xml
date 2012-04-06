@@ -713,7 +713,11 @@
       Konfiguration des aktuellen Kontos, sowie aufs Backup.    
     </para>
     <para lang="it">
-    
+      Un breve clico sul pulsante <guibutton role="menu_settings"/> si apre la schermata
+       parametri. Qui è possibile impostare alcune proprietà di applicazione <application
+      role="app_name"/> può accedere alla gestione degli account e di
+       backup. Un clico lungo si apre un menu che include l'accesso diretto al
+       conto attuale, e di backup.
     </para>
     <!-- END tutorial5 para 1 --> 
     
@@ -724,7 +728,7 @@
       
       <!-- BEGIN tutorial5_1 para 1 --> 
       <para lang="en">
-        Herr you see the complete account list. Clicking
+        Here you see the complete account list. Clicking
         on an item, opens up the configuration form (explained in <link
         linkend="tutorial1" endterm="tutorial1.title"/>). A long click on the account
         brings up the context menu, from where you can delete the account, unless it is
