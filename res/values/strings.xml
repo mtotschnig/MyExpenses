@@ -142,6 +142,7 @@
 		<string name="no_accounts">No Accounts!</string>
     <string name="no_app_handling_email_available">No app handling email available.</string>
 		<string name="no_categories">No categories.</string>
+		<string name="no_details">No details.</string>
 		<string name="no_expenses">No Expenses Yet!</string>
     <string name="no_parties">No parties.</string>
 		<string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are mapped to it.</string>
@@ -154,6 +155,7 @@
 		<string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version: %1$s</string>
 		<string name="payee">Payee</string>
 		<string name="payer">Payer</string>
+		<string name="peer_transaction_deleted">This transaction refered to a contra-entry that has been deleted</string>
 		<string name="pref_backup_title">Backup</string>
 		<string name="pref_backup_summary">Create a backup of database and preferences on the sdcard.</string>
 		<string name="pref_categories_sort_by_usages_title">Sort order for categories</string>
