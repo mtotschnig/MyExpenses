@@ -713,10 +713,10 @@
       Konfiguration des aktuellen Kontos, sowie aufs Backup.    
     </para>
     <para lang="it">
-      Un breve clico sul pulsante <guibutton role="menu_settings"/> si apre la schermata
+      Un breve clic sul pulsante <guibutton role="menu_settings"/> si apre la schermata
        parametri. Qui è possibile impostare alcune proprietà di applicazione <application
       role="app_name"/> può accedere alla gestione degli account e di
-       backup. Un clico lungo si apre un menu che include l'accesso diretto al
+       backup. Un clic lungo si apre un menu che include l'accesso diretto al
        conto attuale, e di backup.
     </para>
     <!-- END tutorial5 para 1 --> 
@@ -749,6 +749,7 @@
         Ausnahme des aktuellen Kontos, das nicht gelöscht werden kann.
       </para>
       <para lang="it">
+        Questo mostra l'elenco completo dei conti. Facendo clic sul conto, accedere al modulo di installazione (spiegato nel <link linkend="tutorial1" endterm="tutorial1.title"/>). Un clic lungo visualizza un menu di scelta rapida per cancellare conti, ad eccezione del conto corrente, che non possono essere cancellati.
       </para>
       <!-- END tutorial5_1 para 1 --> 
 
@@ -766,9 +767,7 @@
         alphabetical order instead.
       </para>
       <para lang="fr">
-        Par défaut, les catégories sont triées par fréquence d\'utilisation (combien de
-        fois vous les associez à une transaction). Décochez cette option si vous préferez
-        que les catégories s'affichent par ordre alphabétique.
+        Par défaut, les catégories sont triées par fréquence d'utilisation ( nombre de fois où vous les associez à une transaction). Décochez cette option si vous préferez que les catégories s'affichent par ordre alphabétique.
       </para>
       <para lang="de">
         Standardmäßig werden die Kategorien anhand der Benützungshäufigkeit sortiert (wie
@@ -777,6 +776,7 @@
         werden.
       </para>
       <para lang="it">
+        Per impostazione predefinita, le categorie sono ordinati per frequenza di utilizzo (numero di volte che sono normalmente associati con una transazione). Deselezionare questa opzione se si preferisce che le categorie sono visualizzate in ordine alfabetico.
       </para>
       <!-- END tutorial5_2 para 1 --> 
       
@@ -796,10 +796,10 @@
       launch your email application, creating a new message with the file attached to it.
     </para>
     <para lang="fr">
-      Si vous spécifiez l'URL d'un dossier accéssible par FTP en mode écriture (par
+      Si vous spécifiez l'URL d'un dossier accessible par FTP en mode écriture (par
       exemple "ftp://login:password@my.example.org:port/my/directory/"), <application
       role="app_name"/> essaiera de télécharger le fichier QIF immédiatement après que
-      vous exportiez vos transactions. Si vous spécifiez un URL de courriel, votre
+      vous ayez exporté vos transactions. Si vous spécifiez un URL de courriel, votre
       application de courriel sera lancé avec un nouveau message comportant le fichier en
       pièce jointe.
     </para>
@@ -810,7 +810,11 @@
       übertragen. Wenn Sie eine Email URL (z.B. "mailto:john@my.example.com") angeben,
       wird Ihre Email-Anwendung gestartet, und eine Email erzeugt mit der Datei als Anhang.
     </para>
-    <para lang="it"></para>
+    <para lang="it">
+      Se si specifica l'URL di un file tramite FTP modalità di scrittura (da esempio "ftp://login:password@my.example.org:port/my/directory/"), <application role="app_name"/>
+       provare a scaricare il file QIF subito dopo avete esportato le tue transazioni.
+       Se si specifica un URL per email il vostro applicazione di posta elettronica si aprirà con un nuovo messaggio con il file allegato.
+    </para>
     <!-- END tutorial5_3 para 1 --> 
     
     </sect2>
