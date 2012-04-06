@@ -387,15 +387,29 @@ public class ExpensesDbAdapter {
   }
   
   /**
-   * Deletes all expenses for a given account
-   * For transfers the peer transaction will survive 
+   * Deletes all transactions for a given account
+   * For transfers the peer transaction will survive, but we transform it to a normal transaction
+   * with a note about the deletion of the peer_transaction
    * 
    * @param account_id
    */
   public void deleteTransactionAll(long account_id ) {
-    mDb.delete(DATABASE_TABLE, 
-        "account_id = ?", 
-        new String[] { String.valueOf(account_id) });
+    //starting with Android 2.2., we could handle this easier with foreign keys
+    Cursor c = fetchTransactionAll(account_id);
+    if (c.moveToFirst()){
+      for (int i = 0; i < c.getCount(); i++) {
+        long transfer_peer = c.getLong(c.getColumnIndex(ExpensesDbAdapter.KEY_TRANSFER_PEER));
+        if (transfer_peer != 0) {
+          ContentValues args = new ContentValues();
+          args.put(KEY_COMMENT, mCtx.getString(R.string.peer_transaction_deleted));
+          args.putNull(KEY_CATID);
+          args.putNull(KEY_TRANSFER_PEER);
+          mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + transfer_peer, null);
+        }
+        deleteTransaction(c.getLong(c.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
+      }
+    }
+    c.close();
   }
 
   /**

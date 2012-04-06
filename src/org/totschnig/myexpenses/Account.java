@@ -249,6 +249,7 @@ public class Account {
     if (accounts.containsKey(id)) {
       accounts.remove(id);
     }
+    mDbHelper.deleteTransactionAll(id);
     return mDbHelper.deleteAccount(id);
   }
 
