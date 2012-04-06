@@ -426,12 +426,19 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       return true;
     case SHOW_DETAIL_COMMAND_ID:
       mExpensesCursor.moveToPosition(info.position);
-      Toast.makeText(getBaseContext(),
-          mExpensesCursor.getString(
-              mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT)) +
-          "\n" +
-          getString(R.string.payee) + ": " + mExpensesCursor.getString(
-              mExpensesCursor.getColumnIndexOrThrow("payee")), Toast.LENGTH_LONG).show();
+      String comment = mExpensesCursor.getString(
+          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
+      String payee =  mExpensesCursor.getString(
+          mExpensesCursor.getColumnIndexOrThrow("payee"));
+      String msg =  ((comment != null && comment.length() != 0) ?
+          comment : "");
+      if (payee != null && payee.length() != 0) {
+        if (msg != "") {
+          msg += "\n";
+        }
+        msg += getString(R.string.payee) + ": " + payee;
+      }
+      Toast.makeText(getBaseContext(), msg != "" ? msg : getString(R.string.no_details), Toast.LENGTH_LONG).show();
       return true;
     }
     return super.onContextItemSelected(item);
