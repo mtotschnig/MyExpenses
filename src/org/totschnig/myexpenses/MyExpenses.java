@@ -825,6 +825,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         openVersionDialog(getString(R.string.version_26_upgrade_info));
         return;
       }
+      if (prev_version < 28) {
+        Log.i("MyExpenses",String.format("Upgrading to version 28: Purging %d transactions from datbase",
+            mDbHelper.purgeTransactions()));
+      }
     }
     showDialog(HELP_DIALOG_ID);
     return;

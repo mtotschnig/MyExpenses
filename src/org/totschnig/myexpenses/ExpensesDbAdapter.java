@@ -411,6 +411,17 @@ public class ExpensesDbAdapter {
     }
     c.close();
   }
+  
+  /**
+   * before 1.4.9.1 transactions were not deleted, when an account was deleted,
+   * during installation of 1.4.9.1 this method was used to purge transactions
+   * from deleted accounts
+   */
+  public int purgeTransactions() {
+    return mDb.delete(DATABASE_TABLE, 
+        KEY_ACCOUNTID + " not in (select _id from accounts)", 
+        null);
+  }
 
   /**
    * Return a Cursor over the list of all expenses in the database for an account
