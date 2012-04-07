@@ -124,6 +124,7 @@
     <string name="no_accounts">Nessun conto !</string>
     <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail</string>
     <string name="no_categories">No categoria.</string>
+    <string name="no_details">Nessun dettaglio.</string>
     <string name="no_expenses">No speso !</string>
     <string name="not_deletable_mapped_expenses">Questa categoria non può essere cancellata, perché ci sono spese ad esso attribuite.</string>
     <string name="not_deletable_subcats_exists">Questa categoria non può essere cancellata perché contiene sottocategorie.</string>
@@ -135,6 +136,7 @@
     <string name="parse_error_grisbi_version_not_supported">Versione del file Grisbi non è supportata: %1$s</string>
     <string name="payee">Beneficiario</string>
     <string name="payer">Pagatore</string>
+    <string name="peer_transaction_deleted">Questa operazione è stata collegata ad un altro (conto %1$s) che è stato eliminato</string>
     <string name="pref_backup_summary">Crea un backup del database e le preferenze sulla scheda SD.</string>
     <string name="pref_backup_title">Backup</string>
     <string name="pref_categories_sort_by_usages_title">Criterio di ordinamento per le categorie</string>
