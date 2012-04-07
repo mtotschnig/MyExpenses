@@ -23,6 +23,11 @@ public class VersionList {
   public static ArrayList<HashMap<String, String>> get () {
     final String[][] versions = {
         {
+          "1.4.9.1",
+          "April 7 2012",
+          "Solved crash when importing categories in Italian locale and two minor problems with account deletion."
+         },
+         {
           "1.4.9",
           "March 31 2012",
           "Additional features for list of payers/payees (import from Grisbi, delete). Fixed display of buttons in ICS." 
