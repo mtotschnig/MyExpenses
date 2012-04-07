@@ -132,6 +132,7 @@
     <string name="no_accounts">Aucun compte!</string>
     <string name="no_app_handling_email_available">Aucune application disponible pour envoyer un e-mail.</string>
     <string name="no_categories">Aucune catégorie.</string>
+    <string name="no_details">Aucuns détails.</string>
     <string name="no_expenses">Aucune dépense !</string>
     <string name="no_parties">Aucun tiers.</string>
     <string name="not_deletable_mapped_expenses">Cette catégorie ne peut pas être supprimée, parce qu\'il existe des dépenses qui lui sont attribuées.</string>
@@ -144,6 +145,7 @@
     <string name="parse_error_grisbi_version_not_supported">La version du fichier Grisbi n\'est pas supportée: %1$s</string>
     <string name="payee">Tiers</string>
     <string name="payer">Tiers</string>
+    <string name="peer_transaction_deleted">Cette transaction était liée à une contre-passation (compte %1$s) qui a été supprimée</string>
     <string name="pref_backup_title">Sauvegarde</string>
     <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences sur la carte SD.</string>
     <string name="pref_categories_sort_by_usages_title">Critères de tri pour catégories</string>

@@ -138,6 +138,7 @@
 	  <string name="no_accounts">Keine Konten</string>
     <string name="no_app_handling_email_available">Keine App für das Versenden von Email gefunden.</string>
 	  <string name="no_categories">Noch keine Kategorien vorhanden.</string>
+    <string name="no_details">Keine Details vorhanden.</string>
 	  <string name="no_expenses">Noch keine Ausgaben!</string>
     <string name="no_parties">Keine Parteien.</string>
 	  <string name="not_deletable_mapped_expenses">Diese Kategorie kann nicht gelöscht werden, weil ihr Ausgaben zugeordnet sind.</string>
@@ -150,6 +151,7 @@
     <string name="parse_error_grisbi_version_not_supported">Grisbi Datei Version %1$s wird nicht unterstützt</string>
 	  <string name="payee">Empfänger</string>
 	  <string name="payer">Zahler</string>
+    <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s) verknüpft, die gelöscht wurde</string>
     <string name="pref_backup_title">Backup</string>
     <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der SD-Karte.</string>
 	  <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge der Kategorien</string>
