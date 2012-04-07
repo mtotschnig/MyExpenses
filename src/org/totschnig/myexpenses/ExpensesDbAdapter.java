@@ -393,12 +393,13 @@ public class ExpensesDbAdapter {
    * 
    * @param account_id
    */
-  public void deleteTransactionAll(long account_id ) {
+  public void deleteTransactionAll(Account account ) {
     //TODO: 
     //starting with Android 2.2., we could handle this easier with foreign keys
     
     //to speed up the loop for transfers, we delete in the first step all entries that are not transfers
-    String[] selectArgs = new String[] { String.valueOf(account_id) };
+    String[] selectArgs = new String[] { String.valueOf(account.id) };
+    
     mDb.delete(DATABASE_TABLE, "account_id = ? and transfer_peer is null", selectArgs);
 
     Cursor c = mDb.query(DATABASE_TABLE,
@@ -409,7 +410,7 @@ public class ExpensesDbAdapter {
       long transfer_peer = c.getLong(c.getColumnIndex(ExpensesDbAdapter.KEY_TRANSFER_PEER));
       if (transfer_peer != 0) {
         ContentValues args = new ContentValues();
-        args.put(KEY_COMMENT, mCtx.getString(R.string.peer_transaction_deleted));
+        args.put(KEY_COMMENT, mCtx.getString(R.string.peer_transaction_deleted,account.label));
         args.putNull(KEY_CATID);
         args.putNull(KEY_TRANSFER_PEER);
         mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + transfer_peer, null);

@@ -174,7 +174,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     if (mCurrentAccount == null) {
       long account_id = mSettings.getLong("current_account", 0);
       try {
-        mCurrentAccount = Account.getInstanceFromDb(mDbHelper,account_id);
+        mCurrentAccount = Account.getInstanceFromDb(account_id);
       } catch (AccountNotFoundException e) {
         //for any reason the account stored in pref no longer exists
         mCurrentAccount = requireAccount();
@@ -628,7 +628,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         accountId = 0;
       if (accountId != 0) {
         try {
-          mCurrentAccount = Account.getInstanceFromDb(mDbHelper, accountId);
+          mCurrentAccount = Account.getInstanceFromDb(accountId);
         } catch (AccountNotFoundException e) {
          //the account stored in last_account has been deleted 
          accountId = 0; 
@@ -645,7 +645,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     }
     if (accountId != 0) {
       try {
-        mCurrentAccount = Account.getInstanceFromDb(mDbHelper, accountId);
+        mCurrentAccount = Account.getInstanceFromDb(accountId);
         mSettings.edit().putLong("current_account", accountId)
           .putLong("last_account", current_account_id)
           .commit();
@@ -778,7 +778,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       account.save();
     } else {
       try {
-        account =Account.getInstanceFromDb(mDbHelper, accountId);
+        account =Account.getInstanceFromDb(accountId);
       } catch (AccountNotFoundException e) {
         // this should not happen, since we got the account_id from db
         e.printStackTrace();

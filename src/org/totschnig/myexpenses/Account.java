@@ -235,7 +235,7 @@ public class Account {
   }
   static HashMap<Long,Account> accounts = new HashMap<Long,Account>();
   
-  public static Account getInstanceFromDb(ExpensesDbAdapter mDbHelper, long id) throws AccountNotFoundException {
+  public static Account getInstanceFromDb(long id) throws AccountNotFoundException {
     Account account;
     account = accounts.get(id);
     if (account != null) {
@@ -246,10 +246,15 @@ public class Account {
     return account;
   }
   public static boolean delete(long id) {
-    if (accounts.containsKey(id)) {
-      accounts.remove(id);
+    Account account;
+    try {
+      account = getInstanceFromDb(id);
+    } catch (AccountNotFoundException e) {
+      // TODO Auto-generated catch block
+      return false;
     }
-    mDbHelper.deleteTransactionAll(id);
+    mDbHelper.deleteTransactionAll(account);
+    accounts.remove(id);
     return mDbHelper.deleteAccount(id);
   }
 
@@ -311,7 +316,7 @@ public class Account {
   public void reset() {
     openingBalance = getCurrentBalance();
     mDbHelper.updateAccountOpeningBalance(id,openingBalance);
-    mDbHelper.deleteTransactionAll(id);
+    mDbHelper.deleteTransactionAll(this);
   }
   
   /**
