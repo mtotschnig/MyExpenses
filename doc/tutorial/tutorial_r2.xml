@@ -777,7 +777,7 @@
       paramètres. Ici vous pouvez configurer quelques propriétés de <application
       role="app_name"/> et pouvez accéder à la gestion des comptes, ainsi qu'à la
       sauvegarde. Un clic long ouvre un menu qui comporte l'accès direct à la
-      configuration du compte en cours, ainsi qu'à la sauvegarde.
+      configuration du compte en cours (<guimenuitem role="menu_settings_account"/>), ainsi qu'à la sauvegarde (<guimenuitem role="menu_backup"/>).
     </para>
     <para lang="de">
       Ein kurzer Klick auf den Schaltknopf <guibutton role="menu_settings"/> öffnet den
@@ -791,7 +791,7 @@
        parametri. Qui è possibile impostare alcune proprietà di applicazione <application
       role="app_name"/> può accedere alla gestione degli account e di
        backup. Un clic lungo si apre un menu che include l'accesso diretto al
-       conto attuale, e di backup.
+       conto attuale (<guimenuitem role="menu_settings_account"/>), e di backup (<guimenuitem role="menu_backup"/>).
     </para>
     <!-- END tutorial5 para 1 --> 
     
@@ -813,7 +813,7 @@
         sur un compte, vous accédez au formulaire de configuration (expliqué dans <link
         linkend="tutorial1" endterm="tutorial1.title"/>). Un clic long affiche un menu
         contextuel permettant d'effacer le compte, à l'exception du compte en cours, qui
-        ne peut pas être effaçé.
+        ne peut pas être effacé.
       </para>
       <para lang="de">
         Hier wird eine komplette Liste der Konten angezeigt. Durch den
@@ -1022,20 +1022,18 @@
     </para>
     
     <para lang="it">
-      <!-- a reviser <guibutton role="import_categories"/> --> permette di impostare le categorie di file
+      <guibutton role="import_categories"/> permette di impostare le categorie di file
       inclusa da Grisbi in inglese, tedesco o francese. Se con Grisbi hai già definite le
       proprie categorie, è possibile anche fornire il file Grisbi, che è in XML. 
       Se si desidera, è possibile modificare il file con un editor e rimuovere ogni altra informazione
-      rispetto alla categoria e gli elementi 
-      <!-- a reviser reference to Category tag is missing -->
-      <sgmltag>Sub_category</sgmltag>.<footnote id="ftn-it-1">
+      rispetto alla categoria (<sgmltag>Category</sgmltag>) e gli elementi <sgmltag>Sub_category</sgmltag>.<footnote id="ftn-it-1">
       <para>
         <application role="app_name"/> supporta anche il formato di file Grisbi 0.5.0,
-        dove gli elementi sono denominati <sgmltag>Categorie</sgmltag> e <sgmltag>Sous_categorie</sgmltag>
-        <!-- (<sgmltag>Tiers</sgmltag> recivetori). -->
+        dove gli elementi sono denominati <sgmltag>Categorie</sgmltag> e <sgmltag>Sous_categorie</sgmltag>(<sgmltag>Tiers</sgmltag> beneficiari).
       </para>
       </footnote>Conservare questo file come <filename role="grisbi_file"/> in un 
       <filename>myexpenses</filename> cartella nella directory principale della vostra scheda SD.
+      Dalla versione 1.4.9, hai anche la possibilità di importare i beneficiari Grisbi registrati nello stesso file (elemento <sgmltag>Party</sgmltag>). Se si sceglie il proprio file come fonte di importazione, è possibile importare categorie e beneficiari, o solo categorie. Il beneficiario sarà offerta automaticamente per riempire il "Beneficiario" in forma di operazioni.
     </para>
     <!-- END tutorial5_5 para 1 --> 
     </sect2>
@@ -1053,16 +1051,21 @@
     </para>
     <para lang="fr">
       Si vous cochez cette option, au lieu d'afficher une barre de boutons,
-      vous pourrez utiliser le menu standard d\Android pour accéder aux
-      commandes. Vous pouvez aussi accèder à changement de configuration
-      simplement en acitvant le bouton Menu hardware.
+      vous utiliserez le menu standard d'Android pour accéder aux
+      commandes. Vous pouvez aussi accéder au changement de configuration
+      simplement en activant le bouton Menu hardware.
     </para>
     <para lang="de">
       Indem Sie diese Option anklicken, können Sie anstatt der Symbolleiste
       Androids Standardmenü verwenden, um Befehle auszuführen. Sie können diesen
       Parameter auch durch Drücken des Hardware Menüknopfes verändern.
     </para>
-    <para lang="it"></para>
+    <para lang="it">
+       Se si seleziona questa opzione, invece di visualizzare una barra dei pulsanti,
+       sarà necessario utilizzare il menu standard per accedere al Android
+       ordini. È inoltre possibile accedere alla modifica della configurazione
+       semplicemente attivando il pulsante Menu hardware.
+    </para>
     <!-- END tutorial5_6 para 1 --> 
     </sect2>
     
@@ -1079,10 +1082,10 @@
     </para>
     
     <para lang="fr">
-      Sur cet écran s'affiche la liste des tiers utilisé pour le complément
+      Sur cet écran s'affiche la liste des tiers utilisés pour le complément
       automatique du champ <guilabel role="payer"/>. Pour supprimer des entrées
-      de cette liste, vous les sélectionnez en cochant la checkbox à leur
-      droite, et activez ensuite le bouton <guibutton role="menu_delete"/>.
+      de cette liste, sélectionnez-les en cochant à leur droite, et activez
+      ensuite le bouton <guibutton role="menu_delete"/>.
     </para>
     
     <para lang="de">
@@ -1093,7 +1096,11 @@
       ankreuzen, und dann den Schaltknopf <guibutton role="menu_delete"/>
       betätigen.
     </para>
-    <para lang="it"></para>
+    <para lang="it">
+      Su questo schermo l'elenco dei terzi utilizzato per il completamento automatico del campo 
+      <guilabel role="payer"/>/<guilabel role="payee"/>. 
+      Per rimuovere le voci da questo elenco, selezionarle controllando il loro diritto, e quindi attivare  	  il pulsante <guibutton role="menu_delete"/>.
+    </para>
     </sect2>
   </sect1>
   <!--
