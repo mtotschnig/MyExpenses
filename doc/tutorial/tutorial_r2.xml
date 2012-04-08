@@ -2,7 +2,7 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"   "docbookx.dtd">
 <article>
   <articleinfo>
-  <title>
+  <title> <application role="app_name"/>
     <phrase lang="en">Tutorial</phrase>
     <phrase lang="fr">Tutoriel</phrase>
     <phrase lang="de">Anleitung</phrase>
@@ -15,10 +15,15 @@
         <address><email>michael@totschnig.org</email></address>
       </affiliation>
     </author>
-    <othercredit>
+    <othercredit lang="fr">
     <firstname>Laurent</firstname>
     <surname>Collombet</surname>
-    <contrib>French translation</contrib>
+    <contrib>Traduction française</contrib>
+  </othercredit>
+  <othercredit lang="it">
+    <firstname>Laurent</firstname>
+    <surname>Collombet</surname>
+    <contrib>Traduzione italiana</contrib>
   </othercredit>
   </articleinfo>
 
@@ -30,6 +35,18 @@
       <phrase lang="it">Introduzione</phrase>
     </title>
 
+    <para id="step1"><figure floatstyle="left">
+    <title/>
+      <screenshot>
+     <mediaobject>
+       <imageobject>
+        <imagedata fileref="step1.png"/>
+       </imageobject>
+     </mediaobject>
+      </screenshot>
+      </figure>
+    </para>
+    
     <!-- BEGIN introduction para 1 -->    
     <para lang="en">
       <application role="app_name"/> is designed to keep track of your expenses and incomes, and to export
@@ -86,12 +103,6 @@
       <guilabel role="pref_use_standard_menu_title"/></link>).
     </para>
     <!-- END introduction para 2 -->
-
-    <para id="step1">
-      <screenshot>
-        <graphic fileref="step1.png"></graphic>
-      </screenshot>
-    </para>
     
   </sect1>
   
@@ -104,6 +115,18 @@
       <phrase lang="de">Konten</phrase>
       <phrase lang="it">Conti</phrase>
     </title>
+
+    <para id="step2"><figure floatstyle="left">
+    <title/>
+      <screenshot>
+     <mediaobject>
+       <imageobject>
+        <imagedata fileref="step2.png"/>
+       </imageobject>
+     </mediaobject>
+      </screenshot>
+      </figure>
+    </para>
     
     <!-- BEGIN tutorial1 para 1 --> 
     <para lang="en">
@@ -161,12 +184,6 @@
      </menuchoice>.
     </para>
     <!-- END tutorial1 para 1 --> 
-    
-    <para id="step2">
-      <screenshot>
-        <graphic fileref="step2.png"></graphic>
-      </screenshot>
-    </para>
 
     <!-- BEGIN tutorial1 para 2 --> 
     <para lang="en">
@@ -246,13 +263,25 @@
       <phrase lang="it">Transazioni</phrase>
     </title>
     
+    <para id="step3"><figure floatstyle="left">
+    <title/>
+      <screenshot>
+     <mediaobject>
+       <imageobject>
+        <imagedata fileref="step3.png"/>
+       </imageobject>
+     </mediaobject>
+      </screenshot>
+      </figure>
+    </para>
+    
     <!-- BEGIN tutorial2 para 1 --> 
     <para lang="en">
       A short click on <guibutton role="menu_new"/> brings up  the activity for creating a
-      transaction:
+      transaction.
     </para>
     <para lang="fr">
-      <guimenuitem role="menu_new"/> vous ouvre la fenêtre pour créer une opération :
+      <guimenuitem role="menu_new"/> vous ouvre la fenêtre pour créer une opération.
     </para>
     <para lang="de">
       Kurzer Klick auf <guibutton role="menu_new"/>  öffnet den Bildschirm für die Eingabe einer
@@ -260,15 +289,9 @@
     </para>
     <para lang="it">
       <guimenuitem role="menu_new"/> porta in primo piano l'attività 
-      per la creazione di una transazione:
+      per la creazione di una transazione.
     </para>
     <!-- END tutorial2 para 1 --> 
-
-    <para id="step3">
-      <screenshot>
-        <graphic fileref="step3.png"></graphic>
-      </screenshot>
-    </para>
     
     <!-- BEGIN tutorial2 para 2 --> 
     <para lang="en">
@@ -321,7 +344,7 @@
     <para lang="it">
       Regolare data e ora, fare clico sul pulsante <guibutton>-</guibutton> per passare
       gli oneri ei proventi, inserire importo, le note e il beneficiario (o debitore).
-      Il benficiario campo memorizza i valori inseriti, e suggeriscono la prossima volta che si 	 entra questo<footnote id="ftn22-fr-1">
+      Il benficiario campo memorizza i valori inseriti, e suggeriscono la prossima volta che si 	 entra questo<footnote id="ftn22-it-1">
       <para>È possibile importare una lista di beneficiari iscritti nel file Grisbi, come spiegato in<link linkend='tutorial5_5'><guilabel
       role="pref_import_from_grisbi_title"/></link>. Se si desidera eliminare valori da questo elenco, vedere<link linkend='tutorial5_7'><guilabel
       role="pref_manage_parties_title"/></link>.
@@ -329,7 +352,21 @@
       </footnote> Cliccando sul <guibutton role="select"/> pulsante, si apre la 
       <guilabel role="select_category"/> attività. Vi spiegheremo di seguito, come gestire le categorie. 
     </para>
-    <!-- END tutorial2 para 2 --> 
+    <!-- END tutorial2 para 2 -->
+    
+    <?float-clear?> 
+
+    <para id="step4"><figure floatstyle="left">
+    <title/>
+      <screenshot>
+     <mediaobject>
+       <imageobject>
+        <imagedata fileref="step4.png"/>
+       </imageobject>
+     </mediaobject>
+      </screenshot>
+      </figure>
+    </para>
     
     <!-- BEGIN tutorial2 para 3 --> 
     <para lang="en">
@@ -353,12 +390,6 @@
       (beneficiario, note).
     </para>
     <!-- END tutorial2 para 3 --> 
-    
-    <para id="step4">
-      <screenshot>
-        <graphic fileref="step4.png"></graphic>
-      </screenshot>
-    </para>
     
     <sect2 id="tutorial2_1">
       <title>
@@ -414,6 +445,19 @@
       <phrase lang="it">Categorie</phrase>
     </title>
     
+    <para id="step5"><figure floatstyle="left">
+    <title/>
+      <screenshot>
+     <mediaobject>
+       <imageobject>
+        <imagedata fileref="step5.png"/>
+       </imageobject>
+     </mediaobject>
+      </screenshot>
+      </figure>
+    </para>
+
+    
     <!-- BEGIN tutorial3 para 1 --> 
     <para lang="en">
       At the beginning, no categories are defined. You have two options for adding them.
@@ -430,12 +474,6 @@
     </para>
     <!-- END tutorial3 para 1 --> 
     
-    <para id="step5">
-      <screenshot>
-        <graphic fileref="step5.png"></graphic>
-      </screenshot>
-    </para>
-
     <!-- BEGIN tutorial3 para 2 --> 
     <para lang="en">
       Either you click on the button <guibutton role="import_categories"/> which allows to
@@ -461,11 +499,25 @@
       <guilabel role="pref_import_from_grisbi_title"/></link>. Questo pulsante è visibile quando l'elenco delle categorie è vuoto, ma è ancora possibile accedere al
        funzione di importazione dallo schermo <guilabel role="menu_settings"/>.
     </para>
-    <!-- END tutorial3 para 2 --> 
+    <!-- END tutorial3 para 2 -->
+    
+    <?float-clear?> 
+    
+    <para id="step7"><figure floatstyle="left">
+    <title/>
+      <screenshot>
+     <mediaobject>
+       <imageobject>
+        <imagedata fileref="step7.png"/>
+       </imageobject>
+     </mediaobject>
+      </screenshot>
+      </figure>
+    </para>
 
     <!-- BEGIN tutorial3 para 3 --> 
     <para lang="en">
-	    You now have a set up categories with subcategories you can associate with your
+	    You now have a set of categories with subcategories you can associate with your
 	    transactions. By default, the primary sort criteria in the category list is the
 	    number of times you use a category (the secondary criteria is alphabetical order).
 	    This gives you quick access to the categories you use most often.
@@ -495,10 +547,18 @@
     </para>
     <!-- END tutorial3 para 3 --> 
     
-    <para id="step7">
+    <?float-clear?> 
+    
+    <para id="step8"><figure floatstyle="left">
+    <title/>
       <screenshot>
-        <graphic fileref="step7.png"></graphic>
+     <mediaobject>
+       <imageobject>
+        <imagedata fileref="step8.png"/>
+       </imageobject>
+     </mediaobject>
       </screenshot>
+      </figure>
     </para>
     
     <!-- BEGIN tutorial3 para 4 --> 
@@ -519,13 +579,21 @@
       porta in primo piano una finestra di dialogo per la fornitura di una nuova 
       etichetta di categoria.
     </para>
-    <!-- END tutorial3 para 4 --> 
+    <!-- END tutorial3 para 4 -->
     
-    <para id="step8">
+    <?float-clear?> 
+    
+    <para id="step9"><figure floatstyle="left">
+    <title/>
       <screenshot>
-        <graphic fileref="step8.png"></graphic>
+     <mediaobject>
+       <imageobject>
+        <imagedata fileref="step9.png"/>
+       </imageobject>
+     </mediaobject>
       </screenshot>
-    </para>
+      </figure>
+    </para>    
     
     <!-- BEGIN tutorial3 para 5 --> 
     <para lang="en">
@@ -550,12 +618,6 @@
       Al fine di mappare un categoria principale, si deve chiamare il suo menù contestuale.     
     </para>
     <!-- END tutorial3 para 5 --> 
-    
-    <para id="step9">
-      <screenshot>
-        <graphic fileref="step9.png"></graphic>
-      </screenshot>
-    </para>
     
     <!-- BEGIN tutorial3 para 6 --> 
     <para lang="en">
@@ -587,6 +649,18 @@
       <phrase lang="de">Buchungen exportieren</phrase>
       <phrase lang="it">Esportazione di operazioni</phrase>
     </title>
+    
+    <para id="step10"><figure floatstyle="left">
+    <title/>
+      <screenshot>
+     <mediaobject>
+       <imageobject>
+        <imagedata fileref="step10.png"/>
+       </imageobject>
+     </mediaobject>
+      </screenshot>
+      </figure>
+    </para>
     
     <!-- BEGIN tutorial4 para 1 --> 
     <para lang="en">
@@ -647,12 +721,6 @@
     </para>
     <!-- END tutorial4 para 1 --> 
     
-    <para id="step10">
-      <screenshot>
-        <graphic fileref="step10.png"></graphic>
-      </screenshot>
-    </para>
-    
     <!-- BEGIN tutorial4 para 2 --> 
     <para lang="en">
       Voilà. You can now connect your phone to your computer, open Grisbi (or Gnucash),
@@ -683,10 +751,16 @@
       <phrase lang="it">Parametri</phrase>
     </title>
     
-    <para id="step11">
+    <para id="step11"><figure floatstyle="left">
+    <title/>
       <screenshot>
-        <graphic fileref="step11.png"></graphic>
+     <mediaobject>
+       <imageobject>
+        <imagedata fileref="step11.png"/>
+       </imageobject>
+     </mediaobject>
       </screenshot>
+      </figure>
     </para>
     
     <!-- BEGIN tutorial5 para 1 --> 
@@ -723,7 +797,7 @@
     
     <sect2 id="tutorial5_1">
     <title>
-       <guilabel role="pref_categories_sort_by_usages_title"/>
+       <guilabel role="pref_manage_accounts_title"/>
     </title>
       
       <!-- BEGIN tutorial5_1 para 1 --> 
@@ -874,7 +948,19 @@
       <title>
         <guilabel role="pref_import_from_grisbi_title"/>
       </title>
-      
+
+    <para id="step6"><figure floatstyle="left">
+    <title/>
+      <screenshot>
+     <mediaobject>
+       <imageobject>
+        <imagedata fileref="step6.png"/>
+       </imageobject>
+     </mediaobject>
+      </screenshot>
+      </figure>
+    </para>
+
     <!-- BEGIN tutorial5_5 para 1 -->   
     <para lang="en">
     	This entry allows to set up categories from files
@@ -883,7 +969,7 @@
 	    If you want, you can edit the file with an editor and remove any information other
 	    than the <sgmltag>Category</sgmltag> and <sgmltag>Sub_category</sgmltag> elements<footnote id="ftn55-en-1">
 	      <para>
-	        <application role="app_name"/> also support the Grisbi file format 0.5.0,
+	        <application role="app_name"/> also supports the Grisbi file format 0.5.0,
 	        where the elements are named <sgmltag>Categorie</sgmltag> and <sgmltag>Sous_categorie</sgmltag> (<sgmltag>Tiers</sgmltag> for parties).
 	      </para>
 	    </footnote>. Store this file as <filename role="grisbi_file"/> in a folder
@@ -952,11 +1038,6 @@
       <filename>myexpenses</filename> cartella nella directory principale della vostra scheda SD.
     </para>
     <!-- END tutorial5_5 para 1 --> 
-    <para id="step6">
-      <screenshot>
-        <graphic fileref="step6.png"></graphic>
-      </screenshot>
-    </para>
     </sect2>
         
     <sect2 id="tutorial5_6">

@@ -2,6 +2,7 @@
 <xsl:stylesheet  
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:custom="custom" exclude-result-prefixes="custom"> 
 <xsl:import href="/usr/share/xml/docbook/stylesheet/docbook-xsl/html/chunk.xsl"/>
+<xsl:import href="tutorial_strings.xsl"/>
 
 <custom:supported-langs>
  <lang code="en">English</lang>
@@ -15,6 +16,8 @@
 <xsl:param name="chunk.first.sections" select="'1'"/>
 <xsl:param name="toc.section.depth" select="'1'"/>
 <xsl:param name="suppress.footer.navigation" select="1"/>
+<xsl:param name="formal.object.break.after" select="0"/>
+
 <xsl:template name="user.head.content">
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -38,7 +41,9 @@
   </xsl:call-template>
   </span></a>
   <xsl:text> </xsl:text>
-  <xsl:value-of select="/article/articleinfo/title/phrase" />
+    <xsl:call-template name="getString">
+      <xsl:with-param name="id" select="'tutorial'"/>
+  </xsl:call-template>
   </span>
   <span class="langselector">
     <xsl:for-each select="document('')/*/custom:supported-langs/lang">
@@ -152,52 +157,7 @@
   </xsl:element>
 </xsl:template>
 
-<xsl:template name="getString">
-  <xsl:param name="id"/>
-  <xsl:variable name="doclang" select="/article/articleinfo/title/phrase/@lang"/>
-  <xsl:variable name="resdir">
-    <xsl:choose>
-      <xsl:when test="$doclang = 'en'">
-        <xsl:text>values</xsl:text>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="concat('values-',$doclang)"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:variable>
-  <xsl:variable name="resfile" select="concat('../../../res/',$resdir,'/strings.xml')"/>
-  <xsl:call-template name="unescape-android-string-resources">
-      <xsl:with-param name="string" select="document($resfile)/resources/string[@name = $id]"/>
-  </xsl:call-template>
-</xsl:template>
-
-<xsl:template name="unescape-android-string-resources">
-  <xsl:param name="string"/>
-  <xsl:call-template name="string-replace-all">
-    <xsl:with-param name="text" select="$string" />
-    <xsl:with-param name="replace" select="&quot;\'&quot;"/>
-    <xsl:with-param name="by" select="&quot;'&quot;" />
-  </xsl:call-template>
-</xsl:template>
-
- <xsl:template name="string-replace-all">
-    <xsl:param name="text" />
-    <xsl:param name="replace" />
-    <xsl:param name="by" />
-    <xsl:choose>
-      <xsl:when test="contains($text, $replace)">
-        <xsl:value-of select="substring-before($text,$replace)" />
-        <xsl:value-of select="$by" />
-        <xsl:call-template name="string-replace-all">
-          <xsl:with-param name="text"
-          select="substring-after($text,$replace)" />
-          <xsl:with-param name="replace" select="$replace" />
-          <xsl:with-param name="by" select="$by" />
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$text" />
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
+<!-- do not float figures and suppress caption-->
+<xsl:template name="floatstyle"/>
+<xsl:template name="formal.object.heading"/>
 </xsl:stylesheet>

@@ -110,7 +110,7 @@
     <condition property="filename" value="tutorial" else="tutorial_r${rev}">
       <equals arg1="${rev}" arg2="1"/>
     </condition>
-    <for list="en,fr,de,it" param="language">
+    <for list="en,fr,de" param="language">
       <sequential>
     	<xslt in="doc/tutorial/${filename}.xml" out="doc/tutorial/${filename}_@{language}.xml"
     	    style="doc/tutorial/xsl/filter_language.xsl">
@@ -126,12 +126,49 @@
   			 	<arg value="--stringparam"/>
   			 	<arg value="base.dir"/>
   			 	<arg value="../MyExpenses.pages/${filename}/@{language}/"/>
-  			 	<arg value="doc/tutorial/xsl/tutorial.xsl"/>
+  			 	<arg value="doc/tutorial/xsl/tutorial_html.xsl"/>
   			 	<arg value="doc/tutorial/${filename}_@{language}.xml"/>
   			</exec>	
       </sequential>
   	</for>
 	</target>
+	<target name="tutorial-pdf">
+	  <!-- for historical reasons rev 1 of tutorial used "tutorial"
+  all others "tutorial_r${rev}" -->
+    <property name="rev" value="2"/>
+    <condition property="filename" value="tutorial" else="tutorial_r${rev}">
+      <equals arg1="${rev}" arg2="1"/>
+    </condition>
+    <for list="en,fr,de" param="language">
+      <sequential>
+    	<xslt in="doc/tutorial/${filename}.xml" out="doc/tutorial/${filename}_@{language}.xml"
+    	    style="doc/tutorial/xsl/filter_language.xsl">
+    	<param name="language" expression="@{language}"/>
+    	<xmlcatalog>
+    	  <dtd 
+    	    publicId="-//OASIS//DTD DocBook XML V4.4//EN"
+    		  location="/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd"/>
+    	</xmlcatalog>
+    	</xslt>
+  		  <!-- we run the Docbook stylesheet with xsltproc -->
+        <exec executable="xsltproc" failonerror="true">
+  			 	<arg value="--stringparam"/>
+  			 	<arg value="img.src.path"/>
+  			 	<arg value="../../../MyExpenses.pages/${filename}/@{language}/"/>
+  			 	<arg value="-o"/>
+  			 	<arg value="doc/tutorial/${filename}_@{language}.fo"/>
+  			 	<arg value="doc/tutorial/xsl/tutorial_fo.xsl"/>
+  			 	<arg value="doc/tutorial/${filename}_@{language}.xml"/>
+  			</exec>
+  			<exec executable="/opt/XEP/xep" failonerror="true">
+  			 <arg value="-fo"/>
+  			 <arg value="doc/tutorial/${filename}_@{language}.fo"/>
+  			 <arg value="../MyExpenses.pages/${filename}/@{language}/${filename}.pdf"/>
+  			</exec>
+      </sequential>
+  	</for>
+	</target>	
+	
 	<target name="javadoc">
     <javadoc
         destdir="doc/javadoc"

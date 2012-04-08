@@ -29,6 +29,10 @@
 				</xsl:choose>
 			</xsl:if>
 		</xsl:template>
+		
+		<xsl:template match="processing-instruction()">
+		  <xsl:copy/>
+		</xsl:template>
 
 		<doc:documentation 
 			xmlns:doc="http://www.opsdesign.eu/docscript/1.0"
