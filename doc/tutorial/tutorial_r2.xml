@@ -237,19 +237,19 @@
     <!-- BEGIN tutorial1 para 4 --> 
     <para lang="en">
       For managing the complete account list, please refer to <link linkend='tutorial5_1'> 
-      <guilabel role="pref_categories_sort_by_usages_title"/></link>.
+      <guilabel role="pref_manage_accounts_title"/></link>.
     </para>
     <para lang="fr">
       La gestion des comptes est expliqué dans <link linkend='tutorial5_1'>
-      <guilabel role="pref_categories_sort_by_usages_title"/></link>.
+      <guilabel role="pref_manage_accounts_title"/></link>.
     </para>
     <para lang="de">
       Die Verwaltung der Konten wird in <link linkend='tutorial5_1'>
-      <guilabel role="pref_categories_sort_by_usages_title"/></link> erklärt.
+      <guilabel role="pref_manage_accounts_title"/></link> erklärt.
     </para>
     <para lang="it">
       La gestione degli conti è spiegato in <link linkend='tutorial5_1'>
-      <guilabel role="pref_categories_sort_by_usages_title"/></link>.
+      <guilabel role="pref_manage_accounts_title"/></link>.
     </para>
     <!-- END tutorial1 para 4 --> 
   </sect1>
