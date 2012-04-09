@@ -90,6 +90,14 @@ if (lang == 'de'):
   device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 if (lang == 'fr'):
   device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
+#navigate down to buttons, we should arrive at the middle button
+#"Categories"
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 #execute import and give it some time
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep(30)
