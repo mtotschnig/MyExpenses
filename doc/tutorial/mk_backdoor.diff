@@ -1,0 +1,112 @@
+diff --git a/src/org/totschnig/myexpenses/AccountEdit.java b/src/org/totschnig/myexpenses/AccountEdit.java
+index 6fd098f..a5b5f31 100644
+--- a/src/org/totschnig/myexpenses/AccountEdit.java
++++ b/src/org/totschnig/myexpenses/AccountEdit.java
+@@ -29,6 +29,7 @@ import android.content.Intent;
+ import android.os.Bundle;
+ import android.text.Editable;
+ import android.text.TextWatcher;
++import android.view.KeyEvent;
+ import android.view.View;
+ import android.widget.ArrayAdapter;
+ import android.widget.AutoCompleteTextView;
+@@ -54,7 +55,7 @@ public class AccountEdit extends Activity {
+   private String[] currencyDescs;
+   private TextWatcher currencyInformer;
+ 
+-/*  private int monkey_state = 0;
++  private int monkey_state = 0;
+ 
+   @Override
+   public boolean onKeyDown (int keyCode, KeyEvent event) {
+@@ -73,7 +74,7 @@ public class AccountEdit extends Activity {
+       }
+     }
+     return super.onKeyDown(keyCode, event);
+-  }*/
++  }
+   
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+diff --git a/src/org/totschnig/myexpenses/ExpenseEdit.java b/src/org/totschnig/myexpenses/ExpenseEdit.java
+index e54b4f6..6e80a29 100755
+--- a/src/org/totschnig/myexpenses/ExpenseEdit.java
++++ b/src/org/totschnig/myexpenses/ExpenseEdit.java
+@@ -27,6 +27,7 @@ import android.content.DialogInterface;
+ import android.content.Intent;
+ import android.database.Cursor;
+ import android.os.Bundle;
++import android.view.KeyEvent;
+ import android.view.View;
+ import android.widget.ArrayAdapter;
+ import android.widget.AutoCompleteTextView;
+@@ -73,7 +74,7 @@ public class ExpenseEdit extends Activity {
+   static final int TIME_DIALOG_ID = 1;
+   static final int ACCOUNT_DIALOG_ID = 2;
+   
+-/*  private int monkey_state = 0;
++  private int monkey_state = 0;
+ 
+   @Override
+   public boolean onKeyDown (int keyCode, KeyEvent event) {
+@@ -88,7 +89,7 @@ public class ExpenseEdit extends Activity {
+       }
+     }
+     return super.onKeyDown(keyCode, event);
+-  }*/
++  }
+ 
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+diff --git a/src/org/totschnig/myexpenses/MyExpenses.java b/src/org/totschnig/myexpenses/MyExpenses.java
+index a6b0942..6e035d4 100644
+--- a/src/org/totschnig/myexpenses/MyExpenses.java
++++ b/src/org/totschnig/myexpenses/MyExpenses.java
+@@ -124,7 +124,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
+   private BetterPopupWindow dw;
+   private boolean mButtonBarIsFilled;
+ 
+-/*  private int monkey_state = 0;
++  private int monkey_state = 0;
+ 
+   @Override
+   public boolean onKeyDown (int keyCode, KeyEvent event) {
+@@ -158,7 +158,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
+       }
+     }
+     return super.onKeyDown(keyCode, event);
+-  }*/
++  }
+   
+   /* (non-Javadoc)
+    * Called when the activity is first created.
+diff --git a/src/org/totschnig/myexpenses/SelectCategory.java b/src/org/totschnig/myexpenses/SelectCategory.java
+index 3efcd2c..0f78b2d 100644
+--- a/src/org/totschnig/myexpenses/SelectCategory.java
++++ b/src/org/totschnig/myexpenses/SelectCategory.java
+@@ -26,6 +26,7 @@ import android.content.Intent;
+ import android.database.Cursor;
+ import android.os.Bundle;
+ import android.view.ContextMenu;
++import android.view.KeyEvent;
+ import android.view.Menu;
+ import android.view.MenuItem;
+ import android.view.View;
+@@ -79,7 +80,7 @@ public class SelectCategory extends ExpandableListActivity {
+     int mGroupIdColumnIndex;
+     
+ 
+-/*    private int monkey_state = 0;
++    private int monkey_state = 0;
+ 
+     @Override
+     public boolean onKeyDown (int keyCode, KeyEvent event) {
+@@ -100,7 +101,7 @@ public class SelectCategory extends ExpandableListActivity {
+         }
+       }
+       return super.onKeyDown(keyCode, event);
+-    }*/
++    }
+     
+     @Override
+     public void onCreate(Bundle savedInstanceState) {
