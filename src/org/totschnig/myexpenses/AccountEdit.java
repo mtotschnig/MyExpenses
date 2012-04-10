@@ -15,7 +15,8 @@
 
 package org.totschnig.myexpenses;
 
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -26,9 +27,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -49,7 +52,7 @@ public class AccountEdit extends Activity {
   private AutoCompleteTextView mCurrencyText;
   private Button mCurrencyButton;
   Account mAccount;
-  private NumberFormat nfDLocal;
+  private DecimalFormat nfDLocal;
   private String[] currencyCodes;
   private String[] currencyDescs;
   private TextWatcher currencyInformer;
@@ -79,8 +82,6 @@ public class AccountEdit extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mDbHelper = MyApplication.db();
-    nfDLocal = NumberFormat.getNumberInstance();
-    nfDLocal.setGroupingUsed(false);
     
     currencyCodes = Account.getCurrencyCodes();
     currencyDescs = Account.getCurrencyDescs();
@@ -89,7 +90,17 @@ public class AccountEdit extends Activity {
 
     mLabelText = (EditText) findViewById(R.id.Label);
     mDescriptionText = (EditText) findViewById(R.id.Description);
+    
+    SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
+    String sep = settings.getString("currency_decimal_separator", Utils.getDefaultDecimalSeparator());
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+    symbols.setDecimalSeparator(sep.charAt(0));
+    nfDLocal = new DecimalFormat("#0.###",symbols);
+    nfDLocal.setGroupingUsed(false);
+    
     mOpeningBalanceText = (EditText) findViewById(R.id.Opening_balance);
+    mOpeningBalanceText.setKeyListener(DigitsKeyListener.getInstance("0123456789"+sep));
+
     mCurrencyText = (AutoCompleteTextView) findViewById(R.id.Currency);
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
         android.R.layout.simple_dropdown_item_1line, currencyCodes);
@@ -211,7 +222,7 @@ public class AccountEdit extends Activity {
     }
     mAccount.label = mLabelText.getText().toString();
     mAccount.description = mDescriptionText.getText().toString();
-    Float openingBalance = Utils.validateNumber(mOpeningBalanceText.getText().toString());
+    Float openingBalance = Utils.validateNumber(nfDLocal, mOpeningBalanceText.getText().toString());
     if (openingBalance == null) {
       Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
       return false;

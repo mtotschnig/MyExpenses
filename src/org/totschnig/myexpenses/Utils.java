@@ -25,6 +25,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -50,19 +52,26 @@ import android.widget.Toast;
  *
  */
 public class Utils {
-  //see http://www.ibm.com/developerworks/java/library/j-numberformat/
+  public static String getDefaultDecimalSeparator() {
+    String sep = ".";
+    NumberFormat nfDLocal = NumberFormat.getNumberInstance();
+    if (nfDLocal instanceof DecimalFormat) {
+      DecimalFormatSymbols symbols = ((DecimalFormat)nfDLocal).getDecimalFormatSymbols();
+      sep=String.valueOf(symbols.getDecimalSeparator());
+    }
+    return sep;
+  }
+  
   /**
    * <a href="http://www.ibm.com/developerworks/java/library/j-numberformat/">http://www.ibm.com/developerworks/java/library/j-numberformat/</a>
    * @param strFloat parsed as float with the number format defined in the locale
    * @return the float retrieved from the string or null if parse did not succeed
    */
-  public static Float validateNumber(String strFloat) {
+  public static Float validateNumber(DecimalFormat df, String strFloat) {
     ParsePosition pp;
-    NumberFormat nfDLocal = NumberFormat.getNumberInstance();
-    nfDLocal.setGroupingUsed(false);
     pp = new ParsePosition( 0 );
     pp.setIndex( 0 );
-    Number n = nfDLocal.parse(strFloat,pp);
+    Number n = df.parse(strFloat,pp);
     if( strFloat.length() != pp.getIndex() || 
         n == null )
     {

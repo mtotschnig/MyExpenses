@@ -15,8 +15,19 @@
 
 package org.totschnig.myexpenses;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
+import android.util.Log;
  
 /**
  * Present references screen defined in Layout file
@@ -24,11 +35,21 @@ import android.preference.PreferenceActivity;
  *
  */
 public class MyPreferenceActivity extends PreferenceActivity {
+  ListPreference mCurrencyInputFormat;
   
 @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
+    PreferenceScreen prefs = getPreferenceScreen();
+    
+    mCurrencyInputFormat = (ListPreference) prefs.findPreference("currency_decimal_separator");
+    if (mCurrencyInputFormat.getValue() == null) {
+      String sep = Utils.getDefaultDecimalSeparator();
+      //List<String> values =  Arrays.asList(getResources().getStringArray(R.array.pref_currency_decimal_separator_values));
+      mCurrencyInputFormat.setValue(sep);
+      //mCurrencyInputFormat.setValueIndex(values.indexOf(sep));
+    }
  }
 }

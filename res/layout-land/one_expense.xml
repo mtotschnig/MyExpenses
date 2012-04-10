@@ -62,11 +62,9 @@
               android:id="@+id/TaType"
               android:text="-" />
           <EditText
-              android:inputType="phone"
               android:id="@+id/Amount"
               android:layout_width="100sp"
-              android:layout_height="fill_parent"
-              android:numeric="decimal"/>
+              android:layout_height="fill_parent"/>
           <Button
               android:layout_width="wrap_content"
               android:layout_height="fill_parent"

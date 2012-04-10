@@ -15,7 +15,8 @@
 
 package org.totschnig.myexpenses;
 
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Date;
 
 import android.app.Activity;
@@ -25,8 +26,10 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -67,7 +70,7 @@ public class ExpenseEdit extends Activity {
   private boolean mType = EXPENSE;
   //normal transaction or transfer
   private boolean mOperationType;
-  private NumberFormat nfDLocal;
+  private DecimalFormat nfDLocal;
 
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
@@ -94,8 +97,6 @@ public class ExpenseEdit extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mDbHelper = MyApplication.db();
-    nfDLocal = NumberFormat.getNumberInstance();
-    nfDLocal.setGroupingUsed(false);
 
     Bundle extras = getIntent().getExtras();
     mRowId = extras.getLong(ExpensesDbAdapter.KEY_ROWID,0);
@@ -118,7 +119,17 @@ public class ExpenseEdit extends Activity {
       }
     });
 
+    SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
+    String sep = settings.getString("currency_decimal_separator", Utils.getDefaultDecimalSeparator());
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+    symbols.setDecimalSeparator(sep.charAt(0));
+    nfDLocal = new DecimalFormat("#0.###",symbols);
+    nfDLocal.setGroupingUsed(false);
+    
     mAmountText = (EditText) findViewById(R.id.Amount);
+    //mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+    mAmountText.setKeyListener(DigitsKeyListener.getInstance("0123456789"+sep));
+
     mCommentText = (EditText) findViewById(R.id.Comment);
 
     Button confirmButton = (Button) findViewById(R.id.Confirm);
@@ -379,7 +390,7 @@ public class ExpenseEdit extends Activity {
    */
   private boolean saveState() {
     String strAmount = mAmountText.getText().toString();
-    Float amount = Utils.validateNumber(strAmount);
+    Float amount = Utils.validateNumber(nfDLocal, strAmount);
     if (amount == null) {
       Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
       return false;

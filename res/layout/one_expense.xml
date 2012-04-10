@@ -51,11 +51,9 @@
               android:id="@+id/TaType" 
               android:text="-" />
           <EditText 
-              android:inputType="phone" 
               android:id="@+id/Amount" 
               android:layout_width="fill_parent" 
-              android:layout_height="fill_parent" 
-              android:numeric="decimal"></EditText>
+              android:layout_height="fill_parent"/>
         </LinearLayout>
       </TableRow>
         
