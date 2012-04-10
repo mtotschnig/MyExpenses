@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -128,7 +129,11 @@ public class ExpenseEdit extends Activity {
     
     mAmountText = (EditText) findViewById(R.id.Amount);
     //mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+    //due to bug in Android platform http://code.google.com/p/android/issues/detail?id=2626
+    //the soft keyboard if it occupies full screen in horizontal orientation does not display
+    //the
     mAmountText.setKeyListener(DigitsKeyListener.getInstance("0123456789"+sep));
+    mAmountText.setRawInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
     mCommentText = (EditText) findViewById(R.id.Comment);
 
