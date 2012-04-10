@@ -86,6 +86,11 @@ public class Utils {
    * @param currency
    * @return formated string
    */
+  static String formatCurrency(Money money) {
+    float amount = money.getAmountMajor();
+    Currency currency = money.getCurrency();
+    return formatCurrency(amount,currency);
+  }
   static String formatCurrency(float amount, Currency currency) {
     NumberFormat nf = NumberFormat.getCurrencyInstance();
     nf.setCurrency(currency);
@@ -102,18 +107,12 @@ public class Utils {
   }
   /**
    * utility method that calls formatters for amount
-   * @param text amount as String retrieved from DB or UI
+   * @param text amount as String retrieved from DB (stored as int minor unit)
    * @param currency 
    * @return formated string
    */
   static String convAmount(String text, Currency currency) {
-    float amount;
-    try {
-      amount = Float.valueOf(text);
-    } catch (NumberFormatException e) {
-      amount = 0;
-    }
-    return formatCurrency(amount,currency);
+    return formatCurrency(new Money(currency,Long.valueOf(text)));
   }
   //TODO: create generic function
   static String[] getStringArrayFromCursor(Cursor c, String field) {

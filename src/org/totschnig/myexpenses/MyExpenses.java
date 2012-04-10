@@ -259,7 +259,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     setTitle(mCurrentAccount.label);
 
     TextView startView= (TextView) findViewById(R.id.start);
-    startView.setText(Utils.formatCurrency(mCurrentAccount.openingBalance,mCurrentAccount.currency));
+    startView.setText(Utils.formatCurrency(mCurrentAccount.openingBalance));
 
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{"label",ExpensesDbAdapter.KEY_DATE,ExpensesDbAdapter.KEY_AMOUNT};
@@ -280,7 +280,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           text = Utils.convDate(text);
           break;
         case R.id.amount:
-          text = Utils.convAmount(text,mCurrentAccount.currency);
+          text = Utils.convAmount(text,mCurrentAccount.openingBalance.getCurrency());
           break;
         }
         super.setViewText(v, text);
@@ -319,7 +319,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
 
   private void setCurrentBalance() {
     TextView endView= (TextView) findViewById(R.id.end);
-    endView.setText(Utils.formatCurrency(mCurrentAccount.getCurrentBalance(),mCurrentAccount.currency));    
+    endView.setText(Utils.formatCurrency(mCurrentAccount.getCurrentBalance()));    
   }
   
   private void configButtons() {
@@ -920,7 +920,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   }
   
   public boolean transfersEnabledP() {
-    return mDbHelper.getAccountCount(mCurrentAccount.currency.getCurrencyCode()) > 1;
+    return mDbHelper.getAccountCount(mCurrentAccount.openingBalance.getCurrency().getCurrencyCode()) > 1;
   }
   @Override
   public void onClick(View v) {

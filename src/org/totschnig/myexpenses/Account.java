@@ -39,14 +39,9 @@ public class Account {
    
   public String label;
    
-  public float openingBalance;
+  public Money openingBalance;
    
   public String description;
-   
-  /**
-   * java.util.Currency based on ISO 4217 currency symbols
-   */
-  public Currency currency;
   
   private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   
@@ -263,12 +258,12 @@ public class Account {
    * @param mDbHelper the database helper used in the activity
    */
   public Account() {
+    this.openingBalance = new Money(null,(long) 0);
   }
-  public Account(String label, float openingBalance, String description, Currency currency) {
+  public Account(String label, long openingBalance, String description, Currency currency) {
     this.label = label;
-    this.openingBalance = openingBalance;
+    this.openingBalance = new Money(currency,openingBalance);
     this.description = description;
-    this.currency = currency;
   }
   
   /**
@@ -285,37 +280,44 @@ public class Account {
       throw new AccountNotFoundException();
     }
     this.label = c.getString(c.getColumnIndexOrThrow("label"));
-    this.openingBalance = c.getFloat(c.getColumnIndexOrThrow("opening_balance"));
     this.description = c.getString(c.getColumnIndexOrThrow("description"));
-    setCurrency(c.getString(c.getColumnIndexOrThrow("currency")));
+    this.openingBalance = new Money(
+        toCurrency(c.getString(c.getColumnIndexOrThrow("currency"))),
+        c.getLong(c.getColumnIndexOrThrow("opening_balance")));
     c.close();
   }
   /**
    * @param currency if not a legal symbol, silently the currency from the Locale
    * is used instead
    */
-  public void setCurrency(String currency) {
+  public Currency toCurrency(String strCurrency) {
+    Currency currency;
     try {
-      this.currency = Currency.getInstance(currency);
+      currency = Currency.getInstance(strCurrency);
     } catch (IllegalArgumentException e) {
-      Log.e("MyExpenses",currency + " is not defined in ISO 4217");
-      this.currency = Currency.getInstance(Locale.getDefault());
+      Log.e("MyExpenses",strCurrency + " is not defined in ISO 4217");
+      currency = Currency.getInstance(Locale.getDefault());
     }
+    return currency;
   }
   
   /**
    * @return the sum of opening balance and all transactions for the account
    */
-  public float getCurrentBalance() { 
-    return openingBalance + mDbHelper.getTransactionSum(id);
+  public Money getCurrentBalance() { 
+    return new Money(
+        openingBalance.getCurrency(),
+        openingBalance.getAmountMinor() + mDbHelper.getTransactionSum(id)
+    );
   }
   
   /**
    * deletes all expenses and set the new opening balance to the current balance
    */
   public void reset() {
-    openingBalance = getCurrentBalance();
-    mDbHelper.updateAccountOpeningBalance(id,openingBalance);
+    long currentBalance = getCurrentBalance().getAmountMinor();
+    openingBalance.setAmountMinor(currentBalance);
+    mDbHelper.updateAccountOpeningBalance(id,currentBalance);
     mDbHelper.deleteTransactionAll(this);
   }
   
@@ -325,9 +327,18 @@ public class Account {
    */
   public long save() {
     if (id == 0) {
-      id = mDbHelper.createAccount(label, openingBalance, description,currency.getCurrencyCode());
+      id = mDbHelper.createAccount(
+          label,
+          openingBalance.getAmountMinor(),
+          description,
+          openingBalance.getCurrency().getCurrencyCode());
     } else {
-      mDbHelper.updateAccount(id, label,openingBalance,description,currency.getCurrencyCode());
+      mDbHelper.updateAccount(
+          id,
+          label,
+          openingBalance.getAmountMinor(),
+          description,
+          openingBalance.getCurrency().getCurrencyCode());
     }
     if (!accounts.containsKey(id))
       accounts.put(id, this);

@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.view.View;
@@ -56,6 +57,7 @@ public class AccountEdit extends Activity {
   private String[] currencyCodes;
   private String[] currencyDescs;
   private TextWatcher currencyInformer;
+  private String mCurrencyDecimalSeparator;
 
 /*  private int monkey_state = 0;
 
@@ -90,16 +92,27 @@ public class AccountEdit extends Activity {
 
     mLabelText = (EditText) findViewById(R.id.Label);
     mDescriptionText = (EditText) findViewById(R.id.Description);
-    
-    SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
-    String sep = settings.getString("currency_decimal_separator", Utils.getDefaultDecimalSeparator());
-    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-    symbols.setDecimalSeparator(sep.charAt(0));
-    nfDLocal = new DecimalFormat("#0.###",symbols);
-    nfDLocal.setGroupingUsed(false);
-    
+
+    //TODO: refactor into subclass of EditText
     mOpeningBalanceText = (EditText) findViewById(R.id.Opening_balance);
-    mOpeningBalanceText.setKeyListener(DigitsKeyListener.getInstance("0123456789"+sep));
+    SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
+    mCurrencyDecimalSeparator = settings.getString("currency_decimal_separator", Utils.getDefaultDecimalSeparator());
+    if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+      nfDLocal = new DecimalFormat("#0");
+      mOpeningBalanceText.setInputType(InputType.TYPE_CLASS_NUMBER);
+    } else {
+      DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+      symbols.setDecimalSeparator(mCurrencyDecimalSeparator.charAt(0));
+      nfDLocal = new DecimalFormat("#0.###",symbols);
+
+      //mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+      //due to bug in Android platform http://code.google.com/p/android/issues/detail?id=2626
+      //the soft keyboard if it occupies full screen in horizontal orientation does not display
+      //the , as comma separator
+      mOpeningBalanceText.setKeyListener(DigitsKeyListener.getInstance("0123456789"+mCurrencyDecimalSeparator));
+      mOpeningBalanceText.setRawInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+    }
+    nfDLocal.setGroupingUsed(false);
 
     mCurrencyText = (AutoCompleteTextView) findViewById(R.id.Currency);
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -195,8 +208,14 @@ public class AccountEdit extends Activity {
       setTitle(R.string.menu_edit_account);
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);
-      mOpeningBalanceText.setText(nfDLocal.format(mAccount.openingBalance));
-      mCurrencyText.setText(mAccount.currency.getCurrencyCode());
+      Float amount;
+      if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+        amount = mAccount.openingBalance.getAmountMinor().floatValue();
+      } else {
+        amount = mAccount.openingBalance.getAmountMajor();
+      }
+      mOpeningBalanceText.setText(nfDLocal.format(amount));
+      mCurrencyText.setText(mAccount.openingBalance.getCurrency().getCurrencyCode());
     } else {
       mAccount = new Account();
       setTitle(R.string.menu_insert_account);
@@ -213,11 +232,12 @@ public class AccountEdit extends Activity {
    * @return true upon success, false if validation fails
    */
   private boolean saveState() {
-    String currency = mCurrencyText.getText().toString();
+    String strCurrency = mCurrencyText.getText().toString();
     try {
-      mAccount.currency = Currency.getInstance(currency);
+      Currency currency = Currency.getInstance(strCurrency);
+      mAccount.openingBalance.setCurrency(currency);
     } catch (IllegalArgumentException e) {
-      Toast.makeText(this,getString(R.string.currency_not_iso4217,currency), Toast.LENGTH_LONG).show();
+      Toast.makeText(this,getString(R.string.currency_not_iso4217,strCurrency), Toast.LENGTH_LONG).show();
       return false;
     }
     mAccount.label = mLabelText.getText().toString();
@@ -227,7 +247,11 @@ public class AccountEdit extends Activity {
       Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
       return false;
     }
-    mAccount.openingBalance = openingBalance;
+    if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+      mAccount.openingBalance.setAmountMinor(openingBalance.longValue());
+    } else {
+      mAccount.openingBalance.setAmountMajor(openingBalance);
+    }
     mAccount.save();
     return true;
   }

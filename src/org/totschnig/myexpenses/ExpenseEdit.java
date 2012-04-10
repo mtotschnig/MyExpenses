@@ -72,6 +72,7 @@ public class ExpenseEdit extends Activity {
   //normal transaction or transfer
   private boolean mOperationType;
   private DecimalFormat nfDLocal;
+  private String mCurrencyDecimalSeparator;
 
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
@@ -120,20 +121,25 @@ public class ExpenseEdit extends Activity {
       }
     });
 
-    SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
-    String sep = settings.getString("currency_decimal_separator", Utils.getDefaultDecimalSeparator());
-    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-    symbols.setDecimalSeparator(sep.charAt(0));
-    nfDLocal = new DecimalFormat("#0.###",symbols);
-    nfDLocal.setGroupingUsed(false);
-    
     mAmountText = (EditText) findViewById(R.id.Amount);
-    //mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-    //due to bug in Android platform http://code.google.com/p/android/issues/detail?id=2626
-    //the soft keyboard if it occupies full screen in horizontal orientation does not display
-    //the
-    mAmountText.setKeyListener(DigitsKeyListener.getInstance("0123456789"+sep));
-    mAmountText.setRawInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+    SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
+    mCurrencyDecimalSeparator = settings.getString("currency_decimal_separator", Utils.getDefaultDecimalSeparator());
+    if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+      nfDLocal = new DecimalFormat("#0");
+      mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER);
+    } else {
+      DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+      symbols.setDecimalSeparator(mCurrencyDecimalSeparator.charAt(0));
+      nfDLocal = new DecimalFormat("#0.###",symbols);
+
+      //mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+      //due to bug in Android platform http://code.google.com/p/android/issues/detail?id=2626
+      //the soft keyboard if it occupies full screen in horizontal orientation does not display
+      //the , as comma separator
+      mAmountText.setKeyListener(DigitsKeyListener.getInstance("0123456789"+mCurrencyDecimalSeparator));
+      mAmountText.setRawInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+    }
+    nfDLocal.setGroupingUsed(false);
 
     mCommentText = (EditText) findViewById(R.id.Comment);
 
@@ -281,14 +287,19 @@ public class ExpenseEdit extends Activity {
     if (mRowId != 0) {
       //3 handle edit existing transaction
       //3a. fill amount
-      float amount;
-      if (mTransaction.amount < 0) {
-        amount = 0 - mTransaction.amount;
+      Float amount;
+      if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+        amount = mTransaction.amount.getAmountMinor().floatValue();
       } else {
-        amount = mTransaction.amount;
+        amount = mTransaction.amount.getAmountMajor();
+      }
+      if (amount < 0) {
+        amount = 0 - amount;
+      } else {
         mType = INCOME;
         configureType();
-      }      
+      }
+      
       mAmountText.setText(nfDLocal.format(amount));
       //3b  fill comment
       mCommentText.setText(mTransaction.comment);
@@ -403,8 +414,13 @@ public class ExpenseEdit extends Activity {
     if (mType == EXPENSE) {
       amount = 0 - amount;
     }
+    if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+      mTransaction.amount.setAmountMinor(amount.longValue());
+    } else {
+      mTransaction.amount.setAmountMajor(amount);
+    }
     
-    mTransaction.amount = amount;
+    mTransaction.amount.setAmountMinor(amount.longValue());
     mTransaction.comment = mCommentText.getText().toString();
     mTransaction.setDate(mDateButton.getText().toString() + 
         " " + mTimeButton.getText().toString() + ":00.0");

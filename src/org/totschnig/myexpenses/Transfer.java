@@ -36,11 +36,11 @@ public class Transfer extends Transaction {
    */
   public long save() {
     if (id == 0) {
-      long ids[] = mDbHelper.createTransfer(dateAsString, amount, comment,cat_id,account_id);
+      long ids[] = mDbHelper.createTransfer(dateAsString, amount.getAmountMinor(), comment,cat_id,account_id);
       id = ids[0];
       transfer_peer = ids[1];
     } else {
-      mDbHelper.updateTransfer(id, dateAsString, amount, comment,cat_id);
+      mDbHelper.updateTransfer(id, dateAsString, amount.getAmountMinor(), comment,cat_id);
     }
     return id;
   }

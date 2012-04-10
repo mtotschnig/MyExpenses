@@ -30,6 +30,7 @@ public class MyApplication extends Application {
     private ExpensesDbAdapter mDbOpenHelper;
     private static MyApplication mSelf;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
+    public static final String CURRENCY_USE_MINOR_UNIT = "x";
 
     @Override
     public void onCreate()

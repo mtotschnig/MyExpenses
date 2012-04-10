@@ -66,7 +66,7 @@ public class ExpensesDbAdapter {
    */
   private static final String DATABASE_CREATE =
     "create table " + DATABASE_TABLE  +  "(_id integer primary key autoincrement, "
-    + "comment text not null, date DATETIME not null, amount float not null, "
+    + "comment text not null, date DATETIME not null, amount integer not null, "
     + "cat_id integer, account_id integer, payee text,transfer_peer integer default null);";
   
   
@@ -75,7 +75,7 @@ public class ExpensesDbAdapter {
    */
   private static final String ACCOUNTS_CREATE = 
     "create table accounts (_id integer primary key autoincrement, label text not null, " +
-    "opening_balance float, description text, currency text not null);";
+    "opening_balance integer, description text, currency text not null);";
 
   
   /**
@@ -256,7 +256,7 @@ public class ExpensesDbAdapter {
    * @param comment the comment describing the expense
    * @return rowId or -1 if failed
    */
-  public long createTransaction(String date, float amount, String comment,
+  public long createTransaction(String date, long amount, String comment,
       long cat_id,long account_id, String payee) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
@@ -280,7 +280,7 @@ public class ExpensesDbAdapter {
    * @param account_id stores the account in whose context the transaction is created
    * @return rowId or -1 if failed
    */
-  public long[] createTransfer(String date, float amount, String comment, 
+  public long[] createTransfer(String date, long amount, String comment, 
       long cat_id,long account_id) {
     //the id of the account is stored in KEY_CATID, 
     //the id of the peer transaction is stored in KEY_TRANSFER_PEER
@@ -313,7 +313,7 @@ public class ExpensesDbAdapter {
    * @param comment value to set
    * @return should return 1 if row has been successfully updated
    */
-  public int updateTransaction(long rowId, String date, float amount, 
+  public int updateTransaction(long rowId, String date, long amount, 
       String comment,long cat_id,String payee) {
     ContentValues args = new ContentValues();
     args.put(KEY_DATE, date);
@@ -339,7 +339,7 @@ public class ExpensesDbAdapter {
    * @param cat_id stores the peer_account, this can be altered by the user
    * @return should return 2 if both transactions have been successfully updated
    */
-  public int updateTransfer(long rowId, String date, float amount,
+  public int updateTransfer(long rowId, String date, long amount,
       String comment, long cat_id) {
     int result = 0;
     ContentValues args = new ContentValues();
@@ -471,12 +471,12 @@ public class ExpensesDbAdapter {
    * @param account_id
    * @return
    */
-  public float getTransactionSum(long account_id) {
+  public long getTransactionSum(long account_id) {
     Cursor mCursor = mDb.rawQuery("select sum(" + KEY_AMOUNT + ") from " + 
         DATABASE_TABLE +  " WHERE account_id = " + account_id, 
         null);
     mCursor.moveToFirst();
-    float result = mCursor.getFloat(0);
+    long result = mCursor.getLong(0);
     mCursor.close();
     return result;
   }
@@ -649,7 +649,7 @@ public class ExpensesDbAdapter {
    * @param currency
    * @return rowId or -1 if failed
    */
-  public long createAccount(String label, float opening_balance, 
+  public long createAccount(String label, long opening_balance, 
       String description, String currency) {
     ContentValues initialValues = new ContentValues();
     initialValues.put("label", label);
@@ -667,7 +667,7 @@ public class ExpensesDbAdapter {
    * @param currency
    * @return number of rows affected
    */
-  public int updateAccount(long rowId, String label, float opening_balance, 
+  public int updateAccount(long rowId, String label, long opening_balance, 
       String description, String currency) {
     ContentValues args = new ContentValues();
     args.put("label", label);
@@ -736,7 +736,7 @@ public class ExpensesDbAdapter {
    * @param opening_balance
    * @return number of affected rows
    */
-  public int updateAccountOpeningBalance(long account_id,float opening_balance) {
+  public int updateAccountOpeningBalance(long account_id,long opening_balance) {
     ContentValues args = new ContentValues();
     args.put("opening_balance",opening_balance);
     return mDb.update("accounts",args, KEY_ROWID + "=" + account_id,null);
