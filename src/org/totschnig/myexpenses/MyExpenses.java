@@ -297,7 +297,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         Cursor c = getCursor();
         c.moveToPosition(position);
         int col = c.getColumnIndex(ExpensesDbAdapter.KEY_AMOUNT);
-        float amount = c.getFloat(col);
+        long amount = c.getLong(col);
         if (amount < 0) {
           tv1.setTextColor(android.graphics.Color.RED);
           // Set the background color of the text.
@@ -701,10 +701,14 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       String payee = mExpensesCursor.getString(
           mExpensesCursor.getColumnIndexOrThrow("payee"));
       payee = (payee == null || payee.length() == 0) ? "" : "\nP" + payee;
-      String row = "D"+formatter.format(Timestamp.valueOf(mExpensesCursor.getString(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE)))) +
-          "\nT"+mExpensesCursor.getString(
-              mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)) +
+      String dateStr = formatter.format(Timestamp.valueOf(mExpensesCursor.getString(
+          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE))));
+      long amount = mExpensesCursor.getLong(
+          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT));
+      String amountStr = new Money(mCurrentAccount.openingBalance.getCurrency(),amount)
+          .getAmountMajor().toPlainString();
+      String row = "D"+ dateStr +
+          "\nT" + amountStr +
           comment +
           label +
           payee +  
@@ -782,7 +786,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       } catch (AccountNotFoundException e) {
         // this should not happen, since we got the account_id from db
         e.printStackTrace();
-        throw new RuntimeException();
+        throw new RuntimeException(e);
       }
     }
     return account;

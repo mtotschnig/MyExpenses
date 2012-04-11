@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Currency;
@@ -208,9 +209,9 @@ public class AccountEdit extends Activity {
       setTitle(R.string.menu_edit_account);
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);
-      Float amount;
+      BigDecimal amount;
       if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
-        amount = mAccount.openingBalance.getAmountMinor().floatValue();
+        amount = new BigDecimal(mAccount.openingBalance.getAmountMinor());
       } else {
         amount = mAccount.openingBalance.getAmountMajor();
       }
@@ -242,7 +243,7 @@ public class AccountEdit extends Activity {
     }
     mAccount.label = mLabelText.getText().toString();
     mAccount.description = mDescriptionText.getText().toString();
-    Float openingBalance = Utils.validateNumber(nfDLocal, mOpeningBalanceText.getText().toString());
+    BigDecimal openingBalance = Utils.validateNumber(nfDLocal, mOpeningBalanceText.getText().toString());
     if (openingBalance == null) {
       Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
       return false;

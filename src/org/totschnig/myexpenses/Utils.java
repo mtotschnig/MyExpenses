@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -67,17 +68,18 @@ public class Utils {
    * @param strFloat parsed as float with the number format defined in the locale
    * @return the float retrieved from the string or null if parse did not succeed
    */
-  public static Float validateNumber(DecimalFormat df, String strFloat) {
+  public static BigDecimal validateNumber(DecimalFormat df, String strFloat) {
     ParsePosition pp;
     pp = new ParsePosition( 0 );
     pp.setIndex( 0 );
-    Number n = df.parse(strFloat,pp);
+    df.setParseBigDecimal(true);
+    BigDecimal n = (BigDecimal) df.parse(strFloat,pp);
     if( strFloat.length() != pp.getIndex() || 
         n == null )
     {
       return null;
     } else {
-      return n.floatValue();
+      return n;
     }
   }
   /**
@@ -87,11 +89,11 @@ public class Utils {
    * @return formated string
    */
   static String formatCurrency(Money money) {
-    float amount = money.getAmountMajor();
+    BigDecimal amount = money.getAmountMajor();
     Currency currency = money.getCurrency();
     return formatCurrency(amount,currency);
   }
-  static String formatCurrency(float amount, Currency currency) {
+  static String formatCurrency(BigDecimal amount, Currency currency) {
     NumberFormat nf = NumberFormat.getCurrencyInstance();
     nf.setCurrency(currency);
     return nf.format(amount);

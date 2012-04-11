@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Date;
@@ -287,14 +288,14 @@ public class ExpenseEdit extends Activity {
     if (mRowId != 0) {
       //3 handle edit existing transaction
       //3a. fill amount
-      Float amount;
+      BigDecimal amount;
       if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
-        amount = mTransaction.amount.getAmountMinor().floatValue();
+        amount = new BigDecimal(mTransaction.amount.getAmountMinor());
       } else {
         amount = mTransaction.amount.getAmountMajor();
       }
-      if (amount < 0) {
-        amount = 0 - amount;
+      if (amount.signum() == -1) {
+        amount = amount.abs();
       } else {
         mType = INCOME;
         configureType();
@@ -406,21 +407,20 @@ public class ExpenseEdit extends Activity {
    */
   private boolean saveState() {
     String strAmount = mAmountText.getText().toString();
-    Float amount = Utils.validateNumber(nfDLocal, strAmount);
+    BigDecimal amount = Utils.validateNumber(nfDLocal, strAmount);
     if (amount == null) {
       Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
       return false;
     }
     if (mType == EXPENSE) {
-      amount = 0 - amount;
+      amount = amount.negate();
     }
     if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
       mTransaction.amount.setAmountMinor(amount.longValue());
     } else {
       mTransaction.amount.setAmountMajor(amount);
     }
-    
-    mTransaction.amount.setAmountMinor(amount.longValue());
+
     mTransaction.comment = mCommentText.getText().toString();
     mTransaction.setDate(mDateButton.getText().toString() + 
         " " + mTimeButton.getText().toString() + ":00.0");

@@ -109,6 +109,7 @@ public class Transaction {
    */
   public Transaction() {
     setDate(new Date());
+    this.amount = new Money(null,(long) 0);
   }
   /**
    * we store the date string and create a date object from it

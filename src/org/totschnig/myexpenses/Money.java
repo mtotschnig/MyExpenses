@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses;
 
+import java.math.BigDecimal;
 import java.util.Currency;
 
 public class Money {
@@ -22,10 +23,12 @@ public class Money {
   public void setAmountMinor(Long amountMinor) {
     this.amountMinor = amountMinor;
   }
-  public void setAmountMajor(Float amountMajor) {
-    this.amountMinor = Float.valueOf(amountMajor*100).longValue(); 
+  public void setAmountMajor(BigDecimal amountMajor) {
+    this.amountMinor = amountMajor.multiply(new BigDecimal(100)).longValue();
   }
-  public Float getAmountMajor() {
-    return amountMinor.floatValue() / 100;
+  public BigDecimal getAmountMajor() {
+    BigDecimal bd = new BigDecimal(amountMinor);
+    bd.setScale(2);
+    return bd.divide(new BigDecimal(100));
   }
 }
