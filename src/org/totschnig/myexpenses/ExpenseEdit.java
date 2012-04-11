@@ -20,6 +20,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Date;
 
+import org.totschnig.myexpenses.Account.AccountNotFoundException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -121,7 +123,7 @@ public class ExpenseEdit extends Activity {
         showDialog(TIME_DIALOG_ID);
       }
     });
-
+    
     mAmountText = (EditText) findViewById(R.id.Amount);
     SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
     mCurrencyDecimalSeparator = settings.getString("currency_decimal_separator", Utils.getDefaultDecimalSeparator());
@@ -199,7 +201,7 @@ public class ExpenseEdit extends Activity {
       else
         mCategoryButton.setText(R.string.account);
     }
-    //category button is further set up in populateFields, since it depends on data
+    //category button and amount label are further set up in populateFields, since it depends on data
     populateFields();
   }
 
@@ -360,6 +362,19 @@ public class ExpenseEdit extends Activity {
     }
     setDateTime(mTransaction.date);
     
+    //add currency label to amount label
+    TextView amountLabel = (TextView) findViewById(R.id.AmountLabel);    
+    String currencySymbol;
+    try {
+      currencySymbol = Account.getInstanceFromDb(mTransaction.account_id)
+          .openingBalance.getCurrency().getSymbol();
+    } catch (AccountNotFoundException e) {
+      currencySymbol = "?";
+    }
+    if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+      currencySymbol += "¢";
+    }
+    amountLabel.setText(getString(R.string.amount,currencySymbol));    
   }
   /**
    * extracts the fields from a date object for setting them on the buttons
