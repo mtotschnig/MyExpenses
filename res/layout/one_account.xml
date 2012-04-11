@@ -50,14 +50,12 @@
       </TableRow>
       
       <TableRow>
-        <TextView android:text="@string/opening_balance"/>
+        <TextView android:id="@+id/OpeningBalanceLabel"/>
          <EditText
              android:layout_span="2"
-             android:inputType="phone" 
              android:id="@+id/Opening_balance" 
              android:layout_width="wrap_content" 
-             android:layout_height="wrap_content" 
-             android:numeric="decimal" />
+             android:layout_height="wrap_content" />
       </TableRow>
       
       <TableRow>

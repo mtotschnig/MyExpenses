@@ -52,8 +52,7 @@
       </TableRow>
                 
       <TableRow>
-        <TextView
-            android:text="@string/amount"/>
+        <TextView android:id="@+id/AmountLabel"/>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="horizontal">
           <Button

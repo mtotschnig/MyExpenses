@@ -39,6 +39,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -96,12 +97,15 @@ public class AccountEdit extends Activity {
 
     //TODO: refactor into subclass of EditText
     mOpeningBalanceText = (EditText) findViewById(R.id.Opening_balance);
+    TextView openingBalanceLabel = (TextView) findViewById(R.id.OpeningBalanceLabel); 
     SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
     mCurrencyDecimalSeparator = settings.getString("currency_decimal_separator", Utils.getDefaultDecimalSeparator());
     if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+      openingBalanceLabel.setText(getString(R.string.opening_balance) + "(¢)");
       nfDLocal = new DecimalFormat("#0");
       mOpeningBalanceText.setInputType(InputType.TYPE_CLASS_NUMBER);
     } else {
+      openingBalanceLabel.setText(getString(R.string.opening_balance));
       DecimalFormatSymbols symbols = new DecimalFormatSymbols();
       symbols.setDecimalSeparator(mCurrencyDecimalSeparator.charAt(0));
       nfDLocal = new DecimalFormat("#0.###",symbols);
@@ -216,7 +220,7 @@ public class AccountEdit extends Activity {
         amount = mAccount.openingBalance.getAmountMajor();
       }
       mOpeningBalanceText.setText(nfDLocal.format(amount));
-      mCurrencyText.setText(mAccount.openingBalance.getCurrency().getCurrencyCode());
+      mCurrencyText.setText(mAccount.currency.getCurrencyCode());
     } else {
       mAccount = new Account();
       setTitle(R.string.menu_insert_account);
@@ -236,6 +240,7 @@ public class AccountEdit extends Activity {
     String strCurrency = mCurrencyText.getText().toString();
     try {
       Currency currency = Currency.getInstance(strCurrency);
+      mAccount.currency = currency;
       mAccount.openingBalance.setCurrency(currency);
     } catch (IllegalArgumentException e) {
       Toast.makeText(this,getString(R.string.currency_not_iso4217,strCurrency), Toast.LENGTH_LONG).show();

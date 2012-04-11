@@ -34,10 +34,10 @@ public class Transaction {
   public Date date;
   public Money amount;
   //for transfers cat_id stores the peer account
-  public long cat_id;
+  public long catId;
   //stores a short label of the category or the account the transaction is linked to
   public String label;
-  public long account_id;
+  public long accountId;
   public String payee;
   public long transfer_peer = 0;
   /**
@@ -56,47 +56,38 @@ public class Transaction {
     Transaction t;
     Cursor c = mDbHelper.fetchTransaction(id);
     long transfer_peer = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
+    long account_id = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ACCOUNTID));
+    long amount = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT));
     if (transfer_peer != 0) {
-      t = new Transfer();
+      t = new Transfer(account_id,amount);
       t.transfer_peer = transfer_peer;
     }
     else
-      t = new Transaction();
+      t = new Transaction(account_id,amount);
     
     t.id = id;
     t.setDate(c.getString(
         c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE)));
-    t.account_id = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ACCOUNTID));
-    Account account;
-    try {
-      account = Account.getInstanceFromDb(t.account_id);
-    } catch (AccountNotFoundException e) {
-      //we should not have to deal with a transaction not belonging to any account
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    }
-    t.amount = new Money(account.openingBalance.getCurrency(),
-        c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT)));
     t.comment = c.getString(
         c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
     t.payee = c.getString(
             c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE));
-    t.cat_id = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
+    t.catId = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
     t.label = c.getString(c.getColumnIndexOrThrow("label"));
     return t;
   }
   /**
-   * factory method for creating an object of the correct type
+   * factory method for creating an object of the correct type and linked to a given account
    * @param mDbHelper
    * @param mOperationType either {@link MyExpenses#TYPE_TRANSACTION} or
    * {@link MyExpenses#TYPE_TRANSFER}
    * @return instance of {@link Transaction} or {@link Transfer} with date initialized to current date
    */
-  public static Transaction getTypedNewInstance(boolean mOperationType) {
+  public static Transaction getTypedNewInstance(boolean mOperationType, long accountId) {
     if(mOperationType == MyExpenses.TYPE_TRANSACTION)
-      return new Transaction();
+      return new Transaction(accountId,0);
     else 
-      return new Transfer();
+      return new Transfer(accountId,0);
   }
   
   public static boolean delete(long id) {
@@ -107,9 +98,18 @@ public class Transaction {
    * new empty transaction
    * @param mDbHelper
    */
-  public Transaction() {
+  public Transaction(long accountId,long amount) {
     setDate(new Date());
-    this.amount = new Money(null,(long) 0);
+    Account account;
+    try {
+      account = Account.getInstanceFromDb(accountId);
+    } catch (AccountNotFoundException e) {
+      //we should not have to deal with a transaction not belonging to any account
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
+    this.accountId = accountId;
+    this.amount = new Money(account.currency,amount);
   }
   /**
    * we store the date string and create a date object from it
@@ -144,9 +144,9 @@ public class Transaction {
       mDbHelper.createPayee(payee);
     }
     if (id == 0) {
-      id = mDbHelper.createTransaction(dateAsString, amount.getAmountMinor(), comment,cat_id,account_id,payee);
+      id = mDbHelper.createTransaction(dateAsString, amount.getAmountMinor(), comment,catId,accountId,payee);
     } else {
-      mDbHelper.updateTransaction(id, dateAsString, amount.getAmountMinor(), comment,cat_id,payee);
+      mDbHelper.updateTransaction(id, dateAsString, amount.getAmountMinor(), comment,catId,payee);
     }
     return id;
   }

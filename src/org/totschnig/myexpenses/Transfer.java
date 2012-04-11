@@ -24,8 +24,8 @@ package org.totschnig.myexpenses;
 public class Transfer extends Transaction {
   private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   
-  public Transfer() {
-    super();
+  public Transfer(long accountId,long amount) {
+    super(accountId,amount);
   }
   public static boolean delete(long id,long peer) {
     return mDbHelper.deleteTransfer(id,peer);
@@ -36,11 +36,11 @@ public class Transfer extends Transaction {
    */
   public long save() {
     if (id == 0) {
-      long ids[] = mDbHelper.createTransfer(dateAsString, amount.getAmountMinor(), comment,cat_id,account_id);
+      long ids[] = mDbHelper.createTransfer(dateAsString, amount.getAmountMinor(), comment,catId,accountId);
       id = ids[0];
       transfer_peer = ids[1];
     } else {
-      mDbHelper.updateTransfer(id, dateAsString, amount.getAmountMinor(), comment,cat_id);
+      mDbHelper.updateTransfer(id, dateAsString, amount.getAmountMinor(), comment,catId);
     }
     return id;
   }

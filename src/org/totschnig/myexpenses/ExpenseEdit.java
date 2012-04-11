@@ -250,7 +250,7 @@ public class ExpenseEdit extends Activity {
           mTimeSetListener,
           mHours, mMinutes, true);
     case ACCOUNT_DIALOG_ID:
-      final Cursor otherAccounts = mDbHelper.fetchAccountOther(mTransaction.account_id,true);
+      final Cursor otherAccounts = mDbHelper.fetchAccountOther(mTransaction.accountId,true);
       final String[] accountLabels = Utils.getStringArrayFromCursor(otherAccounts, "label");
       final int[] accountIds = Utils.getIntArrayFromCursor(otherAccounts, ExpensesDbAdapter.KEY_ROWID);
       otherAccounts.close();
@@ -258,7 +258,7 @@ public class ExpenseEdit extends Activity {
         .setTitle(R.string.dialog_title_select_account)
         .setSingleChoiceItems(accountLabels, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
-            mTransaction.cat_id = accountIds[item];
+            mTransaction.catId = accountIds[item];
             mTransaction.label = accountLabels[item];
             prefixCategoryButtonTextWithTypeDir();
             dismissDialog(ACCOUNT_DIALOG_ID);
@@ -278,12 +278,11 @@ public class ExpenseEdit extends Activity {
     if (mRowId != 0) {
       mTransaction = Transaction.getInstanceFromDb(mRowId);
     } else {
-      mTransaction = Transaction.getTypedNewInstance(mOperationType);
-      mTransaction.account_id = mAccountId;
+      mTransaction = Transaction.getTypedNewInstance(mOperationType,mAccountId);
     }
     //2. get info about other accounts if we are editing a transfer
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      otherAccounts = mDbHelper.fetchAccountOther(mTransaction.account_id,true);
+      otherAccounts = mDbHelper.fetchAccountOther(mTransaction.accountId,true);
       otherAccountsCount = otherAccounts.getCount();
     }
     //TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
@@ -331,7 +330,7 @@ public class ExpenseEdit extends Activity {
       //we point the transfer to that account
       if (mOperationType == MyExpenses.TYPE_TRANSFER && otherAccountsCount == 1) {
         otherAccounts.moveToFirst();
-        mTransaction.cat_id = otherAccounts.getInt(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+        mTransaction.catId = otherAccounts.getInt(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
         mTransaction.label = otherAccounts.getString(otherAccounts.getColumnIndex("label"));
         prefixCategoryButtonTextWithTypeDir();
       }
@@ -366,15 +365,21 @@ public class ExpenseEdit extends Activity {
     TextView amountLabel = (TextView) findViewById(R.id.AmountLabel);    
     String currencySymbol;
     try {
-      currencySymbol = Account.getInstanceFromDb(mTransaction.account_id)
-          .openingBalance.getCurrency().getSymbol();
+      Account account = Account.getInstanceFromDb(mTransaction.accountId);
+      currencySymbol = account.currency.getSymbol();
+      if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+        switch (account.currency.getDefaultFractionDigits()) {
+        case 2:
+          currencySymbol += "¢";
+          break;
+        case 3:
+          currencySymbol += "/1000";
+        }
+      }
     } catch (AccountNotFoundException e) {
       currencySymbol = "?";
     }
-    if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
-      currencySymbol += "¢";
-    }
-    amountLabel.setText(getString(R.string.amount,currencySymbol));    
+    amountLabel.setText(getString(R.string.amount) + " ("+currencySymbol+")");    
   }
   /**
    * extracts the fields from a date object for setting them on the buttons
@@ -443,7 +448,7 @@ public class ExpenseEdit extends Activity {
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mTransaction.setPayee(mPayeeText.getText().toString());
     } else {
-      if (mTransaction.cat_id == 0) {
+      if (mTransaction.catId == 0) {
         Toast.makeText(this,getString(R.string.warning_select_account), Toast.LENGTH_LONG).show();
         return false;
       }
@@ -458,7 +463,7 @@ public class ExpenseEdit extends Activity {
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     if (intent != null) {
-      mTransaction.cat_id = intent.getLongExtra("cat_id",0);
+      mTransaction.catId = intent.getLongExtra("cat_id",0);
       mTransaction.label = intent.getStringExtra("label");
       mCategoryButton.setText(mTransaction.label);
     }
@@ -470,7 +475,7 @@ public class ExpenseEdit extends Activity {
     mTypeButton.setText(mType ? "+" : "-");
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
-    } else if (mTransaction.cat_id != 0) {
+    } else if (mTransaction.catId != 0) {
       prefixCategoryButtonTextWithTypeDir();
     }
   }

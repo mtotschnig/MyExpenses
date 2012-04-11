@@ -42,7 +42,7 @@
       </TableRow>
         
       <TableRow>
-        <TextView android:text="@string/amount"/>
+        <TextView android:id="@+id/AmountLabel"/>
         <LinearLayout
             android:orientation="horizontal">
           <Button 

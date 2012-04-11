@@ -280,7 +280,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           text = Utils.convDate(text);
           break;
         case R.id.amount:
-          text = Utils.convAmount(text,mCurrentAccount.openingBalance.getCurrency());
+          text = Utils.convAmount(text,mCurrentAccount.currency);
           break;
         }
         super.setViewText(v, text);
@@ -705,7 +705,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE))));
       long amount = mExpensesCursor.getLong(
           mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT));
-      String amountStr = new Money(mCurrentAccount.openingBalance.getCurrency(),amount)
+      String amountStr = new Money(mCurrentAccount.currency,amount)
           .getAmountMajor().toPlainString();
       String row = "D"+ dateStr +
           "\nT" + amountStr +
@@ -924,7 +924,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   }
   
   public boolean transfersEnabledP() {
-    return mDbHelper.getAccountCount(mCurrentAccount.openingBalance.getCurrency().getCurrencyCode()) > 1;
+    return mDbHelper.getAccountCount(mCurrentAccount.currency.getCurrencyCode()) > 1;
   }
   @Override
   public void onClick(View v) {

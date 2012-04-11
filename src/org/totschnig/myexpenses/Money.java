@@ -24,11 +24,16 @@ public class Money {
     this.amountMinor = amountMinor;
   }
   public void setAmountMajor(BigDecimal amountMajor) {
-    this.amountMinor = amountMajor.multiply(new BigDecimal(100)).longValue();
+    int scale = currency.getDefaultFractionDigits();
+    this.amountMinor = amountMajor.multiply(new BigDecimal(Math.pow(10,scale))).longValue();
   }
   public BigDecimal getAmountMajor() {
     BigDecimal bd = new BigDecimal(amountMinor);
-    bd.setScale(2);
-    return bd.divide(new BigDecimal(100));
+    int scale = currency.getDefaultFractionDigits();
+    if (scale != -1) {
+      bd.setScale(scale);
+      return bd.divide(new BigDecimal(Math.pow(10,scale)));
+    }
+    return bd;
   }
 }

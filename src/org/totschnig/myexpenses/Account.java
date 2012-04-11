@@ -40,6 +40,8 @@ public class Account {
   public String label;
    
   public Money openingBalance;
+  
+  public Currency currency;
    
   public String description;
   
@@ -262,6 +264,7 @@ public class Account {
   }
   public Account(String label, long openingBalance, String description, Currency currency) {
     this.label = label;
+    this.currency = currency;
     this.openingBalance = new Money(currency,openingBalance);
     this.description = description;
   }
@@ -279,10 +282,11 @@ public class Account {
     if (c.getCount() == 0) {
       throw new AccountNotFoundException();
     }
+    
     this.label = c.getString(c.getColumnIndexOrThrow("label"));
     this.description = c.getString(c.getColumnIndexOrThrow("description"));
-    this.openingBalance = new Money(
-        toCurrency(c.getString(c.getColumnIndexOrThrow("currency"))),
+    this.currency = toCurrency(c.getString(c.getColumnIndexOrThrow("currency")));
+    this.openingBalance = new Money(this.currency,
         c.getLong(c.getColumnIndexOrThrow("opening_balance")));
     c.close();
   }
@@ -305,8 +309,7 @@ public class Account {
    * @return the sum of opening balance and all transactions for the account
    */
   public Money getCurrentBalance() { 
-    return new Money(
-        openingBalance.getCurrency(),
+    return new Money(currency,
         openingBalance.getAmountMinor() + mDbHelper.getTransactionSum(id)
     );
   }
@@ -331,14 +334,14 @@ public class Account {
           label,
           openingBalance.getAmountMinor(),
           description,
-          openingBalance.getCurrency().getCurrencyCode());
+          currency.getCurrencyCode());
     } else {
       mDbHelper.updateAccount(
           id,
           label,
           openingBalance.getAmountMinor(),
           description,
-          openingBalance.getCurrency().getCurrencyCode());
+          currency.getCurrencyCode());
     }
     if (!accounts.containsKey(id))
       accounts.put(id, this);
