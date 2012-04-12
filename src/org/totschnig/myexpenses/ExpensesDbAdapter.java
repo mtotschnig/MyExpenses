@@ -53,8 +53,8 @@ public class ExpensesDbAdapter {
 
 
   private String mDatabaseName;
-  private static final String DATABASE_TABLE = "expenses";
-  private static final int DATABASE_VERSION = 19;
+  private static final String DATABASE_TABLE = "transactions";
+  private static final int DATABASE_VERSION = 20;
   
   /**
    * SQL statement for expenses TABLE
@@ -165,6 +165,17 @@ public class ExpensesDbAdapter {
       }
       if (oldVersion < 19) {
         db.execSQL("alter table expenses add column transfer_peer text");
+      }
+      if (oldVersion < 20) {
+        db.execSQL(DATABASE_CREATE);
+        db.execSQL("INSERT INTO transactions (comment,date,amount,cat_id,account_id,payee,transfer_peer)" +
+        		" select comment,date,CAST(ROUND(amount*100) AS INTEGER),cat_id,account_id,payee,transfer_peer from expenses");
+        db.execSQL("DROP TABLE expenses");
+        db.execSQL("ALTER TABLE accounts RENAME to accounts_old");
+        db.execSQL(ACCOUNTS_CREATE);
+        db.execSQL("INSERT INTO accounts (label,opening_balance,description,currency)" +
+        		" select label,CAST(ROUND(opening_balance*100) AS INTEGER),description,currency from accounts_old");
+        db.execSQL("DROP TABLE accounts_old");
       }
     }
   }
