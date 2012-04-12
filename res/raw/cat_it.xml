@@ -77,8 +77,8 @@
     <Sub_category Nbc="11" Nb="9" Na="Sicurezza sociale" />
     <Category Nb="12" Na="Studi" Kd="1" />
     <Sub_category Nbc="12" Nb="1" Na="Corso" />
-    <Sub_category Nbc="12" Nb="2" Na="Libri" />
-    <Sub_category Nbc="12" Nb="3" Na="Costi d'istruzione" />
+    <Sub_category Nbc="12" Nb="2" Na="Costi d'istruzione" />
+    <Sub_category Nbc="12" Nb="3" Na="Libri" />
     <Category Nbc="13" Na="Tariffe professionali" Kd="1" />
     <Sub_category Nbc="13" Nb="1" Na="Non rimborsabile" />
     <Sub_category Nbc="13" Nb="2" Na="Rimborsabile" />
