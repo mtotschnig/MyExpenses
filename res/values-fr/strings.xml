@@ -150,6 +150,7 @@
     <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences sur la carte SD.</string>
     <string name="pref_categories_sort_by_usages_title">Critères de tri pour catégories</string>
     <string name="pref_categories_sort_by_usages_summary">Trier les catégories principales par fréquence d\'utilisation (sinon par ordre alphabétique)</string>
+    <string name="pref_currency_decimal_separator_title">Séparateur décimal pour l\'entrée de devises</string>
     <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir des définitions standards de Grisbi, incluses dans l\'application, ou votre propre fichier sauvegardé sous le nom <i>&grisbi_file;</i>
       dans le répertoire <i>myexpenses</i> de la racine de votre carte SD</string>
     <string name="pref_import_from_grisbi_title">Import des données Grisbi</string>
