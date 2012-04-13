@@ -25,9 +25,9 @@ import org.totschnig.myexpenses.Transaction;
 import org.totschnig.myexpenses.Transfer;
 
 import junit.framework.Assert;
-import android.test.AndroidTestCase;
+import junit.framework.TestCase;
 
-public class TransactionTest extends AndroidTestCase {
+public class TransactionTest extends TestCase {
   private Currency currency;
   private Account mAccount1;
   private Account mAccount2;

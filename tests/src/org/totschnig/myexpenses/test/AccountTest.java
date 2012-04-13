@@ -21,9 +21,9 @@ import java.util.Locale;
 import org.totschnig.myexpenses.Account;
 
 import junit.framework.Assert;
-import android.test.AndroidTestCase;
+import junit.framework.TestCase;
 
-public class AccountTest extends AndroidTestCase {
+public class AccountTest extends TestCase {
   public Account mAccount;
   
   @Override
