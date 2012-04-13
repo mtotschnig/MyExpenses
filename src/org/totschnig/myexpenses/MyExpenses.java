@@ -76,17 +76,17 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public static final int ACTIVITY_CREATE_ACCOUNT=3;
   public static final int ACTIVITY_EDIT_ACCOUNT=4;
   
-  private static final int INSERT_TA_COMMAND_ID = Menu.FIRST + 1;
-  private static final int INSERT_TRANSFER_COMMAND_ID = Menu.FIRST + 2;
-  private static final int SWITCH_ACCOUNT_COMMAND_ID = Menu.FIRST + 3;
-  private static final int CREATE_ACCOUNT_COMMAND_ID = Menu.FIRST + 4;
-  private static final int RESET_ACCOUNT_COMMAND_ID = Menu.FIRST + 5;
-  private static final int SETTINGS_COMMAND_ID = Menu.FIRST + 6;
-  private static final int BACKUP_COMMAND_ID = Menu.FIRST + 7;
-  private static final int EDIT_ACCOUNT_COMMAND_ID = Menu.FIRST + 8;
-  private static final int HELP_COMMAND_ID = Menu.FIRST + 9;
-  private static final int CHANGES_COMMAND_ID = Menu.FIRST + 10;
-  private static final int TUTORIAL_COMMAND_ID = Menu.FIRST + 11;
+  public static final int INSERT_TA_COMMAND_ID = Menu.FIRST + 1;
+  public static final int INSERT_TRANSFER_COMMAND_ID = Menu.FIRST + 2;
+  public static final int SWITCH_ACCOUNT_COMMAND_ID = Menu.FIRST + 3;
+  public static final int CREATE_ACCOUNT_COMMAND_ID = Menu.FIRST + 4;
+  public static final int RESET_ACCOUNT_COMMAND_ID = Menu.FIRST + 5;
+  public static final int SETTINGS_COMMAND_ID = Menu.FIRST + 6;
+  public static final int BACKUP_COMMAND_ID = Menu.FIRST + 7;
+  public static final int EDIT_ACCOUNT_COMMAND_ID = Menu.FIRST + 8;
+  public static final int HELP_COMMAND_ID = Menu.FIRST + 9;
+  public static final int CHANGES_COMMAND_ID = Menu.FIRST + 10;
+  public static final int TUTORIAL_COMMAND_ID = Menu.FIRST + 11;
   public static final int DELETE_COMMAND_ID = Menu.FIRST + 12;
   public static final int SHOW_DETAIL_COMMAND_ID = Menu.FIRST + 13;
   

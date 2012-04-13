@@ -42,7 +42,7 @@ public class Account {
   public Money openingBalance;
   
   public Currency currency;
-   
+
   public String description;
   
   private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
@@ -247,7 +247,6 @@ public class Account {
     try {
       account = getInstanceFromDb(id);
     } catch (AccountNotFoundException e) {
-      // TODO Auto-generated catch block
       return false;
     }
     mDbHelper.deleteTransactionAll(account);
@@ -290,6 +289,10 @@ public class Account {
         c.getLong(c.getColumnIndexOrThrow("opening_balance")));
     c.close();
   }
+
+   public void setCurrency(String currency) {
+     this.currency = toCurrency(currency);
+   }
   /**
    * @param currency if not a legal symbol, silently the currency from the Locale
    * is used instead

@@ -76,6 +76,7 @@ public class ExpenseEdit extends Activity {
   private boolean mOperationType;
   private DecimalFormat nfDLocal;
   private String mCurrencyDecimalSeparator;
+  private boolean mMinorUnitP;
 
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
@@ -127,8 +128,10 @@ public class ExpenseEdit extends Activity {
     mAmountText = (EditText) findViewById(R.id.Amount);
     SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
     mCurrencyDecimalSeparator = settings.getString("currency_decimal_separator", Utils.getDefaultDecimalSeparator());
-    if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+    mMinorUnitP = mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT);
+    if (mMinorUnitP) {
       nfDLocal = new DecimalFormat("#0");
+      nfDLocal.setParseIntegerOnly(true);
       mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER);
     } else {
       DecimalFormatSymbols symbols = new DecimalFormatSymbols();
@@ -290,7 +293,7 @@ public class ExpenseEdit extends Activity {
       //3 handle edit existing transaction
       //3a. fill amount
       BigDecimal amount;
-      if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+      if (mMinorUnitP) {
         amount = new BigDecimal(mTransaction.amount.getAmountMinor());
       } else {
         amount = mTransaction.amount.getAmountMajor();
@@ -367,7 +370,7 @@ public class ExpenseEdit extends Activity {
     try {
       Account account = Account.getInstanceFromDb(mTransaction.accountId);
       currencySymbol = account.currency.getSymbol();
-      if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+      if (mMinorUnitP) {
         switch (account.currency.getDefaultFractionDigits()) {
         case 2:
           currencySymbol += "¢";
@@ -435,7 +438,7 @@ public class ExpenseEdit extends Activity {
     if (mType == EXPENSE) {
       amount = amount.negate();
     }
-    if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+    if (mMinorUnitP) {
       mTransaction.amount.setAmountMinor(amount.longValue());
     } else {
       mTransaction.amount.setAmountMajor(amount);

@@ -15,7 +15,9 @@
 
 package org.totschnig.myexpenses.test;
 
-import java.util.Locale;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 import org.totschnig.myexpenses.Utils;
 
@@ -24,14 +26,19 @@ import junit.framework.TestCase;
 
 public class UtilsTest extends TestCase {
   public void testValidateNumber() {
-    Locale.setDefault(Locale.ENGLISH);
-    Assert.assertEquals(4.7f, Utils.validateNumber("4.7"));
-    Assert.assertNull(Utils.validateNumber("4,7"));
-    Locale.setDefault(Locale.FRENCH);
-    Assert.assertEquals(4.7f, Utils.validateNumber("4,7"));
-    Assert.assertNull(Utils.validateNumber("4.7"));
-    Locale.setDefault(Locale.GERMAN);
-    Assert.assertEquals(4.7f, Utils.validateNumber("4,7"));
-    Assert.assertNull(Utils.validateNumber("4.7"));
+    DecimalFormat nfDLocal;
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+    symbols.setDecimalSeparator('.');
+    nfDLocal = new DecimalFormat("#0.###",symbols);
+    Assert.assertEquals(0, Utils.validateNumber(nfDLocal,"4.7").compareTo(new BigDecimal("4.7")));
+    Assert.assertNull(Utils.validateNumber(nfDLocal,"4,7"));
+    symbols.setDecimalSeparator(',');
+    nfDLocal = new DecimalFormat("#0.###",symbols);
+    Assert.assertEquals(0, Utils.validateNumber(nfDLocal,"4,7").compareTo(new BigDecimal("4.7")));
+    Assert.assertNull(Utils.validateNumber(nfDLocal,"4.7"));
+    nfDLocal = new DecimalFormat("#0");
+    nfDLocal.setParseIntegerOnly(true);
+    Assert.assertEquals(0, Utils.validateNumber(nfDLocal,"470").compareTo(new BigDecimal(470)));
+    Assert.assertNull(Utils.validateNumber(nfDLocal,"470.123"));
   }
 }

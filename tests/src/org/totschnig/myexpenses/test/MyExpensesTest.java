@@ -78,7 +78,7 @@ public class MyExpensesTest extends
     solo.sendKey(Solo.MENU);
     assertFalse(solo.searchText(mActivity.getString(R.string.menu_reset)));
     //mInstrumentation.waitForIdleSync();
-    if (!mInstrumentation.invokeMenuActionSync(mActivity, MyExpenses.INSERT_TA_ID, 0))
+    if (!mInstrumentation.invokeMenuActionSync(mActivity, MyExpenses.INSERT_TA_COMMAND_ID, 0))
       throw new Exception();
     solo.enterText((EditText) solo.getView(R.id.Amount),"123.45");
     solo.clickOnButton(mActivity.getString(R.string.done));
@@ -87,7 +87,7 @@ public class MyExpensesTest extends
     solo.sendKey(Solo.MENU);
     assertTrue(solo.searchText(mActivity.getString(R.string.menu_reset)));
     //mInstrumentation.waitForIdleSync();
-    if (!mInstrumentation.invokeMenuActionSync(mActivity, MyExpenses.SELECT_ACCOUNT_ID, 0))
+    if (!mInstrumentation.invokeMenuActionSync(mActivity, MyExpenses.CREATE_ACCOUNT_COMMAND_ID, 0))
       throw new Exception();
     //mInstrumentation.waitForIdleSync();
     //in order to use invokeMenuActionSync here, I'd need to know how to get at the activity we arein
