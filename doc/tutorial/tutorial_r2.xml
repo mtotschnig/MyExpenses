@@ -193,36 +193,28 @@
 
     <!-- BEGIN tutorial1 para 2 --> 
     <para lang="en">
-      Enter a label, a description, the opening balance<footnote id="ftn12-en-1">
-        <para>
-          The input format for currency amounts can be configured through the <link
-          linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
-          setting.
-       </para>
-      </footnote> and a currency for the account. The currency must be entered according to
+      Enter a label, a description, the opening balance<footnoteref linkend="ftn22-en-1"/>
+      and a currency for the account. The currency must be entered according to
       its three-letter code in ISO 4217, but can be chosen easily from a list by clicking on
       the <guibutton role="select"/> button.
     </para>
     <para lang="fr">
-      Entrez un libellé, une description, le solde d'ouverture et la devise de ce compte. La
-      devise doit être saisie selon le code ISO 4217 en trois lettres, mais peut être
-      facilement sélectionné à partir d'une liste en cliquant sur <guibutton role="select"/>
+      Entrez un libellé, une description, le solde d'ouverture<footnoteref
+      linkend="ftn22-fr-1"/> et la devise de ce compte. La devise doit être saisie selon le
+      code ISO 4217 en trois lettres, mais peut être facilement sélectionné à partir d'une
+      liste en cliquant sur <guibutton role="select"/>
     </para>
     <para lang="de">
-      Geben Sie eine Bezeichnung, eine Beschreibung, den Anfangssaldo<footnote id="ftn12-de-1">
-        <para>
-          Das Eingabeformat für Währungsbeträge kann mittels <link
-          linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
-          eingestellt werden.
-       </para>
-      </footnote> und die Währung des Kontos ein. Die Währung muss anhand ihrer dreistelligen
-      Abkürzung ISO 4217 eingegeben werden, aber kann durch Klick auf <guibutton
+      Geben Sie eine Bezeichnung, eine Beschreibung, den Anfangssaldo<footnoteref
+      linkend="ftn22-de-1"/> und die Währung des Kontos ein. Die Währung muss anhand ihrer
+      dreistelligen Abkürzung ISO 4217 eingegeben werden, aber kann durch Klick auf <guibutton
       role="select"/> einfach aus einer Liste ausgewählt werden.
     </para>
     <para lang="it">
-      Inserire una etichetta, una descrizione, il saldo di apertura, e una valuta per il conto.
-      La valuta deve essere inserita secondo la ISO 4217 di tre lettere, ma può essere
-      facilmente selezionato da una lista, fare clico <guibutton role="select"/>
+      Inserire una etichetta, una descrizione, il saldo di apertura<footnoteref
+      linkend="ftn22-it-1"/>, e una valuta per il conto. La valuta deve essere inserita secondo
+      la ISO 4217 di tre lettere, ma può essere facilmente selezionato da una lista, fare clico
+      <guibutton role="select"/>
     </para>
     <!-- END tutorial1 para 2 --> 
 
@@ -340,9 +332,13 @@
     
     <para lang="fr">
       Fixez la date et l'heure, cliquez sur le bouton <guibutton>-</guibutton> pour
-      basculer entre dépense ou entrée, entrez la somme et une remarque.
+      basculer entre dépense ou entrée, entrez la somme<footnote id="ftn22-fr-1">
+        <para>
+          ... <link linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
+          ...
+       </para> et une remarque.
       Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois
-      que vous entrerez un tiers<footnote id="ftn22-fr-1">
+      que vous entrerez un tiers<footnote id="ftn22-fr-2">
         <para>
           Vous pouvez importer la liste des tiers enregistrés de votre fichier Grisbi, comme
           expliqué dans <link linkend='tutorial5_5'><guilabel
@@ -379,9 +375,13 @@
     </para>
     <para lang="it">
       Regolare data e ora, fare clico sul pulsante <guibutton>-</guibutton> per passare gli
-      oneri ei proventi, inserire importo, le note e il beneficiario (o debitore). Il
+      oneri ei proventi, inserire importo<footnote id="ftn22-it-1">
+        <para>
+          ... <link linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
+          ...
+       </para>, le note e il beneficiario (o debitore). Il
       benficiario campo memorizza i valori inseriti, e suggeriscono la prossima volta che si
-      entra questo<footnote id="ftn22-it-1">
+      entra questo<footnote id="ftn22-it-2">
         <para>
           È possibile importare una lista di beneficiari iscritti nel file Grisbi, come
           spiegato in<link linkend='tutorial5_5'><guilabel
