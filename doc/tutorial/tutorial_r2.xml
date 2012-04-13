@@ -336,7 +336,8 @@
         <para>
           ... <link linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
           ...
-       </para> et une remarque.
+       </para>
+     </footnote> et une remarque.
       Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois
       que vous entrerez un tiers<footnote id="ftn22-fr-2">
         <para>
@@ -379,7 +380,8 @@
         <para>
           ... <link linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
           ...
-       </para>, le note e il beneficiario (o debitore). Il
+       </para>
+       </footnote>, le note e il beneficiario (o debitore). Il
       benficiario campo memorizza i valori inseriti, e suggeriscono la prossima volta che si
       entra questo<footnote id="ftn22-it-2">
         <para>
@@ -1172,7 +1174,21 @@
     
     <sect2 id="tutorial5_8">
       <title>
-        <guilabel role="pref_currency_decimal_separator_title"/>
+        <guilabel role="pref_currency_decimal_separator_title"/><footnote id="ftn58-1">
+        <!-- revision 2 de ce document est utilisé pour des versions anterieurs a 1.4.10 -->
+            <para lang="en">
+          Since version 1.4.10.
+        </para>
+        <para lang="fr">
+          À partir de la version 1.4.10.
+        </para>
+        <para lang="de">
+          Seit Version 1.4.10.
+        </para>
+        <para lang="it">
+        Dalla versione 1.4.10.
+        </para>
+        </footnote>
       </title>
       <!-- BEGIN tutorial5_8 para 1 -->
     <para lang="en">
