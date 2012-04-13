@@ -160,7 +160,9 @@
 		<string name="pref_backup_summary">Create a backup of database and preferences on the sdcard.</string>
 		<string name="pref_categories_sort_by_usages_title">Sort order for categories</string>
     <string name="pref_categories_sort_by_usages_summary">Use count of usages as primary sort criteria (plain alphanumeric order otherwise)</string>
-    <string name="pref_currency_decimal_separator_title">Decimal separator for currency input</string>
+    <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency amounts</string>
+    <string name="pref_currency_decimal_separator_summary">You can choose between "," and "." or decide to input minor units as integers.</string>
+    <string name="pref_currency_decimal_separator_input_minor_unit">Minor units as integers</string>
     <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
     <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default Grisbi definitions internal to the app, 
         or your own file stored as &grisbi_file; in a folder myexpenses in the root of your sdcard. </string>

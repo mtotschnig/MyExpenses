@@ -59,8 +59,10 @@
       <intent android:action="myexpenses.intent.manage.parties"/>      
   </PreferenceScreen>
   <ListPreference android:key="currency_decimal_separator"
-    android:title="@string/pref_currency_decimal_separator_title"
-    android:entries="@array/pref_currency_decimal_separator_entries"
-    android:entryValues="@array/pref_currency_decimal_separator_values">
+      android:layout="@layout/preference_long_summary"
+      android:title="@string/pref_currency_decimal_separator_title"
+      android:summary="@string/pref_currency_decimal_separator_summary"
+      android:entries="@array/pref_currency_decimal_separator_entries"
+      android:entryValues="@array/pref_currency_decimal_separator_values">
   </ListPreference>
 </PreferenceScreen> 
