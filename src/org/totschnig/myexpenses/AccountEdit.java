@@ -242,9 +242,7 @@ public class AccountEdit extends Activity {
   private boolean saveState() {
     String strCurrency = mCurrencyText.getText().toString();
     try {
-      Currency currency = Currency.getInstance(strCurrency);
-      mAccount.currency = currency;
-      mAccount.openingBalance.setCurrency(currency);
+      mAccount.setCurrency(strCurrency);
     } catch (IllegalArgumentException e) {
       Toast.makeText(this,getString(R.string.currency_not_iso4217,strCurrency), Toast.LENGTH_LONG).show();
       return false;

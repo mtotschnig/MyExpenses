@@ -284,29 +284,22 @@ public class Account {
     
     this.label = c.getString(c.getColumnIndexOrThrow("label"));
     this.description = c.getString(c.getColumnIndexOrThrow("description"));
-    this.currency = toCurrency(c.getString(c.getColumnIndexOrThrow("currency")));
+    String strCurrency = c.getString(c.getColumnIndexOrThrow("currency"));
+    try {
+      this.currency = Currency.getInstance(strCurrency);
+    } catch (IllegalArgumentException e) {
+      Log.e("MyExpenses",strCurrency + " is not defined in ISO 4217");
+      this.currency = Currency.getInstance(Locale.getDefault());
+    }    
     this.openingBalance = new Money(this.currency,
         c.getLong(c.getColumnIndexOrThrow("opening_balance")));
     c.close();
   }
 
-   public void setCurrency(String currency) {
-     this.currency = toCurrency(currency);
+   public void setCurrency(String currency) throws IllegalArgumentException {
+     this.currency = Currency.getInstance(currency);
+     openingBalance.setCurrency(this.currency);
    }
-  /**
-   * @param currency if not a legal symbol, silently the currency from the Locale
-   * is used instead
-   */
-  public Currency toCurrency(String strCurrency) {
-    Currency currency;
-    try {
-      currency = Currency.getInstance(strCurrency);
-    } catch (IllegalArgumentException e) {
-      Log.e("MyExpenses",strCurrency + " is not defined in ISO 4217");
-      currency = Currency.getInstance(Locale.getDefault());
-    }
-    return currency;
-  }
   
   /**
    * @return the sum of opening balance and all transactions for the account
