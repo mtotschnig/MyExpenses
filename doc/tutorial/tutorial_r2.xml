@@ -65,7 +65,7 @@
     </para>
     <para lang="it">
       <application role="app_name"/> può gestire l'offerta di moneta e le spese, ed esportarle
-      in un software di finanza, come Grisbi o GnuCash. Esso supporta più account e due livelli
+      in un software di finanza, come Grisbi o GnuCash. Esso supporta più conti e due livelli
       di categorie.
     </para>
     <!-- END introduction para 1 -->  
@@ -211,7 +211,7 @@
     <para lang="it">
       Inserire una etichetta, una descrizione, il saldo di apertura, e una valuta per il conto.
       La valuta deve essere inserita secondo la ISO 4217 di tre lettere, ma può essere
-      facilmente selezionato da una lista, fare clico <guibutton role="select"/>
+      facilmente selezionata da una lista, fare clic <guibutton role="select"/>
     </para>
     <!-- END tutorial1 para 2 --> 
 
@@ -237,7 +237,7 @@
       Ein einfacher Klick wechselt zum zuletzt aktiven Konto, ein langer Klick öffnet ein
       Menü mit allen Konten zur Auswahl.
     </para>
-    <para lang="it">i
+    <para lang="it">
       Confermare la voce, e si ritorna alla lista di transazioni. Se si è aggiunto un nuovo
       conto, diventa automaticamente il conto corrente. La voce <guibutton
       role="menu_accounts"/> consente di cambiare il conto corrente. Un clic breve attiva il
@@ -259,7 +259,7 @@
       <guilabel role="pref_manage_accounts_title"/></link> erklärt.
     </para>
     <para lang="it">
-      La gestione degli conti è spiegato in <link linkend='tutorial5_1'>
+      La gestione degli conti è spiegata in <link linkend='tutorial5_1'>
       <guilabel role="pref_manage_accounts_title"/></link>.
     </para>
     <!-- END tutorial1 para 4 --> 
@@ -356,7 +356,7 @@
     </para>
     <para lang="it">
       Regolare data e ora, fare clico sul pulsante <guibutton>-</guibutton> per passare gli
-      oneri ei proventi, inserire importo, le note e il beneficiario (o debitore). Il
+      oneri e proventi, inserire importo, le note e il beneficiario (o debitore). Il
       benficiario campo memorizza i valori inseriti, e suggeriscono la prossima volta che si
       entra questo<footnote id="ftn22-it-1">
         <para>
