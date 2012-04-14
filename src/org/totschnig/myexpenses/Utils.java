@@ -95,7 +95,10 @@ public class Utils {
   }
   static String formatCurrency(BigDecimal amount, Currency currency) {
     NumberFormat nf = NumberFormat.getCurrencyInstance();
+    int fractionDigits = currency.getDefaultFractionDigits();
     nf.setCurrency(currency);
+    nf.setMinimumFractionDigits(fractionDigits);
+    nf.setMaximumFractionDigits(fractionDigits);
     return nf.format(amount);
   }
   /**
