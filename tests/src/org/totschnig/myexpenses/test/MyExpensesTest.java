@@ -75,34 +75,37 @@ public class MyExpensesTest extends
     assertEquals(0,mAdapter.getCount());
     //reset should not be visible
     //getInstrumentation().waitForIdleSync();
-    solo.sendKey(Solo.MENU);
-    assertFalse(solo.searchText(mActivity.getString(R.string.menu_reset)));
+    //solo.sendKey(Solo.MENU);
+    //assertFalse(solo.searchText(mActivity.getString(R.string.menu_reset)));
     //mInstrumentation.waitForIdleSync();
-    if (!mInstrumentation.invokeMenuActionSync(mActivity, MyExpenses.INSERT_TA_ID, 0))
-      throw new Exception();
+    //if (!mInstrumentation.invokeMenuActionSync(mActivity, MyExpenses.INSERT_TA_COMMAND_ID, 0))
+    //  throw new Exception();
+    solo.clickOnButton(mActivity.getString(R.string.menu_new));
     solo.enterText((EditText) solo.getView(R.id.Amount),"123.45");
     solo.clickOnButton(mActivity.getString(R.string.done));
     assertTrue(solo.searchText("123.45"));
     //since we have now a transaction, reset should be visible
-    solo.sendKey(Solo.MENU);
-    assertTrue(solo.searchText(mActivity.getString(R.string.menu_reset)));
+    //solo.sendKey(Solo.MENU);
+    //assertTrue(solo.searchText(mActivity.getString(R.string.menu_reset)));
     //mInstrumentation.waitForIdleSync();
-    if (!mInstrumentation.invokeMenuActionSync(mActivity, MyExpenses.SELECT_ACCOUNT_ID, 0))
-      throw new Exception();
+    //if (!mInstrumentation.invokeMenuActionSync(mActivity, MyExpenses.CREATE_ACCOUNT_COMMAND_ID, 0))
+    //  throw new Exception();
     //mInstrumentation.waitForIdleSync();
     //in order to use invokeMenuActionSync here, I'd need to know how to get at the activity we arein
     //if (!mInstrumentation.invokeMenuActionSync(?, SelectAccount.INSERT_ACCOUNT_ID, 0))
     //  throw new Exception();
-    solo.pressMenuItem(0);
+    //solo.pressMenuItem(0);
+    solo.clickLongOnText(mActivity.getString(R.string.menu_accounts));
+    solo.clickOnText(mActivity.getString(R.string.menu_accounts_new));    
     solo.enterText((EditText) solo.getView(R.id.Label),"Testing account");
     solo.enterText((EditText) solo.getView(R.id.Description),"Created with Robotium");
     solo.enterText((EditText) solo.getView(R.id.Opening_balance),"456.59");
     solo.clickOnButton(mActivity.getString(R.string.done));
     assertTrue(solo.searchText("456.59"));
-    solo.goBack();
+    //solo.goBack();
     //since we have now two accounts transfer should be visible
-    solo.sendKey(Solo.MENU);
-    assertTrue(solo.searchText(mActivity.getString(R.string.menu_insert_transfer)));
+    //solo.sendKey(Solo.MENU);
+    //assertTrue(solo.searchText(mActivity.getString(R.string.menu_insert_transfer)));
 //    getInstrumentation().waitForIdleSync();
 //    assertTrue(solo.searchText(mActivity.getString(R.string.warning_reset_account)));
   }

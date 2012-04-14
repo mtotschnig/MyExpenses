@@ -126,6 +126,7 @@
     <string name="no_categories">No categoria.</string>
     <string name="no_details">Nessun dettaglio.</string>
     <string name="no_expenses">No speso !</string>
+    <string name="no_parties">No beneficiario.</string>
     <string name="not_deletable_mapped_expenses">Questa categoria non può essere cancellata, perché ci sono spese ad esso attribuite.</string>
     <string name="not_deletable_subcats_exists">Questa categoria non può essere cancellata perché contiene sottocategorie.</string>
     <string name="opening_balance">Saldo inizial</string>
@@ -141,17 +142,20 @@
     <string name="pref_backup_title">Backup</string>
     <string name="pref_categories_sort_by_usages_title">Criterio di ordinamento per le categorie</string>
     <string name="pref_categories_sort_by_usages_summary">Ordinare le principali categorie in base alla frequenza d\'uso (altrimenti in ordine alfabetico)</string>
-    <string name="pref_import_from_grisbi_summary">Scegli tra le definizioni standard di Grisbi, inclusi 	nell\'applicazione, e il vostro proprio file salvato come <i>&grisbi_file;</i> nella cartellla
-       <i>myexpenses</i> della radice della vostra scheda SD.</string>
+    <string name="pref_currency_decimal_separator_title">Separatore decimale per l\'ingresso della quanità</string>
+    <string name="pref_currency_decimal_separator_summary">Si può scegliere tra "," e "." o decidere di unità di ingresso minori come numeri interi.</string>
+    <string name="pref_currency_decimal_separator_comma">Virgola (,)</string>
+    <string name="pref_currency_decimal_separator_point">Punto (.)</string>
+    <string name="pref_currency_decimal_separator_input_minor_unit">Unità minori come numeri interi</string>
+    <string name="pref_import_from_grisbi_summary">Scegli tra le definizioni standard di Grisbi, inclusi 	nell\'applicazione, e il vostro proprio file salvato come &grisbi_file; nella cartellla
+       myexpenses della radice della vostra scheda SD.</string>
     <string name="pref_import_from_grisbi_title">Importazione dei dati Grisbi</string>
     <string name="pref_manage_accounts_title">Gestione degli conti</string>
     <string name="pref_manage_accounts_summary">Aggiungere, modificare e cancellare conti.</string>
     <string name="pref_manage_parties_title">Gestione dei beneficiari</string>
     <string name="pref_manage_parties_summary">Cancellare beneficiari.</string>
     <string name="pref_share_target_title">Scarica file URL</string>
-    <string name="pref_share_target_summary">Shemà supportata:
-ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
-mailto (\"mailto:john@my.example.com\").</string>
+    <string name="pref_share_target_summary">Shemà supportata</string>
     <string name="pref_use_standard_menu_title">Utilizzare Android standard menu</string>
     <string name="pref_use_standard_menu_summary">Invece di visualizzare una barra dei pulsanti, utilizzare 	Android menu standard per l\'accesso ai comandi.</string>
     <string name="restore_db_success">Il database è stato ripristinato dal backup.</string>

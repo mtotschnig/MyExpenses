@@ -193,25 +193,28 @@
 
     <!-- BEGIN tutorial1 para 2 --> 
     <para lang="en">
-      Enter a label, a description, the opening balance, and a currency for the account. The
-      currency must be entered according to its three-letter code in ISO 4217, but can be
-      chosen easily from a list by clicking on the <guibutton role="select"/> button.
+      Enter a label, a description, the opening balance<footnoteref linkend="ftn22-en-1"/>
+      and a currency for the account. The currency must be entered according to
+      its three-letter code in ISO 4217, but can be chosen easily from a list by clicking on
+      the <guibutton role="select"/> button.
     </para>
     <para lang="fr">
-      Entrez un libellé, une description, le solde d'ouverture et la devise de ce compte. La
-      devise doit être saisie selon le code ISO 4217 en trois lettres, mais peut être
-      facilement sélectionné à partir d'une liste en cliquant sur <guibutton role="select"/>
+      Entrez un libellé, une description, le solde d'ouverture<footnoteref
+      linkend="ftn22-fr-1"/> et la devise de ce compte. La devise doit être saisie selon le
+      code ISO 4217 en trois lettres, mais peut être facilement sélectionné à partir d'une
+      liste en cliquant sur <guibutton role="select"/>
     </para>
     <para lang="de">
-      Geben Sie eine Bezeichnung, eine Beschreibung, den Anfangssaldo und die Währung des
-      Kontos ein. Die Währung muss anhand ihrer dreistelligen Abkürzung ISO 4217 eingegeben
-      werden, aber kann durch Klick auf <guibutton role="select"/> einfach aus einer Liste
-      ausgewählt werden.
+      Geben Sie eine Bezeichnung, eine Beschreibung, den Anfangssaldo<footnoteref
+      linkend="ftn22-de-1"/> und die Währung des Kontos ein. Die Währung muss anhand ihrer
+      dreistelligen Abkürzung ISO 4217 eingegeben werden, aber kann durch Klick auf <guibutton
+      role="select"/> einfach aus einer Liste ausgewählt werden.
     </para>
     <para lang="it">
-      Inserire una etichetta, una descrizione, il saldo di apertura, e una valuta per il conto.
-      La valuta deve essere inserita secondo la ISO 4217 di tre lettere, ma può essere
-      facilmente selezionata da una lista, fare clic <guibutton role="select"/>
+      Inserire una etichetta, una descrizione, il saldo di apertura<footnoteref
+      linkend="ftn22-it-1"/>, e una valuta per il conto. La valuta deve essere inserita secondo
+      la ISO 4217 di tre lettere, ma può essere facilmente selezionato da una lista, fare clic
+      <guibutton role="select"/>
     </para>
     <!-- END tutorial1 para 2 --> 
 
@@ -307,8 +310,14 @@
     <!-- BEGIN tutorial2 para 2 --> 
     <para lang="en">
       Adjust date and time, click on the <guibutton>-</guibutton> Button to toggle between
-      expense and income, enter amount and notes. The payee (or payer) field remembers the
-      values you enter and will suggest them in the future<footnote id="ftn22-en-1">
+      expense and income, enter amount<footnote id="ftn22-en-1">
+        <para>
+          The input format for currency amounts can be configured through the <link
+          linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
+          setting.
+       </para>
+      </footnote> and notes. The payee (or payer) field remembers the
+      values you enter and will suggest them in the future<footnote id="ftn22-en-2">
         <para>
           You can also import a list of parties for autocompleting the payee field from your
           Grisbi file as explained in <link linkend='tutorial5_5'><guilabel
@@ -323,9 +332,14 @@
     
     <para lang="fr">
       Fixez la date et l'heure, cliquez sur le bouton <guibutton>-</guibutton> pour
-      basculer entre dépense ou entrée, entrez la somme et une remarque.
+      basculer entre dépense ou entrée, entrez la somme<footnote id="ftn22-fr-1">
+        <para>
+          ... <link linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
+          ...
+       </para>
+     </footnote> et une remarque.
       Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois
-      que vous entrerez un tiers<footnote id="ftn22-fr-1">
+      que vous entrerez un tiers<footnote id="ftn22-fr-2">
         <para>
           Vous pouvez importer la liste des tiers enregistrés de votre fichier Grisbi, comme
           expliqué dans <link linkend='tutorial5_5'><guilabel
@@ -339,10 +353,16 @@
     </para>
     <para lang="de">
       Passen Sie Datum und Uhrzeit an, klicken Sie auf den Schaltknopf <guibutton>-</guibutton>
-      um zwischen Ausgabe und Einnahme zu wechseln, geben Sie Betrag und Notizen ein.
+      um zwischen Ausgabe und Einnahme zu wechseln, geben Sie Betrag<footnote id="ftn22-de-1">
+        <para>
+          Das Eingabeformat für Währungsbeträge kann mittels <link
+          linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
+          eingestellt werden.
+       </para>
+      </footnote> und Notizen ein.
       Das Feld für die Eingabe von Empfänger (bzw. Zahler) merkt sich die von Ihnen
       eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld 
-      vor<footnote id="ftn22-de-1">
+      vor<footnote id="ftn22-de-2">
         <para>
           Sie können auch die in einer Grisbi Datei gespeicherte Liste der Parteien importieren
           (erklärt in <link linkend='tutorial5_5'><guilabel
@@ -356,9 +376,14 @@
     </para>
     <para lang="it">
       Regolare data e ora, fare clico sul pulsante <guibutton>-</guibutton> per passare gli
-      oneri e proventi, inserire importo, le note e il beneficiario (o debitore). Il
+      oneri ei proventi, inserire importo<footnote id="ftn22-it-1">
+        <para>
+          ... <link linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
+          ...
+       </para>
+       </footnote>, le note e il beneficiario (o debitore). Il
       benficiario campo memorizza i valori inseriti, e suggeriscono la prossima volta che si
-      entra questo<footnote id="ftn22-it-1">
+      entra questo<footnote id="ftn22-it-2">
         <para>
           È possibile importare una lista di beneficiari iscritti nel file Grisbi, come
           spiegato in<link linkend='tutorial5_5'><guilabel
@@ -1144,13 +1169,62 @@
       elenco, selezionarle controllando il loro diritto, e quindi attivare il pulsante
       <guibutton role="menu_delete"/>.
     </para>
+     <!-- END tutorial5_7 para 1 --> 
     </sect2>
+    
+    <sect2 id="tutorial5_8">
+      <title>
+        <guilabel role="pref_currency_decimal_separator_title"/><footnote id="ftn58-1">
+        <!-- revision 2 de ce document est utilisé pour des versions anterieurs a 1.4.10 -->
+            <para lang="en">
+          Since version 1.4.10.
+        </para>
+        <para lang="fr">
+          À partir de la version 1.4.10.
+        </para>
+        <para lang="de">
+          Seit Version 1.4.10.
+        </para>
+        <para lang="it">
+        Dalla versione 1.4.10.
+        </para>
+        </footnote>
+      </title>
+      <!-- BEGIN tutorial5_8 para 1 -->
+    <para lang="en">
+      By default, currency amounts for transactions (or the opening balance of an account) use
+      the decimal separator of your locale (comma in most European countries, point in most
+      English speaking countries), here you can explicitly configure it.
+      Alternatively you have the option to input minor units (e.g. $ cents, € cent, or £ pence)
+      as integers.
+    </para>
+    <para lang="fr">
+    </para>
+    <para lang="de">
+      Standardmäßig wird für Währungsbeträge in Buchungen (oder das Anfangssaldo eines Kontos)
+      das Dezimaltrennzeichen Ihrer Spracheinstellung verwendet (Komma in den meisten
+      europäischen Ländern, Punkt in den meisten englischsprachigen Ländern), hier kann dieses
+      explizit konfiguriert werden. Sie können hier aber auch festlegen, dass Sie
+      Untereinheiten (z.B $ Cents, € Cent, oder £ Pence) als ganze Zahlen eingeben.
+    </para>
+    <para lang="it">
+    </para>
+      <!-- END tutorial5_8 para 1 --> 
+      </sect2>
   </sect1>
   <!--
 template for new paragraphs
-      <para lang="en"></para>
-    <para lang="fr"></para>
-    <para lang="de"></para>
-    <para lang="it"></para>
+    <para lang="en">
+    
+    </para>
+    <para lang="fr">
+    
+    </para>
+    <para lang="de">
+    
+    </para>
+    <para lang="it">
+    
+    </para>
     -->
 </article>

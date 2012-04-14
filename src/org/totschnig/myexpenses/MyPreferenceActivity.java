@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -36,6 +37,7 @@ import android.util.Log;
  */
 public class MyPreferenceActivity extends PreferenceActivity {
   ListPreference mCurrencyInputFormat;
+  EditTextPreference mShareTarget;
   
 @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -51,5 +53,9 @@ public class MyPreferenceActivity extends PreferenceActivity {
       mCurrencyInputFormat.setValue(sep);
       //mCurrencyInputFormat.setValueIndex(values.indexOf(sep));
     }
+    mShareTarget = (EditTextPreference) prefs.findPreference("share_target");
+    mShareTarget.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
+        "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
+        "mailto: \"mailto:john@my.example.com\"");
  }
 }

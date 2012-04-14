@@ -60,6 +60,7 @@ public class AccountEdit extends Activity {
   private String[] currencyDescs;
   private TextWatcher currencyInformer;
   private String mCurrencyDecimalSeparator;
+  private boolean mMinorUnitP;
 
 /*  private int monkey_state = 0;
 
@@ -100,9 +101,11 @@ public class AccountEdit extends Activity {
     TextView openingBalanceLabel = (TextView) findViewById(R.id.OpeningBalanceLabel); 
     SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
     mCurrencyDecimalSeparator = settings.getString("currency_decimal_separator", Utils.getDefaultDecimalSeparator());
-    if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+    mMinorUnitP = mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT);
+    if (mMinorUnitP) {
       openingBalanceLabel.setText(getString(R.string.opening_balance) + "(¢)");
       nfDLocal = new DecimalFormat("#0");
+      nfDLocal.setParseIntegerOnly(true);
       mOpeningBalanceText.setInputType(InputType.TYPE_CLASS_NUMBER);
     } else {
       openingBalanceLabel.setText(getString(R.string.opening_balance));
@@ -214,7 +217,7 @@ public class AccountEdit extends Activity {
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);
       BigDecimal amount;
-      if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+      if (mMinorUnitP) {
         amount = new BigDecimal(mAccount.openingBalance.getAmountMinor());
       } else {
         amount = mAccount.openingBalance.getAmountMajor();
@@ -239,9 +242,7 @@ public class AccountEdit extends Activity {
   private boolean saveState() {
     String strCurrency = mCurrencyText.getText().toString();
     try {
-      Currency currency = Currency.getInstance(strCurrency);
-      mAccount.currency = currency;
-      mAccount.openingBalance.setCurrency(currency);
+      mAccount.setCurrency(strCurrency);
     } catch (IllegalArgumentException e) {
       Toast.makeText(this,getString(R.string.currency_not_iso4217,strCurrency), Toast.LENGTH_LONG).show();
       return false;
@@ -253,7 +254,7 @@ public class AccountEdit extends Activity {
       Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
       return false;
     }
-    if (mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT)) {
+    if (mMinorUnitP) {
       mAccount.openingBalance.setAmountMinor(openingBalance.longValue());
     } else {
       mAccount.openingBalance.setAmountMajor(openingBalance);

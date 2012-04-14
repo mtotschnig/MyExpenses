@@ -156,24 +156,26 @@
     <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der SD-Karte.</string>
 	  <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge der Kategorien</string>
     <string name="pref_categories_sort_by_usages_summary">Benützungshäufigkeit als primäres Kriterium für Sortierung verwenden (andernfalls alphabetische Reihung)</string>
+    <string name="pref_currency_decimal_separator_title">Dezimaltrennzeichen für die Eingabe von Währungsbeträgen</string>
+    <string name="pref_currency_decimal_separator_summary">Wählen Sie zwischen \",\" und \".\". Sie haben auch die Möglichkeit, Untereinheiten als ganze Zahlen einzugeben.</string>
+    <string name="pref_currency_decimal_separator_comma">Komma (,)</string>
+    <string name="pref_currency_decimal_separator_point">Punkt (.)</string>
+    <string name="pref_currency_decimal_separator_input_minor_unit">Untereinheiten als ganze Zahlen</string>
     <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
-    <string name="pref_import_from_grisbi_summary">Kategorien (und Partner)  aus Grisbis in der App inkludierten Standard-Definitionen oder
-        und Ihrer eigenen Datei, die Sie unter dem Namen
-      <i>&grisbi_file;</i> in dem Ordner <i>myexpenses</i>
-      im Wurzelverzeichnis der SD-Karte speichern, importieren</string>
+    <string name="pref_import_from_grisbi_summary">Kategorien (und Partner) aus den inkludierten Grisbi-Standard-Definitionen oder
+        aus Ihrer eigenen Datei importieren. Letztere müssen Sie unter dem Namen
+      &grisbi_file; in dem Ordner myexpenses
+      im Wurzelverzeichnis der SD-Karte speichern</string>
     <string name="pref_manage_accounts_title">Konten verwalten</string>
     <string name="pref_manage_accounts_summary">Hinzufügen, Editieren und Löschen von Konten.</string>
     <string name="pref_manage_parties_title">Parteien verwalten</string>
     <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) löschen.</string>
 	  <string name="pref_share_target_title">Upload URL QIF Export</string>
-    <string name="pref_share_target_summary">Unterstützte Schemen: 
-ftp (\"ftp://login:password@my.example.org:port/my/directory/\");
-mailto (\"mailto:john@my.example.com\").</string>
+    <string name="pref_share_target_summary">Unterstützte Schemen</string>
     <string name="pref_use_standard_menu_title">Androids Standardmenü verwenden</string>
     <string name="pref_use_standard_menu_summary">Anstatt der Symbolleiste, verwenden Sie Androids
         Standardmenü, um Befehle aufzurufen.</string>
-
-	  <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
+    <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
     <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
     <string name="revert">Rückgängig</string>
 	  <string name="select">Auswählen</string>

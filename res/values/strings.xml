@@ -160,18 +160,20 @@
 		<string name="pref_backup_summary">Create a backup of database and preferences on the sdcard.</string>
 		<string name="pref_categories_sort_by_usages_title">Sort order for categories</string>
     <string name="pref_categories_sort_by_usages_summary">Use count of usages as primary sort criteria (plain alphanumeric order otherwise)</string>
-    <string name="pref_currency_decimal_separator_title">Decimal separator for currency input</string>
+    <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency amounts</string>
+    <string name="pref_currency_decimal_separator_summary">You can choose between "," and "." or decide to input minor units as integers.</string>
+    <string name="pref_currency_decimal_separator_comma">Comma (,)</string>
+    <string name="pref_currency_decimal_separator_point">Point (.)</string>
+    <string name="pref_currency_decimal_separator_input_minor_unit">Minor units as integers</string>
     <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
     <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default Grisbi definitions internal to the app, 
-        or your own file stored as <i>&grisbi_file;</i> in a folder <i>myexpenses</i> in the root of your sdcard. </string>
+        or your own file stored as &grisbi_file; in a folder myexpenses in the root of your sdcard. </string>
     <string name="pref_manage_accounts_title">Manage accounts</string>
     <string name="pref_manage_accounts_summary">Add, edit, delete accounts.</string>
     <string name="pref_manage_parties_title">Manage parties</string>
     <string name="pref_manage_parties_summary">Delete parties (payers and payees).</string>
 		<string name="pref_share_target_title">Upload URL QIF Export</string>
-    <string name="pref_share_target_summary">Supported schemes:
-* ftp (\"ftp://login:password@my.example.org:port/my/directory/\"),
-* mailto (\"mailto:john@my.example.com\").</string>
+    <string name="pref_share_target_summary">Supported schemes</string>
     <string name="pref_use_standard_menu_title">Use standard Android menu</string>
     <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
         standard menu for accessing commands.</string>
