@@ -1199,6 +1199,8 @@
       as integers.
     </para>
     <para lang="fr">
+      Par défaut, les montants de transaction (ou le solde d'ouverture d'un compte) utilisent le séparateur décimal de votre région (virgule dans les pays européens, point dans les pays anglophones), ici vous pouvez le configurer explicitement.
+       Sinon, vous avez la possibilité d'entrer des unités mineures entières (par exemple $ cents, centimes d' €, pence pour £).
     </para>
     <para lang="de">
       Standardmäßig wird für Währungsbeträge in Buchungen (oder das Anfangssaldo eines Kontos)
@@ -1208,6 +1210,8 @@
       Untereinheiten (z.B $ Cents, € Cent, oder £ Pence) als ganze Zahlen eingeben.
     </para>
     <para lang="it">
+	Per impostazione predefinita, gli importi in valuta per le transazioni (o il saldo di apertura di un conto) utilizzare il separatore decimale delle impostazioni locali (virgola in molti paesi europei, il punto in più paesi di lingua inglese), qui si può configurare in modo esplicito.
+       In alternativa si ha la possibilità di ingresso alle unità minori (es. $ centesimi, € cent o penny £) come interi.
     </para>
       <!-- END tutorial5_8 para 1 --> 
       </sect2>
