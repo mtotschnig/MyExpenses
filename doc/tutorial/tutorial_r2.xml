@@ -334,9 +334,9 @@
       Fixez la date et l'heure, cliquez sur le bouton <guibutton>-</guibutton> pour
       basculer entre dépense ou entrée, entrez la somme<footnote id="ftn22-fr-1">
         <para>
-          ... <link linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
-          ...
-       </para>
+          Le format d'entrée des montants peut être configuré par le paramètre
+          <link linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
+        </para>
      </footnote> et une remarque.
       Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois
       que vous entrerez un tiers<footnote id="ftn22-fr-2">
@@ -378,8 +378,8 @@
       Regolare data e ora, fare clico sul pulsante <guibutton>-</guibutton> per passare gli
       oneri ei proventi, inserire importo<footnote id="ftn22-it-1">
         <para>
-          ... <link linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
-          ...
+          Il formato di ingresso per gli importi in valuta può essere configurato attraverso il parametro
+	   <link linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
        </para>
        </footnote>, le note e il beneficiario (o debitore). Il
       benficiario campo memorizza i valori inseriti, e suggeriscono la prossima volta che si
