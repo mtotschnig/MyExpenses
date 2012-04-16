@@ -53,7 +53,7 @@
         <TextView android:id="@+id/OpeningBalanceLabel"/>
          <EditText
              android:layout_span="2"
-             android:id="@+id/Opening_balance" 
+             android:id="@+id/Amount" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content" />
       </TableRow>

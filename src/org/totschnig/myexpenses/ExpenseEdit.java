@@ -16,24 +16,18 @@
 package org.totschnig.myexpenses;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.Date;
 
 import org.totschnig.myexpenses.Account.AccountNotFoundException;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.InputType;
-import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -48,7 +42,7 @@ import android.widget.Toast;
  * Activity for editing a transaction
  * @author Michael Totschnig
  */
-public class ExpenseEdit extends Activity {
+public class ExpenseEdit extends EditActivity {
 
   private Button mDateButton;
   private Button mTimeButton;
@@ -74,9 +68,7 @@ public class ExpenseEdit extends Activity {
   private boolean mType = EXPENSE;
   //normal transaction or transfer
   private boolean mOperationType;
-  private DecimalFormat nfDLocal;
-  private String mCurrencyDecimalSeparator;
-  private boolean mMinorUnitP;
+
 
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
@@ -110,6 +102,7 @@ public class ExpenseEdit extends Activity {
     mOperationType = extras.getBoolean("operationType");
     
     setContentView(R.layout.one_expense);
+    configAmountInput();
 
     mDateButton = (Button) findViewById(R.id.Date);
     mDateButton.setOnClickListener(new View.OnClickListener() {
@@ -124,28 +117,6 @@ public class ExpenseEdit extends Activity {
         showDialog(TIME_DIALOG_ID);
       }
     });
-    
-    mAmountText = (EditText) findViewById(R.id.Amount);
-    SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
-    mCurrencyDecimalSeparator = settings.getString("currency_decimal_separator", Utils.getDefaultDecimalSeparator());
-    mMinorUnitP = mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT);
-    if (mMinorUnitP) {
-      nfDLocal = new DecimalFormat("#0");
-      nfDLocal.setParseIntegerOnly(true);
-      mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER);
-    } else {
-      DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-      symbols.setDecimalSeparator(mCurrencyDecimalSeparator.charAt(0));
-      nfDLocal = new DecimalFormat("#0.###",symbols);
-
-      //mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-      //due to bug in Android platform http://code.google.com/p/android/issues/detail?id=2626
-      //the soft keyboard if it occupies full screen in horizontal orientation does not display
-      //the , as comma separator
-      mAmountText.setKeyListener(DigitsKeyListener.getInstance("0123456789"+mCurrencyDecimalSeparator));
-      mAmountText.setRawInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-    }
-    nfDLocal.setGroupingUsed(false);
 
     mCommentText = (EditText) findViewById(R.id.Comment);
 

@@ -17,23 +17,18 @@ package org.totschnig.myexpenses;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.Currency;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.Account.AccountNotFoundException;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
-import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -46,20 +41,16 @@ import android.widget.Toast;
  * Activity for editing an account
  * @author Michael Totschnig
  */
-public class AccountEdit extends Activity {
+public class AccountEdit extends EditActivity {
   private static final int CURRENCY_DIALOG_ID = 0;
   private EditText mLabelText;
   private EditText mDescriptionText;
-  private EditText mOpeningBalanceText;
   private AutoCompleteTextView mCurrencyText;
   private Button mCurrencyButton;
   Account mAccount;
-  private DecimalFormat nfDLocal;
   private String[] currencyCodes;
   private String[] currencyDescs;
   private TextWatcher currencyInformer;
-  private String mCurrencyDecimalSeparator;
-  private boolean mMinorUnitP;
 
 /*  private int monkey_state = 0;
 
@@ -90,35 +81,17 @@ public class AccountEdit extends Activity {
     currencyDescs = Account.getCurrencyDescs();
     
     setContentView(R.layout.one_account);
+    configAmountInput();
 
     mLabelText = (EditText) findViewById(R.id.Label);
     mDescriptionText = (EditText) findViewById(R.id.Description);
 
-    //TODO: refactor into subclass of EditText
-    mOpeningBalanceText = (EditText) findViewById(R.id.Opening_balance);
     TextView openingBalanceLabel = (TextView) findViewById(R.id.OpeningBalanceLabel); 
-    SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
-    mCurrencyDecimalSeparator = settings.getString("currency_decimal_separator", Utils.getDefaultDecimalSeparator());
-    mMinorUnitP = mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT);
     if (mMinorUnitP) {
       openingBalanceLabel.setText(getString(R.string.opening_balance) + "(¢)");
-      nfDLocal = new DecimalFormat("#0");
-      nfDLocal.setParseIntegerOnly(true);
-      mOpeningBalanceText.setInputType(InputType.TYPE_CLASS_NUMBER);
     } else {
       openingBalanceLabel.setText(getString(R.string.opening_balance));
-      DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-      symbols.setDecimalSeparator(mCurrencyDecimalSeparator.charAt(0));
-      nfDLocal = new DecimalFormat("#0.###",symbols);
-
-      //mAmountText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-      //due to bug in Android platform http://code.google.com/p/android/issues/detail?id=2626
-      //the soft keyboard if it occupies full screen in horizontal orientation does not display
-      //the , as comma separator
-      mOpeningBalanceText.setKeyListener(DigitsKeyListener.getInstance("0123456789"+mCurrencyDecimalSeparator));
-      mOpeningBalanceText.setRawInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
     }
-    nfDLocal.setGroupingUsed(false);
 
     mCurrencyText = (AutoCompleteTextView) findViewById(R.id.Currency);
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -220,7 +193,7 @@ public class AccountEdit extends Activity {
       } else {
         amount = mAccount.openingBalance.getAmountMajor();
       }
-      mOpeningBalanceText.setText(nfDLocal.format(amount));
+      mAmountText.setText(nfDLocal.format(amount));
       mCurrencyText.setText(mAccount.currency.getCurrencyCode());
     } else {
       mAccount = new Account();
@@ -247,7 +220,7 @@ public class AccountEdit extends Activity {
     }
     mAccount.label = mLabelText.getText().toString();
     mAccount.description = mDescriptionText.getText().toString();
-    BigDecimal openingBalance = Utils.validateNumber(nfDLocal, mOpeningBalanceText.getText().toString());
+    BigDecimal openingBalance = Utils.validateNumber(nfDLocal, mAmountText.getText().toString());
     if (openingBalance == null) {
       Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
       return false;
