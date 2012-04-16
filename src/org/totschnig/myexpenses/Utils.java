@@ -55,11 +55,13 @@ import android.widget.Toast;
 public class Utils {
   public static String getDefaultDecimalSeparator() {
     String sep = ".";
-    NumberFormat nfDLocal = NumberFormat.getNumberInstance();
+    //due to the different intricacies of bug http://code.google.com/p/android/issues/detail?id=2626
+    //we default to . as decimal separator for the moment
+/*    NumberFormat nfDLocal = NumberFormat.getNumberInstance();
     if (nfDLocal instanceof DecimalFormat) {
       DecimalFormatSymbols symbols = ((DecimalFormat)nfDLocal).getDecimalFormatSymbols();
       sep=String.valueOf(symbols.getDecimalSeparator());
-    }
+    }*/
     return sep;
   }
   
