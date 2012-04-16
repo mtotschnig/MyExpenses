@@ -48,7 +48,6 @@ import android.widget.Toast;
  */
 public class AccountEdit extends Activity {
   private static final int CURRENCY_DIALOG_ID = 0;
-  private ExpensesDbAdapter mDbHelper;
   private EditText mLabelText;
   private EditText mDescriptionText;
   private EditText mOpeningBalanceText;
@@ -86,7 +85,6 @@ public class AccountEdit extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mDbHelper = MyApplication.db();
     
     currencyCodes = Account.getCurrencyCodes();
     currencyDescs = Account.getCurrencyDescs();
