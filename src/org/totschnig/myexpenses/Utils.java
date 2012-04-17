@@ -226,7 +226,7 @@ public class Utils {
    * @author Michael Totschnig
    *
    */
-  static class Result {
+  public static class Result {
     /**
      * true represents success, false failure
      */
@@ -239,7 +239,7 @@ public class Utils {
     /**
      * optional argument to be passed to getString when resolving message id
      */
-    public String[] extra;
+    public Object[] extra;
     
     public Result(boolean success) {
       this.success = success;
@@ -250,7 +250,7 @@ public class Utils {
       this.message = message;
     }
 
-    public Result(boolean success,int message,String... extra) {
+    public Result(boolean success,int message,Object... extra) {
       this.success = success;
       this.message = message;
       this.extra = extra;
