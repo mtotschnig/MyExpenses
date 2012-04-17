@@ -22,6 +22,31 @@
 			android:orientation="vertical"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
+			<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
+	   <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_centerInParent="true">
+      <Button
+          style="@style/button"
+          android:onClick="handleHelp"
+          android:text="@string/tutorial"
+          android:id="@id/TUTORIAL_COMMAND"/>
+        <Button
+          style="@style/button"
+          android:onClick="handleHelp"
+          android:id="@id/CHANGES_COMMAND" 
+          android:text="@string/menu_changes" />
+        <Button
+          style="@style/button"
+          android:onClick="handleHelp"
+          android:id="@id/FAQ_COMMAND" 
+          android:text="FAQ" />
+    </LinearLayout>
+    </RelativeLayout>
     <TextView android:text="@string/help_leading" style="@style/about_heading" />
     <TextView android:text="@string/help_intro" style="@style/about_text" />
     <TextView android:text="@string/help_heading_quick_guide" style="@style/about_heading" />
@@ -57,6 +82,9 @@
 				style="@style/about_text" />
 	  <TextView android:text="@string/help_enjoy"
         style="@style/about_heading" />
+	  <TextView android:text="DEBUG: DEFAULT_INPUT_METHOD"
+        style="@style/about_heading" />
+	  <TextView android:id="@+id/debug" style="@style/about_text"/>
   </LinearLayout>
 </ScrollView>
 

@@ -76,20 +76,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public static final int ACTIVITY_CREATE_ACCOUNT=3;
   public static final int ACTIVITY_EDIT_ACCOUNT=4;
   
-  public static final int INSERT_TA_COMMAND_ID = Menu.FIRST + 1;
-  public static final int INSERT_TRANSFER_COMMAND_ID = Menu.FIRST + 2;
-  public static final int SWITCH_ACCOUNT_COMMAND_ID = Menu.FIRST + 3;
-  public static final int CREATE_ACCOUNT_COMMAND_ID = Menu.FIRST + 4;
-  public static final int RESET_ACCOUNT_COMMAND_ID = Menu.FIRST + 5;
-  public static final int SETTINGS_COMMAND_ID = Menu.FIRST + 6;
-  public static final int BACKUP_COMMAND_ID = Menu.FIRST + 7;
-  public static final int EDIT_ACCOUNT_COMMAND_ID = Menu.FIRST + 8;
-  public static final int HELP_COMMAND_ID = Menu.FIRST + 9;
-  public static final int CHANGES_COMMAND_ID = Menu.FIRST + 10;
-  public static final int TUTORIAL_COMMAND_ID = Menu.FIRST + 11;
-  public static final int DELETE_COMMAND_ID = Menu.FIRST + 12;
-  public static final int SHOW_DETAIL_COMMAND_ID = Menu.FIRST + 13;
-  
   public static final boolean TYPE_TRANSACTION = true;
   public static final boolean TYPE_TRANSFER = false;
   public static final String TRANSFER_EXPENSE = "=> ";
@@ -102,6 +88,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   static final int ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID = 5;
   static final int USE_STANDARD_MENU_DIALOG_ID = 6;
   static final int SELECT_ACCOUNT_DIALOG_ID = 7;
+  static final int FAQ_DIALOG_ID = 8;
 
   private String mVersionInfo;
   
@@ -193,12 +180,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
 
   }
   private void fillSwitchButton() {
-    mSwitchButton.addItem(R.string.menu_accounts_new,CREATE_ACCOUNT_COMMAND_ID);
+    mSwitchButton.addItem(R.string.menu_accounts_new,R.id.CREATE_ACCOUNT_COMMAND);
     final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
     if(otherAccounts.moveToFirst()){
       for (int i = 0; i < otherAccounts.getCount(); i++) {
         TextView accountTV = mSwitchButton.addItem(
-            otherAccounts.getString(otherAccounts.getColumnIndex("label")),SWITCH_ACCOUNT_COMMAND_ID);
+            otherAccounts.getString(otherAccounts.getColumnIndex("label")),R.id.SWITCH_ACCOUNT_COMMAND);
         accountTV.setTag(
             otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
         otherAccounts.moveToNext();
@@ -210,37 +197,38 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     mAddButton = mButtonBar.addButton(
         R.string.menu_new,
         android.R.drawable.ic_menu_add,
-        INSERT_TA_COMMAND_ID);
-    mTransferButton = mAddButton.addItem(R.string.transfer,INSERT_TRANSFER_COMMAND_ID);
-    mAddButton.addItem(R.string.transaction,INSERT_TA_COMMAND_ID);
+        R.id.INSERT_TA_COMMAND);
+    mTransferButton = mAddButton.addItem(R.string.transfer,R.id.INSERT_TRANSFER_COMMAND);
+    mAddButton.addItem(R.string.transaction,R.id.INSERT_TA_COMMAND);
     
     mSwitchButton = mButtonBar.addButton(
         R.string.menu_accounts,
         R.drawable.ic_menu_goto,
-        SWITCH_ACCOUNT_COMMAND_ID);
+        R.id.SWITCH_ACCOUNT_COMMAND);
     mSwitchButton.setTag(new Long(0));
     fillSwitchButton();
     
     mResetButton = mButtonBar.addButton(
         R.string.menu_reset_abrev,
         android.R.drawable.ic_menu_revert,
-        RESET_ACCOUNT_COMMAND_ID);
+        R.id.RESET_ACCOUNT_COMMAND);
     
     mSettingsButton = mButtonBar.addButton(
         R.string.menu_settings_abrev,
         android.R.drawable.ic_menu_preferences,
-        SETTINGS_COMMAND_ID);
-    mSettingsButton.addItem(R.string.menu_settings_account,EDIT_ACCOUNT_COMMAND_ID);
-    mSettingsButton.addItem(R.string.menu_backup,BACKUP_COMMAND_ID);
-    mSettingsButton.addItem(R.string.menu_settings,SETTINGS_COMMAND_ID);
+        R.id.SETTINGS_COMMAND);
+    mSettingsButton.addItem(R.string.menu_settings_account,R.id.EDIT_ACCOUNT_COMMAND);
+    mSettingsButton.addItem(R.string.menu_backup,R.id.BACKUP_COMMAND);
+    mSettingsButton.addItem(R.string.menu_settings,R.id.SETTINGS_COMMAND);
     
     mHelpButton = mButtonBar.addButton(
         R.string.menu_help,
         android.R.drawable.ic_menu_help,
-        HELP_COMMAND_ID);
-    mHelpButton.addItem(R.string.tutorial,TUTORIAL_COMMAND_ID);
-    mHelpButton.addItem(R.string.menu_changes,CHANGES_COMMAND_ID);
-    mHelpButton.addItem(R.string.menu_help,HELP_COMMAND_ID);
+        R.id.HELP_COMMAND);
+    mHelpButton.addItem(R.string.tutorial,R.id.TUTORIAL_COMMAND);
+    mHelpButton.addItem(R.string.menu_changes,R.id.CHANGES_COMMAND);
+    mHelpButton.addItem(R.string.menu_faq,R.id.FAQ_COMMAND);
+    mHelpButton.addItem(R.string.menu_help,R.id.HELP_COMMAND);
     mButtonBarIsFilled = true;
   }
   @Override
@@ -342,11 +330,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     if (!mUseStandardMenu)
       return false;
     super.onPrepareOptionsMenu(menu);
-    menu.findItem(SWITCH_ACCOUNT_COMMAND_ID)
+    menu.findItem(R.id.SWITCH_ACCOUNT_COMMAND)
       .setVisible(mDbHelper.getAccountCount(null) > 1);
-    menu.findItem(INSERT_TRANSFER_COMMAND_ID)
+    menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
       .setVisible(transfersEnabledP());
-    menu.findItem(RESET_ACCOUNT_COMMAND_ID)
+    menu.findItem(R.id.RESET_ACCOUNT_COMMAND)
       .setVisible(mExpensesCursor.getCount() > 0);
     return true;
   }
@@ -355,22 +343,22 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     //numeric shortcuts are used from Monkeyrunner
-    menu.add(0, INSERT_TA_COMMAND_ID, 0, R.string.menu_insert_ta)
+    menu.add(0, R.id.INSERT_TA_COMMAND, 0, R.string.menu_insert_ta)
         .setIcon(android.R.drawable.ic_menu_add)
         .setAlphabeticShortcut('a');
-    menu.add(0, INSERT_TRANSFER_COMMAND_ID, 0, R.string.menu_insert_transfer)
+    menu.add(0, R.id.INSERT_TRANSFER_COMMAND, 0, R.string.menu_insert_transfer)
         .setIcon(android.R.drawable.ic_menu_add)
         .setAlphabeticShortcut('b');
-    menu.add(0, RESET_ACCOUNT_COMMAND_ID,1,R.string.menu_reset)
+    menu.add(0, R.id.RESET_ACCOUNT_COMMAND,1,R.string.menu_reset)
         .setIcon(android.R.drawable.ic_menu_revert)
         .setAlphabeticShortcut('c');;
-    menu.add(0, HELP_COMMAND_ID,1,R.string.menu_help)
+    menu.add(0, R.id.HELP_COMMAND,1,R.string.menu_help)
         .setIcon(android.R.drawable.ic_menu_help)
         .setAlphabeticShortcut('d');
-    menu.add(0, SWITCH_ACCOUNT_COMMAND_ID,1,R.string.menu_change_account)
+    menu.add(0, R.id.SWITCH_ACCOUNT_COMMAND,1,R.string.menu_change_account)
         .setIcon(R.drawable.ic_menu_goto)
         .setAlphabeticShortcut('e');
-    menu.add(0,SETTINGS_COMMAND_ID,1,R.string.menu_settings)
+    menu.add(0,R.id.SETTINGS_COMMAND,1,R.string.menu_settings)
         .setIcon(android.R.drawable.ic_menu_preferences)
         .setAlphabeticShortcut('f');
     return true;
@@ -405,15 +393,15 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public void onCreateContextMenu(ContextMenu menu, View v,
       ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
-    menu.add(0, DELETE_COMMAND_ID, 0, R.string.menu_delete);
-    menu.add(0, SHOW_DETAIL_COMMAND_ID, 0, R.string.menu_show_detail);
+    menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
+    menu.add(0, R.id.SHOW_DETAIL_COMMAND, 0, R.string.menu_show_detail);
   }
 
   @Override
   public boolean onContextItemSelected(MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
-    case DELETE_COMMAND_ID:
+    case R.id.DELETE_COMMAND:
       long transfer_peer = mExpensesCursor.getLong(
           mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
       if (transfer_peer == 0) {
@@ -424,7 +412,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       }
       fillData();
       return true;
-    case SHOW_DETAIL_COMMAND_ID:
+    case R.id.SHOW_DETAIL_COMMAND:
       mExpensesCursor.moveToPosition(info.position);
       String comment = mExpensesCursor.getString(
           mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
@@ -462,25 +450,37 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       tv = (TextView)view.findViewById(R.id.help_licence_gpl);
       tv.setMovementMethod(LinkMovementMethod.getInstance());
 
+      /*      
+      String imId = Settings.Secure.getString(
+          getContentResolver(), 
+          Settings.Secure.DEFAULT_INPUT_METHOD
+       );
+      ((TextView)view.findViewById(R.id.debug)).setText(imId);
+      */
+
       return new AlertDialog.Builder(this)
         .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
         .setIcon(R.drawable.about)
         .setView(view)
-        .setNeutralButton(R.string.menu_changes, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
-            showDialog(CHANGES_DIALOG_ID);
-          }
-        })
-        .setPositiveButton(R.string.tutorial, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
-            startActivity( new Intent(MyExpenses.this, Tutorial.class) );
-          }
-        })
         .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
             dismissDialog(HELP_DIALOG_ID);
           }
         }).create();
+    case FAQ_DIALOG_ID:
+      li = LayoutInflater.from(this);
+      view = li.inflate(R.layout.faqview, null);
+      return new AlertDialog.Builder(this)
+      .setTitle(R.string.faq_dialog_title)
+      .setIcon(R.drawable.about)
+      .setView(view)
+      .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int whichButton) {
+          dismissDialog(FAQ_DIALOG_ID);
+        }
+      })
+      .create();
+      
     case CHANGES_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.changeview, null);
@@ -933,13 +933,13 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     switch (command) {
-    case INSERT_TA_COMMAND_ID:
+    case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
       break;
-    case INSERT_TRANSFER_COMMAND_ID:
+    case R.id.INSERT_TRANSFER_COMMAND:
       createRow(TYPE_TRANSFER);
       break;
-    case SWITCH_ACCOUNT_COMMAND_ID:
+    case R.id.SWITCH_ACCOUNT_COMMAND:
       int accountCount = mDbHelper.getAccountCount(null);
       if (accountCount > 1) {
         if (tag == null) {
@@ -957,11 +957,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         showDialog(ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID);
       }
       break;
-    case CREATE_ACCOUNT_COMMAND_ID:
+    case R.id.CREATE_ACCOUNT_COMMAND:
       i = new Intent(MyExpenses.this, AccountEdit.class);
       startActivityForResult(i, ACTIVITY_CREATE_ACCOUNT);
       break;
-    case RESET_ACCOUNT_COMMAND_ID:
+    case R.id.RESET_ACCOUNT_COMMAND:
       if (Utils.isExternalStorageAvailable())
         showDialog(RESET_DIALOG_ID);
       else 
@@ -970,25 +970,28 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             Toast.LENGTH_LONG)
             .show();
       break;
-    case SETTINGS_COMMAND_ID:
+    case R.id.SETTINGS_COMMAND:
       startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
       break;
-    case EDIT_ACCOUNT_COMMAND_ID:
+    case R.id.EDIT_ACCOUNT_COMMAND:
       i = new Intent(MyExpenses.this, AccountEdit.class);
       i.putExtra(ExpensesDbAdapter.KEY_ROWID, mCurrentAccount.id);
       startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
       break;
-    case BACKUP_COMMAND_ID:
+    case R.id.BACKUP_COMMAND:
       startActivityForResult(new Intent(MyExpenses.this, Backup.class),ACTIVITY_PREF);
       break;
-    case TUTORIAL_COMMAND_ID:
+    case R.id.TUTORIAL_COMMAND:
       startActivity( new Intent(MyExpenses.this, Tutorial.class));
       break;
-    case CHANGES_COMMAND_ID:
+    case R.id.CHANGES_COMMAND:
       showDialog(CHANGES_DIALOG_ID);
       break;
-    case HELP_COMMAND_ID:
+    case R.id.HELP_COMMAND:
       showDialog(HELP_DIALOG_ID);
+      break;
+    case R.id.FAQ_COMMAND:
+      showDialog(FAQ_DIALOG_ID);
       break;
     default:
       return false;
@@ -1032,6 +1035,13 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       return true;
     }
     return  super.onKeyUp(keyCode, event);
-}
-
+  }
+  /**
+   * Callback from button
+   * @param v
+   */
+  public void handleHelp(View v) {
+    dismissDialog(HELP_DIALOG_ID);
+    dispatchCommand(v.getId(),null);
+  }
 }
