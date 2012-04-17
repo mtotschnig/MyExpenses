@@ -99,7 +99,7 @@ public class MyExpensesTest extends
     solo.clickOnText(mActivity.getString(R.string.menu_accounts_new));    
     solo.enterText((EditText) solo.getView(R.id.Label),"Testing account");
     solo.enterText((EditText) solo.getView(R.id.Description),"Created with Robotium");
-    solo.enterText((EditText) solo.getView(R.id.Opening_balance),"456.59");
+    solo.enterText((EditText) solo.getView(R.id.Amount),"456.59");
     solo.clickOnButton(mActivity.getString(R.string.done));
     assertTrue(solo.searchText("456.59"));
     //solo.goBack();
