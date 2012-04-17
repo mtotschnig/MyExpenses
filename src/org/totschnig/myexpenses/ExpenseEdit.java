@@ -46,7 +46,6 @@ public class ExpenseEdit extends EditActivity {
 
   private Button mDateButton;
   private Button mTimeButton;
-  private EditText mAmountText;
   private EditText mCommentText;
   private Button mCategoryButton;
   private Button mTypeButton;
