@@ -70,6 +70,64 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
    */
   public int sourceIndex;
   
+  public static Result analyzeGrisbiFile(InputStream is) {
+    Document dom;
+    Element root;
+    String grisbiFileVersion = "";
+    try {
+      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder builder = factory.newDocumentBuilder();
+      dom = builder.parse(is);
+    } catch (SAXParseException e) {
+      //Log.w("MyExpenses",e.getMessage());
+      return new Result(false,R.string.parse_error_parse_exception);
+    } catch (Exception e) {
+      return new Result(false,R.string.parse_error_other_exception,e.getMessage());
+    }
+
+    root = dom.getDocumentElement();
+    Node generalNode = root.getElementsByTagName("General").item(0);
+    if (generalNode != null) {
+      Node versionAttr = generalNode.getAttributes().getNamedItem("File_version");
+      if (versionAttr != null) {
+        grisbiFileVersion = versionAttr.getNodeValue();
+        Log.i("MyExpenses","found Grisbi version " + grisbiFileVersion);
+      }
+    }
+    else {
+      Node versionNode = root.getElementsByTagName("Version_fichier").item(0);
+      if (versionNode == null) {
+        versionNode = root.getElementsByTagName("Version_fichier_categ").item(0);
+      }
+      if (versionNode != null) {
+        //unfortunately we have to retrieve the first text node in order to get at the value
+        grisbiFileVersion = versionNode.getChildNodes().item(0).getNodeValue();
+        Log.i("MyExpenses","found Grisbi version " + grisbiFileVersion);
+      }
+      else {
+        Log.i("MyExpenses","did not find Grisbi version");
+        //we are mapping the existence of Categorie to 0.5.0
+        //and Category to 0.6.0
+        if (root.getElementsByTagName("Category").getLength() > 0) {
+          grisbiFileVersion = "0.6.0";
+          Log.i("MyExpenses","assuming Grisbi version 0.6.0");
+        }
+        else if (root.getElementsByTagName("Categorie").getLength() > 0) {
+          grisbiFileVersion = "0.5.0";
+          Log.i("MyExpenses","assuming Grisbi version 0.5.0");
+        }
+        else {
+          return new Result(false,R.string.parse_error_grisbi_version_not_determined);
+        }
+      }
+    }
+    if (grisbiFileVersion.equals("0.6.0") || grisbiFileVersion.equals("0.5.0")) {
+      return new Result(true,0,root,grisbiFileVersion);
+    } else {
+      return new Result(false,R.string.parse_error_grisbi_version_not_supported,grisbiFileVersion);
+    }
+  }
+  
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -225,71 +283,26 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
         }
         catXML = activity.getResources().openRawResource(sourceRes);
       }
-      try {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        dom = builder.parse(catXML);
-      } catch (SAXParseException e) {
-        //Log.w("MyExpenses",e.getMessage());
-        setResult(new Result(false,R.string.parse_error_parse_exception,sourceStr));
-        return false;
-      } catch (Exception e) {
-        setResult(new Result(false,R.string.parse_error_other_exception,e.getMessage()));
-        return false;
-      }
-
-      root = dom.getDocumentElement();
-      Node generalNode = root.getElementsByTagName("General").item(0);
-      if (generalNode != null) {
-        Node versionAttr = generalNode.getAttributes().getNamedItem("File_version");
-        if (versionAttr != null) {
-          grisbiFileVersion = versionAttr.getNodeValue();
-          Log.i("MyExpenses","found Grisbi version " + grisbiFileVersion);
+      Result result = analyzeGrisbiFile(catXML);
+      if (result.success) {
+        root = (Element) result.extra[0];
+        grisbiFileVersion = (String) result.extra[1];
+        if (grisbiFileVersion.equals("0.6.0")) {
+          mainElementName = "Category";
+          subElementName = "Sub_category";
+          partiesElementName = "Party";
+          nameAttributeName = "Na";
+        } else if (grisbiFileVersion.equals("0.5.0")) {
+          mainElementName = "Categorie";
+          subElementName = "Sous-categorie";
+          partiesElementName = "Tiers";
+          nameAttributeName = "Nom";
         }
-      }
-      else {
-        Node versionNode = root.getElementsByTagName("Version_fichier").item(0);
-        if (versionNode == null) {
-          versionNode = root.getElementsByTagName("Version_fichier_categ").item(0);
-        }
-        if (versionNode != null) {
-          //unfortunately we have to retrieve the first text node in order to get at the value
-          grisbiFileVersion = versionNode.getChildNodes().item(0).getNodeValue();
-          Log.i("MyExpenses","found Grisbi version " + grisbiFileVersion);
-        }
-        else {
-          Log.i("MyExpenses","did not find Grisbi version");
-          //we are mapping the existence of Categorie to 0.5.0
-          //and Category to 0.6.0
-          if (root.getElementsByTagName("Category").getLength() > 0) {
-            grisbiFileVersion = "0.6.0";
-            Log.i("MyExpenses","assuming Grisbi version 0.6.0");
-          }
-          else if (root.getElementsByTagName("Categorie").getLength() > 0) {
-            grisbiFileVersion = "0.5.0";
-            Log.i("MyExpenses","assuming Grisbi version 0.5.0");
-          }
-          else {
-            setResult(new Result(false,R.string.parse_error_grisbi_version_not_determined));
-            return false;
-          }
-        }
-      }
-      if (grisbiFileVersion.equals("0.6.0")) {
-        mainElementName = "Category";
-        subElementName = "Sub_category";
-        partiesElementName = "Party";
-        nameAttributeName = "Na";
-      } else if (grisbiFileVersion.equals("0.5.0")) {
-        mainElementName = "Categorie";
-        subElementName = "Sous-categorie";
-        partiesElementName = "Tiers";
-        nameAttributeName = "Nom";
+        return true;
       } else {
-        setResult(new Result(false,R.string.parse_error_grisbi_version_not_supported,grisbiFileVersion));
+        setResult(result);
         return false;
       }
-      return true;
     }
     public Integer getSource() {
       return source;
