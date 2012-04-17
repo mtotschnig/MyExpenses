@@ -1091,13 +1091,13 @@
       categorie, è possibile anche fornire il file Grisbi, che è in XML. Se si desidera, è
       possibile modificare il file con un editor e rimuovere ogni altra informazione rispetto
       alla categoria (<sgmltag>Category</sgmltag>) e gli elementi
-      <sgmltag>Sub_category</sgmltag>.<footnote id="ftn-it-1">
+      <sgmltag>Sub_category</sgmltag><footnote id="ftn55-it-1">
         <para>
           <application role="app_name"/> supporta anche il formato di file Grisbi 0.5.0, dove
           gli elementi sono denominati <sgmltag>Categorie</sgmltag> e
           <sgmltag>Sous_categorie</sgmltag>(<sgmltag>Tiers</sgmltag> beneficiari).
         </para>
-      </footnote>Conservare questo file come <filename role="grisbi_file"/> in un
+      </footnote>. Conservare questo file come <filename role="grisbi_file"/> in un
       <filename>myexpenses</filename> cartella nella directory principale della vostra scheda
       SD. Dalla versione 1.4.9, hai anche la possibilità di importare i beneficiari Grisbi
       registrati nello stesso file (elemento <sgmltag>Party</sgmltag>). Se si sceglie il
@@ -1194,7 +1194,15 @@
     <para lang="en">
       By default, currency amounts for transactions (or the opening balance of an account) use
       the decimal separator of your locale (comma in most European countries, point in most
-      English speaking countries), here you can explicitly configure it.
+      English speaking countries)<footnote id="ftn58-en-2">
+        <para>
+          Unfortunately, due to a bug in the Android OS, on some devices (mainly those running
+          2.3 Gingerbread) there are problems with the comma symbol as decimal separator: It
+          is not easily accessible on the soft keyboard for numeric input, sometimes even not
+          available at all. That's why <application role="app_name"/> uses the point symbol (.)
+          as default on devices running Android 2.3.
+        </para>
+      </footnote>, here you can explicitly configure it.
       Alternatively you have the option to input minor units (e.g. $ cents, € cent, or £ pence)
       as integers (<guilabel role="pref_currency_decimal_separator_input_minor_unit"/>).
     </para>
@@ -1208,7 +1216,15 @@
     <para lang="de">
       Standardmäßig wird für Währungsbeträge in Buchungen (oder das Anfangssaldo eines Kontos)
       das Dezimaltrennzeichen Ihrer Spracheinstellung verwendet (Komma in den meisten
-      europäischen Ländern, Punkt in den meisten englischsprachigen Ländern), hier kann dieses
+      europäischen Ländern, Punkt in den meisten englischsprachigen Ländern)<footnote id="ftn58-en-2">
+        <para>
+          Die Verwendung des Kommas als Dezimaltrennzeichen funktioniert auf Grund eines Bugs
+          des Android Betriebssystemes auf manchen Geräten (vor allem mit Version 2.3.
+          Gingerbread) nicht gut: Es ist auf der numerischen Tastatur nur über Umwege
+          verwendbar oder gar nicht vorhanden. Daher verwendet <application role="app_name"/>
+          auf Geräten mit Android 2.3. als Standard den Punkt.
+        </para>
+      </footnote>, hier kann dieses
       explizit konfiguriert werden. Sie können hier aber auch festlegen, dass Sie
       Untereinheiten (z.B $ Cents, € Cent, oder £ Pence) als ganze Zahlen eingeben (<guilabel
       role="pref_currency_decimal_separator_input_minor_unit"/>).
