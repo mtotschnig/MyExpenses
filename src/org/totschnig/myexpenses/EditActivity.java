@@ -5,7 +5,6 @@ import java.text.DecimalFormatSymbols;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
 import android.view.inputmethod.EditorInfo;
