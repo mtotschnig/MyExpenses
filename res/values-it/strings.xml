@@ -131,7 +131,7 @@
     <string name="not_deletable_subcats_exists">Questa categoria non può essere cancellata perché contiene sottocategorie.</string>
     <string name="opening_balance">Saldo inizial</string>
     <string name="parse_error_file_not_found">Il file %1$s non esiste</string>
-    <string name="parse_error_parse_exception">Il file %1$s non può essere analizzato</string>
+    <string name="parse_error_parse_exception">Il file non può essere analizzato</string>
     <string name="parse_error_other_exception">È verificato un errore: %1$s</string>
     <string name="parse_error_grisbi_version_not_determined">Versione del file Grisbi non può essere determinata</string>
     <string name="parse_error_grisbi_version_not_supported">Versione del file Grisbi non è supportata: %1$s</string>

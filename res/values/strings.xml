@@ -157,7 +157,7 @@
 		<string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
 		<string name="opening_balance">Opening balance</string>
 		<string name="parse_error_file_not_found">Could not find file %1$s</string>
-		<string name="parse_error_parse_exception">Could not parse file %1$s</string>
+		<string name="parse_error_parse_exception">Could not parse file</string>
 		<string name="parse_error_other_exception">An error occured: %1$s</string>
 		<string name="parse_error_grisbi_version_not_determined">Unable to determine Grisbi file version</string>
 		<string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version: %1$s</string>
