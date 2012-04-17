@@ -43,6 +43,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
@@ -55,13 +56,18 @@ import android.widget.Toast;
 public class Utils {
   public static String getDefaultDecimalSeparator() {
     String sep = ".";
-    //due to the different intricacies of bug http://code.google.com/p/android/issues/detail?id=2626
-    //we default to . as decimal separator for the moment
-/*    NumberFormat nfDLocal = NumberFormat.getNumberInstance();
+    int sdk =  Build.VERSION.SDK_INT;
+    //there are different intricacies of bug http://code.google.com/p/android/issues/detail?id=2626
+    //on Gingerbread, the numeric keyboard of the default input method
+    //does not have a , thus we default to . as decimal separator
+    if (sdk == 8 || sdk == 9) {
+      return sep;
+    }
+   NumberFormat nfDLocal = NumberFormat.getNumberInstance();
     if (nfDLocal instanceof DecimalFormat) {
       DecimalFormatSymbols symbols = ((DecimalFormat)nfDLocal).getDecimalFormatSymbols();
       sep=String.valueOf(symbols.getDecimalSeparator());
-    }*/
+    }
     return sep;
   }
   
