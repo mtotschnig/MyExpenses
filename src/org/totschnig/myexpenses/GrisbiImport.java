@@ -17,6 +17,7 @@ package org.totschnig.myexpenses;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Map;
@@ -31,7 +32,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -40,7 +44,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.sax.RootElement;
 import android.util.Log;
+import android.util.Xml;
 import android.widget.Toast;
 
 public class GrisbiImport extends Activity implements DialogInterface.OnClickListener {
@@ -71,6 +77,84 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
    * stores the index of the source the user has selected
    */
   public int sourceIndex;
+  
+  public static class GrisbiHandler extends DefaultHandler{
+    CategoryTree catTree ;
+    ArrayList<String> partiesList;
+    private StringBuilder builder;
+    String grisbiFileVersion;
+    
+    class FileVersionNotSupportedException extends SAXException {
+
+      public FileVersionNotSupportedException(String grisbiFileVersion) {
+        super(grisbiFileVersion);
+      }
+      
+    }
+    
+    private boolean checkFileVersion(String version) {
+      return version.equals("0.6.0") || version.equals("0.5.0");
+    }
+    
+    
+    public Result getResult() {
+      return new Result(true,0,catTree,partiesList);
+    }
+    @Override
+    public void characters(char[] ch, int start, int length)
+            throws SAXException {
+        super.characters(ch, start, length);
+        builder.append(ch, start, length);
+    }
+    @Override
+    public void endElement(String uri, String localName, String name)
+            throws SAXException {
+        super.endElement(uri, localName, name);
+        if (localName.equals("Version_fichier")){
+          String grisbiFileVersion = builder.toString();
+          if (!checkFileVersion(grisbiFileVersion)) {
+            throw new FileVersionNotSupportedException(grisbiFileVersion);
+          }
+        }    
+    }
+
+    @Override
+    public void startDocument() throws SAXException {
+        super.startDocument();
+        catTree = new CategoryTree("root");
+        partiesList = new ArrayList<String>();
+        builder = new StringBuilder();
+    }
+
+    @Override
+    public void startElement(String uri, String localName, String name,
+            Attributes attributes) throws SAXException {
+      super.startElement(uri, localName, name, attributes);
+      if (localName.equalsIgnoreCase("General")){
+        String grisbiFileVersion = attributes.getValue("File_version");
+        if (!checkFileVersion(grisbiFileVersion)) {
+          throw new FileVersionNotSupportedException(grisbiFileVersion);
+        }
+      }
+      builder.setLength(0);
+    }
+  }
+  
+  public static Result analyzeGrisbiFileWithSax(InputStream is) {
+    GrisbiHandler handler = new GrisbiHandler();
+    try {
+        Xml.parse(is, Xml.Encoding.UTF_8, handler);
+    }  catch (IOException e) {
+      // TODO Auto-generated catch block
+      return new Result(false,R.string.parse_error_other_exception,e.getMessage());
+    } catch (GrisbiHandler.FileVersionNotSupportedException e) {
+      return new Result(false,R.string.parse_error_grisbi_version_not_supported,e.getMessage());
+    } catch (SAXException e) {
+      // TODO Auto-generated catch block
+      return new Result(false,R.string.parse_error_parse_exception);
+    }
+    return handler.getResult();
+  }
   
   /**
    * @param is InputStream to be analyzed
