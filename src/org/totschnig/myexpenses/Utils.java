@@ -32,6 +32,9 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Currency;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -221,6 +224,63 @@ public class Utils {
     }
   }
   
+  
+  /**
+   * simple two level category tree, used for storing categories extracted from Grisbi XML
+   * guarantees that children are always added through root
+   *
+   */
+  public static class CategoryTree {
+    private HashMap<Integer,CategoryTree> children;
+    private String label;
+    private int total;
+    private boolean rootP;
+ 
+    public CategoryTree(String label) {
+      this(label,true);
+    }
+    public CategoryTree(String label, boolean rootP) {
+      children = new HashMap<Integer,CategoryTree>();
+      this.setLabel(label);
+      total = 0;
+      this.rootP = rootP;
+    }
+    
+    public void add(String label, Integer id, Integer parent) {
+      if (!rootP) {
+        throw new UnsupportedOperationException();
+      }
+      if (parent == 0) {
+        addChild(label,id);
+      } else {
+        CategoryTree parentCat = children.get(parent);
+        if (parentCat == null) {
+          throw new IllegalArgumentException();
+        } else {
+          parentCat.addChild(label, id);
+        }
+      }
+      total++;
+    }
+    private void addChild(String label, Integer id) {
+      children.put(id,new CategoryTree(label,false));
+    }
+    
+    public HashMap<Integer,CategoryTree> children() {
+      return children;
+    }
+
+    public String getLabel() {
+      return label;
+    }
+
+    public void setLabel(String label) {
+      this.label = label;
+    }
+    public int getTotal() {
+      return total;
+    }
+  }  
   /**
    * represents a tuple of success flag, and message as an R id
    * @author Michael Totschnig

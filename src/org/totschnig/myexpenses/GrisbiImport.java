@@ -18,11 +18,13 @@ package org.totschnig.myexpenses;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.totschnig.myexpenses.Utils.CategoryTree;
 import org.totschnig.myexpenses.Utils.Result;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -70,6 +72,13 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
    */
   public int sourceIndex;
   
+  /**
+   * @param is InputStream to be analyzed
+   * @return if there is a problem success is set to false and message to a diagnostic message (as an R string integer)
+   * if the analysis succeeds, success is true, message is 0, and extras has as first element the
+   * CategoryTree, and as second element a string array with payees
+   * node, as second element the Grisbi version
+   */
   public static Result analyzeGrisbiFile(InputStream is) {
     Document dom;
     Element root;
@@ -121,12 +130,119 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
         }
       }
     }
-    if (grisbiFileVersion.equals("0.6.0") || grisbiFileVersion.equals("0.5.0")) {
-      return new Result(true,0,root,grisbiFileVersion);
+    if (grisbiFileVersion.equals("0.6.0")) {
+      return extractFromGrisbi6(root);
+    } else if (grisbiFileVersion.equals("0.5.0")) {
+      return extractFromGrisbi5(root);
     } else {
       return new Result(false,R.string.parse_error_grisbi_version_not_supported,grisbiFileVersion);
     }
   }
+  public static Result extractFromGrisbi6(Element root) {
+    String mainElementName = "Category",
+        subElementName = "Sub_category",
+        partiesElementName = "Party",
+        nameAttributeName = "Na";
+    NodeList categories = root.getElementsByTagName(mainElementName),
+        sub_categories = root.getElementsByTagName(subElementName),
+        parties = root.getElementsByTagName(partiesElementName);
+    CategoryTree catTree = new CategoryTree("root");
+    String label;
+    Integer id, parent_id;
+    NamedNodeMap atts;
+    Node nameAttr, parentAttr, numberAttr;
+
+    //extract main categories
+    for (int i=0;i<categories.getLength();i++){
+      atts = categories.item(i).getAttributes();
+      nameAttr = atts.getNamedItem(nameAttributeName);
+      numberAttr = atts.getNamedItem("Nb");
+      if (nameAttr == null || numberAttr == null) {
+        continue;
+      }
+      label = nameAttr.getNodeValue();
+      id = Integer.parseInt(numberAttr.getNodeValue());
+      catTree.add(label,id,0);
+    }
+    //extract sub categories
+    for (int i=0;i<sub_categories.getLength();i++){
+      atts = sub_categories.item(i).getAttributes();
+      nameAttr = atts.getNamedItem(nameAttributeName);
+      numberAttr = atts.getNamedItem("Nb");
+      parentAttr = atts.getNamedItem("Nbc");
+      if (nameAttr == null || parentAttr == null || numberAttr == null) {
+        continue;
+      }
+
+      label = nameAttr.getNodeValue();
+      id =  Integer.parseInt(numberAttr.getNodeValue());
+      parent_id = Integer.parseInt(parentAttr.getNodeValue());
+      catTree.add(label, id, parent_id);
+      //TODO: for the moment, we do not deal with subcategories,
+      //if we were not able to import a matching category
+      //should check if the main category exists, but the subcategory is new
+    }
+    ArrayList<String> partiesList = extractParties(parties,nameAttributeName);
+    return new Result(true,0,catTree,partiesList);
+  }
+  public static Result extractFromGrisbi5(Element root) {
+    String mainElementName = "Categorie",
+        subElementName = "Sous-categorie",
+        partiesElementName = "Tiers",
+        nameAttributeName = "Nom";
+    NodeList categories = root.getElementsByTagName(mainElementName),
+        parties = root.getElementsByTagName(partiesElementName);
+    CategoryTree catTree = new CategoryTree("root");
+    String label;
+    Integer main_id, sub_id;
+    NamedNodeMap atts;
+    Node nameAttr, numberAttr;
+    
+    for (int i=0;i<categories.getLength();i++){
+      atts = categories.item(i).getAttributes();
+      nameAttr = atts.getNamedItem(nameAttributeName);
+      numberAttr = atts.getNamedItem("No");
+      if (nameAttr == null || numberAttr == null) {
+        continue;
+      }
+      label = nameAttr.getNodeValue();
+      main_id =  Integer.parseInt(numberAttr.getNodeValue());
+      catTree.add(label,main_id,0);
+      NodeList children = categories.item(i).getChildNodes();
+      for (int j=0;j<children.getLength();j++){
+        Node child = children.item(j);
+        String nodeName = child.getNodeName();
+        if ((nodeName != null) && (nodeName.equals(subElementName))) {
+          atts = child.getAttributes();
+          nameAttr = atts.getNamedItem(nameAttributeName);
+          numberAttr = atts.getNamedItem("No");
+          if (nameAttr == null || numberAttr == null) {
+            continue;
+          }
+          label = nameAttr.getNodeValue();
+          sub_id =  Integer.parseInt(numberAttr.getNodeValue());
+          catTree.add(label, sub_id, main_id);
+        }
+      }
+    }
+    ArrayList<String> partiesList = extractParties(parties,nameAttributeName);
+    return new Result(true,0,catTree,partiesList);
+  }
+  public static ArrayList<String> extractParties(NodeList parties, String nameAttributeName) {
+    NamedNodeMap atts;
+    Node nameAttr;
+    ArrayList<String> result = new ArrayList<String>();
+    for (int i=0;i<parties.getLength();i++){
+      atts = parties.item(i).getAttributes();
+      nameAttr = atts.getNamedItem(nameAttributeName);
+      if (nameAttr == null) {
+        continue;
+      }
+      result.add(nameAttr.getNodeValue());
+    }
+    return result;
+  }
+  
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -208,30 +324,24 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
   static class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
     private GrisbiImport activity;
     private int source;
-    NodeList categories, sub_categories, parties;
     InputStream catXML;
-    Document dom;
-    Element root;
-    Hashtable<String,Long> Foreign2LocalIdMap;
     private int max, totalImportedCat, totalImportedParty;
     Result result;
     private ExpensesDbAdapter mDbHelper;
     int progress=0;
     String grisbiFileVersion;
-    String mainElementName;
-    String subElementName;
-    String partiesElementName;
-    String nameAttributeName;
     /**
      * should we handle parties as well?
      */
-    boolean partiesAreToBeHandledP = true;
+    boolean withPartiesP = true;
     /**
      * this is set when we finish one phase (parsing, importing categories, importing parties)
      * so that we can adapt progress dialog in onProgressUpdate
      */
     boolean phaseChangedP = false;
     private String title;
+    private CategoryTree catTree;
+    private ArrayList<String> partiesList;
 
     /**
      * @param context
@@ -240,7 +350,6 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     public MyAsyncTask(GrisbiImport activity,int source) {
       attach(activity);
       this.source = source;
-      Foreign2LocalIdMap = new Hashtable<String,Long>();
       mDbHelper = MyApplication.db();
     }
     public void setTitle(String title) {
@@ -249,8 +358,8 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     public String getTitle() {
       return title;
     }
-    public void setPartiesAreToBeHandledP(boolean partiesAreToBeHandledP) {
-      this.partiesAreToBeHandledP = partiesAreToBeHandledP;      
+    public void setWithPartiesP(boolean withPartiesP) {
+      this.withPartiesP =withPartiesP;      
     }
     /**
      * return false upon problem (and sets a result object) or true
@@ -285,19 +394,8 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
       }
       Result result = analyzeGrisbiFile(catXML);
       if (result.success) {
-        root = (Element) result.extra[0];
-        grisbiFileVersion = (String) result.extra[1];
-        if (grisbiFileVersion.equals("0.6.0")) {
-          mainElementName = "Category";
-          subElementName = "Sub_category";
-          partiesElementName = "Party";
-          nameAttributeName = "Na";
-        } else if (grisbiFileVersion.equals("0.5.0")) {
-          mainElementName = "Categorie";
-          subElementName = "Sous-categorie";
-          partiesElementName = "Tiers";
-          nameAttributeName = "Nom";
-        }
+        catTree = (CategoryTree) result.extra[0];
+        partiesList = (ArrayList<String>) result.extra[1];
         return true;
       } else {
         setResult(result);
@@ -371,19 +469,11 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
       publishProgress(0);
       totalImportedCat = 0;
       totalImportedParty = 0;
-      categories = root.getElementsByTagName(mainElementName);
-      sub_categories = root.getElementsByTagName(subElementName);
-      setMax(categories.getLength() + sub_categories.getLength());
+      setMax(catTree.getTotal());
       activity.mProgressDialog.setMax(getMax());
 
-      if (grisbiFileVersion.equals("0.6.0")) {
-        importCatsMain();
-        importCatsSub();
-      } else {
-        importCats050();
-      }
-      if (partiesAreToBeHandledP) {
-        parties = root.getElementsByTagName(partiesElementName);
+      importCats();
+      if (withPartiesP) {
         setTitle(activity.getString(R.string.grisbi_import_parties_loading,sourceStr));
         importParties();
         setResult(new Result(true,
@@ -402,43 +492,27 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     }
     private void importParties() {
       phaseChangedP = true;
-      setMax(parties.getLength());
+      setMax(partiesList.size());
       publishProgress(0);
-      int count = 0;
-      NamedNodeMap atts;
-      Node nameAttr;
       
-      publishProgress(0);
-      for (int i=0;i<parties.getLength();i++){
-        atts = parties.item(i).getAttributes();
-        nameAttr = atts.getNamedItem(nameAttributeName);
-        if (nameAttr == null) {
-          continue;
-        }
-        count++;
-        if (mDbHelper.createPayee(nameAttr.getNodeValue()) != -1) {
+      for (int i=0;i<partiesList.size();i++){
+        if (mDbHelper.createPayee(partiesList.get(i)) != -1) {
           totalImportedParty++;
         }
-        if (count % 10 == 0) {
-          publishProgress(count);
+        if (i % 10 == 0) {
+          publishProgress(i);
         }
       }
     }
-    private void importCats050() {
+    private void importCats() {
       int count = 0;
       String label;
       long main_id, sub_id;
-      NamedNodeMap atts;
-      Node nameAttr;
-      
-      for (int i=0;i<categories.getLength();i++){
-        atts = categories.item(i).getAttributes();
-        nameAttr = atts.getNamedItem(nameAttributeName);
-        if (nameAttr == null) {
-          continue;
-        }
+
+      for (Map.Entry<Integer,CategoryTree> main : catTree.children().entrySet()) {
+        CategoryTree mainCat = main.getValue();
+        label = mainCat.getLabel();
         count++;
-        label = nameAttr.getNodeValue();
         main_id = mDbHelper.getCategoryId(label, 0);
         if (main_id != -1) {
           Log.i("MyExpenses","category with label" + label + " already defined");
@@ -446,123 +520,31 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
           main_id = mDbHelper.createCategory(label,0);
           if (main_id != -1) {
             totalImportedCat++;
+            if (count % 10 == 0) {
+              publishProgress(count);
+            }
           } else {
             //this should not happen
             Log.w("MyExpenses","could neither retrieve nor store main category " + label);
             continue;
           }
         }
-        if (count % 10 == 0) {
-          publishProgress(count);
-        }
-        NodeList children = categories.item(i).getChildNodes();
-        for (int j=0;j<children.getLength();j++){
-          Node child = children.item(j);
-          String nodeName = child.getNodeName();
-          if ((nodeName != null) & (nodeName.equals(subElementName))) {
-            atts = child.getAttributes();
-            nameAttr = atts.getNamedItem(nameAttributeName);
-            if (nameAttr == null) {
-              continue;
-            }
-            count++;
-            label = nameAttr.getNodeValue();
-            sub_id = mDbHelper.createCategory(label,main_id);
-            if (sub_id != -1) {
-              totalImportedCat++;
-            } else {
-              Log.i("MyExpenses","could not store sub category " + label);
-            }
-            if (count % 10 == 0) {
-              publishProgress(count);
-            }
-          }
-        }
-      }
-    }
-    /**
-     * iterates over {@link #categories}
-     * maintains a map of the ids found in the XML and the ones inserted in the database
-     * needed for mapping subcats to their parents in {@link #importCatsSub()}
-     */
-    private void importCatsMain() {
-      int start = 1;
-      String label;
-      String id;
-      long _id;
-      NamedNodeMap atts;
-      Node nameAttr;
-      Node numberAttr;
-
-      for (int i=0;i<categories.getLength();i++){
-        atts = categories.item(i).getAttributes();
-        nameAttr = atts.getNamedItem(nameAttributeName);
-        numberAttr = atts.getNamedItem("Nb");
-        if (nameAttr == null || numberAttr == null) {
-          continue;
-        }
-        label = nameAttr.getNodeValue();
-        id = numberAttr.getNodeValue();
-        _id = mDbHelper.getCategoryId(label, 0);
-        if (_id != -1) {
-          Foreign2LocalIdMap.put(id, _id);
-        } else {
-          _id = mDbHelper.createCategory(label,0);
-          if (_id != -1) {
-            Foreign2LocalIdMap.put(id, _id);
+        for (Map.Entry<Integer,CategoryTree> sub : mainCat.children().entrySet()) {
+          label = sub.getValue().getLabel();
+          count++;
+          sub_id = mDbHelper.createCategory(label,main_id);
+          if (sub_id != -1) {
             totalImportedCat++;
           } else {
-            //this should not happen
-            Log.w("MyExpenses","could neither retrieve nor store main category " + label);
+            Log.i("MyExpenses","could not store sub category " + label);
           }
-        }
-        if ((start+i) % 10 == 0) {
-          publishProgress(start+i);
+          if (count % 10 == 0) {
+            publishProgress(count);
+          }
         }
       }
     }
-    /**
-     * iterates over {@link #sub_categories}
-     */
-    private void importCatsSub() {
-      int start = categories.getLength() + 1;
-      String label;
-      //String id;
-      String parent_id;
-      Long mapped_parent_id;
-      long _id;
-      NamedNodeMap atts;
-      Node nameAttr;
-      Node parentAttr;
-      
-      for (int i=0;i<sub_categories.getLength();i++){
-        atts = sub_categories.item(i).getAttributes();
-        nameAttr = atts.getNamedItem(nameAttributeName);
-        parentAttr = atts.getNamedItem("Nbc");
-        if (nameAttr == null || parentAttr == null) {
-          continue;
-        }
 
-        label = nameAttr.getNodeValue();
-        //id =  sub_category.getNamedItem("Nb").getNodeValue();
-        parent_id = parentAttr.getNodeValue();
-        mapped_parent_id = Foreign2LocalIdMap.get(parent_id);
-        //TODO: for the moment, we do not deal with subcategories,
-        //if we were not able to import a matching category
-        //should check if the main category exists, but the subcategory is new
-        if (mapped_parent_id != null) {
-          _id = mDbHelper.createCategory(label, mapped_parent_id);
-          if (_id != -1) {
-            totalImportedCat++;
-          }
-        } else {
-          Log.w("MyExpenses","could not store sub category " + label);
-        }
-        if ((start+i) % 10 == 0) {
-          publishProgress(start+i);
-        }
-      }
-    }
     int getMax() {
       return max;
     }
@@ -587,7 +569,7 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
       mProgressDialog.show();
       task = new MyAsyncTask(GrisbiImport.this,sourceIndex);
       task.setTitle(title);
-      task.setPartiesAreToBeHandledP(id == AlertDialog.BUTTON_POSITIVE);
+      task.setWithPartiesP(id == AlertDialog.BUTTON_POSITIVE);
       dismissDialog(SOURCES_DIALOG_ID);
       task.execute();
       return;
