@@ -29,11 +29,13 @@ import android.test.InstrumentationTestCase;
 import junit.framework.Assert;
 
 public class GrisbiImportTest extends InstrumentationTestCase {
+  private Result analyze(int id) {
+    return GrisbiImport.analyzeGrisbiFileWithSAX(
+        getInstrumentation().getContext().getResources().openRawResource(id)
+        );
+  }
   public void testGrisbi6() {
-    InputStream catXML;
-    Result result;
-    catXML = getInstrumentation().getContext().getResources().openRawResource(R.raw.grisbi);
-    result = GrisbiImport.analyzeGrisbiFile(catXML);
+    Result result = analyze(R.raw.grisbi);
     Assert.assertEquals(true, result.success);
     CategoryTree catTree = (CategoryTree) result.extra[0];
     HashMap<Integer,CategoryTree> main = catTree.children();
@@ -43,10 +45,7 @@ public class GrisbiImportTest extends InstrumentationTestCase {
     Assert.assertEquals("Peter Schnock",partiesList.get(0));
   }
   public void testGrisbi5() {
-    InputStream catXML;
-    Result result;
-    catXML = getInstrumentation().getContext().getResources().openRawResource(R.raw.grisbi_050);
-    result = GrisbiImport.analyzeGrisbiFile(catXML);
+    Result result = analyze(R.raw.grisbi_050);
     Assert.assertEquals(true, result.success);
     CategoryTree catTree = (CategoryTree) result.extra[0];
     HashMap<Integer,CategoryTree> main = catTree.children();
@@ -55,13 +54,33 @@ public class GrisbiImportTest extends InstrumentationTestCase {
     ArrayList<String> partiesList = (ArrayList<String>) result.extra[1];
     Assert.assertEquals("Peter Schnock",partiesList.get(0));
   }
-
   public void testGrisbiParseError() {
-    InputStream catXML;
-    Result result;
-    catXML = getInstrumentation().getContext().getResources().openRawResource(R.raw.grisbi_error);
-    result = GrisbiImport.analyzeGrisbiFile(catXML);
+    Result result = analyze(R.raw.grisbi_error);
     Assert.assertEquals(false, result.success);
     Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_parse_exception, result.message);
+  }
+  public void testGrisbi7() {
+    Result result = analyze(R.raw.grisbi_070);
+    Assert.assertEquals(false, result.success);
+    Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_grisbi_version_not_supported, result.message);
+    Assert.assertEquals("0.7.0", (String) result.extra[0]);
+  }
+  public void testGrisbi4() {
+    Result result = analyze(R.raw.grisbi_040);
+    Assert.assertEquals(false, result.success);
+    Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_grisbi_version_not_supported, result.message);
+    Assert.assertEquals("0.4.0", (String) result.extra[0]);
+  }
+  //this test is commented out since grisbi_big is not added to git
+  //it is just an arbitrary big well-formed XML file (tested with a 9,5M file)
+  //Result: the test fails with analyzeGrisbiFileWithDOM, but only needs some seconds
+  //to run successfully with analyzeGrisbiFileWithSAX Q.E.D. !
+ public void testGrisbiBigFile() {
+    try {
+      Result result = analyze(R.raw.grisbi_big);
+    } catch(OutOfMemoryError e) {
+      Assert.fail("File too big to be handled");
+    }
+    //Assert.assertEquals(false, result.success);
   }
 }

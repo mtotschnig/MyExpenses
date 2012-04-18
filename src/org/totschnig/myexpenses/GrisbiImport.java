@@ -22,19 +22,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.totschnig.myexpenses.Utils.CategoryTree;
 import org.totschnig.myexpenses.Utils.Result;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import android.app.Activity;
@@ -44,7 +35,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.sax.RootElement;
 import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
@@ -83,6 +73,15 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     ArrayList<String> partiesList;
     private StringBuilder builder;
     String grisbiFileVersion;
+    String mainElementName6 = "Category",
+        subElementName6 = "Sub_category",
+        partiesElementName6 = "Party",
+        nameAttributeName6 = "Na",
+        mainElementName5 = "Categorie",
+        subElementName5 = "Sous-categorie",
+        partiesElementName5 = "Tiers",
+        nameAttributeName5 = "Nom";
+    Integer currentMainCategorieId;
     
     class FileVersionNotSupportedException extends SAXException {
 
@@ -110,12 +109,12 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     public void endElement(String uri, String localName, String name)
             throws SAXException {
         super.endElement(uri, localName, name);
-        if (localName.equals("Version_fichier")){
+        if (localName.equals("Version_fichier") || localName.equals("Version_fichier_categ")){
           String grisbiFileVersion = builder.toString();
           if (!checkFileVersion(grisbiFileVersion)) {
             throw new FileVersionNotSupportedException(grisbiFileVersion);
           }
-        }    
+        }
     }
 
     @Override
@@ -129,18 +128,55 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     @Override
     public void startElement(String uri, String localName, String name,
             Attributes attributes) throws SAXException {
+      String label, id, parent_id;
       super.startElement(uri, localName, name, attributes);
       if (localName.equalsIgnoreCase("General")){
         String grisbiFileVersion = attributes.getValue("File_version");
         if (!checkFileVersion(grisbiFileVersion)) {
           throw new FileVersionNotSupportedException(grisbiFileVersion);
         }
+      } else if (localName.equals(mainElementName6)) {
+        label = attributes.getValue(nameAttributeName6);
+        id = attributes.getValue("Nb");
+        if (label != null && id != null) {
+          catTree.add(label,Integer.parseInt(id),0);
+        }
+      } else if (localName.equals(subElementName6)) {
+        label = attributes.getValue(nameAttributeName6);
+        id =  attributes.getValue("Nb");
+        parent_id = attributes.getValue("Nbc");
+        if (label != null && id != null && parent_id != null) {
+          catTree.add(label, Integer.parseInt(id), Integer.parseInt(parent_id));
+        }
+      } else if (localName.equals(mainElementName5)) {
+        label = attributes.getValue(nameAttributeName5);
+        id = attributes.getValue("No");
+        if (label != null && id != null) {
+          currentMainCategorieId = Integer.parseInt(id);
+          catTree.add(label,currentMainCategorieId,0);
+        }
+      } else if (localName.equals(subElementName5)) {
+        label = attributes.getValue(nameAttributeName5);
+        id =  attributes.getValue("No");
+        if (label != null && id != null) {
+          catTree.add(label,  Integer.parseInt(id), currentMainCategorieId);
+        }
+      } else if  (localName.equals(partiesElementName6)) {
+        label = attributes.getValue(nameAttributeName6);
+        if (label != null) {
+          partiesList.add(label);
+        }
+      } else if  (localName.equals(partiesElementName5)) {
+        label = attributes.getValue(nameAttributeName5);
+        if (label != null) {
+          partiesList.add(label);
+        }
       }
       builder.setLength(0);
     }
   }
   
-  public static Result analyzeGrisbiFileWithSax(InputStream is) {
+  public static Result analyzeGrisbiFileWithSAX(InputStream is) {
     GrisbiHandler handler = new GrisbiHandler();
     try {
         Xml.parse(is, Xml.Encoding.UTF_8, handler);
@@ -161,9 +197,13 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
    * @return if there is a problem success is set to false and message to a diagnostic message (as an R string integer)
    * if the analysis succeeds, success is true, message is 0, and extras has as first element the
    * CategoryTree, and as second element a string array with payees
-   * node, as second element the Grisbi version
-   */
-  public static Result analyzeGrisbiFile(InputStream is) {
+   * DOM and SAX implementations are mainly functionally equivalent, with the main
+   * difference that the DOM implementation crashes with OutOfMemoryError on big input files
+   * the DOM implementation reports parse_error_grisbi_version_not_determined, if the XML file is
+   * unrelated to Grisbi, while the SAX implementation reports success and returns empty
+   * category tree and payee list
+   
+  public static Result analyzeGrisbiFileWithDOM(InputStream is) {
     Document dom;
     Element root;
     String grisbiFileVersion = "";
@@ -326,6 +366,7 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     }
     return result;
   }
+  */
   
   
   @Override
@@ -476,7 +517,7 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
         }
         catXML = activity.getResources().openRawResource(sourceRes);
       }
-      Result result = analyzeGrisbiFile(catXML);
+      Result result = analyzeGrisbiFileWithSAX(catXML);
       if (result.success) {
         catTree = (CategoryTree) result.extra[0];
         partiesList = (ArrayList<String>) result.extra[1];
