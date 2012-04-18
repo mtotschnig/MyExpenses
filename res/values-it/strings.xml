@@ -62,6 +62,10 @@
     <string name="ftp_login_failure">Errore di login durante il caricamento di %1$s</string>
     <string name="ftp_setFileType_failure">Impossibile impostare il tipo di file ASCII durante il caricamento di %1$s</string>
     <string name="ftp_changeWorkingDirectory_failure">Impossibile cambiare la cartella di lavoro durante il caricamento di %1$s</string>
+    <string name="faq_dialog_title">Domande più frequenti</string>
+    <string name="faq_question1"><u>Come faccio a inserire gli importi? Non c\'è una virgola (,) sul tastierino numerico.</u></string>
+    <string name="faq_answer1">Ci sono diversi separatori decimali utilizzati nelle diverse lingue: virgola in molti paesi europei, il punto in più paesi di lingua inglese. Purtroppo c\'è un problema ancora irrisolto nel sistema operativo Android, che non gestisce bene la virgola nel suo metodo di input numerico, e in alcuni casi addirittura non consente affatto di inserire una virgola. Se si verifica questo problema, è possibile impostare il punto come separatore decimale nelle Impostazioni.
+    </string>
     <string name="grisbi_file">&grisbi_file;</string>
     <string name="grisbi_import_button_categories_only">Categorie</string>
     <string name="grisbi_import_button_categories_and_parties">Categorie e beneficiari</string>
@@ -110,6 +114,7 @@
     <string name="menu_edit_cat">Modificare la categoria</string>
     <string name="menu_edit_ta">Modificare operazione</string>
     <string name="menu_edit_transfer">Modificare un trasferimento</string>
+    <string name="menu_faq">FAQ</string>
     <string name="menu_help">Aiuto</string>
     <string name="menu_insert_account">Aggiungere conto</string>
     <string name="menu_insert_ta">Aggiungere operazione</string>
