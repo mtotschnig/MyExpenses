@@ -17,8 +17,11 @@ package org.totschnig.myexpenses.test;
 
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.totschnig.myexpenses.GrisbiImport;
+import org.totschnig.myexpenses.Utils.CategoryTree;
 import org.totschnig.myexpenses.Utils.Result;
 
 import android.test.InstrumentationTestCase;
@@ -32,7 +35,12 @@ public class GrisbiImportTest extends InstrumentationTestCase {
     catXML = getInstrumentation().getContext().getResources().openRawResource(R.raw.grisbi);
     result = GrisbiImport.analyzeGrisbiFile(catXML);
     Assert.assertEquals(true, result.success);
-    Assert.assertEquals("0.6.0", result.extra[1]);
+    CategoryTree catTree = (CategoryTree) result.extra[0];
+    HashMap<Integer,CategoryTree> main = catTree.children();
+    Assert.assertEquals(22, main.size());
+    Assert.assertEquals(10, main.get(1).children().size());
+    ArrayList<String> partiesList = (ArrayList<String>) result.extra[1];
+    Assert.assertEquals("Peter Schnock",partiesList.get(0));
   }
   public void testGrisbi5() {
     InputStream catXML;
@@ -40,7 +48,12 @@ public class GrisbiImportTest extends InstrumentationTestCase {
     catXML = getInstrumentation().getContext().getResources().openRawResource(R.raw.grisbi_050);
     result = GrisbiImport.analyzeGrisbiFile(catXML);
     Assert.assertEquals(true, result.success);
-    Assert.assertEquals("0.5.0", result.extra[1]);
+    CategoryTree catTree = (CategoryTree) result.extra[0];
+    HashMap<Integer,CategoryTree> main = catTree.children();
+    Assert.assertEquals(22, main.size());
+    Assert.assertEquals(9, main.get(1).children().size());
+    ArrayList<String> partiesList = (ArrayList<String>) result.extra[1];
+    Assert.assertEquals("Peter Schnock",partiesList.get(0));
   }
 
   public void testGrisbiParseError() {
