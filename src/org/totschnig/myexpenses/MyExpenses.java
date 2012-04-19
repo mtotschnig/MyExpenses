@@ -948,13 +948,14 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       startActivityForResult(i, ACTIVITY_CREATE_ACCOUNT);
       break;
     case R.id.RESET_ACCOUNT_COMMAND:
-      if (Utils.isExternalStorageAvailable())
+      if (Utils.isExternalStorageAvailable()) {
         showDialog(RESET_DIALOG_ID);
-      else 
+      } else { 
         Toast.makeText(getBaseContext(),
             getString(R.string.external_storage_unavailable), 
             Toast.LENGTH_LONG)
             .show();
+      }
       break;
     case R.id.SETTINGS_COMMAND:
       startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
