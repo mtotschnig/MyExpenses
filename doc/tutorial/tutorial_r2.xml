@@ -1196,11 +1196,9 @@
       the decimal separator of your locale (comma in most European countries, point in most
       English speaking countries)<footnote id="ftn58-en-2">
         <para>
-          Unfortunately, due to a bug in the Android OS, on some devices (mainly those running
-          2.3 Gingerbread) there are problems with the comma symbol as decimal separator: It
-          is not easily accessible on the soft keyboard for numeric input, sometimes even not
-          available at all. That's why <application role="app_name"/> uses the point symbol (.)
-          as default on devices running Android 2.3.
+          <application role="app_name"/> uses the point symbol (.) as default on devices
+          running Android 2.3, since those are most heavily affected by the problem described
+          in the <link linkend='faq-comma'>FAQ</link>.
         </para>
       </footnote>, here you can explicitly configure it.
       Alternatively you have the option to input minor units (e.g. $ cents, € cent, or £ pence)
@@ -1209,7 +1207,13 @@
     <para lang="fr">
       Par défaut, les montants de transaction (ou le solde d'ouverture d'un compte) utilisent
       le séparateur décimal de votre région (virgule dans les pays européens, point dans les
-      pays anglophones), ici vous pouvez le configurer explicitement. Sinon, vous avez la
+      pays anglophones)<footnote id="ftn58-fr-2">
+        <para>
+          Sur les appareils roulant sur Android 2.3. <application role="app_name"/> utilise par
+          défaut le point, car ceux-ci sont le plus souvent concerné par le problème décrit
+          dans la <link linkend='faq-comma'>FAQ</link>.
+        </para>
+      </footnote>, ici vous pouvez le configurer explicitement. Sinon, vous avez la
       possibilité d'entrer des unités mineures entières (par exemple $ cents, centimes d' €,
       pence pour £) (<guilabel role="pref_currency_decimal_separator_input_minor_unit"/>).
     </para>
@@ -1218,11 +1222,9 @@
       das Dezimaltrennzeichen Ihrer Spracheinstellung verwendet (Komma in den meisten
       europäischen Ländern, Punkt in den meisten englischsprachigen Ländern)<footnote id="ftn58-de-2">
         <para>
-          Die Verwendung des Kommas als Dezimaltrennzeichen funktioniert auf Grund eines Bugs
-          des Android Betriebssystemes auf manchen Geräten (vor allem mit Version 2.3.
-          Gingerbread) nicht gut: Es ist auf der numerischen Tastatur nur über Umwege
-          verwendbar oder gar nicht vorhanden. Daher verwendet <application role="app_name"/>
-          auf Geräten mit Android 2.3. als Standard den Punkt.
+          <application role="app_name"/> verwendet auf Geräten mit Android 2.3. als Standard
+          den Punkt, da diese am meisten von dem in der <link linkend='faq-comma'>FAQ</link>
+          beschriebenen Problem betroffen sind.
         </para>
       </footnote>, hier kann dieses
       explizit konfiguriert werden. Sie können hier aber auch festlegen, dass Sie
@@ -1248,7 +1250,7 @@
       <phrase lang="it">Domande più frequenti</phrase>
   </title>
   <qandaset><?dbhtml toc="0" ?>
-    <qandaentry>
+    <qandaentry id="faq-comma">
       <question>
         <para lang="en">
           How do I enter amounts? There is no comma (,) on the numeric keypad.
@@ -1275,7 +1277,7 @@
         <para lang="fr">
           Il existe différents séparateurs décimaux utilisés dans différentes langues: virgule
           dans la plupart des pays européens, le point dans les pays anglophones.
-          Malheureusement, il existe problème non encore résolu dans le système d'exploitation
+          Malheureusement, il existe un problème non encore résolu dans le système d'exploitation
           Android, il ne gère pas bien la virgule dans sa méthode d'entrée numérique, et dans
           certains cas ne permet même pas du tout d'entrer une virgule. Si vous rencontrez ce
           problème, vous pouvez définir le point comme séparateur décimal dans les paramètres.
