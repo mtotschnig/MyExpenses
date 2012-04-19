@@ -22,11 +22,14 @@ import java.net.URI;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPConnectionClosedException;
+import org.apache.commons.net.ftp.FTPReply;
 import org.totschnig.myexpenses.Utils.Result;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.net.Uri;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +50,15 @@ public class FtpTransfer extends Activity {
     
     task=(FtpAsyncTask)getLastNonConfigurationInstance();
     
+    mProgressDialog = ProgressDialog.show(this, "",
+        getString(R.string.ftp_uploading_wait), true, true, new OnCancelListener() {
+          public void onCancel(DialogInterface dialog) {
+            if (task != null && task.getStatus() != AsyncTask.Status.FINISHED) {
+              task.cancel(true);
+              markAsDone();
+            }
+          }
+    });
     if (task!=null) {
       task.attach(this);      
       if (task.getStatus() == AsyncTask.Status.FINISHED) {
@@ -56,14 +68,17 @@ public class FtpTransfer extends Activity {
       task = new FtpAsyncTask(this, source, target);
       task.execute();
     }
-    mProgressDialog = ProgressDialog.show(this, "",
-        getString(R.string.ftp_uploading_wait), true);
-    mProgressDialog.setCancelable(false);
   }
+  
   void markAsDone() {
+    String ftp_result;
     mProgressDialog.dismiss();
-    Result result = task.getResult();
-    String ftp_result = getString(result.message,target.toString());
+    if (task.isCancelled()) {
+      ftp_result = "FTP Transfer cancelled";
+    } else {
+      Result result = task.getResult();
+      ftp_result = getString(result.message,target.toString());
+    }
     Toast.makeText(this,ftp_result, Toast.LENGTH_LONG).show();
     task = null;
     finish();
@@ -75,8 +90,12 @@ public class FtpTransfer extends Activity {
       task.detach();
     return(task);
   }
- 
-    //TODO check if correctly handling orientation changes
+  @Override
+  public void onStop() {
+    super.onStop();
+    mProgressDialog.dismiss();
+  }
+
   static class FtpAsyncTask extends AsyncTask<Void, Void, Void> {
       private FtpTransfer activity;
       private URI target;
@@ -119,30 +138,56 @@ public class FtpTransfer extends Activity {
         try {
             // Connect to FTP Server
             mFTP.connect(host);
-            
+            int reply = mFTP.getReplyCode();
+            if(!FTPReply.isPositiveCompletion(reply)) {
+              setResult(new Result(false, R.string.ftp_connection_failure));
+              return(null);
+            }
+            if (isCancelled()) {
+              return(null);
+            }
             if (!mFTP.login(username,password)) {
               setResult(new Result(false, R.string.ftp_login_failure));
+              return(null);
             }
-            
+            if (isCancelled()) {
+              return(null);
+            }
             if (!mFTP.setFileType(FTP.ASCII_FILE_TYPE)) {
               setResult(new Result(false, R.string.ftp_setFileType_failure));
+              return(null);
+            }
+            if (isCancelled()) {
+              return(null);
             }
             mFTP.enterLocalPassiveMode();
             if (!mFTP.changeWorkingDirectory(path)) {
               setResult(new Result(false, R.string.ftp_changeWorkingDirectory_failure));
+              return(null);
             }
-            
+            if (isCancelled()) {
+              return(null);
+            }
             // Prepare file to be uploaded to FTP Server
             FileInputStream ifile = new FileInputStream(file);
             
             // Upload file to FTP Server
             result = mFTP.storeFile(file.getName(),ifile);
-            mFTP.disconnect();
             setResult(new Result(result, result ? R.string.ftp_success : R.string.ftp_failure));
         } catch (SocketException e) {
           setResult(new Result(false, R.string.ftp_socket_exception));
+        } catch (FTPConnectionClosedException e) {
+          setResult(new Result(false, R.string.ftp_connection_refused));
         } catch (IOException e) {
           setResult(new Result(false,R.string.ftp_io_exception));
+        }  finally {
+          if(mFTP.isConnected()) {
+            try {
+              mFTP.disconnect();
+            } catch(IOException ioe) {
+              // do nothing
+            }
+          }
         }
         return(null);
       }
