@@ -15,11 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <!DOCTYPE resources [
-  <!ENTITY app_name "Meine Ausgaben">
+  <!ENTITY app_name "Mis gastos">
   <!ENTITY grisbi_file "grisbi.xml">
 ]>
 <resources>
-  <string name="account">Konto</string>
+  <string name="account">Cuenta</string>
   <string name="amount">Betrag</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
