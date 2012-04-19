@@ -20,7 +20,7 @@
 ]>
 <resources>
   <string name="account">Cuenta</string>
-  <string name="amount">Betrag</string>
+  <string name="amount">Importe</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
   <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der
