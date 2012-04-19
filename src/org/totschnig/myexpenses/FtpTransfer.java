@@ -74,7 +74,7 @@ public class FtpTransfer extends Activity {
     String ftp_result;
     mProgressDialog.dismiss();
     if (task.isCancelled()) {
-      ftp_result = "FTP Transfer cancelled";
+      ftp_result = getString(R.string.ftp_cancelled);
     } else {
       Result result = task.getResult();
       ftp_result = getString(result.message,target.toString());
