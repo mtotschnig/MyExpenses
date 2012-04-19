@@ -88,7 +88,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   static final int ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID = 5;
   static final int USE_STANDARD_MENU_DIALOG_ID = 6;
   static final int SELECT_ACCOUNT_DIALOG_ID = 7;
-  static final int FAQ_DIALOG_ID = 8;
 
   private String mVersionInfo;
   
@@ -467,19 +466,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             dismissDialog(HELP_DIALOG_ID);
           }
         }).create();
-    case FAQ_DIALOG_ID:
-      li = LayoutInflater.from(this);
-      view = li.inflate(R.layout.faqview, null);
-      return new AlertDialog.Builder(this)
-      .setTitle(R.string.faq_dialog_title)
-      .setIcon(R.drawable.about)
-      .setView(view)
-      .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-          dismissDialog(FAQ_DIALOG_ID);
-        }
-      })
-      .create();
       
     case CHANGES_DIALOG_ID:
       li = LayoutInflater.from(this);
@@ -982,16 +968,16 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       startActivityForResult(new Intent(MyExpenses.this, Backup.class),ACTIVITY_PREF);
       break;
     case R.id.TUTORIAL_COMMAND:
-      startActivity( new Intent(MyExpenses.this, Tutorial.class));
+    case R.id.FAQ_COMMAND:
+      i = new Intent(MyExpenses.this, Tutorial.class);
+      i.putExtra("start", command);
+      startActivity(i);
       break;
     case R.id.CHANGES_COMMAND:
       showDialog(CHANGES_DIALOG_ID);
       break;
     case R.id.HELP_COMMAND:
       showDialog(HELP_DIALOG_ID);
-      break;
-    case R.id.FAQ_COMMAND:
-      showDialog(FAQ_DIALOG_ID);
       break;
     default:
       return false;

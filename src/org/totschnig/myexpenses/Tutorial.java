@@ -32,6 +32,7 @@ import android.os.Bundle;
  */
 public class Tutorial extends Activity {
   static final int TUTORIAL_RELEASE_VERSION = 2;
+  private String startWith;
   
   protected WebView wv;
   @Override
@@ -39,6 +40,14 @@ public class Tutorial extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.tutorial);
     setTitle(getString(R.string.app_name) + " " + getString(R.string.tutorial));
+    Bundle extras = getIntent().getExtras();
+    switch (extras.getInt("start")) {
+      case R.id.FAQ_COMMAND:
+        startWith = "faq";
+        break;
+      default:
+        startWith = "introduction";
+    }
     wv = (WebView) findViewById(R.id.webview);
     wv.setWebViewClient(new WebViewClient());
 /*    wv.setWebChromeClient(new WebChromeClient() {
@@ -58,7 +67,7 @@ public class Tutorial extends Activity {
       lang = "en";
     }
     wv.loadUrl("http://myexpenses.totschnig.org/tutorial_r" + 
-      TUTORIAL_RELEASE_VERSION + "/" + lang +  "/introduction.html"); 
+      TUTORIAL_RELEASE_VERSION + "/" + lang +  "/" + startWith + ".html"); 
   }
   @Override
   protected void onSaveInstanceState(Bundle outState)
