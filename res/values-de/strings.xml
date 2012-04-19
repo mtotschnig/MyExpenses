@@ -146,9 +146,12 @@
 	  <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie Unterkategorien hat.</string>
 	  <string name="opening_balance">Anfangssaldo</string>
 	  <string name="parse_error_file_not_found">Konnte Datei %1$s nicht finden</string>
+	  <string name="parse_error_no_data_found">Keine importierbaren Daten in der Datei gefunden.</string>
     <string name="parse_error_parse_exception">Konnte Datei nicht analysieren</string>
     <string name="parse_error_other_exception">Ein Fehler ist aufgetreten: %1$s</string>
+    <!--
     <string name="parse_error_grisbi_version_not_determined">Konnte Version der Grisbi Datei nicht ermitteln</string>
+    -->
     <string name="parse_error_grisbi_version_not_supported">Grisbi Datei Version %1$s wird nicht unterstützt</string>
 	  <string name="payee">Empfänger</string>
 	  <string name="payer">Zahler</string>

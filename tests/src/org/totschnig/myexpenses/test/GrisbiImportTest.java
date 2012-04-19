@@ -15,8 +15,6 @@
 
 package org.totschnig.myexpenses.test;
 
-
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -71,6 +69,11 @@ public class GrisbiImportTest extends InstrumentationTestCase {
     Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_grisbi_version_not_supported, result.message);
     Assert.assertEquals("0.4.0", (String) result.extra[0]);
   }
+  public void testGrisbiEmpty() {
+    Result result = analyze(R.raw.grisbi_empty);
+    Assert.assertEquals(false, result.success);
+    Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_no_data_found, result.message);
+  }
   //this test is commented out since grisbi_big is not added to git
   //it is just an arbitrary big well-formed XML file (tested with a 9,5M file)
   //Result: the test fails with analyzeGrisbiFileWithDOM, but only needs some seconds
@@ -78,9 +81,9 @@ public class GrisbiImportTest extends InstrumentationTestCase {
  public void testGrisbiBigFile() {
     try {
       Result result = analyze(R.raw.grisbi_big);
+      Assert.assertEquals(false, result.success);
     } catch(OutOfMemoryError e) {
       Assert.fail("File too big to be handled");
     }
-    //Assert.assertEquals(false, result.success);
   }
 }

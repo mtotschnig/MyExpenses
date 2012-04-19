@@ -97,7 +97,11 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     
     
     public Result getResult() {
-      return new Result(true,0,catTree,partiesList);
+      if (catTree.getTotal() > 0 || partiesList.size() >0 ) {
+        return new Result(true,0,catTree,partiesList);
+      } else {
+        return new Result(false,R.string.parse_error_no_data_found);
+      }
     }
     @Override
     public void characters(char[] ch, int start, int length)
