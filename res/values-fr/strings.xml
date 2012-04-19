@@ -69,6 +69,7 @@
       téléchargement vers %1$s</string>
   <string name="ftp_changeWorkingDirectory_failure">Erreur de changement de répertoire lors du
       téléchargement vers %1$s</string>
+  <string name="ftp_uploading_wait">Téléchargement en cours. Attendez SVP &#8230;</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Catégories</string>
   <string name="grisbi_import_button_categories_and_parties">Catégories et tiers</string>

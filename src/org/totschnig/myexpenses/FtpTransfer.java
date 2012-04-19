@@ -56,8 +56,8 @@ public class FtpTransfer extends Activity {
       task = new FtpAsyncTask(this, source, target);
       task.execute();
     }
-    mProgressDialog = ProgressDialog.show(this, "", 
-        "Uploading. Please wait...", true);
+    mProgressDialog = ProgressDialog.show(this, "",
+        getString(R.string.ftp_uploading_wait), true);
     mProgressDialog.setCancelable(false);
   }
   void markAsDone() {

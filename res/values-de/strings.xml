@@ -67,6 +67,7 @@
       des Uploads nach %1$s</string>
   <string name="ftp_changeWorkingDirectory_failure">Fehler beim Wechseln des Verzeichnisses während
       des Uploads nach %1$s</string>
+  <string name="ftp_uploading_wait">Upload im Gang. Bitte warten &#8230;</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Kategorien</string>
   <string name="grisbi_import_button_categories_and_parties">Kateg. und Parteien</string>
@@ -158,7 +159,8 @@
       Unterkategorien hat.</string>
   <string name="opening_balance">Anfangssaldo</string>
   <string name="parse_error_file_not_found">Konnte Datei %1$s nicht finden</string>
-  <string name="parse_error_no_data_found">Keine importierbaren Daten in der Datei gefunden.</string>
+  <string name="parse_error_no_data_found">Keine importierbaren Daten in der Datei gefunden.
+  </string>
   <string name="parse_error_parse_exception">Konnte Datei nicht analysieren</string>
   <string name="parse_error_other_exception">Ein Fehler ist aufgetreten: %1$s</string>
   <!--

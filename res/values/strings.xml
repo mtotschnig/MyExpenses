@@ -66,6 +66,7 @@
       to %1$s</string>
   <string name="ftp_changeWorkingDirectory_failure">Could not change working directory while trying
       to upload to %1$s</string>
+  <string name="ftp_uploading_wait">Uploading. Please wait &#8230;</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Categories</string>
   <string name="grisbi_import_button_categories_and_parties">Categories and parties</string>
@@ -107,10 +108,10 @@
         currency.
       \n<u>Reset</u> : exports expenses onto SD-Card in QIF format, deletes the expenses and updates
         the opening balance.
-      \n<u>Settings</u>: Select <u>Import from Grisbi</u> to import from the XML structure that Grisbi 
-        uses for its expenses. You either choose one of the provided default category files from 
-        Grisbi or use a custom one, that you store at \"/sdcard/myexpenses/&grisbi_file;\". You can
-        use your Grisbi XML file as is, or remove anything but the category definitions from it.
+      \n<u>Settings</u>: Select <u>Import from Grisbi</u> to import from the XML structure that
+        Grisbi uses for its expenses. You either choose one of the provided default category files
+        from Grisbi or use a custom one, that you store at \"/sdcard/myexpenses/&grisbi_file;\". You
+        can use your Grisbi XML file as is, or remove anything but the category definitions from it.
   </string>
   <string name="important_version_information">New version: Important information</string>
   <string name="import_categories">Import categories</string>
