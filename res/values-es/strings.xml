@@ -56,8 +56,6 @@
   <string name="external_storage_unavailable">La memoria externa (tarjeta SD) no es
        disponible.</string>
   <string name="ftp_uri_malformed">URI %1$s inválido</string>
-  <string name="ftp_success">La memoria externa (tarjeta SD) no es
-       disponible.</string>
   <string name="ftp_success">Carga a %1$s ha sido exitosa.</string>
   <string name="ftp_failure">Carga a %1$s ha fallecido.</string>
   <string name="ftp_socket_exception">Socket exception während des Uploads nach %1$s</string>
