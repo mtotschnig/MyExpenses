@@ -54,13 +54,6 @@
 		<string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
 		<string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
 		<string name="external_storage_unavailable">External storage (sdcard)not available</string>
-		<string name="faq_dialog_title">Frequently asked questions</string>
-    <string name="faq_question1"><u>How do I enter amounts? There is no comma (,) on the numeric keypad.</u></string>
-    <string name="faq_answer1">There are different decimal separators used in different languages:
-        comma in most European countries, point in most English speaking countries. Unfortunately there is a still unresolved problem in the Android OS,
-        which does not handle the comma well in its numeric input method, and in some cases even does not allow at all
-        to enter a comma. If you encounter this problem, you can set the point as decimal separator in the Settings.
-        </string>
 		<string name="ftp_uri_malformed">Malformed URI %1$s</string>
     <string name="ftp_success">Upload to %1$s successful</string>
     <string name="ftp_failure">Failure while uploading to %1$s</string>

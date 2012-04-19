@@ -1216,7 +1216,7 @@
     <para lang="de">
       Standardmäßig wird für Währungsbeträge in Buchungen (oder das Anfangssaldo eines Kontos)
       das Dezimaltrennzeichen Ihrer Spracheinstellung verwendet (Komma in den meisten
-      europäischen Ländern, Punkt in den meisten englischsprachigen Ländern)<footnote id="ftn58-en-2">
+      europäischen Ländern, Punkt in den meisten englischsprachigen Ländern)<footnote id="ftn58-de-2">
         <para>
           Die Verwendung des Kommas als Dezimaltrennzeichen funktioniert auf Grund eines Bugs
           des Android Betriebssystemes auf manchen Geräten (vor allem mit Version 2.3.
@@ -1240,6 +1240,67 @@
       <!-- END tutorial5_8 para 1 --> 
       </sect2>
   </sect1>
+  <sect1 id="faq">
+    <title>
+      <phrase lang="en">Frequently asked questions</phrase>
+      <phrase lang="fr">Foire aux questions</phrase>
+      <phrase lang="de">Häufig gestellte Fragen</phrase>
+      <phrase lang="it">Domande più frequenti</phrase>
+  </title>
+  <qandaset><?dbhtml toc="0" ?>
+    <qandaentry>
+      <question>
+        <para lang="en">
+          How do I enter amounts? There is no comma (,) on the numeric keypad.
+        </para>
+        <para lang="fr">
+          Comment puis-je saisir les montants ? Il n'y a pas de virgule (,) sur le pavé numérique.
+        </para>
+        <para lang="de">
+          Wie kann ich Beträge eingeben? Auf der numerischen Tastatur finde ich kein Komma (,).
+        </para>
+        <para lang="it">
+          Come faccio a inserire gli importi? Non c\'è una virgola (,) sul tastierino numerico.
+        </para>     
+      </question>
+      <answer>
+        <para lang="en">
+          There are different decimal separators used in different languages: comma in most
+          European countries, point in most English speaking countries. Unfortunately there is
+          a still unresolved problem in the Android OS, which does not handle the comma well in
+          its numeric input method, and in some cases even does not allow at all to enter a
+          comma. If you encounter this problem, you can set the point as decimal separator in
+          the Settings.
+        </para>
+        <para lang="fr">
+          Il existe différents séparateurs décimaux utilisés dans différentes langues: virgule
+          dans la plupart des pays européens, le point dans les pays anglophones.
+          Malheureusement, il existe problème non encore résolu dans le système d'exploitation
+          Android, il ne gère pas bien la virgule dans sa méthode d'entrée numérique, et dans
+          certains cas ne permet même pas du tout d\'entrer une virgule. Si vous rencontrez ce
+          problème, vous pouvez définir le point comme séparateur décimal dans les paramètres.
+        </para>
+        <para lang="de">
+          In den verschiedenen Sprachen werden unterschiedliche Dezimaltrennzeichen verwendet:
+          Komma in den meisten europäischen Ländern, Punkt in den meisten englischsprachigen
+          Ländern. Leider gibt es unter Android ein noch ungelöstes Problem, das die Verwendung
+          des Kommas zur Eingabe von Dezimalzahlen erschwert, in manchen Fällen sogar unmöglich
+          macht. Wenn Sie diesem Problem begegnen, können Sie in den Einstellungen den Punkt
+          als Dezimaltrennzeichen festlegen.
+        </para>
+        <para lang="it">
+          Ci sono diversi separatori decimali utilizzati nelle diverse lingue: virgola in molti
+          paesi europei, il punto in più paesi di lingua inglese. Purtroppo c\'è un problema
+          ancora irrisolto nel sistema operativo Android, che non gestisce bene la virgola nel
+          suo metodo di input numerico, e in alcuni casi addirittura non consente affatto di
+          inserire una virgola. Se si verifica questo problema, è possibile impostare il punto
+          come separatore decimale nelle Impostazioni.
+        </para>
+      </answer>
+    </qandaentry>
+  </qandaset>
+  </sect1>
+
   <!--
 template for new paragraphs
     <para lang="en">
