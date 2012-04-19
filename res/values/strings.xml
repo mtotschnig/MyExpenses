@@ -19,203 +19,229 @@
   <!ENTITY grisbi_file "grisbi.xml">
 ]>
 <resources>
-		<string name="account">Account</string>
-		<string name="amount">Amount</string>
-		<string name="app_name">&app_name;</string>
-		<string name="backup_failure">Backup to sdcard failed.</string>
-		<string name="backup_success">Database and preferences successfully written to sdcard.</string>
-		<string name="button_continue">Continue</string>
-    <string name="button_cancel">Cancel</string>
-		<string name="category_already_defined">Category %1$s already defined</string>
-		<string name="category">Category</string>
-		<string name="close">Close</string>
-		<string name="comment">Notes</string>
-		<string name="create_category">Create new category</string>
-		<string name="credits_text">Initially inspired by the Android Notepad tutorial.
-		    \nHelp screen design copied from Mathdoku. 
-		    \nApp icon design copied from Sipdroid.
-		    \nFrench and italian localization by Laurent Collombet.
-		</string>
-		<string name="currency">Currency</string>
-		<string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
-		<string name="current_balance">Current balance</string>
-		<string name="date">Date</string>
-		<string name="date_time">Date / Time</string>
-		<string name="default_account_description">This account was set up automatically during installation</string>    
-		<string name="description">Description</string>
-		<string name="dialog_no">No</string>
-		<string name="dialog_title_select_account">Pick an account</string>
-		<string name="dialog_title_select_import_source">Pick a source for import</string>
-		<string name="dialog_title_select_currency">Pick a currency</string>
-    <string name="dialog_yes">Yes</string>
-		<string name="done">Done</string>
-		<string name="edit_category">Edit category</string>
-		<string name="export_expenses_outputfile_exists">Output file already exists. Please wait one minute, and try again.</string>
-		<string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
-		<string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
-		<string name="external_storage_unavailable">External storage (sdcard)not available</string>
-		<string name="ftp_uri_malformed">Malformed URI %1$s</string>
-    <string name="ftp_success">Upload to %1$s successful</string>
-    <string name="ftp_failure">Failure while uploading to %1$s</string>
-    <string name="ftp_socket_exception">Socket exception while uploading to %1$s</string>
-    <string name="ftp_io_exception">IO exception while uploading to %1$s</string>
-    <string name="ftp_login_failure">Login failure while trying to upload to %1$s</string>
-    <string name="ftp_setFileType_failure">Could not set file type to ASCII while trying to upload to %1$s</string>
-    <string name="ftp_changeWorkingDirectory_failure">Could not change working directory while trying to upload to %1$s</string>
-    <string name="grisbi_file">&grisbi_file;</string>
-    <string name="grisbi_import_button_categories_only">Categories</string>
-    <string name="grisbi_import_button_categories_and_parties">Categories and parties</string>
-    <string name="grisbi_import_categories_and_parties_success">%1$s categories and %2$s parties imported successfully</string>
-    <string name="grisbi_import_categories_loading">Loading categories from %1$s</string>
-    <string name="grisbi_import_categories_success">%1$s categories imported successfully</string>
-    <string name="grisbi_import_parsing">Parsing %1$s</string>
-    <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
-    <string name="help_feedback">If you find <i>&app_name;</i> useful, 
-        please leave a comment in the <a href="market://details?id=org.totschnig.myexpenses">Market</a>. 
-        If you find a problem, have a suggestion for an improvement, 
-        or would like to contribute, please contact <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
-		<!-- The author title in the help screen. -->
-		<string name="help_heading_feedback"><u>Feedback</u></string>
-		<!-- The credits title in the help screen. -->
-		<string name="help_heading_credits"><u>Credits</u></string>
-		<!-- The license title in the help screen. -->
-		<string name="help_heading_license"><u>License</u></string>
-		<!-- The project home title in the help screen. -->
-		<string name="help_heading_project_home"><u>Project Home</u></string>
-		<string name="help_heading_quick_guide"><u>Quick guide</u></string>
-		<!-- The version title in the help screen. -->
-    <string name="help_heading_version"><u>Version</u></string>
-    <!-- The first line in the help screen. -->
-    <!-- The intro of the help text. -->
-    <string name="help_intro"><i>&app_name;</i> is designed to keep track of your expenses and incomes, and
-         to export these expenses into a desktop finance tool, like Grisbi or Gnucash.</string>
-    <string name="help_leading"><u>Thanks for installing <i>&app_name;</i> for Android.</u></string>
-    <string name="help_quick_guide"><i>&app_name;</i> comes with two command interfaces: A button bar
-        and the Android standard menu (hardware Menu button). You can set which one to use in the settings screen.
-        In the button bar, most buttons open menus upon long clicks and
-        execute a default action on short clicks.
-        \n<u>Accounts -> New &#8230;</u> : Create a new account.
-        \n<u>Accounts</u> : Switch to different account.
-        \n<u>New</u> : Add a transaction.
-        \n<u>New -> Transfer</u> : Add a transfer, if you have more than one account in the same currency.
-        \n<u>Reset</u> : exports expenses onto SD-Card in QIF format, deletes the expenses and updates the
-       opening balance.
-        \n<u>Settings</u>: Select <u>Import from Grisbi</u> to import from the XML structure that Grisbi 
+  <string name="account">Account</string>
+  <string name="amount">Amount</string>
+  <string name="app_name">&app_name;</string>
+  <string name="backup_failure">Backup to sdcard failed.</string>
+  <string name="backup_success">Database and preferences successfully written to sdcard.</string>
+  <string name="button_continue">Continue</string>
+  <string name="button_cancel">Cancel</string>
+  <string name="category_already_defined">Category %1$s already defined</string>
+  <string name="category">Category</string>
+  <string name="close">Close</string>
+  <string name="comment">Notes</string>
+  <string name="create_category">Create new category</string>
+  <string name="credits_text">Initially inspired by the Android Notepad tutorial.
+    \nHelp screen design copied from Mathdoku. 
+    \nApp icon design copied from Sipdroid.
+    \nFrench and italian localization by Laurent Collombet.
+  </string>
+  <string name="currency">Currency</string>
+  <string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
+  <string name="current_balance">Current balance</string>
+  <string name="date">Date</string>
+  <string name="date_time">Date / Time</string>
+  <string name="default_account_description">This account was set up automatically
+      during installation</string>    
+  <string name="description">Description</string>
+  <string name="dialog_no">No</string>
+  <string name="dialog_title_select_account">Pick an account</string>
+  <string name="dialog_title_select_import_source">Pick a source for import</string>
+  <string name="dialog_title_select_currency">Pick a currency</string>
+  <string name="dialog_yes">Yes</string>
+  <string name="done">Done</string>
+  <string name="edit_category">Edit category</string>
+  <string name="export_expenses_outputfile_exists">Output file already exists. Please wait one
+      minute, and try again.</string>
+  <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
+  <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
+  <string name="external_storage_unavailable">External storage (sdcard)not available</string>
+  <string name="ftp_uri_malformed">Malformed URI %1$s</string>
+  <string name="ftp_success">Upload to %1$s successful</string>
+  <string name="ftp_failure">Failure while uploading to %1$s</string>
+  <string name="ftp_socket_exception">Socket exception while uploading to %1$s</string>
+  <string name="ftp_io_exception">IO exception while uploading to %1$s</string>
+  <string name="ftp_login_failure">Login failure while trying to upload to %1$s</string>
+  <string name="ftp_setFileType_failure">Could not set file type to ASCII while trying to upload
+      to %1$s</string>
+  <string name="ftp_changeWorkingDirectory_failure">Could not change working directory while trying
+      to upload to %1$s</string>
+  <string name="grisbi_file">&grisbi_file;</string>
+  <string name="grisbi_import_button_categories_only">Categories</string>
+  <string name="grisbi_import_button_categories_and_parties">Categories and parties</string>
+  <string name="grisbi_import_categories_and_parties_success">%1$s categories and %2$s parties
+      imported successfully</string>
+  <string name="grisbi_import_categories_loading">Loading categories from %1$s</string>
+  <string name="grisbi_import_categories_success">%1$s categories imported successfully</string>
+  <string name="grisbi_import_parsing">Parsing %1$s</string>
+  <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
+  <string name="help_feedback">If you find <i>&app_name;</i> useful, 
+    please leave a comment in the <a href="market://details?id=org.totschnig.myexpenses">Market</a>. 
+    If you find a problem, have a suggestion for an improvement, or would like to contribute, please
+    contact <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
+  <!-- The author title in the help screen. -->
+  <string name="help_heading_feedback"><u>Feedback</u></string>
+  <!-- The credits title in the help screen. -->
+  <string name="help_heading_credits"><u>Credits</u></string>
+  <!-- The license title in the help screen. -->
+  <string name="help_heading_license"><u>License</u></string>
+  <!-- The project home title in the help screen. -->
+  <string name="help_heading_project_home"><u>Project Home</u></string>
+  <string name="help_heading_quick_guide"><u>Quick guide</u></string>
+  <!-- The version title in the help screen. -->
+  <string name="help_heading_version"><u>Version</u></string>
+  <!-- The first line in the help screen. -->
+  <!-- The intro of the help text. -->
+  <string name="help_intro"><i>&app_name;</i> is designed to keep track of your expenses and
+      incomes, and to export these expenses into a desktop finance tool, like Grisbi or
+      Gnucash.</string>
+  <string name="help_leading"><u>Thanks for installing <i>&app_name;</i> for Android.</u></string>
+  <string name="help_quick_guide"><i>&app_name;</i> comes with two command interfaces: A button bar
+      and the Android standard menu (hardware Menu button). You can set which one to use in the
+      settings screen. In the button bar, most buttons open menus upon long clicks and
+      execute a default action on short clicks.
+      \n<u>Accounts -> New &#8230;</u> : Create a new account.
+      \n<u>Accounts</u> : Switch to different account.
+      \n<u>New</u> : Add a transaction.
+      \n<u>New -> Transfer</u> : Add a transfer, if you have more than one account in the same
+        currency.
+      \n<u>Reset</u> : exports expenses onto SD-Card in QIF format, deletes the expenses and updates
+        the opening balance.
+      \n<u>Settings</u>: Select <u>Import from Grisbi</u> to import from the XML structure that Grisbi 
         uses for its expenses. You either choose one of the provided default category files from 
         Grisbi or use a custom one, that you store at \"/sdcard/myexpenses/&grisbi_file;\". You can
         use your Grisbi XML file as is, or remove anything but the category definitions from it.
-     </string>
-		<string name="important_version_information">New version: Important information</string>
-		<string name="import_categories">Import categories</string>
-		<string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>
-		<string name="label">Label</string>
-    <string name="menu_accounts">Accounts</string>
-    <string name="menu_accounts_explain">The Accounts button will let you switch between accounts,
-        once you have defined multiple accounts. Currently there is only one account. You can add an
-        account, either by doing a long click on the Accounts button and selecting the New &#8230; 
-        command from the menu, or from the Accounts section in the settings screen.</string>
-    <string name="menu_accounts_new">New &#8230;</string>
-		<string name="menu_backup">Backup</string>
-    <string name="menu_change_account">Change account</string>
-		<string name="menu_changes">Changes</string>
-		<string name="menu_create_main_cat">Create new main category</string>
-		<string name="menu_create_sub_cat">Create new sub category</string>
-		<string name="menu_delete_account">Delete Account</string>
-		<string name="menu_delete_cat">Delete category</string>
-		<string name="menu_delete">Delete</string>
-		<string name="menu_edit_account">Edit Account</string>
-		<string name="menu_edit_cat">Edit category</string>
-		<string name="menu_edit_ta">Edit Transaction</string>
-    <string name="menu_edit_transfer">Edit Transfer</string>
-    <string name="menu_faq">FAQ</string>
-		<string name="menu_help">Help</string>
-		<string name="menu_insert_account">Create new account</string>
-		<string name="menu_insert_ta">Add Transaction</string>
-		<string name="menu_insert_transfer">Add Transfer</string>
-    <string name="menu_new">New</string>
-		<string name="menu_reset">Reset</string>
-    <string name="menu_reset_abrev">Reset</string>
-		<string name="menu_settings">Settings</string>
-    <!--  abrev strings are needed, where labels are too long to fit in menu -->
-    <string name="menu_settings_abrev">Settings</string>
-    <string name="menu_settings_account">Current account</string>
-		<string name="menu_show_detail">Show details</string>
-		<string name="no_accounts">No Accounts!</string>
-    <string name="no_app_handling_email_available">No app handling email available.</string>
-		<string name="no_categories">No categories.</string>
-		<string name="no_details">No details.</string>
-		<string name="no_expenses">No Expenses Yet!</string>
-    <string name="no_parties">No parties.</string>
-		<string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are mapped to it.</string>
-		<string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
-		<string name="opening_balance">Opening balance</string>
-		<string name="parse_error_file_not_found">Could not find file %1$s</string>
-		<string name="parse_error_no_data_found">No importable data found in file.</string>
-		<string name="parse_error_parse_exception">Could not parse file</string>
-		<string name="parse_error_other_exception">An error occured: %1$s</string>
-		<!--
-		<string name="parse_error_grisbi_version_not_determined">Unable to determine Grisbi file version</string>
-		-->
-		<string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version: %1$s</string>
-		<string name="payee">Payee</string>
-		<string name="payer">Payer</string>
-		<string name="peer_transaction_deleted">This transaction refered to a contra-entry (account %1$s) that has been deleted</string>
-		<string name="pref_backup_title">Backup</string>
-		<string name="pref_backup_summary">Create a backup of database and preferences on the sdcard.</string>
-		<string name="pref_categories_sort_by_usages_title">Sort order for categories</string>
-    <string name="pref_categories_sort_by_usages_summary">Use count of usages as primary sort criteria (plain alphanumeric order otherwise)</string>
-    <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency amounts</string>
-    <string name="pref_currency_decimal_separator_summary">You can choose between "," and "." or decide to input minor units as integers.</string>
-    <string name="pref_currency_decimal_separator_comma">Comma (,)</string>
-    <string name="pref_currency_decimal_separator_point">Point (.)</string>
-    <string name="pref_currency_decimal_separator_input_minor_unit">Minor units as integers</string>
-    <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
-    <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default Grisbi definitions internal to the app, 
-        or your own file stored as &grisbi_file; in a folder myexpenses in the root of your sdcard. </string>
-    <string name="pref_manage_accounts_title">Manage accounts</string>
-    <string name="pref_manage_accounts_summary">Add, edit, delete accounts.</string>
-    <string name="pref_manage_parties_title">Manage parties</string>
-    <string name="pref_manage_parties_summary">Delete parties (payers and payees).</string>
-		<string name="pref_share_target_title">Upload URL QIF Export</string>
-    <string name="pref_share_target_summary">Supported schemes</string>
-    <string name="pref_use_standard_menu_title">Use standard Android menu</string>
-    <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
-        standard menu for accessing commands.</string>
-		<string name="restore_db_success">Database has been restored from backup.</string>
-		<string name="restore_preferences_success">Preferences have been restored from backup.</string>
-    <string name="revert">Revert</string>
-    <string name="select_account">Select account</string>
-		<string name="select_category">Select category</string>
-		<string name="select_parent_category">Select this category</string>
-		<string name="select">Select</string>
-		<string name="share_scheme_not_supported">Scheme %1$s not supported</string>
-		<string name="suggest_use_standard_menu">Do you want to use the standard Android menu
-		    for calling commands, and hide the button bar?</string>
-		<string name="time">Time</string>
-		<string name="title">Title</string>
-		<string name="transaction">Transaction</string>
+  </string>
+  <string name="important_version_information">New version: Important information</string>
+  <string name="import_categories">Import categories</string>
+  <string name="invalid_number_format">Decimal format not regognized by your locale. Please use
+      %1$s</string>
+  <string name="label">Label</string>
+  <string name="menu_accounts">Accounts</string>
+  <string name="menu_accounts_explain">The Accounts button will let you switch between accounts,
+      once you have defined multiple accounts. Currently there is only one account. You can add an
+      account, either by doing a long click on the Accounts button and selecting the New &#8230; 
+      command from the menu, or from the Accounts section in the settings screen.</string>
+  <string name="menu_accounts_new">New &#8230;</string>
+  <string name="menu_backup">Backup</string>
+  <string name="menu_change_account">Change account</string>
+  <string name="menu_changes">Changes</string>
+  <string name="menu_create_main_cat">Create new main category</string>
+  <string name="menu_create_sub_cat">Create new sub category</string>
+  <string name="menu_delete_account">Delete Account</string>
+  <string name="menu_delete_cat">Delete category</string>
+  <string name="menu_delete">Delete</string>
+  <string name="menu_edit_account">Edit Account</string>
+  <string name="menu_edit_cat">Edit category</string>
+  <string name="menu_edit_ta">Edit Transaction</string>
+  <string name="menu_edit_transfer">Edit Transfer</string>
+  <string name="menu_faq">FAQ</string>
+  <string name="menu_help">Help</string>
+  <string name="menu_insert_account">Create new account</string>
+  <string name="menu_insert_ta">Add Transaction</string>
+  <string name="menu_insert_transfer">Add Transfer</string>
+  <string name="menu_new">New</string>
+  <string name="menu_reset">Reset</string>
+  <string name="menu_reset_abrev">Reset</string>
+  <string name="menu_settings">Settings</string>
+  <!--  abrev strings are needed, where labels are too long to fit in menu -->
+  <string name="menu_settings_abrev">Settings</string>
+  <string name="menu_settings_account">Current account</string>
+  <string name="menu_show_detail">Show details</string>
+  <string name="no_accounts">No Accounts!</string>
+  <string name="no_app_handling_email_available">No app handling email available.</string>
+  <string name="no_categories">No categories.</string>
+  <string name="no_details">No details.</string>
+  <string name="no_expenses">No Expenses Yet!</string>
+  <string name="no_parties">No parties.</string>
+  <string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are
+       mapped to it.</string>
+  <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has
+      sub-categories.</string>
+  <string name="opening_balance">Opening balance</string>
+  <string name="parse_error_file_not_found">Could not find file %1$s</string>
+  <string name="parse_error_no_data_found">No importable data found in file.</string>
+  <string name="parse_error_parse_exception">Could not parse file</string>
+  <string name="parse_error_other_exception">An error occured: %1$s</string>
+  <!--
+  <string name="parse_error_grisbi_version_not_determined">Unable to determine Grisbi file
+      version</string>
+  -->
+  <string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version:
+      %1$s</string>
+  <string name="payee">Payee</string>
+  <string name="payer">Payer</string>
+  <string name="peer_transaction_deleted">This transaction refered to a contra-entry (account %1$s)
+      that has been deleted</string>
+  <string name="pref_backup_title">Backup</string>
+  <string name="pref_backup_summary">Create a backup of database and preferences on the
+      sdcard.</string>
+  <string name="pref_categories_sort_by_usages_title">Sort order for categories</string>
+  <string name="pref_categories_sort_by_usages_summary">Use count of usages as primary sort criteria
+      (plain alphanumeric order otherwise)</string>
+  <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency
+      amounts</string>
+  <string name="pref_currency_decimal_separator_summary">You can choose between "," and "." or
+      decide to input minor units as integers.</string>
+  <string name="pref_currency_decimal_separator_comma">Comma (,)</string>
+  <string name="pref_currency_decimal_separator_point">Point (.)</string>
+  <string name="pref_currency_decimal_separator_input_minor_unit">Minor units as integers</string>
+  <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
+  <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default
+      Grisbi definitions internal to the app, or your own file stored as &grisbi_file; in a folder 
+      myexpenses in the root of your sdcard. </string>
+  <string name="pref_manage_accounts_title">Manage accounts</string>
+  <string name="pref_manage_accounts_summary">Add, edit, delete accounts.</string>
+  <string name="pref_manage_parties_title">Manage parties</string>
+  <string name="pref_manage_parties_summary">Delete parties (payers and payees).</string>
+  <string name="pref_share_target_title">Upload URL QIF Export</string>
+  <string name="pref_share_target_summary">Supported schemes</string>
+  <string name="pref_use_standard_menu_title">Use standard Android menu</string>
+  <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
+      standard menu for accessing commands.</string>
+  <string name="restore_db_success">Database has been restored from backup.</string>
+  <string name="restore_preferences_success">Preferences have been restored from backup.</string>
+  <string name="revert">Revert</string>
+  <string name="select_account">Select account</string>
+  <string name="select_category">Select category</string>
+  <string name="select_parent_category">Select this category</string>
+  <string name="select">Select</string>
+  <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
+  <string name="suggest_use_standard_menu">Do you want to use the standard Android menu
+      for calling commands, and hide the button bar?</string>
+  <string name="time">Time</string>
+  <string name="title">Title</string>
+  <string name="transaction">Transaction</string>
     <string name="transfer">Transfer</string>
-		<string name="tutorial">Tutorial</string>
-		<string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with their code defined in ISO 4217.
-		            The following currency symbols currently used for your accounts, need to be fixed: %1$s </string>
-    <string name="version_26_upgrade_info"><i>&app_name;</i> now has a button bar as a new command interface.
-        You can switch back to the old interface in the settings screen.
-        </string>
-		<string name="warning_backup">Database and preferences will be saved to sdcard. Do you want to continue?</string>
-    <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. Do you want to continue?</string>
-    <string name="warning_delete_account">This account will be deleted with all its transactions. Do you want to continue?</string>
-    <string name="warning_reset_account">All transactions of this account will be deleted. Do you want to continue?</string>
-    <string name="warning_select_account">Please select an account!</string>
+  <string name="tutorial">Tutorial</string>
+  <string name="warning_backup">Database and preferences will be saved to sdcard. Do you want to
+      continue?</string>
+  <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing
+      backup will be overwritten. Do you want to continue?</string>
+  <string name="warning_delete_account">This account will be deleted with all its transactions.
+      Do you want to continue?</string>
+  <string name="warning_reset_account">All transactions of this account will be deleted.
+      Do you want to continue?</string>
+  <string name="warning_select_account">Please select an account!</string>
+  
+  <!-- strings below this comment do not need translations -->
+  <string name="help_project_home"><a
+      href="http://myexpenses.totschnig.org/">http://myexpenses.totschnig.org/</a></string>
+  <string name="help_licence_gpl">http://www.gnu.org/licenses/gpl.html</string>
+  <string name="help_licence_apache">Includes FTP library from http://commons.apache.org/net/ ,
+      licenced under http://www.apache.org/licenses/LICENSE-2.0.txt .</string>
+  <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 
+      licensed under the Creative Commons Attribution 3.0 United States License .</string>
+  <string name="help_licence_quickactions">Includes BetterPopupWindow class from 
+      http://code.google.com/p/simple-quickactions/ , licenced under 
+      http://www.opensource.org/licenses/bsd-license.php .</string>
+  <string name="help_enjoy"><u>Enjoy!</u></string>
     
-    <!-- strings below this comment do not need translations -->
-    <string name="help_project_home"><a href="http://myexpenses.totschnig.org/">http://myexpenses.totschnig.org/</a></string>
-    <string name="help_licence_gpl">http://www.gnu.org/licenses/gpl.html</string>
-    <string name="help_licence_apache">Includes FTP library from http://commons.apache.org/net/ ,
-        licenced under http://www.apache.org/licenses/LICENSE-2.0.txt .</string>
-    <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 
-        licensed under the Creative Commons Attribution 3.0 United States License .</string>
-    <string name="help_licence_quickactions">Includes BetterPopupWindow class from 
-        http://code.google.com/p/simple-quickactions/ , licenced under 
-        http://www.opensource.org/licenses/bsd-license.php .</string>
-    <string name="help_enjoy"><u>Enjoy!</u></string>
+  <!-- strings below this comment do not need translations for new languages -->
+  <string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with 
+      their code defined in ISO 4217. The following currency symbols currently used for your
+      accounts, need to be fixed: %1$s </string>
+  <string name="version_26_upgrade_info"><i>&app_name;</i> now has a button bar as a new command
+      interface. You can switch back to the old interface in the settings screen.
+  </string>
 </resources>
