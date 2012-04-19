@@ -195,6 +195,7 @@ public class Utils {
   
   static void share(Context context,File file,String target) {
     URI uri = null;
+    Intent intent;
     try {
       uri = new URI(target);
     } catch (URISyntaxException e1) {
@@ -203,25 +204,26 @@ public class Utils {
     }
     String scheme = uri.getScheme();
     if (scheme.equals("ftp")) {
-      new Utils.FtpAsyncTask(context,file,uri).execute();
-      return;
+      intent = new Intent(context, FtpTransfer.class);
+      intent.putExtra("target",uri);
+      intent.putExtra("source",file.getAbsolutePath());
     } else if (scheme.equals("mailto")) {
       final PackageManager packageManager = context.getPackageManager();
-      final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-      emailIntent.setType("text/qif");
-      emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{ uri.getSchemeSpecificPart()});
-      emailIntent.putExtra(Intent.EXTRA_SUBJECT, "My Expenses export");
-      emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-      if (packageManager.queryIntentActivities(emailIntent,0).size() == 0) {
+      intent = new Intent(android.content.Intent.ACTION_SEND);
+      intent.setType("text/qif");
+      intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ uri.getSchemeSpecificPart()});
+      intent.putExtra(Intent.EXTRA_SUBJECT, "My Expenses export");
+      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+      if (packageManager.queryIntentActivities(intent,0).size() == 0) {
         Toast.makeText(context,R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
         return;
       }
-      
-      context.startActivity(emailIntent);
     }
     else {
       Toast.makeText(context,context.getString(R.string.share_scheme_not_supported,target), Toast.LENGTH_LONG).show();
+      return;
     }
+    context.startActivity(intent);
   }
   
   
@@ -322,85 +324,6 @@ public class Utils {
       this.success = success;
       this.message = message;
       this.extra = extra;
-    }
-  }
-  //TODO check if correctly handling orientation changes
-  static class FtpAsyncTask extends AsyncTask<Void, Void, Result> {
-    private Context context;
-    private URI target;
-    private File file;
-    ProgressDialog mProgressDialog;
-    
-    public FtpAsyncTask(Context context,File file,URI uri) {
-      this.context = context;
-      this.target = uri;
-      this.file = file;
-    }
-    protected void onPreExecute() {
-       mProgressDialog = ProgressDialog.show(context, "", 
-          "Uploading. Please wait...", true);
-    }
-    @Override
-    protected Result doInBackground(Void... params) {
-      boolean result;
-      //malformed:
-      //String ftpTarget = "bad.uri";
-      //bad password:
-      //String ftpTarget = "ftp://michael:foo@10.0.0.2/";
-      //bad directory:
-      //String ftpTarget = "ftp://michael:foo@10.0.0.2/foobar/";
-      FTPClient mFTP = new FTPClient();
-      String host = target.getHost();
-      if (host == null)
-        return new Result(false,R.string.ftp_uri_malformed);
-      String username = target.getUserInfo();
-      String password = "";
-      String path = target.getPath();
-      if (username != null)
-        {
-        int ci = username.indexOf(':');
-          if (ci != -1) {
-            password = username.substring(ci + 1);
-            username = username.substring(0, ci);
-          }
-        }
-      else {
-        username = "anonymous";
-      }
-      try {
-          // Connect to FTP Server
-          mFTP.connect(host);
-          
-          if (!mFTP.login(username,password)) {
-            return new Result(false, R.string.ftp_login_failure);
-          }
-          
-          if (!mFTP.setFileType(FTP.ASCII_FILE_TYPE)) {
-            return new Result(false, R.string.ftp_setFileType_failure);
-          }
-          mFTP.enterLocalPassiveMode();
-          if (!mFTP.changeWorkingDirectory(path)) {
-            return new Result(false, R.string.ftp_changeWorkingDirectory_failure);
-          }
-          
-          // Prepare file to be uploaded to FTP Server
-          FileInputStream ifile = new FileInputStream(file);
-          
-          // Upload file to FTP Server
-          result = mFTP.storeFile(file.getName(),ifile);
-          mFTP.disconnect();
-          return new Result(result, result ? R.string.ftp_success : R.string.ftp_failure);
-      } catch (SocketException e) {
-          return new Result(false, R.string.ftp_socket_exception);
-      } catch (IOException e) {
-          return new Result(false,R.string.ftp_io_exception);
-      }
-    }
-    protected void onPostExecute(Result result) {
-      mProgressDialog.dismiss();
-      super.onPostExecute(result);
-      String ftp_result = context.getString(result.message,target.toString());
-      Toast.makeText(context,ftp_result, Toast.LENGTH_LONG).show();
     }
   }
 }
