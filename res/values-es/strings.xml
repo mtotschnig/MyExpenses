@@ -25,9 +25,9 @@
   <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
   <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der
       SD-Karte gesichert.</string>
-  <string name="button_continue">Fortsetzen</string>
-  <string name="button_cancel">Abbrechen</string>
-  <string name="category">Kategorie</string>
+  <string name="button_continue">Seguir</string>
+  <string name="button_cancel">Cancelar</string>
+  <string name="category">Categoría</string>
   <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
   <string name="close">Schließen</string>
   <string name="comment">Notizen</string>
