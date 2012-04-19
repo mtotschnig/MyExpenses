@@ -22,32 +22,30 @@
   <string name="account">Cuenta</string>
   <string name="amount">Importe</string>
   <string name="app_name">&app_name;</string>
-  <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
-  <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der
-      SD-Karte gesichert.</string>
+  <string name="backup_failure">La copia de seguridad en la tarjeta SD ha fallecido.</string>
+  <string name="backup_success">La base de datos y las configuraciones han sido archivados en la tarjeta SD.</string>
   <string name="button_continue">Seguir</string>
   <string name="button_cancel">Cancelar</string>
   <string name="category">Categoría</string>
-  <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
-  <string name="close">Schließen</string>
-  <string name="comment">Notizen</string>
-  <string name="create_category">Neue Kategorie</string>
+  <string name="category_already_defined">Categoría %1$s ya existe.</string>
+  <string name="close">Cerrar</string>
+  <string name="comment">Apuntes</string>
+  <string name="create_category">Nueva categoría</string>
   <string name="credits_text">Ausgangspunkt Android Notes Tutorial.
       \nDesign des Hilfe-Dialogs von Mathdoku.
       \nDesign der App-Graphik von Sipdroid.
       \nFranzösische und italienische Übersetzung von Laurent Collombet.</string>
-  <string name="currency">Währung</string>
-  <string name="currency_not_iso4217">%1$s ist kein gültiger ISO 4217 Währungscode</string>
-  <string name="current_balance">Aktueller Saldo</string>
-  <string name="date">Datum</string>
-  <string name="date_time">Datum / Zeit</string>
-  <string name="default_account_description">Dieses Konto wurde während der Installation automatisch
-      eingerichtet.</string>    
-  <string name="description">Beschreibung</string>
-  <string name="dialog_no">Nein</string>
-  <string name="dialog_title_select_account">Konto auswählen</string>
-  <string name="dialog_title_select_currency">Währung auswählen</string>
-  <string name="dialog_title_select_import_source">Quelle für Import auswählen</string>
+  <string name="currency">Moneda</string>
+  <string name="currency_not_iso4217">%1$s no es un código de moneda válido según ISO 4217</string>
+  <string name="current_balance">Saldo actual</string>
+  <string name="date">Fecha</string>
+  <string name="date_time">Fecha / Hora</string>
+  <string name="default_account_description">Esta cuenta fue establecida automáticamente durante la instalación.</string>    
+  <string name="description">Descripción</string>
+  <string name="dialog_no">No</string>
+  <string name="dialog_title_select_account">Escoja cuenta</string>
+  <string name="dialog_title_select_currency">Escoja moneda</string>
+  <string name="dialog_title_select_import_source">Escoja fuente para la importación</string>
   <string name="dialog_yes">Ja</string>
   <string name="done">Fertig</string>
   <string name="edit_category">Kategorie verändern</string>
