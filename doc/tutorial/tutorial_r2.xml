@@ -1260,7 +1260,7 @@
           Wie kann ich Beträge eingeben? Auf der numerischen Tastatur finde ich kein Komma (,).
         </para>
         <para lang="it">
-          Come faccio a inserire gli importi? Non c\'è una virgola (,) sul tastierino numerico.
+          Come faccio a inserire gli importi? Non c'è una virgola (,) sul tastierino numerico.
         </para>     
       </question>
       <answer>
@@ -1277,7 +1277,7 @@
           dans la plupart des pays européens, le point dans les pays anglophones.
           Malheureusement, il existe problème non encore résolu dans le système d'exploitation
           Android, il ne gère pas bien la virgule dans sa méthode d'entrée numérique, et dans
-          certains cas ne permet même pas du tout d\'entrer une virgule. Si vous rencontrez ce
+          certains cas ne permet même pas du tout d'entrer une virgule. Si vous rencontrez ce
           problème, vous pouvez définir le point comme séparateur décimal dans les paramètres.
         </para>
         <para lang="de">
@@ -1290,7 +1290,7 @@
         </para>
         <para lang="it">
           Ci sono diversi separatori decimali utilizzati nelle diverse lingue: virgola in molti
-          paesi europei, il punto in più paesi di lingua inglese. Purtroppo c\'è un problema
+          paesi europei, il punto in più paesi di lingua inglese. Purtroppo c'è un problema
           ancora irrisolto nel sistema operativo Android, che non gestisce bene la virgola nel
           suo metodo di input numerico, e in alcuni casi addirittura non consente affatto di
           inserire una virgola. Se si verifica questo problema, è possibile impostare il punto
