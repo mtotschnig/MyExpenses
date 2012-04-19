@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<!-- 
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<!DOCTYPE resources [
+  <!ENTITY app_name "Meine Ausgaben">
+  <!ENTITY grisbi_file "grisbi.xml">
+]>
+<resources>
+  <string name="account">Konto</string>
+  <string name="amount">Betrag</string>
+  <string name="app_name">&app_name;</string>
+  <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
+  <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der
+      SD-Karte gesichert.</string>
+  <string name="button_continue">Fortsetzen</string>
+  <string name="button_cancel">Abbrechen</string>
+  <string name="category">Kategorie</string>
+  <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
+  <string name="close">Schließen</string>
+  <string name="comment">Notizen</string>
+  <string name="create_category">Neue Kategorie</string>
+  <string name="credits_text">Ausgangspunkt Android Notes Tutorial.
+      \nDesign des Hilfe-Dialogs von Mathdoku.
+      \nDesign der App-Graphik von Sipdroid.
+      \nFranzösische und italienische Übersetzung von Laurent Collombet.</string>
+  <string name="currency">Währung</string>
+  <string name="currency_not_iso4217">%1$s ist kein gültiger ISO 4217 Währungscode</string>
+  <string name="current_balance">Aktueller Saldo</string>
+  <string name="date">Datum</string>
+  <string name="date_time">Datum / Zeit</string>
+  <string name="default_account_description">Dieses Konto wurde während der Installation automatisch
+      eingerichtet.</string>    
+  <string name="description">Beschreibung</string>
+  <string name="dialog_no">Nein</string>
+  <string name="dialog_title_select_account">Konto auswählen</string>
+  <string name="dialog_title_select_currency">Währung auswählen</string>
+  <string name="dialog_title_select_import_source">Quelle für Import auswählen</string>
+  <string name="dialog_yes">Ja</string>
+  <string name="done">Fertig</string>
+  <string name="edit_category">Kategorie verändern</string>
+  <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten 
+      Sie eine Minute bevor Sie es erneut versuchen.</string>
+  <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
+  <string name="export_expenses_sdcard_success">Ausgaben in Datei %1$s exportiert</string>
+  <string name="external_storage_unavailable">Externer Speicher (SD Karte) is nicht
+      verfügbar</string>
+  <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
+  <string name="ftp_success">Upload nach %1$s erfolgreich</string>
+  <string name="ftp_failure">Upload nach %1$s gescheitert</string>
+  <string name="ftp_socket_exception">Socket exception während des Uploads nach %1$s</string>
+  <string name="ftp_io_exception">IO exception während des Uploads nach %1$s</string>
+  <string name="ftp_login_failure">Login Fehler während des Uploads nach %1$s</string>
+  <string name="ftp_setFileType_failure">Fehler bei der Konfiguration des Dateityps ASCII während
+      des Uploads nach %1$s</string>
+  <string name="ftp_changeWorkingDirectory_failure">Fehler beim Wechseln des Verzeichnisses während
+      des Uploads nach %1$s</string>
+  <string name="grisbi_file">&grisbi_file;</string>
+  <string name="grisbi_import_button_categories_only">Kategorien</string>
+  <string name="grisbi_import_button_categories_and_parties">Kateg. und Parteien</string>
+  <string name="grisbi_import_parsing">Analyse von %1$s</string>
+  <string name="grisbi_import_categories_and_parties_success">%1$s Kategorien und %2$s Parteien
+      erfolgreich importiert</string>
+  <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
+  <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
+  <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
+  <string name="help_feedback">Wenn Ihnen <i>&app_name;</i> nützlich ist, geben Sie doch im
+      <a href="market://details?id=org.totschnig.myexpenses">Market</a> dazu einen Kommentar ab.
+      Wenn Sie auf ein Problem stoßen, einen Verbesserungsvorschlag haben oder einen Beitrag leisten
+       wollen, bitte kontaktieren Sie
+       <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
+  <string name="help_heading_feedback"><u>Feedback</u></string>
+  <string name="help_heading_credits"><u>Abspann</u></string>
+  <string name="help_heading_license"><u>Lizenz</u></string>
+  <string name="help_heading_project_home"><u>Projekt Homepage</u></string>
+  <string name="help_heading_quick_guide"><u>Schnelleinstieg</u></string>
+  <string name="help_heading_version"><u>Version</u></string>
+  <string name="help_intro">Mit <i>&app_name;</i> können sie über Ihre Ausgaben und Einnahmen Buch 
+      halten, und diese in ein Desktop-Finanzprogrammm (Grisbi oder Gnucash) exportieren.</string>
+  <string name="help_leading"><u>Danke fürs Ausprobieren von <i>&app_name;</i> für
+      Android.</u></string>
+  <string name="help_quick_guide"><i>&app_name;</i> kommt mit zwei Schnittstellen für die
+      Befehlsaufrufe: einer Symbolleiste und dem Android Standardmenü (physischer Menü-Knopf). Im
+      Einstellungs-Bildschirm können Sie festlegen, welches Sie verwenden wollen. Die meisten
+      Schaltknöpfe in der Symbolleiste reagieren sowohl auf kurze Klicks (Standardaktion) als auch
+      auf lange Klicks (Öffnen eines Popup-Menüs).
+      \n<u>Konten -> Neu &#8230;</u> : Ein neues Konto erstellen.
+      \n<u>Konten</u> : Zu einem anderen Konto wechseln.
+      \n<u>Neu</u> : Eine Buchung hinzufügen.
+      \n<u>Neu -> Umbuchung</u> : Eine Umbuchun hinzufügen, wenn es mehr als ein Konto mit derselben
+        Währung gibt.
+      \n<u>Zurücksetzen</u> : Exportiert die Ausgaben im QIF Format auf die SD-Karte, löscht die 
+        Einträge, und setzt den Anfangssaldo zurück.
+      \n<u>Einstellungen</u>: Wählen Sie <u>Import aus Grisbi</u>, um Kategorien aus einer
+        Grisbi-Datei zu importieren. Sie können entweder die inkludierten von Grisbi verwendeten
+        Standardkategorien auswählen, oder eine eigene Datei. Dafür verwenden Sie entweder Ihre
+        Grisbi Datei, oder editieren diese, indem Sie alles außer der Kategorien entfernen.
+        MyExpenses erwartet die Datei unter \"/sdcard/myexpenses/&grisbi_file;\".
+  </string>
+  <string name="import_categories">Kategorien importieren</string>
+  <string name="important_version_information">Neue Version: Wichtige Information</string>
+  <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt.
+      Bitte verwenden Sie %1$s</string>
+  <string name="label">Bezeichnung</string>
+  <string name="menu_accounts">Konten</string>
+  <string name="menu_accounts_explain">Mit dem Schaltknopf Konten können Sie zwischen Konten 
+      wechseln, sobald Sie mehrere Konten angelegt haben. Zur Zeit gibt es nur ein Konto. Sie können
+      ein neues Konto hinzufügen, indem Sie lange auf den Konten Schaltknopf klicken und dann den 
+      Neu &#8230; Befehl auswählen, oder in dem Kontenabschnitt im Einstellungs-Bildschirm.
+  </string>
+  <string name="menu_accounts_new">Neu &#8230;</string>
+  <string name="menu_backup">Backup</string>
+  <string name="menu_change_account">Konto wechseln</string>
+  <string name="menu_changes">Änderungen</string>
+  <string name="menu_create_main_cat">Neue Hauptkategorie</string>
+  <string name="menu_create_sub_cat">Neue Unterkategorie</string>
+  <string name="menu_delete">Löschen</string>
+  <string name="menu_delete_account">Konto löschen</string>
+  <string name="menu_delete_cat">Kategorie löschen</string>
+  <string name="menu_edit_account">Konto verändern</string>
+  <string name="menu_edit_cat">Kategorie verändern</string>
+  <string name="menu_edit_ta">Buchung verändern</string>
+  <string name="menu_edit_transfer">Umbuchung verändern</string>
+  <string name="menu_faq">FAQ</string>
+  <string name="menu_help">Hilfe</string>
+  <string name="menu_insert_account">Neues Konto erstellen</string>
+  <string name="menu_insert_ta">Neue Buchung</string>
+  <string name="menu_insert_transfer">Neue Umbuchung</string>
+  <string name="menu_new">Neu</string>
+  <string name="menu_reset">Zurücksetzen</string>
+  <string name="menu_reset_abrev">Zurücks.</string>
+  <string name="menu_settings">Einstellungen</string>
+  <string name="menu_settings_abrev">Einstel.</string>
+  <string name="menu_settings_account">Aktuelles Konto</string>
+  <string name="menu_show_detail">Details anzeigen</string>
+  <string name="no_accounts">Keine Konten</string>
+  <string name="no_app_handling_email_available">Keine App für das Versenden von Email
+      gefunden.</string>
+  <string name="no_categories">Noch keine Kategorien vorhanden.</string>
+  <string name="no_details">Keine Details vorhanden.</string>
+  <string name="no_expenses">Noch keine Ausgaben!</string>
+  <string name="no_parties">Keine Parteien.</string>
+  <string name="not_deletable_mapped_expenses">Diese Kategorie kann nicht gelöscht werden, weil ihr
+      Ausgaben zugeordnet sind.</string>
+  <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie
+      Unterkategorien hat.</string>
+  <string name="opening_balance">Anfangssaldo</string>
+  <string name="parse_error_file_not_found">Konnte Datei %1$s nicht finden</string>
+  <string name="parse_error_no_data_found">Keine importierbaren Daten in der Datei gefunden.
+  </string>
+  <string name="parse_error_parse_exception">Konnte Datei nicht analysieren</string>
+  <string name="parse_error_other_exception">Ein Fehler ist aufgetreten: %1$s</string>
+  <!--
+  <string name="parse_error_grisbi_version_not_determined">Konnte Version der Grisbi Datei nicht
+      ermitteln</string>
+  -->
+  <string name="parse_error_grisbi_version_not_supported">Grisbi Datei Version %1$s wird nicht
+      unterstützt</string>
+  <string name="payee">Empfänger</string>
+  <string name="payer">Zahler</string>
+  <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s)
+      verknüpft, die gelöscht wurde</string>
+  <string name="pref_backup_title">Backup</string>
+  <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der
+      SD-Karte.</string>
+  <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge der Kategorien</string>
+  <string name="pref_categories_sort_by_usages_summary">Benützungshäufigkeit als primäres Kriterium
+      für Sortierung verwenden (andernfalls alphabetische Reihung)</string>
+  <string name="pref_currency_decimal_separator_title">Dezimaltrennzeichen für die Eingabe von
+      Währungsbeträgen</string>
+  <string name="pref_currency_decimal_separator_summary">Wählen Sie zwischen \",\" und \".\". Sie
+      haben auch die Möglichkeit, Untereinheiten als ganze Zahlen einzugeben.</string>
+  <string name="pref_currency_decimal_separator_comma">Komma (,)</string>
+  <string name="pref_currency_decimal_separator_point">Punkt (.)</string>
+  <string name="pref_currency_decimal_separator_input_minor_unit">Untereinheiten als ganze
+      Zahlen</string>
+  <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
+  <string name="pref_import_from_grisbi_summary">Kategorien (und Partner) aus den inkludierten
+      Grisbi-Standard-Definitionen oder aus Ihrer eigenen Datei importieren. Letztere müssen Sie
+      unter dem Namen &grisbi_file; in dem Ordner myexpenses im Wurzelverzeichnis der SD-Karte
+      speichern</string>
+  <string name="pref_manage_accounts_title">Konten verwalten</string>
+  <string name="pref_manage_accounts_summary">Hinzufügen, Editieren und Löschen von Konten.</string>
+  <string name="pref_manage_parties_title">Parteien verwalten</string>
+  <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) löschen.</string>
+  <string name="pref_share_target_title">Upload URL QIF Export</string>
+  <string name="pref_share_target_summary">Unterstützte Schemen</string>
+  <string name="pref_use_standard_menu_title">Androids Standardmenü verwenden</string>
+  <string name="pref_use_standard_menu_summary">Anstatt der Symbolleiste, verwenden Sie Androids
+      Standardmenü, um Befehle aufzurufen.</string>
+  <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
+  <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup
+      wiederhergestellt.</string>
+  <string name="revert">Rückgängig</string>
+  <string name="select">Auswählen</string>
+  <string name="select_account">Konto auswählen</string>
+  <string name="select_category">Kategorie auswählen</string>
+  <string name="select_parent_category">Wähle diese Kategorie</string>
+  <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>
+  <string name="suggest_use_standard_menu">Möchten Sie das Android Standardmenü anstatt der
+      Symbolleiste verwenden, um Befehle aufzurufen</string>
+  <string name="time">Zeit</string>
+  <string name="title">Titel</string>
+  <string name="transaction">Buchung</string>
+  <string name="transfer">Umbuchung</string>
+  <string name="tutorial">Anleitung</string>
+  <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte
+      gesichert. Möchten Sie fortfahren?</string>
+  <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte
+      gesichert. Das bestehende Backup wird gelöscht. Möchten Sie fortfahren?</string>
+  <string name="warning_delete_account">Dieses Konto wird mit all seinen Buchungen gelöscht. Möchten
+       Sie fortfahren?</string>
+  <string name="warning_reset_account">Alle Transaktionen dieses Kontos werden gelöscht. Möchten Sie
+       fortfahren?</string>
+  <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
+  
+  <!-- strings below this comment do not need translations for new languages -->
+  <string name="version_14_upgrade_info">Seit Version 1.4.0, werden Währungen mit ihrem ISO 4217
+      Codes gespeichert. Folgende ungültige Symbole werden zur Zeit für Ihre Konten verwendet und
+      müssen verändert werden: %1$s </string>
+  <string name="version_26_upgrade_info"><i>&app_name;</i> hat nun eine Symbolleiste als neue
+      Schnittstelle für die Befehlsaufrufe. Sie können im Einstellungs-Bildschirm zum alten
+      Interface zurückwechseln.
+  </string>
+</resources>      
