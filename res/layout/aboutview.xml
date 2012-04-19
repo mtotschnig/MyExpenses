@@ -82,9 +82,6 @@
 				style="@style/about_text" />
 	  <TextView android:text="@string/help_enjoy"
         style="@style/about_heading" />
-	  <TextView android:text="DEBUG: DEFAULT_INPUT_METHOD"
-        style="@style/about_heading" />
-	  <TextView android:id="@+id/debug" style="@style/about_text"/>
   </LinearLayout>
 </ScrollView>
 
