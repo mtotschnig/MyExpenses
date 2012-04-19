@@ -371,8 +371,7 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     return result;
   }
   */
-  
-  
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

@@ -648,7 +648,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    * if share_target preference is set, additionally does an FTP upload
    * @throws IOException
    */
-  private void exportAll() throws IOException {
+  private boolean exportAll() throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm");
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     Log.i("MyExpenses","now starting export");
@@ -660,7 +660,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         now.format(new Date()) + ".qif");
     if (outputFile.exists()) {
       Toast.makeText(this,String.format(getString(R.string.export_expenses_outputfile_exists), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
-      return;
+      return false;
     }
     FileOutputStream out = new FileOutputStream(outputFile);
     String header = "!Type:Oth L\n";
@@ -709,6 +709,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     if (!share_target.equals("")) {
       Utils.share(MyExpenses.this,outputFile, share_target);
     }
+    return true;
   }
   
   /**
@@ -717,9 +718,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    */
   private void reset() {
     try {
-      exportAll();
-      mCurrentAccount.reset();
-      fillData();
+      if (exportAll()) {
+        mCurrentAccount.reset();
+        fillData();
+      }
     } catch (IOException e) {
       Log.e("MyExpenses",e.getMessage());
       Toast.makeText(getBaseContext(),getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
