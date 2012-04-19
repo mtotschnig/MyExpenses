@@ -47,15 +47,15 @@
   <string name="dialog_title_select_currency">Escoja moneda</string>
   <string name="dialog_title_select_import_source">Escoja fuente para la importación</string>
   <string name="dialog_yes">Ja</string>
-  <string name="done">Fertig</string>
-  <string name="edit_category">Kategorie verändern</string>
-  <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten 
-      Sie eine Minute bevor Sie es erneut versuchen.</string>
-  <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
-  <string name="export_expenses_sdcard_success">Ausgaben in Datei %1$s exportiert</string>
-  <string name="external_storage_unavailable">Externer Speicher (SD Karte) is nicht
-      verfügbar</string>
-  <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
+  <string name="done">Terminado</string>
+  <string name="edit_category">Edite categoría</string>
+  <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere
+       un minuto antes de intentarlo de nuevo.</string>
+  <string name="export_expenses_sdcard_failure">Exportación de los gastos a la tarjeta SD ha fallecido.</string>
+  <string name="export_expenses_sdcard_success">Gastos han sido exportados al archivo %1$s</string>
+  <string name="external_storage_unavailable">La memoria externa (tarjeta SD) no es
+       disponible.</string>
+  <string name="ftp_uri_malformed">URI %1$s inválido</string>
   <string name="ftp_success">Upload nach %1$s erfolgreich</string>
   <string name="ftp_failure">Upload nach %1$s gescheitert</string>
   <string name="ftp_socket_exception">Socket exception während des Uploads nach %1$s</string>
