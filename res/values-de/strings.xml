@@ -199,8 +199,13 @@
   <string name="pref_manage_accounts_summary">Hinzufügen, Editieren und Löschen von Konten.</string>
   <string name="pref_manage_parties_title">Parteien verwalten</string>
   <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) löschen.</string>
+  <string name="pref_perform_share_title">QIF Export versenden</string>
+  <string name="pref_perform_share_summary">Soll die QIF Datei nach jedem Export versendet werden?
+  </string>
   <string name="pref_share_target_title">Upload URL QIF Export</string>
-  <string name="pref_share_target_summary">Unterstützte Schemen</string>
+  <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden
+       Apps wählen wollen (Email, Dropbox, Google Docs, &#8230;) oder eine URL in einer der 
+       unterstützten Schemen angeben</string>
   <string name="pref_use_standard_menu_title">Androids Standardmenü verwenden</string>
   <string name="pref_use_standard_menu_summary">Anstatt der Symbolleiste, verwenden Sie Androids
       Standardmenü, um Befehle aufzurufen.</string>
@@ -213,6 +218,7 @@
   <string name="select_category">Kategorie auswählen</string>
   <string name="select_parent_category">Wähle diese Kategorie</string>
   <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>
+  <string name="share_sending">QIF Datei senden</string>
   <string name="suggest_use_standard_menu">Möchten Sie das Android Standardmenü anstatt der
       Symbolleiste verwenden, um Befehle aufzurufen</string>
   <string name="time">Zeit</string>

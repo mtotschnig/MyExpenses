@@ -38,14 +38,15 @@ public class MyPreferenceActivity extends PreferenceActivity {
     addPreferencesFromResource(R.layout.preferences);
     PreferenceScreen prefs = getPreferenceScreen();
     
-    mCurrencyInputFormat = (ListPreference) prefs.findPreference("currency_decimal_separator");
+    mCurrencyInputFormat = (ListPreference) 
+        prefs.findPreference(MyApplication.PREFKEY_CURRENCY_DECIMAL_SEPARATOR);
     if (mCurrencyInputFormat.getValue() == null) {
       String sep = Utils.getDefaultDecimalSeparator();
       //List<String> values =  Arrays.asList(getResources().getStringArray(R.array.pref_currency_decimal_separator_values));
       mCurrencyInputFormat.setValue(sep);
       //mCurrencyInputFormat.setValueIndex(values.indexOf(sep));
     }
-    mShareTarget = (EditTextPreference) prefs.findPreference("share_target");
+    mShareTarget = (EditTextPreference) prefs.findPreference(MyApplication.PREFKEY_SHARE_TARGET);
     mShareTarget.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
         "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
         "mailto: \"mailto:john@my.example.com\"");

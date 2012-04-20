@@ -196,34 +196,47 @@ public class Utils {
   static void share(Context context,File file,String target) {
     URI uri = null;
     Intent intent;
-    try {
-      uri = new URI(target);
-    } catch (URISyntaxException e1) {
-      Toast.makeText(context,context.getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
-      return;
+    String scheme = "mailto";
+    if (!target.equals("")) {
+      try {
+        uri = new URI(target);
+      } catch (URISyntaxException e1) {
+        Toast.makeText(context,context.getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
+        return;
+      }
+      scheme = uri.getScheme();
     }
-    String scheme = uri.getScheme();
     if (scheme.equals("ftp")) {
       intent = new Intent(context, FtpTransfer.class);
       intent.putExtra("target",uri);
       intent.putExtra("source",file.getAbsolutePath());
+      context.startActivity(intent);
     } else if (scheme.equals("mailto")) {
       final PackageManager packageManager = context.getPackageManager();
       intent = new Intent(android.content.Intent.ACTION_SEND);
       intent.setType("text/qif");
-      intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ uri.getSchemeSpecificPart()});
+      if (uri != null) {
+        String address = uri.getSchemeSpecificPart();
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ address });
+      }
       intent.putExtra(Intent.EXTRA_SUBJECT, "My Expenses export");
       intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
       if (packageManager.queryIntentActivities(intent,0).size() == 0) {
         Toast.makeText(context,R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
         return;
       }
-    }
-    else {
+      //if we got mail address, we launch the default application
+      //if we are called without target, we launch the chooser in order to make action more explicit
+      if (uri != null) {
+        context.startActivity(intent);
+      } else {
+        context.startActivity(Intent.createChooser(
+            intent,context.getString(R.string.share_sending)));
+      }
+    } else {
       Toast.makeText(context,context.getString(R.string.share_scheme_not_supported,target), Toast.LENGTH_LONG).show();
       return;
     }
-    context.startActivity(intent);
   }
   
   

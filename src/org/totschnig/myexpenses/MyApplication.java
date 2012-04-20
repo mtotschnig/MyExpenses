@@ -31,6 +31,14 @@ public class MyApplication extends Application {
     private static MyApplication mSelf;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
     public static final String CURRENCY_USE_MINOR_UNIT = "x";
+    public static String PREFKEY_CATEGORIES_SORT_BY_USAGES;
+    public static String PREFKEY_USE_STANDARD_MENU;
+    public static String PREFKEY_PERFORM_SHARE;
+    public static String PREFKEY_SHARE_TARGET;
+    public static String PREFKEY_CURRENCY_DECIMAL_SEPARATOR;
+    public static String PREFKEY_CURRENT_VERSION = "currentversion";
+    public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
+    public static String PREFKEY_LAST_ACCOUNT = "last_account";
 
     @Override
     public void onCreate()
@@ -44,6 +52,11 @@ public class MyApplication extends Application {
         if (databaseName == null) {
           databaseName = "data";
         }
+        PREFKEY_CATEGORIES_SORT_BY_USAGES = getString(R.string.pref_categories_sort_by_usages_key);
+        PREFKEY_USE_STANDARD_MENU = getString(R.string.pref_use_standard_menu_key);
+        PREFKEY_PERFORM_SHARE = getString(R.string.pref_perform_share_key);
+        PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
+        PREFKEY_CURRENCY_DECIMAL_SEPARATOR = getString(R.string.pref_currency_decimal_separator_key);
     }
     
     @Override

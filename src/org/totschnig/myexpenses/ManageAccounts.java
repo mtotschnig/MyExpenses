@@ -64,7 +64,7 @@ public class ManageAccounts extends ListActivity {
     mDbHelper = MyApplication.db();
     mCurrentAccount = ((MyApplication) getApplicationContext())
         .getSettings()
-        .getLong("current_account", 0);
+        .getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
     fillData();
     mAddButton = (Button) findViewById(R.id.addOperation);
     mAddButton.setOnClickListener(new View.OnClickListener() {

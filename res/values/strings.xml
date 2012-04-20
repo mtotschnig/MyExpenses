@@ -198,8 +198,12 @@
   <string name="pref_manage_accounts_summary">Add, edit, delete accounts.</string>
   <string name="pref_manage_parties_title">Manage parties</string>
   <string name="pref_manage_parties_summary">Delete parties (payers and payees).</string>
+  <string name="pref_perform_share_title">Share QIF Export</string>
+  <string name="pref_perform_share_summary">Should the QIF file be shared after each export?</string>
   <string name="pref_share_target_title">Upload URL QIF Export</string>
-  <string name="pref_share_target_summary">Supported schemes</string>
+  <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate 
+      apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes
+  </string>
   <string name="pref_use_standard_menu_title">Use standard Android menu</string>
   <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
       standard menu for accessing commands.</string>
@@ -211,6 +215,7 @@
   <string name="select_parent_category">Select this category</string>
   <string name="select">Select</string>
   <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
+  <string name="share_sending">Send QIF file</string>
   <string name="suggest_use_standard_menu">Do you want to use the standard Android menu
       for calling commands, and hide the button bar?</string>
   <string name="time">Time</string>
@@ -240,6 +245,12 @@
       http://code.google.com/p/simple-quickactions/ , licenced under 
       http://www.opensource.org/licenses/bsd-license.php .</string>
   <string name="help_enjoy"><u>Enjoy!</u></string>
+  
+  <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
+  <string name="pref_use_standard_menu_key">use_standard_menu</string>
+  <string name="pref_perform_share_key">perform_share</string>
+  <string name="pref_share_target_key">share_target</string>
+  <string name="pref_currency_decimal_separator_key">currency_decimal_separator</string>
     
   <!-- strings below this comment do not need translations for new languages -->
   <string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with 

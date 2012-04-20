@@ -158,7 +158,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     mSettings = ((MyApplication) getApplicationContext()).getSettings();
     newVersionCheck();
     if (mCurrentAccount == null) {
-      long account_id = mSettings.getLong("current_account", 0);
+      long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
       try {
         mCurrentAccount = Account.getInstanceFromDb(account_id);
       } catch (AccountNotFoundException e) {
@@ -166,7 +166,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         mCurrentAccount = requireAccount();
       }
     }
-    mUseStandardMenu = mSettings.getBoolean("use_standard_menu", false);
+    mUseStandardMenu = mSettings.getBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU, false);
     mButtonBar = (ButtonBar) findViewById(R.id.ButtonBar);
     if (mUseStandardMenu) {
       mButtonBar.setVisibility(View.GONE);
@@ -544,7 +544,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {
              mUseStandardMenu = true;
-             mSettings.edit().putBoolean("use_standard_menu",true).commit();
+             mSettings.edit().putBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU,true).commit();
              mButtonBar.setVisibility(View.GONE);
              dismissDialog(USE_STANDARD_MENU_DIALOG_ID);
            }
@@ -607,7 +607,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     long current_account_id = mCurrentAccount.id;
     if (accountId == 0) {
       //first check if we have the last_account stored
-      accountId = mSettings.getLong("last_account", 0);
+      accountId = mSettings.getLong(MyApplication.PREFKEY_LAST_ACCOUNT, 0);
       //if for any reason the last_account is identical to the current
       //we ignore it
       if (accountId == mCurrentAccount.id)
@@ -632,8 +632,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     if (accountId != 0) {
       try {
         mCurrentAccount = Account.getInstanceFromDb(accountId);
-        mSettings.edit().putLong("current_account", accountId)
-          .putLong("last_account", current_account_id)
+        mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
+          .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, current_account_id)
           .commit();
         fillData();
       } catch (AccountNotFoundException e) {
@@ -705,9 +705,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     out.close();
     mExpensesCursor.moveToFirst();
     Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
-    String share_target = mSettings.getString("share_target","");
-    if (!share_target.equals("")) {
-      Utils.share(MyExpenses.this,outputFile, share_target);
+    if (mSettings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
+      Utils.share(MyExpenses.this,outputFile, mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,""));
     }
     return true;
   }
@@ -786,7 +785,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    */
   public void newVersionCheck() {
     Editor edit = mSettings.edit();
-    int prev_version = mSettings.getInt("currentversion", -1);
+    int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     int current_version = getVersionNumber();
     if (prev_version == current_version)
       return;
@@ -794,13 +793,13 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       //we check if we already have an account
       mCurrentAccount = requireAccount();
 
-      edit.putLong("current_account", mCurrentAccount.id).commit();
-      edit.putInt("currentversion", current_version).commit();
+      edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
+      edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
     } else if (prev_version != current_version) {
-      edit.putInt("currentversion", current_version).commit();
+      edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
       if (prev_version < 14) {
         //made current_account long
-        edit.putLong("current_account", mSettings.getInt("current_account", 0)).commit();
+        edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mSettings.getInt(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0)).commit();
         String non_conforming = checkCurrencies();
         if (non_conforming.length() > 0 ) {
           openVersionDialog(getString(R.string.version_14_upgrade_info,non_conforming));
@@ -809,7 +808,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       }
       if (prev_version < 19) {
         //renamed
-        edit.putString("share_target",mSettings.getString("ftp_target",""));
+        edit.putString(MyApplication.PREFKEY_SHARE_TARGET,mSettings.getString("ftp_target",""));
         edit.remove("ftp_target");
         edit.commit();
       }
@@ -820,6 +819,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       if (prev_version < 28) {
         Log.i("MyExpenses",String.format("Upgrading to version 28: Purging %d transactions from datbase",
             mDbHelper.purgeTransactions()));
+      }
+      if (prev_version < 30) {
+        if (mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"") != "") {
+          edit.putBoolean(MyApplication.PREFKEY_PERFORM_SHARE,true).commit();
+        }
       }
     }
     showDialog(HELP_DIALOG_ID);
@@ -1003,8 +1007,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
-    if (key.equals("use_standard_menu")) {
-      boolean newValue = mSettings.getBoolean("use_standard_menu", false);
+    if (key.equals(MyApplication.PREFKEY_USE_STANDARD_MENU)) {
+      boolean newValue = mSettings.getBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU, false);
       if (newValue != mUseStandardMenu) {
         if (newValue)
           mButtonBar.setVisibility(View.GONE);

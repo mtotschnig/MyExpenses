@@ -592,7 +592,7 @@ public class ExpensesDbAdapter {
    */
   public Cursor fetchCategoryMain() {
     boolean categories_sort = mCtx.getSettings()
-        .getBoolean("categories_sort_by_usages", true);
+        .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true);
     String orderBy = (categories_sort ? "usages DESC, " : "") + "label";
     return mDb.query("categories",
         new String[] {KEY_ROWID, "label"},
@@ -625,7 +625,7 @@ public class ExpensesDbAdapter {
    */
   public Cursor fetchCategorySub(long parent_id) {
     boolean categories_sort = mCtx.getSettings()
-        .getBoolean("categories_sort_by_usages", true);
+        .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true);
     String orderBy = (categories_sort ? "usages DESC, " : "") + "label";
     return mDb.query("categories", 
         new String[] {KEY_ROWID,"label"}, 
