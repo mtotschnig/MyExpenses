@@ -268,10 +268,10 @@ public class Utils {
      * adds a new CategoryTree under parent with a given label and id
      * This operation is only allowed for the root tree, it is not allowed to add directly to
      * subtrees (throws {@link UnsupportedOperationException}). If parent is 0, a top level 
-     * category tree is created. If there is not parent with id parent, the method returns without
+     * category tree is created. If there is no parent with id parent, the method returns without
      * creating a CategoryTree
      */
-    public void add(String label, Integer id, Integer parent) {
+    public boolean add(String label, Integer id, Integer parent) {
       if (!rootP) {
         throw new UnsupportedOperationException();
       }
@@ -279,11 +279,13 @@ public class Utils {
         addChild(label,id);
       } else {
         CategoryTree parentCat = children.get(parent);
-        if (parentCat != null) {
-          parentCat.addChild(label, id);
+        if (parentCat == null) {
+          return false;
         }
+        parentCat.addChild(label, id);
       }
       total++;
+      return true;
     }
     private void addChild(String label, Integer id) {
       children.put(id,new CategoryTree(label,false));
