@@ -17,6 +17,7 @@ package org.totschnig.myexpenses;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.URI;
 
@@ -51,7 +52,7 @@ public class FtpTransfer extends Activity {
     task=(FtpAsyncTask)getLastNonConfigurationInstance();
     
     mProgressDialog = ProgressDialog.show(this, "",
-        getString(R.string.ftp_uploading_wait), true, true, new OnCancelListener() {
+        getString(R.string.ftp_uploading_wait,target.getHost()), true, true, new OnCancelListener() {
           public void onCancel(DialogInterface dialog) {
             if (task != null && task.getStatus() != AsyncTask.Status.FINISHED) {
               task.cancel(true);
@@ -74,10 +75,10 @@ public class FtpTransfer extends Activity {
     String ftp_result;
     mProgressDialog.dismiss();
     if (task.isCancelled()) {
-      ftp_result = getString(R.string.ftp_cancelled);
+      ftp_result = getString(R.string.ftp_cancelled,target.getHost());
     } else {
       Result result = task.getResult();
-      ftp_result = getString(result.message,target.toString());
+      ftp_result = getString(result.message,target.getHost());
     }
     Toast.makeText(this,ftp_result, Toast.LENGTH_LONG).show();
     task = null;
@@ -174,6 +175,8 @@ public class FtpTransfer extends Activity {
             // Upload file to FTP Server
             result = mFTP.storeFile(file.getName(),ifile);
             setResult(new Result(result, result ? R.string.ftp_success : R.string.ftp_failure));
+        } catch (ConnectException e) {
+          setResult(new Result(false, R.string.ftp_connection_refused));
         } catch (SocketException e) {
           setResult(new Result(false, R.string.ftp_socket_exception));
         } catch (FTPConnectionClosedException e) {

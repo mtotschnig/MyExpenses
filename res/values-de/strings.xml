@@ -60,17 +60,17 @@
   <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
   <string name="ftp_success">Übertragung nach %1$s erfolgreich</string>
   <string name="ftp_failure">Übertragung nach %1$s gescheitert</string>
-  <string name="ftp_socket_exception">Socket Fehler während des der Übertragung nach %1$s</string>
-  <string name="ftp_io_exception">IO Fehler während des der Übertragung nach %1$s</string>
-  <string name="ftp_login_failure">Login Fehler während des der Übertragung nach %1$s</string>
+  <string name="ftp_socket_exception">Socket Fehler während der Übertragung nach %1$s</string>
+  <string name="ftp_io_exception">IO Fehler während der Übertragung nach %1$s</string>
+  <string name="ftp_login_failure">Login Fehler während der Übertragung nach %1$s</string>
   <string name="ftp_setFileType_failure">Fehler bei der Konfiguration des Dateityps ASCII während
       der Übertragung nach %1$s</string>
   <string name="ftp_changeWorkingDirectory_failure">Fehler beim Wechseln des Verzeichnisses während
       der Übertragung nach %1$s</string>
-  <string name="ftp_uploading_wait">Übertragung im Gang. Bitte warten &#8230;</string>
-  <string name="ftp_connection_refused">Verbindung verweigert während der Übertragung nach %1$s</string>
-  <string name="ftp_connection_failure">Verbindung gescheitert während der Übertragung nach %1$s</string>
-  <string name="ftp_cancelled">FTP Übertragung abgebrochen</string>
+  <string name="ftp_uploading_wait">FTP Übertragung nach %1$s im Gang. Bitte warten &#8230;</string>
+  <string name="ftp_connection_refused">Verbindung mit %1$s verweigert</string>
+  <string name="ftp_connection_failure">Verbindung mit %1$s gescheitert</string>
+  <string name="ftp_cancelled">FTP Übertragung nach %1$s abgebrochen</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Kategorien</string>
   <string name="grisbi_import_button_categories_and_parties">Kateg. und Parteien</string>

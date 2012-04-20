@@ -66,10 +66,10 @@
       to %1$s</string>
   <string name="ftp_changeWorkingDirectory_failure">Could not change working directory while trying
       to upload to %1$s</string>
-  <string name="ftp_uploading_wait">Uploading. Please wait &#8230;</string>
-  <string name="ftp_connection_refused">Connection refused while uploading to %1$s</string>
-  <string name="ftp_connection_failure">Connection failure while trying to upload to %1$s</string>
-  <string name="ftp_cancelled">FTP Transfer cancelled</string>
+  <string name="ftp_uploading_wait">FTP Transfer to %1$s. Please wait &#8230;</string>
+  <string name="ftp_connection_refused">Connection to %1$s refused</string>
+  <string name="ftp_connection_failure">Connection to %1$s failed</string>
+  <string name="ftp_cancelled">FTP Transfer to %1$s cancelled</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Categories</string>
   <string name="grisbi_import_button_categories_and_parties">Categories and parties</string>
