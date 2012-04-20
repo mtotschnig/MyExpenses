@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 public abstract class EditActivity extends Activity {
+  public static final String CURRENCY_USE_MINOR_UNIT = "x";
   protected DecimalFormat nfDLocal;
   protected String mCurrencyDecimalSeparator;
   protected boolean mMinorUnitP;
@@ -27,8 +28,9 @@ public abstract class EditActivity extends Activity {
   protected void configAmountInput() {
     mAmountText = (EditText) findViewById(R.id.Amount);
     SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
-    mCurrencyDecimalSeparator = settings.getString("currency_decimal_separator", Utils.getDefaultDecimalSeparator());
-    mMinorUnitP = mCurrencyDecimalSeparator.equals(MyApplication.CURRENCY_USE_MINOR_UNIT);
+    mCurrencyDecimalSeparator = settings.getString(MyApplication.PREFKEY_CURRENCY_DECIMAL_SEPARATOR,
+        Utils.getDefaultDecimalSeparator());
+    mMinorUnitP = mCurrencyDecimalSeparator.equals(CURRENCY_USE_MINOR_UNIT);
     if (mMinorUnitP) {
       nfDLocal = new DecimalFormat("#0");
       nfDLocal.setParseIntegerOnly(true);

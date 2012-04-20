@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses;
 
 import java.io.File;
+import java.util.Map;
 
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -30,7 +31,6 @@ public class MyApplication extends Application {
     private ExpensesDbAdapter mDbOpenHelper;
     private static MyApplication mSelf;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
-    public static final String CURRENCY_USE_MINOR_UNIT = "x";
     public static String PREFKEY_CATEGORIES_SORT_BY_USAGES;
     public static String PREFKEY_USE_STANDARD_MENU;
     public static String PREFKEY_PERFORM_SHARE;
@@ -120,9 +120,23 @@ public class MyApplication extends Application {
                   if (Utils.copy(backupPrefFile,tempPrefFile)) {
                     SharedPreferences backupPref = mSelf.getSharedPreferences("backup_temp",0);
                     Editor edit = mSelf.settings.edit();
-                    edit.putInt("currentversion",backupPref.getInt("currentversion", -1));
-                    edit.putLong("current_account",backupPref.getLong("current_account", 0));
-                    edit.putString("share_target",backupPref.getString("share_target",""));
+                    String key;
+                    Object val;
+                    for (Map.Entry<String, ?> entry : backupPref.getAll().entrySet()) {
+                      key = entry.getKey();
+                      val = entry.getValue();
+                      if (val.getClass() == Long.class) {
+                        edit.putLong(key,backupPref.getLong(key,0));
+                      } else if (val.getClass() == Integer.class) {
+                        edit.putInt(key,backupPref.getInt(key,0));
+                      } else if (val.getClass() == String.class) {
+                        edit.putString(key, backupPref.getString(key,""));
+                      } else if (val.getClass() == Boolean.class) {
+                        edit.putBoolean(key,backupPref.getBoolean(key,false));
+                      } else {
+                        Log.i("MyExpenses","Found: "+key+ " of type "+val.getClass().getName());
+                      }
+                    }
                     edit.commit();
                     backupPref = null;
                     tempPrefFile.delete();
