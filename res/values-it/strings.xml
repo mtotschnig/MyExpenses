@@ -68,6 +68,7 @@
       caricamento di %1$s</string>
   <string name="ftp_changeWorkingDirectory_failure">Impossibile cambiare la cartella di lavoro
       durante il caricamento di %1$s</string>
+  <string name="ftp_uploading_wait">Scarica in corso. Attendere prego &#8230;</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Categorie</string>
   <string name="grisbi_import_button_categories_and_parties">Categorie e beneficiari</string>
@@ -154,6 +155,7 @@
       contiene sottocategorie.</string>
   <string name="opening_balance">Saldo inizial</string>
   <string name="parse_error_file_not_found">Il file %1$s non esiste</string>
+  <string name="parse_error_no_data_found">Nessun dato importabili trovato nel file.</string>
   <string name="parse_error_parse_exception">Il file non può essere analizzato</string>
   <string name="parse_error_other_exception">È verificato un errore: %1$s</string>
   <!--
