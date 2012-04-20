@@ -14,7 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.totschnig.myexpenses" android:versionCode="29" android:versionName="1.4.10">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.totschnig.myexpenses" android:versionCode="30" android:versionName="1.4.10.1a1">
     <uses-sdk android:minSdkVersion="5"></uses-sdk>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -41,7 +41,8 @@
               <action android:name="myexpenses.intent.backup"/>  
               <category android:name="android.intent.category.DEFAULT" />  
             </intent-filter>
-        </activity>
+        </activity><activity android:name=".FtpTransfer"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity android:name=".GrisbiImport"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
           <intent-filter>

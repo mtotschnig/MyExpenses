@@ -1209,7 +1209,7 @@
       le séparateur décimal de votre région (virgule dans les pays européens, point dans les
       pays anglophones)<footnote id="ftn58-fr-2">
         <para>
-          Sur les appareils roulant sur Android 2.3. <application role="app_name"/> utilise par
+          Sur les appareils roulant sur Android 2.3., <application role="app_name"/> utilise par
           défaut le point, car ceux-ci sont le plus souvent concerné par le problème décrit
           dans la <link linkend='faq-comma'>FAQ</link>.
         </para>
