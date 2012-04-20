@@ -31,10 +31,10 @@
   <string name="close">Cerrar</string>
   <string name="comment">Apuntes</string>
   <string name="create_category">Nueva categoría</string>
-  <string name="credits_text">Ausgangspunkt Android Notes Tutorial.
-      \nDesign des Hilfe-Dialogs von Mathdoku.
-      \nDesign der App-Graphik von Sipdroid.
-      \nFranzösische und italienische Übersetzung von Laurent Collombet.</string>
+  <string name="credits_text">Punto de partida Android Notes Tutorial.
+      \nDiseño del diálogo de ayuda de Mathdoku.
+      \nDiseño gráfico de Sipdroid.
+      \nTraducción al francés y al italiano de Laurent Collombet.</string>
   <string name="currency">Moneda</string>
   <string name="currency_not_iso4217">%1$s no es un código de moneda válido según ISO 4217</string>
   <string name="current_balance">Saldo actual</string>
@@ -76,32 +76,23 @@
       <a href="market://details?id=org.totschnig.myexpenses">Market</a>.
       Si encuentra algún problema, tiene alguna sugerencia para la mejora o desea contribuir, por favor, póngase en contacto con <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
   <string name="help_heading_feedback"><u>Feedback</u></string>
-  <string name="help_heading_credits"><u>Abspann</u></string>
-  <string name="help_heading_license"><u>Lizenz</u></string>
-  <string name="help_heading_project_home"><u>Projekt Homepage</u></string>
-  <string name="help_heading_quick_guide"><u>Schnelleinstieg</u></string>
-  <string name="help_heading_version"><u>Version</u></string>
-  <string name="help_intro">Mit <i>&app_name;</i> können sie über Ihre Ausgaben und Einnahmen Buch 
-      halten, und diese in ein Desktop-Finanzprogrammm (Grisbi oder Gnucash) exportieren.</string>
-  <string name="help_leading"><u>Danke fürs Ausprobieren von <i>&app_name;</i> für
+  <string name="help_heading_credits"><u>Créditos</u></string>
+  <string name="help_heading_license"><u>Licencia</u></string>
+  <string name="help_heading_project_home"><u>Sitio web del projecto</u></string>
+  <string name="help_heading_quick_guide"><u>Guía rápida</u></string>
+  <string name="help_heading_version"><u>Versión</u></string>
+  <string name="help_intro">Con <i>&app_name;</i> puede llevar contabilidad sobre sus gastos y ingresos y exportarlos a un programa de escritorio de finanzas (Grisbi o Gnucash).</string>
+  <string name="help_leading"><u>Gracias por probar <i>&app_name;</i> para
       Android.</u></string>
-  <string name="help_quick_guide"><i>&app_name;</i> kommt mit zwei Schnittstellen für die
-      Befehlsaufrufe: einer Symbolleiste und dem Android Standardmenü (physischer Menü-Knopf). Im
-      Einstellungs-Bildschirm können Sie festlegen, welches Sie verwenden wollen. Die meisten
-      Schaltknöpfe in der Symbolleiste reagieren sowohl auf kurze Klicks (Standardaktion) als auch
-      auf lange Klicks (Öffnen eines Popup-Menüs).
-      \n<u>Konten -> Neu &#8230;</u> : Ein neues Konto erstellen.
-      \n<u>Konten</u> : Zu einem anderen Konto wechseln.
-      \n<u>Neu</u> : Eine Buchung hinzufügen.
-      \n<u>Neu -> Umbuchung</u> : Eine Umbuchun hinzufügen, wenn es mehr als ein Konto mit derselben
-        Währung gibt.
-      \n<u>Zurücksetzen</u> : Exportiert die Ausgaben im QIF Format auf die SD-Karte, löscht die 
-        Einträge, und setzt den Anfangssaldo zurück.
-      \n<u>Einstellungen</u>: Wählen Sie <u>Import aus Grisbi</u>, um Kategorien aus einer
-        Grisbi-Datei zu importieren. Sie können entweder die inkludierten von Grisbi verwendeten
-        Standardkategorien auswählen, oder eine eigene Datei. Dafür verwenden Sie entweder Ihre
-        Grisbi Datei, oder editieren diese, indem Sie alles außer der Kategorien entfernen.
-        MyExpenses erwartet die Datei unter \"/sdcard/myexpenses/&grisbi_file;\".
+  <string name="help_quick_guide"><i>&app_name;</i> tiene dos interfaces para los comandos de llamada: una barra de herramientas y el menú estándar de Android (el botón de menú físico). En la configuración de la pantalla se puede especificar cual desea utilizar. La mayoría de los botones de control en la barra de herramientas responde tanto a los dos clics cortos (
+acción estándar) como a clics largos (abrir un menú pop-up).
+      \n<u>Cuentas -> Nueva &#8230;</u> : Crear una cuenta.
+      \n<u>Cuentas</u> : Cambiar a otra cuenta.
+      \n<u>Nuevo</u> : Añadir un asiento.
+      \n<u>Nuevo -> Traslado a otra cuenta</u> : Añada un traslado a otra cuenta, si hay más de una cuenta con la misma moneda.
+      \n<u>Restablecer</u> : Exporta los gastos en el formato QIF a la tarjeta SD, borra las entradas y restablece el saldo inicial.
+      \n<u>Configuraciones</u>: Seleccione <u>Importación desde Grisbi</u>, para importar categorías de un archivo Grisbi. Usted puede o seleccionar las categorías estándar de Grisbi que están incluidas o utilizar un archivo propio. Para ello, utilice o su archivo Grisbi o modifique este eliminando todo, excepto las categorías. 
+        MyExpenses expera el archivo bajo \"/sdcard/myexpenses/&grisbi_file;\".
   </string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="important_version_information">Neue Version: Wichtige Information</string>
