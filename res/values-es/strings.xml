@@ -94,16 +94,13 @@ acción estándar) como a clics largos (abrir un menú pop-up).
       \n<u>Configuraciones</u>: Seleccione <u>Importación desde Grisbi</u>, para importar categorías de un archivo Grisbi. Usted puede o seleccionar las categorías estándar de Grisbi que están incluidas o utilizar un archivo propio. Para ello, utilice o su archivo Grisbi o modifique este eliminando todo, excepto las categorías. 
         MyExpenses expera el archivo bajo \"/sdcard/myexpenses/&grisbi_file;\".
   </string>
-  <string name="import_categories">Kategorien importieren</string>
-  <string name="important_version_information">Neue Version: Wichtige Information</string>
-  <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt.
-      Bitte verwenden Sie %1$s</string>
-  <string name="label">Bezeichnung</string>
-  <string name="menu_accounts">Konten</string>
-  <string name="menu_accounts_explain">Mit dem Schaltknopf Konten können Sie zwischen Konten 
-      wechseln, sobald Sie mehrere Konten angelegt haben. Zur Zeit gibt es nur ein Konto. Sie können
-      ein neues Konto hinzufügen, indem Sie lange auf den Konten Schaltknopf klicken und dann den 
-      Neu &#8230; Befehl auswählen, oder in dem Kontenabschnitt im Einstellungs-Bildschirm.
+  <string name="import_categories">Importar categorías</string>
+  <string name="important_version_information">Nueva versión: Información importante</string>
+  <string name="invalid_number_format">Formato de número no es compatible con su configuración regional.
+      Por favor, utilice %1$s</string>
+  <string name="label">Etiqueta</string>
+  <string name="menu_accounts">Cuentas</string>
+  <string name="menu_accounts_explain">Con el botón Cuentas usted puede alternar entre cuentas, una vez que ha creado varias cuentas. A la hora hay sólo una cuenta. Usted puede añadir una cuenta haciendo clic en el botón Cuentas largo tiempo y seleccionando después el comando Nuevo &#8230;, o en la sección Cuentas en la pantalla de configuración.
   </string>
   <string name="menu_accounts_new">Neu &#8230;</string>
   <string name="menu_backup">Backup</string>
