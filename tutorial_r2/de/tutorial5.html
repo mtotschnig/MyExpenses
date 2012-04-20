@@ -38,7 +38,7 @@
       
       <span lang="de">Einstellungen</span>
       
-    </h2></div></div></div><p><a name="step11"></a></p><div class="figure"><a name="id296790"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step11.png"></div></div></div></div><p>
+    </h2></div></div></div><p><a name="step11"></a></p><div class="figure"><a name="id330432"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step11.png"></div></div></div></div><p>
     </p><p lang="de">
       Ein kurzer Klick auf den Schaltknopf <span class="guibutton">Einstellungen</span> öffnet den
       Einstellungs-Bildschirm. Hier können sie einige Eigenschaften von <span class="application">Meine Ausgaben</span> konfigurieren, und haben auch Zugriff auf die Kontoverwaltung und
@@ -63,13 +63,22 @@
         werden sie einer Buchung zugeordnet). Entfernen Sie das Häckchen von dieser Option,
         wenn Sie möchten, dass die Kategorien immer in alphabetischer Reihenfolge aufgelistet
         werden.
-      </p></div><div class="sect2" title="Upload URL QIF Export"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_3"></a>
-       <span class="guilabel">Upload URL QIF Export</span>
+      </p></div><div class="sect2" title="QIF Export versenden"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_3"></a>
+       <span class="guilabel">QIF Export versenden</span>
       </h3></div></div></div><p lang="de">
-      Wenn Sie die URL eines Ordners angeben, auf den Sie über FTP Schreibzugriff haben
-      (z.B. "ftp://login:password@my.example.org:port/my/directory/"), wird <span class="application">Meine Ausgaben</span> die QIF Datei stets nach dem Export der Buchungen dorthin
-      übertragen. Wenn Sie eine Email URL (z.B. "mailto:john@my.example.com") angeben,
-      wird Ihre Email-Anwendung gestartet, und eine Email erzeugt mit der Datei als Anhang.
+      Kreuzen Sie diese Option an, wenn Sie die QIF Datei nach dem Export Ihrer Buchungen an
+      eine entfernte Adresse übertragen wollen. Unter <span class="guilabel">Upload URL QIF Export</span> können Sie das Ziel konfigurieren:
+      </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+           Die URL eines Ordners, auf den Sie über FTP Schreibzugriff haben (z.B. 
+           "ftp://login:password@my.example.org:port/my/directory/").
+          </p></li><li class="listitem"><p>
+            Eine Email URL (z.B. "mailto:john@my.example.com"). Ihre Email-Anwendung wird
+            gestartet, und eine Email erzeugt mit der Datei als Anhang.
+          </p></li><li class="listitem"><p>
+          Sie können dieses Feld auch leer lassen, dann können Sie jedesmal zwischen auf Ihrem
+          Gerät installierten Apps wählen, die Dateien übertragen können (z.B Dropbox, Google
+          Docs, &#8230;).
+          </p></li></ul></div><p lang="de">
     </p></div><div class="sect2" title="Backup und Wiederherstellung"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_4"></a>
       
       
@@ -86,7 +95,7 @@
       bevor Sie <span class="application">Meine Ausgaben</span> installieren.
     </p></div><div class="sect2" title="Import aus Grisbi"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_5"></a>
         <span class="guilabel">Import aus Grisbi</span>
-      </h3></div></div></div><p><a name="step6"></a></p><div class="figure"><a name="id298103"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step6.png"></div></div></div></div><p>
+      </h3></div></div></div><p><a name="step6"></a></p><div class="figure"><a name="id330684"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step6.png"></div></div></div></div><p>
     </p><p lang="de">
       Dieser Eintrag erlaubt die in Grisbi definierten Kategorien (Englisch, Deutsch oder
       Französisch) zu importieren. Sie können auch eine Grisbi Datei (in XML) verwenden, die
@@ -115,13 +124,15 @@
       der jeweiligen Zeile ankreuzen, und dann den Schaltknopf <span class="guibutton">Löschen</span>
       betätigen.
     </p></div><div class="sect2" title="Dezimaltrennzeichen für die Eingabe von Währungsbeträgen"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_8"></a>
-        <span class="guilabel">Dezimaltrennzeichen für die Eingabe von Währungsbeträgen</span><sup>[<a name="ftn58-1" href="#ftn.ftn58-1" class="footnote">4</a>]</sup>
+        <span class="guilabel">Dezimaltrennzeichen für die Eingabe von
+      Währungsbeträgen</span><sup>[<a name="ftn58-1" href="#ftn.ftn58-1" class="footnote">4</a>]</sup>
       </h3></div></div></div><p lang="de">
       Standardmäßig wird für Währungsbeträge in Buchungen (oder das Anfangssaldo eines Kontos)
       das Dezimaltrennzeichen Ihrer Spracheinstellung verwendet (Komma in den meisten
       europäischen Ländern, Punkt in den meisten englischsprachigen Ländern)<sup>[<a name="ftn58-de-2" href="#ftn.ftn58-de-2" class="footnote">5</a>]</sup>, hier kann dieses
       explizit konfiguriert werden. Sie können hier aber auch festlegen, dass Sie
-      Untereinheiten (z.B $ Cents, &#8364; Cent, oder £ Pence) als ganze Zahlen eingeben (<span class="guilabel">Untereinheiten als ganze Zahlen</span>).
+      Untereinheiten (z.B $ Cents, &#8364; Cent, oder £ Pence) als ganze Zahlen eingeben (<span class="guilabel">Untereinheiten als ganze
+      Zahlen</span>).
     </p></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.ftn55-de-1" href="#ftn55-de-1" class="para">3</a>] </sup>
           <span class="application">Meine Ausgaben</span> unterstützt auch das Grisbi Datei Format 0.5.0, in dem
           die Elemente <code class="sgmltag-element">Categorie</code> und <code class="sgmltag-element">Sous_categorie</code>

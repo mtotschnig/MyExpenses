@@ -38,7 +38,7 @@
       <span lang="fr">Paramètres</span>
       
       
-    </h2></div></div></div><p><a name="step11"></a></p><div class="figure"><a name="id311213"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step11.png"></div></div></div></div><p>
+    </h2></div></div></div><p><a name="step11"></a></p><div class="figure"><a name="id448871"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step11.png"></div></div></div></div><p>
     </p><p lang="fr">
       Un clic court sur le bouton <span class="guibutton">Paramètres</span> ouvre l'écran des
       paramètres. Ici vous pouvez configurer quelques propriétés de <span class="application">Mes dépenses</span> et pouvez accéder à la gestion des comptes, ainsi qu'à la sauvegarde.
@@ -63,14 +63,23 @@
         Par défaut, les catégories sont triées par fréquence d'utilisation ( nombre de fois où
         vous les associez à une transaction). Décochez cette option si vous préferez que les
         catégories s'affichent par ordre alphabétique.
-      </p></div><div class="sect2" title="URL où sera téléchargé le fichier QIF"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_3"></a>
-       <span class="guilabel">URL où sera téléchargé le fichier QIF</span>
+      </p></div><div class="sect2" title="Envoyer le fichier d'export QIF"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_3"></a>
+       <span class="guilabel">Envoyer le fichier d'export QIF</span>
       </h3></div></div></div><p lang="fr">
-      Si vous spécifiez l'URL d'un dossier accessible par FTP en mode écriture (par
-      exemple "ftp://login:password@my.example.org:port/my/directory/"), <span class="application">Mes dépenses</span> essaiera de télécharger le fichier QIF immédiatement après que
-      vous ayez exporté vos transactions. Si vous spécifiez un URL de courriel, votre
-      application de courriel sera lancé avec un nouveau message comportant le fichier en
-      pièce jointe.
+      Si vous cochez cette option, le fichier QIF sera téléchargé après chaque export de vos
+      transactions. Sous <span class="guilabel">URL où sera téléchargé le fichier QIF</span>, vous spécifiez la
+      destination:
+       </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+            L'URL d'un dossier accessible par FTP en mode écriture (par exemple
+            "ftp://login:password@my.example.org:port/my/directory/").
+          </p></li><li class="listitem"><p>
+          Un URL de courriel (par exemple "mailto:john@my.example.com"). Votre application de
+          courriel sera lancé avec un nouveau message comportant le fichier en pièce jointe.
+          </p></li><li class="listitem"><p>
+          Si ce champ reste vide, vous pourrez chaque fois choisir entre les apps disponibles
+          sur votre appareil, capable de transférer un fichier (par exemple Dropbox, Google
+          Docs, &#8230;).
+          </p></li></ul></div><p lang="fr">
     </p></div><div class="sect2" title="Sauvegarde et restauration"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_4"></a>
       
       <span lang="fr">Sauvegarde et restauration</span>
@@ -87,7 +96,7 @@
       <span class="application">Mes dépenses</span>.
     </p></div><div class="sect2" title="Import des données Grisbi"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_5"></a>
         <span class="guilabel">Import des données Grisbi</span>
-      </h3></div></div></div><p><a name="step6"></a></p><div class="figure"><a name="id311452"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step6.png"></div></div></div></div><p>
+      </h3></div></div></div><p><a name="step6"></a></p><div class="figure"><a name="id449138"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step6.png"></div></div></div></div><p>
     </p><p lang="fr">
 	    Cette entrée vous permet de les entrer directement à partir des définitions standards de
 	    Grisbi en anglais, allemand ou français. Si vous aviez déjà défini vos propres
@@ -114,13 +123,15 @@
       champ <span class="guilabel">Tiers</span>. Pour supprimer des entrées de cette liste,
       sélectionnez-les en cochant à leur droite, et activez ensuite le bouton <span class="guibutton">Effacer</span>.
     </p></div><div class="sect2" title="Séparateur décimal pour l'entrée des montants"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_8"></a>
-        <span class="guilabel">Séparateur décimal pour l'entrée des montants</span><sup>[<a name="ftn58-1" href="#ftn.ftn58-1" class="footnote">4</a>]</sup>
+        <span class="guilabel">Séparateur décimal pour l'entrée des
+      montants</span><sup>[<a name="ftn58-1" href="#ftn.ftn58-1" class="footnote">4</a>]</sup>
       </h3></div></div></div><p lang="fr">
       Par défaut, les montants de transaction (ou le solde d'ouverture d'un compte) utilisent
       le séparateur décimal de votre région (virgule dans les pays européens, point dans les
       pays anglophones)<sup>[<a name="ftn58-fr-2" href="#ftn.ftn58-fr-2" class="footnote">5</a>]</sup>, ici vous pouvez le configurer explicitement. Sinon, vous avez la
       possibilité d'entrer des unités mineures entières (par exemple $ cents, centimes d' &#8364;,
-      pence pour £) (<span class="guilabel">Sous-unités en nombres entiers</span>).
+      pence pour £) (<span class="guilabel">Sous-unités en nombres entiers
+  </span>).
     </p></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.ftn55-fr-1" href="#ftn55-fr-1" class="para">3</a>] </sup>
           <span class="application">Mes dépenses</span> supporte aussi la version 0.5.0 du format de fichier
           Grisib, où les éléments portent les noms <code class="sgmltag-element">Categorie</code> et
@@ -128,7 +139,7 @@
         </p></div><div class="footnote"><p lang="fr"><sup>[<a name="ftn.ftn58-1" href="#ftn58-1" class="para">4</a>] </sup>
           À partir de la version 1.4.10.
         </p></div><div class="footnote"><p><sup>[<a name="ftn.ftn58-fr-2" href="#ftn58-fr-2" class="para">5</a>] </sup>
-          Sur les appareils roulant sur Android 2.3. <span class="application">Mes dépenses</span> utilise par
+          Sur les appareils roulant sur Android 2.3., <span class="application">Mes dépenses</span> utilise par
           défaut le point, car ceux-ci sont le plus souvent concerné par le problème décrit
           dans la <a class="link" href="faq.html#faq-comma" title="1.">FAQ</a>.
         </p></div></div></div></body></html>

@@ -38,7 +38,7 @@
       
       
       
-    </h2></div></div></div><p><a name="step11"></a></p><div class="figure"><a name="id518079"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step11.png"></div></div></div></div><p>
+    </h2></div></div></div><p><a name="step11"></a></p><div class="figure"><a name="id320407"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step11.png"></div></div></div></div><p>
     </p><p lang="en">
       A short click on the <span class="guibutton">Settings</span> button opens the preferences
       screen, from where you can configure some properties of <span class="application">My Expenses</span>,
@@ -64,13 +64,24 @@
         By default, categories are sorted primarily by how often you associate them with your
         transactions. Uncheck this option if you want your categories being sorted in
         alphabetical order instead.
-      </p></div><div class="sect2" title="Upload URL QIF Export"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_3"></a>
-       <span class="guilabel">Upload URL QIF Export</span>
+      </p></div><div class="sect2" title="Share QIF Export"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_3"></a>
+       <span class="guilabel">Share QIF Export</span>
       </h3></div></div></div><p lang="en">
-      If you enter an URL to a directory on an FTP server, you have write access to (e.g.
-      "ftp://login:password@my.example.org:port/my/directory/"), <span class="application">My Expenses</span> will try to upload your QIF file there, each time you export your
-      transactions. If you enter an Email URL (e.g. "mailto:john@my.example.com"), it will
-      launch your email application, creating a new message with the file attached to it.
+      If you check this option, each time you export your transactions, your QIF file will be
+      sent to a remote destination. Under <span class="guilabel">Upload URL QIF Export</span> you
+      specify the destination:
+      </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+            An URL to a directory on an FTP server, you have write access to (e.g.
+            "ftp://login:password@my.example.org:port/my/directory/").
+          </p></li><li class="listitem"><p>
+            An Email URL (e.g. "mailto:john@my.example.com"). <span class="application">My Expenses</span>
+            will launch an email application and create a message to that address with the file
+            attached to it.
+          </p></li><li class="listitem"><p>
+            You can also leave this field empty, and you will be presented with a chooser
+            allowing you to select on of your installed apps that allow sharing of files (e.g. 
+            Dropbox, Google Docs, &#8230;).
+          </p></li></ul></div><p lang="en">
     </p></div><div class="sect2" title="Backup and restore"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_4"></a>
       <span lang="en">Backup and restore</span>
       
@@ -86,7 +97,7 @@
       before installing <span class="application">My Expenses</span>.
     </p></div><div class="sect2" title="Import from Grisbi"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_5"></a>
         <span class="guilabel">Import from Grisbi</span>
-      </h3></div></div></div><p><a name="step6"></a></p><div class="figure"><a name="id518303"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step6.png"></div></div></div></div><p>
+      </h3></div></div></div><p><a name="step6"></a></p><div class="figure"><a name="id320663"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step6.png"></div></div></div></div><p>
     </p><p lang="en">
     	This entry allows to set up categories from files included from Grisbi in English, German
     	or French. If with Grisbi you have already defined your own categories, you can also
@@ -110,7 +121,8 @@
       This screen lists the parties used for the autocompletion of the <span class="guilabel">Payer</span>/<span class="guilabel">Payee</span> field. You can remove entries from this list, by
       checking the checkbox on their right side, and then clicking on the <span class="guibutton">Delete</span> button.
     </p></div><div class="sect2" title="Decimal separator for input of currency amounts"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_8"></a>
-        <span class="guilabel">Decimal separator for input of currency amounts</span><sup>[<a name="ftn58-1" href="#ftn.ftn58-1" class="footnote">4</a>]</sup>
+        <span class="guilabel">Decimal separator for input of currency
+      amounts</span><sup>[<a name="ftn58-1" href="#ftn.ftn58-1" class="footnote">4</a>]</sup>
       </h3></div></div></div><p lang="en">
       By default, currency amounts for transactions (or the opening balance of an account) use
       the decimal separator of your locale (comma in most European countries, point in most
