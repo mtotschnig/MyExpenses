@@ -919,31 +919,88 @@
     
     <sect2 id="tutorial5_3">
       <title>
-       <guilabel role="pref_share_target_title"/>
+       <guilabel role="pref_perform_share_title"/>
       </title>
       
     <!-- BEGIN tutorial5_3 para 1 --> 
     <para lang="en">
-      If you enter an URL to a directory on an FTP server, you have write access to (e.g.
-      "ftp://login:password@my.example.org:port/my/directory/"), <application
-      role="app_name"/> will try to upload your QIF file there, each time you export your
-      transactions. If you enter an Email URL (e.g. "mailto:john@my.example.com"), it will
-      launch your email application, creating a new message with the file attached to it.
+      If you check this option, each time you export your transactions, your QIF file will be
+      sent to a remote destination. Under <guilabel role="pref_share_target_title"/> you
+      specify the destination:
+      <itemizedlist>
+        <listitem>
+          <para>
+            An URL to a directory on an FTP server, you have write access to (e.g.
+            "ftp://login:password@my.example.org:port/my/directory/").
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            An Email URL (e.g. "mailto:john@my.example.com"). <application role="app_name"/>
+            will launch an email application and create a message to that address with the file
+            attached to it.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            You can also leave this field empty, and you will be presented with a chooser
+            allowing you to select on of your installed apps that allow sharing of files (e.g. 
+            Dropbox, Google Docs, &#8230;).
+          </para>
+        </listitem>
+      </itemizedlist>
     </para>
     <para lang="fr">
-      Si vous spécifiez l'URL d'un dossier accessible par FTP en mode écriture (par
-      exemple "ftp://login:password@my.example.org:port/my/directory/"), <application
-      role="app_name"/> essaiera de télécharger le fichier QIF immédiatement après que
-      vous ayez exporté vos transactions. Si vous spécifiez un URL de courriel, votre
-      application de courriel sera lancé avec un nouveau message comportant le fichier en
-      pièce jointe.
+      Si vous cochez cette option, le fichier QIF sera téléchargé après chaque export de vos
+      transactions. Sous <guilabel role="pref_share_target_title"/>, vous spécifiez la
+      destination:
+       <itemizedlist>
+        <listitem>
+          <para>
+            L'URL d'un dossier accessible par FTP en mode écriture (par exemple
+            "ftp://login:password@my.example.org:port/my/directory/").
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+          Un URL de courriel (par exemple "mailto:john@my.example.com"). Votre application de
+          courriel sera lancé avec un nouveau message comportant le fichier en pièce jointe.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+          Si ce champ reste vide, vous pourrez chaque fois choisir entre les apps disponibles
+          sur votre appareil, capable de transférer un fichier (par exemple Dropbox, Google
+          Docs, &#8230;).
+          </para>
+        </listitem>
+      </itemizedlist>
     </para>
     <para lang="de">
-      Wenn Sie die URL eines Ordners angeben, auf den Sie über FTP Schreibzugriff haben
-      (z.B. "ftp://login:password@my.example.org:port/my/directory/"), wird <application
-      role="app_name"/> die QIF Datei stets nach dem Export der Buchungen dorthin
-      übertragen. Wenn Sie eine Email URL (z.B. "mailto:john@my.example.com") angeben,
-      wird Ihre Email-Anwendung gestartet, und eine Email erzeugt mit der Datei als Anhang.
+      Kreuzen Sie diese Option an, wenn Sie die QIF Datei nach dem Export Ihrer Buchungen an
+      eine entfernte Adresse übertragen wollen. Unter <guilabel role="pref_share_target_title"
+        /> können Sie das Ziel konfigurieren:
+      <itemizedlist>
+        <listitem>
+          <para>
+           Die URL eines Ordners, auf den Sie über FTP Schreibzugriff haben (z.B. 
+           "ftp://login:password@my.example.org:port/my/directory/").
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Eine Email URL (z.B. "mailto:john@my.example.com"). Ihre Email-Anwendung wird
+            gestartet, und eine Email erzeugt mit der Datei als Anhang.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+          Sie können dieses Feld auch leer lassen, dann können Sie jedesmal zwischen auf Ihrem
+          Gerät installierten Apps wählen, die Dateien übertragen können (z.B Dropbox, Google
+          Docs, &#8230;).
+          </para>
+        </listitem>
+      </itemizedlist>
     </para>
     <para lang="it">
       Se si specifica l'URL di un file tramite FTP modalità di scrittura (da esempio
