@@ -23,6 +23,11 @@ public class VersionList {
   public static ArrayList<HashMap<String, String>> get () {
     final String[][] versions = {
         {
+          "1.4.11",
+          "April 20 2012",
+          "Improved stability of categories import and ftp transfer. Added FAQ. Generic export through any installed file transfer app."
+         },
+        {
           "1.4.10",
           "April 14 2012",
           "Improved usability and added configurability to input of currency amounts."
