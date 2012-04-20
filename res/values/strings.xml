@@ -31,8 +31,7 @@
   <string name="close">Close</string>
   <string name="comment">Notes</string>
   <string name="create_category">Create new category</string>
-  <string name="credits_text">Initially inspired by the Android Notepad tutorial.
-    \nHelp screen design copied from Mathdoku. 
+  <string name="credits_text">Help screen design copied from Mathdoku. 
     \nApp icon design copied from Sipdroid.
     \nFrench and italian localization by Laurent Collombet.
   </string>

@@ -32,8 +32,7 @@
   <string name="close">Schließen</string>
   <string name="comment">Notizen</string>
   <string name="create_category">Neue Kategorie</string>
-  <string name="credits_text">Ausgangspunkt Android Notes Tutorial.
-      \nDesign des Hilfe-Dialogs von Mathdoku.
+  <string name="credits_text">Design des Hilfe-Dialogs von Mathdoku.
       \nDesign der App-Graphik von Sipdroid.
       \nFranzösische und italienische Übersetzung von Laurent Collombet.</string>
   <string name="currency">Währung</string>
@@ -103,8 +102,8 @@
       \n<u>Konten -> Neu &#8230;</u> : Ein neues Konto erstellen.
       \n<u>Konten</u> : Zu einem anderen Konto wechseln.
       \n<u>Neu</u> : Eine Buchung hinzufügen.
-      \n<u>Neu -> Umbuchung</u> : Eine Umbuchun hinzufügen, wenn es mehr als ein Konto mit derselben
-        Währung gibt.
+      \n<u>Neu -> Umbuchung</u> : Eine Umbuchung hinzufügen, wenn es mehr als ein Konto mit
+        derselben Währung gibt.
       \n<u>Zurücksetzen</u> : Exportiert die Ausgaben im QIF Format auf die SD-Karte, löscht die 
         Einträge, und setzt den Anfangssaldo zurück.
       \n<u>Einstellungen</u>: Wählen Sie <u>Import aus Grisbi</u>, um Kategorien aus einer
