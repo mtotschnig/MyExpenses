@@ -719,12 +719,9 @@
       <guibutton role="menu_reset"/> button from the transaction list. This will
       create a file on your sdcard with all transactions for the current account, delete
       them from the database, and adjust the opening balance to the last current balance.
-      <application role="app_name"/> can share the file immediately after the
-      export, either upload it to an FTP server or send it by email.
-      <!-- BEGIN modif -->
-      The <link linkend='tutorial5_3'><guilabel role="pref_share_target_title"/></link> 
-      setting allows to configure the URL.
-      <!-- END modif -->
+      <application role="app_name"/> can share the file immediately after the export through
+      FTP, email or any other file sharing app, as explained in <link linkend='tutorial5_3'
+        ><guilabel role="pref_perform_share_title"/></link>.
       <phrase role="br"/>
       Transfer operations will also be deleted from the account, but still be visible in
       the other account they refer to.
@@ -735,10 +732,9 @@
       le bouton <guibutton role="menu_reset"/> dans la liste des opérations.
       Ceci va créer un fichier sur votre carte SD avec toutes les opérations du compte en
       cours, les enlever de la base de données et ajuster le solde initial avec le solde
-      courant. <application role="app_name"/> peut utiliser ce fichier
-      immédiatement en le téléchargeant sur un serveur FTP ou en l'envoyant par courriel.
-      Vous pouvez en configurer l'URL à partir de <link linkend='tutorial5_3'><guilabel
-      role="pref_share_target_title"/></link>. 
+      courant. Ce fichier peut être transféré par FTP, courriel ou d'autres apps tel que
+      expliqué dans <link linkend='tutorial5_3'><guilabel role="pref_perform_share_title"
+        /></link>. 
       <phrase role="br"/>
       Les opérations de virement seront aussi enlevées du compte mais resteront visibles
       dans l'autre compte concerné.
@@ -750,15 +746,14 @@
       Hiedurch wird eine Datei auf der SD-Karte erzeugt, die alle Buchungen des aktuellen
       Kontos enthält. Diese werden gelöscht und der aktuelle Saldo wird in den neuen
       Anfangssaldo übertragen. Sofort nach dem Export kann die Datei weitergeleitet
-      werden, entweder auf einen FTP Server übertragen, oder per Email verschickt. Die URL
-      dafür kann in den Einstellungen eingerichtet werden (z.B.
-      "ftp://login:password@my.example.org:port/my/directory/" or
-      "mailto:john@my.example.com").
+      werden, mittels FTP, Email oder anderen Apps, die Dateien übertragen können (siehe <link
+        linkend='tutorial5_3'><guilabel role="pref_perform_share_title"/></link>).
       <phrase role="br"/>
       Umbuchungen werden auch von dem Konto gelöscht, sind aber im anderen Konto, auf das
       sie sich beziehen, weiterhin sichtbar.
     </para>
     <para lang="it">
+    <!-- à verifier -->
       Infine, la ragion d'essere di <application role="app_name"/> è il suo supporto per
       l'esportazione in formato QIF. Chiama questa funzione attraverso la voce <guibutton
       role="menu_reset"/> di menù dalla lista transazione. Questo sarà crea un file sul tuo
@@ -766,7 +761,7 @@
       regolare il saldo di apertura con il saldo corrente. <application role="app_name"/> posso
       condividere il file subito dopo il export, sia caricarlo in un server FTP o inviarla via
       e-mail. È possibile configurare il URL dalla voce <link linkend='tutorial5_3'><guilabel
-      role="pref_share_target_title"/></link>.
+      role="pref_perform_share_title"/></link>.
       <phrase role="br"/>
       Operazioni di trasferimento verrà eliminato anche dal conto, ma ancora visibile in
       l'altro conto a cui si riferiscono.
@@ -1306,7 +1301,7 @@
       <phrase lang="de">Häufig gestellte Fragen</phrase>
       <phrase lang="it">Domande più frequenti</phrase>
   </title>
-  <qandaset><?dbhtml toc="0" ?>
+  <qandaset>
     <qandaentry id="faq-comma">
       <question>
         <para lang="en">
@@ -1357,6 +1352,39 @@
         </para>
       </answer>
     </qandaentry>
+    <qandaentry id="faq-share">
+      <question>
+        <para lang="en">
+          Can I send the QIF file to Google Docs or Dropbox?
+        </para>
+        <para lang="fr">
+          Puis-je envoyer le fichier QIF vers Google Docs ou Dropbox?
+        </para>
+        <para lang="de">
+          Kann ich die QIF Datei auf Google Docs oder Dropbox übertagen?
+        </para>
+      </question>
+      <answer>
+        <para lang="en">
+          Yes, in the settings, activate  <guilabel role="pref_perform_share_title"/> and leave
+          <guilabel role="pref_share_target_title"/> empty. After each export, you will see a
+          chooser for selecting an app (like Google Docs or Dropbox) capable of sending the 
+          file.
+        </para>
+        <para lang="fr">
+          Oui, dans les paramètres, activez <guilabel role="pref_perform_share_title"/>, et
+          gardez <guilabel role="pref_share_target_title"/> vide. Ainsi, après chaque export,
+          vous pourrez choisir dans un menu une apps (par exemple Google Docs ou Dropbox)
+          capable de transférer le fichier.
+        </para>
+        <para lang="de">
+          Ja, aktivieren Sie <guilabel role="pref_perform_share_title"/> in den Einstellungen,
+          und lassen Sie <guilabel role="pref_share_target_title"/> leer. Dann können Sie nach
+          jedem Export die App (wie z.B. Google Docs oder Dropbox) auswählen, mittels derer Sie
+          die Datei übertragen wollen.
+        </para>
+      </answer>
+      </qandaentry>
   </qandaset>
   </sect1>
 
