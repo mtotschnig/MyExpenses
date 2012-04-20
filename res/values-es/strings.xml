@@ -56,29 +56,25 @@
   <string name="external_storage_unavailable">La memoria externa (tarjeta SD) no es
        disponible.</string>
   <string name="ftp_uri_malformed">URI %1$s inválido</string>
-  <string name="ftp_success">Carga a %1$s ha sido exitosa.</string>
-  <string name="ftp_failure">Carga a %1$s ha fallecido.</string>
-  <string name="ftp_socket_exception">Socket exception während des Uploads nach %1$s</string>
-  <string name="ftp_io_exception">IO exception während des Uploads nach %1$s</string>
-  <string name="ftp_login_failure">Login Fehler während des Uploads nach %1$s</string>
-  <string name="ftp_setFileType_failure">Fehler bei der Konfiguration des Dateityps ASCII während
-      des Uploads nach %1$s</string>
-  <string name="ftp_changeWorkingDirectory_failure">Fehler beim Wechseln des Verzeichnisses während
-      des Uploads nach %1$s</string>
+  <string name="ftp_success">La carga en %1$s ha sido exitosa.</string>
+  <string name="ftp_failure">Error al cargar en %1$s</string>
+  <string name="ftp_socket_exception">Socket excepción durante la carga en %1$s</string>
+  <string name="ftp_io_exception">IO excepción durante la carga en %1$s</string>
+  <string name="ftp_login_failure">Error al iniciar la sesión durante la carga en %1$s</string>
+  <string name="ftp_setFileType_failure">No podía establecer el tipo de archivo a ASCII durante la carga en %1$s</string>
+  <string name="ftp_changeWorkingDirectory_failure">Error al cambiar el directorio durante la carga en %1$s</string>
   <string name="grisbi_file">&grisbi_file;</string>
-  <string name="grisbi_import_button_categories_only">Kategorien</string>
-  <string name="grisbi_import_button_categories_and_parties">Kateg. und Parteien</string>
-  <string name="grisbi_import_parsing">Analyse von %1$s</string>
-  <string name="grisbi_import_categories_and_parties_success">%1$s Kategorien und %2$s Parteien
-      erfolgreich importiert</string>
-  <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
-  <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
-  <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
-  <string name="help_feedback">Wenn Ihnen <i>&app_name;</i> nützlich ist, geben Sie doch im
-      <a href="market://details?id=org.totschnig.myexpenses">Market</a> dazu einen Kommentar ab.
-      Wenn Sie auf ein Problem stoßen, einen Verbesserungsvorschlag haben oder einen Beitrag leisten
-       wollen, bitte kontaktieren Sie
-       <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
+  <string name="grisbi_import_button_categories_only">Categorías</string>
+  <string name="grisbi_import_button_categories_and_parties">Categorías y partidos</string>
+  <string name="grisbi_import_parsing">Análisis de %1$s</string>
+  <string name="grisbi_import_categories_and_parties_success">%1$s categorías y %2$s partidos han sido importados con éxito
+</string>
+  <string name="grisbi_import_categories_loading">Las categorías se cargan de %1$s</string>
+  <string name="grisbi_import_categories_success">%1$s categorías han sido importadas con éxito.</string>
+  <string name="grisbi_import_parties_loading">Partidos se cargan de %1$s</string>
+  <string name="help_feedback">Si <i>&app_name;</i> le es útil, por favor, dé un comentario en
+      <a href="market://details?id=org.totschnig.myexpenses">Market</a>.
+      Si encuentra algún problema, tiene alguna sugerencia para la mejora o desea contribuir, por favor, póngase en contacto con <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
   <string name="help_heading_feedback"><u>Feedback</u></string>
   <string name="help_heading_credits"><u>Abspann</u></string>
   <string name="help_heading_license"><u>Lizenz</u></string>
