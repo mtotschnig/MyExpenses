@@ -42,10 +42,10 @@
   <string name="default_account_description">Esta cuenta fue establecida automáticamente durante la instalación.</string>    
   <string name="description">Descripción</string>
   <string name="dialog_no">No</string>
-  <string name="dialog_title_select_account">Escoja cuenta</string>
-  <string name="dialog_title_select_currency">Escoja moneda</string>
-  <string name="dialog_title_select_import_source">Escoja fuente para la importación</string>
-  <string name="dialog_yes">Ja</string>
+  <string name="dialog_title_select_account">Escoja una cuenta</string>
+  <string name="dialog_title_select_currency">Escoja una moneda</string>
+  <string name="dialog_title_select_import_source">Escoja una fuente para la importación</string>
+  <string name="dialog_yes">Sí</string>
   <string name="done">Terminado</string>
   <string name="edit_category">Edite categoría</string>
   <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere
@@ -176,29 +176,24 @@ acción estándar) como a clics largos (abrir un menú pop-up).
   <string name="pref_use_standard_menu_summary">En vez de la barra de herramientas utilice el menú estándar de Android para acceder a los comandos.</string>
   <string name="restore_db_success">La base de datos fue restaurada desde la copia de seguridad.</string>
   <string name="restore_preferences_success">Las configuraciones fueron restauradas desde la copia de seguridad.</string>
-  <string name="revert">Rückgängig</string>
-  <string name="select">Auswählen</string>
-  <string name="select_account">Konto auswählen</string>
-  <string name="select_category">Kategorie auswählen</string>
-  <string name="select_parent_category">Wähle diese Kategorie</string>
-  <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt</string>
-  <string name="share_sending">QIF Datei senden</string>
-  <string name="suggest_use_standard_menu">Möchten Sie das Android Standardmenü anstatt der
-      Symbolleiste verwenden, um Befehle aufzurufen</string>
-  <string name="time">Zeit</string>
-  <string name="title">Titel</string>
-  <string name="transaction">Buchung</string>
-  <string name="transfer">Umbuchung</string>
-  <string name="tutorial">Anleitung</string>
-  <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte
-      gesichert. Möchten Sie fortfahren?</string>
-  <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte
-      gesichert. Das bestehende Backup wird gelöscht. Möchten Sie fortfahren?</string>
-  <string name="warning_delete_account">Dieses Konto wird mit all seinen Buchungen gelöscht. Möchten
-       Sie fortfahren?</string>
-  <string name="warning_reset_account">Alle Transaktionen dieses Kontos werden gelöscht. Möchten Sie
-       fortfahren?</string>
-  <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
+  <string name="revert">Anular</string>
+  <string name="select">Escoger</string>
+  <string name="select_account">Escoja una cuenta</string>
+  <string name="select_category">Escoja una categoría</string>
+  <string name="select_parent_category">Escoja esta categoría</string>
+  <string name="share_scheme_not_supported">Esquema %1$s no es apoyado</string>
+  <string name="share_sending">Enviar el archivo QIF</string>
+  <string name="suggest_use_standard_menu">¿Quiere usted utilizar el menú estándar de Android en vez de la barra de herramientas para acceder a los comandos?</string>
+  <string name="time">Hora</string>
+  <string name="title">Título</string>
+  <string name="transaction">Asiento</string>
+  <string name="transfer">Traslado a otra cuenta</string>
+  <string name="tutorial">Instrucción</string>
+  <string name="warning_backup">La base de datos y las configuraciones son archivadas en la tarjeta SD. ¿Quiere continuar?</string>
+  <string name="warning_backup_exists">La base de datos y las configuraciones son archivadas en la tarjeta SD. Se borra la existente copia de seguridad . ¿Quiere continuar?</string>
+  <string name="warning_delete_account">Se borra esta cuenta con todos sus asientos. ¿Quiere continuar?</string>
+  <string name="warning_reset_account">Se borran todas las transacciones de esta cuenta. ¿Quiere continuar?</string>
+  <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
   
   <!-- strings below this comment do not need translations for new languages -->
   <string name="version_14_upgrade_info">Seit Version 1.4.0, werden Währungen mit ihrem ISO 4217
