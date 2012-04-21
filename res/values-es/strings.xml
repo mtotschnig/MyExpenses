@@ -142,28 +142,22 @@ acción estándar) como a clics largos (abrir un menú pop-up).
   <string name="not_deletable_subcats_exists">No se puede borrar esta categoría, porque tiene sub-categorías.</string>
   <string name="opening_balance">Saldo inicial</string>
   <string name="parse_error_file_not_found">No se pudo encontrar el archivo %1$s</string>
-  <string name="parse_error_no_data_found">Keine importierbaren Daten in der Datei gefunden.
+  <string name="parse_error_no_data_found">No hay datos importables en el archivo.
   </string>
-  <string name="parse_error_parse_exception">Konnte Datei nicht analysieren</string>
-  <string name="parse_error_other_exception">Ein Fehler ist aufgetreten: %1$s</string>
+  <string name="parse_error_parse_exception">No se pudo analizar el archivo.</string>
+  <string name="parse_error_other_exception">Se ha producido un error: %1$s</string>
   <!--
-  <string name="parse_error_grisbi_version_not_determined">Konnte Version der Grisbi Datei nicht
-      ermitteln</string>
+  <string name="parse_error_grisbi_version_not_determined">No se pudo determinar la versión del archivo Grisbi.</string>
   -->
-  <string name="parse_error_grisbi_version_not_supported">Grisbi Datei Version %1$s wird nicht
-      unterstützt</string>
-  <string name="payee">Empfänger</string>
-  <string name="payer">Zahler</string>
-  <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s)
-      verknüpft, die gelöscht wurde</string>
-  <string name="pref_backup_title">Backup</string>
-  <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der
-      SD-Karte.</string>
-  <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge der Kategorien</string>
-  <string name="pref_categories_sort_by_usages_summary">Benützungshäufigkeit als primäres Kriterium
-      für Sortierung verwenden (andernfalls alphabetische Reihung)</string>
-  <string name="pref_currency_decimal_separator_title">Dezimaltrennzeichen für die Eingabe von
-      Währungsbeträgen</string>
+  <string name="parse_error_grisbi_version_not_supported">La versión del archivo Grisbi no es apoyada.</string>
+  <string name="payee">Beneficario</string>
+  <string name="payer">Pagador</string>
+  <string name="peer_transaction_deleted">Este asiento estaba conectado con un asiento de contrapartida (cuenta %1$s) que fue borrado.</string>
+  <string name="pref_backup_title">Copia de seguridad</string>
+  <string name="pref_backup_summary">Crea una copia de seguridad de la base de datos y de las configuraciones en la tarjeta SD.</string>
+  <string name="pref_categories_sort_by_usages_title">Criterio de ordenación de las categorías</string>
+  <string name="pref_categories_sort_by_usages_summary">Frecuencia de utilización como criterio principal de ordenación (por lo demás orden alfabético)</string>
+  <string name="pref_currency_decimal_separator_title">Separador decimal para entrar valores de moneda.</string>
   <string name="pref_currency_decimal_separator_summary">Wählen Sie zwischen \",\" und \".\". Sie
       haben auch die Möglichkeit, Untereinheiten als ganze Zahlen einzugeben.</string>
   <string name="pref_currency_decimal_separator_comma">Komma (,)</string>
