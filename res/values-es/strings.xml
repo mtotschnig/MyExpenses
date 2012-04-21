@@ -63,10 +63,10 @@
   <string name="ftp_setFileType_failure">No podía establecer el tipo de archivo ASCII durante la carga en %1$s</string>
   <string name="ftp_changeWorkingDirectory_failure">Error al cambiar el directorio durante la carga en %1$s</string>
 <!-- neu anfang -->
-  <string name="ftp_uploading_wait">FTP Übertragung nach %1$s im Gang. Bitte warten &#8230;</string>
-  <string name="ftp_connection_refused">Verbindung mit %1$s verweigert</string>
-  <string name="ftp_connection_failure">Verbindung mit %1$s gescheitert</string>
-  <string name="ftp_cancelled">FTP Übertragung nach %1$s abgebrochen</string>
+  <string name="ftp_uploading_wait">La transferencia FTP a %1$s está en curso. Por favor, espere &#8230;</string>
+  <string name="ftp_connection_refused">Conexión con %1$s negada</string>
+  <string name="ftp_connection_failure">Conexión con %1$s ha fallecido.</string>
+  <string name="ftp_cancelled">Transferencia FTP a %1$s abortada</string>
 <!-- neu ende -->
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Categorías</string>
