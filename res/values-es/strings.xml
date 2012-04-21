@@ -181,7 +181,7 @@ acción estándar) como a clics largos (abrir un menú pop-up).
   <string name="select_account">Escoja una cuenta</string>
   <string name="select_category">Escoja una categoría</string>
   <string name="select_parent_category">Escoja esta categoría</string>
-  <string name="share_scheme_not_supported">Esquema %1$s no es apoyado</string>
+  <string name="share_scheme_not_supported">Esquema %1$s no es apoyado.</string>
   <string name="share_sending">Enviar el archivo QIF</string>
   <string name="suggest_use_standard_menu">¿Quiere usted utilizar el menú estándar de Android en vez de la barra de herramientas para acceder a los comandos?</string>
   <string name="time">Hora</string>
