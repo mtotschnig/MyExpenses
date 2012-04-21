@@ -31,8 +31,7 @@
   <string name="close">Cerrar</string>
   <string name="comment">Apuntes</string>
   <string name="create_category">Nueva categoría</string>
-  <string name="credits_text">Punto de partida Android Notes Tutorial.
-      \nDiseño del diálogo de ayuda de Mathdoku.
+  <string name="credits_text">Diseño del diálogo de ayuda de Mathdoku.
       \nDiseño gráfico de Sipdroid.
       \nTraducción al francés y al italiano de Laurent Collombet.</string>
   <string name="currency">Moneda</string>
@@ -63,6 +62,12 @@
   <string name="ftp_login_failure">Error al iniciar la sesión durante la carga en %1$s</string>
   <string name="ftp_setFileType_failure">No podía establecer el tipo de archivo ASCII durante la carga en %1$s</string>
   <string name="ftp_changeWorkingDirectory_failure">Error al cambiar el directorio durante la carga en %1$s</string>
+<!-- neu anfang -->
+  <string name="ftp_uploading_wait">FTP Übertragung nach %1$s im Gang. Bitte warten &#8230;</string>
+  <string name="ftp_connection_refused">Verbindung mit %1$s verweigert</string>
+  <string name="ftp_connection_failure">Verbindung mit %1$s gescheitert</string>
+  <string name="ftp_cancelled">FTP Übertragung nach %1$s abgebrochen</string>
+<!-- neu ende -->
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Categorías</string>
   <string name="grisbi_import_button_categories_and_parties">Categorías y partidos</string>
@@ -174,8 +179,12 @@ acción estándar) como a clics largos (abrir un menú pop-up).
   <string name="pref_manage_accounts_summary">Hinzufügen, Editieren und Löschen von Konten.</string>
   <string name="pref_manage_parties_title">Parteien verwalten</string>
   <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) löschen.</string>
+  <string name="pref_perform_share_title">QIF Export versenden</string>
+  <string name="pref_perform_share_summary">Soll die QIF Datei nach jedem Export versendet werden?
   <string name="pref_share_target_title">Upload URL QIF Export</string>
-  <string name="pref_share_target_summary">Unterstützte Schemen</string>
+  <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden
+      Apps wählen wollen (Email, Dropbox, Google Docs, &#8230;) oder eine URL in einer der 
+      unterstützten Schemen angeben</string>
   <string name="pref_use_standard_menu_title">Androids Standardmenü verwenden</string>
   <string name="pref_use_standard_menu_summary">Anstatt der Symbolleiste, verwenden Sie Androids
       Standardmenü, um Befehle aufzurufen.</string>
@@ -187,7 +196,8 @@ acción estándar) como a clics largos (abrir un menú pop-up).
   <string name="select_account">Konto auswählen</string>
   <string name="select_category">Kategorie auswählen</string>
   <string name="select_parent_category">Wähle diese Kategorie</string>
-  <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>
+  <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt</string>
+  <string name="share_sending">QIF Datei senden</string>
   <string name="suggest_use_standard_menu">Möchten Sie das Android Standardmenü anstatt der
       Symbolleiste verwenden, um Befehle aufzurufen</string>
   <string name="time">Zeit</string>
