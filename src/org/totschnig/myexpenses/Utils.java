@@ -141,8 +141,8 @@ public class Utils {
     }
     return result;
   }
-  static int[] getIntArrayFromCursor(Cursor c, String field) {
-    int[] result = new int[c.getCount()];
+  static long[] getLongArrayFromCursor(Cursor c, String field) {
+    long[] result = new long[c.getCount()];
     if(c.moveToFirst()){
      for (int i = 0; i < c.getCount(); i++){
        result[i] = c.getInt(c.getColumnIndex(field));
