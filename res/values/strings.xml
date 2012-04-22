@@ -143,6 +143,7 @@
   <string name="menu_insert_account">Create new account</string>
   <string name="menu_insert_ta">Add Transaction</string>
   <string name="menu_insert_transfer">Add Transfer</string>
+  <string name="menu_move_transaction">Move Transaction</string>
   <string name="menu_new">New</string>
   <string name="menu_reset">Reset</string>
   <string name="menu_reset_abrev">Reset</string>
