@@ -22,6 +22,18 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Map;
 
+//needed for analyzeGrisbiFileWithDOM
+/*
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXParseException;
+*/
+
 import org.totschnig.myexpenses.Utils.CategoryTree;
 import org.totschnig.myexpenses.Utils.Result;
 import org.xml.sax.Attributes;
@@ -206,7 +218,9 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
    * the DOM implementation reports parse_error_grisbi_version_not_determined, if the XML file is
    * unrelated to Grisbi, while the SAX implementation reports success and returns empty
    * category tree and payee list
-   
+   * 
+  */
+  /*
   public static Result analyzeGrisbiFileWithDOM(InputStream is) {
     Document dom;
     Element root;

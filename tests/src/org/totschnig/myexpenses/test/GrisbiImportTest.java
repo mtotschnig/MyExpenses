@@ -35,11 +35,13 @@ public class GrisbiImportTest extends InstrumentationTestCase {
         getInstrumentation().getContext().getResources().openRawResource(id)
     );
   }
+  /*
   private Result analyzeDOM(int id) {
     return GrisbiImport.analyzeGrisbiFileWithDOM(
         getInstrumentation().getContext().getResources().openRawResource(id)
     );
   }
+  */
   public void testGrisbi6() {
     Result result = analyze(R.raw.grisbi);
     Assert.assertEquals(true, result.success);
