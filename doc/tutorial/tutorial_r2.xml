@@ -998,12 +998,30 @@
       </itemizedlist>
     </para>
     <para lang="it">
-      Se si specifica l'URL di un file tramite FTP modalità di scrittura (da esempio
-      "ftp://login:password@my.example.org:port/my/directory/"), <application role="app_name"/>
-      provare a scaricare il file QIF subito dopo avete esportato le tue transazioni. Se si
-      specifica un URL per email il vostro applicazione di posta elettronica si aprirà con un
-      nuovo messaggio con il file allegato.
-    </para>
+      Se si seleziona questa opzione, il file QIF verrà caricato dopo ogni esportare i vostri 
+      transazioni. Sotto <guilabel role="pref_share_target_title"/>, è necessario specificare 
+      la destinazione:
+       <itemizedlist>
+        <listitem>
+          <para>
+          L'URL di un file tramite FTP in modalità di scrittura (ad esempio
+          "ftp://login:password@my.example.org:port/my/directory/").
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+          un URL per email (ad esempio "mailto:john@my.example.com"). Il vostro applicazione 
+	  di posta elettronica si aprirà con un nuovo messaggio con il file allegato.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+          Se questo campo è vuoto, è possibile scegliere ogni volta che le applicazioni disponibili 
+	  sul dispositivo, in grado di trasferire un file (ad esempio, Dropbox, Google docs, &#8230;).
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>    
     <!-- END tutorial5_3 para 1 --> 
     
     </sect2>
@@ -1261,7 +1279,7 @@
       le séparateur décimal de votre région (virgule dans les pays européens, point dans les
       pays anglophones)<footnote id="ftn58-fr-2">
         <para>
-          Sur les appareils roulant sur Android 2.3., <application role="app_name"/> utilise par
+          Sur les appareils sous Android 2.3., <application role="app_name"/> utilise par
           défaut le point, car ceux-ci sont le plus souvent concerné par le problème décrit
           dans la <link linkend='faq-comma'>FAQ</link>.
         </para>
@@ -1363,6 +1381,9 @@
         <para lang="de">
           Kann ich die QIF Datei auf Google Docs oder Dropbox übertagen?
         </para>
+        <para lang="it">
+          Posso inviare il file QIF di Google Docs o Dropbox?
+        </para>
       </question>
       <answer>
         <para lang="en">
@@ -1382,6 +1403,12 @@
           und lassen Sie <guilabel role="pref_share_target_title"/> leer. Dann können Sie nach
           jedem Export die App (wie z.B. Google Docs oder Dropbox) auswählen, mittels derer Sie
           die Datei übertragen wollen.
+        </para>
+        <para lang="it">
+          Sì, nelle parametri, attivare <guilabel role="pref_perform_share_title"/>, e lasciare
+          <guilabel role="pref_share_target_title"/> in bianco. Così, dopo ogni esportazione, 
+	  è possibile scegliere da un menu un applicazioni (ad esempio Google Docs o Dropbox) 
+          in grado di trasferire il file.
         </para>
       </answer>
       </qandaentry>
