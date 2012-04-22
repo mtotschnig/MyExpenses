@@ -1275,7 +1275,7 @@
       as integers (<guilabel role="pref_currency_decimal_separator_input_minor_unit"/>).
     </para>
     <para lang="fr">
-      Par défaut, les montants de transaction (ou le solde d'ouverture d'un compte) utilisent
+      Par défaut, les montants de transactions (ou le solde d'ouverture d'un compte) utilisent
       le séparateur décimal de votre région (virgule dans les pays européens, point dans les
       pays anglophones)<footnote id="ftn58-fr-2">
         <para>
@@ -1302,12 +1302,17 @@
       role="pref_currency_decimal_separator_input_minor_unit"/>).
     </para>
     <para lang="it">
-      Per impostazione predefinita, gli importi in valuta per le transazioni (o il saldo di
+      Per impostazione predefinita, gli importi delle transazioni (o il saldo di
       apertura di un conto) utilizzare il separatore decimale delle impostazioni locali
-      (virgola in molti paesi europei, il punto in più paesi di lingua inglese), qui si può
-      configurare in modo esplicito. In alternativa si ha la possibilità di ingresso alle unità
-      minori (es. $ centesimi, € cent o penny £) come interi (<guilabel
-      role="pref_currency_decimal_separator_input_minor_unit"/>).
+      (virgola in molti paesi europei, il punto in più paesi di lingua inglese)
+      <footnote id="ftn58-it-2">
+        <para>
+          Sur les appareils sous Android 2.3., <application role="app_name"/> utilise par
+          défaut le point, car ceux-ci sont le plus souvent concerné par le problème décrit
+          dans la <link linkend='faq-comma'>FAQ</link>.
+        </para>
+      </footnote>, qui si può configurare in modo esplicito. In alternativa si ha la possibilità di ingresso 	   alle unità minori (es. $ centesimi, € cent o penny £) come interi 
+      (<guilabel role="pref_currency_decimal_separator_input_minor_unit"/>).
     </para>
       <!-- END tutorial5_8 para 1 --> 
       </sect2>
