@@ -998,12 +998,30 @@
       </itemizedlist>
     </para>
     <para lang="it">
-      Se si specifica l'URL di un file tramite FTP modalità di scrittura (da esempio
-      "ftp://login:password@my.example.org:port/my/directory/"), <application role="app_name"/>
-      provare a scaricare il file QIF subito dopo avete esportato le tue transazioni. Se si
-      specifica un URL per email il vostro applicazione di posta elettronica si aprirà con un
-      nuovo messaggio con il file allegato.
-    </para>
+      Se si seleziona questa opzione, il file QIF verrà caricato dopo ogni esportare i vostri 
+      transazioni. Sotto <guilabel role="pref_share_target_title"/>, è necessario specificare 
+      la destinazione:
+       <itemizedlist>
+        <listitem>
+          <para>
+          L'URL di un file tramite FTP in modalità di scrittura (ad esempio
+          "ftp://login:password@my.example.org:port/my/directory/").
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+          un URL per email (ad esempio "mailto:john@my.example.com"). Il vostro applicazione 
+	  di posta elettronica si aprirà con un nuovo messaggio con il file allegato.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+          Se questo campo è vuoto, è possibile scegliere ogni volta che le applicazioni disponibili 
+	  sul dispositivo, in grado di trasferire un file (ad esempio, Dropbox, Google docs, &#8230;).
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>    
     <!-- END tutorial5_3 para 1 --> 
     
     </sect2>
