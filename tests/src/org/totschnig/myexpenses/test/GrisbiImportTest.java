@@ -28,9 +28,17 @@ import junit.framework.Assert;
 
 public class GrisbiImportTest extends InstrumentationTestCase {
   private Result analyze(int id) {
+    return analyzeSAX(id);
+  }
+  private Result analyzeSAX(int id) {
     return GrisbiImport.analyzeGrisbiFileWithSAX(
         getInstrumentation().getContext().getResources().openRawResource(id)
-        );
+    );
+  }
+  private Result analyzeDOM(int id) {
+    return GrisbiImport.analyzeGrisbiFileWithDOM(
+        getInstrumentation().getContext().getResources().openRawResource(id)
+    );
   }
   public void testGrisbi6() {
     Result result = analyze(R.raw.grisbi);
@@ -74,16 +82,48 @@ public class GrisbiImportTest extends InstrumentationTestCase {
     Assert.assertEquals(false, result.success);
     Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_no_data_found, result.message);
   }
-  //this test is commented out since grisbi_big is not added to git
-  //it is just an arbitrary big well-formed XML file (tested with a 9,5M file)
-  //Result: the test fails with analyzeGrisbiFileWithDOM, but only needs some seconds
-  //to run successfully with analyzeGrisbiFileWithSAX Q.E.D. !
- public void testGrisbiBigFile() {
+  /*
+  *these tests are commented out since the large XML files are not added to git
+  *they  are  arbitrary large well-formed XML file (1,2,4,6 M large respectively)
+  *Results (time in seconds running test)
+  *FileSize  SAX     DOM
+  *1M        0,755   4,934
+  *2M        1,475   8,335
+  *4M        3,019   19,347
+  *6M        4,756   OutOfMemoryError
+  */
+  /*
+ public void testGrisbiBigFile1() {
     try {
-      Result result = analyze(R.raw.grisbi_big);
+      Result result = analyze(R.raw.grisbi_big1);
       Assert.assertEquals(false, result.success);
     } catch(OutOfMemoryError e) {
       Assert.fail("File too big to be handled");
     }
   }
+ public void testGrisbiBigFile2() {
+   try {
+     Result result = analyze(R.raw.grisbi_big2);
+     Assert.assertEquals(false, result.success);
+   } catch(OutOfMemoryError e) {
+     Assert.fail("File too big to be handled");
+   }
+ }
+ public void testGrisbiBigFile4() {
+   try {
+     Result result = analyze(R.raw.grisbi_big4);
+     Assert.assertEquals(false, result.success);
+   } catch(OutOfMemoryError e) {
+     Assert.fail("File too big to be handled");
+   }
+ }
+ public void testGrisbiBigFile6() {
+   try { 
+     Result result = analyze(R.raw.grisbi_big6);
+     Assert.assertEquals(false, result.success);
+   } catch(OutOfMemoryError e) {
+     Assert.fail("File too big to be handled");
+   }
+ }
+ */
 }
