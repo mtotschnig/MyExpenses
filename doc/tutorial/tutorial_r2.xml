@@ -732,7 +732,7 @@
       le bouton <guibutton role="menu_reset"/> dans la liste des opérations.
       Ceci va créer un fichier sur votre carte SD avec toutes les opérations du compte en
       cours, les enlever de la base de données et ajuster le solde initial avec le solde
-      courant. Ce fichier peut être transféré par FTP, courriel ou d'autres apps tel que
+      courant. Ce fichier peut être transféré par FTP, courriel ou d'autres applications comme
       expliqué dans <link linkend='tutorial5_3'><guilabel role="pref_perform_share_title"
         /></link>. 
       <phrase role="br"/>
@@ -753,15 +753,14 @@
       sie sich beziehen, weiterhin sichtbar.
     </para>
     <para lang="it">
-    <!-- à verifier -->
       Infine, la ragion d'essere di <application role="app_name"/> è il suo supporto per
       l'esportazione in formato QIF. Chiama questa funzione attraverso la voce <guibutton
       role="menu_reset"/> di menù dalla lista transazione. Questo sarà crea un file sul tuo
       scheda SD con tutte le transazioni per il conto corrente, eliminare dal database, e
       regolare il saldo di apertura con il saldo corrente. <application role="app_name"/> posso
-      condividere il file subito dopo il export, sia caricarlo in un server FTP o inviarla via
-      e-mail. È possibile configurare il URL dalla voce <link linkend='tutorial5_3'><guilabel
-      role="pref_perform_share_title"/></link>.
+      condividere il file subito dopo il export, sia caricarlo in un server FTP, inviarla via
+      e-mail o altra applicazione come spiegato in <link linkend='tutorial5_3'>
+      <guilabel role="pref_perform_share_title"/></link>).
       <phrase role="br"/>
       Operazioni di trasferimento verrà eliminato anche dal conto, ma ancora visibile in
       l'altro conto a cui si riferiscono.
