@@ -193,13 +193,4 @@ acción estándar) como a clics largos (abrir un menú pop-up).
   <string name="warning_delete_account">Se borra esta cuenta con todos sus asientos. ¿Quiere continuar?</string>
   <string name="warning_reset_account">Se borran todas las transacciones de esta cuenta. ¿Quiere continuar?</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
-  
-  <!-- strings below this comment do not need translations for new languages -->
-  <string name="version_14_upgrade_info">Seit Version 1.4.0, werden Währungen mit ihrem ISO 4217
-      Codes gespeichert. Folgende ungültige Symbole werden zur Zeit für Ihre Konten verwendet und
-      müssen verändert werden: %1$s </string>
-  <string name="version_26_upgrade_info"><i>&app_name;</i> hat nun eine Symbolleiste als neue
-      Schnittstelle für die Befehlsaufrufe. Sie können im Einstellungs-Bildschirm zum alten
-      Interface zurückwechseln.
-  </string>
 </resources>      
