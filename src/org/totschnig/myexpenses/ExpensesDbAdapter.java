@@ -821,7 +821,7 @@ public class ExpensesDbAdapter {
   public Cursor fetchPayeeAll() {
     return mDb.query("payee",
         new String[] {KEY_ROWID,"name"}, 
-        null, null, null, null, null);
+        null, null, null, null, "name");
   }
 
   public boolean deletePayee(long id) {
