@@ -1267,7 +1267,7 @@
         <para>
           <application role="app_name"/> uses the point symbol (.) as default on devices
           running Android 2.3, since those are most heavily affected by the problem described
-          in the <link linkend='faq-comma'>FAQ</link>.
+          in the <link linkend='faq-comma-en'>FAQ</link>.
         </para>
       </footnote>, here you can explicitly configure it.
       Alternatively you have the option to input minor units (e.g. $ cents, € cent, or £ pence)
@@ -1280,7 +1280,7 @@
         <para>
           Sur les appareils sous Android 2.3., <application role="app_name"/> utilise par
           défaut le point, car ceux-ci sont le plus souvent concerné par le problème décrit
-          dans la <link linkend='faq-comma'>FAQ</link>.
+          dans la <link linkend='faq-comma-fr'>FAQ</link>.
         </para>
       </footnote>, ici vous pouvez le configurer explicitement. Sinon, vous avez la
       possibilité d'entrer des unités mineures entières (par exemple $ cents, centimes d' €,
@@ -1292,7 +1292,7 @@
       europäischen Ländern, Punkt in den meisten englischsprachigen Ländern)<footnote id="ftn58-de-2">
         <para>
           <application role="app_name"/> verwendet auf Geräten mit Android 2.3. als Standard
-          den Punkt, da diese am meisten von dem in der <link linkend='faq-comma'>FAQ</link>
+          den Punkt, da diese am meisten von dem in der <link linkend='faq-comma-de'>FAQ</link>
           beschriebenen Problem betroffen sind.
         </para>
       </footnote>, hier kann dieses
@@ -1306,10 +1306,12 @@
       (virgola in molti paesi europei, il punto in più paesi di lingua inglese)
       <footnote id="ftn58-it-2">
         <para>
-          Sui dispositivi con sistema operativo Android 2.3., <application role="app_name"/>, il default è 		  il punto, perché sono per lo più si occupano del problema descritto nella 
-	  <link linkend='faq-comma'>FAQ</link>.
+          Sui dispositivi con sistema operativo Android 2.3., <application role="app_name"/>,
+          il default è il punto, perché sono per lo più si occupano del problema descritto
+          nella <link linkend='faq-comma-it'>FAQ</link>.
         </para>
-      </footnote>, qui si può configurare in modo esplicito. In alternativa si ha la possibilità di ingresso 	   alle unità minori (es. $ centesimi, € cent o penny £) come interi 
+      </footnote>, qui si può configurare in modo esplicito. In alternativa si ha la
+      possibilità di ingresso alle unità minori (es. $ centesimi, € cent o penny £) come interi
       (<guilabel role="pref_currency_decimal_separator_input_minor_unit"/>).
     </para>
       <!-- END tutorial5_8 para 1 --> 
@@ -1323,23 +1325,14 @@
       <phrase lang="it">Domande più frequenti</phrase>
   </title>
   <qandaset>
-    <qandaentry id="faq-comma">
+    <qandaentry id="faq-comma-en" lang="en">
       <question>
-        <para lang="en">
+        <para>
           How do I enter amounts? There is no comma (,) on the numeric keypad.
         </para>
-        <para lang="fr">
-          Comment puis-je saisir les montants ? Il n'y a pas de virgule (,) sur le pavé numérique.
-        </para>
-        <para lang="de">
-          Wie kann ich Beträge eingeben? Auf der numerischen Tastatur finde ich kein Komma (,).
-        </para>
-        <para lang="it">
-          Come faccio a inserire gli importi? Non c'è una virgola (,) sul tastierino numerico.
-        </para>     
-      </question>
+        </question>
       <answer>
-        <para lang="en">
+        <para>
           There are different decimal separators used in different languages: comma in most
           European countries, point in most English speaking countries. Unfortunately there is
           a still unresolved problem in the Android OS, which does not handle the comma well in
@@ -1347,7 +1340,16 @@
           comma. If you encounter this problem, you can set the point as decimal separator in
           the Settings.
         </para>
-        <para lang="fr">
+      </answer>
+      </qandaentry>
+     <qandaentry id="faq-comma-fr" lang="fr">
+      <question>
+        <para>
+          Comment puis-je saisir les montants ? Il n'y a pas de virgule (,) sur le pavé numérique.
+        </para>
+        </question>
+      <answer>
+        <para>
           Il existe différents séparateurs décimaux utilisés dans différentes langues: virgule
           dans la plupart des pays européens, le point dans les pays anglophones.
           Malheureusement, il existe un problème non encore résolu dans le système d'exploitation
@@ -1355,7 +1357,16 @@
           certains cas ne permet même pas du tout d'entrer une virgule. Si vous rencontrez ce
           problème, vous pouvez définir le point comme séparateur décimal dans les paramètres.
         </para>
-        <para lang="de">
+      </answer>
+      </qandaentry>
+      <qandaentry id="faq-comma-de" lang="de">
+      <question>
+        <para>
+         Wie kann ich Beträge eingeben? Auf der numerischen Tastatur finde ich kein Komma (,).
+        </para>
+        </question>
+      <answer>
+        <para>
           In den verschiedenen Sprachen werden unterschiedliche Dezimaltrennzeichen verwendet:
           Komma in den meisten europäischen Ländern, Punkt in den meisten englischsprachigen
           Ländern. Leider gibt es unter Android ein noch ungelöstes Problem, das die Verwendung
@@ -1363,7 +1374,16 @@
           macht. Wenn Sie diesem Problem begegnen, können Sie in den Einstellungen den Punkt
           als Dezimaltrennzeichen festlegen.
         </para>
-        <para lang="it">
+      </answer>
+      </qandaentry>
+          <qandaentry id="faq-comma-it" lang="it">
+      <question>
+        <para>
+          Come faccio a inserire gli importi? Non c'è una virgola (,) sul tastierino numerico.
+        </para>
+        </question>
+      <answer>
+        <para>
           Ci sono diversi separatori decimali utilizzati nelle diverse lingue: virgola in molti
           paesi europei, il punto in più paesi di lingua inglese. Purtroppo c'è un problema
           ancora irrisolto nel sistema operativo Android, che non gestisce bene la virgola nel
@@ -1372,49 +1392,67 @@
           come separatore decimale nelle Impostazioni.
         </para>
       </answer>
-    </qandaentry>
-    <qandaentry id="faq-share">
+   </qandaentry>
+   <qandaentry id="faq-share-en" lang="en">
       <question>
-        <para lang="en">
+        <para>
           Can I send the QIF file to Google Docs or Dropbox?
         </para>
-        <para lang="fr">
-          Puis-je envoyer le fichier QIF vers Google Docs ou Dropbox?
-        </para>
-        <para lang="de">
-          Kann ich die QIF Datei auf Google Docs oder Dropbox übertagen?
-        </para>
-        <para lang="it">
-          Posso inviare il file QIF di Google Docs o Dropbox?
-        </para>
-      </question>
+        </question>
       <answer>
-        <para lang="en">
+        <para>
           Yes, in the settings, activate  <guilabel role="pref_perform_share_title"/> and leave
           <guilabel role="pref_share_target_title"/> empty. After each export, you will see a
           chooser for selecting an app (like Google Docs or Dropbox) capable of sending the 
           file.
         </para>
-        <para lang="fr">
+      </answer>
+   </qandaentry>
+   <qandaentry id="faq-share-fr" lang="fr">
+      <question>
+        <para>
+          Puis-je envoyer le fichier QIF vers Google Docs ou Dropbox?
+        </para>
+        </question>
+      <answer>
+        <para>
           Oui, dans les paramètres, activez <guilabel role="pref_perform_share_title"/>, et
           gardez <guilabel role="pref_share_target_title"/> vide. Ainsi, après chaque export,
           vous pourrez choisir dans un menu une apps (par exemple Google Docs ou Dropbox)
           capable de transférer le fichier.
         </para>
-        <para lang="de">
+      </answer>
+   </qandaentry>
+   <qandaentry id="faq-share-de" lang="de">
+      <question>
+        <para>
+          Kann ich die QIF Datei auf Google Docs oder Dropbox übertagen?
+        </para>
+        </question>
+      <answer>
+        <para>
           Ja, aktivieren Sie <guilabel role="pref_perform_share_title"/> in den Einstellungen,
           und lassen Sie <guilabel role="pref_share_target_title"/> leer. Dann können Sie nach
           jedem Export die App (wie z.B. Google Docs oder Dropbox) auswählen, mittels derer Sie
           die Datei übertragen wollen.
         </para>
-        <para lang="it">
+      </answer>
+   </qandaentry>
+   <qandaentry id="faq-share-it" lang="it">
+      <question>
+        <para>
+          Posso inviare il file QIF di Google Docs o Dropbox?
+        </para>
+        </question>
+      <answer>
+        <para>
           Sì, nelle parametri, attivare <guilabel role="pref_perform_share_title"/>, e lasciare
           <guilabel role="pref_share_target_title"/> in bianco. Così, dopo ogni esportazione, 
-	  è possibile scegliere da un menu un applicazioni (ad esempio Google Docs o Dropbox) 
+          è possibile scegliere da un menu un applicazioni (ad esempio Google Docs o Dropbox) 
           in grado di trasferire il file.
         </para>
       </answer>
-      </qandaentry>
+   </qandaentry>   
   </qandaset>
   </sect1>
 
@@ -1433,4 +1471,19 @@ template for new paragraphs
     
     </para>
     -->
+  <!--
+  template for FAQ entry
+    <qandaentry id="" lang="">
+      <question>
+        <para>
+
+        </para>
+        </question>
+      <answer>
+        <para>
+
+        </para>
+      </answer>
+   </qandaentry>
+   -->
 </article>
