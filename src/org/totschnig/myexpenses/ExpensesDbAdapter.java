@@ -337,7 +337,12 @@ public class ExpensesDbAdapter {
     incrCategoryUsage(cat_id);
     return result;
   }
-  
+  public int moveTransaction(long rowId, long accountId) {
+    ContentValues args = new ContentValues();
+    args.put(KEY_ACCOUNTID, accountId);
+    return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null);
+  }
+
   /**
    * Update the transfer using the details provided. The expense to be updated is
    * specified using the rowId, and it is altered to use the date, amount and comment

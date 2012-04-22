@@ -109,6 +109,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
 
   private BetterPopupWindow dw;
   private boolean mButtonBarIsFilled;
+  /**
+   * for the SELECT_ACCOUNT_DIALOG we store the context from which we are called
+   * if null, we call from SWITCH_ACCOUNT if a long we call from MOVE_TRANSACTION
+   */
+  private Long mSelectAccountContext;
 
 /*  private int monkey_state = 0;
 
@@ -394,6 +399,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     super.onCreateContextMenu(menu, v, menuInfo);
     menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
     menu.add(0, R.id.SHOW_DETAIL_COMMAND, 0, R.string.menu_show_detail);
+    if (mDbHelper.getAccountCount(null) > 1) {
+      menu.add(0,R.id.MOVE_TRANSACTION_COMMAND,0,R.string.menu_move_transaction);
+    }
   }
 
   @Override
@@ -427,6 +435,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       }
       Toast.makeText(getBaseContext(), msg != "" ? msg : getString(R.string.no_details), Toast.LENGTH_LONG).show();
       return true;
+    case R.id.MOVE_TRANSACTION_COMMAND:
+      mSelectAccountContext = info.id;
+      showDialog(SELECT_ACCOUNT_DIALOG_ID);      
     }
     return super.onContextItemSelected(item);
   }
@@ -554,6 +565,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             dismissDialog(USE_STANDARD_MENU_DIALOG_ID);
           }
         }).create();
+    //SELECT_ACCOUNT_DIALOG is used both from SWITCH_ACCOUNT and MOVE_TRANSACTION
     case SELECT_ACCOUNT_DIALOG_ID:
       final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
       final String[] accountLabels = Utils.getStringArrayFromCursor(otherAccounts, "label");
@@ -565,7 +577,13 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           public void onClick(DialogInterface dialog, int item) {
             //we remove the dialog since the items are different dependent on each invocation
             removeDialog(SELECT_ACCOUNT_DIALOG_ID);
-            switchAccount(accountIds[item]);
+            if (mSelectAccountContext == null) {
+              switchAccount(accountIds[item]);
+            }
+            else {
+              mDbHelper.moveTransaction(mSelectAccountContext,accountIds[item]);
+              fillData();
+            }
           }
         })
         .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -939,6 +957,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
          if (accountCount == 2) {
            switchAccount(0);
          } else {
+           mSelectAccountContext = null;
            showDialog(SELECT_ACCOUNT_DIALOG_ID);
          }
         } else {
