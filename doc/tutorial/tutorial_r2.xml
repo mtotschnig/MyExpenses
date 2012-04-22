@@ -1279,7 +1279,7 @@
       le séparateur décimal de votre région (virgule dans les pays européens, point dans les
       pays anglophones)<footnote id="ftn58-fr-2">
         <para>
-          Sur les appareils roulant sur Android 2.3., <application role="app_name"/> utilise par
+          Sur les appareils sous Android 2.3., <application role="app_name"/> utilise par
           défaut le point, car ceux-ci sont le plus souvent concerné par le problème décrit
           dans la <link linkend='faq-comma'>FAQ</link>.
         </para>
@@ -1381,6 +1381,9 @@
         <para lang="de">
           Kann ich die QIF Datei auf Google Docs oder Dropbox übertagen?
         </para>
+        <para lang="it">
+          Posso inviare il file QIF di Google Docs o Dropbox?
+        </para>
       </question>
       <answer>
         <para lang="en">
@@ -1400,6 +1403,12 @@
           und lassen Sie <guilabel role="pref_share_target_title"/> leer. Dann können Sie nach
           jedem Export die App (wie z.B. Google Docs oder Dropbox) auswählen, mittels derer Sie
           die Datei übertragen wollen.
+        </para>
+        <para lang="it">
+          Sì, nelle parametri, attivare <guilabel role="pref_perform_share_title"/>, e lasciare
+          <guilabel role="pref_share_target_title"/> in bianco. Così, dopo ogni esportazione, 
+	  è possibile scegliere da un menu un applicazioni (ad esempio Google Docs o Dropbox) 
+          in grado di trasferire il file.
         </para>
       </answer>
       </qandaentry>
