@@ -31,9 +31,9 @@
   <string name="close">Cerrar</string>
   <string name="comment">Apuntes</string>
   <string name="create_category">Nueva categoría</string>
-  <string name="credits_text">Diseño del diálogo de ayuda de Mathdoku.
-      \nDiseño gráfico de Sipdroid.
-      \nTraducción al francés y al italiano de Laurent Collombet.</string>
+  <string name="credits_text">Diseño del diálogo de ayuda por Mathdoku.
+      \nDiseño gráfico por Sipdroid.
+      \nTraducción al francés y al italiano por Laurent Collombet.</string>
   <string name="currency">Moneda</string>
   <string name="currency_not_iso4217">%1$s no es un código de moneda válido según ISO 4217.</string>
   <string name="current_balance">Saldo actual</string>
