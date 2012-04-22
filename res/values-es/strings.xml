@@ -170,9 +170,9 @@ acción estándar) como a clics largos (abrir un menú pop-up).
   <string name="pref_perform_share_title">Enviar la exportación QIF</string>
   <string name="pref_perform_share_summary">¿Se debe enviar el archivo QIF después de cada exportación?</string>
   <string name="pref_share_target_title">Cargar URL de exportación QIF</string>
-  <string name="pref_share_target_summary">Usted puede dejar esto en blanco, si quiere elegir entre aplicaciones adecuadas (correo electrónico, Dropbox, Google Docs, &#8230;), o indicar un URL en uno de los esquemas apoyados.</string>
+  <string name="pref_share_target_summary">Usted puede dejar esto en blanco, si quiere elegir entre aplicaciones adecuadas (correo electrónico, Dropbox, Google Docs, &#8230;), o indicar un URL en uno de los esquemas apoyados</string>
   <string name="pref_use_standard_menu_title">Utilizar el menú estándar de Android</string>
-  <string name="pref_use_standard_menu_summary">En vez de la barra de herramientas utilice el menú estándar de Android para acceder a los comandos.</string>
+  <string name="pref_use_standard_menu_summary">En vez de la barra de herramientas usted utiliza el menú estándar de Android para acceder a los comandos.</string>
   <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.</string>
   <string name="restore_preferences_success">Las configuraciones han sidos restauradas desde la copia de seguridad.</string>
   <string name="revert">Anular</string>
