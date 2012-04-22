@@ -1307,9 +1307,8 @@
       (virgola in molti paesi europei, il punto in più paesi di lingua inglese)
       <footnote id="ftn58-it-2">
         <para>
-          Sur les appareils sous Android 2.3., <application role="app_name"/> utilise par
-          défaut le point, car ceux-ci sont le plus souvent concerné par le problème décrit
-          dans la <link linkend='faq-comma'>FAQ</link>.
+          Sui dispositivi con sistema operativo Android 2.3., <application role="app_name"/>, il default è 		  il punto, perché sono per lo più si occupano del problema descritto nella 
+	  <link linkend='faq-comma'>FAQ</link>.
         </para>
       </footnote>, qui si può configurare in modo esplicito. In alternativa si ha la possibilità di ingresso 	   alle unità minori (es. $ centesimi, € cent o penny £) come interi 
       (<guilabel role="pref_currency_decimal_separator_input_minor_unit"/>).
