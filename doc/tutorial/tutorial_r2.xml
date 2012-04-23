@@ -31,6 +31,11 @@
     <surname>Totschnig</surname>
     <contrib>Traducción al español</contrib>
   </othercredit>
+    <othercredit lang="es">
+    <firstname>Christof</firstname>
+    <surname>Totschnig</surname>
+    <contrib>Traducción al español</contrib>
+  </othercredit>
   </articleinfo>
 
   <sect1 id="introduction">
@@ -911,7 +916,8 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       e utilizzare la funzionalità di importazione.
     </para>
     <para lang="es">
-    Voilà. Ahora usted puede conectar su teléfono al ordenador, abrir Grisbi (o Gnucash) y utilizar su función de importación.
+      Voilà. Ahora usted puede conectar su teléfono al ordenador, abrir Grisbi (o Gnucash) y
+      utilizar su función de importación.
     </para>
     <!-- END tutorial4 para 2 --> 
     
@@ -969,7 +975,11 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       role="menu_settings_account"/>), e di backup (<guimenuitem role="menu_backup"/>).
     </para>
     <para lang="es">
-    	Un rápido clic en el botón <guibutton role="menu_settings"/> abre la pantalla para la configuración. Aquí usted puede configurar algunas de las propiedades de <application role="app_name"/> y tiene también acceso a la administración de cuentas y a la función de backup. Un clic largo abre un menú que comprende el acceso rápido a la configuración de la cuenta actual y al backup.
+    	Un rápido clic en el botón <guibutton role="menu_settings"/> abre la pantalla para la
+    	configuración. Aquí usted puede configurar algunas de las propiedades de <application
+    	role="app_name"/> y tiene también acceso a la administración de cuentas y a la función de
+    	backup. Un clic largo abre un menú que comprende el acceso rápido a la configuración de
+    	la cuenta actual y al backup.
     </para>
     <!-- END tutorial5 para 1 --> 
     
