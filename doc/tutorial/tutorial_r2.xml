@@ -103,7 +103,7 @@
     <para lang="de">
       In der Hauptansicht werden alle Buchungen des aktiven Kontos angezeigt. Am unteren Rand
       des Bildschirms befinded sich eine Symbolleiste, die Zugriff auf alle Funktionalitäten
-      gewähren. Jeder Schaltknopf ruft mittels eines kurzen Klicks eine Aktion auf, die meisten
+      gewährt. Jeder Schaltknopf ruft mittels eines kurzen Klicks eine Aktion auf, die meisten
       reagieren zusätzlich auf einen langen Klick, und öffnen ein Menü mit weiteren Aktionen.
       Anstatt der Menüleiste kann <application role="app_name"/> auch das Android Standardmenü
       verwenden, wenn sie <link linkend='tutorial5_6'> <guilabel
@@ -275,7 +275,7 @@
       permettant de choisir un compte dans la liste complète.
     </para>
     <para lang="de">
-      Nach Bestätigung der Eingabe, gelangen Sie wieder zur Liste der Buchungen. Wenn Sie
+      Nach Bestätigung der Eingabe gelangen Sie wieder zur Liste der Buchungen. Wenn Sie
       ein neues Konto angelegt haben, wird dieses automatisch zum aktiven Konto. Der
       Schaltknopf <guibutton role="menu_accounts"/> erlaubt das Wechseln zwischen Konton.
       Ein einfacher Klick wechselt zum zuletzt aktiven Konto, ein langer Klick öffnet ein
@@ -540,7 +540,7 @@
           <guimenu role="menu_new"/>
           <guimenuitem role="transfer"/>
        </menuchoice> erlaubt Beträge zwichen Konten zu verschieben. Dieser Befehl steht nur zur
-       Verfügung, wenn es mehrere Konten mit der selben Währung gibt.
+       Verfügung, wenn es mehrere Konten mit derselben Währung gibt.
       </para>
       <para lang="it">
         <menuchoice>
@@ -1267,7 +1267,7 @@
       </footnote>. Kopieren Sie diese Datei unter dem Namen
       <filename role="grisbi_file"/> in einen Ordner <filename>myexpenses</filename> in das
       Wurzelverzeichnis der SD-Karte. Seit Version 1.4.9, können Sie zusätzlich auch die von
-      Grisbi gespeichertnen Parteien (Empfänger und Zahler), aus dieser Datei importieren
+      Grisbi gespeicherten Parteien (Empfänger und Zahler), aus dieser Datei importieren
       (Element <sgmltag>Party</sgmltag>). Wenn Sie Ihre eigene Datei als Import-Quelle
       auswählen, können Sie entweder Parteien und Kategorien oder nur Kategorien importieren.
       Die Partner werden im Buchungsformular verwendet, um Ihnen für das Feld Empfänger/Zahler
@@ -1547,14 +1547,14 @@
    <qandaentry id="faq-share-de" lang="de">
       <question>
         <para>
-          Kann ich die QIF Datei auf Google Docs oder Dropbox übertagen?
+          Kann ich die QIF Datei auf Google Docs oder Dropbox übertragen?
         </para>
         </question>
       <answer>
         <para>
           Ja, aktivieren Sie <guilabel role="pref_perform_share_title"/> in den Einstellungen,
           und lassen Sie <guilabel role="pref_share_target_title"/> leer. Dann können Sie nach
-          jedem Export die App (wie z.B. Google Docs oder Dropbox) auswählen, mittels derer Sie
+          jedem Export die App (wie z.B. Google Docs oder Dropbox) auswählen, mittels deren Sie
           die Datei übertragen wollen.
         </para>
       </answer>
