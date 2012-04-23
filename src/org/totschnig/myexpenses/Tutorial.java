@@ -61,7 +61,7 @@ public class Tutorial extends Activity {
     settings.setDefaultTextEncodingName("utf-8");
     //settings.setJavaScriptEnabled(true);
     settings.setBuiltInZoomControls(true); 
-    String[] supportedLangs = {"en","fr","de","it"};
+    String[] supportedLangs = {"en","fr","de","it","es"};
     String lang =  Locale.getDefault().getLanguage();
     if (!java.util.Arrays.asList(supportedLangs).contains(lang)) {
       lang = "en";
