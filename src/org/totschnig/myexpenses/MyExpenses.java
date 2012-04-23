@@ -120,7 +120,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   @Override
   public boolean onKeyDown (int keyCode, KeyEvent event) {
     Intent i;
-    if (keyCode == KeyEvent.KEYCODE_ENVELOPE) {
+    if (keyCode == MyApplication.BACKDOOR_KEY) {
       switch (monkey_state) {
       case 0:
         i = new Intent(MyExpenses.this, AccountEdit.class);

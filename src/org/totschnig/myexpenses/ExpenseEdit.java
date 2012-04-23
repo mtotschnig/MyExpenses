@@ -77,7 +77,7 @@ public class ExpenseEdit extends EditActivity {
 
   @Override
   public boolean onKeyDown (int keyCode, KeyEvent event) {
-    if (keyCode == KeyEvent.KEYCODE_ENVELOPE) {
+    if (keyCode == MyApplication.BACKDOOR_KEY) {
       switch (monkey_state) {
       case 0:
         mAmountText.setText("50");

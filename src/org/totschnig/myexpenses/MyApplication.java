@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.util.Log;
+//import android.view.KeyEvent;
 import android.widget.Toast;
 
 public class MyApplication extends Application {
@@ -39,6 +40,7 @@ public class MyApplication extends Application {
     public static String PREFKEY_CURRENT_VERSION = "currentversion";
     public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static String PREFKEY_LAST_ACCOUNT = "last_account";
+//    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 
     @Override
     public void onCreate()

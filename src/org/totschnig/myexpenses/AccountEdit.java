@@ -56,10 +56,10 @@ public class AccountEdit extends EditActivity {
 
   @Override
   public boolean onKeyDown (int keyCode, KeyEvent event) {
-    if (keyCode == KeyEvent.KEYCODE_ENVELOPE) {
+    if (keyCode == MyApplication.BACKDOOR_KEY) {
       switch (monkey_state) {
       case 0:
-        mOpeningBalanceText.setText("100");
+        mAmountText.setText("100");
         mCurrencyText.setText("EUR");
         monkey_state = 1;
         return true;

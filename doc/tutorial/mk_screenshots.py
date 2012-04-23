@@ -6,6 +6,7 @@ if (len(sys.argv) < 2):
 
 lang = sys.argv[1]
 targetdir = '../../../MyExpenses.pages/tutorial_r2/' + lang + '/large/'
+BACKDOOR_KEY = 'KEYCODE_CAMERA'
 
 def snapshot(number):
   filename = 'step'+number+'.png'
@@ -30,32 +31,32 @@ snapshot('1')
 
 ##tutorial1 Managing accounts
 #open "Edit Account" through backdoor
-device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
 #close the virtual keyboard
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 #call our "backdoor that enters data"
-device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
 snapshot('2')
 #backdoor finishes
-device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep(1)
 
 ## tutorial2 Managing transactions
 #open "New transaction" through backdoor
-device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
 #close the virtual keyboard
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep()
 snapshot('3')
 #call our "backdoor" that enters data amd finishes
-device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
 #back at transaction list
 #open context (we use the backdoor to make sure list is focused)
-device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 sleep()
@@ -77,7 +78,7 @@ device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep()
 snapshot('5')
 #select Category import through backdoor
-device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
 snapshot('6')
 #select import source based on lang
@@ -103,14 +104,14 @@ device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep(30)
 snapshot('7')
 #select "Add new category through backdoor"
-device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
 snapshot('8')
 #Close dialog
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep(2)
 #open context (we use the backdoor to make sure list is focused)
-device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 sleep()
@@ -125,7 +126,7 @@ sleep()
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep()
 #open "Reset" through backdoor
-device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
 #confirm
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
@@ -135,7 +136,7 @@ snapshot('10')
 #Tutorial 5 Settings
 sleep()
 #open "Reset" through backdoor
-device.press('KEYCODE_ENVELOPE', MonkeyDevice.DOWN)
+device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep(3)
 snapshot('11')
 
