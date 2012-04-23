@@ -9,6 +9,7 @@
  <lang code="fr">Français</lang>
  <lang code="de">Deutsch</lang>
  <lang code="it">Italiano</lang>
+ <lang code="es">Español</lang>
 </custom:supported-langs>
 
 <xsl:param name="html.stylesheet" select="'../../tutorial/style.css'"/>
