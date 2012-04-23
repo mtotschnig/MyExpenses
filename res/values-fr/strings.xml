@@ -138,6 +138,7 @@
   <string name="menu_insert_account">Ajouter un compte</string>
   <string name="menu_insert_ta">Ajouter une opération</string>
   <string name="menu_insert_transfer">Ajouter un virement</string>
+  <string name="menu_move_transaction">Déplacer l\'opération</string>
   <string name="menu_new">Nouveau</string>
   <string name="menu_reset">Réinitialiser</string>
   <string name="menu_reset_abrev">Réinit.</string>

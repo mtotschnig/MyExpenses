@@ -124,6 +124,7 @@ acción estándar) como a clics largos (abrir un menú pop-up).
   <string name="menu_insert_account">Crear una nueva cuenta</string>
   <string name="menu_insert_ta">Nuevo asiento</string>
   <string name="menu_insert_transfer">Nuevo traslado a otra cuenta</string>
+  <string name="menu_move_transaction">Mover la transacción</string>
   <string name="menu_new">Nuevo</string>
   <string name="menu_reset">Restablecer</string>
   <string name="menu_reset_abrev">Restabl.</string>

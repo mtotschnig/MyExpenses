@@ -141,6 +141,7 @@
   <string name="menu_insert_account">Neues Konto erstellen</string>
   <string name="menu_insert_ta">Neue Buchung</string>
   <string name="menu_insert_transfer">Neue Umbuchung</string>
+  <string name="menu_move_transaction">Bewegen Transaktion</string>
   <string name="menu_new">Neu</string>
   <string name="menu_reset">Zurücksetzen</string>
   <string name="menu_reset_abrev">Zurücks.</string>

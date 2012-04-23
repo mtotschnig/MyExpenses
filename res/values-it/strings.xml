@@ -138,6 +138,7 @@
   <string name="menu_insert_ta">Aggiungere operazione</string>
   <string name="menu_insert_transfer">Aggiungere un trasferimento</string>
   <string name="menu_new">Nuovo</string>
+  <string name="menu_move_transaction">Spostare operazione</string>
   <string name="menu_reset">Reinitializare</string>
   <string name="menu_reset_abrev">Reinit.</string>
   <string name="menu_settings">Parametri</string>
