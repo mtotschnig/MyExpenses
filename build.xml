@@ -110,7 +110,7 @@
     <condition property="filename" value="tutorial" else="tutorial_r${rev}">
       <equals arg1="${rev}" arg2="1"/>
     </condition>
-  	<property name="langs" value="en,fr,de,it"/>
+  	<property name="langs" value="en,fr,de,it,es"/>
     <for list="${langs}" param="language">
       <sequential>
     	<xslt in="doc/tutorial/${filename}.xml" out="doc/tutorial/${filename}_@{language}.xml"
@@ -140,7 +140,7 @@
     <condition property="filename" value="tutorial" else="tutorial_r${rev}">
       <equals arg1="${rev}" arg2="1"/>
     </condition>
-    <property name="langs" value="en,fr,de,it"/>
+    <property name="langs" value="en,fr,de,it,es"/>
     <for list="${langs}" param="language">
       <sequential>
     	<xslt in="doc/tutorial/${filename}.xml" out="doc/tutorial/${filename}_@{language}.xml"
