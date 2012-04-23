@@ -885,6 +885,12 @@
       Operazioni di trasferimento verrà eliminato anche dal conto, ma ancora visibile in
       l'altro conto a cui si riferiscono.
     </para>
+    <para lang="es">
+      La motivación básica para <application role="app_name"/> es exportar a un archivo QIF. Esta función se inicia desde la lista de asientos a través del botón <guibutton role="menu_reset"/>. De esta manera se crea en la tarjeta SD un archivo que contiene todos los asientos de la cuenta actual.Éstos son eliminados y el saldo actual es transferido al nuevo saldo inicial. Inmediatamete después de la exportación se puede enviar el archivo, vía FTP, correo electrónico o otras aplicaciones que pueden transferir archivos (vease <link
+        linkend='tutorial5_3'><guilabel role="pref_perform_share_title"/></link>).
+      <phrase role="br"/>
+Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra cuenta a la que se refieren.
+    </para>
     <!-- END tutorial4 para 1 --> 
     
     <!-- BEGIN tutorial4 para 2 --> 
