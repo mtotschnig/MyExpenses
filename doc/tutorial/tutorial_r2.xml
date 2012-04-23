@@ -7,6 +7,7 @@
     <phrase lang="fr">Tutoriel</phrase>
     <phrase lang="de">Anleitung</phrase>
     <phrase lang="it">Tutorial</phrase>
+    <phrase lang="es">Instrucciones</phrase>
   </title>
     <author>
       <firstname>Michael</firstname>
@@ -25,6 +26,11 @@
     <surname>Collombet</surname>
     <contrib>Traduzione italiana</contrib>
   </othercredit>
+  <othercredit lang="es">
+    <firstname>Gudrun</firstname>
+    <surname>Totschnig</surname>
+    <contrib>Traducción al español</contrib>
+  </othercredit>
   </articleinfo>
 
   <sect1 id="introduction">
@@ -33,6 +39,7 @@
       <phrase lang="fr">Introduction</phrase>
       <phrase lang="de">Einleitung</phrase>
       <phrase lang="it">Introduzione</phrase>
+      <phrase lang="es">Introducción</phrase>
     </title>
 
     <para id="step1"><figure floatstyle="left">
@@ -67,6 +74,11 @@
       <application role="app_name"/> può gestire l'offerta di moneta e le spese, ed esportarle
       in un software di finanza, come Grisbi o GnuCash. Esso supporta più conti e due livelli
       di categorie.
+    </para>
+    <para lang="es">
+      Con <application role="app_name"/> puede llevar contabilidad sobre sus gastos e ingresos,
+      y controlar y exportar estos a un programa de escritorio de finanzas. Puede manejar
+      varias cuentas y dos grupos de categorías. 
     </para>
     <!-- END introduction para 1 -->  
 
@@ -106,6 +118,15 @@
       interfaccia di controllo(<link linkend='tutorial5_6'><guilabel
       role="pref_use_standard_menu_title"/></link>).
     </para>
+    <para lang="es">
+      En la ventana principal puede ver todos los asientos de su cuenta activa. En la parte
+      inferior de la ventana se encuentra una barra de herramientas por la cual se llega a
+      todas las funcionalidades. Cada botón inicia con un clic breve una acción, y casi todos
+      los botones abren con un clic largo un menú con mas acciones. En lugar de la barra de
+      menú <application role="app_name"/> puede utilizar también el menú estándar de Android si
+      usted configura <link linkend='tutorial5_6'> <guilabel
+      role="pref_use_standard_menu_title"/></link>.
+    </para>    
     <!-- END introduction para 2 -->
     
   </sect1>
@@ -118,6 +139,7 @@
       <phrase lang="fr">Comptes</phrase>
       <phrase lang="de">Konten</phrase>
       <phrase lang="it">Conti</phrase>
+      <phrase lang="es">Las cuentas</phrase>
     </title>
 
     <para id="step2"><figure floatstyle="left">
@@ -189,6 +211,19 @@
         <guimenuitem role="menu_accounts_new"/>
      </menuchoice>.
     </para>
+    <para lang="es">
+      Cuando se abre <application role="app_name"/> por primera vez se configura
+      automáticamente una cuenta estándar y usted puede empezar a insertar sus asientos en
+      seguida. Si quiere modificar la cuenta estándar, utilice
+      <menuchoice>
+        <guimenu role="menu_settings"/>
+        <guimenuitem role="menu_settings_account"/>
+     </menuchoice>. A través de
+     <menuchoice>
+        <guimenu role="menu_accounts"/>
+        <guimenuitem role="menu_accounts_new"/>
+     </menuchoice> en cambio puede configurar una nueva cuenta.
+   </para>    
     <!-- END tutorial1 para 1 --> 
 
     <!-- BEGIN tutorial1 para 2 --> 
@@ -214,8 +249,14 @@
       Inserire una etichetta, una descrizione, il saldo di apertura<footnoteref
       linkend="ftn22-it-1"/>, e una valuta per il conto. La valuta deve essere inserita secondo
       la ISO 4217 di tre lettere, ma può essere facilmente selezionato da una lista, fare clic
-      <guibutton role="select"/>
+      <guibutton role="select"/>.
     </para>
+    <para lang="es">
+      Inserte un nombre, una descripción, el saldo inicial<footnoteref
+      linkend="ftn22-es-1"/> y la moneda de la cuenta. La moneda
+      va insertada con su abreviación de tres cifras ISO 4217, pero puede ser elegida
+      simplemente de la lista, a la cual se llega con un clic sobre <guibutton role="select"/>.
+    </para>    
     <!-- END tutorial1 para 2 --> 
 
     <!-- BEGIN tutorial1 para 3 --> 
@@ -246,6 +287,13 @@
       role="menu_accounts"/> consente di cambiare il conto corrente. Un clic breve attiva il
       conto ultimo utilizzato, un clic lungo apre un menu per scegliere questo dalla lista.
     </para>
+    <para lang="es">
+      Después de confirmar su inserción el programa vuelve a la lista de sus asientos. Si
+      configura una nueva cuenta, esa se trasforma automáticamente en la cuenta activa. El
+      botón <guibutton role="menu_accounts"/> permite cambiar de una cuenta a otra. Con un clic
+      simple se vuelve a la cuenta recientemente activa, un clic largo abre un menú con todas
+      las cuentas a elegir.
+    </para>    
     <!-- END tutorial1 para 3 --> 
     
     <!-- BEGIN tutorial1 para 4 --> 
@@ -265,6 +313,10 @@
       La gestione degli conti è spiegata in <link linkend='tutorial5_1'>
       <guilabel role="pref_manage_accounts_title"/></link>.
     </para>
+    <para lang="es">
+      La administración de las cuentas se explica en <link linkend='tutorial5_1'>
+      <guilabel role="pref_manage_accounts_title"/></link>
+    </para>    
     <!-- END tutorial1 para 4 --> 
   </sect1>
    
@@ -275,6 +327,7 @@
       <phrase lang="fr">Opérations</phrase>
       <phrase lang="de">Buchungen</phrase>
       <phrase lang="it">Transazioni</phrase>
+      <phrase lang="es">Los asientos</phrase>
     </title>
     
     <para id="step3"><figure floatstyle="left">
@@ -305,6 +358,10 @@
       <guimenuitem role="menu_new"/> porta in primo piano l'attività 
       per la creazione di una transazione.
     </para>
+    <para lang="es">
+      Un clic breve sobre <guimenuitem role="menu_new"/> abre una ventana para la inserción de
+      un nuevo asiento.
+    </para>    
     <!-- END tutorial2 para 1 --> 
     
     <!-- BEGIN tutorial2 para 2 --> 
@@ -394,6 +451,23 @@
       </footnote> Cliccando sul <guibutton role="select"/> pulsante, si apre la <guilabel
       role="select_category"/> attività. Vi spiegheremo di seguito, come gestire le categorie.
     </para>
+    <para lang="es">
+    <!-- Fußnoten fehlen -->
+      Ajuste la fecha y la hora, presione el botón <guibutton>-</guibutton> para alternar entre
+      gasto u ingreso, inserte el importe<footnote id="ftn22-es-1">
+        <para>
+        ... missing ...
+        </para>
+      </footnote> y apuntes. La casilla para la inserción del
+      beneficiario (o del pagador) memoriza los valores que usted ha insertado, y se los
+      propone si usted vuelve a hacer inserciones en esta casilla<footnote id="ftn22-es-2">
+        <para>
+        ... missing ...
+        </para>
+      </footnote>. Con un clic sobre el botón
+      <guibutton role="select"/> usted llega a la ventana <guilabel role="select_category"/>.
+      Este punto se explica mas adelante.
+    </para>    
     <!-- END tutorial2 para 2 -->
     
     <?float-clear?> 
@@ -431,6 +505,10 @@
       click breve, il menù contestuale permette di cancellare una transazione, o visualizzare
       tutti i dettagli (beneficiario, note).
     </para>
+    <para lang="es">
+      En la lista de los asientos puede editar con un breve clic cada asiento, el menú de
+      contextual permite borrar y ver las informaciones detalladas (el beneficiario, apuntes).
+    </para>
     <!-- END tutorial2 para 3 --> 
     
     <sect2 id="tutorial2_1">
@@ -439,6 +517,7 @@
         <phrase lang="fr">Virement</phrase>
         <phrase lang="de">Umbuchung</phrase>
         <phrase lang="it">Trasferimento</phrase>
+        <phrase lang="es">Traspaso entre cuentas</phrase>
       </title>
       
       <!-- BEGIN tutorial2_1 para 1 --> 
@@ -470,6 +549,13 @@
        </menuchoice> consente di trasferire denaro tra conti. Questo comando è disponibile solo
        se si dispone di più di uno conto con la stessa valuta di quella attuale.
       </para>
+      <para lang="es">
+        <menuchoice>
+          <guimenu role="menu_new"/>
+          <guimenuitem role="transfer"/>
+       </menuchoice> permite trasladar importes de una cuenta a otra. Este mando <!-- (¿) -->  está a
+       disposición solamente si existen varias cuentas de la misma moneda.
+      </para>      
       <!-- END tutorial2_1 para 1 --> 
     </sect2>
   </sect1>
@@ -481,6 +567,7 @@
       <phrase lang="fr">Catégories</phrase>
       <phrase lang="de">Kategorien</phrase>
       <phrase lang="it">Categorie</phrase>
+      <phrase lang="es">Categorías</phrase>
     </title>
     
     <para id="step5"><figure floatstyle="left">
@@ -512,6 +599,9 @@
       All'inizio, categorie non sono definite. Sono disponibili due opzioni per l'aggiunta di
       loro.
     </para>
+    <para lang="es">
+      Al principio todavía no existen categorías.  Hay dos posibilidades de configurarlos.
+    </para>
     <!-- END tutorial3 para 1 --> 
     
     <!-- BEGIN tutorial3 para 2 --> 
@@ -542,6 +632,13 @@
       role="pref_import_from_grisbi_title"/></link>. Questo pulsante è visibile quando l'elenco
       delle categorie è vuoto, ma è ancora possibile accedere al funzione di importazione dallo
       schermo <guilabel role="menu_settings"/>.
+    </para>
+    <para lang="es">
+      El botón <guibutton role="import_categories"/> permite importar categorías de distintas
+      fuentes como se explica en <link linkend='tutorial5_5'> <guilabel
+      role="pref_import_from_grisbi_title"/></link>. Este botón está visible solamente mientras
+      no existan categorías, pero en la ventana <guilabel role="menu_settings"/> usted puede
+      acceder cuando quiera a la funcionalidad de importar.
     </para>
     <!-- END tutorial3 para 2 -->
     
@@ -594,6 +691,13 @@
       possibile disabilitare questa impostazione <guilabel
       role="pref_categories_sort_by_usages_title"/>.
     </para>
+    <para lang="es">
+      Ahora puede atribuir las categorías y subcategorías a sus asientos. Como primer criterio
+      de clasificación se utiliza el número de usos de una categoría (el segundo criterio es el
+      orden alfabético). Así usted puede acceder de manera muy rápida a las categorías de uso
+      mas frecuente. Si usted prefiere el orden alfabético puede desactivar la configuración
+      <guilabel role="pref_categories_sort_by_usages_title"/>.
+    </para>
     <!-- END tutorial3 para 3 --> 
     
     <?float-clear?> 
@@ -627,6 +731,11 @@
       La seconda opzione è quella di aggiungere proprie categorie. <guibutton
       role="menu_create_main_cat"/> porta in primo piano una finestra di dialogo per la
       fornitura di una nuova etichetta di categoria.
+    </para>
+    <para lang="es">
+      La segunda posibilidad consiste en crear categorías por su cuenta. <guibutton
+        role="menu_create_main_cat"/> principal abre una ventana de diálogo para insertar un
+      nombre.
     </para>
     <!-- END tutorial3 para 4 -->
     
@@ -666,6 +775,11 @@
       sottocategoria per la transazione corrente, semplicemente cliccando. Al fine di mappare
       un categoria principale, si deve chiamare il suo menù contestuale. 
     </para>
+    <para lang="es">
+      Un clic sobre una categoría principal abre la lista de subcategorías. La asignación de
+      una subcategoría a un asiento actual se realiza a través de un breve clic. La asignación
+      de una categoría principal es posible a través del menú contextual.
+    </para>
     <!-- END tutorial3 para 5 --> 
     
     <!-- BEGIN tutorial3 para 6 --> 
@@ -688,6 +802,11 @@
       modificarlo. Sottocategorie hanno anche menù di scelta rapida per la eliminazione e la
       modifica.
     </para>
+    <para lang="es">
+      Este menú permite también crear nuevas subcategorías, y borrar y modificar categorías
+      principales. También las subcategorías disponen de un menú contextual para borrar- o
+      modificarlas.
+    </para>
     <!-- END tutorial3 para 6 --> 
   </sect1>
    
@@ -698,6 +817,7 @@
       <phrase lang="fr">Exporter les opérations</phrase>
       <phrase lang="de">Buchungen exportieren</phrase>
       <phrase lang="it">Esportazione di operazioni</phrase>
+      <phrase lang="es">Exportar asientos</phrase>
     </title>
     
     <para id="step10"><figure floatstyle="left">
@@ -1323,6 +1443,7 @@
       <phrase lang="fr">Foire aux questions</phrase>
       <phrase lang="de">Häufig gestellte Fragen</phrase>
       <phrase lang="it">Domande più frequenti</phrase>
+      <phrase lang="es">Preguntas más frecuentes</phrase>
   </title>
   <qandaset>
     <qandaentry id="faq-comma-en" lang="en">
