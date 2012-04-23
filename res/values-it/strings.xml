@@ -34,7 +34,8 @@
   <string name="create_category">Nuova categoria</string>
   <string name="credits_text">Disegno della pagina della Guida copiato da Mathdoku.
       \nDisegno dell\'icona dell\'App copiato da Sipdroid.
-      \nTraduzione francese e italiane di Laurent Collombet.</string>
+      \nTraduzione francese e italiane di Laurent Collombet.
+      \nTraduzione spagnola die Christof, Gudrun e Johanna Totschnig.</string>
   <string name="currency">Valuta</string>
   <string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
   <string name="current_balance">Saldo corrente</string>

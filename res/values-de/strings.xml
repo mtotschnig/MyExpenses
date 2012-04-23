@@ -34,7 +34,8 @@
   <string name="create_category">Neue Kategorie</string>
   <string name="credits_text">Design des Hilfe-Dialogs von Mathdoku.
       \nDesign der App-Graphik von Sipdroid.
-      \nFranzösische und italienische Übersetzung von Laurent Collombet.</string>
+      \nFranzösische und italienische Übersetzung von Laurent Collombet.
+      \nSpanische Übersetzung von Christof, Gudrun und Johanna Totschnig.</string>
   <string name="currency">Währung</string>
   <string name="currency_not_iso4217">%1$s ist kein gültiger ISO 4217 Währungscode</string>
   <string name="current_balance">Aktueller Saldo</string>

@@ -34,6 +34,7 @@
   <string name="credits_text">Help screen design copied from Mathdoku. 
     \nApp icon design copied from Sipdroid.
     \nFrench and italian localization by Laurent Collombet.
+    \nSpanish localization by Christof, Gudrun and Johanna Totschnig.
   </string>
   <string name="currency">Currency</string>
   <string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
