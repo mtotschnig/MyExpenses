@@ -910,6 +910,9 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       Voilà. È ora possibile collegare il telefono al computer, aprire Grisbi (o GnuCash),
       e utilizzare la funzionalità di importazione.
     </para>
+    <para lang="es">
+    Voilà. Ahora usted puede conectar su teléfono al ordenador, abrir Grisbi (o Gnucash) y utilizar su función de importación.
+    </para>
     <!-- END tutorial4 para 2 --> 
     
    </sect1>
@@ -921,6 +924,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       <phrase lang="fr">Paramètres</phrase>
       <phrase lang="de">Einstellungen</phrase>
       <phrase lang="it">Parametri</phrase>
+      <phrase lang="es">Configuraciones</phrase>
     </title>
     
     <para id="step11"><figure floatstyle="left">
@@ -941,16 +945,14 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       screen, from where you can configure some properties of <application role="app_name"/>,
       and also have access to the account management, and to the backup functionality. A
       long click opens up a menu with shortcuts to the configuration of the current
-      account (<guimenuitem role="menu_settings_account"/>) and to the backup
-      (<guimenuitem role="menu_backup"/>).
+      account and to the backup.
     </para>
     <para lang="fr">
       Un clic court sur le bouton <guibutton role="menu_settings"/> ouvre l'écran des
       paramètres. Ici vous pouvez configurer quelques propriétés de <application
       role="app_name"/> et pouvez accéder à la gestion des comptes, ainsi qu'à la sauvegarde.
       Un clic long ouvre un menu qui comporte l'accès direct à la configuration du compte en
-      cours (<guimenuitem role="menu_settings_account"/>), ainsi qu'à la sauvegarde
-      (<guimenuitem role="menu_backup"/>).
+      cours, ainsi qu'à la sauvegarde.
     </para>
     <para lang="de">
       Ein kurzer Klick auf den Schaltknopf <guibutton role="menu_settings"/> öffnet den
@@ -965,6 +967,9 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       role="app_name"/> può accedere alla gestione degli account e di backup. Un clic lungo si
       apre un menu che include l'accesso diretto al conto attuale (<guimenuitem
       role="menu_settings_account"/>), e di backup (<guimenuitem role="menu_backup"/>).
+    </para>
+    <para lang="es">
+    	Un rápido clic en el botón <guibutton role="menu_settings"/> abre la pantalla para la configuración. Aquí usted puede configurar algunas de las propiedades de <application role="app_name"/> y tiene también acceso a la administración de cuentas y a la función de backup. Un clic largo abre un menú que comprende el acceso rápido a la configuración de la cuenta actual y al backup.
     </para>
     <!-- END tutorial5 para 1 --> 
     
