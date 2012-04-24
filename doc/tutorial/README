@@ -28,7 +28,7 @@ JAVA files ExpenseEdit, AccountEdit, MyExpenses and SelectCategory.
 It sends a special KEYCODE that fills out the form with testing
 data, or sets the focus. Doing both with Monkeyrunners functions prooved to be unreliable. 
 The commenting out can be done by applying the following patch
-patch -d src/org/totschnig/myexpenses/ <doc/tutorial/mk_backdoor.diff
+patch -p1 <doc/tutorial/mk_backdoor.diff
  
 
 #comment out onKeyUp handlers
