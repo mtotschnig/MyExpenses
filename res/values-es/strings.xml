@@ -71,13 +71,13 @@
 <!-- neu ende -->
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Categorías</string>
-  <string name="grisbi_import_button_categories_and_parties">Categorías y partidos</string>
+  <string name="grisbi_import_button_categories_and_parties">Categorías y partes</string>
   <string name="grisbi_import_parsing">Análisis de %1$s</string>
-  <string name="grisbi_import_categories_and_parties_success">%1$s categorías y %2$s partidos han sido importados con éxito.
+  <string name="grisbi_import_categories_and_parties_success">%1$s categorías y %2$s partes han sido importados con éxito.
 </string>
   <string name="grisbi_import_categories_loading">Las categorías se cargan desde %1$s</string>
   <string name="grisbi_import_categories_success">%1$s categorías han sido importadas con éxito.</string>
-  <string name="grisbi_import_parties_loading">Partidos se cargan desde %1$s</string>
+  <string name="grisbi_import_parties_loading">Partes se cargan desde %1$s</string>
   <string name="help_feedback">Si <i>&app_name;</i> le es útil, por favor, dé un comentario en
       <a href="market://details?id=org.totschnig.myexpenses">Market</a>.
       Si encuentra algún problema, tiene alguna sugerencia para la mejora o desea contribuir, por favor, póngase en contacto con <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
@@ -138,7 +138,7 @@ acción estándar) como a clics largos (abrir un menú pop-up).
   <string name="no_categories">Todavía no hay categorías.</string>
   <string name="no_details">No hay detalles.</string>
   <string name="no_expenses">¡Todavía no hay gastos!</string>
-  <string name="no_parties">Ningunos partidos</string>
+  <string name="no_parties">Ningunos partes</string>
   <string name="not_deletable_mapped_expenses">No se puede borrar esta categoría, porque tiene gastos asignados.</string>
   <string name="not_deletable_subcats_exists">No se puede borrar esta categoría, porque tiene sub-categorías.</string>
   <string name="opening_balance">Saldo inicial</string>
@@ -167,8 +167,8 @@ acción estándar) como a clics largos (abrir un menú pop-up).
   <string name="pref_import_from_grisbi_summary">Importar categorías (y socios) desde las incluidas definiciones estándar de Grisbi o de su propio archivo. Usted tiene que archivar este último bajo el nombre &grisbi_file; en la carpeta myexpenses en el directorio raíz de la tarjeta SD.</string>
   <string name="pref_manage_accounts_title">Administrar cuentas</string>
   <string name="pref_manage_accounts_summary">Añadir, modificar y borrar cuentas</string>
-  <string name="pref_manage_parties_title">Administrar partidos</string>
-  <string name="pref_manage_parties_summary">Borrar partidos (pagador y beneficiario)</string>
+  <string name="pref_manage_parties_title">Administrar partes</string>
+  <string name="pref_manage_parties_summary">Borrar partes (pagador y beneficiario)</string>
   <string name="pref_perform_share_title">Enviar la exportación QIF</string>
   <string name="pref_perform_share_summary">¿Se debe enviar el archivo QIF después de cada exportación?</string>
   <string name="pref_share_target_title">Cargar URL de exportación QIF</string>
