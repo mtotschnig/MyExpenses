@@ -493,26 +493,30 @@
     <para lang="en">
       Back at the transaction list, you can edit individual entries through a short click,
       the context menu allows deleting a transaction, or display full details (payee,
-      notes) about it.
+      notes) about it. You can also move a transaction to a different account, provided you
+      have set up at least one additional account. 
     </para>
     <para lang="fr">
       Sur la liste des opérations, vous pouvez éditer chaque opération avec un clic court,
       le menu contextuel vous permet aussi d'effacer une opération ou d'afficher tous ses
-      détails (tiers, remarques).
+      détails (tiers, remarques). Vous pouvez aussi déplacer une opération vers un autre
+      compte, pourvu que vous avez crée au moins un compte additionnel.
     </para>
     <para lang="de">
       In der Liste der Buchungen, kann jede Buchung durch einen kurzen Klick bearbeitet
       werden, das Kontextmenü erlaubt das Löschen und die Anzeige von Detailinformationen
-      (Empfänger, Notizen).
+      (Empfänger, Notizen). Sie können eine Buchung auch in ein anderes Konto verschieben,
+      sofern sie zumindest ein weiteres Konto angelegt haben.
     </para>
     <para lang="it">
       Ritorno alla lista transazione, è possibile modificare le singole voci attraverso un
       click breve, il menù contestuale permette di cancellare una transazione, o visualizzare
-      tutti i dettagli (beneficiario, note).
+      tutti i dettagli (beneficiario, note). <!-- sentence missing -->
     </para>
     <para lang="es">
       En la lista de los asientos puede editar con un breve clic cada asiento, el menú de
       contextual permite borrar y ver las informaciones detalladas (el beneficiario, apuntes).
+      <!-- sentence missing -->
     </para>
     <!-- END tutorial2 para 3 --> 
     
@@ -1179,21 +1183,21 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       una dirección remota. Bajo <guilabel role="pref_share_target_title"/> puede configurar la
       meta:
       <itemizedlist>
-        <listitem>
-          <para>
-            La URL de una carpeta a la que tiene acceso de escritura a través de FTP (por ejemplo,
-            "ftp://login:password@my.example.org:port/my/directory/").
+        <listitem>
+          <para>
+            La URL de una carpeta a la que tiene acceso de escritura a través de FTP (por
+            ejemplo, "ftp://login:password@my.example.org:port/my/directory/").
           </para>
-        </listitem>
-        <listitem>
-          <para>
+        </listitem>
+        <listitem>
+          <para>
             Una dirección URL para correo electrónico (por ejemplo,
             "mailto:john@my.example.com").Se pone en marcha su aplicación de correo electrónico
             y se genera un correo electrónico con el archivo adjunto.
-            </para>
-        </listitem>
-        <listitem>
-          <para>
+          </para>
+        </listitem>
+        <listitem>
+          <para>
             También puede dejar este campo en blanco, entonces siempre puede elegir entre las
             aplicaciones para transferir archivos que estén instaladas en su aparato (como
             Dropbox, Google Docs, &#8230;).
@@ -1367,18 +1371,18 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       Esta entrada permite importar categorías definidas en Grisbi (inglés, alemán y francés).
       Puede usar también un archivo de Grisbi (en XML) que contiene sus propias categorías.
       Puede editar este archivo y eliminar todas las informaciones excepto los elementos
-      <sgmltag>Category</sgmltag> y <sgmltag>Sub_category</sgmltag><footnote id="ftn55-de-1">
-        <para>
-          <application role="app_name"/> apoya también el formato de archivos Grisbi 0.5.0. en
-          el que los elementos se llaman <sgmltag>Categorie</sgmltag> y 
-          <sgmltag>Sous_categorie</sgmltag> (<sgmltag>Tiers</sgmltag> para partidos).
+      <sgmltag>Category</sgmltag> y <sgmltag>Sub_category</sgmltag><footnote id="ftn55-es-1">
+        <para>
+          <application role="app_name"/> apoya también el formato de archivos Grisbi 0.5.0. en
+          el que los elementos se llaman <sgmltag>Categorie</sgmltag> y
+          <sgmltag>Sous_categorie</sgmltag> (<sgmltag>Tiers</sgmltag> para partes).
         </para>
       </footnote>. Copie este archivo bajo el nombre <filename role="grisbi_file"/> a una
       carpeta <filename>myexpenses</filename> en el directorio raíz de la tarjeta SD. Desde la
-      versión 1.4.9, puede importar de este archivo además los partidos (receptores y
+      versión 1.4.9, puede importar de este archivo además los partes (receptores y
       pagadores) guardados en Grisbi (elemento <sgmltag>Party</sgmltag>). Si elige su propio
-      archivo como fuente de importación, puede importar partidos y categorías o sólo
-      categorías. Los partidos se utilizan en el formulario de asientos para proponerle un
+      archivo como fuente de importación, puede importar partes y categorías o sólo
+      categorías. Los partes se utilizan en el formulario de asientos para proponerle un
       llenado automático en el campo receptor/pagador.
     </para>
     <!-- END tutorial5_5 para 1 --> 
