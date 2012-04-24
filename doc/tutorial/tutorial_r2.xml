@@ -1548,11 +1548,11 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
     <para lang="es">
       Para valores de moneda en asientos (o en el saldo inicial de una cuenta) se usa de manera
       predeterminada el separador decimal de su configuración regional (coma en la mayoría de
-      países europeos, punto en la mayoría de países de habla inglesa)<footnoe id="ftn58-es-2">
+      países europeos, punto en la mayoría de países de habla inglesa)<footnote id="ftn58-es-2">
         <para>
           ... missing ...
         </para>
-      </footnoe>. Aquí se lo puede
+      </footnote>. Aquí se lo puede
       configurar de manera explícita. Además aquí se puede especificar que subunidades (por
       ejemplo US $ centavos, € céntimos o £ peniques ) se introducen como números
       enteros.
@@ -1703,21 +1703,6 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
             gardez <guilabel role="pref_share_target_title"/> vide. Ainsi, après chaque export,
             vous pourrez choisir dans un menu une apps (par exemple Google Docs ou Dropbox)
             capable de transférer le fichier.
-          </para>
-        </answer>
-      </qandaentry>
-      <qandaentry id="faq-share-de" lang="de">
-        <question>
-          <para>
-            Kann ich die QIF Datei auf Google Docs oder Dropbox übertragen?
-          </para>
-          </question>
-        <answer>
-          <para>
-            Ja, aktivieren Sie <guilabel role="pref_perform_share_title"/> in den
-            Einstellungen, und lassen Sie <guilabel role="pref_share_target_title"/> leer. Dann
-            können Sie nach jedem Export die App (wie z.B. Google Docs oder Dropbox) auswählen,
-            mittels deren Sie die Datei übertragen wollen.
           </para>
         </answer>
       </qandaentry>
