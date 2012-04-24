@@ -1,5 +1,70 @@
+diff --git a/res/values-de/strings.xml b/res/values-de/strings.xml
+index 9b52218..e24e60b 100644
+--- a/res/values-de/strings.xml
++++ b/res/values-de/strings.xml
+@@ -19,6 +19,8 @@
+   <!ENTITY grisbi_file "grisbi.xml">
+ ]>
+ <resources>
++  <string name="monkey_label_text">Meine Geldtasche</string>
++  <string name="monkey_description_text">Tägliche Ausgaben</string>
+   <string name="account">Konto</string>
+   <string name="amount">Betrag</string>
+   <string name="app_name">&app_name;</string>
+diff --git a/res/values-es/strings.xml b/res/values-es/strings.xml
+index 033c598..d6d1519 100644
+--- a/res/values-es/strings.xml
++++ b/res/values-es/strings.xml
+@@ -19,6 +19,8 @@
+   <!ENTITY grisbi_file "grisbi.xml">
+ ]>
+ <resources>
++  <string name="monkey_label_text">Mi cartera</string>
++  <string name="monkey_description_text">Los gastos diarios</string>
+   <string name="account">Cuenta</string>
+   <string name="amount">Importe</string>
+   <string name="app_name">&app_name;</string>
+diff --git a/res/values-fr/strings.xml b/res/values-fr/strings.xml
+index 322a4d0..d64fa0a 100644
+--- a/res/values-fr/strings.xml
++++ b/res/values-fr/strings.xml
+@@ -19,6 +19,8 @@
+   <!ENTITY grisbi_file "grisbi.xml">
+ ]>
+ <resources>
++  <string name="monkey_label_text">Mon porte-monnaie</string>
++  <string name="monkey_description_text">Dépenses journalières</string>
+   <string name="account">Compte</string>
+   <string name="amount">Montant</string>
+   <string name="app_name">&app_name;</string>
+diff --git a/res/values-it/strings.xml b/res/values-it/strings.xml
+index 62300c7..cab77f4 100644
+--- a/res/values-it/strings.xml
++++ b/res/values-it/strings.xml
+@@ -19,6 +19,8 @@
+   <!ENTITY grisbi_file "grisbi.xml">
+ ]>
+ <resources>
++  <string name="monkey_label_text">Il mio portafoglio</string>
++  <string name="monkey_description_text">Spese quotidiane</string>
+   <string name="account">Conto</string>
+   <string name="amount">Quantitá</string>
+   <string name="app_name">&app_name;</string>
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index c328b12..7a9a31e 100755
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -19,6 +19,8 @@
+   <!ENTITY grisbi_file "grisbi.xml">
+ ]>
+ <resources>
++  <string name="monkey_label_text">My wallet</string>
++  <string name="monkey_description_text">Daily expenses</string>
+   <string name="account">Account</string>
+   <string name="amount">Amount</string>
+   <string name="app_name">&app_name;</string>
 diff --git a/src/org/totschnig/myexpenses/AccountEdit.java b/src/org/totschnig/myexpenses/AccountEdit.java
-index 0e0ca09..089f107 100644
+index 12e40da..d17eead 100644
 --- a/src/org/totschnig/myexpenses/AccountEdit.java
 +++ b/src/org/totschnig/myexpenses/AccountEdit.java
 @@ -29,6 +29,7 @@ import android.content.Intent;
@@ -19,7 +84,7 @@ index 0e0ca09..089f107 100644
  
    @Override
    public boolean onKeyDown (int keyCode, KeyEvent event) {
-@@ -71,7 +72,7 @@ public class AccountEdit extends EditActivity {
+@@ -75,7 +76,7 @@ public class AccountEdit extends EditActivity {
        }
      }
      return super.onKeyDown(keyCode, event);
@@ -81,7 +146,7 @@ index 15c7a5e..e4720e9 100644
      @Override
      public void onCreate()
 diff --git a/src/org/totschnig/myexpenses/MyExpenses.java b/src/org/totschnig/myexpenses/MyExpenses.java
-index c57d0ca..53244de 100644
+index 1c15632..0be5d73 100644
 --- a/src/org/totschnig/myexpenses/MyExpenses.java
 +++ b/src/org/totschnig/myexpenses/MyExpenses.java
 @@ -115,7 +115,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
@@ -93,7 +158,7 @@ index c57d0ca..53244de 100644
  
    @Override
    public boolean onKeyDown (int keyCode, KeyEvent event) {
-@@ -149,7 +149,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
+@@ -144,7 +144,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
        }
      }
      return super.onKeyDown(keyCode, event);
