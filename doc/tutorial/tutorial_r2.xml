@@ -506,7 +506,7 @@
       Sur la liste des opérations, vous pouvez éditer chaque opération avec un clic court,
       le menu contextuel vous permet aussi d'effacer une opération ou d'afficher tous ses
       détails (tiers, remarques). Vous pouvez aussi déplacer une opération vers un autre
-      compte, pourvu que vous avez crée au moins un compte additionnel.
+      compte, si vous en avez créé au moins deux.
     </para>
     <para lang="de">
       In der Liste der Buchungen, kann jede Buchung durch einen kurzen Klick bearbeitet
@@ -517,12 +517,13 @@
     <para lang="it">
       Ritorno alla lista transazione, è possibile modificare le singole voci attraverso un
       click breve, il menù contestuale permette di cancellare una transazione, o visualizzare
-      tutti i dettagli (beneficiario, note). <!-- sentence missing -->
+      tutti i dettagli (beneficiario, note). È inoltre possibile spostare una transazione ad
+      un altro conto, se si dispone di almeno due conti
     </para>
     <para lang="es">
       En la lista de los asientos puede editar con un breve clic cada asiento, el menú de
       contextual permite borrar y ver las informaciones detalladas (el beneficiario, apuntes).
-      Puede trasladar un asiento de una cuenta a otra si es que usted haya configurado por lo
+      Puede mover un asiento de una cuenta a otra si es que usted haya configurado por lo
       menos una cuenta adicional.
     </para>
     <!-- END tutorial2 para 3 --> 
