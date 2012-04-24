@@ -69,7 +69,7 @@ public class AccountEdit extends EditActivity {
         saveState();
         Intent intent=new Intent();
         intent.putExtra("account_id", mAccount.id);
-        setResult(RESULT_OK);
+        setResult(RESULT_OK,intent);
         finish();
         return true;
       }
