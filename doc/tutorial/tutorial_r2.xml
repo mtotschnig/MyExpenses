@@ -1016,6 +1016,13 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         Un clic lungo visualizza un menu di scelta rapida per cancellare conti, ad eccezione
         del conto corrente, che non possono essere cancellati.
       </para>
+      <para lang="es">
+        Aquí se muestra una lista completa de las cuentas. Al hacer clic en una cuenta se abre
+        el formulario de configuración (como se explica en <link linkend="tutorial1"
+        endterm="tutorial1.title"/>). Por medio de un clic largo se abre el menú de contexto
+        que permite eliminar la cuenta, exceptuando la cuenta actual que no puede ser
+        eliminada.
+      </para>
       <!-- END tutorial5_1 para 1 --> 
 
     </sect2>
@@ -1047,6 +1054,11 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         (numero di volte che sono normalmente associati con una transazione). Deselezionare
         questa opzione se si preferisce che le categorie sono visualizzate in ordine
         alfabetico.
+      </para>
+      <para lang="es">
+        De forma predeterminada las categorías son ordenadas segun la frecuencia de uso (la
+        frecuencia con que son asignadas a un asiento.) Quite la marca de esta opción si desea
+        que las categorías se muestren siempre en orden alfabético.
       </para>
       <!-- END tutorial5_2 para 1 --> 
       
@@ -1161,17 +1173,44 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
           </para>
         </listitem>
       </itemizedlist>
-    </para>    
+    </para>
+    <para lang="es">
+      Marque esta opción si después de exportar sus asientos quiere transferir el archivo QIF a
+      una dirección remota. Bajo <guilabel role="pref_share_target_title"/> puede configurar la
+      meta:
+      <itemizedlist>
+        <listitem>
+          <para>
+            La URL de una carpeta a la que tiene acceso de escritura a través de FTP (por ejemplo,
+            "ftp://login:password@my.example.org:port/my/directory/").
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Una dirección URL para correo electrónico (por ejemplo,
+            "mailto:john@my.example.com").Se pone en marcha su aplicación de correo electrónico
+            y se genera un correo electrónico con el archivo adjunto.
+            </para>
+        </listitem>
+        <listitem>
+          <para>
+            También puede dejar este campo en blanco, entonces siempre puede elegir entre las
+            aplicaciones para transferir archivos que estén instaladas en su aparato (como
+            Dropbox, Google Docs, &#8230;).
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>      
     <!-- END tutorial5_3 para 1 --> 
+  </sect2>
     
-    </sect2>
-    
-   <sect2 id="tutorial5_4">
+  <sect2 id="tutorial5_4">
     <title>
       <phrase lang="en">Backup and restore</phrase>
       <phrase lang="fr">Sauvegarde et restauration</phrase>
       <phrase lang="de">Backup und Wiederherstellung</phrase>
       <phrase lang="it">Backup e ripristino</phrase>
+      <phrase lang="es">Backup y Restauración</phrase>
     </title>
     
     <!-- BEGIN tutorial5_4 para 1 --> 
@@ -1211,7 +1250,16 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       <filename>BACKUP_PREF</filename>. Entrambi sono automaticamente ripristinate quando si
       reinstalla <application role="app_name"/>. In questo modo è possibile recuperare tutte le
       vostre applicazioni dati su un dispositivo diverso da copiare questi due file nella
-      stessa posizione là, prima di installare <application role="app_name"/>
+      stessa posizione là, prima di installare <application role="app_name"/>.
+    </para>
+    <para lang="es">
+      <guilabel role="menu_backup"/> crea una copia de seguridad de la base de datos y de las
+      configuraciones en el archivo <filename>myexpenses</filename> en la tarjeta SD. La base
+      de datos se guarda en el archivo <filename>BACKUP</filename>, las configuraciones en el
+      archivo <filename>BACKUP_PREF</filename>. Ambos se restauran automáticamente al volver a
+      instalarse <application role="app_name"/>. Así que usted puede copiar los enteros datos
+      de aplicación a otro aparato copiando estos dos archivos al mismo lugar antes de instalar
+      <application role="app_name"/>.
     </para>
     <!-- END tutorial5_4 para 1 --> 
     </sect2>
@@ -1314,6 +1362,24 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       proprio file come fonte di importazione, è possibile importare categorie e beneficiari, o
       solo categorie. Il beneficiario sarà offerta automaticamente per riempire il
       "Beneficiario" in forma di operazioni.
+    </para>
+    <para lang="es">
+      Esta entrada permite importar categorías definidas en Grisbi (inglés, alemán y francés).
+      Puede usar también un archivo de Grisbi (en XML) que contiene sus propias categorías.
+      Puede editar este archivo y eliminar todas las informaciones excepto los elementos
+      <sgmltag>Category</sgmltag> y <sgmltag>Sub_category</sgmltag><footnote id="ftn55-de-1">
+        <para>
+          <application role="app_name"/> apoya también el formato de archivos Grisbi 0.5.0. en
+          el que los elementos se llaman <sgmltag>Categorie</sgmltag> y 
+          <sgmltag>Sous_categorie</sgmltag> (<sgmltag>Tiers</sgmltag> para partidos).
+        </para>
+      </footnote>. Copie este archivo bajo el nombre <filename role="grisbi_file"/> a una
+      carpeta <filename>myexpenses</filename> en el directorio raíz de la tarjeta SD. Desde la
+      versión 1.4.9, puede importar de este archivo además los partidos (receptores y
+      pagadores) guardados en Grisbi (elemento <sgmltag>Party</sgmltag>). Si elige su propio
+      archivo como fuente de importación, puede importar partidos y categorías o sólo
+      categorías. Los partidos se utilizan en el formulario de asientos para proponerle un
+      llenado automático en el campo receptor/pagador.
     </para>
     <!-- END tutorial5_5 para 1 --> 
     </sect2>
