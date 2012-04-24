@@ -123,16 +123,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     if (keyCode == MyApplication.BACKDOOR_KEY) {
       switch (monkey_state) {
       case 0:
-        i = new Intent(MyExpenses.this, AccountEdit.class);
-        i.putExtra(ExpensesDbAdapter.KEY_ROWID, mCurrentAccount.id);
-        startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
+        dispatchCommand(R.id.CREATE_ACCOUNT_COMMAND,null);
         monkey_state = 1;
         return true;
       case 1:
-        i = new Intent(this, ExpenseEdit.class);
-        i.putExtra("operationType", TYPE_TRANSACTION);
-        i.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID,mCurrentAccount.id);
-        startActivityForResult(i, ACTIVITY_EDIT);
+        dispatchCommand(R.id.INSERT_TA_COMMAND,null);
         monkey_state = 2;
         return true;
       case 2:

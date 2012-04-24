@@ -59,13 +59,17 @@ public class AccountEdit extends EditActivity {
     if (keyCode == MyApplication.BACKDOOR_KEY) {
       switch (monkey_state) {
       case 0:
+        mLabelText.setText(R.string.monkey_label_text);
+        mDescriptionText.setText(R.string.monkey_description_text);
         mAmountText.setText("100");
         mCurrencyText.setText("EUR");
         monkey_state = 1;
         return true;
       case 1:
-        setResult(RESULT_OK);
         saveState();
+        Intent intent=new Intent();
+        intent.putExtra("account_id", mAccount.id);
+        setResult(RESULT_OK);
         finish();
         return true;
       }
