@@ -1421,8 +1421,13 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
        possibile accedere alla modifica della configurazione semplicemente attivando il
        pulsante Menu hardware.
     </para>
+    <para lang="es">
+      Al hacer clic en esta opción puede utilizar el menú estándar de Android, en lugar de la
+      barra de símbolos, para ejecutar mandos. Puede cambiar este parámetro también pulsando el
+      botón hardware dedicado al menú.
+    </para>
     <!-- END tutorial5_6 para 1 --> 
-    </sect2>
+  </sect2>
     
     <sect2 id="tutorial5_7">
       <title>
@@ -1456,6 +1461,11 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       elenco, selezionarle controllando il loro diritto, e quindi attivare il pulsante
       <guibutton role="menu_delete"/>.
     </para>
+    <para lang="es">
+      En esta pantalla aparece la lista de las partes que se usa para el llenado automático del
+      campo pagador/receptor. Para eliminar elementos de esta lista marque la casilla en el
+      renglón correspondiente y pulse el botón eliminar.
+    </para>
      <!-- END tutorial5_7 para 1 --> 
     </sect2>
     
@@ -1473,7 +1483,10 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
           Seit Version 1.4.10.
         </para>
         <para lang="it">
-        Dalla versione 1.4.10.
+          Dalla versione 1.4.10.
+        </para>
+        <para lang="it">
+         Desde la versión 1.4.10.
         </para>
         </footnote>
       </title>
@@ -1489,7 +1502,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         </para>
       </footnote>, here you can explicitly configure it.
       Alternatively you have the option to input minor units (e.g. $ cents, € cent, or £ pence)
-      as integers (<guilabel role="pref_currency_decimal_separator_input_minor_unit"/>).
+      as integers.
     </para>
     <para lang="fr">
       Par défaut, les montants de transactions (ou le solde d'ouverture d'un compte) utilisent
@@ -1502,7 +1515,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         </para>
       </footnote>, ici vous pouvez le configurer explicitement. Sinon, vous avez la
       possibilité d'entrer des unités mineures entières (par exemple $ cents, centimes d' €,
-      pence pour £) (<guilabel role="pref_currency_decimal_separator_input_minor_unit"/>).
+      pence pour £).
     </para>
     <para lang="de">
       Standardmäßig wird für Währungsbeträge in Buchungen (oder das Anfangssaldo eines Kontos)
@@ -1515,14 +1528,13 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         </para>
       </footnote>, hier kann dieses
       explizit konfiguriert werden. Sie können hier aber auch festlegen, dass Sie
-      Untereinheiten (z.B $ Cents, € Cent, oder £ Pence) als ganze Zahlen eingeben (<guilabel
-      role="pref_currency_decimal_separator_input_minor_unit"/>).
+      Untereinheiten (z.B $ Cents, € Cent, oder £ Pence) als ganze Zahlen eingeben.
     </para>
     <para lang="it">
       Per impostazione predefinita, gli importi delle transazioni (o il saldo di
       apertura di un conto) utilizzare il separatore decimale delle impostazioni locali
-      (virgola in molti paesi europei, il punto in più paesi di lingua inglese)
-      <footnote id="ftn58-it-2">
+      (virgola in molti paesi europei, il punto in più paesi di lingua inglese)<footnote
+      id="ftn58-it-2">
         <para>
           Sui dispositivi con sistema operativo Android 2.3., <application role="app_name"/>,
           il default è il punto, perché sono per lo più si occupano del problema descritto
@@ -1531,6 +1543,18 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       </footnote>, qui si può configurare in modo esplicito. In alternativa si ha la
       possibilità di ingresso alle unità minori (es. $ centesimi, € cent o penny £) come interi
       (<guilabel role="pref_currency_decimal_separator_input_minor_unit"/>).
+    </para>
+    <para lang="es">
+      Para valores de moneda en asientos (o en el saldo inicial de una cuenta) se usa de manera
+      predeterminada el separador decimal de su configuración regional (coma en la mayoría de
+      países europeos, punto en la mayoría de países de habla inglesa)<footnoe id="ftn58-es-2">
+        <para>
+          ... missing ...
+        </para>
+      </footnoe>. Aquí se lo puede
+      configurar de manera explícita. Además aquí se puede especificar que subunidades (por
+      ejemplo US $ centavos, € céntimos o £ peniques ) se introducen como números
+      enteros.
     </para>
       <!-- END tutorial5_8 para 1 --> 
       </sect2>
