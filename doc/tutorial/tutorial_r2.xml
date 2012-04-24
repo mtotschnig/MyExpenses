@@ -36,6 +36,11 @@
     <surname>Totschnig</surname>
     <contrib>Traducción al español</contrib>
   </othercredit>
+  <othercredit lang="es">
+    <firstname>Johanna</firstname>
+    <surname>Totschnig</surname>
+    <contrib>Traducción al español</contrib>
+  </othercredit>
   </articleinfo>
 
   <sect1 id="introduction">
@@ -1486,7 +1491,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         <para lang="it">
           Dalla versione 1.4.10.
         </para>
-        <para lang="it">
+        <para lang="es">
          Desde la versión 1.4.10.
         </para>
         </footnote>
