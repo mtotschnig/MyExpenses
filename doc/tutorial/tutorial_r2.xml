@@ -1327,7 +1327,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
 	    (<sgmltag>Sub_category</sgmltag>)<footnote id="ftn55-fr-1">
         <para>
           <application role="app_name"/> supporte aussi la version 0.5.0 du format de fichier
-          Grisib, où les éléments portent les noms <sgmltag>Categorie</sgmltag> et
+          Grisbi, où les éléments portent les noms <sgmltag>Categorie</sgmltag> et
           <sgmltag>Sous_categorie</sgmltag> ((<sgmltag>Tiers</sgmltag> pour les tiers)).
         </para>
 	    </footnote>. Sauvegardez ce fichier sous le nom <filename role="grisbi_file"/> dans le
