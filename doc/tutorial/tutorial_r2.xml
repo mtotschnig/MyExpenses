@@ -1555,7 +1555,9 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       predeterminada el separador decimal de su configuración regional (coma en la mayoría de
       países europeos, punto en la mayoría de países de habla inglesa)<footnote id="ftn58-es-2">
         <para>
-          ... missing ...
+          <application role="app_name"/> utiliza en aparatos con Android 2.3. como estándard el
+          punto, por que son esos los aparatos mas afectados por el problema descrito en <link
+            linkend='faq-comma-es'>FAQ</link>.
         </para>
       </footnote>. Aquí se lo puede
       configurar de manera explícita. Además aquí se puede especificar que subunidades (por
@@ -1723,6 +1725,22 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
             lasciare <guilabel role="pref_share_target_title"/> in bianco. Così, dopo ogni
             esportazione, è possibile scegliere da un menu un applicazioni (ad esempio Google
             Docs o Dropbox) in grado di trasferire il file.
+          </para>
+        </answer>
+      </qandaentry>
+      <qandaentry id="faq-share-it" lang="it">
+        <question>
+          <para>
+            Puedo mover el archivo QIF a Google Docs o Dropbox?
+          </para>
+        </question>
+        <answer>
+          <para>
+            Si, simplemente active en las configuraciones <guilabel
+            role="pref_perform_share_title"/> y deje vacío la casilla <guilabel
+            role="pref_share_target_title"/> . Así después de subir el archivo puede
+            seleccionar la aplicación (por ejemplo Google Docs o Dropbox), con la cual quiere
+            transmitir el archivo.
           </para>
         </answer>
       </qandaentry>   
