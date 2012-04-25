@@ -69,10 +69,11 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
    * The first four are internal to the app, the fourth one is provided by the user 
    */
   private final String[] IMPORT_SOURCES = {
-      "Grisbi default (en)", 
-      "Grisbi default (fr)", 
-      "Grisbi default (de)", 
-      "Grisbi default (it)", 
+      "Grisbi (en)", 
+      "Grisbi (fr)", 
+      "Grisbi (de)", 
+      "Grisbi (it)",
+      "Grisbi (es)",
       "/sdcard/myexpenses/grisbi.xml"
   };
   /**
@@ -531,6 +532,8 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
         case 3:
           sourceRes = R.raw.cat_it;
           break;
+        case 4:
+          sourceRes = R.raw.cat_es;
         }
         catXML = activity.getResources().openRawResource(sourceRes);
       }

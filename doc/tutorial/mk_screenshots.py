@@ -82,15 +82,15 @@ device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
 snapshot('6')
 #select import source based on lang
-if (lang == 'it'):
+if (lang != 'en'):
   device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
-  device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
-  device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
-if (lang == 'de'):
-  device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
-  device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
-if (lang == 'fr'):
-  device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+  if (lang != 'fr'):
+    device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+    if (lang != 'de'):
+      device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+      if (lang != 'it'):
+        device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 #navigate down to buttons, we should arrive at the middle button
 #"Categories"
