@@ -99,6 +99,7 @@ device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 #execute import and give it some time
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep(30)
