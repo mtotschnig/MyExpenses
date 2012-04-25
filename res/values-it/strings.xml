@@ -19,8 +19,6 @@
   <!ENTITY grisbi_file "grisbi.xml">
 ]>
 <resources>
-  <string name="monkey_label_text">Il mio portafoglio</string>
-  <string name="monkey_description_text">Spese quotidiane</string>
   <string name="account">Conto</string>
   <string name="amount">Quantitá</string>
   <string name="app_name">&app_name;</string>
