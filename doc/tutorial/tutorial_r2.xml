@@ -44,7 +44,7 @@
   </articleinfo>
 
   <sect1 id="introduction">
-      <title>
+    <title>
       <phrase lang="en">Introduction</phrase>
       <phrase lang="fr">Introduction</phrase>
       <phrase lang="de">Einleitung</phrase>
@@ -52,18 +52,17 @@
       <phrase lang="es">Introducción</phrase>
     </title>
 
-    <para id="step1"><figure floatstyle="left">
-    <title/>
+    <figure floatstyle="left" id="step1" >
+      <title/>
       <screenshot>
-     <mediaobject>
-       <imageobject>
-        <imagedata fileref="step1.png"/>
-       </imageobject>
-     </mediaobject>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step1.png"/>
+          </imageobject>
+        </mediaobject>
       </screenshot>
-      </figure>
-    </para>
-    
+    </figure>
+
     <!-- BEGIN introduction para 1 -->    
     <para lang="en">
       <application role="app_name"/> is designed to keep track of your expenses and incomes,
@@ -152,18 +151,17 @@
       <phrase lang="es">Las cuentas</phrase>
     </title>
 
-    <para id="step2"><figure floatstyle="left">
-    <title/>
+    <figure floatstyle="left" id="step2" >
+      <title/>
       <screenshot>
-     <mediaobject>
-       <imageobject>
-        <imagedata fileref="step2.png"/>
-       </imageobject>
-     </mediaobject>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step2.png"/>
+          </imageobject>
+        </mediaobject>
       </screenshot>
-      </figure>
-    </para>
-    
+    </figure>
+
     <!-- BEGIN tutorial1 para 1 --> 
     <para lang="en">
       When you launch <application role="app_name"/> for the first time, there is one default
@@ -340,17 +338,16 @@
       <phrase lang="es">Los asientos</phrase>
     </title>
     
-    <para id="step3"><figure floatstyle="left">
-    <title/>
+    <figure floatstyle="left" id="step3" >
+      <title/>
       <screenshot>
-     <mediaobject>
-       <imageobject>
-        <imagedata fileref="step3.png"/>
-       </imageobject>
-     </mediaobject>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step3.png"/>
+          </imageobject>
+        </mediaobject>
       </screenshot>
-      </figure>
-    </para>
+    </figure>
     
     <!-- BEGIN tutorial2 para 1 --> 
     <para lang="en">
@@ -488,17 +485,16 @@
     
     <?float-clear?> 
 
-    <para id="step4"><figure floatstyle="left">
-    <title/>
+    <figure floatstyle="left" id="step4" >
+      <title/>
       <screenshot>
-     <mediaobject>
-       <imageobject>
-        <imagedata fileref="step4.png"/>
-       </imageobject>
-     </mediaobject>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step4.png"/>
+          </imageobject>
+        </mediaobject>
       </screenshot>
-      </figure>
-    </para>
+    </figure>
     
     <!-- BEGIN tutorial2 para 3 --> 
     <para lang="en">
@@ -592,17 +588,16 @@
       <phrase lang="es">Categorías</phrase>
     </title>
     
-    <para id="step5"><figure floatstyle="left">
-    <title/>
+    <figure floatstyle="left" id="step5" >
+      <title/>
       <screenshot>
-     <mediaobject>
-       <imageobject>
-        <imagedata fileref="step5.png"/>
-       </imageobject>
-     </mediaobject>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step5.png"/>
+          </imageobject>
+        </mediaobject>
       </screenshot>
-      </figure>
-    </para>
+    </figure>
 
     
     <!-- BEGIN tutorial3 para 1 --> 
@@ -666,17 +661,16 @@
     
     <?float-clear?> 
     
-    <para id="step7"><figure floatstyle="left">
-    <title/>
+    <figure floatstyle="left" id="step7" >
+      <title/>
       <screenshot>
-     <mediaobject>
-       <imageobject>
-        <imagedata fileref="step7.png"/>
-       </imageobject>
-     </mediaobject>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step7.png"/>
+          </imageobject>
+        </mediaobject>
       </screenshot>
-      </figure>
-    </para>
+    </figure>
 
     <!-- BEGIN tutorial3 para 3 --> 
     <para lang="en">
@@ -724,17 +718,16 @@
     
     <?float-clear?> 
     
-    <para id="step8"><figure floatstyle="left">
-    <title/>
+    <figure floatstyle="left" id="step8" >
+      <title/>
       <screenshot>
-     <mediaobject>
-       <imageobject>
-        <imagedata fileref="step8.png"/>
-       </imageobject>
-     </mediaobject>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step8.png"/>
+          </imageobject>
+        </mediaobject>
       </screenshot>
-      </figure>
-    </para>
+    </figure>
     
     <!-- BEGIN tutorial3 para 4 --> 
     <para lang="en">
@@ -763,17 +756,16 @@
     
     <?float-clear?> 
     
-    <para id="step9"><figure floatstyle="left">
-    <title/>
+    <figure floatstyle="left" id="step9" >
+      <title/>
       <screenshot>
-     <mediaobject>
-       <imageobject>
-        <imagedata fileref="step9.png"/>
-       </imageobject>
-     </mediaobject>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step9.png"/>
+          </imageobject>
+        </mediaobject>
       </screenshot>
-      </figure>
-    </para>    
+    </figure>
     
     <!-- BEGIN tutorial3 para 5 --> 
     <para lang="en">
@@ -842,17 +834,16 @@
       <phrase lang="es">Exportar asientos</phrase>
     </title>
     
-    <para id="step10"><figure floatstyle="left">
-    <title/>
+    <figure floatstyle="left" id="step10" >
+      <title/>
       <screenshot>
-     <mediaobject>
-       <imageobject>
-        <imagedata fileref="step10.png"/>
-       </imageobject>
-     </mediaobject>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step10.png"/>
+          </imageobject>
+        </mediaobject>
       </screenshot>
-      </figure>
-    </para>
+    </figure>
     
     <!-- BEGIN tutorial4 para 1 --> 
     <para lang="en">
@@ -950,17 +941,16 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       <phrase lang="es">Configuraciones</phrase>
     </title>
     
-    <para id="step11"><figure floatstyle="left">
-    <title/>
+    <figure floatstyle="left" id="step11" >
+      <title/>
       <screenshot>
-     <mediaobject>
-       <imageobject>
-        <imagedata fileref="step11.png"/>
-       </imageobject>
-     </mediaobject>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step11.png"/>
+          </imageobject>
+        </mediaobject>
       </screenshot>
-      </figure>
-    </para>
+    </figure>
     
     <!-- BEGIN tutorial5 para 1 --> 
     <para lang="en">
@@ -1286,17 +1276,16 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         <guilabel role="pref_import_from_grisbi_title"/>
       </title>
 
-    <para id="step6"><figure floatstyle="left">
-    <title/>
+    <figure floatstyle="left" id="step6" >
+      <title/>
       <screenshot>
-     <mediaobject>
-       <imageobject>
-        <imagedata fileref="step6.png"/>
-       </imageobject>
-     </mediaobject>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step6.png"/>
+          </imageobject>
+        </mediaobject>
       </screenshot>
-      </figure>
-    </para>
+    </figure>
 
     <!-- BEGIN tutorial5_5 para 1 -->   
     <para lang="en">
@@ -1575,10 +1564,10 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
       <phrase lang="it">Domande più frequenti</phrase>
       <phrase lang="es">Preguntas más frecuentes</phrase>
     </title>
-    <qandaset>
+    <qandaset id="quandaset">
       <!-- BEGIN FAQ 1 -->
       <qandaentry id="faq-comma-en" lang="en">
-        <question>
+        <question id="faq-comma-q-en">
           <para>
             How do I enter amounts? There is no comma (,) on the numeric keypad.
           </para>
@@ -1595,7 +1584,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         </answer>
       </qandaentry>
       <qandaentry id="faq-comma-fr" lang="fr">
-        <question>
+        <question id="faq-comma-q-fr">
           <para>
             Comment puis-je saisir les montants ? Il n'y a pas de virgule (,) sur le pavé
             numérique.
@@ -1614,7 +1603,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         </answer>
       </qandaentry>
       <qandaentry id="faq-comma-de" lang="de">
-        <question>
+        <question id="faq-comma-q-de">
           <para>
            Wie kann ich Beträge eingeben? Auf der numerischen Tastatur finde ich kein Komma
            (,).
@@ -1632,7 +1621,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         </answer>
       </qandaentry>
       <qandaentry id="faq-comma-it" lang="it">
-        <question>
+        <question id="faq-comma-q-it">
           <para>
             Come faccio a inserire gli importi? Non c'è una virgola (,) sul tastierino numerico.
           </para>
@@ -1649,7 +1638,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         </answer>
       </qandaentry>
       <qandaentry id="faq-comma-es" lang="es">
-        <question>
+        <question id="faq-comma-q-es">
           <para>
             ¿Cómo puedo insertar valores monitarios? No encuentro la coma (,) en el teclado.
           </para>
@@ -1669,7 +1658,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
 
       <!-- BEGIN FAQ 2 -->
       <qandaentry id="faq-share-de" lang="de">
-        <question>
+        <question id="faq-share-q-de">
           <para>
             Kann ich die QIF Datei auf Google Docs oder Dropbox übertragen?
           </para>
@@ -1684,7 +1673,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         </answer>
       </qandaentry>
       <qandaentry id="faq-share-en" lang="en">
-        <question>
+        <question id="faq-share-q-en">
           <para>
             Can I send the QIF file to Google Docs or Dropbox?
           </para>
@@ -1699,7 +1688,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         </answer>
       </qandaentry>
       <qandaentry id="faq-share-fr" lang="fr">
-        <question>
+        <question id="faq-share-q-fr">
           <para>
             Puis-je envoyer le fichier QIF vers Google Docs ou Dropbox?
           </para>
@@ -1714,7 +1703,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         </answer>
       </qandaentry>
       <qandaentry id="faq-share-it" lang="it">
-        <question>
+        <question id="faq-share-q-it">
           <para>
             Posso inviare il file QIF di Google Docs o Dropbox?
           </para>
@@ -1729,7 +1718,7 @@ Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra 
         </answer>
       </qandaentry>
       <qandaentry id="faq-share-es" lang="es">
-        <question>
+        <question id="faq-share-q-es">
           <para>
             Puedo mover el archivo QIF a Google Docs o Dropbox?
           </para>
