@@ -719,7 +719,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     mExpensesCursor.moveToFirst();
     Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
     if (mSettings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
-      Utils.share(MyExpenses.this,outputFile, mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,""));
+      Utils.share(MyExpenses.this,outputFile, mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
     }
     return true;
   }
