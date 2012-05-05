@@ -198,12 +198,10 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     try {
         Xml.parse(is, Xml.Encoding.UTF_8, handler);
     }  catch (IOException e) {
-      // TODO Auto-generated catch block
       return new Result(false,R.string.parse_error_other_exception,e.getMessage());
     } catch (GrisbiHandler.FileVersionNotSupportedException e) {
       return new Result(false,R.string.parse_error_grisbi_version_not_supported,e.getMessage());
     } catch (SAXException e) {
-      // TODO Auto-generated catch block
       return new Result(false,R.string.parse_error_parse_exception);
     }
     return handler.getResult();

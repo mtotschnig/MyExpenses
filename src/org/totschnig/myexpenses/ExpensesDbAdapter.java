@@ -830,7 +830,6 @@ public class ExpensesDbAdapter {
   }
 
   public boolean deletePayee(long id) {
-    // TODO Auto-generated method stub
     return mDb.delete("payee", KEY_ROWID + "=" + id, null) > 0;
   }
 }
