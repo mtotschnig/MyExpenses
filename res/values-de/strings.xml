@@ -53,6 +53,7 @@
   <string name="edit_category">Kategorie verändern</string>
   <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten 
       Sie eine Minute bevor Sie es erneut versuchen.</string>
+  <string name="export_expenses">Ausgaben-Export</string>
   <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
   <string name="export_expenses_sdcard_success">Ausgaben in Datei %1$s exportiert</string>
   <string name="external_storage_unavailable">Externer Speicher (SD Karte) is nicht

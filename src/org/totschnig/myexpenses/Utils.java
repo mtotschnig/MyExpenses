@@ -219,7 +219,7 @@ public class Utils {
         String address = uri.getSchemeSpecificPart();
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ address });
       }
-      intent.putExtra(Intent.EXTRA_SUBJECT, "My Expenses export");
+      intent.putExtra(Intent.EXTRA_SUBJECT,R.string.export_expenses);
       intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
       if (packageManager.queryIntentActivities(intent,0).size() == 0) {
         Toast.makeText(context,R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();

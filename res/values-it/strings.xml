@@ -53,6 +53,7 @@
   <string name="edit_category">Modificare la categoria</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già.
       Attendere un minuto prima di riprovare.</string>
+  <string name="export_expenses">Esportazione delle speze</string>
   <string name="export_expenses_sdcard_failure">Esportazione delle speze nella scheda SD fallito
   </string>
   <string name="export_expenses_sdcard_success">Le spese sono esportate nel file %1$s</string>
