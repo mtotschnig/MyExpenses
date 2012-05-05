@@ -206,6 +206,8 @@ public class Utils {
       }
       scheme = uri.getScheme();
     }
+    if (scheme == null)
+    	scheme = "mailto";
     if (scheme.equals("ftp")) {
       intent = new Intent(context, FtpTransfer.class);
       intent.putExtra("target",uri);
