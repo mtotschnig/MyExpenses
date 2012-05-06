@@ -215,11 +215,6 @@ public class Utils {
   		intent = new Intent(android.content.Intent.ACTION_SENDTO);
   		intent.setData(android.net.Uri.parse(target));
       intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-  		//intent.putExtra("ftp_username", "michael");
-  		//intent.putExtra("ftp_password", "12august12");
-      //intent = new Intent(context, FtpTransfer.class);
-      //intent.putExtra("target",uri);
-      //intent.putExtra("source",file.getAbsolutePath());
       if (packageManager.queryIntentActivities(intent,0).size() == 0) {
         Toast.makeText(context,"no_app_handling_ftp_available", Toast.LENGTH_LONG).show();
         return;
