@@ -40,7 +40,8 @@
       android:title="@string/pref_perform_share_title" 
       android:summary="@string/pref_perform_share_summary" />
 	<EditTextPreference
-      android:dependency="perform_share"
+      android:dependency="@string/pref_perform_share_key"
+      android:inputType="textUri"
 	    android:layout="@layout/preference_long_summary"
 	    android:key="@string/pref_share_target_key" 
 	    android:title="@string/pref_share_target_title" 
