@@ -30,7 +30,9 @@ import org.totschnig.myexpenses.Utils.Result;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,15 +41,15 @@ import android.widget.Toast;
 public class FtpTransfer extends Activity {
   ProgressDialog mProgressDialog;
   private FtpAsyncTask task=null;
-  URI target;
+  Uri target;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    target = getIntent().getData();
     Bundle extras = getIntent().getExtras();
-    target = (URI) extras.getSerializable("target");
+    File source = new File (((Uri) extras.getParcelable(Intent.EXTRA_STREAM)).getPath());
     String sourcePath = extras.getString("source");
-    File source = new File(sourcePath);
     
     task=(FtpAsyncTask)getLastNonConfigurationInstance();
     
@@ -99,12 +101,12 @@ public class FtpTransfer extends Activity {
 
   static class FtpAsyncTask extends AsyncTask<Void, Void, Void> {
       private FtpTransfer activity;
-      private URI target;
+      private Uri target;
       private File file;
       Result result;
       ProgressDialog mProgressDialog;
       
-      public FtpAsyncTask(FtpTransfer activity,File file,URI uri) {
+      public FtpAsyncTask(FtpTransfer activity,File file,Uri uri) {
         attach(activity);
         this.target = uri;
         this.file = file;
