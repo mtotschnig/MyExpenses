@@ -59,20 +59,6 @@
   <string name="export_expenses_sdcard_success">Le spese sono esportate nel file %1$s</string>
   <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non è disponibile
   </string>
-  <string name="ftp_uri_malformed">Sintassi male dell\'URI %1$s</string>
-  <string name="ftp_success">Carica su %1$s è riuscita</string>
-  <string name="ftp_failure">Carica su %1$s faillita</string>
-  <string name="ftp_socket_exception">Socket eccezione durante il caricamento di %1$s</string>
-  <string name="ftp_io_exception">IO eccezione durante il caricamento di %1$s</string>
-  <string name="ftp_login_failure">Errore di login durante il caricamento di %1$s</string>
-  <string name="ftp_setFileType_failure">Impossibile impostare il tipo di file ASCII durante il
-      caricamento di %1$s</string>
-  <string name="ftp_changeWorkingDirectory_failure">Impossibile cambiare la cartella di lavoro
-      durante il caricamento di %1$s</string>
-  <string name="ftp_connection_refused">Collegamento a %1$s rifiutato</string>
-  <string name="ftp_connection_failure">Collegamento a %1$s faillito</string>
-  <string name="ftp_cancelled">Trasferimento FTP a %1$s cancellato</string>
-  <string name="ftp_uploading_wait">Scarica in corso. Attendere prego &#8230;</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Categorie</string>
   <string name="grisbi_import_button_categories_and_parties">Categorie e beneficiari</string>

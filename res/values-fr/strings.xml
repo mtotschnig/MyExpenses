@@ -60,20 +60,6 @@
       %1$s</string>
   <string name="external_storage_unavailable">Le stockage externe (carte SD) n\'est pas
       disponible</string>
-  <string name="ftp_uri_malformed">Mauvaise syntaxe de l\'URI %1$s</string>
-  <string name="ftp_success">Téléchargement vers %1$s a réussi</string>
-  <string name="ftp_failure">Téléchargement vers %1$s a échoué</string>
-  <string name="ftp_socket_exception">Socket exception lors du téléchargement vers %1$s</string>
-  <string name="ftp_io_exception">IO exception lors du téléchargement vers %1$s</string>
-  <string name="ftp_login_failure">Erreur de login lors du téléchargement vers %1$s</string>
-  <string name="ftp_setFileType_failure">Erreur de configuration en type de fichier ASCII lors du
-      téléchargement vers %1$s</string>
-  <string name="ftp_changeWorkingDirectory_failure">Erreur de changement de répertoire lors du
-      téléchargement vers %1$s</string>
-  <string name="ftp_uploading_wait">Téléchargement FTP vers %1$s en cours. Attendez SVP &#8230;</string>
-  <string name="ftp_connection_refused">Connection avec %1$s refusé</string>
-  <string name="ftp_connection_failure">Connection avec %1$s a échoué</string>
-  <string name="ftp_cancelled">Téléchargement FTP vers %1$s avorté</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Catégories</string>
   <string name="grisbi_import_button_categories_and_parties">Catégories et tiers</string>
