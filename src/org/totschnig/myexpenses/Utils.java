@@ -36,9 +36,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
