@@ -1,4 +1,4 @@
-﻿<?xml version='1.0'?>
+<?xml version='1.0'?>
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"   "docbookx.dtd">
 <article>
   <articleinfo>
@@ -72,7 +72,7 @@
     <para lang="fr">
       <application role="app_name"/>  permet de gérer les entrées d'argent et les
       dépenses, et de les exporter vers un logiciel de finance, tel que Grisbi ou Gnucash.
-      Il supporte des comptes multiples et deux niveaux de catégories.
+      Il supporte de multiples comptes et deux niveaux de catégories.
     </para>
     <para lang="de">
       Mit <application role="app_name"/> können sie über Ihre Ausgaben und Einnahmen Buch
@@ -102,10 +102,10 @@
     </para>
     <para lang="fr">
       Sur l'écran principal s'affiche la liste des transactions du compte en cours. La
-      barre de boutons en bas de l'écran donne accès à toutes les fonctions. Chaque
-      bouton execute une action par défault en réaction à un clic court. La plupart
-      affiche une menu avec d'autres actions sur un clic long. Alternativement, vous 
-      pouvez configurer <application role="app_name"/> de sorte qu'il utilise le menu
+      barre des boutons en bas de l'écran donne accès à toutes les fonctions. Chaque
+      bouton exécute une action par défaut sur un clic court. La plupart
+      affichent un menu avec d'autres actions sur un clic long. Sinon, vous 
+      pouvez configurer <application role="app_name"/> afin qu'il utilise le menu
       standard d'Android en tant qu'interface de commande ( <link linkend='tutorial5_6'>
       <guilabel role="pref_use_standard_menu_title"/></link> ).
     </para>
@@ -179,12 +179,13 @@
 
     <para lang="fr">
       Lors du premier lancement de <application role="app_name"/>, un compte par défaut est
-      créé, et vous pouvez immédiatement commencer à saisir des transactions. Si vous voulez
-      éditer le compte par défaut, utilisez
+      créé, et vous pouvez commencer immédiatement
+à saisir des transactions. Si vous voulez
+      éditer celui-ci, utilisez
       <menuchoice>
         <guimenu role="menu_settings"/>
         <guimenuitem role="menu_settings_account"/>
-     </menuchoice>. Si vous désirez créer un nouveau compte, activez
+     </menuchoice>. Si vous désirez en créer un nouveau, activez
      <menuchoice>
         <guimenu role="menu_accounts"/>
         <guimenuitem role="menu_accounts_new"/>
@@ -244,7 +245,7 @@
     <para lang="fr">
       Entrez un libellé, une description, le solde d'ouverture<footnoteref
       linkend="ftn22-fr-1"/> et la devise de ce compte. La devise doit être saisie selon le
-      code ISO 4217 en trois lettres, mais peut être facilement sélectionné à partir d'une
+      code ISO 4217 en trois lettres, mais peut être facilement sélectionné sur une
       liste en cliquant sur <guibutton role="select"/>
     </para>
     <para lang="de">
@@ -278,9 +279,9 @@
     <para lang="fr">
       Confirmez, et vous reviendrez à la liste des transactions. Si vous avez ajouté un
       nouveau compte, celui-ci deviendra automatiquement le compte en cours. Le bouton
-      <guibutton role="menu_accounts"/> permet de facilement changer le compte en cours.
-      Un clic court active le dernier compte utilisé, un clic long ouvre un menu
-      permettant de choisir un compte dans la liste complète.
+      <guibutton role="menu_accounts"/> permet de facilement changer de compte.
+      Un clic court active le dernier utilisé, un clic long ouvre le  menu
+      permettant de le choisir dans la liste complète.
     </para>
     <para lang="de">
       Nach Bestätigung der Eingabe gelangen Sie wieder zur Liste der Buchungen. Wenn Sie
