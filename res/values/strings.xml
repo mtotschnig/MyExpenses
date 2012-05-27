@@ -177,6 +177,11 @@
       %1$s</string>
   <string name="payee">Payee</string>
   <string name="payer">Payer</string>
+  <!-- payment methods -->
+  <string name="pm_cheque"></string>
+  <string name="pm_creditcard"></string>
+  <string name="pm_deposit"></string>
+  <string name="pm_directdebit"></string>
   <string name="peer_transaction_deleted">This transaction refered to a contra-entry (account %1$s)
       that has been deleted</string>
   <string name="pref_backup_title">Backup</string>

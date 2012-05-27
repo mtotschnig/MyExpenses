@@ -47,6 +47,11 @@ public class Account {
   
   private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   
+  public enum Type {
+    CASH,BANK,ASSET,LIABILITY
+  }
+  public Type type;
+  
   /**
    * @see <a href="http://www.currency-iso.org/dl_iso_table_a1.xml">http://www.currency-iso.org/dl_iso_table_a1.xml</a>
    */

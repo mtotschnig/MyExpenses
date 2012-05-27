@@ -54,7 +54,7 @@ public class ExpensesDbAdapter {
 
   private String mDatabaseName;
   private static final String DATABASE_TABLE = "transactions";
-  private static final int DATABASE_VERSION = 20;
+  private static final int DATABASE_VERSION = 21;
   
   /**
    * SQL statement for expenses TABLE
@@ -75,7 +75,7 @@ public class ExpensesDbAdapter {
    */
   private static final String ACCOUNTS_CREATE = 
     "create table accounts (_id integer primary key autoincrement, label text not null, " +
-    "opening_balance integer, description text, currency text not null);";
+    "opening_balance integer, description text, currency text not null, type text default 'CASH');";
 
   
   /**
@@ -88,6 +88,8 @@ public class ExpensesDbAdapter {
     "create table categories (_id integer primary key autoincrement, label text not null, " +
     "parent_id integer not null default 0, usages integer default 0, unique (label,parent_id));";
  
+  private static final String PAYMENT_METHODS_CREATE =
+      "create table payment_methods (_id integer primary key autoincrment, label text not null, type integer default 0";
   
   /**
    * an SQL CASE expression for transactions
@@ -148,6 +150,15 @@ public class ExpensesDbAdapter {
       db.execSQL(CATEGORIES_CREATE);
       db.execSQL(ACCOUNTS_CREATE);
       db.execSQL(PAYEE_CREATE);
+      db.execSQL(PAYMENT_METHODS_CREATE);
+      insertDefaultPaymentMethods(db);
+
+    }
+
+    private void insertDefaultPaymentMethods(SQLiteDatabase db) {
+      for (PaymentMethod.PreDefined pm: PaymentMethod.PreDefined.values()) {
+        db.execSQL("INSERT INTO payment_methods(label,type) '" + pm + ',' + pm.type);
+      }
     }
 
     @Override
@@ -176,6 +187,11 @@ public class ExpensesDbAdapter {
         db.execSQL("INSERT INTO accounts (label,opening_balance,description,currency)" +
         		" select label,CAST(ROUND(opening_balance*100) AS INTEGER),description,currency from accounts_old");
         db.execSQL("DROP TABLE accounts_old");
+      }
+      if (oldVersion < 21) {
+        db.execSQL(PAYMENT_METHODS_CREATE);
+        insertDefaultPaymentMethods(db);
+        db.execSQL("alter table expenses add column type text default 'CASH'");
       }
     }
   }
