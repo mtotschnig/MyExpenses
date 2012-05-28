@@ -872,4 +872,10 @@ public class ExpensesDbAdapter {
       }
       return mCursor;
   }
+
+  public Cursor fetchPaymentMethodsAll() {
+    return mDb.query("payment_methods",
+        new String[] {KEY_ROWID,"label"}, 
+        null, null, null, null, null);
+  }
 }

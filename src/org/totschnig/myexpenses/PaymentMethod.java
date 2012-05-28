@@ -4,6 +4,7 @@ import java.util.Currency;
 import java.util.HashMap;
 import java.util.Locale;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.util.Log;
@@ -58,14 +59,14 @@ public class PaymentMethod {
   public String getLabel() {
     return label;
   }
-  public String getDisplayLabel() {
+  public String getDisplayLabel(Context ctx) {
     if (predef == null)
       return label;
     switch (predef) {
-    case CHEQUE: return Resources.getSystem().getString(R.string.pm_cheque);
-    case CREDITCARD: return Resources.getSystem().getString(R.string.pm_creditcard);
-    case DEPOSIT: return Resources.getSystem().getString(R.string.pm_deposit);
-    case DIRECTDEBIT: return Resources.getSystem().getString(R.string.pm_directdebit);
+    case CHEQUE: return ctx.getString(R.string.pm_cheque);
+    case CREDITCARD: return ctx.getString(R.string.pm_creditcard);
+    case DEPOSIT: return ctx.getString(R.string.pm_deposit);
+    case DIRECTDEBIT: return ctx.getString(R.string.pm_directdebit);
     }
     return label;
   }

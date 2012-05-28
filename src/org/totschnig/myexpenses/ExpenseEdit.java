@@ -46,6 +46,7 @@ public class ExpenseEdit extends EditActivity {
   private Button mTimeButton;
   private EditText mCommentText;
   private Button mCategoryButton;
+  private Button mMethodButton;
   private Button mTypeButton;
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel;
@@ -70,6 +71,7 @@ public class ExpenseEdit extends EditActivity {
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
   static final int ACCOUNT_DIALOG_ID = 2;
+  static final int METHOD_DIALOG_ID = 3;
   
 /*  private int monkey_state = 0;
 
@@ -137,6 +139,8 @@ public class ExpenseEdit extends EditActivity {
     } else {
       View v = findViewById(R.id.PayeeRow);
       v.setVisibility(View.GONE);
+      v = findViewById(R.id.MethodRow);
+      v.setVisibility(View.GONE);
     }
     
     confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +175,13 @@ public class ExpenseEdit extends EditActivity {
         categoryLabel.setText(R.string.account);
       else
         mCategoryButton.setText(R.string.account);
+    } else {
+      mMethodButton = (Button) findViewById(R.id.Method);
+      mMethodButton.setOnClickListener(new View.OnClickListener() {
+        public void onClick(View view) {
+          showDialog(METHOD_DIALOG_ID);
+        }
+      });
     }
     //category button and amount label are further set up in populateFields, since it depends on data
     populateFields();
@@ -235,6 +246,36 @@ public class ExpenseEdit extends EditActivity {
             dismissDialog(ACCOUNT_DIALOG_ID);
           }
         }).create();
+    case METHOD_DIALOG_ID:
+      final Cursor paymentMethods = mDbHelper.fetchPaymentMethodsAll();
+      final String[] methodLabels = new String[paymentMethods.getCount()];
+      final long[] methodIds = new long[paymentMethods.getCount()];
+      PaymentMethod pm;
+      if(paymentMethods.moveToFirst()){
+       for (int i = 0; i < paymentMethods.getCount(); i++){
+         methodIds[i] = paymentMethods.getLong(paymentMethods.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+         try {
+          pm = PaymentMethod.getInstanceFromDb(methodIds[i]);
+        } catch (DataObjectNotFoundException e) {
+          // this should not happen, since we got the id from db
+          e.printStackTrace();
+          throw new RuntimeException(e);
+        }
+         methodLabels[i] = pm.getDisplayLabel(this);
+         paymentMethods.moveToNext();
+       }
+      }
+      Utils.getLongArrayFromCursor(paymentMethods, ExpensesDbAdapter.KEY_ROWID);
+      paymentMethods.close();
+      return new  AlertDialog.Builder(this)
+        .setTitle(R.string.dialog_title_select_method)
+        .setSingleChoiceItems(methodLabels, -1, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int item) {
+            mTransaction.methodId = methodIds[item];
+            mMethodButton.setText(methodLabels[item]);
+            dismissDialog(METHOD_DIALOG_ID);
+          }
+        }).create();      
     }
     return null;
   }
