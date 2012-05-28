@@ -265,7 +265,6 @@ public class ExpenseEdit extends EditActivity {
          paymentMethods.moveToNext();
        }
       }
-      Utils.getLongArrayFromCursor(paymentMethods, ExpensesDbAdapter.KEY_ROWID);
       paymentMethods.close();
       return new  AlertDialog.Builder(this)
         .setTitle(R.string.dialog_title_select_method)
