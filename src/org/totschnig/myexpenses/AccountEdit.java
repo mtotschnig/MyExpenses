@@ -20,8 +20,6 @@ import java.text.DecimalFormat;
 import java.util.Currency;
 import java.util.Locale;
 
-import org.totschnig.myexpenses.Account.AccountNotFoundException;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -183,7 +181,7 @@ public class AccountEdit extends EditActivity {
     if (rowId != 0) {
       try {
         mAccount = Account.getInstanceFromDb(rowId);
-      } catch (AccountNotFoundException e) {
+      } catch (DataObjectNotFoundException e) {
         e.printStackTrace();
         setResult(RESULT_CANCELED);
         finish();

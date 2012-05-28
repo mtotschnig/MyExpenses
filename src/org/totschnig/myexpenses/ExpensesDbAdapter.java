@@ -45,6 +45,7 @@ public class ExpensesDbAdapter {
   public static final String KEY_ACCOUNTID = "account_id";
   public static final String KEY_PAYEE = "payee";
   public static final String KEY_TRANSFER_PEER = "transfer_peer";
+  public static final String KEY_METHODID = "payment_method_id";
   public static final String BACKUP_DB_PATH = "BACKUP";
 
   private static final String TAG = "ExpensesDbAdapter";
@@ -65,9 +66,16 @@ public class ExpensesDbAdapter {
    * for transfers cat_id stores the account
    */
   private static final String DATABASE_CREATE =
-    "create table " + DATABASE_TABLE  +  "(_id integer primary key autoincrement, "
-    + "comment text not null, date DATETIME not null, amount integer not null, "
-    + "cat_id integer, account_id integer, payee text,transfer_peer integer default null);";
+    "create table " + DATABASE_TABLE  +  "( "
+    + KEY_ROWID         + " integer primary key autoincrement, "
+    + KEY_COMMENT       + " text not null, "
+    + KEY_DATE          + " DATETIME not null, "
+    + KEY_AMOUNT        + " integer not null, "
+    + KEY_CATID         + " integer, "
+    + KEY_ACCOUNTID     + " integer, "
+    + KEY_PAYEE         + " text, "
+    + KEY_TRANSFER_PEER + " integer default null, "
+    + KEY_METHODID      + " integer);";
   
   
   /**
@@ -89,7 +97,7 @@ public class ExpensesDbAdapter {
     "parent_id integer not null default 0, usages integer default 0, unique (label,parent_id));";
  
   private static final String PAYMENT_METHODS_CREATE =
-      "create table payment_methods (_id integer primary key autoincrment, label text not null, type integer default 0";
+      "create table payment_methods (_id integer primary key autoincrement, label text not null, type integer default 0);";
   
   /**
    * an SQL CASE expression for transactions
@@ -157,7 +165,7 @@ public class ExpensesDbAdapter {
 
     private void insertDefaultPaymentMethods(SQLiteDatabase db) {
       for (PaymentMethod.PreDefined pm: PaymentMethod.PreDefined.values()) {
-        db.execSQL("INSERT INTO payment_methods(label,type) '" + pm + ',' + pm.type);
+        db.execSQL("INSERT INTO payment_methods(label,type) VALUES ('" + pm + "'," + pm.type + ")");
       }
     }
 
@@ -284,7 +292,7 @@ public class ExpensesDbAdapter {
    * @return rowId or -1 if failed
    */
   public long createTransaction(String date, long amount, String comment,
-      long cat_id,long account_id, String payee) {
+      long cat_id,long account_id, String payee, long payment_method_id) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_DATE, date);
@@ -292,6 +300,7 @@ public class ExpensesDbAdapter {
     initialValues.put(KEY_CATID, cat_id);
     initialValues.put(KEY_ACCOUNTID, account_id);
     initialValues.put(KEY_PAYEE, payee);
+    initialValues.put(KEY_METHODID, payment_method_id);
     long _id = mDb.insert(DATABASE_TABLE, null, initialValues);
     incrCategoryUsage(cat_id);
     return _id;
@@ -341,13 +350,14 @@ public class ExpensesDbAdapter {
    * @return should return 1 if row has been successfully updated
    */
   public int updateTransaction(long rowId, String date, long amount, 
-      String comment,long cat_id,String payee) {
+      String comment,long cat_id,String payee, long payment_method_id) {
     ContentValues args = new ContentValues();
     args.put(KEY_DATE, date);
     args.put(KEY_AMOUNT, amount);
     args.put(KEY_COMMENT, comment);
     args.put(KEY_CATID, cat_id);
     args.put(KEY_PAYEE, payee);
+    args.put(KEY_METHODID, payment_method_id);
 
     int result = mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null);
     incrCategoryUsage(cat_id);
@@ -682,12 +692,13 @@ public class ExpensesDbAdapter {
    * @return rowId or -1 if failed
    */
   public long createAccount(String label, long opening_balance, 
-      String description, String currency) {
+      String description, String currency, String type) {
     ContentValues initialValues = new ContentValues();
     initialValues.put("label", label);
     initialValues.put("opening_balance",opening_balance);
     initialValues.put("description",description);
     initialValues.put("currency",currency);
+    initialValues.put("type",type);
     return mDb.insert("accounts", null, initialValues);
   }
   /**
@@ -700,12 +711,13 @@ public class ExpensesDbAdapter {
    * @return number of rows affected
    */
   public int updateAccount(long rowId, String label, long opening_balance, 
-      String description, String currency) {
+      String description, String currency,String type) {
     ContentValues args = new ContentValues();
     args.put("label", label);
     args.put("opening_balance",opening_balance);
     args.put("description",description);
     args.put("currency",currency);
+    args.put("type",type);
     return mDb.update("accounts", args, KEY_ROWID + "=" + rowId, null);
   }
   
@@ -753,7 +765,7 @@ public class ExpensesDbAdapter {
   public Cursor fetchAccount(long rowId) throws SQLException {
     Cursor mCursor =
       mDb.query("accounts",
-          new String[] {"label","description","opening_balance","currency"},
+          new String[] {"label","description","opening_balance","currency","type"},
           KEY_ROWID + "=" + rowId,
           null, null, null, null, null);
     if (mCursor != null) {
@@ -847,5 +859,17 @@ public class ExpensesDbAdapter {
 
   public boolean deletePayee(long id) {
     return mDb.delete("payee", KEY_ROWID + "=" + id, null) > 0;
+  }
+
+  public Cursor fetchPaymentNethod(long rowId) {
+    Cursor mCursor =
+        mDb.query("payment_methods",
+            new String[] {"label","type"},
+            KEY_ROWID + "=" + rowId,
+            null, null, null, null, null);
+      if (mCursor != null) {
+        mCursor.moveToFirst();
+      }
+      return mCursor;
   }
 }

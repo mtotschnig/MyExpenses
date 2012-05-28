@@ -27,7 +27,6 @@ import java.util.Locale;
 import java.util.Properties;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
-import org.totschnig.myexpenses.Account.AccountNotFoundException;
 import org.totschnig.myexpenses.ButtonBar.MenuButton;
 
 import android.app.AlertDialog;
@@ -161,7 +160,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
       try {
         mCurrentAccount = Account.getInstanceFromDb(account_id);
-      } catch (AccountNotFoundException e) {
+      } catch (DataObjectNotFoundException e) {
         //for any reason the account stored in pref no longer exists
         mCurrentAccount = requireAccount();
       }
@@ -628,7 +627,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       if (accountId != 0) {
         try {
           mCurrentAccount = Account.getInstanceFromDb(accountId);
-        } catch (AccountNotFoundException e) {
+        } catch (DataObjectNotFoundException e) {
          //the account stored in last_account has been deleted 
          accountId = 0; 
         }
@@ -649,7 +648,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, current_account_id)
           .commit();
         fillData();
-      } catch (AccountNotFoundException e) {
+      } catch (DataObjectNotFoundException e) {
         //should not happen
         Log.w("MyExpenses","unable to switch to account " + accountId);
       }
@@ -783,7 +782,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     } else {
       try {
         account =Account.getInstanceFromDb(accountId);
-      } catch (AccountNotFoundException e) {
+      } catch (DataObjectNotFoundException e) {
         // this should not happen, since we got the account_id from db
         e.printStackTrace();
         throw new RuntimeException(e);

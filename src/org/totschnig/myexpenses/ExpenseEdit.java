@@ -18,8 +18,6 @@ package org.totschnig.myexpenses;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.totschnig.myexpenses.Account.AccountNotFoundException;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
@@ -349,7 +347,7 @@ public class ExpenseEdit extends EditActivity {
           currencySymbol += "/1000";
         }
       }
-    } catch (AccountNotFoundException e) {
+    } catch (DataObjectNotFoundException e) {
       currencySymbol = "?";
     }
     amountLabel.setText(getString(R.string.amount) + " ("+currencySymbol+")");    

@@ -19,8 +19,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.totschnig.myexpenses.Account.AccountNotFoundException;
-
 import android.database.Cursor;
 
 /**
@@ -40,6 +38,7 @@ public class Transaction {
   public long accountId;
   public String payee;
   public long transfer_peer = 0;
+  public long methodId;
   /**
    * we store the date directly from UI to DB without creating a Date object
    */
@@ -62,8 +61,10 @@ public class Transaction {
       t = new Transfer(account_id,amount);
       t.transfer_peer = transfer_peer;
     }
-    else
+    else {
       t = new Transaction(account_id,amount);
+      t.methodId = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_METHODID));
+    }
     
     t.id = id;
     t.setDate(c.getString(
@@ -103,7 +104,7 @@ public class Transaction {
     Account account;
     try {
       account = Account.getInstanceFromDb(accountId);
-    } catch (AccountNotFoundException e) {
+    } catch (DataObjectNotFoundException e) {
       //we should not have to deal with a transaction not belonging to any account
       e.printStackTrace();
       throw new RuntimeException(e);
@@ -144,9 +145,9 @@ public class Transaction {
       mDbHelper.createPayee(payee);
     }
     if (id == 0) {
-      id = mDbHelper.createTransaction(dateAsString, amount.getAmountMinor(), comment,catId,accountId,payee);
+      id = mDbHelper.createTransaction(dateAsString, amount.getAmountMinor(), comment,catId,accountId,payee, methodId);
     } else {
-      mDbHelper.updateTransaction(id, dateAsString, amount.getAmountMinor(), comment,catId,payee);
+      mDbHelper.updateTransaction(id, dateAsString, amount.getAmountMinor(), comment,catId,payee, methodId);
     }
     return id;
   }

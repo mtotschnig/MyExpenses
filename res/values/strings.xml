@@ -154,6 +154,7 @@
   <string name="menu_settings_abrev">Settings</string>
   <string name="menu_settings_account">Current account</string>
   <string name="menu_show_detail">Show details</string>
+  <string name="method">Method</string>
   <string name="no_accounts">No Accounts!</string>
   <string name="no_app_handling_email_available">No app handling email available.</string>
   <string name="no_categories">No categories.</string>

@@ -30,10 +30,6 @@ import android.util.Log;
  *
  */
 public class Account {
- 
-  public class AccountNotFoundException extends Exception {
-
-  }
 
   public long id = 0;
    
@@ -237,7 +233,7 @@ public class Account {
   }
   static HashMap<Long,Account> accounts = new HashMap<Long,Account>();
   
-  public static Account getInstanceFromDb(long id) throws AccountNotFoundException {
+  public static Account getInstanceFromDb(long id) throws DataObjectNotFoundException {
     Account account;
     account = accounts.get(id);
     if (account != null) {
@@ -251,7 +247,7 @@ public class Account {
     Account account;
     try {
       account = getInstanceFromDb(id);
-    } catch (AccountNotFoundException e) {
+    } catch (DataObjectNotFoundException e) {
       return false;
     }
     mDbHelper.deleteTransactionAll(account);
@@ -271,6 +267,7 @@ public class Account {
     this.currency = currency;
     this.openingBalance = new Money(currency,openingBalance);
     this.description = description;
+    this.type = Type.CASH;
   }
   
   /**
@@ -280,11 +277,11 @@ public class Account {
    * @param id
    * @throws AccountNotFoundException 
    */
-  private Account(long id) throws AccountNotFoundException {
+  private Account(long id) throws DataObjectNotFoundException {
     this.id = id;
     Cursor c = mDbHelper.fetchAccount(id);
     if (c.getCount() == 0) {
-      throw new AccountNotFoundException();
+      throw new DataObjectNotFoundException();
     }
     
     this.label = c.getString(c.getColumnIndexOrThrow("label"));
@@ -298,6 +295,7 @@ public class Account {
     }    
     this.openingBalance = new Money(this.currency,
         c.getLong(c.getColumnIndexOrThrow("opening_balance")));
+    this.type = Type.valueOf(c.getString(c.getColumnIndexOrThrow("type")));
     c.close();
   }
 
@@ -335,14 +333,16 @@ public class Account {
           label,
           openingBalance.getAmountMinor(),
           description,
-          currency.getCurrencyCode());
+          currency.getCurrencyCode(),
+          type.name());
     } else {
       mDbHelper.updateAccount(
           id,
           label,
           openingBalance.getAmountMinor(),
           description,
-          currency.getCurrencyCode());
+          currency.getCurrencyCode(),
+          type.name());
     }
     if (!accounts.containsKey(id))
       accounts.put(id, this);
