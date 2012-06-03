@@ -83,13 +83,24 @@ public class MyApplication extends Application {
       databaseName = s;
     }
     public boolean backup() {
-      File appDir = Utils.requireAppDir();
+      File appDir, backupPrefFile, sharedPrefFile;
+      appDir = Utils.requireAppDir();
       if (appDir == null)
          return false;
       if (mSelf.mDbOpenHelper.backup()) {
-        File backupPrefFile = new File(appDir, BACKUP_PREF_PATH);
-        File sharedPrefFile = new File("/data/data/" + getPackageName() 
-            + "/shared_prefs/" + getPackageName() + "_preferences.xml");
+        backupPrefFile = new File(appDir, BACKUP_PREF_PATH);
+        //Samsung has special path on some devices
+        //http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
+        String sharedPrefFileCommon = getPackageName() 
+            + "/shared_prefs/" + getPackageName() + "_preferences.xml";
+        sharedPrefFile = new File("/dbdata/databases/" + sharedPrefFileCommon);
+        if (!sharedPrefFile.exists()) {
+          sharedPrefFile = new File("/data/data/" + sharedPrefFileCommon);
+          if (!sharedPrefFile.exists()) {
+            Log.e("MyExpenses","Unable to determine path to shared preference file");
+            return false;
+          }
+        }
         return Utils.copy(sharedPrefFile, backupPrefFile);
       } else
         return false;
