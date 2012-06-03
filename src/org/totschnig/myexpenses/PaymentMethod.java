@@ -38,7 +38,7 @@ public class PaymentMethod {
   }
   private PaymentMethod(long id) throws DataObjectNotFoundException {
     this.id = id;
-    Cursor c = mDbHelper.fetchPaymentNethod(id);
+    Cursor c = mDbHelper.fetchPaymentMethod(id);
     if (c.getCount() == 0) {
       throw new DataObjectNotFoundException();
     }

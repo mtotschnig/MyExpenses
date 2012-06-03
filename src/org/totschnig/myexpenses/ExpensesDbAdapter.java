@@ -863,7 +863,7 @@ public class ExpensesDbAdapter {
     return mDb.delete("payee", KEY_ROWID + "=" + id, null) > 0;
   }
 
-  public Cursor fetchPaymentNethod(long rowId) {
+  public Cursor fetchPaymentMethod(long rowId) {
     Cursor mCursor =
         mDb.query("payment_methods",
             new String[] {"label","type"},
