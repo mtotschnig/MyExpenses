@@ -163,6 +163,9 @@ public class ExpenseEdit extends EditActivity {
 
       public void onClick(View view) {
         mType = ! mType;
+        //we need to empty payment mehtod, since they are different for expenses and incomes
+        mTransaction.methodId = 0;
+        mMethodButton.setText(R.string.select);
         configureType();
       } 
     });
@@ -247,7 +250,7 @@ public class ExpenseEdit extends EditActivity {
           }
         }).create();
     case METHOD_DIALOG_ID:
-      final Cursor paymentMethods = mDbHelper.fetchPaymentMethodsAll();
+      final Cursor paymentMethods = mDbHelper.fetchPaymentMethodsForType(mType);
       final String[] methodLabels = new String[paymentMethods.getCount()];
       final long[] methodIds = new long[paymentMethods.getCount()];
       PaymentMethod pm;
@@ -272,7 +275,7 @@ public class ExpenseEdit extends EditActivity {
           public void onClick(DialogInterface dialog, int item) {
             mTransaction.methodId = methodIds[item];
             mMethodButton.setText(methodLabels[item]);
-            dismissDialog(METHOD_DIALOG_ID);
+            removeDialog(METHOD_DIALOG_ID);
           }
         }).create();      
     }
@@ -320,6 +323,14 @@ public class ExpenseEdit extends EditActivity {
       if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
         setTitle(R.string.menu_edit_ta);
         mPayeeText.setText(mTransaction.payee);
+        try {
+          if (mTransaction.methodId != 0) {
+            mMethodButton.setText(PaymentMethod.getInstanceFromDb(mTransaction.methodId).getDisplayLabel(this));
+          }
+        } catch (DataObjectNotFoundException e) {
+          //the methodId no longer exists in DB, we set it to 0
+          mTransaction.methodId = 0;
+        }
       } else {
         setTitle(R.string.menu_edit_transfer);
       }

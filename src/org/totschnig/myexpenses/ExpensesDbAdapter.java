@@ -483,7 +483,7 @@ public class ExpensesDbAdapter {
 
     return mDb.query(DATABASE_TABLE,
         new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, 
-            KEY_CATID,FULL_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER}, 
+            KEY_CATID,FULL_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID}, 
         "account_id = " + account_id, null, null, null, KEY_DATE);
   }
 
@@ -499,7 +499,7 @@ public class ExpensesDbAdapter {
     Cursor mCursor =
       mDb.query(DATABASE_TABLE,
           new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
-              SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_ACCOUNTID},
+              SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_ACCOUNTID,KEY_METHODID},
           KEY_ROWID + "=" + rowId,
           null, null, null, null, null);
     if (mCursor != null) {
@@ -877,5 +877,17 @@ public class ExpensesDbAdapter {
     return mDb.query("payment_methods",
         new String[] {KEY_ROWID,"label"}, 
         null, null, null, null, null);
+  }
+
+  public Cursor fetchPaymentMethodsForType(boolean mType) {
+    String selection;
+    if (mType == ExpenseEdit.INCOME) {
+      selection = "type > -1";
+    } else {
+      selection = "type < 1";
+    }
+    return mDb.query("payment_methods",
+        new String[] {KEY_ROWID,"label"}, 
+        selection, null, null, null, null);
   }
 }
