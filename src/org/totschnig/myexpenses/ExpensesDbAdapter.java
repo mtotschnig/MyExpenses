@@ -199,7 +199,9 @@ public class ExpensesDbAdapter {
       if (oldVersion < 21) {
         db.execSQL(PAYMENT_METHODS_CREATE);
         insertDefaultPaymentMethods(db);
-        db.execSQL("alter table expenses add column type text default 'CASH'");
+        db.execSQL("alter table transactions add column " + KEY_METHODID + " text default 'CASH'");
+        db.execSQL("alter table accounts add column type text default 'CASH'");
+        
       }
     }
   }
