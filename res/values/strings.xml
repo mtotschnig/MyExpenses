@@ -205,6 +205,8 @@
       myexpenses in the root of your sdcard. </string>
   <string name="pref_manage_accounts_title">Manage accounts</string>
   <string name="pref_manage_accounts_summary">Add, edit, delete accounts.</string>
+  <string name="pref_manage_methods_title">Manage payment methods</string>
+  <string name="pref_manage_methods_summary">Create and edit payment methods and associate them with account types.</string>
   <string name="pref_manage_parties_title">Manage parties</string>
   <string name="pref_manage_parties_summary">Delete parties (payers and payees).</string>
   <string name="pref_perform_share_title">Share QIF Export</string>

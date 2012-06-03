@@ -61,8 +61,7 @@
   </PreferenceScreen>
   <PreferenceScreen
       android:title="@string/pref_manage_parties_title"
-      android:summary="@string/pref_manage_parties_summary"
-      android:key="backup">
+      android:summary="@string/pref_manage_parties_summary">
       <intent android:action="myexpenses.intent.manage.parties"/>      
   </PreferenceScreen>
   <ListPreference android:key="@string/pref_currency_decimal_separator_key"
@@ -72,4 +71,9 @@
       android:entries="@array/pref_currency_decimal_separator_entries"
       android:entryValues="@array/pref_currency_decimal_separator_values">
   </ListPreference>
+  <PreferenceScreen
+      android:title="@string/pref_manage_methods_title"
+      android:summary="@string/pref_manage_methods_summary">
+      <intent android:action="myexpenses.intent.manage.methods"/>      
+  </PreferenceScreen>
 </PreferenceScreen> 
