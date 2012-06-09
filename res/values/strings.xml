@@ -20,6 +20,10 @@
 ]>
 <resources>
   <string name="account">Account</string>
+  <string name="account_type_cash">Cash account</string>
+  <string name="account_type_bank">Bank account</string>
+  <string name="account_type_asset">Asset account</string>
+  <string name="account_type_liability">Liabilities account</string>
   <string name="amount">Amount</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Backup to sdcard failed.</string>
@@ -49,6 +53,7 @@
   <string name="dialog_title_select_method">Pick a payment method</string>
   <string name="dialog_title_select_import_source">Pick a source for import</string>
   <string name="dialog_title_select_currency">Pick a currency</string>
+  <string name="dialog_title_select_type">Pick a type</string>
   <string name="dialog_yes">Yes</string>
   <string name="done">Done</string>
   <string name="edit_category">Edit category</string>
@@ -138,12 +143,14 @@
   <string name="menu_delete_cat">Delete category</string>
   <string name="menu_delete">Delete</string>
   <string name="menu_edit_account">Edit Account</string>
+  <string name="menu_edit_method">Edit Payment Method</string>
   <string name="menu_edit_cat">Edit category</string>
   <string name="menu_edit_ta">Edit Transaction</string>
   <string name="menu_edit_transfer">Edit Transfer</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_help">Help</string>
   <string name="menu_insert_account">Create new account</string>
+  <string name="menu_insert_method">Create new payment method</string>
   <string name="menu_insert_ta">Add Transaction</string>
   <string name="menu_insert_transfer">Add Transfer</string>
   <string name="menu_move_transaction">Move</string>
@@ -184,6 +191,9 @@
   <string name="pm_creditcard">Credit card</string>
   <string name="pm_deposit">Deposit</string>
   <string name="pm_directdebit">Direct debit</string>
+  <string name="pm_type_neutral">Neutral</string>
+  <string name="pm_type_debit">Debit</string>
+  <string name="pm_type_credit">Credit</string>
   <string name="peer_transaction_deleted">This transaction refered to a contra-entry (account %1$s)
       that has been deleted</string>
   <string name="pref_backup_title">Backup</string>
@@ -232,8 +242,9 @@
   <string name="time">Time</string>
   <string name="title">Title</string>
   <string name="transaction">Transaction</string>
-    <string name="transfer">Transfer</string>
+  <string name="transfer">Transfer</string>
   <string name="tutorial">Tutorial</string>
+  <string name="type">Type</string>
   <string name="warning_backup">Database and preferences will be saved to sdcard. Do you want to
       continue?</string>
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing

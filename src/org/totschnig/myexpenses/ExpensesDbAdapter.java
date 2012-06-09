@@ -862,7 +862,31 @@ public class ExpensesDbAdapter {
   public boolean deletePayee(long id) {
     return mDb.delete("payee", KEY_ROWID + "=" + id, null) > 0;
   }
+  /**
+   * PAYMENT METHODS
+   */
+  
+  /**
+   * inserts a new payment method if it does not exist yet
+   * @param name
+   */
+  public long createMethod(String label, int type) {
+    ContentValues initialValues = new ContentValues();
+    initialValues.put("label", label);
+    initialValues.put("type",type);
+    long _id = mDb.insert("payment_methods", null, initialValues);
+    return _id;
+  }
+  
+  public int updateMethod(long rowId, String label, int type) {
+    ContentValues args = new ContentValues();
+    args.put("label", label);
+    args.put("type", type);
 
+    int result = mDb.update("payment_methods", args, KEY_ROWID + "=" + rowId, null);
+    return result;
+  }
+  
   public Cursor fetchPaymentMethod(long rowId) {
     Cursor mCursor =
         mDb.query("payment_methods",

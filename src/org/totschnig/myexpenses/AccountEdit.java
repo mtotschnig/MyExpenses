@@ -41,14 +41,17 @@ import android.widget.Toast;
  */
 public class AccountEdit extends EditActivity {
   private static final int CURRENCY_DIALOG_ID = 0;
+  private static final int TYPE_DIALOG_ID = 1;
   private EditText mLabelText;
   private EditText mDescriptionText;
   private AutoCompleteTextView mCurrencyText;
   private Button mCurrencyButton;
+  private Button mTypeButton;
   Account mAccount;
   private String[] currencyCodes;
   private String[] currencyDescs;
   private TextWatcher currencyInformer;
+  String[] mTypes = new String[4];
 
 /*  private int monkey_state = 0;
 
@@ -122,6 +125,15 @@ public class AccountEdit extends EditActivity {
         showDialog(CURRENCY_DIALOG_ID);
       }
     });
+    
+    mTypeButton = (Button) findViewById(R.id.TaType);
+    mTypeButton.setOnClickListener(new View.OnClickListener() {
+
+      public void onClick(View view) {
+        showDialog(TYPE_DIALOG_ID);
+      }
+    });
+    
     Button confirmButton = (Button) findViewById(R.id.Confirm);
     Button cancelButton = (Button) findViewById(R.id.Revert);
 
@@ -141,6 +153,10 @@ public class AccountEdit extends EditActivity {
         finish();
       }
     });
+    mTypes[0] = getString(R.string.account_type_cash);
+    mTypes[1] = getString(R.string.account_type_bank);
+    mTypes[2] = getString(R.string.account_type_asset);
+    mTypes[3] = getString(R.string.account_type_liability);
     populateFields();
   }
   /* (non-Javadoc)
@@ -155,9 +171,10 @@ public class AccountEdit extends EditActivity {
   }
   @Override
   protected Dialog onCreateDialog(int id) {
+    int checked;
     switch (id) {
       case CURRENCY_DIALOG_ID:
-        int checked = java.util.Arrays.asList(currencyCodes).indexOf(
+        checked = java.util.Arrays.asList(currencyCodes).indexOf(
             mCurrencyText.getText().toString());
         return new AlertDialog.Builder(this)
           .setTitle(R.string.dialog_title_select_currency)
@@ -166,6 +183,17 @@ public class AccountEdit extends EditActivity {
               mCurrencyText.setText(currencyCodes[item]);
               dismissDialog(CURRENCY_DIALOG_ID);
               mCurrencyText.addTextChangedListener(currencyInformer);
+            }
+          }).create();
+      case TYPE_DIALOG_ID:
+        checked = mAccount.type.ordinal();
+        return new AlertDialog.Builder(this)
+          .setTitle(R.string.dialog_title_select_type)
+          .setSingleChoiceItems(mTypes, checked, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+              mTypeButton.setText(mTypes[item]);
+              mAccount.type = Account.Type.values()[item];
+              dismissDialog(TYPE_DIALOG_ID);
             }
           }).create();
     }
@@ -197,6 +225,7 @@ public class AccountEdit extends EditActivity {
       }
       mAmountText.setText(nfDLocal.format(amount));
       mCurrencyText.setText(mAccount.currency.getCurrencyCode());
+      mTypeButton.setText(mAccount.getDisplayType(this));
     } else {
       mAccount = new Account();
       setTitle(R.string.menu_insert_account);

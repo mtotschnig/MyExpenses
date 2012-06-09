@@ -19,6 +19,7 @@ import java.util.Currency;
 import java.util.HashMap;
 import java.util.Locale;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
@@ -296,7 +297,11 @@ public class Account {
     }    
     this.openingBalance = new Money(this.currency,
         c.getLong(c.getColumnIndexOrThrow("opening_balance")));
-    this.type = Type.valueOf(c.getString(c.getColumnIndexOrThrow("type")));
+    try {
+      this.type = Type.valueOf(c.getString(c.getColumnIndexOrThrow("type")));
+    } catch (IllegalArgumentException ex) { 
+      this.type = Type.CASH;
+    }
     c.close();
   }
 
@@ -313,7 +318,15 @@ public class Account {
         openingBalance.getAmountMinor() + mDbHelper.getTransactionSum(id)
     );
   }
-  
+  public String getDisplayType(Context ctx) {
+    switch (type) {
+    case CASH: return ctx.getString(R.string.account_type_cash);
+    case BANK: return ctx.getString(R.string.account_type_bank);
+    case ASSET: return ctx.getString(R.string.account_type_asset);
+    case LIABILITY: return ctx.getString(R.string.account_type_liability);
+    }
+    return "";
+  }
   /**
    * deletes all expenses and set the new opening balance to the current balance
    */

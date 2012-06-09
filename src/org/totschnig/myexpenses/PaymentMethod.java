@@ -13,10 +13,10 @@ public class PaymentMethod {
   public long id;
   private String label;
   final int EXPENSE =  -1;
-  final int INCOME = 1;
   final int NEUTRAL = 0;
+  final int INCOME = 1;
   private int type;
-  private PreDefined predef;
+  public PreDefined predef;
   private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   
   public enum PreDefined {
@@ -24,16 +24,6 @@ public class PaymentMethod {
     public final int type;
     PreDefined(int type) {
       this.type = type;
-    }
-  }
-  public PaymentMethod(long id, String label, int type) {
-    this.id = id;
-    this.label = label;
-    this.type = type;
-    try {
-      predef = PreDefined.valueOf(label);
-    } catch (IllegalArgumentException ex) { 
-      predef = null;
     }
   }
   private PaymentMethod(long id) throws DataObjectNotFoundException {
@@ -53,11 +43,23 @@ public class PaymentMethod {
     }
   }
   
+  public PaymentMethod() {
+    this.type = NEUTRAL;
+  }
   public int getType() {
     return type;
   }
+  public void setType(int type) {
+    this.type = type;
+  }
   public String getLabel() {
     return label;
+  }
+  public void setLabel(String label) {
+    if (predef != null) {
+      throw new UnsupportedOperationException();
+    }
+    this.label = label;
   }
   public String getDisplayLabel(Context ctx) {
     if (predef == null)
@@ -81,5 +83,22 @@ public class PaymentMethod {
     method = new PaymentMethod(id);
     methods.put(id, method);
     return method;
+  }
+  public long save() {
+    if (id == 0) {
+      id = mDbHelper.createMethod(
+          label,
+          type
+          );
+    } else {
+      mDbHelper.updateMethod(
+          id,
+          label,
+          type
+          );
+    }
+    if (!methods.containsKey(id))
+      methods.put(id, this);
+    return id;
   }
 }
