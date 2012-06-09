@@ -261,6 +261,7 @@ public class Account {
    */
   public Account() {
     this.openingBalance = new Money(null,(long) 0);
+    this.type = Type.CASH;
   }
   public Account(String label, long openingBalance, String description, Currency currency) {
     this.label = label;

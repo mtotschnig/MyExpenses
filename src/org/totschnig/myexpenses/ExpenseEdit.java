@@ -163,9 +163,11 @@ public class ExpenseEdit extends EditActivity {
 
       public void onClick(View view) {
         mType = ! mType;
-        //we need to empty payment mehtod, since they are different for expenses and incomes
-        mTransaction.methodId = 0;
-        mMethodButton.setText(R.string.select);
+        //we need to empty payment method, since they are different for expenses and incomes
+        if (mMethodButton != null) {
+          mTransaction.methodId = 0;
+          mMethodButton.setText(R.string.select);
+        }
         configureType();
       } 
     });
