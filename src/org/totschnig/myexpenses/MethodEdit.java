@@ -36,8 +36,10 @@ import android.widget.CheckBox;
 public class MethodEdit extends Activity {
   protected static final int TYPE_DIALOG_ID = 0;
   private EditText mLabelText;
+  private TableLayout mTable;
   Button mTypeButton;
   PaymentMethod mMethod;
+  private int mPaymentType;
   String[] mTypes = new String[3];
   
   @Override
@@ -47,6 +49,8 @@ public class MethodEdit extends Activity {
     setContentView(R.layout.one_method);
 
     mLabelText = (EditText) findViewById(R.id.Label);
+
+    mTable = (TableLayout)findViewById(R.id.Table);
     
     Button confirmButton = (Button) findViewById(R.id.Confirm);
     Button cancelButton = (Button) findViewById(R.id.Revert);
@@ -98,7 +102,8 @@ public class MethodEdit extends Activity {
       }
       setTitle(R.string.menu_edit_method);
       mLabelText.setText(mMethod.getDisplayLabel(this));
-      mTypeButton.setText(mTypes[mMethod.getPaymentType()+1]);
+      mPaymentType = mMethod.getPaymentType();
+      mTypeButton.setText(mTypes[mPaymentType+1]);
       if (mMethod.predef != null) {
         mLabelText.setEnabled(false);
       }
@@ -107,7 +112,6 @@ public class MethodEdit extends Activity {
       setTitle(R.string.menu_insert_method);
     }
     //add one row with checkbox for each account type
-    TableLayout tl = (TableLayout)findViewById(R.id.Table);
     TableRow tr;
     TextView tv;
     CheckBox cb;
@@ -121,10 +125,11 @@ public class MethodEdit extends Activity {
       tv = new TextView(this);
       tv.setText(accountType.getDisplayName(this));
       cb = new CheckBox(this);
+      cb.setTag(accountType);
       cb.setChecked(mMethod.isValidForAccountType(accountType));
       tr.addView(tv);
       tr.addView(cb);
-      tl.addView(tr);
+      mTable.addView(tr);
     }
   }
   @Override
@@ -137,7 +142,7 @@ public class MethodEdit extends Activity {
           .setSingleChoiceItems(mTypes, checked, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
               mTypeButton.setText(mTypes[item]);
-              mMethod.setPaymentType(item - 1 );
+              mPaymentType = item - 1 ;
               dismissDialog(TYPE_DIALOG_ID);
             }
           }).create();
@@ -145,10 +150,18 @@ public class MethodEdit extends Activity {
     return null;
   }
 
-
   private boolean saveState() {
     if (mMethod.predef == null) {
       mMethod.setLabel(mLabelText.getText().toString());
+    }
+    mMethod.setPaymentType(mPaymentType);
+    for (Account.Type accountType : Account.Type.values()) {
+      CheckBox cb = (CheckBox) mTable.findViewWithTag(accountType);
+      if (cb.isChecked()) {
+        mMethod.addAccountType(accountType);
+      } else {
+        mMethod.removeAccountType(accountType);
+      }
     }
     mMethod.save();
     return true;

@@ -70,7 +70,12 @@ public class PaymentMethod {
     this.paymentType = paymentType;
   }
   public void addAccountType(Account.Type accountType) {
-    accountTypes.add(accountType);
+    if (!accountTypes.contains(accountType))
+      accountTypes.add(accountType);
+  }
+  public void removeAccountType(Account.Type accountType) {
+    if (accountTypes.contains(accountType))
+      accountTypes.remove(accountType);
   }
   public boolean isValidForAccountType(Account.Type accountType) {
     return accountTypes.contains(accountType);

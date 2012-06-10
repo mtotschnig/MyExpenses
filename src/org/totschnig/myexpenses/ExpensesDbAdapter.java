@@ -907,6 +907,7 @@ public class ExpensesDbAdapter {
   }
   
   private void setMethodAccountTypes(long rowId, ArrayList<Account.Type>  accountTypes) {
+    mDb.delete("accounttype_method", "method_id=" + rowId, null);
     ContentValues initialValues = new ContentValues();
     initialValues.put("method_id", rowId);
     for (Account.Type accountType : accountTypes) {
