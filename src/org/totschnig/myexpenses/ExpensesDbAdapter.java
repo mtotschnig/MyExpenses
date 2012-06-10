@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -99,6 +100,9 @@ public class ExpensesDbAdapter {
   private static final String PAYMENT_METHODS_CREATE =
       "create table payment_methods (_id integer primary key autoincrement, label text not null, type integer default 0);";
   
+  private static final String ACCOUNTTYE_METHOD_CREATE =
+      "create table accounttype_method (type text, method_id integer, primary key (type,method_id));";
+  
   /**
    * an SQL CASE expression for transactions
    * that gives either the category for normal transactions
@@ -159,13 +163,27 @@ public class ExpensesDbAdapter {
       db.execSQL(ACCOUNTS_CREATE);
       db.execSQL(PAYEE_CREATE);
       db.execSQL(PAYMENT_METHODS_CREATE);
+      db.execSQL(ACCOUNTTYE_METHOD_CREATE);
       insertDefaultPaymentMethods(db);
 
     }
 
+    /**
+     * @param db
+     * insert the predefined payment methods in the database, all of them are valid only for bank accounts
+     */
     private void insertDefaultPaymentMethods(SQLiteDatabase db) {
+      ContentValues initialValues;
+      long _id;
       for (PaymentMethod.PreDefined pm: PaymentMethod.PreDefined.values()) {
-        db.execSQL("INSERT INTO payment_methods(label,type) VALUES ('" + pm + "'," + pm.type + ")");
+        initialValues = new ContentValues();
+        initialValues.put("label", pm.name());
+        initialValues.put("type",pm.paymentType);
+        _id = db.insert("payment_methods", null, initialValues);
+        initialValues = new ContentValues();
+        initialValues.put("method_id", _id);
+        initialValues.put("type","BANK");
+        db.insert("accounttype_method", null, initialValues);
       }
     }
 
@@ -198,10 +216,10 @@ public class ExpensesDbAdapter {
       }
       if (oldVersion < 21) {
         db.execSQL(PAYMENT_METHODS_CREATE);
+        db.execSQL(ACCOUNTTYE_METHOD_CREATE);
         insertDefaultPaymentMethods(db);
         db.execSQL("alter table transactions add column " + KEY_METHODID + " text default 'CASH'");
         db.execSQL("alter table accounts add column type text default 'CASH'");
-        
       }
     }
   }
@@ -870,21 +888,35 @@ public class ExpensesDbAdapter {
    * inserts a new payment method if it does not exist yet
    * @param name
    */
-  public long createMethod(String label, int type) {
+  public long createMethod(String label, int paymentType, ArrayList<Account.Type>  accountTypes) {
     ContentValues initialValues = new ContentValues();
     initialValues.put("label", label);
-    initialValues.put("type",type);
+    initialValues.put("type",paymentType);
     long _id = mDb.insert("payment_methods", null, initialValues);
+    setMethodAccountTypes(_id,accountTypes);
     return _id;
   }
   
-  public int updateMethod(long rowId, String label, int type) {
+  public int updateMethod(long rowId, String label, int paymentType, ArrayList<Account.Type>  accountTypes) {
     ContentValues args = new ContentValues();
     args.put("label", label);
-    args.put("type", type);
-
+    args.put("type", paymentType);
     int result = mDb.update("payment_methods", args, KEY_ROWID + "=" + rowId, null);
+    setMethodAccountTypes(rowId,accountTypes);
     return result;
+  }
+  
+  private void setMethodAccountTypes(long rowId, ArrayList<Account.Type>  accountTypes) {
+    ContentValues initialValues = new ContentValues();
+    initialValues.put("method_id", rowId);
+    for (Account.Type accountType : accountTypes) {
+      initialValues.put("type",accountType.name());
+      try {
+        mDb.insertOrThrow("accounttype_method", null, initialValues);
+      } catch (SQLiteConstraintException e) {
+        //already mapped
+      }
+    }
   }
   
   public Cursor fetchPaymentMethod(long rowId) {
@@ -915,5 +947,10 @@ public class ExpensesDbAdapter {
     return mDb.query("payment_methods",
         new String[] {KEY_ROWID,"label"}, 
         selection, null, null, null, null);
+  }
+
+  public Cursor fetchAccountTypesForPaymentMethod(long rowId) {
+    return mDb.query("accounttype_method", new String[] {"type"}, 
+        "method_id =" + rowId, null, null, null, null);
   }
 }

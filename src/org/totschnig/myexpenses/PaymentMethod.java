@@ -1,8 +1,11 @@
 package org.totschnig.myexpenses;
 
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Locale;
+
+import org.totschnig.myexpenses.Account.Type;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,15 +18,19 @@ public class PaymentMethod {
   final int EXPENSE =  -1;
   final int NEUTRAL = 0;
   final int INCOME = 1;
-  private int type;
+  private int paymentType;
+  /**
+   * array of account types for which this payment method is applicable
+   */
+  private ArrayList<Account.Type> accountTypes = new ArrayList<Account.Type>();
   public PreDefined predef;
   private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   
   public enum PreDefined {
     CHEQUE(-1),CREDITCARD(-1),DEPOSIT(1),DIRECTDEBIT(-1);
-    public final int type;
-    PreDefined(int type) {
-      this.type = type;
+    public final int paymentType;
+    PreDefined(int paymentType) {
+      this.paymentType = paymentType;
     }
   }
   private PaymentMethod(long id) throws DataObjectNotFoundException {
@@ -34,24 +41,41 @@ public class PaymentMethod {
     }
     
     this.label = c.getString(c.getColumnIndexOrThrow("label"));
-    this.type = c.getInt(c.getColumnIndexOrThrow("type"));
+    this.paymentType = c.getInt(c.getColumnIndexOrThrow("type"));
     c.close();
     try {
       predef = PreDefined.valueOf(this.label);
     } catch (IllegalArgumentException ex) { 
       predef = null;
     }
+    c = mDbHelper.fetchAccountTypesForPaymentMethod(id);
+    if(c.moveToFirst()){
+      for (int i = 0; i < c.getCount(); i++){
+        try {
+          addAccountType(Account.Type.valueOf(c.getString(c.getColumnIndexOrThrow("type"))));
+        } catch (IllegalArgumentException ex) { 
+          Log.w("MyExpenses","Found unknown account type in database");
+        }
+      }
+    }
   }
   
   public PaymentMethod() {
-    this.type = NEUTRAL;
+    this.paymentType = NEUTRAL;
   }
-  public int getType() {
-    return type;
+  public int getPaymentType() {
+    return paymentType;
   }
-  public void setType(int type) {
-    this.type = type;
+  public void setPaymentType(int paymentType) {
+    this.paymentType = paymentType;
   }
+  public void addAccountType(Account.Type accountType) {
+    accountTypes.add(accountType);
+  }
+  public boolean isValidForAccountType(Account.Type accountType) {
+    return accountTypes.contains(accountType);
+  }
+  
   public String getLabel() {
     return label;
   }
@@ -84,17 +108,18 @@ public class PaymentMethod {
     methods.put(id, method);
     return method;
   }
+  
   public long save() {
     if (id == 0) {
       id = mDbHelper.createMethod(
           label,
-          type
+          paymentType, accountTypes
           );
     } else {
       mDbHelper.updateMethod(
           id,
           label,
-          type
+          paymentType, accountTypes
           );
     }
     if (!methods.containsKey(id))

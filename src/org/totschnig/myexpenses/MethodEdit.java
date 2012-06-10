@@ -24,6 +24,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.CheckBox;
 
 /**
  * Activity for editing an account
@@ -74,6 +78,7 @@ public class MethodEdit extends Activity {
     mTypes[0] = getString(R.string.pm_type_debit);
     mTypes[1] = getString(R.string.pm_type_neutral);
     mTypes[2] = getString(R.string.pm_type_credit);
+    
     populateFields();
   }
   /**
@@ -93,7 +98,7 @@ public class MethodEdit extends Activity {
       }
       setTitle(R.string.menu_edit_method);
       mLabelText.setText(mMethod.getDisplayLabel(this));
-      mTypeButton.setText(mTypes[mMethod.getType()+1]);
+      mTypeButton.setText(mTypes[mMethod.getPaymentType()+1]);
       if (mMethod.predef != null) {
         mLabelText.setEnabled(false);
       }
@@ -101,18 +106,38 @@ public class MethodEdit extends Activity {
       mMethod = new PaymentMethod();
       setTitle(R.string.menu_insert_method);
     }
+    //add one row with checkbox for each account type
+    TableLayout tl = (TableLayout)findViewById(R.id.Table);
+    TableRow tr;
+    TextView tv;
+    CheckBox cb;
+    for (Account.Type accountType : Account.Type.values()) {     
+      /* Create a new row to be added. */
+     tr = new TableRow(this);
+  /*    tr.setLayoutParams(new LayoutParams(
+                     LayoutParams.FILL_PARENT,
+                     LayoutParams.WRAP_CONTENT));*/
+           /* Create a Button to be the row-content. */
+      tv = new TextView(this);
+      tv.setText(accountType.getDisplayName(this));
+      cb = new CheckBox(this);
+      cb.setChecked(mMethod.isValidForAccountType(accountType));
+      tr.addView(tv);
+      tr.addView(cb);
+      tl.addView(tr);
+    }
   }
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
       case TYPE_DIALOG_ID:
-        int checked = mMethod.getType() + 1;
+        int checked = mMethod.getPaymentType() + 1;
         return new AlertDialog.Builder(this)
           .setTitle(R.string.dialog_title_select_type)
           .setSingleChoiceItems(mTypes, checked, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
               mTypeButton.setText(mTypes[item]);
-              mMethod.setType(item - 1 );
+              mMethod.setPaymentType(item - 1 );
               dismissDialog(TYPE_DIALOG_ID);
             }
           }).create();

@@ -51,7 +51,8 @@ public class AccountEdit extends EditActivity {
   private String[] currencyCodes;
   private String[] currencyDescs;
   private TextWatcher currencyInformer;
-  String[] mTypes = new String[4];
+  private Account.Type mAccountType;
+  String[] mTypes = new String[Account.Type.values().length];
 
 /*  private int monkey_state = 0;
 
@@ -153,10 +154,10 @@ public class AccountEdit extends EditActivity {
         finish();
       }
     });
-    mTypes[0] = getString(R.string.account_type_cash);
-    mTypes[1] = getString(R.string.account_type_bank);
-    mTypes[2] = getString(R.string.account_type_asset);
-    mTypes[3] = getString(R.string.account_type_liability);
+    Account.Type [] allTypes = Account.Type.values();
+    for(int i = 0;i< allTypes.length; i++){
+      mTypes[i] = allTypes[i].getDisplayName(this);
+    }
     populateFields();
   }
   /* (non-Javadoc)
@@ -192,7 +193,7 @@ public class AccountEdit extends EditActivity {
           .setSingleChoiceItems(mTypes, checked, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
               mTypeButton.setText(mTypes[item]);
-              mAccount.type = Account.Type.values()[item];
+              mAccountType = Account.Type.values()[item];
               dismissDialog(TYPE_DIALOG_ID);
             }
           }).create();
@@ -225,7 +226,8 @@ public class AccountEdit extends EditActivity {
       }
       mAmountText.setText(nfDLocal.format(amount));
       mCurrencyText.setText(mAccount.currency.getCurrencyCode());
-      mTypeButton.setText(mAccount.getDisplayType(this));
+      mAccountType = mAccount.type;
+      mTypeButton.setText(mAccountType.getDisplayName(this));
     } else {
       mAccount = new Account();
       setTitle(R.string.menu_insert_account);
@@ -233,6 +235,7 @@ public class AccountEdit extends EditActivity {
       Currency c = Currency.getInstance(l);
       String s = c.getCurrencyCode();
       mCurrencyText.setText(s);
+      mAccountType = Account.Type.CASH;
     }
   }
 
@@ -261,6 +264,8 @@ public class AccountEdit extends EditActivity {
     } else {
       mAccount.openingBalance.setAmountMajor(openingBalance);
     }
+    //TODO make sure that this is retained upon orientation change
+    mAccount.type = mAccountType;
     mAccount.save();
     return true;
   }

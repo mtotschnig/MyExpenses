@@ -45,7 +45,16 @@ public class Account {
   private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   
   public enum Type {
-    CASH,BANK,ASSET,LIABILITY
+    CASH,BANK,ASSET,LIABILITY;
+    public String getDisplayName(Context ctx) {
+      switch (this) {
+      case CASH: return ctx.getString(R.string.account_type_cash);
+      case BANK: return ctx.getString(R.string.account_type_bank);
+      case ASSET: return ctx.getString(R.string.account_type_asset);
+      case LIABILITY: return ctx.getString(R.string.account_type_liability);
+      }
+      return "";
+    }
   }
   public Type type;
   
@@ -317,15 +326,6 @@ public class Account {
     return new Money(currency,
         openingBalance.getAmountMinor() + mDbHelper.getTransactionSum(id)
     );
-  }
-  public String getDisplayType(Context ctx) {
-    switch (type) {
-    case CASH: return ctx.getString(R.string.account_type_cash);
-    case BANK: return ctx.getString(R.string.account_type_bank);
-    case ASSET: return ctx.getString(R.string.account_type_asset);
-    case LIABILITY: return ctx.getString(R.string.account_type_liability);
-    }
-    return "";
   }
   /**
    * deletes all expenses and set the new opening balance to the current balance
