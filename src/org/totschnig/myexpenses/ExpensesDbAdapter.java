@@ -18,6 +18,8 @@ package org.totschnig.myexpenses;
 import java.io.File;
 import java.util.ArrayList;
 
+import org.totschnig.myexpenses.Account.Type;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -938,20 +940,38 @@ public class ExpensesDbAdapter {
         null, null, null, null, null);
   }
 
-  public Cursor fetchPaymentMethodsForType(boolean mType) {
+  /**
+   * @param paymentType
+   * @param accountType
+   * @return Cursor
+   * return Cursor with paymentMethods valid for a given account type (CASH,BANK, etc) and payment type (expense or income)
+   */
+  public Cursor fetchPaymentMethodsFiltered(boolean paymentType, Account.Type accountType) {
     String selection;
-    if (mType == ExpenseEdit.INCOME) {
-      selection = "type > -1";
+    if (paymentType == ExpenseEdit.INCOME) {
+      selection = "payment_methods.type > -1";
     } else {
-      selection = "type < 1";
+      selection = "payment_methods.type < 1";
     }
-    return mDb.query("payment_methods",
+    selection += " and accounttype_method.type = ?";
+
+    return mDb.query("payment_methods join accounttype_method on (_id = method_id)",
         new String[] {KEY_ROWID,"label"}, 
-        selection, null, null, null, null);
+        selection, new String[] {accountType.name()}, null, null, null);
   }
 
   public Cursor fetchAccountTypesForPaymentMethod(long rowId) {
     return mDb.query("accounttype_method", new String[] {"type"}, 
         "method_id =" + rowId, null, null, null, null);
+  }
+
+  public int getPaymentMethodsCount(Type type) {
+    Cursor mCursor = mDb.rawQuery("select count(*) from accounttype_method " +  
+        " WHERE type = '" + type.name() + "'",
+        null);
+    mCursor.moveToFirst();
+    int result = mCursor.getInt(0);
+    mCursor.close();
+    return result;
   }
 }

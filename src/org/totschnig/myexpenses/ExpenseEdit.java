@@ -52,6 +52,7 @@ public class ExpenseEdit extends EditActivity {
   private TextView mPayeeLabel;
   private long mRowId;
   private long mAccountId;
+  private Account mAccount;
   private ExpensesDbAdapter mDbHelper;
   private int mYear;
   private int mMonth;
@@ -137,10 +138,8 @@ public class ExpenseEdit extends EditActivity {
       mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
       mPayeeText.setAdapter(adapter);
     } else {
-      View v = findViewById(R.id.PayeeRow);
-      v.setVisibility(View.GONE);
-      v = findViewById(R.id.MethodRow);
-      v.setVisibility(View.GONE);
+      findViewById(R.id.PayeeRow).setVisibility(View.GONE);
+      findViewById(R.id.MethodRow).setVisibility(View.GONE);
     }
     
     confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -252,7 +251,8 @@ public class ExpenseEdit extends EditActivity {
           }
         }).create();
     case METHOD_DIALOG_ID:
-      final Cursor paymentMethods = mDbHelper.fetchPaymentMethodsForType(mType);
+      Cursor paymentMethods;
+      paymentMethods = mDbHelper.fetchPaymentMethodsFiltered(mType,mAccount.type);
       final String[] methodLabels = new String[paymentMethods.getCount()];
       final long[] methodIds = new long[paymentMethods.getCount()];
       PaymentMethod pm;
@@ -269,6 +269,10 @@ public class ExpenseEdit extends EditActivity {
          methodLabels[i] = pm.getDisplayLabel(this);
          paymentMethods.moveToNext();
        }
+      } else {
+        //TODO create resource string and fill with types
+        Toast.makeText(this,"No valid payment_methods for x for X", Toast.LENGTH_LONG).show();
+        return null;
       }
       paymentMethods.close();
       return new  AlertDialog.Builder(this)
@@ -279,7 +283,15 @@ public class ExpenseEdit extends EditActivity {
             mMethodButton.setText(methodLabels[item]);
             removeDialog(METHOD_DIALOG_ID);
           }
-        }).create();      
+        })
+        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+          @Override
+          public void onCancel(DialogInterface dialog) {
+            removeDialog(METHOD_DIALOG_ID);
+          }
+        })
+
+        .create();      
     }
     return null;
   }
@@ -293,12 +305,19 @@ public class ExpenseEdit extends EditActivity {
     //1. fetch the transaction or create a new instance
     if (mRowId != 0) {
       mTransaction = Transaction.getInstanceFromDb(mRowId);
+      mAccountId = mTransaction.accountId;
     } else {
       mTransaction = Transaction.getTypedNewInstance(mOperationType,mAccountId);
     }
+    try {
+      mAccount = Account.getInstanceFromDb(mAccountId);
+    } catch (DataObjectNotFoundException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
     //2. get info about other accounts if we are editing a transfer
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      otherAccounts = mDbHelper.fetchAccountOther(mTransaction.accountId,true);
+      otherAccounts = mDbHelper.fetchAccountOther(mAccountId,true);
       otherAccountsCount = otherAccounts.getCount();
     }
     //TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
@@ -382,6 +401,11 @@ public class ExpenseEdit extends EditActivity {
             startSelectCategory();
         }
       });
+      //5c we hide the method button if there are no valid methods, we check for both incomes and expenses
+      if (mDbHelper.getPaymentMethodsCount(mAccount.type) == 0) {
+       findViewById(R.id.MethodRow).setVisibility(View.GONE);
+      }
+
     }
     setDateTime(mTransaction.date);
     
