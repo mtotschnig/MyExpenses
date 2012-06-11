@@ -100,10 +100,10 @@ public class ExpensesDbAdapter {
     "parent_id integer not null default 0, usages integer default 0, unique (label,parent_id));";
  
   private static final String PAYMENT_METHODS_CREATE =
-      "create table payment_methods (_id integer primary key autoincrement, label text not null, type integer default 0);";
+      "create table paymentmethods (_id integer primary key autoincrement, label text not null, type integer default 0);";
   
   private static final String ACCOUNTTYE_METHOD_CREATE =
-      "create table accounttype_method (type text, method_id integer, primary key (type,method_id));";
+      "create table accounttype_paymentmethodtmethod (type text, method_id integer, primary key (type,method_id));";
   
   /**
    * an SQL CASE expression for transactions
@@ -181,11 +181,11 @@ public class ExpensesDbAdapter {
         initialValues = new ContentValues();
         initialValues.put("label", pm.name());
         initialValues.put("type",pm.paymentType);
-        _id = db.insert("payment_methods", null, initialValues);
+        _id = db.insert("paymentmethods", null, initialValues);
         initialValues = new ContentValues();
         initialValues.put("method_id", _id);
         initialValues.put("type","BANK");
-        db.insert("accounttype_method", null, initialValues);
+        db.insert("accounttype_paymentmethod", null, initialValues);
       }
     }
 
@@ -894,7 +894,7 @@ public class ExpensesDbAdapter {
     ContentValues initialValues = new ContentValues();
     initialValues.put("label", label);
     initialValues.put("type",paymentType);
-    long _id = mDb.insert("payment_methods", null, initialValues);
+    long _id = mDb.insert("paymentmethods", null, initialValues);
     setMethodAccountTypes(_id,accountTypes);
     return _id;
   }
@@ -903,19 +903,19 @@ public class ExpensesDbAdapter {
     ContentValues args = new ContentValues();
     args.put("label", label);
     args.put("type", paymentType);
-    int result = mDb.update("payment_methods", args, KEY_ROWID + "=" + rowId, null);
+    int result = mDb.update("paymentmethods", args, KEY_ROWID + "=" + rowId, null);
     setMethodAccountTypes(rowId,accountTypes);
     return result;
   }
   
   private void setMethodAccountTypes(long rowId, ArrayList<Account.Type>  accountTypes) {
-    mDb.delete("accounttype_method", "method_id=" + rowId, null);
+    mDb.delete("accounttype_paymentmethod", "method_id=" + rowId, null);
     ContentValues initialValues = new ContentValues();
     initialValues.put("method_id", rowId);
     for (Account.Type accountType : accountTypes) {
       initialValues.put("type",accountType.name());
       try {
-        mDb.insertOrThrow("accounttype_method", null, initialValues);
+        mDb.insertOrThrow("accounttype_paymentmethod", null, initialValues);
       } catch (SQLiteConstraintException e) {
         //already mapped
       }
@@ -924,7 +924,7 @@ public class ExpensesDbAdapter {
   
   public Cursor fetchPaymentMethod(long rowId) {
     Cursor mCursor =
-        mDb.query("payment_methods",
+        mDb.query("paymentmethods",
             new String[] {"label","type"},
             KEY_ROWID + "=" + rowId,
             null, null, null, null, null);
@@ -935,7 +935,7 @@ public class ExpensesDbAdapter {
   }
 
   public Cursor fetchPaymentMethodsAll() {
-    return mDb.query("payment_methods",
+    return mDb.query("paymentmethods",
         new String[] {KEY_ROWID,"label"}, 
         null, null, null, null, null);
   }
@@ -949,24 +949,24 @@ public class ExpensesDbAdapter {
   public Cursor fetchPaymentMethodsFiltered(boolean paymentType, Account.Type accountType) {
     String selection;
     if (paymentType == ExpenseEdit.INCOME) {
-      selection = "payment_methods.type > -1";
+      selection = "paymentmethods.type > -1";
     } else {
-      selection = "payment_methods.type < 1";
+      selection = "paymentmethods.type < 1";
     }
-    selection += " and accounttype_method.type = ?";
+    selection += " and accounttype_paymentmethod.type = ?";
 
-    return mDb.query("payment_methods join accounttype_method on (_id = method_id)",
+    return mDb.query("paymentmethods join accounttype_paymentmethod on (_id = method_id)",
         new String[] {KEY_ROWID,"label"}, 
         selection, new String[] {accountType.name()}, null, null, null);
   }
 
   public Cursor fetchAccountTypesForPaymentMethod(long rowId) {
-    return mDb.query("accounttype_method", new String[] {"type"}, 
+    return mDb.query("accounttype_paymentmethod", new String[] {"type"}, 
         "method_id =" + rowId, null, null, null, null);
   }
 
   public int getPaymentMethodsCount(Type type) {
-    Cursor mCursor = mDb.rawQuery("select count(*) from accounttype_method " +  
+    Cursor mCursor = mDb.rawQuery("select count(*) from accounttype_paymentmethod " +  
         " WHERE type = '" + type.name() + "'",
         null);
     mCursor.moveToFirst();
