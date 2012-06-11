@@ -31,6 +31,7 @@ public class ManageMethods extends ListActivity {
   private static final int ACTIVITY_EDIT=1;
   private ExpensesDbAdapter mDbHelper;
   Cursor mMethodsCursor;
+  private Button mAddButton;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,15 @@ public class ManageMethods extends ListActivity {
       setTitle(R.string.pref_manage_methods_title);
       mDbHelper = MyApplication.db();
       fillData();
+      mAddButton = (Button) findViewById(R.id.addOperation);
+      mAddButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          Intent i = new Intent(ManageMethods.this, MethodEdit.class);
+          startActivityForResult(i, ACTIVITY_CREATE);
+        }
+      });
+      registerForContextMenu(getListView());
   }
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
