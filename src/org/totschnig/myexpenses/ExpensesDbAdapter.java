@@ -103,7 +103,7 @@ public class ExpensesDbAdapter {
       "create table paymentmethods (_id integer primary key autoincrement, label text not null, type integer default 0);";
   
   private static final String ACCOUNTTYE_METHOD_CREATE =
-      "create table accounttype_paymentmethodtmethod (type text, method_id integer, primary key (type,method_id));";
+      "create table accounttype_paymentmethod (type text, method_id integer, primary key (type,method_id));";
   
   /**
    * an SQL CASE expression for transactions
