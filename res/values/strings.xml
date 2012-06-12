@@ -57,6 +57,7 @@
   <string name="dialog_yes">Yes</string>
   <string name="done">Done</string>
   <string name="edit_category">Edit category</string>
+  <string name="expense">expense</string>
   <string name="export_expenses_outputfile_exists">Output file already exists. Please wait one
       minute, and try again.</string>
   <string name="export_expenses">Expenses export</string>
@@ -125,6 +126,7 @@
   </string>
   <string name="important_version_information">New version: Important information</string>
   <string name="import_categories">Import categories</string>
+  <string name="income">income</string>
   <string name="invalid_number_format">Decimal format not regognized by your locale. Please use
       %1$s</string>
   <string name="label">Label</string>
@@ -169,6 +171,7 @@
   <string name="no_details">No details.</string>
   <string name="no_expenses">No Expenses Yet!</string>
   <string name="no_parties">No parties.</string>
+  <string name="no_valid_payment_methods">No valid payment_methods for %1$s (%2$s)</string>
   <string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are
        mapped to it.</string>
   <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has

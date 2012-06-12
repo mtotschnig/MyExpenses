@@ -271,7 +271,11 @@ public class ExpenseEdit extends EditActivity {
        }
       } else {
         //TODO create resource string and fill with types
-        Toast.makeText(this,"No valid payment_methods for x for X", Toast.LENGTH_LONG).show();
+        Toast.makeText(this,getString(
+              R.string.no_valid_payment_methods,
+              mAccount.type.getDisplayName(this),
+              getString(mType == EXPENSE ? R.string.expense : R.string.income)
+            ), Toast.LENGTH_LONG).show();
         return null;
       }
       paymentMethods.close();
