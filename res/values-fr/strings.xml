@@ -20,6 +20,10 @@
 ]>
 <resources>
   <string name="account">Compte</string>
+  <string name="account_type_cash">Compte de caisse</string>
+  <string name="account_type_bank">Compte bancaire</string>
+  <string name="account_type_asset">Compte d\'actif</string>
+  <string name="account_type_liability">Compte de passif</string>
   <string name="amount">Montant</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">La sauvegarde sur carte SD a échoué.</string>
@@ -48,9 +52,12 @@
   <string name="dialog_title_select_account">Sélectionner un compte</string>
   <string name="dialog_title_select_currency">Sélectonner une devise</string>
   <string name="dialog_title_select_import_source">Sélectionner une source pour l\'import</string>
+  <string name="dialog_title_select_method">Sélectionner un paiement</string>
+  <string name="dialog_title_select_type">Sélectionner un type</string>
   <string name="dialog_yes">Oui</string>
   <string name="done">OK</string>
   <string name="edit_category">Éditer la catégorie</string>
+  <string name="expense">dépense</string>
   <string name="export_expenses_outputfile_exists">Le fichier d\'export existe déjà. Attendez une
       minute avant de réessayer.</string>
   <string name="export_expenses">Export des dépenses</string>
@@ -114,6 +121,7 @@
         tel quel, ou supprimer dans celui-ci tout sauf les définitions de catégories.</string>    
   <string name="import_categories">Importer les catégories</string>
   <string name="important_version_information">Nouvelle version: Information importante</string>
+  <string name="income">revenu</string>
   <string name="invalid_number_format">Format de nombre non reconnu. Utilisez %1$s</string>
   <string name="label">Intitulé</string>
   <string name="menu_accounts">Comptes</string>
@@ -132,12 +140,14 @@
   <string name="menu_delete_account">Effacer le compte</string>
   <string name="menu_delete_cat">Supprimer la catégorie</string>
   <string name="menu_edit_account">Éditer le compte</string>
+  <string name="menu_edit_method">Éditer la méthode de paiement</string>
   <string name="menu_edit_cat">Éditer la catégorie</string>
   <string name="menu_edit_ta">Éditer une opération</string>
   <string name="menu_edit_transfer">Éditer un virement</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_help">Aide</string>
   <string name="menu_insert_account">Ajouter un compte</string>
+  <string name="menu_insert_method">Créer un nouveau paiement</string>
   <string name="menu_insert_ta">Ajouter une opération</string>
   <string name="menu_insert_transfer">Ajouter un virement</string>
   <string name="menu_move_transaction">Déplacer</string>
@@ -148,6 +158,7 @@
   <string name="menu_settings_abrev">Param.</string>
   <string name="menu_settings_account">Compte en cours</string>
   <string name="menu_show_detail">Afficher les détails</string>
+  <string name="method">Méthode</string>
   <string name="no_accounts">Aucun compte!</string>
   <string name="no_app_handling_email_available">Aucune application disponible pour envoyer un
       e-mail.</string>
@@ -159,6 +170,7 @@
       qu\'il existe des dépenses qui lui sont attribuées.</string>
   <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce
       qu\'elle contient des sous-catégories.</string>
+  <string name="no_valid_payment_methods">Aucune méthode valide de paiement pour %1$s (%2$s)</string>
   <string name="opening_balance">Solde initial</string>
   <string name="parse_error_file_not_found">Le fichier %1$s n\'existe pas</string>
   <string name="parse_error_no_data_found">Le fichier ne contient pas de données importables.
@@ -173,6 +185,14 @@
       supportée: %1$s</string>
   <string name="payee">Tiers</string>
   <string name="payer">Tiers</string>
+  <!-- payment methods -->
+  <string name="pm_cheque">Chèque</string>
+  <string name="pm_creditcard">Carte de crédit</string>
+  <string name="pm_deposit">Dépôt</string>
+  <string name="pm_directdebit">Prélèvement</string>
+  <string name="pm_type_neutral">Neutre</string>
+  <string name="pm_type_debit">Débit</string>
+  <string name="pm_type_credit">Crédit</string>
   <string name="peer_transaction_deleted">Cette transaction était liée à une autre (compte %1$s) qui
       a été supprimée</string>
   <string name="pref_backup_title">Sauvegarde</string>
@@ -196,6 +216,8 @@
   <string name="pref_import_from_grisbi_title">Import des données Grisbi</string>
   <string name="pref_manage_accounts_title">Gestion des comptes</string>
   <string name="pref_manage_accounts_summary">Ajouter, éditer et supprimer les comptes.</string>
+  <string name="pref_manage_methods_title">Gestion des méthodes de paiement</string>
+  <string name="pref_manage_methods_summary">Créer, modifier les méthodes de paiement et les associer aux types de comptes.</string>
   <string name="pref_manage_parties_title">Gestion des tiers</string>
   <string name="pref_manage_parties_summary">Effacer les tiers.</string>
   <string name="pref_perform_share_title">Envoyer le fichier d\'export QIF</string>
@@ -226,6 +248,7 @@
   <string name="transaction">Transaction</string>
   <string name="transfer">Transfert</string>
   <string name="tutorial">Tutoriel</string>
+  <string name="type">Type</string>
   <string name="warning_backup">La base des données et les paramètres vont être sauvegardés sur la
       carte SD. Voulez-vous continuer?</string>
   <string name="warning_backup_exists">La base des données et les paramètres vont être sauvegardés
