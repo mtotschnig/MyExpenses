@@ -247,11 +247,26 @@ public class SelectCategory extends ExpandableListActivity {
     	long sub_cat = id;
     	Cursor childCursor = (Cursor) mAdapter.getChild(groupPosition,childPosition);
     	String label =  childCursor.getString(childCursor.getColumnIndexOrThrow("label"));
-        intent.putExtra("cat_id",sub_cat);
-        intent.putExtra("label", label);
-        setResult(RESULT_OK,intent);
+      intent.putExtra("cat_id",sub_cat);
+      intent.putExtra("label", label);
+      setResult(RESULT_OK,intent);
     	finish();
     	return true;
+    }
+    @Override
+    public void onGroupExpand (int groupPosition) {
+      mGroupCursor.moveToPosition(groupPosition);
+      long cat_id = mGroupCursor.getLong(mGroupIdColumnIndex);
+      if (mDbHelper.getCategoryCountSub(cat_id) > 0) {
+        super.onGroupExpand(groupPosition);
+      } else {
+        Intent intent=new Intent();
+        String label = mGroupCursor.getString(mGroupCursor.getColumnIndexOrThrow("label"));
+        intent.putExtra("cat_id",cat_id);
+        intent.putExtra("label", label);
+        setResult(RESULT_OK,intent);
+        finish();
+      }
     }
     /**
      * Mapping the categories table into the ExpandableList
