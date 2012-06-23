@@ -44,7 +44,7 @@ public abstract class EditActivity extends Activity {
       //due to bug in Android platform http://code.google.com/p/android/issues/detail?id=2626
       //the soft keyboard if it occupies full screen in horizontal orientation does not display
       //the , as comma separator
-      mAmountText.setKeyListener(DigitsKeyListener.getInstance("0123456789"+mCurrencyDecimalSeparator));
+      mAmountText.setKeyListener(DigitsKeyListener.getInstance("+-0123456789"+mCurrencyDecimalSeparator));
       mAmountText.setRawInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
       mAmountText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
     }
