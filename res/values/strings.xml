@@ -50,9 +50,9 @@
   <string name="description">Description</string>
   <string name="dialog_no">No</string>
   <string name="dialog_title_select_account">Pick an account</string>
-  <string name="dialog_title_select_method">Pick a payment method</string>
-  <string name="dialog_title_select_import_source">Pick a source for import</string>
+   <string name="dialog_title_select_import_source">Pick a source for import</string>
   <string name="dialog_title_select_currency">Pick a currency</string>
+  <string name="dialog_title_select_method">Pick a payment method</string>
   <string name="dialog_title_select_type">Pick a type</string>
   <string name="dialog_yes">Yes</string>
   <string name="done">Done</string>
