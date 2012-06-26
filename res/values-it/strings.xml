@@ -23,7 +23,7 @@
   <string name="account_type_cash">Conto monetario</string>
   <string name="account_type_bank">Conto bancario</string>
   <string name="account_type_asset">Conto di beni</string>
-  <string name="account_type_liability">Conto di responsabiltà</string>
+  <string name="account_type_liability">Conto di responsabilità</string>
   <string name="amount">Quantitá</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Backup su SD card non è riuscito.</string>
@@ -88,7 +88,7 @@
       state importati</string>
   <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
   <string name="grisbi_import_categories_success">%1$s categorie state importate</string>
-  <string name="grisbi_import_parties_loading">Importazion dei beneficiari dalla %1$s</string>
+  <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
   <string name="help_feedback">Se si trova <i>&app_name;</i> utile,si prega di lasciare un commento 
       nel <a href="market://details?id=org.totschnig.myexpenses">Mercato</a>. Se si trova un
       problema, un suggerimento per un miglioramento, o se volete contribuire, si prega di
