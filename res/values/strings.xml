@@ -171,7 +171,7 @@
   <string name="no_details">No details.</string>
   <string name="no_expenses">No Expenses Yet!</string>
   <string name="no_parties">No parties.</string>
-  <string name="no_valid_payment_methods">No valid payment_methods for %1$s (%2$s)</string>
+  <string name="no_valid_payment_methods">No valid payment methods for %1$s (%2$s)</string>
   <string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are
        mapped to it.</string>
   <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has

@@ -20,6 +20,12 @@
 ]>
 <resources>
   <string name="account">Cuenta</string>
+<!--
+  <string name="account_type_cash">Cuenta de caja</string>
+  <string name="account_type_bank">Cuenta bancaria</string>
+  <string name="account_type_asset">Cuenta del acivo</string>
+  <string name="account_type_liability">Cuenta de passivo</string>
+-->
   <string name="amount">Importe</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">La copia de seguridad en la tarjeta SD ha fallado.</string>
@@ -48,9 +54,16 @@
   <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_currency">Escoger una moneda</string>
   <string name="dialog_title_select_import_source">Escoger una fuente para la importación</string>
+<!--
+  <string name="dialog_title_select_method">Elegir un método de pago</string>
+  <string name="dialog_title_select_type">Elegir un tipo</string>
+-->
   <string name="dialog_yes">Sí</string>
   <string name="done">Terminado</string>
   <string name="edit_category">Modificar categoría</string>
+<!--
+  <string name="expense">gasto</string>
+-->
   <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere
        un minuto antes de intentarlo de nuevo.</string>
   <string name="export_expenses">Exportación de los gastos</string>
@@ -120,6 +133,9 @@
   </string>
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Nueva versión: Información importante</string>
+<!--
+  <string name="income">ingreso</string>
+-->
   <string name="invalid_number_format">Formato de número no es compatible con su configuración
       regional. Por favor, utilice %1$s</string>
   <string name="label">Etiqueta</string>
@@ -139,11 +155,17 @@
   <string name="menu_delete_cat">Borrar la categoría</string>
   <string name="menu_edit_account">Modificar la cuenta</string>
   <string name="menu_edit_cat">Modificar la categoría</string>
+<!--
+  <string name="menu_edit_method">Modificar método de pago</string>
+-->
   <string name="menu_edit_ta">Modificar el asiento</string>
   <string name="menu_edit_transfer">Modificar el traslado a otra cuenta</string>
   <string name="menu_faq">Preguntas frecuentes</string>
   <string name="menu_help">Ayuda</string>
   <string name="menu_insert_account">Crear una nueva cuenta</string>
+<!--
+  <string name="menu_insert_method">Crear nuevo método de pago</string>
+-->
   <string name="menu_insert_ta">Nuevo asiento</string>
   <string name="menu_insert_transfer">Nuevo traslado a otra cuenta</string>
   <string name="menu_move_transaction">Mover</string>
@@ -154,6 +176,9 @@
   <string name="menu_settings_abrev">Config.</string>
   <string name="menu_settings_account">Cuenta actual</string>
   <string name="menu_show_detail">Ver los detalles</string>
+<!--
+  <string name="method">Método</string>
+-->
   <string name="no_accounts">Ningunas cuentas</string>
   <string name="no_app_handling_email_available">No se ha encontrado aplicación para enviar correo
       electrónico.</string>
@@ -165,19 +190,32 @@
       gastos asignados.</string>
   <string name="not_deletable_subcats_exists">No se puede borrar esta categoría, porque tiene
       sub-categorías.</string>
+<!--
+  <string name="no_valid_payment_methods">No hay medios de pago válidos para %1$s (%2$s)</string>
+-->
   <string name="opening_balance">Saldo inicial</string>
   <string name="parse_error_file_not_found">No se ha podido encontrar el archivo %1$s</string>
   <string name="parse_error_no_data_found">No hay datos importables en el archivo.
   </string>
   <string name="parse_error_parse_exception">No se ha podido analizar el archivo.</string>
   <string name="parse_error_other_exception">Se ha producido un error: %1$s</string>
-  <!--
+<!--
   <string name="parse_error_grisbi_version_not_determined">No se ha podido determinar la versión del archivo Grisbi.</string>
-  -->
+-->
   <string name="parse_error_grisbi_version_not_supported">La versión del archivo Grisbi no es
       apoyada.</string>
   <string name="payee">Beneficiario</string>
   <string name="payer">Pagador</string>
+  <!-- payment methods -->
+<!--
+  <string name="pm_cheque">Cheque</string>
+  <string name="pm_creditcard">Tarjeta de crédito</string>
+  <string name="pm_deposit">Déposito</string>
+  <string name="pm_directdebit">Impuesto</string>
+  <string name="pm_type_neutral">Neutral</string>
+  <string name="pm_type_debit">Débito</string>
+  <string name="pm_type_credit">Crédito</string>
+-->
   <string name="peer_transaction_deleted">Este asiento estaba conectado con un asiento de
       contrapartida (cuenta %1$s) que fue borrado.</string>
   <string name="pref_backup_title">Copia de seguridad</string>
@@ -202,6 +240,10 @@
       </string>
   <string name="pref_manage_accounts_title">Administrar cuentas</string>
   <string name="pref_manage_accounts_summary">Añadir, modificar y borrar cuentas</string>
+<!--
+  <string name="pref_manage_methods_title">Manejar métodos de pago</string>
+  <string name="pref_manage_methods_summary">Creación, edición de formas de pago y los asocian con los tipos de cuenta.</string>
+-->
   <string name="pref_manage_parties_title">Administrar partes</string>
   <string name="pref_manage_parties_summary">Borrar partes (pagador y beneficiario)</string>
   <string name="pref_perform_share_title">Enviar la exportación QIF</string>
@@ -232,6 +274,9 @@
   <string name="transaction">Asiento</string>
   <string name="transfer">Traslado a otra cuenta</string>
   <string name="tutorial">Instrucción</string>
+<!--
+  <string name="type">Tipo</string>
+-->
   <string name="warning_backup">La base de datos y las configuraciones son archivadas en la tarjeta
       SD. ¿Quiere continuar?</string>
   <string name="warning_backup_exists">La base de datos y las configuraciones son archivadas en la
