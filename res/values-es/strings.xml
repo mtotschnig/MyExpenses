@@ -73,22 +73,6 @@
   <string name="external_storage_unavailable">La memoria externa (tarjeta SD) no es
        disponible.</string>
   <string name="ftp_uri_malformed">URI %1$s inválido</string>
-  <string name="ftp_success">La carga en %1$s ha sido exitosa.</string>
-  <string name="ftp_failure">Error al cargar en %1$s</string>
-  <string name="ftp_socket_exception">Socket excepción durante la carga en %1$s</string>
-  <string name="ftp_io_exception">IO excepción durante la carga en %1$s</string>
-  <string name="ftp_login_failure">Error al iniciar la sesión durante la carga en %1$s</string>
-  <string name="ftp_setFileType_failure">No se ha podido establecer el tipo de archivo ASCII durante
-      la carga en %1$s</string>
-  <string name="ftp_changeWorkingDirectory_failure">Error al cambiar el directorio durante la carga
-      en %1$s</string>
-<!-- neu anfang -->
-  <string name="ftp_uploading_wait">La transferencia FTP a %1$s está en curso. Por favor, espere
-      &#8230;</string>
-  <string name="ftp_connection_refused">Conexión con %1$s negada</string>
-  <string name="ftp_connection_failure">Conexión con %1$s ha fallado.</string>
-  <string name="ftp_cancelled">Transferencia FTP a %1$s abortada</string>
-<!-- neu ende -->
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Categorías</string>
   <string name="grisbi_import_button_categories_and_parties">Categorías y partes</string>
