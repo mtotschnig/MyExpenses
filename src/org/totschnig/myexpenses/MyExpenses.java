@@ -675,7 +675,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       return false;
     }
     FileOutputStream out = new FileOutputStream(outputFile);
-    String header = "!Type:Oth L\n";
+    String header = "!Type:" + mCurrentAccount.type.getQifName() + "\n";
     out.write(header.getBytes());
     mExpensesCursor.moveToFirst();
     while( mExpensesCursor.getPosition() < mExpensesCursor.getCount() ) {

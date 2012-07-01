@@ -55,6 +55,15 @@ public class Account {
       }
       return "";
     }
+    public String getQifName() {
+      switch (this) {
+      case CASH: return "Cash";
+      case BANK: return "Bank";
+      case ASSET: return "Oth A";
+      case LIABILITY: return "Oth L";
+      }
+      return "";
+    }
   }
   public Type type;
   
