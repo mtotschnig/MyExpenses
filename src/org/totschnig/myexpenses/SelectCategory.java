@@ -78,6 +78,12 @@ public class SelectCategory extends ExpandableListActivity {
 
     int mGroupIdColumnIndex;
     
+    /**
+     * true if we are not selecting a category, just managing
+     * (called from preferences screen)
+     */
+    boolean mManageOnly;
+    
 
 /*    private int monkey_state = 0;
 
@@ -106,7 +112,10 @@ public class SelectCategory extends ExpandableListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_category);
-        setTitle(R.string.select_category);
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        mManageOnly = action != null && action.equals("myexpenses.intent.manage.categories");
+        setTitle(mManageOnly ? R.string.pref_manage_categories_title : R.string.select_category);
         // Set up our adapter
         mDbHelper = MyApplication.db();
         mGroupCursor = mDbHelper.fetchCategoryMain();
@@ -187,7 +196,8 @@ public class SelectCategory extends ExpandableListActivity {
     	
     	    // Menu entries relevant only for the group
     	    if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-    	    	menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
+    	    	if (!mManageOnly)
+    	    	  menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
     	    	menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
     	    }
     	    menu.add(0,DELETE_CAT,0,R.string.menu_delete_cat);
@@ -243,7 +253,9 @@ public class SelectCategory extends ExpandableListActivity {
     @Override
     public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
     	//Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
-    	Intent intent=new Intent();
+      if (mManageOnly)
+         return false;
+      Intent intent=new Intent();
     	long sub_cat = id;
     	Cursor childCursor = (Cursor) mAdapter.getChild(groupPosition,childPosition);
     	String label =  childCursor.getString(childCursor.getColumnIndexOrThrow("label"));
@@ -257,7 +269,7 @@ public class SelectCategory extends ExpandableListActivity {
     public void onGroupExpand (int groupPosition) {
       mGroupCursor.moveToPosition(groupPosition);
       long cat_id = mGroupCursor.getLong(mGroupIdColumnIndex);
-      if (mDbHelper.getCategoryCountSub(cat_id) > 0) {
+      if (mManageOnly || mDbHelper.getCategoryCountSub(cat_id) > 0) {
         super.onGroupExpand(groupPosition);
       } else {
         Intent intent=new Intent();
