@@ -149,6 +149,7 @@
   <string name="no_accounts">Aucun compte!</string>
   <string name="no_app_handling_email_available">Aucune application disponible pour envoyer un
       e-mail.</string>
+  <string name="no_app_handling_ftp_available">Aucune application disponible pour ftp.</string>
   <string name="no_categories">Aucune catégorie.</string>
   <string name="no_details">Aucun détail.</string>
   <string name="no_expenses">Aucune dépense !</string>

@@ -154,6 +154,7 @@
   <string name="method">Method</string>
   <string name="no_accounts">No Accounts!</string>
   <string name="no_app_handling_email_available">No app handling email available.</string>
+  <string name="no_app_handling_ftp_available">No app handling ftp available.</string>
   <string name="no_categories">No categories.</string>
   <string name="no_details">No details.</string>
   <string name="no_expenses">No Expenses Yet!</string>
@@ -251,8 +252,6 @@
   <string name="help_project_home"><a
       href="http://myexpenses.totschnig.org/">http://myexpenses.totschnig.org/</a></string>
   <string name="help_licence_gpl">http://www.gnu.org/licenses/gpl.html</string>
-  <string name="help_licence_apache">Includes FTP library from http://commons.apache.org/net/ ,
-      licenced under http://www.apache.org/licenses/LICENSE-2.0.txt .</string>
   <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 
       licensed under the Creative Commons Attribution 3.0 United States License .</string>
   <string name="help_licence_quickactions">Includes BetterPopupWindow class from 

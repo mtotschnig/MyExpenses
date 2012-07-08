@@ -213,7 +213,7 @@ public class Utils {
   		intent.setData(android.net.Uri.parse(target));
       intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
       if (packageManager.queryIntentActivities(intent,0).size() == 0) {
-        Toast.makeText(context,"no_app_handling_ftp_available", Toast.LENGTH_LONG).show();
+        Toast.makeText(context,R.string.no_app_handling_ftp_available, Toast.LENGTH_LONG).show();
         return;
       }
       context.startActivity(intent);

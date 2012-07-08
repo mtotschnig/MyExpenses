@@ -166,6 +166,7 @@
   <string name="no_accounts">Ningunas cuentas</string>
   <string name="no_app_handling_email_available">No se ha encontrado aplicación para enviar correo
       electrónico.</string>
+  <string name="no_app_handling_ftp_available">No se ha encontrado aplicación para ftp.</string>
   <string name="no_categories">Todavía no hay categorías.</string>
   <string name="no_details">No hay detalles.</string>
   <string name="no_expenses">¡Todavía no hay gastos!</string>
