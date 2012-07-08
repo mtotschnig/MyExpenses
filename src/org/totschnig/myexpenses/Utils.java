@@ -194,10 +194,15 @@ public class Utils {
     URI uri = null;
     Intent intent;
     String scheme = "mailto";
+    boolean targetParsable;
     if (!target.equals("")) {
       try {
         uri = new URI(target);
+        targetParsable = uri.getHost() != null;
       } catch (URISyntaxException e1) {
+        targetParsable = false;
+      }
+      if (!targetParsable) {
         Toast.makeText(context,context.getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
         return;
       }
