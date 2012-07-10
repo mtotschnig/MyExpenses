@@ -226,6 +226,8 @@
   <string name="pref_manage_accounts_title">Administrar cuentas</string>
   <string name="pref_manage_accounts_summary">Añadir, modificar y borrar cuentas</string>
 <!--
+  <string name="pref_manage_categories_title">Administrar categorías</string>
+  <string name="pref_manage_categories_summary">Añadir, modificar y borrar categorías.</string>
   <string name="pref_manage_methods_title">Manejar métodos de pago</string>
   <string name="pref_manage_methods_summary">Creación, edición de formas de pago y los asocian con los tipos de cuenta.</string>
 -->
