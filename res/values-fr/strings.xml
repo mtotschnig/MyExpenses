@@ -204,6 +204,8 @@
   <string name="pref_import_from_grisbi_title">Import des données Grisbi</string>
   <string name="pref_manage_accounts_title">Gestion des comptes</string>
   <string name="pref_manage_accounts_summary">Ajouter, éditer et supprimer les comptes.</string>
+  <string name="pref_manage_categories_title">Gestion des catégories</string>
+  <string name="pref_manage_categories_summary">Ajouter, éditer et supprimer des catégories.</string>
   <string name="pref_manage_methods_title">Gestion des méthodes de paiement</string>
   <string name="pref_manage_methods_summary">Créer, modifier les méthodes de paiement et les associer aux types de comptes.</string>
   <string name="pref_manage_parties_title">Gestion des tiers</string>
