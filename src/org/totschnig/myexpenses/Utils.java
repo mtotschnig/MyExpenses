@@ -190,65 +190,6 @@ public class Utils {
     return false;
   }
   
-  static void share(Context context,File file,String target) {
-    URI uri = null;
-    Intent intent;
-    String scheme = "mailto";
-    boolean targetParsable;
-    if (!target.equals("")) {
-      try {
-        uri = new URI(target);
-        targetParsable = uri.getHost() != null;
-      } catch (URISyntaxException e1) {
-        targetParsable = false;
-      }
-      if (!targetParsable) {
-        Toast.makeText(context,context.getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
-        return;
-      }
-      scheme = uri.getScheme();
-    }
-    //if we get a String that does not include a scheme, we interpret it as a mail address
-    if (scheme == null) {
-    	scheme = "mailto";
-    }
-    final PackageManager packageManager = context.getPackageManager();
-    if (scheme.equals("ftp")) {
-  		intent = new Intent(android.content.Intent.ACTION_SENDTO);
-  		intent.setData(android.net.Uri.parse(target));
-      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-      if (packageManager.queryIntentActivities(intent,0).size() == 0) {
-        Toast.makeText(context,R.string.no_app_handling_ftp_available, Toast.LENGTH_LONG).show();
-        return;
-      }
-      context.startActivity(intent);
-    } else if (scheme.equals("mailto")) {
-      intent = new Intent(android.content.Intent.ACTION_SEND);
-      intent.setType("text/qif");
-      if (uri != null) {
-        String address = uri.getSchemeSpecificPart();
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ address });
-      }
-      intent.putExtra(Intent.EXTRA_SUBJECT,R.string.export_expenses);
-      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-      if (packageManager.queryIntentActivities(intent,0).size() == 0) {
-        Toast.makeText(context,R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
-        return;
-      }
-      //if we got mail address, we launch the default application
-      //if we are called without target, we launch the chooser in order to make action more explicit
-      if (uri != null) {
-        context.startActivity(intent);
-      } else {
-        context.startActivity(Intent.createChooser(
-            intent,context.getString(R.string.share_sending)));
-      }
-    } else {
-      Toast.makeText(context,context.getString(R.string.share_scheme_not_supported,target), Toast.LENGTH_LONG).show();
-      return;
-    }
-  }
-  
   
   /**
    * simple two level category tree, used for storing categories extracted from Grisbi XML
