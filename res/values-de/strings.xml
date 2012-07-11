@@ -141,7 +141,7 @@
   <string name="no_accounts">Keine Konten</string>
   <string name="no_app_handling_email_available">Keine App für das Versenden von Email
       gefunden.</string>
-  <string name="no_app_handling_ftp_available">Keine App für FTP gefunden.</string>
+  <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> von Google Play installieren?</string>
   <string name="no_categories">Noch keine Kategorien vorhanden.</string>
   <string name="no_details">Keine Details vorhanden.</string>
   <string name="no_expenses">Noch keine Ausgaben!</string>

@@ -39,7 +39,7 @@
   <string name="credits_text">Disegno della pagina della Guida copiato da Mathdoku.
       \nDisegno dell\'icona dell\'App copiato da Sipdroid.
       \nTraduzione francese e italiane di Laurent Collombet.
-      \nTraduzione spagnola die Christof, Gudrun e Johanna Totschnig.</string>
+      \nTraduzione spagnola di Christof, Gudrun e Johanna Totschnig.</string>
   <string name="currency">Valuta</string>
   <string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
   <string name="current_balance">Saldo corrente</string>
@@ -148,7 +148,7 @@
   <string name="no_accounts">Nessun conto !</string>
   <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail
   </string>
-  <string name="no_app_handling_ftp_available">Nessuna applicazione disponibile per ftp</string>
+  <string name="no_app_handling_ftp_available">Nessuna applicazione disponibile per ftp. Installare <i>Invia via FTP</i> da Google Play?</string>
   <string name="no_categories">No categoria.</string>
   <string name="no_details">Nessun dettaglio.</string>
   <string name="no_expenses">No spesa !</string>
