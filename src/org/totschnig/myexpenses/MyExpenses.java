@@ -557,7 +557,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
              dismissDialog(FTP_APP_DIALOG_ID);
              Intent intent = new Intent(Intent.ACTION_VIEW);
              intent.setData(Uri.parse("market://details?id=org.totschnig.sendwithftp"));
-             startActivity(intent);
+             if (getPackageManager().queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
+               startActivity(intent);
+             } else {
+               Toast.makeText(getBaseContext(),"Unable to open Google Play", Toast.LENGTH_LONG).show();
+             }
            }
         })
       .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
