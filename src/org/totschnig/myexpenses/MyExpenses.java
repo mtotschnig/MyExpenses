@@ -92,7 +92,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   static final int ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID = 5;
   static final int USE_STANDARD_MENU_DIALOG_ID = 6;
   static final int SELECT_ACCOUNT_DIALOG_ID = 7;
-  static final int FTP_APP_DIALOG_ID = 8;
 
   private String mVersionInfo;
   
@@ -549,26 +548,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             dismissDialog(ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID);
           }
         }).create();
-    case FTP_APP_DIALOG_ID:
-      return new AlertDialog.Builder(this)
-      .setMessage(R.string.no_app_handling_ftp_available)
-      .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
-           public void onClick(DialogInterface dialog, int id) {
-             dismissDialog(FTP_APP_DIALOG_ID);
-             Intent intent = new Intent(Intent.ACTION_VIEW);
-             intent.setData(Uri.parse("market://details?id=org.totschnig.sendwithftp"));
-             if (getPackageManager().queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
-               startActivity(intent);
-             } else {
-               Toast.makeText(getBaseContext(),"Unable to open Google Play", Toast.LENGTH_LONG).show();
-             }
-           }
-        })
-      .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-          dismissDialog(FTP_APP_DIALOG_ID);
-        }
-      }).create();
     case USE_STANDARD_MENU_DIALOG_ID:
       return new AlertDialog.Builder(this)
         .setMessage(R.string.suggest_use_standard_menu)
@@ -753,15 +732,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     URI uri = null;
     Intent intent;
     String scheme = "mailto";
-    boolean targetParsable;
     if (!target.equals("")) {
-      try {
-        uri = new URI(target);
-        targetParsable = uri.getHost() != null;
-      } catch (URISyntaxException e1) {
-        targetParsable = false;
-      }
-      if (!targetParsable) {
+      uri = Utils.validateUri(target);
+      if (uri == null) {
         Toast.makeText(getBaseContext(),getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
         return;
       }
@@ -777,7 +750,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       intent.setData(android.net.Uri.parse(target));
       intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
       if (packageManager.queryIntentActivities(intent,0).size() == 0) {
-        showDialog(FTP_APP_DIALOG_ID);
+        Toast.makeText(getBaseContext(),R.string.no_app_handling_ftp_available, Toast.LENGTH_LONG).show();
         return;
       }
       startActivity(intent);

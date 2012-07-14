@@ -90,6 +90,26 @@ public class Utils {
       return n;
     }
   }
+  
+  public static URI validateUri(String target) {
+    boolean targetParsable;
+    URI uri = null;
+    if (!target.equals("")) {
+      try {
+        uri = new URI(target);
+        //strangely for mailto URIs getHost returns null, so we make sure that mailto URIs are valid
+        targetParsable = uri.getScheme().equals("mailto") || uri.getHost() != null;
+      } catch (URISyntaxException e1) {
+        targetParsable = false;
+      }
+      if (!targetParsable) {
+        return null;
+      }
+      return uri;
+    }
+    return null;
+  }
+  
   /**
    * formats an amount with a currency
    * @param amount
