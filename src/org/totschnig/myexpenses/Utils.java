@@ -97,8 +97,9 @@ public class Utils {
     if (!target.equals("")) {
       try {
         uri = new URI(target);
-        //strangely for mailto URIs getHost returns null, so we make sure that mailto URIs are valid
-        targetParsable = uri.getScheme().equals("mailto") || uri.getHost() != null;
+        String scheme = uri.getScheme();
+        //strangely for mailto URIs getHost returns null, so we make sure that mailto URIs handled as valid
+        targetParsable = scheme != null && (scheme.equals("mailto") || uri.getHost() != null);
       } catch (URISyntaxException e1) {
         targetParsable = false;
       }

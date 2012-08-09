@@ -776,7 +776,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             intent,getString(R.string.share_sending)));
       }
     } else {
-      Toast.makeText(getBaseContext(),getString(R.string.share_scheme_not_supported,target), Toast.LENGTH_LONG).show();
+      Toast.makeText(getBaseContext(),getString(R.string.share_scheme_not_supported,scheme), Toast.LENGTH_LONG).show();
       return;
     }
   }

@@ -75,8 +75,12 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
          Toast.makeText(getBaseContext(),getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
          return false;
        }
-       final PackageManager packageManager = getPackageManager();
        String scheme = uri.getScheme();
+       if (!(scheme.equals("ftp") || scheme.equals("mailto"))) {
+         Toast.makeText(getBaseContext(),getString(R.string.share_scheme_not_supported,scheme), Toast.LENGTH_LONG).show();
+         return false;
+       }
+       final PackageManager packageManager = getPackageManager();
        Intent intent;
        if (scheme.equals("ftp")) {
          intent = new Intent(android.content.Intent.ACTION_SENDTO);
