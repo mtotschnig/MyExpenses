@@ -31,6 +31,7 @@ import java.util.Properties;
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.ButtonBar.MenuButton;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -84,7 +85,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public static final boolean TYPE_TRANSFER = false;
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
-  static final int HELP_DIALOG_ID = 0;
   static final int CHANGES_DIALOG_ID = 1;
   static final int VERSION_DIALOG_ID = 2;
   static final int RESET_DIALOG_ID = 3;
@@ -446,7 +446,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     LayoutInflater li;
     View view;
     switch (id) {
-    case HELP_DIALOG_ID:
+    case R.id.HELP_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.aboutview, null);
       TextView tv;
@@ -473,7 +473,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .setView(view)
         .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
-            dismissDialog(HELP_DIALOG_ID);
+            dismissDialog(R.id.HELP_DIALOG_ID);
           }
         }).create();
       
@@ -519,7 +519,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .setView(view)
         .setNeutralButton(R.string.button_continue, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
-            showDialog(HELP_DIALOG_ID);
+            showDialog(R.id.HELP_DIALOG_ID);
           }
         })
         .create();
@@ -592,6 +592,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           }
         })
         .create();
+    case R.id.FTP_DIALOG_ID:
+      return Utils.sendWithFTPDialog((Activity) this);
     }
     return null;
   }
@@ -896,8 +898,14 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           edit.putBoolean(MyApplication.PREFKEY_PERFORM_SHARE,true).commit();
         }
       }
+      if (prev_version < 32) {
+        if (mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").startsWith("ftp")) {
+          showDialog(R.id.FTP_DIALOG_ID);
+          return;
+        }
+      }
     }
-    showDialog(HELP_DIALOG_ID);
+    showDialog(R.id.HELP_DIALOG_ID);
     return;
   }
  
@@ -1056,7 +1064,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       showDialog(CHANGES_DIALOG_ID);
       break;
     case R.id.HELP_COMMAND:
-      showDialog(HELP_DIALOG_ID);
+      showDialog(R.id.HELP_DIALOG_ID);
       break;
     default:
       return false;
@@ -1106,7 +1114,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    * @param v
    */
   public void handleHelp(View v) {
-    dismissDialog(HELP_DIALOG_ID);
+    dismissDialog(R.id.HELP_DIALOG_ID);
     dispatchCommand(v.getId(),null);
   }
 }

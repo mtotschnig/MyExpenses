@@ -36,8 +36,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -54,6 +58,37 @@ import android.widget.Toast;
  *
  */
 public class Utils {
+  /**
+   * @return Dialog to be used from Preference,
+   * and from version update
+   */
+  public static Dialog sendWithFTPDialog(final Activity ctx) {
+    String msg = ctx.getClass() == MyExpenses.class ? ctx.getString(R.string.version_32_upgrade_info) : "";
+    return new AlertDialog.Builder(ctx)
+    .setMessage(msg + " " + ctx.getString(R.string.no_app_handling_ftp_available))
+    .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+         public void onClick(DialogInterface dialog, int id) {
+           ctx.dismissDialog(R.id.FTP_DIALOG_ID);
+           Intent intent = new Intent(Intent.ACTION_VIEW);
+           intent.setData(Uri.parse("market://details?id=org.totschnig.sendwithftp"));
+           if (ctx.getPackageManager().queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
+             ctx.startActivity(intent);
+           } else {
+             Toast.makeText(ctx.getBaseContext(),"Unable to open Google Play", Toast.LENGTH_LONG).show();
+             if (ctx.getClass() == MyExpenses.class)
+               ctx.showDialog(R.id.HELP_DIALOG_ID);
+           }
+         }
+      })
+    .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+      public void onClick(DialogInterface dialog, int id) {
+        ctx.dismissDialog(R.id.FTP_DIALOG_ID);
+        if (ctx.getClass() == MyExpenses.class)
+          ctx.showDialog(R.id.HELP_DIALOG_ID);
+      }
+    }).create();
+  }
+  
   public static String getDefaultDecimalSeparator() {
     String sep = ".";
     int sdk =  Build.VERSION.SDK_INT;

@@ -18,8 +18,10 @@ package org.totschnig.myexpenses;
 
 import java.net.URI;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -41,8 +43,6 @@ import android.widget.Toast;
 public class MyPreferenceActivity extends PreferenceActivity implements OnPreferenceChangeListener {
   ListPreference mCurrencyInputFormat;
   EditTextPreference mShareTarget;
-
-  static final int FTP_APP_DIALOG_ID = 8;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +86,7 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
          intent = new Intent(android.content.Intent.ACTION_SENDTO);
          intent.setData(android.net.Uri.parse(target));
          if (packageManager.queryIntentActivities(intent,0).size() == 0) {
-           showDialog(FTP_APP_DIALOG_ID);
+           showDialog(R.id.FTP_DIALOG_ID);
          }
        }
      }
@@ -94,24 +94,6 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
   }
   @Override
   protected Dialog onCreateDialog(int id) {
-    return new AlertDialog.Builder(this)
-    .setMessage(R.string.no_app_handling_ftp_available)
-    .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
-         public void onClick(DialogInterface dialog, int id) {
-           dismissDialog(FTP_APP_DIALOG_ID);
-           Intent intent = new Intent(Intent.ACTION_VIEW);
-           intent.setData(Uri.parse("market://details?id=org.totschnig.sendwithftp"));
-           if (getPackageManager().queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
-             startActivity(intent);
-           } else {
-             Toast.makeText(getBaseContext(),"Unable to open Google Play", Toast.LENGTH_LONG).show();
-           }
-         }
-      })
-    .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog, int id) {
-        dismissDialog(FTP_APP_DIALOG_ID);
-      }
-    }).create();
+    return Utils.sendWithFTPDialog((Activity) this);
   }
 }
