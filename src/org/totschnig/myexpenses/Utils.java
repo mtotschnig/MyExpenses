@@ -69,14 +69,14 @@ public class Utils {
     .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
          public void onClick(DialogInterface dialog, int id) {
            ctx.dismissDialog(R.id.FTP_DIALOG_ID);
+           if (ctx.getClass() == MyExpenses.class)
+             ctx.showDialog(R.id.HELP_DIALOG_ID);
            Intent intent = new Intent(Intent.ACTION_VIEW);
            intent.setData(Uri.parse("market://details?id=org.totschnig.sendwithftp"));
            if (ctx.getPackageManager().queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
              ctx.startActivity(intent);
            } else {
              Toast.makeText(ctx.getBaseContext(),"Unable to open Google Play", Toast.LENGTH_LONG).show();
-             if (ctx.getClass() == MyExpenses.class)
-               ctx.showDialog(R.id.HELP_DIALOG_ID);
            }
          }
       })
