@@ -901,16 +901,21 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         }
       }
       if (prev_version < 32) {
-        if (mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").startsWith("ftp")) {
-          showDialog(R.id.FTP_DIALOG_ID);
-          return;
+        String target = mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"");
+        if (target.startsWith("ftp")) {
+          final PackageManager packageManager = getPackageManager();
+          Intent intent = new Intent(android.content.Intent.ACTION_SENDTO);
+          intent.setData(android.net.Uri.parse(target));
+          if (packageManager.queryIntentActivities(intent,0).size() == 0) {
+            showDialog(R.id.FTP_DIALOG_ID);
+            return;
+          }
         }
       }
     }
     showDialog(R.id.HELP_DIALOG_ID);
     return;
   }
- 
   /**
    * this utility function was used to check currency upon upgrade to version 14
    * loop through defined accounts and check if currency is a valid ISO 4217 code
