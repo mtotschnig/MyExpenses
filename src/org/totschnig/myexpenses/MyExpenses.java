@@ -273,6 +273,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         case R.id.amount:
           text = Utils.convAmount(text,mCurrentAccount.currency);
           break;
+        case R.id.category:
+          text = text.replace(":"," : ");
         }
         super.setViewText(v, text);
       }

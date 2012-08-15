@@ -120,7 +120,7 @@ public class ExpensesDbAdapter {
     "    (select parent_id from categories where _id = cat_id)\n" + 
     "       then\n" + 
     "    (select label from categories where _id = (select parent_id from categories where _id = cat_id)) " +
-    "       || ' : ' || (select label from categories where _id = cat_id)\n" + 
+    "       || ':' || (select label from categories where _id = cat_id)\n" + 
     "       else\n" + 
     "    (select label from categories where _id = cat_id)\n" + 
     "  end\n" + 
