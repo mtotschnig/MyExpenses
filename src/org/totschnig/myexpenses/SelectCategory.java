@@ -156,6 +156,7 @@ public class SelectCategory extends ExpandableListActivity {
         final EditText input = new EditText(this);
         //only if the editText has an id, is its value restored after orientation change
         input.setId(CAT_DIALOG_LABEL_EDIT_ID);
+        input.setSingleLine();
         alert.setView(input);
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {

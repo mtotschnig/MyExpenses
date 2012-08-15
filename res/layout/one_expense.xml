@@ -60,7 +60,8 @@
       <TableRow>
         <TextView android:text="@string/comment" />
         <EditText 
-            android:id="@+id/Comment" 
+            android:id="@+id/Comment"
+            android:singleLine="true"
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content" />
       </TableRow>
