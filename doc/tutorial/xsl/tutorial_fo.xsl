@@ -9,6 +9,10 @@
   <xsl:attribute name="clear">both</xsl:attribute>
 </xsl:attribute-set>
 
+<xsl:attribute-set name="xref.properties">
+    <xsl:attribute name="text-decoration">underline</xsl:attribute>
+</xsl:attribute-set>
+
 <xsl:param name="paper.type">A4</xsl:param>
 <xsl:param name="generate.toc"></xsl:param>
 
@@ -108,5 +112,27 @@
 <!-- suppress caption in figure -->
 <xsl:template name="formal.object.heading"/>
 
+<xsl:template match="application">
+  <fo:inline font-style="italic">
+    <xsl:call-template name="inline.charseq"/>
+  </fo:inline>
+</xsl:template>
 
+<xsl:template match="menuchoice">
+  <xsl:variable name="shortcut" select="./shortcut"/>
+  <fo:inline border="1pt solid black" padding="1pt">
+  <xsl:call-template name="process.menuchoice"/>
+  <xsl:if test="$shortcut">
+    <xsl:text> (</xsl:text>
+    <xsl:apply-templates select="$shortcut"/>
+    <xsl:text>)</xsl:text>
+  </xsl:if>
+  </fo:inline>
+</xsl:template>
+ <xsl:template match="guibutton">
+    <fo:inline border="1px outset #dddddd"
+               background-color="#dddddd">
+      <xsl:call-template name="inline.charseq"/>
+    </fo:inline>
+  </xsl:template>
 </xsl:stylesheet>
