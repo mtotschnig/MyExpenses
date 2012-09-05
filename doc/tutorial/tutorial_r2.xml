@@ -97,7 +97,7 @@
       displayed at the bottom of the screen gives easy access to all functionalities. Each
       button executes a default action on short clicks and most open up a menu with further
       actions on long clicks. Alternatively, you can configure <application role="app_name"/>
-      in <link linkend='tutorial5_6'> <guilabel role="pref_use_standard_menu_title"/></link> to
+      in <link linkend='tutorial5_6'><guilabel role="pref_use_standard_menu_title"/></link> to
       use a command interface based on the Android standard menu.
     </para>
     <para lang="fr">
@@ -106,8 +106,8 @@
       bouton exécute une action par défaut sur un clic court. La plupart
       affichent un menu avec d'autres actions sur un clic long. Sinon, vous 
       pouvez configurer <application role="app_name"/> afin qu'il utilise le menu
-      standard d'Android en tant qu'interface de commande ( <link linkend='tutorial5_6'>
-      <guilabel role="pref_use_standard_menu_title"/></link> ).
+      standard d'Android en tant qu'interface de commande (<link linkend='tutorial5_6'><guilabel
+      	role="pref_use_standard_menu_title"/></link> ).
     </para>
     <para lang="de">
       In der Hauptansicht werden alle Buchungen des aktiven Kontos angezeigt. Am unteren Rand
@@ -115,8 +115,8 @@
       gewährt. Jeder Schaltknopf ruft mittels eines kurzen Klicks eine Aktion auf, die meisten
       reagieren zusätzlich auf einen langen Klick, und öffnen ein Menü mit weiteren Aktionen.
       Anstatt der Menüleiste kann <application role="app_name"/> auch das Android Standardmenü
-      verwenden, wenn sie <link linkend='tutorial5_6'> <guilabel
-      role="pref_use_standard_menu_title"/></link> konfigurieren.
+      verwenden, wenn sie <link linkend='tutorial5_6'><guilabel
+      	role="pref_use_standard_menu_title"/></link> konfigurieren.
     </para>
     <para lang="it">
       Nella schermata principale mostra un elenco di operazioni in conto corrente. La barra
@@ -125,7 +125,7 @@
       un menu con altre azioni in un clic lungo. In caso contrario, è possibile configurare in
       modo role <application role="app_name"/> utilizza il menù standard di Android come
       interfaccia di controllo(<link linkend='tutorial5_6'><guilabel
-      role="pref_use_standard_menu_title"/></link>).
+      	role="pref_use_standard_menu_title"/></link>).
     </para>
     <para lang="es">
       En la ventana principal puede ver todos los asientos de su cuenta activa. En la parte
@@ -133,8 +133,8 @@
       todas las funcionalidades. Cada botón inicia con un clic breve una acción, y casi todos
       los botones abren con un clic largo un menú con mas acciones. En lugar de la barra de
       menú <application role="app_name"/> puede utilizar también el menú estándar de Android si
-      usted configura <link linkend='tutorial5_6'> <guilabel
-      role="pref_use_standard_menu_title"/></link>.
+      usted configura <link linkend='tutorial5_6'><guilabel role="pref_use_standard_menu_title"
+      	/></link>.
     </para>    
     <!-- END introduction para 2 -->
     
@@ -307,24 +307,24 @@
     
     <!-- BEGIN tutorial1 para 4 --> 
     <para lang="en">
-      For managing the complete account list, please refer to <link linkend='tutorial5_1'> 
-      <guilabel role="pref_manage_accounts_title"/></link>.
+      For managing the complete account list, please refer to <link linkend='tutorial5_1'
+      	><guilabel role="pref_manage_accounts_title"/></link>.
     </para>
     <para lang="fr">
-      La gestion des comptes est expliqué dans <link linkend='tutorial5_1'>
-      <guilabel role="pref_manage_accounts_title"/></link>.
+      La gestion des comptes est expliqué dans <link linkend='tutorial5_1'><guilabel 
+      	role="pref_manage_accounts_title"/></link>.
     </para>
     <para lang="de">
-      Die Verwaltung der Konten wird in <link linkend='tutorial5_1'>
-      <guilabel role="pref_manage_accounts_title"/></link> erklärt.
+      Die Verwaltung der Konten wird in <link linkend='tutorial5_1'><guilabel
+      	role="pref_manage_accounts_title"/></link> erklärt.
     </para>
     <para lang="it">
-      La gestione degli conti è spiegata in <link linkend='tutorial5_1'>
-      <guilabel role="pref_manage_accounts_title"/></link>.
+      La gestione degli conti è spiegata in <link linkend='tutorial5_1'><guilabel
+      	role="pref_manage_accounts_title"/></link>.
     </para>
     <para lang="es">
-      La administración de las cuentas se explica en <link linkend='tutorial5_1'>
-      <guilabel role="pref_manage_accounts_title"/></link>
+      La administración de las cuentas se explica en <link linkend='tutorial5_1'><guilabel
+      	role="pref_manage_accounts_title"/></link>
     </para>    
     <!-- END tutorial1 para 4 --> 
   </sect1>
@@ -386,9 +386,9 @@
         <para>
           You can also import a list of parties for autocompleting the payee field from your
           Grisbi file as explained in <link linkend='tutorial5_5'><guilabel
-          role="pref_import_from_grisbi_title"/></link>. If you want to delete entries from
+            role="pref_import_from_grisbi_title"/></link>. If you want to delete entries from
           this list refer to <link linkend='tutorial5_7'><guilabel
-          role="pref_manage_parties_title"/></link>.
+            role="pref_manage_parties_title"/></link>.
         </para>
       </footnote>. Clicking on the
       <guibutton role="select"/> button, brings up the <guilabel role="select_category"/>
@@ -408,9 +408,9 @@
         <para>
           Vous pouvez importer la liste des tiers enregistrés de votre fichier Grisbi, comme
           expliqué dans <link linkend='tutorial5_5'><guilabel
-          role="pref_import_from_grisbi_title"/></link>. Si vous désirez supprimer des valeurs
+            role="pref_import_from_grisbi_title"/></link>. Si vous désirez supprimer des valeurs
           de cette liste, consultez <link linkend='tutorial5_7'><guilabel
-          role="pref_manage_parties_title"/></link>.
+            role="pref_manage_parties_title"/></link>.
         </para>
       </footnote>. Cliquez sur le bouton <guibutton role="select"/> vous ouvre la fenêtre
       <guilabel role="select_category"/>. Nous vous expliquerons plus tard
@@ -420,8 +420,8 @@
       Passen Sie Datum und Uhrzeit an, klicken Sie auf den Schaltknopf <guibutton>-</guibutton>
       um zwischen Ausgabe und Einnahme zu wechseln, geben Sie Betrag<footnote id="ftn22-de-1">
         <para>
-          Das Eingabeformat für Währungsbeträge kann mittels <link
-          linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
+          Das Eingabeformat für Währungsbeträge kann mittels <link linkend='tutorial5_8'><guilabel
+          role="pref_currency_decimal_separator_title"/></link>
           eingestellt werden.
        </para>
       </footnote> und Notizen ein.
@@ -625,36 +625,36 @@
     <!-- BEGIN tutorial3 para 2 --> 
     <para lang="en">
       Either you click on the button <guibutton role="import_categories"/> which allows to
-      select between different sources, as explained in <link linkend='tutorial5_5'>
-      <guilabel role="pref_import_from_grisbi_title"/></link>. This button is visible, only as
+      select between different sources, as explained in <link linkend='tutorial5_5'><guilabel
+      	role="pref_import_from_grisbi_title"/></link>. This button is visible, only as
       long the categories list is stil empty, later you can always access the import
       functionality from the <guilabel role="menu_settings"/> activity.
       </para>
     <para lang="fr">
       Soit vous cliquez sur le bouton <guibutton role="import_categories"/> qui vous permet de
       les entrer directement à partir des différents source, tel qu'expliqué dans <link
-      linkend='tutorial5_5'> <guilabel role="pref_import_from_grisbi_title"/></link>. Ce bouton
+      	linkend='tutorial5_5'><guilabel role="pref_import_from_grisbi_title"/></link>. Ce bouton
       est visible lorsque la liste des catégories est vide, mais vous pouvez toujours accéder à
       la fonction d'import à partir de l'écran <guilabel role="menu_settings"/>.
     </para>
     <para lang="de">
       Der Schaltknopf <guibutton role="import_categories"/> erlaubt Kategorien aus
-      verschiedenen Quellen zu importieren wie in <link linkend='tutorial5_5'>
-      <guilabel role="pref_import_from_grisbi_title"/></link> erklärt. Dieser Schaltknopf
+      verschiedenen Quellen zu importieren wie in <link linkend='tutorial5_5'><guilabel
+      	role="pref_import_from_grisbi_title"/></link> erklärt. Dieser Schaltknopf
       ist nur sichtbar solange es keine Kategorien gibt, aber Sie können jederzeit im
       Bildschirm <guilabel role="menu_settings"/> auf die Import-Funktionalität zugreifen.
     </para>
     <para lang="it">
       O si sceglie <guibutton role="import_categories"/> che consente di immettere direttamente
-      dalla fonte diversa, come spiegato nel <link linkend='tutorial5_5'> <guilabel
-      role="pref_import_from_grisbi_title"/></link>. Questo pulsante è visibile quando l'elenco
+      dalla fonte diversa, come spiegato nel <link linkend='tutorial5_5'><guilabel
+      	role="pref_import_from_grisbi_title"/></link>. Questo pulsante è visibile quando l'elenco
       delle categorie è vuoto, ma è ancora possibile accedere al funzione di importazione dallo
       schermo <guilabel role="menu_settings"/>.
     </para>
     <para lang="es">
       El botón <guibutton role="import_categories"/> permite importar categorías de distintas
-      fuentes como se explica en <link linkend='tutorial5_5'> <guilabel
-      role="pref_import_from_grisbi_title"/></link>. Este botón está visible solamente mientras
+      fuentes como se explica en <link linkend='tutorial5_5'><guilabel
+      	role="pref_import_from_grisbi_title"/></link>. Este botón está visible solamente mientras
       no existan categorías, pero en la ventana <guilabel role="menu_settings"/> usted puede
       acceder cuando quiera a la funcionalidad de importar.
     </para>
@@ -679,8 +679,8 @@
 	    transactions. By default, the primary sort criteria in the category list is the number of
 	    times you use a category (the secondary criteria is alphabetical order). This gives you
 	    quick access to the categories you use most often. If you prefer to have the categories
-	    sorted in plain alphabetical order, you can configure <link
-	    linkend='tutorial5_2'><guilabel role="pref_categories_sort_by_usages_title"/></link>.
+	    sorted in plain alphabetical order, you can configure <link linkend='tutorial5_2'><guilabel
+	      role="pref_categories_sort_by_usages_title"/></link>.
     </para>
     <para lang="fr">
       Vous avez maintenant une liste de catégories et de sous-catégories que vous
@@ -688,8 +688,8 @@
       fréquence de leur utilisation (l'ordre alphabetique est utilisé en tant que critère
       secondaire). Ce fonctionnement vous donne un accès rapide aux catégories associées aux 
       transactions les plus utilisées. Si vous préferez voir apparaître les
-      catégories dans l'ordre alphabétique, vous pouvez désactiver ce paramètre <guilabel
-      role="pref_categories_sort_by_usages_title"/>.
+      catégories dans l'ordre alphabétique, vous pouvez désactiver ce paramètre <link
+        linkend='tutorial5_2'><guilabel role="pref_categories_sort_by_usages_title"/></link>.
     </para>
     <para lang="de">
       Sie können die importierten Kategorien und Unterkategorien jetzt Ihren Buchungen
@@ -900,10 +900,16 @@
       l'altro conto a cui si riferiscono.
     </para>
     <para lang="es">
-      La motivación básica para <application role="app_name"/> es exportar a un archivo QIF. Esta función se inicia desde la lista de asientos a través del botón <guibutton role="menu_reset"/>. De esta manera se crea en la tarjeta SD un archivo que contiene todos los asientos de la cuenta actual.Éstos son eliminados y el saldo actual es transferido al nuevo saldo inicial. Inmediatamete después de la exportación se puede enviar el archivo, vía FTP, correo electrónico o otras aplicaciones que pueden transferir archivos (vease <link
-        linkend='tutorial5_3'><guilabel role="pref_perform_share_title"/></link>).
+      La motivación básica para <application role="app_name"/> es exportar a un archivo QIF. Esta 
+      función se inicia desde la lista de asientos a través del botón <guibutton role="menu_reset"/>. 
+      De esta manera se crea en la tarjeta SD un archivo que contiene todos los asientos de la cuenta 
+      actual.Éstos son eliminados y el saldo actual es transferido al nuevo saldo inicial. 
+      Inmediatamete después de la exportación se puede enviar el archivo, vía FTP, correo electrónico 
+      o otras aplicaciones que pueden transferir archivos (vease <link linkend='tutorial5_3'><guilabel 
+        role="pref_perform_share_title"/></link>).
       <phrase role="br"/>
-Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra cuenta a la que se refieren.
+      Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra cuenta a la que
+      se refieren.
     </para>
     <!-- END tutorial4 para 1 --> 
     
