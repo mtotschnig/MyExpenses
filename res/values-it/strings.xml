@@ -253,4 +253,6 @@
   <string name="version_26_upgrade_info"><i>&app_name;</i>ha ora una barra dei pulsanti come nueva
       interfaccia di comandi. È possibile tornare alla vecchia interfaccia nella schermata delle
       impostazioni.</string>
+  <string name="version_32_upgrade_info">È stato configurato un URL FTP come destinazione.
+      <i>&app_name;</i> non gestisce i trasferimenti FTP da solo.</string>
 </resources>

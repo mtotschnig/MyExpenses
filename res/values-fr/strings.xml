@@ -256,4 +256,6 @@
   <string name="version_26_upgrade_info"><i>&app_name;</i> dispose désormais d\'une barre de boutons
       comme nouvelle interface de commande. Vous pouvez revenir à l\'ancienne interface dans
       l\'écran des paramètres.</string>
+  <string name="version_32_upgrade_info">Vous avez configuré une URL FTP comme cible pour le téléchargement. 
+      <i>&app_name;</i> ne gère plus les téléchargements par FTP.</string>
 </resources>

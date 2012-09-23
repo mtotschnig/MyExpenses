@@ -249,4 +249,8 @@
   <string name="warning_reset_account">Se borran todas las transacciones de esta cuenta. ¿Quiere
       continuar?</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
+  
+  <!-- strings below this comment do not need translations for new languages -->
+  <string name="version_32_upgrade_info">Ha configurado una URL FTP como destino.
+      <i>&app_name;</i> ya no maneja las transferencias FTP por sí solo.</string>  
 </resources>

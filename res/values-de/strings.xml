@@ -20,6 +20,10 @@
 ]>
 <resources>
   <string name="account">Konto</string>
+  <string name="account_type_cash">Bargeldkonto</string>
+  <string name="account_type_bank">Bankkonto</string>
+  <string name="account_type_asset">Anlagekonto</string>
+  <string name="account_type_liability">Kreditkonto</string>
   <string name="amount">Betrag</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
@@ -48,9 +52,12 @@
   <string name="dialog_title_select_account">Konto auswählen</string>
   <string name="dialog_title_select_currency">Währung auswählen</string>
   <string name="dialog_title_select_import_source">Quelle für Import auswählen</string>
+  <string name="dialog_title_select_method">Zahlungsweise auswählen</string>
+  <string name="dialog_title_select_type">Typ auswählen</string>
   <string name="dialog_yes">Ja</string>
   <string name="done">Fertig</string>
   <string name="edit_category">Kategorie verändern</string>
+  <string name="expense">Ausgabe</string>
   <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten 
       Sie eine Minute bevor Sie es erneut versuchen.</string>
   <string name="export_expenses">Ausgaben-Export</string>
@@ -102,6 +109,7 @@
         MyExpenses erwartet die Datei unter \"/sdcard/myexpenses/&grisbi_file;\".
   </string>
   <string name="import_categories">Kategorien importieren</string>
+  <string name="income">Einnahme</string>
   <string name="important_version_information">Neue Version: Wichtige Information</string>
   <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt.
       Bitte verwenden Sie %1$s</string>
@@ -123,11 +131,13 @@
   <string name="menu_delete_cat">Kategorie löschen</string>
   <string name="menu_edit_account">Konto verändern</string>
   <string name="menu_edit_cat">Kategorie verändern</string>
+  <string name="menu_edit_method">Zahlungsweise verändern</string>
   <string name="menu_edit_ta">Buchung verändern</string>
   <string name="menu_edit_transfer">Umbuchung verändern</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_help">Hilfe</string>
   <string name="menu_insert_account">Neues Konto erstellen</string>
+  <string name="menu_insert_method">Neue Zahlungsweise</string>
   <string name="menu_insert_ta">Neue Buchung</string>
   <string name="menu_insert_transfer">Neue Umbuchung</string>
   <string name="menu_move_transaction">Verschieben</string>
@@ -138,6 +148,7 @@
   <string name="menu_settings_abrev">Einstel.</string>
   <string name="menu_settings_account">Aktuelles Konto</string>
   <string name="menu_show_detail">Details anzeigen</string>
+  <string name="method">Zahlungsweise</string>
   <string name="no_accounts">Keine Konten</string>
   <string name="no_app_handling_email_available">Keine App für das Versenden von Email
       gefunden.</string>
@@ -146,6 +157,7 @@
   <string name="no_details">Keine Details vorhanden.</string>
   <string name="no_expenses">Noch keine Ausgaben!</string>
   <string name="no_parties">Keine Parteien.</string>
+  <string name="no_valid_payment_methods">Keine gültigen Zahlungsweisen für %1$s (%2$s)</string>
   <string name="not_deletable_mapped_expenses">Diese Kategorie kann nicht gelöscht werden, weil ihr
       Ausgaben zugeordnet sind.</string>
   <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie
@@ -164,6 +176,13 @@
       unterstützt</string>
   <string name="payee">Empfänger</string>
   <string name="payer">Zahler</string>
+  <string name="pm_cheque">Scheck</string>
+  <string name="pm_creditcard">Kreditkarte</string>
+  <string name="pm_deposit">Einzahlung</string>
+  <string name="pm_directdebit">Abbuchung</string>
+  <string name="pm_type_neutral">Neutral</string>
+  <string name="pm_type_debit">Ausgaben</string>
+  <string name="pm_type_credit">Einnahmen</string>
   <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s)
       verknüpft, die gelöscht wurde</string>
   <string name="pref_backup_title">Backup</string>
@@ -187,6 +206,10 @@
       speichern</string>
   <string name="pref_manage_accounts_title">Konten verwalten</string>
   <string name="pref_manage_accounts_summary">Hinzufügen, Editieren und Löschen von Konten.</string>
+  <string name="pref_manage_categories_title">Kategorien verwalten</string>
+  <string name="pref_manage_categories_summary">Hinzufügen, Editieren und Löschen von Kategorien.</string>
+  <string name="pref_manage_methods_title">Zahlungsweisen verwalten</string>
+  <string name="pref_manage_methods_summary">Zahlungsweisen hinzufügen und verändern, und diese mit Kontotypen verknüpfen.</string>
   <string name="pref_manage_parties_title">Parteien verwalten</string>
   <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) löschen.</string>
   <string name="pref_perform_share_title">QIF Export versenden</string>
@@ -216,6 +239,7 @@
   <string name="transaction">Buchung</string>
   <string name="transfer">Umbuchung</string>
   <string name="tutorial">Anleitung</string>
+  <string name="type">Typ</string>
   <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte
       gesichert. Möchten Sie fortfahren?</string>
   <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte
@@ -234,4 +258,6 @@
       Schnittstelle für die Befehlsaufrufe. Sie können im Einstellungs-Bildschirm zum alten
       Interface zurückwechseln.
   </string>
+  <string name="version_32_upgrade_info">Sie haben eine FTP URL als Ziel für den Datei-Upload
+     Diese Funktionalität ist nicht mehr Teil von <i>&app_name;</i>.</string>
 </resources>      
