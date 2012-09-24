@@ -1,5 +1,5 @@
 diff --git a/res/values-de/strings.xml b/res/values-de/strings.xml
-index 9b52218..e24e60b 100644
+index d71def8..26b6d0f 100644
 --- a/res/values-de/strings.xml
 +++ b/res/values-de/strings.xml
 @@ -19,6 +19,8 @@
@@ -9,10 +9,10 @@ index 9b52218..e24e60b 100644
 +  <string name="monkey_label_text">Meine Geldtasche</string>
 +  <string name="monkey_description_text">Tägliche Ausgaben</string>
    <string name="account">Konto</string>
-   <string name="amount">Betrag</string>
-   <string name="app_name">&app_name;</string>
+   <string name="account_type_cash">Bargeldkonto</string>
+   <string name="account_type_bank">Bankkonto</string>
 diff --git a/res/values-es/strings.xml b/res/values-es/strings.xml
-index 033c598..d6d1519 100644
+index a44b500..7b73062 100644
 --- a/res/values-es/strings.xml
 +++ b/res/values-es/strings.xml
 @@ -19,6 +19,8 @@
@@ -22,10 +22,10 @@ index 033c598..d6d1519 100644
 +  <string name="monkey_label_text">Mi cartera</string>
 +  <string name="monkey_description_text">Los gastos diarios</string>
    <string name="account">Cuenta</string>
-   <string name="amount">Importe</string>
-   <string name="app_name">&app_name;</string>
+   <string name="account_type_cash">Cuenta de caja</string>
+   <string name="account_type_bank">Cuenta bancaria</string>
 diff --git a/res/values-fr/strings.xml b/res/values-fr/strings.xml
-index 322a4d0..d64fa0a 100644
+index fb7ab7d..093a933 100644
 --- a/res/values-fr/strings.xml
 +++ b/res/values-fr/strings.xml
 @@ -19,6 +19,8 @@
@@ -35,10 +35,10 @@ index 322a4d0..d64fa0a 100644
 +  <string name="monkey_label_text">Mon porte-monnaie</string>
 +  <string name="monkey_description_text">Dépenses journalières</string>
    <string name="account">Compte</string>
-   <string name="amount">Montant</string>
-   <string name="app_name">&app_name;</string>
+   <string name="account_type_cash">Compte de caisse</string>
+   <string name="account_type_bank">Compte bancaire</string>
 diff --git a/res/values-it/strings.xml b/res/values-it/strings.xml
-index 62300c7..cab77f4 100644
+index 150f0e8..1650184 100644
 --- a/res/values-it/strings.xml
 +++ b/res/values-it/strings.xml
 @@ -19,6 +19,8 @@
@@ -48,10 +48,10 @@ index 62300c7..cab77f4 100644
 +  <string name="monkey_label_text">Il mio portafoglio</string>
 +  <string name="monkey_description_text">Spese quotidiane</string>
    <string name="account">Conto</string>
-   <string name="amount">Quantitá</string>
-   <string name="app_name">&app_name;</string>
+   <string name="account_type_cash">Conto monetario</string>
+   <string name="account_type_bank">Conto bancario</string>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index c328b12..7a9a31e 100755
+index ea80682..3d7a4e3 100755
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
 @@ -19,6 +19,8 @@
@@ -61,13 +61,13 @@ index c328b12..7a9a31e 100755
 +  <string name="monkey_label_text">My wallet</string>
 +  <string name="monkey_description_text">Daily expenses</string>
    <string name="account">Account</string>
-   <string name="amount">Amount</string>
-   <string name="app_name">&app_name;</string>
+   <string name="account_type_cash">Cash account</string>
+   <string name="account_type_bank">Bank account</string>
 diff --git a/src/org/totschnig/myexpenses/AccountEdit.java b/src/org/totschnig/myexpenses/AccountEdit.java
-index 12e40da..d17eead 100644
+index 468551d..558624d 100644
 --- a/src/org/totschnig/myexpenses/AccountEdit.java
 +++ b/src/org/totschnig/myexpenses/AccountEdit.java
-@@ -29,6 +29,7 @@ import android.content.Intent;
+@@ -27,6 +27,7 @@ import android.content.Intent;
  import android.os.Bundle;
  import android.text.Editable;
  import android.text.TextWatcher;
@@ -75,16 +75,25 @@ index 12e40da..d17eead 100644
  import android.view.View;
  import android.widget.ArrayAdapter;
  import android.widget.AutoCompleteTextView;
-@@ -52,7 +53,7 @@ public class AccountEdit extends EditActivity {
-   private String[] currencyDescs;
-   private TextWatcher currencyInformer;
+@@ -54,7 +55,7 @@ public class AccountEdit extends EditActivity {
+   private Account.Type mAccountType;
+   String[] mTypes = new String[Account.Type.values().length];
  
 -/*  private int monkey_state = 0;
 +  private int monkey_state = 0;
  
    @Override
    public boolean onKeyDown (int keyCode, KeyEvent event) {
-@@ -75,7 +76,7 @@ public class AccountEdit extends EditActivity {
+@@ -65,6 +66,8 @@ public class AccountEdit extends EditActivity {
+         mDescriptionText.setText(R.string.monkey_description_text);
+         mAmountText.setText("100");
+         mCurrencyText.setText("EUR");
++        mTypeButton.setText(mTypes[1]);
++        mAccountType = Account.Type.values()[1];
+         monkey_state = 1;
+         return true;
+       case 1:
+@@ -77,7 +80,7 @@ public class AccountEdit extends EditActivity {
        }
      }
      return super.onKeyDown(keyCode, event);
@@ -94,10 +103,10 @@ index 12e40da..d17eead 100644
    @Override
    protected void onCreate(Bundle savedInstanceState) {
 diff --git a/src/org/totschnig/myexpenses/ExpenseEdit.java b/src/org/totschnig/myexpenses/ExpenseEdit.java
-index c703e54..e5782fd 100755
+index b0bc293..12941d4 100755
 --- a/src/org/totschnig/myexpenses/ExpenseEdit.java
 +++ b/src/org/totschnig/myexpenses/ExpenseEdit.java
-@@ -28,6 +28,7 @@ import android.content.DialogInterface;
+@@ -26,6 +26,7 @@ import android.content.DialogInterface;
  import android.content.Intent;
  import android.database.Cursor;
  import android.os.Bundle;
@@ -105,16 +114,26 @@ index c703e54..e5782fd 100755
  import android.view.View;
  import android.widget.ArrayAdapter;
  import android.widget.AutoCompleteTextView;
-@@ -73,7 +74,7 @@ public class ExpenseEdit extends EditActivity {
-   static final int TIME_DIALOG_ID = 1;
+@@ -76,7 +77,7 @@ public class ExpenseEdit extends EditActivity {
    static final int ACCOUNT_DIALOG_ID = 2;
+   static final int METHOD_DIALOG_ID = 3;
    
 -/*  private int monkey_state = 0;
 +  private int monkey_state = 0;
  
    @Override
    public boolean onKeyDown (int keyCode, KeyEvent event) {
-@@ -88,7 +89,7 @@ public class ExpenseEdit extends EditActivity {
+@@ -84,6 +85,9 @@ public class ExpenseEdit extends EditActivity {
+       switch (monkey_state) {
+       case 0:
+         mAmountText.setText("50");
++        monkey_state = 1;
++        return true;
++      case 1:
+         setResult(RESULT_OK);
+         saveState();
+         finish();
+@@ -91,7 +95,7 @@ public class ExpenseEdit extends EditActivity {
        }
      }
      return super.onKeyDown(keyCode, event);
@@ -124,7 +143,7 @@ index c703e54..e5782fd 100755
    @Override
    protected void onCreate(Bundle savedInstanceState) {
 diff --git a/src/org/totschnig/myexpenses/MyApplication.java b/src/org/totschnig/myexpenses/MyApplication.java
-index 15c7a5e..e4720e9 100644
+index 07b8c89..26f14d7 100644
 --- a/src/org/totschnig/myexpenses/MyApplication.java
 +++ b/src/org/totschnig/myexpenses/MyApplication.java
 @@ -23,7 +23,7 @@ import android.content.SharedPreferences;
@@ -146,10 +165,10 @@ index 15c7a5e..e4720e9 100644
      @Override
      public void onCreate()
 diff --git a/src/org/totschnig/myexpenses/MyExpenses.java b/src/org/totschnig/myexpenses/MyExpenses.java
-index 1c15632..0be5d73 100644
+index 5c00ef1..3b73c36 100644
 --- a/src/org/totschnig/myexpenses/MyExpenses.java
 +++ b/src/org/totschnig/myexpenses/MyExpenses.java
-@@ -115,7 +115,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
+@@ -119,7 +119,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     */
    private Long mSelectAccountContext;
  
@@ -158,7 +177,21 @@ index 1c15632..0be5d73 100644
  
    @Override
    public boolean onKeyDown (int keyCode, KeyEvent event) {
-@@ -144,7 +144,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
+@@ -135,20 +135,16 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
+         monkey_state = 2;
+         return true;
+       case 2:
+-        getListView().requestFocus();
++        showDialog(RESET_DIALOG_ID);
+         monkey_state = 3;
+         return true;
+       case 3:
+-        showDialog(RESET_DIALOG_ID);
+-        monkey_state = 4;
+-        return true;
+-      case 4:
+         startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
+         return true;
        }
      }
      return super.onKeyDown(keyCode, event);
@@ -168,7 +201,7 @@ index 1c15632..0be5d73 100644
    /* (non-Javadoc)
     * Called when the activity is first created.
 diff --git a/src/org/totschnig/myexpenses/SelectCategory.java b/src/org/totschnig/myexpenses/SelectCategory.java
-index 303bb16..0d16b1b 100644
+index 15163a1..836511f 100644
 --- a/src/org/totschnig/myexpenses/SelectCategory.java
 +++ b/src/org/totschnig/myexpenses/SelectCategory.java
 @@ -26,6 +26,7 @@ import android.content.Intent;
@@ -179,8 +212,8 @@ index 303bb16..0d16b1b 100644
  import android.view.Menu;
  import android.view.MenuItem;
  import android.view.View;
-@@ -79,7 +80,7 @@ public class SelectCategory extends ExpandableListActivity {
-     int mGroupIdColumnIndex;
+@@ -85,7 +86,7 @@ public class SelectCategory extends ExpandableListActivity {
+     boolean mManageOnly;
      
  
 -/*    private int monkey_state = 0;
@@ -188,7 +221,7 @@ index 303bb16..0d16b1b 100644
  
      @Override
      public boolean onKeyDown (int keyCode, KeyEvent event) {
-@@ -100,7 +101,7 @@ public class SelectCategory extends ExpandableListActivity {
+@@ -106,7 +107,7 @@ public class SelectCategory extends ExpandableListActivity {
          }
        }
        return super.onKeyDown(keyCode, event);
