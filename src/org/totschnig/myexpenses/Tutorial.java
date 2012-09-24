@@ -31,7 +31,7 @@ import android.os.Bundle;
  *
  */
 public class Tutorial extends Activity {
-  static final int TUTORIAL_RELEASE_VERSION = 2;
+  static final int TUTORIAL_RELEASE_VERSION = 3;
   private String startWith;
   
   protected WebView wv;
