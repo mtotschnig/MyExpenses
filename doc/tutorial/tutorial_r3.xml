@@ -271,7 +271,21 @@
     <!-- BEGIN tutorial1 para 3 --> 
     <para lang="en">
       You can define the type of an account as one of Cash, Bank, Asset, Liabilities. Account types
-      are associated with payment methods, as explained in ... . 
+      are associated with payment methods, as explained in <link linkend='tutorial5_9'><guilabel
+        role="pref_manage_methods_title"/></link>. Here we will define the account as bank account, 
+      in order to demonstrate the use of payment methods. 
+    </para>
+    <para lang="fr">
+    
+    </para>
+    <para lang="de">
+    
+    </para>
+    <para lang="it">
+    
+    </para>
+    <para lang="es">
+    
     </para>
     <!-- END tutorial1 para 3 -->
     
@@ -399,9 +413,7 @@
         </para>
       </footnote>. Clicking on the
       <guibutton role="select"/> button next to <guilabel role="category" />, brings up the <guilabel 
-        role="select_category"/> activity. We will explain below, how to manage categories. If the
-      current account, is associated with payment methods, you can set the transaction's method
-      through the <guibutton role="select"/> button next to <guilabel role="method" />.
+        role="select_category"/> activity. We will explain below, how to manage categories.
     </para>
     
     <para lang="fr">
@@ -493,14 +505,31 @@
     </para>    
     <!-- END tutorial2 para 2 -->
     
-    <?float-clear?> 
-
     <figure floatstyle="left" id="step4" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
             <imagedata fileref="step4.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    
+    <!-- BEGIN tutorial2 para 3 --> 
+    <para lang="en">
+      If the current account is of a type, that is associated with payment methods, you can set the transaction's method
+      through the <guibutton role="select"/> button next to <guilabel role="method" />.
+    </para>
+    <!-- END tutorial2 para 3-->
+    <?float-clear?> 
+
+    <figure floatstyle="left" id="step5" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step5.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -598,12 +627,12 @@
       <phrase lang="es">Categorías</phrase>
     </title>
     
-    <figure floatstyle="left" id="step5" >
+    <figure floatstyle="left" id="step6" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step5.png"/>
+            <imagedata fileref="step6.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -671,12 +700,12 @@
     
     <?float-clear?> 
     
-    <figure floatstyle="left" id="step7" >
+    <figure floatstyle="left" id="step8" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step7.png"/>
+            <imagedata fileref="step8.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -728,12 +757,12 @@
     
     <?float-clear?> 
     
-    <figure floatstyle="left" id="step8" >
+    <figure floatstyle="left" id="step9" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step8.png"/>
+            <imagedata fileref="step9.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -766,12 +795,12 @@
     
     <?float-clear?> 
     
-    <figure floatstyle="left" id="step9" >
+    <figure floatstyle="left" id="step10" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step9.png"/>
+            <imagedata fileref="step10.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -844,12 +873,12 @@
       <phrase lang="es">Exportar asientos</phrase>
     </title>
     
-    <figure floatstyle="left" id="step10" >
+    <figure floatstyle="left" id="step11" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step10.png"/>
+            <imagedata fileref="step11.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -957,12 +986,12 @@
       <phrase lang="es">Configuraciones</phrase>
     </title>
     
-    <figure floatstyle="left" id="step11" >
+    <figure floatstyle="left" id="step12" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step11.png"/>
+            <imagedata fileref="step12.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1295,12 +1324,12 @@
         <guilabel role="pref_import_from_grisbi_title"/>
       </title>
 
-    <figure floatstyle="left" id="step6" >
+    <figure floatstyle="left" id="step7" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step6.png"/>
+            <imagedata fileref="step7.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1562,12 +1591,36 @@
     <title>
         <guilabel role="pref_manage_methods_title"/>
     </title>
+    <figure floatstyle="left" id="step13" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step13.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
     <!-- BEGIN tutorial5_9 para 1 -->
+    <para lang="en">
     This screen lists the predefined payment methods (Cheque,Credit card, Deposit, Direct debit) and
     lets you define new ones. Simply click on an entry, and you will enter a form, where you can define
     a label (unless for the predefined ones), and a type (is this method used for debit, income or both),
     and select the account types for which this method is applicable.
-    <!-- END tutorial5_9 para 1 --> 
+    </para>
+    <para lang="fr">
+    
+    </para>
+    <para lang="de">
+    
+    </para>
+    <para lang="it">
+    
+    </para>
+    <para lang="es">
+    
+    </para>
+    <!-- END tutorial5_9 para 1 -->
     </sect2>
     
   </sect1>

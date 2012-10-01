@@ -148,8 +148,31 @@ snapshot('11')
 
 #Tutorial 5 Settings
 sleep()
-#open "Reset" through backdoor
+#open "MyPreferenceActivity through backdoor
 device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep(3)
 snapshot('12')
+sleep()
+#navigate to "Manage payment methods"
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
+sleep()
+#enter "Edit Payment Method"
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+sleep()
+device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
+sleep()
+#close the virtual keyboard
+device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
+sleep()
+snapshot('13')
 
