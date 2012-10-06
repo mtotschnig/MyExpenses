@@ -439,7 +439,8 @@
           de cette liste, consultez <link linkend='tutorial5_7'><guilabel
             role="pref_manage_parties_title"/></link>.
         </para>
-      </footnote>. Cliquez sur le bouton <guibutton role="select"/> vous ouvre la fenêtre
+      </footnote>. Cliquer sur le bouton <guibutton role="select"/> 
+      à côté de <guilabel role="category" />,vous ouvre la fenêtre
       <guilabel role="select_category"/>. Nous vous expliquerons plus tard
       comment gérer les catégories.
     </para>
@@ -526,6 +527,22 @@
     <para lang="en">
       If the current account is of a type, that is associated with payment methods, you can set the transaction's method
       through the <guibutton role="select"/> button next to <guilabel role="method" />.
+    </para>
+    <para lang="fr">
+      Si le type du compte en cours est asscocié avec des méthodes de paiment, vous pouvez choisir 
+      une méthode pour l'opération avec le bouton <guibutton role="select"/> à côté de <guilabel
+        role="method" />, 
+    </para>
+    <para lang="de">
+      Falls der Typ des aktuellen Kontos mit Zahhlungsweisen assoziiert ist, können Sie durch den
+      Schaltknopf <guibutton role="select"/> neben <guilabel  role="method" /> die Zahlungsweise der
+      Buchung definieren. 
+    </para>
+    <para lang="it" revisionflag="added">
+      missing
+    </para>
+    <para lang="es" revisionflag="added">
+      missing
     </para>
     <!-- END tutorial2 para 3-->
     <?float-clear?> 
