@@ -276,16 +276,22 @@
       in order to demonstrate the use of payment methods. 
     </para>
     <para lang="fr">
-    
+      Vous pouvez associer le compte aux types suivants: compte de caisse, compte bancaire,  compte
+      d'actif ou compte de passif. Les méthodes de paiement sont définies par type de compte, tel 
+      qu'éxpliqué dans <link linkend='tutorial5_9'><guilabel role="pref_manage_methods_title"/></link>.
+      Ici nous choissisons compte bancaire, afin de pouvoir montrer l'usage des méthodes de paiment.
     </para>
     <para lang="de">
-    
+      Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonot, Anlagekonto, 
+      Kreditkonto. Kontotypen  Für Kontotypen sind Zahlungsweisen definiert, wie in <link
+        linkend='tutorial5_9'><guilabel role="pref_manage_methods_title"/></link> definiert. Hier
+      wählen wir den Typ als Bankkonto, um zu zeigen, wie Zahlungsweisen verwendet werden.
     </para>
-    <para lang="it">
-    
+    <para lang="it" revisionflag="added">
+      missing
     </para>
-    <para lang="es">
-    
+    <para lang="es" revisionflag="added" >
+      missing
     </para>
     <!-- END tutorial1 para 3 -->
     
@@ -1603,22 +1609,32 @@
     </figure>
     <!-- BEGIN tutorial5_9 para 1 -->
     <para lang="en">
-    This screen lists the predefined payment methods (Cheque,Credit card, Deposit, Direct debit) and
-    lets you define new ones. Simply click on an entry, and you will enter a form, where you can define
-    a label (unless for the predefined ones), and a type (is this method used for debit, income or both),
-    and select the account types for which this method is applicable.
+      This screen lists the predefined payment methods (Cheque,Credit card, Deposit, Direct debit) and
+      lets you define new ones. Simply click on an entry (or select <guibutton role="menu_new"/>), 
+      and you will enter a form, where you can define a label (unless for the predefined ones),
+      and a type (is this method used for debit, income or both),
+      and select the account types for which this method is applicable.
     </para>
     <para lang="fr">
-    
+      Cet écran affiche la liste des méthodes de paiment prédéfinies (Chèque, Carte de crédit,
+      Dépôt, Prélèvement) et vous permet de définir de nouvelles méthodes. En cliquant sur une entrée
+      (ou en sélectionnant <guibutton role="menu_new"/>), vous ouvrez un formulaire pour définir un
+      libellé (sauf pour les types prédéfinis) et le type (s'agit-il d'une mếthode de débit, de crédit
+      ou neutre), et pour sélectionner les types de compte pour lesquels cette méthode est applicable.
     </para>
     <para lang="de">
-    
+      Auf diesem Bildschirm wird die Liste der vordefinierten Zahlungsweisen angezeigt (Scheck, Kreditkarte,
+      Einzahlung, Abbuchung) und Sie können hier auch neue Zahlungsweisen definieren. Wenn Sie auf
+      einen Eintrag in der Liste klicken (oder <guibutton role="menu_new"/> auswählen), gelangen Sie
+      zu einem Formular, in dem Sie eine Bezeichnung (außer für die vordefinierten) und den Typ (handelt
+      es sich um eine Zahlungsweise für Einnahmen, Ausgaben oder neutral) festlegen, und die Kontotypen
+      auswählen, für die die Zahlungsweise anwendbar ist.
     </para>
-    <para lang="it">
-    
+    <para lang="it" revisionflag="added">
+      missing
     </para>
-    <para lang="es">
-    
+    <para lang="es" revisionflag="added">
+      missing
     </para>
     <!-- END tutorial5_9 para 1 -->
     </sect2>
