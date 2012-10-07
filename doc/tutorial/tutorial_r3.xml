@@ -511,7 +511,7 @@
       Este punto se explica mas adelante.
     </para>    
     <!-- END tutorial2 para 2 -->
-    
+    <?float-clear?> 
     <figure floatstyle="left" id="step4" >
       <title/>
       <screenshot>
