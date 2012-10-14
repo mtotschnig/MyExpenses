@@ -534,7 +534,7 @@
         role="method" />, 
     </para>
     <para lang="de">
-      Falls der Typ des aktuellen Kontos mit Zahhlungsweisen assoziiert ist, können Sie durch den
+      Falls dem Typ des aktuellen Kontos Zahlungsweisen zugeordnet sind, können Sie durch den
       Schaltknopf <guibutton role="select"/> neben <guilabel  role="method" /> die Zahlungsweise der
       Buchung definieren. 
     </para>
