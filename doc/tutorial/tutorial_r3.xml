@@ -282,9 +282,9 @@
       Ici nous choissisons compte bancaire, afin de pouvoir montrer l'usage des méthodes de paiment.
     </para>
     <para lang="de">
-      Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonot, Anlagekonto, 
-      Kreditkonto. Kontotypen  Für Kontotypen sind Zahlungsweisen definiert, wie in <link
-        linkend='tutorial5_9'><guilabel role="pref_manage_methods_title"/></link> definiert. Hier
+      Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto, 
+      Kreditkonto. Für Kontotypen sind Zahlungsweisen definiert, wie in <link
+        linkend='tutorial5_9'><guilabel role="pref_manage_methods_title"/></link> beschrieben. Hier
       wählen wir den Typ als Bankkonto, um zu zeigen, wie Zahlungsweisen verwendet werden.
     </para>
     <para lang="it" revisionflag="added">
