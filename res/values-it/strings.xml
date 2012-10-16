@@ -52,7 +52,7 @@
   <string name="dialog_title_select_account">Scegli il conto</string>
   <string name="dialog_title_select_currency">Scegli una valuta</string>
   <string name="dialog_title_select_import_source">Scegli un origine per l\'importazione</string>
-  <string name="dialog_title_select_method">Scegli un metodo di pagamento</string>
+  <string name="dialog_title_select_method">Scegli un modo di pagamento</string>
   <string name="dialog_title_select_type">Scegli un tipo</string>
   <string name="dialog_yes">Sì</string>
   <string name="done">OK</string>
@@ -127,13 +127,13 @@
   <string name="menu_delete_cat">Cancellare la categoria</string>
   <string name="menu_edit_account">Modificare il conto</string>
   <string name="menu_edit_cat">Modificare la categoria</string>
-  <string name="menu_edit_method">Modificare metodo di pagamento</string>
+  <string name="menu_edit_method">Modificare modo di pagamento</string>
   <string name="menu_edit_ta">Modificare operazione</string>
   <string name="menu_edit_transfer">Modificare un trasferimento</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_help">Aiuto</string>
   <string name="menu_insert_account">Aggiungere conto</string>
-  <string name="menu_insert_method">Aggiungere metodo di pagamento</string>
+  <string name="menu_insert_method">Aggiungere modo di pagamento</string>
   <string name="menu_insert_ta">Aggiungere operazione</string>
   <string name="menu_insert_transfer">Aggiungere un trasferimento</string>
   <string name="menu_new">Nuovo</string>
@@ -144,7 +144,7 @@
   <string name="menu_settings_abrev">Param.</string>
   <string name="menu_settings_account">Conto</string>
   <string name="menu_show_detail">Visualizza i dettagli</string>
-  <string name="method">Metodo</string>
+  <string name="method">Modo</string>
   <string name="no_accounts">Nessun conto !</string>
   <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail
   </string>
@@ -153,7 +153,7 @@
   <string name="no_details">Nessun dettaglio.</string>
   <string name="no_expenses">No spesa !</string>
   <string name="no_parties">No beneficiario.</string>
-  <string name="no_valid_payment_methods">Nessuni metodi di pagamento validi per %1$s (%2$s)</string>
+  <string name="no_valid_payment_methods">Nessuni modi di pagamento validi per %1$s (%2$s)</string>
   <string name="not_deletable_mapped_expenses">Questa categoria non può essere cancellata, perché ci
       sono spese ad esso attribuite.</string>
   <string name="not_deletable_subcats_exists">Questa categoria non può essere cancellata perché
@@ -200,12 +200,12 @@
       inclusi  nell\'applicazione, e il vostro proprio file salvato come &grisbi_file; nella
       cartellla myexpenses della radice della vostra scheda SD.</string>
   <string name="pref_import_from_grisbi_title">Importazione dei dati Grisbi</string>
-  <string name="pref_manage_accounts_title">Gestione degli conti</string>
+  <string name="pref_manage_accounts_title">Gestione dei conti</string>
   <string name="pref_manage_accounts_summary">Aggiungere, modificare e cancellare conti.</string>
   <string name="pref_manage_categories_title">Gestione delle categorie</string>
   <string name="pref_manage_categories_summary">Aggiungere, modificare, cancellare categorie.</string>
-  <string name="pref_manage_methods_title">Gestione degli metodi di pagamento</string>
-  <string name="pref_manage_methods_summary">Creare, modificare i metodi di pagamento e di associarli a tipi di conti.</string>
+  <string name="pref_manage_methods_title">Gestione dei modi di pagamento</string>
+  <string name="pref_manage_methods_summary">Creare, modificare i modi di pagamento e di associarli a tipi di conti.</string>
   <string name="pref_manage_parties_title">Gestione dei beneficiari</string>
   <string name="pref_manage_parties_summary">Cancellare beneficiari.</string>
   <string name="pref_perform_share_title">Condividi QIF Export</string>
