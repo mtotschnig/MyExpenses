@@ -26,6 +26,11 @@
     <surname>Collombet</surname>
     <contrib>Traduzione italiana</contrib>
   </othercredit>
+  <othercredit lang="it">
+    <firstname>Gudrun</firstname>
+    <surname>Totschnig</surname>
+    <contrib>Traduzione italiana</contrib>
+  </othercredit>
   <othercredit lang="es">
     <firstname>Gudrun</firstname>
     <surname>Totschnig</surname>
@@ -121,9 +126,9 @@
     <para lang="it">
       Nella schermata principale mostra un elenco di operazioni in conto corrente. La barra
       nella parte inferiore dello schermo fornisce accesso a tutte le funzioni. Ogni pulsante
-      esegue un'azione predefinita in risposta a un clic breve. La maggior parte visualizzare
-      un menu con altre azioni in un clic lungo. In caso contrario, è possibile configurare in
-      modo role <application role="app_name"/> utilizza il menù standard di Android come
+      esegue un'azione predefinita in risposta a un clic breve. La maggior parte visualizza
+      un menu con altre azioni in un clic lungo. In caso contrario, è possibile configurare que
+      <application role="app_name"/> utilizza il menù standard di Android come
       interfaccia di controllo(<link linkend='tutorial5_6'><guilabel
       	role="pref_use_standard_menu_title"/></link>).
     </para>
@@ -287,11 +292,19 @@
         linkend='tutorial5_9'><guilabel role="pref_manage_methods_title"/></link> beschrieben. Hier
       wählen wir den Typ als Bankkonto, um zu zeigen, wie Zahlungsweisen verwendet werden.
     </para>
-    <para lang="it" revisionflag="added">
-      missing
+    <para lang="it">
+      Puo assegnare qualsiasi conto a uno dei seguenti tipi: Conto di denaro contante, conto
+      bancario, conto d’investimento, conto d’accredito. Per i tipi di conti sono definiti modi di
+      pagamento, com’è definito in <link linkend='tutorial5_9'><guilabel
+        role="pref_manage_methods_title"/></link>. Qui scegliamo come tipo il conto bancario, per
+      dimostrare come si usano i modi di pagamento.
     </para>
-    <para lang="es" revisionflag="added" >
-      missing
+    <para lang="es">
+      Usted puede asignar a una cuenta uno de los siguientes tipos: cuenta de caja, cuenta bancaria,
+      cuenta de inversiones, cuenta de crédito. Para los tipos de cuenta están definidos métodos de
+      pago como se definen en <link linkend='tutorial5_9'><guilabel
+        role="pref_manage_methods_title"/></link>. Aquí elegimos el tipo de cuenta bancaria para
+      mostrar cómo se utilizan los métodos de pago.
     </para>
     <!-- END tutorial1 para 3 -->
     
@@ -346,7 +359,7 @@
       	role="pref_manage_accounts_title"/></link> erklärt.
     </para>
     <para lang="it">
-      La gestione degli conti è spiegata in <link linkend='tutorial5_1'><guilabel
+      La gestione dei conti è spiegata in <link linkend='tutorial5_1'><guilabel
       	role="pref_manage_accounts_title"/></link>.
     </para>
     <para lang="es">
@@ -541,8 +554,10 @@
     <para lang="it" revisionflag="added">
       missing
     </para>
-    <para lang="es" revisionflag="added">
-      missing
+    <para lang="es">
+      Si el tipo de la cuenta corriente está asociado con métodos de pago, usted puede definir el
+      método de pago del asiento a través de un clic sobre el botón <guibutton role="select"/> al 
+      lado de <guilabel  role="method" />.
     </para>
     <!-- END tutorial2 para 3-->
     <?float-clear?> 
@@ -1650,8 +1665,13 @@
     <para lang="it" revisionflag="added">
       missing
     </para>
-    <para lang="es" revisionflag="added">
-      missing
+    <para lang="es">
+      Esta pantalla muestra la lista de los predefinidos métodos de pago (cheque, tarjeta de
+      crédito, depósito, impuesto) y usted puede además definir nuevos métodos de pago. Al hacer
+      clic en un elemento de la lista (o seleccionando <guibutton role="menu_new"/>) se llega a un
+      formulario donde usted determina un nombre (excepto para los predefinidos) y el tipo (si se
+      trata de un método de pago para ingresos, gastos o si es neutral) y elige los tipos de cuenta
+      para los cuales el método de pago es aplicable.
     </para>
     <!-- END tutorial5_9 para 1 -->
     </sect2>
