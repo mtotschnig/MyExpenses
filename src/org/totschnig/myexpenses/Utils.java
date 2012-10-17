@@ -36,11 +36,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
-
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -57,6 +58,37 @@ import android.widget.Toast;
  *
  */
 public class Utils {
+  /**
+   * @return Dialog to be used from Preference,
+   * and from version update
+   */
+  public static Dialog sendWithFTPDialog(final Activity ctx) {
+    String msg = ctx.getClass() == MyExpenses.class ? ctx.getString(R.string.version_32_upgrade_info) : "";
+    return new AlertDialog.Builder(ctx)
+    .setMessage(msg + " " + ctx.getString(R.string.no_app_handling_ftp_available))
+    .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+         public void onClick(DialogInterface dialog, int id) {
+           ctx.dismissDialog(R.id.FTP_DIALOG_ID);
+           if (ctx.getClass() == MyExpenses.class)
+             ctx.showDialog(R.id.HELP_DIALOG_ID);
+           Intent intent = new Intent(Intent.ACTION_VIEW);
+           intent.setData(Uri.parse("market://details?id=org.totschnig.sendwithftp"));
+           if (ctx.getPackageManager().queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
+             ctx.startActivity(intent);
+           } else {
+             Toast.makeText(ctx.getBaseContext(),"Unable to open Google Play", Toast.LENGTH_LONG).show();
+           }
+         }
+      })
+    .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+      public void onClick(DialogInterface dialog, int id) {
+        ctx.dismissDialog(R.id.FTP_DIALOG_ID);
+        if (ctx.getClass() == MyExpenses.class)
+          ctx.showDialog(R.id.HELP_DIALOG_ID);
+      }
+    }).create();
+  }
+  
   public static String getDefaultDecimalSeparator() {
     String sep = ".";
     int sdk =  Build.VERSION.SDK_INT;
@@ -93,6 +125,27 @@ public class Utils {
       return n;
     }
   }
+  
+  public static URI validateUri(String target) {
+    boolean targetParsable;
+    URI uri = null;
+    if (!target.equals("")) {
+      try {
+        uri = new URI(target);
+        String scheme = uri.getScheme();
+        //strangely for mailto URIs getHost returns null, so we make sure that mailto URIs handled as valid
+        targetParsable = scheme != null && (scheme.equals("mailto") || uri.getHost() != null);
+      } catch (URISyntaxException e1) {
+        targetParsable = false;
+      }
+      if (!targetParsable) {
+        return null;
+      }
+      return uri;
+    }
+    return null;
+  }
+  
   /**
    * formats an amount with a currency
    * @param amount
@@ -191,54 +244,6 @@ public class Utils {
       Log.e("MyExpenses",e.getLocalizedMessage());
     }
     return false;
-  }
-  
-  static void share(Context context,File file,String target) {
-    URI uri = null;
-    Intent intent;
-    String scheme = "mailto";
-    if (!target.equals("")) {
-      try {
-        uri = new URI(target);
-      } catch (URISyntaxException e1) {
-        Toast.makeText(context,context.getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
-        return;
-      }
-      scheme = uri.getScheme();
-    }
-    if (scheme == null)
-    	scheme = "mailto";
-    if (scheme.equals("ftp")) {
-      intent = new Intent(context, FtpTransfer.class);
-      intent.putExtra("target",uri);
-      intent.putExtra("source",file.getAbsolutePath());
-      context.startActivity(intent);
-    } else if (scheme.equals("mailto")) {
-      final PackageManager packageManager = context.getPackageManager();
-      intent = new Intent(android.content.Intent.ACTION_SEND);
-      intent.setType("text/qif");
-      if (uri != null) {
-        String address = uri.getSchemeSpecificPart();
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ address });
-      }
-      intent.putExtra(Intent.EXTRA_SUBJECT,R.string.export_expenses);
-      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-      if (packageManager.queryIntentActivities(intent,0).size() == 0) {
-        Toast.makeText(context,R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
-        return;
-      }
-      //if we got mail address, we launch the default application
-      //if we are called without target, we launch the chooser in order to make action more explicit
-      if (uri != null) {
-        context.startActivity(intent);
-      } else {
-        context.startActivity(Intent.createChooser(
-            intent,context.getString(R.string.share_sending)));
-      }
-    } else {
-      Toast.makeText(context,context.getString(R.string.share_scheme_not_supported,target), Toast.LENGTH_LONG).show();
-      return;
-    }
   }
   
   

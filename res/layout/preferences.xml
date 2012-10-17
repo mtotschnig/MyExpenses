@@ -22,6 +22,11 @@
       android:summary="@string/pref_manage_accounts_summary">
     <intent android:action="myexpenses.intent.manage.accounts"/>      
   </PreferenceScreen>
+  <PreferenceScreen
+      android:title="@string/pref_manage_categories_title"
+      android:summary="@string/pref_manage_categories_summary">
+      <intent android:action="myexpenses.intent.manage.categories"/>      
+  </PreferenceScreen>
   <CheckBoxPreference
       android:layout="@layout/preference_long_summary"
       android:defaultValue="true"

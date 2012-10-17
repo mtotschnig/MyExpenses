@@ -110,7 +110,7 @@
   <target name="tutorial">
   <!-- for historical reasons rev 1 of tutorial used "tutorial"
   all others "tutorial_r${rev}" -->
-    <property name="rev" value="2"/>
+    <property name="rev" value="3"/>
     <condition property="filename" value="tutorial" else="tutorial_r${rev}">
       <equals arg1="${rev}" arg2="1"/>
     </condition>
@@ -140,7 +140,7 @@
 	<target name="tutorial-pdf">
 	  <!-- for historical reasons rev 1 of tutorial used "tutorial"
   all others "tutorial_r${rev}" -->
-    <property name="rev" value="2"/>
+    <property name="rev" value="3"/>
     <condition property="filename" value="tutorial" else="tutorial_r${rev}">
       <equals arg1="${rev}" arg2="1"/>
     </condition>

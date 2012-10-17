@@ -5,7 +5,7 @@ if (len(sys.argv) < 2):
   sys.exit(0)
 
 lang = sys.argv[1]
-targetdir = '../../../MyExpenses.pages/tutorial_r2/' + lang + '/large/'
+targetdir = '../../../MyExpenses.pages/tutorial_r3/' + lang + '/large/'
 BACKDOOR_KEY = 'KEYCODE_CAMERA'
 
 def snapshot(number):
@@ -51,16 +51,28 @@ sleep()
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep()
 snapshot('3')
-#call our "backdoor" that enters data amd finishes
+#call our "backdoor" that enters data
 device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
+#navigate to Payment method select button
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
+sleep()
+snapshot('4')
+#close the dialog and call "backdoor" to finish activity
+device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
+sleep()
+device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 #back at transaction list
 #open context (we use the backdoor to make sure list is focused)
 device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 sleep()
-snapshot('4')
+snapshot('5')
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep()
 
@@ -76,11 +88,11 @@ device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 #trigger it
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep()
-snapshot('5')
+snapshot('6')
 #select Category import through backdoor
 device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
-snapshot('6')
+snapshot('7')
 #select import source based on lang
 if (lang != 'en'):
   device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
@@ -103,11 +115,11 @@ device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 #execute import and give it some time
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep(30)
-snapshot('7')
+snapshot('8')
 #select "Add new category through backdoor"
 device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
-snapshot('8')
+snapshot('9')
 #Close dialog
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep(2)
@@ -116,7 +128,7 @@ device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 sleep()
-snapshot('9')
+snapshot('10')
 
 #Tutorial 4 Export transactions
 #back to main screen
@@ -132,12 +144,35 @@ sleep()
 #confirm
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep()
-snapshot('10')
+snapshot('11')
 
 #Tutorial 5 Settings
 sleep()
-#open "Reset" through backdoor
+#open "MyPreferenceActivity through backdoor
 device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep(3)
-snapshot('11')
+snapshot('12')
+sleep()
+#navigate to "Manage payment methods"
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
+sleep()
+#enter "Edit Payment Method"
+device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+sleep()
+device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
+sleep()
+#close the virtual keyboard
+device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
+sleep()
+snapshot('13')
 

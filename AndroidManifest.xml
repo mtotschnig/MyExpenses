@@ -14,8 +14,13 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.totschnig.myexpenses" android:versionCode="31" android:versionName="1.4.12">
-    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="7"></uses-sdk>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.totschnig.myexpenses" 
+    android:versionCode="32" 
+    android:versionName="1.5.0a1"
+    android:installLocation="auto"
+>
+    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="8"></uses-sdk>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <application android:name="org.totschnig.myexpenses.MyApplication" android:icon="@drawable/icon" android:label="My Expenses" android:theme="@style/MyTheme">
@@ -28,7 +33,12 @@
         <activity android:name=".ExpenseEdit"/>
         <activity android:name=".AccountEdit"/>
         <activity android:name=".MethodEdit"/>
-        <activity android:name=".SelectCategory"/>
+        <activity android:name=".SelectCategory">
+          <intent-filter>  
+              <action android:name="myexpenses.intent.manage.categories"/>  
+              <category android:name="android.intent.category.DEFAULT" />  
+          </intent-filter>
+        </activity>
         <activity android:name=".ManageAccounts">
           <intent-filter>  
               <action android:name="myexpenses.intent.manage.accounts"/>  

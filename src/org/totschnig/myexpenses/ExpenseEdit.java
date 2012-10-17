@@ -59,6 +59,8 @@ public class ExpenseEdit extends EditActivity {
   private int mDay;
   private int mHours;
   private int mMinutes;
+  private long mCatId;
+  private String mLabel;
   private Transaction mTransaction;
   
   public static final boolean INCOME = true;
@@ -244,9 +246,9 @@ public class ExpenseEdit extends EditActivity {
         .setTitle(R.string.dialog_title_select_account)
         .setSingleChoiceItems(accountLabels, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
-            mTransaction.catId = accountIds[item];
-            mTransaction.label = accountLabels[item];
-            prefixCategoryButtonTextWithTypeDir();
+            mCatId = accountIds[item];
+            mLabel = accountLabels[item];
+            setCategoryButton();
             dismissDialog(ACCOUNT_DIALOG_ID);
           }
         }).create();
@@ -361,13 +363,8 @@ public class ExpenseEdit extends EditActivity {
       }
       //3d fill label (category or account) we got from database, if we are a transfer we prefix 
       //with transfer direction
-      String label =  mTransaction.label;
-      if (label != null && label.length() != 0) {
-        if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-          prefixCategoryButtonTextWithTypeDir();
-        } else
-          mCategoryButton.setText(label);
-      }
+      mCatId = mTransaction.catId;
+      mLabel =  mTransaction.label;
     } else {
       //4. handle edit new transaction
       //4a set title based on type
@@ -377,16 +374,16 @@ public class ExpenseEdit extends EditActivity {
       //we point the transfer to that account
       if (mOperationType == MyExpenses.TYPE_TRANSFER && otherAccountsCount == 1) {
         otherAccounts.moveToFirst();
-        mTransaction.catId = otherAccounts.getInt(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
-        mTransaction.label = otherAccounts.getString(otherAccounts.getColumnIndex("label"));
-        prefixCategoryButtonTextWithTypeDir();
+        mCatId = otherAccounts.getInt(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+        mLabel = otherAccounts.getString(otherAccounts.getColumnIndex("label"));
       }
     }
+    setCategoryButton();
     //5.configure button behavior
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       //5a if we are a transfer
       if (otherAccountsCount == 1) {
-        //we disable the button, if there is only one transfer
+        //we disable the button, if there is only one account
         mCategoryButton.setEnabled(false);
       } else {
         //otherwise show dialog to select account
@@ -500,11 +497,12 @@ public class ExpenseEdit extends EditActivity {
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mTransaction.setPayee(mPayeeText.getText().toString());
     } else {
-      if (mTransaction.catId == 0) {
+      if (mCatId == 0) {
         Toast.makeText(this,getString(R.string.warning_select_account), Toast.LENGTH_LONG).show();
         return false;
       }
     }
+    mTransaction.catId = mCatId;
     mTransaction.save();
     return true;
   }
@@ -515,9 +513,9 @@ public class ExpenseEdit extends EditActivity {
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     if (intent != null) {
-      mTransaction.catId = intent.getLongExtra("cat_id",0);
-      mTransaction.label = intent.getStringExtra("label");
-      mCategoryButton.setText(mTransaction.label);
+      mCatId = intent.getLongExtra("cat_id",0);
+      mLabel = intent.getStringExtra("label");
+      mCategoryButton.setText(mLabel);
     }
   }
   /**
@@ -527,28 +525,48 @@ public class ExpenseEdit extends EditActivity {
     mTypeButton.setText(mType ? "+" : "-");
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
-    } else if (mTransaction.catId != 0) {
-      prefixCategoryButtonTextWithTypeDir();
     }
+    setCategoryButton();
   }
   /**
    *  for a transfer append an indicator of direction to the label on the category button 
    */
-  private void prefixCategoryButtonTextWithTypeDir() {
-    mCategoryButton.setText(
-        (mType == EXPENSE ? MyExpenses.TRANSFER_EXPENSE  : MyExpenses.TRANSFER_INCOME) + 
-        mTransaction.label
-    );
+  private void setCategoryButton() {
+    if (mLabel != null && mLabel.length() != 0) {
+      String label = mLabel;
+      if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+        label = (mType == EXPENSE ? MyExpenses.TRANSFER_EXPENSE  : MyExpenses.TRANSFER_INCOME) +
+            label;
+      }
+      mCategoryButton.setText(label);
+    }
   }
   @Override
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
    outState.putBoolean("type", mType);
+   outState.putInt("year",mYear);
+   outState.putInt("month", mMonth);
+   outState.putInt("day", mDay);
+   outState.putInt("hours", mHours);
+   outState.putInt("minutes", mMinutes);
+   outState.putLong("catId", mCatId);
+   outState.putString("label", mLabel);
   }
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
    super.onRestoreInstanceState(savedInstanceState);
    mType = savedInstanceState.getBoolean("type");
+   mYear = savedInstanceState.getInt("year");
+   mMonth = savedInstanceState.getInt("month");
+   mDay = savedInstanceState.getInt("day");
+   mHours = savedInstanceState.getInt("hours");
+   mMinutes = savedInstanceState.getInt("minutes");
+   mLabel = savedInstanceState.getString("label");
+   mCatId = savedInstanceState.getLong("catId");
    configureType();
+   setDate();
+   setTime();
+   
   }
 }

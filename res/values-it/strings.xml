@@ -20,6 +20,10 @@
 ]>
 <resources>
   <string name="account">Conto</string>
+  <string name="account_type_cash">Conto monetario</string>
+  <string name="account_type_bank">Conto bancario</string>
+  <string name="account_type_asset">Conto di beni</string>
+  <string name="account_type_liability">Conto di responsabilità</string>
   <string name="amount">Quantitá</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Backup su SD card non è riuscito.</string>
@@ -35,7 +39,7 @@
   <string name="credits_text">Disegno della pagina della Guida copiato da Mathdoku.
       \nDisegno dell\'icona dell\'App copiato da Sipdroid.
       \nTraduzione francese e italiane di Laurent Collombet.
-      \nTraduzione spagnola die Christof, Gudrun e Johanna Totschnig.</string>
+      \nTraduzione spagnola di Christof, Gudrun e Johanna Totschnig.</string>
   <string name="currency">Valuta</string>
   <string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
   <string name="current_balance">Saldo corrente</string>
@@ -48,9 +52,12 @@
   <string name="dialog_title_select_account">Scegli il conto</string>
   <string name="dialog_title_select_currency">Scegli una valuta</string>
   <string name="dialog_title_select_import_source">Scegli un origine per l\'importazione</string>
+  <string name="dialog_title_select_method">Scegli un modo di pagamento</string>
+  <string name="dialog_title_select_type">Scegli un tipo</string>
   <string name="dialog_yes">Sì</string>
   <string name="done">OK</string>
   <string name="edit_category">Modificare la categoria</string>
+  <string name="expense">spesa</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già.
       Attendere un minuto prima di riprovare.</string>
   <string name="export_expenses">Esportazione delle speze</string>
@@ -60,19 +67,6 @@
   <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non è disponibile
   </string>
   <string name="ftp_uri_malformed">Sintassi male dell\'URI %1$s</string>
-  <string name="ftp_success">Carica su %1$s è riuscita</string>
-  <string name="ftp_failure">Carica su %1$s faillita</string>
-  <string name="ftp_socket_exception">Socket eccezione durante il caricamento di %1$s</string>
-  <string name="ftp_io_exception">IO eccezione durante il caricamento di %1$s</string>
-  <string name="ftp_login_failure">Errore di login durante il caricamento di %1$s</string>
-  <string name="ftp_setFileType_failure">Impossibile impostare il tipo di file ASCII durante il
-      caricamento di %1$s</string>
-  <string name="ftp_changeWorkingDirectory_failure">Impossibile cambiare la cartella di lavoro
-      durante il caricamento di %1$s</string>
-  <string name="ftp_connection_refused">Collegamento a %1$s rifiutato</string>
-  <string name="ftp_connection_failure">Collegamento a %1$s faillito</string>
-  <string name="ftp_cancelled">Trasferimento FTP a %1$s cancellato</string>
-  <string name="ftp_uploading_wait">Scarica in corso. Attendere prego &#8230;</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Categorie</string>
   <string name="grisbi_import_button_categories_and_parties">Categorie e beneficiari</string>
@@ -81,7 +75,7 @@
       state importati</string>
   <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
   <string name="grisbi_import_categories_success">%1$s categorie state importate</string>
-  <string name="grisbi_import_parties_loading">Importazion dei beneficiari dalla %1$s</string>
+  <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
   <string name="help_feedback">Se si trova <i>&app_name;</i> utile,si prega di lasciare un commento 
       nel <a href="market://details?id=org.totschnig.myexpenses">Mercato</a>. Se si trova un
       problema, un suggerimento per un miglioramento, o se volete contribuire, si prega di
@@ -111,6 +105,7 @@
         inclusi in myExpenses o utilizzare un file personale, conservato come
         \"/sdcard/myexpenses/&grisbi_file;\". In questo caso, è possibile copiare il file Grisbi
         come è, o cancellare tutto, tranne le definizioni delle categorie.</string>
+  <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
   <string name="important_version_information">Nuova versione: Informazioni importanti</string>
   <string name="invalid_number_format">Numero formato non riconosciuto dal vostra regione. Uso %1$s
@@ -132,11 +127,13 @@
   <string name="menu_delete_cat">Cancellare la categoria</string>
   <string name="menu_edit_account">Modificare il conto</string>
   <string name="menu_edit_cat">Modificare la categoria</string>
+  <string name="menu_edit_method">Modificare modo di pagamento</string>
   <string name="menu_edit_ta">Modificare operazione</string>
   <string name="menu_edit_transfer">Modificare un trasferimento</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_help">Aiuto</string>
   <string name="menu_insert_account">Aggiungere conto</string>
+  <string name="menu_insert_method">Aggiungere modo di pagamento</string>
   <string name="menu_insert_ta">Aggiungere operazione</string>
   <string name="menu_insert_transfer">Aggiungere un trasferimento</string>
   <string name="menu_new">Nuovo</string>
@@ -147,13 +144,16 @@
   <string name="menu_settings_abrev">Param.</string>
   <string name="menu_settings_account">Conto</string>
   <string name="menu_show_detail">Visualizza i dettagli</string>
+  <string name="method">Modo</string>
   <string name="no_accounts">Nessun conto !</string>
   <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail
   </string>
+  <string name="no_app_handling_ftp_available">Nessuna applicazione disponibile per ftp. Installare <i>Invia via FTP</i> da Google Play?</string>
   <string name="no_categories">No categoria.</string>
   <string name="no_details">Nessun dettaglio.</string>
-  <string name="no_expenses">No speso !</string>
+  <string name="no_expenses">No spesa !</string>
   <string name="no_parties">No beneficiario.</string>
+  <string name="no_valid_payment_methods">Nessuni modi di pagamento validi per %1$s (%2$s)</string>
   <string name="not_deletable_mapped_expenses">Questa categoria non può essere cancellata, perché ci
       sono spese ad esso attribuite.</string>
   <string name="not_deletable_subcats_exists">Questa categoria non può essere cancellata perché
@@ -171,6 +171,14 @@
       %1$s</string>
   <string name="payee">Beneficiario</string>
   <string name="payer">Pagatore</string>
+  <!-- payment methods -->
+  <string name="pm_cheque">Assegno</string>
+  <string name="pm_creditcard">Carta di credito</string>
+  <string name="pm_deposit">Deposito</string>
+  <string name="pm_directdebit">Bancomat</string>
+  <string name="pm_type_neutral">Neutro</string>
+  <string name="pm_type_debit">Debito</string>
+  <string name="pm_type_credit">Credito</string>
   <string name="peer_transaction_deleted">Questa operazione è stata collegata ad un altro (conto
       %1$s) che è stato eliminato</string>
   <string name="pref_backup_summary">Crea un backup del database e le preferenze sulla scheda SD.
@@ -192,8 +200,12 @@
       inclusi  nell\'applicazione, e il vostro proprio file salvato come &grisbi_file; nella
       cartellla myexpenses della radice della vostra scheda SD.</string>
   <string name="pref_import_from_grisbi_title">Importazione dei dati Grisbi</string>
-  <string name="pref_manage_accounts_title">Gestione degli conti</string>
+  <string name="pref_manage_accounts_title">Gestione dei conti</string>
   <string name="pref_manage_accounts_summary">Aggiungere, modificare e cancellare conti.</string>
+  <string name="pref_manage_categories_title">Gestione delle categorie</string>
+  <string name="pref_manage_categories_summary">Aggiungere, modificare, cancellare categorie.</string>
+  <string name="pref_manage_methods_title">Gestione dei modi di pagamento</string>
+  <string name="pref_manage_methods_summary">Creare, modificare i modi di pagamento e di associarli a tipi di conti.</string>
   <string name="pref_manage_parties_title">Gestione dei beneficiari</string>
   <string name="pref_manage_parties_summary">Cancellare beneficiari.</string>
   <string name="pref_perform_share_title">Condividi QIF Export</string>
@@ -223,6 +235,7 @@
   <string name="transaction">Operazione</string>
   <string name="transfer">Trasferimento</string>
   <string name="tutorial">Tutorial</string>
+  <string name="type">Tipo</string>
   <string name="warning_backup">Database e le preferenze verranno salvate su scheda SD. Vuoi
       continuare?</string>
   <string name="warning_backup_exists">Database e le preferenze verranno salvate su scheda SD.
@@ -240,4 +253,6 @@
   <string name="version_26_upgrade_info"><i>&app_name;</i>ha ora una barra dei pulsanti come nueva
       interfaccia di comandi. È possibile tornare alla vecchia interfaccia nella schermata delle
       impostazioni.</string>
+  <string name="version_32_upgrade_info">È stato configurato un URL FTP come destinazione.
+      <i>&app_name;</i> non gestisce i trasferimenti FTP da solo.</string>
 </resources>

@@ -16,6 +16,8 @@
 package org.totschnig.myexpenses;
 
 import java.text.SimpleDateFormat;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,18 +31,22 @@ import java.util.Properties;
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.ButtonBar.MenuButton;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -79,7 +85,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public static final boolean TYPE_TRANSFER = false;
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
-  static final int HELP_DIALOG_ID = 0;
   static final int CHANGES_DIALOG_ID = 1;
   static final int VERSION_DIALOG_ID = 2;
   static final int RESET_DIALOG_ID = 3;
@@ -268,6 +273,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         case R.id.amount:
           text = Utils.convAmount(text,mCurrentAccount.currency);
           break;
+        case R.id.category:
+          text = text.replace(":"," : ");
         }
         super.setViewText(v, text);
       }
@@ -441,7 +448,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     LayoutInflater li;
     View view;
     switch (id) {
-    case HELP_DIALOG_ID:
+    case R.id.HELP_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.aboutview, null);
       TextView tv;
@@ -468,7 +475,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .setView(view)
         .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
-            dismissDialog(HELP_DIALOG_ID);
+            dismissDialog(R.id.HELP_DIALOG_ID);
           }
         }).create();
       
@@ -514,7 +521,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .setView(view)
         .setNeutralButton(R.string.button_continue, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
-            showDialog(HELP_DIALOG_ID);
+            showDialog(R.id.HELP_DIALOG_ID);
           }
         })
         .create();
@@ -587,6 +594,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           }
         })
         .create();
+    case R.id.FTP_DIALOG_ID:
+      return Utils.sendWithFTPDialog((Activity) this);
     }
     return null;
   }
@@ -675,7 +684,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       return false;
     }
     FileOutputStream out = new FileOutputStream(outputFile);
-    String header = "!Type:Oth L\n";
+    String header = "!Type:" + mCurrentAccount.type.getQifName() + "\n";
     out.write(header.getBytes());
     mExpensesCursor.moveToFirst();
     while( mExpensesCursor.getPosition() < mExpensesCursor.getCount() ) {
@@ -718,10 +727,64 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     mExpensesCursor.moveToFirst();
     Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
     if (mSettings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
-      Utils.share(MyExpenses.this,outputFile, mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
+      share(outputFile, mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
     }
     return true;
   }
+  
+  private void share(File file,String target) {
+    URI uri = null;
+    Intent intent;
+    String scheme = "mailto";
+    if (!target.equals("")) {
+      uri = Utils.validateUri(target);
+      if (uri == null) {
+        Toast.makeText(getBaseContext(),getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
+        return;
+      }
+      scheme = uri.getScheme();
+    }
+    //if we get a String that does not include a scheme, we interpret it as a mail address
+    if (scheme == null) {
+      scheme = "mailto";
+    }
+    final PackageManager packageManager = getPackageManager();
+    if (scheme.equals("ftp")) {
+      intent = new Intent(android.content.Intent.ACTION_SENDTO);
+      intent.setData(android.net.Uri.parse(target));
+      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+      if (packageManager.queryIntentActivities(intent,0).size() == 0) {
+        Toast.makeText(getBaseContext(),R.string.no_app_handling_ftp_available, Toast.LENGTH_LONG).show();
+        return;
+      }
+      startActivity(intent);
+    } else if (scheme.equals("mailto")) {
+      intent = new Intent(android.content.Intent.ACTION_SEND);
+      intent.setType("text/qif");
+      if (uri != null) {
+        String address = uri.getSchemeSpecificPart();
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ address });
+      }
+      intent.putExtra(Intent.EXTRA_SUBJECT,R.string.export_expenses);
+      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+      if (packageManager.queryIntentActivities(intent,0).size() == 0) {
+        Toast.makeText(getBaseContext(),R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
+        return;
+      }
+      //if we got mail address, we launch the default application
+      //if we are called without target, we launch the chooser in order to make action more explicit
+      if (uri != null) {
+        startActivity(intent);
+      } else {
+        startActivity(Intent.createChooser(
+            intent,getString(R.string.share_sending)));
+      }
+    } else {
+      Toast.makeText(getBaseContext(),getString(R.string.share_scheme_not_supported,scheme), Toast.LENGTH_LONG).show();
+      return;
+    }
+  }
+
   
   /**
    * triggers export of transactions and resets the account
@@ -837,11 +900,22 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           edit.putBoolean(MyApplication.PREFKEY_PERFORM_SHARE,true).commit();
         }
       }
+      if (prev_version < 32) {
+        String target = mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"");
+        if (target.startsWith("ftp")) {
+          final PackageManager packageManager = getPackageManager();
+          Intent intent = new Intent(android.content.Intent.ACTION_SENDTO);
+          intent.setData(android.net.Uri.parse(target));
+          if (packageManager.queryIntentActivities(intent,0).size() == 0) {
+            showDialog(R.id.FTP_DIALOG_ID);
+            return;
+          }
+        }
+      }
     }
-    showDialog(HELP_DIALOG_ID);
+    showDialog(R.id.HELP_DIALOG_ID);
     return;
   }
- 
   /**
    * this utility function was used to check currency upon upgrade to version 14
    * loop through defined accounts and check if currency is a valid ISO 4217 code
@@ -997,7 +1071,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       showDialog(CHANGES_DIALOG_ID);
       break;
     case R.id.HELP_COMMAND:
-      showDialog(HELP_DIALOG_ID);
+      showDialog(R.id.HELP_DIALOG_ID);
       break;
     default:
       return false;
@@ -1047,7 +1121,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    * @param v
    */
   public void handleHelp(View v) {
-    dismissDialog(HELP_DIALOG_ID);
+    dismissDialog(R.id.HELP_DIALOG_ID);
     dispatchCommand(v.getId(),null);
   }
 }

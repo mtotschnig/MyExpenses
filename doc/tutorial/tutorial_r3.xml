@@ -26,6 +26,11 @@
     <surname>Collombet</surname>
     <contrib>Traduzione italiana</contrib>
   </othercredit>
+  <othercredit lang="it">
+    <firstname>Gudrun</firstname>
+    <surname>Totschnig</surname>
+    <contrib>Traduzione italiana</contrib>
+  </othercredit>
   <othercredit lang="es">
     <firstname>Gudrun</firstname>
     <surname>Totschnig</surname>
@@ -121,9 +126,9 @@
     <para lang="it">
       Nella schermata principale mostra un elenco di operazioni in conto corrente. La barra
       nella parte inferiore dello schermo fornisce accesso a tutte le funzioni. Ogni pulsante
-      esegue un'azione predefinita in risposta a un clic breve. La maggior parte visualizzare
-      un menu con altre azioni in un clic lungo. In caso contrario, è possibile configurare in
-      modo role <application role="app_name"/> utilizza il menù standard di Android come
+      esegue un'azione predefinita in risposta a un clic breve. La maggior parte visualizza
+      un menu con altre azioni in un clic lungo. In caso contrario, è possibile configurare que
+      <application role="app_name"/> utilizza il menù standard di Android come
       interfaccia di controllo(<link linkend='tutorial5_6'><guilabel
       	role="pref_use_standard_menu_title"/></link>).
     </para>
@@ -266,9 +271,44 @@
       va insertada con su abreviación de tres cifras ISO 4217, pero puede ser elegida
       simplemente de la lista, a la cual se llega con un clic sobre <guibutton role="select"/>.
     </para>    
-    <!-- END tutorial1 para 2 --> 
-
+    <!-- END tutorial1 para 2 -->
+    
     <!-- BEGIN tutorial1 para 3 --> 
+    <para lang="en">
+      You can define the type of an account as one of Cash, Bank, Asset, Liabilities. Account types
+      are associated with payment methods, as explained in <link linkend='tutorial5_9'><guilabel
+        role="pref_manage_methods_title"/></link>. Here we will define the account as bank account, 
+      in order to demonstrate the use of payment methods. 
+    </para>
+    <para lang="fr">
+      Vous pouvez associer le compte aux types suivants: compte de caisse, compte bancaire,  compte
+      d'actif ou compte de passif. Les méthodes de paiement sont définies par type de compte, tel 
+      qu'indiqué dans <link linkend='tutorial5_9'><guilabel role="pref_manage_methods_title"/></link>.
+      Ici nous choisissons compte bancaire, afin de pouvoir montrer l'utilisation des méthodes de paiement.
+    </para>
+    <para lang="de">
+      Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto, 
+      Kreditkonto. Für Kontotypen sind Zahlungsweisen definiert, wie in <link
+        linkend='tutorial5_9'><guilabel role="pref_manage_methods_title"/></link> beschrieben. Hier
+      wählen wir den Typ als Bankkonto, um zu zeigen, wie Zahlungsweisen verwendet werden.
+    </para>
+    <para lang="it">
+      Puo assegnare qualsiasi conto a uno dei seguenti tipi: Conto di denaro contante, conto
+      bancario, conto d’investimento, conto d’accredito. Per i tipi di conti sono definiti modi di
+      pagamento, com’è definito in <link linkend='tutorial5_9'><guilabel
+        role="pref_manage_methods_title"/></link>. Qui scegliamo come tipo il conto bancario, per
+      dimostrare come si usano i modi di pagamento.
+    </para>
+    <para lang="es">
+      Usted puede asignar a una cuenta uno de los siguientes tipos: cuenta de caja, cuenta bancaria,
+      cuenta de inversiones, cuenta de crédito. Para los tipos de cuenta están definidos métodos de
+      pago como se definen en <link linkend='tutorial5_9'><guilabel
+        role="pref_manage_methods_title"/></link>. Aquí elegimos el tipo de cuenta bancaria para
+      mostrar cómo se utilizan los métodos de pago.
+    </para>
+    <!-- END tutorial1 para 3 -->
+    
+    <!-- BEGIN tutorial1 para 4 --> 
     <para lang="en">
       When you confirm that you are done, you get back to the transaction list. If you
       have created a new account, it is automatically set to be the current account.
@@ -303,9 +343,9 @@
       simple se vuelve a la cuenta recientemente activa, un clic largo abre un menú con todas
       las cuentas a elegir.
     </para>    
-    <!-- END tutorial1 para 3 --> 
+    <!-- END tutorial1 para 4 --> 
     
-    <!-- BEGIN tutorial1 para 4 --> 
+    <!-- BEGIN tutorial1 para 5 --> 
     <para lang="en">
       For managing the complete account list, please refer to <link linkend='tutorial5_1'
       	><guilabel role="pref_manage_accounts_title"/></link>.
@@ -319,14 +359,14 @@
       	role="pref_manage_accounts_title"/></link> erklärt.
     </para>
     <para lang="it">
-      La gestione degli conti è spiegata in <link linkend='tutorial5_1'><guilabel
+      La gestione dei conti è spiegata in <link linkend='tutorial5_1'><guilabel
       	role="pref_manage_accounts_title"/></link>.
     </para>
     <para lang="es">
       La administración de las cuentas se explica en <link linkend='tutorial5_1'><guilabel
       	role="pref_manage_accounts_title"/></link>
     </para>    
-    <!-- END tutorial1 para 4 --> 
+    <!-- END tutorial1 para 5 --> 
   </sect1>
    
    <!-- Tutorial2 -->
@@ -391,8 +431,8 @@
             role="pref_manage_parties_title"/></link>.
         </para>
       </footnote>. Clicking on the
-      <guibutton role="select"/> button, brings up the <guilabel role="select_category"/>
-      activity. We will explain below, how to manage categories.
+      <guibutton role="select"/> button next to <guilabel role="category" />, brings up the <guilabel 
+        role="select_category"/> activity. We will explain below, how to manage categories.
     </para>
     
     <para lang="fr">
@@ -412,7 +452,8 @@
           de cette liste, consultez <link linkend='tutorial5_7'><guilabel
             role="pref_manage_parties_title"/></link>.
         </para>
-      </footnote>. Cliquez sur le bouton <guibutton role="select"/> vous ouvre la fenêtre
+      </footnote>. Cliquer sur le bouton <guibutton role="select"/> 
+      à côté de <guilabel role="category" />,vous ouvre la fenêtre
       <guilabel role="select_category"/>. Nous vous expliquerons plus tard
       comment gérer les catégories.
     </para>
@@ -483,15 +524,50 @@
       Este punto se explica mas adelante.
     </para>    
     <!-- END tutorial2 para 2 -->
-    
     <?float-clear?> 
-
     <figure floatstyle="left" id="step4" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
             <imagedata fileref="step4.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    
+    <!-- BEGIN tutorial2 para 3 --> 
+    <para lang="en">
+      If the current account is of a type, that is associated with payment methods, you can set the transaction's method
+      through the <guibutton role="select"/> button next to <guilabel role="method" />.
+    </para>
+    <para lang="fr">
+      Si le type du compte en cours est asscocié avec des méthodes de paiement, vous pouvez en choisir 
+      une pour l'opération avec le bouton <guibutton role="select"/> à côté de <guilabel
+        role="method" />, 
+    </para>
+    <para lang="de">
+      Falls dem Typ des aktuellen Kontos Zahlungsweisen zugeordnet sind, können Sie durch den
+      Schaltknopf <guibutton role="select"/> neben <guilabel  role="method" /> die Zahlungsweise der
+      Buchung definieren. 
+    </para>
+    <para lang="it" revisionflag="added">
+      missing
+    </para>
+    <para lang="es">
+      Si el tipo de la cuenta corriente está asociado con métodos de pago, usted puede definir el
+      método de pago del asiento a través de un clic sobre el botón <guibutton role="select"/> al 
+      lado de <guilabel  role="method" />.
+    </para>
+    <!-- END tutorial2 para 3-->
+    <?float-clear?> 
+
+    <figure floatstyle="left" id="step5" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step5.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -589,12 +665,12 @@
       <phrase lang="es">Categorías</phrase>
     </title>
     
-    <figure floatstyle="left" id="step5" >
+    <figure floatstyle="left" id="step6" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step5.png"/>
+            <imagedata fileref="step6.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -662,12 +738,12 @@
     
     <?float-clear?> 
     
-    <figure floatstyle="left" id="step7" >
+    <figure floatstyle="left" id="step8" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step7.png"/>
+            <imagedata fileref="step8.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -719,12 +795,12 @@
     
     <?float-clear?> 
     
-    <figure floatstyle="left" id="step8" >
+    <figure floatstyle="left" id="step9" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step8.png"/>
+            <imagedata fileref="step9.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -757,12 +833,12 @@
     
     <?float-clear?> 
     
-    <figure floatstyle="left" id="step9" >
+    <figure floatstyle="left" id="step10" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step9.png"/>
+            <imagedata fileref="step10.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -835,12 +911,12 @@
       <phrase lang="es">Exportar asientos</phrase>
     </title>
     
-    <figure floatstyle="left" id="step10" >
+    <figure floatstyle="left" id="step11" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step10.png"/>
+            <imagedata fileref="step11.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -948,12 +1024,12 @@
       <phrase lang="es">Configuraciones</phrase>
     </title>
     
-    <figure floatstyle="left" id="step11" >
+    <figure floatstyle="left" id="step12" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step11.png"/>
+            <imagedata fileref="step12.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1092,7 +1168,10 @@
         <listitem>
           <para>
             An URL to a directory on an FTP server, you have write access to (e.g.
-            "ftp://login:password@my.example.org:port/my/directory/").
+            "ftp://login:password@my.example.org:port/my/directory/"). If available on your device, 
+            <application role="app_name"/> will launch an external app responding to a SENDTO intent
+            with this URL as data. Only know app handling such an intent is
+              <ulink url="market://details?id=org.totschnig.sendwithftp"><application>Send With FTP</application></ulink>
           </para>
         </listitem>
         <listitem>
@@ -1283,12 +1362,12 @@
         <guilabel role="pref_import_from_grisbi_title"/>
       </title>
 
-    <figure floatstyle="left" id="step6" >
+    <figure floatstyle="left" id="step7" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step6.png"/>
+            <imagedata fileref="step7.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1473,24 +1552,7 @@
     
     <sect2 id="tutorial5_8">
       <title>
-        <guilabel role="pref_currency_decimal_separator_title"/><footnote id="ftn58-1">
-        <!-- revision 2 de ce document est utilisé pour des versions anterieurs a 1.4.10 -->
-            <para lang="en">
-          Since version 1.4.10.
-        </para>
-        <para lang="fr">
-          À partir de la version 1.4.10.
-        </para>
-        <para lang="de">
-          Seit Version 1.4.10.
-        </para>
-        <para lang="it">
-          Dalla versione 1.4.10.
-        </para>
-        <para lang="es">
-         Desde la versión 1.4.10.
-        </para>
-        </footnote>
+        <guilabel role="pref_currency_decimal_separator_title"/>
       </title>
     <!-- BEGIN tutorial5_8 para 1 -->
     <para lang="en">
@@ -1561,7 +1623,59 @@
       enteros.
     </para>
       <!-- END tutorial5_8 para 1 --> 
-      </sect2>
+    </sect2>
+    
+    <sect2 id="tutorial5_9">
+    <title>
+        <guilabel role="pref_manage_methods_title"/>
+    </title>
+    <figure floatstyle="left" id="step13" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step13.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <!-- BEGIN tutorial5_9 para 1 -->
+    <para lang="en">
+      This screen lists the predefined payment methods (Cheque,Credit card, Deposit, Direct debit) and
+      lets you define new ones. Simply click on an entry (or select <guibutton role="menu_new"/>), 
+      and you will enter a form, where you can define a label (unless for the predefined ones),
+      and a type (is this method used for debit, income or both),
+      and select the account types for which this method is applicable.
+    </para>
+    <para lang="fr">
+      Cet écran affiche la liste des méthodes de paiement prédéfinies (Chèque, Carte de crédit,
+      Dépôt, Prélèvement) et vous permet d'en définir de nouvelles. En cliquant sur une entrée
+      (ou en sélectionnant <guibutton role="menu_new"/>), vous ouvrez un formulaire pour définir un
+      libellé (sauf pour les types prédéfinis) et le type (s'il s'agit d'une méthode de débit, de crédit
+      ou neutre), et pour sélectionner les types de compte pour lesquels celle-ci est applicable.
+    </para>
+    <para lang="de">
+      Auf diesem Bildschirm wird die Liste der vordefinierten Zahlungsweisen angezeigt (Scheck, Kreditkarte,
+      Einzahlung, Abbuchung) und Sie können hier auch neue Zahlungsweisen definieren. Wenn Sie auf
+      einen Eintrag in der Liste klicken (oder <guibutton role="menu_new"/> auswählen), gelangen Sie
+      zu einem Formular, in dem Sie eine Bezeichnung (außer für die vordefinierten) und den Typ (handelt
+      es sich um eine Zahlungsweise für Einnahmen, Ausgaben oder neutral) festlegen, und die Kontotypen
+      auswählen, für die die Zahlungsweise anwendbar ist.
+    </para>
+    <para lang="it" revisionflag="added">
+      missing
+    </para>
+    <para lang="es">
+      Esta pantalla muestra la lista de los predefinidos métodos de pago (cheque, tarjeta de
+      crédito, depósito, impuesto) y usted puede además definir nuevos métodos de pago. Al hacer
+      clic en un elemento de la lista (o seleccionando <guibutton role="menu_new"/>) se llega a un
+      formulario donde usted determina un nombre (excepto para los predefinidos) y el tipo (si se
+      trata de un método de pago para ingresos, gastos o si es neutral) y elige los tipos de cuenta
+      para los cuales el método de pago es aplicable.
+    </para>
+    <!-- END tutorial5_9 para 1 -->
+    </sect2>
+    
   </sect1>
   <sect1 id="faq">
     <title>

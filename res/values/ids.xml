@@ -14,7 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <item type="id" name="INSERT_TA_COMMAND"/>
     <item type="id" name="INSERT_TRANSFER_COMMAND"/>
     <item type="id" name="SWITCH_ACCOUNT_COMMAND"/>
@@ -29,5 +29,7 @@
     <item type="id" name="FAQ_COMMAND"/>
     <item type="id" name="DELETE_COMMAND"/>
     <item type="id" name="SHOW_DETAIL_COMMAND"/>
-    <item type="id" name="MOVE_TRANSACTION_COMMAND"/>  
+    <item type="id" name="MOVE_TRANSACTION_COMMAND"/>
+    <item type="id" name="FTP_DIALOG_ID" />
+    <item type="id" name="HELP_DIALOG_ID" />
 </resources>
