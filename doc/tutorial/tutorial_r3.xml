@@ -283,8 +283,8 @@
     <para lang="fr">
       Vous pouvez associer le compte aux types suivants: compte de caisse, compte bancaire,  compte
       d'actif ou compte de passif. Les méthodes de paiement sont définies par type de compte, tel 
-      qu'éxpliqué dans <link linkend='tutorial5_9'><guilabel role="pref_manage_methods_title"/></link>.
-      Ici nous choissisons compte bancaire, afin de pouvoir montrer l'usage des méthodes de paiment.
+      qu'indiqué dans <link linkend='tutorial5_9'><guilabel role="pref_manage_methods_title"/></link>.
+      Ici nous choisissons compte bancaire, afin de pouvoir montrer l'utilisation des méthodes de paiement.
     </para>
     <para lang="de">
       Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto, 
@@ -542,8 +542,8 @@
       through the <guibutton role="select"/> button next to <guilabel role="method" />.
     </para>
     <para lang="fr">
-      Si le type du compte en cours est asscocié avec des méthodes de paiment, vous pouvez choisir 
-      une méthode pour l'opération avec le bouton <guibutton role="select"/> à côté de <guilabel
+      Si le type du compte en cours est asscocié avec des méthodes de paiement, vous pouvez en choisir 
+      une pour l'opération avec le bouton <guibutton role="select"/> à côté de <guilabel
         role="method" />, 
     </para>
     <para lang="de">
@@ -1648,11 +1648,11 @@
       and select the account types for which this method is applicable.
     </para>
     <para lang="fr">
-      Cet écran affiche la liste des méthodes de paiment prédéfinies (Chèque, Carte de crédit,
-      Dépôt, Prélèvement) et vous permet de définir de nouvelles méthodes. En cliquant sur une entrée
+      Cet écran affiche la liste des méthodes de paiement prédéfinies (Chèque, Carte de crédit,
+      Dépôt, Prélèvement) et vous permet d'en définir de nouvelles. En cliquant sur une entrée
       (ou en sélectionnant <guibutton role="menu_new"/>), vous ouvrez un formulaire pour définir un
-      libellé (sauf pour les types prédéfinis) et le type (s'agit-il d'une mếthode de débit, de crédit
-      ou neutre), et pour sélectionner les types de compte pour lesquels cette méthode est applicable.
+      libellé (sauf pour les types prédéfinis) et le type (s'il s'agit d'une méthode de débit, de crédit
+      ou neutre), et pour sélectionner les types de compte pour lesquels celle-ci est applicable.
     </para>
     <para lang="de">
       Auf diesem Bildschirm wird die Liste der vordefinierten Zahlungsweisen angezeigt (Scheck, Kreditkarte,
