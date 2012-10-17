@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<Grisbi>
+  <Generalites>
+    <Version_fichier>0.5.0</Version_fichier>
+  </Generalites>
+  <Tiers>
+    <Generalites>
+      <Nb_tiers>1</Nb_tiers>
+      <No_dernier_tiers>1</No_dernier_tiers>
+    </Generalites>
+    <Detail_des_tiers>
+      <Tiers No="1" Nom="Peter Schnock" Informations="" Liaison="0"/>
+    </Detail_des_tiers>
+  </Tiers>
+  <Categories>
+    <Generalites>
+      <Nb_categories>22</Nb_categories>
+      <No_derniere_categorie>22</No_derniere_categorie>
+    </Generalites>
+    <Detail_des_categories>
+      <Categorie No="1" Nom="Sonstige Einnahmen" Type="0" No_derniere_sous_cagegorie="9">
+        <Sous-categorie No="1" Nom="Unselbstst&#xE4;ndige Arbeit"/>
+        <Sous-categorie No="2" Nom="Familienbeihilfe"/>
+        <Sous-categorie No="3" Nom="Lohnsteuerr&#xFC;ckerstattung"/>
+        <Sous-categorie No="4" Nom="Gl&#xFC;cksspiel"/>
+        <Sous-categorie No="5" Nom="Versicherung auf Gegenseitigkeit"/>
+        <Sous-categorie No="6" Nom="Sozialhilfe"/>
+        <Sous-categorie No="7" Nom="Geschenke"/>
+        <Sous-categorie No="8" Nom="R&#xFC;ckerstattungen"/>
+        <Sous-categorie No="9" Nom="Secondhand Verk&#xE4;ufe"/>
+      </Categorie>
+      <Categorie No="2" Nom="Pension" Type="0" No_derniere_sous_cagegorie="3">
+        <Sous-categorie No="1" Nom="Pensionskasse"/>
+        <Sous-categorie No="2" Nom="Rente"/>
+        <Sous-categorie No="3" Nom="Versehrtenrente"/>
+      </Categorie>
+      <Categorie No="3" Nom="Investment" Type="0" No_derniere_sous_cagegorie="3">
+        <Sous-categorie No="1" Nom="Dividenden"/>
+        <Sous-categorie No="2" Nom="Wertpapiere"/>
+        <Sous-categorie No="3" Nom="Kapitalertrag"/>
+      </Categorie>
+      <Categorie No="4" Nom="Gehalt" Type="0" No_derniere_sous_cagegorie="5">
+        <Sous-categorie No="1" Nom="&#xDC;berstunden"/>
+        <Sous-categorie No="2" Nom="Aufwandsentsch&#xE4;digung"/>
+        <Sous-categorie No="3" Nom="Pr&#xE4;mien"/>
+        <Sous-categorie No="4" Nom="Erfolgspr&#xE4;mie"/>
+        <Sous-categorie No="5" Nom="Nettogehalt"/>
+      </Categorie>
+      <Categorie No="5" Nom="Lebensmittel" Type="1" No_derniere_sous_cagegorie="9">
+        <Sous-categorie No="1" Nom="Bar"/>
+        <Sous-categorie No="2" Nom="B&#xE4;cker"/>
+        <Sous-categorie No="3" Nom="Kantine"/>
+        <Sous-categorie No="4" Nom="S&#xFC;&#xDF;igkeiten"/>
+        <Sous-categorie No="5" Nom="Allgemeines"/>
+        <Sous-categorie No="6" Nom="Lebensmittelh&#xE4;ndler"/>
+        <Sous-categorie No="7" Nom="Restaurant"/>
+        <Sous-categorie No="8" Nom="Selbstbedienung"/>
+        <Sous-categorie No="9" Nom="Supermarkt"/>
+      </Categorie>
+      <Categorie No="6" Nom="Haustiere" Type="1" No_derniere_sous_cagegorie="4">
+        <Sous-categorie No="1" Nom="Futter"/>
+        <Sous-categorie No="2" Nom="Allgemeines"/>
+        <Sous-categorie No="3" Nom="Pflege"/>
+        <Sous-categorie No="4" Nom="Tierarzt"/>
+      </Categorie>
+      <Categorie No="7" Nom="Versicherung" Type="1" No_derniere_sous_cagegorie="5">
+        <Sous-categorie No="1" Nom="Auto"/>
+        <Sous-categorie No="2" Nom="Gesundheit"/>
+        <Sous-categorie No="3" Nom="Haus"/>
+        <Sous-categorie No="4" Nom="Haftpflicht"/>
+        <Sous-categorie No="5" Nom="Lebensversicherung"/>
+      </Categorie>
+      <Categorie No="8" Nom="Auto" Type="1" No_derniere_sous_cagegorie="5">
+        <Sous-categorie No="1" Nom="Kraftstoff"/>
+        <Sous-categorie No="2" Nom="Reparaturen"/>
+        <Sous-categorie No="3" Nom="Service"/>
+        <Sous-categorie No="4" Nom="Parken"/>
+        <Sous-categorie No="5" Nom="Strafen"/>
+      </Categorie>
+      <Categorie No="9" Nom="Verschiedenes" Type="1" No_derniere_sous_cagegorie="1">
+        <Sous-categorie No="1" Nom="Geschenke"/>
+      </Categorie>
+      <Categorie No="10" Nom="Geschenke" Type="1" No_derniere_sous_cagegorie="0"/>
+      <Categorie No="11" Nom="Kinder" Type="1" No_derniere_sous_cagegorie="3">
+        <Sous-categorie No="1" Nom="Kinderm&#xE4;dchen"/>
+        <Sous-categorie No="2" Nom="Verschiedenes"/>
+        <Sous-categorie No="3" Nom="Studium"/>
+      </Categorie>
+      <Categorie No="12" Nom="Studium" Type="1" No_derniere_sous_cagegorie="3">
+        <Sous-categorie No="1" Nom="Lektionen"/>
+        <Sous-categorie No="2" Nom="Studiengeb&#xFC;hren"/>
+        <Sous-categorie No="3" Nom="B&#xFC;cher"/>
+      </Categorie>
+      <Categorie No="13" Nom="Finanzausgaben" Type="1" No_derniere_sous_cagegorie="5">
+        <Sous-categorie No="1" Nom="Verschiedenes"/>
+        <Sous-categorie No="2" Nom="Bankgeb&#xFC;hren"/>
+        <Sous-categorie No="3" Nom="Darlehen"/>
+        <Sous-categorie No="4" Nom="Abgaben"/>
+        <Sous-categorie No="5" Nom="R&#xFC;ckerstattung"/>
+      </Categorie>
+      <Categorie No="14" Nom="Firmenausgaben" Type="1" No_derniere_sous_cagegorie="2">
+        <Sous-categorie No="1" Nom="Keine R&#xFC;ckerstattung"/>
+        <Sous-categorie No="2" Nom="R&#xFC;ckerstattung"/>
+      </Categorie>
+      <Categorie No="15" Nom="Steuern" Type="1" No_derniere_sous_cagegorie="3">
+        <Sous-categorie No="1" Nom="Verschiedenes"/>
+        <Sous-categorie No="2" Nom="Einnahmen"/>
+        <Sous-categorie No="3" Nom="Grund"/>
+      </Categorie>
+      <Categorie No="16" Nom="Wohnen" Type="1" No_derniere_sous_cagegorie="16">
+        <Sous-categorie No="1" Nom="Hotel"/>
+        <Sous-categorie No="2" Nom="Miete"/>
+        <Sous-categorie No="3" Nom="Fernsehen"/>
+        <Sous-categorie No="4" Nom="M&#xF6;bel"/>
+        <Sous-categorie No="5" Nom="Abgaben"/>
+        <Sous-categorie No="6" Nom="Heizung"/>
+        <Sous-categorie No="7" Nom="Dekoration"/>
+        <Sous-categorie No="8" Nom="Wasser"/>
+        <Sous-categorie No="9" Nom="Strom"/>
+        <Sous-categorie No="10" Nom="Elektroger&#xE4;te"/>
+        <Sous-categorie No="11" Nom="Zubeh&#xF6;r"/>
+        <Sous-categorie No="12" Nom="Gas"/>
+        <Sous-categorie No="13" Nom="Garten"/>
+        <Sous-categorie No="14" Nom="Haushaltshilfe"/>
+        <Sous-categorie No="15" Nom="Telefon"/>
+        <Sous-categorie No="16" Nom="Mobiltelefon"/>
+      </Categorie>
+      <Categorie No="17" Nom="Freizeit" Type="1" No_derniere_sous_cagegorie="14">
+        <Sous-categorie No="1" Nom="Snooker"/>
+        <Sous-categorie No="2" Nom="Bowling"/>
+        <Sous-categorie No="3" Nom="Filme"/>
+        <Sous-categorie No="4" Nom="Clubs"/>
+        <Sous-categorie No="5" Nom="IT"/>
+        <Sous-categorie No="6" Nom="Spiele"/>
+        <Sous-categorie No="7" Nom="B&#xFC;cher"/>
+        <Sous-categorie No="8" Nom="Natur"/>
+        <Sous-categorie No="9" Nom="Konzerte"/>
+        <Sous-categorie No="10" Nom="Sport"/>
+        <Sous-categorie No="11" Nom="Video"/>
+        <Sous-categorie No="12" Nom="Reisen"/>
+        <Sous-categorie No="13" Nom="Zubeh&#xF6;r"/>
+        <Sous-categorie No="14" Nom="Museum"/>
+      </Categorie>
+      <Categorie No="18" Nom="Anleihe" Type="1" No_derniere_sous_cagegorie="1">
+        <Sous-categorie No="1" Nom="Zinsen"/>
+      </Categorie>
+      <Categorie No="19" Nom="Gesundheit" Type="1" No_derniere_sous_cagegorie="9">
+        <Sous-categorie No="1" Nom="Versicherung"/>
+        <Sous-categorie No="2" Nom="Zahnarzt"/>
+        <Sous-categorie No="3" Nom="Krankenhaus"/>
+        <Sous-categorie No="4" Nom="Allgemeinmedizin"/>
+        <Sous-categorie No="5" Nom="Doktor"/>
+        <Sous-categorie No="6" Nom="Orthop&#xE4;de"/>
+        <Sous-categorie No="7" Nom="Osteopath"/>
+        <Sous-categorie No="8" Nom="Apotheker"/>
+        <Sous-categorie No="9" Nom="Sozialversicherung"/>
+      </Categorie>
+      <Categorie No="20" Nom="Lifestyle" Type="1" No_derniere_sous_cagegorie="2">
+        <Sous-categorie No="1" Nom="Fris&#xF6;r"/>
+        <Sous-categorie No="2" Nom="Bekleidung"/>
+      </Categorie>
+      <Categorie No="21" Nom="Reise" Type="1" No_derniere_sous_cagegorie="6">
+        <Sous-categorie No="1" Nom="Bus"/>
+        <Sous-categorie No="2" Nom="Metro"/>
+        <Sous-categorie No="3" Nom="Maut"/>
+        <Sous-categorie No="4" Nom="Zug"/>
+        <Sous-categorie No="5" Nom="Stra&#xDF;enbahn"/>
+        <Sous-categorie No="6" Nom="Reiseb&#xFC;ro"/>
+      </Categorie>
+      <Categorie No="22" Nom="Urlaub" Type="1" No_derniere_sous_cagegorie="3">
+        <Sous-categorie No="1" Nom="Hotel"/>
+        <Sous-categorie No="2" Nom="Sehensw&#xFC;rdigkeiten"/>
+        <Sous-categorie No="3" Nom="Reisen"/>
+      </Categorie>
+    </Detail_des_categories>
+  </Categories>
+</Grisbi>
