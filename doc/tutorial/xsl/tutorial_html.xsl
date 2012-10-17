@@ -126,22 +126,7 @@
 
 <xsl:template name="inline.charseq">
   <xsl:param name="content">
-  <xsl:variable name="id" select="@role"/>
-  <xsl:choose>
-  <xsl:when test="normalize-space(.)">
-    <xsl:call-template name="anchor"/>
-    <xsl:call-template name="simple.xlink">
-      <xsl:with-param name="content">
-        <xsl:apply-templates/>
-      </xsl:with-param>
-    </xsl:call-template>
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:call-template name="getString">
-      <xsl:with-param name="id" select="$id"/>
-      </xsl:call-template>
-    </xsl:otherwise>
-  </xsl:choose>
+    <xsl:call-template name="inline.content"/>
   </xsl:param>
   <!-- * if you want output from the inline.charseq template wrapped in -->
   <!-- * something other than a Span, call the template with some value -->
@@ -156,6 +141,125 @@
     <xsl:copy-of select="$content"/>
     <xsl:call-template name="apply-annotations"/>
   </xsl:element>
+</xsl:template>
+
+<xsl:template name="inline.monoseq">
+  <xsl:param name="content">
+    <xsl:call-template name="inline.content"/>
+  </xsl:param>
+  <code>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
+    <xsl:copy-of select="$content"/>
+    <xsl:call-template name="apply-annotations"/>
+  </code>
+</xsl:template>
+
+<xsl:template name="inline.boldseq">
+  <xsl:param name="content">
+    <xsl:call-template name="inline.content"/>
+  </xsl:param>
+
+  <span>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
+
+    <!-- don't put <strong> inside figure, example, or table titles -->
+    <xsl:choose>
+      <xsl:when test="local-name(..) = 'title'
+                      and (local-name(../..) = 'figure'
+                      or local-name(../..) = 'example'
+                      or local-name(../..) = 'table')">
+        <xsl:copy-of select="$content"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <strong>
+          <xsl:copy-of select="$content"/>
+        </strong>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:call-template name="apply-annotations"/>
+  </span>
+</xsl:template>
+
+<xsl:template name="inline.italicseq">
+  <xsl:param name="content">
+    <xsl:call-template name="inline.content"/>
+  </xsl:param>
+  <em>
+    <xsl:call-template name="common.html.attributes"/>
+    <xsl:copy-of select="$content"/>
+    <xsl:call-template name="apply-annotations"/>
+  </em>
+</xsl:template>
+
+<xsl:template name="inline.boldmonoseq">
+  <xsl:param name="content">
+    <xsl:call-template name="inline.content"/>
+  </xsl:param>
+  <!-- don't put <strong> inside figure, example, or table titles -->
+  <!-- or other titles that may already be represented with <strong>'s. -->
+  <xsl:choose>
+    <xsl:when test="local-name(..) = 'title'
+                    and (local-name(../..) = 'figure'
+                         or local-name(../..) = 'example'
+                         or local-name(../..) = 'table'
+                         or local-name(../..) = 'formalpara')">
+      <code>
+        <xsl:call-template name="common.html.attributes"/>
+        <xsl:copy-of select="$content"/>
+        <xsl:call-template name="apply-annotations"/>
+      </code>
+    </xsl:when>
+    <xsl:otherwise>
+      <strong>
+        <xsl:call-template name="common.html.attributes"/>
+        <code>
+          <xsl:call-template name="generate.html.title"/>
+          <xsl:call-template name="dir"/>
+          <xsl:copy-of select="$content"/>
+        </code>
+        <xsl:call-template name="apply-annotations"/>
+      </strong>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+<xsl:template name="inline.italicmonoseq">
+  <xsl:param name="content">
+    <xsl:call-template name="inline.content"/>
+  </xsl:param>
+  <em>
+    <xsl:call-template name="common.html.attributes"/>
+    <code>
+      <xsl:call-template name="generate.html.title"/>
+      <xsl:call-template name="dir"/>
+      <xsl:copy-of select="$content"/>
+      <xsl:call-template name="apply-annotations"/>
+    </code>
+  </em>
+</xsl:template>
+
+<xsl:template name="inline.superscriptseq">
+  <xsl:param name="content">
+    <xsl:call-template name="inline.content"/>
+  </xsl:param>
+  <sup>
+    <xsl:call-template name="generate.html.title"/>
+    <xsl:call-template name="dir"/>
+    <xsl:copy-of select="$content"/>
+    <xsl:call-template name="apply-annotations"/>
+  </sup>
+</xsl:template>
+
+<xsl:template name="inline.subscriptseq">
+  <xsl:param name="content">
+    <xsl:call-template name="inline.content"/>
+  </xsl:param>
+  <sub>
+    <xsl:call-template name="generate.html.title"/>
+    <xsl:call-template name="dir"/>
+    <xsl:copy-of select="$content"/>
+    <xsl:call-template name="apply-annotations"/>
+  </sub>
 </xsl:template>
 
 <!-- do not float figures and suppress caption-->

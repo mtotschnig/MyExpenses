@@ -1,6 +1,25 @@
 <?xml version='1.0'?> 
 <xsl:stylesheet  
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"> 
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:template name="inline.content">
+  <xsl:variable name="id" select="@role"/>
+  <xsl:choose>
+  <xsl:when test="normalize-space(.)">
+    <xsl:call-template name="anchor"/>
+    <xsl:call-template name="simple.xlink">
+      <xsl:with-param name="content">
+        <xsl:apply-templates/>
+      </xsl:with-param>
+    </xsl:call-template>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:call-template name="getString">
+      <xsl:with-param name="id" select="$id"/>
+      </xsl:call-template>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
 <xsl:template name="getString">
   <xsl:param name="id"/>
   <xsl:variable name="doclang" select="/article/articleinfo/title/phrase/@lang"/>
