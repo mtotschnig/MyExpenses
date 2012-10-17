@@ -53,12 +53,6 @@ import android.widget.Toast;
 
 public class GrisbiImport extends Activity implements DialogInterface.OnClickListener {
   static final int SOURCES_DIALOG_ID = 1;
-  static final int PARSE_ERROR_FILE_NOT_FOUND = -1;
-  static final int PARSE_ERROR_PARSE_EXCEPTION = -2;
-  static final int PARSE_ERROR_OTHER_EXCEPTION = -3;
-  static final int PARSE_ERROR_GRISBI_VERSION_NOT_DETERMINED = -4;
-  static final int PARSE_ERROR_GRISBI_VERSION_NOT_SUPPORTED = -5;
-  static final int PARSE_SUCCESS = 1;
   ProgressDialog mProgressDialog;
   private AlertDialog mSourcesDialog;
   //String sourceStr;
