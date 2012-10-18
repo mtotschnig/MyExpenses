@@ -542,7 +542,7 @@
       through the <guibutton role="select"/> button next to <guilabel role="method" />.
     </para>
     <para lang="fr">
-      Si le type du compte en cours est asscocié avec des méthodes de paiement, vous pouvez en choisir 
+      Si le type du compte en cours est associé avec des méthodes de paiement, vous pouvez en choisir 
       une pour l'opération avec le bouton <guibutton role="select"/> à côté de <guilabel
         role="method" />, 
     </para>
