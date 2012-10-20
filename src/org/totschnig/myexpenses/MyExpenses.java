@@ -833,13 +833,19 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    */
   private Account requireAccount() {
     Account account;
+    Currency currency;
     Long accountId = mDbHelper.getFirstAccountId();
     if (accountId == null) {
+      try {
+        currency = Currency.getInstance(Locale.getDefault());
+      } catch (IllegalArgumentException e) {
+        currency = Currency.getInstance("EUR");
+      }
       account = new Account(
           getString(R.string.app_name),
           0,
           getString(R.string.default_account_description),
-          Currency.getInstance(Locale.getDefault())
+          currency
       );
       account.save();
     } else {
