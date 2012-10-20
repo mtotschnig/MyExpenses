@@ -41,6 +41,27 @@
     <surname>Totschnig</surname>
     <contrib>Traducción al español</contrib>
   </othercredit>
+    <releaseinfo lang="en">This release (2) of the tutorial describes versions of
+    <application role="app_name"/> below 1.5.0. Please consider <ulink url="market://details?id=org.totschnig.myexpenses">upgrading</ulink> and
+    consult the <ulink url="../../tutorial_r3/en/introduction.html">current
+    release</ulink> (3) of this document.
+  </releaseinfo>
+  <releaseinfo lang="fr">Cette édition (2) du tutoriel décrit la version de
+    <application role="app_name"/> antérieure à 1.5.0. Pensez à la  <ulink url="market://details?id=org.totschnig.myexpenses">mettre à jour</ulink> et
+    consultez <ulink url="../../tutorial_r3/fr/introduction.html">l'édition
+    actuelle</ulink> (3) de ce document.
+  </releaseinfo>
+  <releaseinfo lang="de">Diese Ausgabe (2) der Anleitung beschreibt Versionen
+  von <application role="app_name"/> vor 1.5.0. Vergessen Sie nicht, die App
+   <ulink url="market://details?id=org.totschnig.myexpenses">upzudaten</ulink> und sehen Sie sich die <ulink
+  url="../../tutorial_r2/de/introduction.html">aktuelle Ausgabe</ulink> (3)
+  dieses Dokumentes an.
+  </releaseinfo>
+  <releaseinfo lang="it">Questa edizione (2) del tutorial descrive la versione di
+    <application role="app_name"/> prima 1.5.0. Ricordarsi di 
+    <ulink url="market://details?id=org.totschnig.myexpenses">aggiornare</ulink> e consulta 
+    <ulink url="../../tutorial_r3/it/introduction.html">l'attuale edizione </ulink> (3) di questo documento.
+  </releaseinfo>
   </articleinfo>
 
   <sect1 id="introduction">
