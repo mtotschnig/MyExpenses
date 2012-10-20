@@ -551,8 +551,9 @@
       Schaltknopf <guibutton role="select"/> neben <guilabel  role="method" /> die Zahlungsweise der
       Buchung definieren. 
     </para>
-    <para lang="it" revisionflag="added">
-      missing
+    <para lang="it">
+      Se il tipo del conto corrente è associato con un modo di pagamento, può definire attraverso la
+      voce Selezionare accanto al Modo di pagamento il modo di pagamento della transazione.
     </para>
     <para lang="es">
       Si el tipo de la cuenta corriente está asociado con métodos de pago, usted puede definir el
@@ -1677,8 +1678,12 @@
       es sich um eine Zahlungsweise für Einnahmen, Ausgaben oder neutral) festlegen, und die Kontotypen
       auswählen, für die die Zahlungsweise anwendbar ist.
     </para>
-    <para lang="it" revisionflag="added">
-      missing
+    <para lang="it">
+      Su questo schermo si vede la lista dei modi di pagamento predefiniti (assegno, carta di credito,
+      pagamento, addebito) e qui puó definire nuovi modi di pagamento. Si fa clic su un modo della
+      lista (o sceglie Nuovo), arriva a un formulario, dove può definire la descrizione (salvo per i 
+      predefiniti) e il tipo (si tratta di un modo di pagamento per entrate o spese o neutrale), e 
+      scegliere i tipi di conto per i quali è applicabile il modo di pagamento.
     </para>
     <para lang="es">
       Esta pantalla muestra la lista de los predefinidos métodos de pago (cheque, tarjeta de
