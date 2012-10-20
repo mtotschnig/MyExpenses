@@ -52,8 +52,7 @@
               <action android:name="myexpenses.intent.backup"/>  
               <category android:name="android.intent.category.DEFAULT" />  
             </intent-filter>
-        </activity><activity android:name=".FtpTransfer"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        </activity>
         <activity android:name=".GrisbiImport"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
           <intent-filter>
