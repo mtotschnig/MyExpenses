@@ -115,7 +115,8 @@ public class MethodEdit extends Activity {
     TableRow tr;
     TextView tv;
     CheckBox cb;
-    for (Account.Type accountType : Account.Type.values()) {     
+    int cbId = 1;
+    for (Account.Type accountType : Account.Type.values()) {
       /* Create a new row to be added. */
      tr = new TableRow(this);
   /*    tr.setLayoutParams(new LayoutParams(
@@ -127,9 +128,12 @@ public class MethodEdit extends Activity {
       cb = new CheckBox(this);
       cb.setTag(accountType);
       cb.setChecked(mMethod.isValidForAccountType(accountType));
+      //setting Id makes state be retained on orientation change 
+      cb.setId(cbId);
       tr.addView(tv);
       tr.addView(cb);
       mTable.addView(tr);
+      cbId++;
     }
   }
   @Override
@@ -165,5 +169,16 @@ public class MethodEdit extends Activity {
     }
     mMethod.save();
     return true;
+  }
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putInt("type", mPaymentType);
+  }
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    mPaymentType = savedInstanceState.getInt("type");
+    mTypeButton.setText(mTypes[mPaymentType+1]);
   }
 }

@@ -60,6 +60,7 @@ public class ExpenseEdit extends EditActivity {
   private int mHours;
   private int mMinutes;
   private long mCatId;
+  private long mMethodId = 0;
   private String mLabel;
   private Transaction mTransaction;
   
@@ -166,7 +167,7 @@ public class ExpenseEdit extends EditActivity {
         mType = ! mType;
         //we need to empty payment method, since they are different for expenses and incomes
         if (mMethodButton != null) {
-          mTransaction.methodId = 0;
+          mMethodId = 0;
           mMethodButton.setText(R.string.select);
         }
         configureType();
@@ -285,7 +286,7 @@ public class ExpenseEdit extends EditActivity {
         .setTitle(R.string.dialog_title_select_method)
         .setSingleChoiceItems(methodLabels, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
-            mTransaction.methodId = methodIds[item];
+            mMethodId = methodIds[item];
             mMethodButton.setText(methodLabels[item]);
             removeDialog(METHOD_DIALOG_ID);
           }
@@ -350,13 +351,14 @@ public class ExpenseEdit extends EditActivity {
       if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
         setTitle(R.string.menu_edit_ta);
         mPayeeText.setText(mTransaction.payee);
+        mMethodId = mTransaction.methodId;
         try {
-          if (mTransaction.methodId != 0) {
-            mMethodButton.setText(PaymentMethod.getInstanceFromDb(mTransaction.methodId).getDisplayLabel(this));
+          if (mMethodId != 0) {
+            mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel(this));
           }
         } catch (DataObjectNotFoundException e) {
           //the methodId no longer exists in DB, we set it to 0
-          mTransaction.methodId = 0;
+          mMethodId = 0;
         }
       } else {
         setTitle(R.string.menu_edit_transfer);
@@ -503,6 +505,7 @@ public class ExpenseEdit extends EditActivity {
       }
     }
     mTransaction.catId = mCatId;
+    mTransaction.methodId = mMethodId;
     mTransaction.save();
     return true;
   }
@@ -543,30 +546,37 @@ public class ExpenseEdit extends EditActivity {
   }
   @Override
   protected void onSaveInstanceState(Bundle outState) {
-   super.onSaveInstanceState(outState);
-   outState.putBoolean("type", mType);
-   outState.putInt("year",mYear);
-   outState.putInt("month", mMonth);
-   outState.putInt("day", mDay);
-   outState.putInt("hours", mHours);
-   outState.putInt("minutes", mMinutes);
-   outState.putLong("catId", mCatId);
-   outState.putString("label", mLabel);
+    super.onSaveInstanceState(outState);
+    outState.putBoolean("type", mType);
+    outState.putInt("year",mYear);
+    outState.putInt("month", mMonth);
+    outState.putInt("day", mDay);
+    outState.putInt("hours", mHours);
+    outState.putInt("minutes", mMinutes);
+    outState.putLong("catId", mCatId);
+    outState.putLong("methodId", mMethodId);
+    outState.putString("label", mLabel);
   }
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
-   super.onRestoreInstanceState(savedInstanceState);
-   mType = savedInstanceState.getBoolean("type");
-   mYear = savedInstanceState.getInt("year");
-   mMonth = savedInstanceState.getInt("month");
-   mDay = savedInstanceState.getInt("day");
-   mHours = savedInstanceState.getInt("hours");
-   mMinutes = savedInstanceState.getInt("minutes");
-   mLabel = savedInstanceState.getString("label");
-   mCatId = savedInstanceState.getLong("catId");
-   configureType();
-   setDate();
-   setTime();
-   
+    super.onRestoreInstanceState(savedInstanceState);
+    mType = savedInstanceState.getBoolean("type");
+    mYear = savedInstanceState.getInt("year");
+    mMonth = savedInstanceState.getInt("month");
+    mDay = savedInstanceState.getInt("day");
+    mHours = savedInstanceState.getInt("hours");
+    mMinutes = savedInstanceState.getInt("minutes");
+    mLabel = savedInstanceState.getString("label");
+    mCatId = savedInstanceState.getLong("catId");
+    mMethodId = savedInstanceState.getLong("methodId");
+    configureType();
+    setDate();
+    setTime();
+    try {
+      mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel(this));
+    } catch (DataObjectNotFoundException e) {
+      //the methodId no longer exists in DB, we set it to 0
+      mMethodId = 0;
+    }
   }
 }
