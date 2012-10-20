@@ -24,9 +24,9 @@ public class VersionList {
     final String[][] versions = {
         {
           "1.5.0",
-          "October 14 2012",
+          "October 20 2012",
           "Payment methods. FTP transfer factored out to SendWithFTP app. Bug fixes (Issues #24, #27, #28 ,#29, #30, #32, #33). Improved QIF format (header and category)"
-         },        
+         },
         {
           "1.4.12",
           "April 26 2012",
