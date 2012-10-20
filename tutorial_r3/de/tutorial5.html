@@ -110,8 +110,8 @@
       Ihre eigenen Kategorien enthält. Sie können diese Datei editieren und alle Informationen
       außer die Elemente <code class="sgmltag-element">Category</code> und <code class="sgmltag-element">Sub_category</code>
       entfernen<sup>[<a name="ftn55-de-1" href="#ftn.ftn55-de-1" class="footnote">3</a>]</sup>. Kopieren Sie diese Datei unter dem Namen
-      <code class="filename"></code> in einen Ordner <code class="filename">myexpenses</code> in das
-      Wurzelverzeichnis der SD-Karte. Seit Version 1.4.9, können Sie zusätzlich auch die von
+      <code class="filename">grisbi.xml</code> in einen Ordner <code class="filename">myexpenses</code> in das
+      Wurzelverzeichnis der SD-Karte<sup>[<a name="ftn55-fr-2" href="#ftn.ftn55-fr-2" class="footnote">4</a>]</sup>. Sie können zusätzlich auch die von
       Grisbi gespeicherten Parteien (Empfänger und Zahler), aus dieser Datei importieren
       (Element <code class="sgmltag-element">Party</code>). Wenn Sie Ihre eigene Datei als Import-Quelle
       auswählen, können Sie entweder Parteien und Kategorien oder nur Kategorien importieren.
@@ -137,7 +137,7 @@
       </h3></div></div></div><p lang="de">
       Standardmäßig wird für Währungsbeträge in Buchungen (oder das Anfangssaldo eines Kontos)
       das Dezimaltrennzeichen Ihrer Spracheinstellung verwendet (Komma in den meisten
-      europäischen Ländern, Punkt in den meisten englischsprachigen Ländern)<sup>[<a name="ftn58-de-2" href="#ftn.ftn58-de-2" class="footnote">4</a>]</sup>, hier kann dieses
+      europäischen Ländern, Punkt in den meisten englischsprachigen Ländern)<sup>[<a name="ftn58-de-2" href="#ftn.ftn58-de-2" class="footnote">5</a>]</sup>, hier kann dieses
       explizit konfiguriert werden. Sie können hier aber auch festlegen, dass Sie
       Untereinheiten (z.B $ Cents, &#8364; Cent, oder £ Pence) als ganze Zahlen eingeben.
     </p></div><div class="sect2" title="Zahlungsweisen verwalten"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_9"></a>
@@ -153,7 +153,10 @@
           <span class="application">Meine Ausgaben</span> unterstützt auch das Grisbi Datei Format 0.5.0, in dem
           die Elemente <code class="sgmltag-element">Categorie</code> und <code class="sgmltag-element">Sous_categorie</code>
           heißen (<code class="sgmltag-element">Tiers</code> für Parteien).
-        </p></div><div class="footnote"><p><sup>[<a id="ftn.ftn58-de-2" href="#ftn58-de-2" class="para">4</a>] </sup>
+        </p></div><div class="footnote"><p><sup>[<a id="ftn.ftn55-fr-2" href="#ftn55-fr-2" class="para">4</a>] </sup>
+          Natürlich können Sie auch Ihre eigene XML Datei erzeugen. Sie finden Beispiele dafür auf
+          <a class="ulink" href="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw" target="_top">Github</a>.
+        </p></div><div class="footnote"><p><sup>[<a id="ftn.ftn58-de-2" href="#ftn58-de-2" class="para">5</a>] </sup>
           <span class="application">Meine Ausgaben</span> verwendet auf Geräten mit Android 2.3. als Standard
           den Punkt, da diese am meisten von dem in der <a class="link" href="faq.html#faq-comma-de" title="1.">FAQ</a>
           beschriebenen Problem betroffen sind.

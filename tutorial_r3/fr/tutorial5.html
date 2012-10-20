@@ -110,9 +110,9 @@
 	    catégories, vous pouvez aussi utiliser votre fichier Grisbi qui est en format XML. Dans
 	    ce cas, copiez votre fichier et enlevez toutes les informations autres que les blocs de
 	    catégories (<code class="sgmltag-element">Category</code>) et de sous-catégories
-	    (<code class="sgmltag-element">Sub_category</code>)<sup>[<a name="ftn55-fr-1" href="#ftn.ftn55-fr-1" class="footnote">3</a>]</sup>. Sauvegardez ce fichier sous le nom <code class="filename"></code> dans le
-	    répertoire <code class="filename">myexpenses</code> de la racine de votre carte SD. À partir de la
-	    version 1.4.9, vous avez aussi l'option d'importer les tiers que Grisbi enregistre dans
+	    (<code class="sgmltag-element">Sub_category</code>)<sup>[<a name="ftn55-fr-1" href="#ftn.ftn55-fr-1" class="footnote">3</a>]</sup>. Sauvegardez ce fichier sous le nom <code class="filename">grisbi.xml</code> dans le
+	    répertoire <code class="filename">myexpenses</code> de la racine de votre carte SD<sup>[<a name="ftn55-fr-2" href="#ftn.ftn55-fr-2" class="footnote">4</a>]</sup>.
+	    Vous avez aussi l'option d'importer les tiers que Grisbi enregistre dans
 	    le même fichier (élément <code class="sgmltag-element">Party</code>). Si vous choississez votre propre
 	    fichier en tant que source de l'import, vous pourrez soit importer tiers et catégories,
 	    soit uniquement les catégories. Les tiers vous seront proposés pour remplir
@@ -135,22 +135,25 @@
       </h3></div></div></div><p lang="fr">
       Par défaut, les montants de transactions (ou le solde d'ouverture d'un compte) utilisent
       le séparateur décimal de votre région (virgule dans les pays européens, point dans les
-      pays anglophones)<sup>[<a name="ftn58-fr-2" href="#ftn.ftn58-fr-2" class="footnote">4</a>]</sup>, ici vous pouvez le configurer explicitement. Sinon, vous avez la
+      pays anglophones)<sup>[<a name="ftn58-fr-2" href="#ftn.ftn58-fr-2" class="footnote">5</a>]</sup>, ici vous pouvez le configurer explicitement. Sinon, vous avez la
       possibilité d'entrer des unités mineures entières (par exemple $ cents, centimes d' &#8364;,
       pence pour £).
     </p></div><div class="sect2" title="Gestion des méthodes de paiement"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_9"></a>
         <span class="guilabel">Gestion des méthodes de paiement</span>
     </h3></div></div></div><div class="figure"><a name="step13"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step13.png"></div></div></div></div><p lang="fr">
-      Cet écran affiche la liste des méthodes de paiment prédéfinies (Chèque, Carte de crédit,
-      Dépôt, Prélèvement) et vous permet de définir de nouvelles méthodes. En cliquant sur une entrée
+      Cet écran affiche la liste des méthodes de paiement prédéfinies (Chèque, Carte de crédit,
+      Dépôt, Prélèvement) et vous permet d'en définir de nouvelles. En cliquant sur une entrée
       (ou en sélectionnant <span class="guibutton">Nouveau</span>), vous ouvrez un formulaire pour définir un
-      libellé (sauf pour les types prédéfinis) et le type (s'agit-il d'une m&#7871;thode de débit, de crédit
-      ou neutre), et pour sélectionner les types de compte pour lesquels cette méthode est applicable.
+      libellé (sauf pour les types prédéfinis) et le type (s'il s'agit d'une méthode de débit, de crédit
+      ou neutre), et pour sélectionner les types de compte pour lesquels celle-ci est applicable.
     </p></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a id="ftn.ftn55-fr-1" href="#ftn55-fr-1" class="para">3</a>] </sup>
           <span class="application">Mes dépenses</span> supporte aussi la version 0.5.0 du format de fichier
           Grisbi, où les éléments portent les noms <code class="sgmltag-element">Categorie</code> et
           <code class="sgmltag-element">Sous_categorie</code> ((<code class="sgmltag-element">Tiers</code> pour les tiers)).
-        </p></div><div class="footnote"><p><sup>[<a id="ftn.ftn58-fr-2" href="#ftn58-fr-2" class="para">4</a>] </sup>
+        </p></div><div class="footnote"><p><sup>[<a id="ftn.ftn55-fr-2" href="#ftn55-fr-2" class="para">4</a>] </sup>
+	        Bien sûr, vous pouvez aussi créer vous-même un fichier XML. Vous trouveriez des exemples chez
+	        <a class="ulink" href="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw" target="_top">Github</a>.
+	      </p></div><div class="footnote"><p><sup>[<a id="ftn.ftn58-fr-2" href="#ftn58-fr-2" class="para">5</a>] </sup>
           Sur les appareils sous Android 2.3., <span class="application">Mes dépenses</span> utilise par
           défaut le point, car ceux-ci sont le plus souvent concerné par le problème décrit
           dans la <a class="link" href="faq.html#faq-comma-fr" title="1.">FAQ</a>.

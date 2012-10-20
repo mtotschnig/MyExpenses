@@ -113,8 +113,8 @@
     	or French. If with Grisbi you have already defined your own categories, you can also
     	provide your Grisbi file, which is in XML. If you want, you can edit the file with an
     	editor and remove any information other than the <code class="sgmltag-element">Category</code> and
-    	<code class="sgmltag-element">Sub_category</code> elements<sup>[<a name="ftn55-en-1" href="#ftn.ftn55-en-1" class="footnote">3</a>]</sup>. Store this file as <code class="filename"></code> in a folder
-	    <code class="filename">myexpenses</code> in the root of your sdcard. Since version 1.4.9, you can
+    	<code class="sgmltag-element">Sub_category</code> elements<sup>[<a name="ftn55-en-1" href="#ftn.ftn55-en-1" class="footnote">3</a>]</sup>. Store this file as <code class="filename">grisbi.xml</code> in a folder
+	    <code class="filename">myexpenses</code> in the root of your sdcard<sup>[<a name="ftn55-en-2" href="#ftn.ftn55-en-2" class="footnote">4</a>]</sup>. You can
 	    also import the parties (payers and payees) stored in this file (element
 	    <code class="sgmltag-element">Party</code>). When you choose your custom file as import source, you can
 	    decide to import both parties and categories, or only categories. Partners will be used
@@ -136,7 +136,7 @@
       </h3></div></div></div><p lang="en">
       By default, currency amounts for transactions (or the opening balance of an account) use
       the decimal separator of your locale (comma in most European countries, point in most
-      English speaking countries)<sup>[<a name="ftn58-en-2" href="#ftn.ftn58-en-2" class="footnote">4</a>]</sup>, here you can explicitly configure it.
+      English speaking countries)<sup>[<a name="ftn58-en-2" href="#ftn.ftn58-en-2" class="footnote">5</a>]</sup>, here you can explicitly configure it.
       Alternatively you have the option to input minor units (e.g. $ cents, &#8364; cent, or £ pence)
       as integers.
     </p></div><div class="sect2" title="Manage payment methods"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_9"></a>
@@ -151,7 +151,10 @@
 	        <span class="application">My Expenses</span> also supports the Grisbi file format 0.5.0, where the
 	        elements are named <code class="sgmltag-element">Categorie</code> and <code class="sgmltag-element">Sous_categorie</code>
 	        (<code class="sgmltag-element">Tiers</code> for parties).
-	      </p></div><div class="footnote"><p><sup>[<a id="ftn.ftn58-en-2" href="#ftn58-en-2" class="para">4</a>] </sup>
+	      </p></div><div class="footnote"><p><sup>[<a id="ftn.ftn55-en-2" href="#ftn55-en-2" class="para">4</a>] </sup>
+	        Of course you can also create an XML file by your own. You can find the examples at
+	        <a class="ulink" href="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw" target="_top">Github</a>.
+	      </p></div><div class="footnote"><p><sup>[<a id="ftn.ftn58-en-2" href="#ftn58-en-2" class="para">5</a>] </sup>
           <span class="application">My Expenses</span> uses the point symbol (.) as default on devices
           running Android 2.3, since those are most heavily affected by the problem described
           in the <a class="link" href="faq.html#faq-comma-en" title="1.">FAQ</a>.
