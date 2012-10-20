@@ -1386,7 +1386,12 @@
 	        (<sgmltag>Tiers</sgmltag> for parties).
 	      </para>
 	    </footnote>. Store this file as <filename role="grisbi_file"/> in a folder
-	    <filename>myexpenses</filename> in the root of your sdcard. Since version 1.4.9, you can
+	    <filename>myexpenses</filename> in the root of your sdcard<footnote id="ftn55-en-2">
+	      <para>
+	        Of course you can also create an XML file by your own. You can find the examples at
+	        <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
+	      </para>
+	    </footnote>. You can
 	    also import the parties (payers and payees) stored in this file (element
 	    <sgmltag>Party</sgmltag>). When you choose your custom file as import source, you can
 	    decide to import both parties and categories, or only categories. Partners will be used
@@ -1406,8 +1411,13 @@
           <sgmltag>Sous_categorie</sgmltag> ((<sgmltag>Tiers</sgmltag> pour les tiers)).
         </para>
 	    </footnote>. Sauvegardez ce fichier sous le nom <filename role="grisbi_file"/> dans le
-	    répertoire <filename>myexpenses</filename> de la racine de votre carte SD. À partir de la
-	    version 1.4.9, vous avez aussi l'option d'importer les tiers que Grisbi enregistre dans
+	    répertoire <filename>myexpenses</filename> de la racine de votre carte SD<footnote id="ftn55-fr-2">
+	      <para>
+	        Bien sûr, vous pouvez aussi créer vous-même un fichier XML. Vous trouveriez des exemples chez
+	        <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
+	      </para>
+	    </footnote>.
+	    Vous avez aussi l'option d'importer les tiers que Grisbi enregistre dans
 	    le même fichier (élément <sgmltag>Party</sgmltag>). Si vous choississez votre propre
 	    fichier en tant que source de l'import, vous pourrez soit importer tiers et catégories,
 	    soit uniquement les catégories. Les tiers vous seront proposés pour remplir
@@ -1427,7 +1437,12 @@
         </para>
       </footnote>. Kopieren Sie diese Datei unter dem Namen
       <filename role="grisbi_file"/> in einen Ordner <filename>myexpenses</filename> in das
-      Wurzelverzeichnis der SD-Karte. Seit Version 1.4.9, können Sie zusätzlich auch die von
+      Wurzelverzeichnis der SD-Karte<footnote id="ftn55-fr-2">
+        <para>
+          Natürlich können Sie auch Ihre eigene XML Datei erzeugen. Sie finden Beispiele dafür auf
+          <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
+        </para>
+      </footnote>. Sie können zusätzlich auch die von
       Grisbi gespeicherten Parteien (Empfänger und Zahler), aus dieser Datei importieren
       (Element <sgmltag>Party</sgmltag>). Wenn Sie Ihre eigene Datei als Import-Quelle
       auswählen, können Sie entweder Parteien und Kategorien oder nur Kategorien importieren.
@@ -1449,7 +1464,7 @@
         </para>
       </footnote>. Conservare questo file come <filename role="grisbi_file"/> in un
       <filename>myexpenses</filename> cartella nella directory principale della vostra scheda
-      SD. Dalla versione 1.4.9, hai anche la possibilità di importare i beneficiari Grisbi
+      SD. Hai anche la possibilità di importare i beneficiari Grisbi
       registrati nello stesso file (elemento <sgmltag>Party</sgmltag>). Se si sceglie il
       proprio file come fonte di importazione, è possibile importare categorie e beneficiari, o
       solo categorie. Il beneficiario sarà offerta automaticamente per riempire il
@@ -1466,8 +1481,8 @@
           <sgmltag>Sous_categorie</sgmltag> (<sgmltag>Tiers</sgmltag> para partes).
         </para>
       </footnote>. Copie este archivo bajo el nombre <filename role="grisbi_file"/> a una
-      carpeta <filename>myexpenses</filename> en el directorio raíz de la tarjeta SD. Desde la
-      versión 1.4.9, puede importar de este archivo además los partes (receptores y
+      carpeta <filename>myexpenses</filename> en el directorio raíz de la tarjeta SD.
+      Puede importar de este archivo además los partes (receptores y
       pagadores) guardados en Grisbi (elemento <sgmltag>Party</sgmltag>). Si elige su propio
       archivo como fuente de importación, puede importar partes y categorías o sólo
       categorías. Los partes se utilizan en el formulario de asientos para proponerle un
