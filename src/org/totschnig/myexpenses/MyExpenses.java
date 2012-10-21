@@ -425,14 +425,29 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       String comment = mExpensesCursor.getString(
           mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
       String payee =  mExpensesCursor.getString(
-          mExpensesCursor.getColumnIndexOrThrow("payee"));
+          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE));
+      Long methodId = mExpensesCursor.getLong(
+          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_METHODID));
+      String method = "";
+      if (methodId != 0) {
+        try {
+          method= PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel(this);
+        } catch (DataObjectNotFoundException e) {
+        }
+      }
       String msg =  ((comment != null && comment.length() != 0) ?
           comment : "");
       if (payee != null && payee.length() != 0) {
-        if (msg != "") {
+        if (!msg.equals("")) {
           msg += "\n";
         }
         msg += getString(R.string.payee) + ": " + payee;
+      }
+      if (!method.equals("")) {
+        if (!msg.equals("")) {
+          msg += "\n";
+        }
+        msg += getString(R.string.method) + ": " + method;
       }
       Toast.makeText(getBaseContext(), msg != "" ? msg : getString(R.string.no_details), Toast.LENGTH_LONG).show();
       return true;
