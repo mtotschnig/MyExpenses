@@ -195,30 +195,40 @@ public class ExpensesDbAdapter {
           + newVersion + ".");
       if (oldVersion < 17) {
         db.execSQL("drop table accounts");
-        db.execSQL(ACCOUNTS_CREATE);
+        db.execSQL("create table accounts (_id integer primary key autoincrement, label text not null, " +
+            "opening_balance integer, description text, currency text not null);");
         //db.execSQL("alter table expenses add column account_id integer");
       }
       if (oldVersion < 18) {
-        db.execSQL(PAYEE_CREATE);
+        db.execSQL("create table payee (_id integer primary key autoincrement, name text unique not null);");
         db.execSQL("alter table expenses add column payee text");
       }
       if (oldVersion < 19) {
         db.execSQL("alter table expenses add column transfer_peer text");
       }
       if (oldVersion < 20) {
-        db.execSQL(DATABASE_CREATE);
+        db.execSQL("create table " + DATABASE_TABLE  +  "( "
+            + KEY_ROWID         + " integer primary key autoincrement, "
+            + KEY_COMMENT       + " text not null, "
+            + KEY_DATE          + " DATETIME not null, "
+            + KEY_AMOUNT        + " integer not null, "
+            + KEY_CATID         + " integer, "
+            + KEY_ACCOUNTID     + " integer, "
+            + KEY_PAYEE         + " text, "
+            + KEY_TRANSFER_PEER + " integer default null);");
         db.execSQL("INSERT INTO transactions (comment,date,amount,cat_id,account_id,payee,transfer_peer)" +
         		" select comment,date,CAST(ROUND(amount*100) AS INTEGER),cat_id,account_id,payee,transfer_peer from expenses");
         db.execSQL("DROP TABLE expenses");
         db.execSQL("ALTER TABLE accounts RENAME to accounts_old");
-        db.execSQL(ACCOUNTS_CREATE);
+        db.execSQL("create table accounts (_id integer primary key autoincrement, label text not null, " +
+            "opening_balance integer, description text, currency text not null);");
         db.execSQL("INSERT INTO accounts (label,opening_balance,description,currency)" +
         		" select label,CAST(ROUND(opening_balance*100) AS INTEGER),description,currency from accounts_old");
         db.execSQL("DROP TABLE accounts_old");
       }
       if (oldVersion < 21) {
-        db.execSQL(PAYMENT_METHODS_CREATE);
-        db.execSQL(ACCOUNTTYE_METHOD_CREATE);
+        db.execSQL("create table paymentmethods (_id integer primary key autoincrement, label text not null, type integer default 0);");
+        db.execSQL("create table accounttype_paymentmethod (type text, method_id integer, primary key (type,method_id));");
         insertDefaultPaymentMethods(db);
         db.execSQL("alter table transactions add column " + KEY_METHODID + " text default 'CASH'");
         db.execSQL("alter table accounts add column type text default 'CASH'");
