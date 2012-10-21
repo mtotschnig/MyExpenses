@@ -7,7 +7,9 @@ Steps for preparing a new release
 * make sure that backdoors for monkeyrunner are commented out
 * ant clean
 * ant release
+* test upgrade mechanism
 * Create release tag in GIT
 * cp APK and proguard folder into a new folder in releases
 * upload to Android Market
+* add recent changes
 
