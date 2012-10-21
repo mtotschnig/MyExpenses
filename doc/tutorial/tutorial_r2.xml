@@ -62,6 +62,10 @@
     <ulink url="market://details?id=org.totschnig.myexpenses">aggiornare</ulink> e consulta 
     <ulink url="../../tutorial_r3/it/introduction.html">l'attuale edizione </ulink> (3) di questo documento.
   </releaseinfo>
+  <releaseinfo lang="es">Esta versión (2) del guía describe versiones de <application role="app_name"/>
+    inferior a la 1.5.0. Por favor, considere <ulink url="market://details?id=org.totschnig.myexpenses">actualizar</ulink>
+    y consulte la <ulink url="../../tutorial_r3/es/introduction.html">versión actual</ulink> (3) de este documento. 
+  </releaseinfo>
   </articleinfo>
 
   <sect1 id="introduction">
