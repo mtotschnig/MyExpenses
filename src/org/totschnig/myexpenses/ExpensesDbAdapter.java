@@ -49,6 +49,7 @@ public class ExpensesDbAdapter {
   public static final String KEY_PAYEE = "payee";
   public static final String KEY_TRANSFER_PEER = "transfer_peer";
   public static final String KEY_METHODID = "payment_method_id";
+  public static final String KEY_TITLE = "title";
   public static final String BACKUP_DB_PATH = "BACKUP";
 
   private static final String TAG = "ExpensesDbAdapter";
@@ -58,7 +59,7 @@ public class ExpensesDbAdapter {
 
   private String mDatabaseName;
   private static final String DATABASE_TABLE = "transactions";
-  private static final int DATABASE_VERSION = 21;
+  private static final int DATABASE_VERSION = 22;
   
   /**
    * SQL statement for expenses TABLE
@@ -105,6 +106,16 @@ public class ExpensesDbAdapter {
   private static final String ACCOUNTTYE_METHOD_CREATE =
       "create table accounttype_paymentmethod (type text, method_id integer, primary key (type,method_id));";
   
+  private static final String TEMPLATE_CREATE =
+      "create table templates ( "
+      + KEY_ROWID         + " integer primary key autoincrement, "
+      + KEY_COMMENT       + " text not null, "
+      + KEY_AMOUNT        + " integer not null, "
+      + KEY_CATID         + " integer, "
+      + KEY_PAYEE         + " text, "
+      + KEY_TRANSFER_PEER + " integer default null, "
+      + KEY_METHODID      + " integer, "
+      + KEY_TITLE         + " text not null);";  
   /**
    * an SQL CASE expression for transactions
    * that gives either the category for normal transactions
@@ -167,6 +178,7 @@ public class ExpensesDbAdapter {
       db.execSQL(PAYMENT_METHODS_CREATE);
       db.execSQL(ACCOUNTTYE_METHOD_CREATE);
       insertDefaultPaymentMethods(db);
+      db.execSQL(TEMPLATE_CREATE);
 
     }
 
@@ -232,6 +244,17 @@ public class ExpensesDbAdapter {
         insertDefaultPaymentMethods(db);
         db.execSQL("alter table transactions add column " + KEY_METHODID + " text default 'CASH'");
         db.execSQL("alter table accounts add column type text default 'CASH'");
+      }
+      if (oldVersion < 22) {
+        db.execSQL("create table templates ( "
+          + KEY_ROWID         + " integer primary key autoincrement, "
+          + KEY_COMMENT       + " text not null, "
+          + KEY_AMOUNT        + " integer not null, "
+          + KEY_CATID         + " integer, "
+          + KEY_PAYEE         + " text, "
+          + KEY_TRANSFER_PEER + " integer default null, "
+          + KEY_METHODID      + " integer, "
+          + KEY_TITLE         + " text not null);");
       }
     }
   }
@@ -983,5 +1006,23 @@ public class ExpensesDbAdapter {
     int result = mCursor.getInt(0);
     mCursor.close();
     return result;
+  }
+  
+  public void createTemplate(long id) {
+    mDb.execSQL("INSERT INTO templates ("
+        + KEY_COMMENT       + ","
+        + KEY_AMOUNT        + ", "
+        + KEY_CATID         + ","
+        + KEY_PAYEE         + ","
+        + KEY_TRANSFER_PEER + ","
+        + KEY_METHODID
+        + ") SELECT " 
+        + KEY_COMMENT       + ","
+        + KEY_AMOUNT        + ", "
+        + KEY_CATID         + ","
+        + KEY_PAYEE         + ","
+        + KEY_TRANSFER_PEER + ","
+        + KEY_METHODID
+        +" FROM transactions WHERE " + KEY_ROWID + " = " + id);
   }
 }

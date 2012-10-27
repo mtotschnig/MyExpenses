@@ -400,6 +400,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     super.onCreateContextMenu(menu, v, menuInfo);
     menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
     menu.add(0, R.id.SHOW_DETAIL_COMMAND, 0, R.string.menu_show_detail);
+    menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
     if (mDbHelper.getAccountCount(null) > 1) {
       menu.add(0,R.id.MOVE_TRANSACTION_COMMAND,0,R.string.menu_move_transaction);
     }
@@ -453,7 +454,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       return true;
     case R.id.MOVE_TRANSACTION_COMMAND:
       mSelectAccountContext = info.id;
-      showDialog(SELECT_ACCOUNT_DIALOG_ID);      
+      showDialog(SELECT_ACCOUNT_DIALOG_ID);     
+    case R.id.CREATE_TEMPLATE_COMMAND:
+      mDbHelper.createTemplate(info.id);
     }
     return super.onContextItemSelected(item);
   }
