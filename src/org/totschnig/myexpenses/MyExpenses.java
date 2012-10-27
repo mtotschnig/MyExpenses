@@ -125,7 +125,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    * for the SELECT_ACCOUNT_DIALOG we store the context from which we are called
    * if null, we call from SWITCH_ACCOUNT if a long we call from MOVE_TRANSACTION
    */
-  private Long mSelectAccountContext;
+  private long mSelectAccountContextId = 0L;
 
 /*  private int monkey_state = 0;
 
@@ -461,11 +461,13 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       Toast.makeText(getBaseContext(), msg != "" ? msg : getString(R.string.no_details), Toast.LENGTH_LONG).show();
       return true;
     case R.id.MOVE_TRANSACTION_COMMAND:
-      mSelectAccountContext = info.id;
-      showDialog(SELECT_ACCOUNT_DIALOG_ID);     
+      mSelectAccountContextId = info.id;
+      showDialog(SELECT_ACCOUNT_DIALOG_ID);
+      return true;
     case R.id.CREATE_TEMPLATE_COMMAND:
       mTemplateCreateDialogTransactionId = info.id;
       showDialog(TEMPLATE_TITLE_DIALOG_ID);
+      return true;
     }
     return super.onContextItemSelected(item);
   }
@@ -603,11 +605,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           public void onClick(DialogInterface dialog, int item) {
             //we remove the dialog since the items are different dependent on each invocation
             removeDialog(SELECT_ACCOUNT_DIALOG_ID);
-            if (mSelectAccountContext == null) {
+            if (mSelectAccountContextId == 0L) {
               switchAccount(accountIds[item]);
             }
             else {
-              mDbHelper.moveTransaction(mSelectAccountContext,accountIds[item]);
+              mDbHelper.moveTransaction(mSelectAccountContextId,accountIds[item]);
               fillData();
             }
           }
@@ -650,11 +652,15 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
    outState.putString("versionInfo", mVersionInfo);
+   outState.putLong("SelectAccountContextId", mSelectAccountContextId);
+   outState.putLong("TemplateCreateDialogTransactionId",mTemplateCreateDialogTransactionId);
   }
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
    super.onRestoreInstanceState(savedInstanceState);
    mVersionInfo = savedInstanceState.getString("versionInfo");
+   mSelectAccountContextId = savedInstanceState.getLong("SelectAccountContextId");
+   mTemplateCreateDialogTransactionId = savedInstanceState.getLong("TemplateCreateDialogTransactionId");
   }
   /**
    * start ExpenseEdit Activity for a new transaction/transfer
@@ -1077,7 +1083,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
          if (accountCount == 2) {
            switchAccount(0);
          } else {
-           mSelectAccountContext = null;
+           mSelectAccountContextId = 0L;
            showDialog(SELECT_ACCOUNT_DIALOG_ID);
          }
         } else {
