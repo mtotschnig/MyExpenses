@@ -58,6 +58,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -92,6 +93,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   static final int ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID = 5;
   static final int USE_STANDARD_MENU_DIALOG_ID = 6;
   static final int SELECT_ACCOUNT_DIALOG_ID = 7;
+  static final int TEMPLATE_TITLE_DIALOG_ID = 8;
 
   private String mVersionInfo;
   
@@ -110,6 +112,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   private MenuButton mHelpButton;
   private TextView mTransferButton;
   private boolean mUseStandardMenu;
+  
+  
+  /**
+   * stores the transaction from which a template is to be created
+   */
+  private long mTemplateCreateDialogTransactionId;
 
   private BetterPopupWindow dw;
   private boolean mButtonBarIsFilled;
@@ -456,13 +464,14 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       mSelectAccountContext = info.id;
       showDialog(SELECT_ACCOUNT_DIALOG_ID);     
     case R.id.CREATE_TEMPLATE_COMMAND:
-      mDbHelper.createTemplate(info.id);
+      mTemplateCreateDialogTransactionId = info.id;
+      showDialog(TEMPLATE_TITLE_DIALOG_ID);
     }
     return super.onContextItemSelected(item);
   }
 
   @Override
-  protected Dialog onCreateDialog(int id) {
+  protected Dialog onCreateDialog(final int id) {
     LayoutInflater li;
     View view;
     switch (id) {
@@ -516,8 +525,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       };
       changeList.setAdapter(adapter);
 
-      
-      
       return new AlertDialog.Builder(this)
         .setTitle(R.string.menu_changes)
         .setIcon(R.drawable.about)
@@ -614,7 +621,28 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .create();
     case R.id.FTP_DIALOG_ID:
       return Utils.sendWithFTPDialog((Activity) this);
-    }
+    case TEMPLATE_TITLE_DIALOG_ID:
+      AlertDialog.Builder alert = new AlertDialog.Builder(this);
+      alert.setTitle(R.string.dialog_title_template_title);
+      // Set an EditText view to get user input 
+      final EditText input = new EditText(this);
+      //only if the editText has an id, is its value restored after orientation change
+      input.setId(1);
+      input.setSingleLine();
+      alert.setView(input);
+      alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int whichButton) {
+          String title = input.getText().toString();
+          mDbHelper.createTemplateFromTransaction(mTemplateCreateDialogTransactionId,title);
+        }
+      });
+      alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int whichButton) {
+          dismissDialog(id);
+        }
+      });
+      return alert.create();
+    }    
     return null;
   }
  

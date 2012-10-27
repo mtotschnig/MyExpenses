@@ -54,6 +54,7 @@
   <string name="dialog_title_select_currency">Pick a currency</string>
   <string name="dialog_title_select_method">Pick a payment method</string>
   <string name="dialog_title_select_type">Pick a type</string>
+  <string name="dialog_title_template_title">Set the title</string>
   <string name="dialog_yes">Yes</string>
   <string name="done">Done</string>
   <string name="edit_category">Edit category</string>

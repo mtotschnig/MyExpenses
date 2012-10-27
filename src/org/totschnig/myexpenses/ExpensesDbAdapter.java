@@ -1008,21 +1008,23 @@ public class ExpensesDbAdapter {
     return result;
   }
   
-  public void createTemplate(long id) {
+  public void createTemplateFromTransaction(long id, String title) {
     mDb.execSQL("INSERT INTO templates ("
+        + KEY_TITLE       + ","
         + KEY_COMMENT       + ","
         + KEY_AMOUNT        + ", "
         + KEY_CATID         + ","
         + KEY_PAYEE         + ","
         + KEY_TRANSFER_PEER + ","
         + KEY_METHODID
-        + ") SELECT " 
+        + ") SELECT ?," 
         + KEY_COMMENT       + ","
         + KEY_AMOUNT        + ", "
         + KEY_CATID         + ","
         + KEY_PAYEE         + ","
         + KEY_TRANSFER_PEER + ","
         + KEY_METHODID
-        +" FROM transactions WHERE " + KEY_ROWID + " = " + id);
+        +" FROM transactions WHERE " + KEY_ROWID + " = ?",
+        new String[] { title, String.valueOf(id) });
   }
 }
