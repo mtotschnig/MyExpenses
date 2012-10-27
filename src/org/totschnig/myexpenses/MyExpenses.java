@@ -58,6 +58,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -635,7 +636,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int whichButton) {
           String title = input.getText().toString();
-          mDbHelper.createTemplateFromTransaction(mTemplateCreateDialogTransactionId,title);
+          if (!title.equals("")) {
+            mDbHelper.createTemplateFromTransaction(mTemplateCreateDialogTransactionId,title);
+            dismissDialog(id);
+          } else {
+            Toast.makeText(getBaseContext(),getString(R.string.no_text_given), Toast.LENGTH_LONG).show();
+          }
         }
       });
       alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
