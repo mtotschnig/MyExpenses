@@ -161,13 +161,17 @@ public class SelectCategory extends ExpandableListActivity {
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
             String value = input.getText().toString();
-            long cat_id = (id == CAT_CREATE_DIALOG_ID ?
-                mDbHelper.createCategory(value,mCatCreateDialogParentId) :
-                mDbHelper.updateCategoryLabel(value,mCatEditDialogCatId));
-            if (cat_id != -1) {
-              mGroupCursor.requery();
+            if (!value.equals("")) {
+              long cat_id = (id == CAT_CREATE_DIALOG_ID ?
+                  mDbHelper.createCategory(value,mCatCreateDialogParentId) :
+                  mDbHelper.updateCategoryLabel(value,mCatEditDialogCatId));
+              if (cat_id != -1) {
+                mGroupCursor.requery();
+              } else {
+                Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
+              }
             } else {
-              Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
+              Toast.makeText(getBaseContext(),getString(R.string.no_text_given), Toast.LENGTH_LONG).show();
             }
           }
         });
