@@ -69,6 +69,11 @@
       android:summary="@string/pref_manage_parties_summary">
       <intent android:action="myexpenses.intent.manage.parties"/>      
   </PreferenceScreen>
+  <PreferenceScreen
+      android:title="@string/pref_manage_templates_title"
+      android:summary="@string/pref_manage_templates_summary">
+      <intent android:action="myexpenses.intent.manage.templates"/>      
+  </PreferenceScreen>
   <ListPreference android:key="@string/pref_currency_decimal_separator_key"
       android:layout="@layout/preference_long_summary"
       android:title="@string/pref_currency_decimal_separator_title"

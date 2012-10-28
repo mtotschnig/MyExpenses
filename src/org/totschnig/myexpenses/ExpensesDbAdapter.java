@@ -1027,4 +1027,43 @@ public class ExpensesDbAdapter {
         +" FROM transactions WHERE " + KEY_ROWID + " = ?",
         new String[] { title, String.valueOf(id) });
   }
+
+  /**
+   * @param accountId
+   * @return at the moment returns all templates; TODO provide association between filters and templates
+   */
+  public Cursor fetchTemplates(long accountId) {
+    return mDb.query("templates", 
+        new String[] {KEY_ROWID,KEY_TITLE}, 
+        null, 
+        null, 
+        null, 
+        null, 
+        null);
+  }
+
+  public boolean deleteTemplate(long itemId) {
+    return mDb.delete("templates", KEY_ROWID + "=" + itemId, null) > 0;
+  }
+
+  public void createTransactionFromTemplate(Long templateId, long accountId,String date) {
+    mDb.execSQL("INSERT INTO transactions ("
+        + KEY_ACCOUNTID       + ","
+        + KEY_COMMENT       + ","
+        + KEY_AMOUNT        + ", "
+        + KEY_CATID         + ","
+        + KEY_PAYEE         + ","
+        + KEY_TRANSFER_PEER + ","
+        + KEY_METHODID      + ","
+        + KEY_DATE
+        + ") SELECT ?," 
+        + KEY_COMMENT       + ","
+        + KEY_AMOUNT        + ", "
+        + KEY_CATID         + ","
+        + KEY_PAYEE         + ","
+        + KEY_TRANSFER_PEER + ","
+        + KEY_METHODID      + ","
+        +"? FROM templates WHERE " + KEY_ROWID + " = ?",
+        new String[] { String.valueOf(accountId), date, String.valueOf(templateId) });
+  }
 }

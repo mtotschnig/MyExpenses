@@ -61,9 +61,21 @@ public class ButtonBar extends LinearLayout  {
       super(context,attrs);
       mItems = new ArrayList<TextView>();
     }
+    /**
+     * @param text the resource id for retrieving the label for the entry
+     * @param id is used for retrieving the command to be dispatched
+     * @return the TextView added
+     * adds an entry to the menu
+     */
     public TextView addItem(int text,int id) {
       return addItem(getContext().getString(text),id);
     }
+    /**
+     * @param text the label for the entry
+     * @param id is used for retrieving the command to be dispatched
+     * @return the TextView added
+     * adds an entry to the menu
+     */
     public TextView addItem(String text,int id) {
       MyExpenses context = (MyExpenses) getContext();
       TextView tv = new TextView(context);

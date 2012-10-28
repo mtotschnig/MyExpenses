@@ -215,6 +215,8 @@
   <string name="pref_manage_methods_summary">Create and edit payment methods and associate them with account types.</string>
   <string name="pref_manage_parties_title">Manage parties</string>
   <string name="pref_manage_parties_summary">Delete parties (payers and payees).</string>
+  <string name="pref_manage_templates_title">Manage templates</string>
+  <string name="pref_manage_templates_summary">Delete templates.</string>
   <string name="pref_perform_share_title">Share QIF Export</string>
   <string name="pref_perform_share_summary">Should the QIF file be shared after each export?</string>
   <string name="pref_share_target_title">Upload URL QIF Export</string>

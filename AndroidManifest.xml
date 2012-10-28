@@ -67,7 +67,13 @@
               <category android:name="android.intent.category.DEFAULT" />  
             </intent-filter>
         </activity>
-                <activity android:name=".ManageMethods">
+        <activity android:name=".ManageTemplates">
+             <intent-filter>  
+              <action android:name="myexpenses.intent.manage.templates"/>  
+              <category android:name="android.intent.category.DEFAULT" />  
+            </intent-filter>
+        </activity>
+        <activity android:name=".ManageMethods">
              <intent-filter>  
               <action android:name="myexpenses.intent.manage.methods"/>  
               <category android:name="android.intent.category.DEFAULT" />  

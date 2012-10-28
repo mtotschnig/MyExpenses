@@ -17,7 +17,6 @@ package org.totschnig.myexpenses;
 
 import java.text.SimpleDateFormat;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,7 +35,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -58,7 +56,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -192,6 +189,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
 
   }
   private void fillSwitchButton() {
+    mSwitchButton.clearMenu();
     mSwitchButton.addItem(R.string.menu_accounts_new,R.id.CREATE_ACCOUNT_COMMAND);
     final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
     if(otherAccounts.moveToFirst()){
@@ -205,20 +203,34 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     }
     otherAccounts.close();
   }
+  private void fillAddButton() {
+    mAddButton.clearMenu();
+    final Cursor templates = mDbHelper.fetchTemplates(mCurrentAccount.id);
+    if(templates.moveToFirst()){
+      for (int i = 0; i < templates.getCount(); i++) {
+        TextView templateTV = mAddButton.addItem(
+            templates.getString(templates.getColumnIndex(ExpensesDbAdapter.KEY_TITLE)),R.id.NEW_FROM_TEMPLATE_COMMAND);
+        templateTV.setTag(
+            templates.getLong(templates.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
+        templates.moveToNext();
+      }
+    }
+    templates.close();
+
+    mTransferButton = mAddButton.addItem(R.string.transfer,R.id.INSERT_TRANSFER_COMMAND);
+    mAddButton.addItem(R.string.transaction,R.id.INSERT_TA_COMMAND);
+  }
   private void fillButtons() {
     mAddButton = mButtonBar.addButton(
         R.string.menu_new,
         android.R.drawable.ic_menu_add,
         R.id.INSERT_TA_COMMAND);
-    mTransferButton = mAddButton.addItem(R.string.transfer,R.id.INSERT_TRANSFER_COMMAND);
-    mAddButton.addItem(R.string.transaction,R.id.INSERT_TA_COMMAND);
     
     mSwitchButton = mButtonBar.addButton(
         R.string.menu_accounts,
         R.drawable.ic_menu_goto,
         R.id.SWITCH_ACCOUNT_COMMAND);
-    mSwitchButton.setTag(new Long(0));
-    fillSwitchButton();
+    mSwitchButton.setTag(0L);
     
     mResetButton = mButtonBar.addButton(
         R.string.menu_reset_abrev,
@@ -327,9 +339,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   private void configButtons() {
     if (!mUseStandardMenu) {
       mResetButton.setEnabled(mExpensesCursor.getCount() > 0);
-      mTransferButton.setEnabled(transfersEnabledP());
-      mSwitchButton.clearMenu();
       fillSwitchButton();
+      fillAddButton();
+      mTransferButton.setEnabled(transfersEnabledP());
     }
   }
   
@@ -387,6 +399,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
 
   /* (non-Javadoc)
   * upon return from CREATE or EDIT we call fillData to renew state of reset button
+  * and to update current ballance
   * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
   */
   @Override
@@ -638,7 +651,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           String title = input.getText().toString();
           if (!title.equals("")) {
             mDbHelper.createTemplateFromTransaction(mTemplateCreateDialogTransactionId,title);
-            dismissDialog(id);
+            dismissDialog(TEMPLATE_TITLE_DIALOG_ID);
+            fillAddButton();
           } else {
             Toast.makeText(getBaseContext(),getString(R.string.no_text_given), Toast.LENGTH_LONG).show();
           }
@@ -1137,6 +1151,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case R.id.HELP_COMMAND:
       showDialog(R.id.HELP_DIALOG_ID);
       break;
+    case R.id.NEW_FROM_TEMPLATE_COMMAND:
+      Long templateId = tag != null ? (Long) tag : 0;
+      mDbHelper.createTransactionFromTemplate(templateId,mCurrentAccount.id,
+          new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+      fillData();
+      break;
     default:
       return false;
     }
@@ -1167,6 +1187,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           mButtonBar.setVisibility(View.VISIBLE);
           if (!mButtonBarIsFilled)
             fillButtons();
+            fillSwitchButton();
         }
       }
       mUseStandardMenu = newValue;
