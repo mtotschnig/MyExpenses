@@ -7,7 +7,14 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
   
     <title>mtotschnig/MyExpenses @ GitHub</title>
-  
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>    <script>
+    $(function() {
+        $( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+        $( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+    });
+    </script>
     <style type="text/css">
       body {
         margin-top: 1.0em;
@@ -37,167 +44,196 @@
       dl.versionlist dt { float: left; clear:left; width: 200px; font-weight: bold; } 
       dl.versionlist dt:after { content: ":"; }
       dl.versionlist dd { line-height: 150%; }
+    .ui-tabs-vertical { width: 55em; }
+    .ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; }
+    .ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
+    .ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+    .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
+    .ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
     </style>
   </head>
 
   <body>
-
     <div id="container">
-
       <h1>
         <img style="vertical-align: middle" src="icon.png" alt="My Expenses"/> <a href="https://github.com/mtotschnig/MyExpenses"><span class="application">My Expenses</span></a>
         <span class="small">by <a href="https://github.com/mtotschnig">mtotschnig</a></span>
       </h1>
-  
       <div class="description">
         GPL licenced Android Expense Tracking App
       </div>
     
-      <h2>Summary</h2>
-      <p>
-        <span class="application">My Expenses</span> is an Android application 
-        designed to keep track of your expenses and incomes, and
-         to export them as QIF files into a desktop finance tool, like 
-         <a href="http://www.grisbi.org">Grisbi</a> or <a href="http://www.gnucash.org">Gnucash</a>.<br />
-         Requires Android 2.0.
-      </p>
-      <p>
-      Features:
-</p>
-<ul><li>multiple accounts with transfers.</li>
-<li>two levels of categories (import from Grisbi XML)</li>
-<li>upload QIF file via FTP or email</li>
-<li>data backup and restore</li></ul>
-      <h2>Install</h2>
-      <p>
-        <a href="https://market.android.com/details?id=org.totschnig.myexpenses">https://market.android.com/details?id=org.totschnig.myexpenses</a>
-      </p>
-      <p>
-        If you are adventurous, you can try an alpha release of a new versions in the <a href="https://github.com/mtotschnig/MyExpenses/downloads">Downloads</a> section.
-      </p>
-      <h2>Screenshots</h2>
-      <div style="display:block;text-align:center"><img alt="Screenshot 1" src="expense-list.png" height="480" width="320" /></div>
-      <div style="text-align:center">List of expenses
+      <div id="tabs">
+        <ul>
+          <li><a href="#tabs-1">Summary</a></li>
+          <li><a href="#tabs-2">Install</a></li>
+          <li><a href="#tabs-3">Screenshots</a></li>
+          <li><a href="#tabs-4">Tutorial</a></li>
+          <li><a href="#tabs-5">Changelog</a></li>
+          <li><a href="#tabs-6">Credits</a></li>
+          <li><a href="#tabs-7">Licence</a></li>
+          <li><a href="#tabs-8">Contact</a></li>
+          <li><a href="#tabs-9">Sourcecode</a></li>
+        </ul>
+        <!-- Summary -->
+        <div id="tabs-1">
+          <p>
+            <span class="application">My Expenses</span> is an Android application 
+            designed to keep track of your expenses and incomes, and
+            to export them as QIF files into a desktop finance tool, like 
+            <a href="http://www.grisbi.org">Grisbi</a> or <a href="http://www.gnucash.org">Gnucash</a>.<br />
+            Requires Android 2.0.
+          </p>
+          <p>
+            Features:
+          </p>
+          <ul>
+            <li>multiple accounts with transfers.</li>
+            <li>two levels of categories (import from Grisbi XML)</li>
+            <li>upload QIF file via FTP or email</li>
+            <li>data backup and restore</li>
+          </ul>
+        </div>
+        <!-- Install -->
+        <div id="tabs-2">
+          <p>
+            <a href="https://market.android.com/details?id=org.totschnig.myexpenses">https://market.android.com/details?id=org.totschnig.myexpenses</a>
+          </p>
+          <p>
+            If you are adventurous, you can try an alpha release of a new versions in the <a href="https://github.com/mtotschnig/MyExpenses/downloads">Downloads</a> section.
+          </p>
+        </div>
+        <!-- Screenshots -->
+        <div id="tabs-3">
+          <div style="display:block;text-align:center"><img alt="Screenshot 1" src="expense-list.png" height="480" width="320" /></div>
+          <div style="text-align:center">List of expenses
+          </div>
+          <div style="display:block;text-align:center"><img alt="Screenshot 2" src="edit-expense.png" height="480" width="320" /></div>
+          <div style="text-align:center">Edit expense
+          </div>
+          <div style="display:block;text-align:center"><img alt="Screenshot 3" src="category_select.png" height="480" width="320" /></div>
+          <div style="text-align:center">Select category
+          </div>
+          <div style="display:block;text-align:center"><img alt="Screenshot 4" src="accounts.png" height="480" width="320" /></div>
+          <div style="text-align:center">Manage accounts
+          </div>
+          <div style="display:block;text-align:center"><img alt="Screenshot 4" src="edit-account.png" height="480" width="320" /></div>
+          <div style="text-align:center">Edit account
+          </div>
+        </div>
+      <!-- Tutorial -->
+      <div id="tabs-4">
+        <dl>
+          <dt>English</dt> <dd><a href="tutorial_r3/en/introduction.html">HTML</a> / <a href="tutorial_r3/en/tutorial_r3.pdf">PDF</a></dd>
+          <dt>Deutsch</dt> <dd><a href="tutorial_r3/de/introduction.html">HTML</a> / <a href="tutorial_r3/de/tutorial_r3.pdf">PDF</a></dd> 
+          <dt>Français</dt> <dd><a href="tutorial_r3/fr/introduction.html">HTML</a> / <a href="tutorial_r3/fr/tutorial_r3.pdf">PDF</a></dd> 
+          <dt>Italiano</dt> <dd><a href="tutorial_r3/it/introduction.html">HTML</a> / <a href="tutorial_r3/it/tutorial_r3.pdf">PDF</a></dd>
+          <dt>Español</dt> <dd><a href="tutorial_r3/es/introduction.html">HTML</a> / <a href="tutorial_r3/es/tutorial_r3.pdf">PDF</a></dd>
+        </dl>
       </div>
-      <div style="display:block;text-align:center"><img alt="Screenshot 2" src="edit-expense.png" height="480" width="320" /></div>
-      <div style="text-align:center">Edit expense
+      <!-- Changelog -->
+      <div id="tabs-5">
+        <dl class="versionlist">
+          <dt>1.5.1 (October 21 2012)</dt>
+          <dd>Fixed problem with restore from old backups. Show payment method in transaction details.</dd>
+          <dt>1.5.0 (October 20 2012)</dt>
+          <dd>Payment methods. FTP transfer factored out to SendWithFTP app. Bug fixes (Issues #24, #27, #28 ,#29, #30, #32, #33). Improved QIF format (header and category).</dd>
+          <dt>1.4.12 (April 26 2012)</dt>
+          <dd>User interface translated to Spanish. Move transaction to different account.
+            Parties list sorted alphabetically.</dd>
+          <dt>1.4.11 (April 20 2012)</dt>
+          <dd> Improved stability of categories import and ftp transfer. Added FAQ. Generic
+            export through any installed file transfer app.</dd>
+          <dt>1.4.10 (April 14 2012)</dt>
+          <dd> Improved usability and added configurability to input of currency amounts.</dd>
+          <dt>1.4.9.1 (April 7 2012)</dt>
+          <dd> Solved crash when importing categories in Italian locale and two minor problems
+            with account deletion.</dd>
+          <dt>1.4.9 (March 31 2012)</dt>
+          <dd> Additional features for list of payers/payees (import from Grisbi, delete).
+            Fixed display of buttons in ICS.</dd>
+          <dt>1.4.8 (March 26 2012)</dt>
+          <dd> Revamped user interface. Some bug-fixes.</dd>
+          <dt>1.4.7.2 (March 13 2012)</dt>
+          <dd> Italian categories and tutorial. Added menu icons.</dd>
+          <dt>1.4.7.1 (March 10 2012)</dt>
+          <dd> Fixed layout of expense list in landscape mode. Bug fix for backup.</dd>
+          <dt>1.4.7 (March 9 2012)</dt>
+          <dd> Improved usability of currency input. Reduced apk size, since tutorial is no
+            longer included, but hosted on Github.</dd>
+          <dt>1.4.6 (March 4 2012)</dt>
+          <dd> Backup and restore of database and preferences. User interface translated to Italian.</dd>
+          <dt>1.4.5.2 (February 27 2012)</dt>
+          <dd> Tutorial translated to German and French. Fixed problems with orientation change
+            during categories import and help and changelog dialog. Support for Grisbi file format 0.5.0.</dd>
+          <dt>1.4.5.1 (February 17 2012)</dt>
+          <dd> Problem with export (FTP, email) fixed.</dd>
+          <dt>1.4.5 (February 13 2012)</dt>
+          <dd> Support for sending QIF file via email. Reduced memory footprint.</dd>
+          <dt>1.4.4 (February 8 2012)</dt>
+          <dd> FTP upload done in background. Default account created in user's language and currency.</dd>
+          <dt>1.4.3 (February 3 2012)</dt>
+          <dd> mproved parsing of number input in German locale. Upload of QIF file to FTP server.</dd>
+          <dt>1.4.1 (January 31 2012)</dt>
+          <dd> Input of transaction amounts now respects user's locale. Bug fix: Opening balance could not be set.</dd>
+          <dt>1.4.0 (January 27 2012)</dt>
+          <dd> Currencies now handled with java.util.Currency. Support for transfers between accounts.</dd>
+          <dt>1.3.2 (January 17 2012)</dt>
+          <dd> Improved help and included tutorial.</dd>
+          <dt>1.3.0 (January 13 2012)</dt>
+          <dd> Cleaned up UI.</dd>
+          <dt>1.2.8 (January 8 2012)</dt>
+          <dd> Fixed bug in export.</dd>
+          <dt>1.2.7 (January 7 2012)</dt>
+          <dd> Added payee field. Ignore empty fields in QIF export.</dd>
+          <dt>1.2.6 (November 6 2011)</dt>
+          <dd> Better management of categories: Default category files from Grisbi are now
+            included in the app, categories can be deleted and renamed.</dd>
+          <dt>1.2.0 (October 7 2011)</dt>
+          <dd> Support for multiple accounts. No upgrade. You have to uninstall older versions.</dd>
+          <dt>1.1.3 (June 6 2011)</dt>
+          <dd> Use workaround class for bug in SimpleCursorTreeAdapter (NullPointerException when
+            adding the first subcategory) from http://code.google.com/p/android/issues/detail?id=9170;
+            better feedback when category import goes wrong.</dd>
+          <dt>1.1.2 (May 18 2011)</dt>
+          <dd> Sort categories by usages; Allow assignment of main category; Allow manual
+            creation of categories; Improved handling of categories import.</dd>
+        </dl>
       </div>
-      <div style="display:block;text-align:center"><img alt="Screenshot 3" src="category_select.png" height="480" width="320" /></div>
-      <div style="text-align:center">Select category
+      <!-- Credits  -->
+      <div id="tabs-6">
+        <ul>
+          <li>Initially inspired by the Android Notepad tutorial.</li>
+          <li>Help screen design copied from Mathdoku.</li>
+          <li>App icon design copied from Sipdroid.</li>
+          <li>French and italian localization by Laurent Collombet.</li>
+        </ul>
       </div>
-      <div style="display:block;text-align:center"><img alt="Screenshot 4" src="accounts.png" height="480" width="320" /></div>
-      <div style="text-align:center">Manage accounts
+      <!-- License -->
+      <div id="tabs-7">
+        <p>GNU General Public License version 3</p>
+        <p>Category Import Icon (squiggle) from <a href="glyphish.com">glyphisch.com</a>, licensed under the Creative Commons Attribution 3.0 United States License.
+        </p>
+        <p>Includes BetterPopupWindow class from 
+          <a href="http://code.google.com/p/simple-quickactions">http://code.google.com/p/simple-quickactions/</a> , licenced under 
+          <a href="http://www.opensource.org/licenses/bsd-license.php">http://www.opensource.org/licenses/bsd-license.php</a> .
+        </p>
       </div>
-      <div style="display:block;text-align:center"><img alt="Screenshot 4" src="edit-account.png" height="480" width="320" /></div>
-      <div style="text-align:center">Edit account
+      <!-- Contact -->
+      <div id="tabs-8">
+        <p> If you find <i>My Expenses</i> useful, 
+          please leave a comment in the <a href="https://market.android.com/details?id=org.totschnig.myexpenses">Market</a>. 
+          If you find a problem, have a suggestion for an improvement, 
+          or would like to contribute, please contact <a href="mailto:michael@totschnig.org">Michael Totschnig</a> or create a 
+          <a href="https://github.com/mtotschnig/MyExpenses/issues/new">new issue</a>.
+        </p>
       </div>
-      <h2>Tutorial</h2>
-      <dl>
-        <dt>English</dt> <dd><a href="tutorial_r3/en/introduction.html">HTML</a> / <a href="tutorial_r3/en/tutorial_r3.pdf">PDF</a></dd>
-        <dt>Deutsch</dt> <dd><a href="tutorial_r3/de/introduction.html">HTML</a> / <a href="tutorial_r3/de/tutorial_r3.pdf">PDF</a></dd> 
-        <dt>Français</dt> <dd><a href="tutorial_r3/fr/introduction.html">HTML</a> / <a href="tutorial_r3/fr/tutorial_r3.pdf">PDF</a></dd> 
-        <dt>Italiano</dt> <dd><a href="tutorial_r3/it/introduction.html">HTML</a> / <a href="tutorial_r3/it/tutorial_r3.pdf">PDF</a></dd>
-        <dt>Español</dt> <dd><a href="tutorial_r3/es/introduction.html">HTML</a> / <a href="tutorial_r3/es/tutorial_r3.pdf">PDF</a></dd>
-      </dl>
-      <h2>Changelog</h2>
-      
-
-      <dl class="versionlist">
-        <dt>1.5.1 (October 21 2012)</dt>
-        <dd>Fixed problem with restore from old backups. Show payment method in transaction details.</dd>
-        <dt>1.5.0 (October 20 2012)</dt>
-        <dd>Payment methods. FTP transfer factored out to SendWithFTP app. Bug fixes (Issues #24, #27, #28 ,#29, #30, #32, #33). Improved QIF format (header and category).</dd>
-        <dt>1.4.12 (April 26 2012)</dt>
-        <dd>User interface translated to Spanish. Move transaction to different account.
-          Parties list sorted alphabetically.</dd>
-        <dt>1.4.11 (April 20 2012)</dt>
-        <dd> Improved stability of categories import and ftp transfer. Added FAQ. Generic
-          export through any installed file transfer app.</dd>
-        <dt>1.4.10 (April 14 2012)</dt>
-        <dd> Improved usability and added configurability to input of currency amounts.</dd>
-        <dt>1.4.9.1 (April 7 2012)</dt>
-        <dd> Solved crash when importing categories in Italian locale and two minor problems
-          with account deletion.</dd>
-        <dt>1.4.9 (March 31 2012)</dt>
-        <dd> Additional features for list of payers/payees (import from Grisbi, delete).
-          Fixed display of buttons in ICS.</dd>
-        <dt>1.4.8 (March 26 2012)</dt>
-        <dd> Revamped user interface. Some bug-fixes.</dd>
-        <dt>1.4.7.2 (March 13 2012)</dt>
-        <dd> Italian categories and tutorial. Added menu icons.</dd>
-        <dt>1.4.7.1 (March 10 2012)</dt>
-        <dd> Fixed layout of expense list in landscape mode. Bug fix for backup.</dd>
-        <dt>1.4.7 (March 9 2012)</dt>
-        <dd> Improved usability of currency input. Reduced apk size, since tutorial is no
-          longer included, but hosted on Github.</dd>
-        <dt>1.4.6 (March 4 2012)</dt>
-        <dd> Backup and restore of database and preferences. User interface translated to Italian.</dd>
-        <dt>1.4.5.2 (February 27 2012)</dt>
-        <dd> Tutorial translated to German and French. Fixed problems with orientation change
-          during categories import and help and changelog dialog. Support for Grisbi file format 0.5.0.</dd>
-        <dt>1.4.5.1 (February 17 2012)</dt>
-        <dd> Problem with export (FTP, email) fixed.</dd>
-        <dt>1.4.5 (February 13 2012)</dt>
-        <dd> Support for sending QIF file via email. Reduced memory footprint.</dd>
-        <dt>1.4.4 (February 8 2012)</dt>
-        <dd> FTP upload done in background. Default account created in user's language and currency.</dd>
-        <dt>1.4.3 (February 3 2012)</dt>
-        <dd> mproved parsing of number input in German locale. Upload of QIF file to FTP server.</dd>
-        <dt>1.4.1 (January 31 2012)</dt>
-        <dd> Input of transaction amounts now respects user's locale. Bug fix: Opening balance could not be set.</dd>
-        <dt>1.4.0 (January 27 2012)</dt>
-        <dd> Currencies now handled with java.util.Currency. Support for transfers between accounts.</dd>
-        <dt>1.3.2 (January 17 2012)</dt>
-        <dd> Improved help and included tutorial.</dd>
-        <dt>1.3.0 (January 13 2012)</dt>
-        <dd> Cleaned up UI.</dd>
-        <dt>1.2.8 (January 8 2012)</dt>
-        <dd> Fixed bug in export.</dd>
-        <dt>1.2.7 (January 7 2012)</dt>
-        <dd> Added payee field. Ignore empty fields in QIF export.</dd>
-        <dt>1.2.6 (November 6 2011)</dt>
-        <dd> Better management of categories: Default category files from Grisbi are now
-          included in the app, categories can be deleted and renamed.</dd>
-        <dt>1.2.0 (October 7 2011)</dt>
-        <dd> Support for multiple accounts. No upgrade. You have to uninstall older versions.</dd>
-        <dt>1.1.3 (June 6 2011)</dt>
-        <dd> Use workaround class for bug in SimpleCursorTreeAdapter (NullPointerException when
-          adding the first subcategory) from http://code.google.com/p/android/issues/detail?id=9170;
-          better feedback when category import goes wrong.</dd>
-        <dt>1.1.2 (May 18 2011)</dt>
-        <dd> Sort categories by usages; Allow assignment of main category; Allow manual
-          creation of categories; Improved handling of categories import.
-      </dl>
-      
-      
-      <h2>Credits</h2>
-      <ul>
-        <li>Initially inspired by the Android Notepad tutorial.</li>
-        <li>Help screen design copied from Mathdoku.</li>
-        <li>App icon design copied from Sipdroid.</li>
-        <li>French and italian localization by Laurent Collombet.</li>
-      </ul>
-      <h2>License</h2>
-      <p>GNU General Public License version 3</p>
-      <p>Category Import Icon (squiggle) from <a href="glyphish.com">glyphisch.com</a>, licensed under the Creative Commons Attribution 3.0 United States License.
-      </p>
-      <p>Includes BetterPopupWindow class from 
-        <a href="http://code.google.com/p/simple-quickactions">http://code.google.com/p/simple-quickactions/</a> , licenced under 
-        <a href="http://www.opensource.org/licenses/bsd-license.php">http://www.opensource.org/licenses/bsd-license.php</a> .
-     </p>
-
-      <h2>Contact</h2>
-      <p> If you find <i>My Expenses</i> useful, 
-        please leave a comment in the <a href="https://market.android.com/details?id=org.totschnig.myexpenses">Market</a>. 
-        If you find a problem, have a suggestion for an improvement, 
-        or would like to contribute, please contact <a href="mailto:michael@totschnig.org">Michael Totschnig</a> or create a 
-        <a href="https://github.com/mtotschnig/MyExpenses/issues/new">new issue</a>.
-      </p>
-      
-      <h2>Source code</h2>
-      <p>
-        Get the source code on GitHub : <a href="https://github.com/mtotschnig/MyExpenses">mtotschnig/MyExpenses</a>
-      </p>
+      <!-- Source code -->
+      <div id="tabs-9">
+        <p>
+          Get the source code on GitHub : <a href="https://github.com/mtotschnig/MyExpenses">mtotschnig/MyExpenses</a>
+        </p>
+      </div>
     </div>
   </body>
 </html>
