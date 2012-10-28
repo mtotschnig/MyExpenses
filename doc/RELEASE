@@ -11,5 +11,6 @@ Steps for preparing a new release
 * Create release tag in GIT
 * cp APK and proguard folder into a new folder in releases
 * upload to Android Market
-* add recent changes
+* add recent changes in Market
+* push gh-pages
 
