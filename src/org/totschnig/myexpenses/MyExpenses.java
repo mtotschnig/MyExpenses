@@ -370,23 +370,17 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     super.onCreateOptionsMenu(menu);
     //numeric shortcuts are used from Monkeyrunner
     menu.add(0, R.id.INSERT_TA_COMMAND, 0, R.string.menu_insert_ta)
-        .setIcon(android.R.drawable.ic_menu_add)
-        .setAlphabeticShortcut('a');
+        .setIcon(android.R.drawable.ic_menu_add);
     menu.add(0, R.id.INSERT_TRANSFER_COMMAND, 0, R.string.menu_insert_transfer)
-        .setIcon(android.R.drawable.ic_menu_add)
-        .setAlphabeticShortcut('b');
+        .setIcon(android.R.drawable.ic_menu_add);
     menu.add(0, R.id.RESET_ACCOUNT_COMMAND,1,R.string.menu_reset)
-        .setIcon(android.R.drawable.ic_menu_revert)
-        .setAlphabeticShortcut('c');;
+        .setIcon(android.R.drawable.ic_menu_revert);
     menu.add(0, R.id.HELP_COMMAND,1,R.string.menu_help)
-        .setIcon(android.R.drawable.ic_menu_help)
-        .setAlphabeticShortcut('d');
+        .setIcon(android.R.drawable.ic_menu_help);
     menu.add(0, R.id.SWITCH_ACCOUNT_COMMAND,1,R.string.menu_change_account)
-        .setIcon(R.drawable.ic_menu_goto)
-        .setAlphabeticShortcut('e');
+        .setIcon(R.drawable.ic_menu_goto);
     menu.add(0,R.id.SETTINGS_COMMAND,1,R.string.menu_settings)
-        .setIcon(android.R.drawable.ic_menu_preferences)
-        .setAlphabeticShortcut('f');
+        .setIcon(android.R.drawable.ic_menu_preferences);
     return true;
   }
   
