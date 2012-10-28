@@ -95,6 +95,11 @@ public class Transaction {
     return mDbHelper.deleteTransaction(id);
   }
   
+  public static void createTransactionFromTemplate(long id) {
+    mDbHelper.createTransactionFromTemplate(id,
+        new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+  }
+  
   /**
    * new empty transaction
    * @param mDbHelper

@@ -92,6 +92,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   static final int USE_STANDARD_MENU_DIALOG_ID = 6;
   static final int SELECT_ACCOUNT_DIALOG_ID = 7;
   static final int TEMPLATE_TITLE_DIALOG_ID = 8;
+  static final int SELECT_TEMPLATE_DIALOG_ID = 9;
 
   private String mVersionInfo;
   
@@ -362,6 +363,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       .setVisible(transfersEnabledP());
     menu.findItem(R.id.RESET_ACCOUNT_COMMAND)
       .setVisible(mExpensesCursor.getCount() > 0);
+    menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
+      .setVisible(mDbHelper.getTemplateCount() > 0);
     return true;
   }
 
@@ -372,6 +375,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     menu.add(0, R.id.INSERT_TA_COMMAND, 0, R.string.menu_insert_ta)
         .setIcon(android.R.drawable.ic_menu_add);
     menu.add(0, R.id.INSERT_TRANSFER_COMMAND, 0, R.string.menu_insert_transfer)
+        .setIcon(android.R.drawable.ic_menu_add);
+    menu.add(0, R.id.NEW_FROM_TEMPLATE_COMMAND, 0, R.string.menu_new_from_template)
         .setIcon(android.R.drawable.ic_menu_add);
     menu.add(0, R.id.RESET_ACCOUNT_COMMAND,1,R.string.menu_reset)
         .setIcon(android.R.drawable.ic_menu_revert);
@@ -646,7 +651,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           if (!title.equals("")) {
             mDbHelper.createTemplateFromTransaction(mTemplateCreateDialogTransactionId,title);
             dismissDialog(TEMPLATE_TITLE_DIALOG_ID);
-            fillAddButton();
+            if (!mUseStandardMenu) {
+              fillAddButton();
+            }
           } else {
             Toast.makeText(getBaseContext(),getString(R.string.no_text_given), Toast.LENGTH_LONG).show();
           }
@@ -658,6 +665,30 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         }
       });
       return alert.create();
+    case SELECT_TEMPLATE_DIALOG_ID:
+      final Cursor templates = mDbHelper.fetchTemplates(mCurrentAccount.id);
+      final String[] templateTitles = Utils.getStringArrayFromCursor(templates, "title");
+      final long[] templateIds = Utils.getLongArrayFromCursor(templates, ExpensesDbAdapter.KEY_ROWID);
+      templates.close();
+      return new AlertDialog.Builder(this)
+        .setTitle(R.string.dialog_title_select_account)
+        .setSingleChoiceItems(templateTitles, -1, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int item) {
+            //TODO: check if we could renounce removing the dialog here, remove it only when a new template is defined
+            //or account is switched
+            removeDialog(SELECT_TEMPLATE_DIALOG_ID);
+            Transaction.createTransactionFromTemplate(templateIds[item]);
+            fillData();
+          }
+        })
+        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+          @Override
+          public void onCancel(DialogInterface dialog) {
+            removeDialog(SELECT_ACCOUNT_DIALOG_ID);
+          }
+        })
+        .create();
+
     }    
     return null;
   }
@@ -1146,10 +1177,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       showDialog(R.id.HELP_DIALOG_ID);
       break;
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
-      Long templateId = tag != null ? (Long) tag : 0;
-      mDbHelper.createTransactionFromTemplate(templateId,mCurrentAccount.id,
-          new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-      fillData();
+      if (tag == null) {
+          showDialog(SELECT_TEMPLATE_DIALOG_ID);
+      } else {
+        Transaction.createTransactionFromTemplate((Long) tag);
+        fillData();
+      }
       break;
     default:
       return false;

@@ -112,6 +112,7 @@ public class ExpensesDbAdapter {
       + KEY_COMMENT       + " text not null, "
       + KEY_AMOUNT        + " integer not null, "
       + KEY_CATID         + " integer, "
+      + KEY_ACCOUNTID     + " integer, "
       + KEY_PAYEE         + " text, "
       + KEY_TRANSFER_PEER + " integer default null, "
       + KEY_METHODID      + " integer, "
@@ -251,6 +252,7 @@ public class ExpensesDbAdapter {
           + KEY_COMMENT       + " text not null, "
           + KEY_AMOUNT        + " integer not null, "
           + KEY_CATID         + " integer, "
+          + KEY_ACCOUNTID     + " integer, "
           + KEY_PAYEE         + " text, "
           + KEY_TRANSFER_PEER + " integer default null, "
           + KEY_METHODID      + " integer, "
@@ -1012,8 +1014,9 @@ public class ExpensesDbAdapter {
     mDb.execSQL("INSERT INTO templates ("
         + KEY_TITLE       + ","
         + KEY_COMMENT       + ","
-        + KEY_AMOUNT        + ", "
+        + KEY_AMOUNT        + ","
         + KEY_CATID         + ","
+        + KEY_ACCOUNTID     + ","
         + KEY_PAYEE         + ","
         + KEY_TRANSFER_PEER + ","
         + KEY_METHODID
@@ -1021,6 +1024,7 @@ public class ExpensesDbAdapter {
         + KEY_COMMENT       + ","
         + KEY_AMOUNT        + ", "
         + KEY_CATID         + ","
+        + KEY_ACCOUNTID     + ","
         + KEY_PAYEE         + ","
         + KEY_TRANSFER_PEER + ","
         + KEY_METHODID
@@ -1046,9 +1050,9 @@ public class ExpensesDbAdapter {
     return mDb.delete("templates", KEY_ROWID + "=" + itemId, null) > 0;
   }
 
-  public void createTransactionFromTemplate(Long templateId, long accountId,String date) {
+  public void createTransactionFromTemplate(Long templateId,String date) {
     mDb.execSQL("INSERT INTO transactions ("
-        + KEY_ACCOUNTID       + ","
+        + KEY_ACCOUNTID     + ","
         + KEY_COMMENT       + ","
         + KEY_AMOUNT        + ", "
         + KEY_CATID         + ","
@@ -1056,7 +1060,8 @@ public class ExpensesDbAdapter {
         + KEY_TRANSFER_PEER + ","
         + KEY_METHODID      + ","
         + KEY_DATE
-        + ") SELECT ?," 
+        + ") SELECT "
+        + KEY_ACCOUNTID     + ","
         + KEY_COMMENT       + ","
         + KEY_AMOUNT        + ", "
         + KEY_CATID         + ","
@@ -1064,6 +1069,14 @@ public class ExpensesDbAdapter {
         + KEY_TRANSFER_PEER + ","
         + KEY_METHODID      + ","
         +"? FROM templates WHERE " + KEY_ROWID + " = ?",
-        new String[] { String.valueOf(accountId), date, String.valueOf(templateId) });
+        new String[] { date, String.valueOf(templateId) });
+  }
+
+  public int getTemplateCount() {
+    Cursor mCursor = mDb.rawQuery("select count(*) from templates", null);
+    mCursor.moveToFirst();
+    int result = mCursor.getInt(0);
+    mCursor.close();
+    return result;
   }
 }
