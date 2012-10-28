@@ -364,7 +364,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     menu.findItem(R.id.RESET_ACCOUNT_COMMAND)
       .setVisible(mExpensesCursor.getCount() > 0);
     menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
-      .setVisible(mDbHelper.getTemplateCount() > 0);
+      .setVisible(mDbHelper.getTemplateCount(mCurrentAccount.id) > 0);
     return true;
   }
 

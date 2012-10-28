@@ -1002,8 +1002,8 @@ public class ExpensesDbAdapter {
 
   public int getPaymentMethodsCount(Type type) {
     Cursor mCursor = mDb.rawQuery("select count(*) from accounttype_paymentmethod " +  
-        " WHERE type = '" + type.name() + "'",
-        null);
+        " WHERE type = ?",
+       new String[] {type.name()});
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);
     mCursor.close();
@@ -1039,8 +1039,8 @@ public class ExpensesDbAdapter {
   public Cursor fetchTemplates(long accountId) {
     return mDb.query("templates", 
         new String[] {KEY_ROWID,KEY_TITLE}, 
-        null, 
-        null, 
+        "account_id = ?", 
+        new String[] { String.valueOf(accountId) }, 
         null, 
         null, 
         null);
@@ -1072,8 +1072,9 @@ public class ExpensesDbAdapter {
         new String[] { date, String.valueOf(templateId) });
   }
 
-  public int getTemplateCount() {
-    Cursor mCursor = mDb.rawQuery("select count(*) from templates", null);
+  public int getTemplateCount(long accountId) {
+    Cursor mCursor = mDb.rawQuery("select count(*) from templates where " + KEY_ACCOUNTID + " = ?",
+        new String[] { String.valueOf(accountId) } );
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);
     mCursor.close();
