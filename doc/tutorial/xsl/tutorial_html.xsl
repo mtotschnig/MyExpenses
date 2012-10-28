@@ -19,12 +19,22 @@
 <xsl:param name="suppress.footer.navigation" select="1"/>
 <xsl:param name="formal.object.break.after" select="0"/>
 
-<xsl:template name="user.head.content">
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="../../tutorial/images.js"></script>
-	<meta name="viewport" content="width=device-width;"/>
+<xsl:template name="html.head">
+  <head>
+    <xsl:call-template name="system.head.content"/>
+    <xsl:call-template name="head.content">
+      <xsl:with-param name="title">
+        <xsl:apply-templates select="/article" mode="object.title.markup.textonly"/>
+        <xsl:text> </xsl:text>
+        <xsl:apply-templates select="." mode="object.title.markup.textonly"/>
+      </xsl:with-param>
+    </xsl:call-template>
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../../tutorial/images.js"></script>
+    <meta name="viewport" content="width=device-width;"/>
+   </head>
 </xsl:template>
 
 <xsl:template name="header.navigation">
