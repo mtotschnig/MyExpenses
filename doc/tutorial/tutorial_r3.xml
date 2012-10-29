@@ -46,9 +46,50 @@
     <surname>Totschnig</surname>
     <contrib>Traducción al español</contrib>
   </othercredit>
+  <abstract>
+    <para lang="en">
+      <application role="app_name"/> is an app for tracking expenses and incomes with Android, designed
+      for compatibility with desktop finance tools.
+    </para>
+    <para lang="fr">
+    <application role="app_name"/>  est un app de suivi des entrées d'argent et des
+      dépenses, compatible avec les logiciel de finance.
+    </para>
+    <para lang="de">
+      <application role="app_name"/> ist eine App für die Buchhaltung über Einnahmen und Ausgaben,
+      kompatibel mit Desktop-Finanzprogrammmen.
+    </para>
+    <para lang="it">
+      <application role="app_name"/> è una app por l'offerta di moneta e le spese, compatibile con
+      un software di finanza
+    </para>
+    <para lang="es">
+      <application role="app_name"/> es una app de contabilidad sobre gastos e ingresos,compatible con
+      las programas de escritorio de finanzas.
+    </para>
+  </abstract>
   </articleinfo>
 
   <sect1 id="introduction">
+    <sect1info>
+      <abstract>
+        <para lang="en">
+          General usage information.
+        </para>
+        <para lang="fr">
+          Information générale sur l'usage.
+        </para>
+        <para lang="de">
+          Allgemeine Information zur Verwendung
+        </para>
+        <para lang="it">
+          Informazioni generali di utilizzo
+        </para>
+        <para lang="es">
+          Información de uso general
+        </para>
+      </abstract>
+    </sect1info>
     <title>
       <phrase lang="en">Introduction</phrase>
       <phrase lang="fr">Introduction</phrase>
@@ -56,7 +97,6 @@
       <phrase lang="it">Introduzione</phrase>
       <phrase lang="es">Introducción</phrase>
     </title>
-
     <figure floatstyle="left" id="step1" >
       <title/>
       <screenshot>
@@ -148,6 +188,25 @@
     <!-- Tutorial1 -->
     
   <sect1 id="tutorial1">
+    <sect1info>
+      <abstract>
+        <para lang="en">
+          How to manage accounts
+        </para>
+        <para lang="fr">
+          Commment gérer les comptes
+        </para>
+        <para lang="de">
+          Wie man Konton verwaltet
+        </para>
+        <para lang="it">
+          Como gestire gli conti
+        </para>
+        <para lang="es">
+          Cómo administrar las cuentas
+        </para>
+      </abstract>
+    </sect1info>
     <title id="tutorial1.title">
       <phrase lang="en">Accounts</phrase>
       <phrase lang="fr">Comptes</phrase>
@@ -371,6 +430,25 @@
    
    <!-- Tutorial2 -->
   <sect1 id="tutorial2">
+    <sect1info>
+      <abstract>
+        <para lang="en">
+          How to manage transactions
+        </para>
+        <para lang="fr">
+          Commment gérer les opérations
+        </para>
+        <para lang="de">
+          Wie man Buchungen verwaltet
+        </para>
+        <para lang="it">
+          Como gestire gli transazioni
+        </para>
+        <para lang="es">
+          Cómo administrar los asientos
+        </para>
+      </abstract>
+    </sect1info>
     <title>
       <phrase lang="en">Transactions</phrase>
       <phrase lang="fr">Opérations</phrase>
@@ -658,6 +736,25 @@
    
    <!-- Tutorial3 -->
   <sect1 id="tutorial3">
+    <sect1info>
+        <abstract>
+        <para lang="en">
+          How to manage categories
+        </para>
+        <para lang="fr">
+          Commment gérer les catégories
+        </para>
+        <para lang="de">
+          Wie man Kategorien verwaltet
+        </para>
+        <para lang="it">
+          Como gestire gli categorie
+        </para>
+        <para lang="es">
+          Cómo administrar las categorías
+        </para>
+      </abstract>
+    </sect1info>
     <title>    
       <phrase lang="en">Categories</phrase>
       <phrase lang="fr">Catégories</phrase>
@@ -904,6 +1001,25 @@
    
    <!-- Tutorial4 -->
   <sect1 id="tutorial4">
+    <sect1info>
+      <abstract>
+        <para lang="en">
+          How to export transactions
+        </para>
+        <para lang="fr">
+          Commment exporter les opérations
+        </para>
+        <para lang="de">
+          Wie man Kategorien verwaltet
+        </para>
+        <para lang="it">
+          Como esportare gli operazioni
+        </para>
+        <para lang="es">
+          Cómo exportar asientos
+        </para>
+      </abstract>
+    </sect1info> 
     <title>
       <phrase lang="en">Export transactions</phrase>
       <phrase lang="fr">Exporter les opérations</phrase>
@@ -1011,12 +1127,30 @@
       Voilà. Ahora usted puede conectar su teléfono al ordenador, abrir Grisbi (o Gnucash) y
       utilizar su función de importación.
     </para>
-    <!-- END tutorial4 para 2 --> 
-    
-   </sect1>
+    <!-- END tutorial4 para 2 -->  
+  </sect1>
 
    <!-- Tutorial5 -->
-   <sect1 id="tutorial5">
+  <sect1 id="tutorial5">
+    <sect1info>
+      <abstract>
+        <para lang="en">
+          How to configure <application role="app_name"/>
+        </para>
+        <para lang="fr">
+          Commment configurer <application role="app_name"/>
+        </para>
+        <para lang="de">
+          Wie man <application role="app_name"/> konfiguriert
+        </para>
+        <para lang="it">
+          Como configurare
+        </para>
+        <para lang="es">
+          Cómo configurar <application role="app_name"/>
+        </para>
+      </abstract>
+    </sect1info> 
     <title>
       <phrase lang="en">Settings</phrase>
       <phrase lang="fr">Paramètres</phrase>
@@ -1705,6 +1839,13 @@
     
   </sect1>
   <sect1 id="faq">
+    <sect1info>
+      <abstract>
+        <para>
+          FAQ 
+        </para>
+      </abstract>
+    </sect1info>
     <title>
       <phrase lang="en">Frequently asked questions</phrase>
       <phrase lang="fr">Foire aux questions</phrase>
