@@ -12,7 +12,6 @@
  <lang code="es">Español</lang>
 </custom:supported-langs>
 
-<xsl:param name="html.stylesheet" select="'../../tutorial/style.css'"/>
 <xsl:param name="use.id.as.filename" select="'1'"/>
 <xsl:param name="chunk.first.sections" select="'1'"/>
 <xsl:param name="toc.section.depth" select="'1'"/>
@@ -22,19 +21,30 @@
 <xsl:template name="html.head">
   <head>
     <xsl:call-template name="system.head.content"/>
-    <xsl:call-template name="head.content">
-      <xsl:with-param name="title">
-        <xsl:apply-templates select="/article" mode="object.title.markup.textonly"/>
-        <xsl:text> </xsl:text>
-        <xsl:apply-templates select="." mode="object.title.markup.textonly"/>
-      </xsl:with-param>
-    </xsl:call-template>
+    <title>
+      <xsl:apply-templates select="/article" mode="object.title.markup.textonly"/>
+      <xsl:text> | </xsl:text>
+      <xsl:apply-templates select="." mode="object.title.markup.textonly"/>
+    </title>
+    <link rel="stylesheet" type="text/css" href="../../tutorial/style.css"/>
+    <meta name="generator" content="DocBook {$DistroTitle} V{$VERSION}"/>
+    <xsl:variable name="description">
+      <xsl:for-each select="/article/articleinfo/abstract[1]/*|./sect1info/abstract[1]/*">
+        <xsl:apply-templates select="."/>
+      </xsl:for-each>
+    </xsl:variable>
+    <meta name="description" content="{normalize-space($description)}"/>
+
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="../../tutorial/images.js"></script>
     <meta name="viewport" content="width=device-width;"/>
    </head>
+</xsl:template>
+
+<xsl:template name="sect1.titlepage.recto">
+  <xsl:apply-templates mode="sect1.titlepage.recto.auto.mode" select="title"/>
 </xsl:template>
 
 <xsl:template name="header.navigation">
