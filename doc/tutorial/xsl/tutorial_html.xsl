@@ -65,6 +65,10 @@
     <xsl:call-template name="getString">
       <xsl:with-param name="id" select="'tutorial'"/>
   </xsl:call-template>
+  <xsl:text> </xsl:text>
+  <a href="tutorial_r3.pdf">
+    <img style="vertical-align: middle;" title="PDF" src="../../tutorial/flags/pdf.png"/>
+  </a>
   </span>
   <span class="langselector">
     <xsl:for-each select="document('')/*/custom:supported-langs/lang">
