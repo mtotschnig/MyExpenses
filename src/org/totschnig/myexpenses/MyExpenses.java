@@ -82,8 +82,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   
   public static final boolean TYPE_TRANSACTION = true;
   public static final boolean TYPE_TRANSFER = false;
+  public static final boolean ACCOUNT_BUTTON_CYCLE = false;
+  public static final boolean ACCOUNT_BUTTON_TOGGLE = true;
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
+  static final int ADD_BUTTON_EXPLAIN_DIALOG_ID = 1;
   static final int VERSION_DIALOG_ID = 2;
   static final int RESET_DIALOG_ID = 3;
   static final int BACKUP_DIALOG_ID = 4;
@@ -110,6 +113,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   private MenuButton mHelpButton;
   private TextView mTransferButton;
   private boolean mUseStandardMenu;
+  private boolean mTemplatesDefinedP;
   
   
   /**
@@ -207,6 +211,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     mAddButton.clearMenu();
     final Cursor templates = mDbHelper.fetchTemplates(mCurrentAccount.id);
     if(templates.moveToFirst()){
+      mTemplatesDefinedP = true;
       for (int i = 0; i < templates.getCount(); i++) {
         TextView templateTV = mAddButton.addItem(
             templates.getString(templates.getColumnIndex(ExpensesDbAdapter.KEY_TITLE)),R.id.NEW_FROM_TEMPLATE_COMMAND);
@@ -214,6 +219,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             templates.getLong(templates.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
         templates.moveToNext();
       }
+    } else {
+      mTemplatesDefinedP = false;
     }
     templates.close();
 
@@ -224,7 +231,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     mAddButton = mButtonBar.addButton(
         R.string.menu_new,
         android.R.drawable.ic_menu_add,
-        R.id.INSERT_TA_COMMAND);
+        R.id.INSERT_MAYBE_COMMAND);
     
     mSwitchButton = mButtonBar.addButton(
         R.string.menu_accounts,
@@ -559,6 +566,15 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             dismissDialog(ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID);
           }
         }).create();
+    case ADD_BUTTON_EXPLAIN_DIALOG_ID:
+      return new AlertDialog.Builder(this)
+      .setMessage(R.string.menu_add_explain)
+      .setNeutralButton(R.string.button_continue, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          dismissDialog(ADD_BUTTON_EXPLAIN_DIALOG_ID);
+          createRow(TYPE_TRANSACTION);
+        }
+      }).create();
     case USE_STANDARD_MENU_DIALOG_ID:
       return new AlertDialog.Builder(this)
         .setMessage(R.string.suggest_use_standard_menu)
@@ -693,32 +709,31 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     //store current account id since we need it for setting last_account in the end
     long current_account_id = mCurrentAccount.id;
     if (accountId == 0) {
-      //first check if we have the last_account stored
-      accountId = mSettings.getLong(MyApplication.PREFKEY_LAST_ACCOUNT, 0);
-      //if for any reason the last_account is identical to the current
-      //we ignore it
-      if (accountId == mCurrentAccount.id)
-        accountId = 0;
-      if (accountId != 0) {
-        try {
-          mCurrentAccount = Account.getInstanceFromDb(accountId);
-        } catch (DataObjectNotFoundException e) {
-         //the account stored in last_account has been deleted 
-         accountId = 0; 
+      if (mSettings.getBoolean(MyApplication.PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR,ACCOUNT_BUTTON_CYCLE)) {
+        //first check if we have the last_account stored
+        accountId = mSettings.getLong(MyApplication.PREFKEY_LAST_ACCOUNT, 0);
+        //if for any reason the last_account is identical to the current
+        //we ignore it
+        if (accountId == mCurrentAccount.id)
+          accountId = 0;
+        if (accountId != 0) {
+          try {
+            mCurrentAccount = Account.getInstanceFromDb(accountId);
+          } catch (DataObjectNotFoundException e) {
+           //the account stored in last_account has been deleted 
+           accountId = 0; 
+          }
         }
       }
-      //now we fetch the first account we retrieve
+      //cycle behaviour
       if (accountId == 0) {
-        final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
-        if(otherAccounts.moveToFirst()){
-          accountId = otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
-        }
-        otherAccounts.close();
+        accountId = mDbHelper.fetchAccountIdNext(mCurrentAccount.id);
       }
     }
     if (accountId != 0) {
       try {
         mCurrentAccount = Account.getInstanceFromDb(accountId);
+        Toast.makeText(getBaseContext(),getString(R.string.switch_account,mCurrentAccount.label), Toast.LENGTH_SHORT).show();
         mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
           .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, current_account_id)
           .commit();
@@ -1083,6 +1098,15 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     switch (command) {
+    //we check if the user already knows about having to long click for INSERT_TRANSFER
+    case R.id.INSERT_MAYBE_COMMAND:
+      if ((mTransferButton.isEnabled() || mTemplatesDefinedP) && !mSettings.getBoolean(MyApplication.PREFKEY_ADD_BUTTON_INFO_SHOWN, false)) {
+        showDialog(ADD_BUTTON_EXPLAIN_DIALOG_ID);
+        mSettings.edit().putBoolean(MyApplication.PREFKEY_ADD_BUTTON_INFO_SHOWN,true).commit();
+      } else {
+        createRow(TYPE_TRANSACTION);
+      }
+      break;
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
       break;

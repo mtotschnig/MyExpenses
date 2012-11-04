@@ -37,9 +37,11 @@ public class MyApplication extends Application {
     public static String PREFKEY_PERFORM_SHARE;
     public static String PREFKEY_SHARE_TARGET;
     public static String PREFKEY_CURRENCY_DECIMAL_SEPARATOR;
+    public static String PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR;
     public static String PREFKEY_CURRENT_VERSION = "currentversion";
     public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static String PREFKEY_LAST_ACCOUNT = "last_account";
+    public static String PREFKEY_ADD_BUTTON_INFO_SHOWN= "add_button_info_shown";
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 
     @Override
@@ -59,6 +61,7 @@ public class MyApplication extends Application {
         PREFKEY_PERFORM_SHARE = getString(R.string.pref_perform_share_key);
         PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
         PREFKEY_CURRENCY_DECIMAL_SEPARATOR = getString(R.string.pref_currency_decimal_separator_key);
+        PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR = getString(R.string.pref_account_button_behaviour_key);
     }
     
     @Override

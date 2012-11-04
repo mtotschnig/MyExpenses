@@ -124,6 +124,7 @@
       account, either by doing a long click on the Accounts button and selecting the New &#8230; 
       command from the menu, or from the Accounts section in the settings screen.</string>
   <string name="menu_accounts_new">New &#8230;</string>
+  <string name="menu_add_explain">For adding transfers and for creating transactions from templates, long click the New button.</string>
   <string name="menu_backup">Backup</string>
   <string name="menu_change_account">Change account</string>
   <string name="menu_changes">Changes</string>
@@ -191,6 +192,8 @@
   <string name="pm_type_credit">Credit</string>
   <string name="peer_transaction_deleted">This transaction refered to a contra-entry (account %1$s)
       that has been deleted</string>
+  <string name="pref_account_button_behaviour_title">Behaviour of \"Accounts\" button</string>
+  <string name="pref_account_button_behaviour_summary">Should the \"Accounts\" button toggle between the last two accounts instead of cycling between all.</string>
   <string name="pref_backup_title">Backup</string>
   <string name="pref_backup_summary">Create a backup of database and preferences on the
       sdcard.</string>
@@ -238,6 +241,7 @@
   <string name="share_sending">Send QIF file</string>
   <string name="suggest_use_standard_menu">Do you want to use the standard Android menu
       for calling commands, and hide the button bar?</string>
+  <string name="switch_account">Switched to account \"%1$s\"</string>
   <string name="time">Time</string>
   <string name="title">Title</string>
   <string name="transaction">Transaction</string>
@@ -270,6 +274,7 @@
   <string name="pref_perform_share_key">perform_share</string>
   <string name="pref_share_target_key">share_target</string>
   <string name="pref_currency_decimal_separator_key">currency_decimal_separator</string>
+  <string name="pref_account_button_behaviour_key">account_button_behaviour</string>
     
   <!-- strings below this comment do not need translations for new languages -->
   <string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with 
