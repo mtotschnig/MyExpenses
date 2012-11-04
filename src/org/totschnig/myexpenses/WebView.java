@@ -29,7 +29,7 @@ import android.os.Bundle;
  * @author Michael Totschnig
  *
  */
-public class Tutorial extends Activity {
+public class WebView extends Activity {
   static final int TUTORIAL_RELEASE_VERSION = 3;
   private String startWith;
   

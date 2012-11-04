@@ -45,7 +45,7 @@
               <category android:name="android.intent.category.DEFAULT" />  
             </intent-filter>
         </activity>
-        <activity android:name=".Tutorial"/>
+        <activity android:name=".WebView"/>
         <activity android:name=".Backup"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
           <intent-filter>

@@ -1135,12 +1135,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       break;
     case R.id.TUTORIAL_COMMAND:
     case R.id.FAQ_COMMAND:
-      i = new Intent(MyExpenses.this, Tutorial.class);
+      i = new Intent(MyExpenses.this, WebView.class);
       i.putExtra("start", command);
       startActivity(i);
       break;
     case R.id.CHANGES_COMMAND:
-      i = new Intent(MyExpenses.this, Tutorial.class);
+      i = new Intent(MyExpenses.this, WebView.class);
       i.putExtra("start", command);
       startActivity(i);
       break;
