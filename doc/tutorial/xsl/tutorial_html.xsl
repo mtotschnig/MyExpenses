@@ -53,19 +53,7 @@
     <xsl:apply-templates select="." mode="recursive-chunk-filename"/>
   </xsl:variable>
   <h1>
-  <!-- we want the title to be invisible from inapp webview: we set it to display none,
-  and make it visible through javascript. the webview has javascript disabled-->
   <span id="navigtitle" style="display:none">
-  <a href="../../index.html"><span class="application">
-  <xsl:call-template name="getString">
-      <xsl:with-param name="id" select="'app_name'"/>
-  </xsl:call-template>
-  </span></a>
-  <xsl:text> </xsl:text>
-    <xsl:call-template name="getString">
-      <xsl:with-param name="id" select="'tutorial'"/>
-  </xsl:call-template>
-  <xsl:text> </xsl:text>
   <a href="tutorial_r3.pdf">
     <img style="vertical-align: middle;" title="PDF" src="../../tutorial/flags/pdf.png"/>
   </a>
