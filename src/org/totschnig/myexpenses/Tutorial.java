@@ -21,7 +21,6 @@ import android.app.Activity;
 //import android.util.Log;
 //import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.os.Bundle;
 
@@ -34,21 +33,29 @@ public class Tutorial extends Activity {
   static final int TUTORIAL_RELEASE_VERSION = 3;
   private String startWith;
   
-  protected WebView wv;
+  protected android.webkit.WebView wv;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.tutorial);
     setTitle(getString(R.string.app_name) + " " + getString(R.string.tutorial));
     Bundle extras = getIntent().getExtras();
+    String[] supportedLangs = {"en","fr","de","it","es"};
+    String lang =  Locale.getDefault().getLanguage();
+    if (!java.util.Arrays.asList(supportedLangs).contains(lang)) {
+      lang = "en";
+    }
     switch (extras.getInt("start")) {
       case R.id.FAQ_COMMAND:
-        startWith = "faq";
+        startWith = "tutorial_r" +  TUTORIAL_RELEASE_VERSION + "/" + lang +  "/faq.html";
+        break;
+      case R.id.CHANGES_COMMAND:
+        startWith = "versionlist.html";
         break;
       default:
-        startWith = "introduction";
+        startWith = "tutorial_r" +  TUTORIAL_RELEASE_VERSION + "/" + lang +  "/introduction.html";
     }
-    wv = (WebView) findViewById(R.id.webview);
+    wv = (android.webkit.WebView) findViewById(R.id.webview);
     wv.setWebViewClient(new WebViewClient());
 /*    wv.setWebChromeClient(new WebChromeClient() {
       public void onConsoleMessage(String message, int lineNumber, String sourceID) {
@@ -61,13 +68,7 @@ public class Tutorial extends Activity {
     settings.setDefaultTextEncodingName("utf-8");
     //settings.setJavaScriptEnabled(true);
     settings.setBuiltInZoomControls(true); 
-    String[] supportedLangs = {"en","fr","de","it","es"};
-    String lang =  Locale.getDefault().getLanguage();
-    if (!java.util.Arrays.asList(supportedLangs).contains(lang)) {
-      lang = "en";
-    }
-    wv.loadUrl("http://myexpenses.totschnig.org/tutorial_r" + 
-      TUTORIAL_RELEASE_VERSION + "/" + lang +  "/" + startWith + ".html"); 
+    wv.loadUrl("http://myexpenses.totschnig.org/" + startWith); 
   }
   @Override
   protected void onSaveInstanceState(Bundle outState)

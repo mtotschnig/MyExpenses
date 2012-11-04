@@ -84,7 +84,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public static final boolean TYPE_TRANSFER = false;
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
-  static final int CHANGES_DIALOG_ID = 1;
   static final int VERSION_DIALOG_ID = 2;
   static final int RESET_DIALOG_ID = 3;
   static final int BACKUP_DIALOG_ID = 4;
@@ -520,36 +519,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             dismissDialog(R.id.HELP_DIALOG_ID);
           }
         }).create();
-      
-    case CHANGES_DIALOG_ID:
-      li = LayoutInflater.from(this);
-      view = li.inflate(R.layout.changeview, null);
-      ListView changeList = (ListView) view.findViewById(R.id.changelog);
-
-      ListAdapter adapter = new SimpleAdapter(this, VersionList.get() , R.layout.version_row, 
-          new String[] { "version", "date","changes" }, 
-          new int[] { R.id.version, R.id.date, R.id.changes }) {
-          public boolean isEnabled(int position) 
-          { 
-            return false; 
-          }
-          public boolean areAllItemsEnabled() 
-          { 
-            return false; 
-          }
-      };
-      changeList.setAdapter(adapter);
-
-      return new AlertDialog.Builder(this)
-        .setTitle(R.string.menu_changes)
-        .setIcon(R.drawable.about)
-        .setView(view)
-        .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
-            dismissDialog(CHANGES_DIALOG_ID);
-          }
-        })
-        .create();
     case VERSION_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.versiondialog, null);
@@ -1171,7 +1140,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       startActivity(i);
       break;
     case R.id.CHANGES_COMMAND:
-      showDialog(CHANGES_DIALOG_ID);
+      i = new Intent(MyExpenses.this, Tutorial.class);
+      i.putExtra("start", command);
+      startActivity(i);
       break;
     case R.id.HELP_COMMAND:
       showDialog(R.id.HELP_DIALOG_ID);
