@@ -20,6 +20,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.util.SparseBooleanArray;
@@ -33,7 +34,7 @@ public class ManageParties extends ListActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-      setContentView(R.layout.manage_parties);
+      setContentView(R.layout.manage_list);
       setTitle(R.string.pref_manage_parties_title);
       mDbHelper = MyApplication.db();
       final ListView listView = getListView();
@@ -41,7 +42,8 @@ public class ManageParties extends ListActivity {
       listView.setItemsCanFocus(false);
       listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
       fillData();
-      mDeleteButton = (Button) findViewById(R.id.deleteParties);
+      ((TextView) findViewById(android.R.id.empty)).setText(R.string.no_parties);
+      mDeleteButton = (Button) findViewById(R.id.deleteItems);
       mDeleteButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {

@@ -163,6 +163,7 @@
   <string name="no_details">No details.</string>
   <string name="no_expenses">No Expenses Yet!</string>
   <string name="no_parties">No parties.</string>
+  <string name="no_templates">No templates.</string>
   <string name="no_text_given">You did not enter any text.</string>
   <string name="no_valid_payment_methods">No valid payment methods for %1$s (%2$s)</string>
   <string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are

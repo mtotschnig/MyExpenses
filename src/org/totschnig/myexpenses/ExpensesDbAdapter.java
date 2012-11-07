@@ -1046,13 +1046,19 @@ public class ExpensesDbAdapter {
 
   /**
    * @param accountId
-   * @return at the moment returns all templates; TODO provide association between filters and templates
+   * @return return all templates for an account, if accountId = 0, return all templates
    */
   public Cursor fetchTemplates(long accountId) {
+    String selection = null;
+    String[] selectionArgs = null;
+    if (accountId != 0L) {
+     selection =  "account_id = ?";
+     selectionArgs = new String[] { String.valueOf(accountId) };
+    }
     return mDb.query("templates", 
         new String[] {KEY_ROWID,KEY_TITLE}, 
-        "account_id = ?", 
-        new String[] { String.valueOf(accountId) }, 
+        selection, 
+        selectionArgs, 
         null, 
         null, 
         null);
