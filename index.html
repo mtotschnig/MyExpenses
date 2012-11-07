@@ -12,14 +12,14 @@
     <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
     <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
     <script>
-      //http://dean.resplace.net/blog/2011/08/jquery-tabs-iframes/
-      function loadTabFrame(tab, url) {
-        if ($(tab).find("iframe").length == 0) {
+      //inspired by http://dean.resplace.net/blog/2011/08/jquery-tabs-iframes/
+      function loadTabFrame(panel,href) {
+        if (panel.find("iframe").length == 0) {
           var html = [];
           html.push('<div class="tabIframeWrapper">');
-          html.push('<iframe scrolling="no" class="iframetab" src="' + url + '" onload="resizeIframe(this) ">Load Failed?</iframe>');
+          html.push('<iframe scrolling="no" class="iframetab" src="' +href + '" onload="resizeIframe(this) ">Load Failed?</iframe>');
           html.push('</div>');
-          $(tab).append(html.join(""));
+          panel.empty().append(html.join(""));
        }
        return false;
       }
@@ -27,11 +27,20 @@
         obj.style.height = (obj.contentWindow.document.body.scrollHeight +15) + 'px';
       }
     $(function() {
-        $( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+        var tabs = $( "#tabs" ).tabs({
+            create: function(event,ui) {
+              var a = ui.tab.find("a");
+              if (a.hasClass("tabref"))
+                loadTabFrame(ui.panel,a.attr("rel"))
+            },
+            activate: function(event,ui) {
+              var a = ui.newTab.find("a");
+              if (a.hasClass("tabref"))
+                loadTabFrame(ui.newPanel,a.attr("rel"))
+            }
+        });
+        tabs.addClass( "ui-tabs-vertical ui-helper-clearfix" );
         $( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
-        $("a.tabref").click(function() {
-            loadTabFrame($(this).attr("href"),$(this).attr("rel"));
-			  });
     });
     </script>
     <style type="text/css">
@@ -84,18 +93,17 @@
         <span style="font-size:smaller">GPL licenced Android Expense Tracking App</span></h1>
       <div id="tabs" style="clear:both">
         <ul>
-          <li><a href="#tabs-1">Summary</a></li>
-          <li><a href="#tabs-2">Install</a></li>
-          <li><a href="#tabs-3">Screenshots</a></li>
-          <li><a class="tabref" href="#tabs-4" rel="tutorial_r3/en/introduction.html">Tutorial</a></li>
-          <li><a class="tabref" href="#tabs-5" rel="versionlist.html">Changelog</a></li>
-          <li><a href="#tabs-6">Credits</a></li>
-          <li><a href="#tabs-7">Licence</a></li>
-          <li><a href="#tabs-8">Contact</a></li>
-          <li><a href="#tabs-9">Sourcecode</a></li>
+          <li><a href="#summary">Summary</a></li>
+          <li><a href="#install">Install</a></li>
+          <li><a href="#screenshots">Screenshots</a></li>
+          <li><a class="tabref" href="#tutorial" rel="tutorial_r3/en/introduction.html">Tutorial</a></li>
+          <li><a class="tabref" href="#changelog" rel="versionlist.html">Changelog</a></li>
+          <li><a href="#credits">Credits</a></li>
+          <li><a href="#licence">Licence</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#sourcecode">Sourcecode</a></li>
         </ul>
-        <!-- Summary -->
-        <div id="tabs-1">
+        <div id="summary">
           <p>
             <span class="application">My Expenses</span> is an Android application 
             designed to keep track of your expenses and incomes, and
@@ -113,8 +121,7 @@
             <li>data backup and restore</li>
           </ul>
         </div>
-        <!-- Install -->
-        <div id="tabs-2">
+        <div id="install">
           <p>
             <a href="https://market.android.com/details?id=org.totschnig.myexpenses">https://market.android.com/details?id=org.totschnig.myexpenses</a>
           </p>
@@ -122,8 +129,7 @@
             If you are adventurous, you can try alpha releases of new versions in the <a href="https://github.com/mtotschnig/MyExpenses/downloads">Downloads</a> section.
           </p>
         </div>
-        <!-- Screenshots -->
-        <div id="tabs-3">
+        <div id="screenshots">
           <div style="display:block;text-align:center"><img alt="Screenshot 1" src="expense-list.png" height="480" width="320" /></div>
           <div style="text-align:center">List of expenses
           </div>
@@ -141,7 +147,8 @@
           </div>
         </div>
       <!-- Tutorial -->
-      <div id="tabs-4">
+      <div id="tutorial">
+      <a href="tutorial_r3/en/introduction.html">Tutorial</a>
       </div>
         <!--
           <dl>
@@ -152,11 +159,9 @@
             <dt>Español</dt> <dd><a href="tutorial_r3/es/introduction.html">HTML</a> / <a href="tutorial_r3/es/tutorial_r3.pdf">PDF</a></dd>
           </dl>
           -->
-        <!-- Changelog -->
-        <div id="tabs-5">
+        <div id="changelog">
         </div>
-        <!-- Credits  -->
-        <div id="tabs-6">
+        <div id="credits">
           <ul>
             <li>Initially inspired by the Android Notepad tutorial.</li>
             <li>Help screen design copied from Mathdoku.</li>
@@ -164,8 +169,7 @@
             <li>French and italian localization by Laurent Collombet.</li>
           </ul>
         </div>
-        <!-- License -->
-        <div id="tabs-7">
+        <div id="licence">
           <p>GNU General Public License version 3</p>
           <p>Category Import Icon (squiggle) from <a href="glyphish.com">glyphisch.com</a>, licensed under the Creative Commons Attribution 3.0 United States License.
           </p>
@@ -175,7 +179,7 @@
           </p>
         </div>
         <!-- Contact -->
-        <div id="tabs-8">
+        <div id="contact">
           <p> If you find <i>My Expenses</i> useful, 
             please leave a comment in the <a href="https://market.android.com/details?id=org.totschnig.myexpenses">Market</a>. 
             If you find a problem, have a suggestion for an improvement, 
@@ -184,7 +188,7 @@
           </p>
         </div>
         <!-- Source code -->
-        <div id="tabs-9">
+        <div id="sourcecode">
           <p>
             Get the source code on GitHub : <a href="https://github.com/mtotschnig/MyExpenses">mtotschnig/MyExpenses</a>
           </p>
