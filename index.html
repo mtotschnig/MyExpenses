@@ -13,19 +13,36 @@
     <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
     <script>
       //inspired by http://dean.resplace.net/blog/2011/08/jquery-tabs-iframes/
-      function loadTabFrame(panel,href) {
-        if (panel.find("iframe").length == 0) {
-          var html = [];
-          html.push('<div class="tabIframeWrapper">');
-          html.push('<iframe scrolling="no" class="iframetab" src="' +href + '" onload="resizeIframe(this) ">Load Failed?</iframe>');
-          html.push('</div>');
-          panel.empty().append(html.join(""));
-       }
-       return false;
+    function loadTabFrame(panel,href) {
+      if (panel.find("iframe").length == 0) {
+        if (panel.attr("id") == "tutorial") {
+          href =  "tutorial_r3/" + getLang() + "/introduction.html";
+        }
+        var html = [];
+        html.push('<div class="tabIframeWrapper">');
+        html.push('<iframe scrolling="no" class="iframetab" src="' +href + '" onload="resizeIframe(this) ">Load Failed?</iframe>');
+        html.push('</div>');
+        panel.empty().append(html.join(""));
+     }
+     return false;
+    }
+    function resizeIframe(obj) {
+      obj.style.height = (obj.contentWindow.document.body.scrollHeight +15) + 'px';
+    }
+    function getLang() {
+      var supportedLangs = ["en","fr","de","it","es"];
+      var lang = getURLParameter("lang");
+      if (lang && supportedLangs.indexOf(lang) > -1) {
+        return lang;
       }
-      function resizeIframe(obj) {
-        obj.style.height = (obj.contentWindow.document.body.scrollHeight +15) + 'px';
-      }
+      return "en";
+    }
+    function getURLParameter(name) {
+      return decodeURI(
+        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+      );
+    }
+
     $(function() {
         var tabs = $( "#tabs" ).tabs({
             create: function(event,ui) {
@@ -160,6 +177,7 @@
           </dl>
           -->
         <div id="changelog">
+        <a href="versionlist.html">Tutorial</a>
         </div>
         <div id="credits">
           <ul>
