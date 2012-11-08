@@ -158,7 +158,7 @@ public class SelectCategory extends ExpandableListActivity {
         input.setId(CAT_DIALOG_LABEL_EDIT_ID);
         input.setSingleLine();
         alert.setView(input);
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
             String value = input.getText().toString();
             if (!value.equals("")) {
@@ -175,11 +175,7 @@ public class SelectCategory extends ExpandableListActivity {
             }
           }
         });
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
-            dismissDialog(id);
-          }
-        });
+        alert.setNegativeButton(android.R.string.no, null);
         return alert.create();
       }
       return null;

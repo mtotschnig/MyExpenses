@@ -98,17 +98,13 @@ public class ManageAccounts extends ListActivity {
       return new AlertDialog.Builder(this)
       .setMessage(R.string.warning_delete_account)
       .setCancelable(false)
-      .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+      .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int id) {
             Account.delete(mContextAccountId);
             fillData();
           }
       })
-      .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-          dialog.cancel();
-        }
-      }).create();
+      .setNegativeButton(android.R.string.no, null).create();
     }
     return null;
   }

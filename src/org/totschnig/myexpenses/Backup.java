@@ -48,7 +48,7 @@ public class Backup extends Activity {
       return new AlertDialog.Builder(this)
       .setMessage(message)
       .setCancelable(false)
-      .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+      .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int id) {
           if (Utils.isExternalStorageAvailable()) {
             if (((MyApplication) getApplicationContext()).backup()) {
@@ -62,7 +62,7 @@ public class Backup extends Activity {
           finish();
         }
       })
-      .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+      .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int id) {
           dismissDialog(BACKUP_DIALOG_ID);
           finish();

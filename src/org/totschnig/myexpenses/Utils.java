@@ -66,7 +66,7 @@ public class Utils {
     String msg = ctx.getClass() == MyExpenses.class ? ctx.getString(R.string.version_32_upgrade_info) : "";
     return new AlertDialog.Builder(ctx)
     .setMessage(msg + " " + ctx.getString(R.string.no_app_handling_ftp_available))
-    .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
          public void onClick(DialogInterface dialog, int id) {
            ctx.dismissDialog(R.id.FTP_DIALOG_ID);
            if (ctx.getClass() == MyExpenses.class)
@@ -80,7 +80,7 @@ public class Utils {
            }
          }
       })
-    .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
       public void onClick(DialogInterface dialog, int id) {
         ctx.dismissDialog(R.id.FTP_DIALOG_ID);
         if (ctx.getClass() == MyExpenses.class)

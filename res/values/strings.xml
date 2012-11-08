@@ -29,7 +29,6 @@
   <string name="backup_failure">Backup to sdcard failed.</string>
   <string name="backup_success">Database and preferences successfully written to sdcard.</string>
   <string name="button_continue">Continue</string>
-  <string name="button_cancel">Cancel</string>
   <string name="category_already_defined">Category %1$s already defined</string>
   <string name="category">Category</string>
   <string name="close">Close</string>
@@ -48,15 +47,12 @@
   <string name="default_account_description">This account was set up automatically
       during installation</string>    
   <string name="description">Description</string>
-  <string name="dialog_no">No</string>
   <string name="dialog_title_select_account">Pick an account</string>
   <string name="dialog_title_select_import_source">Pick a source for import</string>
   <string name="dialog_title_select_currency">Pick a currency</string>
   <string name="dialog_title_select_method">Pick a payment method</string>
   <string name="dialog_title_select_type">Pick a type</string>
   <string name="dialog_title_template_title">Set the title</string>
-  <string name="dialog_yes">Yes</string>
-  <string name="done">Done</string>
   <string name="edit_category">Edit category</string>
   <string name="expense">expense</string>
   <string name="export_expenses_outputfile_exists">Output file already exists. Please wait one
@@ -233,7 +229,6 @@
       standard menu for accessing commands.</string>
   <string name="restore_db_success">Database has been restored from backup.</string>
   <string name="restore_preferences_success">Preferences have been restored from backup.</string>
-  <string name="revert">Revert</string>
   <string name="select_account">Select account</string>
   <string name="select_category">Select category</string>
   <string name="select_parent_category">Select this category</string>

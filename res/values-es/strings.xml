@@ -30,7 +30,6 @@
   <string name="backup_success">La base de datos y las configuraciones han sido archivados en la
       tarjeta SD.</string>
   <string name="button_continue">Continuar</string>
-  <string name="button_cancel">Cancelar</string>
   <string name="category">Categoría</string>
   <string name="category_already_defined">Categoría %1$s ya existe.</string>
   <string name="close">Cerrar</string>
@@ -48,14 +47,11 @@
   <string name="default_account_description">Esta cuenta ha sido establecida automáticamente durante
       la instalación.</string>    
   <string name="description">Descripción</string>
-  <string name="dialog_no">No</string>
   <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_currency">Escoger una moneda</string>
   <string name="dialog_title_select_import_source">Escoger una fuente para la importación</string>
   <string name="dialog_title_select_method">Escoger un método de pago</string>
   <string name="dialog_title_select_type">Escoger un tipo</string>
-  <string name="dialog_yes">Sí</string>
-  <string name="done">Terminado</string>
   <string name="edit_category">Modificar categoría</string>
   <string name="expense">gasto</string>
   <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere
@@ -225,7 +221,6 @@
       </string>
   <string name="restore_preferences_success">Las configuraciones han sidos restauradas desde la
       copia de seguridad.</string>
-  <string name="revert">Anular</string>
   <string name="select">Escoger</string>
   <string name="select_account">Escoger una cuenta</string>
   <string name="select_category">Escoger una categoría</string>

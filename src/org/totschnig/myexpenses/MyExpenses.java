@@ -521,11 +521,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
         .setIcon(R.drawable.about)
         .setView(view)
-        .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
-            dismissDialog(R.id.HELP_DIALOG_ID);
-          }
-        }).create();
+        .setNegativeButton(R.string.close, null).create();
     case VERSION_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.versiondialog, null);
@@ -545,7 +541,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       return new AlertDialog.Builder(this)
         .setMessage(R.string.warning_reset_account)
         .setCancelable(false)
-        .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
               if (Utils.isExternalStorageAvailable())
                 reset();
@@ -553,19 +549,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
                 Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
             }
         })
-        .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            dismissDialog(RESET_DIALOG_ID);
-          }
-        }).create();
+        .setNegativeButton(android.R.string.no, null).create();
     case ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID:
       return new AlertDialog.Builder(this)
         .setMessage(R.string.menu_accounts_explain)
-        .setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            dismissDialog(ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID);
-          }
-        }).create();
+        .setNeutralButton(R.string.close, null).create();
     case ADD_BUTTON_EXPLAIN_DIALOG_ID:
       return new AlertDialog.Builder(this)
       .setMessage(R.string.menu_add_explain)
@@ -578,7 +566,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case USE_STANDARD_MENU_DIALOG_ID:
       return new AlertDialog.Builder(this)
         .setMessage(R.string.suggest_use_standard_menu)
-        .setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {
              mUseStandardMenu = true;
              mSettings.edit().putBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU,true).commit();
@@ -586,11 +574,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
              dismissDialog(USE_STANDARD_MENU_DIALOG_ID);
            }
         }).
-        setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            dismissDialog(USE_STANDARD_MENU_DIALOG_ID);
-          }
-        }).create();
+        setNegativeButton(android.R.string.no, null).create();
     //SELECT_ACCOUNT_DIALOG is used both from SWITCH_ACCOUNT and MOVE_TRANSACTION
     case SELECT_ACCOUNT_DIALOG_ID:
       final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
@@ -630,7 +614,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       input.setId(1);
       input.setSingleLine();
       alert.setView(input);
-      alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+      alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int whichButton) {
           String title = input.getText().toString();
           if (!title.equals("")) {
@@ -644,11 +628,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           }
         }
       });
-      alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-          dismissDialog(id);
-        }
-      });
+      alert.setNegativeButton(android.R.string.no, null);
       return alert.create();
     case SELECT_TEMPLATE_DIALOG_ID:
       final Cursor templates = mDbHelper.fetchTemplates(mCurrentAccount.id);

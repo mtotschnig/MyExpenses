@@ -24,13 +24,13 @@
         android:orientation="horizontal" 
         android:layout_centerInParent="true">
       <Button
-          android:text="@string/done"
+          android:text="@android:string/ok"
           android:id="@+id/Confirm"
           style="@style/button"
           android:drawableLeft="@drawable/ic_menu_mark" />
         <Button 
           android:id="@+id/Revert" 
-          android:text="@string/revert"
+          android:text="@android:string/cancel"
           style="@style/button"
           android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel" />
     </LinearLayout>

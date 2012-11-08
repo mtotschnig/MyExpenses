@@ -391,7 +391,7 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     .setTitle(R.string.dialog_title_select_import_source)
     .setCancelable(false)
     .setSingleChoiceItems(IMPORT_SOURCES, -1, this)
-    .setNegativeButton(R.string.button_cancel, this)
+    .setNegativeButton(android.R.string.no, this)
     .setNeutralButton(R.string.grisbi_import_button_categories_only,this)
     .setPositiveButton(R.string.grisbi_import_button_categories_and_parties, this)
     .create();

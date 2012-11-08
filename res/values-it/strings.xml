@@ -29,7 +29,6 @@
   <string name="backup_failure">Backup su SD card non è riuscito.</string>
   <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.
   </string>
-  <string name="button_cancel">Annullare</string>
   <string name="button_continue">Continuare</string>
   <string name="category">Categoria</string>
   <string name="category_already_defined">La categoria %1$s è già definita</string>
@@ -48,14 +47,11 @@
   <string name="default_account_description">Questo conto stato istituito automaticamente quando si
       installa</string>
   <string name="description">Descrizione</string>
-  <string name="dialog_no">No</string>
   <string name="dialog_title_select_account">Scegli il conto</string>
   <string name="dialog_title_select_currency">Scegli una valuta</string>
   <string name="dialog_title_select_import_source">Scegli un origine per l\'importazione</string>
   <string name="dialog_title_select_method">Scegli un modo di pagamento</string>
   <string name="dialog_title_select_type">Scegli un tipo</string>
-  <string name="dialog_yes">Sì</string>
-  <string name="done">OK</string>
   <string name="edit_category">Modificare la categoria</string>
   <string name="expense">spesa</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già.
@@ -221,7 +217,6 @@
   <string name="restore_db_success">Il database è stato ripristinato dal backup.</string>
   <string name="restore_preferences_success">I parametri sono stati ripristinati dal backup.
   </string>
-  <string name="revert">Annullare</string>
   <string name="select">Selezionare</string>
   <string name="select_account">Selezionare un conto</string>
   <string name="select_category">Selezionare una categoria</string>
