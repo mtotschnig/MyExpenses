@@ -82,7 +82,7 @@ public class MyExpensesTest extends
     //  throw new Exception();
     solo.clickOnButton(mActivity.getString(R.string.menu_new));
     solo.enterText((EditText) solo.getView(R.id.Amount),"123.45");
-    solo.clickOnButton(mActivity.getString(R.string.done));
+    solo.clickOnButton(mActivity.getString(android.R.string.ok));
     assertTrue(solo.searchText("123.45"));
     //since we have now a transaction, reset should be visible
     //solo.sendKey(Solo.MENU);
@@ -100,7 +100,7 @@ public class MyExpensesTest extends
     solo.enterText((EditText) solo.getView(R.id.Label),"Testing account");
     solo.enterText((EditText) solo.getView(R.id.Description),"Created with Robotium");
     solo.enterText((EditText) solo.getView(R.id.Amount),"456.59");
-    solo.clickOnButton(mActivity.getString(R.string.done));
+    solo.clickOnButton(mActivity.getString(android.R.string.ok));
     assertTrue(solo.searchText("456.59"));
     //solo.goBack();
     //since we have now two accounts transfer should be visible
