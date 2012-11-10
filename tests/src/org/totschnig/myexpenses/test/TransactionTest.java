@@ -21,6 +21,7 @@ import java.util.Locale;
 import org.totschnig.myexpenses.Account;
 import org.totschnig.myexpenses.Money;
 import org.totschnig.myexpenses.MyExpenses;
+import org.totschnig.myexpenses.Template;
 import org.totschnig.myexpenses.Transaction;
 import org.totschnig.myexpenses.Transfer;
 
@@ -50,6 +51,20 @@ public class TransactionTest extends TestCase {
     Assert.assertTrue(op.id > 0);
     Transfer peer = (Transfer) Transaction.getInstanceFromDb(op.transfer_peer);
     Assert.assertEquals(op.id, peer.transfer_peer);
+  }
+  public void testTemplate() {
+    Long start = mAccount1.getCurrentBalance().getAmountMinor();
+    Long amount = (long) 100;
+    Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id);
+    op1.amount = new Money(currency,amount);
+    op1.comment = "test transfer";
+    op1.save();
+    Assert.assertEquals(mAccount1.getCurrentBalance().getAmountMinor().longValue(), start+amount);
+    Template t = new Template(op1,"Template");
+    t.save();
+    Transaction op2  = Transaction.getInstanceFromTemplate(t);
+    op2.save();
+    Assert.assertEquals(mAccount1.getCurrentBalance().getAmountMinor().longValue(), start+2*amount);
   }
   @Override
   protected void tearDown() throws Exception {
