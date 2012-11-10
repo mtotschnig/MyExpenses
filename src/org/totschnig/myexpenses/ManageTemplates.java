@@ -15,66 +15,108 @@
 
 package org.totschnig.myexpenses;
 
-import android.app.ListActivity;
+
+
+import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ExpandableListActivity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
-import android.util.SparseBooleanArray;
 
-public class ManageTemplates extends ListActivity {
+public class ManageTemplates extends ExpandableListActivity {
+  //private static final int DELETE_CONFIRM_DIALOG_ID = 1;
+  private MyExpandableListAdapter mAdapter;
   private ExpensesDbAdapter mDbHelper;
-  Cursor mTemplatesCursor;
-  Button mDeleteButton;
+  private Cursor mAccountsCursor;
+  private long mDeleteTemplateId;
+  private String mDeleteTemplateTitle;
 
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-      setContentView(R.layout.manage_list);
+      setContentView(R.layout.manage_templates);
       setTitle(R.string.pref_manage_templates_title);
       mDbHelper = MyApplication.db();
-      final ListView listView = getListView();
-
-      listView.setItemsCanFocus(false);
-      listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-      fillData();
+      
       ((TextView) findViewById(android.R.id.empty)).setText(R.string.no_templates);
-      mDeleteButton = (Button) findViewById(R.id.deleteItems);
-      mDeleteButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          int cntChoice = listView.getCount();
-          SparseBooleanArray sparseBooleanArray = listView.getCheckedItemPositions();
 
-          for(int i = 0; i < cntChoice; i++){
-            if(sparseBooleanArray.get(i)) {
-              mDbHelper.deleteTemplate(listView.getAdapter().getItemId(i));
-            }
-          }
-          fillData();
-        }
-      });
+      mAccountsCursor = mDbHelper.fetchAccountAll();
+      startManagingCursor(mAccountsCursor);
+      mAdapter = new MyExpandableListAdapter(mAccountsCursor,
+          this,
+          android.R.layout.simple_expandable_list_item_1,
+          android.R.layout.simple_expandable_list_item_1,
+          new String[]{"label"},
+          new int[] {android.R.id.text1},
+          new String[] {"title"},
+          new int[] {android.R.id.text1});
+
+  setListAdapter(mAdapter);
   }
-  public void fillData() {
-    if (mTemplatesCursor == null) {
-      mTemplatesCursor = mDbHelper.fetchTemplates(0);
-      startManagingCursor(mTemplatesCursor);
-    } else {
-      mTemplatesCursor.requery();
+  @Override
+  public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+    //Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
+    mDeleteTemplateId = id;
+    Cursor childCursor = (Cursor) mAdapter.getChild(groupPosition,childPosition);
+    mDeleteTemplateTitle = childCursor.getString(childCursor.getColumnIndexOrThrow("title"));
+    showDialog(0);
+    return true;
+  }
+  @Override
+  protected Dialog onCreateDialog(final int id) {
+    return new AlertDialog.Builder(this)
+    .setMessage(getString(R.string.dialog_confirm_delete_template,mDeleteTemplateTitle))
+    .setCancelable(false)
+    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          mDbHelper.deleteTemplate(mDeleteTemplateId);
+          mAccountsCursor.requery();
+        }
+    })
+    .setNegativeButton(android.R.string.no, null).create();
+  }
+ 
+  //safeguard for orientation change during dialog
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+   super.onSaveInstanceState(outState);
+   outState.putLong("DeleteTemplateId", mDeleteTemplateId);
+   outState.putString("DeleteTemplateTitle", mDeleteTemplateTitle);
+  }
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+   super.onRestoreInstanceState(savedInstanceState);
+   mDeleteTemplateId = savedInstanceState.getLong("DeleteTemplateId");
+   mDeleteTemplateTitle = savedInstanceState.getString("DeleteTemplateTitle");
+  }
+
+  public class MyExpandableListAdapter extends SimpleCursorTreeAdapter2 {
+    
+    public MyExpandableListAdapter(Cursor cursor, Context context, int groupLayout,
+            int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
+            int[] childrenTo) {
+        super(context, cursor, groupLayout, groupFrom, groupTo, childLayout, childrenFrom,
+                childrenTo);
     }
-    // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{"title"};
-
-    // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{android.R.id.text1};
-
-    // Now create a simple cursor adapter and set it to display
-    SimpleCursorAdapter parties = new SimpleCursorAdapter(this, 
-        android.R.layout.simple_list_item_multiple_choice, mTemplatesCursor, from, to);
-    setListAdapter(parties);
+    /* (non-Javadoc)
+     * returns a cursor with the subcategories for the group
+     * @see android.widget.CursorTreeAdapter#getChildrenCursor(android.database.Cursor)
+     */
+    @Override
+    protected Cursor getChildrenCursor(Cursor groupCursor) {
+        // Given the group, we return a cursor for all the children within that group
+      long account_id = groupCursor.getLong(mAccountsCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ROWID));
+      Cursor itemsCursor = mDbHelper.fetchTemplates(account_id);
+      startManagingCursor(itemsCursor);
+      return itemsCursor;
+    }
   }
 }
