@@ -238,6 +238,8 @@
   <string name="suggest_use_standard_menu">Do you want to use the standard Android menu
       for calling commands, and hide the button bar?</string>
   <string name="switch_account">Switched to account \"%1$s\"</string>
+  <string name="template_title_exists">A template with title \"%1$s\" already exists</string>
+  <string name="template_create_success">Template \"%1$s\" created successfully</string>
   <string name="time">Time</string>
   <string name="title">Title</string>
   <string name="transaction">Transaction</string>

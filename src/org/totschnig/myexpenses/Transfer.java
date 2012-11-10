@@ -27,6 +27,9 @@ public class Transfer extends Transaction {
   public Transfer(long accountId,long amount) {
     super(accountId,amount);
   }
+  public Transfer(long accountId, Money amount) {
+    super(accountId,amount);
+  }
   public static boolean delete(long id,long peer) {
     return mDbHelper.deleteTransfer(id,peer);
   }

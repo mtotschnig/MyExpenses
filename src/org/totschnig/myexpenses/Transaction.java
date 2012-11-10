@@ -31,7 +31,7 @@ public class Transaction {
   public String comment;
   public Date date;
   public Money amount;
-  //for transfers cat_id stores the peer account
+  //for transfers catId stores the peer account
   public long catId;
   //stores a short label of the category or the account the transaction is linked to
   public String label;
@@ -75,7 +75,23 @@ public class Transaction {
             c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE));
     t.catId = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
     t.label = c.getString(c.getColumnIndexOrThrow("label"));
+    c.close();
     return t;
+  }
+  public static Transaction getInstanceFromTemplate(Template te) {
+    Transaction tr;
+    if (te.transfer_peer != 0) {
+      tr = new Transfer(te.accountId,te.amount);
+      tr.transfer_peer = te.transfer_peer;
+    }
+    else {
+      tr = new Transaction(te.accountId,te.amount);
+      tr.methodId = te.methodId;
+    }
+    tr.comment = te.comment;
+    tr.payee = te.payee;
+    tr.catId = te.catId;
+    return tr;
   }
   /**
    * factory method for creating an object of the correct type and linked to a given account
@@ -94,18 +110,16 @@ public class Transaction {
   public static boolean delete(long id) {
     return mDbHelper.deleteTransaction(id);
   }
-  
-  public static void createTransactionFromTemplate(long id) {
-    mDbHelper.createTransactionFromTemplate(id,
-        new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+  //needed for Template subclass
+  public Transaction() {
+    setDate(new Date());
   }
-  
   /**
    * new empty transaction
    * @param mDbHelper
    */
   public Transaction(long accountId,long amount) {
-    setDate(new Date());
+    this();
     Account account;
     try {
       account = Account.getInstanceFromDb(accountId);
@@ -116,6 +130,11 @@ public class Transaction {
     }
     this.accountId = accountId;
     this.amount = new Money(account.currency,amount);
+  }
+  public Transaction(long accountId,Money amount) {
+    this();
+    this.accountId = accountId;
+    this.amount = amount;
   }
   /**
    * we store the date string and create a date object from it
@@ -146,7 +165,7 @@ public class Transaction {
    * @return the id of the transaction. Upon creation it is returned from the database
    */
   public long save() {
-    if (!payee.equals("")) {
+    if (payee != null && !payee.equals("")) {
       mDbHelper.createPayee(payee);
     }
     if (id == 0) {
@@ -156,6 +175,4 @@ public class Transaction {
     }
     return id;
   }
-
-
 }

@@ -51,4 +51,7 @@ public class Money {
     }
     return bd;
   }
+  public boolean equals(Money other) {
+    return currency == other.currency  && amountMinor == other.amountMinor;
+  }
 }

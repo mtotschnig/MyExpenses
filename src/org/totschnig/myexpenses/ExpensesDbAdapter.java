@@ -116,7 +116,8 @@ public class ExpensesDbAdapter {
       + KEY_PAYEE         + " text, "
       + KEY_TRANSFER_PEER + " integer default null, "
       + KEY_METHODID      + " integer, "
-      + KEY_TITLE         + " text not null);";  
+      + KEY_TITLE         + " text not null, "
+      + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));";  
   /**
    * an SQL CASE expression for transactions
    * that gives either the category for normal transactions
@@ -256,7 +257,8 @@ public class ExpensesDbAdapter {
           + KEY_PAYEE         + " text, "
           + KEY_TRANSFER_PEER + " integer default null, "
           + KEY_METHODID      + " integer, "
-          + KEY_TITLE         + " text not null);");
+          + KEY_TITLE         + " text not null, "
+          + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));");  
       }
     }
   }
@@ -1021,28 +1023,6 @@ public class ExpensesDbAdapter {
     mCursor.close();
     return result;
   }
-  
-  public void createTemplateFromTransaction(long id, String title) {
-    mDb.execSQL("INSERT INTO templates ("
-        + KEY_TITLE       + ","
-        + KEY_COMMENT       + ","
-        + KEY_AMOUNT        + ","
-        + KEY_CATID         + ","
-        + KEY_ACCOUNTID     + ","
-        + KEY_PAYEE         + ","
-        + KEY_TRANSFER_PEER + ","
-        + KEY_METHODID
-        + ") SELECT ?," 
-        + KEY_COMMENT       + ","
-        + KEY_AMOUNT        + ", "
-        + KEY_CATID         + ","
-        + KEY_ACCOUNTID     + ","
-        + KEY_PAYEE         + ","
-        + KEY_TRANSFER_PEER + ","
-        + KEY_METHODID
-        +" FROM transactions WHERE " + KEY_ROWID + " = ?",
-        new String[] { title, String.valueOf(id) });
-  }
 
   /**
    * @param accountId
@@ -1067,27 +1047,21 @@ public class ExpensesDbAdapter {
   public boolean deleteTemplate(long itemId) {
     return mDb.delete("templates", KEY_ROWID + "=" + itemId, null) > 0;
   }
-
-  public void createTransactionFromTemplate(Long templateId,String date) {
-    mDb.execSQL("INSERT INTO transactions ("
-        + KEY_ACCOUNTID     + ","
-        + KEY_COMMENT       + ","
-        + KEY_AMOUNT        + ", "
-        + KEY_CATID         + ","
-        + KEY_PAYEE         + ","
-        + KEY_TRANSFER_PEER + ","
-        + KEY_METHODID      + ","
-        + KEY_DATE
-        + ") SELECT "
-        + KEY_ACCOUNTID     + ","
-        + KEY_COMMENT       + ","
-        + KEY_AMOUNT        + ", "
-        + KEY_CATID         + ","
-        + KEY_PAYEE         + ","
-        + KEY_TRANSFER_PEER + ","
-        + KEY_METHODID      + ","
-        +"? FROM templates WHERE " + KEY_ROWID + " = ?",
-        new String[] { date, String.valueOf(templateId) });
+  public long createTemplate(String date, long amount, String comment,
+      long cat_id,long account_id, String payee, long payment_method_id, String title) {
+    ContentValues initialValues = new ContentValues();
+    initialValues.put(KEY_COMMENT, comment);
+    initialValues.put(KEY_AMOUNT, amount);
+    initialValues.put(KEY_CATID, cat_id);
+    initialValues.put(KEY_ACCOUNTID, account_id);
+    initialValues.put(KEY_PAYEE, payee);
+    initialValues.put(KEY_METHODID, payment_method_id);
+    initialValues.put(KEY_TITLE, title);
+    try {
+      return mDb.insertOrThrow("templates", null, initialValues);
+    } catch (SQLiteConstraintException e) {
+      return -1;
+    }
   }
 
   public int getTemplateCount(long accountId) {
@@ -1097,5 +1071,23 @@ public class ExpensesDbAdapter {
     int result = mCursor.getInt(0);
     mCursor.close();
     return result;
+  }
+  /**
+   * Return a Cursor positioned at the template that matches the given rowId
+   * @param rowId id of transaction to retrieve
+   * @return Cursor positioned to matching template, if found
+   * @throws SQLException if template could not be found/retrieved
+   */
+  public Cursor fetchTemplate(long rowId) throws SQLException {
+    Cursor mCursor =
+      mDb.query("templates",
+          new String[] {KEY_ROWID,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
+              KEY_PAYEE,KEY_TRANSFER_PEER,KEY_ACCOUNTID,KEY_METHODID,KEY_TITLE},
+          KEY_ROWID + "=" + rowId,
+          null, null, null, null, null);
+    if (mCursor != null) {
+      mCursor.moveToFirst();
+    }
+    return mCursor;
   }
 }

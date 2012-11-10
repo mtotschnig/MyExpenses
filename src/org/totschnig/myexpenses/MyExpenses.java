@@ -618,8 +618,13 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         public void onClick(DialogInterface dialog, int whichButton) {
           String title = input.getText().toString();
           if (!title.equals("")) {
-            mDbHelper.createTemplateFromTransaction(mTemplateCreateDialogTransactionId,title);
+            input.setText("");
             dismissDialog(TEMPLATE_TITLE_DIALOG_ID);
+            if ((new Template(Transaction.getInstanceFromDb(mTemplateCreateDialogTransactionId),title)).save() == -1) {
+              Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
+            } else {
+              Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
+            }
             if (!mUseStandardMenu) {
               fillAddButton();
             }
@@ -642,7 +647,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             //TODO: check if we could renounce removing the dialog here, remove it only when a new template is defined
             //or account is switched
             removeDialog(SELECT_TEMPLATE_DIALOG_ID);
-            Transaction.createTransactionFromTemplate(templateIds[item]);
+            Transaction.getInstanceFromTemplate(Template.getInstanceFromDb(templateIds[item])).save();
             fillData();
           }
         })
@@ -1155,7 +1160,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       if (tag == null) {
           showDialog(SELECT_TEMPLATE_DIALOG_ID);
       } else {
-        Transaction.createTransactionFromTemplate((Long) tag);
+        Transaction.getInstanceFromTemplate(Template.getInstanceFromDb((Long) tag)).save();
         fillData();
       }
       break;
