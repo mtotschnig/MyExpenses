@@ -13,7 +13,9 @@ $(document).ready(function() {
       event.preventDefault();
       PreviewImage($(this).attr('src'));                                 
     });
-    $('#navigtitle').css("display", "inline")
+    $('#pdflink').css("display", "inline")
+    if ( top === self)
+      $('#navigtitle').css("display", "inline")
 });
 
 PreviewImage = function(uri) {
