@@ -270,4 +270,6 @@
       <xsl:call-template name="inline.charseq"/>
     </fo:inline>
   </xsl:template>
+  
+  <xsl:template match="abstract" mode="titlepage.mode"/>
 </xsl:stylesheet>
