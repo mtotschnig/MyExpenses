@@ -29,6 +29,14 @@
 				</xsl:choose>
 			</xsl:if>
 		</xsl:template>
+		<xsl:template match="releaseinfo[@role='generate-for-pdf']">
+		<releaseinfo role="generate-for-pdf">
+		  <ulink>
+		  <xsl:attribute name="url">http://myexpenses.totschnig.org/?lang=<xsl:value-of select="$language"/>#tutorial</xsl:attribute>
+		  HTML
+		  </ulink>
+		</releaseinfo>
+		</xsl:template>
 		
 		<xsl:template match="processing-instruction()">
 		  <xsl:copy/>

@@ -291,4 +291,5 @@
 <!-- do not float figures and suppress caption-->
 <xsl:template name="floatstyle"/>
 <xsl:template name="formal.object.heading"/>
+<xsl:template match="releaseinfo[@role='generate-for-pdf']" mode="titlepage.mode"/>
 </xsl:stylesheet>
