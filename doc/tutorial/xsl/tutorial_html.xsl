@@ -68,7 +68,7 @@
   </span>
   <span id="pdflink" style="display:none">
   <xsl:text> </xsl:text>
-  <a href="tutorial_r3.pdf">
+  <a href="tutorial_r3.pdf" target="_top">
     <img style="vertical-align: middle;" title="PDF" src="../../tutorial/flags/pdf.png"/>
   </a>
   </span>
