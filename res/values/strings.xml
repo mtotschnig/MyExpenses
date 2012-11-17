@@ -130,6 +130,7 @@
   <string name="menu_create_template">Create template</string>
   <string name="menu_delete_account">Delete Account</string>
   <string name="menu_delete_cat">Delete category</string>
+  <string name="menu_delete_method">Delete method</string>
   <string name="menu_delete">Delete</string>
   <string name="menu_edit_account">Edit Account</string>
   <string name="menu_edit_method">Edit Payment Method</string>
@@ -163,8 +164,7 @@
   <string name="no_templates">No templates.</string>
   <string name="no_text_given">You did not enter any text.</string>
   <string name="no_valid_payment_methods">No valid payment methods for %1$s (%2$s)</string>
-  <string name="not_deletable_mapped_expenses">This category cannot be deleted, because expenses are
-       mapped to it.</string>
+  <string name="not_deletable_mapped_expenses">Cannot delete, because mapped transactions exist.</string>
   <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has
       sub-categories.</string>
   <string name="opening_balance">Opening balance</string>

@@ -150,7 +150,7 @@
   <string name="no_expenses">No spesa !</string>
   <string name="no_parties">No beneficiario.</string>
   <string name="no_valid_payment_methods">Nessuni modi di pagamento validi per %1$s (%2$s)</string>
-  <string name="not_deletable_mapped_expenses">Questa categoria non può essere cancellata, perché ci
+  <string name="not_deletable_mapped_expenses">Non può cancellar, perché ci
       sono spese ad esso attribuite.</string>
   <string name="not_deletable_subcats_exists">Questa categoria non può essere cancellata perché
       contiene sottocategorie.</string>

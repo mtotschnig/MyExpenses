@@ -150,8 +150,8 @@
   <string name="no_details">Aucun détail.</string>
   <string name="no_expenses">Aucune dépense !</string>
   <string name="no_parties">Aucun tiers.</string>
-  <string name="not_deletable_mapped_expenses">Cette catégorie ne peut pas être supprimée, parce
-      qu\'il existe des dépenses qui lui sont attribuées.</string>
+  <string name="not_deletable_mapped_expenses">Suppression ne peut pas être executée, parce
+      qu\'il existe des dépenses attribuées.</string>
   <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce
       qu\'elle contient des sous-catégories.</string>
   <string name="no_valid_payment_methods">Aucune méthode valide de paiement pour %1$s (%2$s)</string>
