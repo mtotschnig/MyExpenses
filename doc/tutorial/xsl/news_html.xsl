@@ -18,7 +18,7 @@
       <xsl:text> | </xsl:text>
       <xsl:apply-templates select="." mode="object.title.markup.textonly"/>
     </title>
-    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="../styles.css"/>
     <meta name="generator" content="DocBook {$DistroTitle} V{$VERSION}"/>
     <xsl:variable name="description">
       <xsl:for-each select="/article/articleinfo/abstract[1]/*|./sect1info/abstract[1]/*">
@@ -30,7 +30,7 @@
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="../../tutorial/images.js"></script>
+    <script type="text/javascript" src="../../images.js"></script>
     <meta name="viewport" content="width=device-width;"/>
    </head>
 </xsl:template>
