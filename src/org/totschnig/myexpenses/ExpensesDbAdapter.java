@@ -586,11 +586,11 @@ public class ExpensesDbAdapter {
    * @param cat_id
    * @return number of transactions linked to a category
    */
-  public int getTransactionCount(long cat_id) {
+  public int getTransactionCountPerCat(long cat_id) {
     //since cat_id stores the account to which is transfered for transfers
     //we have to restrict to normal transactions by checking if transfer_peer is null
     Cursor mCursor = mDb.rawQuery("select count(*) from " + DATABASE_TABLE +  
-        " WHERE transfer_peer is null and cat_id = " + cat_id, 
+        " WHERE transfer_peer is null and " + KEY_CATID +" = " + cat_id, 
         null);
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);
@@ -1027,7 +1027,21 @@ public class ExpensesDbAdapter {
     mDb.delete("accounttype_paymentmethod","method_id = " +id , null);
     return mDb.delete("paymentmethods", KEY_ROWID + "=" + id, null) > 0;
   }
-
+  /**
+   * @param cat_id
+   * @return number of transactions linked to a method
+   */
+  public int getTransactionCountPerMethod(long methodId) {
+    //since cat_id stores the account to which is transfered for transfers
+    //we have to restrict to normal transactions by checking if transfer_peer is null
+    Cursor mCursor = mDb.rawQuery("select count(*) from " + DATABASE_TABLE +  
+        " WHERE " + KEY_METHODID +" = " + methodId, 
+        null);
+    mCursor.moveToFirst();
+    int result = mCursor.getInt(0);
+    mCursor.close();
+    return result;
+  }
   /**
    * @param accountId
    * @return return all templates for an account, if accountId = 0, return all templates

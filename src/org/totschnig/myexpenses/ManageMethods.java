@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class ManageMethods extends ListActivity {
@@ -98,9 +99,12 @@ public class ManageMethods extends ListActivity {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case DELETE_ID:
-      //passing a bundle to showDialog is available only with API level 8
-      mDbHelper.deletePaymentMethod(info.id);
-      fillData();
+      if (mDbHelper.getTransactionCountPerMethod(info.id) > 0 ) {
+        Toast.makeText(this,getString(R.string.not_deletable_mapped_expenses), Toast.LENGTH_LONG).show();
+      } else {
+        mDbHelper.deletePaymentMethod(info.id);
+        fillData();
+      }
       return true;
     }
     return super.onContextItemSelected(item);
