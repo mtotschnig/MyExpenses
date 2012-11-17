@@ -19,16 +19,22 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.util.SparseBooleanArray;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class ManageMethods extends ListActivity {
   private static final int ACTIVITY_CREATE=0;
   private static final int ACTIVITY_EDIT=1;
+  private static final int DELETE_ID = Menu.FIRST;
   private ExpensesDbAdapter mDbHelper;
   Cursor mMethodsCursor;
   private Button mAddButton;
@@ -63,6 +69,41 @@ public class ManageMethods extends ListActivity {
     super.onActivityResult(requestCode, resultCode, intent);
     if (resultCode == RESULT_OK)
       fillData();
+  }
+  /* (non-Javadoc)
+   * makes sure that current account is not deleted
+   * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)
+   */
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v,
+      ContextMenuInfo menuInfo) {
+    super.onCreateContextMenu(menu, v, menuInfo);
+    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+    //predefined methods can not be deleted
+    PaymentMethod method;
+    try {
+      method = PaymentMethod.getInstanceFromDb(info.id);
+      if (method.predef == null) {
+        menu.add(0, DELETE_ID, 0, R.string.menu_delete_method);
+      }
+    } catch (DataObjectNotFoundException e) {
+      //should not happen
+      e.printStackTrace();
+    }
+  }
+
+
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    switch(item.getItemId()) {
+    case DELETE_ID:
+      //passing a bundle to showDialog is available only with API level 8
+      mDbHelper.deletePaymentMethod(info.id);
+      fillData();
+      return true;
+    }
+    return super.onContextItemSelected(item);
   }
   public void fillData() {
     if (mMethodsCursor == null) {

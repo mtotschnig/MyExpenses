@@ -1023,6 +1023,10 @@ public class ExpensesDbAdapter {
     mCursor.close();
     return result;
   }
+  public boolean deletePaymentMethod(long id) {
+    mDb.delete("accounttype_paymentmethod","method_id = " +id , null);
+    return mDb.delete("paymentmethods", KEY_ROWID + "=" + id, null) > 0;
+  }
 
   /**
    * @param accountId
@@ -1044,8 +1048,8 @@ public class ExpensesDbAdapter {
         null);
   }
 
-  public boolean deleteTemplate(long itemId) {
-    return mDb.delete("templates", KEY_ROWID + "=" + itemId, null) > 0;
+  public boolean deleteTemplate(long id) {
+    return mDb.delete("templates", KEY_ROWID + "=" + id, null) > 0;
   }
   public long createTemplate(String date, long amount, String comment,
       long cat_id,long account_id, String payee, long payment_method_id, String title) {
