@@ -105,6 +105,7 @@ public class MethodEdit extends Activity {
       mPaymentType = mMethod.getPaymentType();
       mTypeButton.setText(mTypes[mPaymentType+1]);
       if (mMethod.predef != null) {
+        mLabelText.setFocusable(false);
         mLabelText.setEnabled(false);
       }
     } else {
