@@ -1,0 +1,104 @@
+<?xml version='1.0'?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"   "docbookx.dtd">
+<article>
+  <articleinfo>
+  <title>My Expenses News
+  </title>
+    <author>
+      <firstname>Michael</firstname>
+      <surname>Totschnig</surname>
+      <affiliation>
+        <address><email>michael@totschnig.org</email></address>
+      </affiliation>
+    </author>
+  <abstract><para>
+      <application>My Expenses</application> is an app for tracking expenses and incomes with Android, designed
+      for compatibility with desktop finance tools.
+    </para>
+  </abstract>
+  </articleinfo>
+
+  <sect1 id="news1">
+    <sect1info>
+      <abstract>
+        <para>
+          We explain here the new feature introduced in 1.5.0: Payment methods
+        </para>
+      </abstract>
+      <pubdate>2012-11-18</pubdate>
+    </sect1info>
+    <title>New in 1.5.0.: Payment methods</title>
+    <para>
+      In answer to requests voiced already by its first users, version 1.5.0. of <application>My
+      Expenses</application> introduced payment methods. The functionality is equivalent to how
+      payment methods work in <application>Grisbi</application>: Payment methods are linked to
+      accounts through account types. When you create an account, you define its type as one of CASH
+      , BANK, ASSET or LIABILITY. When you create transactions in a given account, you can then make
+      use of the payment methods that are linked to its account type. 
+    </para>
+    <para>
+    Through the "Manage payment methods" activity from the preferences screen, you can change, add and delete methods.
+    </para>
+    <figure floatstyle="left" id="news1_1" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="news1_1.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <para>
+        You cannot delete predefined labels or change their label, but you change their type 
+    <application>My
+      Expenses</application> has four predefined payment methods, all of them by default linked only
+      to bank accounts: CHEQUE, CREDITCARD, DEPOSIT, DIRECTDEBIT. Those cannot be deleted, or renamed,
+      but you can alter their association with account types. Clicking on a method or activating the "New" button
+      brings you to the following screen:
+    </para>
+        <figure floatstyle="left" id="news1_2" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="news1_2.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <para>
+      Here you select if the method should only be used for expenses, incomes, or both. And you check
+      the account types where you want to make use of it. Now in the edit screen for transactions you will 
+      see a line labeled "Method", with a button opening the dialog where you select between the applicable
+      methods for the transaction.
+    </para>
+            <figure floatstyle="left" id="news1_3" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="news1_3.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <para>
+    Unfortunately, payment methods are not yet expressed in the QIF export, because the standard does not provide a field for this information.
+    If you have an idea on how to export transactions in a more expressive format, let me know.
+    </para>
+    </sect1>
+   <sect1 id="news2">
+    <sect1info>
+      <abstract>
+        <para>
+         We explain here a feature introduced by the upcoming 1.6.0 release: templates.
+        </para>
+      </abstract>
+    </sect1info>
+    <title>Coming to your Android device soon: Templates </title>
+    <para>
+    Just listen
+    </para>
+    </sect1>
+</article>
