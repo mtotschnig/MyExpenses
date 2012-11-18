@@ -57,7 +57,7 @@ div.screenshot img {
 	font-size:90%; /* Menu text size */
 	z-index:1000; /* This makes the dropdown menus appear above the page content below */
 	position:relative;
-	width:100%
+	width:80%
 }
 
 /* Top menu items */
