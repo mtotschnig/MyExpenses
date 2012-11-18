@@ -50,7 +50,6 @@
       </screenshot>
     </figure>
     <para>
-        You cannot delete predefined labels or change their label, but you change their type 
     <application>My
       Expenses</application> has four predefined payment methods, all of them by default linked only
       to bank accounts: CHEQUE, CREDITCARD, DEPOSIT, DIRECTDEBIT. Those cannot be deleted, or renamed,
@@ -70,7 +69,7 @@
     <para>
       Here you select if the method should only be used for expenses, incomes, or both. And you check
       the account types where you want to make use of it. Now in the edit screen for transactions you will 
-      see a line labeled "Method", with a button opening the dialog where you select between the applicable
+      see a line labeled "Method", with a button opening the dialog where you select one of the applicable
       methods for the transaction.
     </para>
             <figure floatstyle="left" id="news1_3" >
