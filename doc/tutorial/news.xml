@@ -29,15 +29,23 @@
     </sect1info>
     <title>New in 1.5.0.: Payment methods</title>
     <para>
+      Through this new channel, I will publish regularly explanations and discussions of
+      <application>My Expenses</application>'s functionality. In contrast to the tutorial, which I
+      try to keep consistent with the current release, and which is translated to all supported
+      languages, these articles are meant to document new features, as they arise, to generate
+      comments from users and hence to contribute to the app's continuos improvement.
+    </para>
+    <para>
       In answer to requests voiced already by its first users, version 1.5.0. of <application>My
       Expenses</application> introduced payment methods. The functionality is equivalent to how
       payment methods work in <application>Grisbi</application>: Payment methods are linked to
-      accounts through account types. When you create an account, you define its type as one of CASH
-      , BANK, ASSET or LIABILITY. When you create transactions in a given account, you can then make
+      accounts through account types. When you create an account, you define its type as one of CASH,
+      BANK, ASSET or LIABILITY. When you create transactions in a given account, you can then make
       use of the payment methods that are linked to its account type. 
     </para>
     <para>
-    Through the "Manage payment methods" activity from the preferences screen, you can change, add and delete methods.
+      Through the "Manage payment methods" activity from the preferences screen, you can change, add
+      and delete methods.
     </para>
     <figure floatstyle="left" id="news1_1" >
       <title/>
@@ -50,11 +58,10 @@
       </screenshot>
     </figure>
     <para>
-    <application>My
-      Expenses</application> has four predefined payment methods, all of them by default linked only
-      to bank accounts: CHEQUE, CREDITCARD, DEPOSIT, DIRECTDEBIT. Those cannot be deleted, or renamed,
-      but you can alter their association with account types. Clicking on a method or activating the "New" button
-      brings you to the following screen:
+      <application>My Expenses</application> has four predefined payment methods, all of them by
+      default linked only to bank accounts: CHEQUE, CREDITCARD, DEPOSIT, DIRECTDEBIT. Those cannot
+      be deleted, or renamed, but you can alter their association with account types. Clicking on a
+      method or activating the "New" button brings you to the following screen:
     </para>
         <figure floatstyle="left" id="news1_2" >
       <title/>
@@ -67,10 +74,10 @@
       </screenshot>
     </figure>
     <para>
-      Here you select if the method should only be used for expenses, incomes, or both. And you check
-      the account types where you want to make use of it. Now in the edit screen for transactions you will 
-      see a line labeled "Method", with a button opening the dialog where you select one of the applicable
-      methods for the transaction.
+      Here you decide if the method should only be used for expenses (credit), incomes (debit), or
+      both (neutral). And you check the account types where you want to make use of it. Now in the
+      edit screen for transactions you will see a line labeled "Method", with a button opening the
+      dialog where you select one of the applicable methods for the transaction.
     </para>
             <figure floatstyle="left" id="news1_3" >
       <title/>
@@ -83,8 +90,9 @@
       </screenshot>
     </figure>
     <para>
-    Unfortunately, payment methods are not yet expressed in the QIF export, because the standard does not provide a field for this information.
-    If you have an idea on how to export transactions in a more expressive format, let me know.
+    Unfortunately, payment methods are not yet expressed in the QIF export, because the standard
+    does not provide a field for this information. If you have an idea on how to export transactions
+    in a more expressive format, let me know.
     </para>
     </sect1>
    <sect1 id="news2">
@@ -94,10 +102,11 @@
          We explain here a feature introduced by the upcoming 1.6.0 release: templates.
         </para>
       </abstract>
+      <pubdate>2012-11-25</pubdate>
     </sect1info>
-    <title>Coming to your Android device soon: Templates </title>
+    <title>New feature in upcoming 1.6.0 release: Templates </title>
     <para>
-    Just listen
+      This article is in preparation. Please stay tuned.
     </para>
     </sect1>
 </article>
