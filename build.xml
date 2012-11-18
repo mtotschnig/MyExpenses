@@ -104,6 +104,15 @@
   		<zipfileset dir="tests" includes="AndroidManifest.xml project.properties src/**" prefix="tests"/>
   	</zip>
   </target>
+  <target name="news">
+    <exec executable="xsltproc" failonerror="true">
+      <arg value="--stringparam"/>
+      <arg value="base.dir"/>
+      <arg value="../MyExpenses.pages/news/"/>
+      <arg value="doc/tutorial/xsl/news_html.xsl"/>
+      <arg value="doc/tutorial/news.xml"/>
+    </exec>	
+  </target>
 	<!-- for task from ant contrib -->
   <target name="tutorial">
   <!-- for historical reasons rev 1 of tutorial used "tutorial"
