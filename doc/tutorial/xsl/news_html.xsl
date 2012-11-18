@@ -36,6 +36,7 @@
 </xsl:template>
 
 <xsl:template name="sect1.titlepage.recto">
+  <xsl:apply-templates mode="sect1.titlepage.recto.auto.mode" select="sect1info/pubdate"/>
   <xsl:apply-templates mode="sect1.titlepage.recto.auto.mode" select="title"/>
 </xsl:template>
 
@@ -56,7 +57,11 @@
                   </xsl:call-template>
                 </xsl:attribute>
                 <xsl:apply-templates select="." mode="titleabbrev.markup"/>
+                <xsl:text> ( </xsl:text>
+                <xsl:value-of select="sect1info/pubdate"/>
+                <xsl:text> )</xsl:text>
               </a>
+              
             </li>
           </xsl:if>
 				</xsl:for-each>
