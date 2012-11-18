@@ -57,6 +57,7 @@ div.screenshot img {
 	font-size:90%; /* Menu text size */
 	z-index:1000; /* This makes the dropdown menus appear above the page content below */
 	position:relative;
+	width:100%
 }
 
 /* Top menu items */
@@ -64,25 +65,18 @@ div.screenshot img {
 	margin:0;
 	padding:0;
 	list-style:none;
-	float:right;
-	position:relative;
-	right:50%;
 }
 #rightmenu ul li {
 	margin:0 0 0 1px;
 	padding:0;
-	float:left;
-	position:relative;
-	left:50%;
-	top:1px;
+	text-align: right;
 }
 #rightmenu ul li a {
-	display:block;
+	display:inline-block;
 	margin:0;
-	padding:.6em .5em .4em;
+	padding:.8em;
 	font-size:1em;
 	line-height:1em;
-	background:#ddd;
 	text-decoration:none;
 	color:#444;
 	font-weight:bold;
@@ -92,13 +86,13 @@ div.screenshot img {
 	color:#fff;
 	background:#000;
 }
-#rightmenu ul li a:hover {
+#rightmenu > ul li > a:hover {
 	background:#36f; /* Top menu items background colour */
 	color:#fff;
 	border-bottom:1px solid #03f;
 }
-#rightmenu ul li:hover a,
-#rightmenu ul li.hover a { /* This line is required for IE 6 and below */
+#rightmenu > ul li:hover > a,
+#rightmenu > ul li.hover > a { /* This line is required for IE 6 and below */
 	background:#36f; /* Top menu items background colour */
 	color:#fff;
 	border-bottom:1px solid #03f;
@@ -109,53 +103,42 @@ div.screenshot img {
 	display:none; /* Sub menus are hidden by default */
 	position:absolute;
 	top:2em;
-	left:0;
-	float:left;
-	right:auto; /*resets the right:50% on the parent ul */
-	width:10em; /* width of the drop-down menus */
 }
 #rightmenu ul ul li {
-	left:auto;  /*resets the left:50% on the parent li */
 	margin:0; /* Reset the 1px margin from the top menu */
 	clear:left;
-	float:left;
 	width:100%;
 }
-#rightmenu ul ul li a,
-#rightmenu ul li.active li a,
-#rightmenu ul li:hover ul li a,
-#rightmenu ul li.hover ul li a { /* This line is required for IE 6 and below */
+#rightmenu ul ul li:hover{
+	background-color: #36f;
+}
+#rightmenu ul ul li,
+#rightmenu ul li.active li,
+#rightmenu ul li:hover ul li,
+#rightmenu ul li.hover ul li { /* This line is required for IE 6 and below */
 	font-size:.8em;
 	font-weight:normal; /* resets the bold set for the top level menu items */
 	background:#eee;
 	color:#444;
 	line-height:1.4em; /* overwrite line-height value from top menu */
 	border-bottom:1px solid #ddd; /* sub menu item horizontal lines */
-	float:left;
-	width:100%;
 }
-#rightmenu ul ul li a:hover,
-#rightmenu ul li.active ul li a:hover,
-#rightmenu ul li:hover ul li a:hover,
-#rightmenu ul li.hover ul li a:hover { /* This line is required for IE 6 and below */
+#rightmenu ul ul li:hover,
+#rightmenu ul li.active ul li:hover,
+#rightmenu ul li:hover ul li:hover,
+#rightmenu ul li.hover ul li:hover { /* This line is required for IE 6 and below */
 	background:#36f; /* Sub menu items background colour */
 	color:#fff;
-	float:left;
+	float:right;
 }
-
 /* Flip the last submenu so it stays within the page */
 #rightmenu ul ul.last {
-	left:auto; /* reset left:0; value */
 	right:0; /* Set right value instead */
-}
-#rightmenu ul ul.last li {
-	float:right;
-	position:relative;
-	right:.8em;
 }
 
 /* Make the sub menus appear on hover */
 #rightmenu ul li:hover ul,
 #rightmenu ul li.hover ul { /* This line is required for IE 6 and below */
 	display:block; /* Show the sub menus */
+	background:#eee; 
 }
