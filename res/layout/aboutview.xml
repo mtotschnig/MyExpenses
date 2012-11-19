@@ -45,6 +45,11 @@
           android:onClick="handleHelp"
           android:id="@id/FAQ_COMMAND" 
           android:text="FAQ" />
+        <Button
+          style="@style/button"
+          android:onClick="handleHelp"
+          android:id="@id/NEWS_COMMAND" 
+          android:text="News" />
     </LinearLayout>
     </RelativeLayout>
     <TextView android:text="@string/help_leading" style="@style/about_heading" />

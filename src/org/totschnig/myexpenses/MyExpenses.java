@@ -256,9 +256,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         R.string.menu_help,
         android.R.drawable.ic_menu_help,
         R.id.HELP_COMMAND);
-    mHelpButton.addItem(R.string.tutorial,R.id.TUTORIAL_COMMAND);
     mHelpButton.addItem(R.string.menu_changes,R.id.CHANGES_COMMAND);
     mHelpButton.addItem(R.string.menu_faq,R.id.FAQ_COMMAND);
+    mHelpButton.addItem("News",R.id.NEWS_COMMAND);
+    mHelpButton.addItem(R.string.tutorial,R.id.TUTORIAL_COMMAND);
     mHelpButton.addItem(R.string.menu_help,R.id.HELP_COMMAND);
     mButtonBarIsFilled = true;
   }
@@ -1149,6 +1150,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       startActivity(i);
       break;
     case R.id.CHANGES_COMMAND:
+      i = new Intent(MyExpenses.this, WebView.class);
+      i.putExtra("start", command);
+      startActivity(i);
+      break;
+    case R.id.NEWS_COMMAND:
       i = new Intent(MyExpenses.this, WebView.class);
       i.putExtra("start", command);
       startActivity(i);

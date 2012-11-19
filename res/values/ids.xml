@@ -28,6 +28,7 @@
     <item type="id" name="CHANGES_COMMAND"/>
     <item type="id" name="TUTORIAL_COMMAND"/>
     <item type="id" name="FAQ_COMMAND"/>
+    <item type="id" name="NEWS_COMMAND"/>
     <item type="id" name="DELETE_COMMAND"/>
     <item type="id" name="SHOW_DETAIL_COMMAND"/>
     <item type="id" name="CREATE_TEMPLATE_COMMAND"/>
