@@ -40,6 +40,7 @@ public class ButtonBar extends LinearLayout  {
   public MenuButton addButton(int text,int drawable,int id) {
     LayoutInflater inflater = LayoutInflater.from(getContext());
     MenuButton b = (MenuButton) inflater.inflate(R.layout.button, this, false);
+    b.setBackgroundResource(R.drawable.btn_default);
     b.setText(text);
     b.setId(id);
     if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -77,6 +78,9 @@ public class ButtonBar extends LinearLayout  {
      * adds an entry to the menu
      */
     public TextView addItem(String text,int id) {
+      if (mItems.isEmpty()) {
+        setBackgroundResource(R.drawable.btn_popup);
+      }
       MyExpenses context = (MyExpenses) getContext();
       TextView tv = new TextView(context);
       tv.setId(id);
@@ -91,7 +95,9 @@ public class ButtonBar extends LinearLayout  {
     public void clearMenu() {
       mItems.clear();
       dw = null;
+      setBackgroundResource(R.drawable.btn_default);
     }
+    
     
     public BetterPopupWindow getMenu() {
       if (mItems.size() == 0)
