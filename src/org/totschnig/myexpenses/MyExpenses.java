@@ -86,7 +86,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public static final boolean ACCOUNT_BUTTON_TOGGLE = true;
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
-  static final int ADD_BUTTON_EXPLAIN_DIALOG_ID = 1;
   static final int VERSION_DIALOG_ID = 2;
   static final int RESET_DIALOG_ID = 3;
   static final int BACKUP_DIALOG_ID = 4;
@@ -238,7 +237,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     mAddButton = mButtonBar.addButton(
         R.string.menu_new,
         android.R.drawable.ic_menu_add,
-        R.id.INSERT_MAYBE_COMMAND);
+        R.id.INSERT_TA_COMMAND);
     
     mSwitchButton = mButtonBar.addButton(
         R.string.menu_accounts,
@@ -567,15 +566,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             }
         })
         .setNegativeButton(android.R.string.no, null).create();
-    case ADD_BUTTON_EXPLAIN_DIALOG_ID:
-      return new AlertDialog.Builder(this)
-      .setMessage(R.string.menu_add_explain)
-      .setNeutralButton(R.string.button_continue, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-          dismissDialog(ADD_BUTTON_EXPLAIN_DIALOG_ID);
-          createRow(TYPE_TRANSACTION);
-        }
-      }).create();
     case USE_STANDARD_MENU_DIALOG_ID:
       return new AlertDialog.Builder(this)
         .setMessage(R.string.suggest_use_standard_menu)
@@ -1096,15 +1086,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     switch (command) {
-    //we check if the user already knows about having to long click for INSERT_TRANSFER
-    case R.id.INSERT_MAYBE_COMMAND:
-      if ((transfersEnabledP() || mTemplatesDefinedP) && !mSettings.getBoolean(MyApplication.PREFKEY_ADD_BUTTON_INFO_SHOWN, false)) {
-        showDialog(ADD_BUTTON_EXPLAIN_DIALOG_ID);
-        mSettings.edit().putBoolean(MyApplication.PREFKEY_ADD_BUTTON_INFO_SHOWN,true).commit();
-      } else {
-        createRow(TYPE_TRANSACTION);
-      }
-      break;
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
       break;

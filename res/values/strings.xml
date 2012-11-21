@@ -121,7 +121,6 @@
       once you have defined multiple accounts. Currently there is only one account.
       Do you want to create a second account now?</string>
   <string name="menu_accounts_new">New &#8230;</string>
-  <string name="menu_add_explain">For adding transfers and for creating transactions from templates, long click the New button.</string>
   <string name="menu_backup">Backup</string>
   <string name="menu_change_account">Change account</string>
   <string name="menu_changes">Changes</string>
