@@ -59,7 +59,7 @@ public class ExpensesDbAdapter {
 
   private String mDatabaseName;
   private static final String DATABASE_TABLE = "transactions";
-  private static final int DATABASE_VERSION = 22;
+  private static final int DATABASE_VERSION = 23;
   
   /**
    * SQL statement for expenses TABLE
@@ -221,15 +221,9 @@ public class ExpensesDbAdapter {
         db.execSQL("alter table expenses add column transfer_peer text");
       }
       if (oldVersion < 20) {
-        db.execSQL("create table " + DATABASE_TABLE  +  "( "
-            + KEY_ROWID         + " integer primary key autoincrement, "
-            + KEY_COMMENT       + " text not null, "
-            + KEY_DATE          + " DATETIME not null, "
-            + KEY_AMOUNT        + " integer not null, "
-            + KEY_CATID         + " integer, "
-            + KEY_ACCOUNTID     + " integer, "
-            + KEY_PAYEE         + " text, "
-            + KEY_TRANSFER_PEER + " integer default null);");
+        db.execSQL("create table transactions ( _id integer primary key autoincrement, comment text not null, "
+            + "date DATETIME not null, amount integer not null, cat_id integer, account_id integer, "
+            + "payee  text, transfer_peer integer default null);");
         db.execSQL("INSERT INTO transactions (comment,date,amount,cat_id,account_id,payee,transfer_peer)" +
         		" select comment,date,CAST(ROUND(amount*100) AS INTEGER),cat_id,account_id,payee,transfer_peer from expenses");
         db.execSQL("DROP TABLE expenses");
@@ -244,21 +238,22 @@ public class ExpensesDbAdapter {
         db.execSQL("create table paymentmethods (_id integer primary key autoincrement, label text not null, type integer default 0);");
         db.execSQL("create table accounttype_paymentmethod (type text, method_id integer, primary key (type,method_id));");
         insertDefaultPaymentMethods(db);
-        db.execSQL("alter table transactions add column " + KEY_METHODID + " text default 'CASH'");
+        db.execSQL("alter table transactions add column payment_method_id text default 'CASH'");
         db.execSQL("alter table accounts add column type text default 'CASH'");
       }
       if (oldVersion < 22) {
-        db.execSQL("create table templates ( "
-          + KEY_ROWID         + " integer primary key autoincrement, "
-          + KEY_COMMENT       + " text not null, "
-          + KEY_AMOUNT        + " integer not null, "
-          + KEY_CATID         + " integer, "
-          + KEY_ACCOUNTID     + " integer, "
-          + KEY_PAYEE         + " text, "
-          + KEY_TRANSFER_PEER + " integer default null, "
-          + KEY_METHODID      + " integer, "
-          + KEY_TITLE         + " text not null, "
-          + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));");  
+        db.execSQL("create table templates ( _id integer primary key autoincrement, comment text not null, "
+          + "amount integer not null, cat_id integer, account_id integer, payee text, transfer_peer integer default null, "
+          + "payment_method_id integer, title text not null);");  
+      }
+      if (oldVersion < 23) {
+        db.execSQL("ALTER TABLE templates RENAME to templates_old");
+        db.execSQL("create table templates ( _id integer primary key autoincrement, comment text not null, "
+            + "amount integer not null, cat_id integer, account_id integer, payee text, transfer_peer integer default null, "
+            + "payment_method_id integer, title text not null, unique(account_id, title));");
+        db.execSQL("INSERT INTO templates(comment,amount,cat_id,account_id,payee,transfer_peer,payment_method_id,title)" +
+            " SELECT comment,amount,cat_id,account_id,payee,transfer_peer,payment_method_id,title from templates_old");
+        db.execSQL("DROP TABLE templates_old");
       }
     }
   }
