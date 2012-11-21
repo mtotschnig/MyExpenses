@@ -194,9 +194,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   }
   private void fillSwitchButton() {
     mSwitchButton.clearMenu();
-    mSwitchButton.addItem(R.string.menu_accounts_new,R.id.CREATE_ACCOUNT_COMMAND);
     final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
     if(otherAccounts.moveToFirst()){
+      mSwitchButton.addItem(R.string.menu_accounts_new,R.id.CREATE_ACCOUNT_COMMAND);
       for (int i = 0; i < otherAccounts.getCount(); i++) {
         TextView accountTV = mSwitchButton.addItem(
             otherAccounts.getString(otherAccounts.getColumnIndex("label")),R.id.SWITCH_ACCOUNT_COMMAND);
@@ -209,8 +209,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   }
   private void fillAddButton() {
     mAddButton.clearMenu();
+    boolean needPopup = false;
     final Cursor templates = mDbHelper.fetchTemplates(mCurrentAccount.id);
     if(templates.moveToFirst()){
+      needPopup = true;
       mTemplatesDefinedP = true;
       for (int i = 0; i < templates.getCount(); i++) {
         TextView templateTV = mAddButton.addItem(
@@ -223,9 +225,14 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       mTemplatesDefinedP = false;
     }
     templates.close();
-
-    mTransferButton = mAddButton.addItem(R.string.transfer,R.id.INSERT_TRANSFER_COMMAND);
-    mAddButton.addItem(R.string.transaction,R.id.INSERT_TA_COMMAND);
+    if (transfersEnabledP()) {
+      needPopup = true;
+      mTransferButton = mAddButton.addItem(R.string.transfer,R.id.INSERT_TRANSFER_COMMAND);
+    }
+    //we only add the insert_ta item if we have either templates or transfers enabled
+    if (needPopup) {
+      mAddButton.addItem(R.string.transaction,R.id.INSERT_TA_COMMAND);
+    }
   }
   private void fillButtons() {
     mAddButton = mButtonBar.addButton(
@@ -349,7 +356,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       mResetButton.setEnabled(mExpensesCursor.getCount() > 0);
       fillSwitchButton();
       fillAddButton();
-      mTransferButton.setEnabled(transfersEnabledP());
+      //mTransferButton.setEnabled(transfersEnabledP());
     }
   }
   
@@ -554,7 +561,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID:
       return new AlertDialog.Builder(this)
         .setMessage(R.string.menu_accounts_explain)
-        .setNeutralButton(R.string.close, null).create();
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+              dispatchCommand(R.id.CREATE_ACCOUNT_COMMAND,null);
+            }
+        })
+        .setNegativeButton(android.R.string.no, null).create();
     case ADD_BUTTON_EXPLAIN_DIALOG_ID:
       return new AlertDialog.Builder(this)
       .setMessage(R.string.menu_add_explain)
@@ -1086,7 +1098,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     switch (command) {
     //we check if the user already knows about having to long click for INSERT_TRANSFER
     case R.id.INSERT_MAYBE_COMMAND:
-      if ((mTransferButton.isEnabled() || mTemplatesDefinedP) && !mSettings.getBoolean(MyApplication.PREFKEY_ADD_BUTTON_INFO_SHOWN, false)) {
+      if ((transfersEnabledP() || mTemplatesDefinedP) && !mSettings.getBoolean(MyApplication.PREFKEY_ADD_BUTTON_INFO_SHOWN, false)) {
         showDialog(ADD_BUTTON_EXPLAIN_DIALOG_ID);
         mSettings.edit().putBoolean(MyApplication.PREFKEY_ADD_BUTTON_INFO_SHOWN,true).commit();
       } else {
