@@ -36,6 +36,7 @@
 </xsl:template>
 
 <xsl:template name="sect1.titlepage.recto">
+<div><span id="navigtitle" style="display:none"><a href="../index.html"><span class="application">My Expenses</span></a> News</span></div>
   <xsl:apply-templates mode="sect1.titlepage.recto.auto.mode" select="sect1info/pubdate"/>
   <xsl:apply-templates mode="sect1.titlepage.recto.auto.mode" select="title"/>
 </xsl:template>
