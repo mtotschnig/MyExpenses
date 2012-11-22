@@ -61,7 +61,7 @@
       <application>My Expenses</application> has four predefined payment methods, all of them by
       default linked only to bank accounts: CHEQUE, CREDITCARD, DEPOSIT, DIRECTDEBIT. Those cannot
       be deleted, or renamed, but you can alter their association with account types. Clicking on a
-      method or activating the "New" button brings you to the following screen:
+      method or activating the <guibutton>New</guibutton> button brings you to the following screen:
     </para>
         <figure floatstyle="left" id="news1_2" >
       <title/>
@@ -76,10 +76,10 @@
     <para>
       Here you decide if the method should only be used for expenses (credit), incomes (debit), or
       both (neutral). And you check the account types where you want to make use of it. Now in the
-      edit screen for transactions you will see a line labeled "Method", with a button opening the
+      edit screen for transactions you will see a line labeled <guilabel>Method</guilabel>, with a button opening the
       dialog where you select one of the applicable methods for the transaction.
     </para>
-            <figure floatstyle="left" id="news1_3" >
+      <figure floatstyle="left" id="news1_3" >
       <title/>
       <screenshot>
         <mediaobject>
@@ -99,14 +99,81 @@
     <sect1info>
       <abstract>
         <para>
-         We explain here a feature introduced by the upcoming 1.6.0 release: templates.
+         We explain here a feature introduced in 1.6.0: templates.
         </para>
       </abstract>
-      <pubdate>2012-11-25</pubdate>
+      <pubdate>2012-11-22</pubdate>
     </sect1info>
     <title>New feature in upcoming 1.6.0 release: Templates </title>
     <para>
-      This article is in preparation. Please stay tuned.
+      <application>My Expenses</application> now tries to help you enter recurrent transactions: say
+      you often eat a fixed-priced meal in your favourite restaurant, or transfer the same amount of
+      money from one account to the other, or buy the weekly magazine at your newsstand, you name it.
+      You call the <guilabel>Create template</guilabel> command from the context menu in the transaction list:
+    </para>
+     <figure floatstyle="left" id="news2_1" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="news2_1.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <para>
+      Enter a title for the template:
+    </para>
+    <figure floatstyle="left" id="news2_2" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="news2_2.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <para>
+      Templates are available through the <guibutton>New</guibutton> 
+      button's popup window. 
+    </para>
+     <figure floatstyle="left" id="news2_3" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="news2_3.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    <para>
+      Clicking on a template's title results in the instantiation of a new transaction with all information
+      (amount, category, comment, payee, payment method) from the template. Only time and date reflect
+      the current moment. 
+   </para>
+        <figure floatstyle="left" id="news2_4" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="news2_4.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+   <para>
+      In the same way you can define templates for transfers. Templates are linked to
+      accounts, so you only you see templates defined for the current account in the popup menu.
+    </para>    
+    <para>
+      Inspecting the list of templates and deleting the ones you no longer need, is available from
+      the preferences.
+    </para>
+    <para>
+      Beta 1 of 1.6.0 is available from Github's <ulink url="https://github.com/mtotschnig/MyExpenses/downloads">Downloads</ulink> and shortly through
+      <ulink url="https://f-droid.org/repository/browse/?fdid=org.totschnig.myexpenses">F-Droid</ulink>.
     </para>
     </sect1>
 </article>
