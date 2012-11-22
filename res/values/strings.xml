@@ -93,21 +93,22 @@
       incomes, and to export these expenses into a desktop finance tool, like Grisbi or
       Gnucash.</string>
   <string name="help_leading"><u>Thanks for installing <i>&app_name;</i> for Android.</u></string>
+  <!-- TODO changed. Translations pending -->
   <string name="help_quick_guide"><i>&app_name;</i> comes with two command interfaces: A button bar
       and the Android standard menu (hardware Menu button). You can set which one to use in the
-      settings screen. In the button bar, most buttons open menus upon long clicks and
-      execute a default action on short clicks.
-      \n<u>Accounts -> New &#8230;</u> : Create a new account.
-      \n<u>Accounts</u> : Switch to different account.
+      settings screen. The buttons in the button bar execute the following actions on short clicks:
       \n<u>New</u> : Add a transaction.
-      \n<u>New -> Transfer</u> : Add a transfer, if you have more than one account in the same
-        currency.
-      \n<u>Reset</u> : exports expenses onto SD-Card in QIF format, deletes the expenses and updates
+      \n<u>Accounts</u> : Switch to different account.
+      \n<u>Reset</u> : exports expenses onto SD-card in QIF format, deletes the expenses and updates
         the opening balance.
-      \n<u>Settings</u>: Select <u>Import from Grisbi</u> to import from the XML structure that
-        Grisbi uses for its expenses. You either choose one of the provided default category files
-        from Grisbi or use a custom one, that you store at \"/sdcard/myexpenses/&grisbi_file;\". You
-        can use your Grisbi XML file as is, or remove anything but the category definitions from it.
+      \n<u>Settings</u> : Gives access to all settings and management operations (of accounts, categories, payees, payment methods, templates, backups, imports).
+      \n<u>Help</u> : Opens this help screen.
+      \nSome buttons (indicated by a triangle in the right upper corner) open popup menus on long clicks:
+      \n<u>New</u> : -> <u>Transfer</u> allows to create a transfer from one account to another (must have same currency). Also enumerates available templates you can instantiate. (Templates can be created from transactions from their context menu in the list)
+      \n<u>Accounts</u> : Enumerates all accounts you can switch to. -> <u>New &#8230;</u> creates a new account.
+      \n<u>Settings</u> : Quick access to backup and properties for current account.
+      \n<u>Help</u> : Quick access to Tutorial, News, FAQ and Changes.
+      \nPlease refer to the tutorial for detailed explanation.
   </string>
   <string name="important_version_information">New version: Important information</string>
   <string name="import_categories">Import categories</string>
@@ -116,7 +117,7 @@
       %1$s</string>
   <string name="label">Label</string>
   <string name="menu_accounts">Accounts</string>
-  <!-- changed. Translations pending -->
+  <!-- TODO changed. Translations pending -->
   <string name="menu_accounts_explain">The Accounts button will let you switch between accounts,
       once you have defined multiple accounts. Currently there is only one account.
       Do you want to create a second account now?</string>
@@ -170,7 +171,7 @@
   <string name="parse_error_file_not_found">Could not find file %1$s</string>
   <string name="parse_error_no_data_found">No importable data found in file.</string>
   <string name="parse_error_parse_exception">Could not parse file</string>
-  <string name="parse_error_other_exception">An error occured: %1$s</string>
+  <string name="parse_error_other_exception">An error occurred: %1$s</string>
   <!--
   <string name="parse_error_grisbi_version_not_determined">Unable to determine Grisbi file
       version</string>
@@ -187,7 +188,7 @@
   <string name="pm_type_neutral">Neutral</string>
   <string name="pm_type_debit">Debit</string>
   <string name="pm_type_credit">Credit</string>
-  <string name="peer_transaction_deleted">This transaction refered to a contra-entry (account %1$s)
+  <string name="peer_transaction_deleted">This transaction referred to a contra-entry (account %1$s)
       that has been deleted</string>
   <string name="pref_account_button_behaviour_title">Behaviour of \"Accounts\" button</string>
   <string name="pref_account_button_behaviour_summary">Should the \"Accounts\" button toggle between the last two accounts instead of cycling between all.</string>
@@ -252,8 +253,9 @@
       backup will be overwritten. Do you want to continue?</string>
   <string name="warning_delete_account">This account will be deleted with all its transactions.
       Do you want to continue?</string>
-  <string name="warning_reset_account">All transactions of this account will be deleted.
-      Do you want to continue?</string>
+      <!-- TODO changed. Translations pending -->
+  <string name="warning_reset_account">All transactions of this account will be exported into QIF file 
+      on SD-card and deleted. Do you want to continue?</string>
   <string name="warning_select_account">Please select an account!</string>
   
   <!-- strings below this comment do not need translations -->
