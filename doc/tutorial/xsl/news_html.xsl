@@ -10,6 +10,9 @@
 <xsl:param name="formal.object.break.after" select="0"/>
 <xsl:param name="toc.list.type" select="'ul'"/>
 
+<!-- no title attribute for sections -->
+<xsl:template name="generate.html.title"/>
+
 <xsl:template name="html.head">
   <head>
     <xsl:call-template name="system.head.content"/>

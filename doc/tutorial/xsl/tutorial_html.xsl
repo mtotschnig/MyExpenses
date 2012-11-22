@@ -18,6 +18,9 @@
 <xsl:param name="suppress.footer.navigation" select="1"/>
 <xsl:param name="formal.object.break.after" select="0"/>
 
+<!-- no title attribute for sections -->
+<xsl:template name="generate.html.title"/>
+
 <xsl:template name="html.head">
   <head>
     <xsl:call-template name="system.head.content"/>
