@@ -1067,13 +1067,14 @@ public class ExpensesDbAdapter {
     return mDb.delete("templates", KEY_ROWID + "=" + id, null) > 0;
   }
   public long createTemplate(String date, long amount, String comment,
-      long cat_id,long account_id, String payee, long payment_method_id, String title) {
+      long cat_id,long account_id, String payee, long transfer_peer, long payment_method_id, String title) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_AMOUNT, amount);
     initialValues.put(KEY_CATID, cat_id);
     initialValues.put(KEY_ACCOUNTID, account_id);
     initialValues.put(KEY_PAYEE, payee);
+    initialValues.put(KEY_TRANSFER_PEER, transfer_peer);
     initialValues.put(KEY_METHODID, payment_method_id);
     initialValues.put(KEY_TITLE, title);
     try {

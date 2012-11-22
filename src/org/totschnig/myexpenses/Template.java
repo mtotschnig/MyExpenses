@@ -46,7 +46,7 @@ public class Template extends Transaction {
    */
   public long save() {
     if (id == 0) {
-      id = mDbHelper.createTemplate(dateAsString, amount.getAmountMinor(), comment,catId,accountId,payee, methodId,title);
+      id = mDbHelper.createTemplate(dateAsString, amount.getAmountMinor(), comment,catId,accountId,payee,transfer_peer,methodId,title);
     } else {
       //not implemented yet
       //mDbHelper.updateTemplate(id, dateAsString, amount.getAmountMinor(), comment,catId,payee, methodId,title);
