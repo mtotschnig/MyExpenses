@@ -163,7 +163,9 @@
   </string>
   <string name="parse_error_parse_exception">No se ha podido analizar el archivo.</string>
   <string name="parse_error_other_exception">Se ha producido un error: %1$s</string>
+  <!-- 
   <string name="parse_error_grisbi_version_not_determined">No se ha podido determinar la versión del archivo Grisbi.</string>
+   -->
   <string name="parse_error_grisbi_version_not_supported">La versión del archivo Grisbi no es
       apoyada.</string>
   <string name="payee">Beneficiario</string>
