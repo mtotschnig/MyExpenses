@@ -251,8 +251,14 @@ public class ExpensesDbAdapter {
         db.execSQL("create table templates ( _id integer primary key autoincrement, comment text not null, "
             + "amount integer not null, cat_id integer, account_id integer, payee text, transfer_peer integer default null, "
             + "payment_method_id integer, title text not null, unique(account_id, title));");
-        db.execSQL("INSERT INTO templates(comment,amount,cat_id,account_id,payee,transfer_peer,payment_method_id,title)" +
-            " SELECT comment,amount,cat_id,account_id,payee,transfer_peer,payment_method_id,title from templates_old");
+        try {
+          db.execSQL("INSERT INTO templates(comment,amount,cat_id,account_id,payee,transfer_peer,payment_method_id,title)" +
+              " SELECT comment,amount,cat_id,account_id,payee,transfer_peer,payment_method_id,title from templates_old");
+        } catch (SQLiteConstraintException e) {
+          Log.e(TAG,e.getLocalizedMessage());
+          //theoretically we could have entered duplicate titles for one account
+          //we silently give up in that case (since this concerns only a narrowly distributed alpha version)
+        }
         db.execSQL("DROP TABLE templates_old");
       }
     }
