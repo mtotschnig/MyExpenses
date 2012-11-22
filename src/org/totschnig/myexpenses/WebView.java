@@ -15,10 +15,13 @@
 
 package org.totschnig.myexpenses;
 
+import java.net.URL;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ViewGroup;
 //import android.util.Log;
@@ -27,6 +30,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
+import android.net.Uri;
 import android.os.Bundle;
 
 /**
@@ -38,7 +42,8 @@ public class WebView extends Activity {
   protected FrameLayout webViewPlaceholder;
   protected android.webkit.WebView webView;
   static final int TUTORIAL_RELEASE_VERSION = 3;
-  static final int CURRENT_NEWS_VERSION = 1;
+  static final int CURRENT_NEWS_VERSION = 2;
+  static final String HOST = "myexpenses.totschnig.org";
   private String startWith;
   private float zoomLevel;
   
@@ -104,24 +109,36 @@ public class WebView extends Activity {
       webView.setWebViewClient(new CustomWebViewClient());
 
       // Load a page
-      webView.loadUrl("http://myexpenses.totschnig.org/" + startWith);
+      webView.loadUrl("http://" + HOST + "/" + startWith);
     }
 
     // Attach the WebView to its placeholder
     webViewPlaceholder.addView(webView);
   }
   public class CustomWebViewClient extends WebViewClient {
-    public void onScaleChanged(android.webkit.WebView wv, float oldScale, float newScale)
-    {
-      Log.i("WebView","Zoom level changed: " + webView.getScale());
-    }
     public boolean shouldOverrideUrlLoading (android.webkit.WebView view, String url) {
-      zoomLevel = view.getScale();
-      Log.i("WebView","saving zoom: " + zoomLevel);
+      //http://stackoverflow.com/questions/4907045/how-to-make-links-open-within-webview-or-open-by-default-browser-depending-on-do
+      try {
+        URL urlObj = new URL(url);
+        if( TextUtils.equals(urlObj.getHost(),HOST) ) {
+          zoomLevel = view.getScale();
+          //Allow the WebView in your application to do its thing
+          return false;
+        } else {
+          //Pass it to the system, doesn't match your domain
+          Intent intent = new Intent(Intent.ACTION_VIEW);
+          intent.setData(Uri.parse(url));
+          startActivity(intent);
+          //Tell the WebView you took care of it.
+          return true;
+        }
+      }
+      catch (Exception e) {
+        e.printStackTrace();
+      }
       return false;
     }
     public void onPageFinished (android.webkit.WebView view, String url) {
-      Log.i("WebView","finished loading page, now trying to set zoomLevel: " + zoomLevel);
       view.setInitialScale((int) (zoomLevel *100));
     }
   }
