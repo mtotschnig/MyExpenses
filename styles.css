@@ -1,6 +1,7 @@
 h1 {
  font-size:  110%;
 }
+h2 { color: #3383BB;}
 .toc dl dt {
   display: inline;
 }
@@ -25,12 +26,14 @@ body {
 }
 body {
   margin-top: 1.0em;
-  background-color: #CEE3F6;
+  background-color: #cecfce;
   font-family: Helvetica, Arial, FreeSans, sans-serif;
   color: #000000;
 }
 div.screenshot img {
   cursor:pointer;
+   padding:1px;
+   border:1px solid #021a40;
 }
 .application {
   font-style: italic;
@@ -87,15 +90,13 @@ div.screenshot img {
 	background:#000;
 }
 #rightmenu > ul li > a:hover {
-	background:#36f; /* Top menu items background colour */
+	background:#3383BB; /* Top menu items background colour */
 	color:#fff;
-	border-bottom:1px solid #03f;
 }
 #rightmenu > ul li:hover > a,
 #rightmenu > ul li.hover > a { /* This line is required for IE 6 and below */
-	background:#36f; /* Top menu items background colour */
+	background:#3383BB; /* Top menu items background colour */
 	color:#fff;
-	border-bottom:1px solid #03f;
 }
 
 /* Submenu items */
@@ -110,7 +111,7 @@ div.screenshot img {
 	width:100%;
 }
 #rightmenu ul ul li:hover{
-	background-color: #36f;
+	background-color: #3383BB;
 }
 #rightmenu ul ul li,
 #rightmenu ul li.active li,
@@ -127,7 +128,7 @@ div.screenshot img {
 #rightmenu ul li.active ul li:hover,
 #rightmenu ul li:hover ul li:hover,
 #rightmenu ul li.hover ul li:hover { /* This line is required for IE 6 and below */
-	background:#36f; /* Sub menu items background colour */
+	background:#3383BB; /* Sub menu items background colour */
 	color:#fff;
 	float:right;
 }

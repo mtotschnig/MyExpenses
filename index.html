@@ -19,7 +19,7 @@
           href =  "tutorial_r3/" + getLang() + "/introduction.html";
         }
         var html = [];
-        html.push('<div class="tabIframeWrapper">');
+        html.push('<div class="block">');
         html.push('<iframe scrolling="no" class="iframetab" src="' +href + '" onload="resizeIframe(this) ">Load Failed?</iframe>');
         html.push('</div>');
         panel.empty().append(html.join(""));
@@ -67,21 +67,20 @@
     <style type="text/css">
       body {
         margin-top: 1.0em;
-        background-color: #CEE3F6;
+        background-color: #848284;
         font-family: Helvetica, Arial, FreeSans, san-serif;
         color: #000000;
       }
       #container {
         margin: 0 auto;
-        width: 700px;
+        width: 800px;
       }
-      h1 { font-size: 2em; color: #61e847; margin-bottom: 3px; }
+      h1 { font-size: 2em; color: white; margin-bottom: 3px; }
       h1 .small { font-size: 0.7em; }
-      h1 a { text-decoration: none }
-      h2 { font-size: 1.5em; color: #61e847; }
+      h1 a { text-decoration: none; color: white; }
+      h2 { font-size: 1.5em; margin-top: 0; color: #3383BB;}
       h2 .small { font-size: 0.7em; }
-      h3 { text-align: center; color: #61e847; }
-      a { color: #61e847; }
+      h3 { text-align: center; color: #3383BB; }
       .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
       .download { float: right; }
       pre { background: #000; color: #fff; padding: 15px;}
@@ -90,19 +89,35 @@
       .application {font-style: italic;}
       .version {width: 4cm; font-weight: bold; float: left; height: auto;}
 
-    .ui-tabs-vertical { width: 55em; }
-    .ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; }
+    .ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 9em; }
     .ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
     .ui-tabs-vertical .ui-tabs-nav li a { display:block; }
     .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
-    .ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
+    .ui-tabs-vertical .ui-tabs-panel { padding: 1em; margin-left: 9.5em;}
+    .ui-tabs-anchor {color:#CEE3F6;}
+    .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+    color: #3383BB;
+}
     .iframetab {
       width:100%;
       height:auto;
       border:0px;
       margin:0px;
     }
-    .ui-widget-content {background: none}
+    .tabs {
+      height: 100%;
+    }
+    .block {
+      background-color: #cecfce;
+      padding:1em;
+      border-radius: 15px;
+    }
+    #screenshots img {
+      padding:1px;
+      border:1px solid #021a40;
+      height:480px;
+      width:320px;
+    }
     </style>
     <script type="text/javascript">
 /* <![CDATA[ */
@@ -138,6 +153,8 @@
           <li><a href="#donate">Donate</a></li>
         </ul>
         <div id="summary">
+          <div class="block">
+          <h2>Summary</h2>
           <p>
             <span class="application">My Expenses</span> is an Android application designed to keep
             track of your expenses and incomes, and to export them as QIF files into a desktop
@@ -154,11 +171,14 @@
             <li>upload QIF file via FTP or email</li>
             <li>data backup and restore</li>
           </ul>
+          </div>
         </div>
         <div id="news">
         <a href="news/news2.html">News about My Expenses</a>
         </div>
         <div id="install">
+          <div class="block">
+          <h2>Install</h2>
           <p>
             <a href="https://market.android.com/details?id=org.totschnig.myexpenses">https://market.android.com/details?id=org.totschnig.myexpenses</a>
           </p>
@@ -167,31 +187,32 @@
           <p>
             Pre-releases of new versions are also available in the <a href="https://github.com/mtotschnig/MyExpenses/downloads">Downloads</a> section.
           </p>
+          </div>
         </div>
         <div id="screenshots">
-          <div style="display:block;text-align:center"><img alt="Screenshot 1" src="expense-list.png" height="480" width="320" /></div>
-          <div style="text-align:center">List of expenses
-          </div>
-          <div style="display:block;text-align:center"><img alt="Screenshot 2" src="edit-expense.png" height="480" width="320" /></div>
-          <div style="text-align:center">Edit expense
-          </div>
-          <div style="display:block;text-align:center"><img alt="Screenshot 3" src="category_select.png" height="480" width="320" /></div>
-          <div style="text-align:center">Select category
-          </div>
-          <div style="display:block;text-align:center"><img alt="Screenshot 4" src="accounts.png" height="480" width="320" /></div>
-          <div style="text-align:center">Manage accounts
-          </div>
-          <div style="display:block;text-align:center"><img alt="Screenshot 4" src="edit-account.png" height="480" width="320" /></div>
-          <div style="text-align:center">Edit account
+          <div class="block">
+          <h2>Screenshots</h2>
+          <h3>List of expenses</h3>
+          <div style="display:block;text-align:center"><img alt="Screenshot 1" src="expense-list.png" /></div>
+          <h3>Edit expense</h3>
+          <div style="display:block;text-align:center"><img alt="Screenshot 2" src="edit-expense.png" /></div>
+          <h3>Select category</h3>
+          <div style="display:block;text-align:center"><img alt="Screenshot 3" src="category_select.png" /></div>
+          <h3>Manage accounts</h3>
+          <div style="display:block;text-align:center"><img alt="Screenshot 4" src="accounts.png" /></div>
+          <h3>Edit account</h3>
+          <div style="display:block;text-align:center"><img alt="Screenshot 4" src="edit-account.png" /></div>
           </div>
         </div>
         <div id="tutorial">
         <a href="tutorial_r3/en/introduction.html">Tutorial</a>
         </div>
         <div id="changelog">
-        <a href="versionlist.html">Tutorial</a>
+        <a href="versionlist.html">Changelog</a>
         </div>
         <div id="credits">
+          <div class="block">
+          <h2>Credits</h2>
           <ul>
             <li>Initially inspired by the Android Notepad tutorial.</li>
             <li>Help screen design copied from Mathdoku.</li>
@@ -204,8 +225,11 @@
             </ul>
             </li>
           </ul>
+          </div>
         </div>
         <div id="licence">
+          <div class="block">
+          <h2>Licence</h2>
           <p>GNU General Public License version 3</p>
           <p>Category Import Icon (squiggle) from <a href="glyphish.com">glyphisch.com</a>, licensed under the Creative Commons Attribution 3.0 United States License.
           </p>
@@ -214,7 +238,10 @@
             <a href="http://www.opensource.org/licenses/bsd-license.php">http://www.opensource.org/licenses/bsd-license.php</a> .
           </p>
         </div>
+        </div>
         <div id="contact">
+          <div class="block">
+          <h2>Contact</h2>
           <p> If you find <span class="application">My Expenses</span> useful, 
             please leave a comment in the <a href="https://market.android.com/details?id=org.totschnig.myexpenses">Market</a>. 
             If you find a problem, have a suggestion for an improvement, 
@@ -222,17 +249,26 @@
             <a href="https://github.com/mtotschnig/MyExpenses/issues/new">new issue</a>.
           </p>
         </div>
+        </div>
         <div id="sourcecode">
+          <div class="block">
+          <h2>Sourcecode</h2>
           <p>
             Get the source code on GitHub : <a href="https://github.com/mtotschnig/MyExpenses">mtotschnig/MyExpenses</a>
           </p>
         </div>
+        </div>
         <div id="links">
+          <div class="block">
+          <h2>Links</h2>
           <ul>
           <li>German blog post explaining <span class="application">My Expenses</span>: <a href="http://meinnoteblog.wordpress.com/2012/07/14/finanzverwaltung-mit-android/">Finanzverwaltung mit Android</a></li>
           </ul>
+          </div>
         </div>
         <div id="donate">
+          <div class="block">
+          <h2>Donate</h2>
           <p><span class="application">My Expenses</span> is free software.
           Free like in "free beer", i.e. you can <a class="switch" href="#install">install</a> it without paying.
           But also free like in "free speech", ie. you can download its <a class="switch" href="#sourcecode">source
@@ -250,6 +286,7 @@
           <div id="donate"><a class="FlattrButton" style="display:none;" href="http://myexpenses.totschnig.org"></a>
 <noscript><a href="http://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App" target="_blank">
 <img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a></noscript></div>
+        </div>
         </div>
       </div>
     </div>
