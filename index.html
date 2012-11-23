@@ -58,6 +58,10 @@
         });
         tabs.addClass( "ui-tabs-vertical ui-helper-clearfix" );
         $( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+        $('.switch').click(function() { 
+           tabs.tabs('select', $(this).attr("href"));
+           return false;
+       });
     });
     </script>
     <style type="text/css">
@@ -100,6 +104,16 @@
     }
     .ui-widget-content {background: none}
     </style>
+    <script type="text/javascript">
+/* <![CDATA[ */
+    (function() {
+        var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto';
+        t.parentNode.insertBefore(s, t);
+    })();
+/* ]]> */</script>
   </head>
 
   <body>
@@ -121,6 +135,7 @@
           <li><a href="#contact">Contact</a></li>
           <li><a href="#sourcecode">Sourcecode</a></li>
           <li><a href="#links">Links</a></li>
+          <li><a href="#donate">Donate</a></li>
         </ul>
         <div id="summary">
           <p>
@@ -200,7 +215,7 @@
           </p>
         </div>
         <div id="contact">
-          <p> If you find <i>My Expenses</i> useful, 
+          <p> If you find <span class="application">My Expenses</span> useful, 
             please leave a comment in the <a href="https://market.android.com/details?id=org.totschnig.myexpenses">Market</a>. 
             If you find a problem, have a suggestion for an improvement, 
             or would like to contribute, please contact <a href="mailto:michael@totschnig.org">Michael Totschnig</a> or create a 
@@ -216,6 +231,25 @@
           <ul>
           <li>German blog post explaining <span class="application">My Expenses</span>: <a href="http://meinnoteblog.wordpress.com/2012/07/14/finanzverwaltung-mit-android/">Finanzverwaltung mit Android</a></li>
           </ul>
+        </div>
+        <div id="donate">
+          <p><span class="application">My Expenses</span> is free software.
+          Free like in "free beer", i.e. you can <a class="switch" href="#install">install</a> it without paying.
+          But also free like in "free speech, ie. you can download its <a class="switch" href="#sourcecode">source
+          code</a>, inspect how it works, maybe learn from it, improve it, even redistribute it.</p>
+          <p>Creating software is fun and rewarding, when you succeed in creating a tool, that
+          solves a problem in a genuine way, and when you get appreciative and constructive feedback
+          from users. Creating software is challenging in many different respects: get to grasp
+          with evolving technologies, define meaningful user experience, write comprehensive documentation,
+          respond to users' support requests, maintain releases through different channels.</p>
+          <p>All this in itself motivates the investment of time and energy in this project.
+          Your contribution constitutes an additional incentive helping me keep the momentum in continuously improving
+          <span class="application">My Expenses</span>.
+          For the moment, please consider flattring <span class="application">My Expenses</span>. Shortly
+          I will add other payment methods. If you want to sponsor a specific new feature, please <a class="switch" href="#contact">contact</a> me.</p>
+          <div id="donate"><a class="FlattrButton" style="display:none;" href="http://myexpenses.totschnig.org"></a>
+<noscript><a href="http://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App" target="_blank">
+<img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a></noscript></div>
         </div>
       </div>
     </div>
