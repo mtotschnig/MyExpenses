@@ -22,7 +22,7 @@
 			android:orientation="vertical"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
-			<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content">
 	   <LinearLayout 
@@ -32,21 +32,25 @@
         android:layout_centerInParent="true">
       <Button
           style="@style/button"
+          android:layout_weight="1"
           android:onClick="handleHelp"
           android:text="@string/tutorial"
           android:id="@id/TUTORIAL_COMMAND"/>
         <Button
           style="@style/button"
+          android:layout_weight="1"
           android:onClick="handleHelp"
           android:id="@id/CHANGES_COMMAND" 
           android:text="@string/menu_changes" />
         <Button
           style="@style/button"
+          android:layout_weight="1"
           android:onClick="handleHelp"
           android:id="@id/FAQ_COMMAND" 
           android:text="FAQ" />
         <Button
           style="@style/button"
+          android:layout_weight="1"
           android:onClick="handleHelp"
           android:id="@id/NEWS_COMMAND" 
           android:text="News" />
