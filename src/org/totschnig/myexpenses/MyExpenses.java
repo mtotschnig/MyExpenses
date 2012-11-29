@@ -22,12 +22,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Properties;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
+import org.totschnig.myexpenses.ButtonBar.Action;
 import org.totschnig.myexpenses.ButtonBar.MenuButton;
 
 import android.app.Activity;
@@ -94,8 +97,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   static final int SELECT_ACCOUNT_DIALOG_ID = 7;
   static final int TEMPLATE_TITLE_DIALOG_ID = 8;
   static final int SELECT_TEMPLATE_DIALOG_ID = 9;
+  static final int MORE_ACTIONS_DIALOG_ID = 10;
 
   private String mVersionInfo;
+  private ArrayList<Action> mMoreItems;
   
   private ExpensesDbAdapter mDbHelper;
 
@@ -110,10 +115,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   private MenuButton mResetButton;
   private MenuButton mSettingsButton;
   private MenuButton mHelpButton;
-  private TextView mTransferButton;
   private boolean mUseStandardMenu;
-  private boolean mTemplatesDefinedP;
-  
   
   /**
    * stores the transaction from which a template is to be created
@@ -195,43 +197,39 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     mSwitchButton.clearMenu();
     final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
     if(otherAccounts.moveToFirst()){
-      mSwitchButton.addItem(R.string.menu_accounts_new,R.id.CREATE_ACCOUNT_COMMAND);
       for (int i = 0; i < otherAccounts.getCount(); i++) {
-        TextView accountTV = mSwitchButton.addItem(
-            otherAccounts.getString(otherAccounts.getColumnIndex("label")),R.id.SWITCH_ACCOUNT_COMMAND);
-        accountTV.setTag(
+        mSwitchButton.addItem(
+            otherAccounts.getString(otherAccounts.getColumnIndex("label")),
+            R.id.SWITCH_ACCOUNT_COMMAND,
             otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
         otherAccounts.moveToNext();
+        mSwitchButton.addItem(R.string.menu_accounts_new,R.id.CREATE_ACCOUNT_COMMAND);
       }
     }
     otherAccounts.close();
   }
   private void fillAddButton() {
     mAddButton.clearMenu();
-    boolean needPopup = false;
     final Cursor templates = mDbHelper.fetchTemplates(mCurrentAccount.id);
-    if(templates.moveToFirst()){
-      needPopup = true;
-      mTemplatesDefinedP = true;
+    boolean gotTemplates = templates.moveToFirst();
+    boolean gotTransfers = transfersEnabledP();
+    if(gotTemplates || gotTransfers){
+      //we only add the insert_ta item if we have either templates or transfers enabled
+      mAddButton.addItem(R.string.transaction,R.id.INSERT_TA_COMMAND);
+    }
+    if (gotTransfers) {
+      mAddButton.addItem(R.string.transfer,R.id.INSERT_TRANSFER_COMMAND);
+    }
+    if(gotTemplates) {
       for (int i = 0; i < templates.getCount(); i++) {
-        TextView templateTV = mAddButton.addItem(
-            templates.getString(templates.getColumnIndex(ExpensesDbAdapter.KEY_TITLE)),R.id.NEW_FROM_TEMPLATE_COMMAND);
-        templateTV.setTag(
+        mAddButton.addItem(
+            templates.getString(templates.getColumnIndex(ExpensesDbAdapter.KEY_TITLE)),
+            R.id.NEW_FROM_TEMPLATE_COMMAND,
             templates.getLong(templates.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
         templates.moveToNext();
       }
-    } else {
-      mTemplatesDefinedP = false;
     }
     templates.close();
-    if (transfersEnabledP()) {
-      needPopup = true;
-      mTransferButton = mAddButton.addItem(R.string.transfer,R.id.INSERT_TRANSFER_COMMAND);
-    }
-    //we only add the insert_ta item if we have either templates or transfers enabled
-    if (needPopup) {
-      mAddButton.addItem(R.string.transaction,R.id.INSERT_TA_COMMAND);
-    }
   }
   private void fillButtons() {
     mAddButton = mButtonBar.addButton(
@@ -254,19 +252,19 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         R.string.menu_settings_abrev,
         android.R.drawable.ic_menu_preferences,
         R.id.SETTINGS_COMMAND);
-    mSettingsButton.addItem(R.string.menu_settings_account,R.id.EDIT_ACCOUNT_COMMAND);
-    mSettingsButton.addItem(R.string.menu_backup,R.id.BACKUP_COMMAND);
     mSettingsButton.addItem(R.string.menu_settings,R.id.SETTINGS_COMMAND);
+    mSettingsButton.addItem(R.string.menu_backup,R.id.BACKUP_COMMAND);
+    mSettingsButton.addItem(R.string.menu_settings_account,R.id.EDIT_ACCOUNT_COMMAND);
     
     mHelpButton = mButtonBar.addButton(
         R.string.menu_help,
         android.R.drawable.ic_menu_help,
         R.id.HELP_COMMAND);
-    mHelpButton.addItem(R.string.menu_changes,R.id.CHANGES_COMMAND);
-    mHelpButton.addItem(R.string.menu_faq,R.id.FAQ_COMMAND);
-    mHelpButton.addItem("News",R.id.NEWS_COMMAND);
-    mHelpButton.addItem(R.string.tutorial,R.id.TUTORIAL_COMMAND);
     mHelpButton.addItem(R.string.menu_help,R.id.HELP_COMMAND);
+    mHelpButton.addItem(R.string.tutorial,R.id.TUTORIAL_COMMAND);
+    mHelpButton.addItem("News",R.id.NEWS_COMMAND);
+    mHelpButton.addItem(R.string.menu_faq,R.id.FAQ_COMMAND);
+    mHelpButton.addItem(R.string.menu_changes,R.id.CHANGES_COMMAND);
     mButtonBarIsFilled = true;
   }
   @Override
@@ -355,7 +353,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       mResetButton.setEnabled(mExpensesCursor.getCount() > 0);
       fillSwitchButton();
       fillAddButton();
-      //mTransferButton.setEnabled(transfersEnabledP());
     }
   }
   
@@ -661,7 +658,34 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           }
         })
         .create();
-
+    case MORE_ACTIONS_DIALOG_ID:
+      int howMany = mMoreItems.size();
+      final String[] moreTitles = new String[howMany];
+      final int[] moreIds = new int[howMany];
+      final Object[] moreTags = new Object[howMany];
+      int count = 0;
+      for(Iterator<Action> i = mMoreItems.iterator();i.hasNext();) {
+        Action action = i.next();
+        moreTitles[count] = action.text;
+        moreIds[count] = action.id;
+        moreTags[count] = action.tag;
+        count++;
+      }
+      return new AlertDialog.Builder(this)
+      .setTitle("More...")
+      .setSingleChoiceItems(moreTitles, -1,new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int item) {
+          removeDialog(MORE_ACTIONS_DIALOG_ID);
+          dispatchCommand(moreIds[item], moreTags[item]);
+        }
+      })
+      .setOnCancelListener(new DialogInterface.OnCancelListener() {
+        @Override
+        public void onCancel(DialogInterface dialog) {
+          removeDialog(MORE_ACTIONS_DIALOG_ID);
+        }
+      })
+      .create();
     }    
     return null;
   }
@@ -672,6 +696,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    outState.putString("versionInfo", mVersionInfo);
    outState.putLong("SelectAccountContextId", mSelectAccountContextId);
    outState.putLong("TemplateCreateDialogTransactionId",mTemplateCreateDialogTransactionId);
+   outState.putSerializable("MoreItems",mMoreItems);
   }
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -679,6 +704,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    mVersionInfo = savedInstanceState.getString("versionInfo");
    mSelectAccountContextId = savedInstanceState.getLong("SelectAccountContextId");
    mTemplateCreateDialogTransactionId = savedInstanceState.getLong("TemplateCreateDialogTransactionId");
+   mMoreItems = (ArrayList<Action>) savedInstanceState.getSerializable("MoreItems");
   }
   /**
    * start ExpenseEdit Activity for a new transaction/transfer
@@ -1163,6 +1189,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         fillData();
       }
       break;
+    case R.id.MORE_ACTION_COMMAND:
+      mMoreItems = (ArrayList<Action>) tag;
+      showDialog(MORE_ACTIONS_DIALOG_ID);
+      break;
     default:
       return false;
     }
@@ -1174,8 +1204,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   }
   @Override
   public boolean onLongClick(View v) {
+    int height = findViewById(R.id.content).getHeight();
     MenuButton mb = (MenuButton) v;
-    dw = mb.getMenu();
+    dw = mb.getMenu(height);
     if (dw == null)
       return false;
     dw.showLikeQuickAction();

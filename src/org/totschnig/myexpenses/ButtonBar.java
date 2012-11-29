@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -23,6 +24,7 @@ import org.example.qberticus.quickactions.BetterPopupWindow;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -53,14 +55,30 @@ public class ButtonBar extends LinearLayout  {
     b.setOnLongClickListener((MyExpenses) getContext());
     return b;
   }
+  /**
+   * encapsulates an Action to be executed from the button if long clicked
+   * this Action can be bound either to a textview in the popup window
+   * or to a dialog if there is not enough place in the popup window
+   */
+  public static class Action implements Serializable {
+    private static final long serialVersionUID = 1L;
+    public int id;
+    public String text;
+    public Object tag;
+    public Action(int id, String text, Object tag) {
+      this.id = id;
+      this.text = text;
+      this.tag = tag;
+    }
+  }
   public static class MenuButton extends Button {
     
-    private ArrayList<TextView> mItems;
+    private ArrayList<Action> mItems;
     private BetterPopupWindow dw;
 
     public MenuButton(Context context, AttributeSet attrs) {
       super(context,attrs);
-      mItems = new ArrayList<TextView>();
+      mItems = new ArrayList<Action>();
     }
     /**
      * @param text the resource id for retrieving the label for the entry
@@ -68,8 +86,8 @@ public class ButtonBar extends LinearLayout  {
      * @return the TextView added
      * adds an entry to the menu
      */
-    public TextView addItem(int text,int id) {
-      return addItem(getContext().getString(text),id);
+    public void addItem(int text,int id, Object tag) {
+      addItem(getContext().getString(text),id,tag);
     }
     /**
      * @param text the label for the entry
@@ -77,19 +95,17 @@ public class ButtonBar extends LinearLayout  {
      * @return the TextView added
      * adds an entry to the menu
      */
-    public TextView addItem(String text,int id) {
+    public void addItem(String text,int id, Object tag) {
       if (mItems.isEmpty()) {
         setBackgroundResourceKeepPadding(R.drawable.btn_popup);
       }
-      MyExpenses context = (MyExpenses) getContext();
-      TextView tv = new TextView(context);
-      tv.setId(id);
-      tv.setText(text);
-      tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-      tv.setBackgroundResource(android.R.drawable.menuitem_background);
-      tv.setOnClickListener(context);
-      mItems.add(tv);
-      return tv;
+      mItems.add(new Action(id,text,tag));
+    }
+    public void addItem(int text,int id) {
+      addItem(text,id,null);
+    }
+    public void addItem(String text,int id) {
+       addItem(text,id,null);
     }
     //setBackgroundResource
     private void setBackgroundResourceKeepPadding(int res) {
@@ -108,18 +124,55 @@ public class ButtonBar extends LinearLayout  {
     }
     
     
-    public BetterPopupWindow getMenu() {
+    /**
+     * @param height how much place do we have for the popup window
+     * @return
+     */
+    public BetterPopupWindow getMenu(final int height) {
       if (mItems.size() == 0)
         return null;
       if (dw == null) {
         dw = new BetterPopupWindow(this) {
           @Override
           protected void onCreate() {
+            int heightLeft = height;
+            int heightNeeded = 0;
+            TextView tv;
+            MyExpenses context = (MyExpenses) getContext();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             ViewGroup root = (ViewGroup) inflater.inflate(R.layout.popup_menu, null);
-            for(Iterator<TextView> i = mItems.iterator();i.hasNext();)
+            for(Iterator<Action> i = mItems.iterator();i.hasNext();)
             {
-            root.addView(i.next());
+              if (heightNeeded > heightLeft) {
+                Log.i("BetterPopupWindow","Out of space: stopping");
+                tv = new TextView(context);
+                tv.setId(R.id.MORE_ACTION_COMMAND);
+                tv.setText("More...");
+                //we transmit the remaining items to the more command as tag
+                tv.setTag(mItems);
+                tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+                tv.setBackgroundResource(android.R.drawable.menuitem_background);
+                tv.setOnClickListener(context);
+                root.addView(tv,0);
+                break;
+              }
+              Action action = i.next();
+              tv = new TextView(context);
+              tv.setId(action.id);
+              tv.setText(action.text);
+              tv.setTag(action.tag);
+              tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+              tv.setBackgroundResource(android.R.drawable.menuitem_background);
+              //we measure only the first item which is always added
+              if (heightLeft == height){
+                tv.measure(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT);
+                heightNeeded = tv.getMeasuredHeight();
+              }
+              heightLeft -= heightNeeded;
+              Log.i("BetterPopupWindow","Height Left is now: " + heightLeft);
+              tv.setOnClickListener(context);
+              root.addView(tv,0);
+              i.remove();
             }
             // set the inflated view as what we want to display
             this.setContentView(root);
