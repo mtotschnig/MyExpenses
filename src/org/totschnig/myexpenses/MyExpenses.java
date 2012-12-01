@@ -1195,8 +1195,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       startActivity(i);
       break;
     case R.id.NEWS_COMMAND:
-      i = new Intent(MyExpenses.this, WebView.class);
-      i.putExtra("start", command);
+      i = new Intent(Intent.ACTION_VIEW);
+      i.setData(Uri.parse("http://" + WebView.HOST + "/news/news" + WebView.CURRENT_NEWS_VERSION + ".html"));
+      //i = new Intent(MyExpenses.this, WebView.class);
+      //i.putExtra("start", command);
       startActivity(i);
       break;
     case R.id.HELP_COMMAND:

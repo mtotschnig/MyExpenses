@@ -67,10 +67,6 @@ public class WebView extends Activity {
         startWith = "versionlist.html";
         setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_changes));
         break;
-      case R.id.NEWS_COMMAND:
-        startWith = "news/news" + CURRENT_NEWS_VERSION + ".html";
-        setTitle(getString(R.string.app_name) + " News");
-        break;
       default:
         startWith = "tutorial_r" +  TUTORIAL_RELEASE_VERSION + "/" + lang +  "/introduction.html";
         setTitle(getString(R.string.app_name) + " " + getString(R.string.tutorial));
