@@ -91,6 +91,7 @@ public class Transaction {
     tr.comment = te.comment;
     tr.payee = te.payee;
     tr.catId = te.catId;
+    mDbHelper.incrTemplateUsage(te.id);
     return tr;
   }
   /**

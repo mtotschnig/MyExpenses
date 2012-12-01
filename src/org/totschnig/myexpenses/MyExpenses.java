@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
@@ -59,6 +60,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -236,7 +238,26 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         R.string.menu_new,
         android.R.drawable.ic_menu_add,
         R.id.INSERT_TA_COMMAND);
-    
+    //templates are sorted by usages, so that most often used templates are displayed in the menu
+    //but in the menu we want them to appear in alphabetical order, and we want the other commands
+    //in fixed positions
+    mAddButton.setComparator(new Comparator<Button>() {
+      public int compare(Button a, Button b) {
+        if (a.getId() == R.id.MORE_ACTION_COMMAND) {
+          return 1;
+        }
+        if (a.getId() == R.id.NEW_FROM_TEMPLATE_COMMAND) {
+          if (b.getId() == R.id.NEW_FROM_TEMPLATE_COMMAND) {
+            return ((String)b.getText()).compareToIgnoreCase((String) a.getText());
+          }
+          return 1;
+        }
+        if (a.getId() == R.id.INSERT_TRANSFER_COMMAND) {
+          return 1;
+        }
+        return -1;
+      }
+    });
     mSwitchButton = mButtonBar.addButton(
         R.string.menu_accounts,
         R.drawable.ic_menu_goto,

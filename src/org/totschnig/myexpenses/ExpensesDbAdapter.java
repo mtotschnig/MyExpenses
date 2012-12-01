@@ -59,7 +59,7 @@ public class ExpensesDbAdapter {
 
   private String mDatabaseName;
   private static final String DATABASE_TABLE = "transactions";
-  private static final int DATABASE_VERSION = 23;
+  private static final int DATABASE_VERSION = 24;
   
   /**
    * SQL statement for expenses TABLE
@@ -117,6 +117,7 @@ public class ExpensesDbAdapter {
       + KEY_TRANSFER_PEER + " integer default null, "
       + KEY_METHODID      + " integer, "
       + KEY_TITLE         + " text not null, "
+      + "usages integer default 0, "
       + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));";  
   /**
    * an SQL CASE expression for transactions
@@ -260,6 +261,9 @@ public class ExpensesDbAdapter {
           //we silently give up in that case (since this concerns only a narrowly distributed alpha version)
         }
         db.execSQL("DROP TABLE templates_old");
+      }
+      if (oldVersion < 24) {
+        db.execSQL("alter table templates add column usages integer default 0");
       }
     }
   }
@@ -1060,7 +1064,7 @@ public class ExpensesDbAdapter {
         selectionArgs, 
         null, 
         null, 
-        null);
+        "usages DESC");
   }
 
   public boolean deleteTemplate(long id) {
@@ -1109,5 +1113,9 @@ public class ExpensesDbAdapter {
       mCursor.moveToFirst();
     }
     return mCursor;
+  }
+
+  public void incrTemplateUsage(long id) {
+    mDb.execSQL("update templates set usages = usages +1 where _id = " + id);
   }
 }

@@ -17,6 +17,8 @@ package org.totschnig.myexpenses;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
@@ -75,6 +77,7 @@ public class ButtonBar extends LinearLayout  {
     
     private ArrayList<Action> mItems;
     private BetterPopupWindow dw;
+    private Comparator<Button> comparator;
 
     public MenuButton(Context context, AttributeSet attrs) {
       super(context,attrs);
@@ -122,6 +125,9 @@ public class ButtonBar extends LinearLayout  {
       dw = null;
       setBackgroundResourceKeepPadding(R.drawable.btn_default);
     }
+    public void setComparator(Comparator<Button> comparator) {
+      this.comparator  = comparator;
+    }
     
     
     /**
@@ -138,6 +144,7 @@ public class ButtonBar extends LinearLayout  {
             int heightLeft = height;
             int heightNeeded = 0;
             Button tv;
+            ArrayList<Button> buttons = new  ArrayList<Button>();
             MyExpenses context = (MyExpenses) getContext();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             ViewGroup root = (ViewGroup) inflater.inflate(R.layout.popup_menu, null);
@@ -153,11 +160,18 @@ public class ButtonBar extends LinearLayout  {
                 while (i.hasNext()) {
                   remainingItems.add(i.next());
                 }
+                //remainingItems are always sorted alphabetically
+                Collections.sort(remainingItems,new Comparator<Action>() {
+                  public int compare(Action a, Action b) {
+                    return a.text.compareToIgnoreCase(b.text);
+                  }
+                });
                 tv.setTag(remainingItems);
                 //tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
                 tv.setBackgroundResource(android.R.drawable.btn_default_small);
                 tv.setOnClickListener(context);
-                root.addView(tv,0);
+                buttons.add(tv);
+                //root.addView(tv,0);
                 break;
               }
               Action action = i.next();
@@ -176,7 +190,13 @@ public class ButtonBar extends LinearLayout  {
               Log.i("BetterPopupWindow","Height Left is now: " + heightLeft);
               tv.setOnClickListener(context);
               //tv.setFocusableInTouchMode(true);
-              root.addView(tv,0);
+              buttons.add(tv);
+            }
+            if (comparator != null) {
+              Collections.sort(buttons,comparator);
+            }
+            for(Iterator<Button> i = buttons.iterator();i.hasNext();) {
+              root.addView(i.next(),0);
             }
             // set the inflated view as what we want to display
             this.setContentView(root);
