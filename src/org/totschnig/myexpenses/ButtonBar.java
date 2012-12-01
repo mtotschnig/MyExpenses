@@ -137,7 +137,7 @@ public class ButtonBar extends LinearLayout  {
           protected void onCreate() {
             int heightLeft = height;
             int heightNeeded = 0;
-            TextView tv;
+            Button tv;
             MyExpenses context = (MyExpenses) getContext();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             ViewGroup root = (ViewGroup) inflater.inflate(R.layout.popup_menu, null);
@@ -145,24 +145,28 @@ public class ButtonBar extends LinearLayout  {
             {
               if (heightNeeded > heightLeft) {
                 Log.i("BetterPopupWindow","Out of space: stopping");
-                tv = new TextView(context);
+                tv = new Button(context);
                 tv.setId(R.id.MORE_ACTION_COMMAND);
                 tv.setText("More...");
                 //we transmit the remaining items to the more command as tag
-                tv.setTag(mItems);
-                tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-                tv.setBackgroundResource(android.R.drawable.menuitem_background);
+                ArrayList<Action> remainingItems = new ArrayList<Action>();
+                while (i.hasNext()) {
+                  remainingItems.add(i.next());
+                }
+                tv.setTag(remainingItems);
+                //tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+                tv.setBackgroundResource(android.R.drawable.btn_default_small);
                 tv.setOnClickListener(context);
                 root.addView(tv,0);
                 break;
               }
               Action action = i.next();
-              tv = new TextView(context);
+              tv = new Button(context);
               tv.setId(action.id);
               tv.setText(action.text);
               tv.setTag(action.tag);
-              tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-              tv.setBackgroundResource(android.R.drawable.menuitem_background);
+              //tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+              tv.setBackgroundResource(android.R.drawable.btn_default_small);
               //we measure only the first item which is always added
               if (heightLeft == height){
                 tv.measure(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT);
@@ -171,8 +175,8 @@ public class ButtonBar extends LinearLayout  {
               heightLeft -= heightNeeded;
               Log.i("BetterPopupWindow","Height Left is now: " + heightLeft);
               tv.setOnClickListener(context);
+              //tv.setFocusableInTouchMode(true);
               root.addView(tv,0);
-              i.remove();
             }
             // set the inflated view as what we want to display
             this.setContentView(root);
