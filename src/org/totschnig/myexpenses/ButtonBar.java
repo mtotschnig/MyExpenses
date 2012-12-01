@@ -135,7 +135,8 @@ public class ButtonBar extends LinearLayout  {
      * @return
      */
     public BetterPopupWindow getMenu(final int height) {
-      if (mItems.size() == 0)
+      final int size = mItems.size();
+      if (size == 0)
         return null;
       if (dw == null) {
         dw = new BetterPopupWindow(this) {
@@ -143,6 +144,7 @@ public class ButtonBar extends LinearLayout  {
           protected void onCreate() {
             int heightLeft = height;
             int heightNeeded = 0;
+            int count = 0;
             Button tv;
             ArrayList<Button> buttons = new  ArrayList<Button>();
             MyExpenses context = (MyExpenses) getContext();
@@ -150,7 +152,7 @@ public class ButtonBar extends LinearLayout  {
             ViewGroup root = (ViewGroup) inflater.inflate(R.layout.popup_menu, null);
             for(Iterator<Action> i = mItems.iterator();i.hasNext();)
             {
-              if (heightNeeded > heightLeft) {
+              if (heightNeeded > heightLeft && (size - count) > 1 ) {
                 Log.i("BetterPopupWindow","Out of space: stopping");
                 tv = new Button(context);
                 tv.setId(R.id.MORE_ACTION_COMMAND);
@@ -191,6 +193,7 @@ public class ButtonBar extends LinearLayout  {
               tv.setOnClickListener(context);
               //tv.setFocusableInTouchMode(true);
               buttons.add(tv);
+              count++;
             }
             if (comparator != null) {
               Collections.sort(buttons,comparator);
