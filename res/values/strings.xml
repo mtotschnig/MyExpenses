@@ -101,11 +101,11 @@
       \n<u>Accounts</u> : Switch to different account.
       \n<u>Reset</u> : exports expenses onto SD-card in QIF format, deletes the expenses and updates
         the opening balance.
-      \n<u>Settings</u> : Gives access to all settings and management operations (of accounts, categories, payees, payment methods, templates, backups, imports).
+      \n<u>Settings</u> : Gives access to all configurations and administrative functions (of accounts, categories, payees, payment methods, templates, backups, imports).
       \n<u>Help</u> : Opens this help screen.
       \nSome buttons (indicated by a triangle in the right upper corner) open popup menus on long clicks:
-      \n<u>New</u> : -> <u>Transfer</u> allows to create a transfer from one account to another (must have same currency). Also enumerates available templates you can instantiate. (Templates can be created from transactions from their context menu in the list)
-      \n<u>Accounts</u> : Enumerates all accounts you can switch to. -> <u>New &#8230;</u> creates a new account.
+      \n<u>New</u> : <u>Transfer</u> allows to create a transfer from one account to another (must have same currency). Also enumerates available templates you can instantiate. (Templates can be created from transactions from their context menu in the list)
+      \n<u>Accounts</u> : Enumerates all accounts you can switch to. <u>New &#8230;</u> creates a new account.
       \n<u>Settings</u> : Quick access to backup and properties for current account.
       \n<u>Help</u> : Quick access to Tutorial, News, FAQ and Changes.
       \nPlease refer to the tutorial for detailed explanation.
@@ -239,8 +239,8 @@
   <string name="suggest_use_standard_menu">Do you want to use the standard Android menu
       for calling commands, and hide the button bar?</string>
   <string name="switch_account">Switched to account \"%1$s\"</string>
-  <string name="template_title_exists">A template with title \"%1$s\" already exists</string>
   <string name="template_create_success">Template \"%1$s\" created successfully</string>
+  <string name="template_title_exists">A template with title \"%1$s\" already exists</string>
   <string name="time">Time</string>
   <string name="title">Title</string>
   <string name="transaction">Transaction</string>
