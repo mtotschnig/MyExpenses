@@ -47,11 +47,13 @@
   <string name="default_account_description">Dieses Konto wurde während der Installation automatisch
       eingerichtet.</string>    
   <string name="description">Beschreibung</string>
+  <string name="dialog_confirm_delete_template">Vorlage \"%1$s\" wirklich löschen?</string>
   <string name="dialog_title_select_account">Konto auswählen</string>
   <string name="dialog_title_select_currency">Währung auswählen</string>
   <string name="dialog_title_select_import_source">Quelle für Import auswählen</string>
   <string name="dialog_title_select_method">Zahlungsweise auswählen</string>
   <string name="dialog_title_select_type">Typ auswählen</string>
+  <string name="dialog_title_template_title">Titel festlegen</string>
   <string name="edit_category">Kategorie verändern</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten 
@@ -88,21 +90,19 @@
       Android.</u></string>
   <string name="help_quick_guide"><i>&app_name;</i> kommt mit zwei Schnittstellen für die
       Befehlsaufrufe: einer Symbolleiste und dem Android Standardmenü (physischer Menü-Knopf). Im
-      Einstellungs-Bildschirm können Sie festlegen, welches Sie verwenden wollen. Die meisten
-      Schaltknöpfe in der Symbolleiste reagieren sowohl auf kurze Klicks (Standardaktion) als auch
-      auf lange Klicks (Öffnen eines Popup-Menüs).
-      \n<u>Konten -> Neu &#8230;</u> : Ein neues Konto erstellen.
-      \n<u>Konten</u> : Zu einem anderen Konto wechseln.
+      Einstellungs-Bildschirm können Sie festlegen, welches Sie verwenden wollen.
+      Durch kurze Klicks auf die Schaltknöpfe in der Symbolleiste werden folgende Funktionen aufgerufen:
       \n<u>Neu</u> : Eine Buchung hinzufügen.
-      \n<u>Neu -> Umbuchung</u> : Eine Umbuchung hinzufügen, wenn es mehr als ein Konto mit
-        derselben Währung gibt.
+      \n<u>Konten</u> : Zu einem anderen Konto wechseln.
       \n<u>Zurücksetzen</u> : Exportiert die Ausgaben im QIF Format auf die SD-Karte, löscht die 
         Einträge, und setzt den Anfangssaldo zurück.
-      \n<u>Einstellungen</u>: Wählen Sie <u>Import aus Grisbi</u>, um Kategorien aus einer
-        Grisbi-Datei zu importieren. Sie können entweder die inkludierten von Grisbi verwendeten
-        Standardkategorien auswählen, oder eine eigene Datei. Dafür verwenden Sie entweder Ihre
-        Grisbi Datei, oder editieren diese, indem Sie alles außer der Kategorien entfernen.
-        MyExpenses erwartet die Datei unter \"/sdcard/myexpenses/&grisbi_file;\".
+      \n<u>Einstellungen</u> : Führt zur Übersicht aller Konfigurations- und Verwaltungsfunktionen (Konten, Kategorien, Geschäftspartner, Zahlungsmethoden, Vorlagen, Sicherungen und Imports)
+      \n<u>Hilfe</u> : Öffnet diesen Hilfetext
+      \nEinige Schaltknöpfe reagieren auch auf lange Klicks (wenn im rechten oberen Eck ein Dreieck abgebildet ist):
+      \n<u>Neu</u> : <u>Umbuchung</u> zwischen zwei Konten (diese müssen dieselbe Währung verwenden). Hier werden auch alle verfügbaren Vorlagen aufgelistet (Buchungen können über ihr Kontextmenü in der Liste als Vorlagen gespeichert werden.)
+      \n<u>Konten</u> : Zeigt alle Konten an, zu denen Sie wechseln können. <u>Neu &#8230;</u> : Ein neues Konto erstellen.
+			\n<u>Einstellungen</u> : Schnellzugriff auf Backup und die Konfiguration des aktuellen Kontos.
+			\n<u>Hilfe</u> : Schnellzugriff auf Tutorial, News, FAQ und Änderungsliste.
   </string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
@@ -112,9 +112,8 @@
   <string name="label">Bezeichnung</string>
   <string name="menu_accounts">Konten</string>
   <string name="menu_accounts_explain">Mit dem Schaltknopf Konten können Sie zwischen Konten 
-      wechseln, sobald Sie mehrere Konten angelegt haben. Zur Zeit gibt es nur ein Konto. Sie können
-      ein neues Konto hinzufügen, indem Sie lange auf den Konten Schaltknopf klicken und dann den 
-      Neu &#8230; Befehl auswählen, oder in dem Kontenabschnitt im Einstellungs-Bildschirm.
+      wechseln, sobald Sie mehrere Konten angelegt haben. Zur Zeit gibt es nur ein Konto. Wollen
+      ein zweites Konto jetzt anlegen?
   </string>
   <string name="menu_accounts_new">Neu &#8230;</string>
   <string name="menu_backup">Backup</string>
@@ -122,9 +121,11 @@
   <string name="menu_changes">Änderungen</string>
   <string name="menu_create_main_cat">Neue Hauptkategorie</string>
   <string name="menu_create_sub_cat">Neue Unterkategorie</string>
+  <string name="menu_create_template">Vorlage erzeugen</string>
   <string name="menu_delete">Löschen</string>
   <string name="menu_delete_account">Konto löschen</string>
   <string name="menu_delete_cat">Kategorie löschen</string>
+  <string name="menu_delete_method">Zahlungsweise löschen</string>
   <string name="menu_edit_account">Konto verändern</string>
   <string name="menu_edit_cat">Kategorie verändern</string>
   <string name="menu_edit_method">Zahlungsweise verändern</string>
@@ -138,6 +139,7 @@
   <string name="menu_insert_transfer">Neue Umbuchung</string>
   <string name="menu_move_transaction">Verschieben</string>
   <string name="menu_new">Neu</string>
+  <string name="menu_new_from_template">Neu aus Vorlage</string>
   <string name="menu_reset">Zurücksetzen</string>
   <string name="menu_reset_abrev">Zurücks.</string>
   <string name="menu_settings">Einstellungen</string>
@@ -153,6 +155,8 @@
   <string name="no_details">Keine Details vorhanden.</string>
   <string name="no_expenses">Noch keine Ausgaben!</string>
   <string name="no_parties">Keine Parteien.</string>
+  <string name="no_templates">Keine Vorlagen.</string>
+  <string name="no_text_given">Sie haben keinen Text eingegeben.</string>
   <string name="no_valid_payment_methods">Keine gültigen Zahlungsweisen für %1$s (%2$s)</string>
   <string name="not_deletable_mapped_expenses">Kann nicht löschen, weil zugeordnete Buchungen existieren.</string>
   <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie
@@ -180,6 +184,9 @@
   <string name="pm_type_credit">Einnahmen</string>
   <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s)
       verknüpft, die gelöscht wurde</string>
+  <string name="pref_account_button_behaviour_title">Verhalten des \"Konten\" Schaltknopfes</string>
+  <string name="pref_account_button_behaviour_summary">Soll der \"Konten\" Schaltknopf zwischen den beiden letzten Konten hin- und herschalten, anstatt 
+        alle Konten nacheinander aufzurufen.</string>
   <string name="pref_backup_title">Backup</string>
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der
       SD-Karte.</string>
@@ -207,6 +214,8 @@
   <string name="pref_manage_methods_summary">Zahlungsweisen hinzufügen und verändern, und diese mit Kontotypen verknüpfen.</string>
   <string name="pref_manage_parties_title">Parteien verwalten</string>
   <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) löschen.</string>
+  <string name="pref_manage_templates_title">Vorlagen verwalten</string>
+  <string name="pref_manage_templates_summary">Vorlagen löschen.</string>
   <string name="pref_perform_share_title">QIF Export versenden</string>
   <string name="pref_perform_share_summary">Soll die QIF Datei nach jedem Export versendet werden?
   </string>
@@ -228,6 +237,9 @@
   <string name="share_sending">QIF Datei senden</string>
   <string name="suggest_use_standard_menu">Möchten Sie das Android Standardmenü anstatt der
       Symbolleiste verwenden, um Befehle aufzurufen</string>
+  <string name="switch_account">Zum Konto \"%1$s\" gewechselt</string>
+  <string name="template_create_success">Vorlage \"%1$s\" erfolgreich angelegt</string>
+  <string name="template_title_exists">Es existiert bereits eine Vorlage mit dem Titel \"%1$s\"</string>
   <string name="time">Zeit</string>
   <string name="title">Titel</string>
   <string name="transaction">Buchung</string>
@@ -240,8 +252,8 @@
       gesichert. Das bestehende Backup wird gelöscht. Möchten Sie fortfahren?</string>
   <string name="warning_delete_account">Dieses Konto wird mit all seinen Buchungen gelöscht. Möchten
        Sie fortfahren?</string>
-  <string name="warning_reset_account">Alle Transaktionen dieses Kontos werden gelöscht. Möchten Sie
-       fortfahren?</string>
+  <string name="warning_reset_account">Alle Transaktionen dieses Kontos werden in eine QIF-Datei auf der SD-Karte exportiert
+      und gelöscht. Möchten Sie fortfahren?</string>
   <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
   
   <!-- strings below this comment do not need translations for new languages -->
