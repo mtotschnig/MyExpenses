@@ -109,7 +109,7 @@
       <application>My Expenses</application> now tries to help you enter recurrent transactions: say
       you often eat a fixed-priced meal in your favourite restaurant, or transfer the same amount of
       money from one account to the other, or buy the weekly magazine at your newsstand, you name it.
-      You call the <guilabel>Create template</guilabel> command from the context menu in the transaction list:
+      After you have entered the transaction once, you call the <guilabel>Create template</guilabel> command from its context menu:
     </para>
      <figure floatstyle="left" id="news2_1" >
       <title/>
