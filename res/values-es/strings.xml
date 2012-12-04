@@ -234,7 +234,7 @@
   <string name="title">Título</string>
   <string name="transaction">Asiento</string>
   <string name="transfer">Traslado a otra cuenta</string>
-  <string name="tutorial">Instrucción</string>
+  <string name="tutorial">Manual</string>
   <string name="type">Tipo</string>
   <string name="warning_backup">La base de datos y las configuraciones son archivadas en la tarjeta
       SD. ¿Quiere continuar?</string>

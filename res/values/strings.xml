@@ -248,7 +248,7 @@
   <string name="title">Title</string>
   <string name="transaction">Transaction</string>
   <string name="transfer">Transfer</string>
-  <string name="tutorial">Tutorial</string>
+  <string name="tutorial">User guide</string>
   <string name="type">Type</string>
   <string name="warning_backup">Database and preferences will be saved to sdcard. Do you want to
       continue?</string>

@@ -232,7 +232,7 @@
   <string name="title">Titre</string>
   <string name="transaction">Transaction</string>
   <string name="transfer">Transfert</string>
-  <string name="tutorial">Tutoriel</string>
+  <string name="tutorial">Manuel</string>
   <string name="type">Type</string>
   <string name="warning_backup">La base des données et les paramètres vont être sauvegardés sur la
       carte SD. Voulez-vous continuer?</string>

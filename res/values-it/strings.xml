@@ -229,7 +229,7 @@
   <string name="title">Titro</string>
   <string name="transaction">Operazione</string>
   <string name="transfer">Trasferimento</string>
-  <string name="tutorial">Tutorial</string>
+  <string name="tutorial">Manuale</string>
   <string name="type">Tipo</string>
   <string name="warning_backup">Database e le preferenze verranno salvate su scheda SD. Vuoi
       continuare?</string>

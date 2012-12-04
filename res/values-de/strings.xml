@@ -247,7 +247,7 @@
   <string name="title">Titel</string>
   <string name="transaction">Buchung</string>
   <string name="transfer">Umbuchung</string>
-  <string name="tutorial">Anleitung</string>
+  <string name="tutorial">Handbuch</string>
   <string name="type">Typ</string>
   <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte
       gesichert. Möchten Sie fortfahren?</string>
