@@ -41,7 +41,6 @@ public class MyApplication extends Application {
     public static String PREFKEY_CURRENT_VERSION = "currentversion";
     public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static String PREFKEY_LAST_ACCOUNT = "last_account";
-    public static String PREFKEY_ADD_BUTTON_INFO_SHOWN= "add_button_info_shown";
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 
     @Override
