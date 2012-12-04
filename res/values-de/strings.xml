@@ -22,6 +22,7 @@
   <string name="account">Konto</string>
   <string name="account_type_cash">Bargeldkonto</string>
   <string name="account_type_bank">Bankkonto</string>
+  <string name="account_type_ccard">Kreditkarte</string>
   <string name="account_type_asset">Anlagekonto</string>
   <string name="account_type_liability">Kreditkonto</string>
   <string name="amount">Betrag</string>
@@ -219,6 +220,8 @@
   <string name="pref_perform_share_title">QIF Export versenden</string>
   <string name="pref_perform_share_summary">Soll die QIF Datei nach jedem Export versendet werden?
   </string>
+  <string name="pref_qif_export_file_encoding_title">Zeichenkodierung der QIF Datei</string>
+  <string name="pref_qif_export_file_encoding_summary">Für MS Money sollten Sie \"ISO-8859-1\" verwenden</string>
   <string name="pref_share_target_title">Upload URL QIF Export</string>
   <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden
        Apps wählen wollen (Email, Dropbox, Google Docs, &#8230;) oder eine URL in einer der 
