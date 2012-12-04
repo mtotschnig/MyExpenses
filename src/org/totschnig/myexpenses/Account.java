@@ -45,11 +45,12 @@ public class Account {
   private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   
   public enum Type {
-    CASH,BANK,ASSET,LIABILITY;
+    CASH,BANK,CCARD,ASSET,LIABILITY;
     public String getDisplayName(Context ctx) {
       switch (this) {
       case CASH: return ctx.getString(R.string.account_type_cash);
       case BANK: return ctx.getString(R.string.account_type_bank);
+      case CCARD: return ctx.getString(R.string.account_type_ccard);
       case ASSET: return ctx.getString(R.string.account_type_asset);
       case LIABILITY: return ctx.getString(R.string.account_type_liability);
       }
@@ -59,6 +60,7 @@ public class Account {
       switch (this) {
       case CASH: return "Cash";
       case BANK: return "Bank";
+      case CCARD: return "CCard";
       case ASSET: return "Oth A";
       case LIABILITY: return "Oth L";
       }

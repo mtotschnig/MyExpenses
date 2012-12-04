@@ -22,6 +22,7 @@
   <string name="account">Account</string>
   <string name="account_type_cash">Cash account</string>
   <string name="account_type_bank">Bank account</string>
+  <string name="account_type_ccard">Credit card</string>
   <string name="account_type_asset">Asset account</string>
   <string name="account_type_liability">Liabilities account</string>
   <string name="amount">Amount</string>
