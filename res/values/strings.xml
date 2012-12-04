@@ -221,6 +221,8 @@
   <string name="pref_manage_templates_summary">Delete templates.</string>
   <string name="pref_perform_share_title">Share QIF Export</string>
   <string name="pref_perform_share_summary">Should the QIF file be shared after each export?</string>
+  <string name="pref_qif_export_file_encoding_title">Character encoding of the QIF file</string>
+  <string name="pref_qif_export_file_encoding_summary">Set the character encoding to \"ISO-8859-1\" if you use MS Money</string>
   <string name="pref_share_target_title">Upload URL QIF Export</string>
   <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate 
       apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes
@@ -275,6 +277,7 @@
   <string name="pref_share_target_key">share_target</string>
   <string name="pref_currency_decimal_separator_key">currency_decimal_separator</string>
   <string name="pref_account_button_behaviour_key">account_button_behaviour</string>
+  <string name="pref_qif_export_file_encoding_key">qif_export_file_encoding</string>
     
   <!-- strings below this comment do not need translations for new languages -->
   <string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with 

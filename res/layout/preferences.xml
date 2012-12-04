@@ -91,4 +91,11 @@
       android:key="@string/pref_account_button_behaviour_key"
       android:title="@string/pref_account_button_behaviour_title" 
       android:summary="@string/pref_account_button_behaviour_summary" />
+    <ListPreference android:key="@string/pref_qif_export_file_encoding_key"
+        android:defaultValue="UTF-8"
+	      android:layout="@layout/preference_long_summary"
+	      android:title="@string/pref_qif_export_file_encoding_title"
+	      android:summary="@string/pref_qif_export_file_encoding_summary"
+	      android:entries="@array/pref_qif_export_file_encoding"
+	      android:entryValues="@array/pref_qif_export_file_encoding"/>
 </PreferenceScreen> 

@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Currency;
@@ -799,9 +800,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       Toast.makeText(this,String.format(getString(R.string.export_expenses_outputfile_exists), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
       return false;
     }
-    FileOutputStream out = new FileOutputStream(outputFile);
+    OutputStreamWriter out = new OutputStreamWriter(
+        new FileOutputStream(outputFile),
+        mSettings.getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
     String header = "!Type:" + mCurrentAccount.type.getQifName() + "\n";
-    out.write(header.getBytes());
+    out.write(header);
     mExpensesCursor.moveToFirst();
     while( mExpensesCursor.getPosition() < mExpensesCursor.getCount() ) {
       String comment = mExpensesCursor.getString(
@@ -836,7 +839,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           label +
           payee +  
            "\n^\n";
-      out.write(row.getBytes());
+      out.write(row);
       mExpensesCursor.moveToNext();
     }
     out.close();
