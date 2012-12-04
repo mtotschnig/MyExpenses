@@ -205,8 +205,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             R.id.SWITCH_ACCOUNT_COMMAND,
             otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
         otherAccounts.moveToNext();
-        mSwitchButton.addItem(R.string.menu_accounts_new,R.id.CREATE_ACCOUNT_COMMAND);
       }
+      mSwitchButton.addItem(R.string.menu_accounts_new,R.id.CREATE_ACCOUNT_COMMAND);
     }
     otherAccounts.close();
   }
