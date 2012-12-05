@@ -151,6 +151,7 @@
           <li><a href="#install">Install</a></li>
           <li><a href="#donate">Donate</a></li>
           <li><a href="#screenshots">Screenshots</a></li>
+          <li><a href="#privacy">Privacy</a></li>
           <li><a class="tabref" href="#changelog" rel="versionlist.html">Changelog</a></li>
           <li><a href="#credits">Credits</a></li>
           <li><a href="#licence">Licence</a></li>
@@ -308,6 +309,22 @@
               <li>Allow doing calculations when entering amounts</li>
               <li>Your suggestion ...</li>
             </ul>
+          </div>
+        </div>
+        <div id="privacy">
+          <div class="block">
+            <span class="application">My Expenses</span> does not access any data on your device other
+            than its own database and its own folder on the SD card. <span class="application">My Expenses</span> does not send any data
+            over the Internt. <span class="application">My Expenses</span> uses the following permissions:
+            <dl>
+              <dt>WRITE_EXTERNAL_STORAGE</dt>
+              <dd>This is needed for storing the exported QIF file on the SD card, and for creating database backups.
+              </dd>
+              <dt>INTERNET</dt>
+              <dd>This is needed for displaying the manual and the news (hosted as static pages by Github 
+              at http://myexpenses.totschnig.org) in a WebView from inside the app. Future versions
+              will drop this permission and open these resources through the browser application.</dd>
+            </dl>
           </div>
         </div>
       </div>
