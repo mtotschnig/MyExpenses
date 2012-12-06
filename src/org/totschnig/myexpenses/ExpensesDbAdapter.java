@@ -1106,7 +1106,7 @@ public class ExpensesDbAdapter {
     Cursor mCursor =
       mDb.query("templates",
           new String[] {KEY_ROWID,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
-              KEY_PAYEE,KEY_TRANSFER_PEER,KEY_ACCOUNTID,KEY_METHODID,KEY_TITLE},
+          SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_ACCOUNTID,KEY_METHODID,KEY_TITLE},
           KEY_ROWID + "=" + rowId,
           null, null, null, null, null);
     if (mCursor != null) {

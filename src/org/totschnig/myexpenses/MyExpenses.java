@@ -669,7 +669,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             //TODO: check if we could renounce removing the dialog here, remove it only when a new template is defined
             //or account is switched
             removeDialog(SELECT_TEMPLATE_DIALOG_ID);
-            Transaction.getInstanceFromTemplate(Template.getInstanceFromDb(templateIds[item])).save();
+            Transaction.getInstanceFromTemplate(templateIds[item]).save();
             fillData();
           }
         })
@@ -928,11 +928,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
-    boolean operationType = mExpensesCursor.getLong(
-        mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER)) == 0;
+/*    boolean operationType = mExpensesCursor.getLong(
+        mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER)) == 0;*/
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
-    i.putExtra("operationType", operationType);
+    //i.putExtra("operationType", operationType);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
   
@@ -1133,6 +1133,17 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public void onClick(View v) {
     dispatchCommand(v.getId(),v.getTag());
   }
+  public boolean dispatchLongCommand(int command, Object tag) {
+    Intent i;
+    switch (command) {
+    case R.id.NEW_FROM_TEMPLATE_COMMAND:
+      i = new Intent(this, ExpenseEdit.class);
+      i.putExtra("template_id", (Long) tag);
+      startActivityForResult(i, ACTIVITY_EDIT);
+      return true;
+    }
+    return false;
+  }
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     switch (command) {
@@ -1211,7 +1222,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       if (tag == null) {
           showDialog(SELECT_TEMPLATE_DIALOG_ID);
       } else {
-        Transaction.getInstanceFromTemplate(Template.getInstanceFromDb((Long) tag)).save();
+        Transaction.getInstanceFromTemplate((Long) tag).save();
         fillData();
       }
       break;
@@ -1230,13 +1241,17 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   }
   @Override
   public boolean onLongClick(View v) {
-    int height = findViewById(R.id.content).getHeight();
-    MenuButton mb = (MenuButton) v;
-    dw = mb.getMenu(height);
-    if (dw == null)
-      return false;
-    dw.showLikeQuickAction();
-    return true;
+    if (v instanceof MenuButton) {
+      int height = findViewById(R.id.content).getHeight();
+      MenuButton mb = (MenuButton) v;
+      dw = mb.getMenu(height);
+      if (dw == null)
+        return false;
+      dw.showLikeQuickAction();
+      return true;
+    } else {
+      return dispatchLongCommand(v.getId(),v.getTag());
+    }
   }
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,

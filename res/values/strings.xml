@@ -129,6 +129,8 @@
   <string name="menu_create_main_cat">Create new main category</string>
   <string name="menu_create_sub_cat">Create new sub category</string>
   <string name="menu_create_template">Create template</string>
+  <string name="menu_create_transaction_from_template_and_edit">Create Transaction and edit</string>
+  <string name="menu_create_transaction_from_template_and_save">Create Transaction and save</string>
   <string name="menu_delete_account">Delete Account</string>
   <string name="menu_delete_cat">Delete category</string>
   <string name="menu_delete_method">Delete method</string>
@@ -233,6 +235,8 @@
       standard menu for accessing commands.</string>
   <string name="restore_db_success">Database has been restored from backup.</string>
   <string name="restore_preferences_success">Preferences have been restored from backup.</string>
+  <string name="save_transaction_error">Could not save new transaction from template</string>
+  <string name="save_transaction_success">New transaction successfully saved from template</string>
   <string name="select_account">Select account</string>
   <string name="select_category">Select category</string>
   <string name="select_parent_category">Select this category</string>

@@ -37,6 +37,7 @@ public class Template extends Transaction {
     t.payee = c.getString(
             c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE));
     t.catId = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
+    t.label =  c.getString(c.getColumnIndexOrThrow("label"));
     c.close();
     return t;
   }

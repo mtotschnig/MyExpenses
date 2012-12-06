@@ -78,7 +78,8 @@ public class Transaction {
     c.close();
     return t;
   }
-  public static Transaction getInstanceFromTemplate(Template te) {
+  public static Transaction getInstanceFromTemplate(long id) {
+    Template te = Template.getInstanceFromDb(id);
     Transaction tr;
     if (te.transfer_peer != 0) {
       tr = new Transfer(te.accountId,te.amount);
@@ -91,6 +92,7 @@ public class Transaction {
     tr.comment = te.comment;
     tr.payee = te.payee;
     tr.catId = te.catId;
+    tr.label = te.label;
     mDbHelper.incrTemplateUsage(te.id);
     return tr;
   }

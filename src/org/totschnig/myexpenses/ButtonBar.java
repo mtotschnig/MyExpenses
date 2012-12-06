@@ -93,10 +93,10 @@ public class ButtonBar extends LinearLayout  {
       addItem(getContext().getString(text),id,tag);
     }
     /**
+     * adds an entry to the menu
      * @param text the label for the entry
      * @param id is used for retrieving the command to be dispatched
-     * @return the TextView added
-     * adds an entry to the menu
+     * @param tag extra information the dispatched command will need
      */
     public void addItem(String text,int id, Object tag) {
       if (mItems.isEmpty()) {
@@ -191,6 +191,7 @@ public class ButtonBar extends LinearLayout  {
               heightLeft -= heightNeeded;
               Log.i("BetterPopupWindow","Height Left is now: " + heightLeft);
               tv.setOnClickListener(context);
+              tv.setOnLongClickListener(context);
               //tv.setFocusableInTouchMode(true);
               buttons.add(tv);
               count++;

@@ -51,6 +51,7 @@ public class ExpenseEdit extends EditActivity {
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel;
   private long mRowId;
+  private long mTemplateId;
   private long mAccountId;
   private Account mAccount;
   private ExpensesDbAdapter mDbHelper;
@@ -101,8 +102,22 @@ public class ExpenseEdit extends EditActivity {
 
     Bundle extras = getIntent().getExtras();
     mRowId = extras.getLong(ExpensesDbAdapter.KEY_ROWID,0);
-    mAccountId = extras.getLong(ExpensesDbAdapter.KEY_ACCOUNTID);
-    mOperationType = extras.getBoolean("operationType");
+    mTemplateId = extras.getLong("template_id",0);
+    
+    //1. fetch the transaction or create a new instance
+    if (mRowId != 0) {
+      mTransaction = Transaction.getInstanceFromDb(mRowId);
+      mAccountId = mTransaction.accountId;
+      mOperationType = mTransaction.transfer_peer == 0;
+    } else if (mTemplateId != 0) {
+      mTransaction = Transaction.getInstanceFromTemplate(mTemplateId);
+      mAccountId = mTransaction.accountId;
+      mOperationType = mTransaction.transfer_peer == 0;
+    } else {
+      mOperationType = extras.getBoolean("operationType");
+      mAccountId = extras.getLong(ExpensesDbAdapter.KEY_ACCOUNTID);
+      mTransaction = Transaction.getTypedNewInstance(mOperationType,mAccountId);
+    }
     
     setContentView(R.layout.one_expense);
     configAmountInput();
@@ -315,13 +330,6 @@ public class ExpenseEdit extends EditActivity {
   private void populateFields() {
     Cursor otherAccounts = null;
     int otherAccountsCount = 0;
-    //1. fetch the transaction or create a new instance
-    if (mRowId != 0) {
-      mTransaction = Transaction.getInstanceFromDb(mRowId);
-      mAccountId = mTransaction.accountId;
-    } else {
-      mTransaction = Transaction.getTypedNewInstance(mOperationType,mAccountId);
-    }
     try {
       mAccount = Account.getInstanceFromDb(mAccountId);
     } catch (DataObjectNotFoundException e) {
@@ -334,8 +342,8 @@ public class ExpenseEdit extends EditActivity {
       otherAccountsCount = otherAccounts.getCount();
     }
     //TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
-    if (mRowId != 0) {
-      //3 handle edit existing transaction
+    if (mRowId != 0 || mTemplateId != 0) {
+      //3 handle edit existing transaction or new one from template
       //3a. fill amount
       BigDecimal amount;
       if (mMinorUnitP) {
@@ -414,7 +422,6 @@ public class ExpenseEdit extends EditActivity {
       if (mDbHelper.getPaymentMethodsCount(mAccount.type) == 0) {
        findViewById(R.id.MethodRow).setVisibility(View.GONE);
       }
-
     }
     setDateTime(mTransaction.date);
     

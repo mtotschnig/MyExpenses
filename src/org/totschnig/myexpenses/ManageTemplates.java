@@ -24,20 +24,28 @@ import android.app.Dialog;
 import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 public class ManageTemplates extends ExpandableListActivity {
   //private static final int DELETE_CONFIRM_DIALOG_ID = 1;
   private MyExpandableListAdapter mAdapter;
   private ExpensesDbAdapter mDbHelper;
   private Cursor mAccountsCursor;
-  private long mDeleteTemplateId;
-  private String mDeleteTemplateTitle;
 
+  private static final int DELETE_TEMPLATE = Menu.FIRST;
+  private static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;
+  private static final int CREATE_INSTANCE_SAVE = Menu.FIRST +2;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -60,8 +68,54 @@ public class ManageTemplates extends ExpandableListActivity {
           new int[] {android.R.id.text1});
 
   setListAdapter(mAdapter);
+  registerForContextMenu(getExpandableListView());
+  }
+  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
+    int type = ExpandableListView
+            .getPackedPositionType(info.packedPosition);
+
+    // Menu entries relevant only for the group
+    if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+      menu.add(0,DELETE_TEMPLATE,0,R.string.menu_delete);
+      menu.add(0,CREATE_INSTANCE_EDIT,0,R.string.menu_create_transaction_from_template_and_edit);
+      menu.add(0,CREATE_INSTANCE_SAVE,0,R.string.menu_create_transaction_from_template_and_save);
+    }
   }
   @Override
+  public boolean onContextItemSelected(MenuItem item) {
+      long id;
+      ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
+      int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+      if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {         
+        Cursor childCursor = (Cursor) mAdapter.getChild(
+            ExpandableListView.getPackedPositionGroup(info.packedPosition),
+            ExpandableListView.getPackedPositionChild(info.packedPosition)
+        );
+        id =  childCursor.getLong(childCursor.getColumnIndexOrThrow("_id"));
+        switch(item.getItemId()) {
+          case DELETE_TEMPLATE:   
+            mDbHelper.deleteTemplate(id);
+            mAccountsCursor.requery();
+            return true;
+          case CREATE_INSTANCE_EDIT:
+            Intent i = new Intent(this, ExpenseEdit.class);
+            i.putExtra("template_id", id);
+            startActivity(i);
+            return true;
+          case CREATE_INSTANCE_SAVE:
+            if (Transaction.getInstanceFromTemplate(id).save() == -1)
+              Toast.makeText(getBaseContext(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
+            else
+              Toast.makeText(getBaseContext(),getString(R.string.save_transaction_success), Toast.LENGTH_LONG).show();
+        }
+      }
+      return false;
+    }
+
+  
+  /*
+ @Override
   public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
     //Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
     mDeleteTemplateId = id;
@@ -70,7 +124,7 @@ public class ManageTemplates extends ExpandableListActivity {
     showDialog(0);
     return true;
   }
-  @Override
+@Override
   protected Dialog onCreateDialog(final int id) {
     return new AlertDialog.Builder(this)
     .setMessage(getString(R.string.dialog_confirm_delete_template,mDeleteTemplateTitle))
@@ -96,7 +150,7 @@ public class ManageTemplates extends ExpandableListActivity {
    super.onRestoreInstanceState(savedInstanceState);
    mDeleteTemplateId = savedInstanceState.getLong("DeleteTemplateId");
    mDeleteTemplateTitle = savedInstanceState.getString("DeleteTemplateTitle");
-  }
+  }*/
 
   public class MyExpandableListAdapter extends SimpleCursorTreeAdapter2 {
     
