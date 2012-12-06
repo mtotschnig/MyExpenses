@@ -243,11 +243,10 @@ public class ExpenseEdit extends EditActivity {
       final String[] accountLabels = Utils.getStringArrayFromCursor(otherAccounts, "label");
       final Long[] accountIds = Utils.getLongArrayFromCursor(otherAccounts, ExpensesDbAdapter.KEY_ROWID);
       otherAccounts.close();
-      int checkedItem = java.util.Arrays.asList(accountIds).indexOf(mCatId);
       return new  AlertDialog.Builder(this)
         .setTitle(R.string.dialog_title_select_account)
         .setSingleChoiceItems(accountLabels,
-          checkedItem,
+            java.util.Arrays.asList(accountIds).indexOf(mCatId),
           new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
               mCatId = accountIds[item];
@@ -261,7 +260,7 @@ public class ExpenseEdit extends EditActivity {
       Cursor paymentMethods;
       paymentMethods = mDbHelper.fetchPaymentMethodsFiltered(mType,mAccount.type);
       final String[] methodLabels = new String[paymentMethods.getCount()];
-      final long[] methodIds = new long[paymentMethods.getCount()];
+      final Long[] methodIds = new Long[paymentMethods.getCount()];
       PaymentMethod pm;
       if(paymentMethods.moveToFirst()){
        for (int i = 0; i < paymentMethods.getCount(); i++){
@@ -288,13 +287,16 @@ public class ExpenseEdit extends EditActivity {
       paymentMethods.close();
       return new  AlertDialog.Builder(this)
         .setTitle(R.string.dialog_title_select_method)
-        .setSingleChoiceItems(methodLabels, -1, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int item) {
-            mMethodId = methodIds[item];
-            mMethodButton.setText(methodLabels[item]);
-            removeDialog(METHOD_DIALOG_ID);
-          }
-        })
+        .setSingleChoiceItems(methodLabels,
+            java.util.Arrays.asList(methodIds).indexOf(mMethodId), 
+            new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int item) {
+                mMethodId = methodIds[item];
+                mMethodButton.setText(methodLabels[item]);
+                removeDialog(METHOD_DIALOG_ID);
+              }
+            }
+        )
         .setOnCancelListener(new DialogInterface.OnCancelListener() {
           @Override
           public void onCancel(DialogInterface dialog) {
