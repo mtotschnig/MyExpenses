@@ -241,18 +241,22 @@ public class ExpenseEdit extends EditActivity {
     case ACCOUNT_DIALOG_ID:
       final Cursor otherAccounts = mDbHelper.fetchAccountOther(mTransaction.accountId,true);
       final String[] accountLabels = Utils.getStringArrayFromCursor(otherAccounts, "label");
-      final long[] accountIds = Utils.getLongArrayFromCursor(otherAccounts, ExpensesDbAdapter.KEY_ROWID);
+      final Long[] accountIds = Utils.getLongArrayFromCursor(otherAccounts, ExpensesDbAdapter.KEY_ROWID);
       otherAccounts.close();
+      int checkedItem = java.util.Arrays.asList(accountIds).indexOf(mCatId);
       return new  AlertDialog.Builder(this)
         .setTitle(R.string.dialog_title_select_account)
-        .setSingleChoiceItems(accountLabels, -1, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int item) {
-            mCatId = accountIds[item];
-            mLabel = accountLabels[item];
-            setCategoryButton();
-            dismissDialog(ACCOUNT_DIALOG_ID);
+        .setSingleChoiceItems(accountLabels,
+          checkedItem,
+          new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+              mCatId = accountIds[item];
+              mLabel = accountLabels[item];
+              setCategoryButton();
+              dismissDialog(ACCOUNT_DIALOG_ID);
+            }
           }
-        }).create();
+        ).create();
     case METHOD_DIALOG_ID:
       Cursor paymentMethods;
       paymentMethods = mDbHelper.fetchPaymentMethodsFiltered(mType,mAccount.type);

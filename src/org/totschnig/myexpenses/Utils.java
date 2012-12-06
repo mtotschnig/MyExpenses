@@ -194,11 +194,11 @@ public class Utils {
     }
     return result;
   }
-  static long[] getLongArrayFromCursor(Cursor c, String field) {
-    long[] result = new long[c.getCount()];
+  static Long[] getLongArrayFromCursor(Cursor c, String field) {
+    Long[] result = new Long[c.getCount()];
     if(c.moveToFirst()){
      for (int i = 0; i < c.getCount(); i++){
-       result[i] = c.getInt(c.getColumnIndex(field));
+       result[i] = c.getLong(c.getColumnIndex(field));
        c.moveToNext();
      }
     }

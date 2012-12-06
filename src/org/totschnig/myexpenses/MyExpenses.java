@@ -601,7 +601,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case SELECT_ACCOUNT_DIALOG_ID:
       final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
       final String[] accountLabels = Utils.getStringArrayFromCursor(otherAccounts, "label");
-      final long[] accountIds = Utils.getLongArrayFromCursor(otherAccounts, ExpensesDbAdapter.KEY_ROWID);
+      final Long[] accountIds = Utils.getLongArrayFromCursor(otherAccounts, ExpensesDbAdapter.KEY_ROWID);
       otherAccounts.close();
       return new AlertDialog.Builder(this)
         .setTitle(R.string.dialog_title_select_account)
@@ -660,7 +660,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case SELECT_TEMPLATE_DIALOG_ID:
       final Cursor templates = mDbHelper.fetchTemplates(mCurrentAccount.id);
       final String[] templateTitles = Utils.getStringArrayFromCursor(templates, "title");
-      final long[] templateIds = Utils.getLongArrayFromCursor(templates, ExpensesDbAdapter.KEY_ROWID);
+      final Long[] templateIds = Utils.getLongArrayFromCursor(templates, ExpensesDbAdapter.KEY_ROWID);
       templates.close();
       return new AlertDialog.Builder(this)
         .setTitle(R.string.dialog_title_select_account)
