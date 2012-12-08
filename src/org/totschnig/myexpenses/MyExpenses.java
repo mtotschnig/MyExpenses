@@ -101,6 +101,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   static final int TEMPLATE_TITLE_DIALOG_ID = 8;
   static final int SELECT_TEMPLATE_DIALOG_ID = 9;
   static final int MORE_ACTIONS_DIALOG_ID = 10;
+  
+  static final int TUTORIAL_RELEASE_VERSION = 4;
+  static final int CURRENT_NEWS_VERSION = 2;
+  static final String HOST = "myexpenses.totschnig.org";
 
   private String mVersionInfo;
   private ArrayList<Action> mMoreItems;
@@ -1146,6 +1150,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   }
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
+    String lang =  Locale.getDefault().getLanguage();
     switch (command) {
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
@@ -1198,21 +1203,23 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       startActivityForResult(new Intent(MyExpenses.this, Backup.class),ACTIVITY_PREF);
       break;
     case R.id.TUTORIAL_COMMAND:
+      i = new Intent(Intent.ACTION_VIEW);
+      i.setData(Uri.parse("http://" + HOST + "/" + lang +  "/" + "/tutorial_r" +  TUTORIAL_RELEASE_VERSION +  "/introduction.html"));
+      startActivity(i);
+      break;
     case R.id.FAQ_COMMAND:
-      i = new Intent(MyExpenses.this, WebView.class);
-      i.putExtra("start", command);
+      i = new Intent(Intent.ACTION_VIEW);
+      i.setData(Uri.parse("http://" + HOST + "/" + lang +  "/" + "/tutorial_r" +  TUTORIAL_RELEASE_VERSION +  "/faq.html"));
       startActivity(i);
       break;
     case R.id.CHANGES_COMMAND:
-      i = new Intent(MyExpenses.this, WebView.class);
-      i.putExtra("start", command);
+      i = new Intent(Intent.ACTION_VIEW);
+      i.setData(Uri.parse("http://" + HOST + "/versionlist.html"));
       startActivity(i);
-      break;
+      break; 
     case R.id.NEWS_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse("http://" + WebView.HOST + "/news/news" + WebView.CURRENT_NEWS_VERSION + ".html"));
-      //i = new Intent(MyExpenses.this, WebView.class);
-      //i.putExtra("start", command);
+      i.setData(Uri.parse("http://" + HOST + "/news/news" + CURRENT_NEWS_VERSION + ".html"));
       startActivity(i);
       break;
     case R.id.HELP_COMMAND:
