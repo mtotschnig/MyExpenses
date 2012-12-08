@@ -2,26 +2,32 @@
   <head>
     <title>My Expenses</title>
     <link rel="stylesheet" href="/css/styles.css"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width;">
     <style type="text/css">
     {{ page.styles }}
     </style>
+    {{page.headstuff}}
   </head>
   <body>
     <div id="container">
-      <img style="vertical-align: middle; float:left; margin-right: 15px;" src="visuals/icon.png" alt="My Expenses"/>
+      <img style="vertical-align: middle; float:left; margin-right: 15px;" src="/visuals/icon.png" alt="My Expenses"/>
       <h1 style="margin-top:0cm"><span class="application">My Expenses</span><br/>
         <span style="font-size:smaller">GPL licenced Android Expense Tracking App</span>
       </h1>
-      <div id="navigation">
+      <div style="clear:both" id="navigation">
         <ul>
          {% for node in site.navig %}
-          {% if page.url == node.url %}
-            <li class="active">{{node.title}}</li>
-          {% else %}
-            <li><a href="{{node.url}}">{{node.title}}</a></li>
-          {% endif %}
-        {% endfor %}
+           {% if page.section and page.section == node.section  %}
+             <li class="active">{{node.title}}</li>
+           {% else %}
+             {% if page.url == node.url %}
+               <li class="active">{{node.title}}</li>
+             {% else %}
+               <li><a href="{{node.url}}">{{node.title}}</a></li>
+             {% endif %}
+           {% endif %}
+         {% endfor %}
         </ul>
       </div>
       <div id="block">

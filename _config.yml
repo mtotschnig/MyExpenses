@@ -3,8 +3,13 @@ navig:
     url: /index.html
     title: Summary
   -
-    url: /tutorial_r4/en/introduction.html
-    title: Manual
+    url: /en/tutorial_r4/introduction.html
+    title: User guide
+    section: manual
+  -
+    url: /news/news2.html
+    title: News
+    section: news
   -
     url: /install.html
     title: Install

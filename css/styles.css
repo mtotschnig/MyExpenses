@@ -3,17 +3,18 @@ body {
   background-color: #848284;
   font-family: Helvetica, Arial, FreeSans, san-serif;
   color: #000000;
-}
-#container {
+  max-width: 750px;
   margin: 0 auto;
-  max-width: 800px;
 }
-h1 { font-size: 1em; color: white; margin-bottom: 3px; }
+h1 { font-size: 1.5em; color: white; margin-bottom: 3px; }
 h1 .small { font-size: 0.7em; }
 h1 a { text-decoration: none; color: white; }
 h2 { font-size: 1.5em; margin-top: 0; color: #3383BB;}
 h2 .small { font-size: 0.7em; }
-h3 { text-align: center; color: #3383BB; }
+h3 { color: #3383BB; }
+.toc dl dt {
+  display: inline;
+}
 #block {
   background-color: #cecfce;
   padding:1em;
@@ -23,10 +24,12 @@ h3 { text-align: center; color: #3383BB; }
     list-style: none;
     padding: 5px 0 4px 0;
     margin: 0 0 0 10px;
-    font: 0.75em arial;
+    font: 0.85em arial;
 }
 #navigation ul li {
     display: inline;
+    line-height: 160%;
+    min-width: 5em;
 }
 #navigation ul a {
     border: 1px solid #ccc;
@@ -39,6 +42,7 @@ h3 { text-align: center; color: #3383BB; }
     -moz-border-radius: 5px 5px 0 0;
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
+     width: 90%;
 }
 #navigation ul a:hover {
     background-color: #dddddd;
@@ -47,13 +51,11 @@ h3 { text-align: center; color: #3383BB; }
 #navigation ul li.active {
     border-bottom: 1px solid #fff;
     background-color: #cecfce;
-    padding: 4px 6px 5px 6px;
+    padding: 4px 6px 100px 6px;
     border-bottom: none;
 }
 #navigation ul li.active:hover {
-    background-color: #eeeeee;
-    padding: 4px 6px 5px 6px;
-    border-bottom: none;
+  text-decoration: underline;
 }
  
 #navigation ul li a.icon_accept {
@@ -65,8 +67,34 @@ h3 { text-align: center; color: #3383BB; }
 #navigation ul li a.icon_accept:hover {
     padding-left: 24px;
 }
-@media only screen and (-webkit-device-pixel-ratio:1.5) {
-  body {
-    font-size: 150%;
-  }
+div.screenshot img {
+  cursor:pointer;
+   padding:1px;
+   border:1px solid #021a40;
 }
+div.screenshot {
+  text-align:center;
+  margin-right:auto;
+  margin-left:auto
+}
+#dialog #image {
+ height: 640px; 
+}
+#footnotes {
+  display: block;
+  font-size: smaller;
+}
+.pubdate {
+  margin: 0;
+}
+.application {
+  font-style: italic;
+}
+.guimenuitem, .guilabel {
+	font-weight: bold;
+}
+.guibutton, .guimenu {
+	background-color: #CFCFCF;
+	padding: 2px;
+}
+
