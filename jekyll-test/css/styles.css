@@ -1,0 +1,72 @@
+body {
+  margin-top: 1.0em;
+  background-color: #848284;
+  font-family: Helvetica, Arial, FreeSans, san-serif;
+  color: #000000;
+}
+#container {
+  margin: 0 auto;
+  max-width: 800px;
+}
+h1 { font-size: 1em; color: white; margin-bottom: 3px; }
+h1 .small { font-size: 0.7em; }
+h1 a { text-decoration: none; color: white; }
+h2 { font-size: 1.5em; margin-top: 0; color: #3383BB;}
+h2 .small { font-size: 0.7em; }
+h3 { text-align: center; color: #3383BB; }
+#block {
+  background-color: #cecfce;
+  padding:1em;
+  border-radius: 15px;
+}
+#navigation ul {
+    list-style: none;
+    padding: 5px 0 4px 0;
+    margin: 0 0 0 10px;
+    font: 0.75em arial;
+}
+#navigation ul li {
+    display: inline;
+}
+#navigation ul a {
+    border: 1px solid #ccc;
+    padding: 4px 6px;
+    text-decoration: none;
+    background-color: #eeeeee;
+    border-bottom: none;
+    outline: none;
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+}
+#navigation ul a:hover {
+    background-color: #dddddd;
+    padding: 4px 6px;
+}
+#navigation ul li.active {
+    border-bottom: 1px solid #fff;
+    background-color: #cecfce;
+    padding: 4px 6px 5px 6px;
+    border-bottom: none;
+}
+#navigation ul li.active:hover {
+    background-color: #eeeeee;
+    padding: 4px 6px 5px 6px;
+    border-bottom: none;
+}
+ 
+#navigation ul li a.icon_accept {
+    background-image: url(accept.png);
+    background-position: 5px;
+    background-repeat: no-repeat;
+    padding-left: 24px;
+}
+#navigation ul li a.icon_accept:hover {
+    padding-left: 24px;
+}
+@media only screen and (-webkit-device-pixel-ratio:1.5) {
+  body {
+    font-size: 150%;
+  }
+}

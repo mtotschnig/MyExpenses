@@ -1,8 +1,32 @@
 <html>
   <head>
-    <title>My Website</title>
+    <title>My Expenses</title>
+    <link rel="stylesheet" href="/css/styles.css"/>
+    <meta name="viewport" content="width=device-width;">
+    <style type="text/css">
+    {{ page.styles }}
+    </style>
   </head>
   <body>
-    {{ content }}
+    <div id="container">
+      <img style="vertical-align: middle; float:left; margin-right: 15px;" src="visuals/icon.png" alt="My Expenses"/>
+      <h1 style="margin-top:0cm"><span class="application">My Expenses</span><br/>
+        <span style="font-size:smaller">GPL licenced Android Expense Tracking App</span>
+      </h1>
+      <div id="navigation">
+        <ul>
+         {% for node in site.navig %}
+          {% if page.url == node.url %}
+            <li class="active">{{node.title}}</li>
+          {% else %}
+            <li><a href="{{node.url}}">{{node.title}}</a></li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      </div>
+      <div id="block">
+        {{ content }}
+      </div>
+   </div>
   </body>
 </html>

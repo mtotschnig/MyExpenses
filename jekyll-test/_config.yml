@@ -1,0 +1,35 @@
+navig:
+  -
+    url: /index.html
+    title: Summary
+  -
+    url: /tutorial_r4/en/introduction.html
+    title: Manual
+  -
+    url: /install.html
+    title: Install
+  -
+    url: /donate.html
+    title: Donate
+  -
+    url: /screenshots.html
+    title: Screenshots
+  -
+    url: /privacy.html
+    title: Privacy policy
+  -
+    url: /versionlist.html
+    title: Changelog
+  -
+    url: /credits.html
+    title: Credits
+  -
+    url: /sourcecode.html
+    title: Sourcecode
+  -
+    url: /links.html
+    title: Links
+  -
+    url: /plans.html
+    title: Future plans
+
