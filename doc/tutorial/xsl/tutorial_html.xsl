@@ -12,6 +12,39 @@
  <lang code="es">Español</lang>
 </custom:supported-langs>
 
+<xsl:template name="chunk-element-content">
+  <xsl:param name="prev"/>
+  <xsl:param name="next"/>
+  <xsl:param name="nav.context"/>
+  <xsl:param name="content">
+    <xsl:apply-imports/>
+  </xsl:param>
+
+  <xsl:call-template name="user.preroot"/>---
+layout: default
+title: "TODO: construct appropriate title"
+section: manual
+headstuff: |
+  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="/script/images.js"></script>
+
+---
+      <xsl:call-template name="user.header.navigation"/>
+      <xsl:call-template name="header.navigation">
+        <xsl:with-param name="prev" select="$prev"/>
+        <xsl:with-param name="next" select="$next"/>
+        <xsl:with-param name="nav.context" select="$nav.context"/>
+      </xsl:call-template>
+
+      <xsl:call-template name="user.header.content"/>
+
+      <xsl:copy-of select="$content"/>
+  <xsl:value-of select="$chunk.append"/>
+</xsl:template>
+
+<xsl:param name="chunker.output.encoding" select="UTF-8"/>
 <xsl:param name="use.id.as.filename" select="'1'"/>
 <xsl:param name="chunk.first.sections" select="'1'"/>
 <xsl:param name="toc.section.depth" select="'1'"/>
@@ -21,132 +54,80 @@
 <!-- no title attribute for sections -->
 <xsl:template name="generate.html.title"/>
 
-<xsl:template name="html.head">
-  <head>
-    <xsl:call-template name="system.head.content"/>
-    <title>
-      <xsl:apply-templates select="/article" mode="object.title.markup.textonly"/>
-      <xsl:text> | </xsl:text>
-      <xsl:apply-templates select="." mode="object.title.markup.textonly"/>
-    </title>
-    <link rel="stylesheet" type="text/css" href="../../styles.css"/>
-    <meta name="generator" content="DocBook {$DistroTitle} V{$VERSION}"/>
-    <xsl:variable name="description">
-      <xsl:for-each select="/article/articleinfo/abstract[1]/*|./sect1info/abstract[1]/*">
-        <xsl:apply-templates select="."/>
-      </xsl:for-each>
-    </xsl:variable>
-    <meta name="description" content="{normalize-space($description)}"/>
-    <meta http-equiv="content-language" content="{/article/articleinfo/title/phrase/@lang}" />
-    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="../../images.js"></script>
-    <meta name="viewport" content="width=device-width;"/>
-   </head>
-</xsl:template>
-
-<xsl:template name="sect1.titlepage.recto">
-  <xsl:apply-templates mode="sect1.titlepage.recto.auto.mode" select="title"/>
-</xsl:template>
+<!-- we do not display a title since it is visible from the navigation select box -->
+<xsl:template name="sect1.titlepage.recto"/>
 
 <xsl:template name="header.navigation">
   <xsl:variable name="doclang" select="/article/articleinfo/title/phrase/@lang"/>
   <xsl:variable name="chunkname">
     <xsl:apply-templates select="." mode="recursive-chunk-filename"/>
   </xsl:variable>
-  <h1>
-  <!-- we want the title to be invisible from inapp webview: we set it to display none,
-  and make it visible through javascript. the webview has javascript disabled-->
-  <span id="navigtitle" style="display:none">
-  <a href="../../index.html"><span class="application">
-  <xsl:call-template name="getString">
-      <xsl:with-param name="id" select="'app_name'"/>
-  </xsl:call-template>
-  </span></a>
+  <h2>
+  <span id="pdflink">
   <xsl:text> </xsl:text>
-    <xsl:call-template name="getString">
-      <xsl:with-param name="id" select="'tutorial'"/>
-  </xsl:call-template>
-  </span>
-  <span id="pdflink" style="display:none">
-  <xsl:text> </xsl:text>
-  <a href="tutorial_r3.pdf" target="_top">
-    <img style="vertical-align: middle;" title="PDF" src="../../tutorial/flags/pdf.png"/>
+  <a href="tutorial_r4.pdf" target="_top">
+    <img style="vertical-align: middle;" title="PDF" src="/visuals/pdf.png"/>
   </a>
   </span>
-  <span class="langselector">
-    <xsl:for-each select="document('')/*/custom:supported-langs/lang">
-      <xsl:choose>
-        <xsl:when test="@code != $doclang">
-          <a href="../{@code}/{$chunkname}">
-            <img title="{.}" src="../../tutorial/flags/{@code}.png" />
-          </a>
-        </xsl:when>
-        <xsl:otherwise>
-          <img width="22" title="{.}" src="../../tutorial/flags/{@code}.png" />
-        </xsl:otherwise>
-      </xsl:choose>
-      <xsl:text> </xsl:text>
-    </xsl:for-each>
-  </span>
-  <span style="clear:both">&#160;</span>
-  </h1>
-  <xsl:call-template name="make.toc">
-    <xsl:with-param name="toc.title.p" select="false()"/>
-    <xsl:with-param name="nodes" select="../sect1"/>
-  </xsl:call-template>
+  <xsl:value-of select="title"/>
+  </h2>
+  <div class="toc">
+    <select onchange="window.location=this.value;">
+        <option>Go to chapter</option>
+      <xsl:apply-templates select="../sect1" mode="toc">
+        <xsl:with-param name="toc-context" select="."/>
+      </xsl:apply-templates>
+    </select>
+    <select onchange="window.location=this.value;">
+      <option>Switch language</option>
+      <xsl:for-each select="document('')/*/custom:supported-langs/lang">
+        <option>
+          <xsl:choose>
+            <xsl:when test="@code != $doclang">
+              <xsl:attribute name="value">/<xsl:value-of select="@code"/>/tutorial_r4/<xsl:value-of select="$chunkname"/></xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:attribute name="disabled">disabled</xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:value-of select="."/>
+        </option>
+      </xsl:for-each>
+    </select>
+  </div>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="/article/articleinfo/releaseinfo[not(@role) or @role!='generate-for-pdf']"/>
 </xsl:template>
 
+<xsl:template name="make.toc">
+  <xsl:param name="toc-context" select="."/>
+  <xsl:param name="nodes" select="/NOT-AN-ELEMENT"/>
+  <div class="toc">
+    <select onchange="window.location=this.value;">
+      <xsl:apply-templates select="$nodes" mode="toc">
+        <xsl:with-param name="toc-context" select="$toc-context"/>
+      </xsl:apply-templates>
+    </select>
+  </div>
+</xsl:template>
 <!-- add separator between entries in toc and do not create link for current section-->
 <xsl:template name="toc.line">
   <xsl:param name="toc-context" select="."/>
-  <xsl:param name="depth" select="1"/>
-  <xsl:param name="depth.from.context" select="8"/>
- <span>
-  <xsl:attribute name="class"><xsl:value-of select="local-name(.)"/></xsl:attribute>
-
-  <!-- * if $autotoc.label.in.hyperlink is zero, then output the label -->
-  <!-- * before the hyperlinked title (as the DSSSL stylesheet does) -->
-  <xsl:if test="$autotoc.label.in.hyperlink = 0">
-    <xsl:variable name="label">
-      <xsl:apply-templates select="." mode="label.markup"/>
-    </xsl:variable>
-    <xsl:copy-of select="$label"/>
-    <xsl:if test="$label != ''">
-      <xsl:value-of select="$autotoc.label.separator"/>
-    </xsl:if>
-  </xsl:if>
-
-  <a>
-  <xsl:if test="$toc-context/@id != @id">
-    <xsl:attribute name="href">
+  <option>
+  <xsl:choose>
+  <xsl:when test="$toc-context/@id != @id">
+    <xsl:attribute name="value">
       <xsl:call-template name="href.target">
         <xsl:with-param name="context" select="$toc-context"/>
         <xsl:with-param name="toc-context" select="$toc-context"/>
       </xsl:call-template>
     </xsl:attribute>
-    </xsl:if>
-  <!-- * if $autotoc.label.in.hyperlink is non-zero, then output the label -->
-  <!-- * as part of the hyperlinked title -->
-  <xsl:if test="not($autotoc.label.in.hyperlink = 0)">
-    <xsl:variable name="label">
-      <xsl:apply-templates select="." mode="label.markup"/>
-    </xsl:variable>
-    <xsl:copy-of select="$label"/>
-    <xsl:if test="$label != ''">
-      <xsl:value-of select="$autotoc.label.separator"/>
-    </xsl:if>
-  </xsl:if>
-
+    </xsl:when>
+    <xsl:otherwise>
+    <xsl:attribute name="disabled">disabled</xsl:attribute>
+    </xsl:otherwise>
+    </xsl:choose>
     <xsl:apply-templates select="." mode="titleabbrev.markup"/>
-  </a>
-  </span>
-  
-  <xsl:if test="position()!=last()">
-  <span> | </span>
-  </xsl:if>
+    </option>
 </xsl:template>
 
 <xsl:template match="phrase[@role='br']">
