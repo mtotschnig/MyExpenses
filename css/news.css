@@ -1,55 +1,6 @@
-h1 {
- font-size:  110%;
+.titlepage {
+ width: 75%; 
 }
-h2 { color: #3383BB;}
-.toc dl dt {
-  display: inline;
-}
-div {
-  margin: 1em 0em;
-}
-div.screenshot {
-  text-align:center;
-  margin-right:auto;
-  margin-left:auto
-}
-#footnotes {
-  display: block;
-  font-size: smaller;
-}
-
-@media only screen and (min-device-width: 500px) {
-body {
-    width:500px;
-    margin:0px auto;
-}
-}
-body {
-  margin-top: 1.0em;
-  background-color: #cecfce;
-  font-family: Helvetica, Arial, FreeSans, sans-serif;
-  color: #000000;
-}
-div.screenshot img {
-  cursor:pointer;
-   padding:1px;
-   border:1px solid #021a40;
-}
-.application {
-  font-style: italic;
-}
-.guimenuitem, .guilabel {
-	font-weight: bold;
-}
-.guibutton, .guimenu {
-	background-color: #CFCFCF;
-	padding: 2px;
-}
-.langselector {
-  float:right;
-}
-
-/* Main menu settings */
 #rightmenu {
 	clear:both;
 	float:right;
@@ -60,7 +11,8 @@ div.screenshot img {
 	font-size:90%; /* Menu text size */
 	z-index:1000; /* This makes the dropdown menus appear above the page content below */
 	position:relative;
-	width:80%
+	width:100%;
+	height: 0;
 }
 
 /* Top menu items */

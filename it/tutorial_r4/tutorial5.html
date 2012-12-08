@@ -1,0 +1,170 @@
+---
+layout: default
+title: "TODO: construct appropriate title"
+section: manual
+headstuff: |
+  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css"><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script><script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script><script type="text/javascript" src="/script/images.js"></script>
+
+---
+      <h2><span id="pdflink"> <a href="tutorial_r4.pdf" target="_top"><img style="vertical-align: middle;" title="PDF" src="/visuals/pdf.png"></a></span>
+      
+      
+      
+      Parametri
+      
+    </h2><div class="toc"><select onchange="window.location=this.value;"><option>Go to chapter</option><dt><option value="introduction.html">
+      
+      
+      
+      <span lang="it">Introduzione</span>
+      
+    </option></dt><dt><option value="tutorial1.html">
+      
+      
+      
+      <span lang="it">Conti</span>
+      
+    </option></dt><dt><option value="tutorial2.html">
+      
+      
+      
+      <span lang="it">Transazioni</span>
+      
+    </option></dt><dt><option value="tutorial3.html">    
+      
+      
+      
+      <span lang="it">Categorie</span>
+      
+    </option></dt><dt><option value="tutorial4.html">
+      
+      
+      
+      <span lang="it">Esportazione di operazioni</span>
+      
+    </option></dt><dt><option disabled>
+      
+      
+      
+      <span lang="it">Parametri</span>
+      
+    </option></dt><dt><option value="faq.html">
+      
+      
+      
+      <span lang="it">Domande più frequenti</span>
+      
+    </option></dt></select><select onchange="window.location=this.value;"><option>Switch language</option><option value="/en/tutorial_r4/tutorial5.html">English</option><option value="/fr/tutorial_r4/tutorial5.html">Français</option><option value="/de/tutorial_r4/tutorial5.html">Deutsch</option><option disabled>Italiano</option><option value="/es/tutorial_r4/tutorial5.html">Español</option></select></div><div class="sect1"><div class="titlepage"></div><div class="figure"><a name="step12"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step12.png"></div></div></div></div><p lang="it">
+      Un breve clic sul pulsante <span class="guibutton">Parametri</span> si apre la schermata
+      parametri. Qui è possibile impostare alcune proprietà di applicazione <span class="application">Le mie spese</span> può accedere alla gestione degli account e di backup. Un clic lungo si
+      apre un menu che include l'accesso diretto al conto attuale (<span class="guimenuitem">Conto</span>), e di backup (<span class="guimenuitem">Backup</span>).
+    </p><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_1"></a>
+       <span class="guilabel">Gestione dei conti</span>
+    </h3></div></div></div><p lang="it">
+        Questo mostra l'elenco completo dei conti. Facendo clic sul conto, accedere al modulo
+        di installazione (spiegato nel <a class="link" href="tutorial1.html" title="Conti">
+      
+      
+      
+      <span lang="it">Conti</span>
+      
+    </a>).
+        Un clic lungo visualizza un menu di scelta rapida per cancellare conti, ad eccezione
+        del conto corrente, che non possono essere cancellati.
+      </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_2"></a>
+       <span class="guilabel">Criterio di ordinamento per le categorie
+  </span>
+      </h3></div></div></div><p lang="it">
+        Per impostazione predefinita, le categorie sono ordinati per frequenza di utilizzo
+        (numero di volte che sono normalmente associati con una transazione). Deselezionare
+        questa opzione se si preferisce che le categorie sono visualizzate in ordine
+        alfabetico.
+      </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_3"></a>
+       <span class="guilabel">Condividi QIF Export</span>
+      </h3></div></div></div><p lang="it">
+      Se si seleziona questa opzione, il file QIF verrà caricato dopo ogni esportare i vostri 
+      transazioni. Sotto <span class="guilabel">Carica URL QIF Export</span>, è necessario specificare 
+      la destinazione:
+       </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+          L'URL di un file tramite FTP in modalità di scrittura (ad esempio
+          "ftp://login:password@my.example.org:port/my/directory/").
+          </p></li><li class="listitem"><p>
+          un URL per email (ad esempio "mailto:john@my.example.com"). Il vostro applicazione 
+	  di posta elettronica si aprirà con un nuovo messaggio con il file allegato.
+          </p></li><li class="listitem"><p>
+          Se questo campo è vuoto, è possibile scegliere ogni volta che le applicazioni disponibili 
+	  sul dispositivo, in grado di trasferire un file (ad esempio, Dropbox, Google docs, …).
+          </p></li></ul></div><p lang="it">
+    </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_4"></a>
+      
+      
+      
+      <span lang="it">Backup e ripristino</span>
+      
+    </h3></div></div></div><p lang="it">
+      <span class="guilabel">Backup</span> crea un backup del database e delle preferenze nella
+      cartella <code class="filename">myexpenses</code> sulla scheda SD. Il database viene memorizzato
+      nel file chiamato <code class="filename">BACKUP</code> e le preferenze nel file
+      <code class="filename">BACKUP_PREF</code>. Entrambi sono automaticamente ripristinate quando si
+      reinstalla <span class="application">Le mie spese</span>. In questo modo è possibile recuperare tutte le
+      vostre applicazioni dati su un dispositivo diverso da copiare questi due file nella
+      stessa posizione là, prima di installare <span class="application">Le mie spese</span>.
+    </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_5"></a>
+        <span class="guilabel">Importazione dei dati Grisbi</span>
+      </h3></div></div></div><div class="figure"><a name="step7"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step7.png"></div></div></div></div><p lang="it">
+      <span class="guibutton">Importare le categorie</span> permette di impostare le categorie di file inclusa
+      da Grisbi in inglese, tedesco o francese. Se con Grisbi hai già definite le proprie
+      categorie, è possibile anche fornire il file Grisbi, che è in XML. Se si desidera, è
+      possibile modificare il file con un editor e rimuovere ogni altra informazione rispetto
+      alla categoria (<code class="sgmltag-element">Category</code>) e gli elementi
+      <code class="sgmltag-element">Sub_category</code><sup>[<a name="ftn55-it-1" href="#ftn.ftn55-it-1" class="footnote">3</a>]</sup>. Conservare questo file come <code class="filename">grisbi.xml</code> in un
+      <code class="filename">myexpenses</code> cartella nella directory principale della vostra scheda
+      SD<sup>[<a name="ftn55-it-2" href="#ftn.ftn55-it-2" class="footnote">4</a>]</sup>. Hai anche la possibilità di importare i beneficiari Grisbi
+      registrati nello stesso file (elemento <code class="sgmltag-element">Party</code>). Se si sceglie il
+      proprio file come fonte di importazione, è possibile importare categorie e beneficiari, o
+      solo categorie. Il beneficiario sarà offerta automaticamente per riempire il
+      "Beneficiario" in forma di operazioni.
+    </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_6"></a>
+        <span class="guilabel">Utilizzare Android standard menu</span>
+      </h3></div></div></div><p lang="it">
+       Se si seleziona questa opzione, invece di visualizzare una barra dei pulsanti, sarà
+       necessario utilizzare il menu standard per accedere al Android ordini. È inoltre
+       possibile accedere alla modifica della configurazione semplicemente attivando il
+       pulsante Menu hardware.
+    </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_7"></a>
+        <span class="guilabel">Gestione dei beneficiari</span>
+      </h3></div></div></div><p lang="it">
+      Su questo schermo l'elenco dei terzi utilizzato per il completamento automatico del campo
+      <span class="guilabel">Pagatore</span>/<span class="guilabel">Beneficiario</span>. Per rimuovere le voci da questo
+      elenco, selezionarle controllando il loro diritto, e quindi attivare il pulsante
+      <span class="guibutton">Cancellare</span>.
+    </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_8"></a>
+        <span class="guilabel">Separatore decimale per l'ingresso della
+      quantità</span>
+      </h3></div></div></div><p lang="it">
+      Per impostazione predefinita, gli importi delle transazioni (o il saldo di
+      apertura di un conto) utilizzare il separatore decimale delle impostazioni locali
+      (virgola in molti paesi europei, il punto in più paesi di lingua inglese)<sup>[<a name="ftn58-it-2" href="#ftn.ftn58-it-2" class="footnote">5</a>]</sup>, qui si può configurare in modo esplicito. In alternativa si ha la
+      possibilità di ingresso alle unità minori (es. $ centesimi, € cent o penny £) come interi
+      (<span class="guilabel">Unità minori come numeri interi
+  </span>).
+    </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial5_9"></a>
+        <span class="guilabel">Gestione dei modi di pagamento</span>
+    </h3></div></div></div><div class="figure"><a name="step13"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step13.png"></div></div></div></div><p lang="it">
+      Su questo schermo si vede la lista dei modi di pagamento predefiniti (assegno, carta di credito,
+      pagamento, addebito) e qui puó definire nuovi modi di pagamento. Si fa clic su un modo della
+      lista (o sceglie Nuovo), arriva a un formulario, dove può definire la descrizione (salvo per i 
+      predefiniti) e il tipo (si tratta di un modo di pagamento per entrate o spese o neutrale), e 
+      scegliere i tipi di conto per i quali è applicabile il modo di pagamento.
+    </p></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a id="ftn.ftn55-it-1" href="#ftn55-it-1" class="para">3</a>] </sup>
+          <span class="application">Le mie spese</span> supporta anche il formato di file Grisbi 0.5.0, dove
+          gli elementi sono denominati <code class="sgmltag-element">Categorie</code> e
+          <code class="sgmltag-element">Sous_categorie</code>(<code class="sgmltag-element">Tiers</code> beneficiari).
+        </p></div><div class="footnote"><p><sup>[<a id="ftn.ftn55-it-2" href="#ftn55-it-2" class="para">4</a>] </sup>
+          Certamente può sviluppare il suo proprio xml file. Esempi per questo si trovano qui
+          <a class="ulink" href="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw" target="_top">Github</a>.
+        </p></div><div class="footnote"><p><sup>[<a id="ftn.ftn58-it-2" href="#ftn58-it-2" class="para">5</a>] </sup>
+          Sui dispositivi con sistema operativo Android 2.3., <span class="application">Le mie spese</span>,
+          il default è il punto, perché sono per lo più si occupano del problema descritto
+          nella <a class="link" href="faq.html#faq-comma-it" title="1.">FAQ</a>.
+        </p></div></div></div>

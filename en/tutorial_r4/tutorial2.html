@@ -1,0 +1,90 @@
+---
+layout: default
+title: "TODO: construct appropriate title"
+section: manual
+headstuff: |
+  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css"><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script><script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script><script type="text/javascript" src="/script/images.js"></script>
+
+---
+      <h2><span id="pdflink"> <a href="tutorial_r4.pdf" target="_top"><img style="vertical-align: middle;" title="PDF" src="/visuals/pdf.png"></a></span>
+      Transactions
+      
+      
+      
+      
+    </h2><div class="toc"><select onchange="window.location=this.value;"><option>Go to chapter</option><dt><option value="introduction.html">
+      <span lang="en">Introduction</span>
+      
+      
+      
+      
+    </option></dt><dt><option value="tutorial1.html">
+      <span lang="en">Accounts</span>
+      
+      
+      
+      
+    </option></dt><dt><option disabled>
+      <span lang="en">Transactions</span>
+      
+      
+      
+      
+    </option></dt><dt><option value="tutorial3.html">    
+      <span lang="en">Categories</span>
+      
+      
+      
+      
+    </option></dt><dt><option value="tutorial4.html">
+      <span lang="en">Export transactions</span>
+      
+      
+      
+      
+    </option></dt><dt><option value="tutorial5.html">
+      <span lang="en">Settings</span>
+      
+      
+      
+      
+    </option></dt><dt><option value="faq.html">
+      <span lang="en">Frequently asked questions</span>
+      
+      
+      
+      
+    </option></dt></select><select onchange="window.location=this.value;"><option>Switch language</option><option disabled>English</option><option value="/fr/tutorial_r4/tutorial2.html">Français</option><option value="/de/tutorial_r4/tutorial2.html">Deutsch</option><option value="/it/tutorial_r4/tutorial2.html">Italiano</option><option value="/es/tutorial_r4/tutorial2.html">Español</option></select></div><div class="sect1"><div class="titlepage"></div><div class="figure"><a name="step3"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step3.png"></div></div></div></div><p lang="en">
+      A short click on <span class="guibutton">New</span> brings up the activity for creating a
+      transaction.
+    </p><p lang="en">
+      Adjust date and time, click on the <span class="guibutton">-</span> Button to toggle between
+      expense and income, enter amount<sup>[<a name="ftn22-en-1" href="#ftn.ftn22-en-1" class="footnote">1</a>]</sup> and notes. The payee (or payer) field remembers the
+      values you enter and will suggest them in the future<sup>[<a name="ftn22-en-2" href="#ftn.ftn22-en-2" class="footnote">2</a>]</sup>. Clicking on the
+      <span class="guibutton">Select</span> button next to <span class="guilabel">Category</span>, brings up the <span class="guilabel">Select category</span> activity. We will explain below, how to manage categories.
+    </p><div class="figure"><a name="step4"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step4.png"></div></div></div></div><p lang="en">
+      If the current account is of a type, that is associated with payment methods, you can set the transaction's method
+      through the <span class="guibutton">Select</span> button next to <span class="guilabel">Method</span>.
+    </p><div class="figure"><a name="step5"></a><div class="figure-contents"><div class="screenshot"><div class="mediaobject"><img src="step5.png"></div></div></div></div><p lang="en">
+      Back at the transaction list, you can edit individual entries through a short click,
+      the context menu allows deleting a transaction, or display full details (payee,
+      notes) about it. You can also move a transaction to a different account, provided you
+      have set up at least one additional account. 
+    </p><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="tutorial2_1"></a>
+        <span lang="en">Transfer</span>
+        
+        
+        
+        
+      </h3></div></div></div><p lang="en">
+        <span class="guimenu">New</span> → <span class="guimenuitem">Transfer</span> allows you to transfer money between accounts. This command is enabled
+       only if you have more than one account with the same currency as the current one.
+      </p></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a id="ftn.ftn22-en-1" href="#ftn22-en-1" class="para">1</a>] </sup>
+          The input format for currency amounts can be configured through the <a class="link" href="tutorial5.html#tutorial5_8" title="Decimal separator for input of currency amounts"><span class="guilabel">Decimal separator for input of currency
+      amounts</span></a>
+          setting.
+       </p></div><div class="footnote"><p><sup>[<a id="ftn.ftn22-en-2" href="#ftn22-en-2" class="para">2</a>] </sup>
+          You can also import a list of parties for autocompleting the payee field from your
+          Grisbi file as explained in <a class="link" href="tutorial5.html#tutorial5_5" title="Import from Grisbi"><span class="guilabel">Import from Grisbi</span></a>. If you want to delete entries from
+          this list refer to <a class="link" href="tutorial5.html#tutorial5_7" title="Manage parties"><span class="guilabel">Manage parties</span></a>.
+        </p></div></div></div>
