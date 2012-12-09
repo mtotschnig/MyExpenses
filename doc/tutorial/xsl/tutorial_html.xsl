@@ -24,6 +24,7 @@
 layout: default
 title: "TODO: construct appropriate title"
 section: manual
+lang: <xsl:value-of select="/article/articleinfo/title/phrase/@lang"/>
 headstuff: |
   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -58,7 +59,6 @@ headstuff: |
 <xsl:template name="sect1.titlepage.recto"/>
 
 <xsl:template name="header.navigation">
-  <xsl:variable name="doclang" select="/article/articleinfo/title/phrase/@lang"/>
   <xsl:variable name="chunkname">
     <xsl:apply-templates select="." mode="recursive-chunk-filename"/>
   </xsl:variable>
@@ -81,22 +81,6 @@ headstuff: |
       <xsl:apply-templates select="../sect1" mode="toc">
         <xsl:with-param name="toc-context" select="."/>
       </xsl:apply-templates>
-    </select>
-    <select onchange="window.location=this.value;">
-      <option>Switch language</option>
-      <xsl:for-each select="document('')/*/custom:supported-langs/lang">
-        <option>
-          <xsl:choose>
-            <xsl:when test="@code != $doclang">
-              <xsl:attribute name="value">/<xsl:value-of select="@code"/>/tutorial_r4/<xsl:value-of select="$chunkname"/></xsl:attribute>
-            </xsl:when>
-            <xsl:otherwise>
-               <xsl:attribute name="disabled">disabled</xsl:attribute>
-            </xsl:otherwise>
-          </xsl:choose>
-          <xsl:value-of select="."/>
-        </option>
-      </xsl:for-each>
     </select>
   </div>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="/article/articleinfo/releaseinfo[not(@role) or @role!='generate-for-pdf']"/>
