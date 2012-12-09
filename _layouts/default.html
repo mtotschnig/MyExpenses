@@ -37,9 +37,17 @@
               <li class="active">{{section.title}}</li>
             {% else %}
               {% if section.langs and section.langs contains page.lang %}
+                {% if section.dir %}
+                  <li><a href="/{{page.lang}}/{{section.dir}}/{{section.url}}">{{section.title}}</a></li>
+                {% else %}
                   <li><a href="/{{page.lang}}/{{section.url}}">{{section.title}}</a></li>
+                {% endif %}
               {% else %}
-                <li><a href="/en/{{section.dir}}/{{section.url}}">{{section.title}}</a></li>
+                {% if section.dir %}
+                  <li><a href="/en/{{section.dir}}/{{section.url}}">{{section.title}}</a></li>
+                {% else %}
+                  <li><a href="/en/{{section.url}}">{{section.title}}</a></li>
+                {% endif %}
               {% endif %}
             {% endif %}
          {% endfor %}

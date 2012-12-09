@@ -14,25 +14,29 @@ sections:
     dir: tutorial_r4
     url: introduction.html
     title: User guide
-    langs: [en,fr,de,it,es]
-  - 
+    langs: 
+      - en
+      - fr
+      - de
+      - it
+      - es
+  -
     id: news
     url: news/news2.html
     title: News
-  - 
+  -
     id: install
     url: install.html
     title: Install
-  - 
+  -
     id: donate
     url: donate.html
     title: Donate
-    langs: [en,de,fr]
-  - 
+  -
     id: screenshots
     url: screenshots.html
     title: Screenshots
-  - 
+  -
     id: privacy
     url: privacy.html
     title: Privacy policy
@@ -40,19 +44,19 @@ sections:
     id: changelog
     url: versionlist.html
     title: Changelog
-  - 
+  -
     id: credits
     url: credits.html
     title: Credits
-  - 
+  -
     id: sourcecode
     url: sourcecode.html
     title: Sourcecode
-  - 
+  -
     id: links
     url: links.html
     title: Links
-  - 
+  -
     id: plans
     url: plans.html
     title: Future plans
