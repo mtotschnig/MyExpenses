@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>My Expenses</title>
+    <title>My Expenses {{pagelang}}</title>
     <link rel="stylesheet" href="/css/styles.css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width;">
@@ -33,13 +33,20 @@
       <div style="clear:both" id="navigation">
         <ul>
           {% for section in site.sections %}
+            {% capture title %}
+              {% if section.title[page.lang] %}
+                {{section.title[page.lang]}}
+              {% else %}
+                {{section.title["en"]}}
+              {% endif %}
+            {% endcapture %}
             {% if page.section == section.id  %}
-              <li class="active">{{section.title}}</li>
+              <li class="active">{{title}}</li>
             {% else %}
               {% if section.langs and section.langs contains page.lang %}
                 <li><a href="/{{page.lang}}/{{section.url}}">{{section.title}}</a></li>
               {% else %}
-                <li><a href="/en/{{section.url}}">{{section.title}}</a></li>
+                <li><a href="/en/{{section.url}}">{{title}}</a></li>
               {% endif %}
             {% endif %}
          {% endfor %}

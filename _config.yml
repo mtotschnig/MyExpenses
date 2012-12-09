@@ -8,11 +8,17 @@ sections:
   - 
     id: summary
     url: index.html
-    title: Summary
+    title:
+      en: Summary
   - 
     id: manual
     url: tutorial_r4/introduction.html
-    title: User guide
+    title: 
+      en: User guide
+      fr: Manuel
+      de: Anleitung
+      it: Manuale
+      es: Manual
     langs: 
       - en
       - fr
@@ -22,41 +28,51 @@ sections:
   -
     id: news
     url: news/news2.html
-    title: News
+    title:
+      en: News
   -
     id: install
     url: install.html
-    title: Install
+    title: 
+      en: Install
   -
     id: donate
     url: donate.html
-    title: Donate
+    title:
+      en: Donate
   -
     id: screenshots
     url: screenshots.html
-    title: Screenshots
+    title:
+      en: Screenshots
   -
     id: privacy
     url: privacy.html
-    title: Privacy policy
+    title:
+      en: Privacy policy
   -
     id: changelog
     url: versionlist.html
-    title: Changelog
+    title: 
+      en: Changelog
   -
     id: credits
     url: credits.html
-    title: Credits
+    title:
+      en: Credits
   -
     id: sourcecode
     url: sourcecode.html
-    title: Sourcecode
+    title:
+      en: Sourcecode
   -
     id: links
     url: links.html
-    title: Links
+    title:
+      en: Links
   -
     id: plans
     url: plans.html
-    title: Future plans
+    title:
+      en: Future plans
 
