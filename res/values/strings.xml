@@ -64,6 +64,8 @@
   <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
   <string name="external_storage_unavailable">External storage (sdcard)not available</string>
   <string name="ftp_uri_malformed">Malformed URI %1$s</string>
+  <!-- used from the user guide -->
+  <string name="go_to_chapter">Go to chapter</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Categories</string>
   <string name="grisbi_import_button_categories_and_parties">Categories and parties</string>

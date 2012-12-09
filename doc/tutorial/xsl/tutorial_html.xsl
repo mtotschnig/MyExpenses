@@ -73,7 +73,11 @@ headstuff: |
   </h2>
   <div class="toc">
     <select onchange="window.location=this.value;">
-        <option>Go to chapter</option>
+        <option>
+          <xsl:call-template name="getString">
+            <xsl:with-param name="id" select="'go_to_chapter'"/>
+          </xsl:call-template>
+        </option>
       <xsl:apply-templates select="../sect1" mode="toc">
         <xsl:with-param name="toc-context" select="."/>
       </xsl:apply-templates>
