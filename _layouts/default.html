@@ -12,21 +12,36 @@
   <body>
     <div id="container">
       <img style="vertical-align: middle; float:left; margin-right: 15px;" src="/visuals/icon.png" alt="My Expenses"/>
-      <h1 style="margin-top:0cm"><span class="application">My Expenses</span><br/>
-        <span style="font-size:smaller">GPL licenced Android Expense Tracking App</span>
-      </h1>
+      <div style="position:relative">
+        <h1 style="margin-top:0cm"><span class="application">My Expenses</span><br/>
+          <span style="font-size:smaller">GPL licenced Android Expense Tracking App</span>
+        </h1>
+        <span class="langselector">
+          {% for section in site.sections %}
+            {% if section.id == page.section %}
+              {% for lang in section.langs %}
+                {% if lang == page.lang %}
+                  <img width="22" title="{{site.langs[lang]}}" src="/visuals/flags/{{lang}}.png">
+                {% else %}
+                  <a href="/{{lang}}/{{section.dir}}/{{page.url | split: '/' | last}}"><img title="{{site.langs[lang]}}" src="/visuals/flags/{{lang}}.png"></a>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </span>
+      </div>
       <div style="clear:both" id="navigation">
         <ul>
-         {% for node in site.navig %}
-           {% if page.section and page.section == node.section  %}
-             <li class="active">{{node.title}}</li>
-           {% else %}
-             {% if page.url == node.url %}
-               <li class="active">{{node.title}}</li>
-             {% else %}
-               <li><a href="{{node.url}}">{{node.title}}</a></li>
-             {% endif %}
-           {% endif %}
+          {% for section in site.sections %}
+            {% if page.section == section.id  %}
+              <li class="active">{{section.title}}</li>
+            {% else %}
+              {% if section.langs and section.langs contains page.lang %}
+                  <li><a href="/{{page.lang}}/{{section.url}}">{{section.title}}</a></li>
+              {% else %}
+                <li><a href="/en/{{section.dir}}/{{section.url}}">{{section.title}}</a></li>
+              {% endif %}
+            {% endif %}
          {% endfor %}
         </ul>
       </div>

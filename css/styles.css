@@ -71,6 +71,12 @@ h3 { color: #3383BB; }
 #navigation ul li a.icon_accept:hover {
     padding-left: 24px;
 }
+.langselector {
+  float:right;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 div.screenshot img {
   cursor:pointer;
    padding:1px;
