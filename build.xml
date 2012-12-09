@@ -117,7 +117,7 @@
   <target name="tutorial">
   <!-- for historical reasons rev 1 of tutorial used "tutorial"
   all others "tutorial_r${rev}" -->
-    <property name="rev" value="3"/>
+    <property name="rev" value="4"/>
     <condition property="filename" value="tutorial" else="tutorial_r${rev}">
       <equals arg1="${rev}" arg2="1"/>
     </condition>
@@ -137,7 +137,7 @@
         <exec executable="xsltproc" failonerror="true">
   			 	<arg value="--stringparam"/>
   			 	<arg value="base.dir"/>
-  			 	<arg value="../MyExpenses.pages/${filename}/@{language}/"/>
+          <arg value="../MyExpenses.pages/@{language}/${filename}/"/>
   			 	<arg value="doc/tutorial/xsl/tutorial_html.xsl"/>
   			 	<arg value="doc/tutorial/${filename}_@{language}.xml"/>
   			</exec>	
