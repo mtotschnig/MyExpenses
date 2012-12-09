@@ -3,7 +3,8 @@ body {
   background-color: #848284;
   font-family: Helvetica, Arial, FreeSans, san-serif;
   color: #000000;
-  max-width: 750px;
+  min-width: 33em;
+  max-width: 41em;
   margin: 0 auto;
 }
 h1 { font-size: 1.5em; color: white; margin-bottom: 3px; }
