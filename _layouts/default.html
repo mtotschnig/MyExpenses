@@ -23,7 +23,7 @@
                 {% if lang == page.lang %}
                   <img width="22" title="{{site.langs[lang]}}" src="/visuals/flags/{{lang}}.png">
                 {% else %}
-                  <a href="/{{lang}}/{{section.dir}}/{{page.url | split: '/' | last}}"><img title="{{site.langs[lang]}}" src="/visuals/flags/{{lang}}.png"></a>
+                  <a href="{{page.url | replace_first: page.lang, lang}}"><img title="{{site.langs[lang]}}" src="/visuals/flags/{{lang}}.png"></a>
                 {% endif %}
               {% endfor %}
             {% endif %}
@@ -37,17 +37,9 @@
               <li class="active">{{section.title}}</li>
             {% else %}
               {% if section.langs and section.langs contains page.lang %}
-                {% if section.dir %}
-                  <li><a href="/{{page.lang}}/{{section.dir}}/{{section.url}}">{{section.title}}</a></li>
-                {% else %}
-                  <li><a href="/{{page.lang}}/{{section.url}}">{{section.title}}</a></li>
-                {% endif %}
+                <li><a href="/{{page.lang}}/{{section.url}}">{{section.title}}</a></li>
               {% else %}
-                {% if section.dir %}
-                  <li><a href="/en/{{section.dir}}/{{section.url}}">{{section.title}}</a></li>
-                {% else %}
-                  <li><a href="/en/{{section.url}}">{{section.title}}</a></li>
-                {% endif %}
+                <li><a href="/en/{{section.url}}">{{section.title}}</a></li>
               {% endif %}
             {% endif %}
          {% endfor %}

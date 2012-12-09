@@ -11,8 +11,7 @@ sections:
     title: Summary
   - 
     id: manual
-    dir: tutorial_r4
-    url: introduction.html
+    url: tutorial_r4/introduction.html
     title: User guide
     langs: 
       - en
