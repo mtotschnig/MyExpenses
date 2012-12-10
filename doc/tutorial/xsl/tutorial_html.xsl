@@ -55,6 +55,7 @@ headstuff: |
 <xsl:param name="formal.object.break.after" select="0"/>
 <xsl:param name="chunker.output.doctype-public" select="''"/>
 <xsl:param name="chunker.output.doctype-system" select="''"/>
+<xsl:param name="toc.listitem.type" select="'option'" />
 
 <!-- no title attribute for sections -->
 <xsl:template name="generate.html.title"/>
@@ -71,7 +72,7 @@ headstuff: |
       <span id="pdflink">
       <xsl:text> </xsl:text>
       <a href="tutorial_r4.pdf" target="_top">
-        <img style="vertical-align: middle;" title="PDF" src="/visuals/pdf.png"/>
+        <img style="vertical-align: middle;" title="PDF" alt="PDF" src="/visuals/pdf.png"/>
       </a>
       </span>
       <xsl:value-of select="title"/>
@@ -106,7 +107,6 @@ headstuff: |
 <!-- add separator between entries in toc and do not create link for current section-->
 <xsl:template name="toc.line">
   <xsl:param name="toc-context" select="."/>
-  <option>
   <xsl:choose>
   <xsl:when test="$toc-context/@id != @id">
     <xsl:attribute name="value">
@@ -121,7 +121,6 @@ headstuff: |
     </xsl:otherwise>
     </xsl:choose>
     <xsl:apply-templates select="." mode="titleabbrev.markup"/>
-    </option>
 </xsl:template>
 
 <xsl:template match="phrase[@role='br']">
