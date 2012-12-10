@@ -28,8 +28,8 @@ layout: default
 section: news
 metatitle: "<xsl:apply-templates select="/article" mode="object.title.markup.textonly"/><xsl:text> | </xsl:text><xsl:apply-templates select="." mode="object.title.markup.textonly"/>"
 headstuff: |
-  <link rel="stylesheet" href="/css/news.css" charset="UTF-8"><xsl:text> </xsl:text></link>
-  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"><xsl:text> </xsl:text></link>
+  <link rel="stylesheet" href="/css/news.css" charset="UTF-8"/>
+  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"><xsl:text> </xsl:text></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"><xsl:text> </xsl:text></script>
   <script type="text/javascript" src="/script/images.js" charset="UTF-8"><xsl:text> </xsl:text></script>
