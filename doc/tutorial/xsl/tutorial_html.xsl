@@ -3,6 +3,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:custom="custom" exclude-result-prefixes="custom"  xmlns="http://www.w3.org/1999/xhtml">
 <xsl:import href="/usr/share/xml/docbook/stylesheet/docbook-xsl/xhtml/chunk.xsl"/>
 <xsl:import href="tutorial_strings.xsl"/>
+<xsl:preserve-space elements="*"/>
 
 <custom:supported-langs>
  <lang code="en">English</lang>
@@ -26,10 +27,10 @@ section: manual
 metatitle: "<xsl:apply-templates select="/article" mode="object.title.markup.textonly"/><xsl:text> | </xsl:text><xsl:apply-templates select="." mode="object.title.markup.textonly"/>"
 lang: <xsl:value-of select="/article/articleinfo/title/phrase/@lang"/>
 headstuff: |
-  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-  <script type="text/javascript" src="/script/images.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"><xsl:text> </xsl:text></link>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"><xsl:text> </xsl:text></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"><xsl:text> </xsl:text></script>
+  <script type="text/javascript" src="/script/images.js" charset="UTF-8"><xsl:text> </xsl:text></script>
 
 ---
       <xsl:call-template name="user.header.navigation"/>
