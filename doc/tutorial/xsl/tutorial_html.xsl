@@ -23,6 +23,7 @@
   <xsl:call-template name="user.preroot"/>---
 layout: default
 section: manual
+metatitle: "<xsl:apply-templates select="/article" mode="object.title.markup.textonly"/><xsl:text> | </xsl:text><xsl:apply-templates select="." mode="object.title.markup.textonly"/>"
 lang: <xsl:value-of select="/article/articleinfo/title/phrase/@lang"/>
 headstuff: |
   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" />

@@ -23,12 +23,15 @@
   <xsl:call-template name="user.preroot"/>---
 layout: default
 section: news
+metatitle: "<xsl:apply-templates select="/article" mode="object.title.markup.textonly"/><xsl:text> | </xsl:text><xsl:apply-templates select="." mode="object.title.markup.textonly"/>"
 headstuff: |
   <link rel="stylesheet" href="/css/news.css"/>
   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
   <script type="text/javascript" src="/script/images.js"></script>
+styles: |
+  h2 {margin-bottom: 0;}
 ---
       <xsl:call-template name="user.header.navigation"/>
       <xsl:call-template name="header.navigation">
