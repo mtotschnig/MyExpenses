@@ -10,6 +10,8 @@
 <xsl:param name="suppress.footer.navigation" select="1"/>
 <xsl:param name="formal.object.break.after" select="0"/>
 <xsl:param name="toc.list.type" select="'ul'"/>
+<xsl:param name="chunker.output.doctype-public" select="''"/>
+<xsl:param name="chunker.output.doctype-system" select="''"/>
 
 <!-- no title attribute for sections -->
 <xsl:template name="generate.html.title"/>
