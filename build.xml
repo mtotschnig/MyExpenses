@@ -108,7 +108,7 @@
     <exec executable="xsltproc" failonerror="true">
       <arg value="--stringparam"/>
       <arg value="base.dir"/>
-      <arg value="../MyExpenses.pages/news/"/>
+      <arg value="../MyExpenses.pages/en/news/"/>
       <arg value="doc/tutorial/xsl/news_html.xsl"/>
       <arg value="doc/tutorial/news.xml"/>
     </exec>	
