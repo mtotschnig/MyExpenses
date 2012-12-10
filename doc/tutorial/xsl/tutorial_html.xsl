@@ -22,7 +22,6 @@
 
   <xsl:call-template name="user.preroot"/>---
 layout: default
-title: "TODO: construct appropriate title"
 section: manual
 lang: <xsl:value-of select="/article/articleinfo/title/phrase/@lang"/>
 headstuff: |
@@ -62,26 +61,28 @@ headstuff: |
   <xsl:variable name="chunkname">
     <xsl:apply-templates select="." mode="recursive-chunk-filename"/>
   </xsl:variable>
-  <h2>
-  <span id="pdflink">
-  <xsl:text> </xsl:text>
-  <a href="tutorial_r4.pdf" target="_top">
-    <img style="vertical-align: middle;" title="PDF" src="/visuals/pdf.png"/>
-  </a>
-  </span>
-  <xsl:value-of select="title"/>
-  </h2>
-  <div class="toc">
-    <select onchange="window.location=this.value;">
-        <option>
-          <xsl:call-template name="getString">
-            <xsl:with-param name="id" select="'go_to_chapter'"/>
-          </xsl:call-template>
-        </option>
-      <xsl:apply-templates select="../sect1" mode="toc">
-        <xsl:with-param name="toc-context" select="."/>
-      </xsl:apply-templates>
-    </select>
+  <div style="position:relative">
+    <h2>
+      <span id="pdflink">
+      <xsl:text> </xsl:text>
+      <a href="tutorial_r4.pdf" target="_top">
+        <img style="vertical-align: middle;" title="PDF" src="/visuals/pdf.png"/>
+      </a>
+      </span>
+      <xsl:value-of select="title"/>
+    </h2>
+    <div class="toc">
+      <select onchange="window.location=this.value;">
+          <option>
+            <xsl:call-template name="getString">
+              <xsl:with-param name="id" select="'go_to_chapter'"/>
+            </xsl:call-template>
+          </option>
+        <xsl:apply-templates select="../sect1" mode="toc">
+          <xsl:with-param name="toc-context" select="."/>
+        </xsl:apply-templates>
+      </select>
+    </div>
   </div>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="/article/articleinfo/releaseinfo[not(@role) or @role!='generate-for-pdf']"/>
 </xsl:template>

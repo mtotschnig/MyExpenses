@@ -22,7 +22,6 @@
 
   <xsl:call-template name="user.preroot"/>---
 layout: default
-title: "TODO: construct appropriate title"
 section: news
 headstuff: |
   <link rel="stylesheet" href="/css/news.css"/>
