@@ -120,7 +120,7 @@ headstuff: |
     <xsl:attribute name="disabled">disabled</xsl:attribute>
     </xsl:otherwise>
     </xsl:choose>
-    <xsl:apply-templates select="." mode="titleabbrev.markup"/>
+    <xsl:value-of select="title"/>
 </xsl:template>
 
 <xsl:template match="phrase[@role='br']">
