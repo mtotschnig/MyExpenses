@@ -3,8 +3,8 @@
   <head>
     <title>{% if page.metatitle %}{{page.metatitle}}{% else %}My Expenses {{page.title}}{% endif %}</title>
     <link rel="stylesheet" href="/css/styles.css"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width;">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width;"/>
     <style type="text/css">
     {{ page.styles }}
     </style>
@@ -22,9 +22,9 @@
             {% if section.id == page.section %}
               {% for lang in section.langs %}
                 {% if lang == page.lang %}
-                  <img width="22" title="{{site.langs[lang]}}" src="/visuals/flags/{{lang}}.png">
+                  <img width="22" alt="{{site.langs[lang]}}" title="{{site.langs[lang]}}" src="/visuals/flags/{{lang}}.png"/>
                 {% else %}
-                  <a href="{{page.url | replace_first: page.lang, lang}}"><img title="{{site.langs[lang]}}" src="/visuals/flags/{{lang}}.png"></a>
+                  <a href="{{page.url | replace_first: page.lang, lang}}"><img alt="{{site.langs[lang]}}" title="{{site.langs[lang]}}" src="/visuals/flags/{{lang}}.png"/></a>
                 {% endif %}
               {% endfor %}
             {% endif %}
