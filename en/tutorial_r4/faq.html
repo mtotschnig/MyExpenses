@@ -4,7 +4,7 @@ section: manual
 metatitle: "My Expenses Tutorial | Frequently asked questions"
 lang: en
 headstuff: |
-  <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css"/><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"/><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"/><script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/script/images.js"/>
+  <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"> </link><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
 
 ---
       <div xmlns="http://www.w3.org/1999/xhtml" style="position:relative"><h2><span id="pdflink"> <a href="tutorial_r4.pdf" target="_top"><img style="vertical-align: middle;" title="PDF" src="/visuals/pdf.png"/></a></span>
@@ -55,24 +55,34 @@ headstuff: |
       
       
       
-    </option></dt></select></div></div><div xmlns="http://www.w3.org/1999/xhtml" class="sect1"><div class="titlepage"/><div class="qandaset"><a id="quandaset"/><dl><dt>1. <a href="faq.html#faq-comma-en">
+    </option></dt></select></div></div><div xmlns="http://www.w3.org/1999/xhtml" class="sect1"><div class="titlepage"/>
+    
+    
+    <div class="qandaset"><a id="quandaset"/><dl><dt>1. <a href="faq.html#faq-comma-en">
             How do I enter amounts? There is no comma (,) on the numeric keypad.
           </a></dt><dt>2. <a href="faq.html#faq-share-en">
             Can I send the QIF file to Google Docs or Dropbox?
-          </a></dt></dl><table border="0" width="100%" summary="Q and A Set"><col align="left" width="1%"/><col/><tbody><tr class="question"><td align="left" valign="top"><a id="faq-comma-en"/><a id="faq-comma-q-en"/><p><strong>1.</strong></p></td><td align="left" valign="top"><p>
+          </a></dt></dl><table border="0" width="100%" summary="Q and A Set"><col align="left" width="1%"/><col/><tbody>
+        <tr class="question"><td align="left" valign="top"><a id="faq-comma-en"/><a id="faq-comma-q-en"/><p><strong>1.</strong></p></td><td align="left" valign="top"><p>
             How do I enter amounts? There is no comma (,) on the numeric keypad.
-          </p></td></tr><tr class="answer"><td align="left" valign="top"/><td align="left" valign="top"><p>
+          </p></td></tr>
+        <tr class="answer"><td align="left" valign="top"/><td align="left" valign="top"><p>
             There are different decimal separators used in different languages: comma in most
             European countries, point in most English speaking countries. Unfortunately there
             is a still unresolved problem in the Android OS, which does not handle the comma
             well in its numeric input method, and in some cases even does not allow at all to
             enter a comma. If you encounter this problem, you can set the point as decimal
             separator in the Settings.
-          </p></td></tr><tr class="question"><td align="left" valign="top"><a id="faq-share-en"/><a id="faq-share-q-en"/><p><strong>2.</strong></p></td><td align="left" valign="top"><p>
+          </p></td></tr>
+      
+        <tr class="question"><td align="left" valign="top"><a id="faq-share-en"/><a id="faq-share-q-en"/><p><strong>2.</strong></p></td><td align="left" valign="top"><p>
             Can I send the QIF file to Google Docs or Dropbox?
-          </p></td></tr><tr class="answer"><td align="left" valign="top"/><td align="left" valign="top"><p>
+          </p></td></tr>
+        <tr class="answer"><td align="left" valign="top"/><td align="left" valign="top"><p>
             Yes, in the settings, activate <span class="guilabel">Share QIF Export</span> and
             leave <span class="guilabel">Upload URL QIF Export</span> empty. After each export, you will
             see a chooser for selecting an app (like Google Docs or Dropbox) capable of sending
             the file.
-          </p></td></tr></tbody></table></div></div>
+          </p></td></tr>
+      </tbody></table></div>
+  </div>
