@@ -71,7 +71,7 @@ h3 { color: #3383BB; }
 #navigation ul li a.icon_accept:hover {
     padding-left: 24px;
 }
-.langselector {
+.langselector, .toc {
   float:right;
   position: absolute;
   right: 0;

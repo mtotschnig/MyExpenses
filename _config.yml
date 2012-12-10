@@ -10,6 +10,16 @@ sections:
     url: index.html
     title:
       en: Summary
+      fr: Sommaire
+      de: Zusammenfassung
+      it: Riassunto
+      es: Resumen
+    langs:
+      - en
+      - fr
+      - de
+      - it
+      - es
   - 
     id: manual
     url: tutorial_r4/introduction.html
