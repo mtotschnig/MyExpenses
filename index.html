@@ -1,34 +1,29 @@
+---
+---
 <html>
 <body>
 <script type="text/javascript">
 <!--
-var path = "";
-if (window.location.hash != "") {
-  var dest = window.location.hash.substring(1);
-  switch (dest) {
-    case "donate":
-    case "install":
-    case "screenshots":              
-    case "privacy":
-    case "credits":
-    case "licence":
-    case "sourcecode":
-    case "links":
-    case "plans":
-    case "news":
-    case "tutorial":
-      path = dest + ".html";
-  }
-} else {
-  path = "en";
-    if (Array.prototype.indexOf) {
-    var supported = ["en","fr","de","it","es"];
-    var  userLang = (window.navigator.userLanguage || window.navigator.language).substring(0,2);
-    if (supported.indexOf(userLang) > -1)
-      path = userLang;
- }
+var  userLang = (window.navigator.userLanguage || window.navigator.language).substring(0,2);
+var dest = window.location.hash != "" ? window.location.hash.substring(1) : "";
+var path;
+var translations = new Array();
+switch (dest) {
+{% for section in site.sections %}
+  case "{{section.id}}":
+    path = "/{{section.url}}"
+    translations = [{% for lang in section.langs %}"{{lang}}"{% unless forloop.last %},{% endunless %}{% endfor %}];
+    break;
+{% endfor %}
+  default:
+    path = ""
+    translations = ["en","de","fr","it","es"];
 }
-window.location = "http://" + window.location.host + "/" + path;
+var lang = translations.indexOf(userLang) > -1 ? userLang : "en";
+ 
+window.location = "http://" + window.location.host + "/" + lang + path;
 //-->
 </script>
 </body>
+
+
