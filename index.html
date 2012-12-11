@@ -2,41 +2,33 @@
 <body>
 <script type="text/javascript">
 <!--
-var language = "en";
 var path = "";
 if (window.location.hash != "") {
   var dest = window.location.hash.substring(1);
   switch (dest) {
     case "donate":
-    case "summary":
     case "install":
-    case "screenshots":
+    case "screenshots":              
     case "privacy":
     case "credits":
     case "licence":
     case "sourcecode":
     case "links":
     case "plans":
-      path = dest + ".html";
-      break;
     case "news":
-      path = "news/news2.html";
-      break;
     case "tutorial":
-      path = "tutorial_r4/introduction.html";
+      path = dest + ".html";
   }
-}
-if (path == "") {
-  if (Array.prototype.indexOf) {
+} else {
+  path = "en";
+    if (Array.prototype.indexOf) {
     var supported = ["en","fr","de","it","es"];
     var  userLang = (window.navigator.userLanguage || window.navigator.language).substring(0,2);
     if (supported.indexOf(userLang) > -1)
-      language = userLang;
+      path = userLang;
  }
-} else {
-  path = "/" + path;
 }
-window.location = "http://" + window.location.host + "/" + language + path;
+window.location = "http://" + window.location.host + "/" + path;
 //-->
 </script>
 </body>
