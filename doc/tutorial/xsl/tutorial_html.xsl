@@ -23,7 +23,7 @@
 
   <xsl:call-template name="user.preroot"/>---
 layout: default
-section: manual
+section: tutorial
 metatitle: "<xsl:apply-templates select="/article" mode="object.title.markup.textonly"/><xsl:text> | </xsl:text><xsl:apply-templates select="." mode="object.title.markup.textonly"/>"
 lang: <xsl:value-of select="/article/articleinfo/title/phrase/@lang"/>
 headstuff: |
