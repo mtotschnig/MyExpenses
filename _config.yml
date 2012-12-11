@@ -1,3 +1,9 @@
+title:
+      en: My Expenses
+      fr: Mes dépenses
+      de: Meine Ausgaben
+      it: Le mie spese
+      es: Mis gastos
 langs:
   en: English
   fr: Français
@@ -21,7 +27,7 @@ sections:
       - it
       - es
   - 
-    id: manual
+    id: tutorial
     url: tutorial_r4/introduction.html
     title: 
       en: User guide

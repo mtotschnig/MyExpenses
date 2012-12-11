@@ -1,7 +1,8 @@
 ---
 ---
 <html>
-<body>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <script type="text/javascript">
 <!--
 var  userLang = (window.navigator.userLanguage || window.navigator.language).substring(0,2);
@@ -24,6 +25,15 @@ var lang = translations.indexOf(userLang) > -1 ? userLang : "en";
 window.location = "http://" + window.location.host + "/" + lang + path;
 //-->
 </script>
+</head>
+<body>
+<noscript>
+<ul>
+{% for title in site.title %}
+    <li><a href="{{title[0]}}">{{title[1]}}</a></li>
+{% endfor %}
+</ul>
+</noscript> 
 </body>
 
 
