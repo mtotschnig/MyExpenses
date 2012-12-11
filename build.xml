@@ -137,7 +137,10 @@
         <exec executable="xsltproc" failonerror="true">
   			 	<arg value="--stringparam"/>
   			 	<arg value="base.dir"/>
-          <arg value="../MyExpenses.pages/@{language}/${filename}/"/>
+          <arg value="../MyExpenses.pages/@{language}/${filename}/"/
+          <arg value="--stringparam"/>
+          <arg value="doc.lang"/>
+          <arg value="@{language}"/>
   			 	<arg value="doc/tutorial/xsl/tutorial_html.xsl"/>
   			 	<arg value="doc/tutorial/${filename}_@{language}.xml"/>
   			</exec>	

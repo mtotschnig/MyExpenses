@@ -22,14 +22,13 @@
 
 <xsl:template name="getString">
   <xsl:param name="id"/>
-  <xsl:variable name="doclang" select="/article/articleinfo/title/phrase/@lang"/>
   <xsl:variable name="resdir">
     <xsl:choose>
-      <xsl:when test="$doclang = 'en'">
+      <xsl:when test="$doc.lang = 'en'">
         <xsl:text>values</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of select="concat('values-',$doclang)"/>
+        <xsl:value-of select="concat('values-',$doc.lang)"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
