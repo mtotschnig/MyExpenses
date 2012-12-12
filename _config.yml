@@ -20,12 +20,6 @@ sections:
       de: Zusammenfassung
       it: Riassunto
       es: Resumen
-    langs:
-      - en
-      - fr
-      - de
-      - it
-      - es
   - 
     id: tutorial
     url: tutorial_r4/introduction.html
@@ -35,12 +29,6 @@ sections:
       de: Anleitung
       it: Manuale
       es: Manual
-    langs: 
-      - en
-      - fr
-      - de
-      - it
-      - es
   -
     id: news
     url: news/news2.html
@@ -76,6 +64,11 @@ sections:
     url: credits.html
     title:
       en: Credits
+  -
+    id: licence
+    url: licence.html
+    title:
+      en: Licence
   -
     id: sourcecode
     url: sourcecode.html

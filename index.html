@@ -13,7 +13,7 @@ switch (dest) {
 {% for section in site.sections %}
   case "{{section.id}}":
     path = "/{{section.url}}"
-    translations = [{% for lang in section.langs %}"{{lang}}"{% unless forloop.last %},{% endunless %}{% endfor %}];
+    translations = [{% for title in section.title %}"{{title[0]}}"{% unless forloop.last %},{% endunless %}{% endfor %}];
     break;
 {% endfor %}
   default:

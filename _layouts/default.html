@@ -21,11 +21,13 @@
         <span class="langselector">
           {% for section in site.sections %}
             {% if section.id == page.section %}
-              {% for lang in section.langs %}
+              {% for title in section.title %}
+                {% assign lang = title[0] %}
+                {% assign label = site.langs[lang] %}
                 {% if lang == page.lang %}
-                  <img width="22" alt="{{site.langs[lang]}}" title="{{site.langs[lang]}}" src="/visuals/flags/{{lang}}.png"/>
+                  <img width="22" alt="{{label}}" title="{{label}}" src="/visuals/flags/{{lang}}.png"/>
                 {% else %}
-                  <a href="{{page.url | replace_first: page.lang, lang}}"><img alt="{{site.langs[lang]}}" title="{{site.langs[lang]}}" src="/visuals/flags/{{lang}}.png"/></a>
+                  <a href="{{page.url | replace_first: page.lang, lang}}"><img alt="{{label}}" title="{{label}}" src="/visuals/flags/{{lang}}.png"/></a>
                 {% endif %}
               {% endfor %}
             {% endif %}
