@@ -1,7 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>{% if page.metatitle %}{{page.metatitle}}{% else %}{{site.title[page.lang]}} {{page.title}}{% endif %}</title>
+    {% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
+    <title>{% if page.metatitle %}{{page.metatitle}}{% else %}{{site.title[pagelang]}} {{page.title}}{% endif %}</title>
     <link rel="stylesheet" href="/css/styles.css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     {% if page.metadescription %}<meta name="description" content="{{page.metadescription}}"/> {% endif %}
@@ -15,8 +16,8 @@
     <div id="container">
       <img style="vertical-align: middle; float:left; margin-right: 15px;" src="/visuals/icon.png" alt="My Expenses"/>
       <div style="position:relative">
-        <h1 style="margin-top:0cm"><span class="application">{{site.title[page.lang]}}</span><br/>
-          <span style="font-size:smaller">GPL licenced Android Expense Tracking App</span>
+        <h1 style="margin-top:0cm"><span class="application">{{site.title[pagelang]}}</span><br/>
+          <span style="font-size:smaller">Android Expense Tracking App</span>
         </h1>
         {% if page.lang %}
         <span class="langselector">
@@ -39,12 +40,12 @@
       <div style="clear:both" id="navigation">
         <ul>
           {% for section in site.sections %}
-            {% capture title %}{% if section.title[page.lang] %}{{section.title[page.lang]}}{% else %}{{section.title["en"]}}{% endif %}{% endcapture %}
+            {% capture title %}{% if section.title[pagelang] %}{{section.title[pagelang]}}{% else %}{{section.title["en"]}}{% endif %}{% endcapture %}
             {% if page.section == section.id  %}
               <li class="active">{{title}}</li>
             {% else %}
-              {% if section.langs and section.langs contains page.lang %}
-                <li><a href="/{{page.lang}}/{{section.url}}">{{title}}</a></li>
+              {% if section.title and section.title[pagelang] %}
+                <li><a href="/{{pagelang}}/{{section.url}}">{{title}}</a></li>
               {% else %}
                 <li><a href="/en/{{section.url}}">{{title}}</a></li>
               {% endif %}
