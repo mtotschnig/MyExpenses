@@ -15,9 +15,10 @@
     <div id="container">
       <img style="vertical-align: middle; float:left; margin-right: 15px;" src="/visuals/icon.png" alt="My Expenses"/>
       <div style="position:relative">
-        <h1 style="margin-top:0cm"><span class="application">My Expenses</span><br/>
+        <h1 style="margin-top:0cm"><span class="application">{{site.title[page.lang]}}</span><br/>
           <span style="font-size:smaller">GPL licenced Android Expense Tracking App</span>
         </h1>
+        {% if page.lang %}
         <span class="langselector">
           {% for section in site.sections %}
             {% if section.id == page.section %}
@@ -33,6 +34,7 @@
             {% endif %}
           {% endfor %}
         </span>
+        {% endif %}
       </div>
       <div style="clear:both" id="navigation">
         <ul>
