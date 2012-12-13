@@ -53,7 +53,7 @@ sections:
     id: privacy
     url: privacy.html
     title:
-      en: Privacy policy
+      en: "Privacy&#160;policy"
   -
     id: changelog
     url: versionlist.html
@@ -83,5 +83,5 @@ sections:
     id: plans
     url: plans.html
     title:
-      en: Future plans
+      en: "Future&#160;plans"
 
