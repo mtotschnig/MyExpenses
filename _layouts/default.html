@@ -40,18 +40,22 @@
       </div>
       <div style="clear:both" id="navigation">
         <ul>
+        {% for weight in (1..13) %}
           {% for section in site.sections %}
-            {% capture title %}{% if section[1].title[pagelang] %}{{section[1].title[pagelang]}}{% else %}{{section[1].title["en"]}}{% endif %}{% endcapture %}
-            {% if page.section == section[0]  %}
-              <li class="active">{{title}}</li>
-            {% else %}
-              {% if section[1].title and section[1].title[pagelang] %}
-                <li><a href="/{{pagelang}}/{{section[1].url}}">{{title}}</a></li>
+            {% if section[1].weight == weight %}
+              {% capture title %}{% if section[1].title[pagelang] %}{{section[1].title[pagelang]}}{% else %}{{section[1].title["en"]}}{% endif %}{% endcapture %}
+              {% if page.section == section[0]  %}
+                <li class="active">{{title}}</li>
               {% else %}
-                <li><a href="/en/{{section[1].url}}">{{title}}</a></li>
+                {% if section[1].title and section[1].title[pagelang] %}
+                  <li><a href="/{{pagelang}}/{{section[1].url}}">{{title}}</a></li>
+                {% else %}
+                  <li><a href="/en/{{section[1].url}}">{{title}}</a></li>
+                {% endif %}
               {% endif %}
             {% endif %}
-         {% endfor %}
+          {% endfor %}
+        {% endfor %}
         </ul>
       </div>
       <div id="block">

@@ -12,6 +12,7 @@ langs:
   es: Español
 sections:
   summary:
+    weight: 1
     url: index.html
     title:
       en: Summary
@@ -20,6 +21,7 @@ sections:
       it: Riassunto
       es: Resumen
   tutorial:
+    weight: 2
     url: tutorial_r4/introduction.html
     title: 
       en: User guide
@@ -28,46 +30,57 @@ sections:
       it: Manuale
       es: Manual
   news:
+    weight: 3
     url: news/news2.html
     title:
       en: News
   install:
+    weight: 4
     url: install.html
     title: 
       en: Install
   donate:
+    weight: 5
     url: donate.html
     title:
       en: Donate
   screenshots:
+    weight: 6
     url: screenshots.html
     title:
       en: Screenshots
   privacy:
+    weight: 7
     url: privacy.html
     title:
       en: "Privacy&#160;policy"
   changelog:
+    weight: 8
     url: versionlist.html
     title: 
       en: Changelog
   credits:
+    weight: 9
     url: credits.html
     title:
       en: Credits
   licence:
+    weight: 10
     url: licence.html
     title:
       en: Licence
   sourcecode:
+    weight: 11
     url: sourcecode.html
     title:
       en: Sourcecode
   links:
+    weight: 12
     url: links.html
     title:
       en: Links
   plans:
+    weight: 13
     url: plans.html
     title:
       en: "Future&#160;plans"
