@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     {% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
+    {% capture pagetitle %}{% if page.title %}{{page.title}}{% else %}{{site.sections[page.section]["title"][pagelang]}}{% endif %}{% endcapture %}
     <title>{% if page.metatitle %}{{page.metatitle}}{% else %}{{site.title[pagelang]}} {{page.title}}{% endif %}</title>
     <link rel="stylesheet" href="/css/styles.css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -22,8 +23,8 @@
         {% if page.lang %}
         <span class="langselector">
           {% for section in site.sections %}
-            {% if section.id == page.section %}
-              {% for title in section.title %}
+            {% if section[0] == page.section %}
+              {% for title in section[1].title %}
                 {% assign lang = title[0] %}
                 {% assign label = site.langs[lang] %}
                 {% if lang == page.lang %}
@@ -40,22 +41,22 @@
       <div style="clear:both" id="navigation">
         <ul>
           {% for section in site.sections %}
-            {% capture title %}{% if section.title[pagelang] %}{{section.title[pagelang]}}{% else %}{{section.title["en"]}}{% endif %}{% endcapture %}
-            {% if page.section == section.id  %}
+            {% capture title %}{% if section[1].title[pagelang] %}{{section[1].title[pagelang]}}{% else %}{{section[1].title["en"]}}{% endif %}{% endcapture %}
+            {% if page.section == section[0]  %}
               <li class="active">{{title}}</li>
             {% else %}
-              {% if section.title and section.title[pagelang] %}
-                <li><a href="/{{pagelang}}/{{section.url}}">{{title}}</a></li>
+              {% if section[1].title and section[1].title[pagelang] %}
+                <li><a href="/{{pagelang}}/{{section[1].url}}">{{title}}</a></li>
               {% else %}
-                <li><a href="/en/{{section.url}}">{{title}}</a></li>
+                <li><a href="/en/{{section[1].url}}">{{title}}</a></li>
               {% endif %}
             {% endif %}
          {% endfor %}
         </ul>
       </div>
       <div id="block">
-        {% if page.title %}
-        <h2>{{page.title}}</h2>
+        {% if pagetitle != "" %}
+        <h2>{{pagetitle}}</h2>
         {% endif %}
         {{ content }}
       </div>

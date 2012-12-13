@@ -11,8 +11,7 @@ langs:
   it: Italiano
   es: Español
 sections:
-  - 
-    id: summary
+  summary:
     url: index.html
     title:
       en: Summary
@@ -20,8 +19,7 @@ sections:
       de: Zusammenfassung
       it: Riassunto
       es: Resumen
-  - 
-    id: tutorial
+  tutorial:
     url: tutorial_r4/introduction.html
     title: 
       en: User guide
@@ -29,58 +27,47 @@ sections:
       de: Anleitung
       it: Manuale
       es: Manual
-  -
-    id: news
+  news:
     url: news/news2.html
     title:
       en: News
-  -
-    id: install
+  install:
     url: install.html
     title: 
       en: Install
-  -
-    id: donate
+  donate:
     url: donate.html
     title:
       en: Donate
-  -
-    id: screenshots
+  screenshots:
     url: screenshots.html
     title:
       en: Screenshots
-  -
-    id: privacy
+  privacy:
     url: privacy.html
     title:
       en: "Privacy&#160;policy"
-  -
-    id: changelog
+  changelog:
     url: versionlist.html
     title: 
       en: Changelog
-  -
-    id: credits
+  credits:
     url: credits.html
     title:
       en: Credits
-  -
-    id: licence
+  licence:
     url: licence.html
     title:
       en: Licence
-  -
-    id: sourcecode
+  sourcecode:
     url: sourcecode.html
     title:
       en: Sourcecode
-  -
-    id: links
+  links:
     url: links.html
     title:
       en: Links
-  -
-    id: plans
+  plans:
     url: plans.html
     title:
       en: "Future&#160;plans"
