@@ -22,6 +22,7 @@
   </xsl:param>
 
   <xsl:call-template name="user.preroot"/>---
+title: ""
 layout: default
 section: tutorial
 metatitle: "<xsl:apply-templates select="/article" mode="object.title.markup.textonly"/><xsl:text> | </xsl:text><xsl:apply-templates select="." mode="object.title.markup.textonly"/>"
