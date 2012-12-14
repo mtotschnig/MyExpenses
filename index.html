@@ -43,9 +43,9 @@ var path;
 var translations = new Array();
 switch (dest) {
 {% for section in site.sections %}
-  case "{{section.id}}":
-    path = "/{{section.url}}"
-    translations = [{% for title in section.title %}"{{title[0]}}"{% unless forloop.last %},{% endunless %}{% endfor %}];
+  case "{{section[0]}}":
+    path = "/{{section[1].url}}"
+    translations = [{% for title in section[1].title %}"{{title[0]}}"{% unless forloop.last %},{% endunless %}{% endfor %}];
     break;
 {% endfor %}
   default:
