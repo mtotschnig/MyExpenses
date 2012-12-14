@@ -22,17 +22,15 @@
         </h1>
         {% if page.lang %}
         <span class="langselector">
-          {% for section in site.sections %}
-            {% if section[0] == page.section %}
-              {% for title in section[1].title %}
-                {% assign lang = title[0] %}
-                {% assign label = site.langs[lang] %}
-                {% if lang == page.lang %}
-                  <img width="22" alt="{{label}}" title="{{label}}" src="/visuals/flags/{{lang}}.png"/>
+          {% for lang in site.langs %}
+            {% assign code = lang[0] %}
+            {% if site.sections[page.section]["title"][code] %}
+                {% assign label = lang[1] %}
+                {% if lang[0] == page.lang %}
+                  <img width="22" alt="{{label}}" title="{{label}}" src="/visuals/flags/{{lang[0]}}.png"/>
                 {% else %}
-                  <a href="{{page.url | replace_first: page.lang, lang}}"><img alt="{{label}}" title="{{label}}" src="/visuals/flags/{{lang}}.png"/></a>
+                  <a href="{{page.url | replace_first: page.lang, lang[0]}}"><img alt="{{label}}" title="{{label}}" src="/visuals/flags/{{lang[0]}}.png"/></a>
                 {% endif %}
-              {% endfor %}
             {% endif %}
           {% endfor %}
         </span>

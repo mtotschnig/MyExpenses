@@ -5,11 +5,21 @@ title:
   it: Le mie spese
   es: Mis gastos
 langs:
-  en: English
-  fr: Français
-  de: Deutsch
-  it: Italiano
-  es: Español
+  -
+    - en
+    - English
+  -
+    - fr
+    - Français
+  -
+    - de
+    - Deutsch
+  -
+    - it
+    - Italiano
+  -
+    - es
+    - Español
 sections:
   summary:
     weight: 1
