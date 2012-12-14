@@ -8,7 +8,7 @@ body {
   color: #000000;
   min-width: 33em;
   max-width: 41em;
-  margin: 0 auto;
+  margin: 1em auto;
 }
 h1 { font-size: 1.5em; color: white; margin-bottom: 3px; }
 h1 .small { font-size: 0.7em; }
