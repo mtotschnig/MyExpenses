@@ -23,7 +23,7 @@ langs:
 sections:
   summary:
     weight: 1
-    url: index.html
+    url: index.xhtml
     title:
       en: Summary
       fr: Sommaire
@@ -32,9 +32,9 @@ sections:
       es: Resumen
   tutorial:
     weight: 2
-    url: tutorial_r4/introduction.html
+    url: tutorial_r4/introduction.xhtml
     title: 
-      en: User guide
+      en: "User&#160;guide"
       fr: Manuel
       de: Anleitung
       it: Manuale
@@ -46,52 +46,52 @@ sections:
       en: News
   install:
     weight: 4
-    url: install.html
+    url: install.xhtml
     title: 
       en: Install
   donate:
     weight: 5
-    url: donate.html
+    url: donate.xhtml
     title:
       en: Donate
   screenshots:
     weight: 6
-    url: screenshots.html
+    url: screenshots.xhtml
     title:
       en: Screenshots
   privacy:
     weight: 7
-    url: privacy.html
+    url: privacy.xhtml
     title:
       en: "Privacy&#160;policy"
   changelog:
     weight: 8
-    url: versionlist.html
+    url: versionlist.xhtml
     title: 
       en: Changelog
   credits:
     weight: 9
-    url: credits.html
+    url: credits.xhtml
     title:
       en: Credits
   licence:
     weight: 10
-    url: licence.html
+    url: licence.xhtml
     title:
       en: Licence
   sourcecode:
     weight: 11
-    url: sourcecode.html
+    url: sourcecode.xhtml
     title:
       en: Sourcecode
   links:
     weight: 12
-    url: links.html
+    url: links.xhtml
     title:
       en: Links
   plans:
     weight: 13
-    url: plans.html
+    url: plans.xhtml
     title:
       en: "Future&#160;plans"
 
