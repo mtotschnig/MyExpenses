@@ -94,4 +94,12 @@ sections:
     url: plans.xhtml
     title:
       en: "Future&#160;plans"
-
+  faq:
+    weight: 14
+    url: faq.xhtml
+    title:
+      en: FAQ
+      fr: FAQ
+      de: FAQ
+      it: FAQ
+      es: FAQ
