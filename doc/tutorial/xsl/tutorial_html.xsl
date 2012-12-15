@@ -58,6 +58,7 @@ headstuff: |
 <xsl:param name="chunker.output.doctype-public" select="''"/>
 <xsl:param name="chunker.output.doctype-system" select="''"/>
 <xsl:param name="toc.listitem.type" select="'option'" />
+<xsl:param name="html.ext" select="'.xhtml'" />
 
 <!-- no title attribute for sections -->
 <xsl:template name="generate.html.title"/>
