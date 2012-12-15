@@ -220,10 +220,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     final Cursor templates = mDbHelper.fetchTemplates(mCurrentAccount.id);
     boolean gotTemplates = templates.moveToFirst();
     boolean gotTransfers = transfersEnabledP();
-    if(gotTemplates || gotTransfers){
-      //we only add the insert_ta item if we have either templates or transfers enabled
-      mAddButton.addItem(R.string.transaction,R.id.INSERT_TA_COMMAND);
-    }
     if (gotTransfers) {
       mAddButton.addItem(R.string.transfer,R.id.INSERT_TRANSFER_COMMAND);
     }
@@ -278,7 +274,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         R.string.menu_settings_abrev,
         android.R.drawable.ic_menu_preferences,
         R.id.SETTINGS_COMMAND);
-    mSettingsButton.addItem(R.string.menu_settings,R.id.SETTINGS_COMMAND);
     mSettingsButton.addItem(R.string.menu_backup,R.id.BACKUP_COMMAND);
     mSettingsButton.addItem(R.string.menu_settings_account,R.id.EDIT_ACCOUNT_COMMAND);
     
@@ -286,7 +281,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         R.string.menu_help,
         android.R.drawable.ic_menu_help,
         R.id.HELP_COMMAND);
-    mHelpButton.addItem(R.string.menu_help,R.id.HELP_COMMAND);
     mHelpButton.addItem(R.string.tutorial,R.id.TUTORIAL_COMMAND);
     mHelpButton.addItem("News",R.id.NEWS_COMMAND);
     mHelpButton.addItem(R.string.menu_faq,R.id.FAQ_COMMAND);
