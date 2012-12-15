@@ -22,6 +22,7 @@
   <string name="account">Compte</string>
   <string name="account_type_cash">Compte de caisse</string>
   <string name="account_type_bank">Compte bancaire</string>
+  <string name="account_type_ccard">Carte de crédit</string>
   <string name="account_type_asset">Compte d\'actif</string>
   <string name="account_type_liability">Compte de passif</string>
   <string name="amount">Montant</string>
@@ -47,11 +48,13 @@
   <string name="default_account_description">Ce compte a été créé automatiquement lors de
       l\'installation</string>
   <string name="description">Description</string>
+  <string name="dialog_confirm_delete_template">Voulez-vous vraimen supprimer le modèle \"%1$s\" ?</string>
   <string name="dialog_title_select_account">Sélectionner un compte</string>
   <string name="dialog_title_select_currency">Sélectonner une devise</string>
   <string name="dialog_title_select_import_source">Sélectionner une source pour l\'import</string>
   <string name="dialog_title_select_method">Sélectionner un paiement</string>
   <string name="dialog_title_select_type">Sélectionner un type</string>
+  <string name="dialog_title_template_title">Définir le tire</string>
   <string name="edit_category">Éditer la catégorie</string>
   <string name="expense">dépense</string>
   <string name="export_expenses_outputfile_exists">Le fichier d\'export existe déjà. Attendez une
@@ -120,9 +123,13 @@
   <string name="menu_changes">Changements</string>
   <string name="menu_create_main_cat">Nouvelle catégorie principale</string>
   <string name="menu_create_sub_cat">Nouvelle sous-catégorie</string>
+  <string name="menu_create_template">Créer le modèle</string>
+  <string name="menu_create_transaction_from_template_and_edit">Créer la transaction et quitter</string>
+  <string name="menu_create_transaction_from_template_and_save">Créer la transaction et sauver</string>  
   <string name="menu_delete">Effacer</string>
   <string name="menu_delete_account">Effacer le compte</string>
   <string name="menu_delete_cat">Supprimer la catégorie</string>
+  <string name="menu_delete_method">Supprimer la méthode de paiement</string>
   <string name="menu_edit_account">Éditer le compte</string>
   <string name="menu_edit_method">Éditer la méthode de paiement</string>
   <string name="menu_edit_cat">Éditer la catégorie</string>
@@ -136,6 +143,7 @@
   <string name="menu_insert_transfer">Ajouter un virement</string>
   <string name="menu_move_transaction">Déplacer</string>
   <string name="menu_new">Nouveau</string>
+  <string name="menu_new_from_template">Nouveau d'après modèle</string>
   <string name="menu_reset">Réinitialiser</string>
   <string name="menu_reset_abrev">Réinit.</string>
   <string name="menu_settings">Paramètres</string>
@@ -151,6 +159,7 @@
   <string name="no_details">Aucun détail.</string>
   <string name="no_expenses">Aucune dépense !</string>
   <string name="no_parties">Aucun tiers.</string>
+  <string name="no_templates">Pas de modèle.</string>
   <string name="not_deletable_mapped_expenses">Suppression ne peut pas être executée, parce
       qu\'il existe des dépenses attribuées.</string>
   <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce
@@ -207,6 +216,8 @@
   <string name="pref_manage_methods_summary">Créer, modifier les méthodes de paiement et les associer aux types de comptes.</string>
   <string name="pref_manage_parties_title">Gestion des tiers</string>
   <string name="pref_manage_parties_summary">Effacer les tiers.</string>
+  <string name="pref_manage_templates_title">Gérer les modèles</string>
+  <string name="pref_manage_templates_summary">Appliquer ou supprimer les modèles.</string>
   <string name="pref_perform_share_title">Envoyer le fichier d\'export QIF</string>
   <string name="pref_perform_share_summary">Voulez vous envoyer le fichier QIF après chaque export
   </string>
@@ -221,6 +232,8 @@
   </string>
   <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la
       sauvegarde.</string>
+  <string name="save_transaction_error">La transaction à partir du modèle n'a pas été sauvé</string>
+  <string name="save_transaction_success">Nouvelle transaction sauvée à partir du modèle</string>
   <string name="select">Sélectionner</string>
   <string name="select_account">Sélectionner un compte</string>
   <string name="select_category">Sélectionner une catégorie</string>
@@ -229,6 +242,8 @@
   <string name="share_sending">Envoyer fichier QIF</string>
   <string name="suggest_use_standard_menu">Voulez-vous utiliser le menu standard Android pour
       appeler des commandes, et de cacher la barre de boutons?</string>
+  <string name="template_create_success">Modèle \"%1$s\" crée avec succès</string>
+  <string name="template_title_exists">Un modèle avec le titre \"%1$s\" existe déjà</string>
   <string name="time">Heure</string>
   <string name="title">Titre</string>
   <string name="transaction">Transaction</string>

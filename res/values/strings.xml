@@ -223,7 +223,7 @@
   <string name="pref_manage_parties_title">Manage parties</string>
   <string name="pref_manage_parties_summary">Delete parties (payers and payees).</string>
   <string name="pref_manage_templates_title">Manage templates</string>
-  <string name="pref_manage_templates_summary">Delete templates.</string>
+  <string name="pref_manage_templates_summary">Apply or delete templates.</string>
   <string name="pref_perform_share_title">Share QIF Export</string>
   <string name="pref_perform_share_summary">Should the QIF file be shared after each export?</string>
   <string name="pref_qif_export_file_encoding_title">Character encoding of the QIF file</string>

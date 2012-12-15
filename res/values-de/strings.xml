@@ -124,6 +124,8 @@
   <string name="menu_create_main_cat">Neue Hauptkategorie</string>
   <string name="menu_create_sub_cat">Neue Unterkategorie</string>
   <string name="menu_create_template">Vorlage erzeugen</string>
+  <string name="menu_create_transaction_from_template_and_edit">Buchung erzeugen und verändern</string>
+  <string name="menu_create_transaction_from_template_and_save">Buchung erzeugen und speichern</string>
   <string name="menu_delete">Löschen</string>
   <string name="menu_delete_account">Konto löschen</string>
   <string name="menu_delete_cat">Kategorie löschen</string>
@@ -186,8 +188,8 @@
   <string name="pm_type_credit">Einnahmen</string>
   <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s)
       verknüpft, die gelöscht wurde</string>
-  <string name="pref_account_button_behaviour_title">Verhalten des \"Konten\" Schaltknopfes</string>
-  <string name="pref_account_button_behaviour_summary">Soll der \"Konten\" Schaltknopf zwischen den beiden letzten Konten hin- und herschalten, anstatt 
+  <string name="pref_account_button_behaviour_title">Verhalten des Schaltknopfes \"Konten\"</string>
+  <string name="pref_account_button_behaviour_summary">Soll der Schaltknopf  \"Konten\" zwischen den beiden letzten Konten hin- und herschalten, anstatt 
         alle Konten nacheinander aufzurufen.</string>
   <string name="pref_backup_title">Backup</string>
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der
@@ -217,7 +219,7 @@
   <string name="pref_manage_parties_title">Parteien verwalten</string>
   <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) löschen.</string>
   <string name="pref_manage_templates_title">Vorlagen verwalten</string>
-  <string name="pref_manage_templates_summary">Vorlagen löschen.</string>
+  <string name="pref_manage_templates_summary">Vorlagen anwenden oder löschen.</string>
   <string name="pref_perform_share_title">QIF Export versenden</string>
   <string name="pref_perform_share_summary">Soll die QIF Datei nach jedem Export versendet werden?
   </string>
@@ -233,6 +235,8 @@
   <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
   <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup
       wiederhergestellt.</string>
+  <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden</string>
+  <string name="save_transaction_success">Neue Buchung aus Vorlage wurde erfolgreich gespeichert</string>
   <string name="select">Auswählen</string>
   <string name="select_account">Konto auswählen</string>
   <string name="select_category">Kategorie auswählen</string>
