@@ -16,86 +16,93 @@
  -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="first_preferencescreen">
-  <PreferenceScreen
-      android:title="@string/pref_manage_accounts_title"
-      android:key="manage_accounts"
-      android:summary="@string/pref_manage_accounts_summary">
-    <intent android:action="myexpenses.intent.manage.accounts"/>      
-  </PreferenceScreen>
-  <PreferenceScreen
-      android:title="@string/pref_manage_categories_title"
-      android:summary="@string/pref_manage_categories_summary">
-      <intent android:action="myexpenses.intent.manage.categories"/>      
-  </PreferenceScreen>
-  <CheckBoxPreference
-      android:layout="@layout/preference_long_summary"
-      android:defaultValue="true"
-      android:key="@string/pref_categories_sort_by_usages_key"
-      android:title="@string/pref_categories_sort_by_usages_title" 
-      android:summary="@string/pref_categories_sort_by_usages_summary" />
-  <CheckBoxPreference
-      android:layout="@layout/preference_long_summary"
-      android:defaultValue="false"
-      android:key="@string/pref_use_standard_menu_key"
-      android:title="@string/pref_use_standard_menu_title" 
-      android:summary="@string/pref_use_standard_menu_summary" />
-  <CheckBoxPreference
-      android:defaultValue="false"
-      android:key="@string/pref_perform_share_key"
-      android:title="@string/pref_perform_share_title" 
-      android:summary="@string/pref_perform_share_summary" />
-	<EditTextPreference
-      android:dependency="@string/pref_perform_share_key"
-      android:inputType="textUri"
-	    android:layout="@layout/preference_long_summary"
-	    android:key="@string/pref_share_target_key" 
-	    android:title="@string/pref_share_target_title" 
-	    android:summary="@string/pref_share_target_summary" />
-	<PreferenceScreen
-      android:title="@string/pref_backup_title"
-      android:summary="@string/pref_backup_summary"
-      android:key="backup">
-      <intent android:action="myexpenses.intent.backup"/>      
-  </PreferenceScreen>
-  <PreferenceScreen
-      android:layout="@layout/preference_long_summary"
-      android:title="@string/pref_import_from_grisbi_title"
-      android:key="import_from_grisbi"
-      android:summary="@string/pref_import_from_grisbi_summary">
-      <intent android:action="myexpenses.intent.import_from_grisbi"/>      
-  </PreferenceScreen>
-  <PreferenceScreen
-      android:title="@string/pref_manage_parties_title"
-      android:summary="@string/pref_manage_parties_summary">
-      <intent android:action="myexpenses.intent.manage.parties"/>      
-  </PreferenceScreen>
-  <PreferenceScreen
-      android:title="@string/pref_manage_templates_title"
-      android:summary="@string/pref_manage_templates_summary">
-      <intent android:action="myexpenses.intent.manage.templates"/>      
-  </PreferenceScreen>
-  <ListPreference android:key="@string/pref_currency_decimal_separator_key"
-      android:layout="@layout/preference_long_summary"
-      android:title="@string/pref_currency_decimal_separator_title"
-      android:summary="@string/pref_currency_decimal_separator_summary"
-      android:entries="@array/pref_currency_decimal_separator_entries"
-      android:entryValues="@array/pref_currency_decimal_separator_values">
-  </ListPreference>
-  <PreferenceScreen
-      android:title="@string/pref_manage_methods_title"
-      android:summary="@string/pref_manage_methods_summary">
-      <intent android:action="myexpenses.intent.manage.methods"/>      
-  </PreferenceScreen>
-  <CheckBoxPreference
-      android:defaultValue="false"
-      android:key="@string/pref_account_button_behaviour_key"
-      android:title="@string/pref_account_button_behaviour_title" 
-      android:summary="@string/pref_account_button_behaviour_summary" />
-    <ListPreference android:key="@string/pref_qif_export_file_encoding_key"
-        android:defaultValue="UTF-8"
+  <PreferenceCategory 
+      android:title="Manage">
+	  <PreferenceScreen
+	      android:title="@string/pref_manage_accounts_title"
+	      android:key="manage_accounts"
+	      android:summary="@string/pref_manage_accounts_summary">
+	    <intent android:action="myexpenses.intent.manage.accounts"/>      
+	  </PreferenceScreen>
+	  <PreferenceScreen
+	      android:title="@string/pref_manage_templates_title"
+	      android:summary="@string/pref_manage_templates_summary">
+	      <intent android:action="myexpenses.intent.manage.templates"/>      
+	  </PreferenceScreen>
+	  <PreferenceScreen
+	      android:title="@string/pref_manage_categories_title"
+	      android:summary="@string/pref_manage_categories_summary">
+	      <intent android:action="myexpenses.intent.manage.categories"/>      
+	  </PreferenceScreen>
+	  <PreferenceScreen
+	      android:title="@string/pref_manage_parties_title"
+	      android:summary="@string/pref_manage_parties_summary">
+	      <intent android:action="myexpenses.intent.manage.parties"/>      
+	  </PreferenceScreen>
+	  <PreferenceScreen
+	      android:title="@string/pref_manage_methods_title"
+	      android:summary="@string/pref_manage_methods_summary">
+	      <intent android:action="myexpenses.intent.manage.methods"/>      
+	  </PreferenceScreen>
+  </PreferenceCategory>
+  <PreferenceCategory 
+      android:title="UI">
+	  <CheckBoxPreference android:key="@string/pref_use_standard_menu_key"
 	      android:layout="@layout/preference_long_summary"
-	      android:title="@string/pref_qif_export_file_encoding_title"
-	      android:summary="@string/pref_qif_export_file_encoding_summary"
-	      android:entries="@array/pref_qif_export_file_encoding"
-	      android:entryValues="@array/pref_qif_export_file_encoding"/>
+	      android:defaultValue="false"
+	      android:title="@string/pref_use_standard_menu_title" 
+	      android:summary="@string/pref_use_standard_menu_summary" />
+	  <CheckBoxPreference android:key="@string/pref_categories_sort_by_usages_key"
+	      android:layout="@layout/preference_long_summary"
+	      android:defaultValue="true"
+	      android:title="@string/pref_categories_sort_by_usages_title" 
+	      android:summary="@string/pref_categories_sort_by_usages_summary" />
+	  <ListPreference android:key="@string/pref_currency_decimal_separator_key"
+	      android:layout="@layout/preference_long_summary"
+	      android:title="@string/pref_currency_decimal_separator_title"
+	      android:summary="@string/pref_currency_decimal_separator_summary"
+	      android:entries="@array/pref_currency_decimal_separator_entries"
+	      android:entryValues="@array/pref_currency_decimal_separator_values"/>
+	  <CheckBoxPreference android:key="@string/pref_account_button_behaviour_key"
+	      android:defaultValue="false"
+	      android:title="@string/pref_account_button_behaviour_title" 
+	      android:summary="@string/pref_account_button_behaviour_summary" />
+  </PreferenceCategory>
+  <PreferenceCategory 
+      android:title="Import">
+	  <PreferenceScreen android:key="import_from_grisbi"
+	      android:layout="@layout/preference_long_summary"
+	      android:title="@string/pref_import_from_grisbi_title"
+	      android:summary="@string/pref_import_from_grisbi_summary">
+	      <intent android:action="myexpenses.intent.import_from_grisbi"/>
+	  </PreferenceScreen>
+  </PreferenceCategory>
+  <PreferenceCategory 
+      android:title="Export">
+	  <ListPreference android:key="@string/pref_qif_export_file_encoding_key"
+	    android:defaultValue="UTF-8"
+	    android:layout="@layout/preference_long_summary"
+	    android:title="@string/pref_qif_export_file_encoding_title"
+	    android:summary="@string/pref_qif_export_file_encoding_summary"
+	    android:entries="@array/pref_qif_export_file_encoding"
+	    android:entryValues="@array/pref_qif_export_file_encoding"/>
+		<CheckBoxPreference android:key="@string/pref_perform_share_key"
+		    android:defaultValue="false" 
+		    android:title="@string/pref_perform_share_title" 
+		    android:summary="@string/pref_perform_share_summary" />
+		<EditTextPreference android:key="@string/pref_share_target_key"
+	      android:dependency="@string/pref_perform_share_key"
+	      android:inputType="textUri"
+		    android:layout="@layout/preference_long_summary"
+		    android:title="@string/pref_share_target_title" 
+		    android:summary="@string/pref_share_target_summary" />
+	</PreferenceCategory>
+  <PreferenceCategory 
+      android:title="Backup">
+		<PreferenceScreen android:key="backup"
+	      android:title="@string/pref_backup_title"
+	      android:summary="@string/pref_backup_summary">
+	      <intent android:action="myexpenses.intent.backup"/>
+    </PreferenceScreen>
+  </PreferenceCategory>
 </PreferenceScreen> 
