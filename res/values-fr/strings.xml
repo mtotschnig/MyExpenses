@@ -92,20 +92,20 @@
   <string name="help_leading"><u>Merci d\'essayer <i>&app_name;</i> pour Android.</u></string>
   <string name="help_quick_guide"><i>&app_name;</i> possède deux interfaces de commande: une barre
       de boutons et le menu standard d\'Android (bouton Menu hardware). Vous pouvez définir celle à
-      utiliser dans l\'écran des paramètres. Dans la barre de boutons, chacun exécute une action par
-      défaut par un clic court. Beaucoup affichent un menu avec d\'autres actions sur un clic long.
-      \n<u>Comptes -> Nouveau &#8230;</u> : Ajouter un compte.
-      \n<u>Comptes</u> : Changer de compte.
+      utiliser dans l\'écran des paramètres. Dans la barre de boutons, les boutons exécutent les actions suivantes sur un clic court.
       \n<u>Nouveau</u> : Ajouter une transaction.
-      \n<u>Nouveau -> Virement</u> : Ajouter un virement, s\'il existe au moins deux comptes de 
-        même devise.
+      \n<u>Comptes</u> : Changer de compte.
       \n<u>Réinitialiser</u> : exporte toutes les transactions dans un fichier QIF sur la carte SD,
         efface les transactions, et transfère le solde courant en nouveau solde d\'ouverture.
-      \n<u>Paramètres</u>: Choisissez <u>Import des données Grisbi</u>, pour importer les catégories 
-        à partir d\'un fichier Grisbi. Vous pouvez sélectionner les définitions standards utilisées 
-        par Grisbi, incluses dans MyExpenses, ou utiliser un fichier personnel, stocké sous 
-        \"/sdcard/myexpenses/&grisbi_file;\". Dans ce cas, vous pouvez copier votre fichier Grisbi 
-        tel quel, ou supprimer dans celui-ci tout sauf les définitions de catégories.</string>    
+      \n<u>Paramètres</u>: Donne accès à toutes les configurations et fonctionnalités administratives (comptes, catégories, tiers, méthodes de paiement, modèles, sauvegarde, import)</string>
+      \n<u>Help</u>: Affiche ce dialog d'aide.
+      \nQuelques boutons (identifiables par le triangle en haut à gauche) affichent un menu avec d\'autres actions sur un clic long:
+      \n<u>Nouveau</u> : <u>Virement</u> : Ajouter un virement, s\'il existe au moins deux comptes de 
+        même devise. Par ici, vous accèdez aussi à la liste des modèles. (Une transaction peut être definies en tant que modèle à partir de son menu contextuel dans la liste des transactions.)
+      \n<u>Comptes</u> : Changez vers un autre compte à partir de la liste qui s'affiche ici. <u>Nouveau &#8230;</u> : Ajouter un compte.
+      \n<u>Paramètres</u> : Accès rapide à la sauvegarde et aux propriétés du compte courant.
+      \n<u>Aide</u> : Accès rapide au manuel, les news, la foire aux questions et la liste des changements.
+      \nReférez-vous au manuel pour de plus amples explications.
   <string name="import_categories">Importer les catégories</string>
   <string name="important_version_information">Nouvelle version: Information importante</string>
   <string name="income">revenu</string>
@@ -113,10 +113,7 @@
   <string name="label">Intitulé</string>
   <string name="menu_accounts">Comptes</string>
   <string name="menu_accounts_explain">Le bouton Comptes vous permet de changer de compte si vous en
-      aviez défini plusieurs. Au départ, il n\'y en a qu\'un seul. Si vous désirez en ajouter
-      d\'autres, ouvrez le menu par un clic long sur le bouton Comptes, puis choisissez la commande
-      Nouveau &#8230;. Cette fonction est aussi disponible dans la section Comptes de l\'écran des
-      Paramètres.</string>
+      aviez défini plusieurs. Au départ, il n\'y en a qu\'un seul. Voulez-vous en créer un deuxième maintenant.</string>
   <string name="menu_accounts_new">Nouveau &#8230;</string>
   <string name="menu_backup">Sauvegarde</string>
   <string name="menu_change_account">Changer de compte</string>
@@ -143,7 +140,7 @@
   <string name="menu_insert_transfer">Ajouter un virement</string>
   <string name="menu_move_transaction">Déplacer</string>
   <string name="menu_new">Nouveau</string>
-  <string name="menu_new_from_template">Nouveau d'après modèle</string>
+  <string name="menu_new_from_template">Nouveau d\'après modèle</string>
   <string name="menu_reset">Réinitialiser</string>
   <string name="menu_reset_abrev">Réinit.</string>
   <string name="menu_settings">Paramètres</string>
@@ -160,6 +157,7 @@
   <string name="no_expenses">Aucune dépense !</string>
   <string name="no_parties">Aucun tiers.</string>
   <string name="no_templates">Pas de modèle.</string>
+  <string name="no_text_given">Vous n\'avez pas saisi de texte.</string>
   <string name="not_deletable_mapped_expenses">Suppression ne peut pas être executée, parce
       qu\'il existe des dépenses attribuées.</string>
   <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce
@@ -232,7 +230,7 @@
   </string>
   <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la
       sauvegarde.</string>
-  <string name="save_transaction_error">La transaction à partir du modèle n'a pas été sauvé</string>
+  <string name="save_transaction_error">La transaction à partir du modèle n\'a pas été sauvé</string>
   <string name="save_transaction_success">Nouvelle transaction sauvée à partir du modèle</string>
   <string name="select">Sélectionner</string>
   <string name="select_account">Sélectionner un compte</string>
@@ -256,8 +254,8 @@
       sur la carte SD. La sauvegarde existante sera effacée. Voulez-vous continuer?</string>
   <string name="warning_delete_account">Ce compte sera effacé ainsi que toutes ses transactions.
       Voulez-vous continuer?</string>
-  <string name="warning_reset_account">Toutes les opérations du compte seront effacées. Voulez-vous 
-      continuer?</string>
+  <string name="warning_reset_account">Toutes les opérations du compte seront exportées vers un fichier QIF sur la carte SD et 
+      effacées. Voulez-vous continuer?</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
 
   <!-- strings below this comment do not need translations for new languages -->

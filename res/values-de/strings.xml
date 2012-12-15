@@ -100,11 +100,12 @@
         Einträge, und setzt den Anfangssaldo zurück.
       \n<u>Einstellungen</u> : Führt zur Übersicht aller Konfigurations- und Verwaltungsfunktionen (Konten, Kategorien, Geschäftspartner, Zahlungsmethoden, Vorlagen, Sicherungen und Imports)
       \n<u>Hilfe</u> : Öffnet diesen Hilfetext
-      \nEinige Schaltknöpfe reagieren auch auf lange Klicks (wenn im rechten oberen Eck ein Dreieck abgebildet ist):
+      \nEinige Schaltknöpfe reagieren auch auf lange Klicks (wenn im linken oberen Eck ein Dreieck abgebildet ist):
       \n<u>Neu</u> : <u>Umbuchung</u> zwischen zwei Konten (diese müssen dieselbe Währung verwenden). Hier werden auch alle verfügbaren Vorlagen aufgelistet (Buchungen können über ihr Kontextmenü in der Liste als Vorlagen gespeichert werden.)
       \n<u>Konten</u> : Zeigt alle Konten an, zu denen Sie wechseln können. <u>Neu &#8230;</u> : Ein neues Konto erstellen.
 			\n<u>Einstellungen</u> : Schnellzugriff auf Backup und die Konfiguration des aktuellen Kontos.
-			\n<u>Hilfe</u> : Schnellzugriff auf Tutorial, News, FAQ und Änderungsliste.
+			\n<u>Hilfe</u> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.
+			\nAusführliche Erklärungen finden sich in der Anleitung.
   </string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
