@@ -97,15 +97,16 @@
       \n<u>Comptes</u> : Changer de compte.
       \n<u>Réinitialiser</u> : exporte toutes les transactions dans un fichier QIF sur la carte SD,
         efface les transactions, et transfère le solde courant en nouveau solde d\'ouverture.
-      \n<u>Paramètres</u>: Donne accès à toutes les configurations et fonctionnalités administratives (comptes, catégories, tiers, méthodes de paiement, modèles, sauvegarde, import)</string>
-      \n<u>Help</u>: Affiche ce dialog d'aide.
+      \n<u>Paramètres</u>: Donne accès à toutes les configurations et fonctionnalités administratives (comptes, catégories, tiers, méthodes de paiement, modèles, sauvegarde, import).
+      \n<u>Help</u>: Affiche ce dialog d\'aide.
       \nQuelques boutons (identifiables par le triangle en haut à gauche) affichent un menu avec d\'autres actions sur un clic long:
       \n<u>Nouveau</u> : <u>Virement</u> : Ajouter un virement, s\'il existe au moins deux comptes de 
         même devise. Par ici, vous accèdez aussi à la liste des modèles. (Une transaction peut être definies en tant que modèle à partir de son menu contextuel dans la liste des transactions.)
-      \n<u>Comptes</u> : Changez vers un autre compte à partir de la liste qui s'affiche ici. <u>Nouveau &#8230;</u> : Ajouter un compte.
+      \n<u>Comptes</u> : Changez vers un autre compte à partir de la liste qui s\'affiche ici. <u>Nouveau &#8230;</u> : Ajouter un compte.
       \n<u>Paramètres</u> : Accès rapide à la sauvegarde et aux propriétés du compte courant.
       \n<u>Aide</u> : Accès rapide au manuel, les news, la foire aux questions et la liste des changements.
       \nReférez-vous au manuel pour de plus amples explications.
+  </string>
   <string name="import_categories">Importer les catégories</string>
   <string name="important_version_information">Nouvelle version: Information importante</string>
   <string name="income">revenu</string>
