@@ -281,10 +281,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         R.string.menu_help,
         android.R.drawable.ic_menu_help,
         R.id.HELP_COMMAND);
-    mHelpButton.addItem(R.string.tutorial,R.id.TUTORIAL_COMMAND);
-    mHelpButton.addItem("News",R.id.NEWS_COMMAND);
-    mHelpButton.addItem(R.string.menu_faq,R.id.FAQ_COMMAND);
-    mHelpButton.addItem(R.string.menu_changes,R.id.CHANGES_COMMAND);
+    mHelpButton.addItem(R.string.tutorial,R.id.WEB_COMMAND,"tutorial_r4");
+    mHelpButton.addItem("News",R.id.WEB_COMMAND,"news");
+    mHelpButton.addItem(R.string.menu_faq,R.id.WEB_COMMAND,"faq");
+    mHelpButton.addItem(R.string.menu_changes,R.id.WEB_COMMAND,"changelog");
     mButtonBarIsFilled = true;
   }
   @Override
@@ -1144,7 +1144,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   }
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
-    String lang =  Locale.getDefault().getLanguage();
     switch (command) {
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
@@ -1196,24 +1195,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case R.id.BACKUP_COMMAND:
       startActivityForResult(new Intent(MyExpenses.this, Backup.class),ACTIVITY_PREF);
       break;
-    case R.id.TUTORIAL_COMMAND:
+    case R.id.WEB_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse("http://" + HOST + "/" + lang +  "/" + "/tutorial_r" +  TUTORIAL_RELEASE_VERSION +  "/introduction.html"));
-      startActivity(i);
-      break;
-    case R.id.FAQ_COMMAND:
-      i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse("http://" + HOST + "/" + lang +  "/" + "/tutorial_r" +  TUTORIAL_RELEASE_VERSION +  "/faq.html"));
-      startActivity(i);
-      break;
-    case R.id.CHANGES_COMMAND:
-      i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse("http://" + HOST + "/versionlist.html"));
-      startActivity(i);
-      break; 
-    case R.id.NEWS_COMMAND:
-      i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse("http://" + HOST + "/news/news" + CURRENT_NEWS_VERSION + ".html"));
+      i.setData(Uri.parse("http://" + HOST + "/#" + (String) tag));
       startActivity(i);
       break;
     case R.id.HELP_COMMAND:
@@ -1279,13 +1263,5 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       return true;
     }
     return  super.onKeyUp(keyCode, event);
-  }
-  /**
-   * Callback from button
-   * @param v
-   */
-  public void handleHelp(View v) {
-    dismissDialog(R.id.HELP_DIALOG_ID);
-    dispatchCommand(v.getId(),null);
   }
 }
