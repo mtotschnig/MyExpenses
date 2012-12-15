@@ -48,6 +48,10 @@ switch (dest) {
     translations = [{% for title in section[1].title %}"{{title[0]}}"{% unless forloop.last %},{% endunless %}{% endfor %}];
     break;
 {% endfor %}
+  case "tutorial_r4":
+    path = "/tutorial_r4/introduction.html"
+    translations = ["en","fr","de","it","es"];
+    break;
   default:
     path = ""
     translations = ["en","de","fr","it","es"];
