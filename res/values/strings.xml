@@ -99,19 +99,19 @@
   <!-- TODO changed. Translations pending -->
   <string name="help_quick_guide"><i>&app_name;</i> comes with two command interfaces: A button bar
       and the Android standard menu (hardware Menu button). You can set which one to use in the
-      settings screen. The buttons in the button bar execute the following actions on short clicks:
-      \n<b>New</b> : Add a transaction.
-      \n<b>Accounts</b> : Switch to different account.
-      \n<b>Reset</b> : exports expenses onto SD-card in QIF format, deletes the expenses and updates
-        the opening balance.
-      \n<b>Settings</b> : Gives access to all configurations and administrative functions (of accounts, categories, payees, payment methods, templates, backups, imports).
-      \n<b>Help</b> : Opens this help screen.
-      \nSome buttons (indicated by a triangle in the left upper corner) open popup menus on long clicks:
-      \n<b>New</b> : <b>Transfer</b> allows to create a transfer from one account to another (must have same currency). Also enumerates available templates you can instantiate. (Templates can be created from transactions from their context menu in the list)
-      \n<b>Accounts</b> : Enumerates all accounts you can switch to. <b>New &#8230;</b> creates a new account.
-      \n<b>Settings</b> : Quick access to backup and properties for current account.
-      \n<b>Help</b> : Quick access to Tutorial, News, FAQ and Changes.
-      \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial">manual</a> for detailed explanation.
+      settings screen. The buttons in the button bar execute the following actions on short clicks:\n\n
+      - <b>New</b> : Add a transaction.\n
+      - <b>Accounts</b> : Switch to different account.\n
+      - <b>Reset</b> : exports expenses onto SD-card in QIF format, deletes the expenses and updates
+        the opening balance.\n
+      - <b>Settings</b> : Gives access to all configurations and administrative functions (of accounts, categories, payees, payment methods, templates, backups, imports).\n
+      - <b>Help</b> : Opens this help screen.\n\n
+      Some buttons (indicated by a triangle in the left upper corner) open popup menus on long clicks:\n\n
+      - <b>New</b> : <b>Transfer</b> allows to create a transfer from one account to another (must have same currency). Also enumerates available templates you can instantiate. (Templates can be created from transactions from their context menu in the list)\n
+      - <b>Accounts</b> : Enumerates all accounts you can switch to. <b>New &#8230;</b> creates a new account.\n
+      - <b>Settings</b> : Quick access to backup and properties for current account.\n
+      - <b>Help</b> : Quick access to Tutorial, News, FAQ and Changes.\n\nPlease
+      refer to the <a href="http://myexpenses.totschnig.org/#tutorial">manual</a> for detailed explanation.
   </string>
   <string name="important_version_information">New version: Important information</string>
   <string name="import_categories">Import categories</string>
