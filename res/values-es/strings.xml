@@ -17,6 +17,8 @@
 <!DOCTYPE resources [
   <!ENTITY app_name "Mis gastos">
   <!ENTITY grisbi_file "grisbi.xml">
+  <!ENTITY privacy_policy "Política de privacidad">
+  <!ENTITY credits "Créditos">
 ]>
 <resources>
   <string name="account">Cuenta</string>
@@ -35,10 +37,6 @@
   <string name="close">Cerrar</string>
   <string name="comment">Apuntes</string>
   <string name="create_category">Nueva categoría</string>
-  <string name="credits_text">Diseño del diálogo de ayuda por Mathdoku.
-      \nDiseño gráfico por Sipdroid.
-      \nTraducción al francés y al italiano por Laurent Collombet.
-      \nTraducción al español por Christof, Gudrun y Johanna Totschnig.</string>
   <string name="currency">Moneda</string>
   <string name="currency_not_iso4217">%1$s no es un código de moneda válido según ISO 4217.</string>
   <string name="current_balance">Saldo actual</string>
@@ -79,15 +77,12 @@
       Si encuentra algún problema, tiene alguna sugerencia para la mejora o desea contribuir, por
       favor, póngase en contacto con <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.
       </string>
-  <string name="help_heading_feedback"><u>Feedback</u></string>
-  <string name="help_heading_credits"><u>Créditos</u></string>
-  <string name="help_heading_license"><u>Licencia</u></string>
-  <string name="help_heading_project_home"><u>Sitio web del projecto</u></string>
-  <string name="help_heading_quick_guide"><u>Guía rápida</u></string>
-  <string name="help_heading_version"><u>Versión</u></string>
+  <string name="help_heading_license">Licencia</string>
+  <string name="help_heading_quick_guide">Guía rápida</string>
+  <string name="help_heading_whats_new">Novedades</string>
   <string name="help_intro">Con <i>&app_name;</i> puede llevar contabilidad sobre sus gastos y
       ingresos y exportarlos a un programa de escritorio de finanzas (Grisbi o Gnucash).</string>
-  <string name="help_leading"><u>Gracias por probar <i>&app_name;</i> para Android.</u></string>
+  <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
   <string name="help_quick_guide"><i>&app_name;</i> tiene dos interfaces para los comandos de
       llamada: una barra de herramientas y el menú estándar de Android (el botón de menú físico). En
       la configuración de la pantalla se puede especificar cual desea utilizar. La mayoría de los

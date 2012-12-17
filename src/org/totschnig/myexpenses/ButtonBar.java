@@ -25,6 +25,7 @@ import org.example.qberticus.quickactions.BetterPopupWindow;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -171,6 +172,7 @@ public class ButtonBar extends LinearLayout  {
                 tv.setTag(remainingItems);
                 //tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
                 tv.setBackgroundResource(android.R.drawable.btn_default_small);
+                tv.setTypeface(null, Typeface.BOLD);
                 tv.setOnClickListener(context);
                 buttons.add(tv);
                 //root.addView(tv,0);
@@ -183,6 +185,7 @@ public class ButtonBar extends LinearLayout  {
               tv.setTag(action.tag);
               //tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
               tv.setBackgroundResource(android.R.drawable.btn_default_small);
+              tv.setTypeface(null, Typeface.BOLD);
               //we measure only the first item which is always added
               if (heightLeft == height){
                 tv.measure(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT);

@@ -17,6 +17,8 @@
 <!DOCTYPE resources [
   <!ENTITY app_name "My Expenses">
   <!ENTITY grisbi_file "grisbi.xml">
+  <!ENTITY privacy_policy "Privacy policy">
+  <!ENTITY credits "Credits">
 ]>
 <resources>
   <string name="account">Account</string>
@@ -35,11 +37,6 @@
   <string name="close">Close</string>
   <string name="comment">Notes</string>
   <string name="create_category">Create new category</string>
-  <string name="credits_text">Help screen design copied from Mathdoku. 
-    \nApp icon design copied from Sipdroid.
-    \nFrench and italian localization by Laurent Collombet.
-    \nSpanish localization by Christof, Gudrun and Johanna Totschnig.
-  </string>
   <string name="currency">Currency</string>
   <string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
   <string name="current_balance">Current balance</string>
@@ -79,17 +76,10 @@
     please leave a comment in the <a href="market://details?id=org.totschnig.myexpenses">Market</a>. 
     If you find a problem, have a suggestion for an improvement, or would like to contribute, please
     contact <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
-  <!-- The author title in the help screen. -->
-  <string name="help_heading_feedback">Feedback</string>
-  <!-- The credits title in the help screen. -->
-  <string name="help_heading_credits">Credits</string>
-  <!-- The license title in the help screen. -->
+  <!-- Titles in the help screen. -->
   <string name="help_heading_license">License</string>
-  <!-- The project home title in the help screen. -->
-  <string name="help_heading_project_home">More information</string>
   <string name="help_heading_quick_guide">Quick guide</string>
-  <!-- The version title in the help screen. -->
-  <string name="help_heading_version">Version</string>
+  <string name="help_heading_whats_new">What\'s new</string>
   <!-- The first line in the help screen. -->
   <!-- The intro of the help text. -->
   <string name="help_intro"><i>&app_name;</i> is designed to keep track of your expenses and
@@ -105,14 +95,17 @@
       - <b>Reset</b> : exports expenses onto SD-card in QIF format, deletes the expenses and updates
         the opening balance.\n
       - <b>Settings</b> : Gives access to all configurations and administrative functions (of accounts, categories, payees, payment methods, templates, backups, imports).\n
-      - <b>Help</b> : Opens this help screen.\n\n
-      Some buttons (indicated by a triangle in the left upper corner) open popup menus on long clicks:\n\n
+      - <b>Help</b> : Opens this help screen.\n
+      \nSome buttons (indicated by a triangle in the left upper corner) open popup menus on long clicks:\n\n
       - <b>New</b> : <b>Transfer</b> allows to create a transfer from one account to another (must have same currency). Also enumerates available templates you can instantiate. (Templates can be created from transactions from their context menu in the list)\n
       - <b>Accounts</b> : Enumerates all accounts you can switch to. <b>New &#8230;</b> creates a new account.\n
       - <b>Settings</b> : Quick access to backup and properties for current account.\n
-      - <b>Help</b> : Quick access to Tutorial, News, FAQ and Changes.\n\nPlease
-      refer to the <a href="http://myexpenses.totschnig.org/#tutorial">manual</a> for detailed explanation.
+      - <b>Help</b> : Quick access to Tutorial, News, FAQ and Changes.\n
+      \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
+  <string name="help_whats_new"> - Create transactions from templates\n
+      - Character encoding of exported QIF file configurable to support MS Money\n
+      - User interface improvements</string>
   <string name="important_version_information">New version: Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">income</string>
@@ -268,17 +261,18 @@
   <string name="warning_select_account">Please select an account!</string>
   
   <!-- strings below this comment do not need translations -->
-  <string name="help_project_home"> - <a href="http://myexpenses.totschnig.org/#tutorial">User guide</a>\n
-      - <a href="http://myexpenses.totschnig.org/#news">News</a>\n
-      - <a href="http://myexpenses.totschnig.org/#faq">FAQ</a>\n
-      - <a href="http://myexpenses.totschnig.org/#privacy">Privacy policy</a></string>
-  <string name="help_licence_gpl">http://www.gnu.org/licenses/gpl.html</string>
+  <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 
       licensed under the Creative Commons Attribution 3.0 United States License .</string>
   <string name="help_licence_quickactions">Includes BetterPopupWindow class from 
       http://code.google.com/p/simple-quickactions/ , licenced under 
       http://www.opensource.org/licenses/bsd-license.php .</string>
   <string name="help_enjoy"><u>Enjoy!</u></string>
+  <string name="help_heading_news"><a href="http://myexpenses.totschnig.org/#news">News</a></string>
+  <string name="help_heading_faq"><a href="http://myexpenses.totschnig.org/#faq">FAQ</a></string>
+  <string name="help_heading_privacy_policy"><a href="http://myexpenses.totschnig.org/#privacy">&privacy_policy;</a></string>
+  <string name="help_heading_changelog"><a href="http://myexpenses.totschnig.org/#changelog">Changelog</a></string>
+  <string name="help_heading_credits"><a href="http://myexpenses.totschnig.org/#credits">&credits;</a></string>
   
   <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
   <string name="pref_use_standard_menu_key">use_standard_menu</string>

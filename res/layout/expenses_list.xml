@@ -25,18 +25,19 @@
       android:orientation="vertical"
       android:id="@+id/content">
     <RelativeLayout
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
+        style="@style/balance"
         android:id="@+id/top"
         android:layout_width="fill_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
       <TextView
+        style="@style/balanceText"
           android:layout_alignParentLeft="true"
           android:layout_height="wrap_content"
           android:layout_width="wrap_content"
           android:text="@string/opening_balance" />
       <TextView
+        style="@style/balanceText"
           android:text="START"
           android:id="@+id/start" 
           android:layout_alignParentRight="true"
@@ -60,18 +61,19 @@
         android:background="@drawable/border"
         android:text="@string/no_expenses" />
     <RelativeLayout
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
+        style="@style/balance"
         android:id="@+id/bottom"
         android:layout_width="fill_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
-      <TextView 
+      <TextView
+        style="@style/balanceText"
           android:layout_alignParentLeft="true"
           android:layout_height="wrap_content"
           android:layout_width="wrap_content"
           android:text="@string/current_balance" />
       <TextView
+        style="@style/balanceText"
           android:text="END"
           android:id="@+id/end" 
           android:layout_alignParentRight="true"

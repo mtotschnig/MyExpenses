@@ -102,8 +102,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   static final int SELECT_TEMPLATE_DIALOG_ID = 9;
   static final int MORE_ACTIONS_DIALOG_ID = 10;
   
-  static final int TUTORIAL_RELEASE_VERSION = 4;
-  static final int CURRENT_NEWS_VERSION = 2;
   static final String HOST = "myexpenses.totschnig.org";
 
   private String mVersionInfo;
@@ -523,15 +521,15 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case R.id.HELP_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.aboutview, null);
-      TextView tv;
-      tv = (TextView)view.findViewById(R.id.aboutVersionCode);
-      tv.setText(getVersionInfo());
-      tv = (TextView)view.findViewById(R.id.help_project_home);
-      tv.setMovementMethod(LinkMovementMethod.getInstance());
-      tv = (TextView)view.findViewById(R.id.help_licence_gpl);
-      tv.setMovementMethod(LinkMovementMethod.getInstance());
-      tv = (TextView)view.findViewById(R.id.help_quick_guide);
-      tv.setMovementMethod(LinkMovementMethod.getInstance());
+      ((TextView)view.findViewById(R.id.aboutVersionCode)).setText(getVersionInfo());
+      ((TextView)view.findViewById(R.id.help_heading_news)).setMovementMethod(LinkMovementMethod.getInstance());
+      ((TextView)view.findViewById(R.id.help_heading_faq)).setMovementMethod(LinkMovementMethod.getInstance());
+      ((TextView)view.findViewById(R.id.help_heading_privacy_policy)).setMovementMethod(LinkMovementMethod.getInstance());
+      ((TextView)view.findViewById(R.id.help_heading_changelog)).setMovementMethod(LinkMovementMethod.getInstance());
+      ((TextView)view.findViewById(R.id.help_heading_credits)).setMovementMethod(LinkMovementMethod.getInstance());
+      ((TextView)view.findViewById(R.id.help_licence_gpl)).setMovementMethod(LinkMovementMethod.getInstance());
+      ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
+      ((TextView)view.findViewById(R.id.help_whats_new)).setMovementMethod(LinkMovementMethod.getInstance());
       /*      
       String imId = Settings.Secure.getString(
           getContentResolver(), 

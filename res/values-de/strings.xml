@@ -17,6 +17,8 @@
 <!DOCTYPE resources [
   <!ENTITY app_name "Meine Ausgaben">
   <!ENTITY grisbi_file "grisbi.xml">
+  <!ENTITY privacy_policy "Datenschutzerklärung">
+  <!ENTITY credits "Abspann">
 ]>
 <resources>
   <string name="account">Konto</string>
@@ -36,10 +38,6 @@
   <string name="close">Schließen</string>
   <string name="comment">Notizen</string>
   <string name="create_category">Neue Kategorie</string>
-  <string name="credits_text">Design des Hilfe-Dialogs von Mathdoku.
-      \nDesign der App-Graphik von Sipdroid.
-      \nFranzösische und italienische Übersetzung von Laurent Collombet.
-      \nSpanische Übersetzung von Christof, Gudrun und Johanna Totschnig.</string>
   <string name="currency">Währung</string>
   <string name="currency_not_iso4217">%1$s ist kein gültiger ISO 4217 Währungscode</string>
   <string name="current_balance">Aktueller Saldo</string>
@@ -80,33 +78,35 @@
       Wenn Sie auf ein Problem stoßen, einen Verbesserungsvorschlag haben oder einen Beitrag leisten
        wollen, bitte kontaktieren Sie
        <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
-  <string name="help_heading_feedback"><u>Feedback</u></string>
-  <string name="help_heading_credits"><u>Abspann</u></string>
-  <string name="help_heading_license"><u>Lizenz</u></string>
-  <string name="help_heading_project_home"><u>Projekt Homepage</u></string>
-  <string name="help_heading_quick_guide"><u>Schnelleinstieg</u></string>
-  <string name="help_heading_version"><u>Version</u></string>
+  <string name="help_heading_license">Lizenz</string>
+  <string name="help_heading_quick_guide">Schnelleinstieg</string>
+  <string name="help_heading_whats_new">Neue Funktionen</string>
   <string name="help_intro">Mit <i>&app_name;</i> können sie über Ihre Ausgaben und Einnahmen Buch 
       halten, und diese in ein Desktop-Finanzprogrammm (Grisbi oder Gnucash) exportieren.</string>
-  <string name="help_leading"><u>Danke fürs Ausprobieren von <i>&app_name;</i> für
-      Android.</u></string>
+  <string name="help_leading">Danke fürs Ausprobieren von <i>&app_name;</i> für
+      Android.</string>
   <string name="help_quick_guide"><i>&app_name;</i> kommt mit zwei Schnittstellen für die
       Befehlsaufrufe: einer Symbolleiste und dem Android Standardmenü (physischer Menü-Knopf). Im
       Einstellungs-Bildschirm können Sie festlegen, welches Sie verwenden wollen.
-      Durch kurze Klicks auf die Schaltknöpfe in der Symbolleiste werden folgende Funktionen aufgerufen:
-      \n<u>Neu</u> : Eine Buchung hinzufügen.
-      \n<u>Konten</u> : Zu einem anderen Konto wechseln.
-      \n<u>Zurücksetzen</u> : Exportiert die Ausgaben im QIF Format auf die SD-Karte, löscht die 
-        Einträge, und setzt den Anfangssaldo zurück.
-      \n<u>Einstellungen</u> : Führt zur Übersicht aller Konfigurations- und Verwaltungsfunktionen (Konten, Kategorien, Geschäftspartner, Zahlungsmethoden, Vorlagen, Sicherungen und Imports)
-      \n<u>Hilfe</u> : Öffnet diesen Hilfetext
-      \nEinige Schaltknöpfe reagieren auch auf lange Klicks (wenn im linken oberen Eck ein Dreieck abgebildet ist):
-      \n<u>Neu</u> : <u>Umbuchung</u> zwischen zwei Konten (diese müssen dieselbe Währung verwenden). Hier werden auch alle verfügbaren Vorlagen aufgelistet (Buchungen können über ihr Kontextmenü in der Liste als Vorlagen gespeichert werden.)
-      \n<u>Konten</u> : Zeigt alle Konten an, zu denen Sie wechseln können. <u>Neu &#8230;</u> : Ein neues Konto erstellen.
-			\n<u>Einstellungen</u> : Schnellzugriff auf Backup und die Konfiguration des aktuellen Kontos.
-			\n<u>Hilfe</u> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.
-			\nAusführliche Erklärungen finden sich in der Anleitung.
+      Durch kurze Klicks auf die Schaltknöpfe in der Symbolleiste werden folgende Funktionen aufgerufen:\n\n
+      - <b>Neu</b> : Eine Buchung hinzufügen.\n
+      - <b>Konten</b> : Zu einem anderen Konto wechseln.\n
+      - <b>Zurücksetzen</b> : Exportiert die Ausgaben im QIF Format auf die SD-Karte, löscht die 
+        Einträge, und setzt den Anfangssaldo zurück.\n
+      - <b>Einstellungen</b> : Führt zur Übersicht aller Konfigurations- und Verwaltungsfunktionen
+      (Konten, Kategorien, Geschäftspartner, Zahlungsmethoden, Vorlagen, Sicherungen und Imports)\n
+      - <b>Hilfe</b> : Öffnet diesen Hilfetext\n
+      \nEinige Schaltknöpfe reagieren auch auf lange Klicks (wenn im linken oberen Eck ein Dreieck abgebildet ist):\n\n
+      - <b>Neu</b> : <b>Umbuchung</b> zwischen zwei Konten (diese müssen dieselbe Währung verwenden).
+      Hier werden auch alle verfügbaren Vorlagen aufgelistet (Buchungen können über ihr Kontextmenü in der Liste als Vorlagen gespeichert werden.)\n
+      - <b>Konten</b> : Zeigt alle Konten an, zu denen Sie wechseln können. <b>Neu &#8230;</b> : Ein neues Konto erstellen.\n
+			- <b>Einstellungen</b> : Schnellzugriff auf Backup und die Konfiguration des aktuellen Kontos.\n
+			- <b>Hilfe</b> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.\n
+			\nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
   </string>
+  <string name="help_whats_new"> - Buchungen aus Vorlagen erzeugen\n
+      - Zeichensatz des QIF-Exports konfigurierbar zur besseren Unterstützung von MS Money\n
+      - Verbesserungen der Benutzerschnittstelle</string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
   <string name="important_version_information">Neue Version: Wichtige Information</string>
