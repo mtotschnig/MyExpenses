@@ -80,38 +80,38 @@
     If you find a problem, have a suggestion for an improvement, or would like to contribute, please
     contact <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
   <!-- The author title in the help screen. -->
-  <string name="help_heading_feedback"><u>Feedback</u></string>
+  <string name="help_heading_feedback">Feedback</string>
   <!-- The credits title in the help screen. -->
-  <string name="help_heading_credits"><u>Credits</u></string>
+  <string name="help_heading_credits">Credits</string>
   <!-- The license title in the help screen. -->
-  <string name="help_heading_license"><u>License</u></string>
+  <string name="help_heading_license">License</string>
   <!-- The project home title in the help screen. -->
-  <string name="help_heading_project_home"><u>Project Home</u></string>
-  <string name="help_heading_quick_guide"><u>Quick guide</u></string>
+  <string name="help_heading_project_home">More information</string>
+  <string name="help_heading_quick_guide">Quick guide</string>
   <!-- The version title in the help screen. -->
-  <string name="help_heading_version"><u>Version</u></string>
+  <string name="help_heading_version">Version</string>
   <!-- The first line in the help screen. -->
   <!-- The intro of the help text. -->
   <string name="help_intro"><i>&app_name;</i> is designed to keep track of your expenses and
       incomes, and to export these expenses into a desktop finance tool, like Grisbi or
       Gnucash.</string>
-  <string name="help_leading"><u>Thanks for installing <i>&app_name;</i> for Android.</u></string>
+  <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
   <!-- TODO changed. Translations pending -->
   <string name="help_quick_guide"><i>&app_name;</i> comes with two command interfaces: A button bar
       and the Android standard menu (hardware Menu button). You can set which one to use in the
       settings screen. The buttons in the button bar execute the following actions on short clicks:
-      \n<u>New</u> : Add a transaction.
-      \n<u>Accounts</u> : Switch to different account.
-      \n<u>Reset</u> : exports expenses onto SD-card in QIF format, deletes the expenses and updates
+      \n<b>New</b> : Add a transaction.
+      \n<b>Accounts</b> : Switch to different account.
+      \n<b>Reset</b> : exports expenses onto SD-card in QIF format, deletes the expenses and updates
         the opening balance.
-      \n<u>Settings</u> : Gives access to all configurations and administrative functions (of accounts, categories, payees, payment methods, templates, backups, imports).
-      \n<u>Help</u> : Opens this help screen.
+      \n<b>Settings</b> : Gives access to all configurations and administrative functions (of accounts, categories, payees, payment methods, templates, backups, imports).
+      \n<b>Help</b> : Opens this help screen.
       \nSome buttons (indicated by a triangle in the left upper corner) open popup menus on long clicks:
-      \n<u>New</u> : <u>Transfer</u> allows to create a transfer from one account to another (must have same currency). Also enumerates available templates you can instantiate. (Templates can be created from transactions from their context menu in the list)
-      \n<u>Accounts</u> : Enumerates all accounts you can switch to. <u>New &#8230;</u> creates a new account.
-      \n<u>Settings</u> : Quick access to backup and properties for current account.
-      \n<u>Help</u> : Quick access to Tutorial, News, FAQ and Changes.
-      \nPlease refer to the manual for detailed explanation.
+      \n<b>New</b> : <b>Transfer</b> allows to create a transfer from one account to another (must have same currency). Also enumerates available templates you can instantiate. (Templates can be created from transactions from their context menu in the list)
+      \n<b>Accounts</b> : Enumerates all accounts you can switch to. <b>New &#8230;</b> creates a new account.
+      \n<b>Settings</b> : Quick access to backup and properties for current account.
+      \n<b>Help</b> : Quick access to Tutorial, News, FAQ and Changes.
+      \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial">manual</a> for detailed explanation.
   </string>
   <string name="important_version_information">New version: Important information</string>
   <string name="import_categories">Import categories</string>
@@ -268,8 +268,10 @@
   <string name="warning_select_account">Please select an account!</string>
   
   <!-- strings below this comment do not need translations -->
-  <string name="help_project_home"><a
-      href="http://myexpenses.totschnig.org/">http://myexpenses.totschnig.org/</a></string>
+  <string name="help_project_home"> - <a href="http://myexpenses.totschnig.org/#tutorial">User guide</a>\n
+      - <a href="http://myexpenses.totschnig.org/#news">News</a>\n
+      - <a href="http://myexpenses.totschnig.org/#faq">FAQ</a>\n
+      - <a href="http://myexpenses.totschnig.org/#privacy">Privacy policy</a></string>
   <string name="help_licence_gpl">http://www.gnu.org/licenses/gpl.html</string>
   <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 
       licensed under the Creative Commons Attribution 3.0 United States License .</string>

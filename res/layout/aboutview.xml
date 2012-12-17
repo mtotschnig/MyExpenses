@@ -28,8 +28,15 @@
     <TextView android:text="@string/help_quick_guide"
       android:id="@+id/help_quick_guide"
       style="@style/about_text" />
-    <TextView android:text="@string/help_heading_version" style="@style/about_heading" />      
-    <TextView android:id="@+id/aboutVersionCode" style="@style/about_text" />  
+    <TextView android:text="@string/help_heading_project_home"
+        style="@style/about_heading" />
+    <TextView android:text="@string/help_project_home"
+        android:id="@+id/help_project_home"
+        style="@style/about_text" />
+   <TextView android:text="@string/help_heading_credits"
+	      style="@style/about_heading" />
+    <TextView android:text="@string/credits_text"
+				style="@style/about_text" />
     <TextView android:text="@string/help_heading_license" style="@style/about_heading" />
     <TextView android:text="GNU General Public License version 3" style="@style/about_text" />  
     <TextView android:text="@string/help_licence_gpl"
@@ -39,22 +46,8 @@
         style="@style/about_text" />
     <TextView android:text="@string/help_licence_quickactions"
         style="@style/about_text" />                           
-    <TextView android:text="@string/help_heading_project_home"
-        style="@style/about_heading" />
-    <TextView android:text="@string/help_project_home"
-        android:id="@+id/help_project_home"
-        style="@style/about_text" />          
-    <TextView android:text="@string/help_heading_feedback"
-        style="@style/about_heading" />
-    <TextView android:text="@string/help_feedback"
-        android:id="@+id/help_feedback"
-	      style="@style/about_text" />
-    <TextView android:text="@string/help_heading_credits"
-	      style="@style/about_heading" />
-    <TextView android:text="@string/credits_text"
-				style="@style/about_text" />
-	  <TextView android:text="@string/help_enjoy"
-        style="@style/about_heading" />
-  </LinearLayout>
+     <TextView android:text="@string/help_heading_version" style="@style/about_heading" />
+    <TextView android:id="@+id/aboutVersionCode" style="@style/about_text" />
+	</LinearLayout>
 </ScrollView>
 

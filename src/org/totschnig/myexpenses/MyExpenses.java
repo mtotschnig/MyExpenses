@@ -528,11 +528,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       tv.setText(getVersionInfo());
       tv = (TextView)view.findViewById(R.id.help_project_home);
       tv.setMovementMethod(LinkMovementMethod.getInstance());
-      tv = (TextView)view.findViewById(R.id.help_feedback);
-      tv.setMovementMethod(LinkMovementMethod.getInstance());
       tv = (TextView)view.findViewById(R.id.help_licence_gpl);
       tv.setMovementMethod(LinkMovementMethod.getInstance());
-
+      tv = (TextView)view.findViewById(R.id.help_quick_guide);
+      tv.setMovementMethod(LinkMovementMethod.getInstance());
       /*      
       String imId = Settings.Secure.getString(
           getContentResolver(), 
@@ -543,9 +542,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
 
       return new AlertDialog.Builder(this)
         .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
-        .setIcon(R.drawable.about)
+        .setIcon(R.drawable.icon)
         .setView(view)
-        .setNegativeButton(R.string.close, null).create();
+        .setNegativeButton(android.R.string.ok, null)
+        .setPositiveButton("Donate",null)
+        .setNeutralButton("Feedback", null).create();
     case VERSION_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.versiondialog, null);
@@ -553,7 +554,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       versionInfo.setText(mVersionInfo);
       return new AlertDialog.Builder(this)
         .setTitle(R.string.important_version_information)
-        .setIcon(R.drawable.about)
+        .setIcon(R.drawable.icon)
         .setView(view)
         .setNeutralButton(R.string.button_continue, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
