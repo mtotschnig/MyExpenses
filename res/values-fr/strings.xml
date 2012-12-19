@@ -17,8 +17,6 @@
  <!DOCTYPE resources [
   <!ENTITY app_name "Mes dépenses">
   <!ENTITY grisbi_file "grisbi.xml">
-  <!ENTITY privacy_policy "Règles de confidentialité">
-  <!ENTITY credits "Générique">
 ]>
 <resources>
   <string name="account">Compte</string>
@@ -79,7 +77,9 @@
       <a href="market://details?id=org.totschnig.myexpenses">Market</a>. Si vous rencontrez un
       problème, si vous avez une suggestion pour une amélioration, ou si vous désirez contribuer,
       contactez <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
+  <string name="help_heading_credits">Générique</string>
   <string name="help_heading_license">Licence</string>
+  <string name="help_heading_privacy">Règles de confidentialité</string>
   <string name="help_heading_quick_guide">Guide rapide</string>
   <string name="help_heading_whats_new">Nouveautés</string>
   <string name="help_intro"><i>&app_name;</i> permet de gérer les entrées d\'argent et les

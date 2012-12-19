@@ -17,8 +17,6 @@
 <!DOCTYPE resources [
   <!ENTITY app_name "Le mie spese">
   <!ENTITY grisbi_file "grisbi.xml">
-  <!ENTITY privacy_policy "Norme sulla privacy">
-  <!ENTITY credits "Generico">
 ]>
 <resources>
   <string name="account">Conto</string>
@@ -75,7 +73,9 @@
       nel <a href="market://details?id=org.totschnig.myexpenses">Mercato</a>. Se si trova un
       problema, un suggerimento per un miglioramento, o se volete contribuire, si prega di
       contattare <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
+  <string name="help_heading_credits">Generico</string>
   <string name="help_heading_license">Licenza</string>
+  <string name="help_heading_privacy">Norme sulla privacy</string>
   <string name="help_heading_quick_guide">Guida rapida</string>
   <string name="help_heading_whats_new">Novità</string>
   <string name="help_intro"><i>&app_name;</i> è stato progettato per tenere traccia delle spese nel

@@ -37,14 +37,11 @@
       style="@style/about_text" />
     
     <!-- More info -->
-    <TextView android:text="@string/help_heading_news"
-        android:id="@+id/help_heading_news"
+    <TextView android:tag="news"
         style="@style/about_heading" />
-    <TextView android:text="@string/help_heading_faq"
-        android:id="@+id/help_heading_faq"
+    <TextView android:tag="faq"
         style="@style/about_heading" />
-    <TextView android:text="@string/help_heading_privacy_policy"
-        android:id="@+id/help_heading_privacy_policy"
+    <TextView android:tag="privacy"
         style="@style/about_heading" />
     
     
@@ -56,13 +53,11 @@
     <TextView android:text="@string/help_whats_new"
         android:id="@+id/help_whats_new"
         style="@style/about_text" />
-    <TextView android:text="@string/help_heading_changelog"
-        android:id="@+id/help_heading_changelog"
+    <TextView android:tag="changelog"
         style="@style/about_heading" />
     
     <!-- Credits -->
-    <TextView android:text="@string/help_heading_credits"
-        android:id="@+id/help_heading_credits"
+    <TextView android:tag="credits"
 	      style="@style/about_heading" />
     
     <!-- Licence -->

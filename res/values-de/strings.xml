@@ -17,8 +17,6 @@
 <!DOCTYPE resources [
   <!ENTITY app_name "Meine Ausgaben">
   <!ENTITY grisbi_file "grisbi.xml">
-  <!ENTITY privacy_policy "Datenschutzerklärung">
-  <!ENTITY credits "Abspann">
 ]>
 <resources>
   <string name="account">Konto</string>
@@ -78,7 +76,9 @@
       Wenn Sie auf ein Problem stoßen, einen Verbesserungsvorschlag haben oder einen Beitrag leisten
        wollen, bitte kontaktieren Sie
        <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
+  <string name="help_heading_credits">Abspann</string>
   <string name="help_heading_license">Lizenz</string>
+  <string name="help_heading_privacy">Datenschutzerklärung</string>
   <string name="help_heading_quick_guide">Schnelleinstieg</string>
   <string name="help_heading_whats_new">Neue Funktionen</string>
   <string name="help_intro">Mit <i>&app_name;</i> können sie über Ihre Ausgaben und Einnahmen Buch 

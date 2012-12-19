@@ -70,6 +70,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
+import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 
@@ -522,11 +523,16 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.aboutview, null);
       ((TextView)view.findViewById(R.id.aboutVersionCode)).setText(getVersionInfo());
-      ((TextView)view.findViewById(R.id.help_heading_news)).setMovementMethod(LinkMovementMethod.getInstance());
-      ((TextView)view.findViewById(R.id.help_heading_faq)).setMovementMethod(LinkMovementMethod.getInstance());
-      ((TextView)view.findViewById(R.id.help_heading_privacy_policy)).setMovementMethod(LinkMovementMethod.getInstance());
-      ((TextView)view.findViewById(R.id.help_heading_changelog)).setMovementMethod(LinkMovementMethod.getInstance());
-      ((TextView)view.findViewById(R.id.help_heading_credits)).setMovementMethod(LinkMovementMethod.getInstance());
+      String [] tags = { "news", "faq", "privacy", "changelog", "credits" };
+      TextView tv;
+      for (String tag : tags) {
+       tv = (TextView) view.findViewWithTag(tag);
+       tv.setText(Html.fromHtml(
+           "<a href=\"http://myexpenses.totschnig.org/#" + tag + "\">" + 
+           getString(getResources().getIdentifier("help_heading_" + tag, "string", getPackageName()))  + "</a>"
+       ));
+       tv.setMovementMethod(LinkMovementMethod.getInstance());
+      }
       ((TextView)view.findViewById(R.id.help_licence_gpl)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_whats_new)).setMovementMethod(LinkMovementMethod.getInstance());

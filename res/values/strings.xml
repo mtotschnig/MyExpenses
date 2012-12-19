@@ -17,8 +17,6 @@
 <!DOCTYPE resources [
   <!ENTITY app_name "My Expenses">
   <!ENTITY grisbi_file "grisbi.xml">
-  <!ENTITY privacy_policy "Privacy policy">
-  <!ENTITY credits "Credits">
 ]>
 <resources>
   <string name="account">Account</string>
@@ -77,7 +75,9 @@
     If you find a problem, have a suggestion for an improvement, or would like to contribute, please
     contact <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
   <!-- Titles in the help screen. -->
+  <string name="help_heading_credits">Credits</string>
   <string name="help_heading_license">License</string>
+  <string name="help_heading_privacy">Privacy policy</string>
   <string name="help_heading_quick_guide">Quick guide</string>
   <string name="help_heading_whats_new">What\'s new</string>
   <!-- The first line in the help screen. -->
@@ -259,7 +259,7 @@
   <string name="warning_reset_account">All transactions of this account will be exported into QIF file 
       on SD-card and deleted. Do you want to continue?</string>
   <string name="warning_select_account">Please select an account!</string>
-  
+
   <!-- strings below this comment do not need translations -->
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 
@@ -268,11 +268,9 @@
       http://code.google.com/p/simple-quickactions/ , licenced under 
       http://www.opensource.org/licenses/bsd-license.php .</string>
   <string name="help_enjoy"><u>Enjoy!</u></string>
-  <string name="help_heading_news"><a href="http://myexpenses.totschnig.org/#news">News</a></string>
-  <string name="help_heading_faq"><a href="http://myexpenses.totschnig.org/#faq">FAQ</a></string>
-  <string name="help_heading_privacy_policy"><a href="http://myexpenses.totschnig.org/#privacy">&privacy_policy;</a></string>
-  <string name="help_heading_changelog"><a href="http://myexpenses.totschnig.org/#changelog">Changelog</a></string>
-  <string name="help_heading_credits"><a href="http://myexpenses.totschnig.org/#credits">&credits;</a></string>
+  <string name="help_heading_news">News</string>
+  <string name="help_heading_faq">FAQ</string>
+  <string name="help_heading_changelog">Changelog</string>
   
   <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
   <string name="pref_use_standard_menu_key">use_standard_menu</string>
