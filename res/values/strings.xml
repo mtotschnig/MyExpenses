@@ -50,6 +50,11 @@
   <string name="dialog_title_select_method">Pick a payment method</string>
   <string name="dialog_title_select_type">Pick a type</string>
   <string name="dialog_title_template_title">Set the title</string>
+  <string name="donate">Donate</string>
+  <string name="donate_dialog_text">If you appreciate <i>&app_name;</i> and would like to make
+      a contribution, you can donate via PayPal. <a href="http://myexpenses.totschnig.org/#donate">Learn more</a>.\n
+      \nThank you for your support!</string>
+  <string name="donate_positive_button">I feel generous</string>
   <string name="edit_category">Edit category</string>
   <string name="expense">expense</string>
   <string name="export_expenses_outputfile_exists">Output file already exists. Please wait one
@@ -58,6 +63,7 @@
   <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
   <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
   <string name="external_storage_unavailable">External storage (sdcard)not available</string>
+  <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
   <string name="ftp_uri_malformed">Malformed URI %1$s</string>
   <!-- used from the user guide -->
   <string name="go_to_chapter">Go to chapter</string>

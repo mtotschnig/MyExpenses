@@ -33,4 +33,6 @@
     <item type="id" name="HELP_DIALOG_ID" />
     <item type="id" name="NEW_FROM_TEMPLATE_COMMAND" />
     <item type="id" name="MORE_ACTION_COMMAND" />
+    <item type="id" name="DONATE_COMMAND" />
+    <item type="id" name="FEEDBACK_COMMAND" />
 </resources>

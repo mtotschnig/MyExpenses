@@ -51,6 +51,11 @@
   <string name="dialog_title_select_method">Zahlungsweise auswählen</string>
   <string name="dialog_title_select_type">Typ auswählen</string>
   <string name="dialog_title_template_title">Titel festlegen</string>
+  <string name="donate">Spenden</string>
+  <string name="donate_dialog_text">Wenn <i>&app_name;</i> Ihnen nützlich ist, und Sie einen
+      Beitrag leisten möchten, können Sie mittels PayPal spenden.
+      <a href="http://myexpenses.totschnig.org/#donate">Mehr erfahren</a> \n\n Vielen Dank!</string>
+  <string name="donate_positive_button">I</string>
   <string name="edit_category">Kategorie verändern</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten 
@@ -60,6 +65,7 @@
   <string name="export_expenses_sdcard_success">Ausgaben in Datei %1$s exportiert</string>
   <string name="external_storage_unavailable">Externer Speicher (SD Karte) is nicht
       verfügbar</string>
+  <string name="feedback_email_message">Senden Sie Ihr Feedback, bitte auf Deutsch, Englisch oder Französisch!</string>
   <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
   <string name="go_to_chapter">Zu Kapitel springen</string>
   <string name="grisbi_file">&grisbi_file;</string>

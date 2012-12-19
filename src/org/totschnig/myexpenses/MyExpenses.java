@@ -102,8 +102,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   static final int TEMPLATE_TITLE_DIALOG_ID = 8;
   static final int SELECT_TEMPLATE_DIALOG_ID = 9;
   static final int MORE_ACTIONS_DIALOG_ID = 10;
+  static final int DONATE_DIALOG_ID = 11;
   
   static final String HOST = "myexpenses.totschnig.org";
+  static final String FEEDBACK_EMAIL = "michael@totschnig.org";
 
   private String mVersionInfo;
   private ArrayList<Action> mMoreItems;
@@ -283,7 +285,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     mHelpButton.addItem(R.string.tutorial,R.id.WEB_COMMAND,"tutorial_r4");
     mHelpButton.addItem("News",R.id.WEB_COMMAND,"news");
     mHelpButton.addItem(R.string.menu_faq,R.id.WEB_COMMAND,"faq");
-    mHelpButton.addItem(R.string.menu_changes,R.id.WEB_COMMAND,"changelog");
+    mHelpButton.addItem(R.string.donate,R.id.DONATE_COMMAND);
+    mHelpButton.addItem("Feedback",R.id.FEEDBACK_COMMAND);
     mButtonBarIsFilled = true;
   }
   @Override
@@ -528,7 +531,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       for (String tag : tags) {
        tv = (TextView) view.findViewWithTag(tag);
        tv.setText(Html.fromHtml(
-           "<a href=\"http://myexpenses.totschnig.org/#" + tag + "\">" + 
+           "<a href=\"" + "http://" + HOST + "/#" + tag + "\">" + 
            getString(getResources().getIdentifier("help_heading_" + tag, "string", getPackageName()))  + "</a>"
        ));
        tv.setMovementMethod(LinkMovementMethod.getInstance());
@@ -549,8 +552,16 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .setIcon(R.drawable.icon)
         .setView(view)
         .setNegativeButton(android.R.string.ok, null)
-        .setPositiveButton("Donate",null)
-        .setNeutralButton("Feedback", null).create();
+        .setPositiveButton("Donate",new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            dispatchCommand(R.id.DONATE_COMMAND,null);
+          }
+        })
+        .setNeutralButton("Feedback", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            dispatchCommand(R.id.FEEDBACK_COMMAND,null);
+          }
+        }).create();
     case VERSION_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.versiondialog, null);
@@ -697,6 +708,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         count++;
       }
       return new AlertDialog.Builder(this)
+      //TODO: tranlate More
       .setTitle("More...")
       .setSingleChoiceItems(moreTitles, -1,new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int item) {
@@ -711,6 +723,24 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         }
       })
       .create();
+    case DONATE_DIALOG_ID:
+      AlertDialog.Builder builder = new AlertDialog.Builder(this)
+      .setTitle(R.string.donate)
+      .setMessage(R.string.donate_dialog_text)
+      .setIcon(R.drawable.paypal)
+      .setPositiveButton(R.string.donate_positive_button,new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int whichButton) {
+          Intent i = new Intent(Intent.ACTION_VIEW);
+          i.setData(Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KPXNZHMXJE8ZJ"));
+          startActivity(i);
+        }
+      })
+      .setNegativeButton(android.R.string.cancel,null);
+      AlertDialog d = builder.create();
+      d.show();
+      // Make the textview clickable. Must be called after show()
+      ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+      return d;
     }    
     return null;
   }
@@ -1150,6 +1180,20 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     switch (command) {
+    case R.id.FEEDBACK_COMMAND:
+      i = new Intent(android.content.Intent.ACTION_SEND);
+      i.setType("plain/text");
+      i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ FEEDBACK_EMAIL });
+      i.putExtra(android.content.Intent.EXTRA_SUBJECT,
+          "[" + getString(R.string.app_name) + 
+          getVersionInfo() + "] Feedback"
+      );
+      i.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.feedback_email_message));
+      startActivity(i);
+      break;
+    case R.id.DONATE_COMMAND:
+      showDialog(DONATE_DIALOG_ID);
+      break;
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
       break;
