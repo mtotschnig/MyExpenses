@@ -71,6 +71,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 import android.text.Html;
+import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 
@@ -735,24 +736,24 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       })
       .create();
     case DONATE_DIALOG_ID:
-      AlertDialog.Builder builder = new AlertDialog.Builder(this)
-      .setTitle(R.string.donate)
-      .setMessage(R.string.donate_dialog_text)
-      .setIcon(R.drawable.paypal)
-      .setPositiveButton(R.string.donate_positive_button,new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-          Intent i = new Intent(Intent.ACTION_VIEW);
-          i.setData(Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KPXNZHMXJE8ZJ"));
-          startActivity(i);
-        }
-      })
-      .setNegativeButton(android.R.string.cancel,null);
-      AlertDialog d = builder.create();
-      d.show();
-      // Make the textview clickable. Must be called after show()
-      ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
-      return d;
-    }    
+      li = LayoutInflater.from(this);
+      view = li.inflate(R.layout.donatedialog, null);
+      ((TextView)view.findViewById(R.id.donate_dialog_text)).setMovementMethod(LinkMovementMethod.getInstance());
+
+      return new AlertDialog.Builder(this)
+       .setTitle(R.string.donate)
+       .setIcon(R.drawable.paypal)
+       .setPositiveButton(R.string.donate_positive_button,new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KPXNZHMXJE8ZJ"));
+            startActivity(i);
+          }
+       })
+       .setNegativeButton(android.R.string.cancel,null)
+       .setView(view)
+       .create();
+     }
     return null;
   }
  
