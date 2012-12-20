@@ -548,7 +548,7 @@ public class ExpensesDbAdapter {
     return mDb.query(DATABASE_TABLE,
         new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, 
             KEY_CATID,FULL_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID}, 
-        "account_id = " + account_id, null, null, null, KEY_DATE);
+        "account_id = " + account_id, null, null, null, KEY_DATE + " DESC");
   }
 
   /**
