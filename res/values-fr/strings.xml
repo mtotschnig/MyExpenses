@@ -188,6 +188,8 @@
   <string name="pm_type_credit">Crédit</string>
   <string name="peer_transaction_deleted">Cette transaction était liée à une autre (compte %1$s) qui
       a été supprimée</string>
+  <string name="pref_account_button_behaviour_title">Fonctionnement du bouton \"Comptes\"</string>
+  <string name="pref_account_button_behaviour_summary">Au lieu de traverser tous les comptes, le bouton \"Comptes\" peut alterner entrer les deux derniers comptes utilisés.</string>
   <string name="pref_backup_title">Sauvegarde</string>
   <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences
       sur la carte SD.</string>
@@ -220,6 +222,8 @@
   <string name="pref_perform_share_title">Envoyer le fichier d\'export QIF</string>
   <string name="pref_perform_share_summary">Voulez vous envoyer le fichier QIF après chaque export
   </string>
+  <string name="pref_qif_export_file_encoding_title">Encodage du fichier QIF</string>
+  <string name="pref_qif_export_file_encoding_summary">Choississez \"ISO-8859-1\" si vous utiliséz MS Money</string>
   <string name="pref_share_target_title">URL où sera téléchargé le fichier QIF</string>
   <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les 
       apps appropriées pour le transfer du fichier (Email, Dropbox, Google Docs, &#8230;), sinon
@@ -239,6 +243,7 @@
   <string name="select_parent_category">Choisir cette catégorie</string>
   <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
   <string name="share_sending">Envoyer fichier QIF</string>
+  <string name="switch_account">Basculé vers compte \"%1$s\"</string>
   <string name="suggest_use_standard_menu">Voulez-vous utiliser le menu standard Android pour
       appeler des commandes, et de cacher la barre de boutons?</string>
   <string name="template_create_success">Modèle \"%1$s\" crée avec succès</string>
