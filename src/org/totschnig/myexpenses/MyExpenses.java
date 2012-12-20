@@ -93,7 +93,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public static final boolean ACCOUNT_BUTTON_TOGGLE = true;
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
-  static final int VERSION_DIALOG_ID = 2;
   static final int RESET_DIALOG_ID = 3;
   static final int BACKUP_DIALOG_ID = 4;
   static final int ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID = 5;
@@ -521,13 +520,13 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   protected Dialog onCreateDialog(final int id) {
     LayoutInflater li;
     View view;
+    TextView tv;
     switch (id) {
     case R.id.HELP_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.aboutview, null);
       ((TextView)view.findViewById(R.id.aboutVersionCode)).setText(getVersionInfo());
       String [] tags = { "news", "faq", "privacy", "changelog", "credits" };
-      TextView tv;
       for (String tag : tags) {
        tv = (TextView) view.findViewWithTag(tag);
        tv.setText(Html.fromHtml(
@@ -552,7 +551,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .setIcon(R.drawable.icon)
         .setView(view)
         .setNegativeButton(android.R.string.ok, null)
-        .setPositiveButton("Donate",new DialogInterface.OnClickListener() {
+        .setPositiveButton(R.string.donate,new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
             dispatchCommand(R.id.DONATE_COMMAND,null);
           }
@@ -562,20 +561,32 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             dispatchCommand(R.id.FEEDBACK_COMMAND,null);
           }
         }).create();
-    case VERSION_DIALOG_ID:
+    case R.id.VERSION_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.versiondialog, null);
-      TextView versionInfo= (TextView) view.findViewById(R.id.versionInfo);
-      versionInfo.setText(mVersionInfo);
+      ((TextView) view.findViewById(R.id.versionInfoChanges))
+        .setText(R.string.help_whats_new);
+      if (mVersionInfo != "") {
+        tv = (TextView) view.findViewById(R.id.versionInfoImportant);
+        tv.setText(mVersionInfo);
+        tv.setVisibility(View.VISIBLE);
+        ((TextView) view.findViewById(R.id.versionInfoImportantHeading)).setVisibility(View.VISIBLE);
+      }
       return new AlertDialog.Builder(this)
-        .setTitle(R.string.important_version_information)
+        .setTitle(getString(R.string.new_version) + " : " + getVersionName())
         .setIcon(R.drawable.icon)
         .setView(view)
-        .setNeutralButton(R.string.button_continue, new DialogInterface.OnClickListener() {
+        .setPositiveButton(R.string.donate,new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            dispatchCommand(R.id.DONATE_COMMAND,null);
+          }
+        })
+        .setNeutralButton(R.string.menu_help, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
             showDialog(R.id.HELP_DIALOG_ID);
           }
         })
+        .setNegativeButton(android.R.string.ok,null)
         .create();
     case RESET_DIALOG_ID:
       return new AlertDialog.Builder(this)
@@ -968,16 +979,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     //i.putExtra("operationType", operationType);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
-  
-  /**
-   * this dialog is shown, when a new version requires to present
-   * specific information to the user
-   * @param info a String presented to the user in an AlertDialog
-   */
-  private void openVersionDialog(String info) {
-    mVersionInfo = info;
-    showDialog(VERSION_DIALOG_ID);
-  }
 
   /**
    * if there are already accounts defined, return the first one
@@ -1017,6 +1018,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    * also is used for hooking version specific upgrade procedures
    */
   public void newVersionCheck() {
+    mVersionInfo = "";
     Editor edit = mSettings.edit();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     int current_version = getVersionNumber();
@@ -1035,8 +1037,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mSettings.getInt(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0)).commit();
         String non_conforming = checkCurrencies();
         if (non_conforming.length() > 0 ) {
-          openVersionDialog(getString(R.string.version_14_upgrade_info,non_conforming));
-          return;
+          mVersionInfo += getString(R.string.version_14_upgrade_info,non_conforming) + "\n";
         }
       }
       if (prev_version < 19) {
@@ -1046,7 +1047,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         edit.commit();
       }
       if (prev_version < 26) {
-        openVersionDialog(getString(R.string.version_26_upgrade_info));
+        mVersionInfo += getString(R.string.version_26_upgrade_info) + "\n";;
         return;
       }
       if (prev_version < 28) {
@@ -1070,8 +1071,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           }
         }
       }
+      if (prev_version < 34) {
+        mVersionInfo += getString(R.string.version_34_upgrade_info);
+      }
     }
-    showDialog(R.id.HELP_DIALOG_ID);
+    showDialog(R.id.VERSION_DIALOG_ID);
     return;
   }
   /**
@@ -1144,7 +1148,19 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     }
     return versionname + version  + versiontime;
   }
-
+  /**
+   * @return version number (versionCode)
+   */
+  public String getVersionName() {
+    String version = "";
+    try {
+      PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+      version = pi.versionName;
+    } catch (Exception e) {
+      Log.e("MyExpenses", "Package name not found", e);
+    }
+    return version;
+  }
   /**
    * @return version number (versionCode)
    */
@@ -1186,7 +1202,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ FEEDBACK_EMAIL });
       i.putExtra(android.content.Intent.EXTRA_SUBJECT,
           "[" + getString(R.string.app_name) + 
-          getVersionInfo() + "] Feedback"
+          getVersionName() + "] Feedback"
       );
       i.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.feedback_email_message));
       startActivity(i);

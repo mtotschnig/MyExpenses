@@ -14,15 +14,29 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
+ <ScrollView android:id="@+id/aboutscrollview" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-      <TextView android:id="@+id/versionInfo"
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:paddingLeft="15px"
-        android:textStyle="bold"
-        android:textColor="#ffffff"
-        android:textSize="18sp" />
+       <TextView android:text="@string/help_heading_whats_new"
+        style="@style/about_heading" />
+      <TextView android:id="@+id/versionInfoChanges"
+          style="@style/about_text"/>
+      <TextView android:id="@+id/versionInfoImportantHeading"
+          android:text="@string/important_version_information"
+          style="@style/about_heading"
+          android:visibility="gone"/>
+      <TextView android:id="@+id/versionInfoImportant"
+          android:visibility="gone"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:paddingLeft="15px"
+	        android:textStyle="bold"
+	        android:textColor="#ffffff"
+	        android:textSize="18sp" />
 </LinearLayout>
+</ScrollView>

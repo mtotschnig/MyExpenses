@@ -32,7 +32,6 @@
   <string name="button_continue">Continue</string>
   <string name="category_already_defined">Category %1$s already defined</string>
   <string name="category">Category</string>
-  <string name="close">Close</string>
   <string name="comment">Notes</string>
   <string name="create_category">Create new category</string>
   <string name="currency">Currency</string>
@@ -109,10 +108,11 @@
       - <b>Help</b> : Quick access to Tutorial, News, FAQ and Changes.\n
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
-  <string name="help_whats_new"> - Create transactions from templates\n
+  <string name="help_whats_new">&#160;- Create transactions from templates\n
       - Character encoding of exported QIF file configurable to support MS Money\n
       - User interface improvements</string>
-  <string name="important_version_information">New version: Important information</string>
+  <string name="new_version">New version</string>
+  <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">income</string>
   <string name="invalid_number_format">Decimal format not regognized by your locale. Please use
@@ -295,4 +295,5 @@
   </string>
   <string name="version_32_upgrade_info">You have configured an FTP url as share target.
       <i>&app_name;</i> no longer handles FTP transfers on its own.</string>
+  <string name="version_34_upgrade_info">Now you can support the continued development of <i>&app_name;</i> through your donation.</string>
 </resources>

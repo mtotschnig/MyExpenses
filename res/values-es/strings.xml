@@ -32,7 +32,6 @@
   <string name="button_continue">Continuar</string>
   <string name="category">Categoría</string>
   <string name="category_already_defined">Categoría %1$s ya existe.</string>
-  <string name="close">Cerrar</string>
   <string name="comment">Apuntes</string>
   <string name="create_category">Nueva categoría</string>
   <string name="currency">Moneda</string>
