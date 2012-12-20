@@ -62,7 +62,7 @@ public class TransactionTest extends TestCase {
     Assert.assertEquals(mAccount1.getCurrentBalance().getAmountMinor().longValue(), start+amount);
     Template t = new Template(op1,"Template");
     t.save();
-    Transaction op2  = Transaction.getInstanceFromTemplate(t);
+    Transaction op2  = Transaction.getInstanceFromTemplate(t.id);
     op2.save();
     Assert.assertEquals(mAccount1.getCurrentBalance().getAmountMinor().longValue(), start+2*amount);
   }

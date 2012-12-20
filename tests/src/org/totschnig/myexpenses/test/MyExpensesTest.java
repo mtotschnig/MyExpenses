@@ -69,8 +69,8 @@ public class MyExpensesTest extends
     mAdapter = mActivity.getListAdapter();
     solo = new Solo(mInstrumentation, getActivity());
     //Help dialog opened
-    assertTrue(solo.searchText(mActivity.getString(R.string.menu_help)));
-    solo.clickOnButton(mActivity.getString(R.string.close));
+    assertTrue(solo.searchText(mActivity.getString(android.R.string.ok)));
+    solo.clickOnButton(mActivity.getString(android.R.string.ok));
     assertTrue(mAdapter != null);
     assertEquals(0,mAdapter.getCount());
     //reset should not be visible
@@ -96,7 +96,7 @@ public class MyExpensesTest extends
     //  throw new Exception();
     //solo.pressMenuItem(0);
     solo.clickLongOnText(mActivity.getString(R.string.menu_accounts));
-    solo.clickOnText(mActivity.getString(R.string.menu_accounts_new));    
+    solo.clickOnButton(mActivity.getString(android.R.string.ok)); 
     solo.enterText((EditText) solo.getView(R.id.Label),"Testing account");
     solo.enterText((EditText) solo.getView(R.id.Description),"Created with Robotium");
     solo.enterText((EditText) solo.getView(R.id.Amount),"456.59");
