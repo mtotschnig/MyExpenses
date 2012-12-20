@@ -126,6 +126,7 @@ public class MethodEdit extends Activity {
            /* Create a Button to be the row-content. */
       tv = new TextView(this);
       tv.setText(accountType.getDisplayName(this));
+      tv.setTextAppearance(this, R.style.form_label);
       cb = new CheckBox(this);
       cb.setTag(accountType);
       cb.setChecked(mMethod.isValidForAccountType(accountType));

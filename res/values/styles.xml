@@ -49,6 +49,9 @@
     <item name="android:textStyle">bold</item>
     <item name="android:textSize">18sp</item>
   </style>
+  <style name="form_label">
+      <item name="android:textStyle">bold</item>
+  </style>
   <!-- this is the generic button, we use when we have plenty of space -->
   <style name="button">
      <item name="android:layout_width">wrap_content</item>

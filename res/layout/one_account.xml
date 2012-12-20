@@ -32,7 +32,8 @@
         android:background="@drawable/border">      
 
       <TableRow>
-        <TextView android:text="@string/label" />
+        <TextView style="@style/form_label"
+            android:text="@string/label" />
         <EditText
             android:layout_span="2"
             android:id="@+id/Label" 
@@ -41,7 +42,8 @@
       </TableRow>
 
       <TableRow>
-        <TextView android:text="@string/description" />
+        <TextView style="@style/form_label"
+            android:text="@string/description" />
         <EditText
             android:layout_span="2"
             android:id="@+id/Description" 
@@ -50,7 +52,8 @@
       </TableRow>
       
       <TableRow>
-        <TextView android:id="@+id/OpeningBalanceLabel"/>
+        <TextView style="@style/form_label"
+            android:id="@+id/OpeningBalanceLabel"/>
          <EditText
              android:layout_span="2"
              android:id="@+id/Amount" 
@@ -59,7 +62,8 @@
       </TableRow>
       
       <TableRow>
-      <TextView android:text="@string/currency" />
+          <TextView style="@style/form_label"
+              android:text="@string/currency" />
 	        <AutoCompleteTextView 
 	            android:completionThreshold="1" 
 	            android:id="@+id/Currency" 
@@ -69,8 +73,9 @@
               android:id="@+id/Select" 
               android:text="@string/select" />
       </TableRow>
-            <TableRow>
-        <TextView android:text="@string/type" />
+      <TableRow>
+        <TextView style="@style/form_label"
+            android:text="@string/type" />
           <Button 
               android:layout_span="2"
               android:layout_width="wrap_content" 

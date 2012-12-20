@@ -31,18 +31,20 @@
         android:shrinkColumns="1" 
         android:background="@drawable/border">
       <TableRow>
-        <TextView
+        <TextView style="@style/form_label"
             android:text="@string/date"/>
         <Button android:id="@+id/Date" android:text="@string/select" />
       </TableRow>
         
       <TableRow>
-        <TextView android:text="@string/time"/>
+        <TextView style="@style/form_label"
+            android:text="@string/time"/>
         <Button android:id="@+id/Time" android:text="@string/select" />
       </TableRow>
         
       <TableRow>
-        <TextView android:id="@+id/AmountLabel"/>
+        <TextView style="@style/form_label"
+            android:id="@+id/AmountLabel"/>
         <LinearLayout
             android:orientation="horizontal">
           <Button 
@@ -58,7 +60,8 @@
       </TableRow>
         
       <TableRow>
-        <TextView android:text="@string/comment" />
+        <TextView style="@style/form_label"
+            android:text="@string/comment" />
         <EditText 
             android:id="@+id/Comment"
             android:singleLine="true"
@@ -67,12 +70,14 @@
       </TableRow>
         
       <TableRow>
-        <TextView android:id="@+id/CategoryLabel" android:text="@string/category" />
+        <TextView style="@style/form_label"
+            android:id="@+id/CategoryLabel" android:text="@string/category" />
         <Button android:id="@+id/Category" android:text="@string/select" />
       </TableRow>
         
       <TableRow android:id="@+id/PayeeRow">
-        <TextView android:id="@+id/PayeeLabel" android:text="@string/payee" />
+        <TextView style="@style/form_label"
+            android:id="@+id/PayeeLabel" android:text="@string/payee" />
         <AutoCompleteTextView 
             android:completionThreshold="1" 
             android:id="@+id/Payee" 
@@ -81,7 +86,8 @@
       </TableRow>
       
       <TableRow android:id="@+id/MethodRow">
-      <TextView android:id="@+id/MethodLabel" android:text="@string/method" />
+      <TextView style="@style/form_label"
+          android:id="@+id/MethodLabel" android:text="@string/method" />
         <Button android:id="@+id/Method" android:text="@string/select" />
       </TableRow>
     </TableLayout>

@@ -32,7 +32,8 @@
         android:background="@drawable/border">      
 
       <TableRow>
-        <TextView android:text="@string/label" />
+        <TextView style="@style/form_label"
+            android:text="@string/label" />
         <EditText
             android:layout_span="2"
             android:id="@+id/Label" 
@@ -40,12 +41,13 @@
             android:layout_height="wrap_content" />
       </TableRow>
       <TableRow>
-        <TextView android:text="@string/type" />
-          <Button 
-              android:layout_width="wrap_content" 
-              android:layout_height="wrap_content" 
-              android:id="@+id/TaType" 
-              android:text="@string/pm_type_neutral" />
+        <TextView style="@style/form_label"
+            android:text="@string/type" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/TaType"
+            android:text="@string/pm_type_neutral" />
       </TableRow>      
       </TableLayout>
   </ScrollView>
