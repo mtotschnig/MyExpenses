@@ -101,7 +101,7 @@
         \"/sdcard/myexpenses/&grisbi_file;\".
   </string>
   <string name="import_categories">Importar categorías</string>
-  <string name="important_version_information">Nueva versión: Información importante</string>
+  <string name="important_version_information">Información importante</string>
   <string name="income">ingreso</string>
   <string name="invalid_number_format">Formato de número no es compatible con su configuración
       regional. Por favor, utilice %1$s</string>
@@ -140,6 +140,7 @@
   <string name="menu_settings_account">Cuenta actual</string>
   <string name="menu_show_detail">Ver los detalles</string>
   <string name="method">Método</string>
+  <string name="new_version">Nueva versión</string>
   <string name="no_accounts">Ningunas cuentas</string>
   <string name="no_app_handling_email_available">No se ha encontrado aplicación para enviar correo
       electrónico.</string>

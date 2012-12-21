@@ -50,6 +50,11 @@
   <string name="dialog_title_select_method">Sélectionner un paiement</string>
   <string name="dialog_title_select_type">Sélectionner un type</string>
   <string name="dialog_title_template_title">Définir le tire</string>
+  <string name="donate">Don</string>
+  <string name="donate_dialog_text">Si <i>&app_name;</i> vous est utile et vous aimeriez contribuer,
+      faites un don au moyen de PayPal. <a href="http://myexpenses.totschnig.org/#donate">Apprenez plus</a>.\n
+      \nMerci pour votre soutien!</string>
+  <string name="donate_positive_button">Je fais parti</string>
   <string name="edit_category">Éditer la catégorie</string>
   <string name="expense">dépense</string>
   <string name="export_expenses_outputfile_exists">Le fichier d\'export existe déjà. Attendez une
@@ -61,6 +66,7 @@
       %1$s</string>
   <string name="external_storage_unavailable">Le stockage externe (carte SD) n\'est pas
       disponible</string>
+  <string name="feedback_email_message">Envoyez votre feedback, en français, anglais ou allemand, s.v.p.!</string>
   <string name="ftp_uri_malformed">Mauvaise syntaxe de l\'URI %1$s</string>
   <string name="go_to_chapter">Allez au chapitre</string>
   <string name="grisbi_file">&grisbi_file;</string>
@@ -72,10 +78,6 @@
   <string name="grisbi_import_categories_loading">Import des catégories à partir de %1$s</string>
   <string name="grisbi_import_categories_success">%1$s catégories ont été importées</string>
   <string name="grisbi_import_parties_loading">Import des tiers à partir de %1$s</string>
-  <string name="help_feedback">Si <i>&app_name;</i> vous est utile, laissez un commentaire dans le
-      <a href="market://details?id=org.totschnig.myexpenses">Market</a>. Si vous rencontrez un
-      problème, si vous avez une suggestion pour une amélioration, ou si vous désirez contribuer,
-      contactez <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
   <string name="help_heading_credits">Générique</string>
   <string name="help_heading_license">Licence</string>
   <string name="help_heading_privacy">Règles de confidentialité</string>
@@ -107,7 +109,7 @@
       - Encodage de l\'export QIF configurable en vue de compatibilté avec MS Money\n
       - Améliorations de l\'interface usager</string>
   <string name="import_categories">Importer les catégories</string>
-  <string name="important_version_information">Nouvelle version: Information importante</string>
+  <string name="important_version_information">Information importante</string>
   <string name="income">revenu</string>
   <string name="invalid_number_format">Format de nombre non reconnu. Utilisez %1$s</string>
   <string name="label">Intitulé</string>
@@ -148,6 +150,7 @@
   <string name="menu_settings_account">Compte en cours</string>
   <string name="menu_show_detail">Afficher les détails</string>
   <string name="method">Méthode</string>
+  <string name="new_version">Nouvelle version</string>
   <string name="no_accounts">Aucun compte!</string>
   <string name="no_app_handling_email_available">Aucune application disponible pour envoyer un
       e-mail.</string>
@@ -272,4 +275,5 @@
       l\'écran des paramètres.</string>
   <string name="version_32_upgrade_info">Vous avez configuré une URL FTP comme cible pour le téléchargement. 
       <i>&app_name;</i> ne gère plus les téléchargements par FTP.</string>
+  <string name="version_34_upgrade_info">Maintenant, vous pouvez soutenir le développement continu de <i>&app_name;</i> en faisant un don.</string>
 </resources>

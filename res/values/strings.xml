@@ -62,7 +62,6 @@
   <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
   <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
   <string name="external_storage_unavailable">External storage (sdcard)not available</string>
-  <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
   <string name="ftp_uri_malformed">Malformed URI %1$s</string>
   <!-- used from the user guide -->
   <string name="go_to_chapter">Go to chapter</string>
@@ -75,10 +74,6 @@
   <string name="grisbi_import_categories_success">%1$s categories imported successfully</string>
   <string name="grisbi_import_parsing">Parsing %1$s</string>
   <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
-  <string name="help_feedback">If you find <i>&app_name;</i> useful, 
-    please leave a comment in the <a href="market://details?id=org.totschnig.myexpenses">Market</a>. 
-    If you find a problem, have a suggestion for an improvement, or would like to contribute, please
-    contact <a href="mailto:michael@totschnig.org">Michael Totschnig</a>.</string>
   <!-- Titles in the help screen. -->
   <string name="help_heading_credits">Credits</string>
   <string name="help_heading_license">License</string>
@@ -111,7 +106,6 @@
   <string name="help_whats_new">&#160;- Create transactions from templates\n
       - Character encoding of exported QIF file configurable to support MS Money\n
       - User interface improvements</string>
-  <string name="new_version">New version</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">income</string>
@@ -158,6 +152,7 @@
   <string name="menu_settings_account">Current account</string>
   <string name="menu_show_detail">Show details</string>
   <string name="method">Method</string>
+  <string name="new_version">New version</string>
   <string name="no_accounts">No Accounts!</string>
   <string name="no_app_handling_email_available">No app handling email available.</string>
   <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i> from Google Play?</string>
@@ -195,7 +190,8 @@
   <string name="peer_transaction_deleted">This transaction referred to a contra-entry (account %1$s)
       that has been deleted</string>
   <string name="pref_account_button_behaviour_title">Behaviour of \"Accounts\" button</string>
-  <string name="pref_account_button_behaviour_summary">Should the \"Accounts\" button toggle between the last two accounts instead of cycling between all.</string>
+  <string name="pref_account_button_behaviour_summary">Should the \"Accounts\" button toggle
+      between the last two accounts instead of cycling between all.</string>
   <string name="pref_backup_title">Backup</string>
   <string name="pref_backup_summary">Create a backup of database and preferences on the
       sdcard.</string>
@@ -287,6 +283,7 @@
   <string name="pref_qif_export_file_encoding_key">qif_export_file_encoding</string>
     
   <!-- strings below this comment do not need translations for new languages -->
+  <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
   <string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with 
       their code defined in ISO 4217. The following currency symbols currently used for your
       accounts, need to be fixed: %1$s </string>
