@@ -3,7 +3,7 @@
   <head>
     {% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
     {% capture pagetitle %}{% if page.title %}{{page.title}}{% else %}{{site.sections[page.section]["title"][pagelang]}}{% endif %}{% endcapture %}
-    <title>{% if page.metatitle %}{{page.metatitle}}{% else %}{{site.title[pagelang]}} {{page.title}}{% endif %}</title>
+    <title>{% if page.metatitle %}{{page.metatitle}}{% else %}{{site.title[pagelang]}} {{pagetitle}}{% endif %}</title>
     <link rel="stylesheet" href="/css/styles.css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     {% if page.metadescription %}<meta name="description" content="{{page.metadescription}}"/> {% endif %}
