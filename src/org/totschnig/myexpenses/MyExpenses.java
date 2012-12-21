@@ -1031,6 +1031,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
 
       edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
+      showDialog(R.id.HELP_DIALOG_ID);
     } else if (prev_version != current_version) {
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
       if (prev_version < 14) {
@@ -1075,9 +1076,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       if (prev_version < 34) {
         mVersionInfo += getString(R.string.version_34_upgrade_info);
       }
+      showDialog(R.id.VERSION_DIALOG_ID);
     }
-    showDialog(R.id.VERSION_DIALOG_ID);
-    return;
   }
   /**
    * this utility function was used to check currency upon upgrade to version 14
