@@ -54,6 +54,8 @@ sections:
     url: donate.xhtml
     title:
       en: Donate
+      de: Spende
+      es: Donación
   screenshots:
     weight: 6
     url: screenshots.xhtml
