@@ -85,22 +85,22 @@
   <string name="help_leading">Grazie di probare <i>&app_name;</i> por Android.</string>
   <string name="help_quick_guide"><i>&app_name;</i> è dotato di due interfacce di comando: una barra
       dei  pulsanti e il menu standard di Android (pulsante hardware Menu). È possibile impostare
-      quale usare nella schermata di parametri. I pulsanti nella barra dei pulsanti eseguono 
+      quale usare nella schermata di impostazioni. I pulsanti nella barra dei pulsanti eseguono 
       i seguenti azioni con un clico breve:\n\n
       - <b>Nuovo</b> : aggiungere un operazione.\n
       - <b>Conti</b> : cambiare di un conto a un altro.\n
       - <b>Reset</b> : esporta tutte le operazioni sulla scheda SD nel formato QIF, 
       elimina le spese e aggiorna il bilancio di apertura.\n
-      - <b>Parametri</b> : da accesso a tutte le impostazioni e funzioni amministrative 
+      - <b>Impostazioni</b> : da accesso a tutte le impostazioni e funzioni amministrative 
       (dei conti, categorie, riceventi, metodi di pagamento, modelli, i backup, importazioni).\n
       - <b>Aiuto</b> apre questa schermata di aiuto.\n
-      \nAlcuni pulsanti (indicato per un triangolo nell\'angolo destro di sopra aprono 
+      \nAlcuni pulsanti (indicato per un triangolo nell\'angolo destro di sopra) aprono 
       un menu a discesa con un clico più lungo:\n\n
       - <b>Nuovo</b> : <b>Trasferimento</b> consente creare un trasferimento di un conto a un altro
       (devono essere della stessa valuta). Anche enumera modelli disponibili i quali può usare 
       (Modelli possono essere creati nell\'elenco dei menu di contesto delle operazioni)\n
       - <b>Conti</b> : enumera tutti i conti ai quali può cambiare. <b>Nuovo &#8230;</b> aggiungere un conto.\n
-      - <b>Parametri</b> : Accesso rapido al backup e agli impostazioni del conto attuale.\n
+      - <b>Impostazioni</b> : Accesso rapido al backup e agli impostazioni del conto attuale.\n
       - <b>Aiuto</b> : accesso rapido al manuale, News et FAQ.\n
       \nPer favore visita il <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuale</a>
       per avere ulteriori esplicazioni.</string>
@@ -144,8 +144,8 @@
   <string name="menu_move_transaction">Spostare</string>
   <string name="menu_reset">Reinitializare</string>
   <string name="menu_reset_abrev">Reinit.</string>
-  <string name="menu_settings">Parametri</string>
-  <string name="menu_settings_abrev">Param.</string>
+  <string name="menu_settings">Impostazioni</string>
+  <string name="menu_settings_abrev">Impos.</string>
   <string name="menu_settings_account">Conto</string>
   <string name="menu_show_detail">Visualizza i dettagli</string>
   <string name="method">Modo</string>
@@ -233,7 +233,7 @@
   <string name="pref_use_standard_menu_summary">Invece di visualizzare una barra dei pulsanti,
       utilizzare  Android menu standard per l\'accesso ai comandi.</string>
   <string name="restore_db_success">Il database è stato ripristinato dal backup.</string>
-  <string name="restore_preferences_success">I parametri sono stati ripristinati dal backup.
+  <string name="restore_preferences_success">I impostazioni sono stati ripristinati dal backup.
   </string>
   <string name="select">Selezionare</string>
   <string name="select_account">Selezionare un conto</string>
