@@ -31,7 +31,7 @@
 
          -->
     <property file="ant.properties" />
-
+    <property name="rev" value="4"/>
     <!-- The project.properties file is created and updated by the 'android'
          tool, as well as ADT.
 
@@ -144,7 +144,6 @@
   <target name="tutorial">
   <!-- for historical reasons rev 1 of tutorial used "tutorial"
   all others "tutorial_r${rev}" -->
-    <property name="rev" value="4"/>
     <condition property="filename" value="tutorial" else="tutorial_r${rev}">
       <equals arg1="${rev}" arg2="1"/>
     </condition>
@@ -177,7 +176,6 @@
 	<target name="tutorial-pdf">
 	  <!-- for historical reasons rev 1 of tutorial used "tutorial"
   all others "tutorial_r${rev}" -->
-    <property name="rev" value="3"/>
     <condition property="filename" value="tutorial" else="tutorial_r${rev}">
       <equals arg1="${rev}" arg2="1"/>
     </condition>
@@ -197,7 +195,10 @@
         <exec executable="xsltproc" failonerror="true">
   			 	<arg value="--stringparam"/>
   			 	<arg value="img.src.path"/>
-  			 	<arg value="../../../MyExpenses.pages/${filename}/@{language}/"/>
+  			 	<arg value="../../../MyExpenses.pages/@{language}/${filename}/"/>
+          <arg value="--stringparam"/>
+          <arg value="doc.lang"/>
+          <arg value="@{language}"/>
   			 	<arg value="-o"/>
   			 	<arg value="doc/tutorial/${filename}_@{language}.fo"/>
   			 	<arg value="doc/tutorial/xsl/tutorial_fo.xsl"/>
@@ -206,7 +207,7 @@
   			<exec executable="/opt/XEP/xep" failonerror="true">
   			 <arg value="-fo"/>
   			 <arg value="doc/tutorial/${filename}_@{language}.fo"/>
-  			 <arg value="../MyExpenses.pages/${filename}/@{language}/${filename}.pdf"/>
+  			 <arg value="../MyExpenses.pages/@{language}/${filename}/${filename}.pdf"/>
   			</exec>
       </sequential>
   	</for>
