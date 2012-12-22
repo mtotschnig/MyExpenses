@@ -70,7 +70,7 @@
       las programas de escritorio de finanzas.
     </para>
   </abstract>
-  <releaseinfo role="generate-for-pdf"/> 
+  <releaseinfo role="generate-for-pdf"/>
   </articleinfo>
 
   <sect1 id="introduction">
@@ -111,17 +111,17 @@
       </screenshot>
     </figure>
 
-    <!-- BEGIN introduction para 1 -->    
+    <!-- BEGIN introduction para 1 -->
     <para lang="en">
       <application role="app_name"/> is designed to keep track of your expenses and incomes,
       and to export these expenses into a desktop finance tool, like Grisbi or Gnucash. It
-      supports multiple accounts, a two-level hierarchy of categories and creation of transactions 
+      supports multiple accounts, a two-level hierarchy of categories and creation of transactions
       from templates.
     </para>
     <para lang="fr">
       <application role="app_name"/>  permet de gérer les entrées d'argent et les
       dépenses, et de les exporter vers un logiciel de finance, tel que Grisbi ou Gnucash.
-      Il supporte de multiples comptes, deux niveaux de catégories et la création de transactions à 
+      Il supporte de multiples comptes, deux niveaux de catégories et la création de transactions à
       partirde de modèles.
     </para>
     <para lang="de">
@@ -140,9 +140,9 @@
       y controlar y exportar estos a un programa de escritorio de finanzas. Puede manejar
       varias cuentas, dos grupos de categorías y plantillas.
     </para>
-    <!-- END introduction para 1 -->  
+    <!-- END introduction para 1 -->
 
-    <!-- BEGIN introduction para 2 -->    
+    <!-- BEGIN introduction para 2 -->
     <para lang="en">
       Its main screen displays the list of transactions for the current account. The button bar
       displayed at the bottom of the screen gives easy access to all functionalities. Each
@@ -155,7 +155,7 @@
       Sur l'écran principal s'affiche la liste des transactions du compte en cours. La
       barre des boutons en bas de l'écran donne accès à toutes les fonctions. Chaque
       bouton exécute une action par défaut sur un clic court. Certains (identifiables par le triangle en haut à gauche)
-      affichent un menu avec d'autres actions sur un clic long. Sinon, vous 
+      affichent un menu avec d'autres actions sur un clic long. Sinon, vous
       pouvez configurer <application role="app_name"/> afin qu'il utilise le menu
       standard d'Android en tant qu'interface de commande (<link linkend='tutorial5_6'><guilabel
       	role="pref_use_standard_menu_title"/></link> ).
@@ -172,7 +172,7 @@
     <para lang="it">
       Nella schermata principale mostra un elenco di operazioni in conto corrente. La barra
       nella parte inferiore dello schermo fornisce accesso a tutte le funzioni. Ogni pulsante
-      esegue un'azione predefinita in risposta a un clic breve. Alcuni pulsanti (indicato per un triangolo nell\'angolo destro di sopra) aprono 
+      esegue un'azione predefinita in risposta a un clic breve. Alcuni pulsanti (indicato per un triangolo nell\'angolo destro di sopra) aprono
       un menu con altre azioni in un clic lungo. In caso contrario, è possibile configurare que
       <application role="app_name"/> utilizza il menù standard di Android come
       interfaccia di controllo(<link linkend='tutorial5_6'><guilabel
@@ -186,13 +186,13 @@
       menú <application role="app_name"/> puede utilizar también el menú estándar de Android si
       usted configura <link linkend='tutorial5_6'><guilabel role="pref_use_standard_menu_title"
       	/></link>.
-    </para>    
+    </para>
     <!-- END introduction para 2 -->
-    
+
   </sect1>
-  
+
     <!-- Tutorial1 -->
-    
+
   <sect1 id="tutorial1">
     <sect1info>
       <abstract>
@@ -232,18 +232,18 @@
       </screenshot>
     </figure>
 
-    <!-- BEGIN tutorial1 para 1 --> 
+    <!-- BEGIN tutorial1 para 1 -->
     <para lang="en">
       When you launch <application role="app_name"/> for the first time, there is one default
       account defined and you can immediatly start adding transactions. If you want to edit
-      the default account, use  
+      the default account, use
       <menuchoice>
         <guimenu role="menu_settings"/>
         <guimenuitem role="menu_settings_account"/>
-     </menuchoice>, whereas you can create a new account from 
+     </menuchoice>, whereas you can create a new account from
      <menuchoice>
         <guimenu role="menu_accounts"/>
-     </menuchoice> or 
+     </menuchoice> or
     </para>
 
     <para lang="fr">
@@ -264,7 +264,7 @@
     <para lang="de">
       Beim ersten Aufruf von <application role="app_name"/> wird ein Standardkonto
       angelegt, und Sie können sofort mit der Eingabe von Buchungen beginnen. Falls Sie
-      das Standardkonto verändern wollen, verwenden Sie 
+      das Standardkonto verändern wollen, verwenden Sie
       <menuchoice>
         <guimenu role="menu_settings"/>
         <guimenuitem role="menu_settings_account"/>
@@ -301,10 +301,10 @@
         <guimenu role="menu_accounts"/>
         <guimenuitem role="menu_accounts_new"/>
      </menuchoice> en cambio puede configurar una nueva cuenta.
-   </para>    
-    <!-- END tutorial1 para 1 --> 
+   </para>
+    <!-- END tutorial1 para 1 -->
 
-    <!-- BEGIN tutorial1 para 2 --> 
+    <!-- BEGIN tutorial1 para 2 -->
     <para lang="en">
       Enter a label, a description, the opening balance<footnoteref linkend="ftn22-en-1"/>
       and a currency for the account. The currency must be entered according to
@@ -334,24 +334,24 @@
       linkend="ftn22-es-1"/> y la moneda de la cuenta. La moneda
       va insertada con su abreviación de tres cifras ISO 4217, pero puede ser elegida
       simplemente de la lista, a la cual se llega con un clic sobre <guibutton role="select"/>.
-    </para>    
+    </para>
     <!-- END tutorial1 para 2 -->
-    
-    <!-- BEGIN tutorial1 para 3 --> 
+
+    <!-- BEGIN tutorial1 para 3 -->
     <para lang="en">
       You can define the type of an account as one of Cash, Bank, Asset, Liabilities. Account types
       are associated with payment methods, as explained in <link linkend='tutorial5_9'><guilabel
-        role="pref_manage_methods_title"/></link>. Here we will define the account as bank account, 
-      in order to demonstrate the use of payment methods. 
+        role="pref_manage_methods_title"/></link>. Here we will define the account as bank account,
+      in order to demonstrate the use of payment methods.
     </para>
     <para lang="fr">
       Vous pouvez associer le compte aux types suivants: compte de caisse, compte bancaire,  compte
-      d'actif ou compte de passif. Les méthodes de paiement sont définies par type de compte, tel 
+      d'actif ou compte de passif. Les méthodes de paiement sont définies par type de compte, tel
       qu'indiqué dans <link linkend='tutorial5_9'><guilabel role="pref_manage_methods_title"/></link>.
       Ici nous choisissons compte bancaire, afin de pouvoir montrer l'utilisation des méthodes de paiement.
     </para>
     <para lang="de">
-      Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto, 
+      Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto,
       Kreditkonto. Für Kontotypen sind Zahlungsweisen definiert, wie in <link
         linkend='tutorial5_9'><guilabel role="pref_manage_methods_title"/></link> beschrieben. Hier
       wählen wir den Typ als Bankkonto, um zu zeigen, wie Zahlungsweisen verwendet werden.
@@ -371,8 +371,8 @@
       mostrar cómo se utilizan los métodos de pago.
     </para>
     <!-- END tutorial1 para 3 -->
-    
-    <!-- BEGIN tutorial1 para 4 --> 
+
+    <!-- BEGIN tutorial1 para 4 -->
     <para lang="en">
       When you confirm that you are done, you get back to the transaction list. If you
       have created a new account, it is automatically set to be the current account.
@@ -385,7 +385,7 @@
       Confirmez, et vous reviendrez à la liste des transactions. Si vous avez ajouté un
       nouveau compte, celui-ci deviendra automatiquement le compte en cours. Le bouton
       <guibutton role="menu_accounts"/> permet de facilement changer de compte.
-      Un clic long ouvre le  menu permettant de le choisir dans la liste complète. Un clic court 
+      Un clic long ouvre le  menu permettant de le choisir dans la liste complète. Un clic court
       soit traverse tous les comptes, soit active le dernier utilisé,  dépendant du paramètre
       <guilabel role="pref_account_button_behaviour_title"/>.
     </para>
@@ -393,15 +393,15 @@
       Nach Bestätigung der Eingabe gelangen Sie wieder zur Liste der Buchungen. Wenn Sie
       ein neues Konto angelegt haben, wird dieses automatisch zum aktiven Konto. Der
       Schaltknopf <guibutton role="menu_accounts"/> erlaubt das Wechseln zwischen Konton.
-      Ein langer Klick öffnet ein Menü mit allen Konten zur Auswahl. Ein einfacher Klick ruft entweder 
+      Ein langer Klick öffnet ein Menü mit allen Konten zur Auswahl. Ein einfacher Klick ruft entweder
       nacheinander alle Konten auf, oder wechselt zum zuletzt aktiven Konto, oder , abhängig von der Einstellung
       <guilabel role="pref_account_button_behaviour_title"/>.
     </para>
     <para lang="it">
       Confermare la voce, e si ritorna alla lista di transazioni. Se si è aggiunto un nuovo
       conto, diventa automaticamente il conto corrente. La voce <guibutton
-      role="menu_accounts"/> consente di cambiare il conto corrente. Un clic lungo apre un menu per 
-      scegliere questo dalla lista. Un clic breve alternare tra tutti i conti o attiva il conto ultimo 
+      role="menu_accounts"/> consente di cambiare il conto corrente. Un clic lungo apre un menu per
+      scegliere questo dalla lista. Un clic breve alternare tra tutti i conti o attiva il conto ultimo
       utilizzato (impostazione <guilabel role="pref_account_button_behaviour_title"/>).
     </para>
     <para lang="es">
@@ -411,15 +411,15 @@
       todas las cuentas a elegir. Con un clic simple se circula entre todas cuentas, o se vuelve a
       la cuenta recientemente activa (configuración <guilabel role="pref_account_button_behaviour_title"/>).
     </para>
-    <!-- END tutorial1 para 4 --> 
-    
-    <!-- BEGIN tutorial1 para 5 --> 
+    <!-- END tutorial1 para 4 -->
+
+    <!-- BEGIN tutorial1 para 5 -->
     <para lang="en">
       For managing the complete account list, please refer to <link linkend='tutorial5_1'
       	><guilabel role="pref_manage_accounts_title"/></link>.
     </para>
     <para lang="fr">
-      La gestion des comptes est expliqué dans <link linkend='tutorial5_1'><guilabel 
+      La gestion des comptes est expliqué dans <link linkend='tutorial5_1'><guilabel
       	role="pref_manage_accounts_title"/></link>.
     </para>
     <para lang="de">
@@ -433,10 +433,10 @@
     <para lang="es">
       La administración de las cuentas se explica en <link linkend='tutorial5_1'><guilabel
       	role="pref_manage_accounts_title"/></link>
-    </para>    
-    <!-- END tutorial1 para 5 --> 
+    </para>
+    <!-- END tutorial1 para 5 -->
   </sect1>
-   
+
    <!-- Tutorial2 -->
   <sect1 id="tutorial2">
     <sect1info>
@@ -465,7 +465,7 @@
       <phrase lang="it">Transazioni</phrase>
       <phrase lang="es">Los asientos</phrase>
     </title>
-    
+
     <figure floatstyle="left" id="step3" >
       <title/>
       <screenshot>
@@ -476,8 +476,8 @@
         </mediaobject>
       </screenshot>
     </figure>
-    
-    <!-- BEGIN tutorial2 para 1 --> 
+
+    <!-- BEGIN tutorial2 para 1 -->
     <para lang="en">
       A short click on <guibutton role="menu_new"/> brings up the activity for creating a
       transaction.
@@ -490,16 +490,16 @@
       neuen Buchung.
     </para>
     <para lang="it">
-      <guimenuitem role="menu_new"/> porta in primo piano l'attività 
+      <guimenuitem role="menu_new"/> porta in primo piano l'attività
       per la creazione di una transazione.
     </para>
     <para lang="es">
       Un clic breve sobre <guimenuitem role="menu_new"/> abre una ventana para la inserción de
       un nuevo asiento.
-    </para>    
-    <!-- END tutorial2 para 1 --> 
-    
-    <!-- BEGIN tutorial2 para 2 --> 
+    </para>
+    <!-- END tutorial2 para 1 -->
+
+    <!-- BEGIN tutorial2 para 2 -->
     <para lang="en">
       Adjust date and time, click on the <guibutton>-</guibutton> Button to toggle between
       expense and income, enter amount<footnote id="ftn22-en-1">
@@ -518,10 +518,10 @@
             role="pref_manage_parties_title"/></link>.
         </para>
       </footnote>. Clicking on the
-      <guibutton role="select"/> button next to <guilabel role="category" />, brings up the <guilabel 
+      <guibutton role="select"/> button next to <guilabel role="category" />, brings up the <guilabel
         role="select_category"/> activity. We will explain below, how to manage categories.
     </para>
-    
+
     <para lang="fr">
       Fixez la date et l'heure, cliquez sur le bouton <guibutton>-</guibutton> pour
       basculer entre dépense ou entrée, entrez la somme<footnote id="ftn22-fr-1">
@@ -539,7 +539,7 @@
           de cette liste, consultez <link linkend='tutorial5_7'><guilabel
             role="pref_manage_parties_title"/></link>.
         </para>
-      </footnote>. Cliquer sur le bouton <guibutton role="select"/> 
+      </footnote>. Cliquer sur le bouton <guibutton role="select"/>
       à côté de <guilabel role="category" />,vous ouvre la fenêtre
       <guilabel role="select_category"/>. Nous vous expliquerons plus tard
       comment gérer les catégories.
@@ -554,7 +554,7 @@
        </para>
       </footnote> und Notizen ein.
       Das Feld für die Eingabe von Empfänger (bzw. Zahler) merkt sich die von Ihnen
-      eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld 
+      eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld
       vor<footnote id="ftn22-de-2">
         <para>
           Sie können auch die in einer Grisbi Datei gespeicherte Liste der Parteien importieren
@@ -609,9 +609,9 @@
       </footnote>. Con un clic sobre el botón
       <guibutton role="select"/> usted llega a la ventana <guilabel role="select_category"/>.
       Este punto se explica mas adelante.
-    </para>    
+    </para>
     <!-- END tutorial2 para 2 -->
-    <?float-clear?> 
+    <?float-clear?>
     <figure floatstyle="left" id="step4" >
       <title/>
       <screenshot>
@@ -622,21 +622,21 @@
         </mediaobject>
       </screenshot>
     </figure>
-    
-    <!-- BEGIN tutorial2 para 3 --> 
+
+    <!-- BEGIN tutorial2 para 3 -->
     <para lang="en">
       If the current account is of a type, that is associated with payment methods, you can set the transaction's method
       through the <guibutton role="select"/> button next to <guilabel role="method" />.
     </para>
     <para lang="fr">
-      Si le type du compte en cours est associé avec des méthodes de paiement, vous pouvez en choisir 
+      Si le type du compte en cours est associé avec des méthodes de paiement, vous pouvez en choisir
       une pour l'opération avec le bouton <guibutton role="select"/> à côté de <guilabel
-        role="method" />, 
+        role="method" />,
     </para>
     <para lang="de">
       Falls dem Typ des aktuellen Kontos Zahlungsweisen zugeordnet sind, können Sie durch den
       Schaltknopf <guibutton role="select"/> neben <guilabel  role="method" /> die Zahlungsweise der
-      Buchung definieren. 
+      Buchung definieren.
     </para>
     <para lang="it">
       Se il tipo del conto corrente è associato con un modo di pagamento, può definire attraverso la
@@ -644,11 +644,11 @@
     </para>
     <para lang="es">
       Si el tipo de la cuenta corriente está asociado con métodos de pago, usted puede definir el
-      método de pago del asiento a través de un clic sobre el botón <guibutton role="select"/> al 
+      método de pago del asiento a través de un clic sobre el botón <guibutton role="select"/> al
       lado de <guilabel  role="method" />.
     </para>
     <!-- END tutorial2 para 3-->
-    <?float-clear?> 
+    <?float-clear?>
 
     <figure floatstyle="left" id="step5" >
       <title/>
@@ -660,13 +660,13 @@
         </mediaobject>
       </screenshot>
     </figure>
-    
-    <!-- BEGIN tutorial2 para 3 --> 
+
+    <!-- BEGIN tutorial2 para 3 -->
     <para lang="en">
       Back at the transaction list, you can edit individual entries through a short click,
       the context menu allows deleting a transaction, or display full details (payee,
       notes) about it. You can also move a transaction to a different account, provided you
-      have set up at least one additional account. 
+      have set up at least one additional account.
     </para>
     <para lang="fr">
       Sur la liste des opérations, vous pouvez éditer chaque opération avec un clic court,
@@ -692,8 +692,8 @@
       Puede mover un asiento de una cuenta a otra si es que usted haya configurado por lo
       menos una cuenta adicional.
     </para>
-    <!-- END tutorial2 para 3 --> 
-    
+    <!-- END tutorial2 para 3 -->
+
     <sect2 id="tutorial2_1">
       <title>
         <phrase lang="en">Transfer</phrase>
@@ -702,8 +702,8 @@
         <phrase lang="it">Trasferimento</phrase>
         <phrase lang="es">Traspaso entre cuentas</phrase>
       </title>
-      
-      <!-- BEGIN tutorial2_1 para 1 --> 
+
+      <!-- BEGIN tutorial2_1 para 1 -->
       <para lang="en">
         <menuchoice>
           <guimenu role="menu_new"/>
@@ -738,11 +738,11 @@
           <guimenuitem role="transfer"/>
        </menuchoice> permite trasladar importes de una cuenta a otra. Este mando <!-- (¿) -->  está a
        disposición solamente si existen varias cuentas de la misma moneda.
-      </para>      
-      <!-- END tutorial2_1 para 1 --> 
+      </para>
+      <!-- END tutorial2_1 para 1 -->
     </sect2>
   </sect1>
-   
+
    <!-- Tutorial3 -->
   <sect1 id="tutorial3">
     <sect1info>
@@ -764,14 +764,14 @@
         </para>
       </abstract>
     </sect1info>
-    <title>    
+    <title>
       <phrase lang="en">Categories</phrase>
       <phrase lang="fr">Catégories</phrase>
       <phrase lang="de">Kategorien</phrase>
       <phrase lang="it">Categorie</phrase>
       <phrase lang="es">Categorías</phrase>
     </title>
-    
+
     <figure floatstyle="left" id="step6" >
       <title/>
       <screenshot>
@@ -783,8 +783,8 @@
       </screenshot>
     </figure>
 
-    
-    <!-- BEGIN tutorial3 para 1 --> 
+
+    <!-- BEGIN tutorial3 para 1 -->
     <para lang="en">
       At the beginning, no categories are defined. You have two options for adding them.
     </para>
@@ -803,9 +803,9 @@
     <para lang="es">
       Al principio todavía no existen categorías.  Hay dos posibilidades de configurarlos.
     </para>
-    <!-- END tutorial3 para 1 --> 
-    
-    <!-- BEGIN tutorial3 para 2 --> 
+    <!-- END tutorial3 para 1 -->
+
+    <!-- BEGIN tutorial3 para 2 -->
     <para lang="en">
       Either you click on the button <guibutton role="import_categories"/> which allows to
       select between different sources, as explained in <link linkend='tutorial5_5'><guilabel
@@ -842,9 +842,9 @@
       acceder cuando quiera a la funcionalidad de importar.
     </para>
     <!-- END tutorial3 para 2 -->
-    
-    <?float-clear?> 
-    
+
+    <?float-clear?>
+
     <figure floatstyle="left" id="step8" >
       <title/>
       <screenshot>
@@ -856,7 +856,7 @@
       </screenshot>
     </figure>
 
-    <!-- BEGIN tutorial3 para 3 --> 
+    <!-- BEGIN tutorial3 para 3 -->
     <para lang="en">
 	    You now have a set of categories with subcategories you can associate with your
 	    transactions. By default, the primary sort criteria in the category list is the number of
@@ -869,7 +869,7 @@
       Vous avez maintenant une liste de catégories et de sous-catégories que vous
       pouvez utiliser pour vos opérations. Par défaut, les catégories sont triées par la
       fréquence de leur utilisation (l'ordre alphabetique est utilisé en tant que critère
-      secondaire). Ce fonctionnement vous donne un accès rapide aux catégories associées aux 
+      secondaire). Ce fonctionnement vous donne un accès rapide aux catégories associées aux
       transactions les plus utilisées. Si vous préferez voir apparaître les
       catégories dans l'ordre alphabétique, vous pouvez désactiver ce paramètre <link
         linkend='tutorial5_2'><guilabel role="pref_categories_sort_by_usages_title"/></link>.
@@ -898,10 +898,10 @@
       mas frecuente. Si usted prefiere el orden alfabético puede desactivar la configuración
       <guilabel role="pref_categories_sort_by_usages_title"/>.
     </para>
-    <!-- END tutorial3 para 3 --> 
-    
-    <?float-clear?> 
-    
+    <!-- END tutorial3 para 3 -->
+
+    <?float-clear?>
+
     <figure floatstyle="left" id="step9" >
       <title/>
       <screenshot>
@@ -912,8 +912,8 @@
         </mediaobject>
       </screenshot>
     </figure>
-    
-    <!-- BEGIN tutorial3 para 4 --> 
+
+    <!-- BEGIN tutorial3 para 4 -->
     <para lang="en">
 	    The second option is to add your own categories.  <guibutton
 	    role="menu_create_main_cat"/> brings up a dialog for providing a new category label.
@@ -937,9 +937,9 @@
       nombre.
     </para>
     <!-- END tutorial3 para 4 -->
-    
-    <?float-clear?> 
-    
+
+    <?float-clear?>
+
     <figure floatstyle="left" id="step10" >
       <title/>
       <screenshot>
@@ -950,8 +950,8 @@
         </mediaobject>
       </screenshot>
     </figure>
-    
-    <!-- BEGIN tutorial3 para 5 --> 
+
+    <!-- BEGIN tutorial3 para 5 -->
     <para lang="en">
 	    Clicking on a main category, opens up its subcategories. You select a subcategory
 	    for mapping to the current transaction by simply clicking on it. In order to map a
@@ -971,16 +971,16 @@
     <para lang="it">
       Cliccando su una categoria principale, apre le sue sottocategorie. Si seleziona una
       sottocategoria per la transazione corrente, semplicemente cliccando. Al fine di mappare
-      un categoria principale, si deve chiamare il suo menù contestuale. 
+      un categoria principale, si deve chiamare il suo menù contestuale.
     </para>
     <para lang="es">
       Un clic sobre una categoría principal abre la lista de subcategorías. La asignación de
       una subcategoría a un asiento actual se realiza a través de un breve clic. La asignación
       de una categoría principal es posible a través del menú contextual.
     </para>
-    <!-- END tutorial3 para 5 --> 
-    
-    <!-- BEGIN tutorial3 para 6 --> 
+    <!-- END tutorial3 para 5 -->
+
+    <!-- BEGIN tutorial3 para 6 -->
     <para lang="en">
 	    From here you can also add new subcategories, delete a category or edit it.
 	    Subcategories have also context menus for deleting and editing.
@@ -1005,9 +1005,9 @@
       principales. También las subcategorías disponen de un menú contextual para borrar- o
       modificarlas.
     </para>
-    <!-- END tutorial3 para 6 --> 
+    <!-- END tutorial3 para 6 -->
   </sect1>
-   
+
    <!-- Tutorial4 -->
   <sect1 id="tutorial4">
     <sect1info>
@@ -1028,7 +1028,7 @@
           Cómo exportar asientos
         </para>
       </abstract>
-    </sect1info> 
+    </sect1info>
     <title>
       <phrase lang="en">Export transactions</phrase>
       <phrase lang="fr">Exporter les opérations</phrase>
@@ -1036,7 +1036,7 @@
       <phrase lang="it">Esportazione di operazioni</phrase>
       <phrase lang="es">Exportar asientos</phrase>
     </title>
-    
+
     <figure floatstyle="left" id="step11" >
       <title/>
       <screenshot>
@@ -1047,8 +1047,8 @@
         </mediaobject>
       </screenshot>
     </figure>
-    
-    <!-- BEGIN tutorial4 para 1 --> 
+
+    <!-- BEGIN tutorial4 para 1 -->
     <para lang="en">
       Finally, the raison d'être of <application role="app_name"/> is its support
       for export into QIF format. Call this function through the
@@ -1070,7 +1070,7 @@
       cours, les enlever de la base de données et ajuster le solde initial avec le solde
       courant. Ce fichier peut être transféré par FTP, courriel ou d'autres applications comme
       expliqué dans <link linkend='tutorial5_3'><guilabel role="pref_perform_share_title"
-        /></link>. 
+        /></link>.
       <phrase role="br"/>
       Les opérations de virement seront aussi enlevées du compte mais resteront visibles
       dans l'autre compte concerné.
@@ -1102,20 +1102,20 @@
       l'altro conto a cui si riferiscono.
     </para>
     <para lang="es">
-      La motivación básica para <application role="app_name"/> es exportar a un archivo QIF. Esta 
-      función se inicia desde la lista de asientos a través del botón <guibutton role="menu_reset"/>. 
-      De esta manera se crea en la tarjeta SD un archivo que contiene todos los asientos de la cuenta 
-      actual.Éstos son eliminados y el saldo actual es transferido al nuevo saldo inicial. 
-      Inmediatamete después de la exportación se puede enviar el archivo, vía FTP, correo electrónico 
-      o otras aplicaciones que pueden transferir archivos (vease <link linkend='tutorial5_3'><guilabel 
+      La motivación básica para <application role="app_name"/> es exportar a un archivo QIF. Esta
+      función se inicia desde la lista de asientos a través del botón <guibutton role="menu_reset"/>.
+      De esta manera se crea en la tarjeta SD un archivo que contiene todos los asientos de la cuenta
+      actual.Éstos son eliminados y el saldo actual es transferido al nuevo saldo inicial.
+      Inmediatamete después de la exportación se puede enviar el archivo, vía FTP, correo electrónico
+      o otras aplicaciones que pueden transferir archivos (vease <link linkend='tutorial5_3'><guilabel
         role="pref_perform_share_title"/></link>).
       <phrase role="br"/>
       Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra cuenta a la que
       se refieren.
     </para>
-    <!-- END tutorial4 para 1 --> 
-    
-    <!-- BEGIN tutorial4 para 2 --> 
+    <!-- END tutorial4 para 1 -->
+
+    <!-- BEGIN tutorial4 para 2 -->
     <para lang="en">
       Voilà. You can now connect your phone to your computer, open Grisbi (or Gnucash),
       and use its import functionality.
@@ -1136,7 +1136,7 @@
       Voilà. Ahora usted puede conectar su teléfono al ordenador, abrir Grisbi (o Gnucash) y
       utilizar su función de importación.
     </para>
-    <!-- END tutorial4 para 2 -->  
+    <!-- END tutorial4 para 2 -->
   </sect1>
 
    <!-- Tutorial5 -->
@@ -1159,7 +1159,7 @@
           Cómo configurar <application role="app_name"/>
         </para>
       </abstract>
-    </sect1info> 
+    </sect1info>
     <title>
       <phrase lang="en">Settings</phrase>
       <phrase lang="fr">Paramètres</phrase>
@@ -1167,7 +1167,7 @@
       <phrase lang="it">Parametri</phrase>
       <phrase lang="es">Configuraciones</phrase>
     </title>
-    
+
     <figure floatstyle="left" id="step12" >
       <title/>
       <screenshot>
@@ -1178,8 +1178,8 @@
         </mediaobject>
       </screenshot>
     </figure>
-    
-    <!-- BEGIN tutorial5 para 1 --> 
+
+    <!-- BEGIN tutorial5 para 1 -->
     <para lang="en">
       A short click on the <guibutton role="menu_settings"/> button opens the preferences
       screen, from where you can configure some properties of <application role="app_name"/>,
@@ -1199,7 +1199,7 @@
       Einstellungs-Bildschirm. Hier können sie einige Eigenschaften von <application
       role="app_name"/> konfigurieren, und haben auch Zugriff auf die Kontoverwaltung und
       die Backup-Funktion. Ein langer Klick öffnet ein Menü mit schnellem Zugriff auf die
-      Konfiguration des aktuellen Kontos, sowie aufs Backup.    
+      Konfiguration des aktuellen Kontos, sowie aufs Backup.
     </para>
     <para lang="it">
       Un breve clic sul pulsante <guibutton role="menu_settings"/> si apre la schermata
@@ -1215,14 +1215,14 @@
     	backup. Un clic largo abre un menú que comprende el acceso rápido a la configuración de
     	la cuenta actual y al backup.
     </para>
-    <!-- END tutorial5 para 1 --> 
-    
+    <!-- END tutorial5 para 1 -->
+
     <sect2 id="tutorial5_1">
     <title>
        <guilabel role="pref_manage_accounts_title"/>
     </title>
-      
-      <!-- BEGIN tutorial5_1 para 1 --> 
+
+      <!-- BEGIN tutorial5_1 para 1 -->
       <para lang="en">
         Here you see the complete account list. Clicking
         on an item, opens up the configuration form (explained in <link
@@ -1257,7 +1257,7 @@
         que permite eliminar la cuenta, exceptuando la cuenta actual que no puede ser
         eliminada.
       </para>
-      <!-- END tutorial5_1 para 1 --> 
+      <!-- END tutorial5_1 para 1 -->
 
     </sect2>
 
@@ -1265,8 +1265,8 @@
       <title>
        <guilabel role="pref_categories_sort_by_usages_title"/>
       </title>
-      
-      <!-- BEGIN tutorial5_2 para 1 --> 
+
+      <!-- BEGIN tutorial5_2 para 1 -->
       <para lang="en">
         By default, categories are sorted primarily by how often you associate them with your
         transactions. Uncheck this option if you want your categories being sorted in
@@ -1294,16 +1294,16 @@
         frecuencia con que son asignadas a un asiento.) Quite la marca de esta opción si desea
         que las categorías se muestren siempre en orden alfabético.
       </para>
-      <!-- END tutorial5_2 para 1 --> 
-      
+      <!-- END tutorial5_2 para 1 -->
+
     </sect2>
-    
+
     <sect2 id="tutorial5_3">
       <title>
        <guilabel role="pref_perform_share_title"/>
       </title>
-      
-    <!-- BEGIN tutorial5_3 para 1 --> 
+
+    <!-- BEGIN tutorial5_3 para 1 -->
     <para lang="en">
       If you check this option, each time you export your transactions, your QIF file will be
       sent to a remote destination. Under <guilabel role="pref_share_target_title"/> you
@@ -1312,7 +1312,7 @@
         <listitem>
           <para>
             An URL to a directory on an FTP server, you have write access to (e.g.
-            "ftp://login:password@my.example.org:port/my/directory/"). If available on your device, 
+            "ftp://login:password@my.example.org:port/my/directory/"). If available on your device,
             <application role="app_name"/> will launch an external app responding to a SENDTO intent
             with this URL as data. Only know app handling such an intent is
               <ulink url="market://details?id=org.totschnig.sendwithftp"><application>Send With FTP</application></ulink>
@@ -1328,7 +1328,7 @@
         <listitem>
           <para>
             You can also leave this field empty, and you will be presented with a chooser
-            allowing you to select one of your installed apps that allow sharing of files (e.g. 
+            allowing you to select one of your installed apps that allow sharing of files (e.g.
             Dropbox, Google Docs, &#8230;).
           </para>
         </listitem>
@@ -1367,7 +1367,7 @@
       <itemizedlist>
         <listitem>
           <para>
-           Die URL eines Ordners, auf den Sie über FTP Schreibzugriff haben (z.B. 
+           Die URL eines Ordners, auf den Sie über FTP Schreibzugriff haben (z.B.
            "ftp://login:password@my.example.org:port/my/directory/").
           </para>
         </listitem>
@@ -1387,8 +1387,8 @@
       </itemizedlist>
     </para>
     <para lang="it">
-      Se si seleziona questa opzione, il file QIF verrà caricato dopo ogni esportare i vostri 
-      transazioni. Sotto <guilabel role="pref_share_target_title"/>, è necessario specificare 
+      Se si seleziona questa opzione, il file QIF verrà caricato dopo ogni esportare i vostri
+      transazioni. Sotto <guilabel role="pref_share_target_title"/>, è necessario specificare
       la destinazione:
        <itemizedlist>
         <listitem>
@@ -1399,13 +1399,13 @@
         </listitem>
         <listitem>
           <para>
-          un URL per email (ad esempio "mailto:john@my.example.com"). Il vostro applicazione 
+          un URL per email (ad esempio "mailto:john@my.example.com"). Il vostro applicazione
 	  di posta elettronica si aprirà con un nuovo messaggio con il file allegato.
           </para>
         </listitem>
         <listitem>
           <para>
-          Se questo campo è vuoto, è possibile scegliere ogni volta che le applicazioni disponibili 
+          Se questo campo è vuoto, è possibile scegliere ogni volta che le applicazioni disponibili
 	  sul dispositivo, in grado di trasferire un file (ad esempio, Dropbox, Google docs, &#8230;).
           </para>
         </listitem>
@@ -1437,10 +1437,10 @@
           </para>
         </listitem>
       </itemizedlist>
-    </para>      
-    <!-- END tutorial5_3 para 1 --> 
+    </para>
+    <!-- END tutorial5_3 para 1 -->
   </sect2>
-    
+
   <sect2 id="tutorial5_4">
     <title>
       <phrase lang="en">Backup and restore</phrase>
@@ -1449,8 +1449,8 @@
       <phrase lang="it">Backup e ripristino</phrase>
       <phrase lang="es">Backup y Restauración</phrase>
     </title>
-    
-    <!-- BEGIN tutorial5_4 para 1 --> 
+
+    <!-- BEGIN tutorial5_4 para 1 -->
     <para lang="en">
       <guilabel role="menu_backup"/> creates a backup of database and preferences in
       the <filename>myexpenses</filename> folder on the sdcard. The database is stored in
@@ -1498,9 +1498,9 @@
       de aplicación a otro aparato copiando estos dos archivos al mismo lugar antes de instalar
       <application role="app_name"/>.
     </para>
-    <!-- END tutorial5_4 para 1 --> 
+    <!-- END tutorial5_4 para 1 -->
     </sect2>
-    
+
     <sect2 id="tutorial5_5">
       <title>
         <guilabel role="pref_import_from_grisbi_title"/>
@@ -1517,7 +1517,7 @@
       </screenshot>
     </figure>
 
-    <!-- BEGIN tutorial5_5 para 1 -->   
+    <!-- BEGIN tutorial5_5 para 1 -->
     <para lang="en">
     	This entry allows to set up categories from files included from Grisbi in English, German
     	or French. If with Grisbi you have already defined your own categories, you can also
@@ -1540,7 +1540,7 @@
 	    <sgmltag>Party</sgmltag>). When you choose your custom file as import source, you can
 	    decide to import both parties and categories, or only categories. Partners will be used
 	    for the autocomplete function of the payer/payee field in the transaction form.
-    </para>   
+    </para>
     <para lang="fr">
 	    Cette entrée vous permet de les entrer directement à partir des définitions standards de
 	    Grisbi en anglais, allemand ou français. Si vous aviez déjà défini vos propres
@@ -1590,7 +1590,7 @@
       auswählen, können Sie entweder Parteien und Kategorien oder nur Kategorien importieren.
       Die Partner werden im Buchungsformular verwendet, um Ihnen für das Feld Empfänger/Zahler
       ein automatische Ausfüllen vorzuschlagen.
-    </para>   
+    </para>
     <para lang="it">
       <guibutton role="import_categories"/> permette di impostare le categorie di file inclusa
       da Grisbi in inglese, tedesco o francese. Se con Grisbi hai già definite le proprie
@@ -1639,14 +1639,14 @@
       categorías. Los partes se utilizan en el formulario de asientos para proponerle un
       llenado automático en el campo receptor/pagador.
     </para>
-    <!-- END tutorial5_5 para 1 --> 
+    <!-- END tutorial5_5 para 1 -->
     </sect2>
-        
+
     <sect2 id="tutorial5_6">
       <title>
         <guilabel role="pref_use_standard_menu_title"/>
       </title>
-    <!-- BEGIN tutorial5_6 para 1 --> 
+    <!-- BEGIN tutorial5_6 para 1 -->
     <para lang="en">
       If this option is checked, Android's standard menu will be used in the transaction list
       for accessing commands instead of displaying a button bar. You will be offered to
@@ -1673,9 +1673,9 @@
       barra de símbolos, para ejecutar mandos. Puede cambiar este parámetro también pulsando el
       botón hardware dedicado al menú.
     </para>
-    <!-- END tutorial5_6 para 1 --> 
+    <!-- END tutorial5_6 para 1 -->
   </sect2>
-    
+
     <sect2 id="tutorial5_7">
       <title>
         <guilabel role="pref_manage_parties_title"/>
@@ -1687,14 +1687,14 @@
       checking the checkbox on their right side, and then clicking on the <guibutton
       role="menu_delete"/> button.
     </para>
-    
+
     <para lang="fr">
       Sur cet écran s'affiche la liste des tiers utilisés pour le complément automatique du
       champ <guilabel role="payer"/>. Pour supprimer des entrées de cette liste,
       sélectionnez-les en cochant à leur droite, et activez ensuite le bouton <guibutton
       role="menu_delete"/>.
     </para>
-    
+
     <para lang="de">
       Auf diesem Bildschirm wird die Liste der Parteien angezeigt, die für die automatische
       Komplettierung des Feldes <guilabel role="payer"/>/<guilabel role="payee"/> verwendet
@@ -1713,9 +1713,9 @@
       campo pagador/receptor. Para eliminar elementos de esta lista marque la casilla en el
       renglón correspondiente y pulse el botón eliminar.
     </para>
-     <!-- END tutorial5_7 para 1 --> 
+     <!-- END tutorial5_7 para 1 -->
     </sect2>
-    
+
     <sect2 id="tutorial5_8">
       <title>
         <guilabel role="pref_currency_decimal_separator_title"/>
@@ -1788,9 +1788,9 @@
       ejemplo US $ centavos, € céntimos o £ peniques ) se introducen como números
       enteros.
     </para>
-      <!-- END tutorial5_8 para 1 --> 
+      <!-- END tutorial5_8 para 1 -->
     </sect2>
-    
+
     <sect2 id="tutorial5_9">
     <title>
         <guilabel role="pref_manage_methods_title"/>
@@ -1808,7 +1808,7 @@
     <!-- BEGIN tutorial5_9 para 1 -->
     <para lang="en">
       This screen lists the predefined payment methods (Cheque,Credit card, Deposit, Direct debit) and
-      lets you define new ones. Simply click on an entry (or select <guibutton role="menu_new"/>), 
+      lets you define new ones. Simply click on an entry (or select <guibutton role="menu_new"/>),
       and you will enter a form, where you can define a label (unless for the predefined ones),
       and a type (is this method used for debit, income or both),
       and select the account types for which this method is applicable.
@@ -1831,8 +1831,8 @@
     <para lang="it">
       Su questo schermo si vede la lista dei modi di pagamento predefiniti (assegno, carta di credito,
       pagamento, addebito) e qui puó definire nuovi modi di pagamento. Si fa clic su un modo della
-      lista (o sceglie Nuovo), arriva a un formulario, dove può definire la descrizione (salvo per i 
-      predefiniti) e il tipo (si tratta di un modo di pagamento per entrate o spese o neutrale), e 
+      lista (o sceglie Nuovo), arriva a un formulario, dove può definire la descrizione (salvo per i
+      predefiniti) e il tipo (si tratta di un modo di pagamento per entrate o spese o neutrale), e
       scegliere i tipi di conto per i quali è applicabile il modo di pagamento.
     </para>
     <para lang="es">
@@ -1845,21 +1845,21 @@
     </para>
     <!-- END tutorial5_9 para 1 -->
     </sect2>
-    
+
   </sect1>
   <!--
 template for new paragraphs
     <para lang="en">
-    
+
     </para>
     <para lang="fr">
-    
+
     </para>
     <para lang="de">
-    
+
     </para>
     <para lang="it">
-    
+
     </para>
     -->
   <!--
