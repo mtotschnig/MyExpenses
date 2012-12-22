@@ -37,7 +37,12 @@ if (!Array.prototype.indexOf) {
         return -1;
     }
 }
-var  userLang = (window.navigator.userLanguage || window.navigator.language).substring(0,2);
+function getURLParameter(name) {
+      return decodeURI(
+        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+      );
+    }
+var  userLang = (getURLParameter("lang") || window.navigator.userLanguage || window.navigator.language).substring(0,2);
 var dest = window.location.hash != "" ? window.location.hash.substring(1) : "";
 var path;
 var translations = new Array();
