@@ -118,6 +118,7 @@
   <string name="menu_accounts_explain">Con el botón Cuentas usted puede alternar entre cuentas, una vez que ha creado varias cuentas.
       Actualmente hay sólo una cuenta. ¿Quiere usted crear una segunda cuenta ahora?</string>
   <string name="menu_accounts_new">Nuevo &#8230;</string>
+  <string name="menu_accounts_summary">Resumen</string>
   <string name="menu_backup">Copia de seguridad</string>
   <string name="menu_change_account">Cambiar a otra cuenta</string>
   <string name="menu_changes">Cambios</string>
@@ -245,6 +246,8 @@
   <string name="share_sending">Enviar el archivo QIF</string>
   <string name="suggest_use_standard_menu">¿Quiere usted utilizar el menú estándar de Android en vez
       de la barra de herramientas para acceder a los comandos?</string>
+  <string name="sum_income">Suma total de los ingresos</string>
+  <string name="sum_expenses">Suma total de los gastos</string>
   <string name="switch_account">Cambiado a la cuenta \"%1$s\"</string>
   <string name="template_create_success">Plantilla \"%1$s\" creada con éxito</string>
   <string name="template_title_exists">Ya existe una plantilla con título \"%1$s\" .</string>

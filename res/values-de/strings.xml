@@ -119,6 +119,7 @@
       ein zweites Konto jetzt anlegen?
   </string>
   <string name="menu_accounts_new">Neu &#8230;</string>
+  <string name="menu_accounts_summary">Zusammenfassung</string>
   <string name="menu_backup">Backup</string>
   <string name="menu_change_account">Konto wechseln</string>
   <string name="menu_changes">Änderungen</string>
@@ -247,6 +248,8 @@
   <string name="share_sending">QIF Datei senden</string>
   <string name="suggest_use_standard_menu">Möchten Sie das Android Standardmenü anstatt der
       Symbolleiste verwenden, um Befehle aufzurufen</string>
+  <string name="sum_income">Gesamtsumme der Einnahmen</string>
+  <string name="sum_expenses">Gesamtsumme der Ausgaben</string>
   <string name="switch_account">Zum Konto \"%1$s\" gewechselt</string>
   <string name="template_create_success">Vorlage \"%1$s\" erfolgreich angelegt</string>
   <string name="template_title_exists">Es existiert bereits eine Vorlage mit dem Titel \"%1$s\"</string>

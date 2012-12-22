@@ -118,6 +118,7 @@
       a un altro se ci sono stati definiti diversi conti.
       Inizialmente, c\'è uno solo. Vuoi creare un secondo conto adesso?</string>
   <string name="menu_accounts_new">Nuovo &#8230;</string>
+  <string name="menu_accounts_summary">Riassunto</string>
   <string name="menu_backup">Backup</string>
   <string name="menu_changes">Modifiche</string>
   <string name="menu_change_account">Cambiare conto</string>
@@ -243,6 +244,8 @@
   <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
   <string name="suggest_use_standard_menu">Vuoi utilizzare il menu standard Android per chiamare i
       comandi, e nascondere la barra dei pulsanti?</string>
+  <string name="sum_income">Somma totale dei redditi</string>
+  <string name="sum_expenses">Somma totale delle spese</string>
   <string name="switch_account">Cambiato al conto \"%1$s\"</string>
   <string name="template_create_success">Il modello \"%1$s\" è stato creato con successo</string>
   <string name="template_title_exists">Un modello con il nome \"%1$s\" già esiste</string>

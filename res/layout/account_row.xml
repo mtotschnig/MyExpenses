@@ -14,17 +14,56 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout android:id="@+id/RelativeLayout01" xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:orientation="vertical"
-	android:layout_height="fill_parent" android:background="@drawable/border">
-	<TextView android:text="LABEL" android:id="@+id/label"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" />
-	<TextView android:text="DESCRIPTION" android:id="@+id/description"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" />
-  <TextView android:text="OPENING_BALANCE" android:id="@+id/opening_balance" 
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content" />
-</LinearLayout>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:stretchColumns="1"
+        android:shrinkColumns="1" 
+  android:layout_width="fill_parent"
+  android:orientation="vertical"
+  android:layout_height="fill_parent" android:background="@drawable/border">
+ <TableRow>
+    <TextView android:text="LABEL" android:id="@+id/label"
+        style="@style/form_label"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_span="2" />
+    </TableRow>
+    <TableRow>
+    <TextView android:text="DESCRIPTION" android:id="@+id/description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_span="2" />
+  </TableRow>
+  <TableRow>
+	  <TextView style="@style/form_label"
+        android:text="@string/opening_balance"/>
+  <TextView android:text="OPENING_BALANCE" android:id="@+id/opening_balance"
+      android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+  </TableRow>
+    <TableRow>
+    <TextView style="@style/form_label"
+        android:text="@string/sum_income"/>
+  <TextView android:text="SUM_INCOME" android:id="@+id/sum_income"
+      android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+  </TableRow>
+    <TableRow>
+    <TextView style="@style/form_label"
+        android:text="@string/sum_expenses"/>
+  <TextView android:text="SUM_EXPENSES" android:id="@+id/sum_expenses" 
+      android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+  </TableRow>
+    <TableRow>
+    <TextView style="@style/form_label"
+        android:text="@string/current_balance"/>
+  <TextView android:text="0" android:id="@+id/current_balance" 
+      android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+  </TableRow>
+</TableLayout>

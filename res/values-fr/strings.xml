@@ -117,6 +117,7 @@
   <string name="menu_accounts_explain">Le bouton Comptes vous permet de changer de compte si vous en
       aviez défini plusieurs. Au départ, il n\'y en a qu\'un seul. Voulez-vous en créer un deuxième maintenant.</string>
   <string name="menu_accounts_new">Nouveau &#8230;</string>
+  <string name="menu_accounts_summary">Sommaire</string>
   <string name="menu_backup">Sauvegarde</string>
   <string name="menu_change_account">Changer de compte</string>
   <string name="menu_changes">Changements</string>
@@ -248,6 +249,8 @@
   <string name="switch_account">Basculé vers compte \"%1$s\"</string>
   <string name="suggest_use_standard_menu">Voulez-vous utiliser le menu standard Android pour
       appeler des commandes, et de cacher la barre de boutons?</string>
+  <string name="sum_income">Somme totale des revenus</string>
+  <string name="sum_expenses">Somme totale des dépenses</string>
   <string name="template_create_success">Modèle \"%1$s\" crée avec succès</string>
   <string name="template_title_exists">Un modèle avec le titre \"%1$s\" existe déjà</string>
   <string name="time">Heure</string>

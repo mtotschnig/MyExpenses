@@ -116,17 +116,16 @@ public class ManageAccounts extends ListActivity {
       mAccountsCursor.requery();
     }
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{"description","label","opening_balance"};
+    String[] from = new String[]{"description","label","opening_balance","sum_income","sum_expenses","current_balance"};
 
     // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.description,R.id.label,R.id.opening_balance};
+    int[] to = new int[]{R.id.description,R.id.label,R.id.opening_balance,R.id.sum_income,R.id.sum_expenses,R.id.current_balance};
 
     // Now create a simple cursor adapter and set it to display
     SimpleCursorAdapter account = new SimpleCursorAdapter(this, R.layout.account_row, mAccountsCursor, from, to) {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
           View row=super.getView(position, convertView, parent);
-          TextView tv1 = (TextView)row.findViewById(R.id.opening_balance);
           Cursor c = getCursor();
           c.moveToPosition(position);
           int col = c.getColumnIndex("currency");
@@ -137,13 +136,18 @@ public class ManageAccounts extends ListActivity {
           } catch (IllegalArgumentException e) {
             currency = Currency.getInstance(Locale.getDefault());
           }
-          tv1.setText(Utils.convAmount(tv1.getText().toString(),currency));
+          setConvertedAmount((TextView)row.findViewById(R.id.opening_balance), currency);
+          setConvertedAmount((TextView)row.findViewById(R.id.sum_income), currency);
+          setConvertedAmount((TextView)row.findViewById(R.id.sum_expenses), currency);
+          setConvertedAmount((TextView)row.findViewById(R.id.current_balance), currency);
           return row;
         }
     };
     setListAdapter(account);
   }
-
+  private void setConvertedAmount(TextView tv,Currency currency) {
+    tv.setText(Utils.convAmount(tv.getText().toString(),currency));
+  }
   /* (non-Javadoc)
    * makes sure that current account is not deleted
    * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)

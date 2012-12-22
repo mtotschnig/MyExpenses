@@ -214,6 +214,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       }
     }
     mSwitchButton.addItem(R.string.menu_accounts_new,R.id.CREATE_ACCOUNT_COMMAND);
+    mSwitchButton.addItem(R.string.menu_accounts_summary,R.id.ACCOUNT_OVERVIEW_COMMAND);
     otherAccounts.close();
   }
   private void fillAddButton() {
@@ -303,9 +304,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     startManagingCursor(mExpensesCursor);
 
     setTitle(mCurrentAccount.label);
-
-    TextView startView= (TextView) findViewById(R.id.start);
-    startView.setText(Utils.formatCurrency(mCurrentAccount.openingBalance));
 
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{"label",ExpensesDbAdapter.KEY_DATE,ExpensesDbAdapter.KEY_AMOUNT};
@@ -1257,6 +1255,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       i = new Intent(MyExpenses.this, AccountEdit.class);
       i.putExtra(ExpensesDbAdapter.KEY_ROWID, mCurrentAccount.id);
       startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
+      break;
+    case R.id.ACCOUNT_OVERVIEW_COMMAND:
+      startActivityForResult(new Intent(MyExpenses.this, ManageAccounts.class),ACTIVITY_PREF);
       break;
     case R.id.BACKUP_COMMAND:
       startActivityForResult(new Intent(MyExpenses.this, Backup.class),ACTIVITY_PREF);

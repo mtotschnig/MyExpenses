@@ -26,7 +26,7 @@
       android:id="@+id/content">
     <RelativeLayout
         style="@style/balance"
-        android:id="@+id/top"
+        android:id="@+id/bottom"
         android:layout_width="fill_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
@@ -35,11 +35,11 @@
           android:layout_alignParentLeft="true"
           android:layout_height="wrap_content"
           android:layout_width="wrap_content"
-          android:text="@string/opening_balance" />
+          android:text="@string/current_balance" />
       <TextView
         style="@style/balanceText"
-          android:text="START"
-          android:id="@+id/start" 
+          android:text="END"
+          android:id="@+id/end" 
           android:layout_alignParentRight="true"
           android:layout_height="wrap_content"
           android:layout_width="wrap_content" />
@@ -60,26 +60,7 @@
         android:layout_weight="1"
         android:background="@drawable/border"
         android:text="@string/no_expenses" />
-    <RelativeLayout
-        style="@style/balance"
-        android:id="@+id/bottom"
-        android:layout_width="fill_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-      <TextView
-        style="@style/balanceText"
-          android:layout_alignParentLeft="true"
-          android:layout_height="wrap_content"
-          android:layout_width="wrap_content"
-          android:text="@string/current_balance" />
-      <TextView
-        style="@style/balanceText"
-          android:text="END"
-          android:id="@+id/end" 
-          android:layout_alignParentRight="true"
-          android:layout_height="wrap_content"
-          android:layout_width="wrap_content" />
-    </RelativeLayout>
+
   </LinearLayout>
   <org.totschnig.myexpenses.ButtonBar
       android:id="@+id/ButtonBar"

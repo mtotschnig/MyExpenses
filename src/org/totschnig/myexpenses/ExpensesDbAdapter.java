@@ -790,7 +790,10 @@ public class ExpensesDbAdapter {
    */
   public Cursor fetchAccountAll() {
     return mDb.query("accounts",
-        new String[] {KEY_ROWID,"label","description","opening_balance","currency"}, 
+        new String[] {KEY_ROWID,"label","description","opening_balance","currency",
+        "(select coalesce(sum(amount),0) from transactions where account_id = accounts._id and amount>0) as sum_income",
+        "(select coalesce(abs(sum(amount)),0) from transactions where account_id = accounts._id and amount<0) as sum_expenses",
+        "opening_balance + (select coalesce(sum(amount),0) from transactions where account_id = accounts._id) as current_balance"}, 
         null, null, null, null, null);
   }
 
