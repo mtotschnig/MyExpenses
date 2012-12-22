@@ -22,6 +22,7 @@
   <string name="account">Cuenta</string>
   <string name="account_type_cash">Cuenta de caja</string>
   <string name="account_type_bank">Cuenta bancaria</string>
+  <string name="account_type_ccard">Tarjeta de crédito</string>
   <string name="account_type_asset">Cuenta del acivo</string>
   <string name="account_type_liability">Cuenta de passivo</string>
   <string name="amount">Importe</string>
@@ -42,11 +43,13 @@
   <string name="default_account_description">Esta cuenta ha sido establecida automáticamente durante
       la instalación.</string>    
   <string name="description">Descripción</string>
+  <string name="dialog_confirm_delete_template">¿De veras desea borrar plantilla \"%1$s\" ?</string>
   <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_currency">Escoger una moneda</string>
   <string name="dialog_title_select_import_source">Escoger una fuente para la importación</string>
   <string name="dialog_title_select_method">Escoger un método de pago</string>
   <string name="dialog_title_select_type">Escoger un tipo</string>
+  <string name="dialog_title_template_title">Establecer el título</string>
   <string name="edit_category">Modificar categoría</string>
   <string name="expense">gasto</string>
   <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere
@@ -83,22 +86,24 @@
       ingresos y exportarlos a un programa de escritorio de finanzas (Grisbi o Gnucash).</string>
   <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
   <string name="help_quick_guide"><i>&app_name;</i> tiene dos interfaces para los comandos de
-      llamada: una barra de herramientas y el menú estándar de Android (el botón de menú físico). En
-      la configuración de la pantalla se puede especificar cual desea utilizar. La mayoría de los
-      botones de control en la barra de herramientas responde tanto a los dos clics cortos (acción
-      estándar) como a clics largos (abrir un menú pop-up).
-      \n<u>Cuentas -> Nueva &#8230;</u> : Crear una cuenta.
-      \n<u>Cuentas</u> : Cambiar a otra cuenta.
-      \n<u>Nuevo</u> : Añadir un asiento.
-      \n<u>Nuevo -> Traslado a otra cuenta</u> : Añada un traslado a otra cuenta, si hay más de una
-        cuenta con la misma moneda.
-      \n<u>Restablecer</u> : Exporta los gastos en el formato QIF a la tarjeta SD, borra las
-        entradas y restablece el saldo inicial.
-      \n<u>Configuraciones</u>: Seleccione <u>Importación desde Grisbi</u> para importar categorías
-        de un archivo Grisbi. Usted puede o seleccionar las categorías estándar de Grisbi que están
-        incluidas o utilizar un archivo propio. Para ello, utilice o su archivo Grisbi o modifique
-        éste eliminando todo, excepto las categorías. MyExpenses expera el archivo bajo
-        \"/sdcard/myexpenses/&grisbi_file;\".
+      llamada: una barra de herramientas y el menú estándar de Android (el botón de menú físico). En
+      la configuración de la pantalla se puede especificar cual desea utilizar. Los
+      botones de control en la barra de herramientas ejecutan las siguientes acciones en clics cortos.:\n\n
+      - <b>Nuevo</b> : Añadir una transacción.\n
+      - <b>Cuentas</b> : Cambiar a otra cuenta.\n
+      - <b>Reset</b> : Exporta los gastos en el formato QIF a la tarjeta SD, borra los
+      gastos y actualiza el saldo inicial.\n
+      - <b> Configuraciones</b> : Permite el acceso a todas las configuraciones y funciones administrativas 
+      (de cuentas, categorías, beneficiarios, formas de pago, plantillas, copias de seguridad, importaciones).\n
+      - <b>Ayuda</b> : Abre esta pantalla de ayuda.\n
+      \nAlgunos botones (indicado por un triángulo en la esquina superior izquierda) abren menús pop-up en clics largos:n\n
+      - <b>Nuevo</b> : <b>Traslado</b> Permite crear una transferencia de una cuenta a otra (deben tener la misma moneda). 
+      También enumera las plantillas disponibles que se pueden instanciar. (Las plantillas 
+      pueden crearse a partir de las transacciones desde su menú contextual de la lista).\n
+      - <b>Cuentas</b> : Enumera todas las cuentas a las que se puede cambiar. <b>Nuevo&#8230;</b> crea una nueva cuenta.\n
+      - <b>Configuraciones</b> Acceso rápido a la copia de seguridad y las propiedades de la cuenta corriente.\n
+      - <b>Ayuda</b> : Acceso rápido a tutorial, noticias, preguntas frecuentes y cambios.\n
+      \nPor favor, consulte <a href="http://myexpenses.totschnig.org/#tutorial_r4">el manual</a> para explicaciones detalladas.
   </string>
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Información importante</string>
@@ -107,22 +112,22 @@
       regional. Por favor, utilice %1$s</string>
   <string name="label">Etiqueta</string>
   <string name="menu_accounts">Cuentas</string>
-  <string name="menu_accounts_explain">Con el botón Cuentas usted puede alternar entre cuentas, una
-      vez que ha creado varias cuentas. Actualmente hay sólo una cuenta. Usted puede añadir una
-      cuenta haciendo clic en el botón Cuentas largo tiempo y seleccionando después el comando Nuevo
-      &#8230;, o en la sección Cuentas en la pantalla de configuración.</string>
+  <string name="menu_accounts_explain">Con el botón Cuentas usted puede alternar entre cuentas, una vez que ha creado varias cuentas.
+      Actualmente hay sólo una cuenta. ¿Quiere usted crear una segunda cuenta ahora?</string>
   <string name="menu_accounts_new">Nuevo &#8230;</string>
   <string name="menu_backup">Copia de seguridad</string>
   <string name="menu_change_account">Cambiar a otra cuenta</string>
   <string name="menu_changes">Cambios</string>
   <string name="menu_create_main_cat">Nueva categoría principal</string>
   <string name="menu_create_sub_cat">Nueva sub-categoría</string>
+  <string name="menu_create_template">Crear plantilla</string>
   <string name="menu_delete">Borrar</string>
   <string name="menu_delete_account">Borrar la cuenta</string>
   <string name="menu_delete_cat">Borrar la categoría</string>
+  <string name="menu_delete_method">Borrar el método de pago</string>
   <string name="menu_edit_account">Modificar la cuenta</string>
   <string name="menu_edit_cat">Modificar la categoría</string>
-  <string name="menu_edit_method">Modificar método de pago</string>
+  <string name="menu_edit_method">Modificar el método de pago</string>
   <string name="menu_edit_ta">Modificar el asiento</string>
   <string name="menu_edit_transfer">Modificar el traslado a otra cuenta</string>
   <string name="menu_faq">Preguntas frecuentes</string>
@@ -133,6 +138,7 @@
   <string name="menu_insert_transfer">Nuevo traslado a otra cuenta</string>
   <string name="menu_move_transaction">Mover</string>
   <string name="menu_new">Nuevo</string>
+  <string name="menu_new_from_template">Nuevo a partir de una plantilla</string>
   <string name="menu_reset">Restablecer</string>
   <string name="menu_reset_abrev">Restabl.</string>
   <string name="menu_settings">Configuraciones</string>
@@ -149,6 +155,8 @@
   <string name="no_details">No hay detalles.</string>
   <string name="no_expenses">¡Todavía no hay gastos!</string>
   <string name="no_parties">Ningunos partes</string>
+  <string name="no_templates">Ningunas plantillas</string>
+  <string name="no_text_given">No ha insertado usted texto alguno.</string>
   <string name="not_deletable_mapped_expenses">No se puede borrar, porque tiene gastos asignados.</string>
   <string name="not_deletable_subcats_exists">No se puede borrar esta categoría, porque tiene
       sub-categorías.</string>
@@ -176,6 +184,9 @@
   <string name="pm_type_credit">Crédito</string>
   <string name="peer_transaction_deleted">Este asiento estaba conectado con un asiento de
       contrapartida (cuenta %1$s) que fue borrado.</string>
+  <string name="pref_account_button_behaviour_summary">¿Debe el botón  \"Cuentas\" alternar entre las dos 
+      últimas cuentas en lugar de circular entre todas?<string>
+  <string name="pref_account_button_behaviour_title">Comportamiento del botón \"Cuentas\" </string>
   <string name="pref_backup_title">Copia de seguridad</string>
   <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y de las
       configuraciones en la tarjeta SD.</string>
@@ -204,9 +215,14 @@
   <string name="pref_manage_methods_summary">Creación, edición de formas de pago y los asocian con los tipos de cuenta.</string>
   <string name="pref_manage_parties_title">Administrar partes</string>
   <string name="pref_manage_parties_summary">Borrar partes (pagador y beneficiario)</string>
+  <string name="pref_manage_templates_summary">Aplicar o borrar plantillas</string>
+  <string name="pref_manage_templates_title">Administrar plantillas</string>
   <string name="pref_perform_share_title">Enviar la exportación QIF</string>
   <string name="pref_perform_share_summary">¿Se debe enviar el archivo QIF después de cada
       exportación?</string>
+  <string name="pref_qif_export_file_encoding_summary">Establece \"ISO-8859-1\" como
+      codificación de caracteres si utiliza MS Money.</string>
+  <string name="pref_qif_export_file_encoding_title">Codificación de caracteres del archivo QIF </string>
   <string name="pref_share_target_title">Cargar URL de exportación QIF</string>
   <string name="pref_share_target_summary">Usted puede dejar esto en blanco, si quiere elegir entre
       aplicaciones adecuadas (correo electrónico, Dropbox, Google Docs, &#8230;), o indicar un URL
@@ -226,6 +242,9 @@
   <string name="share_sending">Enviar el archivo QIF</string>
   <string name="suggest_use_standard_menu">¿Quiere usted utilizar el menú estándar de Android en vez
       de la barra de herramientas para acceder a los comandos?</string>
+  <string name="switch_account">Cambiado a la cuenta \"%1$s\"</string>
+  <string name="template_create_success">Plantilla \"%1$s\" creada con éxito</string>
+  <string name="template_title_exists">Ya existe una plantilla con título \"%1$s\" .</string>
   <string name="time">Hora</string>
   <string name="title">Título</string>
   <string name="transaction">Asiento</string>
@@ -238,8 +257,8 @@
       tarjeta SD. Se borra la existente copia de seguridad. ¿Quiere continuar?</string>
   <string name="warning_delete_account">Se borra esta cuenta con todos sus asientos. ¿Quiere
       continuar?</string>
-  <string name="warning_reset_account">Se borran todas las transacciones de esta cuenta. ¿Quiere
-      continuar?</string>
+  <string name="warning_reset_account">Todas las transacciones serán exportadas a un archivo QIF 
+      en la tarjeta SD y borradas.¿Quiere continuar?</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
   
   <!-- strings below this comment do not need translations for new languages -->
