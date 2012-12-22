@@ -115,27 +115,30 @@
     <para lang="en">
       <application role="app_name"/> is designed to keep track of your expenses and incomes,
       and to export these expenses into a desktop finance tool, like Grisbi or Gnucash. It
-      supports multiple accounts and a two-level hierarchy of categories.
+      supports multiple accounts, a two-level hierarchy of categories and creation of transactions 
+      from templates.
     </para>
     <para lang="fr">
       <application role="app_name"/>  permet de gérer les entrées d'argent et les
       dépenses, et de les exporter vers un logiciel de finance, tel que Grisbi ou Gnucash.
-      Il supporte de multiples comptes et deux niveaux de catégories.
+      Il supporte de multiples comptes, deux niveaux de catégories et la création de transactions à 
+      partirde de modèles.
     </para>
     <para lang="de">
       Mit <application role="app_name"/> können sie über Ihre Ausgaben und Einnahmen Buch
       halten, und diese in ein Desktop-Finanzprogrammm (Grisbi oder Gnucash) exportieren. Es
-      unterstützt mehrere Konten und zwei Ebenen von Kategorien.
+      unterstützt mehrere Konten, zwei Ebenen von Kategorien und das Erzeugen von Buchungen aus
+      Vorlagen.
     </para>
     <para lang="it">
       <application role="app_name"/> può gestire l'offerta di moneta e le spese, ed esportarle
-      in un software di finanza, come Grisbi o GnuCash. Esso supporta più conti e due livelli
-      di categorie.
+      in un software di finanza, come Grisbi o GnuCash. Esso supporta più conti, due livelli
+      di categorie et creazione di operazioni da modelli.
     </para>
     <para lang="es">
       Con <application role="app_name"/> puede llevar contabilidad sobre sus gastos e ingresos,
       y controlar y exportar estos a un programa de escritorio de finanzas. Puede manejar
-      varias cuentas y dos grupos de categorías. 
+      varias cuentas, dos grupos de categorías y plantillas.
     </para>
     <!-- END introduction para 1 -->  
 
@@ -143,7 +146,7 @@
     <para lang="en">
       Its main screen displays the list of transactions for the current account. The button bar
       displayed at the bottom of the screen gives easy access to all functionalities. Each
-      button executes a default action on short clicks and most open up a menu with further
+      button executes a default action on short clicks and some (indicated by a triangle in the left upper corner) open up a menu with further
       actions on long clicks. Alternatively, you can configure <application role="app_name"/>
       in <link linkend='tutorial5_6'><guilabel role="pref_use_standard_menu_title"/></link> to
       use a command interface based on the Android standard menu.
@@ -151,7 +154,7 @@
     <para lang="fr">
       Sur l'écran principal s'affiche la liste des transactions du compte en cours. La
       barre des boutons en bas de l'écran donne accès à toutes les fonctions. Chaque
-      bouton exécute une action par défaut sur un clic court. La plupart
+      bouton exécute une action par défaut sur un clic court. Certains (identifiables par le triangle en haut à gauche)
       affichent un menu avec d'autres actions sur un clic long. Sinon, vous 
       pouvez configurer <application role="app_name"/> afin qu'il utilise le menu
       standard d'Android en tant qu'interface de commande (<link linkend='tutorial5_6'><guilabel
@@ -160,8 +163,8 @@
     <para lang="de">
       In der Hauptansicht werden alle Buchungen des aktiven Kontos angezeigt. Am unteren Rand
       des Bildschirms befinded sich eine Symbolleiste, die Zugriff auf alle Funktionalitäten
-      gewährt. Jeder Schaltknopf ruft mittels eines kurzen Klicks eine Aktion auf, die meisten
-      reagieren zusätzlich auf einen langen Klick, und öffnen ein Menü mit weiteren Aktionen.
+      gewährt. Jeder Schaltknopf ruft mittels eines kurzen Klicks eine Aktion auf, einige
+      reagieren zusätzlich auf einen langen Klick (wenn im linken oberen Eck ein Dreieck abgebildet ist), und öffnen ein Menü mit weiteren Aktionen.
       Anstatt der Menüleiste kann <application role="app_name"/> auch das Android Standardmenü
       verwenden, wenn sie <link linkend='tutorial5_6'><guilabel
       	role="pref_use_standard_menu_title"/></link> konfigurieren.
@@ -169,7 +172,7 @@
     <para lang="it">
       Nella schermata principale mostra un elenco di operazioni in conto corrente. La barra
       nella parte inferiore dello schermo fornisce accesso a tutte le funzioni. Ogni pulsante
-      esegue un'azione predefinita in risposta a un clic breve. La maggior parte visualizza
+      esegue un'azione predefinita in risposta a un clic breve. Alcuni pulsanti (indicato per un triangolo nell\'angolo destro di sopra) aprono 
       un menu con altre azioni in un clic lungo. In caso contrario, è possibile configurare que
       <application role="app_name"/> utilizza il menù standard di Android come
       interfaccia di controllo(<link linkend='tutorial5_6'><guilabel
@@ -178,8 +181,8 @@
     <para lang="es">
       En la ventana principal puede ver todos los asientos de su cuenta activa. En la parte
       inferior de la ventana se encuentra una barra de herramientas por la cual se llega a
-      todas las funcionalidades. Cada botón inicia con un clic breve una acción, y casi todos
-      los botones abren con un clic largo un menú con mas acciones. En lugar de la barra de
+      todas las funcionalidades. Cada botón inicia con un clic breve una acción, y algunos botones (indicado por un triángulo en la esquina superior izquierda)
+      abren con un clic largo un menú con mas acciones. En lugar de la barra de
       menú <application role="app_name"/> puede utilizar también el menú estándar de Android si
       usted configura <link linkend='tutorial5_6'><guilabel role="pref_use_standard_menu_title"
       	/></link>.
@@ -237,11 +240,10 @@
       <menuchoice>
         <guimenu role="menu_settings"/>
         <guimenuitem role="menu_settings_account"/>
-     </menuchoice>, whereas
+     </menuchoice>, whereas you can create a new account from 
      <menuchoice>
         <guimenu role="menu_accounts"/>
-        <guimenuitem role="menu_accounts_new"/>
-     </menuchoice> allows to create a new account.
+     </menuchoice> or 
     </para>
 
     <para lang="fr">
@@ -375,36 +377,40 @@
       When you confirm that you are done, you get back to the transaction list. If you
       have created a new account, it is automatically set to be the current account.
       You can easily switch between accounts through the <guibutton role="menu_accounts"/>
-      button. A short click switches to the last active account, a long click gives access
-      to a menu of all accounts.
+      button. A long click gives access to a menu of all accounts. Based on the setting of
+      <guilabel role="pref_account_button_behaviour_title"/> a short click either cycles between all
+      accounts or switches to the last active account.
     </para>
     <para lang="fr">
       Confirmez, et vous reviendrez à la liste des transactions. Si vous avez ajouté un
       nouveau compte, celui-ci deviendra automatiquement le compte en cours. Le bouton
       <guibutton role="menu_accounts"/> permet de facilement changer de compte.
-      Un clic court active le dernier utilisé, un clic long ouvre le  menu
-      permettant de le choisir dans la liste complète.
+      Un clic long ouvre le  menu permettant de le choisir dans la liste complète. Un clic court 
+      soit traverse tous les comptes, soit active le dernier utilisé,  dépendant du paramètre
+      <guilabel role="pref_account_button_behaviour_title"/>.
     </para>
     <para lang="de">
       Nach Bestätigung der Eingabe gelangen Sie wieder zur Liste der Buchungen. Wenn Sie
       ein neues Konto angelegt haben, wird dieses automatisch zum aktiven Konto. Der
       Schaltknopf <guibutton role="menu_accounts"/> erlaubt das Wechseln zwischen Konton.
-      Ein einfacher Klick wechselt zum zuletzt aktiven Konto, ein langer Klick öffnet ein
-      Menü mit allen Konten zur Auswahl.
+      Ein langer Klick öffnet ein Menü mit allen Konten zur Auswahl. Ein einfacher Klick ruft entweder 
+      nacheinander alle Konten auf, oder wechselt zum zuletzt aktiven Konto, oder , abhängig von der Einstellung
+      <guilabel role="pref_account_button_behaviour_title"/>.
     </para>
     <para lang="it">
       Confermare la voce, e si ritorna alla lista di transazioni. Se si è aggiunto un nuovo
       conto, diventa automaticamente il conto corrente. La voce <guibutton
-      role="menu_accounts"/> consente di cambiare il conto corrente. Un clic breve attiva il
-      conto ultimo utilizzato, un clic lungo apre un menu per scegliere questo dalla lista.
+      role="menu_accounts"/> consente di cambiare il conto corrente. Un clic lungo apre un menu per 
+      scegliere questo dalla lista. Un clic breve alternare tra tutti i conti o attiva il conto ultimo 
+      utilizzato (impostazione <guilabel role="pref_account_button_behaviour_title"/>).
     </para>
     <para lang="es">
-      Después de confirmar su inserción el programa vuelve a la lista de sus asientos. Si
-      configura una nueva cuenta, esa se trasforma automáticamente en la cuenta activa. El
-      botón <guibutton role="menu_accounts"/> permite cambiar de una cuenta a otra. Con un clic
-      simple se vuelve a la cuenta recientemente activa, un clic largo abre un menú con todas
-      las cuentas a elegir.
-    </para>    
+      Después de confirmar su inserción el programa vuelve a la lista de sus asientos. Si configura
+      una nueva cuenta, esa se trasforma automáticamente en la cuenta activa. El botón <guibutton
+      role="menu_accounts"/> permite cambiar de una cuenta a otra. Un clic largo abre un menú con
+      todas las cuentas a elegir. Con un clic simple se circula entre todas cuentas, o se vuelve a
+      la cuenta recientemente activa (configuración <guilabel role="pref_account_button_behaviour_title"/>).
+    </para>
     <!-- END tutorial1 para 4 --> 
     
     <!-- BEGIN tutorial1 para 5 --> 
