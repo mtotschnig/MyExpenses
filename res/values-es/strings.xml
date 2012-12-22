@@ -49,7 +49,7 @@
   <string name="dialog_title_select_import_source">Escoger una fuente para la importación</string>
   <string name="dialog_title_select_method">Escoger un método de pago</string>
   <string name="dialog_title_select_type">Escoger un tipo</string>
-  <string name="dialog_title_template_title">Establecer el título</string>
+  <string name="dialog_title_template_title">Establecer el título</string>
   <string name="edit_category">Modificar categoría</string>
   <string name="expense">gasto</string>
   <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere
@@ -105,6 +105,9 @@
       - <b>Ayuda</b> : Acceso rápido a tutorial, noticias, preguntas frecuentes y cambios.\n
       \nPor favor, consulte <a href="http://myexpenses.totschnig.org/#tutorial_r4">el manual</a> para explicaciones detalladas.
   </string>
+  <string name="help_whats_new">&#160;- Crear asientos a partir de una plantilla\n
+      - Puede configurar codificación de caracteres (compatibilidad con MS Money)\n
+      - mejora de la interfaz de usuario</string>
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Información importante</string>
   <string name="income">ingreso</string>
@@ -155,7 +158,7 @@
   <string name="no_details">No hay detalles.</string>
   <string name="no_expenses">¡Todavía no hay gastos!</string>
   <string name="no_parties">Ningunos partes</string>
-  <string name="no_templates">Ningunas plantillas</string>
+  <string name="no_templates">Ningunas plantillas</string>
   <string name="no_text_given">No ha insertado usted texto alguno.</string>
   <string name="not_deletable_mapped_expenses">No se puede borrar, porque tiene gastos asignados.</string>
   <string name="not_deletable_subcats_exists">No se puede borrar esta categoría, porque tiene
@@ -185,7 +188,7 @@
   <string name="peer_transaction_deleted">Este asiento estaba conectado con un asiento de
       contrapartida (cuenta %1$s) que fue borrado.</string>
   <string name="pref_account_button_behaviour_summary">¿Debe el botón  \"Cuentas\" alternar entre las dos 
-      últimas cuentas en lugar de circular entre todas?<string>
+      últimas cuentas en lugar de circular entre todas?</string>
   <string name="pref_account_button_behaviour_title">Comportamiento del botón \"Cuentas\" </string>
   <string name="pref_backup_title">Copia de seguridad</string>
   <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y de las
@@ -257,7 +260,7 @@
       tarjeta SD. Se borra la existente copia de seguridad. ¿Quiere continuar?</string>
   <string name="warning_delete_account">Se borra esta cuenta con todos sus asientos. ¿Quiere
       continuar?</string>
-  <string name="warning_reset_account">Todas las transacciones serán exportadas a un archivo QIF 
+  <string name="warning_reset_account">Todas las transacciones serán exportadas a un archivo QIF
       en la tarjeta SD y borradas.¿Quiere continuar?</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
   

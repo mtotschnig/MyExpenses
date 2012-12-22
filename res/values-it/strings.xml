@@ -104,6 +104,9 @@
       - <b>Aiuto</b> : accesso rapido al manuale, News et FAQ.\n
       \nPer favore visita il <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuale</a>
       per avere ulteriori esplicazioni.</string>
+  <string name="help_whats_new">&#160;- Creare operazione riguardo modelli\n
+      - È possibile configurare set di caratteri del file QIF (compatibilità MS Money)\n
+      - Miglioramenti dell\'interfaccia utente</string>
   <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
   <string name="important_version_information">Informazioni importanti</string>
@@ -199,7 +202,7 @@
       quantità</string>
   <string name="pref_currency_decimal_separator_summary">Si può scegliere tra "," e "." o decidere
       di unità di ingresso minori come numeri interi.</string>
-  <string name="pref_currency_decimal_separator_comma">Virgola (,)</string>dialog_title_template_title dialog_title_template_title dialog_title_template_title 
+  <string name="pref_currency_decimal_separator_comma">Virgola (,)</string>
   <string name="pref_currency_decimal_separator_point">Punto (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Unità minori come numeri interi
   </string>
