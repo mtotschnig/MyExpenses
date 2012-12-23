@@ -44,8 +44,6 @@
               <category android:name="android.intent.category.DEFAULT" />  
             </intent-filter>
         </activity>
-        <activity android:name=".WebView"
-            android:configChanges="keyboard|keyboardHidden|orientation"/>
         <activity android:name=".Backup"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
           <intent-filter>
