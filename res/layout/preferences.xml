@@ -17,7 +17,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="first_preferencescreen">
   <PreferenceCategory 
-      android:title="Manage">
+      android:title="@string/pref_category_title_manage">
 	  <PreferenceScreen
 	      android:title="@string/pref_manage_accounts_title"
 	      android:key="manage_accounts"
@@ -46,7 +46,7 @@
 	  </PreferenceScreen>
   </PreferenceCategory>
   <PreferenceCategory 
-      android:title="UI">
+      android:title="@string/pref_category_title_ui">
 	  <CheckBoxPreference android:key="@string/pref_use_standard_menu_key"
 	      android:layout="@layout/preference_long_summary"
 	      android:defaultValue="false"
@@ -98,9 +98,9 @@
 		    android:summary="@string/pref_share_target_summary" />
 	</PreferenceCategory>
   <PreferenceCategory 
-      android:title="Backup">
+      android:title="@string/menu_backup">
 		<PreferenceScreen android:key="backup"
-	      android:title="@string/pref_backup_title"
+	      android:title="@string/menu_backup"
 	      android:summary="@string/pref_backup_summary">
 	      <intent android:action="myexpenses.intent.backup"/>
     </PreferenceScreen>

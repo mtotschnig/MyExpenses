@@ -99,7 +99,8 @@
       \nEinige Schaltknöpfe reagieren auch auf lange Klicks (wenn im linken oberen Eck ein Dreieck abgebildet ist):\n\n
       - <b>Neu</b> : <b>Umbuchung</b> zwischen zwei Konten (diese müssen dieselbe Währung verwenden).
       Hier werden auch alle verfügbaren Vorlagen aufgelistet (Buchungen können über ihr Kontextmenü in der Liste als Vorlagen gespeichert werden.)\n
-      - <b>Konten</b> : Zeigt alle Konten an, zu denen Sie wechseln können. <b>Neu &#8230;</b> : Ein neues Konto erstellen.\n
+      - <b>Konten</b> : Zeigt alle Konten an, zu denen Sie wechseln können. <b>Neu &#8230;</b> : Ein neues Konto erstellen, 
+      <b>Zusammenfassung</b> öffnet eine Übersicht aller Konten mit dem aktuellen Finanzstatus.\n
 			- <b>Einstellungen</b> : Schnellzugriff auf Backup und die Konfiguration des aktuellen Kontos.\n
 			- <b>Hilfe</b> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.\n
 			\nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
@@ -120,7 +121,7 @@
   </string>
   <string name="menu_accounts_new">Neu &#8230;</string>
   <string name="menu_accounts_summary">Zusammenfassung</string>
-  <string name="menu_backup">Backup</string>
+  <string name="menu_backup">Sicherungskopie</string>
   <string name="menu_change_account">Konto wechseln</string>
   <string name="menu_changes">Änderungen</string>
   <string name="menu_create_main_cat">Neue Hauptkategorie</string>
@@ -194,12 +195,13 @@
   <string name="pref_account_button_behaviour_title">Verhalten des Schaltknopfes \"Konten\"</string>
   <string name="pref_account_button_behaviour_summary">Soll der Schaltknopf  \"Konten\" zwischen den beiden letzten Konten hin- und herschalten, anstatt 
         alle Konten nacheinander aufzurufen.</string>
-  <string name="pref_backup_title">Backup</string>
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der
       SD-Karte.</string>
   <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge der Kategorien</string>
   <string name="pref_categories_sort_by_usages_summary">Benützungshäufigkeit als primäres Kriterium
       für Sortierung verwenden (andernfalls alphabetische Reihung)</string>
+  <string name="pref_category_title_manage">Verwalten</string>
+  <string name="pref_category_title_ui">Benutzerschnittstelle</string>
   <string name="pref_currency_decimal_separator_title">Dezimaltrennzeichen für die Eingabe von
       Währungsbeträgen</string>
   <string name="pref_currency_decimal_separator_summary">Wählen Sie zwischen \",\" und \".\". Sie
@@ -213,15 +215,15 @@
       Grisbi-Standard-Definitionen oder aus Ihrer eigenen Datei importieren. Letztere müssen Sie
       unter dem Namen &grisbi_file; in dem Ordner myexpenses im Wurzelverzeichnis der SD-Karte
       speichern</string>
-  <string name="pref_manage_accounts_title">Konten verwalten</string>
+  <string name="pref_manage_accounts_title">Konten</string>
   <string name="pref_manage_accounts_summary">Hinzufügen, Editieren und Löschen von Konten.</string>
-  <string name="pref_manage_categories_title">Kategorien verwalten</string>
+  <string name="pref_manage_categories_title">Kategorien</string>
   <string name="pref_manage_categories_summary">Hinzufügen, Editieren und Löschen von Kategorien.</string>
-  <string name="pref_manage_methods_title">Zahlungsweisen verwalten</string>
+  <string name="pref_manage_methods_title">Zahlungsweisen</string>
   <string name="pref_manage_methods_summary">Zahlungsweisen hinzufügen und verändern, und diese mit Kontotypen verknüpfen.</string>
-  <string name="pref_manage_parties_title">Parteien verwalten</string>
+  <string name="pref_manage_parties_title">Parteien</string>
   <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) löschen.</string>
-  <string name="pref_manage_templates_title">Vorlagen verwalten</string>
+  <string name="pref_manage_templates_title">Vorlagen</string>
   <string name="pref_manage_templates_summary">Vorlagen anwenden oder löschen.</string>
   <string name="pref_perform_share_title">QIF Export versenden</string>
   <string name="pref_perform_share_summary">Soll die QIF Datei nach jedem Export versendet werden?

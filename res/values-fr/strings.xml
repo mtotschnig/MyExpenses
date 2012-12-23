@@ -100,7 +100,8 @@
       - <b>Nouveau</b> : <b>Virement</b> : Ajouter un virement, s\'il existe au moins deux comptes de 
         même devise. Par ici, vous accèdez aussi à la liste des modèles. (Une transaction 
         peut être definies en tant que modèle à partir de son menu contextuel dans la liste des transactions.)\n
-      - <b>Comptes</b> : Changez vers un autre compte à partir de la liste qui s\'affiche ici. <b>Nouveau &#8230;</b> : Ajouter un compte.\n
+      - <b>Comptes</b> : Changez vers un autre compte à partir de la liste qui s\'affiche ici. <b>Nouveau &#8230;</b> : Ajouter un compte,
+        <b>Sommaire</b> ouvre un aperçu de tous les comptes aver leur situation financiere actuelle.\n
       - <b>Paramètres</b> : Accès rapide à la sauvegarde et aux propriétés du compte courant.\n
       - <b>Aide</b> : Accès rapide au manuel, les news, la foire aux questions et la liste des changements.\n
       \nReférez-vous au <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuel</a> pour de plus amples explications.
@@ -193,12 +194,13 @@
       a été supprimée</string>
   <string name="pref_account_button_behaviour_title">Fonctionnement du bouton \"Comptes\"</string>
   <string name="pref_account_button_behaviour_summary">Au lieu de traverser tous les comptes, le bouton \"Comptes\" peut alterner entrer les deux derniers comptes utilisés.</string>
-  <string name="pref_backup_title">Sauvegarde</string>
   <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences
       sur la carte SD.</string>
   <string name="pref_categories_sort_by_usages_title">Critères de tri pour catégories</string>
   <string name="pref_categories_sort_by_usages_summary">Trier les catégories principales par
       fréquence d\'utilisation (sinon par ordre alphabétique)</string>
+  <string name="pref_category_title_manage">Gestion</string>
+  <string name="pref_category_title_ui">Interface utilisateur</string>
   <string name="pref_currency_decimal_separator_title">Séparateur décimal pour l\'entrée des
       montants</string>
   <string name="pref_currency_decimal_separator_summary">Vous pouvez choisir entre "," et "." ou
@@ -212,15 +214,15 @@
       sauvegardé sous le nom &grisbi_file; dans le répertoire myexpenses de la racine de votre carte
       SD</string>
   <string name="pref_import_from_grisbi_title">Import des données Grisbi</string>
-  <string name="pref_manage_accounts_title">Gestion des comptes</string>
+  <string name="pref_manage_accounts_title">Comptes</string>
   <string name="pref_manage_accounts_summary">Ajouter, éditer et supprimer les comptes.</string>
-  <string name="pref_manage_categories_title">Gestion des catégories</string>
+  <string name="pref_manage_categories_title">Catégories</string>
   <string name="pref_manage_categories_summary">Ajouter, éditer, supprimer des catégories.</string>
-  <string name="pref_manage_methods_title">Gestion des méthodes de paiement</string>
+  <string name="pref_manage_methods_title">Méthodes de paiement</string>
   <string name="pref_manage_methods_summary">Créer, modifier les méthodes de paiement et les associer aux types de comptes.</string>
-  <string name="pref_manage_parties_title">Gestion des tiers</string>
+  <string name="pref_manage_parties_title">Tiers</string>
   <string name="pref_manage_parties_summary">Effacer les tiers.</string>
-  <string name="pref_manage_templates_title">Gérer les modèles</string>
+  <string name="pref_manage_templates_title">Modèles</string>
   <string name="pref_manage_templates_summary">Appliquer ou supprimer les modèles.</string>
   <string name="pref_perform_share_title">Envoyer le fichier d\'export QIF</string>
   <string name="pref_perform_share_summary">Voulez vous envoyer le fichier QIF après chaque export

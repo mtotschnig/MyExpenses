@@ -98,7 +98,7 @@
       - <b>Help</b> : Opens this help screen.\n
       \nSome buttons (indicated by a triangle in the left upper corner) open popup menus on long clicks:\n\n
       - <b>New</b> : <b>Transfer</b> allows to create a transfer from one account to another (must have same currency). Also enumerates available templates you can instantiate. (Templates can be created from transactions from their context menu in the list)\n
-      - <b>Accounts</b> : Enumerates all accounts you can switch to. <b>New &#8230;</b> creates a new account.\n
+      - <b>Accounts</b> : Enumerates all accounts you can switch to. <b>New &#8230;</b> creates a new account, <b>Summary</b> opens an overview of all accounts with current financial status.\n
       - <b>Settings</b> : Quick access to backup and properties for current account.\n
       - <b>Help</b> : Quick access to Tutorial, News, FAQ and Changes.\n
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
@@ -193,12 +193,13 @@
   <string name="pref_account_button_behaviour_title">Behaviour of \"Accounts\" button</string>
   <string name="pref_account_button_behaviour_summary">Should the \"Accounts\" button toggle
       between the last two accounts instead of cycling between all.</string>
-  <string name="pref_backup_title">Backup</string>
   <string name="pref_backup_summary">Create a backup of database and preferences on the
       sdcard.</string>
   <string name="pref_categories_sort_by_usages_title">Sort order for categories</string>
   <string name="pref_categories_sort_by_usages_summary">Use count of usages as primary sort criteria
       (plain alphanumeric order otherwise)</string>
+  <string name="pref_category_title_manage">Manage</string>
+  <string name="pref_category_title_ui">User interface</string>
   <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency
       amounts</string>
   <string name="pref_currency_decimal_separator_summary">You can choose between "," and "." or
@@ -210,15 +211,15 @@
   <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default
       Grisbi definitions internal to the app, or your own file stored as &grisbi_file; in a folder 
       myexpenses in the root of your sdcard. </string>
-  <string name="pref_manage_accounts_title">Manage accounts</string>
+  <string name="pref_manage_accounts_title">Accounts</string>
   <string name="pref_manage_accounts_summary">Add, edit, delete accounts.</string>
-  <string name="pref_manage_categories_title">Manage categories</string>
+  <string name="pref_manage_categories_title">Categories</string>
   <string name="pref_manage_categories_summary">Add, edit, delete categories.</string>
-  <string name="pref_manage_methods_title">Manage payment methods</string>
+  <string name="pref_manage_methods_title">Payment methods</string>
   <string name="pref_manage_methods_summary">Create and edit payment methods and associate them with account types.</string>
-  <string name="pref_manage_parties_title">Manage parties</string>
+  <string name="pref_manage_parties_title">Parties</string>
   <string name="pref_manage_parties_summary">Delete parties (payers and payees).</string>
-  <string name="pref_manage_templates_title">Manage templates</string>
+  <string name="pref_manage_templates_title">Templates</string>
   <string name="pref_manage_templates_summary">Apply or delete templates.</string>
   <string name="pref_perform_share_title">Share QIF Export</string>
   <string name="pref_perform_share_summary">Should the QIF file be shared after each export?</string>
