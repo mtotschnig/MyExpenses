@@ -159,7 +159,8 @@
   <string name="no_parties">Ningunos partes</string>
   <string name="no_templates">Ningunas plantillas</string>
   <string name="no_text_given">No ha insertado usted texto alguno.</string>
-  <string name="not_deletable_mapped_expenses">No se puede borrar, porque tiene gastos asignados.</string>
+  <string name="not_deletable_mapped_transactions">No se puede borrar, porque tiene gastos asignados.</string>
+  <string name="not_deletable_mapped_templates">No se puede borrar, porque tiene plantillas asignadas.</string>
   <string name="not_deletable_subcats_exists">No se puede borrar esta categoría, porque tiene
       sub-categorías.</string>
   <string name="no_valid_payment_methods">No hay medios de pago válidos para %1$s (%2$s)</string>

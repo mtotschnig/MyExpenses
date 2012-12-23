@@ -161,8 +161,10 @@
   <string name="no_templates">Non ci sono modelli.</string>
   <string name="no_text_given">Non ha scritto ningun testo.</string>
   <string name="no_valid_payment_methods">Nessuni modi di pagamento validi per %1$s (%2$s)</string>
-  <string name="not_deletable_mapped_expenses">Non può cancellar, perché ci
-      sono spese ad esso attribuite.</string>
+  <string name="not_deletable_mapped_transactions">Non può cancellar, perché ci
+      sono operazione ad esso attribuite.</string>
+  <string name="not_deletable_mapped_templates">Non può cancellar, perché ci
+      sono modelli ad esso attribuite.</string>
   <string name="not_deletable_subcats_exists">Questa categoria non può essere cancellata perché
       contiene sottocategorie.</string>
   <string name="opening_balance">Saldo inizial</string>
