@@ -243,7 +243,8 @@
      </menuchoice>, whereas you can create a new account from
      <menuchoice>
         <guimenu role="menu_accounts"/>
-     </menuchoice> or
+        <guimenuitem role="menu_accounts_new"/>
+     </menuchoice>.
     </para>
 
     <para lang="fr">
@@ -767,6 +768,97 @@
     </sect2>
   </sect1>
 
+     <!-- Transactions -->
+  <sect1 id="templates">
+    <sect1info>
+      <abstract>
+        <para lang="en">
+          How to manage templates
+        </para>
+        <para lang="fr">
+          Commment gérer les modèles
+        </para>
+        <para lang="de">
+          Wie man Vorlagen verwaltet
+        </para>
+        <para lang="it">
+          Como gestire gli modelli
+        </para>
+        <para lang="es">
+          Cómo administrar las plantillas
+        </para>
+      </abstract>
+    </sect1info>
+    <title>
+      <phrase lang="en">Templates</phrase>
+      <phrase lang="fr">Modèles</phrase>
+      <phrase lang="de">Vorlagen</phrase>
+      <phrase lang="it">Modelli</phrase>
+      <phrase lang="es">Las plantillas</phrase>
+    </title>
+    <!-- BEGIN templates para 1 -->
+    <para lang="en">
+      If you regularly enter identical or similar transactions, you can save some time by using templates.
+      Templates are simply derived from an existing transaction through the <menuchoice><guimenuitem
+        role="menu_create_template"/></menuchoice> entry in its context menu. You need to enter a
+      title that will identify the template.
+    </para>
+    <para lang="fr">
+
+    </para>
+    <para lang="de">
+
+    </para>
+    <para lang="it">
+
+    </para>
+    <para lang="es">
+
+    </para>
+
+    <!-- END templates para 1 -->
+
+    <!-- BEGIN templates para 2 -->
+    <para lang="en">
+      Templates are most easily used from the <menuchoice><guimenu role="menu_new"/></menuchoice> button,
+      where all templates available for the current account are represented through buttons. A short
+      click on a button creates a new transaction that is immediately saved. Through a long click,
+      you enter the editing form where you can change the transaction before saving, or discard it.
+    </para>
+    <para lang="fr">
+
+    </para>
+    <para lang="de">
+
+    </para>
+    <para lang="it">
+
+    </para>
+    <para lang="es">
+    </para>
+    <!-- END templates para 2 -->
+
+
+    <!-- BEGIN templates para 3 -->
+     <para lang="en">
+     Templates are also listed from the <guilabel role="pref_manage_templates_title"/> entry in the
+     <guilabel role="menu_settings"/> screen, grouped by account. Through each templates context menu, you
+     can access the same functionality of creating new transactions, and either save it directly or
+     enter its editing form. The third entry in the context menu allows deleting the template.
+    </para>
+    <para lang="fr">
+
+    </para>
+    <para lang="de">
+
+    </para>
+    <para lang="it">
+
+    </para>
+    <para lang="es">
+    </para>
+    <!-- END templates para 2 -->
+  </sect1>
    <!-- Categories -->
   <sect1 id="categories">
     <sect1info>
@@ -1205,7 +1297,7 @@
 
     <!-- BEGIN settings para 1 -->
     <para lang="en">
-      The preferences screen has five sections:
+      The <guilabel role="menu_settings"/> screen has five sections:
     </para>
     <?float-clear?>
       <variablelist>
@@ -1852,6 +1944,9 @@ template for new paragraphs
 
     </para>
     <para lang="de">
+
+    </para>
+    <para lang="it">
 
     </para>
     <para lang="it">
