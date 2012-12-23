@@ -130,8 +130,8 @@
   <string name="menu_create_main_cat">Neue Hauptkategorie</string>
   <string name="menu_create_sub_cat">Neue Unterkategorie</string>
   <string name="menu_create_template">Vorlage erzeugen</string>
-  <string name="menu_create_transaction_from_template_and_edit">Buchung erzeugen und verändern</string>
-  <string name="menu_create_transaction_from_template_and_save">Buchung erzeugen und speichern</string>
+  <string name="menu_create_transaction_from_template_and_edit">Neu und verändern</string>
+  <string name="menu_create_transaction_from_template_and_save">Neu und speichern</string>
   <string name="menu_delete">Löschen</string>
   <string name="menu_delete_account">Konto löschen</string>
   <string name="menu_delete_cat">Kategorie löschen</string>

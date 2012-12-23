@@ -128,8 +128,8 @@
   <string name="menu_create_main_cat">Nueva categoría principal</string>
   <string name="menu_create_sub_cat">Nueva sub-categoría</string>
   <string name="menu_create_template">Crear plantilla</string>
-  <string name="menu_create_transaction_from_template_and_edit">Crear transacción y modificar</string>
-  <string name="menu_create_transaction_from_template_and_save">Crear transacción y guardar</string>
+  <string name="menu_create_transaction_from_template_and_edit">Nueva y modificar</string>
+  <string name="menu_create_transaction_from_template_and_save">Nueva y guardar</string>
   <string name="menu_delete">Borrar</string>
   <string name="menu_delete_account">Borrar la cuenta</string>
   <string name="menu_delete_cat">Borrar la categoría</string>

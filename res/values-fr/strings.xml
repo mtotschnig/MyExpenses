@@ -127,8 +127,8 @@
   <string name="menu_create_main_cat">Nouvelle catégorie principale</string>
   <string name="menu_create_sub_cat">Nouvelle sous-catégorie</string>
   <string name="menu_create_template">Créer le modèle</string>
-  <string name="menu_create_transaction_from_template_and_edit">Créer la transaction et quitter</string>
-  <string name="menu_create_transaction_from_template_and_save">Créer la transaction et sauver</string>  
+  <string name="menu_create_transaction_from_template_and_edit">Nouveau et quitter</string>
+  <string name="menu_create_transaction_from_template_and_save">Nouveau et sauver</string>  
   <string name="menu_delete">Effacer</string>
   <string name="menu_delete_account">Effacer le compte</string>
   <string name="menu_delete_cat">Supprimer la catégorie</string>

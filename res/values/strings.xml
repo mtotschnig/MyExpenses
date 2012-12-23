@@ -127,8 +127,8 @@
   <string name="menu_create_main_cat">Create new main category</string>
   <string name="menu_create_sub_cat">Create new sub category</string>
   <string name="menu_create_template">Create template</string>
-  <string name="menu_create_transaction_from_template_and_edit">Create Transaction and edit</string>
-  <string name="menu_create_transaction_from_template_and_save">Create Transaction and save</string>
+  <string name="menu_create_transaction_from_template_and_edit">New and edit</string>
+  <string name="menu_create_transaction_from_template_and_save">New and save</string>
   <string name="menu_delete_account">Delete Account</string>
   <string name="menu_delete_cat">Delete category</string>
   <string name="menu_delete_method">Delete method</string>
