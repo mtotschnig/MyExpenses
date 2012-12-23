@@ -120,7 +120,7 @@ public class SelectCategory extends ExpandableListActivity {
         mDbHelper = MyApplication.db();
         mGroupCursor = mDbHelper.fetchCategoryMain();
         startManagingCursor(mGroupCursor);
-        
+
         mAddButton = (Button) findViewById(R.id.addOperation);
         mAddButton.setOnClickListener(new View.OnClickListener() {
           @Override
@@ -149,10 +149,10 @@ public class SelectCategory extends ExpandableListActivity {
     protected Dialog onCreateDialog(final int id) {
       if (id == CAT_EDIT_DIALOG_ID || id == CAT_CREATE_DIALOG_ID) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(id == CAT_CREATE_DIALOG_ID ? 
-            R.string.create_category : 
+        alert.setTitle(id == CAT_CREATE_DIALOG_ID ?
+            R.string.create_category :
             R.string.edit_category);
-        // Set an EditText view to get user input 
+        // Set an EditText view to get user input
         final EditText input = new EditText(this);
         //only if the editText has an id, is its value restored after orientation change
         input.setId(CAT_DIALOG_LABEL_EDIT_ID);
@@ -187,30 +187,30 @@ public class SelectCategory extends ExpandableListActivity {
         input.setText(mCatDialogLabel);
       }
     }
-    
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 
-    	    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
-    	    int type = ExpandableListView
-    	            .getPackedPositionType(info.packedPosition);
-    	
-    	    // Menu entries relevant only for the group
-    	    if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-    	    	if (!mManageOnly)
-    	    	  menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
-    	    	menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
-    	    }
-    	    menu.add(0,DELETE_CAT,0,R.string.menu_delete_cat);
-    	    menu.add(0,EDIT_CAT,0,R.string.menu_edit_cat);
+          ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
+          int type = ExpandableListView
+                  .getPackedPositionType(info.packedPosition);
+
+          // Menu entries relevant only for the group
+          if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+            if (!mManageOnly)
+              menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
+            menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
+          }
+          menu.add(0,DELETE_CAT,0,R.string.menu_delete_cat);
+          menu.add(0,EDIT_CAT,0,R.string.menu_edit_cat);
     }
-    
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         long cat_id;
         ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
         int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {         
+        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
           Cursor childCursor = (Cursor) mAdapter.getChild(
               ExpandableListView.getPackedPositionGroup(info.packedPosition),
               ExpandableListView.getPackedPositionChild(info.packedPosition)
@@ -220,53 +220,53 @@ public class SelectCategory extends ExpandableListActivity {
           cat_id = mGroupCursor.getLong(mGroupIdColumnIndex);
         }
         String label =   ((TextView) info.targetView).getText().toString();
-        
-    		switch(item.getItemId()) {
-    			case SELECT_MAIN_CAT:  	
-    	    	Intent intent=new Intent();		    	
-    	      intent.putExtra("cat_id", cat_id);
-    	      intent.putExtra("label", label);
-    	      setResult(RESULT_OK,intent);
-    	    	finish();
-    	      return true;
-    			case CREATE_SUB_CAT:
-    				createCat(cat_id);
-    				return true;
-    			case EDIT_CAT:
-    			  editCat(label,cat_id);
-    			  return true;
-    			case DELETE_CAT:
-    			  if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && mDbHelper.getCategoryCountSub(cat_id) > 0) {
-    			    Toast.makeText(this,getString(R.string.not_deletable_subcats_exists), Toast.LENGTH_LONG).show();
-    			  } else if (mDbHelper.getTransactionCountPerCat(cat_id) > 0 ) {
-    			    Toast.makeText(this,getString(R.string.not_deletable_mapped_transactions), Toast.LENGTH_LONG).show();
-    			  } else if (mDbHelper.getTemplateCountPerCat(cat_id) > 0 ) {
+
+        switch(item.getItemId()) {
+          case SELECT_MAIN_CAT:
+            Intent intent=new Intent();
+            intent.putExtra("cat_id", cat_id);
+            intent.putExtra("label", label);
+            setResult(RESULT_OK,intent);
+            finish();
+            return true;
+          case CREATE_SUB_CAT:
+            createCat(cat_id);
+            return true;
+          case EDIT_CAT:
+            editCat(label,cat_id);
+            return true;
+          case DELETE_CAT:
+            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && mDbHelper.getCategoryCountSub(cat_id) > 0) {
+              Toast.makeText(this,getString(R.string.not_deletable_subcats_exists), Toast.LENGTH_LONG).show();
+            } else if (mDbHelper.getTransactionCountPerCat(cat_id) > 0 ) {
+              Toast.makeText(this,getString(R.string.not_deletable_mapped_transactions), Toast.LENGTH_LONG).show();
+            } else if (mDbHelper.getTemplateCountPerCat(cat_id) > 0 ) {
               Toast.makeText(this,getString(R.string.not_deletable_mapped_templates), Toast.LENGTH_LONG).show();
             } else {
-    			    mDbHelper.deleteCategory(cat_id);
-    			    mGroupCursor.requery();
-    			  }
+              mDbHelper.deleteCategory(cat_id);
+              mGroupCursor.requery();
+            }
         }
-    		return false;
-    	}
+        return false;
+      }
     /* (non-Javadoc)
-     * return the sub cat to the calling activity 
+     * return the sub cat to the calling activity
      * @see android.app.ExpandableListActivity#onChildClick(android.widget.ExpandableListView, android.view.View, int, int, long)
      */
     @Override
     public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-    	//Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
+      //Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
       if (mManageOnly)
          return false;
       Intent intent=new Intent();
-    	long sub_cat = id;
-    	Cursor childCursor = (Cursor) mAdapter.getChild(groupPosition,childPosition);
-    	String label =  childCursor.getString(childCursor.getColumnIndexOrThrow("label"));
+      long sub_cat = id;
+      Cursor childCursor = (Cursor) mAdapter.getChild(groupPosition,childPosition);
+      String label =  childCursor.getString(childCursor.getColumnIndexOrThrow("label"));
       intent.putExtra("cat_id",sub_cat);
       intent.putExtra("label", label);
       setResult(RESULT_OK,intent);
-    	finish();
-    	return true;
+      finish();
+      return true;
     }
     @Override
     public void onGroupExpand (int groupPosition) {
@@ -289,7 +289,7 @@ public class SelectCategory extends ExpandableListActivity {
      *
      */
     public class MyExpandableListAdapter extends SimpleCursorTreeAdapter2 {
-    	
+
         public MyExpandableListAdapter(Cursor cursor, Context context, int groupLayout,
                 int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
                 int[] childrenTo) {
@@ -303,14 +303,14 @@ public class SelectCategory extends ExpandableListActivity {
         @Override
         protected Cursor getChildrenCursor(Cursor groupCursor) {
             // Given the group, we return a cursor for all the children within that group
-        	long parent_id = groupCursor.getLong(mGroupIdColumnIndex);
-        	Cursor itemsCursor = mDbHelper.fetchCategorySub(parent_id);
-        	startManagingCursor(itemsCursor);
-        	return itemsCursor;
+          long parent_id = groupCursor.getLong(mGroupIdColumnIndex);
+          Cursor itemsCursor = mDbHelper.fetchCategorySub(parent_id);
+          startManagingCursor(itemsCursor);
+          return itemsCursor;
 
         }
     }
-    
+
     /**
      * presents AlertDialog for adding a new category
      * if label is already used, shows an error
@@ -332,7 +332,7 @@ public class SelectCategory extends ExpandableListActivity {
       mCatEditDialogCatId = cat_id;
       showDialog(CAT_EDIT_DIALOG_ID);
     }
-    
+
     /**
      * Callback from button
      * @param v
@@ -341,7 +341,7 @@ public class SelectCategory extends ExpandableListActivity {
       Intent i = new Intent(this, GrisbiImport.class);
       startActivityForResult(i, ACTIVITY_IMPORT_CATS);
     }
- 
+
     //safeguard for orientation change during dialog
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -356,7 +356,7 @@ public class SelectCategory extends ExpandableListActivity {
      mCatEditDialogCatId = savedInstanceState.getLong("CatEditDialogCatId");
     }
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, 
+    protected void onActivityResult(int requestCode, int resultCode,
         Intent intent) {
       super.onActivityResult(requestCode, resultCode, intent);
       mGroupCursor.requery();
