@@ -103,7 +103,9 @@
   </string>
   <string name="help_whats_new">&#160;- Crear asientos a partir de una plantilla\n
       - Puede configurar codificación de caracteres (compatibilidad con MS Money)\n
-      - mejora de la interfaz de usuario</string>
+      - Mejora de la interfaz de usuario\n
+      - Mostrar más nuevas transacciones en la parte superior\n
+      - La lista de cuentas muestra el estado financiero actual</string>
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Información importante</string>
   <string name="income">ingreso</string>

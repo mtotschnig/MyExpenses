@@ -105,7 +105,9 @@
   </string>
   <string name="help_whats_new">&#160;- Create transactions from templates\n
       - Character encoding of exported QIF file configurable to support MS Money\n
-      - User interface improvements</string>
+      - User interface improvements\n
+      - Newest transactions on top\n
+      - Account list gives overview of financial status</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">income</string>
