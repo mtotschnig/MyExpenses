@@ -32,9 +32,7 @@
         android:shrinkColumns="1"
         android:background="@drawable/border">
       <TableRow>
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+        <TextView style="@style/form_label"
             android:text="@string/date_time"/>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="horizontal">
@@ -52,7 +50,7 @@
       </TableRow>
                 
       <TableRow>
-        <TextView android:id="@+id/AmountLabel"/>
+        <TextView style="@style/form_label" android:id="@+id/AmountLabel"/>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="horizontal">
           <Button
@@ -73,7 +71,7 @@
       </TableRow>
         
       <TableRow>
-        <TextView
+        <TextView style="@style/form_label"
             android:text="@string/comment" />
         <EditText
             android:id="@+id/Comment"
@@ -84,18 +82,22 @@
       
       <TableRow
           android:id="@+id/PayeeRow">
-        <TextView
+        <TextView style="@style/form_label"
             android:id="@+id/PayeeLabel"
             android:text="@string/payee" />
         <AutoCompleteTextView
             android:completionThreshold="1"
             android:id="@+id/Payee"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:inputType="textPersonName"/>
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
       </TableRow>
       <TableRow android:id="@+id/MethodRow">
-      <TextView android:id="@+id/MethodLabel" android:text="@string/method" />
-        <Button android:id="@+id/Method" android:text="@string/select" />
+        <TextView style="@style/form_label"
+            android:id="@+id/MethodLabel"
+            android:text="@string/method" />
+        <Button android:id="@+id/Method" 
+            android:text="@string/select" />
       </TableRow>
     </TableLayout>
   </ScrollView>
