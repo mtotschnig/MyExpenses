@@ -100,7 +100,7 @@ public class ManageMethods extends ListActivity {
     switch(item.getItemId()) {
     case DELETE_ID:
       if (mDbHelper.getTransactionCountPerMethod(info.id) > 0 ) {
-        Toast.makeText(this,getString(R.string.not_deletable_mapped_expenses), Toast.LENGTH_LONG).show();
+        Toast.makeText(this,getString(R.string.not_deletable_mapped_transactions), Toast.LENGTH_LONG).show();
       } else if (mDbHelper.getTemplateCountPerMethod(info.id) > 0 ) {
         Toast.makeText(this,getString(R.string.not_deletable_mapped_templates), Toast.LENGTH_LONG).show();
       }  else {
