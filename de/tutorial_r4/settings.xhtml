@@ -1,0 +1,287 @@
+---
+title: ""
+layout: default
+section: tutorial
+metatitle: "Meine Ausgaben Anleitung | Einstellungen"
+metadescription: "Android app zur Kontrolle Ihrer Ausgaben | Wie man konfiguriert"
+lang: de
+headstuff: |
+  <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
+
+---
+      <div xmlns="http://www.w3.org/1999/xhtml" style="position:relative"><h2><span id="pdflink"> <a href="tutorial_r4.pdf" target="_top"><img style="vertical-align: middle;" title="PDF" alt="PDF" src="/visuals/pdf.png"/></a></span>
+      
+      
+      Einstellungen
+      
+      
+    </h2><div class="toc"><select onchange="window.location=this.value;"><option>Zu Kapitel springen</option><option value="introduction.xhtml">
+      
+      
+      Einleitung
+      
+      
+    </option><option value="accounts.xhtml">
+      
+      
+      Konten
+      
+      
+    </option><option value="transactions.xhtml">
+      
+      
+      Buchungen
+      
+      
+    </option><option value="templates.xhtml">
+      
+      
+      Vorlagen
+      
+      
+    </option><option value="categories.xhtml">
+      
+      
+      Kategorien
+      
+      
+    </option><option value="export.xhtml">
+      
+      
+      Buchungen exportieren
+      
+      
+    </option><option disabled="disabled">
+      
+      
+      Einstellungen
+      
+      
+    </option></select></div></div><div xmlns="http://www.w3.org/1999/xhtml" class="sect1"><div class="titlepage"/>
+    
+    
+    <div class="figure"><a id="settings_mainscreen"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="settings_mainscreen.png"/></div>
+      </div>
+    </div></div>
+
+    
+    
+    
+      <div class="variablelist"><dl><dt><span class="term"><span class="guilabel">Verwalten</span></span></dt><dd><p>Here you can inspect and edit all the auxiliary objects that <span class="application">Meine Ausgaben</span>
+        manages: <a class="link" href="accounts.xhtml" title="Konten">accounts</a>, <a class="link" href="templates.xhtml" title="Vorlagen">templates</a>, 
+        <a class="link" href="categories.xhtml" title="Kategorien">categories</a>, <a class="link" href="settings.xhtml#settings_manage_parties">parties</a> and 
+        <a class="link" href="settings.xhtml#settings_manage_methods">payment methods</a>.</p></dd><dt><span class="term"><span class="guilabel">Benutzerschnittstelle</span></span></dt><dd><p>Here you can alter some aspects of the interface.</p></dd><dt><span class="term"><span class="guilabel">Import</span></span></dt><dd><p>Access the functionality of importing categories and parties from Grisbi.</p></dd><dt><span class="term"><span class="guilabel">Export</span></span></dt><dd><p>Configure the character encoding of the export and define if and how the 
+        file should be transfered.</p></dd><dt><span class="term"><span class="guilabel">Sicherungskopie</span></span></dt><dd><p>Store a backup of database and preferences on the SD card.</p></dd></dl></div>
+    
+    <p xml:lang="de">
+      nyt
+    </p>
+    
+    
+    
+
+    <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="settings_manage"/>
+    <span class="guilabel">Verwalten</span>
+    </h3></div></div></div>
+    
+    <div class="variablelist"><dl><dt><a id="settings_manage_parties"/><span class="term"><span class="guilabel">Parteien</span></span></dt><dd>
+        
+    
+
+    
+
+    <p xml:lang="de">
+      Auf diesem Bildschirm wird die Liste der Parteien angezeigt, die für die automatische
+      Komplettierung des Feldes <span class="guilabel">Zahler</span>/<span class="guilabel">Empfänger</span> verwendet
+      wird. Sie können Einträge aus dieser Liste entfernen, indem Sie das Markierungsfeld in
+      der jeweiligen Zeile ankreuzen, und dann den Schaltknopf <span class="guibutton">Löschen</span>
+      betätigen.
+    </p>
+    
+    
+     
+    </dd><dt><a id="settings_manage_methods"/><span class="term"><span class="guilabel">Zahlungsweisen</span></span></dt><dd>
+    
+    
+    
+    <p xml:lang="de">
+      Auf diesem Bildschirm wird die Liste der vordefinierten Zahlungsweisen angezeigt (Scheck, Kreditkarte,
+      Einzahlung, Abbuchung) und Sie können hier auch neue Zahlungsweisen definieren. Wenn Sie auf
+      einen Eintrag in der Liste klicken (oder <span class="guibutton">Neu</span> auswählen), gelangen Sie
+      zu einem Formular, in dem Sie eine Bezeichnung (außer für die vordefinierten) und den Typ (handelt
+      es sich um eine Zahlungsweise für Einnahmen, Ausgaben oder neutral) festlegen, und die Kontotypen
+      auswählen, für die die Zahlungsweise anwendbar ist.
+    </p>
+    
+    
+        
+    </dd></dl></div>
+    
+    <div class="figure"><a id="settings_manage_method_edit"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="settings_manage_method_edit.png"/></div>
+      </div>
+    </div></div>
+    </div>
+    
+    <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="settings_ui"/>
+    <span class="guilabel">Benutzerschnittstelle</span>
+    </h3></div></div></div>
+    
+    <div class="variablelist"><dl><dt><a id="settings_ui_standard_menu"/><span class="term"><span class="guilabel">Androids Standardmenü verwenden</span></span></dt><dd>
+    
+    
+    
+    <p xml:lang="de">
+      Indem Sie diese Option anklicken, können Sie anstatt der Symbolleiste Androids
+      Standardmenü verwenden, um Befehle auszuführen. Sie können diesen Parameter auch durch
+      Drücken des Hardware Menüknopfes verändern.
+    </p>
+    
+    
+    
+    </dd><dt><a id="settings_ui_sort_by_usages"/><span class="term"><span class="guilabel">Sortierreihenfolge der Kategorien</span></span></dt><dd>
+      
+      
+      
+      <p xml:lang="de">
+        Standardmäßig werden die Kategorien anhand der Benützungshäufigkeit sortiert (wie oft
+        werden sie einer Buchung zugeordnet). Entfernen Sie das Häckchen von dieser Option,
+        wenn Sie möchten, dass die Kategorien immer in alphabetischer Reihenfolge aufgelistet
+        werden.
+      </p>
+      
+      
+      
+      </dd><dt><a id="settings_ui_decimal_separator"/><span class="term"><span class="guilabel">Dezimaltrennzeichen für die Eingabe von
+      Währungsbeträgen</span></span></dt><dd>
+    
+    
+    <p xml:lang="de">
+      Standardmäßig wird für Währungsbeträge in Buchungen (oder das Anfangssaldo eines Kontos)
+      das Dezimaltrennzeichen Ihrer Spracheinstellung verwendet (Komma in den meisten
+      europäischen Ländern, Punkt in den meisten englischsprachigen Ländern)<sup>[<a id="ftn58-de-2" href="#ftn.ftn58-de-2" class="footnote">3</a>]</sup>, hier kann dieses
+      explizit konfiguriert werden. Sie können hier aber auch festlegen, dass Sie
+      Untereinheiten (z.B $ Cents, € Cent, oder £ Pence) als ganze Zahlen eingeben.
+    </p>
+    
+    
+    </dd></dl></div>
+    </div>
+
+    <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="settings_import"/>
+        Import
+      </h3></div></div></div>
+      
+
+    <div class="figure"><a id="settings_import_picksource"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="settings_import_picksource.png"/></div>
+      </div>
+    </div></div>
+
+    
+    
+    
+    <p xml:lang="de">
+      Der Eintrag <span class="guilabel">Import aus Grisbi</span> erlaubt die in Grisbi definierten Kategorien (Englisch, Deutsch oder
+      Französisch) zu importieren. Sie können auch eine Grisbi Datei (in XML) verwenden, die
+      Ihre eigenen Kategorien enthält. Sie können diese Datei editieren und alle Informationen
+      außer die Elemente <code class="sgmltag-element">Category</code> und <code class="sgmltag-element">Sub_category</code>
+      entfernen<sup>[<a id="ftn55-de-1" href="#ftn.ftn55-de-1" class="footnote">4</a>]</sup>. Kopieren Sie diese Datei unter dem Namen
+      <code class="filename">grisbi.xml</code> in einen Ordner <code class="filename">myexpenses</code> in das
+      Wurzelverzeichnis der SD-Karte<sup>[<a id="ftn55-de-2" href="#ftn.ftn55-de-2" class="footnote">5</a>]</sup>. Sie können zusätzlich auch die von
+      Grisbi gespeicherten Parteien (Empfänger und Zahler), aus dieser Datei importieren
+      (Element <code class="sgmltag-element">Party</code>). Wenn Sie Ihre eigene Datei als Import-Quelle
+      auswählen, können Sie entweder Parteien und Kategorien oder nur Kategorien importieren.
+      Die Partner werden im Buchungsformular verwendet, um Ihnen für das Feld Empfänger/Zahler
+      ein automatische Ausfüllen vorzuschlagen.
+    </p>
+    
+    
+    
+    </div>
+    
+    <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="settings_3"/>
+       Export
+      </h3></div></div></div>
+      
+
+    
+    
+    
+    <p xml:lang="de">
+      Kreuzen Sie die Option <span class="guilabel">QIF Export versenden</span> an, wenn Sie die QIF Datei nach dem Export Ihrer Buchungen an
+      eine entfernte Adresse übertragen wollen. Unter <span class="guilabel">Upload URL QIF Export</span> können Sie das Ziel konfigurieren:
+      </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+          <p>
+           Die URL eines Ordners, auf den Sie über FTP Schreibzugriff haben (z.B.
+           "ftp://login:password@my.example.org:port/my/directory/").
+          </p>
+        </li><li class="listitem">
+          <p>
+            Eine Email URL (z.B. "mailto:john@my.example.com"). Ihre Email-Anwendung wird
+            gestartet, und eine Email erzeugt mit der Datei als Anhang.
+          </p>
+        </li><li class="listitem">
+          <p>
+          Sie können dieses Feld auch leer lassen, dann können Sie jedesmal zwischen auf Ihrem
+          Gerät installierten Apps wählen, die Dateien übertragen können (z.B Dropbox, Google
+          Docs, …).
+          </p>
+        </li></ul></div><p xml:lang="de">
+    </p>
+    
+    
+    
+  </div>
+
+  <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="settings_4"/>
+      
+      
+      <span xml:lang="de">Backup und Wiederherstellung</span>
+      
+      
+    </h3></div></div></div>
+    
+
+    
+    
+    
+    <p xml:lang="de">
+      <span class="guilabel">Sicherungskopie</span> erzeugt eine Sicherungskopie von Datenbank und
+      Einstellungen im <code class="filename">myexpenses</code> Ordner auf der SD-Karte. Die
+      Datenbank wird in der Datei <code class="filename">BACKUP</code> gespeichert, die
+      Einstellungen in der Datei <code class="filename">BACKUP_PREF</code>. Beide werden
+      automatisch wiederhergestellt, wenn <span class="application">Meine Ausgaben</span> neu
+      installiert wird. Sie können also die Anwendungsdaten komplett auf ein weiteres
+      Gerät kopieren, indem Sie diese beiden Dateien an denselben Ort auf diesem kopieren,
+      bevor Sie <span class="application">Meine Ausgaben</span> installieren.
+    </p>
+    
+    
+    
+    </div>
+  <div class="footnotes"><br/><hr width="100" align="left"/><div class="footnote">
+        <p><sup>[<a id="ftn.ftn58-de-2" href="#ftn58-de-2" class="para">3</a>] </sup>
+          <span class="application">Meine Ausgaben</span> verwendet auf Geräten mit Android 2.3. als Standard
+          den Punkt, da diese am meisten von dem in der <a class="ulink" href="http://myexpenses.totschnig.org/de/faq.xhtml" target="_top">FAQ</a>
+          beschriebenen Problem betroffen sind.
+        </p>
+      </div><div class="footnote">
+        <p><sup>[<a id="ftn.ftn55-de-1" href="#ftn55-de-1" class="para">4</a>] </sup>
+          <span class="application">Meine Ausgaben</span> unterstützt auch das Grisbi Datei Format 0.5.0, in dem
+          die Elemente <code class="sgmltag-element">Categorie</code> und <code class="sgmltag-element">Sous_categorie</code>
+          heißen (<code class="sgmltag-element">Tiers</code> für Parteien).
+        </p>
+      </div><div class="footnote">
+        <p><sup>[<a id="ftn.ftn55-de-2" href="#ftn55-de-2" class="para">5</a>] </sup>
+          Natürlich können Sie auch Ihre eigene XML Datei erzeugen. Sie finden Beispiele dafür auf
+          <a class="ulink" href="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw" target="_top">Github</a>.
+        </p>
+      </div></div></div>

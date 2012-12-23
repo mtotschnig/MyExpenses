@@ -1,0 +1,167 @@
+---
+title: ""
+layout: default
+section: tutorial
+metatitle: "Le mie spese Manuale | Transazioni"
+metadescription: "Android app de contabilità | Como gestire gli transazioni"
+lang: it
+headstuff: |
+  <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
+
+---
+      <div xmlns="http://www.w3.org/1999/xhtml" style="position:relative"><h2><span id="pdflink"> <a href="tutorial_r4.pdf" target="_top"><img style="vertical-align: middle;" title="PDF" alt="PDF" src="/visuals/pdf.png"/></a></span>
+      
+      
+      
+      Transazioni
+      
+    </h2><div class="toc"><select onchange="window.location=this.value;"><option>Vai al capitolo</option><option value="introduction.xhtml">
+      
+      
+      
+      Introduzione
+      
+    </option><option value="accounts.xhtml">
+      
+      
+      
+      Conti
+      
+    </option><option disabled="disabled">
+      
+      
+      
+      Transazioni
+      
+    </option><option value="templates.xhtml">
+      
+      
+      
+      Modelli
+      
+    </option><option value="categories.xhtml">
+      
+      
+      
+      Categorie
+      
+    </option><option value="export.xhtml">
+      
+      
+      
+      Esportazione di operazioni
+      
+    </option><option value="settings.xhtml">
+      
+      
+      
+      Parametri
+      
+    </option></select></div></div><div xmlns="http://www.w3.org/1999/xhtml" class="sect1"><div class="titlepage"/>
+    
+    
+
+    <div class="figure"><a id="transactions_add"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="transactions_add.png"/></div>
+      </div>
+    </div></div>
+
+    
+    
+    
+    
+    <p xml:lang="it">
+      <span class="guimenuitem">Nuovo</span> porta in primo piano l'attività
+      per la creazione di una transazione.
+    </p>
+    
+    
+
+    
+    
+
+    
+    
+    <p xml:lang="it">
+      Regolare data e ora, fare clico sul pulsante <span class="guibutton">-</span> per passare gli
+      oneri ei proventi, inserire importo<sup>[<a id="ftn22-it-1" href="#ftn.ftn22-it-1" class="footnote">1</a>]</sup>, le note e il beneficiario (o debitore). Il
+      benficiario campo memorizza i valori inseriti, e suggeriscono la prossima volta che si
+      entra questo<sup>[<a id="ftn22-it-2" href="#ftn.ftn22-it-2" class="footnote">2</a>]</sup> Cliccando sul <span class="guibutton">Selezionare</span> pulsante, si apre la <span class="guilabel">Selezionare una categoria</span> attività. Vi spiegheremo di seguito, come gestire le categorie.
+    </p>
+    
+    
+    
+    <div class="figure"><a id="transactions_pickmethod"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="transactions_pickmethod.png"/></div>
+      </div>
+    </div></div>
+
+    
+    
+    
+    
+    <p xml:lang="it">
+      Se il tipo del conto corrente è associato con un modo di pagamento, può definire attraverso la
+      voce Selezionare accanto al Modo di pagamento il modo di pagamento della transazione.
+    </p>
+    
+    
+    
+
+    <div class="figure"><a id="transactions_contextmenu"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="transactions_contextmenu.png"/></div>
+      </div>
+    </div></div>
+
+    
+    
+    
+    
+    <p xml:lang="it">
+      Ritorno alla lista transazione, è possibile modificare le singole voci attraverso un
+      click breve, il menù contestuale permette di cancellare una transazione, visualizzare
+      tutti i dettagli (beneficiario, note, modo di pagamento), e creare un <a class="link" href="templates.xhtml" title="Modelli">modello</a>. È inoltre possibile spostare una transazione ad
+      un altro conto, se si dispone di almeno due conti
+    </p>
+    
+    
+
+    <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="transactions_1"/>
+        
+        
+        
+        <span xml:lang="it">Trasferimento</span>
+        
+      </h3></div></div></div>
+      
+
+      
+      
+      
+      
+      <p xml:lang="it">
+        <span class="guimenu">Nuovo</span> → <span class="guimenuitem">Trasferimento</span> consente di trasferire denaro tra conti. Questo comando è disponibile solo
+       se si dispone di più di uno conto con la stessa valuta di quella attuale.
+      </p>
+      
+      
+    </div>
+  <div class="footnotes"><br/><hr width="100" align="left"/><div class="footnote">
+        <p><sup>[<a id="ftn.ftn22-it-1" href="#ftn22-it-1" class="para">1</a>] </sup>
+          Il formato di ingresso per gli importi in valuta può essere configurato attraverso il parametro
+	   <a class="link" href="settings.xhtml#settings_ui_decimal_separator"><span class="guilabel">Separatore decimale per l'ingresso della
+      quantità</span></a>
+       </p>
+       </div><div class="footnote">
+        <p><sup>[<a id="ftn.ftn22-it-2" href="#ftn22-it-2" class="para">2</a>] </sup>
+          È possibile importare una lista di beneficiari iscritti nel file Grisbi, come
+          spiegato in <a class="link" href="settings.xhtml#settings_import" title="Import"><span class="guilabel">Importazione dei dati Grisbi</span></a>. Se si desidera eliminare valori da
+          questo elenco, vedere <a class="link" href="settings.xhtml#settings_manage_parties"><span class="guilabel">Beneficiari</span></a>.
+        </p>
+      </div></div></div>

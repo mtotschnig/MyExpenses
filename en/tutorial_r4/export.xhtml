@@ -2,20 +2,20 @@
 title: ""
 layout: default
 section: tutorial
-metatitle: "My Expenses User guide | Introduction"
-metadescription: "Android expense tracking app | General usage information."
+metatitle: "My Expenses User guide | Export transactions"
+metadescription: "Android expense tracking app | How to export transactions"
 lang: en
 headstuff: |
   <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
 
 ---
       <div xmlns="http://www.w3.org/1999/xhtml" style="position:relative"><h2><span id="pdflink"> <a href="tutorial_r4.pdf" target="_top"><img style="vertical-align: middle;" title="PDF" alt="PDF" src="/visuals/pdf.png"/></a></span>
-      Introduction
+      Export transactions
       
       
       
       
-    </h2><div class="toc"><select onchange="window.location=this.value;"><option>Go to chapter</option><option disabled="disabled">
+    </h2><div class="toc"><select onchange="window.location=this.value;"><option>Go to chapter</option><option value="introduction.xhtml">
       Introduction
       
       
@@ -45,7 +45,7 @@ headstuff: |
       
       
       
-    </option><option value="export.xhtml">
+    </option><option disabled="disabled">
       Export transactions
       
       
@@ -60,19 +60,26 @@ headstuff: |
     </option></select></div></div><div xmlns="http://www.w3.org/1999/xhtml" class="sect1"><div class="titlepage"/>
     
     
-    <div class="figure"><a id="introduction_mainscreen"/><div class="figure-contents">
+
+    <div class="figure"><a id="export_result"/><div class="figure-contents">
       
       <div class="screenshot">
-        <div class="mediaobject"><img src="introduction_mainscreen.png"/></div>
+        <div class="mediaobject"><img src="export_result.png"/></div>
       </div>
     </div></div>
 
     
     <p xml:lang="en">
-      <span class="application">My Expenses</span> is designed to keep track of your expenses and incomes,
-      and to export these expenses into a desktop finance tool, like Grisbi or Gnucash. It
-      supports multiple accounts, a two-level hierarchy of categories and creation of transactions
-      from templates.
+      Finally, the raison d'être of <span class="application">My Expenses</span> is its support
+      for export into QIF format. Call this function through the
+      <span class="guibutton">Reset</span> button from the transaction list. This will
+      create a file on your sdcard with all transactions for the current account, delete
+      them from the database, and adjust the opening balance to the last current balance.
+      <span class="application">My Expenses</span> can share the file immediately after the export through
+      FTP, email or any other file sharing app, as explained in <a class="link" href="settings.xhtml#settings_3" title="Export"><span class="guilabel">Share QIF Export</span></a>.
+      <br/>
+      Transfer operations will also be deleted from the account, but still be visible in
+      the other account they refer to.
     </p>
     
     
@@ -82,17 +89,12 @@ headstuff: |
 
     
     <p xml:lang="en">
-      Its main screen displays the list of transactions for the current account. The button bar
-      displayed at the bottom of the screen gives easy access to all functionalities. Each
-      button executes a default action on short clicks and some (indicated by a triangle in the left upper corner) open up a menu with further
-      actions on long clicks. Alternatively, you can configure <span class="application">My Expenses</span>
-      in <a class="link" href="settings.xhtml#settings_ui_standard_menu"><span class="guilabel">Use standard Android menu</span></a> to
-      use a command interface based on the Android standard menu.
+      Voilà. You can now connect your phone to your computer, open Grisbi (or Gnucash),
+      and use its import functionality.
     </p>
     
     
     
     
     
-
   </div>

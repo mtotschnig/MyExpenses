@@ -1,0 +1,167 @@
+---
+title: ""
+layout: default
+section: tutorial
+metatitle: "My Expenses User guide | Transactions"
+metadescription: "Android expense tracking app | How to manage transactions"
+lang: en
+headstuff: |
+  <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
+
+---
+      <div xmlns="http://www.w3.org/1999/xhtml" style="position:relative"><h2><span id="pdflink"> <a href="tutorial_r4.pdf" target="_top"><img style="vertical-align: middle;" title="PDF" alt="PDF" src="/visuals/pdf.png"/></a></span>
+      Transactions
+      
+      
+      
+      
+    </h2><div class="toc"><select onchange="window.location=this.value;"><option>Go to chapter</option><option value="introduction.xhtml">
+      Introduction
+      
+      
+      
+      
+    </option><option value="accounts.xhtml">
+      Accounts
+      
+      
+      
+      
+    </option><option disabled="disabled">
+      Transactions
+      
+      
+      
+      
+    </option><option value="templates.xhtml">
+      Templates
+      
+      
+      
+      
+    </option><option value="categories.xhtml">
+      Categories
+      
+      
+      
+      
+    </option><option value="export.xhtml">
+      Export transactions
+      
+      
+      
+      
+    </option><option value="settings.xhtml">
+      Settings
+      
+      
+      
+      
+    </option></select></div></div><div xmlns="http://www.w3.org/1999/xhtml" class="sect1"><div class="titlepage"/>
+    
+    
+
+    <div class="figure"><a id="transactions_add"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="transactions_add.png"/></div>
+      </div>
+    </div></div>
+
+    
+    <p xml:lang="en">
+      A short click on <span class="guibutton">New</span> brings up the activity for creating a
+      transaction.
+    </p>
+    
+    
+    
+    
+    
+
+    
+    <p xml:lang="en">
+      Adjust date and time, click on the <span class="guibutton">-</span> Button to toggle between
+      expense and income, enter amount<sup>[<a id="ftn22-en-1" href="#ftn.ftn22-en-1" class="footnote">1</a>]</sup> and notes. The payee (or payer) field remembers the
+      values you enter and will suggest them in the future<sup>[<a id="ftn22-en-2" href="#ftn.ftn22-en-2" class="footnote">2</a>]</sup>. Clicking on the
+      <span class="guibutton">Select</span> button next to <span class="guilabel">Category</span>, brings up the <span class="guilabel">Select category</span> activity. We will explain below, how to manage categories.
+    </p>
+
+    
+    
+    
+    
+    
+    
+    <div class="figure"><a id="transactions_pickmethod"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="transactions_pickmethod.png"/></div>
+      </div>
+    </div></div>
+
+    
+    <p xml:lang="en">
+      If the current account is of a type, that is associated with payment methods, you can set the transaction's method
+      through the <span class="guibutton">Select</span> button next to <span class="guilabel">Method</span>.
+    </p>
+    
+    
+    
+    
+    
+    
+
+    <div class="figure"><a id="transactions_contextmenu"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="transactions_contextmenu.png"/></div>
+      </div>
+    </div></div>
+
+    
+    <p xml:lang="en">
+      Back at the transaction list, you can edit individual entries through a short click,
+      the context menu allows deleting a transaction, display its full details (payee,
+      notes, payment method), and create a <a class="link" href="templates.xhtml" title="Templates">template</a> from it. You can also move a transaction to a different account, provided you
+      have set up at least one additional account.
+    </p>
+    
+    
+    
+    
+    
+
+    <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="transactions_1"/>
+        <span xml:lang="en">Transfer</span>
+        
+        
+        
+        
+      </h3></div></div></div>
+      
+
+      
+      <p xml:lang="en">
+        <span class="guimenu">New</span> → <span class="guimenuitem">Transfer</span> allows you to transfer money between accounts. This command is enabled
+       only if you have more than one account with the same currency as the current one.
+      </p>
+      
+      
+      
+      
+      
+    </div>
+  <div class="footnotes"><br/><hr width="100" align="left"/><div class="footnote">
+        <p><sup>[<a id="ftn.ftn22-en-1" href="#ftn22-en-1" class="para">1</a>] </sup>
+          The input format for currency amounts can be configured through the <a class="link" href="settings.xhtml#settings_ui_decimal_separator"><span class="guilabel">Decimal separator for input of currency
+      amounts</span></a>
+          setting.
+       </p>
+      </div><div class="footnote">
+        <p><sup>[<a id="ftn.ftn22-en-2" href="#ftn22-en-2" class="para">2</a>] </sup>
+          You can also import a list of parties for autocompleting the payee field from your
+          Grisbi file as explained in <a class="link" href="settings.xhtml#settings_import" title="Import"><span class="guilabel">Import from Grisbi</span></a>. If you want to delete entries from
+          this list refer to <a class="link" href="settings.xhtml#settings_manage_parties"><span class="guilabel">Parties</span></a>.
+        </p>
+      </div></div></div>

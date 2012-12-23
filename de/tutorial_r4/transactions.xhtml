@@ -1,0 +1,171 @@
+---
+title: ""
+layout: default
+section: tutorial
+metatitle: "Meine Ausgaben Anleitung | Buchungen"
+metadescription: "Android app zur Kontrolle Ihrer Ausgaben | Wie man Buchungen verwaltet"
+lang: de
+headstuff: |
+  <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
+
+---
+      <div xmlns="http://www.w3.org/1999/xhtml" style="position:relative"><h2><span id="pdflink"> <a href="tutorial_r4.pdf" target="_top"><img style="vertical-align: middle;" title="PDF" alt="PDF" src="/visuals/pdf.png"/></a></span>
+      
+      
+      Buchungen
+      
+      
+    </h2><div class="toc"><select onchange="window.location=this.value;"><option>Zu Kapitel springen</option><option value="introduction.xhtml">
+      
+      
+      Einleitung
+      
+      
+    </option><option value="accounts.xhtml">
+      
+      
+      Konten
+      
+      
+    </option><option disabled="disabled">
+      
+      
+      Buchungen
+      
+      
+    </option><option value="templates.xhtml">
+      
+      
+      Vorlagen
+      
+      
+    </option><option value="categories.xhtml">
+      
+      
+      Kategorien
+      
+      
+    </option><option value="export.xhtml">
+      
+      
+      Buchungen exportieren
+      
+      
+    </option><option value="settings.xhtml">
+      
+      
+      Einstellungen
+      
+      
+    </option></select></div></div><div xmlns="http://www.w3.org/1999/xhtml" class="sect1"><div class="titlepage"/>
+    
+    
+
+    <div class="figure"><a id="transactions_add"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="transactions_add.png"/></div>
+      </div>
+    </div></div>
+
+    
+    
+    
+    <p xml:lang="de">
+      Kurzer Klick auf <span class="guibutton">Neu</span> öffnet den Bildschirm für die Eingabe einer
+      neuen Buchung.
+    </p>
+    
+    
+    
+
+    
+    
+
+    
+    <p xml:lang="de">
+      Passen Sie Datum und Uhrzeit an, klicken Sie auf den Schaltknopf <span class="guibutton">-</span>
+      um zwischen Ausgabe und Einnahme zu wechseln, geben Sie Betrag<sup>[<a id="ftn22-de-1" href="#ftn.ftn22-de-1" class="footnote">1</a>]</sup> und Notizen ein.
+      Das Feld für die Eingabe von Empfänger (bzw. Zahler) merkt sich die von Ihnen
+      eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld
+      vor<sup>[<a id="ftn22-de-2" href="#ftn.ftn22-de-2" class="footnote">2</a>]</sup>. Durch Klick auf den Knopf
+      <span class="guibutton">Auswählen</span> kommen Sie zum Bildschirm <span class="guilabel">Kategorie auswählen</span>.
+      Dieser wird später erklärt.
+    </p>
+    
+    
+    
+    
+    <div class="figure"><a id="transactions_pickmethod"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="transactions_pickmethod.png"/></div>
+      </div>
+    </div></div>
+
+    
+    
+    
+    <p xml:lang="de">
+      Falls dem Typ des aktuellen Kontos Zahlungsweisen zugeordnet sind, können Sie durch den
+      Schaltknopf <span class="guibutton">Auswählen</span> neben <span class="guilabel">Zahlungsweise</span> die Zahlungsweise der
+      Buchung definieren.
+    </p>
+    
+    
+    
+    
+
+    <div class="figure"><a id="transactions_contextmenu"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="transactions_contextmenu.png"/></div>
+      </div>
+    </div></div>
+
+    
+    
+    
+    <p xml:lang="de">
+      In der Liste der Buchungen, kann jede Buchung durch einen kurzen Klick bearbeitet
+      werden, das Kontextmenü erlaubt das Löschen, die Anzeige von Detailinformationen
+      (Empfänger, Notizen, Zahlungsweise), und die Definition einer <a class="link" href="templates.xhtml" title="Vorlagen">Vorlage</a> auf Basis der Buchung. Sie können eine Buchung auch in ein anderes Konto verschieben,
+      sofern sie zumindest ein weiteres Konto angelegt haben.
+    </p>
+    
+    
+    
+
+    <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="transactions_1"/>
+        
+        
+        <span xml:lang="de">Umbuchung</span>
+        
+        
+      </h3></div></div></div>
+      
+
+      
+      
+      
+      <p xml:lang="de">
+        <span class="guimenu">Neu</span> → <span class="guimenuitem">Umbuchung</span> erlaubt Beträge zwichen Konten zu verschieben. Dieser Befehl steht nur zur
+       Verfügung, wenn es mehrere Konten mit derselben Währung gibt.
+      </p>
+      
+      
+      
+    </div>
+  <div class="footnotes"><br/><hr width="100" align="left"/><div class="footnote">
+        <p><sup>[<a id="ftn.ftn22-de-1" href="#ftn22-de-1" class="para">1</a>] </sup>
+          Das Eingabeformat für Währungsbeträge kann mittels <a class="link" href="settings.xhtml#settings_ui_decimal_separator"><span class="guilabel">Dezimaltrennzeichen für die Eingabe von
+      Währungsbeträgen</span></a>
+          eingestellt werden.
+       </p>
+      </div><div class="footnote">
+        <p><sup>[<a id="ftn.ftn22-de-2" href="#ftn22-de-2" class="para">2</a>] </sup>
+          Sie können auch die in einer Grisbi Datei gespeicherte Liste der Parteien importieren
+          (erklärt in <a class="link" href="settings.xhtml#settings_import" title="Import"><span class="guilabel">Import aus Grisbi</span></a>). Wie Sie Werte aus dieser Liste
+          löschen können, erfahren Sie unter <a class="link" href="settings.xhtml#settings_manage_parties"><span class="guilabel">Parteien</span></a>.
+        </p>
+      </div></div></div>

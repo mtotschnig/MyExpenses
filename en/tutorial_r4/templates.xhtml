@@ -2,20 +2,20 @@
 title: ""
 layout: default
 section: tutorial
-metatitle: "My Expenses User guide | Introduction"
-metadescription: "Android expense tracking app | General usage information."
+metatitle: "My Expenses User guide | Templates"
+metadescription: "Android expense tracking app | How to manage templates"
 lang: en
 headstuff: |
   <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
 
 ---
       <div xmlns="http://www.w3.org/1999/xhtml" style="position:relative"><h2><span id="pdflink"> <a href="tutorial_r4.pdf" target="_top"><img style="vertical-align: middle;" title="PDF" alt="PDF" src="/visuals/pdf.png"/></a></span>
-      Introduction
+      Templates
       
       
       
       
-    </h2><div class="toc"><select onchange="window.location=this.value;"><option>Go to chapter</option><option disabled="disabled">
+    </h2><div class="toc"><select onchange="window.location=this.value;"><option>Go to chapter</option><option value="introduction.xhtml">
       Introduction
       
       
@@ -33,7 +33,7 @@ headstuff: |
       
       
       
-    </option><option value="templates.xhtml">
+    </option><option disabled="disabled">
       Templates
       
       
@@ -60,19 +60,25 @@ headstuff: |
     </option></select></div></div><div xmlns="http://www.w3.org/1999/xhtml" class="sect1"><div class="titlepage"/>
     
     
-    <div class="figure"><a id="introduction_mainscreen"/><div class="figure-contents">
-      
-      <div class="screenshot">
-        <div class="mediaobject"><img src="introduction_mainscreen.png"/></div>
-      </div>
-    </div></div>
+    
+    <p xml:lang="en">
+      If you regularly enter identical or similar transactions, you can save some time by using templates.
+      Templates are simply derived from an existing transaction through the <span class="guimenuitem">Create template</span> entry in its context menu. You need to enter a
+      title that will identify the template.
+    </p>
+    
+    
+    
+    
+
+    
 
     
     <p xml:lang="en">
-      <span class="application">My Expenses</span> is designed to keep track of your expenses and incomes,
-      and to export these expenses into a desktop finance tool, like Grisbi or Gnucash. It
-      supports multiple accounts, a two-level hierarchy of categories and creation of transactions
-      from templates.
+      Templates are most easily used from the <span class="guimenu">New</span> button,
+      where all templates available for the current account are represented through buttons. A short
+      click on a button creates a new transaction that is immediately saved. Through a long click,
+      you enter the editing form where you can change the transaction before saving, or discard it.
     </p>
     
     
@@ -80,19 +86,17 @@ headstuff: |
     
     
 
+
     
-    <p xml:lang="en">
-      Its main screen displays the list of transactions for the current account. The button bar
-      displayed at the bottom of the screen gives easy access to all functionalities. Each
-      button executes a default action on short clicks and some (indicated by a triangle in the left upper corner) open up a menu with further
-      actions on long clicks. Alternatively, you can configure <span class="application">My Expenses</span>
-      in <a class="link" href="settings.xhtml#settings_ui_standard_menu"><span class="guilabel">Use standard Android menu</span></a> to
-      use a command interface based on the Android standard menu.
+     <p xml:lang="en">
+     Templates are also listed from the <span class="guilabel">Templates</span> entry in the
+     <span class="guilabel">Settings</span> screen, grouped by account. Through each templates context menu, you
+     can access the same functionality of creating new transactions, and either save it directly or
+     enter its editing form. The third entry in the context menu allows deleting the template.
     </p>
     
     
     
     
     
-
   </div>

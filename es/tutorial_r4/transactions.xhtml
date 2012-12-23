@@ -1,0 +1,172 @@
+---
+title: ""
+layout: default
+section: tutorial
+metatitle: "Mis gastos Manual | Los asientos"
+metadescription: "Android app de contabilidad | Cómo administrar los asientos"
+lang: es
+headstuff: |
+  <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"> </script><script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
+
+---
+      <div xmlns="http://www.w3.org/1999/xhtml" style="position:relative"><h2><span id="pdflink"> <a href="tutorial_r4.pdf" target="_top"><img style="vertical-align: middle;" title="PDF" alt="PDF" src="/visuals/pdf.png"/></a></span>
+      
+      
+      
+      
+      Los asientos
+    </h2><div class="toc"><select onchange="window.location=this.value;"><option>Consulte el capítulo</option><option value="introduction.xhtml">
+      
+      
+      
+      
+      Introducción
+    </option><option value="accounts.xhtml">
+      
+      
+      
+      
+      Las cuentas
+    </option><option disabled="disabled">
+      
+      
+      
+      
+      Los asientos
+    </option><option value="templates.xhtml">
+      
+      
+      
+      
+      Las plantillas
+    </option><option value="categories.xhtml">
+      
+      
+      
+      
+      Categorías
+    </option><option value="export.xhtml">
+      
+      
+      
+      
+      Exportar asientos
+    </option><option value="settings.xhtml">
+      
+      
+      
+      
+      Configuraciones
+    </option></select></div></div><div xmlns="http://www.w3.org/1999/xhtml" class="sect1"><div class="titlepage"/>
+    
+    
+
+    <div class="figure"><a id="transactions_add"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="transactions_add.png"/></div>
+      </div>
+    </div></div>
+
+    
+    
+    
+    
+    
+    <p xml:lang="es">
+      Un clic breve sobre <span class="guimenuitem">Nuevo</span> abre una ventana para la inserción de
+      un nuevo asiento.
+    </p>
+    
+
+    
+    
+
+    
+    
+    
+    <p xml:lang="es">
+    
+      Ajuste la fecha y la hora, presione el botón <span class="guibutton">-</span> para alternar entre
+      gasto u ingreso, inserte el importe<sup>[<a id="ftn22-es-1" href="#ftn.ftn22-es-1" class="footnote">1</a>]</sup> y apuntes. La casilla para la inserción del
+      beneficiario (o del pagador) memoriza los valores que usted ha insertado, y se los
+      propone si usted vuelve a hacer inserciones en esta casilla<sup>[<a id="ftn22-es-2" href="#ftn.ftn22-es-2" class="footnote">2</a>]</sup>. Con un clic sobre el botón
+      <span class="guibutton">Escoger</span> usted llega a la ventana <span class="guilabel">Escoger una categoría</span>.
+      Este punto se explica mas adelante.
+    </p>
+    
+    
+    <div class="figure"><a id="transactions_pickmethod"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="transactions_pickmethod.png"/></div>
+      </div>
+    </div></div>
+
+    
+    
+    
+    
+    
+    <p xml:lang="es">
+      Si el tipo de la cuenta corriente está asociado con métodos de pago, usted puede definir el
+      método de pago del asiento a través de un clic sobre el botón <span class="guibutton">Escoger</span> al
+      lado de <span class="guilabel">Método</span>.
+    </p>
+    
+    
+
+    <div class="figure"><a id="transactions_contextmenu"/><div class="figure-contents">
+      
+      <div class="screenshot">
+        <div class="mediaobject"><img src="transactions_contextmenu.png"/></div>
+      </div>
+    </div></div>
+
+    
+    
+    
+    
+    
+    <p xml:lang="es">
+      En la lista de los asientos puede editar con un breve clic cada asiento, el menú de
+      contextual permite borrar, ver las informaciones detalladas (el beneficiario, apuntes, método de pago)
+      y crear <a class="link" href="templates.xhtml" title="Las plantillas">plantilla</a>.
+      Puede mover un asiento de una cuenta a otra si es que usted haya configurado por lo
+      menos una cuenta adicional.
+    </p>
+    
+
+    <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="transactions_1"/>
+        
+        
+        
+        
+        <span xml:lang="es">Traspaso entre cuentas</span>
+      </h3></div></div></div>
+      
+
+      
+      
+      
+      
+      
+      <p xml:lang="es">
+        <span class="guimenu">Nuevo</span> → <span class="guimenuitem">Traslado a otra cuenta</span> permite trasladar importes de una cuenta a otra. Este mando   está a
+       disposición solamente si existen varias cuentas de la misma moneda.
+      </p>
+      
+    </div>
+  <div class="footnotes"><br/><hr width="100" align="left"/><div class="footnote">
+        <p><sup>[<a id="ftn.ftn22-es-1" href="#ftn22-es-1" class="para">1</a>] </sup>
+          El formato de inserción para valores monetarios puede ser configurado por la
+          configuración <a class="link" href="settings.xhtml#settings_ui_decimal_separator"><span class="guilabel">Separador decimal para entrar valores de
+      moneda</span></a>
+        </p>
+      </div><div class="footnote">
+        <p><sup>[<a id="ftn.ftn22-es-2" href="#ftn22-es-2" class="para">2</a>] </sup>
+          Puede también importar la lista de partes guardado en un archivo de Grisbi (se
+          explica en <a class="link" href="settings.xhtml#settings_import" title="Import"><span class="guilabel">Importación desde Grisbi</span></a>). Como borrar valores de esta lista
+          léase en <a class="link" href="settings.xhtml#settings_manage_parties"><span class="guilabel">Partes</span></a>.
+        </p>
+      </div></div></div>
