@@ -65,6 +65,8 @@ public class AccountEdit extends EditActivity {
         mDescriptionText.setText(R.string.monkey_description_text);
         mAmountText.setText("100");
         mCurrencyText.setText("EUR");
+        mTypeButton.setText(mTypes[1]);
+        mAccountType = Account.Type.values()[1];
         monkey_state = 1;
         return true;
       case 1:

@@ -86,6 +86,9 @@ public class ExpenseEdit extends EditActivity {
       switch (monkey_state) {
       case 0:
         mAmountText.setText("50");
+        monkey_state = 1;
+        return true;
+      case 1:
         setResult(RESULT_OK);
         saveState();
         finish();
