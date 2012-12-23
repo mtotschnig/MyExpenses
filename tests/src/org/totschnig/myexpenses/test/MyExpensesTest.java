@@ -95,7 +95,7 @@ public class MyExpensesTest extends
     //if (!mInstrumentation.invokeMenuActionSync(?, SelectAccount.INSERT_ACCOUNT_ID, 0))
     //  throw new Exception();
     //solo.pressMenuItem(0);
-    solo.clickLongOnText(mActivity.getString(R.string.menu_accounts));
+    solo.clickOnText(mActivity.getString(R.string.menu_accounts));
     solo.clickOnButton(mActivity.getString(android.R.string.ok)); 
     solo.enterText((EditText) solo.getView(R.id.Label),"Testing account");
     solo.enterText((EditText) solo.getView(R.id.Description),"Created with Robotium");
