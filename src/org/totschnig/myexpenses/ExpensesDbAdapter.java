@@ -59,7 +59,7 @@ public class ExpensesDbAdapter {
 
   private String mDatabaseName;
   private static final String DATABASE_TABLE = "transactions";
-  private static final int DATABASE_VERSION = 24;
+  private static final int DATABASE_VERSION = 25;
   
   /**
    * SQL statement for expenses TABLE
@@ -265,6 +265,10 @@ public class ExpensesDbAdapter {
       if (oldVersion < 24) {
         db.execSQL("alter table templates add column usages integer default 0");
       }
+      if (oldVersion < 25) {
+        //for transactions that were not transfers, transfer_peer was set to null in transactions, but to 0 in templates
+        db.execSQL("update transactions set transfer_peer=0 where transfer_peer is null;");
+      }
     }
   }
 
@@ -365,6 +369,7 @@ public class ExpensesDbAdapter {
     initialValues.put(KEY_ACCOUNTID, account_id);
     initialValues.put(KEY_PAYEE, payee);
     initialValues.put(KEY_METHODID, payment_method_id);
+    initialValues.put(KEY_TRANSFER_PEER,0);
     long _id = mDb.insert(DATABASE_TABLE, null, initialValues);
     incrCategoryUsage(cat_id);
     return _id;
@@ -506,7 +511,7 @@ public class ExpensesDbAdapter {
     //to speed up the loop for transfers, we delete in the first step all entries that are not transfers
     String[] selectArgs = new String[] { String.valueOf(account.id) };
     
-    mDb.delete(DATABASE_TABLE, "account_id = ? and transfer_peer is null", selectArgs);
+    mDb.delete(DATABASE_TABLE, "account_id = ? and transfer_peer = 0", selectArgs);
 
     Cursor c = mDb.query(DATABASE_TABLE,
         new String[] {KEY_ROWID,KEY_TRANSFER_PEER}, 
@@ -517,8 +522,8 @@ public class ExpensesDbAdapter {
       if (transfer_peer != 0) {
         ContentValues args = new ContentValues();
         args.put(KEY_COMMENT, mCtx.getString(R.string.peer_transaction_deleted,account.label));
-        args.putNull(KEY_CATID);
-        args.putNull(KEY_TRANSFER_PEER);
+        args.put(KEY_CATID,0);
+        args.put(KEY_TRANSFER_PEER,0);
         mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + transfer_peer, null);
       }
       deleteTransaction(c.getLong(c.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
@@ -583,22 +588,6 @@ public class ExpensesDbAdapter {
         null);
     mCursor.moveToFirst();
     long result = mCursor.getLong(0);
-    mCursor.close();
-    return result;
-  }
-
-  /**
-   * @param cat_id
-   * @return number of transactions linked to a category
-   */
-  public int getTransactionCountPerCat(long cat_id) {
-    //since cat_id stores the account to which is transfered for transfers
-    //we have to restrict to normal transactions by checking if transfer_peer is null
-    Cursor mCursor = mDb.rawQuery("select count(*) from " + DATABASE_TABLE +  
-        " WHERE transfer_peer is null and " + KEY_CATID +" = " + cat_id, 
-        null);
-    mCursor.moveToFirst();
-    int result = mCursor.getInt(0);
     mCursor.close();
     return result;
   }
@@ -1035,21 +1024,7 @@ public class ExpensesDbAdapter {
     mDb.delete("accounttype_paymentmethod","method_id = " +id , null);
     return mDb.delete("paymentmethods", KEY_ROWID + "=" + id, null) > 0;
   }
-  /**
-   * @param cat_id
-   * @return number of transactions linked to a method
-   */
-  public int getTransactionCountPerMethod(long methodId) {
-    //since cat_id stores the account to which is transfered for transfers
-    //we have to restrict to normal transactions by checking if transfer_peer is null
-    Cursor mCursor = mDb.rawQuery("select count(*) from " + DATABASE_TABLE +  
-        " WHERE " + KEY_METHODID +" = " + methodId, 
-        null);
-    mCursor.moveToFirst();
-    int result = mCursor.getInt(0);
-    mCursor.close();
-    return result;
-  }
+
   /**
    * @param accountId
    * @return return all templates for an account, if accountId = 0, return all templates
@@ -1120,5 +1095,49 @@ public class ExpensesDbAdapter {
 
   public void incrTemplateUsage(long id) {
     mDb.execSQL("update templates set usages = usages +1 where _id = " + id);
+  }
+
+  //Counters
+  private long getCountFromQuery(String query) {
+    Cursor mCursor = mDb.rawQuery("select count(*) from " + query, 
+        null);
+    mCursor.moveToFirst();
+    int result = mCursor.getInt(0);
+    mCursor.close();
+    return result;
+  }
+  /**
+   * @param cat_id
+   * @return number of transactions linked to a category
+   */
+  public long getTransactionCountPerCat(long catId) {
+    //since cat_id stores the account to which is transfered for transfers
+    //we have to restrict to normal transactions by checking if transfer_peer is 0
+    return getCountFromQuery(DATABASE_TABLE +
+        " WHERE transfer_peer = 0 and " + KEY_CATID +" = " + catId);
+  }
+  /**
+   * @param cat_id
+   * @return number of transactions linked to a method
+   */
+  public long getTransactionCountPerMethod(long methodId) {
+    return getCountFromQuery( DATABASE_TABLE +
+        " WHERE " + KEY_METHODID +" = " + methodId);
+  }
+  /**
+   * @param cat_id
+   * @return number of transactions linked to a category
+   */
+  public long getTemplateCountPerCat(long catId) {
+    //since cat_id stores the account to which is transfered for transfers
+    //we have to restrict to normal transactions by checking if transfer_peer is 0
+    return getCountFromQuery("templates WHERE transfer_peer = 0 and " + KEY_CATID +" = " + catId);
+  }
+  /**
+   * @param cat_id
+   * @return number of transactions linked to a method
+   */
+  public long getTemplateCountPerMethod(long methodId) {
+    return getCountFromQuery("templates WHERE " + KEY_METHODID +" = " + methodId);
   }
 }

@@ -239,8 +239,10 @@ public class SelectCategory extends ExpandableListActivity {
     			  if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && mDbHelper.getCategoryCountSub(cat_id) > 0) {
     			    Toast.makeText(this,getString(R.string.not_deletable_subcats_exists), Toast.LENGTH_LONG).show();
     			  } else if (mDbHelper.getTransactionCountPerCat(cat_id) > 0 ) {
-    			    Toast.makeText(this,getString(R.string.not_deletable_mapped_expenses), Toast.LENGTH_LONG).show();
-    			  } else {
+    			    Toast.makeText(this,getString(R.string.not_deletable_mapped_transactions), Toast.LENGTH_LONG).show();
+    			  } else if (mDbHelper.getTemplateCountPerCat(cat_id) > 0 ) {
+              Toast.makeText(this,getString(R.string.not_deletable_mapped_templates), Toast.LENGTH_LONG).show();
+            } else {
     			    mDbHelper.deleteCategory(cat_id);
     			    mGroupCursor.requery();
     			  }
