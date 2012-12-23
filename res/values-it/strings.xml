@@ -50,6 +50,12 @@
   <string name="dialog_title_select_method">Scegli un modo di pagamento</string>
   <string name="dialog_title_select_type">Scegli un tipo</string>
   <string name="dialog_title_template_title">Assegnare un nome</string>
+  <string name="donate">Donare</string>
+  <string name="donate_dialog_text">Se apprezzate <i>&app_name;</i> e volete dare un contribute potete farlo tramite PayPal. <a 
+href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
+       \nGrazie per il vostro sostegno!</string>
+  <string name="donate_positive_button">Mi sento generoso</string>
+  
   <string name="edit_category">Modificare la categoria</string>
   <string name="expense">spesa</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già.
@@ -124,6 +130,8 @@
   <string name="menu_create_main_cat">Nuova categoria principale</string>
   <string name="menu_create_sub_cat">Nuova sottocategoria</string>
   <string name="menu_create_template">Creare un modello</string>
+  <string name="menu_create_transaction_from_template_and_edit">Creare una transazione e modificare</string>
+  <string name="menu_create_transaction_from_template_and_save">Creare una transazione e salvare</string>
   <string name="menu_delete">Cancellare</string>
   <string name="menu_delete_account">Cancellare il conto</string>
   <string name="menu_delete_cat">Cancellare la categoria</string>
@@ -238,6 +246,8 @@
   <string name="restore_db_success">Il database è stato ripristinato dal backup.</string>
   <string name="restore_preferences_success">I impostazioni sono stati ripristinati dal backup.
   </string>
+  <string name="save_transaction_error">Non è possible salvare la nuova transazione da modello</string>
+  <string name="save_transaction_success">Nuova transazione salvata con successo da modello</string>
   <string name="select">Selezionare</string>
   <string name="select_account">Selezionare un conto</string>
   <string name="select_category">Selezionare una categoria</string>
@@ -276,4 +286,5 @@
       impostazioni.</string>
   <string name="version_32_upgrade_info">È stato configurato un URL FTP come destinazione.
       <i>&app_name;</i> non gestisce i trasferimenti FTP da solo.</string>
+  <string name="version_34_upgrade_info">Ora è in grado di supportare lo sviluppo continuo di <i>&app_name;</i> attraverso la sua donazione.</string>
 </resources>

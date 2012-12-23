@@ -50,6 +50,12 @@
   <string name="dialog_title_select_method">Escoger un método de pago</string>
   <string name="dialog_title_select_type">Escoger un tipo</string>
   <string name="dialog_title_template_title">Establecer el título</string>
+  <string name="donate">Done</string>
+  <string name="donate_dialog_text">Si usted aprecia <i>&app_name;</i> y quiere donar puede donar atravès de PayPal.
+      <a href="http://myexpenses.totschnig.org/#donate">Más información</a>.\n
+      \nGracias por su apoyo!</string>
+  <string name="donate_positive_button">Me siento generoso</string>
+  
   <string name="edit_category">Modificar categoría</string>
   <string name="expense">gasto</string>
   <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere
@@ -123,6 +129,8 @@
   <string name="menu_create_main_cat">Nueva categoría principal</string>
   <string name="menu_create_sub_cat">Nueva sub-categoría</string>
   <string name="menu_create_template">Crear plantilla</string>
+  <string name="menu_create_transaction_from_template_and_edit">Crear transacción y modificar</string>
+  <string name="menu_create_transaction_from_template_and_save">Crear transacción y guardar</string>
   <string name="menu_delete">Borrar</string>
   <string name="menu_delete_account">Borrar la cuenta</string>
   <string name="menu_delete_cat">Borrar la categoría</string>
@@ -238,6 +246,8 @@
       </string>
   <string name="restore_preferences_success">Las configuraciones han sidos restauradas desde la
       copia de seguridad.</string>
+  <string name="save_transaction_error">No se pudo guardar nueva transacción de plantilla</string>
+  <string name="save_transaction_success">Nueva transacción guardada con éxito de la plantilla</string>
   <string name="select">Escoger</string>
   <string name="select_account">Escoger una cuenta</string>
   <string name="select_category">Escoger una categoría</string>
@@ -269,5 +279,6 @@
   
   <!-- strings below this comment do not need translations for new languages -->
   <string name="version_32_upgrade_info">Ha configurado una URL FTP como destino.
-      <i>&app_name;</i> ya no maneja las transferencias FTP por sí solo.</string>  
+      <i>&app_name;</i> ya no maneja las transferencias FTP por sí solo.</string>
+  <string name="version_34_upgrade_info">Ahora usted puede apoyar el desarrollo contínuo de  <i>&app_name;</i> através su donación <i>&app_name;</i>.</string>
 </resources>
