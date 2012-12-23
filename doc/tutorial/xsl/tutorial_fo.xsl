@@ -252,6 +252,11 @@
     <xsl:call-template name="inline.charseq"/>
   </fo:inline>
 </xsl:template>
+<xsl:template match="guilabel">
+  <fo:inline font-weight="bold">
+    <xsl:call-template name="inline.charseq"/>
+  </fo:inline>
+</xsl:template>
 
 <xsl:template match="menuchoice">
   <xsl:variable name="shortcut" select="./shortcut"/>
