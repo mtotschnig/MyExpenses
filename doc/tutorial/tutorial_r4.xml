@@ -283,7 +283,7 @@
       <menuchoice>
         <guimenu role="menu_settings"/>
         <guimenuitem role="menu_settings_account"/>
-     </menuchoice>Se si desidera creare un nuovo conto, seleziona
+     </menuchoice>. Se si desidera creare un nuovo conto, seleziona
      <menuchoice>
         <guimenu role="menu_accounts"/>
         <guimenuitem role="menu_accounts_new"/>
@@ -415,24 +415,48 @@
 
     <!-- BEGIN tutorial1 para 5 -->
     <para lang="en">
-      For managing the complete account list, please refer to <link linkend='tutorial5_1'
-      	><guilabel role="pref_manage_accounts_title"/></link>.
+     <menuchoice>
+        <guimenu role="menu_accounts"/>
+        <guimenuitem role="menu_accounts_summary"/>
+     </menuchoice> opens an overview of all accounts with current financial status. Clicking on an
+     item, opens up the configuration. A long click on the account brings up the context menu, from
+     where you can delete the account, unless it is the current account that cannot be deleted.
     </para>
     <para lang="fr">
-      La gestion des comptes est expliqué dans <link linkend='tutorial5_1'><guilabel
-      	role="pref_manage_accounts_title"/></link>.
+     <menuchoice>
+        <guimenu role="menu_accounts"/>
+        <guimenuitem role="menu_accounts_summary"/>
+     </menuchoice> ouvre un aperçu de tous les comptes aver leur situation financiere actuelle. En cliquant
+        sur un compte, vous accédez au formulaire de configuration. Un clic long affiche un menu
+        contextuel permettant d'effacer le compte, à l'exception du compte en cours, qui
+        ne peut pas être effacé.
     </para>
     <para lang="de">
-      Die Verwaltung der Konten wird in <link linkend='tutorial5_1'><guilabel
-      	role="pref_manage_accounts_title"/></link> erklärt.
+     <menuchoice>
+        <guimenu role="menu_accounts"/>
+        <guimenuitem role="menu_accounts_summary"/>
+     </menuchoice> öffnet eine Übersicht aller Konten mit dem aktuellen Finanzstatus.  Durch den
+        Klick auf ein Konto wird das Konfigurationsformular geöffnet. Ein langer Klick bringt das
+        Kontextmenü zum Vorschein, mit der Möglichkeit, das Konto zu löschen, mit der
+        Ausnahme des aktuellen Kontos, das nicht gelöscht werden kann.
     </para>
     <para lang="it">
-      La gestione dei conti è spiegata in <link linkend='tutorial5_1'><guilabel
-      	role="pref_manage_accounts_title"/></link>.
+     <menuchoice>
+        <guimenu role="menu_accounts"/>
+        <guimenuitem role="menu_accounts_summary"/>
+     </menuchoice> apre una panoramica di tutti i conti con l'attuale situazione finanziaria.
+     Facendo clic sul conto, accedere al modulo di installazione. Un clic lungo visualizza un menu
+     di scelta rapida per cancellare conti, ad eccezione del conto corrente, che non possono essere
+     cancellati.
     </para>
     <para lang="es">
-      La administración de las cuentas se explica en <link linkend='tutorial5_1'><guilabel
-      	role="pref_manage_accounts_title"/></link>
+          <menuchoice>
+        <guimenu role="menu_accounts"/>
+        <guimenuitem role="menu_accounts_summary"/>
+     </menuchoice> abre un panorama general de todas las cuentas con el estado financiero actual. Al
+     hacer clic en una cuenta se abre el formulario de configuración. Por medio de un clic largo se
+     abre el menú de contexto que permite eliminar la cuenta, exceptuando la cuenta actual que no
+     puede ser eliminada.
     </para>
     <!-- END tutorial1 para 5 -->
   </sect1>
@@ -1216,50 +1240,6 @@
     	la cuenta actual y al backup.
     </para>
     <!-- END tutorial5 para 1 -->
-
-    <sect2 id="tutorial5_1">
-    <title>
-       <guilabel role="pref_manage_accounts_title"/>
-    </title>
-
-      <!-- BEGIN tutorial5_1 para 1 -->
-      <para lang="en">
-        Here you see the complete account list. Clicking
-        on an item, opens up the configuration form (explained in <link
-        linkend="tutorial1" endterm="tutorial1.title"/>). A long click on the account
-        brings up the context menu, from where you can delete the account, unless it is
-        the current account that cannot be deleted.
-      </para>
-      <para lang="fr">
-        Ici s'affiche la liste complète des comptes. En cliquant
-        sur un compte, vous accédez au formulaire de configuration (expliqué dans <link
-        linkend="tutorial1" endterm="tutorial1.title"/>). Un clic long affiche un menu
-        contextuel permettant d'effacer le compte, à l'exception du compte en cours, qui
-        ne peut pas être effacé.
-      </para>
-      <para lang="de">
-        Hier wird eine komplette Liste der Konten angezeigt. Durch den
-        Klick auf ein Konto wird das Konfigurationsformular geöffnet (erklärt in <link
-        linkend="tutorial1" endterm="tutorial1.title"/>). Ein langer Klick bringt das
-        Kontextmenü zum Vorschein, mit der Möglichkeit, das Konto zu löschen, mit der
-        Ausnahme des aktuellen Kontos, das nicht gelöscht werden kann.
-      </para>
-      <para lang="it">
-        Questo mostra l'elenco completo dei conti. Facendo clic sul conto, accedere al modulo
-        di installazione (spiegato nel <link linkend="tutorial1" endterm="tutorial1.title"/>).
-        Un clic lungo visualizza un menu di scelta rapida per cancellare conti, ad eccezione
-        del conto corrente, che non possono essere cancellati.
-      </para>
-      <para lang="es">
-        Aquí se muestra una lista completa de las cuentas. Al hacer clic en una cuenta se abre
-        el formulario de configuración (como se explica en <link linkend="tutorial1"
-        endterm="tutorial1.title"/>). Por medio de un clic largo se abre el menú de contexto
-        que permite eliminar la cuenta, exceptuando la cuenta actual que no puede ser
-        eliminada.
-      </para>
-      <!-- END tutorial5_1 para 1 -->
-
-    </sect2>
 
     <sect2 id="tutorial5_2">
       <title>
