@@ -5,11 +5,11 @@ if (len(sys.argv) < 2):
   sys.exit(0)
 
 lang = sys.argv[1]
-targetdir = '../../../MyExpenses.pages/tutorial_r3/' + lang + '/large/'
+targetdir = '../../../MyExpenses.pages/' + lang + '/tutorial_r4/large/'
 BACKDOOR_KEY = 'KEYCODE_CAMERA'
 
-def snapshot(number):
-  filename = 'step'+number+'.png'
+def snapshot(title):
+  filename = title+'.png'
   print filename
   result = device.takeSnapshot()
   result.writeToFile(targetdir + filename,'png')
@@ -27,7 +27,7 @@ device = MonkeyRunner.waitForConnection()
 #device.startActivity(component=runComponent)
 
 #introduction
-snapshot('1')
+snapshot('introduction_mainscreen')
 
 ##tutorial1 Managing accounts
 #open "Edit Account" through backdoor
@@ -38,7 +38,7 @@ device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 #call our "backdoor that enters data"
 device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
-snapshot('2')
+snapshot('accounts_createnew')
 #backdoor finishes
 device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep(1)
@@ -49,8 +49,8 @@ device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
 #close the virtual keyboard
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
-sleep()
-snapshot('3')
+sleep(3)
+snapshot('transactions_add')
 #call our "backdoor" that enters data
 device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
@@ -59,9 +59,10 @@ device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
+sleep()
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep()
-snapshot('4')
+snapshot('transactions_pickmethod')
 #close the dialog and call "backdoor" to finish activity
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep()
@@ -72,7 +73,7 @@ device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 sleep()
-snapshot('5')
+snapshot('transactions_contextmenu')
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep()
 
@@ -88,11 +89,11 @@ device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 #trigger it
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep()
-snapshot('6')
+snapshot('categories_beforeimport')
 #select Category import through backdoor
 device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
-snapshot('7')
+snapshot('settings_import_picksource')
 #select import source based on lang
 if (lang != 'en'):
   device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
@@ -114,12 +115,12 @@ device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 #execute import and give it some time
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
-sleep(30)
-snapshot('8')
+sleep(20)
+snapshot('categories_afterimport')
 #select "Add new category through backdoor"
 device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep()
-snapshot('9')
+snapshot('categories_createnew')
 #Close dialog
 device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep(2)
@@ -128,7 +129,7 @@ device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN)
 sleep()
-snapshot('10')
+snapshot('categories_contextmenu')
 
 #Tutorial 4 Export transactions
 #back to main screen
@@ -144,22 +145,16 @@ sleep()
 #confirm
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep()
-snapshot('11')
+snapshot('export_result')
 
 #Tutorial 5 Settings
 sleep()
 #open "MyPreferenceActivity through backdoor
 device.press(BACKDOOR_KEY, MonkeyDevice.DOWN)
 sleep(3)
-snapshot('12')
+snapshot('settings_mainscreen')
 sleep()
 #navigate to "Manage payment methods"
-device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
-device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
-device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
-device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
-device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
-device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
 device.press('KEYCODE_DPAD_DOWN', MonkeyDevice.DOWN_AND_UP)
@@ -172,7 +167,7 @@ sleep()
 device.press('KEYCODE_ENTER', MonkeyDevice.DOWN_AND_UP)
 sleep()
 #close the virtual keyboard
-device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
+#device.press('KEYCODE_BACK', MonkeyDevice.DOWN_AND_UP)
 sleep()
-snapshot('13')
+snapshot('settings_manage_method_edit')
 

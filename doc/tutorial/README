@@ -32,6 +32,7 @@ patch -p1 <doc/tutorial/mk_backdoor.diff
  
 
 #comment out onKeyUp handlers
+#IMPORTANT: Android standard keyboard must be used,
 ant debug
 adb uninstall org.totschnig.myexpenses
 adb install bin/MyExpenses-debug.apk
@@ -41,18 +42,19 @@ monkeyrunner mk_screenshots.py {lang}
 
 
 The smaller images are created with the following shell command
-executed from MyExpenses.pages/tutorial_r2 and steps set to a list of numbers of changed
+executed from MyExpenses.pages 
 screenshots
-for lang in en
+for lang in en fr de it es
   do (
-    cd ${lang}/large
+    cd ${lang}/tutorial_r4/large
     pwd
-    for i in `seq 1 12`
+    for i in *.png
       do
-        convert step${i}.png -resize 40%  step${i}_klein.png
-        pngnq step${i}_klein.png
-        mv step${i}_klein-nq8.png ../step${i}.png
-        rm step${i}_klein.png
+        base=${i%.png}
+        convert ${i} -resize 40%  ${base}_klein.png
+        pngnq ${base}_klein.png
+        mv ${base}_klein-nq8.png ../${i}
+        rm ${base}_klein.png
       done
     )
   done
