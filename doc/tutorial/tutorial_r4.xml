@@ -148,7 +148,7 @@
       displayed at the bottom of the screen gives easy access to all functionalities. Each
       button executes a default action on short clicks and some (indicated by a triangle in the left upper corner) open up a menu with further
       actions on long clicks. Alternatively, you can configure <application role="app_name"/>
-      in <link linkend='tutorial5_6'><guilabel role="pref_use_standard_menu_title"/></link> to
+      in <link linkend='settings_ui_standard_menu'><guilabel role="pref_use_standard_menu_title"/></link> to
       use a command interface based on the Android standard menu.
     </para>
     <para lang="fr">
@@ -157,7 +157,7 @@
       bouton exécute une action par défaut sur un clic court. Certains (identifiables par le triangle en haut à gauche)
       affichent un menu avec d'autres actions sur un clic long. Sinon, vous
       pouvez configurer <application role="app_name"/> afin qu'il utilise le menu
-      standard d'Android en tant qu'interface de commande (<link linkend='tutorial5_6'><guilabel
+      standard d'Android en tant qu'interface de commande (<link linkend='settings_ui_standard_menu'><guilabel
       	role="pref_use_standard_menu_title"/></link> ).
     </para>
     <para lang="de">
@@ -166,7 +166,7 @@
       gewährt. Jeder Schaltknopf ruft mittels eines kurzen Klicks eine Aktion auf, einige
       reagieren zusätzlich auf einen langen Klick (wenn im linken oberen Eck ein Dreieck abgebildet ist), und öffnen ein Menü mit weiteren Aktionen.
       Anstatt der Menüleiste kann <application role="app_name"/> auch das Android Standardmenü
-      verwenden, wenn sie <link linkend='tutorial5_6'><guilabel
+      verwenden, wenn sie <link linkend='settings_ui_standard_menu'><guilabel
       	role="pref_use_standard_menu_title"/></link> konfigurieren.
     </para>
     <para lang="it">
@@ -175,7 +175,7 @@
       esegue un'azione predefinita in risposta a un clic breve. Alcuni pulsanti (indicato per un triangolo nell\'angolo destro di sopra) aprono
       un menu con altre azioni in un clic lungo. In caso contrario, è possibile configurare que
       <application role="app_name"/> utilizza il menù standard di Android come
-      interfaccia di controllo(<link linkend='tutorial5_6'><guilabel
+      interfaccia di controllo(<link linkend='settings_ui_standard_menu'><guilabel
       	role="pref_use_standard_menu_title"/></link>).
     </para>
     <para lang="es">
@@ -184,16 +184,16 @@
       todas las funcionalidades. Cada botón inicia con un clic breve una acción, y algunos botones (indicado por un triángulo en la esquina superior izquierda)
       abren con un clic largo un menú con mas acciones. En lugar de la barra de
       menú <application role="app_name"/> puede utilizar también el menú estándar de Android si
-      usted configura <link linkend='tutorial5_6'><guilabel role="pref_use_standard_menu_title"
+      usted configura <link linkend='settings_ui_standard_menu'><guilabel role="pref_use_standard_menu_title"
       	/></link>.
     </para>
     <!-- END introduction para 2 -->
 
   </sect1>
 
-    <!-- Tutorial1 -->
+    <!-- Accounts -->
 
-  <sect1 id="tutorial1">
+  <sect1 id="accounts">
     <sect1info>
       <abstract>
         <para lang="en">
@@ -213,7 +213,7 @@
         </para>
       </abstract>
     </sect1info>
-    <title id="tutorial1.title">
+    <title id="accounts.title">
       <phrase lang="en">Accounts</phrase>
       <phrase lang="fr">Comptes</phrase>
       <phrase lang="de">Konten</phrase>
@@ -232,7 +232,7 @@
       </screenshot>
     </figure>
 
-    <!-- BEGIN tutorial1 para 1 -->
+    <!-- BEGIN accounts para 1 -->
     <para lang="en">
       When you launch <application role="app_name"/> for the first time, there is one default
       account defined and you can immediatly start adding transactions. If you want to edit
@@ -302,9 +302,9 @@
         <guimenuitem role="menu_accounts_new"/>
      </menuchoice> en cambio puede configurar una nueva cuenta.
    </para>
-    <!-- END tutorial1 para 1 -->
+    <!-- END accounts para 1 -->
 
-    <!-- BEGIN tutorial1 para 2 -->
+    <!-- BEGIN accounts para 2 -->
     <para lang="en">
       Enter a label, a description, the opening balance<footnoteref linkend="ftn22-en-1"/>
       and a currency for the account. The currency must be entered according to
@@ -335,44 +335,44 @@
       va insertada con su abreviación de tres cifras ISO 4217, pero puede ser elegida
       simplemente de la lista, a la cual se llega con un clic sobre <guibutton role="select"/>.
     </para>
-    <!-- END tutorial1 para 2 -->
+    <!-- END accounts para 2 -->
 
-    <!-- BEGIN tutorial1 para 3 -->
+    <!-- BEGIN accounts para 3 -->
     <para lang="en">
       You can define the type of an account as one of Cash, Bank, Asset, Liabilities. Account types
-      are associated with payment methods, as explained in <link linkend='tutorial5_9'><guilabel
+      are associated with payment methods, as explained in <link linkend='settings_manage_methods'><guilabel
         role="pref_manage_methods_title"/></link>. Here we will define the account as bank account,
       in order to demonstrate the use of payment methods.
     </para>
     <para lang="fr">
       Vous pouvez associer le compte aux types suivants: compte de caisse, compte bancaire,  compte
       d'actif ou compte de passif. Les méthodes de paiement sont définies par type de compte, tel
-      qu'indiqué dans <link linkend='tutorial5_9'><guilabel role="pref_manage_methods_title"/></link>.
+      qu'indiqué dans <link linkend='settings_manage_methods'><guilabel role="pref_manage_methods_title"/></link>.
       Ici nous choisissons compte bancaire, afin de pouvoir montrer l'utilisation des méthodes de paiement.
     </para>
     <para lang="de">
       Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto,
       Kreditkonto. Für Kontotypen sind Zahlungsweisen definiert, wie in <link
-        linkend='tutorial5_9'><guilabel role="pref_manage_methods_title"/></link> beschrieben. Hier
+        linkend='settings_manage_methods'><guilabel role="pref_manage_methods_title"/></link> beschrieben. Hier
       wählen wir den Typ als Bankkonto, um zu zeigen, wie Zahlungsweisen verwendet werden.
     </para>
     <para lang="it">
       Puo assegnare qualsiasi conto a uno dei seguenti tipi: Conto di denaro contante, conto
       bancario, conto d’investimento, conto d’accredito. Per i tipi di conti sono definiti modi di
-      pagamento, com’è definito in <link linkend='tutorial5_9'><guilabel
+      pagamento, com’è definito in <link linkend='settings_manage_methods'><guilabel
         role="pref_manage_methods_title"/></link>. Qui scegliamo come tipo il conto bancario, per
       dimostrare come si usano i modi di pagamento.
     </para>
     <para lang="es">
       Usted puede asignar a una cuenta uno de los siguientes tipos: cuenta de caja, cuenta bancaria,
       cuenta de inversiones, cuenta de crédito. Para los tipos de cuenta están definidos métodos de
-      pago como se definen en <link linkend='tutorial5_9'><guilabel
+      pago como se definen en <link linkend='settings_manage_methods'><guilabel
         role="pref_manage_methods_title"/></link>. Aquí elegimos el tipo de cuenta bancaria para
       mostrar cómo se utilizan los métodos de pago.
     </para>
-    <!-- END tutorial1 para 3 -->
+    <!-- END accounts para 3 -->
 
-    <!-- BEGIN tutorial1 para 4 -->
+    <!-- BEGIN accounts para 4 -->
     <para lang="en">
       When you confirm that you are done, you get back to the transaction list. If you
       have created a new account, it is automatically set to be the current account.
@@ -411,9 +411,9 @@
       todas las cuentas a elegir. Con un clic simple se circula entre todas cuentas, o se vuelve a
       la cuenta recientemente activa (configuración <guilabel role="pref_account_button_behaviour_title"/>).
     </para>
-    <!-- END tutorial1 para 4 -->
+    <!-- END accounts para 4 -->
 
-    <!-- BEGIN tutorial1 para 5 -->
+    <!-- BEGIN accounts para 5 -->
     <para lang="en">
      <menuchoice>
         <guimenu role="menu_accounts"/>
@@ -458,11 +458,11 @@
      abre el menú de contexto que permite eliminar la cuenta, exceptuando la cuenta actual que no
      puede ser eliminada.
     </para>
-    <!-- END tutorial1 para 5 -->
+    <!-- END accounts para 5 -->
   </sect1>
 
-   <!-- Tutorial2 -->
-  <sect1 id="tutorial2">
+   <!-- Transactions -->
+  <sect1 id="transactions">
     <sect1info>
       <abstract>
         <para lang="en">
@@ -501,7 +501,7 @@
       </screenshot>
     </figure>
 
-    <!-- BEGIN tutorial2 para 1 -->
+    <!-- BEGIN transactions para 1 -->
     <para lang="en">
       A short click on <guibutton role="menu_new"/> brings up the activity for creating a
       transaction.
@@ -521,24 +521,24 @@
       Un clic breve sobre <guimenuitem role="menu_new"/> abre una ventana para la inserción de
       un nuevo asiento.
     </para>
-    <!-- END tutorial2 para 1 -->
+    <!-- END transactions para 1 -->
 
-    <!-- BEGIN tutorial2 para 2 -->
+    <!-- BEGIN transactions para 2 -->
     <para lang="en">
       Adjust date and time, click on the <guibutton>-</guibutton> Button to toggle between
       expense and income, enter amount<footnote id="ftn22-en-1">
         <para>
           The input format for currency amounts can be configured through the <link
-          linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
+          linkend='settings_ui_decimal_separator'><guilabel role="pref_currency_decimal_separator_title"/></link>
           setting.
        </para>
       </footnote> and notes. The payee (or payer) field remembers the
       values you enter and will suggest them in the future<footnote id="ftn22-en-2">
         <para>
           You can also import a list of parties for autocompleting the payee field from your
-          Grisbi file as explained in <link linkend='tutorial5_5'><guilabel
+          Grisbi file as explained in <link linkend='settings_import'><guilabel
             role="pref_import_from_grisbi_title"/></link>. If you want to delete entries from
-          this list refer to <link linkend='tutorial5_7'><guilabel
+          this list refer to <link linkend='settings_manage_parties'><guilabel
             role="pref_manage_parties_title"/></link>.
         </para>
       </footnote>. Clicking on the
@@ -551,16 +551,16 @@
       basculer entre dépense ou entrée, entrez la somme<footnote id="ftn22-fr-1">
         <para>
           Le format d'entrée des montants peut être configuré par le paramètre
-          <link linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
+          <link linkend='settings_ui_decimal_separator'><guilabel role="pref_currency_decimal_separator_title"/></link>
         </para>
      </footnote> et une remarque.
       Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois
       que vous entrerez un tiers<footnote id="ftn22-fr-2">
         <para>
           Vous pouvez importer la liste des tiers enregistrés de votre fichier Grisbi, comme
-          expliqué dans <link linkend='tutorial5_5'><guilabel
+          expliqué dans <link linkend='settings_import'><guilabel
             role="pref_import_from_grisbi_title"/></link>. Si vous désirez supprimer des valeurs
-          de cette liste, consultez <link linkend='tutorial5_7'><guilabel
+          de cette liste, consultez <link linkend='settings_manage_parties'><guilabel
             role="pref_manage_parties_title"/></link>.
         </para>
       </footnote>. Cliquer sur le bouton <guibutton role="select"/>
@@ -572,7 +572,7 @@
       Passen Sie Datum und Uhrzeit an, klicken Sie auf den Schaltknopf <guibutton>-</guibutton>
       um zwischen Ausgabe und Einnahme zu wechseln, geben Sie Betrag<footnote id="ftn22-de-1">
         <para>
-          Das Eingabeformat für Währungsbeträge kann mittels <link linkend='tutorial5_8'><guilabel
+          Das Eingabeformat für Währungsbeträge kann mittels <link linkend='settings_ui_decimal_separator'><guilabel
           role="pref_currency_decimal_separator_title"/></link>
           eingestellt werden.
        </para>
@@ -582,9 +582,9 @@
       vor<footnote id="ftn22-de-2">
         <para>
           Sie können auch die in einer Grisbi Datei gespeicherte Liste der Parteien importieren
-          (erklärt in <link linkend='tutorial5_5'><guilabel
+          (erklärt in <link linkend='settings_import'><guilabel
           role="pref_import_from_grisbi_title"/></link>). Wie Sie Werte aus dieser Liste
-          löschen können, erfahren Sie unter <link linkend='tutorial5_7'><guilabel
+          löschen können, erfahren Sie unter <link linkend='settings_manage_parties'><guilabel
           role="pref_manage_parties_title"/></link>.
         </para>
       </footnote>. Durch Klick auf den Knopf
@@ -596,16 +596,16 @@
       oneri ei proventi, inserire importo<footnote id="ftn22-it-1">
         <para>
           Il formato di ingresso per gli importi in valuta può essere configurato attraverso il parametro
-	   <link linkend='tutorial5_8'><guilabel role="pref_currency_decimal_separator_title"/></link>
+	   <link linkend='settings_ui_decimal_separator'><guilabel role="pref_currency_decimal_separator_title"/></link>
        </para>
        </footnote>, le note e il beneficiario (o debitore). Il
       benficiario campo memorizza i valori inseriti, e suggeriscono la prossima volta che si
       entra questo<footnote id="ftn22-it-2">
         <para>
           È possibile importare una lista di beneficiari iscritti nel file Grisbi, come
-          spiegato in <link linkend='tutorial5_5'><guilabel
+          spiegato in <link linkend='settings_import'><guilabel
           role="pref_import_from_grisbi_title"/></link>. Se si desidera eliminare valori da
-          questo elenco, vedere <link linkend='tutorial5_7'><guilabel
+          questo elenco, vedere <link linkend='settings_manage_parties'><guilabel
           role="pref_manage_parties_title"/></link>.
         </para>
       </footnote> Cliccando sul <guibutton role="select"/> pulsante, si apre la <guilabel
@@ -617,7 +617,7 @@
       gasto u ingreso, inserte el importe<footnote id="ftn22-es-1">
         <para>
           El formato de inserción para valores monetarios puede ser configurado por la
-          configuración <link linkend='tutorial5_8'><guilabel
+          configuración <link linkend='settings_ui_decimal_separator'><guilabel
           role="pref_currency_decimal_separator_title"/></link>
         </para>
       </footnote> y apuntes. La casilla para la inserción del
@@ -625,16 +625,16 @@
       propone si usted vuelve a hacer inserciones en esta casilla<footnote id="ftn22-es-2">
         <para>
           Puede también importar la lista de partes guardado en un archivo de Grisbi (se
-          explica en <link linkend='tutorial5_5'><guilabel
+          explica en <link linkend='settings_import'><guilabel
           role="pref_import_from_grisbi_title"/></link>). Como borrar valores de esta lista
-          léase en <link linkend='tutorial5_7'><guilabel
+          léase en <link linkend='settings_manage_parties'><guilabel
           role="pref_manage_parties_title"/></link>.
         </para>
       </footnote>. Con un clic sobre el botón
       <guibutton role="select"/> usted llega a la ventana <guilabel role="select_category"/>.
       Este punto se explica mas adelante.
     </para>
-    <!-- END tutorial2 para 2 -->
+    <!-- END transactions para 2 -->
     <?float-clear?>
     <figure floatstyle="left" id="step4" >
       <title/>
@@ -647,7 +647,7 @@
       </screenshot>
     </figure>
 
-    <!-- BEGIN tutorial2 para 3 -->
+    <!-- BEGIN transactions para 3 -->
     <para lang="en">
       If the current account is of a type, that is associated with payment methods, you can set the transaction's method
       through the <guibutton role="select"/> button next to <guilabel role="method" />.
@@ -671,7 +671,7 @@
       método de pago del asiento a través de un clic sobre el botón <guibutton role="select"/> al
       lado de <guilabel  role="method" />.
     </para>
-    <!-- END tutorial2 para 3-->
+    <!-- END transactions para 3-->
     <?float-clear?>
 
     <figure floatstyle="left" id="step5" >
@@ -685,40 +685,40 @@
       </screenshot>
     </figure>
 
-    <!-- BEGIN tutorial2 para 3 -->
+    <!-- BEGIN transactions para 3 -->
     <para lang="en">
       Back at the transaction list, you can edit individual entries through a short click,
       the context menu allows deleting a transaction, or display full details (payee,
-      notes) about it. You can also move a transaction to a different account, provided you
+      notes, payment method) about it. You can also move a transaction to a different account, provided you
       have set up at least one additional account.
     </para>
     <para lang="fr">
       Sur la liste des opérations, vous pouvez éditer chaque opération avec un clic court,
       le menu contextuel vous permet aussi d'effacer une opération ou d'afficher tous ses
-      détails (tiers, remarques). Vous pouvez aussi déplacer une opération vers un autre
+      détails (tiers, remarques, méthode de payement). Vous pouvez aussi déplacer une opération vers un autre
       compte, si vous en avez créé au moins deux.
     </para>
     <para lang="de">
       In der Liste der Buchungen, kann jede Buchung durch einen kurzen Klick bearbeitet
       werden, das Kontextmenü erlaubt das Löschen und die Anzeige von Detailinformationen
-      (Empfänger, Notizen). Sie können eine Buchung auch in ein anderes Konto verschieben,
+      (Empfänger, Notizen, Zahlungsweise). Sie können eine Buchung auch in ein anderes Konto verschieben,
       sofern sie zumindest ein weiteres Konto angelegt haben.
     </para>
     <para lang="it">
       Ritorno alla lista transazione, è possibile modificare le singole voci attraverso un
       click breve, il menù contestuale permette di cancellare una transazione, o visualizzare
-      tutti i dettagli (beneficiario, note). È inoltre possibile spostare una transazione ad
+      tutti i dettagli (beneficiario, note, modo di pagamento). È inoltre possibile spostare una transazione ad
       un altro conto, se si dispone di almeno due conti
     </para>
     <para lang="es">
       En la lista de los asientos puede editar con un breve clic cada asiento, el menú de
-      contextual permite borrar y ver las informaciones detalladas (el beneficiario, apuntes).
+      contextual permite borrar y ver las informaciones detalladas (el beneficiario, apuntes, método de pago).
       Puede mover un asiento de una cuenta a otra si es que usted haya configurado por lo
       menos una cuenta adicional.
     </para>
-    <!-- END tutorial2 para 3 -->
+    <!-- END transactions para 3 -->
 
-    <sect2 id="tutorial2_1">
+    <sect2 id="transactions_1">
       <title>
         <phrase lang="en">Transfer</phrase>
         <phrase lang="fr">Virement</phrase>
@@ -727,7 +727,7 @@
         <phrase lang="es">Traspaso entre cuentas</phrase>
       </title>
 
-      <!-- BEGIN tutorial2_1 para 1 -->
+      <!-- BEGIN transactions_1 para 1 -->
       <para lang="en">
         <menuchoice>
           <guimenu role="menu_new"/>
@@ -763,12 +763,12 @@
        </menuchoice> permite trasladar importes de una cuenta a otra. Este mando <!-- (¿) -->  está a
        disposición solamente si existen varias cuentas de la misma moneda.
       </para>
-      <!-- END tutorial2_1 para 1 -->
+      <!-- END transactions_1 para 1 -->
     </sect2>
   </sect1>
 
-   <!-- Tutorial3 -->
-  <sect1 id="tutorial3">
+   <!-- Categories -->
+  <sect1 id="categories">
     <sect1info>
         <abstract>
         <para lang="en">
@@ -808,7 +808,7 @@
     </figure>
 
 
-    <!-- BEGIN tutorial3 para 1 -->
+    <!-- BEGIN categories para 1 -->
     <para lang="en">
       At the beginning, no categories are defined. You have two options for adding them.
     </para>
@@ -827,12 +827,12 @@
     <para lang="es">
       Al principio todavía no existen categorías.  Hay dos posibilidades de configurarlos.
     </para>
-    <!-- END tutorial3 para 1 -->
+    <!-- END categories para 1 -->
 
-    <!-- BEGIN tutorial3 para 2 -->
+    <!-- BEGIN categories para 2 -->
     <para lang="en">
       Either you click on the button <guibutton role="import_categories"/> which allows to
-      select between different sources, as explained in <link linkend='tutorial5_5'><guilabel
+      select between different sources, as explained in <link linkend='settings_import'><guilabel
       	role="pref_import_from_grisbi_title"/></link>. This button is visible, only as
       long the categories list is stil empty, later you can always access the import
       functionality from the <guilabel role="menu_settings"/> activity.
@@ -840,32 +840,32 @@
     <para lang="fr">
       Soit vous cliquez sur le bouton <guibutton role="import_categories"/> qui vous permet de
       les entrer directement à partir des différents source, tel qu'expliqué dans <link
-      	linkend='tutorial5_5'><guilabel role="pref_import_from_grisbi_title"/></link>. Ce bouton
+      	linkend='settings_import'><guilabel role="pref_import_from_grisbi_title"/></link>. Ce bouton
       est visible lorsque la liste des catégories est vide, mais vous pouvez toujours accéder à
       la fonction d'import à partir de l'écran <guilabel role="menu_settings"/>.
     </para>
     <para lang="de">
       Der Schaltknopf <guibutton role="import_categories"/> erlaubt Kategorien aus
-      verschiedenen Quellen zu importieren wie in <link linkend='tutorial5_5'><guilabel
+      verschiedenen Quellen zu importieren wie in <link linkend='settings_import'><guilabel
       	role="pref_import_from_grisbi_title"/></link> erklärt. Dieser Schaltknopf
       ist nur sichtbar solange es keine Kategorien gibt, aber Sie können jederzeit im
       Bildschirm <guilabel role="menu_settings"/> auf die Import-Funktionalität zugreifen.
     </para>
     <para lang="it">
       O si sceglie <guibutton role="import_categories"/> che consente di immettere direttamente
-      dalla fonte diversa, come spiegato nel <link linkend='tutorial5_5'><guilabel
+      dalla fonte diversa, come spiegato nel <link linkend='settings_import'><guilabel
       	role="pref_import_from_grisbi_title"/></link>. Questo pulsante è visibile quando l'elenco
       delle categorie è vuoto, ma è ancora possibile accedere al funzione di importazione dallo
       schermo <guilabel role="menu_settings"/>.
     </para>
     <para lang="es">
       El botón <guibutton role="import_categories"/> permite importar categorías de distintas
-      fuentes como se explica en <link linkend='tutorial5_5'><guilabel
+      fuentes como se explica en <link linkend='settings_import'><guilabel
       	role="pref_import_from_grisbi_title"/></link>. Este botón está visible solamente mientras
       no existan categorías, pero en la ventana <guilabel role="menu_settings"/> usted puede
       acceder cuando quiera a la funcionalidad de importar.
     </para>
-    <!-- END tutorial3 para 2 -->
+    <!-- END categories para 2 -->
 
     <?float-clear?>
 
@@ -880,13 +880,13 @@
       </screenshot>
     </figure>
 
-    <!-- BEGIN tutorial3 para 3 -->
+    <!-- BEGIN categories para 3 -->
     <para lang="en">
 	    You now have a set of categories with subcategories you can associate with your
 	    transactions. By default, the primary sort criteria in the category list is the number of
 	    times you use a category (the secondary criteria is alphabetical order). This gives you
 	    quick access to the categories you use most often. If you prefer to have the categories
-	    sorted in plain alphabetical order, you can configure <link linkend='tutorial5_2'><guilabel
+	    sorted in plain alphabetical order, you can configure <link linkend='settings_ui_sort_by_usages'><guilabel
 	      role="pref_categories_sort_by_usages_title"/></link>.
     </para>
     <para lang="fr">
@@ -896,7 +896,7 @@
       secondaire). Ce fonctionnement vous donne un accès rapide aux catégories associées aux
       transactions les plus utilisées. Si vous préferez voir apparaître les
       catégories dans l'ordre alphabétique, vous pouvez désactiver ce paramètre <link
-        linkend='tutorial5_2'><guilabel role="pref_categories_sort_by_usages_title"/></link>.
+        linkend='settings_ui_sort_by_usages'><guilabel role="pref_categories_sort_by_usages_title"/></link>.
     </para>
     <para lang="de">
       Sie können die importierten Kategorien und Unterkategorien jetzt Ihren Buchungen
@@ -904,7 +904,8 @@
       einer Kategorie verwendet (sekundäres Kriterium ist die alphabetische Reihenfolge).
       Dadurch haben Sie zu den am häufigsten verwendeten Kategorien am schnellsten Zugriff.
       Wenn Sie die Kategorien lieber alphabetisch geordnet wollen, können Sie die Einstellung
-      <guilabel role="pref_categories_sort_by_usages_title"/> deaktivieren.
+      <link linkend='settings_ui_sort_by_usages'><guilabel role="pref_categories_sort_by_usages_title"/></link> 
+      deaktivieren.
     </para>
     <para lang="it">
       Ora avete un elenco di categorie con sottocategorie che è possibile associare con il tuo
@@ -912,17 +913,17 @@
       utilizzo (in ordine alfabetico viene utilizzato come criterio secondario). Questa
       funzione consente di accedere rapidamente alle categorie relative alle operazioni che si
       utilizzano più. Se si preferisce vedere le categorie appaiono in ordine alfabetico, è
-      possibile disabilitare questa impostazione <guilabel
-      role="pref_categories_sort_by_usages_title"/>.
+      possibile disabilitare questa impostazione <link linkend='settings_ui_sort_by_usages'><guilabel
+        role="pref_categories_sort_by_usages_title"/></link>.
     </para>
     <para lang="es">
       Ahora puede atribuir las categorías y subcategorías a sus asientos. Como primer criterio
       de clasificación se utiliza el número de usos de una categoría (el segundo criterio es el
       orden alfabético). Así usted puede acceder de manera muy rápida a las categorías de uso
       mas frecuente. Si usted prefiere el orden alfabético puede desactivar la configuración
-      <guilabel role="pref_categories_sort_by_usages_title"/>.
+      <link linkend='settings_ui_sort_by_usages'><guilabel role="pref_categories_sort_by_usages_title"/></link>.
     </para>
-    <!-- END tutorial3 para 3 -->
+    <!-- END categories para 3 -->
 
     <?float-clear?>
 
@@ -937,7 +938,7 @@
       </screenshot>
     </figure>
 
-    <!-- BEGIN tutorial3 para 4 -->
+    <!-- BEGIN categories para 4 -->
     <para lang="en">
 	    The second option is to add your own categories.  <guibutton
 	    role="menu_create_main_cat"/> brings up a dialog for providing a new category label.
@@ -960,7 +961,7 @@
         role="menu_create_main_cat"/> principal abre una ventana de diálogo para insertar un
       nombre.
     </para>
-    <!-- END tutorial3 para 4 -->
+    <!-- END categories para 4 -->
 
     <?float-clear?>
 
@@ -975,7 +976,7 @@
       </screenshot>
     </figure>
 
-    <!-- BEGIN tutorial3 para 5 -->
+    <!-- BEGIN categories para 5 -->
     <para lang="en">
 	    Clicking on a main category, opens up its subcategories. You select a subcategory
 	    for mapping to the current transaction by simply clicking on it. In order to map a
@@ -1002,9 +1003,9 @@
       una subcategoría a un asiento actual se realiza a través de un breve clic. La asignación
       de una categoría principal es posible a través del menú contextual.
     </para>
-    <!-- END tutorial3 para 5 -->
+    <!-- END categories para 5 -->
 
-    <!-- BEGIN tutorial3 para 6 -->
+    <!-- BEGIN categories para 6 -->
     <para lang="en">
 	    From here you can also add new subcategories, delete a category or edit it.
 	    Subcategories have also context menus for deleting and editing.
@@ -1029,11 +1030,11 @@
       principales. También las subcategorías disponen de un menú contextual para borrar- o
       modificarlas.
     </para>
-    <!-- END tutorial3 para 6 -->
+    <!-- END categories para 6 -->
   </sect1>
 
-   <!-- Tutorial4 -->
-  <sect1 id="tutorial4">
+   <!-- Export -->
+  <sect1 id="export">
     <sect1info>
       <abstract>
         <para lang="en">
@@ -1072,7 +1073,7 @@
       </screenshot>
     </figure>
 
-    <!-- BEGIN tutorial4 para 1 -->
+    <!-- BEGIN export para 1 -->
     <para lang="en">
       Finally, the raison d'être of <application role="app_name"/> is its support
       for export into QIF format. Call this function through the
@@ -1080,7 +1081,7 @@
       create a file on your sdcard with all transactions for the current account, delete
       them from the database, and adjust the opening balance to the last current balance.
       <application role="app_name"/> can share the file immediately after the export through
-      FTP, email or any other file sharing app, as explained in <link linkend='tutorial5_3'
+      FTP, email or any other file sharing app, as explained in <link linkend='settings_3'
         ><guilabel role="pref_perform_share_title"/></link>.
       <phrase role="br"/>
       Transfer operations will also be deleted from the account, but still be visible in
@@ -1093,7 +1094,7 @@
       Ceci va créer un fichier sur votre carte SD avec toutes les opérations du compte en
       cours, les enlever de la base de données et ajuster le solde initial avec le solde
       courant. Ce fichier peut être transféré par FTP, courriel ou d'autres applications comme
-      expliqué dans <link linkend='tutorial5_3'><guilabel role="pref_perform_share_title"
+      expliqué dans <link linkend='settings_3'><guilabel role="pref_perform_share_title"
         /></link>.
       <phrase role="br"/>
       Les opérations de virement seront aussi enlevées du compte mais resteront visibles
@@ -1107,7 +1108,7 @@
       Kontos enthält. Diese werden gelöscht und der aktuelle Saldo wird in den neuen
       Anfangssaldo übertragen. Sofort nach dem Export kann die Datei weitergeleitet
       werden, mittels FTP, Email oder anderen Apps, die Dateien übertragen können (siehe <link
-        linkend='tutorial5_3'><guilabel role="pref_perform_share_title"/></link>).
+        linkend='settings_3'><guilabel role="pref_perform_share_title"/></link>).
       <phrase role="br"/>
       Umbuchungen werden auch von dem Konto gelöscht, sind aber im anderen Konto, auf das
       sie sich beziehen, weiterhin sichtbar.
@@ -1119,7 +1120,7 @@
       scheda SD con tutte le transazioni per il conto corrente, eliminare dal database, e
       regolare il saldo di apertura con il saldo corrente. <application role="app_name"/> posso
       condividere il file subito dopo il export, sia caricarlo in un server FTP, inviarla via
-      e-mail o altra applicazione come spiegato in <link linkend='tutorial5_3'>
+      e-mail o altra applicazione come spiegato in <link linkend='settings_3'>
       <guilabel role="pref_perform_share_title"/></link>).
       <phrase role="br"/>
       Operazioni di trasferimento verrà eliminato anche dal conto, ma ancora visibile in
@@ -1131,15 +1132,15 @@
       De esta manera se crea en la tarjeta SD un archivo que contiene todos los asientos de la cuenta
       actual.Éstos son eliminados y el saldo actual es transferido al nuevo saldo inicial.
       Inmediatamete después de la exportación se puede enviar el archivo, vía FTP, correo electrónico
-      o otras aplicaciones que pueden transferir archivos (vease <link linkend='tutorial5_3'><guilabel
+      o otras aplicaciones que pueden transferir archivos (vease <link linkend='settings_3'><guilabel
         role="pref_perform_share_title"/></link>).
       <phrase role="br"/>
       Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra cuenta a la que
       se refieren.
     </para>
-    <!-- END tutorial4 para 1 -->
+    <!-- END export para 1 -->
 
-    <!-- BEGIN tutorial4 para 2 -->
+    <!-- BEGIN export para 2 -->
     <para lang="en">
       Voilà. You can now connect your phone to your computer, open Grisbi (or Gnucash),
       and use its import functionality.
@@ -1160,11 +1161,11 @@
       Voilà. Ahora usted puede conectar su teléfono al ordenador, abrir Grisbi (o Gnucash) y
       utilizar su función de importación.
     </para>
-    <!-- END tutorial4 para 2 -->
+    <!-- END export para 2 -->
   </sect1>
 
-   <!-- Tutorial5 -->
-  <sect1 id="tutorial5">
+   <!-- Settings -->
+  <sect1 id="settings">
     <sect1info>
       <abstract>
         <para lang="en">
@@ -1191,7 +1192,6 @@
       <phrase lang="it">Parametri</phrase>
       <phrase lang="es">Configuraciones</phrase>
     </title>
-
     <figure floatstyle="left" id="step12" >
       <title/>
       <screenshot>
@@ -1203,464 +1203,60 @@
       </screenshot>
     </figure>
 
-    <!-- BEGIN tutorial5 para 1 -->
+    <!-- BEGIN settings para 1 -->
     <para lang="en">
-      A short click on the <guibutton role="menu_settings"/> button opens the preferences
-      screen, from where you can configure some properties of <application role="app_name"/>,
-      and also have access to the account management, and to the backup functionality. A
-      long click opens up a menu with shortcuts to the configuration of the current
-      account and to the backup.
+      The preferences screen has five sections:
     </para>
+    <?float-clear?>
+      <variablelist>
+      <varlistentry>
+        <term><guilabel role="pref_category_title_manage"/></term>
+        <listitem><para>Here you can inspect and edit all the auxiliary objects that <application role="app_name"/>
+        manages: <link linkend='accounts'>accounts</link>, <link linkend='templates'>templates</link>, 
+        <link linkend='categories'>categories</link>, <link linkend='settings_manage_parties'>parties</link> and 
+        <link linkend='settings_manage_methods'>payment methods</link>.</para></listitem> 
+      </varlistentry>
+     <varlistentry>
+        <term><guilabel role="pref_category_title_ui"/></term>
+        <listitem><para>Here you can alter some aspects of the interface.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><guilabel>Import</guilabel></term>
+        <listitem><para>Access the functionality of importing categories and parties from Grisbi.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><guilabel>Export</guilabel></term>
+        <listitem><para>Configure the behaviour of the export like character encoding and define if and how the 
+        file should be transfered.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><guilabel role="menu_backup"/></term>
+        <listitem><para>Store a backup of database and preferences on the SD card.</para></listitem>
+      </varlistentry>
+      </variablelist>
     <para lang="fr">
-      Un clic court sur le bouton <guibutton role="menu_settings"/> ouvre l'écran des
-      paramètres. Ici vous pouvez configurer quelques propriétés de <application
-      role="app_name"/> et pouvez accéder à la gestion des comptes, ainsi qu'à la sauvegarde.
-      Un clic long ouvre un menu qui comporte l'accès direct à la configuration du compte en
-      cours, ainsi qu'à la sauvegarde.
+      nyt
     </para>
     <para lang="de">
-      Ein kurzer Klick auf den Schaltknopf <guibutton role="menu_settings"/> öffnet den
-      Einstellungs-Bildschirm. Hier können sie einige Eigenschaften von <application
-      role="app_name"/> konfigurieren, und haben auch Zugriff auf die Kontoverwaltung und
-      die Backup-Funktion. Ein langer Klick öffnet ein Menü mit schnellem Zugriff auf die
-      Konfiguration des aktuellen Kontos, sowie aufs Backup.
+      nyt
     </para>
     <para lang="it">
-      Un breve clic sul pulsante <guibutton role="menu_settings"/> si apre la schermata
-      parametri. Qui è possibile impostare alcune proprietà di applicazione <application
-      role="app_name"/> può accedere alla gestione degli account e di backup. Un clic lungo si
-      apre un menu che include l'accesso diretto al conto attuale (<guimenuitem
-      role="menu_settings_account"/>), e di backup (<guimenuitem role="menu_backup"/>).
+      nyt
     </para>
     <para lang="es">
-    	Un rápido clic en el botón <guibutton role="menu_settings"/> abre la pantalla para la
-    	configuración. Aquí usted puede configurar algunas de las propiedades de <application
-    	role="app_name"/> y tiene también acceso a la administración de cuentas y a la función de
-    	backup. Un clic largo abre un menú que comprende el acceso rápido a la configuración de
-    	la cuenta actual y al backup.
+      nyt
     </para>
-    <!-- END tutorial5 para 1 -->
+    <!-- END settings para 1 -->
 
-    <sect2 id="tutorial5_2">
-      <title>
-       <guilabel role="pref_categories_sort_by_usages_title"/>
-      </title>
-
-      <!-- BEGIN tutorial5_2 para 1 -->
-      <para lang="en">
-        By default, categories are sorted primarily by how often you associate them with your
-        transactions. Uncheck this option if you want your categories being sorted in
-        alphabetical order instead.
-      </para>
-      <para lang="fr">
-        Par défaut, les catégories sont triées par fréquence d'utilisation ( nombre de fois où
-        vous les associez à une transaction). Décochez cette option si vous préferez que les
-        catégories s'affichent par ordre alphabétique.
-      </para>
-      <para lang="de">
-        Standardmäßig werden die Kategorien anhand der Benützungshäufigkeit sortiert (wie oft
-        werden sie einer Buchung zugeordnet). Entfernen Sie das Häckchen von dieser Option,
-        wenn Sie möchten, dass die Kategorien immer in alphabetischer Reihenfolge aufgelistet
-        werden.
-      </para>
-      <para lang="it">
-        Per impostazione predefinita, le categorie sono ordinati per frequenza di utilizzo
-        (numero di volte che sono normalmente associati con una transazione). Deselezionare
-        questa opzione se si preferisce che le categorie sono visualizzate in ordine
-        alfabetico.
-      </para>
-      <para lang="es">
-        De forma predeterminada las categorías son ordenadas segun la frecuencia de uso (la
-        frecuencia con que son asignadas a un asiento.) Quite la marca de esta opción si desea
-        que las categorías se muestren siempre en orden alfabético.
-      </para>
-      <!-- END tutorial5_2 para 1 -->
-
-    </sect2>
-
-    <sect2 id="tutorial5_3">
-      <title>
-       <guilabel role="pref_perform_share_title"/>
-      </title>
-
-    <!-- BEGIN tutorial5_3 para 1 -->
-    <para lang="en">
-      If you check this option, each time you export your transactions, your QIF file will be
-      sent to a remote destination. Under <guilabel role="pref_share_target_title"/> you
-      specify the destination:
-      <itemizedlist>
-        <listitem>
-          <para>
-            An URL to a directory on an FTP server, you have write access to (e.g.
-            "ftp://login:password@my.example.org:port/my/directory/"). If available on your device,
-            <application role="app_name"/> will launch an external app responding to a SENDTO intent
-            with this URL as data. Only know app handling such an intent is
-              <ulink url="market://details?id=org.totschnig.sendwithftp"><application>Send With FTP</application></ulink>
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            An Email URL (e.g. "mailto:john@my.example.com"). <application role="app_name"/>
-            will launch an email application and create a message to that address with the file
-            attached to it.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            You can also leave this field empty, and you will be presented with a chooser
-            allowing you to select one of your installed apps that allow sharing of files (e.g.
-            Dropbox, Google Docs, &#8230;).
-          </para>
-        </listitem>
-      </itemizedlist>
-    </para>
-    <para lang="fr">
-      Si vous cochez cette option, le fichier QIF sera téléchargé après chaque export de vos
-      transactions. Sous <guilabel role="pref_share_target_title"/>, vous spécifiez la
-      destination:
-       <itemizedlist>
-        <listitem>
-          <para>
-            L'URL d'un dossier accessible par FTP en mode écriture (par exemple
-            "ftp://login:password@my.example.org:port/my/directory/").
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-          Un URL de courriel (par exemple "mailto:john@my.example.com"). Votre application de
-          courriel sera lancé avec un nouveau message comportant le fichier en pièce jointe.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-          Si ce champ reste vide, vous pourrez chaque fois choisir entre les apps disponibles
-          sur votre appareil, capable de transférer un fichier (par exemple Dropbox, Google
-          Docs, &#8230;).
-          </para>
-        </listitem>
-      </itemizedlist>
-    </para>
-    <para lang="de">
-      Kreuzen Sie diese Option an, wenn Sie die QIF Datei nach dem Export Ihrer Buchungen an
-      eine entfernte Adresse übertragen wollen. Unter <guilabel role="pref_share_target_title"
-        /> können Sie das Ziel konfigurieren:
-      <itemizedlist>
-        <listitem>
-          <para>
-           Die URL eines Ordners, auf den Sie über FTP Schreibzugriff haben (z.B.
-           "ftp://login:password@my.example.org:port/my/directory/").
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            Eine Email URL (z.B. "mailto:john@my.example.com"). Ihre Email-Anwendung wird
-            gestartet, und eine Email erzeugt mit der Datei als Anhang.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-          Sie können dieses Feld auch leer lassen, dann können Sie jedesmal zwischen auf Ihrem
-          Gerät installierten Apps wählen, die Dateien übertragen können (z.B Dropbox, Google
-          Docs, &#8230;).
-          </para>
-        </listitem>
-      </itemizedlist>
-    </para>
-    <para lang="it">
-      Se si seleziona questa opzione, il file QIF verrà caricato dopo ogni esportare i vostri
-      transazioni. Sotto <guilabel role="pref_share_target_title"/>, è necessario specificare
-      la destinazione:
-       <itemizedlist>
-        <listitem>
-          <para>
-          L'URL di un file tramite FTP in modalità di scrittura (ad esempio
-          "ftp://login:password@my.example.org:port/my/directory/").
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-          un URL per email (ad esempio "mailto:john@my.example.com"). Il vostro applicazione
-	  di posta elettronica si aprirà con un nuovo messaggio con il file allegato.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-          Se questo campo è vuoto, è possibile scegliere ogni volta che le applicazioni disponibili
-	  sul dispositivo, in grado di trasferire un file (ad esempio, Dropbox, Google docs, &#8230;).
-          </para>
-        </listitem>
-      </itemizedlist>
-    </para>
-    <para lang="es">
-      Marque esta opción si después de exportar sus asientos quiere transferir el archivo QIF a
-      una dirección remota. Bajo <guilabel role="pref_share_target_title"/> puede configurar la
-      meta:
-      <itemizedlist>
-        <listitem>
-          <para>
-            La URL de una carpeta a la que tiene acceso de escritura a través de FTP (por
-            ejemplo, "ftp://login:password@my.example.org:port/my/directory/").
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            Una dirección URL para correo electrónico (por ejemplo,
-            "mailto:john@my.example.com").Se pone en marcha su aplicación de correo electrónico
-            y se genera un correo electrónico con el archivo adjunto.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            También puede dejar este campo en blanco, entonces siempre puede elegir entre las
-            aplicaciones para transferir archivos que estén instaladas en su aparato (como
-            Dropbox, Google Docs, &#8230;).
-          </para>
-        </listitem>
-      </itemizedlist>
-    </para>
-    <!-- END tutorial5_3 para 1 -->
-  </sect2>
-
-  <sect2 id="tutorial5_4">
+    <sect2 id="settings_manage">
     <title>
-      <phrase lang="en">Backup and restore</phrase>
-      <phrase lang="fr">Sauvegarde et restauration</phrase>
-      <phrase lang="de">Backup und Wiederherstellung</phrase>
-      <phrase lang="it">Backup e ripristino</phrase>
-      <phrase lang="es">Backup y Restauración</phrase>
+    <guilabel role="pref_category_title_manage"/>
     </title>
-
-    <!-- BEGIN tutorial5_4 para 1 -->
-    <para lang="en">
-      <guilabel role="menu_backup"/> creates a backup of database and preferences in
-      the <filename>myexpenses</filename> folder on the sdcard. The database is stored in
-      a file named <filename>BACKUP</filename>, the preferences in a file named
-      <filename>BACKUP_PREF</filename>. Both are automatically restored when you reinstall
-      <application role="app_name"/>. Thus you can retrieve all your application
-      data on a different device by copying these two files into the same location there,
-      before installing <application role="app_name"/>.
-    </para>
-    <para lang="fr">
-      <guilabel role="menu_backup"/> créé une sauvegarde de la base de données et
-      des préférences dans le répertoire <filename>myexpenses</filename> de la carte SD.
-      La base de données est stockée dans le fichier <filename>BACKUP</filename> et les
-      préférences dans <filename>BACKUP_PREF</filename>. Ceux-ci sont automatiquement
-      restaurés lorsque vous réinstallez <application role="app_name"/>. Ainsi,
-      vous pouvez récupérez toutes vos données sur un périphérique différent en copiant
-      ces deux fichiers au même endroit avant d'installer
-      <application role="app_name"/>.
-    </para>
-    <para lang="de">
-      <guilabel role="menu_backup"/> erzeugt eine Sicherungskopie von Datenbank und
-      Einstellungen im <filename>myexpenses</filename> Ordner auf der SD-Karte. Die
-      Datenbank wird in der Datei <filename>BACKUP</filename> gespeichert, die
-      Einstellungen in der Datei <filename>BACKUP_PREF</filename>. Beide werden
-      automatisch wiederhergestellt, wenn <application role="app_name"/> neu
-      installiert wird. Sie können also die Anwendungsdaten komplett auf ein weiteres
-      Gerät kopieren, indem Sie diese beiden Dateien an denselben Ort auf diesem kopieren,
-      bevor Sie <application role="app_name"/> installieren.
-    </para>
-    <para lang="it">
-      <guilabel role="menu_backup"/> crea un backup del database e delle preferenze nella
-      cartella <filename>myexpenses</filename> sulla scheda SD. Il database viene memorizzato
-      nel file chiamato <filename>BACKUP</filename> e le preferenze nel file
-      <filename>BACKUP_PREF</filename>. Entrambi sono automaticamente ripristinate quando si
-      reinstalla <application role="app_name"/>. In questo modo è possibile recuperare tutte le
-      vostre applicazioni dati su un dispositivo diverso da copiare questi due file nella
-      stessa posizione là, prima di installare <application role="app_name"/>.
-    </para>
-    <para lang="es">
-      <guilabel role="menu_backup"/> crea una copia de seguridad de la base de datos y de las
-      configuraciones en el archivo <filename>myexpenses</filename> en la tarjeta SD. La base
-      de datos se guarda en el archivo <filename>BACKUP</filename>, las configuraciones en el
-      archivo <filename>BACKUP_PREF</filename>. Ambos se restauran automáticamente al volver a
-      instalarse <application role="app_name"/>. Así que usted puede copiar los enteros datos
-      de aplicación a otro aparato copiando estos dos archivos al mismo lugar antes de instalar
-      <application role="app_name"/>.
-    </para>
-    <!-- END tutorial5_4 para 1 -->
-    </sect2>
-
-    <sect2 id="tutorial5_5">
-      <title>
-        <guilabel role="pref_import_from_grisbi_title"/>
-      </title>
-
-    <figure floatstyle="left" id="step7" >
-      <title/>
-      <screenshot>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="step7.png"/>
-          </imageobject>
-        </mediaobject>
-      </screenshot>
-    </figure>
-
-    <!-- BEGIN tutorial5_5 para 1 -->
-    <para lang="en">
-    	This entry allows to set up categories from files included from Grisbi in English, German
-    	or French. If with Grisbi you have already defined your own categories, you can also
-    	provide your Grisbi file, which is in XML. If you want, you can edit the file with an
-    	editor and remove any information other than the <sgmltag>Category</sgmltag> and
-    	<sgmltag>Sub_category</sgmltag> elements<footnote id="ftn55-en-1">
-	      <para>
-	        <application role="app_name"/> also supports the Grisbi file format 0.5.0, where the
-	        elements are named <sgmltag>Categorie</sgmltag> and <sgmltag>Sous_categorie</sgmltag>
-	        (<sgmltag>Tiers</sgmltag> for parties).
-	      </para>
-	    </footnote>. Store this file as <filename role="grisbi_file"/> in a folder
-	    <filename>myexpenses</filename> in the root of your sdcard<footnote id="ftn55-en-2">
-	      <para>
-	        Of course you can also create an XML file by your own. You can find the examples at
-	        <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
-	      </para>
-	    </footnote>. You can
-	    also import the parties (payers and payees) stored in this file (element
-	    <sgmltag>Party</sgmltag>). When you choose your custom file as import source, you can
-	    decide to import both parties and categories, or only categories. Partners will be used
-	    for the autocomplete function of the payer/payee field in the transaction form.
-    </para>
-    <para lang="fr">
-	    Cette entrée vous permet de les entrer directement à partir des définitions standards de
-	    Grisbi en anglais, allemand ou français. Si vous aviez déjà défini vos propres
-	    catégories, vous pouvez aussi utiliser votre fichier Grisbi qui est en format XML. Dans
-	    ce cas, copiez votre fichier et enlevez toutes les informations autres que les blocs de
-	    catégories (<sgmltag>Category</sgmltag>) et de sous-catégories
-	    (<sgmltag>Sub_category</sgmltag>)<footnote id="ftn55-fr-1">
-        <para>
-          <application role="app_name"/> supporte aussi la version 0.5.0 du format de fichier
-          Grisbi, où les éléments portent les noms <sgmltag>Categorie</sgmltag> et
-          <sgmltag>Sous_categorie</sgmltag> ((<sgmltag>Tiers</sgmltag> pour les tiers)).
-        </para>
-	    </footnote>. Sauvegardez ce fichier sous le nom <filename role="grisbi_file"/> dans le
-	    répertoire <filename>myexpenses</filename> de la racine de votre carte SD<footnote id="ftn55-fr-2">
-	      <para>
-	        Bien sûr, vous pouvez aussi créer vous-même un fichier XML. Vous trouveriez des exemples chez
-	        <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
-	      </para>
-	    </footnote>.
-	    Vous avez aussi l'option d'importer les tiers que Grisbi enregistre dans
-	    le même fichier (élément <sgmltag>Party</sgmltag>). Si vous choississez votre propre
-	    fichier en tant que source de l'import, vous pourrez soit importer tiers et catégories,
-	    soit uniquement les catégories. Les tiers vous seront proposés pour remplir
-	    automatiquement le champ "tiers" dans le formulaire des opérations.
-    </para>
-    <para lang="de">
-      Dieser Eintrag erlaubt die in Grisbi definierten Kategorien (Englisch, Deutsch oder
-      Französisch) zu importieren. Sie können auch eine Grisbi Datei (in XML) verwenden, die
-      Ihre eigenen Kategorien enthält. Sie können diese Datei editieren und alle Informationen
-      außer die Elemente <sgmltag>Category</sgmltag> und <sgmltag>Sub_category</sgmltag>
-      entfernen<footnote id="ftn55-de-1">
-        <para>
-          <application role="app_name"/> unterstützt auch das Grisbi Datei Format 0.5.0, in dem
-          die Elemente <sgmltag>Categorie</sgmltag> und <sgmltag>Sous_categorie</sgmltag>
-          heißen (<sgmltag>Tiers</sgmltag> für Parteien).
-        </para>
-      </footnote>. Kopieren Sie diese Datei unter dem Namen
-      <filename role="grisbi_file"/> in einen Ordner <filename>myexpenses</filename> in das
-      Wurzelverzeichnis der SD-Karte<footnote id="ftn55-de-2">
-        <para>
-          Natürlich können Sie auch Ihre eigene XML Datei erzeugen. Sie finden Beispiele dafür auf
-          <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
-        </para>
-      </footnote>. Sie können zusätzlich auch die von
-      Grisbi gespeicherten Parteien (Empfänger und Zahler), aus dieser Datei importieren
-      (Element <sgmltag>Party</sgmltag>). Wenn Sie Ihre eigene Datei als Import-Quelle
-      auswählen, können Sie entweder Parteien und Kategorien oder nur Kategorien importieren.
-      Die Partner werden im Buchungsformular verwendet, um Ihnen für das Feld Empfänger/Zahler
-      ein automatische Ausfüllen vorzuschlagen.
-    </para>
-    <para lang="it">
-      <guibutton role="import_categories"/> permette di impostare le categorie di file inclusa
-      da Grisbi in inglese, tedesco o francese. Se con Grisbi hai già definite le proprie
-      categorie, è possibile anche fornire il file Grisbi, che è in XML. Se si desidera, è
-      possibile modificare il file con un editor e rimuovere ogni altra informazione rispetto
-      alla categoria (<sgmltag>Category</sgmltag>) e gli elementi
-      <sgmltag>Sub_category</sgmltag><footnote id="ftn55-it-1">
-        <para>
-          <application role="app_name"/> supporta anche il formato di file Grisbi 0.5.0, dove
-          gli elementi sono denominati <sgmltag>Categorie</sgmltag> e
-          <sgmltag>Sous_categorie</sgmltag>(<sgmltag>Tiers</sgmltag> beneficiari).
-        </para>
-      </footnote>. Conservare questo file come <filename role="grisbi_file"/> in un
-      <filename>myexpenses</filename> cartella nella directory principale della vostra scheda
-      SD<footnote id="ftn55-it-2">
-        <para>
-          Certamente può sviluppare il suo proprio xml file. Esempi per questo si trovano qui
-          <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
-        </para>
-      </footnote>. Hai anche la possibilità di importare i beneficiari Grisbi
-      registrati nello stesso file (elemento <sgmltag>Party</sgmltag>). Se si sceglie il
-      proprio file come fonte di importazione, è possibile importare categorie e beneficiari, o
-      solo categorie. Il beneficiario sarà offerta automaticamente per riempire il
-      "Beneficiario" in forma di operazioni.
-    </para>
-    <para lang="es">
-      Esta entrada permite importar categorías definidas en Grisbi (inglés, alemán y francés).
-      Puede usar también un archivo de Grisbi (en XML) que contiene sus propias categorías.
-      Puede editar este archivo y eliminar todas las informaciones excepto los elementos
-      <sgmltag>Category</sgmltag> y <sgmltag>Sub_category</sgmltag><footnote id="ftn55-es-1">
-        <para>
-          <application role="app_name"/> apoya también el formato de archivos Grisbi 0.5.0. en
-          el que los elementos se llaman <sgmltag>Categorie</sgmltag> y
-          <sgmltag>Sous_categorie</sgmltag> (<sgmltag>Tiers</sgmltag> para partes).
-        </para>
-      </footnote>. Copie este archivo bajo el nombre <filename role="grisbi_file"/> a una
-      carpeta <filename>myexpenses</filename> en el directorio raíz de la tarjeta SD<footnote id="ftn55-es-2">
-        <para>
-          Por supuesto, usted puede también crear su propio archivo XML. Puede encontrar ejemplos en
-          <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
-        </para>
-      </footnote>.
-      Puede importar de este archivo además los partes (receptores y
-      pagadores) guardados en Grisbi (elemento <sgmltag>Party</sgmltag>). Si elige su propio
-      archivo como fuente de importación, puede importar partes y categorías o sólo
-      categorías. Los partes se utilizan en el formulario de asientos para proponerle un
-      llenado automático en el campo receptor/pagador.
-    </para>
-    <!-- END tutorial5_5 para 1 -->
-    </sect2>
-
-    <sect2 id="tutorial5_6">
-      <title>
-        <guilabel role="pref_use_standard_menu_title"/>
-      </title>
-    <!-- BEGIN tutorial5_6 para 1 -->
-    <para lang="en">
-      If this option is checked, Android's standard menu will be used in the transaction list
-      for accessing commands instead of displaying a button bar. You will be offered to
-      activate the menu based interface when clicking on the hardware menu button.
-    </para>
-    <para lang="fr">
-      Si vous cochez cette option, au lieu d'afficher une barre de boutons, vous utiliserez le
-      menu standard d'Android pour accéder aux commandes. Vous pouvez aussi accéder au
-      changement de configuration simplement en activant le bouton Menu hardware.
-    </para>
-    <para lang="de">
-      Indem Sie diese Option anklicken, können Sie anstatt der Symbolleiste Androids
-      Standardmenü verwenden, um Befehle auszuführen. Sie können diesen Parameter auch durch
-      Drücken des Hardware Menüknopfes verändern.
-    </para>
-    <para lang="it">
-       Se si seleziona questa opzione, invece di visualizzare una barra dei pulsanti, sarà
-       necessario utilizzare il menu standard per accedere al Android ordini. È inoltre
-       possibile accedere alla modifica della configurazione semplicemente attivando il
-       pulsante Menu hardware.
-    </para>
-    <para lang="es">
-      Al hacer clic en esta opción puede utilizar el menú estándar de Android, en lugar de la
-      barra de símbolos, para ejecutar mandos. Puede cambiar este parámetro también pulsando el
-      botón hardware dedicado al menú.
-    </para>
-    <!-- END tutorial5_6 para 1 -->
-  </sect2>
-
-    <sect2 id="tutorial5_7">
-      <title>
-        <guilabel role="pref_manage_parties_title"/>
-      </title>
-    <!-- BEGIN tutorial5_7 para 1 -->
+    <variablelist>
+    <varlistentry id="settings_manage_parties">
+    <term><guilabel role="pref_manage_parties_title"/></term>
+    <listitem>
+        <!-- BEGIN settings_manage_parties -->
     <para lang="en">
       This screen lists the parties used for the autocompletion of the <guilabel
       role="payer"/>/<guilabel role="payee"/> field. You can remove entries from this list, by
@@ -1693,14 +1289,143 @@
       campo pagador/receptor. Para eliminar elementos de esta lista marque la casilla en el
       renglón correspondiente y pulse el botón eliminar.
     </para>
-     <!-- END tutorial5_7 para 1 -->
+     <!-- END settings_manage_parties -->
+    </listitem>
+    </varlistentry>
+    <varlistentry  id="settings_manage_methods">
+    <term><guilabel role="pref_manage_methods_title"/></term>
+    <listitem>
+    <!-- BEGIN settings_manage_methods -->
+    <para lang="en">
+      This screen lists the predefined payment methods (Cheque,Credit card, Deposit, Direct debit) and
+      lets you define new ones. Simply click on an entry (or select <guibutton role="menu_new"/>),
+      and you will enter a form, where you can define a label (unless for the predefined ones),
+      and a type (is this method used for debit, income or both),
+      and select the account types for which this method is applicable.
+    </para>
+    <para lang="fr">
+      Cet écran affiche la liste des méthodes de paiement prédéfinies (Chèque, Carte de crédit,
+      Dépôt, Prélèvement) et vous permet d'en définir de nouvelles. En cliquant sur une entrée
+      (ou en sélectionnant <guibutton role="menu_new"/>), vous ouvrez un formulaire pour définir un
+      libellé (sauf pour les types prédéfinis) et le type (s'il s'agit d'une méthode de débit, de crédit
+      ou neutre), et pour sélectionner les types de compte pour lesquels celle-ci est applicable.
+    </para>
+    <para lang="de">
+      Auf diesem Bildschirm wird die Liste der vordefinierten Zahlungsweisen angezeigt (Scheck, Kreditkarte,
+      Einzahlung, Abbuchung) und Sie können hier auch neue Zahlungsweisen definieren. Wenn Sie auf
+      einen Eintrag in der Liste klicken (oder <guibutton role="menu_new"/> auswählen), gelangen Sie
+      zu einem Formular, in dem Sie eine Bezeichnung (außer für die vordefinierten) und den Typ (handelt
+      es sich um eine Zahlungsweise für Einnahmen, Ausgaben oder neutral) festlegen, und die Kontotypen
+      auswählen, für die die Zahlungsweise anwendbar ist.
+    </para>
+    <para lang="it">
+      Su questo schermo si vede la lista dei modi di pagamento predefiniti (assegno, carta di credito,
+      pagamento, addebito) e qui puó definire nuovi modi di pagamento. Si fa clic su un modo della
+      lista (o sceglie Nuovo), arriva a un formulario, dove può definire la descrizione (salvo per i
+      predefiniti) e il tipo (si tratta di un modo di pagamento per entrate o spese o neutrale), e
+      scegliere i tipi di conto per i quali è applicabile il modo di pagamento.
+    </para>
+    <para lang="es">
+      Esta pantalla muestra la lista de los predefinidos métodos de pago (cheque, tarjeta de
+      crédito, depósito, impuesto) y usted puede además definir nuevos métodos de pago. Al hacer
+      clic en un elemento de la lista (o seleccionando <guibutton role="menu_new"/>) se llega a un
+      formulario donde usted determina un nombre (excepto para los predefinidos) y el tipo (si se
+      trata de un método de pago para ingresos, gastos o si es neutral) y elige los tipos de cuenta
+      para los cuales el método de pago es aplicable.
+    </para>
+    <!-- END settings_manage_methods para 1 -->    
+    </listitem>
+    </varlistentry>
+    </variablelist>
+    <!-- figure for manage methods -->
+    <figure floatstyle="left" id="step13" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="step13.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
     </sect2>
-
-    <sect2 id="tutorial5_8">
-      <title>
-        <guilabel role="pref_currency_decimal_separator_title"/>
-      </title>
-    <!-- BEGIN tutorial5_8 para 1 -->
+    
+    <sect2 id="settings_ui">
+    <title>
+    <guilabel role="pref_category_title_ui"/>
+    </title>
+    <variablelist>
+    <varlistentry id="settings_ui_standard_menu">
+      <term><guilabel role="pref_use_standard_menu_title"/></term>
+      <listitem>
+    <!-- BEGIN settings_ui_standard_menu -->
+    <para lang="en">
+      If this option is checked, Android's standard menu will be used in the transaction list
+      for accessing commands instead of displaying a button bar. You will be offered to
+      activate the menu based interface when clicking on the hardware menu button.
+    </para>
+    <para lang="fr">
+      Si vous cochez cette option, au lieu d'afficher une barre de boutons, vous utiliserez le
+      menu standard d'Android pour accéder aux commandes. Vous pouvez aussi accéder au
+      changement de configuration simplement en activant le bouton Menu hardware.
+    </para>
+    <para lang="de">
+      Indem Sie diese Option anklicken, können Sie anstatt der Symbolleiste Androids
+      Standardmenü verwenden, um Befehle auszuführen. Sie können diesen Parameter auch durch
+      Drücken des Hardware Menüknopfes verändern.
+    </para>
+    <para lang="it">
+       Se si seleziona questa opzione, invece di visualizzare una barra dei pulsanti, sarà
+       necessario utilizzare il menu standard per accedere al Android ordini. È inoltre
+       possibile accedere alla modifica della configurazione semplicemente attivando il
+       pulsante Menu hardware.
+    </para>
+    <para lang="es">
+      Al hacer clic en esta opción puede utilizar el menú estándar de Android, en lugar de la
+      barra de símbolos, para ejecutar mandos. Puede cambiar este parámetro también pulsando el
+      botón hardware dedicado al menú.
+    </para>
+    <!-- END settings_ui_standard_menu -->
+    </listitem>
+    </varlistentry>
+    <varlistentry id="settings_ui_sort_by_usages">
+      <term><guilabel role="pref_categories_sort_by_usages_title"/></term>
+      <listitem>
+      <!-- BEGIN settings_ui_sort_by_usages -->
+      <para lang="en">
+        By default, categories are sorted primarily by how often you associate them with your
+        transactions. Uncheck this option if you want your categories being sorted in
+        alphabetical order instead.
+      </para>
+      <para lang="fr">
+        Par défaut, les catégories sont triées par fréquence d'utilisation ( nombre de fois où
+        vous les associez à une transaction). Décochez cette option si vous préferez que les
+        catégories s'affichent par ordre alphabétique.
+      </para>
+      <para lang="de">
+        Standardmäßig werden die Kategorien anhand der Benützungshäufigkeit sortiert (wie oft
+        werden sie einer Buchung zugeordnet). Entfernen Sie das Häckchen von dieser Option,
+        wenn Sie möchten, dass die Kategorien immer in alphabetischer Reihenfolge aufgelistet
+        werden.
+      </para>
+      <para lang="it">
+        Per impostazione predefinita, le categorie sono ordinati per frequenza di utilizzo
+        (numero di volte che sono normalmente associati con una transazione). Deselezionare
+        questa opzione se si preferisce che le categorie sono visualizzate in ordine
+        alfabetico.
+      </para>
+      <para lang="es">
+        De forma predeterminada las categorías son ordenadas segun la frecuencia de uso (la
+        frecuencia con que son asignadas a un asiento.) Quite la marca de esta opción si desea
+        que las categorías se muestren siempre en orden alfabético.
+      </para>
+      <!-- END settings_ui_sort_by_usages para 1 -->
+      </listitem>
+    </varlistentry>
+    <varlistentry id="settings_ui_decimal_separator">
+      <term><guilabel role="pref_currency_decimal_separator_title"/></term>
+    <!-- BEGIN settings_ui_decimal_separator -->
+    <listitem>
     <para lang="en">
       By default, currency amounts for transactions (or the opening balance of an account) use
       the decimal separator of your locale (comma in most European countries, point in most
@@ -1768,64 +1493,355 @@
       ejemplo US $ centavos, € céntimos o £ peniques ) se introducen como números
       enteros.
     </para>
-      <!-- END tutorial5_8 para 1 -->
+    </listitem>
+      <!-- END settings_ui_decimal_separator para 1 -->    
+    </varlistentry>
+    </variablelist>
     </sect2>
 
-    <sect2 id="tutorial5_9">
-    <title>
-        <guilabel role="pref_manage_methods_title"/>
-    </title>
-    <figure floatstyle="left" id="step13" >
+    <sect2 id="settings_import">
+      <title>
+        Import
+      </title>
+
+    <figure floatstyle="left" id="step7" >
       <title/>
       <screenshot>
         <mediaobject>
           <imageobject>
-            <imagedata fileref="step13.png"/>
+            <imagedata fileref="step7.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>
     </figure>
-    <!-- BEGIN tutorial5_9 para 1 -->
+
+    <!-- BEGIN settings_import para 1 -->
     <para lang="en">
-      This screen lists the predefined payment methods (Cheque,Credit card, Deposit, Direct debit) and
-      lets you define new ones. Simply click on an entry (or select <guibutton role="menu_new"/>),
-      and you will enter a form, where you can define a label (unless for the predefined ones),
-      and a type (is this method used for debit, income or both),
-      and select the account types for which this method is applicable.
+    	The entry <guilabel role="pref_import_from_grisbi_title"/> allows to set up categories from files included from Grisbi in English, German
+    	or French. If with Grisbi you have already defined your own categories, you can also
+    	provide your Grisbi file, which is in XML. If you want, you can edit the file with an
+    	editor and remove any information other than the <sgmltag>Category</sgmltag> and
+    	<sgmltag>Sub_category</sgmltag> elements<footnote id="ftn55-en-1">
+	      <para>
+	        <application role="app_name"/> also supports the Grisbi file format 0.5.0, where the
+	        elements are named <sgmltag>Categorie</sgmltag> and <sgmltag>Sous_categorie</sgmltag>
+	        (<sgmltag>Tiers</sgmltag> for parties).
+	      </para>
+	    </footnote>. Store this file as <filename role="grisbi_file"/> in a folder
+	    <filename>myexpenses</filename> in the root of your sdcard<footnote id="ftn55-en-2">
+	      <para>
+	        Of course you can also create an XML file by your own. You can find the examples at
+	        <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
+	      </para>
+	    </footnote>. You can
+	    also import the parties (payers and payees) stored in this file (element
+	    <sgmltag>Party</sgmltag>). When you choose your custom file as import source, you can
+	    decide to import both parties and categories, or only categories. Partners will be used
+	    for the autocomplete function of the payer/payee field in the transaction form.
     </para>
     <para lang="fr">
-      Cet écran affiche la liste des méthodes de paiement prédéfinies (Chèque, Carte de crédit,
-      Dépôt, Prélèvement) et vous permet d'en définir de nouvelles. En cliquant sur une entrée
-      (ou en sélectionnant <guibutton role="menu_new"/>), vous ouvrez un formulaire pour définir un
-      libellé (sauf pour les types prédéfinis) et le type (s'il s'agit d'une méthode de débit, de crédit
-      ou neutre), et pour sélectionner les types de compte pour lesquels celle-ci est applicable.
+	    L'entrée <guilabel role="pref_import_from_grisbi_title"/> vous permet de les entrer directement à partir des définitions standards de
+	    Grisbi en anglais, allemand ou français. Si vous aviez déjà défini vos propres
+	    catégories, vous pouvez aussi utiliser votre fichier Grisbi qui est en format XML. Dans
+	    ce cas, copiez votre fichier et enlevez toutes les informations autres que les blocs de
+	    catégories (<sgmltag>Category</sgmltag>) et de sous-catégories
+	    (<sgmltag>Sub_category</sgmltag>)<footnote id="ftn55-fr-1">
+        <para>
+          <application role="app_name"/> supporte aussi la version 0.5.0 du format de fichier
+          Grisbi, où les éléments portent les noms <sgmltag>Categorie</sgmltag> et
+          <sgmltag>Sous_categorie</sgmltag> ((<sgmltag>Tiers</sgmltag> pour les tiers)).
+        </para>
+	    </footnote>. Sauvegardez ce fichier sous le nom <filename role="grisbi_file"/> dans le
+	    répertoire <filename>myexpenses</filename> de la racine de votre carte SD<footnote id="ftn55-fr-2">
+	      <para>
+	        Bien sûr, vous pouvez aussi créer vous-même un fichier XML. Vous trouveriez des exemples chez
+	        <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
+	      </para>
+	    </footnote>.
+	    Vous avez aussi l'option d'importer les tiers que Grisbi enregistre dans
+	    le même fichier (élément <sgmltag>Party</sgmltag>). Si vous choississez votre propre
+	    fichier en tant que source de l'import, vous pourrez soit importer tiers et catégories,
+	    soit uniquement les catégories. Les tiers vous seront proposés pour remplir
+	    automatiquement le champ "tiers" dans le formulaire des opérations.
     </para>
     <para lang="de">
-      Auf diesem Bildschirm wird die Liste der vordefinierten Zahlungsweisen angezeigt (Scheck, Kreditkarte,
-      Einzahlung, Abbuchung) und Sie können hier auch neue Zahlungsweisen definieren. Wenn Sie auf
-      einen Eintrag in der Liste klicken (oder <guibutton role="menu_new"/> auswählen), gelangen Sie
-      zu einem Formular, in dem Sie eine Bezeichnung (außer für die vordefinierten) und den Typ (handelt
-      es sich um eine Zahlungsweise für Einnahmen, Ausgaben oder neutral) festlegen, und die Kontotypen
-      auswählen, für die die Zahlungsweise anwendbar ist.
+      Der Eintrag <guilabel role="pref_import_from_grisbi_title"/> erlaubt die in Grisbi definierten Kategorien (Englisch, Deutsch oder
+      Französisch) zu importieren. Sie können auch eine Grisbi Datei (in XML) verwenden, die
+      Ihre eigenen Kategorien enthält. Sie können diese Datei editieren und alle Informationen
+      außer die Elemente <sgmltag>Category</sgmltag> und <sgmltag>Sub_category</sgmltag>
+      entfernen<footnote id="ftn55-de-1">
+        <para>
+          <application role="app_name"/> unterstützt auch das Grisbi Datei Format 0.5.0, in dem
+          die Elemente <sgmltag>Categorie</sgmltag> und <sgmltag>Sous_categorie</sgmltag>
+          heißen (<sgmltag>Tiers</sgmltag> für Parteien).
+        </para>
+      </footnote>. Kopieren Sie diese Datei unter dem Namen
+      <filename role="grisbi_file"/> in einen Ordner <filename>myexpenses</filename> in das
+      Wurzelverzeichnis der SD-Karte<footnote id="ftn55-de-2">
+        <para>
+          Natürlich können Sie auch Ihre eigene XML Datei erzeugen. Sie finden Beispiele dafür auf
+          <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
+        </para>
+      </footnote>. Sie können zusätzlich auch die von
+      Grisbi gespeicherten Parteien (Empfänger und Zahler), aus dieser Datei importieren
+      (Element <sgmltag>Party</sgmltag>). Wenn Sie Ihre eigene Datei als Import-Quelle
+      auswählen, können Sie entweder Parteien und Kategorien oder nur Kategorien importieren.
+      Die Partner werden im Buchungsformular verwendet, um Ihnen für das Feld Empfänger/Zahler
+      ein automatische Ausfüllen vorzuschlagen.
     </para>
     <para lang="it">
-      Su questo schermo si vede la lista dei modi di pagamento predefiniti (assegno, carta di credito,
-      pagamento, addebito) e qui puó definire nuovi modi di pagamento. Si fa clic su un modo della
-      lista (o sceglie Nuovo), arriva a un formulario, dove può definire la descrizione (salvo per i
-      predefiniti) e il tipo (si tratta di un modo di pagamento per entrate o spese o neutrale), e
-      scegliere i tipi di conto per i quali è applicabile il modo di pagamento.
+      <guilabel role="pref_import_from_grisbi_title"/> permette di impostare le categorie di file inclusa
+      da Grisbi in inglese, tedesco o francese. Se con Grisbi hai già definite le proprie
+      categorie, è possibile anche fornire il file Grisbi, che è in XML. Se si desidera, è
+      possibile modificare il file con un editor e rimuovere ogni altra informazione rispetto
+      alla categoria (<sgmltag>Category</sgmltag>) e gli elementi
+      <sgmltag>Sub_category</sgmltag><footnote id="ftn55-it-1">
+        <para>
+          <application role="app_name"/> supporta anche il formato di file Grisbi 0.5.0, dove
+          gli elementi sono denominati <sgmltag>Categorie</sgmltag> e
+          <sgmltag>Sous_categorie</sgmltag>(<sgmltag>Tiers</sgmltag> beneficiari).
+        </para>
+      </footnote>. Conservare questo file come <filename role="grisbi_file"/> in un
+      <filename>myexpenses</filename> cartella nella directory principale della vostra scheda
+      SD<footnote id="ftn55-it-2">
+        <para>
+          Certamente può sviluppare il suo proprio xml file. Esempi per questo si trovano qui
+          <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
+        </para>
+      </footnote>. Hai anche la possibilità di importare i beneficiari Grisbi
+      registrati nello stesso file (elemento <sgmltag>Party</sgmltag>). Se si sceglie il
+      proprio file come fonte di importazione, è possibile importare categorie e beneficiari, o
+      solo categorie. Il beneficiario sarà offerta automaticamente per riempire il
+      "Beneficiario" in forma di operazioni.
     </para>
     <para lang="es">
-      Esta pantalla muestra la lista de los predefinidos métodos de pago (cheque, tarjeta de
-      crédito, depósito, impuesto) y usted puede además definir nuevos métodos de pago. Al hacer
-      clic en un elemento de la lista (o seleccionando <guibutton role="menu_new"/>) se llega a un
-      formulario donde usted determina un nombre (excepto para los predefinidos) y el tipo (si se
-      trata de un método de pago para ingresos, gastos o si es neutral) y elige los tipos de cuenta
-      para los cuales el método de pago es aplicable.
+      L'entrada <guilabel role="pref_import_from_grisbi_title"/> permite importar categorías definidas en Grisbi (inglés, alemán y francés).
+      Puede usar también un archivo de Grisbi (en XML) que contiene sus propias categorías.
+      Puede editar este archivo y eliminar todas las informaciones excepto los elementos
+      <sgmltag>Category</sgmltag> y <sgmltag>Sub_category</sgmltag><footnote id="ftn55-es-1">
+        <para>
+          <application role="app_name"/> apoya también el formato de archivos Grisbi 0.5.0. en
+          el que los elementos se llaman <sgmltag>Categorie</sgmltag> y
+          <sgmltag>Sous_categorie</sgmltag> (<sgmltag>Tiers</sgmltag> para partes).
+        </para>
+      </footnote>. Copie este archivo bajo el nombre <filename role="grisbi_file"/> a una
+      carpeta <filename>myexpenses</filename> en el directorio raíz de la tarjeta SD<footnote id="ftn55-es-2">
+        <para>
+          Por supuesto, usted puede también crear su propio archivo XML. Puede encontrar ejemplos en
+          <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
+        </para>
+      </footnote>.
+      Puede importar de este archivo además los partes (receptores y
+      pagadores) guardados en Grisbi (elemento <sgmltag>Party</sgmltag>). Si elige su propio
+      archivo como fuente de importación, puede importar partes y categorías o sólo
+      categorías. Los partes se utilizan en el formulario de asientos para proponerle un
+      llenado automático en el campo receptor/pagador.
     </para>
-    <!-- END tutorial5_9 para 1 -->
+    <!-- END settings_import para 1 -->
     </sect2>
+    
+    <sect2 id="settings_3">
+      <title>
+       Export
+      </title>
 
+    <!-- BEGIN settings_3 para 1 -->
+    <para lang="en">
+      If you check option <guilabel role="pref_perform_share_title"/>, each time you export your transactions, your QIF file will be
+      sent to a remote destination. Under <guilabel role="pref_share_target_title"/> you
+      specify the destination:
+      <itemizedlist>
+        <listitem>
+          <para>
+            An URL to a directory on an FTP server, you have write access to (e.g.
+            "ftp://login:password@my.example.org:port/my/directory/"). If available on your device,
+            <application role="app_name"/> will launch an external app responding to a SENDTO intent
+            with this URL as data. Only know app handling such an intent is
+              <ulink url="market://details?id=org.totschnig.sendwithftp"><application>Send With FTP</application></ulink>
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            An Email URL (e.g. "mailto:john@my.example.com"). <application role="app_name"/>
+            will launch an email application and create a message to that address with the file
+            attached to it.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            You can also leave this field empty, and you will be presented with a chooser
+            allowing you to select one of your installed apps that allow sharing of files (e.g.
+            Dropbox, Google Docs, &#8230;).
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <para lang="fr">
+      Si vous cochez l'option <guilabel role="pref_perform_share_title"/>, le fichier QIF sera téléchargé après chaque export de vos
+      transactions. Sous <guilabel role="pref_share_target_title"/>, vous spécifiez la
+      destination:
+       <itemizedlist>
+        <listitem>
+          <para>
+            L'URL d'un dossier accessible par FTP en mode écriture (par exemple
+            "ftp://login:password@my.example.org:port/my/directory/").
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+          Un URL de courriel (par exemple "mailto:john@my.example.com"). Votre application de
+          courriel sera lancé avec un nouveau message comportant le fichier en pièce jointe.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+          Si ce champ reste vide, vous pourrez chaque fois choisir entre les apps disponibles
+          sur votre appareil, capable de transférer un fichier (par exemple Dropbox, Google
+          Docs, &#8230;).
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <para lang="de">
+      Kreuzen Sie die Option <guilabel role="pref_perform_share_title"/> an, wenn Sie die QIF Datei nach dem Export Ihrer Buchungen an
+      eine entfernte Adresse übertragen wollen. Unter <guilabel role="pref_share_target_title"
+        /> können Sie das Ziel konfigurieren:
+      <itemizedlist>
+        <listitem>
+          <para>
+           Die URL eines Ordners, auf den Sie über FTP Schreibzugriff haben (z.B.
+           "ftp://login:password@my.example.org:port/my/directory/").
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Eine Email URL (z.B. "mailto:john@my.example.com"). Ihre Email-Anwendung wird
+            gestartet, und eine Email erzeugt mit der Datei als Anhang.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+          Sie können dieses Feld auch leer lassen, dann können Sie jedesmal zwischen auf Ihrem
+          Gerät installierten Apps wählen, die Dateien übertragen können (z.B Dropbox, Google
+          Docs, &#8230;).
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <para lang="it">
+      Se si seleziona l'opzione <guilabel role="pref_perform_share_title"/>, il file QIF verrà caricato dopo ogni esportare i vostri
+      transazioni. Sotto <guilabel role="pref_share_target_title"/>, è necessario specificare
+      la destinazione:
+       <itemizedlist>
+        <listitem>
+          <para>
+          L'URL di un file tramite FTP in modalità di scrittura (ad esempio
+          "ftp://login:password@my.example.org:port/my/directory/").
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+          un URL per email (ad esempio "mailto:john@my.example.com"). Il vostro applicazione
+	  di posta elettronica si aprirà con un nuovo messaggio con il file allegato.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+          Se questo campo è vuoto, è possibile scegliere ogni volta che le applicazioni disponibili
+	  sul dispositivo, in grado di trasferire un file (ad esempio, Dropbox, Google docs, &#8230;).
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <para lang="es">
+      Marque la opción <guilabel role="pref_perform_share_title"/> si después de exportar sus asientos quiere transferir el archivo QIF a
+      una dirección remota. Bajo <guilabel role="pref_share_target_title"/> puede configurar la
+      meta:
+      <itemizedlist>
+        <listitem>
+          <para>
+            La URL de una carpeta a la que tiene acceso de escritura a través de FTP (por
+            ejemplo, "ftp://login:password@my.example.org:port/my/directory/").
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Una dirección URL para correo electrónico (por ejemplo,
+            "mailto:john@my.example.com").Se pone en marcha su aplicación de correo electrónico
+            y se genera un correo electrónico con el archivo adjunto.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            También puede dejar este campo en blanco, entonces siempre puede elegir entre las
+            aplicaciones para transferir archivos que estén instaladas en su aparato (como
+            Dropbox, Google Docs, &#8230;).
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <!-- END settings_3 para 1 -->
+  </sect2>
+
+  <sect2 id="settings_4">
+    <title>
+      <phrase lang="en">Backup and restore</phrase>
+      <phrase lang="fr">Sauvegarde et restauration</phrase>
+      <phrase lang="de">Backup und Wiederherstellung</phrase>
+      <phrase lang="it">Backup e ripristino</phrase>
+      <phrase lang="es">Backup y Restauración</phrase>
+    </title>
+
+    <!-- BEGIN settings_4 para 1 -->
+    <para lang="en">
+      <guilabel role="menu_backup"/> creates a backup of database and preferences in
+      the <filename>myexpenses</filename> folder on the sdcard. The database is stored in
+      a file named <filename>BACKUP</filename>, the preferences in a file named
+      <filename>BACKUP_PREF</filename>. Both are automatically restored when you reinstall
+      <application role="app_name"/>. Thus you can retrieve all your application
+      data on a different device by copying these two files into the same location there,
+      before installing <application role="app_name"/>.
+    </para>
+    <para lang="fr">
+      <guilabel role="menu_backup"/> créé une sauvegarde de la base de données et
+      des préférences dans le répertoire <filename>myexpenses</filename> de la carte SD.
+      La base de données est stockée dans le fichier <filename>BACKUP</filename> et les
+      préférences dans <filename>BACKUP_PREF</filename>. Ceux-ci sont automatiquement
+      restaurés lorsque vous réinstallez <application role="app_name"/>. Ainsi,
+      vous pouvez récupérez toutes vos données sur un périphérique différent en copiant
+      ces deux fichiers au même endroit avant d'installer
+      <application role="app_name"/>.
+    </para>
+    <para lang="de">
+      <guilabel role="menu_backup"/> erzeugt eine Sicherungskopie von Datenbank und
+      Einstellungen im <filename>myexpenses</filename> Ordner auf der SD-Karte. Die
+      Datenbank wird in der Datei <filename>BACKUP</filename> gespeichert, die
+      Einstellungen in der Datei <filename>BACKUP_PREF</filename>. Beide werden
+      automatisch wiederhergestellt, wenn <application role="app_name"/> neu
+      installiert wird. Sie können also die Anwendungsdaten komplett auf ein weiteres
+      Gerät kopieren, indem Sie diese beiden Dateien an denselben Ort auf diesem kopieren,
+      bevor Sie <application role="app_name"/> installieren.
+    </para>
+    <para lang="it">
+      <guilabel role="menu_backup"/> crea un backup del database e delle preferenze nella
+      cartella <filename>myexpenses</filename> sulla scheda SD. Il database viene memorizzato
+      nel file chiamato <filename>BACKUP</filename> e le preferenze nel file
+      <filename>BACKUP_PREF</filename>. Entrambi sono automaticamente ripristinate quando si
+      reinstalla <application role="app_name"/>. In questo modo è possibile recuperare tutte le
+      vostre applicazioni dati su un dispositivo diverso da copiare questi due file nella
+      stessa posizione là, prima di installare <application role="app_name"/>.
+    </para>
+    <para lang="es">
+      <guilabel role="menu_backup"/> crea una copia de seguridad de la base de datos y de las
+      configuraciones en el archivo <filename>myexpenses</filename> en la tarjeta SD. La base
+      de datos se guarda en el archivo <filename>BACKUP</filename>, las configuraciones en el
+      archivo <filename>BACKUP_PREF</filename>. Ambos se restauran automáticamente al volver a
+      instalarse <application role="app_name"/>. Así que usted puede copiar los enteros datos
+      de aplicación a otro aparato copiando estos dos archivos al mismo lugar antes de instalar
+      <application role="app_name"/>.
+    </para>
+    <!-- END settings_4 para 1 -->
+    </sect2>
   </sect1>
   <!--
 template for new paragraphs
