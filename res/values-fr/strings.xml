@@ -109,8 +109,8 @@
   <string name="help_whats_new"> - Créer des opérations à partir de modèles\n
       - Encodage de l\'export QIF configurable en vue de compatibilté avec MS Money\n
       - Améliorations de l\'interface usager\n
-      - La liste des opérations est triée avec les plus récentes en haut
-      - La liste des comptes affichen un aperçu de la situation financiere</string>
+      - La liste des opérations est triée avec les plus récentes en haut\n
+      - La liste des comptes affiche un aperçu de la situation financiere</string>
   <string name="import_categories">Importer les catégories</string>
   <string name="important_version_information">Information importante</string>
   <string name="income">revenu</string>
