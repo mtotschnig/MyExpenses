@@ -72,12 +72,16 @@ headstuff: |
       The <span class="guilabel">Settings</span> screen has five sections:
     </p>
     
-      <div xml:lang="en" class="variablelist"><dl><dt><span class="term"><span class="guilabel">Manage</span></span></dt><dd><p>Here you can inspect and edit all the auxiliary objects that <span class="application">My Expenses</span>
+    
+    
+    <div xml:lang="en" class="variablelist"><dl><dt><span class="term"><a class="link" href="settings.xhtml#settings_manage" title="Manage"><span class="guilabel">Manage</span></a></span></dt><dd><p>Here you can inspect and edit all the auxiliary objects that <span class="application">My Expenses</span>
         manages: <a class="link" href="accounts.xhtml" title="Accounts">accounts</a>, <a class="link" href="templates.xhtml" title="Templates">templates</a>, 
         <a class="link" href="categories.xhtml" title="Categories">categories</a>, <a class="link" href="settings.xhtml#settings_manage_parties">parties</a> and 
-        <a class="link" href="settings.xhtml#settings_manage_methods">payment methods</a>.</p></dd><dt><span class="term"><span class="guilabel">User interface</span></span></dt><dd><p>Here you can alter some aspects of the interface.</p></dd><dt><span class="term"><span class="guilabel">Import</span></span></dt><dd><p>Access the functionality of importing categories and parties from Grisbi.</p></dd><dt><span class="term"><span class="guilabel">Export</span></span></dt><dd><p>Configure the character encoding of the export and define if and how the 
-        file should be transfered.</p></dd><dt><span class="term"><span class="guilabel">Backup</span></span></dt><dd><p>Store a backup of database and preferences on the SD card.</p></dd></dl></div>
-      
+        <a class="link" href="settings.xhtml#settings_manage_methods">payment methods</a>.</p></dd><dt><span class="term"><a class="link" href="settings.xhtml#settings_ui" title="User interface"><span class="guilabel">User interface</span></a></span></dt><dd><p>Here you can alter some aspects of the interface.</p></dd><dt><span class="term"><a class="link" href="settings.xhtml#settings_import" title="Import"><span class="guilabel">Import</span></a></span></dt><dd><p>Access the functionality of importing categories and parties from Grisbi.</p></dd><dt><span class="term"><a class="link" href="settings.xhtml#settings_export" title="Export"><span class="guilabel">Export</span></a></span></dt><dd><p>Configure the character encoding of the export and define if and how the 
+        file should be transfered.</p></dd><dt><span class="term"><a class="link" href="settings.xhtml#settings_backup" title="Backup and restore"><span class="guilabel">Backup</span></a></span></dt><dd><p>Store a backup of database and preferences on the SD card.</p></dd></dl></div>
+    
+    
+    
     
 
     <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="settings_manage"/>
@@ -197,7 +201,7 @@ headstuff: |
     
     </div>
     
-    <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="settings_3"/>
+    <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="settings_export"/>
        Export
       </h3></div></div></div>
       
@@ -211,9 +215,8 @@ headstuff: |
           <p>
             An URL to a directory on an FTP server, you have write access to (e.g.
             "ftp://login:password@my.example.org:port/my/directory/"). If available on your device,
-            <span class="application">My Expenses</span> will launch an external app responding to a SENDTO intent
-            with this URL as data. Only know app handling such an intent is
-              <a class="ulink" href="market://details?id=org.totschnig.sendwithftp" target="_top"><span class="application">Send With FTP</span></a>
+            <span class="application">My Expenses</span> will launch an external app, e.g.
+            <a class="ulink" href="http://mtotschnig.github.com/SendWithFtp/" target="_top"><span class="application">Send With FTP</span></a>.
           </p>
         </li><li class="listitem">
           <p>
@@ -236,7 +239,7 @@ headstuff: |
     
   </div>
 
-  <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="settings_4"/>
+  <div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a id="settings_backup"/>
       <span xml:lang="en">Backup and restore</span>
       
       
