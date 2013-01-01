@@ -805,10 +805,15 @@
       title that will identify the template.
     </para>
     <para lang="fr">
-      Ce chapitre n'a pas encore été traduit. Consultez la version anglaise s'il-vous-plaît.
+     Les modèles sont toujours le fruit d'une opération existante à travers le <menuchoice><guimenuitem
+      role="menu_create_template"/></menuchoice> entrée dans le menu contextuel. Vous devez entrer un
+    titre qui permettra d'identifier le modèle.
     </para>
     <para lang="de">
-      Dieses Kapitel wurde noch nicht übersetzt. Bitte verwenden Sie inzwischen die englische Version.
+      Wenn Sie regelmäßig identische oder ähnliche Buchungen erfassen, können Sie durch die Verwendung
+      von Vorlagen einige Zeit sparen. Vorlagen werden mit dem  <menuchoice><guimenuitem
+        role="menu_create_template"/></menuchoice> Eintrag des Kontextmenüs aus vorhandenen Buchungen 
+      abgeleitet. Sie müssen einen Titel angeben, um die Vorlage zu identifizieren.
     </para>
     <para lang="it">
       Questo capitolo non è stato tradotto. Per favore ora utilizzare la versione in lingua inglese.
@@ -821,18 +826,21 @@
 
     <!-- BEGIN templates para 2 -->
     <para lang="en">
-      Templates are most easily used from the <menuchoice><guimenu role="menu_new"/></menuchoice> button,
-      where all templates available for the current account are represented through buttons. A short
+      Templates are listed in the <menuchoice><guimenu role="menu_new"/></menuchoice> menu. A short
       click on a button creates a new transaction that is immediately saved. Through a long click,
       you enter the editing form where you can change the transaction before saving, or discard it.
     </para>
-    <!--
     <para lang="fr">
-
+      Les modèles sont enumérés dans le menu <menuchoice><guimenu role="menu_new"/></menuchoice>. Par un
+      clic court, vous créez une nouvelle opération pour la sauver immédiatement, un click long ouvre
+      le forumulaire pour éditer ou annuler l'opération.
     </para>
     <para lang="de">
-
+      Vorlagen werden im <menuchoice><guimenu role="menu_new"/></menuchoice> Menü aufgelistet: Ein kurzer
+      Klick erzeugt eine neue Buchung, die sofort gespeichert wird, ein langer Klick öffnet zunächst das
+      Formular, das erlaubt die Buchung zu verändern oder zu verwerfen.
     </para>
+    <!--
     <para lang="it">
 
     </para>
@@ -844,23 +852,29 @@
 
     <!-- BEGIN templates para 3 -->
      <para lang="en">
-     Templates are also listed from the <guilabel role="pref_manage_templates_title"/> entry in the
-     <guilabel role="menu_settings"/> screen, grouped by account. Through each templates context menu, you
-     can access the same functionality of creating new transactions, and either save it directly
-     (<menuchoice>
-        <guimenuitem role="menu_create_transaction_from_template_and_save"/>
-     </menuchoice>) or
-     enter its editing form (<menuchoice>
-        <guimenuitem role="menu_create_transaction_from_template_and_edit"/>
-     </menuchoice>) . The third entry in the context menu allows deleting the template.
+       Templates are also listed from the <guilabel role="pref_manage_templates_title"/> entry in the
+       <guilabel role="menu_settings"/> screen, grouped by account. Through each template's context menu, you
+       can access the same functionality of creating new transactions, and either save it directly
+       (<menuchoice>
+          <guimenuitem role="menu_create_transaction_from_template_and_save"/>
+       </menuchoice>) or enter its editing form (<menuchoice>
+          <guimenuitem role="menu_create_transaction_from_template_and_edit"/>
+       </menuchoice>). The third entry in the context menu allows deleting the template.
     </para>
-    <!--
     <para lang="fr">
 
     </para>
     <para lang="de">
-
+      Eine nach Konten gruppierte Liste der Vorlagen kann auch über den Eintrag <guilabel
+        role="pref_manage_templates_title"/> des Bildschirms <guilabel role="menu_settings"/> angezeigt
+      werden. Über das Kontextmenü jeder Vorlage können auch von hier aus neue Buchungen erzeugt werden,
+      um diese entweder sofort zu speichern (<menuchoice>
+          <guimenuitem role="menu_create_transaction_from_template_and_save"/>
+       </menuchoice>) oder um sie vorher zu verändern (<menuchoice>
+          <guimenuitem role="menu_create_transaction_from_template_and_edit"/>
+       </menuchoice>). Der dritte Eintrag im Kontexmenü dient zum Löschen der Vorlage.
     </para>
+    <!--
     <para lang="it">
 
     </para>
@@ -1183,7 +1197,7 @@
       create a file on your sdcard with all transactions for the current account, delete
       them from the database, and adjust the opening balance to the last current balance.
       <application role="app_name"/> can share the file immediately after the export through
-      FTP, email or any other file sharing app, as explained in <link linkend='settings_3'
+      FTP, email or any other file sharing app, as explained in <link linkend='settings_export'
         ><guilabel role="pref_perform_share_title"/></link>.
       <phrase role="br"/>
       Transfer operations will also be deleted from the account, but still be visible in
@@ -1196,7 +1210,7 @@
       Ceci va créer un fichier sur votre carte SD avec toutes les opérations du compte en
       cours, les enlever de la base de données et ajuster le solde initial avec le solde
       courant. Ce fichier peut être transféré par FTP, courriel ou d'autres applications comme
-      expliqué dans <link linkend='settings_3'><guilabel role="pref_perform_share_title"
+      expliqué dans <link linkend='settings_export'><guilabel role="pref_perform_share_title"
         /></link>.
       <phrase role="br"/>
       Les opérations de virement seront aussi enlevées du compte mais resteront visibles
@@ -1210,7 +1224,7 @@
       Kontos enthält. Diese werden gelöscht und der aktuelle Saldo wird in den neuen
       Anfangssaldo übertragen. Sofort nach dem Export kann die Datei weitergeleitet
       werden, mittels FTP, Email oder anderen Apps, die Dateien übertragen können (siehe <link
-        linkend='settings_3'><guilabel role="pref_perform_share_title"/></link>).
+        linkend='settings_export'><guilabel role="pref_perform_share_title"/></link>).
       <phrase role="br"/>
       Umbuchungen werden auch von dem Konto gelöscht, sind aber im anderen Konto, auf das
       sie sich beziehen, weiterhin sichtbar.
@@ -1222,7 +1236,7 @@
       scheda SD con tutte le transazioni per il conto corrente, eliminare dal database, e
       regolare il saldo di apertura con il saldo corrente. <application role="app_name"/> posso
       condividere il file subito dopo il export, sia caricarlo in un server FTP, inviarla via
-      e-mail o altra applicazione come spiegato in <link linkend='settings_3'>
+      e-mail o altra applicazione come spiegato in <link linkend='settings_export'>
       <guilabel role="pref_perform_share_title"/></link>).
       <phrase role="br"/>
       Operazioni di trasferimento verrà eliminato anche dal conto, ma ancora visibile in
@@ -1234,7 +1248,7 @@
       De esta manera se crea en la tarjeta SD un archivo que contiene todos los asientos de la cuenta
       actual.Éstos son eliminados y el saldo actual es transferido al nuevo saldo inicial.
       Inmediatamete después de la exportación se puede enviar el archivo, vía FTP, correo electrónico
-      o otras aplicaciones que pueden transferir archivos (vease <link linkend='settings_3'><guilabel
+      o otras aplicaciones que pueden transferir archivos (vease <link linkend='settings_export'><guilabel
         role="pref_perform_share_title"/></link>).
       <phrase role="br"/>
       Traspasos también son eliminados de la cuenta, pero quedan visibles en la otra cuenta a la que
@@ -1309,41 +1323,93 @@
     <para lang="en">
       The <guilabel role="menu_settings"/> screen has five sections:
     </para>
+    <para lang="fr">
+      L'écran <guilabel role="menu_settings"/> est divisié en cinq parties:
+    </para>
+    <para lang="de">
+      Der Bildschirm <guilabel role="menu_settings"/> besteht aus fünf Teilen:
+    </para>
     <?float-clear?>
-      <variablelist lang="en">
+    <variablelist lang="en">
       <varlistentry>
-        <term><guilabel role="pref_category_title_manage"/></term>
+        <term><link linkend='settings_manage'><guilabel role="pref_category_title_manage"/></link></term>
         <listitem><para>Here you can inspect and edit all the auxiliary objects that <application role="app_name"/>
         manages: <link linkend='accounts'>accounts</link>, <link linkend='templates'>templates</link>, 
         <link linkend='categories'>categories</link>, <link linkend='settings_manage_parties'>parties</link> and 
         <link linkend='settings_manage_methods'>payment methods</link>.</para></listitem> 
       </varlistentry>
      <varlistentry>
-        <term><guilabel role="pref_category_title_ui"/></term>
+        <term><link linkend='settings_ui'><guilabel role="pref_category_title_ui"/></link></term>
         <listitem><para>Here you can alter some aspects of the interface.</para></listitem>
       </varlistentry>
       <varlistentry>
-        <term><guilabel>Import</guilabel></term>
+        <term><link linkend='settings_import'><guilabel>Import</guilabel></link></term>
         <listitem><para>Access the functionality of importing categories and parties from Grisbi.</para></listitem>
       </varlistentry>
       <varlistentry>
-        <term><guilabel>Export</guilabel></term>
+        <term><link linkend='settings_export'><guilabel>Export</guilabel></link></term>
         <listitem><para>Configure the character encoding of the export and define if and how the 
         file should be transfered.</para></listitem>
       </varlistentry>
       <varlistentry>
-        <term><guilabel role="menu_backup"/></term>
+        <term><link linkend='settings_backup'><guilabel role="menu_backup"/></link></term>
         <listitem><para>Store a backup of database and preferences on the SD card.</para></listitem>
       </varlistentry>
-      </variablelist>
-      <!--
+    </variablelist>
+    <variablelist lang="fr">
+      <varlistentry>
+        <term><link linkend='settings_manage'><guilabel role="pref_category_title_manage"/></link></term>
+        <listitem><para>Permet l'inspection et la modification de tous les objets auxiliaires gérés par 
+        <application role="app_name"/>: <link linkend='accounts'>comptes</link>, <link linkend='templates'>modèles</link>, 
+        <link linkend='categories'>catégories</link>, <link linkend='settings_manage_parties'>tiers</link> et 
+        <link linkend='settings_manage_methods'>méthodes de payment</link>.</para></listitem> 
+      </varlistentry>
+     <varlistentry>
+        <term><link linkend='settings_ui'><guilabel role="pref_category_title_ui"/></link></term>
+        <listitem><para>Permet la configuration de quelques aspects de l'interface usager.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><link linkend='settings_import'><guilabel>Import</guilabel></link></term>
+        <listitem><para>Accès à l'import des catégories et des tiers à partir d'un fichier Grisbi.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><link linkend='settings_export'><guilabel>Export</guilabel></link></term>
+        <listitem><para>Permet de spécifier l'encodage du fichier QIF exporté, et de définir une méthode
+        de transfer vers une cible externe.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><link linkend='settings_backup'><guilabel role="menu_backup"/></link></term>
+        <listitem><para>Créer une sauvegarde de la base de données et des paramètres sur la carte SD.</para></listitem>
+      </varlistentry>
+    </variablelist>
+    <variablelist lang="de">
+      <varlistentry>
+        <term><link linkend='settings_manage'><guilabel role="pref_category_title_manage"/></link></term>
+        <listitem><para>Hier haben Sie Zugriff auf alle von <application role="app_name"/> verwalteten Objekte:
+        <link linkend='accounts'>Konten</link>, <link linkend='templates'>Vorlagen</link>, 
+        <link linkend='categories'>Kategorien</link>, <link linkend='settings_manage_parties'>Parteien</link> und 
+        <link linkend='settings_manage_methods'>Zahlungsweisen</link>.</para></listitem> 
+      </varlistentry>
+     <varlistentry>
+        <term><link linkend='settings_ui'><guilabel role="pref_category_title_ui"/></link></term>
+        <listitem><para>Einstellungen für das Verhalten der Benutzerschnittstelle.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><link linkend='settings_import'><guilabel>Import</guilabel></link></term>
+        <listitem><para>Hier können Kategorien und Parteien aus Grisbi importiert werden.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><link linkend='settings_export'><guilabel>Export</guilabel></link></term>
+        <listitem><para>Für den QIF Export kann hier der Zeichensatz konfiguriert werden, und eingestellt
+        werden, ob und wie dieses übertragen werden soll.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><link linkend='settings_backup'><guilabel role="menu_backup"/></link></term>
+        <listitem><para>Erstellung einer Sicherungskopie der Datenbank und der Einstellungen auf der SD-Karte.</para></listitem>
+      </varlistentry>
+    </variablelist>
+    <!--
       rest of chapter can be read without above sentence, so no need for this absence notice
-    <para lang="fr">
-      Ce paragraphe n'a pas encore été traduit. Consultez la version anglaise s'il-vous-plaît.
-    </para>
-    <para lang="de">
-      Dieser Absatz wurde noch nicht übersetzt. Bitte verwenden Sie inzwischen die englische Version.
-    </para>
     <para lang="it">
       Questo paragrafo non è stato tradotto. Per favore ora utilizzare la versione in lingua inglese.
     </para>
@@ -1745,12 +1811,12 @@
     <!-- END settings_import para 1 -->
     </sect2>
     
-    <sect2 id="settings_3">
+    <sect2 id="settings_export">
       <title>
        Export
       </title>
 
-    <!-- BEGIN settings_3 para 1 -->
+    <!-- BEGIN settings_export para 1 -->
     <para lang="en">
       If you check option <guilabel role="pref_perform_share_title"/>, each time you export your transactions, your QIF file will be
       sent to a remote destination. Under <guilabel role="pref_share_target_title"/> you
@@ -1760,9 +1826,8 @@
           <para>
             An URL to a directory on an FTP server, you have write access to (e.g.
             "ftp://login:password@my.example.org:port/my/directory/"). If available on your device,
-            <application role="app_name"/> will launch an external app responding to a SENDTO intent
-            with this URL as data. Only know app handling such an intent is
-              <ulink url="market://details?id=org.totschnig.sendwithftp"><application>Send With FTP</application></ulink>
+            <application role="app_name"/> will launch an external app, e.g.
+            <ulink url="http://mtotschnig.github.com/SendWithFtp/"><application>Send With FTP</application></ulink>.
           </para>
         </listitem>
         <listitem>
@@ -1790,6 +1855,9 @@
           <para>
             L'URL d'un dossier accessible par FTP en mode écriture (par exemple
             "ftp://login:password@my.example.org:port/my/directory/").
+            <application role="app_name"/> fera appel à une App externe, par exemple
+            <ulink url="http://mtotschnig.github.com/SendWithFtp/"><application>Envoi par FTP</application></ulink>,
+            si installé sur votre appareil.
           </para>
         </listitem>
         <listitem>
@@ -1815,7 +1883,10 @@
         <listitem>
           <para>
            Die URL eines Ordners, auf den Sie über FTP Schreibzugriff haben (z.B.
-           "ftp://login:password@my.example.org:port/my/directory/").
+           "ftp://login:password@my.example.org:port/my/directory/"). Falls eine solche auf Ihrem Gerät
+           installiert ist, wird <application role="app_name"/> eine externe App, z.B.
+           <ulink url="http://mtotschnig.github.com/SendWithFtp/"><application>Mit FTP versenden</application></ulink>
+           aufrufen.
           </para>
         </listitem>
         <listitem>
@@ -1841,7 +1912,9 @@
         <listitem>
           <para>
           L'URL di un file tramite FTP in modalità di scrittura (ad esempio
-          "ftp://login:password@my.example.org:port/my/directory/").
+          "ftp://login:password@my.example.org:port/my/directory/"). Se disponibile sul dispositivo,
+          <application role="app_name"/> lancerà un'applicazione esterna, ad esempio
+          <ulink url="http://mtotschnig.github.com/SendWithFtp/"><application>Invia via FTP</application></ulink>
           </para>
         </listitem>
         <listitem>
@@ -1866,7 +1939,9 @@
         <listitem>
           <para>
             La URL de una carpeta a la que tiene acceso de escritura a través de FTP (por
-            ejemplo, "ftp://login:password@my.example.org:port/my/directory/").
+            ejemplo, "ftp://login:password@my.example.org:port/my/directory/"). Si está disponible en su dispositivo,
+             <application role="app_name"/>  pondrá en marcha una aplicación externa, por ejemplo
+            <ulink url="http://mtotschnig.github.com/SendWithFtp/"><application>Enviar con FTP</application></ulink>.
           </para>
         </listitem>
         <listitem>
@@ -1885,10 +1960,10 @@
         </listitem>
       </itemizedlist>
     </para>
-    <!-- END settings_3 para 1 -->
+    <!-- END settings_export para 1 -->
   </sect2>
 
-  <sect2 id="settings_4">
+  <sect2 id="settings_backup">
     <title>
       <phrase lang="en">Backup and restore</phrase>
       <phrase lang="fr">Sauvegarde et restauration</phrase>
@@ -1897,7 +1972,7 @@
       <phrase lang="es">Backup y Restauración</phrase>
     </title>
 
-    <!-- BEGIN settings_4 para 1 -->
+    <!-- BEGIN settings_backup para 1 -->
     <para lang="en">
       <guilabel role="menu_backup"/> creates a backup of database and preferences in
       the <filename>myexpenses</filename> folder on the sdcard. The database is stored in
@@ -1945,7 +2020,7 @@
       de aplicación a otro aparato copiando estos dos archivos al mismo lugar antes de instalar
       <application role="app_name"/>.
     </para>
-    <!-- END settings_4 para 1 -->
+    <!-- END settings_backup para 1 -->
     </sect2>
   </sect1>
   <!--
