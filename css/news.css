@@ -27,6 +27,7 @@
 	text-align: right;
 }
 #rightmenu ul li a {
+  background-color: #3383BB;
 	display:inline-block;
 	margin:0;
 	padding:.8em;
@@ -34,7 +35,6 @@
 	line-height:1em;
 	text-decoration:none;
 	color:#444;
-	font-weight:bold;
 	/* border-bottom:1px solid #000; */
 }
 #rightmenu ul li.active a {
@@ -44,11 +44,13 @@
 #rightmenu > ul li > a:hover {
 	background:#3383BB; /* Top menu items background colour */
 	color:#fff;
+	font-weight:bold;
 }
 #rightmenu > ul li:hover > a,
 #rightmenu > ul li.hover > a { /* This line is required for IE 6 and below */
 	background:#3383BB; /* Top menu items background colour */
 	color:#fff;
+	font-weight:bold;
 }
 
 /* Submenu items */
