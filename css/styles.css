@@ -110,4 +110,7 @@ div.screenshot {
 	background-color: #CFCFCF;
 	padding: 2px;
 }
+#money img, #money input {
+ vertical-align: middle; 
+}
 
