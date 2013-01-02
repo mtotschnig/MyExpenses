@@ -862,7 +862,13 @@
        </menuchoice>). The third entry in the context menu allows deleting the template.
     </para>
     <para lang="fr">
-
+      Dans l'écran <guilabel role="menu_settings"/>, sous <guilabel role="pref_manage_templates_title"/>, vous pouvez
+      afficher à une liste des modèles groupés par compte. Le menu contextuel de chaque modèle vous permet
+      aussi de créer de nouvelles opérations, soit en la sauvegardant directement (<menuchoice>
+          <guimenuitem role="menu_create_transaction_from_template_and_save"/>
+       </menuchoice>), soit en l'éditant (<menuchoice>
+          <guimenuitem role="menu_create_transaction_from_template_and_edit"/>
+       </menuchoice>). Au moyen de la troisième entrée du menu contextuel vous pouvez supprimer un modèle.
     </para>
     <para lang="de">
       Eine nach Konten gruppierte Liste der Vorlagen kann auch über den Eintrag <guilabel
