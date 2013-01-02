@@ -68,7 +68,31 @@
       las programas de escritorio de finanzas.
     </para>
   </abstract>
-  <releaseinfo role="generate-for-pdf"/> 
+  <releaseinfo lang="en">This release (3) of the tutorial describes versions of
+    <application role="app_name"/> below 1.6.0. Please consider <ulink url="market://details?id=org.totschnig.myexpenses">upgrading</ulink> and
+    consult the <ulink url="http://myexpenses.totschnig.org/?lang=en#tutorial_r4">current
+    release</ulink> (4) of this document.
+  </releaseinfo>
+  <releaseinfo lang="fr">Cette édition (3) du tutoriel décrit la version de
+    <application role="app_name"/> antérieure à 1.6.0. Pensez à la  <ulink url="market://details?id=org.totschnig.myexpenses">mettre à jour</ulink> et
+    consultez <ulink url="http://myexpenses.totschnig.org/?lang=fr#tutorial_r4">l'édition
+    actuelle</ulink> (4) de ce document.
+  </releaseinfo>
+  <releaseinfo lang="de">Diese Ausgabe (3) der Anleitung beschreibt Versionen
+  von <application role="app_name"/> vor 1.6.0. Vergessen Sie nicht, die App
+   <ulink url="market://details?id=org.totschnig.myexpenses">upzudaten</ulink> und sehen Sie sich die <ulink
+  url="http://myexpenses.totschnig.org/?lang=de#tutorial_r4">aktuelle Ausgabe</ulink> (4)
+  dieses Dokumentes an.
+  </releaseinfo>
+  <releaseinfo lang="it">Questa edizione (3) del tutorial descrive la versione di
+    <application role="app_name"/> prima 1.6.0. Ricordarsi di 
+    <ulink url="market://details?id=org.totschnig.myexpenses">aggiornare</ulink> e consulta 
+    <ulink url="http://myexpenses.totschnig.org/?lang=it#tutorial_r4">l'attuale edizione </ulink> (4) di questo documento.
+  </releaseinfo>
+  <releaseinfo lang="es">Esta versión (3) del guía describe versiones de <application role="app_name"/>
+    inferior a la 1.6.0. Por favor, considere <ulink url="market://details?id=org.totschnig.myexpenses">actualizar</ulink>
+    y consulte la <ulink url="http://myexpenses.totschnig.org/?lang=es#tutorial_r4">versión actual</ulink> (4) de este documento. 
+  </releaseinfo>
   </articleinfo>
 
   <sect1 id="introduction">
