@@ -33,6 +33,7 @@ headstuff: |
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"><xsl:text> </xsl:text></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"><xsl:text> </xsl:text></script>
   <script type="text/javascript" src="/script/images.js" charset="UTF-8"><xsl:text> </xsl:text></script>
+  <link rel="stylesheet" type="text/css" href="/css/rightmenu.css" charset="UTF-8"/>
 
 ---
       <xsl:call-template name="user.header.navigation"/>
@@ -57,19 +58,47 @@ headstuff: |
 <xsl:param name="formal.object.break.after" select="0"/>
 <xsl:param name="chunker.output.doctype-public" select="''"/>
 <xsl:param name="chunker.output.doctype-system" select="''"/>
-<xsl:param name="toc.listitem.type" select="'option'" />
 <xsl:param name="html.ext" select="'.xhtml'" />
 
 <!-- no title attribute for sections -->
 <xsl:template name="generate.html.title"/>
 
-<!-- we do not display a title since it is visible from the navigation select box -->
-<xsl:template name="sect1.titlepage.recto"/>
-
 <xsl:template name="header.navigation">
+<xsl:variable name="toc-context" select="."/>
   <xsl:variable name="chunkname">
     <xsl:apply-templates select="." mode="recursive-chunk-filename"/>
   </xsl:variable>
+  <div id="rightmenu">
+    <ul>
+      <li>
+        <a href="#">
+          <xsl:call-template name="getString">
+            <xsl:with-param name="id" select="'go_to_chapter'"/>
+          </xsl:call-template>
+        </a>
+        <ul class="last">
+          <xsl:for-each select="../sect1">
+              <li>
+                <a>
+                <xsl:if test="$toc-context/@id != @id">
+                  <xsl:attribute name="href">
+                    <xsl:call-template name="href.target">
+                      <xsl:with-param name="context" select="$toc-context"/>
+                      <xsl:with-param name="toc-context" select="$toc-context"/>
+                    </xsl:call-template>
+                  </xsl:attribute>
+                  </xsl:if>
+                  <xsl:apply-templates select="." mode="titleabbrev.markup"/>
+                </a>
+              </li>
+          </xsl:for-each>
+        </ul>
+      </li>
+    </ul>
+  </div> 
+</xsl:template>
+
+<xsl:template name="sect1.titlepage.recto">
   <div style="position:relative">
     <h2>
       <span id="pdflink">
@@ -80,50 +109,8 @@ headstuff: |
       </span>
       <xsl:value-of select="title"/>
     </h2>
-    <div class="toc">
-      <select onchange="window.location=this.value;">
-          <option>
-            <xsl:call-template name="getString">
-              <xsl:with-param name="id" select="'go_to_chapter'"/>
-            </xsl:call-template>
-          </option>
-        <xsl:apply-templates select="../sect1" mode="toc">
-          <xsl:with-param name="toc-context" select="."/>
-        </xsl:apply-templates>
-      </select>
-    </div>
   </div>
   <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="/article/articleinfo/releaseinfo[not(@role) or @role!='generate-for-pdf']"/>
-</xsl:template>
-
-<xsl:template name="make.toc">
-  <xsl:param name="toc-context" select="."/>
-  <xsl:param name="nodes" select="/NOT-AN-ELEMENT"/>
-  <div class="toc">
-    <select onchange="window.location=this.value;">
-      <xsl:apply-templates select="$nodes" mode="toc">
-        <xsl:with-param name="toc-context" select="$toc-context"/>
-      </xsl:apply-templates>
-    </select>
-  </div>
-</xsl:template>
-<!-- add separator between entries in toc and do not create link for current section-->
-<xsl:template name="toc.line">
-  <xsl:param name="toc-context" select="."/>
-  <xsl:choose>
-  <xsl:when test="$toc-context/@id != @id">
-    <xsl:attribute name="value">
-      <xsl:call-template name="href.target">
-        <xsl:with-param name="context" select="$toc-context"/>
-        <xsl:with-param name="toc-context" select="$toc-context"/>
-      </xsl:call-template>
-    </xsl:attribute>
-    </xsl:when>
-    <xsl:otherwise>
-    <xsl:attribute name="disabled">disabled</xsl:attribute>
-    </xsl:otherwise>
-    </xsl:choose>
-    <xsl:value-of select="title"/>
 </xsl:template>
 
 <xsl:template match="phrase[@role='br']">

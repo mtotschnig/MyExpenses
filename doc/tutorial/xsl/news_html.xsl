@@ -29,7 +29,7 @@ layout: default
 section: news
 metatitle: "<xsl:apply-templates select="/article" mode="object.title.markup.textonly"/><xsl:text> | </xsl:text><xsl:apply-templates select="." mode="object.title.markup.textonly"/>"
 headstuff: |
-  <link rel="stylesheet" href="/css/news.css" charset="UTF-8"/>
+  <link rel="stylesheet" href="/css/rightmenu.css" charset="UTF-8"/>
   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"><xsl:text> </xsl:text></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"><xsl:text> </xsl:text></script>
@@ -94,35 +94,6 @@ styles: |
 		</li>
 	</ul>
 </div>
-</xsl:template>
-
-<xsl:template name="toc.line">
-  <xsl:param name="toc-context" select="."/>
-  <xsl:param name="depth" select="1"/>
-  <xsl:param name="depth.from.context" select="8"/>
-  
-  <xsl:if test="$toc-context/@id != @id">
-  <a>
-    <xsl:attribute name="href">
-      <xsl:call-template name="href.target">
-        <xsl:with-param name="context" select="$toc-context"/>
-        <xsl:with-param name="toc-context" select="$toc-context"/>
-      </xsl:call-template>
-    </xsl:attribute>
-  <!-- * if $autotoc.label.in.hyperlink is non-zero, then output the label -->
-  <!-- * as part of the hyperlinked title -->
-  <xsl:if test="not($autotoc.label.in.hyperlink = 0)">
-    <xsl:variable name="label">
-      <xsl:apply-templates select="." mode="label.markup"/>
-    </xsl:variable>
-    <xsl:copy-of select="$label"/>
-    <xsl:if test="$label != ''">
-      <xsl:value-of select="$autotoc.label.separator"/>
-    </xsl:if>
-  </xsl:if>
-    <xsl:apply-templates select="." mode="titleabbrev.markup"/>
-  </a>
-  </xsl:if>
 </xsl:template>
 
 <xsl:template match="phrase[@role='br']">
