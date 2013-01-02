@@ -26,8 +26,10 @@
 	padding:0;
 	text-align: right;
 }
-#rightmenu ul li a {
+#rightmenu > ul > li > a {
   background-color: #3383BB;
+}
+#rightmenu ul li a {
 	display:inline-block;
 	margin:0;
 	padding:.8em;
