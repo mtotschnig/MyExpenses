@@ -34,6 +34,30 @@ headstuff: |
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"><xsl:text> </xsl:text></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"><xsl:text> </xsl:text></script>
   <script type="text/javascript" src="/script/images.js" charset="UTF-8"><xsl:text> </xsl:text></script>
+  <xsl:if test="$prev and name($prev)!='article'">
+  <link rel="prev">
+    <xsl:attribute name="href">
+      <xsl:call-template name="href.target">
+        <xsl:with-param name="object" select="$prev"/>
+      </xsl:call-template>
+    </xsl:attribute>
+    <xsl:attribute name="title">
+      <xsl:apply-templates select="$prev" mode="object.title.markup.textonly"/>
+      </xsl:attribute>
+  </link>
+  </xsl:if>
+  <xsl:if test="$next">
+  <link rel="next">
+    <xsl:attribute name="href">
+      <xsl:call-template name="href.target">
+        <xsl:with-param name="object" select="$next"/>
+      </xsl:call-template>
+    </xsl:attribute>
+    <xsl:attribute name="title">
+      <xsl:apply-templates select="$next" mode="object.title.markup.textonly"/>
+    </xsl:attribute>
+  </link>
+  </xsl:if>
 styles: |
   h2 {margin-bottom: 0;}
 ---
