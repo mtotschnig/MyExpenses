@@ -16,4 +16,4 @@ Features:
 - Share QIF file (via email, FTP, Dropbox, ...)
 - Data backup and restore
 
-You can support this app's continued development through your <a href="http://myexpenses.totschnig.org/#donate">donation</a> 
+You can support this app's continued development through your <a href="http://myexpenses.totschnig.org/#donate">donation</a> .
