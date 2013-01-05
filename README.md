@@ -10,7 +10,10 @@ GPL licenced Android Expense Tracking App.
   Requires Android 2.0 and above.
 
 Features:
-- multiple accounts with transfers
-- two levels of categories (import from Grisbi XML)
+- Multiple accounts with transfers
+- Create transactions from templates
+- Two levels of categories (import from Grisbi XML)
 - Share QIF file (via email, FTP, Dropbox, ...)
 - Data backup and restore
+
+You can support this app's continued development through your <a href="http://myexpenses.totschnig.org/#donate">donation</a> 
