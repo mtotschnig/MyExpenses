@@ -68,6 +68,8 @@ sections:
     url: privacy.xhtml
     title:
       en: "Privacy&#160;policy"
+      de: Datenschutzerklärung
+      it: "Norme&#160;sulla&#160;privacy"
   changelog:
     weight: 8
     url: versionlist.xhtml
