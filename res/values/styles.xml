@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+  <style name="DarkTheme" parent="android:Theme.Black">
+      
+  </style>
   <style name="MyTheme" parent="android:Theme.Light">
     <item name="android:textSize">16sp</item>
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>

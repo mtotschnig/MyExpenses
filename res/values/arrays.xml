@@ -29,4 +29,12 @@
         <item>UTF-8</item>
         <item>ISO-8859-1</item>
     </string-array>
+    <string-array name="pref_ui_theme_entries">
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+    <string-array name="pref_ui_theme_values">
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
 </resources>

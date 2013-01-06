@@ -103,11 +103,6 @@
       - <b>Help</b> : Quick access to Tutorial, News, FAQ and Changes.\n
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
-  <string name="help_whats_new">&#160;- Create transactions from templates\n
-      - Character encoding of exported QIF file configurable to support MS Money\n
-      - User interface improvements\n
-      - Newest transactions on top\n
-      - Account list gives overview of financial status</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">income</string>
@@ -232,6 +227,8 @@
   <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate 
       apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes
   </string>
+  <string name="pref_ui_theme_title">Theme</string>
+  <string name="pref_ui_theme_summary">Select between light and black theme</string>
   <string name="pref_use_standard_menu_title">Use standard Android menu</string>
   <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
       standard menu for accessing commands.</string>
@@ -288,8 +285,14 @@
   <string name="pref_currency_decimal_separator_key">currency_decimal_separator</string>
   <string name="pref_account_button_behaviour_key">account_button_behaviour</string>
   <string name="pref_qif_export_file_encoding_key">qif_export_file_encoding</string>
+  <string name="pref_ui_theme_key">pref_ui_theme</string>
     
   <!-- strings below this comment do not need translations for new languages -->
+  <string name="help_whats_new">&#160;- Create transactions from templates\n
+      - Character encoding of exported QIF file configurable to support MS Money\n
+      - User interface improvements\n
+      - Newest transactions on top\n
+      - Account list gives overview of financial status</string>
   <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
   <string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with 
       their code defined in ISO 4217. The following currency symbols currently used for your

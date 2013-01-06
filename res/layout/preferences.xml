@@ -47,6 +47,12 @@
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/pref_category_title_ui">
+    <ListPreference android:key="@string/pref_ui_theme_key"
+        android:defaultValue="light"
+        android:title="@string/pref_ui_theme_title"
+        android:summary="@string/pref_ui_theme_summary"
+        android:entries="@array/pref_ui_theme_entries"
+        android:entryValues="@array/pref_ui_theme_values"/>
 	  <CheckBoxPreference android:key="@string/pref_use_standard_menu_key"
 	      android:layout="@layout/preference_long_summary"
 	      android:defaultValue="false"

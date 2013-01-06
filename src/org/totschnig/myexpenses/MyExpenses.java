@@ -124,6 +124,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   private MenuButton mSettingsButton;
   private MenuButton mHelpButton;
   private boolean mUseStandardMenu;
+  private boolean scheduledRestart = false;
   
   /**
    * stores the transaction from which a template is to be created
@@ -172,9 +173,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    mSettings = ((MyApplication) getApplicationContext()).getSettings();
+    setTheme(MyApplication.getThemeId());
     setContentView(R.layout.expenses_list);
     mDbHelper = MyApplication.db();
-    mSettings = ((MyApplication) getApplicationContext()).getSettings();
     newVersionCheck();
     if (mCurrentAccount == null) {
       long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
@@ -909,7 +911,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     final PackageManager packageManager = getPackageManager();
     if (scheme.equals("ftp")) {
       intent = new Intent(android.content.Intent.ACTION_SENDTO);
-      intent.setData(android.net.Uri.parse(target));
+      intent.setDataAndType(android.net.Uri.parse(target),"text/qif");
       intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
       if (packageManager.queryIntentActivities(intent,0).size() == 0) {
         Toast.makeText(getBaseContext(),R.string.no_app_handling_ftp_available, Toast.LENGTH_LONG).show();
@@ -1305,9 +1307,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
     if (key.equals(MyApplication.PREFKEY_USE_STANDARD_MENU)) {
-      boolean newValue = mSettings.getBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU, false);
-      if (newValue != mUseStandardMenu) {
-        if (newValue)
+      boolean newValueB = mSettings.getBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU, false);
+      if (newValueB != mUseStandardMenu) {
+        if (newValueB)
           mButtonBar.setVisibility(View.GONE);
         else {
           mButtonBar.setVisibility(View.VISIBLE);
@@ -1316,7 +1318,14 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             fillSwitchButton();
         }
       }
-      mUseStandardMenu = newValue;
+      mUseStandardMenu = newValueB;
+    }
+    if (key.equals(MyApplication.PREFKEY_PREF_UI_THEME_KEY)) {
+      String newValueS = mSettings.getString(MyApplication.PREFKEY_PREF_UI_THEME_KEY, "light");
+      if (!newValueS.equals(MyApplication.getThemeId())) {
+        MyApplication.reloadTheme();
+        scheduledRestart = true;
+      }
     }
   }
   public boolean onKeyUp(int keyCode, KeyEvent event) {
@@ -1326,5 +1335,15 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       return true;
     }
     return  super.onKeyUp(keyCode, event);
+  }
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if(scheduledRestart) {
+      scheduledRestart = false;
+      Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage( getBaseContext().getPackageName() );
+      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      startActivity(i);
+    }
   }
 }
