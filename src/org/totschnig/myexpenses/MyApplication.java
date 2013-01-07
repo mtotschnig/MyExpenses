@@ -66,6 +66,7 @@ public class MyApplication extends Application {
         PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR = getString(R.string.pref_account_button_behaviour_key);
         PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
         PREFKEY_PREF_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
+        setTheme();
     }
     
     @Override
@@ -116,7 +117,7 @@ public class MyApplication extends Application {
     {
       return themeId;
     }
-    public static void reloadTheme()
+    public static void setTheme()
     {
       themeId = mSelf.settings.getString(MyApplication.PREFKEY_PREF_UI_THEME_KEY,"light").equals("light") ?
           R.style.MyTheme : R.style.DarkTheme;
