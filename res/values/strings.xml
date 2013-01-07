@@ -86,7 +86,6 @@
       incomes, and to export these expenses into a desktop finance tool, like Grisbi or
       Gnucash.</string>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
-  <!-- TODO changed. Translations pending -->
   <string name="help_quick_guide"><i>&app_name;</i> comes with two command interfaces: A button bar
       and the Android standard menu (hardware Menu button). You can set which one to use in the
       settings screen. The buttons in the button bar execute the following actions on short clicks:\n\n
@@ -264,7 +263,6 @@
       backup will be overwritten. Do you want to continue?</string>
   <string name="warning_delete_account">This account will be deleted with all its transactions.
       Do you want to continue?</string>
-      <!-- TODO changed. Translations pending -->
   <string name="warning_reset_account">All transactions of this account will be exported into QIF file 
       on SD-card and deleted. Do you want to continue?</string>
   <string name="warning_select_account">Please select an account!</string>
