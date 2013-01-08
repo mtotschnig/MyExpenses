@@ -15,14 +15,39 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <style name="DarkTheme" parent="android:Theme.Black">
-      <item name="listBackground">#000000</item>
+  <style name="DarkTheme" parent="@android:style/Theme.Black.NoTitleBar">
+    <item name="headingStyle">@style/headingDark</item>
+    <item name="listStyle">@style/listDark</item>
+    <item name="android:textColor">#ffffff</item>
+    <item name="android:textStyle">bold</item>
   </style>
-  <style name="MyTheme" parent="android:Theme.Light">
+  <style name="MyTheme" parent="@android:style/Theme.Light.NoTitleBar">
+    <item name="headingStyle">@style/headingLight</item>
+    <item name="listStyle">@style/listLight</item>
     <item name="android:textSize">16sp</item>
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
     <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>
-    <item name="listBackground">@drawable/border</item>
+  </style>
+  <style name="listDark">
+    <item name="android:background">#000000</item>
+    <item name="android:paddingRight">5dp</item>
+    <item name="android:paddingLeft">5dp</item>
+  </style>
+  <style name="listLight">
+      <item name="android:background">@drawable/border</item>
+  </style>
+  <style name="headingDark">
+    <item name="android:background">#99CC00</item>
+    <item name="android:paddingRight">5dp</item>
+    <item name="android:paddingLeft">5dp</item>
+  </style>
+  <style name="headingLight">
+    <item name="android:singleLine">true</item>
+    <item name="android:textAppearance">@android:style/TextAppearance.WindowTitle</item>
+    <item name="android:shadowColor">#BB000000</item>
+    <item name="android:shadowRadius">2.75</item>
+    <item name="android:paddingRight">5dp</item>
+    <item name="android:paddingLeft">5dp</item>
   </style>
   <!-- workaround for http://code.google.com/p/android/issues/detail?id=5237 -->    
   <style name="Widget.AutoCompleteTextViewLight" parent="@android:style/Widget.AutoCompleteTextView">
@@ -45,13 +70,11 @@
     <item name="android:textStyle">bold</item>
     <item name="android:layout_marginBottom">1px</item>
   </style>
-  <style name="balance">
-    <item name="android:paddingRight">10dp</item>
-    <item name="android:paddingLeft">10dp</item>
-  </style>
   <style name="balanceText">
     <item name="android:textStyle">bold</item>
     <item name="android:textSize">18sp</item>
+    <item name="android:paddingRight">2dp</item>
+    <item name="android:paddingLeft">2dp</item>
   </style>
   <style name="form_label">
       <item name="android:textStyle">bold</item>

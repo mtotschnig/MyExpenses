@@ -172,9 +172,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    */
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     mSettings = ((MyApplication) getApplicationContext()).getSettings();
-    setTheme(MyApplication.getThemeId());
     setContentView(R.layout.expenses_list);
     mDbHelper = MyApplication.db();
     newVersionCheck();
@@ -301,7 +301,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     mExpensesCursor = mDbHelper.fetchTransactionAll(mCurrentAccount.id);
     startManagingCursor(mExpensesCursor);
 
-    setTitle(mCurrentAccount.label);
+    //setTitle(mCurrentAccount.label);
 
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{"label",ExpensesDbAdapter.KEY_DATE,ExpensesDbAdapter.KEY_AMOUNT};
@@ -362,8 +362,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   }
 
   private void setCurrentBalance() {
-    TextView endView= (TextView) findViewById(R.id.end);
-    endView.setText(Utils.formatCurrency(mCurrentAccount.getCurrentBalance()));    
+    ((TextView) findViewById(R.id.label)).setText(mCurrentAccount.label);
+    ((TextView) findViewById(R.id.end)).setText(Utils.formatCurrency(mCurrentAccount.getCurrentBalance()));
   }
   
   private void configButtons() {

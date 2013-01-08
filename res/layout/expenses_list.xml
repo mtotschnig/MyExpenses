@@ -25,8 +25,8 @@
       android:orientation="vertical"
       android:id="@+id/content">
     <RelativeLayout
-        style="@style/balance"
-        android:id="@+id/bottom"
+        style="?attr/headingStyle"
+        android:id="@+id/heading"
         android:layout_width="fill_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
@@ -35,7 +35,7 @@
           android:layout_alignParentLeft="true"
           android:layout_height="wrap_content"
           android:layout_width="wrap_content"
-          android:text="@string/current_balance" />
+          android:id="@+id/label" />
       <TextView
         style="@style/balanceText"
           android:text="END"
@@ -45,11 +45,11 @@
           android:layout_width="wrap_content" />
     </RelativeLayout>
     <ListView
+        style="?attr/listStyle"
         android:id="@+id/android:list"
         android:layout_width="fill_parent"
         android:layout_height="0px"
-        android:layout_weight="1"
-        android:background="?attr/listBackground" />
+        android:layout_weight="1" />
     <TextView
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
