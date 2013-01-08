@@ -124,7 +124,6 @@
   <string name="menu_accounts_summary">Resumen</string>
   <string name="menu_backup">Copia de seguridad</string>
   <string name="menu_change_account">Cambiar a otra cuenta</string>
-  <string name="menu_changes">Cambios</string>
   <string name="menu_create_main_cat">Nueva categoría principal</string>
   <string name="menu_create_sub_cat">Nueva sub-categoría</string>
   <string name="menu_create_template">Crear plantilla</string>

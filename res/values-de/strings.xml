@@ -126,7 +126,6 @@
   <string name="menu_accounts_summary">Zusammenfassung</string>
   <string name="menu_backup">Sicherungskopie</string>
   <string name="menu_change_account">Konto wechseln</string>
-  <string name="menu_changes">Änderungen</string>
   <string name="menu_create_main_cat">Neue Hauptkategorie</string>
   <string name="menu_create_sub_cat">Neue Unterkategorie</string>
   <string name="menu_create_template">Vorlage erzeugen</string>
