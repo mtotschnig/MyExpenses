@@ -173,7 +173,7 @@
   <string name="pm_cheque">Xec</string>
   <string name="pm_creditcard">Targeta de crèdit</string>
   <string name="pm_deposit">Dipòsit</string>
-  <string name="pm_directdebit">Imposició</string>
+  <string name="pm_directdebit">Càrrec</string>
   <string name="pm_type_neutral">Neutral</string>
   <string name="pm_type_debit">Dèbit</string>
   <string name="pm_type_credit">Crèdit</string>
