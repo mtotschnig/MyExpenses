@@ -2,4 +2,6 @@
 <resources>
     <attr name="headingStyle" format="reference" />
     <attr name="listStyle" format="reference" />
+    <attr name="buttonBarStyle" format="reference" />
+    <attr name="bottomDividerVisible" format="integer" />
 </resources>

@@ -20,6 +20,8 @@
     <item name="listStyle">@style/listDark</item>
     <item name="android:textColor">#ffffff</item>
     <item name="android:textStyle">bold</item>
+    <item name="bottomDividerVisible">0</item>
+    <item name="buttonBarStyle">@style/buttonBarDark</item>
   </style>
   <style name="MyTheme" parent="@android:style/Theme.Light.NoTitleBar">
     <item name="headingStyle">@style/headingLight</item>
@@ -27,11 +29,16 @@
     <item name="android:textSize">16sp</item>
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
     <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>
+    <item name="bottomDividerVisible">2</item><!-- gone -->
+    <item name="buttonBarStyle">@android:style/ButtonBar</item>
+  </style>
+  <style name="buttonBarDark">
+     <item name="android:background">#000000</item>
   </style>
   <style name="listDark">
     <item name="android:background">#000000</item>
-    <item name="android:paddingRight">5dp</item>
-    <item name="android:paddingLeft">5dp</item>
+    <item name="android:dividerHeight">1dp</item>
+    <item name="android:divider">#ffffff</item>
   </style>
   <style name="listLight">
       <item name="android:background">@drawable/border</item>

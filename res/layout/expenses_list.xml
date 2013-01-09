@@ -37,13 +37,17 @@
           android:layout_width="wrap_content"
           android:id="@+id/label" />
       <TextView
-        style="@style/balanceText"
+          style="@style/balanceText"
           android:text="END"
           android:id="@+id/end" 
           android:layout_alignParentRight="true"
           android:layout_height="wrap_content"
           android:layout_width="wrap_content" />
     </RelativeLayout>
+    <View
+		    android:layout_width="fill_parent"
+		    android:layout_height="1dp"
+		    android:background="#ffffff"/>
     <ListView
         style="?attr/listStyle"
         android:id="@+id/android:list"
@@ -60,12 +64,16 @@
         android:layout_weight="1"
         android:background="@drawable/border"
         android:text="@string/no_expenses" />
-
   </LinearLayout>
+  <View
+        android:visibility="?bottomDividerVisible"
+        android:layout_width="fill_parent"
+        android:layout_height="5dp"
+        android:background="#99CC00"/>
   <org.totschnig.myexpenses.ButtonBar
       android:id="@+id/ButtonBar"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      style="@android:style/ButtonBar">
+      style="?attr/buttonBarStyle">
   </org.totschnig.myexpenses.ButtonBar>
 </LinearLayout>
