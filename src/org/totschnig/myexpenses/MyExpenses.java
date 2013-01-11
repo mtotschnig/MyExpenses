@@ -347,7 +347,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           // Set the background color of the text.
         }
         else {
-          tv1.setTextColor(android.graphics.Color.BLACK);
+          tv1.setTextColor(android.graphics.Color.GREEN);
         }
         TextView tv2 = (TextView)row.findViewById(R.id.category);
         col = c.getColumnIndex(ExpensesDbAdapter.KEY_TRANSFER_PEER);

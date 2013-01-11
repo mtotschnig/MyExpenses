@@ -3,5 +3,9 @@
     <attr name="headingStyle" format="reference" />
     <attr name="listStyle" format="reference" />
     <attr name="buttonBarStyle" format="reference" />
+    <attr name="buttonStyle" format="reference" />
     <attr name="bottomDividerVisible" format="integer" />
+    <attr name="buttonBackgroundNormal" format="reference|color" />
+    <attr name="buttonBackgroundPopup" format="reference|color" /> 
+    <attr name="buttonTextcolor" format="color"/>
 </resources>

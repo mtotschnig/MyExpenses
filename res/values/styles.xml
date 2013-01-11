@@ -22,6 +22,9 @@
     <item name="android:textStyle">bold</item>
     <item name="bottomDividerVisible">0</item>
     <item name="buttonBarStyle">@style/buttonBarDark</item>
+    <item name="buttonBackgroundNormal">@drawable/btn_dark</item>
+    <item name="buttonBackgroundPopup">@drawable/btn_dark</item>
+    <item name="buttonTextcolor">#ffffff</item>
   </style>
   <style name="MyTheme" parent="@android:style/Theme.Light.NoTitleBar">
     <item name="headingStyle">@style/headingLight</item>
@@ -31,6 +34,9 @@
     <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>
     <item name="bottomDividerVisible">2</item><!-- gone -->
     <item name="buttonBarStyle">@android:style/ButtonBar</item>
+    <item name="buttonBackgroundNormal">@drawable/btn_default</item>
+    <item name="buttonBackgroundPopup">@drawable/btn_popup</item>
+    <item name="buttonTextcolor">#000000</item>
   </style>
   <style name="buttonBarDark">
      <item name="android:background">#000000</item>
@@ -94,6 +100,7 @@
      <item name="android:layout_height">wrap_content</item>
      <item name="android:textSize">16sp</item>
     <item name="android:textStyle">bold</item>
+    <item name="android:textColor">?attr/buttonTextcolor</item>
   </style>
    <!-- buttonPort and buttonLand are use in the expenses list, where we need to pack more buttons -->
   <style name="buttonPort" parent="buttonLand">

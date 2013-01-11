@@ -25,9 +25,11 @@ import org.example.qberticus.quickactions.BetterPopupWindow;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -45,7 +47,10 @@ public class ButtonBar extends LinearLayout  {
   public MenuButton addButton(int text,int drawable,int id) {
     LayoutInflater inflater = LayoutInflater.from(getContext());
     MenuButton b = (MenuButton) inflater.inflate(R.layout.button, this, false);
-    b.setBackgroundResourceKeepPadding(R.drawable.btn_default);
+    Resources.Theme theme = getContext().getTheme();
+    TypedValue backgroundId = new TypedValue();
+    theme.resolveAttribute(R.attr.buttonBackgroundNormal, backgroundId, true);
+    b.setBackgroundResourceKeepPadding(backgroundId.resourceId);
     b.setText(text);
     b.setId(id);
     if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -101,7 +106,10 @@ public class ButtonBar extends LinearLayout  {
      */
     public void addItem(String text,int id, Object tag) {
       if (mItems.isEmpty()) {
-        setBackgroundResourceKeepPadding(R.drawable.btn_popup);
+        Resources.Theme theme = getContext().getTheme();
+        TypedValue backgroundId = new TypedValue();
+        theme.resolveAttribute(R.attr.buttonBackgroundPopup, backgroundId, true);
+        setBackgroundResourceKeepPadding(backgroundId.resourceId);
       }
       mItems.add(new Action(id,text,tag));
     }
@@ -124,7 +132,10 @@ public class ButtonBar extends LinearLayout  {
     public void clearMenu() {
       mItems.clear();
       dw = null;
-      setBackgroundResourceKeepPadding(R.drawable.btn_default);
+      Resources.Theme theme = getContext().getTheme();
+      TypedValue backgroundId = new TypedValue();
+      theme.resolveAttribute(R.attr.buttonBackgroundPopup, backgroundId, true);
+      setBackgroundResourceKeepPadding(backgroundId.resourceId);
     }
     public void setComparator(Comparator<Button> comparator) {
       this.comparator  = comparator;
