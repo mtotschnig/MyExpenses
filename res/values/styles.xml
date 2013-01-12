@@ -20,11 +20,12 @@
     <item name="listStyle">@style/listDark</item>
     <item name="android:textColor">#ffffff</item>
     <item name="android:textStyle">bold</item>
-    <item name="bottomDividerVisible">0</item>
+    <item name="dividerVisible">0</item>
     <item name="buttonBarStyle">@style/buttonBarDark</item>
     <item name="buttonBackgroundNormal">@drawable/btn_dark</item>
-    <item name="buttonBackgroundPopup">@drawable/btn_dark</item>
-    <item name="buttonTextcolor">#ffffff</item>
+    <item name="buttonBackgroundPopup">@drawable/btn_dark2</item>
+    <item name="buttonBackgroundMenuItemId">@drawable/btn_dark</item>
+    <item name="buttonTextColor">#ffffff</item>
   </style>
   <style name="MyTheme" parent="@android:style/Theme.Light.NoTitleBar">
     <item name="headingStyle">@style/headingLight</item>
@@ -32,11 +33,12 @@
     <item name="android:textSize">16sp</item>
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
     <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>
-    <item name="bottomDividerVisible">2</item><!-- gone -->
+    <item name="dividerVisible">2</item><!-- gone -->
     <item name="buttonBarStyle">@android:style/ButtonBar</item>
     <item name="buttonBackgroundNormal">@drawable/btn_default</item>
     <item name="buttonBackgroundPopup">@drawable/btn_popup</item>
-    <item name="buttonTextcolor">#000000</item>
+    <item name="buttonBackgroundMenuItemId">@android:drawable/btn_default_small</item>
+    <item name="buttonTextColor">#000000</item>
   </style>
   <style name="buttonBarDark">
      <item name="android:background">#000000</item>
@@ -55,8 +57,9 @@
     <item name="android:paddingLeft">5dp</item>
   </style>
   <style name="headingLight">
-    <item name="android:singleLine">true</item>
+    <item name="android:background">@android:drawable/title_bar</item>
     <item name="android:textAppearance">@android:style/TextAppearance.WindowTitle</item>
+    <item name="android:singleLine">true</item>
     <item name="android:shadowColor">#BB000000</item>
     <item name="android:shadowRadius">2.75</item>
     <item name="android:paddingRight">5dp</item>
@@ -88,6 +91,7 @@
     <item name="android:textSize">18sp</item>
     <item name="android:paddingRight">2dp</item>
     <item name="android:paddingLeft">2dp</item>
+    <item name="android:textColor">#000000</item>
   </style>
   <style name="form_label">
       <item name="android:textStyle">bold</item>
@@ -100,7 +104,7 @@
      <item name="android:layout_height">wrap_content</item>
      <item name="android:textSize">16sp</item>
     <item name="android:textStyle">bold</item>
-    <item name="android:textColor">?attr/buttonTextcolor</item>
+    <item name="android:textColor">?attr/buttonTextColor</item>
   </style>
    <!-- buttonPort and buttonLand are use in the expenses list, where we need to pack more buttons -->
   <style name="buttonPort" parent="buttonLand">
@@ -123,7 +127,7 @@
       <item name="android:layout_width">fill_parent</item>
       <item name="android:layout_height">fill_parent</item>
       <item name="android:orientation">vertical</item>
-      <item name="android:background">@android:drawable/btn_default</item>    
+      <item name="android:background">?attr/buttonBackgroundNormal</item>    
   </style>
   <!-- Animations from http://code.google.com/p/simple-quickactions/source/browse/trunk/res/values/styles.xml -->
           <style name="Animations" />

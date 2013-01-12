@@ -39,18 +39,29 @@ import android.widget.TextView;
 public class ButtonBar extends LinearLayout  {
   //this is where we add the buttons
   int orientation;
+  static int buttonBackgroundNormalId;
+  static int buttonBackgroundPopupId;
+  static int buttonBackgroundMenuItemId;
+  static int buttonTextColorId;
 
   public ButtonBar(Context context, AttributeSet attrs) {
     super(context,attrs);
     orientation = getResources().getConfiguration().orientation;
+    Resources.Theme theme = getContext().getTheme();
+    TypedValue backgroundId = new TypedValue();
+    theme.resolveAttribute(R.attr.buttonBackgroundNormal, backgroundId, true);
+    buttonBackgroundNormalId = backgroundId.resourceId;
+    theme.resolveAttribute(R.attr.buttonBackgroundPopup, backgroundId, true);
+    buttonBackgroundPopupId = backgroundId.resourceId;
+    theme.resolveAttribute(R.attr.buttonBackgroundMenuItemId, backgroundId, true);
+    buttonBackgroundMenuItemId = backgroundId.resourceId;
+    theme.resolveAttribute(R.attr.buttonTextColor, backgroundId, true);
+    buttonTextColorId = backgroundId.data;
   }
   public MenuButton addButton(int text,int drawable,int id) {
     LayoutInflater inflater = LayoutInflater.from(getContext());
     MenuButton b = (MenuButton) inflater.inflate(R.layout.button, this, false);
-    Resources.Theme theme = getContext().getTheme();
-    TypedValue backgroundId = new TypedValue();
-    theme.resolveAttribute(R.attr.buttonBackgroundNormal, backgroundId, true);
-    b.setBackgroundResourceKeepPadding(backgroundId.resourceId);
+    b.setBackgroundResourceKeepPadding(buttonBackgroundNormalId);
     b.setText(text);
     b.setId(id);
     if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -106,10 +117,7 @@ public class ButtonBar extends LinearLayout  {
      */
     public void addItem(String text,int id, Object tag) {
       if (mItems.isEmpty()) {
-        Resources.Theme theme = getContext().getTheme();
-        TypedValue backgroundId = new TypedValue();
-        theme.resolveAttribute(R.attr.buttonBackgroundPopup, backgroundId, true);
-        setBackgroundResourceKeepPadding(backgroundId.resourceId);
+        setBackgroundResourceKeepPadding(buttonBackgroundPopupId);
       }
       mItems.add(new Action(id,text,tag));
     }
@@ -132,10 +140,7 @@ public class ButtonBar extends LinearLayout  {
     public void clearMenu() {
       mItems.clear();
       dw = null;
-      Resources.Theme theme = getContext().getTheme();
-      TypedValue backgroundId = new TypedValue();
-      theme.resolveAttribute(R.attr.buttonBackgroundPopup, backgroundId, true);
-      setBackgroundResourceKeepPadding(backgroundId.resourceId);
+      setBackgroundResourceKeepPadding(buttonBackgroundPopupId);
     }
     public void setComparator(Comparator<Button> comparator) {
       this.comparator  = comparator;
@@ -182,8 +187,9 @@ public class ButtonBar extends LinearLayout  {
                 });
                 tv.setTag(remainingItems);
                 //tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-                tv.setBackgroundResource(android.R.drawable.btn_default_small);
+                tv.setBackgroundResource(buttonBackgroundMenuItemId);
                 tv.setTypeface(null, Typeface.BOLD);
+                tv.setTextColor(buttonTextColorId);
                 tv.setOnClickListener(context);
                 buttons.add(tv);
                 //root.addView(tv,0);
@@ -195,8 +201,9 @@ public class ButtonBar extends LinearLayout  {
               tv.setText(action.text);
               tv.setTag(action.tag);
               //tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-              tv.setBackgroundResource(android.R.drawable.btn_default_small);
+              tv.setBackgroundResource(buttonBackgroundMenuItemId);
               tv.setTypeface(null, Typeface.BOLD);
+              tv.setTextColor(buttonTextColorId);
               //we measure only the first item which is always added
               if (heightLeft == height){
                 tv.measure(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT);

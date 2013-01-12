@@ -4,8 +4,9 @@
     <attr name="listStyle" format="reference" />
     <attr name="buttonBarStyle" format="reference" />
     <attr name="buttonStyle" format="reference" />
-    <attr name="bottomDividerVisible" format="integer" />
+    <attr name="dividerVisible" format="integer" />
     <attr name="buttonBackgroundNormal" format="reference|color" />
     <attr name="buttonBackgroundPopup" format="reference|color" /> 
-    <attr name="buttonTextcolor" format="color"/>
+    <attr name="buttonTextColor" format="color"/>
+    <attr name="buttonBackgroundMenuItemId" format="reference" />
 </resources>
