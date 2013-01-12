@@ -47,6 +47,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
 import android.net.Uri;
@@ -315,11 +316,15 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
        * calls {@link #convText for formatting the values retrieved from the cursor}
        * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
        */
+      SimpleDateFormat dateFormat = new SimpleDateFormat(
+          getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ?
+              "dd.MM HH:mm" : "dd.MM\nHH:mm" 
+      );
       @Override
       public void setViewText(TextView v, String text) {
         switch (v.getId()) {
         case R.id.date:
-          text = Utils.convDate(text);
+          text = Utils.convDate(text,dateFormat);
           break;
         case R.id.amount:
           text = Utils.convAmount(text,mCurrentAccount.currency);

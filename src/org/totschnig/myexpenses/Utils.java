@@ -170,9 +170,8 @@ public class Utils {
    * @param text
    * @return formated string
    */
-  static String convDate(String text) {
-    SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
-    return formatter.format(Timestamp.valueOf(text));
+  static String convDate(String text, SimpleDateFormat format) {
+    return format.format(Timestamp.valueOf(text));
   }
   /**
    * utility method that calls formatters for amount

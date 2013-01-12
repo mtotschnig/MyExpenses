@@ -30,11 +30,15 @@
         <item>ISO-8859-1</item>
     </string-array>
     <string-array name="pref_ui_theme_entries">
-        <item>light</item>
-        <item>dark</item>
+        <item>light small</item>
+        <item>dark small</item>
+        <item>light big</item>
+        <item>dark big</item>
     </string-array>
     <string-array name="pref_ui_theme_values">
-        <item>light</item>
-        <item>dark</item>
+        <item>ThemeLightSmall</item>
+        <item>ThemeDarkSmall</item>
+        <item>ThemeLightBig</item>
+        <item>ThemeDarkBig</item>
     </string-array>
 </resources>

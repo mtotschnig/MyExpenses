@@ -110,6 +110,7 @@ public class SelectCategory extends ExpandableListActivity {
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApplication.getThemeId());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_category);
         Intent intent = getIntent();

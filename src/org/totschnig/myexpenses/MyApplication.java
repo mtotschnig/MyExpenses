@@ -119,8 +119,16 @@ public class MyApplication extends Application {
     }
     public static void setTheme()
     {
-      themeId = mSelf.settings.getString(MyApplication.PREFKEY_PREF_UI_THEME_KEY,"light").equals("light") ?
-          R.style.MyTheme : R.style.DarkTheme;
+      String themePref = mSelf.settings.getString(MyApplication.PREFKEY_PREF_UI_THEME_KEY,"ThemeDarkSmall");
+      if (themePref.equals("ThemeLightSmall")) {
+        themeId = R.style.ThemeLightSmall;
+      } else if (themePref.equals("ThemeLightBig")) {
+        themeId = R.style.ThemeLightBig;
+      } else if (themePref.equals("ThemeDarkBig")) {
+        themeId = R.style.ThemeDarkBig;
+      } else {
+        themeId = R.style.ThemeDarkSmall;
+      }
     }
     
     public static ExpensesDbAdapter db() {

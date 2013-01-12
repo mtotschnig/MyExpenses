@@ -14,24 +14,39 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      style="@android:style/ButtonBar">
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <View
+        android:visibility="?dividerVisible"
+        android:layout_width="fill_parent"
+        android:layout_height="3dp"
+        android:background="#99CC00"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	      android:layout_width="fill_parent"
+	      android:layout_height="wrap_content"
+	      style="?attr/buttonBarStyle">
     <LinearLayout 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal" 
         android:layout_centerInParent="true">
       <Button
+          style="@style/button"
           android:text="@android:string/ok"
           android:id="@+id/Confirm"
-          style="@style/button"
           android:drawableLeft="@drawable/ic_menu_mark" />
-        <Button 
+      <Button
+          style="@style/button"
           android:id="@+id/Revert" 
           android:text="@android:string/cancel"
-          style="@style/button"
           android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel" />
     </LinearLayout>
   </RelativeLayout>
+   <View
+       android:visibility="?dividerVisible"
+       android:layout_width="fill_parent"
+       android:layout_height="3dp"
+       android:background="#99CC00"/>
+   </LinearLayout>
