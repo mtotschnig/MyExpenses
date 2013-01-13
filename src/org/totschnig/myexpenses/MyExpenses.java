@@ -1294,7 +1294,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   @Override
   public boolean onLongClick(View v) {
     if (v instanceof MenuButton) {
-      int height = findViewById(android.R.id.list).getHeight();
+      int height = (mExpensesCursor.getCount() > 0 ? findViewById(android.R.id.list) : findViewById(android.R.id.empty))
+          .getHeight();
       MenuButton mb = (MenuButton) v;
       dw = mb.getMenu(height);
       if (dw == null)
