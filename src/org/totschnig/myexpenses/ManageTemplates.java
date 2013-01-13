@@ -19,11 +19,8 @@ package org.totschnig.myexpenses;
 
 import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ExpandableListActivity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -49,6 +46,7 @@ public class ManageTemplates extends ExpandableListActivity {
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
+      setTheme(MyApplication.getThemeId());
       super.onCreate(savedInstanceState);
       setContentView(R.layout.manage_templates);
       setTitle(R.string.pref_manage_templates_title);

@@ -1,14 +1,10 @@
 package org.totschnig.myexpenses;
 
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.HashMap;
-import java.util.Locale;
 
-import org.totschnig.myexpenses.Account.Type;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.util.Log;
 

@@ -254,8 +254,8 @@
   <string name="switch_account">Basculé vers compte \"%1$s\"</string>
   <string name="suggest_use_standard_menu">Voulez-vous utiliser le menu standard Android pour
       appeler des commandes, et de cacher la barre de boutons?</string>
-  <string name="sum_income">Somme totale des revenus</string>
-  <string name="sum_expenses">Somme totale des dépenses</string>
+  <string name="sum_income">Revenus</string>
+  <string name="sum_expenses">Dépenses</string>
   <string name="template_create_success">Modèle \"%1$s\" crée avec succès</string>
   <string name="template_title_exists">Un modèle avec le titre \"%1$s\" existe déjà</string>
   <string name="time">Heure</string>

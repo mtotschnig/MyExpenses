@@ -5,6 +5,7 @@ import java.text.DecimalFormatSymbols;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
 import android.view.inputmethod.EditorInfo;
@@ -19,6 +20,11 @@ public abstract class EditActivity extends Activity {
 
   public EditActivity() {
     super();
+  }
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    setTheme(MyApplication.getThemeId());
+    super.onCreate(savedInstanceState);
   }
 
   /**

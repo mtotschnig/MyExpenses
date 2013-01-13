@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -33,7 +32,7 @@ import android.widget.CheckBox;
  * Activity for editing an account
  * @author Michael Totschnig
  */
-public class MethodEdit extends Activity {
+public class MethodEdit extends EditActivity {
   protected static final int TYPE_DIALOG_ID = 0;
   private EditText mLabelText;
   private TableLayout mTable;

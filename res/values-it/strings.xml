@@ -255,8 +255,8 @@ href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
   <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
   <string name="suggest_use_standard_menu">Vuoi utilizzare il menu standard Android per chiamare i
       comandi, e nascondere la barra dei pulsanti?</string>
-  <string name="sum_income">Somma totale dei redditi</string>
-  <string name="sum_expenses">Somma totale delle spese</string>
+  <string name="sum_income">Redditi</string>
+  <string name="sum_expenses">Spese</string>
   <string name="switch_account">Cambiato al conto \"%1$s\"</string>
   <string name="template_create_success">Il modello \"%1$s\" è stato creato con successo</string>
   <string name="template_title_exists">Un modello con il nome \"%1$s\" già esiste</string>

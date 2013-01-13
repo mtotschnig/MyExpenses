@@ -23,15 +23,21 @@
       android:layout_height="1px"
       android:layout_weight="1"
       android:orientation="vertical">
-		<ListView
-		    android:id="@android:id/list"
-		    android:layout_width="fill_parent" 
-		    android:layout_height="fill_parent"
-		    android:drawSelectorOnTop="false" />
-	  <TextView android:id="@+id/android:empty"
-	      android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"
-	    	android:text="@string/no_accounts"/>
+    <View
+        android:visibility="?dividerVisible"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"/>
+    <ListView
+        style="?attr/listStyle"
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:drawSelectorOnTop="false" />
+    <TextView android:id="@+id/android:empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_accounts"/>
   </LinearLayout>
   <include layout="@layout/new_buttonbar"/>
   </LinearLayout>

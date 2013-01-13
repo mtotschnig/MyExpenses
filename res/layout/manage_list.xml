@@ -23,29 +23,47 @@
       android:layout_height="1px"
       android:layout_weight="1"
       android:orientation="vertical">
-		<ListView
-		    android:id="@android:id/list"
-		    android:layout_width="fill_parent" 
-		    android:layout_height="fill_parent"
-		    android:drawSelectorOnTop="false" />
-	  <TextView android:id="@+id/android:empty"
-	      android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"/>
+    <ListView
+        style="?attr/listStyle"
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:drawSelectorOnTop="false" />
+    <TextView
+        style="?attr/listStyle"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:gravity="center"
+        android:id="@+id/android:empty"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1" />
   </LinearLayout>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    style="@android:style/ButtonBar">
-  <RelativeLayout 
-      android:layout_width="wrap_content"
+  <View
+      android:visibility="?dividerVisible"
+      android:layout_width="fill_parent"
+      android:layout_height="3dp"
+      android:background="#99CC00"/>
+  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:layout_centerInParent="true">
-    <Button
-        android:text="@string/menu_delete"
-        style="@style/button"
-        android:longClickable="true"
-        android:id="@+id/deleteItems"
-        android:drawableLeft="@android:drawable/ic_menu_delete" />
+      style="?attr/buttonBarStyle">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true">
+      <Button
+          android:text="@string/menu_delete"
+          style="@style/button"
+          android:longClickable="true"
+          android:id="@+id/deleteItems"
+          android:drawableLeft="@android:drawable/ic_menu_delete" />
+    </LinearLayout>
   </RelativeLayout>
-</RelativeLayout>
-  </LinearLayout>
+  <View
+      android:visibility="?dividerVisible"
+      android:layout_width="fill_parent"
+      android:layout_height="3dp"
+      android:background="#99CC00"/>
+</LinearLayout>

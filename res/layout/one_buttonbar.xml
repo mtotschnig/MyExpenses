@@ -18,15 +18,15 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <View
-        android:visibility="?dividerVisible"
-        android:layout_width="fill_parent"
-        android:layout_height="3dp"
-        android:background="#99CC00"/>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	      android:layout_width="fill_parent"
-	      android:layout_height="wrap_content"
-	      style="?attr/buttonBarStyle">
+  <View
+    android:visibility="?dividerVisible"
+    android:layout_width="fill_parent"
+    android:layout_height="3dp"
+    android:background="#99CC00"/>
+  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       style="?attr/buttonBarStyle">
     <LinearLayout 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,9 +44,9 @@
           android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel" />
     </LinearLayout>
   </RelativeLayout>
-   <View
-       android:visibility="?dividerVisible"
-       android:layout_width="fill_parent"
-       android:layout_height="3dp"
-       android:background="#99CC00"/>
-   </LinearLayout>
+  <View
+      android:visibility="?dividerVisible"
+      android:layout_width="fill_parent"
+      android:layout_height="3dp"
+      android:background="#99CC00"/>
+</LinearLayout>

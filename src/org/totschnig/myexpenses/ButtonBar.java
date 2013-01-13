@@ -26,23 +26,19 @@ import org.example.qberticus.quickactions.BetterPopupWindow;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class ButtonBar extends LinearLayout  {
   //this is where we add the buttons
   int orientation;
   static int buttonBackgroundNormalId;
   static int buttonBackgroundPopupId;
-  static int buttonBackgroundMenuItemId;
-  static int buttonTextColorId;
+
 
   public ButtonBar(Context context, AttributeSet attrs) {
     super(context,attrs);
@@ -53,10 +49,6 @@ public class ButtonBar extends LinearLayout  {
     buttonBackgroundNormalId = backgroundId.resourceId;
     theme.resolveAttribute(R.attr.buttonBackgroundPopup, backgroundId, true);
     buttonBackgroundPopupId = backgroundId.resourceId;
-    theme.resolveAttribute(R.attr.buttonBackgroundMenuItemId, backgroundId, true);
-    buttonBackgroundMenuItemId = backgroundId.resourceId;
-    theme.resolveAttribute(R.attr.buttonTextColor, backgroundId, true);
-    buttonTextColorId = backgroundId.data;
   }
   public MenuButton addButton(int text,int drawable,int id) {
     LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -166,12 +158,12 @@ public class ButtonBar extends LinearLayout  {
             ArrayList<Button> buttons = new  ArrayList<Button>();
             MyExpenses context = (MyExpenses) getContext();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            ViewGroup root = (ViewGroup) inflater.inflate(R.layout.popup_menu, null);
+            LinearLayout root = (LinearLayout) inflater.inflate(R.layout.popup_menu, null);
             for(Iterator<Action> i = mItems.iterator();i.hasNext();)
             {
               if (heightNeeded > heightLeft && (size - count) > 1 ) {
                 Log.i("BetterPopupWindow","Out of space: stopping");
-                tv = new Button(context);
+                tv = new Button(context,null,R.attr.menuItemStyle);
                 tv.setId(R.id.MORE_ACTION_COMMAND);
                 tv.setText("More...");
                 //we transmit the remaining items to the more command as tag
@@ -187,23 +179,17 @@ public class ButtonBar extends LinearLayout  {
                 });
                 tv.setTag(remainingItems);
                 //tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-                tv.setBackgroundResource(buttonBackgroundMenuItemId);
-                tv.setTypeface(null, Typeface.BOLD);
-                tv.setTextColor(buttonTextColorId);
                 tv.setOnClickListener(context);
                 buttons.add(tv);
                 //root.addView(tv,0);
                 break;
               }
               Action action = i.next();
-              tv = new Button(context);
+              tv = new Button(context,null,R.attr.menuItemStyle);
               tv.setId(action.id);
               tv.setText(action.text);
               tv.setTag(action.tag);
               //tv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-              tv.setBackgroundResource(buttonBackgroundMenuItemId);
-              tv.setTypeface(null, Typeface.BOLD);
-              tv.setTextColor(buttonTextColorId);
               //we measure only the first item which is always added
               if (heightLeft == height){
                 tv.measure(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT);

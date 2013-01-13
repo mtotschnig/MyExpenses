@@ -254,8 +254,8 @@
   <string name="share_sending">Enviar el archivo QIF</string>
   <string name="suggest_use_standard_menu">¿Quiere usted utilizar el menú estándar de Android en vez
       de la barra de herramientas para acceder a los comandos?</string>
-  <string name="sum_income">Suma total de los ingresos</string>
-  <string name="sum_expenses">Suma total de los gastos</string>
+  <string name="sum_income">Ingresos</string>
+  <string name="sum_expenses">Gastos</string>
   <string name="switch_account">Cambiado a la cuenta \"%1$s\"</string>
   <string name="template_create_success">Plantilla \"%1$s\" creada con éxito</string>
   <string name="template_title_exists">Ya existe una plantilla con título \"%1$s\" .</string>

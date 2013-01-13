@@ -18,32 +18,33 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-	  <ExpandableListView
-		    android:id="@+id/android:list"
-		    android:layout_width="fill_parent" 
-        android:layout_height="0dp"
-        android:layout_weight="1"
-		    android:drawSelectorOnTop="false" />
-	  <RelativeLayout android:id="@+id/android:empty"
+    <ExpandableListView
+        style="?attr/listStyle"
+        android:id="@+id/android:list"
         android:layout_width="fill_parent" 
         android:layout_height="0dp"
         android:layout_weight="1"
-	      android:orientation="vertical">
-	    <TextView
+        android:drawSelectorOnTop="false" />
+    <RelativeLayout android:id="@+id/android:empty"
+        android:layout_width="fill_parent" 
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+      <TextView
           android:layout_centerInParent="true"
-	        android:id="@+id/noCategories"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="@string/no_categories"/>
-			<Button
-			    android:layout_width="wrap_content"
+          android:id="@+id/noCategories"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/no_categories"/>
+      <Button
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_centerInParent="true"
-			    android:onClick="importCats"
-			    android:layout_marginTop="15dp"
-			    android:layout_below="@id/noCategories"
-			    android:drawableTop="@drawable/squiggle"
-			    android:text="@string/import_categories" />
-		</RelativeLayout>
+          android:onClick="importCats"
+          android:layout_marginTop="15dp"
+          android:layout_below="@id/noCategories"
+          android:drawableTop="@drawable/squiggle"
+          android:text="@string/import_categories" />
+    </RelativeLayout>
   <include layout="@layout/new_buttonbar"/>
 </LinearLayout>

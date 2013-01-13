@@ -22,9 +22,8 @@
       android:layout_width="fill_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
-      android:orientation="vertical"
-      android:id="@+id/content">
-   <View
+      android:orientation="vertical">
+    <View
         android:visibility="?dividerVisible"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
@@ -36,7 +35,7 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
       <TextView
-        style="@style/balanceText"
+          style="@style/balanceText"
           android:layout_alignParentLeft="true"
           android:layout_height="wrap_content"
           android:layout_width="wrap_content"
@@ -60,6 +59,7 @@
         android:layout_height="0px"
         android:layout_weight="1" />
     <TextView
+        style="?attr/listStyle"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
         android:gravity="center"
@@ -67,7 +67,6 @@
         android:layout_width="fill_parent"
         android:layout_height="0px"
         android:layout_weight="1"
-        android:background="@drawable/border"
         android:text="@string/no_expenses" />
   </LinearLayout>
   <View

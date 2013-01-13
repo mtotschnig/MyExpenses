@@ -64,15 +64,12 @@ import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 import android.text.Html;
-import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 
@@ -1297,7 +1294,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   @Override
   public boolean onLongClick(View v) {
     if (v instanceof MenuButton) {
-      int height = findViewById(R.id.content).getHeight();
+      int height = findViewById(android.R.id.list).getHeight();
       MenuButton mb = (MenuButton) v;
       dw = mb.getMenu(height);
       if (dw == null)

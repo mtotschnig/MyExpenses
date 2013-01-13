@@ -24,8 +24,8 @@
     <item name="buttonBarStyle">@style/buttonBarDark</item>
     <item name="buttonBackgroundNormal">@drawable/btn_dark</item>
     <item name="buttonBackgroundPopup">@drawable/btn_dark2</item>
-    <item name="buttonBackgroundMenuItemId">@drawable/btn_dark</item>
-    <item name="buttonTextColor">#ffffff</item>
+    <item name="menuItemStyle">@style/buttonMenuItemDark</item>
+    <item name="buttonTextColor">@color/theme_dark_button_color</item>
     <item name="android:textSize">14sp</item>
   </style>
   <style name="ThemeDarkBig" parent="ThemeDarkSmall">
@@ -40,7 +40,7 @@
     <item name="buttonBarStyle">@android:style/ButtonBar</item>
     <item name="buttonBackgroundNormal">@drawable/btn_default</item>
     <item name="buttonBackgroundPopup">@drawable/btn_popup</item>
-    <item name="buttonBackgroundMenuItemId">@android:drawable/btn_default_small</item>
+    <item name="menuItemStyle">@style/buttonMenuItemLight</item>
     <item name="buttonTextColor">#000000</item>
     <item name="android:textSize">14sp</item>
   </style>
@@ -98,7 +98,7 @@
     <item name="android:textSize">18sp</item>
     <item name="android:paddingRight">2dp</item>
     <item name="android:paddingLeft">2dp</item>
-    <item name="android:textColor">#000000</item>
+    <item name="android:textColor">#ffffff</item>
   </style>
   <style name="form_label">
       <item name="android:textStyle">bold</item>
@@ -113,6 +113,7 @@
     <item name="android:textStyle">bold</item>
     <item name="android:textColor">?attr/buttonTextColor</item>
     <item name="android:background">?attr/buttonBackgroundNormal</item>
+    <item name="android:layout_margin">1dp</item>
   </style>
    <!-- buttonPort and buttonLand are use in the expenses list, where we need to pack more buttons -->
   <style name="buttonPort" parent="buttonLand">
@@ -130,6 +131,14 @@
     <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_weight">1</item>
     <item name="android:layout_height">wrap_content</item>
+  </style>
+  <style name="buttonMenuItemDark" parent="button">
+    <item name="android:gravity">center</item>
+    <item name="android:background">@drawable/btn_dark</item>
+   </style>
+  <style name="buttonMenuItemLight" parent="button">
+    <item name="android:gravity">center</item>
+    <item name="android:background">@android:drawable/btn_default_small</item>
   </style>
   <style name="popupMenu">
       <item name="android:layout_width">fill_parent</item>
@@ -154,5 +163,4 @@
                 <item name="@android:windowEnterAnimation">@anim/grow_from_topleft_to_bottomright</item>
                 <item name="@android:windowExitAnimation">@anim/shrink_from_bottomright_to_topleft</item>
         </style>
-  
 </resources>

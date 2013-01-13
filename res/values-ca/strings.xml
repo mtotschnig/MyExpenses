@@ -232,8 +232,8 @@
   <string name="share_sending">Envia el fitxer QIF</string>
   <string name="suggest_use_standard_menu">Voleu fer servir el menú estándar d\'Android en lloc
       de la barra d\'eines per a donar les ordres?</string>
-  <string name="sum_income">Suma de tots els ingressos</string>
-  <string name="sum_expenses">Suma de totes les despeses</string>
+  <string name="sum_income">Ingressos</string>
+  <string name="sum_expenses">Despeses</string>
   <string name="switch_account">S\'ha canviat al compte \"%1$s\"</string>
   <string name="template_create_success">La plantilla \"%1$s\" s\'ha definit correctament</string>
   <string name="template_title_exists">Ja hi ha una plantilla amb el títol \"%1$s\"</string>

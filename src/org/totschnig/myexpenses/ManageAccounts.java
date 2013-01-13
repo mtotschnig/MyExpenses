@@ -57,6 +57,7 @@ public class ManageAccounts extends ListActivity {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_accounts);
     setTitle(R.string.pref_manage_accounts_title);

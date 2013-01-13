@@ -14,29 +14,35 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <View
-        android:visibility="?dividerVisible"
-        android:layout_width="fill_parent"
-        android:layout_height="3dp"
-        android:background="#99CC00"/>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    style="?attr/buttonBarStyle">
-  <RelativeLayout 
-      android:layout_width="wrap_content"
+  <View
+      android:visibility="?dividerVisible"
+      android:layout_width="fill_parent"
+      android:layout_height="3dp"
+      android:background="#99CC00"/>
+  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:layout_centerInParent="true">
+      style="?attr/buttonBarStyle">
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:layout_centerInParent="true">
     <Button
         android:text="@string/menu_new"
         style="@style/button"
         android:longClickable="true"
         android:id="@+id/addOperation"
         android:drawableLeft="@android:drawable/ic_menu_add" />
+    </LinearLayout>
   </RelativeLayout>
-</RelativeLayout>
+  <View
+      android:visibility="?dividerVisible"
+      android:layout_width="fill_parent"
+      android:layout_height="3dp"
+      android:background="#99CC00"/>
 </LinearLayout>
