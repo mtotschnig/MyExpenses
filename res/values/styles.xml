@@ -18,7 +18,6 @@
   <style name="ThemeDarkSmall" parent="@android:style/Theme.Black.NoTitleBar">
     <item name="headingStyle">@style/headingDark</item>
     <item name="listStyle">@style/listDark</item>
-    <item name="android:textColor">#ffffff</item>
     <item name="android:textStyle">bold</item>
     <item name="dividerVisible">0</item>
     <item name="buttonBarStyle">@style/buttonBarDark</item>
