@@ -38,10 +38,10 @@ import android.widget.Toast;
  */
 public class MyPreferenceActivity extends PreferenceActivity implements OnPreferenceChangeListener {
   ListPreference mCurrencyInputFormat;
-  EditTextPreference mShareTarget;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    setTheme(MyApplication.getPrefThemeId());
     super.onCreate(savedInstanceState);
     setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
@@ -55,38 +55,46 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
       mCurrencyInputFormat.setValue(sep);
       //mCurrencyInputFormat.setValueIndex(values.indexOf(sep));
     }
-    mShareTarget = (EditTextPreference) prefs.findPreference(MyApplication.PREFKEY_SHARE_TARGET);
-    mShareTarget.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
+    EditTextPreference shareTarget = (EditTextPreference) prefs.findPreference(MyApplication.PREFKEY_SHARE_TARGET);
+    shareTarget.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
         "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
         "mailto: \"mailto:john@my.example.com\"");
-    mShareTarget.setOnPreferenceChangeListener(this);
+    shareTarget.setOnPreferenceChangeListener(this);
+    ListPreference uiTheme = (ListPreference) prefs.findPreference(MyApplication.PREFKEY_UI_THEME_KEY);
+    uiTheme.setOnPreferenceChangeListener(this);
   }
   @Override
   public boolean onPreferenceChange(Preference pref, Object value) {
-     String target = (String) value;
-     URI uri;
-     if (!target.equals("")) {
-       uri = Utils.validateUri(target);
-       if (uri == null) {
-         Toast.makeText(getBaseContext(),getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
-         return false;
-       }
-       String scheme = uri.getScheme();
-       if (!(scheme.equals("ftp") || scheme.equals("mailto"))) {
-         Toast.makeText(getBaseContext(),getString(R.string.share_scheme_not_supported,scheme), Toast.LENGTH_LONG).show();
-         return false;
-       }
-       final PackageManager packageManager = getPackageManager();
-       Intent intent;
-       if (scheme.equals("ftp")) {
-         intent = new Intent(android.content.Intent.ACTION_SENDTO);
-         intent.setData(android.net.Uri.parse(target));
-         if (packageManager.queryIntentActivities(intent,0).size() == 0) {
-           showDialog(R.id.FTP_DIALOG_ID);
-         }
-       }
-     }
-     return true;
+    if (pref.getKey().equals(MyApplication.PREFKEY_SHARE_TARGET)) {
+      String target = (String) value;
+      URI uri;
+      if (!target.equals("")) {
+        uri = Utils.validateUri(target);
+        if (uri == null) {
+          Toast.makeText(getBaseContext(),getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
+          return false;
+        }
+        String scheme = uri.getScheme();
+        if (!(scheme.equals("ftp") || scheme.equals("mailto"))) {
+          Toast.makeText(getBaseContext(),getString(R.string.share_scheme_not_supported,scheme), Toast.LENGTH_LONG).show();
+          return false;
+        }
+        final PackageManager packageManager = getPackageManager();
+        Intent intent;
+        if (scheme.equals("ftp")) {
+          intent = new Intent(android.content.Intent.ACTION_SENDTO);
+          intent.setData(android.net.Uri.parse(target));
+          if (packageManager.queryIntentActivities(intent,0).size() == 0) {
+            showDialog(R.id.FTP_DIALOG_ID);
+          }
+        }
+      }
+    } else if (pref.getKey().equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
+      Intent intent = getIntent();
+      finish();
+      startActivity(intent);
+    }
+    return true;
   }
   @Override
   protected Dialog onCreateDialog(int id) {
