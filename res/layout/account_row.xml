@@ -30,7 +30,8 @@
           style="?attr/headingStyle"
           android:gravity="center"
           android:layout_width="fill_parent"
-          android:layout_height="wrap_content" />
+          android:layout_height="wrap_content"
+          android:textColor="#ffffff" />
       <View
           android:visibility="?dividerVisible"
           android:layout_width="fill_parent"
