@@ -132,7 +132,7 @@ public class ButtonBar extends LinearLayout  {
     public void clearMenu() {
       mItems.clear();
       dw = null;
-      setBackgroundResourceKeepPadding(buttonBackgroundPopupId);
+      setBackgroundResourceKeepPadding(buttonBackgroundNormalId);
     }
     public void setComparator(Comparator<Button> comparator) {
       this.comparator  = comparator;
