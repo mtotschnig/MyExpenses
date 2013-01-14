@@ -39,13 +39,13 @@
           android:background="#ffffff"/>
     </LinearLayout>
   </TableRow>
-  <TableRow>
+  <TableRow style="@style/paddedListRow">
     <TextView android:text="DESCRIPTION" android:id="@+id/description"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_span="2" />
   </TableRow>
-  <TableRow>
+  <TableRow style="@style/paddedListRow">
     <TextView style="@style/form_label"
         android:text="@string/opening_balance"/>
     <TextView android:text="OPENING_BALANCE" android:id="@+id/opening_balance"
@@ -53,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
   </TableRow>
-  <TableRow>
+  <TableRow style="@style/paddedListRow">
     <TextView style="@style/form_label"
         android:text="@string/sum_income"/>
     <TextView android:text="SUM_INCOME" android:id="@+id/sum_income"
@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
   </TableRow>
-  <TableRow>
+  <TableRow style="@style/paddedListRow">
     <TextView style="@style/form_label"
         android:text="@string/sum_expenses"/>
   <TextView android:text="SUM_EXPENSES" android:id="@+id/sum_expenses" 
@@ -69,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
   </TableRow>
-  <TableRow>
+  <TableRow style="@style/paddedListRow">
     <TextView style="@style/form_label"
         android:text="@string/current_balance"/>
     <TextView android:text="0" android:id="@+id/current_balance"

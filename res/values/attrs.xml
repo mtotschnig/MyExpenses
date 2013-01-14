@@ -8,4 +8,5 @@
     <attr name="buttonBackgroundPopup" format="reference|color" /> 
     <attr name="buttonTextColor" format="reference|color"/>
     <attr name="menuItemStyle" format="reference" />
+    <attr name="listPadding" format="dimension" />
 </resources>

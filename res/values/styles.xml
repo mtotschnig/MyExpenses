@@ -26,6 +26,7 @@
     <item name="menuItemStyle">@style/buttonMenuItemDark</item>
     <item name="buttonTextColor">@color/theme_dark_button_color</item>
     <item name="android:textSize">14sp</item>
+    <item name="listPadding">5dp</item>
   </style>
   <style name="ThemeDarkBig" parent="ThemeDarkSmall">
     <item name="android:textSize">20sp</item>
@@ -42,6 +43,8 @@
     <item name="menuItemStyle">@style/buttonMenuItemLight</item>
     <item name="buttonTextColor">#000000</item>
     <item name="android:textSize">14sp</item>
+    <!-- theme light is padded through the background -->
+    <item name="listPadding">0dp</item>
   </style>
   <style name="ThemeLightBig" parent="ThemeLightSmall">
     <item name="android:textSize">20sp</item>
@@ -59,8 +62,8 @@
   </style>
   <style name="headingDark">
     <item name="android:background">#99CC00</item>
-    <item name="android:paddingRight">5dp</item>
-    <item name="android:paddingLeft">5dp</item>
+    <item name="android:paddingRight">?attr/listPadding</item>
+    <item name="android:paddingLeft">?attr/listPadding</item>
   </style>
   <style name="headingLight">
     <item name="android:background">@android:drawable/title_bar</item>
@@ -68,8 +71,8 @@
     <item name="android:singleLine">true</item>
     <item name="android:shadowColor">#BB000000</item>
     <item name="android:shadowRadius">2.75</item>
-    <item name="android:paddingRight">5dp</item>
-    <item name="android:paddingLeft">5dp</item>
+    <item name="android:paddingRight">7dp</item>
+    <item name="android:paddingLeft">7dp</item>
   </style>
   <!-- workaround for http://code.google.com/p/android/issues/detail?id=5237 -->    
   <style name="Widget.AutoCompleteTextViewLight" parent="@android:style/Widget.AutoCompleteTextView">
@@ -95,8 +98,6 @@
   <style name="balanceText">
     <item name="android:textStyle">bold</item>
     <item name="android:textSize">18sp</item>
-    <item name="android:paddingRight">2dp</item>
-    <item name="android:paddingLeft">2dp</item>
     <item name="android:textColor">#ffffff</item>
   </style>
   <style name="form_label">
@@ -144,6 +145,10 @@
       <item name="android:layout_height">fill_parent</item>
       <item name="android:orientation">vertical</item>
       <item name="android:background">?attr/buttonBackgroundNormal</item>    
+  </style>
+  <style name="paddedListRow">
+    <item name="android:paddingRight">?attr/listPadding</item>
+    <item name="android:paddingLeft">?attr/listPadding</item>
   </style>
   <!-- Animations from http://code.google.com/p/simple-quickactions/source/browse/trunk/res/values/styles.xml -->
   <style name="Animations" />
