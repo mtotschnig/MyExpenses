@@ -62,6 +62,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -172,8 +173,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
-    mSettings = ((MyApplication) getApplicationContext()).getSettings();
+    boolean titled = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     setContentView(R.layout.expenses_list);
+    if(titled){
+      getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_layout);
+    }
+    mSettings = ((MyApplication) getApplicationContext()).getSettings();
     mDbHelper = MyApplication.db();
     newVersionCheck();
     if (mCurrentAccount == null) {

@@ -127,7 +127,7 @@ public class MyApplication extends Application {
       String themePref = mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"ThemeDarkSmall");
       if (themePref.equals("ThemeLightSmall")) {
         themeId = R.style.ThemeLightSmall;
-        prefThemeId = android.R.style.Theme_Light;
+        prefThemeId = R.style.PrefLight;
       } else if (themePref.equals("ThemeLightBig")) {
         themeId = R.style.ThemeLightBig;
         prefThemeId = R.style.PrefLightBig;
@@ -136,7 +136,7 @@ public class MyApplication extends Application {
         prefThemeId = R.style.PrefDarkBig;
       } else {
         themeId = R.style.ThemeDarkSmall;
-        prefThemeId = android.R.style.Theme_Black;
+        prefThemeId = R.style.PrefDark;
       }
     }
     

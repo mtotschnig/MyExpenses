@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <style name="ThemeDarkSmall" parent="@android:style/Theme.Black.NoTitleBar">
+  <style name="ThemeDarkSmall" parent="@android:style/Theme.Black">
     <item name="headingStyle">@style/headingDark</item>
     <item name="listStyle">@style/listDark</item>
     <item name="android:textStyle">bold</item>
@@ -27,11 +27,14 @@
     <item name="buttonTextColor">@color/theme_dark_button_color</item>
     <item name="android:textSize">14sp</item>
     <item name="listPadding">5dp</item>
+    <item name="android:windowTitleBackgroundStyle">@style/headingDark</item>
+    <item name="android:windowTitleSize">30sp</item>
+    <item name="android:windowTitleStyle">@style/titleTextStyle</item>
   </style>
   <style name="ThemeDarkBig" parent="ThemeDarkSmall">
     <item name="android:textSize">20sp</item>
   </style>
-  <style name="ThemeLightSmall" parent="@android:style/Theme.Light.NoTitleBar">
+  <style name="ThemeLightSmall" parent="@android:style/Theme.Light">
     <item name="headingStyle">@style/headingLight</item>
     <item name="listStyle">@style/listLight</item>
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
@@ -45,6 +48,8 @@
     <item name="android:textSize">14sp</item>
     <!-- theme light is padded through the background -->
     <item name="listPadding">0dp</item>
+    <item name="android:windowTitleSize">30sp</item>
+    <item name="android:windowTitleStyle">@style/titleTextStyle</item>
   </style>
   <style name="ThemeLightBig" parent="ThemeLightSmall">
     <item name="android:textSize">20sp</item>
@@ -62,8 +67,8 @@
   </style>
   <style name="headingDark">
     <item name="android:background">#99CC00</item>
-    <item name="android:paddingRight">?attr/listPadding</item>
-    <item name="android:paddingLeft">?attr/listPadding</item>
+    <item name="android:paddingRight">5dp</item>
+    <item name="android:paddingLeft">5dp</item>
   </style>
   <style name="headingLight">
     <item name="android:background">@android:drawable/title_bar</item>
@@ -95,9 +100,9 @@
     <item name="android:textStyle">bold</item>
     <item name="android:layout_marginBottom">1px</item>
   </style>
-  <style name="balanceText">
+  <style name="titleTextStyle">
     <item name="android:textStyle">bold</item>
-    <item name="android:textSize">18sp</item>
+    <item name="android:textSize">20sp</item>
     <item name="android:textColor">#ffffff</item>
   </style>
   <style name="form_label">
@@ -167,11 +172,21 @@
 	        <item name="@android:windowEnterAnimation">@anim/grow_from_topleft_to_bottomright</item>
 	        <item name="@android:windowExitAnimation">@anim/shrink_from_bottomright_to_topleft</item>
 	</style>
-	<style name="PrefDarkBig" parent="@android:style/Theme.Black">
+	<style name="PrefDark" parent="@android:style/Theme.Black">>
+		<item name="android:windowTitleBackgroundStyle">@style/headingDark</item>
+    <item name="android:windowTitleSize">30sp</item>
+    <item name="android:windowTitleStyle">@style/titleTextStyle</item>
+	</style>
+  <style name="PrefLight" parent="@android:style/Theme.Light">>
+    <item name="android:windowTitleBackgroundStyle">@style/headingLight</item>
+    <item name="android:windowTitleSize">30sp</item>
+    <item name="android:windowTitleStyle">@style/titleTextStyle</item>
+  </style>
+	<style name="PrefDarkBig" parent="PrefDark">
 		<item name="android:textAppearanceLarge">@style/MyLargePlusTextAppearance</item>
 		<item name="android:textAppearanceSmall">@style/MySmallPlusTextAppearance</item>
 	</style>
-	 <style name="PrefLightBig" parent="@android:style/Theme.Light">
+	 <style name="PrefLightBig" parent="PrefLight">
     <item name="android:textAppearanceLarge">@style/MyLargePlusTextAppearance</item>
     <item name="android:textAppearanceSmall">@style/MySmallPlusTextAppearance</item>
   </style>
