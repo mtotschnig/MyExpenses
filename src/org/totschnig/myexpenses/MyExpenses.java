@@ -307,21 +307,26 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     //setTitle(mCurrentAccount.label);
 
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{"label",ExpensesDbAdapter.KEY_DATE,ExpensesDbAdapter.KEY_AMOUNT};
+    String[] from = new String[]{ExpensesDbAdapter.KEY_LABEL_MAIN,ExpensesDbAdapter.KEY_DATE,ExpensesDbAdapter.KEY_AMOUNT};
 
     // and an array of the fields we want to bind those fields to 
     int[] to = new int[]{R.id.category,R.id.date,R.id.amount};
 
+    final SimpleDateFormat dateFormat;
+    final String categorySeparator;
+    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+      dateFormat =  new SimpleDateFormat("dd.MM HH:mm");
+      categorySeparator = " : ";
+    } else {
+      dateFormat = new SimpleDateFormat("dd.MM\nHH:mm");
+      categorySeparator = " :\n";
+    }
     // Now create a simple cursor adapter and set it to display
     SimpleCursorAdapter expense = new SimpleCursorAdapter(this, R.layout.expense_row, mExpensesCursor, from, to)  {
       /* (non-Javadoc)
        * calls {@link #convText for formatting the values retrieved from the cursor}
        * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
        */
-      SimpleDateFormat dateFormat = new SimpleDateFormat(
-          getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ?
-              "dd.MM HH:mm" : "dd.MM\nHH:mm" 
-      );
       @Override
       public void setViewText(TextView v, String text) {
         switch (v.getId()) {
@@ -330,9 +335,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           break;
         case R.id.amount:
           text = Utils.convAmount(text,mCurrentAccount.currency);
-          break;
-        case R.id.category:
-          text = text.replace(":"," : ");
         }
         super.setViewText(v, text);
       }
@@ -358,8 +360,15 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         }
         TextView tv2 = (TextView)row.findViewById(R.id.category);
         col = c.getColumnIndex(ExpensesDbAdapter.KEY_TRANSFER_PEER);
-        if (c.getLong(col) != 0) 
+        if (c.getLong(col) != 0) {
           tv2.setText(((amount < 0) ? TRANSFER_EXPENSE : TRANSFER_INCOME) + tv2.getText());
+        } else {
+          col = c.getColumnIndex(ExpensesDbAdapter.KEY_LABEL_SUB);
+          String label_sub = c.getString(col);
+          if (label_sub != null && label_sub.length() > 0) {
+            tv2.setText(tv2.getText() + categorySeparator + label_sub);
+          }
+        }
         return row;
       }
     };
@@ -858,18 +867,24 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       String comment = mExpensesCursor.getString(
           mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
       comment = (comment == null || comment.length() == 0) ? "" : "\nM" + comment;
-      String label =  mExpensesCursor.getString(
-          mExpensesCursor.getColumnIndexOrThrow("label"));
+      String full_label = "";
+      String label_main =  mExpensesCursor.getString(
+          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_LABEL_MAIN));
 
-      if (label == null || label.length() == 0) {
-        label =  "";
-      } else {
+      if (label_main != null && label_main.length() > 0) {
         long transfer_peer = mExpensesCursor.getLong(
             mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
         if (transfer_peer != 0) {
-          label = "[" + label + "]";
+          full_label = "[" + label_main + "]";
+        } else {
+          full_label = label_main;
+          String label_sub =  mExpensesCursor.getString(
+              mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_LABEL_SUB));
+          if (label_sub != null && label_sub.length() > 0) {
+            full_label += ":" + label_sub;
+          }
         }
-        label = "\nL" + label;
+        full_label = "\nL" + full_label;
       }
 
       String payee = mExpensesCursor.getString(
@@ -884,7 +899,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       String row = "D"+ dateStr +
           "\nT" + amountStr +
           comment +
-          label +
+          full_label +
           payee +  
            "\n^\n";
       out.write(row);
