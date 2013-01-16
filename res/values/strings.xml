@@ -227,7 +227,13 @@
       apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes
   </string>
   <string name="pref_ui_theme_title">Theme</string>
-  <string name="pref_ui_theme_summary">Select between light and black theme</string>
+  <string name="pref_ui_theme_summary">Select between light and dark theme</string>
+  <string name="pref_ui_theme_dark">dark</string>
+  <string name="pref_ui_theme_light">light</string>
+  <string name="pref_ui_fontsize_title">Font size</string>
+  <string name="pref_ui_fontsize_summary">Select between small and big font size</string>
+  <string name="pref_ui_fontsize_small">small</string>
+  <string name="pref_ui_fontsize_big">big</string>
   <string name="pref_use_standard_menu_title">Use standard Android menu</string>
   <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
       standard menu for accessing commands.</string>
@@ -285,6 +291,7 @@
   <string name="pref_account_button_behaviour_key">account_button_behaviour</string>
   <string name="pref_qif_export_file_encoding_key">qif_export_file_encoding</string>
   <string name="pref_ui_theme_key">pref_ui_theme</string>
+  <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
     
   <!-- strings below this comment do not need translations for new languages -->
   <string name="help_whats_new">&#160;- Create transactions from templates\n

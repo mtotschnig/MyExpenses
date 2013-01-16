@@ -37,7 +37,6 @@ import android.widget.Toast;
  *
  */
 public class MyPreferenceActivity extends PreferenceActivity implements OnPreferenceChangeListener {
-  ListPreference mCurrencyInputFormat;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -47,25 +46,28 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
     addPreferencesFromResource(R.layout.preferences);
     PreferenceScreen prefs = getPreferenceScreen();
     
-    mCurrencyInputFormat = (ListPreference) 
+    ListPreference listPref = (ListPreference) 
         prefs.findPreference(MyApplication.PREFKEY_CURRENCY_DECIMAL_SEPARATOR);
-    if (mCurrencyInputFormat.getValue() == null) {
+    if (listPref.getValue() == null) {
       String sep = Utils.getDefaultDecimalSeparator();
       //List<String> values =  Arrays.asList(getResources().getStringArray(R.array.pref_currency_decimal_separator_values));
-      mCurrencyInputFormat.setValue(sep);
+      listPref.setValue(sep);
       //mCurrencyInputFormat.setValueIndex(values.indexOf(sep));
     }
-    EditTextPreference shareTarget = (EditTextPreference) prefs.findPreference(MyApplication.PREFKEY_SHARE_TARGET);
-    shareTarget.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
+    Preference pref = prefs.findPreference(MyApplication.PREFKEY_SHARE_TARGET);
+    pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
         "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
         "mailto: \"mailto:john@my.example.com\"");
-    shareTarget.setOnPreferenceChangeListener(this);
-    ListPreference uiTheme = (ListPreference) prefs.findPreference(MyApplication.PREFKEY_UI_THEME_KEY);
-    uiTheme.setOnPreferenceChangeListener(this);
+    pref.setOnPreferenceChangeListener(this);
+    prefs.findPreference(MyApplication.PREFKEY_UI_THEME_KEY)
+      .setOnPreferenceChangeListener(this);
+    prefs.findPreference(MyApplication.PREFKEY_UI_FONTSIZE_KEY)
+    .setOnPreferenceChangeListener(this);
   }
   @Override
   public boolean onPreferenceChange(Preference pref, Object value) {
-    if (pref.getKey().equals(MyApplication.PREFKEY_SHARE_TARGET)) {
+    String key = pref.getKey();
+    if (key.equals(MyApplication.PREFKEY_SHARE_TARGET)) {
       String target = (String) value;
       URI uri;
       if (!target.equals("")) {
@@ -89,7 +91,8 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
           }
         }
       }
-    } else if (pref.getKey().equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
+    } else if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY) ||
+        key.equals(MyApplication.PREFKEY_UI_FONTSIZE_KEY)) {
       Intent intent = getIntent();
       finish();
       startActivity(intent);

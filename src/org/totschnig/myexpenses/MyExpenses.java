@@ -1343,12 +1343,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       }
       mUseStandardMenu = newValueB;
     }
-    if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
-      String newValueS = mSettings.getString(MyApplication.PREFKEY_UI_THEME_KEY, "light");
-      if (!newValueS.equals(MyApplication.getThemeId())) {
-        MyApplication.setThemes();
-        scheduledRestart = true;
-      }
+    if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY) ||
+        key.equals(MyApplication.PREFKEY_UI_FONTSIZE_KEY)) {
+      MyApplication.setThemes();
+      scheduledRestart = true;
     }
   }
   public boolean onKeyUp(int keyCode, KeyEvent event) {
