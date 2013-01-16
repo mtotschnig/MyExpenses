@@ -137,12 +137,15 @@
     <item name="android:layout_weight">1</item>
     <item name="android:layout_height">wrap_content</item>
   </style>
-  <style name="buttonMenuItemDark" parent="button">
+  <style name="buttonMenuItem" parent="button">
     <item name="android:gravity">center</item>
+    <item name="android:focusable">true</item>
+    <item name="android:clickable">true</item>
+  </style>
+  <style name="buttonMenuItemDark" parent="buttonMenuItem">
     <item name="android:background">@drawable/btn_dark</item>
    </style>
   <style name="buttonMenuItemLight" parent="button">
-    <item name="android:gravity">center</item>
     <item name="android:background">@android:drawable/btn_default_small</item>
   </style>
   <style name="popupMenu">
