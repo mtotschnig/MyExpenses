@@ -32,7 +32,6 @@ public class MyApplication extends Application {
     private ExpensesDbAdapter mDbOpenHelper;
     private static MyApplication mSelf;
     private static int themeId;
-    private static int prefThemeId;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
     public static String PREFKEY_CATEGORIES_SORT_BY_USAGES;
     public static String PREFKEY_USE_STANDARD_MENU;
@@ -120,10 +119,6 @@ public class MyApplication extends Application {
     {
       return themeId;
     }
-    public static int getPrefThemeId() {
-      // TODO Auto-generated method stub
-      return prefThemeId;
-    }
     public static void setThemes()
     {
       String themePref = mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark");
@@ -131,18 +126,14 @@ public class MyApplication extends Application {
       if (themePref.equals("light")) {
         if (fontSizePref.equals("big")) {
           themeId = R.style.ThemeLightBig;
-          prefThemeId = R.style.PrefLightBig;
         } else {
           themeId = R.style.ThemeLightSmall;
-          prefThemeId = R.style.PrefLight;
         }
       } else {
         if (fontSizePref.equals("big")) {
           themeId = R.style.ThemeDarkBig;
-          prefThemeId = R.style.PrefDarkBig;
       } else {
         themeId = R.style.ThemeDarkSmall;
-        prefThemeId = R.style.PrefDark;
       }
     }
   }

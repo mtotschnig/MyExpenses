@@ -40,7 +40,7 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getPrefThemeId());
+    setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);

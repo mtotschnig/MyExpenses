@@ -25,14 +25,17 @@
     <item name="buttonBackgroundPopup">@drawable/btn_dark2</item>
     <item name="menuItemStyle">@style/buttonMenuItemDark</item>
     <item name="buttonTextColor">@color/theme_dark_button_color</item>
-    <item name="android:textSize">14sp</item>
+    <item name="android:textAppearanceLarge">@style/MyLargeTextAppearance</item>
+    <item name="android:textAppearanceSmall">@style/MySmallTextAppearance</item>
     <item name="listPadding">5dp</item>
     <item name="android:windowTitleBackgroundStyle">@style/headingDark</item>
     <item name="android:windowTitleSize">30sp</item>
     <item name="android:windowTitleStyle">@style/titleTextStyle</item>
+    <item name="android:preferenceCategoryStyle">@style/PrefCat</item> 
   </style>
   <style name="ThemeDarkBig" parent="ThemeDarkSmall">
-    <item name="android:textSize">20sp</item>
+    <item name="android:textAppearanceLarge">@style/MyLargePlusTextAppearance</item>
+    <item name="android:textAppearanceSmall">@style/MySmallPlusTextAppearance</item>
   </style>
   <style name="ThemeLightSmall" parent="@android:style/Theme.Light">
     <item name="headingStyle">@style/headingLight</item>
@@ -45,14 +48,18 @@
     <item name="buttonBackgroundPopup">@drawable/btn_popup</item>
     <item name="menuItemStyle">@style/buttonMenuItemLight</item>
     <item name="buttonTextColor">#000000</item>
-    <item name="android:textSize">14sp</item>
+    <item name="android:textAppearanceLarge">@style/MyLargeTextAppearance</item>
+    <item name="android:textAppearanceSmall">@style/MySmallTextAppearance</item>
     <!-- theme light is padded through the background -->
     <item name="listPadding">0dp</item>
     <item name="android:windowTitleSize">30sp</item>
     <item name="android:windowTitleStyle">@style/titleTextStyle</item>
+    <item name="android:windowTitleBackgroundStyle">@style/headingLight</item>
+    <item name="android:preferenceCategoryStyle">@style/PrefCat</item> 
   </style>
   <style name="ThemeLightBig" parent="ThemeLightSmall">
-    <item name="android:textSize">20sp</item>
+    <item name="android:textAppearanceLarge">@style/MyLargePlusTextAppearance</item>
+    <item name="android:textAppearanceSmall">@style/MySmallPlusTextAppearance</item>
   </style>
   <style name="buttonBarDark">
      <item name="android:background">#000000</item>
@@ -65,12 +72,18 @@
   <style name="listLight">
       <item name="android:background">@drawable/border</item>
   </style>
-  <style name="headingDark">
+  <style name="headingStyle">
+  	<item name="android:gravity">center</item>
+    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:textColor">#ffffff</item>
+  </style>
+  <style name="headingDark" parent="headingStyle">
     <item name="android:background">#99CC00</item>
     <item name="android:paddingRight">5dp</item>
     <item name="android:paddingLeft">5dp</item>
   </style>
-  <style name="headingLight">
+  <style name="headingLight" parent="headingStyle">
     <item name="android:background">@android:drawable/title_bar</item>
     <item name="android:textAppearance">@android:style/TextAppearance.WindowTitle</item>
     <item name="android:singleLine">true</item>
@@ -145,7 +158,7 @@
   <style name="buttonMenuItemDark" parent="buttonMenuItem">
     <item name="android:background">@drawable/btn_dark</item>
    </style>
-  <style name="buttonMenuItemLight" parent="button">
+  <style name="buttonMenuItemLight" parent="buttonMenuItem">
     <item name="android:background">@android:drawable/btn_default_small</item>
   </style>
   <style name="popupMenu">
@@ -175,28 +188,21 @@
 	        <item name="@android:windowEnterAnimation">@anim/grow_from_topleft_to_bottomright</item>
 	        <item name="@android:windowExitAnimation">@anim/shrink_from_bottomright_to_topleft</item>
 	</style>
-	<style name="PrefDark" parent="@android:style/Theme.Black">>
-		<item name="android:windowTitleBackgroundStyle">@style/headingDark</item>
-    <item name="android:windowTitleSize">30sp</item>
-    <item name="android:windowTitleStyle">@style/titleTextStyle</item>
+	<style name="PrefCat">
+		<item name="android:layout">@layout/preference_category</item>
+		<item name="android:shouldDisableView">false</item>
+    <item name="android:selectable">false</item>
 	</style>
-  <style name="PrefLight" parent="@android:style/Theme.Light">>
-    <item name="android:windowTitleBackgroundStyle">@style/headingLight</item>
-    <item name="android:windowTitleSize">30sp</item>
-    <item name="android:windowTitleStyle">@style/titleTextStyle</item>
+  <style name="MyLargeTextAppearance" parent="@android:style/TextAppearance.Large">
+    <item name="android:textSize">20sp</item>
   </style>
-	<style name="PrefDarkBig" parent="PrefDark">
-		<item name="android:textAppearanceLarge">@style/MyLargePlusTextAppearance</item>
-		<item name="android:textAppearanceSmall">@style/MySmallPlusTextAppearance</item>
-	</style>
-	 <style name="PrefLightBig" parent="PrefLight">
-    <item name="android:textAppearanceLarge">@style/MyLargePlusTextAppearance</item>
-    <item name="android:textAppearanceSmall">@style/MySmallPlusTextAppearance</item>
+  <style name="MySmallTextAppearance" parent="@android:style/TextAppearance.Small">
+    <item name="android:textSize">14sp</item>
   </style>
   <style name="MyLargePlusTextAppearance" parent="@android:style/TextAppearance.Large">
     <item name="android:textSize">28sp</item>
   </style>
   <style name="MySmallPlusTextAppearance" parent="@android:style/TextAppearance.Small">
     <item name="android:textSize">20sp</item>
-  </style>	 
+  </style>
 </resources>
