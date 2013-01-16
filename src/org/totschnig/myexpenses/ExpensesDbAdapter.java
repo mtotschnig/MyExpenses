@@ -144,23 +144,23 @@ public class ExpensesDbAdapter {
     "  END " +
     "END AS " + KEY_LABEL_MAIN;
  private static final String LABEL_SUB =
-     "CASE WHEN " +
-     "  NOT transfer_peer AND cat_id AND (SELECT parent_id FROM categories WHERE _id = cat_id) " +
-     "THEN " +
-     "  (SELECT label FROM categories WHERE _id = cat_id) " +
-     "END AS " + KEY_LABEL_SUB;
+    "CASE WHEN " +
+    "  NOT transfer_peer AND cat_id AND (SELECT parent_id FROM categories WHERE _id = cat_id) " +
+    "THEN " +
+    "  (SELECT label FROM categories WHERE _id = cat_id) " +
+    "END AS " + KEY_LABEL_SUB;
   /**
    * same as {@link FULL_LABEL}, but if transaction is linked to a subcategory
    * only the label from the subcategory is returned
    */
-  private static final String SHORT_LABEL = "case when \n" +
-    "  transfer_peer\n" +
-    "     then\n" +
-    "  (SELECT label FROM accounts WHERE _id = cat_id)\n" +
-    "     else\n" +
-    "    (SELECT label FROM categories WHERE _id = cat_id)\n" +
-    "end as label";
-
+  private static final String SHORT_LABEL = 
+    "CASE WHEN " +
+    "  transfer_peer " +
+    "THEN " +
+    "  (SELECT label FROM accounts WHERE _id = cat_id) " +
+    "ELSE " +
+    "  (SELECT label FROM categories WHERE _id = cat_id) " +
+    "END AS label";
 
   /**
    * stores payees and payers
