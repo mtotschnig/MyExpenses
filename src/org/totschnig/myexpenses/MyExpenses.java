@@ -542,10 +542,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       String [] tags = { "news", "faq", "privacy", "changelog", "credits" };
       for (String tag : tags) {
        tv = (TextView) view.findViewWithTag(tag);
-       tv.setText(Html.fromHtml(
-           "<a href=\"" + "http://" + HOST + "/#" + tag + "\">" + 
-           getString(getResources().getIdentifier("help_heading_" + tag, "string", getPackageName()))  + "</a>"
-       ));
+       String url = "http://" + HOST + "/#" + tag;
+       tv.setText(Html.fromHtml("<a href=\"" + url + "\">" + url  + "</a>"));
        tv.setMovementMethod(LinkMovementMethod.getInstance());
       }
       ((TextView)view.findViewById(R.id.help_licence_gpl)).setMovementMethod(LinkMovementMethod.getInstance());

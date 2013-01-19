@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<!--
 	This file is part of My Expenses.
 	My Expenses is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -17,52 +17,85 @@
 <ScrollView android:id="@+id/aboutscrollview" xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="vertical"
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">    
+		android:layout_height="fill_parent">
 <LinearLayout
 			android:orientation="vertical"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
 		
 		<!-- Intro -->
+		<include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_leading"
-        style="@style/about_heading" />
+        style="?attr/headingStyle" />
+    <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_intro"
         style="@style/about_text" />
-     
+
      <!-- Quick Guide -->
+    <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_heading_quick_guide"
-        style="@style/about_heading" />
+        style="?attr/headingStyle" />
+    <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_quick_guide"
       android:id="@+id/help_quick_guide"
       style="@style/about_text" />
-    
-    <!-- More info -->
-    <TextView android:tag="news"
-        style="@style/about_heading" />
-    <TextView android:tag="faq"
-        style="@style/about_heading" />
-    <TextView android:tag="privacy"
-        style="@style/about_heading" />
-    
-    
-    <!-- Version and Changelog-->
+
+    <!-- News -->
+    <include layout="@layout/divider_thin"/>
+    <TextView android:text="@string/help_heading_news"
+        style="?attr/headingStyle" />
+    <include layout="@layout/divider_thin"/>
+    <TextView style="@style/about_text"
+        android:tag="news"/>
+
+    <!--  FAQ -->
+    <include layout="@layout/divider_thin"/>
+    <TextView android:text="@string/help_heading_faq"
+        style="?attr/headingStyle" />
+    <include layout="@layout/divider_thin"/>
+    <TextView style="@style/about_text"
+        android:tag="faq"/>
+
+    <!--  Privacy -->
+    <include layout="@layout/divider_thin"/>
+    <TextView android:text="@string/help_heading_privacy"
+        style="?attr/headingStyle" />
+    <include layout="@layout/divider_thin"/>
+    <TextView style="@style/about_text"
+        android:tag="privacy"/>
+
+    <!-- Version -->
+    <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_heading_whats_new"
-        style="@style/about_heading" />
+        style="?attr/headingStyle" />
+    <include layout="@layout/divider_thin"/>
     <TextView android:id="@+id/aboutVersionCode"
         style="@style/about_text" />
     <TextView android:text="@string/help_whats_new"
         android:id="@+id/help_whats_new"
         style="@style/about_text" />
-    <TextView android:tag="changelog"
-        style="@style/about_heading" />
-    
+
+    <!-- Changelog-->
+    <include layout="@layout/divider_thin"/>
+    <TextView android:text="@string/help_heading_changelog"
+        style="?attr/headingStyle" />
+    <include layout="@layout/divider_thin"/>
+    <TextView style="@style/about_text"
+        android:tag="changelog"/>
+
     <!-- Credits -->
-    <TextView android:tag="credits"
-	      style="@style/about_heading" />
-    
+    <include layout="@layout/divider_thin"/>
+    <TextView android:text="@string/help_heading_credits"
+	      style="?attr/headingStyle" />
+    <include layout="@layout/divider_thin"/>
+    <TextView style="@style/about_text"
+        android:tag="credits"/>
+
     <!-- Licence -->
+    <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_heading_license"
-        style="@style/about_heading" />
+        style="?attr/headingStyle" />
+    <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_licence_gpl"
       android:id="@+id/help_licence_gpl"
         style="@style/about_text" />

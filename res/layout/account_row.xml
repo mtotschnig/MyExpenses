@@ -28,11 +28,7 @@
         android:layout_span="2" >
       <TextView android:text="LABEL" android:id="@+id/label"
           style="?attr/headingStyle" />
-      <View
-          android:visibility="?dividerVisible"
-          android:layout_width="fill_parent"
-          android:layout_height="1dp"
-          android:background="#ffffff"/>
+      <include layout="@layout/divider_thin"/>
     </LinearLayout>
   </TableRow>
   <TableRow style="@style/paddedListRow">

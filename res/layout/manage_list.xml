@@ -39,11 +39,7 @@
         android:layout_height="0px"
         android:layout_weight="1" />
   </LinearLayout>
-  <View
-      android:visibility="?dividerVisible"
-      android:layout_width="fill_parent"
-      android:layout_height="3dp"
-      android:background="#99CC00"/>
+  <include layout="@layout/divider_thick"/>
   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
@@ -61,9 +57,5 @@
           android:drawableLeft="@android:drawable/ic_menu_delete" />
     </LinearLayout>
   </RelativeLayout>
-  <View
-      android:visibility="?dividerVisible"
-      android:layout_width="fill_parent"
-      android:layout_height="3dp"
-      android:background="#99CC00"/>
+<include layout="@layout/divider_thick"/>
 </LinearLayout>
