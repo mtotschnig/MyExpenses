@@ -77,6 +77,7 @@
     <item name="android:layout_width">fill_parent</item>
     <item name="android:layout_height">wrap_content</item>
     <item name="android:textColor">#ffffff</item>
+    <item name="android:textSize">17sp</item>
   </style>
   <style name="headingDark" parent="headingStyle">
     <item name="android:background">#99CC00</item>
@@ -151,6 +152,7 @@
     <item name="android:layout_height">wrap_content</item>
   </style>
   <style name="buttonMenuItem" parent="button">
+    <item name="android:textSize">14sp</item>
     <item name="android:gravity">center</item>
     <item name="android:focusable">true</item>
     <item name="android:clickable">true</item>
