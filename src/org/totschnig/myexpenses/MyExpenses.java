@@ -666,16 +666,16 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case R.id.FTP_DIALOG_ID:
       return Utils.sendWithFTPDialog((Activity) this);
     case TEMPLATE_TITLE_DIALOG_ID:
-      AlertDialog.Builder alert = new AlertDialog.Builder(this);
-      alert.setTitle(R.string.dialog_title_template_title);
       // Set an EditText view to get user input 
       final EditText input = new EditText(this);
       //only if the editText has an id, is its value restored after orientation change
       input.setId(1);
       input.setSingleLine();
       Utils.setBackgroundFilter(input, getResources().getColor(R.color.theme_dark_button_color));
-      alert.setView(input);
-      alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+      return new AlertDialog.Builder(this)
+      .setTitle(R.string.dialog_title_template_title)
+      .setView(input)
+      .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int whichButton) {
           String title = input.getText().toString();
           if (!title.equals("")) {
@@ -693,9 +693,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             Toast.makeText(getBaseContext(),getString(R.string.no_text_given), Toast.LENGTH_LONG).show();
           }
         }
-      });
-      alert.setNegativeButton(android.R.string.no, null);
-      return alert.create();
+      })
+      .setNegativeButton(android.R.string.no, null)
+      .create();
     case SELECT_TEMPLATE_DIALOG_ID:
       final Cursor templates = mDbHelper.fetchTemplates(mCurrentAccount.id);
       final String[] templateTitles = Utils.getStringArrayFromCursor(templates, "title");
