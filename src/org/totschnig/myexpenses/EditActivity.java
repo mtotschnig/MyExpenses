@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
@@ -27,6 +29,17 @@ public abstract class EditActivity extends Activity {
     super.onCreate(savedInstanceState);
   }
 
+  protected void changeEditTextBackground(ViewGroup root) {
+    int c = getResources().getColor(R.color.theme_dark_button_color);
+    for(int i = 0; i <root.getChildCount(); i++) {
+      View v = root.getChildAt(i);
+      if(v instanceof EditText) {
+        Utils.setBackgroundFilter(v, c);
+      } else if(v instanceof ViewGroup) {
+        changeEditTextBackground((ViewGroup)v);
+}
+    }
+  }
   /**
    * configures the decimal format and the amount EditText based on configured
    * currency_decimal_separator 

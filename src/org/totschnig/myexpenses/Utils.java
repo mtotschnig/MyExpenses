@@ -40,10 +40,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 /**
@@ -305,7 +307,11 @@ public class Utils {
     public int getTotal() {
       return total;
     }
-  }  
+  }
+  
+  public static void setBackgroundFilter(View v, int c) {
+    v.getBackground().setColorFilter(c,PorterDuff.Mode.MULTIPLY);
+  }
   /**
    * represents a tuple of success flag, and message as an R id
    * @author Michael Totschnig

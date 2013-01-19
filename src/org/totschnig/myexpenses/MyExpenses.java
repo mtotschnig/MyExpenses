@@ -673,6 +673,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       //only if the editText has an id, is its value restored after orientation change
       input.setId(1);
       input.setSingleLine();
+      Utils.setBackgroundFilter(input, getResources().getColor(R.color.theme_dark_button_color));
       alert.setView(input);
       alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int whichButton) {
