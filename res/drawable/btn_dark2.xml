@@ -39,8 +39,8 @@
       <item>
         <shape>
           <gradient
-              android:startColor="#505050"
-              android:endColor="#252525"
+              android:startColor="#606060"
+              android:endColor="#303030"
               android:angle="270" />
           <corners android:radius="10dp" />
         </shape>
