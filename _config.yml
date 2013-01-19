@@ -41,7 +41,7 @@ sections:
       es: Manual
   news:
     weight: 3
-    url: news/news2.html
+    url: news/news3.html
     title:
       en: News
   install:
