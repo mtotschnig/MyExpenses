@@ -20,6 +20,7 @@
     <item type="id" name="SWITCH_ACCOUNT_COMMAND"/>
     <item type="id" name="CREATE_ACCOUNT_COMMAND"/>
     <item type="id" name="RESET_ACCOUNT_COMMAND"/>
+    <item type="id" name="RESET_ACCOUNT_COMMAND_DO"/>
     <item type="id" name="SETTINGS_COMMAND"/>
     <item type="id" name="BACKUP_COMMAND"/>
     <item type="id" name="EDIT_ACCOUNT_COMMAND"/>
@@ -29,6 +30,7 @@
     <item type="id" name="SHOW_DETAIL_COMMAND"/>
     <item type="id" name="CREATE_TEMPLATE_COMMAND"/>
     <item type="id" name="MOVE_TRANSACTION_COMMAND"/>
+    <item type="id" name="USE_STANDARD_MENU_COMMAND"/>
     <item type="id" name="FTP_DIALOG_ID"/>
     <item type="id" name="HELP_DIALOG_ID"/>
     <item type="id" name="VERSION_DIALOG_ID" />
@@ -37,4 +39,8 @@
     <item type="id" name="DONATE_COMMAND"/>
     <item type="id" name="FEEDBACK_COMMAND"/>
     <item type="id" name="ACCOUNT_OVERVIEW_COMMAND"/>
+    <item type="id" name="NEUTRAL_BUTTON"/>
+    <item type="id" name="POSITIVE_BUTTON"/>
+    <item type="id" name="NEGATIVE_BUTTON"/>
+    <item type="id" name="PAYPAL_COMMAND"/>
 </resources>

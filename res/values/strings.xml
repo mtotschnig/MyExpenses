@@ -62,6 +62,7 @@
   <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
   <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
   <string name="external_storage_unavailable">External storage (sdcard)not available</string>
+  <string name="feedback">Feedback</string>
   <string name="ftp_uri_malformed">Malformed URI %1$s</string>
   <!-- used from the user guide -->
   <string name="go_to_chapter">Go to chapter</string>

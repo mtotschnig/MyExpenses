@@ -70,7 +70,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 
@@ -94,7 +93,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
   static final int RESET_DIALOG_ID = 3;
-  static final int BACKUP_DIALOG_ID = 4;
   static final int ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID = 5;
   static final int USE_STANDARD_MENU_DIALOG_ID = 6;
   static final int SELECT_ACCOUNT_DIALOG_ID = 7;
@@ -137,6 +135,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    * if null, we call from SWITCH_ACCOUNT if a long we call from MOVE_TRANSACTION
    */
   private long mSelectAccountContextId = 0L;
+  private int mCurrenDialog = 0;
 
 /*  private int monkey_state = 0;
 
@@ -193,7 +192,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     mUseStandardMenu = mSettings.getBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU, false);
     mButtonBar = (ButtonBar) findViewById(R.id.ButtonBar);
     if (mUseStandardMenu) {
-      mButtonBar.setVisibility(View.GONE);
+      hideButtonBar();
     } else {
       fillButtons();
     }
@@ -530,6 +529,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   }
 
   @Override
+  protected void onPrepareDialog(int id, Dialog dialog) {
+    mCurrenDialog = id;
+    super.onPrepareDialog(id,dialog);
+  }
+
+  @Override
   protected Dialog onCreateDialog(final int id) {
     LayoutInflater li;
     View view;
@@ -539,39 +544,18 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.aboutview, null);
       ((TextView)view.findViewById(R.id.aboutVersionCode)).setText(getVersionInfo());
-      String [] tags = { "news", "faq", "privacy", "changelog", "credits" };
-      for (String tag : tags) {
-       tv = (TextView) view.findViewWithTag(tag);
-       String url = "http://" + HOST + "/#" + tag;
-       tv.setText(Html.fromHtml("<a href=\"" + url + "\">" + url  + "</a>"));
-       tv.setMovementMethod(LinkMovementMethod.getInstance());
-      }
       ((TextView)view.findViewById(R.id.help_licence_gpl)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_whats_new)).setMovementMethod(LinkMovementMethod.getInstance());
-      /*      
-      String imId = Settings.Secure.getString(
-          getContentResolver(), 
-          Settings.Secure.DEFAULT_INPUT_METHOD
-       );
-      ((TextView)view.findViewById(R.id.debug)).setText(imId);
-      */
-
+      setDialogButtons(view,
+          R.string.feedback,R.id.FEEDBACK_COMMAND,
+          R.string.donate,R.id.DONATE_COMMAND,
+          android.R.string.ok, 0);
       return new AlertDialog.Builder(this)
         .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
         .setIcon(R.drawable.icon)
         .setView(view)
-        .setNegativeButton(android.R.string.ok, null)
-        .setPositiveButton(R.string.donate,new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
-            dispatchCommand(R.id.DONATE_COMMAND,null);
-          }
-        })
-        .setNeutralButton("Feedback", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
-            dispatchCommand(R.id.FEEDBACK_COMMAND,null);
-          }
-        }).create();
+        .create();
     case R.id.VERSION_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.versiondialog, null);
@@ -583,56 +567,24 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         tv.setVisibility(View.VISIBLE);
         ((TextView) view.findViewById(R.id.versionInfoImportantHeading)).setVisibility(View.VISIBLE);
       }
+      setDialogButtons(view,
+          R.string.menu_help,R.id.HELP_COMMAND,
+          R.string.donate,R.id.DONATE_COMMAND,
+          android.R.string.ok,0);
       return new AlertDialog.Builder(this)
         .setTitle(getString(R.string.new_version) + " : " + getVersionName())
         .setIcon(R.drawable.icon)
         .setView(view)
-        .setPositiveButton(R.string.donate,new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
-            dispatchCommand(R.id.DONATE_COMMAND,null);
-          }
-        })
-        .setNeutralButton(R.string.menu_help, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
-            showDialog(R.id.HELP_DIALOG_ID);
-          }
-        })
-        .setNegativeButton(android.R.string.ok,null)
         .create();
     case RESET_DIALOG_ID:
-      return new AlertDialog.Builder(this)
-        .setMessage(R.string.warning_reset_account)
-        .setCancelable(false)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-              if (Utils.isExternalStorageAvailable())
-                reset();
-              else 
-                Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
-            }
-        })
-        .setNegativeButton(android.R.string.no, null).create();
+      return createMessageDialog(R.string.warning_reset_account,R.id.RESET_ACCOUNT_COMMAND_DO)
+        .create();
     case ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID:
-      return new AlertDialog.Builder(this)
-        .setMessage(R.string.menu_accounts_explain)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-              dispatchCommand(R.id.CREATE_ACCOUNT_COMMAND,null);
-            }
-        })
-        .setNegativeButton(android.R.string.no, null).create();
+      return createMessageDialog(R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND)
+        .create();
     case USE_STANDARD_MENU_DIALOG_ID:
-      return new AlertDialog.Builder(this)
-        .setMessage(R.string.suggest_use_standard_menu)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-           public void onClick(DialogInterface dialog, int id) {
-             mUseStandardMenu = true;
-             mSettings.edit().putBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU,true).commit();
-             mButtonBar.setVisibility(View.GONE);
-             dismissDialog(USE_STANDARD_MENU_DIALOG_ID);
-           }
-        }).
-        setNegativeButton(android.R.string.no, null).create();
+      return createMessageDialog(R.string.suggest_use_standard_menu,R.id.USE_STANDARD_MENU_COMMAND)
+        .create();
     //SELECT_ACCOUNT_DIALOG is used both from SWITCH_ACCOUNT and MOVE_TRANSACTION
     case SELECT_ACCOUNT_DIALOG_ID:
       final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
@@ -713,7 +665,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .setOnCancelListener(new DialogInterface.OnCancelListener() {
           @Override
           public void onCancel(DialogInterface dialog) {
-            removeDialog(SELECT_ACCOUNT_DIALOG_ID);
+            removeDialog(SELECT_TEMPLATE_DIALOG_ID);
           }
         })
         .create();
@@ -747,27 +699,57 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       })
       .create();
     case DONATE_DIALOG_ID:
-      li = LayoutInflater.from(this);
-      view = li.inflate(R.layout.donatedialog, null);
-      ((TextView)view.findViewById(R.id.donate_dialog_text)).setMovementMethod(LinkMovementMethod.getInstance());
-
-      return new AlertDialog.Builder(this)
-       .setTitle(R.string.donate)
-       .setIcon(R.drawable.paypal)
-       .setPositiveButton(R.string.donate_positive_button,new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KPXNZHMXJE8ZJ"));
-            startActivity(i);
-          }
-       })
-       .setNegativeButton(android.R.string.cancel,null)
-       .setView(view)
-       .create();
+      return createMessageDialog(R.string.donate_dialog_text,R.id.PAYPAL_COMMAND)
+          .setTitle(R.string.donate)
+          .setIcon(R.drawable.paypal)
+          .create();
      }
     return null;
   }
- 
+
+  /**
+   * @return an AlertDialog.Builder with R.layout.messagedialog as layout
+   */
+  public AlertDialog.Builder createMessageDialog(int message,int command) {
+    LayoutInflater li = LayoutInflater.from(this);
+    View view = li.inflate(R.layout.messagedialog, null);
+    TextView tv = (TextView)view.findViewById(R.id.message_text);
+    tv.setText(message);
+    setDialogButtons(view,
+        0,0,
+        android.R.string.yes,command,
+        android.R.string.no,0
+    );
+    return new AlertDialog.Builder(this)
+      .setView(view);
+  }
+  private void setDialogButtons(View view, int neutralString, int neutralCommandId,
+      int positiveString, int positiveCommandId, int negativeString, int negativeCommandId) {
+    Button positiveButton = (Button) view.findViewById(R.id.POSITIVE_BUTTON);
+    Button neutralButton = (Button) view.findViewById(R.id.NEUTRAL_BUTTON);
+    Button negativeButton = (Button) view.findViewById(R.id.NEGATIVE_BUTTON);
+    setButton(positiveButton,positiveString,positiveCommandId);
+    setButton(negativeButton,negativeString,negativeCommandId);
+    setButton(neutralButton,neutralString,neutralCommandId);
+  }
+  /**
+   * set String s and Command c on Button b
+   * @param b
+   * @param s
+   * @param c
+   */
+  private void setButton(Button b, int s, int c) {
+    if (b != null) {
+      if (s != 0) {
+        b.setText(s);
+        if (c != 0) {
+          b.setId(c);
+        }
+      } else {
+        b.setVisibility(View.GONE);
+      }
+    }
+  }
   @Override
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
@@ -1200,6 +1182,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public void onClick(View v) {
     dispatchCommand(v.getId(),v.getTag());
   }
+
+  public void onDialogButtonClicked(View v) {
+    if (mCurrenDialog != 0)
+      dismissDialog(mCurrenDialog);
+    onClick(v);
+  }
   public boolean dispatchLongCommand(int command, Object tag) {
     Intent i;
     switch (command) {
@@ -1267,6 +1255,16 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             .show();
       }
       break;
+    case R.id.RESET_ACCOUNT_COMMAND_DO:
+      if (Utils.isExternalStorageAvailable()) {
+        reset();
+      } else { 
+        Toast.makeText(getBaseContext(),
+            getString(R.string.external_storage_unavailable), 
+            Toast.LENGTH_LONG)
+            .show();
+      }
+      break;
     case R.id.SETTINGS_COMMAND:
       startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
       break;
@@ -1301,6 +1299,16 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       mMoreItems = (ArrayList<Action>) tag;
       showDialog(MORE_ACTIONS_DIALOG_ID);
       break;
+    case R.id.PAYPAL_COMMAND:
+      i = new Intent(Intent.ACTION_VIEW);
+      i.setData(Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KPXNZHMXJE8ZJ"));
+      startActivity(i);
+      break;
+    case R.id.USE_STANDARD_MENU_COMMAND:
+      mUseStandardMenu = true;
+      mSettings.edit().putBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU,true).commit();
+      hideButtonBar();
+      break;
     default:
       return false;
     }
@@ -1309,6 +1317,16 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       dw = null;
     }
     return true;
+  }
+  private void hideButtonBar() {
+    findViewById(R.id.ButtonBarDividerTop).setVisibility(View.GONE);
+    findViewById(R.id.ButtonBarDividerBottom).setVisibility(View.GONE);
+    mButtonBar.setVisibility(View.GONE);
+  }
+  private void showButtonBar() {
+    findViewById(R.id.ButtonBarDividerTop).setVisibility(View.VISIBLE);
+    findViewById(R.id.ButtonBarDividerBottom).setVisibility(View.VISIBLE);
+    mButtonBar.setVisibility(View.VISIBLE);
   }
   @Override
   public boolean onLongClick(View v) {
@@ -1332,9 +1350,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       boolean newValueB = mSettings.getBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU, false);
       if (newValueB != mUseStandardMenu) {
         if (newValueB)
-          mButtonBar.setVisibility(View.GONE);
+          hideButtonBar();
         else {
-          mButtonBar.setVisibility(View.VISIBLE);
+          showButtonBar();
           if (!mButtonBarIsFilled)
             fillButtons();
             fillSwitchButton();
@@ -1348,6 +1366,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       scheduledRestart = true;
     }
   }
+
   public boolean onKeyUp(int keyCode, KeyEvent event) {
     if (!mUseStandardMenu && keyCode == KeyEvent.KEYCODE_MENU) {
       Log.i("MyExpenses", "will react to menu key");

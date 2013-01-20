@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-	This file is part of My Expenses.
-	My Expenses is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-	
-	My Expenses is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-	
-	You should have received a copy of the GNU General Public License
-	along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<ScrollView android:id="@+id/aboutscrollview" xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="vertical"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
-<LinearLayout
-			android:orientation="vertical"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
-		
-		<!-- Intro -->
-		<include layout="@layout/divider_thin"/>
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+<ScrollView android:id="@+id/aboutscrollview"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1">
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
+
+    <!-- Intro -->
+    <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_leading"
         style="?attr/headingStyle" />
     <include layout="@layout/divider_thin"/>
@@ -40,31 +45,7 @@
       android:id="@+id/help_quick_guide"
       style="@style/about_text" />
 
-    <!-- News -->
-    <include layout="@layout/divider_thin"/>
-    <TextView android:text="@string/help_heading_news"
-        style="?attr/headingStyle" />
-    <include layout="@layout/divider_thin"/>
-    <TextView style="@style/about_text"
-        android:tag="news"/>
-
-    <!--  FAQ -->
-    <include layout="@layout/divider_thin"/>
-    <TextView android:text="@string/help_heading_faq"
-        style="?attr/headingStyle" />
-    <include layout="@layout/divider_thin"/>
-    <TextView style="@style/about_text"
-        android:tag="faq"/>
-
-    <!--  Privacy -->
-    <include layout="@layout/divider_thin"/>
-    <TextView android:text="@string/help_heading_privacy"
-        style="?attr/headingStyle" />
-    <include layout="@layout/divider_thin"/>
-    <TextView style="@style/about_text"
-        android:tag="privacy"/>
-
-    <!-- Version -->
+    <!-- What's new -->
     <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_heading_whats_new"
         style="?attr/headingStyle" />
@@ -74,22 +55,6 @@
     <TextView android:text="@string/help_whats_new"
         android:id="@+id/help_whats_new"
         style="@style/about_text" />
-
-    <!-- Changelog-->
-    <include layout="@layout/divider_thin"/>
-    <TextView android:text="@string/help_heading_changelog"
-        style="?attr/headingStyle" />
-    <include layout="@layout/divider_thin"/>
-    <TextView style="@style/about_text"
-        android:tag="changelog"/>
-
-    <!-- Credits -->
-    <include layout="@layout/divider_thin"/>
-    <TextView android:text="@string/help_heading_credits"
-	      style="?attr/headingStyle" />
-    <include layout="@layout/divider_thin"/>
-    <TextView style="@style/about_text"
-        android:tag="credits"/>
 
     <!-- Licence -->
     <include layout="@layout/divider_thin"/>
@@ -103,6 +68,50 @@
         style="@style/about_text" />
     <TextView android:text="@string/help_licence_quickactions"
         style="@style/about_text" />
-	</LinearLayout>
+
+    <!-- More information -->
+    <include layout="@layout/divider_thin"/>
+    <TextView android:text="More information"
+        style="?attr/headingStyle" />
+    <include layout="@layout/divider_thin"/>
+
+    <Button
+        android:onClick="onDialogButtonClicked"
+        android:id="@id/WEB_COMMAND"
+        android:tag="news"
+        android:layout_width="fill_parent"
+        style="@style/button"
+        android:text="@string/help_heading_news" />
+    <Button
+        android:onClick="onDialogButtonClicked"
+        android:id="@id/WEB_COMMAND"
+        android:tag="faq"
+        android:layout_width="fill_parent"
+        style="@style/button"
+        android:text="@string/help_heading_faq" />
+    <Button
+        android:onClick="onDialogButtonClicked"
+        android:id="@id/WEB_COMMAND"
+        android:tag="privacy"
+        android:layout_width="fill_parent"
+        style="@style/button"
+        android:text="@string/help_heading_privacy" />
+    <Button
+        android:onClick="onDialogButtonClicked"
+        android:id="@id/WEB_COMMAND"
+        android:tag="changelog"
+        android:layout_width="fill_parent"
+        style="@style/button"
+        android:text="@string/help_heading_changelog" />
+    <Button
+        android:onClick="onDialogButtonClicked"
+        android:id="@id/WEB_COMMAND"
+        android:tag="credits"
+        android:layout_width="fill_parent"
+        style="@style/button"
+        android:text="@string/help_heading_credits" />
+  </LinearLayout>
 </ScrollView>
+  <include layout="@layout/dialog_buttonbar"/>
+</LinearLayout>
 
