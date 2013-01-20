@@ -27,9 +27,9 @@
             {% if site.sections[page.section]["title"][code] %}
                 {% assign label = lang[1] %}
                 {% if lang[0] == page.lang %}
-                  <img width="22" alt="{{label}}" title="{{label}}" src="/visuals/flags/{{lang[0]}}.png"/>
+                  <img class="flag" alt="{{label}}" title="{{label}}" src="/visuals/flags/{{lang[0]}}_25.png"/>
                 {% else %}
-                  <a href="{{page.url | replace_first: page.lang, lang[0]}}"><img alt="{{label}}" title="{{label}}" src="/visuals/flags/{{lang[0]}}.png"/></a>
+                  <a href="{{page.url | replace_first: page.lang, lang[0]}}"><img class="flag" alt="{{label}}" title="{{label}}" src="/visuals/flags/{{lang[0]}}_15.png"/></a>
                 {% endif %}
             {% endif %}
           {% endfor %}
