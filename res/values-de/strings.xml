@@ -77,6 +77,7 @@
   <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
   <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
   <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
+  <string name="help_heading_changelog">Änderungsprotokoll</string>
   <string name="help_heading_credits">Abspann</string>
   <string name="help_heading_license">Lizenz</string>
   <string name="help_heading_more_info">Mehr Information</string>
@@ -107,11 +108,9 @@
 			- <b>Hilfe</b> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.\n
 			\nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
   </string>
-  <string name="help_whats_new"> - Buchungen aus Vorlagen erzeugen\n
-      - Zeichensatz des QIF-Exports konfigurierbar zur besseren Unterstützung von MS Money\n
-      - Verbesserungen der Benutzerschnittstelle\n
-      - Neueste Buchungen oben\n
-      - Kontenliste zeigt aktuellen Finanzstatus an</string>
+  <string name="help_whats_new"> - Dunkler UI Stil.\n
+      - Übersetzung ins Katalanische.\n
+      - Summe der Umbuchungen in der Kontenübersicht anzeigen.</string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
   <string name="important_version_information">Wichtige Information</string>
@@ -295,5 +294,8 @@
   </string>
   <string name="version_32_upgrade_info">Sie haben eine FTP URL als Ziel für den Datei-Upload
      Diese Funktionalität ist nicht mehr Teil von <i>&app_name;</i>.</string>
-  <string name="version_34_upgrade_info">Sie können jetzt die kontinuierliche Weiterentwicklung von <i>&app_name;</i> mit Ihrer Spende unterstützen.</string>
+  <string name="version_34_upgrade_info">Sie können jetzt die kontinuierliche Weiterentwicklung von
+    <i>&app_name;</i> mit Ihrer Spende unterstützen.</string>
+  <string name="version_35_upgrade_info"><i>&app_name;</i> hat nun einen neuen dunklen Standard-Stil.
+    In den Einstellungen können Sie wieder zum hellen Stil wechseln.</string>
 </resources>      

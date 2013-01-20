@@ -76,6 +76,7 @@
   <string name="grisbi_import_parsing">Parsing %1$s</string>
   <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
   <!-- Titles in the help screen. -->
+  <string name="help_heading_changelog">Changelog</string>
   <string name="help_heading_credits">Credits</string>
   <string name="help_heading_license">License</string>
   <string name="help_heading_more_info">More information</string>
@@ -105,6 +106,9 @@
       - <b>Help</b> : Quick access to Tutorial, News, FAQ and Changes.\n
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
+  <string name="help_whats_new">&#160;- Dark UI theme.\n
+      - Catalan translation.\n
+      - Added sum of transfers in account overview.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">income</string>
@@ -284,7 +288,6 @@
       http://www.opensource.org/licenses/bsd-license.php .</string>
   <string name="help_heading_news">News</string>
   <string name="help_heading_faq">FAQ</string>
-  <string name="help_heading_changelog">Changelog</string>
   
   <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
   <string name="pref_use_standard_menu_key">use_standard_menu</string>
@@ -297,11 +300,6 @@
   <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
     
   <!-- strings below this comment do not need translations for new languages -->
-  <string name="help_whats_new">&#160;- Create transactions from templates\n
-      - Character encoding of exported QIF file configurable to support MS Money\n
-      - User interface improvements\n
-      - Newest transactions on top\n
-      - Account list gives overview of financial status</string>
   <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
   <string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with 
       their code defined in ISO 4217. The following currency symbols currently used for your
@@ -311,5 +309,8 @@
   </string>
   <string name="version_32_upgrade_info">You have configured an FTP url as share target.
       <i>&app_name;</i> no longer handles FTP transfers on its own.</string>
-  <string name="version_34_upgrade_info">Now you can support the continued development of <i>&app_name;</i> through your donation.</string>
+  <string name="version_34_upgrade_info">Now you can support the continued development of
+    <i>&app_name;</i> through your donation.</string>
+  <string name="version_35_upgrade_info"><i>&app_name;</i> now has a new dark default theme.
+    You can revert to the light theme in the settings.</string>
 </resources>

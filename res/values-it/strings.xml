@@ -77,6 +77,7 @@ href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
   <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
   <string name="grisbi_import_categories_success">%1$s categorie state importate</string>
   <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
+  <string name="help_heading_changelog">Aggiornamenti</string>
   <string name="help_heading_credits">Generico</string>
   <string name="help_heading_license">Licenza</string>
   <string name="help_heading_more_info">Maggiori informazioni</string>
@@ -108,11 +109,6 @@ href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
       - <b>Aiuto</b> : accesso rapido al manuale, News et FAQ.\n
       \nPer favore visita il <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuale</a>
       per avere ulteriori esplicazioni.</string>
-  <string name="help_whats_new">&#160;- Creare operazione riguardo modelli\n
-      - È possibile configurare set di caratteri del file QIF (compatibilità MS Money)\n
-      - Miglioramenti dell\'interfaccia utente\n
-      - Mostra i recenti operazioni in cima\n
-      - L\'elenco degli conti mostra una panoramica della situazione finanziaria</string>
   <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
   <string name="important_version_information">Informazioni importanti</string>
