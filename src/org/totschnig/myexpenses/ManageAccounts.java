@@ -117,10 +117,10 @@ public class ManageAccounts extends ListActivity {
       mAccountsCursor.requery();
     }
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{"description","label","opening_balance","sum_income","sum_expenses","current_balance"};
+    String[] from = new String[]{"description","label","opening_balance","sum_income","sum_expenses","sum_transfer","current_balance"};
 
     // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.description,R.id.label,R.id.opening_balance,R.id.sum_income,R.id.sum_expenses,R.id.current_balance};
+    int[] to = new int[]{R.id.description,R.id.label,R.id.opening_balance,R.id.sum_income,R.id.sum_expenses,R.id.sum_transfer,R.id.current_balance};
 
     // Now create a simple cursor adapter and set it to display
     SimpleCursorAdapter account = new SimpleCursorAdapter(this, R.layout.account_row, mAccountsCursor, from, to) {
@@ -140,6 +140,7 @@ public class ManageAccounts extends ListActivity {
           setConvertedAmount((TextView)row.findViewById(R.id.opening_balance), currency);
           setConvertedAmount((TextView)row.findViewById(R.id.sum_income), currency);
           setConvertedAmount((TextView)row.findViewById(R.id.sum_expenses), currency);
+          setConvertedAmount((TextView)row.findViewById(R.id.sum_transfer), currency);
           setConvertedAmount((TextView)row.findViewById(R.id.current_balance), currency);
           return row;
         }

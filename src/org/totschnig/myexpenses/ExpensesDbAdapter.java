@@ -80,7 +80,7 @@ public class ExpensesDbAdapter {
     + KEY_CATID         + " integer, "
     + KEY_ACCOUNTID     + " integer, "
     + KEY_PAYEE         + " text, "
-    + KEY_TRANSFER_PEER + " integer default null, "
+    + KEY_TRANSFER_PEER + " integer default 0, "
     + KEY_METHODID      + " integer);";
 
 
@@ -116,7 +116,7 @@ public class ExpensesDbAdapter {
       + KEY_CATID         + " integer, "
       + KEY_ACCOUNTID     + " integer, "
       + KEY_PAYEE         + " text, "
-      + KEY_TRANSFER_PEER + " integer default null, "
+      + KEY_TRANSFER_PEER + " integer default 0, "
       + KEY_METHODID      + " integer, "
       + KEY_TITLE         + " text not null, "
       + "usages integer default 0, "
@@ -788,8 +788,9 @@ public class ExpensesDbAdapter {
   public Cursor fetchAccountAll() {
     return mDb.query("accounts",
         new String[] {KEY_ROWID,"label","description","opening_balance","currency",
-        "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and amount>0) as sum_income",
-        "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0) as sum_expenses",
+        "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and amount>0 and transfer_peer = 0) as sum_income",
+        "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0 and transfer_peer = 0) as sum_expenses",
+        "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and transfer_peer != 0) as sum_transfer",
         "opening_balance + (SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id) as current_balance"},
         null, null, null, null, null);
   }
