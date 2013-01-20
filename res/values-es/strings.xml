@@ -79,6 +79,7 @@
   <string name="grisbi_import_parties_loading">Partes se cargan desde %1$s</string>
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licencia</string>
+  <string name="help_heading_more_info">Más información</string>
   <string name="help_heading_privacy">Política de privacidad</string>
   <string name="help_heading_quick_guide">Guía rápida</string>
   <string name="help_heading_whats_new">Novedades</string>
@@ -144,6 +145,7 @@
   <string name="menu_insert_method">Crear nuevo método de pago</string>
   <string name="menu_insert_ta">Nuevo asiento</string>
   <string name="menu_insert_transfer">Nuevo traslado a otra cuenta</string>
+  <string name="menu_more">Más &#8230;</string>
   <string name="menu_move_transaction">Mover</string>
   <string name="menu_new">Nuevo</string>
   <string name="menu_new_from_template">Nuevo a partir de una plantilla</string>
@@ -237,6 +239,14 @@
   <string name="pref_share_target_summary">Usted puede dejar esto en blanco, si quiere elegir entre
       aplicaciones adecuadas (correo electrónico, Dropbox, Google Docs, &#8230;), o indicar un URL
       en uno de los esquemas apoyados</string>
+  <string name="pref_ui_theme_title">Tema</string>
+  <string name="pref_ui_theme_summary">Escoja entre oscuro y claro</string>
+  <string name="pref_ui_theme_dark">oscuro</string>
+  <string name="pref_ui_theme_light">claro</string>
+  <string name="pref_ui_fontsize_title">Tamaño de la fuente</string>
+  <string name="pref_ui_fontsize_summary">Escoja entre pequenõ y grande</string>
+  <string name="pref_ui_fontsize_small">pequenõ</string>
+  <string name="pref_ui_fontsize_big">grande</string>
   <string name="pref_use_standard_menu_title">Utilizar el menú estándar de Android</string>
   <string name="pref_use_standard_menu_summary">En vez de la barra de herramientas usted utiliza el
       menú estándar de Android para acceder a los comandos.</string>
@@ -256,6 +266,7 @@
       de la barra de herramientas para acceder a los comandos?</string>
   <string name="sum_income">Ingresos</string>
   <string name="sum_expenses">Gastos</string>
+  <string name="sum_transfer">Traslados</string>
   <string name="switch_account">Cambiado a la cuenta \"%1$s\"</string>
   <string name="template_create_success">Plantilla \"%1$s\" creada con éxito</string>
   <string name="template_title_exists">Ya existe una plantilla con título \"%1$s\" .</string>

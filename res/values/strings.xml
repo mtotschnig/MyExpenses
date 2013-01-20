@@ -78,6 +78,7 @@
   <!-- Titles in the help screen. -->
   <string name="help_heading_credits">Credits</string>
   <string name="help_heading_license">License</string>
+  <string name="help_heading_more_info">More information</string>
   <string name="help_heading_privacy">Privacy policy</string>
   <string name="help_heading_quick_guide">Quick guide</string>
   <string name="help_heading_whats_new">What\'s new</string>
@@ -139,6 +140,7 @@
   <string name="menu_insert_method">Create new payment method</string>
   <string name="menu_insert_ta">Add Transaction</string>
   <string name="menu_insert_transfer">Add Transfer</string>
+  <string name="menu_more">More &#8230;</string>
   <string name="menu_move_transaction">Move</string>
   <string name="menu_new">New</string>
   <string name="menu_new_from_template">New from template</string>
@@ -228,11 +230,11 @@
       apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes
   </string>
   <string name="pref_ui_theme_title">Theme</string>
-  <string name="pref_ui_theme_summary">Select between light and dark theme</string>
+  <string name="pref_ui_theme_summary">Choose between light and dark</string>
   <string name="pref_ui_theme_dark">dark</string>
   <string name="pref_ui_theme_light">light</string>
   <string name="pref_ui_fontsize_title">Font size</string>
-  <string name="pref_ui_fontsize_summary">Select between small and big font size</string>
+  <string name="pref_ui_fontsize_summary">Choose between small and big</string>
   <string name="pref_ui_fontsize_small">small</string>
   <string name="pref_ui_fontsize_big">big</string>
   <string name="pref_use_standard_menu_title">Use standard Android menu</string>

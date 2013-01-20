@@ -71,7 +71,7 @@
 
     <!-- More information -->
     <include layout="@layout/divider_thin"/>
-    <TextView android:text="More information"
+    <TextView android:text="@string/help_heading_more_info"
         style="?attr/headingStyle" />
     <include layout="@layout/divider_thin"/>
 

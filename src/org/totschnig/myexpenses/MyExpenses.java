@@ -684,7 +684,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       }
       return new AlertDialog.Builder(this)
       //TODO: tranlate More
-      .setTitle("More...")
+      .setTitle(R.string.menu_more)
       .setSingleChoiceItems(moreTitles, -1,new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int item) {
           removeDialog(MORE_ACTIONS_DIALOG_ID);

@@ -80,6 +80,7 @@
   <string name="grisbi_import_parties_loading">Import des tiers à partir de %1$s</string>
   <string name="help_heading_credits">Générique</string>
   <string name="help_heading_license">Licence</string>
+  <string name="help_heading_more_info">Plus d'informations</string>
   <string name="help_heading_privacy">Règles de confidentialité</string>
   <string name="help_heading_quick_guide">Guide rapide</string>
   <string name="help_heading_whats_new">Nouveautés</string>
@@ -143,6 +144,7 @@
   <string name="menu_insert_method">Créer un nouveau paiement</string>
   <string name="menu_insert_ta">Ajouter une transaction</string>
   <string name="menu_insert_transfer">Ajouter un virement</string>
+  <string name="menu_more">Plus &#8230;</string>
   <string name="menu_move_transaction">Déplacer</string>
   <string name="menu_new">Nouveau</string>
   <string name="menu_new_from_template">Nouveau d\'après modèle</string>
@@ -236,6 +238,14 @@
   <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les 
       apps appropriées pour le transfer du fichier (Email, Dropbox, Google Docs, &#8230;), sinon
       spécifiez une URL dans l\'une des formes supportées</string>
+  <string name="pref_ui_theme_title">Style</string>
+  <string name="pref_ui_theme_summary">Choisissez entre clair et sombre</string>
+  <string name="pref_ui_theme_dark">sombre</string>
+  <string name="pref_ui_theme_light">clair</string>
+  <string name="pref_ui_fontsize_title">Taille de la police</string>
+  <string name="pref_ui_fontsize_summary">Choisissez entre petit et grand</string>
+  <string name="pref_ui_fontsize_small">petit</string>
+  <string name="pref_ui_fontsize_big">grand</string>
   <string name="pref_use_standard_menu_title">Utiliser le menu standard d\'Android</string>
   <string name="pref_use_standard_menu_summary">Au lieu d\'afficher une barre de boutons, utilisez
       le menu standard d\'Android pour accéder aux commandes.</string>   
@@ -256,6 +266,7 @@
       appeler des commandes, et de cacher la barre de boutons?</string>
   <string name="sum_income">Revenus</string>
   <string name="sum_expenses">Dépenses</string>
+  <string name="sum_transfer">Transferts</string>
   <string name="template_create_success">Modèle \"%1$s\" crée avec succès</string>
   <string name="template_title_exists">Un modèle avec le titre \"%1$s\" existe déjà</string>
   <string name="time">Heure</string>
