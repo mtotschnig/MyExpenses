@@ -248,13 +248,17 @@ versions_legacy:
     - "Sort categories by usages; Allow assignment of main category; Allow manual creation of categories; Improved handling of categories import."
 versions_prerelease:
   -
+    - 1.6.1RC1
+    - January 20 2013
+    - "Added sum of transfers in account overview."
+  -
     - 1.6.1a5
     - January 19 2013
-    - "Fixed differences in colors"
+    - "Fixed differences in colors."
   -
     - 1.6.1a4
     - January 19 2013
-    - "Adapted background colors for buttons and text fields"
+    - "Adapted background colors for buttons and text fields."
   -
     - 1.6.1a3
     - January 17 2013
@@ -262,8 +266,8 @@ versions_prerelease:
   -
     - 1.6.1a2
     - January 15 2013
-    - "Fixed layout issues"
+    - "Fixed layout issues."
   -
     - 1.6.1a1
     - January 14 2013
-    - "Catalan translation. Dark theme"
+    - "Catalan translation. Dark theme."
