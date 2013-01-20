@@ -4,6 +4,7 @@ title:
   de: Meine Ausgaben
   it: Le mie spese
   es: Mis gastos
+  ca: Les Meves Despeses
 langs:
   -
     - en
@@ -20,6 +21,9 @@ langs:
   -
     - es
     - Español
+  -
+    - ca
+    - Català
 sections:
   summary:
     weight: 1
@@ -30,6 +34,7 @@ sections:
       de: Zusammenfassung
       it: Riassunto
       es: Resumen
+      ca: Resum
   tutorial:
     weight: 2
     url: tutorial_r4/introduction.xhtml
@@ -75,6 +80,29 @@ sections:
     url: versionlist.xhtml
     title: 
       en: Changelog
+      fr: "Journal&#160;des&#160;modifications"
+      de: Änderungsprotokoll
+      it: Aggiornamenti
+      es: "Registro&#160;de&#160;cambios"
+      ca: "Registre&#160;de&#160;canvis"
+    styles: |
+      dl.versionlist {
+        position: relative;
+      }
+      dl.versionlist dt {
+        float: left; clear:left; font-weight: bold; margin-bottom: -1px; margin-right: 2px;
+      }
+      dl.versionlist dd {
+        margin-left: 4em;
+      }
+      .versioncode {
+        display: inline-block;
+        width: 4em;
+        }
+      .versiondate {
+        display: inline-block;
+        width: 9em;
+      }
   credits:
     weight: 9
     url: credits.xhtml
@@ -109,3 +137,133 @@ sections:
       de: FAQ
       it: FAQ
       es: FAQ
+versions_legacy:
+  -
+    - 1.5.1
+    - October 21 2012
+    - "Fixed problem with restore from old backups. Show payment method in transaction details."
+  -
+    - 1.5.0
+    - October 20 2012
+    - "Payment methods. FTP transfer factored out to SendWithFTP app. Bug fixes (Issues #24, #27, #28 ,#29, #30, #32, #33). Improved QIF format (header and category)."
+  -
+    - 1.4.12
+    - April 26 2012
+    - "User interface translated to Spanish. Move transaction to different account. Parties list sorted alphabetically."
+  -
+    - 1.4.11
+    - April 20 2012
+    - "Improved stability of categories import and ftp transfer. Added FAQ. Generic export through any installed file transfer app."
+  -
+    - 1.4.10
+    - April 14 2012
+    - "Improved usability and added configurability to input of currency amounts."
+  -
+    - 1.4.9.1
+    - April 7 2012
+    - "Solved crash when importing categories in Italian locale and two minor problems with account deletion."
+  -
+    - 1.4.9
+    - March 31 2012
+    - "Additional features for list of payers/payees (import from Grisbi, delete). Fixed display of buttons in ICS."
+  -
+    - 1.4.8
+    - March 26 2012
+    - "Revamped user interface. Some bug-fixes."
+  -
+    - 1.4.7.2
+    - March 13 2012
+    - "Italian categories and tutorial. Added menu icons."
+  -
+    - 1.4.7.1
+    - March 10 2012
+    - "Fixed layout of expense list in landscape mode. Bug fix for backup."
+  -
+    - 1.4.7
+    - March 9 2012
+    - "Improved usability of currency input. Reduced apk size, since tutorial is no longer included, but hosted on Github."
+  -
+    - 1.4.6
+    - March 4 2012
+    - "Backup and restore of database and preferences. User interface translated to Italian."
+  -
+    - 1.4.5.2
+    - February 27 2012
+    - "Tutorial translated to German and French. Fixed problems with orientation change during categories import and help and changelog dialog. Support for Grisbi file format 0.5.0."
+  -
+    - 1.4.5.1
+    - February 17 2012
+    - "Problem with export (FTP, email) fixed."
+  -
+    - 1.4.5
+    - February 13 2012
+    - "Support for sending QIF file via email. Reduced memory footprint."
+  -
+    - 1.4.4
+    - February 8 2012
+    - "FTP upload done in background. Default account created in user's language and currency."
+  -
+    - 1.4.3
+    - February 3 2012
+    - "Improved parsing of number input in German locale. Upload of QIF file to FTP server."
+  -
+    - 1.4.1
+    - January 31 2012
+    - "Input of transaction amounts now respects user's locale. Bug fix: Opening balance could not be set."
+  -
+    - 1.4.0
+    - January 27 2012
+    - "Currencies now handled with java.util.Currency. Support for transfers between accounts."
+  -
+    - 1.3.2
+    - January 17 2012
+    - "Improved help and included tutorial."
+  -
+    - 1.3.0
+    - January 13 2012
+    - "Cleaned up UI."
+  -
+    - 1.2.8
+    - January 8 2012
+    - "Fixed bug in export."
+  -
+    - 1.2.7
+    - January 7 2012
+    - "Added payee field. Ignore empty fields in QIF export."
+  -
+    - 1.2.6
+    - November 6 2011
+    - "Better management of categories: Default category files from Grisbi are now included in the app, categories can be deleted and renamed."
+  -
+    - 1.2.0
+    - October 7 2011
+    - "Support for multiple accounts. No upgrade. You have to uninstall older versions."
+  -
+    - 1.1.3
+    - June 6 2011
+    - "Use workaround class for bug in SimpleCursorTreeAdapter (NullPointerException when adding the first subcategory) from http://code.google.com/p/android/issues/detail?id=9170; better feedback when category import goes wrong."
+  -
+    - 1.1.2
+    - May 18 2011
+    - "Sort categories by usages; Allow assignment of main category; Allow manual creation of categories; Improved handling of categories import."
+versions_prerelease:
+  -
+    - 1.6.1a5
+    - January 19 2013
+    - "Fixed differences in colors"
+  -
+    - 1.6.1a4
+    - January 19 2013
+    - "Adapted background colors for buttons and text fields"
+  -
+    - 1.6.1a3
+    - January 17 2013
+    - "Separate setting for font size. Apply theme to section titles in preference screen."
+  -
+    - 1.6.1a2
+    - January 15 2013
+    - "Fixed layout issues"
+  -
+    - 1.6.1a1
+    - January 14 2013
+    - "Catalan translation. Dark theme"

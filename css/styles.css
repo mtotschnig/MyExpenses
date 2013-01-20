@@ -80,6 +80,9 @@ h3 { color: #3383BB; }
 img {
  border : 0; 
 }
+img.flag {
+  vertical-align: middle;
+}
 div.screenshot img {
   cursor:pointer;
    padding:1px;

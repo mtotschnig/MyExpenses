@@ -9,6 +9,7 @@
     {% if page.metadescription %}<meta name="description" content="{{page.metadescription}}"/> {% endif %}
     <meta name="viewport" content="width=device-width;"/>
     <style type="text/css">
+    {{site.sections[page.section]["styles"]}}
     {{ page.styles }}
     </style>
     {{page.headstuff}}
