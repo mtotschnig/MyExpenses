@@ -110,6 +110,7 @@ public class SelectCategory extends ExpandableListActivity {
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setTheme(MyApplication.getThemeId());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_category);
         Intent intent = getIntent();
@@ -157,6 +158,7 @@ public class SelectCategory extends ExpandableListActivity {
         //only if the editText has an id, is its value restored after orientation change
         input.setId(CAT_DIALOG_LABEL_EDIT_ID);
         input.setSingleLine();
+        Utils.setBackgroundFilter(input, getResources().getColor(R.color.theme_dark_button_color));
         alert.setView(input);
         alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {

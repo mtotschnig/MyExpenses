@@ -62,6 +62,7 @@
   <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
   <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
   <string name="external_storage_unavailable">External storage (sdcard)not available</string>
+  <string name="feedback">Feedback</string>
   <string name="ftp_uri_malformed">Malformed URI %1$s</string>
   <!-- used from the user guide -->
   <string name="go_to_chapter">Go to chapter</string>
@@ -75,8 +76,10 @@
   <string name="grisbi_import_parsing">Parsing %1$s</string>
   <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
   <!-- Titles in the help screen. -->
+  <string name="help_heading_changelog">Changelog</string>
   <string name="help_heading_credits">Credits</string>
   <string name="help_heading_license">License</string>
+  <string name="help_heading_more_info">More information</string>
   <string name="help_heading_privacy">Privacy policy</string>
   <string name="help_heading_quick_guide">Quick guide</string>
   <string name="help_heading_whats_new">What\'s new</string>
@@ -102,11 +105,9 @@
       - <b>Help</b> : Quick access to Tutorial, News, FAQ and Changes.\n
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
-  <string name="help_whats_new">&#160;- Create transactions from templates\n
-      - Character encoding of exported QIF file configurable to support MS Money\n
-      - User interface improvements\n
-      - Newest transactions on top\n
-      - Account list gives overview of financial status</string>
+  <string name="help_whats_new">&#160;- Dark UI theme.\n
+      - Catalan translation.\n
+      - Added sum of transfers in account overview.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">income</string>
@@ -122,7 +123,6 @@
   <string name="menu_accounts_summary">Summary</string>
   <string name="menu_backup">Backup</string>
   <string name="menu_change_account">Change account</string>
-  <string name="menu_changes">Changes</string>
   <string name="menu_create_main_cat">Create new main category</string>
   <string name="menu_create_sub_cat">Create new sub category</string>
   <string name="menu_create_template">Create template</string>
@@ -143,6 +143,7 @@
   <string name="menu_insert_method">Create new payment method</string>
   <string name="menu_insert_ta">Add Transaction</string>
   <string name="menu_insert_transfer">Add Transfer</string>
+  <string name="menu_more">More &#8230;</string>
   <string name="menu_move_transaction">Move</string>
   <string name="menu_new">New</string>
   <string name="menu_new_from_template">New from template</string>
@@ -231,6 +232,14 @@
   <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate 
       apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes
   </string>
+  <string name="pref_ui_theme_title">Theme</string>
+  <string name="pref_ui_theme_summary">Choose between light and dark</string>
+  <string name="pref_ui_theme_dark">dark</string>
+  <string name="pref_ui_theme_light">light</string>
+  <string name="pref_ui_fontsize_title">Font size</string>
+  <string name="pref_ui_fontsize_summary">Choose between small and big</string>
+  <string name="pref_ui_fontsize_small">small</string>
+  <string name="pref_ui_fontsize_big">big</string>
   <string name="pref_use_standard_menu_title">Use standard Android menu</string>
   <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
       standard menu for accessing commands.</string>
@@ -246,8 +255,9 @@
   <string name="share_sending">Send QIF file</string>
   <string name="suggest_use_standard_menu">Do you want to use the standard Android menu
       for calling commands, and hide the button bar?</string>
-  <string name="sum_income">Total sum of income</string>
-  <string name="sum_expenses">Total sum of expenses</string>
+  <string name="sum_income">Income</string>
+  <string name="sum_expenses">Expenses</string>
+  <string name="sum_transfer">Transfers</string>
   <string name="switch_account">Switched to account \"%1$s\"</string>
   <string name="template_create_success">Template \"%1$s\" created successfully</string>
   <string name="template_title_exists">A template with title \"%1$s\" already exists</string>
@@ -274,10 +284,8 @@
   <string name="help_licence_quickactions">Includes BetterPopupWindow class from 
       http://code.google.com/p/simple-quickactions/ , licenced under 
       http://www.opensource.org/licenses/bsd-license.php .</string>
-  <string name="help_enjoy"><u>Enjoy!</u></string>
   <string name="help_heading_news">News</string>
   <string name="help_heading_faq">FAQ</string>
-  <string name="help_heading_changelog">Changelog</string>
   
   <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
   <string name="pref_use_standard_menu_key">use_standard_menu</string>
@@ -286,6 +294,8 @@
   <string name="pref_currency_decimal_separator_key">currency_decimal_separator</string>
   <string name="pref_account_button_behaviour_key">account_button_behaviour</string>
   <string name="pref_qif_export_file_encoding_key">qif_export_file_encoding</string>
+  <string name="pref_ui_theme_key">pref_ui_theme</string>
+  <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
     
   <!-- strings below this comment do not need translations for new languages -->
   <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
@@ -297,5 +307,8 @@
   </string>
   <string name="version_32_upgrade_info">You have configured an FTP url as share target.
       <i>&app_name;</i> no longer handles FTP transfers on its own.</string>
-  <string name="version_34_upgrade_info">Now you can support the continued development of <i>&app_name;</i> through your donation.</string>
+  <string name="version_34_upgrade_info">Now you can support the continued development of
+    <i>&app_name;</i> through your donation.</string>
+  <string name="version_35_upgrade_info"><i>&app_name;</i> now has a new dark default theme.
+    You can revert to the light theme in the settings.</string>
 </resources>

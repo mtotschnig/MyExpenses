@@ -18,7 +18,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-		<TextView android:id="@+id/donate_dialog_text"
-		    android:text="@string/donate_dialog_text"
+		<TextView android:id="@+id/message_text"
         style="@style/about_text"/>
+		 <include layout="@layout/dialog_buttonbar"/>
 </LinearLayout>

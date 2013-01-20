@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
@@ -33,23 +32,20 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Currency;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.PorterDuff;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 /**
@@ -170,9 +166,8 @@ public class Utils {
    * @param text
    * @return formated string
    */
-  static String convDate(String text) {
-    SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
-    return formatter.format(Timestamp.valueOf(text));
+  static String convDate(String text, SimpleDateFormat format) {
+    return format.format(Timestamp.valueOf(text));
   }
   /**
    * utility method that calls formatters for amount
@@ -312,7 +307,11 @@ public class Utils {
     public int getTotal() {
       return total;
     }
-  }  
+  }
+  
+  public static void setBackgroundFilter(View v, int c) {
+    v.getBackground().setColorFilter(c,PorterDuff.Mode.MULTIPLY);
+  }
   /**
    * represents a tuple of success flag, and message as an R id
    * @author Michael Totschnig

@@ -34,7 +34,7 @@ import android.util.Log;
  * Simple  database access helper class. Defines the basic CRUD operations
  * and gives the ability to manipulate transactions, accounts, categories, payees.
  * follows the pattern from the Notepad example of the Android SDK
- * 
+ *
  * @author Michael Totschnig
  *
  */
@@ -50,6 +50,8 @@ public class ExpensesDbAdapter {
   public static final String KEY_TRANSFER_PEER = "transfer_peer";
   public static final String KEY_METHODID = "payment_method_id";
   public static final String KEY_TITLE = "title";
+  public static final String KEY_LABEL_MAIN = "label_sub";
+  public static final String KEY_LABEL_SUB = "label_main";
   public static final String BACKUP_DB_PATH = "BACKUP";
 
   private static final String TAG = "ExpensesDbAdapter";
@@ -60,17 +62,17 @@ public class ExpensesDbAdapter {
   private String mDatabaseName;
   private static final String DATABASE_TABLE = "transactions";
   private static final int DATABASE_VERSION = 25;
-  
+
   /**
    * SQL statement for expenses TABLE
    * both transactions and transfers are stored in this table
    * for transfers there are two rows (one per account) which
-   * are linked by transfer_peer 
+   * are linked by transfer_peer
    * for normal transactions transfer_peer is set to NULL
    * for transfers cat_id stores the account
    */
   private static final String DATABASE_CREATE =
-    "create table " + DATABASE_TABLE  +  "( "
+    "CREATE TABLE " + DATABASE_TABLE  +  "( "
     + KEY_ROWID         + " integer primary key autoincrement, "
     + KEY_COMMENT       + " text not null, "
     + KEY_DATE          + " DATETIME not null, "
@@ -78,18 +80,18 @@ public class ExpensesDbAdapter {
     + KEY_CATID         + " integer, "
     + KEY_ACCOUNTID     + " integer, "
     + KEY_PAYEE         + " text, "
-    + KEY_TRANSFER_PEER + " integer default null, "
+    + KEY_TRANSFER_PEER + " integer default 0, "
     + KEY_METHODID      + " integer);";
-  
-  
+
+
   /**
    * SQL statement for accounts TABLE
    */
-  private static final String ACCOUNTS_CREATE = 
-    "create table accounts (_id integer primary key autoincrement, label text not null, " +
+  private static final String ACCOUNTS_CREATE =
+    "CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, " +
     "opening_balance integer, description text, currency text not null, type text default 'CASH');";
 
-  
+
   /**
    * SQL statement for categories TABLE
    * Table definition reflects format of Grisbis categories
@@ -97,68 +99,74 @@ public class ExpensesDbAdapter {
    * usages counts how often the cat is selected
    */
   private static final String CATEGORIES_CREATE =
-    "create table categories (_id integer primary key autoincrement, label text not null, " +
+    "CREATE TABLE categories (_id integer primary key autoincrement, label text not null, " +
     "parent_id integer not null default 0, usages integer default 0, unique (label,parent_id));";
- 
+
   private static final String PAYMENT_METHODS_CREATE =
-      "create table paymentmethods (_id integer primary key autoincrement, label text not null, type integer default 0);";
-  
+      "CREATE TABLE paymentmethods (_id integer primary key autoincrement, label text not null, type integer default 0);";
+
   private static final String ACCOUNTTYE_METHOD_CREATE =
-      "create table accounttype_paymentmethod (type text, method_id integer, primary key (type,method_id));";
-  
+      "CREATE TABLE accounttype_paymentmethod (type text, method_id integer, primary key (type,method_id));";
+
   private static final String TEMPLATE_CREATE =
-      "create table templates ( "
+      "CREATE TABLE templates ( "
       + KEY_ROWID         + " integer primary key autoincrement, "
       + KEY_COMMENT       + " text not null, "
       + KEY_AMOUNT        + " integer not null, "
       + KEY_CATID         + " integer, "
       + KEY_ACCOUNTID     + " integer, "
       + KEY_PAYEE         + " text, "
-      + KEY_TRANSFER_PEER + " integer default null, "
+      + KEY_TRANSFER_PEER + " integer default 0, "
       + KEY_METHODID      + " integer, "
       + KEY_TITLE         + " text not null, "
       + "usages integer default 0, "
-      + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));";  
+      + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));";
   /**
    * an SQL CASE expression for transactions
    * that gives either the category for normal transactions
    * or the account for transfers
    * full means "Main : Sub"
    */
-  private static final String FULL_LABEL = "case when \n" + 
-    "  transfer_peer\n" + 
-    "     then\n" + 
-    "  (select label from accounts where _id = cat_id)\n" + 
-    "     else\n" + 
-    "  case when \n" + 
-    "    (select parent_id from categories where _id = cat_id)\n" + 
-    "       then\n" + 
-    "    (select label from categories where _id = (select parent_id from categories where _id = cat_id)) " +
-    "       || ':' || (select label from categories where _id = cat_id)\n" + 
-    "       else\n" + 
-    "    (select label from categories where _id = cat_id)\n" + 
-    "  end\n" + 
-    "end as label";
- 
-  
+  private static final String LABEL_MAIN =
+    "CASE WHEN " +
+    "  transfer_peer " +
+    "THEN " +
+    "  (SELECT label FROM accounts WHERE _id = cat_id) " +
+    "WHEN " +
+    "  cat_id " +
+    "THEN " +
+    "  CASE WHEN " +
+    "    (SELECT parent_id FROM categories WHERE _id = cat_id) " +
+    "  THEN " +
+    "    (SELECT label FROM categories WHERE _id = (SELECT parent_id FROM categories WHERE _id = cat_id)) " +
+    "  ELSE " +
+    "    (SELECT label FROM categories WHERE _id = cat_id) " +
+    "  END " +
+    "END AS " + KEY_LABEL_MAIN;
+ private static final String LABEL_SUB =
+    "CASE WHEN " +
+    "  NOT transfer_peer AND cat_id AND (SELECT parent_id FROM categories WHERE _id = cat_id) " +
+    "THEN " +
+    "  (SELECT label FROM categories WHERE _id = cat_id) " +
+    "END AS " + KEY_LABEL_SUB;
   /**
    * same as {@link FULL_LABEL}, but if transaction is linked to a subcategory
-   * only the label from the subcategory is returned 
+   * only the label from the subcategory is returned
    */
-  private static final String SHORT_LABEL = "case when \n" + 
-    "  transfer_peer\n" + 
-    "     then\n" + 
-    "  (select label from accounts where _id = cat_id)\n" + 
-    "     else\n" + 
-    "    (select label from categories where _id = cat_id)\n" + 
-    "end as label";
+  private static final String SHORT_LABEL = 
+    "CASE WHEN " +
+    "  transfer_peer " +
+    "THEN " +
+    "  (SELECT label FROM accounts WHERE _id = cat_id) " +
+    "ELSE " +
+    "  (SELECT label FROM categories WHERE _id = cat_id) " +
+    "END AS label";
 
-  
   /**
    * stores payees and payers
    */
-  private static final String PAYEE_CREATE = 
-    "create table payee (_id integer primary key autoincrement, name text unique not null);";
+  private static final String PAYEE_CREATE =
+    "CREATE TABLE payee (_id integer primary key autoincrement, name text unique not null);";
 
   private final MyApplication mCtx;
 
@@ -210,51 +218,51 @@ public class ExpensesDbAdapter {
           + newVersion + ".");
       if (oldVersion < 17) {
         db.execSQL("drop table accounts");
-        db.execSQL("create table accounts (_id integer primary key autoincrement, label text not null, " +
+        db.execSQL("CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, " +
             "opening_balance integer, description text, currency text not null);");
-        //db.execSQL("alter table expenses add column account_id integer");
+        //db.execSQL("ALTER TABLE expenses add column account_id integer");
       }
       if (oldVersion < 18) {
-        db.execSQL("create table payee (_id integer primary key autoincrement, name text unique not null);");
-        db.execSQL("alter table expenses add column payee text");
+        db.execSQL("CREATE TABLE payee (_id integer primary key autoincrement, name text unique not null);");
+        db.execSQL("ALTER TABLE expenses add column payee text");
       }
       if (oldVersion < 19) {
-        db.execSQL("alter table expenses add column transfer_peer text");
+        db.execSQL("ALTER TABLE expenses add column transfer_peer text");
       }
       if (oldVersion < 20) {
-        db.execSQL("create table transactions ( _id integer primary key autoincrement, comment text not null, "
+        db.execSQL("CREATE TABLE transactions ( _id integer primary key autoincrement, comment text not null, "
             + "date DATETIME not null, amount integer not null, cat_id integer, account_id integer, "
             + "payee  text, transfer_peer integer default null);");
         db.execSQL("INSERT INTO transactions (comment,date,amount,cat_id,account_id,payee,transfer_peer)" +
-        		" select comment,date,CAST(ROUND(amount*100) AS INTEGER),cat_id,account_id,payee,transfer_peer from expenses");
+            " SELECT comment,date,CAST(ROUND(amount*100) AS INTEGER),cat_id,account_id,payee,transfer_peer FROM expenses");
         db.execSQL("DROP TABLE expenses");
         db.execSQL("ALTER TABLE accounts RENAME to accounts_old");
-        db.execSQL("create table accounts (_id integer primary key autoincrement, label text not null, " +
+        db.execSQL("CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, " +
             "opening_balance integer, description text, currency text not null);");
         db.execSQL("INSERT INTO accounts (label,opening_balance,description,currency)" +
-        		" select label,CAST(ROUND(opening_balance*100) AS INTEGER),description,currency from accounts_old");
+            " SELECT label,CAST(ROUND(opening_balance*100) AS INTEGER),description,currency FROM accounts_old");
         db.execSQL("DROP TABLE accounts_old");
       }
       if (oldVersion < 21) {
-        db.execSQL("create table paymentmethods (_id integer primary key autoincrement, label text not null, type integer default 0);");
-        db.execSQL("create table accounttype_paymentmethod (type text, method_id integer, primary key (type,method_id));");
+        db.execSQL("CREATE TABLE paymentmethods (_id integer primary key autoincrement, label text not null, type integer default 0);");
+        db.execSQL("CREATE TABLE accounttype_paymentmethod (type text, method_id integer, primary key (type,method_id));");
         insertDefaultPaymentMethods(db);
-        db.execSQL("alter table transactions add column payment_method_id text default 'CASH'");
-        db.execSQL("alter table accounts add column type text default 'CASH'");
+        db.execSQL("ALTER TABLE transactions add column payment_method_id text default 'CASH'");
+        db.execSQL("ALTER TABLE accounts add column type text default 'CASH'");
       }
       if (oldVersion < 22) {
-        db.execSQL("create table templates ( _id integer primary key autoincrement, comment text not null, "
+        db.execSQL("CREATE TABLE templates ( _id integer primary key autoincrement, comment text not null, "
           + "amount integer not null, cat_id integer, account_id integer, payee text, transfer_peer integer default null, "
-          + "payment_method_id integer, title text not null);");  
+          + "payment_method_id integer, title text not null);");
       }
       if (oldVersion < 23) {
         db.execSQL("ALTER TABLE templates RENAME to templates_old");
-        db.execSQL("create table templates ( _id integer primary key autoincrement, comment text not null, "
+        db.execSQL("CREATE TABLE templates ( _id integer primary key autoincrement, comment text not null, "
             + "amount integer not null, cat_id integer, account_id integer, payee text, transfer_peer integer default null, "
             + "payment_method_id integer, title text not null, unique(account_id, title));");
         try {
           db.execSQL("INSERT INTO templates(comment,amount,cat_id,account_id,payee,transfer_peer,payment_method_id,title)" +
-              " SELECT comment,amount,cat_id,account_id,payee,transfer_peer,payment_method_id,title from templates_old");
+              " SELECT comment,amount,cat_id,account_id,payee,transfer_peer,payment_method_id,title FROM templates_old");
         } catch (SQLiteConstraintException e) {
           Log.e(TAG,e.getLocalizedMessage());
           //theoretically we could have entered duplicate titles for one account
@@ -263,11 +271,11 @@ public class ExpensesDbAdapter {
         db.execSQL("DROP TABLE templates_old");
       }
       if (oldVersion < 24) {
-        db.execSQL("alter table templates add column usages integer default 0");
+        db.execSQL("ALTER TABLE templates add column usages integer default 0");
       }
       if (oldVersion < 25) {
         //for transactions that were not transfers, transfer_peer was set to null in transactions, but to 0 in templates
-        db.execSQL("update transactions set transfer_peer=0 where transfer_peer is null;");
+        db.execSQL("update transactions set transfer_peer=0 WHERE transfer_peer is null;");
       }
     }
   }
@@ -275,7 +283,7 @@ public class ExpensesDbAdapter {
   /**
    * Constructor - takes the context to allow the database to be
    * opened/created
-   * 
+   *
    * @param ctx the Context within which to work
    */
   public ExpensesDbAdapter(MyApplication ctx) {
@@ -287,7 +295,7 @@ public class ExpensesDbAdapter {
    * Open the expenses database. If it cannot be opened, try to create a new
    * instance of the database. If it cannot be created, throw an exception to
    * signal the failure
-   * 
+   *
    * @return this (self reference, allowing this to be chained in an
    *         initialization call)
    * @throws SQLException if the database could be neither opened or created
@@ -308,7 +316,7 @@ public class ExpensesDbAdapter {
       return null;
     return new File(appDir, BACKUP_DB_PATH);
   }
-  
+
   public boolean backup() {
     File backupDb = getBackupFile();
     if (backupDb == null)
@@ -321,7 +329,7 @@ public class ExpensesDbAdapter {
     return false;
   }
   /**
-   * should only be called during the first run, before the database is created 
+   * should only be called during the first run, before the database is created
    * @return
    */
   public boolean maybeRestore() {
@@ -353,7 +361,7 @@ public class ExpensesDbAdapter {
    * Create a new transaction using the date, amount and comment provided. If the note is
    * successfully created return the new rowId for that note, otherwise return
    * a -1 to indicate failure.
-   * 
+   *
    * @param date the date of the expense
    * @param amount the amount of the expense
    * @param comment the comment describing the expense
@@ -375,9 +383,9 @@ public class ExpensesDbAdapter {
     return _id;
   }
   /**
-   * Create a new transfer pair of transactions using the date, amount and comment provided. 
-   * 
-   * 
+   * Create a new transfer pair of transactions using the date, amount and comment provided.
+   *
+   *
    * @param date the date of the expense
    * @param amount the amount of the expense
    * @param comment the comment describing the expense
@@ -385,9 +393,9 @@ public class ExpensesDbAdapter {
    * @param account_id stores the account in whose context the transaction is created
    * @return rowId or -1 if failed
    */
-  public long[] createTransfer(String date, long amount, String comment, 
+  public long[] createTransfer(String date, long amount, String comment,
       long cat_id,long account_id) {
-    //the id of the account is stored in KEY_CATID, 
+    //the id of the account is stored in KEY_CATID,
     //the id of the peer transaction is stored in KEY_TRANSFER_PEER
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
@@ -411,14 +419,14 @@ public class ExpensesDbAdapter {
    * specified using the rowId, and it is altered to use the date, amount and comment
    * values passed in
    * as a side effect, increases the usage counters for categories
-   * 
+   *
    * @param rowId id of transaction to update
-   * @param date value to set 
+   * @param date value to set
    * @param amount value to set
    * @param comment value to set
    * @return should return 1 if row has been successfully updated
    */
-  public int updateTransaction(long rowId, String date, long amount, 
+  public int updateTransaction(long rowId, String date, long amount,
       String comment,long cat_id,String payee, long payment_method_id) {
     ContentValues args = new ContentValues();
     args.put(KEY_DATE, date);
@@ -442,7 +450,7 @@ public class ExpensesDbAdapter {
    * Update the transfer using the details provided. The expense to be updated is
    * specified using the rowId, and it is altered to use the date, amount and comment
    * values passed in
-   * 
+   *
    * @param rowId id of transaction to update
    * @param date value to set
    * @param amount value to set
@@ -465,16 +473,16 @@ public class ExpensesDbAdapter {
     args.put(KEY_ACCOUNTID, cat_id);
     //the account from which is transfered is not altered
     args.remove(KEY_CATID);
-    result += mDb.update(DATABASE_TABLE, args, 
-        KEY_ROWID + "= (SELECT transfer_peer FROM " + DATABASE_TABLE + 
-        " WHERE " + KEY_ROWID + " = " + rowId + ")", 
+    result += mDb.update(DATABASE_TABLE, args,
+        KEY_ROWID + "= (SELECT transfer_peer FROM " + DATABASE_TABLE +
+        " WHERE " + KEY_ROWID + " = " + rowId + ")",
         null);
     return result;
   }
-  
+
   /**
    * Delete the transaction with the given rowId
-   * 
+   *
    * @param rowId id of note to delete
    * @return true if deleted, false otherwise
    */
@@ -482,7 +490,7 @@ public class ExpensesDbAdapter {
 
     return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
   }
-  
+
   /**
    * Delete both transactions that make up a transfer
    * it is the caller's responsibilty to pass in two ids that
@@ -492,29 +500,29 @@ public class ExpensesDbAdapter {
    * @return
    */
   public boolean deleteTransfer(long rowId, long transfer_peer) {
-    return mDb.delete(DATABASE_TABLE, 
-        KEY_ROWID + " in (" + rowId + "," + transfer_peer + ")", 
+    return mDb.delete(DATABASE_TABLE,
+        KEY_ROWID + " in (" + rowId + "," + transfer_peer + ")",
         null) > 0;
   }
-  
+
   /**
    * Deletes all transactions for a given account
    * For transfers the peer transaction will survive, but we transform it to a normal transaction
    * with a note about the deletion of the peer_transaction
-   * 
+   *
    * @param account_id
    */
   public void deleteTransactionAll(Account account ) {
-    //TODO: 
+    //TODO:
     //starting with Android 2.2., we could handle this easier with foreign keys
-    
+
     //to speed up the loop for transfers, we delete in the first step all entries that are not transfers
     String[] selectArgs = new String[] { String.valueOf(account.id) };
-    
+
     mDb.delete(DATABASE_TABLE, "account_id = ? and transfer_peer = 0", selectArgs);
 
     Cursor c = mDb.query(DATABASE_TABLE,
-        new String[] {KEY_ROWID,KEY_TRANSFER_PEER}, 
+        new String[] {KEY_ROWID,KEY_TRANSFER_PEER},
         "account_id = ?",selectArgs,null,null,null);
     c.moveToFirst();
     while(!c.isAfterLast()) {
@@ -531,15 +539,15 @@ public class ExpensesDbAdapter {
     }
     c.close();
   }
-  
+
   /**
    * before 1.4.9.1 transactions were not deleted, when an account was deleted,
    * during installation of 1.4.9.1 this method was used to purge transactions
    * from deleted accounts
    */
   public int purgeTransactions() {
-    return mDb.delete(DATABASE_TABLE, 
-        KEY_ACCOUNTID + " not in (select _id from accounts)", 
+    return mDb.delete(DATABASE_TABLE,
+        KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)",
         null);
   }
 
@@ -551,8 +559,8 @@ public class ExpensesDbAdapter {
   public Cursor fetchTransactionAll(long account_id) {
 
     return mDb.query(DATABASE_TABLE,
-        new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT, 
-            KEY_CATID,FULL_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID}, 
+        new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
+            KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID},
         "account_id = " + account_id, null, null, null, KEY_DATE + " DESC");
   }
 
@@ -583,8 +591,8 @@ public class ExpensesDbAdapter {
    * @return
    */
   public long getTransactionSum(long account_id) {
-    Cursor mCursor = mDb.rawQuery("select sum(" + KEY_AMOUNT + ") from " + 
-        DATABASE_TABLE +  " WHERE account_id = " + account_id, 
+    Cursor mCursor = mDb.rawQuery("SELECT sum(" + KEY_AMOUNT + ") FROM " +
+        DATABASE_TABLE +  " WHERE account_id = " + account_id,
         null);
     mCursor.moveToFirst();
     long result = mCursor.getLong(0);
@@ -613,7 +621,7 @@ public class ExpensesDbAdapter {
       return -1;
     }
   }
-  
+
   /**
    * Updates the label for category
    * @param label
@@ -630,16 +638,16 @@ public class ExpensesDbAdapter {
       return -1;
     }
   }
-  
+
   /**
    * increases the usage counter for a category, and its parent (if it is a subcategory)
    * @param cat_id
    */
   public void incrCategoryUsage(long cat_id) {
-      mDb.execSQL("update categories set usages = usages +1 where _id = " + cat_id + 
-          " or _id = (select parent_id from categories where _id = " +cat_id + ")");
+      mDb.execSQL("update categories set usages = usages +1 WHERE _id = " + cat_id +
+          " or _id = (SELECT parent_id FROM categories WHERE _id = " +cat_id + ")");
   }
-  
+
   /**
    * Looks for a cat with a label under a given parent
    * @param label
@@ -648,7 +656,7 @@ public class ExpensesDbAdapter {
    */
   public long getCategoryId(String label, long parent_id) {
     Cursor mCursor = mDb.rawQuery(
-        "select _id from categories where parent_id = ? and label = ?",  
+        "SELECT _id FROM categories WHERE parent_id = ? and label = ?",
         new String[] {String.valueOf(parent_id), label}
     );
     if (mCursor.getCount() == 0) {
@@ -661,9 +669,9 @@ public class ExpensesDbAdapter {
       return result;
     }
   }
-  
+
   /**
-   * deletes category with give id 
+   * deletes category with give id
    * @param cat_id
    * @return true if a row has been deleted, false otherwise
    */
@@ -672,7 +680,7 @@ public class ExpensesDbAdapter {
   }
 
   /**
-   * @return a Cursor that holds all main categories ordered by usage counter 
+   * @return a Cursor that holds all main categories ordered by usage counter
    */
   public Cursor fetchCategoryMain() {
     boolean categories_sort = mCtx.getSettings()
@@ -687,7 +695,7 @@ public class ExpensesDbAdapter {
         orderBy
     );
   }
-  
+
   /**
    * How many subcategories under a given parent?
    * @param parent_id
@@ -695,35 +703,35 @@ public class ExpensesDbAdapter {
    */
   public int getCategoryCountSub(long parent_id){
     Cursor mCursor = mDb.rawQuery(
-        "select count(*) from categories where parent_id = " + parent_id, 
+        "SELECT count(*) FROM categories WHERE parent_id = " + parent_id,
         null);
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);
     mCursor.close();
     return result;
   }
-  
+
   /**
-   * @param parent_id 
-   * @return a Cursor that holds all sub categories under a parent ordered by usage counter 
+   * @param parent_id
+   * @return a Cursor that holds all sub categories under a parent ordered by usage counter
    */
   public Cursor fetchCategorySub(long parent_id) {
     boolean categories_sort = mCtx.getSettings()
         .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true);
     String orderBy = (categories_sort ? "usages DESC, " : "") + "label";
-    return mDb.query("categories", 
-        new String[] {KEY_ROWID,"label"}, 
-        "parent_id = " + parent_id, 
-        null, 
-        null, 
-        null, 
+    return mDb.query("categories",
+        new String[] {KEY_ROWID,"label"},
+        "parent_id = " + parent_id,
+        null,
+        null,
+        null,
         orderBy);
   }
 
   /**
    * ACCOUNTS
    */
-  
+
   /**
    * updates the currency field of an account
    * @param account_id
@@ -744,7 +752,7 @@ public class ExpensesDbAdapter {
    * @param currency
    * @return rowId or -1 if failed
    */
-  public long createAccount(String label, long opening_balance, 
+  public long createAccount(String label, long opening_balance,
       String description, String currency, String type) {
     ContentValues initialValues = new ContentValues();
     initialValues.put("label", label);
@@ -763,7 +771,7 @@ public class ExpensesDbAdapter {
    * @param currency
    * @return number of rows affected
    */
-  public int updateAccount(long rowId, String label, long opening_balance, 
+  public int updateAccount(long rowId, String label, long opening_balance,
       String description, String currency,String type) {
     ContentValues args = new ContentValues();
     args.put("label", label);
@@ -773,23 +781,24 @@ public class ExpensesDbAdapter {
     args.put("type",type);
     return mDb.update("accounts", args, KEY_ROWID + "=" + rowId, null);
   }
-  
+
   /**
    * @return Cursor that holds all accounts
    */
   public Cursor fetchAccountAll() {
     return mDb.query("accounts",
         new String[] {KEY_ROWID,"label","description","opening_balance","currency",
-        "(select coalesce(sum(amount),0) from transactions where account_id = accounts._id and amount>0) as sum_income",
-        "(select coalesce(abs(sum(amount)),0) from transactions where account_id = accounts._id and amount<0) as sum_expenses",
-        "opening_balance + (select coalesce(sum(amount),0) from transactions where account_id = accounts._id) as current_balance"}, 
+        "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and amount>0 and transfer_peer = 0) as sum_income",
+        "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0 and transfer_peer = 0) as sum_expenses",
+        "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and transfer_peer != 0) as sum_transfer",
+        "opening_balance + (SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id) as current_balance"},
         null, null, null, null, null);
   }
 
   public long fetchAccountIdNext(long accountId) {
     String strAccountId = String.valueOf(accountId);
     Cursor mCursor = mDb.rawQuery(
-        "select coalesce((select min(_id) from accounts where _id > ?),(select min(_id) from accounts))",  
+        "SELECT coalesce((SELECT min(_id) FROM accounts WHERE _id > ?),(SELECT min(_id) FROM accounts))",
         new String[] {strAccountId}
     );
     mCursor.moveToFirst();
@@ -806,24 +815,24 @@ public class ExpensesDbAdapter {
    */
   public Cursor fetchAccountOther(long accountId, boolean sameCurrency) {
     String selectionArg = String.valueOf(accountId);
-    String selectionArgs[]; 
+    String selectionArgs[];
     String selection = KEY_ROWID + " != ? ";
     if (sameCurrency) {
-      selection += " AND currency = (select currency from accounts where " + 
+      selection += " AND currency = (SELECT currency FROM accounts WHERE " +
           KEY_ROWID + " = ? )";
       selectionArgs = new String[] {selectionArg,selectionArg};
     } else {
       selectionArgs = new String[] {selectionArg};
     }
     return mDb.query("accounts",
-        new String[] {KEY_ROWID,"label"}, 
+        new String[] {KEY_ROWID,"label"},
         selection,
         selectionArgs,
         null,
         null,
         null);
   }
-  
+
   /**
    * fetches the account with given row id
    * @param rowId
@@ -841,7 +850,7 @@ public class ExpensesDbAdapter {
     }
     return mCursor;
   }
-  
+
   /**
    * updates the opening balance of an account
    * @param account_id
@@ -862,7 +871,7 @@ public class ExpensesDbAdapter {
   public boolean deleteAccount(long rowId) {
     return mDb.delete("accounts", KEY_ROWID + "=" + rowId, null) > 0;
   }
-  
+
   /**
    * @see #fetchAccountOther(long)
    * @param currency
@@ -870,23 +879,23 @@ public class ExpensesDbAdapter {
    * if currency is null return total number of accounts
    */
   public int getAccountCount(String currency) {
-    String query = "select count(*) from accounts";
-    String selectionArgs[] = null; 
+    String query = "SELECT count(*) FROM accounts";
+    String selectionArgs[] = null;
     if (currency != null) {
       query += " WHERE currency = ?";
       selectionArgs = new String[] {currency};
     }
     Cursor mCursor = mDb.rawQuery(
-        query, 
+        query,
         selectionArgs);
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);
     mCursor.close();
     return result;
   }
-  
+
   public Long getFirstAccountId() {
-    Cursor mCursor = mDb.rawQuery("select min(_id) from accounts",null);
+    Cursor mCursor = mDb.rawQuery("SELECT min(_id) FROM accounts",null);
     mCursor.moveToFirst();
     Long result;
     if (mCursor.isNull(0))
@@ -896,11 +905,11 @@ public class ExpensesDbAdapter {
     mCursor.close();
     return result;
   }
-  
+
   /**
    * PAYEES
    */
-  
+
   /**
    * inserts a new payee if it does not exist yet
    * @param name
@@ -908,20 +917,20 @@ public class ExpensesDbAdapter {
   public long createPayee(String name) {
     ContentValues initialValues = new ContentValues();
     initialValues.put("name", name);
-    
+
     try {
       return mDb.insertOrThrow("payee", null, initialValues);
     } catch (SQLiteConstraintException e) {
       return -1;
     }
   }
-  
+
   /**
    * @return Cursor over all rows of table payee
    */
   public Cursor fetchPayeeAll() {
     return mDb.query("payee",
-        new String[] {KEY_ROWID,"name"}, 
+        new String[] {KEY_ROWID,"name"},
         null, null, null, null, "name");
   }
 
@@ -931,7 +940,7 @@ public class ExpensesDbAdapter {
   /**
    * PAYMENT METHODS
    */
-  
+
   /**
    * inserts a new payment method if it does not exist yet
    * @param name
@@ -944,7 +953,7 @@ public class ExpensesDbAdapter {
     setMethodAccountTypes(_id,accountTypes);
     return _id;
   }
-  
+
   public int updateMethod(long rowId, String label, int paymentType, ArrayList<Account.Type>  accountTypes) {
     ContentValues args = new ContentValues();
     args.put("label", label);
@@ -953,7 +962,7 @@ public class ExpensesDbAdapter {
     setMethodAccountTypes(rowId,accountTypes);
     return result;
   }
-  
+
   private void setMethodAccountTypes(long rowId, ArrayList<Account.Type>  accountTypes) {
     mDb.delete("accounttype_paymentmethod", "method_id=" + rowId, null);
     ContentValues initialValues = new ContentValues();
@@ -967,7 +976,7 @@ public class ExpensesDbAdapter {
       }
     }
   }
-  
+
   public Cursor fetchPaymentMethod(long rowId) {
     Cursor mCursor =
         mDb.query("paymentmethods",
@@ -982,7 +991,7 @@ public class ExpensesDbAdapter {
 
   public Cursor fetchPaymentMethodsAll() {
     return mDb.query("paymentmethods",
-        new String[] {KEY_ROWID,"label"}, 
+        new String[] {KEY_ROWID,"label"},
         null, null, null, null, null);
   }
 
@@ -1002,17 +1011,17 @@ public class ExpensesDbAdapter {
     selection += " and accounttype_paymentmethod.type = ?";
 
     return mDb.query("paymentmethods join accounttype_paymentmethod on (_id = method_id)",
-        new String[] {KEY_ROWID,"label"}, 
+        new String[] {KEY_ROWID,"label"},
         selection, new String[] {accountType.name()}, null, null, null);
   }
 
   public Cursor fetchAccountTypesForPaymentMethod(long rowId) {
-    return mDb.query("accounttype_paymentmethod", new String[] {"type"}, 
+    return mDb.query("accounttype_paymentmethod", new String[] {"type"},
         "method_id =" + rowId, null, null, null, null);
   }
 
   public int getPaymentMethodsCount(Type type) {
-    Cursor mCursor = mDb.rawQuery("select count(*) from accounttype_paymentmethod " +  
+    Cursor mCursor = mDb.rawQuery("SELECT count(*) FROM accounttype_paymentmethod " +
         " WHERE type = ?",
        new String[] {type.name()});
     mCursor.moveToFirst();
@@ -1036,12 +1045,12 @@ public class ExpensesDbAdapter {
      selection =  "account_id = ?";
      selectionArgs = new String[] { String.valueOf(accountId) };
     }
-    return mDb.query("templates", 
-        new String[] {KEY_ROWID,KEY_TITLE}, 
-        selection, 
-        selectionArgs, 
-        null, 
-        null, 
+    return mDb.query("templates",
+        new String[] {KEY_ROWID,KEY_TITLE},
+        selection,
+        selectionArgs,
+        null,
+        null,
         "usages DESC");
   }
 
@@ -1067,7 +1076,7 @@ public class ExpensesDbAdapter {
   }
 
   public int getTemplateCount(long accountId) {
-    Cursor mCursor = mDb.rawQuery("select count(*) from templates where " + KEY_ACCOUNTID + " = ?",
+    Cursor mCursor = mDb.rawQuery("SELECT count(*) FROM templates WHERE " + KEY_ACCOUNTID + " = ?",
         new String[] { String.valueOf(accountId) } );
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);
@@ -1094,12 +1103,12 @@ public class ExpensesDbAdapter {
   }
 
   public void incrTemplateUsage(long id) {
-    mDb.execSQL("update templates set usages = usages +1 where _id = " + id);
+    mDb.execSQL("update templates set usages = usages +1 WHERE _id = " + id);
   }
 
   //Counters
   private long getCountFromQuery(String query) {
-    Cursor mCursor = mDb.rawQuery("select count(*) from " + query, 
+    Cursor mCursor = mDb.rawQuery("SELECT count(*) FROM " + query,
         null);
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);

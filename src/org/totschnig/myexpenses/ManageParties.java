@@ -33,6 +33,7 @@ public class ManageParties extends ListActivity {
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
+      setTheme(MyApplication.getThemeId());
       super.onCreate(savedInstanceState);
       setContentView(R.layout.manage_list);
       setTitle(R.string.pref_manage_parties_title);

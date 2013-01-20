@@ -15,13 +15,13 @@
 
 package org.totschnig.myexpenses;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
@@ -33,7 +33,7 @@ import android.widget.CheckBox;
  * Activity for editing an account
  * @author Michael Totschnig
  */
-public class MethodEdit extends Activity {
+public class MethodEdit extends EditActivity {
   protected static final int TYPE_DIALOG_ID = 0;
   private EditText mLabelText;
   private TableLayout mTable;
@@ -47,6 +47,7 @@ public class MethodEdit extends Activity {
     super.onCreate(savedInstanceState);
         
     setContentView(R.layout.one_method);
+    changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
 
     mLabelText = (EditText) findViewById(R.id.Label);
 

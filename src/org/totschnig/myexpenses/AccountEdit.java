@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -28,6 +27,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -89,6 +89,7 @@ public class AccountEdit extends EditActivity {
     currencyDescs = Account.getCurrencyDescs();
     
     setContentView(R.layout.one_account);
+    changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
     configAmountInput();
 
     mLabelText = (EditText) findViewById(R.id.Label);

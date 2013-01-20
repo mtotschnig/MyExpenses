@@ -24,12 +24,12 @@
       android:layout_weight="1"
       android:fillViewport="true">
     <TableLayout
+        style="?attr/listStyle"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:id="@+id/Table"
         android:stretchColumns="1"
-        android:shrinkColumns="1" 
-        android:background="@drawable/border">      
+        android:shrinkColumns="1">
 
       <TableRow>
         <TextView style="@style/form_label"
@@ -64,19 +64,21 @@
       <TableRow>
           <TextView style="@style/form_label"
               android:text="@string/currency" />
-	        <AutoCompleteTextView 
-	            android:completionThreshold="1" 
-	            android:id="@+id/Currency" 
-	            android:maxLength="3"
-	            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" />
-          <Button 
+          <AutoCompleteTextView
+              android:completionThreshold="1"
+              android:id="@+id/Currency"
+              android:maxLength="3"
+              android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" />
+          <Button
+              style="@style/button"
               android:id="@+id/Select" 
               android:text="@string/select" />
       </TableRow>
       <TableRow>
         <TextView style="@style/form_label"
             android:text="@string/type" />
-          <Button 
+          <Button
+              style="@style/button"
               android:layout_span="2"
               android:layout_width="wrap_content" 
               android:layout_height="wrap_content" 

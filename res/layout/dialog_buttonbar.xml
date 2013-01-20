@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+  <include layout="@layout/divider_thick"/>
+    <LinearLayout style="?attr/buttonBarStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+      <Button
+          android:onClick="onDialogButtonClicked"
+          android:id="@id/NEUTRAL_BUTTON"
+          android:layout_weight="1"
+          android:layout_width="0dp" 
+          style="@style/button" />
+      <Button
+          android:onClick="onDialogButtonClicked"
+          android:id="@id/POSITIVE_BUTTON"
+          android:layout_weight="1"
+          android:layout_width="0dp"
+          style="@style/button" />
+      <Button
+          android:onClick="onDialogButtonClicked"
+          android:id="@id/NEGATIVE_BUTTON"
+          android:layout_weight="1"
+          android:layout_width="0dp"
+          style="@style/button" />
+    </LinearLayout>
+  <include layout="@layout/divider_thick"/>
+ </merge>

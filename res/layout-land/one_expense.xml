@@ -24,13 +24,13 @@
       android:layout_weight="1"
       android:fillViewport="true">
     <TableLayout
+        style="?attr/listStyle"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:id="@+id/Table"
         android:stretchColumns="1"
-        android:shrinkColumns="1"
-        android:background="@drawable/border">
+        android:shrinkColumns="1">
       <TableRow>
         <TextView style="@style/form_label"
             android:text="@string/date_time"/>
@@ -40,12 +40,14 @@
               android:layout_width="wrap_content"
               android:layout_height="fill_parent"
               android:id="@+id/Date"
-              android:text="@string/select"/>
+              android:text="@string/select"
+              style="@style/button"/>
           <Button
               android:layout_width="wrap_content"
               android:layout_height="fill_parent"
               android:id="@+id/Time"
-              android:text="@string/select"/>
+              android:text="@string/select"
+             style="@style/button"/>
         </LinearLayout>
       </TableRow>
                 
@@ -53,7 +55,7 @@
         <TextView style="@style/form_label" android:id="@+id/AmountLabel"/>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="horizontal">
-          <Button
+          <Button style="@style/button"
               android:layout_width="60dp"
               android:layout_height="fill_parent"
               android:id="@+id/TaType"
@@ -62,7 +64,7 @@
               android:id="@+id/Amount"
               android:layout_width="100sp"
               android:layout_height="fill_parent"/>
-          <Button
+          <Button style="@style/button"
               android:layout_width="wrap_content"
               android:layout_height="fill_parent"
               android:id="@+id/Category"
@@ -97,6 +99,7 @@
             android:id="@+id/MethodLabel"
             android:text="@string/method" />
         <Button android:id="@+id/Method" 
+            style="@style/button"
             android:text="@string/select" />
       </TableRow>
     </TableLayout>

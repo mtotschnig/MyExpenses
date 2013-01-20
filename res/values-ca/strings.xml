@@ -35,12 +35,11 @@
   <string name="comment">Notes</string>
   <string name="create_category">Nova categoria</string>
   <string name="currency">Moneda</string>
-  <string name="currency_not_iso4217">%1$s no es un codi de moneda vàlid segons la ISO 4217.</string>
+  <string name="currency_not_iso4217">%1$s no és un codi de moneda vàlid segons ISO 4217.</string>
   <string name="current_balance">Saldo actual</string>
   <string name="date">Data</string>
   <string name="date_time">Data / Hora</string>
-  <string name="default_account_description">Aquest compte ha estat establert automáticament a
-      l\'instal·lació.</string>    
+  <string name="default_account_description">Aquest compte ha estat establert automáticament a l\'instal·lació.</string>
   <string name="description">Descripció</string>
   <string name="dialog_confirm_delete_template">Segur que voleu suprimir la plantilla \"%1$s\" ?</string>
   <string name="dialog_title_select_account">Trieu el compte</string>
@@ -49,8 +48,8 @@
   <string name="dialog_title_select_method">Trieu el mètode de pagament</string>
   <string name="dialog_title_select_type">Trieu el tipus</string>
   <string name="dialog_title_template_title">Trieu el títol</string>
-  <string name="donate">Doneu</string>
-  <string name="donate_dialog_text">Si us agrada <i>&app_name;</i> i voleu fer una donació, ho podeu fer amb PayPal.
+  <string name="donate">Donació</string>
+  <string name="donate_dialog_text">Si us agrada <i>&app_name;</i> i voleu contribuir, podeu fer una donació amb PayPal.
       <a href="http://myexpenses.totschnig.org/#donate">Més informació</a>.\n
       \nGràcies pel vostre suport!</string>
   <string name="donate_positive_button">Em sento generós</string>
@@ -58,25 +57,25 @@
   <string name="expense">despesa</string>
   <string name="export_expenses_outputfile_exists">El fitxer de sortida ja existeix. Si us plau, espereu
        un minut i torneu-ho a intentar.</string>
-  <string name="export_expenses">Exportació de les despeses</string>
+  <string name="export_expenses">Exporta les despeses</string>
   <string name="export_expenses_sdcard_failure">Hi ha hagut un error en exportar les despeses a la targeta SD.</string>
   <string name="export_expenses_sdcard_success">Les despesas s\'han exportat al fitxer %1$s</string>
-  <string name="external_storage_unavailable">La memòria externa (targeta SD) no està
-       disponible.</string>
+  <string name="external_storage_unavailable">La memòria externa (targeta SD) no està disponible.</string>
   <string name="ftp_uri_malformed">URI %1$s no és vàlid</string>
   <string name="go_to_chapter">Consulteu el capítol</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_button_categories_only">Categories</string>
   <string name="grisbi_import_button_categories_and_parties">Categories i tercers</string>
-  <string name="grisbi_import_parsing">Análisi de %1$s</string>
   <string name="grisbi_import_categories_and_parties_success">%1$s categories i %2$s tercers s\'han 
       importat correctament.</string>
   <string name="grisbi_import_categories_loading">Les categories es carreguen des de %1$s</string>
-  <string name="grisbi_import_categories_success">%1$s categories s\'han importat correctament.
-      </string>
+  <string name="grisbi_import_categories_success">%1$s categories s\'han importat correctament.</string>
+  <string name="grisbi_import_parsing">Análisi de %1$s</string>
   <string name="grisbi_import_parties_loading">S\'està carregant els tercers des de %1$s</string>
+  <string name="help_heading_changelog">Registre de canvis</string>
   <string name="help_heading_credits">Crèdits</string>
   <string name="help_heading_license">Llicència</string>
+  <string name="help_heading_more_info">Més informació</string>
   <string name="help_heading_privacy">Política de privacitat</string>
   <string name="help_heading_quick_guide">Guia ràpida</string>
   <string name="help_heading_whats_new">Novetats</string>
@@ -94,11 +93,11 @@
       - <b>Preferències</b> : Permet accedir a totes les preferències i funcions de personalització
       (de comptes, categories, beneficiaris, formes de pagament, plantilles, còpies de seguretat, importacions).\n
       - <b>Ajuda</b> : Obre aquesta pantalla d\'ajuda.\n
-      \nAlguns botons (indicats amb un triangle a la cantonada superior esquerre) amb clics llargs obren altres menús:n\n
+      \nAlguns botons (indicats amb un triangle a la cantonada superior esquerre) amb clics llargs obren altres menús:\n\n
       - <b>Nou</b> : <b>Transferència</b> Permet fer una transferència d\'un compte a un altre (cal que tinguin la mateixa moneda). 
       També indica les plantilles disponibles. (Les plantilles es poden fer a partir de
       les transaccions des del menú contextual de la llista).\n
-      - <b>Comptes</b> : Indica tots els comptes als que es pot canviar. <b>Nou&#8230;</b> defineix un nou compte,
+      - <b>Comptes</b> : Indica tots els comptes als que es pot canviar. <b>Nou &#8230;</b> defineix un nou compte,
       <b>Resumen</b> abre un panorama general de tots els comptes amb el estado financiero actual.\n
       - <b>Preferències</b> Accediu a la còpia de seguretat i les propietats del compte corrent.\n
       - <b>Ayuda</b> : Accediu al tutorial, noticies, preguntes freqüents i als canvis.\n
@@ -106,8 +105,8 @@
   </string>
   <string name="import_categories">Importa categories</string>
   <string name="important_version_information">Informació important</string>
-  <string name="income">ingres</string>
-  <string name="invalid_number_format">El format de número no es compatible amb les vostra configuració
+  <string name="income">ingrés</string>
+  <string name="invalid_number_format">El format dels decimals no es compatible amb les vostra configuració
       regional. Si us plau, feu servir %1$s</string>
   <string name="label">Etiqueta</string>
   <string name="menu_accounts">Comptes</string>
@@ -117,7 +116,6 @@
   <string name="menu_accounts_summary">Resum</string>
   <string name="menu_backup">Còpia de seguretat</string>
   <string name="menu_change_account">Canvia de compte</string>
-  <string name="menu_changes">Cambios</string>
   <string name="menu_create_main_cat">Nova categoria principal</string>
   <string name="menu_create_sub_cat">Nova sub-categoria</string>
   <string name="menu_create_template">Nova plantilla</string>
@@ -132,79 +130,74 @@
   <string name="menu_edit_method">Modifica el mètode de pagament</string>
   <string name="menu_edit_ta">Modifica l\'assentament</string>
   <string name="menu_edit_transfer">Modifica la transferència a un altre compte</string>
-  <string name="menu_faq">Preguntes freqüents</string>
+  <string name="menu_faq">Preguntes més freqüents</string>
   <string name="menu_help">Ajuda</string>
   <string name="menu_insert_account">Nou compte</string>
   <string name="menu_insert_method">Nou mètode de pagament</string>
   <string name="menu_insert_ta">Nou assentament</string>
-  <string name="menu_insert_transfer">Nova transferència a un altre compte</string>
+  <string name="menu_insert_transfer">Nova transferència</string>
+  <string name="menu_more">Més &#8230;</string>
   <string name="menu_move_transaction">Mou</string>
   <string name="menu_new">Nou</string>
   <string name="menu_new_from_template">Nou a partir d\'una plantilla</string>
   <string name="menu_reset">Reinicia</string>
-  <string name="menu_reset_abrev">Restabl.</string>
+  <string name="menu_reset_abrev">Reinicia</string>
   <string name="menu_settings">Preferències</string>
-  <string name="menu_settings_abrev">Config.</string>
+  <string name="menu_settings_abrev">Opcions</string>
   <string name="menu_settings_account">Compte actual</string>
   <string name="menu_show_detail">Mostra els detalls</string>
   <string name="method">Mètode</string>
   <string name="new_version">Nova versió</string>
-  <string name="no_accounts">No hi ha cap compte</string>
+  <string name="no_accounts">No hi ha cap compte!</string>
   <string name="no_app_handling_email_available">No s\'ha trobat l\'aplicació del correu electrónic.</string>
   <string name="no_app_handling_ftp_available">No s\'ha trobat aplicació de ftp. Instal·la <i>Envia amb FTP</i> des de Google Play?</string>
   <string name="no_categories">Encara no hi ha categories.</string>
-  <string name="no_details">No hi ha detalles.</string>
-  <string name="no_expenses">Encara no hi ha despeses!</string>
+  <string name="no_details">No hi ha cap detall.</string>
+  <string name="no_expenses">Encara no hi ha cap despesa!</string>
   <string name="no_parties">No hi ha cap tercer</string>
   <string name="no_templates">No hi ha cap plantilla</string>
   <string name="no_text_given">No heu afegit cap text.</string>
-  <string name="not_deletable_mapped_transactions">No ha estat possible suprimeix-ho, per que te despeses assignades.</string>
-  <string name="not_deletable_mapped_templates">No ha estat possible suprimeix-ho, per que te plantilles assignades.</string>
-  <string name="not_deletable_subcats_exists">No ha estat possible suprimeix aquesta categoria, per que te sub-categories.</string>
-  <string name="no_valid_payment_methods">No hi ha mitjans de pagament vàlids per a %1$s (%2$s)</string>
+  <string name="no_valid_payment_methods">No hi ha cap mitjà de pagament vàlid per a %1$s (%2$s)</string>
+  <string name="not_deletable_mapped_transactions">No ha estat possible suprimir-ho, per que té despeses assignades.</string>
+  <string name="not_deletable_mapped_templates">No ha estat possible suprimir-ho, per que te plantilles assignades.</string>
+  <string name="not_deletable_subcats_exists">No ha estat possible suprimir aquesta categoria, per que te sub-categories.</string>
   <string name="opening_balance">Saldo inicial</string>
-  <string name="parse_error_file_not_found">No ha estat possible encontrar el fitxer %1$s</string>
-  <string name="parse_error_no_data_found">No hi ha dades importables en el fitxer.
-  </string>
-  <string name="parse_error_parse_exception">No ha estat possible analizar el fitxer.</string>
-  <string name="parse_error_other_exception">Se ha producido un error: %1$s</string>
+  <string name="parse_error_file_not_found">No ha estat possible trobar el fitxer %1$s</string>
+  <string name="parse_error_no_data_found">No hi ha dades importables en el fitxer.</string>
+  <string name="parse_error_parse_exception">No ha estat possible analitzar el fitxer.</string>
+  <string name="parse_error_other_exception">S\'ha produït un error: %1$s</string>
+  <string name="parse_error_grisbi_version_not_supported">"La versió  %1$s del fitxer Grisbi no està permesa"</string>
   <!-- 
   <string name="parse_error_grisbi_version_not_determined">No ha estat possible determinar la versió del fitxer Grisbi.</string>
    -->
-  <string name="parse_error_grisbi_version_not_supported">La versió del fitxer Grisbi no està permesa.</string>
   <string name="payee">Beneficiari</string>
   <string name="payer">Pagador</string>
   <!-- payment methods -->
   <string name="pm_cheque">Xec</string>
   <string name="pm_creditcard">Targeta de crèdit</string>
   <string name="pm_deposit">Dipòsit</string>
-  <string name="pm_directdebit">Imposició</string>
+  <string name="pm_directdebit">Càrrec</string>
   <string name="pm_type_neutral">Neutral</string>
   <string name="pm_type_debit">Dèbit</string>
   <string name="pm_type_credit">Crèdit</string>
-  <string name="peer_transaction_deleted">Aquest assentament estava connectat a un assentament de
-      contrapartida (compte %1$s) que es va suprimeix.</string>
-  <string name="pref_account_button_behaviour_summary">Voleu que el botó  \"Comptes\" canviï entre els dos 
-      últimas comptes en lloc de fer la volta per tots?</string>
+  <string name="peer_transaction_deleted">Aquest assentament estava connectat a un assentament de contrapartida (compte %1$s) que es va suprimir.</string>
+  <string name="pref_account_button_behaviour_summary">Voleu que el botó  \"Comptes\" canviï entre els dos últimas comptes en lloc de fer la volta per tots?</string>
   <string name="pref_account_button_behaviour_title">Botó dels \"Comptes\"</string>
   <string name="pref_backup_summary">Fa una còpia de seguretat de la base de dades i de les
       preferències a la targeta SD.</string>
   <string name="pref_categories_sort_by_usages_title">Criteri d\'ordenació de les categories</string>
-  <string name="pref_categories_sort_by_usages_summary">Freqüència d\'utilizació com a criteri
+  <string name="pref_categories_sort_by_usages_summary">Utilitza la freqüència d\'utilizació com a criteri
       principal d\'ordenació (per la resta ordre alfabétic)</string>
   <string name="pref_category_title_manage">Personalitza</string>
   <string name="pref_category_title_ui">Interfície d\'usuari</string>
-  <string name="pref_currency_decimal_separator_title">Separador decimal per a entrar els valors de
-      moneda</string>
-  <string name="pref_currency_decimal_separator_summary">Trieu entre \",\" i \".\". Podeu
-      també entrar les sub-unitats com a números enters.</string>
+  <string name="pref_currency_decimal_separator_title">Separador decimal de moneda</string>
+  <string name="pref_currency_decimal_separator_summary">Trieu entre , i . o bé entreu sempre les quantitats en cèntims, per evitar fer servir el símbol decimal.</string>
   <string name="pref_currency_decimal_separator_comma">Coma (,)</string>
   <string name="pref_currency_decimal_separator_point">Punt (.)</string>
-  <string name="pref_currency_decimal_separator_input_minor_unit">Sub-unitats com a numeros enters</string>
-  <string name="pref_import_from_grisbi_title">Importació des de Grisbi</string>
-  <string name="pref_import_from_grisbi_summary">Importa categories (i tercers) des de les incloses
-      definicions estándar de Grisbi o del vostre propi fitxer. Heu de desar arxivar aquest darrer
-      amb el nom &grisbi_file; a la carpeta myexpenses del directori arrel de la targeta SD.</string>
+  <string name="pref_currency_decimal_separator_input_minor_unit">Entra totes les quantitats en cèntims</string>
+  <string name="pref_import_from_grisbi_title">Importa de Grisbi</string>
+  <string name="pref_import_from_grisbi_summary">Importa les categories (i els tercers) de les definicions estándar de Grisbi,
+      o del vostre propi fitxer &grisbi_file; que ha d\'estar a la carpeta myexpenses del directori arrel de la targeta SD.</string>
   <string name="pref_manage_accounts_title">Comptes</string>
   <string name="pref_manage_accounts_summary">Afegeix, modifica i suprimeix comptes</string>
   <string name="pref_manage_categories_title">Categories</string>
@@ -218,17 +211,24 @@
   <string name="pref_perform_share_title">Envia l\'exportació QIF</string>
   <string name="pref_perform_share_summary">S\'ha d\'enviar el fitxer QIF després de cada
       exportació?</string>
-  <string name="pref_qif_export_file_encoding_summary">Estableix \"ISO-8859-1\" com la
-      codificació de caràcters si feu servir MS Money.</string>
-  <string name="pref_qif_export_file_encoding_title">Codificació de caracters del fitxer QIF </string>
+  <string name="pref_qif_export_file_encoding_summary">Trieu la codificació de caràcters \"ISO-8859-1\" si feu servir MS Money</string>
+  <string name="pref_qif_export_file_encoding_title">Codificació de caracters del fitxer QIF</string>
   <string name="pref_share_target_title">Puja el fitxer QIF (a una URL)</string>
   <string name="pref_share_target_summary">Podeu deixar-ho en blanc, si voleu triar entre les
       aplicacions adeqüades (correu electrònic, Dropbox, Google Docs, &#8230;), o indicar un URL
       en un dels esquemes permesos</string>
+  <string name="pref_ui_theme_title">Tema</string>
+  <string name="pref_ui_theme_summary">Trieu entre el tema clar i el fosc</string>
+  <string name="pref_ui_theme_dark">fosc</string>
+  <string name="pref_ui_theme_light">clar</string>
+  <string name="pref_ui_fontsize_title">Mida del tipus de lletra</string>
+  <string name="pref_ui_fontsize_summary">Trieu entre petit i gran</string>
+  <string name="pref_ui_fontsize_small">petit</string>
+  <string name="pref_ui_fontsize_big">gran</string>
   <string name="pref_use_standard_menu_title">Ús del menú</string>
   <string name="pref_use_standard_menu_summary">En lloc de la barra d\'eines utilizeu el
       menú estándar d\'Android per a donar les ordres.</string>
-  <string name="restore_db_success">La base de dades ha estat restaurada des de la còpia de seguretat.</string>
+  <string name="restore_db_success">S\'ha restaurat la base de dades des de la còpia de seguretat.</string>
   <string name="restore_preferences_success">S\'han restaurat les preferències des de la
       còpia de seguretat.</string>
   <string name="save_transaction_error">No ha estat possible desar la nova transacció de la plantilla</string>
@@ -236,29 +236,30 @@
   <string name="select">Trieu</string>
   <string name="select_account">Trieu un compte</string>
   <string name="select_category">Trieu una categoria</string>
-  <string name="select_parent_category">Tria aquesta categoria</string>
+  <string name="select_parent_category">Trieu aquesta categoria</string>
   <string name="share_scheme_not_supported">L\'esquema %1$s no està permés.</string>
   <string name="share_sending">Envia el fitxer QIF</string>
   <string name="suggest_use_standard_menu">Voleu fer servir el menú estándar d\'Android en lloc
       de la barra d\'eines per a donar les ordres?</string>
-  <string name="sum_income">Suma de tots els ingressos</string>
-  <string name="sum_expenses">Suma de totes les despeses</string>
-  <string name="switch_account">Canvia el compte \"%1$s\"</string>
+  <string name="sum_income">Ingressos</string>
+  <string name="sum_expenses">Despeses</string>
+  <string name="sum_transfer">Transferèncias</string>
+  <string name="switch_account">S\'ha canviat al compte \"%1$s\"</string>
   <string name="template_create_success">La plantilla \"%1$s\" s\'ha definit correctament</string>
-  <string name="template_title_exists">Ja hi ha una plantilla amb el títol \"%1$s\" .</string>
+  <string name="template_title_exists">Ja hi ha una plantilla amb el títol \"%1$s\"</string>
   <string name="time">Hora</string>
   <string name="title">Títol</string>
-  <string name="transaction">assentament</string>
+  <string name="transaction">Transacció</string>
   <string name="transfer">Transferència a un altre compte</string>
-  <string name="tutorial">Manual</string>
+  <string name="tutorial">Guia de l\'usuari</string>
   <string name="type">Tipus</string>
-  <string name="warning_backup">La base de dades i les preferències s\'arxiven a la targeta
+  <string name="warning_backup">La base de dades i les preferències es desaran a la targeta
       SD. Voleu continuar?</string>
-  <string name="warning_backup_exists">La base de dades i les preferències s\'arxiven a la
-      targeta SD. Suprimeix la còpia de seguretat actual. Voleu continuar?</string>
-  <string name="warning_delete_account">Suprimeix aquest compte amb tots els seus assentaments. Voleu
+  <string name="warning_backup_exists">La base de dades i les preferències es desaran a la targeta
+      SD. es suprimirà la còpia de seguretat actual. Voleu continuar?</string>
+  <string name="warning_delete_account">Es suprimirà aquest compte amb totes les seves transaccions. Voleu
       continuar?</string>
-  <string name="warning_reset_account">Totes les transaccions s\'exportaran a un fitxer QIF
+  <string name="warning_reset_account">Totes les transaccions d\'aquest compte s\'exportaran a un fitxer QIF
       de la targeta SD i es suprimiran. Voleu continuar?</string>
   <string name="warning_select_account">Si us plau, trieu un compte!</string>
 </resources>

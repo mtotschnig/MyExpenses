@@ -31,6 +31,7 @@ public class MyApplication extends Application {
     private String databaseName;
     private ExpensesDbAdapter mDbOpenHelper;
     private static MyApplication mSelf;
+    private static int themeId;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
     public static String PREFKEY_CATEGORIES_SORT_BY_USAGES;
     public static String PREFKEY_USE_STANDARD_MENU;
@@ -39,6 +40,8 @@ public class MyApplication extends Application {
     public static String PREFKEY_QIF_EXPORT_FILE_ENCODING;
     public static String PREFKEY_CURRENCY_DECIMAL_SEPARATOR;
     public static String PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR;
+    public static String PREFKEY_UI_THEME_KEY;
+    public static String PREFKEY_UI_FONTSIZE_KEY;
     public static String PREFKEY_CURRENT_VERSION = "currentversion";
     public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static String PREFKEY_LAST_ACCOUNT = "last_account";
@@ -63,6 +66,9 @@ public class MyApplication extends Application {
         PREFKEY_CURRENCY_DECIMAL_SEPARATOR = getString(R.string.pref_currency_decimal_separator_key);
         PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR = getString(R.string.pref_account_button_behaviour_key);
         PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
+        PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
+        PREFKEY_UI_FONTSIZE_KEY = getString(R.string.pref_ui_fontsize_key);
+        setThemes();
     }
     
     @Override
@@ -109,6 +115,28 @@ public class MyApplication extends Application {
       } else
         return false;
     }
+    public static int getThemeId()
+    {
+      return themeId;
+    }
+    public static void setThemes()
+    {
+      String themePref = mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark");
+      String fontSizePref = mSelf.settings.getString(MyApplication.PREFKEY_UI_FONTSIZE_KEY,"small");
+      if (themePref.equals("light")) {
+        if (fontSizePref.equals("big")) {
+          themeId = R.style.ThemeLightBig;
+        } else {
+          themeId = R.style.ThemeLightSmall;
+        }
+      } else {
+        if (fontSizePref.equals("big")) {
+          themeId = R.style.ThemeDarkBig;
+      } else {
+        themeId = R.style.ThemeDarkSmall;
+      }
+    }
+  }
     
     public static ExpensesDbAdapter db() {
       if(mSelf.mDbOpenHelper == null) {

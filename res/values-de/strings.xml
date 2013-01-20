@@ -77,8 +77,10 @@
   <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
   <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
   <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
+  <string name="help_heading_changelog">Änderungsprotokoll</string>
   <string name="help_heading_credits">Abspann</string>
   <string name="help_heading_license">Lizenz</string>
+  <string name="help_heading_more_info">Mehr Information</string>
   <string name="help_heading_privacy">Datenschutzerklärung</string>
   <string name="help_heading_quick_guide">Schnelleinstieg</string>
   <string name="help_heading_whats_new">Neue Funktionen</string>
@@ -106,11 +108,9 @@
 			- <b>Hilfe</b> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.\n
 			\nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
   </string>
-  <string name="help_whats_new"> - Buchungen aus Vorlagen erzeugen\n
-      - Zeichensatz des QIF-Exports konfigurierbar zur besseren Unterstützung von MS Money\n
-      - Verbesserungen der Benutzerschnittstelle\n
-      - Neueste Buchungen oben\n
-      - Kontenliste zeigt aktuellen Finanzstatus an</string>
+  <string name="help_whats_new"> - Dunkler UI Stil.\n
+      - Übersetzung ins Katalanische.\n
+      - Summe der Umbuchungen in der Kontenübersicht anzeigen.</string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
   <string name="important_version_information">Wichtige Information</string>
@@ -126,7 +126,6 @@
   <string name="menu_accounts_summary">Zusammenfassung</string>
   <string name="menu_backup">Sicherungskopie</string>
   <string name="menu_change_account">Konto wechseln</string>
-  <string name="menu_changes">Änderungen</string>
   <string name="menu_create_main_cat">Neue Hauptkategorie</string>
   <string name="menu_create_sub_cat">Neue Unterkategorie</string>
   <string name="menu_create_template">Vorlage erzeugen</string>
@@ -147,6 +146,7 @@
   <string name="menu_insert_method">Neue Zahlungsweise</string>
   <string name="menu_insert_ta">Neue Buchung</string>
   <string name="menu_insert_transfer">Neue Umbuchung</string>
+  <string name="menu_more">Mehr &#8230;</string>
   <string name="menu_move_transaction">Verschieben</string>
   <string name="menu_new">Neu</string>
   <string name="menu_new_from_template">Neu aus Vorlage</string>
@@ -238,6 +238,14 @@
   <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden
        Apps wählen wollen (Email, Dropbox, Google Docs, &#8230;) oder eine URL in einer der 
        unterstützten Schemen angeben</string>
+  <string name="pref_ui_theme_title">Stil</string>
+  <string name="pref_ui_theme_summary">Wählen Sie zwischen hell und dunkel</string>
+  <string name="pref_ui_theme_dark">dunkel</string>
+  <string name="pref_ui_theme_light">hell</string>
+  <string name="pref_ui_fontsize_title">Schriftgröße</string>
+  <string name="pref_ui_fontsize_summary">Wählen Sie zwischen klein und groß</string>
+  <string name="pref_ui_fontsize_small">klein</string>
+  <string name="pref_ui_fontsize_big">groß</string>
   <string name="pref_use_standard_menu_title">Androids Standardmenü verwenden</string>
   <string name="pref_use_standard_menu_summary">Anstatt der Symbolleiste, verwenden Sie Androids
       Standardmenü, um Befehle aufzurufen.</string>
@@ -253,9 +261,10 @@
   <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>
   <string name="share_sending">QIF Datei senden</string>
   <string name="suggest_use_standard_menu">Möchten Sie das Android Standardmenü anstatt der
-      Symbolleiste verwenden, um Befehle aufzurufen</string>
-  <string name="sum_income">Gesamtsumme der Einnahmen</string>
-  <string name="sum_expenses">Gesamtsumme der Ausgaben</string>
+      Symbolleiste verwenden, um Befehle aufzurufen?</string>
+  <string name="sum_income">Einnahmen</string>
+  <string name="sum_expenses">Ausgaben</string>
+  <string name="sum_transfer">Umbuchungen</string>
   <string name="switch_account">Zum Konto \"%1$s\" gewechselt</string>
   <string name="template_create_success">Vorlage \"%1$s\" erfolgreich angelegt</string>
   <string name="template_title_exists">Es existiert bereits eine Vorlage mit dem Titel \"%1$s\"</string>
@@ -285,5 +294,8 @@
   </string>
   <string name="version_32_upgrade_info">Sie haben eine FTP URL als Ziel für den Datei-Upload
      Diese Funktionalität ist nicht mehr Teil von <i>&app_name;</i>.</string>
-  <string name="version_34_upgrade_info">Sie können jetzt die kontinuierliche Weiterentwicklung von <i>&app_name;</i> mit Ihrer Spende unterstützen.</string>
+  <string name="version_34_upgrade_info">Sie können jetzt die kontinuierliche Weiterentwicklung von
+    <i>&app_name;</i> mit Ihrer Spende unterstützen.</string>
+  <string name="version_35_upgrade_info"><i>&app_name;</i> hat nun einen neuen dunklen Standard-Stil.
+    In den Einstellungen können Sie wieder zum hellen Stil wechseln.</string>
 </resources>      

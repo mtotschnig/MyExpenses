@@ -29,4 +29,20 @@
         <item>UTF-8</item>
         <item>ISO-8859-1</item>
     </string-array>
+    <string-array name="pref_ui_theme_values">
+        <item>dark</item>
+        <item>light</item>
+    </string-array>
+    <string-array name="pref_ui_theme_entries">
+        <item>@string/pref_ui_theme_dark</item>
+        <item>@string/pref_ui_theme_light</item>
+    </string-array>
+    <string-array name="pref_ui_fontsize_values">
+        <item>small</item>
+        <item>big</item>
+    </string-array>
+    <string-array name="pref_ui_fontsize_entries">
+        <item>@string/pref_ui_fontsize_small</item>
+        <item>@string/pref_ui_fontsize_big</item>
+    </string-array>
 </resources>

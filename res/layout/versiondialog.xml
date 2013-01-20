@@ -14,7 +14,11 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
- <ScrollView android:id="@+id/aboutscrollview" xmlns:android="http://schemas.android.com/apk/res/android"
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+ <ScrollView android:id="@+id/aboutscrollview"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
@@ -40,3 +44,6 @@
 	        android:textSize="18sp" />
 </LinearLayout>
 </ScrollView>
+ <include layout="@layout/dialog_buttonbar"/>
+</LinearLayout>
+

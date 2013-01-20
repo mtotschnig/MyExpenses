@@ -77,8 +77,10 @@ href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
   <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
   <string name="grisbi_import_categories_success">%1$s categorie state importate</string>
   <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
+  <string name="help_heading_changelog">Aggiornamenti</string>
   <string name="help_heading_credits">Generico</string>
   <string name="help_heading_license">Licenza</string>
+  <string name="help_heading_more_info">Maggiori informazioni</string>
   <string name="help_heading_privacy">Norme sulla privacy</string>
   <string name="help_heading_quick_guide">Guida rapida</string>
   <string name="help_heading_whats_new">Novità</string>
@@ -107,11 +109,6 @@ href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
       - <b>Aiuto</b> : accesso rapido al manuale, News et FAQ.\n
       \nPer favore visita il <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuale</a>
       per avere ulteriori esplicazioni.</string>
-  <string name="help_whats_new">&#160;- Creare operazione riguardo modelli\n
-      - È possibile configurare set di caratteri del file QIF (compatibilità MS Money)\n
-      - Miglioramenti dell\'interfaccia utente\n
-      - Mostra i recenti operazioni in cima\n
-      - L\'elenco degli conti mostra una panoramica della situazione finanziaria</string>
   <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
   <string name="important_version_information">Informazioni importanti</string>
@@ -125,7 +122,6 @@ href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
   <string name="menu_accounts_new">Nuovo &#8230;</string>
   <string name="menu_accounts_summary">Riassunto</string>
   <string name="menu_backup">Backup</string>
-  <string name="menu_changes">Modifiche</string>
   <string name="menu_change_account">Cambiare conto</string>
   <string name="menu_create_main_cat">Nuova categoria principale</string>
   <string name="menu_create_sub_cat">Nuova sottocategoria</string>
@@ -149,6 +145,7 @@ href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
   <string name="menu_insert_transfer">Aggiungere un trasferimento</string>
   <string name="menu_new">Nuovo</string>
   <string name="menu_new_from_template">Nuovo riguardo al modello</string>
+  <string name="menu_more">Ulteriori &#8230;</string>
   <string name="menu_move_transaction">Spostare</string>
   <string name="menu_reset">Reinitializare</string>
   <string name="menu_reset_abrev">Reinit.</string>
@@ -240,6 +237,14 @@ href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
   <string name="pref_share_target_summary">Lascia vuoto se si vuole scegliere tra le applicazioni
       appropriate (e-mail, Dropbox, Google Docs, &#8230;), o fornire l\'URL in uno dei sistemi
       sostenuti</string>
+  <string name="pref_ui_theme_title">Tema</string>
+  <string name="pref_ui_theme_summary">Scegli tra scuro e chiaro</string>
+  <string name="pref_ui_theme_dark">scuro</string>
+  <string name="pref_ui_theme_light">chiaro</string>
+  <string name="pref_ui_fontsize_title">Dimensioni carattere</string>
+  <string name="pref_ui_fontsize_summary">Scegli tra piccole e grandi</string>
+  <string name="pref_ui_fontsize_small">piccole</string>
+  <string name="pref_ui_fontsize_big">grandi</string>
   <string name="pref_use_standard_menu_title">Utilizzare Android standard menu</string>
   <string name="pref_use_standard_menu_summary">Invece di visualizzare una barra dei pulsanti,
       utilizzare  Android menu standard per l\'accesso ai comandi.</string>
@@ -256,8 +261,9 @@ href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
   <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
   <string name="suggest_use_standard_menu">Vuoi utilizzare il menu standard Android per chiamare i
       comandi, e nascondere la barra dei pulsanti?</string>
-  <string name="sum_income">Somma totale dei redditi</string>
-  <string name="sum_expenses">Somma totale delle spese</string>
+  <string name="sum_income">Redditi</string>
+  <string name="sum_expenses">Spese</string>
+  <string name="sum_transfer">Trasferimenti</string>
   <string name="switch_account">Cambiato al conto \"%1$s\"</string>
   <string name="template_create_success">Il modello \"%1$s\" è stato creato con successo</string>
   <string name="template_title_exists">Un modello con il nome \"%1$s\" già esiste</string>
