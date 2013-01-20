@@ -683,7 +683,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         count++;
       }
       return new AlertDialog.Builder(this)
-      //TODO: tranlate More
       .setTitle(R.string.menu_more)
       .setSingleChoiceItems(moreTitles, -1,new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int item) {
@@ -1048,7 +1047,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         edit.commit();
       }
       if (prev_version < 26) {
-        mVersionInfo += getString(R.string.version_26_upgrade_info) + "\n";;
+        mVersionInfo += getString(R.string.version_26_upgrade_info) + "\n";
         return;
       }
       if (prev_version < 28) {
@@ -1073,7 +1072,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         }
       }
       if (prev_version < 34) {
-        mVersionInfo += getString(R.string.version_34_upgrade_info);
+        mVersionInfo += getString(R.string.version_34_upgrade_info)+ "\n";
+      }
+      if (prev_version < 35) {
+        mVersionInfo += getString(R.string.version_35_upgrade_info)+ "\n";
       }
       showDialog(R.id.VERSION_DIALOG_ID);
     }
