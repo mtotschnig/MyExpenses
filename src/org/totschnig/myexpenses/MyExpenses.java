@@ -1248,9 +1248,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case R.id.RESET_ACCOUNT_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
         showDialog(RESET_DIALOG_ID);
-      } else { 
+      } else {
         Toast.makeText(getBaseContext(),
-            getString(R.string.external_storage_unavailable), 
+            getString(R.string.external_storage_unavailable),
             Toast.LENGTH_LONG)
             .show();
       }
@@ -1260,7 +1260,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         reset();
       } else { 
         Toast.makeText(getBaseContext(),
-            getString(R.string.external_storage_unavailable), 
+            getString(R.string.external_storage_unavailable),
             Toast.LENGTH_LONG)
             .show();
       }
