@@ -30,14 +30,17 @@ public abstract class EditActivity extends Activity {
   }
 
   protected void changeEditTextBackground(ViewGroup root) {
-    int c = getResources().getColor(R.color.theme_dark_button_color);
-    for(int i = 0; i <root.getChildCount(); i++) {
-      View v = root.getChildAt(i);
-      if(v instanceof EditText) {
-        Utils.setBackgroundFilter(v, c);
-      } else if(v instanceof ViewGroup) {
-        changeEditTextBackground((ViewGroup)v);
-}
+    SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
+    if (settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("dark")) {
+      int c = getResources().getColor(R.color.theme_dark_button_color);
+      for(int i = 0; i <root.getChildCount(); i++) {
+        View v = root.getChildAt(i);
+        if(v instanceof EditText) {
+          Utils.setBackgroundFilter(v, c);
+        } else if(v instanceof ViewGroup) {
+          changeEditTextBackground((ViewGroup)v);
+        }
+      }
     }
   }
   /**
