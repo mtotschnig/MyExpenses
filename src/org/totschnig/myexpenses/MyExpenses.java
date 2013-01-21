@@ -85,7 +85,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public static final int ACTIVITY_PREF=2;
   public static final int ACTIVITY_CREATE_ACCOUNT=3;
   public static final int ACTIVITY_EDIT_ACCOUNT=4;
-  
+
   public static final boolean TYPE_TRANSACTION = true;
   public static final boolean TYPE_TRANSFER = false;
   public static final boolean ACCOUNT_BUTTON_CYCLE = false;
@@ -135,7 +135,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    * if null, we call from SWITCH_ACCOUNT if a long we call from MOVE_TRANSACTION
    */
   private long mSelectAccountContextId = 0L;
-  private int mCurrenDialog = 0;
+  private int mCurrentDialog = 0;
 
 /*  private int monkey_state = 0;
 
@@ -153,7 +153,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         monkey_state = 2;
         return true;
       case 2:
-        showDialog(RESET_DIALOG_ID);
+        showDialogWrapper(RESET_DIALOG_ID);
         monkey_state = 3;
         return true;
       case 3:
@@ -518,20 +518,22 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       return true;
     case R.id.MOVE_TRANSACTION_COMMAND:
       mSelectAccountContextId = info.id;
-      showDialog(SELECT_ACCOUNT_DIALOG_ID);
+      showDialogWrapper(SELECT_ACCOUNT_DIALOG_ID);
       return true;
     case R.id.CREATE_TEMPLATE_COMMAND:
       mTemplateCreateDialogTransactionId = info.id;
-      showDialog(TEMPLATE_TITLE_DIALOG_ID);
+      showDialogWrapper(TEMPLATE_TITLE_DIALOG_ID);
       return true;
     }
     return super.onContextItemSelected(item);
   }
 
-  @Override
-  protected void onPrepareDialog(int id, Dialog dialog) {
-    mCurrenDialog = id;
-    super.onPrepareDialog(id,dialog);
+  /**
+   * @param id we store the dialog id, so that we can dismiss it in our generic button handler
+   */
+  public void showDialogWrapper(int id) {
+    mCurrentDialog = id;
+    showDialog(id);
   }
 
   @Override
@@ -756,6 +758,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    outState.putLong("SelectAccountContextId", mSelectAccountContextId);
    outState.putLong("TemplateCreateDialogTransactionId",mTemplateCreateDialogTransactionId);
    outState.putSerializable("MoreItems",mMoreItems);
+   outState.putInt("currentDialog",mCurrentDialog);
   }
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -764,6 +767,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    mSelectAccountContextId = savedInstanceState.getLong("SelectAccountContextId");
    mTemplateCreateDialogTransactionId = savedInstanceState.getLong("TemplateCreateDialogTransactionId");
    mMoreItems = (ArrayList<Action>) savedInstanceState.getSerializable("MoreItems");
+   mCurrentDialog = savedInstanceState.getInt("currentDialog");
   }
   /**
    * start ExpenseEdit Activity for a new transaction/transfer
@@ -1029,7 +1033,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
 
       edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
-      showDialog(R.id.HELP_DIALOG_ID);
+      showDialogWrapper(R.id.HELP_DIALOG_ID);
     } else if (prev_version != current_version) {
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
       if (prev_version < 14) {
@@ -1066,7 +1070,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           Intent intent = new Intent(android.content.Intent.ACTION_SENDTO);
           intent.setData(android.net.Uri.parse(target));
           if (packageManager.queryIntentActivities(intent,0).size() == 0) {
-            showDialog(R.id.FTP_DIALOG_ID);
+            showDialogWrapper(R.id.FTP_DIALOG_ID);
             return;
           }
         }
@@ -1077,7 +1081,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       if (prev_version < 35) {
         mVersionInfo += getString(R.string.version_35_upgrade_info)+ "\n";
       }
-      showDialog(R.id.VERSION_DIALOG_ID);
+      showDialogWrapper(R.id.VERSION_DIALOG_ID);
     }
   }
   /**
@@ -1186,8 +1190,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   }
 
   public void onDialogButtonClicked(View v) {
-    if (mCurrenDialog != 0)
-      dismissDialog(mCurrenDialog);
+    if (mCurrentDialog != 0)
+      dismissDialog(mCurrentDialog);
     onClick(v);
   }
   public boolean dispatchLongCommand(int command, Object tag) {
@@ -1216,7 +1220,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       startActivity(i);
       break;
     case R.id.DONATE_COMMAND:
-      showDialog(DONATE_DIALOG_ID);
+      showDialogWrapper(DONATE_DIALOG_ID);
       break;
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
@@ -1233,14 +1237,14 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
            switchAccount(0);
          } else {
            mSelectAccountContextId = 0L;
-           showDialog(SELECT_ACCOUNT_DIALOG_ID);
+           showDialogWrapper(SELECT_ACCOUNT_DIALOG_ID);
          }
         } else {
           Long accountId = tag != null ? (Long) tag : 0;
           switchAccount(accountId);
         }
       } else {
-        showDialog(ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID);
+        showDialogWrapper(ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID);
       }
       break;
     case R.id.CREATE_ACCOUNT_COMMAND:
@@ -1249,7 +1253,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       break;
     case R.id.RESET_ACCOUNT_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
-        showDialog(RESET_DIALOG_ID);
+        showDialogWrapper(RESET_DIALOG_ID);
       } else {
         Toast.makeText(getBaseContext(),
             getString(R.string.external_storage_unavailable),
@@ -1287,11 +1291,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       startActivity(i);
       break;
     case R.id.HELP_COMMAND:
-      showDialog(R.id.HELP_DIALOG_ID);
+      showDialogWrapper(R.id.HELP_DIALOG_ID);
       break;
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
       if (tag == null) {
-          showDialog(SELECT_TEMPLATE_DIALOG_ID);
+          showDialogWrapper(SELECT_TEMPLATE_DIALOG_ID);
       } else {
         Transaction.getInstanceFromTemplate((Long) tag).save();
         fillData();
@@ -1299,7 +1303,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       break;
     case R.id.MORE_ACTION_COMMAND:
       mMoreItems = (ArrayList<Action>) tag;
-      showDialog(MORE_ACTIONS_DIALOG_ID);
+      showDialogWrapper(MORE_ACTIONS_DIALOG_ID);
       break;
     case R.id.PAYPAL_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
@@ -1372,7 +1376,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   public boolean onKeyUp(int keyCode, KeyEvent event) {
     if (!mUseStandardMenu && keyCode == KeyEvent.KEYCODE_MENU) {
       Log.i("MyExpenses", "will react to menu key");
-      showDialog(USE_STANDARD_MENU_DIALOG_ID);
+      showDialogWrapper(USE_STANDARD_MENU_DIALOG_ID);
       return true;
     }
     return  super.onKeyUp(keyCode, event);
