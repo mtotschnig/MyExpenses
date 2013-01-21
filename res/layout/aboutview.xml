@@ -79,35 +79,35 @@
         android:onClick="onDialogButtonClicked"
         android:id="@id/WEB_COMMAND"
         android:tag="news"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         style="@style/button"
         android:text="@string/help_heading_news" />
     <Button
         android:onClick="onDialogButtonClicked"
         android:id="@id/WEB_COMMAND"
         android:tag="faq"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         style="@style/button"
         android:text="@string/help_heading_faq" />
     <Button
         android:onClick="onDialogButtonClicked"
         android:id="@id/WEB_COMMAND"
         android:tag="privacy"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         style="@style/button"
         android:text="@string/help_heading_privacy" />
     <Button
         android:onClick="onDialogButtonClicked"
         android:id="@id/WEB_COMMAND"
         android:tag="changelog"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         style="@style/button"
         android:text="@string/help_heading_changelog" />
     <Button
         android:onClick="onDialogButtonClicked"
         android:id="@id/WEB_COMMAND"
         android:tag="credits"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         style="@style/button"
         android:text="@string/help_heading_credits" />
   </LinearLayout>

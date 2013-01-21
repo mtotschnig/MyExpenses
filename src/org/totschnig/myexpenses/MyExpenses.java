@@ -71,6 +71,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 import android.text.method.LinkMovementMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 /**
@@ -355,7 +356,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           // Set the background color of the text.
         }
         else {
-          tv1.setTextColor(android.graphics.Color.GREEN);
+          tv1.setTextColor(getResources().getColor(R.color.income));
         }
         TextView tv2 = (TextView)row.findViewById(R.id.category);
         col = c.getColumnIndex(ExpensesDbAdapter.KEY_TRANSFER_PEER);
@@ -543,8 +544,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     TextView tv;
     switch (id) {
     case R.id.HELP_DIALOG_ID:
+      DisplayMetrics displaymetrics = new DisplayMetrics();
+      getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+      int wWidth = displaymetrics.widthPixels;
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.aboutview, null);
+      view.setMinimumWidth((int) (wWidth*0.9f));
       ((TextView)view.findViewById(R.id.aboutVersionCode)).setText(getVersionInfo());
       ((TextView)view.findViewById(R.id.help_licence_gpl)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
