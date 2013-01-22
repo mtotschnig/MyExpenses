@@ -13,18 +13,5 @@ versions_i18n:
       Mostrar más nuevas transacciones en la parte superior.
       La lista de cuentas muestra el estado financiero actual.
 ---
-<dl class="versionlist">
-{% for version in site.versions_prerelease %}
-    <dt><span class="versioncode">{{version[0]}}</span><span class="versiondate">{{version[1]}}</span></dt>
-    <dd>{{version[2]}}</dd>
-{% endfor %}
-{% for version in page.versions_i18n %}
-    <dt><span class="versioncode">{{version[0]}}</span><span class="versiondate">{{version[1]}}</span></dt>
-    <dd>{{version[2]}}</dd>
-{% endfor %}
-{% for version in site.versions_legacy %}
-    <dt><span class="versioncode">{{version[0]}}</span><span class="versiondate">{{version[1]}}</span></dt>
-    <dd>{{version[2]}}</dd>
-{% endfor %}
-</dl>
+{% include versionlist.xhtml %}
 
