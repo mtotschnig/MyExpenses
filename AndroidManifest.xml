@@ -58,7 +58,7 @@
               <category android:name="android.intent.category.DEFAULT" />  
             </intent-filter>
         </activity>
-        <activity android:name=".MyPreferenceActivity" android:theme="@android:style/Theme.Light"/>
+        <activity android:name=".MyPreferenceActivity"/>
         <activity android:name=".ManageParties">
              <intent-filter>  
               <action android:name="myexpenses.intent.manage.parties"/>  
