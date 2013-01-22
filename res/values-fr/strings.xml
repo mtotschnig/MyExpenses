@@ -108,7 +108,7 @@
       - <b>Aide</b> : Accès rapide au manuel, les news, la foire aux questions et la liste des changements.\n
       \nReférez-vous au <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuel</a> pour de plus amples explications.
   </string>
-  <string name="help_whats_new"> - Style sombre de l\'interface utilisateur.\n
+  <string name="help_whats_new">&#160;- Style sombre de l\'interface utilisateur.\n
       - Traduction en catalan.\n
       - Afficher le total des tansfers dans le sommaire des comptes.</string>
   <string name="import_categories">Importer les catégories</string>

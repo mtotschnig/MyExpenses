@@ -103,6 +103,9 @@
       - <b>Ayuda</b> : Accediu al tutorial, noticies, preguntes freqüents i als canvis.\n
       \nSi us plau, consulteu <a href="http://myexpenses.totschnig.org/#tutorial_r4">el manual</a> per a explicacions detallades.
   </string>
+  <string name="help_whats_new">&#160;- Aparença: tema fosc.\n
+      - Traducció al català.\n
+      - Nova suma de transferències a la vista dels comptes.</string>
   <string name="import_categories">Importa categories</string>
   <string name="important_version_information">Informació important</string>
   <string name="income">ingrés</string>
@@ -262,4 +265,6 @@
   <string name="warning_reset_account">Totes les transaccions d\'aquest compte s\'exportaran a un fitxer QIF
       de la targeta SD i es suprimiran. Voleu continuar?</string>
   <string name="warning_select_account">Si us plau, trieu un compte!</string>
+  <string name="version_35_upgrade_info"><i>&app_name;</i> ara hi ha un nou tema fosc per omissió.
+      Podeu triar el tema clar a les preferències.</string>
 </resources>

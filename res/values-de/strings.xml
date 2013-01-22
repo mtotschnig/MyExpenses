@@ -108,7 +108,7 @@
 			- <b>Hilfe</b> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.\n
 			\nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
   </string>
-  <string name="help_whats_new"> - Dunkler UI Stil.\n
+  <string name="help_whats_new">&#160;- Dunkler UI Stil.\n
       - Übersetzung ins Katalanische.\n
       - Summe der Umbuchungen in der Kontenübersicht anzeigen.</string>
   <string name="import_categories">Kategorien importieren</string>
@@ -119,7 +119,7 @@
   <string name="label">Bezeichnung</string>
   <string name="menu_accounts">Konten</string>
   <string name="menu_accounts_explain">Mit dem Schaltknopf Konten können Sie zwischen Konten 
-      wechseln, sobald Sie mehrere Konten angelegt haben. Zur Zeit gibt es nur ein Konto. Wollen
+      wechseln, sobald Sie mehrere Konten angelegt haben. Zur Zeit gibt es nur ein Konto. Wollen Sie
       ein zweites Konto jetzt anlegen?
   </string>
   <string name="menu_accounts_new">Neu &#8230;</string>
