@@ -22,10 +22,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
+import android.view.View;
 import android.widget.Toast;
 
 public class Backup extends Activity {
-  static final int BACKUP_DIALOG_ID = 4;
+  static final int BACKUP_DIALOG_ID = 1;
+  static final int BACKUP_COMMAND_ID = 1;
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -45,29 +48,24 @@ public class Backup extends Activity {
       ExpensesDbAdapter mDbHelper = MyApplication.db();
       File backupDb = mDbHelper.getBackupFile();
       int message = backupDb.exists() ? R.string.warning_backup_exists : R.string.warning_backup;
-      return new AlertDialog.Builder(this)
-      .setMessage(message)
-      .setCancelable(false)
-      .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-          if (Utils.isExternalStorageAvailable()) {
-            if (((MyApplication) getApplicationContext()).backup()) {
-              Toast.makeText(getBaseContext(),getString(R.string.backup_success), Toast.LENGTH_LONG).show();
+      return Utils.createMessageDialog(new ContextThemeWrapper(this, MyApplication.getThemeId()) {
+        public void onDialogButtonClicked(View v) {
+          dismissDialog(BACKUP_DIALOG_ID);
+          if (v.getId() == BACKUP_COMMAND_ID) {
+            if (Utils.isExternalStorageAvailable()) {
+              if (((MyApplication) getApplicationContext()).backup()) {
+                Toast.makeText(getBaseContext(),getString(R.string.backup_success), Toast.LENGTH_LONG).show();
+              } else {
+                Toast.makeText(getBaseContext(),getString(R.string.backup_failure), Toast.LENGTH_LONG).show();
+              }
             } else {
-              Toast.makeText(getBaseContext(),getString(R.string.backup_failure), Toast.LENGTH_LONG).show();
+              Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
             }
-          } else {
-            Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
           }
           finish();
         }
-      })
-      .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-          dismissDialog(BACKUP_DIALOG_ID);
-          finish();
-        }
-      }).create();
+      },message,BACKUP_DIALOG_ID)
+          .create();
     }
     return null;
   }

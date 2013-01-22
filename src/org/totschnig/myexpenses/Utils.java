@@ -36,6 +36,7 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -45,7 +46,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -345,6 +349,50 @@ public class Utils {
       this.success = success;
       this.message = message;
       this.extra = extra;
+    }
+  }
+  /**
+   * @return an AlertDialog.Builder with R.layout.messagedialog as layout
+   */
+  public static AlertDialog.Builder createMessageDialog(Context ctx, int message,int command) {
+    LayoutInflater li = LayoutInflater.from(ctx);
+    View view = li.inflate(R.layout.messagedialog, null);
+    TextView tv = (TextView)view.findViewById(R.id.message_text);
+    tv.setText(message);
+    setDialogButtons(view,
+        0,0,
+        android.R.string.yes,command,
+        android.R.string.no,0
+    );
+    return new AlertDialog.Builder(ctx)
+      .setView(view);
+  }
+  static void setDialogButtons(View view, int neutralString, int neutralCommandId,
+      int positiveString, int positiveCommandId, int negativeString, int negativeCommandId) {
+    Button positiveButton = (Button) view.findViewById(R.id.POSITIVE_BUTTON);
+    Button neutralButton = (Button) view.findViewById(R.id.NEUTRAL_BUTTON);
+    Button negativeButton = (Button) view.findViewById(R.id.NEGATIVE_BUTTON);
+    setButton(positiveButton,positiveString,positiveCommandId);
+    setButton(negativeButton,negativeString,negativeCommandId);
+    setButton(neutralButton,neutralString,neutralCommandId);
+  }
+  /**
+   * set String s and Command c on Button b
+   * if s i null, hide button
+   * @param b
+   * @param s
+   * @param c
+   */
+  private static void setButton(Button b, int s, int c) {
+    if (b != null) {
+      if (s != 0) {
+        b.setText(s);
+        if (c != 0) {
+          b.setId(c);
+        }
+      } else {
+        b.setVisibility(View.GONE);
+      }
     }
   }
 }

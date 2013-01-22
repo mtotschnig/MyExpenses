@@ -554,7 +554,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       ((TextView)view.findViewById(R.id.help_licence_gpl)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_whats_new)).setMovementMethod(LinkMovementMethod.getInstance());
-      setDialogButtons(view,
+      Utils.setDialogButtons(view,
           R.string.feedback,R.id.FEEDBACK_COMMAND,
           R.string.donate,R.id.DONATE_COMMAND,
           android.R.string.ok, 0);
@@ -574,7 +574,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         tv.setVisibility(View.VISIBLE);
         ((TextView) view.findViewById(R.id.versionInfoImportantHeading)).setVisibility(View.VISIBLE);
       }
-      setDialogButtons(view,
+      Utils.setDialogButtons(view,
           R.string.menu_help,R.id.HELP_COMMAND,
           R.string.donate,R.id.DONATE_COMMAND,
           android.R.string.ok,0);
@@ -584,13 +584,13 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         .setView(view)
         .create();
     case RESET_DIALOG_ID:
-      return createMessageDialog(R.string.warning_reset_account,R.id.RESET_ACCOUNT_COMMAND_DO)
+      return Utils.createMessageDialog(this,R.string.warning_reset_account,R.id.RESET_ACCOUNT_COMMAND_DO)
         .create();
     case ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID:
-      return createMessageDialog(R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND)
+      return Utils.createMessageDialog(this,R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND)
         .create();
     case USE_STANDARD_MENU_DIALOG_ID:
-      return createMessageDialog(R.string.suggest_use_standard_menu,R.id.USE_STANDARD_MENU_COMMAND)
+      return Utils.createMessageDialog(this,R.string.suggest_use_standard_menu,R.id.USE_STANDARD_MENU_COMMAND)
         .create();
     //SELECT_ACCOUNT_DIALOG is used both from SWITCH_ACCOUNT and MOVE_TRANSACTION
     case SELECT_ACCOUNT_DIALOG_ID:
@@ -705,7 +705,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       })
       .create();
     case DONATE_DIALOG_ID:
-      return createMessageDialog(R.string.donate_dialog_text,R.id.PAYPAL_COMMAND)
+      return Utils.createMessageDialog(this,R.string.donate_dialog_text,R.id.PAYPAL_COMMAND)
           .setTitle(R.string.donate)
           .setIcon(R.drawable.paypal)
           .create();
@@ -713,49 +713,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     return null;
   }
 
-  /**
-   * @return an AlertDialog.Builder with R.layout.messagedialog as layout
-   */
-  public AlertDialog.Builder createMessageDialog(int message,int command) {
-    LayoutInflater li = LayoutInflater.from(this);
-    View view = li.inflate(R.layout.messagedialog, null);
-    TextView tv = (TextView)view.findViewById(R.id.message_text);
-    tv.setText(message);
-    setDialogButtons(view,
-        0,0,
-        android.R.string.yes,command,
-        android.R.string.no,0
-    );
-    return new AlertDialog.Builder(this)
-      .setView(view);
-  }
-  private void setDialogButtons(View view, int neutralString, int neutralCommandId,
-      int positiveString, int positiveCommandId, int negativeString, int negativeCommandId) {
-    Button positiveButton = (Button) view.findViewById(R.id.POSITIVE_BUTTON);
-    Button neutralButton = (Button) view.findViewById(R.id.NEUTRAL_BUTTON);
-    Button negativeButton = (Button) view.findViewById(R.id.NEGATIVE_BUTTON);
-    setButton(positiveButton,positiveString,positiveCommandId);
-    setButton(negativeButton,negativeString,negativeCommandId);
-    setButton(neutralButton,neutralString,neutralCommandId);
-  }
-  /**
-   * set String s and Command c on Button b
-   * @param b
-   * @param s
-   * @param c
-   */
-  private void setButton(Button b, int s, int c) {
-    if (b != null) {
-      if (s != 0) {
-        b.setText(s);
-        if (c != 0) {
-          b.setId(c);
-        }
-      } else {
-        b.setVisibility(View.GONE);
-      }
-    }
-  }
+
   @Override
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
