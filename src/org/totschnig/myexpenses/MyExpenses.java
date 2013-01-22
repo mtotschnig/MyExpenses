@@ -48,6 +48,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
 import android.net.Uri;
@@ -73,6 +74,7 @@ import android.widget.TextView;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 
 /**
  * This is the main activity where all expenses are listed
@@ -138,6 +140,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   private long mSelectAccountContextId = 0L;
   private int mCurrentDialog = 0;
 
+  private int colorExpense;
+  private int colorIncome;
+
 /*  private int monkey_state = 0;
 
   @Override
@@ -201,6 +206,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     registerForContextMenu(getListView());
     mSettings.registerOnSharedPreferenceChangeListener(this);
 
+    Resources.Theme theme = getTheme();
+    TypedValue color = new TypedValue();
+    theme.resolveAttribute(R.attr.colorExpense, color, true);
+    colorExpense = color.data;
+    theme.resolveAttribute(R.attr.colorIncome,color, true);
+    colorIncome = color.data;
   }
   private void fillSwitchButton() {
     mSwitchButton.clearMenu();
@@ -352,11 +363,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         int col = c.getColumnIndex(ExpensesDbAdapter.KEY_AMOUNT);
         long amount = c.getLong(col);
         if (amount < 0) {
-          tv1.setTextColor(android.graphics.Color.RED);
+          tv1.setTextColor(colorExpense);
           // Set the background color of the text.
         }
         else {
-          tv1.setTextColor(getResources().getColor(R.color.income));
+          tv1.setTextColor(colorIncome);
         }
         TextView tv2 = (TextView)row.findViewById(R.id.category);
         col = c.getColumnIndex(ExpensesDbAdapter.KEY_TRANSFER_PEER);

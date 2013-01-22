@@ -9,4 +9,6 @@
     <attr name="buttonTextColor" format="reference|color"/>
     <attr name="menuItemStyle" format="reference" />
     <attr name="listPadding" format="dimension" />
+    <attr name="colorIncome" format="color" />
+    <attr name="colorExpense" format="color" />
 </resources>

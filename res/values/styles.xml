@@ -31,7 +31,9 @@
     <item name="android:windowTitleBackgroundStyle">@style/headingDark</item>
     <item name="android:windowTitleSize">30sp</item>
     <item name="android:windowTitleStyle">@style/titleTextStyle</item>
-    <item name="android:preferenceCategoryStyle">@style/PrefCat</item> 
+    <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
+    <item name="colorIncome">#00D000</item>
+    <item name="colorExpense">#D00000</item>
   </style>
   <style name="ThemeDarkBig" parent="ThemeDarkSmall">
     <item name="android:textAppearanceLarge">@style/MyLargePlusTextAppearance</item>
@@ -55,7 +57,9 @@
     <item name="android:windowTitleSize">30sp</item>
     <item name="android:windowTitleStyle">@style/titleTextStyle</item>
     <item name="android:windowTitleBackgroundStyle">@style/headingLight</item>
-    <item name="android:preferenceCategoryStyle">@style/PrefCat</item> 
+    <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
+    <item name="colorIncome">#008000</item>
+    <item name="colorExpense">#800000</item>
   </style>
   <style name="ThemeLightBig" parent="ThemeLightSmall">
     <item name="android:textAppearanceLarge">@style/MyLargePlusTextAppearance</item>
