@@ -248,6 +248,10 @@ versions_legacy:
     - "Sort categories by usages; Allow assignment of main category; Allow manual creation of categories; Improved handling of categories import."
 versions_prerelease:
   -
+    - 1.6.1RC3
+    - January 23 2013
+    - "Final UI adjustments."
+  -
     - 1.6.1RC2
     - January 22 2013
     - "Fixed layout issues, and button behaviour in dialogs."
