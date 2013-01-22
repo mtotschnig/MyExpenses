@@ -28,12 +28,12 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
        <TextView android:text="@string/help_heading_whats_new"
-        style="@style/about_heading" />
+        style="?attr/headingStyle" />
       <TextView android:id="@+id/versionInfoChanges"
           style="@style/about_text"/>
       <TextView android:id="@+id/versionInfoImportantHeading"
           android:text="@string/important_version_information"
-          style="@style/about_heading"
+          style="?attr/headingStyle"
           android:visibility="gone"/>
       <TextView android:id="@+id/versionInfoImportant"
           android:visibility="gone"
