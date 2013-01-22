@@ -107,6 +107,9 @@
       - <b>Ayuda</b> : Acceso rápido a tutorial, noticias, preguntas frecuentes y cambios.\n
       \nPor favor, consulte <a href="http://myexpenses.totschnig.org/#tutorial_r4">el manual</a> para explicaciones detalladas.
   </string>
+    <string name="help_whats_new">&#160;- Tema UI oscuro.\n
+      - Traducción catalán.\n
+      - Añadido suma de las traslados en resumen de cuentas.</string>
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Información importante</string>
   <string name="income">ingreso</string>
@@ -285,4 +288,6 @@
   <string name="version_32_upgrade_info">Ha configurado una URL FTP como destino.
       <i>&app_name;</i> ya no maneja las transferencias FTP por sí solo.</string>
   <string name="version_34_upgrade_info">Ahora usted puede apoyar el desarrollo contínuo de  <i>&app_name;</i> através su donación <i>&app_name;</i>.</string>
+  <string name="version_35_upgrade_info"><i>&app_name;</i> ahora tiene un nuevo tema estándar oscuro.
+   Puede volver al tema claro en las configuraciones.</string>
 </resources>
