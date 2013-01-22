@@ -48,6 +48,7 @@ public class ManageAccounts extends ListActivity {
   private static final int ACTIVITY_CREATE=0;
   private static final int ACTIVITY_EDIT=1;
   private static final int DELETE_ID = Menu.FIRST;
+  private static final int DELETE_COMMAND_ID = 1;
   private ExpensesDbAdapter mDbHelper;
   Cursor mAccountsCursor;
   long mCurrentAccount;
@@ -96,18 +97,16 @@ public class ManageAccounts extends ListActivity {
   protected Dialog onCreateDialog(int id) {
     switch (id) {
     case DELETE_DIALOG_ID:
-      return new AlertDialog.Builder(this)
-      .setMessage(R.string.warning_delete_account)
-      .setCancelable(false)
-      .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            Account.delete(mContextAccountId);
-            fillData();
-          }
-      })
-      .setNegativeButton(android.R.string.no, null).create();
+      return Utils.createMessageDialog(this,R.string.warning_delete_account,DELETE_COMMAND_ID).create();
     }
     return null;
+  }
+  public void onDialogButtonClicked(View v) {
+    dismissDialog(DELETE_DIALOG_ID);
+    if (v.getId() == DELETE_COMMAND_ID) {
+      Account.delete(mContextAccountId);
+      fillData();
+    }
   }
   private void fillData () {
     if (mAccountsCursor == null) {
