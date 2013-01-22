@@ -54,7 +54,6 @@
   <string name="donate_dialog_text">Se apprezzate <i>&app_name;</i> e volete dare un contribute potete farlo tramite PayPal. <a 
 href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
        \nGrazie per il vostro sostegno!</string>
-  <string name="donate_positive_button">Mi sento generoso</string>
   
   <string name="edit_category">Modificare la categoria</string>
   <string name="expense">spesa</string>

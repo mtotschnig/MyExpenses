@@ -53,7 +53,6 @@
   <string name="donate_dialog_text">If you appreciate <i>&app_name;</i> and would like to make
       a contribution, you can donate via PayPal. <a href="http://myexpenses.totschnig.org/#donate">Learn more</a>.\n
       \nThank you for your support!</string>
-  <string name="donate_positive_button">I feel generous</string>
   <string name="edit_category">Edit category</string>
   <string name="expense">expense</string>
   <string name="export_expenses_outputfile_exists">Output file already exists. Please wait one

@@ -54,7 +54,6 @@
   <string name="donate_dialog_text">Si <i>&app_name;</i> vous est utile et vous aimeriez contribuer,
       faites un don au moyen de PayPal. <a href="http://myexpenses.totschnig.org/#donate">Apprenez plus</a>.\n
       \nMerci pour votre soutien!</string>
-  <string name="donate_positive_button">Je fais parti</string>
   <string name="edit_category">Éditer la catégorie</string>
   <string name="expense">dépense</string>
   <string name="export_expenses_outputfile_exists">Le fichier d\'export existe déjà. Attendez une

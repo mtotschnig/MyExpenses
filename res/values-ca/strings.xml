@@ -52,7 +52,6 @@
   <string name="donate_dialog_text">Si us agrada <i>&app_name;</i> i voleu contribuir, podeu fer una donació amb PayPal.
       <a href="http://myexpenses.totschnig.org/#donate">Més informació</a>.\n
       \nGràcies pel vostre suport!</string>
-  <string name="donate_positive_button">Em sento generós</string>
   <string name="edit_category">Modifica la categoria</string>
   <string name="expense">despesa</string>
   <string name="export_expenses_outputfile_exists">El fitxer de sortida ja existeix. Si us plau, espereu

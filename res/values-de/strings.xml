@@ -55,7 +55,6 @@
       Beitrag leisten möchten, können Sie mittels PayPal spenden.
       <a href="http://myexpenses.totschnig.org/#donate">Mehr erfahren</a>.\n
       \nVielen Dank für Ihre Unterstützung!</string>
-  <string name="donate_positive_button">Ich mach mit</string>
   <string name="edit_category">Kategorie verändern</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten 
