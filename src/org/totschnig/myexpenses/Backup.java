@@ -64,7 +64,7 @@ public class Backup extends Activity {
           }
           finish();
         }
-      },message,BACKUP_DIALOG_ID)
+      },message,BACKUP_COMMAND_ID)
           .create();
     }
     return null;
