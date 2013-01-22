@@ -546,10 +546,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case R.id.HELP_DIALOG_ID:
       DisplayMetrics displaymetrics = new DisplayMetrics();
       getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-      int wWidth = displaymetrics.widthPixels;
+      int minWidth = (int) (displaymetrics.widthPixels*0.9f);
+      if (minWidth / displaymetrics.density > 650)
+        minWidth = (int) (650 * displaymetrics.density);
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.aboutview, null);
-      view.setMinimumWidth((int) (wWidth*0.9f));
+      view.setMinimumWidth(minWidth);
       ((TextView)view.findViewById(R.id.aboutVersionCode)).setText(getVersionInfo());
       ((TextView)view.findViewById(R.id.help_licence_gpl)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
