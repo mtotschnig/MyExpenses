@@ -23,7 +23,7 @@
       android:layout_height="0dp"
       android:layout_weight="1"
       android:fillViewport="true">
-    <TableLayout
+   <TableLayout
         style="?attr/listStyle"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
@@ -39,17 +39,53 @@
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content" />
       </TableRow>
+
       <TableRow>
         <TextView style="@style/form_label"
-            android:text="@string/type" />
-        <Button
-            style="@style/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/TaType"
-            android:text="@string/pm_type_neutral" />
-      </TableRow>      
-      </TableLayout>
+            android:text="@string/description" />
+        <EditText
+            android:id="@+id/Description" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" />
+      </TableRow>
+      
+      <TableRow>
+        <TextView style="@style/form_label"
+            android:id="@+id/OpeningBalanceLabel"/>
+         <EditText
+             android:id="@+id/Amount" 
+             android:layout_width="wrap_content" 
+             android:layout_height="wrap_content" />
+      </TableRow>
+      
+      <TableRow>
+          <TextView style="@style/form_label"
+              android:text="@string/currency" />
+          <LinearLayout
+            android:orientation="horizontal">
+          <AutoCompleteTextView android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="fill_parent"
+              android:completionThreshold="1"
+              android:id="@+id/Currency"
+              android:maxLength="3"
+              android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" />
+          <Button android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="fill_parent"
+              style="@style/button"
+              android:id="@+id/Select" 
+              android:text="@string/select" />
+          <Button
+              style="@style/button" android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="fill_parent" 
+              android:id="@+id/TaType" 
+              android:text="@string/account_type_cash" />
+          </LinearLayout>
+      </TableRow>
+
+    </TableLayout>
   </ScrollView>
   <include layout="@layout/one_buttonbar"/>
 </LinearLayout>

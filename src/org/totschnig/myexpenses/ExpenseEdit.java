@@ -162,7 +162,10 @@ public class ExpenseEdit extends EditActivity {
       mPayeeText.setAdapter(adapter);
     } else {
       findViewById(R.id.PayeeRow).setVisibility(View.GONE);
-      findViewById(R.id.MethodRow).setVisibility(View.GONE);
+      View MethodContainer = findViewById(R.id.MethodRow);
+      if (MethodContainer == null)
+        MethodContainer = findViewById(R.id.Method);
+      MethodContainer.setVisibility(View.GONE);
     }
     
     confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -425,7 +428,10 @@ public class ExpenseEdit extends EditActivity {
       });
       //5c we hide the method button if there are no valid methods, we check for both incomes and expenses
       if (mDbHelper.getPaymentMethodsCount(mAccount.type) == 0) {
-       findViewById(R.id.MethodRow).setVisibility(View.GONE);
+        View MethodContainer = findViewById(R.id.MethodRow);
+        if (MethodContainer == null)
+          MethodContainer = findViewById(R.id.Method);
+        MethodContainer.setVisibility(View.GONE);
       }
     }
     setDateTime(mTransaction.date);

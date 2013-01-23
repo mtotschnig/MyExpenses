@@ -34,21 +34,20 @@
       <TableRow>
         <TextView style="@style/form_label"
             android:text="@string/label" />
-        <EditText
+        <LinearLayout
+            android:orientation="horizontal">
+        <EditText android:layout_weight="1"
+            android:layout_width="0dp"
             android:id="@+id/Label" 
-            android:layout_width="wrap_content" 
             android:layout_height="wrap_content" />
-      </TableRow>
-      <TableRow>
-        <TextView style="@style/form_label"
-            android:text="@string/type" />
-        <Button
+        <Button android:layout_weight="1"
+            android:layout_width="0dp"
             style="@style/button"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/TaType"
             android:text="@string/pm_type_neutral" />
-      </TableRow>      
+        </LinearLayout>
+      </TableRow>
       </TableLayout>
   </ScrollView>
   <include layout="@layout/one_buttonbar"/>

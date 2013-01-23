@@ -28,7 +28,7 @@
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:id="@+id/Table"
-        android:stretchColumns="1" 
+        android:stretchColumns="1"
         android:shrinkColumns="1">
       <TableRow>
         <TextView style="@style/form_label"
