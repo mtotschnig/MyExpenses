@@ -15,12 +15,8 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout01"
+    android:id="@+id/RelativeLayout01" style="@style/paddedListRow"
     android:layout_width="fill_parent"
-    android:paddingRight="5dp"
-    android:paddingLeft="5dp"
-    android:paddingTop="2dp"
-    android:paddingBottom="2dp"
     android:layout_height="fill_parent">
 <TextView 
     android:text="DATE"
@@ -28,7 +24,7 @@
     android:layout_width="wrap_content"
     android:layout_alignParentLeft="true"
     android:layout_height="wrap_content"
-    android:paddingRight="4dp"/>
+    android:paddingRight="5dp"/>
 <TextView
     android:text="CATEGORY"
     android:id="@+id/category" 
