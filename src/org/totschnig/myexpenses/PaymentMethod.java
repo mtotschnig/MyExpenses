@@ -45,15 +45,17 @@ public class PaymentMethod {
       predef = null;
     }
     c = mDbHelper.fetchAccountTypesForPaymentMethod(id);
-    if(c.moveToFirst()){
+    if(c.moveToFirst()) {
       for (int i = 0; i < c.getCount(); i++){
         try {
           addAccountType(Account.Type.valueOf(c.getString(c.getColumnIndexOrThrow("type"))));
         } catch (IllegalArgumentException ex) { 
           Log.w("MyExpenses","Found unknown account type in database");
         }
+        c.moveToNext();
       }
     }
+    c.close();
   }
   
   public PaymentMethod() {
