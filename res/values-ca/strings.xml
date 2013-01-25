@@ -102,9 +102,8 @@
       - <b>Ayuda</b> : Accediu al tutorial, noticies, preguntes freqüents i als canvis.\n
       \nSi us plau, consulteu <a href="http://myexpenses.totschnig.org/#tutorial_r4">el manual</a> per a explicacions detallades.
   </string>
-  <string name="help_whats_new">&#160;- Aparença: tema fosc.\n
-      - Traducció al català.\n
-      - Nova suma de transferències a la vista dels comptes.</string>
+  <string name="help_whats_new">&#160;- Associació entre els tipus de comptes i mètodes de pagament reparats.\n
+      - Utilitzar mida del tipus de lletra estándar del sistema.</string>
   <string name="import_categories">Importa categories</string>
   <string name="important_version_information">Informació important</string>
   <string name="income">ingrés</string>

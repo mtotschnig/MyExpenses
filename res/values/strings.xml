@@ -104,9 +104,8 @@
       - <b>Help</b> : Quick access to Tutorial, News, FAQ and Changes.\n
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
-  <string name="help_whats_new">&#160;- Dark UI theme.\n
-      - Catalan translation.\n
-      - Added sum of transfers in account overview.</string>
+  <string name="help_whats_new">&#160;- Bug fix: Associating account types with payment methods.\n
+      - Use system default font size.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">income</string>
