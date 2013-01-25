@@ -17,6 +17,7 @@
 <!DOCTYPE resources [
   <!ENTITY app_name "Meine Ausgaben">
   <!ENTITY grisbi_file "grisbi.xml">
+  <!ENTITY learn_more "Mehr erfahren">
 ]>
 <resources>
   <string name="account">Konto</string>
@@ -50,9 +51,10 @@
   <string name="dialog_title_select_type">Typ auswählen</string>
   <string name="dialog_title_template_title">Titel festlegen</string>
   <string name="donate">Spenden</string>
+  <string name="donate_button_more">&learn_more;</string>
   <string name="donate_dialog_text">Wenn <i>&app_name;</i> Ihnen nützlich ist, und Sie einen
       Beitrag leisten möchten, können Sie mittels PayPal oder Flattr spenden.
-      <a href="http://myexpenses.totschnig.org/#donate">Mehr erfahren</a>.\n
+      <a href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
       \nVielen Dank für Ihre Unterstützung!</string>
   <string name="edit_category">Kategorie verändern</string>
   <string name="expense">Ausgabe</string>

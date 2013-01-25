@@ -17,6 +17,7 @@
 <!DOCTYPE resources [
   <!ENTITY app_name "Le mie spese">
   <!ENTITY grisbi_file "grisbi.xml">
+  <!ENTITY learn_more "Per saperne di più">
 ]>
 <resources>
   <string name="account">Conto</string>
@@ -49,8 +50,9 @@
   <string name="dialog_title_select_type">Scegli un tipo</string>
   <string name="dialog_title_template_title">Assegnare un nome</string>
   <string name="donate">Donare</string>
+  <string name="donate_button_more">&learn_more;</string>
   <string name="donate_dialog_text">Se apprezzate <i>&app_name;</i> e volete dare un contribute potete farlo tramite PayPal o Flattr. <a
-      href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
+      href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
       \nGrazie per il vostro sostegno!</string>
   <string name="edit_category">Modificare la categoria</string>
   <string name="expense">spesa</string>

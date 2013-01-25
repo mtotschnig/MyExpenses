@@ -156,21 +156,21 @@
         android:tag="flattr"
         android:layout_width="fill_parent"
         style="@style/button"
-        android:text="Flattr" />
+        android:text="@string/donate_button_flattr" />
     <Button
         android:onClick="onDialogButtonClicked"
         android:id="@id/WEB_COMMAND"
         android:tag="paypal"
         android:layout_width="fill_parent"
         style="@style/button"
-        android:text="Paypal" />
+        android:text="@string/donate_button_paypal" />
     <Button
         android:onClick="onDialogButtonClicked"
         android:id="@id/WEB_COMMAND"
         android:tag="donate"
         android:layout_width="fill_parent"
         style="@style/button"
-        android:text="Learn more" />
+        android:text="@string/donate_button_more" />
     </LinearLayout>
   </LinearLayout>
 </ScrollView>
