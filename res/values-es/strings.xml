@@ -30,7 +30,6 @@
   <string name="backup_failure">La copia de seguridad en la tarjeta SD ha fallado.</string>
   <string name="backup_success">La base de datos y las configuraciones han sido archivados en la
       tarjeta SD.</string>
-  <string name="button_continue">Continuar</string>
   <string name="category">Categoría</string>
   <string name="category_already_defined">Categoría %1$s ya existe.</string>
   <string name="comment">Apuntes</string>
@@ -51,7 +50,7 @@
   <string name="dialog_title_select_type">Escoger un tipo</string>
   <string name="dialog_title_template_title">Establecer el título</string>
   <string name="donate">Done</string>
-  <string name="donate_dialog_text">Si usted aprecia <i>&app_name;</i> y quiere donar puede donar atravès de PayPal.
+  <string name="donate_dialog_text">Si usted aprecia <i>&app_name;</i> y quiere donar puede donar atravès de PayPal o Flattr.
       <a href="http://myexpenses.totschnig.org/#donate">Más información</a>.\n
       \nGracias por su apoyo!</string>
   <string name="edit_category">Modificar categoría</string>
@@ -76,6 +75,8 @@
   <string name="grisbi_import_categories_success">%1$s categorías han sido importadas con éxito.
       </string>
   <string name="grisbi_import_parties_loading">Partes se cargan desde %1$s</string>
+  <string name="help_button_rate">Dé su revisión</string>
+  <string name="help_button_sendmail">Enviar correo electrónico</string>
   <string name="help_heading_changelog">Registro de cambios</string>
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licencia</string>

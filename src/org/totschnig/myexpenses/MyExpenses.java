@@ -567,10 +567,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       ((TextView)view.findViewById(R.id.help_licence_gpl)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_whats_new)).setMovementMethod(LinkMovementMethod.getInstance());
-      Utils.setDialogButtons(view,
-          R.string.feedback,R.id.FEEDBACK_COMMAND,
-          R.string.donate,R.id.DONATE_COMMAND,
-          android.R.string.ok, 0);
+      Utils.setDialogOneButton(view,
+          android.R.string.ok,0,null);
       return new AlertDialog.Builder(this)
         .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
         .setIcon(R.drawable.icon)
@@ -587,23 +585,23 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         tv.setVisibility(View.VISIBLE);
         ((TextView) view.findViewById(R.id.versionInfoImportantHeading)).setVisibility(View.VISIBLE);
       }
-      Utils.setDialogButtons(view,
-          R.string.menu_help,R.id.HELP_COMMAND,
-          R.string.donate,R.id.DONATE_COMMAND,
-          android.R.string.ok,0);
+      Utils.setDialogThreeButtons(view,
+          R.string.menu_help,R.id.HELP_COMMAND,null,
+          R.string.donate,R.id.DONATE_COMMAND,null,
+          android.R.string.ok,0,null);
       return new AlertDialog.Builder(this)
         .setTitle(getString(R.string.new_version) + " : " + getVersionName())
         .setIcon(R.drawable.icon)
         .setView(view)
         .create();
     case RESET_DIALOG_ID:
-      return Utils.createMessageDialog(this,R.string.warning_reset_account,R.id.RESET_ACCOUNT_COMMAND_DO)
+      return Utils.createMessageDialog(this,R.string.warning_reset_account,R.id.RESET_ACCOUNT_COMMAND_DO,null)
         .create();
     case ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID:
-      return Utils.createMessageDialog(this,R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND)
+      return Utils.createMessageDialog(this,R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND,null)
         .create();
     case USE_STANDARD_MENU_DIALOG_ID:
-      return Utils.createMessageDialog(this,R.string.suggest_use_standard_menu,R.id.USE_STANDARD_MENU_COMMAND)
+      return Utils.createMessageDialog(this,R.string.suggest_use_standard_menu,R.id.USE_STANDARD_MENU_COMMAND,null)
         .create();
     //SELECT_ACCOUNT_DIALOG is used both from SWITCH_ACCOUNT and MOVE_TRANSACTION
     case SELECT_ACCOUNT_DIALOG_ID:
@@ -718,10 +716,18 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       })
       .create();
     case DONATE_DIALOG_ID:
-      return Utils.createMessageDialog(this,R.string.donate_dialog_text,R.id.PAYPAL_COMMAND)
-          .setTitle(R.string.donate)
-          .setIcon(R.drawable.paypal)
-          .create();
+      li = LayoutInflater.from(this);
+      view = li.inflate(R.layout.messagedialog, null);
+      tv = (TextView)view.findViewById(R.id.message_text);
+      tv.setText(R.string.donate_dialog_text);
+      Utils.setDialogTwoButtons(view,
+          R.string.donate_button_flattr,R.id.WEB_COMMAND,"flattr",
+          R.string.donate_button_paypal,R.id.WEB_COMMAND,"paypal"
+      );
+      return new AlertDialog.Builder(this)
+        .setTitle(R.string.donate)
+        .setView(view)
+        .create();
      }
     return null;
   }
@@ -1281,10 +1287,14 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       mMoreItems = (ArrayList<Action>) tag;
       showDialogWrapper(MORE_ACTIONS_DIALOG_ID);
       break;
-    case R.id.PAYPAL_COMMAND:
+    case R.id.RATE_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KPXNZHMXJE8ZJ"));
-      startActivity(i);
+      i.setData(Uri.parse("market://details?id=org.totschnig.myexpenses"));
+      if (getPackageManager().queryIntentActivities(i,PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
+        startActivity(i);
+      } else {
+        Toast.makeText(getBaseContext(),"Unable to open Google Play", Toast.LENGTH_LONG).show();
+      }
       break;
     case R.id.USE_STANDARD_MENU_COMMAND:
       mUseStandardMenu = true;

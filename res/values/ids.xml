@@ -42,5 +42,5 @@
     <item type="id" name="NEUTRAL_BUTTON"/>
     <item type="id" name="POSITIVE_BUTTON"/>
     <item type="id" name="NEGATIVE_BUTTON"/>
-    <item type="id" name="PAYPAL_COMMAND"/>
+    <item type="id" name="RATE_COMMAND"/>
 </resources>

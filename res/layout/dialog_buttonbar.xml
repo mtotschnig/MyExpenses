@@ -7,13 +7,13 @@
         android:orientation="horizontal">
       <Button
           android:onClick="onDialogButtonClicked"
-          android:id="@id/NEUTRAL_BUTTON"
+          android:id="@id/POSITIVE_BUTTON"
           android:layout_weight="1"
-          android:layout_width="0dp" 
+          android:layout_width="0dp"
           style="@style/button" />
       <Button
           android:onClick="onDialogButtonClicked"
-          android:id="@id/POSITIVE_BUTTON"
+          android:id="@id/NEUTRAL_BUTTON"
           android:layout_weight="1"
           android:layout_width="0dp"
           style="@style/button" />

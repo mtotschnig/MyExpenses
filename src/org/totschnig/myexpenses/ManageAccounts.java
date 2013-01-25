@@ -97,7 +97,7 @@ public class ManageAccounts extends ListActivity {
   protected Dialog onCreateDialog(int id) {
     switch (id) {
     case DELETE_DIALOG_ID:
-      return Utils.createMessageDialog(this,R.string.warning_delete_account,DELETE_COMMAND_ID).create();
+      return Utils.createMessageDialog(this,R.string.warning_delete_account,DELETE_COMMAND_ID,null).create();
     }
     return null;
   }

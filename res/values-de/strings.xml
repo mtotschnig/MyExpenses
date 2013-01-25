@@ -30,7 +30,6 @@
   <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
   <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der
       SD-Karte gesichert.</string>
-  <string name="button_continue">Fortsetzen</string>
   <string name="category">Kategorie</string>
   <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
   <string name="comment">Notizen</string>
@@ -52,7 +51,7 @@
   <string name="dialog_title_template_title">Titel festlegen</string>
   <string name="donate">Spenden</string>
   <string name="donate_dialog_text">Wenn <i>&app_name;</i> Ihnen nützlich ist, und Sie einen
-      Beitrag leisten möchten, können Sie mittels PayPal spenden.
+      Beitrag leisten möchten, können Sie mittels PayPal oder Flattr spenden.
       <a href="http://myexpenses.totschnig.org/#donate">Mehr erfahren</a>.\n
       \nVielen Dank für Ihre Unterstützung!</string>
   <string name="edit_category">Kategorie verändern</string>
@@ -76,6 +75,8 @@
   <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
   <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
   <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
+  <string name="help_button_rate">Bewerten</string>
+  <string name="help_button_sendmail">E-Mail senden</string>
   <string name="help_heading_changelog">Änderungsprotokoll</string>
   <string name="help_heading_credits">Abspann</string>
   <string name="help_heading_license">Lizenz</string>

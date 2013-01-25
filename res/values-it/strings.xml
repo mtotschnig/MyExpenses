@@ -28,9 +28,7 @@
   <string name="amount">Quantitá</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Backup su SD card non è riuscito.</string>
-  <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.
-  </string>
-  <string name="button_continue">Continuare</string>
+  <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.</string>
   <string name="category">Categoria</string>
   <string name="category_already_defined">La categoria %1$s è già definita</string>
   <string name="comment">Note</string>
@@ -51,10 +49,9 @@
   <string name="dialog_title_select_type">Scegli un tipo</string>
   <string name="dialog_title_template_title">Assegnare un nome</string>
   <string name="donate">Donare</string>
-  <string name="donate_dialog_text">Se apprezzate <i>&app_name;</i> e volete dare un contribute potete farlo tramite PayPal. <a 
-href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
-       \nGrazie per il vostro sostegno!</string>
-  
+  <string name="donate_dialog_text">Se apprezzate <i>&app_name;</i> e volete dare un contribute potete farlo tramite PayPal o Flattr. <a
+      href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
+      \nGrazie per il vostro sostegno!</string>
   <string name="edit_category">Modificare la categoria</string>
   <string name="expense">spesa</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già.
@@ -76,6 +73,8 @@ href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
   <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
   <string name="grisbi_import_categories_success">%1$s categorie state importate</string>
   <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
+  <string name="help_button_rate">Il vostro recensione</string>
+  <string name="help_button_sendmail">Inviare una e-mail</string>
   <string name="help_heading_changelog">Aggiornamenti</string>
   <string name="help_heading_credits">Generico</string>
   <string name="help_heading_license">Licenza</string>

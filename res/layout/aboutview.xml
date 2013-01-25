@@ -115,6 +115,63 @@
         style="@style/button"
         android:text="@string/help_heading_credits" />
     </LinearLayout>
+
+    <!-- Feedback -->
+    <include layout="@layout/divider_thin"/>
+    <TextView android:text="@string/feedback"
+       style="?attr/headingStyle" />
+    <include layout="@layout/divider_thin"/>
+  <LinearLayout
+      android:layout_gravity="center_horizontal"
+      android:orientation="vertical"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content">
+    <Button
+        android:onClick="onDialogButtonClicked"
+        android:id="@id/RATE_COMMAND"
+        android:layout_width="fill_parent"
+        style="@style/button"
+        android:text="@string/help_button_rate" />
+     <Button
+        android:onClick="onDialogButtonClicked"
+        android:id="@id/FEEDBACK_COMMAND"
+        android:layout_width="fill_parent"
+        style="@style/button"
+        android:text="@string/help_button_sendmail" />
+    </LinearLayout>
+
+    <!-- Donate -->
+    <include layout="@layout/divider_thin"/>
+    <TextView android:text="@string/donate"
+       style="?attr/headingStyle" />
+    <include layout="@layout/divider_thin"/>
+    <LinearLayout
+	      android:layout_gravity="center_horizontal"
+	      android:orientation="vertical"
+	      android:layout_width="wrap_content"
+	      android:layout_height="wrap_content">
+    <Button
+        android:onClick="onDialogButtonClicked"
+        android:id="@id/WEB_COMMAND"
+        android:tag="flattr"
+        android:layout_width="fill_parent"
+        style="@style/button"
+        android:text="Flattr" />
+    <Button
+        android:onClick="onDialogButtonClicked"
+        android:id="@id/WEB_COMMAND"
+        android:tag="paypal"
+        android:layout_width="fill_parent"
+        style="@style/button"
+        android:text="Paypal" />
+    <Button
+        android:onClick="onDialogButtonClicked"
+        android:id="@id/WEB_COMMAND"
+        android:tag="donate"
+        android:layout_width="fill_parent"
+        style="@style/button"
+        android:text="Learn more" />
+    </LinearLayout>
   </LinearLayout>
 </ScrollView>
   <include layout="@layout/dialog_buttonbar"/>

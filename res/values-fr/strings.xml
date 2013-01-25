@@ -30,7 +30,6 @@
   <string name="backup_failure">La sauvegarde sur carte SD a échoué.</string>
   <string name="backup_success">La base de données et les paramètres ont été sauvegardé sur la carte
       SD.</string>
-  <string name="button_continue">Continuer</string>
   <string name="category">Catégorie</string>
   <string name="category_already_defined">La catégorie %1$s existe</string>
   <string name="comment">Remarques</string>
@@ -52,7 +51,7 @@
   <string name="dialog_title_template_title">Définir le tire</string>
   <string name="donate">Don</string>
   <string name="donate_dialog_text">Si <i>&app_name;</i> vous est utile et vous aimeriez contribuer,
-      faites un don au moyen de PayPal. <a href="http://myexpenses.totschnig.org/#donate">Apprenez plus</a>.\n
+      faites un don au moyen de PayPal ou Flattr. <a href="http://myexpenses.totschnig.org/#donate">Apprenez plus</a>.\n
       \nMerci pour votre soutien!</string>
   <string name="edit_category">Éditer la catégorie</string>
   <string name="expense">dépense</string>
@@ -77,6 +76,8 @@
   <string name="grisbi_import_categories_loading">Import des catégories à partir de %1$s</string>
   <string name="grisbi_import_categories_success">%1$s catégories ont été importées</string>
   <string name="grisbi_import_parties_loading">Import des tiers à partir de %1$s</string>
+  <string name="help_button_rate">Publier votre avis</string>
+  <string name="help_button_sendmail">Envoyer un e-mail</string>
   <string name="help_heading_changelog">Journal des modifications</string>
   <string name="help_heading_credits">Générique</string>
   <string name="help_heading_license">Licence</string>
