@@ -720,6 +720,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       view = li.inflate(R.layout.messagedialog, null);
       tv = (TextView)view.findViewById(R.id.message_text);
       tv.setText(R.string.donate_dialog_text);
+      tv.setMovementMethod(LinkMovementMethod.getInstance());
       Utils.setDialogTwoButtons(view,
           R.string.donate_button_flattr,R.id.WEB_COMMAND,"flattr",
           R.string.donate_button_paypal,R.id.WEB_COMMAND,"paypal"
