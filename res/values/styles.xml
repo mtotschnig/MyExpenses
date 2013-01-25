@@ -33,7 +33,7 @@
     <item name="android:windowTitleStyle">@style/titleTextStyle</item>
     <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
     <item name="colorIncome">#00D000</item>
-    <item name="colorExpense">#D00000</item>
+    <item name="colorExpense">#FF0000</item>
   </style>
   <style name="ThemeDarkBig" parent="ThemeDarkSmall">
     <item name="android:textAppearanceLarge">@style/MyLargePlusTextAppearance</item>
