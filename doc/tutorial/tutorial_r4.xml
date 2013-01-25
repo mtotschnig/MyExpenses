@@ -795,7 +795,7 @@
       <phrase lang="fr">Modèles</phrase>
       <phrase lang="de">Vorlagen</phrase>
       <phrase lang="it">Modelli</phrase>
-      <phrase lang="es">Las plantillas</phrase>
+      <phrase lang="es">Plantillas</phrase>
     </title>
     <!-- BEGIN templates para 1 -->
     <para lang="en">
@@ -819,7 +819,10 @@
       Questo capitolo non è stato tradotto. Per favore ora utilizzare la versione in lingua inglese.
     </para>
     <para lang="es">
-      Este capítulo no ha sido traducido. Por favor, ahora utilizan la versión en Inglés.
+      Si frecuentemente ingresa transacciones idénticas o similares, usted puede ahorrar tiempo
+      utilizando plantillas. Plantillas facilmente se derivan de una transacción existente a través
+      de la entrada <menuchoice><guimenuitem role="menu_create_template"/></menuchoice> en el menú
+      contextual. Debe introducir un título que identifique la plantilla.
     </para>
 
     <!-- END templates para 1 -->
@@ -844,9 +847,13 @@
     <para lang="it">
 
     </para>
-    <para lang="es">
-    </para>
     -->
+    <para lang="es">
+      Las plantillas se enumeran en el <menuchoice><guimenu role="menu_new"/></menuchoice>. Un clic
+      corto sobre un botón crea una nueva transacción que se guarda inmediatamente. A través de un
+      clic largo se abre el formulario de edición donde se puede cambiar la transacción antes de
+      guardarla, o descartarla.
+    </para>
     <!-- END templates para 2 -->
 
 
@@ -884,9 +891,16 @@
     <para lang="it">
 
     </para>
-    <para lang="es">
-    </para>
     -->
+    <para lang="es">
+      Las plantillas también están enumeradas en las <guilabel role="menu_settings"/> (entrada
+      <guilabel role="pref_manage_templates_title"/>), agrupadas por cuenta. A través del menú
+      contextual de cada plantilla, puede acceder a la misma función de crear nuevas transacciones,
+      y puede o bien guardarla directamente ((<menuchoice><guimenuitem
+        role="menu_create_transaction_from_template_and_save"/></menuchoice>) o abrir el formulario de
+      edición (<menuchoice><guimenuitem role="menu_create_transaction_from_template_and_edit"/></menuchoice>).
+      La tercera entrada en el menú contextual permite eliminar la plantilla.
+    </para>
     <!-- END templates para 2 -->
   </sect1>
    <!-- Categories -->
