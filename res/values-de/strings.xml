@@ -241,10 +241,6 @@
   <string name="pref_ui_theme_summary">Wählen Sie zwischen hell und dunkel</string>
   <string name="pref_ui_theme_dark">dunkel</string>
   <string name="pref_ui_theme_light">hell</string>
-  <string name="pref_ui_fontsize_title">Schriftgröße</string>
-  <string name="pref_ui_fontsize_summary">Wählen Sie zwischen klein und groß</string>
-  <string name="pref_ui_fontsize_small">klein</string>
-  <string name="pref_ui_fontsize_big">groß</string>
   <string name="pref_use_standard_menu_title">Androids Standardmenü verwenden</string>
   <string name="pref_use_standard_menu_summary">Anstatt der Symbolleiste, verwenden Sie Androids
       Standardmenü, um Befehle aufzurufen.</string>

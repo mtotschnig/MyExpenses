@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <style name="ThemeDarkSmall" parent="@android:style/Theme.Black">
+  <style name="ThemeDark" parent="@android:style/Theme.Black">
     <item name="headingStyle">@style/headingDark</item>
     <item name="listStyle">@style/listDark</item>
     <item name="android:textStyle">bold</item>
@@ -25,8 +25,6 @@
     <item name="buttonBackgroundPopup">@drawable/btn_dark2</item>
     <item name="menuItemStyle">@style/buttonMenuItemDark</item>
     <item name="buttonTextColor">@color/theme_dark_button_color</item>
-    <item name="android:textAppearanceLarge">@style/MyLargeTextAppearance</item>
-    <item name="android:textAppearanceSmall">@style/MySmallTextAppearance</item>
     <item name="listPadding">5dp</item>
     <item name="android:windowTitleBackgroundStyle">@style/headingDark</item>
     <item name="android:windowTitleSize">30sp</item>
@@ -35,11 +33,7 @@
     <item name="colorIncome">#00D000</item>
     <item name="colorExpense">#FF0000</item>
   </style>
-  <style name="ThemeDarkBig" parent="ThemeDarkSmall">
-    <item name="android:textAppearanceLarge">@style/MyLargePlusTextAppearance</item>
-    <item name="android:textAppearanceSmall">@style/MySmallPlusTextAppearance</item>
-  </style>
-  <style name="ThemeLightSmall" parent="@android:style/Theme.Light">
+  <style name="ThemeLight" parent="@android:style/Theme.Light">
     <item name="headingStyle">@style/headingLight</item>
     <item name="listStyle">@style/listLight</item>
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
@@ -50,8 +44,6 @@
     <item name="buttonBackgroundPopup">@drawable/btn_popup</item>
     <item name="menuItemStyle">@style/buttonMenuItemLight</item>
     <item name="buttonTextColor">#000000</item>
-    <item name="android:textAppearanceLarge">@style/MyLargeTextAppearance</item>
-    <item name="android:textAppearanceSmall">@style/MySmallTextAppearance</item>
     <!-- theme light is padded through the background -->
     <item name="listPadding">0dp</item>
     <item name="android:windowTitleSize">30sp</item>
@@ -60,10 +52,6 @@
     <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
     <item name="colorIncome">#008000</item>
     <item name="colorExpense">#800000</item>
-  </style>
-  <style name="ThemeLightBig" parent="ThemeLightSmall">
-    <item name="android:textAppearanceLarge">@style/MyLargePlusTextAppearance</item>
-    <item name="android:textAppearanceSmall">@style/MySmallPlusTextAppearance</item>
   </style>
   <style name="buttonBarDark">
      <item name="android:background">#000000</item>
@@ -192,16 +180,4 @@
 		<item name="android:shouldDisableView">false</item>
     <item name="android:selectable">false</item>
 	</style>
-  <style name="MyLargeTextAppearance" parent="@android:style/TextAppearance.Large">
-    <item name="android:textSize">20sp</item>
-  </style>
-  <style name="MySmallTextAppearance" parent="@android:style/TextAppearance.Small">
-    <item name="android:textSize">14sp</item>
-  </style>
-  <style name="MyLargePlusTextAppearance" parent="@android:style/TextAppearance.Large">
-    <item name="android:textSize">28sp</item>
-  </style>
-  <style name="MySmallPlusTextAppearance" parent="@android:style/TextAppearance.Small">
-    <item name="android:textSize">20sp</item>
-  </style>
 </resources>

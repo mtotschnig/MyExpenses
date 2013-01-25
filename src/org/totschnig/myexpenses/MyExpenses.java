@@ -1342,8 +1342,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       }
       mUseStandardMenu = newValueB;
     }
-    if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY) ||
-        key.equals(MyApplication.PREFKEY_UI_FONTSIZE_KEY)) {
+    if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
       MyApplication.setThemes();
       scheduledRestart = true;
     }

@@ -61,8 +61,6 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
     pref.setOnPreferenceChangeListener(this);
     prefs.findPreference(MyApplication.PREFKEY_UI_THEME_KEY)
       .setOnPreferenceChangeListener(this);
-    prefs.findPreference(MyApplication.PREFKEY_UI_FONTSIZE_KEY)
-    .setOnPreferenceChangeListener(this);
   }
   @Override
   public boolean onPreferenceChange(Preference pref, Object value) {
@@ -91,8 +89,7 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
           }
         }
       }
-    } else if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY) ||
-        key.equals(MyApplication.PREFKEY_UI_FONTSIZE_KEY)) {
+    } else if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
       Intent intent = getIntent();
       finish();
       startActivity(intent);

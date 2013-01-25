@@ -37,12 +37,4 @@
         <item>@string/pref_ui_theme_dark</item>
         <item>@string/pref_ui_theme_light</item>
     </string-array>
-    <string-array name="pref_ui_fontsize_values">
-        <item>small</item>
-        <item>big</item>
-    </string-array>
-    <string-array name="pref_ui_fontsize_entries">
-        <item>@string/pref_ui_fontsize_small</item>
-        <item>@string/pref_ui_fontsize_big</item>
-    </string-array>
 </resources>

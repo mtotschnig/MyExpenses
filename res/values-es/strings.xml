@@ -241,10 +241,6 @@
   <string name="pref_ui_theme_summary">Escoja entre oscuro y claro</string>
   <string name="pref_ui_theme_dark">oscuro</string>
   <string name="pref_ui_theme_light">claro</string>
-  <string name="pref_ui_fontsize_title">Tamaño de la fuente</string>
-  <string name="pref_ui_fontsize_summary">Escoja entre pequenõ y grande</string>
-  <string name="pref_ui_fontsize_small">pequenõ</string>
-  <string name="pref_ui_fontsize_big">grande</string>
   <string name="pref_use_standard_menu_title">Utilizar el menú estándar de Android</string>
   <string name="pref_use_standard_menu_summary">En vez de la barra de herramientas usted utiliza el
       menú estándar de Android para acceder a los comandos.</string>

@@ -53,12 +53,6 @@
         android:summary="@string/pref_ui_theme_summary"
         android:entries="@array/pref_ui_theme_entries"
         android:entryValues="@array/pref_ui_theme_values"/>
-    <ListPreference android:key="@string/pref_ui_fontsize_key"
-        android:defaultValue="small"
-        android:title="@string/pref_ui_fontsize_title"
-        android:summary="@string/pref_ui_fontsize_summary"
-        android:entries="@array/pref_ui_fontsize_entries"
-        android:entryValues="@array/pref_ui_fontsize_values"/>
 	  <CheckBoxPreference android:key="@string/pref_use_standard_menu_key"
 	      android:layout="@layout/preference_long_summary"
 	      android:defaultValue="false"

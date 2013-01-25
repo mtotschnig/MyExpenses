@@ -243,10 +243,6 @@ href="http://myexpenses.totschnig.org/#donate">Per saperne di più</a>.\n
   <string name="pref_ui_theme_summary">Scegli tra buio e chiaro</string>
   <string name="pref_ui_theme_dark">buio</string>
   <string name="pref_ui_theme_light">chiaro</string>
-  <string name="pref_ui_fontsize_title">Dimensioni carattere</string>
-  <string name="pref_ui_fontsize_summary">Scegli tra piccole e grandi</string>
-  <string name="pref_ui_fontsize_small">piccole</string>
-  <string name="pref_ui_fontsize_big">grandi</string>
   <string name="pref_use_standard_menu_title">Utilizzare Android standard menu</string>
   <string name="pref_use_standard_menu_summary">Invece di visualizzare una barra dei pulsanti,
       utilizzare  Android menu standard per l\'accesso ai comandi.</string>

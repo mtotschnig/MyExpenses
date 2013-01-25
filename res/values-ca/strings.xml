@@ -223,10 +223,6 @@
   <string name="pref_ui_theme_summary">Trieu entre el tema clar i el fosc</string>
   <string name="pref_ui_theme_dark">fosc</string>
   <string name="pref_ui_theme_light">clar</string>
-  <string name="pref_ui_fontsize_title">Mida del tipus de lletra</string>
-  <string name="pref_ui_fontsize_summary">Trieu entre petit i gran</string>
-  <string name="pref_ui_fontsize_small">petit</string>
-  <string name="pref_ui_fontsize_big">gran</string>
   <string name="pref_use_standard_menu_title">Ús del menú</string>
   <string name="pref_use_standard_menu_summary">En lloc de la barra d\'eines utilizeu el
       menú estándar d\'Android per a donar les ordres.</string>

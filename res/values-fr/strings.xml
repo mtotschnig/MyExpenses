@@ -240,10 +240,6 @@
   <string name="pref_ui_theme_summary">Choisissez entre clair et sombre</string>
   <string name="pref_ui_theme_dark">sombre</string>
   <string name="pref_ui_theme_light">clair</string>
-  <string name="pref_ui_fontsize_title">Taille de la police</string>
-  <string name="pref_ui_fontsize_summary">Choisissez entre petit et grand</string>
-  <string name="pref_ui_fontsize_small">petit</string>
-  <string name="pref_ui_fontsize_big">grand</string>
   <string name="pref_use_standard_menu_title">Utiliser le menu standard d\'Android</string>
   <string name="pref_use_standard_menu_summary">Au lieu d\'afficher une barre de boutons, utilisez
       le menu standard d\'Android pour accéder aux commandes.</string>   

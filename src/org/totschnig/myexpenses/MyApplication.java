@@ -41,7 +41,6 @@ public class MyApplication extends Application {
     public static String PREFKEY_CURRENCY_DECIMAL_SEPARATOR;
     public static String PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR;
     public static String PREFKEY_UI_THEME_KEY;
-    public static String PREFKEY_UI_FONTSIZE_KEY;
     public static String PREFKEY_CURRENT_VERSION = "currentversion";
     public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static String PREFKEY_LAST_ACCOUNT = "last_account";
@@ -67,7 +66,6 @@ public class MyApplication extends Application {
         PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR = getString(R.string.pref_account_button_behaviour_key);
         PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
         PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
-        PREFKEY_UI_FONTSIZE_KEY = getString(R.string.pref_ui_fontsize_key);
         setThemes();
     }
     
@@ -122,21 +120,12 @@ public class MyApplication extends Application {
     public static void setThemes()
     {
       String themePref = mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark");
-      String fontSizePref = mSelf.settings.getString(MyApplication.PREFKEY_UI_FONTSIZE_KEY,"small");
       if (themePref.equals("light")) {
-        if (fontSizePref.equals("big")) {
-          themeId = R.style.ThemeLightBig;
-        } else {
-          themeId = R.style.ThemeLightSmall;
-        }
+        themeId = R.style.ThemeLight;
       } else {
-        if (fontSizePref.equals("big")) {
-          themeId = R.style.ThemeDarkBig;
-      } else {
-        themeId = R.style.ThemeDarkSmall;
+        themeId = R.style.ThemeDark;
       }
     }
-  }
     
     public static ExpensesDbAdapter db() {
       if(mSelf.mDbOpenHelper == null) {
