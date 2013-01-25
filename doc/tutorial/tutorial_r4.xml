@@ -821,7 +821,7 @@
     <para lang="es">
       Si frecuentemente ingresa transacciones idénticas o similares, usted puede ahorrar tiempo
       utilizando plantillas. Plantillas facilmente se derivan de una transacción existente a través
-      de la entrada <menuchoice><guimenuitem role="menu_create_template"/></menuchoice> en el menú
+      de la entrada <menuchoice><guimenuitem role="menu_create_template"/></menuchoice> en el menú
       contextual. Debe introducir un título que identifique la plantilla.
     </para>
 
@@ -894,7 +894,7 @@
     -->
     <para lang="es">
       Las plantillas también están enumeradas en las <guilabel role="menu_settings"/> (entrada
-      <guilabel role="pref_manage_templates_title"/>), agrupadas por cuenta. A través del menú
+      <guilabel role="pref_manage_templates_title"/>), agrupadas por cuenta. A través del menú
       contextual de cada plantilla, puede acceder a la misma función de crear nuevas transacciones,
       y puede o bien guardarla directamente ((<menuchoice><guimenuitem
         role="menu_create_transaction_from_template_and_save"/></menuchoice>) o abrir el formulario de
@@ -1076,7 +1076,7 @@
 
     <!-- BEGIN categories para 4 -->
     <para lang="en">
-	    The second option is to add your own categories.  <guibutton
+	    The second option is to add your own categories.  <guibutton
 	    role="menu_create_main_cat"/> brings up a dialog for providing a new category label.
     </para>
     <para lang="fr">
