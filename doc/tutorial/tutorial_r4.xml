@@ -1349,6 +1349,9 @@
     <para lang="de">
       Der Bildschirm <guilabel role="menu_settings"/> besteht aus fünf Teilen:
     </para>
+     <para lang="es">
+      La pantalla <guilabel role="menu_settings"/> consiste de cinco secciones:
+    </para>
     <?float-clear?>
     <variablelist lang="en">
       <varlistentry>
@@ -1428,6 +1431,32 @@
         <listitem><para>Erstellung einer Sicherungskopie der Datenbank und der Einstellungen auf der SD-Karte.</para></listitem>
       </varlistentry>
     </variablelist>
+    <variablelist lang="es">
+      <varlistentry>
+        <term><link linkend='settings_manage'><guilabel role="pref_category_title_manage"/></link></term>
+        <listitem><para>Aquí usted tiene acceso a todos los objectos auxiliares que <application role="app_name"/> administra:
+        <link linkend='accounts'>cuentas</link>, <link linkend='templates'>plantillas</link>, 
+        <link linkend='categories'>categorías</link>, <link linkend='settings_manage_parties'>partidos</link> y 
+        <link linkend='settings_manage_methods'>métodos de pago</link>.</para></listitem> 
+      </varlistentry>
+     <varlistentry>
+        <term><link linkend='settings_ui'><guilabel role="pref_category_title_ui"/></link></term>
+        <listitem><para> Aquí usted puede modificar algunos aspectos de la interfaz de usario.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><link linkend='settings_import'><guilabel>Importación</guilabel></link></term>
+        <listitem><para>Aquí se pueden importar categorías y partidos de Grisbi.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><link linkend='settings_export'><guilabel>Exportación</guilabel></link></term>
+        <listitem><para>Aquí se puede configurar la codificación de caracteres para la exportación QIF y si y cómo el archivo debe ser transferido.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><link linkend='settings_backup'><guilabel role="menu_backup"/></link></term>
+        <listitem><para>Guarde una copia de seguridad de la base de datos y de las configuraciones en la tarjeta SD. </para></listitem>
+      </varlistentry>
+    </variablelist>
+ 
     <!--
       rest of chapter can be read without above sentence, so no need for this absence notice
     <para lang="it">
