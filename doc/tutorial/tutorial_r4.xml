@@ -1575,6 +1575,26 @@
     <guilabel role="pref_category_title_ui"/>
     </title>
     <variablelist>
+    <varlistentry>
+      <term><guilabel role="pref_ui_theme_title"/></term>
+      <listitem>
+        <para lang="en">
+          You can select between a light and a dark theme.
+        </para>
+        <para lang="fr">
+          Vous pouvez choisir entre un style clair ou sombre.
+        </para>
+        <para lang="de">
+          Sie können zwischen einem hellen und einem dunklen Stil wählen.
+        </para>
+        <para lang="it">
+          È possibile scegliere tra un stile buio e un stile chiaro.
+        </para>
+        <para lang="es">
+          Puede seleccionar entre un tema clara y un tema oscuro.
+        </para>
+      </listitem>
+    </varlistentry>
     <varlistentry id="settings_ui_standard_menu">
       <term><guilabel role="pref_use_standard_menu_title"/></term>
       <listitem>
