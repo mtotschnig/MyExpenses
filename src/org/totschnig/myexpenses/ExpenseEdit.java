@@ -102,6 +102,8 @@ public class ExpenseEdit extends EditActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    ((View) getWindow().findViewById(android.R.id.title).getParent())
+      .setBackgroundColor(MyApplication.getCurrentAccountColor());
     mDbHelper = MyApplication.db();
 
     Bundle extras = getIntent().getExtras();

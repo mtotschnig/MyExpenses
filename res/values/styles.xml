@@ -73,8 +73,6 @@
   </style>
   <style name="headingDark" parent="headingStyle">
     <item name="android:background">#99CC00</item>
-    <item name="android:paddingRight">5dp</item>
-    <item name="android:paddingLeft">5dp</item>
   </style>
   <style name="headingLight" parent="headingStyle">
     <item name="android:background">@android:drawable/title_bar</item>

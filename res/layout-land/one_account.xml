@@ -84,7 +84,14 @@
               android:text="@string/account_type_cash" />
           </LinearLayout>
       </TableRow>
-
+      <TableRow>
+        <TextView android:text="@string/color" />
+        <TextView android:id="@+id/Color"
+                  android:text="@string/empty"/>
+        <Button
+              android:id="@+id/SelectColor"
+              android:text="@string/select" />
+      </TableRow>
     </TableLayout>
   </ScrollView>
   <include layout="@layout/one_buttonbar"/>

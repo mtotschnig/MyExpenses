@@ -44,6 +44,7 @@ public class MyApplication extends Application {
     public static String PREFKEY_CURRENT_VERSION = "currentversion";
     public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static String PREFKEY_LAST_ACCOUNT = "last_account";
+    public static int currentAccountColor;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 
     @Override
@@ -69,6 +70,14 @@ public class MyApplication extends Application {
         setThemes();
     }
     
+    public static int getCurrentAccountColor() {
+      return currentAccountColor;
+    }
+
+    public static void setCurrentAccountColor(int currentAccountColor) {
+      MyApplication.currentAccountColor = currentAccountColor;
+    }
+
     @Override
     public void onTerminate() {
       if(mDbOpenHelper != null)

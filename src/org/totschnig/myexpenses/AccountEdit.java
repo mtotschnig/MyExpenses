@@ -23,6 +23,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,8 +43,12 @@ import android.widget.Toast;
  * @author Michael Totschnig
  */
 public class AccountEdit extends EditActivity {
+  private static final String OPENINTENTS_COLOR_EXTRA = "org.openintents.extra.COLOR";
+  private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
+  private static final int PICK_COLOR_REQUEST = 25;
   private static final int CURRENCY_DIALOG_ID = 0;
   private static final int TYPE_DIALOG_ID = 1;
+  private static final int COLOR_DIALOG_ID = 2;
   private EditText mLabelText;
   private EditText mDescriptionText;
   private AutoCompleteTextView mCurrencyText;
@@ -52,7 +59,28 @@ public class AccountEdit extends EditActivity {
   private String[] currencyDescs;
   private TextWatcher currencyInformer;
   private Account.Type mAccountType;
-  String[] mTypes = new String[Account.Type.values().length];
+  private int mAccountColor;
+  private String[] mTypes = new String[Account.Type.values().length];
+  private String[] mColorNames;
+  private static Integer[] mColors = new Integer[] { Color.BLUE, Color.CYAN,
+                                                     Color.GREEN, Color.MAGENTA,
+                                                     Color.RED, Color.YELLOW,
+                                                     Color.BLACK, Color.DKGRAY,
+                                                     Color.GRAY, Color.LTGRAY,
+                                                     Color.WHITE };
+  private static int[] mColorIds = new int[] { R.string.blue_color_name,
+                                               R.string.cyan_color_name,
+                                               R.string.green_color_name,
+                                               R.string.magenta_color_name,
+                                               R.string.red_color_name,
+                                               R.string.yellow_color_name,
+                                               R.string.black_color_name,
+                                               R.string.dkgray_color_name,
+                                               R.string.gray_color_name,
+                                               R.string.ltgray_color_name,
+                                               R.string.white_color_name };
+  private TextView mColorText;
+  private Button mColorButton;
 
 /*  private int monkey_state = 0;
 
@@ -161,8 +189,41 @@ public class AccountEdit extends EditActivity {
     for(int i = 0;i< allTypes.length; i++){
       mTypes[i] = allTypes[i].getDisplayName(this);
     }
+
+    mColorText = (TextView) findViewById(R.id.Color);
+
+    mColorButton = (Button)  findViewById(R.id.SelectColor);
+    mColorButton.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View view) {
+        if (Utils.isIntentAvailable(AccountEdit.this, OPENINTENTS_PICK_COLOR_ACTION)) {
+          Intent intent = new Intent(OPENINTENTS_PICK_COLOR_ACTION);
+          intent.putExtra(OPENINTENTS_COLOR_EXTRA, mAccountColor);
+          startActivityForResult(intent, PICK_COLOR_REQUEST);
+        } else {
+          showDialog(COLOR_DIALOG_ID);
+        }
+      }
+    });
+
+    mColorNames = new String[mColorIds.length+1];
+    for (int i = 0 ; i < mColorIds.length ; i++) {
+      mColorNames[i] = getString(mColorIds[i]);
+    }
+    mColorNames[mColorIds.length] = getString(R.string.oi_pick_colors_info);
+
     populateFields();
   }
+
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    if (requestCode == PICK_COLOR_REQUEST) {
+      if (resultCode == RESULT_OK) {
+        mAccountColor = data.getExtras().getInt(OPENINTENTS_COLOR_EXTRA);
+        mColorText.setBackgroundDrawable(new ColorDrawable(mAccountColor));
+      }
+    }
+  }
+
   /* (non-Javadoc)
    * @see android.app.Activity#onPostCreate(android.os.Bundle)
    * we add the textwatcher only here, to prevent it being triggered
@@ -200,6 +261,29 @@ public class AccountEdit extends EditActivity {
               dismissDialog(TYPE_DIALOG_ID);
             }
           }).create();
+      case COLOR_DIALOG_ID:
+          checked = java.util.Arrays.asList(mColors).indexOf(mAccountColor);
+          return new AlertDialog.Builder(this)
+            .setTitle(R.string.dialog_title_select_color)
+            .setSingleChoiceItems(mColorNames, checked, new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int item) {
+                if (item < mColors.length) {
+                  mColorText.setBackgroundColor(mColors[item]);
+                  mAccountColor = mColors[item];
+                  dismissDialog(COLOR_DIALOG_ID);
+                } else {
+                  try {
+                    dismissDialog(COLOR_DIALOG_ID);
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("market://details?id=org.openintents.colorpicker"));
+                    startActivity(intent);
+                  } catch(Exception e) {
+                    Toast toast = Toast.makeText(AccountEdit.this, R.string.error_accessing_gplay, Toast.LENGTH_SHORT);
+                    toast.show();
+                  }
+                }
+              }
+            }).create();
     }
     return null;
   }
@@ -229,8 +313,6 @@ public class AccountEdit extends EditActivity {
       }
       mAmountText.setText(nfDLocal.format(amount));
       mCurrencyText.setText(mAccount.currency.getCurrencyCode());
-      mAccountType = mAccount.type;
-      mTypeButton.setText(mAccountType.getDisplayName(this));
     } else {
       mAccount = new Account();
       setTitle(R.string.menu_insert_account);
@@ -238,8 +320,11 @@ public class AccountEdit extends EditActivity {
       Currency c = Currency.getInstance(l);
       String s = c.getCurrencyCode();
       mCurrencyText.setText(s);
-      mAccountType = Account.Type.CASH;
     }
+    mAccountType = mAccount.type;
+    mTypeButton.setText(mAccountType.getDisplayName(this));
+    mAccountColor = mAccount.color;
+    mColorText.setBackgroundColor(mAccountColor);
   }
 
   /**
@@ -269,6 +354,7 @@ public class AccountEdit extends EditActivity {
     }
     //TODO make sure that this is retained upon orientation change
     mAccount.type = mAccountType;
+    mAccount.color = mAccountColor;
     mAccount.save();
     return true;
   }

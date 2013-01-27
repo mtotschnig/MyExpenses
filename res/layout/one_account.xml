@@ -88,6 +88,19 @@
               android:id="@+id/TaType" 
               android:text="@string/account_type_cash" />
       </TableRow>
+      <TableRow>
+        <TextView android:text="@string/color" />
+        <TextView android:id="@+id/Color"
+                  android:text="@string/empty"/>
+        <Button
+              android:id="@+id/SelectColor"
+              android:text="@string/select" />
+      </TableRow>
+
+      <TableRow>
+        <TextView android:text="@string/empty" />
+      </TableRow>
+
     </TableLayout>
   </ScrollView>
   <include layout="@layout/one_buttonbar"/>

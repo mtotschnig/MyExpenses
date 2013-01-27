@@ -273,7 +273,24 @@
   <string name="warning_reset_account">All transactions of this account will be exported into QIF file 
       on SD-card and deleted. Do you want to continue?</string>
   <string name="warning_select_account">Please select an account!</string>
-
+<string name="black_color_name">Black</string>
+<string name="blue_color_name">Blue</string>
+<string name="color">Color</string>
+<string name="cyan_color_name">Cyan</string>
+<string name="dialog_title_select_color">Pick a color</string>
+<string name="dkgray_color_name">Dark gray</string>
+<string name="empty">  </string>
+<string name="error_accessing_gplay">Error while accessing Google Play</string>
+<string name="gray_color_name">Gray</string>
+<string name="green_color_name">Green</string>
+<string name="ltgray_color_name">Light gray</string>
+<string name="magenta_color_name">Magenta</string>
+<string name="need_oi_pick_color">Oi Pick Color App is needed to select an account background color</string>
+<string name="oi_pick_colors_info">Install OI Color Picker for more choices</string>
+<string name="red_color_name">Red</string>
+<string name="white_color_name">White</string>
+<string name="yellow_color_name">Yellow</string>
+  
   <!-- strings below this comment do not need translations -->
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 

@@ -114,6 +114,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
 
   private Account mCurrentAccount;
   
+  private void setmCurrentAccount(Account mCurrentAccount) {
+    this.mCurrentAccount = mCurrentAccount;
+    MyApplication.setCurrentAccountColor(mCurrentAccount.color);
+  }
   private SharedPreferences mSettings;
   private Cursor mExpensesCursor;
 
@@ -189,12 +193,14 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     if (mCurrentAccount == null) {
       long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
       try {
-        mCurrentAccount = Account.getInstanceFromDb(account_id);
+        setmCurrentAccount(Account.getInstanceFromDb(account_id));
       } catch (DataObjectNotFoundException e) {
         //for any reason the account stored in pref no longer exists
-        mCurrentAccount = requireAccount();
+        setmCurrentAccount(requireAccount());
       }
     }
+    final View heading = findViewById(R.id.heading);
+    heading.setBackgroundColor(MyApplication.getCurrentAccountColor());
     mUseStandardMenu = mSettings.getBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU, false);
     mButtonBar = (ButtonBar) findViewById(R.id.ButtonBar);
     if (mUseStandardMenu) {
@@ -778,7 +784,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           accountId = 0;
         if (accountId != 0) {
           try {
-            mCurrentAccount = Account.getInstanceFromDb(accountId);
+            Account.getInstanceFromDb(accountId);
           } catch (DataObjectNotFoundException e) {
            //the account stored in last_account has been deleted 
            accountId = 0; 
@@ -792,7 +798,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     }
     if (accountId != 0) {
       try {
-        mCurrentAccount = Account.getInstanceFromDb(accountId);
+        setmCurrentAccount(Account.getInstanceFromDb(accountId));
         Toast.makeText(getBaseContext(),getString(R.string.switch_account,mCurrentAccount.label), Toast.LENGTH_SHORT).show();
         mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
           .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, current_account_id)
@@ -1012,7 +1018,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       return;
     if (prev_version == -1) {
       //we check if we already have an account
-      mCurrentAccount = requireAccount();
+      setmCurrentAccount(requireAccount());
 
       edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
