@@ -199,8 +199,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         setmCurrentAccount(requireAccount());
       }
     }
-    final View heading = findViewById(R.id.heading);
-    heading.setBackgroundColor(MyApplication.getCurrentAccountColor());
+    MyApplication.updateUIWithAccountColor(this);
     mUseStandardMenu = mSettings.getBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU, false);
     mButtonBar = (ButtonBar) findViewById(R.id.ButtonBar);
     if (mUseStandardMenu) {
@@ -472,8 +471,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     }
     //we call fillData when returning from ACTIVITY_PREF with RESULT_CANCEL,
     //since we might have edited accounts from there
-    if (resultCode == RESULT_OK || requestCode == ACTIVITY_PREF)
+    if (resultCode == RESULT_OK || requestCode == ACTIVITY_PREF) {
       fillData();
+      MyApplication.setCurrentAccountColor(mCurrentAccount.color);
+      MyApplication.updateUIWithAccountColor(this);
+    }
   }
   
   @Override
@@ -804,6 +806,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, current_account_id)
           .commit();
         fillData();
+        MyApplication.updateUIWithAccountColor(this);
       } catch (DataObjectNotFoundException e) {
         //should not happen
         Log.w("MyExpenses","unable to switch to account " + accountId);

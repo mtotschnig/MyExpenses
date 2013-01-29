@@ -86,11 +86,18 @@
       </TableRow>
       <TableRow>
         <TextView android:text="@string/color" />
-        <TextView android:id="@+id/Color"
-                  android:text="@string/empty"/>
-        <Button
-              android:id="@+id/SelectColor"
+        <LinearLayout android:orientation="horizontal">
+          <TextView android:id="@+id/Color"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="fill_parent"
+              android:text="@string/empty"/>
+          <Button android:id="@+id/SelectColor"
+              style="@style/button"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
               android:text="@string/select" />
+        </LinearLayout>
       </TableRow>
     </TableLayout>
   </ScrollView>

@@ -18,11 +18,14 @@ package org.totschnig.myexpenses;
 import java.io.File;
 import java.util.Map;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 //import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -69,15 +72,20 @@ public class MyApplication extends Application {
         PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
         setThemes();
     }
-    
-    public static int getCurrentAccountColor() {
-      return currentAccountColor;
-    }
-
     public static void setCurrentAccountColor(int currentAccountColor) {
       MyApplication.currentAccountColor = currentAccountColor;
     }
-
+    public static int getCurrentAccountColor() {
+      return currentAccountColor;
+    }
+    public static void updateUIWithAccountColor(Activity ctx) {
+      View heading = ctx.findViewById(R.id.heading);
+      if (heading == null) 
+        heading = (View) ctx.getWindow().findViewById(android.R.id.title).getParent();
+      heading.setBackgroundColor(currentAccountColor);
+      ctx.findViewById(R.id.ButtonBarDividerTop).setBackgroundColor(currentAccountColor);
+      ctx.findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(currentAccountColor);
+    }
     @Override
     public void onTerminate() {
       if(mDbOpenHelper != null)
