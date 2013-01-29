@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<!DOCTYPE resources [
+  <!ENTITY app_name "My Expenses">
+  <!ENTITY grisbi_file "grisbi.xml">
+  <!ENTITY learn_more "Dahasını öğrenin">
+]>
+<resources>
+  <string name="account">Hesap</string>
+  <string name="account_type_cash">Nakit hesabı</string>
+  <string name="account_type_bank">Banka hesabı</string>
+  <string name="account_type_ccard">Kredi kartı</string>
+  <string name="account_type_asset">Aktif hesabı</string>
+  <string name="account_type_liability">Borç hesabı</string>
+  <string name="amount">Miktar</string>
+  <string name="app_name">&app_name;</string>
+  <string name="backup_failure">SD kartına yedekleme başarısız oldu.</string>
+  <string name="backup_success">Veritabanı ve tercihler SD karta başarılı bir şekilde yazıldı.</string>
+  <string name="category_already_defined">%1$s kategorisi zaten tanımlanmış</string>
+  <string name="category">Kategori</string>
+  <string name="comment">Notlar</string>
+  <string name="create_category">Yeni kategori oluştur</string>
+  <string name="currency">Döviz</string>
+  <string name="currency_not_iso4217">%1$s ISO 4217 olarak belirtilmemiş</string>
+  <string name="current_balance">Güncel bakiye</string>
+  <string name="date">Tarih</string>
+  <string name="date_time">Tarih / Zaman</string>
+  <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>    
+  <string name="description">Açıklama</string>
+  <string name="dialog_confirm_delete_template">\"%1$s\" şablonu gerçekten silinsin mi?</string>
+  <string name="dialog_title_select_account">Bir hesap seçin</string>
+  <string name="dialog_title_select_import_source">İçe aktarım için bir kaynak seçin</string>
+  <string name="dialog_title_select_currency">Bir döviz seçin</string>
+  <string name="dialog_title_select_method">Bir ödeme metodu seçin</string>
+  <string name="dialog_title_select_type">Bir tür seçin</string>
+  <string name="dialog_title_template_title">Başlığı belirtin</string>
+  <string name="donate">Bağış</string>
+  <string name="donate_button_more">&learn_more;</string>
+  <string name="donate_dialog_text"><i>&app_name;</i> uygulamasını beğendiyseniz ve katkıda bulunmak
+      istiyorsanız, PayPal veya Flattr ile bağış yapabilirsiniz. <a href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
+      \nDesteğiniz için teşekkür ederiz!</string>
+  <string name="edit_category">Kategori düzenle</string>
+  <string name="expense">gider</string>
+  <string name="export_expenses_outputfile_exists">Çıktı dosyası zaten mevcut. Lütfen bir dakika bekleyip tekrar deneyin.</string>
+  <string name="export_expenses">Giderleri dışa aktar</string>
+  <string name="export_expenses_sdcard_failure">Giderlerin SD kartına aktarılması başarısız oldu</string>
+  <string name="export_expenses_sdcard_success">Giderler %1$s dosyasına aktarıldı</string>
+  <string name="external_storage_unavailable">Harici depolama (SD kartı) mevcut değil</string>
+  <string name="feedback">Geri bildirim</string>
+  <string name="ftp_uri_malformed">Yanlış yapılandırılmış URI %1$s</string>
+  <!-- used from the user guide -->
+  <string name="go_to_chapter">Şu bölüme git</string>
+  <string name="grisbi_file">&grisbi_file;</string>
+  <string name="grisbi_import_button_categories_only">Kategoriler</string>
+  <string name="grisbi_import_button_categories_and_parties">Kategoriler ve bölümler</string>
+  <string name="grisbi_import_categories_and_parties_success">%1$s kategori ve %2$s bölüm
+      başarıyla içe aktarıldı</string>
+  <string name="grisbi_import_categories_loading">%1$s konumundan kategoriler yükleniyor</string>
+  <string name="grisbi_import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
+  <string name="grisbi_import_parsing">%1$s ayrıştırılıyor</string>
+  <string name="grisbi_import_parties_loading">%1$s konumunundan bölümler yükleniyor</string>
+  <!-- Titles in the help screen. -->
+  <string name="help_button_rate">Not ver veya değerlendir</string>
+  <string name="help_button_sendmail">E-posta yolla</string>
+  <string name="help_heading_changelog">Değişiklikler</string>
+  <string name="help_heading_credits">Hazırlayanlar</string>
+  <string name="help_heading_license">Lisans</string>
+  <string name="help_heading_more_info">İlâve bilgi</string>
+  <string name="help_heading_privacy">Gizlilik</string>
+  <string name="help_heading_quick_guide">Hızlı rehber</string>
+  <string name="help_heading_whats_new">Yenilikler</string>
+  <!-- The first line in the help screen. -->
+  <!-- The intro of the help text. -->
+  <string name="help_intro"><i>&app_name;</i>, harcamalarınız ve gelirlerinizi izlemeye yarayan ve bunları Gnucash ya da Grisbi gibi masaüstü bir finans aracı için dışa aktaran bir uygulamadır.</string>
+  <string name="help_leading">Android için <i>&app_name;</i>\'i kurduğunuz için teşekkür ederiz.</string>
+  <string name="help_quick_guide"><i>&app_name;</i> iki komut arayüzü sunar: bir düğme çubuğu
+      ve standart Android menüsü (donanım Menü tuşu). Ayarlar ekranında hangisini kullanmak
+      istediğinizi ayarlayabilirsiniz. Çubuktaki düğmeler kısa basılışta şunları yapar:\n\n
+      - <b>Yeni</b> : Muamele ekler.\n
+      - <b>Hesaplar</b> : Başka bir hesaba geçer.\n
+      - <b>Sıfırla</b> : harcamaları SD kartına QIF formatında dışa aktarır ve ardından siler ve de bakiyeyi günceller.\n
+      - <b>Ayarlar</b> : Tüm yapılandırma ve yönetme işlevlerine erişim sağlar (hesaplar, kategoriler, alacaklılar, ödeme metotları, şablonlar, yedeklemeler, içer aktarımlar.\n
+      - <b>Yardım</b> : Bu yardım ekranını açar.\n
+      \nBazı düğmeler (ki sol üst köşede bir üçgen ile ayırt edilebilirler) uzun dokunulduğunda menü açarlar:\n\n
+      - <b>Yeni</b> : <b>Transfer</b> bir hesaptan diğerine transfer yapmaya imkân sağlar (aynı dövizi kullanmaları gerekir). Ayrıca örneği kullanılabilir şablonlar numaralandırır. (Şablonlar muamelelerin listede bağlam menüsünden oluşturulabilir)\n
+      - <b>Hesaplar</b> : Geçilebilecek tüm hesapları numaralandırır. <b>Yeni &#8230;</b> yeni bir hesap oluşturur, <b>Özet</b> tüm hesaplara genel bir bakış açar ve güncel finansal durumu gösterir.\n
+      - <b>Ayarlar</b> : Güncel hesabın yedeklemelerine ve özelliklerine hızlı erişim sağlar.\n
+      - <b>Help</b> : Rehbere, yeniliklere, sıkça sorulan sorulara ve değişikliklere hızlı erişim sağlar.\n
+      \nAyrıntılı bilgi için <a href="http://myexpenses.totschnig.org/#tutorial_r4">kılavuza</a> bakınız.
+  </string>
+  <string name="help_whats_new">&#160;- Hata düzeltmesi: Hesap türlerinin ödeme metotları ile ilişkilendirilmesi.\n
+      - Varsayılan sistem yazıtipi boyutunu kullan.</string>
+  <string name="important_version_information">Önemli bilgi</string>
+  <string name="import_categories">Kategorileri içe aktar</string>
+  <string name="income">gelirler</string>
+  <string name="invalid_number_format">Yerel ayarlarınız ondalık biçimi tanımıyor. Lütfen şunu kullanınız: %1$s</string>
+  <string name="label">Etiket</string>
+  <string name="menu_accounts">Hesaplar</string>
+  <!-- TODO changed. Translations pending -->
+  <string name="menu_accounts_explain">Hesaplar düğmesi birden çok hesap yapılandırıldığında hesaplar arası geçiş yapmaya izin verir. Şu anda sadece tek bir hesap vardır.
+      Şimdi ikinci bir hesap oluşturmak istiyor musunuz?</string>
+  <string name="menu_accounts_new">Yeni &#8230;</string>
+  <string name="menu_accounts_summary">Özet</string>
+  <string name="menu_backup">Yedekleme</string>
+  <string name="menu_change_account">Hesap değiştir</string>
+  <string name="menu_create_main_cat">Yeni ana kategori oluştur</string>
+  <string name="menu_create_sub_cat">Yeni alt kategori oluştur</string>
+  <string name="menu_create_template">Şablon oluştur</string>
+  <string name="menu_create_transaction_from_template_and_edit">Yeni ve düzenle</string>
+  <string name="menu_create_transaction_from_template_and_save">Yeni ve kaydet</string>
+  <string name="menu_delete_account">Hesabı sil</string>
+  <string name="menu_delete_cat">Kategoriyi sil</string>
+  <string name="menu_delete_method">Metodu sil</string>
+  <string name="menu_delete">Sil</string>
+  <string name="menu_edit_account">Hesabı düzenle</string>
+  <string name="menu_edit_method">Ödeme metodunu düzenle</string>
+  <string name="menu_edit_cat">Kategori düzenle</string>
+  <string name="menu_edit_ta">Muameleyi düzenle</string>
+  <string name="menu_edit_transfer">Virmanı düzenle</string>
+  <string name="menu_faq">SSS</string>
+  <string name="menu_help">Yardım</string>
+  <string name="menu_insert_account">Yeni hesap oluştur</string>
+  <string name="menu_insert_method">Yeni ödeme metotu oluştur</string>
+  <string name="menu_insert_ta">Muamele ekle</string>
+  <string name="menu_insert_transfer">Virman ekle</string>
+  <string name="menu_more">Dahası &#8230;</string>
+  <string name="menu_move_transaction">Taşı</string>
+  <string name="menu_new">Yeni</string>
+  <string name="menu_new_from_template">Şablondan yeni</string>
+  <string name="menu_reset">Sıfırla</string>
+  <string name="menu_reset_abrev">Sıfırla</string>
+  <string name="menu_settings">Ayarlar</string>
+  <!--  abrev strings are needed, where labels are too long to fit in menu -->
+  <string name="menu_settings_abrev">Ayarlar</string>
+  <string name="menu_settings_account">Güncel hesap</string>
+  <string name="menu_show_detail">Detayları göster</string>
+  <string name="method">Metot</string>
+  <string name="new_version">Yeni sürüm</string>
+  <string name="no_accounts">Hesap yok!</string>
+  <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
+  <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> Google Play\'den indirilsin mi?</string>
+  <string name="no_categories">Kategori yok.</string>
+  <string name="no_details">Ayrıntı yok.</string>
+  <string name="no_expenses">Henüz hiçbir harcama yok!</string>
+  <string name="no_parties">Bölüm yok.</string>
+  <string name="no_templates">Şablon yok.</string>
+  <string name="no_text_given">Hiçbir metin girmediniz.</string>
+  <string name="no_valid_payment_methods">%1$s için geçerli ödeme metodu yok (%2$s)</string>
+  <string name="not_deletable_mapped_transactions">Silinemez çünkü ilişkili muameleler var.</string>
+  <string name="not_deletable_mapped_templates">Silinemez çünkü ilişkili şablonlar var.</string>
+  <string name="not_deletable_subcats_exists">Bu kategori silinemez çünkü alt kategorileri var.</string>
+  <string name="opening_balance">Açılış bakiyesi</string>
+  <string name="parse_error_file_not_found">%1$s dosyası bulunamadı</string>
+  <string name="parse_error_no_data_found">Dosyada içe aktarılabilecek hiçbir veri bulunamadı.</string>
+  <string name="parse_error_parse_exception">Dosya ayrıştırılamadı</string>
+  <string name="parse_error_other_exception">Bir hata meydana geldi: %1$s</string>
+  <!--
+  <string name="parse_error_grisbi_version_not_determined">Grisbi dosya sürümü belirlenemedi</string>
+  -->
+  <string name="parse_error_grisbi_version_not_supported">Desteklenmeyen Grisbi dosya sürümü:
+      %1$s</string>
+  <string name="payee">Alacaklı</string>
+  <string name="payer">Ödeyen</string>
+  <!-- payment methods -->
+  <string name="pm_cheque">Çek</string>
+  <string name="pm_creditcard">Kredi kartı</string>
+  <string name="pm_deposit">Mevduat</string>
+  <string name="pm_directdebit">Doğrudan gider</string>
+  <string name="pm_type_neutral">Nötr</string>
+  <string name="pm_type_debit">Gider</string>
+  <string name="pm_type_credit">Gelir</string>
+  <string name="peer_transaction_deleted">Bu muamele silinmiş olan başka bir hesap (%1$s hesabı) ile ilişkiliydi</string>
+  <string name="pref_account_button_behaviour_title">\"Hesaplar\" düğmesinin davranışı</string>
+  <string name="pref_account_button_behaviour_summary">\"Hesaplar\" düğmesi tüm hesaplar arasında geçiş yapmak yerine son iki hesap arası mı geçiş yapsın.</string>
+  <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
+  <string name="pref_categories_sort_by_usages_title">Kategoriler için sıralama düzeni</string>
+  <string name="pref_categories_sort_by_usages_summary">Sıralama kriteri olarak kullanım sayısını kullan
+      (yoksa alfabetik sıralama kullanılır)</string>
+  <string name="pref_category_title_manage">Yönet</string>
+  <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
+  <string name="pref_currency_decimal_separator_title">Girilen döviz miktarı için ondalık ayırıcı</string>
+  <string name="pref_currency_decimal_separator_summary">"," ya da "." arası seçim yapabilir veya
+      küçük birimleri tamsayı olarak girmeye karar verebilirsiniz.</string>
+  <string name="pref_currency_decimal_separator_comma">Virgül (,)</string>
+  <string name="pref_currency_decimal_separator_point">Nokta (.)</string>
+  <string name="pref_currency_decimal_separator_input_minor_unit">Küçük birimler tamsayı olarak</string>
+  <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
+  <string name="pref_import_from_grisbi_summary">Uygulamaya dahili olan ve varsayılan Grisbi tanımlamalarından ya da SD kartının kökünde myexpenses klasöründe &grisbi_file; dosyası olarak saklanmış kendi dosyanızdan kategori (ve bölüm) içeri aktar.</string>
+  <string name="pref_manage_accounts_title">Hesaplar</string>
+  <string name="pref_manage_accounts_summary">Hesap ekle, düzenle ve sil.</string>
+  <string name="pref_manage_categories_title">Kategoriler</string>
+  <string name="pref_manage_categories_summary">Kategori ekle, düzenle ve sil.</string>
+  <string name="pref_manage_methods_title">Ödeme metotları</string>
+  <string name="pref_manage_methods_summary">Ödeme metotları oluştur, düzenle ve hesap türleri ile ilişkilendir.</string>
+  <string name="pref_manage_parties_title">Bölümler</string>
+  <string name="pref_manage_parties_summary">Bölüm sil (alacaklılar ve ödeyenler).</string>
+  <string name="pref_manage_templates_title">Şablonlar</string>
+  <string name="pref_manage_templates_summary">Şablonları uygula ya da sil.</string>
+  <string name="pref_perform_share_title">QIF dışa aktarımı paylaş</string>
+  <string name="pref_perform_share_summary">QIF dosyası her dışa aktarımdan sonra paylaşılmalı mı?</string>
+  <string name="pref_qif_export_file_encoding_title">QIF dosyasının karakter kodlaması</string>
+  <string name="pref_qif_export_file_encoding_summary">MS Money kullanıyorsanız karakter kodlamasını \"ISO-8859-1\" olarak ayarlayınız</string>
+  <string name="pref_share_target_title">QIF dışa aktarımını yükle</string>
+  <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, &#8230;) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
+  <string name="pref_ui_theme_title">Tema</string>
+  <string name="pref_ui_theme_summary">Aydınlık ya da karanlıktan birini seçin</string>
+  <string name="pref_ui_theme_dark">karanlık</string>
+  <string name="pref_ui_theme_light">aydınlık</string>
+  <string name="pref_use_standard_menu_title">Standart Android menüsünü kullan</string>
+  <string name="pref_use_standard_menu_summary">Komutlara erişim için düğme çubuğu göstermek yerine Android\'in standart menüsünü kullan.</string>
+  <string name="restore_db_success">Veritabanı yedeklemeden restore edilmiştir.</string>
+  <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
+  <string name="save_transaction_error">Şablondan muamele kaydedilemedi</string>
+  <string name="save_transaction_success">Yeni muamele şablondan başarıyla kaydedildi</string>
+  <string name="select_account">Hesap seç</string>
+  <string name="select_category">Kategori seç</string>
+  <string name="select_parent_category">Bu kategoriyi seç</string>
+  <string name="select">Seç</string>
+  <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
+  <string name="share_sending">QIF dosyası gönder</string>
+  <string name="suggest_use_standard_menu">Komutlara erişim için düğme çubuğunu saklayıp standart Android menüsünü kullanmak istiyor musunuz?</string>
+  <string name="sum_income">Gelirler</string>
+  <string name="sum_expenses">Harcamalar</string>
+  <string name="sum_transfer">Transferler</string>
+  <string name="switch_account">\"%1$s\" hesabına geçildi</string>
+  <string name="template_create_success">\"%1$s\" şablonu başarıyla oluşturuldu</string>
+  <string name="template_title_exists">\"%1$s\" başlıklı bir şablon zaten mevcut</string>
+  <string name="time">Zaman</string>
+  <string name="title">Başlık</string>
+  <string name="transaction">Muamele</string>
+  <string name="transfer">Transfer</string>
+  <string name="tutorial">Kullanıcı rehberi</string>
+  <string name="type">Tip</string>
+  <string name="warning_backup">Veritabanı ve tercihler SD kartına yazılacaktır. Devam etmek istiyor musunuz?</string>
+  <string name="warning_backup_exists">Veritabanı ve tercihler SD kartına yazılacaktır. Mevcut yedekleme silinecektir. Devam etmek istiyor musunuz?</string>
+  <string name="warning_delete_account">Bu hesap tüm muameleleriyle silinecektir. Devan etmek istiyor musunuz?</string>
+  <string name="warning_reset_account">Bu hesabın tüm muameleleri SD kartında bir QIF dosyasına aktarılacak ve silinecektir. Devam etmek istiyor musunuz?</string>
+  <string name="warning_select_account">Lütfen bir hesap seçin!</string>
+
+  <!-- strings below this comment do not need translations -->
+  <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
+  <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 
+      licensed under the Creative Commons Attribution 3.0 United States License .</string>
+  <string name="help_licence_quickactions">Includes BetterPopupWindow class from 
+      http://code.google.com/p/simple-quickactions/ , licenced under 
+      http://www.opensource.org/licenses/bsd-license.php .</string>
+  <string name="help_heading_news">News</string>
+  <string name="help_heading_faq">FAQ</string>
+  <string name="donate_button_flattr">Flattr</string>
+  <string name="donate_button_paypal">Paypal</string>
+  
+  <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
+  <string name="pref_use_standard_menu_key">use_standard_menu</string>
+  <string name="pref_perform_share_key">perform_share</string>
+  <string name="pref_share_target_key">share_target</string>
+  <string name="pref_currency_decimal_separator_key">currency_decimal_separator</string>
+  <string name="pref_account_button_behaviour_key">account_button_behaviour</string>
+  <string name="pref_qif_export_file_encoding_key">qif_export_file_encoding</string>
+  <string name="pref_ui_theme_key">pref_ui_theme</string>
+  <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
+    
+  <!-- strings below this comment do not need translations for new languages -->
+  <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
+  <string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with 
+      their code defined in ISO 4217. The following currency symbols currently used for your
+      accounts, need to be fixed: %1$s </string>
+  <string name="version_26_upgrade_info"><i>&app_name;</i> now has a button bar as a new command
+      interface. You can switch back to the old interface in the settings screen.
+  </string>
+  <string name="version_32_upgrade_info">You have configured an FTP url as share target.
+      <i>&app_name;</i> no longer handles FTP transfers on its own.</string>
+  <string name="version_34_upgrade_info">Now you can support the continued development of
+    <i>&app_name;</i> through your donation.</string>
+  <string name="version_35_upgrade_info"><i>&app_name;</i> now has a new dark default theme.
+    You can revert to the light theme in the settings.</string>
+</resources>
