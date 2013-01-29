@@ -82,6 +82,13 @@
     <Button
         android:onClick="onDialogButtonClicked"
         android:id="@id/WEB_COMMAND"
+        android:tag="tutorial_r4"
+        android:layout_width="fill_parent"
+        style="@style/button"
+        android:text="@string/tutorial" />
+    <Button
+        android:onClick="onDialogButtonClicked"
+        android:id="@id/WEB_COMMAND"
         android:tag="news"
         android:layout_width="fill_parent"
         style="@style/button"
@@ -92,7 +99,7 @@
         android:tag="faq"
         android:layout_width="fill_parent"
         style="@style/button"
-        android:text="@string/help_heading_faq" />
+        android:text="@string/menu_faq" />
     <Button
         android:onClick="onDialogButtonClicked"
         android:id="@id/WEB_COMMAND"

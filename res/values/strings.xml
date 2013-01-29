@@ -104,7 +104,7 @@
       - <b>New</b> : <b>Transfer</b> allows to create a transfer from one account to another (must have same currency). Also enumerates available templates you can instantiate. (Templates can be created from transactions from their context menu in the list)\n
       - <b>Accounts</b> : Enumerates all accounts you can switch to. <b>New &#8230;</b> creates a new account, <b>Summary</b> opens an overview of all accounts with current financial status.\n
       - <b>Settings</b> : Quick access to backup and properties for current account.\n
-      - <b>Help</b> : Quick access to Tutorial, News, FAQ and Changes.\n
+      - <b>Help</b> : Quick access to Manual, News, FAQ and Changes.\n
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
   <string name="help_whats_new">&#160;- Bug fix: Associating account types with payment methods.\n
@@ -282,7 +282,6 @@
       http://code.google.com/p/simple-quickactions/ , licenced under 
       http://www.opensource.org/licenses/bsd-license.php .</string>
   <string name="help_heading_news">News</string>
-  <string name="help_heading_faq">FAQ</string>
   <string name="donate_button_flattr">Flattr</string>
   <string name="donate_button_paypal">Paypal</string>
   
