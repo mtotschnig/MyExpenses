@@ -250,41 +250,4 @@
   <string name="warning_delete_account">Bu hesap tüm muameleleriyle silinecektir. Devan etmek istiyor musunuz?</string>
   <string name="warning_reset_account">Bu hesabın tüm muameleleri SD kartında bir QIF dosyasına aktarılacak ve silinecektir. Devam etmek istiyor musunuz?</string>
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
-
-  <!-- strings below this comment do not need translations -->
-  <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
-  <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 
-      licensed under the Creative Commons Attribution 3.0 United States License .</string>
-  <string name="help_licence_quickactions">Includes BetterPopupWindow class from 
-      http://code.google.com/p/simple-quickactions/ , licenced under 
-      http://www.opensource.org/licenses/bsd-license.php .</string>
-  <string name="help_heading_news">News</string>
-  <string name="help_heading_faq">FAQ</string>
-  <string name="donate_button_flattr">Flattr</string>
-  <string name="donate_button_paypal">Paypal</string>
-  
-  <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
-  <string name="pref_use_standard_menu_key">use_standard_menu</string>
-  <string name="pref_perform_share_key">perform_share</string>
-  <string name="pref_share_target_key">share_target</string>
-  <string name="pref_currency_decimal_separator_key">currency_decimal_separator</string>
-  <string name="pref_account_button_behaviour_key">account_button_behaviour</string>
-  <string name="pref_qif_export_file_encoding_key">qif_export_file_encoding</string>
-  <string name="pref_ui_theme_key">pref_ui_theme</string>
-  <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
-    
-  <!-- strings below this comment do not need translations for new languages -->
-  <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
-  <string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with 
-      their code defined in ISO 4217. The following currency symbols currently used for your
-      accounts, need to be fixed: %1$s </string>
-  <string name="version_26_upgrade_info"><i>&app_name;</i> now has a button bar as a new command
-      interface. You can switch back to the old interface in the settings screen.
-  </string>
-  <string name="version_32_upgrade_info">You have configured an FTP url as share target.
-      <i>&app_name;</i> no longer handles FTP transfers on its own.</string>
-  <string name="version_34_upgrade_info">Now you can support the continued development of
-    <i>&app_name;</i> through your donation.</string>
-  <string name="version_35_upgrade_info"><i>&app_name;</i> now has a new dark default theme.
-    You can revert to the light theme in the settings.</string>
 </resources>
