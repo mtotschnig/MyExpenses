@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <!DOCTYPE resources [
-  <!ENTITY app_name "My Expenses">
+  <!ENTITY app_name "Harcamalarım">
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY learn_more "Dahasını öğrenin">
 ]>
