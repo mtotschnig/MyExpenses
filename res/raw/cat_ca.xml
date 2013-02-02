@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<Grisbi_categ>
+	<General
+		File_version="0.6.0"
+		Grisbi_version="0.6.0" 
+		Title="Categories generals"
+		Description="Llista de categories adaptades pera ús personal."/>
+	<Category Nb="1" Na="Alimentació" Kd="1" />
+	<Sub_category Nbc="1" Nb="1" Na="Bar" />
+	<Sub_category Nbc="1" Nb="2" Na="Forn" />
+	<Sub_category Nbc="1" Nb="3" Na="Cantina" />
+	<Sub_category Nbc="1" Nb="4" Na="Pastisseria" />
+	<Sub_category Nbc="1" Nb="5" Na="Diversos" />
+	<Sub_category Nbc="1" Nb="6" Na="Espècies" />
+	<Sub_category Nbc="1" Nb="7" Na="Restaurant" />
+	<Sub_category Nbc="1" Nb="8" Na="Autoservei" />
+	<Sub_category Nbc="1" Nb="9" Na="Supermercat" />
+	<Category Nb="2" Na="Animals domèstics" Kd="1" />
+	<Sub_category Nbc="2" Nb="1" Na="Alimentació" />
+	<Sub_category Nbc="2" Nb="2" Na="Productes diversos" />
+	<Sub_category Nbc="2" Nb="3" Na="Higiene" />
+	<Sub_category Nbc="2" Nb="4" Na="Veterinari" />
+	<Category Nb="3" Na="Assegurances" Kd="1" />
+	<Sub_category Nbc="3" Nb="1" Na="Automòbil" />
+	<Sub_category Nbc="3" Nb="2" Na="Salut" />
+	<Sub_category Nbc="3" Nb="3" Na="Vivenda" />
+	<Sub_category Nbc="3" Nb="4" Na="Responsabilitat civil" />
+	<Sub_category Nbc="3" Nb="5" Na="Vida" />
+	<Category Nb="4" Na="Automòbil" Kd="1" />
+	<Sub_category Nbc="4" Nb="1" Na="Carburant" />
+	<Sub_category Nbc="4" Nb="2" Na="Reparació" />
+	<Sub_category Nbc="4" Nb="3" Na="Manteniment" />
+	<Sub_category Nbc="4" Nb="4" Na="Aparcament" />
+	<Sub_category Nbc="4" Nb="5" Na="Multes" />
+	<Category Nb="5" Na="Diversos" Kd="1" />
+	<Sub_category Nbc="5" Nb="1" Na="Regals" />
+	<Category Nb="6" Na="Donacions" Kd="1" />
+	<Category Nb="7" Na="Nens" Kd="1" />
+	<Sub_category Nbc="7" Nb="1" Na="Cangur / Aliments" />
+	<Sub_category Nbc="7" Nb="2" Na="Despeses diverses" />
+	<Sub_category Nbc="7" Nb="3" Na="Estudis" />
+	<Category Nb="8" Na="Educació" Kd="1" />
+	<Sub_category Nbc="8" Nb="1" Na="Matrícula" />
+	<Sub_category Nbc="8" Nb="2" Na="Despeses d&apos;escolaritat" />
+	<Sub_category Nbc="8" Nb="3" Na="Llibres" />
+	<Category Nb="9" Na="Despeses financeres" Kd="1" />
+	<Sub_category Nbc="9" Nb="1" Na="Diversos" />
+	<Sub_category Nbc="9" Nb="2" Na="Despeses bancàries" />
+	<Sub_category Nbc="9" Nb="3" Na="Descobert" />
+	<Sub_category Nbc="9" Nb="4" Na="Despeses de prèstecs" />
+	<Sub_category Nbc="9" Nb="5" Na="Remborsament" />
+	<Category Nb="10" Na="Despeses professionals" Kd="1" />
+	<Sub_category Nbc="10" Nb="1" Na="No remborsables" />
+	<Sub_category Nbc="10" Nb="2" Na="remborsables" />
+	<Category Nb="11" Na="Impostos" Kd="1" />
+	<Sub_category Nbc="11" Nb="1" Na="Altres impostos" />
+	<Sub_category Nbc="11" Nb="2" Na="Impost sobre els ingressos" />
+	<Sub_category Nbc="11" Nb="3" Na="Impostos locals" />
+	<Category Nb="12" Na="Allotjament" Kd="1" />
+	<Sub_category Nbc="12" Nb="1" Na="Hotel" />
+	<Sub_category Nbc="12" Nb="2" Na="Lloguer" />
+	<Sub_category Nbc="12" Nb="3" Na="Abonament de TV" />
+	<Sub_category Nbc="12" Nb="4" Na="Mobles" />
+	<Sub_category Nbc="12" Nb="5" Na="Càrrecs" />
+	<Sub_category Nbc="12" Nb="6" Na="Calefacció" />
+	<Sub_category Nbc="12" Nb="7" Na="Decoració" />
+	<Sub_category Nbc="12" Nb="8" Na="Aigua" />
+	<Sub_category Nbc="12" Nb="9" Na="Electricitat" />
+	<Sub_category Nbc="12" Nb="10" Na="Electrodomèstics" />
+	<Sub_category Nbc="12" Nb="11" Na="Equipament" />
+	<Sub_category Nbc="12" Nb="12" Na="Gas" />
+	<Sub_category Nbc="12" Nb="13" Na="Jardí" />
+	<Sub_category Nbc="12" Nb="14" Na="Assistent" />
+	<Sub_category Nbc="12" Nb="15" Na="Telèfon" />
+	<Sub_category Nbc="12" Nb="16" Na="Télefon mòbil" />
+	<Category Nb="13" Na="Oci" Kd="1" />
+	<Sub_category Nbc="13" Nb="1" Na="Billar" />
+	<Sub_category Nbc="13" Nb="2" Na="Bolera" />
+	<Sub_category Nbc="13" Nb="3" Na="Cinema" />
+	<Sub_category Nbc="13" Nb="4" Na="Discoteca" />
+	<Sub_category Nbc="13" Nb="5" Na="Informàtica" />
+	<Sub_category Nbc="13" Nb="6" Na="Jocs" />
+	<Sub_category Nbc="13" Nb="7" Na="Lectura" />
+	<Sub_category Nbc="13" Nb="8" Na="Parc d&apos;atraccions" />
+	<Sub_category Nbc="13" Nb="9" Na="Espectacle" />
+	<Sub_category Nbc="13" Nb="10" Na="Sport" />
+	<Sub_category Nbc="13" Nb="11" Na="Vídeo" />
+	<Sub_category Nbc="13" Nb="12" Na="Viatge" />
+	<Sub_category Nbc="13" Nb="13" Na="Equipament" />
+	<Sub_category Nbc="13" Nb="14" Na="Museu / Exposició" />
+	<Category Nb="14" Na="Prèstec" Kd="1" />
+	<Sub_category Nbc="14" Nb="1" Na="Capital" />
+	<Category Nb="15" Na="Salut" Kd="1" />
+	<Sub_category Nbc="15" Nb="1" Na="Assegurança" />
+	<Sub_category Nbc="15" Nb="2" Na="Dentista" />
+	<Sub_category Nbc="15" Nb="3" Na="Hospital" />
+	<Sub_category Nbc="15" Nb="4" Na="Kinoterapeuta" />
+	<Sub_category Nbc="15" Nb="5" Na="Metge" />
+	<Sub_category Nbc="15" Nb="6" Na="Oftalmòleg" />
+	<Sub_category Nbc="15" Nb="7" Na="Osteòpata" />
+	<Sub_category Nbc="15" Nb="8" Na="Farmàcia" />
+	<Sub_category Nbc="15" Nb="9" Na="Seguretat social" />
+	<Category Nb="16" Na="Atencions" Kd="1" />
+	<Sub_category Nbc="16" Nb="1" Na="Perruquer" />
+	<Sub_category Nbc="16" Nb="2" Na="Roba" />
+	<Category Nb="17" Na="Transport" Kd="1" />
+	<Sub_category Nbc="17" Nb="1" Na="Bus" />
+	<Sub_category Nbc="17" Nb="2" Na="Metro" />
+	<Sub_category Nbc="17" Nb="3" Na="Peatge" />
+	<Sub_category Nbc="17" Nb="4" Na="Tren" />
+	<Sub_category Nbc="17" Nb="5" Na="Tramvia" />
+	<Sub_category Nbc="17" Nb="6" Na="Viatge" />
+	<Category Nb="18" Na="Vacances" Kd="1" />
+	<Sub_category Nbc="18" Nb="1" Na="Allotjament" />
+	<Sub_category Nbc="18" Nb="2" Na="Visites" />
+	<Sub_category Nbc="18" Nb="3" Na="Viatges" />
+	<Category Nb="19" Na="Altres ingressos" Kd="0" />
+	<Sub_category Nbc="19" Nb="1" Na="Assignació d&apos;atur" />
+	<Sub_category Nbc="19" Nb="2" Na="Assignació familiar" />
+	<Sub_category Nbc="19" Nb="3" Na="Crèdit tributari" />
+	<Sub_category Nbc="19" Nb="4" Na="Joc" />
+	<Sub_category Nbc="19" Nb="5" Na="Mútua de salut" />
+	<Sub_category Nbc="19" Nb="6" Na="Seguretat social" />
+	<Category Nb="20" Na="Pensió" Kd="0" />
+	<Sub_category Nbc="20" Nb="1" Na="Pensions" />
+	<Sub_category Nbc="20" Nb="2" Na="Règim general" />
+	<Sub_category Nbc="20" Nb="3" Na="Pensió complementària" />
+	<Category Nb="21" Na="Ingressos per inversions" Kd="0" />
+	<Sub_category Nbc="21" Nb="1" Na="Dividends" />
+	<Sub_category Nbc="21" Nb="2" Na="Interesos" />
+	<Sub_category Nbc="21" Nb="3" Na="Plusvàlues" />
+	<Category Nb="22" Na="Salari" Kd="0" />
+	<Sub_category Nbc="22" Nb="1" Na="Hores extres" />
+	<Sub_category Nbc="22" Nb="2" Na="Primes de vacances" />
+	<Sub_category Nbc="22" Nb="3" Na="Primes diverses" />
+	<Sub_category Nbc="22" Nb="4" Na="Primes de resultats" />
+	<Sub_category Nbc="22" Nb="5" Na="Salari net" />
+	<Category Nb="23" Na="Ingressos diversos" Kd="0" />
+	<Sub_category Nbc="23" Nb="1" Na="Regals" />
+	<Sub_category Nbc="23" Nb="2" Na="Remborsament" />
+	<Sub_category Nbc="23" Nb="3" Na="Vendes de segona mà" />
+</Grisbi_categ>
+

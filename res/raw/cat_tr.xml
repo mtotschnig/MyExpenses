@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<Grisbi_categ>
+	<General
+		File_version="0.6.0"
+		Grisbi_version="0.6.0" 
+		Title="Standart kategori seti"
+		Description="Kişisel kullanıma uygun kategori seti" />
+	<Category Nb="1" Na="Diğer gelirler" Kd="0" />
+	<Sub_category Nbc="1" Nb="1" Na="İşsizlik aylığı" />
+	<Sub_category Nbc="1" Nb="2" Na="Aile yardımı" />
+	<Sub_category Nbc="1" Nb="3" Na="Vergi kredisi" />
+	<Sub_category Nbc="1" Nb="4" Na="Bahis" />
+	<Sub_category Nbc="1" Nb="5" Na="Karşılıklı sigorta" />
+	<Sub_category Nbc="1" Nb="6" Na="Sosyal güvenlik" />
+	<Category Nb="2" Na="Emeklilik" Kd="0" />
+	<Sub_category Nbc="2" Nb="1" Na="Emekli Sandığı" />
+	<Sub_category Nbc="2" Nb="2" Na="Emeklilik aylığı" />
+	<Sub_category Nbc="2" Nb="3" Na="Ek emeklilik aylığı" />
+	<Category Nb="3" Na="Yatırım gelirleri" Kd="0" />
+	<Sub_category Nbc="3" Nb="1" Na="Kâr payı" />
+	<Sub_category Nbc="3" Nb="2" Na="Faiz" />
+	<Sub_category Nbc="3" Nb="3" Na="Sermaye kazancı" />
+	<Category Nb="4" Na="Maaş" Kd="0" />
+	<Sub_category Nbc="4" Nb="1" Na="Fazla mesai" />
+	<Sub_category Nbc="4" Nb="2" Na="Ayrılma ödeneği" />
+	<Sub_category Nbc="4" Nb="3" Na="Çeşitli ikramiyeler" />
+	<Sub_category Nbc="4" Nb="4" Na="Başarı primi" />
+	<Sub_category Nbc="4" Nb="5" Na="Net maaş" />
+	<Category Nb="5" Na="Çeşitli gelirler" Kd="0" />
+	<Sub_category Nbc="5" Nb="1" Na="Hediyeler" />
+	<Sub_category Nbc="5" Nb="2" Na="İadeler" />
+	<Sub_category Nbc="5" Nb="3" Na="Kullanılmış satımlar" />
+	<Category Nb="6" Na="Gıda" Kd="1" />
+	<Sub_category Nbc="6" Nb="1" Na="Bar" />
+	<Sub_category Nbc="6" Nb="2" Na="Ekmek" />
+	<Sub_category Nbc="6" Nb="3" Na="Kantin" />
+	<Sub_category Nbc="6" Nb="4" Na="Tatlılar" />
+	<Sub_category Nbc="6" Nb="5" Na="Çeşitli" />
+	<Sub_category Nbc="6" Nb="6" Na="Bakkal" />
+	<Sub_category Nbc="6" Nb="7" Na="Lokanta" />
+	<Sub_category Nbc="6" Nb="8" Na="Self-service" />
+	<Sub_category Nbc="6" Nb="9" Na="Süpermarket" />
+	<Category Nb="7" Na="Evcil hayvanlar" Kd="1" />
+	<Sub_category Nbc="7" Nb="1" Na="Gıda" />
+	<Sub_category Nbc="7" Nb="2" Na="Çeşitli ihtiyaçlar" />
+	<Sub_category Nbc="7" Nb="3" Na="Tımar" />
+	<Sub_category Nbc="7" Nb="4" Na="Veteriner" />
+	<Category Nb="8" Na="Sigorta" Kd="1" />
+	<Sub_category Nbc="8" Nb="1" Na="Otomobil" />
+	<Sub_category Nbc="8" Nb="2" Na="Sağlık" />
+	<Sub_category Nbc="8" Nb="3" Na="Konut" />
+	<Sub_category Nbc="8" Nb="4" Na="Hukukî sorumluluk" />
+	<Sub_category Nbc="8" Nb="5" Na="Hayat" />
+	<Category Nb="9" Na="Otomobil" Kd="1" />
+	<Sub_category Nbc="9" Nb="1" Na="Benzin" />
+	<Sub_category Nbc="9" Nb="2" Na="Tamir" />
+	<Sub_category Nbc="9" Nb="3" Na="Bakım" />
+	<Sub_category Nbc="9" Nb="4" Na="Park yeri" />
+	<Sub_category Nbc="9" Nb="5" Na="Cezalar" />
+	<Category Nb="11" Na="Hediyeler" Kd="1" />
+	<Category Nb="12" Na="Çocuklar" Kd="1" />
+	<Sub_category Nbc="12" Nb="1" Na="Bakıcı" />
+	<Sub_category Nbc="12" Nb="2" Na="Diğer" />
+	<Sub_category Nbc="12" Nb="3" Na="Eğitim" />
+	<Category Nb="13" Na="Eğitim" Kd="1" />
+	<Sub_category Nbc="13" Nb="1" Na="Ders" />
+	<Sub_category Nbc="13" Nb="2" Na="Okul ücreti" />
+	<Sub_category Nbc="13" Nb="3" Na="Kitaplar" />
+	<Category Nb="14" Na="Çeşitli" Kd="1" />
+	<Sub_category Nbc="14" Nb="1" Na="Hediyeler" />
+	<Category Nb="15" Na="Finansal harcamalar" Kd="1" />
+	<Sub_category Nbc="15" Nb="1" Na="Çeşitli" />
+	<Sub_category Nbc="15" Nb="2" Na="Banka ücretleri" />
+	<Sub_category Nbc="15" Nb="3" Na="Kredi/İpotek" />
+	<Sub_category Nbc="15" Nb="4" Na="Masraflar" />
+	<Sub_category Nbc="15" Nb="5" Na="Geri ödemeler" />
+	<Category Nb="16" Na="Profesyonel giderler" Kd="1" />
+	<Sub_category Nbc="16" Nb="1" Na="İadesiz" />
+	<Sub_category Nbc="16" Nb="2" Na="İadesi mümkün" />
+	<Category Nb="17" Na="Vergiler" Kd="1" />
+	<Sub_category Nbc="17" Nb="1" Na="Çeşitli" />
+	<Sub_category Nbc="17" Nb="2" Na="Gelir" />
+	<Sub_category Nbc="17" Nb="3" Na="Arazi" />
+	<Category Nb="18" Na="Konut" Kd="1" />
+	<Sub_category Nbc="18" Nb="1" Na="Otel" />
+	<Sub_category Nbc="18" Nb="2" Na="Kira" />
+	<Sub_category Nbc="18" Nb="3" Na="TV" />
+	<Sub_category Nbc="18" Nb="4" Na="Mobilya" />
+	<Sub_category Nbc="18" Nb="5" Na="Aidatlar" />
+	<Sub_category Nbc="18" Nb="6" Na="Isınma" />
+	<Sub_category Nbc="18" Nb="7" Na="Dekorasyon" />
+	<Sub_category Nbc="18" Nb="8" Na="Su" />
+	<Sub_category Nbc="18" Nb="9" Na="Elektrik" />
+	<Sub_category Nbc="18" Nb="10" Na="Beyaz eşya" />
+	<Sub_category Nbc="18" Nb="11" Na="Ekipman" />
+	<Sub_category Nbc="18" Nb="12" Na="Gaz" />
+	<Sub_category Nbc="18" Nb="13" Na="Bahçe" />
+	<Sub_category Nbc="18" Nb="14" Na="Kapıcı" />
+	<Sub_category Nbc="18" Nb="15" Na="Telefon" />
+	<Sub_category Nbc="18" Nb="16" Na="Cep telefonu" />
+	<Category Nb="19" Na="Boş vakit" Kd="1" />
+	<Sub_category Nbc="19" Nb="1" Na="Bilardo" />
+	<Sub_category Nbc="19" Nb="2" Na="Bovling" />
+	<Sub_category Nbc="19" Nb="3" Na="Film" />
+	<Sub_category Nbc="19" Nb="4" Na="Gece kulübü" />
+	<Sub_category Nbc="19" Nb="5" Na="Bilgisayar" />
+	<Sub_category Nbc="19" Nb="6" Na="Oyun" />
+	<Sub_category Nbc="19" Nb="7" Na="Kitap" />
+	<Sub_category Nbc="19" Nb="8" Na="Park" />
+	<Sub_category Nbc="19" Nb="9" Na="Konser" />
+	<Sub_category Nbc="19" Nb="10" Na="Spor" />
+	<Sub_category Nbc="19" Nb="11" Na="Video" />
+	<Sub_category Nbc="19" Nb="12" Na="Yolculuk" />
+	<Sub_category Nbc="19" Nb="13" Na="Donanım" />
+	<Sub_category Nbc="19" Nb="14" Na="Müze/Sergi" />
+	<Category Nb="20" Na="Kredi/İpotek" Kd="1" />
+	<Sub_category Nbc="20" Nb="1" Na="Sermaye" />
+	<Category Nb="21" Na="Sağlık" Kd="1" />
+	<Sub_category Nbc="21" Nb="1" Na="Sigorta" />
+	<Sub_category Nbc="21" Nb="2" Na="Dişçi" />
+	<Sub_category Nbc="21" Nb="3" Na="Hastane" />
+	<Sub_category Nbc="21" Nb="5" Na="Hekim" />
+	<Sub_category Nbc="21" Nb="6" Na="Göz doktoru" />
+	<Sub_category Nbc="21" Nb="8" Na="Analiz" />
+	<Sub_category Nbc="21" Nb="9" Na="Sosyal sigorta" />
+	<Category Nb="22" Na="Bakım" Kd="1" />
+	<Sub_category Nbc="22" Nb="1" Na="Berber" />
+	<Sub_category Nbc="22" Nb="2" Na="Giyim" />
+	<Category Nb="23" Na="Ulaşım" Kd="1" />
+	<Sub_category Nbc="23" Nb="1" Na="Otobüs" />
+	<Sub_category Nbc="23" Nb="2" Na="Metro" />
+	<Sub_category Nbc="23" Nb="3" Na="Otoyol" />
+	<Sub_category Nbc="23" Nb="4" Na="Tren" />
+	<Sub_category Nbc="23" Nb="5" Na="Tramvay" />
+	<Sub_category Nbc="23" Nb="6" Na="Geziler" />
+	<Sub_category Nbc="23" Nb="7" Na="Hava yolu" />
+	<Category Nb="24" Na="Tatil" Kd="1" />
+	<Sub_category Nbc="24" Nb="1" Na="Konut" />
+	<Sub_category Nbc="24" Nb="2" Na="Ziyaretler" />
+	<Sub_category Nbc="24" Nb="3" Na="Geziler" />
+</Grisbi_categ>
