@@ -64,6 +64,8 @@ sections:
       es: Participar
       fr: Participer
       it: Partecipare
+    tags:
+      - donate
   info:
     weight: 5
     url: info.xhtml
