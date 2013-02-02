@@ -55,32 +55,30 @@ sections:
     url: news/news3.html
     title:
       en: News
-  donate:
+  participate:
+    weight: 4
+    url: participate.xhtml
+    title:
+      en: Participate
+      de: Mitmachen
+      es: Participar
+      fr: Participer
+      it: Partecipare
+  info:
     weight: 5
-    url: donate.xhtml
+    url: info.xhtml
     title:
-      en: Donate
-      de: Spende
-      es: Donación
-      fr: Don
-      it: Donare
-  privacy:
-    weight: 7
-    url: privacy.xhtml
-    title:
-      en: "Privacy&#160;policy"
-      de: Datenschutzerklärung
-      it: "Norme&#160;sulla&#160;privacy"
+      en: Information
   changelog:
-    weight: 8
+    weight: 6
     url: versionlist.xhtml
     title: 
       en: Changelog
-      fr: "Journal&#160;des&#160;modifications"
-      de: Änderungsprotokoll
+      fr: Modifications
+      de: Änderungen
       it: Aggiornamenti
-      es: "Registro&#160;de&#160;cambios"
-      ca: "Registre&#160;de&#160;canvis"
+      es: Cambios
+      ca: Canvis
     styles: |
       dl.versionlist {
         position: relative;
@@ -99,33 +97,8 @@ sections:
         display: inline-block;
         width: 9em;
       }
-  credits:
-    weight: 9
-    url: credits.xhtml
-    title:
-      en: Credits
-  licence:
-    weight: 10
-    url: licence.xhtml
-    title:
-      en: Licence
-  sourcecode:
-    weight: 11
-    url: sourcecode.xhtml
-    title:
-      en: Sourcecode
-  links:
-    weight: 12
-    url: links.xhtml
-    title:
-      en: Links
-  plans:
-    weight: 13
-    url: plans.xhtml
-    title:
-      en: "Future&#160;plans"
   faq:
-    weight: 14
+    weight: 7
     url: faq.xhtml
     title:
       en: FAQ
@@ -133,6 +106,14 @@ sections:
       de: FAQ
       it: FAQ
       es: FAQ
+  imprint:
+    url: imprint.xhtml
+    title:
+      en: Imprint
+      de: Impressum
+      it: Imprinto
+    tags:
+      - privacy
 versions_legacy:
   -
     - 1.5.1

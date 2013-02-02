@@ -55,7 +55,7 @@ h3 { color: #3383BB; }
 #navigation ul li.active {
     border-bottom: 1px solid #fff;
     background-color: #cecfce;
-    padding: 4px 6px 55px 6px;
+    padding: 4px 6px 10px 6px;
     border-bottom: none;
 }
 #navigation ul li.active:hover {
