@@ -64,6 +64,7 @@
   <string name="ftp_uri_malformed">URI %1$s no és vàlid</string>
   <string name="go_to_chapter">Consulteu el capítol</string>
   <string name="grisbi_file">&grisbi_file;</string>
+  <string name="grisbi_import_default_source">Catalans categories predeterminades</string>
   <string name="grisbi_import_button_categories_only">Categories</string>
   <string name="grisbi_import_button_categories_and_parties">Categories i tercers</string>
   <string name="grisbi_import_categories_and_parties_success">%1$s categories i %2$s tercers s\'han 
@@ -72,8 +73,8 @@
   <string name="grisbi_import_categories_success">%1$s categories s\'han importat correctament.</string>
   <string name="grisbi_import_parsing">Análisi de %1$s</string>
   <string name="grisbi_import_parties_loading">S\'està carregant els tercers des de %1$s</string>
-  <string name="help_button_rate">Doni la seva opinió</string>
-  <string name="help_button_sendmail">Enviar correu electrònic</string>
+  <string name="help_button_rate">Doneu la vostra opinió</string>
+  <string name="help_button_sendmail">Envia-ho per correu electrònic</string>
   <string name="help_heading_changelog">Registre de canvis</string>
   <string name="help_heading_credits">Crèdits</string>
   <string name="help_heading_license">Llicència</string>
@@ -100,7 +101,7 @@
       També indica les plantilles disponibles. (Les plantilles es poden fer a partir de
       les transaccions des del menú contextual de la llista).\n
       - <b>Comptes</b> : Indica tots els comptes als que es pot canviar. <b>Nou &#8230;</b> defineix un nou compte,
-      <b>Resumen</b> abre un panorama general de tots els comptes amb el estado financiero actual.\n
+      <b>Resumen</b> obre un panorama general de tots els comptes amb l\'estat financer actual.\n
       - <b>Preferències</b> Accediu a la còpia de seguretat i les propietats del compte corrent.\n
       - <b>Ayuda</b> : Accediu al tutorial, noticies, preguntes freqüents i als canvis.\n
       \nSi us plau, consulteu <a href="http://myexpenses.totschnig.org/#tutorial_r4">el manual</a> per a explicacions detallades.
