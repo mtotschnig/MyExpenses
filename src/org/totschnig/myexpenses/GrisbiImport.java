@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 
 //needed for analyzeGrisbiFileWithDOM
@@ -45,6 +46,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,18 +60,7 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
   //String sourceStr;
   private MyAsyncTask task=null;
   
-  /**
-   * Choice of sources for importing categories presented to the user.
-   * The first four are internal to the app, the fourth one is provided by the user 
-   */
-  private final String[] IMPORT_SOURCES = {
-      "Grisbi (en)", 
-      "Grisbi (fr)", 
-      "Grisbi (de)", 
-      "Grisbi (it)",
-      "Grisbi (es)",
-      "/sdcard/myexpenses/grisbi.xml"
-  };
+  private final String[] IMPORT_SOURCES = new String[2];
   /**
    * stores the index of the source the user has selected
    */
@@ -386,7 +377,10 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
     mProgressDialog.setProgress(0);
     mProgressDialog.setCancelable(false);
-    
+
+    IMPORT_SOURCES[0] = getString(R.string.grisbi_import_default_source);
+    IMPORT_SOURCES[1] = "/sdcard/myexpenses/grisbi.xml";
+
     mSourcesDialog = new AlertDialog.Builder(this)
     .setTitle(R.string.dialog_title_select_import_source)
     .setCancelable(false)
@@ -502,7 +496,7 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
     protected boolean parseXML() {
       String sourceStr = activity.IMPORT_SOURCES[source];
       //the last entry in the array is the custom import from sdcard
-      if (source == activity.IMPORT_SOURCES.length -1) {
+      if (source == 1) {
         try {
           catXML = new FileInputStream(sourceStr);
         } catch (FileNotFoundException e) {
@@ -510,24 +504,14 @@ public class GrisbiImport extends Activity implements DialogInterface.OnClickLis
           return false;
         }
       } else {
-        int sourceRes = 0;
-        switch(source) {
-        case 0:
-          sourceRes = R.raw.cat_en;
-          break;
-        case 1:
-          sourceRes = R.raw.cat_fr;
-          break;
-        case 2:
-          sourceRes = R.raw.cat_de;
-          break;
-        case 3:
-          sourceRes = R.raw.cat_it;
-          break;
-        case 4:
-          sourceRes = R.raw.cat_es;
+        String locale = Locale.getDefault().getLanguage();
+        int sourceRes = activity.getResources().getIdentifier("cat_"+locale, "raw", activity.getPackageName());
+        try {
+          catXML = activity.getResources().openRawResource(sourceRes);
+        } catch (NotFoundException e) {
+          // TODO Auto-generated catch block
+          catXML = activity.getResources().openRawResource(R.raw.cat_en);
         }
-        catXML = activity.getResources().openRawResource(sourceRes);
       }
       Result result = analyzeGrisbiFileWithSAX(catXML);
       if (result.success) {
