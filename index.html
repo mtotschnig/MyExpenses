@@ -39,7 +39,7 @@ if (!Array.prototype.indexOf) {
 }
 function getURLParameter(name) {
   return decodeURI(
-    (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+    (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,''])[1]
    );
 }
 function findDestination() {
@@ -53,6 +53,12 @@ function findDestination() {
       path = "/{{section[1].url}}"
       translations = [{% for title in section[1].title %}"{{title[0]}}"{% unless forloop.last %},{% endunless %}{% endfor %}];
       break;
+      {% for tag in section[1].tags %}
+      case "{{tag}}":
+        path = "/{{section[1].url}}#{{tag}}"
+        translations = [{% for title in section[1].title %}"{{title[0]}}"{% unless forloop.last %},{% endunless %}{% endfor %}];
+        break;
+      {% endfor %}
   {% endfor %}
     case "tutorial_r4":
       path = "/tutorial_r4/introduction.xhtml"
