@@ -1,0 +1,39 @@
+<h2>Screenshots</h2>
+<div class="screenshot">
+  <figure>
+    <img id="sc_img" src=""/>
+    <figcaption id="sc_caption"></figcaption>
+  </figure>
+</div>
+<ul class="sc_pagination">
+  <li class="sc_pagination_active"></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+<script type="text/javascript">
+$(document).ready(function() {
+  var sc_data = [
+    ["expense-list","List of expenses"],
+    ["edit-expense","Edit expense"],
+    ["category_select","Select category"],
+    ["accounts","Manage accounts"],
+    ["edit-account","Edit account"]
+  ];
+  $('.sc_pagination li').click(function(event) {
+    var index = $(this).index();
+    setImg(index);
+    $('.sc_pagination_active').removeClass('sc_pagination_active');
+    $(this).addClass('sc_pagination_active');
+  });
+  function setImg(index) {
+    $('#sc_img').attr('src',"/visuals/screenshots/"+sc_data[index][0]+".png");
+    $('#sc_caption').text(sc_data[index][1]);
+  }
+  setImg(0);
+  $('.sc_pagination li').each(function(index) {
+    $(this).attr('title',sc_data[index][1]);
+  });
+});
+</script>

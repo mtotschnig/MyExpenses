@@ -29,12 +29,18 @@ sections:
     weight: 1
     url: index.xhtml
     title:
-      en: Summary
-      fr: Sommaire
-      de: Zusammenfassung
-      it: Riassunto
-      es: Resumen
-      ca: Resum
+      en: My Expenses
+      fr: Mes dépenses
+      de: Meine Ausgaben
+      it: Le mie spese
+      es: Mis gastos
+      ca: Les Meves Despeses
+    headstuff: |
+      <script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script>
+      <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
+      <script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"> </script>
+      <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="/css/screenshots.css" charset="UTF-8"/>
+      <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/>
   tutorial:
     weight: 2
     url: tutorial_r4/introduction.xhtml
@@ -49,11 +55,6 @@ sections:
     url: news/news3.html
     title:
       en: News
-  install:
-    weight: 4
-    url: install.xhtml
-    title: 
-      en: Install
   donate:
     weight: 5
     url: donate.xhtml
@@ -63,11 +64,6 @@ sections:
       es: Donación
       fr: Don
       it: Donare
-  screenshots:
-    weight: 6
-    url: screenshots.xhtml
-    title:
-      en: Screenshots
   privacy:
     weight: 7
     url: privacy.xhtml

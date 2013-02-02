@@ -16,12 +16,12 @@ $(document).ready(function() {
 });
 
 PreviewImage = function(uri) {
-  uri = "large/" +uri;
   //Get the HTML Elements
-  imageTag = $('#image');
+  var imageTag = $('#image');
  
   //Split the URI so we can get the file name
-  uriParts = uri.split("/");
+  var uriParts = uri.split("/");
+  uriParts.splice(-1,0,"large");
 
   //When the image has loaded, display the dialog
   imageTag.load(function(){
@@ -29,5 +29,5 @@ PreviewImage = function(uri) {
   });
 
   //Set the image src
-  imageTag.attr('src', uri);
+  imageTag.attr('src', uriParts.join('/'));
 }
