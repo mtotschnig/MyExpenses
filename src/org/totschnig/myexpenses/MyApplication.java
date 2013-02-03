@@ -81,8 +81,8 @@ public class MyApplication extends Application {
     public static void updateUIWithAccountColor(Activity ctx) {
       View heading = ctx.findViewById(R.id.heading);
       if (heading == null) 
-        heading = (View) ctx.getWindow().findViewById(android.R.id.title).getParent();
-      heading.setBackgroundColor(currentAccountColor);
+        heading = ctx.getWindow().findViewById(android.R.id.title);
+      ((View) heading.getParent()).setBackgroundColor(currentAccountColor);
       ctx.findViewById(R.id.ButtonBarDividerTop).setBackgroundColor(currentAccountColor);
       ctx.findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(currentAccountColor);
     }
