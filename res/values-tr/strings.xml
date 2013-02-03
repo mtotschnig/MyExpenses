@@ -65,7 +65,7 @@
   <!-- used from the user guide -->
   <string name="go_to_chapter">Şu bölüme git</string>
   <string name="grisbi_file">&grisbi_file;</string>
-  <string name="grisbi_import_default_source">Türk standart kategoriler</string>
+  <string name="grisbi_import_default_source">Varsayılan Türkçe kategoriler</string>
   <string name="grisbi_import_button_categories_only">Kategoriler</string>
   <string name="grisbi_import_button_categories_and_parties">Kategoriler ve bölümler</string>
   <string name="grisbi_import_categories_and_parties_success">%1$s kategori ve %2$s bölüm
