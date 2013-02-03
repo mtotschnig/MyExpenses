@@ -71,6 +71,8 @@ sections:
     url: info.xhtml
     title:
       en: Information
+    tags:
+      - credits
   changelog:
     weight: 6
     url: versionlist.xhtml
