@@ -68,6 +68,8 @@
         style="@style/about_text" />
     <TextView android:text="@string/help_licence_quickactions"
         style="@style/about_text" />
+    <TextView android:text="© 2013 Michael Totschnig"
+        style="@style/about_text" />
 
     <!-- More information -->
     <include layout="@layout/divider_thin"/>
