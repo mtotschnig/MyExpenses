@@ -64,7 +64,7 @@
   <string name="ftp_uri_malformed">URI %1$s no és vàlid</string>
   <string name="go_to_chapter">Consulteu el capítol</string>
   <string name="grisbi_file">&grisbi_file;</string>
-  <string name="grisbi_import_default_source">Catalans categories predeterminades</string>
+  <string name="grisbi_import_default_source">Categories predeterminades en català</string>
   <string name="grisbi_import_button_categories_only">Categories</string>
   <string name="grisbi_import_button_categories_and_parties">Categories i tercers</string>
   <string name="grisbi_import_categories_and_parties_success">%1$s categories i %2$s tercers s\'han 
@@ -91,7 +91,7 @@
       executen les següents accions.:\n\n
       - <b>Nou</b> : Afegeix una transacció.\n
       - <b>Comptes</b> : Canvia de compte.\n
-      - <b>Reset</b> : Exporta les despeses en format QIF a la targeta SD, suprimeix les
+      - <b>Reinicia</b> : Exporta les despeses en format QIF a la targeta SD, suprimeix les
       despeses i actualitza el saldo inicial.\n
       - <b>Preferències</b> : Permet accedir a totes les preferències i funcions de personalització
       (de comptes, categories, beneficiaris, formes de pagament, plantilles, còpies de seguretat, importacions).\n
@@ -104,10 +104,10 @@
       <b>Resumen</b> obre un panorama general de tots els comptes amb l\'estat financer actual.\n
       - <b>Preferències</b> Accediu a la còpia de seguretat i les propietats del compte corrent.\n
       - <b>Ayuda</b> : Accediu al tutorial, noticies, preguntes freqüents i als canvis.\n
-      \nSi us plau, consulteu <a href="http://myexpenses.totschnig.org/#tutorial_r4">el manual</a> per a explicacions detallades.
+      \nTrobareu explicacions detallades <a href="http://myexpenses.totschnig.org/#tutorial_r4">al manual</a> per a explicacions detallades.
   </string>
   <string name="help_whats_new">&#160;- Associació entre els tipus de comptes i mètodes de pagament reparats.\n
-      - Utilitzar mida del tipus de lletra estándar del sistema.</string>
+      - Utilitza la mida del tipus de lletra estàndard del sistema.</string>
   <string name="import_categories">Importa categories</string>
   <string name="important_version_information">Informació important</string>
   <string name="income">ingrés</string>
@@ -186,15 +186,17 @@
   <string name="pm_type_debit">Dèbit</string>
   <string name="pm_type_credit">Crèdit</string>
   <string name="peer_transaction_deleted">Aquest assentament estava connectat a un assentament de contrapartida (compte %1$s) que es va suprimir.</string>
-  <string name="pref_account_button_behaviour_summary">Voleu que el botó  \"Comptes\" canviï entre els dos últimas comptes en lloc de fer la volta per tots?</string>
+  <string name="pref_account_button_behaviour_summary">Voleu que el botó  \"Comptes\" canviï entre els dos darrers comptes en lloc de fer la volta per tots?</string>
   <string name="pref_account_button_behaviour_title">Botó dels \"Comptes\"</string>
-  <string name="pref_backup_summary">Fa una còpia de seguretat de la base de dades i de les
+  <string name="pref_backup_summary">Fes una còpia de seguretat de la base de dades i de les
       preferències a la targeta SD.</string>
   <string name="pref_categories_sort_by_usages_title">Criteri d\'ordenació de les categories</string>
   <string name="pref_categories_sort_by_usages_summary">Utilitza la freqüència d\'utilizació com a criteri
       principal d\'ordenació (per la resta ordre alfabétic)</string>
   <string name="pref_category_title_manage">Personalitza</string>
   <string name="pref_category_title_ui">Interfície d\'usuari</string>
+  <string name="pref_category_title_import">Importa</string>
+  <string name="pref_category_title_export">Exporta</string>
   <string name="pref_currency_decimal_separator_title">Separador decimal de moneda</string>
   <string name="pref_currency_decimal_separator_summary">Trieu entre , i . o bé entreu sempre les quantitats en cèntims, per evitar fer servir el símbol decimal.</string>
   <string name="pref_currency_decimal_separator_comma">Coma (,)</string>
@@ -208,7 +210,7 @@
   <string name="pref_manage_categories_title">Categories</string>
   <string name="pref_manage_categories_summary">Afegeix, modifica i suprimeix categories.</string>
   <string name="pref_manage_methods_title">Mètodes de pagament</string>
-  <string name="pref_manage_methods_summary">Entra, edita de formes de pagament i associa-les amb els tipus de compte.</string>
+  <string name="pref_manage_methods_summary">Entrada, edició de formes de pagament i associa-les amb els tipus de compte.</string>
   <string name="pref_manage_parties_title">Tercers</string>
   <string name="pref_manage_parties_summary">Suprimeix tercers (pagador i beneficiari)</string>
   <string name="pref_manage_templates_summary">Aplica o suprimeix plantilles</string>

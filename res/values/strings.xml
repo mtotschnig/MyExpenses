@@ -205,6 +205,8 @@
       (plain alphanumeric order otherwise)</string>
   <string name="pref_category_title_manage">Manage</string>
   <string name="pref_category_title_ui">User interface</string>
+  <string name="pref_category_title_import">Import</string>
+  <string name="pref_category_title_export">Export</string>
   <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency
       amounts</string>
   <string name="pref_currency_decimal_separator_summary">You can choose between "," and "." or

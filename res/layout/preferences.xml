@@ -75,7 +75,7 @@
 	      android:summary="@string/pref_account_button_behaviour_summary" />
   </PreferenceCategory>
   <PreferenceCategory 
-      android:title="Import">
+      android:title="@string/pref_category_title_import">
 	  <PreferenceScreen android:key="import_from_grisbi"
 	      android:layout="@layout/preference_long_summary"
 	      android:title="@string/pref_import_from_grisbi_title"
@@ -84,7 +84,7 @@
 	  </PreferenceScreen>
   </PreferenceCategory>
   <PreferenceCategory 
-      android:title="Export">
+      android:title="@string/pref_category_title_export">
 		<CheckBoxPreference android:key="@string/pref_perform_share_key"
 		    android:defaultValue="false" 
 		    android:title="@string/pref_perform_share_title" 
