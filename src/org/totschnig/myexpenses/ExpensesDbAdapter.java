@@ -795,7 +795,7 @@ public class ExpensesDbAdapter {
    */
   public Cursor fetchAccountAll() {
     return mDb.query("accounts",
-        new String[] {KEY_ROWID,"label","description","opening_balance","currency",
+        new String[] {KEY_ROWID,"label","description","opening_balance","currency","color",
         "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and amount>0 and transfer_peer = 0) as sum_income",
         "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0 and transfer_peer = 0) as sum_expenses",
         "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and transfer_peer != 0) as sum_transfer",

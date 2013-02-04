@@ -136,6 +136,7 @@ public class ManageAccounts extends ListActivity {
           } catch (IllegalArgumentException e) {
             currency = Currency.getInstance(Locale.getDefault());
           }
+          row.findViewById(R.id.label).setBackgroundColor(c.getInt(c.getColumnIndex("color")));
           setConvertedAmount((TextView)row.findViewById(R.id.opening_balance), currency);
           setConvertedAmount((TextView)row.findViewById(R.id.sum_income), currency);
           setConvertedAmount((TextView)row.findViewById(R.id.sum_expenses), currency);

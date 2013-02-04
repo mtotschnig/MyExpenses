@@ -118,6 +118,7 @@ public class AccountEdit extends EditActivity {
     
     setContentView(R.layout.one_account);
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
+    MyApplication.updateUIWithAccountColor(this);
     configAmountInput();
 
     mLabelText = (EditText) findViewById(R.id.Label);

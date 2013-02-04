@@ -21,7 +21,6 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.util.Log;
 
 /**
@@ -295,6 +294,7 @@ public class Account {
     this.openingBalance = new Money(currency,openingBalance);
     this.description = description;
     this.type = Type.CASH;
+    this.color = defaultColor;
   }
   
   /**

@@ -74,7 +74,7 @@
     <item name="android:paddingLeft">7dp</item>
   </style>
   <style name="headingDark" parent="headingStyle">
-    <item name="android:background">#99CC00</item>
+    <item name="android:background">@color/gold</item>
   </style>
   <style name="headingLight" parent="headingStyle">
     <item name="android:background">#8e8e8e</item>
