@@ -31,7 +31,7 @@
     <!-- Intro -->
     <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_leading"
-        style="?attr/headingStyle" />
+        style="?attr/headingStyleApp" />
     <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_intro"
         style="@style/about_text" />
@@ -39,7 +39,7 @@
      <!-- Quick Guide -->
     <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_heading_quick_guide"
-        style="?attr/headingStyle" />
+        style="?attr/headingStyleApp" />
     <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_quick_guide"
       android:id="@+id/help_quick_guide"
@@ -48,7 +48,7 @@
     <!-- What's new -->
     <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_heading_whats_new"
-        style="?attr/headingStyle" />
+        style="?attr/headingStyleApp" />
     <include layout="@layout/divider_thin"/>
     <TextView android:id="@+id/aboutVersionCode"
         style="@style/about_text" />
@@ -59,7 +59,7 @@
     <!-- Licence -->
     <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_heading_license"
-        style="?attr/headingStyle" />
+        style="?attr/headingStyleApp" />
     <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_licence_gpl"
       android:id="@+id/help_licence_gpl"
@@ -72,7 +72,7 @@
     <!-- More information -->
     <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_heading_more_info"
-        style="?attr/headingStyle" />
+        style="?attr/headingStyleApp" />
     <include layout="@layout/divider_thin"/>
   <LinearLayout
       android:layout_gravity="center_horizontal"
@@ -119,7 +119,7 @@
     <!-- Feedback -->
     <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/feedback"
-       style="?attr/headingStyle" />
+       style="?attr/headingStyleApp" />
     <include layout="@layout/divider_thin"/>
   <LinearLayout
       android:layout_gravity="center_horizontal"
@@ -143,7 +143,7 @@
     <!-- Donate -->
     <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/donate"
-       style="?attr/headingStyle" />
+       style="?attr/headingStyleApp" />
     <include layout="@layout/divider_thin"/>
     <LinearLayout
 	      android:layout_gravity="center_horizontal"

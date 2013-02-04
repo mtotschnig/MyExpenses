@@ -61,6 +61,7 @@ public class ManageAccounts extends ListActivity {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_accounts);
+    MyApplication.updateUIWithAppColor(this);
     setTitle(R.string.pref_manage_accounts_title);
     // Set up our adapter
     mDbHelper = MyApplication.db();

@@ -118,7 +118,6 @@ public class AccountEdit extends EditActivity {
     
     setContentView(R.layout.one_account);
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
-    MyApplication.updateUIWithAccountColor(this);
     configAmountInput();
 
     mLabelText = (EditText) findViewById(R.id.Label);
@@ -220,6 +219,7 @@ public class AccountEdit extends EditActivity {
     if (requestCode == PICK_COLOR_REQUEST) {
       if (resultCode == RESULT_OK) {
         mAccountColor = data.getExtras().getInt(OPENINTENTS_COLOR_EXTRA);
+        MyApplication.updateUIWithColor(this, mAccountColor);
         mColorText.setBackgroundDrawable(new ColorDrawable(mAccountColor));
       }
     }
@@ -304,6 +304,8 @@ public class AccountEdit extends EditActivity {
         finish();
       }
       setTitle(R.string.menu_edit_account);
+      mAccountColor = mAccount.color;
+      MyApplication.updateUIWithColor(this,mAccountColor);
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);
       BigDecimal amount;
@@ -315,6 +317,7 @@ public class AccountEdit extends EditActivity {
       mAmountText.setText(nfDLocal.format(amount));
       mCurrencyText.setText(mAccount.currency.getCurrencyCode());
     } else {
+      MyApplication.updateUIWithAppColor(this);
       mAccount = new Account();
       setTitle(R.string.menu_insert_account);
       Locale l = Locale.getDefault();
@@ -324,7 +327,6 @@ public class AccountEdit extends EditActivity {
     }
     mAccountType = mAccount.type;
     mTypeButton.setText(mAccountType.getDisplayName(this));
-    mAccountColor = mAccount.color;
     mColorText.setBackgroundColor(mAccountColor);
   }
 

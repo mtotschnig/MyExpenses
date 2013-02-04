@@ -80,22 +80,31 @@ public class MyApplication extends Application {
     public static int getCurrentAccountColor() {
       return currentAccountColor;
     }
+    public static void updateUIWithAppColor(Activity ctx) {
+      updateUIWithColor(ctx,ctx.getResources().getColor(R.color.appDefault));
+    }
     public static void updateUIWithAccountColor(Activity ctx) {
-      int greyLevel = (int) (0.299 * Color.red(currentAccountColor)
-          + 0.587 * Color.green(currentAccountColor)
-          + 0.114 * Color.blue(currentAccountColor));
+      updateUIWithColor(ctx,currentAccountColor);
+    }
+    public static void updateUIWithColor(Activity ctx,int color) {
+      int greyLevel = (int) (0.299 * Color.red(color)
+          + 0.587 * Color.green(color)
+          + 0.114 * Color.blue(color));
       int textColor = (greyLevel > 127 ? Color.BLACK : Color.WHITE);
       View heading = ctx.findViewById(R.id.heading);
       if (heading == null) {
         heading = ctx.getWindow().findViewById(android.R.id.title);
-        //((TextView) heading).setTextColor(textColor);
+        ((TextView) heading).setTextColor(textColor);
       } else {
-        //((TextView) heading.findViewById(R.id.label)).setTextColor(textColor);
-        //((TextView) heading.findViewById(R.id.end)).setTextColor(textColor);
+        ((TextView) heading.findViewById(R.id.label)).setTextColor(textColor);
+        ((TextView) heading.findViewById(R.id.end)).setTextColor(textColor);
       }
-      ((View) heading.getParent()).setBackgroundColor(currentAccountColor);
-      ctx.findViewById(R.id.ButtonBarDividerTop).setBackgroundColor(currentAccountColor);
-      ctx.findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(currentAccountColor);
+      ((View) heading.getParent()).setBackgroundColor(color);
+      View divider = ctx.findViewById(R.id.ButtonBarDividerTop);
+      if (divider != null) {
+        divider.setBackgroundColor(color);
+        ctx.findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(color);
+      }
     }
     @Override
     public void onTerminate() {

@@ -6,6 +6,6 @@
     android:layout_span="2" >
   <include layout="@layout/divider_thin"/>
   <TextView android:text="LABEL" android:id="@+android:id/title"
-     style="?attr/headingStyle" />
+     style="?attr/headingStyleApp" />
   <include layout="@layout/divider_thin"/>
 </LinearLayout>

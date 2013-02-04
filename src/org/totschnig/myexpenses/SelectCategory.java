@@ -116,7 +116,9 @@ public class SelectCategory extends ExpandableListActivity {
         Intent intent = getIntent();
         String action = intent.getAction();
         mManageOnly = action != null && action.equals("myexpenses.intent.manage.categories");
-        if (!mManageOnly)
+        if (mManageOnly)
+          MyApplication.updateUIWithAppColor(this);
+        else
           MyApplication.updateUIWithAccountColor(this);
         setTitle(mManageOnly ? R.string.pref_manage_categories_title : R.string.select_category);
         // Set up our adapter

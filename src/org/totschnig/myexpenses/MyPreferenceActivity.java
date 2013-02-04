@@ -44,6 +44,7 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
     super.onCreate(savedInstanceState);
     setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
+    MyApplication.updateUIWithAppColor(this);
     PreferenceScreen prefs = getPreferenceScreen();
     
     ListPreference listPref = (ListPreference) 
