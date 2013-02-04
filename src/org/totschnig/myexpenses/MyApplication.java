@@ -23,9 +23,11 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 //import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -79,9 +81,18 @@ public class MyApplication extends Application {
       return currentAccountColor;
     }
     public static void updateUIWithAccountColor(Activity ctx) {
+      int greyLevel = (int) (0.299 * Color.red(currentAccountColor)
+          + 0.587 * Color.green(currentAccountColor)
+          + 0.114 * Color.blue(currentAccountColor));
+      int textColor = (greyLevel > 127 ? Color.BLACK : Color.WHITE);
       View heading = ctx.findViewById(R.id.heading);
-      if (heading == null) 
+      if (heading == null) {
         heading = ctx.getWindow().findViewById(android.R.id.title);
+        //((TextView) heading).setTextColor(textColor);
+      } else {
+        //((TextView) heading.findViewById(R.id.label)).setTextColor(textColor);
+        //((TextView) heading.findViewById(R.id.end)).setTextColor(textColor);
+      }
       ((View) heading.getParent()).setBackgroundColor(currentAccountColor);
       ctx.findViewById(R.id.ButtonBarDividerTop).setBackgroundColor(currentAccountColor);
       ctx.findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(currentAccountColor);
