@@ -125,6 +125,7 @@ public class ExpenseEdit extends EditActivity {
     
     setContentView(R.layout.one_expense);
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
+    MyApplication.updateUIWithAccountColor(this);
     configAmountInput();
 
     mDateButton = (Button) findViewById(R.id.Date);

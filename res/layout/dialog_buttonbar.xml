@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-  <include layout="@layout/divider_thick"/>
+  <View xmlns:android="http://schemas.android.com/apk/res/android"
+    android:visibility="?dividerVisible"
+    android:layout_width="fill_parent"
+    android:layout_height="2dp"
+    android:background="@color/appDefault"/>
     <LinearLayout style="?attr/buttonBarStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -24,5 +28,9 @@
           android:layout_width="0dp"
           style="@style/button" />
     </LinearLayout>
-  <include layout="@layout/divider_thick"/>
+  <View xmlns:android="http://schemas.android.com/apk/res/android"
+    android:visibility="?dividerVisible"
+    android:layout_width="fill_parent"
+    android:layout_height="2dp"
+    android:background="@color/appDefault"/>
  </merge>

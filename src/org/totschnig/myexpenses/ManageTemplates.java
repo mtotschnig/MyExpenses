@@ -50,6 +50,7 @@ public class ManageTemplates extends ExpandableListActivity {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.manage_templates);
       setTitle(R.string.pref_manage_templates_title);
+      MyApplication.updateUIWithAppColor(this);
       mDbHelper = MyApplication.db();
       
       ((TextView) findViewById(android.R.id.empty)).setText(R.string.no_templates);

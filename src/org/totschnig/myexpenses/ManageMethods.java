@@ -45,6 +45,7 @@ public class ManageMethods extends ListActivity {
       setTheme(MyApplication.getThemeId());
       super.onCreate(savedInstanceState);
       setContentView(R.layout.manage_accounts);
+      MyApplication.updateUIWithAppColor(this);
       setTitle(R.string.pref_manage_methods_title);
       mDbHelper = MyApplication.db();
       fillData();

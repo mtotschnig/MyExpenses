@@ -16,7 +16,8 @@
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
   <style name="ThemeDark" parent="@android:style/Theme.Black">
-    <item name="headingStyle">@style/headingDark</item>
+    <item name="headingStyle">@style/headingStyle</item>
+    <item name="headingStyleApp">@style/headingStyleApp</item>
     <item name="listStyle">@style/listDark</item>
     <item name="android:textStyle">bold</item>
     <item name="dividerVisible">0</item>
@@ -26,7 +27,7 @@
     <item name="menuItemStyle">@style/buttonMenuItemDark</item>
     <item name="buttonTextColor">@color/theme_dark_button_color</item>
     <item name="listPadding">5dp</item>
-    <item name="android:windowTitleBackgroundStyle">@style/headingDark</item>
+    <item name="android:windowTitleBackgroundStyle">@style/headingStyle</item>
     <item name="android:windowTitleSize">30sp</item>
     <item name="android:windowTitleStyle">@style/titleTextStyle</item>
     <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
@@ -35,6 +36,7 @@
   </style>
   <style name="ThemeLight" parent="@android:style/Theme.Light">
     <item name="headingStyle">@style/headingLight</item>
+    <item name="headingStyleApp">@style/headingLightApp</item>
     <item name="listStyle">@style/listLight</item>
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
     <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>
@@ -70,20 +72,19 @@
     <item name="android:layout_height">wrap_content</item>
     <item name="android:textColor">#ffffff</item>
     <item name="android:textSize">17sp</item>
-  </style>
-  <style name="headingDark" parent="headingStyle">
-    <item name="android:background">#99CC00</item>
-    <item name="android:paddingRight">5dp</item>
-    <item name="android:paddingLeft">5dp</item>
-  </style>
-  <style name="headingLight" parent="headingStyle">
-    <item name="android:background">@android:drawable/title_bar</item>
-    <item name="android:textAppearance">@android:style/TextAppearance.WindowTitle</item>
-    <item name="android:singleLine">true</item>
-    <item name="android:shadowColor">#BB000000</item>
-    <item name="android:shadowRadius">2.75</item>
     <item name="android:paddingRight">7dp</item>
     <item name="android:paddingLeft">7dp</item>
+  </style>
+  <style name="headingStyleApp" parent="headingStyle">
+  	<item name="android:background">@color/appDefault</item>
+  </style>
+  <style name="headingLight" parent="headingStyle">
+    <item name="android:background">#8e8e8e</item>
+    <item name="android:textAppearance">@android:style/TextAppearance.WindowTitle</item>
+    <item name="android:singleLine">true</item>
+  </style>
+  <style name="headingLightApp" parent="headingLight">
+    <item name="android:background">#8e8e8e</item>
   </style>
   <!-- workaround for http://code.google.com/p/android/issues/detail?id=5237 -->    
   <style name="Widget.AutoCompleteTextViewLight" parent="@android:style/Widget.AutoCompleteTextView">

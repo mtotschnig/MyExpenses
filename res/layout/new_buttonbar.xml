@@ -18,7 +18,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-  <include layout="@layout/divider_thick"/>
+  <include android:id="@+id/ButtonBarDividerTop" layout="@layout/divider_thick"/>
   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
@@ -36,5 +36,5 @@
         android:drawableLeft="@android:drawable/ic_menu_add" />
     </LinearLayout>
   </RelativeLayout>
-  <include layout="@layout/divider_thick"/>
+  <include android:id="@+id/ButtonBarDividerBottom" layout="@layout/divider_thick"/>
 </LinearLayout>

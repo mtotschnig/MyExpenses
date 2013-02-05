@@ -37,6 +37,7 @@ public class ManageParties extends ListActivity {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.manage_list);
       setTitle(R.string.pref_manage_parties_title);
+      MyApplication.updateUIWithAppColor(this);
       mDbHelper = MyApplication.db();
       final ListView listView = getListView();
 

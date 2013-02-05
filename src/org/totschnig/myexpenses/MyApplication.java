@@ -18,11 +18,16 @@ package org.totschnig.myexpenses;
 import java.io.File;
 import java.util.Map;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 //import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -44,6 +49,7 @@ public class MyApplication extends Application {
     public static String PREFKEY_CURRENT_VERSION = "currentversion";
     public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static String PREFKEY_LAST_ACCOUNT = "last_account";
+    public static int currentAccountColor;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 
     @Override
@@ -68,7 +74,35 @@ public class MyApplication extends Application {
         PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
         setThemes();
     }
-    
+    public static void setCurrentAccountColor(int currentAccountColor) {
+      MyApplication.currentAccountColor = currentAccountColor;
+    }
+    public static int getCurrentAccountColor() {
+      return currentAccountColor;
+    }
+    public static void updateUIWithAppColor(Activity ctx) {
+      updateUIWithColor(ctx,ctx.getResources().getColor(R.color.appDefault));
+    }
+    public static void updateUIWithAccountColor(Activity ctx) {
+      updateUIWithColor(ctx,currentAccountColor);
+    }
+    public static void updateUIWithColor(Activity ctx,int color) {
+      int textColor = Utils.getTextColorForBackground(color);
+      View heading = ctx.findViewById(R.id.heading);
+      if (heading == null) {
+        heading = ctx.getWindow().findViewById(android.R.id.title);
+        ((TextView) heading).setTextColor(textColor);
+      } else {
+        ((TextView) heading.findViewById(R.id.label)).setTextColor(textColor);
+        ((TextView) heading.findViewById(R.id.end)).setTextColor(textColor);
+      }
+      ((View) heading.getParent()).setBackgroundColor(color);
+      View divider = ctx.findViewById(R.id.ButtonBarDividerTop);
+      if (divider != null) {
+        divider.setBackgroundColor(color);
+        ctx.findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(color);
+      }
+    }
     @Override
     public void onTerminate() {
       if(mDbOpenHelper != null)

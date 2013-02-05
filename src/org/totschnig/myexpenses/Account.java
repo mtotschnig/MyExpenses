@@ -33,17 +33,19 @@ import android.util.Log;
 public class Account {
 
   public long id = 0;
-   
+
   public String label;
-   
+
   public Money openingBalance;
-  
+
   public Currency currency;
 
   public String description;
-  
+
+  public int color;
+
   private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
-  
+
   public enum Type {
     CASH,BANK,CCARD,ASSET,LIABILITY;
     public String getDisplayName(Context ctx) {
@@ -238,6 +240,7 @@ public class Account {
       {"Platinum", "XPT"},
       {"Silver", "XAG"}
   };
+  static int defaultColor = 0xff99CC00;
   static String [] getCurrencyCodes() {
     int size = CURRENCY_TABLE.length;
     String[] codes = new String[size];
@@ -283,6 +286,7 @@ public class Account {
   public Account() {
     this.openingBalance = new Money(null,(long) 0);
     this.type = Type.CASH;
+    this.color = defaultColor;
   }
   public Account(String label, long openingBalance, String description, Currency currency) {
     this.label = label;
@@ -290,6 +294,7 @@ public class Account {
     this.openingBalance = new Money(currency,openingBalance);
     this.description = description;
     this.type = Type.CASH;
+    this.color = defaultColor;
   }
   
   /**
@@ -322,6 +327,11 @@ public class Account {
     } catch (IllegalArgumentException ex) { 
       this.type = Type.CASH;
     }
+    try {
+        this.color = c.getInt(c.getColumnIndexOrThrow("color"));
+      } catch (IllegalArgumentException ex) {
+        this.color = defaultColor;
+      }
     c.close();
   }
 
@@ -359,7 +369,8 @@ public class Account {
           openingBalance.getAmountMinor(),
           description,
           currency.getCurrencyCode(),
-          type.name());
+          type.name(),
+          color);
     } else {
       mDbHelper.updateAccount(
           id,
@@ -367,7 +378,8 @@ public class Account {
           openingBalance.getAmountMinor(),
           description,
           currency.getCurrencyCode(),
-          type.name());
+          type.name(),
+          color);
     }
     if (!accounts.containsKey(id))
       accounts.put(id, this);
