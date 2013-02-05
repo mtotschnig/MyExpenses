@@ -228,4 +228,7 @@ versions_legacy:
     - May 18 2011
     - "Sort categories by usages; Allow assignment of main category; Allow manual creation of categories; Improved handling of categories import."
 versions_prerelease:
-
+  -
+    - 1.6.7RC1
+    - Februrary 5 2013
+    - "Configurable colors for accounts. Turkish translation."
