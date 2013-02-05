@@ -87,10 +87,7 @@ public class MyApplication extends Application {
       updateUIWithColor(ctx,currentAccountColor);
     }
     public static void updateUIWithColor(Activity ctx,int color) {
-      int greyLevel = (int) (0.299 * Color.red(color)
-          + 0.587 * Color.green(color)
-          + 0.114 * Color.blue(color));
-      int textColor = (greyLevel > 127 ? Color.BLACK : Color.WHITE);
+      int textColor = Utils.getTextColorForBackground(color);
       View heading = ctx.findViewById(R.id.heading);
       if (heading == null) {
         heading = ctx.getWindow().findViewById(android.R.id.title);

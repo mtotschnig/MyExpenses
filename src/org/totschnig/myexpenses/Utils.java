@@ -43,6 +43,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
@@ -436,5 +437,12 @@ public class Utils {
               packageManager.queryIntentActivities(intent,
                       PackageManager.MATCH_DEFAULT_ONLY);
       return list.size() > 0;
+  }
+
+  public static int getTextColorForBackground(int color) {
+    int greyLevel = (int) (0.299 * Color.red(color)
+        + 0.587 * Color.green(color)
+        + 0.114 * Color.blue(color));
+    return greyLevel > 127 ? Color.BLACK : Color.WHITE;
   }
 }
