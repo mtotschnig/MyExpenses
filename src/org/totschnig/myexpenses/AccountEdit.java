@@ -62,23 +62,16 @@ public class AccountEdit extends EditActivity {
   private int mAccountColor;
   private String[] mTypes = new String[Account.Type.values().length];
   private String[] mColorNames;
-  private static Integer[] mColors = new Integer[] { Color.BLUE, Color.CYAN,
-                                                     Color.GREEN, Color.MAGENTA,
-                                                     Color.RED, Color.YELLOW,
-                                                     Color.BLACK, Color.DKGRAY,
-                                                     Color.GRAY, Color.LTGRAY,
-                                                     Color.WHITE };
-  private static int[] mColorIds = new int[] { R.string.blue_color_name,
-                                               R.string.cyan_color_name,
-                                               R.string.green_color_name,
-                                               R.string.magenta_color_name,
-                                               R.string.red_color_name,
-                                               R.string.yellow_color_name,
-                                               R.string.black_color_name,
-                                               R.string.dkgray_color_name,
-                                               R.string.gray_color_name,
-                                               R.string.ltgray_color_name,
-                                               R.string.white_color_name };
+  private static Integer[] mColors = new Integer[] {
+    Color.BLUE,  Color.CYAN,   Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW,
+    Color.BLACK, Color.DKGRAY, Color.GRAY,  Color.LTGRAY,  Color.WHITE
+  };
+  private static int[] mColorIds = new int[] {
+    R.string.color_name_blue,    R.string.color_name_cyan,   R.string.color_name_green,
+    R.string.color_name_magenta, R.string.color_name_red,    R.string.color_name_yellow,
+    R.string.color_name_black,   R.string.color_name_dkgray, R.string.color_name_gray,
+    R.string.color_name_ltgray,  R.string.color_name_white
+  };
   private TextView mColorText;
   private Button mColorButton;
 

@@ -32,6 +32,18 @@
   <string name="backup_success">Database and preferences successfully written to sdcard.</string>
   <string name="category_already_defined">Category %1$s already defined</string>
   <string name="category">Category</string>
+  <string name="color">Color</string>
+	<string name="color_name_black">Black</string>
+	<string name="color_name_blue">Blue</string>
+	<string name="color_name_cyan">Cyan</string>
+	<string name="color_name_dkgray">Dark gray</string>
+	<string name="color_name_gray">Gray</string>
+	<string name="color_name_green">Green</string>
+	<string name="color_name_ltgray">Light gray</string>
+	<string name="color_name_magenta">Magenta</string>
+	<string name="color_name_red">Red</string>
+	<string name="color_name_white">White</string>
+	<string name="color_name_yellow">Yellow</string>
   <string name="comment">Notes</string>
   <string name="create_category">Create new category</string>
   <string name="currency">Currency</string>
@@ -44,6 +56,7 @@
   <string name="description">Description</string>
   <string name="dialog_confirm_delete_template">Really delete template \"%1$s\" ?</string>
   <string name="dialog_title_select_account">Pick an account</string>
+  <string name="dialog_title_select_color">Pick a color</string>
   <string name="dialog_title_select_import_source">Pick a source for import</string>
   <string name="dialog_title_select_currency">Pick a currency</string>
   <string name="dialog_title_select_method">Pick a payment method</string>
@@ -277,23 +290,8 @@
   <string name="warning_reset_account">All transactions of this account will be exported into QIF file 
       on SD-card and deleted. Do you want to continue?</string>
   <string name="warning_select_account">Please select an account!</string>
-<string name="black_color_name">Black</string>
-<string name="blue_color_name">Blue</string>
-<string name="color">Color</string>
-<string name="cyan_color_name">Cyan</string>
-<string name="dialog_title_select_color">Pick a color</string>
-<string name="dkgray_color_name">Dark gray</string>
-<string name="empty">  </string>
 <string name="error_accessing_gplay">Error while accessing Google Play</string>
-<string name="gray_color_name">Gray</string>
-<string name="green_color_name">Green</string>
-<string name="ltgray_color_name">Light gray</string>
-<string name="magenta_color_name">Magenta</string>
-<string name="need_oi_pick_color">Oi Pick Color App is needed to select an account background color</string>
 <string name="oi_pick_colors_info">Install OI Color Picker for more choices</string>
-<string name="red_color_name">Red</string>
-<string name="white_color_name">White</string>
-<string name="yellow_color_name">Yellow</string>
   
   <!-- strings below this comment do not need translations -->
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
