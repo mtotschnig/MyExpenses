@@ -179,9 +179,9 @@ public class AccountEdit extends EditActivity {
     mColorButton = (Button)  findViewById(R.id.SelectColor);
     mColorButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
-        if (Utils.isIntentAvailable(AccountEdit.this, OPENINTENTS_PICK_COLOR_ACTION)) {
-          Intent intent = new Intent(OPENINTENTS_PICK_COLOR_ACTION);
-          intent.putExtra(OPENINTENTS_COLOR_EXTRA, mAccountColor);
+        Intent intent = new Intent(OPENINTENTS_PICK_COLOR_ACTION);
+        intent.putExtra(OPENINTENTS_COLOR_EXTRA, mAccountColor);
+        if (Utils.isIntentAvailable(AccountEdit.this, intent)) {
           startActivityForResult(intent, PICK_COLOR_REQUEST);
         } else {
           showDialog(COLOR_DIALOG_ID);

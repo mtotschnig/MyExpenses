@@ -66,9 +66,9 @@ public class Utils {
    * and from version update
    */
   public static Dialog sendWithFTPDialog(final Activity ctx) {
-    String msg = ctx.getClass() == MyExpenses.class ? ctx.getString(R.string.version_32_upgrade_info) : "";
+    String msg = ctx.getClass() == MyExpenses.class ? (ctx.getString(R.string.version_32_upgrade_info) + " ") : "";
     return new AlertDialog.Builder(ctx)
-    .setMessage(msg + " " + ctx.getString(R.string.no_app_handling_ftp_available))
+    .setMessage(msg + ctx.getString(R.string.no_app_handling_ftp_available))
     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
          public void onClick(DialogInterface dialog, int id) {
            ctx.dismissDialog(R.id.FTP_DIALOG_ID);
@@ -76,10 +76,10 @@ public class Utils {
              ctx.showDialog(R.id.VERSION_DIALOG_ID);
            Intent intent = new Intent(Intent.ACTION_VIEW);
            intent.setData(Uri.parse("market://details?id=org.totschnig.sendwithftp"));
-           if (ctx.getPackageManager().queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
+           if (isIntentAvailable(ctx,intent)) {
              ctx.startActivity(intent);
            } else {
-             Toast.makeText(ctx.getBaseContext(),"Unable to open Google Play", Toast.LENGTH_LONG).show();
+             Toast.makeText(ctx.getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
            }
          }
       })
@@ -430,9 +430,8 @@ public class Utils {
    * @return True if an Intent with the specified action can be sent and
    *         responded to, false otherwise.
    */
-  public static boolean isIntentAvailable(Context context, String action) {
+  public static boolean isIntentAvailable(Context context, Intent intent) {
       final PackageManager packageManager = context.getPackageManager();
-      final Intent intent = new Intent(action);
       List<ResolveInfo> list =
               packageManager.queryIntentActivities(intent,
                       PackageManager.MATCH_DEFAULT_ONLY);

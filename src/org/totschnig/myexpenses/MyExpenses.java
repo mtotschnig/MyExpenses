@@ -46,7 +46,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
@@ -906,12 +905,11 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     if (scheme == null) {
       scheme = "mailto";
     }
-    final PackageManager packageManager = getPackageManager();
     if (scheme.equals("ftp")) {
       intent = new Intent(android.content.Intent.ACTION_SENDTO);
       intent.setDataAndType(android.net.Uri.parse(target),"text/qif");
       intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-      if (packageManager.queryIntentActivities(intent,0).size() == 0) {
+      if (!Utils.isIntentAvailable(this,intent)) {
         Toast.makeText(getBaseContext(),R.string.no_app_handling_ftp_available, Toast.LENGTH_LONG).show();
         return;
       }
@@ -925,7 +923,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       }
       intent.putExtra(Intent.EXTRA_SUBJECT,R.string.export_expenses);
       intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-      if (packageManager.queryIntentActivities(intent,0).size() == 0) {
+      if (!Utils.isIntentAvailable(this,intent)) {
         Toast.makeText(getBaseContext(),R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
         return;
       }
@@ -1058,10 +1056,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       if (prev_version < 32) {
         String target = mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"");
         if (target.startsWith("ftp")) {
-          final PackageManager packageManager = getPackageManager();
           Intent intent = new Intent(android.content.Intent.ACTION_SENDTO);
           intent.setData(android.net.Uri.parse(target));
-          if (packageManager.queryIntentActivities(intent,0).size() == 0) {
+          if (!Utils.isIntentAvailable(this,intent)) {
             showDialogWrapper(R.id.FTP_DIALOG_ID);
             return;
           }
@@ -1300,10 +1297,10 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     case R.id.RATE_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
       i.setData(Uri.parse("market://details?id=org.totschnig.myexpenses"));
-      if (getPackageManager().queryIntentActivities(i,PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
+      if (Utils.isIntentAvailable(this,i)) {
         startActivity(i);
       } else {
-        Toast.makeText(getBaseContext(),"Unable to open Google Play", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
       }
       break;
     case R.id.USE_STANDARD_MENU_COMMAND:
