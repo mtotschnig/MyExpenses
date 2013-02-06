@@ -232,3 +232,7 @@ versions_prerelease:
     - 1.6.7RC1
     - Februrary 5 2013
     - "Configurable colors for accounts. Turkish translation."
+  -
+    - 1.6.7RC2
+    - Februrary 6 2013
+    - "UI cosmetics."
