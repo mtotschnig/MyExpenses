@@ -123,8 +123,8 @@
       - <b>Help</b> : Quick access to Manual, News, FAQ and Changes.\n
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
-  <string name="help_whats_new">&#160;- Bug fix: Associating account types with payment methods.\n
-      - Use system default font size.</string>
+  <string name="help_whats_new">&#160;- Configurable colors for accounts.\n
+      - Turkish translation.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">income</string>
