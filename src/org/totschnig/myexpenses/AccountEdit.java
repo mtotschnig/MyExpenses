@@ -264,8 +264,9 @@ public class AccountEdit extends EditActivity {
             .setSingleChoiceItems(mColorNames, checked, new DialogInterface.OnClickListener() {
               public void onClick(DialogInterface dialog, int item) {
                 if (item < mColors.length) {
-                  mColorText.setBackgroundColor(mColors[item]);
                   mAccountColor = mColors[item];
+                  mColorText.setBackgroundColor(mAccountColor);
+                  MyApplication.updateUIWithColor(AccountEdit.this, mAccountColor);
                   dismissDialog(COLOR_DIALOG_ID);
                 } else {
                   try {
