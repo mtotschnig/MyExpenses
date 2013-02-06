@@ -34,6 +34,7 @@
   <string name="category">Catégorie</string>
   <string name="category_already_defined">La catégorie %1$s existe</string>
   <string name="color">Couleur</string>
+  <string name="color_name_account_default">Vert par défault</string>
   <string name="color_name_black">Noir</string>
   <string name="color_name_blue">Bleu</string>
   <string name="color_name_cyan">Cyan</string>
@@ -69,6 +70,7 @@
       faites un don au moyen de PayPal ou Flattr. <a href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
       \nMerci pour votre soutien!</string>
   <string name="edit_category">Éditer la catégorie</string>
+  <string name="error_accessing_gplay">Erreur lors de l\'accès à Google Play</string>
   <string name="expense">dépense</string>
   <string name="export_expenses_outputfile_exists">Le fichier d\'export existe déjà. Attendez une
       minute avant de réessayer.</string>
@@ -188,6 +190,7 @@
   <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce
       qu\'elle contient des sous-catégories.</string>
   <string name="no_valid_payment_methods">Aucune méthode valide de paiement pour %1$s (%2$s)</string>
+  <string name="oi_pick_colors_info">Installer OI Pick Color pour plus de choix</string>
   <string name="opening_balance">Solde initial</string>
   <string name="parse_error_file_not_found">Le fichier %1$s n\'existe pas</string>
   <string name="parse_error_no_data_found">Le fichier ne contient pas de données importables.
@@ -295,8 +298,6 @@
   <string name="warning_reset_account">Toutes les opérations du compte seront exportées vers un fichier QIF sur la carte SD et 
       effacées. Voulez-vous continuer?</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
-<string name="error_accessing_gplay">Erreur lors de l\'accès à Google Play</string>
-<string name="oi_pick_colors_info">Installer OI Pick Color pour plus de choix</string>
   <!-- strings below this comment do not need translations for new languages -->
   <string name="version_14_upgrade_info">À partir de la version 1.4.0, la devise est définie selon
       le code ISO 4217. Dans vos comptes vous utilisez les symboles suivants qui doivent être

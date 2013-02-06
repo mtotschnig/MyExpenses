@@ -33,6 +33,19 @@
       SD-Karte gesichert.</string>
   <string name="category">Kategorie</string>
   <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
+  <string name="color">Farbe</string>
+  <string name="color_name_account_default">Standard Grün</string>
+  <string name="color_name_black">Schwarz</string>
+  <string name="color_name_blue">Blau</string>
+  <string name="color_name_cyan">Cyan</string>
+  <string name="color_name_dkgray">Dunkelgrau</string>
+  <string name="color_name_gray">Grau</string>
+  <string name="color_name_green">Grün</string>
+  <string name="color_name_ltgray">Hellgrau</string>
+  <string name="color_name_magenta">Magenta</string>
+  <string name="color_name_red">Rot</string>
+  <string name="color_name_white">Weiß</string>
+  <string name="color_name_yellow">Gelb</string>
   <string name="comment">Notizen</string>
   <string name="create_category">Neue Kategorie</string>
   <string name="currency">Währung</string>
@@ -45,6 +58,7 @@
   <string name="description">Beschreibung</string>
   <string name="dialog_confirm_delete_template">Vorlage \"%1$s\" wirklich löschen?</string>
   <string name="dialog_title_select_account">Konto auswählen</string>
+  <string name="dialog_title_select_color">Farbe wählen</string>
   <string name="dialog_title_select_currency">Währung auswählen</string>
   <string name="dialog_title_select_import_source">Quelle für Import auswählen</string>
   <string name="dialog_title_select_method">Zahlungsweise auswählen</string>
@@ -57,6 +71,7 @@
       <a href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
       \nVielen Dank für Ihre Unterstützung!</string>
   <string name="edit_category">Kategorie verändern</string>
+  <string name="error_accessing_gplay">Fehler beim Zugriff auf Google Play</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten 
       Sie eine Minute bevor Sie es erneut versuchen.</string>
@@ -176,6 +191,7 @@
   <string name="not_deletable_mapped_templates">Kann nicht löschen, weil zugeordnete Vorlagen existieren.</string>
   <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie
       Unterkategorien hat.</string>
+  <string name="oi_pick_colors_info">OI Color Picker installieren für mehr Auswahl</string>
   <string name="opening_balance">Anfangssaldo</string>
   <string name="parse_error_file_not_found">Konnte Datei %1$s nicht finden</string>
   <string name="parse_error_no_data_found">Keine importierbaren Daten in der Datei gefunden.
