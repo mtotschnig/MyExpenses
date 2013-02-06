@@ -33,6 +33,18 @@
       SD.</string>
   <string name="category">Catégorie</string>
   <string name="category_already_defined">La catégorie %1$s existe</string>
+  <string name="color">Couleur</string>
+  <string name="color_name_black">Noir</string>
+  <string name="color_name_blue">Bleu</string>
+  <string name="color_name_cyan">Cyan</string>
+  <string name="color_name_dkgray">Gris foncé</string>
+  <string name="color_name_gray">Gris</string>
+  <string name="color_name_green">Vert</string>
+  <string name="color_name_ltgray">Gris clair</string>
+  <string name="color_name_magenta">Magenta</string>
+  <string name="color_name_red">Rouge</string>
+  <string name="color_name_white">Blanc</string>
+  <string name="color_name_yellow">Jaune</string>
   <string name="comment">Remarques</string>
   <string name="create_category">Nouvelle catégorie</string>
   <string name="currency">Devise</string>
@@ -45,6 +57,7 @@
   <string name="description">Description</string>
   <string name="dialog_confirm_delete_template">Voulez-vous vraimen supprimer le modèle \"%1$s\" ?</string>
   <string name="dialog_title_select_account">Sélectionner un compte</string>
+  <string name="dialog_title_select_color">Sélectionner une couleur</string>
   <string name="dialog_title_select_currency">Sélectonner une devise</string>
   <string name="dialog_title_select_import_source">Sélectionner une source pour l\'import</string>
   <string name="dialog_title_select_method">Sélectionner un paiement</string>
@@ -282,22 +295,8 @@
   <string name="warning_reset_account">Toutes les opérations du compte seront exportées vers un fichier QIF sur la carte SD et 
       effacées. Voulez-vous continuer?</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
-<string name="black_color_name">Noir</string>
-<string name="blue_color_name">Bleu</string>
-<string name="color">Couleur</string>
-<string name="cyan_color_name">Cyan</string>
-<string name="dialog_title_select_color">Sélectionner une couleur</string>
-<string name="dkgray_color_name">Gris foncé</string>
 <string name="error_accessing_gplay">Erreur lors de l\'accès à Google Play</string>
-<string name="gray_color_name">Gris</string>
-<string name="green_color_name">Vert</string>
-<string name="ltgray_color_name">Gris clair</string>
-<string name="magenta_color_name">Magenta</string>
-<string name="need_oi_pick_color">L\'application OI Color Picker est nécessaire pour choisir la couleur d\'arrière-plan</string>
 <string name="oi_pick_colors_info">Installer OI Pick Color pour plus de choix</string>
-<string name="red_color_name">Rouge</string>
-<string name="white_color_name">Blanc</string>
-<string name="yellow_color_name">Jaune</string>
   <!-- strings below this comment do not need translations for new languages -->
   <string name="version_14_upgrade_info">À partir de la version 1.4.0, la devise est définie selon
       le code ISO 4217. Dans vos comptes vous utilisez les symboles suivants qui doivent être
