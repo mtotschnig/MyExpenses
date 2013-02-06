@@ -62,16 +62,7 @@ public class AccountEdit extends EditActivity {
   private int mAccountColor;
   private String[] mTypes = new String[Account.Type.values().length];
   private String[] mColorNames;
-  private static Integer[] mColors = new Integer[] {
-    Color.BLUE,  Color.CYAN,   Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW,
-    Color.BLACK, Color.DKGRAY, Color.GRAY,  Color.LTGRAY,  Color.WHITE
-  };
-  private static int[] mColorIds = new int[] {
-    R.string.color_name_blue,    R.string.color_name_cyan,   R.string.color_name_green,
-    R.string.color_name_magenta, R.string.color_name_red,    R.string.color_name_yellow,
-    R.string.color_name_black,   R.string.color_name_dkgray, R.string.color_name_gray,
-    R.string.color_name_ltgray,  R.string.color_name_white
-  };
+  private Integer[] mColors;
   private TextView mColorText;
   private Button mColorButton;
 
@@ -197,12 +188,23 @@ public class AccountEdit extends EditActivity {
         }
       }
     });
-
+    int[] mColorIds = new int[] {
+      R.string.color_name_account_default,
+      R.string.color_name_blue,    R.string.color_name_cyan,   R.string.color_name_green,
+      R.string.color_name_magenta, R.string.color_name_red,    R.string.color_name_yellow,
+      R.string.color_name_black,   R.string.color_name_dkgray, R.string.color_name_gray,
+      R.string.color_name_ltgray,  R.string.color_name_white
+    };
     mColorNames = new String[mColorIds.length+1];
     for (int i = 0 ; i < mColorIds.length ; i++) {
       mColorNames[i] = getString(mColorIds[i]);
     }
     mColorNames[mColorIds.length] = getString(R.string.oi_pick_colors_info);
+    mColors = new Integer[] {
+      getResources().getColor(R.color.accountDefault),
+      Color.BLUE,  Color.CYAN,   Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW,
+      Color.BLACK, Color.DKGRAY, Color.GRAY,  Color.LTGRAY,  Color.WHITE
+    };
 
     populateFields();
   }
@@ -297,8 +299,6 @@ public class AccountEdit extends EditActivity {
         finish();
       }
       setTitle(R.string.menu_edit_account);
-      mAccountColor = mAccount.color;
-      MyApplication.updateUIWithColor(this,mAccountColor);
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);
       BigDecimal amount;
@@ -310,7 +310,6 @@ public class AccountEdit extends EditActivity {
       mAmountText.setText(nfDLocal.format(amount));
       mCurrencyText.setText(mAccount.currency.getCurrencyCode());
     } else {
-      MyApplication.updateUIWithAppColor(this);
       mAccount = new Account();
       setTitle(R.string.menu_insert_account);
       Locale l = Locale.getDefault();
@@ -320,6 +319,8 @@ public class AccountEdit extends EditActivity {
     }
     mAccountType = mAccount.type;
     mTypeButton.setText(mAccountType.getDisplayName(this));
+    mAccountColor = mAccount.color;
+    MyApplication.updateUIWithColor(this,mAccountColor);
     mColorText.setBackgroundColor(mAccountColor);
   }
 
