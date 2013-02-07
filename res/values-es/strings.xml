@@ -33,6 +33,19 @@
       tarjeta SD.</string>
   <string name="category">Categoría</string>
   <string name="category_already_defined">Categoría %1$s ya existe.</string>
+  <string name="color">Color</string>
+  <string name="color_name_account_default">Estándar verde</string>
+  <string name="color_name_black">Negro</string>
+  <string name="color_name_blue">Azul</string>
+  <string name="color_name_cyan">Cian</string>
+  <string name="color_name_dkgray">Gris oscuro</string>
+  <string name="color_name_gray">Gris</string>
+  <string name="color_name_green">Verde</string>
+  <string name="color_name_ltgray">Gris claro</string>
+  <string name="color_name_magenta">Magenta</string>
+  <string name="color_name_red">Rojo</string>
+  <string name="color_name_white">Blanco</string>
+  <string name="color_name_yellow">Amarillo</string>
   <string name="comment">Apuntes</string>
   <string name="create_category">Nueva categoría</string>
   <string name="currency">Moneda</string>
@@ -45,6 +58,7 @@
   <string name="description">Descripción</string>
   <string name="dialog_confirm_delete_template">¿De veras desea borrar plantilla \"%1$s\" ?</string>
   <string name="dialog_title_select_account">Escoger una cuenta</string>
+  <string name="dialog_title_select_color">Escoger un color</string>
   <string name="dialog_title_select_currency">Escoger una moneda</string>
   <string name="dialog_title_select_import_source">Escoger una fuente para la importación</string>
   <string name="dialog_title_select_method">Escoger un método de pago</string>
@@ -56,6 +70,7 @@
       <a href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
       \nGracias por su apoyo!</string>
   <string name="edit_category">Modificar categoría</string>
+  <string name="error_accessing_gplay">Error al acceder a Google Play</string>
   <string name="expense">gasto</string>
   <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere
        un minuto antes de intentarlo de nuevo.</string>
@@ -174,6 +189,7 @@
   <string name="not_deletable_subcats_exists">No se puede borrar esta categoría, porque tiene
       sub-categorías.</string>
   <string name="no_valid_payment_methods">No hay medios de pago válidos para %1$s (%2$s)</string>
+  <string name="oi_pick_colors_info">Instalar OI Color Picker para ver más opciones</string>
   <string name="opening_balance">Saldo inicial</string>
   <string name="parse_error_file_not_found">No se ha podido encontrar el archivo %1$s</string>
   <string name="parse_error_no_data_found">No hay datos importables en el archivo.

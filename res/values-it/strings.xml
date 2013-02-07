@@ -32,6 +32,19 @@
   <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.</string>
   <string name="category">Categoria</string>
   <string name="category_already_defined">La categoria %1$s è già definita</string>
+  <string name="Colore">Farbe</string>
+  <string name="color_name_account_default">Standard verde</string>
+  <string name="color_name_black">Nero</string>
+  <string name="color_name_blue">Azzuro</string>
+  <string name="color_name_cyan">Ciano</string>
+  <string name="color_name_dkgray">Grigio scuro</string>
+  <string name="color_name_gray">Grigio</string>
+  <string name="color_name_green">Verde</string>
+  <string name="color_name_ltgray">Grigio chiaro</string>
+  <string name="color_name_magenta">Magenta</string>
+  <string name="color_name_red">Rosso</string>
+  <string name="color_name_white">Bianco</string>
+  <string name="color_name_yellow">Giallo</string>
   <string name="comment">Note</string>
   <string name="create_category">Nuova categoria</string>
   <string name="currency">Valuta</string>
@@ -44,6 +57,7 @@
   <string name="description">Descrizione</string>
   <string name="dialog_confirm_delete_template">Vuoi veramente eliminare il modelo \"%1$s\" ?</string>
   <string name="dialog_title_select_account">Scegli il conto</string>
+  <string name="dialog_title_select_color">Scegli un colore</string>
   <string name="dialog_title_select_currency">Scegli una valuta</string>
   <string name="dialog_title_select_import_source">Scegli un origine per l\'importazione</string>
   <string name="dialog_title_select_method">Scegli un modo di pagamento</string>
@@ -55,6 +69,7 @@
       href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
       \nGrazie per il vostro sostegno!</string>
   <string name="edit_category">Modificare la categoria</string>
+  <string name="error_accessing_gplay">Errore durante l'accesso a Google Play</string>
   <string name="expense">spesa</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già.
       Attendere un minuto prima di riprovare.</string>
@@ -176,6 +191,7 @@
       sono modelli ad esso attribuite.</string>
   <string name="not_deletable_subcats_exists">Questa categoria non può essere cancellata perché
       contiene sottocategorie.</string>
+  <string name="oi_pick_colors_info">Installare OI Color Picker per ulteriori opzioni</string>
   <string name="opening_balance">Saldo inizial</string>
   <string name="parse_error_file_not_found">Il file %1$s non esiste</string>
   <string name="parse_error_no_data_found">Nessun dato importabili trovato nel file.</string>
