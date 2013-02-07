@@ -69,7 +69,7 @@
       href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
       \nGrazie per il vostro sostegno!</string>
   <string name="edit_category">Modificare la categoria</string>
-  <string name="error_accessing_gplay">Errore durante l'accesso a Google Play</string>
+  <string name="error_accessing_gplay">Errore durante l\'accesso a Google Play</string>
   <string name="expense">spesa</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già.
       Attendere un minuto prima di riprovare.</string>
@@ -126,8 +126,8 @@
       - <b>Aiuto</b> : accesso rapido al manuale, News et FAQ.\n
       \nPer favore visita il <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuale</a>
       per avere ulteriori esplicazioni.</string>
-  <string name="help_whats_new">&#160;- associazione tra i tipi di conto e metodi di pagamento riparati.\n
-    - Utilizare dimensioni carattere standard di sistema.</string>
+  <string name="help_whats_new">&#160;- Colori configurabili per i conti.\n
+    - Traduzione in turco.</string>
   <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
   <string name="important_version_information">Informazioni importanti</string>

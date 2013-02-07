@@ -127,8 +127,8 @@
       - <b>Ayuda</b> : Acceso rápido a tutorial, noticias, preguntas frecuentes y cambios.\n
       \nPor favor, consulte <a href="http://myexpenses.totschnig.org/#tutorial_r4">el manual</a> para explicaciones detalladas.
   </string>
-  <string name="help_whats_new">&#160;- Asociación de tipos de cuenta con métodos de pago reparada.
-    - Utilizar el tamaño de la fuente estándar del sistema.</string>
+  <string name="help_whats_new">&#160;- Colores configurables para las cuentas.\n
+      - Traducción al turco.</string>
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Información importante</string>
   <string name="income">ingreso</string>
