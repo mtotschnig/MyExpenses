@@ -127,8 +127,8 @@
       - <b>Aide</b> : Accès rapide au manuel, les news, la foire aux questions et la liste des changements.\n
       \nReférez-vous au <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuel</a> pour de plus amples explications.
   </string>
-  <string name="help_whats_new">&#160;- Association entre les types de comptes et les méthodes de paiement réparée.\n
-      - Utiliser la taille de police par défaut du système.</string>
+  <string name="help_whats_new">&#160;- Couleurs configurables pour les comptes.\n
+      - Traduction turque.</string>
   <string name="import_categories">Importer les catégories</string>
   <string name="important_version_information">Information importante</string>
   <string name="income">revenu</string>
