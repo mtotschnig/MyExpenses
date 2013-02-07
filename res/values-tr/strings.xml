@@ -32,6 +32,19 @@
   <string name="backup_success">Veritabanı ve tercihler SD karta başarılı bir şekilde yazıldı.</string>
   <string name="category_already_defined">%1$s kategorisi zaten tanımlanmış</string>
   <string name="category">Kategori</string>
+  <string name="color">Renk</string>
+  <string name="color_name_account_default">Varsayılan uygulama yeşili</string>
+  <string name="color_name_black">Siyah</string>
+  <string name="color_name_blue">Mavi</string>
+  <string name="color_name_cyan">Camgöbeği</string>
+  <string name="color_name_dkgray">Koyu gri</string>
+  <string name="color_name_gray">Gri</string>
+  <string name="color_name_green">Yeşil</string>
+  <string name="color_name_ltgray">Açık gri</string>
+  <string name="color_name_magenta">Eflatun</string>
+  <string name="color_name_red">Kırmızı</string>
+  <string name="color_name_white">Beyaz</string>
+  <string name="color_name_yellow">Sarı</string>
   <string name="comment">Notlar</string>
   <string name="create_category">Yeni kategori oluştur</string>
   <string name="currency">Döviz</string>
@@ -44,6 +57,7 @@
   <string name="dialog_confirm_delete_template">\"%1$s\" şablonu gerçekten silinsin mi?</string>
   <string name="dialog_title_select_account">Bir hesap seçin</string>
   <string name="dialog_title_select_import_source">İçe aktarım için bir kaynak seçin</string>
+  <string name="dialog_title_select_color">Renk seçimi</string>
   <string name="dialog_title_select_currency">Bir döviz seçin</string>
   <string name="dialog_title_select_method">Bir ödeme metodu seçin</string>
   <string name="dialog_title_select_type">Bir tür seçin</string>
@@ -54,6 +68,7 @@
       istiyorsanız, PayPal veya Flattr ile bağış yapabilirsiniz. <a href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
       \nDesteğiniz için teşekkür ederiz!</string>
   <string name="edit_category">Kategori düzenle</string>
+  <string name="error_accessing_gplay">Google Play erişimi sırasında hata oluştu</string>
   <string name="expense">gider</string>
   <string name="export_expenses_outputfile_exists">Çıktı dosyası zaten mevcut. Lütfen bir dakika bekleyip tekrar deneyin.</string>
   <string name="export_expenses">Giderleri dışa aktar</string>
@@ -104,8 +119,8 @@
       - <b>Help</b> : Rehbere, yeniliklere, sıkça sorulan sorulara ve değişikliklere hızlı erişim sağlar.\n
       \nAyrıntılı bilgi için <a href="http://myexpenses.totschnig.org/#tutorial_r4">kılavuza</a> bakınız.
   </string>
-  <string name="help_whats_new">&#160;- Hata düzeltmesi: Hesap türlerinin ödeme metotları ile ilişkilendirilmesi.\n
-      - Varsayılan sistem yazıtipi boyutunu kullan.</string>
+    <string name="help_whats_new">&#160;- Hesaplar için ayarlanabilir renkler.\n
+      - Türkçe tercüme.</string>
   <string name="important_version_information">Önemli bilgi</string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="income">gelirler</string>
@@ -165,6 +180,7 @@
   <string name="not_deletable_mapped_transactions">Silinemez çünkü ilişkili muameleler var.</string>
   <string name="not_deletable_mapped_templates">Silinemez çünkü ilişkili şablonlar var.</string>
   <string name="not_deletable_subcats_exists">Bu kategori silinemez çünkü alt kategorileri var.</string>
+  <string name="oi_pick_colors_info">Daha fazla seçenek için OI Color Picker uygulamasını kurunuz</string>
   <string name="opening_balance">Açılış bakiyesi</string>
   <string name="parse_error_file_not_found">%1$s dosyası bulunamadı</string>
   <string name="parse_error_no_data_found">Dosyada içe aktarılabilecek hiçbir veri bulunamadı.</string>
