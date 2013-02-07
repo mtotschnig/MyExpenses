@@ -1,15 +1,7 @@
 <dl class="versionlist">
-{% for version in site.versions_prerelease %}
+{% for version in site.versions %}
     <dt><span class="versioncode">{{version[0]}}</span><span class="versiondate">{{version[1]}}</span></dt>
-    <dd>{{version[2]}}</dd>
-{% endfor %}
-{% for version in page.versions_i18n %}
-    <dt><span class="versioncode">{{version[0]}}</span><span class="versiondate">{{version[1]}}</span></dt>
-    <dd>{{version[2]}}</dd>
-{% endfor %}
-{% for version in site.versions_legacy %}
-    <dt><span class="versioncode">{{version[0]}}</span><span class="versiondate">{{version[1]}}</span></dt>
-    <dd>{{version[2]}}</dd>
+    <dd>{% if version[2][page.lang] %}{{version[2][page.lang]}}{% else %}{{version[2]['en']}}{% endif %}</dd>
 {% endfor %}
 </dl>
 
