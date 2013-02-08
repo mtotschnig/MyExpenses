@@ -26,7 +26,7 @@
     <item name="buttonBackgroundPopup">@drawable/btn_dark2</item>
     <item name="menuItemStyle">@style/buttonMenuItemDark</item>
     <item name="buttonTextColor">@color/theme_dark_button_color</item>
-    <item name="listPadding">5dp</item>
+    <item name="listPadding">7dp</item>
     <item name="android:windowTitleBackgroundStyle">@style/headingStyle</item>
     <item name="android:windowTitleSize">30sp</item>
     <item name="android:windowTitleStyle">@style/titleTextStyle</item>
