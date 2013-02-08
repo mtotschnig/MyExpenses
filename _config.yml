@@ -170,6 +170,9 @@ versions:
       it: |
         Associazione tra i tipi di conto e metodi di pagamento riparati.
         Utilizare dimensioni carattere standard di sistema.
+      tr: |
+        Hata düzeltmesi: Hesap türlerinin ödeme metotları ile ilişkilendirilmesi.
+        Varsayılan sistem yazıtipi boyutunu kullan.
   -
     - 1.6.5
     - 2013-01-24
