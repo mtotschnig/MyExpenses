@@ -88,6 +88,7 @@ sections:
       it: Aggiornamenti
       es: Cambios
       ca: Canvis
+      tr: Değişiklikler
     styles: |
       dl.versionlist {
         position: relative;
@@ -125,15 +126,28 @@ sections:
       - privacy
 versions:
   -
-    - 1.6.7RC2
-    - 2013-02-06
+    - 1.6.7
+    - 2013-02-08
     -
-      en: "UI cosmetics."
-  -
-    - 1.6.7RC1
-    - 2013-02-05
-    -
+      ca: |
+        Colors diferents per a cada compte.
+        Traducció al Turc.
+      de: |
+        Konfigurierbare Farben für Konten.
+        Türkische Übersetzung.
       en: "Configurable colors for accounts. Turkish translation."
+      es: |
+        Colores configurables para las cuentas.
+        Traducción al turco.
+      fr: |
+        Couleurs configurables pour les comptes.
+        Traduction en turc.
+      it: |
+        Colori configurabili per i conti.
+        Traduzione in turco.
+      tr: |
+        Hesaplar için ayarlanabilir renkler.
+        Türkçe tercüme.
   -
     - 1.6.6
     - 2013-01-26
