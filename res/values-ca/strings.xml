@@ -56,6 +56,7 @@
   <string name="description">Descripció</string>
   <string name="dialog_confirm_delete_template">Segur que voleu suprimir la plantilla \"%1$s\" ?</string>
   <string name="dialog_title_select_account">Trieu el compte</string>
+  <string name="dialog_title_select_color">Trieu un color</string>
   <string name="dialog_title_select_currency">Trieu la moneda</string>
   <string name="dialog_title_select_import_source">Trieu la font per la importació</string>
   <string name="dialog_title_select_method">Trieu el mètode de pagament</string>
@@ -67,6 +68,7 @@
       <a href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
       \nGràcies pel vostre suport!</string>
   <string name="edit_category">Modifica la categoria</string>
+  <string name="error_accessing_gplay">S'ha produït un error en accedir al Google Play</string>
   <string name="expense">despesa</string>
   <string name="export_expenses_outputfile_exists">El fitxer de sortida ja existeix. Si us plau, espereu
        un minut i torneu-ho a intentar.</string>
@@ -120,8 +122,8 @@
       - <b>Ayuda</b> : Accediu al tutorial, noticies, preguntes freqüents i als canvis.\n
       \nTrobareu explicacions detallades <a href="http://myexpenses.totschnig.org/#tutorial_r4">al manual</a> per a explicacions detallades.
   </string>
-  <string name="help_whats_new">&#160;- Associació entre els tipus de comptes i mètodes de pagament reparats.\n
-      - Utilitza la mida del tipus de lletra estàndard del sistema.</string>
+  <string name="help_whats_new">&#160;- Colors diferents per a cada compte.\n
+      - Traducció al Turc.</string>
   <string name="import_categories">Importa categories</string>
   <string name="important_version_information">Informació important</string>
   <string name="income">ingrés</string>
@@ -180,6 +182,7 @@
   <string name="not_deletable_mapped_transactions">No ha estat possible suprimir-ho, per que té despeses assignades.</string>
   <string name="not_deletable_mapped_templates">No ha estat possible suprimir-ho, per que te plantilles assignades.</string>
   <string name="not_deletable_subcats_exists">No ha estat possible suprimir aquesta categoria, per que te sub-categories.</string>
+  <string name="oi_pick_colors_info">Podeu disposar de més opcions si instal·leu OI Color Picker</string>
   <string name="opening_balance">Saldo inicial</string>
   <string name="parse_error_file_not_found">No ha estat possible trobar el fitxer %1$s</string>
   <string name="parse_error_no_data_found">No hi ha dades importables en el fitxer.</string>
