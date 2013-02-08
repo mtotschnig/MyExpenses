@@ -5,6 +5,7 @@ title:
   it: Le mie spese
   es: Mis gastos
   ca: Les Meves Despeses
+  tr: Harcamalarım
 langs:
   -
     - en
@@ -24,6 +25,9 @@ langs:
   -
     - ca
     - Català
+  -
+    - tr
+    - Türkçe
 sections:
   summary:
     weight: 1
@@ -35,6 +39,7 @@ sections:
       it: Le mie spese
       es: Mis gastos
       ca: Les Meves Despeses
+      tr: Harcamalarım
     headstuff: |
       <script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script>
       <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
