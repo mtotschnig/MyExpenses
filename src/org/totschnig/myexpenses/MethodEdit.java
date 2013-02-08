@@ -48,6 +48,7 @@ public class MethodEdit extends EditActivity {
         
     setContentView(R.layout.one_method);
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
+    MyApplication.updateUIWithAppColor(this);
 
     mLabelText = (EditText) findViewById(R.id.Label);
 
