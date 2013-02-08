@@ -278,7 +278,7 @@ public class ExpensesDbAdapter {
         db.execSQL("update transactions set transfer_peer=0 WHERE transfer_peer is null;");
       }
       if (oldVersion < 26) {
-        db.execSQL("alter table accounts add column color integer default -3355444");
+        db.execSQL("alter table accounts add column color integer default -6697984");
       }
 
     }
