@@ -68,7 +68,7 @@
       <a href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
       \nGràcies pel vostre suport!</string>
   <string name="edit_category">Modifica la categoria</string>
-  <string name="error_accessing_gplay">S'ha produït un error en accedir al Google Play</string>
+  <string name="error_accessing_gplay">S\'ha produït un error en accedir al Google Play</string>
   <string name="expense">despesa</string>
   <string name="export_expenses_outputfile_exists">El fitxer de sortida ja existeix. Si us plau, espereu
        un minut i torneu-ho a intentar.</string>
