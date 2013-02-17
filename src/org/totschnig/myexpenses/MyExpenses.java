@@ -1144,7 +1144,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     return versionname + version  + versiontime;
   }
   /**
-   * @return version number (versionCode)
+   * @return version name
    */
   public String getVersionName() {
     String version = "";
