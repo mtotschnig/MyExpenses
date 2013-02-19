@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 
 import android.app.AlertDialog;
@@ -56,11 +57,9 @@ public class ExpenseEdit extends EditActivity {
   private long mAccountId;
   private Account mAccount;
   private ExpensesDbAdapter mDbHelper;
-  private int mYear;
-  private int mMonth;
-  private int mDay;
-  private int mHours;
-  private int mMinutes;
+  private Calendar mCalendar = Calendar.getInstance();
+  private final java.text.DateFormat mTitleDateFormat = java.text.DateFormat.
+      getDateInstance(java.text.DateFormat.FULL);
   private long mCatId;
   private long mMethodId = 0;
   private String mLabel;
@@ -234,9 +233,7 @@ public class ExpenseEdit extends EditActivity {
 
     public void onDateSet(DatePicker view, int year, 
         int monthOfYear, int dayOfMonth) {
-      mYear = year;
-      mMonth = monthOfYear;
-      mDay = dayOfMonth;
+      mCalendar.set(year, monthOfYear, dayOfMonth);
       setDate();
     }
   };
@@ -246,8 +243,8 @@ public class ExpenseEdit extends EditActivity {
   private TimePickerDialog.OnTimeSetListener mTimeSetListener =
     new TimePickerDialog.OnTimeSetListener() {
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-      mHours = hourOfDay;
-      mMinutes = minute;
+      mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+      mCalendar.set(Calendar.MINUTE,minute);
       setTime();
     }
   };
@@ -257,11 +254,17 @@ public class ExpenseEdit extends EditActivity {
     case DATE_DIALOG_ID:
       return new DatePickerDialog(this,
           mDateSetListener,
-          mYear, mMonth, mDay);
+          mCalendar.get(Calendar.YEAR),
+          mCalendar.get(Calendar.MONTH),
+          mCalendar.get(Calendar.DAY_OF_MONTH)
+      );
     case TIME_DIALOG_ID:
       return new TimePickerDialog(this,
           mTimeSetListener,
-          mHours, mMinutes, true);
+          mCalendar.get(Calendar.HOUR_OF_DAY),
+          mCalendar.get(Calendar.MINUTE),
+          true
+      );
     case ACCOUNT_DIALOG_ID:
       final Cursor otherAccounts = mDbHelper.fetchAccountOther(mTransaction.accountId,true);
       final String[] accountLabels = Utils.getStringArrayFromCursor(otherAccounts, "label");
@@ -462,11 +465,7 @@ public class ExpenseEdit extends EditActivity {
    * @param date
    */
   private void setDateTime(Date date) {
-    mYear = date.getYear()+1900;
-    mMonth = date.getMonth();
-    mDay = date.getDate();
-    mHours = date.getHours();
-    mMinutes = date.getMinutes();
+    mCalendar.setTime(date);
 
     setDate();
     setTime();
@@ -475,14 +474,14 @@ public class ExpenseEdit extends EditActivity {
    * sets date on date button
    */
   private void setDate() {
-    mDateButton.setText(mYear + "-" + pad(mMonth + 1) + "-" + pad(mDay));
+    mDateButton.setText(mTitleDateFormat.format(mCalendar.getTime()));
   }
   
   /**
    * sets time on time button
    */
   private void setTime() {
-    mTimeButton.setText(pad(mHours) + ":" + pad(mMinutes));
+    mTimeButton.setText(pad(mCalendar.get(Calendar.HOUR_OF_DAY)) + ":" + pad(mCalendar.get(Calendar.MINUTE)));
   }
   /**
    * helper for padding integer values smaller than 10 with 0
@@ -518,8 +517,7 @@ public class ExpenseEdit extends EditActivity {
     }
 
     mTransaction.comment = mCommentText.getText().toString();
-    mTransaction.setDate(mDateButton.getText().toString() + 
-        " " + mTimeButton.getText().toString() + ":00.0");
+    mTransaction.setDate(mCalendar.getTime());
 
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mTransaction.setPayee(mPayeeText.getText().toString());
@@ -573,11 +571,7 @@ public class ExpenseEdit extends EditActivity {
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putBoolean("type", mType);
-    outState.putInt("year",mYear);
-    outState.putInt("month", mMonth);
-    outState.putInt("day", mDay);
-    outState.putInt("hours", mHours);
-    outState.putInt("minutes", mMinutes);
+    outState.putSerializable("calendar", mCalendar);
     outState.putLong("catId", mCatId);
     outState.putLong("methodId", mMethodId);
     outState.putString("label", mLabel);
@@ -586,11 +580,7 @@ public class ExpenseEdit extends EditActivity {
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
     mType = savedInstanceState.getBoolean("type");
-    mYear = savedInstanceState.getInt("year");
-    mMonth = savedInstanceState.getInt("month");
-    mDay = savedInstanceState.getInt("day");
-    mHours = savedInstanceState.getInt("hours");
-    mMinutes = savedInstanceState.getInt("minutes");
+    mCalendar = (Calendar) savedInstanceState.getSerializable("calendar");
     mLabel = savedInstanceState.getString("label");
     mCatId = savedInstanceState.getLong("catId");
     mMethodId = savedInstanceState.getLong("methodId");
