@@ -70,6 +70,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
+import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -328,13 +329,15 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     int[] to = new int[]{R.id.category,R.id.date,R.id.amount};
 
     final SimpleDateFormat dateFormat;
-    final String categorySeparator;
+    final String categorySeparator, commentSeparator;
     if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
       dateFormat =  new SimpleDateFormat("dd.MM HH:mm");
       categorySeparator = " : ";
+      commentSeparator = " / ";
     } else {
       dateFormat = new SimpleDateFormat("dd.MM\nHH:mm");
       categorySeparator = " :\n";
+      commentSeparator = "<br>";
     }
     // Now create a simple cursor adapter and set it to display
     SimpleCursorAdapter expense = new SimpleCursorAdapter(this, R.layout.expense_row, mExpensesCursor, from, to)  {
@@ -375,15 +378,22 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         }
         TextView tv2 = (TextView)row.findViewById(R.id.category);
         col = c.getColumnIndex(ExpensesDbAdapter.KEY_TRANSFER_PEER);
+        String catText = (String) tv2.getText();
         if (c.getLong(col) != 0) {
-          tv2.setText(((amount < 0) ? TRANSFER_EXPENSE : TRANSFER_INCOME) + tv2.getText());
+          catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
         } else {
           col = c.getColumnIndex(ExpensesDbAdapter.KEY_LABEL_SUB);
           String label_sub = c.getString(col);
           if (label_sub != null && label_sub.length() > 0) {
-            tv2.setText(tv2.getText() + categorySeparator + label_sub);
+            catText += categorySeparator + label_sub;
           }
         }
+        col = c.getColumnIndex(ExpensesDbAdapter.KEY_COMMENT);
+        String comment = c.getString(col);
+        if (comment != null && comment.length() > 0) {
+          catText += (catText.equals("") ? "" : commentSeparator) + "<i>" + comment + "</i>";
+        }
+        tv2.setText(Html.fromHtml(catText));
         return row;
       }
     };
