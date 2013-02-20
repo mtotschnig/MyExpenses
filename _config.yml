@@ -126,6 +126,11 @@ sections:
       - privacy
 versions:
   -
+    - 1.6.8RC1
+    - 2013-02-20
+    -
+      en: "Localized app icon and date button. Notes are displayed in transaction list."
+  -
     - 1.6.7
     - 2013-02-08
     -
