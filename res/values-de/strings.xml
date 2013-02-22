@@ -110,7 +110,7 @@
   <string name="help_quick_guide"><i>&app_name;</i> kommt mit zwei Schnittstellen für die
       Befehlsaufrufe: einer Symbolleiste und dem Android Standardmenü (physischer Menü-Knopf). Im
       Einstellungs-Bildschirm können Sie festlegen, welches Sie verwenden wollen.
-      Durch kurze Klicks auf die Schaltknöpfe in der Symbolleiste werden folgende Funktionen aufgerufen:\n\n
+      Durch kurze Klicks auf die Schaltfläche in der Symbolleiste werden folgende Funktionen aufgerufen:\n\n
       - <b>Neu</b> : Eine Buchung hinzufügen.\n
       - <b>Konten</b> : Zu einem anderen Konto wechseln.\n
       - <b>Zurücksetzen</b> : Exportiert die Ausgaben im QIF Format auf die SD-Karte, löscht die 
@@ -118,7 +118,7 @@
       - <b>Einstellungen</b> : Führt zur Übersicht aller Konfigurations- und Verwaltungsfunktionen
       (Konten, Kategorien, Geschäftspartner, Zahlungsmethoden, Vorlagen, Sicherungen und Imports)\n
       - <b>Hilfe</b> : Öffnet diesen Hilfetext\n
-      \nEinige Schaltknöpfe reagieren auch auf lange Klicks (wenn im linken oberen Eck ein Dreieck abgebildet ist):\n\n
+      \nEinige Schaltflächen reagieren auch auf lange Klicks (wenn im linken oberen Eck ein Dreieck abgebildet ist):\n\n
       - <b>Neu</b> : <b>Umbuchung</b> zwischen zwei Konten (diese müssen dieselbe Währung verwenden).
       Hier werden auch alle verfügbaren Vorlagen aufgelistet (Buchungen können über ihr Kontextmenü in der Liste als Vorlagen gespeichert werden.)\n
       - <b>Konten</b> : Zeigt alle Konten an, zu denen Sie wechseln können. <b>Neu &#8230;</b> : Ein neues Konto erstellen, 
@@ -127,8 +127,8 @@
 			- <b>Hilfe</b> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.\n
 			\nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
   </string>
-  <string name="help_whats_new">&#160;- Konfigurierbare Farben für Konten.\n
-    - Türkische Übersetzung.</string>
+  <string name="help_whats_new">&#160;- App-Symbol und Datum-Schaltfläche lokalisiert.\n
+      - Notizen werden in der Buchungsliste angezeigt.</string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
   <string name="important_version_information">Wichtige Information</string>
@@ -136,7 +136,7 @@
       Bitte verwenden Sie %1$s</string>
   <string name="label">Bezeichnung</string>
   <string name="menu_accounts">Konten</string>
-  <string name="menu_accounts_explain">Mit dem Schaltknopf Konten können Sie zwischen Konten 
+  <string name="menu_accounts_explain">Mit der Schaltfläche Konten können Sie zwischen Konten 
       wechseln, sobald Sie mehrere Konten angelegt haben. Zur Zeit gibt es nur ein Konto. Wollen Sie
       ein zweites Konto jetzt anlegen?
   </string>
@@ -215,8 +215,8 @@
   <string name="pm_type_credit">Einnahmen</string>
   <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s)
       verknüpft, die gelöscht wurde</string>
-  <string name="pref_account_button_behaviour_title">Verhalten des Schaltknopfes \"Konten\"</string>
-  <string name="pref_account_button_behaviour_summary">Soll der Schaltknopf  \"Konten\" zwischen den beiden letzten Konten hin- und herschalten, anstatt 
+  <string name="pref_account_button_behaviour_title">Verhalten der Schaltfläche \"Konten\"</string>
+  <string name="pref_account_button_behaviour_summary">Soll die Schaltfläche  \"Konten\" zwischen den beiden letzten Konten hin- und herschalten, anstatt 
         alle Konten nacheinander aufzurufen.</string>
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der
       SD-Karte.</string>

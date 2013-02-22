@@ -122,8 +122,8 @@
       - <b>Ayuda</b> : Accediu al tutorial, noticies, preguntes freqüents i als canvis.\n
       \nTrobareu explicacions detallades <a href="http://myexpenses.totschnig.org/#tutorial_r4">al manual</a> per a explicacions detallades.
   </string>
-  <string name="help_whats_new">&#160;- Colors diferents per a cada compte.\n
-      - Traducció al Turc.</string>
+  <string name="help_whats_new">&#160;- Localitzat icona de l\'aplicació i el botó de la data.\n
+       - Les notes es mostren a la llista de transaccions.</string>
   <string name="import_categories">Importa categories</string>
   <string name="important_version_information">Informació important</string>
   <string name="income">ingrés</string>
