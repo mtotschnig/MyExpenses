@@ -18,9 +18,15 @@
   <body>
     <div id="container">
       <div style="position:relative">
-      <a href="/{{pagelang}}"><img style="vertical-align: middle; float:left; margin-right: 15px;" src="/visuals/icon.png" alt="My Expenses"/></a>
-        <h1 style="margin-top:0cm"><span class="application">{{site.title[pagelang]}}</span><br/>
-          <span style="font-size:smaller">Android Expense Tracking App</span>
+        <h1>
+          <img class="icon" src="/visuals/icon_dollar.png" alt="Dollar" title="Dollar"/>
+          <img class="icon" src="/visuals/icon_euro.png" alt="Euro" title="Euro"/>
+          <img class="icon" src="/visuals/icon_pound.png" alt="Pound" title="Pound"/>
+          <img class="icon" src="/visuals/icon_rupie.png" alt="Rupie" title="Rupie"/>
+          <img class="icon" src="/visuals/icon_lira.png" alt="Lira (TRY)" title="Lira (TRY)"/>
+          <a href="/{{pagelang}}">
+            <span class="application">{{site.title[pagelang]}}</span>
+          </a>
         </h1>
         {% if page.lang %}
         <span class="langselector">
