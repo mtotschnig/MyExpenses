@@ -35,7 +35,7 @@ import android.widget.ListAdapter;
  * @author Michael Totschnig
  *
  */
-public class MyExpensesTest extends
+public class AA_MyExpensesTest extends
   ActivityInstrumentationTestCase2 <MyExpenses> {
   private MyExpenses mActivity;
   private ListAdapter mAdapter;
@@ -46,7 +46,7 @@ public class MyExpensesTest extends
 
   
 
-  public MyExpensesTest() {
+  public AA_MyExpensesTest() {
     super("org.totschnig.myexpenses",MyExpenses.class);
   }
   @Override
