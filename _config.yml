@@ -126,10 +126,28 @@ sections:
       - privacy
 versions:
   -
-    - 1.6.8RC1
-    - 2013-02-20
+    - 1.6.8
+    - 2013-02-23
     -
+      ca: |
+        Localitzat icona de l'aplicació i el botó de la data.
+        Les notes es mostren a la llista de transaccions.
+      de: |
+        App-Symbol und Datum-Schaltfläche lokalisiert.
+        Notizen werden in der Buchungsliste angezeigt.
       en: "Localized app icon and date button. Notes are displayed in transaction list."
+      es: |
+        El icono de la aplicación y el botón de la fecha estan localizados.
+        Los apuntes se muestran en la lista de transacciones.
+      fr: |
+        L'icône de l'application et le bouton de la date sont localisés.
+        Les remarques sont affichées dans la liste des transactions.
+      it: |
+        Localizzata app icona e il pulsante data.
+        Le note sono visualizzate nella lista delle transazioni.
+      tr: |
+        Uygulama ikonu ve tarih düğmesi tercüme edildi.
+        Notlar muamele listesinde görüntüleniyor.
   -
     - 1.6.7
     - 2013-02-08
