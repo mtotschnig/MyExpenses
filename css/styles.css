@@ -7,10 +7,10 @@ body {
   font-family: Helvetica, Arial, FreeSans, san-serif;
   color: #000000;
   min-width: 37em;
-  max-width: 41em;
+  max-width: 42em;
   margin: 1em auto;
 }
-h1 { font-size: 2em; color: white; margin-bottom: 3px; }
+h1 { font-size: 1.7em; color: white; margin-bottom: 3px; }
 h1 .small { font-size: 0.7em; }
 h1 a { text-decoration: none; color: white; }
 h2 { font-size: 1.1em; margin-top: 0; color: #3383BB;}
