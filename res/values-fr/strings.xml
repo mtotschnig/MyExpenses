@@ -114,12 +114,12 @@
       - <b>Comptes</b> : Changer de compte.\n
       - <b>Réinitialiser</b> : exporte toutes les opérations dans un fichier QIF sur la carte SD,
         efface les opérations, et transfère le solde courant en nouveau solde d\'ouverture.\n
-      - <b>Paramètres</b>: Donne accès à toutes les configurations et fonctionnalités administratives
+      - <b>Paramètres</b>: Donne accès à toutes les configurations et fonctions administratives
       (comptes, catégories, tiers, méthodes de paiement, modèles, sauvegarde, import).\n
-      - <b>Help</b>: Affiche ce dialog d\'aide.\n
+      - <b>Help</b>: Affiche ce dialogue d\'aide.\n
       \nQuelques boutons (identifiables par le triangle en haut à gauche) affichent un menu avec d\'autres actions sur un clic long:\n\n
       - <b>Nouveau</b> : <b>Virement</b> : Ajouter un virement, s\'il existe au moins deux comptes de 
-        même devise. Par ici, vous accèdez aussi à la liste des modèles. (Une transaction 
+        même devise. Ici, vous accédez aussi à la liste des modèles. (Une transaction 
         peut être definies en tant que modèle à partir de son menu contextuel dans la liste des opérations.)\n
       - <b>Comptes</b> : Changez vers un autre compte à partir de la liste qui s\'affiche ici. <b>Nouveau &#8230;</b> : Ajouter un compte,
         <b>Sommaire</b> ouvre un aperçu de tous les comptes aver leur situation financiere actuelle.\n
@@ -254,7 +254,7 @@
   <string name="pref_qif_export_file_encoding_summary">Choississez \"ISO-8859-1\" si vous utiliséz MS Money</string>
   <string name="pref_share_target_title">URL où sera téléchargé le fichier QIF</string>
   <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les 
-      apps appropriées pour le transfer du fichier (Email, Dropbox, Google Docs, &#8230;), sinon
+      différentes applications pour le transfert du fichier (Email, Dropbox, Google Docs, &#8230;), sinon
       spécifiez une URL dans l\'une des formes supportées</string>
   <string name="pref_ui_theme_title">Style</string>
   <string name="pref_ui_theme_summary">Choisissez entre clair et sombre</string>
@@ -307,8 +307,8 @@
       l\'écran des paramètres.</string>
   <string name="version_32_upgrade_info">Vous avez configuré une URL FTP comme cible pour le téléchargement. 
       <i>&app_name;</i> ne gère plus les téléchargements par FTP.</string>
-  <string name="version_34_upgrade_info">Maintenant, vous pouvez soutenir le développement continu
+  <string name="version_34_upgrade_info">Maintenant, vous pouvez soutenir la continuité du développement
     de <i>&app_name;</i> en faisant un don.</string>
-  <string name="version_35_upgrade_info"><i>&app_name;</i> maintenant utilise par défault un nouveau style sombre.
+  <string name="version_35_upgrade_info"><i>&app_name;</i> utilise maintenant par défault un nouveau style sombre.
     Vous pouvez réactiver le style clair dans les paramètres.</string>
 </resources>
