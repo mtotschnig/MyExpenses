@@ -1214,7 +1214,7 @@
       Finally, the raison d'être of <application role="app_name"/> is its support
       for export into QIF format. Call this function through the
       <guibutton role="menu_reset"/> button from the transaction list. This will
-      create a file on your sdcard with all transactions for the current account, delete
+      create a file on your SD card with all transactions for the current account, delete
       them from the database, and adjust the opening balance to the last current balance.
       <application role="app_name"/> can share the file immediately after the export through
       FTP, email or any other file sharing app, as explained in <link linkend='settings_export'
@@ -1768,7 +1768,7 @@
 	        (<sgmltag>Tiers</sgmltag> for parties).
 	      </para>
 	    </footnote>. Store this file as <filename role="grisbi_file"/> in a folder
-	    <filename>myexpenses</filename> in the root of your sdcard<footnote id="ftn55-en-2">
+	    <filename>myexpenses</filename> in the root of your SD card<footnote id="ftn55-en-2">
 	      <para>
 	        Of course you can also create an XML file by your own. You can find the examples at
 	        <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
@@ -2044,7 +2044,7 @@
     <!-- BEGIN settings_backup para 1 -->
     <para lang="en">
       <guilabel role="menu_backup"/> creates a backup of database and preferences in
-      the <filename>myexpenses</filename> folder on the sdcard. The database is stored in
+      the <filename>myexpenses</filename> folder on the SD card. The database is stored in
       a file named <filename>BACKUP</filename>, the preferences in a file named
       <filename>BACKUP_PREF</filename>. Both are automatically restored when you reinstall
       <application role="app_name"/>. Thus you can retrieve all your application
