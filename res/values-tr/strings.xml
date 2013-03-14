@@ -210,6 +210,8 @@
       (yoksa alfabetik sıralama kullanılır)</string>
   <string name="pref_category_title_manage">Yönet</string>
   <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
+  <string name="pref_category_title_import">İçe aktar</string>
+  <string name="pref_category_title_export">Dışa aktar</string>
   <string name="pref_currency_decimal_separator_title">Girilen döviz miktarı için ondalık ayırıcı</string>
   <string name="pref_currency_decimal_separator_summary">"," ya da "." arası seçim yapabilir veya
       küçük birimleri tamsayı olarak girmeye karar verebilirsiniz.</string>
