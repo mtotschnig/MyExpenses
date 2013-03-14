@@ -842,12 +842,12 @@
       le forumulaire pour éditer ou annuler l'opération.
     </para>
     <para lang="de">
-      Vorlagen werden im <menuchoice><guimenu role="menu_new"/></menuchoice> Menü aufgelistet: Ein kurzer
+      Vorlagen werden im Menü <menuchoice><guimenu role="menu_new"/></menuchoice> aufgelistet: Ein kurzer
       Klick erzeugt eine neue Buchung, die sofort gespeichert wird, ein langer Klick öffnet zunächst das
       Formular, das erlaubt die Buchung zu verändern oder zu verwerfen.
     </para>
     <para lang="it">
-      I modelli sono elencati nel menu <guimenu<menuchoice role="menu_new"/></ menuchoice>. Un
+      I modelli sono elencati nel menu <menuchoice><guimenu role="menu_new"/></menuchoice>. Un
       breve fare clic su un pulsante consente di creare una nuova transazione che viene
       immediatamente salvato. Attraverso un click lungo, si entra nel modulo di modifica in cui è
       possibile modificare la transazione prima di salvare, o gettarla.
