@@ -205,8 +205,8 @@
           </para>
         </answer>
       </qandaentry>
-      <qandaentry id="faq-methods-de" lang="de">
-        <question id="faq-methods-q-de">
+      <qandaentry id="faq-methods-en" lang="en">
+        <question id="faq-methods-q-en">
           <para>
             While creating a new transaction, there is no field for setting the payment method. Why?
           </para>
@@ -223,5 +223,21 @@
           </para>
         </answer>
       </qandaentry>
+      <!-- END FAQ 3 -->
+
+      <!-- BEGIN FAQ 4 -->
+      <qandaentry id="faq-backup-en" lang="en">
+        <question id="faq-backup-q-en">
+          <para>
+            How can I restore a backup?
+          </para>
+        </question>
+        <answer>
+        <para>
+          When you create a backup, it is stored in the <filename>myexpenses</filename> folder of 
+          your SD card. It will be automatically restored when you uninstall and reinstall <application role="app_name"/> 
+        </para>
+        </answer>
+        </qandaentry>
     </qandaset>
   </sect1>
