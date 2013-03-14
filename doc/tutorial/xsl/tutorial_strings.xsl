@@ -41,9 +41,15 @@
 <xsl:template name="unescape-android-string-resources">
   <xsl:param name="string"/>
   <xsl:call-template name="string-replace-all">
-    <xsl:with-param name="text" select="$string" />
-    <xsl:with-param name="replace" select="&quot;\'&quot;"/>
-    <xsl:with-param name="by" select="&quot;'&quot;" />
+    <xsl:with-param name="text">
+      <xsl:call-template name="string-replace-all">
+        <xsl:with-param name="text" select="$string" />
+        <xsl:with-param name="replace" select="&quot;\'&quot;"/>
+        <xsl:with-param name="by" select="&quot;'&quot;" />
+      </xsl:call-template>
+    </xsl:with-param>
+    <xsl:with-param name="replace" select='&apos;\"&apos;'/>
+    <xsl:with-param name="by" select='&apos;"&apos;' />
   </xsl:call-template>
 </xsl:template>
 
