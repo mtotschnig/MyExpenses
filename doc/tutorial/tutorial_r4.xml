@@ -816,7 +816,10 @@
       abgeleitet. Sie müssen einen Titel angeben, um die Vorlage zu identifizieren.
     </para>
     <para lang="it">
-      Questo capitolo non è stato tradotto. Per favore ora utilizzare la versione in lingua inglese.
+      Se regolarmente inserite transazioni identiche o simili, è possibile risparmiare tempo utilizzando i modelli.
+       I modelli sono semplicemente derivati da una transazione esistente attraverso il <menuchoice>
+       <guimenuitem role="menu_create_template"/></menuchoice> voce nel suo menu di scelta rapida. È necessario inserire un
+       titolo che identifica il modello.
     </para>
     <para lang="es">
       Si frecuentemente ingresa transacciones idénticas o similares, usted puede ahorrar tiempo
@@ -843,11 +846,12 @@
       Klick erzeugt eine neue Buchung, die sofort gespeichert wird, ein langer Klick öffnet zunächst das
       Formular, das erlaubt die Buchung zu verändern oder zu verwerfen.
     </para>
-    <!--
     <para lang="it">
-
+      I modelli sono elencati nel menu <guimenu<menuchoice role="menu_new"/></ menuchoice>. Un
+      breve fare clic su un pulsante consente di creare una nuova transazione che viene
+      immediatamente salvato. Attraverso un click lungo, si entra nel modulo di modifica in cui è
+      possibile modificare la transazione prima di salvare, o gettarla.
     </para>
-    -->
     <para lang="es">
       Las plantillas se enumeran en el <menuchoice><guimenu role="menu_new"/></menuchoice>. Un clic
       corto sobre un botón crea una nueva transacción que se guarda inmediatamente. A través de un
@@ -887,11 +891,16 @@
           <guimenuitem role="menu_create_transaction_from_template_and_edit"/>
        </menuchoice>). Der dritte Eintrag im Kontexmenü dient zum Löschen der Vorlage.
     </para>
-    <!--
     <para lang="it">
-
+      I modelli sono elencati anche dalla voce <guilabel role="pref_manage_templates_title"/> della
+      schermata <guilabel role="menu_settings"/>, raggruppati per conto. Attraverso menu di scelta rapida ogni modello, è
+        possono accedere alla stessa funzionalità di creazione di nuove operazioni, e sia possibile salvarlo direttamente su
+        (<menuchoice>
+          <guimenuitem role="menu_create_transaction_from_template_and_save"/>
+       </menuchoice>) o inserire la sua forma (<menuchoice>
+          <guimenuitem role="menu_create_transaction_from_template_and_edit"/>
+       </menuchoice>). La terza voce nel menu contestuale permette di eliminare il modello.
     </para>
-    -->
     <para lang="es">
       Las plantillas también están enumeradas en las <guilabel role="menu_settings"/> (entrada
       <guilabel role="pref_manage_templates_title"/>), agrupadas por cuenta. A través del menú
@@ -1352,6 +1361,9 @@
      <para lang="es">
       La pantalla <guilabel role="menu_settings"/> consiste de cinco secciones:
     </para>
+    <para lang="es">
+      Lo schermo <guilabel role="menu_settings"/> ha cinque sezioni:
+    </para>
     <?float-clear?>
     <variablelist lang="en">
       <varlistentry>
@@ -1456,16 +1468,34 @@
         <listitem><para>Guarde una copia de seguridad de la base de datos y de las configuraciones en la tarjeta SD. </para></listitem>
       </varlistentry>
     </variablelist>
- 
-    <!--
-      rest of chapter can be read without above sentence, so no need for this absence notice
-    <para lang="it">
-      Questo paragrafo non è stato tradotto. Per favore ora utilizzare la versione in lingua inglese.
-    </para>
-    <para lang="es">
-      Este apartado no ha sido traducido. Por favor, ahora utilizan la versión en Inglés.
-    </para>
-    -->
+    <variablelist lang="it">
+      <varlistentry>
+        <term><link linkend='settings_manage'><guilabel role="pref_category_title_manage"/></link></term>
+        <listitem><para>Qui è possibile controllare e modificare tutti gli oggetti ausiliari che <application role="app_name"/>
+         gestisce:
+        <link linkend='accounts'>conti</link>, <link linkend='templates'>modelli</link>,
+        <link linkend='categories'>categorie</link>, <link linkend='settings_manage_parties'>beneficiari</link> y
+        <link linkend='settings_manage_methods'>modi di pagamento</link>.</para></listitem>
+      </varlistentry>
+     <varlistentry>
+        <term><link linkend='settings_ui'><guilabel role="pref_category_title_ui"/></link></term>
+        <listitem><para>Qui è possibile modificare alcuni aspetti dell'interfaccia.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><link linkend='settings_import'><guilabel>Importación</guilabel></link></term>
+        <listitem><para>Accedere alla funzionalità di importazione categorie e beneficiari da Grisbi.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><link linkend='settings_export'><guilabel>Exportación</guilabel></link></term>
+        <listitem><para>Configurare la codifica dei caratteri di esportazione e definire se e come il
+         file deve essere trasferito.</para></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><link linkend='settings_backup'><guilabel role="menu_backup"/></link></term>
+        <listitem><para>Conservare una copia di backup del database e le preferenze sulla scheda SD.</para></listitem>
+      </varlistentry>
+    </variablelist>
+
     <!-- END settings para 1 -->
 
     <sect2 id="settings_manage">
