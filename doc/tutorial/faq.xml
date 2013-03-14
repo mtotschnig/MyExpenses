@@ -223,6 +223,25 @@
           </para>
         </answer>
       </qandaentry>
+      <qandaentry id="faq-methods-it" lang="it">
+        <question id="faq-methods-q-it">
+          <para>
+            Quando inserisco una nuova operazione, non trovo il campo per selezionare il metodo di pagamento. Perchè?
+          </para>
+        </question>
+        <answer>
+          <para>
+           Il metodo di pagamento è legato al tipo di conto. Nell'impostazione predefinita, non ci sono metodi di pagamento per
+           il conto contanti, solo per i conti bancari.
+           E' possibile cambiare un tipo di conto in
+           <menuchoice>
+              <guimenu role="menu_settings"/>
+              <guimenuitem role="menu_settings_account"/>
+           </menuchoice>, oppure creare un nuovo metodo di pagamento come spiegato nel manuale
+           (<ulink url="tutorial_r4/settings.xhtml#settings_manage_methods"><guilabel role="pref_manage_methods_title"/></ulink>).
+          </para>
+        </answer>
+      </qandaentry>
       <!-- END FAQ 3 -->
 
       <!-- BEGIN FAQ 4 -->
@@ -238,6 +257,20 @@
           your SD card. It will be automatically restored when you uninstall and reinstall <application role="app_name"/> 
         </para>
         </answer>
-        </qandaentry>
+      </qandaentry>
+      <qandaentry id="faq-backup-de" lang="de">
+        <question id="faq-backup-q-de">
+          <para>
+            Wie kann ich ein Backup wiederherstellen?
+          </para>
+        </question>
+        <answer>
+        <para>
+          Wenn Sie ein Backup erzeugen, wird dieses im Ordner <filename>myexpenses</filename> auf der 
+          SD-Karte gespeichert. Von dort wird es automatisch wiederhergestellt, wenn Sie <application role="app_name"/>
+          deinstallieren und erneut installieren.
+        </para>
+        </answer>
+      </qandaentry>
     </qandaset>
   </sect1>
