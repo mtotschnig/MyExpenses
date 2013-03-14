@@ -122,7 +122,7 @@
       <application role="app_name"/>  permet de gérer les entrées d'argent et les
       dépenses, et de les exporter vers un logiciel de finance, tel que Grisbi ou Gnucash.
       Il supporte de multiples comptes, deux niveaux de catégories et la création de transactions à
-      partirde de modèles.
+      partir de de modèles.
     </para>
     <para lang="de">
       Mit <application role="app_name"/> können sie über Ihre Ausgaben und Einnahmen Buch
@@ -314,7 +314,7 @@
     </para>
     <para lang="fr">
       Entrez un libellé, une description, le solde d'ouverture<footnoteref
-      linkend="ftn22-fr-1"/> et la devise de ce compte. La devise doit être saisie selon le
+      linkend="ftn22-fr-1"/> et la devise du compte. La devise doit être saisie selon le
       code ISO 4217 en trois lettres, mais peut être facilement sélectionné sur une
       liste en cliquant sur <guibutton role="select"/>
     </para>
@@ -346,7 +346,7 @@
       in order to demonstrate the use of payment methods.
     </para>
     <para lang="fr">
-      Vous pouvez associer le compte aux types suivants: compte de caisse, compte bancaire,  compte
+      Vous pouvez associer au compte les types suivants: compte de caisse, compte bancaire,  compte
       d'actif ou compte de passif. Les méthodes de paiement sont définies par type de compte, tel
       qu'indiqué dans <link linkend='settings_manage_methods'><guilabel role="pref_manage_methods_title"/></link>.
       Ici nous choisissons compte bancaire, afin de pouvoir montrer l'utilisation des méthodes de paiement.
@@ -387,7 +387,7 @@
       nouveau compte, celui-ci deviendra automatiquement le compte en cours. Le bouton
       <guibutton role="menu_accounts"/> permet de facilement changer de compte.
       Un clic long ouvre le  menu permettant de le choisir dans la liste complète. Un clic court
-      soit traverse tous les comptes, soit active le dernier utilisé,  dépendant du paramètre
+      soit traverse tous les comptes, soit active le dernier utilisé, selon le paramètre défini à
       <guilabel role="pref_account_button_behaviour_title"/>.
     </para>
     <para lang="de">
@@ -427,7 +427,7 @@
      <menuchoice>
         <guimenu role="menu_accounts"/>
         <guimenuitem role="menu_accounts_summary"/>
-     </menuchoice> ouvre un aperçu de tous les comptes aver leur situation financiere actuelle. En cliquant
+     </menuchoice> vous ouvre un aperçu de tous les comptes avec leur situation financière actuelle. En cliquant
         sur un compte, vous accédez au formulaire de configuration. Un clic long affiche un menu
         contextuel permettant d'effacer le compte, à l'exception du compte en cours, qui
         ne peut pas être effacé.
@@ -696,7 +696,7 @@
     <para lang="fr">
       Sur la liste des opérations, vous pouvez éditer chaque opération avec un clic court,
       le menu contextuel vous permet aussi d'effacer une opération, d'afficher tous ses
-      détails (tiers, remarques, méthode de payement), et d'en déduire un <link linkend="templates">modèle</link>. Vous pouvez aussi déplacer une opération vers un autre
+      détails (tiers, remarques, méthode de payement), et de l'enregistrer comme <link linkend="templates">modèle</link>. Vous pouvez aussi déplacer une opération vers un autre
       compte, si vous en avez créé au moins deux.
     </para>
     <para lang="de">
@@ -805,8 +805,8 @@
       title that will identify the template.
     </para>
     <para lang="fr">
-     Les modèles sont toujours le fruit d'une opération existante à travers le <menuchoice><guimenuitem
-      role="menu_create_template"/></menuchoice> entrée dans le menu contextuel. Vous devez entrer un
+     Les modèles sont créés à partir d'une opération existante avec l'entrée <menuchoice><guimenuitem
+      role="menu_create_template"/></menuchoice> du menu contextuel. Vous devrez rentrer un
     titre qui permettra d'identifier le modèle.
     </para>
     <para lang="de">
@@ -834,8 +834,8 @@
       you enter the editing form where you can change the transaction before saving, or discard it.
     </para>
     <para lang="fr">
-      Les modèles sont enumérés dans le menu <menuchoice><guimenu role="menu_new"/></menuchoice>. Par un
-      clic court, vous créez une nouvelle opération pour la sauver immédiatement, un click long ouvre
+      Les modèles sont énumérés dans le menu <menuchoice><guimenu role="menu_new"/></menuchoice>. Par un
+      clic court, vous créez une nouvelle opération pour l'utiliser immédiatement, un click long vous ouvre
       le forumulaire pour éditer ou annuler l'opération.
     </para>
     <para lang="de">
