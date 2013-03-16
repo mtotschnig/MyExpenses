@@ -122,7 +122,7 @@
       <application role="app_name"/>  permet de gérer les entrées d'argent et les
       dépenses, et de les exporter vers un logiciel de finance, tel que Grisbi ou Gnucash.
       Il supporte de multiples comptes, deux niveaux de catégories et la création de transactions à
-      partir de de modèles.
+      partir de modèles.
     </para>
     <para lang="de">
       Mit <application role="app_name"/> können sie über Ihre Ausgaben und Einnahmen Buch
