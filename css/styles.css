@@ -19,6 +19,9 @@ h3 { color: #3383BB; }
 .toc dl dt {
   display: inline;
 }
+a {
+ color: #3383BB;
+}
 #block {
   background-color: #cecfce;
   padding:1em;
@@ -47,6 +50,7 @@ h3 { color: #3383BB; }
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
      width: 90%;
+     color: #3383BB;
 }
 #navigation ul a:hover {
     background-color: #dddddd;
@@ -57,6 +61,8 @@ h3 { color: #3383BB; }
     background-color: #cecfce;
     padding: 4px 6px 10px 6px;
     border-bottom: none;
+    color: #3383BB;
+    font-weight: bold;
 }
 #navigation ul li.active:hover {
   text-decoration: underline;
