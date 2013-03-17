@@ -1,7 +1,7 @@
 <?xml version='1.0'?> 
 <xsl:stylesheet  
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:custom="custom" exclude-result-prefixes="custom" xmlns="http://www.w3.org/1999/xhtml">
-<xsl:import href="/usr/share/xml/docbook/stylesheet/docbook-xsl/xhtml/chunk.xsl"/>
+<xsl:import href="/usr/share/xml/docbook/stylesheet/docbook-xsl/html/chunk.xsl"/>
 
 <xsl:param name="use.id.as.filename" select="'1'"/>
 <xsl:param name="chunk.first.sections" select="'1'"/>
@@ -12,6 +12,7 @@
 <xsl:param name="toc.list.type" select="'ul'"/>
 <xsl:param name="chunker.output.doctype-public" select="''"/>
 <xsl:param name="chunker.output.doctype-system" select="''"/>
+<xsl:param name="chunker.output.encoding" select="'UTF-8'"/>
 
 <!-- no title attribute for sections -->
 <xsl:template name="generate.html.title"/>
