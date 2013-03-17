@@ -30,7 +30,7 @@ public abstract class EditActivity extends Activity {
   }
 
   protected void changeEditTextBackground(ViewGroup root) {
-    SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
+    SharedPreferences settings = MyApplication.getInstance().getSettings();
     if (settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("dark")) {
       int c = getResources().getColor(R.color.theme_dark_button_color);
       for(int i = 0; i <root.getChildCount(); i++) {
@@ -49,7 +49,7 @@ public abstract class EditActivity extends Activity {
    */
   protected void configAmountInput() {
     mAmountText = (EditText) findViewById(R.id.Amount);
-    SharedPreferences settings = ((MyApplication) getApplicationContext()).getSettings();
+    SharedPreferences settings = MyApplication.getInstance().getSettings();
     mCurrencyDecimalSeparator = settings.getString(MyApplication.PREFKEY_CURRENCY_DECIMAL_SEPARATOR,
         Utils.getDefaultDecimalSeparator());
     mMinorUnitP = mCurrencyDecimalSeparator.equals(CURRENCY_USE_MINOR_UNIT);

@@ -72,6 +72,7 @@ public class MyApplication extends Application {
         PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR = getString(R.string.pref_account_button_behaviour_key);
         PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
         PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
+        mDbOpenHelper = db();
         setThemes();
     }
     public static void setCurrentAccountColor(int currentAccountColor) {
@@ -107,6 +108,9 @@ public class MyApplication extends Application {
     public void onTerminate() {
       if(mDbOpenHelper != null)
         mDbOpenHelper.close();
+    }
+    public static MyApplication getInstance() {
+      return mSelf;
     }
 
     public SharedPreferences getSettings()

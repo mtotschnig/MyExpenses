@@ -65,7 +65,7 @@ public class ManageAccounts extends ListActivity {
     setTitle(R.string.pref_manage_accounts_title);
     // Set up our adapter
     mDbHelper = MyApplication.db();
-    mCurrentAccount = ((MyApplication) getApplicationContext())
+    mCurrentAccount = MyApplication.getInstance()
         .getSettings()
         .getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
     fillData();

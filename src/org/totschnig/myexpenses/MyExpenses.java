@@ -187,7 +187,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     if(titled){
       getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_layout);
     }
-    mSettings = ((MyApplication) getApplicationContext()).getSettings();
+    mSettings = MyApplication.getInstance().getSettings();
     mDbHelper = MyApplication.db();
     newVersionCheck();
     if (mCurrentAccount == null) {

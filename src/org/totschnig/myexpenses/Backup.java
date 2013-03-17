@@ -53,7 +53,7 @@ public class Backup extends Activity {
           dismissDialog(BACKUP_DIALOG_ID);
           if (v.getId() == BACKUP_COMMAND_ID) {
             if (Utils.isExternalStorageAvailable()) {
-              if (((MyApplication) getApplicationContext()).backup()) {
+              if (MyApplication.getInstance().backup()) {
                 Toast.makeText(getBaseContext(),getString(R.string.backup_success), Toast.LENGTH_LONG).show();
               } else {
                 Toast.makeText(getBaseContext(),getString(R.string.backup_failure), Toast.LENGTH_LONG).show();
