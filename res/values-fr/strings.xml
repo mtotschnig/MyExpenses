@@ -29,12 +29,12 @@
   <string name="amount">Montant</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">La sauvegarde sur carte SD a échoué.</string>
-  <string name="backup_success">La base de données et les paramètres ont été sauvegardé sur la carte
+  <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur la carte
       SD.</string>
   <string name="category">Catégorie</string>
   <string name="category_already_defined">La catégorie %1$s existe</string>
   <string name="color">Couleur</string>
-  <string name="color_name_account_default">Vert par défault</string>
+  <string name="color_name_account_default">Vert par défaut</string>
   <string name="color_name_black">Noir</string>
   <string name="color_name_blue">Bleu</string>
   <string name="color_name_cyan">Cyan</string>
@@ -59,16 +59,16 @@
   <string name="dialog_confirm_delete_template">Voulez-vous vraimen supprimer le modèle \"%1$s\" ?</string>
   <string name="dialog_title_select_account">Sélectionner un compte</string>
   <string name="dialog_title_select_color">Sélectionner une couleur</string>
-  <string name="dialog_title_select_currency">Sélectonner une devise</string>
+  <string name="dialog_title_select_currency">Sélectionner une devise</string>
   <string name="dialog_title_select_import_source">Sélectionner une source pour l\'import</string>
   <string name="dialog_title_select_method">Sélectionner un paiement</string>
   <string name="dialog_title_select_type">Sélectionner un type</string>
-  <string name="dialog_title_template_title">Définir le tire</string>
+  <string name="dialog_title_template_title">Définir le titre</string>
   <string name="donate">Don</string>
   <string name="donate_button_more">&learn_more;</string>
-  <string name="donate_dialog_text">Si <i>&app_name;</i> vous est utile et vous aimeriez contribuer,
-      faites un don au moyen de PayPal ou Flattr. <a href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
-      \nMerci pour votre soutien!</string>
+  <string name="donate_dialog_text">Vous trouvez <i>&app_name;</i> utile et vous aimeriez contribuer,
+      faites un don avec PayPal ou Flattr. <a href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
+      \nMerci de votre soutien!</string>
   <string name="edit_category">Éditer la catégorie</string>
   <string name="error_accessing_gplay">Erreur lors de l\'accès à Google Play</string>
   <string name="expense">dépense</string>
@@ -81,7 +81,7 @@
       %1$s</string>
   <string name="external_storage_unavailable">Le stockage externe (carte SD) n\'est pas
       disponible</string>
-  <string name="feedback_email_message">Envoyez votre feedback, en français, anglais ou allemand, s.v.p.!</string>
+  <string name="feedback_email_message">Envoyez vos réactions en français, anglais ou allemand, s.v.p.!</string>
   <string name="ftp_uri_malformed">Mauvaise syntaxe de l\'URI %1$s</string>
   <string name="go_to_chapter">Allez au chapitre</string>
   <string name="grisbi_file">&grisbi_file;</string>
@@ -307,8 +307,8 @@
       l\'écran des paramètres.</string>
   <string name="version_32_upgrade_info">Vous avez configuré une URL FTP comme cible pour le téléchargement. 
       <i>&app_name;</i> ne gère plus les téléchargements par FTP.</string>
-  <string name="version_34_upgrade_info">Maintenant, vous pouvez soutenir la continuité du développement
+  <string name="version_34_upgrade_info">Maintenant, vous pouvez soutenir la suite du développement
     de <i>&app_name;</i> en faisant un don.</string>
-  <string name="version_35_upgrade_info"><i>&app_name;</i> utilise maintenant par défault un nouveau style sombre.
+  <string name="version_35_upgrade_info"><i>&app_name;</i> utilise maintenant par défaut un nouveau style sombre.
     Vous pouvez réactiver le style clair dans les paramètres.</string>
 </resources>
