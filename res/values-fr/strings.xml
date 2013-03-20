@@ -183,9 +183,9 @@
   <string name="no_parties">Aucun tiers.</string>
   <string name="no_templates">Pas de modèle.</string>
   <string name="no_text_given">Vous n\'avez pas saisi de texte.</string>
-  <string name="not_deletable_mapped_transactions">Suppression ne peut pas être executée, parce
+  <string name="not_deletable_mapped_transactions">Suppression ne peut pas être exécutée, parce
       qu\'il existe des transactions attribuées.</string>
-  <string name="not_deletable_mapped_templates">Suppression ne peut pas être executée, parce
+  <string name="not_deletable_mapped_templates">Suppression ne peut pas être exécutée, parce
       qu\'il existe des modèles attribués.</string>
   <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce
       qu\'elle contient des sous-catégories.</string>
