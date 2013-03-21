@@ -358,6 +358,20 @@
         </para>
         </answer>
       </qandaentry>
+      <qandaentry id="faq-backup-fr" lang="fr">
+        <question id="faq-backup-q-fr">
+          <para>
+            Comment puis-je récupérer ma sauvegarde ?
+          </para>
+        </question>
+        <answer>
+        <para>
+          Lorsque vous créez une sauvegarde, celle-ci est stockée dans le répertoire  <filename>myexpenses</filename> 
+	        de votre carte SD. Elle est automatiquement récupérée lorsque vous désinstallez puis réinstallez 
+	        <application role="app_name"/>.
+        </para>
+        </answer>
+      </qandaentry>
       <qandaentry id="faq-backup-it" lang="it">
         <question id="faq-backup-q-it">
           <para>
