@@ -1037,7 +1037,7 @@
     <para lang="fr">
       Vous avez maintenant une liste de catégories et de sous-catégories que vous
       pouvez utiliser pour vos opérations. Par défaut, les catégories sont triées par la
-      fréquence de leur utilisation (l'ordre alphabetique est utilisé en tant que critère
+      fréquence de leur utilisation (l'ordre alphabétique est utilisé comme critère
       secondaire). Ce fonctionnement vous donne un accès rapide aux catégories associées aux
       transactions les plus utilisées. Si vous préferez voir apparaître les
       catégories dans l'ordre alphabétique, vous pouvez désactiver ce paramètre <link
@@ -1350,19 +1350,19 @@
 
     <!-- BEGIN settings para 1 -->
     <para lang="en">
-      The <guilabel role="menu_settings"/> screen has five sections:
+      The <guilabel role="menu_settings"/> screen has five sections :
     </para>
     <para lang="fr">
-      L'écran <guilabel role="menu_settings"/> est divisié en cinq parties:
+      L'écran <guilabel role="menu_settings"/> est divisé en cinq parties :
     </para>
     <para lang="de">
-      Der Bildschirm <guilabel role="menu_settings"/> besteht aus fünf Teilen:
+      Der Bildschirm <guilabel role="menu_settings"/> besteht aus fünf Teilen :
     </para>
      <para lang="es">
-      La pantalla <guilabel role="menu_settings"/> consiste de cinco secciones:
+      La pantalla <guilabel role="menu_settings"/> consiste de cinco secciones :
     </para>
     <para lang="es">
-      Lo schermo <guilabel role="menu_settings"/> ha cinque sezioni:
+      Lo schermo <guilabel role="menu_settings"/> ha cinque sezioni :
     </para>
     <?float-clear?>
     <variablelist lang="en">
@@ -1397,11 +1397,11 @@
         <listitem><para>Permet l'inspection et la modification de tous les objets auxiliaires gérés par 
         <application role="app_name"/>: <link linkend='accounts'>comptes</link>, <link linkend='templates'>modèles</link>, 
         <link linkend='categories'>catégories</link>, <link linkend='settings_manage_parties'>tiers</link> et 
-        <link linkend='settings_manage_methods'>méthodes de payment</link>.</para></listitem> 
+        <link linkend='settings_manage_methods'>méthodes de paiement</link>.</para></listitem> 
       </varlistentry>
      <varlistentry>
         <term><link linkend='settings_ui'><guilabel role="pref_category_title_ui"/></link></term>
-        <listitem><para>Permet la configuration de quelques aspects de l'interface usager.</para></listitem>
+        <listitem><para>Permet la configuration de l'aspect de l'interface.</para></listitem>
       </varlistentry>
       <varlistentry>
         <term><link linkend='settings_import'><guilabel>Import</guilabel></link></term>
@@ -1410,7 +1410,7 @@
       <varlistentry>
         <term><link linkend='settings_export'><guilabel>Export</guilabel></link></term>
         <listitem><para>Permet de spécifier l'encodage du fichier QIF exporté, et de définir une méthode
-        de transfer vers une cible externe.</para></listitem>
+        de transfert vers une cible externe.</para></listitem>
       </varlistentry>
       <varlistentry>
         <term><link linkend='settings_backup'><guilabel role="menu_backup"/></link></term>
@@ -1474,7 +1474,7 @@
         <listitem><para>Qui è possibile controllare e modificare tutti gli oggetti ausiliari che <application role="app_name"/>
          gestisce:
         <link linkend='accounts'>conti</link>, <link linkend='templates'>modelli</link>,
-        <link linkend='categories'>categorie</link>, <link linkend='settings_manage_parties'>beneficiari</link> y
+        <link linkend='categories'>categorie</link>, <link linkend='settings_manage_parties'>beneficiari</link> e
         <link linkend='settings_manage_methods'>modi di pagamento</link>.</para></listitem>
       </varlistentry>
      <varlistentry>
@@ -1824,12 +1824,12 @@
 	    </footnote>. Sauvegardez ce fichier sous le nom <filename role="grisbi_file"/> dans le
 	    répertoire <filename>myexpenses</filename> de la racine de votre carte SD<footnote id="ftn55-fr-2">
 	      <para>
-	        Bien sûr, vous pouvez aussi créer vous-même un fichier XML. Vous trouveriez des exemples chez
+	        Bien sûr, vous pouvez aussi créer vous-même un fichier XML. Vous trouverez des exemples sur
 	        <ulink url="https://github.com/mtotschnig/MyExpenses/tree/master/res/raw">Github</ulink>.
 	      </para>
 	    </footnote>.
-	    Vous avez aussi l'option d'importer les tiers que Grisbi enregistre dans
-	    le même fichier (élément <sgmltag>Party</sgmltag>). Si vous choississez votre propre
+	    Vous avez aussi la possibilité d'importer les tiers tel que Grisbi les enregistre dans
+	    ce même fichier (élément <sgmltag>Party</sgmltag>). Si vous choississez votre propre
 	    fichier en tant que source de l'import, vous pourrez soit importer tiers et catégories,
 	    soit uniquement les catégories. Les tiers vous seront proposés pour remplir
 	    automatiquement le champ "tiers" dans le formulaire des opérations.
@@ -2087,7 +2087,7 @@
       La base de données est stockée dans le fichier <filename>BACKUP</filename> et les
       préférences dans <filename>BACKUP_PREF</filename>. Ceux-ci sont automatiquement
       restaurés lorsque vous réinstallez <application role="app_name"/>. Ainsi,
-      vous pouvez récupérez toutes vos données sur un périphérique différent en copiant
+      vous pouvez récupérer toutes vos données sur un périphérique différent en copiant
       ces deux fichiers au même endroit avant d'installer
       <application role="app_name"/>.
     </para>
