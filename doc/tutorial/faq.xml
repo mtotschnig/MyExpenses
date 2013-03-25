@@ -261,7 +261,7 @@
         <answer>
           <para>
             Les modes de paiement sont définis par types de comptes. Par défaut, il n'existe pas de méthodes de paiement
-            pour les comptes de trésorerie, uniquement pour les comptes bancaires. Vous pouvez modifier le type du compte par
+            pour les comptes de caisse, uniquement pour les comptes bancaires. Vous pouvez modifier le type du compte par
            <menuchoice>
               <guimenu role="menu_settings"/>
               <guimenuitem role="menu_settings_account"/>
@@ -311,7 +311,7 @@
       <qandaentry id="faq-methods-es" lang="es">
         <question id="faq-methods-q-es">
           <para>
-           Cunado creo una nueva transacción, falta la casilla para establecer el método de pago. ¿Por qué?
+           Cuando creo una nueva transacción, falta la casilla para establecer el método de pago. ¿Por qué?
           </para>
         </question>
         <answer>
