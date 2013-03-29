@@ -14,13 +14,61 @@
 </ul>
 <script type="text/javascript">
 $(document).ready(function() {
+  //no screenshots yet for tr and ca
+  var lang = ["en","fr","de","it","es"].indexOf("{{page.lang}}") > -1 ? "{{page.lang}}" : "en";
   var sc_data = [
-    ["expense-list","List of expenses"],
-    ["edit-expense","Edit expense"],
-    ["category_select","Select category"],
-    ["accounts","Manage accounts"],
-    ["edit-account","Edit account"]
+    [
+      "expense-list",
+      {
+        "en" : "Transaction list",
+        "fr" : "Liste des opérations",
+        "de" : "Buchungsliste",
+        "it" : "Elenco di operazioni",
+        "es" : "Lista dos asientos"
+      }
+    ],
+    [
+      "edit-expense",
+      {
+        "en" : "Edit Transaction",
+        "fr" : "Éditer une transaction",
+        "de" : "Buchung verändern",
+        "it" : "Modificare operazione",
+        "es" : "Modificar el asiento"
+      }
+    ],
+    [
+      "select-category",
+      {
+        "en" : "Select category",
+        "fr" : "Sélectionner une catégorie",
+        "de" : "Kategorie auswählen",
+        "it" : "Selezionare una categoria",
+        "es" : "Escoger una categoría"
+      }
+    ],
+    [
+      "accounts",
+      {
+        "en" : "Manage accounts",
+        "fr" : "Gestion des comptes",
+        "de" : "Konten verwalten",
+        "it" : "Gestione degli conti",
+        "es" : "Gestión de cuentas"
+      }
+    ],
+    [
+      "edit-account",
+      {
+        "en" : "Edit account",
+        "fr" : "Éditer le compte",
+        "de" : "Konto verändern",
+        "it" : "Modificare il conto",
+        "es" : "Modificar la cuenta"
+      }
+    ]
   ];
+  var sc_
   $('.sc_pagination li').click(function(event) {
     var index = $(this).index();
     setImg(index);
@@ -28,12 +76,12 @@ $(document).ready(function() {
     $(this).addClass('sc_pagination_active');
   });
   function setImg(index) {
-    $('#sc_img').attr('src',"/visuals/screenshots/"+sc_data[index][0]+".png");
-    $('#sc_caption').text(sc_data[index][1]);
+    $('#sc_img').attr('src',"/visuals/screenshots/" + lang + "/" + sc_data[index][0]+".png");
+    $('#sc_caption').text(sc_data[index][1][lang]);
   }
   setImg(0);
   $('.sc_pagination li').each(function(index) {
-    $(this).attr('title',sc_data[index][1]);
+    $(this).attr('title',sc_data[index][1][lang]);
   });
 });
 </script>
