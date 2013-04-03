@@ -45,8 +45,7 @@ public class Backup extends Activity {
   protected Dialog onCreateDialog(int id) {
     switch (id) {
     case BACKUP_DIALOG_ID:
-      ExpensesDbAdapter mDbHelper = MyApplication.db();
-      File backupDb = mDbHelper.getBackupFile();
+      File backupDb = MyApplication.getBackupFile();
       int message = backupDb.exists() ? R.string.warning_backup_exists : R.string.warning_backup;
       return Utils.createMessageDialog(new ContextThemeWrapper(this, MyApplication.getThemeId()) {
         public void onDialogButtonClicked(View v) {

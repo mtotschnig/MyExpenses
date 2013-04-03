@@ -52,7 +52,6 @@ public class ExpensesDbAdapter {
   public static final String KEY_TITLE = "title";
   public static final String KEY_LABEL_MAIN = "label_sub";
   public static final String KEY_LABEL_SUB = "label_main";
-  public static final String BACKUP_DB_PATH = "BACKUP";
 
   private static final String TAG = "ExpensesDbAdapter";
   private DatabaseHelper mDbHelper;
@@ -314,15 +313,8 @@ public class ExpensesDbAdapter {
     mDbHelper.close();
   }
 
-  public File getBackupFile() {
-    File appDir = Utils.requireAppDir();
-    if (appDir == null)
-      return null;
-    return new File(appDir, BACKUP_DB_PATH);
-  }
-
   public boolean backup() {
-    File backupDb = getBackupFile();
+    File backupDb = MyApplication.getBackupFile();
     if (backupDb == null)
       return false;
     File currentDb = new File(mDb.getPath());
@@ -332,6 +324,7 @@ public class ExpensesDbAdapter {
     }
     return false;
   }
+
   /**
    * should only be called during the first run, before the database is created
    * @return
@@ -340,7 +333,7 @@ public class ExpensesDbAdapter {
     try {
       File dataDir = new File("/data/data/"+ mCtx.getPackageName()+ "/databases/");
       dataDir.mkdir();
-      File backupDb = getBackupFile();
+      File backupDb = MyApplication.getBackupFile();
       if (backupDb == null)
         return false;
       //line below gives app_databases instead of databases ???

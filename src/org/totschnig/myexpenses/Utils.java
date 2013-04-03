@@ -358,7 +358,7 @@ public class Utils {
   /**
    * @return an AlertDialog.Builder with R.layout.messagedialog as layout
    */
-  public static AlertDialog.Builder createMessageDialog(Context ctx, int message,int command,String tag) {
+  public static AlertDialog.Builder createMessageDialog(Context ctx, int message,int command,Object tag) {
     LayoutInflater li = LayoutInflater.from(ctx);
     View view = li.inflate(R.layout.messagedialog, null);
     TextView tv = (TextView)view.findViewById(R.id.message_text);
@@ -374,7 +374,7 @@ public class Utils {
    * one button centered takes up 33% width
    */
   static void setDialogOneButton(View view,
-      int neutralString, int neutralCommandId,String neutralTag) {
+      int neutralString, int neutralCommandId,Object neutralTag) {
     setButton((Button) view.findViewById(R.id.NEUTRAL_BUTTON),neutralString,neutralCommandId,neutralTag);
     view.findViewById(R.id.POSITIVE_BUTTON).setVisibility(View.INVISIBLE);
     view.findViewById(R.id.NEGATIVE_BUTTON).setVisibility(View.INVISIBLE);
@@ -383,8 +383,8 @@ public class Utils {
    * two buttons 50% width each
    */
   static void setDialogTwoButtons(View view,
-      int positiveString, int positiveCommandId,String positiveTag,
-      int negativeString, int negativeCommandId,String negativeTag) {
+      int positiveString, int positiveCommandId,Object positiveTag,
+      int negativeString, int negativeCommandId,Object negativeTag) {
     setButton((Button) view.findViewById(R.id.POSITIVE_BUTTON),positiveString,positiveCommandId,positiveTag);
     setButton((Button) view.findViewById(R.id.NEGATIVE_BUTTON),negativeString,negativeCommandId,negativeTag);
     view.findViewById(R.id.NEUTRAL_BUTTON).setVisibility(View.GONE);
@@ -393,9 +393,9 @@ public class Utils {
    * three buttons 33% width each
    */
   static void setDialogThreeButtons(View view,
-      int positiveString, int positiveCommandId,String positiveTag,
-      int neutralString, int neutralCommandId,String neutralTag,
-      int negativeString, int negativeCommandId,String negativeTag) {
+      int positiveString, int positiveCommandId,Object positiveTag,
+      int neutralString, int neutralCommandId,Object neutralTag,
+      int negativeString, int negativeCommandId,Object negativeTag) {
     setButton((Button) view.findViewById(R.id.POSITIVE_BUTTON),positiveString,positiveCommandId,positiveTag);
     setButton((Button) view.findViewById(R.id.NEUTRAL_BUTTON),neutralString,neutralCommandId,neutralTag);
     setButton((Button) view.findViewById(R.id.NEGATIVE_BUTTON),negativeString,negativeCommandId,negativeTag);
@@ -407,7 +407,7 @@ public class Utils {
    * @param s
    * @param c
    */
-  private static void setButton(Button b, int s, int c,String tag) {
+  private static void setButton(Button b, int s, int c,Object tag) {
     b.setText(s);
     if (c != 0) {
       b.setId(c);

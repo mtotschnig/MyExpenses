@@ -43,4 +43,5 @@
     <item type="id" name="POSITIVE_BUTTON"/>
     <item type="id" name="NEGATIVE_BUTTON"/>
     <item type="id" name="RATE_COMMAND"/>
+    <item type="id" name="HANDLE_RESTORE_ON_INSTALL_COMMAND"/>
 </resources>

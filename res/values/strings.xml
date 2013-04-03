@@ -55,6 +55,7 @@
   <string name="default_account_description">This account was set up automatically
       during installation</string>
   <string name="description">Description</string>
+  <string name="dialog_confirm_restore_on_install">A backup file has been detected. Do you want to restore it?</string>
   <string name="dialog_confirm_delete_template">Really delete template \"%1$s\" ?</string>
   <string name="dialog_title_select_account">Pick an account</string>
   <string name="dialog_title_select_color">Pick a color</string>

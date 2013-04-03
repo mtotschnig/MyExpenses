@@ -103,6 +103,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   static final int SELECT_TEMPLATE_DIALOG_ID = 9;
   static final int MORE_ACTIONS_DIALOG_ID = 10;
   static final int DONATE_DIALOG_ID = 11;
+  static final int CONFIRM_RESTORE_DIALOG_ID = 12;
   
   static final String HOST = "myexpenses.totschnig.org";
   static final String FEEDBACK_EMAIL = "michael@totschnig.org";
@@ -188,6 +189,16 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_layout);
     }
     mSettings = MyApplication.getInstance().getSettings();
+    if (mSettings.getInt("currentversion", -1) == -1) {
+      if (MyApplication.backupExists()) {
+        showDialogWrapper(CONFIRM_RESTORE_DIALOG_ID);
+        return;
+      }
+    } else {
+      setup();
+    }
+  }
+  private void setup() {
     mDbHelper = MyApplication.db();
     newVersionCheck();
     if (mCurrentAccount == null) {
@@ -744,6 +755,19 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       );
       return new AlertDialog.Builder(this)
         .setTitle(R.string.donate)
+        .setView(view)
+        .create();
+    case CONFIRM_RESTORE_DIALOG_ID:
+      li = LayoutInflater.from(this);
+      view = li.inflate(R.layout.messagedialog, null);
+      tv = (TextView)view.findViewById(R.id.message_text);
+      tv.setText(R.string.dialog_confirm_restore_on_install);
+      Utils.setDialogTwoButtons(view,
+          android.R.string.yes,R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,new Boolean(true),
+          android.R.string.no,R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,new Boolean(false)
+      );
+      return new AlertDialog.Builder(this)
+        .setCancelable(false)
         .setView(view)
         .create();
      }
@@ -1317,6 +1341,13 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       mUseStandardMenu = true;
       mSettings.edit().putBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU,true).commit();
       hideButtonBar();
+      break;
+    case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
+      if ((Boolean) tag) {
+        MyApplication.backupRestore();
+      }
+      mDbHelper = MyApplication.db();
+      setup();
       break;
     default:
       return false;

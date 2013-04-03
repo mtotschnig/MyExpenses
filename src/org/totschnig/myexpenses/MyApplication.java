@@ -49,6 +49,7 @@ public class MyApplication extends Application {
     public static String PREFKEY_CURRENT_VERSION = "currentversion";
     public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static String PREFKEY_LAST_ACCOUNT = "last_account";
+    public static final String BACKUP_DB_PATH = "BACKUP";
     public static int currentAccountColor;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 
@@ -164,69 +165,90 @@ public class MyApplication extends Application {
         themeId = R.style.ThemeDark;
       }
     }
-    
+    public static File getBackupFile() {
+      File appDir = Utils.requireAppDir();
+      if (appDir == null)
+        return null;
+      return new File(appDir, BACKUP_DB_PATH);
+    }
+    /**
+     * is a backup avaiblable ?
+     * @return
+     */
+    public static boolean backupExists() {
+        File dataDir = new File("/data/data/"+ mSelf.getPackageName()+ "/databases/");
+        dataDir.mkdir();
+        File backupDb = getBackupFile();
+        if (backupDb == null)
+          return false;
+        return backupDb.exists();
+    }
+    public static void backupRestore() {
+      if (mSelf.mDbOpenHelper.maybeRestore()) {
+        Toast.makeText(mSelf, mSelf.getString(R.string.restore_db_success), Toast.LENGTH_LONG).show();
+        //if we found a database to restore, we also try to import corresponding preferences
+        File appDir = Utils.requireAppDir();
+        if (appDir != null) {
+          File backupPrefFile = new File(appDir, BACKUP_PREF_PATH);
+          if (backupPrefFile.exists()) {
+            //since we already started reading settings, we can not just copy the file
+            //unless I found a way
+            //either to close the shared preferences and read it again
+            //or to find out if we are on a new install without reading preferences
+            //
+            //we open the backup file and read every entry
+            //getSharedPreferences does not allow to access file if it not in private data directory
+            //hence we copy it there first
+            File sharedPrefsDir = new File("/data/data/" + mSelf.getPackageName() 
+                + "/shared_prefs/");
+            //upon application install does not exist yet
+            sharedPrefsDir.mkdir();
+            File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
+            if (Utils.copy(backupPrefFile,tempPrefFile)) {
+              SharedPreferences backupPref = mSelf.getSharedPreferences("backup_temp",0);
+              Editor edit = mSelf.settings.edit();
+              String key;
+              Object val;
+              for (Map.Entry<String, ?> entry : backupPref.getAll().entrySet()) {
+                key = entry.getKey();
+                val = entry.getValue();
+                if (val.getClass() == Long.class) {
+                  edit.putLong(key,backupPref.getLong(key,0));
+                } else if (val.getClass() == Integer.class) {
+                  edit.putInt(key,backupPref.getInt(key,0));
+                } else if (val.getClass() == String.class) {
+                  edit.putString(key, backupPref.getString(key,""));
+                } else if (val.getClass() == Boolean.class) {
+                  edit.putBoolean(key,backupPref.getBoolean(key,false));
+                } else {
+                  Log.i("MyExpenses","Found: "+key+ " of type "+val.getClass().getName());
+                }
+              }
+              edit.commit();
+              backupPref = null;
+              tempPrefFile.delete();
+              Toast.makeText(mSelf, mSelf.getString(R.string.restore_preferences_success), Toast.LENGTH_LONG).show();
+            }
+            else {
+              Log.w("MyExpenses","Could not copy backup to private data directory");
+            }
+          } else {
+            Log.w("MyExpenses","Did not find backup for preferences");
+          }
+        } else {
+          Log.w("MyExpenses","Exernal storage not available");
+        }
+      }
+    }
+    /**
+     * @return the opened DB Adapter, if we find a backup, we return null 
+     * to give the activity the chance to prompt the user for confirmation of restore
+     */
     public static ExpensesDbAdapter db() {
       if(mSelf.mDbOpenHelper == null) {
-          mSelf.mDbOpenHelper = new ExpensesDbAdapter(mSelf);
-          if (mSelf.settings.getInt("currentversion", -1) == -1) {
-            if (mSelf.mDbOpenHelper.maybeRestore()) {
-              Toast.makeText(mSelf, mSelf.getString(R.string.restore_db_success), Toast.LENGTH_LONG).show();
-              //if we found a database to restore, we also try to import corresponding preferences
-              File appDir = Utils.requireAppDir();
-              if (appDir != null) {
-                File backupPrefFile = new File(appDir, BACKUP_PREF_PATH);
-                if (backupPrefFile.exists()) {
-                  //since we already started reading settings, we can not just copy the file
-                  //unless I found a way
-                  //either to close the shared preferences and read it again
-                  //or to find out if we are on a new install without reading preferences
-                  //
-                  //we open the backup file and read every entry
-                  //getSharedPreferences does not allow to access file if it not in private data directory
-                  //hence we copy it there first
-                  File sharedPrefsDir = new File("/data/data/" + mSelf.getPackageName() 
-                      + "/shared_prefs/");
-                  //upon application install does not exist yet
-                  sharedPrefsDir.mkdir();
-                  File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
-                  if (Utils.copy(backupPrefFile,tempPrefFile)) {
-                    SharedPreferences backupPref = mSelf.getSharedPreferences("backup_temp",0);
-                    Editor edit = mSelf.settings.edit();
-                    String key;
-                    Object val;
-                    for (Map.Entry<String, ?> entry : backupPref.getAll().entrySet()) {
-                      key = entry.getKey();
-                      val = entry.getValue();
-                      if (val.getClass() == Long.class) {
-                        edit.putLong(key,backupPref.getLong(key,0));
-                      } else if (val.getClass() == Integer.class) {
-                        edit.putInt(key,backupPref.getInt(key,0));
-                      } else if (val.getClass() == String.class) {
-                        edit.putString(key, backupPref.getString(key,""));
-                      } else if (val.getClass() == Boolean.class) {
-                        edit.putBoolean(key,backupPref.getBoolean(key,false));
-                      } else {
-                        Log.i("MyExpenses","Found: "+key+ " of type "+val.getClass().getName());
-                      }
-                    }
-                    edit.commit();
-                    backupPref = null;
-                    tempPrefFile.delete();
-                    Toast.makeText(mSelf, mSelf.getString(R.string.restore_preferences_success), Toast.LENGTH_LONG).show();
-                  }
-                  else {
-                    Log.w("MyExpenses","Could not copy backup to private data directory");
-                  }
-                } else {
-                  Log.w("MyExpenses","Did not find backup for preferences");
-                }
-              } else {
-                Log.w("MyExpenses","Exernal storage not available");
-              }
-            }
-          }
-          mSelf.mDbOpenHelper.open();
+        mSelf.mDbOpenHelper = new ExpensesDbAdapter(mSelf);
+        mSelf.mDbOpenHelper.open();
       }
       return mSelf.mDbOpenHelper;
-  }
+    }
 }
