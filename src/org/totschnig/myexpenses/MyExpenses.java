@@ -194,9 +194,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         showDialogWrapper(CONFIRM_RESTORE_DIALOG_ID);
         return;
       }
-    } else {
-      setup();
     }
+    setup();
   }
   private void setup() {
     mDbHelper = MyApplication.db();
