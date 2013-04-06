@@ -65,6 +65,7 @@
   </style>
   <style name="listLight">
       <item name="android:background">@drawable/border</item>
+      <item name="android:cacheColorHint">#CCCCCC</item>
   </style>
   <style name="headingStyle">
   	<item name="android:gravity">center</item>
