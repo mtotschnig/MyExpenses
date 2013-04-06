@@ -73,7 +73,7 @@ public class MyApplication extends Application {
         PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR = getString(R.string.pref_account_button_behaviour_key);
         PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
         PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
-        mDbOpenHelper = db();
+        //mDbOpenHelper = db();
         setThemes();
     }
     public static void setCurrentAccountColor(int currentAccountColor) {
@@ -187,11 +187,33 @@ public class MyApplication extends Application {
           return false;
         return backupDb.exists();
     }
-    public static void backupRestore() {
-      if (mSelf.mDbOpenHelper.maybeRestore()) {
-        Toast.makeText(mSelf, mSelf.getString(R.string.restore_db_success), Toast.LENGTH_LONG).show();
+    public boolean restoreDb() {
+      boolean result = false;
+      try {
         Account.accounts.clear();
         PaymentMethod.methods.clear();
+        File dataDir = new File("/data/data/"+ getPackageName()+ "/databases/");
+        dataDir.mkdir();
+        File backupDb = getBackupDbFile();
+        if (backupDb == null)
+          return false;
+        //line below gives app_databases instead of databases ???
+        //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
+        File currentDb = new File(dataDir,databaseName);
+
+        if (backupDb.exists()) {
+          mDbOpenHelper.close();
+          result = Utils.copy(backupDb,currentDb);
+          mDbOpenHelper.open();
+        }
+      } catch (Exception e) {
+        Log.e("MyExpenses",e.getLocalizedMessage());
+      }
+      return result;
+    }
+    public static void backupRestore() {
+      if (mSelf.restoreDb()) {
+        Toast.makeText(mSelf, mSelf.getString(R.string.restore_db_success), Toast.LENGTH_LONG).show();
         //if we found a database to restore, we also try to import corresponding preferences
         File appDir = Utils.requireAppDir();
         if (appDir != null) {

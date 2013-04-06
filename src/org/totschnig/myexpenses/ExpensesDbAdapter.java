@@ -325,30 +325,6 @@ public class ExpensesDbAdapter {
     return false;
   }
 
-  /**
-   * can only be called, when the database is closed
-   * @return
-   */
-  public boolean maybeRestore() {
-    try {
-      File dataDir = new File("/data/data/"+ mCtx.getPackageName()+ "/databases/");
-      dataDir.mkdir();
-      File backupDb = MyApplication.getBackupDbFile();
-      if (backupDb == null)
-        return false;
-      //line below gives app_databases instead of databases ???
-      //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
-      File currentDb = new File(dataDir,mDatabaseName);
-
-      if (backupDb.exists()) {
-        return Utils.copy(backupDb,currentDb);
-      }
-    } catch (Exception e) {
-      Log.e(TAG,e.getLocalizedMessage());
-    }
-    return false;
-  }
-
 
   /**
    * TRANSACTIONS

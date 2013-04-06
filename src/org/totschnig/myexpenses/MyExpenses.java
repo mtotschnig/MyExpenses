@@ -130,7 +130,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   private MenuButton mHelpButton;
   private boolean mUseStandardMenu;
   private boolean scheduledRestart = false;
-  
+
   /**
    * stores the transaction from which a template is to be created
    */
