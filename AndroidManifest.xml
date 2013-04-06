@@ -50,6 +50,10 @@
               <action android:name="myexpenses.intent.backup"/>  
               <category android:name="android.intent.category.DEFAULT" />  
             </intent-filter>
+          <intent-filter>
+              <action android:name="myexpenses.intent.restore"/>
+              <category android:name="android.intent.category.DEFAULT" />
+          </intent-filter>
         </activity>
         <activity android:name=".GrisbiImport"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">

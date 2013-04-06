@@ -165,20 +165,24 @@ public class MyApplication extends Application {
         themeId = R.style.ThemeDark;
       }
     }
-    public static File getBackupFile() {
+    public static File getBackupDbFile() {
       File appDir = Utils.requireAppDir();
       if (appDir == null)
         return null;
       return new File(appDir, BACKUP_DB_PATH);
+    }
+    public static File getBackupPrefFile() {
+      File appDir = Utils.requireAppDir();
+      if (appDir == null)
+        return null;
+      return new File(appDir, BACKUP_PREF_PATH);
     }
     /**
      * is a backup avaiblable ?
      * @return
      */
     public static boolean backupExists() {
-        File dataDir = new File("/data/data/"+ mSelf.getPackageName()+ "/databases/");
-        dataDir.mkdir();
-        File backupDb = getBackupFile();
+        File backupDb = getBackupDbFile();
         if (backupDb == null)
           return false;
         return backupDb.exists();
@@ -186,10 +190,12 @@ public class MyApplication extends Application {
     public static void backupRestore() {
       if (mSelf.mDbOpenHelper.maybeRestore()) {
         Toast.makeText(mSelf, mSelf.getString(R.string.restore_db_success), Toast.LENGTH_LONG).show();
+        Account.accounts.clear();
+        PaymentMethod.methods.clear();
         //if we found a database to restore, we also try to import corresponding preferences
         File appDir = Utils.requireAppDir();
         if (appDir != null) {
-          File backupPrefFile = new File(appDir, BACKUP_PREF_PATH);
+          File backupPrefFile = getBackupPrefFile();
           if (backupPrefFile.exists()) {
             //since we already started reading settings, we can not just copy the file
             //unless I found a way
@@ -238,6 +244,9 @@ public class MyApplication extends Application {
         } else {
           Log.w("MyExpenses","Exernal storage not available");
         }
+      }
+      else {
+        Toast.makeText(mSelf,"restore failure", Toast.LENGTH_LONG).show();
       }
     }
     /**

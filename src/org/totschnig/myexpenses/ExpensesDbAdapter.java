@@ -314,7 +314,7 @@ public class ExpensesDbAdapter {
   }
 
   public boolean backup() {
-    File backupDb = MyApplication.getBackupFile();
+    File backupDb = MyApplication.getBackupDbFile();
     if (backupDb == null)
       return false;
     File currentDb = new File(mDb.getPath());
@@ -326,14 +326,14 @@ public class ExpensesDbAdapter {
   }
 
   /**
-   * should only be called during the first run, before the database is created
+   * can only be called, when the database is closed
    * @return
    */
   public boolean maybeRestore() {
     try {
       File dataDir = new File("/data/data/"+ mCtx.getPackageName()+ "/databases/");
       dataDir.mkdir();
-      File backupDb = MyApplication.getBackupFile();
+      File backupDb = MyApplication.getBackupDbFile();
       if (backupDb == null)
         return false;
       //line below gives app_databases instead of databases ???

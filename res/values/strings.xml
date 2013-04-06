@@ -293,6 +293,8 @@
       Do you want to continue?</string>
   <string name="warning_reset_account">All transactions of this account will be exported into QIF file 
       on SD-card and deleted. Do you want to continue?</string>
+  <string name="warning_restore">Database and preferences will be restored from the backup. The current data
+  	will be deleted. Do you want to continue?</string>
   <string name="warning_select_account">Please select an account!</string>
   
   <!-- strings below this comment do not need translations -->

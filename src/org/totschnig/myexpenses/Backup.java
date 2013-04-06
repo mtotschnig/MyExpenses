@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -29,12 +30,26 @@ import android.widget.Toast;
 public class Backup extends Activity {
   static final int BACKUP_DIALOG_ID = 1;
   static final int BACKUP_COMMAND_ID = 1;
+  static final int RESTORE_DIALOG_ID = 2;
+  static final int RESTORE_COMMAND_ID = 2;
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
-      if (Utils.isExternalStorageAvailable())
-        showDialog(BACKUP_DIALOG_ID);
+      if (Utils.isExternalStorageAvailable()) {
+        if (getIntent().getAction().equals("myexpenses.intent.backup")) {
+          showDialog(BACKUP_DIALOG_ID);
+        }
+        else {
+          //restore
+          if (MyApplication.backupExists()) {
+            showDialog(RESTORE_DIALOG_ID);
+          } else {
+            Toast.makeText(getBaseContext(),"No backup found", Toast.LENGTH_LONG).show();
+            finish();
+          }
+        }
+      }
       else {
         Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
         finish();
@@ -45,7 +60,7 @@ public class Backup extends Activity {
   protected Dialog onCreateDialog(int id) {
     switch (id) {
     case BACKUP_DIALOG_ID:
-      File backupDb = MyApplication.getBackupFile();
+      File backupDb = MyApplication.getBackupDbFile();
       int message = backupDb.exists() ? R.string.warning_backup_exists : R.string.warning_backup;
       return Utils.createMessageDialog(new ContextThemeWrapper(this, MyApplication.getThemeId()) {
         public void onDialogButtonClicked(View v) {
@@ -64,6 +79,25 @@ public class Backup extends Activity {
           finish();
         }
       },message,BACKUP_COMMAND_ID,null)
+          .create();
+    case RESTORE_DIALOG_ID:
+      return Utils.createMessageDialog(new ContextThemeWrapper(this, MyApplication.getThemeId()) {
+        public void onDialogButtonClicked(View v) {
+          dismissDialog(RESTORE_DIALOG_ID);
+          if (v.getId() == RESTORE_COMMAND_ID) {
+            if (MyApplication.backupExists()) {
+              MyApplication.backupRestore();
+              Intent i = getBaseContext().getPackageManager()
+                  .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+              i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              startActivity(i);
+            } else {
+              Toast.makeText(getBaseContext(),"No backup found", Toast.LENGTH_LONG).show();
+            }
+          }
+          finish();
+        }
+      },R.string.warning_restore,RESTORE_COMMAND_ID,null)
           .create();
     }
     return null;
