@@ -45,7 +45,7 @@ public class Backup extends Activity {
           if (MyApplication.backupExists()) {
             showDialog(RESTORE_DIALOG_ID);
           } else {
-            Toast.makeText(getBaseContext(),"No backup found", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
             finish();
           }
         }
@@ -92,7 +92,7 @@ public class Backup extends Activity {
               i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
               startActivity(i);
             } else {
-              Toast.makeText(getBaseContext(),"No backup found", Toast.LENGTH_LONG).show();
+              Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
             }
           }
           finish();

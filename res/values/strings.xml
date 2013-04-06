@@ -250,6 +250,8 @@
   <string name="pref_perform_share_summary">Should the QIF file be shared after each export?</string>
   <string name="pref_qif_export_file_encoding_title">Character encoding of the QIF file</string>
   <string name="pref_qif_export_file_encoding_summary">Set the character encoding to \"ISO-8859-1\" if you use MS Money</string>
+  <string name="pref_restore_title">Restore</string>
+  <string name="pref_restore_summary">Restore the backup from folder myexpenses on the sdcard.</string>
   <string name="pref_share_target_title">Upload URL QIF Export</string>
   <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate 
       apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes
@@ -261,7 +263,10 @@
   <string name="pref_use_standard_menu_title">Use standard Android menu</string>
   <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
       standard menu for accessing commands.</string>
+  <string name="restore_db_failure">Database restore failed</string>
   <string name="restore_db_success">Database has been restored from backup.</string>
+  <string name="restore_no_backup_found">No file BACKUP found in folder myexpenses on sdcard.</string>
+  <string name="restore_preferences_failure">Preferences restore failed</string>
   <string name="restore_preferences_success">Preferences have been restored from backup.</string>
   <string name="save_transaction_error">Could not save new transaction from template</string>
   <string name="save_transaction_success">New transaction successfully saved from template</string>

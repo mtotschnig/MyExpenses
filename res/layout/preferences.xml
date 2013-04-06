@@ -112,8 +112,8 @@
 	      <intent android:action="myexpenses.intent.backup"/>
     </PreferenceScreen>
     <PreferenceScreen android:key="restore"
-        android:title="Restore"
-        android:summary="restore">
+        android:title="@string/pref_restore_title"
+        android:summary="@string/pref_restore_summary">
         <intent android:action="myexpenses.intent.restore"/>
     </PreferenceScreen>
   </PreferenceCategory>
