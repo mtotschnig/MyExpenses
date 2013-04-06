@@ -1305,7 +1305,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       startActivityForResult(new Intent(MyExpenses.this, ManageAccounts.class),ACTIVITY_PREF);
       break;
     case R.id.BACKUP_COMMAND:
-      startActivityForResult(new Intent(MyExpenses.this, Backup.class),ACTIVITY_PREF);
+      startActivity(new Intent("myexpenses.intent.backup"));
       break;
     case R.id.WEB_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
