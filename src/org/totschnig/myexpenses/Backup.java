@@ -43,7 +43,8 @@ public class Backup extends Activity {
         else {
           //restore
           if (MyApplication.backupExists()) {
-            showDialog(RESTORE_DIALOG_ID);
+            showDialog(R.id.CONTRIB_DIALOG_ID);
+            //showDialog(RESTORE_DIALOG_ID);
           } else {
             Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
             finish();
@@ -99,6 +100,8 @@ public class Backup extends Activity {
         }
       },R.string.warning_restore,RESTORE_COMMAND_ID,null)
           .create();
+    case R.id.CONTRIB_DIALOG_ID:
+      return Utils.contribDialog(this);
     }
     return null;
   }

@@ -49,6 +49,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -90,6 +91,23 @@ public class Utils {
           ctx.showDialog(R.id.VERSION_DIALOG_ID);
       }
     }).create();
+  }
+  public static Dialog contribDialog(final Activity ctx) {
+    return createMessageDialogWithCustomButtons(new ContextThemeWrapper(ctx, MyApplication.getThemeId()) {
+      public void onDialogButtonClicked(View v) {
+        ctx.dismissDialog(R.id.CONTRIB_DIALOG_ID);
+        ctx.finish();
+        if (v.getId() == R.id.CONTRIB_PLAY_COMMAND_ID) {
+          Intent intent = new Intent(Intent.ACTION_VIEW);
+          intent.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
+          if (isIntentAvailable(ctx,intent)) {
+            ctx.startActivity(intent);
+          } else {
+            Toast.makeText(ctx.getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
+          }
+        }
+      }
+    }, R.string.dialog_contrib_reminder,R.id.CONTRIB_PLAY_COMMAND_ID,null, R.string.dialog_contrib_yes,R.string.dialog_contrib_no).create();
   }
   
   public static String getDefaultDecimalSeparator() {
@@ -359,13 +377,19 @@ public class Utils {
    * @return an AlertDialog.Builder with R.layout.messagedialog as layout
    */
   public static AlertDialog.Builder createMessageDialog(Context ctx, int message,int command,Object tag) {
+    return createMessageDialogWithCustomButtons(ctx,message,command,tag,android.R.string.yes,android.R.string.no);
+  }
+  /**
+   * @return an AlertDialog.Builder with R.layout.messagedialog as layout
+   */
+  public static AlertDialog.Builder createMessageDialogWithCustomButtons(Context ctx, int message,int command,Object tag, int yesButton, int noButton) {
     LayoutInflater li = LayoutInflater.from(ctx);
     View view = li.inflate(R.layout.messagedialog, null);
     TextView tv = (TextView)view.findViewById(R.id.message_text);
     tv.setText(message);
     setDialogTwoButtons(view,
-        android.R.string.yes,command,tag,
-        android.R.string.no,0,null
+        yesButton,command,tag,
+        noButton,0,null
     );
     return new AlertDialog.Builder(ctx)
       .setView(view);
