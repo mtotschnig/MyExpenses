@@ -54,7 +54,6 @@
   <string name="date_time">Tarih / Zaman</string>
   <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>    
   <string name="description">Açıklama</string>
-  <string name="dialog_confirm_delete_template">\"%1$s\" şablonu gerçekten silinsin mi?</string>
   <string name="dialog_title_select_account">Bir hesap seçin</string>
   <string name="dialog_title_select_import_source">İçe aktarım için bir kaynak seçin</string>
   <string name="dialog_title_select_color">Renk seçimi</string>

@@ -54,7 +54,6 @@
   <string name="date_time">Data / Hora</string>
   <string name="default_account_description">Aquest compte ha estat establert automáticament a l\'instal·lació.</string>
   <string name="description">Descripció</string>
-  <string name="dialog_confirm_delete_template">Segur que voleu suprimir la plantilla \"%1$s\" ?</string>
   <string name="dialog_title_select_account">Trieu el compte</string>
   <string name="dialog_title_select_color">Trieu un color</string>
   <string name="dialog_title_select_currency">Trieu la moneda</string>

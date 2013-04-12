@@ -56,7 +56,6 @@
   <string name="default_account_description">Esta cuenta ha sido establecida automáticamente durante
       la instalación.</string>    
   <string name="description">Descripción</string>
-  <string name="dialog_confirm_delete_template">¿De veras desea borrar plantilla \"%1$s\" ?</string>
   <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_color">Escoger un color</string>
   <string name="dialog_title_select_currency">Escoger una moneda</string>

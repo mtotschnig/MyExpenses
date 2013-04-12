@@ -56,7 +56,6 @@
       during installation</string>
   <string name="description">Description</string>
   <string name="dialog_confirm_restore_on_install">A backup file has been detected. Do you want to restore it?</string>
-  <string name="dialog_confirm_delete_template">Really delete template \"%1$s\" ?</string>
   <string name="dialog_contrib_reminder">\"%1$s\" is a contrib feature. You can access it by calling it a
   	second time. This dialog will go away if you install <i>&app_name; Contrib</i>.</string>
   <string name="dialog_contrib_yes">Buy</string>

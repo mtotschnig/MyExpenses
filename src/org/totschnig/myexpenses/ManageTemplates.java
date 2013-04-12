@@ -112,45 +112,6 @@ public class ManageTemplates extends ExpandableListActivity {
       return false;
     }
 
-  
-  /*
- @Override
-  public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-    //Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
-    mDeleteTemplateId = id;
-    Cursor childCursor = (Cursor) mAdapter.getChild(groupPosition,childPosition);
-    mDeleteTemplateTitle = childCursor.getString(childCursor.getColumnIndexOrThrow("title"));
-    showDialog(0);
-    return true;
-  }
-@Override
-  protected Dialog onCreateDialog(final int id) {
-    return new AlertDialog.Builder(this)
-    .setMessage(getString(R.string.dialog_confirm_delete_template,mDeleteTemplateTitle))
-    .setCancelable(false)
-    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-          mDbHelper.deleteTemplate(mDeleteTemplateId);
-          mAccountsCursor.requery();
-        }
-    })
-    .setNegativeButton(android.R.string.no, null).create();
-  }
- 
-  //safeguard for orientation change during dialog
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-   super.onSaveInstanceState(outState);
-   outState.putLong("DeleteTemplateId", mDeleteTemplateId);
-   outState.putString("DeleteTemplateTitle", mDeleteTemplateTitle);
-  }
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-   super.onRestoreInstanceState(savedInstanceState);
-   mDeleteTemplateId = savedInstanceState.getLong("DeleteTemplateId");
-   mDeleteTemplateTitle = savedInstanceState.getString("DeleteTemplateTitle");
-  }*/
-
   public class MyExpandableListAdapter extends SimpleCursorTreeAdapter2 {
     
     public MyExpandableListAdapter(Cursor cursor, Context context, int groupLayout,

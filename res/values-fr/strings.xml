@@ -56,7 +56,6 @@
   <string name="default_account_description">Ce compte a été créé automatiquement lors de
       l\'installation</string>
   <string name="description">Description</string>
-  <string name="dialog_confirm_delete_template">Voulez-vous vraimen supprimer le modèle \"%1$s\" ?</string>
   <string name="dialog_title_select_account">Sélectionner un compte</string>
   <string name="dialog_title_select_color">Sélectionner une couleur</string>
   <string name="dialog_title_select_currency">Sélectionner une devise</string>
