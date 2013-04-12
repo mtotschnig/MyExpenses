@@ -40,7 +40,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -48,6 +50,7 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.text.Html;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -92,7 +95,7 @@ public class Utils {
       }
     }).create();
   }
-  public static Dialog contribDialog(final Activity ctx) {
+  public static Dialog contribDialog(final Activity ctx,String feature) {
     return createMessageDialogWithCustomButtons(new ContextThemeWrapper(ctx, MyApplication.getThemeId()) {
       public void onDialogButtonClicked(View v) {
         ctx.dismissDialog(R.id.CONTRIB_DIALOG_ID);
@@ -107,7 +110,14 @@ public class Utils {
           }
         }
       }
-    }, R.string.dialog_contrib_reminder,R.id.CONTRIB_PLAY_COMMAND_ID,null, R.string.dialog_contrib_yes,R.string.dialog_contrib_no).create();
+    }, Html.fromHtml(String.format(ctx.getString(R.string.dialog_contrib_reminder,feature))),R.id.CONTRIB_PLAY_COMMAND_ID,null, R.string.dialog_contrib_yes,R.string.dialog_contrib_no)
+    .setOnCancelListener(new DialogInterface.OnCancelListener() {
+          @Override
+          public void onCancel(DialogInterface dialog) {
+            ctx.finish();
+          }
+        })
+    .create();
   }
   
   public static String getDefaultDecimalSeparator() {
@@ -382,7 +392,8 @@ public class Utils {
   /**
    * @return an AlertDialog.Builder with R.layout.messagedialog as layout
    */
-  public static AlertDialog.Builder createMessageDialogWithCustomButtons(Context ctx, int message,int command,Object tag, int yesButton, int noButton) {
+  public static AlertDialog.Builder createMessageDialogWithCustomButtons(
+      Context ctx, CharSequence message,int command,Object tag, int yesButton, int noButton) {
     LayoutInflater li = LayoutInflater.from(ctx);
     View view = li.inflate(R.layout.messagedialog, null);
     TextView tv = (TextView)view.findViewById(R.id.message_text);
@@ -393,6 +404,10 @@ public class Utils {
     );
     return new AlertDialog.Builder(ctx)
       .setView(view);
+  }
+  public static AlertDialog.Builder createMessageDialogWithCustomButtons(
+      Context ctx, int  message,int command,Object tag, int yesButton, int noButton) {
+    return createMessageDialogWithCustomButtons(ctx,ctx.getString(message),command,tag,yesButton,noButton);
   }
   /**
    * one button centered takes up 33% width
@@ -461,6 +476,15 @@ public class Utils {
                       PackageManager.MATCH_DEFAULT_ONLY);
       return list.size() > 0;
   }
+  public static boolean doesPackageExist(Context context,String targetPackage){
+    PackageManager pm=context.getPackageManager();
+    try {
+     PackageInfo info=pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
+        } catch (NameNotFoundException e) {
+     return false;
+     }  
+     return true;
+    }
 
   public static int getTextColorForBackground(int color) {
     int greyLevel = (int) (0.299 * Color.red(color)

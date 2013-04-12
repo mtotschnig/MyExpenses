@@ -32,6 +32,7 @@ public class Backup extends Activity {
   static final int BACKUP_COMMAND_ID = 1;
   static final int RESTORE_DIALOG_ID = 2;
   static final int RESTORE_COMMAND_ID = 2;
+  static boolean contribDialogShown = false;
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -43,8 +44,14 @@ public class Backup extends Activity {
         else {
           //restore
           if (MyApplication.backupExists()) {
-            showDialog(R.id.CONTRIB_DIALOG_ID);
-            //showDialog(RESTORE_DIALOG_ID);
+            if (Utils.doesPackageExist(this, "org.totschnig.myexpenses.contrib") || contribDialogShown) {
+              showDialog(RESTORE_DIALOG_ID);
+              contribDialogShown = false;
+            }
+            else {
+              showDialog(R.id.CONTRIB_DIALOG_ID);
+              contribDialogShown = true;
+            }
           } else {
             Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
             finish();
@@ -80,7 +87,13 @@ public class Backup extends Activity {
           finish();
         }
       },message,BACKUP_COMMAND_ID,null)
-          .create();
+      .setOnCancelListener(new DialogInterface.OnCancelListener() {
+          @Override
+          public void onCancel(DialogInterface dialog) {
+            finish();
+          }
+        })
+      .create();
     case RESTORE_DIALOG_ID:
       return Utils.createMessageDialog(new ContextThemeWrapper(this, MyApplication.getThemeId()) {
         public void onDialogButtonClicked(View v) {
@@ -99,9 +112,15 @@ public class Backup extends Activity {
           finish();
         }
       },R.string.warning_restore,RESTORE_COMMAND_ID,null)
-          .create();
+      .setOnCancelListener(new DialogInterface.OnCancelListener() {
+          @Override
+          public void onCancel(DialogInterface dialog) {
+            finish();
+          }
+        })
+      .create();
     case R.id.CONTRIB_DIALOG_ID:
-      return Utils.contribDialog(this);
+      return Utils.contribDialog(this,getString(R.string.pref_restore_title));
     }
     return null;
   }
