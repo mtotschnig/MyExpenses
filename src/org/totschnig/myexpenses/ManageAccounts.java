@@ -146,6 +146,10 @@ public class ManageAccounts extends ListActivity {
           setConvertedAmount((TextView)row.findViewById(R.id.sum_expenses), currency);
           setConvertedAmount((TextView)row.findViewById(R.id.sum_transfer), currency);
           setConvertedAmount((TextView)row.findViewById(R.id.current_balance), currency);
+          col = c.getColumnIndex("description");
+          String description = c.getString(col);
+          if (description.equals(""))
+            row.findViewById(R.id.description).setVisibility(View.GONE);
           return row;
         }
     };
