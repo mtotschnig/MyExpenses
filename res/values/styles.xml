@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <style name="ThemeDark" parent="@android:style/Theme.Black">
+  <style name="ThemeDark" parent="@android:style/Theme.Black.NoTitleBar">
     <item name="headingStyle">@style/headingStyle</item>
     <item name="headingStyleApp">@style/headingStyleApp</item>
     <item name="listStyle">@style/listDark</item>

@@ -90,14 +90,8 @@ public class MyApplication extends Application {
     }
     public static void updateUIWithColor(Activity ctx,int color) {
       int textColor = Utils.getTextColorForBackground(color);
-      View heading = ctx.findViewById(R.id.heading);
-      if (heading == null) {
-        heading = ctx.getWindow().findViewById(android.R.id.title);
-        ((TextView) heading).setTextColor(textColor);
-      } else {
-        ((TextView) heading.findViewById(R.id.label)).setTextColor(textColor);
-        ((TextView) heading.findViewById(R.id.end)).setTextColor(textColor);
-      }
+      View heading = ctx.getWindow().findViewById(android.R.id.title);
+      ((TextView) heading).setTextColor(textColor);
       ((View) heading.getParent()).setBackgroundColor(color);
       View divider = ctx.findViewById(R.id.ButtonBarDividerTop);
       if (divider != null) {
