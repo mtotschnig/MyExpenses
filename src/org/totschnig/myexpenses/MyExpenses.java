@@ -38,7 +38,6 @@ import org.totschnig.myexpenses.ButtonBar.MenuButton;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -51,7 +50,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -65,10 +63,11 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -124,9 +123,9 @@ public class MyExpenses extends Activity
 
   private Account mCurrentAccount;
   
-  private void setmCurrentAccount(Account mCurrentAccount) {
+  private void setCurrentAccount(Account mCurrentAccount) {
     this.mCurrentAccount = mCurrentAccount;
-    //MyApplication.setCurrentAccountColor(mCurrentAccount.color);
+    MyApplication.setCurrentAccountColor(mCurrentAccount.color);
   }
   private SharedPreferences mSettings;
   private Cursor mAccountsCursor;
@@ -193,7 +192,7 @@ public class MyExpenses extends Activity
    */
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(MyApplication.getThemeIdNoTitle());
     super.onCreate(savedInstanceState);
     //boolean titled = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     setContentView(R.layout.viewpager);
@@ -212,15 +211,6 @@ public class MyExpenses extends Activity
   private void setup() {
     mDbHelper = MyApplication.db();
     newVersionCheck();
-    if (mCurrentAccount == null) {
-      long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
-      try {
-        setmCurrentAccount(Account.getInstanceFromDb(account_id));
-      } catch (DataObjectNotFoundException e) {
-        //for any reason the account stored in pref no longer exists
-        setmCurrentAccount(requireAccount());
-      }
-    }
     mAccountsCursor = mDbHelper.fetchAccountAll();
     startManagingCursor(mAccountsCursor);
     //MyApplication.updateUIWithAccountColor(this);
@@ -231,8 +221,6 @@ public class MyExpenses extends Activity
     } else {
       fillButtons();
     }
-    fillData();
-    //registerForContextMenu(getListView());
     mSettings.registerOnSharedPreferenceChangeListener(this);
 
     Resources.Theme theme = getTheme();
@@ -245,6 +233,28 @@ public class MyExpenses extends Activity
     myPager = (ViewPager) this.findViewById(R.id.viewpager);
     myPager.setAdapter(this.myAdapter);
     myPager.setOnPageChangeListener(this);
+    if (mCurrentAccount == null) {
+      long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
+      try {
+        setCurrentAccount(Account.getInstanceFromDb(account_id));
+      } catch (DataObjectNotFoundException e) {
+        //for any reason the account stored in pref no longer exists
+        setCurrentAccount(requireAccount());
+      }
+    }
+    moveToCurrentAccount();
+  }
+  private void moveToCurrentAccount() {
+    mAccountsCursor.moveToFirst();
+    int currentPosition = 0;
+    while (mAccountsCursor.isAfterLast() == false) {
+      if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)) == mCurrentAccount.id) {
+        currentPosition = mAccountsCursor.getPosition();
+      }
+      mAccountsCursor.moveToNext();
+    }
+    myPager.setCurrentItem(currentPosition);
+    updateUIforCurrentAccount();
   }
   private void fillSwitchButton() {
     mSwitchButton.clearMenu();
@@ -347,7 +357,7 @@ public class MyExpenses extends Activity
   private void fillData() {
     //setTitle(mCurrentAccount.label);
     //setCurrentBalance(); 
-    //configButtons();
+    configButtons();
   }
 
   private void setCurrentBalance() {
@@ -357,7 +367,7 @@ public class MyExpenses extends Activity
   
   private void configButtons() {
     if (!mUseStandardMenu) {
-      mResetButton.setEnabled(mExpensesCursor.getCount() > 0);
+      mResetButton.setEnabled(mCurrentAccount.getSize() > 0);
       fillSwitchButton();
       fillAddButton();
     }
@@ -424,15 +434,20 @@ public class MyExpenses extends Activity
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == ACTIVITY_CREATE_ACCOUNT && resultCode == RESULT_OK && intent != null) {
          switchAccount(intent.getLongExtra("account_id",0));
+         mAccountsCursor.requery();
+         myAdapter.notifyDataSetChanged();
          return;
     }
     //we call fillData when returning from ACTIVITY_PREF with RESULT_CANCEL,
     //since we might have edited accounts from there
     if (resultCode == RESULT_OK || requestCode == ACTIVITY_PREF) {
-      fillData();
-      MyApplication.setCurrentAccountColor(mCurrentAccount.color);
-      MyApplication.updateUIWithAccountColor(this);
+      mAccountsCursor.requery();
+      myAdapter.notifyDataSetChanged();
     }
+//      fillData();
+//      MyApplication.setCurrentAccountColor(mCurrentAccount.color);
+//      MyApplication.updateUIWithAccountColor(this);
+//    }
   }
   
   @Override
@@ -452,14 +467,14 @@ public class MyExpenses extends Activity
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
-      long transfer_peer = mExpensesCursor.getLong(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
+      long transfer_peer = Transaction.getInstanceFromDb(info.id).transfer_peer;
       if (transfer_peer == 0) {
         Transaction.delete(info.id);
       }
       else {
         Transfer.delete(info.id,transfer_peer);
       }
+      myAdapter.notifyDataSetChanged();
       fillData();
       return true;
     case R.id.SHOW_DETAIL_COMMAND:
@@ -770,13 +785,14 @@ public class MyExpenses extends Activity
     }
     if (accountId != 0) {
       try {
-        setmCurrentAccount(Account.getInstanceFromDb(accountId));
+        setCurrentAccount(Account.getInstanceFromDb(accountId));
+        moveToCurrentAccount();
         Toast.makeText(getBaseContext(),getString(R.string.switch_account,mCurrentAccount.label), Toast.LENGTH_SHORT).show();
         mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
           .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, current_account_id)
           .commit();
-        fillData();
-        MyApplication.updateUIWithAccountColor(this);
+        //fillData();
+        //MyApplication.updateUIWithAccountColor(this);
       } catch (DataObjectNotFoundException e) {
         //should not happen
         Log.w("MyExpenses","unable to switch to account " + accountId);
@@ -929,21 +945,6 @@ public class MyExpenses extends Activity
     }
   }
 
-  /* (non-Javadoc)
-   * calls ExpenseEdit with a given rowid
-   * @see android.app.ListActivity#onListItemClick(android.widget.ListView, android.view.View, int, long)
-   */
-//  @Override
-//  protected void onListItemClick(ListView l, View v, int position, long id) {
-//    super.onListItemClick(l, v, position, id);
-///*    boolean operationType = mExpensesCursor.getLong(
-//        mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER)) == 0;*/
-//    Intent i = new Intent(this, ExpenseEdit.class);
-//    i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
-//    //i.putExtra("operationType", operationType);
-//    startActivityForResult(i, ACTIVITY_EDIT);
-//  }
-
   /**
    * if there are already accounts defined, return the first one
    * otherwise create a new account, and return it
@@ -990,7 +991,7 @@ public class MyExpenses extends Activity
       return;
     if (prev_version == -1) {
       //we check if we already have an account
-      setmCurrentAccount(requireAccount());
+      setCurrentAccount(requireAccount());
 
       edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
@@ -1258,6 +1259,7 @@ public class MyExpenses extends Activity
           showDialogWrapper(SELECT_TEMPLATE_DIALOG_ID);
       } else {
         Transaction.getInstanceFromTemplate((Long) tag).save();
+        myAdapter.notifyDataSetChanged();
         fillData();
       }
       break;
@@ -1308,8 +1310,7 @@ public class MyExpenses extends Activity
   @Override
   public boolean onLongClick(View v) {
     if (v instanceof MenuButton) {
-      int height = (mExpensesCursor.getCount() > 0 ? findViewById(android.R.id.list) : findViewById(android.R.id.empty))
-          .getHeight();
+      int height = myPager.getHeight();
       MenuButton mb = (MenuButton) v;
       dw = mb.getMenu(height);
       if (dw == null)
@@ -1338,7 +1339,6 @@ public class MyExpenses extends Activity
       mUseStandardMenu = newValueB;
     }
     if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
-      MyApplication.setThemes();
       scheduledRestart = true;
     }
   }
@@ -1366,7 +1366,10 @@ public class MyExpenses extends Activity
     public void destroyItem(View collection, int position, Object view) {
       ((ViewPager) collection).removeView((View) view);
     }
-
+    @Override
+    public int getItemPosition(Object object) {
+      return POSITION_NONE;
+  }
     @Override
     public int getCount() {
       return mAccountsCursor.getCount(); // Number of pages usually set with .length() or .size()
@@ -1399,7 +1402,7 @@ public class MyExpenses extends Activity
         throw new RuntimeException(e);
       }
       mExpensesCursor = mDbHelper.fetchTransactionAll(accountId);
-      startManagingCursor(mExpensesCursor);
+      //startManagingCursor(mExpensesCursor);
       final LayoutInflater inflater = (LayoutInflater) MyExpenses.this
           .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       View v = inflater.inflate(R.layout.expenses_list, null, false);
@@ -1488,6 +1491,18 @@ public class MyExpenses extends Activity
         }
       });
       lv.setEmptyView(v.findViewById(R.id.empty));
+      lv.setOnItemClickListener(new OnItemClickListener()
+      {
+           @Override
+           public void onItemClick(AdapterView<?> a, View v,int position, long id)
+           {
+             Intent i = new Intent(MyExpenses.this, ExpenseEdit.class);
+             i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
+             //i.putExtra("operationType", operationType);
+             startActivityForResult(i, ACTIVITY_EDIT);
+           }
+      });
+      registerForContextMenu(lv);
       ((ViewPager) collection).addView(v, 0);
       return v;
     }
@@ -1514,21 +1529,23 @@ public class MyExpenses extends Activity
   }
   @Override
   public void onPageSelected(int position) {
-    // TODO Auto-generated method stub
-    Account account;
     mAccountsCursor.moveToPosition(position);
     long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
     try {
-      account = Account.getInstanceFromDb(accountId);
+      setCurrentAccount(Account.getInstanceFromDb(accountId));
     } catch (DataObjectNotFoundException e) {
       // this should not happen, since we got the account_id from db
       e.printStackTrace();
       throw new RuntimeException(e);
     }
+    updateUIforCurrentAccount();
+  }
+  public void updateUIforCurrentAccount() {
     View divider = findViewById(R.id.ButtonBarDividerTop);
     if (divider != null) {
-      divider.setBackgroundColor(account.color);
-      findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(account.color);
+      divider.setBackgroundColor(mCurrentAccount.color);
+      findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(mCurrentAccount.color);
     }
+    configButtons();
   }
 }

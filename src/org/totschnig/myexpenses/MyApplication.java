@@ -20,10 +20,8 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +34,6 @@ public class MyApplication extends Application {
     private String databaseName;
     private ExpensesDbAdapter mDbOpenHelper;
     private static MyApplication mSelf;
-    private static int themeId;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
     public static String PREFKEY_CATEGORIES_SORT_BY_USAGES;
     public static String PREFKEY_USE_STANDARD_MENU;
@@ -74,7 +71,6 @@ public class MyApplication extends Application {
         PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
         PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
         //mDbOpenHelper = db();
-        setThemes();
     }
     public static void setCurrentAccountColor(int currentAccountColor) {
       MyApplication.currentAccountColor = currentAccountColor;
@@ -148,17 +144,15 @@ public class MyApplication extends Application {
     }
     public static int getThemeId()
     {
-      return themeId;
+      return mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light") ?
+          R.style.ThemeLight : R.style.ThemeDark;
     }
-    public static void setThemes()
-    {
-      String themePref = mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark");
-      if (themePref.equals("light")) {
-        themeId = R.style.ThemeLight;
-      } else {
-        themeId = R.style.ThemeDark;
-      }
+
+    public static int getThemeIdNoTitle() {
+      return mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light") ?
+          R.style.ThemeLight_NoTitle : R.style.ThemeDark_NoTitle;
     }
+
     public static File getBackupDbFile() {
       File appDir = Utils.requireAppDir();
       if (appDir == null)

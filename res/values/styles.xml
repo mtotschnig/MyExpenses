@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <style name="ThemeDark" parent="@android:style/Theme.Black.NoTitleBar">
+  <style name="ThemeDark" parent="@android:style/Theme.Black">
     <item name="headingStyle">@style/headingStyle</item>
     <item name="headingStyleApp">@style/headingStyleApp</item>
     <item name="listStyle">@style/listDark</item>
@@ -33,6 +33,9 @@
     <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
     <item name="colorIncome">#00D000</item>
     <item name="colorExpense">#FF0000</item>
+  </style>
+  <style name="ThemeDark.NoTitle" parent="ThemeDark">
+    <item name="android:windowNoTitle">true</item>
   </style>
   <style name="ThemeLight" parent="@android:style/Theme.Light">
     <item name="headingStyle">@style/headingLight</item>
@@ -54,6 +57,9 @@
     <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
     <item name="colorIncome">#008000</item>
     <item name="colorExpense">#800000</item>
+  </style>
+  <style name="ThemeLight.NoTitle" parent="ThemeLight">
+    <item name="android:windowNoTitle">true</item>
   </style>
   <style name="buttonBarDark">
      <item name="android:background">#000000</item>
