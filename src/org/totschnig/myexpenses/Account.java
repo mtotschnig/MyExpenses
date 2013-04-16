@@ -284,13 +284,15 @@ public class Account {
    * @param mDbHelper the database helper used in the activity
    */
   public Account() {
-    this.openingBalance = new Money(null,(long) 0);
-    this.type = Type.CASH;
-    this.color = defaultColor;
+    this("",(long)0,"");
   }
-  public Account(String label, long openingBalance, String description, Currency currency) {
+  public Account(String label, long openingBalance, String description) {
+    try {
+      this.currency = Currency.getInstance(Locale.getDefault());
+    } catch (IllegalArgumentException e) {
+      this.currency = Currency.getInstance("EUR");
+    }
     this.label = label;
-    this.currency = currency;
     this.openingBalance = new Money(currency,openingBalance);
     this.description = description;
     this.type = Type.CASH;

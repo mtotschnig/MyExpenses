@@ -302,22 +302,17 @@ public class AccountEdit extends EditActivity {
       setTitle(R.string.menu_edit_account);
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);
-      BigDecimal amount;
-      if (mMinorUnitP) {
-        amount = new BigDecimal(mAccount.openingBalance.getAmountMinor());
-      } else {
-        amount = mAccount.openingBalance.getAmountMajor();
-      }
-      mAmountText.setText(nfDLocal.format(amount));
-      mCurrencyText.setText(mAccount.currency.getCurrencyCode());
     } else {
       mAccount = new Account();
-      setTitle(R.string.menu_insert_account);
-      Locale l = Locale.getDefault();
-      Currency c = Currency.getInstance(l);
-      String s = c.getCurrencyCode();
-      mCurrencyText.setText(s);
     }
+    BigDecimal amount;
+    if (mMinorUnitP) {
+      amount = new BigDecimal(mAccount.openingBalance.getAmountMinor());
+    } else {
+      amount = mAccount.openingBalance.getAmountMajor();
+    }
+    mAmountText.setText(nfDLocal.format(amount));
+    mCurrencyText.setText(mAccount.currency.getCurrencyCode());
     mAccountType = mAccount.type;
     mTypeButton.setText(mAccountType.getDisplayName(this));
     mAccountColor = mAccount.color;
