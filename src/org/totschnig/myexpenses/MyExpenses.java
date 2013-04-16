@@ -1519,6 +1519,9 @@ public class MyExpenses extends Activity
   public void onPageSelected(int position) {
     mAccountsCursor.moveToPosition(position);
     long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+    mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
+    .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, mCurrentAccount.id)
+    .commit();
     try {
       setCurrentAccount(Account.getInstanceFromDb(accountId));
     } catch (DataObjectNotFoundException e) {
