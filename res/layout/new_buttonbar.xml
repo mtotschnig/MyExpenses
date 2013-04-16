@@ -34,6 +34,11 @@
         android:longClickable="true"
         android:id="@+id/addOperation"
         android:drawableLeft="@android:drawable/ic_menu_add" />
+    <Button
+        android:text="AGGREGATE"
+        style="@style/button"
+        android:visibility="gone"
+        android:id="@+id/aggregate" />
     </LinearLayout>
   </RelativeLayout>
   <include android:id="@+id/ButtonBarDividerBottom" layout="@layout/divider_thick"/>

@@ -827,6 +827,25 @@ public class ExpensesDbAdapter {
     }
     return mCursor;
   }
+  public Cursor fetchCurrenciesHavingMultipleAccounts() throws SQLException {
+    Cursor mCursor = 
+      mDb.query("(select currency,opening_balance,"+
+        "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0 and transfer_peer = 0) as sum_expenses," +
+        "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount>0 and transfer_peer = 0) as sum_income," +
+        "opening_balance + (SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id) as current_balance " +
+        "from accounts) as t",
+        new String[] {"1 as _id","currency",
+          "sum(opening_balance) as opening_balance",
+          "sum(sum_income) as sum_income",
+          "sum(sum_expenses) as sum_expenses",
+          "sum(current_balance) as current_balance"
+        },
+        null,null,"currency", "count(*) > 1", null, null);
+      if (mCursor != null) {
+        mCursor.moveToFirst();
+      }
+      return mCursor;
+  }
 
   /**
    * updates the opening balance of an account

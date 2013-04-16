@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,10 +52,13 @@ public class ManageAccounts extends ListActivity {
   private static final int DELETE_COMMAND_ID = 1;
   private ExpensesDbAdapter mDbHelper;
   Cursor mAccountsCursor;
+  Cursor mCurrencyCursor;
   long mCurrentAccount;
-  private Button mAddButton;
+  private Button mAddButton, mAggregateButton;
   private long mContextAccountId;
   static final int DELETE_DIALOG_ID = 1;
+  static final int AGGREGATE_DIALOG_ID = 2;
+  private int mCurrentDialog = 0;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,17 @@ public class ManageAccounts extends ListActivity {
         .getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
     fillData();
     mAddButton = (Button) findViewById(R.id.addOperation);
+    mAggregateButton = (Button) findViewById(R.id.aggregate);
+    mAggregateButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        showDialogWrapper(AGGREGATE_DIALOG_ID);
+      }
+    });
+    mCurrencyCursor = mDbHelper.fetchCurrenciesHavingMultipleAccounts();
+    if (mCurrencyCursor.getCount() > 0) {
+      mAggregateButton.setVisibility(View.VISIBLE);
+    }
     mAddButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -77,6 +92,7 @@ public class ManageAccounts extends ListActivity {
         startActivityForResult(i, ACTIVITY_CREATE);
       }
     });
+    
     registerForContextMenu(getListView());
   }
   
@@ -99,15 +115,62 @@ public class ManageAccounts extends ListActivity {
     switch (id) {
     case DELETE_DIALOG_ID:
       return Utils.createMessageDialog(this,R.string.warning_delete_account,DELETE_COMMAND_ID,null).create();
+    case AGGREGATE_DIALOG_ID:
+      LayoutInflater li = LayoutInflater.from(this);
+      View view = li.inflate(R.layout.aggregate_dialog, null);
+      Utils.setDialogOneButton(view,
+          android.R.string.ok,0,null);
+      ListView listView = (ListView) view.findViewById(R.id.list);
+      // Create an array to specify the fields we want to display in the list
+      String[] from = new String[]{"currency","opening_balance","sum_income","sum_expenses","current_balance"};
+
+      // and an array of the fields we want to bind those fields to 
+      int[] to = new int[]{R.id.currency,R.id.opening_balance,R.id.sum_income,R.id.sum_expenses,R.id.current_balance};
+
+      // Now create a simple cursor adapter and set it to display
+      SimpleCursorAdapter currency = new SimpleCursorAdapter(this, R.layout.aggregate_row, mCurrencyCursor, from, to) {
+          @Override
+          public View getView(int position, View convertView, ViewGroup parent) {
+            View row=super.getView(position, convertView, parent);
+            Cursor c = getCursor();
+            c.moveToPosition(position);
+            int col = c.getColumnIndex("currency");
+            String currencyStr = c.getString(col);
+            Currency currency;
+            try {
+              currency = Currency.getInstance(currencyStr);
+            } catch (IllegalArgumentException e) {
+              currency = Currency.getInstance(Locale.getDefault());
+            }
+            setConvertedAmount((TextView)row.findViewById(R.id.opening_balance), currency);
+            setConvertedAmount((TextView)row.findViewById(R.id.sum_income), currency);
+            setConvertedAmount((TextView)row.findViewById(R.id.sum_expenses), currency);
+            setConvertedAmount((TextView)row.findViewById(R.id.current_balance), currency);
+            return row;
+          }
+      };
+      listView.setAdapter(currency);
+      return new AlertDialog.Builder(this)
+      .setTitle("Total")
+      .setView(view)
+      .create();
     }
     return null;
   }
   public void onDialogButtonClicked(View v) {
-    dismissDialog(DELETE_DIALOG_ID);
+    if (mCurrentDialog != 0)
+      dismissDialog(mCurrentDialog);
     if (v.getId() == DELETE_COMMAND_ID) {
       Account.delete(mContextAccountId);
       fillData();
     }
+  }
+  /**
+   * @param id we store the dialog id, so that we can dismiss it in our generic button handler
+   */
+  public void showDialogWrapper(int id) {
+    mCurrentDialog = id;
+    showDialog(id);
   }
   private void fillData () {
     if (mAccountsCursor == null) {
@@ -179,7 +242,7 @@ public class ManageAccounts extends ListActivity {
     case DELETE_ID:
       //passing a bundle to showDialog is available only with API level 8
       mContextAccountId = info.id;
-      showDialog(DELETE_DIALOG_ID);
+      showDialogWrapper(DELETE_DIALOG_ID);
       //mDbHelper.deleteAccount(info.id);
       //fillData();
       return true;
@@ -191,10 +254,12 @@ public class ManageAccounts extends ListActivity {
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
    outState.putLong("contextAccountId", mContextAccountId);
+   outState.putInt("currentDialog",mCurrentDialog);
   }
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
    super.onRestoreInstanceState(savedInstanceState);
    mContextAccountId = savedInstanceState.getLong("contextAccountId");
+   mCurrentDialog = savedInstanceState.getInt("currentDialog");
   }
 }
