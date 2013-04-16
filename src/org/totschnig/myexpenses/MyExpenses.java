@@ -389,7 +389,7 @@ public class MyExpenses extends Activity
     menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
       .setVisible(transfersEnabledP());
     menu.findItem(R.id.RESET_ACCOUNT_COMMAND)
-      .setVisible(mExpensesCursor.getCount() > 0);
+      .setVisible(mCurrentAccount.getSize() > 0);
     menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
       .setVisible(mDbHelper.getTemplateCount(mCurrentAccount.id) > 0);
     return true;
@@ -478,27 +478,21 @@ public class MyExpenses extends Activity
       fillData();
       return true;
     case R.id.SHOW_DETAIL_COMMAND:
-      mExpensesCursor.moveToPosition(info.position);
-      String comment = mExpensesCursor.getString(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
-      String payee =  mExpensesCursor.getString(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE));
-      Long methodId = mExpensesCursor.getLong(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_METHODID));
+      Transaction t = Transaction.getInstanceFromDb(info.id);
       String method = "";
-      if (methodId != 0) {
+      if (t.methodId != 0) {
         try {
-          method= PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel(this);
+          method= PaymentMethod.getInstanceFromDb(t.methodId).getDisplayLabel(this);
         } catch (DataObjectNotFoundException e) {
         }
       }
-      String msg =  ((comment != null && comment.length() != 0) ?
-          comment : "");
-      if (payee != null && payee.length() != 0) {
+      String msg =  ((t.comment != null && t.comment.length() != 0) ?
+          t.comment : "");
+      if (t.payee != null && t.payee.length() != 0) {
         if (!msg.equals("")) {
           msg += "\n";
         }
-        msg += getString(R.string.payee) + ": " + payee;
+        msg += getString(R.string.payee) + ": " + t.payee;
       }
       if (!method.equals("")) {
         if (!msg.equals("")) {
