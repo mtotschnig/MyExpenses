@@ -229,10 +229,13 @@ public class MyExpenses extends Activity
     colorExpense = color.data;
     theme.resolveAttribute(R.attr.colorIncome,color, true);
     colorIncome = color.data;
+    theme.resolveAttribute(R.attr.pageMargin,color, true);
     myAdapter = new MyViewPagerAdapter();
     myPager = (ViewPager) this.findViewById(R.id.viewpager);
     myPager.setAdapter(this.myAdapter);
     myPager.setOnPageChangeListener(this);
+    myPager.setPageMargin(10);
+    myPager.setPageMarginDrawable(color.resourceId);
     if (mCurrentAccount == null) {
       long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
       try {
