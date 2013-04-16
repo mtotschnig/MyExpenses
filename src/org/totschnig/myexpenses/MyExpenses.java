@@ -438,7 +438,7 @@ public class MyExpenses extends Activity
     if (resultCode == RESULT_OK || requestCode == ACTIVITY_PREF) {
       mAccountsCursor.requery();
       myAdapter.notifyDataSetChanged();
-      configButtons();
+      updateUIforCurrentAccount();
     }
   }
   
