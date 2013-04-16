@@ -81,7 +81,7 @@ public class ManageAccounts extends ListActivity {
         showDialogWrapper(AGGREGATE_DIALOG_ID);
       }
     });
-    mCurrencyCursor = mDbHelper.fetchCurrenciesHavingMultipleAccounts();
+    mCurrencyCursor = mDbHelper.fetchAggregatesForCurrenciesHavingMultipleAccounts();
     if (mCurrencyCursor.getCount() > 0) {
       mAggregateButton.setVisibility(View.VISIBLE);
     }

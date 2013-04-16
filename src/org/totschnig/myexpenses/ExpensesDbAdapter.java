@@ -827,7 +827,7 @@ public class ExpensesDbAdapter {
     }
     return mCursor;
   }
-  public Cursor fetchCurrenciesHavingMultipleAccounts() throws SQLException {
+  public Cursor fetchAggregatesForCurrenciesHavingMultipleAccounts() throws SQLException {
     Cursor mCursor = 
       mDb.query("(select currency,opening_balance,"+
         "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0 and transfer_peer = 0) as sum_expenses," +
