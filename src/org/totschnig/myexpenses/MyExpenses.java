@@ -354,14 +354,6 @@ public class MyExpenses extends Activity
     if (dw != null)
     dw.dismiss();
   }
-  /**
-   * binds the Cursor for all expenses to the list view
-   */
-  private void fillData() {
-    //setTitle(mCurrentAccount.label);
-    //setCurrentBalance(); 
-    configButtons();
-  }
 
   private void setCurrentBalance() {
     ((TextView) findViewById(R.id.label)).setText(mCurrentAccount.label);
@@ -436,21 +428,18 @@ public class MyExpenses extends Activity
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == ACTIVITY_CREATE_ACCOUNT && resultCode == RESULT_OK && intent != null) {
-         switchAccount(intent.getLongExtra("account_id",0));
          mAccountsCursor.requery();
          myAdapter.notifyDataSetChanged();
+         switchAccount(intent.getLongExtra("account_id",0));
          return;
     }
-    //we call fillData when returning from ACTIVITY_PREF with RESULT_CANCEL,
+    //we refresh when returning from ACTIVITY_PREF with RESULT_CANCEL,
     //since we might have edited accounts from there
     if (resultCode == RESULT_OK || requestCode == ACTIVITY_PREF) {
       mAccountsCursor.requery();
       myAdapter.notifyDataSetChanged();
+      configButtons();
     }
-//      fillData();
-//      MyApplication.setCurrentAccountColor(mCurrentAccount.color);
-//      MyApplication.updateUIWithAccountColor(this);
-//    }
   }
   
   @Override
@@ -478,7 +467,7 @@ public class MyExpenses extends Activity
         Transfer.delete(info.id,transfer_peer);
       }
       myAdapter.notifyDataSetChanged();
-      fillData();
+      configButtons();
       return true;
     case R.id.SHOW_DETAIL_COMMAND:
       Transaction t = Transaction.getInstanceFromDb(info.id);
@@ -597,7 +586,8 @@ public class MyExpenses extends Activity
             }
             else {
               mDbHelper.moveTransaction(mSelectAccountContextId,accountIds[item]);
-              fillData();
+              myAdapter.notifyDataSetChanged();
+              configButtons();
             }
           }
         })
@@ -654,7 +644,8 @@ public class MyExpenses extends Activity
             //or account is switched
             removeDialog(SELECT_TEMPLATE_DIALOG_ID);
             Transaction.getInstanceFromTemplate(templateIds[item]).save();
-            fillData();
+            myAdapter.notifyDataSetChanged();
+            configButtons();
           }
         })
         .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -788,8 +779,6 @@ public class MyExpenses extends Activity
         mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
           .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, current_account_id)
           .commit();
-        //fillData();
-        //MyApplication.updateUIWithAccountColor(this);
       } catch (DataObjectNotFoundException e) {
         //should not happen
         Log.w("MyExpenses","unable to switch to account " + accountId);
@@ -821,6 +810,7 @@ public class MyExpenses extends Activity
         mSettings.getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
     String header = "!Type:" + mCurrentAccount.type.getQifName() + "\n";
     out.write(header);
+    mExpensesCursor = mDbHelper.fetchTransactionAll(mCurrentAccount.id);
     mExpensesCursor.moveToFirst();
     while( mExpensesCursor.getPosition() < mExpensesCursor.getCount() ) {
       String comment = mExpensesCursor.getString(
@@ -934,7 +924,8 @@ public class MyExpenses extends Activity
     try {
       if (exportAll()) {
         mCurrentAccount.reset();
-        fillData();
+        myAdapter.notifyDataSetChanged();
+        configButtons();
       }
     } catch (IOException e) {
       Log.e("MyExpenses",e.getMessage());
@@ -1257,7 +1248,7 @@ public class MyExpenses extends Activity
       } else {
         Transaction.getInstanceFromTemplate((Long) tag).save();
         myAdapter.notifyDataSetChanged();
-        fillData();
+        configButtons();
       }
       break;
     case R.id.MORE_ACTION_COMMAND:
