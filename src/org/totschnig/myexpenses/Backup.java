@@ -88,11 +88,11 @@ public class Backup extends Activity {
         }
       },message,BACKUP_COMMAND_ID,null)
       .setOnCancelListener(new DialogInterface.OnCancelListener() {
-          @Override
-          public void onCancel(DialogInterface dialog) {
-            finish();
-          }
-        })
+        @Override
+        public void onCancel(DialogInterface dialog) {
+          finish();
+        }
+      })
       .create();
     case RESTORE_DIALOG_ID:
       return Utils.createMessageDialog(new ContextThemeWrapper(this, MyApplication.getThemeId()) {
@@ -113,11 +113,11 @@ public class Backup extends Activity {
         }
       },R.string.warning_restore,RESTORE_COMMAND_ID,null)
       .setOnCancelListener(new DialogInterface.OnCancelListener() {
-          @Override
-          public void onCancel(DialogInterface dialog) {
-            finish();
-          }
-        })
+        @Override
+        public void onCancel(DialogInterface dialog) {
+          finish();
+        }
+      })
       .create();
     case R.id.CONTRIB_DIALOG_ID:
       return Utils.contribDialog(this,getString(R.string.pref_restore_title));

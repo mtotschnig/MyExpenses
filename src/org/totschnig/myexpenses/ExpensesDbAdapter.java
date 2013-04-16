@@ -1126,4 +1126,12 @@ public class ExpensesDbAdapter {
   public long getTemplateCountPerMethod(long methodId) {
     return getCountFromQuery("templates WHERE " + KEY_METHODID +" = " + methodId);
   }
+  /**
+   * @param cat_id
+   * @return number of transactions linked to a method
+   */
+  public long getTransactionCountPerAccount(long accountId) {
+    return getCountFromQuery( DATABASE_TABLE +
+        " WHERE " + KEY_ACCOUNTID +" = " + accountId);
+  }
 }

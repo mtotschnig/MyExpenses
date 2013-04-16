@@ -33,6 +33,10 @@
     <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
     <item name="colorIncome">#00D000</item>
     <item name="colorExpense">#FF0000</item>
+    <item name="pageMargin">@android:color/white</item>
+  </style>
+  <style name="ThemeDark.NoTitle" parent="ThemeDark">
+    <item name="android:windowNoTitle">true</item>
   </style>
   <style name="ThemeLight" parent="@android:style/Theme.Light">
     <item name="headingStyle">@style/headingLight</item>
@@ -54,6 +58,10 @@
     <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
     <item name="colorIncome">#008000</item>
     <item name="colorExpense">#800000</item>
+    <item name="pageMargin">@android:color/black</item>
+  </style>
+  <style name="ThemeLight.NoTitle" parent="ThemeLight">
+    <item name="android:windowNoTitle">true</item>
   </style>
   <style name="buttonBarDark">
      <item name="android:background">#000000</item>

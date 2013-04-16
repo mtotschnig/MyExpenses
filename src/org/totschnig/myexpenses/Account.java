@@ -385,5 +385,8 @@ public class Account {
       accounts.put(id, this);
     return id;
   }
+  public long getSize() {
+    return mDbHelper.getTransactionCountPerAccount(id);
+  }
 }
 

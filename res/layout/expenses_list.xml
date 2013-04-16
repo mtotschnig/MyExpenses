@@ -13,20 +13,15 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ --><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="fill_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:orientation="vertical">
+    <include layout="@layout/title_layout"/>
     <include layout="@layout/divider_thin"/>
     <ListView
         style="?attr/listStyle"
-        android:id="@+id/android:list"
+        android:id="@+id/list"
         android:layout_width="fill_parent"
         android:layout_height="0px"
         android:layout_weight="1" />
@@ -35,18 +30,9 @@
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
         android:gravity="center"
-        android:id="@+id/android:empty"
+        android:id="@+id/empty"
         android:layout_width="fill_parent"
         android:layout_height="0px"
         android:layout_weight="1"
         android:text="@string/no_expenses" />
-  </LinearLayout>
-  <include android:id="@+id/ButtonBarDividerTop" layout="@layout/divider_thick"/>
-  <org.totschnig.myexpenses.ButtonBar
-      android:id="@+id/ButtonBar"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      style="?attr/buttonBarStyle">
-  </org.totschnig.myexpenses.ButtonBar>
-  <include android:id="@+id/ButtonBarDividerBottom" layout="@layout/divider_thick"/>
 </LinearLayout>

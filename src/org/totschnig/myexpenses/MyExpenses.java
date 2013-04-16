@@ -38,8 +38,8 @@ import org.totschnig.myexpenses.ButtonBar.MenuButton;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -52,6 +52,7 @@ import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -62,7 +63,9 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -70,6 +73,9 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
@@ -83,7 +89,8 @@ import android.util.TypedValue;
  * @author Michael Totschnig
  *
  */
-public class MyExpenses extends ListActivity implements OnClickListener,OnLongClickListener, OnSharedPreferenceChangeListener {
+public class MyExpenses extends Activity
+  implements OnClickListener,OnLongClickListener, OnSharedPreferenceChangeListener, OnPageChangeListener {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_PREF=2;
   public static final int ACTIVITY_CREATE_ACCOUNT=3;
@@ -111,16 +118,20 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   private String mVersionInfo;
   private ArrayList<Action> mMoreItems;
   
+  public SimpleCursorAdapter mAdapter;
   private ExpensesDbAdapter mDbHelper;
 
   private Account mCurrentAccount;
   
-  private void setmCurrentAccount(Account mCurrentAccount) {
+  private void setCurrentAccount(Account mCurrentAccount) {
     this.mCurrentAccount = mCurrentAccount;
     MyApplication.setCurrentAccountColor(mCurrentAccount.color);
   }
   private SharedPreferences mSettings;
+  private Cursor mAccountsCursor;
   private Cursor mExpensesCursor;
+  private MyViewPagerAdapter myAdapter;
+  private ViewPager myPager;
 
   private ButtonBar mButtonBar;
   private MenuButton mAddButton;
@@ -181,13 +192,13 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
    */
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(MyApplication.getThemeIdNoTitle());
     super.onCreate(savedInstanceState);
-    boolean titled = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-    setContentView(R.layout.expenses_list);
-    if(titled){
-      getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_layout);
-    }
+    //boolean titled = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+    setContentView(R.layout.viewpager);
+//    if(titled){
+//      getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_layout);
+//    }
     mSettings = MyApplication.getInstance().getSettings();
     if (mSettings.getInt("currentversion", -1) == -1) {
       if (MyApplication.backupExists()) {
@@ -200,16 +211,9 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   private void setup() {
     mDbHelper = MyApplication.db();
     newVersionCheck();
-    if (mCurrentAccount == null) {
-      long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
-      try {
-        setmCurrentAccount(Account.getInstanceFromDb(account_id));
-      } catch (DataObjectNotFoundException e) {
-        //for any reason the account stored in pref no longer exists
-        setmCurrentAccount(requireAccount());
-      }
-    }
-    MyApplication.updateUIWithAccountColor(this);
+    mAccountsCursor = mDbHelper.fetchAccountAll();
+    startManagingCursor(mAccountsCursor);
+    //MyApplication.updateUIWithAccountColor(this);
     mUseStandardMenu = mSettings.getBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU, false);
     mButtonBar = (ButtonBar) findViewById(R.id.ButtonBar);
     if (mUseStandardMenu) {
@@ -217,8 +221,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     } else {
       fillButtons();
     }
-    fillData();
-    registerForContextMenu(getListView());
     mSettings.registerOnSharedPreferenceChangeListener(this);
 
     Resources.Theme theme = getTheme();
@@ -227,6 +229,35 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     colorExpense = color.data;
     theme.resolveAttribute(R.attr.colorIncome,color, true);
     colorIncome = color.data;
+    theme.resolveAttribute(R.attr.pageMargin,color, true);
+    myAdapter = new MyViewPagerAdapter();
+    myPager = (ViewPager) this.findViewById(R.id.viewpager);
+    myPager.setAdapter(this.myAdapter);
+    myPager.setOnPageChangeListener(this);
+    myPager.setPageMargin(10);
+    myPager.setPageMarginDrawable(color.resourceId);
+    if (mCurrentAccount == null) {
+      long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
+      try {
+        setCurrentAccount(Account.getInstanceFromDb(account_id));
+      } catch (DataObjectNotFoundException e) {
+        //for any reason the account stored in pref no longer exists
+        setCurrentAccount(requireAccount());
+      }
+    }
+    moveToCurrentAccount();
+  }
+  private void moveToCurrentAccount() {
+    mAccountsCursor.moveToFirst();
+    int currentPosition = 0;
+    while (mAccountsCursor.isAfterLast() == false) {
+      if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)) == mCurrentAccount.id) {
+        currentPosition = mAccountsCursor.getPosition();
+      }
+      mAccountsCursor.moveToNext();
+    }
+    myPager.setCurrentItem(currentPosition);
+    updateUIforCurrentAccount();
   }
   private void fillSwitchButton() {
     mSwitchButton.clearMenu();
@@ -323,94 +354,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     if (dw != null)
     dw.dismiss();
   }
-  /**
-   * binds the Cursor for all expenses to the list view
-   */
-  private void fillData() {
-    mExpensesCursor = mDbHelper.fetchTransactionAll(mCurrentAccount.id);
-    startManagingCursor(mExpensesCursor);
-
-    //setTitle(mCurrentAccount.label);
-
-    // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{ExpensesDbAdapter.KEY_LABEL_MAIN,ExpensesDbAdapter.KEY_DATE,ExpensesDbAdapter.KEY_AMOUNT};
-
-    // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.category,R.id.date,R.id.amount};
-
-    final SimpleDateFormat dateFormat;
-    final String categorySeparator, commentSeparator;
-    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-      dateFormat =  new SimpleDateFormat("dd.MM HH:mm");
-      categorySeparator = " : ";
-      commentSeparator = " / ";
-    } else {
-      dateFormat = new SimpleDateFormat("dd.MM\nHH:mm");
-      categorySeparator = " :\n";
-      commentSeparator = "<br>";
-    }
-    // Now create a simple cursor adapter and set it to display
-    SimpleCursorAdapter expense = new SimpleCursorAdapter(this, R.layout.expense_row, mExpensesCursor, from, to)  {
-      /* (non-Javadoc)
-       * calls {@link #convText for formatting the values retrieved from the cursor}
-       * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
-       */
-      @Override
-      public void setViewText(TextView v, String text) {
-        switch (v.getId()) {
-        case R.id.date:
-          text = Utils.convDate(text,dateFormat);
-          break;
-        case R.id.amount:
-          text = Utils.convAmount(text,mCurrentAccount.currency);
-        }
-        super.setViewText(v, text);
-      }
-      /* (non-Javadoc)
-       * manipulates the view for amount (setting expenses to red) and
-       * category (indicate transfer direction with => or <=
-       * @see android.widget.CursorAdapter#getView(int, android.view.View, android.view.ViewGroup)
-       */
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
-        View row=super.getView(position, convertView, parent);
-        TextView tv1 = (TextView)row.findViewById(R.id.amount);
-        Cursor c = getCursor();
-        c.moveToPosition(position);
-        int col = c.getColumnIndex(ExpensesDbAdapter.KEY_AMOUNT);
-        long amount = c.getLong(col);
-        if (amount < 0) {
-          tv1.setTextColor(colorExpense);
-          // Set the background color of the text.
-        }
-        else {
-          tv1.setTextColor(colorIncome);
-        }
-        TextView tv2 = (TextView)row.findViewById(R.id.category);
-        col = c.getColumnIndex(ExpensesDbAdapter.KEY_TRANSFER_PEER);
-        String catText = (String) tv2.getText();
-        if (c.getLong(col) != 0) {
-          catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
-        } else {
-          col = c.getColumnIndex(ExpensesDbAdapter.KEY_LABEL_SUB);
-          String label_sub = c.getString(col);
-          if (label_sub != null && label_sub.length() > 0) {
-            catText += categorySeparator + label_sub;
-          }
-        }
-        col = c.getColumnIndex(ExpensesDbAdapter.KEY_COMMENT);
-        String comment = c.getString(col);
-        if (comment != null && comment.length() > 0) {
-          catText += (catText.equals("") ? "" : commentSeparator) + "<i>" + comment + "</i>";
-        }
-        tv2.setText(Html.fromHtml(catText));
-        return row;
-      }
-    };
-    setListAdapter(expense);
-    setCurrentBalance(); 
-    configButtons();
-  }
 
   private void setCurrentBalance() {
     ((TextView) findViewById(R.id.label)).setText(mCurrentAccount.label);
@@ -419,7 +362,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   
   private void configButtons() {
     if (!mUseStandardMenu) {
-      mResetButton.setEnabled(mExpensesCursor.getCount() > 0);
+      mResetButton.setEnabled(mCurrentAccount.getSize() > 0);
       fillSwitchButton();
       fillAddButton();
     }
@@ -441,7 +384,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
       .setVisible(transfersEnabledP());
     menu.findItem(R.id.RESET_ACCOUNT_COMMAND)
-      .setVisible(mExpensesCursor.getCount() > 0);
+      .setVisible(mCurrentAccount.getSize() > 0);
     menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
       .setVisible(mDbHelper.getTemplateCount(mCurrentAccount.id) > 0);
     return true;
@@ -485,15 +428,17 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == ACTIVITY_CREATE_ACCOUNT && resultCode == RESULT_OK && intent != null) {
+         mAccountsCursor.requery();
+         myAdapter.notifyDataSetChanged();
          switchAccount(intent.getLongExtra("account_id",0));
          return;
     }
-    //we call fillData when returning from ACTIVITY_PREF with RESULT_CANCEL,
+    //we refresh when returning from ACTIVITY_PREF with RESULT_CANCEL,
     //since we might have edited accounts from there
     if (resultCode == RESULT_OK || requestCode == ACTIVITY_PREF) {
-      fillData();
-      MyApplication.setCurrentAccountColor(mCurrentAccount.color);
-      MyApplication.updateUIWithAccountColor(this);
+      mAccountsCursor.requery();
+      myAdapter.notifyDataSetChanged();
+      configButtons();
     }
   }
   
@@ -514,38 +459,32 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
-      long transfer_peer = mExpensesCursor.getLong(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
+      long transfer_peer = Transaction.getInstanceFromDb(info.id).transfer_peer;
       if (transfer_peer == 0) {
         Transaction.delete(info.id);
       }
       else {
         Transfer.delete(info.id,transfer_peer);
       }
-      fillData();
+      myAdapter.notifyDataSetChanged();
+      configButtons();
       return true;
     case R.id.SHOW_DETAIL_COMMAND:
-      mExpensesCursor.moveToPosition(info.position);
-      String comment = mExpensesCursor.getString(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
-      String payee =  mExpensesCursor.getString(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE));
-      Long methodId = mExpensesCursor.getLong(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_METHODID));
+      Transaction t = Transaction.getInstanceFromDb(info.id);
       String method = "";
-      if (methodId != 0) {
+      if (t.methodId != 0) {
         try {
-          method= PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel(this);
+          method= PaymentMethod.getInstanceFromDb(t.methodId).getDisplayLabel(this);
         } catch (DataObjectNotFoundException e) {
         }
       }
-      String msg =  ((comment != null && comment.length() != 0) ?
-          comment : "");
-      if (payee != null && payee.length() != 0) {
+      String msg =  ((t.comment != null && t.comment.length() != 0) ?
+          t.comment : "");
+      if (t.payee != null && t.payee.length() != 0) {
         if (!msg.equals("")) {
           msg += "\n";
         }
-        msg += getString(R.string.payee) + ": " + payee;
+        msg += getString(R.string.payee) + ": " + t.payee;
       }
       if (!method.equals("")) {
         if (!msg.equals("")) {
@@ -647,7 +586,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             }
             else {
               mDbHelper.moveTransaction(mSelectAccountContextId,accountIds[item]);
-              fillData();
+              myAdapter.notifyDataSetChanged();
+              configButtons();
             }
           }
         })
@@ -704,7 +644,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
             //or account is switched
             removeDialog(SELECT_TEMPLATE_DIALOG_ID);
             Transaction.getInstanceFromTemplate(templateIds[item]).save();
-            fillData();
+            myAdapter.notifyDataSetChanged();
+            configButtons();
           }
         })
         .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -832,13 +773,12 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     }
     if (accountId != 0) {
       try {
-        setmCurrentAccount(Account.getInstanceFromDb(accountId));
+        setCurrentAccount(Account.getInstanceFromDb(accountId));
+        moveToCurrentAccount();
         Toast.makeText(getBaseContext(),getString(R.string.switch_account,mCurrentAccount.label), Toast.LENGTH_SHORT).show();
         mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
           .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, current_account_id)
           .commit();
-        fillData();
-        MyApplication.updateUIWithAccountColor(this);
       } catch (DataObjectNotFoundException e) {
         //should not happen
         Log.w("MyExpenses","unable to switch to account " + accountId);
@@ -870,6 +810,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
         mSettings.getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
     String header = "!Type:" + mCurrentAccount.type.getQifName() + "\n";
     out.write(header);
+    mExpensesCursor = mDbHelper.fetchTransactionAll(mCurrentAccount.id);
     mExpensesCursor.moveToFirst();
     while( mExpensesCursor.getPosition() < mExpensesCursor.getCount() ) {
       String comment = mExpensesCursor.getString(
@@ -983,27 +924,13 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
     try {
       if (exportAll()) {
         mCurrentAccount.reset();
-        fillData();
+        myAdapter.notifyDataSetChanged();
+        configButtons();
       }
     } catch (IOException e) {
       Log.e("MyExpenses",e.getMessage());
       Toast.makeText(getBaseContext(),getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
     }
-  }
-
-  /* (non-Javadoc)
-   * calls ExpenseEdit with a given rowid
-   * @see android.app.ListActivity#onListItemClick(android.widget.ListView, android.view.View, int, long)
-   */
-  @Override
-  protected void onListItemClick(ListView l, View v, int position, long id) {
-    super.onListItemClick(l, v, position, id);
-/*    boolean operationType = mExpensesCursor.getLong(
-        mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER)) == 0;*/
-    Intent i = new Intent(this, ExpenseEdit.class);
-    i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
-    //i.putExtra("operationType", operationType);
-    startActivityForResult(i, ACTIVITY_EDIT);
   }
 
   /**
@@ -1052,7 +979,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       return;
     if (prev_version == -1) {
       //we check if we already have an account
-      setmCurrentAccount(requireAccount());
+      setCurrentAccount(requireAccount());
 
       edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
@@ -1320,7 +1247,8 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
           showDialogWrapper(SELECT_TEMPLATE_DIALOG_ID);
       } else {
         Transaction.getInstanceFromTemplate((Long) tag).save();
-        fillData();
+        myAdapter.notifyDataSetChanged();
+        configButtons();
       }
       break;
     case R.id.MORE_ACTION_COMMAND:
@@ -1370,8 +1298,7 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
   @Override
   public boolean onLongClick(View v) {
     if (v instanceof MenuButton) {
-      int height = (mExpensesCursor.getCount() > 0 ? findViewById(android.R.id.list) : findViewById(android.R.id.empty))
-          .getHeight();
+      int height = myPager.getHeight();
       MenuButton mb = (MenuButton) v;
       dw = mb.getMenu(height);
       if (dw == null)
@@ -1400,7 +1327,6 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       mUseStandardMenu = newValueB;
     }
     if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
-      MyApplication.setThemes();
       scheduledRestart = true;
     }
   }
@@ -1422,5 +1348,195 @@ public class MyExpenses extends ListActivity implements OnClickListener,OnLongCl
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
       startActivity(i);
     }
+  }
+  private class MyViewPagerAdapter extends PagerAdapter {
+    @Override
+    public void destroyItem(View collection, int position, Object view) {
+      ((ViewPager) collection).removeView((View) view);
+    }
+    @Override
+    public int getItemPosition(Object object) {
+      return POSITION_NONE;
+  }
+    @Override
+    public int getCount() {
+      return mAccountsCursor.getCount(); // Number of pages usually set with .length() or .size()
+    }
+
+    /**
+     * Create the page for the given position. The adapter is responsible
+     * for adding the view to the container given here, although it only
+     * must ensure this is done by the time it returns from
+     * {@link #finishUpdate()}.
+     * 
+     * @param container
+     *            The containing View in which the page will be shown.
+     * @param position
+     *            The page position to be instantiated.
+     * @return Returns an Object representing the new page. This does not
+     *         need to be a View, but can be some other container of the
+     *         page.
+     */
+    @Override
+    public Object instantiateItem(View collection, int position) {
+      Account account;
+      mAccountsCursor.moveToPosition(position);
+      long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+      try {
+        account = Account.getInstanceFromDb(accountId);
+      } catch (DataObjectNotFoundException e) {
+        // this should not happen, since we got the account_id from db
+        e.printStackTrace();
+        throw new RuntimeException(e);
+      }
+      mExpensesCursor = mDbHelper.fetchTransactionAll(accountId);
+      //startManagingCursor(mExpensesCursor);
+      final LayoutInflater inflater = (LayoutInflater) MyExpenses.this
+          .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      View v = inflater.inflate(R.layout.expenses_list, null, false);
+      int textColor = Utils.getTextColorForBackground(account.color);
+      TextView tv = (TextView) v.findViewById(R.id.label);
+      tv.setText(account.label);
+      tv.setTextColor(textColor);
+      tv = (TextView) v.findViewById(R.id.end);
+      tv.setText(Utils.formatCurrency(account.getCurrentBalance()));
+      tv.setTextColor(textColor);
+      v.findViewById(R.id.heading).setBackgroundColor(account.color);
+      ListView lv = (ListView) v.findViewById(R.id.list);
+      // Create an array to specify the fields we want to display in the list
+      String[] from = new String[]{ExpensesDbAdapter.KEY_LABEL_MAIN,ExpensesDbAdapter.KEY_DATE,ExpensesDbAdapter.KEY_AMOUNT};
+
+      // and an array of the fields we want to bind those fields to 
+      int[] to = new int[]{R.id.category,R.id.date,R.id.amount};
+
+      final SimpleDateFormat dateFormat;
+      final String categorySeparator, commentSeparator;
+      if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        dateFormat =  new SimpleDateFormat("dd.MM HH:mm");
+        categorySeparator = " : ";
+        commentSeparator = " / ";
+      } else {
+        dateFormat = new SimpleDateFormat("dd.MM\nHH:mm");
+        categorySeparator = " :\n";
+        commentSeparator = "<br>";
+      }
+      // Now create a simple cursor adapter and set it to display
+      lv.setAdapter(new SimpleCursorAdapter(MyExpenses.this, R.layout.expense_row, mExpensesCursor, from, to)  {
+        /* (non-Javadoc)
+         * calls {@link #convText for formatting the values retrieved from the cursor}
+         * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
+         */
+        @Override
+        public void setViewText(TextView v, String text) {
+          switch (v.getId()) {
+          case R.id.date:
+            text = Utils.convDate(text,dateFormat);
+            break;
+          case R.id.amount:
+            text = Utils.convAmount(text,mCurrentAccount.currency);
+          }
+          super.setViewText(v, text);
+        }
+        /* (non-Javadoc)
+         * manipulates the view for amount (setting expenses to red) and
+         * category (indicate transfer direction with => or <=
+         * @see android.widget.CursorAdapter#getView(int, android.view.View, android.view.ViewGroup)
+         */
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+          View row=super.getView(position, convertView, parent);
+          TextView tv1 = (TextView)row.findViewById(R.id.amount);
+          Cursor c = getCursor();
+          c.moveToPosition(position);
+          int col = c.getColumnIndex(ExpensesDbAdapter.KEY_AMOUNT);
+          long amount = c.getLong(col);
+          if (amount < 0) {
+            tv1.setTextColor(colorExpense);
+            // Set the background color of the text.
+          }
+          else {
+            tv1.setTextColor(colorIncome);
+          }
+          TextView tv2 = (TextView)row.findViewById(R.id.category);
+          col = c.getColumnIndex(ExpensesDbAdapter.KEY_TRANSFER_PEER);
+          String catText = (String) tv2.getText();
+          if (c.getLong(col) != 0) {
+            catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
+          } else {
+            col = c.getColumnIndex(ExpensesDbAdapter.KEY_LABEL_SUB);
+            String label_sub = c.getString(col);
+            if (label_sub != null && label_sub.length() > 0) {
+              catText += categorySeparator + label_sub;
+            }
+          }
+          col = c.getColumnIndex(ExpensesDbAdapter.KEY_COMMENT);
+          String comment = c.getString(col);
+          if (comment != null && comment.length() > 0) {
+            catText += (catText.equals("") ? "" : commentSeparator) + "<i>" + comment + "</i>";
+          }
+          tv2.setText(Html.fromHtml(catText));
+          return row;
+        }
+      });
+      lv.setEmptyView(v.findViewById(R.id.empty));
+      lv.setOnItemClickListener(new OnItemClickListener()
+      {
+           @Override
+           public void onItemClick(AdapterView<?> a, View v,int position, long id)
+           {
+             Intent i = new Intent(MyExpenses.this, ExpenseEdit.class);
+             i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
+             //i.putExtra("operationType", operationType);
+             startActivityForResult(i, ACTIVITY_EDIT);
+           }
+      });
+      registerForContextMenu(lv);
+      ((ViewPager) collection).addView(v, 0);
+      return v;
+    }
+
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+      return view == object;
+    }
+
+    @Override
+    public void restoreState(Parcelable arg0, ClassLoader arg1) {
+    }
+
+    @Override
+    public Parcelable saveState() {
+      return null;
+    }
+  }
+  @Override
+  public void onPageScrollStateChanged(int arg0) {
+  }
+  @Override
+  public void onPageScrolled(int arg0, float arg1, int arg2) {
+  }
+  @Override
+  public void onPageSelected(int position) {
+    mAccountsCursor.moveToPosition(position);
+    long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+    mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
+    .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, mCurrentAccount.id)
+    .commit();
+    try {
+      setCurrentAccount(Account.getInstanceFromDb(accountId));
+    } catch (DataObjectNotFoundException e) {
+      // this should not happen, since we got the account_id from db
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
+    updateUIforCurrentAccount();
+  }
+  public void updateUIforCurrentAccount() {
+    View divider = findViewById(R.id.ButtonBarDividerTop);
+    if (divider != null) {
+      divider.setBackgroundColor(mCurrentAccount.color);
+      findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(mCurrentAccount.color);
+    }
+    configButtons();
   }
 }
