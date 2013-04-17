@@ -95,7 +95,11 @@ public class Utils {
       }
     }).create();
   }
+  private static Integer usagesLeft(String feature) {
+    return 5 - MyApplication.getInstance().getContribUsages().getInt(feature, 0);
+  }
   public static Dialog contribDialog(final Activity ctx,String feature) {
+    Integer usagesLeft = usagesLeft(feature);
     return createMessageDialogWithCustomButtons(new ContextThemeWrapper(ctx, MyApplication.getThemeId()) {
       public void onDialogButtonClicked(View v) {
         ctx.dismissDialog(R.id.CONTRIB_DIALOG_ID);
@@ -110,7 +114,7 @@ public class Utils {
           }
         }
       }
-    }, Html.fromHtml(String.format(ctx.getString(R.string.dialog_contrib_reminder,feature))),R.id.CONTRIB_PLAY_COMMAND_ID,null, R.string.dialog_contrib_yes,R.string.dialog_contrib_no)
+    }, Html.fromHtml(String.format(ctx.getString(R.string.dialog_contrib_reminder,feature,usagesLeft))),R.id.CONTRIB_PLAY_COMMAND_ID,null, R.string.dialog_contrib_yes,R.string.dialog_contrib_no)
     .setOnCancelListener(new DialogInterface.OnCancelListener() {
           @Override
           public void onCancel(DialogInterface dialog) {
