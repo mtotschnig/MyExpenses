@@ -104,7 +104,11 @@ public class Utils {
     contribUsages.edit().putInt(feature, contribUsages.getInt(feature, 0)+1).commit();
   }
   public static Dialog contribDialog(final Activity ctx,final String feature) {
-    Integer usagesLeft = usagesLeft(feature);
+    final Integer usagesLeft = usagesLeft(feature);
+    CharSequence message = Html.fromHtml(String.format(ctx.getString(
+      R.string.dialog_contrib_reminder,
+      ctx.getString(ctx.getResources().getIdentifier("contrib_feature_" + feature + "_label", "string", ctx.getPackageName())),
+      usagesLeft > 0 ? ctx.getString(R.string.dialog_contrib_usage_count,usagesLeft) : ctx.getString(R.string.dialog_contrib_no_usages_left))));
     return createMessageDialogWithCustomButtons(
       new ContextThemeWrapper(ctx, MyApplication.getThemeId()) {
         public void onDialogButtonClicked(View v) {
@@ -121,17 +125,13 @@ public class Utils {
           } else{
             //we remove the dialog, in order to have it display updated usage count on next display
             ctx.removeDialog(R.id.CONTRIB_DIALOG_ID);
-            ((ContribIFace)ctx).contribFeatureCalled(feature);
+            if (usagesLeft > 0) {
+              ((ContribIFace)ctx).contribFeatureCalled(feature);
+            }
           }
         }
       },
-      Html.fromHtml(
-        String.format(
-          ctx.getString(
-            R.string.dialog_contrib_reminder,
-            ctx.getString(ctx.getResources().getIdentifier("contrib_feature_" + feature + "_label", "string", ctx.getPackageName())),
-            usagesLeft))),
-       R.id.CONTRIB_PLAY_COMMAND_ID,null, R.string.dialog_contrib_yes,R.string.dialog_contrib_no)
+      message,R.id.CONTRIB_PLAY_COMMAND_ID,null, R.string.dialog_contrib_yes,R.string.dialog_contrib_no)
     .setOnCancelListener(new DialogInterface.OnCancelListener() {
           @Override
           public void onCancel(DialogInterface dialog) {

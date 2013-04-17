@@ -58,8 +58,10 @@
       during installation</string>
   <string name="description">Description</string>
   <string name="dialog_confirm_restore_on_install">A backup file has been detected. Do you want to restore it?</string>
-  <string name="dialog_contrib_reminder">\"%1$s\" is a contrib feature. You have %2$d free usages left.
-  	You can unlock the full functionality by installing &lt;i>&app_name; Contrib&lt;/i>. Thank you for your support.</string>
+  <string name="dialog_contrib_usage_count">You have %1$d free usages left</string>
+  <string name="dialog_contrib_no_usages_left">No free usages left</string>
+  <string name="dialog_contrib_reminder">\"%1$s\" is a contrib feature. %2$s.
+  	You will get unrestricted access to this and other features, by installing &lt;i>&app_name; Contrib&lt;/i>. Thank you for your support.</string>
   <string name="dialog_contrib_yes">Buy</string>
   <string name="dialog_contrib_no">Not yet</string>
   <string name="dialog_title_select_account">Pick an account</string>
