@@ -103,7 +103,6 @@ public class Utils {
     return createMessageDialogWithCustomButtons(new ContextThemeWrapper(ctx, MyApplication.getThemeId()) {
       public void onDialogButtonClicked(View v) {
         ctx.dismissDialog(R.id.CONTRIB_DIALOG_ID);
-        ctx.finish();
         if (v.getId() == R.id.CONTRIB_PLAY_COMMAND_ID) {
           Intent intent = new Intent(Intent.ACTION_VIEW);
           intent.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
@@ -112,6 +111,9 @@ public class Utils {
           } else {
             Toast.makeText(ctx.getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
           }
+          ctx.finish();
+        } else{
+          ((ContribIFace)ctx).contribCallback(v.getId());
         }
       }
     }, Html.fromHtml(String.format(ctx.getString(R.string.dialog_contrib_reminder,feature,usagesLeft))),R.id.CONTRIB_PLAY_COMMAND_ID,null, R.string.dialog_contrib_yes,R.string.dialog_contrib_no)
@@ -489,6 +491,9 @@ public class Utils {
      }  
      return true;
     }
+  public static boolean isContribEnabled(Context context) {
+    return doesPackageExist(context, "org.totschnig.myexpenses.contrib");
+  }
 
   public static int getTextColorForBackground(int color) {
     int greyLevel = (int) (0.299 * Color.red(color)

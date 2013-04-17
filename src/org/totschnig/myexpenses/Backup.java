@@ -27,12 +27,11 @@ import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Toast;
 
-public class Backup extends Activity {
+public class Backup extends Activity implements ContribIFace {
   static final int BACKUP_DIALOG_ID = 1;
   static final int BACKUP_COMMAND_ID = 1;
   static final int RESTORE_DIALOG_ID = 2;
   static final int RESTORE_COMMAND_ID = 2;
-  static boolean contribDialogShown = false;
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -44,13 +43,11 @@ public class Backup extends Activity {
         else {
           //restore
           if (MyApplication.backupExists()) {
-            if (Utils.doesPackageExist(this, "org.totschnig.myexpenses.contrib") || contribDialogShown) {
+            if (Utils.isContribEnabled(this)) {
               showDialog(RESTORE_DIALOG_ID);
-              contribDialogShown = false;
             }
             else {
               showDialog(R.id.CONTRIB_DIALOG_ID);
-              contribDialogShown = true;
             }
           } else {
             Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
@@ -123,5 +120,8 @@ public class Backup extends Activity {
       return Utils.contribDialog(this,getString(R.string.pref_restore_title));
     }
     return null;
+  }
+  public void contribCallback(int command) {
+    showDialog(RESTORE_DIALOG_ID);
   }
 }
