@@ -126,7 +126,7 @@ public class Backup extends Activity implements ContribIFace {
     showDialog(RESTORE_DIALOG_ID);
   }
   @Override
-  public void contribDialogCanceled() {
+  public void contribFeatureNotCalled() {
     finish();
   }
 }

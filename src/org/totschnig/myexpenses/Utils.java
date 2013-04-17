@@ -117,7 +117,7 @@ public class Utils {
             } else {
               Toast.makeText(ctx.getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
             }
-            ctx.finish();
+            ((ContribIFace)ctx).contribFeatureNotCalled();
           } else{
             //we remove the dialog, in order to have it display updated usage count on next display
             ctx.removeDialog(R.id.CONTRIB_DIALOG_ID);
@@ -135,7 +135,7 @@ public class Utils {
     .setOnCancelListener(new DialogInterface.OnCancelListener() {
           @Override
           public void onCancel(DialogInterface dialog) {
-            ((ContribIFace)ctx).contribDialogCanceled();
+            ((ContribIFace)ctx).contribFeatureNotCalled();
           }
         })
     .create();

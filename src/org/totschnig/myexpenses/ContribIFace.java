@@ -1,6 +1,15 @@
 package org.totschnig.myexpenses;
 
 public interface ContribIFace {
+  /**
+   * @param feature
+   * called when the user clicks on "not yet", and calls the requested feature
+   */
   void contribFeatureCalled(String feature);
-  void contribDialogCanceled();
+  /**
+   * the user can either click on "Buy" or cancel the dialog
+   * for the moment, we are fine with the same callback for both cases,
+   * for example, in some cases, the calling activity might have to be finished
+   */
+  void contribFeatureNotCalled();
 }

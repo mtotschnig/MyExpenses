@@ -276,6 +276,6 @@ public class ManageAccounts extends ListActivity implements ContribIFace {
   }
 
   @Override
-  public void contribDialogCanceled() {
+  public void contribFeatureNotCalled() {
   }
 }
