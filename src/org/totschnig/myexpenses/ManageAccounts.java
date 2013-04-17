@@ -72,7 +72,6 @@ public class ManageAccounts extends ListActivity implements ContribIFace {
     mCurrentAccount = MyApplication.getInstance()
         .getSettings()
         .getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
-    fillData();
     mAddButton = (Button) findViewById(R.id.addOperation);
     mAggregateButton = (Button) findViewById(R.id.aggregate);
     mAggregateButton.setOnClickListener(new View.OnClickListener() {
@@ -85,10 +84,6 @@ public class ManageAccounts extends ListActivity implements ContribIFace {
         }
       }
     });
-    mCurrencyCursor = mDbHelper.fetchAggregatesForCurrenciesHavingMultipleAccounts();
-    if (mCurrencyCursor.getCount() > 0) {
-      mAggregateButton.setVisibility(View.VISIBLE);
-    }
     mAddButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -96,7 +91,7 @@ public class ManageAccounts extends ListActivity implements ContribIFace {
         startActivityForResult(i, ACTIVITY_CREATE);
       }
     });
-    
+    fillData();
     registerForContextMenu(getListView());
   }
   
@@ -185,6 +180,14 @@ public class ManageAccounts extends ListActivity implements ContribIFace {
     } else {
       mAccountsCursor.requery();
     }
+    if (mCurrencyCursor == null) {
+      mCurrencyCursor = mDbHelper.fetchAggregatesForCurrenciesHavingMultipleAccounts();
+      startManagingCursor(mCurrencyCursor);
+    } else {
+      mCurrencyCursor.requery();
+    }
+    mAggregateButton.setVisibility(mCurrencyCursor.getCount() > 0 ? View.VISIBLE : View.GONE);
+
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{"description","label","opening_balance","sum_income","sum_expenses","sum_transfer","current_balance"};
 
