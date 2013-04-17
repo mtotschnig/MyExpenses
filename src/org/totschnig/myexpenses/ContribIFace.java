@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses;
 
 public interface ContribIFace {
-  void contribCallback(int command);
+  void contribFeatureCalled(String feature);
+  void contribDialogCanceled();
 }

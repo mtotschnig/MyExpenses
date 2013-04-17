@@ -103,13 +103,13 @@ public class Utils {
     SharedPreferences contribUsages = MyApplication.getInstance().getContribUsages();
     contribUsages.edit().putInt(feature, contribUsages.getInt(feature, 0)+1).commit();
   }
-  public static Dialog contribDialog(final Activity ctx,String feature) {
+  public static Dialog contribDialog(final Activity ctx,final String feature) {
     Integer usagesLeft = usagesLeft(feature);
     return createMessageDialogWithCustomButtons(
       new ContextThemeWrapper(ctx, MyApplication.getThemeId()) {
         public void onDialogButtonClicked(View v) {
-          ctx.dismissDialog(R.id.CONTRIB_DIALOG_ID);
           if (v.getId() == R.id.CONTRIB_PLAY_COMMAND_ID) {
+            ctx.dismissDialog(R.id.CONTRIB_DIALOG_ID);
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
             if (isIntentAvailable(ctx,intent)) {
@@ -119,7 +119,9 @@ public class Utils {
             }
             ctx.finish();
           } else{
-            ((ContribIFace)ctx).contribCallback(v.getId());
+            //we remove the dialog, in order to have it display updated usage count on next display
+            ctx.removeDialog(R.id.CONTRIB_DIALOG_ID);
+            ((ContribIFace)ctx).contribFeatureCalled(feature);
           }
         }
       },
@@ -133,7 +135,7 @@ public class Utils {
     .setOnCancelListener(new DialogInterface.OnCancelListener() {
           @Override
           public void onCancel(DialogInterface dialog) {
-            ctx.finish();
+            ((ContribIFace)ctx).contribDialogCanceled();
           }
         })
     .create();

@@ -121,7 +121,12 @@ public class Backup extends Activity implements ContribIFace {
     }
     return null;
   }
-  public void contribCallback(int command) {
+  @Override
+  public void contribFeatureCalled(String feature) {
     showDialog(RESTORE_DIALOG_ID);
+  }
+  @Override
+  public void contribDialogCanceled() {
+    finish();
   }
 }

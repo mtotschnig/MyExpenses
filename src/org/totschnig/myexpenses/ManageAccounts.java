@@ -45,7 +45,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  * @author Michael Totschnig
  *
  */
-public class ManageAccounts extends ListActivity {
+public class ManageAccounts extends ListActivity implements ContribIFace {
   private static final int ACTIVITY_CREATE=0;
   private static final int ACTIVITY_EDIT=1;
   private static final int DELETE_ID = Menu.FIRST;
@@ -78,7 +78,11 @@ public class ManageAccounts extends ListActivity {
     mAggregateButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        showDialogWrapper(AGGREGATE_DIALOG_ID);
+        if (Utils.isContribEnabled(ManageAccounts.this)) {
+          showDialogWrapper(AGGREGATE_DIALOG_ID);
+        } else {
+          showDialog(R.id.CONTRIB_DIALOG_ID);
+        }
       }
     });
     mCurrencyCursor = mDbHelper.fetchAggregatesForCurrenciesHavingMultipleAccounts();
@@ -154,6 +158,8 @@ public class ManageAccounts extends ListActivity {
       .setTitle(R.string.menu_aggregate)
       .setView(view)
       .create();
+    case R.id.CONTRIB_DIALOG_ID:
+      return Utils.contribDialog(this,"aggregate");
     }
     return null;
   }
@@ -261,5 +267,15 @@ public class ManageAccounts extends ListActivity {
    super.onRestoreInstanceState(savedInstanceState);
    mContextAccountId = savedInstanceState.getLong("contextAccountId");
    mCurrentDialog = savedInstanceState.getInt("currentDialog");
+  }
+  @Override
+  public void contribFeatureCalled(String feature) {
+    removeDialog(R.id.CONTRIB_DIALOG_ID);
+    Utils.recordUsage("aggregate");
+    showDialogWrapper(AGGREGATE_DIALOG_ID);
+  }
+
+  @Override
+  public void contribDialogCanceled() {
   }
 }
