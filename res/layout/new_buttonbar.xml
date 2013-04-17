@@ -38,7 +38,8 @@
         android:text="AGGREGATE"
         style="@style/button"
         android:visibility="gone"
-        android:id="@+id/aggregate" />
+        android:id="@+id/aggregate"
+        android:drawableLeft="@drawable/ic_aggregated" />
     </LinearLayout>
   </RelativeLayout>
   <include android:id="@+id/ButtonBarDividerBottom" layout="@layout/divider_thick"/>
