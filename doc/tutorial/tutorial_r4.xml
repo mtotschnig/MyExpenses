@@ -152,7 +152,7 @@
       use a command interface based on the Android standard menu.
     </para>
     <para lang="fr">
-      Sur l'écran principal s'affiche la liste des transactions du compte en cours. La
+      Sur l'écran principal s'affiche la liste des opérations du compte en cours. La
       barre des boutons en bas de l'écran donne accès à toutes les fonctions. Chaque
       bouton exécute une action par défaut sur un clic court. Certains (identifiables par le triangle en haut à gauche)
       affichent un menu avec d'autres actions sur un clic long. Sinon, vous
