@@ -46,6 +46,7 @@
   <string name="color_name_white">White</string>
   <string name="color_name_yellow">Yellow</string>
   <string name="comment">Notes</string>
+  <string name="contrib_feature_restore_label">Restore</string>
   <string name="create_category">Create new category</string>
   <string name="currency">Currency</string>
   <string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>

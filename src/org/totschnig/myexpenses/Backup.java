@@ -18,7 +18,6 @@ package org.totschnig.myexpenses;
 import java.io.File;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -96,6 +95,7 @@ public class Backup extends Activity implements ContribIFace {
         public void onDialogButtonClicked(View v) {
           dismissDialog(RESTORE_DIALOG_ID);
           if (v.getId() == RESTORE_COMMAND_ID) {
+            Utils.recordUsage("restore");
             if (MyApplication.backupExists()) {
               MyApplication.backupRestore();
               Intent i = getBaseContext().getPackageManager()
@@ -117,7 +117,7 @@ public class Backup extends Activity implements ContribIFace {
       })
       .create();
     case R.id.CONTRIB_DIALOG_ID:
-      return Utils.contribDialog(this,getString(R.string.pref_restore_title));
+      return Utils.contribDialog(this,"restore");
     }
     return null;
   }

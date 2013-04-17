@@ -40,6 +40,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -98,25 +99,37 @@ public class Utils {
   private static Integer usagesLeft(String feature) {
     return 5 - MyApplication.getInstance().getContribUsages().getInt(feature, 0);
   }
+  public static void recordUsage(String feature) {
+    SharedPreferences contribUsages = MyApplication.getInstance().getContribUsages();
+    contribUsages.edit().putInt(feature, contribUsages.getInt(feature, 0)+1).commit();
+  }
   public static Dialog contribDialog(final Activity ctx,String feature) {
     Integer usagesLeft = usagesLeft(feature);
-    return createMessageDialogWithCustomButtons(new ContextThemeWrapper(ctx, MyApplication.getThemeId()) {
-      public void onDialogButtonClicked(View v) {
-        ctx.dismissDialog(R.id.CONTRIB_DIALOG_ID);
-        if (v.getId() == R.id.CONTRIB_PLAY_COMMAND_ID) {
-          Intent intent = new Intent(Intent.ACTION_VIEW);
-          intent.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
-          if (isIntentAvailable(ctx,intent)) {
-            ctx.startActivity(intent);
-          } else {
-            Toast.makeText(ctx.getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
+    return createMessageDialogWithCustomButtons(
+      new ContextThemeWrapper(ctx, MyApplication.getThemeId()) {
+        public void onDialogButtonClicked(View v) {
+          ctx.dismissDialog(R.id.CONTRIB_DIALOG_ID);
+          if (v.getId() == R.id.CONTRIB_PLAY_COMMAND_ID) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
+            if (isIntentAvailable(ctx,intent)) {
+              ctx.startActivity(intent);
+            } else {
+              Toast.makeText(ctx.getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
+            }
+            ctx.finish();
+          } else{
+            ((ContribIFace)ctx).contribCallback(v.getId());
           }
-          ctx.finish();
-        } else{
-          ((ContribIFace)ctx).contribCallback(v.getId());
         }
-      }
-    }, Html.fromHtml(String.format(ctx.getString(R.string.dialog_contrib_reminder,feature,usagesLeft))),R.id.CONTRIB_PLAY_COMMAND_ID,null, R.string.dialog_contrib_yes,R.string.dialog_contrib_no)
+      },
+      Html.fromHtml(
+        String.format(
+          ctx.getString(
+            R.string.dialog_contrib_reminder,
+            ctx.getString(ctx.getResources().getIdentifier("contrib_feature_" + feature + "_label", "string", ctx.getPackageName())),
+            usagesLeft))),
+       R.id.CONTRIB_PLAY_COMMAND_ID,null, R.string.dialog_contrib_yes,R.string.dialog_contrib_no)
     .setOnCancelListener(new DialogInterface.OnCancelListener() {
           @Override
           public void onCancel(DialogInterface dialog) {
