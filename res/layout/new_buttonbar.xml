@@ -35,7 +35,7 @@
         android:id="@+id/addOperation"
         android:drawableLeft="@android:drawable/ic_menu_add" />
     <Button
-        android:text="AGGREGATE"
+        android:text="@string/menu_aggregate"
         style="@style/button"
         android:visibility="gone"
         android:id="@+id/aggregate"

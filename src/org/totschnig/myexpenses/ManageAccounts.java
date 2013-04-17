@@ -151,7 +151,7 @@ public class ManageAccounts extends ListActivity {
       };
       listView.setAdapter(currency);
       return new AlertDialog.Builder(this)
-      .setTitle("Total")
+      .setTitle(R.string.menu_aggregate)
       .setView(view)
       .create();
     }
