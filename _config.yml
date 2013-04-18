@@ -129,6 +129,17 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.7.0a1
+    - 2013-04-18
+    -
+      en: |
+        Swipe through accounts.
+        Access to selected new features now depends on installation of Contrib App.
+        Restore backup without install/uninstall.
+        Ask for confirmation when restoring upon install.
+        Display aggregate financial situation in account list.
+        Resolved flickering issue in light theme.
+  -
     - 1.6.8
     - 2013-02-23
     -
