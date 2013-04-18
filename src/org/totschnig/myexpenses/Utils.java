@@ -51,6 +51,7 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings.Secure;
 import android.text.Html;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -507,7 +508,9 @@ public class Utils {
      return true;
     }
   public static boolean isContribEnabled(Context context) {
-    return doesPackageExist(context, "org.totschnig.myexpenses.contrib");
+    //TODO: cache result
+    return doesPackageExist(context, "org.totschnig.myexpenses.contrib") ||
+        verifyLicenceKey(MyApplication.getInstance().getSettings().getString("enter_licence", ""));
   }
 
   public static int getTextColorForBackground(int color) {
@@ -515,5 +518,11 @@ public class Utils {
         + 0.587 * Color.green(color)
         + 0.114 * Color.blue(color));
     return greyLevel > 127 ? Color.BLACK : Color.WHITE;
+  }
+  public static boolean verifyLicenceKey (String key) {
+    String secret = "RANDOM_SECRET";
+    String s = Secure.getString(MyApplication.getInstance().getContentResolver(),Secure.ANDROID_ID)+secret;
+    Long l = (s.hashCode() & 0x00000000ffffffffL);
+    return l.toString().equals(key);
   }
 }

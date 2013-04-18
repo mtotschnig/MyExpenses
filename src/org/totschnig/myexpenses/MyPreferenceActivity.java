@@ -21,14 +21,14 @@ import java.net.URI;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceScreen;
+import android.provider.Settings.Secure;
 import android.widget.Toast;
  
 /**
@@ -45,23 +45,52 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
     setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
     MyApplication.updateUIWithAppColor(this);
-    PreferenceScreen prefs = getPreferenceScreen();
     
     ListPreference listPref = (ListPreference) 
-        prefs.findPreference(MyApplication.PREFKEY_CURRENCY_DECIMAL_SEPARATOR);
+        findPreference(MyApplication.PREFKEY_CURRENCY_DECIMAL_SEPARATOR);
     if (listPref.getValue() == null) {
       String sep = Utils.getDefaultDecimalSeparator();
       //List<String> values =  Arrays.asList(getResources().getStringArray(R.array.pref_currency_decimal_separator_values));
       listPref.setValue(sep);
       //mCurrencyInputFormat.setValueIndex(values.indexOf(sep));
     }
-    Preference pref = prefs.findPreference(MyApplication.PREFKEY_SHARE_TARGET);
+    Preference pref = findPreference(MyApplication.PREFKEY_SHARE_TARGET);
     pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
         "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
         "mailto: \"mailto:john@my.example.com\"");
     pref.setOnPreferenceChangeListener(this);
-    prefs.findPreference(MyApplication.PREFKEY_UI_THEME_KEY)
+    findPreference(MyApplication.PREFKEY_UI_THEME_KEY)
       .setOnPreferenceChangeListener(this);
+    findPreference("contrib_app").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+          Intent intent = new Intent(Intent.ACTION_VIEW);
+          intent.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
+          if (Utils.isIntentAvailable(MyPreferenceActivity.this,intent)) {
+            startActivity(intent);
+          } else {
+            Toast.makeText(getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
+          }
+          return true;
+        }
+    });
+    findPreference("request_licence").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+      @Override
+      public boolean onPreferenceClick(Preference preference) {
+        Intent i = new Intent(android.content.Intent.ACTION_SEND);
+        i.setType("plain/text");
+        i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyExpenses.FEEDBACK_EMAIL });
+        i.putExtra(android.content.Intent.EXTRA_SUBJECT,
+            "[" + getString(R.string.app_name) + "] Request for licence key"
+        );
+        i.putExtra(android.content.Intent.EXTRA_TEXT,
+            Secure.getString(getContentResolver(),Secure.ANDROID_ID));
+        startActivity(i);
+        return true;
+      }
+    });
+    findPreference("enter_licence")
+    .setOnPreferenceChangeListener(this);
   }
   @Override
   public boolean onPreferenceChange(Preference pref, Object value) {
@@ -93,11 +122,21 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
       Intent intent = getIntent();
       finish();
       startActivity(intent);
+    } else if (key.equals("enter_licence")) {
+     if (Utils.verifyLicenceKey((String)value)) {
+       Toast.makeText(getBaseContext(), "Licence key successfully authenticated: Contrib features have been unlocked", Toast.LENGTH_LONG).show();
+     } else {
+       Toast.makeText(getBaseContext(), "Unable to authenticate licence key", Toast.LENGTH_LONG).show();
+     }
     }
     return true;
   }
   @Override
   protected Dialog onCreateDialog(int id) {
+    switch(id) {
+    case R.id.FTP_DIALOG_ID:
     return Utils.sendWithFTPDialog((Activity) this);
+    }
+    return null;
   }
 }
