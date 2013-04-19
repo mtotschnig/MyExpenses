@@ -46,6 +46,11 @@ public class MyApplication extends Application {
     public static String PREFKEY_CURRENT_VERSION = "currentversion";
     public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static String PREFKEY_LAST_ACCOUNT = "last_account";
+    public static String PREFKEY_BACKUP;
+    public static String PREFKEY_RESTORE;
+    public static String PREFKEY_CONTRIB_INSTALL;
+    public static String PREFKEY_REQUEST_LICENCE;
+    public static String PREFKEY_ENTER_LICENCE;
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static int currentAccountColor;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
@@ -73,6 +78,11 @@ public class MyApplication extends Application {
         PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR = getString(R.string.pref_account_button_behaviour_key);
         PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
         PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
+        PREFKEY_BACKUP = getString(R.string.pref_backup_key);
+        PREFKEY_RESTORE = getString(R.string.pref_restore_key);
+        PREFKEY_CONTRIB_INSTALL = getString(R.string.pref_contrib_install_key);
+        PREFKEY_REQUEST_LICENCE = getString(R.string.pref_request_licence_key);
+        PREFKEY_ENTER_LICENCE = getString(R.string.pref_enter_licence_key);
         //mDbOpenHelper = db();
     }
     public static void setCurrentAccountColor(int currentAccountColor) {

@@ -106,28 +106,28 @@
 	</PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/menu_backup">
-		<Preference android:key="backup"
+		<Preference android:key="@string/pref_backup_key"
 	      android:title="@string/menu_backup"
 	      android:summary="@string/pref_backup_summary">
 	      <intent android:action="myexpenses.intent.backup"/>
     </Preference>
-    <Preference android:key="restore"
+    <Preference android:key="@string/pref_restore_key"
         android:title="@string/pref_restore_title"
         android:summary="@string/pref_restore_summary">
         <intent android:action="myexpenses.intent.restore"/>
     </Preference>
   </PreferenceCategory>
     <PreferenceCategory 
-      android:title="Contrib">
-      <Preference android:key="contrib_app"
-        android:title="Install contrib app"
-        android:summary="blabla"/>
-        <Preference android:key="request_licence"
-        android:title="Request a contrib key"
-        android:summary="blabla"/>
-        <EditTextPreference android:key="enter_licence"
+      android:title="@string/menu_contrib">
+      <Preference android:key="@string/pref_contrib_install_key"
+        android:title="@string/pref_contrib_install_title"
+        android:summary="@string/pref_contrib_install_summary"/>
+      <Preference android:key="@string/pref_request_licence_key"
+        android:title="@string/pref_request_licence_title"
+        android:summary="@string/pref_request_licence_summary"/>
+      <EditTextPreference android:key="@string/pref_enter_licence_key"
         android:layout="@layout/preference_long_summary"
-        android:title="Enter contrib key" 
-        android:summary="blabla" />
+        android:title="@string/pref_enter_licence_title"
+        android:summary="@string/pref_enter_licence_summary" />
  	</PreferenceCategory>
 </PreferenceScreen> 

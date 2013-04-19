@@ -149,6 +149,7 @@
   <string name="menu_accounts_summary">Summary</string>
   <string name="menu_aggregate">Total</string>
   <string name="menu_backup">Backup</string>
+  <string name="menu_contrib">Contribute</string>
   <string name="menu_change_account">Change account</string>
   <string name="menu_create_main_cat">Create new main category</string>
   <string name="menu_create_sub_cat">Create new sub category</string>
@@ -233,6 +234,8 @@
   <string name="pref_category_title_ui">User interface</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
+  <string name="pref_contrib_install_title">Install contrib app</string>
+  <string name="pref_contrib_install_summary">By installing My Expenses Contrib, you gain access to premium features.</string>
   <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency
       amounts</string>
   <string name="pref_currency_decimal_separator_summary">You can choose between "," and "." or
@@ -240,6 +243,8 @@
   <string name="pref_currency_decimal_separator_comma">Comma (,)</string>
   <string name="pref_currency_decimal_separator_point">Point (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Minor units as integers</string>
+  <string name="pref_enter_licence_title">Enter contrib key</string>
+  <string name="pref_enter_licence_summary">If you received a contrib key, gain access to premium features.</string>
   <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default
       Grisbi definitions internal to the app, or your own file stored as &grisbi_file; in a folder 
@@ -257,7 +262,9 @@
   <string name="pref_perform_share_title">Share QIF Export</string>
   <string name="pref_perform_share_summary">Should the QIF file be shared after each export?</string>
   <string name="pref_qif_export_file_encoding_title">Character encoding of the QIF file</string>
-  <string name="pref_qif_export_file_encoding_summary">Set the character encoding to \"ISO-8859-1\" if you use MS Money</string>
+  <string name="pref_qif_export_file_encoding_summary">Set the character encoding to \"ISO-8859-1\" if you use MS Money.</string>
+  <string name="pref_request_licence_title">Request a contrib key</string>
+  <string name="pref_request_licence_summary">If you have contributed by other means, ask for a contrib key by email.</string>
   <string name="pref_restore_title">Restore</string>
   <string name="pref_restore_summary">Restore the backup from folder myexpenses on the sdcard.</string>
   <string name="pref_share_target_title">Upload URL QIF Export</string>
@@ -271,6 +278,7 @@
   <string name="pref_use_standard_menu_title">Use standard Android menu</string>
   <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
       standard menu for accessing commands.</string>
+  <string name="request_licence_mail_body">Please send me a contrib key for Android ID %1$s</string>
   <string name="restore_db_failure">Database restore failed</string>
   <string name="restore_db_success">Database has been restored from backup.</string>
   <string name="restore_no_backup_found">No file BACKUP found in folder myexpenses on sdcard.</string>
@@ -319,7 +327,7 @@
       http://www.opensource.org/licenses/bsd-license.php .</string>
   <string name="donate_button_flattr">Flattr</string>
   <string name="donate_button_paypal">Paypal</string>
-  
+
   <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
   <string name="pref_use_standard_menu_key">use_standard_menu</string>
   <string name="pref_perform_share_key">perform_share</string>
@@ -329,7 +337,12 @@
   <string name="pref_qif_export_file_encoding_key">qif_export_file_encoding</string>
   <string name="pref_ui_theme_key">pref_ui_theme</string>
   <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
-    
+  <string name="pref_backup_key">pref_backup_key</string>
+  <string name="pref_restore_key">pref_restore_key</string>
+  <string name="pref_contrib_install_key">pref_contrib_install_key</string>
+  <string name="pref_request_licence_key">pref_request_licence_key</string>
+  <string name="pref_enter_licence_key">pref_enter_licence_key</string>
+
   <!-- strings below this comment do not need translations for new languages -->
   <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
   <string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with 

@@ -61,7 +61,7 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
     pref.setOnPreferenceChangeListener(this);
     findPreference(MyApplication.PREFKEY_UI_THEME_KEY)
       .setOnPreferenceChangeListener(this);
-    findPreference("contrib_app").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+    findPreference(MyApplication.PREFKEY_CONTRIB_INSTALL).setOnPreferenceClickListener(new OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
           Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -74,22 +74,21 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
           return true;
         }
     });
-    findPreference("request_licence").setOnPreferenceClickListener(new OnPreferenceClickListener() {
+    findPreference(MyApplication.PREFKEY_REQUEST_LICENCE).setOnPreferenceClickListener(new OnPreferenceClickListener() {
       @Override
       public boolean onPreferenceClick(Preference preference) {
         Intent i = new Intent(android.content.Intent.ACTION_SEND);
         i.setType("plain/text");
         i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyExpenses.FEEDBACK_EMAIL });
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,
-            "[" + getString(R.string.app_name) + "] Request for licence key"
-        );
+            "[" + getString(R.string.app_name) + "] " + getString(R.string.pref_request_licence_title));
         i.putExtra(android.content.Intent.EXTRA_TEXT,
-            Secure.getString(getContentResolver(),Secure.ANDROID_ID));
+            getString(R.string.request_licence_mail_body,Secure.getString(getContentResolver(),Secure.ANDROID_ID)));
         startActivity(i);
         return true;
       }
     });
-    findPreference("enter_licence")
+    findPreference(MyApplication.PREFKEY_ENTER_LICENCE)
     .setOnPreferenceChangeListener(this);
   }
   @Override
