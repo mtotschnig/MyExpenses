@@ -126,7 +126,7 @@
         android:title="@string/pref_request_licence_title"
         android:summary="@string/pref_request_licence_summary"/>
       <EditTextPreference android:key="@string/pref_enter_licence_key"
-        android:layout="@layout/preference_long_summary"
+        android:inputType="number"
         android:title="@string/pref_enter_licence_title"
         android:summary="@string/pref_enter_licence_summary" />
  	</PreferenceCategory>
