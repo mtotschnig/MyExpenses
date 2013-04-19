@@ -97,12 +97,16 @@ public class Utils {
       }
     }).create();
   }
+  private static String usageCountPrefKey(String feature) {
+    return "usage_count_"+feature;
+  }
   private static Integer usagesLeft(String feature) {
-    return 5 - MyApplication.getInstance().getContribUsages().getInt(feature, 0);
+    return 5 - MyApplication.getInstance().getSettings().getInt(usageCountPrefKey(feature), 0);
   }
   public static void recordUsage(String feature) {
-    SharedPreferences contribUsages = MyApplication.getInstance().getContribUsages();
-    contribUsages.edit().putInt(feature, contribUsages.getInt(feature, 0)+1).commit();
+    String prefKey = usageCountPrefKey(feature);
+    SharedPreferences contribUsages = MyApplication.getInstance().getSettings();
+    contribUsages.edit().putInt(prefKey, contribUsages.getInt(prefKey, 0)+1).commit();
   }
   public static Dialog contribDialog(final Activity ctx,final String feature) {
     final Integer usagesLeft = usagesLeft(feature);

@@ -30,7 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyApplication extends Application {
-    private SharedPreferences settings, contribUsages;
+    private SharedPreferences settings;
     private String databaseName;
     private ExpensesDbAdapter mDbOpenHelper;
     private static MyApplication mSelf;
@@ -67,9 +67,7 @@ public class MyApplication extends Application {
         if (databaseName == null) {
           databaseName = "data";
         }
-        if (contribUsages == null) {
-          contribUsages = getSharedPreferences("contrib_usages", 0);
-        }
+
         PREFKEY_CATEGORIES_SORT_BY_USAGES = getString(R.string.pref_categories_sort_by_usages_key);
         PREFKEY_USE_STANDARD_MENU = getString(R.string.pref_use_standard_menu_key);
         PREFKEY_PERFORM_SHARE = getString(R.string.pref_perform_share_key);
@@ -120,10 +118,6 @@ public class MyApplication extends Application {
     public SharedPreferences getSettings()
     {
         return settings;
-    }
-    public SharedPreferences getContribUsages()
-    {
-        return contribUsages;
     }
     public void setSettings(SharedPreferences s)
     {
