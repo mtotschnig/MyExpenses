@@ -117,9 +117,9 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
       startActivity(intent);
     } else if (key.equals(MyApplication.PREFKEY_ENTER_LICENCE)) {
      if (Utils.verifyLicenceKey((String)value)) {
-       Toast.makeText(getBaseContext(), "Licence key successfully authenticated: Contrib features have been unlocked", Toast.LENGTH_LONG).show();
+       Toast.makeText(getBaseContext(), R.string.licence_validation_success, Toast.LENGTH_LONG).show();
      } else {
-       Toast.makeText(getBaseContext(), "Unable to authenticate licence key", Toast.LENGTH_LONG).show();
+       Toast.makeText(getBaseContext(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
      }
     }
     return true;

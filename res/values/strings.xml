@@ -142,6 +142,8 @@
   <string name="invalid_number_format">Decimal format not regognized by your locale. Please use
       %1$s</string>
   <string name="label">Label</string>
+  <string name="licence_validation_success">Licence key successfully validated: Contrib features have been unlocked</string>
+  <string name="licence_validation_failure">Unable to validate licence key</string>
   <string name="menu_accounts">Accounts</string>
   <!-- TODO changed. Translations pending -->
   <string name="menu_accounts_explain">The Accounts button will let you switch between accounts,
