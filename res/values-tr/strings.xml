@@ -118,8 +118,8 @@
       - <b>Help</b> : Rehbere, yeniliklere, sıkça sorulan sorulara ve değişikliklere hızlı erişim sağlar.\n
       \nAyrıntılı bilgi için <a href="http://myexpenses.totschnig.org/#tutorial_r4">kılavuza</a> bakınız.
   </string>
-<string name="help_whats_new">&#160;- Uygulama ikonu ve tarih düğmesi tercüme edildi.\n
-      - Notlar muamele listesinde görüntüleniyor.</string>
+<!-- <string name="help_whats_new">&#160;- Uygulama ikonu ve tarih düğmesi tercüme edildi.\n
+      - Notlar muamele listesinde görüntüleniyor.</string> -->
   <string name="important_version_information">Önemli bilgi</string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="income">gelirler</string>

@@ -125,8 +125,8 @@
       - <b>Aiuto</b> : accesso rapido al manuale, News et FAQ.\n
       \nPer favore visita il <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuale</a>
       per avere ulteriori esplicazioni.</string>
-  <string name="help_whats_new">&#160;- Localizzata app icona e il pulsante data.\n
-       - Le note sono visualizzate nella lista delle transazioni.</string>
+<!--   <string name="help_whats_new">&#160;- Localizzata app icona e il pulsante data.\n
+       - Le note sono visualizzate nella lista delle transazioni.</string> -->
   <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
   <string name="important_version_information">Informazioni importanti</string>

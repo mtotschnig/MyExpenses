@@ -127,8 +127,8 @@
       \nPor favor, consulte <a href="http://myexpenses.totschnig.org/#tutorial_r4">el manual</a> para explicaciones detalladas.
   </string>
 <!--   <string name="help_whats_new">&#160;- Colores configurables para las cuentas.\n -->
-  <string name="help_whats_new">&#160;- El icono de la aplicación y el botón de la fecha estan localizados.\n
-       - Los apuntes se muestran en la lista de transacciones.</string>
+<!--   <string name="help_whats_new">&#160;- El icono de la aplicación y el botón de la fecha estan localizados.\n
+       - Los apuntes se muestran en la lista de transacciones.</string> -->
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Información importante</string>
   <string name="income">ingreso</string>

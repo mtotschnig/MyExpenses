@@ -126,8 +126,8 @@
 			- <b>Hilfe</b> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.\n
 			\nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
   </string>
-  <string name="help_whats_new">&#160;- App-Symbol und Datum-Schaltfläche lokalisiert.\n
-      - Notizen werden in der Buchungsliste angezeigt.</string>
+<!--   <string name="help_whats_new">&#160;- App-Symbol und Datum-Schaltfläche lokalisiert.\n
+      - Notizen werden in der Buchungsliste angezeigt.</string> -->
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
   <string name="important_version_information">Wichtige Information</string>
