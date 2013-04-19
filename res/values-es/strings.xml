@@ -63,11 +63,6 @@
   <string name="dialog_title_select_method">Escoger un método de pago</string>
   <string name="dialog_title_select_type">Escoger un tipo</string>
   <string name="dialog_title_template_title">Establecer el título</string>
-  <string name="donate">Done</string>
-  <string name="donate_button_more">&learn_more;</string>
-  <string name="donate_dialog_text">Si usted aprecia <i>&app_name;</i> y quiere donar puede donar atravès de PayPal o Flattr.
-      <a href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
-      \nGracias por su apoyo!</string>
   <string name="edit_category">Modificar categoría</string>
   <string name="error_accessing_gplay">Error al acceder a Google Play</string>
   <string name="expense">gasto</string>

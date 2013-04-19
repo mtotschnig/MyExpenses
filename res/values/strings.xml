@@ -46,6 +46,10 @@
   <string name="color_name_white">White</string>
   <string name="color_name_yellow">Yellow</string>
   <string name="comment">Notes</string>
+  <string name="contrib_dialog_text"><i>&app_name;</i> is offered ad free and open source.
+    Please contribute by installing the paid Contrib version. You gain unrestricted access to
+    all premium features. <a href="http://myexpenses.totschnig.org/#participate">&learn_more;</a>.\n
+      \nThank you for your support!</string>
   <string name="contrib_feature_restore_label">Backup restore without uninstall/reinstall</string>
   <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
   <string name="create_category">Create new category</string>
@@ -71,11 +75,6 @@
   <string name="dialog_title_select_method">Pick a payment method</string>
   <string name="dialog_title_select_type">Pick a type</string>
   <string name="dialog_title_template_title">Set the title</string>
-  <string name="donate">Donate</string>
-  <string name="donate_button_more">&learn_more;</string>
-  <string name="donate_dialog_text">If you appreciate <i>&app_name;</i> and would like to make
-      a contribution, you can donate via PayPal or Flattr. <a href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
-      \nThank you for your support!</string>
   <string name="edit_category">Edit category</string>
   <string name="error_accessing_gplay">Error while accessing Google Play</string>
   <string name="expense">expense</string>
@@ -328,9 +327,7 @@
   <string name="help_licence_quickactions">Includes BetterPopupWindow class from 
       http://code.google.com/p/simple-quickactions/ , licenced under 
       http://www.opensource.org/licenses/bsd-license.php .</string>
-  <string name="donate_button_flattr">Flattr</string>
-  <string name="donate_button_paypal">Paypal</string>
-
+  
   <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
   <string name="pref_use_standard_menu_key">use_standard_menu</string>
   <string name="pref_perform_share_key">perform_share</string>

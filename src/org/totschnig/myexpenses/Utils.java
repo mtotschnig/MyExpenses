@@ -119,6 +119,7 @@ public class Utils {
         public void onDialogButtonClicked(View v) {
           if (v.getId() == R.id.CONTRIB_PLAY_COMMAND_ID) {
             ctx.dismissDialog(R.id.CONTRIB_DIALOG_ID);
+            viewContribApp(ctx);
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
             if (isIntentAvailable(ctx,intent)) {
@@ -528,5 +529,14 @@ public class Utils {
         MyApplication.CONTRIB_SECRET;
     Long l = (s.hashCode() & 0x00000000ffffffffL);
     return l.toString().equals(key);
+  }
+  public static void viewContribApp(Activity ctx) {
+    Intent i = new Intent(Intent.ACTION_VIEW);
+    i.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
+    if (Utils.isIntentAvailable(ctx,i)) {
+      ctx.startActivity(i);
+    } else {
+      Toast.makeText(ctx.getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
+    }
   }
 }

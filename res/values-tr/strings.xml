@@ -61,11 +61,6 @@
   <string name="dialog_title_select_method">Bir ödeme metodu seçin</string>
   <string name="dialog_title_select_type">Bir tür seçin</string>
   <string name="dialog_title_template_title">Başlığı belirtin</string>
-  <string name="donate">Bağış</string>
-  <string name="donate_button_more">&learn_more;</string>
-  <string name="donate_dialog_text"><i>&app_name;</i> uygulamasını beğendiyseniz ve katkıda bulunmak
-      istiyorsanız, PayPal veya Flattr ile bağış yapabilirsiniz. <a href="http://myexpenses.totschnig.org/#donate">&learn_more;</a>.\n
-      \nDesteğiniz için teşekkür ederiz!</string>
   <string name="edit_category">Kategori düzenle</string>
   <string name="error_accessing_gplay">Google Play erişimi sırasında hata oluştu</string>
   <string name="expense">gider</string>

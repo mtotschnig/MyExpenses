@@ -37,7 +37,7 @@
     <item type="id" name="CONTRIB_DIALOG_ID" />
     <item type="id" name="NEW_FROM_TEMPLATE_COMMAND"/>
     <item type="id" name="MORE_ACTION_COMMAND"/>
-    <item type="id" name="DONATE_COMMAND"/>
+    <item type="id" name="CONTRIB_COMMAND"/>
     <item type="id" name="FEEDBACK_COMMAND"/>
     <item type="id" name="ACCOUNT_OVERVIEW_COMMAND"/>
     <item type="id" name="NEUTRAL_BUTTON"/>

@@ -104,7 +104,7 @@ public class MyExpenses extends Activity
   static final int TEMPLATE_TITLE_DIALOG_ID = 8;
   static final int SELECT_TEMPLATE_DIALOG_ID = 9;
   static final int MORE_ACTIONS_DIALOG_ID = 10;
-  static final int DONATE_DIALOG_ID = 11;
+  static final int CONTRIB_DIALOG_ID = 11;
   static final int CONFIRM_RESTORE_DIALOG_ID = 12;
   
   static final String HOST = "myexpenses.totschnig.org";
@@ -339,7 +339,7 @@ public class MyExpenses extends Activity
     mHelpButton.addItem(R.string.tutorial,R.id.WEB_COMMAND,"tutorial_r4");
     mHelpButton.addItem("News",R.id.WEB_COMMAND,"news");
     mHelpButton.addItem(R.string.menu_faq,R.id.WEB_COMMAND,"faq");
-    mHelpButton.addItem(R.string.donate,R.id.DONATE_COMMAND);
+    mHelpButton.addItem(R.string.menu_contrib,R.id.CONTRIB_COMMAND);
     mHelpButton.addItem("Feedback",R.id.FEEDBACK_COMMAND);
     mButtonBarIsFilled = true;
   }
@@ -528,6 +528,7 @@ public class MyExpenses extends Activity
       ((TextView)view.findViewById(R.id.help_licence_gpl)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_whats_new)).setMovementMethod(LinkMovementMethod.getInstance());
+      ((TextView)view.findViewById(R.id.help_contrib)).setMovementMethod(LinkMovementMethod.getInstance());
       Utils.setDialogOneButton(view,
           android.R.string.ok,0,null);
       return new AlertDialog.Builder(this)
@@ -548,7 +549,7 @@ public class MyExpenses extends Activity
       }
       Utils.setDialogThreeButtons(view,
           R.string.menu_help,R.id.HELP_COMMAND,null,
-          R.string.donate,R.id.DONATE_COMMAND,null,
+          R.string.menu_contrib,R.id.CONTRIB_COMMAND,null,
           android.R.string.ok,0,null);
       return new AlertDialog.Builder(this)
         .setTitle(getString(R.string.new_version) + " : " + getVersionName())
@@ -678,18 +679,17 @@ public class MyExpenses extends Activity
         }
       })
       .create();
-    case DONATE_DIALOG_ID:
+    case CONTRIB_DIALOG_ID:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.messagedialog, null);
       tv = (TextView)view.findViewById(R.id.message_text);
-      tv.setText(R.string.donate_dialog_text);
+      tv.setText(R.string.contrib_dialog_text);
       tv.setMovementMethod(LinkMovementMethod.getInstance());
-      Utils.setDialogTwoButtons(view,
-          R.string.donate_button_flattr,R.id.WEB_COMMAND,"flattr",
-          R.string.donate_button_paypal,R.id.WEB_COMMAND,"paypal"
+      Utils.setDialogOneButton(view,
+          R.string.dialog_contrib_yes,R.id.CONTRIB_PLAY_COMMAND_ID,null
       );
       return new AlertDialog.Builder(this)
-        .setTitle(R.string.donate)
+        .setTitle(R.string.menu_contrib)
         .setView(view)
         .create();
     case CONFIRM_RESTORE_DIALOG_ID:
@@ -698,8 +698,8 @@ public class MyExpenses extends Activity
       tv = (TextView)view.findViewById(R.id.message_text);
       tv.setText(R.string.dialog_confirm_restore_on_install);
       Utils.setDialogTwoButtons(view,
-          android.R.string.yes,R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,new Boolean(true),
-          android.R.string.no,R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,new Boolean(false)
+          android.R.string.yes,R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true),
+          android.R.string.no,R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true)
       );
       return new AlertDialog.Builder(this)
         .setCancelable(false)
@@ -1146,8 +1146,11 @@ public class MyExpenses extends Activity
       i.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.feedback_email_message));
       startActivity(i);
       break;
-    case R.id.DONATE_COMMAND:
-      showDialogWrapper(DONATE_DIALOG_ID);
+    case R.id.CONTRIB_COMMAND:
+      showDialogWrapper(CONTRIB_DIALOG_ID);
+      break;
+    case R.id.CONTRIB_PLAY_COMMAND_ID:
+      Utils.viewContribApp((Activity) this);
       break;
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);

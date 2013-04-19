@@ -64,13 +64,7 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
     findPreference(MyApplication.PREFKEY_CONTRIB_INSTALL).setOnPreferenceClickListener(new OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
-          Intent intent = new Intent(Intent.ACTION_VIEW);
-          intent.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
-          if (Utils.isIntentAvailable(MyPreferenceActivity.this,intent)) {
-            startActivity(intent);
-          } else {
-            Toast.makeText(getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
-          }
+          Utils.viewContribApp(MyPreferenceActivity.this);
           return true;
         }
     });
