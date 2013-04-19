@@ -31,6 +31,7 @@
 
          -->
     <property file="ant.properties" />
+    <property name="contrib.secret" value="RANDOM_SECRET"/>
     <property name="rev" value="4"/>
     <!-- The project.properties file is created and updated by the 'android'
          tool, as well as ADT.
@@ -86,15 +87,17 @@
     <!-- version-tag: custom -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
 
-  <target name="-build-setup" depends="android_rules.-build-setup">
+  <target name="-build-setup" depends="android_rules.-build-setup,generate-properties"/>
+  <target name="generate-properties">
     <tstamp/>
-    <echo>Configuring build date</echo>
+    <echo>Configuring build date and contrib secret</echo>
     <property name="config-target-path" value="res/raw"/>
     <!-- Copy the configuration file, replacing tokens in the file. -->
     <copy file="template/app.properties" todir="${config-target-path}" 
         overwrite="true" encoding="utf-8">
       <filterset>
         <filter token="build.date" value="${DSTAMP}-${TSTAMP}"/>
+        <filter token="contrib.secret" value="${contrib.secret}"/>
       </filterset>
     </copy>
   </target>

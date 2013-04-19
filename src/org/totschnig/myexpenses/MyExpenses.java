@@ -21,15 +21,12 @@ import java.sql.Timestamp;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Locale;
-import java.util.Properties;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.ButtonBar.Action;
@@ -48,7 +45,6 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -65,7 +61,6 @@ import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -1076,7 +1071,6 @@ public class MyExpenses extends Activity
   public String getVersionInfo() {
     String version = "";
     String versionname = "";
-    String versiontime = "";
     try {
       PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
       version = " (revision " + pi.versionCode + ") ";
@@ -1085,17 +1079,7 @@ public class MyExpenses extends Activity
     } catch (Exception e) {
       Log.e("MyExpenses", "Package info not found", e);
     }
-    try {
-      InputStream rawResource = getResources().openRawResource(R.raw.app);
-      Properties properties = new Properties();
-      properties.load(rawResource);
-      versiontime = properties.getProperty("build.date");
-    } catch (NotFoundException e) {
-      Log.w("MyExpenses","Did not find raw resource");
-    } catch (IOException e) {
-      Log.w("MyExpenses","Failed to open property file");
-    }
-    return versionname + version  + versiontime;
+    return versionname + version  + MyApplication.BUILD_DATE;
   }
   /**
    * @return version name

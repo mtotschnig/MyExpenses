@@ -121,7 +121,7 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
       Intent intent = getIntent();
       finish();
       startActivity(intent);
-    } else if (key.equals("enter_licence")) {
+    } else if (key.equals(MyApplication.PREFKEY_ENTER_LICENCE)) {
      if (Utils.verifyLicenceKey((String)value)) {
        Toast.makeText(getBaseContext(), "Licence key successfully authenticated: Contrib features have been unlocked", Toast.LENGTH_LONG).show();
      } else {

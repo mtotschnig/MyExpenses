@@ -16,12 +16,16 @@
 package org.totschnig.myexpenses;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
+import java.util.Properties;
 
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Resources.NotFoundException;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -53,6 +57,8 @@ public class MyApplication extends Application {
     public static String PREFKEY_ENTER_LICENCE;
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static int currentAccountColor;
+    public static String BUILD_DATE = "";
+    protected static String CONTRIB_SECRET = "RANDOM_SECRET";
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 
     @Override
@@ -82,6 +88,17 @@ public class MyApplication extends Application {
         PREFKEY_REQUEST_LICENCE = getString(R.string.pref_request_licence_key);
         PREFKEY_ENTER_LICENCE = getString(R.string.pref_enter_licence_key);
         //mDbOpenHelper = db();
+        try {
+          InputStream rawResource = getResources().openRawResource(R.raw.app);
+          Properties properties = new Properties();
+          properties.load(rawResource);
+          BUILD_DATE = properties.getProperty("build.date");
+          CONTRIB_SECRET = properties.getProperty("contrib.secret");
+        } catch (NotFoundException e) {
+          Log.w("MyExpenses","Did not find raw resource");
+        } catch (IOException e) {
+          Log.w("MyExpenses","Failed to open property file");
+        }
     }
     public static void setCurrentAccountColor(int currentAccountColor) {
       MyApplication.currentAccountColor = currentAccountColor;

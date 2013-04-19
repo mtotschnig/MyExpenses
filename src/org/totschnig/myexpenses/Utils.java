@@ -514,7 +514,7 @@ public class Utils {
   public static boolean isContribEnabled(Context context) {
     //TODO: cache result
     return doesPackageExist(context, "org.totschnig.myexpenses.contrib") ||
-        verifyLicenceKey(MyApplication.getInstance().getSettings().getString("enter_licence", ""));
+        verifyLicenceKey(MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
   }
 
   public static int getTextColorForBackground(int color) {
@@ -524,8 +524,8 @@ public class Utils {
     return greyLevel > 127 ? Color.BLACK : Color.WHITE;
   }
   public static boolean verifyLicenceKey (String key) {
-    String secret = "RANDOM_SECRET";
-    String s = Secure.getString(MyApplication.getInstance().getContentResolver(),Secure.ANDROID_ID)+secret;
+    String s = Secure.getString(MyApplication.getInstance().getContentResolver(),Secure.ANDROID_ID) + 
+        MyApplication.CONTRIB_SECRET;
     Long l = (s.hashCode() & 0x00000000ffffffffL);
     return l.toString().equals(key);
   }
