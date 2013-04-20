@@ -142,8 +142,8 @@
   <string name="invalid_number_format">Decimal format not regognized by your locale. Please use
       %1$s</string>
   <string name="label">Label</string>
-  <string name="licence_validation_success">Licence key successfully validated: Contrib features have been unlocked</string>
-  <string name="licence_validation_failure">Unable to validate licence key</string>
+  <string name="licence_validation_success">Licence key successfully validated: Contrib features have been unlocked.</string>
+  <string name="licence_validation_failure">Unable to validate licence key.</string>
   <string name="menu_accounts">Accounts</string>
   <!-- TODO changed. Translations pending -->
   <string name="menu_accounts_explain">The Accounts button will let you switch between accounts,
@@ -239,7 +239,7 @@
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_contrib_install_title">Install contrib app</string>
-  <string name="pref_contrib_install_summary">By installing My Expenses Contrib, you gain access to premium features.</string>
+  <string name="pref_contrib_install_summary">By installing &app_name; Contrib, you gain access to premium features.</string>
   <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency
       amounts</string>
   <string name="pref_currency_decimal_separator_summary">You can choose between "," and "." or
@@ -252,7 +252,7 @@
   <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default
       Grisbi definitions internal to the app, or your own file stored as &grisbi_file; in a folder 
-      myexpenses in the root of your sdcard. </string>
+      \"myexpenses\"" in the root of your sdcard. </string>
   <string name="pref_manage_accounts_title">Accounts</string>
   <string name="pref_manage_accounts_summary">Add, edit, delete accounts.</string>
   <string name="pref_manage_categories_title">Categories</string>
@@ -270,7 +270,7 @@
   <string name="pref_request_licence_title">Request a contrib key</string>
   <string name="pref_request_licence_summary">If you have contributed by other means, ask for a contrib key by email.</string>
   <string name="pref_restore_title">Restore</string>
-  <string name="pref_restore_summary">Restore the backup from folder myexpenses on the sdcard.</string>
+  <string name="pref_restore_summary">Restore the backup from folder \"myexpenses\" on the sdcard.</string>
   <string name="pref_share_target_title">Upload URL QIF Export</string>
   <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate 
       apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes
@@ -282,10 +282,10 @@
   <string name="pref_use_standard_menu_title">Use standard Android menu</string>
   <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
       standard menu for accessing commands.</string>
-  <string name="request_licence_mail_body">Please send me a contrib key for Android ID %1$s</string>
-  <string name="restore_db_failure">Database restore failed</string>
+  <string name="request_licence_mail_body">Please send me a contrib key for Android-Id %1$s</string>
+  <string name="restore_db_failure">Database restore failed.</string>
   <string name="restore_db_success">Database has been restored from backup.</string>
-  <string name="restore_no_backup_found">No file BACKUP found in folder myexpenses on sdcard.</string>
+  <string name="restore_no_backup_found">No file BACKUP found in folder \"myexpenses\" on sdcard.</string>
   <string name="restore_preferences_failure">Preferences restore failed</string>
   <string name="restore_preferences_success">Preferences have been restored from backup.</string>
   <string name="save_transaction_error">Could not save new transaction from template</string>
