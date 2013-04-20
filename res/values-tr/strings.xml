@@ -130,8 +130,8 @@
   <string name="income">gelirler</string>
   <string name="invalid_number_format">Yerel ayarlarınız ondalık biçimi tanımıyor. Lütfen şunu kullanınız: %1$s</string>
   <string name="label">Etiket</string>
-  <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı: katkı işlevlerinin kilidi kaldırılmıştır</string>
-  <string name="licence_validation_failure">Lisans anahtarı doğrulanamadı</string>
+  <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı: katkı işlevlerinin kilidi kaldırılmıştır.</string>
+  <string name="licence_validation_failure">Lisans anahtarı doğrulanamadı.</string>
   <string name="menu_accounts">Hesaplar</string>
   <!-- TODO changed. Translations pending -->
   <string name="menu_accounts_explain">Hesaplar düğmesi birden çok hesap yapılandırıldığında hesaplar arası geçiş yapmaya izin verir. Şu anda sadece tek bir hesap vardır.
