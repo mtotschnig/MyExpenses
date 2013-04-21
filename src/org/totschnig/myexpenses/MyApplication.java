@@ -59,6 +59,9 @@ public class MyApplication extends Application {
     public static int currentAccountColor;
     public static String BUILD_DATE = "";
     protected static String CONTRIB_SECRET = "RANDOM_SECRET";
+    public static String CONTRIB_FEATURE_EDIT_TEMPLATE = "edit_template";
+    public static String CONTRIB_FEATURE_RESTORE= "restore";
+    public static String CONTRIB_FEATURE_AGGREGATE = "aggregate";
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 
     @Override

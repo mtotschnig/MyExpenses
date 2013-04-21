@@ -27,16 +27,25 @@
         style="?attr/listStyle"
         android:paddingRight="?attr/listPadding"
         android:paddingLeft="?attr/listPadding"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:id="@+id/Table"
         android:stretchColumns="1"
         android:shrinkColumns="1">
-      <TableRow>
+      <TableRow android:id="@+id/TitleRow"
+          android:visibility="gone">
+        <TextView style="@style/form_label"
+            android:text="@string/title"/>
+        <EditText
+            android:id="@+id/Title"
+            android:singleLine="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+      </TableRow>
+      <TableRow android:id="@+id/DateRow">
         <TextView style="@style/form_label"
             android:text="@string/date_time"/>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:orientation="horizontal">
           <Button android:layout_weight="1"
               android:layout_width="0dp"
@@ -55,7 +64,7 @@
                 
       <TableRow>
         <TextView style="@style/form_label" android:id="@+id/AmountLabel"/>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:orientation="horizontal">
           <Button style="@style/button"
               android:layout_width="60dp"

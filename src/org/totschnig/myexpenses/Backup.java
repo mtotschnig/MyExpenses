@@ -95,9 +95,9 @@ public class Backup extends Activity implements ContribIFace {
         public void onDialogButtonClicked(View v) {
           dismissDialog(RESTORE_DIALOG_ID);
           if (v.getId() == RESTORE_COMMAND_ID) {
-            Utils.recordUsage("restore");
             if (MyApplication.backupExists()) {
               MyApplication.backupRestore();
+              Utils.recordUsage(MyApplication.CONTRIB_FEATURE_RESTORE);
               Intent i = getBaseContext().getPackageManager()
                   .getLaunchIntentForPackage( getBaseContext().getPackageName() );
               i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -117,7 +117,7 @@ public class Backup extends Activity implements ContribIFace {
       })
       .create();
     case R.id.CONTRIB_DIALOG_ID:
-      return Utils.contribDialog(this,"restore");
+      return Utils.contribDialog(this,MyApplication.CONTRIB_FEATURE_RESTORE);
     }
     return null;
   }

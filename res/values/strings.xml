@@ -54,6 +54,7 @@
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Backup restore without uninstall/reinstall</string>
   <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
+  <string name="contrib_feature_edit_template_label">Editing of templates</string>
   <string name="create_category">Create new category</string>
   <string name="currency">Currency</string>
   <string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
@@ -134,7 +135,7 @@
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
   <string name="help_whats_new">&#160;- Swipe through accounts.\n
-        - Restore backup without install/uninstall.\n
+        - Restore backup without uninstall/reinstall.\n
         - Ask for confirmation when restoring upon install.\n
         - Display aggregate financial situation in account list.\n
         - Resolved flickering issue in light theme.</string>
@@ -169,6 +170,7 @@
   <string name="menu_edit_method">Edit Payment Method</string>
   <string name="menu_edit_cat">Edit category</string>
   <string name="menu_edit_ta">Edit Transaction</string>
+  <string name="menu_edit_template">Edit Template</string>
   <string name="menu_edit_transfer">Edit Transfer</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_help">Help</string>

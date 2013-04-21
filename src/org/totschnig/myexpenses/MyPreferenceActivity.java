@@ -29,6 +29,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.provider.Settings.Secure;
+import android.util.Log;
 import android.widget.Toast;
  
 /**
@@ -71,13 +72,15 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
     findPreference(MyApplication.PREFKEY_REQUEST_LICENCE).setOnPreferenceClickListener(new OnPreferenceClickListener() {
       @Override
       public boolean onPreferenceClick(Preference preference) {
+        String androidId = Secure.getString(getContentResolver(),Secure.ANDROID_ID);
+        Log.i("Contrib",androidId);
         Intent i = new Intent(android.content.Intent.ACTION_SEND);
         i.setType("plain/text");
         i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyExpenses.FEEDBACK_EMAIL });
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,
             "[" + getString(R.string.app_name) + "] " + getString(R.string.pref_request_licence_title));
         i.putExtra(android.content.Intent.EXTRA_TEXT,
-            getString(R.string.request_licence_mail_body,Secure.getString(getContentResolver(),Secure.ANDROID_ID)));
+            getString(R.string.request_licence_mail_body,androidId));
         startActivity(i);
         return true;
       }

@@ -1053,7 +1053,7 @@ public class ExpensesDbAdapter {
   public boolean deleteTemplate(long id) {
     return mDb.delete("templates", KEY_ROWID + "=" + id, null) > 0;
   }
-  public long createTemplate(String date, long amount, String comment,
+  public long createTemplate(long amount, String comment,
       long cat_id,long account_id, String payee, long transfer_peer, long payment_method_id, String title) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
@@ -1069,6 +1069,18 @@ public class ExpensesDbAdapter {
     } catch (SQLiteConstraintException e) {
       return -1;
     }
+  }
+  public int updateTemplate(long rowId, Long amount, String comment,
+      long cat_id, String payee, long payment_method_id, String title) {
+  ContentValues args = new ContentValues();
+  args.put(KEY_AMOUNT, amount);
+  args.put(KEY_COMMENT, comment);
+  args.put(KEY_CATID, cat_id);
+  args.put(KEY_PAYEE, payee);
+  args.put(KEY_METHODID, payment_method_id);
+  args.put(KEY_TITLE, title);
+  int result = mDb.update("templates", args, KEY_ROWID + "=" + rowId, null);
+  return result;
   }
 
   public int getTemplateCount(long accountId) {

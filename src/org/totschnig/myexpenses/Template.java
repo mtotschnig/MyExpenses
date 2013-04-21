@@ -16,7 +16,10 @@ public class Template extends Transaction {
     this.comment = t.comment;
     this.methodId = t.methodId;
     this.payee = t.payee;
-    this.transfer_peer = t.transfer_peer;
+    //for Transfers we store -1 as peer since it needs to be different from 0,
+    //but we are not interested in which was the transfer_peer of the transfer
+    //from which the template was derived;
+    this.transfer_peer = t.transfer_peer == 0 ? 0 : -1;
   }
   public Template(long accountId,long amount) {
     super(accountId,amount);
@@ -38,19 +41,20 @@ public class Template extends Transaction {
             c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE));
     t.catId = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
     t.label =  c.getString(c.getColumnIndexOrThrow("label"));
+    t.title = c.getString(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TITLE));
     c.close();
     return t;
   }
   /**
-   * Saves the new template, updating not yet implemented 
+   * Saves the new template, or updated an existing one
    * @return the id of the template. Upon creation it is returned from the database
    */
   public long save() {
     if (id == 0) {
-      id = mDbHelper.createTemplate(dateAsString, amount.getAmountMinor(), comment,catId,accountId,payee,transfer_peer,methodId,title);
+      id = mDbHelper.createTemplate(amount.getAmountMinor(), comment,catId,accountId,payee,transfer_peer,methodId,title);
     } else {
-      //not implemented yet
-      //mDbHelper.updateTemplate(id, dateAsString, amount.getAmountMinor(), comment,catId,payee, methodId,title);
+      Utils.recordUsage(MyApplication.CONTRIB_FEATURE_EDIT_TEMPLATE);
+      mDbHelper.updateTemplate(id, amount.getAmountMinor(), comment,catId,payee, methodId,title);
     }
     return id;
   }

@@ -137,8 +137,11 @@
       - <b>Aide</b> : Accès rapide au manuel, les news, la foire aux questions et la liste des changements.\n
       \nReférez-vous au <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuel</a> pour de plus amples explications.
   </string>
-<!--   <string name="help_whats_new">&#160;- L\'icône de l\'application et le bouton de la date sont localisés.\n
-       - Les remarques sont affichées dans la liste des transactions.</string> -->
+  <string name="help_whats_new">&#160;- Changer de compte par geste Swipe.\n
+        - Restauration de la sauvegarde sans déinstallation/reinstallation.\n
+        - S\'il y a détection de sauvegarde lors de l\'installation, demander confirmation avant de la restaurer.\n
+        - Dans la liste des comptes, affichache des sommes totales.\n
+        - Scintillment dans le thème claire résolu.</string>
   <string name="import_categories">Importer les catégories</string>
   <string name="important_version_information">Information importante</string>
   <string name="income">revenu</string>

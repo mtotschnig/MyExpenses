@@ -154,7 +154,7 @@ public class ManageAccounts extends ListActivity implements ContribIFace {
       .setView(view)
       .create();
     case R.id.CONTRIB_DIALOG_ID:
-      return Utils.contribDialog(this,"aggregate");
+      return Utils.contribDialog(this,MyApplication.CONTRIB_FEATURE_AGGREGATE);
     }
     return null;
   }
@@ -274,7 +274,7 @@ public class ManageAccounts extends ListActivity implements ContribIFace {
   @Override
   public void contribFeatureCalled(String feature) {
     removeDialog(R.id.CONTRIB_DIALOG_ID);
-    Utils.recordUsage("aggregate");
+    Utils.recordUsage(MyApplication.CONTRIB_FEATURE_AGGREGATE);
     showDialogWrapper(AGGREGATE_DIALOG_ID);
   }
 

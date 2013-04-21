@@ -128,11 +128,14 @@ public class Utils {
               Toast.makeText(ctx.getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
             }
             ((ContribIFace)ctx).contribFeatureNotCalled();
-          } else{
-            //we remove the dialog, in order to have it display updated usage count on next display
-            ctx.removeDialog(R.id.CONTRIB_DIALOG_ID);
+          } else {
             if (usagesLeft > 0) {
+              //we remove the dialog, in order to have it display updated usage count on next display
+              ctx.removeDialog(R.id.CONTRIB_DIALOG_ID);
               ((ContribIFace)ctx).contribFeatureCalled(feature);
+            } else {
+              ctx.dismissDialog(R.id.CONTRIB_DIALOG_ID);
+              ((ContribIFace)ctx).contribFeatureNotCalled();
             }
           }
         }

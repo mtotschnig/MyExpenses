@@ -1130,6 +1130,7 @@ public class MyExpenses extends Activity
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
       i = new Intent(this, ExpenseEdit.class);
       i.putExtra("template_id", (Long) tag);
+      i.putExtra("instantiate", true);
       startActivityForResult(i, ACTIVITY_EDIT);
       return true;
     }

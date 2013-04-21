@@ -32,7 +32,17 @@
         android:id="@+id/Table"
         android:stretchColumns="1"
         android:shrinkColumns="1">
-      <TableRow>
+      <TableRow android:id="@+id/TitleRow"
+         android:visibility="gone">
+        <TextView style="@style/form_label"
+            android:text="@string/title"/>
+        <EditText
+            android:id="@+id/Title"
+            android:singleLine="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+      </TableRow>
+      <TableRow android:id="@+id/DateRow">
         <TextView style="@style/form_label"
             android:text="@string/date"/>
         <Button android:id="@+id/Date"
@@ -40,7 +50,7 @@
             style="@style/button" />
       </TableRow>
         
-      <TableRow>
+      <TableRow android:id="@+id/TimeRow">
         <TextView style="@style/form_label"
             android:text="@string/time"/>
         <Button android:id="@+id/Time" android:text="@string/select"

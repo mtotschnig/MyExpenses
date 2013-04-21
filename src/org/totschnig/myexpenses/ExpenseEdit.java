@@ -46,7 +46,7 @@ public class ExpenseEdit extends EditActivity {
 
   private Button mDateButton;
   private Button mTimeButton;
-  private EditText mCommentText;
+  private EditText mCommentText, mTitleText;
   private Button mCategoryButton;
   private Button mMethodButton;
   private Button mTypeButton;
@@ -107,13 +107,30 @@ public class ExpenseEdit extends EditActivity {
     mRowId = extras.getLong(ExpensesDbAdapter.KEY_ROWID,0);
     mTemplateId = extras.getLong("template_id",0);
     
+    setContentView(R.layout.one_expense);
+    changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
+    MyApplication.updateUIWithAccountColor(this);
+    configAmountInput();
+    
     //1. fetch the transaction or create a new instance
     if (mRowId != 0) {
       mTransaction = Transaction.getInstanceFromDb(mRowId);
       mAccountId = mTransaction.accountId;
       mOperationType = mTransaction.transfer_peer == 0;
     } else if (mTemplateId != 0) {
-      mTransaction = Transaction.getInstanceFromTemplate(mTemplateId);
+      //are we editing the template or instantiating a new one
+      if (extras.getBoolean("instantiate")) {
+        mTransaction = Transaction.getInstanceFromTemplate(mTemplateId);
+      } else {
+        mTransaction = Template.getInstanceFromDb(mTemplateId);
+        findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
+        findViewById(R.id.DateRow).setVisibility(View.GONE);
+        //in portrait orientation we have a separate row for time
+        View timeRow = findViewById(R.id.TimeRow);
+        if (timeRow != null)
+          timeRow.setVisibility(View.GONE);
+        mTitleText = (EditText) findViewById(R.id.Title);
+      }
       mAccountId = mTransaction.accountId;
       mOperationType = mTransaction.transfer_peer == 0;
     } else {
@@ -121,11 +138,7 @@ public class ExpenseEdit extends EditActivity {
       mAccountId = extras.getLong(ExpensesDbAdapter.KEY_ACCOUNTID);
       mTransaction = Transaction.getTypedNewInstance(mOperationType,mAccountId);
     }
-    
-    setContentView(R.layout.one_expense);
-    changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
-    MyApplication.updateUIWithAccountColor(this);
-    configAmountInput();
+
 
     mDateButton = (Button) findViewById(R.id.Date);
     mDateButton.setOnClickListener(new View.OnClickListener() {
@@ -424,7 +437,7 @@ public class ExpenseEdit extends EditActivity {
       //by the way: this is a good time to close the cursor
       otherAccounts.close();
     } else {
-      //5b if we are a transaction we start select category activiy
+      //5b if we are a transaction we start select category activity
       mCategoryButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View view) {
             startSelectCategory();
@@ -438,7 +451,12 @@ public class ExpenseEdit extends EditActivity {
         MethodContainer.setVisibility(View.GONE);
       }
     }
-    setDateTime(mTransaction.date);
+    if (mTransaction instanceof Template) {
+      mTitleText.setText(((Template) mTransaction).title);
+      setTitle(R.string.menu_edit_template);
+    }
+    else
+      setDateTime(mTransaction.date);
     
     //add currency label to amount label
     TextView amountLabel = (TextView) findViewById(R.id.AmountLabel);    
@@ -517,7 +535,10 @@ public class ExpenseEdit extends EditActivity {
     }
 
     mTransaction.comment = mCommentText.getText().toString();
-    mTransaction.setDate(mCalendar.getTime());
+    if (mTransaction instanceof Template)
+        ((Template) mTransaction).title = mTitleText.getText().toString();
+    else
+      mTransaction.setDate(mCalendar.getTime());
 
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mTransaction.setPayee(mPayeeText.getText().toString());
