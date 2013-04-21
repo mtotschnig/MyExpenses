@@ -47,6 +47,7 @@
   <string name="color_name_white">Blanc</string>
   <string name="color_name_yellow">Groc</string>
   <string name="comment">Notes</string>
+  <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="create_category">Nova categoria</string>
   <string name="currency">Moneda</string>
   <string name="currency_not_iso4217">%1$s no és un codi de moneda vàlid segons ISO 4217.</string>
@@ -71,6 +72,7 @@
   <string name="export_expenses_sdcard_failure">Hi ha hagut un error en exportar les despeses a la targeta SD.</string>
   <string name="export_expenses_sdcard_success">Les despesas s\'han exportat al fitxer %1$s</string>
   <string name="external_storage_unavailable">La memòria externa (targeta SD) no està disponible.</string>
+  <string name="feedback">Feedback</string>
   <string name="ftp_uri_malformed">URI %1$s no és vàlid</string>
   <string name="go_to_chapter">Consulteu el capítol</string>
   <string name="grisbi_file">&grisbi_file;</string>

@@ -147,7 +147,6 @@
   <string name="licence_validation_success">Licence key successfully validated: Contrib features have been unlocked.</string>
   <string name="licence_validation_failure">Unable to validate licence key.</string>
   <string name="menu_accounts">Accounts</string>
-  <!-- TODO changed. Translations pending -->
   <string name="menu_accounts_explain">The Accounts button will let you switch between accounts,
       once you have defined multiple accounts. Currently there is only one account.
       Do you want to create a second account now?</string>

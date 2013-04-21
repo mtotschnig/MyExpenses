@@ -47,6 +47,7 @@
   <string name="color_name_white">Bianco</string>
   <string name="color_name_yellow">Giallo</string>
   <string name="comment">Note</string>
+  <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="create_category">Nuova categoria</string>
   <string name="currency">Valuta</string>
   <string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
@@ -74,6 +75,7 @@
   <string name="export_expenses_sdcard_success">Le spese sono esportate nel file %1$s</string>
   <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non è disponibile
   </string>
+  <string name="feedback">Feedback</string>
   <string name="ftp_uri_malformed">Sintassi male dell\'URI %1$s</string>
   <string name="go_to_chapter">Vai al capitolo</string>
   <string name="grisbi_file">&grisbi_file;</string>
@@ -219,6 +221,8 @@
   </string>
   <string name="pref_categories_sort_by_usages_summary">Ordinare le principali categorie in base
       alla frequenza d\'uso (altrimenti in ordine alfabetico)</string>
+  <string name="pref_category_title_import">Import</string>
+  <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_manage">Gestione</string>
   <string name="pref_category_title_ui">Interfaccia utente</string>
   <string name="pref_currency_decimal_separator_title">Separatore decimale per l\'ingresso della
