@@ -17,6 +17,8 @@
 <!DOCTYPE resources [
   <!ENTITY app_name "Harcamalarım">
   <!ENTITY grisbi_file "grisbi.xml">
+  <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Daha fazla bilgi</a>.'>
+  <!ENTITY thank_you 'Desteğiniz için teşekkür ederiz!'>
 ]>
 <resources>
   <string name="account">Hesap</string>
@@ -47,8 +49,9 @@
   <string name="comment">Notlar</string>
   <string name="contrib_dialog_text"><i>&app_name;</i> reklamsız ve özgür yazılım olarak sunulmuştur.
     Lütfen ücretli Katkı sürümünü kurarak katkıda bulununuz. Tüm işlevlere sınırsız
-    erişim kazanırsınız. <a href="http://myexpenses.totschnig.org/#participate">Daha fazla bilgi</a>.\n
-    \nDesteğiniz için teşekkür ederiz!</string>
+    erişim kazanırsınız.  &learn_more;\n
+      \n&thank_you;</string>
+  <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Yedeklemeyi uygulamayı kaldırıp tekrar kurmadan yükle</string>
   <string name="contrib_feature_aggregate_label">Birden çok hesabın birleşik görünümü</string>
   <string name="create_category">Yeni kategori oluştur</string>
@@ -62,7 +65,7 @@
   <string name="dialog_confirm_restore_on_install">Bir yedekleme dosyası tespit edildi. Onu yüklemek istiyor musunuz?</string>
   <string name="dialog_contrib_usage_count">%1$d ücretsiz kullanım kalmıştır</string>
   <string name="dialog_contrib_no_usages_left">Hiçbir ücretsiz kullanım kalmamıştır</string>
-  <string name="dialog_contrib_reminder">\"%1$s\" katkı işlevidir. %2$s.\n\tBu işleve ve diğerlerine tüm erişimi &lt;i&gt;My Expenses Contrib&lt;/i&gt; uygulamasını kurarak elde edebilirsiniz. Desteğiniz için teşekkür ederiz.</string>
+  <string name="dialog_contrib_reminder">\"%1$s\" katkı işlevidir. %2$s.\n\tBu işleve ve diğerlerine tüm erişimi &lt;i&gt;My Expenses Contrib&lt;/i&gt; uygulamasını kurarak elde edebilirsiniz. &thank_you;</string>
   <string name="dialog_contrib_yes">Satın al</string>
   <string name="dialog_contrib_no">Henüz değil</string>
   <string name="dialog_title_select_account">Bir hesap seçin</string>

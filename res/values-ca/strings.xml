@@ -17,7 +17,8 @@
 <!DOCTYPE resources [
   <!ENTITY app_name "Les meves despeses">
   <!ENTITY grisbi_file "grisbi.xml">
-  <!ENTITY learn_more "Més informació">
+  <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Més informació</a>.'>
+  <!ENTITY thank_you 'Gràcies pel vostre suport!'>
 ]>
 <resources>
   <string name="account">Compte</string>

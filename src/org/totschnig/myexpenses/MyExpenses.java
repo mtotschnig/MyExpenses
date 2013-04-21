@@ -680,13 +680,16 @@ public class MyExpenses extends Activity
       })
       .create();
     case CONTRIB_DIALOG_ID:
+      boolean already_contrib = Utils.isContribEnabled(this);
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.messagedialog, null);
       tv = (TextView)view.findViewById(R.id.message_text);
-      tv.setText(R.string.contrib_dialog_text);
+      tv.setText(already_contrib ? R.string.contrib_dialog_thanks : R.string.contrib_dialog_text);
       tv.setMovementMethod(LinkMovementMethod.getInstance());
       Utils.setDialogOneButton(view,
-          R.string.dialog_contrib_yes,R.id.CONTRIB_PLAY_COMMAND_ID,null
+          already_contrib ? android.R.string.ok : R.string.dialog_contrib_yes,
+          already_contrib ? 0 : R.id.CONTRIB_PLAY_COMMAND_ID,
+          null
       );
       return new AlertDialog.Builder(this)
         .setTitle(R.string.menu_contrib)

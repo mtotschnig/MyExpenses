@@ -17,7 +17,8 @@
 <!DOCTYPE resources [
   <!ENTITY app_name "Meine Ausgaben">
   <!ENTITY grisbi_file "grisbi.xml">
-  <!ENTITY learn_more "Mehr erfahren">
+  <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Mehr erfahren</a>.'>
+  <!ENTITY thank_you 'Danke für Ihre Unterstützung!'>
 ]>
 <resources>
   <string name="account">Konto</string>
@@ -49,8 +50,9 @@
   <string name="comment">Notizen</string>
   <string name="contrib_dialog_text"><i>&app_name;</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten.
   	Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch
-  	Zugriff auf alle Premium-Funktionen. <a href="http://myexpenses.totschnig.org/#participate">&learn_more;</a>.\n
-      \nDanke für Ihre Unterstützung!</string>
+  	Zugriff auf alle Premium-Funktionen. &learn_more;\n
+      \n&thank_you;</string>
+  <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Wiederherstellung der Sicherungskopie ohne Deinstallation/Reinstallation</string>
   <string name="contrib_feature_aggregate_label">Gesamtsumme über mehrere Konten</string>
   <string name="create_category">Neue Kategorie</string>
@@ -67,7 +69,7 @@
   <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden</string>
   <string name="dialog_contrib_reminder">\"%1$s\" ist eine Premium Funktion. %2$s.
     Sie können auf diese und alle anderen uneingeschränkt zugreifen, wenn Sie &lt;i>&app_name; Contrib&lt;/i> installieren. 
-    Danke für Ihre Unterstützung.</string>
+    &thank_you;</string>
   <string name="dialog_contrib_yes">Kaufen</string>
   <string name="dialog_contrib_no">Noch nicht</string>
   <string name="dialog_title_select_account">Konto auswählen</string>

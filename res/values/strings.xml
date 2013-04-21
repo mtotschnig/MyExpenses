@@ -17,7 +17,8 @@
 <!DOCTYPE resources [
   <!ENTITY app_name "My Expenses">
   <!ENTITY grisbi_file "grisbi.xml">
-  <!ENTITY learn_more "Learn more">
+  <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Learn more</a>.'>
+  <!ENTITY thank_you 'Thank you for your support!'>
 ]>
 <resources>
   <string name="account">Account</string>
@@ -48,8 +49,9 @@
   <string name="comment">Notes</string>
   <string name="contrib_dialog_text"><i>&app_name;</i> is offered ad free and open source.
     Please contribute by installing the paid Contrib version. You gain unrestricted access to
-    all premium features. <a href="http://myexpenses.totschnig.org/#participate">&learn_more;</a>.\n
-      \nThank you for your support!</string>
+    all premium features. &learn_more;\n
+      \n&thank_you;</string>
+  <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Backup restore without uninstall/reinstall</string>
   <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
   <string name="create_category">Create new category</string>
@@ -65,7 +67,7 @@
   <string name="dialog_contrib_usage_count">You have %1$d free usages left</string>
   <string name="dialog_contrib_no_usages_left">No free usages left</string>
   <string name="dialog_contrib_reminder">\"%1$s\" is a contrib feature. %2$s.
-  	You will get unrestricted access to this and other features, by installing &lt;i>&app_name; Contrib&lt;/i>. Thank you for your support.</string>
+  	You will get unrestricted access to this and other features, by installing &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
   <string name="dialog_contrib_yes">Buy</string>
   <string name="dialog_contrib_no">Not yet</string>
   <string name="dialog_title_select_account">Pick an account</string>
