@@ -97,7 +97,7 @@ public class Utils {
       }
     }).create();
   }
-  private static Integer usagesLeft(String feature) {
+  public static Integer usagesLeft(String feature) {
     return 5 - MyApplication.db().getContribFeatureUsages(feature);
   }
   public static void recordUsage(String feature) {

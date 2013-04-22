@@ -41,4 +41,18 @@ public class UtilsTest extends TestCase {
     Assert.assertEquals(0, Utils.validateNumber(nfDLocal,"470").compareTo(new BigDecimal(470)));
     Assert.assertNull(Utils.validateNumber(nfDLocal,"470.123"));
   }
+  public void testRecordUsage() {
+    String feature = "TEST";
+    Assert.assertEquals(5,Utils.usagesLeft(feature).intValue());
+    Utils.recordUsage(feature);
+    Assert.assertEquals(4,Utils.usagesLeft(feature).intValue());
+    Utils.recordUsage(feature);
+    Assert.assertEquals(3,Utils.usagesLeft(feature).intValue());
+    Utils.recordUsage(feature);
+    Assert.assertEquals(2,Utils.usagesLeft(feature).intValue());
+    Utils.recordUsage(feature);
+    Assert.assertEquals(1,Utils.usagesLeft(feature).intValue());
+    Utils.recordUsage(feature);
+    Assert.assertEquals(0,Utils.usagesLeft(feature).intValue());
+  }
 }
