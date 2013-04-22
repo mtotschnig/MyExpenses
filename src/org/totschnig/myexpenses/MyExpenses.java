@@ -113,7 +113,6 @@ public class MyExpenses extends Activity
 
   private ArrayList<Action> mMoreItems;
   
-  public SimpleCursorAdapter mAdapter;
   private ExpensesDbAdapter mDbHelper;
 
   private Account mCurrentAccount;
