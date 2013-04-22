@@ -49,7 +49,7 @@
   <string name="comment">Notlar</string>
   <string name="contrib_dialog_text"><i>&app_name;</i> reklamsız ve özgür yazılım olarak sunulmuştur.
     Lütfen ücretli Katkı sürümünü kurarak katkıda bulununuz. Tüm işlevlere sınırsız
-    erişim kazanırsınız.  &learn_more;\n
+    erişim kazanırsınız.\n
       \n&thank_you;</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Yedeklemeyi uygulamayı kaldırıp tekrar kurmadan yükle</string>

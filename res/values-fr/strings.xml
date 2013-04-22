@@ -50,7 +50,7 @@
   <string name="comment">Remarques</string>
   <string name="contrib_dialog_text"><i>&app_name;</i> vous est offert sans publicité et open source.
   	S\'il vous plaît, installez la version Contrib payante. Vous obtiendrez un accès illimité à
-     toutes les fonctionnalités premium. &learn_more;\n
+     toutes les fonctionnalités premium.\n
       \n&thank_you;</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Restauration de la sauvegarde sans deinstallation/réinstallation</string>
@@ -139,6 +139,7 @@
   </string>
   <string name="help_whats_new">&#160;- Changer de compte par geste Swipe.\n
         - Restauration de la sauvegarde sans déinstallation/reinstallation.\n
+        - Éditer les modèles.\n
         - S\'il y a détection de sauvegarde lors de l\'installation, demander confirmation avant de la restaurer.\n
         - Dans la liste des comptes, affichache des sommes totales.\n
         - Scintillment dans le thème claire résolu.</string>

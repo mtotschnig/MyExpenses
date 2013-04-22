@@ -49,7 +49,7 @@
   <string name="comment">Notes</string>
   <string name="contrib_dialog_text"><i>&app_name;</i> is offered ad free and open source.
     Please contribute by installing the paid Contrib version. You gain unrestricted access to
-    all premium features. &learn_more;\n
+    all premium features.\n
       \n&thank_you;</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Backup restore without uninstall/reinstall</string>
@@ -135,6 +135,7 @@
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
   <string name="help_whats_new">&#160;- Swipe through accounts.\n
+        - Edit templates.\n
         - Restore backup without uninstall/reinstall.\n
         - Ask for confirmation when restoring upon install.\n
         - Display aggregate financial situation in account list.\n
@@ -362,4 +363,6 @@
     <i>&app_name;</i> through your donation.</string>
   <string name="version_35_upgrade_info"><i>&app_name;</i> now has a new dark default theme.
     You can revert to the light theme in the settings.</string>
+  <string name="version_39_upgrade_info">Contributing to &lt;i>&app_name;&lt;/i> has now become easier, and more interesting.
+  	If you buy &lt;i>&app_name; Contrib&lt;/i>, you gain unrestricted access to all premium features.</string>
 </resources>

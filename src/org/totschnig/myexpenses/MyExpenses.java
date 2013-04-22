@@ -72,6 +72,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -110,7 +111,6 @@ public class MyExpenses extends Activity
   static final String HOST = "myexpenses.totschnig.org";
   static final String FEEDBACK_EMAIL = "michael@totschnig.org";
 
-  private String mVersionInfo;
   private ArrayList<Action> mMoreItems;
   
   public SimpleCursorAdapter mAdapter;
@@ -529,7 +529,8 @@ public class MyExpenses extends Activity
       ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_whats_new)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_contrib)).setMovementMethod(LinkMovementMethod.getInstance());
-      Utils.setDialogOneButton(view,
+      Utils.setDialogTwoButtons(view,
+          R.string.menu_contrib,R.id.CONTRIB_PLAY_COMMAND_ID,null,
           android.R.string.ok,0,null);
       return new AlertDialog.Builder(this)
         .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
@@ -538,18 +539,19 @@ public class MyExpenses extends Activity
         .create();
     case R.id.VERSION_DIALOG_ID:
       li = LayoutInflater.from(this);
+      CharSequence versionInfo = MyApplication.getInstance().getVersionInfo();
       view = li.inflate(R.layout.versiondialog, null);
       ((TextView) view.findViewById(R.id.versionInfoChanges))
         .setText(R.string.help_whats_new);
-      if (mVersionInfo != "") {
+      if (!versionInfo.toString().equals("")) {
         tv = (TextView) view.findViewById(R.id.versionInfoImportant);
-        tv.setText(mVersionInfo);
+        tv.setText(versionInfo);
         tv.setVisibility(View.VISIBLE);
         ((TextView) view.findViewById(R.id.versionInfoImportantHeading)).setVisibility(View.VISIBLE);
       }
       Utils.setDialogThreeButtons(view,
           R.string.menu_help,R.id.HELP_COMMAND,null,
-          R.string.menu_contrib,R.id.CONTRIB_COMMAND,null,
+          R.string.menu_contrib,R.id.CONTRIB_PLAY_COMMAND_ID,null,
           android.R.string.ok,0,null);
       return new AlertDialog.Builder(this)
         .setTitle(getString(R.string.new_version) + " : " + getVersionName())
@@ -716,7 +718,6 @@ public class MyExpenses extends Activity
   @Override
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
-   outState.putString("versionInfo", mVersionInfo);
    outState.putLong("SelectAccountContextId", mSelectAccountContextId);
    outState.putLong("TemplateCreateDialogTransactionId",mTemplateCreateDialogTransactionId);
    outState.putSerializable("MoreItems",mMoreItems);
@@ -725,7 +726,6 @@ public class MyExpenses extends Activity
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
    super.onRestoreInstanceState(savedInstanceState);
-   mVersionInfo = savedInstanceState.getString("versionInfo");
    mSelectAccountContextId = savedInstanceState.getLong("SelectAccountContextId");
    mTemplateCreateDialogTransactionId = savedInstanceState.getLong("TemplateCreateDialogTransactionId");
    mMoreItems = (ArrayList<Action>) savedInstanceState.getSerializable("MoreItems");
@@ -963,7 +963,7 @@ public class MyExpenses extends Activity
    * also is used for hooking version specific upgrade procedures
    */
   public void newVersionCheck() {
-    mVersionInfo = "";
+    CharSequence versionInfo = "";
     Editor edit = mSettings.edit();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     int current_version = getVersionNumber();
@@ -983,7 +983,7 @@ public class MyExpenses extends Activity
         edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mSettings.getInt(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0)).commit();
         String non_conforming = checkCurrencies();
         if (non_conforming.length() > 0 ) {
-          mVersionInfo += getString(R.string.version_14_upgrade_info,non_conforming) + "\n";
+          versionInfo =TextUtils.concat(versionInfo,getString(R.string.version_14_upgrade_info,non_conforming),"\n");
         }
       }
       if (prev_version < 19) {
@@ -993,8 +993,7 @@ public class MyExpenses extends Activity
         edit.commit();
       }
       if (prev_version < 26) {
-        mVersionInfo += getString(R.string.version_26_upgrade_info) + "\n";
-        return;
+        versionInfo =TextUtils.concat(versionInfo,getString(R.string.version_26_upgrade_info),"\n");
       }
       if (prev_version < 28) {
         Log.i("MyExpenses",String.format("Upgrading to version 28: Purging %d transactions from datbase",
@@ -1017,11 +1016,15 @@ public class MyExpenses extends Activity
         }
       }
       if (prev_version < 34) {
-        mVersionInfo += getString(R.string.version_34_upgrade_info)+ "\n";
+        versionInfo =TextUtils.concat(versionInfo,getString(R.string.version_34_upgrade_info),"\n");
       }
       if (prev_version < 35) {
-        mVersionInfo += getString(R.string.version_35_upgrade_info)+ "\n";
+        versionInfo =TextUtils.concat(versionInfo,getString(R.string.version_35_upgrade_info),"\n");
       }
+      if (prev_version < 41) {
+        versionInfo =TextUtils.concat(versionInfo,Html.fromHtml(getString(R.string.version_39_upgrade_info)),"\n");
+      }
+      MyApplication.getInstance().setVersionInfo(versionInfo);
       showDialogWrapper(R.id.VERSION_DIALOG_ID);
     }
   }

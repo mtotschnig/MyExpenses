@@ -64,18 +64,6 @@
     <TextView android:id="@+id/help_contrib"
       android:text="@string/contrib_dialog_text"
       style="@style/about_text" />
-    <LinearLayout
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <Button
-        android:onClick="onDialogButtonClicked"
-        android:id="@id/CONTRIB_PLAY_COMMAND_ID"
-        android:layout_width="fill_parent"
-        style="@style/button"
-        android:text="@string/dialog_contrib_yes" />
-    </LinearLayout>
     <!-- Licence -->
     <include layout="@layout/divider_thin"/>
     <TextView android:text="@string/help_heading_license"

@@ -62,8 +62,15 @@ public class MyApplication extends Application {
     public static String CONTRIB_FEATURE_EDIT_TEMPLATE = "edit_template";
     public static String CONTRIB_FEATURE_RESTORE= "restore";
     public static String CONTRIB_FEATURE_AGGREGATE = "aggregate";
+    private CharSequence mVersionInfo;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 
+    public CharSequence getVersionInfo() {
+      return mVersionInfo;
+    }
+    public void setVersionInfo(CharSequence mVersionInfo) {
+      this.mVersionInfo = mVersionInfo;
+    }
     @Override
     public void onCreate()
     {

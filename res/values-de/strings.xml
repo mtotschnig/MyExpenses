@@ -49,8 +49,8 @@
   <string name="color_name_yellow">Gelb</string>
   <string name="comment">Notizen</string>
   <string name="contrib_dialog_text"><i>&app_name;</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten.
-  	Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch
-  	Zugriff auf alle Premium-Funktionen. &learn_more;\n
+    Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch
+    Zugriff auf alle Premium-Funktionen.\n
       \n&thank_you;</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Wiederherstellung der Sicherungskopie ohne Deinstallation/Reinstallation</string>
@@ -133,11 +133,12 @@
       Hier werden auch alle verfügbaren Vorlagen aufgelistet (Buchungen können über ihr Kontextmenü in der Liste als Vorlagen gespeichert werden.)\n
       - <b>Konten</b> : Zeigt alle Konten an, zu denen Sie wechseln können. <b>Neu &#8230;</b> : Ein neues Konto erstellen, 
       <b>Zusammenfassung</b> öffnet eine Übersicht aller Konten mit dem aktuellen Finanzstatus.\n
-			- <b>Einstellungen</b> : Schnellzugriff auf Backup und die Konfiguration des aktuellen Kontos.\n
-			- <b>Hilfe</b> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.\n
-			\nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
+      - <b>Einstellungen</b> : Schnellzugriff auf Backup und die Konfiguration des aktuellen Kontos.\n
+      - <b>Hilfe</b> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.\n
+      \nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
   </string>
   <string name="help_whats_new">&#160;- Zwischen Konten blättern mittels Wischgeste.\n
+        - Vorlagen verändern.\n
         - Wiederherstellung der Sicherungskopie ohne Deinstallierung/Reinstallierung.\n
         - Bei Installation nachfragen, ob Sicherungkopie wiederhergestellt werden soll.\n
         - In der Kontenliste, Gesamtsummen anzeigen.\n
@@ -329,7 +330,7 @@
   <string name="warning_reset_account">Alle Transaktionen dieses Kontos werden in eine QIF-Datei auf der SD-Karte exportiert
       und gelöscht. Möchten Sie fortfahren?</string>
   <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten
-  	werden gelöscht. Wollen Sie fortfahren?</string>
+    werden gelöscht. Wollen Sie fortfahren?</string>
   <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
   
   <!-- strings below this comment do not need translations for new languages -->
