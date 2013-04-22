@@ -510,11 +510,6 @@ public class Utils {
      }  
      return true;
     }
-  public static boolean isContribEnabled(Context context) {
-    //TODO: cache result
-    return doesPackageExist(context, "org.totschnig.myexpenses.contrib") ||
-        verifyLicenceKey(MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
-  }
 
   public static int getTextColorForBackground(int color) {
     int greyLevel = (int) (0.299 * Color.red(color)

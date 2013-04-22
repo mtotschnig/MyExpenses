@@ -121,8 +121,10 @@ public class MyPreferenceActivity extends PreferenceActivity implements OnPrefer
     } else if (key.equals(MyApplication.PREFKEY_ENTER_LICENCE)) {
      if (Utils.verifyLicenceKey((String)value)) {
        Toast.makeText(getBaseContext(), R.string.licence_validation_success, Toast.LENGTH_LONG).show();
+       MyApplication.getInstance().isContribEnabled = true;
      } else {
        Toast.makeText(getBaseContext(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
+       MyApplication.getInstance().isContribEnabled = false;
      }
     }
     return true;

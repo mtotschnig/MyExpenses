@@ -77,7 +77,7 @@ public class ManageAccounts extends ListActivity implements ContribIFace {
     mAggregateButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (Utils.isContribEnabled(ManageAccounts.this)) {
+        if (MyApplication.getInstance().isContribEnabled) {
           showDialogWrapper(AGGREGATE_DIALOG_ID);
         } else {
           showDialog(R.id.CONTRIB_DIALOG_ID);

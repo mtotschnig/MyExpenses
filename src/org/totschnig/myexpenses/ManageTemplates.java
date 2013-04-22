@@ -123,7 +123,7 @@ public class ManageTemplates extends ExpandableListActivity implements ContribIF
             break;
           case EDIT_TEMPLATE:
             mTemplateId = id;
-            if (Utils.isContribEnabled(this)) {
+            if (MyApplication.getInstance().isContribEnabled) {
               contribFeatureCalled("edit_template");
             } else {
               showDialog(R.id.CONTRIB_DIALOG_ID);

@@ -187,6 +187,10 @@ public class MyExpenses extends Activity
    */
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    //if we are launched from the contrib app, we refreshed the cached contrib status
+    Bundle extras = getIntent().getExtras();
+    if (extras != null && extras.getBoolean("refresh_contrib",false))
+      MyApplication.getInstance().refreshContribEnabled();
     setTheme(MyApplication.getThemeIdNoTitle());
     super.onCreate(savedInstanceState);
     //boolean titled = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -682,17 +686,22 @@ public class MyExpenses extends Activity
       })
       .create();
     case CONTRIB_DIALOG_ID:
-      boolean already_contrib = Utils.isContribEnabled(this);
+      boolean already_contrib = MyApplication.getInstance().isContribEnabled;
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.messagedialog, null);
       tv = (TextView)view.findViewById(R.id.message_text);
       tv.setText(already_contrib ? R.string.contrib_dialog_thanks : R.string.contrib_dialog_text);
       tv.setMovementMethod(LinkMovementMethod.getInstance());
-      Utils.setDialogOneButton(view,
-          already_contrib ? android.R.string.ok : R.string.dialog_contrib_yes,
-          already_contrib ? 0 : R.id.CONTRIB_PLAY_COMMAND_ID,
-          null
-      );
+      if (already_contrib) {
+        Utils.setDialogOneButton(view,
+            android.R.string.ok,0,null
+        );
+      } else {
+        Utils.setDialogTwoButtons(view,
+            R.string.dialog_contrib_yes,R.id.CONTRIB_PLAY_COMMAND_ID,null,
+            R.string.dialog_contrib_no,0,null
+        );
+      }
       return new AlertDialog.Builder(this)
         .setTitle(R.string.menu_contrib)
         .setView(view)

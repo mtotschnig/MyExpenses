@@ -42,7 +42,7 @@ public class Backup extends Activity implements ContribIFace {
         else {
           //restore
           if (MyApplication.backupExists()) {
-            if (Utils.isContribEnabled(this)) {
+            if (MyApplication.getInstance().isContribEnabled) {
               showDialog(RESTORE_DIALOG_ID);
             }
             else {

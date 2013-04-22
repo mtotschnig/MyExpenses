@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources.NotFoundException;
@@ -63,6 +64,7 @@ public class MyApplication extends Application {
     public static String CONTRIB_FEATURE_RESTORE= "restore";
     public static String CONTRIB_FEATURE_AGGREGATE = "aggregate";
     private CharSequence mVersionInfo;
+    public boolean isContribEnabled;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 
     public CharSequence getVersionInfo() {
@@ -109,6 +111,12 @@ public class MyApplication extends Application {
         } catch (IOException e) {
           Log.w("MyExpenses","Failed to open property file");
         }
+        refreshContribEnabled();
+    }
+    public boolean refreshContribEnabled() {
+      isContribEnabled = Utils.doesPackageExist(this, "org.totschnig.myexpenses.contrib") ||
+          Utils.verifyLicenceKey(settings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
+      return isContribEnabled;
     }
     public static void setCurrentAccountColor(int currentAccountColor) {
       MyApplication.currentAccountColor = currentAccountColor;
