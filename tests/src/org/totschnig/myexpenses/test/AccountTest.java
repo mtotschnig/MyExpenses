@@ -29,8 +29,7 @@ public class AccountTest extends TestCase {
   @Override
   protected void setUp() throws Exception {
       super.setUp();
-      Currency currency = Currency.getInstance(Locale.getDefault());
-      mAccount = new Account("TestAccount",100,"Testing with Junit",currency);
+      mAccount = new Account("TestAccount",100,"Testing with Junit");
   }
   public void testAccount() {
     mAccount.setCurrency("EUR");

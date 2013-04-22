@@ -36,10 +36,9 @@ public class TransactionTest extends TestCase {
   @Override
   protected void setUp() throws Exception {
       super.setUp();
-      currency = Currency.getInstance(Locale.getDefault());
-      mAccount1 = new Account("TestAccount 1",100,"Main account",currency);
+      mAccount1 = new Account("TestAccount 1",100,"Main account");
       mAccount1.save();
-      mAccount2 = new Account("TestAccount 2",100,"Secondary account",currency);
+      mAccount2 = new Account("TestAccount 2",100,"Secondary account");
       mAccount2.save();
   }
   public void testTransfer() {
