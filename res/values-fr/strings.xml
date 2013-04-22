@@ -50,7 +50,7 @@
   <string name="comment">Remarques</string>
   <string name="contrib_dialog_text"><i>&app_name;</i> vous est offert sans publicité et open source.
   	S\'il vous plaît, installez la version Contrib payante. Vous obtiendrez un accès illimité à
-     toutes les fonctionnalités premium.\n
+     toutes les fonctionnalités Premium.\n
       \n&thank_you;</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Restauration de la sauvegarde sans deinstallation/réinstallation</string>
@@ -67,7 +67,7 @@
   <string name="dialog_confirm_restore_on_install">Un fichier de sauvegarde a été détecté. Voulez-vous que celui-ci soit restauré?</string>
   <string name="dialog_contrib_usage_count">Il vous restent %1$d usages gratuits</string>
   <string name="dialog_contrib_no_usages_left">Il ne vous restent plus d\'usages gratuits</string>
-  <string name="dialog_contrib_reminder">\"%1$s\" est une fonction premium. %2$s.
+  <string name="dialog_contrib_reminder">\"%1$s\" est une fonctionnalité Premium. %2$s.
   	Vous obtiendrez accès illimité à toutes les fonctions en installant &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
   <string name="dialog_contrib_yes">Buy</string>
   <string name="dialog_contrib_no">Not yet</string>
@@ -148,7 +148,7 @@
   <string name="income">revenu</string>
   <string name="invalid_number_format">Format de nombre non reconnu. Utilisez %1$s</string>
   <string name="label">Intitulé</string>
-  <string name="licence_validation_success">Clé de licence validée avec succès: L\'accès aux fonctions premium a été déverrouillé.</string>
+  <string name="licence_validation_success">Clé de licence validée avec succès: L\'accès aux fonctionnalités Premium a été déverrouillé.</string>
   <string name="licence_validation_failure">Clé de licence non valide.</string>
   <string name="menu_accounts">Comptes</string>
   <string name="menu_accounts_explain">Le bouton Comptes vous permet de changer de compte si vous en
@@ -245,7 +245,7 @@
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_contrib_install_title">Installer App Contrib</string>
-  <string name="pref_contrib_install_summary">En installant &app_name; Contrib, vous obtiendrez accès à toutes les fonctions premium.</string>
+  <string name="pref_contrib_install_summary">En installant &app_name; Contrib, vous obtiendrez accès à toutes les fonctionnalités Premium.</string>
   <string name="pref_currency_decimal_separator_title">Séparateur décimal pour l\'entrée des
       montants</string>
   <string name="pref_currency_decimal_separator_summary">Vous pouvez choisir entre "," et "." ou
@@ -255,7 +255,7 @@
   <string name="pref_currency_decimal_separator_input_minor_unit">Sous-unités en nombres entiers
   </string>
   <string name="pref_enter_licence_title">Saisir clé contrib</string>
-  <string name="pref_enter_licence_summary">Si vous avez reçu une clé contrib, elle déverrouille l\'accès aux fonctions premium.</string>
+  <string name="pref_enter_licence_summary">Si vous avez reçu une clé contrib, elle déverrouille l\'accès aux fonctionnalités Premium.</string>
   <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir des
       définitions standards de Grisbi, incluses dans l\'application, ou votre propre fichier
       sauvegardé sous le nom &grisbi_file; dans le répertoire myexpenses de la racine de votre carte

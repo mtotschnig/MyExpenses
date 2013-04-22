@@ -67,7 +67,7 @@
   <string name="dialog_confirm_restore_on_install">Eine Sicherungskopie ist vorhanden. Soll diese wiederhergestellt werden?</string>
   <string name="dialog_contrib_usage_count">Diese Funktion kann noch %1$d mal verwendet werden</string>
   <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden</string>
-  <string name="dialog_contrib_reminder">\"%1$s\" ist eine Premium Funktion. %2$s.
+  <string name="dialog_contrib_reminder">\"%1$s\" ist eine Premium-Funktion. %2$s.
     Sie können auf diese und alle anderen uneingeschränkt zugreifen, wenn Sie &lt;i>&app_name; Contrib&lt;/i> installieren. 
     &thank_you;</string>
   <string name="dialog_contrib_yes">Kaufen</string>
@@ -149,7 +149,7 @@
   <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt.
       Bitte verwenden Sie %1$s</string>
   <string name="label">Bezeichnung</string>
-  <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: Premium Funktionen wurden freigeschaltet.</string>
+  <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: Premium-Funktionen wurden freigeschaltet.</string>
   <string name="licence_validation_failure">Lizenz-Schlüssel konnte nicht validiert werden.</string>
   <string name="menu_accounts">Konten</string>
   <string name="menu_accounts_explain">Mit der Schaltfläche Konten können Sie zwischen Konten 
@@ -246,7 +246,7 @@
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_contrib_install_title">Contrib App installieren</string>
-  <string name="pref_contrib_install_summary">Durch die Installation von &app_name; Contrib, erhalten Sie Zugriff auf alle Premium Funktionen.</string>
+  <string name="pref_contrib_install_summary">Durch die Installation von &app_name; Contrib, erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
   <string name="pref_currency_decimal_separator_title">Dezimaltrennzeichen für die Eingabe von
       Währungsbeträgen</string>
   <string name="pref_currency_decimal_separator_summary">Wählen Sie zwischen \",\" und \".\". Sie
