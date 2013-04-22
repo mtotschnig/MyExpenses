@@ -704,7 +704,7 @@ public class MyExpenses extends Activity
       tv.setText(R.string.dialog_confirm_restore_on_install);
       Utils.setDialogTwoButtons(view,
           android.R.string.yes,R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true),
-          android.R.string.no,R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true)
+          android.R.string.no,R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(false)
       );
       return new AlertDialog.Builder(this)
         .setCancelable(false)
