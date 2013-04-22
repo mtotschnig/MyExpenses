@@ -41,7 +41,7 @@
       payment methods work in <application>Grisbi</application>: Payment methods are linked to
       accounts through account types. When you create an account, you define its type as one of CASH,
       BANK, ASSET or LIABILITY. When you create transactions in a given account, you can then make
-      use of the payment methods that are linked to its account type. 
+      use of the payment methods that are linked to its account type.
     </para>
     <para>
       Through the "Manage payment methods" activity from the preferences screen, you can change, add
@@ -135,8 +135,8 @@
       </screenshot>
     </figure>
     <para>
-      Templates are available through the <guibutton>New</guibutton> 
-      button's popup window. 
+      Templates are available through the <guibutton>New</guibutton>
+      button's popup window.
     </para>
      <figure floatstyle="left" id="news2_3" >
       <title/>
@@ -151,7 +151,7 @@
     <para>
       Clicking on a template's title results in the instantiation of a new transaction with all information
       (amount, category, comment, payee, payment method) from the template. Only time and date reflect
-      the current moment. 
+      the current moment.
    </para>
      <figure floatstyle="left" id="news2_4" >
       <title/>
@@ -166,7 +166,7 @@
    <para>
       In the same way you can define templates for transfers. Templates are linked to
       accounts, so you only see templates defined for the current account in the popup menu.
-    </para>    
+    </para>
     <para>
       Inspecting the list of templates and deleting the ones you no longer need, is available from
       the preferences.
@@ -212,7 +212,7 @@
           </imageobject>
         </mediaobject>
       </screenshot>
-    </figure> 
+    </figure>
     <para>
       Please give the alpha version a try, or simply comment on what you think of the new theme below.
     </para>
@@ -222,9 +222,89 @@
       different color with each account.
     </para>
     <para>
-      With this new theme, and your <ulink url="/en/donate.xhtml">contribution</ulink>,
+      With this new theme, and your <ulink url="/en/participate.xhtml">contribution</ulink>,
       <application>My Expenses</application> is on its way to become Android's best expense
       tracking app. ;-)
     </para>
+    </sect1>
+    <sect1 id="news4">
+    <sect1info>
+      <abstract>
+        <para>
+         1.7.0 allows to swipe through accounts, and introduces Contrib Features
+        </para>
+      </abstract>
+      <pubdate>2013-01-19</pubdate>
+    </sect1info>
+    <title>Swipe and contribute</title>
+    <para><application>My Expenses</application> 1.7.0 will hit Google Play in some days. If you manage
+    multiple accounts, you will be able to navigate through them using the Swipe Gesture.
+    It also introduces a couple of minor enhancements that have been requested for by users:
+    </para>
+    <itemizedlist>>
+    <listitem>
+    <para>You now can directly edit templates. Previously, you were required to delete a template,
+    and create a new one, if you had needed some modification to its title or any other information.
+    </para>
+    <figure floatstyle="left" id="news4_1" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="news4_1.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    </listitem>
+    <listitem>
+    <para>
+    Now you can restore backups from the preferences screen. Previously, backups were automatically
+    restored, when one was found during app installation. Thus, you needed to uninstall/reinstall
+    <application>My Expenses</application>, in order to restore a backup. The restoration upon install
+    is now no longer automatic, but confirmation is asked for.
+    </para>
+    </listitem>
+    <listitem>
+    <para>
+    Users that have set up multiple accounts with the same currency, will see a "Total" button in the
+    accounts list, which displays the aggregate totals accross all accounts.
+    </para>
+    <figure floatstyle="left" id="news4_2" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="news4_2.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    </listitem>
+    </itemizedlist>
+    <para>
+      Starting with 1.7.0, there is a new distribution model for <application>My
+      Expenses</application>, through which I'd like to sollicit your contribution to the funding of
+      the further development, in order to keep it free of advertisment and open source. Selected new features
+      are handled as premium features. Those can be used five times for free, and then will be
+      restricted to users having installed a paid Contrib app shortly available on Google Play.
+      Users participating in the development of the app (e.g. as translators or beta testers), or
+      prefering to donate through PayPal or Flattr (which by the way keep a lower percentage of the
+      transaction amount to themselves), can request a key that will unlock the premium features
+      without installation of the Contrib app. So please give the newest <ulink
+      url="https://s3-eu-west-1.amazonaws.com/myexpenses/MyExpenses-1.7.0a3.apk">alpha
+      version</ulink> a try, and use the "Request Contrib Key" entry in the preferences screen. I
+      will usually answer these requests in less than 24 hours.
+    </para>
+    <figure floatstyle="left" id="news4_3" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="news4_3.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
     </sect1>
 </article>
