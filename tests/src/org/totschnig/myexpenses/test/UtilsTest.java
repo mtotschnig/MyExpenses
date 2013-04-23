@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.Utils;
 
 import junit.framework.Assert;
@@ -44,15 +45,13 @@ public class UtilsTest extends TestCase {
   public void testRecordUsage() {
     String feature = "TEST";
     Assert.assertEquals(5,Utils.usagesLeft(feature).intValue());
+    MyApplication.getInstance().isContribEnabled = false;
     Utils.recordUsage(feature);
     Assert.assertEquals(4,Utils.usagesLeft(feature).intValue());
+    MyApplication.getInstance().isContribEnabled = true;
+    Assert.assertEquals(4,Utils.usagesLeft(feature).intValue());
+    MyApplication.getInstance().isContribEnabled = false;
     Utils.recordUsage(feature);
     Assert.assertEquals(3,Utils.usagesLeft(feature).intValue());
-    Utils.recordUsage(feature);
-    Assert.assertEquals(2,Utils.usagesLeft(feature).intValue());
-    Utils.recordUsage(feature);
-    Assert.assertEquals(1,Utils.usagesLeft(feature).intValue());
-    Utils.recordUsage(feature);
-    Assert.assertEquals(0,Utils.usagesLeft(feature).intValue());
   }
 }

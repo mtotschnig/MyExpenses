@@ -101,7 +101,8 @@ public class Utils {
     return 5 - MyApplication.db().getContribFeatureUsages(feature);
   }
   public static void recordUsage(String feature) {
-    MyApplication.db().incrFeatureUsages(feature);
+    if (!MyApplication.getInstance().isContribEnabled)
+      MyApplication.db().incrFeatureUsages(feature);
   }
   public static Dialog contribDialog(final Activity ctx,final String feature) {
     final Integer usagesLeft = usagesLeft(feature);
