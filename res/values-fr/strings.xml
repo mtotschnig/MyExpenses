@@ -49,9 +49,8 @@
   <string name="color_name_yellow">Jaune</string>
   <string name="comment">Remarques</string>
   <string name="contrib_dialog_text"><i>&app_name;</i> vous est offert sans publicité et open source.
-  	S\'il vous plaît, installez la version Contrib payante. Vous obtiendrez un accès illimité à
-     toutes les fonctionnalités Premium.\n
-      \n&thank_you;</string>
+  	S\'il vous plaît, installez la version Contrib payante. Vous obtiendrez un accès illimité aux
+  	fonctionnalités Premium suivantes:\n%1$s\n&thank_you;</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Restauration de la sauvegarde sans deinstallation/réinstallation</string>
   <string name="contrib_feature_aggregate_label">Somme totale sur tous les comptes</string>
@@ -68,7 +67,7 @@
   <string name="dialog_contrib_usage_count">Il vous restent %1$d usages gratuits</string>
   <string name="dialog_contrib_no_usages_left">Il ne vous restent plus d\'usages gratuits</string>
   <string name="dialog_contrib_reminder">\"%1$s\" est une fonctionnalité Premium. %2$s.
-  	Vous obtiendrez accès illimité à toutes les fonctions en installant &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
+  	Vous obtiendrez accès illimité à celle-ci et toutes les autres en installant &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
   <string name="dialog_contrib_yes">Buy</string>
   <string name="dialog_contrib_no">Not yet</string>
   <string name="dialog_title_select_account">Sélectionner un compte</string>

@@ -47,14 +47,13 @@
   <string name="color_name_white">White</string>
   <string name="color_name_yellow">Yellow</string>
   <string name="comment">Notes</string>
-  <string name="contrib_dialog_text"><i>&app_name;</i> is offered ad free and open source.
+  <string name="contrib_dialog_text">&lt;i>&app_name;&lt;/i> is offered ad free and open source.
     Please contribute by installing the paid Contrib version. You gain unrestricted access to
-    all premium features.\n
-      \n&thank_you;</string>
+    the following premium features:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Backup restore without uninstall/reinstall</string>
   <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
-  <string name="contrib_feature_edit_template_label">Editing of templates</string>
+  <string name="contrib_feature_edit_template_label">Edit templates</string>
   <string name="create_category">Create new category</string>
   <string name="currency">Currency</string>
   <string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
@@ -364,5 +363,6 @@
   <string name="version_35_upgrade_info"><i>&app_name;</i> now has a new dark default theme.
     You can revert to the light theme in the settings.</string>
   <string name="version_39_upgrade_info">Contributing to &lt;i>&app_name;&lt;/i> has now become easier, and more interesting.
-  	If you buy &lt;i>&app_name; Contrib&lt;/i>, you gain unrestricted access to all premium features.</string>
+  	If you install &lt;i>&app_name; Contrib&lt;/i>, you gain unrestricted access to the following premium features:
+  	&lt;br>%1$s</string>
 </resources>

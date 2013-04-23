@@ -62,7 +62,6 @@
        style="?attr/headingStyleApp" />
     <include layout="@layout/divider_thin"/>
     <TextView android:id="@+id/help_contrib"
-      android:text="@string/contrib_dialog_text"
       style="@style/about_text" />
     <!-- Licence -->
     <include layout="@layout/divider_thin"/>

@@ -533,4 +533,10 @@ public class Utils {
       Toast.makeText(ctx.getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
     }
   }
+  public static String getContribFeatureLabelsAsFormattedList(Context ctx) {
+    String result = " - " + ctx.getString(R.string.contrib_feature_aggregate_label) +"<br>";
+    result += " - " + ctx.getString(R.string.contrib_feature_edit_template_label) +"<br>";
+    result += " - " + ctx.getString(R.string.contrib_feature_restore_label);
+    return result;
+  }
 }

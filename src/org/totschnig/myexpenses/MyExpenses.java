@@ -528,10 +528,11 @@ public class MyExpenses extends Activity
       view = li.inflate(R.layout.aboutview, null);
       view.setMinimumWidth(minWidth);
       ((TextView)view.findViewById(R.id.aboutVersionCode)).setText(getVersionInfo());
+      ((TextView)view.findViewById(R.id.help_contrib)).setText(
+          Html.fromHtml(getString(R.string.contrib_dialog_text,Utils.getContribFeatureLabelsAsFormattedList(this))));
       ((TextView)view.findViewById(R.id.help_licence_gpl)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_whats_new)).setMovementMethod(LinkMovementMethod.getInstance());
-      ((TextView)view.findViewById(R.id.help_contrib)).setMovementMethod(LinkMovementMethod.getInstance());
       Utils.setDialogTwoButtons(view,
           R.string.menu_contrib,R.id.CONTRIB_PLAY_COMMAND_ID,null,
           android.R.string.ok,0,null);
@@ -690,17 +691,19 @@ public class MyExpenses extends Activity
       view = li.inflate(R.layout.messagedialog, null);
       tv = (TextView)view.findViewById(R.id.message_text);
       tv.setText(already_contrib ? R.string.contrib_dialog_thanks : R.string.contrib_dialog_text);
-      tv.setMovementMethod(LinkMovementMethod.getInstance());
       if (already_contrib) {
         Utils.setDialogOneButton(view,
             android.R.string.ok,0,null
         );
+        tv.setText(R.string.contrib_dialog_thanks);
       } else {
         Utils.setDialogTwoButtons(view,
             R.string.dialog_contrib_yes,R.id.CONTRIB_PLAY_COMMAND_ID,null,
             R.string.dialog_contrib_no,0,null
         );
+        tv.setText(Html.fromHtml(getString(R.string.contrib_dialog_text,Utils.getContribFeatureLabelsAsFormattedList(this))));
       }
+      tv.setMovementMethod(LinkMovementMethod.getInstance());
       return new AlertDialog.Builder(this)
         .setTitle(R.string.menu_contrib)
         .setView(view)
@@ -1029,8 +1032,11 @@ public class MyExpenses extends Activity
       if (prev_version < 35) {
         versionInfo =TextUtils.concat(versionInfo,getString(R.string.version_35_upgrade_info),"\n");
       }
-      if (prev_version < 41) {
-        versionInfo =TextUtils.concat(versionInfo,Html.fromHtml(getString(R.string.version_39_upgrade_info)),"\n");
+      if (prev_version < 39) {
+        versionInfo =TextUtils.concat(
+            versionInfo,
+            Html.fromHtml(getString(R.string.version_39_upgrade_info,Utils.getContribFeatureLabelsAsFormattedList(this))),
+            "\n");
       }
       MyApplication.getInstance().setVersionInfo(versionInfo);
       showDialogWrapper(R.id.VERSION_DIALOG_ID);
