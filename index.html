@@ -44,7 +44,7 @@ function findDestination() {
   var lang = translations.indexOf(userLang) > -1 ? userLang : "en";
   return "http://" + window.location.host + "/" + lang + path;
 }
-window.location.href=findDestination();
+window.location.replace(findDestination());
 //-->
 </script>
 </head>
