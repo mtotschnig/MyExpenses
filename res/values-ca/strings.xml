@@ -48,6 +48,7 @@
   <string name="color_name_yellow">Groc</string>
   <string name="comment">Notes</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
+  <string name="contrib_feature_edit_template_label">Modifica les plantilles</string>
   <string name="create_category">Nova categoria</string>
   <string name="currency">Moneda</string>
   <string name="currency_not_iso4217">%1$s no és un codi de moneda vàlid segons ISO 4217.</string>
@@ -147,6 +148,7 @@
   <string name="menu_edit_cat">Modifica la categoria</string>
   <string name="menu_edit_method">Modifica el mètode de pagament</string>
   <string name="menu_edit_ta">Modifica l\'assentament</string>
+  <string name="menu_edit_template">Modifica la plantilla</string>
   <string name="menu_edit_transfer">Modifica la transferència a un altre compte</string>
   <string name="menu_faq">Preguntes més freqüents</string>
   <string name="menu_help">Ajuda</string>

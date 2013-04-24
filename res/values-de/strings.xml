@@ -48,10 +48,9 @@
   <string name="color_name_white">Weiß</string>
   <string name="color_name_yellow">Gelb</string>
   <string name="comment">Notizen</string>
-  <string name="contrib_dialog_text"><i>&app_name;</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten.
+  <string name="contrib_dialog_text">&lt;i>&app_name;&lt;/i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten.
     Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch
-    uneingeschränkten Zugriff auf die folgenden Premium-Funktionen::\n%1$s\n&thank_you;\n
-      \n&thank_you;</string>
+    uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Wiederherstellung der Sicherungskopie ohne Deinstallation/Reinstallation</string>
   <string name="contrib_feature_aggregate_label">Gesamtsumme über mehrere Konten</string>
@@ -350,5 +349,5 @@
   <string name="version_35_upgrade_info"><i>&app_name;</i> hat nun einen neuen dunklen Standard-Stil.
     In den Einstellungen können Sie wieder zum hellen Stil wechseln.</string>
   <string name="version_39_upgrade_info">Jetzt ist es einfacher und interessanter, für &lt;i>&app_name;&lt;/i> einen Beitrag zu leisten. 
-    Wenn Sie &lt;i>&app_name; Contrib&lt;/i> installieren, können Sie uneingeschränkt auf Premium-Funktionen zugreifen.</string>
+    Wenn Sie &lt;i>&app_name; Contrib&lt;/i> installieren, können Sie uneingeschränkt auf die folgenden Premium-Funktionen zugreifen:&lt;br>%1$s</string>
 </resources>      

@@ -48,15 +48,28 @@
   <string name="color_name_yellow">Giallo</string>
   <string name="comment">Note</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
-  <string name="create_category">Nuova categoria</string>
-  <string name="currency">Valuta</string>
-  <string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
-  <string name="current_balance">Saldo corrente</string>
+  <string name="contrib_dialog_text">&lt;i>&app_name;&lt;/i> è gratuito e open source. Si prega di 
+  contribuire installando la versione Contrib a pagamento. Ottiene l’accesso illimitato alle
+  seguenti funzionalità speciali:&lt;br>%1$s&lt;br>&thank_you;</string>
+	<string name="contrib_feature_aggregate_label">Sommare piu conti</string>
+	<string name="contrib_feature_edit_template_label">Modificare modelli</string>
+	<string name="contrib_feature_restore_label">Backup ripristino senza disinstallare / reinstallare</string>
+	<string name="create_category">Nuova categoria</string>
+	<string name="currency">Valuta</string>
+	<string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
+	<string name="current_balance">Saldo corrente</string>
   <string name="date">Data</string>
   <string name="date_time">Data / Ora</string>
   <string name="default_account_description">Questo conto stato istituito automaticamente quando si
       installa</string>
   <string name="description">Descrizione</string>
+	<string name="dialog_confirm_restore_on_install">È stato trovato un file backup. Vuoi ripristinarlo?</string>
+	<string name="dialog_contrib_no">Non ancora</string>
+	<string name="dialog_contrib_no_usages_left">Non restano alcuni usi gratis</string>
+	<string name="dialog_contrib_reminder">\"%1$s\" è una funzionalità speciale. %2$s. Ottiene accesso
+	  illimitato a questa e altre funzionalità installando &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
+	<string name="dialog_contrib_usage_count">Restano %1$d usi gratis</string>
+	<string name="dialog_contrib_yes">Comprare</string>
   <string name="dialog_title_select_account">Scegli il conto</string>
   <string name="dialog_title_select_color">Scegli un colore</string>
   <string name="dialog_title_select_currency">Scegli una valuta</string>
@@ -123,22 +136,31 @@
       - <b>Aiuto</b> : accesso rapido al manuale, News et FAQ.\n
       \nPer favore visita il <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuale</a>
       per avere ulteriori esplicazioni.</string>
-<!--   <string name="help_whats_new">&#160;- Localizzata app icona e il pulsante data.\n
-       - Le note sono visualizzate nella lista delle transazioni.</string> -->
+  <string name="help_whats_new">&#160;- Navigare da un conto a un altro mediante Swipe Gesture.\n
+      - Modificare modelli.\n
+      - Ripristino del backup senza disinstallare / reinstallare.\n
+      - Chiedere conferma prima di ripristinare sulla installazione.\n
+      - Visualizzare situazione finanziaria sommata in lista conti.\n
+      - Problema sfarfallio risolto nel tema di luce.</string>
   <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
   <string name="important_version_information">Informazioni importanti</string>
   <string name="invalid_number_format">Numero formato non riconosciuto dal vostra regione. Uso %1$s
   </string>
   <string name="label">Titolo</string>
+  <string name="licence_validation_failure">Impossible convalidare la chiave di licenza.</string>
+  <string name="licence_validation_success">Chiave di licenza convalidata con successo. Le funzionalità
+  speciali sono state attivate.</string>
   <string name="menu_accounts">Conti</string>
   <string name="menu_accounts_explain">Il pulsante Conti consente passare da un conto
       a un altro se ci sono stati definiti diversi conti.
       Inizialmente, c\'è uno solo. Vuoi creare un secondo conto adesso?</string>
   <string name="menu_accounts_new">Nuovo &#8230;</string>
   <string name="menu_accounts_summary">Riassunto</string>
+  <string name="menu_aggregate">Sommato</string>
   <string name="menu_backup">Backup</string>
   <string name="menu_change_account">Cambiare conto</string>
+  <string name="menu_contrib">Contribuire</string>
   <string name="menu_create_main_cat">Nuova categoria principale</string>
   <string name="menu_create_sub_cat">Nuova sottocategoria</string>
   <string name="menu_create_template">Creare un modello</string>
@@ -152,6 +174,7 @@
   <string name="menu_edit_cat">Modificare la categoria</string>
   <string name="menu_edit_method">Modificare modo di pagamento</string>
   <string name="menu_edit_ta">Modificare operazione</string>
+  <string name="menu_edit_template">Modificare modello</string>
   <string name="menu_edit_transfer">Modificare un trasferimento</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_help">Aiuto</string>
@@ -263,6 +286,21 @@
   <string name="pref_use_standard_menu_title">Utilizzare Android standard menu</string>
   <string name="pref_use_standard_menu_summary">Invece di visualizzare una barra dei pulsanti,
       utilizzare  Android menu standard per l\'accesso ai comandi.</string>
+      <string name="pref_contrib_install_summary">Installando &app_name; Contrib ottiene accesso a
+  funzionalità speciali.</string>
+  <string name="pref_contrib_install_title">Installare Contrib app</string>
+  <string name="pref_enter_licence_summary">Se ha ricevuto una chiave Contrib, ottiene accesso a
+    funzionalità speciali.</string>
+  <string name="pref_enter_licence_title">Inserire la chiave Contrib</string>
+  <string name="pref_request_licence_summary">Se lei ha contribuito in altri modi, richiede la sua chiave
+    contrib via e-mail.</string>
+	<string name="pref_request_licence_title">Richiede una chiave contrib</string>
+	<string name="pref_restore_summary">Ripristinare il backup dalla cartella "myexpenses" sulla scheda SD</string>
+  <string name="pref_restore_title">Ripristinare</string>
+  <string name="request_licence_mail_body">Vi prego di inviarmi una chiave contrib per Android-Id %1$s</string>
+  <string name="restore_db_failure">Ripristino del database non riuscita.</string>
+  <string name="restore_no_backup_found">Nessun file BACKUP trovato nella cartella myexpenses sulla scheda sd.</string>
+  <string name="restore_preferences_failure">Ripristino delle preferenze non riuscito.</string>
   <string name="restore_db_success">Il database è stato ripristinato dal backup.</string>
   <string name="restore_preferences_success">I impostazioni sono stati ripristinati dal backup.
   </string>
@@ -296,6 +334,8 @@
       Vuoi continuare?</string>
   <string name="warning_reset_account">Tutte le operazioni di questo conto saranno esportati
       a un file QIF nella scheda SD e cancellati. Vuoi continuare?</string>
+  <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup. I dati
+      attuali verranno cancellati. Vuoi continuare?</string>
   <string name="warning_select_account">Si deve selezionare un conto !</string>
 
   <!-- strings below this comment do not need translations for new languages -->
@@ -309,5 +349,8 @@
       <i>&app_name;</i> non gestisce i trasferimenti FTP da solo.</string>
   <string name="version_34_upgrade_info">Ora è in grado di supportare lo sviluppo continuo di <i>&app_name;</i> attraverso la sua donazione.</string>
   <string name="version_35_upgrade_info"><i>&app_name;</i> ora ha un nuovo stile di default buio
-può tornare allo stile chiaro nelle impostazioni.</string>
+    può tornare allo stile chiaro nelle impostazioni.</string>
+  <string name="version_39_upgrade_info">Contribuire a &lt;i>&app_name;&lt;/i> è diventato più facile,
+	  e più interessante. Se installa &lt;i>&app_name; Contrib&lt;/i> ottiene accesso illimitato alle
+	  seguenti funzionalità speciali: &lt;br>%1$s</string>
 </resources>

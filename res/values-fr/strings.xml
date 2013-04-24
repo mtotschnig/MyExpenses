@@ -48,12 +48,13 @@
   <string name="color_name_white">Blanc</string>
   <string name="color_name_yellow">Jaune</string>
   <string name="comment">Remarques</string>
-  <string name="contrib_dialog_text"><i>&app_name;</i> vous est offert sans publicité et open source.
+  <string name="contrib_dialog_text">&lt;i>&app_name;&lt;/i> vous est offert sans publicité et open source.
   	S\'il vous plaît, installez la version Contrib payante. Vous obtiendrez un accès illimité aux
-  	fonctionnalités Premium suivantes:\n%1$s\n&thank_you;</string>
+  	fonctionnalités Premium suivantes:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Restauration de la sauvegarde sans deinstallation/réinstallation</string>
   <string name="contrib_feature_aggregate_label">Somme totale sur tous les comptes</string>
+  <string name="contrib_feature_edit_template_label">Éditer les modèles</string>
   <string name="create_category">Nouvelle catégorie</string>
   <string name="currency">Devise</string>
   <string name="currency_not_iso4217">%1$s n\'est pas un code valide selon ISO 4217</string>
@@ -171,6 +172,7 @@
   <string name="menu_edit_method">Éditer la méthode de paiement</string>
   <string name="menu_edit_cat">Éditer la catégorie</string>
   <string name="menu_edit_ta">Éditer une transaction</string>
+  <string name="menu_edit_template">Éditer le modèle</string>
   <string name="menu_edit_transfer">Éditer un virement</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_help">Aide</string>
@@ -344,4 +346,7 @@
     de <i>&app_name;</i> en faisant un don.</string>
   <string name="version_35_upgrade_info"><i>&app_name;</i> utilise maintenant par défaut un nouveau style sombre.
     Vous pouvez réactiver le style clair dans les paramètres.</string>
+  <string name="version_39_upgrade_info">Contribuer à &lt;i>&app_name;&lt;/i> est maintenant plus facile et plus intéressant.
+  	Si vous installez &lt;i>&app_name; Contrib&lt;/i>, vous obtiendrez un accès illimité aux
+    fonctionnalités Premium suivantes:&lt;br>%1$s</string>
 </resources>
