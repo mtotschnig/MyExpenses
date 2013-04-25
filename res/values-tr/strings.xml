@@ -55,6 +55,7 @@
   <string name="contrib_feature_restore_label">Yedeklemeyi uygulamayı kaldırıp tekrar kurmadan yükle</string>
   <string name="contrib_feature_aggregate_label">Birden çok hesabın birleşik görünümü</string>
   <string name="contrib_feature_edit_template_label">Şablonları düzenle</string>
+  <string name="contrib_key">Katkı anahtarı</string>
   <string name="create_category">Yeni kategori oluştur</string>
   <string name="currency">Döviz</string>
   <string name="currency_not_iso4217">%1$s ISO 4217 olarak belirtilmemiş</string>

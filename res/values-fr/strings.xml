@@ -56,6 +56,7 @@
   <string name="contrib_feature_restore_label">Restauration de la sauvegarde sans deinstallation/réinstallation</string>
   <string name="contrib_feature_aggregate_label">Somme totale sur tous les comptes</string>
   <string name="contrib_feature_edit_template_label">Éditer les modèles</string>
+  <string name="contrib_key">Clé Contrib</string>
   <string name="create_category">Nouvelle catégorie</string>
   <string name="currency">Devise</string>
   <string name="currency_not_iso4217">%1$s n\'est pas un code valide selon ISO 4217</string>

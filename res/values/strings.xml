@@ -55,6 +55,7 @@
   <string name="contrib_feature_restore_label">Backup restore without uninstall/reinstall</string>
   <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
   <string name="contrib_feature_edit_template_label">Edit templates</string>
+  <string name="contrib_key">Contrib key</string>
   <string name="create_category">Create new category</string>
   <string name="currency">Currency</string>
   <string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
