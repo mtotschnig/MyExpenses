@@ -1703,7 +1703,7 @@
         <para>
           <application role="app_name"/> uses the point symbol (.) as default on devices
           running Android 2.3, since those are most heavily affected by the problem described
-          in the <ulink url="http://myexpenses.totschnig.org/en/faq.xhtml">FAQ</ulink>.
+          in the <ulink url="http://myexpenses.totschnig.org/en/faq.html">FAQ</ulink>.
         </para>
       </footnote>, here you can explicitly configure it.
       Alternatively you have the option to input minor units (e.g. $ cents, € cent, or £ pence)
@@ -1716,7 +1716,7 @@
         <para>
           Sur les appareils sous Android 2.3., <application role="app_name"/> utilise par
           défaut le point, car ceux-ci sont le plus souvent concerné par le problème décrit
-          dans la <ulink url="http://myexpenses.totschnig.org/fr/faq.xhtml">FAQ</ulink>.
+          dans la <ulink url="http://myexpenses.totschnig.org/fr/faq.html">FAQ</ulink>.
         </para>
       </footnote>, ici vous pouvez le configurer explicitement. Sinon, vous avez la
       possibilité d'entrer des unités mineures entières (par exemple $ cents, centimes d' €,
@@ -1728,7 +1728,7 @@
       europäischen Ländern, Punkt in den meisten englischsprachigen Ländern)<footnote id="ftn58-de-2">
         <para>
           <application role="app_name"/> verwendet auf Geräten mit Android 2.3. als Standard
-          den Punkt, da diese am meisten von dem in der <ulink url="http://myexpenses.totschnig.org/de/faq.xhtml">FAQ</ulink>
+          den Punkt, da diese am meisten von dem in der <ulink url="http://myexpenses.totschnig.org/de/faq.html">FAQ</ulink>
           beschriebenen Problem betroffen sind.
         </para>
       </footnote>, hier kann dieses
@@ -1743,7 +1743,7 @@
         <para>
           Sui dispositivi con sistema operativo Android 2.3., <application role="app_name"/>,
           il default è il punto, perché sono per lo più si occupano del problema descritto
-          nella <ulink url="http://myexpenses.totschnig.org/it/faq.xhtml">FAQ</ulink>.
+          nella <ulink url="http://myexpenses.totschnig.org/it/faq.html">FAQ</ulink>.
         </para>
       </footnote>, qui si può configurare in modo esplicito. In alternativa si ha la
       possibilità di ingresso alle unità minori (es. $ centesimi, € cent o penny £) come interi
@@ -1756,7 +1756,7 @@
         <para>
           <application role="app_name"/> utiliza en aparatos con Android 2.3. como estándard el
           punto, por que son esos los aparatos mas afectados por el problema descrito en
-          <ulink url="http://myexpenses.totschnig.org/es/faq.xhtml">FAQ</ulink>.
+          <ulink url="http://myexpenses.totschnig.org/es/faq.html">FAQ</ulink>.
         </para>
       </footnote>. Aquí se lo puede
       configurar de manera explícita. Además aquí se puede especificar que subunidades (por
