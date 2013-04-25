@@ -129,6 +129,12 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.7.0RC1
+    - 2013-04-24
+    -
+      en: |
+        Added missing translations.  
+  -
     - 1.7.0a3
     - 2013-04-22
     -
