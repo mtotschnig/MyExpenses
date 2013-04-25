@@ -188,8 +188,7 @@
     <title>Upcoming 1.6.0 release brings a new theme to <application>My Expenses</application></title>
     <para>
       Besides UI translation to Catalan, contributed by <ulink url="http://pacoriviere.cat/">Paco Rivière</ulink>,
-      version 1.6.1, now available in alpha version for testing from the <ulink url="/en/install.xhtml">install</ulink>
-      page, will bring a dark theme, contributed by <ulink
+      version 1.6.1, now available in alpha version for testing, will bring a dark theme, contributed by <ulink
         url="https://meinnoteblog.wordpress.com/2012/07/14/finanzverwaltung-mit-android/">meinnoteblog</ulink>.
     </para>
     <figure floatstyle="left" id="news3_1" >
@@ -222,7 +221,7 @@
       different color with each account.
     </para>
     <para>
-      With this new theme, and your <ulink url="/en/participate.xhtml">contribution</ulink>,
+      With this new theme, and your <ulink url="/en/participate.html">contribution</ulink>,
       <application>My Expenses</application> is on its way to become Android's best expense
       tracking app. ;-)
     </para>
