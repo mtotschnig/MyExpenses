@@ -118,7 +118,7 @@
   </target>
 	<!-- for task from ant contrib -->
 	<target name="faq">
-	  	<property name="langs" value="en,fr,de,it,es"/>
+	  	<property name="langs" value="en,fr,de,it,es,tr"/>
     <for list="${langs}" param="language">
       <sequential>
     	<xslt in="doc/tutorial/faq.xml" out="doc/tutorial/faq_@{language}.xml"
