@@ -31,7 +31,7 @@ langs:
 sections:
   summary:
     weight: 1
-    url: index.xhtml
+    url: index.html
     title:
       en: My Expenses
       fr: Mes dépenses
@@ -49,7 +49,7 @@ sections:
       <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/>
   tutorial:
     weight: 2
-    url: tutorial_r4/introduction.xhtml
+    url: tutorial_r4/introduction.html
     title: 
       en: "User&#160;guide"
       fr: Manuel
@@ -63,7 +63,7 @@ sections:
       en: News
   participate:
     weight: 4
-    url: participate.xhtml
+    url: participate.html
     title:
       en: Participate
       de: Mitmachen
@@ -74,14 +74,14 @@ sections:
       - donate
   info:
     weight: 5
-    url: info.xhtml
+    url: info.html
     title:
       en: Information
     tags:
       - credits
   changelog:
     weight: 6
-    url: versionlist.xhtml
+    url: versionlist.html
     title: 
       en: Changelog
       fr: Modifications
@@ -119,7 +119,7 @@ sections:
       es: FAQ
       tr: SSS
   imprint:
-    url: imprint.xhtml
+    url: imprint.html
     title:
       en: Imprint
       de: Impressum
