@@ -230,7 +230,7 @@
               <guimenu role="menu_settings"/>
               <guimenuitem role="menu_settings_account"/>
            </menuchoice>, oder definieren Sie eine neue Zahlungsweise, wie im Handbuch erklärt
-           (<ulink url="tutorial_r4/settings.xhtml#settings_manage_methods"><guilabel role="pref_manage_methods_title"/></ulink>).
+           (<ulink url="tutorial_r4/settings.html#settings_manage_methods"><guilabel role="pref_manage_methods_title"/></ulink>).
           </para>
         </answer>
       </qandaentry>
@@ -248,7 +248,7 @@
               <guimenu role="menu_settings"/>
               <guimenuitem role="menu_settings_account"/>
            </menuchoice>, or define a new payment method as explained in the manual
-           (<ulink url="tutorial_r4/settings.xhtml#settings_manage_methods"><guilabel role="pref_manage_methods_title"/></ulink>).
+           (<ulink url="tutorial_r4/settings.html#settings_manage_methods"><guilabel role="pref_manage_methods_title"/></ulink>).
           </para>
         </answer>
       </qandaentry>
@@ -266,7 +266,7 @@
               <guimenu role="menu_settings"/>
               <guimenuitem role="menu_settings_account"/>
            </menuchoice>, ou définir un nouveau mode de paiement comme expliqué dans le manuel 
-           (<ulink url="tutorial_r4/settings.xhtml#settings_manage_methods"><guilabel role="pref_manage_methods_title"/></ulink>).
+           (<ulink url="tutorial_r4/settings.html#settings_manage_methods"><guilabel role="pref_manage_methods_title"/></ulink>).
           </para>
         </answer>
       </qandaentry>
@@ -285,7 +285,7 @@
               <guimenu role="menu_settings"/>
               <guimenuitem role="menu_settings_account"/>
            </menuchoice>, oppure creare un nuovo metodo di pagamento come spiegato nel manuale
-           (<ulink url="tutorial_r4/settings.xhtml#settings_manage_methods"><guilabel role="pref_manage_methods_title"/></ulink>).
+           (<ulink url="tutorial_r4/settings.html#settings_manage_methods"><guilabel role="pref_manage_methods_title"/></ulink>).
           </para>
         </answer>
       </qandaentry>
@@ -303,7 +303,7 @@
               <guimenu role="menu_settings"/>
               <guimenuitem role="menu_settings_account"/>
            </menuchoice> konumunda ayarlayabilir ya da kullanma kılavuzunda anlatıldığı gibi yeni bir
-           ödeme metodu tanımlayabilirsiniz (<ulink url="/en/tutorial_r4/settings.xhtml#settings_manage_methods"><guilabel
+           ödeme metodu tanımlayabilirsiniz (<ulink url="/en/tutorial_r4/settings.html#settings_manage_methods"><guilabel
             role="pref_manage_methods_title"/></ulink>).
           </para>
         </answer>
@@ -322,7 +322,7 @@
               <guimenu role="menu_settings"/>
               <guimenuitem role="menu_settings_account"/>
            </menuchoice>, o defina un nuevo método de pago, como se explica en el manual
-           (<ulink url="tutorial_r4/settings.xhtml#settings_manage_methods"><guilabel
+           (<ulink url="tutorial_r4/settings.html#settings_manage_methods"><guilabel
             role="pref_manage_methods_title"/></ulink>).
           </para>
         </answer>
