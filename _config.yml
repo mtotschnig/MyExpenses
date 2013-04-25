@@ -110,7 +110,7 @@ sections:
       }
   faq:
     weight: 7
-    url: faq.xhtml
+    url: faq.html
     title:
       en: FAQ
       fr: FAQ
