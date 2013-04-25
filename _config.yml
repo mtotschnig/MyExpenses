@@ -41,12 +41,12 @@ sections:
       ca: Les Meves Despeses
       tr: Harcamalarım
     headstuff: |
-      <script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script>
-      <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
-      <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="/script/utils.js" charset="UTF-8"> </script>
-      <script xmlns="http://www.w3.org/1999/xhtml" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"> </script>
-      <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="/css/screenshots.css" charset="UTF-8"/>
-      <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script>
+      <script type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
+      <script type="text/javascript" src="/script/utils.js" charset="UTF-8"> </script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"> </script>
+      <link rel="stylesheet" type="text/css" href="/css/screenshots.css" charset="UTF-8"/>
+      <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/>
   tutorial:
     weight: 2
     url: tutorial_r4/introduction.html
