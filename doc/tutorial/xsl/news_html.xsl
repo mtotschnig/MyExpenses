@@ -1,6 +1,6 @@
 <?xml version='1.0'?> 
 <xsl:stylesheet  
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:custom="custom" exclude-result-prefixes="custom" xmlns="http://www.w3.org/1999/xhtml">
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:custom="custom" exclude-result-prefixes="custom">
 <xsl:import href="/usr/share/xml/docbook/stylesheet/docbook-xsl/html/chunk.xsl"/>
 
 <xsl:param name="use.id.as.filename" select="'1'"/>

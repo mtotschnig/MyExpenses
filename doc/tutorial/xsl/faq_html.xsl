@@ -1,7 +1,7 @@
 <?xml version='1.0'?> 
 <xsl:stylesheet  
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:custom="custom" exclude-result-prefixes="custom"  xmlns="http://www.w3.org/1999/xhtml">
-<xsl:import href="/usr/share/xml/docbook/stylesheet/docbook-xsl/xhtml/onechunk.xsl"/>
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:custom="custom" exclude-result-prefixes="custom">
+<xsl:import href="/usr/share/xml/docbook/stylesheet/docbook-xsl/html/onechunk.xsl"/>
 <xsl:import href="tutorial_strings.xsl"/>
 <xsl:preserve-space elements="*"/>
 
@@ -56,7 +56,6 @@ headstuff: |
 <xsl:param name="formal.object.break.after" select="0"/>
 <xsl:param name="chunker.output.doctype-public" select="''"/>
 <xsl:param name="chunker.output.doctype-system" select="''"/>
-<xsl:param name="html.ext" select="'.xhtml'" />
 <xsl:param name="root.filename"  select="''"/>
 
 <!-- no title attribute for sections -->
