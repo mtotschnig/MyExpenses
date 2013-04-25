@@ -19,6 +19,7 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Mehr erfahren</a>.'>
   <!ENTITY thank_you 'Danke für Ihre Unterstützung!'>
+  <!ENTITY contrib ' (<b>Contrib</b>)'>
 ]>
 <resources>
   <string name="account">Konto</string>
@@ -138,10 +139,10 @@
       \nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
   </string>
   <string name="help_whats_new">&#160;- Zwischen Konten blättern mittels Wischgeste.\n
-        - Vorlagen verändern.\n
-        - Wiederherstellung der Sicherungskopie ohne Deinstallierung/Reinstallierung.\n
+        - Vorlagen verändern&contrib;.\n
+        - Wiederherstellung der Sicherungskopie ohne Deinstallierung/Reinstallierung&contrib;.\n
         - Bei Installation nachfragen, ob Sicherungkopie wiederhergestellt werden soll.\n
-        - In der Kontenliste, Gesamtsummen anzeigen.\n
+        - In der Kontenliste, Gesamtsummen anzeigen&contrib;.\n
         - Flimmern des Hintergrundes bei hellem Thema behoben.</string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>

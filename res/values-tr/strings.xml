@@ -19,6 +19,7 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Daha fazla bilgi</a>.'>
   <!ENTITY thank_you 'Desteğiniz için teşekkür ederiz!'>
+  <!ENTITY contrib ' (<b>Contrib</b>)'>
 ]>
 <resources>
   <string name="account">Hesap</string>
@@ -47,13 +48,13 @@
   <string name="color_name_white">Beyaz</string>
   <string name="color_name_yellow">Sarı</string>
   <string name="comment">Notlar</string>
-<string name="contrib_dialog_text">&lt;i>&app_name;&lt;/i> ücretsiz ve özgür yazılım olarak sunulmuştur.
+  <string name="contrib_dialog_text">&lt;i>&app_name;&lt;/i> ücretsiz ve özgür yazılım olarak sunulmuştur.
     Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde
     edersiniz:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Yedeklemeyi uygulamayı kaldırıp tekrar kurmadan yükle</string>
   <string name="contrib_feature_aggregate_label">Birden çok hesabın birleşik görünümü</string>
-   <string name="contrib_feature_edit_template_label">Şablonları düzenle</string>
+  <string name="contrib_feature_edit_template_label">Şablonları düzenle</string>
   <string name="create_category">Yeni kategori oluştur</string>
   <string name="currency">Döviz</string>
   <string name="currency_not_iso4217">%1$s ISO 4217 olarak belirtilmemiş</string>
@@ -124,9 +125,10 @@
       \nAyrıntılı bilgi için <a href="http://myexpenses.totschnig.org/#tutorial_r4">kılavuza</a> bakınız.
   </string>
     <string name="help_whats_new">&#160;- Hesaplar arası kaydırmayla geçiş.\n
-    	- Yedeklemeyi uygulamayı kaldırıp yeniden kurmadan yükleme.\n
+    	- Şablonları düzenle&contrib;.\n
+    	- Yedeklemeyi uygulamayı kaldırıp yeniden kurmadan yükleme&contrib;.\n
     	- Kurulum sırasında yedeklemenin yüklenmesi için teyit isteği.\n
-    	- Hesap listesinde genel finansal durumu görüntüleme.\n
+    	- Hesap listesinde genel finansal durumu görüntüleme&contrib;.\n
     	- Aydınlık temada titreme sorunu giderildi.</string>
   <string name="important_version_information">Önemli bilgi</string>
   <string name="import_categories">Kategorileri içe aktar</string>

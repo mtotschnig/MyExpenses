@@ -19,6 +19,7 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Apprenez plus</a>.'>
   <!ENTITY thank_you 'Merci de votre soutien!'>
+  <!ENTITY contrib ' (<b>Contrib</b>)'>
 ]>
 <resources>
   <string name="account">Compte</string>
@@ -138,10 +139,10 @@
       \nReférez-vous au <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuel</a> pour de plus amples explications.
   </string>
   <string name="help_whats_new">&#160;- Changer de compte par geste Swipe.\n
-        - Restauration de la sauvegarde sans déinstallation/reinstallation.\n
-        - Éditer les modèles.\n
+        - Restauration de la sauvegarde sans déinstallation/reinstallation&contrib;.\n
+        - Éditer les modèles&contrib;.\n
         - S\'il y a détection de sauvegarde lors de l\'installation, demander confirmation avant de la restaurer.\n
-        - Dans la liste des comptes, affichache des sommes totales.\n
+        - Dans la liste des comptes, affichache des sommes totales&contrib;.\n
         - Scintillment dans le thème claire résolu.</string>
   <string name="import_categories">Importer les catégories</string>
   <string name="important_version_information">Information importante</string>

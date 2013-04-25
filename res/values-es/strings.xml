@@ -19,6 +19,7 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Más información</a>.'>
   <!ENTITY thank_you 'Gracias por su apoyo!'>
+  <!ENTITY contrib ' (<b>Contrib</b>)'>
 ]>
 <resources>
   <string name="account">Cuenta</string>
@@ -48,7 +49,13 @@
   <string name="color_name_white">Blanco</string>
   <string name="color_name_yellow">Amarillo</string>
   <string name="comment">Apuntes</string>
+  <string name="contrib_dialog_text">&lt;i>&app_name;&lt;/i> se ofrece sin publicidad y de código abierto. 
+	  Por favor, contribuye instalando la versión pagada Contrib. Usted va a obtener acceso ilimitado 
+	  a las siguientes características premium: &lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
+	<string name="contrib_feature_aggregate_label">Agregados de varias cuentas</string>
+	<string name="contrib_feature_edit_template_label">Editar plantillas</string>
+	<string name="contrib_feature_restore_label">Restauración de la copia de seguridad sin desinstalar / reinstalar</string>
   <string name="create_category">Nueva categoría</string>
   <string name="currency">Moneda</string>
   <string name="currency_not_iso4217">%1$s no es un código de moneda válido según ISO 4217.</string>
@@ -58,6 +65,14 @@
   <string name="default_account_description">Esta cuenta ha sido establecida automáticamente durante
       la instalación.</string>    
   <string name="description">Descripción</string>
+  <string name="dialog_confirm_restore_on_install">Se ha detectado un archivo de copia de seguridad. ¿Desea restaurarlo?</string>
+  <string name="dialog_contrib_no">Todavía no</string>
+  <string name="dialog_contrib_no_usages_left">No hay más uso libre</string>
+	<string name="dialog_contrib_reminder">\"%1$s\" es una característica Contrib. %2$s.
+	  Usted va a obtener acceso ilimitado a ésta y otras características instalando &lt;i>&app_name;
+	  Contrib&lt;/i>. &thank_you;</string>
+	<string name="dialog_contrib_usage_count">Quedan %1$d usos libres</string>
+	<string name="dialog_contrib_yes">Compre</string>
   <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_color">Escoger un color</string>
   <string name="dialog_title_select_currency">Escoger una moneda</string>
@@ -124,22 +139,30 @@
       - <b>Ayuda</b> : Acceso rápido a tutorial, noticias, preguntas frecuentes y cambios.\n
       \nPor favor, consulte <a href="http://myexpenses.totschnig.org/#tutorial_r4">el manual</a> para explicaciones detalladas.
   </string>
-<!--   <string name="help_whats_new">&#160;- Colores configurables para las cuentas.\n -->
-<!--   <string name="help_whats_new">&#160;- El icono de la aplicación y el botón de la fecha estan localizados.\n
-       - Los apuntes se muestran en la lista de transacciones.</string> -->
+  <string name="help_whats_new">&#160;- Pasar a travès de cuentas.\n
+    - Editar plantillas.\n
+		- Restaurar la copia de seguridad sin desinstalar / reinstalar.\n
+		- Pedir confirmación al restaurar al realizar la instalación. \n
+		- Presentar la situación financiera global en la lista de cuentas. \n
+		- Problema de parpadeo resuelto en el tema de la luz.</string>
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Información importante</string>
   <string name="income">ingreso</string>
   <string name="invalid_number_format">Formato de número no es compatible con su configuración
       regional. Por favor, utilice %1$s</string>
   <string name="label">Etiqueta</string>
+  <string name="licence_validation_failure">No se puede validar la clave de licencia.</string>
+	<string name="licence_validation_success">La clave de licencia es válida: Las características Contrib 
+	  han sido desbloqueadas.</string>
   <string name="menu_accounts">Cuentas</string>
   <string name="menu_accounts_explain">Con el botón Cuentas usted puede alternar entre cuentas, una vez que ha creado varias cuentas.
       Actualmente hay sólo una cuenta. ¿Quiere usted crear una segunda cuenta ahora?</string>
   <string name="menu_accounts_new">Nuevo &#8230;</string>
   <string name="menu_accounts_summary">Resumen</string>
+  <string name="menu_aggregate">Total</string>
   <string name="menu_backup">Copia de seguridad</string>
   <string name="menu_change_account">Cambiar a otra cuenta</string>
+  <string name="menu_contrib">Contribuya</string>
   <string name="menu_create_main_cat">Nueva categoría principal</string>
   <string name="menu_create_sub_cat">Nueva sub-categoría</string>
   <string name="menu_create_template">Crear plantilla</string>
@@ -153,6 +176,7 @@
   <string name="menu_edit_cat">Modificar la categoría</string>
   <string name="menu_edit_method">Modificar el método de pago</string>
   <string name="menu_edit_ta">Modificar el asiento</string>
+  <string name="menu_edit_template">Editar plantilla</string>
   <string name="menu_edit_transfer">Modificar el traslado a otra cuenta</string>
   <string name="menu_faq">Preguntas frecuentes</string>
   <string name="menu_help">Ayuda</string>
@@ -224,6 +248,9 @@
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_manage">Administrar</string>
   <string name="pref_category_title_ui">Interfaz de usuario</string>
+  <string name="pref_contrib_install_summary">Instalando &app_name; Contrib, usted obiene acceso a
+    características premium.</string>
+  <string name="pref_contrib_install_title">Instalar aplicación Contrib</string>
   <string name="pref_currency_decimal_separator_title">Separador decimal para entrar valores de
       moneda</string>
   <string name="pref_currency_decimal_separator_summary">Escoja entre \",\" y \".\". Usted puede
@@ -232,6 +259,9 @@
   <string name="pref_currency_decimal_separator_point">Punto (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Sub-unidades como números enteros
       </string>
+	<string name="pref_enter_licence_summary">Si ha recibido una clave Contrib, acceda características
+	  premium.</string>
+	<string name="pref_enter_licence_title">Introduzca la clave Contrib</string>
   <string name="pref_import_from_grisbi_title">Importación desde Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Importar categorías (y socios) desde las incluidas
       definiciones estándar de Grisbi o de su propio archivo. Usted tiene que archivar este último
@@ -250,6 +280,11 @@
   <string name="pref_perform_share_title">Enviar la exportación QIF</string>
   <string name="pref_perform_share_summary">¿Se debe enviar el archivo QIF después de cada
       exportación?</string>
+	<string name="pref_request_licence_summary">Si usted ha contribuido por otros medios, pida una clave
+	  Contrib por correo electrónico.</string>
+	<string name="pref_request_licence_title">Solicite una clave contrib</string>
+	<string name="pref_restore_summary">Restaurar la copia de seguridad de la carpeta \"myexpenses\" en la tarjeta SD</string>
+	<string name="pref_restore_title">Restaurar</string>
   <string name="pref_qif_export_file_encoding_summary">Establece \"ISO-8859-1\" como
       codificación de caracteres si utiliza MS Money.</string>
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres del archivo QIF </string>
@@ -264,8 +299,12 @@
   <string name="pref_use_standard_menu_title">Utilizar el menú estándar de Android</string>
   <string name="pref_use_standard_menu_summary">En vez de la barra de herramientas usted utiliza el
       menú estándar de Android para acceder a los comandos.</string>
+  <string name="request_licence_mail_body">Por favor, envíeme una clave contrib para Android-Id %1$s</string>
   <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.
       </string>
+	<string name="restore_db_failure">La restauración de la base de datos ha fallado.</string>
+	<string name="restore_no_backup_found">No hay ningún archivo BACKUP en la carpeta \"myexpenses\" en la tarjeta SD.</string>
+	<string name="restore_preferences_failure">La restauración de las preferencias ha fallado.</string>
   <string name="restore_preferences_success">Las configuraciones han sidos restauradas desde la
       copia de seguridad.</string>
   <string name="save_transaction_error">No se pudo guardar nueva transacción de plantilla</string>
@@ -298,6 +337,8 @@
       continuar?</string>
   <string name="warning_reset_account">Todas las transacciones serán exportadas a un archivo QIF
       en la tarjeta SD y borradas.¿Quiere continuar?</string>
+  <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de
+    seguridad. Se borrarán los datos actuales. ¿Desea continuar?</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
   
   <!-- strings below this comment do not need translations for new languages -->
@@ -305,5 +346,8 @@
       <i>&app_name;</i> ya no maneja las transferencias FTP por sí solo.</string>
   <string name="version_34_upgrade_info">Ahora usted puede apoyar el desarrollo contínuo de  <i>&app_name;</i> através su donación <i>&app_name;</i>.</string>
   <string name="version_35_upgrade_info"><i>&app_name;</i> ahora tiene un nuevo tema estándar oscuro.
-   Puede volver al tema claro en las configuraciones.</string>
+    Puede volver al tema claro en las configuraciones.</string>
+  <string name="version_39_upgrade_info">Contribuir a &lt;i>&app_name;&lt;/i> ahora es más fácil y más
+	  interesante. Si usted instala &lt;i>&app_name; Contrib&lt;/i>, va a obtener acceso ilimitado a las
+	  siguientes características premium:&lt;br>%1$s</string> 
 </resources>

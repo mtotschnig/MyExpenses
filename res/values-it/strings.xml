@@ -19,6 +19,7 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Per saperne di più</a>.'>
   <!ENTITY thank_you 'Grazie per il vostro sostegno!'>
+  <!ENTITY contrib ' (<b>Contrib</b>)'>
 ]>
 <resources>
   <string name="account">Conto</string>
@@ -137,10 +138,10 @@
       \nPer favore visita il <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuale</a>
       per avere ulteriori esplicazioni.</string>
   <string name="help_whats_new">&#160;- Navigare da un conto a un altro mediante Swipe Gesture.\n
-      - Modificare modelli.\n
-      - Ripristino del backup senza disinstallare / reinstallare.\n
+      - Modificare modelli&contrib;.\n
+      - Ripristino del backup senza disinstallare / reinstallare&contrib;.\n
       - Chiedere conferma prima di ripristinare sulla installazione.\n
-      - Visualizzare situazione finanziaria sommata in lista conti.\n
+      - Visualizzare situazione finanziaria sommata in lista conti&contrib;.\n
       - Problema sfarfallio risolto nel tema di luce.</string>
   <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
