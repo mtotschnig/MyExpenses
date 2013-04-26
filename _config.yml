@@ -168,19 +168,19 @@ versions:
         Visualizzare situazione finanziaria sommata in lista conti (Premium).
         Problema sfarfallio risolto nel tema chiaro.
       es: |
-        - Pasar a travès de cuentas (Swipe Gesture)
-        - Editar plantillas.
-        - Restaurar la copia de seguridad sin desinstalar / reinstalar.
-        - Pedir confirmación al restaurar al realizar la instalación. 
-        - Presentar la situación financiera global en la lista de cuentas. 
-        - Problema de parpadeo resuelto en el tema claro.
+        Pasar a travès de cuentas (Swipe Gesture)
+        Editar plantillas.
+        Restaurar la copia de seguridad sin desinstalar / reinstalar.
+        Pedir confirmación al restaurar al realizar la instalación. 
+        Presentar la situación financiera global en la lista de cuentas. 
+        Problema de parpadeo resuelto en el tema claro.
       tr: |
-        - Hesaplar arası kaydırmayla geçiş.
-        - Şablonları düzenle (Premium).
-        - Yedeklemeyi uygulamayı kaldırıp yeniden kurmadan yükleme (Premium).
-        - Kurulum sırasında yedeklemenin yüklenmesi için teyit isteği.
-        - Hesap listesinde genel finansal durumu görüntüleme (Premium).
-        - Aydınlık temada titreme sorunu giderildi.
+        Hesaplar arası kaydırmayla geçiş.
+        Şablonları düzenle (Premium).
+        Yedeklemeyi uygulamayı kaldırıp yeniden kurmadan yükleme (Premium).
+        Kurulum sırasında yedeklemenin yüklenmesi için teyit isteği.
+        Hesap listesinde genel finansal durumu görüntüleme (Premium).
+        Aydınlık temada titreme sorunu giderildi.
   -
     - 1.6.8
     - 2013-02-23
