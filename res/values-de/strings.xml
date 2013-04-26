@@ -115,7 +115,7 @@
   <string name="help_heading_privacy">Datenschutzerklärung</string>
   <string name="help_heading_quick_guide">Schnelleinstieg</string>
   <string name="help_heading_whats_new">Neue Funktionen</string>
-  <string name="help_intro">Mit <i>&app_name;</i> können sie über Ihre Ausgaben und Einnahmen Buch 
+  <string name="help_intro">Mit <i>&app_name;</i> können Sie über Ihre Ausgaben und Einnahmen Buch 
       halten, und diese in ein Desktop-Finanzprogrammm (Grisbi, Gnucash, Quicken oder MS Money) exportieren.</string>
   <string name="help_leading">Danke fürs Ausprobieren von <i>&app_name;</i> für
       Android.</string>
