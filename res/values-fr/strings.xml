@@ -117,7 +117,7 @@
   <string name="help_heading_quick_guide">Guide rapide</string>
   <string name="help_heading_whats_new">Nouveautés</string>
   <string name="help_intro"><i>&app_name;</i> permet de gérer les entrées d\'argent et les
-    dépenses, et de les exporter vers un logiciel de finance, tel que Grisbi ou Gnucash.</string>
+    dépenses, et de les exporter vers un logiciel de finance, tel que Grisbi, Gnucash, Quicken ou MS Money.</string>
   <string name="help_leading">Merci d\'essayer <i>&app_name;</i> pour Android.</string>
   <string name="help_quick_guide"><i>&app_name;</i> possède deux interfaces de commande: une barre
       de boutons et le menu standard d\'Android (bouton Menu hardware). Vous pouvez définir celle à

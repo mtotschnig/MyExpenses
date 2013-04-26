@@ -116,8 +116,8 @@
   <!-- The first line in the help screen. -->
   <!-- The intro of the help text. -->
   <string name="help_intro"><i>&app_name;</i> is designed to keep track of your expenses and
-      incomes, and to export these expenses into a desktop finance tool, like Grisbi or
-      Gnucash.</string>
+      incomes, and to export these expenses into a desktop finance tool, like Grisbi,
+      Gnucash, Quicken or MS Money.</string>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
   <string name="help_quick_guide"><i>&app_name;</i> comes with two command interfaces: A button bar
       and the Android standard menu (hardware Menu button). You can set which one to use in the

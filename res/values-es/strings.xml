@@ -117,7 +117,7 @@
   <string name="help_heading_quick_guide">Guía rápida</string>
   <string name="help_heading_whats_new">Novedades</string>
   <string name="help_intro">Con <i>&app_name;</i> puede llevar contabilidad sobre sus gastos y
-      ingresos y exportarlos a un programa de escritorio de finanzas (Grisbi o Gnucash).</string>
+      ingresos y exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money.).</string>
   <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
   <string name="help_quick_guide"><i>&app_name;</i> tiene dos interfaces para los comandos de
       llamada: una barra de herramientas y el menú estándar de Android (el botón de menú físico). En
