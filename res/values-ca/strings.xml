@@ -19,6 +19,7 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Més informació</a>.'>
   <!ENTITY thank_you 'Gràcies pel vostre suport!'>
+  <!ENTITY contrib ' (<b>Premium</b>)'>
 ]>
 <resources>
   <string name="account">Compte</string>
@@ -120,8 +121,12 @@
       - <b>Ayuda</b> : Accediu al tutorial, noticies, preguntes freqüents i als canvis.\n
       \nTrobareu explicacions detallades <a href="http://myexpenses.totschnig.org/#tutorial_r4">al manual</a> per a explicacions detallades.
   </string>
-<!--   <string name="help_whats_new">&#160;- Localitzat icona de l\'aplicació i el botó de la data.\n
-       - Les notes es mostren a la llista de transaccions.</string> -->
+  <string name="help_whats_new">&#160;- Passi a través de comptes (Swipe Gesture).\n
+         - Modifica les plantilles&contrib;.\n
+         - Restaurar còpia de seguretat sense desinstal · lar / reinstal&contrib;.\n
+         - Demanar confirmació a restaurar a install.\n
+         - Visualitzar la situació financera global en llista de comptes&contrib;.\n
+         - Resolt problema que oscil · lava en el tema clar.</string>
   <string name="import_categories">Importa categories</string>
   <string name="important_version_information">Informació important</string>
   <string name="income">ingrés</string>
