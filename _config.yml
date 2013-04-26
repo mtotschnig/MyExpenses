@@ -129,34 +129,58 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
-    - 1.7.0RC1
-    - 2013-04-24
-    -
-      en: |
-        Added missing translations.  
-  -
-    - 1.7.0a3
-    - 2013-04-22
-    -
-      en: |
-        Edit templates.
-  -
-    - 1.7.0a2
-    - 2013-04-19
-    -
-      en: |
-        Licence keys.
-  -
-    - 1.7.0a1
-    - 2013-04-18
+    - 1.7.0
+    - 2013-04-26
     -
       en: |
         Swipe through accounts.
-        Access to selected new features now depends on installation of Contrib App.
-        Restore backup without install/uninstall.
+        Edit templates (Premium).
+        Restore backup without install/uninstall (Premium).
         Ask for confirmation when restoring upon install.
-        Display aggregate financial situation in account list.
+        Display aggregate financial situation in account list (Premium).
         Resolved flickering issue in light theme.
+      ca: |
+        Passi a través de comptes (Swipe Gesture).
+        Modifica les plantilles (Premium).
+        Restaurar còpia de seguretat sense desinstal·lar / reinstal (Premium).
+        Demanar confirmació a restaurar a install.
+        Visualitzar la situació financera global en llista de comptes (Premium).
+        Resolt problema que oscil·lava en el tema clar.
+      fr: |
+        Changer de compte par geste Swipe.
+        Restauration de la sauvegarde sans déinstallation/reinstallation (Premium).
+        Éditer les modèles (Premium).
+        S'il y a détection de sauvegarde lors de l'installation, demander confirmation avant de la restaurer.
+        Dans la liste des comptes, affichache des sommes totales (Premium).
+        Scintillment dans le thème claire résolu.
+      de: |
+        Zwischen Konten blättern mittels Wischgeste.
+        Vorlagen verändern (Premium).
+        Wiederherstellung der Sicherungskopie ohne Deinstallierung/Reinstallierung (Premium).
+        Bei Installation nachfragen, ob Sicherungskopie wiederhergestellt werden soll.
+        Darstellung der Gesamtsummen in der Kontenübersicht (Premium).
+        Flimmern des Hintergrundes bei hellem Thema behoben.
+      it: |
+        Navigare da un conto a un altro mediante Swipe Gesture.
+        Modificare modelli (Premium).
+        Ripristino del backup senza disinstallare / reinstallare (Premium).
+        Chiedere conferma prima di ripristinare sulla installazione.
+        Visualizzare situazione finanziaria sommata in lista conti (Premium).
+        Problema sfarfallio risolto nel tema chiaro.
+      es: |
+        - Pasar a travès de cuentas (Swipe Gesture)
+        - Editar plantillas.
+        - Restaurar la copia de seguridad sin desinstalar / reinstalar.
+        - Pedir confirmación al restaurar al realizar la instalación. 
+        - Presentar la situación financiera global en la lista de cuentas. 
+        - Problema de parpadeo resuelto en el tema claro.
+      tr: |
+        - Hesaplar arası kaydırmayla geçiş.
+        - Şablonları düzenle (Premium).
+        - Yedeklemeyi uygulamayı kaldırıp yeniden kurmadan yükleme (Premium).
+        - Kurulum sırasında yedeklemenin yüklenmesi için teyit isteği.
+        - Hesap listesinde genel finansal durumu görüntüleme (Premium).
+        - Aydınlık temada titreme sorunu giderildi.
   -
     - 1.6.8
     - 2013-02-23
