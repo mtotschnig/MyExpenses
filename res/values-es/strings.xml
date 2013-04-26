@@ -19,7 +19,7 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Más información</a>.'>
   <!ENTITY thank_you 'Gracias por su apoyo!'>
-  <!ENTITY contrib ' (<b>Contrib</b>)'>
+  <!ENTITY contrib ' (<b>Premium</b>)'>
 ]>
 <resources>
   <string name="account">Cuenta</string>
