@@ -143,7 +143,7 @@
         - Vorlagen verändern&contrib;.\n
         - Wiederherstellung der Sicherungskopie ohne Deinstallierung/Reinstallierung&contrib;.\n
         - Bei Installation nachfragen, ob Sicherungkopie wiederhergestellt werden soll.\n
-        - In der Kontenliste, Gesamtsummen anzeigen&contrib;.\n
+        - Darstellung der Gesamtsummen in der Kontenübersicht&contrib;.\n
         - Flimmern des Hintergrundes bei hellem Thema behoben.</string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
