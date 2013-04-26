@@ -117,20 +117,20 @@
   <string name="help_heading_quick_guide">Guía rápida</string>
   <string name="help_heading_whats_new">Novedades</string>
   <string name="help_intro">Con <i>&app_name;</i> puede llevar contabilidad sobre sus gastos y
-      ingresos y exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money.).</string>
+      ingresos y exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</string>
   <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
   <string name="help_quick_guide"><i>&app_name;</i> tiene dos interfaces para los comandos de
-      llamada: una barra de herramientas y el menú estándar de Android (el botón de menú físico). En
-      la configuración de la pantalla se puede especificar cual desea utilizar. Los
-      botones de control en la barra de herramientas ejecutan las siguientes acciones en clics cortos.:\n\n
+      llamada: una barra de herramientas y el menú estándar de Android (el botón de menú físico). En
+      la configuración de la pantalla se puede especificar cual desea utilizar. Los
+      botones de control en la barra de herramientas ejecutan las siguientes acciones en clics cortos.:\n\n
       - <b>Nuevo</b> : Añadir una transacción.\n
       - <b>Cuentas</b> : Cambiar a otra cuenta.\n
       - <b>Reset</b> : Exporta los gastos en el formato QIF a la tarjeta SD, borra los
-      gastos y actualiza el saldo inicial.\n
+      gastos y actualiza el saldo inicial.\n
       - <b> Configuraciones</b> : Permite el acceso a todas las configuraciones y funciones administrativas 
       (de cuentas, categorías, beneficiarios, formas de pago, plantillas, copias de seguridad, importaciones).\n
       - <b>Ayuda</b> : Abre esta pantalla de ayuda.\n
-      \nAlgunos botones (indicado por un triángulo en la esquina superior izquierda) abren menús pop-up en clics largos:n\n
+      \nAlgunos botones (indicado por un triángulo en la esquina superior izquierda) abren menús pop-up en clics largos:n\n
       - <b>Nuevo</b> : <b>Traslado</b> Permite crear una transferencia de una cuenta a otra (deben tener la misma moneda). 
       También enumera las plantillas disponibles que se pueden instanciar. (Las plantillas 
       pueden crearse a partir de las transacciones desde su menú contextual de la lista).\n
@@ -337,7 +337,7 @@
   <string name="warning_delete_account">Se borra esta cuenta con todos sus asientos. ¿Quiere
       continuar?</string>
   <string name="warning_reset_account">Todas las transacciones serán exportadas a un archivo QIF
-      en la tarjeta SD y borradas.¿Quiere continuar?</string>
+      en la tarjeta SD y borradas.¿Quiere continuar?</string>
   <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de
     seguridad. Se borrarán los datos actuales. ¿Desea continuar?</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
