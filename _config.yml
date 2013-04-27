@@ -79,6 +79,7 @@ sections:
       en: Information
     tags:
       - credits
+      - licence
   changelog:
     weight: 6
     url: versionlist.html
