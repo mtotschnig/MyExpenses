@@ -339,8 +339,10 @@
         <answer>
         <para>
           When you create a backup, it is stored in the <filename>myexpenses</filename> folder of 
-          your SD card. It will be automatically restored when you uninstall and reinstall
-          <application role="app_name"/>.
+          your SD card. It will be detected when you uninstall and reinstall
+          <application role="app_name"/>, and you can choose to restore it. Since version 1.7.0, 
+          you can also trigger the restore from the Settings screen
+          (Contrib).
         </para>
         </answer>
       </qandaentry>
@@ -353,8 +355,10 @@
         <answer>
         <para>
           Wenn Sie ein Backup erzeugen, wird dieses im Ordner <filename>myexpenses</filename> auf der 
-          SD-Karte gespeichert. Von dort wird es automatisch wiederhergestellt, wenn Sie
-          <application role="app_name"/> deinstallieren und erneut installieren.
+          SD-Karte gespeichert. Dort wird es entdeckt, wenn Sie
+          <application role="app_name"/> deinstallieren und erneut installieren, und Sie können die
+          Wiederherstellung wählen. Seit Version 1.7.0, kann die Wiederherstellung auch vom Einstellungsbildschirm
+          aus aufgerufen werden (Contrib).
         </para>
         </answer>
       </qandaentry>
@@ -367,8 +371,9 @@
         <answer>
         <para>
           Lorsque vous créez une sauvegarde, celle-ci est stockée dans le répertoire  <filename>myexpenses</filename> 
-	        de votre carte SD. Elle est automatiquement récupérée lorsque vous désinstallez puis réinstallez 
-	        <application role="app_name"/>.
+	        de votre carte SD. Elle est détectée lorsque vous désinstallez puis réinstallez 
+	        <application role="app_name"/>, et vous pouvez choissir de la recupérer. À partir de la version
+	        1.7.0., la recupération de la sauvegarde peut aussi être initiée à partir des paramètres (Contrib).
         </para>
         </answer>
       </qandaentry>
