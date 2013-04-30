@@ -416,8 +416,9 @@
         <answer>
         <para>
           Cuando usted crea una copia de seguridad, es guardada en la carpeta <filename>myexpenses</filename>
-          de la tarjeta SD. Se restablece automáticamente cuando usted desinstala y reinstala
-          <application role="app_name"/>.
+          de la tarjeta SD. Se detecta cuando usted desinstala y reinstala <application role="app_name"/>,
+          y usted puede decidir restaurarla. A partir de la versión 1.7.0, también puede activar la
+          restauración desde la pantalla de configuraciones (Premium).
         </para>
         </answer>
       </qandaentry>
