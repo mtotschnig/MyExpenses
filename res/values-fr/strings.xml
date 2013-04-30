@@ -50,10 +50,10 @@
   <string name="color_name_yellow">Jaune</string>
   <string name="comment">Remarques</string>
   <string name="contrib_dialog_text">&lt;i>&app_name;&lt;/i> vous est offert sans publicité et open source.
-  	S\'il vous plaît, installez la version Contrib payante. Vous obtiendrez un accès illimité aux
-  	fonctionnalités Premium suivantes:&lt;br>%1$s&lt;br>&thank_you;</string>
+  	S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux
+  	fonctions Premium suivantes:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
-  <string name="contrib_feature_restore_label">Restauration de la sauvegarde sans deinstallation/réinstallation</string>
+  <string name="contrib_feature_restore_label">Restauration de la sauvegarde sans désinstallation/réinstallation</string>
   <string name="contrib_feature_aggregate_label">Somme totale sur tous les comptes</string>
   <string name="contrib_feature_edit_template_label">Éditer les modèles</string>
   <string name="contrib_key">Clé Contrib</string>
@@ -67,12 +67,12 @@
       l\'installation</string>
   <string name="description">Description</string>
   <string name="dialog_confirm_restore_on_install">Un fichier de sauvegarde a été détecté. Voulez-vous que celui-ci soit restauré?</string>
-  <string name="dialog_contrib_usage_count">Il vous restent %1$d usages gratuits</string>
-  <string name="dialog_contrib_no_usages_left">Il ne vous restent plus d\'usages gratuits</string>
-  <string name="dialog_contrib_reminder">\"%1$s\" est une fonctionnalité Premium. %2$s.
-  	Vous obtiendrez accès illimité à celle-ci et toutes les autres en installant &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
-  <string name="dialog_contrib_yes">Buy</string>
-  <string name="dialog_contrib_no">Not yet</string>
+  <string name="dialog_contrib_usage_count">Il vous reste %1$d utilisation(s) gratuite(s)</string>
+  <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite</string>
+  <string name="dialog_contrib_reminder">\"%1$s\" est une fonction Premium. %2$s.
+  	Vous obtiendrez un accès illimité à celle-ci et toutes les autres en installant &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
+  <string name="dialog_contrib_yes">Acheter</string>
+  <string name="dialog_contrib_no">Pas tout de suite</string>
   <string name="dialog_title_select_account">Sélectionner un compte</string>
   <string name="dialog_title_select_color">Sélectionner une couleur</string>
   <string name="dialog_title_select_currency">Sélectionner une devise</string>
@@ -92,7 +92,7 @@
       %1$s</string>
   <string name="external_storage_unavailable">Le stockage externe (carte SD) n\'est pas
       disponible</string>
-  <string name="feedback">Feedback</string>
+  <string name="feedback">Réactions</string>
   <string name="feedback_email_message">Envoyez vos réactions en français, anglais ou allemand, s.v.p.!</string>
   <string name="ftp_uri_malformed">Mauvaise syntaxe de l\'URI %1$s</string>
   <string name="go_to_chapter">Allez au chapitre</string>
@@ -139,19 +139,19 @@
       - <b>Aide</b> : Accès rapide au manuel, les news, la foire aux questions et la liste des changements.\n
       \nReférez-vous au <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuel</a> pour de plus amples explications.
   </string>
-  <string name="help_whats_new">&#160;- Changer de compte par geste Swipe.\n
-        - Restauration de la sauvegarde sans déinstallation/reinstallation&contrib;.\n
+  <string name="help_whats_new">&#160;- Changer de compte par geste de glissement.\n
+        - Restauration de la sauvegarde sans désinstallation/reinstallation&contrib;.\n
         - Éditer les modèles&contrib;.\n
-        - S\'il y a détection de sauvegarde lors de l\'installation, demander confirmation avant de la restaurer.\n
-        - Dans la liste des comptes, affichache des sommes totales&contrib;.\n
-        - Scintillment dans le thème claire résolu.</string>
+        - S\'il existe déjà une sauvegarde lors de l\'installation, il demandera confirmation avant de la restaurer.\n
+        - Dans la liste des comptes, affichage des sommes totales&contrib;.\n
+        - Scintillement du thème clair résolu.</string>
   <string name="import_categories">Importer les catégories</string>
   <string name="important_version_information">Information importante</string>
   <string name="income">revenu</string>
   <string name="invalid_number_format">Format de nombre non reconnu. Utilisez %1$s</string>
   <string name="label">Intitulé</string>
-  <string name="licence_validation_success">Clé de licence validée avec succès: L\'accès aux fonctionnalités Premium a été déverrouillé.</string>
-  <string name="licence_validation_failure">Clé de licence non valide.</string>
+  <string name="licence_validation_success">Clé de licence validée avec succès: L\'accès aux fonctions Premium a été déverrouillé.</string>
+  <string name="licence_validation_failure">Clé de licence invalide.</string>
   <string name="menu_accounts">Comptes</string>
   <string name="menu_accounts_explain">Le bouton Comptes vous permet de changer de compte si vous en
       aviez défini plusieurs. Au départ, il n\'y en a qu\'un seul. Voulez-vous en créer un deuxième maintenant.</string>
@@ -248,7 +248,7 @@
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_contrib_install_title">Installer App Contrib</string>
-  <string name="pref_contrib_install_summary">En installant &app_name; Contrib, vous obtiendrez accès à toutes les fonctionnalités Premium.</string>
+  <string name="pref_contrib_install_summary">En installant &app_name; Contrib, vous obtiendrez accès à toutes les fonctions Premium.</string>
   <string name="pref_currency_decimal_separator_title">Séparateur décimal pour l\'entrée des
       montants</string>
   <string name="pref_currency_decimal_separator_summary">Vous pouvez choisir entre "," et "." ou
@@ -258,7 +258,7 @@
   <string name="pref_currency_decimal_separator_input_minor_unit">Sous-unités en nombres entiers
   </string>
   <string name="pref_enter_licence_title">Saisir clé contrib</string>
-  <string name="pref_enter_licence_summary">Si vous avez reçu une clé contrib, elle déverrouille l\'accès aux fonctionnalités Premium.</string>
+  <string name="pref_enter_licence_summary">Si vous avez reçu une clé contrib, elle déverrouille l\'accès aux fonctions Premium.</string>
   <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir des
       définitions standards de Grisbi, incluses dans l\'application, ou votre propre fichier
       sauvegardé sous le nom &grisbi_file; dans le répertoire myexpenses de la racine de votre carte
@@ -279,8 +279,8 @@
   </string>
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier QIF</string>
   <string name="pref_qif_export_file_encoding_summary">Choississez \"ISO-8859-1\" si vous utiliséz MS Money</string>
-  <string name="pref_request_licence_title">Démandez une clé contrib</string>
-  <string name="pref_request_licence_summary">Si vous avez contribué par d\'autres moyens, demandez une clé contrib par email.</string>
+  <string name="pref_request_licence_title">Demandez une clé contrib</string>
+  <string name="pref_request_licence_summary">Si vous avez contribué par d\'autres moyens, demandez une clé contrib par e-mail.</string>
   <string name="pref_restore_title">Restauration</string>
   <string name="pref_restore_summary">Restaurez la sauvegarde à partir du dossier \"myexpenses\" de la carte SD.</string>
   <string name="pref_share_target_title">URL où sera téléchargé le fichier QIF</string>
