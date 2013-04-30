@@ -117,7 +117,7 @@
         <intent android:action="myexpenses.intent.restore"/>
     </Preference>
   </PreferenceCategory>
-    <PreferenceCategory 
+  <PreferenceCategory 
       android:title="@string/menu_contrib">
       <Preference android:key="@string/pref_contrib_install_key"
         android:title="@string/pref_contrib_install_title"
@@ -129,5 +129,12 @@
         android:inputType="number"
         android:title="@string/pref_enter_licence_title"
         android:summary="@string/pref_enter_licence_summary" />
+ 	</PreferenceCategory>
+ 	<PreferenceCategory 
+ 		android:title="Security">
+ 		<org.totschnig.myexpenses.PasswordPreference
+				android:key="password"
+				android:summary="Set password protection"
+				android:title="Password"/>
  	</PreferenceCategory>
 </PreferenceScreen> 
