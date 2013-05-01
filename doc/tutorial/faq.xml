@@ -403,7 +403,7 @@
             klasöründe saklanır. <application role="app_name"/> uygulamasını kaldırıp tekrar
             kurduğunuzda bu yedekleme tespit edilir ve onu yüklemeyi seçebilirsiniz. 1.7.0
             sürümünden itibaren yüklemeyi Ayarlar ekranından da başlatabilirsiniz (bu son seçenek
-            ücretli katkı sürümünü gerektirir)."
+            ücretli katkı sürümünü gerektirir).
           </para>
         </answer>
       </qandaentry>
