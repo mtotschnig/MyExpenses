@@ -271,6 +271,8 @@
   <string name="pref_password_not_equal">Passwords do not match</string>
   <string name="pref_perform_share_title">Share QIF Export</string>
   <string name="pref_perform_share_summary">Should the QIF file be shared after each export?</string>
+  <string name="pref_perform_protection_title">Password protection</string>
+  <string name="pref_perform_protection_summary">Should app launches and resumes be protected?</string>
   <string name="pref_qif_export_file_encoding_title">Character encoding of the QIF file</string>
   <string name="pref_qif_export_file_encoding_summary">Set the character encoding to \"ISO-8859-1\" if you use MS Money.</string>
   <string name="pref_request_licence_title">Request a Contrib key</string>
@@ -281,6 +283,7 @@
   <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate 
       apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes
   </string>
+  <string name="pref_set_password_title">Set password</string>
   <string name="pref_ui_theme_title">Theme</string>
   <string name="pref_ui_theme_summary">Choose between light and dark</string>
   <string name="pref_ui_theme_dark">dark</string>
@@ -349,7 +352,8 @@
   <string name="pref_contrib_install_key">contrib_install</string>
   <string name="pref_request_licence_key">request_licence</string>
   <string name="pref_enter_licence_key">pref_enter_licence_key</string>
-  <string name="pref_password_key">password</string>
+  <string name="pref_perform_protection_key">perform_protection</string>
+  <string name="pref_set_password_key">password</string>
 
   <!-- strings below this comment do not need translations for new languages -->
   <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>

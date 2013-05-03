@@ -560,10 +560,11 @@ public class Utils {
     }
     return "";
   }
+  public static void showPasswordDialog(Activity ctx,Dialog dlg) {
+    ctx.findViewById(android.R.id.content).setVisibility(View.INVISIBLE);
+    dlg.show();
+  }
   public static Dialog passwordDialog(final Activity ctx) {
-    final View root = ctx.findViewById(android.R.id.content);
-    root.setVisibility(View.INVISIBLE);
-    MyApplication.getInstance().isLocked = true;
     LayoutInflater li = LayoutInflater.from(new ContextThemeWrapper(ctx, MyApplication.getThemeId()));
     View view = li.inflate(R.layout.password_check, null);
     final EditText input = (EditText) view.findViewById(R.id.password);
@@ -582,8 +583,9 @@ public class Utils {
         String value = input.getText().toString();
         if (Utils.md5(value).equals(MyApplication.getInstance().passwordHash)) {
           input.setText("");
+          error.setText("");
           MyApplication.getInstance().isLocked = false;
-          root.setVisibility(View.VISIBLE);
+          ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
           pwDialog.dismiss();
         } else {
           error.setText("Password invalid. Try again");

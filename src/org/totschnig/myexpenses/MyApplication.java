@@ -64,7 +64,7 @@ public class MyApplication extends Application {
     public static String CONTRIB_FEATURE_AGGREGATE = "aggregate";
     private CharSequence mVersionInfo = "";
     public boolean isContribEnabled;
-    private long mLastPause;
+    private long mLastPause = 0;
     public boolean isLocked;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
     protected String passwordHash;
@@ -79,7 +79,6 @@ public class MyApplication extends Application {
     public void onCreate()
     {
         super.onCreate();
-        setmLastPause(0);
         mSelf = this;
         if (settings == null)
         {
@@ -102,7 +101,7 @@ public class MyApplication extends Application {
         PREFKEY_CONTRIB_INSTALL = getString(R.string.pref_contrib_install_key);
         PREFKEY_REQUEST_LICENCE = getString(R.string.pref_request_licence_key);
         PREFKEY_ENTER_LICENCE = getString(R.string.pref_enter_licence_key);
-        passwordHash = settings.getString(getString(R.string.pref_password_key),"");
+        passwordHash = settings.getString(getString(R.string.pref_set_password_key),"");
         //mDbOpenHelper = db();
         try {
           InputStream rawResource = getResources().openRawResource(R.raw.app);
@@ -319,7 +318,20 @@ public class MyApplication extends Application {
     public long getmLastPause() {
       return mLastPause;
     }
-    public void setmLastPause(long mLastPause) {
-      this.mLastPause = mLastPause;
+    public void setmLastPause() {
+      if (!isLocked)
+        this.mLastPause = System.nanoTime();
+    }
+    /**
+     * @return true if password protection is set, and
+     * we have paused for at least 5 seconds
+     * sets isLocked as a side effect
+     */
+    public boolean shouldLock() {
+      if (settings.getBoolean(getString(R.string.pref_perform_protection_key), false) && System.nanoTime() - getmLastPause() > 5000000000L) {
+        isLocked = true;
+        return true;
+      }
+      return false;
     }
 }
