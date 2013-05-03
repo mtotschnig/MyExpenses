@@ -1,10 +1,28 @@
 package org.totschnig.myexpenses;
 
-import android.content.Context;
-import  android.preference.DialogPreference;
-import android.util.AttributeSet;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
-public class PasswordPreference extends DialogPreference {
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.preference.DialogPreference;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.AttributeSet;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class PasswordPreference extends DialogPreference implements TextWatcher {
+  
+  private String strPass1;
+  private String strPass2;
+  private EditText password1;
+  private EditText password2;
+  private TextView error;
+  
   public PasswordPreference(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
     setDialogLayoutResource(R.layout.password_dialog);
@@ -14,4 +32,59 @@ public class PasswordPreference extends DialogPreference {
     super(context, attrs);
     setDialogLayoutResource(R.layout.password_dialog);
     }
+    @Override
+    protected void onDialogClosed(boolean positiveResult) {
+        super.onDialogClosed(positiveResult);
+
+        if (positiveResult && strPass1 != null && strPass1.equals(strPass2)) {
+          persistString(md5(strPass1));
+        }
+    }
+    @Override
+    protected void onBindDialogView(View view) {
+      password1    = (EditText) view.findViewById(R.id.password1);
+      password2    = (EditText) view.findViewById(R.id.password2);
+      error        = (TextView) view.findViewById(R.id.passwordNoMatch);
+
+      password1.addTextChangedListener(this);
+      password2.addTextChangedListener(this);
+      super.onBindDialogView(view);
+   }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        Dialog dlg = getDialog();
+        Button btn = ((AlertDialog)dlg).getButton(AlertDialog.BUTTON_POSITIVE);
+        strPass1 = password1.getText().toString();
+        strPass2 = password2.getText().toString();
+
+        if (strPass1.equals(strPass2)) {
+            error.setText("");
+            btn.setEnabled(true);
+        } else {
+          error.setText(R.string.pref_password_not_equal);
+          btn.setEnabled(false);
+        }
+    }
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    public void onTextChanged(CharSequence s, int start, int before, int count) {}
+    
+    public String md5(String s) {
+      try {
+          // Create MD5 Hash
+          MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+          digest.update(s.getBytes());
+          byte messageDigest[] = digest.digest();
+
+          // Create Hex String
+          StringBuffer hexString = new StringBuffer();
+          for (int i=0; i<messageDigest.length; i++)
+              hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+          return hexString.toString();
+
+      } catch (NoSuchAlgorithmException e) {
+          e.printStackTrace();
+      }
+      return "";
+  }
 }
