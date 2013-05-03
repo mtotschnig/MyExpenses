@@ -26,7 +26,7 @@ import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Toast;
 
-public class Backup extends Activity implements ContribIFace {
+public class Backup extends ProtectedActivity implements ContribIFace {
   static final int BACKUP_DIALOG_ID = 1;
   static final int BACKUP_COMMAND_ID = 1;
   static final int RESTORE_DIALOG_ID = 2;

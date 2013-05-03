@@ -133,7 +133,7 @@
  	<PreferenceCategory 
  		android:title="Security">
  		<org.totschnig.myexpenses.PasswordPreference
-				android:key="password"
+				android:key="@string/pref_password_key"
 				android:summary="Set password protection"
 				android:title="Password"/>
  	</PreferenceCategory>

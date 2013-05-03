@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
-public abstract class EditActivity extends Activity {
+public abstract class EditActivity extends ProtectedActivity {
   public static final String CURRENCY_USE_MINOR_UNIT = "x";
   protected DecimalFormat nfDLocal;
   protected String mCurrencyDecimalSeparator;

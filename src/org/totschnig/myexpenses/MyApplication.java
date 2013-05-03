@@ -64,7 +64,9 @@ public class MyApplication extends Application {
     public static String CONTRIB_FEATURE_AGGREGATE = "aggregate";
     private CharSequence mVersionInfo = "";
     public boolean isContribEnabled;
+    public long mLastPause;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
+    protected String passwordHash;
 
     public CharSequence getVersionInfo() {
       return mVersionInfo;
@@ -76,6 +78,7 @@ public class MyApplication extends Application {
     public void onCreate()
     {
         super.onCreate();
+        mLastPause = 0;
         mSelf = this;
         if (settings == null)
         {
@@ -98,6 +101,7 @@ public class MyApplication extends Application {
         PREFKEY_CONTRIB_INSTALL = getString(R.string.pref_contrib_install_key);
         PREFKEY_REQUEST_LICENCE = getString(R.string.pref_request_licence_key);
         PREFKEY_ENTER_LICENCE = getString(R.string.pref_enter_licence_key);
+        passwordHash = settings.getString(getString(R.string.pref_password_key),"");
         //mDbOpenHelper = db();
         try {
           InputStream rawResource = getResources().openRawResource(R.raw.app);

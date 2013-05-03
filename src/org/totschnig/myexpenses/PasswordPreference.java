@@ -34,11 +34,14 @@ public class PasswordPreference extends DialogPreference implements TextWatcher 
     }
     @Override
     protected void onDialogClosed(boolean positiveResult) {
-        super.onDialogClosed(positiveResult);
+      MyApplication app = MyApplication.getInstance();
+      super.onDialogClosed(positiveResult);
 
-        if (positiveResult && strPass1 != null && strPass1.equals(strPass2)) {
-          persistString(md5(strPass1));
-        }
+      if (positiveResult && strPass1 != null && strPass1.equals(strPass2)) {
+        String hash = Utils.md5(strPass1);
+        persistString(hash);
+        app.passwordHash = hash;
+      }
     }
     @Override
     protected void onBindDialogView(View view) {
@@ -68,23 +71,4 @@ public class PasswordPreference extends DialogPreference implements TextWatcher 
     }
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
     public void onTextChanged(CharSequence s, int start, int before, int count) {}
-    
-    public String md5(String s) {
-      try {
-          // Create MD5 Hash
-          MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-          digest.update(s.getBytes());
-          byte messageDigest[] = digest.digest();
-
-          // Create Hex String
-          StringBuffer hexString = new StringBuffer();
-          for (int i=0; i<messageDigest.length; i++)
-              hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-          return hexString.toString();
-
-      } catch (NoSuchAlgorithmException e) {
-          e.printStackTrace();
-      }
-      return "";
-  }
 }

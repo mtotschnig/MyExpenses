@@ -344,12 +344,12 @@
   <string name="pref_account_button_behaviour_key">account_button_behaviour</string>
   <string name="pref_qif_export_file_encoding_key">qif_export_file_encoding</string>
   <string name="pref_ui_theme_key">pref_ui_theme</string>
-  <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
-  <string name="pref_backup_key">pref_backup_key</string>
-  <string name="pref_restore_key">pref_restore_key</string>
-  <string name="pref_contrib_install_key">pref_contrib_install_key</string>
-  <string name="pref_request_licence_key">pref_request_licence_key</string>
+  <string name="pref_backup_key">backup</string>
+  <string name="pref_restore_key">restore</string>
+  <string name="pref_contrib_install_key">contrib_install</string>
+  <string name="pref_request_licence_key">request_licence</string>
   <string name="pref_enter_licence_key">pref_enter_licence_key</string>
+  <string name="pref_password_key">password</string>
 
   <!-- strings below this comment do not need translations for new languages -->
   <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>

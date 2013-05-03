@@ -85,7 +85,7 @@ import android.util.TypedValue;
  * @author Michael Totschnig
  *
  */
-public class MyExpenses extends Activity
+public class MyExpenses extends ProtectedActivity
   implements OnClickListener,OnLongClickListener, OnSharedPreferenceChangeListener, OnPageChangeListener {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_PREF=2;
@@ -722,7 +722,7 @@ public class MyExpenses extends Activity
         .setView(view)
         .create();
      }
-    return null;
+    return super.onCreateDialog(id);
   }
 
 
