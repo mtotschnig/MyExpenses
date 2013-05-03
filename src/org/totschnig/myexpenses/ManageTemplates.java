@@ -37,7 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
-public class ManageTemplates extends ExpandableListActivity implements ContribIFace {
+public class ManageTemplates extends ProtectedExpandableListActivity implements ContribIFace {
   //private static final int DELETE_CONFIRM_DIALOG_ID = 1;
   private MyExpandableListAdapter mAdapter;
   private ExpensesDbAdapter mDbHelper;

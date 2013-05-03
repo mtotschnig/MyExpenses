@@ -45,7 +45,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  * @author Michael Totschnig
  *
  */
-public class ManageAccounts extends ListActivity implements ContribIFace {
+public class ManageAccounts extends ProtectedListActivity implements ContribIFace {
   private static final int ACTIVITY_CREATE=0;
   private static final int ACTIVITY_EDIT=1;
   private static final int DELETE_ID = Menu.FIRST;

@@ -1,10 +1,10 @@
 package org.totschnig.myexpenses;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.preference.PreferenceActivity;
 
 
-public class ProtectedActivity extends Activity {
+public class ProtectedPreferenceActivity extends PreferenceActivity {
   private Dialog pwDialog;
   @Override
   protected void onPause() {

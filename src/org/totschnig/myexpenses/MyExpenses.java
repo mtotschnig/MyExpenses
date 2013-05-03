@@ -519,11 +519,11 @@ public class MyExpenses extends ProtectedActivity
     TextView tv;
     switch (id) {
     case R.id.HELP_DIALOG_ID:
-      DisplayMetrics displaymetrics = new DisplayMetrics();
-      getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-      int minWidth = (int) (displaymetrics.widthPixels*0.9f);
-      if (minWidth / displaymetrics.density > 650)
-        minWidth = (int) (650 * displaymetrics.density);
+      DisplayMetrics displayMetrics = new DisplayMetrics();
+      getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+      int minWidth = (int) (displayMetrics.widthPixels*0.9f);
+      if (minWidth / displayMetrics.density > 650)
+        minWidth = (int) (650 * displayMetrics.density);
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.aboutview, null);
       view.setMinimumWidth(minWidth);

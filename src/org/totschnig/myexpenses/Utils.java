@@ -560,4 +560,36 @@ public class Utils {
     }
     return "";
   }
+  public static Dialog passwordDialog(final Activity ctx) {
+    final View root = ctx.findViewById(android.R.id.content);
+    root.setVisibility(View.INVISIBLE);
+    MyApplication.getInstance().isLocked = true;
+    LayoutInflater li = LayoutInflater.from(new ContextThemeWrapper(ctx, MyApplication.getThemeId()));
+    View view = li.inflate(R.layout.password_check, null);
+    final EditText input = (EditText) view.findViewById(R.id.password);
+    final TextView error = (TextView) view.findViewById(R.id.passwordInvalid);
+    view.findViewById(R.id.POSITIVE_BUTTON).setVisibility(View.INVISIBLE);
+    view.findViewById(R.id.NEGATIVE_BUTTON).setVisibility(View.INVISIBLE);
+    final AlertDialog pwDialog = new AlertDialog.Builder(ctx)
+      .setTitle("Enter your password")
+      .setView(view)
+      .setCancelable(false)
+      .create();
+    Button btn = (Button) view.findViewById(R.id.NEUTRAL_BUTTON);
+    btn.setText(android.R.string.ok);
+    btn.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View v) {
+        String value = input.getText().toString();
+        if (Utils.md5(value).equals(MyApplication.getInstance().passwordHash)) {
+          input.setText("");
+          MyApplication.getInstance().isLocked = false;
+          root.setVisibility(View.VISIBLE);
+          pwDialog.dismiss();
+        } else {
+          error.setText("Password invalid. Try again");
+        }
+      }
+    });
+    return pwDialog;
+  }
 }

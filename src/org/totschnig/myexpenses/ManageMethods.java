@@ -32,7 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class ManageMethods extends ListActivity {
+public class ManageMethods extends ProtectedListActivity {
   private static final int ACTIVITY_CREATE=0;
   private static final int ACTIVITY_EDIT=1;
   private static final int DELETE_ID = Menu.FIRST;

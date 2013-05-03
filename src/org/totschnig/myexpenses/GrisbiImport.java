@@ -53,7 +53,7 @@ import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
 
-public class GrisbiImport extends Activity implements DialogInterface.OnClickListener {
+public class GrisbiImport extends ProtectedActivity implements DialogInterface.OnClickListener {
   static final int SOURCES_DIALOG_ID = 1;
   ProgressDialog mProgressDialog;
   private AlertDialog mSourcesDialog;

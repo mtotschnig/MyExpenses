@@ -43,7 +43,7 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
  * @author Michael Totschnig
  *
  */
-public class SelectCategory extends ExpandableListActivity {
+public class SelectCategory extends ProtectedExpandableListActivity {
     private MyExpandableListAdapter mAdapter;
     private ExpensesDbAdapter mDbHelper;
     private Cursor mGroupCursor;

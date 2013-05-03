@@ -25,7 +25,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.util.SparseBooleanArray;
 
-public class ManageParties extends ListActivity {
+public class ManageParties extends ProtectedListActivity {
   private ExpensesDbAdapter mDbHelper;
   Cursor mPartiesCursor;
   Button mDeleteButton;

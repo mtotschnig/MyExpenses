@@ -64,7 +64,8 @@ public class MyApplication extends Application {
     public static String CONTRIB_FEATURE_AGGREGATE = "aggregate";
     private CharSequence mVersionInfo = "";
     public boolean isContribEnabled;
-    public long mLastPause;
+    private long mLastPause;
+    public boolean isLocked;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
     protected String passwordHash;
 
@@ -78,7 +79,7 @@ public class MyApplication extends Application {
     public void onCreate()
     {
         super.onCreate();
-        mLastPause = 0;
+        setmLastPause(0);
         mSelf = this;
         if (settings == null)
         {
@@ -314,5 +315,11 @@ public class MyApplication extends Application {
         mSelf.mDbOpenHelper.open();
       }
       return mSelf.mDbOpenHelper;
+    }
+    public long getmLastPause() {
+      return mLastPause;
+    }
+    public void setmLastPause(long mLastPause) {
+      this.mLastPause = mLastPause;
     }
 }

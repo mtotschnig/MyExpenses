@@ -1,10 +1,10 @@
 package org.totschnig.myexpenses;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.app.ExpandableListActivity;
 
 
-public class ProtectedActivity extends Activity {
+public class ProtectedExpandableListActivity extends ExpandableListActivity {
   private Dialog pwDialog;
   @Override
   protected void onPause() {
