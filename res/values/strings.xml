@@ -291,7 +291,6 @@
   <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate 
       apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes
   </string>
-  <string name="pref_set_password_title">Set password</string>
   <string name="pref_ui_theme_title">Theme</string>
   <string name="pref_ui_theme_summary">Choose between light and dark</string>
   <string name="pref_ui_theme_dark">dark</string>
@@ -346,23 +345,6 @@
   <string name="help_licence_quickactions">Includes BetterPopupWindow class from 
       http://code.google.com/p/simple-quickactions/ , licenced under 
       http://www.opensource.org/licenses/bsd-license.php .</string>
-  
-  <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
-  <string name="pref_use_standard_menu_key">use_standard_menu</string>
-  <string name="pref_perform_share_key">perform_share</string>
-  <string name="pref_share_target_key">share_target</string>
-  <string name="pref_currency_decimal_separator_key">currency_decimal_separator</string>
-  <string name="pref_account_button_behaviour_key">account_button_behaviour</string>
-  <string name="pref_qif_export_file_encoding_key">qif_export_file_encoding</string>
-  <string name="pref_ui_theme_key">pref_ui_theme</string>
-  <string name="pref_backup_key">backup</string>
-  <string name="pref_restore_key">restore</string>
-  <string name="pref_contrib_install_key">contrib_install</string>
-  <string name="pref_request_licence_key">request_licence</string>
-  <string name="pref_enter_licence_key">pref_enter_licence_key</string>
-  <string name="pref_perform_protection_key">perform_protection</string>
-  <string name="pref_set_password_key">password</string>
-
   <!-- strings below this comment do not need translations for new languages -->
   <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
   <string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with 
