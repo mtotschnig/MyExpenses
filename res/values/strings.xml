@@ -221,6 +221,10 @@
       %1$s</string>
   <string name="password_prompt">Enter your password</string>
   <string name="password_not_valid">Password invalid. Try again!</string>
+  <string name="password_dialog_activate_protection">Activate password protection</string>
+  <string name="password_dialog_change_password">Change password</string>
+  <string name="password_dialog_new_password">New password</string>
+  <string name="password_dialog_new_password_confirmation">New password (confirmation)</string>
   <string name="payee">Payee</string>
   <string name="payer">Payer</string>
   <!-- payment methods -->
