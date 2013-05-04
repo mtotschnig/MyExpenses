@@ -1,11 +1,9 @@
 package org.totschnig.myexpenses;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.DialogPreference;
 import android.text.Editable;
@@ -17,17 +15,19 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class PasswordPreference extends DialogPreference implements TextWatcher, OnCheckedChangeListener {
   
-  private boolean boolProtect;
+  private boolean boolProtectOrig, boolProtect, changePW = false;
   private String strPass1;
   private String strPass2;
   private EditText password1;
   private EditText password2;
-  private CheckBox protect;
+  private CheckBox protect, change;
   private TextView error;
+  private LinearLayout main, edit;
   
   public PasswordPreference(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
@@ -59,11 +59,24 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
       password1    = (EditText) view.findViewById(R.id.password1);
       password2    = (EditText) view.findViewById(R.id.password2);
       protect = (CheckBox) view.findViewById(R.id.performProtection);
+      change = (CheckBox) view.findViewById(R.id.changePassword);
       error        = (TextView) view.findViewById(R.id.passwordNoMatch);
+      main = (LinearLayout) view.findViewById(R.id.layoutMain);
+      edit = (LinearLayout) view.findViewById(R.id.layoutPasswordEdit);
+      SharedPreferences pref = getSharedPreferences();
+      boolProtectOrig = pref.getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false);
+      boolProtect= boolProtectOrig;
+      protect.setChecked(boolProtect);
+      if (boolProtect) {
+        main.setVisibility(View.VISIBLE);
+        view.findViewById(R.id.layoutChangePasswordCheckBox).setVisibility(View.VISIBLE);
+        edit.setVisibility(View.GONE);
+      }
 
       password1.addTextChangedListener(this);
       password2.addTextChangedListener(this);
       protect.setOnCheckedChangeListener(this);
+      change.setOnCheckedChangeListener(this);
       super.onBindDialogView(view);
    }
 
@@ -76,26 +89,32 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-      validate();
+      switch (buttonView.getId()) {
+      case R.id.performProtection:
+        main.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+        boolProtect = isChecked;
+        validate();
+        break;
+      case R.id.changePassword:
+        edit.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+        changePW = isChecked;
+        validate();
+      }
     }
     private void validate() {
       Dialog dlg = getDialog();
       Button btn = ((AlertDialog)dlg).getButton(AlertDialog.BUTTON_POSITIVE);
-
-      boolProtect = protect.isChecked();
-      strPass1 = password1.getText().toString();
-      strPass2 = password2.getText().toString();
-
-      if (!boolProtect) {
+      if (!boolProtect || (boolProtectOrig && !changePW)) {
         btn.setEnabled(true);
         return;
       }
+      strPass1 = password1.getText().toString();
+      strPass2 = password2.getText().toString();
+
       if (strPass1.equals("")) {
         error.setText(R.string.pref_password_empty);
         btn.setEnabled(false);
-        return;
-      }
-      if (strPass1.equals(strPass2)) {
+      } else if (strPass1.equals(strPass2)) {
           error.setText("");
           btn.setEnabled(true);
       } else {
