@@ -219,6 +219,8 @@
   -->
   <string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version:
       %1$s</string>
+  <string name="password_prompt">Enter your password</string>
+  <string name="password_not_valid">Password invalid. Try again!</string>
   <string name="payee">Payee</string>
   <string name="payer">Payer</string>
   <!-- payment methods -->
@@ -243,6 +245,7 @@
   <string name="pref_category_title_ui">User interface</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
+  <string name="pref_category_title_security">Security</string>
   <string name="pref_contrib_install_title">Install Contrib app</string>
   <string name="pref_contrib_install_summary">By installing &app_name; Contrib, you gain access to premium features.</string>
   <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency
@@ -268,6 +271,7 @@
   <string name="pref_manage_parties_summary">Delete parties (payers and payees).</string>
   <string name="pref_manage_templates_title">Templates</string>
   <string name="pref_manage_templates_summary">Apply or delete templates.</string>
+  <string name="pref_password_empty">Password must not be empty</string>
   <string name="pref_password_not_equal">Passwords do not match</string>
   <string name="pref_perform_share_title">Share QIF Export</string>
   <string name="pref_perform_share_summary">Should the QIF file be shared after each export?</string>

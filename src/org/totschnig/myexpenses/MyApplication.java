@@ -55,6 +55,8 @@ public class MyApplication extends Application {
     public static String PREFKEY_CONTRIB_INSTALL;
     public static String PREFKEY_REQUEST_LICENCE;
     public static String PREFKEY_ENTER_LICENCE;
+    public static String PREFKEY_PERFORM_PROTECTION;
+    public static String PREFKEY_SET_PASSWORD;
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static int currentAccountColor;
     public static String BUILD_DATE = "";
@@ -101,7 +103,9 @@ public class MyApplication extends Application {
         PREFKEY_CONTRIB_INSTALL = getString(R.string.pref_contrib_install_key);
         PREFKEY_REQUEST_LICENCE = getString(R.string.pref_request_licence_key);
         PREFKEY_ENTER_LICENCE = getString(R.string.pref_enter_licence_key);
-        passwordHash = settings.getString(getString(R.string.pref_set_password_key),"");
+        PREFKEY_PERFORM_PROTECTION = getString(R.string.pref_perform_protection_key);
+        PREFKEY_SET_PASSWORD = getString(R.string.pref_set_password_key);
+        passwordHash = settings.getString(PREFKEY_SET_PASSWORD,"");
         //mDbOpenHelper = db();
         try {
           InputStream rawResource = getResources().openRawResource(R.raw.app);

@@ -130,15 +130,10 @@
         android:title="@string/pref_enter_licence_title"
         android:summary="@string/pref_enter_licence_summary" />
    </PreferenceCategory>
-   <PreferenceCategory android:title="Security">
-    <CheckBoxPreference android:key="@string/pref_perform_protection_key"
-        android:defaultValue="false"
-        android:title="@string/pref_perform_protection_title"
-        android:summary="@string/pref_perform_protection_summary" />
+   <PreferenceCategory android:title="@string/pref_category_title_security">
      <org.totschnig.myexpenses.PasswordPreference
-        android:dependency="@string/pref_perform_protection_key"
-        android:key="@string/pref_set_password_key"
-        android:summary="Set password protection"
-        android:title="@string/pref_set_password_title"/>
+        android:key="@string/pref_perform_protection_key"
+        android:title="@string/pref_perform_protection_title"
+        android:summary="@string/pref_perform_protection_summary"/>
    </PreferenceCategory>
 </PreferenceScreen> 

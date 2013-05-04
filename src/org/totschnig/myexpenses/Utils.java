@@ -572,7 +572,7 @@ public class Utils {
     view.findViewById(R.id.POSITIVE_BUTTON).setVisibility(View.INVISIBLE);
     view.findViewById(R.id.NEGATIVE_BUTTON).setVisibility(View.INVISIBLE);
     final AlertDialog pwDialog = new AlertDialog.Builder(ctx)
-      .setTitle("Enter your password")
+      .setTitle(R.string.password_prompt)
       .setView(view)
       .setCancelable(false)
       .create();
@@ -588,7 +588,7 @@ public class Utils {
           ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
           pwDialog.dismiss();
         } else {
-          error.setText("Password invalid. Try again");
+          error.setText(R.string.password_not_valid);
         }
       }
     });
