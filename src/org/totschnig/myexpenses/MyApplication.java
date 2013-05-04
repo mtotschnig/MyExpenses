@@ -67,6 +67,10 @@ public class MyApplication extends Application {
     private CharSequence mVersionInfo = "";
     public boolean isContribEnabled;
     private long mLastPause = 0;
+    /**
+     * how many nanoseconds should we wait before prompting for the password
+     */
+    public static long PASSWORD_CHECK_DELAY_NANO_SECONDS = 10000000000L;
     public boolean isLocked;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
     protected String passwordHash;
@@ -328,11 +332,11 @@ public class MyApplication extends Application {
     }
     /**
      * @return true if password protection is set, and
-     * we have paused for at least 5 seconds
+     * we have paused for at least {@link #PASSWORD_CHECK_DELAY_NANO_SECONDS} seconds
      * sets isLocked as a side effect
      */
     public boolean shouldLock() {
-      if (settings.getBoolean(getString(R.string.pref_perform_protection_key), false) && System.nanoTime() - getmLastPause() > 5000000000L) {
+      if (settings.getBoolean(getString(R.string.pref_perform_protection_key), false) && System.nanoTime() - getmLastPause() > PASSWORD_CHECK_DELAY_NANO_SECONDS) {
         isLocked = true;
         return true;
       }
