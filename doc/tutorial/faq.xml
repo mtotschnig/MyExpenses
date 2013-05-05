@@ -479,8 +479,9 @@
         </question>
         <answer>
           <para>
-             <application role="app_name"/> beş defa denenebilen ve Google Play'den ücretli katkı
-             uygulamasını kurarak devamlı kullanılabilen özelliklerle yayınlanmıştır. <application
+             <application role="app_name"/> beş defa denenebilen ve Google Play'den ücretli <ulink
+              url="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">katkı
+             uygulamasını</ulink> kurarak devamlı kullanılabilen özelliklerle yayınlanmıştır. <application
              role="app_name"/> katkı uygulamasının farkına varması için onu bir kez katkı
              uygulamasının ana ekranından başlatmanız gerekebilir. Bu durumda katkı anahtarına
              ihtiyacınız olmaz. Katkı anahtarı özel işlevlerin kilidini katkı uygulamasının
