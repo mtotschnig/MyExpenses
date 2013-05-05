@@ -1033,6 +1033,9 @@ public class MyExpenses extends ProtectedActivity
             Html.fromHtml(getString(R.string.version_39_upgrade_info,Utils.getContribFeatureLabelsAsFormattedList(this))),
             "\n");
       }
+      if (prev_version < 40) {
+        versionInfo =TextUtils.concat(versionInfo,getString(R.string.version_40_upgrade_info),"\n");
+      }
       MyApplication.getInstance().setVersionInfo(versionInfo);
       showDialogWrapper(R.id.VERSION_DIALOG_ID);
     }

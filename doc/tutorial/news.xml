@@ -95,7 +95,8 @@
     in a more expressive format, let me know.
     </para>
     </sect1>
-   <sect1 id="news2">
+
+    <sect1 id="news2">
     <sect1info>
       <abstract>
         <para>
@@ -176,6 +177,7 @@
       <ulink url="https://f-droid.org/repository/browse/?fdid=org.totschnig.myexpenses">F-Droid</ulink>.
     </para>
     </sect1>
+
     <sect1 id="news3">
     <sect1info>
       <abstract>
@@ -226,6 +228,7 @@
       tracking app. ;-)
     </para>
     </sect1>
+
     <sect1 id="news4">
     <sect1info>
       <abstract>
@@ -290,9 +293,8 @@
       Users participating in the development of the app (e.g. as translators or beta testers), or
       prefering to donate through PayPal or Flattr (which by the way keep a lower percentage of the
       transaction amount to themselves), can request a key that will unlock the premium features
-      without installation of the Contrib app. So please give the newest <ulink
-      url="https://s3-eu-west-1.amazonaws.com/myexpenses/MyExpenses-1.7.0a3.apk">alpha
-      version</ulink> a try, and use the "Request Contrib Key" entry in the preferences screen. I
+      without installation of the Contrib app. So please give the newest alpha
+      version a try, and use the "Request Contrib Key" entry in the preferences screen. I
       will usually answer these requests in less than 24 hours.
     </para>
     <figure floatstyle="left" id="news4_3" >
@@ -301,6 +303,37 @@
         <mediaobject>
           <imageobject>
             <imagedata fileref="news4_3.png"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    </sect1>
+    
+    <sect1 id="news5">
+    <sect1info>
+      <abstract>
+        <para>
+         New in 1.7.1: password protection
+        </para>
+      </abstract>
+      <pubdate>2013-05-05</pubdate>
+    </sect1info>
+    <title>Password protection</title>
+    <para>
+      The feature most frequently requested by users in their comments on Google Play is password
+      protection. It will be available with <application>My Expenses</application> 1.7.1 and can
+      already be tested in the <ulink url="https://s3-eu-west-1.amazonaws.com/myexpenses/MyExpenses-1.7.1a1.apk">alpha version</ulink>.
+      The password can be set from the settings screen, and will be checked every time the app is started,
+      or resumed after a delay of more than 10 seconds. The protection is global to the whole application,
+      i.e. it covers not only the main transaction list, but all secondary screens (e.g. when you leave
+      the app while editing an expense, selecting a category, or changing a configuration setting etc.).
+    </para>
+    <figure floatstyle="left" id="news5_1" >
+      <title/>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="news5_1.png"/>
           </imageobject>
         </mediaobject>
       </screenshot>

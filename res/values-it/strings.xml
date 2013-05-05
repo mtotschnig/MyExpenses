@@ -139,12 +139,12 @@
       - <b>Aiuto</b> : accesso rapido al manuale, News et FAQ.\n
       \nPer favore visita il <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuale</a>
       per avere ulteriori esplicazioni.</string>
-  <string name="help_whats_new">&#160;- Navigare da un conto a un altro mediante Swipe Gesture.\n
+ <!-- <string name="help_whats_new">&#160;- Navigare da un conto a un altro mediante Swipe Gesture.\n
       - Modificare modelli&contrib;.\n
       - Ripristino del backup senza disinstallare / reinstallare&contrib;.\n
       - Chiedere conferma prima di ripristinare sulla installazione.\n
       - Visualizzare situazione finanziaria sommata in lista conti&contrib;.\n
-      - Problema sfarfallio risolto nel tema di luce.</string>
+      - Problema sfarfallio risolto nel tema di luce.</string> --> 
   <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
   <string name="important_version_information">Informazioni importanti</string>

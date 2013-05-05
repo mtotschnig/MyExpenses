@@ -139,12 +139,7 @@
       - <b>Hilfe</b> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.\n
       \nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
   </string>
-  <string name="help_whats_new">&#160;- Zwischen Konten blättern mittels Wischgeste.\n
-        - Vorlagen verändern&contrib;.\n
-        - Wiederherstellung der Sicherungskopie ohne Deinstallierung/Reinstallierung&contrib;.\n
-        - Bei Installation nachfragen, ob Sicherungkopie wiederhergestellt werden soll.\n
-        - Darstellung der Gesamtsummen in der Kontenübersicht&contrib;.\n
-        - Flimmern des Hintergrundes bei hellem Thema behoben.</string>
+  <string name="help_whats_new">&#160;- Passwortschutz.</string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
   <string name="important_version_information">Wichtige Information</string>

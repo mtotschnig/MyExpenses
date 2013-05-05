@@ -125,12 +125,12 @@
       - <b>Help</b> : Rehbere, yeniliklere, sıkça sorulan sorulara ve değişikliklere hızlı erişim sağlar.\n
       \nAyrıntılı bilgi için <a href="http://myexpenses.totschnig.org/#tutorial_r4">kılavuza</a> bakınız.
   </string>
-    <string name="help_whats_new">&#160;- Hesaplar arası kaydırmayla geçiş.\n
+   <!--  <string name="help_whats_new">&#160;- Hesaplar arası kaydırmayla geçiş.\n
     	- Şablonları düzenle&contrib;.\n
     	- Yedeklemeyi uygulamayı kaldırıp yeniden kurmadan yükleme&contrib;.\n
     	- Kurulum sırasında yedeklemenin yüklenmesi için teyit isteği.\n
     	- Hesap listesinde genel finansal durumu görüntüleme&contrib;.\n
-    	- Aydınlık temada titreme sorunu giderildi.</string>
+    	- Aydınlık temada titreme sorunu giderildi.</string>--> 
   <string name="important_version_information">Önemli bilgi</string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="income">gelirler</string>
