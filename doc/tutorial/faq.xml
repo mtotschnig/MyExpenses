@@ -471,6 +471,28 @@
           </para>
         </answer>
       </qandaentry>
+      <qandaentry id="faq-contrib-tr" lang="tr">
+        <question id="faq-contrib-q-tr">
+          <para>
+            Katkı anahtarı nedir?
+          </para>
+        </question>
+        <answer>
+          <para>
+             <application role="app_name"/> beş defa denenebilen ve Google Play'den ücretli katkı
+             uygulamasını kurarak devamlı kullanılabilen özelliklerle yayınlanmıştır. <application
+             role="app_name"/> katkı uygulamasının farkına varması için onu bir kez katkı
+             uygulamasının ana ekranından başlatmanız gerekebilir. Bu durumda katkı anahtarına
+             ihtiyacınız olmaz. Katkı anahtarı özel işlevlerin kilidini katkı uygulamasının
+             kurulmasına gerek olmadan kaldırmaya yarayan bir mekanizmadır. Bu anahtarı
+             Harcamalarımın geliştirilmesine başka şekilde (mesela tercümelerle ya da kararsız
+             sürümleri deneyerek) katkıda bulunan kullanıcılara göndereceğim. Anahtar cihazınızın
+             Android kimliğine dayanarak hesaplanılır ki bu kimliği <guilabel role="menu_settings"/>
+             ekranındaki <guilabel role="pref_request_licence_title"/> seçeneğiyle bana
+             iletebilirsiniz.
+          </para>
+        </answer>
+      </qandaentry>
       <!--
       <qandaentry id="faq-x-??" lang="??">
         <question id="faq-x-q-??">
