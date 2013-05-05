@@ -130,6 +130,11 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.7.1a1
+    - 2013-05-05
+    -
+      en: Password protection.
+  -
     - 1.7.0
     - 2013-04-26
     -
