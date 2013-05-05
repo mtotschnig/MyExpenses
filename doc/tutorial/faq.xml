@@ -455,7 +455,19 @@
         </question>
         <answer>
           <para>
-
+            <application role="app_name"/> enthält einige Premium-Funktionen, die Sie fünf mal
+            ausprobieren können, und dann durch die Installation der bezahlbaren <ulink
+              url="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Contrib
+            App</ulink> aus Google Play freischalten können. Unter Umständen müssen Sie <application
+              role="app_name"/> einmal von der Contrib App aus starten, damit dessen Installation
+            wahrgenommen wird. Sie brauchen in diesem Fall aber keinen Contrib-Schlüssel. Bei diesem
+            handelt es sich um einen Mechanismus, der es erlaubt, die Premium-Funktionen ohne die
+            Installation der Contrib App freizuschalten. Ich sende diesen Schlüssel an Benutzer, die
+            auf andere Weise zur Entwicklung von <application role="app_name"/> beigetragen haben,
+            z.B. durch das Übersetzen der Benutzerschnittstelle oder durch Testen der
+            Vorab-Versionen. Der Schlüssel wird anhand der Android-ID Ihres Gerätes berechnet, die
+            Sie mir mittels des Eintrages <guilabel role="pref_request_licence_title"/> unter
+            <guilabel role="menu_settings"/> mitteilen können.
           </para>
         </answer>
       </qandaentry>
