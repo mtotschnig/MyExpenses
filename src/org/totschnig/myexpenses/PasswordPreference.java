@@ -64,7 +64,6 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
         if (boolProtect && strPass1 != null && strPass1.equals(strPass2)) {
           String hash = Utils.md5(strPass1);
           editor.putString(MyApplication.PREFKEY_SET_PASSWORD, hash);
-          app.passwordHash = hash;
         }
         editor.commit();
       }

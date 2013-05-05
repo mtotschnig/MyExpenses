@@ -1148,6 +1148,11 @@ public class MyExpenses extends ProtectedActivity
     }
     return false;
   }
+  /**
+   * @param command
+   * @param tag
+   * @return true if command has been handled
+   */
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     switch (command) {
@@ -1268,7 +1273,14 @@ public class MyExpenses extends ProtectedActivity
       break;
     case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
       if ((Boolean) tag) {
-        MyApplication.backupRestore();
+        if (MyApplication.backupRestore()) {
+          //if we have successfully restored, we relaunch in order to force password check if needed
+          i = getBaseContext().getPackageManager()
+              .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+          i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+          startActivity(i);
+          break;
+        }
       }
       mDbHelper = MyApplication.db();
       setup();

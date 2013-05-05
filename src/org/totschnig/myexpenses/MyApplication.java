@@ -77,7 +77,6 @@ public class MyApplication extends Application {
     public static int USAGES_LIMIT = 5;
     public boolean isLocked;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
-    protected String passwordHash;
 
     public CharSequence getVersionInfo() {
       return mVersionInfo;
@@ -113,7 +112,6 @@ public class MyApplication extends Application {
         PREFKEY_ENTER_LICENCE = getString(R.string.pref_enter_licence_key);
         PREFKEY_PERFORM_PROTECTION = getString(R.string.pref_perform_protection_key);
         PREFKEY_SET_PASSWORD = getString(R.string.pref_set_password_key);
-        passwordHash = settings.getString(PREFKEY_SET_PASSWORD,"");
         //mDbOpenHelper = db();
         try {
           InputStream rawResource = getResources().openRawResource(R.raw.app);
@@ -178,6 +176,9 @@ public class MyApplication extends Application {
     }
     public void setDatabaseName(String s) {
       databaseName = s;
+    }
+    protected String getPasswordHash() {
+      return settings.getString(PREFKEY_SET_PASSWORD,"");
     }
     public boolean backup() {
       File appDir, backupPrefFile, sharedPrefFile;
@@ -259,7 +260,10 @@ public class MyApplication extends Application {
       }
       return result;
     }
-    public static void backupRestore() {
+    /**
+     * @return true if backup successful and a relaunch required due to password protection
+     */
+    public static boolean backupRestore() {
       if (mSelf.restoreDb()) {
         Toast.makeText(mSelf, mSelf.getString(R.string.restore_db_success), Toast.LENGTH_LONG).show();
         //if we found a database to restore, we also try to import corresponding preferences
@@ -302,7 +306,11 @@ public class MyApplication extends Application {
             backupPref = null;
             tempPrefFile.delete();
             Toast.makeText(mSelf, mSelf.getString(R.string.restore_preferences_success), Toast.LENGTH_LONG).show();
-            return;
+            //if the backup is password protected, we want to force the password check
+            //is it not enough to set mLastPause to zero, since it would be overwritten by the callings activity onpause
+            //hence we need to set isLocked if necessary
+            mSelf.mLastPause = 0;
+            return mSelf.shouldLock();
           }
           else {
             Log.w("MyExpenses","Could not copy backup to private data directory");
@@ -315,6 +323,7 @@ public class MyApplication extends Application {
       else {
         Toast.makeText(mSelf, mSelf.getString(R.string.restore_db_failure), Toast.LENGTH_LONG).show();
       }
+      return false;
     }
     /**
      * @return the opened DB Adapter, if we find a backup, we return null 

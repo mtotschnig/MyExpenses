@@ -25,7 +25,7 @@ public class ProtectedListActivity extends ListActivity {
   protected void onPause() {
     super.onPause();
     MyApplication app = MyApplication.getInstance();
-    if (app.isLocked)
+    if (app.isLocked && pwDialog != null)
       pwDialog.dismiss();
     else {
       app.setmLastPause();

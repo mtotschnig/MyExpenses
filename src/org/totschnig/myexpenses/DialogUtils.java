@@ -200,7 +200,7 @@ public class DialogUtils {
     btn.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         String value = input.getText().toString();
-        if (Utils.md5(value).equals(MyApplication.getInstance().passwordHash)) {
+        if (Utils.md5(value).equals(MyApplication.getInstance().getPasswordHash())) {
           input.setText("");
           error.setText("");
           MyApplication.getInstance().isLocked = false;
