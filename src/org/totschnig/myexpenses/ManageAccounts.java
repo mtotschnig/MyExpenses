@@ -111,11 +111,11 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
   protected Dialog onCreateDialog(int id) {
     switch (id) {
     case DELETE_DIALOG_ID:
-      return Utils.createMessageDialog(this,R.string.warning_delete_account,DELETE_COMMAND_ID,null).create();
+      return DialogUtils.createMessageDialog(this,R.string.warning_delete_account,DELETE_COMMAND_ID,null).create();
     case AGGREGATE_DIALOG_ID:
       LayoutInflater li = LayoutInflater.from(this);
       View view = li.inflate(R.layout.aggregate_dialog, null);
-      Utils.setDialogOneButton(view,
+      DialogUtils.setDialogOneButton(view,
           android.R.string.ok,0,null);
       ListView listView = (ListView) view.findViewById(R.id.list);
       // Create an array to specify the fields we want to display in the list
@@ -152,7 +152,7 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
       .setView(view)
       .create();
     case R.id.CONTRIB_DIALOG_ID:
-      return Utils.contribDialog(this,MyApplication.CONTRIB_FEATURE_AGGREGATE);
+      return DialogUtils.contribDialog(this,MyApplication.CONTRIB_FEATURE_AGGREGATE);
     }
     return null;
   }

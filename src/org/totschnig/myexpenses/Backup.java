@@ -64,7 +64,7 @@ public class Backup extends ProtectedActivity implements ContribIFace {
     case BACKUP_DIALOG_ID:
       File backupDb = MyApplication.getBackupDbFile();
       int message = backupDb.exists() ? R.string.warning_backup_exists : R.string.warning_backup;
-      return Utils.createMessageDialog(new ContextThemeWrapper(this, MyApplication.getThemeId()) {
+      return DialogUtils.createMessageDialog(new ContextThemeWrapper(this, MyApplication.getThemeId()) {
         public void onDialogButtonClicked(View v) {
           dismissDialog(BACKUP_DIALOG_ID);
           if (v.getId() == BACKUP_COMMAND_ID) {
@@ -89,7 +89,7 @@ public class Backup extends ProtectedActivity implements ContribIFace {
       })
       .create();
     case RESTORE_DIALOG_ID:
-      return Utils.createMessageDialog(new ContextThemeWrapper(this, MyApplication.getThemeId()) {
+      return DialogUtils.createMessageDialog(new ContextThemeWrapper(this, MyApplication.getThemeId()) {
         public void onDialogButtonClicked(View v) {
           dismissDialog(RESTORE_DIALOG_ID);
           if (v.getId() == RESTORE_COMMAND_ID) {
@@ -115,7 +115,7 @@ public class Backup extends ProtectedActivity implements ContribIFace {
       })
       .create();
     case R.id.CONTRIB_DIALOG_ID:
-      return Utils.contribDialog(this,MyApplication.CONTRIB_FEATURE_RESTORE);
+      return DialogUtils.contribDialog(this,MyApplication.CONTRIB_FEATURE_RESTORE);
     }
     return null;
   }

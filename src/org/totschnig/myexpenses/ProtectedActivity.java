@@ -26,8 +26,8 @@ public class ProtectedActivity extends Activity {
     MyApplication app = MyApplication.getInstance();
     if (app.shouldLock()) {
       if (pwDialog == null)
-        pwDialog = Utils.passwordDialog(this);
-      Utils.showPasswordDialog(this,pwDialog);
+        pwDialog = DialogUtils.passwordDialog(this);
+      DialogUtils.showPasswordDialog(this,pwDialog);
     }
   }
 }

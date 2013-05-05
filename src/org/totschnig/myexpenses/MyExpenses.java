@@ -528,7 +528,7 @@ public class MyExpenses extends ProtectedActivity
       ((TextView)view.findViewById(R.id.help_licence_gpl)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_whats_new)).setMovementMethod(LinkMovementMethod.getInstance());
-      Utils.setDialogTwoButtons(view,
+      DialogUtils.setDialogTwoButtons(view,
           R.string.menu_contrib,R.id.CONTRIB_PLAY_COMMAND_ID,null,
           android.R.string.ok,0,null);
       return new AlertDialog.Builder(this)
@@ -548,7 +548,7 @@ public class MyExpenses extends ProtectedActivity
         tv.setVisibility(View.VISIBLE);
         ((TextView) view.findViewById(R.id.versionInfoImportantHeading)).setVisibility(View.VISIBLE);
       }
-      Utils.setDialogThreeButtons(view,
+      DialogUtils.setDialogThreeButtons(view,
           R.string.menu_help,R.id.HELP_COMMAND,null,
           R.string.menu_contrib,R.id.CONTRIB_PLAY_COMMAND_ID,null,
           android.R.string.ok,0,null);
@@ -558,13 +558,13 @@ public class MyExpenses extends ProtectedActivity
         .setView(view)
         .create();
     case RESET_DIALOG_ID:
-      return Utils.createMessageDialog(this,R.string.warning_reset_account,R.id.RESET_ACCOUNT_COMMAND_DO,null)
+      return DialogUtils.createMessageDialog(this,R.string.warning_reset_account,R.id.RESET_ACCOUNT_COMMAND_DO,null)
         .create();
     case ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID:
-      return Utils.createMessageDialog(this,R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND,null)
+      return DialogUtils.createMessageDialog(this,R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND,null)
         .create();
     case USE_STANDARD_MENU_DIALOG_ID:
-      return Utils.createMessageDialog(this,R.string.suggest_use_standard_menu,R.id.USE_STANDARD_MENU_COMMAND,null)
+      return DialogUtils.createMessageDialog(this,R.string.suggest_use_standard_menu,R.id.USE_STANDARD_MENU_COMMAND,null)
         .create();
     //SELECT_ACCOUNT_DIALOG is used both from SWITCH_ACCOUNT and MOVE_TRANSACTION
     case SELECT_ACCOUNT_DIALOG_ID:
@@ -596,7 +596,7 @@ public class MyExpenses extends ProtectedActivity
         })
         .create();
     case R.id.FTP_DIALOG_ID:
-      return Utils.sendWithFTPDialog((Activity) this);
+      return DialogUtils.sendWithFTPDialog((Activity) this);
     case TEMPLATE_TITLE_DIALOG_ID:
       // Set an EditText view to get user input 
       final EditText input = new EditText(this);
@@ -687,12 +687,12 @@ public class MyExpenses extends ProtectedActivity
       tv = (TextView)view.findViewById(R.id.message_text);
       tv.setText(already_contrib ? R.string.contrib_dialog_thanks : R.string.contrib_dialog_text);
       if (already_contrib) {
-        Utils.setDialogOneButton(view,
+        DialogUtils.setDialogOneButton(view,
             android.R.string.ok,0,null
         );
         tv.setText(R.string.contrib_dialog_thanks);
       } else {
-        Utils.setDialogTwoButtons(view,
+        DialogUtils.setDialogTwoButtons(view,
             R.string.dialog_contrib_yes,R.id.CONTRIB_PLAY_COMMAND_ID,null,
             R.string.dialog_contrib_no,0,null
         );
@@ -708,7 +708,7 @@ public class MyExpenses extends ProtectedActivity
       view = li.inflate(R.layout.messagedialog, null);
       tv = (TextView)view.findViewById(R.id.message_text);
       tv.setText(R.string.dialog_confirm_restore_on_install);
-      Utils.setDialogTwoButtons(view,
+      DialogUtils.setDialogTwoButtons(view,
           android.R.string.yes,R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true),
           android.R.string.no,R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(false)
       );

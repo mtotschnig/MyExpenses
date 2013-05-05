@@ -129,7 +129,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   protected Dialog onCreateDialog(int id) {
     switch(id) {
     case R.id.FTP_DIALOG_ID:
-    return Utils.sendWithFTPDialog((Activity) this);
+    return DialogUtils.sendWithFTPDialog((Activity) this);
     }
     return null;
   }

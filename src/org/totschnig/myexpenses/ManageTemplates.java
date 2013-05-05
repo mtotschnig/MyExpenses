@@ -162,7 +162,7 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
   protected Dialog onCreateDialog(int id) {
     switch (id) {
     case R.id.CONTRIB_DIALOG_ID:
-      return Utils.contribDialog(this,MyApplication.CONTRIB_FEATURE_EDIT_TEMPLATE);
+      return DialogUtils.contribDialog(this,MyApplication.CONTRIB_FEATURE_EDIT_TEMPLATE);
     }
     return null;
   }
