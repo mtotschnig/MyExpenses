@@ -58,7 +58,7 @@ sections:
       es: Manual
   news:
     weight: 3
-    url: news/news4.html
+    url: news/news5.html
     title:
       en: News
   participate:
