@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 import org.totschnig.myexpenses.CategoryTree;
 import org.totschnig.myexpenses.GrisbiImport;
-import org.totschnig.myexpenses.Utils.Result;
+import org.totschnig.myexpenses.Result;
 
 import android.test.InstrumentationTestCase;
 
