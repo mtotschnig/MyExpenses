@@ -125,12 +125,7 @@
       - <b>Help</b> : Rehbere, yeniliklere, sıkça sorulan sorulara ve değişikliklere hızlı erişim sağlar.\n
       \nAyrıntılı bilgi için <a href="http://myexpenses.totschnig.org/#tutorial_r4">kılavuza</a> bakınız.
   </string>
-   <!--  <string name="help_whats_new">&#160;- Hesaplar arası kaydırmayla geçiş.\n
-    	- Şablonları düzenle&contrib;.\n
-    	- Yedeklemeyi uygulamayı kaldırıp yeniden kurmadan yükleme&contrib;.\n
-    	- Kurulum sırasında yedeklemenin yüklenmesi için teyit isteği.\n
-    	- Hesap listesinde genel finansal durumu görüntüleme&contrib;.\n
-    	- Aydınlık temada titreme sorunu giderildi.</string>--> 
+  <string name="help_whats_new">- Parola ile güvenlik.</string>
   <string name="important_version_information">Önemli bilgi</string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="income">gelirler</string>
@@ -202,6 +197,12 @@
   <string name="parse_error_other_exception">Bir hata meydana geldi: %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Desteklenmeyen Grisbi dosya sürümü:
       %1$s</string>
+  <string name="password_prompt">Parolanızı giriniz</string>
+  <string name="password_not_valid">Geçersiz parola. Tekrar deneyin!</string>
+  <string name="password_dialog_activate_protection">Parola ile korumayı etkinleştir</string>
+  <string name="password_dialog_change_password">Parolayı değiştir</string>
+  <string name="password_dialog_new_password">Yeni parola</string>
+  <string name="password_dialog_new_password_confirmation">Yeni parola (teyit)</string>
   <string name="payee">Alacaklı</string>
   <string name="payer">Ödeyen</string>
   <string name="pm_cheque">Çek</string>
@@ -222,6 +223,7 @@
   <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
   <string name="pref_category_title_import">İçe aktar</string>
   <string name="pref_category_title_export">Dışa aktar</string>
+  <string name="pref_category_title_security">Güvenlik</string>
   <string name="pref_contrib_install_title">Katkı uygulamasını kur</string>
   <string name="pref_contrib_install_summary">&app_name; Contrib uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
   <string name="pref_currency_decimal_separator_title">Girilen döviz miktarı için ondalık ayırıcı</string>
@@ -244,8 +246,12 @@
   <string name="pref_manage_parties_summary">Bölüm sil (alacaklılar ve ödeyenler).</string>
   <string name="pref_manage_templates_title">Şablonlar</string>
   <string name="pref_manage_templates_summary">Şablonları uygula ya da sil.</string>
+  <string name="pref_password_empty">Parola boş olmamalıdır</string>
+  <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
   <string name="pref_perform_share_title">QIF dışa aktarımı paylaş</string>
   <string name="pref_perform_share_summary">QIF dosyası her dışa aktarımdan sonra paylaşılmalı mı?</string>
+  <string name="pref_perform_protection_title">Parola ile güvenlik</string>
+  <string name="pref_perform_protection_summary">Uygulama başlatılmaları ve sürdürmeleri korunsun mu?</string>
   <string name="pref_qif_export_file_encoding_title">QIF dosyasının karakter kodlaması</string>
   <string name="pref_qif_export_file_encoding_summary">MS Money kullanıyorsanız karakter kodlamasını \"ISO-8859-1\" olarak ayarlayınız</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
@@ -295,4 +301,5 @@
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
   <string name="version_39_upgrade_info">Artık &lt;i>&app_name;&lt;/i>\'a katkıda bulunmak daha kolaydır.
       Eğer &lt;i>&app_name; Contrib&lt;/i> uygulamasını kurarsanız, şu özelliklere sınırsız erişim elde edersiniz:&lt;br>%1$s</string>
+  <string name="version_40_upgrade_info">&app_name; uygulamasını Ayarlarda (güvenlik kısmında) bir parola belirterek koruyabilirsiniz.</string>
 </resources>
