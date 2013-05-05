@@ -220,6 +220,12 @@
   -->
   <string name="parse_error_grisbi_version_not_supported">Grisbi Datei Version %1$s wird nicht
       unterstützt</string>
+  <string name="password_prompt">Geben Sie Ihr Passwort ein</string>
+  <string name="password_not_valid">Passwort ungültig. Versuchen Sie es erneut!</string>
+  <string name="password_dialog_activate_protection">Passwort-Schutz aktivieren</string>
+  <string name="password_dialog_change_password">Passwort ändern</string>
+  <string name="password_dialog_new_password">Neues Passwort</string>
+  <string name="password_dialog_new_password_confirmation">Neues Passwort (Bestätigung)</string>
   <string name="payee">Empfänger</string>
   <string name="payer">Zahler</string>
   <string name="pm_cheque">Scheck</string>
@@ -243,6 +249,7 @@
   <string name="pref_category_title_ui">Benutzerschnittstelle</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
+  <string name="pref_category_title_security">Sicherheit</string>
   <string name="pref_contrib_install_title">Contrib App installieren</string>
   <string name="pref_contrib_install_summary">Durch die Installation von &app_name; Contrib, erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
   <string name="pref_currency_decimal_separator_title">Dezimaltrennzeichen für die Eingabe von
@@ -270,9 +277,13 @@
   <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) löschen.</string>
   <string name="pref_manage_templates_title">Vorlagen</string>
   <string name="pref_manage_templates_summary">Vorlagen anwenden oder löschen.</string>
+  <string name="pref_password_empty">Passwort darf nicht leer sein</string>
+  <string name="pref_password_not_equal">Passwörter stimmen nicht überein</string>
   <string name="pref_perform_share_title">QIF Export versenden</string>
   <string name="pref_perform_share_summary">Soll die QIF Datei nach jedem Export versendet werden?
   </string>
+  <string name="pref_perform_protection_title">Passwort-Schutz</string>
+  <string name="pref_perform_protection_summary">Sollen das Starten und Wiederaufnehmen der App abgesichert werden?</string>
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung der QIF Datei</string>
   <string name="pref_qif_export_file_encoding_summary">Für MS Money sollten Sie \"ISO-8859-1\" verwenden</string>
   <string name="pref_request_licence_title">Contrib-Schlüssel beantragen</string>
@@ -347,4 +358,5 @@
     In den Einstellungen können Sie wieder zum hellen Stil wechseln.</string>
   <string name="version_39_upgrade_info">Jetzt ist es einfacher und interessanter, für &lt;i>&app_name;&lt;/i> einen Beitrag zu leisten. 
     Wenn Sie &lt;i>&app_name; Contrib&lt;/i> installieren, können Sie uneingeschränkt auf die folgenden Premium-Funktionen zugreifen:&lt;br>%1$s</string>
+  <string name="version_40_upgrade_info">Sie können &app_name; jetzt mit einem Passwort absichern (im Abschnitt Sicherheit der Einstellungen).</string>
 </resources>      
