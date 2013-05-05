@@ -35,7 +35,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 */
 
-import org.totschnig.myexpenses.Utils.CategoryTree;
 import org.totschnig.myexpenses.Utils.Result;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
