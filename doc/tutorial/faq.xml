@@ -424,6 +424,53 @@
         </para>
         </answer>
       </qandaentry>
+      <qandaentry id="faq-contrib-en" lang="en">
+        <question id="faq-contrib-q-en">
+          <para>
+            Contrib key, what's that?
+          </para>
+        </question>
+        <answer>
+          <para>
+            <application role="app_name"/> is distributed with some Premium features that can be
+            tried five times and then can be unlocked by installation of a payed <ulink
+            url="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">contrib
+            app</ulink> from Google Play. You may need to launch <application role="app_name"/> once
+            from the contrib app's home screen in order to make it aware of the contrib app. But you
+            do not need any contrib key in that case. A contrib key is a mechanism to unlock the
+            Premium features without installation of the contrib app. I will send this key to users
+            that contribute to the development of <application role="app_name"/> by other means,
+            e.g. translating the UI or testing pre-releases. The key is calculated based on the
+            Android-ID of your device, that you can communicate to me through the <guilabel
+            role="pref_request_licence_title"/> entry in the <guilabel role="menu_settings"/>
+            screen.
+          </para>
+        </answer>
+      </qandaentry>
+      <qandaentry id="faq-contrib-de" lang="de">
+        <question id="faq-contrib-q-de">
+          <para>
+            Contrib-Schlüssel, was ist das?
+          </para>
+        </question>
+        <answer>
+          <para>
+
+          </para>
+        </answer>
+      </qandaentry>
+      <qandaentry id="faq-contrib-fr" lang="fr">
+        <question id="faq-contrib-q-fr">
+          <para>
+            Clé Contrib, qu'est-ce que c'est?
+          </para>
+        </question>
+        <answer>
+          <para>
+
+          </para>
+        </answer>
+      </qandaentry>
       <!--
       <qandaentry id="faq-x-??" lang="??">
         <question id="faq-x-q-??">
