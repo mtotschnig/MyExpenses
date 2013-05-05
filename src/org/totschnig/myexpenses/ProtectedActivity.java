@@ -2,8 +2,6 @@ package org.totschnig.myexpenses;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.util.Log;
-
 
 public class ProtectedActivity extends Activity {
   private Dialog pwDialog;

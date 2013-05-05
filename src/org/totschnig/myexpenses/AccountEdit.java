@@ -16,9 +16,6 @@
 package org.totschnig.myexpenses;
 
 import java.math.BigDecimal;
-import java.util.Currency;
-import java.util.Locale;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;

@@ -35,14 +35,12 @@ import java.text.SimpleDateFormat;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -101,7 +99,7 @@ public class Utils {
     }).create();
   }
   public static Integer usagesLeft(String feature) {
-    return 5 - MyApplication.db().getContribFeatureUsages(feature);
+    return MyApplication.USAGES_LIMIT - MyApplication.db().getContribFeatureUsages(feature);
   }
   public static void recordUsage(String feature) {
     if (!MyApplication.getInstance().isContribEnabled)

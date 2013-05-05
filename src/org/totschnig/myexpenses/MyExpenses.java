@@ -352,11 +352,6 @@ public class MyExpenses extends ProtectedActivity
     if (dw != null)
     dw.dismiss();
   }
-
-  private void setCurrentBalance() {
-    ((TextView) findViewById(R.id.label)).setText(mCurrentAccount.label);
-    ((TextView) findViewById(R.id.end)).setText(Utils.formatCurrency(mCurrentAccount.getCurrentBalance()));
-  }
   
   private void configButtons() {
     if (!mUseStandardMenu) {

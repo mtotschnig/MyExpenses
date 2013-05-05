@@ -16,8 +16,6 @@
 package org.totschnig.myexpenses;
 
 import java.io.File;
-
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;

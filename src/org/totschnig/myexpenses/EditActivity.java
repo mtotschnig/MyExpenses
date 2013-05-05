@@ -2,8 +2,6 @@ package org.totschnig.myexpenses;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;

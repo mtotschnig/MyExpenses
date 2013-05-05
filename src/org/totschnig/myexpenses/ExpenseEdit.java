@@ -176,6 +176,7 @@ public class ExpenseEdit extends EditActivity {
     } else {
       findViewById(R.id.PayeeRow).setVisibility(View.GONE);
       View MethodContainer = findViewById(R.id.MethodRow);
+      //in Landscape there is no row for the method button
       if (MethodContainer == null)
         MethodContainer = findViewById(R.id.Method);
       MethodContainer.setVisibility(View.GONE);

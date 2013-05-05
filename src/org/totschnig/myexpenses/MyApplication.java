@@ -71,6 +71,10 @@ public class MyApplication extends Application {
      * how many nanoseconds should we wait before prompting for the password
      */
     public static long PASSWORD_CHECK_DELAY_NANO_SECONDS = 10000000000L;
+    /**
+     * how many times contrib features can be used for free
+     */
+    public static int USAGES_LIMIT = 5;
     public boolean isLocked;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
     protected String passwordHash;

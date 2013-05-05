@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses;
 
-import android.app.ListActivity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;

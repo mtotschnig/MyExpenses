@@ -15,14 +15,8 @@
 
 package org.totschnig.myexpenses;
 
-import java.util.ArrayList;
-
-import org.totschnig.myexpenses.ButtonBar.Action;
-
 import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
-
 import android.app.Dialog;
-import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
