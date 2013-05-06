@@ -49,10 +49,6 @@
   <string name="color_name_white">Blanc</string>
   <string name="color_name_yellow">Jaune</string>
   <string name="comment">Remarques</string>
-  <string name="contrib_dialog_text">&lt;i>&app_name;&lt;/i> vous est offert sans publicité et open source.
-  	S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux
-  	fonctions Premium suivantes:&lt;br>%1$s&lt;br>&thank_you;</string>
-  <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_restore_label">Restauration de la sauvegarde sans désinstallation/réinstallation</string>
   <string name="contrib_feature_aggregate_label">Somme totale sur tous les comptes</string>
   <string name="contrib_feature_edit_template_label">Éditer les modèles</string>
@@ -73,6 +69,10 @@
   	Vous obtiendrez un accès illimité à celle-ci et toutes les autres en installant &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
   <string name="dialog_contrib_yes">Acheter</string>
   <string name="dialog_contrib_no">Pas tout de suite</string>
+  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> vous est offert sans publicité et open source.
+    S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux
+    fonctions Premium suivantes:&lt;br>%1$s&lt;br>&thank_you;</string>
+  <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
   <string name="dialog_title_select_account">Sélectionner un compte</string>
   <string name="dialog_title_select_color">Sélectionner une couleur</string>
   <string name="dialog_title_select_currency">Sélectionner une devise</string>

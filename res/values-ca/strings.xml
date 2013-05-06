@@ -48,7 +48,6 @@
   <string name="color_name_white">Blanc</string>
   <string name="color_name_yellow">Groc</string>
   <string name="comment">Notes</string>
-  <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
   <string name="contrib_feature_edit_template_label">Modifica les plantilles</string>
   <string name="create_category">Nova categoria</string>
   <string name="currency">Moneda</string>
@@ -58,6 +57,7 @@
   <string name="date_time">Data / Hora</string>
   <string name="default_account_description">Aquest compte ha estat establert automáticament a l\'instal·lació.</string>
   <string name="description">Descripció</string>
+  <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
   <string name="dialog_title_select_account">Trieu el compte</string>
   <string name="dialog_title_select_color">Trieu un color</string>
   <string name="dialog_title_select_currency">Trieu la moneda</string>

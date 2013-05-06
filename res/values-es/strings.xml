@@ -49,10 +49,6 @@
   <string name="color_name_white">Blanco</string>
   <string name="color_name_yellow">Amarillo</string>
   <string name="comment">Apuntes</string>
-  <string name="contrib_dialog_text">&lt;i>&app_name;&lt;/i> se ofrece sin publicidad y de código abierto. 
-	  Por favor, contribuye instalando la versión pagada Contrib. Usted va a obtener acceso ilimitado 
-	  a las siguientes características premium: &lt;br>%1$s&lt;br>&thank_you;</string>
-  <string name="contrib_dialog_thanks">&thank_you; &learn_more;</string>
 	<string name="contrib_feature_aggregate_label">Agregados de varias cuentas</string>
 	<string name="contrib_feature_edit_template_label">Editar plantillas</string>
 	<string name="contrib_feature_restore_label">Restauración de la copia de seguridad sin desinstalar / reinstalar</string>
@@ -74,6 +70,10 @@
 	  Contrib&lt;/i>. &thank_you;</string>
 	<string name="dialog_contrib_usage_count">Quedan %1$d usos libres</string>
 	<string name="dialog_contrib_yes">Compre</string>
+  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> se ofrece sin publicidad y de código abierto. 
+    Por favor, contribuye instalando la versión pagada Contrib. Usted va a obtener acceso ilimitado 
+    a las siguientes características premium: &lt;br>%1$s&lt;br>&thank_you;</string>
+  <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
   <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_color">Escoger un color</string>
   <string name="dialog_title_select_currency">Escoger una moneda</string>
