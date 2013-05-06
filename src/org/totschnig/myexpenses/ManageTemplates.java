@@ -120,7 +120,7 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
             if (MyApplication.getInstance().isContribEnabled) {
               contribFeatureCalled("edit_template");
             } else {
-              showDialog(R.id.CONTRIB_DIALOG_ID);
+              showDialog(R.id.CONTRIB_DIALOG);
             }
         }
       }
@@ -161,7 +161,7 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
-    case R.id.CONTRIB_DIALOG_ID:
+    case R.id.CONTRIB_DIALOG:
       return DialogUtils.contribDialog(this,MyApplication.CONTRIB_FEATURE_EDIT_TEMPLATE);
     }
     return null;

@@ -25,26 +25,22 @@ import android.view.View;
 import android.widget.Toast;
 
 public class Backup extends ProtectedActivity implements ContribIFace {
-  static final int BACKUP_DIALOG_ID = 1;
-  static final int BACKUP_COMMAND_ID = 1;
-  static final int RESTORE_DIALOG_ID = 2;
-  static final int RESTORE_COMMAND_ID = 2;
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
       if (Utils.isExternalStorageAvailable()) {
         if (getIntent().getAction().equals("myexpenses.intent.backup")) {
-          showDialog(BACKUP_DIALOG_ID);
+          showDialog(R.id.BACKUP_DIALOG);
         }
         else {
           //restore
           if (MyApplication.backupExists()) {
             if (MyApplication.getInstance().isContribEnabled) {
-              showDialog(RESTORE_DIALOG_ID);
+              showDialog(R.id.RESTORE_DIALOG);
             }
             else {
-              showDialog(R.id.CONTRIB_DIALOG_ID);
+              showDialog(R.id.CONTRIB_DIALOG);
             }
           } else {
             Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
@@ -61,13 +57,13 @@ public class Backup extends ProtectedActivity implements ContribIFace {
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
-    case BACKUP_DIALOG_ID:
+    case R.id.BACKUP_DIALOG:
       File backupDb = MyApplication.getBackupDbFile();
       int message = backupDb.exists() ? R.string.warning_backup_exists : R.string.warning_backup;
       return DialogUtils.createMessageDialog(new ContextThemeWrapper(this, MyApplication.getThemeId()) {
         public void onDialogButtonClicked(View v) {
-          dismissDialog(BACKUP_DIALOG_ID);
-          if (v.getId() == BACKUP_COMMAND_ID) {
+          dismissDialog(R.id.BACKUP_DIALOG);
+          if (v.getId() == R.id.BACKUP_COMMAND) {
             if (Utils.isExternalStorageAvailable()) {
               if (MyApplication.getInstance().backup()) {
                 Toast.makeText(getBaseContext(),getString(R.string.backup_success), Toast.LENGTH_LONG).show();
@@ -80,7 +76,7 @@ public class Backup extends ProtectedActivity implements ContribIFace {
           }
           finish();
         }
-      },message,BACKUP_COMMAND_ID,null)
+      },message,R.id.BACKUP_COMMAND,null)
       .setOnCancelListener(new DialogInterface.OnCancelListener() {
         @Override
         public void onCancel(DialogInterface dialog) {
@@ -88,11 +84,11 @@ public class Backup extends ProtectedActivity implements ContribIFace {
         }
       })
       .create();
-    case RESTORE_DIALOG_ID:
+    case R.id.RESTORE_DIALOG:
       return DialogUtils.createMessageDialog(new ContextThemeWrapper(this, MyApplication.getThemeId()) {
         public void onDialogButtonClicked(View v) {
-          dismissDialog(RESTORE_DIALOG_ID);
-          if (v.getId() == RESTORE_COMMAND_ID) {
+          dismissDialog(R.id.RESTORE_DIALOG);
+          if (v.getId() == R.id.RESTORE_COMMAND) {
             if (MyApplication.backupExists()) {
               MyApplication.backupRestore();
               Utils.recordUsage(MyApplication.CONTRIB_FEATURE_RESTORE);
@@ -106,7 +102,7 @@ public class Backup extends ProtectedActivity implements ContribIFace {
           }
           finish();
         }
-      },R.string.warning_restore,RESTORE_COMMAND_ID,null)
+      },R.string.warning_restore,R.id.RESTORE_COMMAND,null)
       .setOnCancelListener(new DialogInterface.OnCancelListener() {
         @Override
         public void onCancel(DialogInterface dialog) {
@@ -114,14 +110,14 @@ public class Backup extends ProtectedActivity implements ContribIFace {
         }
       })
       .create();
-    case R.id.CONTRIB_DIALOG_ID:
+    case R.id.CONTRIB_DIALOG:
       return DialogUtils.contribDialog(this,MyApplication.CONTRIB_FEATURE_RESTORE);
     }
     return null;
   }
   @Override
   public void contribFeatureCalled(String feature) {
-    showDialog(RESTORE_DIALOG_ID);
+    showDialog(R.id.RESTORE_DIALOG);
   }
   @Override
   public void contribFeatureNotCalled() {

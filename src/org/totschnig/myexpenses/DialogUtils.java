@@ -47,9 +47,9 @@ public class DialogUtils {
     .setMessage(msg + ctx.getString(R.string.no_app_handling_ftp_available))
     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
          public void onClick(DialogInterface dialog, int id) {
-           ctx.dismissDialog(R.id.FTP_DIALOG_ID);
+           ctx.dismissDialog(R.id.FTP_DIALOG);
            if (ctx.getClass() == MyExpenses.class)
-             ctx.showDialog(R.id.VERSION_DIALOG_ID);
+             ctx.showDialog(R.id.VERSION_DIALOG);
            Intent intent = new Intent(Intent.ACTION_VIEW);
            intent.setData(Uri.parse("market://details?id=org.totschnig.sendwithftp"));
            if (Utils.isIntentAvailable(ctx,intent)) {
@@ -61,9 +61,9 @@ public class DialogUtils {
       })
     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
       public void onClick(DialogInterface dialog, int id) {
-        ctx.dismissDialog(R.id.FTP_DIALOG_ID);
+        ctx.dismissDialog(R.id.FTP_DIALOG);
         if (ctx.getClass() == MyExpenses.class)
-          ctx.showDialog(R.id.VERSION_DIALOG_ID);
+          ctx.showDialog(R.id.VERSION_DIALOG);
       }
     }).create();
   }
@@ -76,8 +76,8 @@ public class DialogUtils {
     return createMessageDialogWithCustomButtons(
       new ContextThemeWrapper(ctx, MyApplication.getThemeId()) {
         public void onDialogButtonClicked(View v) {
-          if (v.getId() == R.id.CONTRIB_PLAY_COMMAND_ID) {
-            ctx.dismissDialog(R.id.CONTRIB_DIALOG_ID);
+          if (v.getId() == R.id.CONTRIB_PLAY_COMMAND) {
+            ctx.dismissDialog(R.id.CONTRIB_DIALOG);
             Utils.viewContribApp(ctx);
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
@@ -90,16 +90,16 @@ public class DialogUtils {
           } else {
             if (usagesLeft > 0) {
               //we remove the dialog, in order to have it display updated usage count on next display
-              ctx.removeDialog(R.id.CONTRIB_DIALOG_ID);
+              ctx.removeDialog(R.id.CONTRIB_DIALOG);
               ((ContribIFace)ctx).contribFeatureCalled(feature);
             } else {
-              ctx.dismissDialog(R.id.CONTRIB_DIALOG_ID);
+              ctx.dismissDialog(R.id.CONTRIB_DIALOG);
               ((ContribIFace)ctx).contribFeatureNotCalled();
             }
           }
         }
       },
-      message,R.id.CONTRIB_PLAY_COMMAND_ID,null, R.string.dialog_contrib_yes,R.string.dialog_contrib_no)
+      message,R.id.CONTRIB_PLAY_COMMAND,null, R.string.dialog_contrib_yes,R.string.dialog_contrib_no)
     .setOnCancelListener(new DialogInterface.OnCancelListener() {
           @Override
           public void onCancel(DialogInterface dialog) {

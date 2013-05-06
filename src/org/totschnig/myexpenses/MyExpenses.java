@@ -98,15 +98,9 @@ public class MyExpenses extends ProtectedActivity
   public static final boolean ACCOUNT_BUTTON_TOGGLE = true;
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
-  static final int RESET_DIALOG_ID = 3;
-  static final int ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID = 5;
-  static final int USE_STANDARD_MENU_DIALOG_ID = 6;
-  static final int SELECT_ACCOUNT_DIALOG_ID = 7;
-  static final int TEMPLATE_TITLE_DIALOG_ID = 8;
-  static final int SELECT_TEMPLATE_DIALOG_ID = 9;
-  static final int MORE_ACTIONS_DIALOG_ID = 10;
-  static final int CONTRIB_DIALOG_ID = 11;
-  static final int CONFIRM_RESTORE_DIALOG_ID = 12;
+  
+  static final int TRESHOLD_REMIND_RATE = 3;
+  static final int TRESHOLD_REMIND_CONTRIB = 11;
   
   static final String HOST = "myexpenses.totschnig.org";
   static final String FEEDBACK_EMAIL = "michael@totschnig.org";
@@ -200,7 +194,7 @@ public class MyExpenses extends ProtectedActivity
     mSettings = MyApplication.getInstance().getSettings();
     if (mSettings.getInt("currentversion", -1) == -1) {
       if (MyApplication.backupExists()) {
-        showDialogWrapper(CONFIRM_RESTORE_DIALOG_ID);
+        showDialogWrapper(R.id.CONFIRM_RESTORE_DIALOG);
         return;
       }
     }
@@ -432,6 +426,21 @@ public class MyExpenses extends ProtectedActivity
       mAccountsCursor.requery();
       myAdapter.notifyDataSetChanged();
       updateUIforCurrentAccount();
+      if (requestCode == ACTIVITY_EDIT) {
+        long nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
+        long transactionCount = mDbHelper.getTransactionSequence();
+        if (nextReminder != -1 && transactionCount >= nextReminder) {
+          showDialogWrapper(R.id.REMIND_RATE_DIALOG);
+          return;
+        }
+        if (!MyApplication.getInstance().isContribEnabled) {
+          nextReminder = mSettings.getInt("nextReminderContrib",TRESHOLD_REMIND_CONTRIB);
+          if (nextReminder != -1 && transactionCount >= nextReminder) {
+            showDialogWrapper(R.id.REMIND_CONTRIB_DIALOG);
+            return;
+          }
+        }
+      }
     }
   }
   
@@ -489,11 +498,11 @@ public class MyExpenses extends ProtectedActivity
       return true;
     case R.id.MOVE_TRANSACTION_COMMAND:
       mSelectAccountContextId = info.id;
-      showDialogWrapper(SELECT_ACCOUNT_DIALOG_ID);
+      showDialogWrapper(R.id.SELECT_ACCOUNT_DIALOG);
       return true;
     case R.id.CREATE_TEMPLATE_COMMAND:
       mTemplateCreateDialogTransactionId = info.id;
-      showDialogWrapper(TEMPLATE_TITLE_DIALOG_ID);
+      showDialogWrapper(R.id.TEMPLATE_TITLE_DIALOG);
       return true;
     }
     return super.onContextItemSelected(item);
@@ -513,7 +522,7 @@ public class MyExpenses extends ProtectedActivity
     View view;
     TextView tv;
     switch (id) {
-    case R.id.HELP_DIALOG_ID:
+    case R.id.HELP_DIALOG:
       DisplayMetrics displayMetrics = new DisplayMetrics();
       getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
       int minWidth = (int) (displayMetrics.widthPixels*0.9f);
@@ -524,19 +533,19 @@ public class MyExpenses extends ProtectedActivity
       view.setMinimumWidth(minWidth);
       ((TextView)view.findViewById(R.id.aboutVersionCode)).setText(getVersionInfo());
       ((TextView)view.findViewById(R.id.help_contrib)).setText(
-          Html.fromHtml(getString(R.string.contrib_dialog_text,Utils.getContribFeatureLabelsAsFormattedList(this))));
+          Html.fromHtml(getString(R.string.dialog_contrib_text,Utils.getContribFeatureLabelsAsFormattedList(this))));
       ((TextView)view.findViewById(R.id.help_licence_gpl)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_whats_new)).setMovementMethod(LinkMovementMethod.getInstance());
       DialogUtils.setDialogTwoButtons(view,
-          R.string.menu_contrib,R.id.CONTRIB_PLAY_COMMAND_ID,null,
+          R.string.menu_contrib,R.id.CONTRIB_PLAY_COMMAND,null,
           android.R.string.ok,0,null);
       return new AlertDialog.Builder(this)
         .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
         .setIcon(R.drawable.icon)
         .setView(view)
         .create();
-    case R.id.VERSION_DIALOG_ID:
+    case R.id.VERSION_DIALOG:
       li = LayoutInflater.from(this);
       CharSequence versionInfo = MyApplication.getInstance().getVersionInfo();
       view = li.inflate(R.layout.versiondialog, null);
@@ -550,24 +559,24 @@ public class MyExpenses extends ProtectedActivity
       }
       DialogUtils.setDialogThreeButtons(view,
           R.string.menu_help,R.id.HELP_COMMAND,null,
-          R.string.menu_contrib,R.id.CONTRIB_PLAY_COMMAND_ID,null,
+          R.string.menu_contrib,R.id.CONTRIB_PLAY_COMMAND,null,
           android.R.string.ok,0,null);
       return new AlertDialog.Builder(this)
         .setTitle(getString(R.string.new_version) + " : " + getVersionName())
         .setIcon(R.drawable.icon)
         .setView(view)
         .create();
-    case RESET_DIALOG_ID:
+    case R.id.RESET_DIALOG:
       return DialogUtils.createMessageDialog(this,R.string.warning_reset_account,R.id.RESET_ACCOUNT_COMMAND_DO,null)
         .create();
-    case ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID:
+    case R.id.ACCOUNTS_BUTTON_EXPLAIN_DIALOG:
       return DialogUtils.createMessageDialog(this,R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND,null)
         .create();
-    case USE_STANDARD_MENU_DIALOG_ID:
+    case R.id.USE_STANDARD_MENU_DIALOG:
       return DialogUtils.createMessageDialog(this,R.string.suggest_use_standard_menu,R.id.USE_STANDARD_MENU_COMMAND,null)
         .create();
     //SELECT_ACCOUNT_DIALOG is used both from SWITCH_ACCOUNT and MOVE_TRANSACTION
-    case SELECT_ACCOUNT_DIALOG_ID:
+    case R.id.SELECT_ACCOUNT_DIALOG:
       final Cursor otherAccounts = mDbHelper.fetchAccountOther(mCurrentAccount.id,false);
       final String[] accountLabels = Utils.getStringArrayFromCursor(otherAccounts, "label");
       final Long[] accountIds = Utils.getLongArrayFromCursor(otherAccounts, ExpensesDbAdapter.KEY_ROWID);
@@ -577,7 +586,7 @@ public class MyExpenses extends ProtectedActivity
         .setSingleChoiceItems(accountLabels, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
             //we remove the dialog since the items are different dependent on each invocation
-            removeDialog(SELECT_ACCOUNT_DIALOG_ID);
+            removeDialog(R.id.SELECT_ACCOUNT_DIALOG);
             if (mSelectAccountContextId == 0L) {
               switchAccount(accountIds[item]);
             }
@@ -591,13 +600,13 @@ public class MyExpenses extends ProtectedActivity
         .setOnCancelListener(new DialogInterface.OnCancelListener() {
           @Override
           public void onCancel(DialogInterface dialog) {
-            removeDialog(SELECT_ACCOUNT_DIALOG_ID);
+            removeDialog(R.id.SELECT_ACCOUNT_DIALOG);
           }
         })
         .create();
-    case R.id.FTP_DIALOG_ID:
+    case R.id.FTP_DIALOG:
       return DialogUtils.sendWithFTPDialog((Activity) this);
-    case TEMPLATE_TITLE_DIALOG_ID:
+    case R.id.TEMPLATE_TITLE_DIALOG:
       // Set an EditText view to get user input 
       final EditText input = new EditText(this);
       //only if the editText has an id, is its value restored after orientation change
@@ -612,7 +621,7 @@ public class MyExpenses extends ProtectedActivity
           String title = input.getText().toString();
           if (!title.equals("")) {
             input.setText("");
-            dismissDialog(TEMPLATE_TITLE_DIALOG_ID);
+            dismissDialog(R.id.TEMPLATE_TITLE_DIALOG);
             if ((new Template(Transaction.getInstanceFromDb(mTemplateCreateDialogTransactionId),title)).save() == -1) {
               Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
             } else {
@@ -628,7 +637,7 @@ public class MyExpenses extends ProtectedActivity
       })
       .setNegativeButton(android.R.string.no, null)
       .create();
-    case SELECT_TEMPLATE_DIALOG_ID:
+    case R.id.SELECT_TEMPLATE_DIALOG:
       final Cursor templates = mDbHelper.fetchTemplates(mCurrentAccount.id);
       final String[] templateTitles = Utils.getStringArrayFromCursor(templates, "title");
       final Long[] templateIds = Utils.getLongArrayFromCursor(templates, ExpensesDbAdapter.KEY_ROWID);
@@ -639,7 +648,7 @@ public class MyExpenses extends ProtectedActivity
           public void onClick(DialogInterface dialog, int item) {
             //TODO: check if we could renounce removing the dialog here, remove it only when a new template is defined
             //or account is switched
-            removeDialog(SELECT_TEMPLATE_DIALOG_ID);
+            removeDialog(R.id.SELECT_TEMPLATE_DIALOG);
             Transaction.getInstanceFromTemplate(templateIds[item]).save();
             myAdapter.notifyDataSetChanged();
             configButtons();
@@ -648,11 +657,11 @@ public class MyExpenses extends ProtectedActivity
         .setOnCancelListener(new DialogInterface.OnCancelListener() {
           @Override
           public void onCancel(DialogInterface dialog) {
-            removeDialog(SELECT_TEMPLATE_DIALOG_ID);
+            removeDialog(R.id.SELECT_TEMPLATE_DIALOG);
           }
         })
         .create();
-    case MORE_ACTIONS_DIALOG_ID:
+    case R.id.MORE_ACTIONS_DIALOG:
       int howMany = mMoreItems.size();
       final String[] moreTitles = new String[howMany];
       final int[] moreIds = new int[howMany];
@@ -669,41 +678,41 @@ public class MyExpenses extends ProtectedActivity
       .setTitle(R.string.menu_more)
       .setSingleChoiceItems(moreTitles, -1,new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int item) {
-          removeDialog(MORE_ACTIONS_DIALOG_ID);
+          removeDialog(R.id.MORE_ACTIONS_DIALOG);
           dispatchCommand(moreIds[item], moreTags[item]);
         }
       })
       .setOnCancelListener(new DialogInterface.OnCancelListener() {
         @Override
         public void onCancel(DialogInterface dialog) {
-          removeDialog(MORE_ACTIONS_DIALOG_ID);
+          removeDialog(R.id.MORE_ACTIONS_DIALOG);
         }
       })
       .create();
-    case CONTRIB_DIALOG_ID:
+    case R.id.CONTRIB_INFO_DIALOG:
       boolean already_contrib = MyApplication.getInstance().isContribEnabled;
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.messagedialog, null);
       tv = (TextView)view.findViewById(R.id.message_text);
-      tv.setText(already_contrib ? R.string.contrib_dialog_thanks : R.string.contrib_dialog_text);
+      tv.setText(already_contrib ? R.string.dialog_contrib_thanks : R.string.dialog_contrib_text);
       if (already_contrib) {
         DialogUtils.setDialogOneButton(view,
             android.R.string.ok,0,null
         );
-        tv.setText(R.string.contrib_dialog_thanks);
+        tv.setText(R.string.dialog_contrib_thanks);
       } else {
         DialogUtils.setDialogTwoButtons(view,
-            R.string.dialog_contrib_yes,R.id.CONTRIB_PLAY_COMMAND_ID,null,
+            R.string.dialog_contrib_yes,R.id.CONTRIB_PLAY_COMMAND,null,
             R.string.dialog_contrib_no,0,null
         );
-        tv.setText(Html.fromHtml(getString(R.string.contrib_dialog_text,Utils.getContribFeatureLabelsAsFormattedList(this))));
+        tv.setText(Html.fromHtml(getString(R.string.dialog_contrib_text,Utils.getContribFeatureLabelsAsFormattedList(this))));
       }
       tv.setMovementMethod(LinkMovementMethod.getInstance());
       return new AlertDialog.Builder(this)
         .setTitle(R.string.menu_contrib)
         .setView(view)
         .create();
-    case CONFIRM_RESTORE_DIALOG_ID:
+    case R.id.CONFIRM_RESTORE_DIALOG:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.messagedialog, null);
       tv = (TextView)view.findViewById(R.id.message_text);
@@ -716,7 +725,13 @@ public class MyExpenses extends ProtectedActivity
         .setCancelable(false)
         .setView(view)
         .create();
-     }
+    case R.id.REMIND_RATE_DIALOG:
+      return DialogUtils.createMessageDialog(this,R.string.dialog_remind_rating,R.id.USE_STANDARD_MENU_COMMAND,null)
+          .create();
+    case R.id.REMIND_CONTRIB_DIALOG:
+      return DialogUtils.createMessageDialog(this,R.string.dialog_remind_rating,R.id.USE_STANDARD_MENU_COMMAND,null)
+          .create();
+    }
     return super.onCreateDialog(id);
   }
 
@@ -943,7 +958,6 @@ public class MyExpenses extends ProtectedActivity
    */
   private Account requireAccount() {
     Account account;
-    Currency currency;
     Long accountId = mDbHelper.getFirstAccountId();
     if (accountId == null) {
       account = new Account(
@@ -981,7 +995,7 @@ public class MyExpenses extends ProtectedActivity
 
       edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
-      showDialogWrapper(R.id.HELP_DIALOG_ID);
+      showDialogWrapper(R.id.HELP_DIALOG);
     } else if (prev_version != current_version) {
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
       if (prev_version < 14) {
@@ -1016,7 +1030,7 @@ public class MyExpenses extends ProtectedActivity
           Intent intent = new Intent(android.content.Intent.ACTION_SENDTO);
           intent.setData(android.net.Uri.parse(target));
           if (!Utils.isIntentAvailable(this,intent)) {
-            showDialogWrapper(R.id.FTP_DIALOG_ID);
+            showDialogWrapper(R.id.FTP_DIALOG);
             return;
           }
         }
@@ -1037,7 +1051,7 @@ public class MyExpenses extends ProtectedActivity
         versionInfo =TextUtils.concat(versionInfo,getString(R.string.version_40_upgrade_info),"\n");
       }
       MyApplication.getInstance().setVersionInfo(versionInfo);
-      showDialogWrapper(R.id.VERSION_DIALOG_ID);
+      showDialogWrapper(R.id.VERSION_DIALOG);
     }
   }
   /**
@@ -1171,9 +1185,9 @@ public class MyExpenses extends ProtectedActivity
       startActivity(i);
       break;
     case R.id.CONTRIB_COMMAND:
-      showDialogWrapper(CONTRIB_DIALOG_ID);
+      showDialogWrapper(R.id.CONTRIB_INFO_DIALOG);
       break;
-    case R.id.CONTRIB_PLAY_COMMAND_ID:
+    case R.id.CONTRIB_PLAY_COMMAND:
       Utils.viewContribApp((Activity) this);
       break;
     case R.id.INSERT_TA_COMMAND:
@@ -1191,14 +1205,14 @@ public class MyExpenses extends ProtectedActivity
            switchAccount(0);
          } else {
            mSelectAccountContextId = 0L;
-           showDialogWrapper(SELECT_ACCOUNT_DIALOG_ID);
+           showDialogWrapper(R.id.SELECT_ACCOUNT_DIALOG);
          }
         } else {
           Long accountId = tag != null ? (Long) tag : 0;
           switchAccount(accountId);
         }
       } else {
-        showDialogWrapper(ACCOUNTS_BUTTON_EXPLAIN_DIALOG_ID);
+        showDialogWrapper(R.id.ACCOUNTS_BUTTON_EXPLAIN_DIALOG);
       }
       break;
     case R.id.CREATE_ACCOUNT_COMMAND:
@@ -1207,7 +1221,7 @@ public class MyExpenses extends ProtectedActivity
       break;
     case R.id.RESET_ACCOUNT_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
-        showDialogWrapper(RESET_DIALOG_ID);
+        showDialogWrapper(R.id.RESET_DIALOG);
       } else {
         Toast.makeText(getBaseContext(),
             getString(R.string.external_storage_unavailable),
@@ -1245,11 +1259,11 @@ public class MyExpenses extends ProtectedActivity
       startActivity(i);
       break;
     case R.id.HELP_COMMAND:
-      showDialogWrapper(R.id.HELP_DIALOG_ID);
+      showDialogWrapper(R.id.HELP_DIALOG);
       break;
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
       if (tag == null) {
-          showDialogWrapper(SELECT_TEMPLATE_DIALOG_ID);
+          showDialogWrapper(R.id.SELECT_TEMPLATE_DIALOG);
       } else {
         Transaction.getInstanceFromTemplate((Long) tag).save();
         myAdapter.notifyDataSetChanged();
@@ -1258,7 +1272,7 @@ public class MyExpenses extends ProtectedActivity
       break;
     case R.id.MORE_ACTION_COMMAND:
       mMoreItems = (ArrayList<Action>) tag;
-      showDialogWrapper(MORE_ACTIONS_DIALOG_ID);
+      showDialogWrapper(R.id.MORE_ACTIONS_DIALOG);
       break;
     case R.id.RATE_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
@@ -1346,7 +1360,7 @@ public class MyExpenses extends ProtectedActivity
   public boolean onKeyUp(int keyCode, KeyEvent event) {
     if (!mUseStandardMenu && keyCode == KeyEvent.KEYCODE_MENU) {
       Log.i("MyExpenses", "will react to menu key");
-      showDialogWrapper(USE_STANDARD_MENU_DIALOG_ID);
+      showDialogWrapper(R.id.USE_STANDARD_MENU_DIALOG);
       return true;
     }
     return  super.onKeyUp(keyCode, event);

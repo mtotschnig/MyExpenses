@@ -106,7 +106,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
           intent = new Intent(android.content.Intent.ACTION_SENDTO);
           intent.setData(android.net.Uri.parse(target));
           if (!Utils.isIntentAvailable(this,intent)) {
-            showDialog(R.id.FTP_DIALOG_ID);
+            showDialog(R.id.FTP_DIALOG);
           }
         }
       }
@@ -128,7 +128,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   @Override
   protected Dialog onCreateDialog(int id) {
     switch(id) {
-    case R.id.FTP_DIALOG_ID:
+    case R.id.FTP_DIALOG:
     return DialogUtils.sendWithFTPDialog((Activity) this);
     }
     return null;

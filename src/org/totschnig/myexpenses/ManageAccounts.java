@@ -78,7 +78,7 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
         if (MyApplication.getInstance().isContribEnabled) {
           showDialogWrapper(AGGREGATE_DIALOG_ID);
         } else {
-          showDialog(R.id.CONTRIB_DIALOG_ID);
+          showDialog(R.id.CONTRIB_DIALOG);
         }
       }
     });
@@ -151,7 +151,7 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
       .setTitle(R.string.menu_aggregate)
       .setView(view)
       .create();
-    case R.id.CONTRIB_DIALOG_ID:
+    case R.id.CONTRIB_DIALOG:
       return DialogUtils.contribDialog(this,MyApplication.CONTRIB_FEATURE_AGGREGATE);
     }
     return null;
@@ -271,7 +271,7 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
   }
   @Override
   public void contribFeatureCalled(String feature) {
-    removeDialog(R.id.CONTRIB_DIALOG_ID);
+    removeDialog(R.id.CONTRIB_DIALOG);
     Utils.recordUsage(MyApplication.CONTRIB_FEATURE_AGGREGATE);
     showDialogWrapper(AGGREGATE_DIALOG_ID);
   }

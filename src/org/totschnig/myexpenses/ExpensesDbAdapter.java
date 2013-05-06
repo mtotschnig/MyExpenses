@@ -1195,4 +1195,13 @@ public class ExpensesDbAdapter {
     initialValues.put("feature", feature);
     mDb.insert(TABLE_FEATURE_USED, null, initialValues);
   }
+
+  public long getTransactionSequence() {
+    Cursor mCursor = mDb.query("SQLITE_SEQUENCE",new String[] {"seq"},"name= ?",new String[] {TABLE_TRANSACTIONS},
+        null,null,null);
+    mCursor.moveToFirst();
+    int result = mCursor.getInt(0);
+    mCursor.close();
+    return result;
+  }
 }
