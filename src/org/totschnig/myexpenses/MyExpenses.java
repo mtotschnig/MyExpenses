@@ -100,7 +100,7 @@ public class MyExpenses extends ProtectedActivity
   public static final String TRANSFER_INCOME = "<= ";
   
   static final int TRESHOLD_REMIND_RATE = 3;
-  static final int TRESHOLD_REMIND_CONTRIB = 11;
+  static final int TRESHOLD_REMIND_CONTRIB = 2;
   
   static final String HOST = "myexpenses.totschnig.org";
   static final String FEEDBACK_EMAIL = "michael@totschnig.org";
@@ -434,7 +434,7 @@ public class MyExpenses extends ProtectedActivity
           return;
         }
         if (!MyApplication.getInstance().isContribEnabled) {
-          nextReminder = mSettings.getInt("nextReminderContrib",TRESHOLD_REMIND_CONTRIB);
+          nextReminder = mSettings.getLong("nextReminderContrib",TRESHOLD_REMIND_CONTRIB);
           if (nextReminder != -1 && transactionCount >= nextReminder) {
             showDialogWrapper(R.id.REMIND_CONTRIB_DIALOG);
             return;
@@ -689,6 +689,7 @@ public class MyExpenses extends ProtectedActivity
         }
       })
       .create();
+    case R.id.REMIND_CONTRIB_DIALOG:
     case R.id.CONTRIB_INFO_DIALOG:
       boolean already_contrib = MyApplication.getInstance().isContribEnabled;
       li = LayoutInflater.from(this);
@@ -701,10 +702,16 @@ public class MyExpenses extends ProtectedActivity
         );
         tv.setText(R.string.dialog_contrib_thanks);
       } else {
-        DialogUtils.setDialogTwoButtons(view,
-            R.string.dialog_contrib_yes,R.id.CONTRIB_PLAY_COMMAND,null,
-            R.string.dialog_contrib_no,0,null
-        );
+        if (id == R.id.REMIND_CONTRIB_DIALOG) {
+          DialogUtils.setDialogThreeButtons(view,
+          R.string.dialog_remind_no,R.id.REMIND_NO_COMMAND,"Contrib",
+          R.string.dialog_remind_later,R.id.REMIND_LATER_COMMAND,"Contrib",
+          R.string.dialog_contrib_yes,R.id.CONTRIB_PLAY_COMMAND,null);
+        } else {
+          DialogUtils.setDialogTwoButtons(view,
+              R.string.dialog_contrib_no,0,null,
+              R.string.dialog_contrib_yes,R.id.CONTRIB_PLAY_COMMAND,null);
+        }
         tv.setText(Html.fromHtml(getString(R.string.dialog_contrib_text,Utils.getContribFeatureLabelsAsFormattedList(this))));
       }
       tv.setMovementMethod(LinkMovementMethod.getInstance());
@@ -726,11 +733,18 @@ public class MyExpenses extends ProtectedActivity
         .setView(view)
         .create();
     case R.id.REMIND_RATE_DIALOG:
-      return DialogUtils.createMessageDialog(this,R.string.dialog_remind_rating,R.id.USE_STANDARD_MENU_COMMAND,null)
-          .create();
-    case R.id.REMIND_CONTRIB_DIALOG:
-      return DialogUtils.createMessageDialog(this,R.string.dialog_remind_rating,R.id.USE_STANDARD_MENU_COMMAND,null)
-          .create();
+      li = LayoutInflater.from(this);
+      view = li.inflate(R.layout.messagedialog, null);
+      tv = (TextView)view.findViewById(R.id.message_text);
+      tv.setText(R.string.dialog_remind_rate);
+      DialogUtils.setDialogThreeButtons(view,
+          R.string.dialog_remind_no,R.id.REMIND_NO_COMMAND,"Rate",
+          R.string.dialog_remind_later,R.id.REMIND_LATER_COMMAND,"Rate",
+          R.string.dialog_remind_rate_yes,R.id.RATE_COMMAND,null);
+      return new AlertDialog.Builder(this)
+        .setTitle(R.string.app_name)
+        .setView(view)
+        .create();
     }
     return super.onCreateDialog(id);
   }
@@ -1275,6 +1289,7 @@ public class MyExpenses extends ProtectedActivity
       showDialogWrapper(R.id.MORE_ACTIONS_DIALOG);
       break;
     case R.id.RATE_COMMAND:
+      mSettings.edit().putLong("nextReminderRate", -1).commit();
       i = new Intent(Intent.ACTION_VIEW);
       i.setData(Uri.parse("market://details?id=org.totschnig.myexpenses"));
       if (Utils.isIntentAvailable(this,i)) {
@@ -1302,6 +1317,13 @@ public class MyExpenses extends ProtectedActivity
       mDbHelper = MyApplication.db();
       setup();
       break;
+    case R.id.REMIND_NO_COMMAND:
+      mSettings.edit().putLong("nextReminder" + (String) tag,-1).commit();
+      break;
+    case R.id.REMIND_LATER_COMMAND:
+      String key = "nextReminder" + (String) tag;
+      long treshold = ((String) tag).equals("Rate") ? TRESHOLD_REMIND_RATE : TRESHOLD_REMIND_CONTRIB;
+      mSettings.edit().putLong(key,mSettings.getLong(key,treshold)+treshold).commit();
     default:
       return false;
     }

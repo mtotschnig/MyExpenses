@@ -60,4 +60,7 @@
     <item type="id" name="CONFIRM_RESTORE_DIALOG"/>
     <item type="id" name="BACKUP_DIALOG"/>
     <item type="id" name="RESTORE_DIALOG"/>
+    <item type="id" name="REMIND_YES_COMMAND"/>
+    <item type="id" name="REMIND_LATER_COMMAND"/>
+    <item type="id" name="REMIND_NO_COMMAND"/>
 </resources>

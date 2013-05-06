@@ -66,14 +66,17 @@
   <string name="dialog_contrib_no_usages_left">No free usages left</string>
   <string name="dialog_contrib_reminder">\"%1$s\" is a premium feature. %2$s.
   	You will get unrestricted access to this and other features, by installing &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
-  <string name="dialog_contrib_yes">Buy</string>
+  <string name="dialog_contrib_yes">Buy now</string>
   <string name="dialog_contrib_no">Not yet</string>
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> is offered ad free and open source.
     Please contribute by installing the paid Contrib version. You gain unrestricted access to
     the following premium features:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
-  <string name="dialog_remind_rating">How about rating?</string>
-  <string name="dialog_remind_contrib">How about contributing?</string>
+  <string name="dialog_remind_rate">Please take a moment to rate and review &app_name; at Google Play.
+    Your comments allow me to continually add improvements and enhancements.</string>
+  <string name="dialog_remind_rate_yes">Rate now</string>
+  <string name="dialog_remind_later">Later</string>
+  <string name="dialog_remind_no">No thanks</string>
   <string name="dialog_title_select_account">Pick an account</string>
   <string name="dialog_title_select_color">Pick a color</string>
   <string name="dialog_title_select_import_source">Pick a source for import</string>
