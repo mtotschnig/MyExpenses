@@ -284,7 +284,7 @@ public class MyApplication extends Application {
           File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
           if (Utils.copy(backupPrefFile,tempPrefFile)) {
             SharedPreferences backupPref = mSelf.getSharedPreferences("backup_temp",0);
-            Editor edit = mSelf.settings.edit();
+            Editor edit = mSelf.settings.edit().clear();
             String key;
             Object val;
             for (Map.Entry<String, ?> entry : backupPref.getAll().entrySet()) {
