@@ -192,7 +192,7 @@ public class ExpenseEdit extends EditActivity {
     });
     cancelButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
-        setResult(RESULT_OK);
+        setResult(RESULT_CANCELED);
         finish();
       }
     });
