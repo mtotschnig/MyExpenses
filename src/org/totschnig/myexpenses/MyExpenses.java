@@ -99,8 +99,8 @@ public class MyExpenses extends ProtectedActivity
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
   
-  static final int TRESHOLD_REMIND_RATE = 3;
-  static final int TRESHOLD_REMIND_CONTRIB = 2;
+  static final int TRESHOLD_REMIND_RATE = 47;
+  static final int TRESHOLD_REMIND_CONTRIB = 113;
   
   static final String HOST = "myexpenses.totschnig.org";
   static final String FEEDBACK_EMAIL = "michael@totschnig.org";
@@ -1062,6 +1062,9 @@ public class MyExpenses extends ProtectedActivity
             "\n");
       }
       if (prev_version < 40) {
+        //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
+        //if they are already above both tresholds, so we set some delay
+        mSettings.edit().putLong("nextReminderContrib",mDbHelper.getTransactionSequence()+23).commit();
         versionInfo =TextUtils.concat(versionInfo,getString(R.string.version_40_upgrade_info),"\n");
       }
       MyApplication.getInstance().setVersionInfo(versionInfo);
@@ -1323,7 +1326,7 @@ public class MyExpenses extends ProtectedActivity
     case R.id.REMIND_LATER_COMMAND:
       String key = "nextReminder" + (String) tag;
       long treshold = ((String) tag).equals("Rate") ? TRESHOLD_REMIND_RATE : TRESHOLD_REMIND_CONTRIB;
-      mSettings.edit().putLong(key,mSettings.getLong(key,treshold)+treshold).commit();
+      mSettings.edit().putLong(key,mDbHelper.getTransactionSequence()+treshold).commit();
     default:
       return false;
     }
