@@ -130,6 +130,11 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.7.1RC1
+    - 2013-05-08
+    -
+      en: Fixed problem with date handling in some Locales (Arabic, Bengali, Persian, Hindi, Marathi, Pashto, Tamil)
+  -
     - 1.7.1a1
     - 2013-05-05
     -
