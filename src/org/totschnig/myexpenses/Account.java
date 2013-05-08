@@ -301,10 +301,9 @@ public class Account {
   
   /**
    * retrieves an Account instance from the database
-   * returns null if no account exists with the given id
    * @param mDbHelper
    * @param id
-   * @throws AccountNotFoundException 
+   * @throws DataObjectNotFoundException if no account exists with the given id
    */
   private Account(long id) throws DataObjectNotFoundException {
     this.id = id;
