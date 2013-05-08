@@ -26,13 +26,14 @@ import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Currency;
+import java.util.Date;
 import java.util.List;
 import android.app.Activity;
 import android.content.Context;
@@ -141,13 +142,26 @@ public class Utils {
     nf.setMaximumFractionDigits(fractionDigits);
     return nf.format(amount);
   }
+
+  static Date fromSQL(String dateString) {
+    try {
+      return ExpensesDbAdapter.dateFormat.parse(dateString);
+    } catch (ParseException e) {
+      return null;
+    }
+  }
+
   /**
    * utility method that calls formatters for date
    * @param text
    * @return formated string
    */
   static String convDate(String text, SimpleDateFormat format) {
-    return format.format(Timestamp.valueOf(text));
+    Date date = fromSQL(text);
+    if (date == null)
+      return text;
+    else
+      return format.format(date);
   }
   /**
    * utility method that calls formatters for amount

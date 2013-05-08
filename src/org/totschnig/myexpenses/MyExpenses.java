@@ -17,7 +17,6 @@ package org.totschnig.myexpenses;
 
 import java.text.SimpleDateFormat;
 import java.net.URI;
-import java.sql.Timestamp;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -873,7 +872,7 @@ public class MyExpenses extends ProtectedActivity
       String payee = mExpensesCursor.getString(
           mExpensesCursor.getColumnIndexOrThrow("payee"));
       payee = (payee == null || payee.length() == 0) ? "" : "\nP" + payee;
-      String dateStr = formatter.format(Timestamp.valueOf(mExpensesCursor.getString(
+      String dateStr = formatter.format(Utils.fromSQL(mExpensesCursor.getString(
           mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE))));
       long amount = mExpensesCursor.getLong(
           mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT));
@@ -1063,6 +1062,9 @@ public class MyExpenses extends ProtectedActivity
             "\n");
       }
       if (prev_version < 40) {
+        //fix for date values that were incorrectly entered to database in non-western locales
+        mDbHelper.fixDateValues();
+
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
         mSettings.edit().putLong("nextReminderContrib",mDbHelper.getTransactionSequence()+23).commit();

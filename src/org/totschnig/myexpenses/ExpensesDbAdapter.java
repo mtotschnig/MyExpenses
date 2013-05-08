@@ -16,7 +16,12 @@
 package org.totschnig.myexpenses;
 
 import java.io.File;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import org.totschnig.myexpenses.Account.Type;
 
@@ -52,6 +57,7 @@ public class ExpensesDbAdapter {
   public static final String KEY_TITLE = "title";
   public static final String KEY_LABEL_MAIN = "label_sub";
   public static final String KEY_LABEL_SUB = "label_main";
+  public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
 
   private static final String TAG = "ExpensesDbAdapter";
   private DatabaseHelper mDbHelper;
@@ -1203,5 +1209,32 @@ public class ExpensesDbAdapter {
     int result = mCursor.getInt(0);
     mCursor.close();
     return result;
+  }
+
+  public void fixDateValues() {
+    Cursor c = mDb.query(TABLE_TRANSACTIONS, new String[] {KEY_ROWID, KEY_DATE}, null, null, null, null, null);
+    String dateString;
+    c.moveToFirst();
+    while(!c.isAfterLast()) {
+      dateString = c.getString(c.getColumnIndex(KEY_DATE));
+      SimpleDateFormat localeDependent = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      try {
+        Timestamp.valueOf(dateString);
+      } catch (IllegalArgumentException e) {
+        ContentValues args = new ContentValues();
+        Log.i(TAG,"fixing corrupt date in db: " + dateString);
+        //first we try to parse in the users locale
+        try {
+          dateString = dateFormat.format(localeDependent.parse(dateString));
+        } catch (ParseException e1) {
+          dateString = dateFormat.format(new Date());
+          args.put(KEY_COMMENT,"corrupted Date has been reset");
+        }
+        args.put(KEY_DATE,dateString);
+        mDb.update(TABLE_TRANSACTIONS, args, KEY_ROWID + "=" + c.getLong(c.getColumnIndex(KEY_ROWID)), null);
+      }
+      c.moveToNext();
+    }
+    c.close();
   }
 }

@@ -15,10 +15,7 @@
 
 package org.totschnig.myexpenses;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import android.database.Cursor;
 
@@ -52,9 +49,13 @@ public class Transaction {
    * @param id
    * @return instance of {@link Transaction} or {@link Transfer}
    */
-  public static Transaction getInstanceFromDb(long id) {
+  public static Transaction getInstanceFromDb(long id)  {
     Transaction t;
     Cursor c = mDbHelper.fetchTransaction(id);
+    if (c.getCount() == 0) {
+      return null;
+      //TODO throw DataObjectNotFoundException
+    }
     long transfer_peer = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
     long account_id = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ACCOUNTID));
     long amount = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT));
@@ -143,19 +144,18 @@ public class Transaction {
   /**
    * we store the date string and create a date object from it
    * this is only used with String stored in the database, where we are sure that they are correctly formated
-   * @param strDate format accepted by {@link Timestamp#valueOf}
+   * @param strDate format accepted by {@link ExpensesDbAdapter#dateFormat}
    */
   private void setDate(String strDate) {
     //as a temporary shortcut we store the date as string,
     //since we have tested that this way UI->DB works
     //and have no time at the moment to test detour via Date class
     dateAsString = strDate;
-    date = Timestamp.valueOf(strDate);
+    date = Utils.fromSQL(strDate);
   }
   public void setDate(Date date){
     this.date = date;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
-    dateAsString = dateFormat.format(date);
+    dateAsString = ExpensesDbAdapter.dateFormat.format(date);
   }
   /**
    * 
