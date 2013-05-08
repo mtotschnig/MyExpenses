@@ -74,6 +74,11 @@
     Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch
     uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
+  <string name="dialog_remind_rate">Bitte nehmen Sie sich einen Augenblick Zeit, um &app_name; auf Google Play zu bewerten und zu rezensieren.
+    Ihre Kommentare ermöglichen regelmäßige Verbesserungen und Erweiterungen.</string>
+  <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
+  <string name="dialog_remind_later">Später</string>
+  <string name="dialog_remind_no">Nein danke</string>
   <string name="dialog_title_select_account">Konto auswählen</string>
   <string name="dialog_title_select_color">Farbe wählen</string>
   <string name="dialog_title_select_currency">Währung auswählen</string>
