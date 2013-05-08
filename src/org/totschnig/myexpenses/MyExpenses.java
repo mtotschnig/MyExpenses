@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.ButtonBar.Action;
@@ -825,8 +826,8 @@ public class MyExpenses extends ProtectedActivity
    * @throws IOException
    */
   private boolean exportAll() throws IOException {
-    SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm");
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
     Log.i("MyExpenses","now starting export");
     File appDir = Utils.requireAppDir();
     if (appDir == null)

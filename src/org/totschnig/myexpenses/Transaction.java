@@ -18,6 +18,7 @@ package org.totschnig.myexpenses;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import android.database.Cursor;
 
@@ -141,9 +142,10 @@ public class Transaction {
   }
   /**
    * we store the date string and create a date object from it
+   * this is only used with String stored in the database, where we are sure that they are correctly formated
    * @param strDate format accepted by {@link Timestamp#valueOf}
    */
-  public void setDate(String strDate) {
+  private void setDate(String strDate) {
     //as a temporary shortcut we store the date as string,
     //since we have tested that this way UI->DB works
     //and have no time at the moment to test detour via Date class
@@ -152,7 +154,7 @@ public class Transaction {
   }
   public void setDate(Date date){
     this.date = date;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
     dateAsString = dateFormat.format(date);
   }
   /**
