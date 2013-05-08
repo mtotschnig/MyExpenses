@@ -70,6 +70,11 @@
     Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde
     edersiniz:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
+  <string name="dialog_remind_rate">Lütfen &app_name; Google Play\'de değerlendirip not vermek için birkaç dakika ayırınız.
+     Yorumlarınız devamlı bir şekilde yeni işlevler ve geliştirmeler eklememe yardımcı olmaktadır.</string>
+  <string name="dialog_remind_rate_yes">Şimdi not ver</string>
+  <string name="dialog_remind_later">Daha sonra</string>
+  <string name="dialog_remind_no">Hayır teşekkürler</string>
   <string name="dialog_title_select_account">Bir hesap seçin</string>
   <string name="dialog_title_select_import_source">İçe aktarım için bir kaynak seçin</string>
   <string name="dialog_title_select_color">Renk seçimi</string>
