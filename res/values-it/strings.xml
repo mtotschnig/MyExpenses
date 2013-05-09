@@ -261,6 +261,7 @@
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_manage">Gestione</string>
+  <string name="pref_category_title_security">Sicurezza</string>
   <string name="pref_category_title_ui">Interfaccia utente</string>
   <string name="pref_currency_decimal_separator_title">Separatore decimale per l\'ingresso della
       quantità</string>
