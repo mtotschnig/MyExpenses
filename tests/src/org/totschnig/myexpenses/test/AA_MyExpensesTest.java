@@ -62,7 +62,10 @@ public class AA_MyExpensesTest extends
   } // end of setUp() method definition
   
   /**
-   * currently works only if locale is en
+   * currently works only if 
+   * 1) locale is en
+   * 2) when executed on a fresh install
+   * 3) and no backup is present in myexpenses folder
    * @throws Exception
    */
   public void testMainScreen() throws Exception {

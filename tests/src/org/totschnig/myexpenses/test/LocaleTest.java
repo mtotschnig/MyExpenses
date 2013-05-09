@@ -1,29 +1,31 @@
 package org.totschnig.myexpenses.test;
 
-import java.text.SimpleDateFormat;
-import java.util.Currency;
 import java.util.Locale;
 
 import junit.framework.Assert;
 
 import org.totschnig.myexpenses.Account;
-import org.totschnig.myexpenses.Money;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.MyExpenses;
 import org.totschnig.myexpenses.Transaction;
-import org.totschnig.myexpenses.Transfer;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 
 public class LocaleTest extends android.test.InstrumentationTestCase {
   private Account mAccount;
+  private SharedPreferences settings;
+  private static final String TEST_ID = "functest";
   
   @Override
   protected void setUp() throws Exception {
       super.setUp();
+      MyApplication app = (MyApplication) getInstrumentation().getTargetContext().getApplicationContext();
+      settings = app.getSharedPreferences(TEST_ID,Context.MODE_PRIVATE);
+      app.setSettings(settings);
+      app.setDatabaseName(TEST_ID);
       mAccount = new Account("TestAccount 1",100,"Main account");
       mAccount.save();
   }
@@ -46,8 +48,8 @@ public class LocaleTest extends android.test.InstrumentationTestCase {
           code.equals("ta")
           ))
         continue;
-      Log.i("TEST",loc.toString());
-      Log.i("TEST",lang);
+      Log.i("TEST",loc.getDisplayLanguage(Locale.US));
+      Log.i("TEST",code);
       Transaction op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount.id);
       op.comment = code + " " + lang;
       op.save();
