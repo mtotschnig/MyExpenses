@@ -72,6 +72,15 @@
   contribuire installando la versione Contrib a pagamento. Ottiene l’accesso illimitato alle
   seguenti funzionalità speciali:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
+  <string name="dialog_password_activate_protection">Attivare la protezione con password</string>
+  <string name="dialog_password_change_password">Modificare la password</string>
+  <string name="dialog_password_new_password">Nuova password</string>
+  <string name="dialog_password_new_password_confirmation">Nuova password (conferma)</string>
+  <string name="dialog_remind_rate">Si prega di prendere un momento per votare &app_name; al Google Play.
+     I vostri commenti mi permettono di aggiungere continuamente perfezionamenti.</string>
+  <string name="dialog_remind_rate_yes">Vota ora</string>
+  <string name="dialog_remind_later">Più tardi</string>
+  <string name="dialog_remind_no">No grazie</string>
   <string name="dialog_title_select_account">Scegli il conto</string>
   <string name="dialog_title_select_color">Scegli un colore</string>
   <string name="dialog_title_select_currency">Scegli una valuta</string>
@@ -226,6 +235,8 @@
   -->
   <string name="parse_error_grisbi_version_not_supported">Versione del file Grisbi non è supportata:
       %1$s</string>
+  <string name="password_prompt">Inserisci la tua password</string>
+  <string name="password_not_valid">Password non valida. Prova ancora!</string>
   <string name="payee">Beneficiario</string>
   <string name="payer">Pagatore</string>
   <!-- payment methods -->
@@ -273,6 +284,10 @@
   <string name="pref_manage_parties_summary">Cancellare beneficiari.</string>
   <string name="pref_manage_templates_title">Modelli</string>
   <string name="pref_manage_templates_summary">Utilizzare et eliminare modelli.</string>
+  <string name="pref_password_empty">La password non deve essere vuoto</string>
+  <string name="pref_password_not_equal">Le password non corrispondono</string>
+  <string name="pref_perform_protection_title">Protezione con password</string>
+  <string name="pref_perform_protection_summary">Dovrebbe lancia e riprende essere protetti?</string>
   <string name="pref_perform_share_title">Condividi QIF Export</string>
   <string name="pref_perform_share_summary">Se il file QIF da condividere dopo ogni esportazione?
       </string>
@@ -356,4 +371,5 @@
   <string name="version_39_upgrade_info">Contribuire a &lt;i>&app_name;&lt;/i> è diventato più facile,
 	  e più interessante. Se installa &lt;i>&app_name; Contrib&lt;/i> ottiene accesso illimitato alle
 	  seguenti funzionalità speciali: &lt;br>%1$s</string>
+  <string name="version_40_upgrade_info">Ora è possibile proteggere &app_name;, impostando una password dalle impostazioni (sezione Sicurezza).</string>
 </resources>
