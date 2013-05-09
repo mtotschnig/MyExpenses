@@ -148,7 +148,8 @@
       - <b>Hilfe</b> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.\n
       \nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
   </string>
-  <string name="help_whats_new">&#160;- Passwortschutz.</string>
+  <string name="help_whats_new">&#160;- Passwortschutz.\n
+    - Problem bei Verarbeitung der Zeitangaben in manchen Sprachen (Arabisch, Bengali, Persisch, Hindi, Marathi, Pashto, Tamil) behoben.</string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
   <string name="important_version_information">Wichtige Information</string>

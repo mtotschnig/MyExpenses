@@ -134,7 +134,8 @@
       - <b>Help</b> : Rehbere, yeniliklere, sıkça sorulan sorulara ve değişikliklere hızlı erişim sağlar.\n
       \nAyrıntılı bilgi için <a href="http://myexpenses.totschnig.org/#tutorial_r4">kılavuza</a> bakınız.
   </string>
-  <string name="help_whats_new">- Parola ile güvenlik.</string>
+  <string name="help_whats_new">&#160;- Parola ile güvenlik.\n
+    - Bazı dillerde (Arapça, Bengalce, Farsça, Hintçe, Marathi, Peştuca, Tamilce) tarihlerin ele alınmasındaki hata düzeltildi.</string>
   <string name="important_version_information">Önemli bilgi</string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="income">gelirler</string>
