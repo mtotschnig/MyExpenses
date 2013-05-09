@@ -1062,7 +1062,6 @@ public class MyExpenses extends ProtectedActivity
             "\n");
       }
       if (prev_version < 40) {
-        //fix for date values that were incorrectly entered to database in non-western locales
         mDbHelper.fixDateValues();
 
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users

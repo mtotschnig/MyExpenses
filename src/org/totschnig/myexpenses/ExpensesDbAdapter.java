@@ -1211,6 +1211,10 @@ public class ExpensesDbAdapter {
     return result;
   }
 
+  /**
+   * fix for date values that were incorrectly entered to database in non-western locales
+   * https://github.com/mtotschnig/MyExpenses/issues/53
+   */
   public void fixDateValues() {
     Cursor c = mDb.query(TABLE_TRANSACTIONS, new String[] {KEY_ROWID, KEY_DATE}, null, null, null, null, null);
     String dateString;
