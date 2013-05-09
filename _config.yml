@@ -130,15 +130,30 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
-    - 1.7.1RC1
-    - 2013-05-08
+    - 1.7.1
+    - 2013-05-09
     -
-      en: Fixed problem with date handling in some Locales (Arabic, Bengali, Persian, Hindi, Marathi, Pashto, Tamil)
-  -
-    - 1.7.1a1
-    - 2013-05-05
-    -
-      en: Password protection.
+      en: |
+        Password protection.
+        Fixed problem with date handling in some Locales (Arabic, Bengali, Persian, Hindi, Marathi, Pashto, Tamil).
+      ca: |
+        Protecció per contrasenya.
+        Arreglat el problema amb el maneig de la data en alguns idiomes (àrab, bengalí, persa, hindi, marathi, pashto, tamil).
+      fr: |
+        Protection par mot de passe.
+        Correction d\'un problème avec la manipulation de dates dans certaines languages (arabe, bengali, persan, hindi, marathi, pachto, tamoul).
+      de: |
+        Passwortschutz.
+        Problem bei Verarbeitung der Zeitangaben in manchen Sprachen (Arabisch, Bengali, Persisch, Hindi, Marathi, Pashto, Tamil) behoben.
+      it: |
+        Protezione con password.
+        Corretto il problema con la gestione della data in alcune versioni locali (arabo, bengali, persiano, hindi, marathi, pashto, tamil).
+      es: |
+        Protección por contraseña
+        Arreglado el problema con el manejo de la fecha en algunos idiomas (árabe, bengalí, persa, hindi, marathi, pashto, tamil).
+      tr: |
+        Parola ile güvenlik.
+        Bazı dillerde (Arapça, Bengalce, Farsça, Hintçe, Marathi, Peştuca, Tamilce) tarihlerin ele alınmasındaki hata düzeltildi.
   -
     - 1.7.0
     - 2013-04-26
