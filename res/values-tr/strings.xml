@@ -75,6 +75,10 @@
   <string name="dialog_remind_rate_yes">Şimdi not ver</string>
   <string name="dialog_remind_later">Daha sonra</string>
   <string name="dialog_remind_no">Hayır teşekkürler</string>
+  <string name="dialog_password_activate_protection">Parola ile korumayı etkinleştir</string>
+  <string name="dialog_password_change_password">Parolayı değiştir</string>
+  <string name="dialog_password_new_password">Yeni parola</string>
+  <string name="dialog_password_new_password_confirmation">Yeni parola (teyit)</string>
   <string name="dialog_title_select_account">Bir hesap seçin</string>
   <string name="dialog_title_select_import_source">İçe aktarım için bir kaynak seçin</string>
   <string name="dialog_title_select_color">Renk seçimi</string>
@@ -204,10 +208,6 @@
       %1$s</string>
   <string name="password_prompt">Parolanızı giriniz</string>
   <string name="password_not_valid">Geçersiz parola. Tekrar deneyin!</string>
-  <string name="password_dialog_activate_protection">Parola ile korumayı etkinleştir</string>
-  <string name="password_dialog_change_password">Parolayı değiştir</string>
-  <string name="password_dialog_new_password">Yeni parola</string>
-  <string name="password_dialog_new_password_confirmation">Yeni parola (teyit)</string>
   <string name="payee">Alacaklı</string>
   <string name="payer">Ödeyen</string>
   <string name="pm_cheque">Çek</string>

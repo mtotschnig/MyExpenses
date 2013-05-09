@@ -72,6 +72,10 @@
     Please contribute by installing the paid Contrib version. You gain unrestricted access to
     the following premium features:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
+  <string name="dialog_password_activate_protection">Activate password protection</string>
+  <string name="dialog_password_change_password">Change password</string>
+  <string name="dialog_password_new_password">New password</string>
+  <string name="dialog_password_new_password_confirmation">New password (confirmation)</string>
   <string name="dialog_remind_rate">Please take a moment to rate and review &app_name; at Google Play.
     Your comments allow me to continually add improvements and enhancements.</string>
   <string name="dialog_remind_rate_yes">Rate now</string>
@@ -221,10 +225,6 @@
       %1$s</string>
   <string name="password_prompt">Enter your password</string>
   <string name="password_not_valid">Password invalid. Try again!</string>
-  <string name="password_dialog_activate_protection">Activate password protection</string>
-  <string name="password_dialog_change_password">Change password</string>
-  <string name="password_dialog_new_password">New password</string>
-  <string name="password_dialog_new_password_confirmation">New password (confirmation)</string>
   <string name="payee">Payee</string>
   <string name="payer">Payer</string>
   <!-- payment methods -->

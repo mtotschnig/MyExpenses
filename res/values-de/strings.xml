@@ -74,6 +74,10 @@
     Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch
     uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
+  <string name="dialog_password_activate_protection">Passwort-Schutz aktivieren</string>
+  <string name="dialog_password_change_password">Passwort ändern</string>
+  <string name="dialog_password_new_password">Neues Passwort</string>
+  <string name="dialog_password_new_password_confirmation">Neues Passwort (Bestätigung)</string>
   <string name="dialog_remind_rate">Bitte nehmen Sie sich einen Augenblick Zeit, um &app_name; auf Google Play zu bewerten und zu rezensieren.
     Ihre Kommentare ermöglichen regelmäßige Verbesserungen und Erweiterungen.</string>
   <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
@@ -227,10 +231,6 @@
       unterstützt</string>
   <string name="password_prompt">Geben Sie Ihr Passwort ein</string>
   <string name="password_not_valid">Passwort ungültig. Versuchen Sie es erneut!</string>
-  <string name="password_dialog_activate_protection">Passwort-Schutz aktivieren</string>
-  <string name="password_dialog_change_password">Passwort ändern</string>
-  <string name="password_dialog_new_password">Neues Passwort</string>
-  <string name="password_dialog_new_password_confirmation">Neues Passwort (Bestätigung)</string>
   <string name="payee">Empfänger</string>
   <string name="payer">Zahler</string>
   <string name="pm_cheque">Scheck</string>

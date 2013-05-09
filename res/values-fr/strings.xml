@@ -73,6 +73,15 @@
     S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux
     fonctions Premium suivantes:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
+  <string name="dialog_password_activate_protection">Activer la protection par mot de passe</string>
+  <string name="dialog_password_change_password">Changer le mot de passe</string>
+  <string name="dialog_password_new_password">Nouveau mot de passe</string>
+  <string name="dialog_password_new_password_confirmation">Nouveau mot de passe (confirmation)</string>
+  <string name="dialog_remind_rate">S\'il vous plaît, publiez votre avis au sujet de &app_name; sur Google Play.
+     Vos commentaires me permettent d\'ajouter sans cesse des améliorations.</string>
+  <string name="dialog_remind_rate_yes">D\'accord</string>
+  <string name="dialog_remind_later">Plus tard</string>
+  <string name="dialog_remind_no">Non merci</string>
   <string name="dialog_title_select_account">Sélectionner un compte</string>
   <string name="dialog_title_select_color">Sélectionner une couleur</string>
   <string name="dialog_title_select_currency">Sélectionner une devise</string>
@@ -219,6 +228,8 @@
   -->
   <string name="parse_error_grisbi_version_not_supported">La version du fichier Grisbi n\'est pas
       supportée: %1$s</string>
+  <string name="password_prompt">Saississez le mot de passe</string>
+  <string name="password_not_valid">Mot de passe invalide. Essayez de nouveau!</string>
   <string name="payee">Tiers</string>
   <string name="payer">Tiers</string>
   <!-- payment methods -->
@@ -242,6 +253,7 @@
   <string name="pref_category_title_ui">Interface utilisateur</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
+  <string name="pref_category_title_security">Sécurité</string>
   <string name="pref_contrib_install_title">Installer App Contrib</string>
   <string name="pref_contrib_install_summary">En installant &app_name; Contrib, vous obtiendrez accès à toutes les fonctions Premium.</string>
   <string name="pref_currency_decimal_separator_title">Séparateur décimal pour l\'entrée des
@@ -269,6 +281,10 @@
   <string name="pref_manage_parties_summary">Effacer les tiers.</string>
   <string name="pref_manage_templates_title">Modèles</string>
   <string name="pref_manage_templates_summary">Appliquer ou supprimer les modèles.</string>
+  <string name="pref_password_empty">Le mot de passe ne doit pas être vide</string>
+  <string name="pref_password_not_equal">Les mots de passe sont différents</string>
+  <string name="pref_perform_protection_title">Protection par mot de passe</string>
+  <string name="pref_perform_protection_summary">Proteger le lancement et la reprise de l\'app?</string>
   <string name="pref_perform_share_title">Envoyer le fichier d\'export QIF</string>
   <string name="pref_perform_share_summary">Voulez vous envoyer le fichier QIF après chaque export
   </string>
@@ -346,4 +362,5 @@
   <string name="version_39_upgrade_info">Contribuer à &lt;i>&app_name;&lt;/i> est maintenant plus facile et plus intéressant.
   	Si vous installez &lt;i>&app_name; Contrib&lt;/i>, vous obtiendrez un accès illimité aux
     fonctionnalités Premium suivantes:&lt;br>%1$s</string>
+    <string name="version_40_upgrade_info">Maintenant, vous pouvez proteger &app_name; en spécifiant un mot de passe dans les paramètres (partie Securité).</string>
 </resources>
