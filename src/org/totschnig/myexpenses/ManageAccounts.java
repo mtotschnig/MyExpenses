@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -23,6 +25,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,6 +38,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 /**
@@ -47,15 +51,19 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
   private static final int ACTIVITY_CREATE=0;
   private static final int ACTIVITY_EDIT=1;
   private static final int DELETE_ID = Menu.FIRST;
+  private static final int RESET_ID = Menu.FIRST + 1;
   private static final int DELETE_COMMAND_ID = 1;
+  private static final int RESET_ACCOUNT_ALL_COMMAND_ID = 2;
   private ExpensesDbAdapter mDbHelper;
   Cursor mAccountsCursor;
   Cursor mCurrencyCursor;
   long mCurrentAccount;
-  private Button mAddButton, mAggregateButton;
+  private Button mAddButton, mAggregateButton, mResetAllButton;
   private long mContextAccountId;
+  private String mContextFeature;
   static final int DELETE_DIALOG_ID = 1;
   static final int AGGREGATE_DIALOG_ID = 2;
+  static final int RESET_ALL_DIALOG_ID = 3;
   private int mCurrentDialog = 0;
 
   @Override
@@ -78,6 +86,19 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
         if (MyApplication.getInstance().isContribEnabled) {
           showDialogWrapper(AGGREGATE_DIALOG_ID);
         } else {
+          mContextFeature = MyApplication.CONTRIB_FEATURE_AGGREGATE;
+          showDialog(R.id.CONTRIB_DIALOG);
+        }
+      }
+    });
+    mResetAllButton = (Button) findViewById(R.id.resetAll);
+    mResetAllButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if (MyApplication.getInstance().isContribEnabled) {
+          showDialogWrapper(RESET_ALL_DIALOG_ID);
+        } else {
+          mContextFeature = MyApplication.CONTRIB_FEATURE_RESET_ALL;
           showDialog(R.id.CONTRIB_DIALOG);
         }
       }
@@ -152,17 +173,41 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
       .setView(view)
       .create();
     case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,MyApplication.CONTRIB_FEATURE_AGGREGATE);
+      return DialogUtils.contribDialog(this,mContextFeature);
+    case R.id.RESET_DIALOG:
+      return DialogUtils.createMessageDialog(this,R.string.warning_reset_account,R.id.RESET_ACCOUNT_COMMAND_DO,null)
+          .create();
+    case RESET_ALL_DIALOG_ID:
+      return DialogUtils.createMessageDialog(this,R.string.warning_reset_account_all,RESET_ACCOUNT_ALL_COMMAND_ID,null)
+          .create();
     }
     return null;
   }
   public void onDialogButtonClicked(View v) {
     if (mCurrentDialog != 0)
       dismissDialog(mCurrentDialog);
-    if (v.getId() == DELETE_COMMAND_ID) {
+    int id=v.getId();
+    switch(id) {
+    case DELETE_COMMAND_ID:
       Account.delete(mContextAccountId);
-      fillData();
+      break;
+    case R.id.RESET_ACCOUNT_COMMAND_DO:
+      try {
+        Account account = Account.getInstanceFromDb(mContextAccountId);
+        if (account.exportAll(this) != null)
+          account.reset();
+      } catch (DataObjectNotFoundException e) {
+        //should not happen
+        Log.w("MyExpenses","unable to reset account " + mContextAccountId);
+      } catch (IOException e) {
+        Log.e("MyExpenses",e.getMessage());
+        Toast.makeText(this,getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
+      }
+      break;
+    case RESET_ACCOUNT_ALL_COMMAND_ID:
+      Toast.makeText(this,"not implemented yet", Toast.LENGTH_LONG).show();
     }
+    fillData();
   }
   /**
    * @param id we store the dialog id, so that we can dismiss it in our generic button handler
@@ -185,6 +230,7 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
       mCurrencyCursor.requery();
     }
     mAggregateButton.setVisibility(mCurrencyCursor.getCount() > 0 ? View.VISIBLE : View.GONE);
+    mResetAllButton.setVisibility(mDbHelper.getTransactionCountAll() > 0 ? View.VISIBLE : View.GONE);
 
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{"description","label","opening_balance","sum_income","sum_expenses","sum_transfer","current_balance"};
@@ -237,9 +283,10 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
       ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-    //currentAccount should not be deleted
-    if (info.id != mCurrentAccount)
-      menu.add(0, DELETE_ID, 0, R.string.menu_delete_account);
+    //currentAccount should not be deleted)
+    menu.add(0, DELETE_ID, 0, R.string.menu_delete);
+    if (mDbHelper.getTransactionCountPerAccount(info.id) > 0)
+       menu.add(0,RESET_ID,0,R.string.menu_reset);
   }
 
   @Override
@@ -253,6 +300,10 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
       //mDbHelper.deleteAccount(info.id);
       //fillData();
       return true;
+    case RESET_ID:
+      mContextAccountId = info.id;
+      showDialogWrapper(R.id.RESET_DIALOG);
+      return true;
     }
     return super.onContextItemSelected(item);
   }
@@ -261,6 +312,7 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
    outState.putLong("contextAccountId", mContextAccountId);
+   outState.putString("contextFeature", mContextFeature);
    outState.putInt("currentDialog",mCurrentDialog);
   }
   @Override
@@ -268,12 +320,16 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
    super.onRestoreInstanceState(savedInstanceState);
    mContextAccountId = savedInstanceState.getLong("contextAccountId");
    mCurrentDialog = savedInstanceState.getInt("currentDialog");
+   mContextFeature = savedInstanceState.getString("contextFeature");
   }
   @Override
   public void contribFeatureCalled(String feature) {
     removeDialog(R.id.CONTRIB_DIALOG);
-    Utils.recordUsage(MyApplication.CONTRIB_FEATURE_AGGREGATE);
-    showDialogWrapper(AGGREGATE_DIALOG_ID);
+    Utils.recordUsage(feature);
+    if (feature.equals(MyApplication.CONTRIB_FEATURE_AGGREGATE))
+      showDialogWrapper(AGGREGATE_DIALOG_ID);
+    else if (feature.equals(MyApplication.CONTRIB_FEATURE_RESET_ALL))
+      showDialogWrapper(RESET_ALL_DIALOG_ID);
   }
 
   @Override

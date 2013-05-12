@@ -19,7 +19,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
   <include android:id="@+id/ButtonBarDividerTop" layout="@layout/divider_thick"/>
-  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  <RelativeLayout
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       style="?attr/buttonBarStyle">
@@ -40,6 +40,12 @@
         android:visibility="gone"
         android:id="@+id/aggregate"
         android:drawableLeft="@drawable/ic_aggregated" />
+    <Button
+        android:text="@string/menu_reset_all"
+        style="@style/button"
+        android:visibility="gone"
+        android:id="@+id/resetAll"
+        android:drawableLeft="@android:drawable/ic_menu_revert" />
     </LinearLayout>
   </RelativeLayout>
   <include android:id="@+id/ButtonBarDividerBottom" layout="@layout/divider_thick"/>

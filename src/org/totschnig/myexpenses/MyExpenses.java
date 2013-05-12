@@ -818,83 +818,6 @@ public class MyExpenses extends ProtectedActivity
       }
     }
   }
-
-  /**
-   * writes all transactions of the current account to a QIF file
-   * if share_target preference is set, additionally does an FTP upload
-   * @throws IOException
-   */
-  private boolean exportAll() throws IOException {
-    SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
-    Log.i("MyExpenses","now starting export");
-    File appDir = Utils.requireAppDir();
-    if (appDir == null)
-      throw new IOException();
-    File outputFile = new File(appDir,
-        mCurrentAccount.label.replaceAll("\\W","") + "-" +
-        now.format(new Date()) + ".qif");
-    if (outputFile.exists()) {
-      Toast.makeText(this,String.format(getString(R.string.export_expenses_outputfile_exists), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
-      return false;
-    }
-    OutputStreamWriter out = new OutputStreamWriter(
-        new FileOutputStream(outputFile),
-        mSettings.getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
-    String header = "!Type:" + mCurrentAccount.type.getQifName() + "\n";
-    out.write(header);
-    mExpensesCursor = mDbHelper.fetchTransactionAll(mCurrentAccount.id);
-    mExpensesCursor.moveToFirst();
-    while( mExpensesCursor.getPosition() < mExpensesCursor.getCount() ) {
-      String comment = mExpensesCursor.getString(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
-      comment = (comment == null || comment.length() == 0) ? "" : "\nM" + comment;
-      String full_label = "";
-      String label_main =  mExpensesCursor.getString(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_LABEL_MAIN));
-
-      if (label_main != null && label_main.length() > 0) {
-        long transfer_peer = mExpensesCursor.getLong(
-            mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
-        if (transfer_peer != 0) {
-          full_label = "[" + label_main + "]";
-        } else {
-          full_label = label_main;
-          String label_sub =  mExpensesCursor.getString(
-              mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_LABEL_SUB));
-          if (label_sub != null && label_sub.length() > 0) {
-            full_label += ":" + label_sub;
-          }
-        }
-        full_label = "\nL" + full_label;
-      }
-
-      String payee = mExpensesCursor.getString(
-          mExpensesCursor.getColumnIndexOrThrow("payee"));
-      payee = (payee == null || payee.length() == 0) ? "" : "\nP" + payee;
-      String dateStr = formatter.format(Utils.fromSQL(mExpensesCursor.getString(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE))));
-      long amount = mExpensesCursor.getLong(
-          mExpensesCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT));
-      String amountStr = new Money(mCurrentAccount.currency,amount)
-          .getAmountMajor().toPlainString();
-      String row = "D"+ dateStr +
-          "\nT" + amountStr +
-          comment +
-          full_label +
-          payee +  
-           "\n^\n";
-      out.write(row);
-      mExpensesCursor.moveToNext();
-    }
-    out.close();
-    mExpensesCursor.moveToFirst();
-    Toast.makeText(getBaseContext(),String.format(getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
-    if (mSettings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
-      share(outputFile, mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
-    }
-    return true;
-  }
   
   private void share(File file,String target) {
     URI uri = null;
@@ -955,7 +878,11 @@ public class MyExpenses extends ProtectedActivity
    */
   private void reset() {
     try {
-      if (exportAll()) {
+      File output = mCurrentAccount.exportAll(this);
+      if (output != null) {
+        if (mSettings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
+          share(output, mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
+        }
         mCurrentAccount.reset();
         myAdapter.notifyDataSetChanged();
         configButtons();

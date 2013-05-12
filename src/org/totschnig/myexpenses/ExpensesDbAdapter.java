@@ -1185,15 +1185,19 @@ public class ExpensesDbAdapter {
     return getCountFromQuery(TABLE_TEMPLATES,KEY_METHODID +" = " + methodId,null);
   }
   /**
-   * @param cat_id
-   * @return number of transactions linked to a method
+   * @param accountId
+   * @return number of transactions for an account
    */
   public int getTransactionCountPerAccount(long accountId) {
-    return getCountFromQuery( TABLE_TRANSACTIONS,KEY_ACCOUNTID +" = " + accountId,null);
+    return getCountFromQuery(TABLE_TRANSACTIONS,KEY_ACCOUNTID +" = " + accountId,null);
+  }
+  
+  public int getTransactionCountAll() {
+    return getCountFromQuery(TABLE_TRANSACTIONS,null,null);
   }
 
   public int getContribFeatureUsages(String feature) {
-    return getCountFromQuery( TABLE_FEATURE_USED,"feature = ?",new String[] {feature});
+    return getCountFromQuery(TABLE_FEATURE_USED,"feature = ?",new String[] {feature});
   }
 
   public void incrFeatureUsages(String feature) {

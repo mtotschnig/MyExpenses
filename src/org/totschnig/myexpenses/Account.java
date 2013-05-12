@@ -15,13 +15,20 @@
 
 package org.totschnig.myexpenses;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 import java.util.Currency;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Account represents an account stored in the database.
@@ -357,6 +364,78 @@ public class Account {
     openingBalance.setAmountMinor(currentBalance);
     mDbHelper.updateAccountOpeningBalance(id,currentBalance);
     mDbHelper.deleteTransactionAll(this);
+  }
+  /**
+   * writes all transactions to a QIF file
+   * @throws IOException
+   */
+  public File exportAll(Context ctx) throws IOException {
+    SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
+    Log.i("MyExpenses","now starting export");
+    File appDir = Utils.requireAppDir();
+    if (appDir == null)
+      throw new IOException();
+    File outputFile = new File(appDir,
+        label.replaceAll("\\W","") + "-" +
+        now.format(new Date()) + ".qif");
+    if (outputFile.exists()) {
+      Toast.makeText(ctx,String.format(ctx.getString(R.string.export_expenses_outputfile_exists), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
+      return null;
+    }
+    OutputStreamWriter out = new OutputStreamWriter(
+        new FileOutputStream(outputFile),
+        MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
+    String header = "!Type:" + type.getQifName() + "\n";
+    out.write(header);
+    Cursor c = mDbHelper.fetchTransactionAll(id);
+    c.moveToFirst();
+    while( c.getPosition() < c.getCount() ) {
+      String comment = c.getString(
+          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
+      comment = (comment == null || comment.length() == 0) ? "" : "\nM" + comment;
+      String full_label = "";
+      String label_main =  c.getString(
+          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_LABEL_MAIN));
+
+      if (label_main != null && label_main.length() > 0) {
+        long transfer_peer = c.getLong(
+            c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
+        if (transfer_peer != 0) {
+          full_label = "[" + label_main + "]";
+        } else {
+          full_label = label_main;
+          String label_sub =  c.getString(
+              c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_LABEL_SUB));
+          if (label_sub != null && label_sub.length() > 0) {
+            full_label += ":" + label_sub;
+          }
+        }
+        full_label = "\nL" + full_label;
+      }
+
+      String payee = c.getString(
+          c.getColumnIndexOrThrow("payee"));
+      payee = (payee == null || payee.length() == 0) ? "" : "\nP" + payee;
+      String dateStr = formatter.format(Utils.fromSQL(c.getString(
+          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE))));
+      long amount = c.getLong(
+          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT));
+      String amountStr = new Money(currency,amount)
+          .getAmountMajor().toPlainString();
+      String row = "D"+ dateStr +
+          "\nT" + amountStr +
+          comment +
+          full_label +
+          payee +  
+           "\n^\n";
+      out.write(row);
+      c.moveToNext();
+    }
+    out.close();
+    c.moveToFirst();
+    Toast.makeText(ctx,String.format(ctx.getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
+    return outputFile;
   }
   
   /**
