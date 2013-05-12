@@ -206,7 +206,7 @@ public class SelectCategory extends ProtectedExpandableListActivity {
               menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
             menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
           }
-          menu.add(0,DELETE_CAT,0,R.string.menu_delete_cat);
+          menu.add(0,DELETE_CAT,0,R.string.menu_delete);
           menu.add(0,EDIT_CAT,0,R.string.menu_edit_cat);
     }
 

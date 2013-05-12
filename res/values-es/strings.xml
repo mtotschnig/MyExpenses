@@ -175,9 +175,6 @@
   <string name="menu_create_transaction_from_template_and_edit">Nueva y modificar</string>
   <string name="menu_create_transaction_from_template_and_save">Nueva y guardar</string>
   <string name="menu_delete">Borrar</string>
-  <string name="menu_delete_account">Borrar la cuenta</string>
-  <string name="menu_delete_cat">Borrar la categoría</string>
-  <string name="menu_delete_method">Borrar el método de pago</string>
   <string name="menu_edit_account">Modificar la cuenta</string>
   <string name="menu_edit_cat">Modificar la categoría</string>
   <string name="menu_edit_method">Modificar el método de pago</string>

@@ -86,7 +86,7 @@ public class ManageMethods extends ProtectedListActivity {
     try {
       method = PaymentMethod.getInstanceFromDb(info.id);
       if (method.predef == null) {
-        menu.add(0, DELETE_ID, 0, R.string.menu_delete_method);
+        menu.add(0, DELETE_ID, 0, R.string.menu_delete);
       }
     } catch (DataObjectNotFoundException e) {
       //should not happen

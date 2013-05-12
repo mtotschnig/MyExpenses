@@ -142,9 +142,6 @@
   <string name="menu_create_transaction_from_template_and_edit">Nova i modifica</string>
   <string name="menu_create_transaction_from_template_and_save">Nova i desar</string>
   <string name="menu_delete">Suprimeix</string>
-  <string name="menu_delete_account">Suprimeix el compte</string>
-  <string name="menu_delete_cat">Suprimeix la categoria</string>
-  <string name="menu_delete_method">Suprimeix el mètode de pagament</string>
   <string name="menu_edit_account">Modifica el compte</string>
   <string name="menu_edit_cat">Modifica la categoria</string>
   <string name="menu_edit_method">Modifica el mètode de pagament</string>

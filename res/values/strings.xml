@@ -170,9 +170,6 @@
   <string name="menu_create_template">Create template</string>
   <string name="menu_create_transaction_from_template_and_edit">New and edit</string>
   <string name="menu_create_transaction_from_template_and_save">New and save</string>
-  <string name="menu_delete_account">Delete Account</string>
-  <string name="menu_delete_cat">Delete category</string>
-  <string name="menu_delete_method">Delete method</string>
   <string name="menu_delete">Delete</string>
   <string name="menu_edit_account">Edit Account</string>
   <string name="menu_edit_method">Edit Payment Method</string>

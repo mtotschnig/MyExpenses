@@ -158,9 +158,6 @@
   <string name="menu_create_template">Şablon oluştur</string>
   <string name="menu_create_transaction_from_template_and_edit">Yeni ve düzenle</string>
   <string name="menu_create_transaction_from_template_and_save">Yeni ve kaydet</string>
-  <string name="menu_delete_account">Hesabı sil</string>
-  <string name="menu_delete_cat">Kategoriyi sil</string>
-  <string name="menu_delete_method">Metodu sil</string>
   <string name="menu_delete">Sil</string>
   <string name="menu_edit_account">Hesabı düzenle</string>
   <string name="menu_edit_method">Ödeme metodunu düzenle</string>

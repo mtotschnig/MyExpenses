@@ -172,9 +172,6 @@
   <string name="menu_create_transaction_from_template_and_edit">Nouveau et quitter</string>
   <string name="menu_create_transaction_from_template_and_save">Nouveau et sauver</string>  
   <string name="menu_delete">Effacer</string>
-  <string name="menu_delete_account">Effacer le compte</string>
-  <string name="menu_delete_cat">Supprimer la catégorie</string>
-  <string name="menu_delete_method">Supprimer la méthode de paiement</string>
   <string name="menu_edit_account">Éditer le compte</string>
   <string name="menu_edit_method">Éditer la méthode de paiement</string>
   <string name="menu_edit_cat">Éditer la catégorie</string>
