@@ -376,7 +376,6 @@ public class GrisbiImport extends ProtectedActivity implements DialogInterface.O
     mProgressDialog.setCancelable(false);
 
     IMPORT_SOURCES[0] = getString(R.string.grisbi_import_default_source);
-    //TODO
     IMPORT_SOURCES[1] = Environment.getExternalStorageDirectory().getPath() + "/myexpenses/grisbi.xml";
 
     mSourcesDialog = new AlertDialog.Builder(this)
