@@ -45,6 +45,7 @@ import android.content.DialogInterface;
 import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
@@ -375,7 +376,8 @@ public class GrisbiImport extends ProtectedActivity implements DialogInterface.O
     mProgressDialog.setCancelable(false);
 
     IMPORT_SOURCES[0] = getString(R.string.grisbi_import_default_source);
-    IMPORT_SOURCES[1] = "/sdcard/myexpenses/grisbi.xml";
+    //TODO
+    IMPORT_SOURCES[1] = Environment.getExternalStorageDirectory().getPath() + "/myexpenses/grisbi.xml";
 
     mSourcesDialog = new AlertDialog.Builder(this)
     .setTitle(R.string.dialog_title_select_import_source)
