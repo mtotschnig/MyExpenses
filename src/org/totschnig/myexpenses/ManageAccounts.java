@@ -17,7 +17,9 @@ package org.totschnig.myexpenses;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Currency;
+import java.util.Date;
 import java.util.Locale;
 
 import android.app.AlertDialog;
@@ -205,7 +207,39 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
       }
       break;
     case RESET_ACCOUNT_ALL_COMMAND_ID:
-      Toast.makeText(this,"not implemented yet", Toast.LENGTH_LONG).show();
+      File appDir = Utils.requireAppDir();
+      SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
+      if (appDir == null) {
+        Toast.makeText(this,getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
+        return;
+      }
+      File exportDir = new File(appDir,"export-" + now.format(new Date()));
+      if (exportDir.exists()) {
+        Toast.makeText(this,String.format(getString(R.string.export_expenses_outputfile_exists), exportDir.getAbsolutePath() ), Toast.LENGTH_LONG).show();
+        return;
+      }
+      exportDir.mkdir();
+      mAccountsCursor.moveToFirst();
+      while( mAccountsCursor.getPosition() < mAccountsCursor.getCount() ) {
+        long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+        if (mDbHelper.getTransactionCountPerAccount(accountId) > 0) {
+          try {
+            Account account = Account.getInstanceFromDb(accountId);
+            File outputFile = new File(exportDir,
+                account.label.replaceAll("\\W","") +  ".qif");
+            account.exportAllDo(outputFile);
+            Toast.makeText(this,String.format(this.getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
+            account.reset();
+          } catch (DataObjectNotFoundException e) {
+            //should not happen
+            Log.w("MyExpenses","unable to reset account " + accountId);
+          } catch (IOException e) {
+            Log.e("MyExpenses",e.getMessage());
+            Toast.makeText(this,getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
+          }
+        }
+        mAccountsCursor.moveToNext();
+      }
     }
     fillData();
   }

@@ -365,26 +365,10 @@ public class Account {
     mDbHelper.updateAccountOpeningBalance(id,currentBalance);
     mDbHelper.deleteTransactionAll(this);
   }
-  /**
-   * writes all transactions to a QIF file
-   * @throws IOException
-   */
-  public File exportAll(Context ctx) throws IOException {
-    SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
+  public void exportAllDo(File output) throws IOException {
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
-    Log.i("MyExpenses","now starting export");
-    File appDir = Utils.requireAppDir();
-    if (appDir == null)
-      throw new IOException();
-    File outputFile = new File(appDir,
-        label.replaceAll("\\W","") + "-" +
-        now.format(new Date()) + ".qif");
-    if (outputFile.exists()) {
-      Toast.makeText(ctx,String.format(ctx.getString(R.string.export_expenses_outputfile_exists), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
-      return null;
-    }
     OutputStreamWriter out = new OutputStreamWriter(
-        new FileOutputStream(outputFile),
+        new FileOutputStream(output),
         MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
     String header = "!Type:" + type.getQifName() + "\n";
     out.write(header);
@@ -433,7 +417,26 @@ public class Account {
       c.moveToNext();
     }
     out.close();
-    c.moveToFirst();
+    c.close();
+  }
+  /**
+   * writes all transactions to a QIF file
+   * @throws IOException
+   */
+  public File exportAll(Context ctx) throws IOException {
+    SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
+    Log.i("MyExpenses","now starting export");
+    File appDir = Utils.requireAppDir();
+    if (appDir == null)
+      throw new IOException();
+    File outputFile = new File(appDir,
+        label.replaceAll("\\W","") + "-" +
+        now.format(new Date()) + ".qif");
+    if (outputFile.exists()) {
+      Toast.makeText(ctx,String.format(ctx.getString(R.string.export_expenses_outputfile_exists), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
+      return null;
+    }
+    exportAllDo(outputFile);
     Toast.makeText(ctx,String.format(ctx.getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
     return outputFile;
   }
