@@ -819,59 +819,6 @@ public class MyExpenses extends ProtectedActivity
     }
   }
   
-  private void share(File file,String target) {
-    URI uri = null;
-    Intent intent;
-    String scheme = "mailto";
-    if (!target.equals("")) {
-      uri = Utils.validateUri(target);
-      if (uri == null) {
-        Toast.makeText(getBaseContext(),getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
-        return;
-      }
-      scheme = uri.getScheme();
-    }
-    //if we get a String that does not include a scheme, we interpret it as a mail address
-    if (scheme == null) {
-      scheme = "mailto";
-    }
-    if (scheme.equals("ftp")) {
-      intent = new Intent(android.content.Intent.ACTION_SENDTO);
-      intent.setDataAndType(android.net.Uri.parse(target),"text/qif");
-      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-      if (!Utils.isIntentAvailable(this,intent)) {
-        Toast.makeText(getBaseContext(),R.string.no_app_handling_ftp_available, Toast.LENGTH_LONG).show();
-        return;
-      }
-      startActivity(intent);
-    } else if (scheme.equals("mailto")) {
-      intent = new Intent(android.content.Intent.ACTION_SEND);
-      intent.setType("text/qif");
-      if (uri != null) {
-        String address = uri.getSchemeSpecificPart();
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ address });
-      }
-      intent.putExtra(Intent.EXTRA_SUBJECT,R.string.export_expenses);
-      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-      if (!Utils.isIntentAvailable(this,intent)) {
-        Toast.makeText(getBaseContext(),R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
-        return;
-      }
-      //if we got mail address, we launch the default application
-      //if we are called without target, we launch the chooser in order to make action more explicit
-      if (uri != null) {
-        startActivity(intent);
-      } else {
-        startActivity(Intent.createChooser(
-            intent,getString(R.string.share_sending)));
-      }
-    } else {
-      Toast.makeText(getBaseContext(),getString(R.string.share_scheme_not_supported,scheme), Toast.LENGTH_LONG).show();
-      return;
-    }
-  }
-
-  
   /**
    * triggers export of transactions and resets the account
    * (i.e. deletes transactions and updates opening balance)
@@ -881,7 +828,9 @@ public class MyExpenses extends ProtectedActivity
       File output = mCurrentAccount.exportAll(this);
       if (output != null) {
         if (mSettings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
-          share(output, mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
+          ArrayList<File> file = new ArrayList<File>();
+          file.add(output);
+          Utils.share(this,file, mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
         }
         mCurrentAccount.reset();
         myAdapter.notifyDataSetChanged();

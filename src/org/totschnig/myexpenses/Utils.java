@@ -32,6 +32,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
@@ -234,7 +235,71 @@ public class Utils {
     }
     return false;
   }
-
+  static void share(Context ctx, ArrayList<File> files,String target) {
+    URI uri = null;
+    Intent intent;
+    String scheme = "mailto";
+    boolean multiple = files.size() > 1;
+    if (!target.equals("")) {
+      uri = Utils.validateUri(target);
+      if (uri == null) {
+        Toast.makeText(ctx,ctx.getString(R.string.ftp_uri_malformed,target), Toast.LENGTH_LONG).show();
+        return;
+      }
+      scheme = uri.getScheme();
+    }
+    //if we get a String that does not include a scheme, we interpret it as a mail address
+    if (scheme == null) {
+      scheme = "mailto";
+    }
+    if (scheme.equals("ftp")) {
+      if (multiple) {
+        Toast.makeText(ctx,"sending multiple file through ftp is not supported", Toast.LENGTH_LONG).show();
+        return;
+      }
+      intent = new Intent(android.content.Intent.ACTION_SENDTO);
+      intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(files.get(0)));
+      intent.setDataAndType(android.net.Uri.parse(target),"text/qif");
+      if (!isIntentAvailable(ctx,intent)) {
+        Toast.makeText(ctx,R.string.no_app_handling_ftp_available, Toast.LENGTH_LONG).show();
+        return;
+      }
+      ctx.startActivity(intent);
+    } else if (scheme.equals("mailto")) {
+      if (multiple) {
+        intent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
+        ArrayList<Uri> uris = new ArrayList<Uri>();
+        for(File file : files) {
+          uris.add(Uri.fromFile(file));
+        }
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+      } else {
+        intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(files.get(0)));
+      }
+      intent.setType("text/qif");
+      if (uri != null) {
+        String address = uri.getSchemeSpecificPart();
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ address });
+      }
+      intent.putExtra(Intent.EXTRA_SUBJECT,R.string.export_expenses);
+      if (!isIntentAvailable(ctx,intent)) {
+        Toast.makeText(ctx,R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
+        return;
+      }
+      //if we got mail address, we launch the default application
+      //if we are called without target, we launch the chooser in order to make action more explicit
+      if (uri != null) {
+        ctx.startActivity(intent);
+      } else {
+        ctx.startActivity(Intent.createChooser(
+            intent,ctx.getString(R.string.share_sending)));
+      }
+    } else {
+      Toast.makeText(ctx,ctx.getString(R.string.share_scheme_not_supported,scheme), Toast.LENGTH_LONG).show();
+      return;
+    }
+  }
   public static void setBackgroundFilter(View v, int c) {
     v.getBackground().setColorFilter(c,PorterDuff.Mode.MULTIPLY);
   }
@@ -262,7 +327,7 @@ public class Utils {
   public static boolean doesPackageExist(Context context,String targetPackage){
     PackageManager pm=context.getPackageManager();
     try {
-     PackageInfo info=pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
+     pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
         } catch (NameNotFoundException e) {
      return false;
      }  

@@ -18,6 +18,7 @@ package org.totschnig.myexpenses;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
@@ -25,6 +26,7 @@ import java.util.Locale;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,7 +61,6 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
   private ExpensesDbAdapter mDbHelper;
   Cursor mAccountsCursor;
   Cursor mCurrencyCursor;
-  long mCurrentAccount;
   private Button mAddButton, mAggregateButton, mResetAllButton;
   private long mContextAccountId;
   private String mContextFeature;
@@ -77,9 +78,6 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
     setTitle(R.string.pref_manage_accounts_title);
     // Set up our adapter
     mDbHelper = MyApplication.db();
-    mCurrentAccount = MyApplication.getInstance()
-        .getSettings()
-        .getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
     mAddButton = (Button) findViewById(R.id.addOperation);
     mAggregateButton = (Button) findViewById(R.id.aggregate);
     mAggregateButton.setOnClickListener(new View.OnClickListener() {
@@ -219,15 +217,18 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
         return;
       }
       exportDir.mkdir();
+      File outputFile;
+      ArrayList<File> files = new ArrayList<File>();
       mAccountsCursor.moveToFirst();
       while( mAccountsCursor.getPosition() < mAccountsCursor.getCount() ) {
         long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
         if (mDbHelper.getTransactionCountPerAccount(accountId) > 0) {
           try {
             Account account = Account.getInstanceFromDb(accountId);
-            File outputFile = new File(exportDir,
+            outputFile = new File(exportDir,
                 account.label.replaceAll("\\W","") +  ".qif");
             account.exportAllDo(outputFile);
+            files.add(outputFile);
             Toast.makeText(this,String.format(this.getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
             account.reset();
           } catch (DataObjectNotFoundException e) {
@@ -239,6 +240,10 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
           }
         }
         mAccountsCursor.moveToNext();
+      }
+      SharedPreferences settings = MyApplication.getInstance().getSettings();
+      if (settings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
+        Utils.share(this,files, settings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
       }
     }
     fillData();
