@@ -71,6 +71,21 @@
     </para>
   </abstract>
   <releaseinfo role="generate-for-pdf"/>
+    <releaseinfo lang="en">This release (4) of the tutorial is slightly out of date. A new version
+    is in preparation.
+  </releaseinfo>
+  <releaseinfo lang="fr">Cette édition (4) du tutoriel n'est plus tout-à-fait d'actualité. Une nouvelle
+    version est en préparation.
+  </releaseinfo>
+  <releaseinfo lang="de">Diese Ausgabe (4) der Anleitung ist nicht mehr ganz aktuell. Eine neue Version
+    wird vorbereitet.
+  </releaseinfo>
+  <releaseinfo lang="it">Questa edizione (4) del tutorial è un po 'obsoleto. Una nuova versione
+     è in preparazione.
+  </releaseinfo>
+  <releaseinfo lang="es">Esta versión (4) del guía es un poco obsoleta. Una nueva versión
+     está en preparación.
+  </releaseinfo>
   </articleinfo>
 
   <sect1 id="introduction">
