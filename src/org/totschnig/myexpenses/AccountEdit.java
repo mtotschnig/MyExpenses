@@ -42,7 +42,7 @@ import android.widget.Toast;
 public class AccountEdit extends EditActivity {
   private static final String OPENINTENTS_COLOR_EXTRA = "org.openintents.extra.COLOR";
   private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
-  private static final int PICK_COLOR_REQUEST = 25;
+  private static final int PICK_COLOR_REQUEST = 11;
   private static final int CURRENCY_DIALOG_ID = 0;
   private static final int TYPE_DIALOG_ID = 1;
   private static final int COLOR_DIALOG_ID = 2;
@@ -50,7 +50,7 @@ public class AccountEdit extends EditActivity {
   private EditText mDescriptionText;
   private AutoCompleteTextView mCurrencyText;
   private Button mCurrencyButton;
-  private Button mTypeButton;
+  private Button mAccountTypeButton, mBalanceTypeButton;
   Account mAccount;
   private String[] currencyCodes;
   private String[] currencyDescs;
@@ -139,8 +139,8 @@ public class AccountEdit extends EditActivity {
       }
     });
     
-    mTypeButton = (Button) findViewById(R.id.TaType);
-    mTypeButton.setOnClickListener(new View.OnClickListener() {
+    mAccountTypeButton = (Button) findViewById(R.id.AccountType);
+    mAccountTypeButton.setOnClickListener(new View.OnClickListener() {
 
       public void onClick(View view) {
         showDialog(TYPE_DIALOG_ID);
@@ -207,7 +207,7 @@ public class AccountEdit extends EditActivity {
   }
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+    super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == PICK_COLOR_REQUEST) {
       if (resultCode == RESULT_OK) {
         mAccountColor = data.getExtras().getInt(OPENINTENTS_COLOR_EXTRA);
@@ -249,7 +249,7 @@ public class AccountEdit extends EditActivity {
           .setTitle(R.string.dialog_title_select_type)
           .setSingleChoiceItems(mTypes, checked, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-              mTypeButton.setText(mTypes[item]);
+              mAccountTypeButton.setText(mTypes[item]);
               mAccountType = Account.Type.values()[item];
               dismissDialog(TYPE_DIALOG_ID);
             }
@@ -302,16 +302,29 @@ public class AccountEdit extends EditActivity {
     } else {
       mAccount = new Account();
     }
+    mBalanceTypeButton = (Button) findViewById(R.id.TaType);
+    mBalanceTypeButton.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View view) {
+        mType = ! mType;
+        configureType();
+      }
+    });
     BigDecimal amount;
     if (mMinorUnitP) {
       amount = new BigDecimal(mAccount.openingBalance.getAmountMinor());
     } else {
       amount = mAccount.openingBalance.getAmountMajor();
     }
+    if (amount.signum() == -1) {
+      amount = amount.abs();
+    } else {
+      mType = INCOME;
+      configureType();
+    }
     mAmountText.setText(nfDLocal.format(amount));
     mCurrencyText.setText(mAccount.currency.getCurrencyCode());
     mAccountType = mAccount.type;
-    mTypeButton.setText(mAccountType.getDisplayName(this));
+    mAccountTypeButton.setText(mAccountType.getDisplayName(this));
     mAccountColor = mAccount.color;
     MyApplication.updateUIWithColor(this,mAccountColor);
     mColorText.setBackgroundColor(mAccountColor);
@@ -337,6 +350,9 @@ public class AccountEdit extends EditActivity {
       Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
       return false;
     }
+    if (mType == EXPENSE) {
+      openingBalance = openingBalance.negate();
+    }
     if (mMinorUnitP) {
       mAccount.openingBalance.setAmountMinor(openingBalance.longValue());
     } else {
@@ -357,6 +373,13 @@ public class AccountEdit extends EditActivity {
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
     mAccountType = Account.Type.valueOf(savedInstanceState.getString("accountType"));
-    mTypeButton.setText(mTypes[mAccountType.ordinal()]);
+    mAccountTypeButton.setText(mTypes[mAccountType.ordinal()]);
+    configureType();
+  }
+  /**
+   * updates interface based on type (EXPENSE or INCOME)
+   */
+  private void configureType() {
+    mBalanceTypeButton.setText(mType ? "+" : "-");
   }
 }

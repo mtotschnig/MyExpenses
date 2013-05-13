@@ -62,16 +62,7 @@
             android:id="@+id/AmountLabel"/>
         <LinearLayout
             android:orientation="horizontal">
-          <Button 
-              android:layout_width="60dp" 
-              android:layout_height="fill_parent" 
-              android:id="@+id/TaType" 
-              android:text="-"
-              style="@style/button" />
-          <EditText 
-              android:id="@+id/Amount" 
-              android:layout_width="fill_parent" 
-              android:layout_height="fill_parent"/>
+          <include layout="@layout/amount_input"/>
         </LinearLayout>
       </TableRow>
         

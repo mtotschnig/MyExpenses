@@ -15,8 +15,12 @@
 
 package org.totschnig.myexpenses;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.Calendar;
+
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
@@ -28,10 +32,15 @@ import android.widget.EditText;
 
 public abstract class EditActivity extends ProtectedActivity {
   public static final String CURRENCY_USE_MINOR_UNIT = "x";
+  private static final int CALCULATOR_REQUEST = 1;
   protected DecimalFormat nfDLocal;
   protected String mCurrencyDecimalSeparator;
   protected boolean mMinorUnitP;
   protected EditText mAmountText;
+  public static final boolean INCOME = true;
+  public static final boolean EXPENSE = false;
+  //stores if we deal with an EXPENSE or an INCOME
+  protected boolean mType = EXPENSE;
 
   public EditActivity() {
     super();
@@ -84,6 +93,31 @@ public abstract class EditActivity extends ProtectedActivity {
       mAmountText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
     }
     nfDLocal.setGroupingUsed(false);
+    findViewById(R.id.calculator).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(EditActivity.this,CalculatorInput.class);
+        intent.putExtra(MyApplication.EXTRA_AMOUNT,mAmountText.getText().toString());
+        startActivityForResult(intent, CALCULATOR_REQUEST);
+      }
+    });
   }
-  
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode,
+      Intent intent) {
+    super.onActivityResult(requestCode, resultCode, intent);
+    if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST) {
+      mAmountText.setText(intent.getStringExtra(MyApplication.EXTRA_AMOUNT));
+    }
+  }
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putBoolean("type", mType);
+  }
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    mType = savedInstanceState.getBoolean("type");
+  }
 }

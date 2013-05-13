@@ -64,11 +64,7 @@ public class ExpenseEdit extends EditActivity {
   private long mMethodId = 0;
   private String mLabel;
   private Transaction mTransaction;
-  
-  public static final boolean INCOME = true;
-  public static final boolean EXPENSE = false;
-  //stores if we deal with an EXPENSE or an INCOME
-  private boolean mType = EXPENSE;
+
   //normal transaction or transfer
   private boolean mOperationType;
 
@@ -77,6 +73,7 @@ public class ExpenseEdit extends EditActivity {
   static final int TIME_DIALOG_ID = 1;
   static final int ACCOUNT_DIALOG_ID = 2;
   static final int METHOD_DIALOG_ID = 3;
+  private static final int SELECT_CATEGORY_REQUEST = 11;
   
 /*  private int monkey_state = 0;
 
@@ -237,7 +234,7 @@ public class ExpenseEdit extends EditActivity {
   private void startSelectCategory() {
     Intent i = new Intent(this, SelectCategory.class);
     //i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
-    startActivityForResult(i, 0);
+    startActivityForResult(i, SELECT_CATEGORY_REQUEST);
   }
   /**
    * listens on changes in the date dialog and sets the date on the button
@@ -560,7 +557,8 @@ public class ExpenseEdit extends EditActivity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
-    if (intent != null) {
+    super.onActivityResult(requestCode, resultCode, intent);
+    if (requestCode == SELECT_CATEGORY_REQUEST && intent != null) {
       mCatId = intent.getLongExtra("cat_id",0);
       mLabel = intent.getStringExtra("label");
       mCategoryButton.setText(mLabel);
@@ -592,7 +590,6 @@ public class ExpenseEdit extends EditActivity {
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putBoolean("type", mType);
     outState.putSerializable("calendar", mCalendar);
     outState.putLong("catId", mCatId);
     outState.putLong("methodId", mMethodId);
@@ -601,7 +598,6 @@ public class ExpenseEdit extends EditActivity {
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
-    mType = savedInstanceState.getBoolean("type");
     mCalendar = (Calendar) savedInstanceState.getSerializable("calendar");
     mLabel = savedInstanceState.getString("label");
     mCatId = savedInstanceState.getLong("catId");

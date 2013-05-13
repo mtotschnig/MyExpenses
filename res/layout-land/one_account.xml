@@ -54,10 +54,10 @@
       <TableRow>
         <TextView style="@style/form_label"
             android:id="@+id/OpeningBalanceLabel"/>
-         <EditText
-             android:id="@+id/Amount" 
-             android:layout_width="wrap_content" 
-             android:layout_height="wrap_content" />
+        <LinearLayout
+            android:orientation="horizontal">
+          <include layout="@layout/amount_input"/>
+        </LinearLayout>
       </TableRow>
       
       <TableRow>
@@ -81,8 +81,8 @@
           <Button
               style="@style/button" android:layout_weight="1"
               android:layout_width="0dp"
-              android:layout_height="fill_parent" 
-              android:id="@+id/TaType" 
+              android:layout_height="fill_parent"
+              android:id="@+id/AccountType"
               android:text="@string/account_type_cash" />
           </LinearLayout>
       </TableRow>

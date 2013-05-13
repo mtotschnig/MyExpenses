@@ -81,5 +81,6 @@
               <category android:name="android.intent.category.DEFAULT" />  
             </intent-filter>
         </activity>
+        <activity android:name="CalculatorInput" android:theme="@android:style/Theme.Dialog"/>
     </application>
 </manifest> 
