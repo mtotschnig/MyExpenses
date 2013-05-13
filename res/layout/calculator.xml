@@ -1,0 +1,119 @@
+<!-- Copyright (c) 2010 Denis Solonenko. All rights reserved. This program 
+	and the accompanying materials are made available under the terms of the 
+	GNU Public License v2.0 which accompanies this distribution, and is available 
+	at http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
+	Contributors: Denis Solonenko - initial API and implementation
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:padding="3dp"
+	android:layout_margin="0dp">
+	<RelativeLayout android:layout_height="wrap_content"
+		android:layout_width="fill_parent">
+		<TextView android:background="@drawable/textfield_default"
+			android:paddingRight="8dp" android:id="@+id/result"
+			android:singleLine="true" android:textColor="#000000"
+			android:layout_width="fill_parent"
+			android:text="0" android:layout_height="64dp" android:gravity="right" android:textSize="36sp" android:paddingTop="12dp"/>
+		<TextView android:id="@+id/op" android:layout_width="wrap_content"
+			android:text="" android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_marginRight="10dp" android:textSize="20sp" android:layout_marginTop="-2dp"/>
+	</RelativeLayout>
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:layout_gravity="center">
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="7"
+			android:minWidth="@dimen/calculator_button_width" android:minHeight="@dimen/calculator_button_height"
+			android:textSize="24sp" android:id="@+id/b7" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:id="@+id/b8" android:text="8" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="9" android:id="@+id/b9" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="+" android:id="@+id/bAdd" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="C" android:id="@+id/bClear" android:textStyle="bold"
+			android:textColor="#f26522" android:layout_margin="3dp" />
+	</LinearLayout>
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:layout_gravity="center">
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:id="@+id/b4" android:text="4" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="5" android:id="@+id/b5" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="6" android:id="@+id/b6" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="-" android:id="@+id/bSubtract" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:id="@+id/bDelete" android:layout_margin="3dp" android:text="&lt;" />
+	</LinearLayout>
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:layout_gravity="center">
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="1" android:id="@+id/b1" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="2" android:id="@+id/b2" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="3" android:id="@+id/b3" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="*" android:id="@+id/bMultiply" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="%" android:id="@+id/bPercent" android:layout_margin="3dp" />
+	</LinearLayout>
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:layout_gravity="center">
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="0" android:id="@+id/b0" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="±" android:id="@+id/bPlusMinus" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="." android:id="@+id/bDot" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="/" android:id="@+id/bDivide" android:layout_margin="3dp" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:minWidth="@dimen/calculator_button_width"
+			android:minHeight="@dimen/calculator_button_height" android:textSize="24sp"
+			android:text="=" android:id="@+id/bResult" android:textColor="#39b54a"
+			android:textStyle="bold" android:layout_margin="3dp" />
+	</LinearLayout>
+	<include layout="@layout/ok_cancel_buttons" />
+</LinearLayout>
