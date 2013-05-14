@@ -347,6 +347,8 @@
   <string name="help_licence_quickactions">Includes BetterPopupWindow class from 
       http://code.google.com/p/simple-quickactions/ , licenced under 
       http://www.opensource.org/licenses/bsd-license.php .</string>
+  <string name="help_licence_financisto">Includes CalculatorInput class from https://launchpad.net/financisto
+      , licenced under GPL v2.0 .</string>
   <!-- strings below this comment do not need translations for new languages -->
   <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
   <string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with 
