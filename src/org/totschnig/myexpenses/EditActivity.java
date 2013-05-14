@@ -107,7 +107,7 @@ public abstract class EditActivity extends ProtectedActivity {
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST) {
-      mAmountText.setText(intent.getStringExtra(MyApplication.EXTRA_AMOUNT));
+      mAmountText.setText(nfDLocal.format(new BigDecimal(intent.getStringExtra(MyApplication.EXTRA_AMOUNT))));
     }
   }
   @Override
