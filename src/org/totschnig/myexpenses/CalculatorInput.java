@@ -7,7 +7,9 @@
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
- * adapted to My Expenses by Michael Totschnig
+ * adapted to My Expenses by Michael Totschnig:
+ * - added support for small screen height
+ * - retain state on orientation change
  ******************************************************************************/
 package org.totschnig.myexpenses;
 
@@ -36,7 +38,7 @@ public class CalculatorInput extends ProtectedActivity implements OnClickListene
 
     //private Vibrator vibrator;
 
-    private final Stack<String> stack = new Stack<String>();
+    private Stack<String> stack = new Stack<String>();
     private String result = "0";
     private boolean isRestart = true;
     private boolean isInEquals = false;
@@ -254,5 +256,22 @@ public class CalculatorInput extends ProtectedActivity implements OnClickListene
         data.putExtra(MyApplication.EXTRA_AMOUNT, result);
         setResult(RESULT_OK, data);
         finish();
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+      super.onSaveInstanceState(outState);
+      outState.putString("result", result);
+      outState.putChar("lastOp", lastOp);
+      outState.putSerializable("stack", stack);
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+      super.onRestoreInstanceState(savedInstanceState);
+      result = savedInstanceState.getString("result");
+      lastOp = savedInstanceState.getChar("lastOp");
+      stack = (Stack<String>) savedInstanceState.getSerializable("stack");
+      if (lastOp != '\0')
+        tvOp.setText(String.valueOf(lastOp));
+      tvResult.setText(result);
     }
 }
