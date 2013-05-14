@@ -190,6 +190,6 @@
 		<item name="android:shouldDisableView">false</item>
     <item name="android:selectable">false</item>
 	</style>
-  <dimen name="calculator_button_width">50dp</dimen>
-  <dimen name="calculator_button_height">50dp</dimen>
+  <dimen name="calculator_button_large">50dp</dimen>
+  <dimen name="calculator_button_small">40dp</dimen>
 </resources>
