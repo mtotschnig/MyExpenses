@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -55,17 +56,16 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
     }
     @Override
     protected void onDialogClosed(boolean positiveResult) {
-      MyApplication app = MyApplication.getInstance();
       super.onDialogClosed(positiveResult);
 
       if (positiveResult) {
         Editor editor = getEditor();
-        editor.putBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, boolProtect);
         if (boolProtect && strPass1 != null && strPass1.equals(strPass2)) {
           String hash = Utils.md5(strPass1);
           editor.putString(MyApplication.PREFKEY_SET_PASSWORD, hash);
         }
         editor.commit();
+        persistBoolean(boolProtect);
       }
     }
     @Override
@@ -75,10 +75,13 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
       protect = (CheckBox) view.findViewById(R.id.performProtection);
       change = (CheckBox) view.findViewById(R.id.changePassword);
       error        = (TextView) view.findViewById(R.id.passwordNoMatch);
+      ((TextView) view.findViewById(R.id.password_warning)).setText(
+          MyApplication.getInstance().isContribEnabled ?
+              R.string.warning_password_contrib : R.string.warning_password_no_contrib);
       main = (LinearLayout) view.findViewById(R.id.layoutMain);
       edit = (LinearLayout) view.findViewById(R.id.layoutPasswordEdit);
       SharedPreferences pref = getSharedPreferences();
-      boolProtectOrig = pref.getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false);
+      boolProtectOrig = getPersistedBoolean(false);
       boolProtect= boolProtectOrig;
       protect.setChecked(boolProtect);
       if (boolProtect) {

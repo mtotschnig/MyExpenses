@@ -21,12 +21,16 @@ import java.net.URI;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
+import android.view.View;
 import android.widget.Toast;
  
 /**
@@ -34,7 +38,7 @@ import android.widget.Toast;
  * @author Michael Totschnig
  *
  */
-public class MyPreferenceActivity extends ProtectedPreferenceActivity implements OnPreferenceChangeListener {
+public class MyPreferenceActivity extends ProtectedPreferenceActivity implements OnPreferenceChangeListener, OnSharedPreferenceChangeListener {
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
     MyApplication.updateUIWithAppColor(this);
-    
+    PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     ListPreference listPref = (ListPreference) 
         findPreference(MyApplication.PREFKEY_CURRENCY_DECIMAL_SEPARATOR);
     if (listPref.getValue() == null) {
@@ -82,7 +86,17 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       }
     });
     findPreference(MyApplication.PREFKEY_ENTER_LICENCE)
-    .setOnPreferenceChangeListener(this);
+      .setOnPreferenceChangeListener(this);
+    setPrefSecurityQuestion();
+
+    findPreference(MyApplication.PREFKEY_PERFORM_PROTECTION)
+      .setOnPreferenceChangeListener(this);
+  }
+  private void setPrefSecurityQuestion() {
+    Preference pref;
+    pref = findPreference("security_question");
+    pref.setEnabled( MyApplication.getInstance().isContribEnabled &&
+        MyApplication.getInstance().getSettings().getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false));
   }
   @Override
   public boolean onPreferenceChange(Preference pref, Object value) {
@@ -118,6 +132,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
      if (Utils.verifyLicenceKey((String)value)) {
        Toast.makeText(getBaseContext(), R.string.licence_validation_success, Toast.LENGTH_LONG).show();
        MyApplication.getInstance().isContribEnabled = true;
+       setPrefSecurityQuestion();
      } else {
        Toast.makeText(getBaseContext(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
        MyApplication.getInstance().isContribEnabled = false;
@@ -129,8 +144,15 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   protected Dialog onCreateDialog(int id) {
     switch(id) {
     case R.id.FTP_DIALOG:
-    return DialogUtils.sendWithFTPDialog((Activity) this);
+      return DialogUtils.sendWithFTPDialog((Activity) this);
     }
     return null;
+  }
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+      String key) {
+    if (key.equals(MyApplication.PREFKEY_PERFORM_PROTECTION)) {
+      setPrefSecurityQuestion();
+    }
   }
 }

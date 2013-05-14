@@ -291,6 +291,8 @@
   <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate 
       apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes
   </string>
+  <string name="pref_security_question_title">Security question</string>
+  <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password. Requires &app_name; Contrib.</string>
   <string name="pref_ui_theme_title">Theme</string>
   <string name="pref_ui_theme_summary">Choose between light and dark</string>
   <string name="pref_ui_theme_dark">dark</string>
@@ -332,6 +334,9 @@
       backup will be overwritten. Do you want to continue?</string>
   <string name="warning_delete_account">This account will be deleted with all its transactions.
       Do you want to continue?</string>
+  <string name="warning_password_no_contrib">If you set a password, take care to not forget it. You will not be able to recover it, unless you install
+  	&app_name; Contrib which allows you to set a security question.</string>
+  <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
   <string name="warning_reset_account">All transactions of this account will be exported into QIF file 
       on SD-card and deleted. Do you want to continue?</string>
   <string name="warning_reset_account_all">For all accounts, transactions will be exported into QIF files

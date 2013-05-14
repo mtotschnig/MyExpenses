@@ -135,5 +135,9 @@
         android:key="@string/pref_perform_protection_key"
         android:title="@string/pref_perform_protection_title"
         android:summary="@string/pref_perform_protection_summary"/>
+     <org.totschnig.myexpenses.PasswordPreference
+        android:key="@string/pref_security_question_key"
+        android:title="@string/pref_security_question_title"
+        android:summary="@string/pref_security_question_summary"/>
    </PreferenceCategory>
 </PreferenceScreen> 
