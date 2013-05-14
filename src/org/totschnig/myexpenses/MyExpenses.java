@@ -1308,7 +1308,7 @@ public class MyExpenses extends ProtectedActivity
      */
     @Override
     public Object instantiateItem(View collection, int position) {
-      Account account;
+      final Account account;
       mAccountsCursor.moveToPosition(position);
       long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
       try {
@@ -1362,7 +1362,7 @@ public class MyExpenses extends ProtectedActivity
             text = Utils.convDate(text,dateFormat);
             break;
           case R.id.amount:
-            text = Utils.convAmount(text,mCurrentAccount.currency);
+            text = Utils.convAmount(text,account.currency);
           }
           super.setViewText(v, text);
         }
