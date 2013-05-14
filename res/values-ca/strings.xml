@@ -121,8 +121,8 @@
       - <b>Ayuda</b> : Accediu al tutorial, noticies, preguntes freqüents i als canvis.\n
       \nTrobareu explicacions detallades <a href="http://myexpenses.totschnig.org/#tutorial_r4">al manual</a> per a explicacions detallades.
   </string>
-  <string name="help_whats_new">&#160;- Protecció per contrasenya.\n
-    - Arreglat el problema amb el maneig de la data en alguns idiomes (àrab, bengalí, persa, hindi, marathi, pashto, tamil).</string>
+<!--   <string name="help_whats_new">&#160;- Protecció per contrasenya.\n
+    - Arreglat el problema amb el maneig de la data en alguns idiomes (àrab, bengalí, persa, hindi, marathi, pashto, tamil).</string> -->
   <string name="import_categories">Importa categories</string>
   <string name="important_version_information">Informació important</string>
   <string name="income">ingrés</string>
