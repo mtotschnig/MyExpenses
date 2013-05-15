@@ -58,6 +58,7 @@ public class MyApplication extends Application {
     public static String PREFKEY_PERFORM_PROTECTION;
     public static String PREFKEY_SET_PASSWORD;
     public static String PREFKEY_SECURITY_ANSWER;
+    public static String PREFKEY_SECURITY_QUESTION;
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static int currentAccountColor;
     public static String BUILD_DATE = "";
@@ -116,6 +117,7 @@ public class MyApplication extends Application {
         PREFKEY_PERFORM_PROTECTION = getString(R.string.pref_perform_protection_key);
         PREFKEY_SET_PASSWORD = getString(R.string.pref_set_password_key);
         PREFKEY_SECURITY_ANSWER = getString(R.string.pref_security_answer_key);
+        PREFKEY_SECURITY_QUESTION = getString(R.string.pref_security_question_key);
         //mDbOpenHelper = db();
         try {
           InputStream rawResource = getResources().openRawResource(R.raw.app);
@@ -180,9 +182,6 @@ public class MyApplication extends Application {
     }
     public void setDatabaseName(String s) {
       databaseName = s;
-    }
-    protected String getPasswordHash() {
-      return settings.getString(PREFKEY_SET_PASSWORD,"");
     }
     public boolean backup() {
       File appDir, backupPrefFile, sharedPrefFile;
@@ -353,7 +352,7 @@ public class MyApplication extends Application {
      * sets isLocked as a side effect
      */
     public boolean shouldLock() {
-      if (settings.getBoolean(getString(R.string.pref_perform_protection_key), false) && System.nanoTime() - getmLastPause() > PASSWORD_CHECK_DELAY_NANO_SECONDS) {
+      if (settings.getBoolean(PREFKEY_PERFORM_PROTECTION, false) && System.nanoTime() - getmLastPause() > PASSWORD_CHECK_DELAY_NANO_SECONDS) {
         isLocked = true;
         return true;
       }

@@ -227,6 +227,7 @@
       %1$s</string>
   <string name="password_prompt">Enter your password</string>
   <string name="password_not_valid">Password invalid. Try again!</string>
+  <string name="password_security_answer_not_valid">Wrong answer. Try again!</string>
   <string name="payee">Payee</string>
   <string name="payer">Payer</string>
   <!-- payment methods -->

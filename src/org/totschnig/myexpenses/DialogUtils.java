@@ -21,6 +21,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.Html;
 import android.view.ContextThemeWrapper;
@@ -184,30 +185,66 @@ public class DialogUtils {
     dlg.show();
   }
   public static Dialog passwordDialog(final Activity ctx) {
+    final SharedPreferences settings = MyApplication.getInstance().getSettings();
+    final String securityQuestion = settings.getString(MyApplication.PREFKEY_SECURITY_QUESTION, "");
+    Button okBtn;
     LayoutInflater li = LayoutInflater.from(new ContextThemeWrapper(ctx, MyApplication.getThemeId()));
     View view = li.inflate(R.layout.password_check, null);
     final EditText input = (EditText) view.findViewById(R.id.password);
     final TextView error = (TextView) view.findViewById(R.id.passwordInvalid);
-    view.findViewById(R.id.POSITIVE_BUTTON).setVisibility(View.INVISIBLE);
-    view.findViewById(R.id.NEGATIVE_BUTTON).setVisibility(View.INVISIBLE);
     final AlertDialog pwDialog = new AlertDialog.Builder(ctx)
       .setTitle(R.string.password_prompt)
       .setView(view)
       .setCancelable(false)
       .create();
-    Button btn = (Button) view.findViewById(R.id.NEUTRAL_BUTTON);
-    btn.setText(android.R.string.ok);
-    btn.setOnClickListener(new View.OnClickListener() {
+    final Button lostBtn = (Button) view.findViewById(R.id.NEGATIVE_BUTTON);
+    if (MyApplication.getInstance().isContribEnabled && !securityQuestion.equals("")) {
+      view.findViewById(R.id.NEUTRAL_BUTTON).setVisibility(View.GONE);
+      okBtn = (Button) view.findViewById(R.id.POSITIVE_BUTTON);
+      lostBtn.setText("Lost password");
+      lostBtn.setOnClickListener(new View.OnClickListener() {
+        public void onClick(View v) {
+          if ((Boolean) input.getTag()) {
+            input.setTag(Boolean.valueOf(false));
+            lostBtn.setText("Lost password");
+            pwDialog.setTitle(R.string.password_prompt);
+            input.setText("");
+            error.setText("");
+          } else {
+            input.setTag(Boolean.valueOf(true));
+            pwDialog.setTitle(securityQuestion);
+            lostBtn.setText("Cancel");
+          }
+        }
+      });
+    } else {
+      view.findViewById(R.id.POSITIVE_BUTTON).setVisibility(View.INVISIBLE);
+      view.findViewById(R.id.NEGATIVE_BUTTON).setVisibility(View.INVISIBLE);
+      okBtn = (Button) view.findViewById(R.id.NEUTRAL_BUTTON);
+    }
+    okBtn.setText(android.R.string.ok);
+    // we store as tag the state of the dialog: false => we check the password; true => we check the security question
+    input.setTag(Boolean.valueOf(false));
+    okBtn.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         String value = input.getText().toString();
-        if (Utils.md5(value).equals(MyApplication.getInstance().getPasswordHash())) {
+        boolean isInSecurityQuestion = (Boolean) input.getTag();
+        if (Utils.md5(value).equals(settings.getString(
+            isInSecurityQuestion ? MyApplication.PREFKEY_SECURITY_ANSWER : MyApplication.PREFKEY_SET_PASSWORD,""))) {
           input.setText("");
           error.setText("");
           MyApplication.getInstance().isLocked = false;
           ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
+          if (isInSecurityQuestion) {
+            settings.edit().putBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false).commit();
+            Toast.makeText(ctx.getBaseContext(),"The password protection has been disabled", Toast.LENGTH_LONG).show();
+            lostBtn.setText("Lost password");
+            pwDialog.setTitle(R.string.password_prompt);
+            input.setTag(Boolean.valueOf(false));
+          }
           pwDialog.dismiss();
         } else {
-          error.setText(R.string.password_not_valid);
+          error.setText(isInSecurityQuestion ? R.string.password_security_answer_not_valid : R.string.password_not_valid);
         }
       }
     });
