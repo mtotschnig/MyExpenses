@@ -162,7 +162,7 @@
       aviez défini plusieurs. Au départ, il n\'y en a qu\'un seul. Voulez-vous en créer un deuxième maintenant.</string>
   <string name="menu_accounts_new">Nouveau &#8230;</string>
   <string name="menu_accounts_summary">Sommaire</string>
-  <string name="menu_aggregate">Somme totale</string>
+  <string name="menu_aggregate">Total</string>
   <string name="menu_backup">Sauvegarde</string>
   <string name="menu_change_account">Changer de compte</string>
   <string name="menu_contrib">Contribuer</string>
@@ -190,6 +190,7 @@
   <string name="menu_new_from_template">Nouveau d\'après modèle</string>
   <string name="menu_reset">Réinitialiser</string>
   <string name="menu_reset_abrev">Réinit.</string>
+  <string name="menu_reset_all">Tous</string>
   <string name="menu_settings">Paramètres</string>
   <string name="menu_settings_abrev">Param.</string>
   <string name="menu_settings_account">Compte en cours</string>

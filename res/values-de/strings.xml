@@ -165,7 +165,7 @@
   </string>
   <string name="menu_accounts_new">Neu &#8230;</string>
   <string name="menu_accounts_summary">Zusammenfassung</string>
-  <string name="menu_aggregate">Gesamtsumme</string>
+  <string name="menu_aggregate">Gesamt</string>
   <string name="menu_backup">Sicherungskopie</string>
   <string name="menu_change_account">Konto wechseln</string>
   <string name="menu_contrib">Beitragen</string>
@@ -193,6 +193,7 @@
   <string name="menu_new_from_template">Neu aus Vorlage</string>
   <string name="menu_reset">Zurücksetzen</string>
   <string name="menu_reset_abrev">Zurücks.</string>
+  <string name="menu_reset_all">Alle</string>
   <string name="menu_settings">Einstellungen</string>
   <string name="menu_settings_abrev">Einstel.</string>
   <string name="menu_settings_account">Aktuelles Konto</string>
