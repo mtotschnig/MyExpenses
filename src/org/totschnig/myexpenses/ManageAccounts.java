@@ -206,12 +206,12 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
       break;
     case RESET_ACCOUNT_ALL_COMMAND_ID:
       File appDir = Utils.requireAppDir();
-      SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
+      String now = new SimpleDateFormat("ddMM-HHmm",Locale.US).format(new Date());
       if (appDir == null) {
         Toast.makeText(this,getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
         return;
       }
-      File exportDir = new File(appDir,"export-" + now.format(new Date()));
+      File exportDir = new File(appDir,"export-" + now);
       if (exportDir.exists()) {
         Toast.makeText(this,String.format(getString(R.string.export_expenses_outputfile_exists), exportDir.getAbsolutePath() ), Toast.LENGTH_LONG).show();
         return;
@@ -226,7 +226,7 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
           try {
             Account account = Account.getInstanceFromDb(accountId);
             outputFile = new File(exportDir,
-                account.label.replaceAll("\\W","") +  ".qif");
+                account.label.replaceAll("\\W","") + "-" + now +  ".qif");
             account.exportAllDo(outputFile);
             files.add(outputFile);
             Toast.makeText(this,String.format(this.getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
