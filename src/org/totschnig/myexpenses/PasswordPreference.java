@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -59,12 +58,12 @@ public class PasswordPreference extends DialogPreference implements TextWatcher,
       super.onDialogClosed(positiveResult);
 
       if (positiveResult) {
-        Editor editor = getEditor();
         if (boolProtect && strPass1 != null && strPass1.equals(strPass2)) {
+          Editor editor = getEditor();
           String hash = Utils.md5(strPass1);
           editor.putString(MyApplication.PREFKEY_SET_PASSWORD, hash);
+          editor.commit();
         }
-        editor.commit();
         persistBoolean(boolProtect);
       }
     }

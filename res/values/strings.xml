@@ -82,6 +82,8 @@
   <string name="dialog_remind_rate_yes">Rate now</string>
   <string name="dialog_remind_later">Later</string>
   <string name="dialog_remind_no">No thanks</string>
+  <string name="dialog_security_question">Question</string>
+  <string name="dialog_security_answer">Answer</string>
   <string name="dialog_title_select_account">Pick an account</string>
   <string name="dialog_title_select_color">Pick a color</string>
   <string name="dialog_title_select_import_source">Pick a source for import</string>
