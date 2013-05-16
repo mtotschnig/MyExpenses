@@ -471,6 +471,30 @@
           </para>
         </answer>
       </qandaentry>
+      <qandaentry id="faq-contrib-es" lang="es">
+        <question id="faq-contrib-q-es">
+          <para>
+            Clave Contrib. ¿Qué es eso?
+          </para>
+        </question>
+        <answer>
+          <para>
+            <application role="app_name"/> se distribuye con algunas características premium que
+            usted puede probar cinco veces de forma gratuita y que son desbloqueadas al instalar una
+            versión pagada <ulink url="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">contrib
+              app</ulink> desde Google Play. Es posible que sea necesario iniciar
+            <application role="app_name"/> una vez desde la pantalla principal de la aplicación
+            contrib con el fin de que sea consciente de la aplicación contrib. Pero en este caso
+            usted no necesita ninguna clave contrib. Una clave contrib es un mecanismo para
+            desbloquear las características premium sin la instalación de la aplicación contrib.
+            Enviaré esta clave a usuarios que contribuyen al desarrollo de la aplicación por otros
+            medios, por ejemplo por la traducción de la interfaz de usuario o poniendo a prueba
+            pre-versiones. Se calcula la clave basada en el Android-ID de su dispositivo que usted
+            puede comunicar a través la <guilabel role="pref_request_licence_title"/>
+            entrada en la <guilabel role="menu_settings"/> pantalla.
+          </para>
+        </answer>
+      </qandaentry>
       <qandaentry id="faq-contrib-fr" lang="fr">
         <question id="faq-contrib-q-fr">
           <para>
@@ -479,7 +503,19 @@
         </question>
         <answer>
           <para>
-
+            <application role="app_name"/> est distribué avec quelques fonctionnalités Premium qui
+            peuvent être essayées cinq fois, puis peuvent être déverrouillées par l'installation
+            d'une <ulink url="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">app
+              contrib</ulink> payante de Google Play. Éventuellement il faut lancer <application
+            role="app_name"/> une fois à partir de l'écran d'accueil de la contrib app, afin que
+            l'installation de celle-ci soit pris en compte. Mais vous n'avez pas besoin de clé
+            contrib dans ce cas. Une clé contrib est un mécanisme permettant de déverrouiller les
+            fonctionnalités Premium sans installation de l'app contrib. J'envoie cette clé aux
+            utilisateurs qui contribuent au développement de <application role="app_name"/> par
+            d'autres moyens, par exemple la traduction de l'interface utilisateur ou en testant les
+            pré-versions. La clé est calculée sur la base de l'Android-ID de votre appareil, que
+            vous pouvez me communiquer par l'entrée <guilabel role="pref_request_licence_title" />
+            dans l'écran <guilabel role="menu_settings"/>.
           </para>
         </answer>
       </qandaentry>
