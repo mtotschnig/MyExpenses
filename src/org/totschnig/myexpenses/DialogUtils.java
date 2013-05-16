@@ -195,7 +195,12 @@ public class DialogUtils {
     final AlertDialog pwDialog = new AlertDialog.Builder(ctx)
       .setTitle(R.string.password_prompt)
       .setView(view)
-      .setCancelable(false)
+      .setOnCancelListener(new DialogInterface.OnCancelListener() {
+          @Override
+          public void onCancel(DialogInterface dialog) {
+            ctx.moveTaskToBack(true);
+          }
+        })
       .create();
     final Button lostBtn = (Button) view.findViewById(R.id.NEGATIVE_BUTTON);
     if (MyApplication.getInstance().isContribEnabled && !securityQuestion.equals("")) {
