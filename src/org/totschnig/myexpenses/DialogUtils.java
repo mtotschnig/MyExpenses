@@ -209,12 +209,12 @@ public class DialogUtils {
       lostBtn.setText("Lost password");
       lostBtn.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
+          input.setText("");
+          error.setText("");
           if ((Boolean) input.getTag()) {
             input.setTag(Boolean.valueOf(false));
             lostBtn.setText("Lost password");
             pwDialog.setTitle(R.string.password_prompt);
-            input.setText("");
-            error.setText("");
           } else {
             input.setTag(Boolean.valueOf(true));
             pwDialog.setTitle(securityQuestion);
@@ -249,6 +249,7 @@ public class DialogUtils {
           }
           pwDialog.dismiss();
         } else {
+          input.setText("");
           error.setText(isInSecurityQuestion ? R.string.password_security_answer_not_valid : R.string.password_not_valid);
         }
       }
