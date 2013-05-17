@@ -153,6 +153,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       String key) {
     if (key.equals(MyApplication.PREFKEY_PERFORM_PROTECTION)) {
       setPrefSecurityQuestion();
+    } else if (key.equals(MyApplication.PREFKEY_PROTECTION_DELAY_SECONDS)) {
+      MyApplication.setPasswordCheckDelayNanoSeconds() ;
     }
   }
 }

@@ -287,6 +287,8 @@
   <string name="pref_perform_share_summary">Should the QIF file be shared after each export?</string>
   <string name="pref_perform_protection_title">Password protection</string>
   <string name="pref_perform_protection_summary">Should app launches and resumes be protected?</string>
+  <string name="pref_protection_delay_seconds_title">Delay until protection</string>
+  <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password</string>
   <string name="pref_qif_export_file_encoding_title">Character encoding of the QIF file</string>
   <string name="pref_qif_export_file_encoding_summary">Set the character encoding to \"ISO-8859-1\" if you use MS Money.</string>
   <string name="pref_request_licence_title">Request a Contrib key</string>

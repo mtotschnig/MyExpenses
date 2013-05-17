@@ -59,6 +59,7 @@ public class MyApplication extends Application {
     public static String PREFKEY_SET_PASSWORD;
     public static String PREFKEY_SECURITY_ANSWER;
     public static String PREFKEY_SECURITY_QUESTION;
+    public static String PREFKEY_PROTECTION_DELAY_SECONDS;
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static int currentAccountColor;
     public static String BUILD_DATE = "";
@@ -74,7 +75,10 @@ public class MyApplication extends Application {
     /**
      * how many nanoseconds should we wait before prompting for the password
      */
-    public static long PASSWORD_CHECK_DELAY_NANO_SECONDS = 10000000000L;
+    public static long passwordCheckDelayNanoSeconds;
+    public static void setPasswordCheckDelayNanoSeconds() {
+      MyApplication.passwordCheckDelayNanoSeconds = mSelf.settings.getInt(PREFKEY_PROTECTION_DELAY_SECONDS, 15) * 1000000000L;
+    }
     /**
      * how many times contrib features can be used for free
      */
@@ -118,7 +122,8 @@ public class MyApplication extends Application {
         PREFKEY_SET_PASSWORD = getString(R.string.pref_set_password_key);
         PREFKEY_SECURITY_ANSWER = getString(R.string.pref_security_answer_key);
         PREFKEY_SECURITY_QUESTION = getString(R.string.pref_security_question_key);
-        //mDbOpenHelper = db();
+        PREFKEY_PROTECTION_DELAY_SECONDS = getString(R.string.pref_protection_delay_seconds_key);
+        setPasswordCheckDelayNanoSeconds();
         try {
           InputStream rawResource = getResources().openRawResource(R.raw.app);
           Properties properties = new Properties();
@@ -348,11 +353,11 @@ public class MyApplication extends Application {
     }
     /**
      * @return true if password protection is set, and
-     * we have paused for at least {@link #PASSWORD_CHECK_DELAY_NANO_SECONDS} seconds
+     * we have paused for at least {@link #passwordCheckDelayNanoSeconds} seconds
      * sets isLocked as a side effect
      */
     public boolean shouldLock() {
-      if (settings.getBoolean(PREFKEY_PERFORM_PROTECTION, false) && System.nanoTime() - getmLastPause() > PASSWORD_CHECK_DELAY_NANO_SECONDS) {
+      if (settings.getBoolean(PREFKEY_PERFORM_PROTECTION, false) && System.nanoTime() - getmLastPause() > passwordCheckDelayNanoSeconds) {
         isLocked = true;
         return true;
       }

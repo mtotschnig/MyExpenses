@@ -135,6 +135,13 @@
         android:key="@string/pref_perform_protection_key"
         android:title="@string/pref_perform_protection_title"
         android:summary="@string/pref_perform_protection_summary"/>
+     <org.totschnig.myexpenses.SeekBarPreference xmlns:my="http://myexpenses.totschnig.org"
+      android:key="@string/pref_protection_delay_seconds_key"
+      android:title="@string/pref_protection_delay_seconds_title"
+      android:summary="@string/pref_protection_delay_seconds_summary"
+      android:defaultValue="15" android:max="90" my:min="5"
+      my:unitsLeft=""
+      my:unitsRight=" &#8243;"/>
      <org.totschnig.myexpenses.SecurityQuestion
         android:key="@string/pref_security_question_key"
         android:title="@string/pref_security_question_title"
