@@ -228,6 +228,9 @@
   <string name="password_prompt">Enter your password</string>
   <string name="password_not_valid">Password invalid. Try again!</string>
   <string name="password_security_answer_not_valid">Wrong answer. Try again!</string>
+  <string name="password_lost">Lost password</string>
+  <string name="password_disabled_reenable">The password protection has been disabled.
+    You can reenable it in the settings.</string>
   <string name="payee">Payee</string>
   <string name="payer">Payer</string>
   <!-- payment methods -->

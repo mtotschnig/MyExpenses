@@ -206,19 +206,19 @@ public class DialogUtils {
     if (MyApplication.getInstance().isContribEnabled && !securityQuestion.equals("")) {
       view.findViewById(R.id.NEUTRAL_BUTTON).setVisibility(View.GONE);
       okBtn = (Button) view.findViewById(R.id.POSITIVE_BUTTON);
-      lostBtn.setText("Lost password");
+      lostBtn.setText(R.string.password_lost);
       lostBtn.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
           input.setText("");
           error.setText("");
           if ((Boolean) input.getTag()) {
             input.setTag(Boolean.valueOf(false));
-            lostBtn.setText("Lost password");
+            lostBtn.setText(R.string.password_lost);
             pwDialog.setTitle(R.string.password_prompt);
           } else {
             input.setTag(Boolean.valueOf(true));
             pwDialog.setTitle(securityQuestion);
-            lostBtn.setText("Cancel");
+            lostBtn.setText(android.R.string.cancel);
           }
         }
       });
@@ -242,8 +242,8 @@ public class DialogUtils {
           ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
           if (isInSecurityQuestion) {
             settings.edit().putBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false).commit();
-            Toast.makeText(ctx.getBaseContext(),"The password protection has been disabled", Toast.LENGTH_LONG).show();
-            lostBtn.setText("Lost password");
+            Toast.makeText(ctx.getBaseContext(),R.string.password_disabled_reenable, Toast.LENGTH_LONG).show();
+            lostBtn.setText(R.string.password_lost);
             pwDialog.setTitle(R.string.password_prompt);
             input.setTag(Boolean.valueOf(false));
           }
