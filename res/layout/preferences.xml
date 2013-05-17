@@ -139,7 +139,7 @@
       android:key="@string/pref_protection_delay_seconds_key"
       android:title="@string/pref_protection_delay_seconds_title"
       android:summary="@string/pref_protection_delay_seconds_summary"
-      android:defaultValue="15" android:max="90" my:min="5"
+      android:defaultValue="15" android:max="90" my:min="1"
       my:unitsLeft=""
       my:unitsRight=" &#8243;"/>
      <org.totschnig.myexpenses.SecurityQuestion
