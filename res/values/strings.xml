@@ -148,7 +148,9 @@
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
   <string name="help_whats_new">&#160;- Reset all accounts&contrib;.\n
-    - Calculator.</string>
+    - Calculator.\n
+    - Security question for lost password&contrib;.\n
+    - Make delay for password protection configurable.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">income</string>
