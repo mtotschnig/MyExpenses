@@ -74,7 +74,7 @@
     Por favor, contribuye instalando la versión pagada Contrib. Usted va a obtener acceso ilimitado 
     a las siguientes características premium: &lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
-  <string name="dialog_password_activate_protection">Activar la protección con contraseña</string>
+  <string name="dialog_password_activate_protection">Activar protección por contraseña</string>
   <string name="dialog_password_change_password">Cambiar contraseña</string>
   <string name="dialog_password_new_password">Nueva contraseña</string>
   <string name="dialog_password_new_password_confirmation">Nueva contraseña (confirmación)</string>
@@ -227,7 +227,7 @@
   <string name="parse_error_grisbi_version_not_supported">La versión del archivo Grisbi no es
       apoyada.</string>
   <string name="password_prompt">Introduzca su contraseña</string>
-  <string name="password_not_valid">Contraseña no válida. ¡Otra vez!</string>
+  <string name="password_not_valid">Contraseña no válida. ¡Inténtelo de nuevo!</string>
   <string name="payee">Beneficiario</string>
   <string name="payer">Pagador</string>
   <!-- payment methods -->
@@ -283,13 +283,13 @@
   <string name="pref_manage_parties_summary">Borrar partes (pagador y beneficiario)</string>
   <string name="pref_manage_templates_summary">Aplicar o borrar plantillas</string>
   <string name="pref_manage_templates_title">Plantillas</string>
-  <string name="pref_password_empty">La contraseña no debe estar vacío</string>
+  <string name="pref_password_empty">La contraseña no puede estar vacía</string>
   <string name="pref_password_not_equal">Las contraseñas no coinciden</string>
   <string name="pref_perform_share_title">Enviar la exportación QIF</string>
   <string name="pref_perform_share_summary">¿Se debe enviar el archivo QIF después de cada
       exportación?</string>
   <string name="pref_perform_protection_title">Protección por contraseña</string>
-  <string name="pref_perform_protection_summary">¿Proteja el lanzamiento de la aplicación?</string>
+  <string name="pref_perform_protection_summary">¿Se deben proteger lanzamientos de la aplicación?</string>
 	<string name="pref_request_licence_summary">Si usted ha contribuido por otros medios, pida una clave
 	  Contrib por correo electrónico.</string>
 	<string name="pref_request_licence_title">Solicite una clave contrib</string>
@@ -360,5 +360,6 @@
   <string name="version_39_upgrade_info">Contribuir a &lt;i>&app_name;&lt;/i> ahora es más fácil y más
 	  interesante. Si usted instala &lt;i>&app_name; Contrib&lt;/i>, va a obtener acceso ilimitado a las
 	  siguientes características premium:&lt;br>%1$s</string>
-  <string name="version_40_upgrade_info">Ahora puede proteger &app_name;, estableciendo una contraseña (Configuraciónes, sección Seguridad).</string>
+  <string name="version_40_upgrade_info">Ahora usted puede proteger &app_name;
+    estableciendo una contraseña en la pantalla Configuraciones (sección Seguridad).</string>
 </resources>
