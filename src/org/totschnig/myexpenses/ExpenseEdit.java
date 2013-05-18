@@ -120,22 +120,26 @@ public class ExpenseEdit extends EditActivity {
         mTransaction = Transaction.getInstanceFromTemplate(mTemplateId);
       } else {
         mTransaction = Template.getInstanceFromDb(mTemplateId);
-        findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
-        findViewById(R.id.DateRow).setVisibility(View.GONE);
-        //in portrait orientation we have a separate row for time
-        View timeRow = findViewById(R.id.TimeRow);
-        if (timeRow != null)
-          timeRow.setVisibility(View.GONE);
-        mTitleText = (EditText) findViewById(R.id.Title);
       }
       mAccountId = mTransaction.accountId;
       mOperationType = mTransaction.transfer_peer == 0;
     } else {
       mOperationType = extras.getBoolean("operationType");
       mAccountId = extras.getLong(ExpensesDbAdapter.KEY_ACCOUNTID);
-      mTransaction = Transaction.getTypedNewInstance(mOperationType,mAccountId);
+      if (extras.getBoolean("newTemplate",false))
+        mTransaction = Template.getTypedNewInstance(mOperationType, mAccountId);
+      else
+        mTransaction = Transaction.getTypedNewInstance(mOperationType,mAccountId);
     }
-
+    if (mTransaction instanceof Template) {
+      findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
+      findViewById(R.id.DateRow).setVisibility(View.GONE);
+      //in portrait orientation we have a separate row for time
+      View timeRow = findViewById(R.id.TimeRow);
+      if (timeRow != null)
+        timeRow.setVisibility(View.GONE);
+      mTitleText = (EditText) findViewById(R.id.Title);
+    }
 
     mDateButton = (Button) findViewById(R.id.Date);
     mDateButton.setOnClickListener(new View.OnClickListener() {

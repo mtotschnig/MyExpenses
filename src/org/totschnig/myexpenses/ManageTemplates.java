@@ -41,6 +41,8 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
   private static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;
   private static final int CREATE_INSTANCE_SAVE = Menu.FIRST +2;
   private static final int EDIT_TEMPLATE = Menu.FIRST +3;
+  private static final int NEW_TRANSACTION = Menu.FIRST +4;
+  private static final int NEW_TRANSFER = Menu.FIRST +5;
   
   /**
    * stores the template to be edited
@@ -84,6 +86,9 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
       menu.add(0,CREATE_INSTANCE_EDIT,0,R.string.menu_create_transaction_from_template_and_edit);
       menu.add(0,CREATE_INSTANCE_SAVE,0,R.string.menu_create_transaction_from_template_and_save);
       menu.add(0,EDIT_TEMPLATE,0,R.string.menu_edit_template);
+    } else {
+      menu.add(0,NEW_TRANSACTION,0,R.string.menu_create_template_for_transaction);
+      menu.add(0,NEW_TRANSFER,0,R.string.menu_create_template_for_transfer);
     }
   }
   @Override
@@ -91,13 +96,13 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
       long id;
       ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
       int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-      if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {         
+      Intent intent;
+      if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
         Cursor childCursor = (Cursor) mAdapter.getChild(
             ExpandableListView.getPackedPositionGroup(info.packedPosition),
             ExpandableListView.getPackedPositionChild(info.packedPosition)
         );
         id =  childCursor.getLong(childCursor.getColumnIndexOrThrow("_id"));
-        Intent intent;
         switch(item.getItemId()) {
           case DELETE_TEMPLATE:   
             mDbHelper.deleteTemplate(id);
@@ -123,6 +128,14 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
               showDialog(R.id.CONTRIB_DIALOG);
             }
         }
+      } else {
+        intent = new Intent(this, ExpenseEdit.class);
+        intent.putExtra("operationType",
+            item.getItemId() == NEW_TRANSACTION ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
+        intent.putExtra("newTemplate", true);
+        intent.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID,
+            mAccountsCursor.getLong(mAccountsCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ROWID)));
+        startActivity(intent);
       }
       return true;
     }

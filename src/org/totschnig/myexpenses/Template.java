@@ -38,6 +38,12 @@ public class Template extends Transaction {
   }
   public Template(long accountId,long amount) {
     super(accountId,amount);
+    title = "";
+  }
+  public static Template getTypedNewInstance(boolean mOperationType, long accountId) {
+    Template t = new Template(accountId,0);
+    t.transfer_peer = mOperationType == MyExpenses.TYPE_TRANSACTION ? 0 : -1;
+    return t;
   }
   public void setDate(Date date){
     //templates have no date
