@@ -191,7 +191,7 @@
   <string name="no_expenses">Henüz hiçbir harcama yok!</string>
   <string name="no_parties">Bölüm yok.</string>
   <string name="no_templates">Şablon yok.</string>
-  <string name="no_text_given">Hiçbir metin girmediniz.</string>
+  <string name="no_title_given">Hiçbir metin girmediniz.</string>
   <string name="no_valid_payment_methods">%1$s için geçerli ödeme metodu yok (%2$s)</string>
   <string name="not_deletable_mapped_transactions">Silinemez çünkü ilişkili muameleler var.</string>
   <string name="not_deletable_mapped_templates">Silinemez çünkü ilişkili şablonlar var.</string>

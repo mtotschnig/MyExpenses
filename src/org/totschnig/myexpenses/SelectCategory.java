@@ -176,7 +176,7 @@ public class SelectCategory extends ProtectedExpandableListActivity {
                 Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
               }
             } else {
-              Toast.makeText(getBaseContext(),getString(R.string.no_text_given), Toast.LENGTH_LONG).show();
+              Toast.makeText(getBaseContext(),getString(R.string.no_title_given), Toast.LENGTH_LONG).show();
             }
           }
         });

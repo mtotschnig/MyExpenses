@@ -174,7 +174,7 @@
   <string name="no_expenses">Encara no hi ha cap despesa!</string>
   <string name="no_parties">No hi ha cap tercer</string>
   <string name="no_templates">No hi ha cap plantilla</string>
-  <string name="no_text_given">No heu afegit cap text.</string>
+  <string name="no_title_given">No heu afegit cap títol.</string>
   <string name="no_valid_payment_methods">No hi ha cap mitjà de pagament vàlid per a %1$s (%2$s)</string>
   <string name="not_deletable_mapped_transactions">No ha estat possible suprimir-ho, per que té despeses assignades.</string>
   <string name="not_deletable_mapped_templates">No ha estat possible suprimir-ho, per que te plantilles assignades.</string>

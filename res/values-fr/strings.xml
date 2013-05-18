@@ -206,7 +206,7 @@
   <string name="no_expenses">Aucune dépense !</string>
   <string name="no_parties">Aucun tiers.</string>
   <string name="no_templates">Pas de modèle.</string>
-  <string name="no_text_given">Vous n\'avez pas saisi de texte.</string>
+  <string name="no_title_given">Vous n\'avez pas saisi de titre.</string>
   <string name="not_deletable_mapped_transactions">Suppression ne peut pas être exécutée, parce
       qu\'il existe des transactions attribuées.</string>
   <string name="not_deletable_mapped_templates">Suppression ne peut pas être exécutée, parce

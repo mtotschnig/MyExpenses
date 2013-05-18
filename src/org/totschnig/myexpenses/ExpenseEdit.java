@@ -537,8 +537,14 @@ public class ExpenseEdit extends EditActivity {
     }
 
     mTransaction.comment = mCommentText.getText().toString();
-    if (mTransaction instanceof Template)
-        ((Template) mTransaction).title = mTitleText.getText().toString();
+    if (mTransaction instanceof Template) {
+      String title = mTitleText.getText().toString();
+      if (title.equals("")) {
+        Toast.makeText(this, R.string.no_title_given, Toast.LENGTH_LONG).show();
+        return false;
+      }
+      ((Template) mTransaction).title = title;
+    }
     else
       mTransaction.setDate(mCalendar.getTime());
 

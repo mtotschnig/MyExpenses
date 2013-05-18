@@ -209,7 +209,7 @@
   <string name="no_expenses">Noch keine Ausgaben!</string>
   <string name="no_parties">Keine Parteien.</string>
   <string name="no_templates">Keine Vorlagen.</string>
-  <string name="no_text_given">Sie haben keinen Text eingegeben.</string>
+  <string name="no_title_given">Sie haben keinen Titel eingegeben.</string>
   <string name="no_valid_payment_methods">Keine gültigen Zahlungsweisen für %1$s (%2$s)</string>
   <string name="not_deletable_mapped_transactions">Kann nicht löschen, weil zugeordnete Buchungen existieren.</string>
   <string name="not_deletable_mapped_templates">Kann nicht löschen, weil zugeordnete Vorlagen existieren.</string>

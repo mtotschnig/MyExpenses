@@ -208,7 +208,7 @@
   <string name="no_expenses">Non ci sono spese.</string>
   <string name="no_parties">Non ci sono beneficiari.</string>
   <string name="no_templates">Non ci sono modelli.</string>
-  <string name="no_text_given">Non ha scritto ningun testo.</string>
+  <string name="no_title_given">Non ha scritto ningun titro.</string>
   <string name="no_valid_payment_methods">Nessuni modi di pagamento validi per %1$s (%2$s)</string>
   <string name="not_deletable_mapped_transactions">Non può cancellar, perché ci
       sono operazione ad esso attribuite.</string>

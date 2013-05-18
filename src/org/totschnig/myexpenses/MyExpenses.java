@@ -631,7 +631,7 @@ public class MyExpenses extends ProtectedActivity
               fillAddButton();
             }
           } else {
-            Toast.makeText(getBaseContext(),getString(R.string.no_text_given), Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(),getString(R.string.no_title_given), Toast.LENGTH_LONG).show();
           }
         }
       })
