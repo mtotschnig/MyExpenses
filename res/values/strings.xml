@@ -20,6 +20,7 @@
   <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Learn more</a>.'>
   <!ENTITY thank_you 'Thank you for your support!'>
   <!ENTITY contrib ' (<b>Premium</b>)'>
+  <!ENTITY continue ''>
 ]>
 <resources>
   <string name="account">Account</string>
@@ -66,7 +67,7 @@
   <string name="dialog_contrib_usage_count">You have %1$d free usages left</string>
   <string name="dialog_contrib_no_usages_left">No free usages left</string>
   <string name="dialog_contrib_reminder">\"%1$s\" is a premium feature. %2$s.
-  	You will get unrestricted access to this and other features, by installing &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
+    You will get unrestricted access to this and other features, by installing &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
   <string name="dialog_contrib_yes">Buy now</string>
   <string name="dialog_contrib_no">Not yet</string>
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> is offered ad free and open source.
@@ -150,7 +151,8 @@
   <string name="help_whats_new">&#160;- Reset all accounts&contrib;.\n
     - Calculator.\n
     - Security question for lost password&contrib;.\n
-    - Make delay for password protection configurable.</string>
+    - Make delay for password protection configurable.\n
+    - Create templates from scratch.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">income</string>
@@ -229,12 +231,12 @@
   -->
   <string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version:
       %1$s</string>
-  <string name="password_prompt">Enter your password</string>
-  <string name="password_not_valid">Password invalid. Try again!</string>
-  <string name="password_security_answer_not_valid">Wrong answer. Try again!</string>
-  <string name="password_lost">Lost password</string>
   <string name="password_disabled_reenable">The password protection has been disabled.
     You can reenable it in the settings.</string>
+  <string name="password_lost">Lost password</string>
+  <string name="password_not_valid">Password invalid. Try again!</string>
+  <string name="password_prompt">Enter your password</string>
+  <string name="password_security_answer_not_valid">Wrong answer. Try again!</string>
   <string name="payee">Payee</string>
   <string name="payer">Payer</string>
   <!-- payment methods -->
@@ -292,7 +294,7 @@
   <string name="pref_perform_protection_title">Password protection</string>
   <string name="pref_perform_protection_summary">Should app launches and resumes be protected?</string>
   <string name="pref_protection_delay_seconds_title">Delay until protection</string>
-  <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password</string>
+  <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password.</string>
   <string name="pref_qif_export_file_encoding_title">Character encoding of the QIF file</string>
   <string name="pref_qif_export_file_encoding_summary">Set the character encoding to \"ISO-8859-1\" if you use MS Money.</string>
   <string name="pref_request_licence_title">Request a Contrib key</string>
@@ -340,21 +342,20 @@
   <string name="transfer">Transfer</string>
   <string name="tutorial">User guide</string>
   <string name="type">Type</string>
-  <string name="warning_backup">Database and preferences will be saved to sdcard. Do you want to
-      continue?</string>
+  <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing
-      backup will be overwritten. Do you want to continue?</string>
+      backup will be overwritten. &continue;</string>
   <string name="warning_delete_account">This account will be deleted with all its transactions.
-      Do you want to continue?</string>
-  <string name="warning_password_no_contrib">If you set a password, take care to not forget it. You will not be able to recover it, unless you install
-  	&app_name; Contrib which allows you to set a security question.</string>
+      &continue;</string>
+  <string name="warning_password_no_contrib">If you set a password, take care to not forget it. You will not be able to recover it, unless you 
+    set a security question (Requires &app_name; contrib).</string>
   <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
   <string name="warning_reset_account">All transactions of this account will be exported into QIF file 
-      on SD-card and deleted. Do you want to continue?</string>
+      on SD-card and deleted. &continue;</string>
   <string name="warning_reset_account_all">For all accounts, transactions will be exported into QIF files
-      on SD-card and deleted. Do you want to continue?</string>
+      on SD-card and deleted. &continue;</string>
   <string name="warning_restore">Database and preferences will be restored from the backup. The current data
-  	will be deleted. Do you want to continue?</string>
+    will be deleted. &continue;</string>
   <string name="warning_select_account">Please select an account!</string>
   
   <!-- strings below this comment do not need translations for new languages -->
@@ -372,6 +373,6 @@
   <string name="version_35_upgrade_info"><i>&app_name;</i> now has a new dark default theme.
     You can revert to the light theme in the settings.</string>
   <string name="version_39_upgrade_info">Contributing to &lt;i>&app_name;&lt;/i> has now become easier, and more interesting.
-  	If you install &lt;i>&app_name; Contrib&lt;/i>, you gain unrestricted access to the following premium features:&lt;br>%1$s</string>
+    If you install &lt;i>&app_name; Contrib&lt;/i>, you gain unrestricted access to the following premium features:&lt;br>%1$s</string>
   <string name="version_40_upgrade_info">You can now protect &app_name; by setting a password from the Settings (section Security).</string>
 </resources>

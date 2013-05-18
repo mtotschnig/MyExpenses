@@ -52,6 +52,7 @@
   <string name="contrib_feature_restore_label">Restauration de la sauvegarde sans désinstallation/réinstallation</string>
   <string name="contrib_feature_aggregate_label">Somme totale sur tous les comptes</string>
   <string name="contrib_feature_edit_template_label">Éditer les modèles</string>
+  <string name="contrib_feature_reset_all_label">Réinitialiser tous les comptes</string>
   <string name="contrib_key">Clé Contrib</string>
   <string name="create_category">Nouvelle catégorie</string>
   <string name="currency">Devise</string>

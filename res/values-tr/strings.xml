@@ -20,6 +20,7 @@
   <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Daha fazla bilgi</a>.'>
   <!ENTITY thank_you 'Desteğiniz için teşekkür ederiz!'>
   <!ENTITY contrib ' (<b>Premium</b>)'>
+  <!ENTITY continue 'Devam etmek istiyor musunuz?'>
 ]>
 <resources>
   <string name="account">Hesap</string>
@@ -51,6 +52,7 @@
   <string name="contrib_feature_restore_label">Yedeklemeyi uygulamayı kaldırıp tekrar kurmadan yükle</string>
   <string name="contrib_feature_aggregate_label">Birden çok hesabın birleşik görünümü</string>
   <string name="contrib_feature_edit_template_label">Şablonları düzenle</string>
+  <string name="contrib_feature_reset_all_label">Tüm hesapları sıfırla</string>
   <string name="contrib_key">Katkı anahtarı</string>
   <string name="create_category">Yeni kategori oluştur</string>
   <string name="currency">Döviz</string>
@@ -79,6 +81,8 @@
   <string name="dialog_password_change_password">Parolayı değiştir</string>
   <string name="dialog_password_new_password">Yeni parola</string>
   <string name="dialog_password_new_password_confirmation">Yeni parola (teyit)</string>
+  <string name="dialog_security_question">Soru</string>
+  <string name="dialog_security_answer">Cevap</string>
   <string name="dialog_title_select_account">Bir hesap seçin</string>
   <string name="dialog_title_select_import_source">İçe aktarım için bir kaynak seçin</string>
   <string name="dialog_title_select_color">Renk seçimi</string>
@@ -134,8 +138,10 @@
       - <b>Help</b> : Rehbere, yeniliklere, sıkça sorulan sorulara ve değişikliklere hızlı erişim sağlar.\n
       \nAyrıntılı bilgi için <a href="http://myexpenses.totschnig.org/#tutorial_r4">kılavuza</a> bakınız.
   </string>
- <!--  <string name="help_whats_new">&#160;- Parola ile güvenlik.\n
-    - Bazı dillerde (Arapça, Bengalce, Farsça, Hintçe, Marathi, Peştuca, Tamilce) tarihlerin ele alınmasındaki hata düzeltildi.</string> -->
+  <string name="help_whats_new">&#160;- Tüm hesapları sıfırla&contrib;.\n
+    - Hesap makinesi.\n
+    - Unutulmuş parola için güvenlik sorusu&contrib;.\n
+    - Parola ile koruma başlama süresini düzenlenebilir yap.</string>
   <string name="important_version_information">Önemli bilgi</string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="income">gelirler</string>
@@ -177,6 +183,7 @@
   <string name="menu_new_from_template">Şablondan yeni</string>
   <string name="menu_reset">Sıfırla</string>
   <string name="menu_reset_abrev">Sıfırla</string>
+  <string name="menu_reset_all">Tümünü sıfırla</string>
   <string name="menu_settings">Ayarlar</string>
   <string name="menu_settings_abrev">Ayarlar</string>
   <string name="menu_settings_account">Güncel hesap</string>
@@ -204,8 +211,12 @@
   <string name="parse_error_other_exception">Bir hata meydana geldi: %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Desteklenmeyen Grisbi dosya sürümü:
       %1$s</string>
-  <string name="password_prompt">Parolanızı giriniz</string>
+  <string name="password_disabled_reenable">Parola ile koruma devre dışı bırakıldı.
+    Ayarlarda tekrar etkinleştirebilirsiniz.</string>
+  <string name="password_lost">Unutulmuş parola</string>
   <string name="password_not_valid">Geçersiz parola. Tekrar deneyin!</string>
+  <string name="password_prompt">Parolanızı giriniz</string>
+  <string name="password_security_answer_not_valid">Yanlış cevap. Yeniden deneyin!</string>
   <string name="payee">Alacaklı</string>
   <string name="payer">Ödeyen</string>
   <string name="pm_cheque">Çek</string>
@@ -255,12 +266,17 @@
   <string name="pref_perform_share_summary">QIF dosyası her dışa aktarımdan sonra paylaşılmalı mı?</string>
   <string name="pref_perform_protection_title">Parola ile güvenlik</string>
   <string name="pref_perform_protection_summary">Uygulama başlatılmaları ve sürdürmeleri korunsun mu?</string>
+  <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
+  <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
   <string name="pref_qif_export_file_encoding_title">QIF dosyasının karakter kodlaması</string>
   <string name="pref_qif_export_file_encoding_summary">MS Money kullanıyorsanız karakter kodlamasını \"ISO-8859-1\" olarak ayarlayınız</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
   <string name="pref_request_licence_summary">Başka bir şekilde katkıda bulunduysanız katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
   <string name="pref_restore_title">Geri al</string>
   <string name="pref_restore_summary">Yedeklemeyi SD kartındaki \"myexpenses\" klasöründen yükle.</string>
+  <string name="pref_security_question_title">Güvenlik sorusu</string>
+  <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir.
+    Harcamalarımın katkı sürümünü gerektirir.</string>
   <string name="pref_share_target_title">QIF dışa aktarımını yükle</string>
   <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, &#8230;) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
   <string name="pref_ui_theme_title">Tema</string>
@@ -296,11 +312,16 @@
   <string name="transfer">Transfer</string>
   <string name="tutorial">Kullanıcı rehberi</string>
   <string name="type">Tip</string>
-  <string name="warning_backup">Veritabanı ve tercihler SD kartına yazılacaktır. Devam etmek istiyor musunuz?</string>
-  <string name="warning_backup_exists">Veritabanı ve tercihler SD kartına yazılacaktır. Mevcut yedekleme silinecektir. Devam etmek istiyor musunuz?</string>
-  <string name="warning_delete_account">Bu hesap tüm muameleleriyle silinecektir. Devan etmek istiyor musunuz?</string>
-  <string name="warning_reset_account">Bu hesabın tüm muameleleri SD kartında bir QIF dosyasına aktarılacak ve silinecektir. Devam etmek istiyor musunuz?</string>
-  <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler\n\tsilinecektir. Devam etmek istiyor musunuz?</string>
+  <string name="warning_backup">Veritabanı ve tercihler SD kartına yazılacaktır. &continue;</string>
+  <string name="warning_backup_exists">Veritabanı ve tercihler SD kartına yazılacaktır. Mevcut yedekleme silinecektir. &continue;</string>
+  <string name="warning_delete_account">Bu hesap tüm muameleleriyle silinecektir. &continue;</string>
+  <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu 
+    bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın katkı sürümünü kurmaktır.</string>
+  <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
+  <string name="warning_reset_account">Bu hesabın tüm muameleleri SD kartında bir QIF dosyasına aktarılacak ve silinecektir. &continue;</string>
+  <string name="warning_reset_account_all">Tüm hesaplar için muameleler QIF dosyaları olarak SD kartına
+    aktarılacak ve silinecektir. &continue;</string>
+  <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler\n\tsilinecektir. &continue;</string>
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
   <string name="version_39_upgrade_info">Artık &lt;i>&app_name;&lt;/i>\'a katkıda bulunmak daha kolaydır.
       Eğer &lt;i>&app_name; Contrib&lt;/i> uygulamasını kurarsanız, şu özelliklere sınırsız erişim elde edersiniz:&lt;br>%1$s</string>

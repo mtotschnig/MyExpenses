@@ -20,6 +20,7 @@
   <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Mehr erfahren</a>.'>
   <!ENTITY thank_you 'Danke für Ihre Unterstützung!'>
   <!ENTITY contrib ' (<b>Premium</b>)'>
+  <!ENTITY continue 'Möchten Sie fortfahren?'>
 ]>
 <resources>
   <string name="account">Konto</string>
@@ -52,6 +53,7 @@
   <string name="contrib_feature_restore_label">Wiederherstellung der Sicherungskopie ohne Deinstallation/Reinstallation</string>
   <string name="contrib_feature_aggregate_label">Gesamtsumme über mehrere Konten</string>
   <string name="contrib_feature_edit_template_label">Vorlagen verändern</string>
+  <string name="contrib_feature_reset_all_label">Alle Konten zurücksetzen</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
   <string name="create_category">Neue Kategorie</string>
   <string name="currency">Währung</string>
@@ -83,6 +85,8 @@
   <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
   <string name="dialog_remind_later">Später</string>
   <string name="dialog_remind_no">Nein danke</string>
+  <string name="dialog_security_question">Frage</string>
+  <string name="dialog_security_answer">Antwort</string>
   <string name="dialog_title_select_account">Konto auswählen</string>
   <string name="dialog_title_select_color">Farbe wählen</string>
   <string name="dialog_title_select_currency">Währung auswählen</string>
@@ -172,6 +176,8 @@
   <string name="menu_create_main_cat">Neue Hauptkategorie</string>
   <string name="menu_create_sub_cat">Neue Unterkategorie</string>
   <string name="menu_create_template">Vorlage erzeugen</string>
+  <string name="menu_create_template_for_transaction">Neue Vorlage (Buchung)</string>
+  <string name="menu_create_template_for_transfer">Neue Vorlage (Umbuchung)</string>
   <string name="menu_create_transaction_from_template_and_edit">Neu und verändern</string>
   <string name="menu_create_transaction_from_template_and_save">Neu und speichern</string>
   <string name="menu_delete">Löschen</string>
@@ -228,8 +234,12 @@
   -->
   <string name="parse_error_grisbi_version_not_supported">Grisbi Datei Version %1$s wird nicht
       unterstützt</string>
-  <string name="password_prompt">Geben Sie Ihr Passwort ein</string>
+  <string name="password_disabled_reenable">Passwort-Schutz wurde aufgehoben.
+    Sie können diesen in den Einstellungen wieder aktivieren.</string>
+  <string name="password_lost">Passwort vergessen</string>
   <string name="password_not_valid">Passwort ungültig. Versuchen Sie es erneut!</string>
+  <string name="password_prompt">Geben Sie Ihr Passwort ein</string>
+  <string name="password_security_answer_not_valid">Falsche Antwort. Versuchen Sie es erneut!</string>
   <string name="payee">Empfänger</string>
   <string name="payer">Zahler</string>
   <string name="pm_cheque">Scheck</string>
@@ -288,12 +298,16 @@
   </string>
   <string name="pref_perform_protection_title">Passwortschutz</string>
   <string name="pref_perform_protection_summary">Sollen das Starten und Wiederaufnehmen der App abgesichert werden?</string>
+  <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
+  <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung der QIF Datei</string>
   <string name="pref_qif_export_file_encoding_summary">Für MS Money sollten Sie \"ISO-8859-1\" verwenden</string>
   <string name="pref_request_licence_title">Contrib-Schlüssel beantragen</string>
   <string name="pref_request_licence_summary">Wenn Sie anderweitig einen Beitrag geleistet haben, beantragen Sie einen Contrib-Schlüssel per E-Mail.</string> 
   <string name="pref_restore_title">Wiederherstellung</string>
   <string name="pref_restore_summary">Die Sicherheitskopie aus dem Ordner \"myexpenses\" der SD-Karte wiederherstellen.</string>
+  <string name="pref_security_question_title">Sicherheitsfrage</string>
+  <string name="pref_security_question_summary">Erlaubt den Passwortschutz aufzuheben, sollten Sie das Passwort vergessen. Benötigt &app_name; Contrib.</string>
   <string name="pref_share_target_title">Upload URL QIF Export</string>
   <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden
        Apps wählen wollen (Email, Dropbox, Google Docs, &#8230;) oder eine URL in einer der 
@@ -335,15 +349,18 @@
   <string name="tutorial">Anleitung</string>
   <string name="type">Typ</string>
   <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte
-      gesichert. Möchten Sie fortfahren?</string>
+      gesichert. &continue;</string>
   <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte
-      gesichert. Das bestehende Backup wird gelöscht. Möchten Sie fortfahren?</string>
-  <string name="warning_delete_account">Dieses Konto wird mit all seinen Buchungen gelöscht. Möchten
-       Sie fortfahren?</string>
+      gesichert. Das bestehende Backup wird gelöscht. &continue;</string>
+  <string name="warning_delete_account">Dieses Konto wird mit all seinen Buchungen gelöscht. &continue;</string>
+  <string name="warning_password_no_contrib">Wenn Sie ein Passwort setzen, passen Sie auf dieses nicht zu vergessen. Sie können dieses nur zurücksetzen,
+    wenn Sie eine Sicherheitsfrage setzen (benötigt &app_name; Contrib).</string>
+  <string name="warning_password_contrib">Durch das Setzen einer Sicherheitsfrage können Sie den Passwortschutz aufheben, sollten Sie das Passwort vergessen.</string>
   <string name="warning_reset_account">Alle Transaktionen dieses Kontos werden in eine QIF-Datei auf der SD-Karte exportiert
-      und gelöscht. Möchten Sie fortfahren?</string>
+      und gelöscht. &continue;</string>
+  <string name="warning_reset_account_all">Für allen Konten, werden die Buchungen in QIF Dateien auf der SD-Karte exportiert und gelöscht. &continue;</string>
   <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten
-    werden gelöscht. Wollen Sie fortfahren?</string>
+    werden gelöscht. &continue;</string>
   <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
   
   <!-- strings below this comment do not need translations for new languages -->
