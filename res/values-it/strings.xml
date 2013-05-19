@@ -169,9 +169,13 @@
   <string name="menu_backup">Backup</string>
   <string name="menu_change_account">Cambiare conto</string>
   <string name="menu_contrib">Contribuire</string>
+  <string name="menu_create_account">Nuovo conto</string>
+  <string name="menu_create_method">Nuovo modo di pagamento</string>
+  <string name="menu_create_transaction">Nuova operazione</string>
+  <string name="menu_create_transfer">Nuovo trasferimento</string>
   <string name="menu_create_main_cat">Nuova categoria principale</string>
   <string name="menu_create_sub_cat">Nuova sottocategoria</string>
-  <string name="menu_create_template">Creare un modello</string>
+  <string name="menu_create_template">Nuovo modello</string>
   <string name="menu_create_transaction_from_template_and_edit">Nuova e modificare</string>
   <string name="menu_create_transaction_from_template_and_save">Nuova e salvare</string>
   <string name="menu_delete">Cancellare</string>
@@ -183,10 +187,6 @@
   <string name="menu_edit_transfer">Modificare un trasferimento</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_help">Aiuto</string>
-  <string name="menu_insert_account">Aggiungere conto</string>
-  <string name="menu_insert_method">Aggiungere modo di pagamento</string>
-  <string name="menu_insert_ta">Aggiungere operazione</string>
-  <string name="menu_insert_transfer">Aggiungere un trasferimento</string>
   <string name="menu_new">Nuovo</string>
   <string name="menu_new_from_template">Nuovo riguardo al modello</string>
   <string name="menu_more">Ulteriori &#8230;</string>

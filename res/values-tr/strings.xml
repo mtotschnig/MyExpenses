@@ -141,7 +141,8 @@
   <string name="help_whats_new">&#160;- Tüm hesapları sıfırla&contrib;.\n
     - Hesap makinesi.\n
     - Unutulmuş parola için güvenlik sorusu&contrib;.\n
-    - Parola ile koruma başlama süresini düzenlenebilir yap.</string>
+    - Parola ile koruma başlama süresini düzenlenebilir yap.\n
+    - Sıfırdan şablon oluşturulması.</string>
   <string name="important_version_information">Önemli bilgi</string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="income">gelirler</string>
@@ -159,11 +160,17 @@
   <string name="menu_backup">Yedekleme</string>
   <string name="menu_change_account">Hesap değiştir</string>
   <string name="menu_contrib">Katkıda bulun</string>
+  <string name="menu_create_account">Yeni hesap oluştur</string>
+  <string name="menu_create_method">Yeni ödeme metotu oluştur</string>
+  <string name="menu_create_transaction">Muamele ekle</string>
+  <string name="menu_create_transfer">Virman ekle</string>
   <string name="menu_create_main_cat">Yeni ana kategori oluştur</string>
   <string name="menu_create_sub_cat">Yeni alt kategori oluştur</string>
   <string name="menu_create_template">Şablon oluştur</string>
   <string name="menu_create_transaction_from_template_and_edit">Yeni ve düzenle</string>
   <string name="menu_create_transaction_from_template_and_save">Yeni ve kaydet</string>
+  <string name="menu_create_template_for_transaction">Yeni muamele şablonu</string>
+  <string name="menu_create_template_for_transfer">Yeni transfer şablonu</string>
   <string name="menu_delete">Sil</string>
   <string name="menu_edit_account">Hesabı düzenle</string>
   <string name="menu_edit_method">Ödeme metodunu düzenle</string>
@@ -173,10 +180,6 @@
   <string name="menu_edit_transfer">Virmanı düzenle</string>
   <string name="menu_faq">SSS</string>
   <string name="menu_help">Yardım</string>
-  <string name="menu_insert_account">Yeni hesap oluştur</string>
-  <string name="menu_insert_method">Yeni ödeme metotu oluştur</string>
-  <string name="menu_insert_ta">Muamele ekle</string>
-  <string name="menu_insert_transfer">Virman ekle</string>
   <string name="menu_more">Dahası &#8230;</string>
   <string name="menu_move_transaction">Taşı</string>
   <string name="menu_new">Yeni</string>

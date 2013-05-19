@@ -139,11 +139,11 @@ public class ExpenseEdit extends EditActivity {
       if (timeRow != null)
         timeRow.setVisibility(View.GONE);
       mTitleText = (EditText) findViewById(R.id.Title);
-      setTitle(mTransaction.id == 0 ? R.string.menu_insert_template : R.string.menu_edit_template);
+      setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
     } else {
       setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
-        (mTransaction.id == 0 ? R.string.menu_insert_ta : R.string.menu_edit_ta) :
-        (mTransaction.id == 0 ? R.string.menu_insert_transfer : R.string.menu_edit_transfer)
+        (mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_ta) :
+        (mTransaction.id == 0 ? R.string.menu_create_transfer : R.string.menu_edit_transfer)
       );
     }
 

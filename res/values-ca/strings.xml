@@ -136,6 +136,10 @@
   <string name="menu_accounts_summary">Resum</string>
   <string name="menu_backup">Còpia de seguretat</string>
   <string name="menu_change_account">Canvia de compte</string>
+  <string name="menu_create_account">Nou compte</string>
+  <string name="menu_create_method">Nou mètode de pagament</string>
+  <string name="menu_create_transaction">Nou assentament</string>
+  <string name="menu_create_transfer">Nova transferència</string>
   <string name="menu_create_main_cat">Nova categoria principal</string>
   <string name="menu_create_sub_cat">Nova sub-categoria</string>
   <string name="menu_create_template">Nova plantilla</string>
@@ -150,10 +154,6 @@
   <string name="menu_edit_transfer">Modifica la transferència a un altre compte</string>
   <string name="menu_faq">Preguntes més freqüents</string>
   <string name="menu_help">Ajuda</string>
-  <string name="menu_insert_account">Nou compte</string>
-  <string name="menu_insert_method">Nou mètode de pagament</string>
-  <string name="menu_insert_ta">Nou assentament</string>
-  <string name="menu_insert_transfer">Nova transferència</string>
   <string name="menu_more">Més &#8230;</string>
   <string name="menu_move_transaction">Mou</string>
   <string name="menu_new">Nou</string>

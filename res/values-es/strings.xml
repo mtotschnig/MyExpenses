@@ -169,9 +169,13 @@
   <string name="menu_backup">Copia de seguridad</string>
   <string name="menu_change_account">Cambiar a otra cuenta</string>
   <string name="menu_contrib">Contribuya</string>
+  <string name="menu_create_account">Nueva cuenta</string>
+  <string name="menu_create_method">Nuevo método de pago</string>
+  <string name="menu_create_transaction">Nuevo asiento</string>
+  <string name="menu_create_transfer">Nuevo traslado a otra cuenta</string>
   <string name="menu_create_main_cat">Nueva categoría principal</string>
   <string name="menu_create_sub_cat">Nueva sub-categoría</string>
-  <string name="menu_create_template">Crear plantilla</string>
+  <string name="menu_create_template">Nueva plantilla</string>
   <string name="menu_create_transaction_from_template_and_edit">Nueva y modificar</string>
   <string name="menu_create_transaction_from_template_and_save">Nueva y guardar</string>
   <string name="menu_delete">Borrar</string>
@@ -183,10 +187,6 @@
   <string name="menu_edit_transfer">Modificar el traslado a otra cuenta</string>
   <string name="menu_faq">Preguntas frecuentes</string>
   <string name="menu_help">Ayuda</string>
-  <string name="menu_insert_account">Crear una nueva cuenta</string>
-  <string name="menu_insert_method">Crear nuevo método de pago</string>
-  <string name="menu_insert_ta">Nuevo asiento</string>
-  <string name="menu_insert_transfer">Nuevo traslado a otra cuenta</string>
   <string name="menu_more">Más &#8230;</string>
   <string name="menu_move_transaction">Mover</string>
   <string name="menu_new">Nuevo</string>

@@ -112,7 +112,7 @@ public class MethodEdit extends EditActivity {
       }
     } else {
       mMethod = new PaymentMethod();
-      setTitle(R.string.menu_insert_method);
+      setTitle(R.string.menu_create_method);
     }
     //add one row with checkbox for each account type
     TableRow tr;

@@ -381,9 +381,9 @@ public class MyExpenses extends ProtectedActivity
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     //numeric shortcuts are used from Monkeyrunner
-    menu.add(0, R.id.INSERT_TA_COMMAND, 0, R.string.menu_insert_ta)
+    menu.add(0, R.id.INSERT_TA_COMMAND, 0, R.string.menu_create_transaction)
         .setIcon(android.R.drawable.ic_menu_add);
-    menu.add(0, R.id.INSERT_TRANSFER_COMMAND, 0, R.string.menu_insert_transfer)
+    menu.add(0, R.id.INSERT_TRANSFER_COMMAND, 0, R.string.menu_create_transfer)
         .setIcon(android.R.drawable.ic_menu_add);
     menu.add(0, R.id.NEW_FROM_TEMPLATE_COMMAND, 0, R.string.menu_new_from_template)
         .setIcon(android.R.drawable.ic_menu_add);
