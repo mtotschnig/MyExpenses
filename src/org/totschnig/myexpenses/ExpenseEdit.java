@@ -139,6 +139,12 @@ public class ExpenseEdit extends EditActivity {
       if (timeRow != null)
         timeRow.setVisibility(View.GONE);
       mTitleText = (EditText) findViewById(R.id.Title);
+      setTitle(mTransaction.id == 0 ? R.string.menu_insert_template : R.string.menu_edit_template);
+    } else {
+      setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
+        (mTransaction.id == 0 ? R.string.menu_insert_ta : R.string.menu_edit_ta) :
+        (mTransaction.id == 0 ? R.string.menu_insert_transfer : R.string.menu_edit_transfer)
+      );
     }
 
     mDateButton = (Button) findViewById(R.id.Date);
@@ -390,7 +396,6 @@ public class ExpenseEdit extends EditActivity {
       mCommentText.setText(mTransaction.comment);
       //3c set title based on type
       if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
-        setTitle(R.string.menu_edit_ta);
         mPayeeText.setText(mTransaction.payee);
         mMethodId = mTransaction.methodId;
         try {
@@ -401,8 +406,6 @@ public class ExpenseEdit extends EditActivity {
           //the methodId no longer exists in DB, we set it to 0
           mMethodId = 0;
         }
-      } else {
-        setTitle(R.string.menu_edit_transfer);
       }
       //3d fill label (category or account) we got from database, if we are a transfer we prefix 
       //with transfer direction
@@ -410,10 +413,7 @@ public class ExpenseEdit extends EditActivity {
       mLabel =  mTransaction.label;
     } else {
       //4. handle edit new transaction
-      //4a set title based on type
-      setTitle(mOperationType == MyExpenses.TYPE_TRANSFER ? 
-          R.string.menu_insert_transfer : R.string.menu_insert_ta);
-      //4b if we are a transfer, and we have only one other account
+      //4a if we are a transfer, and we have only one other account
       //we point the transfer to that account
       if (mOperationType == MyExpenses.TYPE_TRANSFER && otherAccountsCount == 1) {
         otherAccounts.moveToFirst();
@@ -453,12 +453,8 @@ public class ExpenseEdit extends EditActivity {
         MethodContainer.setVisibility(View.GONE);
       }
     }
-    if (mTransaction instanceof Template) {
+    if (mTransaction instanceof Template)
       mTitleText.setText(((Template) mTransaction).title);
-      setTitle(R.string.menu_edit_template);
-    }
-    else
-      setDateTime(mTransaction.date);
     
     //add currency label to amount label
     TextView amountLabel = (TextView) findViewById(R.id.AmountLabel);    
@@ -478,7 +474,7 @@ public class ExpenseEdit extends EditActivity {
     } catch (DataObjectNotFoundException e) {
       currencySymbol = "?";
     }
-    amountLabel.setText(getString(R.string.amount) + " ("+currencySymbol+")");    
+    amountLabel.setText(getString(R.string.amount) + " ("+currencySymbol+")");
   }
   /**
    * extracts the fields from a date object for setting them on the buttons
