@@ -20,7 +20,7 @@
   <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Learn more</a>.'>
   <!ENTITY thank_you 'Thank you for your support!'>
   <!ENTITY contrib ' (<b>Premium</b>)'>
-  <!ENTITY continue ''>
+  <!ENTITY continue 'Do you want to continue?'>
 ]>
 <resources>
   <string name="account">Account</string>
