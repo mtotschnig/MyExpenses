@@ -20,6 +20,7 @@
   <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Apprenez plus</a>.'>
   <!ENTITY thank_you 'Merci de votre soutien!'>
   <!ENTITY contrib ' (<b>Premium</b>)'>
+  <!ENTITY continue 'Voulez-vous continuer?'>
 ]>
 <resources>
   <string name="account">Compte</string>
@@ -67,7 +68,7 @@
   <string name="dialog_contrib_usage_count">Il vous reste %1$d utilisation(s) gratuite(s)</string>
   <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite</string>
   <string name="dialog_contrib_reminder">\"%1$s\" est une fonction Premium. %2$s.
-  	Vous obtiendrez un accès illimité à celle-ci et toutes les autres en installant &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
+    Vous obtiendrez un accès illimité à celle-ci et toutes les autres en installant &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
   <string name="dialog_contrib_yes">Acheter</string>
   <string name="dialog_contrib_no">Pas tout de suite</string>
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> vous est offert sans publicité et open source.
@@ -83,6 +84,8 @@
   <string name="dialog_remind_rate_yes">D\'accord</string>
   <string name="dialog_remind_later">Plus tard</string>
   <string name="dialog_remind_no">Non merci</string>
+  <string name="dialog_security_question">Question</string>
+  <string name="dialog_security_answer">Réponse</string>
   <string name="dialog_title_select_account">Sélectionner un compte</string>
   <string name="dialog_title_select_color">Sélectionner une couleur</string>
   <string name="dialog_title_select_currency">Sélectionner une devise</string>
@@ -174,6 +177,8 @@
   <string name="menu_create_main_cat">Nouvelle catégorie principale</string>
   <string name="menu_create_sub_cat">Nouvelle sous-catégorie</string>
   <string name="menu_create_template">Nouveau modèle</string>
+  <string name="menu_create_template_for_transaction">Nouveau modèle (transaction)</string>
+  <string name="menu_create_template_for_transfer">Nouveau modèle (virement)</string>
   <string name="menu_create_transaction_from_template_and_edit">Nouveau et quitter</string>
   <string name="menu_create_transaction_from_template_and_save">Nouveau et sauver</string>  
   <string name="menu_delete">Effacer</string>
@@ -228,8 +233,12 @@
   -->
   <string name="parse_error_grisbi_version_not_supported">La version du fichier Grisbi n\'est pas
       supportée: %1$s</string>
+  <string name="password_disabled_reenable">La protection par mot de passe a été désactivée.
+    Vous pouvez la réactiver dans les paramètres.</string>
+  <string name="password_lost">Mot de passe oublié</string>
   <string name="password_prompt">Saississez le mot de passe</string>
   <string name="password_not_valid">Mot de passe invalide. Essayez de nouveau!</string>
+  <string name="password_security_answer_not_valid">Réponse invalide. Essayez de nouveau!</string>
   <string name="payee">Tiers</string>
   <string name="payer">Tiers</string>
   <!-- payment methods -->
@@ -288,6 +297,8 @@
   <string name="pref_perform_share_title">Envoyer le fichier d\'export QIF</string>
   <string name="pref_perform_share_summary">Voulez vous envoyer le fichier QIF après chaque export
   </string>
+  <string name="pref_protection_delay_seconds_title">Battement avant protection</string>
+  <string name="pref_protection_delay_seconds_summary">Durée d\'inactivité en secondes avant que la protection soit activée.</string>
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier QIF</string>
   <string name="pref_qif_export_file_encoding_summary">Choississez \"ISO-8859-1\" si vous utiliséz MS Money</string>
   <string name="pref_request_licence_title">Demandez une clé contrib</string>
@@ -298,6 +309,8 @@
   <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les 
       différentes applications pour le transfert du fichier (Email, Dropbox, Google Docs, &#8230;), sinon
       spécifiez une URL dans l\'une des formes supportées</string>
+  <string name="pref_security_question_title">Question de sécurité</string>
+  <string name="pref_security_question_summary">Vous permet de débloquer l\'app, si vous avez oublié votre mot de passe. Nécessite &app_name; Contrib.</string>
   <string name="pref_ui_theme_title">Style</string>
   <string name="pref_ui_theme_summary">Choisissez entre clair et sombre</string>
   <string name="pref_ui_theme_dark">sombre</string>
@@ -336,15 +349,21 @@
   <string name="tutorial">Manuel</string>
   <string name="type">Type</string>
   <string name="warning_backup">La base des données et les paramètres vont être sauvegardés sur la
-      carte SD. Voulez-vous continuer?</string>
+      carte SD. &continue;</string>
   <string name="warning_backup_exists">La base des données et les paramètres vont être sauvegardés
-      sur la carte SD. La sauvegarde existante sera effacée. Voulez-vous continuer?</string>
+      sur la carte SD. La sauvegarde existante sera effacée. &continue;</string>
   <string name="warning_delete_account">Ce compte sera effacé ainsi que toutes ses opérations.
-      Voulez-vous continuer?</string>
+      &continue;</string>
+  <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier.
+    Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite &app_name; Contrib).</string>
+  <string name="warning_password_contrib">La définition d\'une question de sécurité vous permet de débloquer l\'app,
+    au cas où vous oubliez votre mot de passe.</string>
+  <string name="warning_reset_account_all">Pour tous les comptes, les opérations seront exportées vers des fichiers QIF sur la carte SD et 
+      effacées. &continue;</string>
   <string name="warning_reset_account">Toutes les opérations du compte seront exportées vers un fichier QIF sur la carte SD et 
-      effacées. Voulez-vous continuer?</string>
+      effacées. &continue;</string>
   <string name="warning_restore">La base de données et les paramètres seront réstaurés à partir de la sauvegarde.
-  	Le données actuelles seront supprimées. Voulez-vous continuer?</string>
+    Les données actuelles seront supprimées. &continue;</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
   <!-- strings below this comment do not need translations for new languages -->
   <string name="version_14_upgrade_info">À partir de la version 1.4.0, la devise est définie selon
@@ -360,7 +379,7 @@
   <string name="version_35_upgrade_info"><i>&app_name;</i> utilise maintenant par défaut un nouveau style sombre.
     Vous pouvez réactiver le style clair dans les paramètres.</string>
   <string name="version_39_upgrade_info">Contribuer à &lt;i>&app_name;&lt;/i> est maintenant plus facile et plus intéressant.
-  	Si vous installez &lt;i>&app_name; Contrib&lt;/i>, vous obtiendrez un accès illimité aux
+    Si vous installez &lt;i>&app_name; Contrib&lt;/i>, vous obtiendrez un accès illimité aux
     fonctionnalités Premium suivantes:&lt;br>%1$s</string>
     <string name="version_40_upgrade_info">Maintenant, vous pouvez proteger &app_name; en spécifiant un mot de passe dans les paramètres (partie Securité).</string>
 </resources>

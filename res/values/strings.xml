@@ -348,7 +348,7 @@
   <string name="warning_delete_account">This account will be deleted with all its transactions.
       &continue;</string>
   <string name="warning_password_no_contrib">If you set a password, take care to not forget it. You will not be able to recover it, unless you 
-    set a security question (Requires &app_name; contrib).</string>
+    set a security question (Requires &app_name; Contrib).</string>
   <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
   <string name="warning_reset_account">All transactions of this account will be exported into QIF file 
       on SD-card and deleted. &continue;</string>
