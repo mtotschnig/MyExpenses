@@ -175,7 +175,7 @@
   <string name="menu_edit_account">Hesabı düzenle</string>
   <string name="menu_edit_method">Ödeme metodunu düzenle</string>
   <string name="menu_edit_cat">Kategori düzenle</string>
-  <string name="menu_edit_ta">Muameleyi düzenle</string>
+  <string name="menu_edit_transaction">Muameleyi düzenle</string>
   <string name="menu_edit_template">Şablonu düzenle</string>
   <string name="menu_edit_transfer">Virmanı düzenle</string>
   <string name="menu_faq">SSS</string>

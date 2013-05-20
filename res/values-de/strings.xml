@@ -191,7 +191,7 @@
   <string name="menu_edit_account">Konto verändern</string>
   <string name="menu_edit_cat">Kategorie verändern</string>
   <string name="menu_edit_method">Zahlungsweise verändern</string>
-  <string name="menu_edit_ta">Buchung verändern</string>
+  <string name="menu_edit_transaction">Buchung verändern</string>
   <string name="menu_edit_template">Vorlage verändern</string>
   <string name="menu_edit_transfer">Umbuchung verändern</string>
   <string name="menu_faq">FAQ</string>

@@ -149,7 +149,7 @@
   <string name="menu_edit_account">Modifica el compte</string>
   <string name="menu_edit_cat">Modifica la categoria</string>
   <string name="menu_edit_method">Modifica el mètode de pagament</string>
-  <string name="menu_edit_ta">Modifica l\'assentament</string>
+  <string name="menu_edit_transaction">Modifica l\'assentament</string>
   <string name="menu_edit_template">Modifica la plantilla</string>
   <string name="menu_edit_transfer">Modifica la transferència a un altre compte</string>
   <string name="menu_faq">Preguntes més freqüents</string>

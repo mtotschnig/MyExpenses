@@ -142,7 +142,7 @@ public class ExpenseEdit extends EditActivity {
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
     } else {
       setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
-        (mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_ta) :
+        (mTransaction.id == 0 ? R.string.menu_create_transaction : R.string.menu_edit_transaction) :
         (mTransaction.id == 0 ? R.string.menu_create_transfer : R.string.menu_edit_transfer)
       );
     }

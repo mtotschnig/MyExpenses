@@ -188,7 +188,7 @@
   <string name="menu_edit_account">Modificare il conto</string>
   <string name="menu_edit_cat">Modificare la categoria</string>
   <string name="menu_edit_method">Modificare modo di pagamento</string>
-  <string name="menu_edit_ta">Modificare operazione</string>
+  <string name="menu_edit_transaction">Modificare operazione</string>
   <string name="menu_edit_template">Modificare modello</string>
   <string name="menu_edit_transfer">Modificare un trasferimento</string>
   <string name="menu_faq">FAQ</string>
