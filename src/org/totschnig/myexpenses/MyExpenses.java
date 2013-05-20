@@ -103,7 +103,7 @@ public class MyExpenses extends ProtectedActivity
   static final int TRESHOLD_REMIND_CONTRIB = 113;
   
   static final String HOST = "myexpenses.totschnig.org";
-  static final String FEEDBACK_EMAIL = "michael@totschnig.org";
+  static final String FEEDBACK_EMAIL = "myexpenses@totschnig.org";
 
   private ArrayList<Action> mMoreItems;
   
