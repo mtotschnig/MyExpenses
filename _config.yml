@@ -56,9 +56,9 @@ sections:
       de: Anleitung
       it: Manuale
       es: Manual
-  news:
+  news_old:
     weight: 3
-    url: news/news5.html
+    url: news.html
     title:
       en: News
   participate:
