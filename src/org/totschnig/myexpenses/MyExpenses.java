@@ -16,17 +16,12 @@
 package org.totschnig.myexpenses;
 
 import java.text.SimpleDateFormat;
-import java.net.URI;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Currency;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.Locale;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.ButtonBar.Action;
@@ -59,10 +54,12 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -534,9 +531,7 @@ public class MyExpenses extends ProtectedActivity
       ((TextView)view.findViewById(R.id.aboutVersionCode)).setText(getVersionInfo());
       ((TextView)view.findViewById(R.id.help_contrib)).setText(
           Html.fromHtml(getString(R.string.dialog_contrib_text,Utils.getContribFeatureLabelsAsFormattedList(this))));
-      ((TextView)view.findViewById(R.id.help_licence_gpl)).setMovementMethod(LinkMovementMethod.getInstance());
       ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
-      ((TextView)view.findViewById(R.id.help_whats_new)).setMovementMethod(LinkMovementMethod.getInstance());
       DialogUtils.setDialogTwoButtons(view,
           R.string.menu_contrib,R.id.CONTRIB_PLAY_COMMAND,null,
           android.R.string.ok,0,null);
@@ -547,15 +542,27 @@ public class MyExpenses extends ProtectedActivity
         .create();
     case R.id.VERSION_DIALOG:
       li = LayoutInflater.from(this);
-      CharSequence versionInfo = MyApplication.getInstance().getVersionInfo();
+      ArrayList<CharSequence> versionInfo = MyApplication.getInstance().getVersionInfo();
       view = li.inflate(R.layout.versiondialog, null);
       ((TextView) view.findViewById(R.id.versionInfoChanges))
         .setText(R.string.help_whats_new);
-      if (!versionInfo.toString().equals("")) {
-        tv = (TextView) view.findViewById(R.id.versionInfoImportant);
-        tv.setText(versionInfo);
-        tv.setVisibility(View.VISIBLE);
+      if (versionInfo.size() > 0) {
+        View divider;
+        LinearLayout main = (LinearLayout) view.findViewById(R.id.layoutMain);
         ((TextView) view.findViewById(R.id.versionInfoImportantHeading)).setVisibility(View.VISIBLE);
+        for(Iterator<CharSequence> i = versionInfo.iterator();i.hasNext();) {
+          tv = new TextView(this);
+          tv.setText(i.next());
+          tv.setTextAppearance(this, R.style.form_label);
+          tv.setPadding(15, 0, 0, 0);
+          main.addView(tv);
+          if (i.hasNext()) {
+            divider = new View(this);
+            divider.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,1));
+            divider.setBackgroundColor(getResources().getColor(R.color.appDefault));
+            main.addView(divider);
+          }
+        }
       }
       DialogUtils.setDialogThreeButtons(view,
           R.string.menu_help,R.id.HELP_COMMAND,null,
@@ -873,7 +880,7 @@ public class MyExpenses extends ProtectedActivity
    * also is used for hooking version specific upgrade procedures
    */
   public void newVersionCheck() {
-    CharSequence versionInfo = "";
+    MyApplication app = MyApplication.getInstance();
     Editor edit = mSettings.edit();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     int current_version = getVersionNumber();
@@ -893,7 +900,7 @@ public class MyExpenses extends ProtectedActivity
         edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mSettings.getInt(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0)).commit();
         String non_conforming = checkCurrencies();
         if (non_conforming.length() > 0 ) {
-          versionInfo =TextUtils.concat(versionInfo,getString(R.string.version_14_upgrade_info,non_conforming),"\n");
+          app.addVersionInfo(getString(R.string.version_14_upgrade_info,non_conforming));
         }
       }
       if (prev_version < 19) {
@@ -903,7 +910,7 @@ public class MyExpenses extends ProtectedActivity
         edit.commit();
       }
       if (prev_version < 26) {
-        versionInfo =TextUtils.concat(versionInfo,getString(R.string.version_26_upgrade_info),"\n");
+        app.addVersionInfo(getString(R.string.version_26_upgrade_info));
       }
       if (prev_version < 28) {
         Log.i("MyExpenses",String.format("Upgrading to version 28: Purging %d transactions from datbase",
@@ -926,16 +933,13 @@ public class MyExpenses extends ProtectedActivity
         }
       }
       if (prev_version < 34) {
-        versionInfo =TextUtils.concat(versionInfo,getString(R.string.version_34_upgrade_info),"\n");
+        app.addVersionInfo(getString(R.string.version_34_upgrade_info));
       }
       if (prev_version < 35) {
-        versionInfo =TextUtils.concat(versionInfo,getString(R.string.version_35_upgrade_info),"\n");
+        app.addVersionInfo(getString(R.string.version_35_upgrade_info));
       }
       if (prev_version < 39) {
-        versionInfo =TextUtils.concat(
-            versionInfo,
-            Html.fromHtml(getString(R.string.version_39_upgrade_info,Utils.getContribFeatureLabelsAsFormattedList(this))),
-            "\n");
+        app.addVersionInfo(Html.fromHtml(getString(R.string.version_39_upgrade_info,Utils.getContribFeatureLabelsAsFormattedList(this))));
       }
       if (prev_version < 40) {
         mDbHelper.fixDateValues();
@@ -943,9 +947,11 @@ public class MyExpenses extends ProtectedActivity
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
         mSettings.edit().putLong("nextReminderContrib",mDbHelper.getTransactionSequence()+23).commit();
-        versionInfo =TextUtils.concat(versionInfo,getString(R.string.version_40_upgrade_info),"\n");
+        app.addVersionInfo(getString(R.string.version_40_upgrade_info));
       }
-      MyApplication.getInstance().setVersionInfo(versionInfo);
+      if (prev_version < 41) {
+        app.addVersionInfo(getString(R.string.version_41_upgrade_info));
+      }
       showDialogWrapper(R.id.VERSION_DIALOG);
     }
   }

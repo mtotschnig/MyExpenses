@@ -14,37 +14,30 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
- <ScrollView android:id="@+id/aboutscrollview"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
-       <TextView android:text="@string/help_heading_whats_new"
-        style="?attr/headingStyleApp" />
+    android:orientation="vertical">
+  <ScrollView android:id="@+id/aboutscrollview"
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1">
+    <LinearLayout
+			  android:id="@+id/layoutMain"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical" >
+      <TextView android:text="@string/help_heading_whats_new"
+          style="?attr/headingStyleApp" />
       <TextView android:id="@+id/versionInfoChanges"
           style="@style/about_text"/>
       <TextView android:id="@+id/versionInfoImportantHeading"
           android:text="@string/important_version_information"
           style="?attr/headingStyleApp"
           android:visibility="gone"/>
-      <TextView android:id="@+id/versionInfoImportant"
-          android:visibility="gone"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:paddingLeft="15px"
-	        android:textStyle="bold"
-	        android:textColor="#ffffff"
-	        android:textSize="18sp" />
-</LinearLayout>
-</ScrollView>
- <include layout="@layout/dialog_buttonbar"/>
+    </LinearLayout>
+  </ScrollView>
+  <include layout="@layout/dialog_buttonbar"/>
 </LinearLayout>
 

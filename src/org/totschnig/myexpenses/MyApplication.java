@@ -18,6 +18,7 @@ package org.totschnig.myexpenses;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
 
@@ -69,7 +70,7 @@ public class MyApplication extends Application {
     public static String CONTRIB_FEATURE_AGGREGATE = "aggregate";
     public static String CONTRIB_FEATURE_RESET_ALL = "reset_all";
     public static final String EXTRA_AMOUNT = "amount";
-    private CharSequence mVersionInfo = "";
+    private ArrayList<CharSequence> mVersionInfo = new ArrayList<CharSequence>();
     public boolean isContribEnabled;
     private long mLastPause = 0;
     /**
@@ -86,11 +87,11 @@ public class MyApplication extends Application {
     public boolean isLocked;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 
-    public CharSequence getVersionInfo() {
+    public ArrayList<CharSequence> getVersionInfo() {
       return mVersionInfo;
     }
-    public void setVersionInfo(CharSequence mVersionInfo) {
-      this.mVersionInfo = mVersionInfo;
+    public void addVersionInfo(CharSequence mVersionInfo) {
+      this.mVersionInfo.add(mVersionInfo);
     }
     @Override
     public void onCreate()
