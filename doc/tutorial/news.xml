@@ -105,7 +105,7 @@
       </abstract>
       <pubdate>2012-11-22</pubdate>
     </sect1info>
-    <title>New feature in upcoming 1.6.0 release: Templates </title>
+    <title>New feature in upcoming 1.6.0 release: Templates</title>
     <para>
       <application>My Expenses</application> now tries to help you enter recurrent transactions: say
       you often eat a fixed-priced meal in your favourite restaurant, or transfer the same amount of
@@ -187,7 +187,7 @@
       </abstract>
       <pubdate>2013-01-19</pubdate>
     </sect1info>
-    <title>Upcoming 1.6.0 release brings a new theme to <application>My Expenses</application></title>
+    <title>Upcoming 1.6.1 release brings a new theme to <application>My Expenses</application></title>
     <para>
       Besides UI translation to Catalan, contributed by <ulink url="http://pacoriviere.cat/">Paco Rivière</ulink>,
       version 1.6.1, now available in alpha version for testing, will bring a dark theme, contributed by <ulink
