@@ -20,6 +20,7 @@
   <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Per saperne di più</a>.'>
   <!ENTITY thank_you 'Grazie per il vostro sostegno!'>
   <!ENTITY contrib ' (<b>Premium</b>)'>
+  <!ENTITY continue 'Vuoi continuare?'>
 ]>
 <resources>
   <string name="account">Conto</string>
@@ -51,6 +52,7 @@
 	<string name="contrib_feature_aggregate_label">Sommare piu conti</string>
 	<string name="contrib_feature_edit_template_label">Modificare modelli</string>
 	<string name="contrib_feature_restore_label">Backup ripristino senza disinstallare / reinstallare</string>
+  <string name="contrib_feature_reset_all_label">Reinitializare tutti i conti</string>
   <string name="contrib_key">Clave Contrib</string>
 	<string name="create_category">Nuova categoria</string>
 	<string name="currency">Valuta</string>
@@ -81,6 +83,8 @@
   <string name="dialog_remind_rate_yes">Vota ora</string>
   <string name="dialog_remind_later">Più tardi</string>
   <string name="dialog_remind_no">No grazie</string>
+  <string name="dialog_security_question">Domanda</string>
+  <string name="dialog_security_answer">Risposta</string>
   <string name="dialog_title_select_account">Scegli il conto</string>
   <string name="dialog_title_select_color">Scegli un colore</string>
   <string name="dialog_title_select_currency">Scegli una valuta</string>
@@ -171,11 +175,13 @@
   <string name="menu_contrib">Contribuire</string>
   <string name="menu_create_account">Nuovo conto</string>
   <string name="menu_create_method">Nuovo modo di pagamento</string>
+  <string name="menu_create_template">Nuovo modello</string>
+  <string name="menu_create_template_for_transaction">Nuovo modello (operazione)</string>
+  <string name="menu_create_template_for_transfer">Nuovo modello (trasferimento)</string>
   <string name="menu_create_transaction">Nuova operazione</string>
   <string name="menu_create_transfer">Nuovo trasferimento</string>
   <string name="menu_create_main_cat">Nuova categoria principale</string>
   <string name="menu_create_sub_cat">Nuova sottocategoria</string>
-  <string name="menu_create_template">Nuovo modello</string>
   <string name="menu_create_transaction_from_template_and_edit">Nuova e modificare</string>
   <string name="menu_create_transaction_from_template_and_save">Nuova e salvare</string>
   <string name="menu_delete">Cancellare</string>
@@ -192,6 +198,7 @@
   <string name="menu_more">Ulteriori &#8230;</string>
   <string name="menu_move_transaction">Spostare</string>
   <string name="menu_reset">Reinitializare</string>
+  <string name="menu_reset_all">Tutti</string>
   <string name="menu_reset_abrev">Reinit.</string>
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_settings_abrev">Impos.</string>
@@ -228,8 +235,12 @@
   -->
   <string name="parse_error_grisbi_version_not_supported">Versione del file Grisbi non è supportata:
       %1$s</string>
+  <string name="password_disabled_reenable">La protezione con password è stata disabilitata.
+     È possibile riabilitarla nelle impostazioni.</string>
+  <string name="password_lost">Password persa</string>
   <string name="password_prompt">Inserisci la tua password</string>
   <string name="password_not_valid">Password non valida. Prova ancora!</string>
+  <string name="password_security_answer_not_valid">Risposta sbagliata. Prova ancora!</string>
   <string name="payee">Beneficiario</string>
   <string name="payer">Pagatore</string>
   <!-- payment methods -->
@@ -283,14 +294,17 @@
   <string name="pref_perform_protection_title">Protezione con password</string>
   <string name="pref_perform_protection_summary">Dovrebbe lancia e riprende essere protetti?</string>
   <string name="pref_perform_share_title">Condividi QIF Export</string>
-  <string name="pref_perform_share_summary">Se il file QIF da condividere dopo ogni esportazione?
-      </string>
+  <string name="pref_perform_share_summary">Se il file QIF da condividere dopo ogni esportazione?</string>
+  <string name="pref_protection_delay_seconds_title">Ritardo fino a protezione</string>
+  <string name="pref_protection_delay_seconds_summary">Inattive secondi prima app verranno bloccati da password.</string>
   <string name="pref_qif_export_file_encoding_title">Set di caratteri del file QIF</string>
   <string name="pref_qif_export_file_encoding_summary">Fissare il set di caratteri \"ISO-8859-1\" se usa MS Money</string>
   <string name="pref_share_target_title">Carica URL QIF Export</string>
   <string name="pref_share_target_summary">Lascia vuoto se si vuole scegliere tra le applicazioni
       appropriate (e-mail, Dropbox, Google Docs, &#8230;), o fornire l\'URL in uno dei sistemi
       sostenuti</string>
+  <string name="pref_security_question_title">Domanda di sicurezza</string>
+  <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se si è dimenticata la password. Richiede &app_name; Contrib.</string>
   <string name="pref_ui_theme_title">Stile</string>
   <string name="pref_ui_theme_summary">Scegli tra buio e chiaro</string>
   <string name="pref_ui_theme_dark">buio</string>
@@ -325,7 +339,7 @@
   <string name="share_sending">Invia file QIF</string>
   <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
   <string name="suggest_use_standard_menu">Vuoi utilizzare il menu standard Android per chiamare i
-      comandi, e nascondere la barra dei pulsanti?</string>
+    comandi, e nascondere la barra dei pulsanti?</string>
   <string name="sum_income">Redditi</string>
   <string name="sum_expenses">Spese</string>
   <string name="sum_transfer">Trasferimenti</string>
@@ -338,16 +352,21 @@
   <string name="transfer">Trasferimento</string>
   <string name="tutorial">Manuale</string>
   <string name="type">Tipo</string>
-  <string name="warning_backup">Database e le preferenze verranno salvate su scheda SD. Vuoi
-      continuare?</string>
+  <string name="warning_backup">Database e le preferenze verranno salvate su scheda SD. &continue;</string>
   <string name="warning_backup_exists">Database e le preferenze verranno salvate su scheda SD.
-      Backup esistente verrà sovrascritto. Vuoi continuare?</string>
+    Backup esistente verrà sovrascritto. &continue;</string>
   <string name="warning_delete_account">Questo conto sarà cancelatto con tutte le sue operazioni.
-      Vuoi continuare?</string>
+    &continue;</string>
+  <string name="warning_password_no_contrib">Se si imposta una password, fare attenzione a non dimenticare. Non sarà in grado di recuperare, a meno che
+    impostato una domanda di sicurezza (Richiede &app_name; Contrib).</string>
+  <string name="warning_password_contrib">L\'impostazione di una domanda di sicurezza consente di sbloccare l\'applicazione,
+    nel caso in cui si dimentichi la password.</string>
   <string name="warning_reset_account">Tutte le operazioni di questo conto saranno esportati
-      a un file QIF nella scheda SD e cancellati. Vuoi continuare?</string>
+    a un file QIF nella scheda SD e cancellati. &continue;</string>
+  <string name="warning_reset_account_all">Per tutti i conti, le transazioni vengono esportati in file QIF
+    su SD-card e cancellati. &continue;</string>
   <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup. I dati
-      attuali verranno cancellati. Vuoi continuare?</string>
+    attuali verranno cancellati. &continue;</string>
   <string name="warning_select_account">Si deve selezionare un conto !</string>
 
   <!-- strings below this comment do not need translations for new languages -->

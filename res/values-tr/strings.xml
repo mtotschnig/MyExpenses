@@ -186,7 +186,7 @@
   <string name="menu_new_from_template">Şablondan yeni</string>
   <string name="menu_reset">Sıfırla</string>
   <string name="menu_reset_abrev">Sıfırla</string>
-  <string name="menu_reset_all">Tümünü sıfırla</string>
+  <string name="menu_reset_all">Tümünü</string>
   <string name="menu_settings">Ayarlar</string>
   <string name="menu_settings_abrev">Ayarlar</string>
   <string name="menu_settings_account">Güncel hesap</string>
