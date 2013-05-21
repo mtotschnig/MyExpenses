@@ -130,15 +130,51 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
-    - 1.7.2RC1
-    - 2013-05-20
+    - 1.7.2
+    - 2013-05-21
     -
-      en: "Security question for lost password (Premium). Make delay for password protection configurable. Create templates from scratch."
-  -
-    - 1.7.2a1
-    - 2013-05-14
-    -
-      en: "Reset all accounts (Premium). Calculator."
+      en: |
+        Reset all accounts.
+        Calculator.
+        Security question for lost password.
+        Configurable delay for password protection.
+        Create templates from scratch.
+      ca: |
+        Restablir tots els comptes.
+        Calculadora.
+        Pregunta de seguretat de contrasenya perduda.
+        Retard configurable per a la protecció de contrasenya.
+        Creació de plantilles des de zero.
+      fr: |
+        Réinitialiser tous les comptes.
+        Calculatrice.
+        Question de sécurité pour oubli de mot de passe.
+        Battement configurable avant protection.
+        Créer des modèles à partir de zéro.
+      de: |
+        Alle Konten zurücksetzen.
+        Taschenrechner.
+        Sicherheitsfrage für Vergessen des Passwortes.
+        Konfigurierbare Wartezeit für Passwortschutz.
+        Vorlagen ohne Ableitung aus bestehender (Um)Buchung erzeugen.
+      it: |
+        Reinitializare tutti i conti.
+        Calcolatrice.
+        Domanda di sicurezza per la password persa.
+        Ritardo configurabile per la protezione con password.
+        Creazione di modelli da zero.
+      es: |
+        Restablecer todas las cuentas.
+        Calculadora.
+        Pregunta de seguridad de contraseña perdida.
+        Retardo configurable para la protección de contraseña.
+        Creación de plantillas desde cero.
+      tr: |
+        Tüm hesapları sıfırla.
+        Hesap makinesi.
+        Unutulmuş parola için güvenlik sorusu.
+        Parola ile koruma başlama süresini düzenlenebilir yap.
+        Sıfırdan şablon oluşturulması.
   -
     - 1.7.1
     - 2013-05-09
