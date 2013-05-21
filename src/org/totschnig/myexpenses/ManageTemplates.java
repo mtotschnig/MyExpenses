@@ -16,6 +16,8 @@
 package org.totschnig.myexpenses;
 
 import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
+
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -176,6 +178,8 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
     switch (id) {
     case R.id.CONTRIB_DIALOG:
       return DialogUtils.contribDialog(this,MyApplication.CONTRIB_FEATURE_EDIT_TEMPLATE);
+    case R.id.DONATE_DIALOG:
+      return DialogUtils.donateDialog((Activity) this);
     }
     return null;
   }

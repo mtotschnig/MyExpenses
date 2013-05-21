@@ -92,6 +92,9 @@
   <string name="dialog_title_select_method">Pick a payment method</string>
   <string name="dialog_title_select_type">Pick a type</string>
   <string name="dialog_title_template_title">Set the title</string>
+  <string name="donate">Donate</string>
+  <string name="donate_dialog_text">If you are not able to access Google Play, you can donate via PayPal or Flattr,
+    and then request a contrib key from the settings screen.\n\n&thank_you;</string>
   <string name="edit_category">Edit category</string>
   <string name="error_accessing_gplay">Error while accessing Google Play</string>
   <string name="expense">expense</string>

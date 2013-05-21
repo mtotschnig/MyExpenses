@@ -352,7 +352,7 @@ public class Utils {
     if (Utils.isIntentAvailable(ctx,i)) {
       ctx.startActivity(i);
     } else {
-      Toast.makeText(ctx.getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
+      ctx.showDialog(R.id.DONATE_DIALOG);
     }
   }
   public static String getContribFeatureLabelsAsFormattedList(Context ctx) {

@@ -69,7 +69,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Html;
-import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -752,6 +751,8 @@ public class MyExpenses extends ProtectedActivity
         .setTitle(R.string.app_name)
         .setView(view)
         .create();
+    case R.id.DONATE_DIALOG:
+      return DialogUtils.donateDialog((Activity) this);
     }
     return super.onCreateDialog(id);
   }

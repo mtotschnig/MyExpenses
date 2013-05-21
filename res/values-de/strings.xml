@@ -94,16 +94,18 @@
   <string name="dialog_title_select_method">Zahlungsweise auswählen</string>
   <string name="dialog_title_select_type">Typ auswählen</string>
   <string name="dialog_title_template_title">Titel festlegen</string>
+  <string name="donate">Spenden</string>
+  <string name="donate_dialog_text">Wenn Sie nicht auf Google Play zugreifen können, können Sie mittels PayPal oder Flattr spenden,
+    und dann von den Einstellungen aus einen Contrib-Schlüssel anfordern.\n\n&thank_you;</string>
   <string name="edit_category">Kategorie verändern</string>
   <string name="error_accessing_gplay">Fehler beim Zugriff auf Google Play</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten 
-      Sie eine Minute bevor Sie es erneut versuchen.</string>
+    Sie eine Minute bevor Sie es erneut versuchen.</string>
   <string name="export_expenses">Ausgaben-Export</string>
   <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
   <string name="export_expenses_sdcard_success">Ausgaben in Datei %1$s exportiert</string>
-  <string name="external_storage_unavailable">Externer Speicher (SD Karte) is nicht
-      verfügbar</string>
+  <string name="external_storage_unavailable">Externer Speicher (SD Karte) is nicht verfügbar</string>
   <string name="feedback">Feedback</string>
   <string name="feedback_email_message">Senden Sie Ihr Feedback, bitte auf Deutsch, Englisch oder Französisch!</string>
   <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
@@ -114,7 +116,7 @@
   <string name="grisbi_import_button_categories_and_parties">Kateg. und Parteien</string>
   <string name="grisbi_import_parsing">Analyse von %1$s</string>
   <string name="grisbi_import_categories_and_parties_success">%1$s Kategorien und %2$s Parteien
-      erfolgreich importiert</string>
+    erfolgreich importiert</string>
   <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
   <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
   <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>

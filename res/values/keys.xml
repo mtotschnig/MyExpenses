@@ -42,4 +42,6 @@
       http://www.opensource.org/licenses/bsd-license.php .</string>
   <string name="help_licence_financisto">Includes CalculatorInput class from https://launchpad.net/financisto
       , licenced under GPL v2.0 .</string>
+  <string name="donate_button_flattr">Flattr</string>
+  <string name="donate_button_paypal">Paypal</string>
 </resources>

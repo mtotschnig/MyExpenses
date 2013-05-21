@@ -23,6 +23,7 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -180,6 +181,8 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
     case RESET_ALL_DIALOG_ID:
       return DialogUtils.createMessageDialog(this,R.string.warning_reset_account_all,RESET_ACCOUNT_ALL_COMMAND_ID,null)
           .create();
+    case R.id.DONATE_DIALOG:
+      return DialogUtils.donateDialog((Activity) this);
     }
     return null;
   }

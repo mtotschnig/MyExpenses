@@ -92,17 +92,18 @@
   <string name="dialog_title_select_method">Scegli un modo di pagamento</string>
   <string name="dialog_title_select_type">Scegli un tipo</string>
   <string name="dialog_title_template_title">Assegnare un nome</string>
+  <string name="donate">Donare</string>
+  <string name="donate_dialog_text">Se non si dispone di accesso a Google Play, è possibile donare tramite PayPal o Flattr,
+    e quindi richiedere una chiave contrib dalla schermata delle impostazioni.\n\n&thank_you;</string>
   <string name="edit_category">Modificare la categoria</string>
   <string name="error_accessing_gplay">Errore durante l\'accesso a Google Play</string>
   <string name="expense">spesa</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già.
       Attendere un minuto prima di riprovare.</string>
   <string name="export_expenses">Esportazione delle speze</string>
-  <string name="export_expenses_sdcard_failure">Esportazione delle speze nella scheda SD fallito
-  </string>
+  <string name="export_expenses_sdcard_failure">Esportazione delle speze nella scheda SD fallito</string>
   <string name="export_expenses_sdcard_success">Le spese sono esportate nel file %1$s</string>
-  <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non è disponibile
-  </string>
+  <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non è disponibile</string>
   <string name="feedback">Feedback</string>
   <string name="ftp_uri_malformed">Sintassi male dell\'URI %1$s</string>
   <string name="go_to_chapter">Vai al capitolo</string>

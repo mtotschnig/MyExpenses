@@ -93,6 +93,9 @@
   <string name="dialog_title_select_method">Sélectionner un paiement</string>
   <string name="dialog_title_select_type">Sélectionner un type</string>
   <string name="dialog_title_template_title">Définir le titre</string>
+  <string name="donate">Don</string>
+  <string name="donate_dialog_text">S\'il ne vous est pas possible d\'accéder à Google Play, vous pouvez faire un don au moyen de PayPal ou Flattr,
+    et ensuite demander une clé Contrib à partir des paramètres.\n\n&thank_you;</string>
   <string name="edit_category">Éditer la catégorie</string>
   <string name="error_accessing_gplay">Erreur lors de l\'accès à Google Play</string>
   <string name="expense">dépense</string>

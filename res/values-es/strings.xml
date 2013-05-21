@@ -81,7 +81,7 @@
   <string name="dialog_password_new_password">Nueva contraseña</string>
   <string name="dialog_password_new_password_confirmation">Nueva contraseña (confirmación)</string>
   <string name="dialog_remind_rate">Por favor tome un momento para valorar y comentar &app_name; en Google Play.
-     Sus comentarios me permiten añadir continuamente mejoras.</string>
+    Sus comentarios me permiten añadir continuamente mejoras.</string>
   <string name="dialog_remind_rate_yes">Valora hoy</string>
   <string name="dialog_remind_later">Más tarde</string>
   <string name="dialog_remind_no">No, gracias</string>
@@ -94,17 +94,20 @@
   <string name="dialog_title_select_method">Escoger un método de pago</string>
   <string name="dialog_title_select_type">Escoger un tipo</string>
   <string name="dialog_title_template_title">Establecer el título</string>
+  <string name="donate">Done</string>
+  <string name="donate_dialog_text">Si usted no tiene acceso a Google Play, se puede donar a través de PayPal o Flattr,
+    y luego solicitar una clave contrib de la pantalla de configuraciones.\n\n&thank_you;</string>
   <string name="edit_category">Modificar categoría</string>
   <string name="error_accessing_gplay">Error al acceder a Google Play</string>
   <string name="expense">gasto</string>
   <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere
-       un minuto antes de intentarlo de nuevo.</string>
+    un minuto antes de intentarlo de nuevo.</string>
   <string name="export_expenses">Exportación de los gastos</string>
   <string name="export_expenses_sdcard_failure">Exportación de los gastos a la tarjeta SD ha
-      fallado.</string>
+    fallado.</string>
   <string name="export_expenses_sdcard_success">Gastos han sido exportados al archivo %1$s</string>
   <string name="external_storage_unavailable">La memoria externa (tarjeta SD) no es
-       disponible.</string>
+    disponible.</string>
   <string name="feedback">Feedback</string>
   <string name="ftp_uri_malformed">URI %1$s inválido</string>
   <string name="go_to_chapter">Consulte el capítulo</string>

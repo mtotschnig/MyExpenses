@@ -80,13 +80,6 @@ public class DialogUtils {
           if (v.getId() == R.id.CONTRIB_PLAY_COMMAND) {
             ctx.dismissDialog(R.id.CONTRIB_DIALOG);
             Utils.viewContribApp(ctx);
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
-            if (Utils.isIntentAvailable(ctx,intent)) {
-              ctx.startActivity(intent);
-            } else {
-              Toast.makeText(ctx.getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
-            }
             ((ContribIFace)ctx).contribFeatureNotCalled();
           } else {
             if (usagesLeft > 0) {
@@ -255,5 +248,29 @@ public class DialogUtils {
       }
     });
     return pwDialog;
+  }
+  public static Dialog donateDialog(final Activity ctx) {
+    Context wrappedCtx = new ContextThemeWrapper(ctx, MyApplication.getThemeId()) {
+      public void onDialogButtonClicked(View v) {
+        ctx.dismissDialog(R.id.DONATE_DIALOG);
+        if (v.getId() == R.id.WEB_COMMAND) {
+          Intent i = new Intent(Intent.ACTION_VIEW);
+          i.setData(Uri.parse("http://" + MyExpenses.HOST + "/#" + (String) v.getTag()));
+          startActivity(i);
+        }
+      }
+    };
+    LayoutInflater li = LayoutInflater.from(wrappedCtx);
+    View view = li.inflate(R.layout.messagedialog, null);
+    TextView tv = (TextView)view.findViewById(R.id.message_text);
+    tv.setText(R.string.donate_dialog_text);
+    DialogUtils.setDialogTwoButtons(view,
+        R.string.donate_button_flattr,R.id.WEB_COMMAND,"flattr",
+        R.string.donate_button_paypal,R.id.WEB_COMMAND,"paypal"
+    );
+    return new AlertDialog.Builder(wrappedCtx)
+      .setTitle(R.string.donate)
+      .setView(view)
+      .create();
   }
 }
