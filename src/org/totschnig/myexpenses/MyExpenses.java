@@ -331,7 +331,7 @@ public class MyExpenses extends ProtectedActivity
         android.R.drawable.ic_menu_help,
         R.id.HELP_COMMAND);
     mHelpButton.addItem(R.string.tutorial,R.id.WEB_COMMAND,"tutorial_r4");
-    mHelpButton.addItem("News",R.id.WEB_COMMAND,"news");
+    mHelpButton.addItem(R.string.help_heading_news,R.id.WEB_COMMAND,"news");
     mHelpButton.addItem(R.string.menu_faq,R.id.WEB_COMMAND,"faq");
     mHelpButton.addItem(R.string.menu_contrib,R.id.CONTRIB_COMMAND);
     mHelpButton.addItem("Feedback",R.id.FEEDBACK_COMMAND);
@@ -943,7 +943,6 @@ public class MyExpenses extends ProtectedActivity
       }
       if (prev_version < 40) {
         mDbHelper.fixDateValues();
-
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
         mSettings.edit().putLong("nextReminderContrib",mDbHelper.getTransactionSequence()+23).commit();

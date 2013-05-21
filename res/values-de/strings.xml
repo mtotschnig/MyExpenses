@@ -383,4 +383,5 @@
   <string name="version_39_upgrade_info">Jetzt ist es einfacher und interessanter, für &lt;i>&app_name;&lt;/i> einen Beitrag zu leisten. 
     Wenn Sie &lt;i>&app_name; Contrib&lt;/i> installieren, können Sie uneingeschränkt auf die folgenden Premium-Funktionen zugreifen:&lt;br>%1$s</string>
   <string name="version_40_upgrade_info">Sie können &app_name; jetzt mit einem Passwort absichern (im Abschnitt Sicherheit der Einstellungen).</string>
+  <string name="version_41_upgrade_info"><i>&app_name;</i> hat jetzt eine Google+ Seite. Folgen Sie dieser über Hilfe => Neuigkeiten.</string>
 </resources>      

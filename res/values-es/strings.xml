@@ -382,4 +382,5 @@
 	  siguientes características premium:&lt;br>%1$s</string>
   <string name="version_40_upgrade_info">Ahora usted puede proteger &app_name;
     estableciendo una contraseña en la pantalla Configuraciones (sección Seguridad).</string>
+  <string name="version_41_upgrade_info"><i>&app_name;</i> ahora tiene una página de Google+. Síguelo a través de Ayuda => Noticias</string>
 </resources>

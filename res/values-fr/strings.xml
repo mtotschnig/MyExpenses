@@ -381,5 +381,6 @@
   <string name="version_39_upgrade_info">Contribuer à &lt;i>&app_name;&lt;/i> est maintenant plus facile et plus intéressant.
     Si vous installez &lt;i>&app_name; Contrib&lt;/i>, vous obtiendrez un accès illimité aux
     fonctionnalités Premium suivantes:&lt;br>%1$s</string>
-    <string name="version_40_upgrade_info">Maintenant, vous pouvez proteger &app_name; en spécifiant un mot de passe dans les paramètres (partie Securité).</string>
+  <string name="version_40_upgrade_info">Maintenant, vous pouvez proteger &app_name; en spécifiant un mot de passe dans les paramètres (partie Securité).</string>
+  <string name="version_41_upgrade_info"><i>&app_name;</i> maintenant a sa page Google+. Suivez-la via Aide => Nouvelles.</string>
 </resources>
