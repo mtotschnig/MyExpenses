@@ -154,7 +154,7 @@
   <string name="help_whats_new">&#160;- Reset all accounts&contrib;.\n
     - Calculator.\n
     - Security question for lost password&contrib;.\n
-    - Make delay for password protection configurable.\n
+    - Configurable delay for password protection.\n
     - Create templates from scratch.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>

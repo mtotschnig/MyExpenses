@@ -153,8 +153,11 @@
       - <b>Aiuto</b> : accesso rapido al manuale, News et FAQ.\n
       \nPer favore visita il <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuale</a>
       per avere ulteriori esplicazioni.</string>
- <!--  <string name="help_whats_new">&#160;- Protezione con password.\n
-    - Corretto il problema con la gestione della data in alcune versioni locali (arabo, bengali, persiano, hindi, marathi, pashto, tamil).</string> -->
+  <string name="help_whats_new">&#160;- Reinitializare tutti i conti&contrib;.\n
+    - Calcolatrice.\n
+    - Domanda di sicurezza per la password persa&contrib;.\n
+    - Ritardo configurabile per la protezione con password.\n
+    - Creazione di modelli da zero.</string>
   <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
   <string name="important_version_information">Informazioni importanti</string>
