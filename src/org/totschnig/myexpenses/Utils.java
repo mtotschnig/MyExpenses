@@ -358,7 +358,9 @@ public class Utils {
   public static String getContribFeatureLabelsAsFormattedList(Context ctx) {
     String result = " - " + ctx.getString(R.string.contrib_feature_aggregate_label) +"<br>";
     result += " - " + ctx.getString(R.string.contrib_feature_edit_template_label) +"<br>";
-    result += " - " + ctx.getString(R.string.contrib_feature_restore_label);
+    result += " - " + ctx.getString(R.string.contrib_feature_restore_label)  +"<br>";
+    result += " - " + ctx.getString(R.string.contrib_feature_reset_all_label) +"<br>";
+    result += " - " + ctx.getString(R.string.pref_security_question_title);
     return result;
   }
   public static String md5(String s) {
