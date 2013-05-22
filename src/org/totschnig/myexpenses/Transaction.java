@@ -180,4 +180,9 @@ public class Transaction {
     }
     return id;
   }
+  public long saveAsNew() {
+    id = 0;
+    setDate(new Date());
+    return save();
+  }
 }

@@ -53,6 +53,7 @@
   <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
   <string name="contrib_feature_edit_template_label">Edit templates</string>
   <string name="contrib_feature_reset_all_label">Reset all accounts</string>
+  <string name="contrib_feature_clone_transaction_label">Clone transaction</string>
   <string name="contrib_key">Contrib key</string>
   <string name="create_category">Create new category</string>
   <string name="currency">Currency</string>
@@ -174,6 +175,7 @@
   <string name="menu_backup">Backup</string>
   <string name="menu_contrib">Contribute</string>
   <string name="menu_change_account">Change account</string>
+  <string name="menu_clone_transaction">Clone transaction</string>
   <string name="menu_create_account">New account</string>
   <string name="menu_create_method">New payment method</string>
   <string name="menu_create_transaction">New Transaction</string>
@@ -350,10 +352,10 @@
       backup will be overwritten. &continue;</string>
   <string name="warning_delete_account">This account will be deleted with all its transactions.
       &continue;</string>
-  <string name="warning_password_no_contrib">If you set a password, take care to not forget it. You will not be able to recover it, unless you 
+  <string name="warning_password_no_contrib">If you set a password, take care not to forget it. You will not be able to recover it, unless you
     set a security question (Requires &app_name; Contrib).</string>
   <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
-  <string name="warning_reset_account">All transactions of this account will be exported into QIF file 
+  <string name="warning_reset_account">All transactions of this account will be exported into QIF file
       on SD-card and deleted. &continue;</string>
   <string name="warning_reset_account_all">For all accounts, transactions will be exported into QIF files
       on SD-card and deleted. &continue;</string>

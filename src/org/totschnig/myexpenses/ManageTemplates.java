@@ -125,7 +125,7 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
           case EDIT_TEMPLATE:
             mTemplateId = id;
             if (MyApplication.getInstance().isContribEnabled) {
-              contribFeatureCalled("edit_template");
+              contribFeatureCalled(MyApplication.CONTRIB_FEATURE_EDIT_TEMPLATE);
             } else {
               showDialog(R.id.CONTRIB_DIALOG);
             }

@@ -65,4 +65,5 @@
     <item type="id" name="REMIND_YES_COMMAND"/>
     <item type="id" name="REMIND_LATER_COMMAND"/>
     <item type="id" name="REMIND_NO_COMMAND"/>
+    <item type="id" name="CLONE_TRANSACTION_COMMAND"/>
 </resources>

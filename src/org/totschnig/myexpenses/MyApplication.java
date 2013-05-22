@@ -69,6 +69,7 @@ public class MyApplication extends Application {
     public static String CONTRIB_FEATURE_RESTORE= "restore";
     public static String CONTRIB_FEATURE_AGGREGATE = "aggregate";
     public static String CONTRIB_FEATURE_RESET_ALL = "reset_all";
+    public static String CONTRIB_FEATURE_CLONE_TRANSACTION = "clone_transaction";
     public static final String EXTRA_AMOUNT = "amount";
     private ArrayList<CharSequence> mVersionInfo = new ArrayList<CharSequence>();
     public boolean isContribEnabled;

@@ -82,7 +82,7 @@ import android.util.TypedValue;
  *
  */
 public class MyExpenses extends ProtectedActivity
-  implements OnClickListener,OnLongClickListener, OnSharedPreferenceChangeListener, OnPageChangeListener {
+  implements OnClickListener,OnLongClickListener, OnSharedPreferenceChangeListener, OnPageChangeListener, ContribIFace {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_PREF=2;
   public static final int ACTIVITY_CREATE_ACCOUNT=3;
@@ -127,17 +127,17 @@ public class MyExpenses extends ProtectedActivity
   private boolean scheduledRestart = false;
 
   /**
-   * stores the transaction from which a template is to be created
+   * several dialogs need an object on which they operate, and this object must survive
+   * orientation change, and the call to the contrib dialog, currently there are three use cases for this:
+   * 1) TEMPLATE_TITLE_DIALOG:  the transaction from which a template is to be created
+   * 2) SELECT_ACCOUNT_DIALOG: if 0 we call from SWITCH_ACCOUNT, if long it is the transaction to be moved
+   * 3) CLONE_TRANSACTION: the transaction to be cloned
    */
-  private long mTemplateCreateDialogTransactionId;
+  private long mDialogContextId = 0L;
 
   private BetterPopupWindow dw;
   private boolean mButtonBarIsFilled;
-  /**
-   * for the SELECT_ACCOUNT_DIALOG we store the context from which we are called
-   * if null, we call from SWITCH_ACCOUNT if a long we call from MOVE_TRANSACTION
-   */
-  private long mSelectAccountContextId = 0L;
+
   private int mCurrentDialog = 0;
 
   private int colorExpense;
@@ -447,6 +447,7 @@ public class MyExpenses extends ProtectedActivity
     menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
     menu.add(0, R.id.SHOW_DETAIL_COMMAND, 0, R.string.menu_show_detail);
     menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
+    menu.add(0, R.id.CLONE_TRANSACTION_COMMAND, 0, R.string.menu_clone_transaction);
     if (mDbHelper.getAccountCount(null) > 1) {
       menu.add(0,R.id.MOVE_TRANSACTION_COMMAND,0,R.string.menu_move_transaction);
     }
@@ -455,20 +456,29 @@ public class MyExpenses extends ProtectedActivity
   @Override
   public boolean onContextItemSelected(MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    Transaction t;
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
       long transfer_peer = Transaction.getInstanceFromDb(info.id).transfer_peer;
       if (transfer_peer == 0) {
         Transaction.delete(info.id);
-      }
-      else {
+      } else {
         Transfer.delete(info.id,transfer_peer);
       }
       myAdapter.notifyDataSetChanged();
       configButtons();
       return true;
+    case R.id.CLONE_TRANSACTION_COMMAND:
+      mDialogContextId = info.id;
+      if (MyApplication.getInstance().isContribEnabled) {
+        contribFeatureCalled(MyApplication.CONTRIB_FEATURE_CLONE_TRANSACTION);
+      }
+      else {
+        showDialog(R.id.CONTRIB_DIALOG);
+      }
+      return true;
     case R.id.SHOW_DETAIL_COMMAND:
-      Transaction t = Transaction.getInstanceFromDb(info.id);
+      t = Transaction.getInstanceFromDb(info.id);
       String method = "";
       if (t.methodId != 0) {
         try {
@@ -493,11 +503,11 @@ public class MyExpenses extends ProtectedActivity
       Toast.makeText(getBaseContext(), msg != "" ? msg : getString(R.string.no_details), Toast.LENGTH_LONG).show();
       return true;
     case R.id.MOVE_TRANSACTION_COMMAND:
-      mSelectAccountContextId = info.id;
+      mDialogContextId = info.id;
       showDialogWrapper(R.id.SELECT_ACCOUNT_DIALOG);
       return true;
     case R.id.CREATE_TEMPLATE_COMMAND:
-      mTemplateCreateDialogTransactionId = info.id;
+      mDialogContextId = info.id;
       showDialogWrapper(R.id.TEMPLATE_TITLE_DIALOG);
       return true;
     }
@@ -593,11 +603,11 @@ public class MyExpenses extends ProtectedActivity
           public void onClick(DialogInterface dialog, int item) {
             //we remove the dialog since the items are different dependent on each invocation
             removeDialog(R.id.SELECT_ACCOUNT_DIALOG);
-            if (mSelectAccountContextId == 0L) {
+            if (mDialogContextId == 0L) {
               switchAccount(accountIds[item]);
             }
             else {
-              mDbHelper.moveTransaction(mSelectAccountContextId,accountIds[item]);
+              mDbHelper.moveTransaction(mDialogContextId,accountIds[item]);
               myAdapter.notifyDataSetChanged();
               configButtons();
             }
@@ -628,7 +638,7 @@ public class MyExpenses extends ProtectedActivity
           if (!title.equals("")) {
             input.setText("");
             dismissDialog(R.id.TEMPLATE_TITLE_DIALOG);
-            if ((new Template(Transaction.getInstanceFromDb(mTemplateCreateDialogTransactionId),title)).save() == -1) {
+            if ((new Template(Transaction.getInstanceFromDb(mDialogContextId),title)).save() == -1) {
               Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
             } else {
               Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
@@ -753,6 +763,8 @@ public class MyExpenses extends ProtectedActivity
         .create();
     case R.id.DONATE_DIALOG:
       return DialogUtils.donateDialog((Activity) this);
+    case R.id.CONTRIB_DIALOG:
+      return DialogUtils.contribDialog(this,MyApplication.CONTRIB_FEATURE_CLONE_TRANSACTION);
     }
     return super.onCreateDialog(id);
   }
@@ -761,16 +773,14 @@ public class MyExpenses extends ProtectedActivity
   @Override
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
-   outState.putLong("SelectAccountContextId", mSelectAccountContextId);
-   outState.putLong("TemplateCreateDialogTransactionId",mTemplateCreateDialogTransactionId);
+   outState.putLong("TemplateCreateDialogTransactionId",mDialogContextId);
    outState.putSerializable("MoreItems",mMoreItems);
    outState.putInt("currentDialog",mCurrentDialog);
   }
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
    super.onRestoreInstanceState(savedInstanceState);
-   mSelectAccountContextId = savedInstanceState.getLong("SelectAccountContextId");
-   mTemplateCreateDialogTransactionId = savedInstanceState.getLong("TemplateCreateDialogTransactionId");
+   mDialogContextId = savedInstanceState.getLong("TemplateCreateDialogTransactionId");
    mMoreItems = (ArrayList<Action>) savedInstanceState.getSerializable("MoreItems");
    mCurrentDialog = savedInstanceState.getInt("currentDialog");
   }
@@ -1105,7 +1115,7 @@ public class MyExpenses extends ProtectedActivity
          if (accountCount == 2) {
            switchAccount(0);
          } else {
-           mSelectAccountContextId = 0L;
+           mDialogContextId = 0L;
            showDialogWrapper(R.id.SELECT_ACCOUNT_DIALOG);
          }
         } else {
@@ -1473,5 +1483,14 @@ public class MyExpenses extends ProtectedActivity
       findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(mCurrentAccount.color);
     }
     configButtons();
+  }
+  @Override
+  public void contribFeatureCalled(String feature) {
+    Utils.recordUsage(feature);
+    Transaction.getInstanceFromDb(mDialogContextId).saveAsNew();
+    myAdapter.notifyDataSetChanged();
+  }
+  @Override
+  public void contribFeatureNotCalled() {
   }
 }
