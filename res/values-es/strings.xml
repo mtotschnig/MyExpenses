@@ -85,7 +85,7 @@
   <string name="dialog_remind_rate_yes">Valora hoy</string>
   <string name="dialog_remind_later">Más tarde</string>
   <string name="dialog_remind_no">No, gracias</string>
-  <string name="dialog_security_question">Cuestión</string>
+  <string name="dialog_security_question">Pregunta</string>
   <string name="dialog_security_answer">Respuesta</string>
   <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_color">Escoger un color</string>
@@ -239,12 +239,12 @@
    -->
   <string name="parse_error_grisbi_version_not_supported">La versión del archivo Grisbi no es
       apoyada.</string>
-  <string name="password_disabled_reenable">La protección por contraseña ha sido desactivada.
-     Puede volver a activar en la configuración.</string>
+  <string name="password_disabled_reenable">Se ha desactivado la protección por contraseña.
+    Usted puede volver a activarla en las configuraciones.</string>
   <string name="password_lost">Contraseña perdida</string>
   <string name="password_prompt">Introduzca su contraseña</string>
   <string name="password_not_valid">Contraseña no válida. ¡Inténtelo de nuevo!</string>
-  <string name="password_security_answer_not_valid">Respuesta incorrecta. ¡Inténtelo de nuevo!</string>
+  <string name="password_security_answer_not_valid">Respuesta no válida. ¡Inténtelo de nuevo!</string>
   <string name="payee">Beneficiario</string>
   <string name="payer">Pagador</string>
   <!-- payment methods -->
@@ -308,7 +308,7 @@
   <string name="pref_perform_protection_title">Protección por contraseña</string>
   <string name="pref_perform_protection_summary">¿Se deben proteger lanzamientos de la aplicación?</string>
   <string name="pref_protection_delay_seconds_title">Retardo hasta la protección</string>
-  <string name="pref_protection_delay_seconds_summary">Segundos de inactividad antes de aplicación serán bloqueados por contraseña.</string>
+  <string name="pref_protection_delay_seconds_summary">Segundos de inactividad antes de que la aplicación sea bloqueada por contraseña.</string>
 	<string name="pref_request_licence_summary">Si usted ha contribuido por otros medios, pida una clave
 	  Contrib por correo electrónico.</string>
 	<string name="pref_request_licence_title">Solicite una clave contrib</string>
@@ -365,14 +365,15 @@
   <string name="warning_backup_exists">La base de datos y las configuraciones son archivadas en la
       tarjeta SD. Se borra la existente copia de seguridad. &continue;</string>
   <string name="warning_delete_account">Se borra esta cuenta con todos sus asientos. &continue;</string>
-  <string name="warning_password_no_contrib">Si se establece una contraseña, tenga cuidado de no olvidarla.
-  	Usted no será capaz de recuperar, a menos que establecer una pregunta de seguridad (Requiere &app_name; Contrib).</string>
-  <string name="warning_password_contrib">SConfiguración de una pregunta de seguridad permite desbloquear la aplicación,
-    en caso de que olvide su contraseña.</string>
+  <string name="warning_password_no_contrib">Si usted establece una contraseña,
+    tenga cuidado de no olvidarla. Usted no será capaz de recuperarla, a menos que
+    establece una pregunta de seguridad (Requiere &app_name; Contrib).</string>
+  <string name="warning_password_contrib">Estableciendo una pregunta de seguridad permite desbloquear la aplicación,
+    qen caso de que olvide su contraseña.</string>
   <string name="warning_reset_account">Todas las transacciones serán exportadas a un archivo QIF
     en la tarjeta SD y borradas.&continue;</string>
-  <string name="warning_reset_account_all">Por todas las cuentas, las transacciones se exportan en archivos QIF
-       en la tarjeta SD y sean eliminados. &continue;</string>
+  <string name="warning_reset_account_all">Para todas las cuentas, las transacciones serán exportadas en archivos QIF
+       en la tarjeta SD y eliminadas. &continue;</string>
   <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de
     seguridad. Se borrarán los datos actuales. &continue;</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
