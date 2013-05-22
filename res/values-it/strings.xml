@@ -49,27 +49,27 @@
   <string name="color_name_white">Bianco</string>
   <string name="color_name_yellow">Giallo</string>
   <string name="comment">Note</string>
-	<string name="contrib_feature_aggregate_label">Sommare piu conti</string>
-	<string name="contrib_feature_edit_template_label">Modificare modelli</string>
-	<string name="contrib_feature_restore_label">Backup ripristino senza disinstallare / reinstallare</string>
+  <string name="contrib_feature_aggregate_label">Sommare piu conti</string>
+  <string name="contrib_feature_edit_template_label">Modificare modelli</string>
+  <string name="contrib_feature_restore_label">Backup ripristino senza disinstallare / reinstallare</string>
   <string name="contrib_feature_reset_all_label">Reinitializare tutti i conti</string>
   <string name="contrib_key">Clave Contrib</string>
-	<string name="create_category">Nuova categoria</string>
-	<string name="currency">Valuta</string>
-	<string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
-	<string name="current_balance">Saldo corrente</string>
+  <string name="create_category">Nuova categoria</string>
+  <string name="currency">Valuta</string>
+  <string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
+  <string name="current_balance">Saldo corrente</string>
   <string name="date">Data</string>
   <string name="date_time">Data / Ora</string>
   <string name="default_account_description">Questo conto stato istituito automaticamente quando si
       installa</string>
   <string name="description">Descrizione</string>
-	<string name="dialog_confirm_restore_on_install">È stato trovato un file backup. Vuoi ripristinarlo?</string>
-	<string name="dialog_contrib_no">Non ancora</string>
-	<string name="dialog_contrib_no_usages_left">Non restano alcuni usi gratis</string>
-	<string name="dialog_contrib_reminder">\"%1$s\" è una funzionalità speciale. %2$s. Ottiene accesso
-	  illimitato a questa e altre funzionalità installando &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
-	<string name="dialog_contrib_usage_count">Restano %1$d usi gratis</string>
-	<string name="dialog_contrib_yes">Comprare</string>
+  <string name="dialog_confirm_restore_on_install">È stato trovato un file backup. Vuoi ripristinarlo?</string>
+  <string name="dialog_contrib_no">Non ancora</string>
+  <string name="dialog_contrib_no_usages_left">Non restano alcuni usi gratis</string>
+  <string name="dialog_contrib_reminder">\"%1$s\" è una funzionalità speciale. %2$s. Ottiene accesso
+    illimitato a questa e altre funzionalità installando &lt;i>&app_name; Contrib&lt;/i>. &thank_you;</string>
+  <string name="dialog_contrib_usage_count">Restano %1$d usi gratis</string>
+  <string name="dialog_contrib_yes">Comprare</string>
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> è gratuito e open source. Si prega di 
   contribuire installando la versione Contrib a pagamento. Ottiene l’accesso illimitato alle
   seguenti funzionalità speciali:&lt;br>%1$s&lt;br>&thank_you;</string>
@@ -324,8 +324,8 @@
   <string name="pref_enter_licence_title">Inserire la chiave Contrib</string>
   <string name="pref_request_licence_summary">Se lei ha contribuito in altri modi, richiede la sua chiave
     contrib via e-mail.</string>
-	<string name="pref_request_licence_title">Richiede una chiave contrib</string>
-	<string name="pref_restore_summary">Ripristinare il backup dalla cartella "myexpenses" sulla scheda SD</string>
+  <string name="pref_request_licence_title">Richiede una chiave contrib</string>
+  <string name="pref_restore_summary">Ripristinare il backup dalla cartella "myexpenses" sulla scheda SD</string>
   <string name="pref_restore_title">Ripristinare</string>
   <string name="request_licence_mail_body">Vi prego di inviarmi una chiave contrib per Android-Id %1$s</string>
   <string name="restore_db_failure">Ripristino del database non riuscita.</string>
@@ -386,8 +386,8 @@
   <string name="version_35_upgrade_info"><i>&app_name;</i> ora ha un nuovo stile di default buio
     può tornare allo stile chiaro nelle impostazioni.</string>
   <string name="version_39_upgrade_info">Contribuire a &lt;i>&app_name;&lt;/i> è diventato più facile,
-	  e più interessante. Se installa &lt;i>&app_name; Contrib&lt;/i> ottiene accesso illimitato alle
-	  seguenti funzionalità speciali: &lt;br>%1$s</string>
+    e più interessante. Se installa &lt;i>&app_name; Contrib&lt;/i> ottiene accesso illimitato alle
+    seguenti funzionalità speciali: &lt;br>%1$s</string>
   <string name="version_40_upgrade_info">Ora è possibile proteggere &app_name;, impostando una password dalle impostazioni (sezione Sicurezza).</string>
   <string name="version_41_upgrade_info"><i>&app_name;</i> ora ha una pagina di Google+. Seguitelo attraverso Aiuto => Notizie.</string>
 </resources>
