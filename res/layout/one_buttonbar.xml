@@ -19,7 +19,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
   <include android:id="@+id/ButtonBarDividerTop" layout="@layout/divider_thick"/>
-  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  <RelativeLayout
        android:layout_width="fill_parent"
        android:layout_height="wrap_content"
        style="?attr/buttonBarStyle">
@@ -32,6 +32,12 @@
           style="@style/button"
           android:text="@android:string/ok"
           android:id="@+id/Confirm"
+          android:drawableLeft="@drawable/ic_menu_mark" />
+      <Button
+          style="@style/button"
+          android:text="@string/ok_and_new"
+          android:id="@+id/ConfirmAndNew"
+          android:visibility="gone"
           android:drawableLeft="@drawable/ic_menu_mark" />
       <Button
           style="@style/button"

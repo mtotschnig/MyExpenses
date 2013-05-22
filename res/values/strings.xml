@@ -225,6 +225,7 @@
   <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has
       sub-categories.</string>
   <string name="oi_pick_colors_info">Install OI Color Picker for more choices</string>
+  <string name="ok_and_new">Save and new</string>
   <string name="opening_balance">Opening balance</string>
   <string name="parse_error_file_not_found">Could not find file %1$s</string>
   <string name="parse_error_no_data_found">No importable data found in file.</string>

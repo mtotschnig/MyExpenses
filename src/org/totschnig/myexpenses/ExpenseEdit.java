@@ -145,6 +145,16 @@ public class ExpenseEdit extends EditActivity {
         (mTransaction.id == 0 ? R.string.menu_create_transaction : R.string.menu_edit_transaction) :
         (mTransaction.id == 0 ? R.string.menu_create_transfer : R.string.menu_edit_transfer)
       );
+      Button confirmAndNewBtn = (Button) findViewById(R.id.ConfirmAndNew);
+      confirmAndNewBtn.setVisibility(View.VISIBLE);
+      confirmAndNewBtn.setOnClickListener(new View.OnClickListener() {
+
+        public void onClick(View view) {
+          if (saveState())
+            mTransaction.id = 0;
+            mAmountText.setText("");
+        }
+      });
     }
 
     mDateButton = (Button) findViewById(R.id.Date);
