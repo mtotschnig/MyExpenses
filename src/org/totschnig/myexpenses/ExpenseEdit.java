@@ -455,6 +455,8 @@ public class ExpenseEdit extends EditActivity {
     }
     if (mTransaction instanceof Template)
       mTitleText.setText(((Template) mTransaction).title);
+    else
+      setDateTime(mTransaction.date);
     
     //add currency label to amount label
     TextView amountLabel = (TextView) findViewById(R.id.AmountLabel);    
