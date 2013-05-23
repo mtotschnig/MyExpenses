@@ -33,6 +33,7 @@
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Backup to sdcard failed.</string>
   <string name="backup_success">Database and preferences successfully written to sdcard.</string>
+  <string name="button_ok_and_new">Save and new</string>
   <string name="category_already_defined">Category %1$s already defined</string>
   <string name="category">Category</string>
   <string name="color">Color</string>
@@ -53,7 +54,7 @@
   <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
   <string name="contrib_feature_edit_template_label">Edit templates</string>
   <string name="contrib_feature_reset_all_label">Reset all accounts</string>
-  <string name="contrib_feature_clone_transaction_label">Clone transaction</string>
+  <string name="contrib_feature_clone_transaction_label">Clone transactions</string>
   <string name="contrib_key">Contrib key</string>
   <string name="create_category">Create new category</string>
   <string name="currency">Currency</string>
@@ -175,7 +176,7 @@
   <string name="menu_backup">Backup</string>
   <string name="menu_contrib">Contribute</string>
   <string name="menu_change_account">Change account</string>
-  <string name="menu_clone_transaction">Clone transaction</string>
+  <string name="menu_clone_transaction">Clone</string>
   <string name="menu_create_account">New account</string>
   <string name="menu_create_method">New payment method</string>
   <string name="menu_create_transaction">New Transaction</string>
@@ -225,7 +226,6 @@
   <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has
       sub-categories.</string>
   <string name="oi_pick_colors_info">Install OI Color Picker for more choices</string>
-  <string name="ok_and_new">Save and new</string>
   <string name="opening_balance">Opening balance</string>
   <string name="parse_error_file_not_found">Could not find file %1$s</string>
   <string name="parse_error_no_data_found">No importable data found in file.</string>

@@ -34,6 +34,7 @@
   <string name="backup_failure">La sauvegarde sur carte SD a échoué.</string>
   <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur la carte
       SD.</string>
+  <string name="button_ok_and_new">Enregistrer et nouveau</string>
   <string name="category">Catégorie</string>
   <string name="category_already_defined">La catégorie %1$s existe</string>
   <string name="color">Couleur</string>
@@ -54,6 +55,7 @@
   <string name="contrib_feature_aggregate_label">Somme totale sur tous les comptes</string>
   <string name="contrib_feature_edit_template_label">Éditer les modèles</string>
   <string name="contrib_feature_reset_all_label">Réinitialiser tous les comptes</string>
+  <string name="contrib_feature_clone_transaction_label">Cloner les transactions</string>
   <string name="contrib_key">Clé Contrib</string>
   <string name="create_category">Nouvelle catégorie</string>
   <string name="currency">Devise</string>
@@ -175,6 +177,7 @@
   <string name="menu_aggregate">Total</string>
   <string name="menu_backup">Sauvegarde</string>
   <string name="menu_change_account">Changer de compte</string>
+  <string name="menu_clone_transaction">Cloner</string>
   <string name="menu_contrib">Contribuer</string>
   <string name="menu_create_account">Nouveau compte</string>
   <string name="menu_create_method">Nouveau paiement</string>
@@ -185,8 +188,8 @@
   <string name="menu_create_template">Nouveau modèle</string>
   <string name="menu_create_template_for_transaction">Nouveau modèle (transaction)</string>
   <string name="menu_create_template_for_transfer">Nouveau modèle (virement)</string>
-  <string name="menu_create_transaction_from_template_and_edit">Nouveau et quitter</string>
-  <string name="menu_create_transaction_from_template_and_save">Nouveau et sauver</string>  
+  <string name="menu_create_transaction_from_template_and_edit">Nouveau et éditer</string>
+  <string name="menu_create_transaction_from_template_and_save">Nouveau et enregistrer</string>
   <string name="menu_delete">Effacer</string>
   <string name="menu_edit_account">Éditer le compte</string>
   <string name="menu_edit_method">Éditer la méthode de paiement</string>

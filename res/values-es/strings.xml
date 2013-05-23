@@ -34,6 +34,7 @@
   <string name="backup_failure">La copia de seguridad en la tarjeta SD ha fallado.</string>
   <string name="backup_success">La base de datos y las configuraciones han sido archivados en la
       tarjeta SD.</string>
+  <string name="button_ok_and_new">Guardar y nueva</string>
   <string name="category">Categoría</string>
   <string name="category_already_defined">Categoría %1$s ya existe.</string>
   <string name="color">Color</string>
@@ -54,6 +55,7 @@
 	<string name="contrib_feature_edit_template_label">Editar plantillas</string>
 	<string name="contrib_feature_restore_label">Restauración de la copia de seguridad sin desinstalar / reinstalar</string>
   <string name="contrib_feature_reset_all_label">Restablecer todas las cuentas</string>
+  <string name="contrib_feature_clone_transaction_label">Clonar asientos</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="create_category">Nueva categoría</string>
   <string name="currency">Moneda</string>
@@ -178,6 +180,7 @@
   <string name="menu_aggregate">Total</string>
   <string name="menu_backup">Copia de seguridad</string>
   <string name="menu_change_account">Cambiar a otra cuenta</string>
+  <string name="menu_clone_transaction">Clonar</string>
   <string name="menu_contrib">Contribuya</string>
   <string name="menu_create_account">Nueva cuenta</string>
   <string name="menu_create_method">Nuevo método de pago</string>

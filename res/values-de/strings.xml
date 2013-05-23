@@ -34,6 +34,7 @@
   <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
   <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der
       SD-Karte gesichert.</string>
+  <string name="button_ok_and_new">Speichern und neu</string>
   <string name="category">Kategorie</string>
   <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
   <string name="color">Farbe</string>
@@ -54,6 +55,7 @@
   <string name="contrib_feature_aggregate_label">Gesamtsumme über mehrere Konten</string>
   <string name="contrib_feature_edit_template_label">Vorlagen verändern</string>
   <string name="contrib_feature_reset_all_label">Alle Konten zurücksetzen</string>
+  <string name="contrib_feature_clone_transaction_label">Buchungen klonen</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
   <string name="create_category">Neue Kategorie</string>
   <string name="currency">Währung</string>
@@ -177,6 +179,7 @@
   <string name="menu_aggregate">Gesamt</string>
   <string name="menu_backup">Sicherungskopie</string>
   <string name="menu_change_account">Konto wechseln</string>
+  <string name="menu_clone_transaction">Klonen</string>
   <string name="menu_contrib">Beitragen</string>
   <string name="menu_create_account">Neues Konto</string>
   <string name="menu_create_method">Neue Zahlungsweise</string>

@@ -33,6 +33,7 @@
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Backup su SD card non è riuscito.</string>
   <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.</string>
+  <string name="button_ok_and_new">Salvare e nuova</string>
   <string name="category">Categoria</string>
   <string name="category_already_defined">La categoria %1$s è già definita</string>
   <string name="color">Colore</string>
@@ -53,6 +54,7 @@
   <string name="contrib_feature_edit_template_label">Modificare modelli</string>
   <string name="contrib_feature_restore_label">Backup ripristino senza disinstallare / reinstallare</string>
   <string name="contrib_feature_reset_all_label">Reinitializare tutti i conti</string>
+  <string name="contrib_feature_clone_transaction_label">Ricopiare operazioni</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="create_category">Nuova categoria</string>
   <string name="currency">Valuta</string>
@@ -176,6 +178,7 @@
   <string name="menu_aggregate">Sommato</string>
   <string name="menu_backup">Backup</string>
   <string name="menu_change_account">Cambiare conto</string>
+  <string name="menu_clone_transaction">Ricopiare</string>
   <string name="menu_contrib">Contribuire</string>
   <string name="menu_create_account">Nuovo conto</string>
   <string name="menu_create_method">Nuovo modo di pagamento</string>
