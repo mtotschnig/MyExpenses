@@ -24,15 +24,14 @@
       android:layout_weight="1"
       android:fillViewport="true">
    <TableLayout
-        style="?attr/listStyle"
-        android:paddingRight="?attr/listPadding"
-        android:paddingLeft="?attr/listPadding"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:id="@+id/Table"
-        android:stretchColumns="1"
-        android:shrinkColumns="1">
-
+       style="?attr/listStyle"
+       android:paddingRight="@dimen/form_padding"
+       android:paddingLeft="@dimen/form_padding"
+       android:layout_height="wrap_content"
+       android:layout_width="fill_parent"
+       android:id="@+id/Table"
+       android:stretchColumns="1"
+       android:shrinkColumns="1">
       <TableRow>
         <TextView style="@style/form_label"
             android:text="@string/label" />
