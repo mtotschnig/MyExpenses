@@ -166,8 +166,8 @@ versions:
       es: |
         Restablecer todas las cuentas.
         Calculadora.
-        Pregunta de seguridad de contraseña perdida.
-        Retardo configurable para la protección de contraseña.
+        Pregunta de seguridad para recuperar una contraseña perdida
+        Configurabilidad del retardo hasta protección por contraseña.
         Creación de plantillas desde cero.
       tr: |
         Tüm hesapları sıfırla.
