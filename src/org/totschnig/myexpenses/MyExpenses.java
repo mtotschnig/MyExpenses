@@ -416,25 +416,21 @@ public class MyExpenses extends ProtectedActivity
          switchAccount(intent.getLongExtra("account_id",0));
          return;
     }
-    //we refresh when returning from ACTIVITY_PREF with RESULT_CANCEL,
-    //since we might have edited accounts from there
-    if (resultCode == RESULT_OK || requestCode == ACTIVITY_PREF) {
-      mAccountsCursor.requery();
-      myAdapter.notifyDataSetChanged();
-      updateUIforCurrentAccount();
-      if (requestCode == ACTIVITY_EDIT) {
-        long nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
-        long transactionCount = mDbHelper.getTransactionSequence();
+    mAccountsCursor.requery();
+    myAdapter.notifyDataSetChanged();
+    updateUIforCurrentAccount();
+    if (requestCode == ACTIVITY_EDIT) {
+      long nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
+      long transactionCount = mDbHelper.getTransactionSequence();
+      if (nextReminder != -1 && transactionCount >= nextReminder) {
+        showDialogWrapper(R.id.REMIND_RATE_DIALOG);
+        return;
+      }
+      if (!MyApplication.getInstance().isContribEnabled) {
+        nextReminder = mSettings.getLong("nextReminderContrib",TRESHOLD_REMIND_CONTRIB);
         if (nextReminder != -1 && transactionCount >= nextReminder) {
-          showDialogWrapper(R.id.REMIND_RATE_DIALOG);
+          showDialogWrapper(R.id.REMIND_CONTRIB_DIALOG);
           return;
-        }
-        if (!MyApplication.getInstance().isContribEnabled) {
-          nextReminder = mSettings.getLong("nextReminderContrib",TRESHOLD_REMIND_CONTRIB);
-          if (nextReminder != -1 && transactionCount >= nextReminder) {
-            showDialogWrapper(R.id.REMIND_CONTRIB_DIALOG);
-            return;
-          }
         }
       }
     }
