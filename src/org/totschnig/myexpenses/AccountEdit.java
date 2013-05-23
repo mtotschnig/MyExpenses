@@ -148,7 +148,6 @@ public class AccountEdit extends EditActivity {
     });
     
     Button confirmButton = (Button) findViewById(R.id.Confirm);
-    Button cancelButton = (Button) findViewById(R.id.Revert);
 
     confirmButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
@@ -158,12 +157,6 @@ public class AccountEdit extends EditActivity {
           setResult(RESULT_OK,intent);
           finish();
         }
-      }
-    });
-    cancelButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-        setResult(RESULT_CANCELED);
-        finish();
       }
     });
     Account.Type [] allTypes = Account.Type.values();

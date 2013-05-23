@@ -174,8 +174,6 @@ public class ExpenseEdit extends EditActivity {
     mCommentText = (EditText) findViewById(R.id.Comment);
 
     Button confirmButton = (Button) findViewById(R.id.Confirm);
-    Button cancelButton = (Button) findViewById(R.id.Revert);
-    
     
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
@@ -205,12 +203,6 @@ public class ExpenseEdit extends EditActivity {
         setResult(RESULT_OK);
         if (saveState())
           finish();
-      }
-    });
-    cancelButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-        setResult(RESULT_CANCELED);
-        finish();
       }
     });
         

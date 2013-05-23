@@ -55,7 +55,6 @@ public class MethodEdit extends EditActivity {
     mTable = (TableLayout)findViewById(R.id.Table);
     
     Button confirmButton = (Button) findViewById(R.id.Confirm);
-    Button cancelButton = (Button) findViewById(R.id.Revert);
     
     mTypeButton = (Button) findViewById(R.id.TaType);
     mTypeButton.setOnClickListener(new View.OnClickListener() {
@@ -75,12 +74,7 @@ public class MethodEdit extends EditActivity {
         }
       }
     });
-    cancelButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-        setResult(RESULT_CANCELED);
-        finish();
-      }
-    });
+
     mTypes[0] = getString(R.string.pm_type_debit);
     mTypes[1] = getString(R.string.pm_type_neutral);
     mTypes[2] = getString(R.string.pm_type_credit);
