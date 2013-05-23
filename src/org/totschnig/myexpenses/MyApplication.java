@@ -195,7 +195,7 @@ public class MyApplication extends Application {
       appDir = Utils.requireAppDir();
       if (appDir == null)
          return false;
-      if (mSelf.mDbOpenHelper.backup()) {
+      if (mDbOpenHelper.backup()) {
         backupPrefFile = new File(appDir, BACKUP_PREF_PATH);
         //Samsung has special path on some devices
         //http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
