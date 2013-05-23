@@ -35,15 +35,10 @@
           android:drawableLeft="@drawable/ic_menu_mark" />
       <Button
           style="@style/button"
-          android:text="@string/ok_and_new"
+          android:text="@string/button_ok_and_new"
           android:id="@+id/ConfirmAndNew"
           android:visibility="gone"
           android:drawableLeft="@drawable/ic_menu_mark" />
-      <Button
-          style="@style/button"
-          android:id="@+id/Revert" 
-          android:text="@android:string/cancel"
-          android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel" />
     </LinearLayout>
   </RelativeLayout>
   <include android:id="@+id/ButtonBarDividerBottom" layout="@layout/divider_thick"/>
