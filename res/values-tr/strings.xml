@@ -33,6 +33,7 @@
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">SD kartına yedekleme başarısız oldu.</string>
   <string name="backup_success">Veritabanı ve tercihler SD karta başarılı bir şekilde yazıldı.</string>
+  <string name="button_ok_and_new">Kaydet ve yenisini aç</string>
   <string name="category_already_defined">%1$s kategorisi zaten tanımlanmış</string>
   <string name="category">Kategori</string>
   <string name="color">Renk</string>
@@ -53,6 +54,7 @@
   <string name="contrib_feature_aggregate_label">Birden çok hesabın birleşik görünümü</string>
   <string name="contrib_feature_edit_template_label">Şablonları düzenle</string>
   <string name="contrib_feature_reset_all_label">Tüm hesapları sıfırla</string>
+  <string name="contrib_feature_clone_transaction_label">Muameleleri klonla</string>
   <string name="contrib_key">Katkı anahtarı</string>
   <string name="create_category">Yeni kategori oluştur</string>
   <string name="currency">Döviz</string>
@@ -141,11 +143,8 @@
       - <b>Help</b> : Rehbere, yeniliklere, sıkça sorulan sorulara ve değişikliklere hızlı erişim sağlar.\n
       \nAyrıntılı bilgi için <a href="http://myexpenses.totschnig.org/#tutorial_r4">kılavuza</a> bakınız.
   </string>
-  <string name="help_whats_new">&#160;- Tüm hesapları sıfırla&contrib;.\n
-    - Hesap makinesi.\n
-    - Unutulmuş parola için güvenlik sorusu&contrib;.\n
-    - Parola ile koruma başlama süresini düzenlenebilir yap.\n
-    - Sıfırdan şablon oluşturulması.</string>
+  <string name="help_whats_new">&#160;- Muameleleri klonla&contrib;.\n
+    - Kaydet ve yenisini aç.</string>
   <string name="important_version_information">Önemli bilgi</string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="income">gelirler</string>
@@ -162,6 +161,7 @@
   <string name="menu_aggregate">Toplam</string>
   <string name="menu_backup">Yedekleme</string>
   <string name="menu_change_account">Hesap değiştir</string>
+  <string name="menu_clone_transaction">Klonla</string>
   <string name="menu_contrib">Katkıda bulun</string>
   <string name="menu_create_account">Yeni hesap oluştur</string>
   <string name="menu_create_method">Yeni ödeme metotu oluştur</string>

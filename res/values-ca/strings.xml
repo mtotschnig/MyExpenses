@@ -32,6 +32,7 @@
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Hi ha hagut un error en fer la còpia de seguretat a la targeta SD.</string>
   <string name="backup_success">La base de dades i les preferències s\'han desat a la targeta SD.</string>
+  <string name="button_ok_and_new">Desar i nova</string>
   <string name="category">Categoria</string>
   <string name="category_already_defined">La categoria %1$s ja existeix.</string>
   <string name="color">Color</string>
@@ -49,6 +50,7 @@
   <string name="color_name_yellow">Groc</string>
   <string name="comment">Notes</string>
   <string name="contrib_feature_edit_template_label">Modifica les plantilles</string>
+  <string name="contrib_feature_clone_transaction_label">Clonar les transaccions</string>
   <string name="create_category">Nova categoria</string>
   <string name="currency">Moneda</string>
   <string name="currency_not_iso4217">%1$s no és un codi de moneda vàlid segons ISO 4217.</string>
@@ -121,11 +123,8 @@
       - <b>Ayuda</b> : Accediu al tutorial, noticies, preguntes freqüents i als canvis.\n
       \nTrobareu explicacions detallades <a href="http://myexpenses.totschnig.org/#tutorial_r4">al manual</a> per a explicacions detallades.
   </string>
-  <string name="help_whats_new">&#160;- Restablir tots els comptes&contrib;.\n
-    - Calculadora.\n
-    - Pregunta de seguretat de contrasenya perduda&contrib;.\n
-    - Retard configurable per a la protecció de contrasenya.\n
-    - Creació de plantilles des de zero.</string>
+  <string name="help_whats_new">&#160;- Clonar les transaccions&contrib;.\n
+    - Desar i nova.</string>
   <string name="import_categories">Importa categories</string>
   <string name="important_version_information">Informació important</string>
   <string name="income">ingrés</string>

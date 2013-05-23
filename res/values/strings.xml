@@ -153,11 +153,8 @@
       - <b>Help</b> : Quick access to Manual, News, FAQ and Changes.\n
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
-  <string name="help_whats_new">&#160;- Reset all accounts&contrib;.\n
-    - Calculator.\n
-    - Security question for lost password&contrib;.\n
-    - Configurable delay for password protection.\n
-    - Create templates from scratch.</string>
+  <string name="help_whats_new">&#160;- Clone transactions&contrib;.\n
+    - Save and new.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">income</string>

@@ -158,11 +158,8 @@
       - <b>Ayuda</b> : Acceso rápido a tutorial, noticias, preguntas frecuentes y cambios.\n
       \nPor favor, consulte <a href="http://myexpenses.totschnig.org/#tutorial_r4">el manual</a> para explicaciones detalladas.
   </string>
-  <string name="help_whats_new">&#160;- Restablecer todas las cuentas&contrib;.\n
-    - Calculadora.\n
-    - Pregunta de seguridad de contraseña perdida&contrib;.\n
-    - Retardo configurable para la protección de contraseña.\n
-    - Creación de plantillas desde cero.</string>
+  <string name="help_whats_new">&#160;- Clonar asientos&contrib;.\n
+    - Guardar y nueva.</string>
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Información importante</string>
   <string name="income">ingreso</string>
