@@ -1206,9 +1206,14 @@ public class ExpensesDbAdapter {
     mDb.insert(TABLE_FEATURE_USED, null, initialValues);
   }
 
+  /**
+   * @return the number of transactions that have been created since creation of the db based on sqllite sequence
+   */
   public long getTransactionSequence() {
     Cursor mCursor = mDb.query("SQLITE_SEQUENCE",new String[] {"seq"},"name= ?",new String[] {TABLE_TRANSACTIONS},
         null,null,null);
+    if (mCursor.getCount() == 0)
+      return 0;
     mCursor.moveToFirst();
     int result = mCursor.getInt(0);
     mCursor.close();
