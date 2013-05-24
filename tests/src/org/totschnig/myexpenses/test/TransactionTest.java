@@ -16,31 +16,47 @@
 package org.totschnig.myexpenses.test;
 
 import java.util.Currency;
-import java.util.Locale;
 
 import org.totschnig.myexpenses.Account;
 import org.totschnig.myexpenses.Money;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.MyExpenses;
 import org.totschnig.myexpenses.Template;
 import org.totschnig.myexpenses.Transaction;
 import org.totschnig.myexpenses.Transfer;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import android.test.AndroidTestCase;
 
-public class TransactionTest extends TestCase {
+import junit.framework.Assert;
+
+public class TransactionTest extends AndroidTestCase {
   private Currency currency;
   private Account mAccount1;
   private Account mAccount2;
+  private static final String TEST_ID = "functest";
+  private MyApplication app;
   
   @Override
   protected void setUp() throws Exception {
       super.setUp();
+      app = (MyApplication) getContext().getApplicationContext();
+      app.setDatabaseName(TEST_ID);
       mAccount1 = new Account("TestAccount 1",100,"Main account");
       mAccount1.save();
       mAccount2 = new Account("TestAccount 2",100,"Secondary account");
       mAccount2.save();
   }
+  public void testAA_Transaction() {
+    Assert.assertEquals(0, MyApplication.db().getTransactionSequence());
+    Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id);
+    op1.amount = new Money(currency,100L);
+    op1.comment = "test transfer";
+    long id = op1.save();
+    Assert.assertEquals(1, MyApplication.db().getTransactionSequence());
+    Transaction.delete(id);
+    Assert.assertEquals(1, MyApplication.db().getTransactionSequence());
+  }
+  
   public void testTransfer() {
     Transfer op = (Transfer) Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER,mAccount1.id);
     op.catId = mAccount2.id;

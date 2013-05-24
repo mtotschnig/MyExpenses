@@ -15,9 +15,6 @@
 
 package org.totschnig.myexpenses.test;
 
-import java.util.Currency;
-import java.util.Locale;
-
 import org.totschnig.myexpenses.Account;
 
 import junit.framework.Assert;
