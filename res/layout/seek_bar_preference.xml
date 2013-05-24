@@ -15,10 +15,7 @@
 	        android:layout_alignParentTop="true"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:textSize="22dp"
-	        android:typeface="sans"
-	        android:textStyle="normal"
-	        android:textColor="#ffffff"
+	        android:textAppearance="?android:attr/textAppearanceLarge"
 	></TextView>
 	
 	<TextView android:id="@android:id/summary"
@@ -26,6 +23,8 @@
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_below="@android:id/title"
+	        android:textAppearance="?android:attr/textAppearanceSmall"
+          android:textColor="?android:attr/textColorSecondary"
 	></TextView>
 
 	<TextView android:id="@+id/seekBarPrefUnitsRight"
