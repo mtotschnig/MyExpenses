@@ -55,6 +55,7 @@
 	<string name="contrib_feature_edit_template_label">Editar plantillas</string>
 	<string name="contrib_feature_restore_label">Restauración de la copia de seguridad sin desinstalar / reinstalar</string>
   <string name="contrib_feature_reset_all_label">Restablecer todas las cuentas</string>
+  <string name="contrib_feature_security_question_label">Pregunta de seguridad</string>
   <string name="contrib_feature_clone_transaction_label">Clonar asientos</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="create_category">Nueva categoría</string>

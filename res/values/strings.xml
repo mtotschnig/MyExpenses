@@ -54,6 +54,7 @@
   <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
   <string name="contrib_feature_edit_template_label">Edit templates</string>
   <string name="contrib_feature_reset_all_label">Reset all accounts</string>
+  <string name="contrib_feature_security_question_label">Security question</string>
   <string name="contrib_feature_clone_transaction_label">Clone transactions</string>
   <string name="contrib_key">Contrib key</string>
   <string name="create_category">Create new category</string>

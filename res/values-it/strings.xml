@@ -54,6 +54,7 @@
   <string name="contrib_feature_edit_template_label">Modificare modelli</string>
   <string name="contrib_feature_restore_label">Backup ripristino senza disinstallare / reinstallare</string>
   <string name="contrib_feature_reset_all_label">Reinitializare tutti i conti</string>
+  <string name="contrib_feature_security_question_label">Domanda di sicurezza</string>
   <string name="contrib_feature_clone_transaction_label">Ricopiare operazioni</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="create_category">Nuova categoria</string>

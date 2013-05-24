@@ -91,7 +91,7 @@ public class Backup extends ProtectedActivity implements ContribIFace {
           if (v.getId() == R.id.RESTORE_COMMAND) {
             if (MyApplication.backupExists()) {
               MyApplication.backupRestore();
-              Utils.recordUsage(MyApplication.CONTRIB_FEATURE_RESTORE);
+              Utils.recordUsage(MyApplication.ContribFeature.RESTORE);
               Intent i = getBaseContext().getPackageManager()
                   .getLaunchIntentForPackage( getBaseContext().getPackageName() );
               i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -111,12 +111,12 @@ public class Backup extends ProtectedActivity implements ContribIFace {
       })
       .create();
     case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,MyApplication.CONTRIB_FEATURE_RESTORE);
+      return DialogUtils.contribDialog(this,MyApplication.ContribFeature.RESTORE);
     }
     return null;
   }
   @Override
-  public void contribFeatureCalled(String feature) {
+  public void contribFeatureCalled(MyApplication.ContribFeature feature) {
     showDialog(R.id.RESTORE_DIALOG);
   }
   @Override

@@ -74,7 +74,7 @@ public class Template extends Transaction {
     if (id == 0) {
       id = mDbHelper.createTemplate(amount.getAmountMinor(), comment,catId,accountId,payee,transfer_peer,methodId,title);
     } else {
-      Utils.recordUsage(MyApplication.CONTRIB_FEATURE_EDIT_TEMPLATE);
+      Utils.recordUsage(MyApplication.ContribFeature.EDIT_TEMPLATE);
       mDbHelper.updateTemplate(id, amount.getAmountMinor(), comment,catId,payee, methodId,title);
     }
     return id;

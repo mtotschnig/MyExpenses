@@ -54,6 +54,7 @@
   <string name="contrib_feature_aggregate_label">Birden çok hesabın birleşik görünümü</string>
   <string name="contrib_feature_edit_template_label">Şablonları düzenle</string>
   <string name="contrib_feature_reset_all_label">Tüm hesapları sıfırla</string>
+  <string name="contrib_feature_security_question_label">Güvenlik sorusu</string>
   <string name="contrib_feature_clone_transaction_label">Muameleleri klonla</string>
   <string name="contrib_key">Katkı anahtarı</string>
   <string name="create_category">Yeni kategori oluştur</string>

@@ -467,7 +467,7 @@ public class MyExpenses extends ProtectedActivity
     case R.id.CLONE_TRANSACTION_COMMAND:
       mDialogContextId = info.id;
       if (MyApplication.getInstance().isContribEnabled) {
-        contribFeatureCalled(MyApplication.CONTRIB_FEATURE_CLONE_TRANSACTION);
+        contribFeatureCalled(MyApplication.ContribFeature.CLONE_TRANSACTION);
       }
       else {
         showDialog(R.id.CONTRIB_DIALOG);
@@ -760,7 +760,7 @@ public class MyExpenses extends ProtectedActivity
     case R.id.DONATE_DIALOG:
       return DialogUtils.donateDialog((Activity) this);
     case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,MyApplication.CONTRIB_FEATURE_CLONE_TRANSACTION);
+      return DialogUtils.contribDialog(this,MyApplication.ContribFeature.CLONE_TRANSACTION);
     }
     return super.onCreateDialog(id);
   }
@@ -1481,7 +1481,7 @@ public class MyExpenses extends ProtectedActivity
     configButtons();
   }
   @Override
-  public void contribFeatureCalled(String feature) {
+  public void contribFeatureCalled(MyApplication.ContribFeature feature) {
     Utils.recordUsage(feature);
     Transaction.getInstanceFromDb(mDialogContextId).saveAsNew();
     myAdapter.notifyDataSetChanged();

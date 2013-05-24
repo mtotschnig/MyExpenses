@@ -23,6 +23,8 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.MyApplication.ContribFeature;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -64,7 +66,7 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
   Cursor mCurrencyCursor;
   private Button mAddButton, mAggregateButton, mResetAllButton;
   private long mContextAccountId;
-  private String mContextFeature;
+  private MyApplication.ContribFeature mContextFeature;
   static final int DELETE_DIALOG_ID = 1;
   static final int AGGREGATE_DIALOG_ID = 2;
   static final int RESET_ALL_DIALOG_ID = 3;
@@ -87,7 +89,7 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
         if (MyApplication.getInstance().isContribEnabled) {
           showDialogWrapper(AGGREGATE_DIALOG_ID);
         } else {
-          mContextFeature = MyApplication.CONTRIB_FEATURE_AGGREGATE;
+          mContextFeature = MyApplication.ContribFeature.AGGREGATE;
           showDialog(R.id.CONTRIB_DIALOG);
         }
       }
@@ -99,7 +101,7 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
         if (MyApplication.getInstance().isContribEnabled) {
           showDialogWrapper(RESET_ALL_DIALOG_ID);
         } else {
-          mContextFeature = MyApplication.CONTRIB_FEATURE_RESET_ALL;
+          mContextFeature = MyApplication.ContribFeature.RESET_ALL;
           showDialog(R.id.CONTRIB_DIALOG);
         }
       }
@@ -354,7 +356,7 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
    outState.putLong("contextAccountId", mContextAccountId);
-   outState.putString("contextFeature", mContextFeature);
+   outState.putSerializable("contextFeature", mContextFeature);
    outState.putInt("currentDialog",mCurrentDialog);
   }
   @Override
@@ -362,16 +364,19 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
    super.onRestoreInstanceState(savedInstanceState);
    mContextAccountId = savedInstanceState.getLong("contextAccountId");
    mCurrentDialog = savedInstanceState.getInt("currentDialog");
-   mContextFeature = savedInstanceState.getString("contextFeature");
+   mContextFeature = (ContribFeature) savedInstanceState.getSerializable("contextFeature");
   }
+  @SuppressWarnings("incomplete-switch")
   @Override
-  public void contribFeatureCalled(String feature) {
+  public void contribFeatureCalled(MyApplication.ContribFeature feature) {
     removeDialog(R.id.CONTRIB_DIALOG);
     Utils.recordUsage(feature);
-    if (feature.equals(MyApplication.CONTRIB_FEATURE_AGGREGATE))
+    switch (feature) {
+    case AGGREGATE:
       showDialogWrapper(AGGREGATE_DIALOG_ID);
-    else if (feature.equals(MyApplication.CONTRIB_FEATURE_RESET_ALL))
+    case RESET_ALL:
       showDialogWrapper(RESET_ALL_DIALOG_ID);
+    }
   }
 
   @Override

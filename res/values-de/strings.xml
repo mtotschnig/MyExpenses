@@ -55,6 +55,7 @@
   <string name="contrib_feature_aggregate_label">Gesamtsumme über mehrere Konten</string>
   <string name="contrib_feature_edit_template_label">Vorlagen verändern</string>
   <string name="contrib_feature_reset_all_label">Alle Konten zurücksetzen</string>
+  <string name="contrib_feature_security_question_label">Sicherheitsfrage</string>
   <string name="contrib_feature_clone_transaction_label">Buchungen klonen</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
   <string name="create_category">Neue Kategorie</string>

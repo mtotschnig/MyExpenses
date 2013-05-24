@@ -125,7 +125,7 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
           case EDIT_TEMPLATE:
             mTemplateId = id;
             if (MyApplication.getInstance().isContribEnabled) {
-              contribFeatureCalled(MyApplication.CONTRIB_FEATURE_EDIT_TEMPLATE);
+              contribFeatureCalled(MyApplication.ContribFeature.EDIT_TEMPLATE);
             } else {
               showDialog(R.id.CONTRIB_DIALOG);
             }
@@ -177,7 +177,7 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
   protected Dialog onCreateDialog(int id) {
     switch (id) {
     case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,MyApplication.CONTRIB_FEATURE_EDIT_TEMPLATE);
+      return DialogUtils.contribDialog(this,MyApplication.ContribFeature.EDIT_TEMPLATE);
     case R.id.DONATE_DIALOG:
       return DialogUtils.donateDialog((Activity) this);
     }
@@ -185,7 +185,7 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
   }
 
   @Override
-  public void contribFeatureCalled(String feature) {
+  public void contribFeatureCalled(MyApplication.ContribFeature feature) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("template_id", mTemplateId);
     i.putExtra("instantiate", false);

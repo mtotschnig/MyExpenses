@@ -35,7 +35,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.EnumSet;
+
+import org.totschnig.myexpenses.MyApplication.ContribFeature;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -60,13 +65,13 @@ import android.widget.Toast;
  *
  */
 public class Utils {
-  public static Integer usagesLeft(String feature) {
-    return MyApplication.USAGES_LIMIT - MyApplication.db().getContribFeatureUsages(feature);
+  public static Integer usagesLeft(ContribFeature restore) {
+    return MyApplication.USAGES_LIMIT - MyApplication.db().getContribFeatureUsages(restore.toString());
   }
-  public static void recordUsage(String feature) {
+  public static void recordUsage(ContribFeature restore) {
     if (!MyApplication.getInstance().isContribEnabled)
-      MyApplication.db().incrFeatureUsages(feature);
-  }  
+      MyApplication.db().incrFeatureUsages(restore.toString());
+  }
   public static String getDefaultDecimalSeparator() {
     String sep = ".";
     int sdk =  Build.VERSION.SDK_INT;
@@ -356,13 +361,16 @@ public class Utils {
     }
   }
   public static String getContribFeatureLabelsAsFormattedList(Context ctx) {
-    String result = " - " + ctx.getString(R.string.contrib_feature_aggregate_label) +"<br>";
-    result += " - " + ctx.getString(R.string.contrib_feature_edit_template_label) +"<br>";
-    result += " - " + ctx.getString(R.string.contrib_feature_restore_label)  +"<br>";
-    result += " - " + ctx.getString(R.string.contrib_feature_reset_all_label) +"<br>";
-    result += " - " + ctx.getString(R.string.pref_security_question_title);
+    String result ="";
+    Iterator<ContribFeature> iterator = EnumSet.allOf(MyApplication.ContribFeature.class).iterator();
+    while (iterator.hasNext()) {
+      result += " - " + ctx.getString(ctx.getResources().getIdentifier("contrib_feature_" + iterator.next().toString() + "_label", "string", ctx.getPackageName()));
+      if (iterator.hasNext())
+        result += "<br>";
+    }
     return result;
   }
+
   public static String md5(String s) {
     try {
         // Create MD5 Hash

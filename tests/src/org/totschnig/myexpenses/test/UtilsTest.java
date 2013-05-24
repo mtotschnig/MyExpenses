@@ -43,7 +43,7 @@ public class UtilsTest extends TestCase {
     Assert.assertNull(Utils.validateNumber(nfDLocal,"470.123"));
   }
   public void testRecordUsage() {
-    String feature = "TEST";
+    MyApplication.ContribFeature feature = MyApplication.ContribFeature.AGGREGATE;
     Assert.assertEquals(5,Utils.usagesLeft(feature).intValue());
     MyApplication.getInstance().isContribEnabled = false;
     Utils.recordUsage(feature);

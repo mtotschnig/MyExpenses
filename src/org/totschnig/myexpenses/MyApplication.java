@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -65,11 +66,12 @@ public class MyApplication extends Application {
     public static int currentAccountColor;
     public static String BUILD_DATE = "";
     protected static String CONTRIB_SECRET = "RANDOM_SECRET";
-    public static String CONTRIB_FEATURE_EDIT_TEMPLATE = "edit_template";
-    public static String CONTRIB_FEATURE_RESTORE= "restore";
-    public static String CONTRIB_FEATURE_AGGREGATE = "aggregate";
-    public static String CONTRIB_FEATURE_RESET_ALL = "reset_all";
-    public static String CONTRIB_FEATURE_CLONE_TRANSACTION = "clone_transaction";
+    public enum ContribFeature {
+      EDIT_TEMPLATE,RESTORE,AGGREGATE,RESET_ALL,SECURITY_QUESTION,CLONE_TRANSACTION;
+      public String toString() {
+        return name().toLowerCase(Locale.US);
+      }
+    }
     public static final String EXTRA_AMOUNT = "amount";
     private ArrayList<CharSequence> mVersionInfo = new ArrayList<CharSequence>();
     public boolean isContribEnabled;

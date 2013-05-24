@@ -15,12 +15,14 @@
 
 package org.totschnig.myexpenses;
 
+import org.totschnig.myexpenses.MyApplication.ContribFeature;
+
 public interface ContribIFace {
   /**
    * @param feature
    * called when the user clicks on "not yet", and calls the requested feature
    */
-  void contribFeatureCalled(String feature);
+  void contribFeatureCalled(ContribFeature feature);
   /**
    * the user can either click on "Buy" or cancel the dialog
    * for the moment, we are fine with the same callback for both cases,

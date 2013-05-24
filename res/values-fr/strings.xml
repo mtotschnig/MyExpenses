@@ -55,6 +55,7 @@
   <string name="contrib_feature_aggregate_label">Somme totale sur tous les comptes</string>
   <string name="contrib_feature_edit_template_label">Éditer les modèles</string>
   <string name="contrib_feature_reset_all_label">Réinitialiser tous les comptes</string>
+  <string name="contrib_feature_security_question_label">Question de sécurité</string>
   <string name="contrib_feature_clone_transaction_label">Cloner les transactions</string>
   <string name="contrib_key">Clé Contrib</string>
   <string name="create_category">Nouvelle catégorie</string>
@@ -342,7 +343,7 @@
   <string name="share_sending">Envoyer le fichier QIF</string>
   <string name="switch_account">Basculé vers le compte \"%1$s\"</string>
   <string name="suggest_use_standard_menu">Voulez-vous utiliser le menu standard Android pour
-      les commandes, et de cacher la barre de boutons?</string>
+      les commandes, et cacher la barre de boutons?</string>
   <string name="sum_income">Revenus</string>
   <string name="sum_expenses">Dépenses</string>
   <string name="sum_transfer">Transferts</string>
@@ -387,5 +388,5 @@
     Si vous installez &lt;i>&app_name; Contrib&lt;/i>, vous obtiendrez un accès illimité aux
     fonctions Premium suivantes:&lt;br>%1$s</string>
   <string name="version_40_upgrade_info">Maintenant, vous pouvez protéger &app_name; en spécifiant un mot de passe dans les paramètres (partie Sécurité).</string>
-  <string name="version_41_upgrade_info"><i>&app_name;</i>a maintenant sa page Google+. Suivez-la avec Aide => Nouvelles.</string>
+  <string name="version_41_upgrade_info"><i>&app_name;</i> a maintenant sa page Google+. Suivez-la avec Aide => Nouvelles.</string>
 </resources>

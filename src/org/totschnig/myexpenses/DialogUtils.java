@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses;
 
+import org.totschnig.myexpenses.MyApplication.ContribFeature;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -68,11 +70,11 @@ public class DialogUtils {
       }
     }).create();
   }
-  public static Dialog contribDialog(final Activity ctx,final String feature) {
-    final Integer usagesLeft = Utils.usagesLeft(feature);
+  public static Dialog contribDialog(final Activity ctx,final ContribFeature restore) {
+    final Integer usagesLeft = Utils.usagesLeft(restore);
     CharSequence message = Html.fromHtml(String.format(ctx.getString(
       R.string.dialog_contrib_reminder,
-      ctx.getString(ctx.getResources().getIdentifier("contrib_feature_" + feature + "_label", "string", ctx.getPackageName())),
+      ctx.getString(ctx.getResources().getIdentifier("contrib_feature_" + restore + "_label", "string", ctx.getPackageName())),
       usagesLeft > 0 ? ctx.getString(R.string.dialog_contrib_usage_count,usagesLeft) : ctx.getString(R.string.dialog_contrib_no_usages_left))));
     return createMessageDialogWithCustomButtons(
       new ContextThemeWrapper(ctx, MyApplication.getThemeId()) {
@@ -85,7 +87,7 @@ public class DialogUtils {
             if (usagesLeft > 0) {
               //we remove the dialog, in order to have it display updated usage count on next display
               ctx.removeDialog(R.id.CONTRIB_DIALOG);
-              ((ContribIFace)ctx).contribFeatureCalled(feature);
+              ((ContribIFace)ctx).contribFeatureCalled(restore);
             } else {
               ctx.dismissDialog(R.id.CONTRIB_DIALOG);
               ((ContribIFace)ctx).contribFeatureNotCalled();
