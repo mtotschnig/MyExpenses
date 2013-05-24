@@ -130,6 +130,24 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.7.3.1
+    - 2013-05-24
+    -
+      en: |
+        Fixed crash in rare occasions.
+      ca: |
+        Solucionat l'error en rares ocasions.
+      fr: |
+        Correction d'un crash dans de rares occasions.
+      de: |
+        Bug unter seltenen Bedingungen behoben.
+      it: |
+        Corretto il crash in rare occasioni.
+      es: |
+        Solucionado el fallo en raras ocasiones.
+      tr: |
+        Nadir kez Sabit kazasında.
+  -
     - 1.7.3
     - 2013-05-23
     -
