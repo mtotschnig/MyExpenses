@@ -157,8 +157,7 @@
       - <b>Hilfe</b> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.\n
       \nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
   </string>
-  <string name="help_whats_new">&#160;- Buchungen klonen&contrib;.\n
-    - Speichern und neu.</string>
+  <string name="help_whats_new">&#160;- Bug unter seltenen Bedingungen behoben.</string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
   <string name="important_version_information">Wichtige Information</string>
