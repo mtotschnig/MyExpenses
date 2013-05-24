@@ -162,7 +162,7 @@ public class ButtonBar extends LinearLayout  {
             for(Iterator<Action> i = mItems.iterator();i.hasNext();)
             {
               if (heightNeeded > heightLeft && (size - count) > 1 ) {
-                Log.i("BetterPopupWindow","Out of space: stopping");
+                //Log.i("BetterPopupWindow","Out of space: stopping");
                 tv = new Button(context,null,R.attr.menuItemStyle);
                 tv.setId(R.id.MORE_ACTION_COMMAND);
                 tv.setText("More...");
@@ -196,7 +196,7 @@ public class ButtonBar extends LinearLayout  {
                 heightNeeded = tv.getMeasuredHeight();
               }
               heightLeft -= heightNeeded;
-              Log.i("BetterPopupWindow","Height Left is now: " + heightLeft);
+              //Log.i("BetterPopupWindow","Height Left is now: " + heightLeft);
               tv.setOnClickListener(context);
               tv.setOnLongClickListener(context);
               //tv.setFocusableInTouchMode(true);
