@@ -130,49 +130,74 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.7.3
+    - 2013-05-23
+    -
+      en: |
+        Clone transactions (Premium).
+        Save and new.
+      ca: |
+        Clonar les transaccions (Premium).
+        Desar i nova.
+      fr: |
+        Cloner les transactions (Premium).
+        Enregistrer et nouveau.
+      de: |
+        Buchungen klonen (Premium).
+        Speichern und neu.
+      it: |
+        Ricopiare operazioni (Premium).
+        Salvare e nuova.
+      es: |
+        Clonar asientos (Premium).
+        Guardar y nueva.
+      tr: |
+        Muameleleri klonla (Premium).
+        Kaydet ve yenisini aç.
+  -
     - 1.7.2
     - 2013-05-21
     -
       en: |
-        Reset all accounts.
+        Reset all accounts (Premium).
         Calculator.
-        Security question for lost password.
+        Security question for lost password (Premium).
         Configurable delay for password protection.
         Create templates from scratch.
       ca: |
-        Restablir tots els comptes.
+        Restablir tots els comptes (Premium).
         Calculadora.
-        Pregunta de seguretat de contrasenya perduda.
+        Pregunta de seguretat de contrasenya perduda (Premium).
         Retard configurable per a la protecció de contrasenya.
         Creació de plantilles des de zero.
       fr: |
-        Réinitialiser tous les comptes.
+        Réinitialiser tous les comptes (Premium).
         Calculatrice.
-        Question de sécurité pour oubli de mot de passe.
+        Question de sécurité pour oubli de mot de passe (Premium).
         Battement configurable avant protection.
         Créer des modèles à partir de zéro.
       de: |
-        Alle Konten zurücksetzen.
+        Alle Konten zurücksetzen (Premium).
         Taschenrechner.
-        Sicherheitsfrage für Vergessen des Passwortes.
+        Sicherheitsfrage für Vergessen des Passwortes (Premium).
         Konfigurierbare Wartezeit für Passwortschutz.
         Vorlagen ohne Ableitung aus bestehender (Um)Buchung erzeugen.
       it: |
-        Reinitializare tutti i conti.
+        Reinitializare tutti i conti (Premium).
         Calcolatrice.
-        Domanda di sicurezza per la password persa.
+        Domanda di sicurezza per la password persa (Premium).
         Ritardo configurabile per la protezione con password.
         Creazione di modelli da zero.
       es: |
-        Restablecer todas las cuentas.
+        Restablecer todas las cuentas (Premium).
         Calculadora.
-        Pregunta de seguridad para recuperar una contraseña perdida
+        Pregunta de seguridad para recuperar una contraseña perdida (Premium).
         Configurabilidad del retardo hasta protección por contraseña.
         Creación de plantillas desde cero.
       tr: |
-        Tüm hesapları sıfırla.
+        Tüm hesapları sıfırla (Premium).
         Hesap makinesi.
-        Unutulmuş parola için güvenlik sorusu.
+        Unutulmuş parola için güvenlik sorusu (Premium).
         Parola ile koruma başlama süresini düzenlenebilir yap.
         Sıfırdan şablon oluşturulması.
   -
@@ -241,10 +266,10 @@ versions:
         Problema sfarfallio risolto nel tema chiaro.
       es: |
         Pasar a travès de cuentas (Swipe Gesture)
-        Editar plantillas.
-        Restaurar la copia de seguridad sin desinstalar / reinstalar.
+        Editar plantillas (Premium).
+        Restaurar la copia de seguridad sin desinstalar / reinstalar (Premium).
         Pedir confirmación al restaurar al realizar la instalación. 
-        Presentar la situación financiera global en la lista de cuentas. 
+        Presentar la situación financiera global en la lista de cuentas (Premium). 
         Problema de parpadeo resuelto en el tema claro.
       tr: |
         Hesaplar arası kaydırmayla geçiş.
