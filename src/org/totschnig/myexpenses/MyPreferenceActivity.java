@@ -87,16 +87,15 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     });
     findPreference(MyApplication.PREFKEY_ENTER_LICENCE)
       .setOnPreferenceChangeListener(this);
-    setPrefSecurityQuestion();
+    setProtectionDependentsState();
 
     findPreference(MyApplication.PREFKEY_PERFORM_PROTECTION)
       .setOnPreferenceChangeListener(this);
   }
-  private void setPrefSecurityQuestion() {
-    Preference pref;
-    pref = findPreference("security_question");
-    pref.setEnabled( MyApplication.getInstance().isContribEnabled &&
-        MyApplication.getInstance().getSettings().getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false));
+  private void setProtectionDependentsState() {
+    boolean isProtected = MyApplication.getInstance().getSettings().getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false);
+    findPreference(MyApplication.PREFKEY_SECURITY_QUESTION).setEnabled( MyApplication.getInstance().isContribEnabled && isProtected);
+    findPreference(MyApplication.PREFKEY_PROTECTION_DELAY_SECONDS).setEnabled(isProtected);
   }
   @Override
   public boolean onPreferenceChange(Preference pref, Object value) {
@@ -132,7 +131,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
      if (Utils.verifyLicenceKey((String)value)) {
        Toast.makeText(getBaseContext(), R.string.licence_validation_success, Toast.LENGTH_LONG).show();
        MyApplication.getInstance().isContribEnabled = true;
-       setPrefSecurityQuestion();
+       setProtectionDependentsState();
      } else {
        Toast.makeText(getBaseContext(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
        MyApplication.getInstance().isContribEnabled = false;
@@ -152,7 +151,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
     if (key.equals(MyApplication.PREFKEY_PERFORM_PROTECTION)) {
-      setPrefSecurityQuestion();
+      setProtectionDependentsState();
     } else if (key.equals(MyApplication.PREFKEY_PROTECTION_DELAY_SECONDS)) {
       MyApplication.setPasswordCheckDelayNanoSeconds() ;
     }
