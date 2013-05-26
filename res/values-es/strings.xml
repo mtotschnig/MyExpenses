@@ -51,9 +51,9 @@
   <string name="color_name_white">Blanco</string>
   <string name="color_name_yellow">Amarillo</string>
   <string name="comment">Apuntes</string>
-	<string name="contrib_feature_aggregate_label">Agregados de varias cuentas</string>
-	<string name="contrib_feature_edit_template_label">Editar plantillas</string>
-	<string name="contrib_feature_restore_label">Restauración de la copia de seguridad sin desinstalar / reinstalar</string>
+  <string name="contrib_feature_aggregate_label">Agregados de varias cuentas</string>
+  <string name="contrib_feature_edit_template_label">Editar plantillas</string>
+  <string name="contrib_feature_restore_label">Restauración de la copia de seguridad sin desinstalar / reinstalar</string>
   <string name="contrib_feature_reset_all_label">Restablecer todas las cuentas</string>
   <string name="contrib_feature_security_question_label">Pregunta de seguridad</string>
   <string name="contrib_feature_clone_transaction_label">Clonar asientos</string>
@@ -70,11 +70,11 @@
   <string name="dialog_confirm_restore_on_install">Se ha detectado un archivo de copia de seguridad. ¿Desea restaurarlo?</string>
   <string name="dialog_contrib_no">Todavía no</string>
   <string name="dialog_contrib_no_usages_left">No hay más uso libre</string>
-	<string name="dialog_contrib_reminder">\"%1$s\" es una característica Contrib. %2$s.
-	  Usted va a obtener acceso ilimitado a ésta y otras características instalando &lt;i>&app_name;
-	  Contrib&lt;/i>. &thank_you;</string>
-	<string name="dialog_contrib_usage_count">Quedan %1$d usos libres</string>
-	<string name="dialog_contrib_yes">Compre</string>
+  <string name="dialog_contrib_reminder">\"%1$s\" es una característica Contrib. %2$s.
+    Usted va a obtener acceso ilimitado a ésta y otras características instalando &lt;i>&app_name;
+    Contrib&lt;/i>. &thank_you;</string>
+  <string name="dialog_contrib_usage_count">Quedan %1$d usos libres</string>
+  <string name="dialog_contrib_yes">Compre</string>
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> se ofrece sin publicidad y de código abierto. 
     Por favor, contribuye instalando la versión pagada Contrib. Usted va a obtener acceso ilimitado 
     a las siguientes características premium: &lt;br>%1$s&lt;br>&thank_you;</string>
@@ -167,8 +167,8 @@
       regional. Por favor, utilice %1$s</string>
   <string name="label">Etiqueta</string>
   <string name="licence_validation_failure">No se puede validar la clave de licencia.</string>
-	<string name="licence_validation_success">La clave de licencia es válida: Las características Contrib 
-	  han sido desbloqueadas.</string>
+  <string name="licence_validation_success">La clave de licencia es válida: Las características Contrib
+    han sido desbloqueadas.</string>
   <string name="menu_accounts">Cuentas</string>
   <string name="menu_accounts_explain">Con el botón Cuentas usted puede alternar entre cuentas, una vez que ha creado varias cuentas.
       Actualmente hay sólo una cuenta. ¿Quiere usted crear una segunda cuenta ahora?</string>
@@ -282,9 +282,9 @@
   <string name="pref_currency_decimal_separator_point">Punto (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Sub-unidades como números enteros
       </string>
-	<string name="pref_enter_licence_summary">Si ha recibido una clave Contrib, acceda características
-	  premium.</string>
-	<string name="pref_enter_licence_title">Introduzca la clave Contrib</string>
+  <string name="pref_enter_licence_summary">Si ha recibido una clave Contrib, acceda características
+    premium.</string>
+  <string name="pref_enter_licence_title">Introduzca la clave Contrib</string>
   <string name="pref_import_from_grisbi_title">Importación desde Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Importar categorías (y socios) desde las incluidas
       definiciones estándar de Grisbi o de su propio archivo. Usted tiene que archivar este último
@@ -309,11 +309,11 @@
   <string name="pref_perform_protection_summary">¿Se deben proteger lanzamientos de la aplicación?</string>
   <string name="pref_protection_delay_seconds_title">Retardo hasta la protección</string>
   <string name="pref_protection_delay_seconds_summary">Segundos de inactividad antes de que la aplicación sea bloqueada por contraseña.</string>
-	<string name="pref_request_licence_summary">Si usted ha contribuido por otros medios, pida una clave
-	  Contrib por correo electrónico.</string>
-	<string name="pref_request_licence_title">Solicite una clave contrib</string>
-	<string name="pref_restore_summary">Restaurar la copia de seguridad de la carpeta \"myexpenses\" en la tarjeta SD</string>
-	<string name="pref_restore_title">Restaurar</string>
+  <string name="pref_request_licence_summary">Si usted ha contribuido por otros medios, pida una clave
+    Contrib por correo electrónico.</string>
+  <string name="pref_request_licence_title">Solicite una clave contrib</string>
+  <string name="pref_restore_summary">Restaurar la copia de seguridad de la carpeta \"myexpenses\" en la tarjeta SD</string>
+  <string name="pref_restore_title">Restaurar</string>
   <string name="pref_qif_export_file_encoding_summary">Establece \"ISO-8859-1\" como
       codificación de caracteres si utiliza MS Money.</string>
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres del archivo QIF </string>
@@ -333,9 +333,9 @@
   <string name="request_licence_mail_body">Por favor, envíeme una clave contrib para Android-Id %1$s</string>
   <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.
       </string>
-	<string name="restore_db_failure">La restauración de la base de datos ha fallado.</string>
-	<string name="restore_no_backup_found">No hay ningún archivo BACKUP en la carpeta \"myexpenses\" en la tarjeta SD.</string>
-	<string name="restore_preferences_failure">La restauración de las preferencias ha fallado.</string>
+  <string name="restore_db_failure">La restauración de la base de datos ha fallado.</string>
+  <string name="restore_no_backup_found">No hay ningún archivo BACKUP en la carpeta \"myexpenses\" en la tarjeta SD.</string>
+  <string name="restore_preferences_failure">La restauración de las preferencias ha fallado.</string>
   <string name="restore_preferences_success">Las configuraciones han sidos restauradas desde la
       copia de seguridad.</string>
   <string name="save_transaction_error">No se pudo guardar nueva transacción de plantilla</string>
@@ -385,8 +385,8 @@
   <string name="version_35_upgrade_info"><i>&app_name;</i> ahora tiene un nuevo tema estándar oscuro.
     Puede volver al tema claro en las configuraciones.</string>
   <string name="version_39_upgrade_info">Contribuir a &lt;i>&app_name;&lt;/i> ahora es más fácil y más
-	  interesante. Si usted instala &lt;i>&app_name; Contrib&lt;/i>, va a obtener acceso ilimitado a las
-	  siguientes características premium:&lt;br>%1$s</string>
+    interesante. Si usted instala &lt;i>&app_name; Contrib&lt;/i>, va a obtener acceso ilimitado a las
+    siguientes características premium:&lt;br>%1$s</string>
   <string name="version_40_upgrade_info">Ahora usted puede proteger &app_name;
     estableciendo una contraseña en la pantalla Configuraciones (sección Seguridad).</string>
   <string name="version_41_upgrade_info"><i>&app_name;</i> ahora tiene una página de Google+. Síguelo a través de Ayuda => Noticias</string>
