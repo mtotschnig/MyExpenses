@@ -29,7 +29,7 @@
   <string name="account_type_ccard">Carta di credito</string>
   <string name="account_type_asset">Conto di beni</string>
   <string name="account_type_liability">Conto di responsabilità</string>
-  <string name="amount">Quantitá</string>
+  <string name="amount">Somma</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Backup su SD card non è riuscito.</string>
   <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.</string>
@@ -53,18 +53,17 @@
   <string name="contrib_feature_aggregate_label">Sommare piu conti</string>
   <string name="contrib_feature_edit_template_label">Modificare modelli</string>
   <string name="contrib_feature_restore_label">Backup ripristino senza disinstallare / reinstallare</string>
-  <string name="contrib_feature_reset_all_label">Reinitializare tutti i conti</string>
+  <string name="contrib_feature_reset_all_label">Reinizializzare tutti i conti</string>
   <string name="contrib_feature_security_question_label">Domanda di sicurezza</string>
   <string name="contrib_feature_clone_transaction_label">Ricopiare operazioni</string>
-  <string name="contrib_key">Clave Contrib</string>
+  <string name="contrib_key">Chiave Contrib</string>
   <string name="create_category">Nuova categoria</string>
   <string name="currency">Valuta</string>
   <string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
   <string name="current_balance">Saldo corrente</string>
   <string name="date">Data</string>
   <string name="date_time">Data / Ora</string>
-  <string name="default_account_description">Questo conto stato istituito automaticamente quando si
-      installa</string>
+  <string name="default_account_description">Questo conto è stato creato automaticamente con la installazione</string>
   <string name="description">Descrizione</string>
   <string name="dialog_confirm_restore_on_install">È stato trovato un file backup. Vuoi ripristinarlo?</string>
   <string name="dialog_contrib_no">Non ancora</string>
@@ -103,8 +102,8 @@
   <string name="expense">spesa</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già.
       Attendere un minuto prima di riprovare.</string>
-  <string name="export_expenses">Esportazione delle speze</string>
-  <string name="export_expenses_sdcard_failure">Esportazione delle speze nella scheda SD fallito</string>
+  <string name="export_expenses">Esportazione delle spese</string>
+  <string name="export_expenses_sdcard_failure">Esportazione delle spese nella scheda SD fallito</string>
   <string name="export_expenses_sdcard_success">Le spese sono esportate nel file %1$s</string>
   <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non è disponibile</string>
   <string name="feedback">Feedback</string>
@@ -120,7 +119,7 @@
   <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
   <string name="grisbi_import_categories_success">%1$s categorie state importate</string>
   <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
-  <string name="help_button_rate">Il vostro recensione</string>
+  <string name="help_button_rate">La vostra recensione</string>
   <string name="help_button_sendmail">Inviare una e-mail</string>
   <string name="help_heading_changelog">Aggiornamenti</string>
   <string name="help_heading_credits">Generico</string>
@@ -201,7 +200,7 @@
   <string name="menu_new_from_template">Nuovo riguardo al modello</string>
   <string name="menu_more">Ulteriori &#8230;</string>
   <string name="menu_move_transaction">Spostare</string>
-  <string name="menu_reset">Reinitializare</string>
+  <string name="menu_reset">Reinizializzare</string>
   <string name="menu_reset_all">Tutti</string>
   <string name="menu_reset_abrev">Reinit.</string>
   <string name="menu_settings">Impostazioni</string>
@@ -219,20 +218,20 @@
   <string name="no_expenses">Non ci sono spese.</string>
   <string name="no_parties">Non ci sono beneficiari.</string>
   <string name="no_templates">Non ci sono modelli.</string>
-  <string name="no_title_given">Non ha scritto ningun titro.</string>
+  <string name="no_title_given">Non ha scritto ningun titolo.</string>
   <string name="no_valid_payment_methods">Nessuni modi di pagamento validi per %1$s (%2$s)</string>
-  <string name="not_deletable_mapped_transactions">Non può cancellar, perché ci
+  <string name="not_deletable_mapped_transactions">Non può cancellare, perché ci
       sono operazione ad esso attribuite.</string>
-  <string name="not_deletable_mapped_templates">Non può cancellar, perché ci
+  <string name="not_deletable_mapped_templates">Non può cancellare, perché ci
       sono modelli ad esso attribuite.</string>
   <string name="not_deletable_subcats_exists">Questa categoria non può essere cancellata perché
       contiene sottocategorie.</string>
   <string name="oi_pick_colors_info">Installare OI Color Picker per ulteriori opzioni</string>
-  <string name="opening_balance">Saldo inizial</string>
+  <string name="opening_balance">Saldo iniziale</string>
   <string name="parse_error_file_not_found">Il file %1$s non esiste</string>
-  <string name="parse_error_no_data_found">Nessun dato importabili trovato nel file.</string>
+  <string name="parse_error_no_data_found">Nessun dato importabile trovato nel file.</string>
   <string name="parse_error_parse_exception">Il file non può essere analizzato</string>
-  <string name="parse_error_other_exception">È verificato un errore: %1$s</string>
+  <string name="parse_error_other_exception">È stato verificato un errore: %1$s</string>
   <!--
   <string name="parse_error_grisbi_version_not_determined">Versione del file Grisbi non può essere
       determinata</string>
@@ -260,7 +259,7 @@
   <string name="pref_account_button_behaviour_title">Comportamento del pulsante \"Conti\"</string>
   <string name="pref_account_button_behaviour_summary">Vuoi che il pulsante \"Conti\" alterna tra gli
       ultimi due conti invece di alternare tra tutti i conti?</string>
-  <string name="pref_backup_summary">Crea un backup del database e le preferenze sulla scheda SD.
+  <string name="pref_backup_summary">Crea un backup del database e delle preferenze sulla scheda SD.
   </string>
   <string name="pref_categories_sort_by_usages_title">Criterio di ordinamento per le categorie
   </string>
