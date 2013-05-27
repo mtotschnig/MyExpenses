@@ -424,6 +424,9 @@
         </para>
         </answer>
       </qandaentry>
+      <!-- END FAQ 4 -->
+
+      <!-- BEGIN FAQ 5 -->
       <qandaentry id="faq-contrib-en" lang="en">
         <question id="faq-contrib-q-en">
           <para>
@@ -540,6 +543,31 @@
              ekranındaki <guilabel role="pref_request_licence_title"/> seçeneğiyle bana
              iletebilirsiniz.
           </para>
+        </answer>
+      </qandaentry>
+      <qandaentry id="faq-contrib-it" lang="it">
+        <question id="faq-contrib-q-it">
+          <para>
+             Chiave contrib, che cos'è?
+          </para>
+        </question>
+        <answer>
+          <para>
+             <application role="app_name"/> è distribuito con alcune funzionalità premium che
+             possono essere provate cinque volte e quindi possono essere sbloccate con
+             l'installazione della <ulink
+              url="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">app
+             contrib</ulink> a pagamento da Google Play. Potrebbe essere necessario lanciare
+             <application role="app_name"/> una volta dalla schermata iniziale del contrib
+             applicazione, al fine di renderlo consapevole delle app contrib. Ma c'è bisogno di
+             alcuna chiave contrib in quel caso. Una chiave contrib è un meccanismo per sbloccare le
+             funzionalità Premium senza installazione delle app contrib. Manderò questa chiave agli
+             utenti che contribuiscono allo sviluppo delLe Mie Spese con altri mezzi, ad esempio
+             traducendo l'interfaccia utente o testando pre-releases. La chiave è calcolata sulla
+             base della Android-ID del dispositivo, che potete comunicare a me attraverso la voce
+             <guilabel role="pref_request_licence_title"/> nella schermata <guilabel
+              role="menu_settings"/>.
+           </para>
         </answer>
       </qandaentry>
       <!--
