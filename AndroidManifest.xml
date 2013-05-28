@@ -82,5 +82,9 @@
             </intent-filter>
         </activity>
         <activity android:name="CalculatorInput" android:theme="@android:style/Theme.Dialog"/>
+				<provider
+					 android:exported="false"
+				   android:name=".provider.TransactionProvider"
+				   android:authorities="org.totschnig.myexpenses" />
     </application>
 </manifest> 

@@ -7,31 +7,10 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final String KEY_DATE = "date";
-  public static final String KEY_AMOUNT = "amount";
-  public static final String KEY_COMMENT = "comment";
-  public static final String KEY_ROWID = "_id";
-  public static final String KEY_CATID = "cat_id";
-  public static final String KEY_ACCOUNTID = "account_id";
-  public static final String KEY_PAYEE = "payee";
-  public static final String KEY_TRANSFER_PEER = "transfer_peer";
-  public static final String KEY_METHODID = "payment_method_id";
-  public static final String KEY_TITLE = "title";
-  public static final String KEY_LABEL_MAIN = "label_sub";
-  public static final String KEY_LABEL_SUB = "label_main";
 
-  private static final String TABLE_TRANSACTIONS = "transactions";
-  private static final String TABLE_ACCOUNTS = "accounts";
-  private static final String TABLE_CATEGORIES = "categories";
-  private static final String TABLE_PAYMENT_METHODS = "paymentmethods";
-  private static final String TABLE_ACCOUNTTYE_METHOD = "accounttype_paymentmethod";
-  private static final String TABLE_TEMPLATES = "templates";
-  private static final String TABLE_PAYEE = "payee";
-  private static final String TABLE_FEATURE_USED = "feature_used";
-  private static final int DATABASE_VERSION = 27;
-  public static final String DATABASE_NAME = "data";
   private static final String TAG = "TransactionDatabase";
   /**
    * SQL statement for expenses TABLE
@@ -98,50 +77,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
    */
   private static final String FEATURE_USED_CREATE =
       "CREATE TABLE " + TABLE_FEATURE_USED + " (feature text not null);";
-
-  /**
-   * an SQL CASE expression for transactions
-   * that gives either the category for normal transactions
-   * or the account for transfers
-   * full means "Main : Sub"
-   */
-  private static final String LABEL_MAIN =
-    "CASE WHEN " +
-    "  transfer_peer " +
-    "THEN " +
-    "  (SELECT label FROM " + TABLE_ACCOUNTS + " WHERE _id = cat_id) " +
-    "WHEN " +
-    "  cat_id " +
-    "THEN " +
-    "  CASE WHEN " +
-    "    (SELECT parent_id FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
-    "  THEN " +
-    "    (SELECT label FROM " + TABLE_CATEGORIES
-        + " WHERE _id = (SELECT parent_id FROM " + TABLE_CATEGORIES
-            + " WHERE _id = cat_id)) " +
-    "  ELSE " +
-    "    (SELECT label FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
-    "  END " +
-    "END AS " + KEY_LABEL_MAIN;
- private static final String LABEL_SUB =
-    "CASE WHEN " +
-    "  NOT transfer_peer AND cat_id AND (SELECT parent_id FROM " + TABLE_CATEGORIES
-        + " WHERE _id = cat_id) " +
-    "THEN " +
-    "  (SELECT label FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
-    "END AS " + KEY_LABEL_SUB;
-  /**
-   * same as {@link FULL_LABEL}, but if transaction is linked to a subcategory
-   * only the label from the subcategory is returned
-   */
-  private static final String SHORT_LABEL = 
-    "CASE WHEN " +
-    "  transfer_peer " +
-    "THEN " +
-    "  (SELECT label FROM " + TABLE_ACCOUNTS + " WHERE _id = cat_id) " +
-    "ELSE " +
-    "  (SELECT label FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
-    "END AS label";
 
   /**
    * stores payees and payers
