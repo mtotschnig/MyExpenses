@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.ContentResolver;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources.NotFoundException;
@@ -347,6 +348,9 @@ public class MyApplication extends Application {
         mSelf.mDbOpenHelper.open();
       }
       return mSelf.mDbOpenHelper;
+    }
+    public static ContentResolver cr() {
+      return mSelf.getContentResolver();
     }
     public long getmLastPause() {
       return mLastPause;

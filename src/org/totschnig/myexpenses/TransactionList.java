@@ -1,16 +1,6 @@
 package org.totschnig.myexpenses;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_MAIN;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_SUB;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.SimpleDateFormat;
 
@@ -181,7 +171,7 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
     String[] projection = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
         KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID};
     CursorLoader cursorLoader = new CursorLoader(getActivity(),
-        TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).appendPath("transactions").build(), projection, null, null, null);
+        TransactionProvider.TRANSACTIONS_URI, projection, "account_id = ?", new String[] { String.valueOf(accountId) }, null);
     return cursorLoader;
   }
 

@@ -111,7 +111,7 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
             mAccountsCursor.requery();
             break;
           case CREATE_INSTANCE_SAVE:
-            if (Transaction.getInstanceFromTemplate(id).save() == -1)
+            if (Transaction.getInstanceFromTemplate(id).save() == null)
               Toast.makeText(getBaseContext(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
             else
               Toast.makeText(getBaseContext(),getString(R.string.save_transaction_success), Toast.LENGTH_LONG).show();

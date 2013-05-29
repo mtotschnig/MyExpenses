@@ -6,6 +6,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,6 +19,10 @@ public class TransactionProvider extends ContentProvider {
   public static final String AUTHORITY = "org.totschnig.myexpenses";
   public static final Uri ACCOUNTS_URI = Uri.parse("content://" + AUTHORITY
       + "/accounts");
+  public static final Uri TRANSACTIONS_URI = Uri.parse("content://" + AUTHORITY
+          + "/transactions");
+  public static final Uri TEMPLATES_URI = Uri.parse("content://" + AUTHORITY
+      + "/templates");
   
   static final String TAG = "TransactionProvider";
 
@@ -28,13 +33,13 @@ public class TransactionProvider extends ContentProvider {
   private static final int CATEGORIES = 3;
   private static final int ACCOUNTS = 4;
   private static final int ACCOUNTS_ID = 5;
-  private static final int AGGREGATES_FOR_CURRENCIES_HAVING_MULTIPLE_ACCOUNTS = 8;
-  private static final int PAYEES = 9;
-  private static final int PAYMENT_METHODS = 10;
-  private static final int PAYMENT_METHOD_ID = 11;
-  private static final int ACCOUNT_TYPES_FOR_METHOD = 12;
-  private static final int TEMPLATES = 13;
-  private static final int TEMPLATE_ID = 14;
+  private static final int AGGREGATES_FOR_CURRENCIES_HAVING_MULTIPLE_ACCOUNTS = 6;
+  private static final int PAYEES = 7;
+  private static final int PAYMENT_METHODS = 8;
+  private static final int PAYMENT_METHOD_ID = 9;
+  private static final int ACCOUNT_TYPES_FOR_METHOD = 10;
+  private static final int TEMPLATES = 11;
+  private static final int TEMPLATES_ID = 12;
   
   @Override
   public boolean onCreate() {
@@ -56,7 +61,6 @@ public class TransactionProvider extends ContentProvider {
     switch (URI_MATCHER.match(uri)) {
     case TRANSACTIONS:
       qb.setTables(TABLE_TRANSACTIONS);
-      qb.appendWhere("account_id=" + uri.getPathSegments().get(1));
       defaultOrderBy = KEY_DATE + " DESC";
       break;
     case TRANSACTIONS_ID:
@@ -65,7 +69,7 @@ public class TransactionProvider extends ContentProvider {
       break;
     case CATEGORIES:
       qb.setTables(TABLE_CATEGORIES);
-      qb.appendWhere("parent_id=" + uri.getPathSegments().get(1));
+      //qb.appendWhere("parent_id=" + uri.getPathSegments().get(1));
       //boolean categories_sort = MyApplication.getInstance().getSettings()
       //  .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true);
       //String orderBy = (categories_sort ? "usages DESC, " : "") + "label";
@@ -102,10 +106,9 @@ public class TransactionProvider extends ContentProvider {
       break;
     case TEMPLATES:
       qb.setTables(TABLE_TEMPLATES);
-      qb.appendWhere("account_id =" + uri.getPathSegments().get(1));
       defaultOrderBy =  "usages DESC";
       break;
-    case TEMPLATE_ID:
+    case TEMPLATES_ID:
       qb.setTables(TABLE_TEMPLATES);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
@@ -139,28 +142,100 @@ public class TransactionProvider extends ContentProvider {
 
   @Override
   public Uri insert(Uri uri, ContentValues values) {
-    // TODO Auto-generated method stub
-    return null;
+    SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+    long id = 0;
+    String newUri;
+    switch (URI_MATCHER.match(uri)) {
+    case TRANSACTIONS:
+      id = db.insert(TABLE_TRANSACTIONS, null, values);
+      newUri = TRANSACTIONS_URI + "/" + id;
+      break;
+    case TEMPLATES:
+      try {
+        id = db.insertOrThrow(TABLE_TEMPLATES, null, values);
+        newUri = TEMPLATES_URI + "/" + id;
+      } catch (SQLiteConstraintException e) {
+        return null;
+      }
+      
+      break;
+    default:
+      throw new IllegalArgumentException("Unknown URI: " + uri);
+    }
+    getContext().getContentResolver().notifyChange(uri, null);
+    return id >0 ? Uri.parse(newUri) : null;
   }
 
   @Override
-  public int delete(Uri uri, String selection, String[] selectionArgs) {
-    // TODO Auto-generated method stub
-    return 0;
+  public int delete(Uri uri, String where, String[] whereArgs) {
+    SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+    int count;
+    String whereString;
+    String segment;
+    switch (URI_MATCHER.match(uri)) {
+    case TRANSACTIONS:
+      count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
+      break;
+    case TRANSACTIONS_ID:
+      segment = uri.getPathSegments().get(1);
+      if (!TextUtils.isEmpty(where)) {
+        whereString = " AND (" + where + ')';
+      } else {
+        whereString = "";
+      }
+      count = db.delete(TABLE_TRANSACTIONS, "_id=" + segment + whereString,
+          whereArgs);
+      break;
+    default:
+      throw new IllegalArgumentException("Unknown URL " + uri);
+    }
+    getContext().getContentResolver().notifyChange(uri, null);
+    return count;
   }
 
   @Override
-  public int update(Uri uri, ContentValues values, String selection,
-      String[] selectionArgs) {
-    // TODO Auto-generated method stub
-    return 0;
+  public int update(Uri uri, ContentValues values, String where,
+      String[] whereArgs) {
+    SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+    String segment; // contains rowId
+    int count;
+    String whereString;
+    switch (URI_MATCHER.match(uri)) {
+    case TRANSACTIONS:
+      count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
+      break;
+    case TRANSACTIONS_ID:
+      segment = uri.getPathSegments().get(1); 
+      if (!TextUtils.isEmpty(where)) {
+        whereString = " AND (" + where + ')';
+      } else {
+        whereString = "";
+      }
+      count = db.update(TABLE_TRANSACTIONS, values, "_id=" + segment + whereString,
+          whereArgs);
+      break;
+    case TEMPLATES_ID:
+      segment = uri.getPathSegments().get(1); 
+      if (!TextUtils.isEmpty(where)) {
+        whereString = " AND (" + where + ')';
+      } else {
+        whereString = "";
+      }
+      count = db.update(TABLE_TEMPLATES, values, "_id=" + segment + whereString,
+          whereArgs);
+      break;
+    default:
+      throw new IllegalArgumentException("Unknown URI " + uri);
+    }
+    getContext().getContentResolver().notifyChange(uri, null);
+    return count;
   }
   static {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/#/transactions", TRANSACTIONS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTIONS_ID);
     //categories/0/children gives main categories
-    URI_MATCHER.addURI(AUTHORITY, "categories/#/children", CATEGORIES);
+    URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNTS_ID);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
@@ -168,7 +243,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "payment_methods/#", PAYMENT_METHOD_ID);
     URI_MATCHER.addURI(AUTHORITY, "currencies/aggregates", AGGREGATES_FOR_CURRENCIES_HAVING_MULTIPLE_ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "payment_methods/#/account_types", ACCOUNT_TYPES_FOR_METHOD);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/#/templates", TEMPLATES);
-    URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATE_ID);
+    URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
+    URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATES_ID);
   }
 }

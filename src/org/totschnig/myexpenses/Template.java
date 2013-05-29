@@ -17,7 +17,12 @@ package org.totschnig.myexpenses;
 
 import java.util.Date;
 
+import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.net.Uri;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class Template extends Transaction {
   private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
@@ -68,16 +73,27 @@ public class Template extends Transaction {
   }
   /**
    * Saves the new template, or updated an existing one
-   * @return the id of the template. Upon creation it is returned from the database
+   * @return the Uri of the template. Upon creation it is returned from the content provider
    */
-  public long save() {
+  public Uri save() {
+    Uri uri;
+    ContentValues initialValues = new ContentValues();
+    initialValues.put(KEY_COMMENT, comment);
+    initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
+    initialValues.put(KEY_CATID, catId);
+    initialValues.put(KEY_PAYEE, payee);
+    initialValues.put(KEY_METHODID, methodId);
+    initialValues.put(KEY_TITLE, title);
     if (id == 0) {
-      id = mDbHelper.createTemplate(amount.getAmountMinor(), comment,catId,accountId,payee,transfer_peer,methodId,title);
+      initialValues.put(KEY_ACCOUNTID, accountId);
+      initialValues.put(KEY_TRANSFER_PEER, transfer_peer);
+      uri = MyApplication.cr().insert(TransactionProvider.TEMPLATES_URI, initialValues);
     } else {
       Utils.recordUsage(MyApplication.ContribFeature.EDIT_TEMPLATE);
-      mDbHelper.updateTemplate(id, amount.getAmountMinor(), comment,catId,payee, methodId,title);
+      uri = Uri.parse(TransactionProvider.TEMPLATES_URI + "/" + id);
+      MyApplication.cr().update(uri, initialValues, null, null);
     }
-    return id;
+    return uri;
   }
 }
 

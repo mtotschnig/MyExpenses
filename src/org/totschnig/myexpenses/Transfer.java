@@ -15,6 +15,12 @@
 
 package org.totschnig.myexpenses;
 
+import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import android.content.ContentValues;
+import android.net.Uri;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+
 /**
  * a transfer consists of a pair of transactions, one for each account
  * this class handles creation and update
@@ -31,20 +37,48 @@ public class Transfer extends Transaction {
     super(accountId,amount);
   }
   public static boolean delete(long id,long peer) {
-    return mDbHelper.deleteTransfer(id,peer);
+    return MyApplication.cr().delete(TransactionProvider.TRANSACTIONS_URI,
+        KEY_ROWID + " in (" + id + "," + peer + ")",null) > 0;
   }
 
   /* (non-Javadoc)
    * @see org.totschnig.myexpenses.Transaction#save()
    */
-  public long save() {
+  public Uri save() {
+    Uri uri;
+    long amount = this.amount.getAmountMinor();
+    //the id of the peer_account is stored in KEY_CATID,
+    //the id of the peer transaction is stored in KEY_TRANSFER_PEER
+    ContentValues initialValues = new ContentValues();
+    initialValues.put(KEY_COMMENT, comment);
+    initialValues.put(KEY_DATE, dateAsString);
+    initialValues.put(KEY_AMOUNT, amount);
+    initialValues.put(KEY_CATID, catId);
     if (id == 0) {
-      long ids[] = mDbHelper.createTransfer(dateAsString, amount.getAmountMinor(), comment,catId,accountId);
-      id = ids[0];
-      transfer_peer = ids[1];
+      initialValues.put(KEY_ACCOUNTID, accountId);
+      uri = MyApplication.cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
+      long id = Integer.valueOf(uri.getLastPathSegment());
+      initialValues.put(KEY_AMOUNT, 0 - amount);
+      initialValues.put(KEY_CATID, accountId);
+      initialValues.put(KEY_ACCOUNTID, catId);
+      initialValues.put(KEY_TRANSFER_PEER,id);
+      Uri transferUri = MyApplication.cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
+      transfer_peer = Integer.valueOf(transferUri.getLastPathSegment());
+      //we have to set the transfer_peer for the first transaction
+      ContentValues args = new ContentValues();
+      args.put(KEY_TRANSFER_PEER,transfer_peer);
+      MyApplication.cr().update(Uri.parse(TransactionProvider.TRANSACTIONS_URI+ "/" + id), args, null, null);
     } else {
-      mDbHelper.updateTransfer(id, dateAsString, amount.getAmountMinor(), comment,catId);
+      uri = Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + id);
+      MyApplication.cr().update(uri,initialValues,null,null);
+      initialValues.put(KEY_AMOUNT, 0 - amount);
+      //if the user has changed the account to which we should transfer,
+      //in the peer transaction we need to update the account_id
+      initialValues.put(KEY_ACCOUNTID, catId);
+      //the account from which is transfered is not altered
+      initialValues.remove(KEY_CATID);
+      MyApplication.cr().update(Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + transfer_peer),initialValues,null,null);
     }
-    return id;
+    return uri;
   }
 }

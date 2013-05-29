@@ -17,7 +17,12 @@ package org.totschnig.myexpenses;
 
 import java.util.Date;
 
+import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.net.Uri;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 /**
  * Domain class for transactions
@@ -51,8 +56,9 @@ public class Transaction {
    */
   public static Transaction getInstanceFromDb(long id)  {
     Transaction t;
-    Cursor c = mDbHelper.fetchTransaction(id);
-    if (c.getCount() == 0) {
+    Cursor c = MyApplication.cr().query(
+        TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(String.valueOf(id)).build(), null,null,null, null);
+    if (c == null || c.getCount() == 0) {
       return null;
       //TODO throw DataObjectNotFoundException
     }
@@ -113,7 +119,7 @@ public class Transaction {
   }
   
   public static boolean delete(long id) {
-    return mDbHelper.deleteTransaction(id);
+    return MyApplication.cr().delete(Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + id),null,null) > 0;
   }
   //needed for Template subclass
   public Transaction() {
@@ -167,22 +173,40 @@ public class Transaction {
   /**
    * Saves the transaction, creating it new if necessary
    * as a side effect calls {@link ExpensesDbAdapter#createPayee(String)}
-   * @return the id of the transaction. Upon creation it is returned from the database
+   * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
-  public long save() {
+  public Uri save() {
+    Uri uri;
     if (payee != null && !payee.equals("")) {
       mDbHelper.createPayee(payee);
     }
+    ContentValues initialValues = new ContentValues();
+    initialValues.put(KEY_COMMENT, comment);
+    initialValues.put(KEY_DATE, dateAsString);
+    initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
+    initialValues.put(KEY_CATID, catId);
+    initialValues.put(KEY_PAYEE, payee);
+    initialValues.put(KEY_METHODID, methodId);
     if (id == 0) {
-      id = mDbHelper.createTransaction(dateAsString, amount.getAmountMinor(), comment,catId,accountId,payee, methodId);
-    } else {
-      mDbHelper.updateTransaction(id, dateAsString, amount.getAmountMinor(), comment,catId,payee, methodId);
+      initialValues.put(KEY_ACCOUNTID, accountId);
+      initialValues.put(KEY_TRANSFER_PEER,0);
+      uri = MyApplication.cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
+      mDbHelper.incrCategoryUsage(catId);
     }
-    return id;
+    else {
+      uri = Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + id);
+      MyApplication.cr().update(uri,initialValues,null,null);
+    }
+    return uri;
   }
-  public long saveAsNew() {
+  public Uri saveAsNew() {
     id = 0;
     setDate(new Date());
     return save();
+  }
+  public static void move(long whichTransactionId, long whereAccountId) {
+    ContentValues args = new ContentValues();
+    args.put(KEY_ACCOUNTID, whereAccountId);
+    MyApplication.cr().update(Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + whichTransactionId), args, null, null);
   }
 }

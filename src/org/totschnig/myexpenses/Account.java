@@ -25,10 +25,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 import android.widget.Toast;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 /**
  * Account represents an account stored in the database.
@@ -281,7 +285,7 @@ public class Account {
     } catch (DataObjectNotFoundException e) {
       return false;
     }
-    mDbHelper.deleteTransactionAll(account);
+    account.deleteAllTransactions();
     accounts.remove(id);
     return mDbHelper.deleteAccount(id);
   }
@@ -353,8 +357,18 @@ public class Account {
    */
   public Money getCurrentBalance() { 
     return new Money(currency,
-        openingBalance.getAmountMinor() + mDbHelper.getTransactionSum(id)
+        openingBalance.getAmountMinor() + getTransactionSum()
     );
+  }
+  /**
+   * @return sum of all transcations
+   */
+  public long getTransactionSum() {
+    Cursor c = MyApplication.cr().query(TransactionProvider.TRANSACTIONS_URI,
+        new String[] {"sum(" + KEY_AMOUNT + ")"}, "account_id = ?", new String[] { String.valueOf(id) }, null);
+    long result = c.getLong(0);
+    c.close();
+    return result;
   }
   /**
    * deletes all expenses and set the new opening balance to the current balance
@@ -363,7 +377,21 @@ public class Account {
     long currentBalance = getCurrentBalance().getAmountMinor();
     openingBalance.setAmountMinor(currentBalance);
     mDbHelper.updateAccountOpeningBalance(id,currentBalance);
-    mDbHelper.deleteTransactionAll(this);
+    deleteAllTransactions();
+  }
+  /**
+   * For transfers the peer transaction will survive, but we transform it to a normal transaction
+   * with a note about the deletion of the peer_transaction
+   */
+  public void deleteAllTransactions() {
+    String[] selectArgs = new String[] { String.valueOf(id) };
+    ContentValues args = new ContentValues();
+    args.put(KEY_COMMENT, MyApplication.getInstance().getString(R.string.peer_transaction_deleted,label));
+    args.put(KEY_CATID,0);
+    args.put(KEY_TRANSFER_PEER,0);
+    MyApplication.cr().update(TransactionProvider.TRANSACTIONS_URI, args,
+        KEY_CATID + " = ? and " + KEY_TRANSFER_PEER + " != 0", selectArgs);
+    MyApplication.cr().delete(TransactionProvider.TRANSACTIONS_URI, KEY_ACCOUNTID + " = ?", selectArgs);
   }
   public void exportAllDo(File output) throws IOException {
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
@@ -372,7 +400,10 @@ public class Account {
         MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
     String header = "!Type:" + type.getQifName() + "\n";
     out.write(header);
-    Cursor c = mDbHelper.fetchTransactionAll(id);
+    String[] projection = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
+        KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID};
+    Cursor c = MyApplication.cr().query(TransactionProvider.TRANSACTIONS_URI, projection,
+        "account_id = ?", new String[] { String.valueOf(id) }, null);
     c.moveToFirst();
     while( c.getPosition() < c.getCount() ) {
       String comment = c.getString(

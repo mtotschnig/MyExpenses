@@ -256,8 +256,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private void fillAddButton() {
     mAddButton.clearMenu();
     final Cursor templates = getContentResolver().query(
-        TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(mCurrentAccount.id)).appendPath("templates").build(),
-        null, null, null, null);
+        TransactionProvider.TEMPLATES_URI,
+        null, "account_id = " + mCurrentAccount.id, null, null);
     boolean gotTemplates = templates.moveToFirst();
     boolean gotTransfers = transfersEnabledP();
     if (gotTransfers) {
@@ -403,12 +403,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == ACTIVITY_CREATE_ACCOUNT && resultCode == RESULT_OK && intent != null) {
-         mAccountsCursor.requery();
+         //mAccountsCursor.requery();
          //myAdapter.notifyDataSetChanged();
          switchAccount(intent.getLongExtra("account_id",0));
          return;
     }
-    mAccountsCursor.requery();
+    //mAccountsCursor.requery();
     //myAdapter.notifyDataSetChanged();
     updateUIforCurrentAccount();
     if (requestCode == ACTIVITY_EDIT) {
@@ -596,9 +596,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
               switchAccount(accountIds[item]);
             }
             else {
-              //TODO
-              //mDbHelper.moveTransaction(mDialogContextId,accountIds[item]);
-              //myAdapter.notifyDataSetChanged();
+              Transaction.move(mDialogContextId,accountIds[item]);
               configButtons();
             }
           }
@@ -628,7 +626,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
           if (!title.equals("")) {
             input.setText("");
             dismissDialog(R.id.TEMPLATE_TITLE_DIALOG);
-            if ((new Template(Transaction.getInstanceFromDb(mDialogContextId),title)).save() == -1) {
+            if ((new Template(Transaction.getInstanceFromDb(mDialogContextId),title)).save() == null) {
               Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
             } else {
               Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
@@ -645,10 +643,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       .create();
     case R.id.SELECT_TEMPLATE_DIALOG:
       final Cursor templates = getContentResolver().query(
-          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(mCurrentAccount.id)).appendPath("templates").build(),
-          null, null, null, null);
-      final String[] templateTitles = Utils.getStringArrayFromCursor(templates, "title");
-      final Long[] templateIds = Utils.getLongArrayFromCursor(templates, ExpensesDbAdapter.KEY_ROWID);
+          TransactionProvider.TEMPLATES_URI,
+          new String[]{KEY_ROWID,KEY_TITLE}, "account_id = ?", new String[] { String.valueOf(mCurrentAccount.id) }, null);
+      final String[] templateTitles = Utils.getStringArrayFromCursor(templates, KEY_TITLE);
+      final Long[] templateIds = Utils.getLongArrayFromCursor(templates, KEY_ROWID);
       templates.close();
       return new AlertDialog.Builder(this)
         .setTitle(R.string.dialog_title_select_account)
@@ -917,7 +915,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       }
       if (prev_version < 28) {
         Log.i("MyExpenses",String.format("Upgrading to version 28: Purging %d transactions from datbase",
-            MyApplication.db().purgeTransactions()));
+            getContentResolver().delete(TransactionProvider.TRANSACTIONS_URI,
+                KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null)));
       }
       if (prev_version < 30) {
         if (mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"") != "") {
