@@ -19,6 +19,9 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
@@ -523,6 +526,7 @@ public class ExpenseEdit extends EditActivity {
   private boolean saveState() {
     String strAmount = mAmountText.getText().toString();
     BigDecimal amount = Utils.validateNumber(nfDLocal, strAmount);
+    String title = "";
     if (amount == null) {
       Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
       return false;
@@ -538,7 +542,7 @@ public class ExpenseEdit extends EditActivity {
 
     mTransaction.comment = mCommentText.getText().toString();
     if (mTransaction instanceof Template) {
-      String title = mTitleText.getText().toString();
+      title = mTitleText.getText().toString();
       if (title.equals("")) {
         Toast.makeText(this, R.string.no_title_given, Toast.LENGTH_LONG).show();
         return false;
@@ -558,7 +562,13 @@ public class ExpenseEdit extends EditActivity {
     }
     mTransaction.catId = mCatId;
     mTransaction.methodId = mMethodId;
-    mTransaction.save();
+    if (mTransaction.save() == null) {
+      //for the moment, the only case where we will not get an URI back is
+      //if the unique constraint for template titles is violated
+      //TODO: we should probably validate the title earlier
+      Toast.makeText(this,getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
+      return false;
+    }
     return true;
   }
   /* (non-Javadoc)

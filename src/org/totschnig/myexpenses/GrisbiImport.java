@@ -35,6 +35,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 */
 
+import org.totschnig.myexpenses.model.Category;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -631,11 +632,11 @@ public class GrisbiImport extends ProtectedActivity implements DialogInterface.O
         CategoryTree mainCat = main.getValue();
         label = mainCat.getLabel();
         count++;
-        main_id = mDbHelper.getCategoryId(label, 0);
+        main_id = Category.find(label, 0);
         if (main_id != -1) {
           Log.i("MyExpenses","category with label" + label + " already defined");
         } else {
-          main_id = mDbHelper.createCategory(label,0);
+          main_id = Category.create(label,0);
           if (main_id != -1) {
             totalImportedCat++;
             if (count % 10 == 0) {
@@ -650,7 +651,7 @@ public class GrisbiImport extends ProtectedActivity implements DialogInterface.O
         for (Map.Entry<Integer,CategoryTree> sub : mainCat.children().entrySet()) {
           label = sub.getValue().getLabel();
           count++;
-          sub_id = mDbHelper.createCategory(label,main_id);
+          sub_id = Category.create(label,main_id);
           if (sub_id != -1) {
             totalImportedCat++;
           } else {

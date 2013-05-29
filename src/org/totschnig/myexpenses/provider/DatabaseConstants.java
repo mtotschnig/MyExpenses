@@ -13,6 +13,7 @@ public class DatabaseConstants {
   public static final String KEY_TITLE = "title";
   public static final String KEY_LABEL_MAIN = "label_main";
   public static final String KEY_LABEL_SUB = "label_sub";
+  public static final String KEY_LABEL = "label";
 
   public static final String TABLE_TRANSACTIONS = "transactions";
   public static final String TABLE_ACCOUNTS = "accounts";
@@ -30,7 +31,6 @@ public class DatabaseConstants {
    * an SQL CASE expression for transactions
    * that gives either the category for normal transactions
    * or the account for transfers
-   * full means "Main : Sub"
    */
   public static final String LABEL_MAIN =
     "CASE WHEN " +
@@ -68,6 +68,6 @@ public class DatabaseConstants {
     "  (SELECT label FROM " + TABLE_ACCOUNTS + " WHERE _id = cat_id) " +
     "ELSE " +
     "  (SELECT label FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
-    "END AS label";
+    "END AS  " + KEY_LABEL;
 
 }

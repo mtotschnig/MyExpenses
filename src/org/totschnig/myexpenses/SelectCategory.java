@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses;
 
+import org.totschnig.myexpenses.model.Category;
+
 import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
 
 import android.app.AlertDialog;
@@ -168,8 +170,8 @@ public class SelectCategory extends ProtectedExpandableListActivity {
             String value = input.getText().toString();
             if (!value.equals("")) {
               long cat_id = (id == CAT_CREATE_DIALOG_ID ?
-                  mDbHelper.createCategory(value,mCatCreateDialogParentId) :
-                  mDbHelper.updateCategoryLabel(value,mCatEditDialogCatId));
+                  Category.create(value,mCatCreateDialogParentId) :
+                  Category.update(value,mCatEditDialogCatId));
               if (cat_id != -1) {
                 mGroupCursor.requery();
               } else {
@@ -248,7 +250,7 @@ public class SelectCategory extends ProtectedExpandableListActivity {
             } else if (mDbHelper.getTemplateCountPerCat(cat_id) > 0 ) {
               Toast.makeText(this,getString(R.string.not_deletable_mapped_templates), Toast.LENGTH_LONG).show();
             } else {
-              mDbHelper.deleteCategory(cat_id);
+              Category.delete(cat_id);
               mGroupCursor.requery();
             }
         }

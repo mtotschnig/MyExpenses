@@ -168,10 +168,8 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
 
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-    String[] projection = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
-        KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID};
     CursorLoader cursorLoader = new CursorLoader(getActivity(),
-        TransactionProvider.TRANSACTIONS_URI, projection, "account_id = ?", new String[] { String.valueOf(accountId) }, null);
+        TransactionProvider.TRANSACTIONS_URI, null, "account_id = ?", new String[] { String.valueOf(accountId) }, null);
     return cursorLoader;
   }
 

@@ -13,8 +13,11 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.model;
 
+import org.totschnig.myexpenses.ExpensesDbAdapter;
+import org.totschnig.myexpenses.Money;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;

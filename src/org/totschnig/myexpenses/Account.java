@@ -366,6 +366,7 @@ public class Account {
   public long getTransactionSum() {
     Cursor c = MyApplication.cr().query(TransactionProvider.TRANSACTIONS_URI,
         new String[] {"sum(" + KEY_AMOUNT + ")"}, "account_id = ?", new String[] { String.valueOf(id) }, null);
+    c.moveToFirst();
     long result = c.getLong(0);
     c.close();
     return result;
@@ -400,9 +401,7 @@ public class Account {
         MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
     String header = "!Type:" + type.getQifName() + "\n";
     out.write(header);
-    String[] projection = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
-        KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID};
-    Cursor c = MyApplication.cr().query(TransactionProvider.TRANSACTIONS_URI, projection,
+    Cursor c = MyApplication.cr().query(TransactionProvider.TRANSACTIONS_URI, null,
         "account_id = ?", new String[] { String.valueOf(id) }, null);
     c.moveToFirst();
     while( c.getPosition() < c.getCount() ) {

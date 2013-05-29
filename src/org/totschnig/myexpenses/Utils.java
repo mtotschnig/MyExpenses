@@ -149,7 +149,7 @@ public class Utils {
     return nf.format(amount);
   }
 
-  static Date fromSQL(String dateString) {
+  public static Date fromSQL(String dateString) {
     try {
       return ExpensesDbAdapter.dateFormat.parse(dateString);
     } catch (ParseException e) {

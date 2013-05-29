@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.provider;
 
+import org.totschnig.myexpenses.model.Transaction;
+
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -20,9 +22,11 @@ public class TransactionProvider extends ContentProvider {
   public static final Uri ACCOUNTS_URI = Uri.parse("content://" + AUTHORITY
       + "/accounts");
   public static final Uri TRANSACTIONS_URI = Uri.parse("content://" + AUTHORITY
-          + "/transactions");
-  public static final Uri TEMPLATES_URI = Uri.parse("content://" + AUTHORITY
+      + "/transactions");
+  public static final Uri TEMPLATES_URI    = Uri.parse("content://" + AUTHORITY
       + "/templates");
+  public static final Uri CATEGORIES_URI   = Uri.parse("content://" + AUTHORITY
+      + "/categories");
   
   static final String TAG = "TransactionProvider";
 
@@ -40,6 +44,8 @@ public class TransactionProvider extends ContentProvider {
   private static final int ACCOUNT_TYPES_FOR_METHOD = 10;
   private static final int TEMPLATES = 11;
   private static final int TEMPLATES_ID = 12;
+  private static final int CATEGORIES_ID = 13;
+  private static final int CATEGORIES_INCREASE_USAGE = 14;
   
   @Override
   public boolean onCreate() {
@@ -62,6 +68,8 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTIONS:
       qb.setTables(TABLE_TRANSACTIONS);
       defaultOrderBy = KEY_DATE + " DESC";
+      if (projection == null)
+        projection = Transaction.PROJECTION;
       break;
     case TRANSACTIONS_ID:
       qb.setTables(TABLE_TRANSACTIONS);
@@ -157,7 +165,14 @@ public class TransactionProvider extends ContentProvider {
       } catch (SQLiteConstraintException e) {
         return null;
       }
-      
+      break;
+    case CATEGORIES:
+      try {
+        id = db.insertOrThrow(TABLE_CATEGORIES, null, values);
+        newUri = CATEGORIES_URI + "/" + id;
+      } catch (SQLiteConstraintException e) {
+        return null;
+      }
       break;
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -184,6 +199,16 @@ public class TransactionProvider extends ContentProvider {
         whereString = "";
       }
       count = db.delete(TABLE_TRANSACTIONS, "_id=" + segment + whereString,
+          whereArgs);
+      break;
+    case CATEGORIES_ID:
+      segment = uri.getPathSegments().get(1);
+      if (!TextUtils.isEmpty(where)) {
+        whereString = " AND (" + where + ')';
+      } else {
+        whereString = "";
+      }
+      count = db.delete(TABLE_CATEGORIES, "_id=" + segment + whereString,
           whereArgs);
       break;
     default:
@@ -221,8 +246,32 @@ public class TransactionProvider extends ContentProvider {
       } else {
         whereString = "";
       }
-      count = db.update(TABLE_TEMPLATES, values, "_id=" + segment + whereString,
-          whereArgs);
+      try {
+        count = db.update(TABLE_TEMPLATES, values, "_id=" + segment + whereString,
+            whereArgs);
+      } catch (SQLiteConstraintException e) {
+        return -1;
+      }
+      break;
+    case CATEGORIES_ID:
+      segment = uri.getPathSegments().get(1);
+      if (!TextUtils.isEmpty(where)) {
+        whereString = " AND (" + where + ')';
+      } else {
+        whereString = "";
+      }
+      try {
+        count = db.update(TABLE_CATEGORIES, values, "_id=" + segment + whereString,
+            whereArgs);
+      } catch (SQLiteConstraintException e) {
+        return -1;
+      }
+      break;
+    case CATEGORIES_INCREASE_USAGE:
+      segment = uri.getPathSegments().get(1);
+      db.execSQL("update categories set usages = usages +1 WHERE _id IN (" + segment +
+          " , (SELECT parent_id FROM categories WHERE _id = " + segment + "))");
+      count = 1;
       break;
     default:
       throw new IllegalArgumentException("Unknown URI " + uri);
@@ -234,8 +283,9 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTIONS_ID);
-    //categories/0/children gives main categories
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
+    URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORIES_ID);
+    URI_MATCHER.addURI(AUTHORITY, "categories/#/increaseUsage", CATEGORIES_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNTS_ID);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);

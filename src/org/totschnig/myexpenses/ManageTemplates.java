@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses;
 
+import org.totschnig.myexpenses.model.Transaction;
+
 import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
 
 import android.app.Activity;

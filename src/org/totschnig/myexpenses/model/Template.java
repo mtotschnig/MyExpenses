@@ -13,10 +13,15 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.model;
 
 import java.util.Date;
 
+import org.totschnig.myexpenses.ExpensesDbAdapter;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.MyExpenses;
+import org.totschnig.myexpenses.Utils;
+import org.totschnig.myexpenses.MyApplication.ContribFeature;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
@@ -90,8 +95,9 @@ public class Template extends Transaction {
       uri = MyApplication.cr().insert(TransactionProvider.TEMPLATES_URI, initialValues);
     } else {
       Utils.recordUsage(MyApplication.ContribFeature.EDIT_TEMPLATE);
-      uri = Uri.parse(TransactionProvider.TEMPLATES_URI + "/" + id);
-      MyApplication.cr().update(uri, initialValues, null, null);
+      uri = TransactionProvider.TEMPLATES_URI.buildUpon().appendPath(String.valueOf(id)).build();
+      if (MyApplication.cr().update(uri, initialValues, null, null) == -1)
+        return null;
     }
     return uri;
   }

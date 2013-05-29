@@ -25,6 +25,9 @@ import java.util.Iterator;
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.ButtonBar.Action;
 import org.totschnig.myexpenses.ButtonBar.MenuButton;
+import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.app.Activity;
@@ -257,7 +260,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     mAddButton.clearMenu();
     final Cursor templates = getContentResolver().query(
         TransactionProvider.TEMPLATES_URI,
-        null, "account_id = " + mCurrentAccount.id, null, null);
+        null, "account_id = ?", new String[] {String.valueOf(mCurrentAccount.id)}, null);
     boolean gotTemplates = templates.moveToFirst();
     boolean gotTransfers = transfersEnabledP();
     if (gotTransfers) {

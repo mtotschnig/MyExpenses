@@ -13,10 +13,17 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.model;
 
 import java.util.Date;
 
+import org.totschnig.myexpenses.Account;
+import org.totschnig.myexpenses.DataObjectNotFoundException;
+import org.totschnig.myexpenses.ExpensesDbAdapter;
+import org.totschnig.myexpenses.Money;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.MyExpenses;
+import org.totschnig.myexpenses.Utils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
@@ -42,6 +49,8 @@ public class Transaction {
   public String payee;
   public long transfer_peer = 0;
   public long methodId;
+  public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
+    KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID};
   /**
    * we store the date directly from UI to DB without creating a Date object
    */
@@ -56,12 +65,16 @@ public class Transaction {
    */
   public static Transaction getInstanceFromDb(long id)  {
     Transaction t;
+    String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
+        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_ACCOUNTID,KEY_METHODID};
+
     Cursor c = MyApplication.cr().query(
-        TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(String.valueOf(id)).build(), null,null,null, null);
+        TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
       return null;
       //TODO throw DataObjectNotFoundException
     }
+    c.moveToFirst();
     long transfer_peer = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
     long account_id = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ACCOUNTID));
     long amount = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT));
@@ -119,7 +132,8 @@ public class Transaction {
   }
   
   public static boolean delete(long id) {
-    return MyApplication.cr().delete(Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + id),null,null) > 0;
+    return MyApplication.cr().delete(
+        TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null) > 0;
   }
   //needed for Template subclass
   public Transaction() {
@@ -191,10 +205,12 @@ public class Transaction {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_TRANSFER_PEER,0);
       uri = MyApplication.cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
-      mDbHelper.incrCategoryUsage(catId);
+      MyApplication.cr().update(
+          TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(catId)).appendPath("increaseUsage").build(),
+          null, null, null);
     }
     else {
-      uri = Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + id);
+      uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(String.valueOf(id)).build();
       MyApplication.cr().update(uri,initialValues,null,null);
     }
     return uri;
