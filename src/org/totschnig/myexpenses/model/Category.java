@@ -27,6 +27,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 //TODO implement complete DAO
 //for the moment we only wrap calls to the content provider
 public class Category {
+  public static final String[] PROJECTION = new String[] {KEY_ROWID, "label"};
   /**
    * Creates a new category under a parent
    * @param label
@@ -76,5 +77,23 @@ public class Category {
   public static boolean delete(long id) {
     return MyApplication.cr().delete(TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(id)).build(), 
         null, null) > 0;
+  }
+  /**
+   * How many subcategories under a given parent?
+   * @param parent_id
+   * @return number of subcategories
+   */
+  public static int countSub(long parent_id){
+    Cursor mCursor = MyApplication.cr().query(TransactionProvider.CATEGORIES_URI,
+        new String[] {"count(*)"}, "parent_id = ?", new String[] {String.valueOf(parent_id)}, null);
+    if (mCursor.getCount() == 0) {
+      mCursor.close();
+      return 0;
+    } else {
+      mCursor.moveToFirst();
+      int result = mCursor.getInt(0);
+      mCursor.close();
+      return result;
+    }
   }
 }

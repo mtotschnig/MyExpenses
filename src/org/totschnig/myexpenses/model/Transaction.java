@@ -51,6 +51,7 @@ public class Transaction {
   public long methodId;
   public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
     KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID};
+  public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
   /**
    * we store the date directly from UI to DB without creating a Date object
    */
@@ -69,7 +70,7 @@ public class Transaction {
         SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_ACCOUNTID,KEY_METHODID};
 
     Cursor c = MyApplication.cr().query(
-        TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
       return null;
       //TODO throw DataObjectNotFoundException
@@ -133,7 +134,7 @@ public class Transaction {
   
   public static boolean delete(long id) {
     return MyApplication.cr().delete(
-        TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null) > 0;
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null) > 0;
   }
   //needed for Template subclass
   public Transaction() {
@@ -204,13 +205,13 @@ public class Transaction {
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_TRANSFER_PEER,0);
-      uri = MyApplication.cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
+      uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
       MyApplication.cr().update(
           TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(catId)).appendPath("increaseUsage").build(),
           null, null, null);
     }
     else {
-      uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath(String.valueOf(id)).build();
+      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
       MyApplication.cr().update(uri,initialValues,null,null);
     }
     return uri;
@@ -223,6 +224,24 @@ public class Transaction {
   public static void move(long whichTransactionId, long whereAccountId) {
     ContentValues args = new ContentValues();
     args.put(KEY_ACCOUNTID, whereAccountId);
-    MyApplication.cr().update(Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + whichTransactionId), args, null, null);
+    MyApplication.cr().update(Uri.parse(CONTENT_URI + "/" + whichTransactionId), args, null, null);
+  }
+  public static int count(String selection,String[] selectionArgs) {
+    Cursor mCursor = MyApplication.cr().query(CONTENT_URI,new String[] {"count(*)"},
+        selection, selectionArgs, null);
+    if (mCursor.getCount() == 0) {
+      mCursor.close();
+      return 0;
+    } else {
+      mCursor.moveToFirst();
+      int result = mCursor.getInt(0);
+      mCursor.close();
+      return result;
+    }
+  }
+  public static int countPerCat(long catId) {
+    //since cat_id stores the account to which is transfered for transfers
+    //we have to restrict to normal transactions by checking if transfer_peer is 0
+    return count(KEY_TRANSFER_PEER + " = 0 AND " + KEY_CATID + " = ?",new String[] {String.valueOf(catId)});
   }
 }

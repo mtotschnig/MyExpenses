@@ -353,54 +353,6 @@ public class ExpensesDbAdapter {
     }
     return false;
   }
-  /**
-   * @return a Cursor that holds all main categories ordered by usage counter
-   */
-  public Cursor fetchCategoryMain() {
-    boolean categories_sort = mCtx.getSettings()
-        .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true);
-    String orderBy = (categories_sort ? "usages DESC, " : "") + "label";
-    return mDb.query(TABLE_CATEGORIES,
-        new String[] {KEY_ROWID, "label"},
-        "parent_id = 0",
-        null,
-        null,
-        null,
-        orderBy
-    );
-  }
-
-  /**
-   * How many subcategories under a given parent?
-   * @param parent_id
-   * @return number of subcategories
-   */
-  public int getCategoryCountSub(long parent_id){
-    Cursor mCursor = mDb.rawQuery(
-        "SELECT count(*) FROM " + TABLE_CATEGORIES + " WHERE parent_id = " + parent_id,
-        null);
-    mCursor.moveToFirst();
-    int result = mCursor.getInt(0);
-    mCursor.close();
-    return result;
-  }
-
-  /**
-   * @param parent_id
-   * @return a Cursor that holds all sub categories under a parent ordered by usage counter
-   */
-  public Cursor fetchCategorySub(long parent_id) {
-    boolean categories_sort = mCtx.getSettings()
-        .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true);
-    String orderBy = (categories_sort ? "usages DESC, " : "") + "label";
-    return mDb.query(TABLE_CATEGORIES,
-        new String[] {KEY_ROWID,"label"},
-        "parent_id = " + parent_id,
-        null,
-        null,
-        null,
-        orderBy);
-  }
 
   /**
    * ACCOUNTS
@@ -797,28 +749,10 @@ public class ExpensesDbAdapter {
   }
   /**
    * @param cat_id
-   * @return number of transactions linked to a category
-   */
-  public int getTransactionCountPerCat(long catId) {
-    //since cat_id stores the account to which is transfered for transfers
-    //we have to restrict to normal transactions by checking if transfer_peer is 0
-    return getCountFromQuery(TABLE_TRANSACTIONS,"transfer_peer = 0 and " + KEY_CATID +" = " + catId,null);
-  }
-  /**
-   * @param cat_id
    * @return number of transactions linked to a method
    */
   public int getTransactionCountPerMethod(long methodId) {
     return getCountFromQuery( TABLE_TRANSACTIONS,KEY_METHODID +" = " + methodId,null);
-  }
-  /**
-   * @param cat_id
-   * @return number of templates linked to a category
-   */
-  public int getTemplateCountPerCat(long catId) {
-    //since cat_id stores the account to which is transfered for transfers
-    //we have to restrict to normal transactions by checking if transfer_peer is 0
-    return getCountFromQuery(TABLE_TEMPLATES,"transfer_peer = 0 and " + KEY_CATID +" = " + catId,null);
   }
   /**
    * @param cat_id

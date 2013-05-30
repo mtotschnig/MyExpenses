@@ -33,6 +33,8 @@ public class Template extends Transaction {
   private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   public String title;
 
+  public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
+
   public Template(Transaction t, String title) {
     this.title = title;
     this.accountId = t.accountId;
@@ -92,10 +94,10 @@ public class Template extends Transaction {
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_TRANSFER_PEER, transfer_peer);
-      uri = MyApplication.cr().insert(TransactionProvider.TEMPLATES_URI, initialValues);
+      uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
     } else {
       Utils.recordUsage(MyApplication.ContribFeature.EDIT_TEMPLATE);
-      uri = TransactionProvider.TEMPLATES_URI.buildUpon().appendPath(String.valueOf(id)).build();
+      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
       if (MyApplication.cr().update(uri, initialValues, null, null) == -1)
         return null;
     }

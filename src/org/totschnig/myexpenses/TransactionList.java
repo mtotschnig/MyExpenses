@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
+//TODO: consider moving to ListFragment
 public class TransactionList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
   long accountId;
   SimpleCursorAdapter mAdapter;
@@ -118,7 +119,7 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
         TextView tv1 = (TextView)row.findViewById(R.id.amount);
         Cursor c = getCursor();
         c.moveToPosition(position);
-        int col = c.getColumnIndex(ExpensesDbAdapter.KEY_AMOUNT);
+        int col = c.getColumnIndex(KEY_AMOUNT);
         long amount = c.getLong(col);
         if (amount < 0) {
           tv1.setTextColor(colorExpense);
@@ -128,18 +129,18 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
           tv1.setTextColor(colorIncome);
         }
         TextView tv2 = (TextView)row.findViewById(R.id.category);
-        col = c.getColumnIndex(ExpensesDbAdapter.KEY_TRANSFER_PEER);
+        col = c.getColumnIndex(KEY_TRANSFER_PEER);
         String catText = (String) tv2.getText();
         if (c.getLong(col) != 0) {
           catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
         } else {
-          col = c.getColumnIndex(ExpensesDbAdapter.KEY_LABEL_SUB);
+          col = c.getColumnIndex(KEY_LABEL_SUB);
           String label_sub = c.getString(col);
           if (label_sub != null && label_sub.length() > 0) {
             catText += categorySeparator + label_sub;
           }
         }
-        col = c.getColumnIndex(ExpensesDbAdapter.KEY_COMMENT);
+        col = c.getColumnIndex(KEY_COMMENT);
         String comment = c.getString(col);
         if (comment != null && comment.length() > 0) {
           catText += (catText.equals("") ? "" : commentSeparator) + "<i>" + comment + "</i>";
@@ -156,7 +157,7 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
          public void onItemClick(AdapterView<?> a, View v,int position, long id)
          {
            Intent i = new Intent(getActivity(), ExpenseEdit.class);
-           i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
+           i.putExtra(KEY_ROWID, id);
            //i.putExtra("operationType", operationType);
            startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
          }
@@ -176,7 +177,6 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
     mAdapter.swapCursor(c);
-    
   }
 
   @Override

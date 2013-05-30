@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses.provider;
 
-import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.*;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -77,6 +77,8 @@ public class TransactionProvider extends ContentProvider {
       break;
     case CATEGORIES:
       qb.setTables(TABLE_CATEGORIES);
+      if (projection == null)
+        projection = Category.PROJECTION;
       //qb.appendWhere("parent_id=" + uri.getPathSegments().get(1));
       //boolean categories_sort = MyApplication.getInstance().getSettings()
       //  .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true);

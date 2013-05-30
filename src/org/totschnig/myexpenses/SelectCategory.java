@@ -16,6 +16,9 @@
 package org.totschnig.myexpenses;
 
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
 
@@ -26,6 +29,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +40,8 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
@@ -44,10 +52,7 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
  * @author Michael Totschnig
  *
  */
-public class SelectCategory extends ProtectedExpandableListActivity {
-    private MyExpandableListAdapter mAdapter;
-    private ExpensesDbAdapter mDbHelper;
-    private Cursor mGroupCursor;
+public class SelectCategory extends ProtectedFragmentActivity implements OnChildClickListener, OnGroupClickListener  {
     private Button mAddButton;
 
 
@@ -77,13 +82,10 @@ public class SelectCategory extends ProtectedExpandableListActivity {
      */
     private static final int DELETE_CAT = Menu.FIRST+4;
 
-    int mGroupIdColumnIndex;
-    
-    /**
-     * true if we are not selecting a category, just managing
-     * (called from preferences screen)
-     */
     boolean mManageOnly;
+    /**
+     * how should categories be sorted, configurable through setting
+     */
     
 
 /*    private int monkey_state = 0;
@@ -123,9 +125,6 @@ public class SelectCategory extends ProtectedExpandableListActivity {
           MyApplication.updateUIWithAccountColor(this);
         setTitle(mManageOnly ? R.string.pref_manage_categories_title : R.string.select_category);
         // Set up our adapter
-        mDbHelper = MyApplication.db();
-        mGroupCursor = mDbHelper.fetchCategoryMain();
-        startManagingCursor(mGroupCursor);
 
         mAddButton = (Button) findViewById(R.id.addOperation);
         mAddButton.setOnClickListener(new View.OnClickListener() {
@@ -134,22 +133,6 @@ public class SelectCategory extends ProtectedExpandableListActivity {
             createCat(0);
           }
         });
-
-        // Cache the ID column index
-        mGroupIdColumnIndex = mGroupCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ROWID);
-
-        // Set up our adapter
-        mAdapter = new MyExpandableListAdapter(mGroupCursor,
-                this,
-                android.R.layout.simple_expandable_list_item_1,
-                android.R.layout.simple_expandable_list_item_1,
-                new String[]{"label"},
-                new int[] {android.R.id.text1},
-                new String[] {"label"},
-                new int[] {android.R.id.text1});
-
-        setListAdapter(mAdapter);
-        registerForContextMenu(getExpandableListView());
     }
     @Override
     protected Dialog onCreateDialog(final int id) {
@@ -172,9 +155,7 @@ public class SelectCategory extends ProtectedExpandableListActivity {
               long cat_id = (id == CAT_CREATE_DIALOG_ID ?
                   Category.create(value,mCatCreateDialogParentId) :
                   Category.update(value,mCatEditDialogCatId));
-              if (cat_id != -1) {
-                mGroupCursor.requery();
-              } else {
+              if (cat_id == -1) {
                 Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
               }
             } else {
@@ -214,10 +195,10 @@ public class SelectCategory extends ProtectedExpandableListActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        long cat_id;
         ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
         int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+        long cat_id = info.id;
+/*        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
           Cursor childCursor = (Cursor) mAdapter.getChild(
               ExpandableListView.getPackedPositionGroup(info.packedPosition),
               ExpandableListView.getPackedPositionChild(info.packedPosition)
@@ -226,6 +207,7 @@ public class SelectCategory extends ProtectedExpandableListActivity {
         } else  {
           cat_id = mGroupCursor.getLong(mGroupIdColumnIndex);
         }
+        */
         String label =   ((TextView) info.targetView).getText().toString();
 
         switch(item.getItemId()) {
@@ -243,23 +225,22 @@ public class SelectCategory extends ProtectedExpandableListActivity {
             editCat(label,cat_id);
             return true;
           case DELETE_CAT:
-            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && mDbHelper.getCategoryCountSub(cat_id) > 0) {
+            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && Category.countSub(cat_id) > 0) {
               Toast.makeText(this,getString(R.string.not_deletable_subcats_exists), Toast.LENGTH_LONG).show();
-            } else if (mDbHelper.getTransactionCountPerCat(cat_id) > 0 ) {
+            } else if (Transaction.countPerCat(cat_id) > 0 ) {
               Toast.makeText(this,getString(R.string.not_deletable_mapped_transactions), Toast.LENGTH_LONG).show();
-            } else if (mDbHelper.getTemplateCountPerCat(cat_id) > 0 ) {
+            } else if (Template.countPerCat(cat_id) > 0 ) {
               Toast.makeText(this,getString(R.string.not_deletable_mapped_templates), Toast.LENGTH_LONG).show();
             } else {
               Category.delete(cat_id);
-              mGroupCursor.requery();
             }
         }
         return false;
       }
-    /* (non-Javadoc)
+/*     (non-Javadoc)
      * return the sub cat to the calling activity
      * @see android.app.ExpandableListActivity#onChildClick(android.widget.ExpandableListView, android.view.View, int, int, long)
-     */
+*/
     @Override
     public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
       //Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
@@ -267,8 +248,7 @@ public class SelectCategory extends ProtectedExpandableListActivity {
          return false;
       Intent intent=new Intent();
       long sub_cat = id;
-      Cursor childCursor = (Cursor) mAdapter.getChild(groupPosition,childPosition);
-      String label =  childCursor.getString(childCursor.getColumnIndexOrThrow("label"));
+      String label =   ((TextView) v).getText().toString();
       intent.putExtra("cat_id",sub_cat);
       intent.putExtra("label", label);
       setResult(RESULT_OK,intent);
@@ -276,48 +256,19 @@ public class SelectCategory extends ProtectedExpandableListActivity {
       return true;
     }
     @Override
-    public void onGroupExpand (int groupPosition) {
-      mGroupCursor.moveToPosition(groupPosition);
-      long cat_id = mGroupCursor.getLong(mGroupIdColumnIndex);
-      if (mManageOnly || mDbHelper.getCategoryCountSub(cat_id) > 0) {
-        super.onGroupExpand(groupPosition);
-      } else {
-        Intent intent=new Intent();
-        String label = mGroupCursor.getString(mGroupCursor.getColumnIndexOrThrow("label"));
-        intent.putExtra("cat_id",cat_id);
-        intent.putExtra("label", label);
-        setResult(RESULT_OK,intent);
-        finish();
-      }
+    public boolean onGroupClick(ExpandableListView parent, View v,
+        int groupPosition, long id) {
+      long cat_id = id;
+      if (mManageOnly || Category.countSub(cat_id) > 0)
+        return false;
+      String label =   ((TextView) v).getText().toString();
+      Intent intent=new Intent();
+      intent.putExtra("cat_id",cat_id);
+      intent.putExtra("label", label);
+      setResult(RESULT_OK,intent);
+      finish();
+      return true;
     }
-    /**
-     * Mapping the categories table into the ExpandableList
-     * @author Michael Totschnig
-     *
-     */
-    public class MyExpandableListAdapter extends SimpleCursorTreeAdapter2 {
-
-        public MyExpandableListAdapter(Cursor cursor, Context context, int groupLayout,
-                int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
-                int[] childrenTo) {
-            super(context, cursor, groupLayout, groupFrom, groupTo, childLayout, childrenFrom,
-                    childrenTo);
-        }
-        /* (non-Javadoc)
-         * returns a cursor with the subcategories for the group
-         * @see android.widget.CursorTreeAdapter#getChildrenCursor(android.database.Cursor)
-         */
-        @Override
-        protected Cursor getChildrenCursor(Cursor groupCursor) {
-            // Given the group, we return a cursor for all the children within that group
-          long parent_id = groupCursor.getLong(mGroupIdColumnIndex);
-          Cursor itemsCursor = mDbHelper.fetchCategorySub(parent_id);
-          startManagingCursor(itemsCursor);
-          return itemsCursor;
-
-        }
-    }
-
     /**
      * presents AlertDialog for adding a new category
      * if label is already used, shows an error
@@ -361,11 +312,5 @@ public class SelectCategory extends ProtectedExpandableListActivity {
      super.onRestoreInstanceState(savedInstanceState);
      mCatCreateDialogParentId = savedInstanceState.getLong("CatCreateDialogParentId");
      mCatEditDialogCatId = savedInstanceState.getLong("CatEditDialogCatId");
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-        Intent intent) {
-      super.onActivityResult(requestCode, resultCode, intent);
-      mGroupCursor.requery();
     }
 }
