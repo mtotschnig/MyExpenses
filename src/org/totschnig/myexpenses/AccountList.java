@@ -34,7 +34,7 @@ public class AccountList extends Fragment implements LoaderManager.LoaderCallbac
     int[] to = new int[]{R.id.description,R.id.label,R.id.opening_balance,R.id.sum_income,R.id.sum_expenses,R.id.sum_transfer,R.id.current_balance};
 
     // Now create a simple cursor adapter and set it to display
-    SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(getActivity(), R.layout.account_row, null, from, to,0) {
+    mAdapter = new SimpleCursorAdapter(getActivity(), R.layout.account_row, null, from, to,0) {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
           View row=super.getView(position, convertView, parent);

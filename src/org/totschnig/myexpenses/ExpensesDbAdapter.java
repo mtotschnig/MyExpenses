@@ -359,19 +359,6 @@ public class ExpensesDbAdapter {
    * ACCOUNTS
    */
 
-  public long fetchAccountIdNext(long accountId) {
-    String strAccountId = String.valueOf(accountId);
-    Cursor mCursor = mDb.rawQuery(
-        "SELECT coalesce((SELECT min(_id) FROM " + TABLE_ACCOUNTS
-            + " WHERE _id > ?),(SELECT min(_id) FROM accounts))",
-        new String[] {strAccountId}
-    );
-    mCursor.moveToFirst();
-    Log.d(TAG,String.valueOf(mCursor.getCount()));
-    long result = mCursor.getLong(0);
-    mCursor.close();
-    return result;
-  }
   /**
    * fetches all accounts except the one passed in
    * @param account_id

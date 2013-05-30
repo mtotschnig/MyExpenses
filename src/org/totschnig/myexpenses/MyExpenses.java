@@ -228,6 +228,23 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       }
     }
   }
+  private long moveToNextAccount() {
+    int currentPosition = myPager.getCurrentItem();
+    currentPosition++;
+    if (currentPosition >= myPager.getChildCount())
+      currentPosition = 0;
+    myPager.setCurrentItem(currentPosition);
+    mAccountsCursor.moveToPosition(currentPosition);
+    long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+    try {
+      setCurrentAccount(Account.getInstanceFromDb(accountId));
+    } catch (DataObjectNotFoundException e) {
+      //should not happen
+      Log.w("MyExpenses","unable to switch to account " + accountId);
+    }
+    updateUIforCurrentAccount();
+    return accountId;
+  }
   private void moveToCurrentAccount() {
     mAccountsCursor.moveToFirst();
     int currentPosition = 0;
@@ -795,40 +812,31 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     //store current account id since we need it for setting last_account in the end
     long current_account_id = mCurrentAccount.id;
     if (accountId == 0) {
-      if (mSettings.getBoolean(MyApplication.PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR,ACCOUNT_BUTTON_CYCLE)) {
+      if (mSettings.getBoolean(MyApplication.PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR,ACCOUNT_BUTTON_CYCLE) == ACCOUNT_BUTTON_TOGGLE) {
         //first check if we have the last_account stored
         accountId = mSettings.getLong(MyApplication.PREFKEY_LAST_ACCOUNT, 0);
         //if for any reason the last_account is identical to the current
         //we ignore it
         if (accountId == mCurrentAccount.id)
           accountId = 0;
-        if (accountId != 0) {
-          try {
-            Account.getInstanceFromDb(accountId);
-          } catch (DataObjectNotFoundException e) {
-           //the account stored in last_account has been deleted 
-           accountId = 0; 
-          }
-        }
-      }
-      //cycle behaviour
-      if (accountId == 0) {
-        accountId = MyApplication.db().fetchAccountIdNext(mCurrentAccount.id);
       }
     }
-    if (accountId != 0) {
+    //cycle behaviour
+    if (accountId == 0) {
+      accountId = moveToNextAccount();
+    } else {
       try {
         setCurrentAccount(Account.getInstanceFromDb(accountId));
         moveToCurrentAccount();
-        Toast.makeText(getBaseContext(),getString(R.string.switch_account,mCurrentAccount.label), Toast.LENGTH_SHORT).show();
-        mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
-          .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, current_account_id)
-          .commit();
       } catch (DataObjectNotFoundException e) {
-        //should not happen
         Log.w("MyExpenses","unable to switch to account " + accountId);
+        return;
       }
     }
+    Toast.makeText(getBaseContext(),getString(R.string.switch_account,mCurrentAccount.label), Toast.LENGTH_SHORT).show();
+    mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
+      .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, current_account_id)
+      .commit();
   }
   
   /**
