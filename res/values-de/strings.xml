@@ -369,9 +369,6 @@
   <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
   
   <!-- strings below this comment do not need translations for new languages -->
-  <string name="version_14_upgrade_info">Seit Version 1.4.0, werden Währungen mit ihrem ISO 4217
-      Codes gespeichert. Folgende ungültige Symbole werden zur Zeit für Ihre Konten verwendet und
-      müssen verändert werden: %1$s </string>
   <string name="version_26_upgrade_info"><i>&app_name;</i> hat nun eine Symbolleiste als neue
       Schnittstelle für die Befehlsaufrufe. Sie können im Einstellungs-Bildschirm zum alten
       Interface zurückwechseln.

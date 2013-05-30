@@ -899,14 +899,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       showDialogWrapper(R.id.HELP_DIALOG);
     } else if (prev_version != current_version) {
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
-      if (prev_version < 14) {
-        //made current_account long
-        edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mSettings.getInt(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0)).commit();
-        String non_conforming = checkCurrencies();
-        if (non_conforming.length() > 0 ) {
-          app.addVersionInfo(getString(R.string.version_14_upgrade_info,non_conforming));
-        }
-      }
       if (prev_version < 19) {
         //renamed
         edit.putString(MyApplication.PREFKEY_SHARE_TARGET,mSettings.getString("ftp_target",""));
@@ -959,48 +951,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       showDialogWrapper(R.id.VERSION_DIALOG);
     }
   }
-  /**
-   * this utility function was used to check currency upon upgrade to version 14
-   * loop through defined accounts and check if currency is a valid ISO 4217 code
-   * tries to fix some cases, where currency symbols could have been used
-   * @return concatenation of non conforming symbols in use
-   */
-  private String checkCurrencies() {
-    long account_id;
-    String currency;
-    String non_conforming = "";
-    Cursor accountsCursor = getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
-        new String[] {KEY_ROWID, "currency"}, null, null,null);
-    accountsCursor.moveToFirst();
-    while(!accountsCursor.isAfterLast()) {
-         currency = accountsCursor.getString(accountsCursor.getColumnIndex("currency")).trim();
-         account_id = accountsCursor.getLong(accountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
-         try {
-           Currency.getInstance(currency);
-         } catch (IllegalArgumentException e) {
-           Log.d("DEBUG", currency);
-           //fix currency for countries from where users appear in the Markets publish console
-/*           if (currency == "RM")
-             mDbHelper.updateAccountCurrency(account_id,"MYR");
-           else if (currency.equals("₨"))
-             mDbHelper.updateAccountCurrency(account_id,"PKR");
-           else if (currency.equals("¥"))
-             mDbHelper.updateAccountCurrency(account_id,"CNY");
-           else if (currency.equals("€"))
-             mDbHelper.updateAccountCurrency(account_id,"EUR");
-           else if (currency.equals("$"))
-             mDbHelper.updateAccountCurrency(account_id,"USD");
-           else if (currency.equals("£"))
-             mDbHelper.updateAccountCurrency(account_id,"GBP");
-           else
-             non_conforming +=  currency + " ";*/
-         }
-         accountsCursor.moveToNext();
-    }
-    accountsCursor.close();
-    return non_conforming;
-  }
-  
   /**
    * retrieve information about the current version
    * @return concatenation of versionName, versionCode and buildTime

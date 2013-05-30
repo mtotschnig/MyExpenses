@@ -359,18 +359,6 @@ public class ExpensesDbAdapter {
    */
 
   /**
-   * updates the currency field of an account
-   * @param account_id
-   * @param newStr currency symbol
-   * @return number of rows affected
-   */
-  public int updateAccountCurrency(long rowId, String newStr) {
-    ContentValues args = new ContentValues();
-    args.put("currency",newStr);
-    return mDb.update(TABLE_ACCOUNTS, args, KEY_ROWID + "=" + rowId, null);
-  }
-
-  /**
    * create a new account
    * @param label
    * @param opening_balance

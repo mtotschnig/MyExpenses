@@ -363,9 +363,6 @@
   
   <!-- strings below this comment do not need translations for new languages -->
   <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
-  <string name="version_14_upgrade_info">Since version 1.4.0, currencies need to be expressed with 
-      their code defined in ISO 4217. The following currency symbols currently used for your
-      accounts, need to be fixed: %1$s </string>
   <string name="version_26_upgrade_info"><i>&app_name;</i> now has a button bar as a new command
       interface. You can switch back to the old interface in the settings screen.
   </string>
