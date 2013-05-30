@@ -602,11 +602,19 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         .create();
     //SELECT_ACCOUNT_DIALOG is used both from SWITCH_ACCOUNT and MOVE_TRANSACTION
     case R.id.SELECT_ACCOUNT_DIALOG:
-      final Cursor otherAccounts = getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
-          new String[] {KEY_ROWID, "label"}, KEY_ROWID + " != " + mCurrentAccount.id, null,null);
-      final String[] accountLabels = Utils.getStringArrayFromCursor(otherAccounts, "label");
-      final Long[] accountIds = Utils.getLongArrayFromCursor(otherAccounts, ExpensesDbAdapter.KEY_ROWID);
-      otherAccounts.close();
+      final String[] accountLabels = new String[mAccountsCursor.getCount()-1];
+      final Long[] accountIds = new Long[mAccountsCursor.getCount()-1];
+      if(mAccountsCursor.moveToFirst()){
+        for (int i = 0; !mAccountsCursor.isAfterLast(); ){
+          long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
+          if (accountId != mCurrentAccount.id) {
+            accountLabels[i] = mAccountsCursor.getString(mAccountsCursor.getColumnIndex("label"));
+            accountIds[i] = accountId;
+            i++;
+          }
+          mAccountsCursor.moveToNext();
+       }
+      }
       return new AlertDialog.Builder(this)
         .setTitle(R.string.dialog_title_select_account)
         .setSingleChoiceItems(accountLabels, -1, new DialogInterface.OnClickListener() {
