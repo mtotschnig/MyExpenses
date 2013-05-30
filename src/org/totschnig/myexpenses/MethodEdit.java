@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses;
 
+import org.totschnig.myexpenses.model.Account;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;

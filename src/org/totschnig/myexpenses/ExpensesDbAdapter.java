@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import org.totschnig.myexpenses.Account.Type;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Account.Type;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -358,61 +359,6 @@ public class ExpensesDbAdapter {
    * ACCOUNTS
    */
 
-  /**
-   * create a new account
-   * @param label
-   * @param opening_balance
-   * @param description
-   * @param currency
-   * @param color
-   * @return rowId or -1 if failed
-   */
-  public long createAccount(String label, long opening_balance,
-      String description, String currency, String type, int color) {
-    ContentValues initialValues = new ContentValues();
-    initialValues.put("label", label);
-    initialValues.put("opening_balance",opening_balance);
-    initialValues.put("description",description);
-    initialValues.put("currency",currency);
-    initialValues.put("type",type);
-    initialValues.put("color",color);
-    return mDb.insert(TABLE_ACCOUNTS, null, initialValues);
-  }
-  /**
-   * Updates the account with the given values
-   * @param rowId
-   * @param label
-   * @param opening_balance
-   * @param description
-   * @param currency
-   * @param color
-   * @return number of rows affected
-   */
-  public int updateAccount(long rowId, String label, long opening_balance,
-      String description, String currency,String type, int color) {
-    ContentValues args = new ContentValues();
-    args.put("label", label);
-    args.put("opening_balance",opening_balance);
-    args.put("description",description);
-    args.put("currency",currency);
-    args.put("type",type);
-    args.put("color",color);
-    return mDb.update(TABLE_ACCOUNTS, args, KEY_ROWID + "=" + rowId, null);
-  }
-
-  /**
-   * @return Cursor that holds all accounts
-   */
-  public Cursor fetchAccountAll() {
-    return mDb.query(TABLE_ACCOUNTS,
-        new String[] {KEY_ROWID,"label","description","opening_balance","currency","color",
-        "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and amount>0 and transfer_peer = 0) as sum_income",
-        "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0 and transfer_peer = 0) as sum_expenses",
-        "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and transfer_peer != 0) as sum_transfer",
-        "opening_balance + (SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id) as current_balance"},
-        null, null, null, null, null);
-  }
-
   public long fetchAccountIdNext(long accountId) {
     String strAccountId = String.valueOf(accountId);
     Cursor mCursor = mDb.rawQuery(
@@ -452,23 +398,6 @@ public class ExpensesDbAdapter {
         null);
   }
 
-  /**
-   * fetches the account with given row id
-   * @param rowId
-   * @return Cursor with fields "label","description","opening_balance","currency","type", "color"
-   * @throws SQLException
-   */
-  public Cursor fetchAccount(long rowId) throws SQLException {
-    Cursor mCursor =
-      mDb.query(TABLE_ACCOUNTS,
-          new String[] {"label","description","opening_balance","currency","type","color"},
-          KEY_ROWID + "=" + rowId,
-          null, null, null, null, null);
-    if (mCursor != null) {
-      mCursor.moveToFirst();
-    }
-    return mCursor;
-  }
   public Cursor fetchAggregatesForCurrenciesHavingMultipleAccounts() throws SQLException {
     Cursor mCursor = 
       mDb.query("(select currency,opening_balance,"+

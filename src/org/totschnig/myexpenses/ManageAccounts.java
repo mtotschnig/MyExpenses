@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication.ContribFeature;
+import org.totschnig.myexpenses.model.Account;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -41,6 +42,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -49,12 +51,11 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 /**
- * Activity for switching accounts
- * also allows to manage accounts
+ * allows to manage accounts
  * @author Michael Totschnig
  *
  */
-public class ManageAccounts extends ProtectedListActivity implements ContribIFace {
+public class ManageAccounts extends ProtectedFragmentActivity implements OnItemClickListener,ContribIFace {
   private static final int ACTIVITY_CREATE=0;
   private static final int ACTIVITY_EDIT=1;
   private static final int DELETE_ID = Menu.FIRST;
@@ -114,16 +115,16 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
       }
     });
     fillData();
-    registerForContextMenu(getListView());
   }
   
   @Override
-  protected void onListItemClick(ListView l, View v, int position, long id) {
-    super.onListItemClick(l, v, position, id);
+  public void onItemClick(AdapterView<?> parent, View view, int position,
+      long id) {
     Intent i = new Intent(this, AccountEdit.class);
     i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
+
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
@@ -261,12 +262,6 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
     showDialog(id);
   }
   private void fillData () {
-    if (mAccountsCursor == null) {
-      mAccountsCursor = mDbHelper.fetchAccountAll();
-      startManagingCursor(mAccountsCursor);
-    } else {
-      mAccountsCursor.requery();
-    }
     if (mCurrencyCursor == null) {
       mCurrencyCursor = mDbHelper.fetchAggregatesForCurrenciesHavingMultipleAccounts();
       startManagingCursor(mCurrencyCursor);
@@ -275,59 +270,16 @@ public class ManageAccounts extends ProtectedListActivity implements ContribIFac
     }
     mAggregateButton.setVisibility(mCurrencyCursor.getCount() > 0 ? View.VISIBLE : View.GONE);
     mResetAllButton.setVisibility(mDbHelper.getTransactionCountAll() > 0 ? View.VISIBLE : View.GONE);
-
-    // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{"description","label","opening_balance","sum_income","sum_expenses","sum_transfer","current_balance"};
-
-    // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.description,R.id.label,R.id.opening_balance,R.id.sum_income,R.id.sum_expenses,R.id.sum_transfer,R.id.current_balance};
-
-    // Now create a simple cursor adapter and set it to display
-    SimpleCursorAdapter account = new SimpleCursorAdapter(this, R.layout.account_row, mAccountsCursor, from, to) {
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-          View row=super.getView(position, convertView, parent);
-          Cursor c = getCursor();
-          c.moveToPosition(position);
-          int col = c.getColumnIndex("currency");
-          String currencyStr = c.getString(col);
-          Currency currency;
-          try {
-            currency = Currency.getInstance(currencyStr);
-          } catch (IllegalArgumentException e) {
-            currency = Currency.getInstance(Locale.getDefault());
-          }
-          TextView v = (TextView) row.findViewById(R.id.label);
-          int bg = c.getInt(c.getColumnIndex("color"));
-          v.setBackgroundColor(bg);
-          v.setTextColor(Utils.getTextColorForBackground(bg));
-          setConvertedAmount((TextView)row.findViewById(R.id.opening_balance), currency);
-          setConvertedAmount((TextView)row.findViewById(R.id.sum_income), currency);
-          setConvertedAmount((TextView)row.findViewById(R.id.sum_expenses), currency);
-          setConvertedAmount((TextView)row.findViewById(R.id.sum_transfer), currency);
-          setConvertedAmount((TextView)row.findViewById(R.id.current_balance), currency);
-          col = c.getColumnIndex("description");
-          String description = c.getString(col);
-          if (description.equals(""))
-            row.findViewById(R.id.description).setVisibility(View.GONE);
-          return row;
-        }
-    };
-    setListAdapter(account);
   }
   private void setConvertedAmount(TextView tv,Currency currency) {
     tv.setText(Utils.convAmount(tv.getText().toString(),currency));
   }
-  /* (non-Javadoc)
-   * makes sure that current account is not deleted
-   * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)
-   */
+
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
       ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-    //currentAccount should not be deleted)
     menu.add(0, DELETE_ID, 0, R.string.menu_delete);
     if (mDbHelper.getTransactionCountPerAccount(info.id) > 0)
        menu.add(0,RESET_ID,0,R.string.menu_reset);

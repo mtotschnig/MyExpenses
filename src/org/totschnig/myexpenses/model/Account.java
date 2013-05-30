@@ -13,7 +13,7 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.model;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,11 +25,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.DataObjectNotFoundException;
+import org.totschnig.myexpenses.ExpensesDbAdapter;
+import org.totschnig.myexpenses.Money;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.Utils;
+import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -57,6 +65,13 @@ public class Account {
 
   private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
 
+  public static final String[] PROJECTION = new String[] {KEY_ROWID,"label","description","opening_balance","currency","color",
+    "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and amount>0 and transfer_peer = 0) as sum_income",
+    "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0 and transfer_peer = 0) as sum_expenses",
+    "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and transfer_peer != 0) as sum_transfer",
+    "opening_balance + (SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id) as current_balance"};
+  public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
+  
   public enum Type {
     CASH,BANK,CCARD,ASSET,LIABILITY;
     public String getDisplayName(Context ctx) {
@@ -252,14 +267,14 @@ public class Account {
       {"Silver", "XAG"}
   };
   static int defaultColor = 0xff99CC00;
-  static String [] getCurrencyCodes() {
+  public static String [] getCurrencyCodes() {
     int size = CURRENCY_TABLE.length;
     String[] codes = new String[size];
     for(int i=0; i<size; i++) 
       codes[i] = CURRENCY_TABLE[i][1];
     return codes;
   }
-  static String [] getCurrencyDescs() {
+  public static String [] getCurrencyDescs() {
     int size = CURRENCY_TABLE.length;
     String[] descs = new String[size];
     for(int i=0; i<size; i++) 
@@ -278,6 +293,12 @@ public class Account {
     accounts.put(id, account);
     return account;
   }
+  /**
+   * empty the cache
+   */
+  public static void clear() {
+    accounts.clear();
+  }
   public static boolean delete(long id) {
     Account account;
     try {
@@ -292,7 +313,6 @@ public class Account {
 
   /**
    * returns an empty Account instance
-   * @param mDbHelper the database helper used in the activity
    */
   public Account() {
     this("",(long)0,"");
@@ -318,11 +338,13 @@ public class Account {
    */
   private Account(long id) throws DataObjectNotFoundException {
     this.id = id;
-    Cursor c = mDbHelper.fetchAccount(id);
-    if (c.getCount() == 0) {
+    String[] projection = new String[] {"label","description","opening_balance","currency","type","color"};
+    Cursor c = MyApplication.cr().query(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
+    if (c == null || c.getCount() == 0) {
       throw new DataObjectNotFoundException();
     }
-    
+    c.moveToFirst();
     this.label = c.getString(c.getColumnIndexOrThrow("label"));
     this.description = c.getString(c.getColumnIndexOrThrow("description"));
     String strCurrency = c.getString(c.getColumnIndexOrThrow("currency"));
@@ -475,28 +497,25 @@ public class Account {
    * Saves the account, creating it new if necessary
    * @return the id of the account. Upon creation it is returned from the database
    */
-  public long save() {
+  public Uri save() {
+    Uri uri;
+    ContentValues initialValues = new ContentValues();
+    initialValues.put("label", label);
+    initialValues.put("opening_balance",openingBalance.getAmountMinor());
+    initialValues.put("description",description);
+    initialValues.put("currency",currency.getCurrencyCode());
+    initialValues.put("type",type.name());
+    initialValues.put("color",color);
+    
     if (id == 0) {
-      id = mDbHelper.createAccount(
-          label,
-          openingBalance.getAmountMinor(),
-          description,
-          currency.getCurrencyCode(),
-          type.name(),
-          color);
+      uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
     } else {
-      mDbHelper.updateAccount(
-          id,
-          label,
-          openingBalance.getAmountMinor(),
-          description,
-          currency.getCurrencyCode(),
-          type.name(),
-          color);
+      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+      MyApplication.cr().update(uri,initialValues,null,null);
     }
     if (!accounts.containsKey(id))
       accounts.put(id, this);
-    return id;
+    return uri;
   }
   public long getSize() {
     return mDbHelper.getTransactionCountPerAccount(id);

@@ -18,6 +18,8 @@ package org.totschnig.myexpenses;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.totschnig.myexpenses.model.Account;
+
 
 import android.content.Context;
 import android.database.Cursor;

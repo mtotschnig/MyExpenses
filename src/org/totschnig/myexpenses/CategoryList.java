@@ -4,6 +4,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+//TODO: check if we still need this workaround class:
+//http://code.google.com/p/android/issues/detail?id=9170
 import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
 
 import android.content.Context;
@@ -39,7 +41,7 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
           .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ? "usages DESC, " : "") + "label";
   }
 
-  @Override  
+  @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.categories_list, null, false);
     ExpandableListView lv = (ExpandableListView) v.findViewById(R.id.list);

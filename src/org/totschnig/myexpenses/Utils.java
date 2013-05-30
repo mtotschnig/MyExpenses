@@ -203,7 +203,7 @@ public class Utils {
   /**
    * @return directory for storing backups and exports, null if external storage is not available
    */
-  static File requireAppDir() {
+  public static File requireAppDir() {
     if (!isExternalStorageAvailable())
       return null;
     File sd = Environment.getExternalStorageDirectory();

@@ -23,6 +23,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import org.totschnig.myexpenses.model.Account;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.ContentResolver;
@@ -252,7 +254,7 @@ public class MyApplication extends Application {
     public boolean restoreDb() {
       boolean result = false;
       try {
-        Account.accounts.clear();
+        Account.clear();
         PaymentMethod.methods.clear();
         File dataDir = new File("/data/data/"+ getPackageName()+ "/databases/");
         dataDir.mkdir();

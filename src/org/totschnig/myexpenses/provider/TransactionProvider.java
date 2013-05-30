@@ -86,6 +86,8 @@ public class TransactionProvider extends ContentProvider {
       break;
     case ACCOUNTS:
       qb.setTables(TABLE_ACCOUNTS);
+      if (projection == null)
+        projection = Account.PROJECTION;
       break;
     case ACCOUNTS_ID:
       qb.setTables(TABLE_ACCOUNTS);
@@ -160,6 +162,10 @@ public class TransactionProvider extends ContentProvider {
       id = db.insert(TABLE_TRANSACTIONS, null, values);
       newUri = TRANSACTIONS_URI + "/" + id;
       break;
+    case ACCOUNTS:
+      id = db.insert(TABLE_ACCOUNTS, null, values);
+      newUri = ACCOUNTS_URI + "/" + id;
+      break;
     case TEMPLATES:
       try {
         id = db.insertOrThrow(TABLE_TEMPLATES, null, values);
@@ -192,6 +198,16 @@ public class TransactionProvider extends ContentProvider {
     switch (URI_MATCHER.match(uri)) {
     case TRANSACTIONS:
       count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
+      break;
+    case ACCOUNTS_ID:
+      segment = uri.getPathSegments().get(1);
+      if (!TextUtils.isEmpty(where)) {
+        whereString = " AND (" + where + ')';
+      } else {
+        whereString = "";
+      }
+      count = db.delete(TABLE_TRANSACTIONS, "_id=" + segment + whereString,
+          whereArgs);
       break;
     case TRANSACTIONS_ID:
       segment = uri.getPathSegments().get(1);
@@ -239,6 +255,16 @@ public class TransactionProvider extends ContentProvider {
         whereString = "";
       }
       count = db.update(TABLE_TRANSACTIONS, values, "_id=" + segment + whereString,
+          whereArgs);
+      break;
+    case ACCOUNTS_ID:
+      segment = uri.getPathSegments().get(1); 
+      if (!TextUtils.isEmpty(where)) {
+        whereString = " AND (" + where + ')';
+      } else {
+        whereString = "";
+      }
+      count = db.update(TABLE_ACCOUNTS, values, "_id=" + segment + whereString,
           whereArgs);
       break;
     case TEMPLATES_ID:

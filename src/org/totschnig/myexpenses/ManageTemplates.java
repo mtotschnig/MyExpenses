@@ -64,8 +64,8 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
       mDbHelper = MyApplication.db();
       
       ((TextView) findViewById(android.R.id.empty)).setText(R.string.no_templates);
-
-      mAccountsCursor = mDbHelper.fetchAccountAll();
+      //TODO
+      //mAccountsCursor = mDbHelper.fetchAccountAll();
       startManagingCursor(mAccountsCursor);
       mAdapter = new MyExpandableListAdapter(mAccountsCursor,
           this,
