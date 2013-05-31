@@ -360,15 +360,6 @@ public class ExpensesDbAdapter {
    */
 
   /**
-   * delete the account with the given id
-   * @param rowId
-   * @return
-   */
-  public boolean deleteAccount(long rowId) {
-    return mDb.delete(TABLE_ACCOUNTS, KEY_ROWID + "=" + rowId, null) > 0;
-  }
-
-  /**
    * @see #fetchAccountOther(long)
    * @param currency
    * @return number of accounts with the same currency

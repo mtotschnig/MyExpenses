@@ -308,7 +308,7 @@ public class Account {
     }
     account.deleteAllTransactions();
     accounts.remove(id);
-    return mDbHelper.deleteAccount(id);
+    return MyApplication.cr().delete(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null) > 0;
   }
 
   /**
