@@ -21,7 +21,7 @@ public class DatabaseConstants {
   public static final String TABLE_PAYMENT_METHODS = "paymentmethods";
   public static final String TABLE_ACCOUNTTYE_METHOD = "accounttype_paymentmethod";
   public static final String TABLE_TEMPLATES = "templates";
-  public static final String TABLE_PAYEE = "payee";
+  public static final String TABLE_PAYEES = "payee";
   public static final String TABLE_FEATURE_USED = "feature_used";
   public static final int DATABASE_VERSION = 27;
   public static final String DATABASE_NAME = "data";

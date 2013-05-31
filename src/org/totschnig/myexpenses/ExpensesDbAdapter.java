@@ -360,21 +360,6 @@ public class ExpensesDbAdapter {
    */
 
   /**
-   * inserts a new payee if it does not exist yet
-   * @param name
-   */
-  public long createPayee(String name) {
-    ContentValues initialValues = new ContentValues();
-    initialValues.put("name", name);
-
-    try {
-      return mDb.insertOrThrow(TABLE_PAYEE, null, initialValues);
-    } catch (SQLiteConstraintException e) {
-      return -1;
-    }
-  }
-
-  /**
    * @return Cursor over all rows of table payee
    */
   public Cursor fetchPayeeAll() {

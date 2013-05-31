@@ -36,6 +36,7 @@ import org.xml.sax.SAXParseException;
 */
 
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Payee;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -615,7 +616,7 @@ public class GrisbiImport extends ProtectedActivity implements DialogInterface.O
       publishProgress(0);
       
       for (int i=0;i<partiesList.size();i++){
-        if (mDbHelper.createPayee(partiesList.get(i)) != -1) {
+        if (Payee.create(partiesList.get(i)) != -1) {
           totalImportedParty++;
         }
         if (i % 10 == 0) {

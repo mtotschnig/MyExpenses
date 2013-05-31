@@ -82,7 +82,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
    * stores payees and payers
    */
   private static final String PAYEE_CREATE =
-    "CREATE TABLE " + TABLE_PAYEE
+    "CREATE TABLE " + TABLE_PAYEES
       + " (_id integer primary key autoincrement, name text unique not null);";
 
   TransactionDatabase(Context context) {

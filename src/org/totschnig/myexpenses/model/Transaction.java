@@ -192,7 +192,7 @@ public class Transaction {
   public Uri save() {
     Uri uri;
     if (payee != null && !payee.equals("")) {
-      mDbHelper.createPayee(payee);
+      Payee.create(payee);
     }
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);

@@ -29,6 +29,8 @@ public class TransactionProvider extends ContentProvider {
       + "/categories");
   public static final Uri AGGREGATES_URI   = Uri.parse("content://" + AUTHORITY
       + "/aggregates");
+  public static final Uri PAYEES_URI   = Uri.parse("content://" + AUTHORITY
+      + "/payees");
   
   static final String TAG = "TransactionProvider";
 
@@ -110,7 +112,7 @@ public class TransactionProvider extends ContentProvider {
           "sum(current_balance) as current_balance"};
       break;
     case PAYEES:
-      qb.setTables(TABLE_PAYEE);
+      qb.setTables(TABLE_PAYEES);
       break;
     case PAYMENT_METHODS:
       qb.setTables(TABLE_PAYMENT_METHODS);
@@ -185,6 +187,14 @@ public class TransactionProvider extends ContentProvider {
       try {
         id = db.insertOrThrow(TABLE_CATEGORIES, null, values);
         newUri = CATEGORIES_URI + "/" + id;
+      } catch (SQLiteConstraintException e) {
+        return null;
+      }
+      break;
+    case PAYEES:
+      try {
+        id = db.insertOrThrow(TABLE_PAYEES, null, values);
+        newUri = PAYEES_URI + "/" + id;
       } catch (SQLiteConstraintException e) {
         return null;
       }
