@@ -399,7 +399,10 @@ public class Account {
   public void reset() {
     long currentBalance = getCurrentBalance().getAmountMinor();
     openingBalance.setAmountMinor(currentBalance);
-    mDbHelper.updateAccountOpeningBalance(id,currentBalance);
+    ContentValues args = new ContentValues();
+    args.put("opening_balance",currentBalance);
+    MyApplication.cr().update(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), args,
+        null, null);
     deleteAllTransactions();
   }
   /**
