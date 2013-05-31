@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -25,6 +27,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication.ContribFeature;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,6 +36,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -45,7 +52,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -55,7 +61,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  * @author Michael Totschnig
  *
  */
-public class ManageAccounts extends ProtectedFragmentActivity implements OnItemClickListener,ContribIFace {
+public class ManageAccounts extends ProtectedFragmentActivity implements OnItemClickListener,ContribIFace,LoaderManager.LoaderCallbacks<Cursor> {
   private static final int ACTIVITY_CREATE=0;
   private static final int ACTIVITY_EDIT=1;
   private static final int DELETE_ID = Menu.FIRST;
@@ -72,6 +78,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   static final int AGGREGATE_DIALOG_ID = 2;
   static final int RESET_ALL_DIALOG_ID = 3;
   private int mCurrentDialog = 0;
+  SimpleCursorAdapter currencyAdapter;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +87,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
     setContentView(R.layout.manage_accounts);
     MyApplication.updateUIWithAppColor(this);
     setTitle(R.string.pref_manage_accounts_title);
+    getSupportLoaderManager().initLoader(0, null, this);
     // Set up our adapter
     mDbHelper = MyApplication.db();
     mAddButton = (Button) findViewById(R.id.addOperation);
@@ -114,7 +122,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
         startActivityForResult(i, ACTIVITY_CREATE);
       }
     });
-    fillData();
   }
   
   @Override
@@ -129,14 +136,17 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (resultCode == RESULT_OK)
-      fillData();
+    if (resultCode == RESULT_OK) {
+      getSupportLoaderManager().getLoader(0).forceLoad();
+      configButtons();
+    }
   }
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
     case DELETE_DIALOG_ID:
       return DialogUtils.createMessageDialog(this,R.string.warning_delete_account,DELETE_COMMAND_ID,null).create();
+    //TODO: move to dialogactivity or dialogfragment
     case AGGREGATE_DIALOG_ID:
       LayoutInflater li = LayoutInflater.from(this);
       View view = li.inflate(R.layout.aggregate_dialog, null);
@@ -150,7 +160,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       int[] to = new int[]{R.id.currency,R.id.opening_balance,R.id.sum_income,R.id.sum_expenses,R.id.current_balance};
 
       // Now create a simple cursor adapter and set it to display
-      SimpleCursorAdapter currency = new SimpleCursorAdapter(this, R.layout.aggregate_row, mCurrencyCursor, from, to) {
+      currencyAdapter = new SimpleCursorAdapter(this, R.layout.aggregate_row, mCurrencyCursor, from, to) {
           @Override
           public View getView(int position, View convertView, ViewGroup parent) {
             View row=super.getView(position, convertView, parent);
@@ -171,7 +181,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
             return row;
           }
       };
-      listView.setAdapter(currency);
+      listView.setAdapter(currencyAdapter);
       return new AlertDialog.Builder(this)
       .setTitle(R.string.menu_aggregate)
       .setView(view)
@@ -190,8 +200,11 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
     return null;
   }
   public void onDialogButtonClicked(View v) {
-    if (mCurrentDialog != 0)
+    if (mCurrentDialog != 0) {
+      //TODO the remove dialog is here for the AGGREGATE dialog to force fresh data,
+      //when it has been moved to its own fragment or activity, we can switch back here to dismissdialog
       dismissDialog(mCurrentDialog);
+    }
     int id=v.getId();
     switch(id) {
     case DELETE_COMMAND_ID:
@@ -252,7 +265,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
         Utils.share(this,files, settings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
       }
     }
-    fillData();
+    configButtons();
   }
   /**
    * @param id we store the dialog id, so that we can dismiss it in our generic button handler
@@ -261,13 +274,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
     mCurrentDialog = id;
     showDialog(id);
   }
-  private void fillData () {
-    if (mCurrencyCursor == null) {
-      mCurrencyCursor = mDbHelper.fetchAggregatesForCurrenciesHavingMultipleAccounts();
-      startManagingCursor(mCurrencyCursor);
-    } else {
-      mCurrencyCursor.requery();
-    }
+  private void configButtons () {
     mAggregateButton.setVisibility(mCurrencyCursor.getCount() > 0 ? View.VISIBLE : View.GONE);
     mResetAllButton.setVisibility(mDbHelper.getTransactionCountAll() > 0 ? View.VISIBLE : View.GONE);
   }
@@ -335,5 +342,26 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
 
   @Override
   public void contribFeatureNotCalled() {
+  }
+
+  @Override
+  public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+    CursorLoader cursorLoader = new CursorLoader(this,
+        TransactionProvider.AGGREGATES_URI, null, null, null, null);
+    return cursorLoader;
+  }
+
+  @Override
+  public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
+    mCurrencyCursor = cursor;
+    if (currencyAdapter != null)
+      currencyAdapter.swapCursor(cursor);
+    configButtons();
+  }
+
+  @Override
+  public void onLoaderReset(Loader<Cursor> arg0) {
+    if (currencyAdapter != null)
+      currencyAdapter.swapCursor(null);
   }
 }

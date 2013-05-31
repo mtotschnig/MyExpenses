@@ -27,6 +27,8 @@ public class TransactionProvider extends ContentProvider {
       + "/templates");
   public static final Uri CATEGORIES_URI   = Uri.parse("content://" + AUTHORITY
       + "/categories");
+  public static final Uri AGGREGATES_URI   = Uri.parse("content://" + AUTHORITY
+      + "/aggregates");
   
   static final String TAG = "TransactionProvider";
 
@@ -37,7 +39,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int CATEGORIES = 3;
   private static final int ACCOUNTS = 4;
   private static final int ACCOUNTS_ID = 5;
-  private static final int AGGREGATES_FOR_CURRENCIES_HAVING_MULTIPLE_ACCOUNTS = 6;
+  private static final int AGGREGATES = 6;
   private static final int PAYEES = 7;
   private static final int PAYMENT_METHODS = 8;
   private static final int PAYMENT_METHOD_ID = 9;
@@ -93,7 +95,7 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(TABLE_ACCOUNTS);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
-    case AGGREGATES_FOR_CURRENCIES_HAVING_MULTIPLE_ACCOUNTS:
+    case AGGREGATES:
       qb.setTables("(select currency,opening_balance,"+
           "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0 and transfer_peer = 0) as sum_expenses," +
           "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount>0 and transfer_peer = 0) as sum_income," +
@@ -101,6 +103,11 @@ public class TransactionProvider extends ContentProvider {
           "from " + TABLE_ACCOUNTS + ") as t");
       groupBy = "currency";
       having = "count(*) > 1";
+      projection = new String[] {"1 as _id","currency",
+          "sum(opening_balance) as opening_balance",
+          "sum(sum_income) as sum_income",
+          "sum(sum_expenses) as sum_expenses",
+          "sum(current_balance) as current_balance"};
       break;
     case PAYEES:
       qb.setTables(TABLE_PAYEE);
@@ -319,7 +326,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payment_methods", PAYMENT_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "payment_methods/#", PAYMENT_METHOD_ID);
-    URI_MATCHER.addURI(AUTHORITY, "currencies/aggregates", AGGREGATES_FOR_CURRENCIES_HAVING_MULTIPLE_ACCOUNTS);
+    URI_MATCHER.addURI(AUTHORITY, "aggregates", AGGREGATES);
     URI_MATCHER.addURI(AUTHORITY, "payment_methods/#/account_types", ACCOUNT_TYPES_FOR_METHOD);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATES_ID);
