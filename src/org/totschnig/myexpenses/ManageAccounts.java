@@ -201,8 +201,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   }
   public void onDialogButtonClicked(View v) {
     if (mCurrentDialog != 0) {
-      //TODO the remove dialog is here for the AGGREGATE dialog to force fresh data,
-      //when it has been moved to its own fragment or activity, we can switch back here to dismissdialog
       dismissDialog(mCurrentDialog);
     }
     int id=v.getId();
