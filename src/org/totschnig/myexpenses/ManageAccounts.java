@@ -326,8 +326,10 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
     switch (feature) {
     case AGGREGATE:
       showDialogWrapper(AGGREGATE_DIALOG_ID);
+      break;
     case RESET_ALL:
       showDialogWrapper(RESET_ALL_DIALOG_ID);
+      break;
     }
   }
 
