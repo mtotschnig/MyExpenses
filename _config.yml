@@ -130,6 +130,24 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.7.3.2
+    - 2013-05-31
+    -
+      en: |
+        Fixed broken dialog for aggreggates.
+      ca: |
+        Diàleg trencat per aggreggates s'ha solucionat.
+      fr: |
+        Le dialogue pour les sommes totales a été réparé.
+      de: |
+        Fehler beim Dialog für Gesamtsummen behoben.
+      it: |
+        Corretta la finestra per sommare piu conti.
+      es: |
+        Solucionado diálogo roto por agregados.
+      tr: |
+        Toplam miktar için kırık iletişim sabit olmuştur.
+  -
     - 1.7.3.1
     - 2013-05-24
     -
