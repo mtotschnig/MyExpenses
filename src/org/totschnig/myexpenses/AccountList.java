@@ -26,7 +26,6 @@ public class AccountList extends Fragment implements LoaderManager.LoaderCallbac
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.accounts_list, null, false);
     ListView lv = (ListView) v.findViewById(R.id.list);
-    getLoaderManager().initLoader(0, null, this);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{"description","label","opening_balance","sum_income","sum_expenses","sum_transfer","current_balance"};
 
@@ -64,6 +63,7 @@ public class AccountList extends Fragment implements LoaderManager.LoaderCallbac
           return row;
         }
     };
+    getLoaderManager().initLoader(0, null, this);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     //requires using activity (SelectCategory) to implement OnItemClickListener
