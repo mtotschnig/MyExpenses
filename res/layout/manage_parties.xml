@@ -14,15 +14,13 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-  <fragment android:name="org.totschnig.myexpenses.fragment.CategoryList"
-              android:id="@+id/category_list"
-              android:layout_width="fill_parent"
-              android:layout_height="0dp"
-              android:layout_weight="1" />
-  <include layout="@layout/new_buttonbar"/>
+   <fragment android:name="org.totschnig.myexpenses.fragment.PartiesList"
+           android:id="@+id/parties_list"
+           android:layout_width="fill_parent"
+           android:layout_height="0dp"
+           android:layout_weight="1" />
 </LinearLayout>
-

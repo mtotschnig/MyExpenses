@@ -175,7 +175,7 @@ public class Utils {
    * @param currency 
    * @return formated string
    */
-  static String convAmount(String text, Currency currency) {
+  public static String convAmount(String text, Currency currency) {
     return formatCurrency(new Money(currency,Long.valueOf(text)));
   }
   //TODO: create generic function

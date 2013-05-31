@@ -354,23 +354,6 @@ public class ExpensesDbAdapter {
     }
     return false;
   }
-
-  /**
-   * PAYEES
-   */
-
-  /**
-   * @return Cursor over all rows of table payee
-   */
-  public Cursor fetchPayeeAll() {
-    return mDb.query(TABLE_PAYEE,
-        new String[] {KEY_ROWID,"name"},
-        null, null, null, null, "name");
-  }
-
-  public boolean deletePayee(long id) {
-    return mDb.delete(TABLE_PAYEE, KEY_ROWID + "=" + id, null) > 0;
-  }
   /**
    * PAYMENT METHODS
    */

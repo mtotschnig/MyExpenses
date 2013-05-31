@@ -1,8 +1,12 @@
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.fragment;
 
 import java.util.Currency;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.Utils;
+import org.totschnig.myexpenses.R.id;
+import org.totschnig.myexpenses.R.layout;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.database.Cursor;

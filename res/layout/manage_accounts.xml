@@ -18,7 +18,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-   <fragment android:name="org.totschnig.myexpenses.AccountList"
+   <fragment android:name="org.totschnig.myexpenses.fragment.AccountList"
            android:id="@+id/account_list"
            android:layout_width="fill_parent"
            android:layout_height="0dp"

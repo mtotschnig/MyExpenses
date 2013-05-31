@@ -50,6 +50,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int TEMPLATES_ID = 12;
   private static final int CATEGORIES_ID = 13;
   private static final int CATEGORIES_INCREASE_USAGE = 14;
+  private static final int PAYEES_ID = 15;
   
   @Override
   public boolean onCreate() {
@@ -113,6 +114,9 @@ public class TransactionProvider extends ContentProvider {
       break;
     case PAYEES:
       qb.setTables(TABLE_PAYEES);
+      defaultOrderBy = "name";
+      if (projection == null)
+        projection = Payee.PROJECTION;
       break;
     case PAYMENT_METHODS:
       qb.setTables(TABLE_PAYMENT_METHODS);
@@ -223,7 +227,7 @@ public class TransactionProvider extends ContentProvider {
       } else {
         whereString = "";
       }
-      count = db.delete(TABLE_TRANSACTIONS, "_id=" + segment + whereString,
+      count = db.delete(TABLE_ACCOUNTS, "_id=" + segment + whereString,
           whereArgs);
       break;
     case TRANSACTIONS_ID:
@@ -244,6 +248,16 @@ public class TransactionProvider extends ContentProvider {
         whereString = "";
       }
       count = db.delete(TABLE_CATEGORIES, "_id=" + segment + whereString,
+          whereArgs);
+      break;
+    case PAYEES_ID:
+      segment = uri.getPathSegments().get(1);
+      if (!TextUtils.isEmpty(where)) {
+        whereString = " AND (" + where + ')';
+      } else {
+        whereString = "";
+      }
+      count = db.delete(TABLE_PAYEES, "_id=" + segment + whereString,
           whereArgs);
       break;
     default:
@@ -334,6 +348,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNTS_ID);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
+    URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEES_ID);
     URI_MATCHER.addURI(AUTHORITY, "payment_methods", PAYMENT_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "payment_methods/#", PAYMENT_METHOD_ID);
     URI_MATCHER.addURI(AUTHORITY, "aggregates", AGGREGATES);

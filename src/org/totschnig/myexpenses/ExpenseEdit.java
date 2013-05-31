@@ -186,7 +186,9 @@ public class ExpenseEdit extends EditActivity {
     
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
-      Cursor allPayees = mDbHelper.fetchPayeeAll();
+      //TODO cursorloader ?
+      Cursor allPayees = getContentResolver().query(TransactionProvider.PAYEES_URI,
+          null, null, null, null);
       ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
           android.R.layout.simple_dropdown_item_1line);
       allPayees.moveToFirst();

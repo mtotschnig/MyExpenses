@@ -58,6 +58,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 
 /**
  * allows to manage accounts
+ * TODO: either prevent deletion of last account or gracefully recreate a new one
  * @author Michael Totschnig
  *
  */

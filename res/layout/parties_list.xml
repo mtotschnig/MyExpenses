@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+  <include layout="@layout/divider_thin"/>
+  <ListView
+      style="?attr/listStyle"
+      android:id="@+id/list"
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:drawSelectorOnTop="false" />
+  <TextView android:id="@+id/empty"
+  	  style="?attr/listStyle"
+      android:gravity="center"
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:text="@string/no_parties"/>
+  <include layout="@layout/divider_thick"/>
+  <RelativeLayout
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      style="?attr/buttonBarStyle">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true">
+      <Button
+          android:text="@string/menu_delete"
+          style="@style/button"
+          android:longClickable="true"
+          android:id="@+id/deleteItems"
+          android:drawableLeft="@android:drawable/ic_menu_delete" />
+    </LinearLayout>
+  </RelativeLayout>
+<include layout="@layout/divider_thick"/>
+</LinearLayout>
