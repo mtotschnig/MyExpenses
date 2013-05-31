@@ -1207,7 +1207,6 @@ public class MyExpenses extends ProtectedActivity
           break;
         }
       }
-      mDbHelper = MyApplication.db();
       setup();
       break;
     case R.id.REMIND_NO_COMMAND:
