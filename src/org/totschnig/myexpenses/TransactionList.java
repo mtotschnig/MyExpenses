@@ -10,8 +10,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -33,6 +35,10 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
   SimpleCursorAdapter mAdapter;
   private int colorExpense;
   private int colorIncome;
+  private MyObserver observer;
+  private TextView balanceTV;
+  private Account account;
+
   public static TransactionList newInstance(long accountId) {
     
     TransactionList pageFragment = new TransactionList();
@@ -45,6 +51,19 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       accountId = getArguments() != null ? getArguments().getLong("account_id") : 1;
+      observer = new MyObserver(new Handler());
+      MyApplication.cr().registerContentObserver(TransactionProvider.TRANSACTIONS_URI, true,observer);
+      MyApplication.cr().registerContentObserver(
+          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(), true,observer);
+  }
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    try {
+      MyApplication.cr().unregisterContentObserver(observer);
+    } catch (IllegalStateException ise) {
+        // Do Nothing.  Observer has already been unregistered.
+    }
   }
 
   @Override  
@@ -55,7 +74,6 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
     colorExpense = color.data;
     theme.resolveAttribute(R.attr.colorIncome,color, true);
     colorIncome = color.data;
-    final Account account;
     try {
       account = Account.getInstanceFromDb(getArguments().getLong("account_id"));
     } catch (DataObjectNotFoundException e) {
@@ -69,9 +87,9 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
     TextView tv = (TextView) v.findViewById(R.id.label);
     tv.setText(account.label);
     tv.setTextColor(textColor);
-    tv = (TextView) v.findViewById(R.id.end);
-    tv.setText(Utils.formatCurrency(account.getCurrentBalance()));
-    tv.setTextColor(textColor);
+    balanceTV = (TextView) v.findViewById(R.id.end);
+    balanceTV.setText(Utils.formatCurrency(account.getCurrentBalance()));
+    balanceTV.setTextColor(textColor);
     v.findViewById(R.id.heading).setBackgroundColor(account.color);
     ListView lv = (ListView) v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
@@ -183,5 +201,14 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
     mAdapter.swapCursor(null);
+  }
+  class MyObserver extends ContentObserver {
+     public MyObserver(Handler handler) {
+        super(handler);
+     }
+     public void onChange(boolean selfChange) {
+       super.onChange(selfChange);
+       balanceTV.setText(Utils.formatCurrency(account.getCurrentBalance()));
+     }
   }
 }
