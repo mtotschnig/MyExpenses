@@ -359,32 +359,6 @@ public class ExpensesDbAdapter {
    * ACCOUNTS
    */
 
-  /**
-   * fetches all accounts except the one passed in
-   * @param account_id
-   * @param sameCurrency if true only retrieve accounts with the same currency
-   * @return Cursor with all retrieved accounts
-   */
-  public Cursor fetchAccountOther(long accountId, boolean sameCurrency) {
-    String selectionArg = String.valueOf(accountId);
-    String selectionArgs[];
-    String selection = KEY_ROWID + " != ? ";
-    if (sameCurrency) {
-      selection += " AND currency = (SELECT currency FROM accounts WHERE " +
-          KEY_ROWID + " = ? )";
-      selectionArgs = new String[] {selectionArg,selectionArg};
-    } else {
-      selectionArgs = new String[] {selectionArg};
-    }
-    return mDb.query(TABLE_ACCOUNTS,
-        new String[] {KEY_ROWID,"label"},
-        selection,
-        selectionArgs,
-        null,
-        null,
-        null);
-  }
-
   public Cursor fetchAggregatesForCurrenciesHavingMultipleAccounts() throws SQLException {
     Cursor mCursor = 
       mDb.query("(select currency,opening_balance,"+

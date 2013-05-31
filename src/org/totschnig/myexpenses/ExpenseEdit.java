@@ -22,6 +22,8 @@ import java.util.Date;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -79,6 +81,9 @@ public class ExpenseEdit extends EditActivity {
   static final int METHOD_DIALOG_ID = 3;
   private static final int SELECT_CATEGORY_REQUEST = 11;
   
+  String[] accountLabels ;
+  Long[] accountIds ;
+
 /*  private int monkey_state = 0;
 
   @Override
@@ -293,10 +298,6 @@ public class ExpenseEdit extends EditActivity {
           true
       );
     case ACCOUNT_DIALOG_ID:
-      final Cursor otherAccounts = mDbHelper.fetchAccountOther(mTransaction.accountId,true);
-      final String[] accountLabels = Utils.getStringArrayFromCursor(otherAccounts, "label");
-      final Long[] accountIds = Utils.getLongArrayFromCursor(otherAccounts, ExpensesDbAdapter.KEY_ROWID);
-      otherAccounts.close();
       return new  AlertDialog.Builder(this)
         .setTitle(R.string.dialog_title_select_account)
         .setSingleChoiceItems(accountLabels,
@@ -367,7 +368,6 @@ public class ExpenseEdit extends EditActivity {
    * populates the input fields with a transaction from the database or a new one
    */
   private void populateFields() {
-    Cursor otherAccounts = null;
     int otherAccountsCount = 0;
     try {
       mAccount = Account.getInstanceFromDb(mAccountId);
@@ -377,8 +377,21 @@ public class ExpenseEdit extends EditActivity {
     }
     //2. get info about other accounts if we are editing a transfer
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      otherAccounts = mDbHelper.fetchAccountOther(mAccountId,true);
+      Cursor otherAccounts =  getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
+          new String[] {DatabaseConstants.KEY_ROWID, "label"},
+          DatabaseConstants.KEY_ROWID + " != ? AND currency = ?",
+          new String[] {String.valueOf(mAccountId),mAccount.currency.getCurrencyCode()},null);
       otherAccountsCount = otherAccounts.getCount();
+      accountLabels = new String[otherAccountsCount];
+      accountIds = new Long[otherAccountsCount];
+      if(otherAccounts.moveToFirst()){
+        for (int i = 0; i < otherAccountsCount; i++){
+          accountLabels[i] = otherAccounts.getString(otherAccounts.getColumnIndex("label"));
+          accountIds[i] = otherAccounts.getLong(otherAccounts.getColumnIndex(DatabaseConstants.KEY_ROWID));
+          otherAccounts.moveToNext();
+        }
+       }
+      otherAccounts.close();
     }
     //TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
     if (mRowId != 0 || mTemplateId != 0) {
@@ -422,9 +435,8 @@ public class ExpenseEdit extends EditActivity {
       //4a if we are a transfer, and we have only one other account
       //we point the transfer to that account
       if (mOperationType == MyExpenses.TYPE_TRANSFER && otherAccountsCount == 1) {
-        otherAccounts.moveToFirst();
-        mCatId = otherAccounts.getInt(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
-        mLabel = otherAccounts.getString(otherAccounts.getColumnIndex("label"));
+        mCatId = accountIds[0];
+        mLabel = accountLabels[0];
       }
     }
     setCategoryButton();
@@ -442,8 +454,6 @@ public class ExpenseEdit extends EditActivity {
           }
         });
       }
-      //by the way: this is a good time to close the cursor
-      otherAccounts.close();
     } else {
       //5b if we are a transaction we start select category activity
       mCategoryButton.setOnClickListener(new View.OnClickListener() {
