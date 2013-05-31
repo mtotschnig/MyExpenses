@@ -128,7 +128,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   public void onItemClick(AdapterView<?> parent, View view, int position,
       long id) {
     Intent i = new Intent(this, AccountEdit.class);
-    i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
+    i.putExtra(KEY_ROWID, id);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
 
@@ -240,7 +240,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       ArrayList<File> files = new ArrayList<File>();
       mAccountsCursor.moveToFirst();
       while( mAccountsCursor.getPosition() < mAccountsCursor.getCount() ) {
-        long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+        long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
         if (mDbHelper.getTransactionCountPerAccount(accountId) > 0) {
           try {
             Account account = Account.getInstanceFromDb(accountId);
