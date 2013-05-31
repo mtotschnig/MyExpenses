@@ -876,7 +876,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
    */
   private Account requireAccount() {
     Account account;
-    Long accountId = MyApplication.db().getFirstAccountId();
+    Long accountId = Account.firstId();
     if (accountId == null) {
       account = new Account(
           getString(R.string.app_name),

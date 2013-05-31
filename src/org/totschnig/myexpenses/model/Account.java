@@ -524,15 +524,15 @@ public class Account {
     return mDbHelper.getTransactionCountPerAccount(id);
   }
   public static int count(String selection,String[] selectionArgs) {
-    Cursor mCursor = MyApplication.cr().query(CONTENT_URI,new String[] {"count(*)"},
+    Cursor cursor = MyApplication.cr().query(CONTENT_URI,new String[] {"count(*)"},
         selection, selectionArgs, null);
-    if (mCursor.getCount() == 0) {
-      mCursor.close();
+    if (cursor.getCount() == 0) {
+      cursor.close();
       return 0;
     } else {
-      mCursor.moveToFirst();
-      int result = mCursor.getInt(0);
-      mCursor.close();
+      cursor.moveToFirst();
+      int result = cursor.getInt(0);
+      cursor.close();
       return result;
     }
   }
@@ -540,6 +540,17 @@ public class Account {
     //since cat_id stores the account to which is transfered for transfers
     //we have to restrict to normal transactions by checking if transfer_peer is 0
     return count("currency = ?",new String[] {currency.getCurrencyCode()});
+  }
+  public static Long firstId() {
+    Cursor cursor = MyApplication.cr().query(CONTENT_URI,new String[] {"min(_id)"},null,null,null);
+    cursor.moveToFirst();
+    Long result;
+    if (cursor.isNull(0))
+      result = null;
+    else
+      result = cursor.getLong(0);
+    cursor.close();
+    return result;
   }
 }
 
