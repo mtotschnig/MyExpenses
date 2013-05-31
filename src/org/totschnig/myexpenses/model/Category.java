@@ -28,6 +28,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 //for the moment we only wrap calls to the content provider
 public class Category {
   public static final String[] PROJECTION = new String[] {KEY_ROWID, "label"};
+  public static final Uri CONTENT_URI = TransactionProvider.CATEGORIES_URI;
   /**
    * Creates a new category under a parent
    * @param label
@@ -38,7 +39,7 @@ public class Category {
     ContentValues initialValues = new ContentValues();
     initialValues.put("label", label);
     initialValues.put("parent_id", parent_id);
-    Uri uri = MyApplication.cr().insert(TransactionProvider.CATEGORIES_URI, initialValues);
+    Uri uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
     if (uri == null)
       return -1;
     return Integer.valueOf(uri.getLastPathSegment());
@@ -52,7 +53,7 @@ public class Category {
   public static int update(String label, long id) {
     ContentValues args = new ContentValues();
     args.put("label", label);
-    return MyApplication.cr().update(TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+    return MyApplication.cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         args, KEY_ROWID + " = ?", new String[] {String.valueOf(id)});
   }
   /**
@@ -62,7 +63,7 @@ public class Category {
    * @return id or -1 if not found
    */
   public static long find(String label, long parent_id) {
-    Cursor mCursor = MyApplication.cr().query(TransactionProvider.CATEGORIES_URI,
+    Cursor mCursor = MyApplication.cr().query(CONTENT_URI,
         new String[] {KEY_ROWID}, "parent_id = ? and label = ?", new String[] {String.valueOf(parent_id), label}, null);
     if (mCursor.getCount() == 0) {
       mCursor.close();
@@ -75,7 +76,7 @@ public class Category {
     }
   }
   public static boolean delete(long id) {
-    return MyApplication.cr().delete(TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(id)).build(), 
+    return MyApplication.cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null) > 0;
   }
   /**
@@ -84,7 +85,7 @@ public class Category {
    * @return number of subcategories
    */
   public static int countSub(long parent_id){
-    Cursor mCursor = MyApplication.cr().query(TransactionProvider.CATEGORIES_URI,
+    Cursor mCursor = MyApplication.cr().query(CONTENT_URI,
         new String[] {"count(*)"}, "parent_id = ?", new String[] {String.valueOf(parent_id)}, null);
     if (mCursor.getCount() == 0) {
       mCursor.close();
