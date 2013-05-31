@@ -359,19 +359,6 @@ public class ExpensesDbAdapter {
    * ACCOUNTS
    */
 
-
-  /**
-   * updates the opening balance of an account
-   * @param account_id
-   * @param opening_balance
-   * @return number of affected rows
-   */
-  public int updateAccountOpeningBalance(long account_id,long opening_balance) {
-    ContentValues args = new ContentValues();
-    args.put("opening_balance",opening_balance);
-    return mDb.update(TABLE_ACCOUNTS,args, KEY_ROWID + "=" + account_id,null);
-  }
-
   /**
    * delete the account with the given id
    * @param rowId
