@@ -135,7 +135,7 @@ public class Utils {
    * @param currency
    * @return formated string
    */
-  static String formatCurrency(Money money) {
+  public static String formatCurrency(Money money) {
     BigDecimal amount = money.getAmountMajor();
     Currency currency = money.getCurrency();
     return formatCurrency(amount,currency);
@@ -162,7 +162,7 @@ public class Utils {
    * @param text
    * @return formated string
    */
-  static String convDate(String text, SimpleDateFormat format) {
+  public static String convDate(String text, SimpleDateFormat format) {
     Date date = fromSQL(text);
     if (date == null)
       return text;
