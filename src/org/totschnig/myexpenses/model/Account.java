@@ -523,5 +523,23 @@ public class Account {
   public long getSize() {
     return mDbHelper.getTransactionCountPerAccount(id);
   }
+  public static int count(String selection,String[] selectionArgs) {
+    Cursor mCursor = MyApplication.cr().query(CONTENT_URI,new String[] {"count(*)"},
+        selection, selectionArgs, null);
+    if (mCursor.getCount() == 0) {
+      mCursor.close();
+      return 0;
+    } else {
+      mCursor.moveToFirst();
+      int result = mCursor.getInt(0);
+      mCursor.close();
+      return result;
+    }
+  }
+  public static int countPerCurrency(Currency currency) {
+    //since cat_id stores the account to which is transfered for transfers
+    //we have to restrict to normal transactions by checking if transfer_peer is 0
+    return count("currency = ?",new String[] {currency.getCurrencyCode()});
+  }
 }
 

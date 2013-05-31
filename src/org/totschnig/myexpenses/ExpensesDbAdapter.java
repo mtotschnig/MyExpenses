@@ -356,44 +356,6 @@ public class ExpensesDbAdapter {
   }
 
   /**
-   * ACCOUNTS
-   */
-
-  /**
-   * @see #fetchAccountOther(long)
-   * @param currency
-   * @return number of accounts with the same currency
-   * if currency is null return total number of accounts
-   */
-  public int getAccountCount(String currency) {
-    String query = "SELECT count(*) FROM " + TABLE_ACCOUNTS;
-    String selectionArgs[] = null;
-    if (currency != null) {
-      query += " WHERE currency = ?";
-      selectionArgs = new String[] {currency};
-    }
-    Cursor mCursor = mDb.rawQuery(
-        query,
-        selectionArgs);
-    mCursor.moveToFirst();
-    int result = mCursor.getInt(0);
-    mCursor.close();
-    return result;
-  }
-
-  public Long getFirstAccountId() {
-    Cursor mCursor = mDb.rawQuery("SELECT min(_id) FROM " + TABLE_ACCOUNTS,null);
-    mCursor.moveToFirst();
-    Long result;
-    if (mCursor.isNull(0))
-      result = null;
-    else
-      result = mCursor.getLong(0);
-    mCursor.close();
-    return result;
-  }
-
-  /**
    * PAYEES
    */
 

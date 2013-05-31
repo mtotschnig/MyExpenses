@@ -238,7 +238,7 @@ public class Transaction {
       return result;
     }
   }
-  public static int countPerCat(long catId) {
+  public static int countPerCategory(long catId) {
     //since cat_id stores the account to which is transfered for transfers
     //we have to restrict to normal transactions by checking if transfer_peer is 0
     return count(KEY_TRANSFER_PEER + " = 0 AND " + KEY_CATID + " = ?",new String[] {String.valueOf(catId)});

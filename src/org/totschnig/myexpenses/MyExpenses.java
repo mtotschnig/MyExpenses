@@ -376,7 +376,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       return false;
     super.onPrepareOptionsMenu(menu);
     menu.findItem(R.id.SWITCH_ACCOUNT_COMMAND)
-      .setVisible(MyApplication.db().getAccountCount(null) > 1);
+      .setVisible(Account.count(null, null) > 1);
     menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
       .setVisible(transfersEnabledP());
     menu.findItem(R.id.RESET_ACCOUNT_COMMAND)
@@ -457,7 +457,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     menu.add(0, R.id.SHOW_DETAIL_COMMAND, 0, R.string.menu_show_detail);
     menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
     menu.add(0, R.id.CLONE_TRANSACTION_COMMAND, 0, R.string.menu_clone_transaction);
-    if (MyApplication.db().getAccountCount(null) > 1) {
+    if (Account.count(null, null) > 1) {
       menu.add(0,R.id.MOVE_TRANSACTION_COMMAND,0,R.string.menu_move_transaction);
     }
   }
@@ -1014,7 +1014,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   
   public boolean transfersEnabledP() {
-    return MyApplication.db().getAccountCount(mCurrentAccount.currency.getCurrencyCode()) > 1;
+    return Account.countPerCurrency(mCurrentAccount.currency) > 1;
   }
   @Override
   public void onClick(View v) {
@@ -1070,7 +1070,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       createRow(TYPE_TRANSFER);
       break;
     case R.id.SWITCH_ACCOUNT_COMMAND:
-      int accountCount = MyApplication.db().getAccountCount(null);
+      int accountCount = Account.count(null, null);
       if (accountCount > 1) {
         if (tag == null) {
          //we are called from menu

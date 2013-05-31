@@ -227,9 +227,9 @@ public class SelectCategory extends ProtectedFragmentActivity implements OnChild
           case DELETE_CAT:
             if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && Category.countSub(cat_id) > 0) {
               Toast.makeText(this,getString(R.string.not_deletable_subcats_exists), Toast.LENGTH_LONG).show();
-            } else if (Transaction.countPerCat(cat_id) > 0 ) {
+            } else if (Transaction.countPerCategory(cat_id) > 0 ) {
               Toast.makeText(this,getString(R.string.not_deletable_mapped_transactions), Toast.LENGTH_LONG).show();
-            } else if (Template.countPerCat(cat_id) > 0 ) {
+            } else if (Template.countPerCategory(cat_id) > 0 ) {
               Toast.makeText(this,getString(R.string.not_deletable_mapped_templates), Toast.LENGTH_LONG).show();
             } else {
               Category.delete(cat_id);
