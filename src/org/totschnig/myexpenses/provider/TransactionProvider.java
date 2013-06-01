@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.provider;
 
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 
 import android.content.ContentProvider;
@@ -31,6 +32,11 @@ public class TransactionProvider extends ContentProvider {
       + "/aggregates");
   public static final Uri PAYEES_URI   = Uri.parse("content://" + AUTHORITY
       + "/payees");
+  public static final Uri METHODS_URI   = Uri.parse("content://" + AUTHORITY
+      + "/methods");
+  public static final Uri ACCOUNTTYPES_METHODS_URI   = Uri.parse("content://" + AUTHORITY
+      + "/accounttypes_methods");
+
   
   static final String TAG = "TransactionProvider";
 
@@ -43,14 +49,15 @@ public class TransactionProvider extends ContentProvider {
   private static final int ACCOUNTS_ID = 5;
   private static final int AGGREGATES = 6;
   private static final int PAYEES = 7;
-  private static final int PAYMENT_METHODS = 8;
-  private static final int PAYMENT_METHOD_ID = 9;
-  private static final int ACCOUNT_TYPES_FOR_METHOD = 10;
+  private static final int METHODS = 8;
+  private static final int METHOD_ID = 9;
+  private static final int ACCOUNTTYPES_METHODS = 10;
   private static final int TEMPLATES = 11;
   private static final int TEMPLATES_ID = 12;
   private static final int CATEGORIES_ID = 13;
   private static final int CATEGORIES_INCREASE_USAGE = 14;
   private static final int PAYEES_ID = 15;
+  private static final int METHODS_FILTERED = 16;
   
   @Override
   public boolean onCreate() {
@@ -118,16 +125,37 @@ public class TransactionProvider extends ContentProvider {
       if (projection == null)
         projection = Payee.PROJECTION;
       break;
-    case PAYMENT_METHODS:
-      qb.setTables(TABLE_PAYMENT_METHODS);
+    case METHODS:
+      qb.setTables(TABLE_METHODS);
+      if (projection == null)
+        projection = PaymentMethod.PROJECTION;
       break;
-    case PAYMENT_METHOD_ID:
-      qb.setTables(TABLE_PAYMENT_METHODS);
+    case METHOD_ID:
+      qb.setTables(TABLE_METHODS);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
-    case ACCOUNT_TYPES_FOR_METHOD:
-      qb.setTables(TABLE_ACCOUNTTYE_METHOD);
-      qb.appendWhere("method_id =" + uri.getPathSegments().get(1));
+    case METHODS_FILTERED:
+      qb.setTables(TABLE_METHODS + " JOIN " + TABLE_ACCOUNTTYES_METHODS + " ON (_id = method_id)");
+      projection =  new String[] {KEY_ROWID,"label"};
+      String paymentType = uri.getPathSegments().get(2);
+      if (paymentType.equals("1")) {
+        selection = TABLE_METHODS + ".type > -1";
+      } else if (paymentType.equals("-1")) {
+        selection = TABLE_METHODS + ".type < 1";
+      } else {
+        throw new IllegalArgumentException("Unknown paymentType " + paymentType);
+      }
+      String accountType = uri.getPathSegments().get(3);
+      try {
+        Account.Type.valueOf(accountType);
+      } catch (IllegalArgumentException e) {
+        throw new IllegalArgumentException("Unknown accountType " + accountType);
+      }
+      selection += " and " + TABLE_ACCOUNTTYES_METHODS + ".type = ?";
+      selectionArgs = new String[] {accountType};
+      break;
+    case ACCOUNTTYPES_METHODS:
+      qb.setTables(TABLE_ACCOUNTTYES_METHODS);
       break;
     case TEMPLATES:
       qb.setTables(TABLE_TEMPLATES);
@@ -179,6 +207,15 @@ public class TransactionProvider extends ContentProvider {
       id = db.insert(TABLE_ACCOUNTS, null, values);
       newUri = ACCOUNTS_URI + "/" + id;
       break;
+    case METHODS:
+      id = db.insert(TABLE_METHODS, null, values);
+      newUri = METHODS_URI + "/" + id;
+      break;
+    case ACCOUNTTYPES_METHODS:
+      id = db.insert(TABLE_ACCOUNTTYES_METHODS,null,values);
+      //we are not interested in accessing individual entries in this table, but have to return a uri
+      newUri = ACCOUNTTYPES_METHODS_URI + "/" + id;
+      break;
     case TEMPLATES:
       try {
         id = db.insertOrThrow(TABLE_TEMPLATES, null, values);
@@ -220,6 +257,9 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTIONS:
       count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
       break;
+    case ACCOUNTTYPES_METHODS:
+      count = db.delete(TABLE_ACCOUNTTYES_METHODS, where, whereArgs);
+      break;
     case ACCOUNTS_ID:
       segment = uri.getPathSegments().get(1);
       if (!TextUtils.isEmpty(where)) {
@@ -258,6 +298,16 @@ public class TransactionProvider extends ContentProvider {
         whereString = "";
       }
       count = db.delete(TABLE_PAYEES, "_id=" + segment + whereString,
+          whereArgs);
+      break;
+    case METHOD_ID:
+      segment = uri.getPathSegments().get(1);
+      if (!TextUtils.isEmpty(where)) {
+        whereString = " AND (" + where + ')';
+      } else {
+        whereString = "";
+      }
+      count = db.delete(TABLE_METHODS, "_id=" + segment + whereString,
           whereArgs);
       break;
     default:
@@ -326,6 +376,16 @@ public class TransactionProvider extends ContentProvider {
         return -1;
       }
       break;
+    case METHOD_ID:
+      segment = uri.getPathSegments().get(1);
+      if (!TextUtils.isEmpty(where)) {
+        whereString = " AND (" + where + ')';
+      } else {
+        whereString = "";
+      }
+      count = db.update(TABLE_METHODS, values, "_id=" + segment + whereString,
+          whereArgs);
+      break;
     case CATEGORIES_INCREASE_USAGE:
       segment = uri.getPathSegments().get(1);
       db.execSQL("update categories set usages = usages +1 WHERE _id IN (" + segment +
@@ -349,10 +409,14 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNTS_ID);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEES_ID);
-    URI_MATCHER.addURI(AUTHORITY, "payment_methods", PAYMENT_METHODS);
-    URI_MATCHER.addURI(AUTHORITY, "payment_methods/#", PAYMENT_METHOD_ID);
+    URI_MATCHER.addURI(AUTHORITY, "methods", METHODS);
+    //methodsFiltered/{TransactionType}/{AccountType}
+    //TransactionType: 1 Income, -1 Expense
+    //AccountType: CASH BANK CCARD ASSET LIABILITY
+    URI_MATCHER.addURI(AUTHORITY, "methods/#", METHOD_ID);
+    URI_MATCHER.addURI(AUTHORITY, "methods/typeFilter/*/*", METHODS_FILTERED);
     URI_MATCHER.addURI(AUTHORITY, "aggregates", AGGREGATES);
-    URI_MATCHER.addURI(AUTHORITY, "payment_methods/#/account_types", ACCOUNT_TYPES_FOR_METHOD);
+    URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATES_ID);
   }

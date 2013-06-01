@@ -70,7 +70,7 @@ public class AccountList extends Fragment implements LoaderManager.LoaderCallbac
     getLoaderManager().initLoader(0, null, this);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
-    //requires using activity (SelectCategory) to implement OnItemClickListener
+    //requires using activity (ManageAccounts) to implement OnItemClickListener
     lv.setOnItemClickListener((OnItemClickListener) getActivity());
     registerForContextMenu(lv);
     return v;

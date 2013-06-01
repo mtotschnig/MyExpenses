@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.provider;
 
-import org.totschnig.myexpenses.PaymentMethod;
+import org.totschnig.myexpenses.model.PaymentMethod;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
@@ -52,10 +53,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     "parent_id integer not null default 0, usages integer default 0, unique (label,parent_id));";
 
   private static final String PAYMENT_METHODS_CREATE =
-      "CREATE TABLE " + TABLE_PAYMENT_METHODS + " (_id integer primary key autoincrement, label text not null, type integer default 0);";
+      "CREATE TABLE " + TABLE_METHODS + " (_id integer primary key autoincrement, label text not null, type integer default 0);";
 
   private static final String ACCOUNTTYE_METHOD_CREATE =
-      "CREATE TABLE " + TABLE_ACCOUNTTYE_METHOD + " (type text, method_id integer, primary key (type,method_id));";
+      "CREATE TABLE " + TABLE_ACCOUNTTYES_METHODS + " (type text, method_id integer, primary key (type,method_id));";
 
   private static final String TEMPLATE_CREATE =
       "CREATE TABLE " + TABLE_TEMPLATES + " ( "
@@ -115,11 +116,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       initialValues = new ContentValues();
       initialValues.put("label", pm.name());
       initialValues.put("type",pm.paymentType);
-      _id = db.insert(TABLE_PAYMENT_METHODS, null, initialValues);
+      _id = db.insert(TABLE_METHODS, null, initialValues);
       initialValues = new ContentValues();
       initialValues.put("method_id", _id);
       initialValues.put("type","BANK");
-      db.insert(TABLE_ACCOUNTTYE_METHOD, null, initialValues);
+      db.insert(TABLE_ACCOUNTTYES_METHODS, null, initialValues);
     }
   }
 

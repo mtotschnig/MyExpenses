@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -225,7 +226,7 @@ public class ExpenseEdit extends EditActivity {
         //we need to empty payment method, since they are different for expenses and incomes
         if (mMethodButton != null) {
           mMethodId = 0;
-          mMethodButton.setText(R.string.select);
+          mMethodButton.setText((CharSequence) mMethodButton.getTag());
         }
         configureType();
       } 
@@ -241,6 +242,9 @@ public class ExpenseEdit extends EditActivity {
         mCategoryButton.setText(R.string.account);
     } else {
       mMethodButton = (Button) findViewById(R.id.Method);
+      //we store the original text of the button, since it depends on the orientation
+      //and we want to restore it eventually
+      mMethodButton.setTag(mMethodButton.getText());
       mMethodButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View view) {
           showDialog(METHOD_DIALOG_ID);
@@ -314,8 +318,12 @@ public class ExpenseEdit extends EditActivity {
           }
         ).create();
     case METHOD_DIALOG_ID:
-      Cursor paymentMethods;
-      paymentMethods = mDbHelper.fetchPaymentMethodsFiltered(mType,mAccount.type);
+      Cursor paymentMethods = getContentResolver().query(
+          TransactionProvider.METHODS_URI.buildUpon()
+          .appendPath("typeFilter")
+          .appendPath(mType == INCOME ? "1" : "-1")
+          .appendPath(mAccount.type.name())
+          .build(), null, null, null, null);
       final String[] methodLabels = new String[paymentMethods.getCount()];
       final Long[] methodIds = new Long[paymentMethods.getCount()];
       PaymentMethod pm;
@@ -464,7 +472,7 @@ public class ExpenseEdit extends EditActivity {
         }
       });
       //5c we hide the method button if there are no valid methods, we check for both incomes and expenses
-      if (mDbHelper.getPaymentMethodsCount(mAccount.type) == 0) {
+      if (PaymentMethod.countPerType(mAccount.type) == 0) {
         View MethodContainer = findViewById(R.id.MethodRow);
         if (MethodContainer == null)
           MethodContainer = findViewById(R.id.Method);

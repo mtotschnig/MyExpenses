@@ -18,8 +18,8 @@ public class DatabaseConstants {
   public static final String TABLE_TRANSACTIONS = "transactions";
   public static final String TABLE_ACCOUNTS = "accounts";
   public static final String TABLE_CATEGORIES = "categories";
-  public static final String TABLE_PAYMENT_METHODS = "paymentmethods";
-  public static final String TABLE_ACCOUNTTYE_METHOD = "accounttype_paymentmethod";
+  public static final String TABLE_METHODS = "paymentmethods";
+  public static final String TABLE_ACCOUNTTYES_METHODS = "accounttype_paymentmethod";
   public static final String TABLE_TEMPLATES = "templates";
   public static final String TABLE_PAYEES = "payee";
   public static final String TABLE_FEATURE_USED = "feature_used";

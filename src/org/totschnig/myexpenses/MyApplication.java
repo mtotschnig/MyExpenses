@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.PaymentMethod;
 
 import android.app.Activity;
 import android.app.Application;
@@ -255,7 +256,7 @@ public class MyApplication extends Application {
       boolean result = false;
       try {
         Account.clear();
-        PaymentMethod.methods.clear();
+        PaymentMethod.clear();
         File dataDir = new File("/data/data/"+ getPackageName()+ "/databases/");
         dataDir.mkdir();
         File backupDb = getBackupDbFile();

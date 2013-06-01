@@ -13,16 +13,27 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.model;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.DataObjectNotFoundException;
+import org.totschnig.myexpenses.ExpensesDbAdapter;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.R.string;
+import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
+import android.net.Uri;
 import android.util.Log;
 
 public class PaymentMethod {
@@ -32,6 +43,8 @@ public class PaymentMethod {
   final int NEUTRAL = 0;
   final int INCOME = 1;
   private int paymentType;
+  public static final String[] PROJECTION = new String[] {KEY_ROWID,"label"};
+  public static final Uri CONTENT_URI = TransactionProvider.METHODS_URI;
   /**
    * array of account types for which this payment method is applicable
    */
@@ -48,11 +61,14 @@ public class PaymentMethod {
   }
   private PaymentMethod(long id) throws DataObjectNotFoundException {
     this.id = id;
-    Cursor c = mDbHelper.fetchPaymentMethod(id);
-    if (c.getCount() == 0) {
+    String[] projection = new String[] {"label","type"};
+    Cursor c = MyApplication.cr().query(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
+    if (c == null || c.getCount() == 0) {
       throw new DataObjectNotFoundException();
     }
-    
+    c.moveToFirst();
+
     this.label = c.getString(c.getColumnIndexOrThrow("label"));
     this.paymentType = c.getInt(c.getColumnIndexOrThrow("type"));
     c.close();
@@ -61,7 +77,8 @@ public class PaymentMethod {
     } catch (IllegalArgumentException ex) { 
       predef = null;
     }
-    c = mDbHelper.fetchAccountTypesForPaymentMethod(id);
+    c = MyApplication.cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,
+        new String[] {"type"}, "method_id = ?", new String[] {String.valueOf(id)}, null);
     if(c.moveToFirst()) {
       for (int i = 0; i < c.getCount(); i++){
         try {
@@ -129,21 +146,57 @@ public class PaymentMethod {
     return method;
   }
   
-  public long save() {
+  public Uri save() {
+    Uri uri;
+    ContentValues initialValues = new ContentValues();
+    initialValues.put("label", label);
+    initialValues.put("type",paymentType);
     if (id == 0) {
-      id = mDbHelper.createMethod(
-          label,
-          paymentType, accountTypes
-          );
+      uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
     } else {
-      mDbHelper.updateMethod(
-          id,
-          label,
-          paymentType, accountTypes
-          );
+      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+      MyApplication.cr().update(uri,initialValues,null,null);
     }
+    setMethodAccountTypes();
     if (!methods.containsKey(id))
       methods.put(id, this);
-    return id;
+    return uri;
+  }
+  private void setMethodAccountTypes() {
+    MyApplication.cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI, "method_id = ?", new String[]{String.valueOf(id)});
+    ContentValues initialValues = new ContentValues();
+    initialValues.put("method_id", id);
+    for (Account.Type accountType : accountTypes) {
+      initialValues.put("type",accountType.name());
+      MyApplication.cr().insert(TransactionProvider.ACCOUNTTYPES_METHODS_URI, initialValues);
+    }
+  }
+
+  /**
+   * empty the cache
+   */
+  public static void clear() {
+    methods.clear();
+  }
+  public static boolean delete(long id) {
+    MyApplication.cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI,"method_id = ?",new String[] {String.valueOf(id)});
+    return MyApplication.cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+        null, null) > 0;
+  }
+  public static int count(String selection,String[] selectionArgs) {
+    Cursor mCursor = MyApplication.cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,new String[] {"count(*)"},
+        selection, selectionArgs, null);
+    if (mCursor.getCount() == 0) {
+      mCursor.close();
+      return 0;
+    } else {
+      mCursor.moveToFirst();
+      int result = mCursor.getInt(0);
+      mCursor.close();
+      return result;
+    }
+  }
+  public static int countPerType(Type type) {
+    return count("type = ?", new String[] {type.name()});
   }
 }

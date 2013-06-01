@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Account.Type;
 
 import android.content.ContentValues;
@@ -354,102 +355,6 @@ public class ExpensesDbAdapter {
     }
     return false;
   }
-  /**
-   * PAYMENT METHODS
-   */
-
-  /**
-   * inserts a new payment method if it does not exist yet
-   * @param name
-   */
-  public long createMethod(String label, int paymentType, ArrayList<Account.Type>  accountTypes) {
-    ContentValues initialValues = new ContentValues();
-    initialValues.put("label", label);
-    initialValues.put("type",paymentType);
-    long _id = mDb.insert(TABLE_PAYMENT_METHODS, null, initialValues);
-    setMethodAccountTypes(_id,accountTypes);
-    return _id;
-  }
-
-  public int updateMethod(long rowId, String label, int paymentType, ArrayList<Account.Type>  accountTypes) {
-    ContentValues args = new ContentValues();
-    args.put("label", label);
-    args.put("type", paymentType);
-    int result = mDb.update(TABLE_PAYMENT_METHODS, args, KEY_ROWID + "=" + rowId, null);
-    setMethodAccountTypes(rowId,accountTypes);
-    return result;
-  }
-
-  private void setMethodAccountTypes(long rowId, ArrayList<Account.Type>  accountTypes) {
-    mDb.delete(TABLE_ACCOUNTTYE_METHOD, "method_id=" + rowId, null);
-    ContentValues initialValues = new ContentValues();
-    initialValues.put("method_id", rowId);
-    for (Account.Type accountType : accountTypes) {
-      initialValues.put("type",accountType.name());
-      try {
-        mDb.insertOrThrow(TABLE_ACCOUNTTYE_METHOD, null, initialValues);
-      } catch (SQLiteConstraintException e) {
-        //already mapped
-      }
-    }
-  }
-
-  public Cursor fetchPaymentMethod(long rowId) {
-    Cursor mCursor =
-        mDb.query(TABLE_PAYMENT_METHODS,
-            new String[] {"label","type"},
-            KEY_ROWID + "=" + rowId,
-            null, null, null, null, null);
-      if (mCursor != null) {
-        mCursor.moveToFirst();
-      }
-      return mCursor;
-  }
-
-  public Cursor fetchPaymentMethodsAll() {
-    return mDb.query(TABLE_PAYMENT_METHODS,
-        new String[] {KEY_ROWID,"label"},
-        null, null, null, null, null);
-  }
-
-  /**
-   * @param paymentType
-   * @param accountType
-   * @return Cursor
-   * return Cursor with paymentMethods valid for a given account type (CASH,BANK, etc) and payment type (expense or income)
-   */
-  public Cursor fetchPaymentMethodsFiltered(boolean paymentType, Account.Type accountType) {
-    String selection;
-    if (paymentType == ExpenseEdit.INCOME) {
-      selection = TABLE_PAYMENT_METHODS + ".type > -1";
-    } else {
-      selection = TABLE_PAYMENT_METHODS + ".type < 1";
-    }
-    selection += " and " + TABLE_ACCOUNTTYE_METHOD + ".type = ?";
-
-    return mDb.query(TABLE_PAYMENT_METHODS + " join " + TABLE_ACCOUNTTYE_METHOD + " on (_id = method_id)",
-        new String[] {KEY_ROWID,"label"},
-        selection, new String[] {accountType.name()}, null, null, null);
-  }
-
-  public Cursor fetchAccountTypesForPaymentMethod(long rowId) {
-    return mDb.query(TABLE_ACCOUNTTYE_METHOD, new String[] {"type"},
-        "method_id =" + rowId, null, null, null, null);
-  }
-
-  public int getPaymentMethodsCount(Type type) {
-    Cursor mCursor = mDb.rawQuery("SELECT count(*) FROM " + TABLE_ACCOUNTTYE_METHOD + " " +
-        " WHERE type = ?",
-       new String[] {type.name()});
-    mCursor.moveToFirst();
-    int result = mCursor.getInt(0);
-    mCursor.close();
-    return result;
-  }
-  public boolean deletePaymentMethod(long id) {
-    mDb.delete(TABLE_ACCOUNTTYE_METHOD,"method_id = " +id , null);
-    return mDb.delete(TABLE_PAYMENT_METHODS, KEY_ROWID + "=" + id, null) > 0;
-  }
 
   /**
    * @param accountId
@@ -513,20 +418,6 @@ public class ExpensesDbAdapter {
     int result = mCursor.getInt(0);
     mCursor.close();
     return result;
-  }
-  /**
-   * @param cat_id
-   * @return number of transactions linked to a method
-   */
-  public int getTransactionCountPerMethod(long methodId) {
-    return getCountFromQuery( TABLE_TRANSACTIONS,KEY_METHODID +" = " + methodId,null);
-  }
-  /**
-   * @param cat_id
-   * @return number of templates linked to a method
-   */
-  public int getTemplateCountPerMethod(long methodId) {
-    return getCountFromQuery(TABLE_TEMPLATES,KEY_METHODID +" = " + methodId,null);
   }
   /**
    * @param accountId

@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.PaymentMethod;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
