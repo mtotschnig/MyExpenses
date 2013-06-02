@@ -15,8 +15,8 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.DialogUtils;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.util.DialogUtils;
 
 import android.app.Dialog;
 import android.support.v4.app.FragmentActivity;

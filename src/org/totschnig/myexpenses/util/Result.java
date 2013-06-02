@@ -13,7 +13,9 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.util;
+
+import org.totschnig.myexpenses.R;
 
 /**
  * represents a tuple of success flag, and message as an R id

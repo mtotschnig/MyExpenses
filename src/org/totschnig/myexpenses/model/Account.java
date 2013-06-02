@@ -28,9 +28,9 @@ import java.util.Locale;
 import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.Utils;
 import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentValues;
 import android.content.Context;

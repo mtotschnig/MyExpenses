@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
 import android.app.Application;
@@ -69,7 +70,7 @@ public class MyApplication extends Application {
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static int currentAccountColor;
     public static String BUILD_DATE = "";
-    protected static String CONTRIB_SECRET = "RANDOM_SECRET";
+    public static String CONTRIB_SECRET = "RANDOM_SECRET";
 
     public static final String EXTRA_AMOUNT = "amount";
     private ArrayList<CharSequence> mVersionInfo = new ArrayList<CharSequence>();

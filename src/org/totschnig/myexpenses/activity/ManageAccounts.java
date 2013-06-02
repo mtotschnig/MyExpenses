@@ -25,10 +25,8 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 
-import org.totschnig.myexpenses.DialogUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.Utils;
 import org.totschnig.myexpenses.R.id;
 import org.totschnig.myexpenses.R.layout;
 import org.totschnig.myexpenses.R.string;
@@ -37,6 +35,8 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.DialogUtils;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;

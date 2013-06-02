@@ -20,13 +20,13 @@ import java.math.BigDecimal;
 import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.Utils;
 import org.totschnig.myexpenses.R.color;
 import org.totschnig.myexpenses.R.id;
 import org.totschnig.myexpenses.R.layout;
 import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

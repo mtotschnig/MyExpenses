@@ -24,11 +24,9 @@ import java.util.Iterator;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.ButtonBar;
-import org.totschnig.myexpenses.DialogUtils;
 import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.Utils;
 import org.totschnig.myexpenses.ButtonBar.Action;
 import org.totschnig.myexpenses.ButtonBar.MenuButton;
 import org.totschnig.myexpenses.R.attr;
@@ -47,6 +45,8 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.DialogUtils;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;

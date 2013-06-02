@@ -26,6 +26,7 @@ import java.util.Locale;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentValues;
 import android.content.Context;

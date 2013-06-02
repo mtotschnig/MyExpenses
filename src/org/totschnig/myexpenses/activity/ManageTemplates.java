@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.DialogUtils;
 import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -25,6 +24,7 @@ import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.util.DialogUtils;
 
 import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
 

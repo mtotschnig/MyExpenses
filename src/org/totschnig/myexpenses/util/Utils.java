@@ -13,7 +13,7 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,6 +39,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.EnumSet;
 
+import org.totschnig.myexpenses.ExpensesDbAdapter;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.R.id;
+import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Money;
 
@@ -219,7 +224,7 @@ public class Utils {
       return state;
   }
   
-  static boolean copy(File src, File dst) {
+  public static boolean copy(File src, File dst) {
     FileChannel srcC;
     try {
       srcC = new FileInputStream(src).getChannel();

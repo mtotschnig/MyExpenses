@@ -22,9 +22,9 @@ import java.util.Calendar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.Utils;
 import org.totschnig.myexpenses.R.color;
 import org.totschnig.myexpenses.R.id;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

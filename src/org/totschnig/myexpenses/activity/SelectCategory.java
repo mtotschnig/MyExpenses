@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.Utils;
 import org.totschnig.myexpenses.R.color;
 import org.totschnig.myexpenses.R.id;
 import org.totschnig.myexpenses.R.layout;
@@ -26,6 +25,7 @@ import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
 import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
 

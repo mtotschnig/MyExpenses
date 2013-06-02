@@ -17,9 +17,9 @@ package org.totschnig.myexpenses.preference;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.Utils;
 import org.totschnig.myexpenses.R.id;
 import org.totschnig.myexpenses.R.layout;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
