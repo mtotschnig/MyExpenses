@@ -20,8 +20,6 @@ import java.util.Date;
 import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.MyExpenses;
-import org.totschnig.myexpenses.Utils;
-import org.totschnig.myexpenses.MyApplication.ContribFeature;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
@@ -30,7 +28,6 @@ import android.net.Uri;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class Template extends Transaction {
-  private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   public String title;
 
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
@@ -105,7 +102,7 @@ public class Template extends Transaction {
       uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
       id = Integer.valueOf(uri.getLastPathSegment());
     } else {
-      Utils.recordUsage(MyApplication.ContribFeature.EDIT_TEMPLATE);
+      org.totschnig.myexpenses.model.ContribFeature.EDIT_TEMPLATE.recordUsage();
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
       if (MyApplication.cr().update(uri, initialValues, null, null) == -1)
         return null;

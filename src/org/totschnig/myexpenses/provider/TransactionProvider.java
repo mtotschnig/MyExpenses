@@ -36,6 +36,8 @@ public class TransactionProvider extends ContentProvider {
       + "/methods");
   public static final Uri ACCOUNTTYPES_METHODS_URI   = Uri.parse("content://" + AUTHORITY
       + "/accounttypes_methods");
+  public static final Uri FEATURE_USED_URI =  Uri.parse("content://" + AUTHORITY
+      + "/feature_used");
 
   
   static final String TAG = "TransactionProvider";
@@ -59,6 +61,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int PAYEES_ID = 15;
   private static final int METHODS_FILTERED = 16;
   private static final int TEMPLATES_INCREASE_USAGE = 17;
+  private static final int FEATURE_USED = 18;
   
   @Override
   public boolean onCreate() {
@@ -166,6 +169,9 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(TABLE_TEMPLATES);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
+    case FEATURE_USED:
+      qb.setTables(TABLE_FEATURE_USED);
+      break;
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
@@ -240,6 +246,10 @@ public class TransactionProvider extends ContentProvider {
       } catch (SQLiteConstraintException e) {
         return null;
       }
+      break;
+    case FEATURE_USED:
+      id = db.insert(TABLE_FEATURE_USED, null, values);
+      newUri = FEATURE_USED_URI + "/" + id;
       break;
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -441,5 +451,6 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATES_ID);
     URI_MATCHER.addURI(AUTHORITY, "templates/#/increaseUsage", TEMPLATES_INCREASE_USAGE);
+    URI_MATCHER.addURI(AUTHORITY, "feature_used", FEATURE_USED);
   }
 }

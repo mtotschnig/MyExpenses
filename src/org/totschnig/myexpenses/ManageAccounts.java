@@ -25,7 +25,7 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 
-import org.totschnig.myexpenses.MyApplication.ContribFeature;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -74,7 +74,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   Cursor mCurrencyCursor;
   private Button mAddButton, mAggregateButton, mResetAllButton;
   private long mContextAccountId;
-  private MyApplication.ContribFeature mContextFeature;
+  private ContribFeature mContextFeature;
   static final int DELETE_DIALOG_ID = 1;
   static final int AGGREGATE_DIALOG_ID = 2;
   static final int RESET_ALL_DIALOG_ID = 3;
@@ -98,7 +98,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
         if (MyApplication.getInstance().isContribEnabled) {
           showDialogWrapper(AGGREGATE_DIALOG_ID);
         } else {
-          mContextFeature = MyApplication.ContribFeature.AGGREGATE;
+          mContextFeature = ContribFeature.AGGREGATE;
           showDialog(R.id.CONTRIB_DIALOG);
         }
       }
@@ -110,7 +110,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
         if (MyApplication.getInstance().isContribEnabled) {
           showDialogWrapper(RESET_ALL_DIALOG_ID);
         } else {
-          mContextFeature = MyApplication.ContribFeature.RESET_ALL;
+          mContextFeature = ContribFeature.RESET_ALL;
           showDialog(R.id.CONTRIB_DIALOG);
         }
       }
@@ -325,9 +325,9 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   }
   @SuppressWarnings("incomplete-switch")
   @Override
-  public void contribFeatureCalled(MyApplication.ContribFeature feature) {
+  public void contribFeatureCalled(ContribFeature feature) {
     removeDialog(R.id.CONTRIB_DIALOG);
-    Utils.recordUsage(feature);
+    feature.recordUsage();
     switch (feature) {
     case AGGREGATE:
       showDialogWrapper(AGGREGATE_DIALOG_ID);

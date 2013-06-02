@@ -39,7 +39,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.EnumSet;
 
-import org.totschnig.myexpenses.MyApplication.ContribFeature;
+import org.totschnig.myexpenses.model.ContribFeature;
 
 import android.app.Activity;
 import android.content.Context;
@@ -65,13 +65,7 @@ import android.widget.Toast;
  *
  */
 public class Utils {
-  public static Integer usagesLeft(ContribFeature restore) {
-    return MyApplication.USAGES_LIMIT - MyApplication.db().getContribFeatureUsages(restore.toString());
-  }
-  public static void recordUsage(ContribFeature restore) {
-    if (!MyApplication.getInstance().isContribEnabled)
-      MyApplication.db().incrFeatureUsages(restore.toString());
-  }
+
   public static String getDefaultDecimalSeparator() {
     String sep = ".";
     int sdk =  Build.VERSION.SDK_INT;
@@ -362,7 +356,7 @@ public class Utils {
   }
   public static String getContribFeatureLabelsAsFormattedList(Context ctx) {
     String result ="";
-    Iterator<ContribFeature> iterator = EnumSet.allOf(MyApplication.ContribFeature.class).iterator();
+    Iterator<ContribFeature> iterator = EnumSet.allOf(ContribFeature.class).iterator();
     while (iterator.hasNext()) {
       result += " - " + ctx.getString(ctx.getResources().getIdentifier("contrib_feature_" + iterator.next().toString() + "_label", "string", ctx.getPackageName()));
       if (iterator.hasNext())

@@ -15,7 +15,7 @@
 
 package org.totschnig.myexpenses;
 
-import org.totschnig.myexpenses.MyApplication.ContribFeature;
+import org.totschnig.myexpenses.model.ContribFeature;
 
 public interface ContribIFace {
   /**

@@ -16,6 +16,9 @@
 package org.totschnig.myexpenses;
 
 import java.io.File;
+
+import org.totschnig.myexpenses.model.ContribFeature;
+
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -91,7 +94,7 @@ public class Backup extends ProtectedActivity implements ContribIFace {
           if (v.getId() == R.id.RESTORE_COMMAND) {
             if (MyApplication.backupExists()) {
               MyApplication.backupRestore();
-              Utils.recordUsage(MyApplication.ContribFeature.RESTORE);
+              ContribFeature.RESTORE.recordUsage();
               Intent i = getBaseContext().getPackageManager()
                   .getLaunchIntentForPackage( getBaseContext().getPackageName() );
               i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -111,12 +114,12 @@ public class Backup extends ProtectedActivity implements ContribIFace {
       })
       .create();
     case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,MyApplication.ContribFeature.RESTORE);
+      return DialogUtils.contribDialog(this,ContribFeature.RESTORE);
     }
     return null;
   }
   @Override
-  public void contribFeatureCalled(MyApplication.ContribFeature feature) {
+  public void contribFeatureCalled(ContribFeature feature) {
     showDialog(R.id.RESTORE_DIALOG);
   }
   @Override

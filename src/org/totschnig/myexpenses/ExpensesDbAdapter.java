@@ -355,28 +355,6 @@ public class ExpensesDbAdapter {
     }
     return false;
   }
-  //Counters
-  private int getCountFromQuery(String table,String selection, String[] selectionArgs) {
-    Cursor mCursor = mDb.query(table,new String[] {"count(*)"},selection,selectionArgs,null,null,null);
-    mCursor.moveToFirst();
-    int result = mCursor.getInt(0);
-    mCursor.close();
-    return result;
-  }
-  
-  public int getTransactionCountAll() {
-    return getCountFromQuery(TABLE_TRANSACTIONS,null,null);
-  }
-
-  public int getContribFeatureUsages(String feature) {
-    return getCountFromQuery(TABLE_FEATURE_USED,"feature = ?",new String[] {feature});
-  }
-
-  public void incrFeatureUsages(String feature) {
-    ContentValues initialValues = new ContentValues();
-    initialValues.put("feature", feature);
-    mDb.insert(TABLE_FEATURE_USED, null, initialValues);
-  }
 
   /**
    * @return the number of transactions that have been created since creation of the db based on sqllite sequence

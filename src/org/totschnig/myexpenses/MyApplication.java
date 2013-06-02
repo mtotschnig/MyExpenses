@@ -70,12 +70,7 @@ public class MyApplication extends Application {
     public static int currentAccountColor;
     public static String BUILD_DATE = "";
     protected static String CONTRIB_SECRET = "RANDOM_SECRET";
-    public enum ContribFeature {
-      EDIT_TEMPLATE,RESTORE,AGGREGATE,RESET_ALL,SECURITY_QUESTION,CLONE_TRANSACTION;
-      public String toString() {
-        return name().toLowerCase(Locale.US);
-      }
-    }
+
     public static final String EXTRA_AMOUNT = "amount";
     private ArrayList<CharSequence> mVersionInfo = new ArrayList<CharSequence>();
     public boolean isContribEnabled;
@@ -87,10 +82,7 @@ public class MyApplication extends Application {
     public static void setPasswordCheckDelayNanoSeconds() {
       MyApplication.passwordCheckDelayNanoSeconds = mSelf.settings.getInt(PREFKEY_PROTECTION_DELAY_SECONDS, 15) * 1000000000L;
     }
-    /**
-     * how many times contrib features can be used for free
-     */
-    public static int USAGES_LIMIT = 5;
+
     public boolean isLocked;
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 

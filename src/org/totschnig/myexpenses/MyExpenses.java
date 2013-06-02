@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.app.Activity;
@@ -482,7 +483,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.CLONE_TRANSACTION_COMMAND:
       mDialogContextId = info.id;
       if (MyApplication.getInstance().isContribEnabled) {
-        contribFeatureCalled(MyApplication.ContribFeature.CLONE_TRANSACTION);
+        contribFeatureCalled(ContribFeature.CLONE_TRANSACTION);
       }
       else {
         showDialog(R.id.CONTRIB_DIALOG);
@@ -785,7 +786,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.DONATE_DIALOG:
       return DialogUtils.donateDialog((Activity) this);
     case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,MyApplication.ContribFeature.CLONE_TRANSACTION);
+      return DialogUtils.contribDialog(this,ContribFeature.CLONE_TRANSACTION);
     }
     return super.onCreateDialog(id);
   }
@@ -1308,8 +1309,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     configButtons();
   }
   @Override
-  public void contribFeatureCalled(MyApplication.ContribFeature feature) {
-    Utils.recordUsage(feature);
+  public void contribFeatureCalled(ContribFeature feature) {
+    feature.recordUsage();
     Transaction.getInstanceFromDb(mDialogContextId).saveAsNew();
     //myAdapter.notifyDataSetChanged();
   }
