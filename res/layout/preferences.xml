@@ -131,18 +131,18 @@
         android:summary="@string/pref_enter_licence_summary" />
    </PreferenceCategory>
    <PreferenceCategory android:title="@string/pref_category_title_security">
-     <org.totschnig.myexpenses.PasswordPreference
+     <org.totschnig.myexpenses.preference.PasswordPreference
         android:key="@string/pref_perform_protection_key"
         android:title="@string/pref_perform_protection_title"
         android:summary="@string/pref_perform_protection_summary"/>
-     <org.totschnig.myexpenses.SeekBarPreference xmlns:my="http://myexpenses.totschnig.org"
-      android:key="@string/pref_protection_delay_seconds_key"
-      android:title="@string/pref_protection_delay_seconds_title"
-      android:summary="@string/pref_protection_delay_seconds_summary"
-      android:defaultValue="15" android:max="90" my:min="1"
-      my:unitsLeft=""
-      my:unitsRight=" &#8243;"/>
-     <org.totschnig.myexpenses.SecurityQuestion
+     <org.totschnig.myexpenses.preference.SeekBarPreference xmlns:my="http://myexpenses.totschnig.org"
+        android:key="@string/pref_protection_delay_seconds_key"
+        android:title="@string/pref_protection_delay_seconds_title"
+        android:summary="@string/pref_protection_delay_seconds_summary"
+        android:defaultValue="15" android:max="90" my:min="1"
+        my:unitsLeft=""
+        my:unitsRight=" &#8243;"/>
+     <org.totschnig.myexpenses.preference.SecurityQuestion
         android:key="@string/pref_security_question_key"
         android:title="@string/pref_security_question_title"
         android:summary="@string/pref_security_question_summary"/>

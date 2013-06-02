@@ -15,7 +15,11 @@
  *   based on code in the public domain from http://robobunny.com/wp/2011/08/13/android-seekbar-preference/
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.preference;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.R.id;
+import org.totschnig.myexpenses.R.layout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
