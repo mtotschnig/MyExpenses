@@ -61,7 +61,15 @@ public class Template extends Transaction {
     //templates have no date
   }
   public static Template getInstanceFromDb(long id) {
-    Cursor c = mDbHelper.fetchTemplate(id);
+    String[] projection = new String[] {KEY_ROWID,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
+        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_ACCOUNTID,KEY_METHODID,KEY_TITLE};
+    Cursor c = MyApplication.cr().query(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
+    if (c == null || c.getCount() == 0) {
+      return null;
+      //TODO throw DataObjectNotFoundException
+    }
+    c.moveToFirst();
     Template t = new Template(c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ACCOUNTID)),
         c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT))  
         );
@@ -103,5 +111,17 @@ public class Template extends Transaction {
     }
     return uri;
   }
+  public static boolean delete(long id) {
+    return MyApplication.cr().delete(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null) > 0;
+  }
+  public static int countPerCategory(long catId) {
+    return countPerCategory(CONTENT_URI,catId);
+  }
+  public static int countPerMethod(long catId) {
+    return countPerMethod(CONTENT_URI,catId);
+  }
+  public static int countPerAccount(long catId) {
+    return countPerAccount(CONTENT_URI,catId);
+  }
 }
-

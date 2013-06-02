@@ -114,7 +114,9 @@ public class Transaction {
     tr.payee = te.payee;
     tr.catId = te.catId;
     tr.label = te.label;
-    mDbHelper.incrTemplateUsage(te.id);
+    MyApplication.cr().update(
+        TransactionProvider.TEMPLATES_URI.buildUpon().appendPath(String.valueOf(id)).appendPath("increaseUsage").build(),
+        null, null, null);
     return tr;
   }
   /**

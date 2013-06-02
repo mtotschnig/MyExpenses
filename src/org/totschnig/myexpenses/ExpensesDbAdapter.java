@@ -355,62 +355,6 @@ public class ExpensesDbAdapter {
     }
     return false;
   }
-
-  /**
-   * @param accountId
-   * @return return all templates for an account, if accountId = 0, return all templates
-   */
-  public Cursor fetchTemplates(long accountId) {
-    String selection = null;
-    String[] selectionArgs = null;
-    if (accountId != 0L) {
-     selection =  "account_id = ?";
-     selectionArgs = new String[] { String.valueOf(accountId) };
-    }
-    return mDb.query(TABLE_TEMPLATES,
-        new String[] {KEY_ROWID,KEY_TITLE},
-        selection,
-        selectionArgs,
-        null,
-        null,
-        "usages DESC");
-  }
-
-  public boolean deleteTemplate(long id) {
-    return mDb.delete(TABLE_TEMPLATES, KEY_ROWID + "=" + id, null) > 0;
-  }
-
-  public int getTemplateCount(long accountId) {
-    Cursor mCursor = mDb.rawQuery("SELECT count(*) FROM " + TABLE_TEMPLATES + " WHERE " + KEY_ACCOUNTID + " = ?",
-        new String[] { String.valueOf(accountId) } );
-    mCursor.moveToFirst();
-    int result = mCursor.getInt(0);
-    mCursor.close();
-    return result;
-  }
-  /**
-   * Return a Cursor positioned at the template that matches the given rowId
-   * @param rowId id of transaction to retrieve
-   * @return Cursor positioned to matching template, if found
-   * @throws SQLException if template could not be found/retrieved
-   */
-  public Cursor fetchTemplate(long rowId) throws SQLException {
-    Cursor mCursor =
-      mDb.query(TABLE_TEMPLATES,
-          new String[] {KEY_ROWID,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
-          SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_ACCOUNTID,KEY_METHODID,KEY_TITLE},
-          KEY_ROWID + "=" + rowId,
-          null, null, null, null, null);
-    if (mCursor != null) {
-      mCursor.moveToFirst();
-    }
-    return mCursor;
-  }
-
-  public void incrTemplateUsage(long id) {
-    mDb.execSQL("update " + TABLE_TEMPLATES + " set usages = usages +1 WHERE _id = " + id);
-  }
-
   //Counters
   private int getCountFromQuery(String table,String selection, String[] selectionArgs) {
     Cursor mCursor = mDb.query(table,new String[] {"count(*)"},selection,selectionArgs,null,null,null);

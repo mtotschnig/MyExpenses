@@ -58,6 +58,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int CATEGORIES_INCREASE_USAGE = 14;
   private static final int PAYEES_ID = 15;
   private static final int METHODS_FILTERED = 16;
+  private static final int TEMPLATES_INCREASE_USAGE = 17;
   
   @Override
   public boolean onCreate() {
@@ -249,6 +250,8 @@ public class TransactionProvider extends ContentProvider {
 
   @Override
   public int delete(Uri uri, String where, String[] whereArgs) {
+    if (debug)
+      Log.d(TAG, "Delete for URL: " + uri);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     int count;
     String whereString;
@@ -256,6 +259,29 @@ public class TransactionProvider extends ContentProvider {
     switch (URI_MATCHER.match(uri)) {
     case TRANSACTIONS:
       count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
+      break;
+    case TRANSACTIONS_ID:
+      segment = uri.getPathSegments().get(1);
+      if (!TextUtils.isEmpty(where)) {
+        whereString = " AND (" + where + ')';
+      } else {
+        whereString = "";
+      }
+      count = db.delete(TABLE_TRANSACTIONS, "_id=" + segment + whereString,
+          whereArgs);
+      break;
+    case TEMPLATES:
+      count = db.delete(TABLE_TEMPLATES, where, whereArgs);
+      break;
+    case TEMPLATES_ID:
+      segment = uri.getPathSegments().get(1);
+      if (!TextUtils.isEmpty(where)) {
+        whereString = " AND (" + where + ')';
+      } else {
+        whereString = "";
+      }
+      count = db.delete(TABLE_TEMPLATES, "_id=" + segment + whereString,
+          whereArgs);
       break;
     case ACCOUNTTYPES_METHODS:
       count = db.delete(TABLE_ACCOUNTTYES_METHODS, where, whereArgs);
@@ -268,16 +294,6 @@ public class TransactionProvider extends ContentProvider {
         whereString = "";
       }
       count = db.delete(TABLE_ACCOUNTS, "_id=" + segment + whereString,
-          whereArgs);
-      break;
-    case TRANSACTIONS_ID:
-      segment = uri.getPathSegments().get(1);
-      if (!TextUtils.isEmpty(where)) {
-        whereString = " AND (" + where + ')';
-      } else {
-        whereString = "";
-      }
-      count = db.delete(TABLE_TRANSACTIONS, "_id=" + segment + whereString,
           whereArgs);
       break;
     case CATEGORIES_ID:
@@ -388,8 +404,13 @@ public class TransactionProvider extends ContentProvider {
       break;
     case CATEGORIES_INCREASE_USAGE:
       segment = uri.getPathSegments().get(1);
-      db.execSQL("update categories set usages = usages +1 WHERE _id IN (" + segment +
+      db.execSQL("update " + TABLE_CATEGORIES + " set usages = usages +1 WHERE _id IN (" + segment +
           " , (SELECT parent_id FROM categories WHERE _id = " + segment + "))");
+      count = 1;
+      break;
+    case TEMPLATES_INCREASE_USAGE:
+      segment = uri.getPathSegments().get(1);
+      db.execSQL("update " + TABLE_TEMPLATES + " set usages = usages +1 WHERE _id = " + segment);
       count = 1;
       break;
     default:
@@ -410,14 +431,15 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEES_ID);
     URI_MATCHER.addURI(AUTHORITY, "methods", METHODS);
-    //methodsFiltered/{TransactionType}/{AccountType}
+    URI_MATCHER.addURI(AUTHORITY, "methods/#", METHOD_ID);
+    //methods/typeFilter/{TransactionType}/{AccountType}
     //TransactionType: 1 Income, -1 Expense
     //AccountType: CASH BANK CCARD ASSET LIABILITY
-    URI_MATCHER.addURI(AUTHORITY, "methods/#", METHOD_ID);
     URI_MATCHER.addURI(AUTHORITY, "methods/typeFilter/*/*", METHODS_FILTERED);
     URI_MATCHER.addURI(AUTHORITY, "aggregates", AGGREGATES);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATES_ID);
+    URI_MATCHER.addURI(AUTHORITY, "templates/#/increaseUsage", TEMPLATES_INCREASE_USAGE);
   }
 }

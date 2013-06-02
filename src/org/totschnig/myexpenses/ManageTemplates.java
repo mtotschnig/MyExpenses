@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses;
 
+import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 
 import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
@@ -34,12 +35,10 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupClickListener;
 
-public class ManageTemplates extends ProtectedExpandableListActivity implements ContribIFace {
-  //private static final int DELETE_CONFIRM_DIALOG_ID = 1;
-  private MyExpandableListAdapter mAdapter;
-  private ExpensesDbAdapter mDbHelper;
-  private Cursor mAccountsCursor;
+public class ManageTemplates extends ProtectedFragmentActivity implements ContribIFace  {
 
   private static final int DELETE_TEMPLATE = Menu.FIRST;
   private static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;
@@ -61,23 +60,6 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
       setContentView(R.layout.manage_templates);
       setTitle(R.string.pref_manage_templates_title);
       MyApplication.updateUIWithAppColor(this);
-      mDbHelper = MyApplication.db();
-      
-      ((TextView) findViewById(android.R.id.empty)).setText(R.string.no_templates);
-      //TODO
-      //mAccountsCursor = mDbHelper.fetchAccountAll();
-      startManagingCursor(mAccountsCursor);
-      mAdapter = new MyExpandableListAdapter(mAccountsCursor,
-          this,
-          android.R.layout.simple_expandable_list_item_1,
-          android.R.layout.simple_expandable_list_item_1,
-          new String[]{"label"},
-          new int[] {android.R.id.text1},
-          new String[] {"title"},
-          new int[] {android.R.id.text1});
-
-  setListAdapter(mAdapter);
-  registerForContextMenu(getExpandableListView());
   }
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
@@ -97,20 +79,14 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
   }
   @Override
   public boolean onContextItemSelected(MenuItem item) {
-      long id;
       ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
       int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+      long id =  info.id;
       Intent intent;
       if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-        Cursor childCursor = (Cursor) mAdapter.getChild(
-            ExpandableListView.getPackedPositionGroup(info.packedPosition),
-            ExpandableListView.getPackedPositionChild(info.packedPosition)
-        );
-        id =  childCursor.getLong(childCursor.getColumnIndexOrThrow("_id"));
         switch(item.getItemId()) {
           case DELETE_TEMPLATE:   
-            mDbHelper.deleteTemplate(id);
-            mAccountsCursor.requery();
+            Template.delete(id);
             break;
           case CREATE_INSTANCE_SAVE:
             if (Transaction.getInstanceFromTemplate(id).save() == null)
@@ -137,34 +113,11 @@ public class ManageTemplates extends ProtectedExpandableListActivity implements 
         intent.putExtra("operationType",
             item.getItemId() == NEW_TRANSACTION ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
         intent.putExtra("newTemplate", true);
-        intent.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID,
-            mAccountsCursor.getLong(mAccountsCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ROWID)));
+        intent.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID,id);
         startActivity(intent);
       }
       return true;
     }
-
-  public class MyExpandableListAdapter extends SimpleCursorTreeAdapter2 {
-    
-    public MyExpandableListAdapter(Cursor cursor, Context context, int groupLayout,
-            int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
-            int[] childrenTo) {
-        super(context, cursor, groupLayout, groupFrom, groupTo, childLayout, childrenFrom,
-                childrenTo);
-    }
-    /* (non-Javadoc)
-     * returns a cursor with the subcategories for the group
-     * @see android.widget.CursorTreeAdapter#getChildrenCursor(android.database.Cursor)
-     */
-    @Override
-    protected Cursor getChildrenCursor(Cursor groupCursor) {
-        // Given the group, we return a cursor for all the children within that group
-      long account_id = groupCursor.getLong(mAccountsCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ROWID));
-      Cursor itemsCursor = mDbHelper.fetchTemplates(account_id);
-      startManagingCursor(itemsCursor);
-      return itemsCursor;
-    }
-  }
   @Override
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);

@@ -384,7 +384,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     menu.findItem(R.id.RESET_ACCOUNT_COMMAND)
       .setVisible(mCurrentAccount.getSize() > 0);
     menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
-      .setVisible(MyApplication.db().getTemplateCount(mCurrentAccount.id) > 0);
+      .setVisible(Template.countPerAccount(mCurrentAccount.id) > 0);
     return true;
   }
 
@@ -680,7 +680,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       final Long[] templateIds = Utils.getLongArrayFromCursor(templates, KEY_ROWID);
       templates.close();
       return new AlertDialog.Builder(this)
-        .setTitle(R.string.dialog_title_select_account)
+        .setTitle("Pick a template")
         .setSingleChoiceItems(templateTitles, -1, new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int item) {
             //TODO: check if we could renounce removing the dialog here, remove it only when a new template is defined

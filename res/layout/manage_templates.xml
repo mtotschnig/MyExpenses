@@ -18,20 +18,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="fill_parent"
-      android:layout_height="1px"
-      android:layout_weight="1"
-      android:orientation="vertical">
-    <ExpandableListView
-        style="?attr/listStyle"
-        android:id="@+id/android:list"
-        android:layout_width="fill_parent" 
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:drawSelectorOnTop="false" />
-	  <TextView android:id="@+id/android:empty"
-	      android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"/>
-  </LinearLayout>
+  <fragment android:name="org.totschnig.myexpenses.fragment.TemplatesList"
+              android:id="@+id/category_list"
+              android:layout_width="fill_parent"
+              android:layout_height="0dp"
+              android:layout_weight="1" />
+  <include layout="@layout/new_buttonbar"/>
 </LinearLayout>
+
