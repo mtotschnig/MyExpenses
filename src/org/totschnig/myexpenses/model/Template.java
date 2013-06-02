@@ -103,6 +103,7 @@ public class Template extends Transaction {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_TRANSFER_PEER, transfer_peer);
       uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
+      id = Integer.valueOf(uri.getLastPathSegment());
     } else {
       Utils.recordUsage(MyApplication.ContribFeature.EDIT_TEMPLATE);
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
@@ -123,5 +124,8 @@ public class Template extends Transaction {
   }
   public static int countPerAccount(long catId) {
     return countPerAccount(CONTENT_URI,catId);
+  }
+  public static int countAll() {
+    return countAll(CONTENT_URI);
   }
 }

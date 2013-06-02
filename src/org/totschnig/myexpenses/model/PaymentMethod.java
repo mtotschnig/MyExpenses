@@ -153,6 +153,7 @@ public class PaymentMethod {
     initialValues.put("type",paymentType);
     if (id == 0) {
       uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
+      id = Integer.valueOf(uri.getLastPathSegment());
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
       MyApplication.cr().update(uri,initialValues,null,null);

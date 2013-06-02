@@ -363,13 +363,6 @@ public class ExpensesDbAdapter {
     mCursor.close();
     return result;
   }
-  /**
-   * @param accountId
-   * @return number of transactions for an account
-   */
-  public int getTransactionCountPerAccount(long accountId) {
-    return getCountFromQuery(TABLE_TRANSACTIONS,KEY_ACCOUNTID +" = " + accountId,null);
-  }
   
   public int getTransactionCountAll() {
     return getCountFromQuery(TABLE_TRANSACTIONS,null,null);

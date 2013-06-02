@@ -512,6 +512,7 @@ public class Account {
     
     if (id == 0) {
       uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
+      id = Integer.valueOf(uri.getLastPathSegment());
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
       MyApplication.cr().update(uri,initialValues,null,null);
@@ -521,7 +522,7 @@ public class Account {
     return uri;
   }
   public long getSize() {
-    return mDbHelper.getTransactionCountPerAccount(id);
+    return Transaction.countPerAccount(id);
   }
   public static int count(String selection,String[] selectionArgs) {
     Cursor cursor = MyApplication.cr().query(CONTENT_URI,new String[] {"count(*)"},

@@ -207,6 +207,7 @@ public class Transaction {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_TRANSFER_PEER,0);
       uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
+      id = Integer.valueOf(uri.getLastPathSegment());
       MyApplication.cr().update(
           TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(catId)).appendPath("increaseUsage").build(),
           null, null, null);
@@ -240,6 +241,9 @@ public class Transaction {
       return result;
     }
   }
+  public static int countAll(Uri uri) {
+    return count(uri,null,null);
+  }
   public static int countPerCategory(Uri uri,long catId) {
     //since cat_id stores the account to which is transfered for transfers
     //we have to restrict to normal transactions by checking if transfer_peer is 0
@@ -254,10 +258,13 @@ public class Transaction {
   public static int countPerCategory(long catId) {
     return countPerCategory(CONTENT_URI,catId);
   }
-  public static int countPerMethod(long catId) {
-    return countPerMethod(CONTENT_URI,catId);
+  public static int countPerMethod(long methodId) {
+    return countPerMethod(CONTENT_URI,methodId);
   }
-  public static int countPerAccount(long catId) {
-    return countPerAccount(CONTENT_URI,catId);
+  public static int countPerAccount(long accountId) {
+    return countPerAccount(CONTENT_URI,accountId);
+  }
+  public static int countAll() {
+    return countAll(CONTENT_URI);
   }
 }

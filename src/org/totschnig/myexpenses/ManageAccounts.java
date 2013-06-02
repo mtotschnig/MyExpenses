@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication.ContribFeature;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.app.Activity;
@@ -69,7 +70,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   private static final int RESET_ID = Menu.FIRST + 1;
   private static final int DELETE_COMMAND_ID = 1;
   private static final int RESET_ACCOUNT_ALL_COMMAND_ID = 2;
-  private ExpensesDbAdapter mDbHelper;
   Cursor mAccountsCursor;
   Cursor mCurrencyCursor;
   private Button mAddButton, mAggregateButton, mResetAllButton;
@@ -89,8 +89,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
     MyApplication.updateUIWithAppColor(this);
     setTitle(R.string.pref_manage_accounts_title);
     getSupportLoaderManager().initLoader(0, null, this);
-    // Set up our adapter
-    mDbHelper = MyApplication.db();
+
     mAddButton = (Button) findViewById(R.id.addOperation);
     mAggregateButton = (Button) findViewById(R.id.aggregate);
     mAggregateButton.setOnClickListener(new View.OnClickListener() {
@@ -240,15 +239,16 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       mAccountsCursor.moveToFirst();
       while( mAccountsCursor.getPosition() < mAccountsCursor.getCount() ) {
         long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
-        if (mDbHelper.getTransactionCountPerAccount(accountId) > 0) {
           try {
             Account account = Account.getInstanceFromDb(accountId);
-            outputFile = new File(exportDir,
-                account.label.replaceAll("\\W","") + "-" + now +  ".qif");
-            account.exportAllDo(outputFile);
-            files.add(outputFile);
-            Toast.makeText(this,String.format(this.getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
-            account.reset();
+            if (account.getSize() > 0) {
+              outputFile = new File(exportDir,
+                  account.label.replaceAll("\\W","") + "-" + now +  ".qif");
+              account.exportAllDo(outputFile);
+              files.add(outputFile);
+              Toast.makeText(this,String.format(this.getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
+              account.reset();
+            }
           } catch (DataObjectNotFoundException e) {
             //should not happen
             Log.w("MyExpenses","unable to reset account " + accountId);
@@ -256,7 +256,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
             Log.e("MyExpenses",e.getMessage());
             Toast.makeText(this,getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
           }
-        }
         mAccountsCursor.moveToNext();
       }
       SharedPreferences settings = MyApplication.getInstance().getSettings();
@@ -275,7 +274,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   }
   private void configButtons () {
     mAggregateButton.setVisibility(mCurrencyCursor.getCount() > 0 ? View.VISIBLE : View.GONE);
-    mResetAllButton.setVisibility(mDbHelper.getTransactionCountAll() > 0 ? View.VISIBLE : View.GONE);
+    mResetAllButton.setVisibility(Transaction.countAll() > 0 ? View.VISIBLE : View.GONE);
   }
   private void setConvertedAmount(TextView tv,Currency currency) {
     tv.setText(Utils.convAmount(tv.getText().toString(),currency));
@@ -287,7 +286,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
     super.onCreateContextMenu(menu, v, menuInfo);
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
     menu.add(0, DELETE_ID, 0, R.string.menu_delete);
-    if (mDbHelper.getTransactionCountPerAccount(info.id) > 0)
+    if (Transaction.countPerAccount(info.id) > 0)
        menu.add(0,RESET_ID,0,R.string.menu_reset);
   }
 

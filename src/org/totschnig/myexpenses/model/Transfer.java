@@ -60,7 +60,7 @@ public class Transfer extends Transaction {
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
       uri = MyApplication.cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
-      long id = Integer.valueOf(uri.getLastPathSegment());
+      id = Integer.valueOf(uri.getLastPathSegment());
       initialValues.put(KEY_AMOUNT, 0 - amount);
       initialValues.put(KEY_CATID, accountId);
       initialValues.put(KEY_ACCOUNTID, catId);
