@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.model;
 
 import java.util.Date;
 
-import org.totschnig.myexpenses.DataObjectNotFoundException;
 import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.Money;
 import org.totschnig.myexpenses.MyApplication;

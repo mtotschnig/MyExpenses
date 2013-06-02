@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.totschnig.myexpenses.DataObjectNotFoundException;
 import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -28,6 +27,7 @@ import org.totschnig.myexpenses.R.id;
 import org.totschnig.myexpenses.R.layout;
 import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;

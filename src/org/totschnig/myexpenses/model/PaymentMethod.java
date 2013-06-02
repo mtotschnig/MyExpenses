@@ -20,7 +20,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.totschnig.myexpenses.DataObjectNotFoundException;
 import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;

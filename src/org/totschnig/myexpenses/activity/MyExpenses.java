@@ -24,7 +24,6 @@ import java.util.Iterator;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.ButtonBar;
-import org.totschnig.myexpenses.DataObjectNotFoundException;
 import org.totschnig.myexpenses.DialogUtils;
 import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
@@ -41,6 +40,7 @@ import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.R.style;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;

@@ -13,7 +13,7 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.model;
 
 public class DataObjectNotFoundException extends Exception {
 

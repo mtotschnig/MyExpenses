@@ -1,9 +1,9 @@
 package org.totschnig.myexpenses.fragment;
 
-import org.totschnig.myexpenses.DataObjectNotFoundException;
 import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageMethods;
+import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 

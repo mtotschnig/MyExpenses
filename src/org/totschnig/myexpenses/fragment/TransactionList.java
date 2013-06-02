@@ -4,7 +4,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.SimpleDateFormat;
 
-import org.totschnig.myexpenses.DataObjectNotFoundException;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.Utils;
@@ -14,6 +13,7 @@ import org.totschnig.myexpenses.R.layout;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.Intent;
