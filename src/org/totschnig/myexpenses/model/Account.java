@@ -25,10 +25,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -60,8 +58,6 @@ public class Account {
   public String description;
 
   public int color;
-
-  private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
 
   public static final String[] PROJECTION = new String[] {KEY_ROWID,"label","description","opening_balance","currency","color",
     "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and amount>0 and transfer_peer = 0) as sum_income",
@@ -429,21 +425,21 @@ public class Account {
     c.moveToFirst();
     while( c.getPosition() < c.getCount() ) {
       String comment = c.getString(
-          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
+          c.getColumnIndexOrThrow(KEY_COMMENT));
       comment = (comment == null || comment.length() == 0) ? "" : "\nM" + comment;
       String full_label = "";
       String label_main =  c.getString(
-          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_LABEL_MAIN));
+          c.getColumnIndexOrThrow(KEY_LABEL_MAIN));
 
       if (label_main != null && label_main.length() > 0) {
         long transfer_peer = c.getLong(
-            c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
+            c.getColumnIndexOrThrow(KEY_TRANSFER_PEER));
         if (transfer_peer != 0) {
           full_label = "[" + label_main + "]";
         } else {
           full_label = label_main;
           String label_sub =  c.getString(
-              c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_LABEL_SUB));
+              c.getColumnIndexOrThrow(KEY_LABEL_SUB));
           if (label_sub != null && label_sub.length() > 0) {
             full_label += ":" + label_sub;
           }
@@ -455,9 +451,9 @@ public class Account {
           c.getColumnIndexOrThrow("payee"));
       payee = (payee == null || payee.length() == 0) ? "" : "\nP" + payee;
       String dateStr = formatter.format(Utils.fromSQL(c.getString(
-          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE))));
+          c.getColumnIndexOrThrow(KEY_DATE))));
       long amount = c.getLong(
-          c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT));
+          c.getColumnIndexOrThrow(KEY_AMOUNT));
       String amountStr = new Money(currency,amount)
           .getAmountMajor().toPlainString();
       String row = "D"+ dateStr +

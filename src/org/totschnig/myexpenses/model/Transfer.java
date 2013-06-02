@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -30,7 +29,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  *
  */
 public class Transfer extends Transaction {
-  private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   
   public Transfer(long accountId,long amount) {
     super(accountId,amount);

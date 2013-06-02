@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.R.id;
@@ -25,6 +24,7 @@ import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -70,7 +70,7 @@ public class ManageMethods extends ProtectedFragmentActivity implements OnItemCl
   public void onItemClick(AdapterView<?> parent, View view, int position,
       long id) {
     Intent i = new Intent(this, MethodEdit.class);
-    i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
+    i.putExtra(DatabaseConstants.KEY_ROWID, id);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
   /* (non-Javadoc)

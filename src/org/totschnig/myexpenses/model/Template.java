@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.model;
 
 import java.util.Date;
 
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -67,19 +66,19 @@ public class Template extends Transaction {
       //TODO throw DataObjectNotFoundException
     }
     c.moveToFirst();
-    Template t = new Template(c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ACCOUNTID)),
-        c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT))  
+    Template t = new Template(c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID)),
+        c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT))  
         );
-    t.transfer_peer = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
-    t.methodId = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_METHODID));
+    t.transfer_peer = c.getLong(c.getColumnIndexOrThrow(KEY_TRANSFER_PEER));
+    t.methodId = c.getLong(c.getColumnIndexOrThrow(KEY_METHODID));
     t.id = id;
     t.comment = c.getString(
-        c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
+        c.getColumnIndexOrThrow(KEY_COMMENT));
     t.payee = c.getString(
-            c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE));
-    t.catId = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
+            c.getColumnIndexOrThrow(KEY_PAYEE));
+    t.catId = c.getLong(c.getColumnIndexOrThrow(KEY_CATID));
     t.label =  c.getString(c.getColumnIndexOrThrow("label"));
-    t.title = c.getString(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TITLE));
+    t.title = c.getString(c.getColumnIndexOrThrow(KEY_TITLE));
     c.close();
     return t;
   }

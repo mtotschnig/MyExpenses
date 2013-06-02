@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.fragment;
 
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
@@ -56,7 +56,7 @@ public class TemplatesList extends Fragment implements LoaderManager.LoaderCallb
     @Override
     protected Cursor getChildrenCursor(Cursor groupCursor) {
         // Given the group, we return a cursor for all the children within that group
-      long accountId = groupCursor.getLong(groupCursor.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ROWID));Bundle bundle = new Bundle();
+      long accountId = groupCursor.getLong(groupCursor.getColumnIndexOrThrow(DatabaseConstants.KEY_ROWID));Bundle bundle = new Bundle();
       bundle.putLong("account_id", accountId);
       int groupPos = groupCursor.getPosition();
       if (mManager.getLoader(groupPos) != null && !mManager.getLoader(groupPos).isReset()) {

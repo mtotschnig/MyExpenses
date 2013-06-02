@@ -15,24 +15,18 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.R.id;
-import org.totschnig.myexpenses.R.layout;
-import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.DialogUtils;
 
-import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -40,11 +34,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
 
 public class ManageTemplates extends ProtectedFragmentActivity implements ContribIFace  {
 
@@ -121,7 +112,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements Contri
         intent.putExtra("operationType",
             item.getItemId() == NEW_TRANSACTION ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
         intent.putExtra("newTemplate", true);
-        intent.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID,id);
+        intent.putExtra(DatabaseConstants.KEY_ACCOUNTID,id);
         startActivity(intent);
       }
       return true;

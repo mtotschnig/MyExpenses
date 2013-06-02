@@ -1,10 +1,10 @@
 package org.totschnig.myexpenses.fragment;
 
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageMethods;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.app.Activity;
@@ -31,7 +31,7 @@ public class MethodList extends Fragment implements LoaderManager.LoaderCallback
     View v = inflater.inflate(R.layout.accounts_list, null, false);
     final ListView lv = (ListView) v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{ExpensesDbAdapter.KEY_ROWID};
+    String[] from = new String[]{DatabaseConstants.KEY_ROWID};
     // and an array of the fields we want to bind those fields to 
     int[] to = new int[]{android.R.id.text1};
     // Now create a simple cursor adapter and set it to display

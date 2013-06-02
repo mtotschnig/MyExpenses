@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.provider;
 
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 
 import android.content.ContentProvider;
@@ -17,7 +16,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionProvider extends ContentProvider {
 
-  private TransactionDatabase mOpenHelper;
+  protected static TransactionDatabase mOpenHelper;
   private static final boolean debug = true;
   public static final String AUTHORITY = "org.totschnig.myexpenses";
   public static final Uri ACCOUNTS_URI = Uri.parse("content://" + AUTHORITY

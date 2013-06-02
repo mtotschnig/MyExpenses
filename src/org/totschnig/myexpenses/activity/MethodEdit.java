@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.R.id;
@@ -25,6 +24,7 @@ import org.totschnig.myexpenses.R.style;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -97,7 +97,7 @@ public class MethodEdit extends EditActivity {
    */
   private void populateFields() {
     Bundle extras = getIntent().getExtras();
-    long rowId = extras != null ? extras.getLong(ExpensesDbAdapter.KEY_ROWID)
+    long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID)
           : 0;
     if (rowId != 0) {
       try {

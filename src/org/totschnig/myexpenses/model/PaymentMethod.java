@@ -20,7 +20,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.R.string;
@@ -49,7 +48,6 @@ public class PaymentMethod {
    */
   private ArrayList<Account.Type> accountTypes = new ArrayList<Account.Type>();
   public PreDefined predef;
-  private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   
   public enum PreDefined {
     CHEQUE(-1),CREDITCARD(-1),DEPOSIT(1),DIRECTDEBIT(-1);

@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -43,7 +44,6 @@ import android.widget.Toast;
 public class MyApplication extends Application {
     private SharedPreferences settings;
     private String databaseName;
-    private ExpensesDbAdapter mDbOpenHelper;
     private static MyApplication mSelf;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
     public static String PREFKEY_CATEGORIES_SORT_BY_USAGES;
@@ -168,11 +168,6 @@ public class MyApplication extends Application {
         ctx.findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(color);
       }
     }
-    @Override
-    public void onTerminate() {
-      if(mDbOpenHelper != null)
-        mDbOpenHelper.close();
-    }
     public static MyApplication getInstance() {
       return mSelf;
     }
@@ -196,7 +191,7 @@ public class MyApplication extends Application {
       appDir = Utils.requireAppDir();
       if (appDir == null)
          return false;
-      if (mDbOpenHelper.backup()) {
+      if (DbUtils.backup()) {
         backupPrefFile = new File(appDir, BACKUP_PREF_PATH);
         //Samsung has special path on some devices
         //http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
@@ -247,35 +242,11 @@ public class MyApplication extends Application {
           return false;
         return backupDb.exists();
     }
-    public boolean restoreDb() {
-      boolean result = false;
-      try {
-        Account.clear();
-        PaymentMethod.clear();
-        File dataDir = new File("/data/data/"+ getPackageName()+ "/databases/");
-        dataDir.mkdir();
-        File backupDb = getBackupDbFile();
-        if (backupDb == null)
-          return false;
-        //line below gives app_databases instead of databases ???
-        //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
-        File currentDb = new File(dataDir,databaseName);
-
-        if (backupDb.exists()) {
-          mDbOpenHelper.close();
-          result = Utils.copy(backupDb,currentDb);
-          mDbOpenHelper.open();
-        }
-      } catch (Exception e) {
-        Log.e("MyExpenses",e.getLocalizedMessage());
-      }
-      return result;
-    }
     /**
      * @return true if backup successful and a relaunch required due to password protection
      */
     public static boolean backupRestore() {
-      if (mSelf.restoreDb()) {
+      if (DbUtils.restore()) {
         Toast.makeText(mSelf, mSelf.getString(R.string.restore_db_success), Toast.LENGTH_LONG).show();
         //if we found a database to restore, we also try to import corresponding preferences
         File backupPrefFile = getBackupPrefFile();
@@ -340,13 +311,7 @@ public class MyApplication extends Application {
      * @return the opened DB Adapter, if we find a backup, we return null 
      * to give the activity the chance to prompt the user for confirmation of restore
      */
-    public static ExpensesDbAdapter db() {
-      if(mSelf.mDbOpenHelper == null) {
-        mSelf.mDbOpenHelper = new ExpensesDbAdapter(mSelf);
-        mSelf.mDbOpenHelper.open();
-      }
-      return mSelf.mDbOpenHelper;
-    }
+
     public static ContentResolver cr() {
       return mSelf.getContentResolver();
     }

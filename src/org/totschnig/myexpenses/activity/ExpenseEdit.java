@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.R.id;
@@ -71,7 +70,6 @@ public class ExpenseEdit extends EditActivity {
   private long mTemplateId;
   private long mAccountId;
   private Account mAccount;
-  private ExpensesDbAdapter mDbHelper;
   private Calendar mCalendar = Calendar.getInstance();
   private final java.text.DateFormat mTitleDateFormat = java.text.DateFormat.
       getDateInstance(java.text.DateFormat.FULL);
@@ -116,10 +114,9 @@ public class ExpenseEdit extends EditActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mDbHelper = MyApplication.db();
 
     Bundle extras = getIntent().getExtras();
-    mRowId = extras.getLong(ExpensesDbAdapter.KEY_ROWID,0);
+    mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
     mTemplateId = extras.getLong("template_id",0);
     
     setContentView(R.layout.one_expense);
@@ -143,7 +140,7 @@ public class ExpenseEdit extends EditActivity {
       mOperationType = mTransaction.transfer_peer == 0;
     } else {
       mOperationType = extras.getBoolean("operationType");
-      mAccountId = extras.getLong(ExpensesDbAdapter.KEY_ACCOUNTID);
+      mAccountId = extras.getLong(DatabaseConstants.KEY_ACCOUNTID);
       if (extras.getBoolean("newTemplate",false))
         mTransaction = Template.getTypedNewInstance(mOperationType, mAccountId);
       else
@@ -268,7 +265,7 @@ public class ExpenseEdit extends EditActivity {
    */
   private void startSelectCategory() {
     Intent i = new Intent(this, SelectCategory.class);
-    //i.putExtra(ExpensesDbAdapter.KEY_ROWID, id);
+    //i.putExtra(DatabaseConstants.KEY_ROWID, id);
     startActivityForResult(i, SELECT_CATEGORY_REQUEST);
   }
   /**
@@ -337,7 +334,7 @@ public class ExpenseEdit extends EditActivity {
       PaymentMethod pm;
       if(paymentMethods.moveToFirst()){
        for (int i = 0; i < paymentMethods.getCount(); i++){
-         methodIds[i] = paymentMethods.getLong(paymentMethods.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+         methodIds[i] = paymentMethods.getLong(paymentMethods.getColumnIndex(DatabaseConstants.KEY_ROWID));
          try {
           pm = PaymentMethod.getInstanceFromDb(methodIds[i]);
         } catch (DataObjectNotFoundException e) {

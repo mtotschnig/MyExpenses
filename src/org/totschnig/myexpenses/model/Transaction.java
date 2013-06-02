@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.model;
 
 import java.util.Date;
 
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
@@ -54,7 +53,6 @@ public class Transaction {
    * we store the date directly from UI to DB without creating a Date object
    */
   protected String dateAsString;
-  private static ExpensesDbAdapter mDbHelper  = MyApplication.db();
   
   /**
    * factory method for retrieving an instance from the db with the given id
@@ -74,26 +72,26 @@ public class Transaction {
       //TODO throw DataObjectNotFoundException
     }
     c.moveToFirst();
-    long transfer_peer = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_TRANSFER_PEER));
-    long account_id = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_ACCOUNTID));
-    long amount = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_AMOUNT));
+    long transfer_peer = c.getLong(c.getColumnIndexOrThrow(KEY_TRANSFER_PEER));
+    long account_id = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
+    long amount = c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT));
     if (transfer_peer != 0) {
       t = new Transfer(account_id,amount);
       t.transfer_peer = transfer_peer;
     }
     else {
       t = new Transaction(account_id,amount);
-      t.methodId = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_METHODID));
+      t.methodId = c.getLong(c.getColumnIndexOrThrow(KEY_METHODID));
     }
     
     t.id = id;
     t.setDate(c.getString(
-        c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_DATE)));
+        c.getColumnIndexOrThrow(KEY_DATE)));
     t.comment = c.getString(
-        c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_COMMENT));
+        c.getColumnIndexOrThrow(KEY_COMMENT));
     t.payee = c.getString(
-            c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_PAYEE));
-    t.catId = c.getLong(c.getColumnIndexOrThrow(ExpensesDbAdapter.KEY_CATID));
+            c.getColumnIndexOrThrow(KEY_PAYEE));
+    t.catId = c.getLong(c.getColumnIndexOrThrow(KEY_CATID));
     t.label = c.getString(c.getColumnIndexOrThrow("label"));
     c.close();
     return t;
@@ -227,19 +225,19 @@ public class Transaction {
     args.put(KEY_ACCOUNTID, whereAccountId);
     MyApplication.cr().update(Uri.parse(CONTENT_URI + "/" + whichTransactionId), args, null, null);
   }
-  public static int count(Uri uri,String selection,String[] selectionArgs) {
-    Cursor mCursor = MyApplication.cr().query(uri,new String[] {"count(*)"},
-        selection, selectionArgs, null);
-    if (mCursor.getCount() == 0) {
-      mCursor.close();
-      return 0;
-    } else {
-      mCursor.moveToFirst();
-      int result = mCursor.getInt(0);
-      mCursor.close();
-      return result;
+    public static int count(Uri uri,String selection,String[] selectionArgs) {
+      Cursor cursor = MyApplication.cr().query(uri,new String[] {"count(*)"},
+          selection, selectionArgs, null);
+      if (cursor.getCount() == 0) {
+        cursor.close();
+        return 0;
+      } else {
+        cursor.moveToFirst();
+        int result = cursor.getInt(0);
+        cursor.close();
+        return result;
+      }
     }
-  }
   public static int countAll(Uri uri) {
     return count(uri,null,null);
   }

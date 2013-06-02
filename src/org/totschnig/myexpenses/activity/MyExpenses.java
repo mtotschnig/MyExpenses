@@ -24,7 +24,6 @@ import java.util.Iterator;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.ButtonBar;
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ButtonBar.Action;
@@ -250,7 +249,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       currentPosition = 0;
     myPager.setCurrentItem(currentPosition);
     mAccountsCursor.moveToPosition(currentPosition);
-    long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+    long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
     try {
       setCurrentAccount(Account.getInstanceFromDb(accountId));
     } catch (DataObjectNotFoundException e) {
@@ -264,7 +263,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     mAccountsCursor.moveToFirst();
     int currentPosition = 0;
     while (mAccountsCursor.isAfterLast() == false) {
-      if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)) == mCurrentAccount.id) {
+      if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID)) == mCurrentAccount.id) {
         currentPosition = mAccountsCursor.getPosition();
       }
       mAccountsCursor.moveToNext();
@@ -281,7 +280,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         mSwitchButton.addItem(
             otherAccounts.getString(otherAccounts.getColumnIndex("label")),
             R.id.SWITCH_ACCOUNT_COMMAND,
-            otherAccounts.getLong(otherAccounts.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
+            otherAccounts.getLong(otherAccounts.getColumnIndex(KEY_ROWID)));
         otherAccounts.moveToNext();
       }
     }
@@ -302,9 +301,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     if(gotTemplates) {
       for (int i = 0; i < templates.getCount(); i++) {
         mAddButton.addItem(
-            templates.getString(templates.getColumnIndex(ExpensesDbAdapter.KEY_TITLE)),
+            templates.getString(templates.getColumnIndex(KEY_TITLE)),
             R.id.NEW_FROM_TEMPLATE_COMMAND,
-            templates.getLong(templates.getColumnIndex(ExpensesDbAdapter.KEY_ROWID)));
+            templates.getLong(templates.getColumnIndex(KEY_ROWID)));
         templates.moveToNext();
       }
     }
@@ -825,7 +824,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private void createRow(boolean type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
-    i.putExtra(ExpensesDbAdapter.KEY_ACCOUNTID,mCurrentAccount.id);
+    i.putExtra(KEY_ACCOUNTID,mCurrentAccount.id);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
 
@@ -1132,7 +1131,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       break;
     case R.id.EDIT_ACCOUNT_COMMAND:
       i = new Intent(MyExpenses.this, AccountEdit.class);
-      i.putExtra(ExpensesDbAdapter.KEY_ROWID, mCurrentAccount.id);
+      i.putExtra(KEY_ROWID, mCurrentAccount.id);
       startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
       break;
     case R.id.ACCOUNT_OVERVIEW_COMMAND:
@@ -1292,14 +1291,14 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     @Override
     public Fragment getItem(int position) {
       mAccountsCursor.moveToPosition(position);
-      long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+      long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
       return TransactionList.newInstance(accountId);
     }
   }
   @Override
   public void onPageSelected(int position) {
     mAccountsCursor.moveToPosition(position);
-    long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(ExpensesDbAdapter.KEY_ROWID));
+    long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
     mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
     .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, mCurrentAccount.id)
     .commit();

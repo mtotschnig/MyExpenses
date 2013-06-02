@@ -35,7 +35,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 */
 
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.R.raw;
@@ -462,7 +461,6 @@ public class GrisbiImport extends ProtectedActivity implements DialogInterface.O
     InputStream catXML;
     private int max, totalImportedCat, totalImportedParty;
     Result result;
-    private ExpensesDbAdapter mDbHelper;
     int progress=0;
     String grisbiFileVersion;
     /**
@@ -485,7 +483,6 @@ public class GrisbiImport extends ProtectedActivity implements DialogInterface.O
     public MyAsyncTask(GrisbiImport activity,int source) {
       attach(activity);
       this.source = source;
-      mDbHelper = MyApplication.db();
     }
     public void setTitle(String title) {
       this.title = title;
