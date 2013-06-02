@@ -35,10 +35,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 */
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.R.raw;
-import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.util.CategoryTree;

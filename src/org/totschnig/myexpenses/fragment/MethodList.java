@@ -1,14 +1,12 @@
 package org.totschnig.myexpenses.fragment;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ManageMethods;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.app.Activity;
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

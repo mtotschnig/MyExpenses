@@ -20,9 +20,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 //TODO implement complete DAO
 //for the moment we only wrap calls to the content provider

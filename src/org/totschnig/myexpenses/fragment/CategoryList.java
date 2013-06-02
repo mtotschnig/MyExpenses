@@ -4,8 +4,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.R.id;
-import org.totschnig.myexpenses.R.layout;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 //TODO: check if we still need this workaround class:

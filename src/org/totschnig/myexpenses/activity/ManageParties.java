@@ -17,8 +17,6 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.R.layout;
-import org.totschnig.myexpenses.R.string;
 
 import android.database.Cursor;
 import android.os.Bundle;

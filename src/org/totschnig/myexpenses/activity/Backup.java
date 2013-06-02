@@ -19,8 +19,6 @@ import java.io.File;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.R.id;
-import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.DialogUtils;
 import org.totschnig.myexpenses.util.Utils;

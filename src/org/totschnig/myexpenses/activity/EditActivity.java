@@ -18,12 +18,9 @@ package org.totschnig.myexpenses.activity;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Calendar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.R.color;
-import org.totschnig.myexpenses.R.id;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Intent;

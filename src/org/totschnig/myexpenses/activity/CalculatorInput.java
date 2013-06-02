@@ -24,8 +24,6 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.R.id;
-import org.totschnig.myexpenses.R.layout;
 
 import java.math.BigDecimal;
 import java.util.Stack;

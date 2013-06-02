@@ -20,9 +20,6 @@ import java.net.URI;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.R.id;
-import org.totschnig.myexpenses.R.layout;
-import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.util.DialogUtils;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -38,7 +35,6 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
-import android.view.View;
 import android.widget.Toast;
  
 /**

@@ -19,12 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.Utils;
 
