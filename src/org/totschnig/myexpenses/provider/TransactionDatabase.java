@@ -1,5 +1,8 @@
 package org.totschnig.myexpenses.provider;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import org.totschnig.myexpenses.model.PaymentMethod;
 
 import android.content.ContentValues;
@@ -85,6 +88,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String PAYEE_CREATE =
     "CREATE TABLE " + TABLE_PAYEES
       + " (_id integer primary key autoincrement, name text unique not null);";
+  public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
 
   TransactionDatabase(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);

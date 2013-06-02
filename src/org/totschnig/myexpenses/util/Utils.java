@@ -39,13 +39,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.EnumSet;
 
-import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.R.id;
 import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.provider.TransactionDatabase;
 
 import android.app.Activity;
 import android.content.Context;
@@ -151,7 +151,7 @@ public class Utils {
 
   public static Date fromSQL(String dateString) {
     try {
-      return ExpensesDbAdapter.dateFormat.parse(dateString);
+      return TransactionDatabase.dateFormat.parse(dateString);
     } catch (ParseException e) {
       return null;
     }

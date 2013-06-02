@@ -20,6 +20,7 @@ import java.util.Date;
 import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -164,7 +165,7 @@ public class Transaction {
   /**
    * we store the date string and create a date object from it
    * this is only used with String stored in the database, where we are sure that they are correctly formated
-   * @param strDate format accepted by {@link ExpensesDbAdapter#dateFormat}
+   * @param strDate format accepted by {@link TransactionDatabase#dateFormat}
    */
   private void setDate(String strDate) {
     //as a temporary shortcut we store the date as string,
@@ -175,7 +176,7 @@ public class Transaction {
   }
   public void setDate(Date date){
     this.date = date;
-    dateAsString = ExpensesDbAdapter.dateFormat.format(date);
+    dateAsString = TransactionDatabase.dateFormat.format(date);
   }
   /**
    * 
