@@ -266,4 +266,17 @@ public class Transaction {
   public static int countAll() {
     return countAll(CONTENT_URI);
   }
+  /**
+   * @return the number of transactions that have been created since creation of the db based on sqllite sequence
+   */
+  public static long getTransactionSequence() {
+    Cursor mCursor = MyApplication.cr().query(TransactionProvider.SQLITE_SEQUENCE_TRANSACTIONS_URI,
+        null, null, null, null);
+    if (mCursor.getCount() == 0)
+      return 0;
+    mCursor.moveToFirst();
+    int result = mCursor.getInt(0);
+    mCursor.close();
+    return result;
+  }
 }

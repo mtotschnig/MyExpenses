@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.DialogUtils;
 import org.totschnig.myexpenses.util.Utils;
@@ -448,7 +449,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     updateUIforCurrentAccount();
     if (requestCode == ACTIVITY_EDIT) {
       long nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
-      long transactionCount = MyApplication.db().getTransactionSequence();
+      long transactionCount = Transaction.getTransactionSequence();
       if (nextReminder != -1 && transactionCount >= nextReminder) {
         showDialogWrapper(R.id.REMIND_RATE_DIALOG);
         return;
@@ -970,10 +971,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         app.addVersionInfo(Html.fromHtml(getString(R.string.version_39_upgrade_info,Utils.getContribFeatureLabelsAsFormattedList(this))));
       }
       if (prev_version < 40) {
-        MyApplication.db().fixDateValues();
+        DbUtils.fixDateValues();
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
-        mSettings.edit().putLong("nextReminderContrib",MyApplication.db().getTransactionSequence()+23).commit();
+        mSettings.edit().putLong("nextReminderContrib",Transaction.getTransactionSequence()+23).commit();
         app.addVersionInfo(getString(R.string.version_40_upgrade_info));
       }
       if (prev_version < 41) {
@@ -1195,7 +1196,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.REMIND_LATER_COMMAND:
       String key = "nextReminder" + (String) tag;
       long treshold = ((String) tag).equals("Rate") ? TRESHOLD_REMIND_RATE : TRESHOLD_REMIND_CONTRIB;
-      mSettings.edit().putLong(key,MyApplication.db().getTransactionSequence()+treshold).commit();
+      mSettings.edit().putLong(key,Transaction.getTransactionSequence()+treshold).commit();
     default:
       return false;
     }
