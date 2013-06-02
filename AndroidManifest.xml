@@ -23,28 +23,28 @@
     <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="8"></uses-sdk>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application android:name="org.totschnig.myexpenses.MyApplication" android:icon="@drawable/icon" android:label="My Expenses">
-        <activity android:name=".MyExpenses" android:label="@string/app_name">
+        <activity android:name=".activity.MyExpenses" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ExpenseEdit"/>
-        <activity android:name=".AccountEdit"/>
-        <activity android:name=".MethodEdit"/>
-        <activity android:name=".SelectCategory">
+        <activity android:name=".activity.ExpenseEdit"/>
+        <activity android:name=".activity.AccountEdit"/>
+        <activity android:name=".activity.MethodEdit"/>
+        <activity android:name=".activity.SelectCategory">
           <intent-filter>  
               <action android:name="myexpenses.intent.manage.categories"/>  
-              <category android:name="android.intent.category.DEFAULT" />  
+              <category android:name="android.intent.category.DEFAULT" />
           </intent-filter>
         </activity>
-        <activity android:name=".ManageAccounts">
+        <activity android:name=".activity.ManageAccounts">
           <intent-filter>  
               <action android:name="myexpenses.intent.manage.accounts"/>  
               <category android:name="android.intent.category.DEFAULT" />  
             </intent-filter>
         </activity>
-        <activity android:name=".Backup"
+        <activity android:name=".activity.Backup"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
           <intent-filter>
               <action android:name="myexpenses.intent.backup"/>  
@@ -55,27 +55,27 @@
               <category android:name="android.intent.category.DEFAULT" />
           </intent-filter>
         </activity>
-        <activity android:name=".GrisbiImport"
+        <activity android:name=".activity.GrisbiImport"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
           <intent-filter>
-              <action android:name="myexpenses.intent.import_from_grisbi"/>  
-              <category android:name="android.intent.category.DEFAULT" />  
-            </intent-filter>
+            <action android:name="myexpenses.intent.import_from_grisbi"/>
+            <category android:name="android.intent.category.DEFAULT" />
+          </intent-filter>
         </activity>
-        <activity android:name=".MyPreferenceActivity"/>
+        <activity android:name=".activity.MyPreferenceActivity"/>
         <activity android:name=".ManageParties">
              <intent-filter>  
-              <action android:name="myexpenses.intent.manage.parties"/>  
-              <category android:name="android.intent.category.DEFAULT" />  
+              <action android:name="myexpenses.intent.manage.parties"/>
+              <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ManageTemplates">
+        <activity android:name=".activity.ManageTemplates">
              <intent-filter>  
-              <action android:name="myexpenses.intent.manage.templates"/>  
-              <category android:name="android.intent.category.DEFAULT" />  
+              <action android:name="myexpenses.intent.manage.templates"/>
+              <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ManageMethods">
+        <activity android:name=".activity.ManageMethods">
              <intent-filter>  
               <action android:name="myexpenses.intent.manage.methods"/>  
               <category android:name="android.intent.category.DEFAULT" />  
