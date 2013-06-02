@@ -225,8 +225,8 @@ public class Transaction {
     args.put(KEY_ACCOUNTID, whereAccountId);
     MyApplication.cr().update(Uri.parse(CONTENT_URI + "/" + whichTransactionId), args, null, null);
   }
-  public static int count(String selection,String[] selectionArgs) {
-    Cursor mCursor = MyApplication.cr().query(CONTENT_URI,new String[] {"count(*)"},
+  public static int count(Uri uri,String selection,String[] selectionArgs) {
+    Cursor mCursor = MyApplication.cr().query(uri,new String[] {"count(*)"},
         selection, selectionArgs, null);
     if (mCursor.getCount() == 0) {
       mCursor.close();
@@ -238,12 +238,24 @@ public class Transaction {
       return result;
     }
   }
-  public static int countPerCategory(long catId) {
+  public static int countPerCategory(Uri uri,long catId) {
     //since cat_id stores the account to which is transfered for transfers
     //we have to restrict to normal transactions by checking if transfer_peer is 0
-    return count(KEY_TRANSFER_PEER + " = 0 AND " + KEY_CATID + " = ?",new String[] {String.valueOf(catId)});
+    return count(uri, KEY_TRANSFER_PEER + " = 0 AND " + KEY_CATID + " = ?",new String[] {String.valueOf(catId)});
   }
-  public static int countPerMethod(long methodId) {
-    return count(KEY_METHODID + " = ?",new String[] {String.valueOf(methodId)});
+  public static int countPerMethod(Uri uri,long methodId) {
+    return count(uri, KEY_METHODID + " = ?",new String[] {String.valueOf(methodId)});
+  }
+  public static int countPerAccount(Uri uri,long accountId) {
+    return count(uri, KEY_ACCOUNTID + " = ?",new String[] {String.valueOf(accountId)});
+  }
+  public static int countPerCategory(long catId) {
+    return countPerCategory(CONTENT_URI,catId);
+  }
+  public static int countPerMethod(long catId) {
+    return countPerMethod(CONTENT_URI,catId);
+  }
+  public static int countPerAccount(long catId) {
+    return countPerAccount(CONTENT_URI,catId);
   }
 }
