@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.ExpensesDbAdapter;
-import org.totschnig.myexpenses.Money;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.Utils;

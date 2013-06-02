@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.EnumSet;
 
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Money;
 
 import android.app.Activity;
 import android.content.Context;

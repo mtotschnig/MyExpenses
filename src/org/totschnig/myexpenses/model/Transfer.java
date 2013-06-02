@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.model;
 
 import org.totschnig.myexpenses.ExpensesDbAdapter;
-import org.totschnig.myexpenses.Money;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
