@@ -173,7 +173,7 @@ public class Utils {
     return formatCurrency(new Money(currency,Long.valueOf(text)));
   }
   //TODO: create generic function
-  static String[] getStringArrayFromCursor(Cursor c, String field) {
+  public static String[] getStringArrayFromCursor(Cursor c, String field) {
     String[] result = new String[c.getCount()];
     if(c.moveToFirst()){
      for (int i = 0; i < c.getCount(); i++){
@@ -183,7 +183,7 @@ public class Utils {
     }
     return result;
   }
-  static Long[] getLongArrayFromCursor(Cursor c, String field) {
+  public static Long[] getLongArrayFromCursor(Cursor c, String field) {
     Long[] result = new Long[c.getCount()];
     if(c.moveToFirst()){
      for (int i = 0; i < c.getCount(); i++){
@@ -209,7 +209,7 @@ public class Utils {
    * Helper Method to Test if external Storage is Available
    * from http://www.ibm.com/developerworks/xml/library/x-androidstorage/index.html
    */
-  static boolean isExternalStorageAvailable() {
+  public static boolean isExternalStorageAvailable() {
       boolean state = false;
       String extStorageState = Environment.getExternalStorageState();
       if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
@@ -234,7 +234,7 @@ public class Utils {
     }
     return false;
   }
-  static void share(Context ctx, ArrayList<File> files,String target) {
+  public static void share(Context ctx, ArrayList<File> files,String target) {
     URI uri = null;
     Intent intent;
     String scheme = "mailto";

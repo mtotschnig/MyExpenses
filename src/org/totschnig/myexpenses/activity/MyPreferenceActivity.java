@@ -13,10 +13,18 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.activity;
 
 
 import java.net.URI;
+
+import org.totschnig.myexpenses.DialogUtils;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.Utils;
+import org.totschnig.myexpenses.R.id;
+import org.totschnig.myexpenses.R.layout;
+import org.totschnig.myexpenses.R.string;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -76,7 +84,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         String androidId = Secure.getString(getContentResolver(),Secure.ANDROID_ID);
         Intent i = new Intent(android.content.Intent.ACTION_SEND);
         i.setType("plain/text");
-        i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyExpenses.FEEDBACK_EMAIL });
+        i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyApplication.FEEDBACK_EMAIL });
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,
             "[" + getString(R.string.app_name) + "] " + getString(R.string.contrib_key));
         i.putExtra(android.content.Intent.EXTRA_TEXT,

@@ -13,12 +13,18 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.activity;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Calendar;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.Utils;
+import org.totschnig.myexpenses.R.color;
+import org.totschnig.myexpenses.R.id;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

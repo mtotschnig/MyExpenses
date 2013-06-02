@@ -84,7 +84,9 @@ public class MyApplication extends Application {
     }
 
     public boolean isLocked;
+    public static final String FEEDBACK_EMAIL = "myexpenses@totschnig.org";
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
+    public static final String HOST = "myexpenses.totschnig.org";
 
     public ArrayList<CharSequence> getVersionInfo() {
       return mVersionInfo;

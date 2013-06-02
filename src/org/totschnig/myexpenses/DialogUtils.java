@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses;
 
+import org.totschnig.myexpenses.activity.ContribIFace;
+import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.ContribFeature;
 
 import android.app.Activity;
@@ -133,7 +135,7 @@ public class DialogUtils {
   /**
    * one button centered takes up 33% width
    */
-  static void setDialogOneButton(View view,
+  public static void setDialogOneButton(View view,
       int neutralString, int neutralCommandId,Object neutralTag) {
     setButton((Button) view.findViewById(R.id.NEUTRAL_BUTTON),neutralString,neutralCommandId,neutralTag);
     view.findViewById(R.id.POSITIVE_BUTTON).setVisibility(View.INVISIBLE);
@@ -142,7 +144,7 @@ public class DialogUtils {
   /**
    * two buttons 50% width each
    */
-  static void setDialogTwoButtons(View view,
+  public static void setDialogTwoButtons(View view,
       int positiveString, int positiveCommandId,Object positiveTag,
       int negativeString, int negativeCommandId,Object negativeTag) {
     setButton((Button) view.findViewById(R.id.POSITIVE_BUTTON),positiveString,positiveCommandId,positiveTag);
@@ -152,7 +154,7 @@ public class DialogUtils {
   /**
    * three buttons 33% width each
    */
-  static void setDialogThreeButtons(View view,
+  public static void setDialogThreeButtons(View view,
       int positiveString, int positiveCommandId,Object positiveTag,
       int neutralString, int neutralCommandId,Object neutralTag,
       int negativeString, int negativeCommandId,Object negativeTag) {
@@ -257,7 +259,7 @@ public class DialogUtils {
         ctx.dismissDialog(R.id.DONATE_DIALOG);
         if (v.getId() == R.id.WEB_COMMAND) {
           Intent i = new Intent(Intent.ACTION_VIEW);
-          i.setData(Uri.parse("http://" + MyExpenses.HOST + "/#" + (String) v.getTag()));
+          i.setData(Uri.parse("http://" + MyApplication.HOST + "/#" + (String) v.getTag()));
           startActivity(i);
         }
       }

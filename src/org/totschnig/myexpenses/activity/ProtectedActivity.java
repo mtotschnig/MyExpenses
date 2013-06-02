@@ -13,7 +13,10 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.activity;
+
+import org.totschnig.myexpenses.DialogUtils;
+import org.totschnig.myexpenses.MyApplication;
 
 import android.app.Activity;
 import android.app.Dialog;

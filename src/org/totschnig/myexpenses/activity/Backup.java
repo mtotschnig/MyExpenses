@@ -13,10 +13,16 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.activity;
 
 import java.io.File;
 
+import org.totschnig.myexpenses.DialogUtils;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.Utils;
+import org.totschnig.myexpenses.R.id;
+import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.model.ContribFeature;
 
 import android.app.Dialog;

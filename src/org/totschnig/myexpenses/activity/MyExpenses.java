@@ -13,7 +13,7 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.activity;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,8 +23,22 @@ import java.util.Currency;
 import java.util.Iterator;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
+import org.totschnig.myexpenses.ButtonBar;
+import org.totschnig.myexpenses.DataObjectNotFoundException;
+import org.totschnig.myexpenses.DialogUtils;
+import org.totschnig.myexpenses.ExpensesDbAdapter;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.Utils;
 import org.totschnig.myexpenses.ButtonBar.Action;
 import org.totschnig.myexpenses.ButtonBar.MenuButton;
+import org.totschnig.myexpenses.R.attr;
+import org.totschnig.myexpenses.R.color;
+import org.totschnig.myexpenses.R.drawable;
+import org.totschnig.myexpenses.R.id;
+import org.totschnig.myexpenses.R.layout;
+import org.totschnig.myexpenses.R.string;
+import org.totschnig.myexpenses.R.style;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
@@ -105,9 +119,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   static final int TRESHOLD_REMIND_RATE = 47;
   static final int TRESHOLD_REMIND_CONTRIB = 113;
   
-  static final String HOST = "myexpenses.totschnig.org";
-  static final String FEEDBACK_EMAIL = "myexpenses@totschnig.org";
-
   private ArrayList<Action> mMoreItems;
   
   //private ExpensesDbAdapter mDbHelper;
@@ -1052,7 +1063,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.FEEDBACK_COMMAND:
       i = new Intent(android.content.Intent.ACTION_SEND);
       i.setType("plain/text");
-      i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ FEEDBACK_EMAIL });
+      i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyApplication.FEEDBACK_EMAIL });
       i.putExtra(android.content.Intent.EXTRA_SUBJECT,
           "[" + getString(R.string.app_name) + 
           getVersionName() + "] Feedback"
@@ -1131,7 +1142,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       break;
     case R.id.WEB_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse("http://" + HOST + "/#" + (String) tag));
+      i.setData(Uri.parse("http://" + MyApplication.HOST + "/#" + (String) tag));
       startActivity(i);
       break;
     case R.id.HELP_COMMAND:

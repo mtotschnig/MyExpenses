@@ -13,7 +13,7 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.activity;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,6 +35,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 */
 
+import org.totschnig.myexpenses.CategoryTree;
+import org.totschnig.myexpenses.ExpensesDbAdapter;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.Result;
+import org.totschnig.myexpenses.R.raw;
+import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Payee;
 import org.xml.sax.Attributes;

@@ -13,13 +13,15 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.activity;
+
+import org.totschnig.myexpenses.DialogUtils;
+import org.totschnig.myexpenses.MyApplication;
 
 import android.app.Dialog;
-import android.preference.PreferenceActivity;
+import android.support.v4.app.FragmentActivity;
 
-
-public class ProtectedPreferenceActivity extends PreferenceActivity {
+public class ProtectedFragmentActivity extends FragmentActivity {
   private Dialog pwDialog;
   @Override
   protected void onPause() {

@@ -21,8 +21,8 @@ import org.totschnig.myexpenses.DataObjectNotFoundException;
 import org.totschnig.myexpenses.ExpensesDbAdapter;
 import org.totschnig.myexpenses.Money;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.MyExpenses;
 import org.totschnig.myexpenses.Utils;
+import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;

@@ -11,7 +11,7 @@
  * - added support for small screen height
  * - retain state on orientation change
  ******************************************************************************/
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +21,11 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.R.id;
+import org.totschnig.myexpenses.R.layout;
 
 import java.math.BigDecimal;
 import java.util.Stack;

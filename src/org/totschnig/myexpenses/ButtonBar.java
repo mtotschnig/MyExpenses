@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
+import org.totschnig.myexpenses.activity.MyExpenses;
 
 import android.content.Context;
 import android.content.res.Configuration;

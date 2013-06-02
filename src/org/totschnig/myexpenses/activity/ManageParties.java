@@ -13,20 +13,28 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.R.layout;
+import org.totschnig.myexpenses.R.string;
 
-public interface ContribIFace {
-  /**
-   * @param feature
-   * called when the user clicks on "not yet", and calls the requested feature
-   */
-  void contribFeatureCalled(ContribFeature feature);
-  /**
-   * the user can either click on "Buy" or cancel the dialog
-   * for the moment, we are fine with the same callback for both cases,
-   * for example, in some cases, the calling activity might have to be finished
-   */
-  void contribFeatureNotCalled();
+import android.database.Cursor;
+import android.os.Bundle;
+import android.widget.Button;
+
+public class ManageParties extends ProtectedFragmentActivity {
+  Cursor mPartiesCursor;
+  Button mDeleteButton;
+
+  
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    setTheme(MyApplication.getThemeId());
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.manage_parties);
+    setTitle(R.string.pref_manage_parties_title);
+    MyApplication.updateUIWithAppColor(this);
+  }
 }

@@ -13,10 +13,19 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.activity;
 
 import java.math.BigDecimal;
 
+import org.totschnig.myexpenses.DataObjectNotFoundException;
+import org.totschnig.myexpenses.ExpensesDbAdapter;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.Utils;
+import org.totschnig.myexpenses.R.color;
+import org.totschnig.myexpenses.R.id;
+import org.totschnig.myexpenses.R.layout;
+import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.model.Account;
 
 import android.app.AlertDialog;
