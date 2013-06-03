@@ -127,8 +127,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccount.id)
       .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, current_account_id)
       .commit();
-    Log.i("DEBUG","Last account: " + current_account_id);
-    Log.i("DEBUG","Current account: " + newAccount.id);
+    updateUIforCurrentAccount();
   }
   private SharedPreferences mSettings;
   private Cursor mAccountsCursor;
@@ -439,7 +438,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     }
     //mAccountsCursor.requery();
     //myAdapter.notifyDataSetChanged();
-    updateUIforCurrentAccount();
     if (requestCode == ACTIVITY_EDIT) {
       long nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
       long transactionCount = Transaction.getTransactionSequence();
@@ -906,9 +904,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       return;
     if (prev_version == -1) {
       //we check if we already have an account
-      setCurrentAccount(requireAccount());
+      //setCurrentAccount(requireAccount());
 
-      edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
+      //edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
       showDialogWrapper(R.id.HELP_DIALOG);
     } else if (prev_version != current_version) {
@@ -1278,7 +1276,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       e.printStackTrace();
       throw new RuntimeException(e);
     }
-    updateUIforCurrentAccount();
   }
   public void updateUIforCurrentAccount() {
     View divider = findViewById(R.id.ButtonBarDividerTop);

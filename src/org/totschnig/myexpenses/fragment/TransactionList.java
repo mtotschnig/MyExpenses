@@ -42,7 +42,8 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
   private int colorExpense;
   private int colorIncome;
   private MyObserver observer;
-  private TextView balanceTV;
+  private TextView balanceTv,labelTv;
+  View heading;
   private Account account;
 
   public static TransactionList newInstance(long accountId) {
@@ -89,14 +90,10 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
     }
     
     View v = inflater.inflate(R.layout.expenses_list, null, false);
-    int textColor = Utils.getTextColorForBackground(account.color);
-    TextView tv = (TextView) v.findViewById(R.id.label);
-    tv.setText(account.label);
-    tv.setTextColor(textColor);
-    balanceTV = (TextView) v.findViewById(R.id.end);
-    balanceTV.setText(Utils.formatCurrency(account.getCurrentBalance()));
-    balanceTV.setTextColor(textColor);
-    v.findViewById(R.id.heading).setBackgroundColor(account.color);
+    heading = v.findViewById(R.id.heading);
+    labelTv = (TextView) v.findViewById(R.id.label);
+    balanceTv = (TextView) v.findViewById(R.id.end);
+    updateTitleView();
     ListView lv = (ListView) v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};
@@ -192,6 +189,14 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
 
   }
 
+  private void updateTitleView() {
+    heading.setBackgroundColor(account.color);
+    int textColor = Utils.getTextColorForBackground(account.color);
+    labelTv.setText(account.label);
+    labelTv.setTextColor(textColor);
+    balanceTv.setText(Utils.formatCurrency(account.getCurrentBalance()));
+    balanceTv.setTextColor(textColor);
+  }
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
     CursorLoader cursorLoader = new CursorLoader(getActivity(),
@@ -214,7 +219,7 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
      }
      public void onChange(boolean selfChange) {
        super.onChange(selfChange);
-       balanceTV.setText(Utils.formatCurrency(account.getCurrentBalance()));
+       updateTitleView();
      }
   }
 }
