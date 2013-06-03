@@ -75,7 +75,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   private static final int RESET_ID = Menu.FIRST + 1;
   private static final int DELETE_COMMAND_ID = 1;
   private static final int RESET_ACCOUNT_ALL_COMMAND_ID = 2;
-  Cursor mAccountsCursor;
   Cursor mCurrencyCursor;
   private Button mAddButton, mAggregateButton, mResetAllButton;
   private long mContextAccountId;
@@ -151,7 +150,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
     switch (id) {
     case DELETE_DIALOG_ID:
       return DialogUtils.createMessageDialog(this,R.string.warning_delete_account,DELETE_COMMAND_ID,null).create();
-    //TODO: move to dialogactivity or dialogfragment
+      //TODO: move to dialogactivity or dialogfragment
     case AGGREGATE_DIALOG_ID:
       LayoutInflater li = LayoutInflater.from(this);
       View view = li.inflate(R.layout.aggregate_dialog, null);
@@ -165,7 +164,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       int[] to = new int[]{R.id.currency,R.id.opening_balance,R.id.sum_income,R.id.sum_expenses,R.id.current_balance};
 
       // Now create a simple cursor adapter and set it to display
-      currencyAdapter = new SimpleCursorAdapter(this, R.layout.aggregate_row, mCurrencyCursor, from, to) {
+      currencyAdapter = new SimpleCursorAdapter(this, R.layout.aggregate_row, mCurrencyCursor, from, to,0) {
           @Override
           public View getView(int position, View convertView, ViewGroup parent) {
             View row=super.getView(position, convertView, parent);
@@ -241,9 +240,11 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       exportDir.mkdir();
       File outputFile;
       ArrayList<File> files = new ArrayList<File>();
-      mAccountsCursor.moveToFirst();
-      while( mAccountsCursor.getPosition() < mAccountsCursor.getCount() ) {
-        long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
+      Cursor accountsCursor = getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
+          new String[] {KEY_ROWID}, null, null, null);
+      accountsCursor.moveToFirst();
+      while( accountsCursor.getPosition() < accountsCursor.getCount() ) {
+        long accountId = accountsCursor.getLong(accountsCursor.getColumnIndex(KEY_ROWID));
           try {
             Account account = Account.getInstanceFromDb(accountId);
             if (account.getSize() > 0) {
@@ -261,8 +262,9 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
             Log.e("MyExpenses",e.getMessage());
             Toast.makeText(this,getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
           }
-        mAccountsCursor.moveToNext();
+        accountsCursor.moveToNext();
       }
+      accountsCursor.close();
       SharedPreferences settings = MyApplication.getInstance().getSettings();
       if (settings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
         Utils.share(this,files, settings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
