@@ -18,7 +18,7 @@ package org.totschnig.myexpenses.test;
 import java.math.BigDecimal;
 import java.util.Currency;
 
-import org.totschnig.myexpenses.Money;
+import org.totschnig.myexpenses.model.Money;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;

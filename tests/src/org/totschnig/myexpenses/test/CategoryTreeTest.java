@@ -17,7 +17,8 @@ package org.totschnig.myexpenses.test;
 
 import java.util.HashMap;
 
-import org.totschnig.myexpenses.CategoryTree;
+import org.totschnig.myexpenses.util.CategoryTree;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 

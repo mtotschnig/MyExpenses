@@ -18,9 +18,9 @@ package org.totschnig.myexpenses.test;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.totschnig.myexpenses.CategoryTree;
-import org.totschnig.myexpenses.GrisbiImport;
-import org.totschnig.myexpenses.Result;
+import org.totschnig.myexpenses.activity.GrisbiImport;
+import org.totschnig.myexpenses.util.CategoryTree;
+import org.totschnig.myexpenses.util.Result;
 
 import android.test.InstrumentationTestCase;
 

@@ -20,7 +20,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.Utils;
+import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.util.Utils;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -41,17 +42,5 @@ public class UtilsTest extends TestCase {
     nfDLocal.setParseIntegerOnly(true);
     Assert.assertEquals(0, Utils.validateNumber(nfDLocal,"470").compareTo(new BigDecimal(470)));
     Assert.assertNull(Utils.validateNumber(nfDLocal,"470.123"));
-  }
-  public void testRecordUsage() {
-    MyApplication.ContribFeature feature = MyApplication.ContribFeature.AGGREGATE;
-    Assert.assertEquals(5,Utils.usagesLeft(feature).intValue());
-    MyApplication.getInstance().isContribEnabled = false;
-    Utils.recordUsage(feature);
-    Assert.assertEquals(4,Utils.usagesLeft(feature).intValue());
-    MyApplication.getInstance().isContribEnabled = true;
-    Assert.assertEquals(4,Utils.usagesLeft(feature).intValue());
-    MyApplication.getInstance().isContribEnabled = false;
-    Utils.recordUsage(feature);
-    Assert.assertEquals(3,Utils.usagesLeft(feature).intValue());
   }
 }

@@ -15,7 +15,7 @@
 
 package org.totschnig.myexpenses.test;
 
-import org.totschnig.myexpenses.Account;
+import org.totschnig.myexpenses.model.Account;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;

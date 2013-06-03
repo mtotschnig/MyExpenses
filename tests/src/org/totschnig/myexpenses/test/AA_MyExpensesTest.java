@@ -16,8 +16,8 @@
 package org.totschnig.myexpenses.test;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.MyExpenses;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.MyExpenses;
 
 import com.jayway.android.robotium.solo.Solo;
 

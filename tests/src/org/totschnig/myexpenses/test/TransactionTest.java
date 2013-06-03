@@ -17,13 +17,13 @@ package org.totschnig.myexpenses.test;
 
 import java.util.Currency;
 
-import org.totschnig.myexpenses.Account;
-import org.totschnig.myexpenses.Money;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.MyExpenses;
-import org.totschnig.myexpenses.Template;
-import org.totschnig.myexpenses.Transaction;
-import org.totschnig.myexpenses.Transfer;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transfer;
 
 import android.test.AndroidTestCase;
 
@@ -47,14 +47,14 @@ public class TransactionTest extends AndroidTestCase {
       mAccount2.save();
   }
   public void testAA_Transaction() {
-    Assert.assertEquals(0, MyApplication.db().getTransactionSequence());
+    Assert.assertEquals(0, Transaction.getTransactionSequence());
     Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id);
     op1.amount = new Money(currency,100L);
     op1.comment = "test transfer";
-    long id = op1.save();
-    Assert.assertEquals(1, MyApplication.db().getTransactionSequence());
+    long id = Long.valueOf(op1.save().getLastPathSegment());
+    Assert.assertEquals(1, Transaction.getTransactionSequence());
     Transaction.delete(id);
-    Assert.assertEquals(1, MyApplication.db().getTransactionSequence());
+    Assert.assertEquals(1, Transaction.getTransactionSequence());
   }
   
   public void testTransfer() {

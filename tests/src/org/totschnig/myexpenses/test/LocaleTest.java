@@ -4,10 +4,10 @@ import java.util.Locale;
 
 import junit.framework.Assert;
 
-import org.totschnig.myexpenses.Account;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.MyExpenses;
-import org.totschnig.myexpenses.Transaction;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Transaction;
 
 import android.content.Context;
 import android.content.SharedPreferences;
