@@ -284,6 +284,7 @@ public class MyApplication extends Application {
             edit.commit();
             backupPref = null;
             tempPrefFile.delete();
+            mSelf.refreshContribEnabled();
             Toast.makeText(mSelf, mSelf.getString(R.string.restore_preferences_success), Toast.LENGTH_LONG).show();
             //if the backup is password protected, we want to force the password check
             //is it not enough to set mLastPause to zero, since it would be overwritten by the callings activity onpause
