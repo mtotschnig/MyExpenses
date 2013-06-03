@@ -223,7 +223,7 @@ public class DialogUtils {
       });
     } else {
       view.findViewById(R.id.POSITIVE_BUTTON).setVisibility(View.INVISIBLE);
-      view.findViewById(R.id.NEGATIVE_BUTTON).setVisibility(View.INVISIBLE);
+      lostBtn.setVisibility(View.INVISIBLE);
       okBtn = (Button) view.findViewById(R.id.NEUTRAL_BUTTON);
     }
     okBtn.setText(android.R.string.ok);
