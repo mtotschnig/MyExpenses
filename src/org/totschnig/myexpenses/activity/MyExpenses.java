@@ -23,6 +23,7 @@ import java.util.Iterator;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.ButtonBar;
+import org.totschnig.myexpenses.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ButtonBar.Action;
@@ -44,6 +45,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -117,9 +119,16 @@ public class MyExpenses extends ProtectedFragmentActivity implements
 
   private Account mCurrentAccount;
   
-  private void setCurrentAccount(Account mCurrentAccount) {
-    this.mCurrentAccount = mCurrentAccount;
-    MyApplication.setCurrentAccountColor(mCurrentAccount.color);
+  private void setCurrentAccount(Account newAccount) {
+    long current_account_id = mCurrentAccount != null? mCurrentAccount.id : 0;
+    this.mCurrentAccount = newAccount;
+    MyApplication.setCurrentAccountColor(newAccount.color);
+    if (current_account_id != newAccount.id)
+      mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccount.id)
+      .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, current_account_id)
+      .commit();
+    Log.i("DEBUG","Last account: " + current_account_id);
+    Log.i("DEBUG","Current account: " + newAccount.id);
   }
   private SharedPreferences mSettings;
   private Cursor mAccountsCursor;
@@ -218,7 +227,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     Resources.Theme theme = getTheme();
     TypedValue margin = new TypedValue();
     theme.resolveAttribute(R.attr.pageMargin,margin, true);
-    myAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
+    myAdapter = new MyViewPagerAdapter(this,getSupportFragmentManager(),null);
     myPager = (ViewPager) this.findViewById(R.id.viewpager);
     myPager.setAdapter(this.myAdapter);
     myPager.setOnPageChangeListener(this);
@@ -234,34 +243,23 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       }
     }
   }
-  private long moveToNextAccount() {
+  private void moveToNextAccount() {
     int currentPosition = myPager.getCurrentItem();
     currentPosition++;
-    if (currentPosition >= myPager.getChildCount())
+    if (currentPosition >= myAdapter.getCount())
       currentPosition = 0;
     myPager.setCurrentItem(currentPosition);
-    mAccountsCursor.moveToPosition(currentPosition);
-    long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
-    try {
-      setCurrentAccount(Account.getInstanceFromDb(accountId));
-    } catch (DataObjectNotFoundException e) {
-      //should not happen
-      Log.w("MyExpenses","unable to switch to account " + accountId);
-    }
-    updateUIforCurrentAccount();
-    return accountId;
   }
-  private void moveToCurrentAccount() {
+  private void moveToAccount(long accountId) {
     mAccountsCursor.moveToFirst();
     int currentPosition = 0;
     while (mAccountsCursor.isAfterLast() == false) {
-      if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID)) == mCurrentAccount.id) {
+      if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID)) == accountId) {
         currentPosition = mAccountsCursor.getPosition();
       }
       mAccountsCursor.moveToNext();
     }
     myPager.setCurrentItem(currentPosition);
-    updateUIforCurrentAccount();
   }
   private void fillSwitchButton() {
     mSwitchButton.clearMenu();
@@ -430,9 +428,13 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == ACTIVITY_CREATE_ACCOUNT && resultCode == RESULT_OK && intent != null) {
-         //mAccountsCursor.requery();
-         //myAdapter.notifyDataSetChanged();
-         switchAccount(intent.getLongExtra("account_id",0));
+         try {
+          //we cannot use switchaccount yet, since the cursor has not yet been swapped yet
+          setCurrentAccount(Account.getInstanceFromDb(intent.getLongExtra("account_id",0)));
+        } catch (DataObjectNotFoundException e) {
+          // should not happen
+          e.printStackTrace();
+        }
          return;
     }
     //mAccountsCursor.requery();
@@ -824,7 +826,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     //TODO: write a test if the case where the account stored in last_account
     //is deleted, is correctly handled
     //store current account id since we need it for setting last_account in the end
-    long current_account_id = mCurrentAccount.id;
     if (accountId == 0) {
       if (mSettings.getBoolean(MyApplication.PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR,ACCOUNT_BUTTON_CYCLE) == ACCOUNT_BUTTON_TOGGLE) {
         //first check if we have the last_account stored
@@ -837,20 +838,11 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     }
     //cycle behaviour
     if (accountId == 0) {
-      accountId = moveToNextAccount();
+      moveToNextAccount();
     } else {
-      try {
-        setCurrentAccount(Account.getInstanceFromDb(accountId));
-        moveToCurrentAccount();
-      } catch (DataObjectNotFoundException e) {
-        Log.w("MyExpenses","unable to switch to account " + accountId);
-        return;
-      }
+      moveToAccount(accountId);
     }
-    Toast.makeText(getBaseContext(),getString(R.string.switch_account,mCurrentAccount.label), Toast.LENGTH_SHORT).show();
-    mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
-      .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, current_account_id)
-      .commit();
+    //Toast.makeText(getBaseContext(),getString(R.string.switch_account,mCurrentAccount.label), Toast.LENGTH_SHORT).show();
   }
   
   /**
@@ -1261,31 +1253,17 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       startActivity(i);
     }
   }
-  private class MyViewPagerAdapter extends FragmentPagerAdapter {
-    public MyViewPagerAdapter(FragmentManager fm) {
-      super(fm);
-    }
-    @Override
-    public void destroyItem(View collection, int position, Object view) {
-      ((ViewPager) collection).removeView((View) view);
-    }
-    @Override
-    public int getItemPosition(Object object) {
-      return POSITION_NONE;
-  }
-    @Override
-    public int getCount() {
-      if (mAccountsCursor == null)
-        return 0;
-      return mAccountsCursor.getCount(); // Number of pages usually set with .length() or .size()
+  private class MyViewPagerAdapter extends CursorFragmentPagerAdapter {
+    public MyViewPagerAdapter(Context context, FragmentManager fm, Cursor cursor) {
+      super(context, fm, cursor);
     }
 
     @Override
-    public Fragment getItem(int position) {
-      mAccountsCursor.moveToPosition(position);
-      long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
+    public Fragment getItem(Context context, Cursor cursor) {
+      long accountId = cursor.getLong(cursor.getColumnIndex(KEY_ROWID));
       return TransactionList.newInstance(accountId);
     }
+
   }
   @Override
   public void onPageSelected(int position) {
@@ -1330,12 +1308,13 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+    myAdapter.swapCursor(cursor);
     mAccountsCursor = cursor;
-    moveToCurrentAccount();
+    moveToAccount(mCurrentAccount.id);
   }
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
-    mAccountsCursor = null;
+    myAdapter.swapCursor(null);
   }
   @Override
   public void onPageScrollStateChanged(int arg0) {
