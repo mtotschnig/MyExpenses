@@ -128,7 +128,8 @@ public abstract class CursorFragmentPagerAdapter extends FragmentPagerAdapter {
         }
 
         setItemPositions();
-        notifyDataSetChanged();
+        if (newCursor != null)
+          notifyDataSetChanged();
 
         return oldCursor;
     }
