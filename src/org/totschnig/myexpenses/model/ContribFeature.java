@@ -33,9 +33,11 @@ public enum ContribFeature {
     }
   }
   public void recordUsage() {
-    ContentValues initialValues = new ContentValues();
-    initialValues.put("feature", toString());
-    MyApplication.cr().insert(CONTENT_URI, initialValues);
+    if (!MyApplication.getInstance().isContribEnabled) {
+      ContentValues initialValues = new ContentValues();
+      initialValues.put("feature", toString());
+      MyApplication.cr().insert(CONTENT_URI, initialValues);
+    }
   }
   public int usagesLeft() {
     return USAGES_LIMIT - countUsages();
