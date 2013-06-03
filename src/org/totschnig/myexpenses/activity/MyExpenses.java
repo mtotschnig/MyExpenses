@@ -436,8 +436,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         }
          return;
     }
-    //mAccountsCursor.requery();
-    //myAdapter.notifyDataSetChanged();
+    updateUIforCurrentAccount();
     if (requestCode == ACTIVITY_EDIT) {
       long nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
       long transactionCount = Transaction.getTransactionSequence();
