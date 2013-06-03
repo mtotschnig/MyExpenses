@@ -56,6 +56,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -902,9 +903,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     if (prev_version == current_version)
       return;
     if (prev_version == -1) {
-      //we check if we already have an account
-      //setCurrentAccount(requireAccount());
-
+      //prevent preference change listener from firing when preference activity is called first time
+      PreferenceManager.setDefaultValues(this, R.layout.preferences, false);
       //edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
       showDialogWrapper(R.id.HELP_DIALOG);
