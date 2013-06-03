@@ -309,7 +309,6 @@
   <string name="sum_income">Gelirler</string>
   <string name="sum_expenses">Harcamalar</string>
   <string name="sum_transfer">Transferler</string>
-  <string name="switch_account">\"%1$s\" hesabına geçildi</string>
   <string name="template_create_success">\"%1$s\" şablonu başarıyla oluşturuldu</string>
   <string name="template_title_exists">\"%1$s\" başlıklı bir şablon zaten mevcut</string>
   <string name="time">Zaman</string>

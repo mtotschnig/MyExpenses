@@ -842,7 +842,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     } else {
       moveToAccount(accountId);
     }
-    //Toast.makeText(getBaseContext(),getString(R.string.switch_account,mCurrentAccount.label), Toast.LENGTH_SHORT).show();
   }
   
   /**

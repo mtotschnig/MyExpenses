@@ -346,7 +346,6 @@
   <string name="sum_income">Redditi</string>
   <string name="sum_expenses">Spese</string>
   <string name="sum_transfer">Trasferimenti</string>
-  <string name="switch_account">Cambiato al conto \"%1$s\"</string>
   <string name="template_create_success">Il modello \"%1$s\" è stato creato con successo</string>
   <string name="template_title_exists">Un modello con il nome \"%1$s\" già esiste</string>
   <string name="time">Ora</string>

@@ -351,7 +351,6 @@
   <string name="sum_income">Ingresos</string>
   <string name="sum_expenses">Gastos</string>
   <string name="sum_transfer">Traslados</string>
-  <string name="switch_account">Cambiado a la cuenta \"%1$s\"</string>
   <string name="template_create_success">Plantilla \"%1$s\" creada con éxito</string>
   <string name="template_title_exists">Ya existe una plantilla con título \"%1$s\" .</string>
   <string name="time">Hora</string>

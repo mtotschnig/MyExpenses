@@ -340,7 +340,6 @@
   <string name="select_parent_category">Choisir cette catégorie</string>
   <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
   <string name="share_sending">Envoyer le fichier QIF</string>
-  <string name="switch_account">Basculé vers le compte \"%1$s\"</string>
   <string name="suggest_use_standard_menu">Voulez-vous utiliser le menu standard Android pour
       les commandes, et cacher la barre de boutons?</string>
   <string name="sum_income">Revenus</string>

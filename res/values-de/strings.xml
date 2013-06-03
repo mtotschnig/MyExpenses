@@ -344,7 +344,6 @@
   <string name="sum_income">Einnahmen</string>
   <string name="sum_expenses">Ausgaben</string>
   <string name="sum_transfer">Umbuchungen</string>
-  <string name="switch_account">Zum Konto \"%1$s\" gewechselt</string>
   <string name="template_create_success">Vorlage \"%1$s\" erfolgreich angelegt</string>
   <string name="template_title_exists">Es existiert bereits eine Vorlage mit dem Titel \"%1$s\"</string>
   <string name="time">Zeit</string>
