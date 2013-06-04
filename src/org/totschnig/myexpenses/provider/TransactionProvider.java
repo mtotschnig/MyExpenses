@@ -304,6 +304,9 @@ public class TransactionProvider extends ContentProvider {
     case ACCOUNTTYPES_METHODS:
       count = db.delete(TABLE_ACCOUNTTYES_METHODS, where, whereArgs);
       break;
+    case ACCOUNTS:
+      count = db.delete(TABLE_ACCOUNTS, where, whereArgs);
+      break;
     case ACCOUNTS_ID:
       segment = uri.getPathSegments().get(1);
       if (!TextUtils.isEmpty(where)) {
@@ -371,6 +374,9 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.update(TABLE_TRANSACTIONS, values, "_id=" + segment + whereString,
           whereArgs);
+      break;
+    case ACCOUNTS:
+      count = db.update(TABLE_ACCOUNTS, values, where, whereArgs);
       break;
     case ACCOUNTS_ID:
       segment = uri.getPathSegments().get(1); 

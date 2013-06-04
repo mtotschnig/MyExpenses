@@ -14,6 +14,11 @@ public class DatabaseConstants {
   public static final String KEY_LABEL_MAIN = "label_main";
   public static final String KEY_LABEL_SUB = "label_sub";
   public static final String KEY_LABEL = "label";
+  public static final String KEY_COLOR = "color";
+  public static final String KEY_TYPE = "type";
+  public static final String KEY_CURRENCY = "currency";
+  public static final String KEY_DESCRIPTION = "description";
+  public static final String KEY_OPENING_BALANCE = "opening_balance";
 
   public static final String TABLE_TRANSACTIONS = "transactions";
   public static final String TABLE_ACCOUNTS = "accounts";

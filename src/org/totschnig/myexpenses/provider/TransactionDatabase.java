@@ -41,8 +41,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
    * SQL statement for accounts TABLE
    */
   private static final String ACCOUNTS_CREATE =
-    "CREATE TABLE " + TABLE_ACCOUNTS + " (_id integer primary key autoincrement, label text not null, " +
-    "opening_balance integer, description text, currency text not null, type text default 'CASH', color integer default -3355444);";
+    "CREATE TABLE " + TABLE_ACCOUNTS + " ("
+        + KEY_ROWID           + " integer primary key autoincrement, "
+        + KEY_LABEL           + " text not null, "
+        + KEY_OPENING_BALANCE + " integer, "
+        + KEY_DESCRIPTION     + " text, "
+        + KEY_CURRENCY        + " text not null, "
+        + KEY_TYPE            + " text default 'CASH', "
+        + KEY_COLOR           + " integer default -3355444);";
 
 
   /**
@@ -118,12 +124,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     long _id;
     for (PaymentMethod.PreDefined pm: PaymentMethod.PreDefined.values()) {
       initialValues = new ContentValues();
-      initialValues.put("label", pm.name());
-      initialValues.put("type",pm.paymentType);
+      initialValues.put(KEY_LABEL, pm.name());
+      initialValues.put(KEY_TYPE,pm.paymentType);
       _id = db.insert(TABLE_METHODS, null, initialValues);
       initialValues = new ContentValues();
-      initialValues.put("method_id", _id);
-      initialValues.put("type","BANK");
+      initialValues.put(KEY_METHODID, _id);
+      initialValues.put(KEY_TYPE,"BANK");
       db.insert(TABLE_ACCOUNTTYES_METHODS, null, initialValues);
     }
   }

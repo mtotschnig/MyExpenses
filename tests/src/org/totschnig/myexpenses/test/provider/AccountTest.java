@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.totschnig.myexpenses.test;
+package org.totschnig.myexpenses.test.provider;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -24,10 +24,9 @@ import android.net.Uri;
 import android.test.ProviderTestCase2;
 import android.test.mock.MockContentResolver;
 
-import java.util.Date;
-
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 /*
@@ -38,11 +37,11 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
  * To learn how to run an entire test package or one of its classes, please see
  * "Testing in Eclipse, with ADT" or "Testing in Other IDEs" in the Developer Guide.
  */
-public class TransactionProviderTest extends ProviderTestCase2<TransactionProvider> {
+public class AccountTest extends ProviderTestCase2<TransactionProvider> {
 
     // A URI that the provider does not offer, for testing error handling.
     private static final Uri INVALID_URI =
-        Uri.withAppendedPath(TransactionProvider.TRANSACTIONS_URI, "invalid");
+        Uri.withAppendedPath(TransactionProvider.ACCOUNTS_URI, "invalid");
 
     // Contains a reference to the mocked content resolver for the provider under test.
     private MockContentResolver mMockResolver;
@@ -51,10 +50,10 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
     private SQLiteDatabase mDb;
 
     // Contains the test data, as an array of NoteInfo instances.
-    private final TransactionInfo[] TEST_TRANSACTIONS = {
-        new TransactionInfo("Transaction 0", TransactionDatabase.dateFormat.format(new Date()), 0),
-        new TransactionInfo("Transaction 1", TransactionDatabase.dateFormat.format(new Date()), 100),
-        new TransactionInfo("Transaction 2", TransactionDatabase.dateFormat.format(new Date()), -100),
+    private final AccountInfo[] TEST_ACCOUNTS = {
+        new AccountInfo("Account 0", Account.Type.CASH, 0),
+        new AccountInfo("Account 1", Account.Type.BANK, 100),
+        new AccountInfo("Account 2", Account.Type.CCARD, -100),
     };
 
     /*
@@ -62,7 +61,7 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
      * Calls the super constructor with the class name of the provider under test and the
      * authority name of the provider.
      */
-    public TransactionProviderTest() {
+    public AccountTest() {
         super(TransactionProvider.class,TransactionProvider.AUTHORITY);
     }
 
@@ -101,16 +100,14 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
      * and populated in insertData if necessary.
      */
     private void insertData() {
-        // Creates an instance of the ContentValues map type expected by database insertions
-        ContentValues values = new ContentValues();
 
         // Sets up test data
-        for (int index = 0; index < TEST_TRANSACTIONS.length; index++) {
+        for (int index = 0; index < TEST_ACCOUNTS.length; index++) {
             // Adds a record to the database.
             mDb.insertOrThrow(
-                DatabaseConstants.TABLE_TRANSACTIONS,             // the table name for the insert
+                DatabaseConstants.TABLE_ACCOUNTS,             // the table name for the insert
                 null,      // column set to null if empty values map
-                TEST_TRANSACTIONS[index].getContentValues()  // the values map to insert
+                TEST_ACCOUNTS[index].getContentValues()  // the values map to insert
             );
         }
     }
@@ -120,30 +117,30 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
      * Tests the provider's public API for querying data in the table, using the URI for
      * a dataset of records.
      */
-    public void testQueriesOnTransactionUri() {
+    public void testQueriesOnAccountUri() {
         // Defines a projection of column names to return for a query
         final String[] TEST_PROJECTION = {
-            DatabaseConstants.KEY_COMMENT
+            DatabaseConstants.KEY_LABEL, DatabaseConstants.KEY_DESCRIPTION, DatabaseConstants.KEY_CURRENCY
         };
 
         // Defines a selection column for the query. When the selection columns are passed
         // to the query, the selection arguments replace the placeholders.
-        //final String TITLE_SELECTION = NotePad.Notes.COLUMN_NAME_TITLE + " = " + "?";
+        final String COMMENT_SELECTION = DatabaseConstants.KEY_LABEL + " = " + "?";
 
         // Defines the selection columns for a query.
-        //final String SELECTION_COLUMNS =
-        //    TITLE_SELECTION + " OR " + TITLE_SELECTION + " OR " + TITLE_SELECTION;
+        final String SELECTION_COLUMNS =
+        COMMENT_SELECTION + " OR " + COMMENT_SELECTION + " OR " + COMMENT_SELECTION;
 
          // Defines the arguments for the selection columns.
-        //final String[] SELECTION_ARGS = { "Note0", "Note1", "Note5" };
+        final String[] SELECTION_ARGS = { "Account 0", "Account 1", "Account 2" };
 
          // Defines a query sort order
-        //final String SORT_ORDER = NotePad.Notes.COLUMN_NAME_TITLE + " ASC";
+        final String SORT_ORDER = DatabaseConstants.KEY_LABEL + " ASC";
 
         // Query subtest 1.
         // If there are no records in the table, the returned cursor from a query should be empty.
         Cursor cursor = mMockResolver.query(
-            TransactionProvider.TRANSACTIONS_URI,  // the URI for the main data table
+            TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
             null,                       // no projection, get all columns
             null,                       // no selection criteria, get all records
             null,                       // no selection arguments
@@ -161,7 +158,7 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
 
         // Gets all the columns for all the rows in the table
         cursor = mMockResolver.query(
-            TransactionProvider.TRANSACTIONS_URI,  // the URI for the main data table
+            TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
             null,                       // no projection, get all columns
             null,                       // no selection criteria, get all records
             null,                       // no selection arguments
@@ -170,13 +167,13 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
 
         // Asserts that the returned cursor contains the same number of rows as the size of the
         // test data array.
-        assertEquals(TEST_TRANSACTIONS.length, cursor.getCount());
+        assertEquals(TEST_ACCOUNTS.length, cursor.getCount());
 
         // Query subtest 3.
         // A query that uses a projection should return a cursor with the same number of columns
         // as the projection, with the same names, in the same order.
         Cursor projectionCursor = mMockResolver.query(
-            TransactionProvider.TRANSACTIONS_URI,  // the URI for the main data table
+            TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
               TEST_PROJECTION,            // get the title, note, and mod date columns
               null,                       // no selection columns, get all the records
               null,                       // no selection criteria
@@ -189,14 +186,14 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
         // Asserts that the names of the columns in the cursor and in the projection are the same.
         // This also verifies that the names are in the same order.
         assertEquals(TEST_PROJECTION[0], projectionCursor.getColumnName(0));
-        //assertEquals(TEST_PROJECTION[1], projectionCursor.getColumnName(1));
-        //assertEquals(TEST_PROJECTION[2], projectionCursor.getColumnName(2));
+        assertEquals(TEST_PROJECTION[1], projectionCursor.getColumnName(1));
+        assertEquals(TEST_PROJECTION[2], projectionCursor.getColumnName(2));
 
-/*        // Query subtest 4
+        // Query subtest 4
         // A query that uses selection criteria should return only those rows that match the
         // criteria. Use a projection so that it's easy to get the data in a particular column.
         projectionCursor = mMockResolver.query(
-            NotePad.Notes.CONTENT_URI, // the URI for the main data table
+            TransactionProvider.ACCOUNTS_URI, // the URI for the main data table
             TEST_PROJECTION,           // get the title, note, and mod date columns
             SELECTION_COLUMNS,         // select on the title column
             SELECTION_ARGS,            // select titles "Note0", "Note1", or "Note5"
@@ -220,41 +217,37 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
         // Asserts that the index pointer is now the same as the number of selection arguments, so
         // that the number of arguments tested is exactly the same as the number of rows returned.
         assertEquals(SELECTION_ARGS.length, index);
-*/
     }
 
     /*
      * Tests queries against the provider, using the note id URI. This URI encodes a single
      * record ID. The provider should only return 0 or 1 record.
      */
-    public void testQueriesOnTransactionIdUri() {
+    public void testQueriesOnAccountIdUri() {
       // Defines the selection column for a query. The "?" is replaced by entries in the
       // selection argument array
-      final String SELECTION_COLUMNS = DatabaseConstants.KEY_COMMENT + " = " + "?";
+      final String SELECTION_COLUMNS = DatabaseConstants.KEY_LABEL + " = " + "?";
 
       // Defines the argument for the selection column.
-      final String[] SELECTION_ARGS = { "Transaction 0" };
-
-      // A sort order for the query.
-      //final String SORT_ORDER = NotePad.Notes.COLUMN_NAME_TITLE + " ASC";
+      final String[] SELECTION_ARGS = { "Account 0" };
 
       // Creates a projection includes the note id column, so that note id can be retrieved.
-      final String[] TRANSACTION_ID_PROJECTION = {
+      final String[] Account_ID_PROJECTION = {
           DatabaseConstants.KEY_ROWID,                 // The Notes class extends BaseColumns,
                                               // which includes _ID as the column name for the
                                               // record's id in the data model
-          DatabaseConstants.KEY_COMMENT};  // The note's title
+          DatabaseConstants.KEY_LABEL};  // The note's title
 
       // Query subtest 1.
       // Tests that a query against an empty table returns null.
 
       // Constructs a URI that matches the provider's notes id URI pattern, using an arbitrary
       // value of 1 as the note ID.
-      Uri transactionIdUri = ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, 1);
+      Uri AccountIdUri = ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, 1);
 
       // Queries the table with the notes ID URI. This should return an empty cursor.
       Cursor cursor = mMockResolver.query(
-          transactionIdUri, // URI pointing to a single record
+          AccountIdUri, // URI pointing to a single record
           null,      // no projection, get all the columns for each record
           null,      // no selection criteria, get all the records in the table
           null,      // no need for selection arguments
@@ -273,8 +266,8 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
 
       // Queries the table using the URI for the full table.
       cursor = mMockResolver.query(
-          TransactionProvider.TRANSACTIONS_URI, // the base URI for the table
-          TRANSACTION_ID_PROJECTION,        // returns the ID and title columns of rows
+          TransactionProvider.ACCOUNTS_URI, // the base URI for the table
+          Account_ID_PROJECTION,        // returns the ID and title columns of rows
           SELECTION_COLUMNS,         // select based on the title column
           SELECTION_ARGS,            // select title of "Note1"
           null                 // sort order returned is by title, ascending
@@ -290,12 +283,12 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
       int inputNoteId = cursor.getInt(0);
 
       // Builds a URI based on the provider's content ID URI base and the saved note ID.
-      transactionIdUri = ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, inputNoteId);
+      AccountIdUri = ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, inputNoteId);
 
       // Queries the table using the content ID URI, which returns a single record with the
       // specified note ID, matching the selection criteria provided.
-      cursor = mMockResolver.query(transactionIdUri, // the URI for a single note
-          TRANSACTION_ID_PROJECTION,                 // same projection, get ID and title columns
+      cursor = mMockResolver.query(AccountIdUri, // the URI for a single note
+          Account_ID_PROJECTION,                 // same projection, get ID and title columns
           SELECTION_COLUMNS,                  // same selection, based on title column
           SELECTION_ARGS,                     // same selection arguments, title = "Note1"
           null                          // same sort order returned, by title, ascending
@@ -315,26 +308,26 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
      *  Tests inserts into the data model.
      */
     public void testInserts() {
-        // Creates a new note instance with ID of 30.
-        TransactionInfo note = new TransactionInfo(
-            "Transaction 4",
-            TransactionDatabase.dateFormat.format(new Date()), 1000);
+        // Creates a new Account instance
+        AccountInfo account = new AccountInfo(
+            "Account 4",
+            Account.Type.ASSET, 1000);
 
         // Insert subtest 1.
         // Inserts a row using the new note instance.
         // No assertion will be done. The insert() method either works or throws an Exception
         Uri rowUri = mMockResolver.insert(
-            TransactionProvider.TRANSACTIONS_URI,  // the main table URI
-            note.getContentValues()     // the map of values to insert as a new record
+            TransactionProvider.ACCOUNTS_URI,  // the main table URI
+            account.getContentValues()     // the map of values to insert as a new record
         );
 
         // Parses the returned URI to get the note ID of the new note. The ID is used in subtest 2.
-        long noteId = ContentUris.parseId(rowUri);
+        long AccountId = ContentUris.parseId(rowUri);
 
         // Does a full query on the table. Since insertData() hasn't yet been called, the
         // table should only contain the record just inserted.
         Cursor cursor = mMockResolver.query(
-            TransactionProvider.TRANSACTIONS_URI, // the main table URI
+            TransactionProvider.ACCOUNTS_URI, // the main table URI
             null,                      // no projection, return all the columns
             null,                      // no selection criteria, return all the rows in the model
             null,                      // no selection arguments
@@ -348,27 +341,29 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
         assertTrue(cursor.moveToFirst());
 
         // Since no projection was used, get the column indexes of the returned columns
-        int dateIndex = cursor.getColumnIndex(DatabaseConstants.KEY_DATE);
-        int commentIndex = cursor.getColumnIndex(DatabaseConstants.KEY_COMMENT);
-        int amountIndex = cursor.getColumnIndex(DatabaseConstants.KEY_AMOUNT);
+        int descriptionIndex = cursor.getColumnIndex(DatabaseConstants.KEY_DESCRIPTION);
+        int labelIndex = cursor.getColumnIndex(DatabaseConstants.KEY_LABEL);
+        int balanceIndex = cursor.getColumnIndex(DatabaseConstants.KEY_OPENING_BALANCE);
+        int currencyIndex = cursor.getColumnIndex(DatabaseConstants.KEY_CURRENCY);
 
         // Tests each column in the returned cursor against the data that was inserted, comparing
         // the field in the NoteInfo object to the data at the column index in the cursor.
-        assertEquals(note.comment, cursor.getString(commentIndex));
-        assertEquals(note.date, cursor.getString(dateIndex));
-        assertEquals(note.amount, cursor.getLong(amountIndex));
+        assertEquals(account.label, cursor.getString(labelIndex));
+        assertEquals(account.getDescription(), cursor.getString(descriptionIndex));
+        assertEquals(account.openingBalance, cursor.getLong(balanceIndex));
+        assertEquals(account.currency, cursor.getString(currencyIndex));
         // Insert subtest 2.
         // Tests that we can't insert a record whose id value already exists.
 
         // Defines a ContentValues object so that the test can add a note ID to it.
-        ContentValues values = note.getContentValues();
+        ContentValues values = account.getContentValues();
 
         // Adds the note ID retrieved in subtest 1 to the ContentValues object.
-        values.put(DatabaseConstants.KEY_ROWID, (int) noteId);
+        values.put(DatabaseConstants.KEY_ROWID, AccountId);
 
         // Tries to insert this record into the table.
         //Our content provider returns null on failed insert
-        rowUri = mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, values);
+        rowUri = mMockResolver.insert(TransactionProvider.ACCOUNTS_URI, values);
         assertNull(rowUri);
     }
 
@@ -380,14 +375,14 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
         // Tries to delete a record from a data model that is empty.
 
         // Sets the selection column to "title"
-        final String SELECTION_COLUMNS = DatabaseConstants.KEY_COMMENT + " = " + "?";
+        final String SELECTION_COLUMNS = DatabaseConstants.KEY_LABEL + " = " + "?";
 
         // Sets the selection argument "Note0"
-        final String[] SELECTION_ARGS = { "Transaction 0" };
+        final String[] SELECTION_ARGS = { "Account 0" };
 
         // Tries to delete rows matching the selection criteria from the data model.
         int rowsDeleted = mMockResolver.delete(
-            TransactionProvider.TRANSACTIONS_URI, // the base URI of the table
+            TransactionProvider.ACCOUNTS_URI, // the base URI of the table
             SELECTION_COLUMNS,         // select based on the title column
             SELECTION_ARGS             // select title = "Note0"
         );
@@ -403,7 +398,7 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
 
         // Uses the same parameters to try to delete the row with title "Note0"
         rowsDeleted = mMockResolver.delete(
-            TransactionProvider.TRANSACTIONS_URI, // the base URI of the table
+            TransactionProvider.ACCOUNTS_URI, // the base URI of the table
             SELECTION_COLUMNS,         // same selection column, "title"
             SELECTION_ARGS             // same selection arguments, title = "Note0"
         );
@@ -416,7 +411,7 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
 
         // Queries the table with the same selection column and argument used to delete the row.
         Cursor cursor = mMockResolver.query(
-            TransactionProvider.TRANSACTIONS_URI, // the base URI of the table
+            TransactionProvider.ACCOUNTS_URI, // the base URI of the table
             null,                      // no projection, return all columns
             SELECTION_COLUMNS,         // select based on the title column
             SELECTION_ARGS,            // select title = "Note0"
@@ -432,10 +427,10 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
      */
     public void testUpdates() {
         // Selection column for identifying a record in the data model.
-        final String SELECTION_COLUMNS = DatabaseConstants.KEY_COMMENT + " = " + "?";
+        final String SELECTION_COLUMNS = DatabaseConstants.KEY_LABEL + " = " + "?";
 
         // Selection argument for the selection column.
-        final String[] selectionArgs = { "Transaction 1" };
+        final String[] selectionArgs = { "Account 1" };
 
         // Defines a map of column names and values
         ContentValues values = new ContentValues();
@@ -444,11 +439,11 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
         // Tries to update a record in an empty table.
 
         // Sets up the update by putting the "note" column and a value into the values map.
-        values.put(DatabaseConstants.KEY_COMMENT, "Testing an update with this string");
+        values.put(DatabaseConstants.KEY_LABEL, "Testing an update with this string");
 
         // Tries to update the table
         int rowsUpdated = mMockResolver.update(
-            TransactionProvider.TRANSACTIONS_URI,  // the URI of the data table
+            TransactionProvider.ACCOUNTS_URI,  // the URI of the data table
             values,                     // a map of the updates to do (column title and value)
             SELECTION_COLUMNS,           // select based on the title column
             selectionArgs               // select "title = Note1"
@@ -465,7 +460,7 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
 
         //  Does the update again, using the same arguments as in subtest 1.
         rowsUpdated = mMockResolver.update(
-            TransactionProvider.TRANSACTIONS_URI,   // The URI of the data table
+            TransactionProvider.ACCOUNTS_URI,   // The URI of the data table
             values,                      // the same map of updates
             SELECTION_COLUMNS,            // same selection, based on the title column
             selectionArgs                // same selection argument, to select "title = Note1"
@@ -477,21 +472,25 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
 
     }
 
-    // A utility for converting note data to a ContentValues map.
-    private static class TransactionInfo {
-        String comment;
-        long amount;
-        String date;
-
-        /*
-         * Constructor for a NoteInfo instance. This class helps create a note and
+    /**
+     * A utility for converting account data to a ContentValues map.
+     *
+     */
+    private static class AccountInfo {
+        String label;
+        long openingBalance;
+        Type type;
+        String currency;
+        /**
+         * Constructor for a AccountInfo instance. This class helps create an account and
          * return its values in a ContentValues map expected by data model methods.
-         * The note's id is created automatically when it is inserted into the data model.
+         * The account's id is created automatically when it is inserted into the data model.
          */
-        public TransactionInfo(String comment, String date, long amount) {
-          this.comment = comment;
-          this.date = date;
-          this.amount = amount;
+        public AccountInfo(String label, Type type, long openingBalance) {
+          this.label = label;
+          this.type = type;
+          this.openingBalance = openingBalance;
+          this.currency = "EUR";
         }
 
         /*
@@ -503,11 +502,15 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
             ContentValues v = new ContentValues();
 
             // Adds map entries for the user-controlled fields in the map
-            v.put(DatabaseConstants.KEY_COMMENT, comment);
-            v.put(DatabaseConstants.KEY_DATE, date);
-            v.put(DatabaseConstants.KEY_AMOUNT, amount);
+            v.put(DatabaseConstants.KEY_LABEL, label);
+            v.put(DatabaseConstants.KEY_DESCRIPTION, getDescription());
+            v.put(DatabaseConstants.KEY_OPENING_BALANCE, openingBalance);
+            v.put(DatabaseConstants.KEY_CURRENCY, currency);
+            v.put(DatabaseConstants.KEY_TYPE,type.name());
             return v;
-
+        }
+        public String getDescription() {
+          return "My account of type " + type.name();
         }
     }
 }

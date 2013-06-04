@@ -59,7 +59,7 @@ public class Account {
 
   public int color;
 
-  public static final String[] PROJECTION = new String[] {KEY_ROWID,"label","description","opening_balance","currency","color",
+  public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_COLOR,
     "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and amount>0 and transfer_peer = 0) as sum_income",
     "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0 and transfer_peer = 0) as sum_expenses",
     "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and transfer_peer != 0) as sum_transfer",
@@ -332,16 +332,16 @@ public class Account {
    */
   private Account(long id) throws DataObjectNotFoundException {
     this.id = id;
-    String[] projection = new String[] {"label","description","opening_balance","currency","type","color"};
+    String[] projection = new String[] {KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_TYPE,KEY_COLOR};
     Cursor c = MyApplication.cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
       throw new DataObjectNotFoundException();
     }
     c.moveToFirst();
-    this.label = c.getString(c.getColumnIndexOrThrow("label"));
-    this.description = c.getString(c.getColumnIndexOrThrow("description"));
-    String strCurrency = c.getString(c.getColumnIndexOrThrow("currency"));
+    this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
+    this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
+    String strCurrency = c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY));
     try {
       this.currency = Currency.getInstance(strCurrency);
     } catch (IllegalArgumentException e) {
@@ -349,14 +349,14 @@ public class Account {
       this.currency = Currency.getInstance(Locale.getDefault());
     }    
     this.openingBalance = new Money(this.currency,
-        c.getLong(c.getColumnIndexOrThrow("opening_balance")));
+        c.getLong(c.getColumnIndexOrThrow(KEY_OPENING_BALANCE)));
     try {
-      this.type = Type.valueOf(c.getString(c.getColumnIndexOrThrow("type")));
+      this.type = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
     } catch (IllegalArgumentException ex) { 
       this.type = Type.CASH;
     }
     try {
-        this.color = c.getInt(c.getColumnIndexOrThrow("color"));
+        this.color = c.getInt(c.getColumnIndexOrThrow(KEY_COLOR));
       } catch (IllegalArgumentException ex) {
         this.color = defaultColor;
       }
@@ -394,7 +394,7 @@ public class Account {
     long currentBalance = getCurrentBalance().getAmountMinor();
     openingBalance.setAmountMinor(currentBalance);
     ContentValues args = new ContentValues();
-    args.put("opening_balance",currentBalance);
+    args.put(KEY_OPENING_BALANCE,currentBalance);
     MyApplication.cr().update(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), args,
         null, null);
     deleteAllTransactions();
@@ -497,12 +497,12 @@ public class Account {
   public Uri save() {
     Uri uri;
     ContentValues initialValues = new ContentValues();
-    initialValues.put("label", label);
-    initialValues.put("opening_balance",openingBalance.getAmountMinor());
-    initialValues.put("description",description);
-    initialValues.put("currency",currency.getCurrencyCode());
-    initialValues.put("type",type.name());
-    initialValues.put("color",color);
+    initialValues.put(KEY_LABEL, label);
+    initialValues.put(KEY_OPENING_BALANCE,openingBalance.getAmountMinor());
+    initialValues.put(KEY_DESCRIPTION,description);
+    initialValues.put(KEY_CURRENCY,currency.getCurrencyCode());
+    initialValues.put(KEY_TYPE,type.name());
+    initialValues.put(KEY_COLOR,color);
     
     if (id == 0) {
       uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
