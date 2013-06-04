@@ -26,7 +26,6 @@ import android.test.mock.MockContentResolver;
 
 import java.util.Date;
 
-
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -367,14 +366,10 @@ public class TransactionProviderTest extends ProviderTestCase2<TransactionProvid
         // Adds the note ID retrieved in subtest 1 to the ContentValues object.
         values.put(DatabaseConstants.KEY_ROWID, (int) noteId);
 
-        // Tries to insert this record into the table. This should fail and drop into the
-        // catch block. If it succeeds, issue a failure message.
-        try {
-            rowUri = mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, values);
-            fail("Expected insert failure for existing record but insert succeeded.");
-        } catch (Exception e) {
-          // succeeded, so do nothing.
-        }
+        // Tries to insert this record into the table.
+        //Our content provider returns null on failed insert
+        rowUri = mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, values);
+        assertNull(rowUri);
     }
 
     /*
