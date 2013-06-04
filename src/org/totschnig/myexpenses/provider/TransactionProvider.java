@@ -462,4 +462,16 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "feature_used", FEATURE_USED);
     URI_MATCHER.addURI(AUTHORITY, "sqlite_sequence/*", SQLITE_SEQUENCE_TABLE);
   }
+  /**
+   * A test package can call this to get a handle to the database underlying NotePadProvider,
+   * so it can insert test data into the database. The test case class is responsible for
+   * instantiating the provider in a test context; {@link android.test.ProviderTestCase2} does
+   * this during the call to setUp()
+   *
+   * @return a handle to the database helper object for the provider's data.
+   */
+  public TransactionDatabase getOpenHelperForTest() {
+      return mOpenHelper;
+  }
+
 }
