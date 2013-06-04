@@ -63,7 +63,7 @@
           </intent-filter>
         </activity>
         <activity android:name=".activity.MyPreferenceActivity"/>
-        <activity android:name=".ManageParties">
+        <activity android:name=".activity.ManageParties">
              <intent-filter>  
               <action android:name="myexpenses.intent.manage.parties"/>
               <category android:name="android.intent.category.DEFAULT" />
