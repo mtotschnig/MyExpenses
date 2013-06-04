@@ -43,6 +43,12 @@ public class PartiesList extends Fragment implements LoaderManager.LoaderCallbac
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     registerForContextMenu(lv);
+    View divider = v.findViewById(R.id.ButtonBarDividerTop);
+    int color = this.getResources().getColor(R.color.appDefault);
+    if (divider != null) {
+      divider.setBackgroundColor(color);
+      v.findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(color);
+    }
     Button deleteButton = (Button) v.findViewById(R.id.deleteItems);
     deleteButton.setOnClickListener(new View.OnClickListener() {
       @Override
