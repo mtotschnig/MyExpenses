@@ -22,7 +22,9 @@ import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Currency;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -68,6 +70,7 @@ public class Account {
   
   public enum Type {
     CASH,BANK,CCARD,ASSET,LIABILITY;
+    public static final String JOIN;
     public String getDisplayName(Context ctx) {
       switch (this) {
       case CASH: return ctx.getString(R.string.account_type_cash);
@@ -87,6 +90,16 @@ public class Account {
       case LIABILITY: return "Oth L";
       }
       return "";
+    }
+    static {
+      String result ="";
+      Iterator<Type> iterator = EnumSet.allOf(Type.class).iterator();
+      while (iterator.hasNext()) {
+        result += "'" + iterator.next().name() + "'";
+        if (iterator.hasNext())
+          result += ",";
+      }
+      JOIN = result;
     }
   }
   public Type type;

@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -84,7 +85,7 @@ public class Template extends Transaction {
   }
   /**
    * Saves the new template, or updated an existing one
-   * @return the Uri of the template. Upon creation it is returned from the content provider
+   * @return the Uri of the template. Upon creation it is returned from the content provider, null if inserting fails on constraints
    */
   public Uri save() {
     Uri uri;
@@ -98,13 +99,20 @@ public class Template extends Transaction {
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_TRANSFER_PEER, transfer_peer);
-      uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
+      try {
+        uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
+      } catch (SQLiteConstraintException e) {
+        return null;
+      }
       id = Integer.valueOf(uri.getLastPathSegment());
     } else {
       org.totschnig.myexpenses.model.ContribFeature.EDIT_TEMPLATE.recordUsage();
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
-      if (MyApplication.cr().update(uri, initialValues, null, null) == -1)
+      try {
+        MyApplication.cr().update(uri, initialValues, null, null);
+      } catch (SQLiteConstraintException e) {
         return null;
+      }
     }
     return uri;
   }

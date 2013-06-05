@@ -26,6 +26,7 @@ import android.test.mock.MockContentResolver;
 
 import java.util.Date;
 
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -51,11 +52,8 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
     private SQLiteDatabase mDb;
 
     // Contains the test data, as an array of NoteInfo instances.
-    private final TransactionInfo[] TEST_TRANSACTIONS = {
-        new TransactionInfo("Transaction 0", TransactionDatabase.dateFormat.format(new Date()), 0),
-        new TransactionInfo("Transaction 1", TransactionDatabase.dateFormat.format(new Date()), 100),
-        new TransactionInfo("Transaction 2", TransactionDatabase.dateFormat.format(new Date()), -100),
-    };
+    private TransactionInfo[] TEST_TRANSACTIONS = new TransactionInfo[3];
+    long testAccountId;
 
     /*
      * Constructor for the test case class.
@@ -84,6 +82,8 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
          * a database object from the helper.
          */
         mDb = getProvider().getOpenHelperForTest().getWritableDatabase();
+        AccountInfo testAccount = new AccountInfo("Test account", Account.Type.CASH, 0);
+        testAccountId = mDb.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
     }
 
     /*
@@ -102,8 +102,13 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
      */
     private void insertData() {
 
+      TEST_TRANSACTIONS[0] = new TransactionInfo("Transaction 0", TransactionDatabase.dateFormat.format(new Date()), 0,testAccountId);
+      TEST_TRANSACTIONS[1] = new TransactionInfo("Transaction 1", TransactionDatabase.dateFormat.format(new Date()), 100,testAccountId);
+      TEST_TRANSACTIONS[2] = new TransactionInfo("Transaction 2", TransactionDatabase.dateFormat.format(new Date()), -100,testAccountId);
+
         // Sets up test data
         for (int index = 0; index < TEST_TRANSACTIONS.length; index++) {
+            
             // Adds a record to the database.
             mDb.insertOrThrow(
                 DatabaseConstants.TABLE_TRANSACTIONS,             // the table name for the insert
@@ -312,7 +317,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
         // Creates a new transaction instance
         TransactionInfo transaction = new TransactionInfo(
             "Transaction 4",
-            TransactionDatabase.dateFormat.format(new Date()), 1000);
+            TransactionDatabase.dateFormat.format(new Date()), 1000, testAccountId);
 
         // Insert subtest 1.
         // Inserts a row using the new note instance.
@@ -363,9 +368,22 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
         values.put(DatabaseConstants.KEY_ROWID, transactionId);
 
         // Tries to insert this record into the table.
-        //Our content provider returns null on failed insert
-        rowUri = mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, values);
-        assertNull(rowUri);
+        try {
+          rowUri = mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, values);
+          fail("Expected insert failure for existing record but insert succeeded.");
+        } catch (Exception e) {
+          // succeeded, so do nothing.
+        }
+        //Insert subtest 3.
+        //Test that we can't insert a record that links to an account_id that does not exist
+        values.remove(DatabaseConstants.KEY_ROWID);
+        values.put(DatabaseConstants.KEY_ACCOUNTID, testAccountId+1);
+        try {
+          rowUri = mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, values);
+          fail("Expected insert failure for link to non-existing account but insert succeeded.");
+        } catch (Exception e) {
+          // succeeded, so do nothing
+        }
     }
 
     /*
@@ -397,11 +415,11 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
         // Inserts data into the model.
         insertData();
 
-        // Uses the same parameters to try to delete the row with title "Note0"
+        // Uses the same parameters to try to delete the row with comment "Transaction 0"
         rowsDeleted = mMockResolver.delete(
             TransactionProvider.TRANSACTIONS_URI, // the base URI of the table
             SELECTION_COLUMNS,         // same selection column, "title"
-            SELECTION_ARGS             // same selection arguments, title = "Note0"
+            SELECTION_ARGS             // same selection arguments, comment = "Transaction 0"
         );
 
         // The number of deleted rows should be 1.
@@ -479,16 +497,18 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
         long amount;
         String date;
         String payee;
+        long accountId;
         /*
          * Constructor for a NoteInfo instance. This class helps create a note and
          * return its values in a ContentValues map expected by data model methods.
          * The note's id is created automatically when it is inserted into the data model.
          */
-        public TransactionInfo(String comment, String date, long amount) {
+        public TransactionInfo(String comment, String date, long amount, long accountId) {
           this.comment = comment;
           this.date = date;
           this.amount = amount;
           this.payee = "N.N.";
+          this.accountId = accountId;
         }
 
         /*
@@ -504,6 +524,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
             v.put(DatabaseConstants.KEY_DATE, date);
             v.put(DatabaseConstants.KEY_AMOUNT, amount);
             v.put(DatabaseConstants.KEY_PAYEE, payee);
+            v.put(DatabaseConstants.KEY_ACCOUNTID, accountId);
             return v;
 
         }

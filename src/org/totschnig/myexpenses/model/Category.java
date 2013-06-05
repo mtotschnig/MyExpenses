@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
@@ -38,9 +39,12 @@ public class Category {
     ContentValues initialValues = new ContentValues();
     initialValues.put("label", label);
     initialValues.put("parent_id", parent_id);
-    Uri uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
-    if (uri == null)
+    Uri uri;
+    try {
+      uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
+    } catch (SQLiteConstraintException e) {
       return -1;
+    }
     return Integer.valueOf(uri.getLastPathSegment());
   }
   /**
@@ -52,8 +56,13 @@ public class Category {
   public static int update(String label, long id) {
     ContentValues args = new ContentValues();
     args.put("label", label);
-    return MyApplication.cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
-        args, KEY_ROWID + " = ?", new String[] {String.valueOf(id)});
+    try {
+      return MyApplication.cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+          args, KEY_ROWID + " = ?", new String[] {String.valueOf(id)});
+    } catch (SQLiteConstraintException e) {
+      // TODO Auto-generated catch block
+      return -1;
+    }
   }
   /**
    * Looks for a cat with a label under a given parent

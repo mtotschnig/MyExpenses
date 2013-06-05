@@ -19,6 +19,9 @@ public class DatabaseConstants {
   public static final String KEY_CURRENCY = "currency";
   public static final String KEY_DESCRIPTION = "description";
   public static final String KEY_OPENING_BALANCE = "opening_balance";
+  public static final String KEY_USAGES = "usages";
+  public static final String KEY_PARENTID = "parent_id";
+  public static final String KEY_TRANSFER_ACCOUNT = "transfer_account";
 
   public static final String TABLE_TRANSACTIONS = "transactions";
   public static final String TABLE_ACCOUNTS = "accounts";
@@ -28,8 +31,6 @@ public class DatabaseConstants {
   public static final String TABLE_TEMPLATES = "templates";
   public static final String TABLE_PAYEES = "payee";
   public static final String TABLE_FEATURE_USED = "feature_used";
-  public static final int DATABASE_VERSION = 27;
-  public static final String DATABASE_NAME = "data";
 
 
   /**

@@ -215,48 +215,36 @@ public class TransactionProvider extends ContentProvider {
     String newUri;
     switch (URI_MATCHER.match(uri)) {
     case TRANSACTIONS:
-      id = db.insert(TABLE_TRANSACTIONS, null, values);
+      id = db.insertOrThrow(TABLE_TRANSACTIONS, null, values);
       newUri = TRANSACTIONS_URI + "/" + id;
       break;
     case ACCOUNTS:
-      id = db.insert(TABLE_ACCOUNTS, null, values);
+      id = db.insertOrThrow(TABLE_ACCOUNTS, null, values);
       newUri = ACCOUNTS_URI + "/" + id;
       break;
     case METHODS:
-      id = db.insert(TABLE_METHODS, null, values);
+      id = db.insertOrThrow(TABLE_METHODS, null, values);
       newUri = METHODS_URI + "/" + id;
       break;
     case ACCOUNTTYPES_METHODS:
-      id = db.insert(TABLE_ACCOUNTTYES_METHODS,null,values);
+      id = db.insertOrThrow(TABLE_ACCOUNTTYES_METHODS,null,values);
       //we are not interested in accessing individual entries in this table, but have to return a uri
       newUri = ACCOUNTTYPES_METHODS_URI + "/" + id;
       break;
     case TEMPLATES:
-      try {
-        id = db.insertOrThrow(TABLE_TEMPLATES, null, values);
-        newUri = TEMPLATES_URI + "/" + id;
-      } catch (SQLiteConstraintException e) {
-        return null;
-      }
+      id = db.insertOrThrow(TABLE_TEMPLATES, null, values);
+      newUri = TEMPLATES_URI + "/" + id;
       break;
     case CATEGORIES:
-      try {
-        id = db.insertOrThrow(TABLE_CATEGORIES, null, values);
-        newUri = CATEGORIES_URI + "/" + id;
-      } catch (SQLiteConstraintException e) {
-        return null;
-      }
+      id = db.insertOrThrow(TABLE_CATEGORIES, null, values);
+      newUri = CATEGORIES_URI + "/" + id;
       break;
     case PAYEES:
-      try {
-        id = db.insertOrThrow(TABLE_PAYEES, null, values);
-        newUri = PAYEES_URI + "/" + id;
-      } catch (SQLiteConstraintException e) {
-        return null;
-      }
+      id = db.insertOrThrow(TABLE_PAYEES, null, values);
+      newUri = PAYEES_URI + "/" + id;
       break;
     case FEATURE_USED:
-      id = db.insert(TABLE_FEATURE_USED, null, values);
+      id = db.insertOrThrow(TABLE_FEATURE_USED, null, values);
       newUri = FEATURE_USED_URI + "/" + id;
       break;
     default:
@@ -395,12 +383,8 @@ public class TransactionProvider extends ContentProvider {
       } else {
         whereString = "";
       }
-      try {
-        count = db.update(TABLE_TEMPLATES, values, "_id=" + segment + whereString,
+      count = db.update(TABLE_TEMPLATES, values, "_id=" + segment + whereString,
             whereArgs);
-      } catch (SQLiteConstraintException e) {
-        return -1;
-      }
       break;
     case CATEGORIES_ID:
       segment = uri.getPathSegments().get(1);
@@ -409,12 +393,8 @@ public class TransactionProvider extends ContentProvider {
       } else {
         whereString = "";
       }
-      try {
-        count = db.update(TABLE_CATEGORIES, values, "_id=" + segment + whereString,
+      count = db.update(TABLE_CATEGORIES, values, "_id=" + segment + whereString,
             whereArgs);
-      } catch (SQLiteConstraintException e) {
-        return -1;
-      }
       break;
     case METHOD_ID:
       segment = uri.getPathSegments().get(1);

@@ -37,9 +37,9 @@ import android.util.Log;
 public class PaymentMethod {
   public long id;
   private String label;
-  final int EXPENSE =  -1;
-  final int NEUTRAL = 0;
-  final int INCOME = 1;
+  public static final int EXPENSE =  -1;
+  public static final int NEUTRAL = 0;
+  public static final int INCOME = 1;
   private int paymentType;
   public static final String[] PROJECTION = new String[] {KEY_ROWID,"label"};
   public static final Uri CONTENT_URI = TransactionProvider.METHODS_URI;

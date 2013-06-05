@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.provider;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
 
 import android.content.ContentValues;
@@ -14,6 +15,8 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
+  public static final int DATABASE_VERSION = 28;
+  public static final String DATABASE_NAME = "data";
 
   private static final String TAG = "TransactionDatabase";
   /**
@@ -26,15 +29,16 @@ public class TransactionDatabase extends SQLiteOpenHelper {
    */
   private static final String DATABASE_CREATE =
     "CREATE TABLE " + TABLE_TRANSACTIONS  +  "( "
-    + KEY_ROWID         + " integer primary key autoincrement, "
-    + KEY_COMMENT       + " text not null, "
-    + KEY_DATE          + " DATETIME not null, "
-    + KEY_AMOUNT        + " integer not null, "
-    + KEY_CATID         + " integer, "
-    + KEY_ACCOUNTID     + " integer, "
-    + KEY_PAYEE         + " text, "
-    + KEY_TRANSFER_PEER + " integer default 0, "
-    + KEY_METHODID      + " integer);";
+    + KEY_ROWID            + " integer primary key autoincrement, "
+    + KEY_COMMENT          + " text, "
+    + KEY_DATE             + " DATETIME not null, "
+    + KEY_AMOUNT           + " integer not null, "
+    + KEY_CATID            + " integer references " + TABLE_CATEGORIES + ", "
+    + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
+    + KEY_PAYEE            + " text, "
+    + KEY_TRANSFER_PEER    + " integer default 0, "
+    + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
+    + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "));";
 
 
   /**
@@ -47,7 +51,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         + KEY_OPENING_BALANCE + " integer, "
         + KEY_DESCRIPTION     + " text, "
         + KEY_CURRENCY        + " text not null, "
-        + KEY_TYPE            + " text default 'CASH', "
+        + KEY_TYPE            + " text not null check (" + KEY_TYPE + " in (" + Account.Type.JOIN + ")) default '" + Account.Type.CASH.name() + "', "
         + KEY_COLOR           + " integer default -3355444);";
 
 
@@ -58,14 +62,27 @@ public class TransactionDatabase extends SQLiteOpenHelper {
    * usages counts how often the cat is selected
    */
   private static final String CATEGORIES_CREATE =
-    "CREATE TABLE " + TABLE_CATEGORIES + " (_id integer primary key autoincrement, label text not null, " +
-    "parent_id integer not null default 0, usages integer default 0, unique (label,parent_id));";
+    "CREATE TABLE " + TABLE_CATEGORIES + " ("
+      + KEY_ROWID    + " integer primary key autoincrement, "
+      + KEY_LABEL    + " text not null, "
+      + KEY_PARENTID + " integer not null default 0, "
+      + KEY_USAGES   + " integer default 0, unique (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
   private static final String PAYMENT_METHODS_CREATE =
-      "CREATE TABLE " + TABLE_METHODS + " (_id integer primary key autoincrement, label text not null, type integer default 0);";
+    "CREATE TABLE " + TABLE_METHODS + " ("
+        + KEY_ROWID + " integer primary key autoincrement, " 
+        + KEY_LABEL + " text not null, " 
+        + KEY_TYPE  + " integer " + 
+          "check (" + KEY_TYPE + " in (" 
+            + PaymentMethod.EXPENSE + ","
+            + PaymentMethod.NEUTRAL + ","
+            + PaymentMethod.INCOME +")) default 0);";
 
   private static final String ACCOUNTTYE_METHOD_CREATE =
-      "CREATE TABLE " + TABLE_ACCOUNTTYES_METHODS + " (type text, method_id integer, primary key (type,method_id));";
+      "CREATE TABLE " + TABLE_ACCOUNTTYES_METHODS + " ("
+          + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + Account.Type.JOIN + ")), "
+          + KEY_METHODID + " integer, "
+          + "primary key (" + KEY_TYPE + "," + KEY_METHODID + "));";
 
   private static final String TEMPLATE_CREATE =
       "CREATE TABLE " + TABLE_TEMPLATES + " ( "
@@ -78,7 +95,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_TRANSFER_PEER + " integer default 0, "
       + KEY_METHODID      + " integer, "
       + KEY_TITLE         + " text not null, "
-      + "usages integer default 0, "
+      + KEY_USAGES + " integer default 0, "
       + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));";
   
   /**
@@ -99,6 +116,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   TransactionDatabase(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
   }
+  @Override
+  public void onOpen(SQLiteDatabase db) {
+      super.onOpen(db);
+      if (!db.isReadOnly()) {
+          // Enable foreign key constraints
+          db.execSQL("PRAGMA foreign_keys=ON;");
+      }
+  }
 
   @Override
   public void onCreate(SQLiteDatabase db) {
@@ -112,7 +137,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     insertDefaultPaymentMethods(db);
     db.execSQL(TEMPLATE_CREATE);
     db.execSQL(FEATURE_USED_CREATE);
-
   }
 
   /**
@@ -169,7 +193,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("CREATE TABLE paymentmethods (_id integer primary key autoincrement, label text not null, type integer default 0);");
       db.execSQL("CREATE TABLE accounttype_paymentmethod (type text, method_id integer, primary key (type,method_id));");
       insertDefaultPaymentMethods(db);
-      db.execSQL("ALTER TABLE transactions add column payment_method_id text default 'CASH'");
+      db.execSQL("ALTER TABLE transactions add column payment_method_id integer");
       db.execSQL("ALTER TABLE accounts add column type text default 'CASH'");
     }
     if (oldVersion < 22) {
@@ -205,6 +229,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 27) {
       db.execSQL("CREATE TABLE feature_used (feature text not null);");
     }
-
+    if (oldVersion < 28) {
+      db.execSQL("ALTER TABLE accounts RENAME to accounts_old");
+      db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
+      db.execSQL("ALTER TABLE templates RENAME to templates_old");
+      db.execSQL("ALTER TABLE accounttype_paymentmethod RENAME to accounttype_paymentmethod_old");
+    }
   }
 }
