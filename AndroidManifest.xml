@@ -20,7 +20,11 @@
     android:versionName="1.7.3.2"
     android:installLocation="auto"
 >
-    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="8"></uses-sdk>
+    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="10"></uses-sdk>
+    <supports-screens android:smallScreens="true"
+                  android:normalScreens="true"
+                  android:largeScreens="true"
+                  android:xlargeScreens="true" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application android:name="org.totschnig.myexpenses.MyApplication" android:icon="@drawable/icon" android:label="My Expenses">
         <activity android:name=".activity.MyExpenses" android:label="@string/app_name">
