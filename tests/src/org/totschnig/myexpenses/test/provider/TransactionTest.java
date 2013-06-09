@@ -41,10 +41,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
  */
 public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
 
-    // A URI that the provider does not offer, for testing error handling.
-    private static final Uri INVALID_URI =
-        Uri.withAppendedPath(TransactionProvider.TRANSACTIONS_URI, "invalid");
-
     // Contains a reference to the mocked content resolver for the provider under test.
     private MockContentResolver mMockResolver;
 
@@ -372,18 +368,21 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
           rowUri = mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, values);
           fail("Expected insert failure for existing record but insert succeeded.");
         } catch (Exception e) {
-          // succeeded, so do nothing.
+          // succeeded, do nothing
         }
-        //Insert subtest 3.
-        //Test that we can't insert a record that links to an account_id that does not exist
-        values.remove(DatabaseConstants.KEY_ROWID);
-        values.put(DatabaseConstants.KEY_ACCOUNTID, testAccountId+1);
-        try {
-          rowUri = mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, values);
-          fail("Expected insert failure for link to non-existing account but insert succeeded.");
-        } catch (Exception e) {
-          // succeeded, so do nothing
-        }
+    }
+    //Test that we can't insert a record that links to an account_id that does not exist
+    public void testInsertViolatesForeignKey() {
+      TransactionInfo transaction = new TransactionInfo(
+          "Transaction 4",
+          TransactionDatabase.dateFormat.format(new Date()), 1000, testAccountId+1);
+      try {
+        mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, transaction.getContentValues());
+        fail("Expected insert failure for link to non-existing account but insert succeeded.");
+      } catch (Exception e) {
+        // succeeded, so do nothing
+      }
+
     }
 
     /*
