@@ -22,23 +22,23 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 //TODO implement complete DAO
 //for the moment we only wrap calls to the content provider
 public class Category {
-  public static final String[] PROJECTION = new String[] {KEY_ROWID, "label"};
+  public static final String[] PROJECTION = new String[] {KEY_ROWID, KEY_LABEL, KEY_PARENTID};
   public static final Uri CONTENT_URI = TransactionProvider.CATEGORIES_URI;
   /**
    * Creates a new category under a parent
    * @param label
-   * @param parent_id
+   * @param parentId
    * @return the row ID of the newly inserted row, or -1 if category already exists
    */
-  public static long create(String label, long parent_id) {
+  public static long create(String label, long parentId) {
     ContentValues initialValues = new ContentValues();
-    initialValues.put("label", label);
-    initialValues.put("parent_id", parent_id);
+    initialValues.put(KEY_LABEL, label);
+    initialValues.put(KEY_PARENTID, parentId);
     Uri uri;
     try {
       uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
@@ -55,7 +55,7 @@ public class Category {
    */
   public static int update(String label, long id) {
     ContentValues args = new ContentValues();
-    args.put("label", label);
+    args.put(KEY_LABEL, label);
     try {
       return MyApplication.cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
           args, KEY_ROWID + " = ?", new String[] {String.valueOf(id)});
@@ -67,12 +67,12 @@ public class Category {
   /**
    * Looks for a cat with a label under a given parent
    * @param label
-   * @param parent_id
+   * @param parentId
    * @return id or -1 if not found
    */
-  public static long find(String label, long parent_id) {
+  public static long find(String label, long parentId) {
     Cursor mCursor = MyApplication.cr().query(CONTENT_URI,
-        new String[] {KEY_ROWID}, "parent_id = ? and label = ?", new String[] {String.valueOf(parent_id), label}, null);
+        new String[] {KEY_ROWID}, KEY_PARENTID + " = ? and " + KEY_LABEL + " = ?", new String[] {String.valueOf(parentId), label}, null);
     if (mCursor.getCount() == 0) {
       mCursor.close();
       return -1;
@@ -89,12 +89,12 @@ public class Category {
   }
   /**
    * How many subcategories under a given parent?
-   * @param parent_id
+   * @param parentId
    * @return number of subcategories
    */
-  public static int countSub(long parent_id){
+  public static int countSub(long parentId){
     Cursor mCursor = MyApplication.cr().query(CONTENT_URI,
-        new String[] {"count(*)"}, "parent_id = ?", new String[] {String.valueOf(parent_id)}, null);
+        new String[] {"count(*)"}, KEY_PARENTID + " = ?", new String[] {String.valueOf(parentId)}, null);
     if (mCursor.getCount() == 0) {
       mCursor.close();
       return 0;

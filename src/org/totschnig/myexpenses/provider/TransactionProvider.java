@@ -102,6 +102,10 @@ public class TransactionProvider extends ContentProvider {
       //  .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true);
       //String orderBy = (categories_sort ? "usages DESC, " : "") + "label";
       break;
+    case CATEGORIES_ID:
+      qb.setTables(TABLE_CATEGORIES);
+      qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+      break;
     case ACCOUNTS:
       qb.setTables(TABLE_ACCOUNTS);
       if (projection == null)
@@ -305,6 +309,9 @@ public class TransactionProvider extends ContentProvider {
       count = db.delete(TABLE_ACCOUNTS, "_id=" + segment + whereString,
           whereArgs);
       break;
+    case CATEGORIES:
+      count = db.delete(TABLE_CATEGORIES, where, whereArgs);
+      break;
     case CATEGORIES_ID:
       segment = uri.getPathSegments().get(1);
       if (!TextUtils.isEmpty(where)) {
@@ -385,6 +392,9 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.update(TABLE_TEMPLATES, values, "_id=" + segment + whereString,
             whereArgs);
+      break;
+    case CATEGORIES:
+      count = db.update(TABLE_CATEGORIES, values, where, whereArgs);
       break;
     case CATEGORIES_ID:
       segment = uri.getPathSegments().get(1);

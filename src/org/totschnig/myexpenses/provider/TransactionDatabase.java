@@ -33,7 +33,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     + KEY_COMMENT          + " text, "
     + KEY_DATE             + " DATETIME not null, "
     + KEY_AMOUNT           + " integer not null, "
-    + KEY_CATID            + " integer references " + TABLE_CATEGORIES + ", "
+    + KEY_CATID            + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
     + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
     + KEY_PAYEE            + " text, "
     + KEY_TRANSFER_PEER    + " integer default 0, "
@@ -65,7 +65,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     "CREATE TABLE " + TABLE_CATEGORIES + " ("
       + KEY_ROWID    + " integer primary key autoincrement, "
       + KEY_LABEL    + " text not null, "
-      + KEY_PARENTID + " integer not null default 0, "
+      + KEY_PARENTID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
       + KEY_USAGES   + " integer default 0, unique (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
   private static final String PAYMENT_METHODS_CREATE =
@@ -234,6 +234,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
       db.execSQL("ALTER TABLE templates RENAME to templates_old");
       db.execSQL("ALTER TABLE accounttype_paymentmethod RENAME to accounttype_paymentmethod_old");
+      //Changes to handle
+      //1) Transfer account no longer stored as cat_id but in transfer_account
+      //2) parent_id for categories uses foreign key on itself, hence root categories have null instead of 0 as parent_id 
     }
   }
 }
