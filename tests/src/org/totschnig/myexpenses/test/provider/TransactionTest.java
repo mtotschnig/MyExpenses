@@ -83,15 +83,6 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
     }
 
     /*
-     *  This method is called after each test method, to clean up the current fixture. Since
-     *  this sample test case runs in an isolated context, no cleanup is necessary.
-     */
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
-    /*
      * Sets up test data.
      * The test data is in an SQL database. It is created in setUp() without any data,
      * and populated in insertData if necessary.

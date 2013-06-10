@@ -15,8 +15,6 @@
 
 package org.totschnig.myexpenses.test.model;
 
-import java.util.Currency;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
@@ -34,7 +32,6 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider>  {
   public TransactionTest() {
     super(TransactionProvider.class,TransactionProvider.AUTHORITY);
   }
-  private Currency currency;
   private Account mAccount1;
   private Account mAccount2;
   
@@ -47,14 +44,16 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider>  {
       mAccount2 = new Account("TestAccount 2",100,"Secondary account");
       mAccount2.save();
   }
-  public void testAA_Transaction() {
+  public void testTransaction() {
     Assert.assertEquals(0, Transaction.getTransactionSequence());
     Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id);
-    op1.amount = new Money(currency,100L);
-    op1.comment = "test transfer";
+    op1.amount = new Money(mAccount1.currency,100L);
+    op1.comment = "test transaction";
     op1.save();
     Assert.assertTrue(op1.id > 0);
     Assert.assertEquals(1, Transaction.getTransactionSequence());
+    Transaction restored = Transaction.getInstanceFromDb(op1.id);
+    Assert.assertEquals(op1,restored);
     Transaction.delete(op1.id);
     Assert.assertEquals(1, Transaction.getTransactionSequence());
   }
@@ -62,7 +61,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider>  {
   public void testTransfer() {
     Transfer op = (Transfer) Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER,mAccount1.id);
     op.transfer_account = mAccount2.id;
-    op.amount = new Money(currency,(long) 100);
+    op.amount = new Money(mAccount1.currency,(long) 100);
     op.comment = "test transfer";
     op.save();
     Assert.assertTrue(op.id > 0);
@@ -74,8 +73,8 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider>  {
     Long start = mAccount1.getCurrentBalance().getAmountMinor();
     Long amount = (long) 100;
     Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id);
-    op1.amount = new Money(currency,amount);
-    op1.comment = "test transfer";
+    op1.amount = new Money(mAccount1.currency,amount);
+    op1.comment = "test transaction";
     op1.save();
     Assert.assertEquals(mAccount1.getCurrentBalance().getAmountMinor().longValue(), start+amount);
     Template t = new Template(op1,"Template");
@@ -83,10 +82,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider>  {
     Transaction op2  = Transaction.getInstanceFromTemplate(t.id);
     op2.save();
     Assert.assertEquals(mAccount1.getCurrentBalance().getAmountMinor().longValue(), start+2*amount);
-  }
-  @Override
-  protected void tearDown() throws Exception {
-    Account.delete(mAccount1.id);
-    Account.delete(mAccount2.id);
+    Transaction restored = Transaction.getInstanceFromDb(op2.id);
+    Assert.assertEquals(op2,restored);
   }
 }

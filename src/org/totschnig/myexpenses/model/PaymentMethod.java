@@ -15,7 +15,7 @@
 
 package org.totschnig.myexpenses.model;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,7 +75,7 @@ public class PaymentMethod {
       predef = null;
     }
     c = MyApplication.cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,
-        new String[] {"type"}, "method_id = ?", new String[] {String.valueOf(id)}, null);
+        new String[] {"type"}, KEY_METHODID + " = ?", new String[] {String.valueOf(id)}, null);
     if(c.moveToFirst()) {
       for (int i = 0; i < c.getCount(); i++){
         try {
@@ -161,9 +161,9 @@ public class PaymentMethod {
     return uri;
   }
   private void setMethodAccountTypes() {
-    MyApplication.cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI, "method_id = ?", new String[]{String.valueOf(id)});
+    MyApplication.cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI, KEY_METHODID + " = ?", new String[]{String.valueOf(id)});
     ContentValues initialValues = new ContentValues();
-    initialValues.put("method_id", id);
+    initialValues.put(KEY_METHODID, id);
     for (Account.Type accountType : accountTypes) {
       initialValues.put("type",accountType.name());
       MyApplication.cr().insert(TransactionProvider.ACCOUNTTYPES_METHODS_URI, initialValues);
@@ -177,7 +177,7 @@ public class PaymentMethod {
     methods.clear();
   }
   public static boolean delete(long id) {
-    MyApplication.cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI,"method_id = ?",new String[] {String.valueOf(id)});
+    MyApplication.cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI,KEY_METHODID + " = ?",new String[] {String.valueOf(id)});
     return MyApplication.cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null) > 0;
   }

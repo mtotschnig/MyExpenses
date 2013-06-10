@@ -51,7 +51,25 @@ public class Money {
     }
     return bd;
   }
-  public boolean equals(Money other) {
-    return currency == other.currency  && amountMinor == other.amountMinor;
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Money other = (Money) obj;
+    if (amountMinor == null) {
+      if (other.amountMinor != null)
+        return false;
+    } else if (!amountMinor.equals(other.amountMinor))
+      return false;
+    if (currency == null) {
+      if (other.currency != null)
+        return false;
+    } else if (!currency.equals(other.currency))
+      return false;
+    return true;
   }
 }

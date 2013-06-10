@@ -55,7 +55,7 @@ public class AA_MyExpensesTest extends
     MyApplication app = (MyApplication) getInstrumentation().getTargetContext().getApplicationContext();
     settings = app.getSharedPreferences(TEST_ID,Context.MODE_PRIVATE);
     app.setSettings(settings);
-    app.setDatabaseName(TEST_ID);
+    //app.setDatabaseName(TEST_ID);
     setActivityInitialTouchMode(false); 
     mActivity = getActivity();
     mInstrumentation = getInstrumentation();

@@ -196,6 +196,12 @@ public class Utils {
     }
     return result;
   }
+  public static Long getLongOrNull(Cursor c, String field) {
+    int columnIndex = c.getColumnIndex(field);
+    if (c.isNull(columnIndex))
+      return null;
+    return c.getLong(columnIndex);
+  }
   
   /**
    * @return directory for storing backups and exports, null if external storage is not available

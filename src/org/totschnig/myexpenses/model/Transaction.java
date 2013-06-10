@@ -73,18 +73,20 @@ public class Transaction {
       //TODO throw DataObjectNotFoundException
     }
     c.moveToFirst();
-    long transfer_peer = c.getLong(c.getColumnIndexOrThrow(KEY_TRANSFER_PEER));
+    Long transfer_peer = Utils.getLongOrNull(c, KEY_TRANSFER_PEER);
     long account_id = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
     long amount = c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT));
-    if (transfer_peer != 0) {
+    if (transfer_peer != null) {
       t = new Transfer(account_id,amount);
       t.transfer_peer = transfer_peer;
-      t.transfer_account = c.getLong(c.getColumnIndexOrThrow(KEY_TRANSFER_ACCOUNT));
+      t.transfer_account = Utils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
     }
     else {
       t = new Transaction(account_id,amount);
-      t.methodId = c.getLong(c.getColumnIndexOrThrow(KEY_METHODID));
-      t.catId = c.getLong(c.getColumnIndexOrThrow(KEY_CATID));
+      t.methodId = Utils.getLongOrNull(c, KEY_METHODID);
+      t.catId = Utils.getLongOrNull(c, KEY_CATID);
+      t.payee = c.getString(
+          c.getColumnIndexOrThrow(KEY_PAYEE));
     }
     
     t.id = id;
@@ -92,8 +94,6 @@ public class Transaction {
         c.getColumnIndexOrThrow(KEY_DATE)));
     t.comment = c.getString(
         c.getColumnIndexOrThrow(KEY_COMMENT));
-    t.payee = c.getString(
-            c.getColumnIndexOrThrow(KEY_PAYEE));
     t.label = c.getString(c.getColumnIndexOrThrow("label"));
     c.close();
     return t;
@@ -101,7 +101,7 @@ public class Transaction {
   public static Transaction getInstanceFromTemplate(long id) {
     Template te = Template.getInstanceFromDb(id);
     Transaction tr;
-    if (te.transfer_peer != 0) {
+    if (te.transfer_peer != null) {
       tr = new Transfer(te.accountId,te.amount);
       tr.transfer_peer = te.transfer_peer;
     }
@@ -204,7 +204,6 @@ public class Transaction {
     initialValues.put(KEY_METHODID, methodId);
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
-      initialValues.put(KEY_TRANSFER_PEER,0);
       uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
       id = ContentUris.parseId(uri);
       if (catId != null)
@@ -279,5 +278,77 @@ public class Transaction {
     int result = mCursor.getInt(0);
     mCursor.close();
     return result;
+  }
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Transaction other = (Transaction) obj;
+    if (accountId == null) {
+      if (other.accountId != null)
+        return false;
+    } else if (!accountId.equals(other.accountId))
+      return false;
+    if (amount == null) {
+      if (other.amount != null)
+        return false;
+    } else if (!amount.equals(other.amount))
+      return false;
+    if (catId == null) {
+      if (other.catId != null)
+        return false;
+    } else if (!catId.equals(other.catId))
+      return false;
+    if (comment == null) {
+      if (other.comment != null)
+        return false;
+    } else if (!comment.equals(other.comment))
+      return false;
+    //we only compare dateAsString, since dates might have different millisecond values
+/*    if (date == null) {
+      if (other.date != null)
+        return false;
+    } else if (!date.equals(other.date))
+      return false;*/
+    if (dateAsString == null) {
+      if (other.dateAsString != null)
+        return false;
+    } else if (!dateAsString.equals(other.dateAsString))
+      return false;
+    if (id == null) {
+      if (other.id != null)
+        return false;
+    } else if (!id.equals(other.id))
+      return false;
+    if (label == null) {
+      if (other.label != null)
+        return false;
+    } else if (!label.equals(other.label))
+      return false;
+    if (methodId == null) {
+      if (other.methodId != null)
+        return false;
+    } else if (!methodId.equals(other.methodId))
+      return false;
+    if (payee == null) {
+      if (other.payee != null)
+        return false;
+    } else if (!payee.equals(other.payee))
+      return false;
+    if (transfer_account == null) {
+      if (other.transfer_account != null)
+        return false;
+    } else if (!transfer_account.equals(other.transfer_account))
+      return false;
+    if (transfer_peer == null) {
+      if (other.transfer_peer != null)
+        return false;
+    } else if (!transfer_peer.equals(other.transfer_peer))
+      return false;
+    return true;
   }
 }

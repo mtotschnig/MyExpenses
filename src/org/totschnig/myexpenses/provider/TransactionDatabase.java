@@ -84,6 +84,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_METHODID + " integer, "
           + "primary key (" + KEY_TYPE + "," + KEY_METHODID + "));";
 
+  //in templates, transfer_peer does not point to another instance
+  //but is a boolean indicating if the template is for a transfer
   private static final String TEMPLATE_CREATE =
       "CREATE TABLE " + TABLE_TEMPLATES + " ( "
       + KEY_ROWID            + " integer primary key autoincrement, "
@@ -92,7 +94,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_CATID            + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
       + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
       + KEY_PAYEE            + " text, "
-      + KEY_TRANSFER_PEER    + " integer default 0, "
+      + KEY_TRANSFER_PEER    + " boolean default false, "
       + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
       + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "), "
       + KEY_TITLE            + " text not null, "
@@ -239,6 +241,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       //1) Transfer account no longer stored as cat_id but in transfer_account (in transactions and templates)
       //2) parent_id for categories uses foreign key on itself, hence root categories have null instead of 0 as parent_id
       //3) catId etc now need to be null instead of 0
+      //4) transactions payment_method_id renamed to method_id
     }
   }
 }

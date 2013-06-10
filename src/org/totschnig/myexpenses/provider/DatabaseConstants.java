@@ -9,7 +9,7 @@ public class DatabaseConstants {
   public static final String KEY_ACCOUNTID = "account_id";
   public static final String KEY_PAYEE = "payee";
   public static final String KEY_TRANSFER_PEER = "transfer_peer";
-  public static final String KEY_METHODID = "payment_method_id";
+  public static final String KEY_METHODID = "method_id";
   public static final String KEY_TITLE = "title";
   public static final String KEY_LABEL_MAIN = "label_main";
   public static final String KEY_LABEL_SUB = "label_sub";

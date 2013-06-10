@@ -20,6 +20,7 @@ import java.util.Date;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -30,6 +31,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class Template extends Transaction {
   public String title;
+  public boolean isTransfer;
 
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
 
@@ -44,7 +46,7 @@ public class Template extends Transaction {
     //for Transfers we store -1 as peer since it needs to be different from 0,
     //but we are not interested in which was the transfer_peer of the transfer
     //from which the template was derived;
-    this.transfer_peer = t.transfer_peer == null ? null : -1L;
+    this.isTransfer = t.transfer_peer != null;
     this.transfer_account = t.transfer_account;
   }
   public Template(long accountId,long amount) {
@@ -72,15 +74,17 @@ public class Template extends Transaction {
     Template t = new Template(c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID)),
         c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT))  
         );
-    t.transfer_peer = c.getLong(c.getColumnIndexOrThrow(KEY_TRANSFER_PEER));
-    t.methodId = c.getLong(c.getColumnIndexOrThrow(KEY_METHODID));
+    if (t.isTransfer = c.getInt(c.getColumnIndexOrThrow(KEY_TRANSFER_PEER)) > 0) {
+      t.transfer_account = Utils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
+    } else {
+      t.methodId = Utils.getLongOrNull(c, KEY_METHODID);
+      t.catId = Utils.getLongOrNull(c, KEY_CATID);
+      t.payee = c.getString(
+          c.getColumnIndexOrThrow(KEY_PAYEE));
+    }
     t.id = id;
     t.comment = c.getString(
         c.getColumnIndexOrThrow(KEY_COMMENT));
-    t.payee = c.getString(
-            c.getColumnIndexOrThrow(KEY_PAYEE));
-    t.catId = c.getLong(c.getColumnIndexOrThrow(KEY_CATID));
-    t.transfer_account = c.getLong(c.getColumnIndexOrThrow(KEY_TRANSFER_ACCOUNT));
     t.label =  c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     t.title = c.getString(c.getColumnIndexOrThrow(KEY_TITLE));
     c.close();
@@ -102,7 +106,7 @@ public class Template extends Transaction {
     initialValues.put(KEY_TITLE, title);
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
-      initialValues.put(KEY_TRANSFER_PEER, transfer_peer);
+      initialValues.put(KEY_TRANSFER_PEER, isTransfer);
       try {
         uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
       } catch (SQLiteConstraintException e) {

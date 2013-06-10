@@ -25,7 +25,7 @@ public class LocaleTest extends android.test.InstrumentationTestCase {
       MyApplication app = (MyApplication) getInstrumentation().getTargetContext().getApplicationContext();
       settings = app.getSharedPreferences(TEST_ID,Context.MODE_PRIVATE);
       app.setSettings(settings);
-      app.setDatabaseName(TEST_ID);
+      //app.setDatabaseName(TEST_ID);
       mAccount = new Account("TestAccount 1",100,"Main account");
       mAccount.save();
   }

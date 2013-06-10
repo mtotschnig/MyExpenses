@@ -71,6 +71,7 @@ public class ExpenseEdit extends EditActivity {
   private final java.text.DateFormat mTitleDateFormat = java.text.DateFormat.
       getDateInstance(java.text.DateFormat.FULL);
   private long mCatId;
+  private long mTransferAccount;
   private long mMethodId = 0;
   private String mLabel;
   private Transaction mTransaction;
@@ -309,10 +310,10 @@ public class ExpenseEdit extends EditActivity {
       return new  AlertDialog.Builder(this)
         .setTitle(R.string.dialog_title_select_account)
         .setSingleChoiceItems(accountLabels,
-            java.util.Arrays.asList(accountIds).indexOf(mCatId),
+            java.util.Arrays.asList(accountIds).indexOf(mTransferAccount),
           new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-              mCatId = accountIds[item];
+              mTransferAccount = accountIds[item];
               mLabel = accountLabels[item];
               setCategoryButton();
               dismissDialog(ACCOUNT_DIALOG_ID);
@@ -441,13 +442,14 @@ public class ExpenseEdit extends EditActivity {
       //3d fill label (category or account) we got from database, if we are a transfer we prefix 
       //with transfer direction
       mCatId = mTransaction.catId;
+      mTransferAccount = mTransaction.transfer_account;
       mLabel =  mTransaction.label;
     } else {
       //4. handle edit new transaction
       //4a if we are a transfer, and we have only one other account
       //we point the transfer to that account
       if (mOperationType == MyExpenses.TYPE_TRANSFER && otherAccountsCount == 1) {
-        mCatId = accountIds[0];
+        mTransferAccount = accountIds[0];
         mLabel = accountLabels[0];
       }
     }
@@ -577,14 +579,15 @@ public class ExpenseEdit extends EditActivity {
 
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mTransaction.setPayee(mPayeeText.getText().toString());
+      mTransaction.catId = mCatId;
+      mTransaction.methodId = mMethodId;
     } else {
-      if (mCatId == 0) {
+      if (mTransferAccount == 0) {
         Toast.makeText(this,getString(R.string.warning_select_account), Toast.LENGTH_LONG).show();
         return false;
       }
+      mTransaction.transfer_account = mTransferAccount;
     }
-    mTransaction.catId = mCatId;
-    mTransaction.methodId = mMethodId;
     if (mTransaction.save() == null) {
       //for the moment, the only case where we will not get an URI back is
       //if the unique constraint for template titles is violated
@@ -635,6 +638,7 @@ public class ExpenseEdit extends EditActivity {
     super.onSaveInstanceState(outState);
     outState.putSerializable("calendar", mCalendar);
     outState.putLong("catId", mCatId);
+    outState.putLong("transferAccount",mTransferAccount);
     outState.putLong("methodId", mMethodId);
     outState.putString("label", mLabel);
   }
@@ -644,6 +648,7 @@ public class ExpenseEdit extends EditActivity {
     mCalendar = (Calendar) savedInstanceState.getSerializable("calendar");
     mLabel = savedInstanceState.getString("label");
     mCatId = savedInstanceState.getLong("catId");
+    mTransferAccount = savedInstanceState.getLong("transferAccount");
     mMethodId = savedInstanceState.getLong("methodId");
     configureType();
     setDate();
