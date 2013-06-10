@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
@@ -34,18 +35,18 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  *
  */
 public class Transaction {
-  public long id = 0;
+  public Long id = 0L;
   public String comment;
   public Date date;
   public Money amount;
-  //for transfers catId stores the peer account
-  public long catId;
+  public Long catId;
   //stores a short label of the category or the account the transaction is linked to
   public String label;
-  public long accountId;
+  public Long accountId;
   public String payee;
-  public long transfer_peer = 0;
-  public long methodId;
+  public Long transfer_peer;
+  public Long transfer_account;
+  public Long methodId;
   public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
     KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID};
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
@@ -63,7 +64,7 @@ public class Transaction {
   public static Transaction getInstanceFromDb(long id)  {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
-        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_ACCOUNTID,KEY_METHODID};
+        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID};
 
     Cursor c = MyApplication.cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
@@ -78,10 +79,12 @@ public class Transaction {
     if (transfer_peer != 0) {
       t = new Transfer(account_id,amount);
       t.transfer_peer = transfer_peer;
+      t.transfer_account = c.getLong(c.getColumnIndexOrThrow(KEY_TRANSFER_ACCOUNT));
     }
     else {
       t = new Transaction(account_id,amount);
       t.methodId = c.getLong(c.getColumnIndexOrThrow(KEY_METHODID));
+      t.catId = c.getLong(c.getColumnIndexOrThrow(KEY_CATID));
     }
     
     t.id = id;
@@ -91,7 +94,6 @@ public class Transaction {
         c.getColumnIndexOrThrow(KEY_COMMENT));
     t.payee = c.getString(
             c.getColumnIndexOrThrow(KEY_PAYEE));
-    t.catId = c.getLong(c.getColumnIndexOrThrow(KEY_CATID));
     t.label = c.getString(c.getColumnIndexOrThrow("label"));
     c.close();
     return t;
@@ -204,10 +206,11 @@ public class Transaction {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_TRANSFER_PEER,0);
       uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
-      id = Integer.valueOf(uri.getLastPathSegment());
-      MyApplication.cr().update(
-          TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(catId)).appendPath("increaseUsage").build(),
-          null, null, null);
+      id = ContentUris.parseId(uri);
+      if (catId != null)
+        MyApplication.cr().update(
+            TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(catId)).appendPath("increaseUsage").build(),
+            null, null, null);
     }
     else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
@@ -216,7 +219,7 @@ public class Transaction {
     return uri;
   }
   public Uri saveAsNew() {
-    id = 0;
+    id = 0L;
     setDate(new Date());
     return save();
   }

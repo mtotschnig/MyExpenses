@@ -13,29 +13,36 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses.test;
+package org.totschnig.myexpenses.test.model;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import android.test.ProviderTestCase2;
+
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
 
-public class AccountTest extends TestCase {
+public class AccountTest extends  ProviderTestCase2<TransactionProvider>  {
+
+  public AccountTest() {
+    super(TransactionProvider.class,TransactionProvider.AUTHORITY);
+}
+
   public Account mAccount;
   
   @Override
   protected void setUp() throws Exception {
-      super.setUp();
-      mAccount = new Account("TestAccount",100,"Testing with Junit");
+    super.setUp();
+    ((MyApplication) getContext().getApplicationContext()).mockCr = getMockContentResolver();
+    mAccount = new Account("TestAccount",100,"Testing with Junit");
   }
+  
   public void testAccount() {
     mAccount.setCurrency("EUR");
     Assert.assertEquals("EUR", mAccount.currency.getCurrencyCode());
     mAccount.save();
     Assert.assertTrue(mAccount.id > 0);
-  }
-  @Override
-  protected void tearDown() throws Exception {
-    Account.delete(mAccount.id);
   }
 }

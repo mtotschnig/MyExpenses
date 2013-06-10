@@ -13,7 +13,7 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses.test;
+package org.totschnig.myexpenses.test.model;
 
 import java.util.Currency;
 
@@ -24,23 +24,24 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 
-import android.test.AndroidTestCase;
+import android.test.ProviderTestCase2;
 
 import junit.framework.Assert;
 
-public class TransactionTest extends AndroidTestCase {
+public class TransactionTest extends ProviderTestCase2<TransactionProvider>  {
+  public TransactionTest() {
+    super(TransactionProvider.class,TransactionProvider.AUTHORITY);
+  }
   private Currency currency;
   private Account mAccount1;
   private Account mAccount2;
-  private static final String TEST_ID = "functest";
-  private MyApplication app;
   
   @Override
   protected void setUp() throws Exception {
       super.setUp();
-      app = (MyApplication) getContext().getApplicationContext();
-      app.setDatabaseName(TEST_ID);
+      ((MyApplication) getContext().getApplicationContext()).mockCr = getMockContentResolver();
       mAccount1 = new Account("TestAccount 1",100,"Main account");
       mAccount1.save();
       mAccount2 = new Account("TestAccount 2",100,"Secondary account");
@@ -51,21 +52,23 @@ public class TransactionTest extends AndroidTestCase {
     Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id);
     op1.amount = new Money(currency,100L);
     op1.comment = "test transfer";
-    long id = Long.valueOf(op1.save().getLastPathSegment());
+    op1.save();
+    Assert.assertTrue(op1.id > 0);
     Assert.assertEquals(1, Transaction.getTransactionSequence());
-    Transaction.delete(id);
+    Transaction.delete(op1.id);
     Assert.assertEquals(1, Transaction.getTransactionSequence());
   }
   
   public void testTransfer() {
     Transfer op = (Transfer) Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER,mAccount1.id);
-    op.catId = mAccount2.id;
+    op.transfer_account = mAccount2.id;
     op.amount = new Money(currency,(long) 100);
     op.comment = "test transfer";
     op.save();
     Assert.assertTrue(op.id > 0);
     Transfer peer = (Transfer) Transaction.getInstanceFromDb(op.transfer_peer);
     Assert.assertEquals(op.id, peer.transfer_peer);
+    Assert.assertEquals(op.transfer_account, peer.accountId);
   }
   public void testTemplate() {
     Long start = mAccount1.getCurrentBalance().getAmountMinor();

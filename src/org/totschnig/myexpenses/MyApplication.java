@@ -40,7 +40,6 @@ import android.widget.Toast;
 
 public class MyApplication extends Application {
     private SharedPreferences settings;
-    private String databaseName;
     private static MyApplication mSelf;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
     public static String PREFKEY_CATEGORIES_SORT_BY_USAGES;
@@ -77,6 +76,7 @@ public class MyApplication extends Application {
      * how many nanoseconds should we wait before prompting for the password
      */
     public static long passwordCheckDelayNanoSeconds;
+    public ContentResolver mockCr;
     public static void setPasswordCheckDelayNanoSeconds() {
       MyApplication.passwordCheckDelayNanoSeconds = mSelf.settings.getInt(PREFKEY_PROTECTION_DELAY_SECONDS, 15) * 1000000000L;
     }
@@ -100,9 +100,6 @@ public class MyApplication extends Application {
         if (settings == null)
         {
             settings = PreferenceManager.getDefaultSharedPreferences(this);
-        }
-        if (databaseName == null) {
-          databaseName = "data";
         }
 
         PREFKEY_CATEGORIES_SORT_BY_USAGES = getString(R.string.pref_categories_sort_by_usages_key);
@@ -176,12 +173,6 @@ public class MyApplication extends Application {
     public void setSettings(SharedPreferences s)
     {
         settings = s;
-    }
-    public String getDatabaseName() {
-      return databaseName;
-    }
-    public void setDatabaseName(String s) {
-      databaseName = s;
     }
     public boolean backup() {
       File appDir, backupPrefFile, sharedPrefFile;
@@ -305,13 +296,9 @@ public class MyApplication extends Application {
       }
       return false;
     }
-    /**
-     * @return the opened DB Adapter, if we find a backup, we return null 
-     * to give the activity the chance to prompt the user for confirmation of restore
-     */
 
     public static ContentResolver cr() {
-      return mSelf.getContentResolver();
+      return (mSelf.mockCr == null) ? mSelf.getContentResolver() : mSelf.mockCr;
     }
     public long getmLastPause() {
       return mLastPause;

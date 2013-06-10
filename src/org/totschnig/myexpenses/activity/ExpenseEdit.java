@@ -163,7 +163,7 @@ public class ExpenseEdit extends EditActivity {
 
         public void onClick(View view) {
           if (saveState())
-            mTransaction.id = 0;
+            mTransaction.id = 0L;
             mAmountText.setText("");
         }
       });

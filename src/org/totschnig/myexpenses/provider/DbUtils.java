@@ -72,7 +72,7 @@ public class DbUtils {
         return false;
       //line below gives app_databases instead of databases ???
       //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
-      File currentDb = new File(dataDir,app.getDatabaseName());
+      File currentDb = new File(dataDir,TransactionDatabase.DATABASE_NAME);
 
       if (backupDb.exists()) {
         result = Utils.copy(backupDb,currentDb);

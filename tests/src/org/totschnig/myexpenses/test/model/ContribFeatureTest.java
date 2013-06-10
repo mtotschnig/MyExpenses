@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.test;
+package org.totschnig.myexpenses.test.model;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.ContribFeature;

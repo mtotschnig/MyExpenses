@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.model;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -47,23 +48,23 @@ public class Transfer extends Transaction {
   public Uri save() {
     Uri uri;
     long amount = this.amount.getAmountMinor();
-    //the id of the peer_account is stored in KEY_CATID,
+    //the id of the peer_account is stored in KEY_TRANSFER_ACCOUNT,
     //the id of the peer transaction is stored in KEY_TRANSFER_PEER
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_DATE, dateAsString);
     initialValues.put(KEY_AMOUNT, amount);
-    initialValues.put(KEY_CATID, catId);
+    initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
       uri = MyApplication.cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
-      id = Integer.valueOf(uri.getLastPathSegment());
+      id = ContentUris.parseId(uri);
       initialValues.put(KEY_AMOUNT, 0 - amount);
-      initialValues.put(KEY_CATID, accountId);
-      initialValues.put(KEY_ACCOUNTID, catId);
+      initialValues.put(KEY_TRANSFER_ACCOUNT, accountId);
+      initialValues.put(KEY_ACCOUNTID, transfer_account);
       initialValues.put(KEY_TRANSFER_PEER,id);
       Uri transferUri = MyApplication.cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
-      transfer_peer = Integer.valueOf(transferUri.getLastPathSegment());
+      transfer_peer = ContentUris.parseId(transferUri);
       //we have to set the transfer_peer for the first transaction
       ContentValues args = new ContentValues();
       args.put(KEY_TRANSFER_PEER,transfer_peer);
@@ -74,7 +75,7 @@ public class Transfer extends Transaction {
       initialValues.put(KEY_AMOUNT, 0 - amount);
       //if the user has changed the account to which we should transfer,
       //in the peer transaction we need to update the account_id
-      initialValues.put(KEY_ACCOUNTID, catId);
+      initialValues.put(KEY_ACCOUNTID, transfer_account);
       //the account from which is transfered is not altered
       initialValues.remove(KEY_CATID);
       MyApplication.cr().update(Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + transfer_peer),initialValues,null,null);
