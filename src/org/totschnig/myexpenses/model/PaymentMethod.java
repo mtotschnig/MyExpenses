@@ -22,7 +22,6 @@ import java.util.HashMap;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.R.string;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -30,11 +29,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.util.Log;
 
-public class PaymentMethod {
+public class PaymentMethod extends Model {
   public long id;
   private String label;
   public static final int EXPENSE =  -1;
@@ -59,7 +57,7 @@ public class PaymentMethod {
   private PaymentMethod(long id) throws DataObjectNotFoundException {
     this.id = id;
     String[] projection = new String[] {"label","type"};
-    Cursor c = MyApplication.cr().query(
+    Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
       throw new DataObjectNotFoundException();
@@ -74,7 +72,7 @@ public class PaymentMethod {
     } catch (IllegalArgumentException ex) { 
       predef = null;
     }
-    c = MyApplication.cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,
+    c = cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,
         new String[] {"type"}, KEY_METHODID + " = ?", new String[] {String.valueOf(id)}, null);
     if(c.moveToFirst()) {
       for (int i = 0; i < c.getCount(); i++){
@@ -149,11 +147,11 @@ public class PaymentMethod {
     initialValues.put("label", label);
     initialValues.put("type",paymentType);
     if (id == 0) {
-      uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
+      uri = cr().insert(CONTENT_URI, initialValues);
       id = Integer.valueOf(uri.getLastPathSegment());
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
-      MyApplication.cr().update(uri,initialValues,null,null);
+      cr().update(uri,initialValues,null,null);
     }
     setMethodAccountTypes();
     if (!methods.containsKey(id))
@@ -161,12 +159,12 @@ public class PaymentMethod {
     return uri;
   }
   private void setMethodAccountTypes() {
-    MyApplication.cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI, KEY_METHODID + " = ?", new String[]{String.valueOf(id)});
+    cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI, KEY_METHODID + " = ?", new String[]{String.valueOf(id)});
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_METHODID, id);
     for (Account.Type accountType : accountTypes) {
       initialValues.put("type",accountType.name());
-      MyApplication.cr().insert(TransactionProvider.ACCOUNTTYPES_METHODS_URI, initialValues);
+      cr().insert(TransactionProvider.ACCOUNTTYPES_METHODS_URI, initialValues);
     }
   }
 
@@ -177,12 +175,12 @@ public class PaymentMethod {
     methods.clear();
   }
   public static boolean delete(long id) {
-    MyApplication.cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI,KEY_METHODID + " = ?",new String[] {String.valueOf(id)});
-    return MyApplication.cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+    cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI,KEY_METHODID + " = ?",new String[] {String.valueOf(id)});
+    return cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null) > 0;
   }
   public static int count(String selection,String[] selectionArgs) {
-    Cursor mCursor = MyApplication.cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,new String[] {"count(*)"},
+    Cursor mCursor = cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,new String[] {"count(*)"},
         selection, selectionArgs, null);
     if (mCursor.getCount() == 0) {
       mCursor.close();

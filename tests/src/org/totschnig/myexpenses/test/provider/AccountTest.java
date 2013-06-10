@@ -362,8 +362,12 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
 
         // Tries to insert this record into the table.
         //Our content provider returns null on failed insert
-        rowUri = mMockResolver.insert(TransactionProvider.ACCOUNTS_URI, values);
-        assertNull(rowUri);
+        try {
+          rowUri = mMockResolver.insert(TransactionProvider.ACCOUNTS_URI, values);
+          fail("Expected insert failure for existing record but insert succeeded.");
+         } catch (Exception e) {
+           // succeeded, do nothing
+         }
     }
 
     /*

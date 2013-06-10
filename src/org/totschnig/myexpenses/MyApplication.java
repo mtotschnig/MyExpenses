@@ -76,7 +76,6 @@ public class MyApplication extends Application {
      * how many nanoseconds should we wait before prompting for the password
      */
     public static long passwordCheckDelayNanoSeconds;
-    public ContentResolver mockCr;
     public static void setPasswordCheckDelayNanoSeconds() {
       MyApplication.passwordCheckDelayNanoSeconds = mSelf.settings.getInt(PREFKEY_PROTECTION_DELAY_SECONDS, 15) * 1000000000L;
     }
@@ -297,9 +296,6 @@ public class MyApplication extends Application {
       return false;
     }
 
-    public static ContentResolver cr() {
-      return (mSelf.mockCr == null) ? mSelf.getContentResolver() : mSelf.mockCr;
-    }
     public long getmLastPause() {
       return mLastPause;
     }

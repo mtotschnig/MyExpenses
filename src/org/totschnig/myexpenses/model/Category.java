@@ -26,7 +26,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 //TODO implement complete DAO
 //for the moment we only wrap calls to the content provider
-public class Category {
+public class Category extends Model {
   public static final String[] PROJECTION = new String[] {KEY_ROWID, KEY_LABEL, KEY_PARENTID};
   public static final Uri CONTENT_URI = TransactionProvider.CATEGORIES_URI;
   /**
@@ -41,7 +41,7 @@ public class Category {
     initialValues.put(KEY_PARENTID, parentId);
     Uri uri;
     try {
-      uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
+      uri = cr().insert(CONTENT_URI, initialValues);
     } catch (SQLiteConstraintException e) {
       return -1;
     }
@@ -57,7 +57,7 @@ public class Category {
     ContentValues args = new ContentValues();
     args.put(KEY_LABEL, label);
     try {
-      return MyApplication.cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+      return cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
           args, KEY_ROWID + " = ?", new String[] {String.valueOf(id)});
     } catch (SQLiteConstraintException e) {
       // TODO Auto-generated catch block
@@ -71,7 +71,7 @@ public class Category {
    * @return id or -1 if not found
    */
   public static long find(String label, long parentId) {
-    Cursor mCursor = MyApplication.cr().query(CONTENT_URI,
+    Cursor mCursor = cr().query(CONTENT_URI,
         new String[] {KEY_ROWID}, KEY_PARENTID + " = ? and " + KEY_LABEL + " = ?", new String[] {String.valueOf(parentId), label}, null);
     if (mCursor.getCount() == 0) {
       mCursor.close();
@@ -84,7 +84,7 @@ public class Category {
     }
   }
   public static boolean delete(long id) {
-    return MyApplication.cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+    return cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null) > 0;
   }
   /**
@@ -93,7 +93,7 @@ public class Category {
    * @return number of subcategories
    */
   public static int countSub(long parentId){
-    Cursor mCursor = MyApplication.cr().query(CONTENT_URI,
+    Cursor mCursor = cr().query(CONTENT_URI,
         new String[] {"count(*)"}, KEY_PARENTID + " = ?", new String[] {String.valueOf(parentId)}, null);
     if (mCursor.getCount() == 0) {
       mCursor.close();

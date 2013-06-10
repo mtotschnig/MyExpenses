@@ -35,7 +35,7 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
-import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.DialogUtils;
@@ -486,7 +486,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.CLONE_TRANSACTION_COMMAND:
       mDialogContextId = info.id;
       if (MyApplication.getInstance().isContribEnabled) {
-        contribFeatureCalled(ContribFeature.CLONE_TRANSACTION);
+        contribFeatureCalled(Feature.CLONE_TRANSACTION);
       }
       else {
         showDialog(R.id.CONTRIB_DIALOG);
@@ -789,7 +789,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.DONATE_DIALOG:
       return DialogUtils.donateDialog((Activity) this);
     case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,ContribFeature.CLONE_TRANSACTION);
+      return DialogUtils.contribDialog(this,Feature.CLONE_TRANSACTION);
     }
     return super.onCreateDialog(id);
   }
@@ -950,7 +950,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         app.addVersionInfo(Html.fromHtml(getString(R.string.version_39_upgrade_info,Utils.getContribFeatureLabelsAsFormattedList(this))));
       }
       if (prev_version < 40) {
-        DbUtils.fixDateValues();
+        DbUtils.fixDateValues(getContentResolver());
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
         mSettings.edit().putLong("nextReminderContrib",Transaction.getTransactionSequence()+23).commit();
@@ -1285,7 +1285,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     configButtons();
   }
   @Override
-  public void contribFeatureCalled(ContribFeature feature) {
+  public void contribFeatureCalled(Feature feature) {
     feature.recordUsage();
     Transaction.getInstanceFromDb(mDialogContextId).saveAsNew();
     //myAdapter.notifyDataSetChanged();

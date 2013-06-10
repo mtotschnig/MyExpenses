@@ -1,32 +1,27 @@
 package org.totschnig.myexpenses.test.model;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
 
 import junit.framework.Assert;
-import android.content.Context;
 
-public class ContribFeatureTest extends android.test.InstrumentationTestCase {
-  Context ctx;
-  @Override
-  protected void setUp() throws Exception {
-      super.setUp();
-      ctx = getInstrumentation().getTargetContext();
-  }
+public class ContribFeatureTest extends ModelTest  {
+  
   public void testFormattedList() {
-    Assert.assertNotNull(Utils.getContribFeatureLabelsAsFormattedList(ctx));
+    Assert.assertNotNull(Utils.getContribFeatureLabelsAsFormattedList(getContext()));
   }
   public void testRecordUsage() {
-    ContribFeature feature = ContribFeature.AGGREGATE;
+    Feature feature = Feature.AGGREGATE;
+    MyApplication app = (MyApplication) getContext().getApplicationContext();
     Assert.assertEquals(5,feature.usagesLeft());
-    MyApplication.getInstance().isContribEnabled = false;
+    app.isContribEnabled = false;
     feature.recordUsage();
     Assert.assertEquals(4,feature.usagesLeft());
-    MyApplication.getInstance().isContribEnabled = true;
+    app.isContribEnabled = true;
     feature.recordUsage();
     Assert.assertEquals(4,feature.usagesLeft());
-    MyApplication.getInstance().isContribEnabled = false;
+    app.isContribEnabled = false;
     feature.recordUsage();
     Assert.assertEquals(3,feature.usagesLeft());
   }

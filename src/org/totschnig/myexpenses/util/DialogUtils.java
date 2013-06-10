@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribIFace;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.ContribFeature.Feature;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -74,7 +75,7 @@ public class DialogUtils {
       }
     }).create();
   }
-  public static Dialog contribDialog(final Activity ctx,final ContribFeature feature) {
+  public static Dialog contribDialog(final Activity ctx,final Feature feature) {
     final Integer usagesLeft = feature.usagesLeft();
     CharSequence message = Html.fromHtml(String.format(ctx.getString(
       R.string.dialog_contrib_reminder,

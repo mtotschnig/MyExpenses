@@ -68,6 +68,7 @@ public class TransactionProvider extends ContentProvider {
   @Override
   public boolean onCreate() {
     mOpenHelper = new TransactionDatabase(getContext());
+    Log.i("DEBUG",getContext().toString());
     return true;
   }
 

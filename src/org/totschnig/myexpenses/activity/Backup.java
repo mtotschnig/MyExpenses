@@ -19,7 +19,7 @@ import java.io.File;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.DialogUtils;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -98,7 +98,7 @@ public class Backup extends ProtectedActivity implements ContribIFace {
           if (v.getId() == R.id.RESTORE_COMMAND) {
             if (MyApplication.backupExists()) {
               MyApplication.backupRestore();
-              ContribFeature.RESTORE.recordUsage();
+              Feature.RESTORE.recordUsage();
               Intent i = getBaseContext().getPackageManager()
                   .getLaunchIntentForPackage( getBaseContext().getPackageName() );
               i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -118,12 +118,12 @@ public class Backup extends ProtectedActivity implements ContribIFace {
       })
       .create();
     case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,ContribFeature.RESTORE);
+      return DialogUtils.contribDialog(this,Feature.RESTORE);
     }
     return null;
   }
   @Override
-  public void contribFeatureCalled(ContribFeature feature) {
+  public void contribFeatureCalled(Feature feature) {
     showDialog(R.id.RESTORE_DIALOG);
   }
   @Override

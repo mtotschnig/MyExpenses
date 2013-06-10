@@ -34,7 +34,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  * @author Michael Totschnig
  *
  */
-public class Transaction {
+public class Transaction extends Model {
   public Long id = 0L;
   public String comment;
   public Date date;
@@ -66,7 +66,7 @@ public class Transaction {
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
         SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID};
 
-    Cursor c = MyApplication.cr().query(
+    Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
       return null;
@@ -113,7 +113,7 @@ public class Transaction {
     tr.payee = te.payee;
     tr.catId = te.catId;
     tr.label = te.label;
-    MyApplication.cr().update(
+    cr().update(
         TransactionProvider.TEMPLATES_URI.buildUpon().appendPath(String.valueOf(id)).appendPath("increaseUsage").build(),
         null, null, null);
     return tr;
@@ -133,7 +133,7 @@ public class Transaction {
   }
   
   public static boolean delete(long id) {
-    return MyApplication.cr().delete(
+    return cr().delete(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null) > 0;
   }
   //needed for Template subclass
@@ -204,16 +204,16 @@ public class Transaction {
     initialValues.put(KEY_METHODID, methodId);
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
-      uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
+      uri = cr().insert(CONTENT_URI, initialValues);
       id = ContentUris.parseId(uri);
       if (catId != null)
-        MyApplication.cr().update(
+        cr().update(
             TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(catId)).appendPath("increaseUsage").build(),
             null, null, null);
     }
     else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
-      MyApplication.cr().update(uri,initialValues,null,null);
+      cr().update(uri,initialValues,null,null);
     }
     return uri;
   }
@@ -225,10 +225,10 @@ public class Transaction {
   public static void move(long whichTransactionId, long whereAccountId) {
     ContentValues args = new ContentValues();
     args.put(KEY_ACCOUNTID, whereAccountId);
-    MyApplication.cr().update(Uri.parse(CONTENT_URI + "/" + whichTransactionId), args, null, null);
+    cr().update(Uri.parse(CONTENT_URI + "/" + whichTransactionId), args, null, null);
   }
     public static int count(Uri uri,String selection,String[] selectionArgs) {
-      Cursor cursor = MyApplication.cr().query(uri,new String[] {"count(*)"},
+      Cursor cursor = cr().query(uri,new String[] {"count(*)"},
           selection, selectionArgs, null);
       if (cursor.getCount() == 0) {
         cursor.close();
@@ -270,7 +270,7 @@ public class Transaction {
    * @return the number of transactions that have been created since creation of the db based on sqllite sequence
    */
   public static long getTransactionSequence() {
-    Cursor mCursor = MyApplication.cr().query(TransactionProvider.SQLITE_SEQUENCE_TRANSACTIONS_URI,
+    Cursor mCursor = cr().query(TransactionProvider.SQLITE_SEQUENCE_TRANSACTIONS_URI,
         null, null, null, null);
     if (mCursor.getCount() == 0)
       return 0;

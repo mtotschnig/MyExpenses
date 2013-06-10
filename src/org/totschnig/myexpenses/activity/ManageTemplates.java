@@ -19,7 +19,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.DialogUtils;
 
@@ -102,7 +102,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements Contri
           case EDIT_TEMPLATE:
             mTemplateId = id;
             if (MyApplication.getInstance().isContribEnabled) {
-              contribFeatureCalled(ContribFeature.EDIT_TEMPLATE);
+              contribFeatureCalled(Feature.EDIT_TEMPLATE);
             } else {
               showDialog(R.id.CONTRIB_DIALOG);
             }
@@ -131,7 +131,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements Contri
   protected Dialog onCreateDialog(int id) {
     switch (id) {
     case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,ContribFeature.EDIT_TEMPLATE);
+      return DialogUtils.contribDialog(this,Feature.EDIT_TEMPLATE);
     case R.id.DONATE_DIALOG:
       return DialogUtils.donateDialog((Activity) this);
     }
@@ -139,7 +139,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements Contri
   }
 
   @Override
-  public void contribFeatureCalled(ContribFeature feature) {
+  public void contribFeatureCalled(Feature feature) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("template_id", mTemplateId);
     i.putExtra("instantiate", false);

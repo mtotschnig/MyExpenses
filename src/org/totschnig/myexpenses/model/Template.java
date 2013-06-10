@@ -64,7 +64,7 @@ public class Template extends Transaction {
   public static Template getInstanceFromDb(long id) {
     String[] projection = new String[] {KEY_ROWID,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
         SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,KEY_TITLE};
-    Cursor c = MyApplication.cr().query(
+    Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
       return null;
@@ -108,16 +108,16 @@ public class Template extends Transaction {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_TRANSFER_PEER, isTransfer);
       try {
-        uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
+        uri = cr().insert(CONTENT_URI, initialValues);
       } catch (SQLiteConstraintException e) {
         return null;
       }
       id = ContentUris.parseId(uri);
     } else {
-      org.totschnig.myexpenses.model.ContribFeature.EDIT_TEMPLATE.recordUsage();
+      org.totschnig.myexpenses.model.ContribFeature.Feature.EDIT_TEMPLATE.recordUsage();
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
       try {
-        MyApplication.cr().update(uri, initialValues, null, null);
+        cr().update(uri, initialValues, null, null);
       } catch (SQLiteConstraintException e) {
         return null;
       }
@@ -125,7 +125,7 @@ public class Template extends Transaction {
     return uri;
   }
   public static boolean delete(long id) {
-    return MyApplication.cr().delete(
+    return cr().delete(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null) > 0;
   }
   public static int countPerMethod(long methodId) {

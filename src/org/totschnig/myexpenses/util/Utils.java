@@ -41,7 +41,7 @@ import java.util.EnumSet;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 
@@ -365,7 +365,7 @@ public class Utils {
   }
   public static String getContribFeatureLabelsAsFormattedList(Context ctx) {
     String result ="";
-    Iterator<ContribFeature> iterator = EnumSet.allOf(ContribFeature.class).iterator();
+    Iterator<Feature> iterator = EnumSet.allOf(Feature.class).iterator();
     while (iterator.hasNext()) {
       result += " - " + ctx.getString(ctx.getResources().getIdentifier("contrib_feature_" + iterator.next().toString() + "_label", "string", ctx.getPackageName()));
       if (iterator.hasNext())

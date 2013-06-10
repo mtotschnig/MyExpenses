@@ -8,7 +8,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import android.content.ContentValues;
 import android.net.Uri;
 
-public class Payee {
+public class Payee extends Model {
   public static final String[] PROJECTION = new String[] {KEY_ROWID, "name"};
   public static final Uri CONTENT_URI = TransactionProvider.PAYEES_URI;
   /**
@@ -19,13 +19,13 @@ public class Payee {
   public static long create(String name) {
     ContentValues initialValues = new ContentValues();
     initialValues.put("name", name);
-    Uri uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
+    Uri uri = cr().insert(CONTENT_URI, initialValues);
     if (uri == null)
       return -1;
     return Integer.valueOf(uri.getLastPathSegment());
   }
   public static boolean delete(long id) {
-    return MyApplication.cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+    return cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null) > 0;
   }
 }

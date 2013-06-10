@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -59,15 +60,16 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
       super.onCreate(savedInstanceState);
       accountId = getArguments() != null ? getArguments().getLong("account_id") : 1;
       observer = new MyObserver(new Handler());
-      MyApplication.cr().registerContentObserver(TransactionProvider.TRANSACTIONS_URI, true,observer);
-      MyApplication.cr().registerContentObserver(
+      ContentResolver cr= getActivity().getContentResolver(); 
+      cr.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, true,observer);
+      cr.registerContentObserver(
           TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(), true,observer);
   }
   @Override
   public void onDestroy() {
     super.onDestroy();
     try {
-      MyApplication.cr().unregisterContentObserver(observer);
+      getActivity().getContentResolver().unregisterContentObserver(observer);
     } catch (IllegalStateException ise) {
         // Do Nothing.  Observer has already been unregistered.
     }

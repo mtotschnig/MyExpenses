@@ -27,7 +27,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.Transaction;
@@ -78,7 +78,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   Cursor mCurrencyCursor;
   private Button mAddButton, mAggregateButton, mResetAllButton;
   private long mContextAccountId;
-  private ContribFeature mContextFeature;
+  private Feature mContextFeature;
   static final int DELETE_DIALOG_ID = 1;
   static final int AGGREGATE_DIALOG_ID = 2;
   static final int RESET_ALL_DIALOG_ID = 3;
@@ -102,7 +102,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
         if (MyApplication.getInstance().isContribEnabled) {
           showDialogWrapper(AGGREGATE_DIALOG_ID);
         } else {
-          mContextFeature = ContribFeature.AGGREGATE;
+          mContextFeature = Feature.AGGREGATE;
           showDialog(R.id.CONTRIB_DIALOG);
         }
       }
@@ -114,7 +114,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
         if (MyApplication.getInstance().isContribEnabled) {
           showDialogWrapper(RESET_ALL_DIALOG_ID);
         } else {
-          mContextFeature = ContribFeature.RESET_ALL;
+          mContextFeature = Feature.RESET_ALL;
           showDialog(R.id.CONTRIB_DIALOG);
         }
       }
@@ -328,11 +328,11 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
    super.onRestoreInstanceState(savedInstanceState);
    mContextAccountId = savedInstanceState.getLong("contextAccountId");
    mCurrentDialog = savedInstanceState.getInt("currentDialog");
-   mContextFeature = (ContribFeature) savedInstanceState.getSerializable("contextFeature");
+   mContextFeature = (Feature) savedInstanceState.getSerializable("contextFeature");
   }
   @SuppressWarnings("incomplete-switch")
   @Override
-  public void contribFeatureCalled(ContribFeature feature) {
+  public void contribFeatureCalled(Feature feature) {
     removeDialog(R.id.CONTRIB_DIALOG);
     feature.recordUsage();
     switch (feature) {

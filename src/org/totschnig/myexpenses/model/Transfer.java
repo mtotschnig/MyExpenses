@@ -38,7 +38,7 @@ public class Transfer extends Transaction {
     super(accountId,amount);
   }
   public static boolean delete(long id,long peer) {
-    return MyApplication.cr().delete(TransactionProvider.TRANSACTIONS_URI,
+    return cr().delete(TransactionProvider.TRANSACTIONS_URI,
         KEY_ROWID + " in (" + id + "," + peer + ")",null) > 0;
   }
 
@@ -57,28 +57,28 @@ public class Transfer extends Transaction {
     initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
-      uri = MyApplication.cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
+      uri = cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
       id = ContentUris.parseId(uri);
       initialValues.put(KEY_AMOUNT, 0 - amount);
       initialValues.put(KEY_TRANSFER_ACCOUNT, accountId);
       initialValues.put(KEY_ACCOUNTID, transfer_account);
       initialValues.put(KEY_TRANSFER_PEER,id);
-      Uri transferUri = MyApplication.cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
+      Uri transferUri = cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
       transfer_peer = ContentUris.parseId(transferUri);
       //we have to set the transfer_peer for the first transaction
       ContentValues args = new ContentValues();
       args.put(KEY_TRANSFER_PEER,transfer_peer);
-      MyApplication.cr().update(Uri.parse(TransactionProvider.TRANSACTIONS_URI+ "/" + id), args, null, null);
+      cr().update(Uri.parse(TransactionProvider.TRANSACTIONS_URI+ "/" + id), args, null, null);
     } else {
       uri = Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + id);
-      MyApplication.cr().update(uri,initialValues,null,null);
+      cr().update(uri,initialValues,null,null);
       initialValues.put(KEY_AMOUNT, 0 - amount);
       //if the user has changed the account to which we should transfer,
       //in the peer transaction we need to update the account_id
       initialValues.put(KEY_ACCOUNTID, transfer_account);
       //the account from which is transfered is not altered
       initialValues.remove(KEY_CATID);
-      MyApplication.cr().update(Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + transfer_peer),initialValues,null,null);
+      cr().update(Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + transfer_peer),initialValues,null,null);
     }
     return uri;
   }

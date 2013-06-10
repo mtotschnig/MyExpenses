@@ -47,7 +47,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  * @author Michael Totschnig
  *
  */
-public class Account {
+public class Account extends Model {
 
   public long id = 0;
 
@@ -315,7 +315,7 @@ public class Account {
     }
     account.deleteAllTransactions();
     accounts.remove(id);
-    return MyApplication.cr().delete(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null) > 0;
+    return cr().delete(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null) > 0;
   }
 
   /**
@@ -346,7 +346,7 @@ public class Account {
   private Account(long id) throws DataObjectNotFoundException {
     this.id = id;
     String[] projection = new String[] {KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_TYPE,KEY_COLOR};
-    Cursor c = MyApplication.cr().query(
+    Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
       throw new DataObjectNotFoundException();
@@ -393,7 +393,7 @@ public class Account {
    * @return sum of all transcations
    */
   public long getTransactionSum() {
-    Cursor c = MyApplication.cr().query(TransactionProvider.TRANSACTIONS_URI,
+    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI,
         new String[] {"sum(" + KEY_AMOUNT + ")"}, "account_id = ?", new String[] { String.valueOf(id) }, null);
     c.moveToFirst();
     long result = c.getLong(0);
@@ -408,7 +408,7 @@ public class Account {
     openingBalance.setAmountMinor(currentBalance);
     ContentValues args = new ContentValues();
     args.put(KEY_OPENING_BALANCE,currentBalance);
-    MyApplication.cr().update(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), args,
+    cr().update(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), args,
         null, null);
     deleteAllTransactions();
   }
@@ -422,9 +422,9 @@ public class Account {
     args.put(KEY_COMMENT, MyApplication.getInstance().getString(R.string.peer_transaction_deleted,label));
     args.put(KEY_CATID,0);
     args.put(KEY_TRANSFER_PEER,0);
-    MyApplication.cr().update(TransactionProvider.TRANSACTIONS_URI, args,
+    cr().update(TransactionProvider.TRANSACTIONS_URI, args,
         KEY_CATID + " = ? and " + KEY_TRANSFER_PEER + " != 0", selectArgs);
-    MyApplication.cr().delete(TransactionProvider.TRANSACTIONS_URI, KEY_ACCOUNTID + " = ?", selectArgs);
+    cr().delete(TransactionProvider.TRANSACTIONS_URI, KEY_ACCOUNTID + " = ?", selectArgs);
   }
   public void exportAllDo(File output) throws IOException {
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
@@ -433,7 +433,7 @@ public class Account {
         MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
     String header = "!Type:" + type.getQifName() + "\n";
     out.write(header);
-    Cursor c = MyApplication.cr().query(TransactionProvider.TRANSACTIONS_URI, null,
+    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI, null,
         "account_id = ?", new String[] { String.valueOf(id) }, null);
     c.moveToFirst();
     while( c.getPosition() < c.getCount() ) {
@@ -518,11 +518,11 @@ public class Account {
     initialValues.put(KEY_COLOR,color);
     
     if (id == 0) {
-      uri = MyApplication.cr().insert(CONTENT_URI, initialValues);
+      uri = cr().insert(CONTENT_URI, initialValues);
       id = Integer.valueOf(uri.getLastPathSegment());
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
-      MyApplication.cr().update(uri,initialValues,null,null);
+      cr().update(uri,initialValues,null,null);
     }
     if (!accounts.containsKey(id))
       accounts.put(id, this);
@@ -532,7 +532,7 @@ public class Account {
     return Transaction.countPerAccount(id);
   }
   public static int count(String selection,String[] selectionArgs) {
-    Cursor cursor = MyApplication.cr().query(CONTENT_URI,new String[] {"count(*)"},
+    Cursor cursor = cr().query(CONTENT_URI,new String[] {"count(*)"},
         selection, selectionArgs, null);
     if (cursor.getCount() == 0) {
       cursor.close();
@@ -550,7 +550,7 @@ public class Account {
     return count("currency = ?",new String[] {currency.getCurrencyCode()});
   }
   public static Long firstId() {
-    Cursor cursor = MyApplication.cr().query(CONTENT_URI,new String[] {"min(_id)"},null,null,null);
+    Cursor cursor = cr().query(CONTENT_URI,new String[] {"min(_id)"},null,null,null);
     cursor.moveToFirst();
     Long result;
     if (cursor.isNull(0))
@@ -559,6 +559,43 @@ public class Account {
       result = cursor.getLong(0);
     cursor.close();
     return result;
+  }
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Account other = (Account) obj;
+    if (color != other.color)
+      return false;
+    if (currency == null) {
+      if (other.currency != null)
+        return false;
+    } else if (!currency.equals(other.currency))
+      return false;
+    if (description == null) {
+      if (other.description != null)
+        return false;
+    } else if (!description.equals(other.description))
+      return false;
+    if (id != other.id)
+      return false;
+    if (label == null) {
+      if (other.label != null)
+        return false;
+    } else if (!label.equals(other.label))
+      return false;
+    if (openingBalance == null) {
+      if (other.openingBalance != null)
+        return false;
+    } else if (!openingBalance.equals(other.openingBalance))
+      return false;
+    if (type != other.type)
+      return false;
+    return true;
   }
 }
 

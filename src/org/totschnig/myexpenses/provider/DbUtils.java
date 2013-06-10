@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
@@ -21,9 +22,10 @@ public class DbUtils {
   /**
    * fix for date values that were incorrectly entered to database in non-western locales
    * https://github.com/mtotschnig/MyExpenses/issues/53
+   * @param cr 
    */
-  public static void fixDateValues() {
-    Cursor c = MyApplication.cr().query(TransactionProvider.TRANSACTIONS_URI, 
+  public static void fixDateValues(ContentResolver cr) {
+    Cursor c = cr.query(TransactionProvider.TRANSACTIONS_URI, 
         new String[] {KEY_ROWID, KEY_DATE}, null, null, null);
     String dateString;
     c.moveToFirst();
@@ -42,7 +44,7 @@ public class DbUtils {
           args.put(KEY_COMMENT,"corrupted Date has been reset");
         }
         args.put(KEY_DATE,dateString);
-        MyApplication.cr().update(TransactionProvider.TRANSACTIONS_URI, args,KEY_ROWID + " = ?",
+        cr.update(TransactionProvider.TRANSACTIONS_URI, args,KEY_ROWID + " = ?",
             new String[] {String.valueOf(c.getLong(c.getColumnIndex(KEY_ROWID)))});
       }
       c.moveToNext();
