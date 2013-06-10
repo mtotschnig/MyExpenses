@@ -70,9 +70,9 @@ public class ExpenseEdit extends EditActivity {
   private Calendar mCalendar = Calendar.getInstance();
   private final java.text.DateFormat mTitleDateFormat = java.text.DateFormat.
       getDateInstance(java.text.DateFormat.FULL);
-  private long mCatId;
+  private Long mCatId;
   private long mTransferAccount;
-  private long mMethodId = 0;
+  private Long mMethodId;
   private String mLabel;
   private Transaction mTransaction;
 
@@ -228,7 +228,7 @@ public class ExpenseEdit extends EditActivity {
         mType = ! mType;
         //we need to empty payment method, since they are different for expenses and incomes
         if (mMethodButton != null) {
-          mMethodId = 0;
+          mMethodId = null;
           mMethodButton.setText((CharSequence) mMethodButton.getTag());
         }
         configureType();
@@ -436,7 +436,7 @@ public class ExpenseEdit extends EditActivity {
           }
         } catch (DataObjectNotFoundException e) {
           //the methodId no longer exists in DB, we set it to 0
-          mMethodId = 0;
+          mMethodId = null;
         }
       }
       //3d fill label (category or account) we got from database, if we are a transfer we prefix 
@@ -657,7 +657,7 @@ public class ExpenseEdit extends EditActivity {
       mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel(this));
     } catch (DataObjectNotFoundException e) {
       //the methodId no longer exists in DB, we set it to 0
-      mMethodId = 0;
+      mMethodId = null;
     }
   }
 }
