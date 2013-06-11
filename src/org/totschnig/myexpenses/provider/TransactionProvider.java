@@ -8,7 +8,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -459,6 +458,10 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "feature_used", FEATURE_USED);
     URI_MATCHER.addURI(AUTHORITY, "sqlite_sequence/*", SQLITE_SEQUENCE_TABLE);
   }
+  public void resetDatabase() {
+    mOpenHelper.close();
+    mOpenHelper = new TransactionDatabase(getContext());
+}
   /**
    * A test package can call this to get a handle to the database underlying NotePadProvider,
    * so it can insert test data into the database. The test case class is responsible for
