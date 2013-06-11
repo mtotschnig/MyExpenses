@@ -420,10 +420,10 @@ public class Account extends Model {
     String[] selectArgs = new String[] { String.valueOf(id) };
     ContentValues args = new ContentValues();
     args.put(KEY_COMMENT, MyApplication.getInstance().getString(R.string.peer_transaction_deleted,label));
-    args.put(KEY_CATID,0);
-    args.put(KEY_TRANSFER_PEER,0);
+    args.putNull(KEY_TRANSFER_ACCOUNT);
+    args.putNull(KEY_TRANSFER_PEER);
     cr().update(TransactionProvider.TRANSACTIONS_URI, args,
-        KEY_CATID + " = ? and " + KEY_TRANSFER_PEER + " != 0", selectArgs);
+        KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
     cr().delete(TransactionProvider.TRANSACTIONS_URI, KEY_ACCOUNTID + " = ?", selectArgs);
   }
   public void exportAllDo(File output) throws IOException {
