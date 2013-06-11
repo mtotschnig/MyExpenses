@@ -545,8 +545,6 @@ public class Account extends Model {
     }
   }
   public static int countPerCurrency(Currency currency) {
-    //since cat_id stores the account to which is transfered for transfers
-    //we have to restrict to normal transactions by checking if transfer_peer is 0
     return count("currency = ?",new String[] {currency.getCurrencyCode()});
   }
   public static Long firstId() {
