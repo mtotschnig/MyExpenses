@@ -42,7 +42,7 @@ public class DatabaseConstants {
     "CASE WHEN " +
     "  transfer_peer " +
     "THEN " +
-    "  (SELECT label FROM " + TABLE_ACCOUNTS + " WHERE _id = cat_id) " +
+    "  (SELECT label FROM " + TABLE_ACCOUNTS + " WHERE _id = transfer_account) " +
     "WHEN " +
     "  cat_id " +
     "THEN " +
@@ -58,7 +58,7 @@ public class DatabaseConstants {
     "END AS " + KEY_LABEL_MAIN;
  public static final String LABEL_SUB =
     "CASE WHEN " +
-    "  NOT transfer_peer AND cat_id AND (SELECT parent_id FROM " + TABLE_CATEGORIES
+    "  transfer_peer is null AND cat_id AND (SELECT parent_id FROM " + TABLE_CATEGORIES
         + " WHERE _id = cat_id) " +
     "THEN " +
     "  (SELECT label FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
@@ -71,7 +71,7 @@ public class DatabaseConstants {
     "CASE WHEN " +
     "  transfer_peer " +
     "THEN " +
-    "  (SELECT label FROM " + TABLE_ACCOUNTS + " WHERE _id = cat_id) " +
+    "  (SELECT label FROM " + TABLE_ACCOUNTS + " WHERE _id = transfer_account) " +
     "ELSE " +
     "  (SELECT label FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
     "END AS  " + KEY_LABEL;

@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -70,9 +71,9 @@ public class ExpenseEdit extends EditActivity {
   private Calendar mCalendar = Calendar.getInstance();
   private final java.text.DateFormat mTitleDateFormat = java.text.DateFormat.
       getDateInstance(java.text.DateFormat.FULL);
-  private Long mCatId;
-  private long mTransferAccount;
-  private Long mMethodId;
+  private Long mCatId = null;
+  private Long mTransferAccount = null;
+  private Long mMethodId = null;
   private String mLabel;
   private Transaction mTransaction;
 
@@ -126,7 +127,7 @@ public class ExpenseEdit extends EditActivity {
     if (mRowId != 0) {
       mTransaction = Transaction.getInstanceFromDb(mRowId);
       mAccountId = mTransaction.accountId;
-      mOperationType = mTransaction.transfer_peer == 0;
+      mOperationType = (mTransaction instanceof Transfer) ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
     } else if (mTemplateId != 0) {
       //are we editing the template or instantiating a new one
       if (extras.getBoolean("instantiate")) {
@@ -431,7 +432,7 @@ public class ExpenseEdit extends EditActivity {
         mPayeeText.setText(mTransaction.payee);
         mMethodId = mTransaction.methodId;
         try {
-          if (mMethodId != 0) {
+          if (mMethodId != null) {
             mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel(this));
           }
         } catch (DataObjectNotFoundException e) {
@@ -582,7 +583,7 @@ public class ExpenseEdit extends EditActivity {
       mTransaction.catId = mCatId;
       mTransaction.methodId = mMethodId;
     } else {
-      if (mTransferAccount == 0) {
+      if (mTransferAccount == null) {
         Toast.makeText(this,getString(R.string.warning_select_account), Toast.LENGTH_LONG).show();
         return false;
       }
@@ -637,9 +638,12 @@ public class ExpenseEdit extends EditActivity {
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable("calendar", mCalendar);
-    outState.putLong("catId", mCatId);
-    outState.putLong("transferAccount",mTransferAccount);
-    outState.putLong("methodId", mMethodId);
+    if (mCatId != null)
+      outState.putLong("catId", mCatId);
+    if (mTransferAccount != null)
+      outState.putLong("transferAccount",mTransferAccount);
+    if (mMethodId != null)
+      outState.putLong("methodId", mMethodId);
     outState.putString("label", mLabel);
   }
   @Override
@@ -647,9 +651,12 @@ public class ExpenseEdit extends EditActivity {
     super.onRestoreInstanceState(savedInstanceState);
     mCalendar = (Calendar) savedInstanceState.getSerializable("calendar");
     mLabel = savedInstanceState.getString("label");
-    mCatId = savedInstanceState.getLong("catId");
-    mTransferAccount = savedInstanceState.getLong("transferAccount");
-    mMethodId = savedInstanceState.getLong("methodId");
+    if ((mCatId = savedInstanceState.getLong("catId")) == 0L)
+      mCatId = null;
+    if ((mTransferAccount = savedInstanceState.getLong("transferAccount")) == 0L)
+      mTransferAccount = null;
+    if ((mMethodId = savedInstanceState.getLong("methodId")) == 0L)
+      mMethodId = null;
     configureType();
     setDate();
     setTime();

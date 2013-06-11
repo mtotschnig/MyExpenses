@@ -43,9 +43,9 @@ public class Template extends Transaction {
     this.comment = t.comment;
     this.methodId = t.methodId;
     this.payee = t.payee;
-    //for Transfers we store -1 as peer since it needs to be different from 0,
-    //but we are not interested in which was the transfer_peer of the transfer
+    //we are not interested in which was the transfer_peer of the transfer
     //from which the template was derived;
+    //we use KEY_TRANSFER_PEER as boolean
     this.isTransfer = t.transfer_peer != null;
     this.transfer_account = t.transfer_account;
   }

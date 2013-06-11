@@ -101,17 +101,16 @@ public class Transaction extends Model {
   public static Transaction getInstanceFromTemplate(long id) {
     Template te = Template.getInstanceFromDb(id);
     Transaction tr;
-    if (te.transfer_peer != null) {
+    if (te.isTransfer) {
       tr = new Transfer(te.accountId,te.amount);
-      tr.transfer_peer = te.transfer_peer;
     }
     else {
       tr = new Transaction(te.accountId,te.amount);
       tr.methodId = te.methodId;
+      tr.catId = te.catId;
     }
     tr.comment = te.comment;
     tr.payee = te.payee;
-    tr.catId = te.catId;
     tr.label = te.label;
     cr().update(
         TransactionProvider.TEMPLATES_URI.buildUpon().appendPath(String.valueOf(id)).appendPath("increaseUsage").build(),

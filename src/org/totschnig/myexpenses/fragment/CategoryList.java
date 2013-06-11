@@ -48,9 +48,7 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
     View v = inflater.inflate(R.layout.categories_list, null, false);
     ExpandableListView lv = (ExpandableListView) v.findViewById(R.id.list);
     mManager = getLoaderManager();
-    Bundle bundle = new Bundle();
-    bundle.putLong("parent_id", 0);
-    mManager.initLoader(-1, bundle, this);
+    mManager.initLoader(-1, null, this);
     mAdapter = new MyExpandableListAdapter(getActivity(),
         null,
         android.R.layout.simple_expandable_list_item_1,
@@ -101,9 +99,19 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-    long parentId = bundle.getLong("parent_id");
+    long parentId;
+    String selection;
+    String[] selectionArgs;
+    if (bundle == null) {
+      selection = "parent_id is null";
+      selectionArgs = null;
+    } else {
+      parentId = bundle.getLong("parent_id");
+      selection = "parent_id is ?";
+      selectionArgs = new String[]{String.valueOf(parentId)};
+    }
     return new CursorLoader(getActivity(),TransactionProvider.CATEGORIES_URI, null,
-        "parent_id = ?", new String[]{String.valueOf(parentId)}, mOrderBy);
+        selection,selectionArgs, mOrderBy);
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
