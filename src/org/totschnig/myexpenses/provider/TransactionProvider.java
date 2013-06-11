@@ -18,26 +18,26 @@ public class TransactionProvider extends ContentProvider {
   protected static TransactionDatabase mOpenHelper;
   private static final boolean debug = false;
   public static final String AUTHORITY = "org.totschnig.myexpenses";
-  public static final Uri ACCOUNTS_URI = Uri.parse("content://" + AUTHORITY
-      + "/accounts");
-  public static final Uri TRANSACTIONS_URI = Uri.parse("content://" + AUTHORITY
-      + "/transactions");
-  public static final Uri TEMPLATES_URI    = Uri.parse("content://" + AUTHORITY
-      + "/templates");
-  public static final Uri CATEGORIES_URI   = Uri.parse("content://" + AUTHORITY
-      + "/categories");
-  public static final Uri AGGREGATES_URI   = Uri.parse("content://" + AUTHORITY
-      + "/aggregates");
-  public static final Uri PAYEES_URI   = Uri.parse("content://" + AUTHORITY
-      + "/payees");
-  public static final Uri METHODS_URI   = Uri.parse("content://" + AUTHORITY
-      + "/methods");
-  public static final Uri ACCOUNTTYPES_METHODS_URI   = Uri.parse("content://" + AUTHORITY
-      + "/accounttypes_methods");
-  public static final Uri FEATURE_USED_URI =  Uri.parse("content://" + AUTHORITY
-      + "/feature_used");
-  public static final Uri SQLITE_SEQUENCE_TRANSACTIONS_URI = Uri.parse("content://" + AUTHORITY
-      + "/sqlite_sequence/" + TABLE_TRANSACTIONS);
+  public static final Uri ACCOUNTS_URI =
+      Uri.parse("content://" + AUTHORITY + "/accounts");
+  public static final Uri TRANSACTIONS_URI =
+      Uri.parse("content://" + AUTHORITY + "/transactions");
+  public static final Uri TEMPLATES_URI =
+      Uri.parse("content://" + AUTHORITY + "/templates");
+  public static final Uri CATEGORIES_URI =
+      Uri.parse("content://" + AUTHORITY + "/categories");
+  public static final Uri AGGREGATES_URI =
+      Uri.parse("content://" + AUTHORITY + "/aggregates");
+  public static final Uri PAYEES_URI =
+      Uri.parse("content://" + AUTHORITY + "/payees");
+  public static final Uri METHODS_URI =
+      Uri.parse("content://" + AUTHORITY + "/methods");
+  public static final Uri ACCOUNTTYPES_METHODS_URI =
+      Uri.parse("content://" + AUTHORITY + "/accounttypes_methods");
+  public static final Uri FEATURE_USED_URI =
+      Uri.parse("content://" + AUTHORITY + "/feature_used");
+  public static final Uri SQLITE_SEQUENCE_TRANSACTIONS_URI =
+      Uri.parse("content://" + AUTHORITY + "/sqlite_sequence/" + TABLE_TRANSACTIONS);
 
   
   static final String TAG = "TransactionProvider";
