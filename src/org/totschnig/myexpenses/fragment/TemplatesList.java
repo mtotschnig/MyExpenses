@@ -4,8 +4,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
-import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -17,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.SimpleCursorTreeAdapter;
 
 public class TemplatesList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private MyExpandableListAdapter mAdapter;
@@ -41,7 +40,7 @@ public class TemplatesList extends Fragment implements LoaderManager.LoaderCallb
     registerForContextMenu(lv);
     return v;
   }
-  public class MyExpandableListAdapter extends SimpleCursorTreeAdapter2 {
+  public class MyExpandableListAdapter extends SimpleCursorTreeAdapter {
     
     public MyExpandableListAdapter(Context context,Cursor cursor, int groupLayout,
             int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
