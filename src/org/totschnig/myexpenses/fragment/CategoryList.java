@@ -6,10 +6,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
-//TODO: check if we still need this workaround class:
-//http://code.google.com/p/android/issues/detail?id=9170
-import com.ozdroid.adapter.SimpleCursorTreeAdapter2;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -24,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
+import android.widget.SimpleCursorTreeAdapter;
 
 
 public class CategoryList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -70,7 +67,7 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
    * @author Michael Totschnig
    *
    */
-  public class MyExpandableListAdapter extends SimpleCursorTreeAdapter2 {
+  public class MyExpandableListAdapter extends SimpleCursorTreeAdapter {
     public MyExpandableListAdapter(Context context, Cursor cursor, int groupLayout,
             int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
             int[] childrenTo) {
@@ -107,7 +104,7 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
       selectionArgs = null;
     } else {
       parentId = bundle.getLong("parent_id");
-      selection = "parent_id is ?";
+      selection = "parent_id = ?";
       selectionArgs = new String[]{String.valueOf(parentId)};
     }
     return new CursorLoader(getActivity(),TransactionProvider.CATEGORIES_URI, null,
@@ -118,8 +115,11 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
     int id = loader.getId();
     if (id == -1)
       mAdapter.setGroupCursor(data);
-    else
-      mAdapter.setChildrenCursor(id, data);
+    else {
+      //check if group still exists
+      if (mAdapter.getGroupId(id) != 0)
+          mAdapter.setChildrenCursor(id, data);
+    }
   }
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
