@@ -34,10 +34,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     + KEY_DATE             + " DATETIME not null, "
     + KEY_AMOUNT           + " integer not null, "
     + KEY_CATID            + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
-    + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
+    + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
     + KEY_PAYEE            + " text, "
     + KEY_TRANSFER_PEER    + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + "), "
-    + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
+    + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
     + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "));";
 
 
@@ -92,10 +92,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_COMMENT          + " text not null, "
       + KEY_AMOUNT           + " integer not null, "
       + KEY_CATID            + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
-      + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
+      + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
       + KEY_PAYEE            + " text, "
       + KEY_TRANSFER_PEER    + " boolean default false, "
-      + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
+      + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
       + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "), "
       + KEY_TITLE            + " text not null, "
       + KEY_USAGES           + " integer default 0, "
@@ -237,11 +237,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 28) {
       db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
       db.execSQL("CREATE TABLE transactions(_id integer primary key autoincrement, comment text, date DATETIME not null, amount integer not null, " +
-      		"cat_id integer references categories(_id), account_id integer not null references accounts(_id) ON DELETE CASCADE,payee text, " +
-      		"transfer_peer integer references transactions(_id), transfer_account integer references accounts(_id) ON DELETE SET NULL, " +
-      		"method_id integer references paymentmethods(_id));");
+          "cat_id integer references categories(_id), account_id integer not null references accounts(_id),payee text, " +
+          "transfer_peer integer references transactions(_id), transfer_account integer references accounts(_id), " +
+          "method_id integer references paymentmethods(_id));");
       db.execSQL("INSERT INTO transactions (_id,comment,date,amount,cat_id,account_id,payee,transfer_peer,transfer_account,method_id) " +
-      		"SELECT _id,comment,date,amount, "+
+          "SELECT _id,comment,date,amount, "+
           "CASE WHEN transfer_peer THEN null ELSE CASE WHEN cat_id THEN cat_id ELSE null END END, " +
           "account_id,payee, " +
           "CASE WHEN transfer_peer THEN transfer_peer ELSE null END, " +
@@ -250,27 +250,27 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "FROM transactions_old");
       db.execSQL("ALTER TABLE accounts RENAME to accounts_old");
       db.execSQL("CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, opening_balance integer, description text, " +
-      		"currency text not null, type text not null check (type in ('CASH','BANK','CCARD','ASSET','LIABILITY')) default 'CASH', color integer default -3355444);");
+          "currency text not null, type text not null check (type in ('CASH','BANK','CCARD','ASSET','LIABILITY')) default 'CASH', color integer default -3355444);");
       db.execSQL("INSERT INTO accounts (_id,label,opening_balance,description,currency,type,color) " +
-      		"SELECT _id,label,opening_balance,description,currency,type,color FROM accounts_old");
+          "SELECT _id,label,opening_balance,description,currency,type,color FROM accounts_old");
       db.execSQL("ALTER TABLE templates RENAME to templates_old");
       db.execSQL("CREATE TABLE templates ( _id integer primary key autoincrement, comment text not null, amount integer not null, " +
-      		"cat_id integer references categories(_id), account_id integer not null references accounts(_id) ON DELETE CASCADE,payee text, " +
-      		"transfer_peer boolean default false, transfer_account integer references accounts(_id) ON DELETE SET NULL,method_id integer references paymentmethods(_id), " +
-      		"title text not null, usages integer default 0, unique(account_id,title));");
+          "cat_id integer references categories(_id), account_id integer not null references accounts(_id),payee text, " +
+          "transfer_peer boolean default false, transfer_account integer references accounts(_id),method_id integer references paymentmethods(_id), " +
+          "title text not null, usages integer default 0, unique(account_id,title));");
       db.execSQL("INSERT INTO templates (_id,comment,amount,cat_id,account_id,payee,transfer_peer,transfer_account,method_id,title,usages) " +
-      		"SELECT _id,comment,amount," +
-      		"CASE WHEN transfer_peer THEN null ELSE CASE WHEN cat_id THEN cat_id ELSE null END END, " +
-      		"account_id,payee, " +
-      		"CASE WHEN transfer_peer THEN 1 ELSE 0 END, " +
-      		"CASE WHEN transfer_peer THEN cat_id ELSE null END, " +
-      		"CASE WHEN payment_method_id THEN payment_method_id ELSE null END, " +
-      		"title,usages FROM templates_old");
+          "SELECT _id,comment,amount," +
+          "CASE WHEN transfer_peer THEN null ELSE CASE WHEN cat_id THEN cat_id ELSE null END END, " +
+          "account_id,payee, " +
+          "CASE WHEN transfer_peer THEN 1 ELSE 0 END, " +
+          "CASE WHEN transfer_peer THEN cat_id ELSE null END, " +
+          "CASE WHEN payment_method_id THEN payment_method_id ELSE null END, " +
+          "title,usages FROM templates_old");
       db.execSQL("ALTER TABLE categories RENAME to categories_old");
       db.execSQL("CREATE TABLE categories (_id integer primary key autoincrement, label text not null, parent_id integer references categories(_id), " +
-      		"usages integer default 0, unique (label,parent_id));");
+          "usages integer default 0, unique (label,parent_id));");
       db.execSQL("INSERT INTO categories (_id,label,parent_id,usages) " +
-      		"SELECT _id,label,CASE WHEN parent_id THEN parent_id ELSE null END,usages FROM categories_old");
+          "SELECT _id,label,CASE WHEN parent_id THEN parent_id ELSE null END,usages FROM categories_old");
       db.execSQL("ALTER TABLE paymentmethods RENAME to paymentmethods_old");
       db.execSQL("CREATE TABLE paymentmethods (_id integer primary key autoincrement, label text not null, type integer check (type in (-1,0,1)) default 0);");
       db.execSQL("INSERT INTO paymentmethods (_id,label,type) SELECT _id,label,type FROM paymentmethods_old");
