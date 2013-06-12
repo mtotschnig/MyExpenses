@@ -107,6 +107,7 @@ public class Transaction extends Model {
     Transaction tr;
     if (te.isTransfer) {
       tr = new Transfer(te.accountId,te.amount);
+      tr.transfer_account = te.transfer_account;
     }
     else {
       tr = new Transaction(te.accountId,te.amount);

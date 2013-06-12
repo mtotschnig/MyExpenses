@@ -137,16 +137,17 @@ public class ExpenseEdit extends EditActivity {
       //are we editing the template or instantiating a new one
       if (extras.getBoolean("instantiate")) {
         mTransaction = Transaction.getInstanceFromTemplate(mTemplateId);
+        mOperationType = (mTransaction instanceof Transfer) ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
       } else {
         try {
           mTransaction = Template.getInstanceFromDb(mTemplateId);
+          mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
         } catch (DataObjectNotFoundException e) {
           e.printStackTrace();
           throw new RuntimeException(e);
         }
       }
       mAccountId = mTransaction.accountId;
-      mOperationType = mTransaction.transfer_peer == 0;
     } else {
       mOperationType = extras.getBoolean("operationType");
       mAccountId = extras.getLong(DatabaseConstants.KEY_ACCOUNTID);
