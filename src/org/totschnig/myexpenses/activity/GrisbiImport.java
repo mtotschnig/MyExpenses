@@ -634,11 +634,11 @@ public class GrisbiImport extends ProtectedActivity implements DialogInterface.O
         CategoryTree mainCat = main.getValue();
         label = mainCat.getLabel();
         count++;
-        main_id = Category.find(label, 0);
+        main_id = Category.find(label, null);
         if (main_id != -1) {
           Log.i("MyExpenses","category with label" + label + " already defined");
         } else {
-          main_id = Category.create(label,0);
+          main_id = Category.create(label,null);
           if (main_id != -1) {
             totalImportedCat++;
             if (count % 10 == 0) {

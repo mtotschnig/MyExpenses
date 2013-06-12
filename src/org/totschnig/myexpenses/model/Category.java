@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
@@ -35,7 +34,7 @@ public class Category extends Model {
    * @param parentId
    * @return the row ID of the newly inserted row, or -1 if category already exists
    */
-  public static long create(String label, long parentId) {
+  public static long create(String label, Long parentId) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_LABEL, label);
     initialValues.put(KEY_PARENTID, parentId);
@@ -70,9 +69,19 @@ public class Category extends Model {
    * @param parentId
    * @return id or -1 if not found
    */
-  public static long find(String label, long parentId) {
+  public static long find(String label, Long parentId) {
+    String selection;
+    String[] selectionArgs;
+    if (parentId == null) {
+      selection = KEY_PARENTID + " is null";
+      selectionArgs = new String[]{label};
+    } else {
+      selection = KEY_PARENTID + " = ?";
+      selectionArgs = new String[]{String.valueOf(parentId),label};
+    }
+    selection += " and " + KEY_LABEL + " = ?";
     Cursor mCursor = cr().query(CONTENT_URI,
-        new String[] {KEY_ROWID}, KEY_PARENTID + " = ? and " + KEY_LABEL + " = ?", new String[] {String.valueOf(parentId), label}, null);
+        new String[] {KEY_ROWID}, selection, selectionArgs, null);
     if (mCursor.getCount() == 0) {
       mCursor.close();
       return -1;

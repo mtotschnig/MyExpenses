@@ -55,8 +55,7 @@ public class SelectCategory extends ProtectedFragmentActivity implements OnChild
     static final int CAT_CREATE_DIALOG_ID = 1;
     static final int CAT_EDIT_DIALOG_ID = 2;
     static final int CAT_DIALOG_LABEL_EDIT_ID = 1;
-    private long mCatCreateDialogParentId;
-    private long mCatEditDialogCatId;
+    private Long mDialogContextCatId;
     private String mCatDialogLabel;
 
     /**
@@ -125,7 +124,7 @@ public class SelectCategory extends ProtectedFragmentActivity implements OnChild
         mAddButton.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            createCat(0);
+            createCat(null);
           }
         });
     }
@@ -148,8 +147,8 @@ public class SelectCategory extends ProtectedFragmentActivity implements OnChild
             String value = input.getText().toString();
             if (!value.equals("")) {
               long cat_id = (id == CAT_CREATE_DIALOG_ID ?
-                  Category.create(value,mCatCreateDialogParentId) :
-                  Category.update(value,mCatEditDialogCatId));
+                  Category.create(value,mDialogContextCatId) :
+                  Category.update(value,mDialogContextCatId));
               if (cat_id == -1) {
                 Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
               }
@@ -269,9 +268,9 @@ public class SelectCategory extends ProtectedFragmentActivity implements OnChild
      * if label is already used, shows an error
      * @param parent_id
      */
-    public void createCat(final long parent_id) {
+    public void createCat(Long parent_id) {
       mCatDialogLabel = "";
-      mCatCreateDialogParentId = parent_id;
+      mDialogContextCatId = parent_id;
       showDialog(CAT_CREATE_DIALOG_ID);
     }
     /**
@@ -280,9 +279,9 @@ public class SelectCategory extends ProtectedFragmentActivity implements OnChild
      * @param label
      * @param cat_id
      */
-    public void editCat(String label, final long cat_id) {
+    public void editCat(String label, Long cat_id) {
       mCatDialogLabel = label;
-      mCatEditDialogCatId = cat_id;
+      mDialogContextCatId = cat_id;
       showDialog(CAT_EDIT_DIALOG_ID);
     }
 
@@ -299,13 +298,13 @@ public class SelectCategory extends ProtectedFragmentActivity implements OnChild
     @Override
     protected void onSaveInstanceState(Bundle outState) {
      super.onSaveInstanceState(outState);
-     outState.putLong("CatCreateDialogParentId", mCatCreateDialogParentId);
-     outState.putLong("CatEditDialogCatId", mCatEditDialogCatId);
+     if (mDialogContextCatId != null)
+       outState.putLong("DialogContextCatId", mDialogContextCatId);
     }
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
      super.onRestoreInstanceState(savedInstanceState);
-     mCatCreateDialogParentId = savedInstanceState.getLong("CatCreateDialogParentId");
-     mCatEditDialogCatId = savedInstanceState.getLong("CatEditDialogCatId");
+     if ((mDialogContextCatId = savedInstanceState.getLong("DialogContextCatId")) == 0L)
+       mDialogContextCatId = null;
     }
 }
