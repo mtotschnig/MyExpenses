@@ -55,6 +55,13 @@ public class TransactionTest extends ModelTest  {
     } catch (DataObjectNotFoundException e) {
        fail("Could not restore transaction");
     }
+    Template.delete(t.id);
+    try {
+      Template.getInstanceFromDb(t.id);
+      fail("Template deleted, but can still be retrieved");
+    } catch (DataObjectNotFoundException e) {
+      //succeed
+    }
   }
   public void testTransaction() {
     assertEquals(0, Transaction.getTransactionSequence());
@@ -71,22 +78,44 @@ public class TransactionTest extends ModelTest  {
       fail("Could not restore transaction");
     }
     Transaction.delete(op1.id);
+    //Transaction sequence should report on the number of transactions that have been created
     assertEquals(1, Transaction.getTransactionSequence());
+    try {
+      Transaction.getInstanceFromDb(op1.id);
+      fail("Transaction deleted, but can still be retrieved");
+    } catch (DataObjectNotFoundException e) {
+      //succeed
+    }
   }
   
   public void testTransfer() {
     Transfer op = (Transfer) Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER,mAccount1.id);
+    Transfer peer;
     op.transfer_account = mAccount2.id;
     op.amount = new Money(mAccount1.currency,(long) 100);
     op.comment = "test transfer";
     op.save();
     assertTrue(op.id > 0);
     try {
-      Transfer peer = (Transfer) Transaction.getInstanceFromDb(op.transfer_peer);
+      peer = (Transfer) Transaction.getInstanceFromDb(op.transfer_peer);
+      assertEquals(peer.id,op.transfer_peer);
       assertEquals(op.id, peer.transfer_peer);
       assertEquals(op.transfer_account, peer.accountId);
+      Transaction.delete(op.id);
+      try {
+        Transaction.getInstanceFromDb(op.id);
+        fail("Transaction deleted, but can still be retrieved");
+      } catch (DataObjectNotFoundException e) {
+        //succeed
+      }
+      try {
+        Transaction.getInstanceFromDb(peer.id);
+        fail("Transfer delete should delete peer, but peer can still be retrieved");
+      } catch (DataObjectNotFoundException e) {
+        //succeed
+      }
     } catch (DataObjectNotFoundException e) {
-      fail("Could not restore transaction");
+      fail("Could not restore peer for transfer");
     }
   }
 }
