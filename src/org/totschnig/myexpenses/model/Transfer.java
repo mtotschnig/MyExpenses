@@ -34,10 +34,6 @@ public class Transfer extends Transaction {
   public Transfer(long accountId, Money amount) {
     super(accountId,amount);
   }
-  public static boolean delete(long id,long peer) {
-    return cr().delete(TransactionProvider.TRANSACTIONS_URI,
-        KEY_ROWID + " in (" + id + "," + peer + ")",null) > 0;
-  }
 
   /* (non-Javadoc)
    * @see org.totschnig.myexpenses.Transaction#save()

@@ -124,9 +124,9 @@ public class Template extends Transaction {
     }
     return uri;
   }
-  public static boolean delete(long id) {
-    return cr().delete(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null) > 0;
+  public static void delete(long id) {
+    cr().delete(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null);
   }
   public static int countPerMethod(long methodId) {
     return countPerMethod(CONTENT_URI,methodId);

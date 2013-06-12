@@ -474,13 +474,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     Transaction t;
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
-      long transfer_peer = Transaction.getInstanceFromDb(info.id).transfer_peer;
-      if (transfer_peer == 0) {
-        Transaction.delete(info.id);
-      } else {
-        Transfer.delete(info.id,transfer_peer);
-      }
-      //myAdapter.notifyDataSetChanged();
+      Transaction.delete(info.id);
       configButtons();
       return true;
     case R.id.CLONE_TRANSACTION_COMMAND:

@@ -129,9 +129,20 @@ public class Transaction extends Model {
       return new Transfer(accountId,0);
   }
   
-  public static boolean delete(long id) {
-    return cr().delete(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null) > 0;
+  public static void delete(long id) {
+    Transaction t;
+    try {
+      t = Transaction.getInstanceFromDb(id);
+    } catch (DataObjectNotFoundException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
+    if (t instanceof Transfer)
+      cr().delete(CONTENT_URI,
+          KEY_ROWID + " in (" + id + "," + t.transfer_peer + ")",null);
+    else
+      cr().delete(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null);
   }
   //needed for Template subclass
   public Transaction() {
