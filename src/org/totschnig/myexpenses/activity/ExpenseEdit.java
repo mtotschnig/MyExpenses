@@ -138,7 +138,12 @@ public class ExpenseEdit extends EditActivity {
       if (extras.getBoolean("instantiate")) {
         mTransaction = Transaction.getInstanceFromTemplate(mTemplateId);
       } else {
-        mTransaction = Template.getInstanceFromDb(mTemplateId);
+        try {
+          mTransaction = Template.getInstanceFromDb(mTemplateId);
+        } catch (DataObjectNotFoundException e) {
+          e.printStackTrace();
+          throw new RuntimeException(e);
+        }
       }
       mAccountId = mTransaction.accountId;
       mOperationType = mTransaction.transfer_peer == 0;

@@ -61,14 +61,13 @@ public class Template extends Transaction {
   public void setDate(Date date){
     //templates have no date
   }
-  public static Template getInstanceFromDb(long id) {
+  public static Template getInstanceFromDb(long id) throws DataObjectNotFoundException {
     String[] projection = new String[] {KEY_ROWID,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
         SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,KEY_TITLE};
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
-      return null;
-      //TODO throw DataObjectNotFoundException
+      throw new DataObjectNotFoundException();
     }
     c.moveToFirst();
     Template t = new Template(c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID)),

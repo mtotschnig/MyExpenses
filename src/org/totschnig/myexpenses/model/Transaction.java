@@ -97,7 +97,13 @@ public class Transaction extends Model {
     return t;
   }
   public static Transaction getInstanceFromTemplate(long id) {
-    Template te = Template.getInstanceFromDb(id);
+    Template te;
+    try {
+      te = Template.getInstanceFromDb(id);
+    } catch (DataObjectNotFoundException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
     Transaction tr;
     if (te.isTransfer) {
       tr = new Transfer(te.accountId,te.amount);
