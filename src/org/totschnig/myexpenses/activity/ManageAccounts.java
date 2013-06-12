@@ -215,7 +215,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
     case R.id.RESET_ACCOUNT_COMMAND_DO:
       try {
         Account account = Account.getInstanceFromDb(mContextAccountId);
-        if (account.exportAll(this) != null)
+        if (account.exportAll() != null)
           account.reset();
       } catch (DataObjectNotFoundException e) {
         //should not happen

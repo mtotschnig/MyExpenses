@@ -103,6 +103,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public static final int ACTIVITY_PREF=2;
   public static final int ACTIVITY_CREATE_ACCOUNT=3;
   public static final int ACTIVITY_EDIT_ACCOUNT=4;
+  public static final int ACTIVITY_EXPORT=5;
 
   public static final boolean TYPE_TRANSACTION = true;
   public static final boolean TYPE_TRANSFER = false;
@@ -846,28 +847,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     }
   }
   
-  /**
-   * triggers export of transactions and resets the account
-   * (i.e. deletes transactions and updates opening balance)
-   */
-  private void reset() {
-    try {
-      File output = mCurrentAccount.exportAll(this);
-      if (output != null) {
-        if (mSettings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
-          ArrayList<File> file = new ArrayList<File>();
-          file.add(output);
-          Utils.share(this,file, mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
-        }
-        mCurrentAccount.reset();
-        //myAdapter.notifyDataSetChanged();
-        configButtons();
-      }
-    } catch (IOException e) {
-      Log.e("MyExpenses",e.getMessage());
-      Toast.makeText(getBaseContext(),getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
-    }
-  }
 
   /**
    * if there are already accounts defined, return the first one
@@ -1102,7 +1081,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       break;
     case R.id.RESET_ACCOUNT_COMMAND_DO:
       if (Utils.isExternalStorageAvailable()) {
-        reset();
+        i = new Intent(this, Export.class);
+        i.putExtra(KEY_ROWID, mCurrentAccount.id);
+        startActivityForResult(i, ACTIVITY_EXPORT);
       } else { 
         Toast.makeText(getBaseContext(),
             getString(R.string.external_storage_unavailable),

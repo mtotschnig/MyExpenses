@@ -67,6 +67,8 @@
           </intent-filter>
         </activity>
         <activity android:name=".activity.MyPreferenceActivity"/>
+        <activity android:name=".activity.Export"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity android:name=".activity.ManageParties">
              <intent-filter>  
               <action android:name="myexpenses.intent.manage.parties"/>

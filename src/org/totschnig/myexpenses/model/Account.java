@@ -485,7 +485,7 @@ public class Account extends Model {
    * writes all transactions to a QIF file
    * @throws IOException
    */
-  public File exportAll(Context ctx) throws IOException {
+  public File exportAll() throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
     Log.i("MyExpenses","now starting export");
     File appDir = Utils.requireAppDir();
@@ -495,11 +495,10 @@ public class Account extends Model {
         label.replaceAll("\\W","") + "-" +
         now.format(new Date()) + ".qif");
     if (outputFile.exists()) {
-      Toast.makeText(ctx,String.format(ctx.getString(R.string.export_expenses_outputfile_exists), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
+      //Toast.makeText(ctx,String.format(ctx.getString(R.string.export_expenses_outputfile_exists), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
       return null;
     }
     exportAllDo(outputFile);
-    Toast.makeText(ctx,String.format(ctx.getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
     return outputFile;
   }
   
