@@ -16,8 +16,6 @@
 package org.totschnig.myexpenses.model;
 
 import java.util.Date;
-
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -60,8 +58,9 @@ public class Transaction extends Model {
    * @param mDbHelper
    * @param id
    * @return instance of {@link Transaction} or {@link Transfer}
+   * @throws DataObjectNotFoundException 
    */
-  public static Transaction getInstanceFromDb(long id)  {
+  public static Transaction getInstanceFromDb(long id) throws DataObjectNotFoundException  {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
         SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID};
@@ -69,8 +68,7 @@ public class Transaction extends Model {
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
-      return null;
-      //TODO throw DataObjectNotFoundException
+      throw new DataObjectNotFoundException();
     }
     c.moveToFirst();
     Long transfer_peer = Utils.getLongOrNull(c, KEY_TRANSFER_PEER);

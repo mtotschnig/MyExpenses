@@ -7,6 +7,7 @@ import junit.framework.Assert;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.Transaction;
 
 import android.content.Context;
@@ -54,8 +55,11 @@ public class LocaleTest extends android.test.InstrumentationTestCase {
       op.comment = code + " " + lang;
       op.save();
       Assert.assertTrue("Failed to create transaction in Locale " + lang,op.id > 0);
-      Assert.assertNotNull("Failed to instantiate transaction in Locale " + lang,
-          Transaction.getInstanceFromDb(op.id));
+      try {
+        Transaction.getInstanceFromDb(op.id);
+      } catch (DataObjectNotFoundException e) {
+        fail("Failed to instantiate transaction in Locale " + lang);
+      }
     }
   }
 }

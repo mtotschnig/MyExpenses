@@ -15,9 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
@@ -57,20 +54,20 @@ public class Transfer extends Transaction {
     initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
-      uri = cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
+      uri = cr().insert(CONTENT_URI, initialValues);
       id = ContentUris.parseId(uri);
       initialValues.put(KEY_AMOUNT, 0 - amount);
       initialValues.put(KEY_TRANSFER_ACCOUNT, accountId);
       initialValues.put(KEY_ACCOUNTID, transfer_account);
       initialValues.put(KEY_TRANSFER_PEER,id);
-      Uri transferUri = cr().insert(TransactionProvider.TRANSACTIONS_URI, initialValues);
+      Uri transferUri = cr().insert(CONTENT_URI, initialValues);
       transfer_peer = ContentUris.parseId(transferUri);
       //we have to set the transfer_peer for the first transaction
       ContentValues args = new ContentValues();
       args.put(KEY_TRANSFER_PEER,transfer_peer);
-      cr().update(Uri.parse(TransactionProvider.TRANSACTIONS_URI+ "/" + id), args, null, null);
+      cr().update(Uri.parse(CONTENT_URI+ "/" + id), args, null, null);
     } else {
-      uri = Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + id);
+      uri = Uri.parse(CONTENT_URI + "/" + id);
       cr().update(uri,initialValues,null,null);
       initialValues.put(KEY_AMOUNT, 0 - amount);
       //if the user has changed the account to which we should transfer,
@@ -78,7 +75,7 @@ public class Transfer extends Transaction {
       initialValues.put(KEY_ACCOUNTID, transfer_account);
       //the account from which is transfered is not altered
       initialValues.remove(KEY_CATID);
-      cr().update(Uri.parse(TransactionProvider.TRANSACTIONS_URI + "/" + transfer_peer),initialValues,null,null);
+      cr().update(Uri.parse(CONTENT_URI + "/" + transfer_peer),initialValues,null,null);
     }
     return uri;
   }

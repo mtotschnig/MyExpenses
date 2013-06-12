@@ -493,7 +493,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       }
       return true;
     case R.id.SHOW_DETAIL_COMMAND:
-      t = Transaction.getInstanceFromDb(info.id);
+      try {
+        t = Transaction.getInstanceFromDb(info.id);
+      } catch (DataObjectNotFoundException e) {
+        e.printStackTrace();
+        throw new RuntimeException(e);
+      }
       String method = "";
       if (t.methodId != 0) {
         try {
@@ -661,10 +666,15 @@ public class MyExpenses extends ProtectedFragmentActivity implements
           if (!title.equals("")) {
             input.setText("");
             dismissDialog(R.id.TEMPLATE_TITLE_DIALOG);
-            if ((new Template(Transaction.getInstanceFromDb(mDialogContextId),title)).save() == null) {
-              Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
-            } else {
-              Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
+            try {
+              if ((new Template(Transaction.getInstanceFromDb(mDialogContextId),title)).save() == null) {
+                Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
+              } else {
+                Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
+              }
+            } catch (DataObjectNotFoundException e) {
+              e.printStackTrace();
+              throw new RuntimeException(e);
             }
             if (!mUseStandardMenu) {
               fillAddButton();
@@ -1287,7 +1297,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   @Override
   public void contribFeatureCalled(Feature feature) {
     feature.recordUsage();
-    Transaction.getInstanceFromDb(mDialogContextId).saveAsNew();
+    try {
+      Transaction.getInstanceFromDb(mDialogContextId).saveAsNew();
+    } catch (DataObjectNotFoundException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
     //myAdapter.notifyDataSetChanged();
   }
   @Override

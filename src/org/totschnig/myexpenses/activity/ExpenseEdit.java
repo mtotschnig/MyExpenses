@@ -125,7 +125,12 @@ public class ExpenseEdit extends EditActivity {
     
     //1. fetch the transaction or create a new instance
     if (mRowId != 0) {
-      mTransaction = Transaction.getInstanceFromDb(mRowId);
+      try {
+        mTransaction = Transaction.getInstanceFromDb(mRowId);
+      } catch (DataObjectNotFoundException e) {
+        e.printStackTrace();
+        throw new RuntimeException(e);
+      }
       mAccountId = mTransaction.accountId;
       mOperationType = (mTransaction instanceof Transfer) ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
     } else if (mTemplateId != 0) {

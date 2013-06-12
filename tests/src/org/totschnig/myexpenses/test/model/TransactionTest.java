@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.test.model;
 
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -47,8 +48,13 @@ public class TransactionTest extends ModelTest  {
     Transaction op2  = Transaction.getInstanceFromTemplate(t.id);
     op2.save();
     assertEquals(mAccount1.getCurrentBalance().getAmountMinor().longValue(), start+2*amount);
-    Transaction restored = Transaction.getInstanceFromDb(op2.id);
-    assertEquals(op2,restored);
+    Transaction restored;
+    try {
+      restored = Transaction.getInstanceFromDb(op2.id);
+      assertEquals(op2,restored);
+    } catch (DataObjectNotFoundException e) {
+       fail("Could not restore transaction");
+    }
   }
   public void testTransaction() {
     assertEquals(0, Transaction.getTransactionSequence());
@@ -58,8 +64,12 @@ public class TransactionTest extends ModelTest  {
     op1.save();
     assertTrue(op1.id > 0);
     assertEquals(1, Transaction.getTransactionSequence());
-    Transaction restored = Transaction.getInstanceFromDb(op1.id);
-    assertEquals(op1,restored);
+    try {
+      Transaction restored = Transaction.getInstanceFromDb(op1.id);
+      assertEquals(op1,restored);
+    } catch (DataObjectNotFoundException e) {
+      fail("Could not restore transaction");
+    }
     Transaction.delete(op1.id);
     assertEquals(1, Transaction.getTransactionSequence());
   }
@@ -71,8 +81,12 @@ public class TransactionTest extends ModelTest  {
     op.comment = "test transfer";
     op.save();
     assertTrue(op.id > 0);
-    Transfer peer = (Transfer) Transaction.getInstanceFromDb(op.transfer_peer);
-    assertEquals(op.id, peer.transfer_peer);
-    assertEquals(op.transfer_account, peer.accountId);
+    try {
+      Transfer peer = (Transfer) Transaction.getInstanceFromDb(op.transfer_peer);
+      assertEquals(op.id, peer.transfer_peer);
+      assertEquals(op.transfer_account, peer.accountId);
+    } catch (DataObjectNotFoundException e) {
+      fail("Could not restore transaction");
+    }
   }
 }
