@@ -50,8 +50,6 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 public class SelectCategory extends ProtectedFragmentActivity implements OnChildClickListener, OnGroupClickListener  {
     private Button mAddButton;
 
-
-    public static final int ACTIVITY_IMPORT_CATS=1;
     static final int CAT_CREATE_DIALOG_ID = 1;
     static final int CAT_EDIT_DIALOG_ID = 2;
     static final int CAT_DIALOG_LABEL_EDIT_ID = 1;
@@ -291,7 +289,7 @@ public class SelectCategory extends ProtectedFragmentActivity implements OnChild
      */
     public void importCats(View v) {
       Intent i = new Intent(this, GrisbiImport.class);
-      startActivityForResult(i, ACTIVITY_IMPORT_CATS);
+      startActivity(i);
     }
 
     //safeguard for orientation change during dialog
