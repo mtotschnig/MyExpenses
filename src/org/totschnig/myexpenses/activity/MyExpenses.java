@@ -439,7 +439,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
          return;
     }
     updateUIforCurrentAccount();
-    if (requestCode == ACTIVITY_EDIT) {
+    if (requestCode == ACTIVITY_EDIT && resultCode == RESULT_OK) {
       long nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
       long transactionCount = Transaction.getTransactionSequence();
       if (nextReminder != -1 && transactionCount >= nextReminder) {
