@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.Result;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -485,7 +486,7 @@ public class Account extends Model {
    * writes all transactions to a QIF file
    * @throws IOException
    */
-  public File exportAll() throws IOException {
+  public Result exportAll() throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
     Log.i("MyExpenses","now starting export");
     File appDir = Utils.requireAppDir();
@@ -496,10 +497,10 @@ public class Account extends Model {
         now.format(new Date()) + ".qif");
     if (outputFile.exists()) {
       //Toast.makeText(ctx,String.format(ctx.getString(R.string.export_expenses_outputfile_exists), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
-      return null;
+      return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
     }
     exportAllDo(outputFile);
-    return outputFile;
+    return new Result(true,R.string.export_expenses_sdcard_success,outputFile);
   }
   
   /**

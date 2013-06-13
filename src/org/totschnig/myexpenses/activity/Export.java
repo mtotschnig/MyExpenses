@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.ProgressDialog;
@@ -113,7 +114,7 @@ public class Export extends ProtectedActivity {
     private int max;
     //we store the label of the account as progress
     private String progress ="";
-    ArrayList<File> result;
+    private final ArrayList<File> result = new ArrayList<File>();
 
     /**
      * @param context
@@ -167,7 +168,6 @@ public class Export extends ProtectedActivity {
      */
     @Override
     protected Void doInBackground(Account... account) {
-      ArrayList<File> files = new ArrayList<File>();
       publishProgress(account[0].label + " ...");
       try {
         Thread.sleep(500);
@@ -176,21 +176,20 @@ public class Export extends ProtectedActivity {
         e1.printStackTrace();
       }
       try {
-        File output = account[0].exportAll();
+        Result result = account[0].exportAll();
+        File output = (File) result.extra[0];
         SharedPreferences settings = MyApplication.getInstance().getSettings();
-        if (output != null) {
-          publishProgress("... " + String.format(activity.getString(R.string.export_expenses_sdcard_success), output.getAbsolutePath()));
-          try {
-            Thread.sleep(500);
-          } catch (InterruptedException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-          }
+        publishProgress("... " + String.format(activity.getString(result.message), output.getAbsolutePath()));
+        try {
+          Thread.sleep(500);
+        } catch (InterruptedException e1) {
+          e1.printStackTrace();
+        }
+        if (result.success) {
           if (settings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
-            files.add(output);
+            addResult(output);
           }
           account[0].reset();
-          setResult(files);
         }
       } catch (IOException e) {
         Log.e("MyExpenses",e.getMessage());
@@ -201,8 +200,8 @@ public class Export extends ProtectedActivity {
     public ArrayList<File> getResult() {
       return result;
     }
-    public void setResult(ArrayList<File> result) {
-      this.result = result;
+    public void addResult(File file) {
+      result.add(file);
     }
   }
 }
