@@ -472,6 +472,5 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
         // Asserts that only one row was updated. The selection criteria evaluated to
         // "title = Note1", and the test data should only contain one row that matches that.
         assertEquals(1, rowsUpdated);
-
     }
 }
