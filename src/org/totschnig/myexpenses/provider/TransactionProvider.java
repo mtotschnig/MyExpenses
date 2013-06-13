@@ -27,7 +27,7 @@ public class TransactionProvider extends ContentProvider {
   public static final Uri CATEGORIES_URI =
       Uri.parse("content://" + AUTHORITY + "/categories");
   public static final Uri AGGREGATES_URI =
-      Uri.parse("content://" + AUTHORITY + "/aggregates");
+      Uri.parse("content://" + AUTHORITY + "/accounts/aggregates");
   public static final Uri PAYEES_URI =
       Uri.parse("content://" + AUTHORITY + "/payees");
   public static final Uri METHODS_URI =
@@ -308,6 +308,8 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.delete(TABLE_ACCOUNTS, "_id=" + segment + whereString,
           whereArgs);
+      //update aggregate cursor
+      getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
       break;
     case CATEGORIES:
       count = db.delete(TABLE_CATEGORIES, where, whereArgs);
@@ -382,6 +384,8 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.update(TABLE_ACCOUNTS, values, "_id=" + segment + whereString,
           whereArgs);
+      //update aggregate cursor
+      getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
       break;
     case TEMPLATES_ID:
       segment = uri.getPathSegments().get(1); 
@@ -450,7 +454,7 @@ public class TransactionProvider extends ContentProvider {
     //TransactionType: 1 Income, -1 Expense
     //AccountType: CASH BANK CCARD ASSET LIABILITY
     URI_MATCHER.addURI(AUTHORITY, "methods/typeFilter/*/*", METHODS_FILTERED);
-    URI_MATCHER.addURI(AUTHORITY, "aggregates", AGGREGATES);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates", AGGREGATES);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATES_ID);
