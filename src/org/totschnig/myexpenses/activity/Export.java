@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -52,10 +53,17 @@ public class Export extends ProtectedActivity {
     mProgressDialog = new ProgressDialog(this);
     mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
     mProgressDialog.setTitle(R.string.pref_category_title_export);
-    mProgressDialog.setIndeterminate(true);
     mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
     mProgressDialog.setCancelable(false);
+    mProgressDialog.setButton(DialogInterface.BUTTON_NEUTRAL, getString(android.R.string.ok),
+        new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog,int whichButton) {
+            mProgressDialog.dismiss();
+            finish();
+          }
+      });
     mProgressDialog.show();
+    mProgressDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(false);
     
     task=(MyAsyncTask)getLastNonConfigurationInstance();
     
@@ -81,18 +89,13 @@ public class Export extends ProtectedActivity {
   }
 
   void markAsDone() {
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e1) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
-    }
-    mProgressDialog.dismiss();
+    //this hides the spinner, setting a different drawable did not work
+    mProgressDialog.setIndeterminateDrawable(null);
+    mProgressDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
     ArrayList<File> files = task.getResult();
     if (files != null && files.size() >0)
       Utils.share(this,files, MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
     task = null;
-    finish();
   }
   
   @Override
