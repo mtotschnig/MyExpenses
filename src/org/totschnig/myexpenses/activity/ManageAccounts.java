@@ -141,7 +141,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (resultCode == RESULT_OK) {
-      getSupportLoaderManager().getLoader(0).forceLoad();
+/*      getSupportLoaderManager().getLoader(0).forceLoad();*/
       configButtons();
     }
   }
@@ -213,16 +213,15 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       Account.delete(mContextAccountId);
       break;
     case R.id.RESET_ACCOUNT_COMMAND_DO:
-      try {
-        Account account = Account.getInstanceFromDb(mContextAccountId);
-        if (account.exportAll() != null)
-          account.reset();
-      } catch (DataObjectNotFoundException e) {
-        //should not happen
-        Log.w("MyExpenses","unable to reset account " + mContextAccountId);
-      } catch (IOException e) {
-        Log.e("MyExpenses",e.getMessage());
-        Toast.makeText(this,getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
+      if (Utils.isExternalStorageAvailable()) {
+        Intent i = new Intent(this, Export.class);
+        i.putExtra(KEY_ROWID, mContextAccountId);
+        startActivity(i);
+      } else {
+        Toast.makeText(getBaseContext(),
+            getString(R.string.external_storage_unavailable),
+            Toast.LENGTH_LONG)
+            .show();
       }
       break;
     case RESET_ACCOUNT_ALL_COMMAND_ID:
