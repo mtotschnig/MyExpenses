@@ -88,7 +88,7 @@ public class Export extends ProtectedActivity {
     }
     mProgressDialog.dismiss();
     ArrayList<File> files = task.getResult();
-    if (files.size() >0)
+    if (files != null && files.size() >0)
       Utils.share(this,files, MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
     task = null;
     finish();
@@ -102,8 +102,8 @@ public class Export extends ProtectedActivity {
   }
 
   /**
-   * This AsyncTaks has no input upon execution 
-   * report an integer for showing a progress update
+   * This AsyncTaks has an Account as input upon execution
+   * reports Strings for showing a progress update
    * and gives no result
    * @author Michael Totschnig
    *
