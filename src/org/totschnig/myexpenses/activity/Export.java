@@ -189,21 +189,10 @@ public class Export extends ProtectedActivity {
     protected Void doInBackground(Account... account) {
       publishProgress(account[0].label + " ...");
       try {
-        Thread.sleep(500);
-      } catch (InterruptedException e1) {
-        // TODO Auto-generated catch block
-        e1.printStackTrace();
-      }
-      try {
         Result result = account[0].exportAll();
         File output = (File) result.extra[0];
         SharedPreferences settings = MyApplication.getInstance().getSettings();
         publishProgress("... " + String.format(activity.getString(result.message), output.getAbsolutePath()));
-        try {
-          Thread.sleep(500);
-        } catch (InterruptedException e1) {
-          e1.printStackTrace();
-        }
         if (result.success) {
           if (settings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
             addResult(output);
