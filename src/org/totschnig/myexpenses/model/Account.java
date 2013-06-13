@@ -416,6 +416,7 @@ public class Account extends Model {
   /**
    * For transfers the peer transaction will survive, but we transform it to a normal transaction
    * with a note about the deletion of the peer_transaction
+   * also takes care of templates
    */
   public void deleteAllTransactions() {
     String[] selectArgs = new String[] { String.valueOf(id) };
@@ -426,6 +427,8 @@ public class Account extends Model {
     cr().update(TransactionProvider.TRANSACTIONS_URI, args,
         KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
     cr().delete(TransactionProvider.TRANSACTIONS_URI, KEY_ACCOUNTID + " = ?", selectArgs);
+    cr().delete(TransactionProvider.TEMPLATES_URI, KEY_ACCOUNTID + " = ?", selectArgs);
+    cr().delete(TransactionProvider.TEMPLATES_URI, KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
   }
   public void exportAllDo(File output) throws IOException {
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
