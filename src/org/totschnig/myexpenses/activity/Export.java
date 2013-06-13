@@ -38,6 +38,11 @@ import android.widget.Toast;
 public class Export extends ProtectedActivity {
   ProgressDialog mProgressDialog;
   private MyAsyncTask task=null;
+  /**
+   * we set this to true once the task is finished, but we keep it alive until the user dismisses the dialog
+   * to have access to its message
+   */
+  private boolean mDone = false;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class Export extends ProtectedActivity {
         new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog,int whichButton) {
             mProgressDialog.dismiss();
+            task = null;
             finish();
           }
       });
@@ -72,7 +78,12 @@ public class Export extends ProtectedActivity {
       updateProgress(task.getProgress());
       
       if (task.getStatus() == AsyncTask.Status.FINISHED) {
-        markAsDone();
+        mDone = savedInstanceState.getBoolean("Done",false);
+        if (mDone) {
+          mProgressDialog.setIndeterminateDrawable(null);
+          mProgressDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
+        } else
+          markAsDone();
       }
     } else if (savedInstanceState == null) {
       task = new MyAsyncTask(this);
@@ -95,7 +106,7 @@ public class Export extends ProtectedActivity {
     ArrayList<File> files = task.getResult();
     if (files != null && files.size() >0)
       Utils.share(this,files, MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
-    task = null;
+    mDone = true;
   }
   
   @Override
@@ -103,6 +114,11 @@ public class Export extends ProtectedActivity {
     if (task != null)
       task.detach();
     return(task);
+  }
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+   super.onSaveInstanceState(outState);
+   outState.putBoolean("Done", mDone);
   }
 
   /**
