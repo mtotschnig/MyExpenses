@@ -15,26 +15,35 @@
 
 package org.totschnig.myexpenses.activity;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
+/**
+ * if called with KEY_ROW_ID in extras export one account, all otherwise
+ *
+ */
 public class Export extends ProtectedActivity {
   ProgressDialog mProgressDialog;
   private MyAsyncTask task=null;
@@ -48,12 +57,13 @@ public class Export extends ProtectedActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Bundle extras = getIntent().getExtras();
-    Account account;
-    try {
-      account = Account.getInstanceFromDb(extras.getLong(DatabaseConstants.KEY_ROWID));
-    } catch (DataObjectNotFoundException e) {
-      e.printStackTrace();
-      throw new RuntimeException();
+    Long[] accountIds;
+    if (extras != null) {
+        accountIds = new Long[] {extras.getLong(KEY_ROWID)};
+    } else {
+      Cursor c = getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
+          new String[] {KEY_ROWID}, null, null, null);
+      accountIds = Utils.getLongArrayFromCursor(c, KEY_ROWID);
     }
     mProgressDialog = new ProgressDialog(this);
     mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -87,7 +97,7 @@ public class Export extends ProtectedActivity {
       }
     } else if (savedInstanceState == null) {
       task = new MyAsyncTask(this);
-      task.execute(account);
+      task.execute(accountIds);
     }
   }
   @Override
@@ -128,7 +138,7 @@ public class Export extends ProtectedActivity {
    * @author Michael Totschnig
    *
    */
-  static class MyAsyncTask extends AsyncTask<Account, String, Void> {
+  static class MyAsyncTask extends AsyncTask<Long, String, Void> {
     private Export activity;
     private int max;
     //we store the label of the account as progress
@@ -186,22 +196,47 @@ public class Export extends ProtectedActivity {
      * @see android.os.AsyncTask#doInBackground(Params[])
      */
     @Override
-    protected Void doInBackground(Account... account) {
-      publishProgress(account[0].label + " ...");
-      try {
-        Result result = account[0].exportAll();
-        File output = (File) result.extra[0];
-        SharedPreferences settings = MyApplication.getInstance().getSettings();
-        publishProgress("... " + String.format(activity.getString(result.message), output.getAbsolutePath()));
-        if (result.success) {
-          if (settings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
-            addResult(output);
-          }
-          account[0].reset();
+    protected Void doInBackground(Long... accountIds) {
+      Account account;
+      File destDir;
+      File appDir = Utils.requireAppDir();
+      if (appDir == null) {
+        publishProgress(activity.getString(R.string.external_storage_unavailable));
+        return(null);
+      }
+      if (accountIds.length > 1) {
+        String now = new SimpleDateFormat("ddMM-HHmm",Locale.US).format(new Date());
+        destDir = new File(appDir,"export-" + now);
+        if (destDir.exists()) {
+          publishProgress(String.format(activity.getString(R.string.export_expenses_outputfile_exists), destDir.getAbsolutePath()));
+          return(null);
         }
-      } catch (IOException e) {
-        Log.e("MyExpenses",e.getMessage());
-        Toast.makeText(activity,activity.getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
+        destDir.mkdir();
+      } else
+        destDir = appDir;
+      for (Long id : accountIds) {
+        try {
+          account = Account.getInstanceFromDb(id);
+        } catch (DataObjectNotFoundException e) {
+          e.printStackTrace();
+          throw new RuntimeException();
+        }
+        publishProgress(account.label + " ...");
+        try {
+          Result result = account.exportAll(destDir);
+          File output = (File) result.extra[0];
+          SharedPreferences settings = MyApplication.getInstance().getSettings();
+          publishProgress("... " + String.format(activity.getString(result.message), output.getAbsolutePath()));
+          if (result.success) {
+            if (settings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
+              addResult(output);
+            }
+            account.reset();
+          }
+        } catch (IOException e) {
+          Log.e("MyExpenses",e.getMessage());
+          publishProgress("... " + activity.getString(R.string.export_expenses_sdcard_failure));
+        }
       }
       return(null);
     }

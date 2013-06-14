@@ -225,49 +225,16 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       }
       break;
     case RESET_ACCOUNT_ALL_COMMAND_ID:
-      File appDir = Utils.requireAppDir();
-      String now = new SimpleDateFormat("ddMM-HHmm",Locale.US).format(new Date());
-      if (appDir == null) {
-        Toast.makeText(this,getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
-        return;
+      if (Utils.isExternalStorageAvailable()) {
+        Intent i = new Intent(this, Export.class);
+        startActivity(i);
+      } else {
+        Toast.makeText(getBaseContext(),
+            getString(R.string.external_storage_unavailable),
+            Toast.LENGTH_LONG)
+            .show();
       }
-      File exportDir = new File(appDir,"export-" + now);
-      if (exportDir.exists()) {
-        Toast.makeText(this,String.format(getString(R.string.export_expenses_outputfile_exists), exportDir.getAbsolutePath() ), Toast.LENGTH_LONG).show();
-        return;
-      }
-      exportDir.mkdir();
-      File outputFile;
-      ArrayList<File> files = new ArrayList<File>();
-      Cursor accountsCursor = getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
-          new String[] {KEY_ROWID}, null, null, null);
-      accountsCursor.moveToFirst();
-      while( accountsCursor.getPosition() < accountsCursor.getCount() ) {
-        long accountId = accountsCursor.getLong(accountsCursor.getColumnIndex(KEY_ROWID));
-          try {
-            Account account = Account.getInstanceFromDb(accountId);
-            if (account.getSize() > 0) {
-              outputFile = new File(exportDir,
-                  account.label.replaceAll("\\W","") + "-" + now +  ".qif");
-              account.exportAllDo(outputFile);
-              files.add(outputFile);
-              Toast.makeText(this,String.format(this.getString(R.string.export_expenses_sdcard_success), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
-              account.reset();
-            }
-          } catch (DataObjectNotFoundException e) {
-            //should not happen
-            Log.w("MyExpenses","unable to reset account " + accountId);
-          } catch (IOException e) {
-            Log.e("MyExpenses",e.getMessage());
-            Toast.makeText(this,getString(R.string.export_expenses_sdcard_failure), Toast.LENGTH_LONG).show();
-          }
-        accountsCursor.moveToNext();
-      }
-      accountsCursor.close();
-      SharedPreferences settings = MyApplication.getInstance().getSettings();
-      if (settings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
-        Utils.share(this,files, settings.getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
-      }
+      break;
     }
     configButtons();
   }

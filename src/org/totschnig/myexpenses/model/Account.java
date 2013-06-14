@@ -489,17 +489,19 @@ public class Account extends Model {
    * writes all transactions to a QIF file
    * @throws IOException
    */
-  public Result exportAll() throws IOException {
+  /**
+   * writes transactions to export file
+   * @param destDir destination directory
+   * @return Result object indicating success, message and output file
+   * @throws IOException
+   */
+  public Result exportAll(File destDir) throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
     Log.i("MyExpenses","now starting export");
-    File appDir = Utils.requireAppDir();
-    if (appDir == null)
-      throw new IOException();
-    File outputFile = new File(appDir,
+    File outputFile = new File(destDir,
         label.replaceAll("\\W","") + "-" +
         now.format(new Date()) + ".qif");
     if (outputFile.exists()) {
-      //Toast.makeText(ctx,String.format(ctx.getString(R.string.export_expenses_outputfile_exists), outputFile.getAbsolutePath() ), Toast.LENGTH_LONG).show();
       return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
     }
     exportAllDo(outputFile);
