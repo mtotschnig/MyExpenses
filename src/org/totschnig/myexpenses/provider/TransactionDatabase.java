@@ -132,7 +132,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   @Override
   public void onCreate(SQLiteDatabase db) {
-
     db.execSQL(DATABASE_CREATE);
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
@@ -197,7 +196,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 21) {
       db.execSQL("CREATE TABLE paymentmethods (_id integer primary key autoincrement, label text not null, type integer default 0);");
       db.execSQL("CREATE TABLE accounttype_paymentmethod (type text, method_id integer, primary key (type,method_id));");
-      insertDefaultPaymentMethods(db);
+      ContentValues initialValues;
+      long _id;
+      for (PaymentMethod.PreDefined pm: PaymentMethod.PreDefined.values()) {
+        initialValues = new ContentValues();
+        initialValues.put("label", pm.name());
+        initialValues.put("type",pm.paymentType);
+        _id = db.insert("paymentmethods", null, initialValues);
+        initialValues = new ContentValues();
+        initialValues.put("method_id", _id);
+        initialValues.put("type","BANK");
+        db.insert("accounttype_paymentmethod", null, initialValues);
+      }
       db.execSQL("ALTER TABLE transactions add column payment_method_id integer");
       db.execSQL("ALTER TABLE accounts add column type text default 'CASH'");
     }
@@ -253,6 +263,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "currency text not null, type text not null check (type in ('CASH','BANK','CCARD','ASSET','LIABILITY')) default 'CASH', color integer default -3355444);");
       db.execSQL("INSERT INTO accounts (_id,label,opening_balance,description,currency,type,color) " +
           "SELECT _id,label,opening_balance,description,currency,type,color FROM accounts_old");
+      //previously templates where not deleted if referred to accounts were deleted
+      db.execSQL("DELETE FROM templates where account_id not in (SELECT _id FROM accounts) or cat_id not in (SELECT _id from accounts)");
       db.execSQL("ALTER TABLE templates RENAME to templates_old");
       db.execSQL("CREATE TABLE templates ( _id integer primary key autoincrement, comment text not null, amount integer not null, " +
           "cat_id integer references categories(_id), account_id integer not null references accounts(_id),payee text, " +
