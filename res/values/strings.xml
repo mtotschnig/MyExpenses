@@ -154,7 +154,9 @@
       - <b>Help</b> : Quick access to Manual, News, FAQ and Changes.\n
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
-  <string name="help_whats_new">&#160;- Explicitly declare support for large screens to make app available again for tablets on Google Play.</string>
+  <string name="help_whats_new">&#160;- Export to CSV.
+    - Explicitly declare support for large screens to make app available again for tablets on Google Play.
+    - Support for Android 1.6.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">Income</string>
@@ -378,4 +380,5 @@
     If you install &lt;i>&app_name; Contrib&lt;/i>, you gain unrestricted access to the following premium features:&lt;br>%1$s</string>
   <string name="version_40_upgrade_info">You can now protect &app_name; by setting a password from the Settings (section Security).</string>
   <string name="version_41_upgrade_info"><i>&app_name;</i> now has a Google+ page. Follow it via Help => News.</string>
+  <string name="version_46_upgrade_info">You can now export transactions into CSV instead of QIF (Settings, section Export).</string>
 </resources>
