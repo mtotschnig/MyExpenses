@@ -107,8 +107,7 @@ public class ExportTest extends ModelTest  {
         "\"" + date + "\";\"\";0;0.6;\"Transfer\";\"[Account 2]\";\"\";\"\";"
     };
     try {
-      settings.edit().putString( MyApplication.PREFKEY_EXPORT_FORMAT, "QIF").commit();
-      Result result = account1.exportAll(getContext().getCacheDir());
+      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.QIF);
       assertTrue(result.success);
       InputStream is = new FileInputStream((File) result.extra[0]);
       BufferedReader r = new BufferedReader(new InputStreamReader(is));
@@ -122,8 +121,7 @@ public class ExportTest extends ModelTest  {
       r.close();
       is.close();
 
-      settings.edit().putString( MyApplication.PREFKEY_EXPORT_FORMAT, "CSV").commit();
-      result = account1.exportAll(getContext().getCacheDir());
+      result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV);
       assertTrue(result.success);
       is = new FileInputStream((File) result.extra[0]);
       r = new BufferedReader(new InputStreamReader(is));
