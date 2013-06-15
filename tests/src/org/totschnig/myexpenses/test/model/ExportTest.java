@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Result;
 
@@ -50,6 +51,7 @@ public class ExportTest extends ModelTest  {
   private void insertData() {
     Transaction op;
     account1 = new Account("Account 1",openingBalance,"Account 1");
+    account1.type = Account.Type.BANK;
     account1.save();
     account2 = new Account("Account 2",openingBalance,"Account 2");
     account2.save();
@@ -57,6 +59,7 @@ public class ExportTest extends ModelTest  {
     cat2Id = Category.create("Sub", cat1Id);
     op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
     op.amount = new Money(account1.currency,-expense1);
+    op.methodId = PaymentMethod.find("CHEQUE");
     op.save();
     op.amount = new Money(account1.currency,-expense2);
     op.catId = cat1Id;
@@ -83,7 +86,7 @@ public class ExportTest extends ModelTest  {
     insertData();
     String date = new SimpleDateFormat("dd/MM/yyyy",Locale.US).format(new Date());
     String[] linesQIF = new String[] {
-      "!Type:Cash",
+      "!Type:Bank",
       "D" + date,
       "T-0.1",
       "^",
@@ -113,10 +116,10 @@ public class ExportTest extends ModelTest  {
     String[] linesCSV = new String[] {
         //{R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
         "\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";",
-        "\"" + date + "\";\"\";0;0.1;\"\";\"\";\"\";\"\";",
-        "\"" + date + "\";\"N.N.\";0;0.2;\"Main\";\"\";\"\";\"\";",
-        "\"" + date + "\";\"\";0.3;0;\"Main\";\"Sub\";\"\";\"\";",
-        "\"" + date + "\";\"\";0.4;0;\"Main\";\"Sub\";\"Note for myself\";\"\";",
+        "\"" + date + "\";\"\";0;0.1;\"\";\"\";\"\";\"Cheque\";",
+        "\"" + date + "\";\"N.N.\";0;0.2;\"Main\";\"\";\"\";\"Cheque\";",
+        "\"" + date + "\";\"\";0.3;0;\"Main\";\"Sub\";\"\";\"Cheque\";",
+        "\"" + date + "\";\"\";0.4;0;\"Main\";\"Sub\";\"Note for myself\";\"Cheque\";",
         "\"" + date + "\";\"\";0.5;0;\"Transfer\";\"[Account 2]\";\"\";\"\";",
         "\"" + date + "\";\"\";0;0.6;\"Transfer\";\"[Account 2]\";\"\";\"\";"
     };
