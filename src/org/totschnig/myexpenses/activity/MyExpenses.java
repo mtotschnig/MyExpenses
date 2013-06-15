@@ -941,6 +941,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       if (prev_version < 41) {
         app.addVersionInfo(getString(R.string.version_41_upgrade_info));
       }
+      if (prev_version < 46) {
+        app.addVersionInfo(getString(R.string.version_46_upgrade_info));
+      }
       showDialogWrapper(R.id.VERSION_DIALOG);
     }
   }
