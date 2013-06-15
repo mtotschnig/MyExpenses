@@ -117,8 +117,8 @@ public class TransactionProvider extends ContentProvider {
       break;
     case AGGREGATES:
       qb.setTables("(select currency,opening_balance,"+
-          "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0 and transfer_peer = 0) as sum_expenses," +
-          "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount>0 and transfer_peer = 0) as sum_income," +
+          "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0 and transfer_peer is null) as sum_expenses," +
+          "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount>0 and transfer_peer is null) as sum_income," +
           "opening_balance + (SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id) as current_balance " +
           "from " + TABLE_ACCOUNTS + ") as t");
       groupBy = "currency";
