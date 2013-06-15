@@ -490,9 +490,10 @@ public class Account extends Model {
         if (transfer_peer != null) {
           full_label = "[" + label_main + "]"; 
         } else {
+          full_label = label_main;
           label_sub =  DbUtils.getString(c, KEY_LABEL_SUB);
           if (label_sub.length() > 0) {
-            full_label = label_main + ":" + label_sub;
+            full_label += ":" + label_sub;
           }
         }
       }
