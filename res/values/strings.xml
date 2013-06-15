@@ -106,7 +106,7 @@
   <string name="export_expenses">Expenses export</string>
   <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
   <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
-  <string name="external_storage_unavailable">External storage (sdcard)not available</string>
+  <string name="external_storage_unavailable">External storage (sdcard) not available</string>
   <string name="feedback">Feedback</string>
   <string name="ftp_uri_malformed">Malformed URI %1$s</string>
   <!-- used from the user guide -->
@@ -277,7 +277,7 @@
   <string name="pref_enter_licence_title">Enter Contrib key</string>
   <string name="pref_enter_licence_summary">If you received a Contrib key, gain access to premium features.</string>
   <string name="pref_export_format_title">Data format</string>
-  <string name="pref_export_format_summary">Choose between QIF or CSV</string>
+  <string name="pref_export_format_summary">Choose QIF or CSV</string>
   <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default
       Grisbi definitions internal to the app, or your own file stored as &grisbi_file; in a folder 

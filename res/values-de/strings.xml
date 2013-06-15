@@ -281,6 +281,8 @@
       Zahlen</string>
   <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>
   <string name="pref_enter_licence_summary">Wenn Sie einen Contrib-Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
+  <string name="pref_export_format_title">Datenformat</string>
+  <string name="pref_export_format_summary">Wählen Sie QIF oder CSV</string>
   <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Kategorien (und Partner) aus den inkludierten
       Grisbi-Standard-Definitionen oder aus Ihrer eigenen Datei importieren. Letztere müssen Sie
@@ -339,6 +341,7 @@
   <string name="select_parent_category">Wähle diese Kategorie</string>
   <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>
   <string name="share_sending">Export Datei senden</string>
+  <string name="subcategory">Unterkategorie</string>
   <string name="suggest_use_standard_menu">Möchten Sie das Android Standardmenü anstatt der
       Symbolleiste verwenden, um Befehle aufzurufen?</string>
   <string name="sum_income">Einnahmen</string>

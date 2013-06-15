@@ -281,6 +281,8 @@
   </string>
   <string name="pref_enter_licence_title">Saisir clé contrib</string>
   <string name="pref_enter_licence_summary">Si vous avez reçu une clé contrib, elle déverrouille l\'accès aux fonctions Premium.</string>
+  <string name="pref_export_format_title">Format de données</string>
+  <string name="pref_export_format_summary">Choisissez entre QIF et CSV</string>
   <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir des
       définitions standards de Grisbi, incluses dans l\'application, ou votre propre fichier
       sauvegardé sous le nom &grisbi_file; dans le répertoire myexpenses de la racine de votre carte
@@ -340,6 +342,7 @@
   <string name="select_parent_category">Choisir cette catégorie</string>
   <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
   <string name="share_sending">Envoyer le fichier d\'export</string>
+  <string name="subcategory">Sous-catégorie</string>
   <string name="suggest_use_standard_menu">Voulez-vous utiliser le menu standard Android pour
       les commandes, et cacher la barre de boutons?</string>
   <string name="sum_income">Revenus</string>

@@ -278,6 +278,8 @@
   <string name="pref_currency_decimal_separator_point">Punto (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Unità minori come numeri interi
   </string>
+  <string name="pref_export_format_title">Formato dati</string>
+  <string name="pref_export_format_summary">Scegli tra QIF e CSV</string>
   <string name="pref_import_from_grisbi_summary">Scegli tra le definizioni standard di Grisbi,
       inclusi  nell\'applicazione, e il vostro proprio file salvato come &grisbi_file; nella
       cartellla myexpenses della radice della vostra scheda SD.</string>
@@ -341,6 +343,7 @@
   <string name="select_parent_category">Selezionare questa categoria</string>
   <string name="share_sending">Invia file export</string>
   <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
+  <string name="subcategory">Sottocategoria</string>
   <string name="suggest_use_standard_menu">Vuoi utilizzare il menu standard Android per chiamare i
     comandi, e nascondere la barra dei pulsanti?</string>
   <string name="sum_income">Redditi</string>
