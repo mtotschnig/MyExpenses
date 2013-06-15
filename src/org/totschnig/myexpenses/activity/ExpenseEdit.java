@@ -352,14 +352,14 @@ public class ExpenseEdit extends EditActivity {
           e.printStackTrace();
           throw new RuntimeException(e);
         }
-         methodLabels[i] = pm.getDisplayLabel(this);
+         methodLabels[i] = pm.getDisplayLabel();
          paymentMethods.moveToNext();
        }
       } else {
         //TODO create resource string and fill with types
         Toast.makeText(this,getString(
               R.string.no_valid_payment_methods,
-              mAccount.type.getDisplayName(this),
+              mAccount.type.getDisplayName(),
               getString(mType == EXPENSE ? R.string.expense : R.string.income)
             ), Toast.LENGTH_LONG).show();
         return null;
@@ -444,7 +444,7 @@ public class ExpenseEdit extends EditActivity {
         mMethodId = mTransaction.methodId;
         try {
           if (mMethodId != null) {
-            mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel(this));
+            mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel());
           }
         } catch (DataObjectNotFoundException e) {
           //the methodId no longer exists in DB, we set it to 0
@@ -672,7 +672,7 @@ public class ExpenseEdit extends EditActivity {
     setDate();
     setTime();
     try {
-      mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel(this));
+      mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel());
     } catch (DataObjectNotFoundException e) {
       //the methodId no longer exists in DB, we set it to 0
       mMethodId = null;

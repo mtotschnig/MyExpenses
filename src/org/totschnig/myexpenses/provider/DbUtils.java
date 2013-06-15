@@ -90,4 +90,47 @@ public class DbUtils {
     }
     return result;
   }
+  //TODO: create generic function
+  public static String[] getStringArrayFromCursor(Cursor c, String field) {
+    String[] result = new String[c.getCount()];
+    if(c.moveToFirst()){
+     for (int i = 0; i < c.getCount(); i++){
+       result[i] = c.getString(c.getColumnIndex(field));
+       c.moveToNext();
+     }
+    }
+    return result;
+  }
+  public static Long[] getLongArrayFromCursor(Cursor c, String field) {
+    Long[] result = new Long[c.getCount()];
+    if(c.moveToFirst()){
+     for (int i = 0; i < c.getCount(); i++){
+       result[i] = c.getLong(c.getColumnIndex(field));
+       c.moveToNext();
+     }
+    }
+    return result;
+  }
+  /**
+   * @param c
+   * @param field
+   * @return Long that is null if field is null in db
+   */
+  public static Long getLongOrNull(Cursor c, String field) {
+    int columnIndex = c.getColumnIndex(field);
+    if (c.isNull(columnIndex))
+      return null;
+    return c.getLong(columnIndex);
+  }
+  /**
+   * @param c
+   * @param field
+   * @return String that is guaranteed to be not null
+   */
+  public static String getString(Cursor c, String field) {
+    int columnIndex = c.getColumnIndex(field);
+    if (c.isNull(columnIndex))
+      return "";
+    return c.getString(columnIndex);
+  }
 }

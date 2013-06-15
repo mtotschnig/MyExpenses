@@ -19,8 +19,8 @@ import java.util.Date;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -74,10 +74,10 @@ public class Template extends Transaction {
         c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT))  
         );
     if (t.isTransfer = c.getInt(c.getColumnIndexOrThrow(KEY_TRANSFER_PEER)) > 0) {
-      t.transfer_account = Utils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
+      t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
     } else {
-      t.methodId = Utils.getLongOrNull(c, KEY_METHODID);
-      t.catId = Utils.getLongOrNull(c, KEY_CATID);
+      t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
+      t.catId = DbUtils.getLongOrNull(c, KEY_CATID);
       t.payee = c.getString(
           c.getColumnIndexOrThrow(KEY_PAYEE));
     }

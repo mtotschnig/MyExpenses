@@ -63,6 +63,7 @@ public class MyApplication extends Application {
     public static String PREFKEY_SECURITY_ANSWER;
     public static String PREFKEY_SECURITY_QUESTION;
     public static String PREFKEY_PROTECTION_DELAY_SECONDS;
+    public static String PREFKEY_EXPORT_FORMAT;
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static int currentAccountColor;
     public static String BUILD_DATE = "";
@@ -119,6 +120,7 @@ public class MyApplication extends Application {
         PREFKEY_SECURITY_ANSWER = getString(R.string.pref_security_answer_key);
         PREFKEY_SECURITY_QUESTION = getString(R.string.pref_security_question_key);
         PREFKEY_PROTECTION_DELAY_SECONDS = getString(R.string.pref_protection_delay_seconds_key);
+        PREFKEY_EXPORT_FORMAT = getString(R.string.pref_export_format_key);
         setPasswordCheckDelayNanoSeconds();
         try {
           InputStream rawResource = getResources().openRawResource(R.raw.app);

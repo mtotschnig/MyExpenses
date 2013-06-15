@@ -169,7 +169,7 @@ public class AccountEdit extends EditActivity {
     });
     Account.Type [] allTypes = Account.Type.values();
     for(int i = 0;i< allTypes.length; i++){
-      mTypes[i] = allTypes[i].getDisplayName(this);
+      mTypes[i] = allTypes[i].getDisplayName();
     }
 
     mColorText = (TextView) findViewById(R.id.Color);
@@ -325,7 +325,7 @@ public class AccountEdit extends EditActivity {
     mAmountText.setText(nfDLocal.format(amount));
     mCurrencyText.setText(mAccount.currency.getCurrencyCode());
     mAccountType = mAccount.type;
-    mAccountTypeButton.setText(mAccountType.getDisplayName(this));
+    mAccountTypeButton.setText(mAccountType.getDisplayName());
     mAccountColor = mAccount.color;
     MyApplication.updateUIWithColor(this,mAccountColor);
     mColorText.setBackgroundColor(mAccountColor);

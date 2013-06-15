@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -63,7 +64,7 @@ public class Export extends ProtectedActivity {
     } else {
       Cursor c = getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
           new String[] {KEY_ROWID}, null, null, null);
-      accountIds = Utils.getLongArrayFromCursor(c, KEY_ROWID);
+      accountIds = DbUtils.getLongArrayFromCursor(c, KEY_ROWID);
     }
     mProgressDialog = new ProgressDialog(this);
     mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);

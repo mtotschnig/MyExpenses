@@ -104,7 +104,7 @@ public class MethodEdit extends EditActivity {
         finish();
       }
       setTitle(R.string.menu_edit_method);
-      mLabelText.setText(mMethod.getDisplayLabel(this));
+      mLabelText.setText(mMethod.getDisplayLabel());
       mPaymentType = mMethod.getPaymentType();
       mTypeButton.setText(mTypes[mPaymentType+1]);
       if (mMethod.predef != null) {
@@ -128,7 +128,7 @@ public class MethodEdit extends EditActivity {
                      LayoutParams.WRAP_CONTENT));*/
            /* Create a Button to be the row-content. */
       tv = new TextView(this);
-      tv.setText(accountType.getDisplayName(this));
+      tv.setText(accountType.getDisplayName());
       tv.setTextAppearance(this, R.style.form_label);
       cb = new CheckBox(this);
       cb.setTag(accountType);

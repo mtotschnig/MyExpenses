@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.model;
 
 import java.util.Date;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -71,18 +72,18 @@ public class Transaction extends Model {
       throw new DataObjectNotFoundException();
     }
     c.moveToFirst();
-    Long transfer_peer = Utils.getLongOrNull(c, KEY_TRANSFER_PEER);
+    Long transfer_peer = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER);
     long account_id = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
     long amount = c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT));
     if (transfer_peer != null) {
       t = new Transfer(account_id,amount);
       t.transfer_peer = transfer_peer;
-      t.transfer_account = Utils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
+      t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
     }
     else {
       t = new Transaction(account_id,amount);
-      t.methodId = Utils.getLongOrNull(c, KEY_METHODID);
-      t.catId = Utils.getLongOrNull(c, KEY_CATID);
+      t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
+      t.catId = DbUtils.getLongOrNull(c, KEY_CATID);
       t.payee = c.getString(
           c.getColumnIndexOrThrow(KEY_PAYEE));
     }

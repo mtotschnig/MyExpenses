@@ -39,7 +39,7 @@ public class MethodList extends Fragment implements LoaderManager.LoaderCallback
       public void setViewText(TextView v, String text) {
         Activity ctx = getActivity();
         try {
-          super.setViewText(v, PaymentMethod.getInstanceFromDb(Long.valueOf(text)).getDisplayLabel(ctx));
+          super.setViewText(v, PaymentMethod.getInstanceFromDb(Long.valueOf(text)).getDisplayLabel());
         } catch (DataObjectNotFoundException e) {
           e.printStackTrace();
           ctx.setResult(Activity.RESULT_CANCELED);

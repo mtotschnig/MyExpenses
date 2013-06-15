@@ -497,7 +497,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       String method = "";
       if (t.methodId != 0) {
         try {
-          method= PaymentMethod.getInstanceFromDb(t.methodId).getDisplayLabel(this);
+          method= PaymentMethod.getInstanceFromDb(t.methodId).getDisplayLabel();
         } catch (DataObjectNotFoundException e) {
         }
       }
@@ -685,8 +685,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       final Cursor templates = getContentResolver().query(
           TransactionProvider.TEMPLATES_URI,
           new String[]{KEY_ROWID,KEY_TITLE}, "account_id = ?", new String[] { String.valueOf(mCurrentAccount.id) }, null);
-      final String[] templateTitles = Utils.getStringArrayFromCursor(templates, KEY_TITLE);
-      final Long[] templateIds = Utils.getLongArrayFromCursor(templates, KEY_ROWID);
+      final String[] templateTitles = DbUtils.getStringArrayFromCursor(templates, KEY_TITLE);
+      final Long[] templateIds = DbUtils.getLongArrayFromCursor(templates, KEY_ROWID);
       templates.close();
       return new AlertDialog.Builder(this)
         .setTitle("Pick a template")

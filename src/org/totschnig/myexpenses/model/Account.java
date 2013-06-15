@@ -29,12 +29,14 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.Result;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
@@ -68,11 +70,16 @@ public class Account extends Model {
     "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and transfer_peer is not null) as sum_transfer",
     "opening_balance + (SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id) as current_balance"};
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
+
+  public enum ExportFormat {
+    QIF,CSV
+  }
   
   public enum Type {
     CASH,BANK,CCARD,ASSET,LIABILITY;
     public static final String JOIN;
-    public String getDisplayName(Context ctx) {
+    public String getDisplayName() {
+      Context ctx = MyApplication.getInstance();
       switch (this) {
       case CASH: return ctx.getString(R.string.account_type_cash);
       case BANK: return ctx.getString(R.string.account_type_bank);
@@ -430,65 +437,6 @@ public class Account extends Model {
     cr().delete(TransactionProvider.TEMPLATES_URI, KEY_ACCOUNTID + " = ?", selectArgs);
     cr().delete(TransactionProvider.TEMPLATES_URI, KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
   }
-  public void exportAllDo(File output) throws IOException {
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
-    OutputStreamWriter out = new OutputStreamWriter(
-        new FileOutputStream(output),
-        MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
-    String header = "!Type:" + type.getQifName() + "\n";
-    out.write(header);
-    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI, null,
-        "account_id = ?", new String[] { String.valueOf(id) }, null);
-    c.moveToFirst();
-    while( c.getPosition() < c.getCount() ) {
-      String comment = c.getString(
-          c.getColumnIndexOrThrow(KEY_COMMENT));
-      comment = (comment == null || comment.length() == 0) ? "" : "\nM" + comment;
-      String full_label = "";
-      String label_main =  c.getString(
-          c.getColumnIndexOrThrow(KEY_LABEL_MAIN));
-
-      if (label_main != null && label_main.length() > 0) {
-        long transfer_peer = c.getLong(
-            c.getColumnIndexOrThrow(KEY_TRANSFER_PEER));
-        if (transfer_peer != 0) {
-          full_label = "[" + label_main + "]";
-        } else {
-          full_label = label_main;
-          String label_sub =  c.getString(
-              c.getColumnIndexOrThrow(KEY_LABEL_SUB));
-          if (label_sub != null && label_sub.length() > 0) {
-            full_label += ":" + label_sub;
-          }
-        }
-        full_label = "\nL" + full_label;
-      }
-
-      String payee = c.getString(
-          c.getColumnIndexOrThrow("payee"));
-      payee = (payee == null || payee.length() == 0) ? "" : "\nP" + payee;
-      String dateStr = formatter.format(Utils.fromSQL(c.getString(
-          c.getColumnIndexOrThrow(KEY_DATE))));
-      long amount = c.getLong(
-          c.getColumnIndexOrThrow(KEY_AMOUNT));
-      String amountStr = new Money(currency,amount)
-          .getAmountMajor().toPlainString();
-      String row = "D"+ dateStr +
-          "\nT" + amountStr +
-          comment +
-          full_label +
-          payee +  
-           "\n^\n";
-      out.write(row);
-      c.moveToNext();
-    }
-    out.close();
-    c.close();
-  }
-  /**
-   * writes all transactions to a QIF file
-   * @throws IOException
-   */
   /**
    * writes transactions to export file
    * @param destDir destination directory
@@ -497,14 +445,118 @@ public class Account extends Model {
    */
   public Result exportAll(File destDir) throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
+    MyApplication ctx = MyApplication.getInstance();
+    SharedPreferences settings = ctx.getSettings();
+    String formatStr = settings.getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF");
     Log.i("MyExpenses","now starting export");
     File outputFile = new File(destDir,
         label.replaceAll("\\W","") + "-" +
-        now.format(new Date()) + ".qif");
+        now.format(new Date()) + "." + formatStr.toLowerCase(Locale.US));
     if (outputFile.exists()) {
       return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
     }
-    exportAllDo(outputFile);
+    StringBuilder sb;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
+    OutputStreamWriter out = new OutputStreamWriter(
+        new FileOutputStream(outputFile),
+        settings.getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
+    ExportFormat format;
+    try {
+      format = ExportFormat.valueOf(formatStr);
+    } catch (IllegalArgumentException e) {
+      format = ExportFormat.QIF;
+    }
+    sb = new StringBuilder();
+    switch (format) {
+    case CSV:
+      int[] columns = {R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
+      for (int column: columns) {
+        sb.append("\"");
+        sb.append(ctx.getString(column));
+        sb.append("\";");
+      }
+      break;
+    //QIF
+    default:
+      sb.append("!Type:");
+      sb.append(type.getQifName());
+    }
+    sb.append("\n");
+    //Write header
+    out.write(sb.toString());
+    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI, null,
+        "account_id = ?", new String[] { String.valueOf(id) }, KEY_ROWID);
+    c.moveToFirst();
+    while( c.getPosition() < c.getCount() ) {
+      Long transfer_peer = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER);
+      String comment = DbUtils.getString(c, KEY_COMMENT);
+      String full_label = "",label_sub = "" ;
+      String label_main =  DbUtils.getString(c, KEY_LABEL_MAIN);
+      if (label_main.length() > 0) {
+        if (transfer_peer != null) {
+          full_label = "[" + label_main + "]"; 
+        } else {
+          label_sub =  DbUtils.getString(c, KEY_LABEL_SUB);
+          if (label_sub.length() > 0) {
+            full_label = label_main + ":" + label_sub;
+          }
+        }
+      }
+      String payee = DbUtils.getString(c, KEY_PAYEE);
+      String dateStr = formatter.format(Utils.fromSQL(c.getString(
+          c.getColumnIndexOrThrow(KEY_DATE))));
+      long amount = c.getLong(
+          c.getColumnIndexOrThrow(KEY_AMOUNT));
+      String amountAbsStr = new Money(currency,amount)
+          .getAmountMajor().abs().toPlainString();
+      Log.i("DEBUG","amount: " + String.valueOf(amount) + " ; amountAbsStr: " + amountAbsStr);
+      sb = new StringBuilder();
+      switch (format) {
+      case CSV:
+        //{R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
+        sb.append("\"");
+        sb.append(dateStr);
+        sb.append("\";\"");
+        sb.append(payee);
+        sb.append("\";");
+        sb.append(amount>0 ? amountAbsStr : "0");
+        sb.append(";");
+        sb.append(amount<0 ? amountAbsStr : "0");
+        sb.append(";\"");
+        sb.append(transfer_peer == null ? label_main : ctx.getString(R.string.transfer));
+        sb.append("\";\"");
+        sb.append(transfer_peer == null ? label_sub : full_label);
+        sb.append("\";\"");
+        sb.append(comment);
+        sb.append("\";\"");
+        Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
+        sb.append(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel());
+        sb.append("\";");
+        break;
+      default:
+        sb.append( "D" );
+        sb.append( dateStr );
+        sb.append( "\nT" );
+        if (amount<0)
+          sb.append( "-");
+        sb.append( amountAbsStr );
+        if ((comment.length() > 0))
+          sb.append( "\nM" );
+        sb.append( comment );
+        if ((full_label.length() > 0))
+          sb.append( "\nL" );
+        sb.append( full_label );
+        if ((payee.length() > 0))
+          sb.append( "\nP" );
+        sb.append( payee );
+        sb.append( "\n^" );
+      }
+      sb.append("\n");
+      out.write(sb.toString());
+      c.moveToNext();
+    }
+    out.close();
+    c.close();
     return new Result(true,R.string.export_expenses_sdcard_success,outputFile);
   }
   

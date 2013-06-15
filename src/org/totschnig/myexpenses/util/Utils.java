@@ -51,7 +51,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
@@ -175,34 +174,6 @@ public class Utils {
   public static String convAmount(String text, Currency currency) {
     return formatCurrency(new Money(currency,Long.valueOf(text)));
   }
-  //TODO: create generic function
-  public static String[] getStringArrayFromCursor(Cursor c, String field) {
-    String[] result = new String[c.getCount()];
-    if(c.moveToFirst()){
-     for (int i = 0; i < c.getCount(); i++){
-       result[i] = c.getString(c.getColumnIndex(field));
-       c.moveToNext();
-     }
-    }
-    return result;
-  }
-  public static Long[] getLongArrayFromCursor(Cursor c, String field) {
-    Long[] result = new Long[c.getCount()];
-    if(c.moveToFirst()){
-     for (int i = 0; i < c.getCount(); i++){
-       result[i] = c.getLong(c.getColumnIndex(field));
-       c.moveToNext();
-     }
-    }
-    return result;
-  }
-  public static Long getLongOrNull(Cursor c, String field) {
-    int columnIndex = c.getColumnIndex(field);
-    if (c.isNull(columnIndex))
-      return null;
-    return c.getLong(columnIndex);
-  }
-  
   /**
    * @return directory for storing backups and exports, null if external storage is not available
    */

@@ -117,7 +117,8 @@ public class PaymentMethod extends Model {
     }
     this.label = label;
   }
-  public String getDisplayLabel(Context ctx) {
+  public String getDisplayLabel() {
+    Context ctx = MyApplication.getInstance();
     if (predef == null)
       return label;
     switch (predef) {
