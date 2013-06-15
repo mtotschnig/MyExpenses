@@ -39,7 +39,7 @@ public class PaymentMethod extends Model {
   public static final int NEUTRAL = 0;
   public static final int INCOME = 1;
   private int paymentType;
-  public static final String[] PROJECTION = new String[] {KEY_ROWID,"label"};
+  public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL};
   public static final Uri CONTENT_URI = TransactionProvider.METHODS_URI;
   /**
    * array of account types for which this payment method is applicable
@@ -56,7 +56,7 @@ public class PaymentMethod extends Model {
   }
   private PaymentMethod(long id) throws DataObjectNotFoundException {
     this.id = id;
-    String[] projection = new String[] {"label","type"};
+    String[] projection = new String[] {KEY_LABEL,KEY_TYPE};
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
@@ -64,8 +64,8 @@ public class PaymentMethod extends Model {
     }
     c.moveToFirst();
 
-    this.label = c.getString(c.getColumnIndexOrThrow("label"));
-    this.paymentType = c.getInt(c.getColumnIndexOrThrow("type"));
+    this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
+    this.paymentType = c.getInt(c.getColumnIndexOrThrow(KEY_TYPE));
     c.close();
     try {
       predef = PreDefined.valueOf(this.label);
@@ -73,11 +73,11 @@ public class PaymentMethod extends Model {
       predef = null;
     }
     c = cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,
-        new String[] {"type"}, KEY_METHODID + " = ?", new String[] {String.valueOf(id)}, null);
+        new String[] {KEY_TYPE}, KEY_METHODID + " = ?", new String[] {String.valueOf(id)}, null);
     if(c.moveToFirst()) {
       for (int i = 0; i < c.getCount(); i++){
         try {
-          addAccountType(Account.Type.valueOf(c.getString(c.getColumnIndexOrThrow("type"))));
+          addAccountType(Account.Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))));
         } catch (IllegalArgumentException ex) { 
           Log.w("MyExpenses","Found unknown account type in database");
         }
@@ -85,8 +85,8 @@ public class PaymentMethod extends Model {
       }
     }
     c.close();
-  }
-  
+   }
+
   public PaymentMethod() {
     this.paymentType = NEUTRAL;
   }
@@ -141,12 +141,11 @@ public class PaymentMethod extends Model {
     methods.put(id, method);
     return method;
   }
-  
   public Uri save() {
     Uri uri;
     ContentValues initialValues = new ContentValues();
-    initialValues.put("label", label);
-    initialValues.put("type",paymentType);
+    initialValues.put(KEY_LABEL, label);
+    initialValues.put(KEY_TYPE,paymentType);
     if (id == 0) {
       uri = cr().insert(CONTENT_URI, initialValues);
       id = Integer.valueOf(uri.getLastPathSegment());
@@ -164,7 +163,7 @@ public class PaymentMethod extends Model {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_METHODID, id);
     for (Account.Type accountType : accountTypes) {
-      initialValues.put("type",accountType.name());
+      initialValues.put(KEY_TYPE,accountType.name());
       cr().insert(TransactionProvider.ACCOUNTTYPES_METHODS_URI, initialValues);
     }
   }
@@ -195,5 +194,23 @@ public class PaymentMethod extends Model {
   }
   public static int countPerType(Type type) {
     return count("type = ?", new String[] {type.name()});
+  }
+  /**
+   * Looks for a method with a label; currently only used from test
+   * @param label
+   * @return id or -1 if not found
+   */
+  public static long find(String label) {
+    Cursor mCursor = cr().query(CONTENT_URI,
+        new String[] {KEY_ROWID}, KEY_LABEL + " = ?", new String[]{label}, null);
+    if (mCursor.getCount() == 0) {
+      mCursor.close();
+      return -1;
+    } else {
+      mCursor.moveToFirst();
+      long result = mCursor.getLong(0);
+      mCursor.close();
+      return result;
+    }
   }
 }
