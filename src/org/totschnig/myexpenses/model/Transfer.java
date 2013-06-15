@@ -70,7 +70,7 @@ public class Transfer extends Transaction {
       //in the peer transaction we need to update the account_id
       initialValues.put(KEY_ACCOUNTID, transfer_account);
       //the account from which is transfered is not altered
-      initialValues.remove(KEY_CATID);
+      initialValues.remove(KEY_TRANSFER_ACCOUNT);
       cr().update(Uri.parse(CONTENT_URI + "/" + transfer_peer),initialValues,null,null);
     }
     return uri;
