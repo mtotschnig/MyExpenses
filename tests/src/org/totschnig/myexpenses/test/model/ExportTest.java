@@ -60,11 +60,14 @@ public class ExportTest extends ModelTest  {
     op.save();
     op.amount = new Money(account1.currency,-expense2);
     op.catId = cat1Id;
+    op.payee = "N.N.";
     op.saveAsNew();
     op.amount = new Money(account1.currency,income1);
-    op.catId = cat2Id; 
+    op.catId = cat2Id;
+    op.payee = null;
     op.saveAsNew();
     op.amount = new Money(account1.currency,income2);
+    op.comment = "Note for myself";
     op.saveAsNew();
     op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER,account1.id);
     op.transfer_account = account2.id;
@@ -87,6 +90,7 @@ public class ExportTest extends ModelTest  {
       "D" + date,
       "T-0.2",
       "LMain",
+      "PN.N.",
       "^",
       "D" + date,
       "T0.3",
@@ -94,6 +98,7 @@ public class ExportTest extends ModelTest  {
       "^",
       "D" + date,
       "T0.4",
+      "MNote for myself",
       "LMain:Sub",
       "^",
       "D" + date,
@@ -109,9 +114,9 @@ public class ExportTest extends ModelTest  {
         //{R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
         "\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";",
         "\"" + date + "\";\"\";0;0.1;\"\";\"\";\"\";\"\";",
-        "\"" + date + "\";\"\";0;0.2;\"Main\";\"\";\"\";\"\";",
+        "\"" + date + "\";\"N.N.\";0;0.2;\"Main\";\"\";\"\";\"\";",
         "\"" + date + "\";\"\";0.3;0;\"Main\";\"Sub\";\"\";\"\";",
-        "\"" + date + "\";\"\";0.4;0;\"Main\";\"Sub\";\"\";\"\";",
+        "\"" + date + "\";\"\";0.4;0;\"Main\";\"Sub\";\"Note for myself\";\"\";",
         "\"" + date + "\";\"\";0.5;0;\"Transfer\";\"[Account 2]\";\"\";\"\";",
         "\"" + date + "\";\"\";0;0.6;\"Transfer\";\"[Account 2]\";\"\";\"\";"
     };
