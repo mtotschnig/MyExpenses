@@ -177,6 +177,8 @@ public class ExpenseEdit extends EditActivity {
         public void onClick(View view) {
           if (saveState())
             mTransaction.id = 0L;
+            setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
+                R.string.menu_create_transaction : R.string.menu_create_transfer);
             mAmountText.setText("");
         }
       });
