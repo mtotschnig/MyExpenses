@@ -25,6 +25,37 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import android.database.Cursor;
 
 public class AccountTest extends ModelTest  {
+  Account account1, account2;
+  Long openingBalance = 100L,
+      expense1 = 10L,
+      expense2 = 20L,
+      income1 = 30L,
+      income2 = 40L,
+      transferP = 50L,
+      transferN = 60L;
+  private void insertData() {
+    Transaction op;
+    account1 = new Account("Account 1",openingBalance,"Account 1");
+    account1.save();
+    account2 = new Account("Account 2",openingBalance,"Account 2");
+    account2.save();
+    op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
+    op.amount = new Money(account1.currency,-expense1);
+    op.save();
+    op.amount = new Money(account1.currency,-expense2);
+    op.saveAsNew();
+    op.amount = new Money(account1.currency,income1);
+    op.saveAsNew();
+    op.amount = new Money(account1.currency,income2);
+    op.saveAsNew();
+    op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER,account1.id);
+    op.transfer_account = account2.id;
+    op.amount = new Money(account1.currency,transferP);
+    op.save();
+    op.amount = new Money(account1.currency,-transferN);
+    op.saveAsNew();
+
+  }
   
   public void testAccount() {
     Account account,restored = null;
@@ -66,35 +97,7 @@ public class AccountTest extends ModelTest  {
    * but set up is easier through models
    */
   public void testAggregates() {
-    Account account1, account2;
-    Transaction op;
-    Long openingBalance = 100L,
-        expense1 = 10L,
-        expense2 = 20L,
-        income1 = 30L,
-        income2 = 40L,
-        transferP = 50L,
-        transferN = 60L;
-
-    account1 = new Account("Account 1",openingBalance,"Account 1");
-    account1.save();
-    account2 = new Account("Account 2",openingBalance,"Account 2");
-    account2.save();
-    op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
-    op.amount = new Money(account1.currency,-expense1);
-    op.save();
-    op.amount = new Money(account1.currency,-expense2);
-    op.saveAsNew();
-    op.amount = new Money(account1.currency,income1);
-    op.saveAsNew();
-    op.amount = new Money(account1.currency,income2);
-    op.saveAsNew();
-    op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER,account1.id);
-    op.transfer_account = account2.id;
-    op.amount = new Money(account1.currency,transferP);
-    op.save();
-    op.amount = new Money(account1.currency,-transferN);
-    op.saveAsNew();
+    insertData();
     Cursor cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
         null,            // get all the columns
