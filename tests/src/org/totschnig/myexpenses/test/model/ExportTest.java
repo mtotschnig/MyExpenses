@@ -27,7 +27,8 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.model.Account;import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Account;import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Result;
 
@@ -45,18 +46,23 @@ public class ExportTest extends ModelTest  {
       income2 = 40L,
       transferP = 50L,
       transferN = 60L;
+  Long cat1Id, cat2Id;
   private void insertData() {
     Transaction op;
     account1 = new Account("Account 1",openingBalance,"Account 1");
     account1.save();
     account2 = new Account("Account 2",openingBalance,"Account 2");
     account2.save();
+    cat1Id = Category.create("Main",null);
+    cat2Id = Category.create("Sub", cat1Id);
     op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
     op.amount = new Money(account1.currency,-expense1);
     op.save();
     op.amount = new Money(account1.currency,-expense2);
+    op.catId = cat1Id;
     op.saveAsNew();
     op.amount = new Money(account1.currency,income1);
+    op.catId = cat2Id; 
     op.saveAsNew();
     op.amount = new Money(account1.currency,income2);
     op.saveAsNew();
@@ -80,12 +86,15 @@ public class ExportTest extends ModelTest  {
       "^",
       "D" + date,
       "T-0.2",
+      "LMain",
       "^",
       "D" + date,
       "T0.3",
+      "LMain:Sub",
       "^",
       "D" + date,
       "T0.4",
+      "LMain:Sub",
       "^",
       "D" + date,
       "T0.5",
@@ -100,9 +109,9 @@ public class ExportTest extends ModelTest  {
         //{R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
         "\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";",
         "\"" + date + "\";\"\";0;0.1;\"\";\"\";\"\";\"\";",
-        "\"" + date + "\";\"\";0;0.2;\"\";\"\";\"\";\"\";",
-        "\"" + date + "\";\"\";0.3;0;\"\";\"\";\"\";\"\";",
-        "\"" + date + "\";\"\";0.4;0;\"\";\"\";\"\";\"\";",
+        "\"" + date + "\";\"\";0;0.2;\"Main\";\"\";\"\";\"\";",
+        "\"" + date + "\";\"\";0.3;0;\"Main\";\"Sub\";\"\";\"\";",
+        "\"" + date + "\";\"\";0.4;0;\"Main\";\"Sub\";\"\";\"\";",
         "\"" + date + "\";\"\";0.5;0;\"Transfer\";\"[Account 2]\";\"\";\"\";",
         "\"" + date + "\";\"\";0;0.6;\"Transfer\";\"[Account 2]\";\"\";\"\";"
     };
