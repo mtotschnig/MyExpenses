@@ -25,6 +25,10 @@
         <item>.</item>
         <item>x</item>
     </string-array>
+    <string-array name="pref_export_format">
+        <item>QIF</item>
+        <item>CSV</item>
+    </string-array>
     <string-array name="pref_qif_export_file_encoding">
         <item>UTF-8</item>
         <item>ISO-8859-1</item>

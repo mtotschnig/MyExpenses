@@ -144,7 +144,7 @@
       botones de control en la barra de herramientas ejecutan las siguientes acciones en clics cortos.:\n\n
       - <b>Nuevo</b> : Añadir una transacción.\n
       - <b>Cuentas</b> : Cambiar a otra cuenta.\n
-      - <b>Reset</b> : Exporta los gastos en el formato QIF a la tarjeta SD, borra los
+      - <b>Reset</b> : Exporta los gastos en el formato QIF o CSV a la tarjeta SD, borra los
       gastos y actualiza el saldo inicial.\n
       - <b> Configuraciones</b> : Permite el acceso a todas las configuraciones y funciones administrativas 
       (de cuentas, categorías, beneficiarios, formas de pago, plantillas, copias de seguridad, importaciones).\n
@@ -302,8 +302,8 @@
   <string name="pref_manage_templates_title">Plantillas</string>
   <string name="pref_password_empty">La contraseña no puede estar vacía</string>
   <string name="pref_password_not_equal">Las contraseñas no coinciden</string>
-  <string name="pref_perform_share_title">Enviar la exportación QIF</string>
-  <string name="pref_perform_share_summary">¿Se debe enviar el archivo QIF después de cada
+  <string name="pref_perform_share_title">Enviar la exportación</string>
+  <string name="pref_perform_share_summary">¿Se debe enviar el archivo después de cada
       exportación?</string>
   <string name="pref_perform_protection_title">Protección por contraseña</string>
   <string name="pref_perform_protection_summary">¿Se deben proteger lanzamientos de la aplicación?</string>
@@ -316,8 +316,8 @@
   <string name="pref_restore_title">Restaurar</string>
   <string name="pref_qif_export_file_encoding_summary">Establece \"ISO-8859-1\" como
       codificación de caracteres si utiliza MS Money.</string>
-  <string name="pref_qif_export_file_encoding_title">Codificación de caracteres del archivo QIF </string>
-  <string name="pref_share_target_title">Cargar URL de exportación QIF</string>
+  <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
+  <string name="pref_share_target_title">Cargar URL de exportación</string>
   <string name="pref_share_target_summary">Usted puede dejar esto en blanco, si quiere elegir entre
       aplicaciones adecuadas (correo electrónico, Dropbox, Google Docs, &#8230;), o indicar un URL
       en uno de los esquemas apoyados</string>
@@ -345,7 +345,7 @@
   <string name="select_category">Escoger una categoría</string>
   <string name="select_parent_category">Escoger esta categoría</string>
   <string name="share_scheme_not_supported">Esquema %1$s no es apoyado.</string>
-  <string name="share_sending">Enviar el archivo QIF</string>
+  <string name="share_sending">Enviar el archivo</string>
   <string name="suggest_use_standard_menu">¿Quiere usted utilizar el menú estándar de Android en vez
       de la barra de herramientas para acceder a los comandos?</string>
   <string name="sum_income">Ingresos</string>
@@ -369,9 +369,9 @@
     establece una pregunta de seguridad (Requiere &app_name; Contrib).</string>
   <string name="warning_password_contrib">Estableciendo una pregunta de seguridad permite desbloquear la aplicación,
     qen caso de que olvide su contraseña.</string>
-  <string name="warning_reset_account">Todas las transacciones serán exportadas a un archivo QIF
+  <string name="warning_reset_account">Todas las transacciones serán exportadas a un archivo %1$s
     en la tarjeta SD y borradas.&continue;</string>
-  <string name="warning_reset_account_all">Para todas las cuentas, las transacciones serán exportadas en archivos QIF
+  <string name="warning_reset_account_all">Para todas las cuentas, las transacciones serán exportadas en archivos %1$s
        en la tarjeta SD y eliminadas. &continue;</string>
   <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de
     seguridad. Se borrarán los datos actuales. &continue;</string>

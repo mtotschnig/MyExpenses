@@ -100,7 +100,7 @@
   <string name="help_heading_quick_guide">Guia ràpida</string>
   <string name="help_heading_whats_new">Novetats</string>
   <string name="help_intro">Amb <i>&app_name;</i> podeu portar la comptabilitat de les vostres despeses i
-      ingressos i exportar-los a un programa financer d\'escritori (Grisbi o Gnucash).</string>
+      ingressos i exportar-los a un programa financer d\'escritori (Grisbi, Gnucash, Quicken o MS Money).</string>
   <string name="help_leading">Gràcies per provar <i>&app_name;</i> per a Android.</string>
   <string name="help_quick_guide"><i>&app_name;</i> té dues interfícies per a donar les ordres :
       una barra d\'eines i el menú estándar d\'Android (el botó del menú). A la configuració de la pantalla
@@ -108,7 +108,7 @@
       executen les següents accions.:\n\n
       - <b>Nou</b> : Afegeix una transacció.\n
       - <b>Comptes</b> : Canvia de compte.\n
-      - <b>Reinicia</b> : Exporta les despeses en format QIF a la targeta SD, suprimeix les
+      - <b>Reinicia</b> : Exporta les despeses en format QIF o CSV a la targeta SD, suprimeix les
       despeses i actualitza el saldo inicial.\n
       - <b>Preferències</b> : Permet accedir a totes les preferències i funcions de personalització
       (de comptes, categories, beneficiaris, formes de pagament, plantilles, còpies de seguretat, importacions).\n
@@ -230,13 +230,13 @@
   <string name="pref_manage_parties_summary">Suprimeix tercers (pagador i beneficiari)</string>
   <string name="pref_manage_templates_summary">Aplica o suprimeix plantilles</string>
   <string name="pref_manage_templates_title">Plantilles</string>
-  <string name="pref_perform_share_title">Envia l\'exportació QIF</string>
-  <string name="pref_perform_share_summary">S\'ha d\'enviar el fitxer QIF després de cada
+  <string name="pref_perform_share_title">Envia l\'exportació</string>
+  <string name="pref_perform_share_summary">S\'ha d\'enviar el fitxer després de cada
       exportació?</string>
   <string name="pref_perform_protection_title">Protecció per contrasenya</string>
   <string name="pref_qif_export_file_encoding_summary">Trieu la codificació de caràcters \"ISO-8859-1\" si feu servir MS Money</string>
-  <string name="pref_qif_export_file_encoding_title">Codificació de caracters del fitxer QIF</string>
-  <string name="pref_share_target_title">Puja el fitxer QIF (a una URL)</string>
+  <string name="pref_qif_export_file_encoding_title">Codificació de caracters</string>
+  <string name="pref_share_target_title">Puja el fitxer (a una URL)</string>
   <string name="pref_share_target_summary">Podeu deixar-ho en blanc, si voleu triar entre les
       aplicacions adeqüades (correu electrònic, Dropbox, Google Docs, &#8230;), o indicar un URL
       en un dels esquemes permesos</string>
@@ -257,7 +257,7 @@
   <string name="select_category">Trieu una categoria</string>
   <string name="select_parent_category">Trieu aquesta categoria</string>
   <string name="share_scheme_not_supported">L\'esquema %1$s no està permés.</string>
-  <string name="share_sending">Envia el fitxer QIF</string>
+  <string name="share_sending">Envia el fitxer</string>
   <string name="suggest_use_standard_menu">Voleu fer servir el menú estándar d\'Android en lloc
       de la barra d\'eines per a donar les ordres?</string>
   <string name="sum_income">Ingressos</string>
@@ -277,7 +277,7 @@
       SD. es suprimirà la còpia de seguretat actual. Voleu continuar?</string>
   <string name="warning_delete_account">Es suprimirà aquest compte amb totes les seves transaccions. Voleu
       continuar?</string>
-  <string name="warning_reset_account">Totes les transaccions d\'aquest compte s\'exportaran a un fitxer QIF
+  <string name="warning_reset_account">Totes les transaccions d\'aquest compte s\'exportaran a un fitxer %1$s
       de la targeta SD i es suprimiran. Voleu continuar?</string>
   <string name="warning_select_account">Si us plau, trieu un compte!</string>
   <string name="version_35_upgrade_info"><i>&app_name;</i> ara hi ha un nou tema fosc per omissió.

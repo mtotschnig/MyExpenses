@@ -74,7 +74,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   private static final int DELETE_ID = Menu.FIRST;
   private static final int RESET_ID = Menu.FIRST + 1;
   private static final int DELETE_COMMAND_ID = 1;
-  private static final int RESET_ACCOUNT_ALL_COMMAND_ID = 2;
   Cursor mCurrencyCursor;
   private Button mAddButton, mAggregateButton, mResetAllButton;
   private long mContextAccountId;
@@ -193,11 +192,9 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
     case R.id.CONTRIB_DIALOG:
       return DialogUtils.contribDialog(this,mContextFeature);
     case R.id.RESET_DIALOG:
-      return DialogUtils.createMessageDialog(this,R.string.warning_reset_account,R.id.RESET_ACCOUNT_COMMAND_DO,null)
-          .create();
+      return DialogUtils.warningResetDialog(this,false);
     case RESET_ALL_DIALOG_ID:
-      return DialogUtils.createMessageDialog(this,R.string.warning_reset_account_all,RESET_ACCOUNT_ALL_COMMAND_ID,null)
-          .create();
+      return DialogUtils.warningResetDialog(this,true);
     case R.id.DONATE_DIALOG:
       return DialogUtils.donateDialog((Activity) this);
     }
@@ -224,7 +221,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
             .show();
       }
       break;
-    case RESET_ACCOUNT_ALL_COMMAND_ID:
+    case R.id.RESET_ACCOUNT_ALL_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
         Intent i = new Intent(this, Export.class);
         startActivity(i);

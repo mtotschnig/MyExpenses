@@ -199,22 +199,25 @@ public class Utils {
   }
   
   public static boolean copy(File src, File dst) {
-    FileChannel srcC;
+    FileInputStream srcStream = null;
+    FileOutputStream dstStream = null;
     try {
-      srcC = new FileInputStream(src).getChannel();
-      FileChannel dstC = new FileOutputStream(dst).getChannel();
-      dstC.transferFrom(srcC, 0, srcC.size());
-      srcC.close();
-      dstC.close();
+      srcStream = new FileInputStream(src);
+      dstStream = new FileOutputStream(dst);
+      dstStream.getChannel().transferFrom(srcStream.getChannel(), 0, srcStream.getChannel().size());
       return true;
     } catch (FileNotFoundException e) {
       Log.e("MyExpenses",e.getLocalizedMessage());
+      return false;
     } catch (IOException e) {
       Log.e("MyExpenses",e.getLocalizedMessage());
+      return false;
+    } finally {
+      try { srcStream.close(); } catch (Exception e) {}
+      try { dstStream.close(); } catch (Exception e) {}
     }
-    return false;
   }
-  public static void share(Context ctx, ArrayList<File> files,String target) {
+  public static void share(Context ctx, ArrayList<File> files,String target, String mimeType) {
     URI uri = null;
     Intent intent;
     String scheme = "mailto";
@@ -238,7 +241,7 @@ public class Utils {
       }
       intent = new Intent(android.content.Intent.ACTION_SENDTO);
       intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(files.get(0)));
-      intent.setDataAndType(android.net.Uri.parse(target),"text/qif");
+      intent.setDataAndType(android.net.Uri.parse(target),mimeType);
       if (!isIntentAvailable(ctx,intent)) {
         Toast.makeText(ctx,R.string.no_app_handling_ftp_available, Toast.LENGTH_LONG).show();
         return;
@@ -256,7 +259,7 @@ public class Utils {
         intent = new Intent(android.content.Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(files.get(0)));
       }
-      intent.setType("text/qif");
+      intent.setType(mimeType);
       if (uri != null) {
         String address = uri.getSchemeSpecificPart();
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ address });

@@ -143,7 +143,7 @@
       utiliser dans l\'écran des paramètres. Dans la barre de boutons, les boutons exécutent les actions suivantes sur un clic court.\n\n
       - <b>Nouveau</b> : Ajouter une transaction.\n
       - <b>Comptes</b> : Changer de compte.\n
-      - <b>Réinitialiser</b> : exporte toutes les opérations dans un fichier QIF sur la carte SD,
+      - <b>Réinitialiser</b> : exporte toutes les opérations dans un fichier QIF ou CSV sur la carte SD,
         efface les opérations, et transfère le solde courant en nouveau solde d\'ouverture.\n
       - <b>Paramètres</b>: Donne accès à toutes les configurations et fonctions administratives
       (comptes, catégories, tiers, méthodes de paiement, modèles, sauvegarde, import).\n
@@ -300,18 +300,18 @@
   <string name="pref_password_not_equal">Les mots de passe sont différents</string>
   <string name="pref_perform_protection_title">Protection par mot de passe</string>
   <string name="pref_perform_protection_summary">Protéger le lancement et la reprise de l\'app?</string>
-  <string name="pref_perform_share_title">Envoyer le fichier d\'export QIF</string>
-  <string name="pref_perform_share_summary">Voulez vous envoyer le fichier QIF après chaque export
+  <string name="pref_perform_share_title">Envoyer le fichier d\'export</string>
+  <string name="pref_perform_share_summary">Voulez vous envoyer le fichier après chaque export
   </string>
   <string name="pref_protection_delay_seconds_title">Délai avant protection</string>
   <string name="pref_protection_delay_seconds_summary">Durée d\'inactivité en secondes avant que la protection ne soit activée.</string>
-  <string name="pref_qif_export_file_encoding_title">Encodage du fichier QIF</string>
+  <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
   <string name="pref_qif_export_file_encoding_summary">Choississez \"ISO-8859-1\" si vous utiliséz MS Money</string>
   <string name="pref_request_licence_title">Demandez une clé contrib</string>
   <string name="pref_request_licence_summary">Si vous avez contribué par d\'autres moyens, demandez une clé contrib par e-mail.</string>
   <string name="pref_restore_title">Restauration</string>
   <string name="pref_restore_summary">Restaurez la sauvegarde à partir du dossier \"myexpenses\" de la carte SD.</string>
-  <string name="pref_share_target_title">URL où sera téléchargé le fichier QIF</string>
+  <string name="pref_share_target_title">URL où sera téléchargé le fichier d\'export</string>
   <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les 
       différentes applications pour le transfert du fichier (Email, Dropbox, Google Docs, &#8230;), sinon
       spécifiez une URL dans l\'une des formes supportées</string>
@@ -339,7 +339,7 @@
   <string name="select_category">Sélectionner une catégorie</string>
   <string name="select_parent_category">Choisir cette catégorie</string>
   <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
-  <string name="share_sending">Envoyer le fichier QIF</string>
+  <string name="share_sending">Envoyer le fichier d\'export</string>
   <string name="suggest_use_standard_menu">Voulez-vous utiliser le menu standard Android pour
       les commandes, et cacher la barre de boutons?</string>
   <string name="sum_income">Revenus</string>
@@ -362,9 +362,9 @@
   <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier.
     Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite &app_name; Contrib).</string>
   <string name="warning_password_contrib">La définition d\'une question de sécurité vous permet de débloquer l\'app, si vous oubliez votre mot de passe.</string>
-  <string name="warning_reset_account_all">Pour tous les comptes, les opérations seront exportées vers des fichiers QIF sur la carte SD et 
+  <string name="warning_reset_account_all">Pour tous les comptes, les opérations seront exportées vers des fichiers %1$s sur la carte SD et 
       effacées. &continue;</string>
-  <string name="warning_reset_account">Toutes les opérations du compte seront exportées vers un fichier QIF sur la carte SD et 
+  <string name="warning_reset_account">Toutes les opérations du compte seront exportées vers un fichier %1$s sur la carte SD et 
       effacées. &continue;</string>
   <string name="warning_restore">La base de données et les paramètres seront restaurés à partir de la sauvegarde.
     Les données actuelles seront supprimées. &continue;</string>

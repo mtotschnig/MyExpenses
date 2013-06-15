@@ -598,8 +598,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         .setView(view)
         .create();
     case R.id.RESET_DIALOG:
-      return DialogUtils.createMessageDialog(this,R.string.warning_reset_account,R.id.RESET_ACCOUNT_COMMAND_DO,null)
-        .create();
+      return DialogUtils.warningResetDialog(this,false);
     case R.id.ACCOUNTS_BUTTON_EXPLAIN_DIALOG:
       return DialogUtils.createMessageDialog(this,R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND,null)
         .create();

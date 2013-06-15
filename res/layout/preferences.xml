@@ -85,6 +85,19 @@
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/pref_category_title_export">
+    <ListPreference android:key="@string/pref_export_format_key"
+        android:defaultValue="QIF"
+        android:title="@string/pref_export_format_title"
+        android:summary="@string/pref_export_format_summary"
+        android:entries="@array/pref_export_format"
+        android:entryValues="@array/pref_export_format"/>
+    <ListPreference android:key="@string/pref_qif_export_file_encoding_key"
+    	  android:defaultValue="UTF-8"
+        android:layout="@layout/preference_long_summary"
+        android:title="@string/pref_qif_export_file_encoding_title"
+        android:summary="@string/pref_qif_export_file_encoding_summary"
+        android:entries="@array/pref_qif_export_file_encoding"
+        android:entryValues="@array/pref_qif_export_file_encoding"/>
     <CheckBoxPreference android:key="@string/pref_perform_share_key"
         android:defaultValue="false"
         android:title="@string/pref_perform_share_title"
@@ -95,14 +108,6 @@
         android:layout="@layout/preference_long_summary"
         android:title="@string/pref_share_target_title"
         android:summary="@string/pref_share_target_summary" />
-    <ListPreference android:key="@string/pref_qif_export_file_encoding_key"
-        android:dependency="@string/pref_perform_share_key"
-        android:defaultValue="UTF-8"
-        android:layout="@layout/preference_long_summary"
-        android:title="@string/pref_qif_export_file_encoding_title"
-        android:summary="@string/pref_qif_export_file_encoding_summary"
-        android:entries="@array/pref_qif_export_file_encoding"
-        android:entryValues="@array/pref_qif_export_file_encoding"/>
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/menu_backup">

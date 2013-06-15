@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
+import org.totschnig.myexpenses.model.Account.ExportFormat;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Result;
@@ -53,10 +54,18 @@ public class Export extends ProtectedActivity {
    * to have access to its message
    */
   private boolean mDone = false;
+  public Account.ExportFormat format;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    try {
+      format = ExportFormat.valueOf(
+          MyApplication.getInstance().getSettings().
+          getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF"));
+    } catch (IllegalArgumentException e) {
+      format = ExportFormat.QIF;
+    }
     Bundle extras = getIntent().getExtras();
     Long[] accountIds;
     if (extras != null) {
@@ -116,7 +125,9 @@ public class Export extends ProtectedActivity {
     mProgressDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
     ArrayList<File> files = task.getResult();
     if (files != null && files.size() >0)
-      Utils.share(this,files, MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim());
+      Utils.share(this,files,
+          MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim(),
+          "text/" + format.name().toLowerCase(Locale.US));
     mDone = true;
   }
   
@@ -224,7 +235,7 @@ public class Export extends ProtectedActivity {
         }
         publishProgress(account.label + " ...");
         try {
-          Result result = account.exportAll(destDir);
+          Result result = account.exportAll(destDir,activity.format);
           File output = (File) result.extra[0];
           SharedPreferences settings = MyApplication.getInstance().getSettings();
           publishProgress("... " + String.format(activity.getString(result.message), output.getAbsolutePath()));

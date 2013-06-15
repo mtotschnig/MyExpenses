@@ -109,6 +109,14 @@ public class DialogUtils {
         })
     .create();
   }
+  public static Dialog warningResetDialog(Context ctx,boolean allP) {
+    return createMessageDialogWithCustomButtons(ctx,
+        ctx.getString(allP ? R.string.warning_reset_account_all : R.string.warning_reset_account,
+            MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF")),
+        allP ? R.id.RESET_ACCOUNT_ALL_COMMAND : R.id.RESET_ACCOUNT_COMMAND_DO,
+        null,android.R.string.yes,android.R.string.no)
+        .create();
+  }
   /**
    * @return an AlertDialog.Builder with R.layout.messagedialog as layout
    */

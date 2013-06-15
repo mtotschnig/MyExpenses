@@ -440,18 +440,18 @@ public class Account extends Model {
   /**
    * writes transactions to export file
    * @param destDir destination directory
+   * @param format 
    * @return Result object indicating success, message and output file
    * @throws IOException
    */
-  public Result exportAll(File destDir) throws IOException {
+  public Result exportAll(File destDir, ExportFormat format) throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     SharedPreferences settings = ctx.getSettings();
-    String formatStr = settings.getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF");
     Log.i("MyExpenses","now starting export");
     File outputFile = new File(destDir,
         label.replaceAll("\\W","") + "-" +
-        now.format(new Date()) + "." + formatStr.toLowerCase(Locale.US));
+        now.format(new Date()) + "." + format.name().toLowerCase(Locale.US));
     if (outputFile.exists()) {
       return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
     }
@@ -460,12 +460,6 @@ public class Account extends Model {
     OutputStreamWriter out = new OutputStreamWriter(
         new FileOutputStream(outputFile),
         settings.getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
-    ExportFormat format;
-    try {
-      format = ExportFormat.valueOf(formatStr);
-    } catch (IllegalArgumentException e) {
-      format = ExportFormat.QIF;
-    }
     sb = new StringBuilder();
     switch (format) {
     case CSV:

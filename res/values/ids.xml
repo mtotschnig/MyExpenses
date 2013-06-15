@@ -21,6 +21,7 @@
     <item type="id" name="CREATE_ACCOUNT_COMMAND"/>
     <item type="id" name="RESET_ACCOUNT_COMMAND"/>
     <item type="id" name="RESET_ACCOUNT_COMMAND_DO"/>
+    <item type="id" name="RESET_ACCOUNT_ALL_COMMAND"/>
     <item type="id" name="SETTINGS_COMMAND"/>
     <item type="id" name="BACKUP_COMMAND"/>
     <item type="id" name="RESTORE_COMMAND"/>

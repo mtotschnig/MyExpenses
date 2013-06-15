@@ -139,7 +139,7 @@
       i seguenti azioni con un clico breve:\n\n
       - <b>Nuovo</b> : aggiungere un operazione.\n
       - <b>Conti</b> : cambiare di un conto a un altro.\n
-      - <b>Reset</b> : esporta tutte le operazioni sulla scheda SD nel formato QIF, 
+      - <b>Reset</b> : esporta tutte le operazioni sulla scheda SD nel formato QIF o CSV, 
       elimina le spese e aggiorna il bilancio di apertura.\n
       - <b>Impostazioni</b> : da accesso a tutte le impostazioni e funzioni amministrative 
       (dei conti, categorie, riceventi, metodi di pagamento, modelli, i backup, importazioni).\n
@@ -296,13 +296,13 @@
   <string name="pref_password_not_equal">Le password non corrispondono</string>
   <string name="pref_perform_protection_title">Protezione con password</string>
   <string name="pref_perform_protection_summary">Dovrebbe lancia e riprende essere protetti?</string>
-  <string name="pref_perform_share_title">Condividi QIF Export</string>
-  <string name="pref_perform_share_summary">Se il file QIF da condividere dopo ogni esportazione?</string>
+  <string name="pref_perform_share_title">Condividi Export</string>
+  <string name="pref_perform_share_summary">Se il file da condividere dopo ogni esportazione?</string>
   <string name="pref_protection_delay_seconds_title">Ritardo fino a protezione</string>
   <string name="pref_protection_delay_seconds_summary">Inattive secondi prima app verranno bloccati da password.</string>
-  <string name="pref_qif_export_file_encoding_title">Set di caratteri del file QIF</string>
+  <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
   <string name="pref_qif_export_file_encoding_summary">Fissare il set di caratteri \"ISO-8859-1\" se usa MS Money</string>
-  <string name="pref_share_target_title">Carica URL QIF Export</string>
+  <string name="pref_share_target_title">Carica URL Export</string>
   <string name="pref_share_target_summary">Lascia vuoto se si vuole scegliere tra le applicazioni
       appropriate (e-mail, Dropbox, Google Docs, &#8230;), o fornire l\'URL in uno dei sistemi
       sostenuti</string>
@@ -339,7 +339,7 @@
   <string name="select_account">Selezionare un conto</string>
   <string name="select_category">Selezionare una categoria</string>
   <string name="select_parent_category">Selezionare questa categoria</string>
-  <string name="share_sending">Invia file QIF</string>
+  <string name="share_sending">Invia file export</string>
   <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
   <string name="suggest_use_standard_menu">Vuoi utilizzare il menu standard Android per chiamare i
     comandi, e nascondere la barra dei pulsanti?</string>
@@ -364,8 +364,8 @@
   <string name="warning_password_contrib">L\'impostazione di una domanda di sicurezza consente di sbloccare l\'applicazione,
     nel caso in cui si dimentichi la password.</string>
   <string name="warning_reset_account">Tutte le operazioni di questo conto saranno esportati
-    a un file QIF nella scheda SD e cancellati. &continue;</string>
-  <string name="warning_reset_account_all">Per tutti i conti, le transazioni vengono esportati in file QIF
+    a un file %1$s nella scheda SD e cancellati. &continue;</string>
+  <string name="warning_reset_account_all">Per tutti i conti, le transazioni vengono esportati in file %1$s
     su SD-card e cancellati. &continue;</string>
   <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup. I dati
     attuali verranno cancellati. &continue;</string>
