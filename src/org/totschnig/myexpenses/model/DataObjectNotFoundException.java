@@ -15,6 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-public class DataObjectNotFoundException extends Exception {
+public class DataObjectNotFoundException extends RuntimeException {
 
 }
