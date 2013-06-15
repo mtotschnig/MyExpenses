@@ -19,10 +19,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 <android.support.v4.view.ViewPager
-    android:layout_width="match_parent" 
+      android:layout_width="fill_parent" 
       android:layout_height="0dp"
       android:layout_weight="1"
-    android:id="@+id/viewpager"/>
+      android:id="@+id/viewpager"/>
   <include android:id="@+id/ButtonBarDividerTop" layout="@layout/divider_thick"/>
   <org.totschnig.myexpenses.ButtonBar
       android:id="@+id/ButtonBar"
