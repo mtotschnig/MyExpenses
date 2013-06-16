@@ -70,7 +70,7 @@ public class ExportTest extends ModelTest  {
     op.payee = null;
     op.saveAsNew();
     op.amount = new Money(account1.currency,income2);
-    op.comment = "Note for myself";
+    op.comment = "Note for myself with \"quote\"";
     op.saveAsNew();
     op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER,account1.id);
     op.transfer_account = account2.id;
@@ -101,7 +101,7 @@ public class ExportTest extends ModelTest  {
       "^",
       "D" + date,
       "T0.4",
-      "MNote for myself",
+      "MNote for myself with \"quote\"",
       "LMain:Sub",
       "^",
       "D" + date,
@@ -119,7 +119,7 @@ public class ExportTest extends ModelTest  {
         "\"" + date + "\";\"\";0;0.1;\"\";\"\";\"\";\"Cheque\";",
         "\"" + date + "\";\"N.N.\";0;0.2;\"Main\";\"\";\"\";\"Cheque\";",
         "\"" + date + "\";\"\";0.3;0;\"Main\";\"Sub\";\"\";\"Cheque\";",
-        "\"" + date + "\";\"\";0.4;0;\"Main\";\"Sub\";\"Note for myself\";\"Cheque\";",
+        "\"" + date + "\";\"\";0.4;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"Cheque\";",
         "\"" + date + "\";\"\";0.5;0;\"Transfer\";\"[Account 2]\";\"\";\"\";",
         "\"" + date + "\";\"\";0;0.6;\"Transfer\";\"[Account 2]\";\"\";\"\";"
     };
@@ -131,7 +131,6 @@ public class ExportTest extends ModelTest  {
       String line;
       int count = 0;
       while ((line = r.readLine()) != null) {
-        Log.i("DEBUG","comparing " + line + " and " +linesQIF[count]);
         assertEquals(linesQIF[count],line);
         count++;
       }
@@ -144,7 +143,6 @@ public class ExportTest extends ModelTest  {
       r = new BufferedReader(new InputStreamReader(is));
       count = 0;
       while ((line = r.readLine()) != null) {
-        Log.i("DEBUG","comparing " + line + " and " +linesCSV[count]);
         assertEquals(linesCSV[count],line);
         count++;
       }

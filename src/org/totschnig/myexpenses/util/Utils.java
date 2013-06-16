@@ -366,4 +366,24 @@ public class Utils {
     }
     return "";
   }
+  public static class StringBuilderWrapper {
+    public StringBuilderWrapper() {
+      this.sb = new StringBuilder();
+    }
+    private StringBuilder sb;
+    public StringBuilderWrapper append(String s) {
+      sb.append(s);
+      return this;
+    }
+    public StringBuilderWrapper appendQ(String s) {
+      sb.append(s.replace("\"", "\"\""));
+      return this;
+    }
+    public String toString() {
+      return sb.toString();
+    }
+    public void clear() {
+      sb = new StringBuilder();
+    }
+  }
 }

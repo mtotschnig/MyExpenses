@@ -40,7 +40,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 /**
@@ -450,25 +449,24 @@ public class Account extends Model {
     if (outputFile.exists()) {
       return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
     }
-    StringBuilder sb;
+    Utils.StringBuilderWrapper sb = new Utils.StringBuilderWrapper();
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
     OutputStreamWriter out = new OutputStreamWriter(
         new FileOutputStream(outputFile),
         settings.getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
-    sb = new StringBuilder();
     switch (format) {
     case CSV:
       int[] columns = {R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
       for (int column: columns) {
-        sb.append("\"");
-        sb.append(ctx.getString(column));
-        sb.append("\";");
+        sb.append("\"")
+          .appendQ(ctx.getString(column))
+          .append("\";");
       }
       break;
     //QIF
     default:
-      sb.append("!Type:");
-      sb.append(type.getQifName());
+      sb.append("!Type:")
+        .append(type.getQifName());
     }
     sb.append("\n");
     //Write header
@@ -499,46 +497,48 @@ public class Account extends Model {
           c.getColumnIndexOrThrow(KEY_AMOUNT));
       String amountAbsStr = new Money(currency,amount)
           .getAmountMajor().abs().toPlainString();
-      Log.i("DEBUG","amount: " + String.valueOf(amount) + " ; amountAbsStr: " + amountAbsStr);
-      sb = new StringBuilder();
+      sb.clear();
       switch (format) {
       case CSV:
         //{R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
-        sb.append("\"");
-        sb.append(dateStr);
-        sb.append("\";\"");
-        sb.append(payee);
-        sb.append("\";");
-        sb.append(amount>0 ? amountAbsStr : "0");
-        sb.append(";");
-        sb.append(amount<0 ? amountAbsStr : "0");
-        sb.append(";\"");
-        sb.append(transfer_peer == null ? label_main : ctx.getString(R.string.transfer));
-        sb.append("\";\"");
-        sb.append(transfer_peer == null ? label_sub : full_label);
-        sb.append("\";\"");
-        sb.append(comment);
-        sb.append("\";\"");
         Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
-        sb.append(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel());
-        sb.append("\";");
+        sb.append("\"")
+          .append(dateStr)
+          .append("\";\"")
+          .appendQ(payee)
+          .append("\";")
+          .append(amount>0 ? amountAbsStr : "0")
+          .append(";")
+          .append(amount<0 ? amountAbsStr : "0")
+          .append(";\"")
+          .appendQ(transfer_peer == null ? label_main : ctx.getString(R.string.transfer))
+          .append("\";\"")
+          .appendQ(transfer_peer == null ? label_sub : full_label)
+          .append("\";\"")
+          .appendQ(comment)
+          .append("\";\"")
+          .appendQ(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel())
+          .append("\";");
         break;
       default:
-        sb.append( "D" );
-        sb.append( dateStr );
-        sb.append( "\nT" );
+        sb.append( "D" )
+          .append( dateStr )
+          .append( "\nT" );
         if (amount<0)
           sb.append( "-");
         sb.append( amountAbsStr );
-        if ((comment.length() > 0))
-          sb.append( "\nM" );
-        sb.append( comment );
-        if ((full_label.length() > 0))
-          sb.append( "\nL" );
-        sb.append( full_label );
-        if ((payee.length() > 0))
-          sb.append( "\nP" );
-        sb.append( payee );
+        if ((comment.length() > 0)) {
+          sb.append( "\nM" )
+          .append( comment );
+        }
+        if ((full_label.length() > 0)) {
+          sb.append( "\nL" )
+            .append( full_label );
+        }
+        if ((payee.length() > 0)) {
+          sb.append( "\nP" )
+            .append( payee );
+        }
         sb.append( "\n^" );
       }
       sb.append("\n");
