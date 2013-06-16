@@ -154,8 +154,8 @@
       - <b>Help</b> : Quick access to Manual, News, FAQ and Changes.\n
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
-  <string name="help_whats_new">&#160;- Export to CSV.
-    - Explicitly declare support for large screens to make app available again for tablets on Google Play.
+  <string name="help_whats_new">&#160;- Export to CSV.\n
+    - Explicitly declare support for large screens to make app available again for tablets on Google Play.\n
     - Support for Android 1.6.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
