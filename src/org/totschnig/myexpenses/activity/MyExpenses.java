@@ -484,7 +484,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.SHOW_DETAIL_COMMAND:
       t = Transaction.getInstanceFromDb(info.id);
       String method = "";
-      if (t.methodId != 0) {
+      if (t.methodId != null) {
         method= PaymentMethod.getInstanceFromDb(t.methodId).getDisplayLabel();
       }
       String msg =  ((t.comment != null && t.comment.length() != 0) ?
