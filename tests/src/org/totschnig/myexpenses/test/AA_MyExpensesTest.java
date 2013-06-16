@@ -52,9 +52,12 @@ public class AA_MyExpensesTest extends
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    MyApplication app = (MyApplication) getInstrumentation().getTargetContext().getApplicationContext();
-    settings = app.getSharedPreferences(TEST_ID,Context.MODE_PRIVATE);
-    app.setSettings(settings);
+    if ( android.os.Build.VERSION.SDK_INT > 4) {
+      //does not work on 1.6. emulator
+      MyApplication app = (MyApplication) getInstrumentation().getTargetContext().getApplicationContext();
+      settings = app.getSharedPreferences(TEST_ID,Context.MODE_PRIVATE);
+      app.setSettings(settings);
+    }
     //app.setDatabaseName(TEST_ID);
     setActivityInitialTouchMode(false); 
     mActivity = getActivity();
@@ -114,8 +117,10 @@ public class AA_MyExpensesTest extends
   }
   protected void tearDown() throws Exception {
     solo.finishOpenedActivities();
-    Editor editor = settings.edit();
-    editor.clear();
-    editor.commit();
+    if (settings != null) {
+      Editor editor = settings.edit();
+      editor.clear();
+      editor.commit();
+    }
   }
 }
