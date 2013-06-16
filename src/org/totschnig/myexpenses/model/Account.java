@@ -474,7 +474,7 @@ public class Account extends Model {
     //Write header
     out.write(sb.toString());
     Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI, null,
-        "account_id = ?", new String[] { String.valueOf(id) }, KEY_ROWID);
+        "account_id = ?", new String[] { String.valueOf(id) }, KEY_DATE);
     c.moveToFirst();
     while( c.getPosition() < c.getCount() ) {
       Long transfer_peer = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER);
