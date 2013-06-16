@@ -22,7 +22,6 @@ import java.util.Date;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -125,12 +124,8 @@ public class ExpenseEdit extends EditActivity {
     
     //1. fetch the transaction or create a new instance
     if (mRowId != 0) {
-      try {
-        mTransaction = Transaction.getInstanceFromDb(mRowId);
-      } catch (DataObjectNotFoundException e) {
-        e.printStackTrace();
-        throw new RuntimeException(e);
-      }
+      mTransaction = Transaction.getInstanceFromDb(mRowId);
+
       mAccountId = mTransaction.accountId;
       mOperationType = (mTransaction instanceof Transfer) ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
     } else if (mTemplateId != 0) {
@@ -139,13 +134,8 @@ public class ExpenseEdit extends EditActivity {
         mTransaction = Transaction.getInstanceFromTemplate(mTemplateId);
         mOperationType = (mTransaction instanceof Transfer) ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
       } else {
-        try {
-          mTransaction = Template.getInstanceFromDb(mTemplateId);
-          mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-        } catch (DataObjectNotFoundException e) {
-          e.printStackTrace();
-          throw new RuntimeException(e);
-        }
+        mTransaction = Template.getInstanceFromDb(mTemplateId);
+        mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
       }
       mAccountId = mTransaction.accountId;
     } else {
@@ -347,13 +337,8 @@ public class ExpenseEdit extends EditActivity {
       if(paymentMethods.moveToFirst()){
        for (int i = 0; i < paymentMethods.getCount(); i++){
          methodIds[i] = paymentMethods.getLong(paymentMethods.getColumnIndex(DatabaseConstants.KEY_ROWID));
-         try {
-          pm = PaymentMethod.getInstanceFromDb(methodIds[i]);
-        } catch (DataObjectNotFoundException e) {
-          // this should not happen, since we got the id from db
-          e.printStackTrace();
-          throw new RuntimeException(e);
-        }
+         pm = PaymentMethod.getInstanceFromDb(methodIds[i]);
+  
          methodLabels[i] = pm.getDisplayLabel();
          paymentMethods.moveToNext();
        }
@@ -396,12 +381,8 @@ public class ExpenseEdit extends EditActivity {
    */
   private void populateFields() {
     int otherAccountsCount = 0;
-    try {
-      mAccount = Account.getInstanceFromDb(mAccountId);
-    } catch (DataObjectNotFoundException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    }
+    mAccount = Account.getInstanceFromDb(mAccountId);
+
     //2. get info about other accounts if we are editing a transfer
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       Cursor otherAccounts =  getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
@@ -444,13 +425,8 @@ public class ExpenseEdit extends EditActivity {
       if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
         mPayeeText.setText(mTransaction.payee);
         mMethodId = mTransaction.methodId;
-        try {
-          if (mMethodId != null) {
-            mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel());
-          }
-        } catch (DataObjectNotFoundException e) {
-          //the methodId no longer exists in DB, we set it to 0
-          mMethodId = null;
+        if (mMethodId != null) {
+          mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel());
         }
       }
       //3d fill label (category or account) we got from database, if we are a transfer we prefix 
@@ -505,20 +481,16 @@ public class ExpenseEdit extends EditActivity {
     //add currency label to amount label
     TextView amountLabel = (TextView) findViewById(R.id.AmountLabel);    
     String currencySymbol;
-    try {
-      Account account = Account.getInstanceFromDb(mTransaction.accountId);
-      currencySymbol = account.currency.getSymbol();
-      if (mMinorUnitP) {
-        switch (account.currency.getDefaultFractionDigits()) {
-        case 2:
-          currencySymbol += "¢";
-          break;
-        case 3:
-          currencySymbol += "/1000";
-        }
+    Account account = Account.getInstanceFromDb(mTransaction.accountId);
+    currencySymbol = account.currency.getSymbol();
+    if (mMinorUnitP) {
+      switch (account.currency.getDefaultFractionDigits()) {
+      case 2:
+        currencySymbol += "¢";
+        break;
+      case 3:
+        currencySymbol += "/1000";
       }
-    } catch (DataObjectNotFoundException e) {
-      currencySymbol = "?";
     }
     amountLabel.setText(getString(R.string.amount) + " ("+currencySymbol+")");
   }
@@ -673,11 +645,6 @@ public class ExpenseEdit extends EditActivity {
     configureType();
     setDate();
     setTime();
-    try {
-      mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel());
-    } catch (DataObjectNotFoundException e) {
-      //the methodId no longer exists in DB, we set it to 0
-      mMethodId = null;
-    }
+    mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel());
   }
 }

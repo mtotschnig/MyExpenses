@@ -315,12 +315,7 @@ public class Account extends Model {
     accounts.clear();
   }
   public static boolean delete(long id) {
-    Account account;
-    try {
-      account = getInstanceFromDb(id);
-    } catch (DataObjectNotFoundException e) {
-      return false;
-    }
+    Account account = getInstanceFromDb(id);
     account.deleteAllTransactions();
     accounts.remove(id);
     return cr().delete(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null) > 0;

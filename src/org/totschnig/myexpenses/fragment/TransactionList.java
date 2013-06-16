@@ -4,12 +4,10 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.SimpleDateFormat;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -83,13 +81,7 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
     colorExpense = color.data;
     theme.resolveAttribute(R.attr.colorIncome,color, true);
     colorIncome = color.data;
-    try {
-      account = Account.getInstanceFromDb(getArguments().getLong("account_id"));
-    } catch (DataObjectNotFoundException e) {
-      // this should not happen, since we got the account_id from db
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    }
+    account = Account.getInstanceFromDb(getArguments().getLong("account_id"));
     
     View v = inflater.inflate(R.layout.expenses_list, null, false);
     heading = v.findViewById(R.id.heading);

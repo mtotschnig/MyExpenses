@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.activity;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
@@ -96,13 +95,8 @@ public class MethodEdit extends EditActivity {
     long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID)
           : 0;
     if (rowId != 0) {
-      try {
-        mMethod = PaymentMethod.getInstanceFromDb(rowId);
-      } catch (DataObjectNotFoundException e) {
-        e.printStackTrace();
-        setResult(RESULT_CANCELED);
-        finish();
-      }
+      mMethod = PaymentMethod.getInstanceFromDb(rowId);
+
       setTitle(R.string.menu_edit_method);
       mLabelText.setText(mMethod.getDisplayLabel());
       mPaymentType = mMethod.getPaymentType();

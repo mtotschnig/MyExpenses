@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -290,13 +289,7 @@ public class AccountEdit extends EditActivity {
     long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID)
           : 0;
     if (rowId != 0) {
-      try {
-        mAccount = Account.getInstanceFromDb(rowId);
-      } catch (DataObjectNotFoundException e) {
-        e.printStackTrace();
-        setResult(RESULT_CANCELED);
-        finish();
-      }
+      mAccount = Account.getInstanceFromDb(rowId);
       setTitle(R.string.menu_edit_account);
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);

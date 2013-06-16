@@ -98,13 +98,7 @@ public class Transaction extends Model {
     return t;
   }
   public static Transaction getInstanceFromTemplate(long id) {
-    Template te;
-    try {
-      te = Template.getInstanceFromDb(id);
-    } catch (DataObjectNotFoundException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    }
+    Template te = Template.getInstanceFromDb(id);
     Transaction tr;
     if (te.isTransfer) {
       tr = new Transfer(te.accountId,te.amount);
@@ -138,13 +132,8 @@ public class Transaction extends Model {
   }
   
   public static void delete(long id) {
-    Transaction t;
-    try {
-      t = Transaction.getInstanceFromDb(id);
-    } catch (DataObjectNotFoundException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    }
+    Transaction t = Transaction.getInstanceFromDb(id);
+
     if (t instanceof Transfer)
       cr().delete(CONTENT_URI,
           KEY_ROWID + " in (" + id + "," + t.transfer_peer + ")",null);
@@ -162,14 +151,8 @@ public class Transaction extends Model {
    */
   public Transaction(long accountId,long amount) {
     this();
-    Account account;
-    try {
-      account = Account.getInstanceFromDb(accountId);
-    } catch (DataObjectNotFoundException e) {
-      //we should not have to deal with a transaction not belonging to any account
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    }
+    Account account = Account.getInstanceFromDb(accountId);
+
     this.accountId = accountId;
     this.amount = new Money(account.currency,amount);
   }

@@ -27,7 +27,6 @@ import java.util.Locale;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.Account.ExportFormat;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -227,12 +226,7 @@ public class Export extends ProtectedActivity {
       } else
         destDir = appDir;
       for (Long id : accountIds) {
-        try {
-          account = Account.getInstanceFromDb(id);
-        } catch (DataObjectNotFoundException e) {
-          e.printStackTrace();
-          throw new RuntimeException();
-        }
+        account = Account.getInstanceFromDb(id);
         publishProgress(account.label + " ...");
         try {
           Result result = account.exportAll(destDir,activity.format);

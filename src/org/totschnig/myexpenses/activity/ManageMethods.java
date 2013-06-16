@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -77,14 +76,9 @@ public class ManageMethods extends ProtectedFragmentActivity implements OnItemCl
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
     //predefined methods can not be deleted
     PaymentMethod method;
-    try {
-      method = PaymentMethod.getInstanceFromDb(info.id);
-      if (method.predef == null) {
-        menu.add(0, DELETE_ID, 0, R.string.menu_delete);
-      }
-    } catch (DataObjectNotFoundException e) {
-      //should not happen
-      e.printStackTrace();
+    method = PaymentMethod.getInstanceFromDb(info.id);
+    if (method.predef == null) {
+      menu.add(0, DELETE_ID, 0, R.string.menu_delete);
     }
   }
 

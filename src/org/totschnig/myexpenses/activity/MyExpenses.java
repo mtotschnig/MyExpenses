@@ -34,7 +34,6 @@ import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -429,14 +428,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == ACTIVITY_CREATE_ACCOUNT && resultCode == RESULT_OK && intent != null) {
-         try {
-          //we cannot use switchaccount yet, since the cursor has not yet been swapped yet
-          setCurrentAccount(Account.getInstanceFromDb(intent.getLongExtra("account_id",0)));
-        } catch (DataObjectNotFoundException e) {
-          // should not happen
-          e.printStackTrace();
-        }
-         return;
+      //we cannot use switchaccount yet, since the cursor has not yet been swapped yet
+      setCurrentAccount(Account.getInstanceFromDb(intent.getLongExtra("account_id",0)));
+      return;
     }
     updateUIforCurrentAccount();
     if (requestCode == ACTIVITY_EDIT && resultCode == RESULT_OK) {
@@ -488,18 +482,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       }
       return true;
     case R.id.SHOW_DETAIL_COMMAND:
-      try {
-        t = Transaction.getInstanceFromDb(info.id);
-      } catch (DataObjectNotFoundException e) {
-        e.printStackTrace();
-        throw new RuntimeException(e);
-      }
+      t = Transaction.getInstanceFromDb(info.id);
       String method = "";
       if (t.methodId != 0) {
-        try {
-          method= PaymentMethod.getInstanceFromDb(t.methodId).getDisplayLabel();
-        } catch (DataObjectNotFoundException e) {
-        }
+        method= PaymentMethod.getInstanceFromDb(t.methodId).getDisplayLabel();
       }
       String msg =  ((t.comment != null && t.comment.length() != 0) ?
           t.comment : "");
@@ -660,15 +646,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
           if (!title.equals("")) {
             input.setText("");
             dismissDialog(R.id.TEMPLATE_TITLE_DIALOG);
-            try {
-              if ((new Template(Transaction.getInstanceFromDb(mDialogContextId),title)).save() == null) {
-                Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
-              } else {
-                Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
-              }
-            } catch (DataObjectNotFoundException e) {
-              e.printStackTrace();
-              throw new RuntimeException(e);
+            if ((new Template(Transaction.getInstanceFromDb(mDialogContextId),title)).save() == null) {
+              Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
+            } else {
+              Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
             }
             if (!mUseStandardMenu) {
               fillAddButton();
@@ -862,13 +843,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       );
       account.save();
     } else {
-      try {
-        account =Account.getInstanceFromDb(accountId);
-      } catch (DataObjectNotFoundException e) {
-        // this should not happen, since we got the account_id from db
-        e.printStackTrace();
-        throw new RuntimeException(e);
-      }
+      account = Account.getInstanceFromDb(accountId);
     }
     return account;
   }
@@ -1255,13 +1230,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
     .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, mCurrentAccount.id)
     .commit();
-    try {
-      setCurrentAccount(Account.getInstanceFromDb(accountId));
-    } catch (DataObjectNotFoundException e) {
-      // this should not happen, since we got the account_id from db
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    }
+    setCurrentAccount(Account.getInstanceFromDb(accountId));
   }
   public void updateUIforCurrentAccount() {
     View divider = findViewById(R.id.ButtonBarDividerTop);
@@ -1274,13 +1243,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   @Override
   public void contribFeatureCalled(Feature feature) {
     feature.recordUsage();
-    try {
-      Transaction.getInstanceFromDb(mDialogContextId).saveAsNew();
-    } catch (DataObjectNotFoundException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    }
-    //myAdapter.notifyDataSetChanged();
+    Transaction.getInstanceFromDb(mDialogContextId).saveAsNew();
   }
   @Override
   public void contribFeatureNotCalled() {

@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.fragment;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -37,14 +36,7 @@ public class MethodList extends Fragment implements LoaderManager.LoaderCallback
         android.R.layout.simple_list_item_1, null, from, to,0) {
       @Override
       public void setViewText(TextView v, String text) {
-        Activity ctx = getActivity();
-        try {
-          super.setViewText(v, PaymentMethod.getInstanceFromDb(Long.valueOf(text)).getDisplayLabel());
-        } catch (DataObjectNotFoundException e) {
-          e.printStackTrace();
-          ctx.setResult(Activity.RESULT_CANCELED);
-          ctx.finish();
-        }
+        super.setViewText(v, PaymentMethod.getInstanceFromDb(Long.valueOf(text)).getDisplayLabel());
       }
     };
     getLoaderManager().initLoader(0, null, this);
