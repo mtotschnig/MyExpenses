@@ -642,9 +642,10 @@ public class ExpenseEdit extends EditActivity {
       mTransferAccount = null;
     if ((mMethodId = savedInstanceState.getLong("methodId")) == 0L)
       mMethodId = null;
+    else if (mMethodButton != null)
+        mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel());
     configureType();
     setDate();
     setTime();
-    mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel());
   }
 }
