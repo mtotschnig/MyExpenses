@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.ExportFormat;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.ui.ScrollableProgressDialog;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -74,8 +75,7 @@ public class Export extends ProtectedActivity {
           new String[] {KEY_ROWID}, null, null, null);
       accountIds = DbUtils.getLongArrayFromCursor(c, KEY_ROWID);
     }
-    mProgressDialog = new ProgressDialog(this);
-    mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+    mProgressDialog = new ScrollableProgressDialog(this);
     mProgressDialog.setTitle(R.string.pref_category_title_export);
     mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
     mProgressDialog.setCancelable(false);
