@@ -184,12 +184,17 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
   }
 
   private void updateTitleView() {
-    heading.setBackgroundColor(account.color);
+    if (heading != null)
+      heading.setBackgroundColor(account.color);
     int textColor = Utils.getTextColorForBackground(account.color);
-    labelTv.setText(account.label);
-    labelTv.setTextColor(textColor);
-    balanceTv.setText(Utils.formatCurrency(account.getCurrentBalance()));
-    balanceTv.setTextColor(textColor);
+    if (labelTv != null) {
+      labelTv.setText(account.label);
+      labelTv.setTextColor(textColor);
+    }
+    if (balanceTv != null) {
+      balanceTv.setText(Utils.formatCurrency(account.getCurrentBalance()));
+      balanceTv.setTextColor(textColor);
+    }
   }
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
