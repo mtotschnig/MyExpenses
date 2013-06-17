@@ -20,12 +20,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
-import org.totschnig.myexpenses.ButtonBar;
-import org.totschnig.myexpenses.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.ButtonBar.Action;
-import org.totschnig.myexpenses.ButtonBar.MenuButton;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
@@ -35,6 +31,10 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.ui.ButtonBar;
+import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
+import org.totschnig.myexpenses.ui.ButtonBar.Action;
+import org.totschnig.myexpenses.ui.ButtonBar.MenuButton;
 import org.totschnig.myexpenses.util.DialogUtils;
 import org.totschnig.myexpenses.util.Utils;
 

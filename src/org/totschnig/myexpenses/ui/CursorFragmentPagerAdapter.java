@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses;
+package org.totschnig.myexpenses.ui;
 
 import android.content.Context;
 import android.database.Cursor;
