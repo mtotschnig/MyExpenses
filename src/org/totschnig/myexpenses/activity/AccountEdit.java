@@ -331,13 +331,19 @@ public class AccountEdit extends EditActivity {
    */
   private boolean saveState() {
     String strCurrency = mCurrencyText.getText().toString();
+    String label;
     try {
       mAccount.setCurrency(strCurrency);
     } catch (IllegalArgumentException e) {
       Toast.makeText(this,getString(R.string.currency_not_iso4217,strCurrency), Toast.LENGTH_LONG).show();
       return false;
     }
-    mAccount.label = mLabelText.getText().toString();
+    label = mLabelText.getText().toString();
+    if (label.equals("")) {
+      Toast.makeText(this, R.string.no_title_given, Toast.LENGTH_LONG).show();
+      return false;
+    }
+    mAccount.label = label;
     mAccount.description = mDescriptionText.getText().toString();
     BigDecimal openingBalance = Utils.validateNumber(nfDLocal, mAmountText.getText().toString());
     if (openingBalance == null) {
