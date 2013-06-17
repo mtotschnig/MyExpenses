@@ -15,8 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -74,7 +72,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;  
-import android.support.v4.app.FragmentPagerAdapter;  
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.app.LoaderManager;
