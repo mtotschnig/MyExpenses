@@ -18,7 +18,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
+     <ScrollView android:id="@+id/aboutscrollview"
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1">
 		<TextView android:id="@+id/message_text"
         style="@style/about_text"/>
+		</ScrollView>
 		<include layout="@layout/dialog_buttonbar"/>
 </LinearLayout>
