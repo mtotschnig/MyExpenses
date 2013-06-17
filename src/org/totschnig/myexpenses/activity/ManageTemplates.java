@@ -36,13 +36,13 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
+import android.widget.ExpandableListView.OnChildClickListener;
 
-public class ManageTemplates extends ProtectedFragmentActivity implements ContribIFace  {
+public class ManageTemplates extends ProtectedFragmentActivity implements OnChildClickListener,ContribIFace  {
 
   private static final int DELETE_TEMPLATE = Menu.FIRST;
   private static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;
   private static final int CREATE_INSTANCE_SAVE = Menu.FIRST +2;
-  private static final int EDIT_TEMPLATE = Menu.FIRST +3;
   private static final int NEW_TRANSACTION = Menu.FIRST +4;
   private static final int NEW_TRANSFER = Menu.FIRST +5;
   
@@ -70,7 +70,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements Contri
       menu.add(0,DELETE_TEMPLATE,0,R.string.menu_delete);
       menu.add(0,CREATE_INSTANCE_EDIT,0,R.string.menu_create_transaction_from_template_and_edit);
       menu.add(0,CREATE_INSTANCE_SAVE,0,R.string.menu_create_transaction_from_template_and_save);
-      menu.add(0,EDIT_TEMPLATE,0,R.string.menu_edit_template);
     } else {
       menu.add(0,NEW_TRANSACTION,0,R.string.menu_create_template_for_transaction);
       menu.add(0,NEW_TRANSFER,0,R.string.menu_create_template_for_transfer);
@@ -99,13 +98,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements Contri
             intent.putExtra("instantiate", true);
             startActivity(intent);
             break;
-          case EDIT_TEMPLATE:
-            mTemplateId = id;
-            if (MyApplication.getInstance().isContribEnabled) {
-              contribFeatureCalled(Feature.EDIT_TEMPLATE);
-            } else {
-              showDialog(R.id.CONTRIB_DIALOG);
-            }
         }
       } else {
         intent = new Intent(this, ExpenseEdit.class);
@@ -149,5 +141,16 @@ public class ManageTemplates extends ProtectedFragmentActivity implements Contri
   public void contribFeatureNotCalled() {
     // TODO Auto-generated method stub
     
+  }
+  @Override
+  public boolean onChildClick(ExpandableListView parent, View v,
+      int groupPosition, int childPosition, long id) {
+    mTemplateId = id;
+    if (MyApplication.getInstance().isContribEnabled) {
+      contribFeatureCalled(Feature.EDIT_TEMPLATE);
+    } else {
+      showDialog(R.id.CONTRIB_DIALOG);
+    }
+    return true;
   }
 }

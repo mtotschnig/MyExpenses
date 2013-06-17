@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.SimpleCursorTreeAdapter;
+import android.widget.ExpandableListView.OnChildClickListener;
 
 public class TemplatesList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private MyExpandableListAdapter mAdapter;
@@ -37,6 +38,8 @@ public class TemplatesList extends Fragment implements LoaderManager.LoaderCallb
         new int[] {android.R.id.text1});
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
+    //requires using activity (ManageTemplates) to implement OnChildClickListener
+    lv.setOnChildClickListener((OnChildClickListener) getActivity());
     registerForContextMenu(lv);
     return v;
   }
