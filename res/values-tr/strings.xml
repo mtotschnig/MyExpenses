@@ -270,13 +270,13 @@
   <string name="pref_manage_templates_summary">Şablonları uygula ya da sil.</string>
   <string name="pref_password_empty">Parola boş olmamalıdır</string>
   <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
-  <string name="pref_perform_share_title">QIF dışa aktarımı paylaş</string>
-  <string name="pref_perform_share_summary">QIF dosyası her dışa aktarımdan sonra paylaşılmalı mı?</string>
+  <string name="pref_perform_share_title">Dışa aktarım dosyasını paylaş</string>
+  <string name="pref_perform_share_summary">Dosya her dışa aktarımdan sonra paylaşılmalı mı?</string>
   <string name="pref_perform_protection_title">Parola ile güvenlik</string>
   <string name="pref_perform_protection_summary">Uygulama başlatılmaları ve sürdürmeleri korunsun mu?</string>
   <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
   <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
-  <string name="pref_qif_export_file_encoding_title">QIF dosyasının karakter kodlaması</string>
+  <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
   <string name="pref_qif_export_file_encoding_summary">MS Money kullanıyorsanız karakter kodunu \"ISO-8859-1\" olarak ayarlayınız</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
   <string name="pref_request_licence_summary">Başka bir şekilde katkıda bulunduysanız katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
@@ -285,7 +285,7 @@
   <string name="pref_security_question_title">Güvenlik sorusu</string>
   <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir.
     Harcamalarımın katkı sürümünü gerektirir.</string>
-  <string name="pref_share_target_title">QIF dışa aktarımını yükle</string>
+  <string name="pref_share_target_title">Yükleme adresi</string>
   <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, &#8230;) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_ui_theme_summary">Aydınlık ya da karanlıktan birini seçin</string>
@@ -306,7 +306,7 @@
   <string name="select_parent_category">Bu kategoriyi seç</string>
   <string name="select">Seç</string>
   <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
-  <string name="share_sending">QIF dosyası gönder</string>
+  <string name="share_sending">Dışa aktarım dosyasını gönder</string>
   <string name="subcategory">Alt kategori</string>
   <string name="suggest_use_standard_menu">Komutlara erişim için düğme çubuğunu saklayıp standart Android menüsünü kullanmak istiyor musunuz?</string>
   <string name="sum_income">Gelirler</string>
