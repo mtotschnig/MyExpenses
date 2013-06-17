@@ -256,7 +256,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       }
       mAccountsCursor.moveToNext();
     }
+    //if the account we are looking for no longer exists, which can happen if it was deleted in Manage Accounts
+    //we move to the first account
     myPager.setCurrentItem(currentPosition);
+    //onPageSelected is not triggered by setCurrentItem, but it makes sure that
+    //currentaccount is set correctly
+    onPageSelected(currentPosition);
   }
   private void fillSwitchButton() {
     mSwitchButton.clearMenu();
