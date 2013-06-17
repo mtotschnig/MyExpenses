@@ -248,7 +248,8 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-    menu.add(0, DELETE_ID, 0, R.string.menu_delete);
+    if (Account.count(null, null) > 1)
+      menu.add(0, DELETE_ID, 0, R.string.menu_delete);
     if (Transaction.countPerAccount(info.id) > 0)
        menu.add(0,RESET_ID,0,R.string.menu_reset);
   }
