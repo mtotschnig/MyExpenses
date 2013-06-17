@@ -387,4 +387,5 @@
     fonctions Premium suivantes:&lt;br>%1$s</string>
   <string name="version_40_upgrade_info">Maintenant, vous pouvez protéger &app_name; en spécifiant un mot de passe dans les paramètres (partie Sécurité).</string>
   <string name="version_41_upgrade_info"><i>&app_name;</i> a maintenant sa page Google+. Suivez-la avec Aide => Nouvelles.</string>
+  <string name="version_46_upgrade_info">Vous pouvez maintenant exporter les transactions en CSV au lieu de QIF (Paramètres, partie Export).</string>
 </resources>

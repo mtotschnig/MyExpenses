@@ -388,4 +388,5 @@
     seguenti funzionalità speciali: &lt;br>%1$s</string>
   <string name="version_40_upgrade_info">Ora è possibile proteggere &app_name;, impostando una password dalle impostazioni (sezione Sicurezza).</string>
   <string name="version_41_upgrade_info"><i>&app_name;</i> ora ha una pagina di Google+. Seguitelo attraverso Aiuto => Notizie.</string>
+  <string name="version_46_upgrade_info">È ora possibile esportare le transazioni in formato CSV invece di QIF (Impostazioni, sezione Export).</string>
 </resources>

@@ -134,7 +134,7 @@
       istediğinizi ayarlayabilirsiniz. Çubuktaki düğmeler kısa basılışta şunları yapar:\n\n
       - <b>Yeni</b> : Muamele ekler.\n
       - <b>Hesaplar</b> : Başka bir hesaba geçer.\n
-      - <b>Sıfırla</b> : harcamaları SD kartına QIF formatında dışa aktarır ve ardından siler ve de bakiyeyi günceller.\n
+      - <b>Sıfırla</b> : harcamaları SD kartına QIF veya CSV formatında dışa aktarır ve ardından siler ve de bakiyeyi günceller.\n
       - <b>Ayarlar</b> : Tüm yapılandırma ve yönetme işlevlerine erişim sağlar (hesaplar, kategoriler, alacaklılar, ödeme metotları, şablonlar, yedeklemeler, içer aktarımlar.\n
       - <b>Yardım</b> : Bu yardım ekranını açar.\n
       \nBazı düğmeler (ki sol üst köşede bir üçgen ile ayırt edilebilirler) uzun dokunulduğunda menü açarlar:\n\n
@@ -252,6 +252,8 @@
   <string name="pref_currency_decimal_separator_comma">Virgül (,)</string>
   <string name="pref_currency_decimal_separator_point">Nokta (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Küçük birimler tamsayı olarak</string>
+  <string name="pref_export_format_title">Veri biçimi</string>
+  <string name="pref_export_format_summary">QIF veya CSV seç</string>
   <string name="pref_enter_licence_title">Katkı anahtarını gir</string>
   <string name="pref_enter_licence_summary">Eğer katkı anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
   <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
@@ -275,7 +277,7 @@
   <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
   <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
   <string name="pref_qif_export_file_encoding_title">QIF dosyasının karakter kodlaması</string>
-  <string name="pref_qif_export_file_encoding_summary">MS Money kullanıyorsanız karakter kodlamasını \"ISO-8859-1\" olarak ayarlayınız</string>
+  <string name="pref_qif_export_file_encoding_summary">MS Money kullanıyorsanız karakter kodunu \"ISO-8859-1\" olarak ayarlayınız</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
   <string name="pref_request_licence_summary">Başka bir şekilde katkıda bulunduysanız katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
   <string name="pref_restore_title">Geri al</string>
@@ -305,6 +307,7 @@
   <string name="select">Seç</string>
   <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
   <string name="share_sending">QIF dosyası gönder</string>
+  <string name="subcategory">Alt kategori</string>
   <string name="suggest_use_standard_menu">Komutlara erişim için düğme çubuğunu saklayıp standart Android menüsünü kullanmak istiyor musunuz?</string>
   <string name="sum_income">Gelirler</string>
   <string name="sum_expenses">Harcamalar</string>
@@ -323,8 +326,8 @@
   <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu 
     bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın katkı sürümünü kurmaktır.</string>
   <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
-  <string name="warning_reset_account">Bu hesabın tüm muameleleri SD kartında bir QIF dosyasına aktarılacak ve silinecektir. &continue;</string>
-  <string name="warning_reset_account_all">Tüm hesaplar için muameleler QIF dosyaları olarak SD kartına
+  <string name="warning_reset_account">Bu hesabın tüm muameleleri SD kartında bir %1$s dosyasına aktarılacak ve silinecektir. &continue;</string>
+  <string name="warning_reset_account_all">Tüm hesaplar için muameleler %1$s dosyaları olarak SD kartına
     aktarılacak ve silinecektir. &continue;</string>
   <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler\n\tsilinecektir. &continue;</string>
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
@@ -332,4 +335,5 @@
       Eğer &lt;i>&app_name; Contrib&lt;/i> uygulamasını kurarsanız, şu özelliklere sınırsız erişim elde edersiniz:&lt;br>%1$s</string>
   <string name="version_40_upgrade_info">&app_name; uygulamasını Ayarlarda (güvenlik kısmında) bir parola belirterek koruyabilirsiniz.</string>
   <string name="version_41_upgrade_info"><i>&app_name;</i> uygulamasının artık bir Google+ sayfası vardır. Yardım => Son Haberlerden takip edebilirsiniz.</string>
+  <string name="version_46_upgrade_info">Muameleleri artık QIF yerine CSV olarak dışa aktarabilirsiniz (Ayarlarda Dışa aktarım bölümü)</string>
 </resources>
