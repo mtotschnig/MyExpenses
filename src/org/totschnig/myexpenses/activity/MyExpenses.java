@@ -715,6 +715,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.REMIND_CONTRIB_DIALOG:
     case R.id.CONTRIB_INFO_DIALOG:
       boolean already_contrib = MyApplication.getInstance().isContribEnabled;
+      boolean cancelable = true;
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.messagedialog, null);
       tv = (TextView)view.findViewById(R.id.message_text);
@@ -730,6 +731,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
           R.string.dialog_remind_no,R.id.REMIND_NO_COMMAND,"Contrib",
           R.string.dialog_remind_later,R.id.REMIND_LATER_COMMAND,"Contrib",
           R.string.dialog_contrib_yes,R.id.CONTRIB_PLAY_COMMAND,null);
+          cancelable = false;
         } else {
           DialogUtils.setDialogTwoButtons(view,
               R.string.dialog_contrib_no,0,null,
@@ -741,6 +743,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       return new AlertDialog.Builder(this)
         .setTitle(R.string.menu_contrib)
         .setView(view)
+        .setCancelable(cancelable)
         .create();
     case R.id.CONFIRM_RESTORE_DIALOG:
       li = LayoutInflater.from(this);
@@ -767,6 +770,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       return new AlertDialog.Builder(this)
         .setTitle(R.string.app_name)
         .setView(view)
+        .setCancelable(false)
         .create();
     case R.id.DONATE_DIALOG:
       return DialogUtils.donateDialog((Activity) this);
