@@ -1233,9 +1233,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public void onPageSelected(int position) {
     mAccountsCursor.moveToPosition(position);
     long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
-    mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, accountId)
-    .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, mCurrentAccount.id)
-    .commit();
     setCurrentAccount(Account.getInstanceFromDb(accountId));
   }
   public void updateUIforCurrentAccount() {
