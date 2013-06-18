@@ -158,7 +158,9 @@
       - <b>Aide</b> : Accès rapide au manuel, les news, la foire aux questions et la liste des changements.\n
       \nReférez-vous au <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuel</a> pour de plus amples explications.
   </string>
-<!--   <string name="help_whats_new">&#160;- Le dialogue pour les sommes totales a été réparé.</string> -->
+  <string name="help_whats_new">&#160;- Exporter au format CSV.\n
+    - Déclarer explicitement le support pour les grands écrans pour rendre l\'app à nouveau disponible pour les tablettes sur Google Play.\n
+    - Support pour Android 1.6.</string>
   <string name="import_categories">Importer les catégories</string>
   <string name="important_version_information">Information importante</string>
   <string name="income">revenu</string>

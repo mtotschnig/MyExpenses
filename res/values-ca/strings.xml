@@ -123,7 +123,9 @@
       - <b>Ayuda</b> : Accediu al tutorial, noticies, preguntes freqüents i als canvis.\n
       \nTrobareu explicacions detallades <a href="http://myexpenses.totschnig.org/#tutorial_r4">al manual</a> per a explicacions detallades.
   </string>
-<!--   <string name="help_whats_new">&#160;- Diàleg trencat per aggreggates s\'ha solucionat.</string> -->
+  <string name="help_whats_new">&#160;- Exportació a CSV.\n
+    - Que es declari explícitament suport per a pantalles de grans dimensions per fer aplicació de nou disponible per a les tauletes de Google Play.\n
+    - Suport a Android 1.6.</string>
   <string name="import_categories">Importa categories</string>
   <string name="important_version_information">Informació important</string>
   <string name="income">ingrés</string>
