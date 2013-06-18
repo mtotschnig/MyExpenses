@@ -15,7 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.SimpleCursorTreeAdapter;
+import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import android.widget.ExpandableListView.OnChildClickListener;
 
 public class TemplatesList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {

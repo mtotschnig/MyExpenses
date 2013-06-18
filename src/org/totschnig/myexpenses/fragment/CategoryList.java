@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.SimpleCursorTreeAdapter;
+import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 
 
 public class CategoryList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
