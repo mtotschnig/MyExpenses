@@ -130,6 +130,38 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.7.4
+    - 2013-06-18
+    -
+      en: |
+        Export to CSV.
+        Explicitly declare support for large screens to make app available again for tablets on Google Play.
+        Support for Android 1.6.
+      ca: |
+        Exportació a CSV.
+        Que es declari explícitament suport per a pantalles de grans dimensions per fer aplicació de nou disponible per a les tauletes de Google Play.
+        Suport a Android 1.6.
+      fr: |
+        Exporter au format CSV.
+        Déclarer explicitement le support pour les grands écrans pour rendre l\'app à nouveau disponible pour les tablettes sur Google Play.
+        Support pour Android 1.6.
+      de: |
+        CSV Export.
+        explizite Unterstützung für breite Bildschirme, um Verfügbarkeit für Tablets auf Google Play sicherzustellen.
+        Unterstützung für Android 1.6.
+      it: |
+        Esportazione in formato CSV.
+        Dichiarare esplicitamente il supporto per schermi di grandi dimensioni per rendere nuovamente disponibile app per tablet su Google Play.
+        Supporto per Android 1.6.
+      es: |
+        Exportación a CSV.
+        Que se declare explícitamente soporte para pantallas de gran tamaño para hacer aplicación de nuevo disponible para las tabletas en Google Play.
+        Apoyo a Android 1.6.
+      tr: |
+        CSV olarak dışa aktarım.
+        Google Play'de uygulamanın tabletlere sunulması için büyük ekran desteği beyan et.
+        Android 1.6 desteği.
+  -
     - 1.7.3.2
     - 2013-05-31
     -
