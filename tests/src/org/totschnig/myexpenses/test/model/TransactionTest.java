@@ -22,6 +22,9 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import android.database.Cursor;
 
 public class TransactionTest extends ModelTest  {
   private Account mAccount1;
@@ -64,28 +67,37 @@ public class TransactionTest extends ModelTest  {
     }
   }
   public void testTransaction() {
+    String payee = "N.N";
     assertEquals(0, Transaction.getTransactionSequence());
     Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id);
     op1.amount = new Money(mAccount1.currency,100L);
     op1.comment = "test transaction";
+    op1.payee = payee;
     op1.save();
     assertTrue(op1.id > 0);
     assertEquals(1, Transaction.getTransactionSequence());
+    //save creates a payee as side effect
+    assertEquals(1,countPayee(payee));
     try {
       Transaction restored = Transaction.getInstanceFromDb(op1.id);
       assertEquals(op1,restored);
     } catch (DataObjectNotFoundException e) {
       fail("Could not restore transaction");
     }
-    Transaction.delete(op1.id);
+    Long id = op1.id;
+    Transaction.delete(id);
     //Transaction sequence should report on the number of transactions that have been created
     assertEquals(1, Transaction.getTransactionSequence());
     try {
-      Transaction.getInstanceFromDb(op1.id);
+      Transaction.getInstanceFromDb(id);
       fail("Transaction deleted, but can still be retrieved");
     } catch (DataObjectNotFoundException e) {
       //succeed
     }
+    op1.saveAsNew();
+    assertTrue(op1.id != id);
+    //the payee is still the same, so there should still be only one
+    assertEquals(1,countPayee(payee));
   }
   
   public void testTransfer() {
@@ -116,6 +128,19 @@ public class TransactionTest extends ModelTest  {
       }
     } catch (DataObjectNotFoundException e) {
       fail("Could not restore peer for transfer");
+    }
+  }
+  public int countPayee(String name) {
+    Cursor cursor = getMockContentResolver().query(TransactionProvider.PAYEES_URI,new String[] {"count(*)"},
+        "name = ?", new String[] {name}, null);
+    if (cursor.getCount() == 0) {
+      cursor.close();
+      return 0;
+    } else {
+      cursor.moveToFirst();
+      int result = cursor.getInt(0);
+      cursor.close();
+      return result;
     }
   }
 }
