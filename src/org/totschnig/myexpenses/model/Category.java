@@ -57,7 +57,7 @@ public class Category extends Model {
     args.put(KEY_LABEL, label);
     try {
       return cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
-          args, KEY_ROWID + " = ?", new String[] {String.valueOf(id)});
+          args, null, null);
     } catch (SQLiteConstraintException e) {
       // TODO Auto-generated catch block
       return -1;
