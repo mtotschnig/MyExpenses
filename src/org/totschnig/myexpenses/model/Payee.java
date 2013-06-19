@@ -6,6 +6,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 
 public class Payee extends Model {
@@ -19,9 +20,12 @@ public class Payee extends Model {
   public static long create(String name) {
     ContentValues initialValues = new ContentValues();
     initialValues.put("name", name);
-    Uri uri = cr().insert(CONTENT_URI, initialValues);
-    if (uri == null)
+    Uri uri;
+    try {
+      uri = cr().insert(CONTENT_URI, initialValues);
+    } catch (SQLiteConstraintException e) {
       return -1;
+    }
     return Integer.valueOf(uri.getLastPathSegment());
   }
   public static boolean delete(long id) {
