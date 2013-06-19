@@ -6,6 +6,7 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
@@ -240,6 +241,25 @@ public class TransactionProvider extends ContentProvider {
       newUri = TEMPLATES_URI + "/" + id;
       break;
     case CATEGORIES:
+      //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
+      Long parentId = values.getAsLong(KEY_PARENTID);
+      String label = values.getAsString(KEY_LABEL);
+      String selection;
+      String[] selectionArgs;
+      if (parentId == null) {
+        selection = KEY_PARENTID + " is null";
+        selectionArgs = new String[]{label};
+      } else {
+        selection = KEY_PARENTID + " = ?";
+        selectionArgs = new String[]{String.valueOf(parentId),label};
+      }
+      selection += " and " + KEY_LABEL + " = ?";
+      Cursor mCursor = db.query(TABLE_CATEGORIES, new String []{KEY_ROWID}, selection, selectionArgs, null, null, null);
+      if (mCursor.getCount() != 0) {
+        mCursor.close();
+        throw new SQLiteConstraintException();
+      }
+      mCursor.close();
       id = db.insertOrThrow(TABLE_CATEGORIES, null, values);
       newUri = CATEGORIES_URI + "/" + id;
       break;
@@ -398,10 +418,21 @@ public class TransactionProvider extends ContentProvider {
             whereArgs);
       break;
     case CATEGORIES:
+      //TODO should not support bulk update of categories
       count = db.update(TABLE_CATEGORIES, values, where, whereArgs);
       break;
     case CATEGORIES_ID:
       segment = uri.getPathSegments().get(1);
+      //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
+      String label = values.getAsString(KEY_LABEL);
+      String selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
+      String[] selectionArgs = new String[]{label,segment};
+      Cursor mCursor = db.query(TABLE_CATEGORIES, new String []{KEY_ROWID}, selection, selectionArgs, null, null, null);
+      if (mCursor.getCount() != 0) {
+        mCursor.close();
+        throw new SQLiteConstraintException();
+      }
+      mCursor.close();
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
       } else {
