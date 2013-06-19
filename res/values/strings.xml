@@ -154,7 +154,8 @@
       - <b>Help</b> : Quick access to Manual, News, FAQ and Changes.\n
       \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
   </string>
-  <string name="help_whats_new">&#160;- Fixed crash of Settings -> Categories and Templates on Android 2.2 and below.</string>
+  <string name="help_whats_new">&#160;- Fixed crash when inserting transaction with payee.\n
+  	- Enforce that label of root categories is unique.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">Income</string>
