@@ -16,6 +16,7 @@
 
 package org.totschnig.myexpenses.test.provider;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -49,8 +50,9 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
     private SQLiteDatabase mDb;
 
     // Contains the test data, as an array of NoteInfo instances.
-    private CategoryInfo[] TEST_CATEGORIES = new CategoryInfo[3];
-
+    private CategoryInfo[] TEST_CATEGORIES = new CategoryInfo[4];
+    private Long[] testIds = new Long[4];
+ 
     /*
      * Constructor for the test case class.
      * Calls the super constructor with the class name of the provider under test and the
@@ -97,15 +99,16 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
     private void insertData() {
 
       TEST_CATEGORIES[0] = new CategoryInfo("Main 1",null);
-      Long parentId = mDb.insertOrThrow(DatabaseConstants.TABLE_CATEGORIES, null, TEST_CATEGORIES[0].getContentValues());
+      testIds[0] = mDb.insertOrThrow(DatabaseConstants.TABLE_CATEGORIES, null, TEST_CATEGORIES[0].getContentValues());
       TEST_CATEGORIES[1] = new CategoryInfo("Main 2", null);
-      TEST_CATEGORIES[2] = new CategoryInfo("Sub 1", parentId);
+      TEST_CATEGORIES[2] = new CategoryInfo("Sub 1", testIds[0]);
+      TEST_CATEGORIES[3] = new CategoryInfo("Sub 2", testIds[0]);
 
         // Sets up test data
         for (int index = 1; index < TEST_CATEGORIES.length; index++) {
             
             // Adds a record to the database.
-            mDb.insertOrThrow(
+            testIds[index] = mDb.insertOrThrow(
                 DatabaseConstants.TABLE_CATEGORIES,             // the table name for the insert
                 null,      // column set to null if empty values map
                 TEST_CATEGORIES[index].getContentValues()  // the values map to insert
@@ -221,7 +224,7 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
      * Tests queries against the provider, using the note id URI. This URI encodes a single
      * record ID. The provider should only return 0 or 1 record.
      */
-    public void testQueriesOnTransactionIdUri() {
+    public void testQueriesOnCategoryIdUri() {
       // Defines the selection column for a query. The "?" is replaced by entries in the
       // selection argument array
       final String SELECTION_COLUMNS = DatabaseConstants.KEY_LABEL + " = " + "?";
@@ -230,7 +233,7 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
       final String[] SELECTION_ARGS = { "Main 1" };
 
       // Creates a projection includes the note id column, so that note id can be retrieved.
-      final String[] TRANSACTION_ID_PROJECTION = {
+      final String[] CATEGORY_ID_PROJECTION = {
           DatabaseConstants.KEY_ROWID,                 // The Notes class extends BaseColumns,
                                               // which includes _ID as the column name for the
                                               // record's id in the data model
@@ -241,11 +244,11 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
 
       // Constructs a URI that matches the provider's notes id URI pattern, using an arbitrary
       // value of 1 as the note ID.
-      Uri transactionIdUri = ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, 1);
+      Uri categoryIdUri = ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, 1);
 
       // Queries the table with the notes ID URI. This should return an empty cursor.
       Cursor cursor = mMockResolver.query(
-          transactionIdUri, // URI pointing to a single record
+          categoryIdUri, // URI pointing to a single record
           null,      // no projection, get all the columns for each record
           null,      // no selection criteria, get all the records in the table
           null,      // no need for selection arguments
@@ -265,7 +268,7 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
       // Queries the table using the URI for the full table.
       cursor = mMockResolver.query(
           TransactionProvider.CATEGORIES_URI, // the base URI for the table
-          TRANSACTION_ID_PROJECTION,        // returns the ID and title columns of rows
+          CATEGORY_ID_PROJECTION,        // returns the ID and title columns of rows
           SELECTION_COLUMNS,         // select based on the title column
           SELECTION_ARGS,            // select title of "Note1"
           null                 // sort order returned is by title, ascending
@@ -278,15 +281,15 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
       assertTrue(cursor.moveToFirst());
 
       // Saves the record's note ID.
-      int inputNoteId = cursor.getInt(0);
+      int inputCategoryId = cursor.getInt(0);
 
       // Builds a URI based on the provider's content ID URI base and the saved note ID.
-      transactionIdUri = ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, inputNoteId);
+      categoryIdUri = ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, inputCategoryId);
 
       // Queries the table using the content ID URI, which returns a single record with the
       // specified note ID, matching the selection criteria provided.
-      cursor = mMockResolver.query(transactionIdUri, // the URI for a single note
-          TRANSACTION_ID_PROJECTION,                 // same projection, get ID and title columns
+      cursor = mMockResolver.query(categoryIdUri, // the URI for a single note
+          CATEGORY_ID_PROJECTION,                 // same projection, get ID and title columns
           SELECTION_COLUMNS,                  // same selection, based on title column
           SELECTION_ARGS,                     // same selection arguments, title = "Note1"
           null                          // same sort order returned, by title, ascending
@@ -299,7 +302,7 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
       assertTrue(cursor.moveToFirst());
 
       // Asserts that the note ID passed to the provider is the same as the note ID returned.
-      assertEquals(inputNoteId, cursor.getInt(0));
+      assertEquals(inputCategoryId, cursor.getInt(0));
     }
 
     /*
@@ -385,7 +388,6 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
 
         // Sets the selection argument for deleting main or sub category
         final String[] SELECTION_ARGS_MAIN = { "Main 1" };
-        final String[] SELECTION_ARGS_SUB = { "Sub 1" };
 
         // Tries to delete rows matching the selection criteria from the data model.
         int rowsDeleted = mMockResolver.delete(
@@ -416,24 +418,23 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
         }
     }
     /*
-     * Tests deletion succeeds if no foreign key constraint is vi.
+     * Tests deletion succeeds if no foreign key constraint is violated.
      */
     public void testDeleteSucceeds() {
         // Subtest 1.
         // Tries to delete a record from a data model that is empty.
 
         // Sets the selection column to "title"
-        final String SELECTION_COLUMNS = DatabaseConstants.KEY_LABEL + " = " + "?";
+        final String SELECTION_COLUMNS = DatabaseConstants.KEY_LABEL + " IN (?,?)";
 
         // Sets the selection argument for deleting main or sub category
-        final String[] SELECTION_ARGS_MAIN = { "Main 1" };
-        final String[] SELECTION_ARGS_SUB = { "Sub 1" };
+        final String[] SELECTION_ARGS_MAIN = { "Main 1","Main 2" };
+        final String[] SELECTION_ARGS_SUB = { "Sub 1", "Sub 2" };
 
         // Inserts data into the model.
         insertData();
 
-        // Uses the same parameters to try to delete the row with label "Main 1"
-        // Now delete sub 1, this should succeed
+        // Now delete sub 1 and sub2, this should succeed
         int rowsDeleted = mMockResolver.delete(
           TransactionProvider.CATEGORIES_URI, // the base URI of the table
           SELECTION_COLUMNS,         // same selection column, "title"
@@ -441,7 +442,7 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
         );
 
         // The number of deleted rows should be 1.
-        assertEquals(1, rowsDeleted);
+        assertEquals(2, rowsDeleted);
 
         // Since sub has been deleted, now main is deletable
         rowsDeleted = mMockResolver.delete(
@@ -451,7 +452,7 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
         );
 
         // The number of deleted rows should be 1.
-        assertEquals(1, rowsDeleted);
+        assertEquals(2, rowsDeleted);
 
         // Tests that the record no longer exists. Tries to get it from the table, and
         // asserts that nothing was returned.
@@ -528,6 +529,67 @@ public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
         // Asserts that only one row was updated. The selection criteria evaluated to
         // "title = Note1", and the test data should only contain one row that matches that.
         assertEquals(1, rowsUpdated);
+    }
+    public void testUniqueConstraintsCreateMain() {
+      insertData();
+      // Creates a new transaction instance with an already existing label
+      CategoryInfo category = new CategoryInfo(
+          "Main 1",null);
 
+      try {
+        mMockResolver.insert(
+            TransactionProvider.CATEGORIES_URI,  // the main table URI
+            category.getContentValues()     // the map of values to insert as a new record
+        );
+        fail("Expected unique constraint to prevent main category from being created.");
+      } catch (SQLiteConstraintException e) {
+        // succeeded, so do nothing
+      }
+    }
+    public void testUniqueConstraintsCreateSub() {
+      insertData();
+      // Creates a new transaction instance with an already existing label
+      CategoryInfo category = new CategoryInfo(
+          "Sub 1",testIds[0]);
+
+      try {
+        mMockResolver.insert(
+            TransactionProvider.CATEGORIES_URI,  // the main table URI
+            category.getContentValues()     // the map of values to insert as a new record
+        );
+        fail("Expected unique constraint to prevent sub category from being created.");
+      } catch (SQLiteConstraintException e) {
+        // succeeded, so do nothing
+      } 
+    }
+    public void testUniqueConstraintsUpdateMain() {
+      insertData();
+
+      //we try to set the name of Main 2 to Main 1
+      try {
+        ContentValues args = new ContentValues();
+        args.put(KEY_LABEL, "Main 1");
+        mMockResolver.update(
+            TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(testIds[1])).build(),
+            args,null,null
+        );
+        fail("Expected unique constraint to prevent main category from being updated.");
+      } catch (SQLiteConstraintException e) {
+        // succeeded, so do nothing
+      }
+    }
+    public void testUniqueConstraintsUpdateSub() {
+      insertData();
+      try {
+        ContentValues args = new ContentValues();
+        args.put(KEY_LABEL, "Sub 1");
+        mMockResolver.update(
+            TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(testIds[3])).build(),
+            args,null,null
+        );
+        fail("Expected unique constraint to prevent sub category from being created.");
+      } catch (SQLiteConstraintException e) {
+        // succeeded, so do nothing
+      }
     }
 }
