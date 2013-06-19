@@ -62,8 +62,8 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  *
  */
 public class ManageAccounts extends ProtectedFragmentActivity implements OnItemClickListener,ContribIFace,LoaderManager.LoaderCallbacks<Cursor> {
-  private static final int ACTIVITY_CREATE=0;
-  private static final int ACTIVITY_EDIT=1;
+  private static final int ACTIVITY_CREATE=1;
+  private static final int ACTIVITY_EDIT=2;
   private static final int DELETE_ID = Menu.FIRST;
   private static final int RESET_ID = Menu.FIRST + 1;
   private static final int DELETE_COMMAND_ID = 1;
@@ -115,7 +115,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       @Override
       public void onClick(View v) {
         Intent i = new Intent(ManageAccounts.this, AccountEdit.class);
-        startActivityForResult(i, ACTIVITY_CREATE);
+        startActivityForResult(i, 0);
       }
     });
   }
@@ -125,7 +125,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       long id) {
     Intent i = new Intent(this, AccountEdit.class);
     i.putExtra(KEY_ROWID, id);
-    startActivityForResult(i, ACTIVITY_EDIT);
+    startActivityForResult(i, 0);
   }
 
   @Override
@@ -206,7 +206,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       if (Utils.isExternalStorageAvailable()) {
         Intent i = new Intent(this, Export.class);
         i.putExtra(KEY_ROWID, mContextAccountId);
-        startActivity(i);
+        startActivityForResult(i,0);
       } else {
         Toast.makeText(getBaseContext(),
             getString(R.string.external_storage_unavailable),
@@ -217,7 +217,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
     case R.id.RESET_ACCOUNT_ALL_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
         Intent i = new Intent(this, Export.class);
-        startActivity(i);
+        startActivityForResult(i,0);
       } else {
         Toast.makeText(getBaseContext(),
             getString(R.string.external_storage_unavailable),

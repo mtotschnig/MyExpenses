@@ -84,6 +84,7 @@ public class Export extends ProtectedActivity {
           public void onClick(DialogInterface dialog,int whichButton) {
             mProgressDialog.dismiss();
             task = null;
+            setResult(RESULT_OK);
             finish();
           }
       });
