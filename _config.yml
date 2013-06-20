@@ -125,6 +125,18 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.7.4.2
+    - 2013-06-18
+    -
+      en: |
+        Fixed crash when inserting transaction with payee.
+        Enforce uniqueness of label for main categories.
+  -
+    - 1.7.4.1
+    - 2013-06-19
+    -
+      en: Fixed crash of Settings -> Categories and Templates on Android 2.2 and below.
+  -
     - 1.7.4
     - 2013-06-18
     -
