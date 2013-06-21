@@ -56,7 +56,8 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
   @Override
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-      accountId = getArguments() != null ? getArguments().getLong("account_id") : 1;
+      accountId = getArguments().getLong("account_id");
+      account = Account.getInstanceFromDb(getArguments().getLong("account_id"));
       observer = new MyObserver(new Handler());
       ContentResolver cr= getActivity().getContentResolver(); 
       cr.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, true,observer);
@@ -81,7 +82,6 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
     colorExpense = color.data;
     theme.resolveAttribute(R.attr.colorIncome,color, true);
     colorIncome = color.data;
-    account = Account.getInstanceFromDb(getArguments().getLong("account_id"));
     
     View v = inflater.inflate(R.layout.expenses_list, null, false);
     heading = v.findViewById(R.id.heading);
