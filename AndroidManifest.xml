@@ -20,7 +20,7 @@
     android:versionName="1.7.4.2"
     android:installLocation="auto"
 >
-    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="10"></uses-sdk>
+    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="11"></uses-sdk>
     <supports-screens android:smallScreens="true"
                   android:normalScreens="true"
                   android:largeScreens="true"
@@ -49,7 +49,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.Backup"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@style/Translucent.NoTitleBar">
           <intent-filter>
               <action android:name="myexpenses.intent.backup"/>  
               <category android:name="android.intent.category.DEFAULT" />  
@@ -60,7 +60,7 @@
           </intent-filter>
         </activity>
         <activity android:name=".activity.GrisbiImport"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@style/Translucent.NoTitleBar">
           <intent-filter>
             <action android:name="myexpenses.intent.import_from_grisbi"/>
             <category android:name="android.intent.category.DEFAULT" />
@@ -68,7 +68,7 @@
         </activity>
         <activity android:name=".activity.MyPreferenceActivity"/>
         <activity android:name=".activity.Export"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@style/Translucent.NoTitleBar"/>
         <activity android:name=".activity.ManageParties">
              <intent-filter>  
               <action android:name="myexpenses.intent.manage.parties"/>
