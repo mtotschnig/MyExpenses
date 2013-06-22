@@ -19,7 +19,7 @@ import android.support.v4.app.DialogFragment;
  *    instantiated through buildDialog and shown with showDialog
  * 2) From the ContribDialog when user clicks on "Buy". Here it is shown as DialogFragmen
  */
-public class DonateDialogFragment  extends DialogFragment {
+public class DonateDialogFragment extends DialogFragment {
 
   public static final DonateDialogFragment newInstance() {
     return new DonateDialogFragment();
