@@ -22,6 +22,8 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.fragment.MessageDialogFragment;
+import org.totschnig.myexpenses.fragment.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
@@ -61,7 +63,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  * @author Michael Totschnig
  *
  */
-public class ManageAccounts extends ProtectedFragmentActivity implements OnItemClickListener,ContribIFace,LoaderManager.LoaderCallbacks<Cursor> {
+public class ManageAccounts extends ProtectedFragmentActivity implements MessageDialogListener,OnItemClickListener,ContribIFace,LoaderManager.LoaderCallbacks<Cursor> {
   private static final int ACTIVITY_CREATE=1;
   private static final int ACTIVITY_EDIT=2;
   private static final int DELETE_ID = Menu.FIRST;
@@ -71,7 +73,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   private Button mAddButton, mAggregateButton, mResetAllButton;
   private long mContextAccountId;
   private Feature mContextFeature;
-  static final int DELETE_DIALOG_ID = 1;
   static final int AGGREGATE_DIALOG_ID = 2;
   static final int RESET_ALL_DIALOG_ID = 3;
   private int mCurrentDialog = 0;
@@ -140,9 +141,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
-    case DELETE_DIALOG_ID:
-      return DialogUtils.createMessageDialog(this,R.string.warning_delete_account,DELETE_COMMAND_ID,null).create();
-      //TODO: move to dialogactivity or dialogfragment
     case AGGREGATE_DIALOG_ID:
       LayoutInflater li = LayoutInflater.from(this);
       View view = li.inflate(R.layout.aggregate_dialog, null);
@@ -199,9 +197,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
     }
     int id=v.getId();
     switch(id) {
-    case DELETE_COMMAND_ID:
-      Account.delete(mContextAccountId);
-      break;
     case R.id.RESET_ACCOUNT_COMMAND_DO:
       if (Utils.isExternalStorageAvailable()) {
         Intent i = new Intent(this, Export.class);
@@ -259,11 +254,8 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case DELETE_ID:
-      //passing a bundle to showDialog is available only with API level 8
-      mContextAccountId = info.id;
-      showDialogWrapper(DELETE_DIALOG_ID);
-      //mDbHelper.deleteAccount(info.id);
-      //fillData();
+      MessageDialogFragment.newInstance(R.string.warning_delete_account,DELETE_COMMAND_ID,info.id)
+        .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
       return true;
     case RESET_ID:
       mContextAccountId = info.id;
@@ -325,5 +317,20 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   public void onLoaderReset(Loader<Cursor> arg0) {
     if (currencyAdapter != null)
       currencyAdapter.swapCursor(null);
+  }
+
+  @Override
+  public boolean dispatchCommand(int command, Object tag) {
+    switch(command) {
+    case DELETE_COMMAND_ID:
+      Account.delete((Long) tag);
+    }
+    return true;
+  }
+
+  @Override
+  public void cancelDialog() {
+    // TODO Auto-generated method stub
+    
   }
 }

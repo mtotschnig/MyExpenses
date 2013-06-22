@@ -155,8 +155,10 @@ public class MyApplication extends Application {
     public static void updateUIWithColor(Activity ctx,int color) {
       int textColor = Utils.getTextColorForBackground(color);
       View heading = ctx.getWindow().findViewById(android.R.id.title);
-      ((TextView) heading).setTextColor(textColor);
-      ((View) heading.getParent()).setBackgroundColor(color);
+      if (heading != null) {
+        ((TextView) heading).setTextColor(textColor);
+        ((View) heading.getParent()).setBackgroundColor(color);
+      }
       View divider = ctx.findViewById(R.id.ButtonBarDividerTop);
       if (divider != null) {
         divider.setBackgroundColor(color);

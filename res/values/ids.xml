@@ -51,8 +51,6 @@
     <item type="id" name="HANDLE_RESTORE_ON_INSTALL_COMMAND"/>
     <item type="id" name="CONTRIB_PLAY_COMMAND"/>
     <item type="id" name="RESET_DIALOG"/>
-    <item type="id" name="ACCOUNTS_BUTTON_EXPLAIN_DIALOG"/>
-    <item type="id" name="USE_STANDARD_MENU_DIALOG"/>
     <item type="id" name="SELECT_ACCOUNT_DIALOG"/>
     <item type="id" name="TEMPLATE_TITLE_DIALOG"/>
     <item type="id" name="SELECT_TEMPLATE_DIALOG"/>

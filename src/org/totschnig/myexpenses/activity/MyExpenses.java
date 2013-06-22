@@ -22,6 +22,8 @@ import java.util.Iterator;
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.fragment.MessageDialogFragment;
+import org.totschnig.myexpenses.fragment.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
@@ -92,7 +94,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  * @author Michael Totschnig
  *
  */
-public class MyExpenses extends ProtectedFragmentActivity implements 
+public class MyExpenses extends ProtectedFragmentActivity implements MessageDialogListener,
     OnClickListener,OnLongClickListener, OnSharedPreferenceChangeListener, 
     OnPageChangeListener, ContribIFace, LoaderManager.LoaderCallbacks<Cursor>  {
   public static final int ACTIVITY_EDIT=1;
@@ -587,12 +589,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         .create();
     case R.id.RESET_DIALOG:
       return DialogUtils.warningResetDialog(this,false);
-    case R.id.ACCOUNTS_BUTTON_EXPLAIN_DIALOG:
-      return DialogUtils.createMessageDialog(this,R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND,null)
-        .create();
-    case R.id.USE_STANDARD_MENU_DIALOG:
-      return DialogUtils.createMessageDialog(this,R.string.suggest_use_standard_menu,R.id.USE_STANDARD_MENU_COMMAND,null)
-        .create();
     //SELECT_ACCOUNT_DIALOG is used both from SWITCH_ACCOUNT and MOVE_TRANSACTION
     case R.id.SELECT_ACCOUNT_DIALOG:
       final String[] accountLabels = new String[mAccountsCursor.getCount()-1];
@@ -1045,7 +1041,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
           switchAccount(accountId);
         }
       } else {
-        showDialogWrapper(R.id.ACCOUNTS_BUTTON_EXPLAIN_DIALOG);
+        MessageDialogFragment.newInstance(R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND,null)
+          .show(getSupportFragmentManager(),"ACCOUNTS_BUTTON_EXPLAIN");
+          
       }
       break;
     case R.id.CREATE_ACCOUNT_COMMAND:
@@ -1198,15 +1196,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       scheduledRestart = true;
     }
   }
-
-  public boolean onKeyUp(int keyCode, KeyEvent event) {
-    if (!mUseStandardMenu && keyCode == KeyEvent.KEYCODE_MENU) {
-      Log.i("MyExpenses", "will react to menu key");
-      showDialogWrapper(R.id.USE_STANDARD_MENU_DIALOG);
-      return true;
-    }
-    return  super.onKeyUp(keyCode, event);
-  }
   @Override
   protected void onResume() {
     super.onResume();
@@ -1276,6 +1265,11 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   @Override
   public void onPageScrolled(int arg0, float arg1, int arg2) {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void cancelDialog() {
     // TODO Auto-generated method stub
     
   }

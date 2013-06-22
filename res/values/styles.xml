@@ -15,53 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <style name="ThemeDark" parent="@android:style/Theme.Black">
-    <item name="headingStyle">@style/headingStyle</item>
-    <item name="headingStyleApp">@style/headingStyleApp</item>
-    <item name="listStyle">@style/listDark</item>
-    <item name="dividerVisible">0</item>
-    <item name="buttonBarStyle">@style/buttonBarDark</item>
-    <item name="buttonBackgroundNormal">@drawable/btn_dark</item>
-    <item name="buttonBackgroundPopup">@drawable/btn_dark2</item>
-    <item name="menuItemStyle">@style/buttonMenuItemDark</item>
-    <item name="buttonTextColor">@color/theme_dark_button_color</item>
-    <item name="listPadding">7dp</item>
-    <item name="android:windowTitleBackgroundStyle">@style/headingStyle</item>
-    <item name="android:windowTitleSize">30sp</item>
-    <item name="android:windowTitleStyle">@style/titleTextStyle</item>
-    <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
-    <item name="colorIncome">#00D000</item>
-    <item name="colorExpense">#FF0000</item>
-    <item name="pageMargin">@android:color/white</item>
-  </style>
-  <style name="ThemeDark.NoTitle" parent="ThemeDark">
-    <item name="android:windowNoTitle">true</item>
-  </style>
-  <style name="ThemeLight" parent="@android:style/Theme.Light">
-    <item name="headingStyle">@style/headingLight</item>
-    <item name="headingStyleApp">@style/headingLightApp</item>
-    <item name="listStyle">@style/listLight</item>
-    <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
-    <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>
-    <item name="dividerVisible">2</item><!-- gone -->
-    <item name="buttonBarStyle">@android:style/ButtonBar</item>
-    <item name="buttonBackgroundNormal">@drawable/btn_default</item>
-    <item name="buttonBackgroundPopup">@drawable/btn_popup</item>
-    <item name="menuItemStyle">@style/buttonMenuItemLight</item>
-    <item name="buttonTextColor">#000000</item>
-    <!-- theme light is padded through the background -->
-    <item name="listPadding">0dp</item>
-    <item name="android:windowTitleSize">30sp</item>
-    <item name="android:windowTitleStyle">@style/titleTextStyle</item>
-    <item name="android:windowTitleBackgroundStyle">@style/headingLight</item>
-    <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
-    <item name="colorIncome">#008000</item>
-    <item name="colorExpense">#800000</item>
-    <item name="pageMargin">@android:color/black</item>
-  </style>
-  <style name="ThemeLight.NoTitle" parent="ThemeLight">
-    <item name="android:windowNoTitle">true</item>
-  </style>
   <style name="buttonBarDark">
      <item name="android:background">#000000</item>
   </style>
