@@ -159,6 +159,5 @@
     </LinearLayout>
   </LinearLayout>
 </ScrollView>
-  <include layout="@layout/dialog_buttonbar"/>
 </LinearLayout>
 

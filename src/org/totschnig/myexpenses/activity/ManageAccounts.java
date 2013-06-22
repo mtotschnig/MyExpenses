@@ -48,7 +48,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  *
  */
 public class ManageAccounts extends ProtectedFragmentActivity implements
-    OnItemClickListener,ContribIFace {
+    OnItemClickListener {
   private static final int DELETE_ID = Menu.FIRST;
   private static final int RESET_ID = Menu.FIRST + 1;
   private static final int DELETE_COMMAND_ID = 1;

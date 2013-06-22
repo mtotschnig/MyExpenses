@@ -22,9 +22,10 @@ import java.util.Iterator;
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
@@ -57,7 +58,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -97,7 +97,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  */
 public class MyExpenses extends ProtectedFragmentActivity implements
     OnClickListener,OnLongClickListener, OnSharedPreferenceChangeListener, 
-    OnPageChangeListener, ContribIFace, LoaderManager.LoaderCallbacks<Cursor>  {
+    OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>  {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_PREF=2;
   public static final int ACTIVITY_CREATE_ACCOUNT=3;
@@ -534,27 +534,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     View view;
     TextView tv;
     switch (id) {
-    case R.id.HELP_DIALOG:
-      DisplayMetrics displayMetrics = new DisplayMetrics();
-      getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-      int minWidth = (int) (displayMetrics.widthPixels*0.9f);
-      if (minWidth / displayMetrics.density > 650)
-        minWidth = (int) (650 * displayMetrics.density);
-      li = LayoutInflater.from(this);
-      view = li.inflate(R.layout.aboutview, null);
-      view.setMinimumWidth(minWidth);
-      ((TextView)view.findViewById(R.id.aboutVersionCode)).setText(getVersionInfo());
-      ((TextView)view.findViewById(R.id.help_contrib)).setText(
-          Html.fromHtml(getString(R.string.dialog_contrib_text,Utils.getContribFeatureLabelsAsFormattedList(this))));
-      ((TextView)view.findViewById(R.id.help_quick_guide)).setMovementMethod(LinkMovementMethod.getInstance());
-      DialogUtils.setDialogTwoButtons(view,
-          R.string.menu_contrib,R.id.CONTRIB_PLAY_COMMAND,null,
-          android.R.string.ok,0,null);
-      return new AlertDialog.Builder(this)
-        .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
-        .setIcon(R.drawable.icon)
-        .setView(view)
-        .create();
     case R.id.VERSION_DIALOG:
       li = LayoutInflater.from(this);
       ArrayList<CharSequence> versionInfo = MyApplication.getInstance().getVersionInfo();
@@ -861,7 +840,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       PreferenceManager.setDefaultValues(this, R.layout.preferences, false);
       //edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
-      showDialogWrapper(R.id.HELP_DIALOG);
+      showHelpDialog();
     } else if (prev_version != current_version) {
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
       if (prev_version < 19) {
@@ -995,6 +974,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
    * @return true if command has been handled
    */
   public boolean dispatchCommand(int command, Object tag) {
+    if (super.dispatchCommand(command,tag))
+      return true;
     Intent i;
     switch (command) {
     case R.id.FEEDBACK_COMMAND:
@@ -1010,9 +991,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       break;
     case R.id.CONTRIB_COMMAND:
       showDialogWrapper(R.id.CONTRIB_INFO_DIALOG);
-      break;
-    case R.id.CONTRIB_PLAY_COMMAND:
-      Utils.viewContribApp((FragmentActivity) this);
       break;
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
@@ -1088,7 +1066,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       startActivity(i);
       break;
     case R.id.HELP_COMMAND:
-      showDialogWrapper(R.id.HELP_DIALOG);
+      showHelpDialog();
       break;
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
       if (tag == null) {
@@ -1264,9 +1242,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     // TODO Auto-generated method stub
     
   }
-  @Override
-  public void cancelDialog() {
-    // TODO Auto-generated method stub
-    
+  public void showHelpDialog() {
+    HelpDialogFragment.newInstance(getVersionInfo())
+      .show(getSupportFragmentManager(),"HELP");
   }
 }

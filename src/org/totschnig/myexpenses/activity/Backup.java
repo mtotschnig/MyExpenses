@@ -28,7 +28,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;
 
-public class Backup extends ProtectedFragmentActivity implements ContribIFace {
+public class Backup extends ProtectedFragmentActivity  {
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

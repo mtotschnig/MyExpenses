@@ -1,13 +1,8 @@
 package org.totschnig.myexpenses.dialog;
 
-import java.io.Serializable;
-
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ContribIFace;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
-import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -53,17 +48,17 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
   public void onClick(DialogInterface dialog, int which) {
     Context ctx = getActivity();
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      Utils.viewContribApp(getActivity());
+      ((ProtectedFragmentActivity) ctx).dispatchCommand(R.id.CONTRIB_PLAY_COMMAND,null);
     } else {
       if (usagesLeft > 0) {
-        ((ContribIFace)ctx).contribFeatureCalled(feature);
+        ((ProtectedFragmentActivity)ctx).contribFeatureCalled(feature);
       } else {
-        ((ContribIFace)ctx).contribFeatureNotCalled();
+        ((ProtectedFragmentActivity)ctx).contribFeatureNotCalled();
       }
     }
   }
   @Override
   public void onCancel (DialogInterface dialog) {
-    ((ContribIFace)getActivity()).contribFeatureNotCalled();
+    ((ProtectedFragmentActivity)getActivity()).contribFeatureNotCalled();
   }
 }

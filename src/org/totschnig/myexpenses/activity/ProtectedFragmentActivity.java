@@ -31,7 +31,7 @@ import android.text.Html;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 
-public class ProtectedFragmentActivity extends FragmentActivity implements MessageDialogListener {
+public abstract class ProtectedFragmentActivity extends FragmentActivity implements MessageDialogListener {
   private Dialog pwDialog;
   @Override
   protected void onPause() {
@@ -66,12 +66,27 @@ public class ProtectedFragmentActivity extends FragmentActivity implements Messa
     switch(command) {
     case R.id.CONTRIB_PLAY_COMMAND:
       Utils.viewContribApp(this);
+      return true;
     }
     return false;
   }
   @Override
   public void cancelDialog() {
     // TODO Auto-generated method stub
+  }
+  /**
+   * @param feature
+   * called when the user clicks on "not yet", and calls the requested feature
+   */
+  public void contribFeatureCalled(Feature feature) {
+    
+  }
+  /**
+   * the user can either click on "Buy" or cancel the dialog
+   * for the moment, we are fine with the same callback for both cases,
+   * for example, in some cases, the calling activity might have to be finished
+   */
+  public void contribFeatureNotCalled() {
     
   }
 }

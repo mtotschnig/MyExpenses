@@ -34,7 +34,7 @@ import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
 
-public class ManageTemplates extends ProtectedFragmentActivity implements OnChildClickListener,ContribIFace  {
+public class ManageTemplates extends ProtectedFragmentActivity implements OnChildClickListener {
 
   private static final int DELETE_TEMPLATE = Menu.FIRST;
   private static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;

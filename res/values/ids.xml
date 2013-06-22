@@ -34,7 +34,6 @@
     <item type="id" name="MOVE_TRANSACTION_COMMAND"/>
     <item type="id" name="USE_STANDARD_MENU_COMMAND"/>
     <item type="id" name="FTP_DIALOG"/>
-    <item type="id" name="HELP_DIALOG"/>
     <item type="id" name="VERSION_DIALOG"/>
     <item type="id" name="REMIND_RATE_DIALOG"/>
     <item type="id" name="REMIND_CONTRIB_DIALOG"/>
