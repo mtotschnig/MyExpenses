@@ -88,6 +88,8 @@
   <string name="dialog_remind_no">No thanks</string>
   <string name="dialog_security_question">Question</string>
   <string name="dialog_security_answer">Answer</string>
+  <string name="dialog_title_contrib_feature">Premium feature</string>
+  <string name="dialog_title_menu_accounts_explain">Accounts button</string>
   <string name="dialog_title_select_account">Pick an account</string>
   <string name="dialog_title_select_color">Pick a color</string>
   <string name="dialog_title_select_import_source">Pick a source for import</string>
@@ -95,6 +97,7 @@
   <string name="dialog_title_select_method">Pick a payment method</string>
   <string name="dialog_title_select_type">Pick a type</string>
   <string name="dialog_title_template_title">Set the title</string>
+  <string name="dialog_tite_warning_delete_account">Delete account?</string>
   <string name="donate">Donate</string>
   <string name="donate_dialog_text">If you are not able to access Google Play, you can donate via PayPal or Flattr,
     and then request a contrib key from the settings screen.\n\n&thank_you;</string>

@@ -13,14 +13,12 @@
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.totschnig.myexpenses.util;
+package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ContribIFace;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,7 +28,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.text.Html;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,40 +71,6 @@ public class DialogUtils {
           ctx.showDialog(R.id.VERSION_DIALOG);
       }
     }).create();
-  }
-  public static Dialog contribDialog(final Activity ctx,final Feature feature) {
-    final Integer usagesLeft = feature.usagesLeft();
-    CharSequence message = Html.fromHtml(String.format(ctx.getString(
-      R.string.dialog_contrib_reminder,
-      ctx.getString(ctx.getResources().getIdentifier("contrib_feature_" + feature + "_label", "string", ctx.getPackageName())),
-      usagesLeft > 0 ? ctx.getString(R.string.dialog_contrib_usage_count,usagesLeft) : ctx.getString(R.string.dialog_contrib_no_usages_left))));
-    return createMessageDialogWithCustomButtons(
-      new ContextThemeWrapper(ctx, MyApplication.getThemeId()) {
-        public void onDialogButtonClicked(View v) {
-          if (v.getId() == R.id.CONTRIB_PLAY_COMMAND) {
-            ctx.dismissDialog(R.id.CONTRIB_DIALOG);
-            Utils.viewContribApp(ctx);
-            ((ContribIFace)ctx).contribFeatureNotCalled();
-          } else {
-            if (usagesLeft > 0) {
-              //we remove the dialog, in order to have it display updated usage count on next display
-              ctx.removeDialog(R.id.CONTRIB_DIALOG);
-              ((ContribIFace)ctx).contribFeatureCalled(feature);
-            } else {
-              ctx.dismissDialog(R.id.CONTRIB_DIALOG);
-              ((ContribIFace)ctx).contribFeatureNotCalled();
-            }
-          }
-        }
-      },
-      message,R.id.CONTRIB_PLAY_COMMAND,null, R.string.dialog_contrib_yes,R.string.dialog_contrib_no)
-    .setOnCancelListener(new DialogInterface.OnCancelListener() {
-          @Override
-          public void onCancel(DialogInterface dialog) {
-            ((ContribIFace)ctx).contribFeatureNotCalled();
-          }
-        })
-    .create();
   }
   public static Dialog warningResetDialog(Context ctx,boolean allP) {
     return createMessageDialogWithCustomButtons(ctx,
@@ -263,29 +226,5 @@ public class DialogUtils {
       }
     });
     return pwDialog;
-  }
-  public static Dialog donateDialog(final Activity ctx) {
-    Context wrappedCtx = new ContextThemeWrapper(ctx, MyApplication.getThemeId()) {
-      public void onDialogButtonClicked(View v) {
-        ctx.dismissDialog(R.id.DONATE_DIALOG);
-        if (v.getId() == R.id.WEB_COMMAND) {
-          Intent i = new Intent(Intent.ACTION_VIEW);
-          i.setData(Uri.parse("http://" + MyApplication.HOST + "/#" + (String) v.getTag()));
-          startActivity(i);
-        }
-      }
-    };
-    LayoutInflater li = LayoutInflater.from(wrappedCtx);
-    View view = li.inflate(R.layout.messagedialog, null);
-    TextView tv = (TextView)view.findViewById(R.id.message_text);
-    tv.setText(R.string.donate_dialog_text);
-    DialogUtils.setDialogTwoButtons(view,
-        R.string.donate_button_flattr,R.id.WEB_COMMAND,"flattr",
-        R.string.donate_button_paypal,R.id.WEB_COMMAND,"paypal"
-    );
-    return new AlertDialog.Builder(wrappedCtx)
-      .setTitle(R.string.donate)
-      .setView(view)
-      .create();
   }
 }

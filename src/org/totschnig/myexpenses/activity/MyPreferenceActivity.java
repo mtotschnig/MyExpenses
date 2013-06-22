@@ -20,7 +20,8 @@ import java.net.URI;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.util.DialogUtils;
+import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -152,7 +153,9 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     switch(id) {
     case R.id.FTP_DIALOG:
       return DialogUtils.sendWithFTPDialog((Activity) this);
-    }
+    case R.id.DONATE_DIALOG:
+      return DonateDialogFragment.buildDialog(this);
+    } 
     return null;
   }
   @Override

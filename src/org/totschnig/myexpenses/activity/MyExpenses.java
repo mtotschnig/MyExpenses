@@ -22,8 +22,9 @@ import java.util.Iterator;
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.fragment.MessageDialogFragment;
-import org.totschnig.myexpenses.fragment.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
@@ -37,7 +38,6 @@ import org.totschnig.myexpenses.ui.ButtonBar;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.ButtonBar.Action;
 import org.totschnig.myexpenses.ui.ButtonBar.MenuButton;
-import org.totschnig.myexpenses.util.DialogUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -73,6 +73,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;  
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -94,7 +95,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  * @author Michael Totschnig
  *
  */
-public class MyExpenses extends ProtectedFragmentActivity implements MessageDialogListener,
+public class MyExpenses extends ProtectedFragmentActivity implements
     OnClickListener,OnLongClickListener, OnSharedPreferenceChangeListener, 
     OnPageChangeListener, ContribIFace, LoaderManager.LoaderCallbacks<Cursor>  {
   public static final int ACTIVITY_EDIT=1;
@@ -482,7 +483,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements MessageDial
         contribFeatureCalled(Feature.CLONE_TRANSACTION);
       }
       else {
-        showDialog(R.id.CONTRIB_DIALOG);
+        showContribDialog(Feature.CLONE_TRANSACTION);
       }
       return true;
     case R.id.SHOW_DETAIL_COMMAND:
@@ -773,10 +774,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements MessageDial
         .setView(view)
         .setCancelable(false)
         .create();
-    case R.id.DONATE_DIALOG:
-      return DialogUtils.donateDialog((Activity) this);
-    case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,Feature.CLONE_TRANSACTION);
     }
     return super.onCreateDialog(id);
   }
@@ -1017,7 +1014,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements MessageDial
       showDialogWrapper(R.id.CONTRIB_INFO_DIALOG);
       break;
     case R.id.CONTRIB_PLAY_COMMAND:
-      Utils.viewContribApp((Activity) this);
+      Utils.viewContribApp((FragmentActivity) this);
       break;
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
@@ -1041,7 +1038,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements MessageDial
           switchAccount(accountId);
         }
       } else {
-        MessageDialogFragment.newInstance(R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND,null)
+        MessageDialogFragment.newInstance(R.string.dialog_title_menu_accounts_explain,R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND,null)
           .show(getSupportFragmentManager(),"ACCOUNTS_BUTTON_EXPLAIN");
           
       }

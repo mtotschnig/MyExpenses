@@ -21,11 +21,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.util.DialogUtils;
 
-
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -120,17 +116,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements OnChil
    mTemplateId = savedInstanceState.getLong("TemplateId");
   }
   @Override
-  protected Dialog onCreateDialog(int id) {
-    switch (id) {
-    case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,Feature.EDIT_TEMPLATE);
-    case R.id.DONATE_DIALOG:
-      return DialogUtils.donateDialog((Activity) this);
-    }
-    return null;
-  }
-
-  @Override
   public void contribFeatureCalled(Feature feature) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("template_id", mTemplateId);
@@ -149,7 +134,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements OnChil
     if (MyApplication.getInstance().isContribEnabled) {
       contribFeatureCalled(Feature.EDIT_TEMPLATE);
     } else {
-      showDialog(R.id.CONTRIB_DIALOG);
+      showContribDialog(Feature.EDIT_TEMPLATE);
     }
     return true;
   }

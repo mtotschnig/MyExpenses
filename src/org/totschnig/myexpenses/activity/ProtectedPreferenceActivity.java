@@ -16,7 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.util.DialogUtils;
+import org.totschnig.myexpenses.dialog.DialogUtils;
 
 import android.app.Dialog;
 import android.preference.PreferenceActivity;

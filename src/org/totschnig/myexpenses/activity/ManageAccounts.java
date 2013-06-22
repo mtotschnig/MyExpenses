@@ -22,13 +22,13 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.fragment.MessageDialogFragment;
-import org.totschnig.myexpenses.fragment.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.DialogUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -63,7 +63,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  * @author Michael Totschnig
  *
  */
-public class ManageAccounts extends ProtectedFragmentActivity implements MessageDialogListener,OnItemClickListener,ContribIFace,LoaderManager.LoaderCallbacks<Cursor> {
+public class ManageAccounts extends ProtectedFragmentActivity implements OnItemClickListener,ContribIFace,LoaderManager.LoaderCallbacks<Cursor> {
   private static final int ACTIVITY_CREATE=1;
   private static final int ACTIVITY_EDIT=2;
   private static final int DELETE_ID = Menu.FIRST;
@@ -72,7 +72,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements Message
   Cursor mCurrencyCursor;
   private Button mAddButton, mAggregateButton, mResetAllButton;
   private long mContextAccountId;
-  private Feature mContextFeature;
   static final int AGGREGATE_DIALOG_ID = 2;
   static final int RESET_ALL_DIALOG_ID = 3;
   private int mCurrentDialog = 0;
@@ -95,8 +94,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements Message
         if (MyApplication.getInstance().isContribEnabled) {
           showDialogWrapper(AGGREGATE_DIALOG_ID);
         } else {
-          mContextFeature = Feature.AGGREGATE;
-          showDialog(R.id.CONTRIB_DIALOG);
+          showContribDialog(Feature.AGGREGATE);
         }
       }
     });
@@ -107,8 +105,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements Message
         if (MyApplication.getInstance().isContribEnabled) {
           showDialogWrapper(RESET_ALL_DIALOG_ID);
         } else {
-          mContextFeature = Feature.RESET_ALL;
-          showDialog(R.id.CONTRIB_DIALOG);
+          showContribDialog(Feature.RESET_ALL);
         }
       }
     });
@@ -180,14 +177,10 @@ public class ManageAccounts extends ProtectedFragmentActivity implements Message
       .setTitle(R.string.menu_aggregate)
       .setView(view)
       .create();
-    case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,mContextFeature);
     case R.id.RESET_DIALOG:
       return DialogUtils.warningResetDialog(this,false);
     case RESET_ALL_DIALOG_ID:
       return DialogUtils.warningResetDialog(this,true);
-    case R.id.DONATE_DIALOG:
-      return DialogUtils.donateDialog((Activity) this);
     }
     return null;
   }
@@ -212,6 +205,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements Message
     case R.id.RESET_ACCOUNT_ALL_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
         Intent i = new Intent(this, Export.class);
+        Feature.RESET_ALL.recordUsage();
         startActivityForResult(i,0);
       } else {
         Toast.makeText(getBaseContext(),
@@ -254,7 +248,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements Message
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case DELETE_ID:
-      MessageDialogFragment.newInstance(R.string.warning_delete_account,DELETE_COMMAND_ID,info.id)
+      MessageDialogFragment.newInstance(R.string.dialog_tite_warning_delete_account,R.string.warning_delete_account,DELETE_COMMAND_ID,info.id)
         .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
       return true;
     case RESET_ID:
@@ -269,7 +263,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements Message
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
    outState.putLong("contextAccountId", mContextAccountId);
-   outState.putSerializable("contextFeature", mContextFeature);
    outState.putInt("currentDialog",mCurrentDialog);
   }
   @Override
@@ -277,15 +270,13 @@ public class ManageAccounts extends ProtectedFragmentActivity implements Message
    super.onRestoreInstanceState(savedInstanceState);
    mContextAccountId = savedInstanceState.getLong("contextAccountId");
    mCurrentDialog = savedInstanceState.getInt("currentDialog");
-   mContextFeature = (Feature) savedInstanceState.getSerializable("contextFeature");
   }
   @SuppressWarnings("incomplete-switch")
   @Override
   public void contribFeatureCalled(Feature feature) {
-    removeDialog(R.id.CONTRIB_DIALOG);
-    feature.recordUsage();
     switch (feature) {
     case AGGREGATE:
+      feature.recordUsage();
       showDialogWrapper(AGGREGATE_DIALOG_ID);
       break;
     case RESET_ALL:

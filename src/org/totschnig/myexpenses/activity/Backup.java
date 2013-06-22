@@ -19,40 +19,36 @@ import java.io.File;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.fragment.MessageDialogFragment;
-import org.totschnig.myexpenses.fragment.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
-import org.totschnig.myexpenses.util.DialogUtils;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextThemeWrapper;
-import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
-public class Backup extends ProtectedFragmentActivity implements MessageDialogListener,ContribIFace {
+public class Backup extends ProtectedFragmentActivity implements ContribIFace {
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    requestWindowFeature(Window.FEATURE_NO_TITLE);
     if (savedInstanceState == null) {
       if (Utils.isExternalStorageAvailable()) {
         if (getIntent().getAction().equals("myexpenses.intent.backup")) {
           File backupDb = MyApplication.getBackupDbFile();
           int message = backupDb.exists() ? R.string.warning_backup_exists : R.string.warning_backup;
-          MessageDialogFragment.newInstance(message,R.id.BACKUP_COMMAND,null)
-          .show(getSupportFragmentManager(),"BACKUP");
+          MessageDialogFragment.newInstance(R.string.menu_backup,message,R.id.BACKUP_COMMAND,null)
+            .show(getSupportFragmentManager(),"BACKUP");
         }
         else {
           //restore
           if (MyApplication.backupExists()) {
             if (MyApplication.getInstance().isContribEnabled) {
-              showDialog(R.id.RESTORE_DIALOG);
+              showRestoreDialog();
             }
             else {
-              showDialog(R.id.CONTRIB_DIALOG);
+              showContribDialog(Feature.RESTORE);
             }
           } else {
             Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
@@ -66,43 +62,13 @@ public class Backup extends ProtectedFragmentActivity implements MessageDialogLi
       }
     }
   }
-  @Override
-  protected Dialog onCreateDialog(int id) {
-    switch (id) {
-    case R.id.RESTORE_DIALOG:
-      return DialogUtils.createMessageDialog(new ContextThemeWrapper(this, MyApplication.getThemeId()) {
-        public void onDialogButtonClicked(View v) {
-          dismissDialog(R.id.RESTORE_DIALOG);
-          if (v.getId() == R.id.RESTORE_COMMAND) {
-            if (MyApplication.backupExists()) {
-              MyApplication.backupRestore();
-              Feature.RESTORE.recordUsage();
-              Intent i = getBaseContext().getPackageManager()
-                  .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-              i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-              startActivity(i);
-            } else {
-              Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
-            }
-          }
-          finish();
-        }
-      },R.string.warning_restore,R.id.RESTORE_COMMAND,null)
-      .setOnCancelListener(new DialogInterface.OnCancelListener() {
-        @Override
-        public void onCancel(DialogInterface dialog) {
-          finish();
-        }
-      })
-      .create();
-    case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,Feature.RESTORE);
-    }
-    return null;
+  private void showRestoreDialog() {
+    MessageDialogFragment.newInstance(R.string.pref_restore_title,R.string.warning_restore,R.id.RESTORE_COMMAND,null)
+      .show(getSupportFragmentManager(),"BACKUP");
   }
   @Override
   public void contribFeatureCalled(Feature feature) {
-    showDialog(R.id.RESTORE_DIALOG);
+    showRestoreDialog();
   }
   @Override
   public void contribFeatureNotCalled() {
@@ -123,6 +89,17 @@ public class Backup extends ProtectedFragmentActivity implements MessageDialogLi
       }
       finish();
       break;
+    case R.id.RESTORE_COMMAND:
+      if (MyApplication.backupExists()) {
+        MyApplication.backupRestore();
+        Feature.RESTORE.recordUsage();
+        Intent i = getBaseContext().getPackageManager()
+            .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+      } else {
+        Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
+      }      
   }
   return true;
   }

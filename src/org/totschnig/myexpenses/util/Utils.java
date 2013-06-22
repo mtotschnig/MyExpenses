@@ -41,6 +41,8 @@ import java.util.EnumSet;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ContribDialogFragment;
+import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
@@ -57,6 +59,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings.Secure;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -334,7 +337,12 @@ public class Utils {
     if (Utils.isIntentAvailable(ctx,i)) {
       ctx.startActivity(i);
     } else {
-      ctx.showDialog(R.id.DONATE_DIALOG);
+      if (ctx instanceof FragmentActivity)
+        DonateDialogFragment.newInstance().show(((FragmentActivity) ctx).getSupportFragmentManager(),"CONTRIB");
+      else {
+        //We are called from MyPreferenceActivity where support fragmentmanager is not available
+        ctx.showDialog(R.id.DONATE_DIALOG);
+      }
     }
   }
   public static String getContribFeatureLabelsAsFormattedList(Context ctx) {

@@ -16,12 +16,22 @@
 package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.util.DialogUtils;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ContribDialogFragment;
+import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.view.ContextThemeWrapper;
+import android.view.View;
 
-public class ProtectedFragmentActivity extends FragmentActivity {
+public class ProtectedFragmentActivity extends FragmentActivity implements MessageDialogListener {
   private Dialog pwDialog;
   @Override
   protected void onPause() {
@@ -47,5 +57,21 @@ public class ProtectedFragmentActivity extends FragmentActivity {
         pwDialog = DialogUtils.passwordDialog(this);
       DialogUtils.showPasswordDialog(this,pwDialog);
     }
+  }
+  public void showContribDialog(final Feature feature) {
+    ContribDialogFragment.newInstance(feature).show(getSupportFragmentManager(),"CONTRIB");
+  }
+  @Override
+  public boolean dispatchCommand(int command, Object tag) {
+    switch(command) {
+    case R.id.CONTRIB_PLAY_COMMAND:
+      Utils.viewContribApp(this);
+    }
+    return false;
+  }
+  @Override
+  public void cancelDialog() {
+    // TODO Auto-generated method stub
+    
   }
 }
