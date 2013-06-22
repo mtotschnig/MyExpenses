@@ -61,7 +61,7 @@ public class MessageDialogFragment  extends DialogFragment{
     ((MessageDialogListener) getActivity()).cancelDialog();
   }
   public interface MessageDialogListener {
-    boolean dispatchCommand(int mCommand, Object mTag);
+    boolean dispatchCommand(int command, Object tag);
 
     void cancelDialog();
 }

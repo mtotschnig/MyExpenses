@@ -63,17 +63,14 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  * @author Michael Totschnig
  *
  */
-public class ManageAccounts extends ProtectedFragmentActivity implements OnItemClickListener,ContribIFace,LoaderManager.LoaderCallbacks<Cursor> {
-  private static final int ACTIVITY_CREATE=1;
-  private static final int ACTIVITY_EDIT=2;
+public class ManageAccounts extends ProtectedFragmentActivity implements
+    OnItemClickListener,ContribIFace,LoaderManager.LoaderCallbacks<Cursor> {
   private static final int DELETE_ID = Menu.FIRST;
   private static final int RESET_ID = Menu.FIRST + 1;
   private static final int DELETE_COMMAND_ID = 1;
   Cursor mCurrencyCursor;
   private Button mAddButton, mAggregateButton, mResetAllButton;
-  private long mContextAccountId;
   static final int AGGREGATE_DIALOG_ID = 2;
-  static final int RESET_ALL_DIALOG_ID = 3;
   private int mCurrentDialog = 0;
   SimpleCursorAdapter currencyAdapter;
 
@@ -103,7 +100,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       @Override
       public void onClick(View v) {
         if (MyApplication.getInstance().isContribEnabled) {
-          showDialogWrapper(RESET_ALL_DIALOG_ID);
+          DialogUtils.showWarningResetDialog(ManageAccounts.this, null);
         } else {
           showContribDialog(Feature.RESET_ALL);
         }
@@ -177,23 +174,18 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       .setTitle(R.string.menu_aggregate)
       .setView(view)
       .create();
-    case R.id.RESET_DIALOG:
-      return DialogUtils.warningResetDialog(this,false);
-    case RESET_ALL_DIALOG_ID:
-      return DialogUtils.warningResetDialog(this,true);
     }
     return null;
   }
-  public void onDialogButtonClicked(View v) {
-    if (mCurrentDialog != 0) {
-      dismissDialog(mCurrentDialog);
-    }
-    int id=v.getId();
-    switch(id) {
+  public boolean dispatchCommand(int command, Object tag) {
+    switch(command) {
+    case DELETE_COMMAND_ID:
+      Account.delete((Long) tag);
+      break;
     case R.id.RESET_ACCOUNT_COMMAND_DO:
       if (Utils.isExternalStorageAvailable()) {
         Intent i = new Intent(this, Export.class);
-        i.putExtra(KEY_ROWID, mContextAccountId);
+        i.putExtra(KEY_ROWID, (Integer) tag);
         startActivityForResult(i,0);
       } else {
         Toast.makeText(getBaseContext(),
@@ -216,6 +208,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       break;
     }
     configButtons();
+    return true;
   }
   /**
    * @param id we store the dialog id, so that we can dismiss it in our generic button handler
@@ -252,24 +245,10 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
         .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
       return true;
     case RESET_ID:
-      mContextAccountId = info.id;
-      showDialogWrapper(R.id.RESET_DIALOG);
+      DialogUtils.showWarningResetDialog(this, info.id);
       return true;
     }
     return super.onContextItemSelected(item);
-  }
-  //safeguard for orientation change during dialog
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-   super.onSaveInstanceState(outState);
-   outState.putLong("contextAccountId", mContextAccountId);
-   outState.putInt("currentDialog",mCurrentDialog);
-  }
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-   super.onRestoreInstanceState(savedInstanceState);
-   mContextAccountId = savedInstanceState.getLong("contextAccountId");
-   mCurrentDialog = savedInstanceState.getInt("currentDialog");
   }
   @SuppressWarnings("incomplete-switch")
   @Override
@@ -280,7 +259,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
       showDialogWrapper(AGGREGATE_DIALOG_ID);
       break;
     case RESET_ALL:
-      showDialogWrapper(RESET_ALL_DIALOG_ID);
+      DialogUtils.showWarningResetDialog(this, null);
       break;
     }
   }
@@ -308,20 +287,5 @@ public class ManageAccounts extends ProtectedFragmentActivity implements OnItemC
   public void onLoaderReset(Loader<Cursor> arg0) {
     if (currencyAdapter != null)
       currencyAdapter.swapCursor(null);
-  }
-
-  @Override
-  public boolean dispatchCommand(int command, Object tag) {
-    switch(command) {
-    case DELETE_COMMAND_ID:
-      Account.delete((Long) tag);
-    }
-    return true;
-  }
-
-  @Override
-  public void cancelDialog() {
-    // TODO Auto-generated method stub
-    
   }
 }

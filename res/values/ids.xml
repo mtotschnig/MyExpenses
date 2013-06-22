@@ -49,7 +49,6 @@
     <item type="id" name="RATE_COMMAND"/>
     <item type="id" name="HANDLE_RESTORE_ON_INSTALL_COMMAND"/>
     <item type="id" name="CONTRIB_PLAY_COMMAND"/>
-    <item type="id" name="RESET_DIALOG"/>
     <item type="id" name="SELECT_ACCOUNT_DIALOG"/>
     <item type="id" name="TEMPLATE_TITLE_DIALOG"/>
     <item type="id" name="SELECT_TEMPLATE_DIALOG"/>

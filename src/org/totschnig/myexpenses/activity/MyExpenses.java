@@ -588,8 +588,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         .setIcon(R.drawable.icon)
         .setView(view)
         .create();
-    case R.id.RESET_DIALOG:
-      return DialogUtils.warningResetDialog(this,false);
     //SELECT_ACCOUNT_DIALOG is used both from SWITCH_ACCOUNT and MOVE_TRANSACTION
     case R.id.SELECT_ACCOUNT_DIALOG:
       final String[] accountLabels = new String[mAccountsCursor.getCount()-1];
@@ -1049,7 +1047,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       break;
     case R.id.RESET_ACCOUNT_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
-        showDialogWrapper(R.id.RESET_DIALOG);
+        DialogUtils.showWarningResetDialog(this,mCurrentAccount.id);
       } else {
         Toast.makeText(getBaseContext(),
             getString(R.string.external_storage_unavailable),
@@ -1060,6 +1058,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.RESET_ACCOUNT_COMMAND_DO:
       if (Utils.isExternalStorageAvailable()) {
         i = new Intent(this, Export.class);
+        //should also be availalbe in the tag
         i.putExtra(KEY_ROWID, mCurrentAccount.id);
         startActivityForResult(i, ACTIVITY_EXPORT);
       } else { 

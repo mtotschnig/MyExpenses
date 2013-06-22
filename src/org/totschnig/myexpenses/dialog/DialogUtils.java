@@ -28,6 +28,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,13 +73,19 @@ public class DialogUtils {
       }
     }).create();
   }
-  public static Dialog warningResetDialog(Context ctx,boolean allP) {
-    return createMessageDialogWithCustomButtons(ctx,
+  /**
+   * @param ctx
+   * @param accountId if null all accounts will be reset
+   */
+  public static void showWarningResetDialog(FragmentActivity ctx,Long accountId) {
+    boolean allP = accountId == null;
+    MessageDialogFragment.newInstance(
+        allP ? R.string.dialog_title_warning_reset_all : R.string.dialog_title_warning_reset_one,
         ctx.getString(allP ? R.string.warning_reset_account_all : R.string.warning_reset_account,
             MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF")),
         allP ? R.id.RESET_ACCOUNT_ALL_COMMAND : R.id.RESET_ACCOUNT_COMMAND_DO,
-        null,android.R.string.yes,android.R.string.no)
-        .create();
+        accountId)
+      .show(ctx.getSupportFragmentManager(),"WARNING_RESET");
   }
   /**
    * @return an AlertDialog.Builder with R.layout.messagedialog as layout

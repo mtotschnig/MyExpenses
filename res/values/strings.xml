@@ -98,6 +98,8 @@
   <string name="dialog_title_select_type">Pick a type</string>
   <string name="dialog_title_template_title">Set the title</string>
   <string name="dialog_tite_warning_delete_account">Delete account?</string>
+  <string name="dialog_title_warning_reset_one">Reset account?</string>
+  <string name="dialog_title_warning_reset_all">Reset all accounts?</string>
   <string name="donate">Donate</string>
   <string name="donate_dialog_text">If you are not able to access Google Play, you can donate via PayPal or Flattr,
     and then request a contrib key from the settings screen.\n\n&thank_you;</string>
