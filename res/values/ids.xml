@@ -34,11 +34,9 @@
     <item type="id" name="MOVE_TRANSACTION_COMMAND"/>
     <item type="id" name="USE_STANDARD_MENU_COMMAND"/>
     <item type="id" name="FTP_DIALOG"/>
-    <item type="id" name="VERSION_DIALOG"/>
     <item type="id" name="REMIND_RATE_DIALOG"/>
     <item type="id" name="REMIND_CONTRIB_DIALOG"/>
     <item type="id" name="NEW_FROM_TEMPLATE_COMMAND"/>
-    <item type="id" name="MORE_ACTION_COMMAND"/>
     <item type="id" name="CONTRIB_COMMAND"/>
     <item type="id" name="FEEDBACK_COMMAND"/>
     <item type="id" name="ACCOUNT_OVERVIEW_COMMAND"/>
@@ -50,7 +48,6 @@
     <item type="id" name="CONTRIB_PLAY_COMMAND"/>
     <item type="id" name="SELECT_ACCOUNT_DIALOG"/>
     <item type="id" name="TEMPLATE_TITLE_DIALOG"/>
-    <item type="id" name="SELECT_TEMPLATE_DIALOG"/>
     <item type="id" name="MORE_ACTIONS_DIALOG"/>
     <item type="id" name="CONTRIB_INFO_DIALOG"/>
     <item type="id" name="CONFIRM_RESTORE_DIALOG"/>

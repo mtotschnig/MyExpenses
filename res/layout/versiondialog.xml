@@ -38,6 +38,5 @@
           android:visibility="gone"/>
     </LinearLayout>
   </ScrollView>
-  <include layout="@layout/dialog_buttonbar"/>
 </LinearLayout>
 

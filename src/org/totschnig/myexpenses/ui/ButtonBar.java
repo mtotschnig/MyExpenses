@@ -168,7 +168,7 @@ public class ButtonBar extends LinearLayout  {
               if (heightNeeded > heightLeft && (size - count) > 1 ) {
                 //Log.i("BetterPopupWindow","Out of space: stopping");
                 tv = new Button(context,null,R.attr.menuItemStyle);
-                tv.setId(R.id.MORE_ACTION_COMMAND);
+                //tv.setId(R.id.MORE_ACTION_COMMAND);
                 tv.setText("More...");
                 //we transmit the remaining items to the more command as tag
                 ArrayList<Action> remainingItems = new ArrayList<Action>();

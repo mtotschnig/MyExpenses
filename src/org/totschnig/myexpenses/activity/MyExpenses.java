@@ -16,16 +16,14 @@
 package org.totschnig.myexpenses.activity;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
 
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -42,7 +40,6 @@ import org.totschnig.myexpenses.ui.ButtonBar.Action;
 import org.totschnig.myexpenses.ui.ButtonBar.MenuButton;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 
@@ -83,7 +80,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -313,7 +309,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     //templates are sorted by usages, so that most often used templates are displayed in the menu
     //but in the menu we want them to appear in alphabetical order, and we want the other commands
     //in fixed positions
-    mAddButton.setComparator(new Comparator<Button>() {
+/*    mAddButton.setComparator(new Comparator<Button>() {
       public int compare(Button a, Button b) {
         if (a.getId() == R.id.MORE_ACTION_COMMAND) {
           return 1;
@@ -329,7 +325,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         }
         return -1;
       }
-    });
+    });*/
     mSwitchButton = mButtonBar.addButton(
         R.string.menu_accounts,
         R.drawable.ic_menu_goto,
@@ -510,8 +506,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       Toast.makeText(getBaseContext(), msg != "" ? msg : getString(R.string.no_details), Toast.LENGTH_LONG).show();
       return true;
     case R.id.MOVE_TRANSACTION_COMMAND:
-      mDialogContextId = info.id;
-      showDialogWrapper(R.id.SELECT_ACCOUNT_DIALOG);
+      SelectAccountDialogFragment.newInstance(mCurrentAccount.id, info.id)
+        .show(getSupportFragmentManager(), "SELECT_ACCOUNT");
       return true;
     case R.id.CREATE_TEMPLATE_COMMAND:
       mDialogContextId = info.id;
@@ -548,7 +544,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
             i++;
           }
           mAccountsCursor.moveToNext();
-       }
+        }
       }
       return new AlertDialog.Builder(this)
         .setTitle(R.string.dialog_title_select_account)
@@ -556,13 +552,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
           public void onClick(DialogInterface dialog, int item) {
             //we remove the dialog since the items are different dependent on each invocation
             removeDialog(R.id.SELECT_ACCOUNT_DIALOG);
-            if (mDialogContextId == 0L) {
-              switchAccount(accountIds[item]);
-            }
-            else {
               Transaction.move(mDialogContextId,accountIds[item]);
               configButtons();
-            }
           }
         })
         .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -602,60 +593,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         }
       })
       .setNegativeButton(android.R.string.no, null)
-      .create();
-    case R.id.SELECT_TEMPLATE_DIALOG:
-      final Cursor templates = getContentResolver().query(
-          TransactionProvider.TEMPLATES_URI,
-          new String[]{KEY_ROWID,KEY_TITLE}, "account_id = ?", new String[] { String.valueOf(mCurrentAccount.id) }, null);
-      final String[] templateTitles = DbUtils.getStringArrayFromCursor(templates, KEY_TITLE);
-      final Long[] templateIds = DbUtils.getLongArrayFromCursor(templates, KEY_ROWID);
-      templates.close();
-      return new AlertDialog.Builder(this)
-        .setTitle("Pick a template")
-        .setSingleChoiceItems(templateTitles, -1, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int item) {
-            //TODO: check if we could renounce removing the dialog here, remove it only when a new template is defined
-            //or account is switched
-            removeDialog(R.id.SELECT_TEMPLATE_DIALOG);
-            Transaction.getInstanceFromTemplate(templateIds[item]).save();
-            //myAdapter.notifyDataSetChanged();
-            configButtons();
-          }
-        })
-        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-          @Override
-          public void onCancel(DialogInterface dialog) {
-            removeDialog(R.id.SELECT_TEMPLATE_DIALOG);
-          }
-        })
-        .create();
-    case R.id.MORE_ACTIONS_DIALOG:
-      int howMany = mMoreItems.size();
-      final String[] moreTitles = new String[howMany];
-      final int[] moreIds = new int[howMany];
-      final Object[] moreTags = new Object[howMany];
-      int count = 0;
-      for(Iterator<Action> i = mMoreItems.iterator();i.hasNext();) {
-        Action action = i.next();
-        moreTitles[count] = action.text;
-        moreIds[count] = action.id;
-        moreTags[count] = action.tag;
-        count++;
-      }
-      return new AlertDialog.Builder(this)
-      .setTitle(R.string.menu_more)
-      .setSingleChoiceItems(moreTitles, -1,new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int item) {
-          removeDialog(R.id.MORE_ACTIONS_DIALOG);
-          dispatchCommand(moreIds[item], moreTags[item]);
-        }
-      })
-      .setOnCancelListener(new DialogInterface.OnCancelListener() {
-        @Override
-        public void onCancel(DialogInterface dialog) {
-          removeDialog(R.id.MORE_ACTIONS_DIALOG);
-        }
-      })
       .create();
     case R.id.REMIND_CONTRIB_DIALOG:
     case R.id.CONTRIB_INFO_DIALOG:
@@ -967,18 +904,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.SWITCH_ACCOUNT_COMMAND:
       int accountCount = Account.count(null, null);
       if (accountCount > 1) {
-        if (tag == null) {
-         //we are called from menu
-         if (accountCount == 2) {
-           switchAccount(0);
-         } else {
-           mDialogContextId = 0L;
-           showDialogWrapper(R.id.SELECT_ACCOUNT_DIALOG);
-         }
-        } else {
-          Long accountId = tag != null ? (Long) tag : 0;
-          switchAccount(accountId);
-        }
+        Long accountId = tag != null ? (Long) tag : 0;
+        switchAccount(accountId);
       } else {
         MessageDialogFragment.newInstance(R.string.dialog_title_menu_accounts_explain,R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND,null)
           .show(getSupportFragmentManager(),"ACCOUNTS_BUTTON_EXPLAIN");
@@ -1035,17 +962,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       showHelpDialog();
       break;
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
-      if (tag == null) {
-          showDialogWrapper(R.id.SELECT_TEMPLATE_DIALOG);
-      } else {
-        Transaction.getInstanceFromTemplate((Long) tag).save();
-        //myAdapter.notifyDataSetChanged();
-        configButtons();
-      }
-      break;
-    case R.id.MORE_ACTION_COMMAND:
-      mMoreItems = (ArrayList<Action>) tag;
-      showDialogWrapper(R.id.MORE_ACTIONS_DIALOG);
+      Transaction.getInstanceFromTemplate((Long) tag).save();
+      //myAdapter.notifyDataSetChanged();
+      configButtons();
       break;
     case R.id.RATE_COMMAND:
       mSettings.edit().putLong("nextReminderRate", -1).commit();
@@ -1082,6 +1001,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       String key = "nextReminder" + (String) tag;
       long treshold = ((String) tag).equals("Rate") ? TRESHOLD_REMIND_RATE : TRESHOLD_REMIND_CONTRIB;
       mSettings.edit().putLong(key,Transaction.getTransactionSequence()+treshold).commit();
+      break;
     default:
       return false;
     }
