@@ -63,15 +63,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;  
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -531,38 +527,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     View view;
     TextView tv;
     switch (id) {
-    //SELECT_ACCOUNT_DIALOG is used both from SWITCH_ACCOUNT and MOVE_TRANSACTION
-    case R.id.SELECT_ACCOUNT_DIALOG:
-      final String[] accountLabels = new String[mAccountsCursor.getCount()-1];
-      final Long[] accountIds = new Long[mAccountsCursor.getCount()-1];
-      if(mAccountsCursor.moveToFirst()){
-        for (int i = 0; !mAccountsCursor.isAfterLast(); ){
-          long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
-          if (accountId != mCurrentAccount.id) {
-            accountLabels[i] = mAccountsCursor.getString(mAccountsCursor.getColumnIndex("label"));
-            accountIds[i] = accountId;
-            i++;
-          }
-          mAccountsCursor.moveToNext();
-        }
-      }
-      return new AlertDialog.Builder(this)
-        .setTitle(R.string.dialog_title_select_account)
-        .setSingleChoiceItems(accountLabels, -1, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int item) {
-            //we remove the dialog since the items are different dependent on each invocation
-            removeDialog(R.id.SELECT_ACCOUNT_DIALOG);
-              Transaction.move(mDialogContextId,accountIds[item]);
-              configButtons();
-          }
-        })
-        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-          @Override
-          public void onCancel(DialogInterface dialog) {
-            removeDialog(R.id.SELECT_ACCOUNT_DIALOG);
-          }
-        })
-        .create();
     case R.id.TEMPLATE_TITLE_DIALOG:
       // Set an EditText view to get user input 
       final EditText input = new EditText(this);
