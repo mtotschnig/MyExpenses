@@ -207,7 +207,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   private void setup() {
     newVersionCheck();
-    getSupportLoaderManager().initLoader(0, null, this);
     mUseStandardMenu = mSettings.getBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU, false);
     mButtonBar = (ButtonBar) findViewById(R.id.ButtonBar);
     if (mUseStandardMenu) {
@@ -235,6 +234,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         setCurrentAccount(requireAccount());
       }
     }
+    getSupportLoaderManager().initLoader(0, null, this);
   }
   private void moveToNextAccount() {
     int currentPosition = myPager.getCurrentItem();
