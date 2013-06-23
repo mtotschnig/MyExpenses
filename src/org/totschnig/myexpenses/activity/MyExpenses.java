@@ -21,6 +21,8 @@ import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectAccountDialogFragment;
@@ -44,7 +46,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -63,7 +64,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
@@ -90,7 +90,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  */
 public class MyExpenses extends ProtectedFragmentActivity implements
     OnClickListener,OnLongClickListener, OnSharedPreferenceChangeListener, 
-    OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>  {
+    OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
+    EditTextDialogListener {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_PREF=2;
   public static final int ACTIVITY_CREATE_ACCOUNT=3;
@@ -141,8 +142,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   /**
    * several dialogs need an object on which they operate, and this object must survive
    * orientation change, and the call to the contrib dialog, currently there are three use cases for this:
-   * 1) TEMPLATE_TITLE_DIALOG:  the transaction from which a template is to be created
-   * 2) SELECT_ACCOUNT_DIALOG: if 0 we call from SWITCH_ACCOUNT, if long it is the transaction to be moved
    * 3) CLONE_TRANSACTION: the transaction to be cloned
    */
   private long mDialogContextId = 0L;
@@ -506,8 +505,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         .show(getSupportFragmentManager(), "SELECT_ACCOUNT");
       return true;
     case R.id.CREATE_TEMPLATE_COMMAND:
-      mDialogContextId = info.id;
-      showDialogWrapper(R.id.TEMPLATE_TITLE_DIALOG);
+      Bundle args = new Bundle();
+      args.putLong("transactionId", info.id);
+      args.putString("dialogTitle", getString(R.string.dialog_title_template_title));
+      EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "TEMPLATE_TITLE");
       return true;
     }
     return super.onContextItemSelected(item);
@@ -527,37 +528,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     View view;
     TextView tv;
     switch (id) {
-    case R.id.TEMPLATE_TITLE_DIALOG:
-      // Set an EditText view to get user input 
-      final EditText input = new EditText(this);
-      //only if the editText has an id, is its value restored after orientation change
-      input.setId(1);
-      input.setSingleLine();
-      Utils.setBackgroundFilter(input, getResources().getColor(R.color.theme_dark_button_color));
-      return new AlertDialog.Builder(this)
-      .setTitle(R.string.dialog_title_template_title)
-      .setView(input)
-      .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int whichButton) {
-          String title = input.getText().toString();
-          if (!title.equals("")) {
-            input.setText("");
-            dismissDialog(R.id.TEMPLATE_TITLE_DIALOG);
-            if ((new Template(Transaction.getInstanceFromDb(mDialogContextId),title)).save() == null) {
-              Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
-            } else {
-              Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
-            }
-            if (!mUseStandardMenu) {
-              fillAddButton();
-            }
-          } else {
-            Toast.makeText(getBaseContext(),getString(R.string.no_title_given), Toast.LENGTH_LONG).show();
-          }
-        }
-      })
-      .setNegativeButton(android.R.string.no, null)
-      .create();
     case R.id.REMIND_CONTRIB_DIALOG:
     case R.id.CONTRIB_INFO_DIALOG:
       boolean already_contrib = MyApplication.getInstance().isContribEnabled;
@@ -1095,5 +1065,15 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public void showHelpDialog() {
     HelpDialogFragment.newInstance(getVersionInfo())
       .show(getSupportFragmentManager(),"HELP");
+  }
+  @Override
+  public void onFinishEditDialog(Bundle args) {
+    String title = args.getString("result");
+    if ((new Template(Transaction.getInstanceFromDb(args.getLong("transactionId")),title)).save() == null) {
+      Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
+    } else {
+      Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
+    }
+    fillAddButton();
   }
 }
