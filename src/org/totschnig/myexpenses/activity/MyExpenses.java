@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
@@ -534,39 +535,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     View view;
     TextView tv;
     switch (id) {
-    case R.id.VERSION_DIALOG:
-      li = LayoutInflater.from(this);
-      ArrayList<CharSequence> versionInfo = MyApplication.getInstance().getVersionInfo();
-      view = li.inflate(R.layout.versiondialog, null);
-      ((TextView) view.findViewById(R.id.versionInfoChanges))
-        .setText(R.string.help_whats_new);
-      if (versionInfo.size() > 0) {
-        View divider;
-        LinearLayout main = (LinearLayout) view.findViewById(R.id.layoutMain);
-        ((TextView) view.findViewById(R.id.versionInfoImportantHeading)).setVisibility(View.VISIBLE);
-        for(Iterator<CharSequence> i = versionInfo.iterator();i.hasNext();) {
-          tv = new TextView(this);
-          tv.setText(i.next());
-          tv.setTextAppearance(this, R.style.form_label);
-          tv.setPadding(15, 0, 0, 0);
-          main.addView(tv);
-          if (i.hasNext()) {
-            divider = new View(this);
-            divider.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,1));
-            divider.setBackgroundColor(getResources().getColor(R.color.appDefault));
-            main.addView(divider);
-          }
-        }
-      }
-      DialogUtils.setDialogThreeButtons(view,
-          R.string.menu_help,R.id.HELP_COMMAND,null,
-          R.string.menu_contrib,R.id.CONTRIB_PLAY_COMMAND,null,
-          android.R.string.ok,0,null);
-      return new AlertDialog.Builder(this)
-        .setTitle(getString(R.string.new_version) + " : " + getVersionName())
-        .setIcon(R.drawable.icon)
-        .setView(view)
-        .create();
     //SELECT_ACCOUNT_DIALOG is used both from SWITCH_ACCOUNT and MOVE_TRANSACTION
     case R.id.SELECT_ACCOUNT_DIALOG:
       final String[] accountLabels = new String[mAccountsCursor.getCount()-1];
@@ -604,8 +572,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
           }
         })
         .create();
-    case R.id.FTP_DIALOG:
-      return DialogUtils.sendWithFTPDialog((Activity) this);
     case R.id.TEMPLATE_TITLE_DIALOG:
       // Set an EditText view to get user input 
       final EditText input = new EditText(this);
@@ -829,7 +795,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
    * also is used for hooking version specific upgrade procedures
    */
   public void newVersionCheck() {
-    MyApplication app = MyApplication.getInstance();
     Editor edit = mSettings.edit();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     int current_version = getVersionNumber();
@@ -842,6 +807,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
       showHelpDialog();
     } else if (prev_version != current_version) {
+      ArrayList<CharSequence> versionInfo = new ArrayList<CharSequence>();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
       if (prev_version < 19) {
         //renamed
@@ -850,7 +816,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         edit.commit();
       }
       if (prev_version < 26) {
-        app.addVersionInfo(getString(R.string.version_26_upgrade_info));
+        versionInfo.add(getString(R.string.version_26_upgrade_info));
       }
       if (prev_version < 28) {
         Log.i("MyExpenses",String.format("Upgrading to version 28: Purging %d transactions from datbase",
@@ -868,34 +834,34 @@ public class MyExpenses extends ProtectedFragmentActivity implements
           Intent intent = new Intent(android.content.Intent.ACTION_SENDTO);
           intent.setData(android.net.Uri.parse(target));
           if (!Utils.isIntentAvailable(this,intent)) {
-            showDialogWrapper(R.id.FTP_DIALOG);
-            return;
+            versionInfo.add(getString(R.string.version_32_upgrade_info));
           }
         }
       }
       if (prev_version < 34) {
-        app.addVersionInfo(getString(R.string.version_34_upgrade_info));
+        versionInfo.add(getString(R.string.version_34_upgrade_info));
       }
       if (prev_version < 35) {
-        app.addVersionInfo(getString(R.string.version_35_upgrade_info));
+        versionInfo.add(getString(R.string.version_35_upgrade_info));
       }
       if (prev_version < 39) {
-        app.addVersionInfo(Html.fromHtml(getString(R.string.version_39_upgrade_info,Utils.getContribFeatureLabelsAsFormattedList(this))));
+        versionInfo.add(Html.fromHtml(getString(R.string.version_39_upgrade_info,Utils.getContribFeatureLabelsAsFormattedList(this))));
       }
       if (prev_version < 40) {
         DbUtils.fixDateValues(getContentResolver());
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
         mSettings.edit().putLong("nextReminderContrib",Transaction.getTransactionSequence()+23).commit();
-        app.addVersionInfo(getString(R.string.version_40_upgrade_info));
+        versionInfo.add(getString(R.string.version_40_upgrade_info));
       }
       if (prev_version < 41) {
-        app.addVersionInfo(getString(R.string.version_41_upgrade_info));
+        versionInfo.add(getString(R.string.version_41_upgrade_info));
       }
       if (prev_version < 46) {
-        app.addVersionInfo(getString(R.string.version_46_upgrade_info));
+        versionInfo.add(getString(R.string.version_46_upgrade_info));
       }
-      showDialogWrapper(R.id.VERSION_DIALOG);
+      VersionDialogFragment.newInstance(versionInfo, getVersionName())
+        .show(getSupportFragmentManager(),"VERSION_INFO");
     }
   }
   /**

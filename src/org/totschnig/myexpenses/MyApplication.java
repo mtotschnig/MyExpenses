@@ -70,7 +70,6 @@ public class MyApplication extends Application {
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
 
     public static final String EXTRA_AMOUNT = "amount";
-    private ArrayList<CharSequence> mVersionInfo = new ArrayList<CharSequence>();
     public boolean isContribEnabled;
     private long mLastPause = 0;
     /**
@@ -86,12 +85,6 @@ public class MyApplication extends Application {
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
     public static final String HOST = "myexpenses.totschnig.org";
 
-    public ArrayList<CharSequence> getVersionInfo() {
-      return mVersionInfo;
-    }
-    public void addVersionInfo(CharSequence mVersionInfo) {
-      this.mVersionInfo.add(mVersionInfo);
-    }
     @Override
     public void onCreate()
     {

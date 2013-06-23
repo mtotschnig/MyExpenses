@@ -48,14 +48,11 @@ public class DialogUtils {
    * and from version update
    */
   public static Dialog sendWithFTPDialog(final Activity ctx) {
-    String msg = ctx.getClass() == MyExpenses.class ? (ctx.getString(R.string.version_32_upgrade_info) + " ") : "";
     return new AlertDialog.Builder(ctx)
-    .setMessage(msg + ctx.getString(R.string.no_app_handling_ftp_available))
+    .setMessage(R.string.no_app_handling_ftp_available)
     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
          public void onClick(DialogInterface dialog, int id) {
            ctx.dismissDialog(R.id.FTP_DIALOG);
-           if (ctx.getClass() == MyExpenses.class)
-             ctx.showDialog(R.id.VERSION_DIALOG);
            Intent intent = new Intent(Intent.ACTION_VIEW);
            intent.setData(Uri.parse("market://details?id=org.totschnig.sendwithftp"));
            if (Utils.isIntentAvailable(ctx,intent)) {
@@ -68,8 +65,6 @@ public class DialogUtils {
     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
       public void onClick(DialogInterface dialog, int id) {
         ctx.dismissDialog(R.id.FTP_DIALOG);
-        if (ctx.getClass() == MyExpenses.class)
-          ctx.showDialog(R.id.VERSION_DIALOG);
       }
     }).create();
   }
