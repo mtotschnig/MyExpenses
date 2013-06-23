@@ -34,11 +34,10 @@ public class MessageDialogFragment  extends DialogFragment {
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
-    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-    alertDialogBuilder.setTitle(bundle.getInt("title"));
-    alertDialogBuilder.setMessage(bundle.getCharSequence("message"));
-    //null should be your on click listener
-    alertDialogBuilder.setNegativeButton(bundle.getInt("noButton"), new DialogInterface.OnClickListener() {
+    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity())
+      .setTitle(bundle.getInt("title"))
+      .setMessage(bundle.getCharSequence("message"))
+      .setNegativeButton(bundle.getInt("noButton"), new DialogInterface.OnClickListener() {
 
       @Override
       public void onClick(DialogInterface dialog, int which) {

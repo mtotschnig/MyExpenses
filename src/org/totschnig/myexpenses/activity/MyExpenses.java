@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
@@ -440,7 +441,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       if (!MyApplication.getInstance().isContribEnabled) {
         nextReminder = mSettings.getLong("nextReminderContrib",TRESHOLD_REMIND_CONTRIB);
         if (nextReminder != -1 && transactionCount >= nextReminder) {
-          showDialogWrapper(R.id.REMIND_CONTRIB_DIALOG);
+          showContribInfoDialog(true);
           return;
         }
       }
@@ -528,39 +529,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     View view;
     TextView tv;
     switch (id) {
-    case R.id.REMIND_CONTRIB_DIALOG:
-    case R.id.CONTRIB_INFO_DIALOG:
-      boolean already_contrib = MyApplication.getInstance().isContribEnabled;
-      boolean cancelable = true;
-      li = LayoutInflater.from(this);
-      view = li.inflate(R.layout.messagedialog, null);
-      tv = (TextView)view.findViewById(R.id.message_text);
-      tv.setText(already_contrib ? R.string.dialog_contrib_thanks : R.string.dialog_contrib_text);
-      if (already_contrib) {
-        DialogUtils.setDialogOneButton(view,
-            android.R.string.ok,0,null
-        );
-        tv.setText(R.string.dialog_contrib_thanks);
-      } else {
-        if (id == R.id.REMIND_CONTRIB_DIALOG) {
-          DialogUtils.setDialogThreeButtons(view,
-          R.string.dialog_remind_no,R.id.REMIND_NO_COMMAND,"Contrib",
-          R.string.dialog_remind_later,R.id.REMIND_LATER_COMMAND,"Contrib",
-          R.string.dialog_contrib_yes,R.id.CONTRIB_PLAY_COMMAND,null);
-          cancelable = false;
-        } else {
-          DialogUtils.setDialogTwoButtons(view,
-              R.string.dialog_contrib_no,0,null,
-              R.string.dialog_contrib_yes,R.id.CONTRIB_PLAY_COMMAND,null);
-        }
-        tv.setText(Html.fromHtml(getString(R.string.dialog_contrib_text,Utils.getContribFeatureLabelsAsFormattedList(this))));
-      }
-      tv.setMovementMethod(LinkMovementMethod.getInstance());
-      return new AlertDialog.Builder(this)
-        .setTitle(R.string.menu_contrib)
-        .setView(view)
-        .setCancelable(cancelable)
-        .create();
     case R.id.CONFIRM_RESTORE_DIALOG:
       li = LayoutInflater.from(this);
       view = li.inflate(R.layout.messagedialog, null);
@@ -827,7 +795,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       startActivity(i);
       break;
     case R.id.CONTRIB_COMMAND:
-      showDialogWrapper(R.id.CONTRIB_INFO_DIALOG);
+      showContribInfoDialog(false);
       break;
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
@@ -1065,6 +1033,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public void showHelpDialog() {
     HelpDialogFragment.newInstance(getVersionInfo())
       .show(getSupportFragmentManager(),"HELP");
+  }
+  public void showContribInfoDialog(boolean reminderP) {
+    ContribInfoDialogFragment.newInstance(reminderP).show(getSupportFragmentManager(),"CONTRIB_INFO");
   }
   @Override
   public void onFinishEditDialog(Bundle args) {
