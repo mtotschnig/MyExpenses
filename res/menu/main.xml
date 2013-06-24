@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+  <item
+		android:id="@id/INSERT_TA_COMMAND"
+		android:icon="@android:drawable/ic_menu_add"
+		android:showAsAction="always"
+		android:title="@string/menu_new">
+	</item>
+  <item
+    android:id="@id/INSERT_TRANSFER_COMMAND"
+    android:icon="@drawable/ic_menu_forward"
+    android:showAsAction="ifRoom"
+    android:title="@string/transfer">
+    </item>
+  <item
+  	android:id="@+id/itemTemplates"
+  	android:icon="@drawable/ic_menu_slideshow"
+  	android:showAsAction="ifRoom"
+  	android:title="@string/pref_manage_templates_title">
+  </item>
+  <item
+		android:id="@id/RESET_ACCOUNT_COMMAND"
+		android:icon="@android:drawable/ic_menu_revert"
+		android:showAsAction="always"
+		android:title="@string/menu_reset">
+	</item>
+		<item
+		android:id="@id/HELP_COMMAND"
+    android:icon="@android:drawable/ic_menu_help"
+    android:showAsAction="ifRoom"
+		android:title="@string/menu_help">
+		        </item>
+   <item
+    android:id="@id/SETTINGS_COMMAND"
+    android:icon="@android:drawable/ic_menu_preferences"
+    android:showAsAction="ifRoom"
+    android:title="@string/menu_settings">
+</item>
+</menu>

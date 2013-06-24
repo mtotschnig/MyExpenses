@@ -56,8 +56,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -68,6 +72,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;  
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -87,7 +92,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class MyExpenses extends ProtectedFragmentActivity implements
     OnClickListener,OnLongClickListener, OnSharedPreferenceChangeListener, 
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
-    EditTextDialogListener {
+    EditTextDialogListener, OnNavigationListener {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_PREF=2;
   public static final int ACTIVITY_CREATE_ACCOUNT=3;
@@ -183,7 +188,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     Bundle extras = getIntent().getExtras();
     if (extras != null && extras.getBoolean("refresh_contrib",false))
       MyApplication.getInstance().refreshContribEnabled();
-    setTheme(MyApplication.getThemeIdNoTitle());
+    setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     //boolean titled = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     setContentView(R.layout.viewpager);
@@ -218,15 +223,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     myPager.setOnPageChangeListener(this);
     myPager.setPageMargin(10);
     myPager.setPageMarginDrawable(margin.resourceId);
-    if (mCurrentAccount == null) {
-      long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
-      try {
-        setCurrentAccount(Account.getInstanceFromDb(account_id));
-      } catch (DataObjectNotFoundException e) {
-        //for any reason the account stored in pref no longer exists
-        setCurrentAccount(requireAccount());
-      }
-    }
     getSupportLoaderManager().initLoader(0, null, this);
   }
   private void moveToNextAccount() {
@@ -253,21 +249,28 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     onPageSelected(currentPosition);
   }
   private void fillSwitchButton() {
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setDisplayShowTitleEnabled(false);
+    actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setDisplayUseLogoEnabled(true);
+    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+    SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+        getSupportActionBar().getThemedContext(),
+        R.layout.sherlock_spinner_item, mAccountsCursor, new String[] {KEY_LABEL}, new int[] {android.R.id.text1});
+    adapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+    actionBar.setListNavigationCallbacks(adapter, this);
     mSwitchButton.clearMenu();
-    final Cursor otherAccounts = getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
-        new String[] {KEY_ROWID, "label"}, KEY_ROWID + " != " + mCurrentAccount.id, null,null);
-    if(otherAccounts.moveToFirst()){
-      for (int i = 0; i < otherAccounts.getCount(); i++) {
+    mAccountsCursor.moveToFirst();
+    for (int i = 0; i < mAccountsCursor.getCount(); i++) {
+      if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID)) != mCurrentAccount.id )
         mSwitchButton.addItem(
-            otherAccounts.getString(otherAccounts.getColumnIndex("label")),
+            mAccountsCursor.getString(mAccountsCursor.getColumnIndex("label")),
             R.id.SWITCH_ACCOUNT_COMMAND,
-            otherAccounts.getLong(otherAccounts.getColumnIndex(KEY_ROWID)));
-        otherAccounts.moveToNext();
-      }
+            mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID)));
+      mAccountsCursor.moveToNext();
     }
     mSwitchButton.addItem(R.string.menu_accounts_new,R.id.CREATE_ACCOUNT_COMMAND);
     mSwitchButton.addItem(R.string.menu_accounts_summary,R.id.ACCOUNT_OVERVIEW_COMMAND);
-    otherAccounts.close();
   }
   private void fillAddButton() {
     mAddButton.clearMenu();
@@ -366,38 +369,22 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    menu.findItem(R.id.SWITCH_ACCOUNT_COMMAND)
-      .setVisible(Account.count(null, null) > 1);
-    menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
+/*    menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
       .setVisible(transfersEnabledP());
     menu.findItem(R.id.RESET_ACCOUNT_COMMAND)
       .setVisible(mCurrentAccount.getSize() > 0);
-    menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
-      .setVisible(Template.countPerAccount(mCurrentAccount.id) > 0);
+    menu.findItem(R.id.itemTemplates)
+      .setVisible(Template.countPerAccount(mCurrentAccount.id) > 0);*/
     return true;
   }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    super.onCreateOptionsMenu(menu);
-    //numeric shortcuts are used from Monkeyrunner
-    menu.add(0, R.id.INSERT_TA_COMMAND, 0, R.string.menu_create_transaction)
-        .setIcon(android.R.drawable.ic_menu_add);
-    menu.add(0, R.id.INSERT_TRANSFER_COMMAND, 0, R.string.menu_create_transfer)
-        .setIcon(android.R.drawable.ic_menu_add);
-    menu.add(0, R.id.NEW_FROM_TEMPLATE_COMMAND, 0, R.string.menu_new_from_template)
-        .setIcon(android.R.drawable.ic_menu_add);
-    menu.add(0, R.id.RESET_ACCOUNT_COMMAND,1,R.string.menu_reset)
-        .setIcon(android.R.drawable.ic_menu_revert);
-    menu.add(0, R.id.HELP_COMMAND,1,R.string.menu_help)
-        .setIcon(android.R.drawable.ic_menu_help);
-    menu.add(0, R.id.SWITCH_ACCOUNT_COMMAND,1,R.string.menu_change_account)
-        .setIcon(R.drawable.ic_menu_goto);
-    menu.add(0,R.id.SETTINGS_COMMAND,1,R.string.menu_settings)
-        .setIcon(android.R.drawable.ic_menu_preferences);
+    MenuInflater inflater = getSupportMenuInflater();
+    inflater.inflate(R.menu.main, menu);
     return true;
   }
-  
+  @Override
   public boolean onMenuItemSelected(int featureId, MenuItem item) {
     if (dispatchCommand(item.getItemId(),null))
       return true;
@@ -451,7 +438,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
 
   @Override
-  public boolean onContextItemSelected(MenuItem item) {
+  public boolean onContextItemSelected(android.view.MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     Transaction t;
     switch(item.getItemId()) {
@@ -504,13 +491,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     return super.onContextItemSelected(item);
   }
 
-  /**
-   * @param id we store the dialog id, so that we can dismiss it in our generic button handler
-   */
-  public void showDialogWrapper(int id) {
-    mCurrentDialog = id;
-    showDialog(id);
-  }
   @Override
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
@@ -945,6 +925,15 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
     myAdapter.swapCursor(cursor);
     mAccountsCursor = cursor;
+    if (mCurrentAccount == null) {
+      long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
+      try {
+        setCurrentAccount(Account.getInstanceFromDb(account_id));
+      } catch (DataObjectNotFoundException e) {
+        //for any reason the account stored in pref no longer exists
+        setCurrentAccount(requireAccount());
+      }
+    }
     moveToAccount(mCurrentAccount.id);
   }
   @Override
@@ -977,5 +966,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
     }
     fillAddButton();
+  }
+  @Override
+  public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+    switchAccount(itemId);
+    return true;
   }
 }

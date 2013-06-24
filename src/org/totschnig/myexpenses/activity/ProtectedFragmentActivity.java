@@ -24,6 +24,8 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
@@ -31,7 +33,7 @@ import android.text.Html;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 
-public abstract class ProtectedFragmentActivity extends FragmentActivity implements MessageDialogListener {
+public abstract class ProtectedFragmentActivity extends SherlockFragmentActivity implements MessageDialogListener {
   private Dialog pwDialog;
   @Override
   protected void onPause() {

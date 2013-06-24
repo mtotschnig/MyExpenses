@@ -11,6 +11,8 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.actionbarsherlock.app.SherlockFragment;
+
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -35,7 +37,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 //TODO: consider moving to ListFragment
-public class TransactionList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class TransactionList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   long accountId;
   SimpleCursorAdapter mAdapter;
   private int colorExpense;

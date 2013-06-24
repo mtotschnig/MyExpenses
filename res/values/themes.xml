@@ -16,10 +16,10 @@
  -->
 <resources>
 	<style name="Translucent.NoTitleBar" parent="@android:style/Theme.Translucent.NoTitleBar"/>
-	<style name="BaseDark" parent="@android:style/Theme.Black">
+	<style name="BaseDark" parent="Theme.Sherlock">
 		
   </style>
-  <style name="BaseLight" parent="@android:style/Theme.Light">
+  <style name="BaseLight" parent="Theme.Sherlock.Light">
     
   </style>
   <style name="ThemeDark" parent="BaseDark">
