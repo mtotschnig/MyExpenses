@@ -132,7 +132,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private MenuButton mResetButton;
   private MenuButton mSettingsButton;
   private MenuButton mHelpButton;
-  private boolean mUseStandardMenu;
   private boolean scheduledRestart = false;
 
   /**
@@ -206,13 +205,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   private void setup() {
     newVersionCheck();
-    mUseStandardMenu = mSettings.getBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU, false);
     mButtonBar = (ButtonBar) findViewById(R.id.ButtonBar);
-    if (mUseStandardMenu) {
-      hideButtonBar();
-    } else {
-      fillButtons();
-    }
+    fillButtons();
     mSettings.registerOnSharedPreferenceChangeListener(this);
 
     Resources.Theme theme = getTheme();
@@ -358,11 +352,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   
   private void configButtons() {
-    if (!mUseStandardMenu) {
       mResetButton.setEnabled(mCurrentAccount.getSize() > 0);
       fillSwitchButton();
       fillAddButton();
-    }
   }
   
   /* (non-Javadoc)
@@ -373,8 +365,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
 */
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
-    if (!mUseStandardMenu)
-      return false;
     super.onPrepareOptionsMenu(menu);
     menu.findItem(R.id.SWITCH_ACCOUNT_COMMAND)
       .setVisible(Account.count(null, null) > 1);
@@ -838,11 +828,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         Toast.makeText(getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
       }
       break;
-    case R.id.USE_STANDARD_MENU_COMMAND:
-      mUseStandardMenu = true;
-      mSettings.edit().putBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU,true).commit();
-      hideButtonBar();
-      break;
     case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
       if ((Boolean) tag) {
         if (MyApplication.backupRestore()) {
@@ -900,20 +885,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
-    if (key.equals(MyApplication.PREFKEY_USE_STANDARD_MENU)) {
-      boolean newValueB = mSettings.getBoolean(MyApplication.PREFKEY_USE_STANDARD_MENU, false);
-      if (newValueB != mUseStandardMenu) {
-        if (newValueB)
-          hideButtonBar();
-        else {
-          showButtonBar();
-          if (!mButtonBarIsFilled)
-            fillButtons();
-            fillSwitchButton();
-        }
-      }
-      mUseStandardMenu = newValueB;
-    }
     if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
       scheduledRestart = true;
     }

@@ -32,7 +32,6 @@
     <item type="id" name="SHOW_DETAIL_COMMAND"/>
     <item type="id" name="CREATE_TEMPLATE_COMMAND"/>
     <item type="id" name="MOVE_TRANSACTION_COMMAND"/>
-    <item type="id" name="USE_STANDARD_MENU_COMMAND"/>
     <item type="id" name="FTP_DIALOG"/>
     <item type="id" name="NEW_FROM_TEMPLATE_COMMAND"/>
     <item type="id" name="CONTRIB_COMMAND"/>
