@@ -101,7 +101,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
   
-  static final int TRESHOLD_REMIND_RATE = 2;
+  static final int TRESHOLD_REMIND_RATE = 47;
   static final int TRESHOLD_REMIND_CONTRIB = 113;
   
   private ArrayList<Action> mMoreItems;
