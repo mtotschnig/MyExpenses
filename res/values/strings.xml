@@ -90,6 +90,7 @@
   <string name="dialog_security_answer">Answer</string>
   <string name="dialog_title_contrib_feature">Premium feature</string>
   <string name="dialog_title_menu_accounts_explain">Accounts button</string>
+  <string name="dialog_title_restore_on_install">Backup detected</string>
   <string name="dialog_title_select_account">Pick an account</string>
   <string name="dialog_title_select_color">Pick a color</string>
   <string name="dialog_title_select_import_source">Pick a source for import</string>
