@@ -25,9 +25,11 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import android.view.ContextMenu;
@@ -146,7 +148,10 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     return true;
   }
   private void configButtons () {
-    mAggregateButton.setVisibility(View.VISIBLE);
+    Cursor c = getContentResolver().query(TransactionProvider.AGGREGATES_URI.buildUpon().appendPath("count").build(),
+        null, null, null, null);
+    mAggregateButton.setVisibility(c.getCount()>0 ? View.VISIBLE : View.GONE);
+    c.close();
     //mAggregateButton.setVisibility(mCurrencyCursor.getCount() > 0 ? View.VISIBLE : View.GONE);
     mResetAllButton.setVisibility(Transaction.countAll() > 0 ? View.VISIBLE : View.GONE);
   }
