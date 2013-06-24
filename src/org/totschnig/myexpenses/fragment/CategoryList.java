@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +87,17 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
       bundle.putLong("parent_id", parentId);
       int groupPos = groupCursor.getPosition();
       if (mManager.getLoader(groupPos) != null && !mManager.getLoader(groupPos).isReset()) {
-          mManager.restartLoader(groupPos, bundle, CategoryList.this);
+          try {
+            mManager.restartLoader(groupPos, bundle, CategoryList.this);
+          } catch (NullPointerException e) {
+            // a NPE is thrown in the following scenario:
+            //1)open a group
+            //2)orientation change
+            //3)open the same group again
+            //in this scenario getChildrenCursor is called twice, second time leads to error
+            //maybe it is trying to close the group that had been kept open before the orientation change
+            e.printStackTrace();
+          }
       }
       else {
           mManager.initLoader(groupPos, bundle, CategoryList.this);
@@ -123,7 +134,17 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
   }
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
-    if (loader.getId() == -1)
+    int id = loader.getId();
+    if (id != -1) {
+        // child cursor
+        try {
+            mAdapter.setChildrenCursor(id, null);
+        } catch (NullPointerException e) {
+            Log.w("TAG", "Adapter expired, try again on the next query: "
+                    + e.getMessage());
+        }
+    } else {
       mAdapter.setGroupCursor(null);
+    }
   }
 }
