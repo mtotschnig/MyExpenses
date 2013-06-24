@@ -27,18 +27,19 @@
       <item name="android:background">@drawable/border</item>
       <item name="android:cacheColorHint">#CCCCCC</item>
   </style>
-  <style name="headingStyle">
-    <item name="android:textStyle">bold</item>
-  	<item name="android:gravity">center</item>
+  <style name="headingStyle" parent="android:Widget.Holo.Light.TextView">
     <item name="android:layout_width">fill_parent</item>
     <item name="android:layout_height">wrap_content</item>
-    <item name="android:textSize">17sp</item>
-    <item name="android:paddingRight">7dp</item>
-    <item name="android:paddingLeft">7dp</item>
+           <item name="android:drawableBottom">@drawable/section_header</item>
+       <item name="android:drawablePadding">4dp</item>
+       <item name="android:layout_marginTop">8dp</item>
+       <item name="android:paddingLeft">4dp</item>
+       <!-- <item name="android:textAllCaps">true</item> -->
+       <item name="android:textColor">@color/emphasis</item>
+       <item name="android:textSize">14sp</item>
   </style>
   <style name="headingStyleApp" parent="headingStyle">
-  	<item name="android:background">@color/appDefault</item>
-    <item name="android:textColor">#000000</item>
+
   </style>
   <style name="headingLight" parent="headingStyle">
     <item name="android:textAppearance">@android:style/TextAppearance.WindowTitle</item>
@@ -138,11 +139,11 @@
 	        <item name="@android:windowEnterAnimation">@anim/grow_from_topleft_to_bottomright</item>
 	        <item name="@android:windowExitAnimation">@anim/shrink_from_bottomright_to_topleft</item>
 	</style>
-	<style name="PrefCat">
+<!-- 	<style name="PrefCat">
 		<item name="android:layout">@layout/preference_category</item>
 		<item name="android:shouldDisableView">false</item>
     <item name="android:selectable">false</item>
-	</style>
+	</style> -->
   <dimen name="calculator_button_large">50dp</dimen>
   <dimen name="calculator_button_small">40dp</dimen>
   <dimen name="form_padding">7dp</dimen>

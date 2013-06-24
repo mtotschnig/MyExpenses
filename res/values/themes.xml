@@ -36,7 +36,7 @@
     <item name="android:windowTitleBackgroundStyle">@style/headingStyle</item>
     <item name="android:windowTitleSize">30sp</item>
     <item name="android:windowTitleStyle">@style/titleTextStyle</item>
-    <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
+    <!-- <item name="android:preferenceCategoryStyle">@style/PrefCat</item> -->
     <item name="colorIncome">#00D000</item>
     <item name="colorExpense">#FF0000</item>
     <item name="pageMargin">@android:color/white</item>
@@ -61,7 +61,7 @@
     <item name="android:windowTitleSize">30sp</item>
     <item name="android:windowTitleStyle">@style/titleTextStyle</item>
     <item name="android:windowTitleBackgroundStyle">@style/headingLight</item>
-    <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
+    <!-- <item name="android:preferenceCategoryStyle">@style/PrefCat</item> -->
     <item name="colorIncome">#008000</item>
     <item name="colorExpense">#800000</item>
     <item name="pageMargin">@android:color/black</item>
