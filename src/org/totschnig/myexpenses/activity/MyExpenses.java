@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
@@ -76,7 +77,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -106,7 +106,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public static final String TRANSFER_EXPENSE = "=> ";
   public static final String TRANSFER_INCOME = "<= ";
   
-  static final int TRESHOLD_REMIND_RATE = 47;
+  static final int TRESHOLD_REMIND_RATE = 2;
   static final int TRESHOLD_REMIND_CONTRIB = 113;
   
   private ArrayList<Action> mMoreItems;
@@ -435,7 +435,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       long nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
       long transactionCount = Transaction.getTransactionSequence();
       if (nextReminder != -1 && transactionCount >= nextReminder) {
-        showDialogWrapper(R.id.REMIND_RATE_DIALOG);
+        new RemindRateDialogFragment().show(getSupportFragmentManager(),"REMIND_RATE");
         return;
       }
       if (!MyApplication.getInstance().isContribEnabled) {
@@ -541,20 +541,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       return new AlertDialog.Builder(this)
         .setCancelable(false)
         .setView(view)
-        .create();
-    case R.id.REMIND_RATE_DIALOG:
-      li = LayoutInflater.from(this);
-      view = li.inflate(R.layout.messagedialog, null);
-      tv = (TextView)view.findViewById(R.id.message_text);
-      tv.setText(R.string.dialog_remind_rate);
-      DialogUtils.setDialogThreeButtons(view,
-          R.string.dialog_remind_no,R.id.REMIND_NO_COMMAND,"Rate",
-          R.string.dialog_remind_later,R.id.REMIND_LATER_COMMAND,"Rate",
-          R.string.dialog_remind_rate_yes,R.id.RATE_COMMAND,null);
-      return new AlertDialog.Builder(this)
-        .setTitle(R.string.app_name)
-        .setView(view)
-        .setCancelable(false)
         .create();
     }
     return super.onCreateDialog(id);
