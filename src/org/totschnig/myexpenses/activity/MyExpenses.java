@@ -44,9 +44,6 @@ import org.totschnig.myexpenses.ui.ButtonBar.Action;
 import org.totschnig.myexpenses.ui.ButtonBar.MenuButton;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,7 +56,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,7 +64,6 @@ import android.view.View.OnLongClickListener;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;  
 import android.support.v4.view.ViewPager;

@@ -49,7 +49,7 @@ public class Category extends Model {
   /**
    * Updates the label for category
    * @param label
-   * @param cat_id
+   * @param id
    * @return number of rows affected, or -1 if unique constraint is violated
    */
   public static int update(String label, long id) {

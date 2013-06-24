@@ -34,8 +34,9 @@ public class EditTextDialog extends DialogFragment implements OnEditorActionList
  @Override
  public View onCreateView(LayoutInflater inflater, ViewGroup container,
          Bundle savedInstanceState) {
+     Bundle args = getArguments();
      mEditText = new EditText(getActivity());
-     getDialog().setTitle(getArguments().getString("dialogTitle"));
+     getDialog().setTitle(args.getString("dialogTitle"));
      // Show soft keyboard automatically
      mEditText.setInputType(InputType.TYPE_CLASS_TEXT);
      mEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -44,6 +45,7 @@ public class EditTextDialog extends DialogFragment implements OnEditorActionList
              LayoutParams.SOFT_INPUT_STATE_VISIBLE);
      mEditText.setOnEditorActionListener(this);
      mEditText.setId(1);
+     mEditText.setText(args.getString("value"));
      //input.setSingleLine();
      return mEditText;
  }
