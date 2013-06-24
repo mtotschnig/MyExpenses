@@ -7,25 +7,63 @@ import org.totschnig.myexpenses.MyApplication;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-public class MessageDialogFragment  extends DialogFragment {
+public class MessageDialogFragment extends DialogFragment implements OnClickListener {
 
-  public static final MessageDialogFragment newInstance(int title, int message, int command, Serializable tag) {
-    return newInstance(title, MyApplication.getInstance().getString(message), command, tag, android.R.string.yes, android.R.string.no);
+  public static final MessageDialogFragment newInstance(
+      int title,
+      int message,
+      int yesCommand,
+      Serializable yesTag) {
+    return newInstance(title, message,yesCommand, yesTag, 0,null);
   }
-  public static final MessageDialogFragment newInstance(int title, CharSequence message, int command, Serializable tag) {
-    return newInstance(title, message, command, tag, android.R.string.yes, android.R.string.no);
+  public static final MessageDialogFragment newInstance(
+      int title,
+      int message,
+      int yesCommand,
+      Serializable yesTag,
+      int noCommand,
+      Serializable noTag) {
+    return newInstance(title, MyApplication.getInstance().getString(message),
+        yesCommand, yesTag, android.R.string.yes, noCommand, noTag, android.R.string.no);
   }
-  public static final MessageDialogFragment newInstance(int title, CharSequence message, int command, Serializable tag,
-      int yesButton, int noButton) {
+  public static final MessageDialogFragment newInstance(
+      int title,
+      CharSequence message,
+      int yesCommand,
+      Serializable yesTag) {
+    return newInstance(title, message, yesCommand, yesTag,
+        android.R.string.yes, android.R.string.no);
+  }
+  public static final MessageDialogFragment newInstance(
+      int title,
+      CharSequence message,
+      int yesCommand,
+      Serializable yesTag,
+      int yesButton,
+      int noButton) {
+    return newInstance(title,message,yesCommand,yesTag,yesButton,0,null,noButton);
+  }
+  public static final MessageDialogFragment newInstance(
+      int title,
+      CharSequence message,
+      int yesCommand,
+      Serializable yesTag,
+      int yesButton,
+      int noCommand,
+      Serializable noTag,
+      int noButton) {
     MessageDialogFragment dialogFragment = new MessageDialogFragment();
     Bundle bundle = new Bundle();
     bundle.putInt("title", title);
     bundle.putCharSequence("message", message);
-    bundle.putInt("command", command);
-    bundle.putSerializable("tag", tag);
+    bundle.putInt("yesCommand", yesCommand);
+    bundle.putInt("noCommand", noCommand);
+    bundle.putSerializable("yesTag", yesTag);
+    bundle.putSerializable("noTag", noTag);
     bundle.putInt("yesButton",yesButton);
     bundle.putInt("noButton",noButton);
     dialogFragment.setArguments(bundle);
@@ -34,34 +72,34 @@ public class MessageDialogFragment  extends DialogFragment {
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
-    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity())
+    return new AlertDialog.Builder(getActivity())
       .setTitle(bundle.getInt("title"))
       .setMessage(bundle.getCharSequence("message"))
-      .setNegativeButton(bundle.getInt("noButton"), new DialogInterface.OnClickListener() {
-
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        onCancel(dialog);
-      }
-    });
-      alertDialogBuilder.setPositiveButton(bundle.getInt("yesButton"), new DialogInterface.OnClickListener() {
-
-          @Override
-          public void onClick(DialogInterface dialog, int which) {
-              //dialog.dismiss();
-              if (which == AlertDialog.BUTTON_POSITIVE)
-                ((MessageDialogListener) getActivity())
-                .dispatchCommand(bundle.getInt("command"), bundle.getSerializable("tag"));
-          }
-      });
-      return alertDialogBuilder.create();
+      .setNegativeButton(bundle.getInt("noButton"),this)
+      .setPositiveButton(bundle.getInt("yesButton"),this)
+      .create();
   }
   public void onCancel (DialogInterface dialog) {
-    ((MessageDialogListener) getActivity()).cancelDialog();
+    Bundle bundle = getArguments();
+    int noCommand = bundle.getInt("noCommand");
+    if (noCommand != 0)
+      ((MessageDialogListener) getActivity())
+        .dispatchCommand(noCommand, bundle.getSerializable("noTag"));
+    else
+      ((MessageDialogListener) getActivity()).cancelDialog();
+  }
+  @Override
+  public void onClick(DialogInterface dialog, int which) {
+    Bundle bundle = getArguments();
+    if (which == AlertDialog.BUTTON_POSITIVE)
+      ((MessageDialogListener) getActivity())
+      .dispatchCommand(bundle.getInt("yesCommand"), bundle.getSerializable("yesTag"));
+    else {
+      onCancel(dialog);
+    }
   }
   public interface MessageDialogListener {
     boolean dispatchCommand(int command, Object tag);
-
     void cancelDialog();
-}
+  }
 }

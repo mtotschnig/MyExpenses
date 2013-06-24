@@ -199,7 +199,11 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     mSettings = MyApplication.getInstance().getSettings();
     if (mSettings.getInt("currentversion", -1) == -1) {
       if (MyApplication.backupExists()) {
-        showDialogWrapper(R.id.CONFIRM_RESTORE_DIALOG);
+        MessageDialogFragment.newInstance(R.string.dialog_title_restore_on_install,
+            R.string.dialog_confirm_restore_on_install,
+            R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true),
+            R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(false))
+            .show(getSupportFragmentManager(),"RESTORE_ON_INSTALL");
         return;
       }
     }
@@ -522,31 +526,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     mCurrentDialog = id;
     showDialog(id);
   }
-
-  @Override
-  protected Dialog onCreateDialog(final int id) {
-    LayoutInflater li;
-    View view;
-    TextView tv;
-    switch (id) {
-    case R.id.CONFIRM_RESTORE_DIALOG:
-      li = LayoutInflater.from(this);
-      view = li.inflate(R.layout.messagedialog, null);
-      tv = (TextView)view.findViewById(R.id.message_text);
-      tv.setText(R.string.dialog_confirm_restore_on_install);
-      DialogUtils.setDialogTwoButtons(view,
-          android.R.string.yes,R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true),
-          android.R.string.no,R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(false)
-      );
-      return new AlertDialog.Builder(this)
-        .setCancelable(false)
-        .setView(view)
-        .create();
-    }
-    return super.onCreateDialog(id);
-  }
-
-
   @Override
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
