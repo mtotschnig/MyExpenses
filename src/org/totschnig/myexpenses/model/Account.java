@@ -316,6 +316,7 @@ public class Account extends Model {
   public static boolean delete(long id) {
     Account account = getInstanceFromDb(id);
     account.deleteAllTransactions();
+    account.deleteAllTemplates();
     accounts.remove(id);
     return cr().delete(TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null) > 0;
   }
@@ -428,6 +429,9 @@ public class Account extends Model {
     cr().update(TransactionProvider.TRANSACTIONS_URI, args,
         KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
     cr().delete(TransactionProvider.TRANSACTIONS_URI, KEY_ACCOUNTID + " = ?", selectArgs);
+  }
+  public void deleteAllTemplates() {
+    String[] selectArgs = new String[] { String.valueOf(id) };
     cr().delete(TransactionProvider.TEMPLATES_URI, KEY_ACCOUNTID + " = ?", selectArgs);
     cr().delete(TransactionProvider.TEMPLATES_URI, KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
   }
