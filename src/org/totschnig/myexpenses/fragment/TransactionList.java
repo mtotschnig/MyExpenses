@@ -45,7 +45,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   private MyObserver observer;
   private TextView balanceTv,labelTv;
   View heading;
-  private Account account;
+  private Account mAccount;
 
   public static TransactionList newInstance(long accountId) {
     
@@ -59,7 +59,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       accountId = getArguments().getLong("account_id");
-      account = Account.getInstanceFromDb(getArguments().getLong("account_id"));
+      mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
       observer = new MyObserver(new Handler());
       ContentResolver cr= getActivity().getContentResolver(); 
       cr.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, true,observer);
@@ -122,7 +122,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
           text = Utils.convDate(text,dateFormat);
           break;
         case R.id.amount:
-          text = Utils.convAmount(text,account.currency);
+          text = Utils.convAmount(text,mAccount.currency);
         }
         super.setViewText(v, text);
       }
@@ -187,14 +187,14 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
 
   private void updateTitleView() {
     if (heading != null)
-      heading.setBackgroundColor(account.color);
-    int textColor = Utils.getTextColorForBackground(account.color);
+      heading.setBackgroundColor(mAccount.color);
+    int textColor = Utils.getTextColorForBackground(mAccount.color);
     if (labelTv != null) {
-      labelTv.setText(account.label);
+      labelTv.setText(mAccount.label);
       labelTv.setTextColor(textColor);
     }
     if (balanceTv != null) {
-      balanceTv.setText(Utils.formatCurrency(account.getCurrentBalance()));
+      balanceTv.setText(Utils.formatCurrency(mAccount.getCurrentBalance()));
       balanceTv.setTextColor(textColor);
     }
   }
