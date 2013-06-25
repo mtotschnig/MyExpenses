@@ -64,10 +64,6 @@
         android:summary="@string/pref_currency_decimal_separator_summary"
         android:entries="@array/pref_currency_decimal_separator_entries"
         android:entryValues="@array/pref_currency_decimal_separator_values"/>
-    <CheckBoxPreference android:key="@string/pref_account_button_behaviour_key"
-        android:defaultValue="false"
-        android:title="@string/pref_account_button_behaviour_title"
-        android:summary="@string/pref_account_button_behaviour_summary" />
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/pref_category_title_import">

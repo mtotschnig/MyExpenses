@@ -62,7 +62,6 @@ import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.SubMenu;
 
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -216,13 +215,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     mManager= getSupportLoaderManager();
     mManager.initLoader(-1, null, this);
   }
-  private void moveToNextAccount() {
-    int currentPosition = myPager.getCurrentItem();
-    currentPosition++;
-    if (currentPosition >= myAdapter.getCount())
-      currentPosition = 0;
-    myPager.setCurrentItem(currentPosition);
-  }
   private void moveToAccount(long accountId) {
     mAccountsCursor.moveToFirst();
     int currentPosition = 0;
@@ -235,9 +227,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     //if the account we are looking for no longer exists, which can happen if it was deleted in Manage Accounts
     //we move to the first account
     myPager.setCurrentItem(currentPosition);
+    configButtons();
     //onPageSelected is not triggered by setCurrentItem, but it makes sure that
     //currentaccount is set correctly
-    onPageSelected(currentPosition);
+    //onPageSelected(currentPosition);
   }
   private void fillNavigation() {
     ActionBar actionBar = getSupportActionBar();
@@ -267,27 +260,11 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     adapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
     actionBar.setListNavigationCallbacks(adapter, this);
   }
-  private void fillTemplates(Cursor cursor) {
-    SubMenu templatesMenu = mTemplateItem.getSubMenu();
-    templatesMenu.clear();
-    if(cursor.moveToFirst()) {
-      mTemplateItem.setVisible(true);
-      for (int i = 0; i < cursor.getCount(); i++) {
-        templatesMenu.add(
-            R.id.NEW_FROM_TEMPLATE_COMMAND,
-            cursor.getInt(cursor.getColumnIndex(KEY_ROWID)),
-           Menu.NONE,
-           cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
-        cursor.moveToNext();
-      }
-    } else {
-      mTemplateItem.setVisible(false);
-    }
-  }
   
   private void configButtons() {
       mResetItem.setVisible(mCurrentAccount.getSize() > 0);
       mTransferItem.setVisible(Account.countPerCurrency(mCurrentAccount.currency) > 1);
+      mTemplateItem.setVisible(Template.countPerAccount(mCurrentAccount.id) > 0);
   }
   
   /* (non-Javadoc)
@@ -312,7 +289,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getSupportMenuInflater();
     inflater.inflate(R.menu.main, menu);
-    mTemplateItem = menu.findItem(R.id.itemTemplates);
+    mTemplateItem = menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND);
     mResetItem = menu.findItem(R.id.RESET_ACCOUNT_COMMAND);
     mTransferItem = menu.findItem(R.id.INSERT_TRANSFER_COMMAND);
     return true;
@@ -336,10 +313,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == ACTIVITY_CREATE_ACCOUNT && resultCode == RESULT_OK && intent != null) {
-      //we cannot use switchaccount yet, since the cursor has not yet been swapped yet
+      //we cannot use moveToaccount yet, since the cursor has not yet been swapped yet
       setCurrentAccount(Account.getInstanceFromDb(intent.getLongExtra("account_id",0)));
     }
-    updateUIforCurrentAccount();
+    configButtons();
     if (requestCode == ACTIVITY_EDIT && resultCode == RESULT_OK) {
       long nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
       long transactionCount = Transaction.getTransactionSequence();
@@ -453,29 +430,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     i.putExtra(KEY_ACCOUNTID,mCurrentAccount.id);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
-
-  private void switchAccount(long accountId) {
-    //TODO: write a test if the case where the account stored in last_account
-    //is deleted, is correctly handled
-    //store current account id since we need it for setting last_account in the end
-    if (accountId == 0) {
-      if (mSettings.getBoolean(MyApplication.PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR,ACCOUNT_BUTTON_CYCLE) == ACCOUNT_BUTTON_TOGGLE) {
-        //first check if we have the last_account stored
-        accountId = mSettings.getLong(MyApplication.PREFKEY_LAST_ACCOUNT, 0);
-        //if for any reason the last_account is identical to the current
-        //we ignore it
-        if (accountId == mCurrentAccount.id)
-          accountId = 0;
-      }
-    }
-    //cycle behaviour
-    if (accountId == 0) {
-      moveToNextAccount();
-    } else {
-      moveToAccount(accountId);
-    }
-  }
-  
 
   /**
    * if there are already accounts defined, return the first one
@@ -623,7 +577,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public void onDialogButtonClicked(View v) {
     onClick(v);
   }
-  public boolean dispatchLongCommand(int command, Object tag) {
+/*  public boolean dispatchLongCommand(int command, Object tag) {
     Intent i;
     switch (command) {
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
@@ -634,7 +588,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       return true;
     }
     return false;
-  }
+  }*/
   /**
    * @param command
    * @param tag
@@ -664,17 +618,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       break;
     case R.id.INSERT_TRANSFER_COMMAND:
       createRow(TYPE_TRANSFER);
-      break;
-    case R.id.SWITCH_ACCOUNT_COMMAND:
-      int accountCount = Account.count(null, null);
-      if (accountCount > 1) {
-        Long accountId = tag != null ? (Long) tag : 0;
-        switchAccount(accountId);
-      } else {
-        MessageDialogFragment.newInstance(R.string.dialog_title_menu_accounts_explain,R.string.menu_accounts_explain,R.id.CREATE_ACCOUNT_COMMAND,null)
-          .show(getSupportFragmentManager(),"ACCOUNTS_BUTTON_EXPLAIN");
-          
-      }
       break;
     case R.id.CREATE_ACCOUNT_COMMAND:
       i = new Intent(MyExpenses.this, AccountEdit.class);
@@ -726,9 +669,14 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       showHelpDialog();
       break;
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
-      Transaction.getInstanceFromTemplate((Long) tag).save();
-      //myAdapter.notifyDataSetChanged();
-      configButtons();
+      Bundle args = new Bundle();
+      args.putInt("id", R.id.NEW_FROM_TEMPLATE_COMMAND);
+      args.putParcelable("uri",TransactionProvider.TEMPLATES_URI);
+      args.putString("dialogTitle",getString(R.string.dialog_title_select_template));
+      args.putString("selection",KEY_ACCOUNTID + " = " + mCurrentAccount.id);
+      args.putString("column", KEY_TITLE);
+      SelectFromUriDialogFragment.newInstance(args)
+        .show(getSupportFragmentManager(), "SELECT_TEMPLATE");
       break;
     case R.id.RATE_COMMAND:
       mSettings.edit().putLong("nextReminderRate", -1).commit();
@@ -800,19 +748,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     mAccountsCursor.moveToPosition(position);
     long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
     setCurrentAccount(Account.getInstanceFromDb(accountId));
-    updateUIforCurrentAccount();
     getSupportActionBar().setSelectedNavigationItem(position);
-    Bundle bundle = new Bundle();
-    bundle.putLong(KEY_ACCOUNTID, accountId);
-    if (mManager.getLoader(position) != null && !mManager.getLoader(position).isReset()) {
-      mManager.restartLoader(position, bundle, this);
-    }
-    else {
-      mManager.initLoader(position, bundle, this);
-    }
-  }
-  public void updateUIforCurrentAccount() {
-    configButtons();
   }
   @Override
   public void contribFeatureCalled(Feature feature) {
@@ -826,14 +762,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     // TODO specify columns
     String[] projection = null;
-    if (bundle == null) {
       return new CursorLoader(this,
           TransactionProvider.ACCOUNTS_URI, projection, null, null, null);
-    } else {
-      return new CursorLoader(this,
-          TransactionProvider.TEMPLATES_URI,projection, KEY_ACCOUNTID + " = ?",
-          new String[] {String.valueOf(bundle.getLong(KEY_ACCOUNTID))},KEY_USAGES);
-    }
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
@@ -850,8 +780,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         }
       }
       fillNavigation();
-    } else {
-      fillTemplates(cursor);
     }
   }
   @Override
@@ -886,7 +814,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   @Override
   public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-    switchAccount(itemId);
+    moveToAccount(itemId);
     return true;
   }
   @Override
@@ -897,6 +825,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
           args.getLong("contextTransactionId"),
           args.getLong("result"));
       break;
+    case R.id.NEW_FROM_TEMPLATE_COMMAND:
+      Transaction.getInstanceFromTemplate(args.getLong("result")).save();
     }
+    configButtons();
   }
 }

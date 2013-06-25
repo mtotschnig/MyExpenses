@@ -43,12 +43,10 @@ public class MyApplication extends Application {
     private static MyApplication mSelf;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
     public static String PREFKEY_CATEGORIES_SORT_BY_USAGES;
-    public static String PREFKEY_USE_STANDARD_MENU;
     public static String PREFKEY_PERFORM_SHARE;
     public static String PREFKEY_SHARE_TARGET;
     public static String PREFKEY_QIF_EXPORT_FILE_ENCODING;
     public static String PREFKEY_CURRENCY_DECIMAL_SEPARATOR;
-    public static String PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR;
     public static String PREFKEY_UI_THEME_KEY;
     public static String PREFKEY_CURRENT_VERSION = "currentversion";
     public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
@@ -96,11 +94,9 @@ public class MyApplication extends Application {
         }
 
         PREFKEY_CATEGORIES_SORT_BY_USAGES = getString(R.string.pref_categories_sort_by_usages_key);
-        PREFKEY_USE_STANDARD_MENU = getString(R.string.pref_use_standard_menu_key);
         PREFKEY_PERFORM_SHARE = getString(R.string.pref_perform_share_key);
         PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
         PREFKEY_CURRENCY_DECIMAL_SEPARATOR = getString(R.string.pref_currency_decimal_separator_key);
-        PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR = getString(R.string.pref_account_button_behaviour_key);
         PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
         PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
         PREFKEY_BACKUP = getString(R.string.pref_backup_key);

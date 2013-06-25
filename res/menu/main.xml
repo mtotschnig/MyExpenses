@@ -13,11 +13,10 @@
     android:title="@string/transfer">
   </item>
   <item
-    android:id="@+id/itemTemplates"
+    android:id="@id/NEW_FROM_TEMPLATE_COMMAND"
     android:icon="@drawable/ic_menu_slideshow"
     android:showAsAction="ifRoom"
     android:title="@string/pref_manage_templates_title">
-    <menu/>
   </item>
   <item
     android:id="@id/RESET_ACCOUNT_COMMAND"
