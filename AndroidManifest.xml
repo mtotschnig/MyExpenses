@@ -27,7 +27,8 @@
                   android:xlargeScreens="true" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application android:name="org.totschnig.myexpenses.MyApplication" android:icon="@drawable/icon" android:label="My Expenses">
-        <activity android:name=".activity.MyExpenses" android:label="@string/app_name">
+        <activity android:name=".activity.MyExpenses" android:label="@string/app_name"
+          android:theme="@style/Theme.Sherlock">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -88,9 +89,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.CalculatorInput" android:theme="@android:style/Theme.Dialog"/>
-				<provider
-					 android:exported="false"
-				   android:name=".provider.TransactionProvider"
-				   android:authorities="org.totschnig.myexpenses" />
+        <provider
+           android:exported="false"
+           android:name=".provider.TransactionProvider"
+           android:authorities="org.totschnig.myexpenses" />
     </application>
 </manifest> 
