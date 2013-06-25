@@ -53,7 +53,18 @@ public class Transaction extends Model {
    * we store the date directly from UI to DB without creating a Date object
    */
   protected String dateAsString;
-  
+
+  public static Class getType(long id) throws DataObjectNotFoundException  {
+    String[] projection = new String[] {KEY_TRANSFER_PEER};
+    Cursor c = cr().query(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
+    if (c == null || c.getCount() == 0) {
+      throw new DataObjectNotFoundException();
+    }
+    c.moveToFirst();
+   return DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER) == null ?
+       Transaction.class : Transfer.class;
+  }
   /**
    * factory method for retrieving an instance from the db with the given id
    * @param mDbHelper
@@ -221,24 +232,32 @@ public class Transaction extends Model {
     setDate(new Date());
     return save();
   }
+  /**
+   * @param whichTransactionId
+   * @param whereAccountId
+   * 
+   */
   public static void move(long whichTransactionId, long whereAccountId) {
     ContentValues args = new ContentValues();
     args.put(KEY_ACCOUNTID, whereAccountId);
-    cr().update(Uri.parse(CONTENT_URI + "/" + whichTransactionId), args, null, null);
+    //we verify that a transfer can not be moved to the account it transfers to
+    //IS NOT instead of != accepts cases where transfer_account is null
+    cr().update(Uri.parse(CONTENT_URI + "/" + whichTransactionId), args,
+        KEY_TRANSFER_ACCOUNT + " IS NOT ?", new String[]{String.valueOf(whereAccountId)});
   }
-    public static int count(Uri uri,String selection,String[] selectionArgs) {
-      Cursor cursor = cr().query(uri,new String[] {"count(*)"},
-          selection, selectionArgs, null);
-      if (cursor.getCount() == 0) {
-        cursor.close();
-        return 0;
-      } else {
-        cursor.moveToFirst();
-        int result = cursor.getInt(0);
-        cursor.close();
-        return result;
-      }
+  public static int count(Uri uri,String selection,String[] selectionArgs) {
+    Cursor cursor = cr().query(uri,new String[] {"count(*)"},
+        selection, selectionArgs, null);
+    if (cursor.getCount() == 0) {
+      cursor.close();
+      return 0;
+    } else {
+      cursor.moveToFirst();
+      int result = cursor.getInt(0);
+      cursor.close();
+      return result;
     }
+  }
   public static int countAll(Uri uri) {
     return count(uri,null,null);
   }

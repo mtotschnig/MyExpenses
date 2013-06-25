@@ -355,12 +355,13 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
       ContextMenuInfo menuInfo) {
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
     super.onCreateContextMenu(menu, v, menuInfo);
     menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
     menu.add(0, R.id.SHOW_DETAIL_COMMAND, 0, R.string.menu_show_detail);
     menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
     menu.add(0, R.id.CLONE_TRANSACTION_COMMAND, 0, R.string.menu_clone_transaction);
-    if (Account.count(null, null) > 1) {
+    if (Account.count(null, null) > 1 && Transaction.getType(info.id).equals(Transaction.class)) {
       menu.add(0,R.id.MOVE_TRANSACTION_COMMAND,0,R.string.menu_move_transaction);
     }
   }
