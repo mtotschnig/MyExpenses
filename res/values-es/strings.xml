@@ -159,9 +159,7 @@
       - <b>Ayuda</b> : Acceso rápido a tutorial, noticias, preguntas frecuentes y cambios.\n
       \nPor favor, consulte <a href="http://myexpenses.totschnig.org/#tutorial_r4">el manual</a> para explicaciones detalladas.
   </string>
-<!--   <string name="help_whats_new">&#160;- Exportación a CSV.\n
-    - Que se declare explícitamente soporte para pantallas de gran tamaño para hacer aplicación de nuevo disponible para las tabletas en Google Play.\n
-    - Apoyo a Android 1.6.</string> -->
+  <string name="help_whats_new">&#160;- Mejoras en la estabilidad.</string>
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Información importante</string>
   <string name="income">ingreso</string>
