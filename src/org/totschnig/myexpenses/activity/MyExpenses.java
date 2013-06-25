@@ -159,7 +159,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private boolean mButtonBarIsFilled;
 
   private int mCurrentDialog = 0;
-  private MenuItem mTemplateMenu;
+  private MenuItem mTemplateItem,mResetItem;
 
 /*  private int monkey_state = 0;
 
@@ -288,9 +288,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     actionBar.setListNavigationCallbacks(adapter, this);
   }
   private void fillTemplates(Cursor cursor) {
-    SubMenu templatesMenu = mTemplateMenu.getSubMenu();
+    SubMenu templatesMenu = mTemplateItem.getSubMenu();
     templatesMenu.clear();
     if(cursor.moveToFirst()) {
+      mTemplateItem.setVisible(true);
       for (int i = 0; i < cursor.getCount(); i++) {
         templatesMenu.add(
             R.id.NEW_FROM_TEMPLATE_COMMAND,
@@ -300,7 +301,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         cursor.moveToNext();
       }
     } else {
-      mTemplateMenu.setEnabled(false);
+      mTemplateItem.setVisible(false);
     }
   }
   private void fillButtons() {
@@ -365,7 +366,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   
   private void configButtons() {
-      mResetButton.setEnabled(mCurrentAccount.getSize() > 0);
+      mResetItem.setVisible(mCurrentAccount.getSize() > 0);
   }
   
   /* (non-Javadoc)
@@ -390,7 +391,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getSupportMenuInflater();
     inflater.inflate(R.menu.main, menu);
-    mTemplateMenu = menu.findItem(R.id.itemTemplates);
+    mTemplateItem = menu.findItem(R.id.itemTemplates);
+    mResetItem = menu.findItem(R.id.RESET_ACCOUNT_COMMAND);
     return true;
   }
   @Override
