@@ -27,7 +27,8 @@ import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectAccountDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectFromUriDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectFromUriDialogFragment.SelectFromUriDialogListener;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -93,7 +94,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class MyExpenses extends ProtectedFragmentActivity implements
     OnClickListener, OnSharedPreferenceChangeListener, 
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
-    EditTextDialogListener, OnNavigationListener {
+    EditTextDialogListener, OnNavigationListener,
+    SelectFromUriDialogListener {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_PREF=2;
   public static final int ACTIVITY_CREATE_ACCOUNT=3;
@@ -142,7 +144,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
    */
   private long mDialogContextId = 0L;
 
-  private MenuItem mTemplateItem,mResetItem;
+  private MenuItem mTemplateItem,mResetItem,mTransferItem;
 
 /*  private int monkey_state = 0;
 
@@ -285,6 +287,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   
   private void configButtons() {
       mResetItem.setVisible(mCurrentAccount.getSize() > 0);
+      mTransferItem.setVisible(Account.countPerCurrency(mCurrentAccount.currency) > 1);
   }
   
   /* (non-Javadoc)
@@ -311,10 +314,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     inflater.inflate(R.menu.main, menu);
     mTemplateItem = menu.findItem(R.id.itemTemplates);
     mResetItem = menu.findItem(R.id.RESET_ACCOUNT_COMMAND);
+    mTransferItem = menu.findItem(R.id.INSERT_TRANSFER_COMMAND);
     return true;
   }
   @Override
   public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    int id = item.getItemId();
     if (dispatchCommand(item.getItemId(),null))
       return true;
     else
@@ -370,6 +375,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public boolean onContextItemSelected(android.view.MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     Transaction t;
+    Bundle args;
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
       Transaction.delete(info.id);
@@ -407,11 +413,18 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       Toast.makeText(getBaseContext(), msg != "" ? msg : getString(R.string.no_details), Toast.LENGTH_LONG).show();
       return true;
     case R.id.MOVE_TRANSACTION_COMMAND:
-      SelectAccountDialogFragment.newInstance(mCurrentAccount.id, info.id)
+      args = new Bundle();
+      args.putInt("id", R.id.MOVE_TRANSACTION_COMMAND);
+      args.putParcelable("uri",TransactionProvider.ACCOUNTS_URI);
+      args.putString("dialogTitle",getString(R.string.dialog_title_select_account));
+      args.putString("selection",KEY_ROWID + " != " + mCurrentAccount.id);
+      args.putString("column", KEY_LABEL);
+      args.putLong("contextTransactionId",info.id);
+      SelectFromUriDialogFragment.newInstance(args)
         .show(getSupportFragmentManager(), "SELECT_ACCOUNT");
       return true;
     case R.id.CREATE_TEMPLATE_COMMAND:
-      Bundle args = new Bundle();
+      args = new Bundle();
       args.putLong("transactionId", info.id);
       args.putString("dialogTitle", getString(R.string.dialog_title_template_title));
       EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "TEMPLATE_TITLE");
@@ -601,10 +614,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       Log.e("MyExpenses", "Package name not found", e);
     }
     return version;
-  }
-  
-  public boolean transfersEnabledP() {
-    return Account.countPerCurrency(mCurrentAccount.currency) > 1;
   }
   @Override
   public void onClick(View v) {
@@ -803,11 +812,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     }
   }
   public void updateUIforCurrentAccount() {
-    View divider = findViewById(R.id.ButtonBarDividerTop);
-    if (divider != null) {
-      divider.setBackgroundColor(mCurrentAccount.color);
-      findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(mCurrentAccount.color);
-    }
     configButtons();
   }
   @Override
@@ -884,5 +888,15 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public boolean onNavigationItemSelected(int itemPosition, long itemId) {
     switchAccount(itemId);
     return true;
+  }
+  @Override
+  public void onItemSelected(Bundle args) {
+    switch(args.getInt("id")) {
+    case R.id.MOVE_TRANSACTION_COMMAND:
+      Transaction.move(
+          args.getLong("contextTransactionId"),
+          args.getLong("result"));
+      break;
+    }
   }
 }
