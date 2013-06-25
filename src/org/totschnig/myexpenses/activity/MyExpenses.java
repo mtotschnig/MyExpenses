@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.activity;
 import java.util.ArrayList;
 import java.util.Currency;
 
-import org.example.qberticus.quickactions.BetterPopupWindow;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
@@ -30,7 +29,6 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
-import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
@@ -41,10 +39,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.ui.ButtonBar;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
-import org.totschnig.myexpenses.ui.ButtonBar.Action;
-import org.totschnig.myexpenses.ui.ButtonBar.MenuButton;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
@@ -70,7 +65,6 @@ import com.actionbarsherlock.view.SubMenu;
 
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -97,7 +91,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  *
  */
 public class MyExpenses extends ProtectedFragmentActivity implements
-    OnClickListener,OnLongClickListener, OnSharedPreferenceChangeListener, 
+    OnClickListener, OnSharedPreferenceChangeListener, 
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, OnNavigationListener {
   public static final int ACTIVITY_EDIT=1;
@@ -115,15 +109,13 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   
   static final int TRESHOLD_REMIND_RATE = 47;
   static final int TRESHOLD_REMIND_CONTRIB = 113;
-  
-  private ArrayList<Action> mMoreItems;
-  
+
   private LoaderManager mManager;
-  
+
   //private ExpensesDbAdapter mDbHelper;
 
   private Account mCurrentAccount;
-  
+
   private void setCurrentAccount(Account newAccount) {
     long currentAccountId = mCurrentAccount != null? mCurrentAccount.id : 0;
     this.mCurrentAccount = newAccount;
@@ -140,25 +132,16 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private MyViewPagerAdapter myAdapter;
   private ViewPager myPager;
 
-  private ButtonBar mButtonBar;
-  private MenuButton mAddButton;
-  private MenuButton mSwitchButton;
-  private MenuButton mResetButton;
-  private MenuButton mSettingsButton;
-  private MenuButton mHelpButton;
   private boolean scheduledRestart = false;
 
   /**
+   * TODO
    * several dialogs need an object on which they operate, and this object must survive
    * orientation change, and the call to the contrib dialog, currently there are three use cases for this:
    * 3) CLONE_TRANSACTION: the transaction to be cloned
    */
   private long mDialogContextId = 0L;
 
-  private BetterPopupWindow dw;
-  private boolean mButtonBarIsFilled;
-
-  private int mCurrentDialog = 0;
   private MenuItem mTemplateItem,mResetItem;
 
 /*  private int monkey_state = 0;
@@ -200,11 +183,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       MyApplication.getInstance().refreshContribEnabled();
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
-    //boolean titled = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     setContentView(R.layout.viewpager);
-//    if(titled){
-//      getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_layout);
-//    }
+
     mSettings = MyApplication.getInstance().getSettings();
     if (mSettings.getInt("currentversion", -1) == -1) {
       if (MyApplication.backupExists()) {
@@ -220,8 +200,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   private void setup() {
     newVersionCheck();
-    mButtonBar = (ButtonBar) findViewById(R.id.ButtonBar);
-    fillButtons();
     mSettings.registerOnSharedPreferenceChangeListener(this);
 
     Resources.Theme theme = getTheme();
@@ -303,66 +281,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     } else {
       mTemplateItem.setVisible(false);
     }
-  }
-  private void fillButtons() {
-    mAddButton = mButtonBar.addButton(
-        R.string.menu_new,
-        android.R.drawable.ic_menu_add,
-        R.id.INSERT_TA_COMMAND);
-    //templates are sorted by usages, so that most often used templates are displayed in the menu
-    //but in the menu we want them to appear in alphabetical order, and we want the other commands
-    //in fixed positions
-/*    mAddButton.setComparator(new Comparator<Button>() {
-      public int compare(Button a, Button b) {
-        if (a.getId() == R.id.MORE_ACTION_COMMAND) {
-          return 1;
-        }
-        if (a.getId() == R.id.NEW_FROM_TEMPLATE_COMMAND) {
-          if (b.getId() == R.id.NEW_FROM_TEMPLATE_COMMAND) {
-            return ((String)b.getText()).compareToIgnoreCase((String) a.getText());
-          }
-          return 1;
-        }
-        if (a.getId() == R.id.INSERT_TRANSFER_COMMAND) {
-          return 1;
-        }
-        return -1;
-      }
-    });*/
-    mSwitchButton = mButtonBar.addButton(
-        R.string.menu_accounts,
-        R.drawable.ic_menu_goto,
-        R.id.SWITCH_ACCOUNT_COMMAND);
-    mSwitchButton.setTag(0L);
-    
-    mResetButton = mButtonBar.addButton(
-        R.string.menu_reset_abrev,
-        android.R.drawable.ic_menu_revert,
-        R.id.RESET_ACCOUNT_COMMAND);
-    
-    mSettingsButton = mButtonBar.addButton(
-        R.string.menu_settings_abrev,
-        android.R.drawable.ic_menu_preferences,
-        R.id.SETTINGS_COMMAND);
-    mSettingsButton.addItem(R.string.menu_backup,R.id.BACKUP_COMMAND);
-    mSettingsButton.addItem(R.string.menu_settings_account,R.id.EDIT_ACCOUNT_COMMAND);
-    
-    mHelpButton = mButtonBar.addButton(
-        R.string.menu_help,
-        android.R.drawable.ic_menu_help,
-        R.id.HELP_COMMAND);
-    mHelpButton.addItem(R.string.tutorial,R.id.WEB_COMMAND,"tutorial_r4");
-    mHelpButton.addItem(R.string.help_heading_news,R.id.WEB_COMMAND,"news");
-    mHelpButton.addItem(R.string.menu_faq,R.id.WEB_COMMAND,"faq");
-    mHelpButton.addItem(R.string.menu_contrib,R.id.CONTRIB_COMMAND);
-    mHelpButton.addItem("Feedback",R.id.FEEDBACK_COMMAND);
-    mButtonBarIsFilled = true;
-  }
-  @Override
-  public void onStop() {
-    super.onStop();
-    if (dw != null)
-    dw.dismiss();
   }
   
   private void configButtons() {
@@ -505,15 +423,11 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   protected void onSaveInstanceState(Bundle outState) {
    super.onSaveInstanceState(outState);
    outState.putLong("TemplateCreateDialogTransactionId",mDialogContextId);
-   outState.putSerializable("MoreItems",mMoreItems);
-   outState.putInt("currentDialog",mCurrentDialog);
   }
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
    super.onRestoreInstanceState(savedInstanceState);
    mDialogContextId = savedInstanceState.getLong("TemplateCreateDialogTransactionId");
-   mMoreItems = (ArrayList<Action>) savedInstanceState.getSerializable("MoreItems");
-   mCurrentDialog = savedInstanceState.getInt("currentDialog");
   }
   /**
    * start ExpenseEdit Activity for a new transaction/transfer
@@ -697,8 +611,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
 
   public void onDialogButtonClicked(View v) {
-    if (mCurrentDialog != 0)
-      dismissDialog(mCurrentDialog);
     onClick(v);
   }
   public boolean dispatchLongCommand(int command, Object tag) {
@@ -842,35 +754,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     default:
       return false;
     }
-    if (dw != null) {
-      dw.dismiss();
-      dw = null;
-    }
     return true;
-  }
-  private void hideButtonBar() {
-    findViewById(R.id.ButtonBarDividerTop).setVisibility(View.GONE);
-    findViewById(R.id.ButtonBarDividerBottom).setVisibility(View.GONE);
-    mButtonBar.setVisibility(View.GONE);
-  }
-  private void showButtonBar() {
-    findViewById(R.id.ButtonBarDividerTop).setVisibility(View.VISIBLE);
-    findViewById(R.id.ButtonBarDividerBottom).setVisibility(View.VISIBLE);
-    mButtonBar.setVisibility(View.VISIBLE);
-  }
-  @Override
-  public boolean onLongClick(View v) {
-    if (v instanceof MenuButton) {
-      int height = myPager.getHeight();
-      MenuButton mb = (MenuButton) v;
-      dw = mb.getMenu(height);
-      if (dw == null)
-        return false;
-      dw.showLikeQuickAction();
-      return true;
-    } else {
-      return dispatchLongCommand(v.getId(),v.getTag());
-    }
   }
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,

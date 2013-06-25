@@ -67,7 +67,7 @@ public class ButtonBar extends LinearLayout  {
     }
     addView(b);
     b.setOnClickListener((MyExpenses) getContext());
-    b.setOnLongClickListener((MyExpenses) getContext());
+    //b.setOnLongClickListener((MyExpenses) getContext());
     return b;
   }
   /**
@@ -202,7 +202,7 @@ public class ButtonBar extends LinearLayout  {
               heightLeft -= heightNeeded;
               //Log.i("BetterPopupWindow","Height Left is now: " + heightLeft);
               tv.setOnClickListener(context);
-              tv.setOnLongClickListener(context);
+              //tv.setOnLongClickListener(context);
               //tv.setFocusableInTouchMode(true);
               buttons.add(tv);
               count++;

@@ -13,15 +13,11 @@ import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -42,9 +38,6 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   SimpleCursorAdapter mAdapter;
   private int colorExpense;
   private int colorIncome;
-  private MyObserver observer;
-  private TextView balanceTv,labelTv;
-  View heading;
   private Account mAccount;
 
   public static TransactionList newInstance(long accountId) {
@@ -60,22 +53,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
       super.onCreate(savedInstanceState);
       accountId = getArguments().getLong("account_id");
       mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
-      observer = new MyObserver(new Handler());
-      ContentResolver cr= getActivity().getContentResolver(); 
-      cr.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, true,observer);
-      cr.registerContentObserver(
-          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(), true,observer);
   }
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-    try {
-      getActivity().getContentResolver().unregisterContentObserver(observer);
-    } catch (IllegalStateException ise) {
-        // Do Nothing.  Observer has already been unregistered.
-    }
-  }
-
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Resources.Theme theme = getActivity().getTheme();
@@ -86,10 +64,6 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     colorIncome = color.data;
     
     View v = inflater.inflate(R.layout.expenses_list, null, false);
-    heading = v.findViewById(R.id.heading);
-    labelTv = (TextView) v.findViewById(R.id.label);
-    balanceTv = (TextView) v.findViewById(R.id.end);
-    updateTitleView();
     ListView lv = (ListView) v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};
@@ -184,20 +158,6 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     return v;
 
   }
-
-  private void updateTitleView() {
-    if (heading != null)
-      heading.setBackgroundColor(mAccount.color);
-    int textColor = Utils.getTextColorForBackground(mAccount.color);
-    if (labelTv != null) {
-      labelTv.setText(mAccount.label);
-      labelTv.setTextColor(textColor);
-    }
-    if (balanceTv != null) {
-      balanceTv.setText(Utils.formatCurrency(mAccount.getCurrentBalance()));
-      balanceTv.setTextColor(textColor);
-    }
-  }
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
     CursorLoader cursorLoader = new CursorLoader(getActivity(),
@@ -213,14 +173,5 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
     mAdapter.swapCursor(null);
-  }
-  class MyObserver extends ContentObserver {
-     public MyObserver(Handler handler) {
-        super(handler);
-     }
-     public void onChange(boolean selfChange) {
-       super.onChange(selfChange);
-       updateTitleView();
-     }
   }
 }
