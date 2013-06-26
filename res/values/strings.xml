@@ -334,7 +334,8 @@
   <string name="restore_preferences_failure">Preferences restore failed</string>
   <string name="restore_preferences_success">Preferences have been restored from backup.</string>
   <string name="save_transaction_error">Could not save new transaction from template</string>
-  <string name="save_transaction_success">New transaction successfully saved from template</string>
+  <string name="save_transaction_from_template_success">New transaction successfully saved from template</string>
+  <string name="save_transaction_and_new_success">Transaction successfully saved</string>
   <string name="select_account">Select account</string>
   <string name="select_category">Select category</string>
   <string name="select_parent_category">Select this category</string>

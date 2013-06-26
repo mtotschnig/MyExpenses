@@ -302,7 +302,7 @@
   <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
   <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
   <string name="save_transaction_error">Şablondan muamele kaydedilemedi</string>
-  <string name="save_transaction_success">Yeni muamele şablondan başarıyla kaydedildi</string>
+  <string name="save_transaction_from_template_success">Yeni muamele şablondan başarıyla kaydedildi</string>
   <string name="select_account">Hesap seç</string>
   <string name="select_category">Kategori seç</string>
   <string name="select_parent_category">Bu kategoriyi seç</string>

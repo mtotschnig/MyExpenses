@@ -337,7 +337,7 @@
   <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la
       sauvegarde.</string>
   <string name="save_transaction_error">La transaction à partir du modèle n\'a pas été enregistrée</string>
-  <string name="save_transaction_success">Nouvelle transaction sauvegardée à partir du modèle</string>
+  <string name="save_transaction_from_template_success">Nouvelle transaction sauvegardée à partir du modèle</string>
   <string name="select">Sélectionner</string>
   <string name="select_account">Sélectionner un compte</string>
   <string name="select_category">Sélectionner une catégorie</string>

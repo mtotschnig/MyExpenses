@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item
+    android:id="@+id/Confirm"
+    android:icon="@drawable/ic_menu_mark"
+    android:showAsAction="always|withText"
+    android:title="@android:string/ok"/>
+  <item
+    android:id="@+id/ConfirmAndNew"
+    android:icon="@android:drawable/ic_menu_add"
+    android:showAsAction="always|withText"
+    android:title="@string/button_ok_and_new"/>
+</menu>

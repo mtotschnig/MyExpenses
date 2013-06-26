@@ -292,7 +292,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   @Override
   public boolean onMenuItemSelected(int featureId, MenuItem item) {
-    int id = item.getItemId();
     if (dispatchCommand(item.getItemId(),null))
       return true;
     else

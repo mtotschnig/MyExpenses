@@ -86,7 +86,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements OnChil
             if (Transaction.getInstanceFromTemplate(id).save() == null)
               Toast.makeText(getBaseContext(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
             else
-              Toast.makeText(getBaseContext(),getString(R.string.save_transaction_success), Toast.LENGTH_LONG).show();
+              Toast.makeText(getBaseContext(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
             break;
           case CREATE_INSTANCE_EDIT:
             intent = new Intent(this, ExpenseEdit.class);

@@ -343,7 +343,7 @@
   <string name="restore_preferences_success">Las configuraciones han sidos restauradas desde la
       copia de seguridad.</string>
   <string name="save_transaction_error">No se pudo guardar nueva transacción de plantilla</string>
-  <string name="save_transaction_success">Nueva transacción guardada con éxito de la plantilla</string>
+  <string name="save_transaction_from_template_success">Nueva transacción guardada con éxito de la plantilla</string>
   <string name="select">Escoger</string>
   <string name="select_account">Escoger una cuenta</string>
   <string name="select_category">Escoger una categoría</string>

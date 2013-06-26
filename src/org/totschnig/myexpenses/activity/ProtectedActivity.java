@@ -18,10 +18,11 @@ package org.totschnig.myexpenses.activity;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 
-import android.app.Activity;
+import com.actionbarsherlock.app.SherlockActivity;
+
 import android.app.Dialog;
 
-public class ProtectedActivity extends Activity {
+public class ProtectedActivity extends SherlockActivity {
   private Dialog pwDialog;
   @Override
   protected void onPause() {

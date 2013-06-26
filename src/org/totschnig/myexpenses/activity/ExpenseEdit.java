@@ -30,6 +30,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
@@ -160,18 +165,6 @@ public class ExpenseEdit extends EditActivity {
         (mTransaction.id == 0 ? R.string.menu_create_transaction : R.string.menu_edit_transaction) :
         (mTransaction.id == 0 ? R.string.menu_create_transfer : R.string.menu_edit_transfer)
       );
-      Button confirmAndNewBtn = (Button) findViewById(R.id.ConfirmAndNew);
-      confirmAndNewBtn.setVisibility(View.VISIBLE);
-      confirmAndNewBtn.setOnClickListener(new View.OnClickListener() {
-
-        public void onClick(View view) {
-          if (saveState())
-            mTransaction.id = 0L;
-            setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
-                R.string.menu_create_transaction : R.string.menu_create_transfer);
-            mAmountText.setText("");
-        }
-      });
     }
 
     mDateButton = (Button) findViewById(R.id.Date);
@@ -189,8 +182,6 @@ public class ExpenseEdit extends EditActivity {
     });
 
     mCommentText = (EditText) findViewById(R.id.Comment);
-
-    Button confirmButton = (Button) findViewById(R.id.Confirm);
     
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
@@ -215,15 +206,6 @@ public class ExpenseEdit extends EditActivity {
         MethodContainer = findViewById(R.id.Method);
       MethodContainer.setVisibility(View.GONE);
     }
-    
-    confirmButton.setOnClickListener(new View.OnClickListener() {
-
-      public void onClick(View view) {
-        setResult(RESULT_OK);
-        if (saveState())
-          finish();
-      }
-    });
         
     mTypeButton = (Button) findViewById(R.id.TaType);
     mTypeButton.setOnClickListener(new View.OnClickListener() {
@@ -258,8 +240,40 @@ public class ExpenseEdit extends EditActivity {
         }
       });
     }
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
     //category button and amount label are further set up in populateFields, since it depends on data
     populateFields();
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getSupportMenuInflater();
+    inflater.inflate(R.menu.expense, menu);
+    return true;
+  }
+  @Override
+  public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    switch(item.getItemId()) {
+    case android.R.id.home:
+      finish();
+      break;
+    case R.id.Confirm:
+      if (saveState()) {
+        setResult(RESULT_OK);
+        finish();
+      }
+      break;
+    case R.id.ConfirmAndNew:
+      if (saveState())
+        mTransaction.id = 0L;
+        setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
+            R.string.menu_create_transaction : R.string.menu_create_transfer);
+        mAmountText.setText("");
+        Toast.makeText(this,getString(R.string.save_transaction_and_new_success),Toast.LENGTH_SHORT).show();
+      break;
+    }
+    return true;
   }
 
   /**
