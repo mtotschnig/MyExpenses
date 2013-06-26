@@ -143,8 +143,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
    */
   private long mDialogContextId = 0L;
 
-  private MenuItem mTemplateItem,mResetItem,mTransferItem;
-
 /*  private int monkey_state = 0;
 
   @Override
@@ -214,6 +212,13 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     myPager.setPageMarginDrawable(margin.resourceId);
     mManager= getSupportLoaderManager();
     mManager.initLoader(-1, null, this);
+    long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
+    try {
+      setCurrentAccount(Account.getInstanceFromDb(account_id));
+    } catch (DataObjectNotFoundException e) {
+      //for any reason the account stored in pref no longer exists
+      setCurrentAccount(requireAccount());
+    }
   }
   private void moveToAccount(long accountId) {
     mAccountsCursor.moveToFirst();
@@ -258,9 +263,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   
   private void configButtons() {
-      mResetItem.setVisible(mCurrentAccount.getSize() > 0);
-      mTransferItem.setVisible(Account.countPerCurrency(mCurrentAccount.currency) > 1);
-      mTemplateItem.setVisible(Template.countPerAccount(mCurrentAccount.id) > 0);
+    supportInvalidateOptionsMenu();
   }
   
   /* (non-Javadoc)
@@ -272,12 +275,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-/*    menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
-      .setVisible(transfersEnabledP());
     menu.findItem(R.id.RESET_ACCOUNT_COMMAND)
       .setVisible(mCurrentAccount.getSize() > 0);
-    menu.findItem(R.id.itemTemplates)
-      .setVisible(Template.countPerAccount(mCurrentAccount.id) > 0);*/
+    menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
+      .setVisible(Account.countPerCurrency(mCurrentAccount.currency) > 1);
+    menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
+      .setVisible(Template.countPerAccount(mCurrentAccount.id) > 0);
     return true;
   }
 
@@ -285,9 +288,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getSupportMenuInflater();
     inflater.inflate(R.menu.main, menu);
-    mTemplateItem = menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND);
-    mResetItem = menu.findItem(R.id.RESET_ACCOUNT_COMMAND);
-    mTransferItem = menu.findItem(R.id.INSERT_TRANSFER_COMMAND);
     return true;
   }
   @Override
@@ -766,15 +766,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     if (loader.getId() == -1) {
       myAdapter.swapCursor(cursor);
       mAccountsCursor = cursor;
-      if (mCurrentAccount == null) {
-        long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
-        try {
-          setCurrentAccount(Account.getInstanceFromDb(account_id));
-        } catch (DataObjectNotFoundException e) {
-          //for any reason the account stored in pref no longer exists
-          setCurrentAccount(requireAccount());
-        }
-      }
       fillNavigation();
     }
   }
