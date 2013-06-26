@@ -21,6 +21,7 @@
     <item type="id" name="RESET_ACCOUNT_COMMAND"/>
     <item type="id" name="RESET_ACCOUNT_COMMAND_DO"/>
     <item type="id" name="RESET_ACCOUNT_ALL_COMMAND"/>
+    <item type="id" name="RESET_ACCOUNT_ALL_COMMAND_DO"/>
     <item type="id" name="SETTINGS_COMMAND"/>
     <item type="id" name="BACKUP_COMMAND"/>
     <item type="id" name="RESTORE_COMMAND"/>
@@ -28,6 +29,7 @@
     <item type="id" name="HELP_COMMAND"/>
     <item type="id" name="WEB_COMMAND"/>
     <item type="id" name="DELETE_COMMAND"/>
+    <item type="id" name="DELETE_COMMAND_DO"/>
     <item type="id" name="SHOW_DETAIL_COMMAND"/>
     <item type="id" name="CREATE_TEMPLATE_COMMAND"/>
     <item type="id" name="MOVE_TRANSACTION_COMMAND"/>
@@ -35,7 +37,6 @@
     <item type="id" name="NEW_FROM_TEMPLATE_COMMAND"/>
     <item type="id" name="CONTRIB_COMMAND"/>
     <item type="id" name="FEEDBACK_COMMAND"/>
-    <item type="id" name="ACCOUNT_OVERVIEW_COMMAND"/>
     <item type="id" name="NEUTRAL_BUTTON"/>
     <item type="id" name="POSITIVE_BUTTON"/>
     <item type="id" name="NEGATIVE_BUTTON"/>
@@ -52,4 +53,5 @@
     <item type="id" name="REMIND_LATER_COMMAND"/>
     <item type="id" name="REMIND_NO_COMMAND"/>
     <item type="id" name="CLONE_TRANSACTION_COMMAND"/>
+    <item type="id" name="AGGREGATES_COMMAND"/>
 </resources>

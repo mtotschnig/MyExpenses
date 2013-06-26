@@ -28,18 +28,19 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
 import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
@@ -51,10 +52,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  */
 public class ManageAccounts extends ProtectedFragmentActivity implements
     OnItemClickListener {
-  private static final int DELETE_ID = Menu.FIRST;
-  private static final int RESET_ID = Menu.FIRST + 1;
-  private static final int DELETE_COMMAND_ID = 1;
-  private Button mAddButton, mAggregateButton, mResetAllButton;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -63,46 +60,40 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     setContentView(R.layout.manage_accounts);
     MyApplication.updateUIWithAppColor(this);
     setTitle(R.string.pref_manage_accounts_title);
+  }
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+    Cursor c = getContentResolver().query(TransactionProvider.AGGREGATES_URI.buildUpon().appendPath("count").build(),
+        null, null, null, null);
+    menu.findItem(R.id.AGGREGATES_COMMAND).setVisible(c.getCount()>0);
+    c.close();
+    menu.findItem(R.id.RESET_ACCOUNT_ALL_COMMAND).setVisible
+      (Transaction.countAll() > 0);
+    return true;
+  }
 
-    mAddButton = (Button) findViewById(R.id.addOperation);
-    mAggregateButton = (Button) findViewById(R.id.aggregate);
-    mAggregateButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (MyApplication.getInstance().isContribEnabled) {
-          showAggregatesDialog();
-        } else {
-          showContribDialog(Feature.AGGREGATE);
-        }
-      }
-    });
-    mResetAllButton = (Button) findViewById(R.id.resetAll);
-    mResetAllButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (MyApplication.getInstance().isContribEnabled) {
-          DialogUtils.showWarningResetDialog(ManageAccounts.this, null);
-        } else {
-          showContribDialog(Feature.RESET_ALL);
-        }
-      }
-    });
-    mAddButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent i = new Intent(ManageAccounts.this, AccountEdit.class);
-        startActivityForResult(i, 0);
-      }
-    });
-    configButtons();
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getSupportMenuInflater();
+    inflater.inflate(R.menu.accounts, menu);
+    return true;
+  }
+  @Override
+  public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    if (dispatchCommand(item.getItemId(),null))
+      return true;
+    else
+      return super.onMenuItemSelected(featureId, item);
   }
   
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position,
       long id) {
-    Intent i = new Intent(this, AccountEdit.class);
+    Intent i = new Intent(this, MyExpenses.class);
     i.putExtra(KEY_ROWID, id);
-    startActivityForResult(i, 0);
+    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    startActivity(i);
   }
 
   @Override
@@ -115,13 +106,25 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     }
   }
   public boolean dispatchCommand(int command, Object tag) {
+    Intent i;
     switch(command) {
-    case DELETE_COMMAND_ID:
+    case R.id.AGGREGATES_COMMAND:
+      if (MyApplication.getInstance().isContribEnabled) {
+        showAggregatesDialog();
+      } else {
+        showContribDialog(Feature.AGGREGATE);
+      }
+      break;
+    case R.id.CREATE_ACCOUNT_COMMAND:
+      i = new Intent(this, AccountEdit.class);
+      startActivityForResult(i, 0);
+      break;
+    case R.id.DELETE_COMMAND_DO:
       Account.delete((Long) tag);
       break;
     case R.id.RESET_ACCOUNT_COMMAND_DO:
       if (Utils.isExternalStorageAvailable()) {
-        Intent i = new Intent(this, Export.class);
+        i = new Intent(this, Export.class);
         i.putExtra(KEY_ROWID, (Integer) tag);
         startActivityForResult(i,0);
       } else {
@@ -133,7 +136,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
       break;
     case R.id.RESET_ACCOUNT_ALL_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
-        Intent i = new Intent(this, Export.class);
+        i = new Intent(this, Export.class);
         Feature.RESET_ALL.recordUsage();
         startActivityForResult(i,0);
       } else {
@@ -147,14 +150,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     configButtons();
     return true;
   }
-  private void configButtons () {
-    Cursor c = getContentResolver().query(TransactionProvider.AGGREGATES_URI.buildUpon().appendPath("count").build(),
-        null, null, null, null);
-    mAggregateButton.setVisibility(c.getCount()>0 ? View.VISIBLE : View.GONE);
-    c.close();
-    //mAggregateButton.setVisibility(mCurrencyCursor.getCount() > 0 ? View.VISIBLE : View.GONE);
-    mResetAllButton.setVisibility(Transaction.countAll() > 0 ? View.VISIBLE : View.GONE);
-  }
 
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
@@ -162,24 +157,34 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     super.onCreateContextMenu(menu, v, menuInfo);
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
     if (Account.count(null, null) > 1)
-      menu.add(0, DELETE_ID, 0, R.string.menu_delete);
+      menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
     if (Transaction.countPerAccount(info.id) > 0)
-       menu.add(0,RESET_ID,0,R.string.menu_reset);
+       menu.add(0,R.id.RESET_ACCOUNT_COMMAND,0,R.string.menu_reset);
+    menu.add(0,R.id.EDIT_ACCOUNT_COMMAND,0,R.string.menu_edit);
   }
 
   @Override
-  public boolean onContextItemSelected(MenuItem item) {
+  public boolean onContextItemSelected(android.view.MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
-    case DELETE_ID:
-      MessageDialogFragment.newInstance(R.string.dialog_tite_warning_delete_account,R.string.warning_delete_account,DELETE_COMMAND_ID,info.id)
+    case R.id.DELETE_COMMAND:
+      MessageDialogFragment.newInstance(R.string.dialog_tite_warning_delete_account,
+          R.string.warning_delete_account,R.id.DELETE_COMMAND_DO,info.id)
         .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
       return true;
-    case RESET_ID:
+    case R.id.RESET_ACCOUNT_COMMAND:
       DialogUtils.showWarningResetDialog(this, info.id);
+      return true;
+    case R.id.EDIT_ACCOUNT_COMMAND:
+      Intent i = new Intent(this, AccountEdit.class);
+      i.putExtra(KEY_ROWID, info.id);
+      startActivityForResult(i, 0);
       return true;
     }
     return super.onContextItemSelected(item);
+  }
+  private void configButtons() {
+    supportInvalidateOptionsMenu();
   }
   @SuppressWarnings("incomplete-switch")
   @Override

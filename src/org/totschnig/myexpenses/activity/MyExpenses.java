@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import java.util.ArrayList;
-import java.util.Currency;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -33,7 +32,6 @@ import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
-import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -198,6 +196,23 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     setup();
   }
   private void setup() {
+    long account_id = 0;
+    Bundle extras = getIntent().getExtras();
+    if (extras != null) {
+      account_id = extras.getLong(KEY_ROWID,0);
+    }
+    if (account_id == 0)
+      account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
+    if (account_id != 0) {
+      try {
+        setCurrentAccount(Account.getInstanceFromDb(account_id));
+      } catch (DataObjectNotFoundException e) {
+        //for any reason the account stored in pref no longer exists
+        setCurrentAccount(requireAccount());
+      }
+    } else {
+      setCurrentAccount(requireAccount());
+    }
     newVersionCheck();
     mSettings.registerOnSharedPreferenceChangeListener(this);
 
@@ -212,35 +227,15 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     myPager.setPageMarginDrawable(margin.resourceId);
     mManager= getSupportLoaderManager();
     mManager.initLoader(-1, null, this);
-    long account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
-    try {
-      setCurrentAccount(Account.getInstanceFromDb(account_id));
-    } catch (DataObjectNotFoundException e) {
-      //for any reason the account stored in pref no longer exists
-      setCurrentAccount(requireAccount());
-    }
   }
-  private void moveToAccount(long accountId) {
-    mAccountsCursor.moveToFirst();
-    int currentPosition = 0;
-    while (mAccountsCursor.isAfterLast() == false) {
-      if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID)) == accountId) {
-        currentPosition = mAccountsCursor.getPosition();
-      }
-      mAccountsCursor.moveToNext();
-    }
-    //if the account we are looking for no longer exists, which can happen if it was deleted in Manage Accounts
-    //we move to the first account
-    myPager.setCurrentItem(currentPosition);
+  private void moveToPosition(int position) {
+    myPager.setCurrentItem(position);
     configButtons();
-    //onPageSelected is not triggered by setCurrentItem, but it makes sure that
-    //currentaccount is set correctly
-    //onPageSelected(currentPosition);
   }
   private void fillNavigation() {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayShowTitleEnabled(false);
-    //actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setDisplayHomeAsUpEnabled(true);
     //actionBar.setDisplayUseLogoEnabled(true);
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
     SimpleCursorAdapter adapter = new SimpleCursorAdapter(
@@ -287,7 +282,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getSupportMenuInflater();
-    inflater.inflate(R.menu.main, menu);
+    inflater.inflate(R.menu.expenses, menu);
     return true;
   }
   @Override
@@ -649,7 +644,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       i.putExtra(KEY_ROWID, mCurrentAccount.id);
       startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
       break;
-    case R.id.ACCOUNT_OVERVIEW_COMMAND:
+    case android.R.id.home:
       startActivityForResult(new Intent(MyExpenses.this, ManageAccounts.class),ACTIVITY_PREF);
       break;
     case R.id.BACKUP_COMMAND:
@@ -766,6 +761,16 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       myAdapter.swapCursor(cursor);
       mAccountsCursor = cursor;
       fillNavigation();
+      //select the current account after filling
+      mAccountsCursor.moveToFirst();
+      int currentPosition = 0;
+      while (mAccountsCursor.isAfterLast() == false) {
+        if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID)) == mCurrentAccount.id) {
+          currentPosition = mAccountsCursor.getPosition();
+        }
+        mAccountsCursor.moveToNext();
+      }
+      getSupportActionBar().setSelectedNavigationItem(currentPosition);
     }
   }
   @Override
@@ -800,7 +805,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   @Override
   public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-    moveToAccount(itemId);
+    moveToPosition(itemPosition);
     return true;
   }
   @Override

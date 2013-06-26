@@ -78,7 +78,7 @@ public class DialogUtils {
         allP ? R.string.dialog_title_warning_reset_all : R.string.dialog_title_warning_reset_one,
         ctx.getString(allP ? R.string.warning_reset_account_all : R.string.warning_reset_account,
             MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF")),
-        allP ? R.id.RESET_ACCOUNT_ALL_COMMAND : R.id.RESET_ACCOUNT_COMMAND_DO,
+        allP ? R.id.RESET_ACCOUNT_ALL_COMMAND_DO : R.id.RESET_ACCOUNT_COMMAND_DO,
         accountId)
       .show(ctx.getSupportFragmentManager(),"WARNING_RESET");
   }
