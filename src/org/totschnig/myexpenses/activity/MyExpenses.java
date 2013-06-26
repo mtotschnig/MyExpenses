@@ -235,8 +235,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private void fillNavigation() {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayShowTitleEnabled(false);
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setDisplayUseLogoEnabled(true);
+    //actionBar.setDisplayHomeAsUpEnabled(true);
+    //actionBar.setDisplayUseLogoEnabled(true);
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
     SimpleCursorAdapter adapter = new SimpleCursorAdapter(
         getSupportActionBar().getThemedContext(),
@@ -247,11 +247,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         TextView tv1 = (TextView)row.findViewById(android.R.id.text1);
         Cursor c = getCursor();
         c.moveToPosition(position);
-        long balance = c.getLong(c.getColumnIndex("current_balance"));
-        String currency = c.getString(c.getColumnIndex(KEY_CURRENCY));
         int color = c.getInt(c.getColumnIndex(KEY_COLOR));
-        tv1.setText(tv1.getText()+"\n"+Utils.formatCurrency(
-            new Money(Currency.getInstance(currency),balance)));
         row.setBackgroundColor(color);
         tv1.setTextColor( Utils.getTextColorForBackground(color));
         return row;

@@ -13,11 +13,14 @@ import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -38,7 +41,9 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   SimpleCursorAdapter mAdapter;
   private int colorExpense;
   private int colorIncome;
+  private MyObserver observer;
   private Account mAccount;
+  private TextView balanceTv;
 
   public static TransactionList newInstance(long accountId) {
     
@@ -53,7 +58,22 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
       super.onCreate(savedInstanceState);
       accountId = getArguments().getLong("account_id");
       mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
+      observer = new MyObserver(new Handler());
+      ContentResolver cr= getActivity().getContentResolver();
+      cr.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, true,observer);
+      cr.registerContentObserver(
+          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(), true,observer);
   }
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    try {
+      getActivity().getContentResolver().unregisterContentObserver(observer);
+    } catch (IllegalStateException ise) {
+        // Do Nothing.  Observer has already been unregistered.
+    }
+  }
+
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Resources.Theme theme = getActivity().getTheme();
@@ -64,6 +84,8 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     colorIncome = color.data;
     
     View v = inflater.inflate(R.layout.expenses_list, null, false);
+    balanceTv = (TextView) v.findViewById(R.id.end);
+    balanceTv.setText(Utils.formatCurrency(mAccount.getCurrentBalance()));
     ListView lv = (ListView) v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};
@@ -174,4 +196,20 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   public void onLoaderReset(Loader<Cursor> arg0) {
     mAdapter.swapCursor(null);
   }
+  class MyObserver extends ContentObserver {
+    public MyObserver(Handler handler) {
+       super(handler);
+    }
+    public void onChange(boolean selfChange) {
+      super.onChange(selfChange);
+      updateTitleView();
+    }
+ }
+  private void updateTitleView() {
+    if (balanceTv != null) {
+      balanceTv.setText(Utils.formatCurrency(mAccount.getCurrentBalance()));
+      //balanceTv.setTextColor(textColor);
+    }
+  }
+
 }
