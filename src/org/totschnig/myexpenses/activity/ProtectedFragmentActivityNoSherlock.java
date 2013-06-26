@@ -23,23 +23,18 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
-
 import android.app.Dialog;
-import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
-public abstract class ProtectedFragmentActivity extends SherlockFragmentActivity
-    implements MessageDialogListener {
+/**
+ * This is the parent class for activities that use
+ * the translucent Translucent.NoTitleBar theme that is not available
+ * through Sherlock and hence need to inherit from the Base Fragment Activity
+ *
+ */
+public class ProtectedFragmentActivityNoSherlock extends FragmentActivity implements
+    MessageDialogListener  {
   private Dialog pwDialog;
-  
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-  }
   @Override
   protected void onPause() {
     super.onPause();
@@ -68,7 +63,6 @@ public abstract class ProtectedFragmentActivity extends SherlockFragmentActivity
   public void showContribDialog(final Feature feature) {
     ContribDialogFragment.newInstance(feature).show(getSupportFragmentManager(),"CONTRIB");
   }
-
   public boolean dispatchCommand(int command, Object tag) {
     switch(command) {
     case R.id.CONTRIB_PLAY_COMMAND:
@@ -79,16 +73,5 @@ public abstract class ProtectedFragmentActivity extends SherlockFragmentActivity
   }
   public void cancelDialog() {
     // TODO Auto-generated method stub
-  }
-  @Override
-  public boolean onMenuItemSelected(int featureId, MenuItem item) {
-    switch(item.getItemId()) {
-    case android.R.id.home:
-      setResult(RESULT_CANCELED);
-      finish();
-      return true;
-   default:
-     return false;
-    }
   }
 }

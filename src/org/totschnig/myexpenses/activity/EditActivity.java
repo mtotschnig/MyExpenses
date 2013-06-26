@@ -38,7 +38,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
-public abstract class EditActivity extends ProtectedActivity {
+public abstract class EditActivity extends ProtectedFragmentActivity {
   public static final String CURRENCY_USE_MINOR_UNIT = "x";
   private static final int CALCULATOR_REQUEST = 1;
   protected DecimalFormat nfDLocal;

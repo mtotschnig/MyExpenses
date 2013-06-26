@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.activity.ContribIFace;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -63,6 +63,6 @@ public class DonateDialogFragment extends DialogFragment {
   }
   @Override
   public void onCancel (DialogInterface dialog) {
-    ((ProtectedFragmentActivity)getActivity()).contribFeatureNotCalled();
+    ((ContribIFace)getActivity()).contribFeatureNotCalled();
   }
 }

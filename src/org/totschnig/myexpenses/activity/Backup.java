@@ -28,7 +28,8 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;
 
-public class Backup extends ProtectedFragmentActivity  {
+public class Backup extends ProtectedFragmentActivityNoSherlock implements
+  ContribIFace {
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -76,6 +77,8 @@ public class Backup extends ProtectedFragmentActivity  {
   }
   @Override
   public boolean dispatchCommand(int command, Object tag) {
+    if (super.dispatchCommand(command,tag))
+      return true;
     switch(command) {
     case R.id.BACKUP_COMMAND:
       if (Utils.isExternalStorageAvailable()) {

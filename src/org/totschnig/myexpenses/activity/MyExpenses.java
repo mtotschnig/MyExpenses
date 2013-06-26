@@ -92,7 +92,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     OnClickListener, OnSharedPreferenceChangeListener, 
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, OnNavigationListener,
-    SelectFromUriDialogListener {
+    SelectFromUriDialogListener, ContribIFace {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_PREF=2;
   public static final int ACTIVITY_EDIT_ACCOUNT=4;

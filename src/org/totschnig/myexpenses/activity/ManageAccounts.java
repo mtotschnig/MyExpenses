@@ -51,7 +51,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  *
  */
 public class ManageAccounts extends ProtectedFragmentActivity implements
-    OnItemClickListener {
+    OnItemClickListener,ContribIFace {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -109,6 +109,8 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     }
   }
   public boolean dispatchCommand(int command, Object tag) {
+    if (super.dispatchCommand(command,tag))
+      return true;
     Intent i;
     switch(command) {
     case R.id.AGGREGATES_COMMAND:
