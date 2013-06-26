@@ -95,7 +95,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     SelectFromUriDialogListener {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_PREF=2;
-  public static final int ACTIVITY_CREATE_ACCOUNT=3;
   public static final int ACTIVITY_EDIT_ACCOUNT=4;
   public static final int ACTIVITY_EXPORT=5;
 
@@ -302,10 +301,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == ACTIVITY_CREATE_ACCOUNT && resultCode == RESULT_OK && intent != null) {
-      //we cannot use moveToaccount yet, since the cursor has not yet been swapped yet
-      setCurrentAccount(Account.getInstanceFromDb(intent.getLongExtra("account_id",0)));
-    }
     configButtons();
     if (requestCode == ACTIVITY_EDIT && resultCode == RESULT_OK) {
       long nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
@@ -608,10 +603,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       break;
     case R.id.INSERT_TRANSFER_COMMAND:
       createRow(TYPE_TRANSFER);
-      break;
-    case R.id.CREATE_ACCOUNT_COMMAND:
-      i = new Intent(MyExpenses.this, AccountEdit.class);
-      startActivityForResult(i, ACTIVITY_CREATE_ACCOUNT);
       break;
     case R.id.RESET_ACCOUNT_COMMAND:
       if (Utils.isExternalStorageAvailable()) {

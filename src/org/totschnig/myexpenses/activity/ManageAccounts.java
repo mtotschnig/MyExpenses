@@ -60,6 +60,10 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     setContentView(R.layout.manage_accounts);
     MyApplication.updateUIWithAppColor(this);
     setTitle(R.string.pref_manage_accounts_title);
+    //we were called from preferences and provide a way back
+    //if we were called from MyExpenses, we behave as if we are the ROOT view
+    if (getCallingActivity() != null)
+      getSupportActionBar().setDisplayHomeAsUpEnabled(false);
   }
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
@@ -72,19 +76,18 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
       (Transaction.countAll() > 0);
     return true;
   }
-
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getSupportMenuInflater();
     inflater.inflate(R.menu.accounts, menu);
     return true;
   }
+
   @Override
   public boolean onMenuItemSelected(int featureId, MenuItem item) {
-    if (dispatchCommand(item.getItemId(),null))
+    if (super.onMenuItemSelected(featureId, item))
       return true;
-    else
-      return super.onMenuItemSelected(featureId, item);
+    return dispatchCommand(item.getItemId(),null);
   }
   
   @Override
@@ -92,7 +95,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
       long id) {
     Intent i = new Intent(this, MyExpenses.class);
     i.putExtra(KEY_ROWID, id);
-    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     startActivity(i);
   }
 
@@ -115,7 +118,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
         showContribDialog(Feature.AGGREGATE);
       }
       break;
-    case R.id.CREATE_ACCOUNT_COMMAND:
+    case R.id.CREATE_COMMAND:
       i = new Intent(this, AccountEdit.class);
       startActivityForResult(i, 0);
       break;
@@ -125,7 +128,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     case R.id.RESET_ACCOUNT_COMMAND_DO:
       if (Utils.isExternalStorageAvailable()) {
         i = new Intent(this, Export.class);
-        i.putExtra(KEY_ROWID, (Integer) tag);
+        i.putExtra(KEY_ROWID, (Long) tag);
         startActivityForResult(i,0);
       } else {
         Toast.makeText(getBaseContext(),

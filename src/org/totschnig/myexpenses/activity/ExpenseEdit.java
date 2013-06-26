@@ -240,31 +240,24 @@ public class ExpenseEdit extends EditActivity {
         }
       });
     }
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
     //category button and amount label are further set up in populateFields, since it depends on data
     populateFields();
   }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getSupportMenuInflater();
-    inflater.inflate(R.menu.expense, menu);
+    super.onCreateOptionsMenu(menu);
+    menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.button_ok_and_new)
+      .setIcon(android.R.drawable.ic_menu_add)
+      .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
     return true;
   }
   @Override
   public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    if (super.onMenuItemSelected(featureId, item))
+      return true;
     switch(item.getItemId()) {
-    case android.R.id.home:
-      finish();
-      break;
-    case R.id.Confirm:
-      if (saveState()) {
-        setResult(RESULT_OK);
-        finish();
-      }
-      break;
-    case R.id.ConfirmAndNew:
+    case R.id.SAVE_AND_NEW_COMMAND:
       if (saveState())
         mTransaction.id = 0L;
         setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
@@ -548,7 +541,7 @@ public class ExpenseEdit extends EditActivity {
    * is account selected for transfers) and saves
    * @return true upon success, false if validation fails
    */
-  private boolean saveState() {
+  protected boolean saveState() {
     String strAmount = mAmountText.getText().toString();
     BigDecimal amount = Utils.validateNumber(nfDLocal, strAmount);
     String title = "";

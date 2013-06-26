@@ -37,19 +37,13 @@ public class PartiesList extends Fragment implements LoaderManager.LoaderCallbac
 
     // Now create a simple cursor adapter and set it to display
     mAdapter = new SimpleCursorAdapter(getActivity(), 
-        android.R.layout.simple_list_item_multiple_choice, null, from, to,0);
+        android.R.layout.simple_list_item_1, null, from, to,0);
 
     getLoaderManager().initLoader(0, null, this);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     registerForContextMenu(lv);
-    View divider = v.findViewById(R.id.ButtonBarDividerTop);
-    int color = this.getResources().getColor(R.color.appDefault);
-    if (divider != null) {
-      divider.setBackgroundColor(color);
-      v.findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(color);
-    }
-    Button deleteButton = (Button) v.findViewById(R.id.deleteItems);
+/*    Button deleteButton = (Button) v.findViewById(R.id.deleteItems);
     deleteButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -63,7 +57,7 @@ public class PartiesList extends Fragment implements LoaderManager.LoaderCallbac
         }
       }
     });
-    return v;
+*/    return v;
   }
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {

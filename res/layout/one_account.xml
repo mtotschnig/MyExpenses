@@ -106,5 +106,4 @@
       </TableRow>
     </TableLayout>
   </ScrollView>
-  <include layout="@layout/one_buttonbar"/>
 </LinearLayout>

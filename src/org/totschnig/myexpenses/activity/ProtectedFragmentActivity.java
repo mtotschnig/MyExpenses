@@ -19,22 +19,26 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.support.v4.app.FragmentActivity;
-import android.text.Html;
-import android.view.ContextThemeWrapper;
-import android.view.View;
+import android.os.Bundle;
 
 public abstract class ProtectedFragmentActivity extends SherlockFragmentActivity implements MessageDialogListener {
   private Dialog pwDialog;
+  
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
+  }
   @Override
   protected void onPause() {
     super.onPause();
@@ -81,7 +85,6 @@ public abstract class ProtectedFragmentActivity extends SherlockFragmentActivity
    * called when the user clicks on "not yet", and calls the requested feature
    */
   public void contribFeatureCalled(Feature feature) {
-    
   }
   /**
    * the user can either click on "Buy" or cancel the dialog
@@ -89,6 +92,16 @@ public abstract class ProtectedFragmentActivity extends SherlockFragmentActivity
    * for example, in some cases, the calling activity might have to be finished
    */
   public void contribFeatureNotCalled() {
-    
+  }
+  @Override
+  public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    switch(item.getItemId()) {
+    case android.R.id.home:
+      setResult(RESULT_CANCELED);
+      finish();
+      return true;
+   default:
+     return false;
+    }
   }
 }

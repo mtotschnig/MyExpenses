@@ -24,14 +24,16 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
@@ -115,14 +117,30 @@ public class SelectCategory extends ProtectedFragmentActivity implements
         setTitle(mManageOnly ? R.string.pref_manage_categories_title : R.string.select_category);
         // Set up our adapter
 
-        mAddButton = (Button) findViewById(R.id.addOperation);
+/*        mAddButton = (Button) findViewById(R.id.addOperation);
         mAddButton.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
             createCat(null);
           }
-        });
+        });*/
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+      MenuInflater inflater = getSupportMenuInflater();
+      inflater.inflate(R.menu.list, menu);
+      return true;
+    }
+
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+      if (super.onMenuItemSelected(featureId, item))
+        return true;
+      if (item.getItemId() == R.id.CREATE_COMMAND) {
+        createCat(null);
+      }
+      return true;
+     }
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 
@@ -141,7 +159,7 @@ public class SelectCategory extends ProtectedFragmentActivity implements
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(android.view.MenuItem item) {
         ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
         int type = ExpandableListView.getPackedPositionType(info.packedPosition);
         long cat_id = info.id;

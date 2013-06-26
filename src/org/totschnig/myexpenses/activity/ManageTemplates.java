@@ -47,7 +47,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements OnChil
    */
   private long mTemplateId;
 
-  
   @Override
   public void onCreate(Bundle savedInstanceState) {
       setTheme(MyApplication.getThemeId());

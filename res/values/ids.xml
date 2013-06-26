@@ -17,11 +17,12 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <item type="id" name="INSERT_TA_COMMAND"/>
     <item type="id" name="INSERT_TRANSFER_COMMAND"/>
-    <item type="id" name="CREATE_ACCOUNT_COMMAND"/>
+    <item type="id" name="CREATE_COMMAND"/>
     <item type="id" name="RESET_ACCOUNT_COMMAND"/>
     <item type="id" name="RESET_ACCOUNT_COMMAND_DO"/>
     <item type="id" name="RESET_ACCOUNT_ALL_COMMAND"/>
     <item type="id" name="RESET_ACCOUNT_ALL_COMMAND_DO"/>
+    <item type="id" name="SAVE_AND_NEW_COMMAND"/>
     <item type="id" name="SETTINGS_COMMAND"/>
     <item type="id" name="BACKUP_COMMAND"/>
     <item type="id" name="RESTORE_COMMAND"/>

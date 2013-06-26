@@ -153,19 +153,7 @@ public class AccountEdit extends EditActivity {
         showDialog(TYPE_DIALOG_ID);
       }
     });
-    
-    Button confirmButton = (Button) findViewById(R.id.Confirm);
-
-    confirmButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-        if (saveState()) {
-          Intent intent=new Intent();
-          intent.putExtra("account_id", mAccount.id);
-          setResult(RESULT_OK,intent);
-          finish();
-        }
-      }
-    });
+ 
     Account.Type [] allTypes = Account.Type.values();
     for(int i = 0;i< allTypes.length; i++){
       mTypes[i] = allTypes[i].getDisplayName();
@@ -329,7 +317,7 @@ public class AccountEdit extends EditActivity {
    * (a valid float according to the format from the locale)
    * @return true upon success, false if validation fails
    */
-  private boolean saveState() {
+  protected boolean saveState() {
     String strCurrency = mCurrencyText.getText().toString();
     String label;
     try {

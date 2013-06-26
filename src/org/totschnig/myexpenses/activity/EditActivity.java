@@ -23,6 +23,11 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -52,6 +57,8 @@ public abstract class EditActivity extends ProtectedActivity {
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
   }
 
   protected void changeEditTextBackground(ViewGroup root) {
@@ -123,4 +130,28 @@ public abstract class EditActivity extends ProtectedActivity {
     super.onRestoreInstanceState(savedInstanceState);
     mType = savedInstanceState.getBoolean("type");
   }
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getSupportMenuInflater();
+    inflater.inflate(R.menu.one, menu);
+    return true;
+  }
+  @Override
+  public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    switch(item.getItemId()) {
+    case android.R.id.home:
+      setResult(RESULT_CANCELED);
+      finish();
+      return true;
+    case R.id.Confirm:
+      if (saveState()) {
+        setResult(RESULT_OK);
+        finish();
+      }
+      return true;
+   default:
+     return false;
+    }
+  }
+  abstract protected boolean saveState();
 }

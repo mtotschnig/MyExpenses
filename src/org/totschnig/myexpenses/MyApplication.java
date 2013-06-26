@@ -148,11 +148,6 @@ public class MyApplication extends Application {
         ((TextView) heading).setTextColor(textColor);
         ((View) heading.getParent()).setBackgroundColor(color);
       }
-      View divider = ctx.findViewById(R.id.ButtonBarDividerTop);
-      if (divider != null) {
-        divider.setBackgroundColor(color);
-        ctx.findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(color);
-      }
     }
     public static MyApplication getInstance() {
       return mSelf;
