@@ -268,6 +268,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
+    //I would prefer to use setEnabled, but the disabled state unfortunately is not visually reflected
+    //in the actionbar
     menu.findItem(R.id.RESET_ACCOUNT_COMMAND)
       .setVisible(mCurrentAccount.getSize() > 0);
     menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
