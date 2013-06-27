@@ -640,7 +640,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
       break;
     case android.R.id.home:
-      startActivityForResult(new Intent(MyExpenses.this, ManageAccounts.class),ACTIVITY_PREF);
+      i = new Intent(MyExpenses.this, ManageAccounts.class);
+      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      startActivity(i);
       break;
     case R.id.BACKUP_COMMAND:
       startActivity(new Intent("myexpenses.intent.backup"));

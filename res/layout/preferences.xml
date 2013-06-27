@@ -19,12 +19,6 @@
   <PreferenceCategory 
       android:title="@string/pref_category_title_manage">
     <PreferenceScreen
-        android:title="@string/pref_manage_accounts_title"
-        android:key="manage_accounts"
-        android:summary="@string/pref_manage_accounts_summary">
-      <intent android:action="myexpenses.intent.manage.accounts"/>
-    </PreferenceScreen>
-    <PreferenceScreen
         android:title="@string/pref_manage_templates_title"
         android:summary="@string/pref_manage_templates_summary">
         <intent android:action="myexpenses.intent.manage.templates"/>
