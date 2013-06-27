@@ -36,4 +36,10 @@
     android:showAsAction="ifRoom"
     android:title="@string/menu_settings">
   </item>
+  <item
+    android:id="@id/EDIT_ACCOUNT_COMMAND"
+    android:icon="@android:drawable/ic_menu_edit"
+    android:showAsAction="ifRoom"
+    android:title="@string/menu_settings_account">
+  </item>
 </menu>

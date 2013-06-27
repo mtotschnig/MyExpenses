@@ -41,7 +41,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   SimpleCursorAdapter mAdapter;
   private int colorExpense;
   private int colorIncome;
-  private MyObserver observer;
+  private BalanceObserver observer;
   private Account mAccount;
   private TextView balanceTv;
 
@@ -58,11 +58,15 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
       super.onCreate(savedInstanceState);
       accountId = getArguments().getLong("account_id");
       mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
-      observer = new MyObserver(new Handler());
+      observer = new BalanceObserver(new Handler());
       ContentResolver cr= getActivity().getContentResolver();
       cr.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, true,observer);
       cr.registerContentObserver(
           TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(), true,observer);
+
+      cr.registerContentObserver(
+          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(), true,
+          new AccountObserver(new Handler()));
   }
   @Override
   public void onDestroy() {
@@ -196,16 +200,25 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   public void onLoaderReset(Loader<Cursor> arg0) {
     mAdapter.swapCursor(null);
   }
-  class MyObserver extends ContentObserver {
-    public MyObserver(Handler handler) {
+  class BalanceObserver extends ContentObserver {
+    public BalanceObserver(Handler handler) {
        super(handler);
     }
     public void onChange(boolean selfChange) {
       super.onChange(selfChange);
-      updateTitleView();
+      updateBalance();
     }
  }
-  private void updateTitleView() {
+  class AccountObserver extends ContentObserver {
+    public AccountObserver(Handler handler) {
+       super(handler);
+    }
+    public void onChange(boolean selfChange) {
+      super.onChange(selfChange);
+      mAdapter.notifyDataSetChanged();
+    }
+ }
+  private void updateBalance() {
     if (balanceTv != null) {
       balanceTv.setText(Utils.formatCurrency(mAccount.getCurrentBalance()));
       //balanceTv.setTextColor(textColor);
