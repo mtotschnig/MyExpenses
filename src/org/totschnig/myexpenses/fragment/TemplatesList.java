@@ -62,10 +62,19 @@ public class TemplatesList extends Fragment implements LoaderManager.LoaderCallb
       bundle.putLong("account_id", accountId);
       int groupPos = groupCursor.getPosition();
       if (mManager.getLoader(groupPos) != null && !mManager.getLoader(groupPos).isReset()) {
+        try {
           mManager.restartLoader(groupPos, bundle, TemplatesList.this);
-      }
-      else {
-          mManager.initLoader(groupPos, bundle, TemplatesList.this);
+        } catch (NullPointerException e) {
+          // a NPE is thrown in the following scenario:
+          //1)open a group
+          //2)orientation change
+          //3)open the same group again
+          //in this scenario getChildrenCursor is called twice, second time leads to error
+          //maybe it is trying to close the group that had been kept open before the orientation change
+          e.printStackTrace();
+        }
+      } else {
+        mManager.initLoader(groupPos, bundle, TemplatesList.this);
       }
       return null;
     }
