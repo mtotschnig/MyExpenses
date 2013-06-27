@@ -62,10 +62,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     setContentView(R.layout.manage_accounts);
     MyApplication.updateUIWithAppColor(this);
     setTitle(R.string.pref_manage_accounts_title);
-    //we were called from preferences and provide a way back
-    //if we were called from MyExpenses, we behave as if we are the ROOT view
-    if (getCallingActivity() != null)
-      getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
   }
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
