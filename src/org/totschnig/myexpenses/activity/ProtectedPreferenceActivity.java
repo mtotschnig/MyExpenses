@@ -15,12 +15,15 @@
 
 package org.totschnig.myexpenses.activity;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 
 
-public class ProtectedPreferenceActivity extends PreferenceActivity {
+public class ProtectedPreferenceActivity extends SherlockPreferenceActivity {
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   
@@ -28,6 +31,8 @@ public class ProtectedPreferenceActivity extends PreferenceActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     protection = new ProtectionDelegate(this);
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
   }
   @Override
   protected void onPause() {
@@ -44,5 +49,15 @@ public class ProtectedPreferenceActivity extends PreferenceActivity {
     super.onResume();
     protection.hanldeOnResume(pwDialog);
   }
-
+  @Override
+  public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    switch(item.getItemId()) {
+    case android.R.id.home:
+      setResult(RESULT_CANCELED);
+      finish();
+      return true;
+   default:
+     return false;
+    }
+  }
 }
