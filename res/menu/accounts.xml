@@ -18,4 +18,16 @@
     android:showAsAction="always"
     android:title="@string/menu_reset_all">
   </item>
+  <item
+    android:id="@id/HELP_COMMAND"
+    android:icon="@android:drawable/ic_menu_help"
+    android:showAsAction="ifRoom"
+    android:title="@string/menu_help">
+  </item>
+  <item
+    android:id="@id/SETTINGS_COMMAND"
+    android:icon="@android:drawable/ic_menu_preferences"
+    android:showAsAction="ifRoom"
+    android:title="@string/menu_settings">
+  </item>
 </menu>

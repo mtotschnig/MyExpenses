@@ -49,14 +49,21 @@ public class HelpDialogFragment extends DialogFragment implements OnClickListene
       .setIcon(R.drawable.icon)
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)
+      .setNeutralButton(R.string.button_website, this)
       .setNegativeButton(R.string.menu_contrib, this)
       .create();
     }
 
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    if (which == AlertDialog.BUTTON_NEGATIVE)
+    switch(which) {
+    case AlertDialog.BUTTON_NEGATIVE:
       ((MessageDialogListener) getActivity())
-      .dispatchCommand(R.id.CONTRIB_PLAY_COMMAND,null);
+        .dispatchCommand(R.id.CONTRIB_PLAY_COMMAND,null);
+      break;
+    case AlertDialog.BUTTON_NEUTRAL:
+      ((MessageDialogListener) getActivity())
+        .dispatchCommand(R.id.WEB_COMMAND,null);
+    }
   }
 }

@@ -34,6 +34,7 @@
   <string name="backup_failure">Backup to sdcard failed.</string>
   <string name="backup_success">Database and preferences successfully written to sdcard.</string>
   <string name="button_ok_and_new">Save and new</string>
+  <string name="button_website">Website</string>
   <string name="category_already_defined">Category %1$s already defined</string>
   <string name="category">Category</string>
   <string name="color">Color</string>

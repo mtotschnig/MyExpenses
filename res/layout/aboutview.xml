@@ -67,59 +67,6 @@
         style="@style/about_text" />
     <TextView android:text="© 2013 Michael Totschnig"
         style="@style/about_text" />
-
-    <!-- More information -->
-    <TextView android:text="@string/help_heading_more_info"
-        style="?attr/headingStyleApp" />
-  <LinearLayout
-      android:layout_gravity="center_horizontal"
-      android:orientation="vertical"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content">
-    <Button
-        android:onClick="onDialogButtonClicked"
-        android:id="@id/WEB_COMMAND"
-        android:tag="tutorial_r4"
-        android:layout_width="fill_parent"
-        style="@style/button"
-        android:text="@string/tutorial" />
-    <Button
-        android:onClick="onDialogButtonClicked"
-        android:id="@id/WEB_COMMAND"
-        android:tag="news"
-        android:layout_width="fill_parent"
-        style="@style/button"
-        android:text="@string/help_heading_news" />
-    <Button
-        android:onClick="onDialogButtonClicked"
-        android:id="@id/WEB_COMMAND"
-        android:tag="faq"
-        android:layout_width="fill_parent"
-        style="@style/button"
-        android:text="@string/menu_faq" />
-    <Button
-        android:onClick="onDialogButtonClicked"
-        android:id="@id/WEB_COMMAND"
-        android:tag="privacy"
-        android:layout_width="fill_parent"
-        style="@style/button"
-        android:text="@string/help_heading_privacy" />
-    <Button
-        android:onClick="onDialogButtonClicked"
-        android:id="@id/WEB_COMMAND"
-        android:tag="changelog"
-        android:layout_width="fill_parent"
-        style="@style/button"
-        android:text="@string/help_heading_changelog" />
-    <Button
-        android:onClick="onDialogButtonClicked"
-        android:id="@id/WEB_COMMAND"
-        android:tag="credits"
-        android:layout_width="fill_parent"
-        style="@style/button"
-        android:text="@string/help_heading_credits" />
-    </LinearLayout>
-
     <!-- Feedback -->
     <TextView android:text="@string/feedback"
        style="?attr/headingStyleApp" />

@@ -32,6 +32,7 @@ import com.actionbarsherlock.view.MenuItem;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -71,6 +72,11 @@ public abstract class ProtectedFragmentActivity extends SherlockFragmentActivity
     switch(command) {
     case R.id.CONTRIB_PLAY_COMMAND:
       Utils.viewContribApp(this);
+      return true;
+    case R.id.WEB_COMMAND:
+      Intent i = new Intent(Intent.ACTION_VIEW);
+      i.setData(Uri.parse("http://" + MyApplication.HOST));
+      startActivity(i);
       return true;
     }
     return false;

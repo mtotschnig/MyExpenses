@@ -571,11 +571,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.BACKUP_COMMAND:
       startActivity(new Intent("myexpenses.intent.backup"));
       break;
-    case R.id.WEB_COMMAND:
-      i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse("http://" + MyApplication.HOST + "/#" + (String) tag));
-      startActivity(i);
-      break;
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
       Bundle args = new Bundle();
       args.putInt("id", R.id.NEW_FROM_TEMPLATE_COMMAND);
