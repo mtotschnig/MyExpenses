@@ -27,12 +27,13 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 
 public abstract class ProtectedFragmentActivity extends SherlockFragmentActivity
     implements MessageDialogListener {
-  private Dialog pwDialog;
+  private AlertDialog pwDialog;
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {

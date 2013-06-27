@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.support.v4.app.FragmentActivity;
 
 /**
@@ -34,7 +34,7 @@ import android.support.v4.app.FragmentActivity;
  */
 public class ProtectedFragmentActivityNoSherlock extends FragmentActivity implements
     MessageDialogListener  {
-  private Dialog pwDialog;
+  private AlertDialog pwDialog;
   @Override
   protected void onPause() {
     super.onPause();

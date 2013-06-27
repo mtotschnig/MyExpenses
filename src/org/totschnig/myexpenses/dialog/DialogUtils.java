@@ -82,90 +82,21 @@ public class DialogUtils {
         accountId)
       .show(ctx.getSupportFragmentManager(),"WARNING_RESET");
   }
-  /**
-   * @return an AlertDialog.Builder with R.layout.messagedialog as layout
-   */
-  public static AlertDialog.Builder createMessageDialog(Context ctx, int message,int command,Object tag) {
-    return createMessageDialogWithCustomButtons(ctx,message,command,tag,android.R.string.yes,android.R.string.no);
-  }
-  /**
-   * @return an AlertDialog.Builder with R.layout.messagedialog as layout
-   */
-  public static AlertDialog.Builder createMessageDialogWithCustomButtons(
-      Context ctx, CharSequence message,int command,Object tag, int yesButton, int noButton) {
-    LayoutInflater li = LayoutInflater.from(ctx);
-    View view = li.inflate(R.layout.messagedialog, null);
-    TextView tv = (TextView)view.findViewById(R.id.message_text);
-    tv.setText(message);
-    setDialogTwoButtons(view,
-        yesButton,command,tag,
-        noButton,0,null
-    );
-    return new AlertDialog.Builder(ctx)
-      .setView(view);
-  }
-  public static AlertDialog.Builder createMessageDialogWithCustomButtons(
-      Context ctx, int  message,int command,Object tag, int yesButton, int noButton) {
-    return createMessageDialogWithCustomButtons(ctx,ctx.getString(message),command,tag,yesButton,noButton);
-  }
-  /**
-   * one button centered takes up 33% width
-   */
-  public static void setDialogOneButton(View view,
-      int neutralString, int neutralCommandId,Object neutralTag) {
-    setButton((Button) view.findViewById(R.id.NEUTRAL_BUTTON),neutralString,neutralCommandId,neutralTag);
-    view.findViewById(R.id.POSITIVE_BUTTON).setVisibility(View.INVISIBLE);
-    view.findViewById(R.id.NEGATIVE_BUTTON).setVisibility(View.INVISIBLE);
-  }
-  /**
-   * two buttons 50% width each
-   */
-  public static void setDialogTwoButtons(View view,
-      int positiveString, int positiveCommandId,Object positiveTag,
-      int negativeString, int negativeCommandId,Object negativeTag) {
-    setButton((Button) view.findViewById(R.id.POSITIVE_BUTTON),positiveString,positiveCommandId,positiveTag);
-    setButton((Button) view.findViewById(R.id.NEGATIVE_BUTTON),negativeString,negativeCommandId,negativeTag);
-    view.findViewById(R.id.NEUTRAL_BUTTON).setVisibility(View.GONE);
-  }
-  /**
-   * three buttons 33% width each
-   */
-  public static void setDialogThreeButtons(View view,
-      int positiveString, int positiveCommandId,Object positiveTag,
-      int neutralString, int neutralCommandId,Object neutralTag,
-      int negativeString, int negativeCommandId,Object negativeTag) {
-    setButton((Button) view.findViewById(R.id.POSITIVE_BUTTON),positiveString,positiveCommandId,positiveTag);
-    setButton((Button) view.findViewById(R.id.NEUTRAL_BUTTON),neutralString,neutralCommandId,neutralTag);
-    setButton((Button) view.findViewById(R.id.NEGATIVE_BUTTON),negativeString,negativeCommandId,negativeTag);
-  }
-  /**
-   * set String s and Command c on Button b
-   * if s i null, hide button
-   * @param b
-   * @param s
-   * @param c
-   */
-  private static void setButton(Button b, int s, int c,Object tag) {
-    b.setText(s);
-    if (c != 0) {
-      b.setId(c);
-      if (tag != null)
-        b.setTag(tag);
-    }
-  }
-  public static void showPasswordDialog(Activity ctx,Dialog dlg) {
+
+  public static void showPasswordDialog(Activity ctx,AlertDialog dialog) {
     ctx.findViewById(android.R.id.content).setVisibility(View.INVISIBLE);
-    dlg.show();
+    dialog.show();
+    PasswordDialogListener l = new PasswordDialogListener(ctx,dialog);
+    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(l);
+    dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(l);
   }
-  public static Dialog passwordDialog(final Activity ctx) {
+  public static AlertDialog passwordDialog(final Activity ctx) {
     final SharedPreferences settings = MyApplication.getInstance().getSettings();
     final String securityQuestion = settings.getString(MyApplication.PREFKEY_SECURITY_QUESTION, "");
-    Button okBtn;
-    LayoutInflater li = LayoutInflater.from(new ContextThemeWrapper(ctx, MyApplication.getThemeId()));
+    LayoutInflater li = LayoutInflater.from(ctx);
     View view = li.inflate(R.layout.password_check, null);
-    final EditText input = (EditText) view.findViewById(R.id.password);
-    final TextView error = (TextView) view.findViewById(R.id.passwordInvalid);
-    final AlertDialog pwDialog = new AlertDialog.Builder(ctx)
+    view.findViewById(R.id.password).setTag(Boolean.valueOf(false));
+    AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
       .setTitle(R.string.password_prompt)
       .setView(view)
       .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -173,38 +104,41 @@ public class DialogUtils {
           public void onCancel(DialogInterface dialog) {
             ctx.moveTaskToBack(true);
           }
-        })
-      .create();
-    final Button lostBtn = (Button) view.findViewById(R.id.NEGATIVE_BUTTON);
+        });
     if (MyApplication.getInstance().isContribEnabled && !securityQuestion.equals("")) {
-      view.findViewById(R.id.NEUTRAL_BUTTON).setVisibility(View.GONE);
-      okBtn = (Button) view.findViewById(R.id.POSITIVE_BUTTON);
-      lostBtn.setText(R.string.password_lost);
-      lostBtn.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-          input.setText("");
-          error.setText("");
-          if ((Boolean) input.getTag()) {
-            input.setTag(Boolean.valueOf(false));
-            lostBtn.setText(R.string.password_lost);
-            pwDialog.setTitle(R.string.password_prompt);
-          } else {
-            input.setTag(Boolean.valueOf(true));
-            pwDialog.setTitle(securityQuestion);
-            lostBtn.setText(android.R.string.cancel);
-          }
-        }
+      builder.setNegativeButton(R.string.password_lost, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {}
       });
-    } else {
-      view.findViewById(R.id.POSITIVE_BUTTON).setVisibility(View.INVISIBLE);
-      lostBtn.setVisibility(View.INVISIBLE);
-      okBtn = (Button) view.findViewById(R.id.NEUTRAL_BUTTON);
     }
-    okBtn.setText(android.R.string.ok);
-    // we store as tag the state of the dialog: false => we check the password; true => we check the security question
-    input.setTag(Boolean.valueOf(false));
-    okBtn.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
+    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+      public void onClick(DialogInterface dialog, int id) {}
+    });
+    return builder.create();
+  }
+  static class PasswordDialogListener implements View.OnClickListener {
+    private final AlertDialog dialog;
+    private final Activity ctx;
+    public PasswordDialogListener(Activity ctx, AlertDialog dialog) {
+        this.dialog = dialog;
+        this.ctx = ctx;
+    }
+    @Override
+    public void onClick(View v) {
+      final SharedPreferences settings = MyApplication.getInstance().getSettings();
+      final String securityQuestion = settings.getString(MyApplication.PREFKEY_SECURITY_QUESTION, "");
+      EditText input = (EditText) dialog.findViewById(R.id.password);
+      TextView error = (TextView) dialog.findViewById(R.id.passwordInvalid);
+      if (v == dialog.getButton(AlertDialog.BUTTON_NEGATIVE)) {
+        if ((Boolean) input.getTag()) {
+          input.setTag(Boolean.valueOf(false));
+          ((Button) v).setText(R.string.password_lost);
+          dialog.setTitle(R.string.password_prompt);
+        } else {
+          input.setTag(Boolean.valueOf(true));
+          dialog.setTitle(securityQuestion);
+          ((Button) v).setText(android.R.string.cancel);
+        }
+      } else {
         String value = input.getText().toString();
         boolean isInSecurityQuestion = (Boolean) input.getTag();
         if (Utils.md5(value).equals(settings.getString(
@@ -216,17 +150,16 @@ public class DialogUtils {
           if (isInSecurityQuestion) {
             settings.edit().putBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false).commit();
             Toast.makeText(ctx.getBaseContext(),R.string.password_disabled_reenable, Toast.LENGTH_LONG).show();
-            lostBtn.setText(R.string.password_lost);
-            pwDialog.setTitle(R.string.password_prompt);
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(R.string.password_lost);
+            dialog.setTitle(R.string.password_prompt);
             input.setTag(Boolean.valueOf(false));
           }
-          pwDialog.dismiss();
+          dialog.dismiss();
         } else {
           input.setText("");
           error.setText(isInSecurityQuestion ? R.string.password_security_answer_not_valid : R.string.password_not_valid);
         }
       }
-    });
-    return pwDialog;
+    }
   }
 }

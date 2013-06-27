@@ -19,11 +19,11 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.app.AlertDialog;
 
 
 public class ProtectedActivity extends Activity {
-  private Dialog pwDialog;
+  private AlertDialog pwDialog;
   @Override
   protected void onPause() {
     super.onPause();

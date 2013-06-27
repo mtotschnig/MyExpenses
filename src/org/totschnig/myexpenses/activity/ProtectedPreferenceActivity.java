@@ -18,12 +18,12 @@ package org.totschnig.myexpenses.activity;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.preference.PreferenceActivity;
 
 
 public class ProtectedPreferenceActivity extends PreferenceActivity {
-  private Dialog pwDialog;
+  private AlertDialog pwDialog;
   @Override
   protected void onPause() {
     super.onPause();
