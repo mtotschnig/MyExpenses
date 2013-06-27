@@ -29,7 +29,6 @@
     <item name="dividerVisible">0</item>
     <item name="buttonBarStyle">@style/buttonBarDark</item>
     <item name="buttonBackgroundNormal">@drawable/btn_dark</item>
-    <item name="buttonBackgroundPopup">@drawable/btn_dark2</item>
     <item name="menuItemStyle">@style/buttonMenuItemDark</item>
     <item name="buttonTextColor">@color/theme_dark_button_color</item>
     <item name="listPadding">7dp</item>
@@ -53,7 +52,6 @@
     <item name="dividerVisible">2</item><!-- gone -->
     <item name="buttonBarStyle">@android:style/ButtonBar</item>
     <item name="buttonBackgroundNormal">@drawable/btn_default</item>
-    <item name="buttonBackgroundPopup">@drawable/btn_popup</item>
     <item name="menuItemStyle">@style/buttonMenuItemLight</item>
     <item name="buttonTextColor">#000000</item>
     <!-- theme light is padded through the background -->

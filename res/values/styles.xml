@@ -112,12 +112,6 @@
   <style name="buttonMenuItemLight" parent="buttonMenuItem">
     <item name="android:background">@android:drawable/btn_default_small</item>
   </style>
-  <style name="popupMenu">
-      <item name="android:layout_width">fill_parent</item>
-      <item name="android:layout_height">fill_parent</item>
-      <item name="android:orientation">vertical</item>
-      <item name="android:background">?attr/buttonBackgroundNormal</item>    
-  </style>
   <style name="paddedListRow">
     <item name="android:paddingRight">?attr/listPadding</item>
     <item name="android:paddingLeft">?attr/listPadding</item>

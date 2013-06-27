@@ -21,7 +21,6 @@
     <attr name="buttonBarStyle" format="reference" />
     <attr name="dividerVisible" format="integer" />
     <attr name="buttonBackgroundNormal" format="reference|color" />
-    <attr name="buttonBackgroundPopup" format="reference|color" /> 
     <attr name="buttonTextColor" format="reference|color"/>
     <attr name="menuItemStyle" format="reference" />
     <attr name="listPadding" format="dimension" />
