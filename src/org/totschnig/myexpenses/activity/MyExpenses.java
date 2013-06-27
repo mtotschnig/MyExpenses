@@ -180,23 +180,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.viewpager);
-
     mSettings = MyApplication.getInstance().getSettings();
-    if (mSettings.getInt("currentversion", -1) == -1) {
-      if (MyApplication.backupExists()) {
-        MessageDialogFragment.newInstance(R.string.dialog_title_restore_on_install,
-            R.string.dialog_confirm_restore_on_install,
-            R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true),
-            R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(false))
-            .show(getSupportFragmentManager(),"RESTORE_ON_INSTALL");
-        return;
-      }
-    }
-    setup();
-  }
-  private void setup() {
+
     long account_id = 0;
-    Bundle extras = getIntent().getExtras();
     if (extras != null) {
       account_id = extras.getLong(KEY_ROWID,0);
     }
@@ -212,6 +198,19 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     } else {
       setCurrentAccount(requireAccount());
     }
+    if (mSettings.getInt("currentversion", -1) == -1) {
+      if (MyApplication.backupExists()) {
+        MessageDialogFragment.newInstance(R.string.dialog_title_restore_on_install,
+            R.string.dialog_confirm_restore_on_install,
+            R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true),
+            R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(false))
+            .show(getSupportFragmentManager(),"RESTORE_ON_INSTALL");
+        return;
+      }
+    }
+    setup();
+  }
+  private void setup() {
     newVersionCheck();
     mSettings.registerOnSharedPreferenceChangeListener(this);
 
