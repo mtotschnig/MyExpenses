@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.io.Serializable;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
@@ -58,9 +60,10 @@ public class ProtectedFragmentActivityNoSherlock extends FragmentActivity implem
     super.onResume();
     protection.hanldeOnResume(pwDialog);
   }
-  public void showContribDialog(final Feature feature) {
-    ContribDialogFragment.newInstance(feature).show(getSupportFragmentManager(),"CONTRIB");
+  public void showContribDialog(final Feature feature, Serializable tag) {
+    ContribDialogFragment.newInstance(feature, tag).show(getSupportFragmentManager(),"CONTRIB");
   }
+
   public boolean dispatchCommand(int command, Object tag) {
     switch(command) {
     case R.id.CONTRIB_PLAY_COMMAND:

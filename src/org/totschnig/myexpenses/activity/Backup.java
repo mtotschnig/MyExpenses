@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import java.io.File;
+import java.io.Serializable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -46,10 +47,10 @@ public class Backup extends ProtectedFragmentActivityNoSherlock implements
           //restore
           if (MyApplication.backupExists()) {
             if (MyApplication.getInstance().isContribEnabled) {
-              showRestoreDialog();
+              contribFeatureCalled(Feature.RESTORE,null);
             }
             else {
-              showContribDialog(Feature.RESTORE);
+              showContribDialog(Feature.RESTORE,null);
             }
           } else {
             Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
@@ -68,7 +69,7 @@ public class Backup extends ProtectedFragmentActivityNoSherlock implements
       .show(getSupportFragmentManager(),"BACKUP");
   }
   @Override
-  public void contribFeatureCalled(Feature feature) {
+  public void contribFeatureCalled(Feature feature, Serializable tag) {
     showRestoreDialog();
   }
   @Override

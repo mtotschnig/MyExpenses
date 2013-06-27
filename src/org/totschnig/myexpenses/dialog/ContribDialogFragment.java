@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.dialog;
 
+import java.io.Serializable;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribIFace;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -18,10 +20,11 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
   Feature feature;
   int usagesLeft;
 
-  public static final ContribDialogFragment newInstance(Feature feature) {
+  public static final ContribDialogFragment newInstance(Feature feature, Serializable tag) {
     ContribDialogFragment dialogFragment = new ContribDialogFragment();
     Bundle bundle = new Bundle();
     bundle.putSerializable("feature", feature);
+    bundle.putSerializable("tag", tag);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
@@ -53,7 +56,7 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
       ((MessageDialogListener) ctx).dispatchCommand(R.id.CONTRIB_PLAY_COMMAND,null);
     } else {
       if (usagesLeft > 0) {
-        ((ContribIFace)ctx).contribFeatureCalled(feature);
+        ((ContribIFace)ctx).contribFeatureCalled(feature, getArguments().getSerializable("tag"));
       } else {
         ((ContribIFace)ctx).contribFeatureNotCalled();
       }

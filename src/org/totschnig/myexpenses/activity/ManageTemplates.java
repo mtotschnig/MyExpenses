@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.io.Serializable;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Template;
@@ -42,11 +44,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   private static final int CREATE_INSTANCE_SAVE = Menu.FIRST +2;
   private static final int NEW_TRANSACTION = Menu.FIRST +4;
   private static final int NEW_TRANSFER = Menu.FIRST +5;
-  
-  /**
-   * stores the template to be edited
-   */
-  private long mTemplateId;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -106,19 +103,9 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
       return true;
     }
   @Override
-  protected void onSaveInstanceState(Bundle outState) {
-   super.onSaveInstanceState(outState);
-   outState.putLong("TemplateId",mTemplateId);
-  }
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-   super.onRestoreInstanceState(savedInstanceState);
-   mTemplateId = savedInstanceState.getLong("TemplateId");
-  }
-  @Override
-  public void contribFeatureCalled(Feature feature) {
+  public void contribFeatureCalled(Feature feature, Serializable tag) {
     Intent i = new Intent(this, ExpenseEdit.class);
-    i.putExtra("template_id", mTemplateId);
+    i.putExtra("template_id", (Long) tag);
     i.putExtra("instantiate", false);
     startActivity(i);
   }
@@ -130,11 +117,10 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   @Override
   public boolean onChildClick(ExpandableListView parent, View v,
       int groupPosition, int childPosition, long id) {
-    mTemplateId = id;
     if (MyApplication.getInstance().isContribEnabled) {
-      contribFeatureCalled(Feature.EDIT_TEMPLATE);
+      contribFeatureCalled(Feature.EDIT_TEMPLATE, id);
     } else {
-      showContribDialog(Feature.EDIT_TEMPLATE);
+      showContribDialog(Feature.EDIT_TEMPLATE, id);
     }
     return true;
   }

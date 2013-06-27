@@ -17,6 +17,8 @@ package org.totschnig.myexpenses.activity;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
+import java.io.Serializable;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.AggregatesDialogFragment;
@@ -115,9 +117,9 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     switch(command) {
     case R.id.AGGREGATES_COMMAND:
       if (MyApplication.getInstance().isContribEnabled) {
-        contribFeatureCalled(Feature.AGGREGATE);
+        contribFeatureCalled(Feature.AGGREGATE, null);
       } else {
-        showContribDialog(Feature.AGGREGATE);
+        showContribDialog(Feature.AGGREGATE, null);
       }
       break;
     case R.id.CREATE_COMMAND:
@@ -141,9 +143,9 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
       break;
     case R.id.RESET_ACCOUNT_ALL_COMMAND:
       if (MyApplication.getInstance().isContribEnabled) {
-        contribFeatureCalled(Feature.RESET_ALL);
+        contribFeatureCalled(Feature.RESET_ALL, null);
       } else {
-        showContribDialog(Feature.RESET_ALL);
+        showContribDialog(Feature.RESET_ALL, null);
       }
       break;
     case R.id.RESET_ACCOUNT_ALL_COMMAND_DO:
@@ -200,7 +202,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
   }
   @SuppressWarnings("incomplete-switch")
   @Override
-  public void contribFeatureCalled(Feature feature) {
+  public void contribFeatureCalled(Feature feature, Serializable tag) {
     switch (feature) {
     case AGGREGATE:
       feature.recordUsage();

@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -131,14 +132,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private ViewPager myPager;
 
   private boolean scheduledRestart = false;
-
-  /**
-   * TODO
-   * several dialogs need an object on which they operate, and this object must survive
-   * orientation change, and the call to the contrib dialog, currently there are three use cases for this:
-   * 3) CLONE_TRANSACTION: the transaction to be cloned
-   */
-  private long mDialogContextId = 0L;
 
 /*  private int monkey_state = 0;
 
@@ -348,12 +341,11 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       configButtons();
       return true;
     case R.id.CLONE_TRANSACTION_COMMAND:
-      mDialogContextId = info.id;
       if (MyApplication.getInstance().isContribEnabled) {
-        contribFeatureCalled(Feature.CLONE_TRANSACTION);
+        contribFeatureCalled(Feature.CLONE_TRANSACTION, info.id);
       }
       else {
-        showContribDialog(Feature.CLONE_TRANSACTION);
+        showContribDialog(Feature.CLONE_TRANSACTION, info.id);
       }
       return true;
     case R.id.SHOW_DETAIL_COMMAND:
@@ -397,17 +389,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       return true;
     }
     return super.onContextItemSelected(item);
-  }
-
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-   super.onSaveInstanceState(outState);
-   outState.putLong("TemplateCreateDialogTransactionId",mDialogContextId);
-  }
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-   super.onRestoreInstanceState(savedInstanceState);
-   mDialogContextId = savedInstanceState.getLong("TemplateCreateDialogTransactionId");
   }
   /**
    * start ExpenseEdit Activity for a new transaction/transfer
@@ -739,9 +720,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     getSupportActionBar().setSelectedNavigationItem(position);
   }
   @Override
-  public void contribFeatureCalled(Feature feature) {
+  public void contribFeatureCalled(Feature feature, Serializable tag) {
     feature.recordUsage();
-    Transaction.getInstanceFromDb(mDialogContextId).saveAsNew();
+    Transaction.getInstanceFromDb((Long) tag).saveAsNew();
   }
   @Override
   public void contribFeatureNotCalled() {

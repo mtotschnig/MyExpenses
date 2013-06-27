@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.activity;
 
+import java.io.Serializable;
+
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 
 public interface ContribIFace {
@@ -7,8 +9,9 @@ public interface ContribIFace {
   /**
    * @param feature
    * called when the user clicks on "not yet", and calls the requested feature
+   * @param tag TODO
    */
-  public abstract void contribFeatureCalled(Feature feature);
+  public abstract void contribFeatureCalled(Feature feature, Serializable tag);
 
   /**
    * the user can either click on "Buy" or cancel the dialog
