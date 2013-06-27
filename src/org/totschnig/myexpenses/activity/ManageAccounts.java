@@ -115,7 +115,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     switch(command) {
     case R.id.AGGREGATES_COMMAND:
       if (MyApplication.getInstance().isContribEnabled) {
-        showAggregatesDialog();
+        contribFeatureCalled(Feature.AGGREGATE);
       } else {
         showContribDialog(Feature.AGGREGATE);
       }
@@ -140,6 +140,13 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
       }
       break;
     case R.id.RESET_ACCOUNT_ALL_COMMAND:
+      if (MyApplication.getInstance().isContribEnabled) {
+        contribFeatureCalled(Feature.RESET_ALL);
+      } else {
+        showContribDialog(Feature.RESET_ALL);
+      }
+      break;
+    case R.id.RESET_ACCOUNT_ALL_COMMAND_DO:
       if (Utils.isExternalStorageAvailable()) {
         i = new Intent(this, Export.class);
         Feature.RESET_ALL.recordUsage();
