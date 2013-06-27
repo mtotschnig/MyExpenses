@@ -15,10 +15,8 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
-import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
@@ -28,43 +26,34 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.os.Bundle;
 
 public abstract class ProtectedFragmentActivity extends SherlockFragmentActivity
     implements MessageDialogListener {
   private AlertDialog pwDialog;
+  private ProtectionDelegate protection;
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    protection = new ProtectionDelegate(this);
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
   }
   @Override
   protected void onPause() {
     super.onPause();
-    MyApplication app = MyApplication.getInstance();
-    if (app.isLocked && pwDialog != null)
-      pwDialog.dismiss();
-    else {
-      app.setmLastPause();
-    }
+    protection.handleOnPause(pwDialog);
   }
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    MyApplication.getInstance().setmLastPause();
+    protection.handleOnDestroy();
   }
   @Override
   protected void onResume() {
     super.onResume();
-    MyApplication app = MyApplication.getInstance();
-    if (app.shouldLock()) {
-      if (pwDialog == null)
-        pwDialog = DialogUtils.passwordDialog(this);
-      DialogUtils.showPasswordDialog(this,pwDialog);
-    }
+    protection.hanldeOnResume(pwDialog);
   }
   public void showContribDialog(final Feature feature) {
     ContribDialogFragment.newInstance(feature).show(getSupportFragmentManager(),"CONTRIB");

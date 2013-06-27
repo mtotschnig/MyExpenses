@@ -15,38 +15,34 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.dialog.DialogUtils;
-
 import android.app.AlertDialog;
+import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
 
 public class ProtectedPreferenceActivity extends PreferenceActivity {
   private AlertDialog pwDialog;
+  private ProtectionDelegate protection;
+  
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    protection = new ProtectionDelegate(this);
+  }
   @Override
   protected void onPause() {
     super.onPause();
-    MyApplication app = MyApplication.getInstance();
-    if (app.isLocked && pwDialog != null)
-      pwDialog.dismiss();
-    else {
-      app.setmLastPause();
-    }
+    protection.handleOnPause(pwDialog);
   }
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    MyApplication.getInstance().setmLastPause();
+    protection.handleOnDestroy();
   }
   @Override
   protected void onResume() {
     super.onResume();
-    MyApplication app = MyApplication.getInstance();
-    if (app.shouldLock()) {
-      if (pwDialog == null)
-        pwDialog = DialogUtils.passwordDialog(this);
-      DialogUtils.showPasswordDialog(this,pwDialog);
-    }
+    protection.hanldeOnResume(pwDialog);
   }
+
 }

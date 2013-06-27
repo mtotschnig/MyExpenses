@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 /**
@@ -35,30 +36,27 @@ import android.support.v4.app.FragmentActivity;
 public class ProtectedFragmentActivityNoSherlock extends FragmentActivity implements
     MessageDialogListener  {
   private AlertDialog pwDialog;
+  private ProtectionDelegate protection;
+  
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    protection = new ProtectionDelegate(this);
+  }
   @Override
   protected void onPause() {
     super.onPause();
-    MyApplication app = MyApplication.getInstance();
-    if (app.isLocked && pwDialog != null)
-      pwDialog.dismiss();
-    else {
-      app.setmLastPause();
-    }
+    protection.handleOnPause(pwDialog);
   }
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    MyApplication.getInstance().setmLastPause();
+    protection.handleOnDestroy();
   }
   @Override
   protected void onResume() {
     super.onResume();
-    MyApplication app = MyApplication.getInstance();
-    if (app.shouldLock()) {
-      if (pwDialog == null)
-        pwDialog = DialogUtils.passwordDialog(this);
-      DialogUtils.showPasswordDialog(this,pwDialog);
-    }
+    protection.hanldeOnResume(pwDialog);
   }
   public void showContribDialog(final Feature feature) {
     ContribDialogFragment.newInstance(feature).show(getSupportFragmentManager(),"CONTRIB");
