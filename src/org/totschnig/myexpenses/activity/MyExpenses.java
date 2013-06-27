@@ -200,11 +200,14 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     }
     if (mSettings.getInt("currentversion", -1) == -1) {
       if (MyApplication.backupExists()) {
-        MessageDialogFragment.newInstance(R.string.dialog_title_restore_on_install,
-            R.string.dialog_confirm_restore_on_install,
-            R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true),
-            R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(false))
-            .show(getSupportFragmentManager(),"RESTORE_ON_INSTALL");
+        if (!mSettings.getBoolean("inRestoreOnInstall", false)) {
+          MessageDialogFragment.newInstance(R.string.dialog_title_restore_on_install,
+              R.string.dialog_confirm_restore_on_install,
+              R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true),
+              R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(false))
+              .show(getSupportFragmentManager(),"RESTORE_ON_INSTALL");
+          mSettings.edit().putBoolean("inRestoreOnInstall", true).commit();
+        }
         return;
       }
     }
@@ -671,6 +674,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       }
       break;
     case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
+      mSettings.edit().remove("inRestoreOnInstall").commit();
       if ((Boolean) tag) {
         if (MyApplication.backupRestore()) {
           //if we have successfully restored, we relaunch in order to force password check if needed
