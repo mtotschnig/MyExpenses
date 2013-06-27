@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
-import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromUriDialogFragment;
@@ -90,12 +89,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  *
  */
 public class MyExpenses extends ProtectedFragmentActivity implements
-    OnClickListener, OnSharedPreferenceChangeListener, 
+    OnSharedPreferenceChangeListener, 
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, OnNavigationListener,
     SelectFromUriDialogListener, ContribIFace {
   public static final int ACTIVITY_EDIT=1;
-  public static final int ACTIVITY_PREF=2;
   public static final int ACTIVITY_EDIT_ACCOUNT=4;
   public static final int ACTIVITY_EXPORT=5;
 
@@ -495,58 +493,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         .show(getSupportFragmentManager(),"VERSION_INFO");
     }
   }
-  /**
-   * retrieve information about the current version
-   * @return concatenation of versionName, versionCode and buildTime
-   * buildTime is automatically stored in property file during build process
-   */
-  public String getVersionInfo() {
-    String version = "";
-    String versionname = "";
-    try {
-      PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
-      version = " (revision " + pi.versionCode + ") ";
-      versionname = pi.versionName;
-      //versiontime = ", " + R.string.installed + " " + sdf.format(new Date(pi.lastUpdateTime));
-    } catch (Exception e) {
-      Log.e("MyExpenses", "Package info not found", e);
-    }
-    return versionname + version  + MyApplication.BUILD_DATE;
-  }
-  /**
-   * @return version name
-   */
-  public String getVersionName() {
-    String version = "";
-    try {
-      PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
-      version = pi.versionName;
-    } catch (Exception e) {
-      Log.e("MyExpenses", "Package name not found", e);
-    }
-    return version;
-  }
-  /**
-   * @return version number (versionCode)
-   */
-  public int getVersionNumber() {
-    int version = -1;
-    try {
-      PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
-      version = pi.versionCode;
-    } catch (Exception e) {
-      Log.e("MyExpenses", "Package name not found", e);
-    }
-    return version;
-  }
-  @Override
-  public void onClick(View v) {
-    dispatchCommand(v.getId(),v.getTag());
-  }
-
-  public void onDialogButtonClicked(View v) {
-    onClick(v);
-  }
 /*  public boolean dispatchLongCommand(int command, Object tag) {
     Intent i;
     switch (command) {
@@ -612,16 +558,13 @@ public class MyExpenses extends ProtectedFragmentActivity implements
             .show();
       }
       break;
-    case R.id.SETTINGS_COMMAND:
-      startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
-      break;
     case R.id.EDIT_ACCOUNT_COMMAND:
-      i = new Intent(MyExpenses.this, AccountEdit.class);
+      i = new Intent(this, AccountEdit.class);
       i.putExtra(KEY_ROWID, mCurrentAccount.id);
       startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
       break;
     case android.R.id.home:
-      i = new Intent(MyExpenses.this, ManageAccounts.class);
+      i = new Intent(this, ManageAccounts.class);
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
       startActivity(i);
       break;
@@ -632,9 +575,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       i = new Intent(Intent.ACTION_VIEW);
       i.setData(Uri.parse("http://" + MyApplication.HOST + "/#" + (String) tag));
       startActivity(i);
-      break;
-    case R.id.HELP_COMMAND:
-      showHelpDialog();
       break;
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
       Bundle args = new Bundle();
@@ -765,10 +705,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public void onPageScrolled(int arg0, float arg1, int arg2) {
     // TODO Auto-generated method stub
     
-  }
-  public void showHelpDialog() {
-    HelpDialogFragment.newInstance(getVersionInfo())
-      .show(getSupportFragmentManager(),"HELP");
   }
   public void showContribInfoDialog(boolean reminderP) {
     ContribInfoDialogFragment.newInstance(reminderP).show(getSupportFragmentManager(),"CONTRIB_INFO");

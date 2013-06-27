@@ -15,11 +15,14 @@
 
 package org.totschnig.myexpenses.activity;
 
+import org.totschnig.myexpenses.R;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 

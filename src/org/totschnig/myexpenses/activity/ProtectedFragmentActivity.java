@@ -17,8 +17,10 @@ package org.totschnig.myexpenses.activity;
 
 import java.io.Serializable;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
+import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
@@ -28,7 +30,11 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 public abstract class ProtectedFragmentActivity extends SherlockFragmentActivity
     implements MessageDialogListener {
@@ -79,8 +85,66 @@ public abstract class ProtectedFragmentActivity extends SherlockFragmentActivity
       setResult(RESULT_CANCELED);
       finish();
       return true;
+    case R.id.SETTINGS_COMMAND:
+      startActivityForResult(new Intent(this, MyPreferenceActivity.class),0);
+      return true;
+    case R.id.HELP_COMMAND:
+      showHelpDialog();
+     return true;
    default:
      return false;
     }
+  }
+  public void showHelpDialog() {
+    HelpDialogFragment.newInstance(getVersionInfo())
+      .show(getSupportFragmentManager(),"HELP");
+  }
+  /**
+   * retrieve information about the current version
+   * @return concatenation of versionName, versionCode and buildTime
+   * buildTime is automatically stored in property file during build process
+   */
+  public String getVersionInfo() {
+    String version = "";
+    String versionname = "";
+    try {
+      PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+      version = " (revision " + pi.versionCode + ") ";
+      versionname = pi.versionName;
+      //versiontime = ", " + R.string.installed + " " + sdf.format(new Date(pi.lastUpdateTime));
+    } catch (Exception e) {
+      Log.e("MyExpenses", "Package info not found", e);
+    }
+    return versionname + version  + MyApplication.BUILD_DATE;
+  }
+  /**
+   * @return version name
+   */
+  public String getVersionName() {
+    String version = "";
+    try {
+      PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+      version = pi.versionName;
+    } catch (Exception e) {
+      Log.e("MyExpenses", "Package name not found", e);
+    }
+    return version;
+  }
+  /**
+   * @return version number (versionCode)
+   */
+  public int getVersionNumber() {
+    int version = -1;
+    try {
+      PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+      version = pi.versionCode;
+    } catch (Exception e) {
+      Log.e("MyExpenses", "Package name not found", e);
+    }
+    return version;
+  }
+
+  public void onDialogButtonClicked(View v) {
+    dispatchCommand(v.getId(),v.getTag());
   }
 }
