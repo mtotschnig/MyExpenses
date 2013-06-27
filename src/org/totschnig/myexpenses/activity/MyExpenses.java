@@ -791,6 +791,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
     } else {
       Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
+      configButtons();
     }
   }
   @Override
