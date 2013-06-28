@@ -133,13 +133,12 @@ public class SelectCategory extends ProtectedFragmentActivity implements
     }
 
     @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-      if (super.onMenuItemSelected(featureId, item))
-        return true;
-      if (item.getItemId() == R.id.CREATE_COMMAND) {
+    public boolean dispatchCommand(int command, Object tag) {
+      if (command == R.id.CREATE_COMMAND) {
         createCat(null);
+        return true;
       }
-      return true;
+      return super.dispatchCommand(command, tag);
      }
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {

@@ -50,7 +50,7 @@ public class Backup extends ProtectedFragmentActivityNoSherlock implements
               contribFeatureCalled(Feature.RESTORE,null);
             }
             else {
-              showContribDialog(Feature.RESTORE,null);
+              CommonCommands.showContribDialog(this,Feature.RESTORE,null);
             }
           } else {
             Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();

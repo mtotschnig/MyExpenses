@@ -137,21 +137,16 @@ public abstract class EditActivity extends ProtectedFragmentActivity {
     return true;
   }
   @Override
-  public boolean onMenuItemSelected(int featureId, MenuItem item) {
-    switch(item.getItemId()) {
-    case android.R.id.home:
-      setResult(RESULT_CANCELED);
-      finish();
-      return true;
+  public boolean dispatchCommand(int command, Object tag) {
+    switch(command) {
     case R.id.Confirm:
       if (saveState()) {
         setResult(RESULT_OK);
         finish();
       }
       return true;
-   default:
-     return false;
     }
+    return super.dispatchCommand(command, tag);
   }
   abstract protected boolean saveState();
 }

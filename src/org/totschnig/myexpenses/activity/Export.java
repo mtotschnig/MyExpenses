@@ -46,7 +46,7 @@ import android.util.Log;
  * if called with KEY_ROW_ID in extras export one account, all otherwise
  *
  */
-public class Export extends ProtectedActivity {
+public class Export extends ProtectedFragmentActivityNoSherlock {
   ProgressDialog mProgressDialog;
   private MyAsyncTask task=null;
   /**
@@ -91,7 +91,7 @@ public class Export extends ProtectedActivity {
     mProgressDialog.show();
     mProgressDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(false);
     
-    task=(MyAsyncTask)getLastNonConfigurationInstance();
+    task=(MyAsyncTask)getLastCustomNonConfigurationInstance();
     
     if (task!=null) {
       task.attach(this);
@@ -132,7 +132,7 @@ public class Export extends ProtectedActivity {
   }
   
   @Override
-  public Object onRetainNonConfigurationInstance() {
+  public Object onRetainCustomNonConfigurationInstance() {
     if (task != null)
       task.detach();
     return(task);

@@ -81,13 +81,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     inflater.inflate(R.menu.accounts, menu);
     return true;
   }
-
-  @Override
-  public boolean onMenuItemSelected(int featureId, MenuItem item) {
-    if (super.onMenuItemSelected(featureId, item))
-      return true;
-    return dispatchCommand(item.getItemId(),null);
-  }
   
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -116,7 +109,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
       if (MyApplication.getInstance().isContribEnabled) {
         contribFeatureCalled(Feature.AGGREGATE, null);
       } else {
-        showContribDialog(Feature.AGGREGATE, null);
+        CommonCommands.showContribDialog(this,Feature.AGGREGATE, null);
       }
       break;
     case R.id.CREATE_COMMAND:
@@ -142,7 +135,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
       if (MyApplication.getInstance().isContribEnabled) {
         contribFeatureCalled(Feature.RESET_ALL, null);
       } else {
-        showContribDialog(Feature.RESET_ALL, null);
+        CommonCommands.showContribDialog(this,Feature.RESET_ALL, null);
       }
       break;
     case R.id.RESET_ACCOUNT_ALL_COMMAND_DO:
@@ -159,7 +152,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
       break;
     }
     configButtons();
-    return true;
+    return super.dispatchCommand(command, tag);
   }
 
   @Override

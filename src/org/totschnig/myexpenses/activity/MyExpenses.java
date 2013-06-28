@@ -279,13 +279,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     inflater.inflate(R.menu.expenses, menu);
     return true;
   }
-  @Override
-  public boolean onMenuItemSelected(int featureId, MenuItem item) {
-    if (dispatchCommand(item.getItemId(),null))
-      return true;
-    else
-      return super.onMenuItemSelected(featureId, item);
-  }
 
   /* (non-Javadoc)
   * upon return from CREATE or EDIT we call fillData to renew state of reset button
@@ -343,7 +336,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         contribFeatureCalled(Feature.CLONE_TRANSACTION, info.id);
       }
       else {
-        showContribDialog(Feature.CLONE_TRANSACTION, info.id);
+        CommonCommands.showContribDialog(this,Feature.CLONE_TRANSACTION, info.id);
       }
       return true;
     case R.id.SHOW_DETAIL_COMMAND:
@@ -426,7 +419,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public void newVersionCheck() {
     Editor edit = mSettings.edit();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
-    int current_version = getVersionNumber();
+    int current_version = CommonCommands.getVersionNumber(this);
     if (prev_version == current_version)
       return;
     if (prev_version == -1) {
@@ -434,7 +427,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       PreferenceManager.setDefaultValues(this, R.layout.preferences, false);
       //edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
-      showHelpDialog();
+      CommonCommands.showHelpDialog(this);
     } else if (prev_version != current_version) {
       ArrayList<CharSequence> versionInfo = new ArrayList<CharSequence>();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
@@ -489,7 +482,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       if (prev_version < 46) {
         versionInfo.add(getString(R.string.version_46_upgrade_info));
       }
-      VersionDialogFragment.newInstance(versionInfo, getVersionName())
+      VersionDialogFragment.newInstance(versionInfo)
         .show(getSupportFragmentManager(),"VERSION_INFO");
     }
   }
@@ -511,21 +504,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
    * @return true if command has been handled
    */
   public boolean dispatchCommand(int command, Object tag) {
-    if (super.dispatchCommand(command,tag))
-      return true;
     Intent i;
     switch (command) {
-    case R.id.FEEDBACK_COMMAND:
-      i = new Intent(android.content.Intent.ACTION_SEND);
-      i.setType("plain/text");
-      i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyApplication.FEEDBACK_EMAIL });
-      i.putExtra(android.content.Intent.EXTRA_SUBJECT,
-          "[" + getString(R.string.app_name) + 
-          getVersionName() + "] Feedback"
-      );
-      i.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.feedback_email_message));
-      startActivity(i);
-      break;
     case R.id.CONTRIB_COMMAND:
       showContribInfoDialog(false);
       break;
@@ -613,10 +593,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       long treshold = ((String) tag).equals("Rate") ? TRESHOLD_REMIND_RATE : TRESHOLD_REMIND_CONTRIB;
       mSettings.edit().putLong(key,Transaction.getTransactionSequence()+treshold).commit();
       break;
-    default:
-      return false;
     }
-    return true;
+    return super.dispatchCommand(command, tag);
   }
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,

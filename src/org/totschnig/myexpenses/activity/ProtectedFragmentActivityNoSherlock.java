@@ -60,19 +60,12 @@ public class ProtectedFragmentActivityNoSherlock extends FragmentActivity implem
     super.onResume();
     protection.hanldeOnResume(pwDialog);
   }
-  public void showContribDialog(final Feature feature, Serializable tag) {
-    ContribDialogFragment.newInstance(feature, tag).show(getSupportFragmentManager(),"CONTRIB");
-  }
-
-  public boolean dispatchCommand(int command, Object tag) {
-    switch(command) {
-    case R.id.CONTRIB_PLAY_COMMAND:
-      Utils.viewContribApp(this);
-      return true;
-    }
-    return false;
-  }
   public void cancelDialog() {
     // TODO Auto-generated method stub
+  }  @Override
+  public boolean dispatchCommand(int command, Object tag) {
+    if (CommonCommands.dispatchCommand(this, command))
+      return true;
+    return false;
   }
 }

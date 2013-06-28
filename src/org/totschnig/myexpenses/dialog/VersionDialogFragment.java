@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
 import android.app.Activity;
@@ -20,11 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class VersionDialogFragment extends DialogFragment implements OnClickListener {
-  public static final VersionDialogFragment newInstance(ArrayList<CharSequence> versionInfo, String versionName) {
+  public static final VersionDialogFragment newInstance(ArrayList<CharSequence> versionInfo) {
     VersionDialogFragment dialogFragment = new VersionDialogFragment();
     Bundle bundle = new Bundle();
     bundle.putSerializable("versionInfo", versionInfo);
-    bundle.putString("versionName", versionName);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
@@ -57,7 +57,8 @@ public class VersionDialogFragment extends DialogFragment implements OnClickList
       }
     }
     return new AlertDialog.Builder(ctx)
-      .setTitle(getString(R.string.new_version) + " : " + bundle.getString("versionName"))
+      .setTitle(getString(R.string.new_version) + " : "
+          + CommonCommands.getVersionName(getActivity()))
       .setIcon(R.drawable.icon)
       .setView(view)
       .setPositiveButton(android.R.string.ok, this)

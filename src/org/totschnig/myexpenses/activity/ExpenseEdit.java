@@ -253,20 +253,19 @@ public class ExpenseEdit extends EditActivity {
     return true;
   }
   @Override
-  public boolean onMenuItemSelected(int featureId, MenuItem item) {
-    if (super.onMenuItemSelected(featureId, item))
-      return true;
-    switch(item.getItemId()) {
+  public boolean dispatchCommand(int command, Object tag) {
+    switch(command) {
     case R.id.SAVE_AND_NEW_COMMAND:
-      if (saveState())
+      if (saveState()) {
         mTransaction.id = 0L;
         setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
             R.string.menu_create_transaction : R.string.menu_create_transfer);
         mAmountText.setText("");
         Toast.makeText(this,getString(R.string.save_transaction_and_new_success),Toast.LENGTH_SHORT).show();
-      break;
+      }
+      return true;
     }
-    return true;
+    return super.dispatchCommand(command, tag);
   }
 
   /**

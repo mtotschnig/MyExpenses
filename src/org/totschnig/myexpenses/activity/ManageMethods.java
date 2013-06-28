@@ -58,14 +58,12 @@ public class ManageMethods extends ProtectedFragmentActivity implements OnItemCl
   }
 
   @Override
-  public boolean onMenuItemSelected(int featureId, MenuItem item) {
-    if (super.onMenuItemSelected(featureId, item))
-      return true;
-    if (item.getItemId() == R.id.CREATE_COMMAND) {
+  public boolean dispatchCommand(int command, Object tag) {
+    if (command == R.id.CREATE_COMMAND) {
       Intent i = new Intent(this, MethodEdit.class);
-        startActivity(i);
+      startActivity(i);
     }
-    return true;
+    return super.dispatchCommand(command, tag);
    }
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position,

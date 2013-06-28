@@ -120,7 +120,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     if (MyApplication.getInstance().isContribEnabled) {
       contribFeatureCalled(Feature.EDIT_TEMPLATE, id);
     } else {
-      showContribDialog(Feature.EDIT_TEMPLATE, id);
+      CommonCommands.showContribDialog(this,Feature.EDIT_TEMPLATE, id);
     }
     return true;
   }
