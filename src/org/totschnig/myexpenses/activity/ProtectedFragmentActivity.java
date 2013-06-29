@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -22,17 +23,22 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.view.View;
 
 public class ProtectedFragmentActivity extends SherlockFragmentActivity
-    implements MessageDialogListener {
+    implements MessageDialogListener, OnSharedPreferenceChangeListener  {
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
+  private boolean scheduledRestart = false;
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     protection = new ProtectionDelegate(this);
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
@@ -50,7 +56,25 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   @Override
   protected void onResume() {
     super.onResume();
-    protection.hanldeOnResume(pwDialog);
+    if(scheduledRestart) {
+      scheduledRestart = false;
+      if (android.os.Build.VERSION.SDK_INT>=11)
+        recreate();
+      else {
+        Intent intent = getIntent();
+        startActivity(intent);
+        finish();
+      }
+    } else {
+      protection.hanldeOnResume(pwDialog);
+    }
+  }
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+      String key) {
+    if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
+      scheduledRestart = true;
+    }
   }
 
   public void cancelDialog() {

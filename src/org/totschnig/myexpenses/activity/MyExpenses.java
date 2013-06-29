@@ -85,7 +85,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  *
  */
 public class MyExpenses extends ProtectedFragmentActivity implements
-    OnSharedPreferenceChangeListener, 
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, OnNavigationListener,
     SelectFromUriDialogListener, ContribIFace {
@@ -123,8 +122,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   //private Cursor mExpensesCursor;
   private MyViewPagerAdapter myAdapter;
   private ViewPager myPager;
-
-  private boolean scheduledRestart = false;
 
 /*  private int monkey_state = 0;
 
@@ -201,7 +198,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   private void setup() {
     newVersionCheck();
-    mSettings.registerOnSharedPreferenceChangeListener(this);
 
     Resources.Theme theme = getTheme();
     TypedValue margin = new TypedValue();
@@ -593,23 +589,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       break;
     }
     return super.dispatchCommand(command, tag);
-  }
-  @Override
-  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-      String key) {
-    if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
-      scheduledRestart = true;
-    }
-  }
-  @Override
-  protected void onResume() {
-    super.onResume();
-    if(scheduledRestart) {
-      scheduledRestart = false;
-      Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage( getBaseContext().getPackageName() );
-      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      startActivity(i);
-    }
   }
   private class MyViewPagerAdapter extends CursorFragmentPagerAdapter {
     public MyViewPagerAdapter(Context context, FragmentManager fm, Cursor cursor) {
