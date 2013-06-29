@@ -117,7 +117,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     long currentAccountId = mCurrentAccount != null? mCurrentAccount.id : 0;
     this.mCurrentAccount = newAccount;
     long newAccountId = newAccount.id;
-    MyApplication.setCurrentAccountColor(newAccount.color);
     if (currentAccountId != newAccount.id)
       mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId)
       .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, currentAccountId)

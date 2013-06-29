@@ -18,14 +18,12 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-    <ListView
-        style="?attr/listStyle"
-        android:id="@+id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="1" />
+  <ListView
+      android:id="@+id/list"
+      android:layout_width="fill_parent"
+      android:layout_height="0px"
+      android:layout_weight="1" />
     <TextView
-        style="?attr/listStyle"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
         android:gravity="center"
@@ -34,12 +32,17 @@
         android:layout_height="0px"
         android:layout_weight="1"
         android:text="@string/no_expenses" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"/>
 <RelativeLayout
-    style="?attr/headingStyle"
-    android:drawableTop="@drawable/section_header"
+    android:padding="7dp"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/heading"
     android:orientation="horizontal">
-    <TextView style="@style/titleTextStyle"
+    <TextView  style="@style/titleTextStyle"
         android:layout_toLeftOf="@+id/end"
         android:layout_alignParentLeft="true"
         android:layout_height="wrap_content"
@@ -53,4 +56,8 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content" />
 </RelativeLayout>
+<View
+    android:id="@+id/ButtonBarDividerBottom"
+    android:layout_width="fill_parent"
+    android:layout_height="4dp"/>
 </LinearLayout>

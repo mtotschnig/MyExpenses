@@ -4,6 +4,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.SimpleDateFormat;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -19,6 +20,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.LoaderManager;
@@ -88,8 +90,14 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     colorIncome = color.data;
     
     View v = inflater.inflate(R.layout.expenses_list, null, false);
+    //work around the problem that the view pager does not display its background correclty with Sherlock
+    if (Build.VERSION.SDK_INT < 11) {
+      v.setBackgroundColor(getActivity().getResources().getColor(
+          MyApplication.getThemeId() == R.style.ThemeLight ? android.R.color.white : android.R.color.black));
+    }
     balanceTv = (TextView) v.findViewById(R.id.end);
     balanceTv.setText(Utils.formatCurrency(mAccount.getCurrentBalance()));
+    v.findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(mAccount.color);
     ListView lv = (ListView) v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};

@@ -40,9 +40,6 @@
     <item name="colorExpense">#FF0000</item>
     <item name="pageMargin">@android:color/white</item>
   </style>
-  <style name="ThemeDark.NoTitle" parent="ThemeDark">
-    <item name="android:windowNoTitle">true</item>
-  </style>
   <style name="ThemeLight" parent="BaseLight">
     <item name="headingStyle">@style/headingLight</item>
     <item name="headingStyleApp">@style/headingLightApp</item>
@@ -64,8 +61,4 @@
     <item name="colorExpense">#800000</item>
     <item name="pageMargin">@android:color/black</item>
   </style>
-  <style name="ThemeLight.NoTitle" parent="ThemeLight">
-    <item name="android:windowNoTitle">true</item>
-  </style>
- 
 </resources>

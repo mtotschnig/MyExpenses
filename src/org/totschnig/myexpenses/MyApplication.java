@@ -190,11 +190,6 @@ public class MyApplication extends Application {
           R.style.ThemeLight : R.style.ThemeDark;
     }
 
-    public static int getThemeIdNoTitle() {
-      return mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light") ?
-          R.style.ThemeLight_NoTitle : R.style.ThemeDark_NoTitle;
-    }
-
     public static File getBackupDbFile() {
       File appDir = Utils.requireAppDir();
       if (appDir == null)
