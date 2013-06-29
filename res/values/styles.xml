@@ -116,23 +116,6 @@
     <item name="android:paddingRight">@dimen/general_padding</item>
     <item name="android:paddingLeft">@dimen/general_padding</item>
   </style>
-  <!-- Animations from http://code.google.com/p/simple-quickactions/source/browse/trunk/res/values/styles.xml -->
-  <style name="Animations" />
-
-	<style name="Animations.GrowFromBottom">
-	        <item name="@android:windowEnterAnimation">@anim/grow_from_bottom</item>
-	        <item name="@android:windowExitAnimation">@anim/shrink_from_top</item>
-	</style>
-	
-	<style name="Animations.GrowFromTop">
-	        <item name="@android:windowEnterAnimation">@anim/grow_from_top</item>
-	        <item name="@android:windowExitAnimation">@anim/shrink_from_bottom</item>
-	</style>
-	
-	<style name="Animations.PopDownMenu">
-	        <item name="@android:windowEnterAnimation">@anim/grow_from_topleft_to_bottomright</item>
-	        <item name="@android:windowExitAnimation">@anim/shrink_from_bottomright_to_topleft</item>
-	</style>
   <dimen name="calculator_button_large">50dp</dimen>
   <dimen name="calculator_button_small">40dp</dimen>
   <dimen name="general_padding">7dp</dimen>
