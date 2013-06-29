@@ -24,7 +24,6 @@
       android:layout_weight="1"
       android:fillViewport="true">
    <TableLayout
-       style="?attr/listStyle"
        android:paddingRight="@dimen/general_padding"
        android:paddingLeft="@dimen/general_padding"
        android:layout_height="wrap_content"

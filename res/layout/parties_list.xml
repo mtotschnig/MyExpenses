@@ -4,14 +4,12 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
   <ListView
-      style="?attr/listStyle"
       android:id="@+id/list"
       android:layout_width="fill_parent"
       android:layout_height="0dp"
       android:layout_weight="1"
       android:drawSelectorOnTop="false" />
   <TextView android:id="@+id/empty"
-  	  style="?attr/listStyle"
       android:gravity="center"
       android:layout_width="fill_parent"
       android:layout_height="0dp"
