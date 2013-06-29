@@ -57,7 +57,7 @@
         android:layout_width="wrap_content" />
 </RelativeLayout>
 <View
-    android:id="@+id/ButtonBarDividerBottom"
+    android:id="@+id/BottomLine"
     android:layout_width="fill_parent"
     android:layout_height="4dp"/>
 </LinearLayout>

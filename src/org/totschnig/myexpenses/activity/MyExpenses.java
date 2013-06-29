@@ -46,7 +46,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.pm.PackageInfo;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
@@ -59,12 +58,9 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.support.v4.app.Fragment;
@@ -231,20 +227,23 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
     SimpleCursorAdapter adapter = new SimpleCursorAdapter(
         getSupportActionBar().getThemedContext(),
-        R.layout.sherlock_spinner_item, mAccountsCursor, new String[] {KEY_LABEL}, new int[] {android.R.id.text1}) {
+        R.layout.custom_spinner_item, mAccountsCursor, new String[] {KEY_LABEL}, new int[] {android.R.id.text1}) {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
-        View row=super.getView(position, convertView, parent);
-        TextView tv1 = (TextView)row.findViewById(android.R.id.text1);
+        return getCustomView(position,super.getView(position, convertView, parent));
+      }
+      @Override
+      public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        return getCustomView(position,super.getDropDownView(position, convertView, parent));
+      }
+      private View getCustomView(int position, View row) {
         Cursor c = getCursor();
         c.moveToPosition(position);
-        int color = c.getInt(c.getColumnIndex(KEY_COLOR));
-        row.setBackgroundColor(color);
-        tv1.setTextColor( Utils.getTextColorForBackground(color));
+        row.findViewById(R.id.color1).setBackgroundColor(c.getInt(c.getColumnIndex(KEY_COLOR)));
         return row;
       }
     };
-    adapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+    adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
     actionBar.setListNavigationCallbacks(adapter, this);
   }
   

@@ -43,9 +43,11 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   SimpleCursorAdapter mAdapter;
   private int colorExpense;
   private int colorIncome;
-  private BalanceObserver observer;
+  private TransactionsObserver tObserver;
+  private AccountObserver aObserver;
   private Account mAccount;
   private TextView balanceTv;
+  private View bottomLine;
 
   public static TransactionList newInstance(long accountId) {
     
@@ -60,21 +62,26 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
       super.onCreate(savedInstanceState);
       accountId = getArguments().getLong("account_id");
       mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
-      observer = new BalanceObserver(new Handler());
+      tObserver = new TransactionsObserver(new Handler());
+      aObserver = new AccountObserver(new Handler());
       ContentResolver cr= getActivity().getContentResolver();
-      cr.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, true,observer);
+      //we adjust the balance, when transactions have been added/deleted/updated
+      cr.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, true,tObserver);
+      //when account has changed, we might have
+      //1) to refresh the list (currency has changed),
+      //2) update current balance(opening balance has changed),
+      //3) update the bottombarcolor (color has changed
       cr.registerContentObserver(
-          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(), true,observer);
-
-      cr.registerContentObserver(
-          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(), true,
-          new AccountObserver(new Handler()));
+          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(),
+          true,aObserver);
   }
   @Override
   public void onDestroy() {
     super.onDestroy();
     try {
-      getActivity().getContentResolver().unregisterContentObserver(observer);
+      ContentResolver cr = getActivity().getContentResolver();
+      cr.unregisterContentObserver(tObserver);
+      cr.unregisterContentObserver(aObserver);
     } catch (IllegalStateException ise) {
         // Do Nothing.  Observer has already been unregistered.
     }
@@ -96,8 +103,10 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
           MyApplication.getThemeId() == R.style.ThemeLight ? android.R.color.white : android.R.color.black));
     }
     balanceTv = (TextView) v.findViewById(R.id.end);
+    updateBalance();
     balanceTv.setText(Utils.formatCurrency(mAccount.getCurrentBalance()));
-    v.findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(mAccount.color);
+    bottomLine = v.findViewById(R.id.BottomLine);
+    updateColor();
     ListView lv = (ListView) v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};
@@ -192,6 +201,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     return v;
 
   }
+
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
     CursorLoader cursorLoader = new CursorLoader(getActivity(),
@@ -208,8 +218,8 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   public void onLoaderReset(Loader<Cursor> arg0) {
     mAdapter.swapCursor(null);
   }
-  class BalanceObserver extends ContentObserver {
-    public BalanceObserver(Handler handler) {
+  class TransactionsObserver extends ContentObserver {
+    public TransactionsObserver(Handler handler) {
        super(handler);
     }
     public void onChange(boolean selfChange) {
@@ -223,14 +233,15 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     }
     public void onChange(boolean selfChange) {
       super.onChange(selfChange);
+      updateBalance();
+      updateColor();
       mAdapter.notifyDataSetChanged();
     }
- }
-  private void updateBalance() {
-    if (balanceTv != null) {
-      balanceTv.setText(Utils.formatCurrency(mAccount.getCurrentBalance()));
-      //balanceTv.setTextColor(textColor);
-    }
   }
-
+  private void updateBalance() {
+      balanceTv.setText(Utils.formatCurrency(mAccount.getCurrentBalance()));
+  }
+  private void updateColor() {
+    bottomLine.setBackgroundColor(mAccount.color);
+  }
 }
