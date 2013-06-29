@@ -216,7 +216,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     mManager.initLoader(-1, null, this);
   }
   private void moveToPosition(int position) {
-    myPager.setCurrentItem(position);
+    myPager.setCurrentItem(position,false);
     configButtons();
   }
   private void fillNavigation() {
