@@ -30,7 +30,7 @@
   <style name="headingStyle" parent="android:Widget.Holo.Light.TextView">
     <item name="android:layout_width">fill_parent</item>
     <item name="android:layout_height">wrap_content</item>
-           <item name="android:drawableBottom">@drawable/section_header</item>
+       <item name="android:drawableBottom">@drawable/section_header</item>
        <item name="android:drawablePadding">4dp</item>
        <item name="android:layout_marginTop">8dp</item>
        <item name="android:paddingLeft">4dp</item>
@@ -113,8 +113,8 @@
     <item name="android:background">@android:drawable/btn_default_small</item>
   </style>
   <style name="paddedListRow">
-    <item name="android:paddingRight">?attr/listPadding</item>
-    <item name="android:paddingLeft">?attr/listPadding</item>
+    <item name="android:paddingRight">@dimen/general_padding</item>
+    <item name="android:paddingLeft">@dimen/general_padding</item>
   </style>
   <!-- Animations from http://code.google.com/p/simple-quickactions/source/browse/trunk/res/values/styles.xml -->
   <style name="Animations" />
@@ -135,5 +135,5 @@
 	</style>
   <dimen name="calculator_button_large">50dp</dimen>
   <dimen name="calculator_button_small">40dp</dimen>
-  <dimen name="form_padding">7dp</dimen>
+  <dimen name="general_padding">7dp</dimen>
 </resources>
