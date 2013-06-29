@@ -49,10 +49,8 @@ public class AccountList extends Fragment implements LoaderManager.LoaderCallbac
           } catch (IllegalArgumentException e) {
             currency = Currency.getInstance(Locale.getDefault());
           }
-          TextView v = (TextView) row.findViewById(R.id.label);
-          int bg = c.getInt(c.getColumnIndex("color"));
-          v.setBackgroundColor(bg);
-          v.setTextColor(Utils.getTextColorForBackground(bg));
+          View v = row.findViewById(R.id.color1);
+          v.setBackgroundColor(c.getInt(c.getColumnIndex("color")));
           setConvertedAmount((TextView)row.findViewById(R.id.opening_balance), currency);
           setConvertedAmount((TextView)row.findViewById(R.id.sum_income), currency);
           setConvertedAmount((TextView)row.findViewById(R.id.sum_expenses), currency);
