@@ -18,15 +18,6 @@
   <style name="buttonBarDark">
      <item name="android:background">#000000</item>
   </style>
-  <style name="listDark">
-    <item name="android:background">#000000</item>
-    <item name="android:dividerHeight">1dp</item>
-    <item name="android:divider">#ffffff</item>
-  </style>
-  <style name="listLight">
-      <item name="android:background">@drawable/border</item>
-      <item name="android:cacheColorHint">#CCCCCC</item>
-  </style>
   <style name="headingStyle" parent="android:Widget.Holo.Light.TextView">
     <item name="android:layout_width">fill_parent</item>
     <item name="android:layout_height">wrap_content</item>

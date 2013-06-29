@@ -25,7 +25,6 @@
   <style name="ThemeDark" parent="BaseDark">
     <item name="headingStyle">@style/headingStyle</item>
     <item name="headingStyleApp">@style/headingStyleApp</item>
-    <item name="listStyle">@style/listDark</item>
     <item name="dividerVisible">0</item>
     <item name="buttonBarStyle">@style/buttonBarDark</item>
     <item name="buttonBackgroundNormal">@drawable/btn_dark</item>
@@ -38,7 +37,6 @@
   <style name="ThemeLight" parent="BaseLight">
     <item name="headingStyle">@style/headingLight</item>
     <item name="headingStyleApp">@style/headingLightApp</item>
-    <item name="listStyle">@style/listLight</item>
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
     <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>
     <item name="dividerVisible">2</item><!-- gone -->

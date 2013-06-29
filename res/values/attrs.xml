@@ -17,7 +17,6 @@
 <resources>
     <attr name="headingStyle" format="reference" />
     <attr name="headingStyleApp" format="reference" />
-    <attr name="listStyle" format="reference" />
     <attr name="buttonBarStyle" format="reference" />
     <attr name="dividerVisible" format="integer" />
     <attr name="buttonBackgroundNormal" format="reference|color" />
