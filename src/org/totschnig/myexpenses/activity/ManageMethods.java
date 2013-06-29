@@ -54,6 +54,7 @@ public class ManageMethods extends ProtectedFragmentActivity implements OnItemCl
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getSupportMenuInflater();
     inflater.inflate(R.menu.list, menu);
+    super.onCreateOptionsMenu(menu);
     return true;
   }
 

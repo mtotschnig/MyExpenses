@@ -16,10 +16,13 @@
 package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.app.AlertDialog;
@@ -79,6 +82,12 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
 
   public void cancelDialog() {
     // TODO Auto-generated method stub
+  }
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getSupportMenuInflater();
+    inflater.inflate(R.menu.common, menu);
+    return true;
   }
   @Override
   public boolean onMenuItemSelected(int featureId, MenuItem item) {

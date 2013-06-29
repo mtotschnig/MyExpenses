@@ -25,21 +25,15 @@
     android:title="@string/menu_reset">
   </item>
   <item
-    android:id="@id/HELP_COMMAND"
-    android:icon="@android:drawable/ic_menu_help"
+    android:id="@id/EDIT_ACCOUNT_COMMAND"
+    android:icon="@android:drawable/ic_menu_edit"
     android:showAsAction="ifRoom"
-    android:title="@string/menu_help">
+    android:title="@string/menu_settings_account">
   </item>
   <item
     android:id="@id/SETTINGS_COMMAND"
     android:icon="@android:drawable/ic_menu_preferences"
     android:showAsAction="ifRoom"
     android:title="@string/menu_settings">
-  </item>
-  <item
-    android:id="@id/EDIT_ACCOUNT_COMMAND"
-    android:icon="@android:drawable/ic_menu_edit"
-    android:showAsAction="ifRoom"
-    android:title="@string/menu_settings_account">
   </item>
 </menu>

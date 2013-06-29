@@ -5,4 +5,9 @@
     android:icon="@drawable/ic_menu_mark"
     android:showAsAction="always|withText"
     android:title="@android:string/ok"/>
+  <item
+    android:id="@id/SETTINGS_COMMAND"
+    android:icon="@android:drawable/ic_menu_preferences"
+    android:title="@string/menu_settings">
+  </item>
 </menu>

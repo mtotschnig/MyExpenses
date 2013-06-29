@@ -271,6 +271,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getSupportMenuInflater();
     inflater.inflate(R.menu.expenses, menu);
+    super.onCreateOptionsMenu(menu);
     return true;
   }
 

@@ -134,6 +134,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getSupportMenuInflater();
     inflater.inflate(R.menu.one, menu);
+    super.onCreateOptionsMenu(menu);
     return true;
   }
   @Override

@@ -79,6 +79,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getSupportMenuInflater();
     inflater.inflate(R.menu.accounts, menu);
+    super.onCreateOptionsMenu(menu);
     return true;
   }
   
