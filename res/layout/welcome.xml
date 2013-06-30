@@ -31,7 +31,7 @@
     <TextView android:text="@string/help_leading"
         style="@style/headingStyle" />
     <TextView android:text="@string/help_intro"
-        style="@style/headingStyle" />
+        style="@style/about_text" />
      <!-- Quick Guide -->
     <TextView android:text="@string/help_heading_contextuel_help"
         style="@style/headingStyle" />
