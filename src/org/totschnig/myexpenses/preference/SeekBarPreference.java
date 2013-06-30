@@ -1,241 +1,237 @@
-/*   This file is part of My Expenses.
- *   My Expenses is free software: you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
- *
- *   My Expenses is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- *
- *   based on code in the public domain from http://robobunny.com/wp/2011/08/13/android-seekbar-preference/
-*/
-
 package org.totschnig.myexpenses.preference;
 
+
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.R.id;
-import org.totschnig.myexpenses.R.layout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.preference.Preference;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.RelativeLayout;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-public class SeekBarPreference extends Preference implements OnSeekBarChangeListener {
-	
-	private final String TAG = getClass().getName();
-	
-	private static final String ANDROIDNS="http://schemas.android.com/apk/res/android";
-	private static final String TOTSCHNIGNS="http://myexpenses.totschnig.org";
-	private static final int DEFAULT_VALUE = 50;
-	
-	private int mMaxValue      = 100;
-	private int mMinValue      = 0;
-	private int mInterval      = 1;
-	private int mCurrentValue;
-	private String mUnitsLeft  = "";
-	private String mUnitsRight = "";
-	private SeekBar mSeekBar;
-	
-	private TextView mStatusText;
+/**
+ * A Preference that show directly a SeekBar in the Preference Screen without the need of an {@link DialogPreference}
+ * inspired by Robobunnys <a href="http://robobunny.com/wp/2011/08/13/android-seekbar-preference/">SeekBarPreference</a>
+ * based on CheckBoxPreference.java from AOSP (4.2)
+ * 
+ * @author Oliver Eichner n0izeland@{at}gmail.com
+ *
+ */
+public class SeekBarPreference extends DialogPreference implements
+		SeekBar.OnSeekBarChangeListener {
 
-	public SeekBarPreference(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		initPreference(context, attrs);
-	}
+	final String TAG = SeekBarPreference.class.getSimpleName();
+
+	SeekBar mSeekBar;
+	TextView mWidgetValueText;
+
+	private int mMaxValue = 100;
+	private int mMinValue = 0;
+	
+	String mUnitSymbol;
+
+	private int mCurrentValue;
+
 
 	public SeekBarPreference(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		initPreference(context, attrs);
+		super(context, attrs);
+
+		TypedArray a = context.obtainStyledAttributes(attrs,
+				R.styleable.SeekBarPreference);
+		mUnitSymbol = a.getString(R.styleable.SeekBarPreference_unit_symbol);
+		if(mUnitSymbol == null) {
+			mUnitSymbol=""; //if no unit sign is selected set it to nothing
+		}
+		mMaxValue = a.getInt(R.styleable.SeekBarPreference_max_value, mMaxValue);
+		mMinValue = a.getInt(R.styleable.SeekBarPreference_min_value, mMinValue);
+
+		a.recycle();
+
 	}
 
-	private void initPreference(Context context, AttributeSet attrs) {
-		setValuesFromXml(attrs);
-		mSeekBar = new SeekBar(context, attrs);
-		mSeekBar.setMax(mMaxValue - mMinValue);
+	public SeekBarPreference(Context context, AttributeSet attrs) {
+		//TODO defstyle shouldn't 0
+		this(context,attrs,0);
+	}
+
+	public SeekBarPreference(Context context) {
+		this(context,null);
+	}
+
+	@Override
+	protected View onCreateView(ViewGroup parent) {
+		//Create new LinearLayout and fill in the Preference default layout and the SeekBar
+		LinearLayout layout = new LinearLayout(getContext());
+		//XXX ListView.LayoutParameter instead of LinearLayout.LayoutParameter, due to backward compatibility with API8
+		layout.setLayoutParams(new ListView.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		layout.setOrientation(LinearLayout.VERTICAL);
+		
+		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View childLayout = inflater.inflate(getLayoutResource(),
+	             parent,false);
+		//Place the current Value TexzView in the preference widget area
+		LinearLayout widgetView =(LinearLayout) childLayout.findViewById(android.R.id.widget_frame);
+		mWidgetValueText = new TextView(getContext());
+		mWidgetValueText.setGravity(Gravity.RIGHT);
+		//TODO assign proper id, but how?
+		mWidgetValueText.setId(99999);
+		widgetView.addView(mWidgetValueText);
+		
+		layout.addView(childLayout);		
+		layout.addView(inflater.inflate(R.layout.seekbar_pref, parent,false));
+
+		return (ViewGroup)layout;
+	}
+	
+	
+	@Override
+	protected void onBindView(View view) {
+		//TODO id
+		mWidgetValueText = (TextView) ((ViewGroup)view).findViewById(99999);
+		if(mWidgetValueText==null) Log.e(TAG, "text widget null");
+
+		mWidgetValueText.setText(mCurrentValue + mUnitSymbol);
+
+		mSeekBar = (SeekBar) view.findViewById(R.id.seekBar);
+		int max;
+		int currentProgress;
+		if(mMinValue<0){
+			max=mMaxValue + Math.abs(mMinValue);
+			currentProgress = mCurrentValue +  Math.abs(mMinValue); 
+		} else {
+			max=mMaxValue - mMinValue;
+			currentProgress = mCurrentValue - mMinValue;
+		}
+	
+		mSeekBar.setMax(max);
 		mSeekBar.setOnSeekBarChangeListener(this);
-	}
-	
-	private void setValuesFromXml(AttributeSet attrs) {
-		mMaxValue = attrs.getAttributeIntValue(ANDROIDNS, "max", 100);
-		mMinValue = attrs.getAttributeIntValue(TOTSCHNIGNS, "min", 0);
-		
-		mUnitsLeft = getAttributeStringValue(attrs, TOTSCHNIGNS, "unitsLeft", "");
-		String units = getAttributeStringValue(attrs, TOTSCHNIGNS, "units", "");
-		mUnitsRight = getAttributeStringValue(attrs, TOTSCHNIGNS, "unitsRight", units);
-		
-		try {
-			String newInterval = attrs.getAttributeValue(TOTSCHNIGNS, "interval");
-			if(newInterval != null)
-				mInterval = Integer.parseInt(newInterval);
-		}
-		catch(Exception e) {
-			Log.e(TAG, "Invalid interval value", e);
-		}
-		
-	}
-	
-	private String getAttributeStringValue(AttributeSet attrs, String namespace, String name, String defaultValue) {
-		String value = attrs.getAttributeValue(namespace, name);
-		if(value == null)
-			value = defaultValue;
-		
-		return value;
-	}
-	
-	@Override
-	protected View onCreateView(ViewGroup parent){
-		
-		RelativeLayout layout =  null;
-		
-		try {
-			LayoutInflater mInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-			layout = (RelativeLayout)mInflater.inflate(R.layout.seek_bar_preference, parent, false);
-		}
-		catch(Exception e)
-		{
-			Log.e(TAG, "Error creating seek bar preference", e);
-		}
+		mSeekBar.setProgress(currentProgress);
 
-		return layout;
-		
-	}
-	
-	@Override
-	public void onBindView(View view) {
 		super.onBindView(view);
 
-		try
-		{
-			// move our seekbar to the new view we've been given
-	        ViewParent oldContainer = mSeekBar.getParent();
-	        ViewGroup newContainer = (ViewGroup) view.findViewById(R.id.seekBarPrefBarContainer);
-	        
-	        if (oldContainer != newContainer) {
-	        	// remove the seekbar from the old view
-	            if (oldContainer != null) {
-	                ((ViewGroup) oldContainer).removeView(mSeekBar);
-	            }
-	            // remove the existing seekbar (there may not be one) and add ours
-	            newContainer.removeAllViews();
-	            newContainer.addView(mSeekBar, ViewGroup.LayoutParams.FILL_PARENT,
-	                    ViewGroup.LayoutParams.WRAP_CONTENT);
-	        }
-		}
-		catch(Exception ex) {
-			Log.e(TAG, "Error binding view: " + ex.toString());
-		}
-
-		updateView(view);
 	}
-    
-	/**
-	 * Update a SeekBarPreference view with our current state
-	 * @param view
-	 */
-	protected void updateView(View view) {
 
-		try {
-			RelativeLayout layout = (RelativeLayout)view;
-
-			mStatusText = (TextView)layout.findViewById(R.id.seekBarPrefValue);
-			mStatusText.setText(String.valueOf(mCurrentValue));
-			mStatusText.setMinimumWidth(30);
-			
-			mSeekBar.setProgress(mCurrentValue - mMinValue);
-
-			TextView unitsRight = (TextView)layout.findViewById(R.id.seekBarPrefUnitsRight);
-			unitsRight.setText(mUnitsRight);
-			
-			TextView unitsLeft = (TextView)layout.findViewById(R.id.seekBarPrefUnitsLeft);
-			unitsLeft.setText(mUnitsLeft);
-			
-		}
-		catch(Exception e) {
-			Log.e(TAG, "Error updating seek bar preference", e);
-		}
-		
-	}
-	
 	@Override
-	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-		int newValue = progress + mMinValue;
-		
-		if(newValue > mMaxValue)
-			newValue = mMaxValue;
-		else if(newValue < mMinValue)
-			newValue = mMinValue;
-		else if(mInterval != 1 && newValue % mInterval != 0)
-			newValue = Math.round(((float)newValue)/mInterval)*mInterval;  
-		
-		// change rejected, revert to the previous value
-		if(!callChangeListener(newValue)){
-			seekBar.setProgress(mCurrentValue - mMinValue); 
-			return; 
-		}
-
-		// change accepted, store it
-		mCurrentValue = newValue;
-		mStatusText.setText(String.valueOf(newValue));
-		persistInt(newValue);
+	public void onStartTrackingTouch(SeekBar seekBar) {
 
 	}
 
 	@Override
-	public void onStartTrackingTouch(SeekBar seekBar) {}
+	public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+		int newValue;
+		
+		newValue=mMinValue+i;
+		
+		if (!callChangeListener(newValue)) {
+			return;
+		}
+		
+		mWidgetValueText.setText(newValue + mUnitSymbol);
+	}
 
 	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
+		setCurrentValue(mMinValue+seekBar.getProgress());
+		
+	}
+
+	/**
+	 * Set the current Value persist it and notifies about the changes
+	 * @param currentValue the value to be set
+	 */
+	private void setCurrentValue(int currentValue) {
+		mCurrentValue = currentValue;
+		persistInt(currentValue);
 		notifyChanged();
 	}
 
-
-	@Override 
-	protected Object onGetDefaultValue(TypedArray ta, int index){
-		
-		int defaultValue = ta.getInt(index, DEFAULT_VALUE);
-		return defaultValue;
-		
+	/**
+	 * The current SeekBarPreference value.
+	 * @return value
+	 */
+	private int getCurrentValue() {
+		return mCurrentValue;
 	}
 
 	@Override
-	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+	protected Object onGetDefaultValue(TypedArray a, int index) {
+		return a.getInt(index, 50);
 
-		if(restoreValue) {
-			mCurrentValue = getPersistedInt(mCurrentValue);
-		}
-		else {
-			int temp = 0;
-			try {
-				temp = (Integer)defaultValue;
-			}
-			catch(Exception ex) {
-				Log.e(TAG, "Invalid default value: " + defaultValue.toString());
-			}
-			
-			persistInt(temp);
-			mCurrentValue = temp;
-		}
 	}
+
 	@Override
-	public void setEnabled(boolean enabled) {
-	  super.setEnabled(enabled);
-	  mSeekBar.setEnabled(enabled);
+	protected void onSetInitialValue(boolean restorePersistedValue,
+			Object defaultValue) {
+
+		setCurrentValue(restorePersistedValue ? getPersistedInt(mCurrentValue)
+				: (Integer) defaultValue);
+	}
+
+	@Override
+	protected Parcelable onSaveInstanceState() {
+		final Parcelable superState = super.onSaveInstanceState();
+		if (isPersistent()) {
+			// No need to save instance state since it's persistent
+			return superState;
+		}
+
+		final SavedState myState = new SavedState(superState);
+		myState.currentValue = getCurrentValue();
+		return myState;
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Parcelable state) {
+		if (state == null || !state.getClass().equals(SavedState.class)) {
+            // Didn't save state for us in onSaveInstanceState
+            super.onRestoreInstanceState(state);
+            return;
+        }
+         
+        SavedState myState = (SavedState) state;
+        super.onRestoreInstanceState(myState.getSuperState());
+        setCurrentValue(myState.currentValue);
+	}
+
+	private static class SavedState extends BaseSavedState {
+		int currentValue;
+
+		public SavedState(Parcel source) {
+			super(source);
+			currentValue = source.readInt();
+		}
+
+		@Override
+		public void writeToParcel(Parcel dest, int flags) {
+			super.writeToParcel(dest, flags);
+			dest.writeInt(currentValue);
+		}
+
+		public SavedState(Parcelable superState) {
+			super(superState);
+		}
+
+		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+			public SavedState createFromParcel(Parcel in) {
+				return new SavedState(in);
+			}
+
+			public SavedState[] newArray(int size) {
+				return new SavedState[size];
+			}
+		};
+
 	}
 }
-
