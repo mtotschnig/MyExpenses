@@ -32,7 +32,7 @@ public class WelcomeDialogFragment extends DialogFragment {
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx  = (Activity) getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
-    View view = li.inflate(R.layout.aboutview, null);
+    View view = li.inflate(R.layout.welcome, null);
     return new AlertDialog.Builder(ctx)
       .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
       .setIcon(R.drawable.icon)

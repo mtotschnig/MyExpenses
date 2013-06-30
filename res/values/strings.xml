@@ -288,6 +288,7 @@
   <string name="pref_manage_parties_summary">Delete parties (payers and payees).</string>
   <string name="pref_manage_templates_title">Templates</string>
   <string name="pref_manage_templates_summary">Apply or delete templates.</string>
+  <string name="pref_more_info_dialog_title">Licence &amp; Credits</string>
   <string name="pref_password_empty">Password must not be empty</string>
   <string name="pref_password_not_equal">Passwords do not match</string>
   <string name="pref_perform_share_title">Share export file</string>
@@ -309,6 +310,7 @@
   </string>
   <string name="pref_security_question_title">Security question</string>
   <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password. Requires &app_name; Contrib.</string>
+  <string name="pref_send_feedback_title">Send feedback</string>
   <string name="pref_ui_theme_title">Theme</string>
   <string name="pref_ui_theme_summary">Choose between light and dark</string>
   <string name="pref_ui_theme_dark">dark</string>

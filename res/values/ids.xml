@@ -35,6 +35,7 @@
     <item type="id" name="CREATE_TEMPLATE_COMMAND"/>
     <item type="id" name="MOVE_TRANSACTION_COMMAND"/>
     <item type="id" name="FTP_DIALOG"/>
+    <item type="id" name="MORE_INFO_DIALOG"/>
     <item type="id" name="NEW_FROM_TEMPLATE_COMMAND"/>
     <item type="id" name="CONTRIB_COMMAND"/>
     <item type="id" name="FEEDBACK_COMMAND"/>

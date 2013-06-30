@@ -135,16 +135,31 @@
    </PreferenceCategory>
    <PreferenceCategory android:title="@string/pref_category_title_more_information">
      <Preference
-        android:title="Visit Website"/>
+        android:title="Visit Website">
+        <intent
+        android:action="android.intent.action.VIEW"
+        android:data="http://myexpenses.totschnig.org"
+        />
+    </Preference>
     <Preference
-        android:title="Follow us on Google+"/>
-    <Preference
-        android:title="Licence &amp; Credits"/>
+        android:title="Follow us on Google+">
+        <intent
+        android:action="android.intent.action.VIEW"
+        android:data="https://plus.google.com/116736113799210525299"
+        />
+    </Preference>
+    <Preference android:key="@string/pref_more_info_dialog_key"
+        android:title="@string/pref_more_info_dialog_title"/>
      </PreferenceCategory>
      <PreferenceCategory android:title="@string/feedback">
     <Preference
-        android:title="@string/help_button_rate"/>
-    <Preference
-        android:title="@string/help_button_sendmail"/>
+        android:title="@string/help_button_rate">>
+        <intent
+        android:action="android.intent.action.VIEW"
+        android:data="market://details?id=org.totschnig.myexpenses"
+        />
+    </Preference>
+    <Preference android:key="@string/pref_send_feedback_key"
+        android:title="@string/pref_send_feedback_title"/>
     </PreferenceCategory>
 </PreferenceScreen> 

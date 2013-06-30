@@ -32,6 +32,8 @@
   <string name="pref_security_answer_key">security_answer</string>
   <string name="pref_protection_delay_seconds_key">protection_delay_seconds</string>
   <string name="pref_export_format_key">export_format</string>
+  <string name="pref_send_feedback_key">send_feedback</string>
+  <string name="pref_more_info_dialog_key">more_info_dialog</string>
 
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 

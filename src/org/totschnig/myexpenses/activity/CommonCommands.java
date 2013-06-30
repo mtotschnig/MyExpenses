@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
@@ -16,6 +17,26 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 public class CommonCommands {
+  static boolean dispatchCommand(Activity ctx,int command) {
+    if (ctx instanceof FragmentActivity && dispatchCommand((FragmentActivity) ctx,command))
+      return true;
+    Intent i;
+    switch(command) {
+    case R.id.FEEDBACK_COMMAND:
+      i = new Intent(android.content.Intent.ACTION_SEND);
+      i.setType("plain/text");
+      i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyApplication.FEEDBACK_EMAIL });
+      i.putExtra(android.content.Intent.EXTRA_SUBJECT,
+          "[" + ctx.getString(R.string.app_name) +
+          getVersionName(ctx) + "] Feedback"
+      );
+      i.putExtra(android.content.Intent.EXTRA_TEXT, ctx.getString(R.string.feedback_email_message));
+      ctx.startActivity(i);
+      break;
+    }
+   return true;
+  }
+
   static boolean dispatchCommand(FragmentActivity ctx,int command) {
     switch(command) {
     case R.id.CONTRIB_PLAY_COMMAND:
@@ -36,17 +57,6 @@ public class CommonCommands {
       ctx.setResult(FragmentActivity.RESULT_CANCELED);
       ctx.finish();
       return true;
-    case R.id.FEEDBACK_COMMAND:
-      i = new Intent(android.content.Intent.ACTION_SEND);
-      i.setType("plain/text");
-      i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyApplication.FEEDBACK_EMAIL });
-      i.putExtra(android.content.Intent.EXTRA_SUBJECT,
-          "[" + ctx.getString(R.string.app_name) + 
-          getVersionName(ctx) + "] Feedback"
-      );
-      i.putExtra(android.content.Intent.EXTRA_TEXT, ctx.getString(R.string.feedback_email_message));
-      ctx.startActivity(i);
-      break;
     }
     return false;
   }
@@ -62,7 +72,7 @@ public class CommonCommands {
    * @return concatenation of versionName, versionCode and buildTime
    * buildTime is automatically stored in property file during build process
    */
-  public static String getVersionInfo(FragmentActivity ctx) {
+  public static String getVersionInfo(Activity ctx) {
     String version = "";
     String versionname = "";
     try {
@@ -78,7 +88,7 @@ public class CommonCommands {
   /**
    * @return version name
    */
-  public static String getVersionName(FragmentActivity ctx) {
+  public static String getVersionName(Activity ctx) {
     String version = "";
     try {
       PackageInfo pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
@@ -91,7 +101,7 @@ public class CommonCommands {
   /**
    * @return version number (versionCode)
    */
-  public static int getVersionNumber(FragmentActivity ctx) {
+  public static int getVersionNumber(Activity ctx) {
     int version = -1;
     try {
       PackageInfo pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
