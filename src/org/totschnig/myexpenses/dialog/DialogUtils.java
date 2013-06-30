@@ -87,8 +87,12 @@ public class DialogUtils {
     ctx.findViewById(android.R.id.content).setVisibility(View.INVISIBLE);
     dialog.show();
     PasswordDialogListener l = new PasswordDialogListener(ctx,dialog);
-    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(l);
-    dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(l);
+    Button b = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+    if (b != null)
+      b.setOnClickListener(l);
+    b = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+    if (b != null)
+      b.setOnClickListener(l);
   }
   public static AlertDialog passwordDialog(final Activity ctx) {
     final SharedPreferences settings = MyApplication.getInstance().getSettings();
