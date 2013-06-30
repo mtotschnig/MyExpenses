@@ -62,15 +62,12 @@ public class VersionDialogFragment extends DialogFragment implements OnClickList
       .setIcon(R.drawable.icon)
       .setView(view)
       .setPositiveButton(android.R.string.ok, this)
-      .setNeutralButton(R.string.menu_help,this)
       .setNegativeButton( R.string.menu_contrib, this)
       .create();
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    if (which != AlertDialog.BUTTON_POSITIVE)
-      ((MessageDialogListener) getActivity()).dispatchCommand(
-          which == AlertDialog.BUTTON_NEUTRAL ? R.id.HELP_COMMAND : R.id.CONTRIB_PLAY_COMMAND,
-          null);
+    if (which == AlertDialog.BUTTON_NEGATIVE)
+      ((MessageDialogListener) getActivity()).dispatchCommand(R.id.CONTRIB_COMMAND,null);
   }
 }

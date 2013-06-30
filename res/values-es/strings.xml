@@ -278,8 +278,7 @@
   <string name="pref_contrib_install_title">Instalar aplicación Contrib</string>
   <string name="pref_currency_decimal_separator_title">Separador decimal para entrar valores de
       moneda</string>
-  <string name="pref_currency_decimal_separator_summary">Escoja entre \",\" y \".\". Usted puede
-      también entrar sub-unidades como números enteros.</string>
+  <string name="pref_currency_decimal_separator_summary">\",\" y \".\" o sub-unidades como números enteros</string>
   <string name="pref_currency_decimal_separator_comma">Coma (,)</string>
   <string name="pref_currency_decimal_separator_point">Punto (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Sub-unidades como números enteros

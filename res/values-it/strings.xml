@@ -274,8 +274,7 @@
   <string name="pref_category_title_ui">Interfaccia utente</string>
   <string name="pref_currency_decimal_separator_title">Separatore decimale per l\'ingresso della
       quantità</string>
-  <string name="pref_currency_decimal_separator_summary">Si può scegliere tra "," e "." o decidere
-      di unità di ingresso minori come numeri interi.</string>
+  <string name="pref_currency_decimal_separator_summary">"," e "." o minori come numeri interi</string>
   <string name="pref_currency_decimal_separator_comma">Virgola (,)</string>
   <string name="pref_currency_decimal_separator_point">Punto (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Unità minori come numeri interi

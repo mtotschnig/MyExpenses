@@ -275,8 +275,7 @@
   <string name="pref_contrib_install_summary">Durch die Installation von &app_name; Contrib, erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
   <string name="pref_currency_decimal_separator_title">Dezimaltrennzeichen für die Eingabe von
       Währungsbeträgen</string>
-  <string name="pref_currency_decimal_separator_summary">Wählen Sie zwischen \",\" und \".\". Sie
-      haben auch die Möglichkeit, Untereinheiten als ganze Zahlen einzugeben.</string>
+  <string name="pref_currency_decimal_separator_summary">\",\", \".\" oder Untereinheiten als ganze Zahlen</string>
   <string name="pref_currency_decimal_separator_comma">Komma (,)</string>
   <string name="pref_currency_decimal_separator_point">Punkt (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Untereinheiten als ganze

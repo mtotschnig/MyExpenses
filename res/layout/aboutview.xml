@@ -18,77 +18,27 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-<ScrollView android:id="@+id/aboutscrollview"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1">
-  <LinearLayout
+  <ScrollView android:id="@+id/aboutscrollview"
       android:orientation="vertical"
       android:layout_width="fill_parent"
-      android:layout_height="wrap_content">
+      android:layout_height="0dp"
+      android:layout_weight="1">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-    <!-- Intro -->
     <TextView android:text="@string/help_leading"
         style="?attr/headingStyleApp" />
     <TextView android:text="@string/help_intro"
         style="@style/about_text" />
-
      <!-- Quick Guide -->
-    <TextView android:text="@string/help_heading_quick_guide"
+    <TextView android:text="@string/help_heading_contextuel_help"
         style="?attr/headingStyleApp" />
-    <TextView android:text="@string/help_quick_guide"
+    <TextView android:text="@string/help_contextuel_help"
       android:id="@+id/help_quick_guide"
       style="@style/about_text" />
-
-    <!-- What's new -->
-    <TextView android:text="@string/help_heading_whats_new"
-        style="?attr/headingStyleApp" />
-    <TextView android:id="@+id/aboutVersionCode"
-        style="@style/about_text" />
-    <TextView android:text="@string/help_whats_new"
-        android:id="@+id/help_whats_new"
-        style="@style/about_text" />
-
-        <!-- Contrib -->
-    <TextView android:text="@string/menu_contrib"
-       style="?attr/headingStyleApp" />
-    <TextView android:id="@+id/help_contrib"
-      style="@style/about_text" />
-    <!-- Licence -->
-    <TextView android:text="@string/help_heading_license"
-        style="?attr/headingStyleApp" />
-    <TextView android:text="@string/help_licence_gpl"
-      android:id="@+id/help_licence_gpl"
-        style="@style/about_text" />
-    <TextView android:text="@string/help_licence_glyphish"
-        style="@style/about_text" />
-    <TextView android:text="@string/help_licence_financisto"
-        style="@style/about_text" />
-    <TextView android:text="© 2013 Michael Totschnig"
-        style="@style/about_text" />
-    <!-- Feedback -->
-    <TextView android:text="@string/feedback"
-       style="?attr/headingStyleApp" />
-  <LinearLayout
-      android:layout_gravity="center_horizontal"
-      android:orientation="vertical"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content">
-    <Button
-        android:onClick="onDialogButtonClicked"
-        android:id="@id/RATE_COMMAND"
-        android:layout_width="fill_parent"
-        style="@style/button"
-        android:text="@string/help_button_rate" />
-     <Button
-        android:onClick="onDialogButtonClicked"
-        android:id="@id/FEEDBACK_COMMAND"
-        android:layout_width="fill_parent"
-        style="@style/button"
-        android:text="@string/help_button_sendmail" />
-    </LinearLayout>
   </LinearLayout>
-</ScrollView>
+  </ScrollView>
 </LinearLayout>
 

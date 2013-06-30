@@ -275,8 +275,7 @@
   <string name="pref_contrib_install_summary">En installant &app_name; Contrib, vous obtiendrez accès à toutes les fonctions Premium.</string>
   <string name="pref_currency_decimal_separator_title">Séparateur décimal pour l\'entrée des
       montants</string>
-  <string name="pref_currency_decimal_separator_summary">Vous pouvez choisir entre "," et "." ou
-      décider d\'entrer les nombres en centimes de devise.</string>
+  <string name="pref_currency_decimal_separator_summary">"," et "." ou en centimes de devise</string>
   <string name="pref_currency_decimal_separator_comma">Virgule (,)</string>
   <string name="pref_currency_decimal_separator_point">Point (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Sous-unités en nombres entiers
@@ -288,7 +287,7 @@
   <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir des
       définitions standards de Grisbi, incluses dans l\'application, ou votre propre fichier
       sauvegardé sous le nom &grisbi_file; dans le répertoire myexpenses de la racine de votre carte
-      SD</string>
+      SD.</string>
   <string name="pref_import_from_grisbi_title">Import des données Grisbi</string>
   <string name="pref_manage_accounts_title">Comptes</string>
   <string name="pref_manage_accounts_summary">Ajouter, éditer et supprimer les comptes.</string>

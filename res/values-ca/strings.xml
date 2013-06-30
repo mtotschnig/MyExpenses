@@ -215,7 +215,7 @@
   <string name="pref_category_title_import">Importa</string>
   <string name="pref_category_title_export">Exporta</string>
   <string name="pref_currency_decimal_separator_title">Separador decimal de moneda</string>
-  <string name="pref_currency_decimal_separator_summary">Trieu entre , i . o bé entreu sempre les quantitats en cèntims, per evitar fer servir el símbol decimal.</string>
+  <string name="pref_currency_decimal_separator_summary">"," i "." o bé entreu sempre les quantitats en cèntims</string>
   <string name="pref_currency_decimal_separator_comma">Coma (,)</string>
   <string name="pref_currency_decimal_separator_point">Punt (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Entra totes les quantitats en cèntims</string>
