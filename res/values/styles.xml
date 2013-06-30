@@ -15,30 +15,16 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <style name="buttonBarDark">
-     <item name="android:background">#000000</item>
-  </style>
-  <style name="headingStyle" parent="android:Widget.Holo.Light.TextView">
+  <style name="headingStyle">
     <item name="android:layout_width">fill_parent</item>
     <item name="android:layout_height">wrap_content</item>
-       <item name="android:drawableBottom">@drawable/section_header</item>
-       <item name="android:drawablePadding">4dp</item>
-       <item name="android:layout_marginTop">8dp</item>
-       <item name="android:paddingLeft">4dp</item>
+    <item name="android:drawableBottom">@drawable/section_header</item>
+    <item name="android:drawablePadding">4dp</item>
+    <item name="android:layout_marginTop">8dp</item>
+    <item name="android:paddingLeft">4dp</item>
        <!-- <item name="android:textAllCaps">true</item> -->
-       <item name="android:textColor">@color/emphasis</item>
-       <item name="android:textSize">14sp</item>
-  </style>
-  <style name="headingStyleApp" parent="headingStyle">
-
-  </style>
-  <style name="headingLight" parent="headingStyle">
-    <item name="android:textAppearance">@android:style/TextAppearance.WindowTitle</item>
-    <item name="android:singleLine">true</item>
-  </style>
-  <style name="headingLightApp" parent="headingLight">
-    <item name="android:background">#8e8e8e</item>
-    <item name="android:textColor">#ffffff</item>
+    <item name="android:textColor">@color/emphasis</item>
+    <item name="android:textSize">14sp</item>
   </style>
   <!-- workaround for http://code.google.com/p/android/issues/detail?id=5237 -->    
   <style name="Widget.AutoCompleteTextViewLight" parent="@android:style/Widget.AutoCompleteTextView">
@@ -52,7 +38,6 @@
     <item name="android:layout_height">wrap_content</item>
     <item name="android:textColorLink">@drawable/linkcolor</item>
     <item name="android:padding">5dp</item>
-    <item name="android:textColor">#ffffff</item>
   </style>
   <style name="titleTextStyle">
     <item name="android:textStyle">bold</item>
@@ -62,45 +47,6 @@
       <item name="android:textStyle">bold</item>
       <item name="android:paddingRight">5dp</item>
       <item name="android:layout_gravity">center_vertical</item>
-  </style>
-  <!-- this is the generic button, we use when we have plenty of space -->
-  <style name="button">
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:textSize">15sp</item>
-    <item name="android:textStyle">bold</item>
-    <item name="android:textColor">?attr/buttonTextColor</item>
-    <item name="android:background">?attr/buttonBackgroundNormal</item>
-    <item name="android:layout_margin">1dp</item>
-  </style>
-   <!-- buttonPort and buttonLand are use in the expenses list, where we need to pack more buttons -->
-  <style name="buttonPort" parent="buttonLand">
-    <item name="android:textSize">10dp</item>
-    <item name="android:paddingBottom">5dp</item>
-    <item name="android:paddingRight">4dp</item>
-    <item name="android:paddingLeft">2dp</item>
-  </style> 
-  <style name="buttonLand" parent="button">
-    <item name="android:textSize">12dp</item>
-    <item name="android:textStyle">normal</item>
-    <item name="android:drawablePadding">-5dp</item>
-    <item name="android:paddingTop">0dp</item>
-    <item name="android:paddingBottom">2dp</item>
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_weight">1</item>
-    <item name="android:layout_height">wrap_content</item>
-  </style>
-  <style name="buttonMenuItem" parent="button">
-    <item name="android:textSize">14sp</item>
-    <item name="android:gravity">center</item>
-    <item name="android:focusable">true</item>
-    <item name="android:clickable">true</item>
-  </style>
-  <style name="buttonMenuItemDark" parent="buttonMenuItem">
-    <item name="android:background">@drawable/btn_dark</item>
-   </style>
-  <style name="buttonMenuItemLight" parent="buttonMenuItem">
-    <item name="android:background">@android:drawable/btn_default_small</item>
   </style>
   <style name="paddedListRow">
     <item name="android:paddingRight">@dimen/general_padding</item>

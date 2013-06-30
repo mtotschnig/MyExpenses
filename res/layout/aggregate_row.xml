@@ -27,8 +27,7 @@
         android:orientation="vertical"
         android:layout_span="2" >
       <TextView android:text="LABEL" android:id="@+id/currency"
-          style="?attr/headingStyleApp" />
-      <include layout="@layout/divider_thin"/>
+          style="@style/headingStyle" />
     </LinearLayout>
   </TableRow>
   <TableRow>

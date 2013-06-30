@@ -29,7 +29,7 @@
       android:layout_height="wrap_content">
   <!-- Licence -->
     <TextView android:text="@string/help_heading_license"
-        style="?attr/headingStyleApp" />
+        style="@style/headingStyle" />
     <TextView android:text="@string/help_licence_gpl"
       android:id="@+id/help_licence_gpl"
         style="@style/about_text" />
@@ -41,7 +41,7 @@
         style="@style/about_text" />
    <!--  Credits -->
    <TextView android:text="@string/help_heading_credits"
-        style="?attr/headingStyleApp" />
+        style="@style/headingStyle" />
    <TextView style="@style/about_text"
    	    android:text="App icon design copied from Sipdroid."/>
    <TextView style="@style/about_text"

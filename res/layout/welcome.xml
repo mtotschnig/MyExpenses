@@ -29,12 +29,12 @@
         android:layout_height="wrap_content">
 
     <TextView android:text="@string/help_leading"
-        style="?attr/headingStyleApp" />
+        style="@style/headingStyle" />
     <TextView android:text="@string/help_intro"
-        style="@style/about_text" />
+        style="@style/headingStyle" />
      <!-- Quick Guide -->
     <TextView android:text="@string/help_heading_contextuel_help"
-        style="?attr/headingStyleApp" />
+        style="@style/headingStyle" />
     <TextView android:text="@string/help_contextuel_help"
       android:id="@+id/help_quick_guide"
       style="@style/about_text" />

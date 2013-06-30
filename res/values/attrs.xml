@@ -15,13 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <attr name="headingStyle" format="reference" />
-    <attr name="headingStyleApp" format="reference" />
-    <attr name="buttonBarStyle" format="reference" />
-    <attr name="dividerVisible" format="integer" />
-    <attr name="buttonBackgroundNormal" format="reference|color" />
-    <attr name="buttonTextColor" format="reference|color"/>
-    <attr name="menuItemStyle" format="reference" />
     <attr name="colorIncome" format="color" />
     <attr name="colorExpense" format="color" />
     <attr name="pageMargin" format="reference" />

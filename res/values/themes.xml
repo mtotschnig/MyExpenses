@@ -23,27 +23,13 @@
     
   </style>
   <style name="ThemeDark" parent="BaseDark">
-    <item name="headingStyle">@style/headingStyle</item>
-    <item name="headingStyleApp">@style/headingStyleApp</item>
-    <item name="dividerVisible">0</item>
-    <item name="buttonBarStyle">@style/buttonBarDark</item>
-    <item name="buttonBackgroundNormal">@drawable/btn_dark</item>
-    <item name="menuItemStyle">@style/buttonMenuItemDark</item>
-    <item name="buttonTextColor">@color/theme_dark_button_color</item>
     <item name="colorIncome">#00D000</item>
     <item name="colorExpense">#FF0000</item>
     <item name="pageMargin">@android:color/white</item>
   </style>
   <style name="ThemeLight" parent="BaseLight">
-    <item name="headingStyle">@style/headingLight</item>
-    <item name="headingStyleApp">@style/headingLightApp</item>
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
     <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>
-    <item name="dividerVisible">2</item><!-- gone -->
-    <item name="buttonBarStyle">@android:style/ButtonBar</item>
-    <item name="buttonBackgroundNormal">@drawable/btn_default</item>
-    <item name="menuItemStyle">@style/buttonMenuItemLight</item>
-    <item name="buttonTextColor">#000000</item>
     <item name="colorIncome">#008000</item>
     <item name="colorExpense">#800000</item>
     <item name="pageMargin">@android:color/black</item>

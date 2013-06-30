@@ -29,7 +29,7 @@
       android:shrinkColumns="1">
   <TableRow>
     <TextView android:text="LABEL" android:id="@+id/label"
-    style="?attr/headingStyle"
+    style="@style/headingStyle"
     android:layout_span="2"/>
   </TableRow>
   <TableRow style="@style/paddedListRow">
