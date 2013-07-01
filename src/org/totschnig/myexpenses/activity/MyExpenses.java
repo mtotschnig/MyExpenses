@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
@@ -272,6 +273,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     MenuInflater inflater = getSupportMenuInflater();
     inflater.inflate(R.menu.expenses, menu);
     super.onCreateOptionsMenu(menu);
+    this.menu = menu;
     return true;
   }
 
@@ -422,7 +424,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       PreferenceManager.setDefaultValues(this, R.layout.preferences, false);
       //edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
-      CommonCommands.showHelpDialog(this);
+      WelcomeDialogFragment.newInstance(CommonCommands.getVersionInfo(this))
+        .show(getSupportFragmentManager(),"WELCOME");
     } else if (prev_version != current_version) {
       ArrayList<CharSequence> versionInfo = new ArrayList<CharSequence>();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();

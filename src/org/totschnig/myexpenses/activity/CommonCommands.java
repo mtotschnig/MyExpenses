@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
-import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
+import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -61,8 +61,7 @@ public class CommonCommands {
     return false;
   }
   public static void showHelpDialog(FragmentActivity ctx) {
-    WelcomeDialogFragment.newInstance(getVersionInfo(ctx))
-      .show(ctx.getSupportFragmentManager(),"HELP");
+    HelpDialogFragment.newInstance().show(ctx.getSupportFragmentManager(),"HELP");
   }
   public static void showContribDialog(FragmentActivity ctx,Feature feature, Serializable tag) {
     ContribDialogFragment.newInstance(feature, tag).show(ctx.getSupportFragmentManager(),"CONTRIB");

@@ -32,9 +32,9 @@ public class WelcomeDialogFragment extends DialogFragment {
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx  = (Activity) getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
-    View view = li.inflate(R.layout.welcome, null);
+    View view = li.inflate(R.layout.welcome_dialog, null);
     return new AlertDialog.Builder(ctx)
-      .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.menu_help))
+      .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.dialog_title_welcome))
       .setIcon(R.drawable.icon)
       .setView(view)
       .setPositiveButton(android.R.string.ok,null)

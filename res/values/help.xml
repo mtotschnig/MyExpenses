@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="help_MyExpenses_title">Transaction list</string>
+  <string name="help_MyExpenses_info">This screen lists all transactions for the current account. From the navigation bar,
+  	you can navigate to the accounts list or select a different account.</string>
+</resources>

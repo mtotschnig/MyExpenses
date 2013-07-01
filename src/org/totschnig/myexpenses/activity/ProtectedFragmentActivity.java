@@ -37,6 +37,16 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
+  /**
+   * we store the menu for generating contextual help in the help dialog
+   */
+  protected Menu menu;
+  public MenuItem[] getMenuItems() {
+    MenuItem[] items = new MenuItem[menu.size()];
+    for (int i=0;i<menu.size();i++)
+      items[i]=menu.getItem(i);
+    return items;
+  }
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
