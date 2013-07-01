@@ -18,11 +18,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-  <ScrollView android:id="@+id/aboutscrollview"
-      android:orientation="vertical"
-      android:layout_width="fill_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -35,6 +30,5 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
   </LinearLayout>
-  </ScrollView>
 </LinearLayout>
 

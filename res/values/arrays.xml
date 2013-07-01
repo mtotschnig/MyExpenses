@@ -41,4 +41,11 @@
         <item>@string/pref_ui_theme_dark</item>
         <item>@string/pref_ui_theme_light</item>
     </string-array>
+    <string-array name="MyExpenses_menuitems">
+      <item>create_transaction</item>
+      <item>create_transfer</item>
+      <item>new_from_template</item>
+      <item>reset</item>
+      <item>edit_account</item>
+    </string-array>
 </resources>

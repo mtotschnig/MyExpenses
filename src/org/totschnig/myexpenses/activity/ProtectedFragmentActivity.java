@@ -41,12 +41,6 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
    * we store the menu for generating contextual help in the help dialog
    */
   protected Menu menu;
-  public MenuItem[] getMenuItems() {
-    MenuItem[] items = new MenuItem[menu.size()];
-    for (int i=0;i<menu.size();i++)
-      items[i]=menu.getItem(i);
-    return items;
-  }
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +96,6 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   @Override
   public boolean onMenuItemSelected(int featureId, MenuItem item) {
       return dispatchCommand(item.getItemId(),null);
-  }
-  public void onDialogButtonClicked(View v) {
-    dispatchCommand(v.getId(),v.getTag());
   }
   @Override
   public boolean dispatchCommand(int command, Object tag) {

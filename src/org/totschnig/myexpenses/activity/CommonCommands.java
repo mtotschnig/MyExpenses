@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
@@ -51,7 +52,7 @@ public class CommonCommands {
       ctx.startActivityForResult(new Intent(ctx, MyPreferenceActivity.class),0);
       return true;
     case R.id.HELP_COMMAND:
-      showHelpDialog(ctx);
+      ctx.startActivityForResult(new Intent(ctx,Help.class),0);
       return true;
     case android.R.id.home:
       ctx.setResult(FragmentActivity.RESULT_CANCELED);
@@ -59,9 +60,6 @@ public class CommonCommands {
       return true;
     }
     return false;
-  }
-  public static void showHelpDialog(FragmentActivity ctx) {
-    HelpDialogFragment.newInstance().show(ctx.getSupportFragmentManager(),"HELP");
   }
   public static void showContribDialog(FragmentActivity ctx,Feature feature, Serializable tag) {
     ContribDialogFragment.newInstance(feature, tag).show(ctx.getSupportFragmentManager(),"CONTRIB");
