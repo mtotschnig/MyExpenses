@@ -60,4 +60,7 @@
     <string-array name="AccountEdit_menuitems">
       <item>save</item>
     </string-array>
+    <string-array name="MethodEdit_menuitems">
+      <item>save</item>
+    </string-array>
 </resources>
