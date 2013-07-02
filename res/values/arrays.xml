@@ -53,6 +53,12 @@
       <item>aggregates</item>
       <item>reset_all</item>
     </string-array>
+    <string-array name="ManageMethods_menuitems">
+      <item>create_method</item>
+    </string-array>
+    <string-array name="SelectCategory_menuitems">
+      <item>create_main_cat</item>
+    </string-array>
     <string-array name="ExpenseEdit_menuitems">
       <item>save</item>
       <item>save_and_new</item>

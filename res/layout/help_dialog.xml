@@ -24,7 +24,8 @@
 	    android:orientation="vertical">
     <TextView android:id="@+id/screen_info"
         style="@style/about_text" />
-    <TextView style="@style/headingStyle" 
+    <TextView android:id="@+id/menu_commands_heading"
+        style="@style/headingStyle"
         android:text="@string/help_menu_commands"/>
   </LinearLayout>
 </ScrollView>

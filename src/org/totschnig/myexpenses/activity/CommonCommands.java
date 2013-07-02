@@ -39,19 +39,23 @@ public class CommonCommands {
   }
 
   static boolean dispatchCommand(FragmentActivity ctx,int command) {
+    Intent i;
     switch(command) {
     case R.id.CONTRIB_PLAY_COMMAND:
       Utils.viewContribApp(ctx);
       return true;
     case R.id.WEB_COMMAND:
-      Intent i = new Intent(Intent.ACTION_VIEW);
+      i = new Intent(Intent.ACTION_VIEW);
       i.setData(Uri.parse("http://" + MyApplication.HOST));
       ctx.startActivity(i);
       return true;
     case R.id.SETTINGS_COMMAND:
-      ctx.startActivityForResult(new Intent(ctx, MyPreferenceActivity.class),0);
+      i = new Intent(ctx, MyPreferenceActivity.class);
+      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      ctx.startActivityForResult(i,0);
       return true;
     case R.id.HELP_COMMAND:
+      //for result is needed since it allows us to inspect the calling activity
       ctx.startActivityForResult(new Intent(ctx,Help.class),0);
       return true;
     case android.R.id.home:

@@ -5,7 +5,8 @@
   <!-- My Expenses Transaction list -->
   <string name="help_MyExpenses_title">Transaction list</string>
   <string name="help_MyExpenses_info">This screen lists all transactions for the current account. From the
-    navigation bar, you can navigate to the accounts list or select a different account.</string>
+    navigation bar, you can navigate to the accounts list or select a different account.
+    Click on a list entry to edit the item.</string>
   <string name="menu_create_transaction_help_text">Opens the form for creating a new transaction.</string>
   <string name="menu_create_transfer_help_text">Transfer money between accounts. This command is enabled
     only if you have at least one other account with the same currency as the current one.</string>
@@ -22,14 +23,46 @@
 
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Accounts list</string>
-  <string name="help_ManageAccounts_info">This screen lists all accounts. You can create new accounts, edit them,
-    or navigate to them</string>
+  <string name="help_ManageAccounts_info">This screen lists all accounts. Clicking on a list entry, opens the
+    transaction list for the account.</string>
   <string name="menu_create_account_help_text">Opens the form for creating a new account.</string>
   <string name="menu_aggregates_help_text">The aggregates dialog calculates the sum of expenses and income accross
     all accounts that share the same currency. The command is only available if for any currency there exist at
     least two accounts (Contrib feature).</string>
   <string name="menu_reset_all_help_text">This command allows to reset all your accounts in batch. It is not available
     if there are no transactions to export.</string>
+
+  <!-- ManageMethods -->
+  <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
+  <string name="help_ManageMethods_info">This screen lists the predefined payment methods (Cheque,Credit card, Deposit,
+    Direct debit) and lets you define new ones.
+    Clicking on a list entry, lets you change the association between the method and account types.</string>
+  <string name="menu_create_method_help_text">Opens the form for creating a new payment method.</string>
+
+  <!-- ManageParties -->
+  <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
+  <string name="help_ManageParties_info">This screen lists the parties used for the autocompletion of the Payer/Payee field.
+    You can remove entries from this list through each entries context menu.</string>
+
+  <!-- ManageTemplates -->
+  <string name="help_ManageTemplates_title">@string/pref_manage_templates_title</string>
+  <string name="help_ManageTemplates_info">This screen lists the the available templates grouped by account.
+    While templates normally can be derived from transactions, here each account\'s context menu allows you to create
+    new templates (for transactions or transfers). From a template\'s context menu you can instantiate it and either
+    immediately save it or enter its editing form where you can modify it before saving.</string>
+
+  <!-- SelectCategory -->
+  <string name="help_SelectCategory_title">@string/pref_manage_categories_title</string>
+  <string name="help_SelectCategory_info">This screen allows to create, edit and delete categories
+    and when called from a transaction\'s edit form, to map the transaction to a selected category.
+    By default, the primary sort criteria in the category list is the number of times you use a category
+    (the secondary criteria is alphabetical order). This gives you quick access to the categories you use most often.
+    In the settings, you can opt for sorting the categories in plain alphabetical order.
+    Clicking on a main category, opens up its subcategories. You select a subcategory for mapping to the current
+    transaction by simply clicking on it. In order to map a main category, you have to call its context menu.
+    From here you can also add new subcategories, delete a category or edit it. Subcategories have also context
+    menus for deleting and editing.</string>
+  <string name="menu_create_main_cat_help_text">Opens the dialog for specifyig the title of a new main category.</string>
 
   <!-- ExpenseEdit -->
   <string name="help_ExpenseEdit_title">Form for transactions, transfers, templates</string>

@@ -5,9 +5,4 @@
     android:icon="@drawable/save_icon"
     android:showAsAction="always"
     android:title="@string/menu_save"/>
-  <item
-    android:id="@id/SETTINGS_COMMAND"
-    android:icon="@android:drawable/ic_menu_preferences"
-    android:title="@string/menu_settings">
-  </item>
 </menu>

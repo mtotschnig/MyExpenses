@@ -128,7 +128,7 @@ public class SelectCategory extends ProtectedFragmentActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
       MenuInflater inflater = getSupportMenuInflater();
-      inflater.inflate(R.menu.list, menu);
+      inflater.inflate(R.menu.categories, menu);
       super.onCreateOptionsMenu(menu);
       return true;
     }

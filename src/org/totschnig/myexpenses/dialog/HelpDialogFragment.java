@@ -40,16 +40,21 @@ public class HelpDialogFragment extends DialogFragment {
     LinearLayout ll = (LinearLayout) view.findViewById(R.id.help);
     ((TextView) view.findViewById(R.id.screen_info)).setText(
         getString(res.getIdentifier("help_" +activityName + "_info", "string", pack)));
-    final String[] items = res.getStringArray(res.getIdentifier(activityName+"_menuitems", "array", pack));
-    for (String item: items) {
-      View row = li.inflate(R.layout.help_dialog_action_row, null);
-      ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
-          res.getDrawable(res.getIdentifier(item+"_icon", "drawable", pack)));
-      ((TextView) row.findViewById(R.id.title)).setText(
-          res.getString(res.getIdentifier("menu_"+item,"string",pack)));
-      ((TextView) row.findViewById(R.id.help_text)).setText(
-          res.getString(res.getIdentifier("menu_"+item+"_help_text","string",pack)));
-      ll.addView(row);
+    int resId = res.getIdentifier(activityName+"_menuitems", "array", pack);
+    if (resId != 0) {
+      final String[] items = res.getStringArray(resId);
+      for (String item: items) {
+        View row = li.inflate(R.layout.help_dialog_action_row, null);
+        ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
+            res.getDrawable(res.getIdentifier(item+"_icon", "drawable", pack)));
+        ((TextView) row.findViewById(R.id.title)).setText(
+            res.getString(res.getIdentifier("menu_"+item,"string",pack)));
+        ((TextView) row.findViewById(R.id.help_text)).setText(
+            res.getString(res.getIdentifier("menu_"+item+"_help_text","string",pack)));
+        ll.addView(row);
+      }
+    } else {
+      view.findViewById(R.id.menu_commands_heading).setVisibility(View.GONE);
     }
     return new AlertDialog.Builder(ctx)
       .setTitle(getString(res.getIdentifier("help_" +activityName + "_title", "string", pack)))

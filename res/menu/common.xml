@@ -3,7 +3,6 @@
   <item
     android:id="@id/HELP_COMMAND"
     android:icon="@android:drawable/ic_menu_help"
-    android:showAsAction="ifRoom"
     android:title="@string/menu_help">
   </item>
 </menu>
