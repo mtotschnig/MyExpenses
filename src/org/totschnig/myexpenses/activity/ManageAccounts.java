@@ -102,24 +102,25 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     }
   }
   public boolean dispatchCommand(int command, Object tag) {
-    if (super.dispatchCommand(command,tag))
-      return true;
     Intent i;
     switch(command) {
+    //in super home executes finish(), which is not what we want here
+    case android.R.id.home:
+      return true;
     case R.id.AGGREGATES_COMMAND:
       if (MyApplication.getInstance().isContribEnabled) {
         contribFeatureCalled(Feature.AGGREGATE, null);
       } else {
         CommonCommands.showContribDialog(this,Feature.AGGREGATE, null);
       }
-      break;
+      return true;
     case R.id.CREATE_COMMAND:
       i = new Intent(this, AccountEdit.class);
       startActivityForResult(i, 0);
-      break;
+      return true;
     case R.id.DELETE_COMMAND_DO:
       Account.delete((Long) tag);
-      break;
+      return true;
     case R.id.RESET_ACCOUNT_COMMAND_DO:
       if (Utils.isExternalStorageAvailable()) {
         i = new Intent(this, Export.class);
@@ -131,14 +132,14 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
             Toast.LENGTH_LONG)
             .show();
       }
-      break;
+      return true;
     case R.id.RESET_ACCOUNT_ALL_COMMAND:
       if (MyApplication.getInstance().isContribEnabled) {
         contribFeatureCalled(Feature.RESET_ALL, null);
       } else {
         CommonCommands.showContribDialog(this,Feature.RESET_ALL, null);
       }
-      break;
+      return true;
     case R.id.RESET_ACCOUNT_ALL_COMMAND_DO:
       if (Utils.isExternalStorageAvailable()) {
         i = new Intent(this, Export.class);
@@ -150,7 +151,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
             Toast.LENGTH_LONG)
             .show();
       }
-      break;
+      return true;
     }
     configButtons();
     return super.dispatchCommand(command, tag);
