@@ -57,4 +57,7 @@
       <item>save</item>
       <item>save_and_new</item>
     </string-array>
+    <string-array name="AccountEdit_menuitems">
+      <item>save</item>
+    </string-array>
 </resources>

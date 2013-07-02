@@ -32,7 +32,7 @@
     if there are no transactions to export.</string>
 
   <!-- ExpenseEdit -->
-  <string name="help_ExpenseEdit_title">Edit form for transactions, transfers, templates</string>
+  <string name="help_ExpenseEdit_title">Form for transactions, transfers, templates</string>
   <string name="help_ExpenseEdit_info">Click on the - Button to toggle between expense and income, click on the = Button
     to open a calculator. The input format for amounts can be configured in the settings. The payee (or payer)
     field remembers the values you enter and will suggest them in the future. The button for selecting a payment method,
@@ -41,4 +41,11 @@
   <string name="menu_save_help_text">Save the data and close the form.</string>
   <string name="menu_save_and_new_help_text">Save the data, leave the form open for creating a new transaction with the same
     data.</string>
+    <!-- AccountEdit -->
+    <string name="help_AccountEdit_title">Form for accounts</string>
+    <string name="help_AccountEdit_info">The account is identified by its label, the description has only an informative purpose.
+      The input format for the opening balance can be configured in the settings. The currency must be entered according to
+      its three-letter code in ISO 4217, but can be chosen easily from a list by clicking on the Select button. You can
+      define the type of an account as one of Cash, Bank, Asset, Liabilities, Credit Card. The type determines the available payment
+      methods that you can configure under Preferences -> Manage -> Payment Methods.</string>
 </resources>
