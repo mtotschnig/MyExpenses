@@ -247,8 +247,8 @@ public class ExpenseEdit extends EditActivity {
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.button_ok_and_new)
-      .setIcon(android.R.drawable.ic_menu_add)
+    menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
+      .setIcon(R.drawable.save_and_new_icon)
       .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
     return true;
   }

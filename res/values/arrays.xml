@@ -53,4 +53,8 @@
       <item>aggregates</item>
       <item>reset_all</item>
     </string-array>
+    <string-array name="ExpenseEdit_menuitems">
+      <item>save</item>
+      <item>save_and_new</item>
+    </string-array>
 </resources>

@@ -33,7 +33,6 @@
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Backup su SD card non è riuscito.</string>
   <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.</string>
-  <string name="button_ok_and_new">Salvare e nuova</string>
   <string name="category">Categoria</string>
   <string name="category_already_defined">La categoria %1$s è già definita</string>
   <string name="color">Colore</string>
@@ -204,6 +203,8 @@
   <string name="menu_move_transaction">Spostare</string>
   <string name="menu_reset">Reinizializzare</string>
   <string name="menu_reset_all">Reinizializzare tutti</string>
+  <string name="menu_save">Salvare</string>
+  <string name="menu_save_and_new">Salvare e nuova</string>
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_settings_account">Conto</string>
   <string name="menu_show_detail">Visualizza i dettagli</string>

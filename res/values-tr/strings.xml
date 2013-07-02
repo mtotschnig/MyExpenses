@@ -33,7 +33,6 @@
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">SD kartına yedekleme başarısız oldu.</string>
   <string name="backup_success">Veritabanı ve tercihler SD karta başarılı bir şekilde yazıldı.</string>
-  <string name="button_ok_and_new">Kaydet ve yenisini aç</string>
   <string name="category_already_defined">%1$s kategorisi zaten tanımlanmış</string>
   <string name="category">Kategori</string>
   <string name="color">Renk</string>
@@ -191,6 +190,8 @@
   <string name="menu_new_from_template">Şablondan yeni</string>
   <string name="menu_reset">Sıfırla</string>
   <string name="menu_reset_all">Sıfırla tümünü</string>
+  <string name="menu_save">Kaydet</string>
+  <string name="menu_save_and_new">Kaydet ve yenisini aç</string>
   <string name="menu_settings">Ayarlar</string>
   <string name="menu_settings_account">Güncel hesap</string>
   <string name="menu_show_detail">Detayları göster</string>

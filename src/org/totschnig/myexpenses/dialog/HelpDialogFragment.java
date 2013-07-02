@@ -36,7 +36,6 @@ public class HelpDialogFragment extends DialogFragment {
     String activityName = getArguments().getString("activityName");
     final LayoutInflater li = LayoutInflater.from(ctx);
     View view = li.inflate(R.layout.help_dialog, null);
-    Log.d("DEBUG","help_" +activityName + "_info");
     ((TextView) view.findViewById(R.id.screen_info)).setText(
         getString(res.getIdentifier("help_" +activityName + "_info", "string", pack)));
     final String[] items = res.getStringArray(res.getIdentifier(activityName+"_menuitems", "array", pack));

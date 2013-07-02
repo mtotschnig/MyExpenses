@@ -30,4 +30,15 @@
     least two accounts (Contrib feature).</string>
   <string name="menu_reset_all_help_text">This command allows to reset all your accounts in batch. It is not available
     if there are no transactions to export.</string>
+
+  <!-- ExpenseEdit -->
+  <string name="help_ExpenseEdit_title">Edit form for transactions, transfers, templates</string>
+  <string name="help_ExpenseEdit_info">Click on the - Button to toggle between expense and income, click on the = Button
+    to open a calculator. The input format for amounts can be configured in the settings. The payee (or payer)
+    field remembers the values you enter and will suggest them in the future. The button for selecting a payment method,
+    is only available if the current account is of a type linked to any payment method. By default only bank accounts, are 
+    linked to payment methods (cheque,credit card, deposit,direct debit).</string>
+  <string name="menu_save_help_text">Save the data and close the form.</string>
+  <string name="menu_save_and_new_help_text">Save the data, leave the form open for creating a new transaction with the same
+    data.</string>
 </resources>

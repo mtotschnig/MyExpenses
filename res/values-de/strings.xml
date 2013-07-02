@@ -34,7 +34,6 @@
   <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
   <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der
       SD-Karte gesichert.</string>
-  <string name="button_ok_and_new">Speichern und neu</string>
   <string name="category">Kategorie</string>
   <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
   <string name="color">Farbe</string>
@@ -206,6 +205,8 @@
   <string name="menu_new_from_template">Neu aus Vorlage</string>
   <string name="menu_reset">Zurücksetzen</string>
   <string name="menu_reset_all">Alle zurücksetzen</string>
+  <string name="menu_save">Speichern</string>
+  <string name="menu_save_and_new">Speichern und neu</string>
   <string name="menu_settings">Einstellungen</string>
   <string name="menu_settings_account">Aktuelles Konto</string>
   <string name="menu_show_detail">Details anzeigen</string>

@@ -34,7 +34,6 @@
   <string name="backup_failure">La copia de seguridad en la tarjeta SD ha fallado.</string>
   <string name="backup_success">La base de datos y las configuraciones han sido archivados en la
       tarjeta SD.</string>
-  <string name="button_ok_and_new">Guardar y nueva</string>
   <string name="category">Categoría</string>
   <string name="category_already_defined">Categoría %1$s ya existe.</string>
   <string name="color">Color</string>
@@ -207,6 +206,8 @@
   <string name="menu_new_from_template">Nuevo a partir de una plantilla</string>
   <string name="menu_reset">Restablecer</string>
   <string name="menu_reset_all">Restablecer todas</string>
+  <string name="menu_save">Guardar</string>
+  <string name="menu_save_and_new">Guardar y nueva</string>
   <string name="menu_settings">Configuraciones</string>
   <string name="menu_settings_account">Cuenta actual</string>
   <string name="menu_show_detail">Ver los detalles</string>

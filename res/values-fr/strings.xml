@@ -34,7 +34,6 @@
   <string name="backup_failure">La sauvegarde sur carte SD a échoué.</string>
   <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur la carte
       SD.</string>
-  <string name="button_ok_and_new">Enregistrer et nouveau</string>
   <string name="category">Catégorie</string>
   <string name="category_already_defined">La catégorie %1$s existe</string>
   <string name="color">Couleur</string>
@@ -204,6 +203,8 @@
   <string name="menu_new_from_template">Nouveau d\'après modèle</string>
   <string name="menu_reset">Réinitialiser</string>
   <string name="menu_reset_all">Réinitialiser tous</string>
+  <string name="menu_save">Enregistrer</string>
+  <string name="menu_save_and_new">Enregistrer et nouveau</string>
   <string name="menu_settings">Paramètres</string>
   <string name="menu_settings_account">Compte en cours</string>
   <string name="menu_show_detail">Afficher les détails</string>

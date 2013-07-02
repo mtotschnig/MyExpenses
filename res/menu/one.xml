@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 	<item
     android:id="@+id/Confirm"
-    android:icon="@drawable/ic_menu_mark"
-    android:showAsAction="always|withText"
-    android:title="@android:string/ok"/>
+    android:icon="@drawable/save_icon"
+    android:showAsAction="always"
+    android:title="@string/menu_save"/>
   <item
     android:id="@id/SETTINGS_COMMAND"
     android:icon="@android:drawable/ic_menu_preferences"

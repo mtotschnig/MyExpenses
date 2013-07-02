@@ -33,7 +33,6 @@
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Backup to sdcard failed.</string>
   <string name="backup_success">Database and preferences successfully written to sdcard.</string>
-  <string name="button_ok_and_new">Save and new</string>
   <string name="button_website">Website</string>
   <string name="category_already_defined">Category %1$s already defined</string>
   <string name="category">Category</string>
@@ -193,6 +192,8 @@
   <string name="menu_help">Help</string>
   <string name="menu_more">More &#8230;</string>
   <string name="menu_move_transaction">Move</string>
+  <string name="menu_save">Save</string>
+  <string name="menu_save_and_new">Save and new</string>
   <string name="menu_new_from_template">New from template</string>
   <string name="menu_reset">Reset</string>
   <string name="menu_reset_all">Reset all</string>
