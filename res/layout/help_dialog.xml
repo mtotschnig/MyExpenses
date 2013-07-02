@@ -14,22 +14,18 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+    android:layout_height="0dp"
+    android:layout_weight="1">
+  <LinearLayout android:id="@+id/help"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical">
     <TextView android:id="@+id/screen_info"
         style="@style/about_text" />
-    </ScrollView>
     <TextView style="@style/headingStyle" 
         android:text="@string/help_menu_commands"/>
-    <ListView android:id="@+id/actionlist"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-</LinearLayout>
+  </LinearLayout>
+</ScrollView>
 

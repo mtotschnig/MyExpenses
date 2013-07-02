@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ImageView;
@@ -36,43 +37,20 @@ public class HelpDialogFragment extends DialogFragment {
     String activityName = getArguments().getString("activityName");
     final LayoutInflater li = LayoutInflater.from(ctx);
     View view = li.inflate(R.layout.help_dialog, null);
+    LinearLayout ll = (LinearLayout) view.findViewById(R.id.help);
     ((TextView) view.findViewById(R.id.screen_info)).setText(
         getString(res.getIdentifier("help_" +activityName + "_info", "string", pack)));
     final String[] items = res.getStringArray(res.getIdentifier(activityName+"_menuitems", "array", pack));
-    ListView list=(ListView) view.findViewById(R.id.actionlist);
-    list.setAdapter(new BaseAdapter() {
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
-        View row = convertView == null ?
-          li.inflate(R.layout.help_dialog_action_row, null) :
-          convertView;
-        ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
-            res.getDrawable(res.getIdentifier(items[position]+"_icon", "drawable", pack)));
-        ((TextView) row.findViewById(R.id.title)).setText(
-            res.getString(res.getIdentifier("menu_"+items[position],"string",pack)));
-        ((TextView) row.findViewById(R.id.help_text)).setText(
-            res.getString(res.getIdentifier("menu_"+items[position]+"_help_text","string",pack)));
-        return row;
-      }
-
-      @Override
-      public int getCount() {
-        // TODO Auto-generated method stub
-        return items.length;
-      }
-
-      @Override
-      public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return null;
-      }
-
-      @Override
-      public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return 0;
-      }
-    });
+    for (String item: items) {
+      View row = li.inflate(R.layout.help_dialog_action_row, null);
+      ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
+          res.getDrawable(res.getIdentifier(item+"_icon", "drawable", pack)));
+      ((TextView) row.findViewById(R.id.title)).setText(
+          res.getString(res.getIdentifier("menu_"+item,"string",pack)));
+      ((TextView) row.findViewById(R.id.help_text)).setText(
+          res.getString(res.getIdentifier("menu_"+item+"_help_text","string",pack)));
+      ll.addView(row);
+    }
     return new AlertDialog.Builder(ctx)
       .setTitle(getString(res.getIdentifier("help_" +activityName + "_title", "string", pack)))
       .setIcon(android.R.drawable.ic_menu_help)
