@@ -203,10 +203,8 @@
   <string name="menu_new">Nouveau</string>
   <string name="menu_new_from_template">Nouveau d\'après modèle</string>
   <string name="menu_reset">Réinitialiser</string>
-  <string name="menu_reset_abrev">Réinit.</string>
-  <string name="menu_reset_all">Tous</string>
+  <string name="menu_reset_all">Réinitialiser tous</string>
   <string name="menu_settings">Paramètres</string>
-  <string name="menu_settings_abrev">Param.</string>
   <string name="menu_settings_account">Compte en cours</string>
   <string name="menu_show_detail">Afficher les détails</string>
   <string name="method">Méthode</string>

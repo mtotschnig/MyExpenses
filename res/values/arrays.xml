@@ -48,4 +48,9 @@
       <item>reset</item>
       <item>edit_account</item>
     </string-array>
+    <string-array name="ManageAccounts_menuitems">
+      <item>create_account</item>
+      <item>aggregates</item>
+      <item>reset_all</item>
+    </string-array>
 </resources>

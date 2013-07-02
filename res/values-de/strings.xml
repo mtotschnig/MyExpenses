@@ -205,10 +205,8 @@
   <string name="menu_new">Neu</string>
   <string name="menu_new_from_template">Neu aus Vorlage</string>
   <string name="menu_reset">Zurücksetzen</string>
-  <string name="menu_reset_abrev">Zurücks.</string>
-  <string name="menu_reset_all">Alle</string>
+  <string name="menu_reset_all">Alle zurücksetzen</string>
   <string name="menu_settings">Einstellungen</string>
-  <string name="menu_settings_abrev">Einstel.</string>
   <string name="menu_settings_account">Aktuelles Konto</string>
   <string name="menu_show_detail">Details anzeigen</string>
   <string name="method">Zahlungsweise</string>

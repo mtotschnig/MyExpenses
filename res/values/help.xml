@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <string name="help_menu_commands">Menu commands</string>
+
   <!-- My Expenses Transaction list -->
   <string name="help_MyExpenses_title">Transaction list</string>
-  <string name="help_MyExpenses_info">This screen lists all transactions for the current account. From the navigation bar,
-    you can navigate to the accounts list or select a different account.</string>
+  <string name="help_MyExpenses_info">This screen lists all transactions for the current account. From the
+    navigation bar, you can navigate to the accounts list or select a different account.</string>
   <string name="menu_create_transaction_help_text">Opens the form for creating a new transaction.</string>
-  <string name="menu_create_transfer_help_text">Transfer money between accounts. This command is enabled only
-    if you have at least one other account with the same currency as the current one. </string>
-  <string name="menu_new_from_template_help_text">If you have created templates for the current account, this displays a dialog
-    for selecting a template from which a new transaction will be created.</string>
-  <string name="menu_reset_help_text">This will create a file on your SD card with all transactions for the current account,
-    delete them from the database, and adjust the opening balance to the last current balance.
-    My Expenses can share the file immediately after the export through FTP, email or any other file sharing app, if
-    you configure it to do so in the Settings.</string>
-  <string name="menu_edit_account_help_text">Adjust the properties of the current account (title, description, opening balance, account type, currency, color)</string>
+  <string name="menu_create_transfer_help_text">Transfer money between accounts. This command is enabled
+    only if you have at least one other account with the same currency as the current one.</string>
+  <string name="menu_new_from_template_help_text">If you have created templates for the current account,
+    this command displays a dialog for selecting a template from which a new transaction will be
+    created.</string>
+  <string name="menu_reset_help_text">This command will export all transactions of the current account to a file on
+    the SD card in QIF or CSV format (configurable in the Settings). By default, the transactions will be
+    deleted from your phone, but you can select to keep them and mark as exported. My Expenses can share the
+    file immediately after the export through FTP, email or any other file sharing app, if you configure it
+    to do so in the Settings.</string>
+  <string name="menu_edit_account_help_text">Adjust the properties of the current account
+    (title, description, opening balance, account type, currency, color).</string>
+
+  <!-- ManageAccounts Accounts list -->
+  <string name="help_ManageAccounts_title">Accounts list</string>
+  <string name="help_ManageAccounts_info">This screen lists all accounts. You can create new accounts, edit them,
+    or navigate to them</string>
+  <string name="menu_create_account_help_text">Opens the form for creating a new account.</string>
+  <string name="menu_aggregates_help_text">The aggregates dialog calculates the sum of expenses and income accross
+    all accounts that share the same currency. The command is only available if for any currency there exist at
+    least two accounts (Contrib feature).</string>
+  <string name="menu_reset_all_help_text">This command allows to reset all your accounts in batch. It is not available
+    if there are no transactions to export.</string>
 </resources>

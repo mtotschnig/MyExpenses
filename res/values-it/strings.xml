@@ -203,10 +203,8 @@
   <string name="menu_more">Ulteriori &#8230;</string>
   <string name="menu_move_transaction">Spostare</string>
   <string name="menu_reset">Reinizializzare</string>
-  <string name="menu_reset_all">Tutti</string>
-  <string name="menu_reset_abrev">Reinit.</string>
+  <string name="menu_reset_all">Reinizializzare tutti</string>
   <string name="menu_settings">Impostazioni</string>
-  <string name="menu_settings_abrev">Impos.</string>
   <string name="menu_settings_account">Conto</string>
   <string name="menu_show_detail">Visualizza i dettagli</string>
   <string name="method">Modo</string>

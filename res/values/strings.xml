@@ -165,7 +165,7 @@
       Do you want to create a second account now?</string>
   <string name="menu_accounts_new">New &#8230;</string>
   <string name="menu_accounts_summary">Summary</string>
-  <string name="menu_aggregate">Total</string>
+  <string name="menu_aggregates">Total</string>
   <string name="menu_backup">Backup</string>
   <string name="menu_contrib">Contribute</string>
   <string name="menu_change_account">Change account</string>
@@ -196,10 +196,7 @@
   <string name="menu_new_from_template">New from template</string>
   <string name="menu_reset">Reset</string>
   <string name="menu_reset_all">Reset all</string>
-  <string name="menu_reset_abrev">Reset</string>
   <string name="menu_settings">Settings</string>
-  <!--  abrev strings are needed, where labels are too long to fit in menu -->
-  <string name="menu_settings_abrev">Settings</string>
   <string name="menu_settings_account">Current account</string>
   <string name="menu_show_detail">Show details</string>
   <string name="method">Method</string>

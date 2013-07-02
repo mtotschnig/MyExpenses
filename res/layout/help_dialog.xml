@@ -25,7 +25,7 @@
     <TextView android:id="@+id/screen_info"
         style="@style/about_text" />
     <TextView style="@style/headingStyle" 
-    	android:text="Menu actions"/>
+        android:text="@string/help_menu_commands"/>
     <ListView android:id="@+id/actionlist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>

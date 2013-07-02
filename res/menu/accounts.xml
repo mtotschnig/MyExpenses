@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 	  <item
     android:id="@id/CREATE_COMMAND"
-    android:icon="@android:drawable/ic_menu_add"
+    android:icon="@drawable/create_account_icon"
     android:showAsAction="always"
-    android:title="@string/menu_new">
+    android:title="@string/menu_create_account">
   </item>
     <item
     android:id="@id/AGGREGATES_COMMAND"
-    android:icon="@drawable/ic_aggregated"
+    android:icon="@drawable/aggregates_icon"
     android:showAsAction="always"
-    android:title="@string/menu_aggregate">
+    android:title="@string/menu_aggregates">
   </item>
     <item
     android:id="@id/RESET_ACCOUNT_ALL_COMMAND"
-    android:icon="@android:drawable/ic_menu_revert"
+    android:icon="@drawable/reset_all_icon"
     android:showAsAction="always"
     android:title="@string/menu_reset_all">
   </item>

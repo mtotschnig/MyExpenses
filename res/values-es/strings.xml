@@ -206,10 +206,8 @@
   <string name="menu_new">Nuevo</string>
   <string name="menu_new_from_template">Nuevo a partir de una plantilla</string>
   <string name="menu_reset">Restablecer</string>
-  <string name="menu_reset_all">Todas</string>
-  <string name="menu_reset_abrev">Restabl.</string>
+  <string name="menu_reset_all">Restablecer todas</string>
   <string name="menu_settings">Configuraciones</string>
-  <string name="menu_settings_abrev">Config.</string>
   <string name="menu_settings_account">Cuenta actual</string>
   <string name="menu_show_detail">Ver los detalles</string>
   <string name="method">Método</string>
