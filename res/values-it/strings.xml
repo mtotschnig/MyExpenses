@@ -278,10 +278,7 @@
   <string name="pref_ui_theme_summary">Scegli tra buio e chiaro</string>
   <string name="pref_ui_theme_dark">buio</string>
   <string name="pref_ui_theme_light">chiaro</string>
-  <string name="pref_use_standard_menu_title">Utilizzare Android standard menu</string>
-  <string name="pref_use_standard_menu_summary">Invece di visualizzare una barra dei pulsanti,
-      utilizzare  Android menu standard per l\'accesso ai comandi.</string>
-      <string name="pref_contrib_install_summary">Installando &app_name; Contrib ottiene accesso a
+  <string name="pref_contrib_install_summary">Installando &app_name; Contrib ottiene accesso a
   funzionalità speciali.</string>
   <string name="pref_contrib_install_title">Installare Contrib app</string>
   <string name="pref_enter_licence_summary">Se ha ricevuto una chiave Contrib, ottiene accesso a
@@ -301,15 +298,11 @@
   </string>
   <string name="save_transaction_error">Non è possible salvare la nuova transazione da modello</string>
   <string name="save_transaction_from_template_success">Nuova transazione salvata con successo da modello</string>
-  <string name="select">Selezionare</string>
-  <string name="select_account">Selezionare un conto</string>
   <string name="select_category">Selezionare una categoria</string>
   <string name="select_parent_category">Selezionare questa categoria</string>
   <string name="share_sending">Invia file export</string>
   <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
   <string name="subcategory">Sottocategoria</string>
-  <string name="suggest_use_standard_menu">Vuoi utilizzare il menu standard Android per chiamare i
-    comandi, e nascondere la barra dei pulsanti?</string>
   <string name="sum_income">Redditi</string>
   <string name="sum_expenses">Spese</string>
   <string name="sum_transfer">Trasferimenti</string>

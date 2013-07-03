@@ -210,22 +210,15 @@
   <string name="pref_ui_theme_summary">Trieu entre el tema clar i el fosc</string>
   <string name="pref_ui_theme_dark">fosc</string>
   <string name="pref_ui_theme_light">clar</string>
-  <string name="pref_use_standard_menu_title">Ús del menú</string>
-  <string name="pref_use_standard_menu_summary">En lloc de la barra d\'eines utilizeu el
-      menú estándar d\'Android per a donar les ordres.</string>
   <string name="restore_db_success">S\'ha restaurat la base de dades des de la còpia de seguretat.</string>
   <string name="restore_preferences_success">S\'han restaurat les preferències des de la
       còpia de seguretat.</string>
   <string name="save_transaction_error">No ha estat possible desar la nova transacció de la plantilla</string>
   <string name="save_transaction_from_template_success">La nova transacció s\'ha desat correctament des de la plantilla</string>
-  <string name="select">Trieu</string>
-  <string name="select_account">Trieu un compte</string>
   <string name="select_category">Trieu una categoria</string>
   <string name="select_parent_category">Trieu aquesta categoria</string>
   <string name="share_scheme_not_supported">L\'esquema %1$s no està permés.</string>
   <string name="share_sending">Envia el fitxer</string>
-  <string name="suggest_use_standard_menu">Voleu fer servir el menú estándar d\'Android en lloc
-      de la barra d\'eines per a donar les ordres?</string>
   <string name="sum_income">Ingressos</string>
   <string name="sum_expenses">Despeses</string>
   <string name="sum_transfer">Transferèncias</string>

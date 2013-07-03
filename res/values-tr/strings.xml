@@ -262,8 +262,6 @@
   <string name="pref_ui_theme_summary">Aydınlık ya da karanlıktan birini seçin</string>
   <string name="pref_ui_theme_dark">karanlık</string>
   <string name="pref_ui_theme_light">aydınlık</string>
-  <string name="pref_use_standard_menu_title">Standart Android menüsünü kullan</string>
-  <string name="pref_use_standard_menu_summary">Komutlara erişim için düğme çubuğu göstermek yerine Android\'in standart menüsünü kullan.</string>
   <string name="request_licence_mail_body">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin</string>
   <string name="restore_db_failure">Veritabanının yüklenmesi başarısız oldu</string>
   <string name="restore_db_success">Veritabanı yedeklemeden restore edilmiştir.</string>
@@ -272,14 +270,11 @@
   <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
   <string name="save_transaction_error">Şablondan muamele kaydedilemedi</string>
   <string name="save_transaction_from_template_success">Yeni muamele şablondan başarıyla kaydedildi</string>
-  <string name="select_account">Hesap seç</string>
   <string name="select_category">Kategori seç</string>
   <string name="select_parent_category">Bu kategoriyi seç</string>
-  <string name="select">Seç</string>
   <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
   <string name="share_sending">Dışa aktarım dosyasını gönder</string>
   <string name="subcategory">Alt kategori</string>
-  <string name="suggest_use_standard_menu">Komutlara erişim için düğme çubuğunu saklayıp standart Android menüsünü kullanmak istiyor musunuz?</string>
   <string name="sum_income">Gelirler</string>
   <string name="sum_expenses">Harcamalar</string>
   <string name="sum_transfer">Transferler</string>

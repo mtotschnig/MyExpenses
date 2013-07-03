@@ -289,9 +289,6 @@
   <string name="pref_ui_theme_summary">Choisissez entre clair et sombre</string>
   <string name="pref_ui_theme_dark">sombre</string>
   <string name="pref_ui_theme_light">clair</string>
-  <string name="pref_use_standard_menu_title">Utiliser le menu standard d\'Android</string>
-  <string name="pref_use_standard_menu_summary">Au lieu d\'afficher une barre de boutons, utilisez
-      le menu standard d\'Android pour accéder aux commandes.</string>
   <string name="request_licence_mail_body">Envoyez-moi, s\'il-vous-plaît, une clé contrib pour l\'Android-Id %1$s</string>
   <string name="restore_db_failure">La restauration de la base de données a échoué.</string>
   <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.
@@ -302,15 +299,11 @@
       sauvegarde.</string>
   <string name="save_transaction_error">La transaction à partir du modèle n\'a pas été enregistrée</string>
   <string name="save_transaction_from_template_success">Nouvelle transaction sauvegardée à partir du modèle</string>
-  <string name="select">Sélectionner</string>
-  <string name="select_account">Sélectionner un compte</string>
   <string name="select_category">Sélectionner une catégorie</string>
   <string name="select_parent_category">Choisir cette catégorie</string>
   <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
   <string name="share_sending">Envoyer le fichier d\'export</string>
   <string name="subcategory">Sous-catégorie</string>
-  <string name="suggest_use_standard_menu">Voulez-vous utiliser le menu standard Android pour
-      les commandes, et cacher la barre de boutons?</string>
   <string name="sum_income">Revenus</string>
   <string name="sum_expenses">Dépenses</string>
   <string name="sum_transfer">Transferts</string>

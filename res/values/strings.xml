@@ -295,9 +295,6 @@
   <string name="pref_ui_theme_summary">Choose between light and dark</string>
   <string name="pref_ui_theme_dark">dark</string>
   <string name="pref_ui_theme_light">light</string>
-  <string name="pref_use_standard_menu_title">Use standard Android menu</string>
-  <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
-      standard menu for accessing commands.</string>
   <string name="pref_visit_website_title">Visit Website</string>
   <string name="pref_visit_website_summary">Changelog and FAQ</string>
   <string name="request_licence_mail_body">Please send me a Contrib key for Android-Id %1$s</string>
@@ -309,15 +306,11 @@
   <string name="save_transaction_error">Could not save new transaction from template</string>
   <string name="save_transaction_from_template_success">New transaction successfully saved from template</string>
   <string name="save_transaction_and_new_success">Transaction successfully saved</string>
-  <string name="select_account">Select account</string>
   <string name="select_category">Select category</string>
   <string name="select_parent_category">Select this category</string>
-  <string name="select">Select</string>
   <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
   <string name="share_sending">Send export file</string>
   <string name="subcategory">Subcategory</string>
-  <string name="suggest_use_standard_menu">Do you want to use the standard Android menu
-      for calling commands, and hide the button bar?</string>
   <string name="sum_income">Income</string>
   <string name="sum_expenses">Expenses</string>
   <string name="sum_transfer">Transfers</string>

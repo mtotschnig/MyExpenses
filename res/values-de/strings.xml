@@ -287,9 +287,6 @@
   <string name="pref_ui_theme_summary">Wählen Sie zwischen hell und dunkel</string>
   <string name="pref_ui_theme_dark">dunkel</string>
   <string name="pref_ui_theme_light">hell</string>
-  <string name="pref_use_standard_menu_title">Androids Standardmenü verwenden</string>
-  <string name="pref_use_standard_menu_summary">Anstatt der Symbolleiste, verwenden Sie Androids
-      Standardmenü, um Befehle aufzurufen.</string>
   <string name="request_licence_mail_body">Bitte senden Sie mir einen Contrib-Schlüssel für die Android-Id %1$s</string>
   <string name="restore_db_failure">Fehler bei der Wiederherstellung der Datenbank.</string>
   <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
@@ -299,15 +296,11 @@
       wiederhergestellt.</string>
   <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden</string>
   <string name="save_transaction_from_template_success">Neue Buchung aus Vorlage wurde erfolgreich gespeichert</string>
-  <string name="select">Auswählen</string>
-  <string name="select_account">Konto auswählen</string>
   <string name="select_category">Kategorie auswählen</string>
   <string name="select_parent_category">Wähle diese Kategorie</string>
   <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>
   <string name="share_sending">Export Datei senden</string>
   <string name="subcategory">Unterkategorie</string>
-  <string name="suggest_use_standard_menu">Möchten Sie das Android Standardmenü anstatt der
-      Symbolleiste verwenden, um Befehle aufzurufen?</string>
   <string name="sum_income">Einnahmen</string>
   <string name="sum_expenses">Ausgaben</string>
   <string name="sum_transfer">Umbuchungen</string>
