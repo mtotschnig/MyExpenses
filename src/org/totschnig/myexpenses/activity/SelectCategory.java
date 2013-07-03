@@ -241,9 +241,13 @@ public class SelectCategory extends ProtectedFragmentActivity implements
      */
     public void createCat(Long parentId) {
       Bundle args = new Bundle();
-      if (parentId != null)
+      int dialogTitle;
+      if (parentId != null) {
         args.putLong("parentId", parentId);
-      args.putString("dialogTitle", getString(R.string.create_category));
+        dialogTitle = R.string.menu_create_main_cat;
+      } else
+        dialogTitle = R.string.menu_create_sub_cat;
+      args.putString("dialogTitle", getString(dialogTitle));
       EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "CREATE_CATEGORY");
     }
     /**
