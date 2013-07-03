@@ -259,7 +259,7 @@ public class SelectCategory extends ProtectedFragmentActivity implements
     public void editCat(String label, Long catId) {
       Bundle args = new Bundle();
       args.putLong("catId", catId);
-      args.putString("dialogTitle", getString(R.string.edit_category));
+      args.putString("dialogTitle", getString(R.string.menu_edit_cat));
       args.putString("value",label);
       EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "EDIT_CATEGORY");
     }
