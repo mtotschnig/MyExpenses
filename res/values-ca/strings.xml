@@ -89,40 +89,13 @@
   <string name="grisbi_import_parsing">Análisi de %1$s</string>
   <string name="grisbi_import_parties_loading">S\'està carregant els tercers des de %1$s</string>
   <string name="help_button_rate">Doneu la vostra opinió</string>
-  <string name="help_button_sendmail">Envia-ho per correu electrònic</string>
-  <string name="help_heading_changelog">Registre de canvis</string>
   <string name="help_heading_credits">Crèdits</string>
   <string name="help_heading_license">Llicència</string>
-  <string name="help_heading_more_info">Més informació</string>
-  <string name="help_heading_news">Notícies</string>
-  <string name="help_heading_privacy">Política de privacitat</string>
-  <string name="help_heading_quick_guide">Guia ràpida</string>
   <string name="help_heading_whats_new">Novetats</string>
   <string name="help_intro">Amb <i>&app_name;</i> podeu portar la comptabilitat de les vostres despeses i
       ingressos i exportar-los a un programa financer d\'escritori (Grisbi, Gnucash, Quicken o MS Money).</string>
   <string name="help_leading">Gràcies per provar <i>&app_name;</i> per a Android.</string>
-  <string name="help_quick_guide"><i>&app_name;</i> té dues interfícies per a donar les ordres :
-      una barra d\'eines i el menú estándar d\'Android (el botó del menú). A la configuració de la pantalla
-      podeu indicar quina voleu fer servir. Els botons de control de la barra d\'eines amb clics curts
-      executen les següents accions.:\n\n
-      - <b>Nou</b> : Afegeix una transacció.\n
-      - <b>Comptes</b> : Canvia de compte.\n
-      - <b>Reinicia</b> : Exporta les despeses en format QIF o CSV a la targeta SD, suprimeix les
-      despeses i actualitza el saldo inicial.\n
-      - <b>Preferències</b> : Permet accedir a totes les preferències i funcions de personalització
-      (de comptes, categories, beneficiaris, formes de pagament, plantilles, còpies de seguretat, importacions).\n
-      - <b>Ajuda</b> : Obre aquesta pantalla d\'ajuda.\n
-      \nAlguns botons (indicats amb un triangle a la cantonada superior esquerre) amb clics llargs obren altres menús:\n\n
-      - <b>Nou</b> : <b>Transferència</b> Permet fer una transferència d\'un compte a un altre (cal que tinguin la mateixa moneda). 
-      També indica les plantilles disponibles. (Les plantilles es poden fer a partir de
-      les transaccions des del menú contextual de la llista).\n
-      - <b>Comptes</b> : Indica tots els comptes als que es pot canviar. <b>Nou &#8230;</b> defineix un nou compte,
-      <b>Resumen</b> obre un panorama general de tots els comptes amb l\'estat financer actual.\n
-      - <b>Preferències</b> Accediu a la còpia de seguretat i les propietats del compte corrent.\n
-      - <b>Ayuda</b> : Accediu al tutorial, noticies, preguntes freqüents i als canvis.\n
-      \nTrobareu explicacions detallades <a href="http://myexpenses.totschnig.org/#tutorial_r4">al manual</a> per a explicacions detallades.
-  </string>
-<!--   <string name="help_whats_new">&#160;- Exportació a CSV.\n
+  <!--   <string name="help_whats_new">&#160;- Exportació a CSV.\n
     - Que es declari explícitament suport per a pantalles de grans dimensions per fer aplicació de nou disponible per a les tauletes de Google Play.\n
     - Suport a Android 1.6.</string> -->
   <string name="import_categories">Importa categories</string>
@@ -158,7 +131,6 @@
   <string name="menu_help">Ajuda</string>
   <string name="menu_more">Més &#8230;</string>
   <string name="menu_move_transaction">Mou</string>
-  <string name="menu_new">Nou</string>
   <string name="menu_new_from_template">Nou a partir d\'una plantilla</string>
   <string name="menu_reset">Reinicia</string>
   <string name="menu_save">Desar</string>
@@ -207,12 +179,13 @@
   <string name="pref_backup_summary">Fes una còpia de seguretat de la base de dades i de les
       preferències a la targeta SD.</string>
   <string name="pref_categories_sort_by_usages_title">Criteri d\'ordenació de les categories</string>
-  <string name="pref_categories_sort_by_usages_summary">Utilitza la freqüència d\'utilizació com a criteri
-      principal d\'ordenació (per la resta ordre alfabétic)</string>
+  <string name="pref_categories_sort_by_usages_summaryOn">Freqüència d\'utilizació</string>
+  <string name="pref_categories_sort_by_usages_summaryOff">Ordre alfabétic</string>
   <string name="pref_category_title_manage">Personalitza</string>
   <string name="pref_category_title_ui">Interfície d\'usuari</string>
   <string name="pref_category_title_import">Importa</string>
   <string name="pref_category_title_export">Exporta</string>
+  <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_currency_decimal_separator_title">Separador decimal de moneda</string>
   <string name="pref_currency_decimal_separator_summary">"," i "." o bé entreu sempre les quantitats en cèntims</string>
   <string name="pref_currency_decimal_separator_comma">Coma (,)</string>

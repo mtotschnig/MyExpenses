@@ -119,42 +119,15 @@
   <string name="grisbi_import_categories_success">%1$s categorie state importate</string>
   <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
   <string name="help_button_rate">La vostra recensione</string>
-  <string name="help_button_sendmail">Inviare una e-mail</string>
-  <string name="help_heading_changelog">Aggiornamenti</string>
   <string name="help_heading_credits">Generico</string>
   <string name="help_heading_license">Licenza</string>
-  <string name="help_heading_more_info">Maggiori informazioni</string>
-  <string name="help_heading_news">Notizie</string>
-  <string name="help_heading_privacy">Norme sulla privacy</string>
-  <string name="help_heading_quick_guide">Guida rapida</string>
+  <string name="pref_category_title_more_information">Maggiori informazioni</string>
   <string name="help_heading_whats_new">Novità</string>
   <string name="help_intro"><i>&app_name;</i> è stato progettato per tenere traccia delle spese nel
       corso di un breve periodo di tempo, e di esportare queste spese in un programma come Grisbi,
       GnuCash, Quicken o MS Money.</string>
   <string name="help_leading">Grazie di probare <i>&app_name;</i> por Android.</string>
-  <string name="help_quick_guide"><i>&app_name;</i> è dotato di due interfacce di comando: una barra
-      dei  pulsanti e il menu standard di Android (pulsante hardware Menu). È possibile impostare
-      quale usare nella schermata di impostazioni. I pulsanti nella barra dei pulsanti eseguono 
-      i seguenti azioni con un clico breve:\n\n
-      - <b>Nuovo</b> : aggiungere un operazione.\n
-      - <b>Conti</b> : cambiare di un conto a un altro.\n
-      - <b>Reset</b> : esporta tutte le operazioni sulla scheda SD nel formato QIF o CSV, 
-      elimina le spese e aggiorna il bilancio di apertura.\n
-      - <b>Impostazioni</b> : da accesso a tutte le impostazioni e funzioni amministrative 
-      (dei conti, categorie, riceventi, metodi di pagamento, modelli, i backup, importazioni).\n
-      - <b>Aiuto</b> apre questa schermata di aiuto.\n
-      \nAlcuni pulsanti (indicato per un triangolo nell\'angolo destro di sopra) aprono 
-      un menu a discesa con un clico più lungo:\n\n
-      - <b>Nuovo</b> : <b>Trasferimento</b> consente creare un trasferimento di un conto a un altro
-      (devono essere della stessa valuta). Anche enumera modelli disponibili i quali può usare 
-      (Modelli possono essere creati nell\'elenco dei menu di contesto delle operazioni)\n
-      - <b>Conti</b> : enumera tutti i conti ai quali può cambiare. <b>Nuovo &#8230;</b> aggiungere un conto,
-      <b>Riassunto</b> apre una panoramica di tutti i conti con l\'attuale situazione finanziaria.\n
-      - <b>Impostazioni</b> : Accesso rapido al backup e agli impostazioni del conto attuale.\n
-      - <b>Aiuto</b> : accesso rapido al manuale, News et FAQ.\n
-      \nPer favore visita il <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuale</a>
-      per avere ulteriori esplicazioni.</string>
-<!--   <string name="help_whats_new">&#160;- Esportazione in formato CSV.\n
+  <!--   <string name="help_whats_new">&#160;- Esportazione in formato CSV.\n
     - Dichiarare esplicitamente il supporto per schermi di grandi dimensioni per rendere nuovamente disponibile app per tablet su Google Play.\n
     - Supporto per Android 1.6.</string> -->
   <string name="income">redditto</string>
@@ -172,7 +145,7 @@
       Inizialmente, c\'è uno solo. Vuoi creare un secondo conto adesso?</string>
   <string name="menu_accounts_new">Nuovo &#8230;</string>
   <string name="menu_accounts_summary">Riassunto</string>
-  <string name="menu_aggregate">Sommato</string>
+  <string name="menu_aggregates">Sommato</string>
   <string name="menu_backup">Backup</string>
   <string name="menu_change_account">Cambiare conto</string>
   <string name="menu_clone_transaction">Ricopiare</string>
@@ -197,7 +170,6 @@
   <string name="menu_edit_transfer">Modificare un trasferimento</string>
   <string name="menu_faq">FAQ</string>
   <string name="menu_help">Aiuto</string>
-  <string name="menu_new">Nuovo</string>
   <string name="menu_new_from_template">Nuovo riguardo al modello</string>
   <string name="menu_more">Ulteriori &#8230;</string>
   <string name="menu_move_transaction">Spostare</string>
@@ -264,13 +236,14 @@
   </string>
   <string name="pref_categories_sort_by_usages_title">Criterio di ordinamento per le categorie
   </string>
-  <string name="pref_categories_sort_by_usages_summary">Ordinare le principali categorie in base
-      alla frequenza d\'uso (altrimenti in ordine alfabetico)</string>
+  <string name="pref_categories_sort_by_usages_summaryOn">frequenza d\'uso</string>
+  <string name="pref_categories_sort_by_usages_summaryOff">ordine alfabetico</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_manage">Gestione</string>
   <string name="pref_category_title_security">Sicurezza</string>
   <string name="pref_category_title_ui">Interfaccia utente</string>
+  <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_currency_decimal_separator_title">Separatore decimale per l\'ingresso della
       quantità</string>
   <string name="pref_currency_decimal_separator_summary">"," e "." o minori come numeri interi</string>

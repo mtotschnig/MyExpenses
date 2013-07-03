@@ -117,32 +117,12 @@
   <string name="grisbi_import_parsing">%1$s ayrıştırılıyor</string>
   <string name="grisbi_import_parties_loading">%1$s konumunundan bölümler yükleniyor</string>
   <string name="help_button_rate">Not ver veya değerlendir</string>
-  <string name="help_button_sendmail">E-posta yolla</string>
-  <string name="help_heading_changelog">Değişiklikler</string>
   <string name="help_heading_credits">Hazırlayanlar</string>
   <string name="help_heading_license">Lisans</string>
-  <string name="help_heading_more_info">İlâve bilgi</string>
-  <string name="help_heading_news">Son haberler</string>
-  <string name="help_heading_privacy">Gizlilik</string>
-  <string name="help_heading_quick_guide">Hızlı rehber</string>
+  <string name="pref_category_title_more_information">İlâve bilgi</string>
   <string name="help_heading_whats_new">Yenilikler</string>
   <string name="help_intro"><i>&app_name;</i>, harcamalarınız ve gelirlerinizi izlemeye yarayan ve bunları Gnucash ya da Grisbi gibi masaüstü bir finans aracı için dışa aktaran bir uygulamadır.</string>
   <string name="help_leading">Android için <i>&app_name;</i>\'i kurduğunuz için teşekkür ederiz.</string>
-  <string name="help_quick_guide"><i>&app_name;</i> iki komut arayüzü sunar: bir düğme çubuğu
-      ve standart Android menüsü (donanım Menü tuşu). Ayarlar ekranında hangisini kullanmak
-      istediğinizi ayarlayabilirsiniz. Çubuktaki düğmeler kısa basılışta şunları yapar:\n\n
-      - <b>Yeni</b> : Muamele ekler.\n
-      - <b>Hesaplar</b> : Başka bir hesaba geçer.\n
-      - <b>Sıfırla</b> : harcamaları SD kartına QIF veya CSV formatında dışa aktarır ve ardından siler ve de bakiyeyi günceller.\n
-      - <b>Ayarlar</b> : Tüm yapılandırma ve yönetme işlevlerine erişim sağlar (hesaplar, kategoriler, alacaklılar, ödeme metotları, şablonlar, yedeklemeler, içer aktarımlar.\n
-      - <b>Yardım</b> : Bu yardım ekranını açar.\n
-      \nBazı düğmeler (ki sol üst köşede bir üçgen ile ayırt edilebilirler) uzun dokunulduğunda menü açarlar:\n\n
-      - <b>Yeni</b> : <b>Transfer</b> bir hesaptan diğerine transfer yapmaya imkân sağlar (aynı dövizi kullanmaları gerekir). Ayrıca örneği kullanılabilir şablonlar numaralandırır. (Şablonlar muamelelerin listede bağlam menüsünden oluşturulabilir)\n
-      - <b>Hesaplar</b> : Geçilebilecek tüm hesapları numaralandırır. <b>Yeni &#8230;</b> yeni bir hesap oluşturur, <b>Özet</b> tüm hesaplara genel bir bakış açar ve güncel finansal durumu gösterir.\n
-      - <b>Ayarlar</b> : Güncel hesabın yedeklemelerine ve özelliklerine hızlı erişim sağlar.\n
-      - <b>Help</b> : Rehbere, yeniliklere, sıkça sorulan sorulara ve değişikliklere hızlı erişim sağlar.\n
-      \nAyrıntılı bilgi için <a href="http://myexpenses.totschnig.org/#tutorial_r4">kılavuza</a> bakınız.
-  </string>
 <!--   <string name="help_whats_new">&#160;- CSV olarak dışa aktarım.\n
     - Google Play\'de uygulamanın tabletlere sunulması için büyük ekran desteği beyan et.\n
     - Android 1.6 desteği.</string> -->
@@ -159,7 +139,7 @@
       Şimdi ikinci bir hesap oluşturmak istiyor musunuz?</string>
   <string name="menu_accounts_new">Yeni &#8230;</string>
   <string name="menu_accounts_summary">Özet</string>
-  <string name="menu_aggregate">Toplam</string>
+  <string name="menu_aggregates">Toplam</string>
   <string name="menu_backup">Yedekleme</string>
   <string name="menu_change_account">Hesap değiştir</string>
   <string name="menu_clone_transaction">Klonla</string>
@@ -186,7 +166,6 @@
   <string name="menu_help">Yardım</string>
   <string name="menu_more">Dahası &#8230;</string>
   <string name="menu_move_transaction">Taşı</string>
-  <string name="menu_new">Yeni</string>
   <string name="menu_new_from_template">Şablondan yeni</string>
   <string name="menu_reset">Sıfırla</string>
   <string name="menu_reset_all">Sıfırla tümünü</string>
@@ -238,13 +217,14 @@
   <string name="pref_account_button_behaviour_summary">\"Hesaplar\" düğmesi tüm hesaplar arasında geçiş yapmak yerine son iki hesap arası mı geçiş yapsın.</string>
   <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
   <string name="pref_categories_sort_by_usages_title">Kategoriler için sıralama düzeni</string>
-  <string name="pref_categories_sort_by_usages_summary">Sıralama kriteri olarak kullanım sayısını kullan
-      (yoksa alfabetik sıralama kullanılır)</string>
+  <!-- <string name="pref_categories_sort_by_usages_summary">Sıralama kriteri olarak kullanım sayısını kullan
+      (yoksa alfabetik sıralama kullanılır)</string>  -->
   <string name="pref_category_title_manage">Yönet</string>
   <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
   <string name="pref_category_title_import">İçe aktar</string>
   <string name="pref_category_title_export">Dışa aktar</string>
   <string name="pref_category_title_security">Güvenlik</string>
+  <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_contrib_install_title">Katkı uygulamasını kur</string>
   <string name="pref_contrib_install_summary">&app_name; Contrib uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
   <string name="pref_currency_decimal_separator_title">Girilen döviz miktarı için ondalık ayırıcı</string>

@@ -125,39 +125,14 @@
   <string name="grisbi_import_categories_success">%1$s catégories ont été importées</string>
   <string name="grisbi_import_parties_loading">Import des tiers à partir de %1$s</string>
   <string name="help_button_rate">Publier votre avis</string>
-  <string name="help_button_sendmail">Envoyer un e-mail</string>
-  <string name="help_heading_changelog">Journal des modifications</string>
   <string name="help_heading_credits">Générique</string>
   <string name="help_heading_license">Licence</string>
-  <string name="help_heading_more_info">Plus d\'informations</string>
-  <string name="help_heading_news">Nouvelles</string>
-  <string name="help_heading_privacy">Règles de confidentialité</string>
-  <string name="help_heading_quick_guide">Guide rapide</string>
+  <string name="pref_category_title_more_information">Plus d\'informations</string>
   <string name="help_heading_whats_new">Nouveautés</string>
   <string name="help_intro"><i>&app_name;</i> permet de gérer les entrées d\'argent et les
     dépenses, et de les exporter vers un logiciel de finance, tel que Grisbi, Gnucash, Quicken ou MS Money.</string>
   <string name="help_leading">Merci d\'essayer <i>&app_name;</i> pour Android.</string>
-  <string name="help_quick_guide"><i>&app_name;</i> possède deux types d\'interface de commande: une barre
-      de boutons ou le menu standard d\'Android (bouton Menu hardware). Vous pouvez définir celle à
-      utiliser dans l\'écran des paramètres. Dans la barre de boutons, les boutons exécutent les actions suivantes sur un clic court.\n\n
-      - <b>Nouveau</b> : Ajouter une transaction.\n
-      - <b>Comptes</b> : Changer de compte.\n
-      - <b>Réinitialiser</b> : exporte toutes les opérations dans un fichier QIF ou CSV sur la carte SD,
-        efface les opérations, et transfère le solde courant en nouveau solde d\'ouverture.\n
-      - <b>Paramètres</b>: Donne accès à toutes les configurations et fonctions administratives
-      (comptes, catégories, tiers, méthodes de paiement, modèles, sauvegarde, import).\n
-      - <b>Help</b>: Affiche ce dialogue d\'aide.\n
-      \nQuelques boutons (identifiables par le triangle en haut à gauche) affichent un menu avec d\'autres actions sur un clic long:\n\n
-      - <b>Nouveau</b> : <b>Virement</b> : Ajouter un virement, s\'il existe au moins deux comptes de 
-        même devise. Ici, vous accédez aussi à la liste des modèles. (Une transaction 
-        peut être definies en tant que modèle à partir de son menu contextuel dans la liste des opérations.)\n
-      - <b>Comptes</b> : Changez vers un autre compte à partir de la liste qui s\'affiche ici. <b>Nouveau &#8230;</b> : Ajouter un compte,
-        <b>Sommaire</b> ouvre un aperçu de tous les comptes aver leur situation financiere actuelle.\n
-      - <b>Paramètres</b> : Accès rapide à la sauvegarde et aux propriétés du compte courant.\n
-      - <b>Aide</b> : Accès rapide au manuel, les news, la foire aux questions et la liste des changements.\n
-      \nReférez-vous au <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuel</a> pour de plus amples explications.
-  </string>
-<!--   <string name="help_whats_new">&#160;- Exporter au format CSV.\n
+  <!--   <string name="help_whats_new">&#160;- Exporter au format CSV.\n
     - Déclarer explicitement le support pour les grands écrans pour rendre l\'app à nouveau disponible pour les tablettes sur Google Play.\n
     - Support pour Android 1.6.</string> -->
   <string name="import_categories">Importer les catégories</string>
@@ -172,7 +147,7 @@
       aviez défini plusieurs. Au départ, il n\'existe qu\'un seul compte. Voulez-vous en créer un deuxième maintenant ?</string>
   <string name="menu_accounts_new">Nouveau &#8230;</string>
   <string name="menu_accounts_summary">Sommaire</string>
-  <string name="menu_aggregate">Total</string>
+  <string name="menu_aggregates">Total</string>
   <string name="menu_backup">Sauvegarde</string>
   <string name="menu_change_account">Changer de compte</string>
   <string name="menu_clone_transaction">Cloner</string>
@@ -199,7 +174,6 @@
   <string name="menu_help">Aide</string>
   <string name="menu_more">Plus &#8230;</string>
   <string name="menu_move_transaction">Déplacer</string>
-  <string name="menu_new">Nouveau</string>
   <string name="menu_new_from_template">Nouveau d\'après modèle</string>
   <string name="menu_reset">Réinitialiser</string>
   <string name="menu_reset_all">Réinitialiser tous</string>
@@ -263,13 +237,14 @@
   <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences
       sur la carte SD.</string>
   <string name="pref_categories_sort_by_usages_title">Critères de tri pour catégories</string>
-  <string name="pref_categories_sort_by_usages_summary">Trier les catégories principales par
-      fréquence d\'utilisation (sinon par ordre alphabétique)</string>
+  <string name="pref_categories_sort_by_usages_summaryOn">fréquence d\'utilisation</string>
+  <string name="pref_categories_sort_by_usages_summaryOff">par ordre alphabétique</string>
   <string name="pref_category_title_manage">Gestion</string>
   <string name="pref_category_title_ui">Interface utilisateur</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_security">Sécurité</string>
+  <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_contrib_install_title">Installer App Contrib</string>
   <string name="pref_contrib_install_summary">En installant &app_name; Contrib, vous obtiendrez accès à toutes les fonctions Premium.</string>
   <string name="pref_currency_decimal_separator_title">Séparateur décimal pour l\'entrée des

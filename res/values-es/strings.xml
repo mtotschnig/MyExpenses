@@ -125,39 +125,13 @@
       </string>
   <string name="grisbi_import_parties_loading">Partes se cargan desde %1$s</string>
   <string name="help_button_rate">Dé su revisión</string>
-  <string name="help_button_sendmail">Enviar correo electrónico</string>
-  <string name="help_heading_changelog">Registro de cambios</string>
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licencia</string>
-  <string name="help_heading_more_info">Más información</string>
-  <string name="help_heading_news">Noticias</string>
-  <string name="help_heading_privacy">Política de privacidad</string>
-  <string name="help_heading_quick_guide">Guía rápida</string>
+  <string name="pref_category_title_more_information">Más información</string>
   <string name="help_heading_whats_new">Novedades</string>
   <string name="help_intro">Con <i>&app_name;</i> puede llevar contabilidad sobre sus gastos y
       ingresos y exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</string>
   <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
-  <string name="help_quick_guide"><i>&app_name;</i> tiene dos interfaces para los comandos de
-      llamada: una barra de herramientas y el menú estándar de Android (el botón de menú físico). En
-      la configuración de la pantalla se puede especificar cual desea utilizar. Los
-      botones de control en la barra de herramientas ejecutan las siguientes acciones en clics cortos.:\n\n
-      - <b>Nuevo</b> : Añadir una transacción.\n
-      - <b>Cuentas</b> : Cambiar a otra cuenta.\n
-      - <b>Reset</b> : Exporta los gastos en el formato QIF o CSV a la tarjeta SD, borra los
-      gastos y actualiza el saldo inicial.\n
-      - <b> Configuraciones</b> : Permite el acceso a todas las configuraciones y funciones administrativas 
-      (de cuentas, categorías, beneficiarios, formas de pago, plantillas, copias de seguridad, importaciones).\n
-      - <b>Ayuda</b> : Abre esta pantalla de ayuda.\n
-      \nAlgunos botones (indicado por un triángulo en la esquina superior izquierda) abren menús pop-up en clics largos:n\n
-      - <b>Nuevo</b> : <b>Traslado</b> Permite crear una transferencia de una cuenta a otra (deben tener la misma moneda). 
-      También enumera las plantillas disponibles que se pueden instanciar. (Las plantillas 
-      pueden crearse a partir de las transacciones desde su menú contextual de la lista).\n
-      - <b>Cuentas</b> : Enumera todas las cuentas a las que se puede cambiar. <b>Nuevo&#8230;</b> crea una nueva cuenta,
-      <b>Resumen</b> abre un panorama general de todas las cuentas con el estado financiero actual.\n
-      - <b>Configuraciones</b> Acceso rápido a la copia de seguridad y las propiedades de la cuenta corriente.\n
-      - <b>Ayuda</b> : Acceso rápido a tutorial, noticias, preguntas frecuentes y cambios.\n
-      \nPor favor, consulte <a href="http://myexpenses.totschnig.org/#tutorial_r4">el manual</a> para explicaciones detalladas.
-  </string>
 <!--   <string name="help_whats_new">&#160;- Exportación a CSV.\n
     - Que se declare explícitamente soporte para pantallas de gran tamaño para hacer aplicación de nuevo disponible para las tabletas en Google Play.\n
     - Apoyo a Android 1.6.</string> -->
@@ -175,7 +149,7 @@
       Actualmente hay sólo una cuenta. ¿Quiere usted crear una segunda cuenta ahora?</string>
   <string name="menu_accounts_new">Nuevo &#8230;</string>
   <string name="menu_accounts_summary">Resumen</string>
-  <string name="menu_aggregate">Total</string>
+  <string name="menu_aggregates">Total</string>
   <string name="menu_backup">Copia de seguridad</string>
   <string name="menu_change_account">Cambiar a otra cuenta</string>
   <string name="menu_clone_transaction">Clonar</string>
@@ -202,7 +176,6 @@
   <string name="menu_help">Ayuda</string>
   <string name="menu_more">Más &#8230;</string>
   <string name="menu_move_transaction">Mover</string>
-  <string name="menu_new">Nuevo</string>
   <string name="menu_new_from_template">Nuevo a partir de una plantilla</string>
   <string name="menu_reset">Restablecer</string>
   <string name="menu_reset_all">Restablecer todas</string>
@@ -265,13 +238,14 @@
       configuraciones en la tarjeta SD.</string>
   <string name="pref_categories_sort_by_usages_title">Criterio de ordenación de las categorías
       </string>
-  <string name="pref_categories_sort_by_usages_summary">Frecuencia de utilización como criterio
-      principal de ordenación (por lo demás orden alfabético)</string>
+  <string name="pref_categories_sort_by_usages_summaryOn">Frecuencia de utilización</string>
+  <string name="pref_categories_sort_by_usages_summaryOff">Orden alfabético</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_manage">Administrar</string>
   <string name="pref_category_title_security">Seguridad</string>
   <string name="pref_category_title_ui">Interfaz de usuario</string>
+  <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_contrib_install_summary">Instalando &app_name; Contrib, usted obiene acceso a
     características premium.</string>
   <string name="pref_contrib_install_title">Instalar aplicación Contrib</string>

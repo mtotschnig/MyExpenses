@@ -123,40 +123,15 @@
   <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
   <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
   <string name="help_button_rate">Bewerten</string>
-  <string name="help_button_sendmail">E-Mail senden</string>
-  <string name="help_heading_changelog">Änderungsprotokoll</string>
   <string name="help_heading_credits">Abspann</string>
   <string name="help_heading_license">Lizenz</string>
-  <string name="help_heading_more_info">Mehr Information</string>
-  <string name="help_heading_news">Neuigkeiten</string>
-  <string name="help_heading_privacy">Datenschutzerklärung</string>
-  <string name="help_heading_quick_guide">Schnelleinstieg</string>
+  <string name="pref_category_title_more_information">Mehr Information</string>
   <string name="help_heading_whats_new">Neue Funktionen</string>
   <string name="help_intro">Mit <i>&app_name;</i> können Sie über Ihre Ausgaben und Einnahmen Buch 
       halten, und diese in ein Desktop-Finanzprogrammm (Grisbi, Gnucash, Quicken oder MS Money) exportieren.</string>
   <string name="help_leading">Danke fürs Ausprobieren von <i>&app_name;</i> für
       Android.</string>
-  <string name="help_quick_guide"><i>&app_name;</i> kommt mit zwei Schnittstellen für die
-      Befehlsaufrufe: einer Symbolleiste und dem Android Standardmenü (physischer Menü-Knopf). Im
-      Einstellungs-Bildschirm können Sie festlegen, welches Sie verwenden wollen.
-      Durch kurze Klicks auf die Schaltfläche in der Symbolleiste werden folgende Funktionen aufgerufen:\n\n
-      - <b>Neu</b> : Eine Buchung hinzufügen.\n
-      - <b>Konten</b> : Zu einem anderen Konto wechseln.\n
-      - <b>Zurücksetzen</b> : Exportiert die Ausgaben im QIF oder CSV Format auf die SD-Karte, löscht die 
-        Einträge, und setzt den Anfangssaldo zurück.\n
-      - <b>Einstellungen</b> : Führt zur Übersicht aller Konfigurations- und Verwaltungsfunktionen
-      (Konten, Kategorien, Geschäftspartner, Zahlungsmethoden, Vorlagen, Sicherungen und Imports)\n
-      - <b>Hilfe</b> : Öffnet diesen Hilfetext\n
-      \nEinige Schaltflächen reagieren auch auf lange Klicks (wenn im linken oberen Eck ein Dreieck abgebildet ist):\n\n
-      - <b>Neu</b> : <b>Umbuchung</b> zwischen zwei Konten (diese müssen dieselbe Währung verwenden).
-      Hier werden auch alle verfügbaren Vorlagen aufgelistet (Buchungen können über ihr Kontextmenü in der Liste als Vorlagen gespeichert werden.)\n
-      - <b>Konten</b> : Zeigt alle Konten an, zu denen Sie wechseln können. <b>Neu &#8230;</b> : Ein neues Konto erstellen, 
-      <b>Zusammenfassung</b> öffnet eine Übersicht aller Konten mit dem aktuellen Finanzstatus.\n
-      - <b>Einstellungen</b> : Schnellzugriff auf Backup und die Konfiguration des aktuellen Kontos.\n
-      - <b>Hilfe</b> : Schnellzugriff auf Anleitung, News, FAQ und Änderungsliste.\n
-      \nAusführliche Erklärungen finden sich in der <a href="http://myexpenses.totschnig.org/#tutorial_r4">Anleitung</a>.
-  </string>
-<!--   <string name="help_whats_new">&#160;- CSV Export.\n
+  <!--   <string name="help_whats_new">&#160;- CSV Export.\n
     - explizite Unterstützung für breite Bildschirme, um Verfügbarkeit für Tablets auf Google Play sicherzustellen.\n
     - Unterstützung für Android 1.6.</string> -->
   <string name="import_categories">Kategorien importieren</string>
@@ -174,7 +149,7 @@
   </string>
   <string name="menu_accounts_new">Neu &#8230;</string>
   <string name="menu_accounts_summary">Zusammenfassung</string>
-  <string name="menu_aggregate">Gesamt</string>
+  <string name="menu_aggregates">Gesamt</string>
   <string name="menu_backup">Sicherungskopie</string>
   <string name="menu_change_account">Konto wechseln</string>
   <string name="menu_clone_transaction">Klonen</string>
@@ -201,7 +176,6 @@
   <string name="menu_help">Hilfe</string>
   <string name="menu_more">Mehr &#8230;</string>
   <string name="menu_move_transaction">Verschieben</string>
-  <string name="menu_new">Neu</string>
   <string name="menu_new_from_template">Neu aus Vorlage</string>
   <string name="menu_reset">Zurücksetzen</string>
   <string name="menu_reset_all">Alle zurücksetzen</string>
@@ -263,13 +237,14 @@
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der
       SD-Karte.</string>
   <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge der Kategorien</string>
-  <string name="pref_categories_sort_by_usages_summary">Benützungshäufigkeit als primäres Kriterium
-      für Sortierung verwenden (andernfalls alphabetische Reihung)</string>
+  <string name="pref_categories_sort_by_usages_summaryOn">Häufigkeit der Benutzung</string>
+  <string name="pref_categories_sort_by_usages_summaryOff">alphabetische Reihung</string>
   <string name="pref_category_title_manage">Verwalten</string>
   <string name="pref_category_title_ui">Benutzerschnittstelle</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_security">Sicherheit</string>
+  <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_contrib_install_title">Contrib App installieren</string>
   <string name="pref_contrib_install_summary">Durch die Installation von &app_name; Contrib, erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
   <string name="pref_currency_decimal_separator_title">Dezimaltrennzeichen für die Eingabe von

@@ -129,19 +129,11 @@
   <string name="grisbi_import_categories_success">%1$s categories imported successfully</string>
   <string name="grisbi_import_parsing">Parsing %1$s</string>
   <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
-  <!-- Titles in the help screen. -->
   <string name="help_button_rate">Rate or review</string>
-  <string name="help_button_sendmail">Send e-mail</string>
-  <string name="help_heading_changelog">Changelog</string>
   <string name="help_heading_credits">Credits</string>
   <string name="help_heading_license">License</string>
-  <string name="help_heading_more_info">More information</string>
-  <string name="help_heading_news">News</string>
-  <string name="help_heading_privacy">Privacy policy</string>
   <string name="help_heading_contextuel_help">Contextuel help</string>
   <string name="help_heading_whats_new">What\'s new</string>
-  <!-- The first line in the help screen. -->
-  <!-- The intro of the help text. -->
   <string name="help_intro"><i>&app_name;</i> is designed to keep track of your expenses and
       incomes, and to export these expenses into a desktop finance tool, like Grisbi,
       Gnucash, Quicken or MS Money.</string>
