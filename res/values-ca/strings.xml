@@ -211,6 +211,7 @@
       còpia de seguretat.</string>
   <string name="save_transaction_error">No ha estat possible desar la nova transacció de la plantilla</string>
   <string name="save_transaction_from_template_success">La nova transacció s\'ha desat correctament des de la plantilla</string>
+  <string name="select">Trieu</string>
   <string name="select_category">Trieu una categoria</string>
   <string name="select_parent_category">Trieu aquesta categoria</string>
   <string name="share_scheme_not_supported">L\'esquema %1$s no està permés.</string>

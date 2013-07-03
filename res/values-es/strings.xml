@@ -299,6 +299,7 @@
       copia de seguridad.</string>
   <string name="save_transaction_error">No se pudo guardar nueva transacción de plantilla</string>
   <string name="save_transaction_from_template_success">Nueva transacción guardada con éxito de la plantilla</string>
+  <string name="select">Escoger</string>
   <string name="select_category">Escoger una categoría</string>
   <string name="select_parent_category">Escoger esta categoría</string>
   <string name="share_scheme_not_supported">Esquema %1$s no es apoyado.</string>
