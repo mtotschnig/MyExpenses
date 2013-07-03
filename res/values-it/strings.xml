@@ -272,7 +272,8 @@
   <string name="pref_perform_protection_title">Protezione con password</string>
   <string name="pref_perform_protection_summary">Dovrebbe lancia e riprende essere protetti?</string>
   <string name="pref_perform_share_title">Condividi Export</string>
-  <string name="pref_perform_share_summary">Se il file da condividere dopo ogni esportazione?</string>
+  <string name="pref_perform_share_summaryOn">Il file sarà condiviso dopo ogni esportazione.</string>
+  <string name="pref_perform_share_summaryOff">Il file non sarà condiviso dopo ogni esportazione.</string>
   <string name="pref_protection_delay_seconds_title">Ritardo fino a protezione</string>
   <string name="pref_protection_delay_seconds_summary">Inattive secondi prima app verranno bloccati da password.</string>
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>

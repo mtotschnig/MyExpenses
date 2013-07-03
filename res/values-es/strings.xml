@@ -279,8 +279,8 @@
   <string name="pref_password_empty">La contraseña no puede estar vacía</string>
   <string name="pref_password_not_equal">Las contraseñas no coinciden</string>
   <string name="pref_perform_share_title">Enviar la exportación</string>
-  <string name="pref_perform_share_summary">¿Se debe enviar el archivo después de cada
-      exportación?</string>
+  <string name="pref_perform_share_summaryOn">El archivo será compartida después de cada exportación.</string>
+  <string name="pref_perform_share_summaryOff">El archivo no será compartida después de cada exportación.</string>
   <string name="pref_perform_protection_title">Protección por contraseña</string>
   <string name="pref_perform_protection_summary">¿Se deben proteger lanzamientos de la aplicación?</string>
   <string name="pref_protection_delay_seconds_title">Retardo hasta la protección</string>

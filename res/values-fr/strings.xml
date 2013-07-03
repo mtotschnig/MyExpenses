@@ -278,8 +278,8 @@
   <string name="pref_perform_protection_title">Protection par mot de passe</string>
   <string name="pref_perform_protection_summary">Protéger le lancement et la reprise de l\'app?</string>
   <string name="pref_perform_share_title">Envoyer le fichier d\'export</string>
-  <string name="pref_perform_share_summary">Voulez vous envoyer le fichier après chaque export
-  </string>
+  <string name="pref_perform_share_summaryOn">Le fichier sera envoyé après chaque export</string>
+  <string name="pref_perform_share_summaryOff">Le fichier ne sera pas envoyé après chaque export</string>
   <string name="pref_protection_delay_seconds_title">Délai avant protection</string>
   <string name="pref_protection_delay_seconds_summary">Durée d\'inactivité en secondes avant que la protection ne soit activée.</string>
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>

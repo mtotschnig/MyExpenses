@@ -252,7 +252,7 @@
   <string name="pref_password_empty">Parola boş olmamalıdır</string>
   <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
   <string name="pref_perform_share_title">Dışa aktarım dosyasını paylaş</string>
-  <string name="pref_perform_share_summary">Dosya her dışa aktarımdan sonra paylaşılmalı mı?</string>
+  <!-- <string name="pref_perform_share_summary">Dosya her dışa aktarımdan sonra paylaşılmalı mı?</string>  -->
   <string name="pref_perform_protection_title">Parola ile güvenlik</string>
   <string name="pref_perform_protection_summary">Uygulama başlatılmaları ve sürdürmeleri korunsun mu?</string>
   <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>

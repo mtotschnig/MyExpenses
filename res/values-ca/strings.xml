@@ -205,8 +205,8 @@
   <string name="pref_manage_templates_summary">Aplica o suprimeix plantilles</string>
   <string name="pref_manage_templates_title">Plantilles</string>
   <string name="pref_perform_share_title">Envia l\'exportació</string>
-  <string name="pref_perform_share_summary">S\'ha d\'enviar el fitxer després de cada
-      exportació?</string>
+  <string name="pref_perform_share_summaryOn">L'arxiu serà compartida després de cada exportació.</string>
+  <string name="pref_perform_share_summaryOff">L'arxiu no serà compartida després de cada exportació.</string>
   <string name="pref_perform_protection_title">Protecció per contrasenya</string>
   <string name="pref_qif_export_file_encoding_summary">Trieu la codificació de caràcters \"ISO-8859-1\" si feu servir MS Money</string>
   <string name="pref_qif_export_file_encoding_title">Codificació de caracters</string>
