@@ -541,11 +541,9 @@ public class ExpenseEdit extends EditActivity {
    * @return true upon success, false if validation fails
    */
   protected boolean saveState() {
-    String strAmount = mAmountText.getText().toString();
-    BigDecimal amount = Utils.validateNumber(nfDLocal, strAmount);
     String title = "";
+    BigDecimal amount = validateAmountInput();
     if (amount == null) {
-      Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
       return false;
     }
     if (mType == EXPENSE) {

@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public abstract class EditActivity extends ProtectedFragmentActivity {
   public static final String CURRENCY_USE_MINOR_UNIT = "x";
@@ -148,6 +149,19 @@ public abstract class EditActivity extends ProtectedFragmentActivity {
       return true;
     }
     return super.dispatchCommand(command, tag);
+  }
+  protected BigDecimal validateAmountInput() {
+    String strAmount = mAmountText.getText().toString();
+    if (strAmount.equals("")) {
+      Toast.makeText(this,getString(R.string.no_amount_given), Toast.LENGTH_LONG).show();
+      return null;
+    }
+    BigDecimal amount = Utils.validateNumber(nfDLocal, strAmount);
+    if (amount == null) {
+      Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
+      return null;
+    }
+    return amount;
   }
   abstract protected boolean saveState();
 }

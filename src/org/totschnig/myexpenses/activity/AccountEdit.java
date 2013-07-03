@@ -318,6 +318,9 @@ public class AccountEdit extends EditActivity {
    * @return true upon success, false if validation fails
    */
   protected boolean saveState() {
+    BigDecimal openingBalance = validateAmountInput();
+    if (openingBalance == null)
+       return false;
     String strCurrency = mCurrencyText.getText().toString();
     String label;
     try {
@@ -333,11 +336,6 @@ public class AccountEdit extends EditActivity {
     }
     mAccount.label = label;
     mAccount.description = mDescriptionText.getText().toString();
-    BigDecimal openingBalance = Utils.validateNumber(nfDLocal, mAmountText.getText().toString());
-    if (openingBalance == null) {
-      Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
-      return false;
-    }
     if (mType == EXPENSE) {
       openingBalance = openingBalance.negate();
     }
