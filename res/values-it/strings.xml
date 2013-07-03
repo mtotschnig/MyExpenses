@@ -56,7 +56,6 @@
   <string name="contrib_feature_security_question_label">Domanda di sicurezza</string>
   <string name="contrib_feature_clone_transaction_label">Ricopiare operazioni</string>
   <string name="contrib_key">Chiave Contrib</string>
-  <string name="create_category">Nuova categoria</string>
   <string name="currency">Valuta</string>
   <string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
   <string name="current_balance">Saldo corrente</string>
@@ -96,7 +95,6 @@
   <string name="donate">Donare</string>
   <string name="donate_dialog_text">Se non si dispone di accesso a Google Play, è possibile donare tramite PayPal o Flattr,
     e quindi richiedere una chiave contrib dalla schermata delle impostazioni.\n\n&thank_you;</string>
-  <string name="edit_category">Modificare la categoria</string>
   <string name="error_accessing_gplay">Errore durante l\'accesso a Google Play</string>
   <string name="expense">spesa</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già.
@@ -219,9 +217,6 @@
   <string name="pm_type_credit">Credito</string>
   <string name="peer_transaction_deleted">Questa operazione è stata collegata ad un altro (conto
       %1$s) che è stato eliminato</string>
-  <string name="pref_account_button_behaviour_title">Comportamento del pulsante \"Conti\"</string>
-  <string name="pref_account_button_behaviour_summary">Vuoi che il pulsante \"Conti\" alterna tra gli
-      ultimi due conti invece di alternare tra tutti i conti?</string>
   <string name="pref_backup_summary">Crea un backup del database e delle preferenze sulla scheda SD.
   </string>
   <string name="pref_categories_sort_by_usages_title">Criterio di ordinamento per le categorie

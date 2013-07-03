@@ -57,7 +57,6 @@
   <string name="contrib_feature_security_question_label">Sicherheitsfrage</string>
   <string name="contrib_feature_clone_transaction_label">Buchungen klonen</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
-  <string name="create_category">Neue Kategorie</string>
   <string name="currency">Währung</string>
   <string name="currency_not_iso4217">%1$s ist kein gültiger ISO 4217 Währungscode</string>
   <string name="current_balance">Aktueller Saldo</string>
@@ -99,7 +98,6 @@
   <string name="donate">Spenden</string>
   <string name="donate_dialog_text">Wenn Sie nicht auf Google Play zugreifen können, können Sie mittels PayPal oder Flattr spenden,
     und dann von den Einstellungen aus einen Contrib-Schlüssel anfordern.\n\n&thank_you;</string>
-  <string name="edit_category">Kategorie verändern</string>
   <string name="error_accessing_gplay">Fehler beim Zugriff auf Google Play</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten 
@@ -220,9 +218,6 @@
   <string name="pm_type_credit">Einnahmen</string>
   <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s)
       verknüpft, die gelöscht wurde</string>
-  <string name="pref_account_button_behaviour_title">Verhalten der Schaltfläche \"Konten\"</string>
-  <string name="pref_account_button_behaviour_summary">Soll die Schaltfläche  \"Konten\" zwischen den beiden letzten Konten hin- und herschalten, anstatt 
-        alle Konten nacheinander aufzurufen.</string>
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der
       SD-Karte.</string>
   <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge der Kategorien</string>

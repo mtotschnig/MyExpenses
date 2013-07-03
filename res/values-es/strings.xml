@@ -57,7 +57,6 @@
   <string name="contrib_feature_security_question_label">Pregunta de seguridad</string>
   <string name="contrib_feature_clone_transaction_label">Clonar asientos</string>
   <string name="contrib_key">Clave Contrib</string>
-  <string name="create_category">Nueva categoría</string>
   <string name="currency">Moneda</string>
   <string name="currency_not_iso4217">%1$s no es un código de moneda válido según ISO 4217.</string>
   <string name="current_balance">Saldo actual</string>
@@ -99,7 +98,6 @@
   <string name="donate">Done</string>
   <string name="donate_dialog_text">Si usted no tiene acceso a Google Play, se puede donar a través de PayPal o Flattr,
     y luego solicitar una clave contrib de la pantalla de configuraciones.\n\n&thank_you;</string>
-  <string name="edit_category">Modificar categoría</string>
   <string name="error_accessing_gplay">Error al acceder a Google Play</string>
   <string name="expense">gasto</string>
   <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere
@@ -222,9 +220,6 @@
   <string name="pm_type_credit">Crédito</string>
   <string name="peer_transaction_deleted">Este asiento estaba conectado con un asiento de
       contrapartida (cuenta %1$s) que fue borrado.</string>
-  <string name="pref_account_button_behaviour_summary">¿Debe el botón  \"Cuentas\" alternar entre las dos 
-      últimas cuentas en lugar de circular entre todas?</string>
-  <string name="pref_account_button_behaviour_title">Comportamiento del botón \"Cuentas\" </string>
   <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y de las
       configuraciones en la tarjeta SD.</string>
   <string name="pref_categories_sort_by_usages_title">Criterio de ordenación de las categorías

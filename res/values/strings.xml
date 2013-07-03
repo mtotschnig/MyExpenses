@@ -33,7 +33,6 @@
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Backup to sdcard failed.</string>
   <string name="backup_success">Database and preferences successfully written to sdcard.</string>
-  <string name="button_website">Website</string>
   <string name="category_already_defined">Category %1$s already defined</string>
   <string name="category">Category</string>
   <string name="color">Color</string>
@@ -57,7 +56,6 @@
   <string name="contrib_feature_security_question_label">Security question</string>
   <string name="contrib_feature_clone_transaction_label">Clone transactions</string>
   <string name="contrib_key">Contrib key</string>
-  <string name="create_category">Create new category</string>
   <string name="currency">Currency</string>
   <string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
   <string name="current_balance">Current balance</string>
@@ -106,7 +104,6 @@
   <string name="donate">Donate</string>
   <string name="donate_dialog_text">If you are not able to access Google Play, you can donate via PayPal or Flattr,
     and then request a contrib key from the settings screen.\n\n&thank_you;</string>
-  <string name="edit_category">Edit category</string>
   <string name="error_accessing_gplay">Error while accessing Google Play</string>
   <string name="expense">Expense</string>
   <string name="export_expenses_outputfile_exists">Output file already exists. Please wait one
@@ -228,9 +225,6 @@
   <string name="pm_type_credit">Credit</string>
   <string name="peer_transaction_deleted">This transaction referred to a contra-entry (account %1$s)
       that has been deleted</string>
-  <string name="pref_account_button_behaviour_title">Behaviour of \"Accounts\" button</string>
-  <string name="pref_account_button_behaviour_summary">Should the \"Accounts\" button toggle
-      between the last two accounts instead of cycling between all.</string>
   <string name="pref_backup_summary">Create a backup of database and preferences on the
       sdcard.</string>
   <string name="pref_categories_sort_by_usages_title">Sort order for categories</string>

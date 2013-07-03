@@ -56,7 +56,6 @@
   <string name="contrib_feature_security_question_label">Güvenlik sorusu</string>
   <string name="contrib_feature_clone_transaction_label">Muameleleri klonla</string>
   <string name="contrib_key">Katkı anahtarı</string>
-  <string name="create_category">Yeni kategori oluştur</string>
   <string name="currency">Döviz</string>
   <string name="currency_not_iso4217">%1$s ISO 4217 olarak belirtilmemiş</string>
   <string name="current_balance">Güncel bakiye</string>
@@ -95,7 +94,6 @@
   <string name="donate">Bağış</string>
   <string name="donate_dialog_text">Eğer Google Play\'e erişemiyorsanız Paypal ya da Flattr ile bağışta bulunup
     Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.\n\n&thank_you;</string>
-  <string name="edit_category">Kategori düzenle</string>
   <string name="error_accessing_gplay">Google Play erişimi sırasında hata oluştu</string>
   <string name="expense">gider</string>
   <string name="export_expenses_outputfile_exists">Çıktı dosyası zaten mevcut. Lütfen bir dakika bekleyip tekrar deneyin.</string>
@@ -203,8 +201,6 @@
   <string name="pm_type_debit">Gider</string>
   <string name="pm_type_credit">Gelir</string>
   <string name="peer_transaction_deleted">Bu muamele silinmiş olan başka bir hesap (%1$s hesabı) ile ilişkiliydi</string>
-  <string name="pref_account_button_behaviour_title">\"Hesaplar\" düğmesinin davranışı</string>
-  <string name="pref_account_button_behaviour_summary">\"Hesaplar\" düğmesi tüm hesaplar arasında geçiş yapmak yerine son iki hesap arası mı geçiş yapsın.</string>
   <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
   <string name="pref_categories_sort_by_usages_title">Kategoriler için sıralama düzeni</string>
   <!-- <string name="pref_categories_sort_by_usages_summary">Sıralama kriteri olarak kullanım sayısını kullan
