@@ -20,7 +20,7 @@
     android:versionName="1.7.4.2"
     android:installLocation="auto"
 >
-    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="15"></uses-sdk>
+    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="15"></uses-sdk>
     <supports-screens android:smallScreens="true"
                   android:normalScreens="true"
                   android:largeScreens="true"
