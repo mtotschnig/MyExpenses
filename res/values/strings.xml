@@ -150,17 +150,10 @@
   <string name="label">Label</string>
   <string name="licence_validation_success">Licence key successfully validated: Premium features have been unlocked.</string>
   <string name="licence_validation_failure">Unable to validate licence key.</string>
-  <string name="menu_accounts">Accounts</string>
-  <string name="menu_accounts_explain">The Accounts button will let you switch between accounts,
-      once you have defined multiple accounts. Currently there is only one account.
-      Do you want to create a second account now?</string>
-  <string name="menu_accounts_new">New &#8230;</string>
-  <string name="menu_accounts_summary">Summary</string>
   <string name="menu_aggregates">Total</string>
   <string name="menu_backup">Backup</string>
-  <string name="menu_contrib">Contribute</string>
-  <string name="menu_change_account">Change account</string>
   <string name="menu_clone_transaction">Clone</string>
+  <string name="menu_contrib">Contribute</string>
   <string name="menu_create_account">New account</string>
   <string name="menu_create_method">New payment method</string>
   <string name="menu_create_transaction">New Transaction</string>
@@ -180,9 +173,7 @@
   <string name="menu_edit_transaction">Edit Transaction</string>
   <string name="menu_edit_template">Edit Template</string>
   <string name="menu_edit_transfer">Edit Transfer</string>
-  <string name="menu_faq">FAQ</string>
   <string name="menu_help">Help</string>
-  <string name="menu_more">More &#8230;</string>
   <string name="menu_move_transaction">Move</string>
   <string name="menu_save">Save</string>
   <string name="menu_save_and_new">Save and new</string>
@@ -190,7 +181,6 @@
   <string name="menu_reset">Reset</string>
   <string name="menu_reset_all">Reset all</string>
   <string name="menu_settings">Settings</string>
-  <string name="menu_settings_account">Current account</string>
   <string name="menu_show_detail">Show details</string>
   <string name="method">Method</string>
   <string name="new_version">New version</string>
@@ -308,6 +298,8 @@
   <string name="pref_use_standard_menu_title">Use standard Android menu</string>
   <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
       standard menu for accessing commands.</string>
+  <string name="pref_visit_website_title">Visit Website</string>
+  <string name="pref_visit_website_summary">Changelog and FAQ</string>
   <string name="request_licence_mail_body">Please send me a Contrib key for Android-Id %1$s</string>
   <string name="restore_db_failure">Database restore failed.</string>
   <string name="restore_db_success">Database has been restored from backup.</string>

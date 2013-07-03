@@ -62,7 +62,7 @@ public class AggregatesDialogFragment extends DialogFragment implements LoaderMa
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     return new AlertDialog.Builder(getActivity())
-      .setTitle(R.string.menu_aggregate)
+      .setTitle(R.string.menu_aggregates)
       .setAdapter(currencyAdapter, null)
       .setNegativeButton(android.R.string.ok,this)
       .create();

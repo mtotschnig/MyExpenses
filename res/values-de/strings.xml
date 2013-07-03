@@ -142,16 +142,8 @@
   <string name="label">Bezeichnung</string>
   <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: Premium-Funktionen wurden freigeschaltet.</string>
   <string name="licence_validation_failure">Lizenz-Schlüssel konnte nicht validiert werden.</string>
-  <string name="menu_accounts">Konten</string>
-  <string name="menu_accounts_explain">Mit der Schaltfläche Konten können Sie zwischen Konten 
-      wechseln, sobald Sie mehrere Konten angelegt haben. Zur Zeit gibt es nur ein Konto. Wollen Sie
-      ein zweites Konto jetzt anlegen?
-  </string>
-  <string name="menu_accounts_new">Neu &#8230;</string>
-  <string name="menu_accounts_summary">Zusammenfassung</string>
   <string name="menu_aggregates">Gesamt</string>
   <string name="menu_backup">Sicherungskopie</string>
-  <string name="menu_change_account">Konto wechseln</string>
   <string name="menu_clone_transaction">Klonen</string>
   <string name="menu_contrib">Beitragen</string>
   <string name="menu_create_account">Neues Konto</string>
@@ -172,9 +164,7 @@
   <string name="menu_edit_transaction">Buchung verändern</string>
   <string name="menu_edit_template">Vorlage verändern</string>
   <string name="menu_edit_transfer">Umbuchung verändern</string>
-  <string name="menu_faq">FAQ</string>
   <string name="menu_help">Hilfe</string>
-  <string name="menu_more">Mehr &#8230;</string>
   <string name="menu_move_transaction">Verschieben</string>
   <string name="menu_new_from_template">Neu aus Vorlage</string>
   <string name="menu_reset">Zurücksetzen</string>
@@ -182,7 +172,6 @@
   <string name="menu_save">Speichern</string>
   <string name="menu_save_and_new">Speichern und neu</string>
   <string name="menu_settings">Einstellungen</string>
-  <string name="menu_settings_account">Aktuelles Konto</string>
   <string name="menu_show_detail">Details anzeigen</string>
   <string name="method">Zahlungsweise</string>
   <string name="new_version">Neue Version</string>

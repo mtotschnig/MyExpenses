@@ -133,15 +133,8 @@
   <string name="label">Etiket</string>
   <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı: katkı işlevlerinin kilidi kaldırılmıştır.</string>
   <string name="licence_validation_failure">Lisans anahtarı doğrulanamadı.</string>
-  <string name="menu_accounts">Hesaplar</string>
-  <!-- TODO changed. Translations pending -->
-  <string name="menu_accounts_explain">Hesaplar düğmesi birden çok hesap yapılandırıldığında hesaplar arası geçiş yapmaya izin verir. Şu anda sadece tek bir hesap vardır.
-      Şimdi ikinci bir hesap oluşturmak istiyor musunuz?</string>
-  <string name="menu_accounts_new">Yeni &#8230;</string>
-  <string name="menu_accounts_summary">Özet</string>
   <string name="menu_aggregates">Toplam</string>
   <string name="menu_backup">Yedekleme</string>
-  <string name="menu_change_account">Hesap değiştir</string>
   <string name="menu_clone_transaction">Klonla</string>
   <string name="menu_contrib">Katkıda bulun</string>
   <string name="menu_create_account">Yeni hesap oluştur</string>
@@ -162,9 +155,7 @@
   <string name="menu_edit_transaction">Muameleyi düzenle</string>
   <string name="menu_edit_template">Şablonu düzenle</string>
   <string name="menu_edit_transfer">Virmanı düzenle</string>
-  <string name="menu_faq">SSS</string>
   <string name="menu_help">Yardım</string>
-  <string name="menu_more">Dahası &#8230;</string>
   <string name="menu_move_transaction">Taşı</string>
   <string name="menu_new_from_template">Şablondan yeni</string>
   <string name="menu_reset">Sıfırla</string>
@@ -172,7 +163,6 @@
   <string name="menu_save">Kaydet</string>
   <string name="menu_save_and_new">Kaydet ve yenisini aç</string>
   <string name="menu_settings">Ayarlar</string>
-  <string name="menu_settings_account">Güncel hesap</string>
   <string name="menu_show_detail">Detayları göster</string>
   <string name="method">Metot</string>
   <string name="new_version">Yeni sürüm</string>

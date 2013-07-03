@@ -139,15 +139,8 @@
   <string name="licence_validation_failure">Impossible convalidare la chiave di licenza.</string>
   <string name="licence_validation_success">Chiave di licenza convalidata con successo. Le funzionalità
   speciali sono state attivate.</string>
-  <string name="menu_accounts">Conti</string>
-  <string name="menu_accounts_explain">Il pulsante Conti consente passare da un conto
-      a un altro se ci sono stati definiti diversi conti.
-      Inizialmente, c\'è uno solo. Vuoi creare un secondo conto adesso?</string>
-  <string name="menu_accounts_new">Nuovo &#8230;</string>
-  <string name="menu_accounts_summary">Riassunto</string>
   <string name="menu_aggregates">Sommato</string>
   <string name="menu_backup">Backup</string>
-  <string name="menu_change_account">Cambiare conto</string>
   <string name="menu_clone_transaction">Ricopiare</string>
   <string name="menu_contrib">Contribuire</string>
   <string name="menu_create_account">Nuovo conto</string>
@@ -168,17 +161,14 @@
   <string name="menu_edit_transaction">Modificare operazione</string>
   <string name="menu_edit_template">Modificare modello</string>
   <string name="menu_edit_transfer">Modificare un trasferimento</string>
-  <string name="menu_faq">FAQ</string>
   <string name="menu_help">Aiuto</string>
   <string name="menu_new_from_template">Nuovo riguardo al modello</string>
-  <string name="menu_more">Ulteriori &#8230;</string>
   <string name="menu_move_transaction">Spostare</string>
   <string name="menu_reset">Reinizializzare</string>
   <string name="menu_reset_all">Reinizializzare tutti</string>
   <string name="menu_save">Salvare</string>
   <string name="menu_save_and_new">Salvare e nuova</string>
   <string name="menu_settings">Impostazioni</string>
-  <string name="menu_settings_account">Conto</string>
   <string name="menu_show_detail">Visualizza i dettagli</string>
   <string name="method">Modo</string>
   <string name="new_version">New version</string>

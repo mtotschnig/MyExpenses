@@ -135,7 +135,8 @@
    </PreferenceCategory>
    <PreferenceCategory android:title="@string/pref_category_title_more_information">
      <Preference
-        android:title="Visit Website">
+        android:title="@string/pref_visit_website_title"
+        android:summary="@string/pref_visit_website_summary">
         <intent
         android:action="android.intent.action.VIEW"
         android:data="http://myexpenses.totschnig.org"
@@ -154,10 +155,9 @@
      <PreferenceCategory android:title="@string/feedback">
     <Preference
         android:title="@string/help_button_rate">>
-        <intent
-        android:action="android.intent.action.VIEW"
-        android:data="market://details?id=org.totschnig.myexpenses"
-        />
+      <intent
+          android:action="android.intent.action.VIEW"
+          android:data="market://details?id=org.totschnig.myexpenses" />
     </Preference>
     <Preference android:key="@string/pref_send_feedback_key"
         android:title="@string/pref_send_feedback_title"/>

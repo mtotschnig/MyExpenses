@@ -142,14 +142,8 @@
   <string name="label">Intitulé</string>
   <string name="licence_validation_success">Clé de licence validée : L\'accès aux fonctions Premium a été déverrouillé.</string>
   <string name="licence_validation_failure">Clé de licence invalide.</string>
-  <string name="menu_accounts">Comptes</string>
-  <string name="menu_accounts_explain">Le bouton Comptes vous permet de changer de compte si vous en
-      aviez défini plusieurs. Au départ, il n\'existe qu\'un seul compte. Voulez-vous en créer un deuxième maintenant ?</string>
-  <string name="menu_accounts_new">Nouveau &#8230;</string>
-  <string name="menu_accounts_summary">Sommaire</string>
   <string name="menu_aggregates">Total</string>
   <string name="menu_backup">Sauvegarde</string>
-  <string name="menu_change_account">Changer de compte</string>
   <string name="menu_clone_transaction">Cloner</string>
   <string name="menu_contrib">Contribuer</string>
   <string name="menu_create_account">Nouveau compte</string>
@@ -170,9 +164,7 @@
   <string name="menu_edit_transaction">Éditer une transaction</string>
   <string name="menu_edit_template">Éditer le modèle</string>
   <string name="menu_edit_transfer">Éditer un virement</string>
-  <string name="menu_faq">FAQ</string>
   <string name="menu_help">Aide</string>
-  <string name="menu_more">Plus &#8230;</string>
   <string name="menu_move_transaction">Déplacer</string>
   <string name="menu_new_from_template">Nouveau d\'après modèle</string>
   <string name="menu_reset">Réinitialiser</string>
@@ -180,7 +172,6 @@
   <string name="menu_save">Enregistrer</string>
   <string name="menu_save_and_new">Enregistrer et nouveau</string>
   <string name="menu_settings">Paramètres</string>
-  <string name="menu_settings_account">Compte en cours</string>
   <string name="menu_show_detail">Afficher les détails</string>
   <string name="method">Méthode</string>
   <string name="new_version">Nouvelle version</string>

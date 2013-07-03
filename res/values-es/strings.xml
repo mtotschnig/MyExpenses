@@ -144,14 +144,8 @@
   <string name="licence_validation_failure">No se puede validar la clave de licencia.</string>
   <string name="licence_validation_success">La clave de licencia es válida: Las características Contrib
     han sido desbloqueadas.</string>
-  <string name="menu_accounts">Cuentas</string>
-  <string name="menu_accounts_explain">Con el botón Cuentas usted puede alternar entre cuentas, una vez que ha creado varias cuentas.
-      Actualmente hay sólo una cuenta. ¿Quiere usted crear una segunda cuenta ahora?</string>
-  <string name="menu_accounts_new">Nuevo &#8230;</string>
-  <string name="menu_accounts_summary">Resumen</string>
   <string name="menu_aggregates">Total</string>
   <string name="menu_backup">Copia de seguridad</string>
-  <string name="menu_change_account">Cambiar a otra cuenta</string>
   <string name="menu_clone_transaction">Clonar</string>
   <string name="menu_contrib">Contribuya</string>
   <string name="menu_create_account">Nueva cuenta</string>
@@ -172,9 +166,7 @@
   <string name="menu_edit_transaction">Modificar el asiento</string>
   <string name="menu_edit_template">Editar plantilla</string>
   <string name="menu_edit_transfer">Modificar el traslado a otra cuenta</string>
-  <string name="menu_faq">Preguntas frecuentes</string>
   <string name="menu_help">Ayuda</string>
-  <string name="menu_more">Más &#8230;</string>
   <string name="menu_move_transaction">Mover</string>
   <string name="menu_new_from_template">Nuevo a partir de una plantilla</string>
   <string name="menu_reset">Restablecer</string>
@@ -182,7 +174,6 @@
   <string name="menu_save">Guardar</string>
   <string name="menu_save_and_new">Guardar y nueva</string>
   <string name="menu_settings">Configuraciones</string>
-  <string name="menu_settings_account">Cuenta actual</string>
   <string name="menu_show_detail">Ver los detalles</string>
   <string name="method">Método</string>
   <string name="new_version">Nueva versión</string>

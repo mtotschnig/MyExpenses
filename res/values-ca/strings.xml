@@ -104,11 +104,6 @@
   <string name="invalid_number_format">El format dels decimals no es compatible amb les vostra configuració
       regional. Si us plau, feu servir %1$s</string>
   <string name="label">Etiqueta</string>
-  <string name="menu_accounts">Comptes</string>
-  <string name="menu_accounts_explain">Amb el botó Comptes podeu canviar de compte, si heu definit alguns comptes.
-      Actualment només hi ha un compte. Voleu definir un segon compte ara?</string>
-  <string name="menu_accounts_new">Nou &#8230;</string>
-  <string name="menu_accounts_summary">Resum</string>
   <string name="menu_backup">Còpia de seguretat</string>
   <string name="menu_change_account">Canvia de compte</string>
   <string name="menu_create_account">Nou compte</string>
@@ -127,16 +122,13 @@
   <string name="menu_edit_transaction">Modifica l\'assentament</string>
   <string name="menu_edit_template">Modifica la plantilla</string>
   <string name="menu_edit_transfer">Modifica la transferència a un altre compte</string>
-  <string name="menu_faq">Preguntes més freqüents</string>
   <string name="menu_help">Ajuda</string>
-  <string name="menu_more">Més &#8230;</string>
   <string name="menu_move_transaction">Mou</string>
   <string name="menu_new_from_template">Nou a partir d\'una plantilla</string>
   <string name="menu_reset">Reinicia</string>
   <string name="menu_save">Desar</string>
   <string name="menu_save_and_new">Desar i nova</string>
   <string name="menu_settings">Preferències</string>
-  <string name="menu_settings_account">Compte actual</string>
   <string name="menu_show_detail">Mostra els detalls</string>
   <string name="method">Mètode</string>
   <string name="new_version">Nova versió</string>
@@ -205,8 +197,8 @@
   <string name="pref_manage_templates_summary">Aplica o suprimeix plantilles</string>
   <string name="pref_manage_templates_title">Plantilles</string>
   <string name="pref_perform_share_title">Envia l\'exportació</string>
-  <string name="pref_perform_share_summaryOn">L'arxiu serà compartida després de cada exportació.</string>
-  <string name="pref_perform_share_summaryOff">L'arxiu no serà compartida després de cada exportació.</string>
+  <string name="pref_perform_share_summaryOn">El fitxer serà compartida després de cada exportació.</string>
+  <string name="pref_perform_share_summaryOff">El fitxer no serà compartida després de cada exportació.</string>
   <string name="pref_perform_protection_title">Protecció per contrasenya</string>
   <string name="pref_qif_export_file_encoding_summary">Trieu la codificació de caràcters \"ISO-8859-1\" si feu servir MS Money</string>
   <string name="pref_qif_export_file_encoding_title">Codificació de caracters</string>
