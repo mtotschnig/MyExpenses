@@ -293,6 +293,8 @@
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_ui_theme_dark">oscuro</string>
   <string name="pref_ui_theme_light">claro</string>
+ <!--  <string name="pref_visit_website_title">Visit Website</string> -->
+  <string name="pref_visit_website_summary">Registro de cambios y preguntas frecuentes</string>
   <string name="request_licence_mail_body">Por favor, envíeme una clave contrib para Android-Id %1$s</string>
   <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.
       </string>
@@ -303,6 +305,7 @@
       copia de seguridad.</string>
   <string name="save_transaction_error">No se pudo guardar nueva transacción de plantilla</string>
   <string name="save_transaction_from_template_success">Nueva transacción guardada con éxito de la plantilla</string>
+  <string name="save_transaction_and_new_success">Transacción guardada con éxito</string>
   <string name="select">Escoger</string>
   <string name="select_category">Escoger una categoría</string>
   <string name="select_parent_category">Escoger esta categoría</string>

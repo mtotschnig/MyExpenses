@@ -205,11 +205,14 @@
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_ui_theme_dark">fosc</string>
   <string name="pref_ui_theme_light">clar</string>
+<!--   <string name="pref_visit_website_title">Visit Website</string> -->
+  <string name="pref_visit_website_summary">Registre de canvis i preguntes més freqüents</string>
   <string name="restore_db_success">S\'ha restaurat la base de dades des de la còpia de seguretat.</string>
   <string name="restore_preferences_success">S\'han restaurat les preferències des de la
       còpia de seguretat.</string>
   <string name="save_transaction_error">No ha estat possible desar la nova transacció de la plantilla</string>
   <string name="save_transaction_from_template_success">La nova transacció s\'ha desat correctament des de la plantilla</string>
+  <string name="save_transaction_and_new_success">La transacció s\'ha desat correctament</string>
   <string name="select">Trieu</string>
   <string name="select_category">Trieu una categoria</string>
   <string name="select_parent_category">Trieu aquesta categoria</string>

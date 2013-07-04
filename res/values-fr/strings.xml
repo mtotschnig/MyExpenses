@@ -282,6 +282,7 @@
   <string name="pref_request_licence_summary">Si vous avez contribué par d\'autres moyens, demandez une clé contrib par e-mail.</string>
   <string name="pref_restore_title">Restauration</string>
   <string name="pref_restore_summary">Restaurez la sauvegarde à partir du dossier \"myexpenses\" de la carte SD.</string>
+  <string name="pref_send_feedback_title">Envoyer feedback</string>
   <string name="pref_share_target_title">URL où sera téléchargé le fichier d\'export</string>
   <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les 
       différentes applications pour le transfert du fichier (Email, Dropbox, Google Docs, &#8230;), sinon
@@ -290,6 +291,8 @@
   <string name="pref_security_question_summary">Vous permet de débloquer l\'app, si vous avez oublié votre mot de passe. Nécessite &app_name; Contrib.</string>
   <string name="pref_ui_theme_title">Style</string>
   <string name="pref_ui_theme_dark">sombre</string>
+  <string name="pref_visit_website_title">Visiter le site Web</string>
+  <string name="pref_visit_website_summary">Journal des modifications et FAQ</string>
   <string name="pref_ui_theme_light">clair</string>
   <string name="request_licence_mail_body">Envoyez-moi, s\'il-vous-plaît, une clé contrib pour l\'Android-Id %1$s</string>
   <string name="restore_db_failure">La restauration de la base de données a échoué.</string>
@@ -301,6 +304,7 @@
       sauvegarde.</string>
   <string name="save_transaction_error">La transaction à partir du modèle n\'a pas été enregistrée</string>
   <string name="save_transaction_from_template_success">Nouvelle transaction sauvegardée à partir du modèle</string>
+  <string name="save_transaction_and_new_success">Transaction sauvegardée</string>
   <string name="select">Sélectionner</string>
   <string name="select_category">Sélectionner une catégorie</string>
   <string name="select_parent_category">Choisir cette catégorie</string>

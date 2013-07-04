@@ -255,6 +255,8 @@
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_ui_theme_dark">karanlık</string>
   <string name="pref_ui_theme_light">aydınlık</string>
+<!--   <string name="pref_visit_website_title">Visit Website</string> -->
+  <string name="pref_visit_website_summary">Değişiklikler ya SSS</string>
   <string name="request_licence_mail_body">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin</string>
   <string name="restore_db_failure">Veritabanının yüklenmesi başarısız oldu</string>
   <string name="restore_db_success">Veritabanı yedeklemeden restore edilmiştir.</string>
