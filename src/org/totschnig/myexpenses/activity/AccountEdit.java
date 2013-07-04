@@ -282,6 +282,7 @@ public class AccountEdit extends EditActivity {
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);
     } else {
+      setTitle(R.string.menu_create_account);
       mAccount = new Account();
     }
     mBalanceTypeButton = (Button) findViewById(R.id.TaType);
