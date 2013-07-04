@@ -273,7 +273,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     MenuInflater inflater = getSupportMenuInflater();
     inflater.inflate(R.menu.expenses, menu);
     super.onCreateOptionsMenu(menu);
-    this.menu = menu;
     return true;
   }
 
