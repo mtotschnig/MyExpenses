@@ -214,13 +214,10 @@
   <string name="pref_contrib_install_title">Katkı uygulamasını kur</string>
   <string name="pref_contrib_install_summary">&app_name; Contrib uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
   <string name="pref_currency_decimal_separator_title">Girilen döviz miktarı için ondalık ayırıcı</string>
-  <string name="pref_currency_decimal_separator_summary">"," ya da "." arası seçim yapabilir veya
-      küçük birimleri tamsayı olarak girmeye karar verebilirsiniz.</string>
   <string name="pref_currency_decimal_separator_comma">Virgül (,)</string>
   <string name="pref_currency_decimal_separator_point">Nokta (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Küçük birimler tamsayı olarak</string>
   <string name="pref_export_format_title">Veri biçimi</string>
-  <string name="pref_export_format_summary">QIF veya CSV seç</string>
   <string name="pref_enter_licence_title">Katkı anahtarını gir</string>
   <string name="pref_enter_licence_summary">Eğer katkı anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
   <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
@@ -244,7 +241,6 @@
   <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
   <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
-  <string name="pref_qif_export_file_encoding_summary">MS Money kullanıyorsanız karakter kodunu \"ISO-8859-1\" olarak ayarlayınız</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
   <string name="pref_request_licence_summary">Başka bir şekilde katkıda bulunduysanız katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
   <string name="pref_restore_title">Geri al</string>
@@ -255,7 +251,6 @@
   <string name="pref_share_target_title">Yükleme adresi</string>
   <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, &#8230;) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
   <string name="pref_ui_theme_title">Tema</string>
-  <string name="pref_ui_theme_summary">Aydınlık ya da karanlıktan birini seçin</string>
   <string name="pref_ui_theme_dark">karanlık</string>
   <string name="pref_ui_theme_light">aydınlık</string>
   <string name="request_licence_mail_body">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin</string>

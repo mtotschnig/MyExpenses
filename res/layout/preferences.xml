@@ -39,12 +39,11 @@
         <intent android:action="myexpenses.intent.manage.methods"/>
     </PreferenceScreen>
   </PreferenceCategory>
-  <PreferenceCategory 
+  <PreferenceCategory
       android:title="@string/pref_category_title_ui">
-    <ListPreference android:key="@string/pref_ui_theme_key"
+    <org.totschnig.myexpenses.preference.ListPreferenceShowSummary android:key="@string/pref_ui_theme_key"
         android:defaultValue="dark"
         android:title="@string/pref_ui_theme_title"
-        android:summary="@string/pref_ui_theme_summary"
         android:entries="@array/pref_ui_theme_entries"
         android:entryValues="@array/pref_ui_theme_values"/>
     <CheckBoxPreference android:key="@string/pref_categories_sort_by_usages_key"
@@ -52,9 +51,8 @@
         android:title="@string/pref_categories_sort_by_usages_title"
         android:summaryOff="@string/pref_categories_sort_by_usages_summaryOff"
         android:summaryOn="@string/pref_categories_sort_by_usages_summaryOn" />
-    <ListPreference android:key="@string/pref_currency_decimal_separator_key"
+    <org.totschnig.myexpenses.preference.ListPreferenceShowSummary android:key="@string/pref_currency_decimal_separator_key"
         android:title="@string/pref_currency_decimal_separator_title"
-        android:summary="@string/pref_currency_decimal_separator_summary"
         android:entries="@array/pref_currency_decimal_separator_entries"
         android:entryValues="@array/pref_currency_decimal_separator_values"/>
   </PreferenceCategory>
@@ -68,16 +66,14 @@
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/pref_category_title_export">
-    <ListPreference android:key="@string/pref_export_format_key"
+    <org.totschnig.myexpenses.preference.ListPreferenceShowSummary android:key="@string/pref_export_format_key"
         android:defaultValue="QIF"
         android:title="@string/pref_export_format_title"
-        android:summary="@string/pref_export_format_summary"
         android:entries="@array/pref_export_format"
         android:entryValues="@array/pref_export_format"/>
-    <ListPreference android:key="@string/pref_qif_export_file_encoding_key"
+    <org.totschnig.myexpenses.preference.ListPreferenceShowSummary android:key="@string/pref_qif_export_file_encoding_key"
         android:defaultValue="UTF-8"
         android:title="@string/pref_qif_export_file_encoding_title"
-        android:summary="@string/pref_qif_export_file_encoding_summary"
         android:entries="@array/pref_qif_export_file_encoding"
         android:entryValues="@array/pref_qif_export_file_encoding"/>
     <CheckBoxPreference android:key="@string/pref_perform_share_key"

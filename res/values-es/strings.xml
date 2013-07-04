@@ -237,7 +237,6 @@
   <string name="pref_contrib_install_title">Instalar aplicación Contrib</string>
   <string name="pref_currency_decimal_separator_title">Separador decimal para entrar valores de
       moneda</string>
-  <string name="pref_currency_decimal_separator_summary">\",\" y \".\" o sub-unidades como números enteros</string>
   <string name="pref_currency_decimal_separator_comma">Coma (,)</string>
   <string name="pref_currency_decimal_separator_point">Punto (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Sub-unidades como números enteros
@@ -246,7 +245,6 @@
     premium.</string>
   <string name="pref_enter_licence_title">Introduzca la clave Contrib</string>
   <string name="pref_export_format_title">Formato de datos</string>
-  <string name="pref_export_format_summary">Escoja entre QIF y CSV</string>
   <string name="pref_import_from_grisbi_title">Importación desde Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Importar categorías (y socios) desde las incluidas
       definiciones estándar de Grisbi o de su propio archivo. Usted tiene que archivar este último
@@ -276,8 +274,6 @@
   <string name="pref_request_licence_title">Solicite una clave contrib</string>
   <string name="pref_restore_summary">Restaurar la copia de seguridad de la carpeta \"myexpenses\" en la tarjeta SD</string>
   <string name="pref_restore_title">Restaurar</string>
-  <string name="pref_qif_export_file_encoding_summary">Establece \"ISO-8859-1\" como
-      codificación de caracteres si utiliza MS Money.</string>
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
   <string name="pref_share_target_title">Cargar URL de exportación</string>
   <string name="pref_share_target_summary">Usted puede dejar esto en blanco, si quiere elegir entre
@@ -286,7 +282,6 @@
   <string name="pref_security_question_title">Pregunta de seguridad</string>
   <string name="pref_security_question_summary">Permite desbloquear la aplicación, si ha olvidado su contraseña. Requiere &app_name; Contrib.</string>
   <string name="pref_ui_theme_title">Tema</string>
-  <string name="pref_ui_theme_summary">Escoja entre oscuro y claro</string>
   <string name="pref_ui_theme_dark">oscuro</string>
   <string name="pref_ui_theme_light">claro</string>
   <string name="request_licence_mail_body">Por favor, envíeme una clave contrib para Android-Id %1$s</string>

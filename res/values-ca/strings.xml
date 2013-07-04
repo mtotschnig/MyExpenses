@@ -175,7 +175,6 @@
   <string name="pref_category_title_export">Exporta</string>
   <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_currency_decimal_separator_title">Separador decimal de moneda</string>
-  <string name="pref_currency_decimal_separator_summary">"," i "." o bé entreu sempre les quantitats en cèntims</string>
   <string name="pref_currency_decimal_separator_comma">Coma (,)</string>
   <string name="pref_currency_decimal_separator_point">Punt (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Entra totes les quantitats en cèntims</string>
@@ -196,14 +195,12 @@
   <string name="pref_perform_share_summaryOn">El fitxer serà compartida després de cada exportació.</string>
   <string name="pref_perform_share_summaryOff">El fitxer no serà compartida després de cada exportació.</string>
   <string name="pref_perform_protection_title">Protecció per contrasenya</string>
-  <string name="pref_qif_export_file_encoding_summary">Trieu la codificació de caràcters \"ISO-8859-1\" si feu servir MS Money</string>
   <string name="pref_qif_export_file_encoding_title">Codificació de caracters</string>
   <string name="pref_share_target_title">Puja el fitxer (a una URL)</string>
   <string name="pref_share_target_summary">Podeu deixar-ho en blanc, si voleu triar entre les
       aplicacions adeqüades (correu electrònic, Dropbox, Google Docs, &#8230;), o indicar un URL
       en un dels esquemes permesos</string>
   <string name="pref_ui_theme_title">Tema</string>
-  <string name="pref_ui_theme_summary">Trieu entre el tema clar i el fosc</string>
   <string name="pref_ui_theme_dark">fosc</string>
   <string name="pref_ui_theme_light">clar</string>
   <string name="restore_db_success">S\'ha restaurat la base de dades des de la còpia de seguretat.</string>

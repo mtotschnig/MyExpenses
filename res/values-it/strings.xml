@@ -231,13 +231,11 @@
   <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_currency_decimal_separator_title">Separatore decimale per l\'ingresso della
       quantità</string>
-  <string name="pref_currency_decimal_separator_summary">"," e "." o minori come numeri interi</string>
   <string name="pref_currency_decimal_separator_comma">Virgola (,)</string>
   <string name="pref_currency_decimal_separator_point">Punto (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Unità minori come numeri interi
   </string>
   <string name="pref_export_format_title">Formato dati</string>
-  <string name="pref_export_format_summary">Scegli tra QIF e CSV</string>
   <string name="pref_import_from_grisbi_summary">Scegli tra le definizioni standard di Grisbi,
       inclusi  nell\'applicazione, e il vostro proprio file salvato come &grisbi_file; nella
       cartellla myexpenses della radice della vostra scheda SD.</string>
@@ -262,7 +260,6 @@
   <string name="pref_protection_delay_seconds_title">Ritardo fino a protezione</string>
   <string name="pref_protection_delay_seconds_summary">Inattive secondi prima app verranno bloccati da password.</string>
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
-  <string name="pref_qif_export_file_encoding_summary">Fissare il set di caratteri \"ISO-8859-1\" se usa MS Money</string>
   <string name="pref_share_target_title">Carica URL Export</string>
   <string name="pref_share_target_summary">Lascia vuoto se si vuole scegliere tra le applicazioni
       appropriate (e-mail, Dropbox, Google Docs, &#8230;), o fornire l\'URL in uno dei sistemi
@@ -270,7 +267,6 @@
   <string name="pref_security_question_title">Domanda di sicurezza</string>
   <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se si è dimenticata la password. Richiede &app_name; Contrib.</string>
   <string name="pref_ui_theme_title">Stile</string>
-  <string name="pref_ui_theme_summary">Scegli tra buio e chiaro</string>
   <string name="pref_ui_theme_dark">buio</string>
   <string name="pref_ui_theme_light">chiaro</string>
   <string name="pref_contrib_install_summary">Installando &app_name; Contrib ottiene accesso a

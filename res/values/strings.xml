@@ -241,14 +241,12 @@
   <string name="pref_contrib_install_summary">By installing &app_name; Contrib, you gain access to premium features.</string>
   <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency
       amounts</string>
-  <string name="pref_currency_decimal_separator_summary">"," and "." or input minor units as integers.</string>
   <string name="pref_currency_decimal_separator_comma">Comma (,)</string>
   <string name="pref_currency_decimal_separator_point">Point (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Minor units as integers</string>
   <string name="pref_enter_licence_title">Enter Contrib key</string>
   <string name="pref_enter_licence_summary">If you received a Contrib key, gain access to premium features.</string>
   <string name="pref_export_format_title">Data format</string>
-  <string name="pref_export_format_summary">Choose QIF or CSV</string>
   <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default
       Grisbi definitions internal to the app, or your own file stored as &grisbi_file; in a folder 
@@ -274,7 +272,6 @@
   <string name="pref_protection_delay_seconds_title">Delay until protection</string>
   <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password.</string>
   <string name="pref_qif_export_file_encoding_title">Character encoding</string>
-  <string name="pref_qif_export_file_encoding_summary">Set the character encoding to \"ISO-8859-1\" if you use MS Money.</string>
   <string name="pref_request_licence_title">Request a Contrib key</string>
   <string name="pref_request_licence_summary">If you have contributed by other means, ask for a Contrib key by email.</string>
   <string name="pref_restore_title">Restore</string>
@@ -287,7 +284,6 @@
   <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password. Requires &app_name; Contrib.</string>
   <string name="pref_send_feedback_title">Send feedback</string>
   <string name="pref_ui_theme_title">Theme</string>
-  <string name="pref_ui_theme_summary">Choose between light and dark</string>
   <string name="pref_ui_theme_dark">dark</string>
   <string name="pref_ui_theme_light">light</string>
   <string name="pref_visit_website_title">Visit Website</string>

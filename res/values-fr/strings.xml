@@ -236,7 +236,6 @@
   <string name="pref_contrib_install_summary">En installant &app_name; Contrib, vous obtiendrez accès à toutes les fonctions Premium.</string>
   <string name="pref_currency_decimal_separator_title">Séparateur décimal pour l\'entrée des
       montants</string>
-  <string name="pref_currency_decimal_separator_summary">"," et "." ou en centimes de devise</string>
   <string name="pref_currency_decimal_separator_comma">Virgule (,)</string>
   <string name="pref_currency_decimal_separator_point">Point (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Sous-unités en nombres entiers
@@ -244,7 +243,6 @@
   <string name="pref_enter_licence_title">Saisir clé contrib</string>
   <string name="pref_enter_licence_summary">Si vous avez reçu une clé contrib, elle déverrouille l\'accès aux fonctions Premium.</string>
   <string name="pref_export_format_title">Format de données</string>
-  <string name="pref_export_format_summary">Choisissez entre QIF et CSV</string>
   <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir des
       définitions standards de Grisbi, incluses dans l\'application, ou votre propre fichier
       sauvegardé sous le nom &grisbi_file; dans le répertoire myexpenses de la racine de votre carte
@@ -270,7 +268,6 @@
   <string name="pref_protection_delay_seconds_title">Délai avant protection</string>
   <string name="pref_protection_delay_seconds_summary">Durée d\'inactivité en secondes avant que la protection ne soit activée.</string>
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
-  <string name="pref_qif_export_file_encoding_summary">Choississez \"ISO-8859-1\" si vous utiliséz MS Money</string>
   <string name="pref_request_licence_title">Demandez une clé contrib</string>
   <string name="pref_request_licence_summary">Si vous avez contribué par d\'autres moyens, demandez une clé contrib par e-mail.</string>
   <string name="pref_restore_title">Restauration</string>
@@ -282,7 +279,6 @@
   <string name="pref_security_question_title">Question de sécurité</string>
   <string name="pref_security_question_summary">Vous permet de débloquer l\'app, si vous avez oublié votre mot de passe. Nécessite &app_name; Contrib.</string>
   <string name="pref_ui_theme_title">Style</string>
-  <string name="pref_ui_theme_summary">Choisissez entre clair et sombre</string>
   <string name="pref_ui_theme_dark">sombre</string>
   <string name="pref_ui_theme_light">clair</string>
   <string name="request_licence_mail_body">Envoyez-moi, s\'il-vous-plaît, une clé contrib pour l\'Android-Id %1$s</string>

@@ -233,7 +233,6 @@
   <string name="pref_contrib_install_summary">Durch die Installation von &app_name; Contrib, erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
   <string name="pref_currency_decimal_separator_title">Dezimaltrennzeichen für die Eingabe von
       Währungsbeträgen</string>
-  <string name="pref_currency_decimal_separator_summary">\",\", \".\" oder Untereinheiten als ganze Zahlen</string>
   <string name="pref_currency_decimal_separator_comma">Komma (,)</string>
   <string name="pref_currency_decimal_separator_point">Punkt (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Untereinheiten als ganze
@@ -241,7 +240,6 @@
   <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>
   <string name="pref_enter_licence_summary">Wenn Sie einen Contrib-Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
   <string name="pref_export_format_title">Datenformat</string>
-  <string name="pref_export_format_summary">Wählen Sie QIF oder CSV</string>
   <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Kategorien (und Partner) aus den inkludierten
       Grisbi-Standard-Definitionen oder aus Ihrer eigenen Datei importieren. Letztere müssen Sie
@@ -267,7 +265,6 @@
   <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
   <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
-  <string name="pref_qif_export_file_encoding_summary">Für MS Money sollten Sie \"ISO-8859-1\" verwenden</string>
   <string name="pref_request_licence_title">Contrib-Schlüssel beantragen</string>
   <string name="pref_request_licence_summary">Wenn Sie anderweitig einen Beitrag geleistet haben, beantragen Sie einen Contrib-Schlüssel per E-Mail.</string> 
   <string name="pref_restore_title">Wiederherstellung</string>
@@ -279,7 +276,6 @@
        Apps wählen wollen (Email, Dropbox, Google Docs, &#8230;) oder eine URL in einer der 
        unterstützten Schemen angeben</string>
   <string name="pref_ui_theme_title">Stil</string>
-  <string name="pref_ui_theme_summary">Wählen Sie zwischen hell und dunkel</string>
   <string name="pref_ui_theme_dark">dunkel</string>
   <string name="pref_ui_theme_light">hell</string>
   <string name="request_licence_mail_body">Bitte senden Sie mir einen Contrib-Schlüssel für die Android-Id %1$s</string>
