@@ -88,6 +88,13 @@
   <string name="dialog_remind_no">No, gracias</string>
   <string name="dialog_security_question">Pregunta</string>
   <string name="dialog_security_answer">Respuesta</string>
+  <string name="dialog_title_contrib_feature">Característica Contrib</string>
+<!--   <string name="dialog_title_restore_on_install">Backup detected</string>
+  <string name="dialog_title_select_template">Pick a template</string>
+  <string name="dialog_title_warning_delete_account">Delete account?</string>
+  <string name="dialog_title_warning_reset_one">Reset account?</string>
+  <string name="dialog_title_warning_reset_all">Reset all accounts?</string>
+  <string name="dialog_title_welcome">Welcome</string> -->
   <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_color">Escoger un color</string>
   <string name="dialog_title_select_currency">Escoger una moneda</string>
@@ -125,7 +132,6 @@
   <string name="help_button_rate">Dé su revisión</string>
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licencia</string>
-  <string name="pref_category_title_more_information">Más información</string>
   <string name="help_heading_whats_new">Novedades</string>
   <string name="help_intro">Con <i>&app_name;</i> puede llevar contabilidad sobre sus gastos y
       ingresos y exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</string>
@@ -158,6 +164,7 @@
   <string name="menu_create_transaction_from_template_and_edit">Nueva y modificar</string>
   <string name="menu_create_transaction_from_template_and_save">Nueva y guardar</string>
   <string name="menu_delete">Borrar</string>
+  <string name="menu_edit">Modificar</string>
   <string name="menu_edit_account">Modificar la cuenta</string>
   <string name="menu_edit_cat">Modificar la categoría</string>
   <string name="menu_edit_method">Modificar el método de pago</string>
@@ -176,6 +183,7 @@
   <string name="method">Método</string>
   <string name="new_version">Nueva versión</string>
   <string name="no_accounts">Ningunas cuentas</string>
+  <string name="no_amount_given">No ha insertado usted importe alguno.</string>
   <string name="no_app_handling_email_available">No se ha encontrado aplicación para enviar correo
       electrónico.</string>
   <string name="no_app_handling_ftp_available">No se ha encontrado aplicación para ftp. Installar <i>Enviar con FTP</i> desde Google Play?</string>
@@ -231,7 +239,7 @@
   <string name="pref_category_title_manage">Administrar</string>
   <string name="pref_category_title_security">Seguridad</string>
   <string name="pref_category_title_ui">Interfaz de usuario</string>
-  <string name="pref_category_title_more_information">Més informació</string>
+  <string name="pref_category_title_more_information">Más información</string>
   <string name="pref_contrib_install_summary">Instalando &app_name; Contrib, usted obiene acceso a
     características premium.</string>
   <string name="pref_contrib_install_title">Instalar aplicación Contrib</string>
@@ -260,6 +268,7 @@
   <string name="pref_manage_parties_summary">Borrar partes (pagador y beneficiario)</string>
   <string name="pref_manage_templates_summary">Aplicar o borrar plantillas</string>
   <string name="pref_manage_templates_title">Plantillas</string>
+  <string name="pref_more_info_dialog_title">Licencia &amp; Créditos</string>
   <string name="pref_password_empty">La contraseña no puede estar vacía</string>
   <string name="pref_password_not_equal">Las contraseñas no coinciden</string>
   <string name="pref_perform_share_title">Enviar la exportación</string>

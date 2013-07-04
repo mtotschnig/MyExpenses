@@ -114,6 +114,7 @@
   <string name="menu_create_transaction_from_template_and_edit">Nova i modifica</string>
   <string name="menu_create_transaction_from_template_and_save">Nova i desar</string>
   <string name="menu_delete">Suprimeix</string>
+  <string name="menu_edit">Modifica</string>
   <string name="menu_edit_account">Modifica el compte</string>
   <string name="menu_edit_cat">Modifica la categoria</string>
   <string name="menu_edit_method">Modifica el mètode de pagament</string>
@@ -191,6 +192,7 @@
   <string name="pref_manage_parties_summary">Suprimeix tercers (pagador i beneficiari)</string>
   <string name="pref_manage_templates_summary">Aplica o suprimeix plantilles</string>
   <string name="pref_manage_templates_title">Plantilles</string>
+  <string name="pref_more_info_dialog_title">Llicència &amp; Crèdits</string>
   <string name="pref_perform_share_title">Envia l\'exportació</string>
   <string name="pref_perform_share_summaryOn">El fitxer serà compartida després de cada exportació.</string>
   <string name="pref_perform_share_summaryOff">El fitxer no serà compartida després de cada exportació.</string>

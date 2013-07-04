@@ -126,16 +126,15 @@
   <string name="grisbi_import_parsing">Parsing %1$s</string>
   <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
   <string name="help_button_rate">Rate or review</string>
+  <string name="help_contextuel_help">Please find more information
+  	about the available functionality through the help menu entry.</string>
   <string name="help_heading_credits">Credits</string>
   <string name="help_heading_license">License</string>
-  <string name="help_heading_contextuel_help">Contextuel help</string>
   <string name="help_heading_whats_new">What\'s new</string>
   <string name="help_intro"><i>&app_name;</i> is designed to keep track of your expenses and
       incomes, and to export these expenses into a desktop finance tool, like Grisbi,
       Gnucash, Quicken or MS Money.</string>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
-  <string name="help_contextuel_help">In each screen of <i>&app_name;</i>, you can access contextuel help through the help
-  	menu entry.</string>
   <string name="help_whats_new">&#160;- Fixed crash when inserting transaction with payee.\n
   	- Enforce that label of root categories is unique.</string>
   <string name="important_version_information">Important information</string>
@@ -181,6 +180,7 @@
   <string name="method">Method</string>
   <string name="new_version">New version</string>
   <string name="no_accounts">No Accounts!</string>
+  <string name="no_amount_given">You did not enter any amount.</string>
   <string name="no_app_handling_email_available">No app handling email available.</string>
   <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i> from Google Play?</string>
   <string name="no_categories">No categories.</string>
@@ -189,7 +189,6 @@
   <string name="no_parties">No parties.</string>
   <string name="no_templates">No templates.</string>
   <string name="no_title_given">You did not enter any title.</string>
-  <string name="no_amount_given">You did not enter any amount.</string>
   <string name="no_valid_payment_methods">No valid payment methods for %1$s (%2$s)</string>
   <string name="not_deletable_mapped_transactions">Cannot delete, because mapped transactions exist.</string>
   <string name="not_deletable_mapped_templates">Cannot delete, because mapped templates exist.</string>

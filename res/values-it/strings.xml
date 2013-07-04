@@ -153,6 +153,7 @@
   <string name="menu_create_transaction_from_template_and_edit">Nuova e modificare</string>
   <string name="menu_create_transaction_from_template_and_save">Nuova e salvare</string>
   <string name="menu_delete">Cancellare</string>
+  <string name="menu_edit">Modificare</string>
   <string name="menu_edit_account">Modificare il conto</string>
   <string name="menu_edit_cat">Modificare la categoria</string>
   <string name="menu_edit_method">Modificare modo di pagamento</string>
@@ -171,6 +172,7 @@
   <string name="method">Modo</string>
   <string name="new_version">New version</string>
   <string name="no_accounts">Nessun conto !</string>
+  <string name="no_title_given">Non ha scritto ningun somma.</string>
   <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail
   </string>
   <string name="no_app_handling_ftp_available">Nessuna applicazione disponibile per ftp. Installare <i>Invia via FTP</i> da Google Play?</string>
@@ -250,6 +252,7 @@
   <string name="pref_manage_parties_summary">Cancellare beneficiari.</string>
   <string name="pref_manage_templates_title">Modelli</string>
   <string name="pref_manage_templates_summary">Utilizzare et eliminare modelli.</string>
+  <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
   <string name="pref_password_empty">La password non deve essere vuoto</string>
   <string name="pref_password_not_equal">Le password non corrispondono</string>
   <string name="pref_perform_protection_title">Protezione con password</string>

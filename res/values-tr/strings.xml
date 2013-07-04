@@ -147,6 +147,7 @@
   <string name="menu_create_template_for_transaction">Yeni muamele şablonu</string>
   <string name="menu_create_template_for_transfer">Yeni transfer şablonu</string>
   <string name="menu_delete">Sil</string>
+  <string name="menu_edit">Düzenle</string>
   <string name="menu_edit_account">Hesabı düzenle</string>
   <string name="menu_edit_method">Ödeme metodunu düzenle</string>
   <string name="menu_edit_cat">Kategori düzenle</string>
@@ -232,6 +233,7 @@
   <string name="pref_manage_parties_summary">Bölüm sil (alacaklılar ve ödeyenler).</string>
   <string name="pref_manage_templates_title">Şablonlar</string>
   <string name="pref_manage_templates_summary">Şablonları uygula ya da sil.</string>
+  <string name="pref_more_info_dialog_title">Lisans &amp; Hazırlayanlar</string>
   <string name="pref_password_empty">Parola boş olmamalıdır</string>
   <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
   <string name="pref_perform_share_title">Dışa aktarım dosyasını paylaş</string>

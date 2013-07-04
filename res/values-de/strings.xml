@@ -128,9 +128,10 @@
   <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
   <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
   <string name="help_button_rate">Bewerten</string>
+  <string name="help_contextuel_help">Über den Menü-Eintrag Hilfe, können Sie mehr über die vorhandenen
+    Funktionen erfahren.</string>
   <string name="help_heading_credits">Abspann</string>
   <string name="help_heading_license">Lizenz</string>
-  <string name="pref_category_title_more_information">Mehr Information</string>
   <string name="help_heading_whats_new">Neue Funktionen</string>
   <string name="help_intro">Mit <i>&app_name;</i> können Sie über Ihre Ausgaben und Einnahmen Buch 
       halten, und diese in ein Desktop-Finanzprogrammm (Grisbi, Gnucash, Quicken oder MS Money) exportieren.</string>
@@ -163,6 +164,7 @@
   <string name="menu_create_transaction_from_template_and_edit">Neu und verändern</string>
   <string name="menu_create_transaction_from_template_and_save">Neu und speichern</string>
   <string name="menu_delete">Löschen</string>
+  <string name="menu_edit">Verändern</string>
   <string name="menu_edit_account">Konto verändern</string>
   <string name="menu_edit_cat">Kategorie verändern</string>
   <string name="menu_edit_method">Zahlungsweise verändern</string>
@@ -181,6 +183,7 @@
   <string name="method">Zahlungsweise</string>
   <string name="new_version">Neue Version</string>
   <string name="no_accounts">Keine Konten</string>
+  <string name="no_amount_given">Sie haben keinen Betrag eingegeben.</string>
   <string name="no_app_handling_email_available">Keine App für das Versenden von Email
       gefunden.</string>
   <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> von Google Play installieren?</string>
@@ -235,7 +238,7 @@
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_security">Sicherheit</string>
-  <string name="pref_category_title_more_information">Més informació</string>
+  <string name="pref_category_title_more_information">Mehr Information</string>
   <string name="pref_contrib_install_title">Contrib App installieren</string>
   <string name="pref_contrib_install_summary">Durch die Installation von &app_name; Contrib, erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
   <string name="pref_currency_decimal_separator_title">Dezimaltrennzeichen für die Eingabe von
@@ -262,6 +265,7 @@
   <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) löschen.</string>
   <string name="pref_manage_templates_title">Vorlagen</string>
   <string name="pref_manage_templates_summary">Vorlagen anwenden oder löschen.</string>
+  <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>
   <string name="pref_password_empty">Passwort darf nicht leer sein</string>
   <string name="pref_password_not_equal">Passwörter stimmen nicht überein</string>
   <string name="pref_perform_share_title">Export versenden</string>

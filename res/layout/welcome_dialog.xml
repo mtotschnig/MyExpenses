@@ -33,7 +33,7 @@
     <TextView android:text="@string/help_intro"
         style="@style/about_text" />
      <!-- Quick Guide -->
-    <TextView android:text="@string/help_heading_contextuel_help"
+    <TextView android:text="@string/menu_help"
         style="@style/headingStyle" />
     <TextView android:text="@string/help_contextuel_help"
       android:id="@+id/help_quick_guide"
