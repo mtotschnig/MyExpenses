@@ -174,7 +174,7 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
-      MessageDialogFragment.newInstance(R.string.dialog_tite_warning_delete_account,
+      MessageDialogFragment.newInstance(R.string.dialog_title_warning_delete_account,
           R.string.warning_delete_account,R.id.DELETE_COMMAND_DO,info.id)
         .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
       return true;

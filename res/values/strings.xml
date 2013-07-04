@@ -87,7 +87,6 @@
   <string name="dialog_security_question">Question</string>
   <string name="dialog_security_answer">Answer</string>
   <string name="dialog_title_contrib_feature">Premium feature</string>
-  <string name="dialog_title_menu_accounts_explain">Accounts button</string>
   <string name="dialog_title_restore_on_install">Backup detected</string>
   <string name="dialog_title_select_account">Pick an account</string>
   <string name="dialog_title_select_color">Pick a color</string>
@@ -97,7 +96,7 @@
   <string name="dialog_title_select_template">Pick a template</string>
   <string name="dialog_title_select_type">Pick a type</string>
   <string name="dialog_title_template_title">Set the title</string>
-  <string name="dialog_tite_warning_delete_account">Delete account?</string>
+  <string name="dialog_title_warning_delete_account">Delete account?</string>
   <string name="dialog_title_warning_reset_one">Reset account?</string>
   <string name="dialog_title_warning_reset_all">Reset all accounts?</string>
   <string name="dialog_title_welcome">Welcome</string>
