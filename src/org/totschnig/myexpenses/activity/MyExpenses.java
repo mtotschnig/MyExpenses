@@ -259,8 +259,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     super.onPrepareOptionsMenu(menu);
     //I would prefer to use setEnabled, but the disabled state unfortunately is not visually reflected
     //in the actionbar
-    menu.findItem(R.id.RESET_ACCOUNT_COMMAND)
-      .setVisible(mCurrentAccount.getSize() > 0);
     menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
       .setVisible(Account.countPerCurrency(mCurrentAccount.currency) > 1);
     menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)

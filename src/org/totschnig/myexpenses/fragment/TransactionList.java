@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -49,6 +50,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   private Account mAccount;
   private TextView balanceTv;
   private View bottomLine;
+  private boolean hasItems;
 
   public static TransactionList newInstance(long accountId) {
     
@@ -61,6 +63,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   @Override
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
+      setHasOptionsMenu(true);
       accountId = getArguments().getLong("account_id");
       mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
       tObserver = new TransactionsObserver(new Handler());
@@ -86,6 +89,11 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     } catch (IllegalStateException ise) {
         // Do Nothing.  Observer has already been unregistered.
     }
+  }
+  @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    if (isVisible())
+      menu.findItem(R.id.RESET_ACCOUNT_COMMAND).setVisible(hasItems);
   }
 
   @Override  
@@ -214,11 +222,17 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
     mAdapter.swapCursor(c);
+    hasItems = c.getCount()>0;
+    if (isVisible())
+      getSherlockActivity().supportInvalidateOptionsMenu();
   }
 
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
     mAdapter.swapCursor(null);
+    hasItems = false;
+    if (isVisible())
+      getSherlockActivity().supportInvalidateOptionsMenu();
   }
   class TransactionsObserver extends ContentObserver {
     public TransactionsObserver(Handler handler) {
