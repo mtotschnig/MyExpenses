@@ -120,6 +120,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   private SharedPreferences mSettings;
   private Cursor mAccountsCursor;
+  int sameCurrencyCount = 0;
   //private Cursor mExpensesCursor;
   private MyViewPagerAdapter myAdapter;
   private ViewPager myPager;
@@ -257,10 +258,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    //I would prefer to use setEnabled, but the disabled state unfortunately is not visually reflected
-    //in the actionbar
+    //I would prefer to use setEnabled, but the disabled state unfortunately
+    //is not visually reflected in the actionbar
     menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
-      .setVisible(Account.countPerCurrency(mCurrentAccount.currency) > 1);
+      .setVisible(sameCurrencyCount > 1);
     menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
       .setVisible(Template.countPerAccount(mCurrentAccount.id) > 0);
     return true;
@@ -632,12 +633,17 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       mAccountsCursor = cursor;
       fillNavigation();
       //select the current account after filling
+      //use the loop to check if there is another account with the same currency
+      String currentCurrency = mCurrentAccount.currency.getCurrencyCode();
       mAccountsCursor.moveToFirst();
       int currentPosition = 0;
+      sameCurrencyCount = 0;
       while (mAccountsCursor.isAfterLast() == false) {
         if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID)) == mCurrentAccount.id) {
           currentPosition = mAccountsCursor.getPosition();
         }
+        if (mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_CURRENCY)).equals(currentCurrency))
+          sameCurrencyCount++;
         mAccountsCursor.moveToNext();
       }
       getSupportActionBar().setSelectedNavigationItem(currentPosition);
@@ -646,6 +652,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
     myAdapter.swapCursor(null);
+    sameCurrencyCount=0;
   }
   @Override
   public void onPageScrollStateChanged(int arg0) {

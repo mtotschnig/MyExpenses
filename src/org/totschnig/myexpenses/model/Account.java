@@ -592,9 +592,6 @@ public class Account extends Model {
       return result;
     }
   }
-  public static int countPerCurrency(Currency currency) {
-    return count("currency = ?",new String[] {currency.getCurrencyCode()});
-  }
   public static Long firstId() {
     Cursor cursor = cr().query(CONTENT_URI,new String[] {"min(_id)"},null,null,null);
     cursor.moveToFirst();
