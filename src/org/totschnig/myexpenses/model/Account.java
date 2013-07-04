@@ -579,9 +579,6 @@ public class Account extends Model {
       accounts.put(id, this);
     return uri;
   }
-  public long getSize() {
-    return Transaction.countPerAccount(id);
-  }
   public static int count(String selection,String[] selectionArgs) {
     Cursor cursor = cr().query(CONTENT_URI,new String[] {"count(*)"},
         selection, selectionArgs, null);
