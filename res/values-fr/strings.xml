@@ -87,13 +87,20 @@
   <string name="dialog_remind_no">Non merci</string>
   <string name="dialog_security_question">Question</string>
   <string name="dialog_security_answer">Réponse</string>
+  <string name="dialog_title_contrib_feature">Fonction Premium</string>
+  <string name="dialog_title_restore_on_install">Sauvegarde détectée</string>
   <string name="dialog_title_select_account">Sélectionner un compte</string>
   <string name="dialog_title_select_color">Sélectionner une couleur</string>
   <string name="dialog_title_select_currency">Sélectionner une devise</string>
   <string name="dialog_title_select_import_source">Sélectionner une source pour l\'import</string>
   <string name="dialog_title_select_method">Sélectionner un paiement</string>
+  <string name="dialog_title_select_template">Sélectionner un modèle</string>
   <string name="dialog_title_select_type">Sélectionner un type</string>
   <string name="dialog_title_template_title">Définir le titre</string>
+  <string name="dialog_title_warning_delete_account">Effacer le compte?</string>
+  <string name="dialog_title_warning_reset_one">Réinitialiser le compte?</string>
+  <string name="dialog_title_warning_reset_all">Réinitialiser tous les comptes?</string>
+  <string name="dialog_title_welcome">Bienvenue</string>
   <string name="donate">Don</string>
   <string name="donate_dialog_text">S\'il ne vous est pas possible d\'accéder à Google Play, vous pouvez faire un don au moyen de PayPal ou Flattr,
     et ensuite demander une clé Contrib à partir des paramètres.\n\n&thank_you;</string>
