@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -64,7 +65,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
       mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
       tObserver = new TransactionsObserver(new Handler());
       aObserver = new AccountObserver(new Handler());
-      ContentResolver cr= getActivity().getContentResolver();
+      ContentResolver cr= getSherlockActivity().getContentResolver();
       //we adjust the balance, when transactions have been added/deleted/updated
       cr.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, true,tObserver);
       //when account has changed, we might have
@@ -79,7 +80,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   public void onDestroy() {
     super.onDestroy();
     try {
-      ContentResolver cr = getActivity().getContentResolver();
+      ContentResolver cr = getSherlockActivity().getContentResolver();
       cr.unregisterContentObserver(tObserver);
       cr.unregisterContentObserver(aObserver);
     } catch (IllegalStateException ise) {
@@ -89,7 +90,8 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
 
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    Resources.Theme theme = getActivity().getTheme();
+    final SherlockFragmentActivity ctx = getSherlockActivity();
+    Resources.Theme theme = ctx.getTheme();
     TypedValue color = new TypedValue();
     theme.resolveAttribute(R.attr.colorExpense, color, true);
     colorExpense = color.data;
@@ -99,7 +101,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     View v = inflater.inflate(R.layout.expenses_list, null, false);
     //work around the problem that the view pager does not display its background correclty with Sherlock
     if (Build.VERSION.SDK_INT < 11) {
-      v.setBackgroundColor(getActivity().getResources().getColor(
+      v.setBackgroundColor(ctx.getResources().getColor(
           MyApplication.getThemeId() == R.style.ThemeLight ? android.R.color.white : android.R.color.black));
     }
     balanceTv = (TextView) v.findViewById(R.id.end);
@@ -127,7 +129,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     }
     getLoaderManager().initLoader(0, null, this);
     // Now create a simple cursor adapter and set it to display
-    mAdapter = new SimpleCursorAdapter(getActivity(), R.layout.expense_row, null, from, to,0)  {
+    mAdapter = new SimpleCursorAdapter(ctx, R.layout.expense_row, null, from, to,0)  {
       /* (non-Javadoc)
        * calls {@link #convText for formatting the values retrieved from the cursor}
        * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
@@ -191,7 +193,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
          @Override
          public void onItemClick(AdapterView<?> a, View v,int position, long id)
          {
-           Intent i = new Intent(getActivity(), ExpenseEdit.class);
+           Intent i = new Intent(ctx, ExpenseEdit.class);
            i.putExtra(KEY_ROWID, id);
            //i.putExtra("operationType", operationType);
            startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
@@ -204,7 +206,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
 
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-    CursorLoader cursorLoader = new CursorLoader(getActivity(),
+    CursorLoader cursorLoader = new CursorLoader(getSherlockActivity(),
         TransactionProvider.TRANSACTIONS_URI, null, "account_id = ?", new String[] { String.valueOf(accountId) }, null);
     return cursorLoader;
   }
