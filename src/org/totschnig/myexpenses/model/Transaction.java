@@ -62,8 +62,10 @@ public class Transaction extends Model {
       throw new DataObjectNotFoundException();
     }
     c.moveToFirst();
-   return DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER) == null ?
+    Class result = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER) == null ?
        Transaction.class : Transfer.class;
+    c.close();
+    return result;
   }
   /**
    * factory method for retrieving an instance from the db with the given id
