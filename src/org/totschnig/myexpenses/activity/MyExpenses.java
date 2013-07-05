@@ -27,8 +27,8 @@ import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectFromUriDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectFromUriDialogFragment.SelectFromUriDialogListener;
+import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment.SelectFromCursorDialogListener;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -40,13 +40,13 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
+import org.totschnig.myexpenses.util.AllButOneCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
@@ -88,7 +88,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class MyExpenses extends ProtectedFragmentActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, OnNavigationListener,
-    SelectFromUriDialogListener, ContribIFace {
+    SelectFromCursorDialogListener, ContribIFace {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_EDIT_ACCOUNT=4;
   public static final int ACTIVITY_EXPORT=5;
@@ -103,12 +103,16 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   static final int TRESHOLD_REMIND_RATE = 47;
   static final int TRESHOLD_REMIND_CONTRIB = 113;
 
+  public static final int ACCOUNTS_CURSOR=-1;
+  public static final int TEMPLATES_CURSOR=1;
+  public static final int ACCOUNTS_OTHER_CURSOR=2;
   private LoaderManager mManager;
 
   //private ExpensesDbAdapter mDbHelper;
 
   private Account mCurrentAccount;
 
+  int currentPosition;
   private void setCurrentAccount(Account newAccount) {
     long currentAccountId = mCurrentAccount != null? mCurrentAccount.id : 0;
     this.mCurrentAccount = newAccount;
@@ -119,7 +123,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       .commit();
   }
   private SharedPreferences mSettings;
-  private Cursor mAccountsCursor;
+  private Cursor mAccountsCursor, mTemplatesCursor;
   int sameCurrencyCount = 0;
   //private Cursor mExpensesCursor;
   private MyViewPagerAdapter myAdapter;
@@ -211,10 +215,15 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     myPager.setPageMargin(10);
     myPager.setPageMarginDrawable(margin.resourceId);
     mManager= getSupportLoaderManager();
-    mManager.initLoader(-1, null, this);
+    mManager.initLoader(ACCOUNTS_CURSOR, null, this);
   }
   private void moveToPosition(int position) {
     myPager.setCurrentItem(position,false);
+    if (mManager.getLoader(position) != null && !mManager.getLoader(position).isReset()) {
+        mManager.restartLoader(position, null,this);
+    } else {
+      mManager.initLoader(position, null, this);
+    }
     configButtons();
   }
   private void fillNavigation() {
@@ -263,7 +272,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
       .setVisible(sameCurrencyCount > 1);
     menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
-      .setVisible(Template.countPerAccount(mCurrentAccount.id) > 0);
+      .setVisible(mTemplatesCursor != null && mTemplatesCursor.getCount() > 0);
     return true;
   }
 
@@ -311,7 +320,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     menu.add(0, R.id.SHOW_DETAIL_COMMAND, 0, R.string.menu_show_detail);
     menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
     menu.add(0, R.id.CLONE_TRANSACTION_COMMAND, 0, R.string.menu_clone_transaction);
-    if (Account.count(null, null) > 1 && Transaction.getType(info.id).equals(Transaction.class)) {
+    if (mAccountsCursor.getCount() > 1 && Transaction.getType(info.id).equals(Transaction.class)) {
       menu.add(0,R.id.MOVE_TRANSACTION_COMMAND,0,R.string.menu_move_transaction);
     }
   }
@@ -359,12 +368,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.MOVE_TRANSACTION_COMMAND:
       args = new Bundle();
       args.putInt("id", R.id.MOVE_TRANSACTION_COMMAND);
-      args.putParcelable("uri",TransactionProvider.ACCOUNTS_URI);
       args.putString("dialogTitle",getString(R.string.dialog_title_select_account));
-      args.putString("selection",KEY_ROWID + " != " + mCurrentAccount.id);
+      //args.putString("selection",KEY_ROWID + " != " + mCurrentAccount.id);
       args.putString("column", KEY_LABEL);
       args.putLong("contextTransactionId",info.id);
-      SelectFromUriDialogFragment.newInstance(args)
+      args.putInt("cursorId", ACCOUNTS_OTHER_CURSOR);
+      SelectFromCursorDialogFragment.newInstance(args)
         .show(getSupportFragmentManager(), "SELECT_ACCOUNT");
       return true;
     case R.id.CREATE_TEMPLATE_COMMAND:
@@ -550,11 +559,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
       Bundle args = new Bundle();
       args.putInt("id", R.id.NEW_FROM_TEMPLATE_COMMAND);
-      args.putParcelable("uri",TransactionProvider.TEMPLATES_URI);
+      args.putInt("cursorId", TEMPLATES_CURSOR);
       args.putString("dialogTitle",getString(R.string.dialog_title_select_template));
-      args.putString("selection",KEY_ACCOUNTID + " = " + mCurrentAccount.id);
       args.putString("column", KEY_TITLE);
-      SelectFromUriDialogFragment.newInstance(args)
+      SelectFromCursorDialogFragment.newInstance(args)
         .show(getSupportFragmentManager(), "SELECT_TEMPLATE");
       break;
     case R.id.RATE_COMMAND:
@@ -606,6 +614,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   @Override
   public void onPageSelected(int position) {
+    currentPosition = position;
     mAccountsCursor.moveToPosition(position);
     long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
     setCurrentAccount(Account.getInstanceFromDb(accountId));
@@ -621,14 +630,27 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-    // TODO specify columns
-    String[] projection = null;
-      return new CursorLoader(this,
+    String[] projection;
+    switch(id) {
+    case ACCOUNTS_CURSOR:
+      // TODO specify columns
+      projection = null;
+        return new CursorLoader(this,
           TransactionProvider.ACCOUNTS_URI, projection, null, null, null);
+    }
+    projection = new String[] {KEY_ROWID,KEY_TITLE};
+    String selection = KEY_ACCOUNTID + " = ?";
+    mAccountsCursor.moveToPosition(currentPosition);
+    String[] selectionArgs = new String[] {
+        String.valueOf(mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID))) };
+    return new CursorLoader(this,TransactionProvider.TEMPLATES_URI,
+          projection,selection,selectionArgs,null);
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-    if (loader.getId() == -1) {
+    int id = loader.getId();
+    switch(id) {
+    case ACCOUNTS_CURSOR:
       myAdapter.swapCursor(cursor);
       mAccountsCursor = cursor;
       fillNavigation();
@@ -636,7 +658,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       //use the loop to check if there is another account with the same currency
       String currentCurrency = mCurrentAccount.currency.getCurrencyCode();
       mAccountsCursor.moveToFirst();
-      int currentPosition = 0;
+      currentPosition = 0;
       sameCurrencyCount = 0;
       while (mAccountsCursor.isAfterLast() == false) {
         if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID)) == mCurrentAccount.id) {
@@ -647,12 +669,23 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         mAccountsCursor.moveToNext();
       }
       getSupportActionBar().setSelectedNavigationItem(currentPosition);
+      return;
+    }
+    //templates cursor that are loaded are not necessarily for the current account
+    if (id==currentPosition) {
+      mTemplatesCursor = cursor;
+      configButtons();
     }
   }
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
-    myAdapter.swapCursor(null);
-    sameCurrencyCount=0;
+    if (arg0.getId() == ACCOUNTS_CURSOR) {
+      myAdapter.swapCursor(null);
+      sameCurrencyCount=0;
+      mAccountsCursor = null;
+    } else {
+      mTemplatesCursor = null;
+    }
   }
   @Override
   public void onPageScrollStateChanged(int arg0) {
@@ -679,6 +712,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   @Override
   public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+    currentPosition = itemPosition;
     moveToPosition(itemPosition);
     return true;
   }
@@ -694,5 +728,15 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       Transaction.getInstanceFromTemplate(args.getLong("result")).save();
     }
     configButtons();
+  }
+  @Override
+  public Cursor getCursor(int cursorId) {
+    switch(cursorId) {
+    case ACCOUNTS_OTHER_CURSOR:
+      return new AllButOneCursorWrapper(mAccountsCursor,currentPosition);
+    case TEMPLATES_CURSOR:
+      return mTemplatesCursor;
+    }
+    return null;
   }
 }
