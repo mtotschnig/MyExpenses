@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -41,16 +42,18 @@ import android.widget.AdapterView.OnItemClickListener;
 
 //TODO: consider moving to ListFragment
 public class TransactionList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+  private static final int TRANSACTION_CURSOR = 0;
+  private static final int SUM_CURSOR = 1;
   long accountId;
   SimpleCursorAdapter mAdapter;
   private int colorExpense;
   private int colorIncome;
-  private TransactionsObserver tObserver;
   private AccountObserver aObserver;
   private Account mAccount;
   private TextView balanceTv;
   private View bottomLine;
   private boolean hasItems;
+  private long transactionSum;
 
   public static TransactionList newInstance(long accountId) {
     
@@ -66,11 +69,8 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
       setHasOptionsMenu(true);
       accountId = getArguments().getLong("account_id");
       mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
-      tObserver = new TransactionsObserver(new Handler());
       aObserver = new AccountObserver(new Handler());
       ContentResolver cr= getSherlockActivity().getContentResolver();
-      //we adjust the balance, when transactions have been added/deleted/updated
-      cr.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, true,tObserver);
       //when account has changed, we might have
       //1) to refresh the list (currency has changed),
       //2) update current balance(opening balance has changed),
@@ -84,7 +84,6 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     super.onDestroy();
     try {
       ContentResolver cr = getSherlockActivity().getContentResolver();
-      cr.unregisterContentObserver(tObserver);
       cr.unregisterContentObserver(aObserver);
     } catch (IllegalStateException ise) {
         // Do Nothing.  Observer has already been unregistered.
@@ -113,8 +112,6 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
           MyApplication.getThemeId() == R.style.ThemeLight ? android.R.color.white : android.R.color.black));
     }
     balanceTv = (TextView) v.findViewById(R.id.end);
-    updateBalance();
-    balanceTv.setText(Utils.formatCurrency(mAccount.getCurrentBalance()));
     bottomLine = v.findViewById(R.id.BottomLine);
     updateColor();
     ListView lv = (ListView) v.findViewById(R.id.list);
@@ -135,7 +132,8 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
       categorySeparator = " :\n";
       commentSeparator = "<br>";
     }
-    getLoaderManager().initLoader(0, null, this);
+    getLoaderManager().initLoader(TRANSACTION_CURSOR, null, this);
+    getLoaderManager().initLoader(SUM_CURSOR, null, this);
     // Now create a simple cursor adapter and set it to display
     mAdapter = new SimpleCursorAdapter(ctx, R.layout.expense_row, null, from, to,0)  {
       /* (non-Javadoc)
@@ -213,36 +211,52 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   }
 
   @Override
-  public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-    CursorLoader cursorLoader = new CursorLoader(getSherlockActivity(),
-        TransactionProvider.TRANSACTIONS_URI, null, "account_id = ?", new String[] { String.valueOf(accountId) }, null);
+  public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
+    CursorLoader cursorLoader = null;
+    switch(id) {
+    case TRANSACTION_CURSOR:
+      cursorLoader = new CursorLoader(getSherlockActivity(),
+          TransactionProvider.TRANSACTIONS_URI, null, "account_id = ?",
+          new String[] { String.valueOf(accountId) }, null);
+      return cursorLoader;
+    case SUM_CURSOR:
+      cursorLoader = new CursorLoader(getSherlockActivity(),
+          TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ")"}, "account_id = ?",
+          new String[] { String.valueOf(accountId) }, null);
+    }
     return cursorLoader;
   }
 
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
-    mAdapter.swapCursor(c);
-    hasItems = c.getCount()>0;
-    if (isVisible())
-      getSherlockActivity().supportInvalidateOptionsMenu();
+    switch(arg0.getId()) {
+    case TRANSACTION_CURSOR:
+      mAdapter.swapCursor(c);
+      hasItems = c.getCount()>0;
+      if (isVisible())
+        getSherlockActivity().supportInvalidateOptionsMenu();
+      break;
+    case SUM_CURSOR:
+      c.moveToFirst();
+      transactionSum = c.getLong(0);
+      updateBalance();
+    }
   }
 
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
-    mAdapter.swapCursor(null);
-    hasItems = false;
-    if (isVisible())
-      getSherlockActivity().supportInvalidateOptionsMenu();
-  }
-  class TransactionsObserver extends ContentObserver {
-    public TransactionsObserver(Handler handler) {
-       super(handler);
-    }
-    public void onChange(boolean selfChange) {
-      super.onChange(selfChange);
+    switch(arg0.getId()) {
+    case TRANSACTION_CURSOR:
+      mAdapter.swapCursor(null);
+      hasItems = false;
+      if (isVisible())
+        getSherlockActivity().supportInvalidateOptionsMenu();
+      break;
+    case SUM_CURSOR:
+      transactionSum=0;
       updateBalance();
     }
- }
+  }
   class AccountObserver extends ContentObserver {
     public AccountObserver(Handler handler) {
        super(handler);
@@ -255,7 +269,9 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     }
   }
   private void updateBalance() {
-      balanceTv.setText(Utils.formatCurrency(mAccount.getCurrentBalance()));
+      balanceTv.setText(Utils.formatCurrency(
+          new Money(mAccount.currency,
+              mAccount.openingBalance.getAmountMinor() + transactionSum)));
   }
   private void updateColor() {
     bottomLine.setBackgroundColor(mAccount.color);
