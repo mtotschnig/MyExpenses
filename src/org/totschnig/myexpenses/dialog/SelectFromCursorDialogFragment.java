@@ -10,10 +10,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-/**
- * Could be generalized to handle any uri and a generic callback interface like MessageDialogFragment
- *
- */
 public class SelectFromCursorDialogFragment extends DialogFragment implements OnClickListener {
   public interface SelectFromCursorDialogListener {
     Cursor getCursor(int cursorId);
