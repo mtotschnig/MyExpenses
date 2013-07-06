@@ -52,7 +52,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.ContextMenu;
 import android.view.ViewGroup;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -61,7 +60,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.support.v4.app.Fragment;
@@ -308,20 +306,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
           return;
         }
       }
-    }
-  }
-  
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v,
-      ContextMenuInfo menuInfo) {
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-    super.onCreateContextMenu(menu, v, menuInfo);
-    menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
-    menu.add(0, R.id.SHOW_DETAIL_COMMAND, 0, R.string.menu_show_detail);
-    menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
-    menu.add(0, R.id.CLONE_TRANSACTION_COMMAND, 0, R.string.menu_clone_transaction);
-    if (mAccountsCursor.getCount() > 1 && Transaction.getType(info.id).equals(Transaction.class)) {
-      menu.add(0,R.id.MOVE_TRANSACTION_COMMAND,0,R.string.menu_move_transaction);
     }
   }
 
@@ -732,6 +716,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   @Override
   public Cursor getCursor(int cursorId) {
     switch(cursorId) {
+    case ACCOUNTS_CURSOR:
+      return mAccountsCursor;
     case ACCOUNTS_OTHER_CURSOR:
       return new AllButOneCursorWrapper(mAccountsCursor,currentPosition);
     case TEMPLATES_CURSOR:

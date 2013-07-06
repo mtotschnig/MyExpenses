@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -32,12 +33,15 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Html;
 import android.util.TypedValue;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 //TODO: consider moving to ListFragment
@@ -54,6 +58,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   private View bottomLine;
   private boolean hasItems;
   private long transactionSum;
+  private Cursor mTransactionsCursor;
 
   public static TransactionList newInstance(long accountId) {
     
@@ -94,6 +99,24 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     if (isVisible())
       menu.findItem(R.id.RESET_ACCOUNT_COMMAND).setVisible(hasItems);
   }
+
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v,
+      ContextMenuInfo menuInfo) {
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+    super.onCreateContextMenu(menu, v, menuInfo);
+    menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
+    menu.add(0, R.id.SHOW_DETAIL_COMMAND, 0, R.string.menu_show_detail);
+    menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
+    menu.add(0, R.id.CLONE_TRANSACTION_COMMAND, 0, R.string.menu_clone_transaction);
+    mTransactionsCursor.moveToPosition(info.position);
+    //move transaction is disabled for transfers,
+    if (((MyExpenses) getSherlockActivity()).getCursor(MyExpenses.ACCOUNTS_CURSOR).getCount() > 1 &&
+        DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER) == null) {
+      menu.add(0,R.id.MOVE_TRANSACTION_COMMAND,0,R.string.menu_move_transaction);
+    }
+  }
+
 
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -231,6 +254,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
     switch(arg0.getId()) {
     case TRANSACTION_CURSOR:
+      mTransactionsCursor = c;
       mAdapter.swapCursor(c);
       hasItems = c.getCount()>0;
       if (isVisible())
@@ -247,6 +271,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   public void onLoaderReset(Loader<Cursor> arg0) {
     switch(arg0.getId()) {
     case TRANSACTION_CURSOR:
+      mTransactionsCursor = null;
       mAdapter.swapCursor(null);
       hasItems = false;
       if (isVisible())

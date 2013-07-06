@@ -54,19 +54,6 @@ public class Transaction extends Model {
    */
   protected String dateAsString;
 
-  public static Class getType(long id) throws DataObjectNotFoundException  {
-    String[] projection = new String[] {KEY_TRANSFER_PEER};
-    Cursor c = cr().query(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
-    if (c == null || c.getCount() == 0) {
-      throw new DataObjectNotFoundException();
-    }
-    c.moveToFirst();
-    Class result = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER) == null ?
-       Transaction.class : Transfer.class;
-    c.close();
-    return result;
-  }
   /**
    * factory method for retrieving an instance from the db with the given id
    * @param mDbHelper
