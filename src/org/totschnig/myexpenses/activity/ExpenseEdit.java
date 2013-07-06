@@ -28,11 +28,8 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.Utils;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.app.AlertDialog;
