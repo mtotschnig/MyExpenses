@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 
 public class ProtectedFragmentActivity extends SherlockFragmentActivity
@@ -40,6 +41,19 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+    .detectDiskReads()
+    .detectDiskWrites()
+    .detectNetwork()   // or .detectAll() for all detectable problems
+    .penaltyLog()
+    .build());
+    StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+    .detectLeakedSqlLiteObjects()
+    //.detectLeakedClosableObjects()
+    .penaltyLog()
+    .penaltyDeath()
+    .build());
+
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     protection = new ProtectionDelegate(this);

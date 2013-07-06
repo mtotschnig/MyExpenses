@@ -119,7 +119,6 @@
   <string name="help_button_rate">La vostra recensione</string>
   <string name="help_heading_credits">Generico</string>
   <string name="help_heading_license">Licenza</string>
-  <string name="pref_category_title_more_information">Maggiori informazioni</string>
   <string name="help_heading_whats_new">Novità</string>
   <string name="help_intro"><i>&app_name;</i> è stato progettato per tenere traccia delle spese nel
       corso di un breve periodo di tempo, e di esportare queste spese in un programma come Grisbi,
@@ -172,7 +171,7 @@
   <string name="method">Modo</string>
   <string name="new_version">New version</string>
   <string name="no_accounts">Nessun conto !</string>
-  <string name="no_title_given">Non ha scritto ningun somma.</string>
+  <string name="no_amount_given">Non ha scritto ningun somma.</string>
   <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail
   </string>
   <string name="no_app_handling_ftp_available">Nessuna applicazione disponibile per ftp. Installare <i>Invia via FTP</i> da Google Play?</string>
@@ -230,7 +229,7 @@
   <string name="pref_category_title_manage">Gestione</string>
   <string name="pref_category_title_security">Sicurezza</string>
   <string name="pref_category_title_ui">Interfaccia utente</string>
-  <string name="pref_category_title_more_information">Més informació</string>
+  <string name="pref_category_title_more_information">Maggiori informazioni</string>
   <string name="pref_currency_decimal_separator_title">Separatore decimale per l\'ingresso della
       quantità</string>
   <string name="pref_currency_decimal_separator_comma">Virgola (,)</string>

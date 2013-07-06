@@ -135,8 +135,7 @@
       incomes, and to export these expenses into a desktop finance tool, like Grisbi,
       Gnucash, Quicken or MS Money.</string>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
-  <string name="help_whats_new">&#160;- Fixed crash when inserting transaction with payee.\n
-  	- Enforce that label of root categories is unique.</string>
+  <string name="help_whats_new">&#160;- New UI design based on Holo theme.\n</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">Income</string>

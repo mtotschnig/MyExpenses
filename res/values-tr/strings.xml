@@ -117,7 +117,6 @@
   <string name="help_button_rate">Not ver veya değerlendir</string>
   <string name="help_heading_credits">Hazırlayanlar</string>
   <string name="help_heading_license">Lisans</string>
-  <string name="pref_category_title_more_information">İlâve bilgi</string>
   <string name="help_heading_whats_new">Yenilikler</string>
   <string name="help_intro"><i>&app_name;</i>, harcamalarınız ve gelirlerinizi izlemeye yarayan ve bunları Gnucash ya da Grisbi gibi masaüstü bir finans aracı için dışa aktaran bir uygulamadır.</string>
   <string name="help_leading">Android için <i>&app_name;</i>\'i kurduğunuz için teşekkür ederiz.</string>
@@ -211,7 +210,7 @@
   <string name="pref_category_title_import">İçe aktar</string>
   <string name="pref_category_title_export">Dışa aktar</string>
   <string name="pref_category_title_security">Güvenlik</string>
-  <string name="pref_category_title_more_information">Més informació</string>
+  <string name="pref_category_title_more_information">İlâve bilgi</string>
   <string name="pref_contrib_install_title">Katkı uygulamasını kur</string>
   <string name="pref_contrib_install_summary">&app_name; Contrib uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
   <string name="pref_currency_decimal_separator_title">Girilen döviz miktarı için ondalık ayırıcı</string>
