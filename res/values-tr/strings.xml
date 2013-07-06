@@ -84,13 +84,20 @@
   <string name="dialog_password_new_password_confirmation">Yeni parola (teyit)</string>
   <string name="dialog_security_question">Soru</string>
   <string name="dialog_security_answer">Cevap</string>
+  <string name="dialog_title_contrib_feature">Ücretli işlev</string>
+  <string name="dialog_title_restore_on_install">Yedekleme tespit edildi</string>
   <string name="dialog_title_select_account">Bir hesap seçin</string>
   <string name="dialog_title_select_import_source">İçe aktarım için bir kaynak seçin</string>
   <string name="dialog_title_select_color">Renk seçimi</string>
   <string name="dialog_title_select_currency">Bir döviz seçin</string>
   <string name="dialog_title_select_method">Bir ödeme metodu seçin</string>
+  <string name="dialog_title_select_template">Şablon seç</string>
   <string name="dialog_title_select_type">Bir tür seçin</string>
   <string name="dialog_title_template_title">Başlığı belirtin</string>
+  <string name="dialog_title_warning_delete_account">Hesap silinsin mi?</string>
+  <string name="dialog_title_warning_reset_one">Hesap sıfırlansın mı?</string>
+  <string name="dialog_title_warning_reset_all">Tüm hesaplar sıfırlansın mı?</string>
+  <string name="dialog_title_welcome">Hoşgeldiniz</string>
   <string name="donate">Bağış</string>
   <string name="donate_dialog_text">Eğer Google Play\'e erişemiyorsanız Paypal ya da Flattr ile bağışta bulunup
     Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.\n\n&thank_you;</string>
@@ -115,6 +122,7 @@
   <string name="grisbi_import_parsing">%1$s ayrıştırılıyor</string>
   <string name="grisbi_import_parties_loading">%1$s konumunundan bölümler yükleniyor</string>
   <string name="help_button_rate">Not ver veya değerlendir</string>
+  <string name="help_contextuel_help">Yardım menüsünde mevcut işlevler hakkında daha fazla bilgi bulabilirsiniz.</string>
   <string name="help_heading_credits">Hazırlayanlar</string>
   <string name="help_heading_license">Lisans</string>
   <string name="help_heading_whats_new">Yenilikler</string>
@@ -165,6 +173,7 @@
   <string name="method">Metot</string>
   <string name="new_version">Yeni sürüm</string>
   <string name="no_accounts">Hesap yok!</string>
+  <string name="no_amount_given">Hiçbir meblağ girmediniz.</string>
   <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
   <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> Google Play\'den indirilsin mi?</string>
   <string name="no_categories">Kategori yok.</string>
@@ -203,8 +212,8 @@
   <string name="peer_transaction_deleted">Bu muamele silinmiş olan başka bir hesap (%1$s hesabı) ile ilişkiliydi</string>
   <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
   <string name="pref_categories_sort_by_usages_title">Kategoriler için sıralama düzeni</string>
-  <!-- <string name="pref_categories_sort_by_usages_summary">Sıralama kriteri olarak kullanım sayısını kullan
-      (yoksa alfabetik sıralama kullanılır)</string>  -->
+  <string name="pref_categories_sort_by_usages_summaryOn">Kullanım sayacı</string>
+  <string name="pref_categories_sort_by_usages_summaryOff">Alfanümerik</string>
   <string name="pref_category_title_manage">Yönet</string>
   <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
   <string name="pref_category_title_import">İçe aktar</string>
@@ -236,7 +245,8 @@
   <string name="pref_password_empty">Parola boş olmamalıdır</string>
   <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
   <string name="pref_perform_share_title">Dışa aktarım dosyasını paylaş</string>
-  <!-- <string name="pref_perform_share_summary">Dosya her dışa aktarımdan sonra paylaşılmalı mı?</string>  -->
+  <string name="pref_perform_share_summaryOn">Her dışa aktarımdan sonra dosya paylaşılacaktır.</string>
+  <string name="pref_perform_share_summaryOff">Dışa aktarımlardan sonra dosya paylaşılmayacaktır.</string>
   <string name="pref_perform_protection_title">Parola ile güvenlik</string>
   <string name="pref_perform_protection_summary">Uygulama başlatılmaları ve sürdürmeleri korunsun mu?</string>
   <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
@@ -249,6 +259,7 @@
   <string name="pref_security_question_title">Güvenlik sorusu</string>
   <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir.
     Harcamalarımın katkı sürümünü gerektirir.</string>
+  <string name="pref_send_feedback_title">Geri bildirim gönder</string>
   <string name="pref_share_target_title">Yükleme adresi</string>
   <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, &#8230;) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
   <string name="pref_ui_theme_title">Tema</string>
@@ -262,6 +273,7 @@
   <string name="restore_no_backup_found">SD kartının \"myexpenses\" klasöründe BACKUP dosyası bulunamadı.</string>
   <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
   <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
+  <string name="save_transaction_and_new_success">Muamele başarıyla kaydedildi</string>
   <string name="save_transaction_error">Şablondan muamele kaydedilemedi</string>
   <string name="save_transaction_from_template_success">Yeni muamele şablondan başarıyla kaydedildi</string>
   <string name="select">Seç</string>

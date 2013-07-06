@@ -127,7 +127,7 @@
   <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
   <string name="help_button_rate">Rate or review</string>
   <string name="help_contextuel_help">Please find more information
-  	about the available functionality through the help menu entry.</string>
+    about the available functionality through the help menu entry.</string>
   <string name="help_heading_credits">Credits</string>
   <string name="help_heading_license">License</string>
   <string name="help_heading_whats_new">What\'s new</string>
