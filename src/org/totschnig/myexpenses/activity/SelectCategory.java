@@ -17,10 +17,16 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Utils;
+
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,8 +34,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
@@ -47,14 +51,9 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
  * @author Michael Totschnig
  *
  */
-public class SelectCategory extends ProtectedFragmentActivity implements OnChildClickListener, OnGroupClickListener  {
+public class SelectCategory extends ProtectedFragmentActivity implements
+    OnChildClickListener, OnGroupClickListener,EditTextDialogListener  {
     private Button mAddButton;
-
-    static final int CAT_CREATE_DIALOG_ID = 1;
-    static final int CAT_EDIT_DIALOG_ID = 2;
-    static final int CAT_DIALOG_LABEL_EDIT_ID = 1;
-    private Long mDialogContextCatId;
-    private String mCatDialogLabel;
 
     /**
      * create a new sub category
@@ -118,56 +117,30 @@ public class SelectCategory extends ProtectedFragmentActivity implements OnChild
         setTitle(mManageOnly ? R.string.pref_manage_categories_title : R.string.select_category);
         // Set up our adapter
 
-        mAddButton = (Button) findViewById(R.id.addOperation);
+/*        mAddButton = (Button) findViewById(R.id.addOperation);
         mAddButton.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
             createCat(null);
           }
-        });
+        });*/
     }
     @Override
-    protected Dialog onCreateDialog(final int id) {
-      if (id == CAT_EDIT_DIALOG_ID || id == CAT_CREATE_DIALOG_ID) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(id == CAT_CREATE_DIALOG_ID ?
-            R.string.create_category :
-            R.string.edit_category);
-        // Set an EditText view to get user input
-        final EditText input = new EditText(this);
-        //only if the editText has an id, is its value restored after orientation change
-        input.setId(CAT_DIALOG_LABEL_EDIT_ID);
-        input.setSingleLine();
-        Utils.setBackgroundFilter(input, getResources().getColor(R.color.theme_dark_button_color));
-        alert.setView(input);
-        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int whichButton) {
-            String value = input.getText().toString();
-            if (!value.equals("")) {
-              long cat_id = (id == CAT_CREATE_DIALOG_ID ?
-                  Category.create(value,mDialogContextCatId) :
-                  Category.update(value,mDialogContextCatId));
-              if (cat_id == -1) {
-                Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
-              }
-            } else {
-              Toast.makeText(getBaseContext(),getString(R.string.no_title_given), Toast.LENGTH_LONG).show();
-            }
-          }
-        });
-        alert.setNegativeButton(android.R.string.no, null);
-        return alert.create();
-      }
-      return null;
-    }
-    @Override
-    protected void onPrepareDialog(int id, Dialog dialog) {
-      if (id == CAT_EDIT_DIALOG_ID || id == CAT_CREATE_DIALOG_ID) {
-        EditText input = (EditText) dialog.findViewById(CAT_DIALOG_LABEL_EDIT_ID);
-        input.setText(mCatDialogLabel);
-      }
+    public boolean onCreateOptionsMenu(Menu menu) {
+      MenuInflater inflater = getSupportMenuInflater();
+      inflater.inflate(R.menu.categories, menu);
+      super.onCreateOptionsMenu(menu);
+      return true;
     }
 
+    @Override
+    public boolean dispatchCommand(int command, Object tag) {
+      if (command == R.id.CREATE_COMMAND) {
+        createCat(null);
+        return true;
+      }
+      return super.dispatchCommand(command, tag);
+     }
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 
@@ -186,7 +159,7 @@ public class SelectCategory extends ProtectedFragmentActivity implements OnChild
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(android.view.MenuItem item) {
         ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
         int type = ExpandableListView.getPackedPositionType(info.packedPosition);
         long cat_id = info.id;
@@ -266,10 +239,16 @@ public class SelectCategory extends ProtectedFragmentActivity implements OnChild
      * if label is already used, shows an error
      * @param parent_id
      */
-    public void createCat(Long parent_id) {
-      mCatDialogLabel = "";
-      mDialogContextCatId = parent_id;
-      showDialog(CAT_CREATE_DIALOG_ID);
+    public void createCat(Long parentId) {
+      Bundle args = new Bundle();
+      int dialogTitle;
+      if (parentId != null) {
+        args.putLong("parentId", parentId);
+        dialogTitle = R.string.menu_create_main_cat;
+      } else
+        dialogTitle = R.string.menu_create_sub_cat;
+      args.putString("dialogTitle", getString(dialogTitle));
+      EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "CREATE_CATEGORY");
     }
     /**
      * presents AlertDialog for editing an existing category
@@ -277,10 +256,12 @@ public class SelectCategory extends ProtectedFragmentActivity implements OnChild
      * @param label
      * @param cat_id
      */
-    public void editCat(String label, Long cat_id) {
-      mCatDialogLabel = label;
-      mDialogContextCatId = cat_id;
-      showDialog(CAT_EDIT_DIALOG_ID);
+    public void editCat(String label, Long catId) {
+      Bundle args = new Bundle();
+      args.putLong("catId", catId);
+      args.putString("dialogTitle", getString(R.string.menu_edit_cat));
+      args.putString("value",label);
+      EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "EDIT_CATEGORY");
     }
 
     /**
@@ -292,17 +273,20 @@ public class SelectCategory extends ProtectedFragmentActivity implements OnChild
       startActivity(i);
     }
 
-    //safeguard for orientation change during dialog
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-     super.onSaveInstanceState(outState);
-     if (mDialogContextCatId != null)
-       outState.putLong("DialogContextCatId", mDialogContextCatId);
-    }
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-     super.onRestoreInstanceState(savedInstanceState);
-     if ((mDialogContextCatId = savedInstanceState.getLong("DialogContextCatId")) == 0L)
-       mDialogContextCatId = null;
+    public void onFinishEditDialog(Bundle args) {
+      Long catId,parentId;
+      boolean success;
+      String value = args.getString("result");
+      if ((catId = args.getLong("catId")) != 0L) {
+        success = Category.update(value,catId) != -1;
+      } else {
+        if ((parentId = args.getLong("parentId")) == 0L)
+            parentId = null;
+        success = Category.create(value,parentId) != -1;
+      }
+      if (!success) {
+          Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
+        }
     }
 }

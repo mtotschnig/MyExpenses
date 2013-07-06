@@ -15,38 +15,49 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.util.DialogUtils;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
 
-import android.app.Dialog;
-import android.preference.PreferenceActivity;
+import android.app.AlertDialog;
+import android.os.Bundle;
 
 
-public class ProtectedPreferenceActivity extends PreferenceActivity {
-  private Dialog pwDialog;
+public class ProtectedPreferenceActivity extends SherlockPreferenceActivity {
+  private AlertDialog pwDialog;
+  private ProtectionDelegate protection;
+  
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    protection = new ProtectionDelegate(this);
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
+  }
   @Override
   protected void onPause() {
     super.onPause();
-    MyApplication app = MyApplication.getInstance();
-    if (app.isLocked && pwDialog != null)
-      pwDialog.dismiss();
-    else {
-      app.setmLastPause();
-    }
+    protection.handleOnPause(pwDialog);
   }
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    MyApplication.getInstance().setmLastPause();
+    protection.handleOnDestroy();
   }
   @Override
   protected void onResume() {
     super.onResume();
-    MyApplication app = MyApplication.getInstance();
-    if (app.shouldLock()) {
-      if (pwDialog == null)
-        pwDialog = DialogUtils.passwordDialog(this);
-      DialogUtils.showPasswordDialog(this,pwDialog);
+    protection.hanldeOnResume(pwDialog);
+  }
+  @Override
+  public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    switch(item.getItemId()) {
+    case android.R.id.home:
+      setResult(RESULT_CANCELED);
+      finish();
+      return true;
+   default:
+     return false;
     }
   }
 }

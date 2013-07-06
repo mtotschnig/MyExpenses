@@ -55,7 +55,7 @@ import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
 
-public class GrisbiImport extends ProtectedActivity implements DialogInterface.OnClickListener {
+public class GrisbiImport extends ProtectedFragmentActivityNoSherlock implements DialogInterface.OnClickListener {
   static final int SOURCES_DIALOG_ID = 1;
   ProgressDialog mProgressDialog;
   private AlertDialog mSourcesDialog;
@@ -392,7 +392,7 @@ public class GrisbiImport extends ProtectedActivity implements DialogInterface.O
     .setPositiveButton(R.string.grisbi_import_button_categories_and_parties, this)
     .create();
     
-    task=(MyAsyncTask)getLastNonConfigurationInstance();
+    task=(MyAsyncTask)getLastCustomNonConfigurationInstance();
     
     if (task!=null) {
       task.attach(this);
@@ -439,7 +439,7 @@ public class GrisbiImport extends ProtectedActivity implements DialogInterface.O
   }
   
   @Override
-  public Object onRetainNonConfigurationInstance() {
+  public Object onRetainCustomNonConfigurationInstance() {
     if (task != null)
       task.detach();
     return(task);

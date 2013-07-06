@@ -98,9 +98,8 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
             //maybe it is trying to close the group that had been kept open before the orientation change
             e.printStackTrace();
           }
-      }
-      else {
-          mManager.initLoader(groupPos, bundle, CategoryList.this);
+      } else {
+        mManager.initLoader(groupPos, bundle, CategoryList.this);
       }
       return null;
     }

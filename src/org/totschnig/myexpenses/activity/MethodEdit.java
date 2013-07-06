@@ -57,27 +57,14 @@ public class MethodEdit extends EditActivity {
     MyApplication.updateUIWithAppColor(this);
 
     mLabelText = (EditText) findViewById(R.id.Label);
-
     mTable = (TableLayout)findViewById(R.id.Table);
     
-    Button confirmButton = (Button) findViewById(R.id.Confirm);
     
     mTypeButton = (Button) findViewById(R.id.TaType);
     mTypeButton.setOnClickListener(new View.OnClickListener() {
 
       public void onClick(View view) {
         showDialog(TYPE_DIALOG_ID);
-      }
-    });
-
-    confirmButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-        if (saveState()) {
-          Intent intent=new Intent();
-          intent.putExtra("method_id", mMethod.id);
-          setResult(RESULT_OK,intent);
-          finish();
-        }
       }
     });
 
@@ -153,7 +140,7 @@ public class MethodEdit extends EditActivity {
     return null;
   }
 
-  private boolean saveState() {
+  protected boolean saveState() {
     if (mMethod.predef == null) {
       mMethod.setLabel(mLabelText.getText().toString());
     }

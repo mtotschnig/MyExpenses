@@ -16,36 +16,87 @@
 package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.util.DialogUtils;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
-import android.app.Dialog;
-import android.support.v4.app.FragmentActivity;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
-public class ProtectedFragmentActivity extends FragmentActivity {
-  private Dialog pwDialog;
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.Bundle;
+import android.view.View;
+
+public class ProtectedFragmentActivity extends SherlockFragmentActivity
+    implements MessageDialogListener, OnSharedPreferenceChangeListener  {
+  private AlertDialog pwDialog;
+  private ProtectionDelegate protection;
+  private boolean scheduledRestart = false;
+  
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
+    protection = new ProtectionDelegate(this);
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
+  }
   @Override
   protected void onPause() {
     super.onPause();
-    MyApplication app = MyApplication.getInstance();
-    if (app.isLocked && pwDialog != null)
-      pwDialog.dismiss();
-    else {
-      app.setmLastPause();
-    }
+    protection.handleOnPause(pwDialog);
   }
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    MyApplication.getInstance().setmLastPause();
+    protection.handleOnDestroy();
   }
   @Override
   protected void onResume() {
     super.onResume();
-    MyApplication app = MyApplication.getInstance();
-    if (app.shouldLock()) {
-      if (pwDialog == null)
-        pwDialog = DialogUtils.passwordDialog(this);
-      DialogUtils.showPasswordDialog(this,pwDialog);
+    if(scheduledRestart) {
+      scheduledRestart = false;
+      if (android.os.Build.VERSION.SDK_INT>=11)
+        recreate();
+      else {
+        Intent intent = getIntent();
+        startActivity(intent);
+        finish();
+      }
+    } else {
+      protection.hanldeOnResume(pwDialog);
     }
+  }
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+      String key) {
+    if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
+      scheduledRestart = true;
+    }
+  }
+
+  public void cancelDialog() {
+    // TODO Auto-generated method stub
+  }
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getSupportMenuInflater();
+    inflater.inflate(R.menu.common, menu);
+    return true;
+  }
+  @Override
+  public boolean onMenuItemSelected(int featureId, MenuItem item) {
+      return dispatchCommand(item.getItemId(),null);
+  }
+  @Override
+  public boolean dispatchCommand(int command, Object tag) {
+    if (CommonCommands.dispatchCommand(this, command))
+      return true;
+    return false;
   }
 }

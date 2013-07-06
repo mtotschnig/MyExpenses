@@ -14,18 +14,13 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-  <ScrollView 
+  <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="fill_parent"
-      android:layout_height="0dip"
-      android:layout_weight="1"
+      android:layout_height="fill_parent"
       android:fillViewport="true">
-   <TableLayout style="?attr/listStyle"
-       android:paddingRight="@dimen/form_padding"
-       android:paddingLeft="@dimen/form_padding"
+   <TableLayout
+       android:paddingRight="@dimen/general_padding"
+       android:paddingLeft="@dimen/general_padding"
        android:layout_height="wrap_content"
        android:layout_width="fill_parent"
        android:id="@+id/Table"
@@ -100,5 +95,3 @@
       </TableRow>
     </TableLayout>
   </ScrollView>
-  <include layout="@layout/one_buttonbar"/>
-</LinearLayout>

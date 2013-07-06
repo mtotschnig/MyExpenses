@@ -64,11 +64,11 @@ public class TransactionProvider extends ContentProvider {
   private static final int TEMPLATES_INCREASE_USAGE = 17;
   private static final int FEATURE_USED = 18;
   private static final int SQLITE_SEQUENCE_TABLE = 19;
+  private static final int AGGREGATES_COUNT = 20;
   
   @Override
   public boolean onCreate() {
     mOpenHelper = new TransactionDatabase(getContext());
-    Log.i("DEBUG",getContext().toString());
     return true;
   }
 
@@ -129,6 +129,12 @@ public class TransactionProvider extends ContentProvider {
           "sum(sum_income) as sum_income",
           "sum(sum_expenses) as sum_expenses",
           "sum(current_balance) as current_balance"};
+      break;
+    case AGGREGATES_COUNT:
+      qb.setTables(TABLE_ACCOUNTS);
+      groupBy = "currency";
+      having = "count(*) > 1";
+      projection = new String[] {"count(*)"};
       break;
     case PAYEES:
       qb.setTables(TABLE_PAYEES);
@@ -486,6 +492,7 @@ public class TransactionProvider extends ContentProvider {
     //AccountType: CASH BANK CCARD ASSET LIABILITY
     URI_MATCHER.addURI(AUTHORITY, "methods/typeFilter/*/*", METHODS_FILTERED);
     URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates", AGGREGATES);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/count", AGGREGATES_COUNT);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATES_ID);

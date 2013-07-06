@@ -33,7 +33,6 @@
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">SD kartına yedekleme başarısız oldu.</string>
   <string name="backup_success">Veritabanı ve tercihler SD karta başarılı bir şekilde yazıldı.</string>
-  <string name="button_ok_and_new">Kaydet ve yenisini aç</string>
   <string name="category_already_defined">%1$s kategorisi zaten tanımlanmış</string>
   <string name="category">Kategori</string>
   <string name="color">Renk</string>
@@ -57,7 +56,6 @@
   <string name="contrib_feature_security_question_label">Güvenlik sorusu</string>
   <string name="contrib_feature_clone_transaction_label">Muameleleri klonla</string>
   <string name="contrib_key">Katkı anahtarı</string>
-  <string name="create_category">Yeni kategori oluştur</string>
   <string name="currency">Döviz</string>
   <string name="currency_not_iso4217">%1$s ISO 4217 olarak belirtilmemiş</string>
   <string name="current_balance">Güncel bakiye</string>
@@ -96,7 +94,6 @@
   <string name="donate">Bağış</string>
   <string name="donate_dialog_text">Eğer Google Play\'e erişemiyorsanız Paypal ya da Flattr ile bağışta bulunup
     Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.\n\n&thank_you;</string>
-  <string name="edit_category">Kategori düzenle</string>
   <string name="error_accessing_gplay">Google Play erişimi sırasında hata oluştu</string>
   <string name="expense">gider</string>
   <string name="export_expenses_outputfile_exists">Çıktı dosyası zaten mevcut. Lütfen bir dakika bekleyip tekrar deneyin.</string>
@@ -118,33 +115,15 @@
   <string name="grisbi_import_parsing">%1$s ayrıştırılıyor</string>
   <string name="grisbi_import_parties_loading">%1$s konumunundan bölümler yükleniyor</string>
   <string name="help_button_rate">Not ver veya değerlendir</string>
-  <string name="help_button_sendmail">E-posta yolla</string>
-  <string name="help_heading_changelog">Değişiklikler</string>
   <string name="help_heading_credits">Hazırlayanlar</string>
   <string name="help_heading_license">Lisans</string>
-  <string name="help_heading_more_info">İlâve bilgi</string>
-  <string name="help_heading_news">Son haberler</string>
-  <string name="help_heading_privacy">Gizlilik</string>
-  <string name="help_heading_quick_guide">Hızlı rehber</string>
+  <string name="pref_category_title_more_information">İlâve bilgi</string>
   <string name="help_heading_whats_new">Yenilikler</string>
   <string name="help_intro"><i>&app_name;</i>, harcamalarınız ve gelirlerinizi izlemeye yarayan ve bunları Gnucash ya da Grisbi gibi masaüstü bir finans aracı için dışa aktaran bir uygulamadır.</string>
   <string name="help_leading">Android için <i>&app_name;</i>\'i kurduğunuz için teşekkür ederiz.</string>
-  <string name="help_quick_guide"><i>&app_name;</i> iki komut arayüzü sunar: bir düğme çubuğu
-      ve standart Android menüsü (donanım Menü tuşu). Ayarlar ekranında hangisini kullanmak
-      istediğinizi ayarlayabilirsiniz. Çubuktaki düğmeler kısa basılışta şunları yapar:\n\n
-      - <b>Yeni</b> : Muamele ekler.\n
-      - <b>Hesaplar</b> : Başka bir hesaba geçer.\n
-      - <b>Sıfırla</b> : harcamaları SD kartına QIF veya CSV formatında dışa aktarır ve ardından siler ve de bakiyeyi günceller.\n
-      - <b>Ayarlar</b> : Tüm yapılandırma ve yönetme işlevlerine erişim sağlar (hesaplar, kategoriler, alacaklılar, ödeme metotları, şablonlar, yedeklemeler, içer aktarımlar.\n
-      - <b>Yardım</b> : Bu yardım ekranını açar.\n
-      \nBazı düğmeler (ki sol üst köşede bir üçgen ile ayırt edilebilirler) uzun dokunulduğunda menü açarlar:\n\n
-      - <b>Yeni</b> : <b>Transfer</b> bir hesaptan diğerine transfer yapmaya imkân sağlar (aynı dövizi kullanmaları gerekir). Ayrıca örneği kullanılabilir şablonlar numaralandırır. (Şablonlar muamelelerin listede bağlam menüsünden oluşturulabilir)\n
-      - <b>Hesaplar</b> : Geçilebilecek tüm hesapları numaralandırır. <b>Yeni &#8230;</b> yeni bir hesap oluşturur, <b>Özet</b> tüm hesaplara genel bir bakış açar ve güncel finansal durumu gösterir.\n
-      - <b>Ayarlar</b> : Güncel hesabın yedeklemelerine ve özelliklerine hızlı erişim sağlar.\n
-      - <b>Help</b> : Rehbere, yeniliklere, sıkça sorulan sorulara ve değişikliklere hızlı erişim sağlar.\n
-      \nAyrıntılı bilgi için <a href="http://myexpenses.totschnig.org/#tutorial_r4">kılavuza</a> bakınız.
-  </string>
-  <string name="help_whats_new">&#160;- Kararlılık geliştirmeleri.</string>
+<!--   <string name="help_whats_new">&#160;- CSV olarak dışa aktarım.\n
+    - Google Play\'de uygulamanın tabletlere sunulması için büyük ekran desteği beyan et.\n
+    - Android 1.6 desteği.</string> -->
   <string name="important_version_information">Önemli bilgi</string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="income">gelirler</string>
@@ -152,15 +131,8 @@
   <string name="label">Etiket</string>
   <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı: katkı işlevlerinin kilidi kaldırılmıştır.</string>
   <string name="licence_validation_failure">Lisans anahtarı doğrulanamadı.</string>
-  <string name="menu_accounts">Hesaplar</string>
-  <!-- TODO changed. Translations pending -->
-  <string name="menu_accounts_explain">Hesaplar düğmesi birden çok hesap yapılandırıldığında hesaplar arası geçiş yapmaya izin verir. Şu anda sadece tek bir hesap vardır.
-      Şimdi ikinci bir hesap oluşturmak istiyor musunuz?</string>
-  <string name="menu_accounts_new">Yeni &#8230;</string>
-  <string name="menu_accounts_summary">Özet</string>
-  <string name="menu_aggregate">Toplam</string>
+  <string name="menu_aggregates">Toplam</string>
   <string name="menu_backup">Yedekleme</string>
-  <string name="menu_change_account">Hesap değiştir</string>
   <string name="menu_clone_transaction">Klonla</string>
   <string name="menu_contrib">Katkıda bulun</string>
   <string name="menu_create_account">Yeni hesap oluştur</string>
@@ -175,24 +147,21 @@
   <string name="menu_create_template_for_transaction">Yeni muamele şablonu</string>
   <string name="menu_create_template_for_transfer">Yeni transfer şablonu</string>
   <string name="menu_delete">Sil</string>
+  <string name="menu_edit">Düzenle</string>
   <string name="menu_edit_account">Hesabı düzenle</string>
   <string name="menu_edit_method">Ödeme metodunu düzenle</string>
   <string name="menu_edit_cat">Kategori düzenle</string>
   <string name="menu_edit_transaction">Muameleyi düzenle</string>
   <string name="menu_edit_template">Şablonu düzenle</string>
   <string name="menu_edit_transfer">Virmanı düzenle</string>
-  <string name="menu_faq">SSS</string>
   <string name="menu_help">Yardım</string>
-  <string name="menu_more">Dahası &#8230;</string>
   <string name="menu_move_transaction">Taşı</string>
-  <string name="menu_new">Yeni</string>
   <string name="menu_new_from_template">Şablondan yeni</string>
   <string name="menu_reset">Sıfırla</string>
-  <string name="menu_reset_abrev">Sıfırla</string>
-  <string name="menu_reset_all">Tümünü</string>
+  <string name="menu_reset_all">Sıfırla tümünü</string>
+  <string name="menu_save">Kaydet</string>
+  <string name="menu_save_and_new">Kaydet ve yenisini aç</string>
   <string name="menu_settings">Ayarlar</string>
-  <string name="menu_settings_abrev">Ayarlar</string>
-  <string name="menu_settings_account">Güncel hesap</string>
   <string name="menu_show_detail">Detayları göster</string>
   <string name="method">Metot</string>
   <string name="new_version">Yeni sürüm</string>
@@ -233,27 +202,23 @@
   <string name="pm_type_debit">Gider</string>
   <string name="pm_type_credit">Gelir</string>
   <string name="peer_transaction_deleted">Bu muamele silinmiş olan başka bir hesap (%1$s hesabı) ile ilişkiliydi</string>
-  <string name="pref_account_button_behaviour_title">\"Hesaplar\" düğmesinin davranışı</string>
-  <string name="pref_account_button_behaviour_summary">\"Hesaplar\" düğmesi tüm hesaplar arasında geçiş yapmak yerine son iki hesap arası mı geçiş yapsın.</string>
   <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
   <string name="pref_categories_sort_by_usages_title">Kategoriler için sıralama düzeni</string>
-  <string name="pref_categories_sort_by_usages_summary">Sıralama kriteri olarak kullanım sayısını kullan
-      (yoksa alfabetik sıralama kullanılır)</string>
+  <!-- <string name="pref_categories_sort_by_usages_summary">Sıralama kriteri olarak kullanım sayısını kullan
+      (yoksa alfabetik sıralama kullanılır)</string>  -->
   <string name="pref_category_title_manage">Yönet</string>
   <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
   <string name="pref_category_title_import">İçe aktar</string>
   <string name="pref_category_title_export">Dışa aktar</string>
   <string name="pref_category_title_security">Güvenlik</string>
+  <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_contrib_install_title">Katkı uygulamasını kur</string>
   <string name="pref_contrib_install_summary">&app_name; Contrib uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
   <string name="pref_currency_decimal_separator_title">Girilen döviz miktarı için ondalık ayırıcı</string>
-  <string name="pref_currency_decimal_separator_summary">"," ya da "." arası seçim yapabilir veya
-      küçük birimleri tamsayı olarak girmeye karar verebilirsiniz.</string>
   <string name="pref_currency_decimal_separator_comma">Virgül (,)</string>
   <string name="pref_currency_decimal_separator_point">Nokta (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Küçük birimler tamsayı olarak</string>
   <string name="pref_export_format_title">Veri biçimi</string>
-  <string name="pref_export_format_summary">QIF veya CSV seç</string>
   <string name="pref_enter_licence_title">Katkı anahtarını gir</string>
   <string name="pref_enter_licence_summary">Eğer katkı anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
   <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
@@ -268,16 +233,16 @@
   <string name="pref_manage_parties_summary">Bölüm sil (alacaklılar ve ödeyenler).</string>
   <string name="pref_manage_templates_title">Şablonlar</string>
   <string name="pref_manage_templates_summary">Şablonları uygula ya da sil.</string>
+  <string name="pref_more_info_dialog_title">Lisans &amp; Hazırlayanlar</string>
   <string name="pref_password_empty">Parola boş olmamalıdır</string>
   <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
   <string name="pref_perform_share_title">Dışa aktarım dosyasını paylaş</string>
-  <string name="pref_perform_share_summary">Dosya her dışa aktarımdan sonra paylaşılmalı mı?</string>
+  <!-- <string name="pref_perform_share_summary">Dosya her dışa aktarımdan sonra paylaşılmalı mı?</string>  -->
   <string name="pref_perform_protection_title">Parola ile güvenlik</string>
   <string name="pref_perform_protection_summary">Uygulama başlatılmaları ve sürdürmeleri korunsun mu?</string>
   <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
   <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
-  <string name="pref_qif_export_file_encoding_summary">MS Money kullanıyorsanız karakter kodunu \"ISO-8859-1\" olarak ayarlayınız</string>
   <string name="pref_request_licence_title">Katkı anahtarı talep et</string>
   <string name="pref_request_licence_summary">Başka bir şekilde katkıda bulunduysanız katkı anahtarını e-posta vasıtasıyla talep ediniz.</string>
   <string name="pref_restore_title">Geri al</string>
@@ -288,11 +253,10 @@
   <string name="pref_share_target_title">Yükleme adresi</string>
   <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, &#8230;) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
   <string name="pref_ui_theme_title">Tema</string>
-  <string name="pref_ui_theme_summary">Aydınlık ya da karanlıktan birini seçin</string>
   <string name="pref_ui_theme_dark">karanlık</string>
   <string name="pref_ui_theme_light">aydınlık</string>
-  <string name="pref_use_standard_menu_title">Standart Android menüsünü kullan</string>
-  <string name="pref_use_standard_menu_summary">Komutlara erişim için düğme çubuğu göstermek yerine Android\'in standart menüsünü kullan.</string>
+<!--   <string name="pref_visit_website_title">Visit Website</string> -->
+  <string name="pref_visit_website_summary">Değişiklikler ya SSS</string>
   <string name="request_licence_mail_body">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin</string>
   <string name="restore_db_failure">Veritabanının yüklenmesi başarısız oldu</string>
   <string name="restore_db_success">Veritabanı yedeklemeden restore edilmiştir.</string>
@@ -300,15 +264,13 @@
   <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
   <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
   <string name="save_transaction_error">Şablondan muamele kaydedilemedi</string>
-  <string name="save_transaction_success">Yeni muamele şablondan başarıyla kaydedildi</string>
-  <string name="select_account">Hesap seç</string>
+  <string name="save_transaction_from_template_success">Yeni muamele şablondan başarıyla kaydedildi</string>
+  <string name="select">Seç</string>
   <string name="select_category">Kategori seç</string>
   <string name="select_parent_category">Bu kategoriyi seç</string>
-  <string name="select">Seç</string>
   <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
   <string name="share_sending">Dışa aktarım dosyasını gönder</string>
   <string name="subcategory">Alt kategori</string>
-  <string name="suggest_use_standard_menu">Komutlara erişim için düğme çubuğunu saklayıp standart Android menüsünü kullanmak istiyor musunuz?</string>
   <string name="sum_income">Gelirler</string>
   <string name="sum_expenses">Harcamalar</string>
   <string name="sum_transfer">Transferler</string>

@@ -23,12 +23,4 @@
       android:layout_height="0dp"
       android:layout_weight="1"
       android:id="@+id/viewpager"/>
-  <include android:id="@+id/ButtonBarDividerTop" layout="@layout/divider_thick"/>
-  <org.totschnig.myexpenses.ui.ButtonBar
-      android:id="@+id/ButtonBar"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      style="?attr/buttonBarStyle">
-  </org.totschnig.myexpenses.ui.ButtonBar>
-  <include android:id="@+id/ButtonBarDividerBottom" layout="@layout/divider_thick"/>
 </LinearLayout>

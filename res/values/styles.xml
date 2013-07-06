@@ -15,85 +15,16 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <style name="ThemeDark" parent="@android:style/Theme.Black">
-    <item name="headingStyle">@style/headingStyle</item>
-    <item name="headingStyleApp">@style/headingStyleApp</item>
-    <item name="listStyle">@style/listDark</item>
-    <item name="dividerVisible">0</item>
-    <item name="buttonBarStyle">@style/buttonBarDark</item>
-    <item name="buttonBackgroundNormal">@drawable/btn_dark</item>
-    <item name="buttonBackgroundPopup">@drawable/btn_dark2</item>
-    <item name="menuItemStyle">@style/buttonMenuItemDark</item>
-    <item name="buttonTextColor">@color/theme_dark_button_color</item>
-    <item name="listPadding">7dp</item>
-    <item name="android:windowTitleBackgroundStyle">@style/headingStyle</item>
-    <item name="android:windowTitleSize">30sp</item>
-    <item name="android:windowTitleStyle">@style/titleTextStyle</item>
-    <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
-    <item name="colorIncome">#00D000</item>
-    <item name="colorExpense">#FF0000</item>
-    <item name="pageMargin">@android:color/white</item>
-  </style>
-  <style name="ThemeDark.NoTitle" parent="ThemeDark">
-    <item name="android:windowNoTitle">true</item>
-  </style>
-  <style name="ThemeLight" parent="@android:style/Theme.Light">
-    <item name="headingStyle">@style/headingLight</item>
-    <item name="headingStyleApp">@style/headingLightApp</item>
-    <item name="listStyle">@style/listLight</item>
-    <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
-    <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>
-    <item name="dividerVisible">2</item><!-- gone -->
-    <item name="buttonBarStyle">@android:style/ButtonBar</item>
-    <item name="buttonBackgroundNormal">@drawable/btn_default</item>
-    <item name="buttonBackgroundPopup">@drawable/btn_popup</item>
-    <item name="menuItemStyle">@style/buttonMenuItemLight</item>
-    <item name="buttonTextColor">#000000</item>
-    <!-- theme light is padded through the background -->
-    <item name="listPadding">0dp</item>
-    <item name="android:windowTitleSize">30sp</item>
-    <item name="android:windowTitleStyle">@style/titleTextStyle</item>
-    <item name="android:windowTitleBackgroundStyle">@style/headingLight</item>
-    <item name="android:preferenceCategoryStyle">@style/PrefCat</item>
-    <item name="colorIncome">#008000</item>
-    <item name="colorExpense">#800000</item>
-    <item name="pageMargin">@android:color/black</item>
-  </style>
-  <style name="ThemeLight.NoTitle" parent="ThemeLight">
-    <item name="android:windowNoTitle">true</item>
-  </style>
-  <style name="buttonBarDark">
-     <item name="android:background">#000000</item>
-  </style>
-  <style name="listDark">
-    <item name="android:background">#000000</item>
-    <item name="android:dividerHeight">1dp</item>
-    <item name="android:divider">#ffffff</item>
-  </style>
-  <style name="listLight">
-      <item name="android:background">@drawable/border</item>
-      <item name="android:cacheColorHint">#CCCCCC</item>
-  </style>
   <style name="headingStyle">
-    <item name="android:textStyle">bold</item>
-  	<item name="android:gravity">center</item>
     <item name="android:layout_width">fill_parent</item>
     <item name="android:layout_height">wrap_content</item>
-    <item name="android:textSize">17sp</item>
-    <item name="android:paddingRight">7dp</item>
-    <item name="android:paddingLeft">7dp</item>
-  </style>
-  <style name="headingStyleApp" parent="headingStyle">
-  	<item name="android:background">@color/appDefault</item>
-    <item name="android:textColor">#000000</item>
-  </style>
-  <style name="headingLight" parent="headingStyle">
-    <item name="android:textAppearance">@android:style/TextAppearance.WindowTitle</item>
-    <item name="android:singleLine">true</item>
-  </style>
-  <style name="headingLightApp" parent="headingLight">
-    <item name="android:background">#8e8e8e</item>
-    <item name="android:textColor">#ffffff</item>
+    <item name="android:drawableBottom">@drawable/section_header</item>
+    <item name="android:drawablePadding">4dp</item>
+    <item name="android:layout_marginTop">8dp</item>
+    <item name="android:paddingLeft">4dp</item>
+       <!-- <item name="android:textAllCaps">true</item> -->
+    <item name="android:textColor">@color/emphasis</item>
+    <item name="android:textSize">14sp</item>
   </style>
   <!-- workaround for http://code.google.com/p/android/issues/detail?id=5237 -->    
   <style name="Widget.AutoCompleteTextViewLight" parent="@android:style/Widget.AutoCompleteTextView">
@@ -107,90 +38,21 @@
     <item name="android:layout_height">wrap_content</item>
     <item name="android:textColorLink">@drawable/linkcolor</item>
     <item name="android:padding">5dp</item>
-    <item name="android:textColor">#ffffff</item>
   </style>
   <style name="titleTextStyle">
     <item name="android:textStyle">bold</item>
-    <item name="android:textSize">20sp</item>
-    <item name="android:textColor">#ffffff</item>
+    <item name="android:textSize">17sp</item>
   </style>
   <style name="form_label">
       <item name="android:textStyle">bold</item>
       <item name="android:paddingRight">5dp</item>
       <item name="android:layout_gravity">center_vertical</item>
   </style>
-  <!-- this is the generic button, we use when we have plenty of space -->
-  <style name="button">
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:textSize">15sp</item>
-    <item name="android:textStyle">bold</item>
-    <item name="android:textColor">?attr/buttonTextColor</item>
-    <item name="android:background">?attr/buttonBackgroundNormal</item>
-    <item name="android:layout_margin">1dp</item>
-  </style>
-   <!-- buttonPort and buttonLand are use in the expenses list, where we need to pack more buttons -->
-  <style name="buttonPort" parent="buttonLand">
-    <item name="android:textSize">10dp</item>
-    <item name="android:paddingBottom">5dp</item>
-    <item name="android:paddingRight">4dp</item>
-    <item name="android:paddingLeft">2dp</item>
-  </style> 
-  <style name="buttonLand" parent="button">
-    <item name="android:textSize">12dp</item>
-    <item name="android:textStyle">normal</item>
-    <item name="android:drawablePadding">-5dp</item>
-    <item name="android:paddingTop">0dp</item>
-    <item name="android:paddingBottom">2dp</item>
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_weight">1</item>
-    <item name="android:layout_height">wrap_content</item>
-  </style>
-  <style name="buttonMenuItem" parent="button">
-    <item name="android:textSize">14sp</item>
-    <item name="android:gravity">center</item>
-    <item name="android:focusable">true</item>
-    <item name="android:clickable">true</item>
-  </style>
-  <style name="buttonMenuItemDark" parent="buttonMenuItem">
-    <item name="android:background">@drawable/btn_dark</item>
-   </style>
-  <style name="buttonMenuItemLight" parent="buttonMenuItem">
-    <item name="android:background">@android:drawable/btn_default_small</item>
-  </style>
-  <style name="popupMenu">
-      <item name="android:layout_width">fill_parent</item>
-      <item name="android:layout_height">fill_parent</item>
-      <item name="android:orientation">vertical</item>
-      <item name="android:background">?attr/buttonBackgroundNormal</item>    
-  </style>
   <style name="paddedListRow">
-    <item name="android:paddingRight">?attr/listPadding</item>
-    <item name="android:paddingLeft">?attr/listPadding</item>
+    <item name="android:paddingRight">@dimen/general_padding</item>
+    <item name="android:paddingLeft">@dimen/general_padding</item>
   </style>
-  <!-- Animations from http://code.google.com/p/simple-quickactions/source/browse/trunk/res/values/styles.xml -->
-  <style name="Animations" />
-
-	<style name="Animations.GrowFromBottom">
-	        <item name="@android:windowEnterAnimation">@anim/grow_from_bottom</item>
-	        <item name="@android:windowExitAnimation">@anim/shrink_from_top</item>
-	</style>
-	
-	<style name="Animations.GrowFromTop">
-	        <item name="@android:windowEnterAnimation">@anim/grow_from_top</item>
-	        <item name="@android:windowExitAnimation">@anim/shrink_from_bottom</item>
-	</style>
-	
-	<style name="Animations.PopDownMenu">
-	        <item name="@android:windowEnterAnimation">@anim/grow_from_topleft_to_bottomright</item>
-	        <item name="@android:windowExitAnimation">@anim/shrink_from_bottomright_to_topleft</item>
-	</style>
-	<style name="PrefCat">
-		<item name="android:layout">@layout/preference_category</item>
-		<item name="android:shouldDisableView">false</item>
-    <item name="android:selectable">false</item>
-	</style>
   <dimen name="calculator_button_large">50dp</dimen>
   <dimen name="calculator_button_small">40dp</dimen>
-  <dimen name="form_padding">7dp</dimen>
+  <dimen name="general_padding">7dp</dimen>
 </resources>

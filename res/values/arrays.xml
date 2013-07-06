@@ -41,4 +41,32 @@
         <item>@string/pref_ui_theme_dark</item>
         <item>@string/pref_ui_theme_light</item>
     </string-array>
+    <string-array name="MyExpenses_menuitems">
+      <item>create_transaction</item>
+      <item>create_transfer</item>
+      <item>new_from_template</item>
+      <item>reset</item>
+      <item>edit_account</item>
+    </string-array>
+    <string-array name="ManageAccounts_menuitems">
+      <item>create_account</item>
+      <item>aggregates</item>
+      <item>reset_all</item>
+    </string-array>
+    <string-array name="ManageMethods_menuitems">
+      <item>create_method</item>
+    </string-array>
+    <string-array name="SelectCategory_menuitems">
+      <item>create_main_cat</item>
+    </string-array>
+    <string-array name="ExpenseEdit_menuitems">
+      <item>save</item>
+      <item>save_and_new</item>
+    </string-array>
+    <string-array name="AccountEdit_menuitems">
+      <item>save</item>
+    </string-array>
+    <string-array name="MethodEdit_menuitems">
+      <item>save</item>
+    </string-array>
 </resources>

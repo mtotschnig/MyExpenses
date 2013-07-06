@@ -4,12 +4,19 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.SimpleDateFormat;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
+
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -17,33 +24,41 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Html;
 import android.util.TypedValue;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 //TODO: consider moving to ListFragment
-public class TransactionList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class TransactionList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+  private static final int TRANSACTION_CURSOR = 0;
+  private static final int SUM_CURSOR = 1;
   long accountId;
   SimpleCursorAdapter mAdapter;
   private int colorExpense;
   private int colorIncome;
-  private MyObserver observer;
-  private TextView balanceTv,labelTv;
-  View heading;
-  private Account account;
+  private AccountObserver aObserver;
+  private Account mAccount;
+  private TextView balanceTv;
+  private View bottomLine;
+  private boolean hasItems;
+  private long transactionSum;
+  private Cursor mTransactionsCursor;
 
   public static TransactionList newInstance(long accountId) {
     
@@ -56,27 +71,57 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
   @Override
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
+      setHasOptionsMenu(true);
       accountId = getArguments().getLong("account_id");
-      account = Account.getInstanceFromDb(getArguments().getLong("account_id"));
-      observer = new MyObserver(new Handler());
-      ContentResolver cr= getActivity().getContentResolver(); 
-      cr.registerContentObserver(TransactionProvider.TRANSACTIONS_URI, true,observer);
+      mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
+      aObserver = new AccountObserver(new Handler());
+      ContentResolver cr= getSherlockActivity().getContentResolver();
+      //when account has changed, we might have
+      //1) to refresh the list (currency has changed),
+      //2) update current balance(opening balance has changed),
+      //3) update the bottombarcolor (color has changed
       cr.registerContentObserver(
-          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(), true,observer);
+          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(),
+          true,aObserver);
   }
   @Override
   public void onDestroy() {
     super.onDestroy();
     try {
-      getActivity().getContentResolver().unregisterContentObserver(observer);
+      ContentResolver cr = getSherlockActivity().getContentResolver();
+      cr.unregisterContentObserver(aObserver);
     } catch (IllegalStateException ise) {
         // Do Nothing.  Observer has already been unregistered.
     }
   }
+  @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    if (isVisible())
+      menu.findItem(R.id.RESET_ACCOUNT_COMMAND).setVisible(hasItems);
+  }
+
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v,
+      ContextMenuInfo menuInfo) {
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+    super.onCreateContextMenu(menu, v, menuInfo);
+    menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
+    menu.add(0, R.id.SHOW_DETAIL_COMMAND, 0, R.string.menu_show_detail);
+    menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
+    menu.add(0, R.id.CLONE_TRANSACTION_COMMAND, 0, R.string.menu_clone_transaction);
+    mTransactionsCursor.moveToPosition(info.position);
+    //move transaction is disabled for transfers,
+    if (((MyExpenses) getSherlockActivity()).getCursor(MyExpenses.ACCOUNTS_CURSOR).getCount() > 1 &&
+        DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER) == null) {
+      menu.add(0,R.id.MOVE_TRANSACTION_COMMAND,0,R.string.menu_move_transaction);
+    }
+  }
+
 
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    Resources.Theme theme = getActivity().getTheme();
+    final SherlockFragmentActivity ctx = getSherlockActivity();
+    Resources.Theme theme = ctx.getTheme();
     TypedValue color = new TypedValue();
     theme.resolveAttribute(R.attr.colorExpense, color, true);
     colorExpense = color.data;
@@ -84,10 +129,14 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
     colorIncome = color.data;
     
     View v = inflater.inflate(R.layout.expenses_list, null, false);
-    heading = v.findViewById(R.id.heading);
-    labelTv = (TextView) v.findViewById(R.id.label);
+    //work around the problem that the view pager does not display its background correclty with Sherlock
+    if (Build.VERSION.SDK_INT < 11) {
+      v.setBackgroundColor(ctx.getResources().getColor(
+          MyApplication.getThemeId() == R.style.ThemeLight ? android.R.color.white : android.R.color.black));
+    }
     balanceTv = (TextView) v.findViewById(R.id.end);
-    updateTitleView();
+    bottomLine = v.findViewById(R.id.BottomLine);
+    updateColor();
     ListView lv = (ListView) v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};
@@ -106,9 +155,10 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
       categorySeparator = " :\n";
       commentSeparator = "<br>";
     }
-    getLoaderManager().initLoader(0, null, this);
+    getLoaderManager().initLoader(TRANSACTION_CURSOR, null, this);
+    getLoaderManager().initLoader(SUM_CURSOR, null, this);
     // Now create a simple cursor adapter and set it to display
-    mAdapter = new SimpleCursorAdapter(getActivity(), R.layout.expense_row, null, from, to,0)  {
+    mAdapter = new SimpleCursorAdapter(ctx, R.layout.expense_row, null, from, to,0)  {
       /* (non-Javadoc)
        * calls {@link #convText for formatting the values retrieved from the cursor}
        * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
@@ -120,7 +170,7 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
           text = Utils.convDate(text,dateFormat);
           break;
         case R.id.amount:
-          text = Utils.convAmount(text,account.currency);
+          text = Utils.convAmount(text,mAccount.currency);
         }
         super.setViewText(v, text);
       }
@@ -172,7 +222,7 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
          @Override
          public void onItemClick(AdapterView<?> a, View v,int position, long id)
          {
-           Intent i = new Intent(getActivity(), ExpenseEdit.class);
+           Intent i = new Intent(ctx, ExpenseEdit.class);
            i.putExtra(KEY_ROWID, id);
            //i.putExtra("operationType", operationType);
            startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
@@ -183,42 +233,72 @@ public class TransactionList extends Fragment implements LoaderManager.LoaderCal
 
   }
 
-  private void updateTitleView() {
-    if (heading != null)
-      heading.setBackgroundColor(account.color);
-    int textColor = Utils.getTextColorForBackground(account.color);
-    if (labelTv != null) {
-      labelTv.setText(account.label);
-      labelTv.setTextColor(textColor);
-    }
-    if (balanceTv != null) {
-      balanceTv.setText(Utils.formatCurrency(account.getCurrentBalance()));
-      balanceTv.setTextColor(textColor);
-    }
-  }
   @Override
-  public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-    CursorLoader cursorLoader = new CursorLoader(getActivity(),
-        TransactionProvider.TRANSACTIONS_URI, null, "account_id = ?", new String[] { String.valueOf(accountId) }, null);
+  public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
+    CursorLoader cursorLoader = null;
+    switch(id) {
+    case TRANSACTION_CURSOR:
+      cursorLoader = new CursorLoader(getSherlockActivity(),
+          TransactionProvider.TRANSACTIONS_URI, null, "account_id = ?",
+          new String[] { String.valueOf(accountId) }, null);
+      return cursorLoader;
+    case SUM_CURSOR:
+      cursorLoader = new CursorLoader(getSherlockActivity(),
+          TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ")"}, "account_id = ?",
+          new String[] { String.valueOf(accountId) }, null);
+    }
     return cursorLoader;
   }
 
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
-    mAdapter.swapCursor(c);
+    switch(arg0.getId()) {
+    case TRANSACTION_CURSOR:
+      mTransactionsCursor = c;
+      mAdapter.swapCursor(c);
+      hasItems = c.getCount()>0;
+      if (isVisible())
+        getSherlockActivity().supportInvalidateOptionsMenu();
+      break;
+    case SUM_CURSOR:
+      c.moveToFirst();
+      transactionSum = c.getLong(0);
+      updateBalance();
+    }
   }
 
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
-    mAdapter.swapCursor(null);
+    switch(arg0.getId()) {
+    case TRANSACTION_CURSOR:
+      mTransactionsCursor = null;
+      mAdapter.swapCursor(null);
+      hasItems = false;
+      if (isVisible())
+        getSherlockActivity().supportInvalidateOptionsMenu();
+      break;
+    case SUM_CURSOR:
+      transactionSum=0;
+      updateBalance();
+    }
   }
-  class MyObserver extends ContentObserver {
-     public MyObserver(Handler handler) {
-        super(handler);
-     }
-     public void onChange(boolean selfChange) {
-       super.onChange(selfChange);
-       updateTitleView();
-     }
+  class AccountObserver extends ContentObserver {
+    public AccountObserver(Handler handler) {
+       super(handler);
+    }
+    public void onChange(boolean selfChange) {
+      super.onChange(selfChange);
+      updateBalance();
+      updateColor();
+      mAdapter.notifyDataSetChanged();
+    }
+  }
+  private void updateBalance() {
+      balanceTv.setText(Utils.formatCurrency(
+          new Money(mAccount.currency,
+              mAccount.openingBalance.getAmountMinor() + transactionSum)));
+  }
+  private void updateColor() {
+    bottomLine.setBackgroundColor(mAccount.color);
   }
 }

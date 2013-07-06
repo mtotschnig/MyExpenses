@@ -15,17 +15,15 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.io.Serializable;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.util.DialogUtils;
 
-
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -38,20 +36,15 @@ import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
 
-public class ManageTemplates extends ProtectedFragmentActivity implements OnChildClickListener,ContribIFace  {
+public class ManageTemplates extends ProtectedFragmentActivity implements
+    OnChildClickListener,ContribIFace {
 
   private static final int DELETE_TEMPLATE = Menu.FIRST;
   private static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;
   private static final int CREATE_INSTANCE_SAVE = Menu.FIRST +2;
   private static final int NEW_TRANSACTION = Menu.FIRST +4;
   private static final int NEW_TRANSFER = Menu.FIRST +5;
-  
-  /**
-   * stores the template to be edited
-   */
-  private long mTemplateId;
 
-  
   @Override
   public void onCreate(Bundle savedInstanceState) {
       setTheme(MyApplication.getThemeId());
@@ -90,7 +83,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements OnChil
             if (Transaction.getInstanceFromTemplate(id).save() == null)
               Toast.makeText(getBaseContext(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
             else
-              Toast.makeText(getBaseContext(),getString(R.string.save_transaction_success), Toast.LENGTH_LONG).show();
+              Toast.makeText(getBaseContext(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
             break;
           case CREATE_INSTANCE_EDIT:
             intent = new Intent(this, ExpenseEdit.class);
@@ -110,30 +103,9 @@ public class ManageTemplates extends ProtectedFragmentActivity implements OnChil
       return true;
     }
   @Override
-  protected void onSaveInstanceState(Bundle outState) {
-   super.onSaveInstanceState(outState);
-   outState.putLong("TemplateId",mTemplateId);
-  }
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-   super.onRestoreInstanceState(savedInstanceState);
-   mTemplateId = savedInstanceState.getLong("TemplateId");
-  }
-  @Override
-  protected Dialog onCreateDialog(int id) {
-    switch (id) {
-    case R.id.CONTRIB_DIALOG:
-      return DialogUtils.contribDialog(this,Feature.EDIT_TEMPLATE);
-    case R.id.DONATE_DIALOG:
-      return DialogUtils.donateDialog((Activity) this);
-    }
-    return null;
-  }
-
-  @Override
-  public void contribFeatureCalled(Feature feature) {
+  public void contribFeatureCalled(Feature feature, Serializable tag) {
     Intent i = new Intent(this, ExpenseEdit.class);
-    i.putExtra("template_id", mTemplateId);
+    i.putExtra("template_id", (Long) tag);
     i.putExtra("instantiate", false);
     startActivity(i);
   }
@@ -145,11 +117,10 @@ public class ManageTemplates extends ProtectedFragmentActivity implements OnChil
   @Override
   public boolean onChildClick(ExpandableListView parent, View v,
       int groupPosition, int childPosition, long id) {
-    mTemplateId = id;
     if (MyApplication.getInstance().isContribEnabled) {
-      contribFeatureCalled(Feature.EDIT_TEMPLATE);
+      contribFeatureCalled(Feature.EDIT_TEMPLATE, id);
     } else {
-      showDialog(R.id.CONTRIB_DIALOG);
+      CommonCommands.showContribDialog(this,Feature.EDIT_TEMPLATE, id);
     }
     return true;
   }

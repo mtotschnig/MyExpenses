@@ -28,7 +28,7 @@ import org.totschnig.myexpenses.R;
 import java.math.BigDecimal;
 import java.util.Stack;
 
-public class CalculatorInput extends ProtectedActivity implements OnClickListener {
+public class CalculatorInput extends ProtectedFragmentActivityNoSherlock implements OnClickListener {
     public static final BigDecimal HUNDRED = new BigDecimal(100);
     public static final int[] buttons = {R.id.b0, R.id.b1, R.id.b2, R.id.b3,
             R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.bAdd,

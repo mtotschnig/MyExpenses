@@ -33,7 +33,6 @@
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Backup su SD card non è riuscito.</string>
   <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.</string>
-  <string name="button_ok_and_new">Salvare e nuova</string>
   <string name="category">Categoria</string>
   <string name="category_already_defined">La categoria %1$s è già definita</string>
   <string name="color">Colore</string>
@@ -57,7 +56,6 @@
   <string name="contrib_feature_security_question_label">Domanda di sicurezza</string>
   <string name="contrib_feature_clone_transaction_label">Ricopiare operazioni</string>
   <string name="contrib_key">Chiave Contrib</string>
-  <string name="create_category">Nuova categoria</string>
   <string name="currency">Valuta</string>
   <string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
   <string name="current_balance">Saldo corrente</string>
@@ -97,7 +95,6 @@
   <string name="donate">Donare</string>
   <string name="donate_dialog_text">Se non si dispone di accesso a Google Play, è possibile donare tramite PayPal o Flattr,
     e quindi richiedere una chiave contrib dalla schermata delle impostazioni.\n\n&thank_you;</string>
-  <string name="edit_category">Modificare la categoria</string>
   <string name="error_accessing_gplay">Errore durante l\'accesso a Google Play</string>
   <string name="expense">spesa</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già.
@@ -120,42 +117,17 @@
   <string name="grisbi_import_categories_success">%1$s categorie state importate</string>
   <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
   <string name="help_button_rate">La vostra recensione</string>
-  <string name="help_button_sendmail">Inviare una e-mail</string>
-  <string name="help_heading_changelog">Aggiornamenti</string>
   <string name="help_heading_credits">Generico</string>
   <string name="help_heading_license">Licenza</string>
-  <string name="help_heading_more_info">Maggiori informazioni</string>
-  <string name="help_heading_news">Notizie</string>
-  <string name="help_heading_privacy">Norme sulla privacy</string>
-  <string name="help_heading_quick_guide">Guida rapida</string>
+  <string name="pref_category_title_more_information">Maggiori informazioni</string>
   <string name="help_heading_whats_new">Novità</string>
   <string name="help_intro"><i>&app_name;</i> è stato progettato per tenere traccia delle spese nel
       corso di un breve periodo di tempo, e di esportare queste spese in un programma come Grisbi,
       GnuCash, Quicken o MS Money.</string>
   <string name="help_leading">Grazie di probare <i>&app_name;</i> por Android.</string>
-  <string name="help_quick_guide"><i>&app_name;</i> è dotato di due interfacce di comando: una barra
-      dei  pulsanti e il menu standard di Android (pulsante hardware Menu). È possibile impostare
-      quale usare nella schermata di impostazioni. I pulsanti nella barra dei pulsanti eseguono 
-      i seguenti azioni con un clico breve:\n\n
-      - <b>Nuovo</b> : aggiungere un operazione.\n
-      - <b>Conti</b> : cambiare di un conto a un altro.\n
-      - <b>Reset</b> : esporta tutte le operazioni sulla scheda SD nel formato QIF o CSV, 
-      elimina le spese e aggiorna il bilancio di apertura.\n
-      - <b>Impostazioni</b> : da accesso a tutte le impostazioni e funzioni amministrative 
-      (dei conti, categorie, riceventi, metodi di pagamento, modelli, i backup, importazioni).\n
-      - <b>Aiuto</b> apre questa schermata di aiuto.\n
-      \nAlcuni pulsanti (indicato per un triangolo nell\'angolo destro di sopra) aprono 
-      un menu a discesa con un clico più lungo:\n\n
-      - <b>Nuovo</b> : <b>Trasferimento</b> consente creare un trasferimento di un conto a un altro
-      (devono essere della stessa valuta). Anche enumera modelli disponibili i quali può usare 
-      (Modelli possono essere creati nell\'elenco dei menu di contesto delle operazioni)\n
-      - <b>Conti</b> : enumera tutti i conti ai quali può cambiare. <b>Nuovo &#8230;</b> aggiungere un conto,
-      <b>Riassunto</b> apre una panoramica di tutti i conti con l\'attuale situazione finanziaria.\n
-      - <b>Impostazioni</b> : Accesso rapido al backup e agli impostazioni del conto attuale.\n
-      - <b>Aiuto</b> : accesso rapido al manuale, News et FAQ.\n
-      \nPer favore visita il <a href="http://myexpenses.totschnig.org/#tutorial_r4">manuale</a>
-      per avere ulteriori esplicazioni.</string>
-  <string name="help_whats_new">&#160;- Miglioramenti della stabilità.</string>
+  <!--   <string name="help_whats_new">&#160;- Esportazione in formato CSV.\n
+    - Dichiarare esplicitamente il supporto per schermi di grandi dimensioni per rendere nuovamente disponibile app per tablet su Google Play.\n
+    - Supporto per Android 1.6.</string> -->
   <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
   <string name="important_version_information">Informazioni importanti</string>
@@ -165,15 +137,8 @@
   <string name="licence_validation_failure">Impossible convalidare la chiave di licenza.</string>
   <string name="licence_validation_success">Chiave di licenza convalidata con successo. Le funzionalità
   speciali sono state attivate.</string>
-  <string name="menu_accounts">Conti</string>
-  <string name="menu_accounts_explain">Il pulsante Conti consente passare da un conto
-      a un altro se ci sono stati definiti diversi conti.
-      Inizialmente, c\'è uno solo. Vuoi creare un secondo conto adesso?</string>
-  <string name="menu_accounts_new">Nuovo &#8230;</string>
-  <string name="menu_accounts_summary">Riassunto</string>
-  <string name="menu_aggregate">Sommato</string>
+  <string name="menu_aggregates">Sommato</string>
   <string name="menu_backup">Backup</string>
-  <string name="menu_change_account">Cambiare conto</string>
   <string name="menu_clone_transaction">Ricopiare</string>
   <string name="menu_contrib">Contribuire</string>
   <string name="menu_create_account">Nuovo conto</string>
@@ -188,28 +153,26 @@
   <string name="menu_create_transaction_from_template_and_edit">Nuova e modificare</string>
   <string name="menu_create_transaction_from_template_and_save">Nuova e salvare</string>
   <string name="menu_delete">Cancellare</string>
+  <string name="menu_edit">Modificare</string>
   <string name="menu_edit_account">Modificare il conto</string>
   <string name="menu_edit_cat">Modificare la categoria</string>
   <string name="menu_edit_method">Modificare modo di pagamento</string>
   <string name="menu_edit_transaction">Modificare operazione</string>
   <string name="menu_edit_template">Modificare modello</string>
   <string name="menu_edit_transfer">Modificare un trasferimento</string>
-  <string name="menu_faq">FAQ</string>
   <string name="menu_help">Aiuto</string>
-  <string name="menu_new">Nuovo</string>
   <string name="menu_new_from_template">Nuovo riguardo al modello</string>
-  <string name="menu_more">Ulteriori &#8230;</string>
   <string name="menu_move_transaction">Spostare</string>
   <string name="menu_reset">Reinizializzare</string>
-  <string name="menu_reset_all">Tutti</string>
-  <string name="menu_reset_abrev">Reinit.</string>
+  <string name="menu_reset_all">Reinizializzare tutti</string>
+  <string name="menu_save">Salvare</string>
+  <string name="menu_save_and_new">Salvare e nuova</string>
   <string name="menu_settings">Impostazioni</string>
-  <string name="menu_settings_abrev">Impos.</string>
-  <string name="menu_settings_account">Conto</string>
   <string name="menu_show_detail">Visualizza i dettagli</string>
   <string name="method">Modo</string>
   <string name="new_version">New version</string>
   <string name="no_accounts">Nessun conto !</string>
+  <string name="no_title_given">Non ha scritto ningun somma.</string>
   <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail
   </string>
   <string name="no_app_handling_ftp_available">Nessuna applicazione disponibile per ftp. Installare <i>Invia via FTP</i> da Google Play?</string>
@@ -256,30 +219,25 @@
   <string name="pm_type_credit">Credito</string>
   <string name="peer_transaction_deleted">Questa operazione è stata collegata ad un altro (conto
       %1$s) che è stato eliminato</string>
-  <string name="pref_account_button_behaviour_title">Comportamento del pulsante \"Conti\"</string>
-  <string name="pref_account_button_behaviour_summary">Vuoi che il pulsante \"Conti\" alterna tra gli
-      ultimi due conti invece di alternare tra tutti i conti?</string>
   <string name="pref_backup_summary">Crea un backup del database e delle preferenze sulla scheda SD.
   </string>
   <string name="pref_categories_sort_by_usages_title">Criterio di ordinamento per le categorie
   </string>
-  <string name="pref_categories_sort_by_usages_summary">Ordinare le principali categorie in base
-      alla frequenza d\'uso (altrimenti in ordine alfabetico)</string>
+  <string name="pref_categories_sort_by_usages_summaryOn">frequenza d\'uso</string>
+  <string name="pref_categories_sort_by_usages_summaryOff">ordine alfabetico</string>
   <string name="pref_category_title_import">Import</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_manage">Gestione</string>
   <string name="pref_category_title_security">Sicurezza</string>
   <string name="pref_category_title_ui">Interfaccia utente</string>
+  <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_currency_decimal_separator_title">Separatore decimale per l\'ingresso della
       quantità</string>
-  <string name="pref_currency_decimal_separator_summary">Si può scegliere tra "," e "." o decidere
-      di unità di ingresso minori come numeri interi.</string>
   <string name="pref_currency_decimal_separator_comma">Virgola (,)</string>
   <string name="pref_currency_decimal_separator_point">Punto (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Unità minori come numeri interi
   </string>
   <string name="pref_export_format_title">Formato dati</string>
-  <string name="pref_export_format_summary">Scegli tra QIF e CSV</string>
   <string name="pref_import_from_grisbi_summary">Scegli tra le definizioni standard di Grisbi,
       inclusi  nell\'applicazione, e il vostro proprio file salvato come &grisbi_file; nella
       cartellla myexpenses della radice della vostra scheda SD.</string>
@@ -293,17 +251,18 @@
   <string name="pref_manage_parties_title">Beneficiari</string>
   <string name="pref_manage_parties_summary">Cancellare beneficiari.</string>
   <string name="pref_manage_templates_title">Modelli</string>
-  <string name="pref_manage_templates_summary">Utilizzare et eliminare modelli.</string>
+  <string name="pref_manage_templates_summary">Utilizzare e eliminare modelli.</string>
+  <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
   <string name="pref_password_empty">La password non deve essere vuoto</string>
   <string name="pref_password_not_equal">Le password non corrispondono</string>
   <string name="pref_perform_protection_title">Protezione con password</string>
   <string name="pref_perform_protection_summary">Dovrebbe lancia e riprende essere protetti?</string>
   <string name="pref_perform_share_title">Condividi Export</string>
-  <string name="pref_perform_share_summary">Se il file da condividere dopo ogni esportazione?</string>
+  <string name="pref_perform_share_summaryOn">Il file sarà condiviso dopo ogni esportazione.</string>
+  <string name="pref_perform_share_summaryOff">Il file non sarà condiviso dopo ogni esportazione.</string>
   <string name="pref_protection_delay_seconds_title">Ritardo fino a protezione</string>
   <string name="pref_protection_delay_seconds_summary">Inattive secondi prima app verranno bloccati da password.</string>
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
-  <string name="pref_qif_export_file_encoding_summary">Fissare il set di caratteri \"ISO-8859-1\" se usa MS Money</string>
   <string name="pref_share_target_title">Carica URL Export</string>
   <string name="pref_share_target_summary">Lascia vuoto se si vuole scegliere tra le applicazioni
       appropriate (e-mail, Dropbox, Google Docs, &#8230;), o fornire l\'URL in uno dei sistemi
@@ -311,13 +270,11 @@
   <string name="pref_security_question_title">Domanda di sicurezza</string>
   <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se si è dimenticata la password. Richiede &app_name; Contrib.</string>
   <string name="pref_ui_theme_title">Stile</string>
-  <string name="pref_ui_theme_summary">Scegli tra buio e chiaro</string>
   <string name="pref_ui_theme_dark">buio</string>
   <string name="pref_ui_theme_light">chiaro</string>
-  <string name="pref_use_standard_menu_title">Utilizzare Android standard menu</string>
-  <string name="pref_use_standard_menu_summary">Invece di visualizzare una barra dei pulsanti,
-      utilizzare  Android menu standard per l\'accesso ai comandi.</string>
-      <string name="pref_contrib_install_summary">Installando &app_name; Contrib ottiene accesso a
+<!--   <string name="pref_visit_website_title">Visit Website</string> -->
+  <string name="pref_visit_website_summary">Aggiornamenti e FAQ</string>
+  <string name="pref_contrib_install_summary">Installando &app_name; Contrib ottiene accesso a
   funzionalità speciali.</string>
   <string name="pref_contrib_install_title">Installare Contrib app</string>
   <string name="pref_enter_licence_summary">Se ha ricevuto una chiave Contrib, ottiene accesso a
@@ -336,16 +293,14 @@
   <string name="restore_preferences_success">I impostazioni sono stati ripristinati dal backup.
   </string>
   <string name="save_transaction_error">Non è possible salvare la nuova transazione da modello</string>
-  <string name="save_transaction_success">Nuova transazione salvata con successo da modello</string>
+  <string name="save_transaction_from_template_success">Nuova transazione salvata con successo da modello</string>
+  <string name="save_transaction_and_new_success">Transazione salvata con successo</string>
   <string name="select">Selezionare</string>
-  <string name="select_account">Selezionare un conto</string>
   <string name="select_category">Selezionare una categoria</string>
   <string name="select_parent_category">Selezionare questa categoria</string>
   <string name="share_sending">Invia file export</string>
   <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
   <string name="subcategory">Sottocategoria</string>
-  <string name="suggest_use_standard_menu">Vuoi utilizzare il menu standard Android per chiamare i
-    comandi, e nascondere la barra dei pulsanti?</string>
   <string name="sum_income">Redditi</string>
   <string name="sum_expenses">Spese</string>
   <string name="sum_transfer">Trasferimenti</string>

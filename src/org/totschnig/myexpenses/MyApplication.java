@@ -43,12 +43,10 @@ public class MyApplication extends Application {
     private static MyApplication mSelf;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
     public static String PREFKEY_CATEGORIES_SORT_BY_USAGES;
-    public static String PREFKEY_USE_STANDARD_MENU;
     public static String PREFKEY_PERFORM_SHARE;
     public static String PREFKEY_SHARE_TARGET;
     public static String PREFKEY_QIF_EXPORT_FILE_ENCODING;
     public static String PREFKEY_CURRENCY_DECIMAL_SEPARATOR;
-    public static String PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR;
     public static String PREFKEY_UI_THEME_KEY;
     public static String PREFKEY_CURRENT_VERSION = "currentversion";
     public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
@@ -64,13 +62,14 @@ public class MyApplication extends Application {
     public static String PREFKEY_SECURITY_QUESTION;
     public static String PREFKEY_PROTECTION_DELAY_SECONDS;
     public static String PREFKEY_EXPORT_FORMAT;
+    public static String PREFKEY_SEND_FEEDBACK;
+    public static String PREFKEY_MORE_INFO_DIALOG;
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static int currentAccountColor;
     public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
 
     public static final String EXTRA_AMOUNT = "amount";
-    private ArrayList<CharSequence> mVersionInfo = new ArrayList<CharSequence>();
     public boolean isContribEnabled;
     private long mLastPause = 0;
     /**
@@ -86,12 +85,6 @@ public class MyApplication extends Application {
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
     public static final String HOST = "myexpenses.totschnig.org";
 
-    public ArrayList<CharSequence> getVersionInfo() {
-      return mVersionInfo;
-    }
-    public void addVersionInfo(CharSequence mVersionInfo) {
-      this.mVersionInfo.add(mVersionInfo);
-    }
     @Override
     public void onCreate()
     {
@@ -103,11 +96,9 @@ public class MyApplication extends Application {
         }
 
         PREFKEY_CATEGORIES_SORT_BY_USAGES = getString(R.string.pref_categories_sort_by_usages_key);
-        PREFKEY_USE_STANDARD_MENU = getString(R.string.pref_use_standard_menu_key);
         PREFKEY_PERFORM_SHARE = getString(R.string.pref_perform_share_key);
         PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
         PREFKEY_CURRENCY_DECIMAL_SEPARATOR = getString(R.string.pref_currency_decimal_separator_key);
-        PREFKEY_ACCOUNT_BUTTON_BEHAVIOUR = getString(R.string.pref_account_button_behaviour_key);
         PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
         PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
         PREFKEY_BACKUP = getString(R.string.pref_backup_key);
@@ -121,6 +112,8 @@ public class MyApplication extends Application {
         PREFKEY_SECURITY_QUESTION = getString(R.string.pref_security_question_key);
         PREFKEY_PROTECTION_DELAY_SECONDS = getString(R.string.pref_protection_delay_seconds_key);
         PREFKEY_EXPORT_FORMAT = getString(R.string.pref_export_format_key);
+        PREFKEY_SEND_FEEDBACK = getString(R.string.pref_send_feedback_key);
+        PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
         setPasswordCheckDelayNanoSeconds();
         try {
           InputStream rawResource = getResources().openRawResource(R.raw.app);
@@ -155,12 +148,9 @@ public class MyApplication extends Application {
     public static void updateUIWithColor(Activity ctx,int color) {
       int textColor = Utils.getTextColorForBackground(color);
       View heading = ctx.getWindow().findViewById(android.R.id.title);
-      ((TextView) heading).setTextColor(textColor);
-      ((View) heading.getParent()).setBackgroundColor(color);
-      View divider = ctx.findViewById(R.id.ButtonBarDividerTop);
-      if (divider != null) {
-        divider.setBackgroundColor(color);
-        ctx.findViewById(R.id.ButtonBarDividerBottom).setBackgroundColor(color);
+      if (heading != null) {
+        ((TextView) heading).setTextColor(textColor);
+        ((View) heading.getParent()).setBackgroundColor(color);
       }
     }
     public static MyApplication getInstance() {
@@ -202,11 +192,6 @@ public class MyApplication extends Application {
     {
       return mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light") ?
           R.style.ThemeLight : R.style.ThemeDark;
-    }
-
-    public static int getThemeIdNoTitle() {
-      return mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light") ?
-          R.style.ThemeLight_NoTitle : R.style.ThemeDark_NoTitle;
     }
 
     public static File getBackupDbFile() {

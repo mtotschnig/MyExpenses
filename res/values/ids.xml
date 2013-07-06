@@ -17,11 +17,12 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <item type="id" name="INSERT_TA_COMMAND"/>
     <item type="id" name="INSERT_TRANSFER_COMMAND"/>
-    <item type="id" name="SWITCH_ACCOUNT_COMMAND"/>
-    <item type="id" name="CREATE_ACCOUNT_COMMAND"/>
+    <item type="id" name="CREATE_COMMAND"/>
     <item type="id" name="RESET_ACCOUNT_COMMAND"/>
     <item type="id" name="RESET_ACCOUNT_COMMAND_DO"/>
     <item type="id" name="RESET_ACCOUNT_ALL_COMMAND"/>
+    <item type="id" name="RESET_ACCOUNT_ALL_COMMAND_DO"/>
+    <item type="id" name="SAVE_AND_NEW_COMMAND"/>
     <item type="id" name="SETTINGS_COMMAND"/>
     <item type="id" name="BACKUP_COMMAND"/>
     <item type="id" name="RESTORE_COMMAND"/>
@@ -29,42 +30,30 @@
     <item type="id" name="HELP_COMMAND"/>
     <item type="id" name="WEB_COMMAND"/>
     <item type="id" name="DELETE_COMMAND"/>
+    <item type="id" name="DELETE_COMMAND_DO"/>
     <item type="id" name="SHOW_DETAIL_COMMAND"/>
     <item type="id" name="CREATE_TEMPLATE_COMMAND"/>
     <item type="id" name="MOVE_TRANSACTION_COMMAND"/>
-    <item type="id" name="USE_STANDARD_MENU_COMMAND"/>
     <item type="id" name="FTP_DIALOG"/>
-    <item type="id" name="HELP_DIALOG"/>
-    <item type="id" name="VERSION_DIALOG"/>
-    <item type="id" name="CONTRIB_DIALOG"/>
-    <item type="id" name="REMIND_RATE_DIALOG"/>
-    <item type="id" name="REMIND_CONTRIB_DIALOG"/>
+    <item type="id" name="MORE_INFO_DIALOG"/>
     <item type="id" name="NEW_FROM_TEMPLATE_COMMAND"/>
-    <item type="id" name="MORE_ACTION_COMMAND"/>
     <item type="id" name="CONTRIB_COMMAND"/>
     <item type="id" name="FEEDBACK_COMMAND"/>
-    <item type="id" name="ACCOUNT_OVERVIEW_COMMAND"/>
     <item type="id" name="NEUTRAL_BUTTON"/>
     <item type="id" name="POSITIVE_BUTTON"/>
     <item type="id" name="NEGATIVE_BUTTON"/>
     <item type="id" name="RATE_COMMAND"/>
     <item type="id" name="HANDLE_RESTORE_ON_INSTALL_COMMAND"/>
     <item type="id" name="CONTRIB_PLAY_COMMAND"/>
-    <item type="id" name="RESET_DIALOG"/>
-    <item type="id" name="ACCOUNTS_BUTTON_EXPLAIN_DIALOG"/>
-    <item type="id" name="USE_STANDARD_MENU_DIALOG"/>
     <item type="id" name="SELECT_ACCOUNT_DIALOG"/>
     <item type="id" name="TEMPLATE_TITLE_DIALOG"/>
-    <item type="id" name="SELECT_TEMPLATE_DIALOG"/>
     <item type="id" name="MORE_ACTIONS_DIALOG"/>
     <item type="id" name="CONTRIB_INFO_DIALOG"/>
-    <item type="id" name="CONFIRM_RESTORE_DIALOG"/>
     <item type="id" name="PASSWORD_WARNING_DIALOG"/>
-    <item type="id" name="BACKUP_DIALOG"/>
-    <item type="id" name="RESTORE_DIALOG"/>
     <item type="id" name="DONATE_DIALOG"/>
     <item type="id" name="REMIND_YES_COMMAND"/>
     <item type="id" name="REMIND_LATER_COMMAND"/>
     <item type="id" name="REMIND_NO_COMMAND"/>
     <item type="id" name="CLONE_TRANSACTION_COMMAND"/>
+    <item type="id" name="AGGREGATES_COMMAND"/>
 </resources>

@@ -23,6 +23,11 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,8 +37,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.Toast;
 
-public abstract class EditActivity extends ProtectedActivity {
+public abstract class EditActivity extends ProtectedFragmentActivity {
   public static final String CURRENCY_USE_MINOR_UNIT = "x";
   private static final int CALCULATOR_REQUEST = 1;
   protected DecimalFormat nfDLocal;
@@ -52,6 +58,8 @@ public abstract class EditActivity extends ProtectedActivity {
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
   }
 
   protected void changeEditTextBackground(ViewGroup root) {
@@ -123,4 +131,37 @@ public abstract class EditActivity extends ProtectedActivity {
     super.onRestoreInstanceState(savedInstanceState);
     mType = savedInstanceState.getBoolean("type");
   }
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getSupportMenuInflater();
+    inflater.inflate(R.menu.one, menu);
+    super.onCreateOptionsMenu(menu);
+    return true;
+  }
+  @Override
+  public boolean dispatchCommand(int command, Object tag) {
+    switch(command) {
+    case R.id.Confirm:
+      if (saveState()) {
+        setResult(RESULT_OK);
+        finish();
+      }
+      return true;
+    }
+    return super.dispatchCommand(command, tag);
+  }
+  protected BigDecimal validateAmountInput() {
+    String strAmount = mAmountText.getText().toString();
+    if (strAmount.equals("")) {
+      Toast.makeText(this,getString(R.string.no_amount_given), Toast.LENGTH_LONG).show();
+      return null;
+    }
+    BigDecimal amount = Utils.validateNumber(nfDLocal, strAmount);
+    if (amount == null) {
+      Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
+      return null;
+    }
+    return amount;
+  }
+  abstract protected boolean saveState();
 }

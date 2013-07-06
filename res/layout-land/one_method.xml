@@ -24,9 +24,8 @@
       android:layout_weight="1"
       android:fillViewport="true">
     <TableLayout
-        style="?attr/listStyle"
-        android:paddingRight="@dimen/form_padding"
-        android:paddingLeft="@dimen/form_padding"
+        android:paddingRight="@dimen/general_padding"
+        android:paddingLeft="@dimen/general_padding"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:id="@+id/Table"
@@ -51,5 +50,4 @@
       </TableRow>
       </TableLayout>
   </ScrollView>
-  <include layout="@layout/one_buttonbar"/>
 </LinearLayout>

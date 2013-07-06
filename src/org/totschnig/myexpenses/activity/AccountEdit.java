@@ -153,19 +153,7 @@ public class AccountEdit extends EditActivity {
         showDialog(TYPE_DIALOG_ID);
       }
     });
-    
-    Button confirmButton = (Button) findViewById(R.id.Confirm);
-
-    confirmButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-        if (saveState()) {
-          Intent intent=new Intent();
-          intent.putExtra("account_id", mAccount.id);
-          setResult(RESULT_OK,intent);
-          finish();
-        }
-      }
-    });
+ 
     Account.Type [] allTypes = Account.Type.values();
     for(int i = 0;i< allTypes.length; i++){
       mTypes[i] = allTypes[i].getDisplayName();
@@ -294,6 +282,7 @@ public class AccountEdit extends EditActivity {
       mLabelText.setText(mAccount.label);
       mDescriptionText.setText(mAccount.description);
     } else {
+      setTitle(R.string.menu_create_account);
       mAccount = new Account();
     }
     mBalanceTypeButton = (Button) findViewById(R.id.TaType);
@@ -329,7 +318,10 @@ public class AccountEdit extends EditActivity {
    * (a valid float according to the format from the locale)
    * @return true upon success, false if validation fails
    */
-  private boolean saveState() {
+  protected boolean saveState() {
+    BigDecimal openingBalance = validateAmountInput();
+    if (openingBalance == null)
+       return false;
     String strCurrency = mCurrencyText.getText().toString();
     String label;
     try {
@@ -345,11 +337,6 @@ public class AccountEdit extends EditActivity {
     }
     mAccount.label = label;
     mAccount.description = mDescriptionText.getText().toString();
-    BigDecimal openingBalance = Utils.validateNumber(nfDLocal, mAmountText.getText().toString());
-    if (openingBalance == null) {
-      Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
-      return false;
-    }
     if (mType == EXPENSE) {
       openingBalance = openingBalance.negate();
     }

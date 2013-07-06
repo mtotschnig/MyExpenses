@@ -28,7 +28,9 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.Utils;
+
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -160,18 +162,6 @@ public class ExpenseEdit extends EditActivity {
         (mTransaction.id == 0 ? R.string.menu_create_transaction : R.string.menu_edit_transaction) :
         (mTransaction.id == 0 ? R.string.menu_create_transfer : R.string.menu_edit_transfer)
       );
-      Button confirmAndNewBtn = (Button) findViewById(R.id.ConfirmAndNew);
-      confirmAndNewBtn.setVisibility(View.VISIBLE);
-      confirmAndNewBtn.setOnClickListener(new View.OnClickListener() {
-
-        public void onClick(View view) {
-          if (saveState())
-            mTransaction.id = 0L;
-            setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
-                R.string.menu_create_transaction : R.string.menu_create_transfer);
-            mAmountText.setText("");
-        }
-      });
     }
 
     mDateButton = (Button) findViewById(R.id.Date);
@@ -189,8 +179,6 @@ public class ExpenseEdit extends EditActivity {
     });
 
     mCommentText = (EditText) findViewById(R.id.Comment);
-
-    Button confirmButton = (Button) findViewById(R.id.Confirm);
     
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
@@ -215,15 +203,6 @@ public class ExpenseEdit extends EditActivity {
         MethodContainer = findViewById(R.id.Method);
       MethodContainer.setVisibility(View.GONE);
     }
-    
-    confirmButton.setOnClickListener(new View.OnClickListener() {
-
-      public void onClick(View view) {
-        setResult(RESULT_OK);
-        if (saveState())
-          finish();
-      }
-    });
         
     mTypeButton = (Button) findViewById(R.id.TaType);
     mTypeButton.setOnClickListener(new View.OnClickListener() {
@@ -260,6 +239,30 @@ public class ExpenseEdit extends EditActivity {
     }
     //category button and amount label are further set up in populateFields, since it depends on data
     populateFields();
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    super.onCreateOptionsMenu(menu);
+    menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
+      .setIcon(R.drawable.save_and_new_icon)
+      .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+    return true;
+  }
+  @Override
+  public boolean dispatchCommand(int command, Object tag) {
+    switch(command) {
+    case R.id.SAVE_AND_NEW_COMMAND:
+      if (saveState()) {
+        mTransaction.id = 0L;
+        setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
+            R.string.menu_create_transaction : R.string.menu_create_transfer);
+        mAmountText.setText("");
+        Toast.makeText(this,getString(R.string.save_transaction_and_new_success),Toast.LENGTH_SHORT).show();
+      }
+      return true;
+    }
+    return super.dispatchCommand(command, tag);
   }
 
   /**
@@ -534,12 +537,10 @@ public class ExpenseEdit extends EditActivity {
    * is account selected for transfers) and saves
    * @return true upon success, false if validation fails
    */
-  private boolean saveState() {
-    String strAmount = mAmountText.getText().toString();
-    BigDecimal amount = Utils.validateNumber(nfDLocal, strAmount);
+  protected boolean saveState() {
     String title = "";
+    BigDecimal amount = validateAmountInput();
     if (amount == null) {
-      Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
       return false;
     }
     if (mType == EXPENSE) {

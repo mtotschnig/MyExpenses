@@ -22,12 +22,14 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
@@ -37,9 +39,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ManageMethods extends ProtectedFragmentActivity implements OnItemClickListener {
-  private static final int ACTIVITY_CREATE=0;
-  private static final int ACTIVITY_EDIT=1;
-  private static final int DELETE_ID = Menu.FIRST;
   Cursor mMethodsCursor;
   private Button mAddButton;
   
@@ -50,21 +49,29 @@ public class ManageMethods extends ProtectedFragmentActivity implements OnItemCl
       setContentView(R.layout.manage_methods);
       MyApplication.updateUIWithAppColor(this);
       setTitle(R.string.pref_manage_methods_title);
-      mAddButton = (Button) findViewById(R.id.addOperation);
-      mAddButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          Intent i = new Intent(ManageMethods.this, MethodEdit.class);
-          startActivityForResult(i, ACTIVITY_CREATE);
-        }
-      });
   }
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getSupportMenuInflater();
+    inflater.inflate(R.menu.methods, menu);
+    super.onCreateOptionsMenu(menu);
+    return true;
+  }
+
+  @Override
+  public boolean dispatchCommand(int command, Object tag) {
+    if (command == R.id.CREATE_COMMAND) {
+      Intent i = new Intent(this, MethodEdit.class);
+      startActivity(i);
+    }
+    return super.dispatchCommand(command, tag);
+   }
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position,
       long id) {
     Intent i = new Intent(this, MethodEdit.class);
     i.putExtra(DatabaseConstants.KEY_ROWID, id);
-    startActivityForResult(i, ACTIVITY_EDIT);
+    startActivity(i);
   }
   /* (non-Javadoc)
    * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)
@@ -78,16 +85,15 @@ public class ManageMethods extends ProtectedFragmentActivity implements OnItemCl
     PaymentMethod method;
     method = PaymentMethod.getInstanceFromDb(info.id);
     if (method.predef == null) {
-      menu.add(0, DELETE_ID, 0, R.string.menu_delete);
+      menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
     }
   }
 
-
   @Override
-  public boolean onContextItemSelected(MenuItem item) {
+  public boolean onContextItemSelected(android.view.MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
-    case DELETE_ID:
+    case R.id.DELETE_COMMAND:
       if (Transaction.countPerMethod(info.id) > 0 ) {
         Toast.makeText(this,getString(R.string.not_deletable_mapped_transactions), Toast.LENGTH_LONG).show();
       } else if (Template.countPerMethod(info.id) > 0 ) {

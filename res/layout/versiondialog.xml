@@ -29,15 +29,14 @@
 		    android:layout_height="wrap_content"
 		    android:orientation="vertical" >
       <TextView android:text="@string/help_heading_whats_new"
-          style="?attr/headingStyleApp" />
+          style="@style/headingStyle" />
       <TextView android:id="@+id/versionInfoChanges"
           style="@style/about_text"/>
       <TextView android:id="@+id/versionInfoImportantHeading"
           android:text="@string/important_version_information"
-          style="?attr/headingStyleApp"
+          style="@style/headingStyle"
           android:visibility="gone"/>
     </LinearLayout>
   </ScrollView>
-  <include layout="@layout/dialog_buttonbar"/>
 </LinearLayout>
 

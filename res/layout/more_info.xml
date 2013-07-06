@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+<ScrollView android:id="@+id/aboutscrollview"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1">
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
+  <!-- Licence -->
+    <TextView android:text="@string/help_heading_license"
+        style="@style/headingStyle" />
+    <TextView android:text="@string/help_licence_gpl"
+      android:id="@+id/help_licence_gpl"
+        style="@style/about_text" />
+    <TextView android:text="@string/help_licence_glyphish"
+        style="@style/about_text" />
+    <TextView android:text="@string/help_licence_financisto"
+        style="@style/about_text" />
+    <TextView android:text="© 2013 Michael Totschnig"
+        style="@style/about_text" />
+   <!--  Credits -->
+   <TextView android:text="@string/help_heading_credits"
+        style="@style/headingStyle" />
+   <TextView style="@style/about_text"
+   	    android:text="App icon design copied from Sipdroid."/>
+   <TextView style="@style/about_text"
+        android:text="Dark theme design originally suggested by meinnoteblog."/>
+   <TextView style="@style/about_text"
+        android:text="Translations: Laurent Collombet, Alexandre Beelen, Gudrun Totschnig, Silvia Delpero, Johanna Totschnig, Christof Totschnig, Paco Rivière, ultrapeer"/>
+   <TextView style="@style/about_text"
+    android:text="Code contributions: Configuring and applying custom colors to accounts by khris78"/>
+    </LinearLayout>
+  </ScrollView>
+</LinearLayout>
+

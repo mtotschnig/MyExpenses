@@ -20,10 +20,12 @@ import java.net.URI;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.util.DialogUtils;
+import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,6 +37,8 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
  
 /**
@@ -42,7 +46,8 @@ import android.widget.Toast;
  * @author Michael Totschnig
  *
  */
-public class MyPreferenceActivity extends ProtectedPreferenceActivity implements OnPreferenceChangeListener, OnSharedPreferenceChangeListener {
+public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
+    OnPreferenceChangeListener, OnSharedPreferenceChangeListener,OnPreferenceClickListener {
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -67,32 +72,10 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     pref.setOnPreferenceChangeListener(this);
     findPreference(MyApplication.PREFKEY_UI_THEME_KEY)
       .setOnPreferenceChangeListener(this);
-    findPreference(MyApplication.PREFKEY_CONTRIB_INSTALL).setOnPreferenceClickListener(new OnPreferenceClickListener() {
-        @Override
-        public boolean onPreferenceClick(Preference preference) {
-          Utils.viewContribApp(MyPreferenceActivity.this);
-          return true;
-        }
-    });
-    findPreference(MyApplication.PREFKEY_REQUEST_LICENCE).setOnPreferenceClickListener(new OnPreferenceClickListener() {
-      @Override
-      public boolean onPreferenceClick(Preference preference) {
-        String androidId = Secure.getString(getContentResolver(),Secure.ANDROID_ID);
-        Intent i = new Intent(android.content.Intent.ACTION_SEND);
-        i.setType("plain/text");
-        i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyApplication.FEEDBACK_EMAIL });
-        i.putExtra(android.content.Intent.EXTRA_SUBJECT,
-            "[" + getString(R.string.app_name) + "] " + getString(R.string.contrib_key));
-        i.putExtra(android.content.Intent.EXTRA_TEXT,
-            getString(R.string.request_licence_mail_body,androidId));
-        if (!Utils.isIntentAvailable(MyPreferenceActivity.this,i)) {
-          Toast.makeText(getBaseContext(),R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
-        } else {
-          startActivity(i);
-        }
-        return true;
-      }
-    });
+    findPreference(MyApplication.PREFKEY_CONTRIB_INSTALL).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_REQUEST_LICENCE).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_SEND_FEEDBACK).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_MORE_INFO_DIALOG).setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_ENTER_LICENCE)
       .setOnPreferenceChangeListener(this);
     setProtectionDependentsState();
@@ -152,6 +135,16 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     switch(id) {
     case R.id.FTP_DIALOG:
       return DialogUtils.sendWithFTPDialog((Activity) this);
+    case R.id.DONATE_DIALOG:
+      return DonateDialogFragment.buildDialog(this);
+    case R.id.MORE_INFO_DIALOG:
+      LayoutInflater li = LayoutInflater.from(this);
+      View view = li.inflate(R.layout.more_info, null);
+      return new AlertDialog.Builder(this)
+        .setTitle(R.string.pref_more_info_dialog_title)
+        .setView(view)
+        .setPositiveButton(android.R.string.ok,null)
+        .create();
     }
     return null;
   }
@@ -163,5 +156,36 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     } else if (key.equals(MyApplication.PREFKEY_PROTECTION_DELAY_SECONDS)) {
       MyApplication.setPasswordCheckDelayNanoSeconds() ;
     }
+  }
+  @Override
+  public boolean onPreferenceClick(Preference preference) {
+    if (preference.getKey().equals(MyApplication.PREFKEY_CONTRIB_INSTALL)) {
+      Utils.viewContribApp(MyPreferenceActivity.this);
+      return true;
+    }
+    if (preference.getKey().equals(MyApplication.PREFKEY_REQUEST_LICENCE)) {
+      String androidId = Secure.getString(getContentResolver(),Secure.ANDROID_ID);
+      Intent i = new Intent(android.content.Intent.ACTION_SEND);
+      i.setType("plain/text");
+      i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyApplication.FEEDBACK_EMAIL });
+      i.putExtra(android.content.Intent.EXTRA_SUBJECT,
+          "[" + getString(R.string.app_name) + "] " + getString(R.string.contrib_key));
+      i.putExtra(android.content.Intent.EXTRA_TEXT,
+          getString(R.string.request_licence_mail_body,androidId));
+      if (!Utils.isIntentAvailable(MyPreferenceActivity.this,i)) {
+        Toast.makeText(getBaseContext(),R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
+      } else {
+        startActivity(i);
+      }
+      return true;
+    }
+    if (preference.getKey().equals(MyApplication.PREFKEY_SEND_FEEDBACK)) {
+      CommonCommands.dispatchCommand(this, R.id.FEEDBACK_COMMAND);
+      return true;
+    }
+    if (preference.getKey().equals(MyApplication.PREFKEY_MORE_INFO_DIALOG)) {
+      showDialog(R.id.MORE_INFO_DIALOG);
+    }
+    return false;
   }
 }

@@ -32,7 +32,6 @@
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Hi ha hagut un error en fer la còpia de seguretat a la targeta SD.</string>
   <string name="backup_success">La base de dades i les preferències s\'han desat a la targeta SD.</string>
-  <string name="button_ok_and_new">Desar i nova</string>
   <string name="category">Categoria</string>
   <string name="category_already_defined">La categoria %1$s ja existeix.</string>
   <string name="color">Color</string>
@@ -51,7 +50,6 @@
   <string name="comment">Notes</string>
   <string name="contrib_feature_edit_template_label">Modifica les plantilles</string>
   <string name="contrib_feature_clone_transaction_label">Clonar les transaccions</string>
-  <string name="create_category">Nova categoria</string>
   <string name="currency">Moneda</string>
   <string name="currency_not_iso4217">%1$s no és un codi de moneda vàlid segons ISO 4217.</string>
   <string name="current_balance">Saldo actual</string>
@@ -67,7 +65,6 @@
   <string name="dialog_title_select_method">Trieu el mètode de pagament</string>
   <string name="dialog_title_select_type">Trieu el tipus</string>
   <string name="dialog_title_template_title">Trieu el títol</string>
-  <string name="edit_category">Modifica la categoria</string>
   <string name="error_accessing_gplay">S\'ha produït un error en accedir al Google Play</string>
   <string name="expense">despesa</string>
   <string name="export_expenses_outputfile_exists">El fitxer de sortida ja existeix. Si us plau, espereu
@@ -90,51 +87,21 @@
   <string name="grisbi_import_parsing">Análisi de %1$s</string>
   <string name="grisbi_import_parties_loading">S\'està carregant els tercers des de %1$s</string>
   <string name="help_button_rate">Doneu la vostra opinió</string>
-  <string name="help_button_sendmail">Envia-ho per correu electrònic</string>
-  <string name="help_heading_changelog">Registre de canvis</string>
   <string name="help_heading_credits">Crèdits</string>
   <string name="help_heading_license">Llicència</string>
-  <string name="help_heading_more_info">Més informació</string>
-  <string name="help_heading_news">Notícies</string>
-  <string name="help_heading_privacy">Política de privacitat</string>
-  <string name="help_heading_quick_guide">Guia ràpida</string>
   <string name="help_heading_whats_new">Novetats</string>
   <string name="help_intro">Amb <i>&app_name;</i> podeu portar la comptabilitat de les vostres despeses i
       ingressos i exportar-los a un programa financer d\'escritori (Grisbi, Gnucash, Quicken o MS Money).</string>
   <string name="help_leading">Gràcies per provar <i>&app_name;</i> per a Android.</string>
-  <string name="help_quick_guide"><i>&app_name;</i> té dues interfícies per a donar les ordres :
-      una barra d\'eines i el menú estándar d\'Android (el botó del menú). A la configuració de la pantalla
-      podeu indicar quina voleu fer servir. Els botons de control de la barra d\'eines amb clics curts
-      executen les següents accions.:\n\n
-      - <b>Nou</b> : Afegeix una transacció.\n
-      - <b>Comptes</b> : Canvia de compte.\n
-      - <b>Reinicia</b> : Exporta les despeses en format QIF o CSV a la targeta SD, suprimeix les
-      despeses i actualitza el saldo inicial.\n
-      - <b>Preferències</b> : Permet accedir a totes les preferències i funcions de personalització
-      (de comptes, categories, beneficiaris, formes de pagament, plantilles, còpies de seguretat, importacions).\n
-      - <b>Ajuda</b> : Obre aquesta pantalla d\'ajuda.\n
-      \nAlguns botons (indicats amb un triangle a la cantonada superior esquerre) amb clics llargs obren altres menús:\n\n
-      - <b>Nou</b> : <b>Transferència</b> Permet fer una transferència d\'un compte a un altre (cal que tinguin la mateixa moneda). 
-      També indica les plantilles disponibles. (Les plantilles es poden fer a partir de
-      les transaccions des del menú contextual de la llista).\n
-      - <b>Comptes</b> : Indica tots els comptes als que es pot canviar. <b>Nou &#8230;</b> defineix un nou compte,
-      <b>Resumen</b> obre un panorama general de tots els comptes amb l\'estat financer actual.\n
-      - <b>Preferències</b> Accediu a la còpia de seguretat i les propietats del compte corrent.\n
-      - <b>Ayuda</b> : Accediu al tutorial, noticies, preguntes freqüents i als canvis.\n
-      \nTrobareu explicacions detallades <a href="http://myexpenses.totschnig.org/#tutorial_r4">al manual</a> per a explicacions detallades.
-  </string>
-  <string name="help_whats_new">&#160;- Millores en l\'estabilitat.</string>
+  <!--   <string name="help_whats_new">&#160;- Exportació a CSV.\n
+    - Que es declari explícitament suport per a pantalles de grans dimensions per fer aplicació de nou disponible per a les tauletes de Google Play.\n
+    - Suport a Android 1.6.</string> -->
   <string name="import_categories">Importa categories</string>
   <string name="important_version_information">Informació important</string>
   <string name="income">ingrés</string>
   <string name="invalid_number_format">El format dels decimals no es compatible amb les vostra configuració
       regional. Si us plau, feu servir %1$s</string>
   <string name="label">Etiqueta</string>
-  <string name="menu_accounts">Comptes</string>
-  <string name="menu_accounts_explain">Amb el botó Comptes podeu canviar de compte, si heu definit alguns comptes.
-      Actualment només hi ha un compte. Voleu definir un segon compte ara?</string>
-  <string name="menu_accounts_new">Nou &#8230;</string>
-  <string name="menu_accounts_summary">Resum</string>
   <string name="menu_backup">Còpia de seguretat</string>
   <string name="menu_change_account">Canvia de compte</string>
   <string name="menu_create_account">Nou compte</string>
@@ -147,23 +114,20 @@
   <string name="menu_create_transaction_from_template_and_edit">Nova i modifica</string>
   <string name="menu_create_transaction_from_template_and_save">Nova i desar</string>
   <string name="menu_delete">Suprimeix</string>
+  <string name="menu_edit">Modifica</string>
   <string name="menu_edit_account">Modifica el compte</string>
   <string name="menu_edit_cat">Modifica la categoria</string>
   <string name="menu_edit_method">Modifica el mètode de pagament</string>
   <string name="menu_edit_transaction">Modifica l\'assentament</string>
   <string name="menu_edit_template">Modifica la plantilla</string>
   <string name="menu_edit_transfer">Modifica la transferència a un altre compte</string>
-  <string name="menu_faq">Preguntes més freqüents</string>
   <string name="menu_help">Ajuda</string>
-  <string name="menu_more">Més &#8230;</string>
   <string name="menu_move_transaction">Mou</string>
-  <string name="menu_new">Nou</string>
   <string name="menu_new_from_template">Nou a partir d\'una plantilla</string>
   <string name="menu_reset">Reinicia</string>
-  <string name="menu_reset_abrev">Reinicia</string>
+  <string name="menu_save">Desar</string>
+  <string name="menu_save_and_new">Desar i nova</string>
   <string name="menu_settings">Preferències</string>
-  <string name="menu_settings_abrev">Opcions</string>
-  <string name="menu_settings_account">Compte actual</string>
   <string name="menu_show_detail">Mostra els detalls</string>
   <string name="method">Mètode</string>
   <string name="new_version">Nova versió</string>
@@ -201,19 +165,17 @@
   <string name="pm_type_debit">Dèbit</string>
   <string name="pm_type_credit">Crèdit</string>
   <string name="peer_transaction_deleted">Aquest assentament estava connectat a un assentament de contrapartida (compte %1$s) que es va suprimir.</string>
-  <string name="pref_account_button_behaviour_summary">Voleu que el botó  \"Comptes\" canviï entre els dos darrers comptes en lloc de fer la volta per tots?</string>
-  <string name="pref_account_button_behaviour_title">Botó dels \"Comptes\"</string>
   <string name="pref_backup_summary">Fes una còpia de seguretat de la base de dades i de les
       preferències a la targeta SD.</string>
   <string name="pref_categories_sort_by_usages_title">Criteri d\'ordenació de les categories</string>
-  <string name="pref_categories_sort_by_usages_summary">Utilitza la freqüència d\'utilizació com a criteri
-      principal d\'ordenació (per la resta ordre alfabétic)</string>
+  <string name="pref_categories_sort_by_usages_summaryOn">Freqüència d\'utilizació</string>
+  <string name="pref_categories_sort_by_usages_summaryOff">Ordre alfabétic</string>
   <string name="pref_category_title_manage">Personalitza</string>
   <string name="pref_category_title_ui">Interfície d\'usuari</string>
   <string name="pref_category_title_import">Importa</string>
   <string name="pref_category_title_export">Exporta</string>
+  <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_currency_decimal_separator_title">Separador decimal de moneda</string>
-  <string name="pref_currency_decimal_separator_summary">Trieu entre , i . o bé entreu sempre les quantitats en cèntims, per evitar fer servir el símbol decimal.</string>
   <string name="pref_currency_decimal_separator_comma">Coma (,)</string>
   <string name="pref_currency_decimal_separator_point">Punt (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Entra totes les quantitats en cèntims</string>
@@ -230,36 +192,32 @@
   <string name="pref_manage_parties_summary">Suprimeix tercers (pagador i beneficiari)</string>
   <string name="pref_manage_templates_summary">Aplica o suprimeix plantilles</string>
   <string name="pref_manage_templates_title">Plantilles</string>
+  <string name="pref_more_info_dialog_title">Llicència &amp; Crèdits</string>
   <string name="pref_perform_share_title">Envia l\'exportació</string>
-  <string name="pref_perform_share_summary">S\'ha d\'enviar el fitxer després de cada
-      exportació?</string>
+  <string name="pref_perform_share_summaryOn">El fitxer serà compartida després de cada exportació.</string>
+  <string name="pref_perform_share_summaryOff">El fitxer no serà compartida després de cada exportació.</string>
   <string name="pref_perform_protection_title">Protecció per contrasenya</string>
-  <string name="pref_qif_export_file_encoding_summary">Trieu la codificació de caràcters \"ISO-8859-1\" si feu servir MS Money</string>
   <string name="pref_qif_export_file_encoding_title">Codificació de caracters</string>
   <string name="pref_share_target_title">Puja el fitxer (a una URL)</string>
   <string name="pref_share_target_summary">Podeu deixar-ho en blanc, si voleu triar entre les
       aplicacions adeqüades (correu electrònic, Dropbox, Google Docs, &#8230;), o indicar un URL
       en un dels esquemes permesos</string>
   <string name="pref_ui_theme_title">Tema</string>
-  <string name="pref_ui_theme_summary">Trieu entre el tema clar i el fosc</string>
   <string name="pref_ui_theme_dark">fosc</string>
   <string name="pref_ui_theme_light">clar</string>
-  <string name="pref_use_standard_menu_title">Ús del menú</string>
-  <string name="pref_use_standard_menu_summary">En lloc de la barra d\'eines utilizeu el
-      menú estándar d\'Android per a donar les ordres.</string>
+<!--   <string name="pref_visit_website_title">Visit Website</string> -->
+  <string name="pref_visit_website_summary">Registre de canvis i preguntes més freqüents</string>
   <string name="restore_db_success">S\'ha restaurat la base de dades des de la còpia de seguretat.</string>
   <string name="restore_preferences_success">S\'han restaurat les preferències des de la
       còpia de seguretat.</string>
   <string name="save_transaction_error">No ha estat possible desar la nova transacció de la plantilla</string>
-  <string name="save_transaction_success">La nova transacció s\'ha desat correctament des de la plantilla</string>
+  <string name="save_transaction_from_template_success">La nova transacció s\'ha desat correctament des de la plantilla</string>
+  <string name="save_transaction_and_new_success">La transacció s\'ha desat correctament</string>
   <string name="select">Trieu</string>
-  <string name="select_account">Trieu un compte</string>
   <string name="select_category">Trieu una categoria</string>
   <string name="select_parent_category">Trieu aquesta categoria</string>
   <string name="share_scheme_not_supported">L\'esquema %1$s no està permés.</string>
   <string name="share_sending">Envia el fitxer</string>
-  <string name="suggest_use_standard_menu">Voleu fer servir el menú estándar d\'Android en lloc
-      de la barra d\'eines per a donar les ordres?</string>
   <string name="sum_income">Ingressos</string>
   <string name="sum_expenses">Despeses</string>
   <string name="sum_transfer">Transferèncias</string>

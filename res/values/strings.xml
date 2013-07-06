@@ -33,7 +33,6 @@
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Backup to sdcard failed.</string>
   <string name="backup_success">Database and preferences successfully written to sdcard.</string>
-  <string name="button_ok_and_new">Save and new</string>
   <string name="category_already_defined">Category %1$s already defined</string>
   <string name="category">Category</string>
   <string name="color">Color</string>
@@ -57,7 +56,6 @@
   <string name="contrib_feature_security_question_label">Security question</string>
   <string name="contrib_feature_clone_transaction_label">Clone transactions</string>
   <string name="contrib_key">Contrib key</string>
-  <string name="create_category">Create new category</string>
   <string name="currency">Currency</string>
   <string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
   <string name="current_balance">Current balance</string>
@@ -88,17 +86,23 @@
   <string name="dialog_remind_no">No thanks</string>
   <string name="dialog_security_question">Question</string>
   <string name="dialog_security_answer">Answer</string>
+  <string name="dialog_title_contrib_feature">Premium feature</string>
+  <string name="dialog_title_restore_on_install">Backup detected</string>
   <string name="dialog_title_select_account">Pick an account</string>
   <string name="dialog_title_select_color">Pick a color</string>
   <string name="dialog_title_select_import_source">Pick a source for import</string>
   <string name="dialog_title_select_currency">Pick a currency</string>
   <string name="dialog_title_select_method">Pick a payment method</string>
+  <string name="dialog_title_select_template">Pick a template</string>
   <string name="dialog_title_select_type">Pick a type</string>
   <string name="dialog_title_template_title">Set the title</string>
+  <string name="dialog_title_warning_delete_account">Delete account?</string>
+  <string name="dialog_title_warning_reset_one">Reset account?</string>
+  <string name="dialog_title_warning_reset_all">Reset all accounts?</string>
+  <string name="dialog_title_welcome">Welcome</string>
   <string name="donate">Donate</string>
   <string name="donate_dialog_text">If you are not able to access Google Play, you can donate via PayPal or Flattr,
     and then request a contrib key from the settings screen.\n\n&thank_you;</string>
-  <string name="edit_category">Edit category</string>
   <string name="error_accessing_gplay">Error while accessing Google Play</string>
   <string name="expense">Expense</string>
   <string name="export_expenses_outputfile_exists">Output file already exists. Please wait one
@@ -121,40 +125,18 @@
   <string name="grisbi_import_categories_success">%1$s categories imported successfully</string>
   <string name="grisbi_import_parsing">Parsing %1$s</string>
   <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
-  <!-- Titles in the help screen. -->
   <string name="help_button_rate">Rate or review</string>
-  <string name="help_button_sendmail">Send e-mail</string>
-  <string name="help_heading_changelog">Changelog</string>
+  <string name="help_contextuel_help">Please find more information
+  	about the available functionality through the help menu entry.</string>
   <string name="help_heading_credits">Credits</string>
   <string name="help_heading_license">License</string>
-  <string name="help_heading_more_info">More information</string>
-  <string name="help_heading_news">News</string>
-  <string name="help_heading_privacy">Privacy policy</string>
-  <string name="help_heading_quick_guide">Quick guide</string>
   <string name="help_heading_whats_new">What\'s new</string>
-  <!-- The first line in the help screen. -->
-  <!-- The intro of the help text. -->
   <string name="help_intro"><i>&app_name;</i> is designed to keep track of your expenses and
       incomes, and to export these expenses into a desktop finance tool, like Grisbi,
       Gnucash, Quicken or MS Money.</string>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
-  <string name="help_quick_guide"><i>&app_name;</i> comes with two command interfaces: A button bar
-      and the Android standard menu (hardware Menu button). You can set which one to use in the
-      settings screen. The buttons in the button bar execute the following actions on short clicks:\n\n
-      - <b>New</b> : Add a transaction.\n
-      - <b>Accounts</b> : Switch to different account.\n
-      - <b>Reset</b> : exports expenses onto SD-card in QIF or CSV format, deletes the expenses and updates
-        the opening balance.\n
-      - <b>Settings</b> : Gives access to all configurations and administrative functions (of accounts, categories, payees, payment methods, templates, backups, imports).\n
-      - <b>Help</b> : Opens this help screen.\n
-      \nSome buttons (indicated by a triangle in the left upper corner) open popup menus on long clicks:\n\n
-      - <b>New</b> : <b>Transfer</b> allows to create a transfer from one account to another (must have same currency). Also enumerates available templates you can instantiate. (Templates can be created from transactions from their context menu in the list)\n
-      - <b>Accounts</b> : Enumerates all accounts you can switch to. <b>New &#8230;</b> creates a new account, <b>Summary</b> opens an overview of all accounts with current financial status.\n
-      - <b>Settings</b> : Quick access to backup and properties for current account.\n
-      - <b>Help</b> : Quick access to Manual, News, FAQ and Changes.\n
-      \nPlease refer to the <a href="http://myexpenses.totschnig.org/#tutorial_r4">manual</a> for detailed explanation.
-  </string>
-  <string name="help_whats_new">&#160;- Stability improvements.</string>
+  <string name="help_whats_new">&#160;- Fixed crash when inserting transaction with payee.\n
+  	- Enforce that label of root categories is unique.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">Income</string>
@@ -163,17 +145,10 @@
   <string name="label">Label</string>
   <string name="licence_validation_success">Licence key successfully validated: Premium features have been unlocked.</string>
   <string name="licence_validation_failure">Unable to validate licence key.</string>
-  <string name="menu_accounts">Accounts</string>
-  <string name="menu_accounts_explain">The Accounts button will let you switch between accounts,
-      once you have defined multiple accounts. Currently there is only one account.
-      Do you want to create a second account now?</string>
-  <string name="menu_accounts_new">New &#8230;</string>
-  <string name="menu_accounts_summary">Summary</string>
-  <string name="menu_aggregate">Total</string>
+  <string name="menu_aggregates">Total</string>
   <string name="menu_backup">Backup</string>
-  <string name="menu_contrib">Contribute</string>
-  <string name="menu_change_account">Change account</string>
   <string name="menu_clone_transaction">Clone</string>
+  <string name="menu_contrib">Contribute</string>
   <string name="menu_create_account">New account</string>
   <string name="menu_create_method">New payment method</string>
   <string name="menu_create_transaction">New Transaction</string>
@@ -186,29 +161,26 @@
   <string name="menu_create_transaction_from_template_and_edit">New and edit</string>
   <string name="menu_create_transaction_from_template_and_save">New and save</string>
   <string name="menu_delete">Delete</string>
+  <string name="menu_edit">Edit</string>
   <string name="menu_edit_account">Edit Account</string>
   <string name="menu_edit_method">Edit Payment Method</string>
   <string name="menu_edit_cat">Edit category</string>
   <string name="menu_edit_transaction">Edit Transaction</string>
   <string name="menu_edit_template">Edit Template</string>
   <string name="menu_edit_transfer">Edit Transfer</string>
-  <string name="menu_faq">FAQ</string>
   <string name="menu_help">Help</string>
-  <string name="menu_more">More &#8230;</string>
   <string name="menu_move_transaction">Move</string>
-  <string name="menu_new">New</string>
+  <string name="menu_save">Save</string>
+  <string name="menu_save_and_new">Save and new</string>
   <string name="menu_new_from_template">New from template</string>
   <string name="menu_reset">Reset</string>
   <string name="menu_reset_all">Reset all</string>
-  <string name="menu_reset_abrev">Reset</string>
   <string name="menu_settings">Settings</string>
-  <!--  abrev strings are needed, where labels are too long to fit in menu -->
-  <string name="menu_settings_abrev">Settings</string>
-  <string name="menu_settings_account">Current account</string>
   <string name="menu_show_detail">Show details</string>
   <string name="method">Method</string>
   <string name="new_version">New version</string>
   <string name="no_accounts">No Accounts!</string>
+  <string name="no_amount_given">You did not enter any amount.</string>
   <string name="no_app_handling_email_available">No app handling email available.</string>
   <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i> from Google Play?</string>
   <string name="no_categories">No categories.</string>
@@ -252,14 +224,12 @@
   <string name="pm_type_credit">Credit</string>
   <string name="peer_transaction_deleted">This transaction referred to a contra-entry (account %1$s)
       that has been deleted</string>
-  <string name="pref_account_button_behaviour_title">Behaviour of \"Accounts\" button</string>
-  <string name="pref_account_button_behaviour_summary">Should the \"Accounts\" button toggle
-      between the last two accounts instead of cycling between all.</string>
   <string name="pref_backup_summary">Create a backup of database and preferences on the
       sdcard.</string>
   <string name="pref_categories_sort_by_usages_title">Sort order for categories</string>
-  <string name="pref_categories_sort_by_usages_summary">Use count of usages as primary sort criteria
-      (plain alphanumeric order otherwise)</string>
+  <string name="pref_categories_sort_by_usages_summaryOn">Count of usages</string>
+  <string name="pref_categories_sort_by_usages_summaryOff">Alphanumeric</string>
+  <string name="pref_category_title_more_information">More information</string>
   <string name="pref_category_title_manage">Manage</string>
   <string name="pref_category_title_ui">User interface</string>
   <string name="pref_category_title_import">Import</string>
@@ -269,19 +239,16 @@
   <string name="pref_contrib_install_summary">By installing &app_name; Contrib, you gain access to premium features.</string>
   <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency
       amounts</string>
-  <string name="pref_currency_decimal_separator_summary">You can choose between "," and "." or
-      decide to input minor units as integers.</string>
   <string name="pref_currency_decimal_separator_comma">Comma (,)</string>
   <string name="pref_currency_decimal_separator_point">Point (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Minor units as integers</string>
   <string name="pref_enter_licence_title">Enter Contrib key</string>
   <string name="pref_enter_licence_summary">If you received a Contrib key, gain access to premium features.</string>
   <string name="pref_export_format_title">Data format</string>
-  <string name="pref_export_format_summary">Choose QIF or CSV</string>
   <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default
       Grisbi definitions internal to the app, or your own file stored as &grisbi_file; in a folder 
-      \"myexpenses\"" in the root of your sdcard. </string>
+      \"myexpenses\"" in the root of your sdcard.</string>
   <string name="pref_manage_accounts_title">Accounts</string>
   <string name="pref_manage_accounts_summary">Add, edit, delete accounts.</string>
   <string name="pref_manage_categories_title">Categories</string>
@@ -292,16 +259,17 @@
   <string name="pref_manage_parties_summary">Delete parties (payers and payees).</string>
   <string name="pref_manage_templates_title">Templates</string>
   <string name="pref_manage_templates_summary">Apply or delete templates.</string>
+  <string name="pref_more_info_dialog_title">Licence &amp; Credits</string>
   <string name="pref_password_empty">Password must not be empty</string>
   <string name="pref_password_not_equal">Passwords do not match</string>
   <string name="pref_perform_share_title">Share export file</string>
-  <string name="pref_perform_share_summary">Should the file be shared after each export?</string>
+  <string name="pref_perform_share_summaryOn">The file will be shared after each export.</string>
+  <string name="pref_perform_share_summaryOff">The file will not be shared after each export.</string>
   <string name="pref_perform_protection_title">Password protection</string>
   <string name="pref_perform_protection_summary">Should app launches and resumes be protected?</string>
   <string name="pref_protection_delay_seconds_title">Delay until protection</string>
   <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password.</string>
   <string name="pref_qif_export_file_encoding_title">Character encoding</string>
-  <string name="pref_qif_export_file_encoding_summary">Set the character encoding to \"ISO-8859-1\" if you use MS Money.</string>
   <string name="pref_request_licence_title">Request a Contrib key</string>
   <string name="pref_request_licence_summary">If you have contributed by other means, ask for a Contrib key by email.</string>
   <string name="pref_restore_title">Restore</string>
@@ -312,13 +280,12 @@
   </string>
   <string name="pref_security_question_title">Security question</string>
   <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password. Requires &app_name; Contrib.</string>
+  <string name="pref_send_feedback_title">Send feedback</string>
   <string name="pref_ui_theme_title">Theme</string>
-  <string name="pref_ui_theme_summary">Choose between light and dark</string>
   <string name="pref_ui_theme_dark">dark</string>
   <string name="pref_ui_theme_light">light</string>
-  <string name="pref_use_standard_menu_title">Use standard Android menu</string>
-  <string name="pref_use_standard_menu_summary">Instead of displaying a button bar, use Android\'s
-      standard menu for accessing commands.</string>
+  <string name="pref_visit_website_title">Visit Website</string>
+  <string name="pref_visit_website_summary">Changelog and FAQ</string>
   <string name="request_licence_mail_body">Please send me a Contrib key for Android-Id %1$s</string>
   <string name="restore_db_failure">Database restore failed.</string>
   <string name="restore_db_success">Database has been restored from backup.</string>
@@ -326,16 +293,14 @@
   <string name="restore_preferences_failure">Preferences restore failed</string>
   <string name="restore_preferences_success">Preferences have been restored from backup.</string>
   <string name="save_transaction_error">Could not save new transaction from template</string>
-  <string name="save_transaction_success">New transaction successfully saved from template</string>
-  <string name="select_account">Select account</string>
+  <string name="save_transaction_from_template_success">New transaction successfully saved from template</string>
+  <string name="save_transaction_and_new_success">Transaction successfully saved</string>
+  <string name="select">Select</string>
   <string name="select_category">Select category</string>
   <string name="select_parent_category">Select this category</string>
-  <string name="select">Select</string>
   <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
   <string name="share_sending">Send export file</string>
   <string name="subcategory">Subcategory</string>
-  <string name="suggest_use_standard_menu">Do you want to use the standard Android menu
-      for calling commands, and hide the button bar?</string>
   <string name="sum_income">Income</string>
   <string name="sum_expenses">Expenses</string>
   <string name="sum_transfer">Transfers</string>
