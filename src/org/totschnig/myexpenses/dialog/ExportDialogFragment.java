@@ -43,8 +43,10 @@ public class ExportDialogFragment extends DialogFragment implements OnClickListe
     if (MyApplication.getInstance().getSettings().
           getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF").equals("CSV"))
       ((RadioButton) view.findViewById(R.id.csv)).setChecked(true);
-    if (!Account.getHasExported(accountId))
-      view.findViewById(R.id.export_not_yet_exported).setVisibility(View.GONE);
+    if (Account.getHasExported(accountId)) {
+      ((CheckBox) view.findViewById(R.id.export_delete)).setChecked(false);
+      view.findViewById(R.id.export_not_yet_exported).setVisibility(View.VISIBLE);
+    }
     
     return new AlertDialog.Builder(ctx)
       .setTitle(allP ? R.string.dialog_title_warning_reset_all : R.string.dialog_title_warning_reset_one)
@@ -66,10 +68,6 @@ public class ExportDialogFragment extends DialogFragment implements OnClickListe
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
     boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
     if (Utils.isExternalStorageAvailable()) {
-      Toast.makeText(ctx,
-          "deleteP: " + deleteP + "\nonlyExported: " + notYetExportedP,
-          Toast.LENGTH_LONG)
-          .show();
       i = new Intent(ctx, Export.class);
       i.putExtra(KEY_ROWID, getArguments().getLong("accountId"));
       i.putExtra("format", format);
