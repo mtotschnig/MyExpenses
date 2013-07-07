@@ -41,7 +41,7 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+/*    StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
     .detectDiskReads()
     .detectDiskWrites()
     .detectNetwork()   // or .detectAll() for all detectable problems
@@ -49,10 +49,10 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
     .build());
     StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
     .detectLeakedSqlLiteObjects()
-    //.detectLeakedClosableObjects()
+    .detectLeakedClosableObjects()
     .penaltyLog()
     .penaltyDeath()
-    .build());
+    .build());*/
 
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);

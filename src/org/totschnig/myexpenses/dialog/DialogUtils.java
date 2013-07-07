@@ -17,19 +17,16 @@ package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -73,13 +70,7 @@ public class DialogUtils {
    * @param accountId if null all accounts will be reset
    */
   public static void showWarningResetDialog(FragmentActivity ctx,Long accountId) {
-    boolean allP = accountId == null;
-    MessageDialogFragment.newInstance(
-        allP ? R.string.dialog_title_warning_reset_all : R.string.dialog_title_warning_reset_one,
-        ctx.getString(allP ? R.string.warning_reset_account_all : R.string.warning_reset_account,
-            MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF")),
-        allP ? R.id.RESET_ACCOUNT_ALL_COMMAND_DO : R.id.RESET_ACCOUNT_COMMAND_DO,
-        accountId)
+    ExportDialogFragment.newInstance(accountId)
       .show(ctx.getSupportFragmentManager(),"WARNING_RESET");
   }
 

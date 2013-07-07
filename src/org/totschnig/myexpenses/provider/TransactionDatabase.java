@@ -15,7 +15,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 28;
+  public static final int DATABASE_VERSION = 29;
   public static final String DATABASE_NAME = "data";
 
   private static final String TAG = "TransactionDatabase";
@@ -38,7 +38,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     + KEY_PAYEE            + " text, "
     + KEY_TRANSFER_PEER    + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + "), "
     + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
-    + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "));";
+    + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + ")," 
+    + KEY_STATUS           + " integer default 0);";
 
 
   /**
@@ -300,6 +301,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       //2) parent_id for categories uses foreign key on itself, hence root categories have null instead of 0 as parent_id
       //3) catId etc now need to be null instead of 0
       //4) transactions payment_method_id renamed to method_id
+    }
+    if (oldVersion < 29) {
+      db.execSQL("ALTER TABLE transactions add column status integer default 0");
     }
   }
 }

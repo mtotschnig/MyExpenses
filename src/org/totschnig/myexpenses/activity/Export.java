@@ -54,22 +54,25 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
    * to have access to its message
    */
   private boolean mDone = false;
-  public Account.ExportFormat format;
+  private Account.ExportFormat format;
+  private boolean deleteP;
+  private boolean notYetExportedP;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Bundle extras = getIntent().getExtras();
+    deleteP = extras.getBoolean("deleteP");
+    notYetExportedP = extras.getBoolean("notYetExportedP");
     try {
-      format = ExportFormat.valueOf(
-          MyApplication.getInstance().getSettings().
-          getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF"));
+      format = ExportFormat.valueOf(extras.getString("format"));
     } catch (IllegalArgumentException e) {
       format = ExportFormat.QIF;
     }
-    Bundle extras = getIntent().getExtras();
     Long[] accountIds;
-    if (extras != null) {
-        accountIds = new Long[] {extras.getLong(KEY_ROWID)};
+    Long accountId = extras.getLong(KEY_ROWID);
+    if (accountId != null) {
+        accountIds = new Long[] {accountId};
     } else {
       Cursor c = getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
           new String[] {KEY_ROWID}, null, null, null);
@@ -230,7 +233,7 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
         account = Account.getInstanceFromDb(id);
         publishProgress(account.label + " ...");
         try {
-          Result result = account.exportAll(destDir,activity.format);
+          Result result = account.exportAll(destDir,activity.format,activity.notYetExportedP);
           File output = (File) result.extra[0];
           SharedPreferences settings = MyApplication.getInstance().getSettings();
           publishProgress("... " + String.format(activity.getString(result.message), output.getAbsolutePath()));
@@ -238,7 +241,10 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
             if (settings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
               addResult(output);
             }
-            account.reset();
+            if (activity.deleteP)
+              account.reset();
+            else
+              account.markAsExported();
           }
         } catch (IOException e) {
           Log.e("MyExpenses",e.getMessage());

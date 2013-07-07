@@ -22,6 +22,8 @@ public class DatabaseConstants {
   public static final String KEY_USAGES = "usages";
   public static final String KEY_PARENTID = "parent_id";
   public static final String KEY_TRANSFER_ACCOUNT = "transfer_account";
+  public static final String KEY_STATUS = "status";
+  public static final int STATUS_EXPORTED = 1;
 
   public static final String TABLE_TRANSACTIONS = "transactions";
   public static final String TABLE_ACCOUNTS = "accounts";

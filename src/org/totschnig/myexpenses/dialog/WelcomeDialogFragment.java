@@ -20,12 +20,8 @@ import android.widget.TextView;
 
 public class WelcomeDialogFragment extends DialogFragment {
   
-  public static final WelcomeDialogFragment newInstance(String versionInfo) {
-    WelcomeDialogFragment dialogFragment = new WelcomeDialogFragment();
-    Bundle bundle = new Bundle();
-    bundle.putString("versionInfo", versionInfo);
-    dialogFragment.setArguments(bundle);
-    return dialogFragment;
+  public static final WelcomeDialogFragment newInstance() {
+    return new WelcomeDialogFragment();
   }
   
   @Override
@@ -39,5 +35,5 @@ public class WelcomeDialogFragment extends DialogFragment {
       .setView(view)
       .setPositiveButton(android.R.string.ok,null)
       .create();
-    }
+  }
 }

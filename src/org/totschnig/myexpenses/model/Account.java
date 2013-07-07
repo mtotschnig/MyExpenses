@@ -415,6 +415,27 @@ public class Account extends Model {
         null, null);
     deleteAllTransactions();
   }
+  public void markAsExported() {
+    ContentValues args = new ContentValues();
+    args.put(KEY_STATUS, STATUS_EXPORTED);
+    cr().update(TransactionProvider.TRANSACTIONS_URI, args, null, null);
+  }
+  
+  /**
+   * @param accountId
+   * @return true if the account with id accountId has transactions marked as exported
+   * if accountId is null returns true if any account has transactions marked as exported
+   */
+  public static boolean getHasExported(Long accountId) {
+    String selection = accountId == null ? null : "account_id = ?";
+    String[] selectionArgs  = accountId == null ? null : new String[] { String.valueOf(accountId) };
+    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI,
+        new String[] {"max(" + KEY_STATUS + ")"}, selection, selectionArgs, null);
+    c.moveToFirst();
+    long result = c.getLong(0);
+    c.close();
+    return result == 1;
+  }
   /**
    * For transfers the peer transaction will survive, but we transform it to a normal transaction
    * with a note about the deletion of the peer_transaction
@@ -439,10 +460,12 @@ public class Account extends Model {
    * writes transactions to export file
    * @param destDir destination directory
    * @param format 
+   * @param notYetExportedP 
    * @return Result object indicating success, message and output file
    * @throws IOException
    */
-  public Result exportAll(File destDir, ExportFormat format) throws IOException {
+  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
+    //TODO handle notYetExportedP
     SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     SharedPreferences settings = ctx.getSettings();

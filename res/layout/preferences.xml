@@ -66,11 +66,6 @@
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/pref_category_title_export">
-    <org.totschnig.myexpenses.preference.ListPreferenceShowSummary android:key="@string/pref_export_format_key"
-        android:defaultValue="QIF"
-        android:title="@string/pref_export_format_title"
-        android:entries="@array/pref_export_format"
-        android:entryValues="@array/pref_export_format"/>
     <org.totschnig.myexpenses.preference.ListPreferenceShowSummary android:key="@string/pref_qif_export_file_encoding_key"
         android:defaultValue="UTF-8"
         android:title="@string/pref_qif_export_file_encoding_title"

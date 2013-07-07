@@ -23,13 +23,13 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment.SelectFromCursorDialogListener;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
+import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
@@ -415,7 +415,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       PreferenceManager.setDefaultValues(this, R.layout.preferences, false);
       //edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
-      WelcomeDialogFragment.newInstance(CommonCommands.getVersionInfo(this))
+      WelcomeDialogFragment.newInstance()
         .show(getSupportFragmentManager(),"WELCOME");
     } else if (prev_version != current_version) {
       ArrayList<CharSequence> versionInfo = new ArrayList<CharSequence>();
