@@ -35,12 +35,15 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 
 /**
  * if called with KEY_ROW_ID in extras export one account, all otherwise
@@ -81,7 +84,10 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
           new String[] {KEY_ROWID}, null, null, null);
       accountIds = DbUtils.getLongArrayFromCursor(c, KEY_ROWID);
     }
-    mProgressDialog = new ScrollableProgressDialog(this);
+    //Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
+    Context wrappedCtx = Build.VERSION.SDK_INT > 10 ?
+        new ContextThemeWrapper(this, MyApplication.getThemeId()) : this;
+    mProgressDialog = new ScrollableProgressDialog(wrappedCtx);
     mProgressDialog.setTitle(R.string.pref_category_title_export);
     mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
     mProgressDialog.setCancelable(false);

@@ -1,11 +1,14 @@
 package org.totschnig.myexpenses.dialog;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextThemeWrapper;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -32,10 +36,13 @@ public class HelpDialogFragment extends DialogFragment {
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     FragmentActivity ctx  = getActivity();
+    //Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
+    Context wrappedCtx = Build.VERSION.SDK_INT > 10 ?
+        new ContextThemeWrapper(ctx, MyApplication.getThemeId()) : ctx;
     final Resources res = getResources();
     final String pack = ctx.getPackageName();
     String activityName = getArguments().getString("activityName");
-    final LayoutInflater li = LayoutInflater.from(ctx);
+    final LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.help_dialog, null);
     LinearLayout ll = (LinearLayout) view.findViewById(R.id.help);
     ((TextView) view.findViewById(R.id.screen_info)).setText(
@@ -56,7 +63,7 @@ public class HelpDialogFragment extends DialogFragment {
     } else {
       view.findViewById(R.id.menu_commands_heading).setVisibility(View.GONE);
     }
-    return new AlertDialog.Builder(ctx)
+    return new AlertDialog.Builder(wrappedCtx)
       .setTitle(getString(res.getIdentifier("help_" +activityName + "_title", "string", pack)))
       .setIcon(android.R.drawable.ic_menu_help)
       .setView(view)

@@ -2,19 +2,23 @@ package org.totschnig.myexpenses.dialog;
 
 import java.io.Serializable;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribIFace;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Html;
+import android.view.ContextThemeWrapper;
 
 public class ContribDialogFragment extends DialogFragment implements DialogInterface.OnClickListener{
   Feature feature;
@@ -37,17 +41,23 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
+    Activity ctx  = getActivity();
+    //Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
+    //this is necessary only when we are called from one of the transparent activities,
+    //but does not harm in the other cases
+    Context wrappedCtx = Build.VERSION.SDK_INT > 10 ?
+        new ContextThemeWrapper(ctx, MyApplication.getThemeId()) : ctx;
       CharSequence message = Html.fromHtml(String.format(getString(
         R.string.dialog_contrib_reminder,
         getString(getResources().getIdentifier("contrib_feature_" + feature + "_label", "string", getActivity().getPackageName())),
         usagesLeft > 0 ? getString(R.string.dialog_contrib_usage_count,usagesLeft) : getString(R.string.dialog_contrib_no_usages_left))));
-      AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-      alertDialogBuilder.setTitle(R.string.dialog_title_contrib_feature);
-      alertDialogBuilder.setMessage(message);
+      return new AlertDialog.Builder(wrappedCtx)
+        .setTitle(R.string.dialog_title_contrib_feature)
+        .setMessage(message)
       //null should be your on click listener
-      alertDialogBuilder.setNegativeButton(R.string.dialog_contrib_no, this);
-      alertDialogBuilder.setPositiveButton(R.string.dialog_contrib_yes, this);
-      return alertDialogBuilder.create();
+        .setNegativeButton(R.string.dialog_contrib_no, this)
+        .setPositiveButton(R.string.dialog_contrib_yes, this)
+        .create();
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {

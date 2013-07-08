@@ -35,6 +35,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 */
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Payee;
@@ -46,13 +47,16 @@ import org.xml.sax.helpers.DefaultHandler;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.util.Xml;
+import android.view.ContextThemeWrapper;
 import android.widget.Toast;
 
 public class GrisbiImport extends ProtectedFragmentActivityNoSherlock implements DialogInterface.OnClickListener {
@@ -382,8 +386,10 @@ public class GrisbiImport extends ProtectedFragmentActivityNoSherlock implements
 
     IMPORT_SOURCES[0] = getString(R.string.grisbi_import_default_source);
     IMPORT_SOURCES[1] = Environment.getExternalStorageDirectory().getPath() + "/myexpenses/grisbi.xml";
-
-    mSourcesDialog = new AlertDialog.Builder(this)
+    //Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
+    Context wrappedCtx = Build.VERSION.SDK_INT > 10 ?
+        new ContextThemeWrapper(this, MyApplication.getThemeId()) : this;
+    mSourcesDialog = new AlertDialog.Builder(wrappedCtx)
     .setTitle(R.string.dialog_title_select_import_source)
     .setCancelable(false)
     .setSingleChoiceItems(IMPORT_SOURCES, -1, this)

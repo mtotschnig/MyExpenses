@@ -4,12 +4,17 @@ import java.io.Serializable;
 
 import org.totschnig.myexpenses.MyApplication;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.view.ContextThemeWrapper;
 
 public class MessageDialogFragment extends DialogFragment implements OnClickListener {
 
@@ -72,7 +77,13 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
-    return new AlertDialog.Builder(getActivity())
+    Activity ctx  = getActivity();
+    //Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
+    //this is necessary only when we are called from one of the transparent activities,
+    //but does not harm in the other cases
+    Context wrappedCtx = Build.VERSION.SDK_INT > 10 ?
+        new ContextThemeWrapper(ctx, MyApplication.getThemeId()) : ctx;
+    return new AlertDialog.Builder(wrappedCtx)
       .setTitle(bundle.getInt("title"))
       .setMessage(bundle.getCharSequence("message"))
       .setNegativeButton(bundle.getInt("noButton"),this)
