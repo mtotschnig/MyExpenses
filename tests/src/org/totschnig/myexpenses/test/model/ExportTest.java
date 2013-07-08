@@ -25,7 +25,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
@@ -33,22 +32,24 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Result;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
+
 
 public class ExportTest extends ModelTest  {
   Account account1, account2;
-  private SharedPreferences settings;
   Long openingBalance = 100L,
       expense1 = 10L,
       expense2 = 20L,
       income1 = 30L,
       income2 = 40L,
       transferP = 50L,
-      transferN = 60L;
+      transferN = 60L,
+      expense3 = 100L,
+      income3 = 100L;
   Long cat1Id, cat2Id;
-  private void insertData() {
+  String date = new SimpleDateFormat("dd/MM/yyyy",Locale.US).format(new Date());
+  File export;
+  private void insertData1() {
     Transaction op;
     account1 = new Account("Account 1",openingBalance,"Account 1");
     account1.type = Account.Type.BANK;
@@ -79,12 +80,19 @@ public class ExportTest extends ModelTest  {
     op.amount = new Money(account1.currency,-transferN);
     op.saveAsNew();
   }
-  public void testExport() {
-    MyApplication app = (MyApplication) getContext().getApplicationContext();
-    settings = app.getSharedPreferences("functest",Context.MODE_PRIVATE);
-    app.setSettings(settings);
-    insertData();
-    String date = new SimpleDateFormat("dd/MM/yyyy",Locale.US).format(new Date());
+  private void insertData2() {
+    Transaction op;
+    op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
+    op.amount = new Money(account1.currency,-expense3);
+    op.methodId = PaymentMethod.find("CHEQUE");
+    op.comment = "Expense inserted after first export";
+    op.save();
+    op.amount = new Money(account1.currency,income3);
+    op.comment = "Income inserted after first export";
+    op.payee = "N.N.";
+    op.saveAsNew();
+  }
+  public void testExportQIF() {
     String[] linesQIF = new String[] {
       "!Type:Bank",
       "D" + date,
@@ -113,6 +121,17 @@ public class ExportTest extends ModelTest  {
       "L[Account 2]",
       "^"
     };
+    try {
+      insertData1();
+      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.QIF, false);
+      assertTrue(result.success);
+      export = (File) result.extra[0];
+      compare(export,linesQIF);
+    } catch (IOException e) {
+      fail("Could not export expenses. Error: " + e.getMessage());
+    }
+  }
+  public void testExportCSV() {
     String[] linesCSV = new String[] {
         //{R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
         "\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";",
@@ -124,33 +143,59 @@ public class ExportTest extends ModelTest  {
         "\"" + date + "\";\"\";0;0.6;\"Transfer\";\"[Account 2]\";\"\";\"\";"
     };
     try {
-      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.QIF);
+      insertData1();
+      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false);
       assertTrue(result.success);
-      InputStream is = new FileInputStream((File) result.extra[0]);
+      export = (File) result.extra[0];
+      compare(export,linesCSV);
+    } catch (IOException e) {
+      fail("Could not export expenses. Error: " + e.getMessage());
+    }
+  }
+  public void testExportNotYetExported() {
+    String[] linesCSV = new String[] {
+        //{R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
+        "\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";",
+        "\"" + date + "\";\"\";0;1;\"\";\"\";\"Expense inserted after first export\";\"Cheque\";",
+        "\"" + date + "\";\"N.N.\";1;0;\"\";\"\";\"Income inserted after first export\";\"Cheque\";",
+    };
+    try {
+      insertData1();
+      Result result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, false);
+      assertTrue(result.success);
+      account1.markAsExported();
+      export = (File) result.extra[0];
+      export.delete();
+      insertData2();
+      result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV, true);
+      if (!result.success)
+        Log.i("DEBUG",getContext().getString(result.message));
+      assertTrue(result.success);
+      export = (File) result.extra[0];
+      compare(export,linesCSV);
+    } catch (IOException e) {
+      fail("Could not export expenses. Error: " + e.getMessage());
+    }
+  }
+  private void compare(File file,String[] lines) {
+    try {
+      InputStream is = new FileInputStream(file);
       BufferedReader r = new BufferedReader(new InputStreamReader(is));
       String line;
       int count = 0;
       while ((line = r.readLine()) != null) {
-        assertEquals(linesQIF[count],line);
+        assertEquals(lines[count],line);
         count++;
       }
       r.close();
       is.close();
-
-      result = account1.exportAll(getContext().getCacheDir(),Account.ExportFormat.CSV);
-      assertTrue(result.success);
-      is = new FileInputStream((File) result.extra[0]);
-      r = new BufferedReader(new InputStreamReader(is));
-      count = 0;
-      while ((line = r.readLine()) != null) {
-        assertEquals(linesCSV[count],line);
-        count++;
-      }
-      r.close();
-      is.close();
- 
     } catch (IOException e) {
-      fail("Could not export expenses. Error: " + e.getMessage());
+      fail("Could not compare exported file. Error: " + e.getMessage());
     }
+  }
+  protected void tearDown() throws Exception {
+    super.tearDown();
+    //if (export!=null)
+      //export.delete();
   }
 }
