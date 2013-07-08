@@ -195,7 +195,7 @@ public class ExportTest extends ModelTest  {
   }
   protected void tearDown() throws Exception {
     super.tearDown();
-    //if (export!=null)
-      //export.delete();
+    if (export!=null)
+      export.delete();
   }
 }
