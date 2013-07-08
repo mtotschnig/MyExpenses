@@ -16,5 +16,13 @@
 package org.totschnig.myexpenses.model;
 
 public class DataObjectNotFoundException extends RuntimeException {
+  long id;
 
+  public DataObjectNotFoundException(long id) {
+    this.id = id;
+  }
+  @Override
+  public String getMessage() {
+    return "No Object found with id " + id;
+  }
 }

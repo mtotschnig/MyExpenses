@@ -67,7 +67,7 @@ public class Template extends Transaction {
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
-      throw new DataObjectNotFoundException();
+      throw new DataObjectNotFoundException(id);
     }
     c.moveToFirst();
     Template t = new Template(c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID)),

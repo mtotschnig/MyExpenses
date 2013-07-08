@@ -352,7 +352,7 @@ public class Account extends Model {
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
-      throw new DataObjectNotFoundException();
+      throw new DataObjectNotFoundException(id);
     }
     c.moveToFirst();
     this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
