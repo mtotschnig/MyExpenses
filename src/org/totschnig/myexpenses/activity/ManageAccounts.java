@@ -121,35 +121,11 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     case R.id.DELETE_COMMAND_DO:
       Account.delete((Long) tag);
       return true;
-    case R.id.RESET_ACCOUNT_COMMAND_DO:
-      if (Utils.isExternalStorageAvailable()) {
-        i = new Intent(this, Export.class);
-        i.putExtra(KEY_ROWID, (Long) tag);
-        startActivityForResult(i,0);
-      } else {
-        Toast.makeText(getBaseContext(),
-            getString(R.string.external_storage_unavailable),
-            Toast.LENGTH_LONG)
-            .show();
-      }
-      return true;
     case R.id.RESET_ACCOUNT_ALL_COMMAND:
       if (MyApplication.getInstance().isContribEnabled) {
         contribFeatureCalled(Feature.RESET_ALL, null);
       } else {
         CommonCommands.showContribDialog(this,Feature.RESET_ALL, null);
-      }
-      return true;
-    case R.id.RESET_ACCOUNT_ALL_COMMAND_DO:
-      if (Utils.isExternalStorageAvailable()) {
-        i = new Intent(this, Export.class);
-        Feature.RESET_ALL.recordUsage();
-        startActivityForResult(i,0);
-      } else {
-        Toast.makeText(getBaseContext(),
-            getString(R.string.external_storage_unavailable),
-            Toast.LENGTH_LONG)
-            .show();
       }
       return true;
     }

@@ -459,23 +459,31 @@ public class Account extends Model {
   /**
    * writes transactions to export file
    * @param destDir destination directory
-   * @param format 
-   * @param notYetExportedP 
+   * @param format QIF or CSV
+   * @param notYetExportedP if true only transactions not marked as exported will be handled
    * @return Result object indicating success, message and output file
    * @throws IOException
    */
   public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
-    //TODO handle notYetExportedP
     SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     SharedPreferences settings = ctx.getSettings();
     Log.i("MyExpenses","now starting export");
+    //first we check if there are any exportable transactions
+    String selection = KEY_ACCOUNTID + " = " + id;
+    if (notYetExportedP)
+      selection += " AND " + KEY_STATUS + " != " + STATUS_EXPORTED;
+    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI, null,selection, null, KEY_DATE);
+    if (c.getCount() == 0)
+      return new Result(false,R.string.no_exportable_expenses);
+    //then we check if the filename we construct already exists
     File outputFile = new File(destDir,
         label.replaceAll("\\W","") + "-" +
         now.format(new Date()) + "." + format.name().toLowerCase(Locale.US));
     if (outputFile.exists()) {
       return new Result(false,R.string.export_expenses_outputfile_exists,outputFile);
     }
+    c.moveToFirst();
     Utils.StringBuilderWrapper sb = new Utils.StringBuilderWrapper();
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
     OutputStreamWriter out = new OutputStreamWriter(
@@ -483,7 +491,8 @@ public class Account extends Model {
         settings.getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
     switch (format) {
     case CSV:
-      int[] columns = {R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
+      int[] columns = {R.string.date,R.string.payee,R.string.income,R.string.expense,
+          R.string.category,R.string.subcategory,R.string.comment,R.string.method};
       for (int column: columns) {
         sb.append("\"")
           .appendQ(ctx.getString(column))
@@ -498,9 +507,6 @@ public class Account extends Model {
     sb.append("\n");
     //Write header
     out.write(sb.toString());
-    Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI, null,
-        "account_id = ?", new String[] { String.valueOf(id) }, KEY_DATE);
-    c.moveToFirst();
     while( c.getPosition() < c.getCount() ) {
       Long transfer_peer = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER);
       String comment = DbUtils.getString(c, KEY_COMMENT);

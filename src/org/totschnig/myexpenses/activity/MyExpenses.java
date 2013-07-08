@@ -514,19 +514,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
             .show();
       }
       break;
-    case R.id.RESET_ACCOUNT_COMMAND_DO:
-      if (Utils.isExternalStorageAvailable()) {
-        i = new Intent(this, Export.class);
-        //should also be availalbe in the tag
-        i.putExtra(KEY_ROWID, mCurrentAccount.id);
-        startActivityForResult(i, ACTIVITY_EXPORT);
-      } else { 
-        Toast.makeText(getBaseContext(),
-            getString(R.string.external_storage_unavailable),
-            Toast.LENGTH_LONG)
-            .show();
-      }
-      break;
     case R.id.EDIT_ACCOUNT_COMMAND:
       i = new Intent(this, AccountEdit.class);
       i.putExtra(KEY_ROWID, mCurrentAccount.id);

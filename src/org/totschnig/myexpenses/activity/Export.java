@@ -64,6 +64,9 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
     Bundle extras = getIntent().getExtras();
     deleteP = extras.getBoolean("deleteP");
     notYetExportedP = extras.getBoolean("notYetExportedP");
+    if (deleteP && notYetExportedP)
+      throw new IllegalStateException(
+          "Deleting exported transactions is only allowed when all transactions are exported");
     try {
       format = ExportFormat.valueOf(extras.getString("format"));
     } catch (IllegalArgumentException e) {
@@ -71,7 +74,7 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
     }
     Long[] accountIds;
     Long accountId = extras.getLong(KEY_ROWID);
-    if (accountId != null) {
+    if (accountId != 0L) {
         accountIds = new Long[] {accountId};
     } else {
       Cursor c = getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
@@ -234,10 +237,17 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
         publishProgress(account.label + " ...");
         try {
           Result result = account.exportAll(destDir,activity.format,activity.notYetExportedP);
-          File output = (File) result.extra[0];
-          SharedPreferences settings = MyApplication.getInstance().getSettings();
-          publishProgress("... " + String.format(activity.getString(result.message), output.getAbsolutePath()));
+          File output = null;
+          String progressMsg;
+          if (result.extra != null) {
+            output = (File) result.extra[0];
+            progressMsg = activity.getString(result.message, output.getAbsolutePath());
+          } else {
+            progressMsg = activity.getString(result.message);
+          }
+          publishProgress("... " + progressMsg);
           if (result.success) {
+            SharedPreferences settings = MyApplication.getInstance().getSettings();
             if (settings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
               addResult(output);
             }
