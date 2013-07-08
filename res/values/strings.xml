@@ -75,6 +75,8 @@
     Please contribute by installing the paid Contrib version. You gain unrestricted access to
     the following premium features:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
+  <string name="dialog_export_delete">Delete exported transactions</string>
+  <string name="dialog_export_not_yet_exported">Export only transactions not yet exported</string>
   <string name="dialog_password_activate_protection">Activate password protection</string>
   <string name="dialog_password_change_password">Change password</string>
   <string name="dialog_password_new_password">New password</string>
@@ -97,8 +99,6 @@
   <string name="dialog_title_select_type">Pick a type</string>
   <string name="dialog_title_template_title">Set the title</string>
   <string name="dialog_title_warning_delete_account">Delete account?</string>
-  <string name="dialog_title_warning_reset_one">Reset account?</string>
-  <string name="dialog_title_warning_reset_all">Reset all accounts?</string>
   <string name="dialog_title_welcome">Welcome</string>
   <string name="donate">Donate</string>
   <string name="donate_dialog_text">If you are not able to access Google Play, you can donate via PayPal or Flattr,
@@ -135,7 +135,9 @@
       incomes, and to export these expenses into a desktop finance tool, like Grisbi,
       Gnucash, Quicken or MS Money.</string>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
-  <string name="help_whats_new">&#160;- New UI design based on Holo theme.\n</string>
+  <string name="help_whats_new">&#160;- New UI design based on Holo theme.\n
+    - Integrated help dialogs.\n
+    - Export without reset.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">Income</string>
@@ -172,8 +174,8 @@
   <string name="menu_save">Save</string>
   <string name="menu_save_and_new">Save and new</string>
   <string name="menu_new_from_template">New from template</string>
-  <string name="menu_reset">Reset</string>
-  <string name="menu_reset_all">Reset all</string>
+  <string name="menu_reset">Export and reset</string>
+  <string name="menu_reset_all">Export and reset all</string>
   <string name="menu_settings">Settings</string>
   <string name="menu_show_detail">Show details</string>
   <string name="method">Method</string>
@@ -185,6 +187,7 @@
   <string name="no_categories">No categories.</string>
   <string name="no_details">No details.</string>
   <string name="no_expenses">No Expenses Yet!</string>
+  <string name="no_exportable_expenses">There are no transactions that have not yet been exported.</string>
   <string name="no_parties">No parties.</string>
   <string name="no_templates">No templates.</string>
   <string name="no_title_given">You did not enter any title.</string>

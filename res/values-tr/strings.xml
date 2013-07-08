@@ -95,8 +95,6 @@
   <string name="dialog_title_select_type">Bir tür seçin</string>
   <string name="dialog_title_template_title">Başlığı belirtin</string>
   <string name="dialog_title_warning_delete_account">Hesap silinsin mi?</string>
-  <string name="dialog_title_warning_reset_one">Hesap sıfırlansın mı?</string>
-  <string name="dialog_title_warning_reset_all">Tüm hesaplar sıfırlansın mı?</string>
   <string name="dialog_title_welcome">Hoşgeldiniz</string>
   <string name="donate">Bağış</string>
   <string name="donate_dialog_text">Eğer Google Play\'e erişemiyorsanız Paypal ya da Flattr ile bağışta bulunup

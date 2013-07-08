@@ -92,8 +92,6 @@
 <!--   <string name="dialog_title_restore_on_install">Backup detected</string>
   <string name="dialog_title_select_template">Pick a template</string>
   <string name="dialog_title_warning_delete_account">Delete account?</string>
-  <string name="dialog_title_warning_reset_one">Reset account?</string>
-  <string name="dialog_title_warning_reset_all">Reset all accounts?</string>
   <string name="dialog_title_welcome">Welcome</string> -->
   <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_color">Escoger un color</string>
@@ -174,8 +172,8 @@
   <string name="menu_help">Ayuda</string>
   <string name="menu_move_transaction">Mover</string>
   <string name="menu_new_from_template">Nuevo a partir de una plantilla</string>
-  <string name="menu_reset">Restablecer</string>
-  <string name="menu_reset_all">Restablecer todas</string>
+  <string name="menu_reset">Exportar y restablecer</string>
+  <string name="menu_reset_all">Exportar y restablecer todas</string>
   <string name="menu_save">Guardar</string>
   <string name="menu_save_and_new">Guardar y nueva</string>
   <string name="menu_settings">Configuraciones</string>

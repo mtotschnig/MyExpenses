@@ -98,8 +98,6 @@
   <string name="dialog_title_select_type">Sélectionner un type</string>
   <string name="dialog_title_template_title">Définir le titre</string>
   <string name="dialog_title_warning_delete_account">Effacer le compte?</string>
-  <string name="dialog_title_warning_reset_one">Réinitialiser le compte?</string>
-  <string name="dialog_title_warning_reset_all">Réinitialiser tous les comptes?</string>
   <string name="dialog_title_welcome">Bienvenue</string>
   <string name="donate">Don</string>
   <string name="donate_dialog_text">S\'il ne vous est pas possible d\'accéder à Google Play, vous pouvez faire un don au moyen de PayPal ou Flattr,
@@ -174,8 +172,8 @@
   <string name="menu_help">Aide</string>
   <string name="menu_move_transaction">Déplacer</string>
   <string name="menu_new_from_template">Nouveau d\'après modèle</string>
-  <string name="menu_reset">Réinitialiser</string>
-  <string name="menu_reset_all">Réinitialiser tous</string>
+  <string name="menu_reset">Exporter et réinitialiser</string>
+  <string name="menu_reset_all">Exporter et réinitialiser tous</string>
   <string name="menu_save">Enregistrer</string>
   <string name="menu_save_and_new">Enregistrer et nouveau</string>
   <string name="menu_settings">Paramètres</string>

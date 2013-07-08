@@ -99,8 +99,6 @@
   <string name="dialog_title_select_type">Typ auswählen</string>
   <string name="dialog_title_template_title">Titel festlegen</string>
   <string name="dialog_title_warning_delete_account">Konto löschen?</string>
-  <string name="dialog_title_warning_reset_one">Konto zurücksetzen?</string>
-  <string name="dialog_title_warning_reset_all">Alle Konten zurücksetzen?</string>
   <string name="dialog_title_welcome">Willkommen</string>
   <string name="donate">Spenden</string>
   <string name="donate_dialog_text">Wenn Sie nicht auf Google Play zugreifen können, können Sie mittels PayPal oder Flattr spenden,
@@ -174,8 +172,8 @@
   <string name="menu_help">Hilfe</string>
   <string name="menu_move_transaction">Verschieben</string>
   <string name="menu_new_from_template">Neu aus Vorlage</string>
-  <string name="menu_reset">Zurücksetzen</string>
-  <string name="menu_reset_all">Alle zurücksetzen</string>
+  <string name="menu_reset">Exportieren und zurücksetzen</string>
+  <string name="menu_reset_all">Alle exportieren und zurücksetzen</string>
   <string name="menu_save">Speichern</string>
   <string name="menu_save_and_new">Speichern und neu</string>
   <string name="menu_settings">Einstellungen</string>

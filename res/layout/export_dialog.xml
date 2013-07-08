@@ -22,11 +22,11 @@
         android:checked="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete exported transactions"/>
+        android:text="@string/dialog_export_delete"/>
     <CheckBox android:id="@+id/export_not_yet_exported"
         android:visibility="gone"
         android:checked="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Export only transactions not yet exported"/>
+        android:text="@string/dialog_export_not_yet_exported"/>
 </LinearLayout>
