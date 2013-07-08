@@ -19,10 +19,13 @@
         android:text="CSV"/>
     </RadioGroup>
     <CheckBox android:id="@+id/export_delete"
+        android:checked="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete exported transactions"/>
     <CheckBox android:id="@+id/export_not_yet_exported"
+        android:visibility="gone"
+        android:checked="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Export only transactions not yet exported"/>
