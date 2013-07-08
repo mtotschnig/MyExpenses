@@ -55,7 +55,6 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     super.onCreate(savedInstanceState);
     setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
-    MyApplication.updateUIWithAppColor(this);
     PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     ListPreference listPref = (ListPreference) 
         findPreference(MyApplication.PREFKEY_CURRENCY_DECIMAL_SEPARATOR);

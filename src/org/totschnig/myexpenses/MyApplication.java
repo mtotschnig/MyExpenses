@@ -65,7 +65,6 @@ public class MyApplication extends Application {
     public static String PREFKEY_SEND_FEEDBACK;
     public static String PREFKEY_MORE_INFO_DIALOG;
     public static final String BACKUP_DB_PATH = "BACKUP";
-    public static int currentAccountColor;
     public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
 
@@ -132,26 +131,6 @@ public class MyApplication extends Application {
       isContribEnabled = Utils.doesPackageExist(this, "org.totschnig.myexpenses.contrib") ||
           Utils.verifyLicenceKey(settings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
       return isContribEnabled;
-    }
-    public static void setCurrentAccountColor(int currentAccountColor) {
-      MyApplication.currentAccountColor = currentAccountColor;
-    }
-    public static int getCurrentAccountColor() {
-      return currentAccountColor;
-    }
-    public static void updateUIWithAppColor(Activity ctx) {
-      updateUIWithColor(ctx,ctx.getResources().getColor(R.color.appDefault));
-    }
-    public static void updateUIWithAccountColor(Activity ctx) {
-      updateUIWithColor(ctx,currentAccountColor);
-    }
-    public static void updateUIWithColor(Activity ctx,int color) {
-      int textColor = Utils.getTextColorForBackground(color);
-      View heading = ctx.getWindow().findViewById(android.R.id.title);
-      if (heading != null) {
-        ((TextView) heading).setTextColor(textColor);
-        ((View) heading.getParent()).setBackgroundColor(color);
-      }
     }
     public static MyApplication getInstance() {
       return mSelf;

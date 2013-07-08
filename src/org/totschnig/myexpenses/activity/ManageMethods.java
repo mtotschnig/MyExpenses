@@ -47,7 +47,6 @@ public class ManageMethods extends ProtectedFragmentActivity implements OnItemCl
       setTheme(MyApplication.getThemeId());
       super.onCreate(savedInstanceState);
       setContentView(R.layout.manage_methods);
-      MyApplication.updateUIWithAppColor(this);
       setTitle(R.string.pref_manage_methods_title);
   }
   @Override

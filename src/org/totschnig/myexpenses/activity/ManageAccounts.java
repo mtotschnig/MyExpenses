@@ -60,7 +60,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_accounts);
-    MyApplication.updateUIWithAppColor(this);
     setTitle(R.string.pref_manage_accounts_title);
     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
   }

@@ -38,7 +38,6 @@ public class ManageParties extends ProtectedFragmentActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_parties);
     setTitle(R.string.pref_manage_parties_title);
-    MyApplication.updateUIWithAppColor(this);
   }
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,

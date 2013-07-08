@@ -121,7 +121,6 @@ public class ExpenseEdit extends EditActivity {
     
     setContentView(R.layout.one_expense);
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
-    MyApplication.updateUIWithAccountColor(this);
     configAmountInput();
     
     //1. fetch the transaction or create a new instance

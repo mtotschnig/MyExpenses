@@ -199,7 +199,6 @@ public class AccountEdit extends EditActivity {
     if (requestCode == PICK_COLOR_REQUEST) {
       if (resultCode == RESULT_OK) {
         mAccountColor = data.getExtras().getInt(OPENINTENTS_COLOR_EXTRA);
-        MyApplication.updateUIWithColor(this, mAccountColor);
         mColorText.setBackgroundDrawable(new ColorDrawable(mAccountColor));
       }
     }
@@ -251,7 +250,6 @@ public class AccountEdit extends EditActivity {
                 if (item < mColors.length) {
                   mAccountColor = mColors[item];
                   mColorText.setBackgroundColor(mAccountColor);
-                  MyApplication.updateUIWithColor(AccountEdit.this, mAccountColor);
                   dismissDialog(COLOR_DIALOG_ID);
                 } else {
                   try {
@@ -309,7 +307,6 @@ public class AccountEdit extends EditActivity {
     mAccountType = mAccount.type;
     mAccountTypeButton.setText(mAccountType.getDisplayName());
     mAccountColor = mAccount.color;
-    MyApplication.updateUIWithColor(this,mAccountColor);
     mColorText.setBackgroundColor(mAccountColor);
   }
 

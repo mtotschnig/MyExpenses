@@ -110,20 +110,7 @@ public class SelectCategory extends ProtectedFragmentActivity implements
         Intent intent = getIntent();
         String action = intent.getAction();
         mManageOnly = action != null && action.equals("myexpenses.intent.manage.categories");
-        if (mManageOnly)
-          MyApplication.updateUIWithAppColor(this);
-        else
-          MyApplication.updateUIWithAccountColor(this);
         setTitle(mManageOnly ? R.string.pref_manage_categories_title : R.string.select_category);
-        // Set up our adapter
-
-/*        mAddButton = (Button) findViewById(R.id.addOperation);
-        mAddButton.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            createCat(null);
-          }
-        });*/
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

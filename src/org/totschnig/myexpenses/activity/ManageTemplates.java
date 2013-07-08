@@ -51,7 +51,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
       super.onCreate(savedInstanceState);
       setContentView(R.layout.manage_templates);
       setTitle(R.string.pref_manage_templates_title);
-      MyApplication.updateUIWithAppColor(this);
   }
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
