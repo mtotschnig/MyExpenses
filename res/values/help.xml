@@ -62,7 +62,7 @@
     transaction by simply clicking on it. In order to map a main category, you have to call its context menu.
     From here you can also add new subcategories, delete a category or edit it. Subcategories have also context
     menus for deleting and editing.</string>
-  <string name="menu_create_main_cat_help_text">Opens the dialog for specifyig the title of a new main category.</string>
+  <string name="menu_create_main_cat_help_text">Opens the dialog for specifying the title of a new main category.</string>
 
   <!-- ExpenseEdit -->
   <string name="help_ExpenseEdit_title">Form for transactions, transfers, templates</string>
