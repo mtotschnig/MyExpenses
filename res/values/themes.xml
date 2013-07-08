@@ -34,4 +34,7 @@
     <item name="colorExpense">#800000</item>
     <item name="pageMargin">@android:color/black</item>
   </style>
+  <style name="AboutDialog" parent="@android:style/Theme.Dialog">
+    <item name="android:textColor">?android:attr/textColorPrimaryInverseDisableOnly</item>
+  </style>
 </resources>

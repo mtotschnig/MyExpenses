@@ -12,10 +12,13 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -38,11 +41,13 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
   
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
+    Activity ctx  = (Activity) getActivity();
+    Context wrappedCtx = Build.VERSION.SDK_INT < 11 ? 
+        new ContextThemeWrapper(ctx, R.style.AboutDialog) : ctx;
     Bundle args = getArguments();
     Long accountId = args != null ? args.getLong("accountId") : null;
     boolean allP = accountId == null;
-    Activity ctx  = (Activity) getActivity();
-    LayoutInflater li = LayoutInflater.from(ctx);
+    LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.export_dialog, null);
     notYetExportedCB = (CheckBox) view.findViewById(R.id.export_not_yet_exported);
     if (MyApplication.getInstance().getSettings().
@@ -56,7 +61,7 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       notYetExportedCB.setVisibility(View.VISIBLE);
     }
 
-    return new AlertDialog.Builder(ctx)
+    return new AlertDialog.Builder(wrappedCtx)
       .setTitle(allP ? R.string.menu_reset : R.string.menu_reset_all)
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)
