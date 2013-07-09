@@ -14,7 +14,7 @@
     this command displays a dialog for selecting a template from which a new transaction will be
     created.</string>
   <string name="menu_reset_help_text">This command will export all transactions of the current account to a file on
-    the SD card in QIF or CSV format (configurable in the Settings). By default, the transactions will be
+    the SD card in QIF or CSV format. By default, the transactions will be
     deleted from your phone, but you can select to keep them and mark as exported. My Expenses can share the
     file immediately after the export through FTP, email or any other file sharing app, if you configure it
     to do so in the Settings.</string>
@@ -42,7 +42,7 @@
   <!-- ManageParties -->
   <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
   <string name="help_ManageParties_info">This screen lists the parties used for the autocompletion of the Payer/Payee field.
-    You can remove entries from this list through each entry's context menu.</string>
+    You can remove entries from this list through each entry\'s context menu.</string>
 
   <!-- ManageTemplates -->
   <string name="help_ManageTemplates_title">@string/pref_manage_templates_title</string>
