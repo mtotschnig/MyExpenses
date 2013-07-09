@@ -238,6 +238,7 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
         destDir.mkdir();
       } else
         destDir = appDir;
+      ArrayList<Account> successfullyExported = new ArrayList<Account>();
       for (Long id : accountIds) {
         account = Account.getInstanceFromDb(id);
         publishProgress(account.label + " ...");
@@ -257,15 +258,18 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
             if (settings.getBoolean(MyApplication.PREFKEY_PERFORM_SHARE,false)) {
               addResult(output);
             }
-            if (activity.deleteP)
-              account.reset();
-            else
-              account.markAsExported();
+            successfullyExported.add(account);
           }
         } catch (IOException e) {
           Log.e("MyExpenses",e.getMessage());
           publishProgress("... " + activity.getString(R.string.export_expenses_sdcard_failure));
         }
+      }
+      for (Account a : successfullyExported) {
+        if (activity.deleteP)
+          a.reset();
+        else
+          a.markAsExported();
       }
       return(null);
     }
