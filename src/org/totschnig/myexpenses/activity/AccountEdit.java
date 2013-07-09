@@ -27,9 +27,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -164,33 +166,29 @@ public class AccountEdit extends EditActivity {
     mColorButton = (Button)  findViewById(R.id.SelectColor);
     mColorButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
-        Intent intent = new Intent(OPENINTENTS_PICK_COLOR_ACTION);
-        intent.putExtra(OPENINTENTS_COLOR_EXTRA, mAccountColor);
-        if (Utils.isIntentAvailable(AccountEdit.this, intent)) {
-          startActivityForResult(intent, PICK_COLOR_REQUEST);
-        } else {
-          showDialog(COLOR_DIALOG_ID);
-        }
+        showDialog(COLOR_DIALOG_ID);
       }
     });
-    int[] mColorIds = new int[] {
-      R.string.color_name_account_default,
-      R.string.color_name_blue,    R.string.color_name_cyan,   R.string.color_name_green,
-      R.string.color_name_magenta, R.string.color_name_red,    R.string.color_name_yellow,
-      R.string.color_name_black,   R.string.color_name_dkgray, R.string.color_name_gray,
-      R.string.color_name_ltgray,  R.string.color_name_white
-    };
-    mColorNames = new String[mColorIds.length+1];
-    for (int i = 0 ; i < mColorIds.length ; i++) {
-      mColorNames[i] = getString(mColorIds[i]);
-    }
-    mColorNames[mColorIds.length] = getString(R.string.oi_pick_colors_info);
-    mColors = new Integer[] {
-      getResources().getColor(R.color.accountDefault),
-      Color.BLUE,  Color.CYAN,   Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW,
-      Color.BLACK, Color.DKGRAY, Color.GRAY,  Color.LTGRAY,  Color.WHITE
-    };
-
+    if (Build.VERSION.SDK_INT > 13) {
+      Resources r = getResources();
+      mColors = new Integer[] {
+        r.getColor(android.R.color.holo_blue_bright),
+        r.getColor(android.R.color.holo_blue_light),
+        r.getColor(android.R.color.holo_blue_dark),
+        r.getColor(android.R.color.holo_green_dark),
+        r.getColor(android.R.color.holo_green_light),
+        r.getColor(android.R.color.holo_orange_dark),
+        r.getColor(android.R.color.holo_orange_light),
+        r.getColor(android.R.color.holo_purple),
+        r.getColor(android.R.color.holo_red_dark),
+        r.getColor(android.R.color.holo_red_light),
+        0
+      };
+    } else
+      mColors = new Integer[] {
+        Color.BLUE,  Color.CYAN,   Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW,
+        Color.BLACK, Color.DKGRAY, Color.GRAY,  Color.LTGRAY,  Color.WHITE, 0
+      };
     populateFields();
   }
 
@@ -242,18 +240,46 @@ public class AccountEdit extends EditActivity {
             }
           }).create();
       case COLOR_DIALOG_ID:
-          checked = java.util.Arrays.asList(mColors).indexOf(mAccountColor);
-          return new AlertDialog.Builder(this)
-            .setTitle(R.string.dialog_title_select_color)
-            .setSingleChoiceItems(mColorNames, checked, new DialogInterface.OnClickListener() {
-              public void onClick(DialogInterface dialog, int item) {
-                if (item < mColors.length) {
-                  mAccountColor = mColors[item];
-                  mColorText.setBackgroundColor(mAccountColor);
-                  dismissDialog(COLOR_DIALOG_ID);
+        final Intent colorIntent = new Intent(OPENINTENTS_PICK_COLOR_ACTION);
+        colorIntent.putExtra(OPENINTENTS_COLOR_EXTRA, mAccountColor);
+        final boolean colorIntentAvailable = Utils.isIntentAvailable(AccountEdit.this, colorIntent);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,
+            android.R.layout.simple_dropdown_item_1line, mColors) {
+
+          @Override
+          public View getView(int position, View convertView, ViewGroup parent) {
+            TextView row = (TextView) super.getView(position, convertView, parent);
+            int color = mColors[position];
+            if (color != 0) {
+              row.setBackgroundColor(color);
+              row.setTextColor(Utils.getTextColorForBackground(color));
+              row.setText("");
+            }
+            else {
+              row.setBackgroundColor(getResources().getColor(android.R.color.black));
+              row.setTextColor(getResources().getColor(android.R.color.white));
+              if (colorIntentAvailable)
+                row.setText("OI Color Picker");
+              else
+                row.setText(R.string.oi_pick_colors_info);
+            }
+            return row;
+          }
+        };
+        checked = java.util.Arrays.asList(mColors).indexOf(mAccountColor);
+        return new AlertDialog.Builder(this)
+          .setTitle(R.string.dialog_title_select_color)
+          .setSingleChoiceItems(adapter, checked, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+              dismissDialog(COLOR_DIALOG_ID);
+              if (mColors[item] != 0) {
+                mAccountColor = mColors[item];
+                mColorText.setBackgroundColor(mAccountColor);
+              } else {
+                if (colorIntentAvailable) {
+                  startActivityForResult(colorIntent, PICK_COLOR_REQUEST);
                 } else {
                   try {
-                    dismissDialog(COLOR_DIALOG_ID);
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("market://details?id=org.openintents.colorpicker"));
                     startActivity(intent);
@@ -263,7 +289,9 @@ public class AccountEdit extends EditActivity {
                   }
                 }
               }
-            }).create();
+            }
+          })
+          .create();
     }
     return null;
   }
