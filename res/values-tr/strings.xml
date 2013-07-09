@@ -61,6 +61,8 @@
     Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde
     edersiniz:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
+  <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
+  <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
   <string name="dialog_remind_rate">Lütfen &app_name; Google Play\'de değerlendirip not vermek için birkaç dakika ayırınız.
      Yorumlarınız devamlı bir şekilde yeni işlevler ve geliştirmeler eklememe yardımcı olmaktadır.</string>
   <string name="dialog_remind_rate_yes">Şimdi not ver</string>
@@ -114,9 +116,9 @@
   <string name="help_heading_whats_new">Yenilikler</string>
   <string name="help_intro"><i>&app_name;</i>, harcamalarınız ve gelirlerinizi izlemeye yarayan ve bunları Gnucash ya da Grisbi gibi masaüstü bir finans aracı için dışa aktaran bir uygulamadır.</string>
   <string name="help_leading">Android için <i>&app_name;</i>\'i kurduğunuz için teşekkür ederiz.</string>
-<!--   <string name="help_whats_new">&#160;- CSV olarak dışa aktarım.\n
-    - Google Play\'de uygulamanın tabletlere sunulması için büyük ekran desteği beyan et.\n
-    - Android 1.6 desteği.</string> -->
+	<string name="help_whats_new">&#160;- Holo temasına dayalı yeni kullanıcı arayüzü tasarımı.\n
+    - Entegre yardım diyalogları.\n
+    - Sıfırlamadan dışarı aktarım.</string> 
   <string name="important_version_information">Önemli bilgi</string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="income">gelirler</string>
@@ -150,8 +152,8 @@
   <string name="menu_help">Yardım</string>
   <string name="menu_move_transaction">Taşı</string>
   <string name="menu_new_from_template">Şablondan yeni</string>
-  <string name="menu_reset">Sıfırla</string>
-  <string name="menu_reset_all">Sıfırla tümünü</string>
+  <string name="menu_reset">Dışa aktar ve sıfırla</string>
+  <string name="menu_reset_all">Tümünü dışa aktar ve sıfırla</string>
   <string name="menu_save">Kaydet</string>
   <string name="menu_save_and_new">Kaydet ve yenisini aç</string>
   <string name="menu_settings">Ayarlar</string>
@@ -165,6 +167,7 @@
   <string name="no_categories">Kategori yok.</string>
   <string name="no_details">Ayrıntı yok.</string>
   <string name="no_expenses">Henüz hiçbir harcama yok!</string>
+  <string name="no_exportable_expenses">Henüz dışa aktarılmamış hiçbir muamele yok.</string> 
   <string name="no_parties">Bölüm yok.</string>
   <string name="no_templates">Şablon yok.</string>
   <string name="no_title_given">Hiçbir metin girmediniz.</string>
