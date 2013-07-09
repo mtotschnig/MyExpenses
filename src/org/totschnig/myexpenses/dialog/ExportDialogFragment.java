@@ -62,7 +62,7 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     }
 
     return new AlertDialog.Builder(wrappedCtx)
-      .setTitle(allP ? R.string.menu_reset : R.string.menu_reset_all)
+      .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)
       .setNegativeButton(android.R.string.cancel,null)
