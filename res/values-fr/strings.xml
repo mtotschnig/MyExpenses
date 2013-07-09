@@ -64,6 +64,8 @@
     S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux
     fonctions Premium suivantes:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
+  <string name="dialog_export_delete">Effacer les transactions exportés</string>
+  <string name="dialog_export_not_yet_exported">Exporter uniquement les transactions qui n\'ont pas encore été exportés</string>
   <string name="dialog_password_activate_protection">Activer la protection par mot de passe</string>
   <string name="dialog_password_change_password">Changer le mot de passe</string>
   <string name="dialog_password_new_password">Nouveau mot de passe</string>
@@ -86,7 +88,7 @@
   <string name="dialog_title_select_type">Sélectionner un type</string>
   <string name="dialog_title_template_title">Définir le titre</string>
   <string name="dialog_title_warning_delete_account">Effacer le compte?</string>
-  <string name="dialog_title_welcome">Bienvenue</string>
+  <string name="dialog_title_welcome">Bienvenue!</string>
   <string name="donate">Don</string>
   <string name="donate_dialog_text">S\'il ne vous est pas possible d\'accéder à Google Play, vous pouvez faire un don au moyen de PayPal ou Flattr,
     et ensuite demander une clé Contrib à partir des paramètres.\n\n&thank_you;</string>
@@ -176,6 +178,7 @@
   <string name="no_categories">Aucune catégorie.</string>
   <string name="no_details">Aucun détail.</string>
   <string name="no_expenses">Aucune dépense !</string>
+  <string name="no_exportable_expenses">Il n\'y a pas de transactions qui n\'ont pas encore été exportées.</string>
   <string name="no_parties">Aucun tiers.</string>
   <string name="no_templates">Pas de modèle.</string>
   <string name="no_title_given">Vous n\'avez pas saisi de titre.</string>

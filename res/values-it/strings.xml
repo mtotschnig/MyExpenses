@@ -62,6 +62,8 @@
   contribuire installando la versione Contrib a pagamento. Ottiene l’accesso illimitato alle
   seguenti funzionalità speciali:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
+  <string name="dialog_export_delete">Cancellare le transazioni esportati</string>
+  <string name="dialog_export_not_yet_exported">Esportare solo le operazioni non ancora esportati</string>
   <string name="dialog_password_activate_protection">Attivare la protezione con password</string>
   <string name="dialog_password_change_password">Modificare la password</string>
   <string name="dialog_password_new_password">Nuova password</string>
@@ -73,13 +75,18 @@
   <string name="dialog_remind_no">No grazie</string>
   <string name="dialog_security_question">Domanda</string>
   <string name="dialog_security_answer">Risposta</string>
+  <string name="dialog_title_contrib_feature">Funzionalità speciale</string>
+  <string name="dialog_title_restore_on_install">Backup rilevata</string>
   <string name="dialog_title_select_account">Scegli il conto</string>
   <string name="dialog_title_select_color">Scegli un colore</string>
   <string name="dialog_title_select_currency">Scegli una valuta</string>
   <string name="dialog_title_select_import_source">Scegli un origine per l\'importazione</string>
   <string name="dialog_title_select_method">Scegli un modo di pagamento</string>
+  <string name="dialog_title_select_template">Scegli un modello</string>
   <string name="dialog_title_select_type">Scegli un tipo</string>
   <string name="dialog_title_template_title">Assegnare un nome</string>
+  <string name="dialog_title_warning_delete_account">Cancellare il conto?</string>
+  <string name="dialog_title_welcome">Benvenuto!</string>
   <string name="donate">Donare</string>
   <string name="donate_dialog_text">Se non si dispone di accesso a Google Play, è possibile donare tramite PayPal o Flattr,
     e quindi richiedere una chiave contrib dalla schermata delle impostazioni.\n\n&thank_you;</string>
@@ -105,6 +112,8 @@
   <string name="grisbi_import_categories_success">%1$s categorie state importate</string>
   <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
   <string name="help_button_rate">La vostra recensione</string>
+  <string name="help_contextuel_help">Potete trovare ulteriori informazioni sulle funzionalità disponibili
+  	 tramite la voce Aiuto di menu.</string>
   <string name="help_heading_credits">Generico</string>
   <string name="help_heading_license">Licenza</string>
   <string name="help_heading_whats_new">Novità</string>
@@ -166,6 +175,7 @@
   <string name="no_categories">Non ci sono categorie.</string>
   <string name="no_details">Nessun dettaglio.</string>
   <string name="no_expenses">Non ci sono spese.</string>
+  <string name="no_exportable_expenses">Non ci sono operazioni che non sono ancora stati esportati.</string>
   <string name="no_parties">Non ci sono beneficiari.</string>
   <string name="no_templates">Non ci sono modelli.</string>
   <string name="no_title_given">Non ha scritto ningun titolo.</string>
@@ -256,6 +266,7 @@
       sostenuti</string>
   <string name="pref_security_question_title">Domanda di sicurezza</string>
   <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se si è dimenticata la password. Richiede &app_name; Contrib.</string>
+  <string name="pref_send_feedback_title">Invia commenti</string>
   <string name="pref_ui_theme_title">Stile</string>
   <string name="pref_ui_theme_dark">buio</string>
   <string name="pref_ui_theme_light">chiaro</string>

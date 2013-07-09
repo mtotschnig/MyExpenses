@@ -65,6 +65,8 @@
     Por favor, contribuye instalando la versión pagada Contrib. Usted va a obtener acceso ilimitado 
     a las siguientes características premium: &lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
+  <string name="dialog_export_delete">Borrar las transacciones exportados</string>
+  <string name="dialog_export_not_yet_exported">Exportar sólo las transacciones aún no exportadas</string>
   <string name="dialog_password_activate_protection">Activar protección por contraseña</string>
   <string name="dialog_password_change_password">Cambiar contraseña</string>
   <string name="dialog_password_new_password">Nueva contraseña</string>
@@ -77,17 +79,17 @@
   <string name="dialog_security_question">Pregunta</string>
   <string name="dialog_security_answer">Respuesta</string>
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
-<!--   <string name="dialog_title_restore_on_install">Backup detected</string>
-  <string name="dialog_title_select_template">Pick a template</string>
-  <string name="dialog_title_warning_delete_account">Delete account?</string>
-  <string name="dialog_title_welcome">Welcome</string> -->
+  <string name="dialog_title_restore_on_install">Copia de seguridad detectada</string>
   <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_color">Escoger un color</string>
   <string name="dialog_title_select_currency">Escoger una moneda</string>
   <string name="dialog_title_select_import_source">Escoger una fuente para la importación</string>
   <string name="dialog_title_select_method">Escoger un método de pago</string>
   <string name="dialog_title_select_type">Escoger un tipo</string>
+  <string name="dialog_title_select_template">Escoger une plantilla</string>
   <string name="dialog_title_template_title">Establecer el título</string>
+  <string name="dialog_title_warning_delete_account">Borrar la cuenta?</string>
+  <string name="dialog_title_welcome">¡Bienvenido!</string>
   <string name="donate">Done</string>
   <string name="donate_dialog_text">Si usted no tiene acceso a Google Play, se puede donar a través de PayPal o Flattr,
     y luego solicitar una clave contrib de la pantalla de configuraciones.\n\n&thank_you;</string>
@@ -116,6 +118,8 @@
       </string>
   <string name="grisbi_import_parties_loading">Partes se cargan desde %1$s</string>
   <string name="help_button_rate">Dé su revisión</string>
+  <string name="help_contextuel_help">Puede encontrar más información acerca de la funcionalidad disponible
+  	a través de la entrada Ayuda del menú.</string>
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licencia</string>
   <string name="help_heading_whats_new">Novedades</string>
@@ -176,6 +180,7 @@
   <string name="no_categories">Todavía no hay categorías.</string>
   <string name="no_details">No hay detalles.</string>
   <string name="no_expenses">¡Todavía no hay gastos!</string>
+  <string name="no_exportable_expenses">No hay transacciones que aún no han sido exportados.</string>
   <string name="no_parties">Ningunos partes</string>
   <string name="no_templates">Ningunas plantillas</string>
   <string name="no_title_given">No ha insertado usted titulo alguno.</string>
@@ -270,6 +275,7 @@
   <string name="pref_restore_summary">Restaurar la copia de seguridad de la carpeta \"myexpenses\" en la tarjeta SD</string>
   <string name="pref_restore_title">Restaurar</string>
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
+  <string name="pref_send_feedback_title">Envíe sus observaciones</string>
   <string name="pref_share_target_title">Cargar URL de exportación</string>
   <string name="pref_share_target_summary">Usted puede dejar esto en blanco, si quiere elegir entre
       aplicaciones adecuadas (correo electrónico, Dropbox, Google Docs, &#8230;), o indicar un URL

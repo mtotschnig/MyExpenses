@@ -65,6 +65,8 @@
     Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch
     uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:&lt;br>%1$s&lt;br>&thank_you;</string>
   <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
+  <string name="dialog_export_delete">Buchungen nach dem Exportieren löschen</string>
+  <string name="dialog_export_not_yet_exported">Nur Buchungen exportieren, die noch nicht exportiert wurden</string>
   <string name="dialog_password_activate_protection">Passwort-Schutz aktivieren</string>
   <string name="dialog_password_change_password">Passwort ändern</string>
   <string name="dialog_password_new_password">Neues Passwort</string>
@@ -87,7 +89,7 @@
   <string name="dialog_title_select_type">Typ auswählen</string>
   <string name="dialog_title_template_title">Titel festlegen</string>
   <string name="dialog_title_warning_delete_account">Konto löschen?</string>
-  <string name="dialog_title_welcome">Willkommen</string>
+  <string name="dialog_title_welcome">Willkommen!</string>
   <string name="donate">Spenden</string>
   <string name="donate_dialog_text">Wenn Sie nicht auf Google Play zugreifen können, können Sie mittels PayPal oder Flattr spenden,
     und dann von den Einstellungen aus einen Contrib-Schlüssel anfordern.\n\n&thank_you;</string>
@@ -176,6 +178,7 @@
   <string name="no_categories">Noch keine Kategorien vorhanden.</string>
   <string name="no_details">Keine Details vorhanden.</string>
   <string name="no_expenses">Noch keine Ausgaben!</string>
+  <string name="no_exportable_expenses">Es gibt keine Buchungen, die noch nicht exportiert wurden.</string>
   <string name="no_parties">Keine Parteien.</string>
   <string name="no_templates">Keine Vorlagen.</string>
   <string name="no_title_given">Sie haben keinen Titel eingegeben.</string>
