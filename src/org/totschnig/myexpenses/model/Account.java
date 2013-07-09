@@ -418,7 +418,7 @@ public class Account extends Model {
   public void markAsExported() {
     ContentValues args = new ContentValues();
     args.put(KEY_STATUS, STATUS_EXPORTED);
-    cr().update(TransactionProvider.TRANSACTIONS_URI, args, null, null);
+    cr().update(TransactionProvider.TRANSACTIONS_URI, args, "account_id = ?", new String[] { String.valueOf(id) });
   }
   
   /**
