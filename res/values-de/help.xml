@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="help_menu_commands">Menübefehle</string>
+
+  <!-- My Expenses Transaction list -->
+  <string name="help_MyExpenses_title">Buchungsliste</string>
+  <string name="help_MyExpenses_info">Auf diesem Bildschirm werden alle Buchungen des aktuellen Kontos aufgelistet.
+  	Über die Navigationsleiste gelangen Sie zur Kontoliste oder Sie wechseln zu einem anderen Konto.
+  	Klicken Sie auf eine Buchung, um Sie zu verändern.</string>
+  <string name="menu_create_transaction_help_text">Öffnet das Formular für die Eingabe einer neuen Buchung.</string>
+  <string name="menu_create_transfer_help_text">Anlegen einer Umbuchung zwischen Konten. Dieser Befehl steht nur dann
+  	zur Verfügung, wenn es zumindest ein zweites Konto mit derselben Währung gibt.</string>
+  <string name="menu_new_from_template_help_text">Wenn Sie für das aktuelle Konto Vorlagen angelegt haben, erlaubt dieser
+  	Befehl die Auswahl einer Vorlage, aus der eine neue Buchung erzeugt wird.</string>
+  <string name="menu_reset_help_text">Dieser Befehl exportiert alle Buchungen des aktuellen Kontos in eine Datei
+  	auf der SD-Karte im QIF oder CSV Format. Standardmäßig werden die Buchungen von Ihrem Telefon gelöscht, aber Sie können
+  	sich auch dafür entscheiden, diese anstatt zu löschen als exportiert zu markieren, Sofort nach dem Export kann die Datei
+  	weitergeleitet werden, mittels FTP, Email oder anderen Apps, die Dateien übertragen können, wenn Sie dies in den Einstellungen
+  	so festlegen.</string>
+  <string name="menu_edit_account_help_text">Einstellungen des aktuellen Kontos verändern
+    (Titel, Beschreibung, Anfangssaldo, Währung, Farbe).</string>
+  <!-- ManageAccounts Accounts list -->
+  <string name="help_ManageAccounts_title">Kontenliste</string>
+  <string name="help_ManageAccounts_info">Dieser Bildschirm listet alle Konten auf. Klick auf einen Eintrag öffnet
+  	die Transaktionsliste für das Konto.</string>
+  <string name="menu_create_account_help_text">Öffnet das Formular für das Anlegen eines neuen Kontos.</string>
+  <string name="menu_aggregates_help_text">Zeigt in einem Dialogfenster die Summen von Einkommen und Ausgaben 
+  	über alle Konten, gruppiert nach Währungen. Dieser Befehl steht nur zur Verfügung, wenn es zumindest zwei Konten
+  	mit einer gemeinsamen Währung gibt (Premium-Funktion).</string>
+  <string name="menu_reset_all_help_text">Dieser Befehl erlaubt alle Konten in einem Durchgang zu exportieren un
+  	zurückzusetzen. Wenn es keine Transaktionen gibt, steht er nicht zur Verfügung.</string>
+
+  <!-- ManageMethods -->
+  <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
+  <string name="help_ManageMethods_info">Auf diesem Bildschirm wird die Liste der vordefinierten Zahlungsweisen angezeigt
+    (Scheck, Kreditkarte, Einzahlung, Abbuchung) und Sie können hier auch neue Zahlungsweisen definieren.
+    Im Eingabe-Formular (Klick auf einen Eintrag) können Sie einstellen, für welche Kontotypen die Zahlungsweisen anwendbar ist.</string>
+  <string name="menu_create_method_help_text">Öffnet das Formular für das Anlegen einer neuen Zahlungsweise.</string>
+
+  <!-- ManageParties -->
+  <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
+  <string name="help_ManageParties_info">Auf diesem Bildschirm wird die Liste der Parteien angezeigt,
+  	die für die automatische Komplettierung des Feldes Zahler/Empfänger verwendet wird.
+  	Sie können Einträge aus dieser Liste über das Kontextmenü entfernen.</string>
+
+  <!-- ManageTemplates -->
+  <string name="help_ManageTemplates_title">@string/pref_manage_templates_title</string>
+  <string name="help_ManageTemplates_info">Hier haben Sie Zugriff auf eine nach Konten gruppierte Liste der Vorlagen.
+  	Vorlagen können in der Buchungsliste aus einer Buchung abgeleitet werden. Hier können Sie diese auch für das
+  	jeweilige Konto über dessen Kontextmenü neu anlegen (für Buchungen und Umbuchungen). Über das Kontextmenü einer
+  	Vorlage können Sie aus dieser eine neue Buchung erzeugen, und entweder gleich abspeichern, oder zunächst ein
+  	Formular befüllen, das Sie noch vor dem Speichern verändern können. Klick auf eine Vorlage erlaubt das Formular zu verändern
+  	(Premium-Funktion).</string>
+
+  <!-- SelectCategory -->
+  <string name="help_SelectCategory_title">@string/pref_manage_categories_title</string>
+  <string name="help_SelectCategory_info">Auf diesem Bildschirm können Sie Kategorien erzeugen, editieren und löschen.
+  	Wenn Sie ihn über das Buchungsformular aufrufen, wird hier auch eine Kategorie ausgewählt, die der Buchung zugeordnet
+  	werden soll.
+  	Als primäres Sortierkriterium wird standardmäßig die Anzahl der Verwendungen einer Kategorie verwendet
+  	(sekundäres Kriterium ist die alphabetische Reihenfolge). Dadurch haben Sie zu den am häufigsten verwendeten Kategorien
+  	am schnellsten Zugriff. Wenn Sie die Kategorien lieber alphabetisch geordnet wollen, können Sie dies in den Einstellung
+  	so festlegen-.
+    Ein Klick auf eine Hauptkategorie öffnet die Liste der Unterkategorien. Die Zuordnung einer Unterkategorie zur aktuellen
+    Buchung erfolgt durch kurzen Klick. Die Zuordnung einer Hauptkategorie ist durch das Kontextmenü möglich.
+    Dieses erlaubt auch das Anlegen neuer Unterkategorien, das Löschen und das Verändern einer Hauptkategorie.
+    Die Unterkategorien verfügen auch über ein Kontextmenü mit Einträgen zum Löschen und Verändern. </string>
+  <string name="menu_create_main_cat_help_text">Öffnet den Dialog zum Anlegen einer neuen Hauptkategorie.</string>
+
+  <!-- ExpenseEdit -->
+  <string name="help_ExpenseEdit_title">Formular für Buchungen, Umbuchungen, Vorlagen.</string>
+  <string name="help_ExpenseEdit_info">Klicken Sie auf die Schaltfläche - um zwischen Ausgabe und Einnahme zu wechseln.
+  	auf die = Schaltfläche um einen Taschenrechner zu öffnen. In den Einstellungen kann das Dezimaltrennzeichen für
+  	Beträge konfiguriert werden.  Das Feld für die Eingabe von Empfänger (bzw. Zahler) merkt sich die von Ihnen
+  	eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld vor.
+  	Zahlungsweisen können nur dann einer Buchung zugeordnet werden, wenn der Typ des aktuellen Kontos mit Zahlungsweisen
+  	verknüpft ist. Standardmäßig sind nur Bankkonten mit Zahlungsweisen verknüpft (Scheck, Kreditkarte, Einzahlung,
+  	Abbuchung).</string>
+  <string name="menu_save_help_text">Abspeichern und Formular schließen.</string>
+  <string name="menu_save_and_new_help_text">Abspeichern, und das Formular für das Erfassen einer neuen 
+  	Buchung mit denselben Daten offen lassen</string>
+  <!-- AccountEdit -->
+    <string name="help_AccountEdit_title">Formular für Konten</string>
+    <string name="help_AccountEdit_info">Konten werden anhand Ihrer Bezeichung identifiziert. Die Beschreibung dient nur
+    	informativen Zwecken. In den Einstellungen kann das Dezimaltrennzeichen für die Eingabe des Anfangssaldo konfiguriert
+    	werden.  Die Währung muss anhand ihrer dreistelligen Abkürzung ISO 4217 eingegeben werden, aber kann durch Klick auf
+    	Auswählen einfach aus einer Liste ausgewählt werden.
+    	Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto, Kreditkonto. Der Typ
+    	bestimmt, welche Zahlungsweisen den Buchungen des Kontos zugeordnet werden können. Zahlungsweisen werden unter
+    	Einstellungen -> Verwalten -> Zahlungsweisen konfiguriert.</string>
+  <!-- MethodEdit -->
+  <string name="help_MethodEdit_title">Formular für Zahlungsweisen</string>
+  <string name="help_MethodEdit_info">Auf diesem Bildschirm wählen Sie die Kontotypen, bei denen eine Zahlungsweise
+    zur Anwendung kommt. Die Bezeichnung is bei den vordefinierten Zahlungsweisen  nicht veränderbar.
+    Der Typ einer Zahlungsweise bestimmt , ob diese nur für Augaben, Einnahmen oder beides zur Anwendung kommt.</string>
+</resources>

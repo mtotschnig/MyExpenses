@@ -30,7 +30,7 @@
     all accounts that share the same currency. The command is only available if for any currency there exist at
     least two accounts (Contrib feature).</string>
   <string name="menu_reset_all_help_text">This command allows to reset all your accounts in batch. It is not available
-    if there are no transactions to export.</string>
+    if there are no transactions to export (Contrib feature).</string>
 
   <!-- ManageMethods -->
   <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
@@ -42,14 +42,15 @@
   <!-- ManageParties -->
   <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
   <string name="help_ManageParties_info">This screen lists the parties used for the autocompletion of the Payer/Payee field.
-    You can remove entries from this list through each entries context menu.</string>
+    You can remove entries from this list through each entry's context menu.</string>
 
   <!-- ManageTemplates -->
   <string name="help_ManageTemplates_title">@string/pref_manage_templates_title</string>
   <string name="help_ManageTemplates_info">This screen lists the the available templates grouped by account.
     While templates normally can be derived from transactions, here each account\'s context menu allows you to create
     new templates (for transactions or transfers). From a template\'s context menu you can instantiate it and either
-    immediately save it or enter its editing form where you can modify it before saving.</string>
+    immediately save it or enter its editing form where you can modify it before saving. Clicking on an entry allows to
+    modify it (Contrib feature).</string>
 
   <!-- SelectCategory -->
   <string name="help_SelectCategory_title">@string/pref_manage_categories_title</string>
@@ -67,7 +68,7 @@
   <!-- ExpenseEdit -->
   <string name="help_ExpenseEdit_title">Form for transactions, transfers, templates</string>
   <string name="help_ExpenseEdit_info">Click on the - Button to toggle between expense and income, click on the = Button
-    to open a calculator. The input format for amounts can be configured in the settings. The payee (or payer)
+    to open a calculator. The decimal separator for amounts can be configured in the settings. The payee (or payer)
     field remembers the values you enter and will suggest them in the future. The button for selecting a payment method,
     is only available if the current account is of a type linked to any payment method. By default only bank accounts, are 
     linked to payment methods (cheque,credit card, deposit,direct debit).</string>
