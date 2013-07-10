@@ -22,22 +22,16 @@ import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -207,9 +201,9 @@ public class SelectCategory extends ProtectedFragmentActivity implements
       int dialogTitle;
       if (parentId != null) {
         args.putLong("parentId", parentId);
-        dialogTitle = R.string.menu_create_main_cat;
-      } else
         dialogTitle = R.string.menu_create_sub_cat;
+      } else
+        dialogTitle = R.string.menu_create_main_cat;
       args.putString("dialogTitle", getString(dialogTitle));
       EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "CREATE_CATEGORY");
     }
