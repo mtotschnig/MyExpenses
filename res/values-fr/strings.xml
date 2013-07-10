@@ -141,7 +141,7 @@
   <string name="menu_clone_transaction">Cloner</string>
   <string name="menu_contrib">Contribuer</string>
   <string name="menu_create_account">Nouveau compte</string>
-  <string name="menu_create_method">Nouveau paiement</string>
+  <string name="menu_create_method">Nouvelle méthode de paiement</string>
   <string name="menu_create_transaction">Nouvelle transaction</string>
   <string name="menu_create_transfer">Nouveau virement</string>
   <string name="menu_create_main_cat">Nouvelle catégorie principale</string>

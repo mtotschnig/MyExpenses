@@ -5,85 +5,87 @@
   <!-- My Expenses Transaction list -->
   <string name="help_MyExpenses_title">Liste des opérations</string>
   <string name="help_MyExpenses_info">Cet écran affiche les opérations du compte courant. La barre de navigation permet
-  	d'accéder à la liste des comptes et de sélectionner un autre compte. Cliquez sur une entrée dans la liste pour l'éditer.</string>
+    d\'accéder à la liste des comptes et de sélectionner un autre compte. Cliquez sur une entrée dans la liste pour l\'éditer.</string>
   <string name="menu_create_transaction_help_text">Ouvre le formulaire pour saisir une nouvelle opération.</string>
-  <string name="menu_create_transfer_help_text">Virer une somme entre comptes. Cette commande n'est active que
-  	si vous avez au moins deux comptes dans la même devise.</string>
+  <string name="menu_create_transfer_help_text">Virer une somme entre comptes. Cette commande n\'est active que
+    si vous avez au moins deux comptes dans la même devise.</string>
   <string name="menu_new_from_template_help_text">Si vous avez défini des modèles, cette commande vous permet de choisir
-  	un modèle d'une liste pour en déduire une nouvelle opération.</string>
+    un modèle d\'une liste pour en déduire une nouvelle opération.</string>
   <string name="menu_reset_help_text">Cette commande exportera les opérations vers un fichier sur la carte SD en format
-  	QIF ou CSV. Par défault, les opérations seront effaçées, mais vous pouvez opter pour juste les marquer en tant qu'exportées.
-  	Ce fichier peut immédiatement être transféré par FTP, courriel ou d'autres applications, si vous activer cette option dans
-  	les paramètres.</string>
+    QIF ou CSV. Par défault, les opérations seront effaçées, mais vous pouvez opter pour juste les marquer en tant qu\'exportées.
+    Ce fichier peut immédiatement être transféré par FTP, courriel ou d\'autres applications, si vous activer cette option dans
+    les paramètres.</string>
   <string name="menu_edit_account_help_text">Changer les propriétés du compte courant:
-    titre, description, solde initial, type, monnaie, couleur.</string>
+    titre, description, solde initial, type, devise, couleur.</string>
 
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Liste des comptes</string>
   <string name="help_ManageAccounts_info">Cet écran affiche tous les comptes. Cliquez sur une entrée de la liste pour accéder
-  	à la liste de opérations correspondante.</string>
+    à la liste de opérations correspondante.</string>
   <string name="menu_create_account_help_text">Ouvre le formulaire pour définir un nouveau compte.</string>
   <string name="menu_aggregates_help_text">Le dialogue des totaux calcule les sommes des dépenses et revenus en regroupant tous les
-  	comptes qui partagent la même monnaie. La commande n'est pas visible s'il n'y a pas de monnaie qui est utilisée dans plus d'un compte.
+    comptes qui partagent la même devise. La commande n\'est pas visible s\'il n\'y a pas de devise qui est utilisée dans plus d\'un compte.
     (Fonction Premium).</string>
-  <string name="menu_reset_all_help_text">Cette commande permet d'exporter et de réinitialiser tous les comptes d'un seul coup.
-  	S'affiche uniquement quant il y a des opérations à exporter (Fonction Premium).</string>
+  <string name="menu_reset_all_help_text">Cette commande permet d\'exporter et de réinitialiser tous les comptes d\'un seul coup.
+    S\'affiche uniquement quant il y a des opérations à exporter (Fonction Premium).</string>
 
   <!-- ManageMethods -->
   <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
   <string name="help_ManageMethods_info">Cet écran affiche la liste des méthodes de paiment predéfinis
-  	(Chèque, Carte de credit, Dépôt, Prélèvement) et permet d'en définir des nouvelles.
-  	Si vous cliquez sur une entrée, vous pouvez changer l'association entre méthode et type de compte.</string>
+    (Chèque, Carte de credit, Dépôt, Prélèvement) et permet d\'en définir des nouvelles.
+    Si vous cliquez sur une entrée, vous pouvez changer l\'association entre méthode et type de compte.</string>
   <string name="menu_create_method_help_text">Ouvre le formulaire pour définir une nouvelle méthode.</string>
 
   <!-- ManageParties -->
   <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
-  <string name="help_ManageParties_info">Sur cet écran s'affiche la liste des tiers utilisés pour le complément automatique du champ Tiers.
-  	Supprimer des entrées de cette liste à travers du menu contextuel.</string>
+  <string name="help_ManageParties_info">Sur cet écran s\'affiche la liste des tiers utilisés pour le complément automatique du champ Tiers.
+    Supprimer des entrées de cette liste à travers du menu contextuel.</string>
 
   <!-- ManageTemplates -->
   <string name="help_ManageTemplates_title">@string/pref_manage_templates_title</string>
-  <string name="help_ManageTemplates_info">Sur cet écran s'affichent les modèles groupés par compte.
-  	Les modèles peuvent normalement être déduits d'une opération, mais ici à travers le menu contextuel de chaque compte,
-  	vous pouvez directemnt saisir de nouveaux modèles (pour opération es transferts).
-  	Le menu contextuel de chaque modèle vous permet aussi de créer de nouvelles opérations,
-  	soit en la sauvegardant directement, soit en l'éditant. Cliquez sur une entrée pour éditer un modèle (Fonction Premium).</string>
+  <string name="help_ManageTemplates_info">Sur cet écran s\'affichent les modèles groupés par compte.
+    Les modèles peuvent normalement être déduits d\'une opération, mais ici à travers le menu contextuel de chaque compte,
+    vous pouvez directemnt saisir de nouveaux modèles (pour opération es transferts).
+    Le menu contextuel de chaque modèle vous permet aussi de créer de nouvelles opérations,
+    soit en la sauvegardant directement, soit en l\'éditant. Cliquez sur une entrée pour éditer un modèle (Fonction Premium).</string>
 
   <!-- SelectCategory -->
   <string name="help_SelectCategory_title">@string/pref_manage_categories_title</string>
   <string name="help_SelectCategory_info">Sur cet écran, vous créez, éditez et supprimez les catégories.
-  	Si invoqué à partir du formulaire de saisie d'une opération, vous pouvez associer la catégorie avec l'opération.
-  	Par défaut, les catégories sont triées par la fréquence de leur utilisation (l'ordre alphabétique est utilisé
-  	comme critère secondaire). Ce fonctionnement vous donne un accès rapide aux catégories associées aux transactions
-  	les plus utilisées. Si vous préferez voir apparaître les catégories dans l'ordre alphabétique, vous pouvez
-  	configurer ceci dans les paramètres.
-  	Cliquez sur une catégorie principale pour ouvrir ses sous-catégories. Vous pouvez sélectionner une sous-catégorie
-  	pour l'opération en cours en cliquant simplement dessus. Si vous voulez utiliser la catégorie principale,
-  	il vous faudra passer par le menu contextuel.
+    Si invoqué à partir du formulaire de saisie d\'une opération, vous pouvez associer la catégorie avec l\'opération.
+    Par défaut, les catégories sont triées par la fréquence de leur utilisation (l\'ordre alphabétique est utilisé
+    comme critère secondaire). Ce fonctionnement vous donne un accès rapide aux catégories associées aux transactions
+    les plus utilisées. Si vous préferez voir apparaître les catégories dans l\'ordre alphabétique, vous pouvez
+    configurer ceci dans les paramètres.
+    Cliquez sur une catégorie principale pour ouvrir ses sous-catégories. Vous pouvez sélectionner une sous-catégorie
+    pour l\'opération en cours en cliquant simplement dessus. Si vous voulez utiliser la catégorie principale,
+    il vous faudra passer par le menu contextuel.
     Dans celui-ci, vous pouvez ajouter de nouvelles sous-catégories, effacer ou modifier une catégorie principale.
     Les sous-catégories ont aussi un menu contextuel afin de les effacer ou de les modifier. </string>
-  <string name="menu_create_main_cat_help_text">Ouvre un dialogue pour saisir le titre d'une nouvelle catégorie principale.</string>
+  <string name="menu_create_main_cat_help_text">Ouvre un dialogue pour saisir le titre d\'une nouvelle catégorie principale.</string>
 
   <!-- ExpenseEdit -->
   <string name="help_ExpenseEdit_title">Formulaire pour opérations, transfers et modèles</string>
   <string name="help_ExpenseEdit_info">Cliquez sur le bouton - pour basculer entre dépense ou entrée, sur le bouton "="
-  	pour accéder à une calculatrice. Le séparateur décimal pour les montants peut être configurés dans les paramètres.
+    pour accéder à une calculatrice. Le séparateur décimal pour les montants peut être configurés dans les paramètres.
     Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois que vous entrerez un tiers.
-    Le bouton pour définir une méthode de payment s'affiche uniquement, si le type du compte courant est associé à des méthodes.
+    Le bouton pour définir une méthode de paiement s\'affiche uniquement, si le type du compte courant est associé à des méthodes.
     Par défault, seulement les comptes bancaires sont associés a quelques méthodes (Chèque, Carte de credit, Dépôt, Prélèvement).</string>
-  <string name="menu_save_help_text">Save the data and close the form.</string>
-  <string name="menu_save_and_new_help_text">Save the data, leave the form open for creating a new transaction with the same
-    data.</string>
+  <string name="menu_save_help_text">Sauvegarder les données et fermer le formulaire.</string>
+  <string name="menu_save_and_new_help_text">Sauvegarder les données et garder le formulaire ouvert pour la saisie d\'une nouvelle 
+    opération avec les même données.</string>
   <!-- AccountEdit -->
-    <string name="help_AccountEdit_title">Form for accounts</string>
-    <string name="help_AccountEdit_info">The account is identified by its label, the description has only an informative purpose.
-      The input format for the opening balance can be configured in the settings. The currency must be entered according to
-      its three-letter code in ISO 4217, but can be chosen easily from a list by clicking on the Select button. You can
-      define the type of an account as one of Cash, Bank, Asset, Liabilities, Credit Card. The type determines the available payment
-      methods that you can configure under Preferences -> Manage -> Payment Methods.</string>
+    <string name="help_AccountEdit_title">Formulaire pour comptes</string>
+    <string name="help_AccountEdit_info">Le compte est identifié par son intitulé, la description est uniquement informative.
+      Le séparateur décimal pour le solde initial peut être configurés dans les paramètres.
+      La devise doit être saisie selon le code ISO 4217 en trois lettres, mais peut être facilement
+      sélectionnée sur une liste. Vous pouvez associer au compte les types suivants: compte de caisse, compte bancaire,
+      compte d\'actif ou compte de passif. Selon le type d\'un compte, les opérations peuvent être associées à des méthodes de paiement,
+      que vous configurez sous Paramètres -> Gestion -> Méthodes de paiement.</string>
   <!-- MethodEdit -->
-  <string name="help_MethodEdit_title">Form for payment methods</string>
-  <string name="help_MethodEdit_info">On this screen, you associate a payment method with account types.
-     You can also define a label (with the exception of the predefined methods which have a fixed label that cannot be edited).
-     Through a method\'s type, you determine if it is applicable for expenses (debit), income (credit) or both (neutral).</string>
+  <string name="help_MethodEdit_title">Formulaire pour méthodes de paiement</string>
+  <string name="help_MethodEdit_info">Sélectionnez les types de comptes pour lesquels une méthode est appliquable.
+    Vous pouvez aussi définir un intitulé (sauf pour les méthodes prédéfinis).
+    Par le type d\'une méthode, vous déterminez si cell-ci est appliquable pour les dépenses (débit), les revenus (credit)
+    ou les deux (neutre).</string>
 </resources>

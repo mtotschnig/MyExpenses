@@ -37,8 +37,9 @@
     Her unsurun bağlam menüsünü kullanarak bu listeden öğe silmeniz mümkündür.</string>
   <!--ManageTemplates-->
   <string name="help_ManageTemplates_info">Bu ekran hesaplarla gruplandırılmış mevcut şablonları listeler.
-    Normalde şablonlar muamelelerden türetilebilir ancak burada her hesabın bağlam menüsü (muamele veya virmanlar için) yeni şablon oluşturmanıza
-     imkân sağlar. Herhangi bir şablonun bağlam menüsünden onu örneklendirebilir ve ya hemen kaydedebilir ya da kaydetmeden önce düzenleyebilirsiniz.</string>
+    Normalde şablonlar muamelelerden türetilebilir ancak burada her hesabın bağlam menüsü (muamele veya virmanlar için)
+    yeni şablon oluşturmanıza imkân sağlar. Herhangi bir şablonun bağlam menüsünden onu örneklendirebilir ve ya hemen
+    kaydedebilir ya da kaydetmeden önce düzenleyebilirsiniz.</string>
   <!--SelectCategory-->
   <string name="help_SelectCategory_info">Bu ekran kategori oluşturmaya, düzenlemeye ve silmeye imkân verir
     ve bir muamelenin düzenleme formundan çağrıldığında, muamelenin seçilen kategoriye eşlenmesini sağlar.
@@ -46,16 +47,17 @@
     (ikincil kriter alfabetik sıradır). Bu, en sık kullandığınız kategorilere çabuk ulaşmanızı sağlar.
     Ayarlarda kategorilerin alfabetik sıra ile sıralanmalarını seçebilirsiniz.
     Bir ana kategoriye tıklamanız alt kategorilerin açılmasını sağlar. Herhangi bir alt kategorinin güncel muamele ile
-    eşleşmesini üzerine tıklayarak sağlayabilirsiniz. Ana kategorinin eşleşmesini sağlamak için onun bağlam menüsünü kullanmanız gerekir.
-    Buradan yeni alt kategoriler de ekleyebilir, kategori silebilir veya düzenleyebilirsiniz. Alt kategorilerin silmek ve düzenlemek için bağlam menüleri vardır.</string>
+    eşleşmesini üzerine tıklayarak sağlayabilirsiniz. Ana kategorinin eşleşmesini sağlamak için onun bağlam menüsünü
+    kullanmanız gerekir. Buradan yeni alt kategoriler de ekleyebilir, kategori silebilir veya düzenleyebilirsiniz.
+    Alt kategorilerin silmek ve düzenlemek için bağlam menüleri vardır.</string>
   <string name="menu_create_main_cat_help_text">Yeni bir ana kategorinin başlığını belirtmek için diyalog açar.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_title">Muameleler, transferler ve şablonlar için form</string>
   <string name="help_ExpenseEdit_info">Gelir ve gider arası geçiş yapmak için - düğmesine tıklayın, hesap
     makinesini açmak için de = düğmesine tıklayabilirsiniz. Meblağlar için girdi biçimi ayarlarda yapılandırılabilir.
     Alacaklı (ya da borçlu) alanları girdiğiniz değerleri hatırlar ve gelecekte önerir. Ödeme metodu seçmeye yarayan düğme
-    sadece güncel hesap herhangi bir ödeme metoduyla ilişkilendirilmiş türden ise kullanılabilir. Varsayılan değer olarak sadece banka hesapları
-    ödeme metotları ile ilişkilidir (çek, kredi kartı, mevduat, doğrudan ödeme).</string>
+    sadece güncel hesap herhangi bir ödeme metoduyla ilişkilendirilmiş türden ise kullanılabilir. Varsayılan değer olarak
+    sadece banka hesapları ödeme metotları ile ilişkilidir (çek, kredi kartı, mevduat, doğrudan ödeme).</string>
   <string name="menu_save_help_text">Verileri kaydet ve formu kapat.</string>
   <string name="menu_save_and_new_help_text">Verileri kaydet ve aynı verilerle yeni bir muamele oluşturmak için formu açık
     bırak.</string>
@@ -63,9 +65,9 @@
   <string name="help_AccountEdit_title">Hesaplar için form</string>
   <string name="help_AccountEdit_info">Hesaplar etiketleri ile tanımlanır, açıklamanın amacı sadece bilgilendirici olmaktır.
       Açılış bakiyesi için girdi biçimi ayarlarda yapılandırılabilir. Döviz, üç harfli ISO 4217 koduna göre girilmelidir
-      ama bir listeden Seç düğmesine basılarak kolayca seçilebilir.
-      Hesabın türünü nakit, banka hesabı, aktifler, borç ve kredi kartından biri olarak seçebilirsiniz.
-      Hesap türü, Tercihler -&gt; Yönet -&gt; Ödeme metotları bölümünde ayarlayabileceğiniz kullanılabilecek ödeme metotlarını belirler.</string>
+      ama bir listeden Seç düğmesine basılarak kolayca seçilebilir. Hesabın türünü nakit, banka hesabı, aktifler, borç ve
+      kredi kartından biri olarak seçebilirsiniz. Hesap türü, Tercihler -&gt; Yönet -&gt; Ödeme metotları bölümünde
+      ayarlayabileceğiniz kullanılabilecek ödeme metotlarını belirler.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Ödeme metotları için form</string>
   <string name="help_MethodEdit_info">Bu ekranda herhangi bir ödeme metodunu hesap türleriyle ilişkilendirebilirsiniz.
