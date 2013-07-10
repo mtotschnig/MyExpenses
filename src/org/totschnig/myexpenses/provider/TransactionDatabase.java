@@ -265,7 +265,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("INSERT INTO accounts (_id,label,opening_balance,description,currency,type,color) " +
           "SELECT _id,label,opening_balance,description,currency,type,color FROM accounts_old");
       //previously templates where not deleted if referred to accounts were deleted
-      db.execSQL("DELETE FROM templates where account_id not in (SELECT _id FROM accounts) or (cat_id != 0 and cat_id not in (SELECT _id from accounts))");
+      db.execSQL("DELETE FROM templates where account_id not in (SELECT _id FROM accounts) or (cat_id != 0 and transfer_peer = 1 and cat_id not in (SELECT _id from accounts))");
       db.execSQL("ALTER TABLE templates RENAME to templates_old");
       db.execSQL("CREATE TABLE templates ( _id integer primary key autoincrement, comment text not null, amount integer not null, " +
           "cat_id integer references categories(_id), account_id integer not null references accounts(_id),payee text, " +
