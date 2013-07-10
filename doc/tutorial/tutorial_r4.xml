@@ -71,20 +71,20 @@
     </para>
   </abstract>
   <releaseinfo role="generate-for-pdf"/>
-    <releaseinfo lang="en">This release (4) of the tutorial is slightly out of date. A new version
-    is in preparation.
+    <releaseinfo lang="en">This document covers My Expenses until version 1.7. From version 1.8, My Expenses has
+    integrated help dialogs, and no longer refers to an external user guide.
   </releaseinfo>
-  <releaseinfo lang="fr">Cette édition (4) du tutoriel n'est plus tout-à-fait d'actualité. Une nouvelle
-    version est en préparation.
+  <releaseinfo lang="fr">Ce document couvre Mes Dépenses jusqu'à la version 1.7. À partir de la version 1.8, Mes Dépensess a
+     dialogues d'aide intégrés et ne fait plus référence à un mode d'emploi externe.
   </releaseinfo>
-  <releaseinfo lang="de">Diese Ausgabe (4) der Anleitung ist nicht mehr ganz aktuell. Eine neue Version
-    wird vorbereitet.
+  <releaseinfo lang="de">Dieses Dokument umfasst Meine Ausgaben bis zur Version 1.7. Seit Version 1.8, hat Meine Ausgaben
+     integrierte Hilfe-Dialoge, und bezieht sich nicht mehr auf eine externe Anleitung.
   </releaseinfo>
-  <releaseinfo lang="it">Questa edizione (4) del tutorial è un po 'obsoleto. Una nuova versione
-     è in preparazione.
+  <releaseinfo lang="it">Questo documento tratta le mie spese fino alla versione 1.7. Dalla versione 1.8, le mie spese ha
+     aiuto dialoghi integrati, e non fa più riferimento a un manuale d'uso esterno.
   </releaseinfo>
-  <releaseinfo lang="es">Esta versión (4) del guía es un poco obsoleta. Una nueva versión
-     está en preparación.
+  <releaseinfo lang="es">Este documento cubre Mis Gastos hasta la versión 1.7. Desde la versión 1.8, Mis Gastos tiene
+     diálogos de ayuda integrados, y ya no se refiere a una guía de usuario externo.
   </releaseinfo>
   </articleinfo>
 
