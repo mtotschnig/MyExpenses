@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.dialog;
 
 
+import org.totschnig.myexpenses.R;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -9,10 +11,13 @@ import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.widget.ListView;
 
 public class SelectFromCursorDialogFragment extends DialogFragment implements OnClickListener {
+  SimpleCursorAdapter mAdapter;
   public interface SelectFromCursorDialogListener {
-    Cursor getCursor(int cursorId);
+    Cursor getCursor(int cursorId, String tag);
     void onItemSelected(Bundle args);
 }
   /**
@@ -30,11 +35,12 @@ public class SelectFromCursorDialogFragment extends DialogFragment implements On
     Context ctx = getActivity();
     Bundle bundle = getArguments();
     String column = bundle.getString("column");
+    Cursor c = ((SelectFromCursorDialogListener) ctx).getCursor(bundle.getInt("cursorId"),getTag());
+    mAdapter = new SimpleCursorAdapter(ctx, R.layout.select_dialog_singlechoice,
+        c, new String[]{column}, new int[]{android.R.id.text1},0);
     return new AlertDialog.Builder(ctx)
       .setTitle(bundle.getString("dialogTitle"))
-      .setSingleChoiceItems(
-          ((SelectFromCursorDialogListener) ctx).getCursor(bundle.getInt("cursorId"))
-          , -1, column, this)
+      .setAdapter(mAdapter,this)
       .create();
   }
   @Override
@@ -44,5 +50,8 @@ public class SelectFromCursorDialogFragment extends DialogFragment implements On
     args.putLong("result", ((AlertDialog) dialog).getListView().getItemIdAtPosition(which));
     activity.onItemSelected(args);
     dismiss();
+  }
+  public void setCursor(Cursor c) {
+    mAdapter.swapCursor(c);
   }
 }

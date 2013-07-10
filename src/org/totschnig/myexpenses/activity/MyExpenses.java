@@ -126,6 +126,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   //private Cursor mExpensesCursor;
   private MyViewPagerAdapter myAdapter;
   private ViewPager myPager;
+  private String fragmentCallbackTag = null;
   
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -609,12 +610,22 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         mAccountsCursor.moveToNext();
       }
       getSupportActionBar().setSelectedNavigationItem(currentPosition);
+      if ("SELECT_ACCOUNT".equals(fragmentCallbackTag)) {
+       ((SelectFromCursorDialogFragment) getSupportFragmentManager().findFragmentByTag("SELECT_ACCOUNT"))
+          .setCursor(new AllButOneCursorWrapper(mAccountsCursor,currentPosition));
+       fragmentCallbackTag = null;
+      }
       return;
     }
     //templates cursor that are loaded are not necessarily for the current account
     if (id==currentPosition) {
       mTemplatesCursor = cursor;
       configButtons();
+      if ("SELECT_TEMPLATE".equals(fragmentCallbackTag)) {
+        ((SelectFromCursorDialogFragment) getSupportFragmentManager().findFragmentByTag("SELECT_TEMPLATE"))
+          .setCursor(mTemplatesCursor);
+        fragmentCallbackTag = null;
+      }
     }
   }
   @Override
@@ -670,15 +681,20 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     configButtons();
   }
   @Override
-  public Cursor getCursor(int cursorId) {
+  public Cursor getCursor(int cursorId,String fragmentCallbackTag) {
+    Cursor c = null;
     switch(cursorId) {
     case ACCOUNTS_CURSOR:
-      return mAccountsCursor;
+      c = mAccountsCursor;
+      break;
     case ACCOUNTS_OTHER_CURSOR:
-      return new AllButOneCursorWrapper(mAccountsCursor,currentPosition);
+      c = mAccountsCursor == null ? null : new AllButOneCursorWrapper(mAccountsCursor,currentPosition);
+      break;
     case TEMPLATES_CURSOR:
-      return mTemplatesCursor;
+      c = mTemplatesCursor;
     }
-    return null;
+    if (c==null)
+      this.fragmentCallbackTag = fragmentCallbackTag;
+    return c;
   }
 }

@@ -111,7 +111,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     menu.add(0, R.id.CLONE_TRANSACTION_COMMAND, 0, R.string.menu_clone_transaction);
     mTransactionsCursor.moveToPosition(info.position);
     //move transaction is disabled for transfers,
-    if (((MyExpenses) getSherlockActivity()).getCursor(MyExpenses.ACCOUNTS_CURSOR).getCount() > 1 &&
+    if (((MyExpenses) getSherlockActivity()).getCursor(MyExpenses.ACCOUNTS_CURSOR,null).getCount() > 1 &&
         DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER) == null) {
       menu.add(0,R.id.MOVE_TRANSACTION_COMMAND,0,R.string.menu_move_transaction);
     }
