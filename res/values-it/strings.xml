@@ -270,7 +270,7 @@
   <string name="pref_ui_theme_title">Stile</string>
   <string name="pref_ui_theme_dark">buio</string>
   <string name="pref_ui_theme_light">chiaro</string>
-<!--   <string name="pref_visit_website_title">Visit Website</string> -->
+  <string name="pref_visit_website_title">Visita il sito web</string>
   <string name="pref_visit_website_summary">Aggiornamenti e FAQ</string>
   <string name="pref_contrib_install_summary">Installando &app_name; Contrib ottiene accesso a
   funzionalità speciali.</string>
