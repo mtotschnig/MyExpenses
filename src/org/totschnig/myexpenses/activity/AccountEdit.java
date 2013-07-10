@@ -71,33 +71,6 @@ public class AccountEdit extends EditActivity {
   private Integer[] mColors;
   private TextView mColorText;
   private Button mColorButton;
-
-/*  private int monkey_state = 0;
-
-  @Override
-  public boolean onKeyDown (int keyCode, KeyEvent event) {
-    if (keyCode == MyApplication.BACKDOOR_KEY) {
-      switch (monkey_state) {
-      case 0:
-        mLabelText.setText(R.string.monkey_label_text);
-        mDescriptionText.setText(R.string.monkey_description_text);
-        mAmountText.setText("100");
-        mCurrencyText.setText("EUR");
-        mTypeButton.setText(mTypes[1]);
-        mAccountType = Account.Type.values()[1];
-        monkey_state = 1;
-        return true;
-      case 1:
-        saveState();
-        Intent intent=new Intent();
-        intent.putExtra("account_id", mAccount.id);
-        setResult(RESULT_OK,intent);
-        finish();
-        return true;
-      }
-    }
-    return super.onKeyDown(keyCode, event);
-  }*/
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {

@@ -91,26 +91,6 @@ public class ExpenseEdit extends EditActivity {
   String[] accountLabels ;
   Long[] accountIds ;
 
-/*  private int monkey_state = 0;
-
-  @Override
-  public boolean onKeyDown (int keyCode, KeyEvent event) {
-    if (keyCode == MyApplication.BACKDOOR_KEY) {
-      switch (monkey_state) {
-      case 0:
-        mAmountText.setText("50");
-        monkey_state = 1;
-        return true;
-      case 1:
-        setResult(RESULT_OK);
-        saveState();
-        finish();
-        return true;
-      }
-    }
-    return super.onKeyDown(keyCode, event);
-  }*/
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

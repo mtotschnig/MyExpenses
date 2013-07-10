@@ -78,30 +78,6 @@ public class SelectCategory extends ProtectedFragmentActivity implements
      * how should categories be sorted, configurable through setting
      */
     
-
-/*    private int monkey_state = 0;
-
-    @Override
-    public boolean onKeyDown (int keyCode, KeyEvent event) {
-      if (keyCode == MyApplication.BACKDOOR_KEY) {
-        switch (monkey_state) {
-        case 0:
-          Intent i = new Intent(this, GrisbiImport.class);
-          startActivityForResult(i, ACTIVITY_IMPORT_CATS);
-          monkey_state = 1;
-          return true;
-        case 1:
-          createCat(0);
-          monkey_state = 2;
-          return true;
-        case 2:
-          getExpandableListView().requestFocus();
-          return true;
-        }
-      }
-      return super.onKeyDown(keyCode, event);
-    }*/
-    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(MyApplication.getThemeId());

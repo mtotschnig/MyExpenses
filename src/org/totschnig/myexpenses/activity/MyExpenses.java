@@ -126,33 +126,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   //private Cursor mExpensesCursor;
   private MyViewPagerAdapter myAdapter;
   private ViewPager myPager;
-
-/*  private int monkey_state = 0;
-
-  @Override
-  public boolean onKeyDown (int keyCode, KeyEvent event) {
-    Intent i;
-    if (keyCode == MyApplication.BACKDOOR_KEY) {
-      switch (monkey_state) {
-      case 0:
-        dispatchCommand(R.id.CREATE_ACCOUNT_COMMAND,null);
-        monkey_state = 1;
-        return true;
-      case 1:
-        dispatchCommand(R.id.INSERT_TA_COMMAND,null);
-        monkey_state = 2;
-        return true;
-      case 2:
-        showDialogWrapper(RESET_DIALOG_ID);
-        monkey_state = 3;
-        return true;
-      case 3:
-        startActivityForResult(new Intent(MyExpenses.this, MyPreferenceActivity.class),ACTIVITY_PREF);
-        return true;
-      }
-    }
-    return super.onKeyDown(keyCode, event);
-  }*/
   
   /* (non-Javadoc)
    * Called when the activity is first created.
