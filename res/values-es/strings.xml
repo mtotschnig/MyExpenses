@@ -126,9 +126,9 @@
   <string name="help_intro">Con <i>&app_name;</i> puede llevar contabilidad sobre sus gastos y
       ingresos y exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</string>
   <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
-<!--   <string name="help_whats_new">&#160;- Exportación a CSV.\n
-    - Que se declare explícitamente soporte para pantallas de gran tamaño para hacer aplicación de nuevo disponible para las tabletas en Google Play.\n
-    - Apoyo a Android 1.6.</string> -->
+  <string name="help_whats_new">&#160;- Nuevo diseño de interfaz de usuario basada en el tema Holo.\n
+    - Diálogo de ayuda integrado.\n
+    - Exportar sin restablecer.</string>
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Información importante</string>
   <string name="income">ingreso</string>

@@ -121,9 +121,9 @@
       corso di un breve periodo di tempo, e di esportare queste spese in un programma come Grisbi,
       GnuCash, Quicken o MS Money.</string>
   <string name="help_leading">Grazie di probare <i>&app_name;</i> por Android.</string>
-  <!--   <string name="help_whats_new">&#160;- Esportazione in formato CSV.\n
-    - Dichiarare esplicitamente il supporto per schermi di grandi dimensioni per rendere nuovamente disponibile app per tablet su Google Play.\n
-    - Supporto per Android 1.6.</string> -->
+  <string name="help_whats_new">&#160;- Nuovo design dell\'interfaccia utente basata sul tema Holo.\n
+    - Dialogo di aiuto integrato.\n
+    - Esportare senza reinizializzare.</string>
   <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
   <string name="important_version_information">Informazioni importanti</string>
