@@ -79,8 +79,8 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
         recreate();
       else {
         Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-        finish();
       }
     } else {
       protection.hanldeOnResume(pwDialog);
