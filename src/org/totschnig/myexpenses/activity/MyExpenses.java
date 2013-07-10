@@ -227,11 +227,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private void fillNavigation() {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayShowTitleEnabled(false);
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    //actionBar.setDisplayUseLogoEnabled(true);
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
     SimpleCursorAdapter adapter = new SimpleCursorAdapter(
-        getSupportActionBar().getThemedContext(),
+        actionBar.getThemedContext(),
         R.layout.custom_spinner_item, mAccountsCursor, new String[] {KEY_LABEL}, new int[] {android.R.id.text1}) {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {

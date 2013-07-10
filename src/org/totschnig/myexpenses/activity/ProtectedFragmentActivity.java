@@ -57,8 +57,8 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     protection = new ProtectionDelegate(this);
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
   }
   @Override
   protected void onPause() {

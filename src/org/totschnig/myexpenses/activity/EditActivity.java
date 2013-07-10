@@ -59,8 +59,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity {
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
   }
 
   protected void changeEditTextBackground(ViewGroup root) {
