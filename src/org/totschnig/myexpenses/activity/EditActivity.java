@@ -30,6 +30,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
@@ -63,6 +64,9 @@ public abstract class EditActivity extends ProtectedFragmentActivity {
   }
 
   protected void changeEditTextBackground(ViewGroup root) {
+    //not needed in HOLO
+    if (Build.VERSION.SDK_INT > 10)
+      return;
     SharedPreferences settings = MyApplication.getInstance().getSettings();
     if (settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("dark")) {
       int c = getResources().getColor(R.color.theme_dark_button_color);
