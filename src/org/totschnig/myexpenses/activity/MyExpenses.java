@@ -165,27 +165,17 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     if (extras != null && extras.getBoolean("refresh_contrib",false))
       MyApplication.getInstance().refreshContribEnabled();
     setTheme(MyApplication.getThemeId());
+    mSettings = MyApplication.getInstance().getSettings();
+    int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
+    if (prev_version == -1) {
+      //prevent preference change listener from firing when preference file is created
+      PreferenceManager.setDefaultValues(this, R.layout.preferences, false);
+    }
+
     super.onCreate(savedInstanceState);
     setContentView(R.layout.viewpager);
-    mSettings = MyApplication.getInstance().getSettings();
 
-    long account_id = 0;
-    if (extras != null) {
-      account_id = extras.getLong(KEY_ROWID,0);
-    }
-    if (account_id == 0)
-      account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
-    if (account_id != 0) {
-      try {
-        setCurrentAccount(Account.getInstanceFromDb(account_id));
-      } catch (DataObjectNotFoundException e) {
-        //for any reason the account stored in pref no longer exists
-        setCurrentAccount(requireAccount());
-      }
-    } else {
-      setCurrentAccount(requireAccount());
-    }
-    if (mSettings.getInt("currentversion", -1) == -1) {
+    if (prev_version == -1) {
       if (MyApplication.backupExists()) {
         if (!mSettings.getBoolean("inRestoreOnInstall", false)) {
           MessageDialogFragment.newInstance(R.string.dialog_title_restore_on_install,
@@ -201,6 +191,23 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     setup();
   }
   private void setup() {
+    Bundle extras = getIntent().getExtras();
+    long account_id = 0;
+    if (extras != null) {
+      account_id = extras.getLong(KEY_ROWID,0);
+    }
+    if (account_id == 0)
+      account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
+    if (account_id != 0) {
+      try {
+        setCurrentAccount(Account.getInstanceFromDb(account_id));
+      } catch (DataObjectNotFoundException e) {
+        //for any reason the account stored in pref no longer exists
+        setCurrentAccount(Account.getInstanceFromDb(Account.firstId()));
+      }
+    } else {
+      setCurrentAccount(requireAccount());
+    }
     newVersionCheck();
 
     Resources.Theme theme = getTheme();
@@ -379,22 +386,15 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
 
   /**
-   * if there are already accounts defined, return the first one
-   * otherwise create a new account, and return it
+   * create a new account, and return it
    */
   private Account requireAccount() {
-    Account account;
-    Long accountId = Account.firstId();
-    if (accountId == null) {
-      account = new Account(
+    Account account = new Account(
           getString(R.string.app_name),
           0,
           getString(R.string.default_account_description)
       );
       account.save();
-    } else {
-      account = Account.getInstanceFromDb(accountId);
-    }
     return account;
   }
   /**
@@ -409,8 +409,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     if (prev_version == current_version)
       return;
     if (prev_version == -1) {
-      //prevent preference change listener from firing when preference activity is called first time
-      PreferenceManager.setDefaultValues(this, R.layout.preferences, false);
       //edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
       WelcomeDialogFragment.newInstance()
