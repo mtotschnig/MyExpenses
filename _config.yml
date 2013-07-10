@@ -125,6 +125,34 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.8.0.
+    - 2013-07-10
+    -
+      en: |
+        New UI design based on Holo theme.
+        Integrated help dialogs.
+        Export without reset.
+      fr: |
+        Nouvelle interface utilisateur basée sur le thème Holo.
+        Dialogues d'aide intégrés.
+        Exporter sans réinitialiser.
+      de: |
+        Neues UI Design basierend auf Holo.
+        Integrierte Hilfe.
+        Exportieren ohne Zurücksetzen.
+      it: |
+        Nuovo design dell'interfaccia utente basata sul tema Holo.
+        Dialogo di aiuto integrato.
+        Esportare senza reinizializzare.
+      es: |
+        Nuevo diseño de interfaz de usuario basada en el tema Holo.
+        Diálogo de ayuda integrado.
+        Exportar sin restablecer.
+      tr: |
+        Holo temasına dayalı yeni kullanıcı arayüzü tasarımı.
+        Entegre yardım diyalogları.
+        Sıfırlamadan dışarı aktarım.
+  -
     - 1.7.4.3
     - 2013-06-25
     -
