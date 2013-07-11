@@ -7,7 +7,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -16,9 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
+
+import com.actionbarsherlock.app.SherlockFragment;
+
 import android.widget.ExpandableListView.OnChildClickListener;
 
-public class TemplatesList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class TemplatesList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private MyExpandableListAdapter mAdapter;
   int mGroupIdColumnIndex;
   private LoaderManager mManager;

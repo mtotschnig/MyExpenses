@@ -1,24 +1,22 @@
 package org.totschnig.myexpenses.fragment;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import com.actionbarsherlock.app.SherlockFragment;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 
-public class PartiesList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class PartiesList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   SimpleCursorAdapter mAdapter;
   
   @Override
