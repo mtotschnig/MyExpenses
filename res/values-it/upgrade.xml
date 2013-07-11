@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+  <!ENTITY app_name "Le mie spese">
+]>
+<resources>
+	 <string name="version_26_upgrade_info"><i>&app_name;</i>ha ora una barra dei pulsanti come nueva
+      interfaccia di comandi. È possibile tornare alla vecchia interfaccia nella schermata delle
+      impostazioni.</string>
+  <string name="version_32_upgrade_info">È stato configurato un URL FTP come destinazione.
+      <i>&app_name;</i> non gestisce i trasferimenti FTP da solo.</string>
+  <string name="version_34_upgrade_info">Ora è in grado di supportare lo sviluppo continuo di <i>&app_name;</i> attraverso la sua donazione.</string>
+  <string name="version_35_upgrade_info"><i>&app_name;</i> ora ha un nuovo stile di default buio
+    può tornare allo stile chiaro nelle impostazioni.</string>
+  <string name="version_39_upgrade_info">Contribuire a &lt;i>&app_name;&lt;/i> è diventato più facile,
+    e più interessante. Se installa &lt;i>&app_name; Contrib&lt;/i> ottiene accesso illimitato alle
+    seguenti funzionalità speciali: &lt;br>%1$s</string>
+  <string name="version_40_upgrade_info">Ora è possibile proteggere &app_name;, impostando una password dalle impostazioni (sezione Sicurezza).</string>
+  <string name="version_41_upgrade_info"><i>&app_name;</i> ora ha una pagina di Google+. Seguitelo attraverso Aiuto => Notizie.</string>
+  <string name="version_46_upgrade_info">È ora possibile esportare le transazioni in formato CSV invece di QIF (Impostazioni, sezione Export).</string>
+</resources>

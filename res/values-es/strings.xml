@@ -332,19 +332,4 @@
   <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de
     seguridad. Se borrarán los datos actuales. &continue;</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
-  
-  <!-- strings below this comment do not need translations for new languages -->
-  <string name="version_32_upgrade_info">Ha configurado una URL FTP como destino.
-      <i>&app_name;</i> ya no maneja las transferencias FTP por sí solo.</string>
-  <string name="version_34_upgrade_info">Ahora usted puede apoyar el desarrollo contínuo de  <i>&app_name;</i> através su donación <i>&app_name;</i>.</string>
-  <string name="version_35_upgrade_info"><i>&app_name;</i> ahora tiene un nuevo tema estándar oscuro.
-    Puede volver al tema claro en las configuraciones.</string>
-  <string name="version_39_upgrade_info">Contribuir a &lt;i>&app_name;&lt;/i> ahora es más fácil y más
-    interesante. Si usted instala &lt;i>&app_name; Contrib&lt;/i>, va a obtener acceso ilimitado a las
-    siguientes características premium:&lt;br>%1$s</string>
-  <string name="version_40_upgrade_info">Ahora usted puede proteger &app_name;
-    estableciendo una contraseña en la pantalla Configuraciones (sección Seguridad).</string>
-  <string name="version_41_upgrade_info"><i>&app_name;</i> ahora tiene una página de Google+. Síguelo a través de Ayuda => Noticias</string>
-  <string name="version_46_upgrade_info">Ahora puede exportar las transacciones en CSV en lugar de QIF (Configuraciones, sección Export).</string>
-  
 </resources>

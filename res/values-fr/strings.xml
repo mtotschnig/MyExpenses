@@ -328,20 +328,4 @@
   <string name="warning_restore">La base de données et les paramètres seront restaurés à partir de la sauvegarde.
     Les données actuelles seront supprimées. &continue;</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
-  <!-- strings below this comment do not need translations for new languages -->
-  <string name="version_26_upgrade_info"><i>&app_name;</i> dispose désormais d\'une barre de boutons
-      comme nouvelle interface de commande. Vous pouvez revenir à l\'ancienne interface dans
-      l\'écran des paramètres.</string>
-  <string name="version_32_upgrade_info">Vous avez configuré une URL FTP comme cible pour le téléchargement. 
-      <i>&app_name;</i> ne gère plus les téléchargements par FTP.</string>
-  <string name="version_34_upgrade_info">Maintenant, vous pouvez soutenir la suite du développement
-    de <i>&app_name;</i> en faisant un don.</string>
-  <string name="version_35_upgrade_info"><i>&app_name;</i> utilise maintenant par défaut un nouveau style sombre.
-    Vous pouvez réactiver le style clair dans les paramètres.</string>
-  <string name="version_39_upgrade_info">Contribuer à &lt;i>&app_name;&lt;/i> est maintenant plus facile et plus intéressant.
-    Si vous installez &lt;i>&app_name; Contrib&lt;/i>, vous obtiendrez un accès illimité aux
-    fonctions Premium suivantes:&lt;br>%1$s</string>
-  <string name="version_40_upgrade_info">Maintenant, vous pouvez protéger &app_name; en spécifiant un mot de passe dans les paramètres (partie Sécurité).</string>
-  <string name="version_41_upgrade_info"><i>&app_name;</i> a maintenant sa page Google+. Suivez-la avec Aide => Nouvelles.</string>
-  <string name="version_46_upgrade_info">Vous pouvez maintenant exporter les transactions en CSV au lieu de QIF (Paramètres, partie Export).</string>
 </resources>

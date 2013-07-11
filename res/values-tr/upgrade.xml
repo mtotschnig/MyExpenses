@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+  <!ENTITY app_name "Harcamalarım">
+]>
+<resources>
+  <string name="version_39_upgrade_info">Artık &lt;i>&app_name;&lt;/i>\'a katkıda bulunmak daha kolaydır.
+     Eğer &lt;i>&app_name; Contrib&lt;/i> uygulamasını kurarsanız, şu özelliklere sınırsız erişim elde edersiniz:&lt;br>%1$s</string>
+  <string name="version_40_upgrade_info">&app_name; uygulamasını Ayarlarda (güvenlik kısmında) bir parola belirterek koruyabilirsiniz.</string>
+  <string name="version_41_upgrade_info"><i>&app_name;</i> uygulamasının artık bir Google+ sayfası vardır. Yardım => Son Haberlerden takip edebilirsiniz.</string>
+  <string name="version_46_upgrade_info">Muameleleri artık QIF yerine CSV olarak dışa aktarabilirsiniz (Ayarlarda Dışa aktarım bölümü)</string>
+</resources>

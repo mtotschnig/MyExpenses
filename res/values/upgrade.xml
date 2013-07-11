@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+  <!ENTITY app_name "My Expenses">
+]>
+<resources>
+	<string name="version_26_upgrade_info"><i>&app_name;</i> now has a button bar as a new command
+      interface. You can switch back to the old interface in the settings screen.
+  </string>
+  <string name="version_32_upgrade_info">You have configured an FTP url as share target.
+      <i>&app_name;</i> no longer handles FTP transfers on its own.</string>
+  <string name="version_34_upgrade_info">Now you can support the continued development of
+    <i>&app_name;</i> through your donation.</string>
+  <string name="version_35_upgrade_info"><i>&app_name;</i> now has a new dark default theme.
+    You can revert to the light theme in the settings.</string>
+  <string name="version_39_upgrade_info">Contributing to &lt;i>&app_name;&lt;/i> has now become easier, and more interesting.
+    If you install &lt;i>&app_name; Contrib&lt;/i>, you gain unrestricted access to the following premium features:&lt;br>%1$s</string>
+  <string name="version_40_upgrade_info">You can now protect &app_name; by setting a password from the Settings (section Security).</string>
+  <string name="version_41_upgrade_info"><i>&app_name;</i> now has a Google+ page. Follow it via Help => News.</string>
+  <string name="version_46_upgrade_info">You can now export transactions into CSV instead of QIF (Settings, section Export).</string>
+</resources>
