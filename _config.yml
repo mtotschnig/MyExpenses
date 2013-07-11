@@ -6,6 +6,7 @@ title:
   es: Mis gastos
   ca: Les Meves Despeses
   tr: Harcamalarım
+  vi: My Expenses
 langs:
   -
     - en
@@ -28,6 +29,9 @@ langs:
   -
     - tr
     - Türkçe
+  -
+    - vi
+    - Tiếng Việt
 sections:
   summary:
     weight: 1
@@ -40,6 +44,7 @@ sections:
       es: Mis gastos
       ca: Les Meves Despeses
       tr: Harcamalarım
+      vi: My Expenses
     headstuff: |
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script>
       <script type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
@@ -77,6 +82,7 @@ sections:
       es: Cambios
       ca: Canvis
       tr: Değişiklikler
+      vi: Nhật trình
     styles: |
       dl.versionlist {
         position: relative;
@@ -115,6 +121,31 @@ sections:
       - privacy
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
+  -
+    - 1.8.1.
+    - 2013-07-11
+    -
+      en: |
+        Vietnamese translation.
+        Minor improvements.
+      fr: |
+        Traduction en vietnamien.
+        Améliorations mineures.
+      de: |
+         Vietnamesische Übersetzung.
+         Gerinfügige Verbesserungen.
+      it: |
+        Traduzione in vietnamita.
+        Piccoli miglioramenti.
+      es: |
+        Traducción al vietnamita.
+        Pequeñas mejoras.
+      tr: |
+        Vietnamca tercüme.
+        Küçük iyileştirmeler.
+      vi: |
+        Chuyển ngữ tiếng Việt.
+        Cải thiện bổ sung.
   -
     - 1.8.0.
     - 2013-07-10
