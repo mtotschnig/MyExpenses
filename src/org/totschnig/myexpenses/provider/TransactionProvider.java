@@ -224,7 +224,8 @@ public class TransactionProvider extends ContentProvider {
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     long id = 0;
     String newUri;
-    switch (URI_MATCHER.match(uri)) {
+    int uriMatch = URI_MATCHER.match(uri);
+    switch (uriMatch) {
     case TRANSACTIONS:
       id = db.insertOrThrow(TABLE_TRANSACTIONS, null, values);
       newUri = TRANSACTIONS_URI + "/" + id;
@@ -281,6 +282,11 @@ public class TransactionProvider extends ContentProvider {
       throw new IllegalArgumentException("Unknown URI: " + uri);
     }
     getContext().getContentResolver().notifyChange(uri, null);
+    //the accounts cursor contains aggregates about transactions
+    //wo we need to notify it when transactions change
+    if (uriMatch == TRANSACTIONS) {
+      getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
+    }
     return id >0 ? Uri.parse(newUri) : null;
   }
 
@@ -292,7 +298,8 @@ public class TransactionProvider extends ContentProvider {
     int count;
     String whereString;
     String segment;
-    switch (URI_MATCHER.match(uri)) {
+    int uriMatch = URI_MATCHER.match(uri);
+    switch (uriMatch) {
     case TRANSACTIONS:
       count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
       break;
@@ -374,6 +381,9 @@ public class TransactionProvider extends ContentProvider {
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
     getContext().getContentResolver().notifyChange(uri, null);
+    if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTIONS_ID) {
+      getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
+    }
     return count;
   }
 
@@ -384,7 +394,8 @@ public class TransactionProvider extends ContentProvider {
     String segment; // contains rowId
     int count;
     String whereString;
-    switch (URI_MATCHER.match(uri)) {
+    int uriMatch = URI_MATCHER.match(uri);
+    switch (uriMatch) {
     case TRANSACTIONS:
       count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
       break;
@@ -472,6 +483,9 @@ public class TransactionProvider extends ContentProvider {
       throw new IllegalArgumentException("Unknown URI " + uri);
     }
     getContext().getContentResolver().notifyChange(uri, null);
+    if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTIONS_ID) {
+      getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
+    }
     return count;
   }
   static {
