@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -110,7 +111,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
 
   private Account mCurrentAccount;
 
-  int currentPosition;
+  int currentPosition = -1;
   private void setCurrentAccount(Account newAccount) {
     long currentAccountId = mCurrentAccount != null? mCurrentAccount.id : 0;
     this.mCurrentAccount = newAccount;
@@ -122,7 +123,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
   private SharedPreferences mSettings;
   private Cursor mAccountsCursor, mTemplatesCursor;
-  int sameCurrencyCount = 0;
+  private HashMap<String,Integer> currencyAccountCount;
   //private Cursor mExpensesCursor;
   private MyViewPagerAdapter myAdapter;
   private ViewPager myPager;
@@ -247,7 +248,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     //I would prefer to use setEnabled, but the disabled state unfortunately
     //is not visually reflected in the actionbar
     menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
-      .setVisible(sameCurrencyCount > 1);
+      .setVisible(currentPosition > -1 && currencyAccountCount.get(mCurrentAccount.currency.getCurrencyCode()) > 1);
     menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
       .setVisible(mTemplatesCursor != null && mTemplatesCursor.getCount() > 0);
     return true;
@@ -592,23 +593,25 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     int id = loader.getId();
     switch(id) {
     case ACCOUNTS_CURSOR:
-      myAdapter.swapCursor(cursor);
       mAccountsCursor = cursor;
-      fillNavigation();
-      //select the current account after filling
-      //use the loop to check if there is another account with the same currency
-      String currentCurrency = mCurrentAccount.currency.getCurrencyCode();
       mAccountsCursor.moveToFirst();
       currentPosition = 0;
-      sameCurrencyCount = 0;
+      String currency;
+      Integer count;
+      currencyAccountCount = new HashMap<String,Integer>();
       while (mAccountsCursor.isAfterLast() == false) {
         if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID)) == mCurrentAccount.id) {
           currentPosition = mAccountsCursor.getPosition();
         }
-        if (mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_CURRENCY)).equals(currentCurrency))
-          sameCurrencyCount++;
+        currency = mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_CURRENCY));
+        count = currencyAccountCount.get(currency);
+        if (count == null)
+          count = 0;
+        currencyAccountCount.put(currency, count+1);
         mAccountsCursor.moveToNext();
       }
+      myAdapter.swapCursor(cursor);
+      fillNavigation();
       getSupportActionBar().setSelectedNavigationItem(currentPosition);
       if ("SELECT_ACCOUNT".equals(fragmentCallbackTag)) {
        ((SelectFromCursorDialogFragment) getSupportFragmentManager().findFragmentByTag("SELECT_ACCOUNT"))
@@ -632,7 +635,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public void onLoaderReset(Loader<Cursor> arg0) {
     if (arg0.getId() == ACCOUNTS_CURSOR) {
       myAdapter.swapCursor(null);
-      sameCurrencyCount=0;
+      currentPosition = -1;
       mAccountsCursor = null;
     } else {
       mTemplatesCursor = null;
