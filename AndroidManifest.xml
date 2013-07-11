@@ -16,15 +16,16 @@
  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.totschnig.myexpenses" 
-    android:versionCode="58"
-    android:versionName="1.8.0"
+    android:versionCode="59"
+    android:versionName="1.8.1"
     android:installLocation="auto"
 >
     <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="15"></uses-sdk>
-    <supports-screens android:smallScreens="true"
-                  android:normalScreens="true"
-                  android:largeScreens="true"
-                  android:xlargeScreens="true" />
+    <supports-screens
+      android:smallScreens="true"
+      android:normalScreens="true"
+      android:largeScreens="true"
+      android:xlargeScreens="true" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
       android:name="org.totschnig.myexpenses.MyApplication"
