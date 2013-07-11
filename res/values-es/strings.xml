@@ -123,8 +123,9 @@
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licencia</string>
   <string name="help_heading_whats_new">Novedades</string>
-  <string name="help_intro">Con <i>&app_name;</i> puede llevar contabilidad sobre sus gastos y
-      ingresos y exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</string>
+  <string name="help_intro">&#160;- Lleva contabilidad sobre sus gastos y ingresos.\n
+    - Administrar directamente en tu móvil!!.\n
+    - Exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</string>
   <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
   <string name="help_whats_new">&#160;- Traducción al vietnamita.\n
     - Pequeñas mejoras.</string>

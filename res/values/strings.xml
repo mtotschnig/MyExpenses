@@ -120,9 +120,9 @@
   <string name="help_heading_credits">Credits</string>
   <string name="help_heading_license">License</string>
   <string name="help_heading_whats_new">What\'s new</string>
-  <string name="help_intro"><i>&app_name;</i> is designed to keep track of your expenses and
-      incomes, and to export these expenses into a desktop finance tool, like Grisbi,
-      Gnucash, Quicken or MS Money.</string>
+  <string name="help_intro">&#160;- Keep track of your expenses and incomes.\n
+  	- Manage them directly on your smartphone.\n
+  	- Export them into a Desktop finance program like Grisbi, GnuCash, Quicken or MS Money.</string>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
   <string name="help_whats_new">&#160;- Vietnamese translation\n
   	- Minor improvements</string>

@@ -97,9 +97,9 @@
   <string name="help_heading_credits">Tín dụng</string>
   <string name="help_heading_license">Giấy phép</string>
   <string name="help_heading_whats_new">Những phần mới</string>
-  <string name="help_intro"><i>My Expenses</i> được thiết kế để giúp bạn quản lý các khoản chi tiêu của mình và
-      thu nhập, thậm chí bạn cũng có thể xuất các định dạng dữ liệu sang Grisbi,
-      Gnucash, Quicken hoặc MS Money.</string>
+  <string name="help_intro">&#160;- Giữ chi tiêu và thu nhập của bạn theo cách mà bạn muốn.\n
+    - Quản lý tài chính thông qua điện thoại của bạn.\n
+    - xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.</string>
   <string name="help_leading">Cảm ơn bạn đã cài đặt <i>My Expenses</i> dành cho Android.</string>
   <string name="help_whats_new">&#160;-  Chuyển ngữ tiếng Việt\n
     - Cải thiện bổ sung.</string>

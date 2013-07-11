@@ -121,8 +121,9 @@
   <string name="help_heading_credits">Abspann</string>
   <string name="help_heading_license">Lizenz</string>
   <string name="help_heading_whats_new">Neue Funktionen</string>
-  <string name="help_intro">Mit <i>&app_name;</i> können Sie über Ihre Ausgaben und Einnahmen Buch 
-      halten, und diese in ein Desktop-Finanzprogrammm (Grisbi, Gnucash, Quicken oder MS Money) exportieren.</string>
+  <string name="help_intro">&#160;- Halten Sie über Ihre Einnahmen und Ausgaben Buch.\n
+    - Verwalten Sie diese direkt auf Ihrem Smartphone.\n
+    - Exportieren Sie diese in ein Desktop-Finanzprogrammm (Grisbi, Gnucash, Quicken oder MS Money).</string>
   <string name="help_leading">Danke fürs Ausprobieren von <i>&app_name;</i> für
       Android.</string>
   <string name="help_whats_new">&#160;- Vietnamesische Übersetzung.\n
