@@ -81,9 +81,6 @@
   <string name="help_intro">Amb <i>&app_name;</i> podeu portar la comptabilitat de les vostres despeses i
       ingressos i exportar-los a un programa financer d\'escritori (Grisbi, Gnucash, Quicken o MS Money).</string>
   <string name="help_leading">Gràcies per provar <i>&app_name;</i> per a Android.</string>
-  <!--   <string name="help_whats_new">&#160;- Exportació a CSV.\n
-    - Que es declari explícitament suport per a pantalles de grans dimensions per fer aplicació de nou disponible per a les tauletes de Google Play.\n
-    - Suport a Android 1.6.</string> -->
   <string name="import_categories">Importa categories</string>
   <string name="important_version_information">Informació important</string>
   <string name="income">ingrés</string>
