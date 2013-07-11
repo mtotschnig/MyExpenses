@@ -28,11 +28,9 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -43,12 +41,10 @@ import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 /**
  * allows to manage accounts
- * TODO: either prevent deletion of last account or gracefully recreate a new one
  * @author Michael Totschnig
  *
  */
@@ -88,17 +84,14 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     Intent i = new Intent(this, MyExpenses.class);
     i.putExtra(KEY_ROWID, id);
     //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    startActivity(i);
+    startActivityForResult(i,0);
   }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (resultCode == RESULT_OK) {
-/*      getSupportLoaderManager().getLoader(0).forceLoad();*/
-      configButtons();
-    }
+    configButtons();
   }
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
