@@ -203,7 +203,8 @@
   <string name="pref_manage_parties_summary">Xóa các nhóm (người trả và người được trả).</string>
   <string name="pref_manage_templates_title">Mẫu</string>
   <string name="pref_manage_templates_summary">Áp dụng hoặc xóa các mẫu.</string>
-  <string name="pref_more_info_dialog_title">Dịch bởi &amp; Phan Anh</string>
+  <string name="pref_more_info_dialog_title">Giấy phép &amp; Tín dụng</string>
+  <string name="pref_more_info_dialog_summary">Dịch bởi Phan Anh</string>
   <string name="pref_password_empty">Mật khẩu không được để trống</string>
   <string name="pref_password_not_equal">Mật khẩu không khớp</string>
   <string name="pref_perform_share_title">Chia sẻ tập tin xuất dữ liệu</string>

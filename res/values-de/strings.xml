@@ -255,6 +255,7 @@
   <string name="pref_manage_templates_title">Vorlagen</string>
   <string name="pref_manage_templates_summary">Vorlagen anwenden oder löschen.</string>
   <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>
+  <string name="pref_more_info_dialog_summary">Übersetzt von Michael Totschnig</string>
   <string name="pref_password_empty">Passwort darf nicht leer sein</string>
   <string name="pref_password_not_equal">Passwörter stimmen nicht überein</string>
   <string name="pref_perform_share_title">Export versenden</string>
