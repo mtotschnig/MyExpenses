@@ -30,19 +30,16 @@
     S\'affiche uniquement quant il y a des opérations à exporter (Fonction Premium).</string>
 
   <!-- ManageMethods -->
-  <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
   <string name="help_ManageMethods_info">Cet écran affiche la liste des méthodes de paiment predéfinis
     (Chèque, Carte de credit, Dépôt, Prélèvement) et permet d\'en définir des nouvelles.
     Si vous cliquez sur une entrée, vous pouvez changer l\'association entre méthode et type de compte.</string>
   <string name="menu_create_method_help_text">Ouvre le formulaire pour définir une nouvelle méthode.</string>
 
   <!-- ManageParties -->
-  <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
   <string name="help_ManageParties_info">Sur cet écran s\'affiche la liste des tiers utilisés pour le complément automatique du champ Tiers.
     Supprimer des entrées de cette liste à travers du menu contextuel.</string>
 
   <!-- ManageTemplates -->
-  <string name="help_ManageTemplates_title">@string/pref_manage_templates_title</string>
   <string name="help_ManageTemplates_info">Sur cet écran s\'affichent les modèles groupés par compte.
     Les modèles peuvent normalement être déduits d\'une opération, mais ici à travers le menu contextuel de chaque compte,
     vous pouvez directemnt saisir de nouveaux modèles (pour opération es transferts).
@@ -50,7 +47,6 @@
     soit en la sauvegardant directement, soit en l\'éditant. Cliquez sur une entrée pour éditer un modèle (Fonction Premium).</string>
 
   <!-- SelectCategory -->
-  <string name="help_SelectCategory_title">@string/pref_manage_categories_title</string>
   <string name="help_SelectCategory_info">Sur cet écran, vous créez, éditez et supprimez les catégories.
     Si invoqué à partir du formulaire de saisie d\'une opération, vous pouvez associer la catégorie avec l\'opération.
     Par défaut, les catégories sont triées par la fréquence de leur utilisation (l\'ordre alphabétique est utilisé

@@ -32,28 +32,24 @@
   <string name="menu_reset_all_help_text">This command allows to reset all your accounts in batch. It is not available
     if there are no transactions to export (Contrib feature).</string>
 
-  <!-- ManageMethods -->
-  <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
+  <!-- ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">This screen lists the predefined payment methods (Cheque,Credit card, Deposit,
     Direct debit) and lets you define new ones.
     Clicking on a list entry, lets you change the association between the method and account types.</string>
   <string name="menu_create_method_help_text">Opens the form for creating a new payment method.</string>
 
-  <!-- ManageParties -->
-  <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
+  <!-- ManageParties title is in keys -->
   <string name="help_ManageParties_info">This screen lists the parties used for the autocompletion of the Payer/Payee field.
     You can remove entries from this list through each entry\'s context menu.</string>
 
-  <!-- ManageTemplates -->
-  <string name="help_ManageTemplates_title">@string/pref_manage_templates_title</string>
+  <!-- ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_info">This screen lists the the available templates grouped by account.
     While templates normally can be derived from transactions, here each account\'s context menu allows you to create
     new templates (for transactions or transfers). From a template\'s context menu you can instantiate it and either
     immediately save it or enter its editing form where you can modify it before saving. Clicking on an entry allows to
     modify it (Contrib feature).</string>
 
-  <!-- SelectCategory -->
-  <string name="help_SelectCategory_title">@string/pref_manage_categories_title</string>
+  <!-- SelectCategory title is in keys-->
   <string name="help_SelectCategory_info">This screen allows to create, edit and delete categories
     and when called from a transaction\'s edit form, to map the transaction to a selected category.
     By default, the primary sort criteria in the category list is the number of times you use a category

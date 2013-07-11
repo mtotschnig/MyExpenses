@@ -42,4 +42,9 @@
       , licenced under GPL v2.0 .</string>
   <string name="donate_button_flattr">Flattr</string>
   <string name="donate_button_paypal">Paypal</string>
+  
+  <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
+  <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
+  <string name="help_ManageTemplates_title">@string/pref_manage_templates_title</string>
+  <string name="help_SelectCategory_title">@string/pref_manage_categories_title</string>
 </resources>

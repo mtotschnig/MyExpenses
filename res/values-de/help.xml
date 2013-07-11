@@ -31,20 +31,17 @@
     zurückzusetzen. Wenn es keine Transaktionen gibt, steht er nicht zur Verfügung.</string>
 
   <!-- ManageMethods -->
-  <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
   <string name="help_ManageMethods_info">Auf diesem Bildschirm wird die Liste der vordefinierten Zahlungsweisen angezeigt
     (Scheck, Kreditkarte, Einzahlung, Abbuchung) und Sie können hier auch neue Zahlungsweisen definieren.
     Im Eingabe-Formular (Klick auf einen Eintrag) können Sie einstellen, für welche Kontotypen die Zahlungsweisen anwendbar ist.</string>
   <string name="menu_create_method_help_text">Öffnet das Formular für das Anlegen einer neuen Zahlungsweise.</string>
 
   <!-- ManageParties -->
-  <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
   <string name="help_ManageParties_info">Auf diesem Bildschirm wird die Liste der Parteien angezeigt,
     die für die automatische Komplettierung des Feldes Zahler/Empfänger verwendet wird.
     Sie können Einträge aus dieser Liste über das Kontextmenü entfernen.</string>
 
   <!-- ManageTemplates -->
-  <string name="help_ManageTemplates_title">@string/pref_manage_templates_title</string>
   <string name="help_ManageTemplates_info">Hier haben Sie Zugriff auf eine nach Konten gruppierte Liste der Vorlagen.
     Vorlagen können in der Buchungsliste aus einer Buchung abgeleitet werden. Hier können Sie diese auch für das
     jeweilige Konto über dessen Kontextmenü neu anlegen (für Buchungen und Umbuchungen). Über das Kontextmenü einer
@@ -53,7 +50,6 @@
     (Premium-Funktion).</string>
 
   <!-- SelectCategory -->
-  <string name="help_SelectCategory_title">@string/pref_manage_categories_title</string>
   <string name="help_SelectCategory_info">Auf diesem Bildschirm können Sie Kategorien erzeugen, editieren und löschen.
     Wenn Sie ihn über das Buchungsformular aufrufen, wird hier auch eine Kategorie ausgewählt, die der Buchung zugeordnet
     werden soll.
