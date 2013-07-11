@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="help_menu_commands">Menu dòng lệnh</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">Danh sách giao dịch</string>
+  <string name="help_MyExpenses_info">Màn hình này sẽ liệt kê tất cả giao dịch cho tài khoản hiển tại. Từ
+		thanh định hướng, bạn có thể định hướng danh sách tài khoản hoặc chọn một tài khoản khác.
+		Click vào dòng thông tin trên danh sách để hiệu chỉnh đối tượng.</string>
+  <string name="menu_create_transaction_help_text">Mở mẫu đơn để tạo giao dịch mới.</string>
+  <string name="menu_create_transfer_help_text">Chuyển đổi tiền giữa các tài khoản. Phần lệnh này được bật
+    chỉ khi bạn có ít nhất một tài khoản khác với cùng dạng tiền tệ.</string>
+  <string name="menu_new_from_template_help_text">Nếu bạn đã tạo mẫu cho tài khoản hiện tại,
+		lệnh này sẽ hiển thị một cửa sổ để chọn các mẫu đó ngay nơi giao dịch mới được
+		tạo.</string>
+  <string name="menu_edit_account_help_text">Hiệu chỉnh thuộc tính của tài khoản hiện tại
+		(tiêu đề, mô tả, mở trạng thái cân bằng, loại tài khoản, tiền tệ, màu sắc).</string>
+  <!--ManageAccounts Accounts list-->
+  <string name="help_ManageAccounts_title">Danh sách tài khoản</string>
+  <string name="help_ManageAccounts_info">Màn hình này sẽ liệt kê tất cả các tài khoản. Click vào một dòng bất kỳ, mở
+		danh sách giao dịch với từng tài khoản.</string>
+  <string name="menu_create_account_help_text">Mở mẫu đơn để tạo một tài khoản mới.</string>
+  <string name="menu_aggregates_help_text">Hộp thoại gom nhóm tính toán tổng chi tiêu và thu nhập
+		thông qua tất cả các tài khoản cùng loại tiền tệ. Dòng lệnh này chỉ được hiển thị nếu có cùng loại tiền tệ ở ít
+		nhất hai loại tài khoản (tính năng cống hiến).</string>
+  <!--ManageMethods-->
+  <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
+  <string name="help_ManageMethods_info">Màn hình này sẽ liệt kê các phương pháp thanh toán (Séc, thẻ tín dụng, ghi nợ,
+		thẻ nợ trực tiếp) và cho bạn xác định các phần thành toán mới.
+		Click vào danh sách, để có thể tích hợp các phương pháp cho các tài khoản.</string>
+  <string name="menu_create_method_help_text">Mở mẫu đơn để tạo phương thức thanh toán mới.</string>
+  <!--ManageParties-->
+  <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
+  <!--ManageTemplates-->
+  <string name="help_ManageTemplates_title">@string/pref_manage_templates_title</string>
+  <!--SelectCategory-->
+  <string name="help_SelectCategory_title">@string/pref_manage_categories_title</string>
+  <!--ExpenseEdit-->
+  <string name="help_ExpenseEdit_title">Mẫu đơn giao dịch, truyền đổi, mẫu</string>
+  <string name="menu_save_help_text">Lưu dữ liệu và đóng lại mẫu đơn.</string>
+  <string name="menu_save_and_new_help_text">Lưu dữ liệu, để trạng thái mở cho mẫu đơn để tạo một giao dịch mới với cùng
+    dữ liệu.</string>
+  <!--AccountEdit-->
+  <string name="help_AccountEdit_title">Mẫu đơn cho các tài khoản</string>
+  <!--MethodEdit-->
+  <string name="help_MethodEdit_title">Mẫu đơn cho phương thức thanh toán</string>
+</resources>
