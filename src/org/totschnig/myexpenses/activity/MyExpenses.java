@@ -247,8 +247,13 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     super.onPrepareOptionsMenu(menu);
     //I would prefer to use setEnabled, but the disabled state unfortunately
     //is not visually reflected in the actionbar
-    menu.findItem(R.id.INSERT_TRANSFER_COMMAND)
-      .setVisible(currentPosition > -1 && currencyAccountCount.get(mCurrentAccount.currency.getCurrencyCode()) > 1);
+    boolean transferEnabled = false;
+    if (currentPosition > -1) {
+      Integer sameCurrencyCount = currencyAccountCount.get(mCurrentAccount.currency.getCurrencyCode());
+      if (sameCurrencyCount != null && sameCurrencyCount >1)
+        transferEnabled = true;
+    }
+    menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(transferEnabled);
     menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
       .setVisible(mTemplatesCursor != null && mTemplatesCursor.getCount() > 0);
     return true;
