@@ -104,7 +104,6 @@
   <string name="feedback">Feedback</string>
   <string name="feedback_email_message">Senden Sie Ihr Feedback, bitte auf Deutsch, Englisch oder Französisch!</string>
   <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
-  <string name="go_to_chapter">Zu Kapitel springen</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_default_source">Deutsche Standard-Kategorien</string>
   <string name="grisbi_import_button_categories_only">Kategorien</string>

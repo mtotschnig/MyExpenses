@@ -106,7 +106,6 @@
   <string name="feedback">Réactions</string>
   <string name="feedback_email_message">Envoyez vos réactions en français, anglais ou allemand, s.v.p.!</string>
   <string name="ftp_uri_malformed">Mauvaise syntaxe de l\'URI %1$s</string>
-  <string name="go_to_chapter">Allez au chapitre</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_default_source">Catégories standard françaises</string>
   <string name="grisbi_import_button_categories_only">Catégories</string>

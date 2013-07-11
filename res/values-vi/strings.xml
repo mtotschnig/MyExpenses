@@ -79,8 +79,6 @@
   <string name="feedback">Phản hồi</string>
   <string name="feedback_email_message">Gửi phản hồi của bạn, bằng tiếng Anh, Pháp hoặc tiếng Đức!</string>
   <string name="ftp_uri_malformed">URI lỗi %1$s</string>
-  <!--used from the user guide-->
-  <string name="go_to_chapter">Đi đến chương</string>
   <string name="grisbi_file">grisbi.xml</string>
   <string name="grisbi_import_default_source">Phân loại mặc định theo tiếng Anh</string>
   <string name="grisbi_import_button_categories_only">Phân loại</string>
@@ -99,7 +97,7 @@
   <string name="help_heading_whats_new">Những phần mới</string>
   <string name="help_intro">&#160;- Giữ chi tiêu và thu nhập của bạn theo cách mà bạn muốn.\n
     - Quản lý tài chính thông qua điện thoại của bạn.\n
-    - xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.</string>
+    - Xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.</string>
   <string name="help_leading">Cảm ơn bạn đã cài đặt <i>My Expenses</i> dành cho Android.</string>
   <string name="help_whats_new">&#160;-  Chuyển ngữ tiếng Việt\n
     - Cải thiện bổ sung.</string>

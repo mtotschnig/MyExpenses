@@ -105,7 +105,6 @@
     disponible.</string>
   <string name="feedback">Feedback</string>
   <string name="ftp_uri_malformed">URI %1$s inválido</string>
-  <string name="go_to_chapter">Consulte el capítulo</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_default_source">Categorías españoles estándar</string>
   <string name="grisbi_import_button_categories_only">Categorías</string>
@@ -124,7 +123,7 @@
   <string name="help_heading_license">Licencia</string>
   <string name="help_heading_whats_new">Novedades</string>
   <string name="help_intro">&#160;- Lleva contabilidad sobre sus gastos y ingresos.\n
-    - Administrar directamente en tu móvil!!.\n
+    - Administrar directamente en tu móvil.\n
     - Exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</string>
   <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
   <string name="help_whats_new">&#160;- Traducción al vietnamita.\n
