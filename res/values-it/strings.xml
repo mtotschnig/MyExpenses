@@ -99,6 +99,7 @@
   <string name="export_expenses_sdcard_success">Le spese sono esportate nel file %1$s</string>
   <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non è disponibile</string>
   <string name="feedback">Feedback</string>
+  <string name="feedback_email_message">Invia il tuo commento, in inglese, francese o tedesco, per favore!</string>
   <string name="ftp_uri_malformed">Sintassi male dell\'URI %1$s</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_default_source">Categorie standard in italiano</string>
