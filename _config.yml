@@ -52,6 +52,8 @@ sections:
       <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"> </script>
       <link rel="stylesheet" type="text/css" href="/css/screenshots.css" charset="UTF-8"/>
       <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/>
+    tags:
+      - install
   participate:
     weight: 3
     url: participate.html
