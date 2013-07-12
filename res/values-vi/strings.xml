@@ -1,4 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [
+  <!ENTITY app_name "Chi Tiêu Của Tôi">
+  <!ENTITY grisbi_file "grisbi.xml">
+  <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Daha fazla bilgi</a>.'>
+  <!ENTITY thank_you 'Desteğiniz için teşekkür ederiz!'>
+  <!ENTITY contrib ' (<b>Premium</b>)'>
+  <!ENTITY continue 'Devam etmek istiyor musunuz?'>
+]>
 <resources>
   <string name="account">Tài khoản</string>
   <string name="account_type_cash">Tài khoản tiền mặt</string>
@@ -7,7 +14,7 @@
   <string name="account_type_asset">Tài khoản tài sản</string>
   <string name="account_type_liability">Nợ phải trả</string>
   <string name="amount">Số lượng</string>
-  <string name="app_name">My Expenses</string>
+  <string name="app_name">&app_name;</string>
   <string name="backup_failure">Xảy ra lỗi khi sao lưu vào thẻ nhớ.</string>
   <string name="backup_success">Đã ghi dữ liệu về cơ sở dữ liệu và tùy biến thành công vào thẻ nhớ.</string>
   <string name="category_already_defined">Phân loại %1$s đã được xác định</string>
@@ -36,7 +43,7 @@
     Bạn có thể sử dụng các tính năng này, bằng việc cài đặt &lt;i&gt;My Expenses Contrib&lt;/i&gt;. Xin cảm ơn sự hỗ trợ của bạn!</string>
   <string name="dialog_contrib_yes">Mua ngay</string>
   <string name="dialog_contrib_no">Vẫn chưa</string>
-  <string name="dialog_contrib_text">&lt;i&gt;My Expenses&lt;/i&gt; được cung cấp dưới dạng mã nguồn mở và không hiện quảng cáo.
+  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> được cung cấp dưới dạng mã nguồn mở và không hiện quảng cáo.
     Xin vui lòng cống hiến cho chương trình bằng cách cài đặt phiên bản cống hiến. Bạn sẽ được phép sử dụng các
     tính năng của phiên bản nâng cao:&lt;br&gt;%1$s&lt;br&gt;Cảm ơn sự hỗ trợ của bạn!</string>
   <string name="dialog_contrib_thanks"></string>
@@ -46,7 +53,7 @@
   <string name="dialog_password_change_password">Thay đổi mật khẩu</string>
   <string name="dialog_password_new_password">Mật khẩu mới</string>
   <string name="dialog_password_new_password_confirmation">Mật khẩu mới (xác nhận)</string>
-  <string name="dialog_remind_rate">Xin dành chút thời gian để xếp hạng và xem các nhận xét về My Expenses trên Google Play.
+  <string name="dialog_remind_rate">Xin dành chút thời gian để xếp hạng và xem các nhận xét về &app_name; trên Google Play.
     Các bình luận của bạn sẽ giúp chúng tôi cải thiện chất lượng dịch vụ về sản phẩm tốt hơn.</string>
   <string name="dialog_remind_rate_yes">Xếp hạng ngay</string>
   <string name="dialog_remind_later">Để sau</string>
@@ -98,7 +105,7 @@
   <string name="help_intro">&#160;- Giữ chi tiêu và thu nhập của bạn theo cách mà bạn muốn.\n
     - Quản lý tài chính thông qua điện thoại của bạn.\n
     - Xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.</string>
-  <string name="help_leading">Cảm ơn bạn đã cài đặt <i>My Expenses</i> dành cho Android.</string>
+  <string name="help_leading">Cảm ơn bạn đã cài đặt <i>&app_name;</i> dành cho Android.</string>
   <string name="help_whats_new">&#160;-  Chuyển ngữ tiếng Việt\n
     - Cải thiện bổ sung.</string>
   <string name="important_version_information">Thông tin quan trọng</string>
@@ -197,7 +204,7 @@
   <string name="pref_category_title_export">Xuất dữ liệu</string>
   <string name="pref_category_title_security">An ninh</string>
   <string name="pref_contrib_install_title">Cài đặt ứng dụng cống hiến</string>
-  <string name="pref_contrib_install_summary">Khi cài đặt chế độ cống hiến của My Expenses, bạn được quyền truy cập các tính năng nâng cao</string>
+  <string name="pref_contrib_install_summary">Khi cài đặt chế độ cống hiến của &app_name;, bạn được quyền truy cập các tính năng nâng cao</string>
   <string name="pref_currency_decimal_separator_title">Dấu phân cách thập phan dành cho việc nhập dữ liệu 
 số lượng tiền tệ</string>
   <string name="pref_currency_decimal_separator_comma">Dấu phẩy (,)</string>

@@ -113,7 +113,9 @@
   <string name="help_heading_credits">Hazırlayanlar</string>
   <string name="help_heading_license">Lisans</string>
   <string name="help_heading_whats_new">Yenilikler</string>
-  <string name="help_intro"><i>&app_name;</i>, harcamalarınız ve gelirlerinizi izlemeye yarayan ve bunları Gnucash ya da Grisbi gibi masaüstü bir finans aracı için dışa aktaran bir uygulamadır.</string>
+  <string name="help_intro">&#160;- Gelirleriniz ve harcamalarınızı takip edin.\n
+    - Akıllı telefonunuzda doğrudan yönetin.\n
+    - Grisbi, GnuCash, Quicken ya da MS Money gibi masa üstü finans programlarına aktarın.</string>
   <string name="help_leading">Android için <i>&app_name;</i>\'i kurduğunuz için teşekkür ederiz.</string>
 	<string name="help_whats_new">&#160;- Holo temasına dayalı yeni kullanıcı arayüzü tasarımı.\n
     - Entegre yardım diyalogları.\n
