@@ -230,6 +230,7 @@
   <string name="pref_manage_templates_title">Şablonlar</string>
   <string name="pref_manage_templates_summary">Şablonları uygula ya da sil.</string>
   <string name="pref_more_info_dialog_title">Lisans &amp; Hazırlayanlar</string>
+  <string name="pref_more_info_dialog_summary">Türkçe tercüme: mauron</string>
   <string name="pref_password_empty">Parola boş olmamalıdır</string>
   <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
   <string name="pref_perform_share_title">Dışa aktarım dosyasını paylaş</string>
