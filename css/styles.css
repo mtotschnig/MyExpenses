@@ -38,7 +38,7 @@ a {
     line-height: 160%;
     min-width: 5em;
 }
-#navigation ul a {
+#navigation ul li.inactive a {
     border: 1px solid #ccc;
     padding: 4px 6px;
     text-decoration: none;
@@ -52,7 +52,7 @@ a {
      width: 90%;
      color: #3383BB;
 }
-#navigation ul a:hover {
+#navigation ul li.inactive a:hover {
     background-color: #dddddd;
     padding: 4px 6px;
 }
@@ -63,6 +63,9 @@ a {
     border-bottom: none;
     color: #3383BB;
     font-weight: bold;
+}
+#navigation ul li.active a {
+    text-decoration: none;
 }
 #navigation ul li.active:hover {
   text-decoration: underline;

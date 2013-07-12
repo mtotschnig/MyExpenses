@@ -2,7 +2,7 @@
 {% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
 <html lang="{{pagelang}}">
   <head>
-    {% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
+    {% capture baseurl %}{{page.url | replace_first: pagelang, ''| remove: '/'}}{% endcapture %}
     {% capture pagetitle %}{% if page.title %}{{page.title}}{% else %}{{site.sections[page.section]["title"][pagelang]}}{% endif %}{% endcapture %}
     <title>{% if page.metatitle %}{{page.metatitle}}{% else %}{{site.title[pagelang]}}{% if page.section != 'summary' %} {{pagetitle}}{% endif %}{% endif %}</title>
     <link rel="stylesheet" href="/css/styles.css"/>
@@ -47,14 +47,16 @@
       </div>
       <div style="clear:both" id="navigation">
         <ul>
-          {% for weight in (1..7) %}{% for section in site.sections %}{% if section[1].weight == weight %}{% capture title %}{% if section[1].title[pagelang] %}{{section[1].title[pagelang]}}{% else %}{{section[1].title["en"]}}{% endif %}{% endcapture %}
-              {% if page.section == section[0]  %}
-                <li class="active">{{title}}</li>
+          {% for weight in (1..5) %}{% for section in site.sections %}{% if section[1].weight == weight %}
+            {% capture title %}{% if section[1].title[pagelang] %}{{section[1].title[pagelang]}}{% else %}{{section[1].title["en"]}}{% endif %}{% endcapture %}
+            {% capture cssclass %}{% if page.section == section[0] %}class="active"{% else %}class="inactive"{% endif %}{% endcapture %}
+              {% if baseurl == section[1].url  %}
+                <li {{cssclass}}>{{title}}</li>
               {% else %}
                 {% if section[1].title and section[1].title[pagelang] %}
-                  <li><a href="/{{pagelang}}/{{section[1].url}}">{{title}}</a></li>
+                  <li {{cssclass}}><a href="/{{pagelang}}/{{section[1].url}}">{{title}}</a></li>
                 {% else %}
-                  <li><a href="/en/{{section[1].url}}">{{title}}</a></li>
+                  <li {{cssclass}}><a href="/en/{{section[1].url}}">{{title}}</a></li>
                 {% endif %}
               {% endif %}
             {% endif %}{% endfor %}{% endfor %}

@@ -55,7 +55,7 @@ sections:
     tags:
       - install
   participate:
-    weight: 3
+    weight: 2
     url: participate.html
     title:
       en: Participate
@@ -66,7 +66,7 @@ sections:
     tags:
       - donate
   info:
-    weight: 4
+    weight: 3
     url: info.html
     title:
       en: Information
@@ -74,7 +74,7 @@ sections:
       - credits
       - licence
   changelog:
-    weight: 5
+    weight: 4
     url: versionlist.html
     title: 
       en: Changelog
@@ -104,7 +104,7 @@ sections:
         width: 6em;
       }
   faq:
-    weight: 6
+    weight: 5
     url: faq.html
     title:
       en: FAQ
