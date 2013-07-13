@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.dialog;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
@@ -56,14 +57,15 @@ public class VersionDialogFragment extends DialogFragment implements OnClickList
         }
       }
     }
-    return new AlertDialog.Builder(ctx)
+    AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
       .setTitle(getString(R.string.new_version) + " : "
           + CommonCommands.getVersionName(getActivity()))
       .setIcon(R.drawable.icon)
       .setView(view)
-      .setPositiveButton(android.R.string.ok, this)
-      .setNegativeButton( R.string.menu_contrib, this)
-      .create();
+      .setPositiveButton(android.R.string.ok, this);
+    if (!MyApplication.getInstance().isContribEnabled)
+      builder.setNegativeButton( R.string.menu_contrib, this);
+    return builder.create();
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
