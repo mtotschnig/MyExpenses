@@ -17,8 +17,6 @@
 <!DOCTYPE resources [
   <!ENTITY app_name "Mis gastos">
   <!ENTITY grisbi_file "grisbi.xml">
-  <!ENTITY learn_more '<a href="http://myexpenses.totschnig.org/#participate">Más información</a>.'>
-  <!ENTITY thank_you 'Gracias por su apoyo!'>
   <!ENTITY contrib ' (<b>Premium</b>)'>
   <!ENTITY continue '¿Quiere continuar?'>
 ]>
@@ -57,14 +55,12 @@
   <string name="dialog_contrib_no">Todavía no</string>
   <string name="dialog_contrib_no_usages_left">No hay más uso libre</string>
   <string name="dialog_contrib_reminder">\"%1$s\" es una característica Contrib. %2$s.
-    Usted va a obtener acceso ilimitado a ésta y otras características instalando &lt;i>&app_name;
-    Contrib&lt;/i>. &thank_you;</string>
+    Usted va a obtener acceso ilimitado a ésta y otras características instalando &lt;i>&app_name; Contrib&lt;/i>.</string>
   <string name="dialog_contrib_usage_count">Quedan %1$d usos libres</string>
   <string name="dialog_contrib_yes">Compre</string>
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> se ofrece sin publicidad y de código abierto. 
     Por favor, contribuye instalando la versión pagada Contrib. Usted va a obtener acceso ilimitado 
-    a las siguientes características premium: &lt;br>%1$s&lt;br>&thank_you;</string>
-  <string name="dialog_contrib_thanks">&thank_you; &learn_more;</string>
+    a las siguientes características premium: &lt;br>%1$s&lt;br></string>
   <string name="dialog_export_delete">Borrar las transacciones exportados</string>
   <string name="dialog_export_not_yet_exported">Exportar sólo las transacciones aún no exportadas</string>
   <string name="dialog_password_activate_protection">Activar protección por contraseña</string>
@@ -92,7 +88,7 @@
   <string name="dialog_title_welcome">¡Bienvenido!</string>
   <string name="donate">Done</string>
   <string name="donate_dialog_text">Si usted no tiene acceso a Google Play, se puede donar a través de PayPal o Flattr,
-    y luego solicitar una clave contrib de la pantalla de configuraciones.\n\n&thank_you;</string>
+    y luego solicitar una clave contrib de la pantalla de configuraciones.</string>
   <string name="error_accessing_gplay">Error al acceder a Google Play</string>
   <string name="expense">gasto</string>
   <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere
@@ -310,6 +306,7 @@
   <string name="sum_transfer">Traslados</string>
   <string name="template_create_success">Plantilla \"%1$s\" creada con éxito</string>
   <string name="template_title_exists">Ya existe una plantilla con título \"%1$s\" .</string>
+  <string name="thank_you">Gracias por su apoyo!</string>
   <string name="time">Hora</string>
   <string name="title">Título</string>
   <string name="transaction">Asiento</string>

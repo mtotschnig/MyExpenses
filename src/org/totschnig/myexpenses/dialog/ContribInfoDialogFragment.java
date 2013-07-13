@@ -12,6 +12,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
@@ -33,11 +34,10 @@ public class ContribInfoDialogFragment  extends DialogFragment implements OnClic
     //tv.setMovementMethod(LinkMovementMethod.getInstance());
     AlertDialog.Builder builder =  new AlertDialog.Builder(getActivity())
       .setTitle(R.string.menu_contrib);
-    if (MyApplication.getInstance().isContribEnabled) {
-      builder.setMessage(R.string.dialog_contrib_thanks)
-        .setNeutralButton(android.R.string.ok, null);
-    } else {
-      builder.setMessage(Html.fromHtml(getString(R.string.dialog_contrib_text,Utils.getContribFeatureLabelsAsFormattedList(getActivity()))))
+      builder.setMessage(TextUtils.concat(Html.fromHtml(getString(
+          R.string.dialog_contrib_text,
+          Utils.getContribFeatureLabelsAsFormattedList(getActivity()))),
+          getString(R.string.thank_you)))
         .setPositiveButton(R.string.dialog_contrib_yes, this);
       if (getArguments().getBoolean("reminderP")) {
         builder.setCancelable(false)
@@ -46,18 +46,7 @@ public class ContribInfoDialogFragment  extends DialogFragment implements OnClic
       } else {
         builder.setNegativeButton(R.string.dialog_contrib_no,null);
       }
-    }  
     return builder.create();
-  }
-  @Override
-  public void onStart() {
-    super.onStart();
-    if (MyApplication.getInstance().isContribEnabled) {
-      Dialog dlg = getDialog();
-      TextView message = (TextView) dlg.findViewById(android.R.id.message);
-      message.setLinkTextColor(getActivity().getResources().getColorStateList(R.drawable.linkcolor));
-      message.setMovementMethod(LinkMovementMethod.getInstance());
-    }
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {

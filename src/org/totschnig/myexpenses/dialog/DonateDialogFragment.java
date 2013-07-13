@@ -37,7 +37,10 @@ public class DonateDialogFragment extends DialogFragment {
   public static AlertDialog buildDialog(Context ctx) {
     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ctx);
     alertDialogBuilder.setTitle(R.string.donate);
-    alertDialogBuilder.setMessage(R.string.donate_dialog_text);
+    alertDialogBuilder.setMessage(
+        ctx.getString(R.string.donate_dialog_text)
+        +"\n\n"+
+        ctx.getString(R.string.thank_you));
     DonationUriVisitor listener = new DonationUriVisitor(ctx);
     alertDialogBuilder.setNegativeButton(R.string.donate_button_flattr, listener);
     alertDialogBuilder.setPositiveButton(R.string.donate_button_paypal, listener);

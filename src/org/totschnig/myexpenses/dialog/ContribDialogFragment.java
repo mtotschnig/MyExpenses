@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 
 public class ContribDialogFragment extends DialogFragment implements DialogInterface.OnClickListener{
@@ -47,10 +48,14 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
     //but does not harm in the other cases
     Context wrappedCtx = Build.VERSION.SDK_INT > 10 ?
         new ContextThemeWrapper(ctx, MyApplication.getThemeId()) : ctx;
-      CharSequence message = Html.fromHtml(String.format(getString(
-        R.string.dialog_contrib_reminder,
-        getString(getResources().getIdentifier("contrib_feature_" + feature + "_label", "string", getActivity().getPackageName())),
-        usagesLeft > 0 ? getString(R.string.dialog_contrib_usage_count,usagesLeft) : getString(R.string.dialog_contrib_no_usages_left))));
+      CharSequence message = TextUtils.concat(
+          Html.fromHtml(String.format(getString(
+            R.string.dialog_contrib_reminder,
+            getString(getResources().getIdentifier(
+                "contrib_feature_" + feature + "_label", "string", getActivity().getPackageName())),
+            usagesLeft > 0 ? getString(R.string.dialog_contrib_usage_count,usagesLeft) :
+                getString(R.string.dialog_contrib_no_usages_left)))),
+        getString(R.string.thank_you));
       return new AlertDialog.Builder(wrappedCtx)
         .setTitle(R.string.dialog_title_contrib_feature)
         .setMessage(message)
