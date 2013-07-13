@@ -34,7 +34,7 @@
   <!-- ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Questa schermata elenca i metodi di pagamento predefiniti (assegno, carta di credito, deposito,
      addebito diretto) e consente di definire nuovi.
-     Facendo clic su una voce dell'elenco, consente di modificare l'associazione tra il metodo e tipi di conti.</string>
+     Facendo clic su una voce dell\'elenco, consente di modificare l\'associazione tra il metodo e tipi di conti.</string>
   <string name="menu_create_method_help_text">Apre il modulo per la creazione di un nuovo metodo di pagamento.</string>
 
   <!-- ManageParties title is in keys -->
@@ -45,7 +45,7 @@
   <!-- ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_info">Questa schermata elenca i modelli disponibili raggruppati per conto.
     Mentre i modelli possono essere derivate da operazioni, qui, il menu contestuale di ogni conto consente di creare nuovi modelli (per le transazioni o trasferimenti).
-    Dal menu contestuale di un modello è possibile creare un'istanza di esso e decidere se salvare immediatamente o inserire la sua forma di modifica in cui è possibile modificarla prima di salvare.
+    Dal menu contestuale di un modello è possibile creare un\'istanza di esso e decidere se salvare immediatamente o inserire la sua forma di modifica in cui è possibile modificarla prima di salvare.
     Facendo clic su una voce permette di modificarlo (caratteristica Contrib).</string>
 
   <!-- SelectCategory title is in keys-->
@@ -84,6 +84,6 @@
   <!-- MethodEdit -->
   <string name="help_MethodEdit_title">Modulo per i metodi di pagamento</string>
   <string name="help_MethodEdit_info">In questa schermata, è possibile associare un metodo di pagamento con i i tipi di conto.
-    È inoltre possibile definire una etichetta (con l'eccezione dei metodi predefiniti che hanno un etichetta fissa che non può essere modificato).
+    È inoltre possibile definire una etichetta (con l\'eccezione dei metodi predefiniti che hanno un etichetta fissa che non può essere modificato).
     Attraverso il tipo di un metodo, si determina se è applicabile per le spese (debito), reddito (credito) o entrambi (neutrale).</string>
 </resources>
