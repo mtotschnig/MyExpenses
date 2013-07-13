@@ -125,7 +125,7 @@
   <string name="important_version_information">Informazioni importanti</string>
   <string name="invalid_number_format">Numero formato non riconosciuto dal vostra regione. Uso %1$s
   </string>
-  <string name="label">Titolo</string>
+  <string name="label">Etichetta</string>
   <string name="licence_validation_failure">Impossible convalidare la chiave di licenza.</string>
   <string name="licence_validation_success">Chiave di licenza convalidata con successo. Le funzionalità
   speciali sono state attivate.</string>

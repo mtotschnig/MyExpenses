@@ -9,9 +9,9 @@
      Haga clic en una entrada de la lista para editar el elemento.</string>
   <string name="menu_create_transaction_help_text">Abre el formulario para crear una nueva transacción.</string>
   <string name="menu_create_transfer_help_text">Transferir dinero entre cuentas. Este comando se activa sólo si tiene
-  	al menos otra cuenta en la misma moneda que la actual.</string>
+    al menos otra cuenta en la misma moneda que la actual.</string>
   <string name="menu_new_from_template_help_text">Si ha creado plantillas para la cuenta corriente, este comando
-  	 muestra un cuadro de diálogo para seleccionar una plantilla en la que se creará una nueva transacción.</string>
+     muestra un cuadro de diálogo para seleccionar una plantilla en la que se creará una nueva transacción.</string>
   <string name="menu_reset_help_text">Este comando exportará todas las transacciones de la cuenta corriente a un archivo en
      la tarjeta SD en formato CSV o QIF. De forma predeterminada, las transacciones serán
      eliminado del teléfono, pero puede optar por mantenerlos y marcar como exportado. Mis gastos pueden compartir la
@@ -32,54 +32,57 @@
      si no hay transacciones (característica Contrib).</string>
 
   <!-- ManageMethods title is in keys-->
-  <string name="help_ManageMethods_info">Esta pantalla muestra los métodos de pago predefinidas (Cheque, Tarjeta de crédito, depósito,
+  <string name="help_ManageMethods_info">Esta pantalla muestra los métodos de pago predefinidas (cheque, tarjeta de crédito, depósito,
      impuesto) y le permite definir otros nuevos.
      Al hacer clic en una entrada de la lista, le permite cambiar la relación entre el método y los tipos de cuenta.</string>
   <string name="menu_create_method_help_text">Abre el formulario para crear un nuevo método de pago.</string>
 
   <!-- ManageParties title is in keys -->
-  <string name="help_ManageParties_info">This screen lists the parties used for the autocompletion of the Payer/Payee field.
-    You can remove entries from this list through each entry\'s context menu.</string>
+  <string name="help_ManageParties_info">Esta pantalla muestra los nombres utilizados para la terminación automática del campo pagador / beneficiario.
+     Puede eliminar las entradas de esta lista a través del menú contextual de cada entrada.</string>
 
   <!-- ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_info">This screen lists the the available templates grouped by account.
-    While templates normally can be derived from transactions, here each account\'s context menu allows you to create
-    new templates (for transactions or transfers). From a template\'s context menu you can instantiate it and either
-    immediately save it or enter its editing form where you can modify it before saving. Clicking on an entry allows to
-    modify it (Contrib feature).</string>
+  <string name="help_ManageTemplates_info">Esta pantalla muestra las las plantillas disponibles agrupados por cuenta.
+    Mientras que las plantillas normalmente se pueden derivar de las transacciones, aquí el menú contextual de cada cuenta le permite crear nuevas plantillas (para las transacciones o traslados a otra cuenta).
+    Desde el menú contextual de una plantilla se puede crear una instancia y de forma inmediata guardarlo o acceder a su formulario de edición donde puede modificarla antes de guardar.
+    Al hacer clic en una entrada permite modificarlo (característica Contrib).</string>
 
   <!-- SelectCategory title is in keys-->
-  <string name="help_SelectCategory_info">This screen allows to create, edit and delete categories
-    and when called from a transaction\'s edit form, to map the transaction to a selected category.
-    By default, the primary sort criteria in the category list is the number of times you use a category
-    (the secondary criteria is alphabetical order). This gives you quick access to the categories you use most often.
-    In the settings, you can opt for sorting the categories in plain alphabetical order.
-    Clicking on a main category, opens up its subcategories. You select a subcategory for mapping to the current
-    transaction by simply clicking on it. In order to map a main category, you have to call its context menu.
-    From here you can also add new subcategories, delete a category or edit it. Subcategories have also context
-    menus for deleting and editing.</string>
-  <string name="menu_create_main_cat_help_text">Opens the dialog for specifying the title of a new main category.</string>
+  <string name="help_SelectCategory_info">Esta pantalla permite crear, editar y eliminar categorías
+    y cuando se le de la forma de edición de una transacción, para asignar la operación de una categoría seleccionada.
+    Como primer criterio de clasificación se utiliza el número de usos de una categoría (el segundo criterio es el orden alfabético).
+    Así usted puede acceder de manera muy rápida a las categorías de uso mas frecuente.
+    En la configuración, se puede optar por el orden alfabético.
+    Un clic sobre una categoría principal abre la lista de subcategorías. La asignación de una subcategoría a un asiento
+    actual se realiza a través de un breve clic. La asignación de una categoría principal es posible a través del menú contextual.
+    Este menú permite también crear nuevas subcategorías, y borrar y modificar categorías principales.
+    También las subcategorías disponen de un menú contextual para borrar- o modificarlas.</string>
+  <string name="menu_create_main_cat_help_text">Apre la finestra di dialogo per specificare il titolo di una nuova categoria principale.</string>
 
   <!-- ExpenseEdit -->
-  <string name="help_ExpenseEdit_title">Form for transactions, transfers, templates</string>
-  <string name="help_ExpenseEdit_info">Click on the - Button to toggle between expense and income, click on the = Button
-    to open a calculator. The decimal separator for amounts can be configured in the settings. The payee (or payer)
-    field remembers the values you enter and will suggest them in the future. The button for selecting a payment method,
-    is only available if the current account is of a type linked to any payment method. By default only bank accounts, are 
-    linked to payment methods (cheque,credit card, deposit,direct debit).</string>
-  <string name="menu_save_help_text">Save the data and close the form.</string>
-  <string name="menu_save_and_new_help_text">Save the data, leave the form open for creating a new transaction with the same
-    data.</string>
+  <string name="help_ExpenseEdit_title">Formulario para las transacciones, transferencias, plantillas</string>
+  <string name="help_ExpenseEdit_info">
+    <!-- Haga click en ? -->
+    Presione el botón - para alternar entre gasto u ingreso. Presione el botón = para abrir una calculadora.
+    El separador decimal para cantidades puede ser configurado en la configuración.
+    La casilla para la inserción del beneficiario (o del pagador) memoriza los valores que usted ha insertado,
+    y se los propone si usted vuelve a hacer inserciones en esta casilla.
+    El botón para seleccionar un método de pago, sólo está disponible si la cuenta corriente es de un tipo vinculado a ninguna forma de pago.
+    De forma predeterminada, sólo las cuentas bancarias están vinculados a formas de pago (cheque, tarjeta de crédito, depósito,
+    impuesto).</string>
+  <string name="menu_save_help_text">Guarda los datos y cierra el formulario.</string>
+  <string name="menu_save_and_new_help_text">Guarde los datos, deje abierto el formulario para crear una nueva transacción con el mismo
+     datos.</string>
   <!-- AccountEdit -->
-    <string name="help_AccountEdit_title">Form for accounts</string>
-    <string name="help_AccountEdit_info">The account is identified by its label, the description has only an informative purpose.
-      The decimal separator for the opening balance can be configured in the settings. The currency must be entered according to
-      its three-letter code in ISO 4217, but can be chosen easily from a list. You can
-      define the type of an account as one of Cash, Bank, Asset, Liabilities, Credit Card. The type determines the available payment
-      methods that you can configure under Preferences -> Manage -> Payment Methods.</string>
+  <string name="help_AccountEdit_title">Formulario para las cuentas</string>
+  <string name="help_AccountEdit_info">La cuenta se identifica por su etiqueta, la descripción tiene únicamente una finalidad informativa.
+    El separador decimal para el saldo inicial se puede configurar en la configuración.
+    La moneda va insertada con su abreviación de tres cifras ISO 4217, pero puede ser elegida simplemente de la lista
+    Usted puede asignar a una cuenta uno de los siguientes tipos: cuenta de caja, cuenta bancaria, cuenta de inversiones, cuenta de crédito.
+    El tipo determina los métodos de pago disponibles que se pueden configurar en Configuraciones -> Administrar -> Métodos de Pago.</string>
   <!-- MethodEdit -->
-  <string name="help_MethodEdit_title">Form for payment methods</string>
-  <string name="help_MethodEdit_info">On this screen, you associate a payment method with account types.
-     You can also define a label (with the exception of the predefined methods which have a fixed label that cannot be edited).
-     Through a method\'s type, you determine if it is applicable for expenses (debit), income (credit) or both (neutral).</string>
+  <string name="help_MethodEdit_title">Formulario para los métodos de pago</string>
+  <string name="help_MethodEdit_info">En esta pantalla, se asocia un método de pago con tipos de cuenta.
+    También puede definir una etiqueta (con la excepción de los métodos predefinidos que tienen una etiqueta fija que no se puede modificar).
+    A través de tipo de un método, a determinar si es aplicable a los gastos (débito), ingresos (crédito) o ambos (neutro).</string>
 </resources>

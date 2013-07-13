@@ -77,7 +77,7 @@
       The decimal separator for the opening balance can be configured in the settings. The currency must be entered according to
       its three-letter code in ISO 4217, but can be chosen easily from a list. You can
       define the type of an account as one of Cash, Bank, Asset, Liabilities, Credit Card. The type determines the available payment
-      methods that you can configure under Preferences -> Manage -> Payment Methods.</string>
+      methods that you can configure under Settings -> Manage -> Payment Methods.</string>
   <!-- MethodEdit -->
   <string name="help_MethodEdit_title">Form for payment methods</string>
   <string name="help_MethodEdit_info">On this screen, you associate a payment method with account types.
