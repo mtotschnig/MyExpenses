@@ -125,4 +125,23 @@ div.screenshot {
 #money img, #money input {
  vertical-align: middle; 
 }
-
+#language_table {
+    border-collapse: collapse;
+    font-family: "Trebuchet MS",Arial,Helvetica,sans-serif;
+    width: 100%;
+}
+#language_table td, #language_table th {
+    border: 1px solid #98BF21;
+    padding: 3px 7px 2px;
+}
+#language_table th {
+    background-color: #A7C942;
+    color: #FFFFFF;
+    padding-bottom: 4px;
+    padding-top: 5px;
+    text-align: left;
+}
+#language_table tr.alt td {
+    background-color: #EAF2D3;
+    color: #000000;
+}
