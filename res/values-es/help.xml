@@ -21,21 +21,21 @@
      (título, descripción, balance de apertura, tipo de cuenta, moneda, color).</string>
 
   <!-- ManageAccounts Accounts list -->
-  <string name="help_ManageAccounts_title">Accounts list</string>
-  <string name="help_ManageAccounts_info">This screen lists all accounts. Clicking on a list entry, opens the
-    transaction list for the account.</string>
-  <string name="menu_create_account_help_text">Opens the form for creating a new account.</string>
-  <string name="menu_aggregates_help_text">The aggregates dialog calculates the sum of expenses and income accross
-    all accounts that share the same currency. The command is only available if for any currency there exist at
-    least two accounts (Contrib feature).</string>
-  <string name="menu_reset_all_help_text">This command allows to reset all your accounts in batch. It is not available
-    if there are no transactions to export (Contrib feature).</string>
+  <string name="help_ManageAccounts_title">Lista de cuentas</string>
+  <string name="help_ManageAccounts_info">Esta pantalla muestra todas las cuentas. Al hacer clic en una entrada de la lista, se abre la
+     lista de transacciones de la cuenta.</string>
+  <string name="menu_create_account_help_text">Abre el formulario para crear una nueva cuenta.</string>
+  <string name="menu_aggregates_help_text">El diálogo \"Agregados de varias cuentas\" calcula la suma de los gastos y los ingresos de
+     todas las cuentas que comparten la misma moneda. El comando sólo está disponible si por cualquier moneda existen al
+     menos dos cuentas (característica Contrib).</string>
+  <string name="menu_reset_all_help_text">Este comando permite restablecer todas sus cuentas en batch. No está disponible
+     si no hay transacciones (característica Contrib).</string>
 
   <!-- ManageMethods title is in keys-->
-  <string name="help_ManageMethods_info">This screen lists the predefined payment methods (Cheque,Credit card, Deposit,
-    Direct debit) and lets you define new ones.
-    Clicking on a list entry, lets you change the association between the method and account types.</string>
-  <string name="menu_create_method_help_text">Opens the form for creating a new payment method.</string>
+  <string name="help_ManageMethods_info">Esta pantalla muestra los métodos de pago predefinidas (Cheque, Tarjeta de crédito, depósito,
+     impuesto) y le permite definir otros nuevos.
+     Al hacer clic en una entrada de la lista, le permite cambiar la relación entre el método y los tipos de cuenta.</string>
+  <string name="menu_create_method_help_text">Abre el formulario para crear un nuevo método de pago.</string>
 
   <!-- ManageParties title is in keys -->
   <string name="help_ManageParties_info">This screen lists the parties used for the autocompletion of the Payer/Payee field.

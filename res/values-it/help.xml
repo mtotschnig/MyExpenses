@@ -6,7 +6,7 @@
   <string name="help_MyExpenses_title">Elenco delle transazioni</string>
   <string name="help_MyExpenses_info">Questa schermata elenca tutte le transazioni per il conto corrente. Dal
      barra di navigazione, è possibile accedere alla lista dei conti o scegliere un account diverso.
-     Fare clic su una voce dell'elenco per modificare la voce.</string>
+     Fare clic su una voce dell\'elenco per modificare la voce.</string>
   <string name="menu_create_transaction_help_text">Apre il modulo per la creazione di una nuova transazione.</string>
   <string name="menu_create_transfer_help_text">Trasferire denaro tra conti. Questo comando è abilitato solo se si
      dispone di almeno un altro account con la stessa moneta, come quello attuale.</string>
@@ -15,27 +15,27 @@
   <string name="menu_reset_help_text">Questo comando consente di esportare tutte le transazioni del conto corrente in un file su
      la scheda SD in QIF o in formato CSV. Per impostazione predefinita, le operazioni saranno
      eliminato dal telefono, ma è possibile scegliere di tenerli e segnare come esportato. Le mie spese possono condividere la
-     presentare immediatamente dopo l'esportazione tramite FTP, e-mail o qualsiasi altra applicazione di file sharing, se lo si configura
+     presentare immediatamente dopo l\'esportazione tramite FTP, e-mail o qualsiasi altra applicazione di file sharing, se lo si configura
      di farlo in Impostazioni.</string>
   <string name="menu_edit_account_help_text">Regolare le proprietà del conto corrente
      (titolo, descrizione, saldo di apertura, tipo di conto, valuta, colore).</string>
 
   <!-- ManageAccounts Accounts list -->
-  <string name="help_ManageAccounts_title">Accounts list</string>
-  <string name="help_ManageAccounts_info">This screen lists all accounts. Clicking on a list entry, opens the
-    transaction list for the account.</string>
-  <string name="menu_create_account_help_text">Opens the form for creating a new account.</string>
-  <string name="menu_aggregates_help_text">The aggregates dialog calculates the sum of expenses and income accross
-    all accounts that share the same currency. The command is only available if for any currency there exist at
-    least two accounts (Contrib feature).</string>
-  <string name="menu_reset_all_help_text">This command allows to reset all your accounts in batch. It is not available
-    if there are no transactions to export (Contrib feature).</string>
+  <string name="help_ManageAccounts_title">Elenco dei conti</string>
+  <string name="help_ManageAccounts_info">Questa schermata elenca tutti i conti. Facendo clic su una voce della lista, si apre la
+     elenco delle transazioni per il conto.</string>
+  <string name="menu_create_account_help_text">Apre il modulo per la creazione di un nuovo account.</string>
+  <string name="menu_aggregates_help_text">La finestra \"Sommare piu conti\" calcola la somma delle spese e redditi di
+     tutti gli conti che condividono la stessa moneta. Il comando è disponibile solo se per qualsiasi valuta esistono a
+     almeno due conti (funzionalità speciale).</string>
+  <string name="menu_reset_all_help_text">Questo comando consente di reinizializzare tutti i vostri conti in batch. Non è disponibile
+     se non ci sono operazioni (funzionalità speciale).</string>
 
   <!-- ManageMethods title is in keys-->
-  <string name="help_ManageMethods_info">This screen lists the predefined payment methods (Cheque,Credit card, Deposit,
-    Direct debit) and lets you define new ones.
-    Clicking on a list entry, lets you change the association between the method and account types.</string>
-  <string name="menu_create_method_help_text">Opens the form for creating a new payment method.</string>
+  <string name="help_ManageMethods_info">Questa schermata elenca i metodi di pagamento predefiniti (assegno, carta di credito, deposito,
+     addebito diretto) e consente di definire nuovi.
+     Facendo clic su una voce dell'elenco, consente di modificare l'associazione tra il metodo e tipi di conti.</string>
+  <string name="menu_create_method_help_text">Apre il modulo per la creazione di un nuovo metodo di pagamento.</string>
 
   <!-- ManageParties title is in keys -->
   <string name="help_ManageParties_info">This screen lists the parties used for the autocompletion of the Payer/Payee field.
