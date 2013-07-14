@@ -443,7 +443,11 @@
             do not need any contrib key in that case. A contrib key is a mechanism to unlock the
             Premium features without installation of the contrib app. I will send this key to users
             that contribute to the development of <application role="app_name"/> by other means,
-            e.g. translating the UI, testing pre-releases, or donating through PayPal or Flattr. The key is calculated based on the
+            e.g. translating the UI, testing pre-releases, or donating through
+             <ulink url="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=KPXNZHMXJE8ZJ">Paypal</ulink>
+             or
+             <ulink url="https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App">Flattr</ulink>.
+            The key is calculated based on the
             Android-ID of your device, that you can communicate to me through the <guilabel
             role="pref_request_licence_title"/> entry in the <guilabel role="menu_settings"/>
             screen.
@@ -468,7 +472,11 @@
             Installation der Contrib App freizuschalten. Ich sende diesen Schlüssel an Benutzer, die
             auf andere Weise zur Entwicklung von <application role="app_name"/> beigetragen haben,
             z.B. durch das Übersetzen der Benutzerschnittstelle, Testen der
-            Vorab-Versionen, oder eine Spende über Paypal oder Flattr. Der Schlüssel wird anhand der Android-ID Ihres Gerätes berechnet, die
+            Vorab-Versionen, oder eine Spende über
+             <ulink url="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=KPXNZHMXJE8ZJ">Paypal</ulink>
+             oder
+             <ulink url="https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App">Flattr</ulink>.
+            Der Schlüssel wird anhand der Android-ID Ihres Gerätes berechnet, die
             Sie mir mittels des Eintrages <guilabel role="pref_request_licence_title"/> unter
             <guilabel role="menu_settings"/> mitteilen können.
           </para>
@@ -492,7 +500,11 @@
             desbloquear las características premium sin la instalación de la aplicación contrib.
             Enviaré esta clave a usuarios que contribuyen al desarrollo de la aplicación por otros
             medios, por ejemplo por la traducción de la interfaz de usuario, poniendo a prueba
-            pre-versiones, o una donación a través de Paypal o Flattr. Se calcula la clave basada en el Android-ID de su dispositivo que usted
+            pre-versiones, o una donación a través de
+             <ulink url="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=KPXNZHMXJE8ZJ">Paypal</ulink>
+             o
+             <ulink url="https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App">Flattr</ulink>.
+            Se calcula la clave basada en el Android-ID de su dispositivo que usted
             puede comunicar a través la <guilabel role="pref_request_licence_title"/>
             entrada en la <guilabel role="menu_settings"/> pantalla.
           </para>
@@ -516,7 +528,11 @@
             fonctionnalités Premium sans installation de l'app contrib. J'envoie cette clé aux
             utilisateurs qui contribuent au développement de <application role="app_name"/> par
             d'autres moyens, par exemple la traduction de l'interface utilisateur, en testant les
-            pré-versions ou une donation par Paypal ou Flattr. La clé est calculée sur la base de l'Android-ID de votre appareil, que
+            pré-versions ou une donation par
+            <ulink url="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=KPXNZHMXJE8ZJ">Paypal</ulink>
+            ou
+            <ulink url="https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App">Flattr</ulink>.
+            La clé est calculée sur la base de l'Android-ID de votre appareil, que
             vous pouvez me communiquer par l'entrée <guilabel role="pref_request_licence_title" />
             dans l'écran <guilabel role="menu_settings"/>.
           </para>
@@ -563,7 +579,11 @@
              alcuna chiave contrib in quel caso. Una chiave contrib è un meccanismo per sbloccare le
              funzionalità Premium senza installazione delle app contrib. Manderò questa chiave agli
              utenti che contribuiscono allo sviluppo delLe Mie Spese con altri mezzi, ad esempio
-             traducendo l'interfaccia utente, testando pre-releases o una donazione tramite Paypal o Flattr. La chiave è calcolata sulla
+             traducendo l'interfaccia utente, testando pre-releases o una donazione tramite
+             <ulink url="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=KPXNZHMXJE8ZJ">Paypal</ulink>
+             o
+             <ulink url="https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App">Flattr</ulink>.
+             La chiave è calcolata sulla
              base della Android-ID del dispositivo, che potete comunicare a me attraverso la voce
              <guilabel role="pref_request_licence_title"/> nella schermata <guilabel
               role="menu_settings"/>.
