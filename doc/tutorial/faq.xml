@@ -28,7 +28,7 @@
           <para>
             There are different decimal separators used in different languages: comma in most
             European countries, point in most English speaking countries. Unfortunately there
-            is a still unresolved problem in the Android OS, which does not handle the comma
+            is a problem in some versions of the Android OS, which does not handle the comma
             well in its numeric input method, and in some cases even does not allow at all to
             enter a comma. If you encounter this problem, you can set the point as decimal
             separator in the Settings.
@@ -46,7 +46,7 @@
           <para>
             Il existe différents séparateurs décimaux utilisés dans différentes langues:
             virgule dans la plupart des pays européens, le point dans les pays anglophones.
-            Malheureusement, il existe un problème non encore résolu dans le système
+            Malheureusement, il existe un problème dans quelques version du système
             d'exploitation Android, il ne gère pas bien la virgule dans sa méthode d'entrée
             numérique, et dans certains cas ne permet même pas du tout d'entrer une virgule. Si
             vous rencontrez ce problème, vous pouvez définir le point comme séparateur décimal
@@ -65,7 +65,7 @@
           <para>
             In den verschiedenen Sprachen werden unterschiedliche Dezimaltrennzeichen
             verwendet: Komma in den meisten europäischen Ländern, Punkt in den meisten
-            englischsprachigen Ländern. Leider gibt es unter Android ein noch ungelöstes
+            englischsprachigen Ländern. Leider gibt es unter manchen Versionen von Android ein 
             Problem, das die Verwendung des Kommas zur Eingabe von Dezimalzahlen erschwert, in
             manchen Fällen sogar unmöglich macht. Wenn Sie diesem Problem begegnen, können Sie
             in den Einstellungen den Punkt als Dezimaltrennzeichen festlegen.
@@ -82,7 +82,7 @@
           <para>
             Ci sono diversi separatori decimali utilizzati nelle diverse lingue: virgola in
             molti paesi europei, il punto in più paesi di lingua inglese. Purtroppo c'è un
-            problema ancora irrisolto nel sistema operativo Android, che non gestisce bene la
+            problema in alcune versioni del sistema operativo Android, che non gestisce bene la
             virgola nel suo metodo di input numerico, e in alcuni casi addirittura non consente
             affatto di inserire una virgola. Se si verifica questo problema, è possibile
             impostare il punto come separatore decimale nelle Impostazioni.
@@ -99,7 +99,7 @@
           <para>
             En las distintas lenguas se usan delimitadores decimales distintos: En la mayoría
             de los países europeos es la coma, en cambio se usa un punto en la mayoría de los
-            países anglófonos. Desafortunadamente existe todavía un problema sin resolver, que
+            países anglófonos. Desafortunadamente existe un problema en algunas versiones del sistema operativo Android, que
             complica el uso de la coma para la inserción de cifras decimales, y en algunos
             casos incluso lo imposibilita. Si usted da con este problema, puede determinar el
             punto como delimitador decimal en la configuración.
@@ -443,7 +443,7 @@
             do not need any contrib key in that case. A contrib key is a mechanism to unlock the
             Premium features without installation of the contrib app. I will send this key to users
             that contribute to the development of <application role="app_name"/> by other means,
-            e.g. translating the UI or testing pre-releases. The key is calculated based on the
+            e.g. translating the UI, testing pre-releases, or donating through PayPal or Flattr. The key is calculated based on the
             Android-ID of your device, that you can communicate to me through the <guilabel
             role="pref_request_licence_title"/> entry in the <guilabel role="menu_settings"/>
             screen.
@@ -467,8 +467,8 @@
             handelt es sich um einen Mechanismus, der es erlaubt, die Premium-Funktionen ohne die
             Installation der Contrib App freizuschalten. Ich sende diesen Schlüssel an Benutzer, die
             auf andere Weise zur Entwicklung von <application role="app_name"/> beigetragen haben,
-            z.B. durch das Übersetzen der Benutzerschnittstelle oder durch Testen der
-            Vorab-Versionen. Der Schlüssel wird anhand der Android-ID Ihres Gerätes berechnet, die
+            z.B. durch das Übersetzen der Benutzerschnittstelle, Testen der
+            Vorab-Versionen, oder eine Spende über Paypal oder Flattr. Der Schlüssel wird anhand der Android-ID Ihres Gerätes berechnet, die
             Sie mir mittels des Eintrages <guilabel role="pref_request_licence_title"/> unter
             <guilabel role="menu_settings"/> mitteilen können.
           </para>
@@ -491,8 +491,8 @@
             usted no necesita ninguna clave contrib. Una clave contrib es un mecanismo para
             desbloquear las características premium sin la instalación de la aplicación contrib.
             Enviaré esta clave a usuarios que contribuyen al desarrollo de la aplicación por otros
-            medios, por ejemplo por la traducción de la interfaz de usuario o poniendo a prueba
-            pre-versiones. Se calcula la clave basada en el Android-ID de su dispositivo que usted
+            medios, por ejemplo por la traducción de la interfaz de usuario, poniendo a prueba
+            pre-versiones, o una donación a través de Paypal o Flattr. Se calcula la clave basada en el Android-ID de su dispositivo que usted
             puede comunicar a través la <guilabel role="pref_request_licence_title"/>
             entrada en la <guilabel role="menu_settings"/> pantalla.
           </para>
@@ -515,8 +515,8 @@
             contrib dans ce cas. Une clé contrib est un mécanisme permettant de déverrouiller les
             fonctionnalités Premium sans installation de l'app contrib. J'envoie cette clé aux
             utilisateurs qui contribuent au développement de <application role="app_name"/> par
-            d'autres moyens, par exemple la traduction de l'interface utilisateur ou en testant les
-            pré-versions. La clé est calculée sur la base de l'Android-ID de votre appareil, que
+            d'autres moyens, par exemple la traduction de l'interface utilisateur, en testant les
+            pré-versions ou une donation par Paypal ou Flattr. La clé est calculée sur la base de l'Android-ID de votre appareil, que
             vous pouvez me communiquer par l'entrée <guilabel role="pref_request_licence_title" />
             dans l'écran <guilabel role="menu_settings"/>.
           </para>
@@ -563,7 +563,7 @@
              alcuna chiave contrib in quel caso. Una chiave contrib è un meccanismo per sbloccare le
              funzionalità Premium senza installazione delle app contrib. Manderò questa chiave agli
              utenti che contribuiscono allo sviluppo delLe Mie Spese con altri mezzi, ad esempio
-             traducendo l'interfaccia utente o testando pre-releases. La chiave è calcolata sulla
+             traducendo l'interfaccia utente, testando pre-releases o una donazione tramite Paypal o Flattr. La chiave è calcolata sulla
              base della Android-ID del dispositivo, che potete comunicare a me attraverso la voce
              <guilabel role="pref_request_licence_title"/> nella schermata <guilabel
               role="menu_settings"/>.
