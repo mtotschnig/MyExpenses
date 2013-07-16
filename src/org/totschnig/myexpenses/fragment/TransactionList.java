@@ -57,7 +57,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   private TextView balanceTv;
   private View bottomLine;
   private boolean hasItems;
-  private long transactionSum;
+  private long transactionSum = 0;
   private Cursor mTransactionsCursor;
 
   public static TransactionList newInstance(long accountId) {
@@ -81,7 +81,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
       //2) update current balance(opening balance has changed),
       //3) update the bottombarcolor (color has changed
       cr.registerContentObserver(
-          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(),
+          TransactionProvider.ACCOUNTS_URI,
           true,aObserver);
   }
   @Override
@@ -294,6 +294,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     }
   }
   private void updateBalance() {
+    if (balanceTv != null)
       balanceTv.setText(Utils.formatCurrency(
           new Money(mAccount.currency,
               mAccount.openingBalance.getAmountMinor() + transactionSum)));
