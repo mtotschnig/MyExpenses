@@ -307,8 +307,8 @@
           <para>
             Ödeme metotları hesap türleri için tanımlanır. Varsayılan ayar olarak nakit hesapları
             için bir ödeme metodu bulunmaz, sadece banka hesapları için bulunur. Bir hesabın türünü
-            <guimenuitem role="menu_edit_account"/> konumunda ayarlayabilir ya da kullanma kılavuzunda anlatıldığı gibi yeni bir
-           ödeme metodu tanımlayabilirsiniz (<menuchoice>
+            <guimenuitem role="menu_edit_account"/> konumunda ayarlayabilir ya da yeni bir
+            ödeme metodu tanımlayabilirsiniz (<menuchoice>
               <guimenuitem role="menu_settings"/>
               <guimenuitem role="pref_category_title_manage"/>
               <guimenuitem role="pref_manage_methods_title"/>
