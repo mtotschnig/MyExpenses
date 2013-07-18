@@ -283,7 +283,7 @@ public class TransactionProvider extends ContentProvider {
     }
     getContext().getContentResolver().notifyChange(uri, null);
     //the accounts cursor contains aggregates about transactions
-    //wo we need to notify it when transactions change
+    //we need to notify it when transactions change
     if (uriMatch == TRANSACTIONS) {
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
     }
