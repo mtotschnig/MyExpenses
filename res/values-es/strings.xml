@@ -256,7 +256,7 @@
   <string name="pref_manage_templates_summary">Aplicar o borrar plantillas</string>
   <string name="pref_manage_templates_title">Plantillas</string>
   <string name="pref_more_info_dialog_title">Licencia &amp; Créditos</string>
-  <string name="pref_more_info_dialog_summary">Traducción de Johanna Totschnig y Gudrun Totschnig</string>
+  <string name="pref_more_info_dialog_summary">Traducción de Tulliver</string>
   <string name="pref_password_empty">La contraseña no puede estar vacía</string>
   <string name="pref_password_not_equal">Las contraseñas no coinciden</string>
   <string name="pref_perform_share_title">Enviar la exportación</string>
