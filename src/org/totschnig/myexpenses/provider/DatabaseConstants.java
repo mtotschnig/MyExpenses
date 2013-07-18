@@ -23,6 +23,7 @@ public class DatabaseConstants {
   public static final String KEY_PARENTID = "parent_id";
   public static final String KEY_TRANSFER_ACCOUNT = "transfer_account";
   public static final String KEY_STATUS = "status";
+  public static final String KEY_TRANSACTIONID = "transaction_id";
   public static final int STATUS_EXPORTED = 1;
 
   public static final String TABLE_TRANSACTIONS = "transactions";
@@ -33,6 +34,7 @@ public class DatabaseConstants {
   public static final String TABLE_TEMPLATES = "templates";
   public static final String TABLE_PAYEES = "payee";
   public static final String TABLE_FEATURE_USED = "feature_used";
+  public static final String TABLE_SPLIT = "splits";
 
 
   /**

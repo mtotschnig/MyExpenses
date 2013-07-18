@@ -19,13 +19,8 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -78,8 +73,10 @@ public class ExpenseEdit extends EditActivity {
   private String mLabel;
   private Transaction mTransaction;
 
-  //normal transaction or transfer
-  private boolean mOperationType;
+  /**
+   *   transaction, transfer or split
+   */
+  private int mOperationType;
 
 
   static final int DATE_DIALOG_ID = 0;
@@ -120,7 +117,7 @@ public class ExpenseEdit extends EditActivity {
       }
       mAccountId = mTransaction.accountId;
     } else {
-      mOperationType = extras.getBoolean("operationType");
+      mOperationType = extras.getInt("operationType");
       mAccountId = extras.getLong(DatabaseConstants.KEY_ACCOUNTID);
       if (extras.getBoolean("newTemplate",false))
         mTransaction = Template.getTypedNewInstance(mOperationType, mAccountId);
@@ -136,6 +133,16 @@ public class ExpenseEdit extends EditActivity {
         timeRow.setVisibility(View.GONE);
       mTitleText = (EditText) findViewById(R.id.Title);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
+    } else if (mTransaction instanceof SplitTransaction) {
+      View CategoryContainer = findViewById(R.id.CategoryRow);
+      //in Landscape there is no row for the method button
+      if (CategoryContainer == null)
+        CategoryContainer = findViewById(R.id.Category);
+      CategoryContainer.setVisibility(View.GONE);
+      findViewById(R.id.SplitContainer).setVisibility(View.VISIBLE);
+      for (SplitPart part: ((SplitTransaction) mTransaction).splitList) {
+        //TODO
+      }
     } else {
       setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
         (mTransaction.id == 0 ? R.string.menu_create_transaction : R.string.menu_edit_transaction) :

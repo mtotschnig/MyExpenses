@@ -49,6 +49,7 @@ public class Transaction extends Model {
   public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
     KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID};
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
+  private static final Long SPLIT_CATID = -1L;
   /**
    * we store the date directly from UI to DB without creating a Date object
    */
@@ -79,16 +80,24 @@ public class Transaction extends Model {
       t = new Transfer(account_id,amount);
       t.transfer_peer = transfer_peer;
       t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
+      t.id = id;
     }
     else {
-      t = new Transaction(account_id,amount);
+      Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
+      if (catId == SPLIT_CATID) {
+        SplitTransaction split = new SplitTransaction(account_id,amount);
+        split.id = id;
+        split.loadParts();
+        t = split;
+      } else {
+        t = new Transaction(account_id,amount);
+        t.id = id;
+      }
       t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
-      t.catId = DbUtils.getLongOrNull(c, KEY_CATID);
+      t.catId = catId;
       t.payee = c.getString(
           c.getColumnIndexOrThrow(KEY_PAYEE));
     }
-    
-    t.id = id;
     t.setDate(c.getString(
         c.getColumnIndexOrThrow(KEY_DATE)));
     t.comment = c.getString(
@@ -124,11 +133,16 @@ public class Transaction extends Model {
    * {@link MyExpenses#TYPE_TRANSFER}
    * @return instance of {@link Transaction} or {@link Transfer} with date initialized to current date
    */
-  public static Transaction getTypedNewInstance(boolean mOperationType, long accountId) {
-    if(mOperationType == MyExpenses.TYPE_TRANSACTION)
+  public static Transaction getTypedNewInstance(int mOperationType, long accountId) {
+    switch (mOperationType) {
+    case MyExpenses.TYPE_TRANSACTION:
       return new Transaction(accountId,0);
-    else 
+    case MyExpenses.TYPE_TRANSFER:
       return new Transfer(accountId,0);
+    case MyExpenses.TYPE_SPLIT:
+      return new SplitTransaction(accountId,0);
+    }
+    return null;
   }
   
   public static void delete(long id) {

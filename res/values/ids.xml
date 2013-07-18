@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <item type="id" name="INSERT_TA_COMMAND"/>
     <item type="id" name="INSERT_TRANSFER_COMMAND"/>
+    <item type="id" name="INSERT_SPLIT_COMMAND"/>
     <item type="id" name="CREATE_COMMAND"/>
     <item type="id" name="RESET_ACCOUNT_COMMAND"/>
     <item type="id" name="RESET_ACCOUNT_ALL_COMMAND"/>

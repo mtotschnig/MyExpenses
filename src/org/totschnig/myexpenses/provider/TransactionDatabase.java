@@ -38,9 +38,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     + KEY_PAYEE            + " text, "
     + KEY_TRANSFER_PEER    + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + "), "
     + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
-    + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + ")," 
+    + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "),"
+    + KEY_PARENTID         + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + "), "
     + KEY_STATUS           + " integer default 0);";
-
 
   /**
    * SQL statement for accounts TABLE

@@ -139,6 +139,7 @@
   <string name="menu_create_method">New payment method</string>
   <string name="menu_create_transaction">New Transaction</string>
   <string name="menu_create_transfer">New Transfer</string>
+  <string name="menu_create_split">New split</string>
   <string name="menu_create_main_cat">New main category</string>
   <string name="menu_create_sub_cat">New sub category</string>
   <string name="menu_create_template">New template</string>

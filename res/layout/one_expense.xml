@@ -18,6 +18,11 @@
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
       android:fillViewport="true">
+    <LinearLayout
+    	android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        >
     <TableLayout
         android:paddingRight="@dimen/general_padding"
         android:paddingLeft="@dimen/general_padding"
@@ -70,7 +75,7 @@
             android:layout_height="wrap_content" />
       </TableRow>
         
-      <TableRow>
+      <TableRow android:id="@+id/CategoryRow">
         <TextView style="@style/form_label"
             android:id="@+id/CategoryLabel" android:text="@string/category" />
         <Button android:id="@+id/Category" android:text="@string/select"
@@ -94,4 +99,17 @@
             android:id="@+id/Method" android:text="@string/select" />
       </TableRow>
     </TableLayout>
+    <LinearLayout android:id="@+id/SplitContainer"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:visibility="gone">
+      <TextView android:id="@+id/menu_commands_heading"
+        style="@style/headingStyle"
+        android:text="Splits"/>
+      <ListView android:id="@+id/SplitList"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"/>
+      </LinearLayout> 
+    </LinearLayout>
   </ScrollView>

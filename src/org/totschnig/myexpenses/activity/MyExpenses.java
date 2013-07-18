@@ -92,8 +92,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public static final int ACTIVITY_EDIT_ACCOUNT=4;
   public static final int ACTIVITY_EXPORT=5;
 
-  public static final boolean TYPE_TRANSACTION = true;
-  public static final boolean TYPE_TRANSFER = false;
+  public static final int TYPE_TRANSACTION = 0;
+  public static final int TYPE_TRANSFER = 1;
+  public static final int TYPE_SPLIT = 2;
   public static final boolean ACCOUNT_BUTTON_CYCLE = false;
   public static final boolean ACCOUNT_BUTTON_TOGGLE = true;
   public static final String TRANSFER_EXPENSE = "=> ";
@@ -355,10 +356,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     return super.onContextItemSelected(item);
   }
   /**
-   * start ExpenseEdit Activity for a new transaction/transfer
-   * @param type either {@link #TYPE_TRANSACTION} or {@link #TYPE_TRANSFER}
+   * start ExpenseEdit Activity for a new transaction/transfer/split
+   * @param type either {@link #TYPE_TRANSACTION} or {@link #TYPE_TRANSFER} or {@link #TYPE_SPLIT}
    */
-  private void createRow(boolean type) {
+  private void createRow(int type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
     i.putExtra(KEY_ACCOUNTID,mCurrentAccount.id);
@@ -479,6 +480,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       break;
     case R.id.INSERT_TRANSFER_COMMAND:
       createRow(TYPE_TRANSFER);
+      break;
+    case R.id.INSERT_SPLIT_COMMAND:
+      createRow(TYPE_SPLIT);
       break;
     case R.id.RESET_ACCOUNT_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
