@@ -115,9 +115,9 @@
         <answer>
           <para>
             Değişik dillerde değişik ondalık ayraçları kullanılır: Avrupa dillerinin çoğunda virgül,
-            İngilizce konuşulan ülkelerin çoğunluğunda ise nokta kullanılır. Maalesef giriş
-            yönteminde virgülü iyi bir şekilde dikkate almayan Android işletim sisteminde hâlâ
-            çözümlenmemiş sorun vardır, bazı durumlarda virgül girmeye bile imkân vermez. Bu sorunla
+            İngilizce konuşulan ülkelerin çoğunluğunda ise nokta kullanılır. Maalesef giriş yönteminde
+            virgülü iyi bir şekilde dikkate almayan Android işletim sisteminin bazı sürümlerinde bu
+            konuda sorun vardır, bazı durumlarda virgül girmeye bile imkân vermez. Bu sorunla
             karşılaşırsanız Ayarlarda ondalık ayracını belirtebilirsiniz.
           </para>
         </answer>
@@ -226,11 +226,13 @@
           <para>
             Zahlungsweisen sind den Kontotypen zugeordnet. Zu Beginn sind nur für Bankkonten Zahlungsweisen
             definiert, nicht für Bargeldkonten. Ändern Sie den Kontotyp unter
-           <menuchoice>
-              <guimenu role="menu_settings"/>
-              <guimenuitem role="menu_settings_account"/>
-           </menuchoice>, oder definieren Sie eine neue Zahlungsweise, wie im Handbuch erklärt
-           (<ulink url="tutorial_r4/settings.html#settings_manage_methods"><guilabel role="pref_manage_methods_title"/></ulink>).
+            <guimenuitem role="menu_edit_account"/>, oder definieren Sie eine neue Zahlungsweise
+           (<menuchoice>
+              <guimenuitem role="menu_settings"/>
+              <guimenuitem role="pref_category_title_manage"/>
+              <guimenuitem role="pref_manage_methods_title"/>
+              <guimenuitem role="menu_create_method"/>
+           </menuchoice>).
           </para>
         </answer>
       </qandaentry>
@@ -244,11 +246,13 @@
           <para>
             Payment methods are defined for account types. By default, there are no payment methods
             for cash accounts, only for bank accounts. You can change an account's type under
-           <menuchoice>
-              <guimenu role="menu_settings"/>
-              <guimenuitem role="menu_settings_account"/>
-           </menuchoice>, or define a new payment method as explained in the manual
-           (<ulink url="tutorial_r4/settings.html#settings_manage_methods"><guilabel role="pref_manage_methods_title"/></ulink>).
+           <guimenuitem role="menu_edit_account"/>, or define a new payment method
+           (<menuchoice>
+              <guimenuitem role="menu_settings"/>
+              <guimenuitem role="pref_category_title_manage"/>
+              <guimenuitem role="pref_manage_methods_title"/>
+              <guimenuitem role="menu_create_method"/>
+           </menuchoice>).
           </para>
         </answer>
       </qandaentry>
@@ -262,11 +266,13 @@
           <para>
             Les modes de paiement sont définis par types de comptes. Par défaut, il n'existe pas de méthodes de paiement
             pour les comptes de caisse, uniquement pour les comptes bancaires. Vous pouvez modifier le type du compte par
-           <menuchoice>
-              <guimenu role="menu_settings"/>
-              <guimenuitem role="menu_settings_account"/>
-           </menuchoice>, ou définir un nouveau mode de paiement comme expliqué dans le manuel 
-           (<ulink url="tutorial_r4/settings.html#settings_manage_methods"><guilabel role="pref_manage_methods_title"/></ulink>).
+           <guimenuitem role="menu_edit_account"/>, ou définir un nouveau mode de paiement 
+           (<menuchoice>
+              <guimenuitem role="menu_settings"/>
+              <guimenuitem role="pref_category_title_manage"/>
+              <guimenuitem role="pref_manage_methods_title"/>
+              <guimenuitem role="menu_create_method"/>
+           </menuchoice>).
           </para>
         </answer>
       </qandaentry>
@@ -281,11 +287,13 @@
            Il metodo di pagamento è legato al tipo di conto. Nell'impostazione predefinita, non ci sono metodi di pagamento per
            il conto contanti, solo per i conti bancari.
            E' possibile cambiare un tipo di conto in
-           <menuchoice>
-              <guimenu role="menu_settings"/>
-              <guimenuitem role="menu_settings_account"/>
-           </menuchoice>, oppure creare un nuovo metodo di pagamento come spiegato nel manuale
-           (<ulink url="tutorial_r4/settings.html#settings_manage_methods"><guilabel role="pref_manage_methods_title"/></ulink>).
+           <guimenuitem role="menu_edit_account"/>, oppure creare un nuovo metodo di pagamento
+           (<menuchoice>
+              <guimenuitem role="menu_settings"/>
+              <guimenuitem role="pref_category_title_manage"/>
+              <guimenuitem role="pref_manage_methods_title"/>
+              <guimenuitem role="menu_create_method"/>
+           </menuchoice>).
           </para>
         </answer>
       </qandaentry>
@@ -299,12 +307,13 @@
           <para>
             Ödeme metotları hesap türleri için tanımlanır. Varsayılan ayar olarak nakit hesapları
             için bir ödeme metodu bulunmaz, sadece banka hesapları için bulunur. Bir hesabın türünü
-            <menuchoice>
-              <guimenu role="menu_settings"/>
-              <guimenuitem role="menu_settings_account"/>
-           </menuchoice> konumunda ayarlayabilir ya da kullanma kılavuzunda anlatıldığı gibi yeni bir
-           ödeme metodu tanımlayabilirsiniz (<ulink url="/en/tutorial_r4/settings.html#settings_manage_methods"><guilabel
-            role="pref_manage_methods_title"/></ulink>).
+            <guimenuitem role="menu_edit_account"/> konumunda ayarlayabilir ya da kullanma kılavuzunda anlatıldığı gibi yeni bir
+           ödeme metodu tanımlayabilirsiniz (<menuchoice>
+              <guimenuitem role="menu_settings"/>
+              <guimenuitem role="pref_category_title_manage"/>
+              <guimenuitem role="pref_manage_methods_title"/>
+              <guimenuitem role="menu_create_method"/>
+           </menuchoice>).
           </para>
         </answer>
       </qandaentry>
@@ -318,10 +327,7 @@
           <para>
            Métodos de pago están asignados a los tipos de cuenta. Inicialmente métodos de pago sólo
            están definidos para cuentas bancarias, no para cuentas de efectivo. Cambie el tipo de
-           cuenta en <menuchoice>
-              <guimenu role="menu_settings"/>
-              <guimenuitem role="menu_settings_account"/>
-           </menuchoice>, o defina un nuevo método de pago, como se explica en el manual
+           cuenta en <guimenuitem role="menu_edit_account"/>, o defina un nuevo método de pago, como se explica en el manual
            (<ulink url="tutorial_r4/settings.html#settings_manage_methods"><guilabel
             role="pref_manage_methods_title"/></ulink>).
           </para>
@@ -546,18 +552,18 @@
         </question>
         <answer>
           <para>
-             <application role="app_name"/> beş defa denenebilen ve Google Play'den ücretli <ulink
-              url="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">katkı
-             uygulamasını</ulink> kurarak devamlı kullanılabilen özelliklerle yayınlanmıştır. <application
-             role="app_name"/> katkı uygulamasının farkına varması için onu bir kez katkı
-             uygulamasının ana ekranından başlatmanız gerekebilir. Bu durumda katkı anahtarına
-             ihtiyacınız olmaz. Katkı anahtarı özel işlevlerin kilidini katkı uygulamasının
-             kurulmasına gerek olmadan kaldırmaya yarayan bir mekanizmadır. Bu anahtarı
-             Harcamalarımın geliştirilmesine başka şekilde (mesela tercümelerle ya da kararsız
-             sürümleri deneyerek) katkıda bulunan kullanıcılara göndereceğim. Anahtar cihazınızın
-             Android kimliğine dayanarak hesaplanılır ki bu kimliği <guilabel role="menu_settings"/>
-             ekranındaki <guilabel role="pref_request_licence_title"/> seçeneğiyle bana
-             iletebilirsiniz.
+            <application role="app_name"/> beş defa denenebilen ve Google Play'den ücretli <ulink
+            url="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">katkı
+            uygulamasını</ulink> kurarak devamlı kullanılabilen özelliklerle yayınlanmıştır.
+            <application role="app_name"/> katkı uygulamasının farkına varması için onu bir kez
+            katkı uygulamasının ana ekranından başlatmanız gerekebilir. Bu durumda katkı anahtarına
+            ihtiyacınız olmaz. Katkı anahtarı özel işlevlerin kilidini katkı uygulamasının
+            kurulmasına gerek olmadan kaldırmaya yarayan bir mekanizmadır. Bu anahtarı
+            Harcamalarımın geliştirilmesine başka şekilde (mesela tercümelerle, kararsız sürümleri
+            deneyerek ya da Paypal veya Flattr ile bağışta bulunarak) katkıda bulunan kullanıcılara
+            göndereceğim. Anahtar cihazınızın Android kimliğine dayanarak hesaplanılır ki bu kimliği
+            <guilabel role="menu_settings"/> ekranındaki <guilabel
+            role="pref_request_licence_title"/> seçeneğiyle bana iletebilirsiniz.
           </para>
         </answer>
       </qandaentry>
