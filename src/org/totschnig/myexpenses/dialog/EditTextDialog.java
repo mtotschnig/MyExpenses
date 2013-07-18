@@ -52,7 +52,8 @@ public class EditTextDialog extends DialogFragment implements OnEditorActionList
 
  @Override
  public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-     if (EditorInfo.IME_ACTION_DONE == actionId) {
+     if (EditorInfo.IME_ACTION_DONE == actionId ||
+         (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN)) {
          // Return input text to activity
          EditTextDialogListener activity = (EditTextDialogListener) getActivity();
          Bundle args = getArguments();
