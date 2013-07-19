@@ -120,7 +120,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
 
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    final SherlockFragmentActivity ctx = getSherlockActivity();
+    final MyExpenses ctx = (MyExpenses) getSherlockActivity();
     Resources.Theme theme = ctx.getTheme();
     TypedValue color = new TypedValue();
     theme.resolveAttribute(R.attr.colorExpense, color, true);
@@ -224,6 +224,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
          {
            Intent i = new Intent(ctx, ExpenseEdit.class);
            i.putExtra(KEY_ROWID, id);
+           i.putExtra("transferEnabled",ctx.mTransferEnabled);
            //i.putExtra("operationType", operationType);
            startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
          }

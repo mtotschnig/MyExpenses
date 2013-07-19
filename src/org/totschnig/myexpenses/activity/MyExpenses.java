@@ -129,6 +129,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private MyViewPagerAdapter myAdapter;
   private ViewPager myPager;
   private String fragmentCallbackTag = null;
+  public boolean mTransferEnabled = false;
   
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -248,13 +249,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     super.onPrepareOptionsMenu(menu);
     //I would prefer to use setEnabled, but the disabled state unfortunately
     //is not visually reflected in the actionbar
-    boolean transferEnabled = false;
     if (currentPosition > -1) {
       Integer sameCurrencyCount = currencyAccountCount.get(mCurrentAccount.currency.getCurrencyCode());
       if (sameCurrencyCount != null && sameCurrencyCount >1)
-        transferEnabled = true;
+        mTransferEnabled = true;
     }
-    menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(transferEnabled);
+    menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(mTransferEnabled);
     menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
       .setVisible(mTemplatesCursor != null && mTemplatesCursor.getCount() > 0);
     return true;
@@ -362,6 +362,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private void createRow(int type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
+    i.putExtra("transferEnabled",mTransferEnabled);
     i.putExtra(KEY_ACCOUNTID,mCurrentAccount.id);
     startActivityForResult(i, ACTIVITY_EDIT);
   }

@@ -52,7 +52,9 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
   SimpleCursorAdapter mAdapter;
   private int colorExpense;
   private int colorIncome;
+  private TextView balanceTv;
   private long transactionSum = 0;
+  private Money unsplitAmount;
 
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
     colorExpense = color.data;
     theme.resolveAttribute(R.attr.colorIncome,color, true);
     colorIncome = color.data;
+    balanceTv = (TextView) v.findViewById(R.id.end);
     
     ListView lv = (ListView) v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
@@ -163,7 +166,7 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
       return cursorLoader;
     case SUM_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ")"}, "account_id = ?",
+          TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ")"}, "parent_id = ?",
           new String[] { String.valueOf(parentId) }, null);
     }
     return cursorLoader;
@@ -194,6 +197,10 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
     }
   }
   private void updateBalance() {
-    //TODO
+    ExpenseEdit ctx = (ExpenseEdit) getSherlockActivity();
+    unsplitAmount = ctx.getAmount();
+    unsplitAmount.setAmountMinor(unsplitAmount.getAmountMinor()-transactionSum);
+    if (balanceTv != null)
+      balanceTv.setText(Utils.formatCurrency(unsplitAmount));
   }
 }

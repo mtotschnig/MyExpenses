@@ -32,4 +32,32 @@
         android:layout_height="0px"
         android:layout_weight="1"
         android:text="No split parts" />
+        <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"/>
+<RelativeLayout
+    android:padding="7dp"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/heading"
+    android:orientation="horizontal">
+    <TextView  style="@style/titleTextStyle"
+        android:layout_toLeftOf="@+id/end"
+        android:layout_alignParentLeft="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/label"
+        android:text="Unsplit amount" />
+    <TextView style="@style/titleTextStyle"
+        android:text="END"
+        android:id="@+id/end"
+        android:layout_alignParentRight="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+</RelativeLayout>
+<View
+    android:id="@+id/BottomLine"
+    android:layout_width="fill_parent"
+    android:layout_height="4dp"/>
 </LinearLayout>

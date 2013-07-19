@@ -77,6 +77,7 @@ public class ExpenseEdit extends EditActivity {
   private Long mMethodId = null;
   private String mLabel;
   private Transaction mTransaction;
+  private boolean mTransferEnabled = false;
 
   /**
    *   transaction, transfer or split
@@ -102,6 +103,7 @@ public class ExpenseEdit extends EditActivity {
     Bundle extras = getIntent().getExtras();
     mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
     mTemplateId = extras.getLong("template_id",0);
+    mTransferEnabled = extras.getBoolean("transferEnabled",false);
     
     setContentView(R.layout.one_expense);
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
@@ -251,6 +253,8 @@ public class ExpenseEdit extends EditActivity {
     if (mTransaction instanceof SplitTransaction) {
       MenuInflater inflater = getSupportMenuInflater();
       inflater.inflate(R.menu.split, menu);
+      if (!mTransferEnabled)
+        menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(false);
     } else if (!(mTransaction instanceof SplitPartCategory))
       menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
         .setIcon(R.drawable.save_and_new_icon)
@@ -675,5 +679,22 @@ public class ExpenseEdit extends EditActivity {
     configureType();
     setDate();
     setTime();
+  }
+
+  public Money getAmount() {
+    Money result = new Money(mAccount.currency,0L);
+    BigDecimal amount = validateAmountInput();
+    if (amount == null) {
+      return result;
+    }
+    if (mType == EXPENSE) {
+      amount = amount.negate();
+    }
+    if (mMinorUnitP) {
+      result.setAmountMinor(amount.longValue());
+    } else {
+      result.setAmountMajor(amount);
+    }
+    return result;
   }
 }
