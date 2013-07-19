@@ -42,7 +42,7 @@ import android.widget.Toast;
 
 public abstract class EditActivity extends ProtectedFragmentActivity {
   public static final String CURRENCY_USE_MINOR_UNIT = "x";
-  private static final int CALCULATOR_REQUEST = 1;
+  private static final int CALCULATOR_REQUEST = 0;
   protected DecimalFormat nfDLocal;
   protected String mCurrencyDecimalSeparator;
   protected boolean mMinorUnitP;

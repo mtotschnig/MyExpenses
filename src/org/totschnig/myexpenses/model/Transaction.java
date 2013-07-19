@@ -46,6 +46,7 @@ public class Transaction extends Model {
   public Long transfer_peer;
   public Long transfer_account;
   public Long methodId;
+  public Long parentId = null;
   public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
     KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID};
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
@@ -65,7 +66,7 @@ public class Transaction extends Model {
   public static Transaction getInstanceFromDb(long id) throws DataObjectNotFoundException  {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
-        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID};
+        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,KEY_PARENTID};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
@@ -213,6 +214,7 @@ public class Transaction extends Model {
     initialValues.put(KEY_METHODID, methodId);
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
+      initialValues.put(KEY_PARENTID, parentId);
       uri = cr().insert(CONTENT_URI, initialValues);
       id = ContentUris.parseId(uri);
       if (catId != null)

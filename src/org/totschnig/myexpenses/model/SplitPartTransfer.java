@@ -15,21 +15,9 @@
 
 package org.totschnig.myexpenses.model;
 
-import android.net.Uri;
-
 public class SplitPartTransfer extends Transfer {
-  
-  private long parentId;
-
   public SplitPartTransfer(long accountId, Long amount,long transactionId) {
     super(accountId,amount);
     this.parentId = transactionId;
-  }
-
-  /* (non-Javadoc)
-   * @see org.totschnig.myexpenses.Transaction#save()
-   */
-  public Uri save() {
-    return null;
   }
 }

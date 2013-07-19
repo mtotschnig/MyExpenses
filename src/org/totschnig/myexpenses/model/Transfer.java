@@ -50,6 +50,7 @@ public class Transfer extends Transaction {
     initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
+      initialValues.put(KEY_PARENTID, parentId);
       uri = cr().insert(CONTENT_URI, initialValues);
       id = ContentUris.parseId(uri);
       initialValues.put(KEY_AMOUNT, 0 - amount);

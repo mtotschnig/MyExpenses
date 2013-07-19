@@ -15,21 +15,10 @@
 
 package org.totschnig.myexpenses.model;
 
-import android.net.Uri;
-
 public class SplitPartCategory extends Transaction {
-  
-  private long parentId;
 
   public SplitPartCategory(long accountId, Long amount,long transactionId) {
     super(accountId,amount);
     this.parentId = transactionId;
-  }
-
-  /* (non-Javadoc)
-   * @see org.totschnig.myexpenses.Transaction#save()
-   */
-  public Uri save() {
-    return null;
   }
 }

@@ -88,8 +88,9 @@ public class ExpenseEdit extends EditActivity {
   static final int TIME_DIALOG_ID = 1;
   static final int ACCOUNT_DIALOG_ID = 2;
   static final int METHOD_DIALOG_ID = 3;
-  private static final int ACTIVITY_EDIT_SPLIT = 0;
-  private static final int SELECT_CATEGORY_REQUEST = 1;
+  //CALCULATOR_REQUEST in super = 0
+  private static final int ACTIVITY_EDIT_SPLIT = 1;
+  private static final int SELECT_CATEGORY_REQUEST = 2;
   
   String[] accountLabels ;
   Long[] accountIds ;
@@ -444,7 +445,8 @@ public class ExpenseEdit extends EditActivity {
       //3b  fill comment
       mCommentText.setText(mTransaction.comment);
       //3c set title based on type
-      if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
+      if (mOperationType == MyExpenses.TYPE_TRANSACTION &&
+          !(mTransaction instanceof SplitPartCategory)) {
         mPayeeText.setText(mTransaction.payee);
         mMethodId = mTransaction.methodId;
         if (mMethodId != null) {
