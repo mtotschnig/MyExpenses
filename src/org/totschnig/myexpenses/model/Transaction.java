@@ -76,28 +76,25 @@ public class Transaction extends Model {
     Long transfer_peer = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER);
     long account_id = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
     long amount = c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT));
+    Long parent_id = DbUtils.getLongOrNull(c, KEY_PARENTID);
+    Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
     if (transfer_peer != null) {
-      t = new Transfer(account_id,amount);
-      t.transfer_peer = transfer_peer;
-      t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
-      t.id = id;
+      t = parent_id != null ? new SplitPartTransfer(account_id,amount,parent_id) : new Transfer(account_id,amount);
     }
     else {
-      Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
       if (catId == SPLIT_CATID) {
-        SplitTransaction split = new SplitTransaction(account_id,amount);
-        split.id = id;
-        split.loadParts();
-        t = split;
+        t = new SplitTransaction(account_id,amount);
       } else {
-        t = new Transaction(account_id,amount);
-        t.id = id;
+        t = parent_id != null ? new SplitPartCategory(account_id,amount,parent_id) : new Transaction(account_id,amount);
       }
-      t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
-      t.catId = catId;
-      t.payee = c.getString(
-          c.getColumnIndexOrThrow(KEY_PAYEE));
     }
+    t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
+    t.catId = catId;
+    t.payee = c.getString(
+        c.getColumnIndexOrThrow(KEY_PAYEE));
+    t.transfer_peer = transfer_peer;
+    t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
+    t.id = id;
     t.setDate(c.getString(
         c.getColumnIndexOrThrow(KEY_DATE)));
     t.comment = c.getString(
@@ -128,17 +125,16 @@ public class Transaction extends Model {
   }
   /**
    * factory method for creating an object of the correct type and linked to a given account
-   * @param mDbHelper
-   * @param mOperationType either {@link MyExpenses#TYPE_TRANSACTION} or
+   * @param operationType either {@link MyExpenses#TYPE_TRANSACTION} or
    * {@link MyExpenses#TYPE_TRANSFER}
    * @return instance of {@link Transaction} or {@link Transfer} with date initialized to current date
    */
-  public static Transaction getTypedNewInstance(int mOperationType, long accountId) {
-    switch (mOperationType) {
+  public static Transaction getTypedNewInstance(int operationType, long accountId, Long parentId) {
+    switch (operationType) {
     case MyExpenses.TYPE_TRANSACTION:
-      return new Transaction(accountId,0);
+      return parentId != null ? new SplitPartCategory(accountId,0L,parentId) :  new Transaction(accountId,0);
     case MyExpenses.TYPE_TRANSFER:
-      return new Transfer(accountId,0);
+      return parentId != null ? new SplitPartTransfer(accountId,0L,parentId) : new Transfer(accountId,0);
     case MyExpenses.TYPE_SPLIT:
       return new SplitTransaction(accountId,0);
     }

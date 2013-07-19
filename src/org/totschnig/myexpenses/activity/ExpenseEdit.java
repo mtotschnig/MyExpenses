@@ -15,6 +15,10 @@
 
 package org.totschnig.myexpenses.activity;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+
+
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,6 +29,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.app.AlertDialog;
@@ -60,10 +65,10 @@ public class ExpenseEdit extends EditActivity {
   private Button mTypeButton;
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel;
-  private long mRowId;
+  public long mRowId;
   private long mTemplateId;
   private long mAccountId;
-  private Account mAccount;
+  public Account mAccount;
   private Calendar mCalendar = Calendar.getInstance();
   private final java.text.DateFormat mTitleDateFormat = java.text.DateFormat.
       getDateInstance(java.text.DateFormat.FULL);
@@ -83,7 +88,8 @@ public class ExpenseEdit extends EditActivity {
   static final int TIME_DIALOG_ID = 1;
   static final int ACCOUNT_DIALOG_ID = 2;
   static final int METHOD_DIALOG_ID = 3;
-  private static final int SELECT_CATEGORY_REQUEST = 11;
+  private static final int ACTIVITY_EDIT_SPLIT = 0;
+  private static final int SELECT_CATEGORY_REQUEST = 1;
   
   String[] accountLabels ;
   Long[] accountIds ;
@@ -118,20 +124,16 @@ public class ExpenseEdit extends EditActivity {
       mAccountId = mTransaction.accountId;
     } else {
       mOperationType = extras.getInt("operationType");
-      mAccountId = extras.getLong(DatabaseConstants.KEY_ACCOUNTID);
+      mAccountId = extras.getLong(KEY_ACCOUNTID);
+      Long parentId = extras.getLong(KEY_PARENTID);
       if (extras.getBoolean("newTemplate",false))
         mTransaction = Template.getTypedNewInstance(mOperationType, mAccountId);
       else
-        mTransaction = Transaction.getTypedNewInstance(mOperationType,mAccountId);
+        mTransaction = Transaction.getTypedNewInstance(mOperationType,mAccountId,parentId);
     }
     if (mTransaction instanceof Template) {
-      findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
-      findViewById(R.id.DateRow).setVisibility(View.GONE);
-      //in portrait orientation we have a separate row for time
-      View timeRow = findViewById(R.id.TimeRow);
-      if (timeRow != null)
-        timeRow.setVisibility(View.GONE);
       mTitleText = (EditText) findViewById(R.id.Title);
+      findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
     } else if (mTransaction instanceof SplitTransaction) {
       View CategoryContainer = findViewById(R.id.CategoryRow);
@@ -140,33 +142,48 @@ public class ExpenseEdit extends EditActivity {
         CategoryContainer = findViewById(R.id.Category);
       CategoryContainer.setVisibility(View.GONE);
       findViewById(R.id.SplitContainer).setVisibility(View.VISIBLE);
-      for (SplitPart part: ((SplitTransaction) mTransaction).splitList) {
-        //TODO
-      }
+      setTitle(mTransaction.id == 0 ? R.string.menu_create_split : R.string.menu_edit_split);
     } else {
-      setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
-        (mTransaction.id == 0 ? R.string.menu_create_transaction : R.string.menu_edit_transaction) :
-        (mTransaction.id == 0 ? R.string.menu_create_transfer : R.string.menu_edit_transfer)
-      );
+      if (mTransaction instanceof SplitPartCategory)
+        setTitle(mTransaction.id == 0 ?
+            R.string.menu_create_split_part_category : R.string.menu_edit_split_part_category  );
+      else if (mTransaction instanceof SplitPartTransfer)
+        setTitle(mTransaction.id == 0 ?
+            R.string.menu_create_split_part_transfer : R.string.menu_edit_split_part_transfer );
+      else if (mTransaction instanceof Transaction)
+        setTitle(mTransaction.id == 0 ?
+            R.string.menu_create_transaction : R.string.menu_edit_transaction );
+      else if (mTransaction instanceof Transfer)
+        setTitle(mTransaction.id == 0 ?
+            R.string.menu_create_transfer : R.string.menu_edit_transfer );
     }
 
-    mDateButton = (Button) findViewById(R.id.Date);
-    mDateButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-        showDialog(DATE_DIALOG_ID);
-      }
-    });
+    if (mTransaction instanceof Template ||
+        mTransaction instanceof SplitPartCategory ||
+        mTransaction instanceof SplitPartTransfer) {
+      findViewById(R.id.DateRow).setVisibility(View.GONE);
+      //in portrait orientation we have a separate row for time
+      View timeRow = findViewById(R.id.TimeRow);
+      if (timeRow != null)
+        timeRow.setVisibility(View.GONE);
+    } else {
+      mDateButton = (Button) findViewById(R.id.Date);
+      mDateButton.setOnClickListener(new View.OnClickListener() {
+        public void onClick(View v) {
+          showDialog(DATE_DIALOG_ID);
+        }
+      });
 
-    mTimeButton = (Button) findViewById(R.id.Time);
-    mTimeButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-        showDialog(TIME_DIALOG_ID);
-      }
-    });
-
+      mTimeButton = (Button) findViewById(R.id.Time);
+      mTimeButton.setOnClickListener(new View.OnClickListener() {
+        public void onClick(View v) {
+          showDialog(TIME_DIALOG_ID);
+        }
+      });
+    }
     mCommentText = (EditText) findViewById(R.id.Comment);
     
-    if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
+    if (mOperationType == MyExpenses.TYPE_TRANSACTION && !(mTransaction instanceof SplitPartCategory)) {
       mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
       //TODO cursorloader ?
       Cursor allPayees = getContentResolver().query(TransactionProvider.PAYEES_URI,
@@ -230,9 +247,13 @@ public class ExpenseEdit extends EditActivity {
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
-      .setIcon(R.drawable.save_and_new_icon)
-      .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+    if (mTransaction instanceof SplitTransaction) {
+      MenuInflater inflater = getSupportMenuInflater();
+      inflater.inflate(R.menu.split, menu);
+    } else if (!(mTransaction instanceof SplitPartCategory))
+      menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
+        .setIcon(R.drawable.save_and_new_icon)
+        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
     return true;
   }
   @Override
@@ -247,10 +268,22 @@ public class ExpenseEdit extends EditActivity {
         Toast.makeText(this,getString(R.string.save_transaction_and_new_success),Toast.LENGTH_SHORT).show();
       }
       return true;
+    case R.id.INSERT_TA_COMMAND:
+      createRow(MyExpenses.TYPE_TRANSACTION);
+      break;
+    case R.id.INSERT_TRANSFER_COMMAND:
+      createRow(MyExpenses.TYPE_TRANSFER);
+      break;
     }
     return super.dispatchCommand(command, tag);
   }
-
+  private void createRow(int type) {
+    Intent i = new Intent(this, ExpenseEdit.class);
+    i.putExtra("operationType", type);
+    i.putExtra(KEY_ACCOUNTID,mAccountId);
+    i.putExtra(KEY_PARENTID,mTransaction.id);
+    startActivityForResult(i, ACTIVITY_EDIT_SPLIT);
+  }
   /**
    * calls the activity for selecting (and managing) categories
    */
@@ -464,7 +497,9 @@ public class ExpenseEdit extends EditActivity {
     }
     if (mTransaction instanceof Template)
       mTitleText.setText(((Template) mTransaction).title);
-    else
+    if (!(mTransaction instanceof Template ||
+        mTransaction instanceof SplitPartCategory ||
+        mTransaction instanceof SplitPartTransfer))
       setDateTime(mTransaction.date);
     
     //add currency label to amount label
@@ -547,13 +582,17 @@ public class ExpenseEdit extends EditActivity {
       }
       ((Template) mTransaction).title = title;
     }
-    else
+    if (!(mTransaction instanceof Template ||
+        mTransaction instanceof SplitPartCategory ||
+        mTransaction instanceof SplitPartTransfer))
       mTransaction.setDate(mCalendar.getTime());
 
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
-      mTransaction.setPayee(mPayeeText.getText().toString());
       mTransaction.catId = mCatId;
-      mTransaction.methodId = mMethodId;
+      if (!(mTransaction instanceof SplitPartCategory)) {
+        mTransaction.setPayee(mPayeeText.getText().toString());
+        mTransaction.methodId = mMethodId;
+      }
     } else {
       if (mTransferAccount == null) {
         Toast.makeText(this,getString(R.string.warning_select_account), Toast.LENGTH_LONG).show();

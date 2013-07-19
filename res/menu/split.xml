@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+    android:id="@id/INSERT_TA_COMMAND"
+    android:icon="@drawable/create_transaction_icon"
+    android:showAsAction="always"
+    android:title="@string/menu_create_split_part_category">
+  </item>
+  <item
+    android:id="@id/INSERT_TRANSFER_COMMAND"
+    android:icon="@drawable/create_transfer_icon"
+    android:showAsAction="ifRoom"
+    android:title="@string/menu_create_split_part_transfer">
+  </item>	
+</menu>

@@ -107,9 +107,11 @@
       <TextView android:id="@+id/menu_commands_heading"
         style="@style/headingStyle"
         android:text="Splits"/>
-      <ListView android:id="@+id/SplitList"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"/>
+  <fragment android:name="org.totschnig.myexpenses.fragment.SplitPartList"
+              android:id="@+id/transaction_list"
+              android:layout_width="fill_parent"
+              android:layout_height="0dp"
+              android:layout_weight="1" />
       </LinearLayout> 
     </LinearLayout>
   </ScrollView>

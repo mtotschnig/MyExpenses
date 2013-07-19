@@ -140,6 +140,8 @@
   <string name="menu_create_transaction">New Transaction</string>
   <string name="menu_create_transfer">New Transfer</string>
   <string name="menu_create_split">New split</string>
+  <string name="menu_create_split_part_category">New category split</string>
+  <string name="menu_create_split_part_transfer">New transfer split</string>
   <string name="menu_create_main_cat">New main category</string>
   <string name="menu_create_sub_cat">New sub category</string>
   <string name="menu_create_template">New template</string>
@@ -152,6 +154,9 @@
   <string name="menu_edit_account">Edit Account</string>
   <string name="menu_edit_method">Edit Payment Method</string>
   <string name="menu_edit_cat">Edit category</string>
+  <string name="menu_edit_split">Edit Split</string>
+  <string name="menu_edit_split_part_category">Edit category split</string>
+  <string name="menu_edit_split_part_transfer">Edit transfer split</string>
   <string name="menu_edit_transaction">Edit Transaction</string>
   <string name="menu_edit_template">Edit Template</string>
   <string name="menu_edit_transfer">Edit Transfer</string>
