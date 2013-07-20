@@ -196,7 +196,7 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
       updateBalance();
     }
   }
-  private void updateBalance() {
+  public void updateBalance() {
     ExpenseEdit ctx = (ExpenseEdit) getSherlockActivity();
     unsplitAmount = ctx.getAmount();
     unsplitAmount.setAmountMinor(unsplitAmount.getAmountMinor()-transactionSum);

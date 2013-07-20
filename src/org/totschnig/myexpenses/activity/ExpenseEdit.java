@@ -24,9 +24,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.fragment.SplitPartList;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -40,6 +42,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -245,6 +249,17 @@ public class ExpenseEdit extends EditActivity {
     }
     //category button and amount label are further set up in populateFields, since it depends on data
     populateFields();
+  }
+  @Override
+  protected void configAmountInput() {
+    super.configAmountInput();
+    mAmountText.addTextChangedListener(new TextWatcher(){
+      public void afterTextChanged(Editable s) {
+        ((SplitPartList) getSupportFragmentManager().findFragmentById(R.id.transaction_list)).updateBalance();
+    }
+    public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+    public void onTextChanged(CharSequence s, int start, int before, int count){}
+    });
   }
 
   @Override
