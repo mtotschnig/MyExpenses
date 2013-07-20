@@ -44,6 +44,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -148,7 +149,9 @@ public class ExpenseEdit extends EditActivity {
       if (CategoryContainer == null)
         CategoryContainer = findViewById(R.id.Category);
       CategoryContainer.setVisibility(View.GONE);
-      findViewById(R.id.SplitContainer).setVisibility(View.VISIBLE);
+      //add split list
+      LayoutInflater li = LayoutInflater.from(this);
+      ((ViewGroup) findViewById(R.id.OneExpense)).addView(li.inflate(R.layout.split_container, null));
       setTitle(mTransaction.id == 0 ? R.string.menu_create_split : R.string.menu_edit_split);
     } else {
       if (mTransaction instanceof SplitPartCategory)

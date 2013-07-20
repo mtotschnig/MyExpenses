@@ -19,10 +19,10 @@
       android:layout_height="fill_parent"
       android:fillViewport="true">
     <LinearLayout
-    	android:orientation="vertical"
+        android:id="@+id/OneExpense"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        >
+        android:layout_width="fill_parent">
     <TableLayout
         android:paddingRight="@dimen/general_padding"
         android:paddingLeft="@dimen/general_padding"
@@ -99,19 +99,5 @@
             android:id="@+id/Method" android:text="@string/select" />
       </TableRow>
     </TableLayout>
-    <LinearLayout android:id="@+id/SplitContainer"
-        android:orientation="vertical"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:visibility="gone">
-      <TextView android:id="@+id/menu_commands_heading"
-        style="@style/headingStyle"
-        android:text="Splits"/>
-  <fragment android:name="org.totschnig.myexpenses.fragment.SplitPartList"
-              android:id="@+id/transaction_list"
-              android:layout_width="fill_parent"
-              android:layout_height="0dp"
-              android:layout_weight="1" />
-      </LinearLayout> 
     </LinearLayout>
   </ScrollView>
