@@ -160,12 +160,12 @@ public class ExpenseEdit extends EditActivity {
       else if (mTransaction instanceof SplitPartTransfer)
         setTitle(mTransaction.id == 0 ?
             R.string.menu_create_split_part_transfer : R.string.menu_edit_split_part_transfer );
-      else if (mTransaction instanceof Transaction)
-        setTitle(mTransaction.id == 0 ?
-            R.string.menu_create_transaction : R.string.menu_edit_transaction );
       else if (mTransaction instanceof Transfer)
         setTitle(mTransaction.id == 0 ?
             R.string.menu_create_transfer : R.string.menu_edit_transfer );
+      else if (mTransaction instanceof Transaction)
+        setTitle(mTransaction.id == 0 ?
+            R.string.menu_create_transaction : R.string.menu_edit_transaction );
     }
 
     if (mTransaction instanceof Template ||

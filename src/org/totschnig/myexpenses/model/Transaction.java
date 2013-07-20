@@ -133,9 +133,9 @@ public class Transaction extends Model {
   public static Transaction getTypedNewInstance(int operationType, long accountId, Long parentId) {
     switch (operationType) {
     case MyExpenses.TYPE_TRANSACTION:
-      return parentId != null ? new SplitPartCategory(accountId,0L,parentId) :  new Transaction(accountId,0);
+      return parentId != 0L ? new SplitPartCategory(accountId,0L,parentId) :  new Transaction(accountId,0);
     case MyExpenses.TYPE_TRANSFER:
-      return parentId != null ? new SplitPartTransfer(accountId,0L,parentId) : new Transfer(accountId,0);
+      return parentId != 0L ? new SplitPartTransfer(accountId,0L,parentId) : new Transfer(accountId,0);
     case MyExpenses.TYPE_SPLIT:
       return new SplitTransaction(accountId,0);
     }
