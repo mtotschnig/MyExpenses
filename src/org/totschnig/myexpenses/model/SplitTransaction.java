@@ -15,23 +15,47 @@
 
 package org.totschnig.myexpenses.model;
 
-import java.util.ArrayList;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITED;
 
-import android.net.Uri;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import android.content.ContentValues;
 
 public class SplitTransaction extends Transaction {
   
   public SplitTransaction(long accountId,long amount) {
     super(accountId,amount);
+    status = STATUS_UNCOMMITED;
+    catId = SPLIT_CATID;
   }
   public SplitTransaction(long accountId, Money amount) {
     super(accountId,amount);
+    status = STATUS_UNCOMMITED;
+    catId = SPLIT_CATID;
   }
-
-  /* (non-Javadoc)
-   * @see org.totschnig.myexpenses.Transaction#save()
+  /**
+   * existing parts are deleted and and the uncommited ones are commited
    */
-  public Uri save() {
-    return null;
+  public void commit() {
+    String idStr = String.valueOf(id);
+    ContentValues initialValues = new ContentValues();
+    initialValues.put(KEY_STATUS, 0);
+    cr().update(CONTENT_URI,initialValues,KEY_ROWID + "= ? OR " + KEY_PARENTID + "= ?",
+        new String[] {idStr,idStr});
+  }
+  /**
+   * all Split Parts are cloned and we work with the uncommited clones
+   */
+  public void prepareForEdit() {
+    ContentValues initialValues = new ContentValues();
+    initialValues.put(KEY_STATUS, STATUS_UNCOMMITED);
+    cr().update(CONTENT_URI,initialValues,KEY_PARENTID + "= ?",
+        new String[] {String.valueOf(id)});
+/*    cr().insert(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).appendPath("cloneSplitParts").build(),
+        null);*/
   }
 }

@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.provider;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
 
@@ -142,6 +144,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     insertDefaultPaymentMethods(db);
     db.execSQL(TEMPLATE_CREATE);
     db.execSQL(FEATURE_USED_CREATE);
+    //-1 category for splits needed to honour foreign constraint
+    ContentValues initialValues = new ContentValues();
+    initialValues.put(KEY_ROWID, -1);
+    initialValues.put(KEY_PARENTID, -1);
+    initialValues.put(KEY_LABEL, "__SPLIT_TRANSACTION__");
+    db.insert(TABLE_CATEGORIES, null, initialValues);
   }
 
   /**

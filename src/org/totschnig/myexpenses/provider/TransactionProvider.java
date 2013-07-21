@@ -65,6 +65,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int FEATURE_USED = 18;
   private static final int SQLITE_SEQUENCE_TABLE = 19;
   private static final int AGGREGATES_COUNT = 20;
+  private static final int TRANSACTIONS_CLONE_SPLIT_PARTS = 21;
   
   @Override
   public boolean onCreate() {
@@ -229,6 +230,11 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTIONS:
       id = db.insertOrThrow(TABLE_TRANSACTIONS, null, values);
       newUri = TRANSACTIONS_URI + "/" + id;
+      break;
+    case TRANSACTIONS_CLONE_SPLIT_PARTS:
+      //TODO
+      //db.execSQL(sql, bindArgs)
+      newUri = TRANSACTIONS_URI + "/TODO";
       break;
     case ACCOUNTS:
       id = db.insertOrThrow(TABLE_ACCOUNTS, null, values);
@@ -492,6 +498,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTIONS_ID);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/#/cloneSplitParts", TRANSACTIONS_CLONE_SPLIT_PARTS);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORIES_ID);
     URI_MATCHER.addURI(AUTHORITY, "categories/#/increaseUsage", CATEGORIES_INCREASE_USAGE);

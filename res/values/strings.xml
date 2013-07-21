@@ -295,6 +295,7 @@
   <string name="select_parent_category">Select this category</string>
   <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
   <string name="share_sending">Send export file</string>
+  <string name="split_transaction">Split transaction</string>
   <string name="subcategory">Subcategory</string>
   <string name="sum_income">Income</string>
   <string name="sum_expenses">Expenses</string>
@@ -308,6 +309,7 @@
   <string name="transfer">Transfer</string>
   <string name="tutorial">User guide</string>
   <string name="type">Type</string>
+  <string name="unsplit_amount_greater_than_zero">There is still some amount left un-split</string>
   <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing
       backup will be overwritten. &continue;</string>

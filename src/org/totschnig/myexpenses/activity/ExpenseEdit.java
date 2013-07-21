@@ -18,13 +18,11 @@ package org.totschnig.myexpenses.activity;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 
-
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -112,7 +110,6 @@ public class ExpenseEdit extends EditActivity {
     
     setContentView(R.layout.one_expense);
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
-    configAmountInput();
     
     //1. fetch the transaction or create a new instance
     if (mRowId != 0) {
@@ -139,11 +136,21 @@ public class ExpenseEdit extends EditActivity {
       else
         mTransaction = Transaction.getTypedNewInstance(mOperationType,mAccountId,parentId);
     }
+    configAmountInput();
     if (mTransaction instanceof Template) {
       mTitleText = (EditText) findViewById(R.id.Title);
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
     } else if (mTransaction instanceof SplitTransaction) {
+      //SplitTransaction are always instantiated with status uncommited,
+      //we save them to DB as uncommited, before working with them
+      //when the split transaction is save the split and its parts are commited
+      if (mRowId == 0) {
+        mTransaction.save();
+        mRowId = mTransaction.id;
+      } else {
+        ((SplitTransaction) mTransaction).prepareForEdit();
+      }
       View CategoryContainer = findViewById(R.id.CategoryRow);
       //in Landscape there is no row for the method button
       if (CategoryContainer == null)
@@ -284,9 +291,24 @@ public class ExpenseEdit extends EditActivity {
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     switch(command) {
+    case R.id.Confirm:
+      if (mTransaction instanceof SplitTransaction) {
+        if (((SplitPartList) getSupportFragmentManager().findFragmentById(R.id.transaction_list)).splitComplete() ) {
+          if (saveState()) {
+            ((SplitTransaction) mTransaction).commit();
+            setResult(RESULT_OK);
+            finish();
+          }
+        } else
+          Toast.makeText(this,getString(R.string.unsplit_amount_greater_than_zero),Toast.LENGTH_SHORT).show();
+        return true;
+      } else
+        //handled in super
+        break;
     case R.id.SAVE_AND_NEW_COMMAND:
       if (saveState()) {
         mTransaction.id = 0L;
+        mRowId = 0L;
         setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
             R.string.menu_create_transaction : R.string.menu_create_transfer);
         mAmountText.setText("");
@@ -295,10 +317,10 @@ public class ExpenseEdit extends EditActivity {
       return true;
     case R.id.INSERT_TA_COMMAND:
       createRow(MyExpenses.TYPE_TRANSACTION);
-      break;
+      return true;
     case R.id.INSERT_TRANSFER_COMMAND:
       createRow(MyExpenses.TYPE_TRANSFER);
-      break;
+      return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -451,21 +473,6 @@ public class ExpenseEdit extends EditActivity {
     //TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
     if (mRowId != 0 || mTemplateId != 0) {
       //3 handle edit existing transaction or new one from template
-      //3a. fill amount
-      BigDecimal amount;
-      if (mMinorUnitP) {
-        amount = new BigDecimal(mTransaction.amount.getAmountMinor());
-      } else {
-        amount = mTransaction.amount.getAmountMajor();
-      }
-      if (amount.signum() == -1) {
-        amount = amount.abs();
-      } else {
-        mType = INCOME;
-        configureType();
-      }
-      
-      mAmountText.setText(nfDLocal.format(amount));
       //3b  fill comment
       mCommentText.setText(mTransaction.comment);
       //3c set title based on type
@@ -543,6 +550,20 @@ public class ExpenseEdit extends EditActivity {
       }
     }
     amountLabel.setText(getString(R.string.amount) + " ("+currencySymbol+")");
+    //fill amount
+    BigDecimal amount;
+    if (mMinorUnitP) {
+      amount = new BigDecimal(mTransaction.amount.getAmountMinor());
+    } else {
+      amount = mTransaction.amount.getAmountMajor();
+    }
+    if (amount.signum() == -1) {
+      amount = amount.abs();
+    } else {
+      mType = INCOME;
+      configureType();
+    }
+    mAmountText.setText(nfDLocal.format(amount));
   }
   /**
    * extracts the fields from a date object for setting them on the buttons
@@ -619,7 +640,7 @@ public class ExpenseEdit extends EditActivity {
         mTransaction.setPayee(mPayeeText.getText().toString());
         mTransaction.methodId = mMethodId;
       }
-    } else {
+    } else if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       if (mTransferAccount == null) {
         Toast.makeText(this,getString(R.string.warning_select_account), Toast.LENGTH_LONG).show();
         return false;
@@ -653,7 +674,7 @@ public class ExpenseEdit extends EditActivity {
    */
   private void configureType() {
     mTypeButton.setText(mType ? "+" : "-");
-    if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
+    if (mPayeeLabel != null) {
       mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
     }
     setCategoryButton();

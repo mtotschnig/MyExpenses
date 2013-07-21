@@ -47,10 +47,16 @@ public class Transaction extends Model {
   public Long transfer_account;
   public Long methodId;
   public Long parentId = null;
+  /**
+   * 0 = is normal, special states are
+   * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_EXPORTED} and
+   * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_UNCOMMITED}
+   */
+  public int status = 0;
   public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
     KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID};
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
-  private static final Long SPLIT_CATID = -1L;
+  protected static final Long SPLIT_CATID = -1L;
   /**
    * we store the date directly from UI to DB without creating a Date object
    */
@@ -215,9 +221,10 @@ public class Transaction extends Model {
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_PARENTID, parentId);
+      initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);
       id = ContentUris.parseId(uri);
-      if (catId != null)
+      if (catId != null && catId != SPLIT_CATID)
         cr().update(
             TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(catId)).appendPath("increaseUsage").build(),
             null, null, null);

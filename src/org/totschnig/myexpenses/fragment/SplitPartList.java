@@ -161,13 +161,13 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
     switch(id) {
     case TRANSACTION_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI, null, "parent_id = ?",
-          new String[] { String.valueOf(parentId) }, null);
+          TransactionProvider.TRANSACTIONS_URI, null, "parent_id = ? AND status = ?",
+          new String[] { String.valueOf(parentId), String.valueOf(STATUS_UNCOMMITED) }, null);
       return cursorLoader;
     case SUM_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ")"}, "parent_id = ?",
-          new String[] { String.valueOf(parentId) }, null);
+          TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ")"}, "parent_id = ? AND status = ?",
+          new String[] { String.valueOf(parentId), String.valueOf(STATUS_UNCOMMITED)  }, null);
     }
     return cursorLoader;
   }
@@ -202,5 +202,9 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
     unsplitAmount.setAmountMinor(unsplitAmount.getAmountMinor()-transactionSum);
     if (balanceTv != null)
       balanceTv.setText(Utils.formatCurrency(unsplitAmount));
+  }
+
+  public boolean splitComplete() {
+    return unsplitAmount.getAmountMinor() == 0L;
   }
 }

@@ -20,5 +20,6 @@ public class SplitPartCategory extends Transaction {
   public SplitPartCategory(long accountId, Long amount,long transactionId) {
     super(accountId,amount);
     this.parentId = transactionId;
+    this.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITED;
   }
 }
