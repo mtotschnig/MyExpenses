@@ -25,6 +25,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -178,16 +179,16 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     CursorLoader cursorLoader = null;
+    Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath("uncommited").build();
     switch(id) {
     case TRANSACTION_CURSOR:
-      cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI, null, "parent_id = ? AND status = ?",
-          new String[] { String.valueOf(parentId), String.valueOf(STATUS_UNCOMMITED) }, null);
+      cursorLoader = new CursorLoader(getSherlockActivity(), uri,null, "parent_id = ?",
+          new String[] { String.valueOf(parentId) }, null);
       return cursorLoader;
     case SUM_CURSOR:
-      cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ")"}, "parent_id = ? AND status = ?",
-          new String[] { String.valueOf(parentId), String.valueOf(STATUS_UNCOMMITED)  }, null);
+      cursorLoader = new CursorLoader(getSherlockActivity(),uri,
+          new String[] {"sum(" + KEY_AMOUNT + ")"}, "parent_id = ?",
+          new String[] { String.valueOf(parentId) }, null);
     }
     return cursorLoader;
   }

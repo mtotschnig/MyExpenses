@@ -41,7 +41,8 @@ public class DatabaseConstants {
   public static final String TABLE_TEMPLATES = "templates";
   public static final String TABLE_PAYEES = "payee";
   public static final String TABLE_FEATURE_USED = "feature_used";
-
+  public static final String VIEW_COMMITED = "commited";
+  public static final String VIEW_UNCOMMITED = "uncommited";
 
   /**
    * an SQL CASE expression for transactions
