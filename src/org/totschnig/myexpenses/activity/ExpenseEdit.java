@@ -282,7 +282,8 @@ public class ExpenseEdit extends EditActivity {
       inflater.inflate(R.menu.split, menu);
       if (!mTransferEnabled)
         menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(false);
-    } else if (!(mTransaction instanceof SplitPartCategory))
+    } else if (!(mTransaction instanceof SplitPartCategory ||
+        mTransaction instanceof SplitPartTransfer))
       menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
         .setIcon(R.drawable.save_and_new_icon)
         .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
