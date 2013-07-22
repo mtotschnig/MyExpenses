@@ -6,16 +6,21 @@ import java.text.SimpleDateFormat;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 
 import android.content.ContentResolver;
@@ -43,6 +48,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 //TODO: consider moving to ListFragment
 public class TransactionList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -227,16 +233,81 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
          @Override
          public void onItemClick(AdapterView<?> a, View v,int position, long id)
          {
-           Intent i = new Intent(ctx, ExpenseEdit.class);
-           i.putExtra(KEY_ROWID, id);
-           i.putExtra("transferEnabled",ctx.mTransferEnabled);
-           //i.putExtra("operationType", operationType);
-           startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
+           if (checkSplitPartTransfer(position)) {
+             Intent i = new Intent(ctx, ExpenseEdit.class);
+             i.putExtra(KEY_ROWID, id);
+             i.putExtra("transferEnabled",ctx.mTransferEnabled);
+             //i.putExtra("operationType", operationType);
+             startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
+           }
          }
     });
     registerForContextMenu(lv);
     return v;
+  }
 
+  @Override
+  public boolean onContextItemSelected(android.view.MenuItem item) {
+    MyExpenses ctx = (MyExpenses) getActivity();
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    Transaction t;
+    Bundle args;
+    switch(item.getItemId()) {
+    case R.id.DELETE_COMMAND:
+      if (checkSplitPartTransfer(info.position)) {
+        Transaction.delete(info.id);
+        ctx.configButtons();
+      }
+      return true;
+    case R.id.CLONE_TRANSACTION_COMMAND:
+      if (MyApplication.getInstance().isContribEnabled) {
+        ctx.contribFeatureCalled(Feature.CLONE_TRANSACTION, info.id);
+      }
+      else {
+        CommonCommands.showContribDialog(ctx,Feature.CLONE_TRANSACTION, info.id);
+      }
+      return true;
+    case R.id.SHOW_DETAIL_COMMAND:
+      t = Transaction.getInstanceFromDb(info.id);
+      String method = "";
+      if (t.methodId != null) {
+        method= PaymentMethod.getInstanceFromDb(t.methodId).getDisplayLabel();
+      }
+      String msg =  ((t.comment != null && t.comment.length() != 0) ?
+          t.comment : "");
+      if (t.payee != null && t.payee.length() != 0) {
+        if (!msg.equals("")) {
+          msg += "\n";
+        }
+        msg += getString(R.string.payee) + ": " + t.payee;
+      }
+      if (!method.equals("")) {
+        if (!msg.equals("")) {
+          msg += "\n";
+        }
+        msg += getString(R.string.method) + ": " + method;
+      }
+      Toast.makeText(ctx, msg != "" ? msg : getString(R.string.no_details), Toast.LENGTH_LONG).show();
+      return true;
+    case R.id.MOVE_TRANSACTION_COMMAND:
+      args = new Bundle();
+      args.putInt("id", R.id.MOVE_TRANSACTION_COMMAND);
+      args.putString("dialogTitle",getString(R.string.dialog_title_select_account));
+      //args.putString("selection",KEY_ROWID + " != " + mCurrentAccount.id);
+      args.putString("column", KEY_LABEL);
+      args.putLong("contextTransactionId",info.id);
+      args.putInt("cursorId", ctx.ACCOUNTS_OTHER_CURSOR);
+      SelectFromCursorDialogFragment.newInstance(args)
+        .show(ctx.getSupportFragmentManager(), "SELECT_ACCOUNT");
+      return true;
+    case R.id.CREATE_TEMPLATE_COMMAND:
+      args = new Bundle();
+      args.putLong("transactionId", info.id);
+      args.putString("dialogTitle", getString(R.string.dialog_title_template_title));
+      EditTextDialog.newInstance(args).show(ctx.getSupportFragmentManager(), "TEMPLATE_TITLE");
+      return true;
+    }
+    return super.onContextItemSelected(item);
   }
 
   @Override
@@ -307,5 +378,17 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   }
   private void updateColor() {
     bottomLine.setBackgroundColor(mAccount.color);
+  }
+  private boolean checkSplitPartTransfer(int position) {
+    mTransactionsCursor.moveToPosition(position);
+    Long transferPeer = DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER);
+    if (transferPeer != null) {
+      Transaction peer = Transaction.getInstanceFromDb(transferPeer);
+      if (peer.parentId != null) {
+        Toast.makeText(getActivity(), "Transfers that are part of a split can only be edited or deleted in the context of the split", Toast.LENGTH_LONG).show();
+        return false;
+      }
+    }
+    return true;
   }
 }

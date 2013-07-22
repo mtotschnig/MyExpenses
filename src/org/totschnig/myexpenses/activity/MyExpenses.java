@@ -234,7 +234,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     actionBar.setListNavigationCallbacks(adapter, this);
   }
   
-  private void configButtons() {
+  public void configButtons() {
     supportInvalidateOptionsMenu();
   }
   
@@ -295,66 +295,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     }
   }
 
-  @Override
-  public boolean onContextItemSelected(android.view.MenuItem item) {
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    Transaction t;
-    Bundle args;
-    switch(item.getItemId()) {
-    case R.id.DELETE_COMMAND:
-      Transaction.delete(info.id);
-      configButtons();
-      return true;
-    case R.id.CLONE_TRANSACTION_COMMAND:
-      if (MyApplication.getInstance().isContribEnabled) {
-        contribFeatureCalled(Feature.CLONE_TRANSACTION, info.id);
-      }
-      else {
-        CommonCommands.showContribDialog(this,Feature.CLONE_TRANSACTION, info.id);
-      }
-      return true;
-    case R.id.SHOW_DETAIL_COMMAND:
-      t = Transaction.getInstanceFromDb(info.id);
-      String method = "";
-      if (t.methodId != null) {
-        method= PaymentMethod.getInstanceFromDb(t.methodId).getDisplayLabel();
-      }
-      String msg =  ((t.comment != null && t.comment.length() != 0) ?
-          t.comment : "");
-      if (t.payee != null && t.payee.length() != 0) {
-        if (!msg.equals("")) {
-          msg += "\n";
-        }
-        msg += getString(R.string.payee) + ": " + t.payee;
-      }
-      if (!method.equals("")) {
-        if (!msg.equals("")) {
-          msg += "\n";
-        }
-        msg += getString(R.string.method) + ": " + method;
-      }
-      Toast.makeText(getBaseContext(), msg != "" ? msg : getString(R.string.no_details), Toast.LENGTH_LONG).show();
-      return true;
-    case R.id.MOVE_TRANSACTION_COMMAND:
-      args = new Bundle();
-      args.putInt("id", R.id.MOVE_TRANSACTION_COMMAND);
-      args.putString("dialogTitle",getString(R.string.dialog_title_select_account));
-      //args.putString("selection",KEY_ROWID + " != " + mCurrentAccount.id);
-      args.putString("column", KEY_LABEL);
-      args.putLong("contextTransactionId",info.id);
-      args.putInt("cursorId", ACCOUNTS_OTHER_CURSOR);
-      SelectFromCursorDialogFragment.newInstance(args)
-        .show(getSupportFragmentManager(), "SELECT_ACCOUNT");
-      return true;
-    case R.id.CREATE_TEMPLATE_COMMAND:
-      args = new Bundle();
-      args.putLong("transactionId", info.id);
-      args.putString("dialogTitle", getString(R.string.dialog_title_template_title));
-      EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "TEMPLATE_TITLE");
-      return true;
-    }
-    return super.onContextItemSelected(item);
-  }
   /**
    * start ExpenseEdit Activity for a new transaction/transfer/split
    * @param type either {@link #TYPE_TRANSACTION} or {@link #TYPE_TRANSFER} or {@link #TYPE_SPLIT}
