@@ -37,25 +37,26 @@ public class SplitTransaction extends Transaction {
     catId = SPLIT_CATID;
   }
   /**
-   * existing parts are deleted and and the uncommited ones are commited
+   * existing parts are deleted and the uncommited ones are commited
    */
   public void commit() {
     String idStr = String.valueOf(id);
+    cr().delete(CONTENT_URI, KEY_PARENTID + "= ? AND " + KEY_STATUS + " != ?",
+        new String[] { idStr, String.valueOf(STATUS_UNCOMMITED) });
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_STATUS, 0);
-    cr().update(CONTENT_URI,initialValues,KEY_ROWID + "= ? OR " + KEY_PARENTID + "= ?",
-        new String[] {idStr,idStr});
+    //for a new split, both the parent and the parts are in state uncommited
+    //when we edit a split only the parts are in state uncommited,
+    //in any case we only update the state for rows that are uncommited, to
+    //prevent altering the state of a parent (e.g. from exported to non-exported
+    cr().update(CONTENT_URI,initialValues,"("+ KEY_ROWID + "= ? OR " + KEY_PARENTID + "= ? ) AND " + KEY_STATUS + " = ?",
+        new String[] {idStr,idStr,String.valueOf(STATUS_UNCOMMITED)});
   }
   /**
    * all Split Parts are cloned and we work with the uncommited clones
    */
   public void prepareForEdit() {
-    ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_STATUS, STATUS_UNCOMMITED);
-    cr().update(CONTENT_URI,initialValues,KEY_PARENTID + "= ?",
-        new String[] {String.valueOf(id)});
-/*    cr().insert(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).appendPath("cloneSplitParts").build(),
-        null);*/
+    cr().bulkInsert(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).appendPath("cloneSplitParts").build(), null);
   }
 }

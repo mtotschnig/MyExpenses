@@ -221,6 +221,27 @@ public class TransactionProvider extends ContentProvider {
   }
 
   @Override
+  public int bulkInsert(Uri uri, ContentValues[] values) {
+    SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+    int uriMatch = URI_MATCHER.match(uri);
+    String segment = uri.getPathSegments().get(1);
+    switch (uriMatch) {
+    case TRANSACTIONS_CLONE_SPLIT_PARTS:
+    db.execSQL("INSERT INTO transactions (" + KEY_COMMENT + "," + KEY_AMOUNT + ","
+        + KEY_DATE + "," + KEY_METHODID + "," + KEY_PAYEE + ","
+        + KEY_CATID + "," + KEY_ACCOUNTID + "," + KEY_TRANSFER_PEER + ","
+        + KEY_TRANSFER_ACCOUNT + "," + KEY_PARENTID + "," + KEY_STATUS + ")"
+        + " SELECT " + KEY_COMMENT + "," + KEY_AMOUNT + ","
+        + KEY_DATE + "," + KEY_METHODID + "," + KEY_PAYEE + ","
+        + KEY_CATID + "," + KEY_ACCOUNTID + "," + KEY_TRANSFER_PEER + ","
+        + KEY_TRANSFER_ACCOUNT + "," + KEY_PARENTID + "," + STATUS_UNCOMMITED
+        + " FROM transactions WHERE " + KEY_PARENTID + " = ?",
+        new String[] {segment});
+    return 0;
+    }
+    return super.bulkInsert(uri,values);
+  }
+  @Override
   public Uri insert(Uri uri, ContentValues values) {
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     long id = 0;
@@ -230,11 +251,6 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTIONS:
       id = db.insertOrThrow(TABLE_TRANSACTIONS, null, values);
       newUri = TRANSACTIONS_URI + "/" + id;
-      break;
-    case TRANSACTIONS_CLONE_SPLIT_PARTS:
-      //TODO
-      //db.execSQL(sql, bindArgs)
-      newUri = TRANSACTIONS_URI + "/TODO";
       break;
     case ACCOUNTS:
       id = db.insertOrThrow(TABLE_ACCOUNTS, null, values);
