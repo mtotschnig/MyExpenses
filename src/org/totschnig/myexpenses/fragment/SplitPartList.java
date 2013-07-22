@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -56,6 +57,11 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
   private long transactionSum = 0;
   private Money unsplitAmount;
 
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setHasOptionsMenu(true);
+  }
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final ExpenseEdit ctx = (ExpenseEdit) getSherlockActivity();
@@ -152,9 +158,23 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
     });
     registerForContextMenu(lv);
     return v;
-
   }
-
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v,
+      ContextMenuInfo menuInfo) {
+    super.onCreateContextMenu(menu, v, menuInfo);
+    menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
+  }
+  @Override
+  public boolean onContextItemSelected(android.view.MenuItem item) {
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    switch(item.getItemId()) {
+    case R.id.DELETE_COMMAND:
+      Transaction.delete(info.id);
+      return true;
+    }
+    return super.onContextItemSelected(item);
+  }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     CursorLoader cursorLoader = null;
