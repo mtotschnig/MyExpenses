@@ -55,9 +55,6 @@ public class DatabaseConstants {
     "THEN " +
     "  (SELECT label FROM " + TABLE_ACCOUNTS + " WHERE _id = transfer_account) " +
     "WHEN " +
-    "  cat_id = -1 " +
-    "THEN 'SPLIT' " +
-    "WHEN " +
     "  cat_id " +
     "THEN " +
     "  CASE WHEN " +

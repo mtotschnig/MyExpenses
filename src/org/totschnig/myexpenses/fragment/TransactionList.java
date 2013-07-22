@@ -200,10 +200,15 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
         if (c.getLong(col) != 0) {
           catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
         } else {
-          col = c.getColumnIndex(KEY_LABEL_SUB);
-          String label_sub = c.getString(col);
-          if (label_sub != null && label_sub.length() > 0) {
-            catText += categorySeparator + label_sub;
+          col = c.getColumnIndex(KEY_CATID);
+          if (c.getLong(col) == -1)
+            catText = getString(R.string.split_transaction);
+          else {
+            col = c.getColumnIndex(KEY_LABEL_SUB);
+            String label_sub = c.getString(col);
+            if (label_sub != null && label_sub.length() > 0) {
+              catText += categorySeparator + label_sub;
+            }
           }
         }
         col = c.getColumnIndex(KEY_COMMENT);
