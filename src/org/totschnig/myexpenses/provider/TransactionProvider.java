@@ -23,6 +23,8 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/accounts");
   public static final Uri TRANSACTIONS_URI =
       Uri.parse("content://" + AUTHORITY + "/transactions");
+  public static final Uri UNCOMMITTED_URI =
+      Uri.parse("content://" + AUTHORITY + "/transactions/uncommitted");
   public static final Uri TEMPLATES_URI =
       Uri.parse("content://" + AUTHORITY + "/templates");
   public static final Uri CATEGORIES_URI =
@@ -65,8 +67,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int FEATURE_USED = 18;
   private static final int SQLITE_SEQUENCE_TABLE = 19;
   private static final int AGGREGATES_COUNT = 20;
-  private static final int TRANSACTIONS_CLONE_SPLIT_PARTS = 21;
-  private static final int UNCOMMITTED = 22;
+  private static final int UNCOMMITTED = 21;
   
   @Override
   public boolean onCreate() {
@@ -232,28 +233,6 @@ public class TransactionProvider extends ContentProvider {
   public String getType(Uri uri) {
     return null;
   }
-
-  @Override
-  public int bulkInsert(Uri uri, ContentValues[] values) {
-    SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-    int uriMatch = URI_MATCHER.match(uri);
-    String segment = uri.getPathSegments().get(1);
-    switch (uriMatch) {
-    case TRANSACTIONS_CLONE_SPLIT_PARTS:
-    db.execSQL("INSERT INTO transactions (" + KEY_COMMENT + "," + KEY_AMOUNT + ","
-        + KEY_DATE + "," + KEY_METHODID + "," + KEY_PAYEE + ","
-        + KEY_CATID + "," + KEY_ACCOUNTID + "," + KEY_TRANSFER_PEER + ","
-        + KEY_TRANSFER_ACCOUNT + "," + KEY_PARENTID + "," + KEY_STATUS + ")"
-        + " SELECT " + KEY_COMMENT + "," + KEY_AMOUNT + ","
-        + KEY_DATE + "," + KEY_METHODID + "," + KEY_PAYEE + ","
-        + KEY_CATID + "," + KEY_ACCOUNTID + "," + KEY_TRANSFER_PEER + ","
-        + KEY_TRANSFER_ACCOUNT + "," + KEY_PARENTID + "," + STATUS_UNCOMMITTED
-        + " FROM transactions WHERE " + KEY_PARENTID + " = ?",
-        new String[] {segment});
-    return 0;
-    }
-    return super.bulkInsert(uri,values);
-  }
   @Override
   public Uri insert(Uri uri, ContentValues values) {
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -321,6 +300,7 @@ public class TransactionProvider extends ContentProvider {
     //we need to notify it when transactions change
     if (uriMatch == TRANSACTIONS) {
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
+      getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
     }
     return id >0 ? Uri.parse(newUri) : null;
   }
@@ -418,6 +398,7 @@ public class TransactionProvider extends ContentProvider {
     getContext().getContentResolver().notifyChange(uri, null);
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTIONS_ID) {
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
+      getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
     }
     return count;
   }
@@ -520,6 +501,7 @@ public class TransactionProvider extends ContentProvider {
     getContext().getContentResolver().notifyChange(uri, null);
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTIONS_ID) {
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
+      getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
     }
     return count;
   }
@@ -528,7 +510,6 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/uncommitted", UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTIONS_ID);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/#/cloneSplitParts", TRANSACTIONS_CLONE_SPLIT_PARTS);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORIES_ID);
     URI_MATCHER.addURI(AUTHORITY, "categories/#/increaseUsage", CATEGORIES_INCREASE_USAGE);

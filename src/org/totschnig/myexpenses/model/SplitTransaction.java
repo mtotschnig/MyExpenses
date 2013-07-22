@@ -15,14 +15,12 @@
 
 package org.totschnig.myexpenses.model;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 
 public class SplitTransaction extends Transaction {
   
@@ -41,23 +39,33 @@ public class SplitTransaction extends Transaction {
    */
   public void commit() {
     String idStr = String.valueOf(id);
-    cr().delete(CONTENT_URI, KEY_PARENTID + "= ? AND " + KEY_STATUS + " != ?",
-        new String[] { idStr, String.valueOf(STATUS_UNCOMMITTED) });
+    cr().delete(CONTENT_URI,"(" + KEY_PARENTID + "= ? OR " + KEY_TRANSFER_PEER
+        + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_TRANSACTIONS + " where " 
+        + KEY_PARENTID + " = ?))  AND " + KEY_STATUS + " != ?",
+        new String[] { idStr, idStr, String.valueOf(STATUS_UNCOMMITTED) });
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_STATUS, 0);
     //for a new split, both the parent and the parts are in state uncommitted
     //when we edit a split only the parts are in state uncommitted,
     //in any case we only update the state for rows that are uncommitted, to
     //prevent altering the state of a parent (e.g. from exported to non-exported
-    cr().update(CONTENT_URI,initialValues,"("+ KEY_ROWID + "= ? OR " + KEY_PARENTID + "= ? ) AND " + KEY_STATUS + " = ?",
-        new String[] {idStr,idStr,String.valueOf(STATUS_UNCOMMITTED)});
+    cr().update(CONTENT_URI,initialValues,KEY_STATUS + " = ?",
+        new String[] {String.valueOf(STATUS_UNCOMMITTED)});
   }
   /**
    * all Split Parts are cloned and we work with the uncommitted clones
    */
   public void prepareForEdit() {
-    cr().bulkInsert(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).appendPath("cloneSplitParts").build(), null);
+    Cursor c = cr().query(CONTENT_URI, new String[] {KEY_ROWID},
+        KEY_PARENTID + " = ?", new String[] {String.valueOf(id)} , null);
+    c.moveToFirst();
+    while(!c.isAfterLast()) {
+      Transaction t = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
+      t.status = STATUS_UNCOMMITTED;
+      t.saveAsNew();
+      c.moveToNext();
+    }
+    c.close();
   }
   /**
    * delete all uncommitted rows in the database,
