@@ -179,7 +179,7 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     CursorLoader cursorLoader = null;
-    Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath("uncommited").build();
+    Uri uri = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath("uncommitted").build();
     switch(id) {
     case TRANSACTION_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(), uri,null, "parent_id = ?",

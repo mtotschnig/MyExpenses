@@ -66,7 +66,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int SQLITE_SEQUENCE_TABLE = 19;
   private static final int AGGREGATES_COUNT = 20;
   private static final int TRANSACTIONS_CLONE_SPLIT_PARTS = 21;
-  private static final int UNCOMMITED = 22;
+  private static final int UNCOMMITTED = 22;
   
   @Override
   public boolean onCreate() {
@@ -87,13 +87,13 @@ public class TransactionProvider extends ContentProvider {
 
     switch (URI_MATCHER.match(uri)) {
     case TRANSACTIONS:
-      qb.setTables(VIEW_COMMITED);
+      qb.setTables(VIEW_COMMITTED);
       defaultOrderBy = KEY_DATE + " DESC";
       if (projection == null)
         projection = Transaction.PROJECTION;
       break;
-    case UNCOMMITED:
-      qb.setTables(VIEW_UNCOMMITED);
+    case UNCOMMITTED:
+      qb.setTables(VIEW_UNCOMMITTED);
       defaultOrderBy = KEY_DATE + " DESC";
       if (projection == null)
         projection = Transaction.PROJECTION;
@@ -127,13 +127,13 @@ public class TransactionProvider extends ContentProvider {
     case AGGREGATES:
       qb.setTables("(select currency,opening_balance,"+
           "(SELECT coalesce(abs(sum(amount)),0) FROM "
-              + VIEW_COMMITED
+              + VIEW_COMMITTED
               + " WHERE account_id = accounts._id and amount<0 and transfer_peer is null) as sum_expenses," +
           "(SELECT coalesce(abs(sum(amount)),0) FROM "
-              + VIEW_COMMITED
+              + VIEW_COMMITTED
               + " WHERE account_id = accounts._id and amount>0 and transfer_peer is null) as sum_income," +
           "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
-              + VIEW_COMMITED
+              + VIEW_COMMITTED
               + " WHERE account_id = accounts._id) as current_balance " +
           "from " + TABLE_ACCOUNTS + ") as t");
       groupBy = "currency";
@@ -247,7 +247,7 @@ public class TransactionProvider extends ContentProvider {
         + " SELECT " + KEY_COMMENT + "," + KEY_AMOUNT + ","
         + KEY_DATE + "," + KEY_METHODID + "," + KEY_PAYEE + ","
         + KEY_CATID + "," + KEY_ACCOUNTID + "," + KEY_TRANSFER_PEER + ","
-        + KEY_TRANSFER_ACCOUNT + "," + KEY_PARENTID + "," + STATUS_UNCOMMITED
+        + KEY_TRANSFER_ACCOUNT + "," + KEY_PARENTID + "," + STATUS_UNCOMMITTED
         + " FROM transactions WHERE " + KEY_PARENTID + " = ?",
         new String[] {segment});
     return 0;
@@ -526,7 +526,7 @@ public class TransactionProvider extends ContentProvider {
   static {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/uncommited", UNCOMMITED);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/uncommitted", UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTIONS_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/cloneSplitParts", TRANSACTIONS_CLONE_SPLIT_PARTS);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);

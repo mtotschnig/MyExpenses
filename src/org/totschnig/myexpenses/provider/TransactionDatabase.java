@@ -136,10 +136,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   @Override
   public void onCreate(SQLiteDatabase db) {
     db.execSQL(DATABASE_CREATE);
-    db.execSQL("CREATE VIEW " + VIEW_COMMITED
-        + " AS SELECT * from " + TABLE_TRANSACTIONS + " where status != " + STATUS_UNCOMMITED + ";");
-    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITED
-        + " AS SELECT * from " + TABLE_TRANSACTIONS + " where status = " + STATUS_UNCOMMITED + ";");
+    db.execSQL("CREATE VIEW " + VIEW_COMMITTED
+        + " AS SELECT * from " + TABLE_TRANSACTIONS + " where status != " + STATUS_UNCOMMITTED + ";");
+    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED
+        + " AS SELECT * from " + TABLE_TRANSACTIONS + " where status = " + STATUS_UNCOMMITTED + ";");
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL(PAYEE_CREATE);

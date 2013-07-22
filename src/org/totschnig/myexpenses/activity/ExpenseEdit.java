@@ -142,9 +142,9 @@ public class ExpenseEdit extends EditActivity {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
     } else if (mTransaction instanceof SplitTransaction) {
-      //SplitTransaction are always instantiated with status uncommited,
-      //we save them to DB as uncommited, before working with them
-      //when the split transaction is save the split and its parts are commited
+      //SplitTransaction are always instantiated with status uncommitted,
+      //we save them to DB as uncommitted, before working with them
+      //when the split transaction is save the split and its parts are committed
       if (mRowId == 0) {
         mTransaction.save();
         mRowId = mTransaction.id;
@@ -291,6 +291,12 @@ public class ExpenseEdit extends EditActivity {
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     switch(command) {
+    case android.R.id.home:
+      if (mTransaction instanceof SplitTransaction) {
+        ((SplitTransaction) mTransaction).cleanupCanceledEdit();
+      }
+      //handled in super
+      break;
     case R.id.Confirm:
       if (mTransaction instanceof SplitTransaction) {
         if (((SplitPartList) getSupportFragmentManager().findFragmentById(R.id.transaction_list)).splitComplete() ) {
@@ -668,6 +674,13 @@ public class ExpenseEdit extends EditActivity {
       mLabel = intent.getStringExtra("label");
       mCategoryButton.setText(mLabel);
     }
+  }
+  @Override
+  public void onBackPressed() {
+    if (mTransaction instanceof SplitTransaction) {
+      ((SplitTransaction) mTransaction).cleanupCanceledEdit();
+    }
+    super.onBackPressed();
   }
   /**
    * updates interface based on type (EXPENSE or INCOME)

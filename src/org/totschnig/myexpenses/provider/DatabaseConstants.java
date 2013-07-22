@@ -31,7 +31,7 @@ public class DatabaseConstants {
   /**
    * split transaction (and its parts) that are currently edited
    */
-  public static final int STATUS_UNCOMMITED = 2;
+  public static final int STATUS_UNCOMMITTED = 2;
 
   public static final String TABLE_TRANSACTIONS = "transactions";
   public static final String TABLE_ACCOUNTS = "accounts";
@@ -41,8 +41,8 @@ public class DatabaseConstants {
   public static final String TABLE_TEMPLATES = "templates";
   public static final String TABLE_PAYEES = "payee";
   public static final String TABLE_FEATURE_USED = "feature_used";
-  public static final String VIEW_COMMITED = "commited";
-  public static final String VIEW_UNCOMMITED = "uncommited";
+  public static final String VIEW_COMMITTED = "committed";
+  public static final String VIEW_UNCOMMITTED = "uncommitted";
 
   /**
    * an SQL CASE expression for transactions

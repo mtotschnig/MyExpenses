@@ -50,7 +50,7 @@ public class Transaction extends Model {
   /**
    * 0 = is normal, special states are
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_EXPORTED} and
-   * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_UNCOMMITED}
+   * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_UNCOMMITTED}
    */
   public int status = 0;
   public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
