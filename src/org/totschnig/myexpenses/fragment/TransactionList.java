@@ -240,13 +240,18 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     switch(id) {
     case TRANSACTION_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI, null, "account_id = ? AND parent_id is null",
-          new String[] { String.valueOf(accountId) }, null);
+          TransactionProvider.TRANSACTIONS_URI, null,
+          "account_id = ? AND parent_id is null and status != ?",
+          new String[] { String.valueOf(accountId), String.valueOf(STATUS_UNCOMMITED)},
+          null);
       return cursorLoader;
     case SUM_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ")"}, "account_id = ? AND parent_id is null",
-          new String[] { String.valueOf(accountId) }, null);
+          TransactionProvider.TRANSACTIONS_URI,
+          new String[] {"sum(" + KEY_AMOUNT + ")"},
+          "account_id = ? AND parent_id is null and status != ?",
+          new String[] { String.valueOf(accountId), String.valueOf(STATUS_UNCOMMITED)},
+          null);
     }
     return cursorLoader;
   }
