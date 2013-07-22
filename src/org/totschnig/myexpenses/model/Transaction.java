@@ -149,14 +149,10 @@ public class Transaction extends Model {
   }
   
   public static void delete(long id) {
-    Transaction t = Transaction.getInstanceFromDb(id);
-
-    if (t instanceof Transfer)
-      cr().delete(CONTENT_URI,
-          KEY_ROWID + " in (" + id + "," + t.transfer_peer + ")",null);
-    else
+    String idStr = String.valueOf(id);
       cr().delete(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null);
+        CONTENT_URI,KEY_ROWID + " = ? OR " + KEY_PARENTID + " = ? OR " + KEY_TRANSFER_PEER + " = ?",
+        new String[] {idStr,idStr,idStr});
   }
   //needed for Template subclass
   public Transaction() {
