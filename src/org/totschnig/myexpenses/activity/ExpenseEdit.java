@@ -566,9 +566,11 @@ public class ExpenseEdit extends EditActivity {
     } else {
       amount = mTransaction.amount.getAmountMajor();
     }
-    if (amount.signum() == -1) {
+    switch(amount.signum()) {
+    case -1:
       amount = amount.abs();
-    } else {
+      break;
+    case 1:
       mType = INCOME;
       configureType();
     }
