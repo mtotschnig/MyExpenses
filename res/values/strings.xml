@@ -41,6 +41,7 @@
   <string name="contrib_feature_reset_all_label">Reset all accounts</string>
   <string name="contrib_feature_security_question_label">Security question</string>
   <string name="contrib_feature_clone_transaction_label">Clone transactions</string>
+  <string name="contrib_feature_split_transaction_label">Split transaction</string>
   <string name="contrib_key">Contrib key</string>
   <string name="currency">Currency</string>
   <string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>

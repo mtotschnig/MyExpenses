@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -146,6 +147,7 @@ public class ExpenseEdit extends EditActivity {
       //we save them to DB as uncommitted, before working with them
       //when the split transaction is save the split and its parts are committed
       if (mRowId == 0) {
+        mTransaction.status = STATUS_UNCOMMITTED;
         mTransaction.save();
         mRowId = mTransaction.id;
       } else {

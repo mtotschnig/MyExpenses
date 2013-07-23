@@ -21,17 +21,16 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
 public class SplitTransaction extends Transaction {
   
   public SplitTransaction(long accountId,long amount) {
     super(accountId,amount);
-    status = STATUS_UNCOMMITTED;
     catId = SPLIT_CATID;
   }
   public SplitTransaction(long accountId, Money amount) {
     super(accountId,amount);
-    status = STATUS_UNCOMMITTED;
     catId = SPLIT_CATID;
   }
   /**
@@ -44,6 +43,8 @@ public class SplitTransaction extends Transaction {
         + KEY_PARENTID + " = ?))  AND " + KEY_STATUS + " != ?",
         new String[] { idStr, idStr, String.valueOf(STATUS_UNCOMMITTED) });
     ContentValues initialValues = new ContentValues();
+    if (status==STATUS_UNCOMMITTED)
+      ContribFeature.Feature.SPLIT_TRANSACTION.recordUsage();
     initialValues.put(KEY_STATUS, 0);
     //for a new split, both the parent and the parts are in state uncommitted
     //when we edit a split only the parts are in state uncommitted,

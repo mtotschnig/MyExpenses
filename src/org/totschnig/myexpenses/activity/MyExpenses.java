@@ -423,7 +423,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       createRow(TYPE_TRANSFER);
       break;
     case R.id.INSERT_SPLIT_COMMAND:
-      createRow(TYPE_SPLIT);
+      if (MyApplication.getInstance().isContribEnabled) {
+        contribFeatureCalled(Feature.SPLIT_TRANSACTION, null);
+      }
+      else {
+        CommonCommands.showContribDialog(this,Feature.SPLIT_TRANSACTION, null);
+      }
       break;
     case R.id.RESET_ACCOUNT_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
@@ -512,10 +517,18 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     setCurrentAccount(Account.getInstanceFromDb(accountId));
     getSupportActionBar().setSelectedNavigationItem(position);
   }
+  @SuppressWarnings("incomplete-switch")
   @Override
   public void contribFeatureCalled(Feature feature, Serializable tag) {
-    feature.recordUsage();
-    Transaction.getInstanceFromDb((Long) tag).saveAsNew();
+    switch(feature){
+    case CLONE_TRANSACTION:
+      feature.recordUsage();
+      Transaction.getInstanceFromDb((Long) tag).saveAsNew();
+      break;
+    case SPLIT_TRANSACTION:
+      createRow(TYPE_SPLIT);
+      break;
+    }
   }
   @Override
   public void contribFeatureNotCalled() {
