@@ -695,6 +695,9 @@ public class ExpenseEdit extends EditActivity {
     if (mPayeeLabel != null) {
       mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
     }
+    if (mTransaction instanceof SplitTransaction) {
+      ((SplitPartList) getSupportFragmentManager().findFragmentById(R.id.transaction_list)).updateBalance();
+    }
     setCategoryButton();
   }
   /**
