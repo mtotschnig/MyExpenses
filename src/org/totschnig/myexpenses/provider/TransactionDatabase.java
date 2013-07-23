@@ -17,7 +17,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 29;
+  public static final int DATABASE_VERSION = 30;
   public static final String DATABASE_NAME = "data";
 
   private static final String TAG = "TransactionDatabase";
@@ -136,10 +136,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   @Override
   public void onCreate(SQLiteDatabase db) {
     db.execSQL(DATABASE_CREATE);
-    db.execSQL("CREATE VIEW " + VIEW_COMMITTED
-        + " AS SELECT * from " + TABLE_TRANSACTIONS + " where status != " + STATUS_UNCOMMITTED + ";");
-    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED
-        + " AS SELECT * from " + TABLE_TRANSACTIONS + " where status = " + STATUS_UNCOMMITTED + ";");
+    db.execSQL("CREATE VIEW " + VIEW_COMMITTED + " AS SELECT * FROM "
+        + TABLE_TRANSACTIONS + " WHERE status != " + STATUS_UNCOMMITTED + ";");
+    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + " AS SELECT * FROM "
+        + TABLE_TRANSACTIONS + " WHERE status = " + STATUS_UNCOMMITTED + ";");
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL(PAYEE_CREATE);
@@ -316,6 +316,16 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     }
     if (oldVersion < 29) {
       db.execSQL("ALTER TABLE transactions add column status integer default 0");
+    }
+    if (oldVersion < 30) {
+      db.execSQL("ALTER TABLE transactions add column parent_id integer references transactions (_id)");
+      db.execSQL("CREATE VIEW committed AS SELECT * FROM transactions WHERE status != 2;");
+      db.execSQL("CREATE VIEW uncommitted AS SELECT * FROM transactions WHERE status = 2;");
+      ContentValues initialValues = new ContentValues();
+      initialValues.put("_id", -1);
+      initialValues.put("parent_id", -1);
+      initialValues.put("label", "__SPLIT_TRANSACTION__");
+      db.insert("categories", null, initialValues);
     }
   }
 }
