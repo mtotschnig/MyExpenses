@@ -86,5 +86,6 @@ public class DatabaseConstants {
     "ELSE " +
     "  (SELECT label FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
     "END AS  " + KEY_LABEL;
+  public static final Long SPLIT_CATID = -1L;
 
 }

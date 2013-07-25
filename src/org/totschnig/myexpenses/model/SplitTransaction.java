@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.model;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
@@ -27,11 +28,11 @@ public class SplitTransaction extends Transaction {
   
   public SplitTransaction(long accountId,long amount) {
     super(accountId,amount);
-    catId = SPLIT_CATID;
+    catId = DatabaseConstants.SPLIT_CATID;
   }
   public SplitTransaction(long accountId, Money amount) {
     super(accountId,amount);
-    catId = SPLIT_CATID;
+    catId = DatabaseConstants.SPLIT_CATID;
   }
   /**
    * existing parts are deleted and the uncommitted ones are committed

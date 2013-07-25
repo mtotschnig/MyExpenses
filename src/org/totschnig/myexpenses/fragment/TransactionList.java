@@ -207,7 +207,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
           catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
         } else {
           col = c.getColumnIndex(KEY_CATID);
-          if (c.getLong(col) == -1)
+          if (c.getLong(col) == SPLIT_CATID)
             catText = getString(R.string.split_transaction);
           else {
             col = c.getColumnIndex(KEY_LABEL_SUB);

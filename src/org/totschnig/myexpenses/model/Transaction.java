@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.model;
 
 import java.util.Date;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -56,7 +57,6 @@ public class Transaction extends Model {
   public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
     KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID};
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
-  protected static final Long SPLIT_CATID = -1L;
   /**
    * we store the date directly from UI to DB without creating a Date object
    */
@@ -89,7 +89,7 @@ public class Transaction extends Model {
       t = parent_id != null ? new SplitPartTransfer(account_id,amount,parent_id) : new Transfer(account_id,amount);
     }
     else {
-      if (catId == SPLIT_CATID) {
+      if (catId == DatabaseConstants.SPLIT_CATID) {
         t = new SplitTransaction(account_id,amount);
       } else {
         t = parent_id != null ? new SplitPartCategory(account_id,amount,parent_id) : new Transaction(account_id,amount);
@@ -220,7 +220,7 @@ public class Transaction extends Model {
       initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);
       id = ContentUris.parseId(uri);
-      if (catId != null && catId != SPLIT_CATID)
+      if (catId != null && catId != DatabaseConstants.SPLIT_CATID)
         cr().update(
             TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(catId)).appendPath("increaseUsage").build(),
             null, null, null);

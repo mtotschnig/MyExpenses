@@ -122,8 +122,7 @@
   	- Manage them directly on your smartphone.\n
   	- Export them into a Desktop finance program like Grisbi, GnuCash, Quicken or MS Money.</string>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
-  <string name="help_whats_new">&#160;- Vietnamese translation\n
-  	- Minor improvements</string>
+  <string name="help_whats_new">&#160;- Split transactions</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">Income</string>
@@ -177,6 +176,7 @@
   <string name="no_app_handling_email_available">No app handling email available.</string>
   <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i> from Google Play?</string>
   <string name="no_categories">No categories.</string>
+  <string name="no_category_defined">No category defined.</string>
   <string name="no_details">No details.</string>
   <string name="no_expenses">No Expenses Yet!</string>
   <string name="no_exportable_expenses">There are no transactions that have not yet been exported.</string>
