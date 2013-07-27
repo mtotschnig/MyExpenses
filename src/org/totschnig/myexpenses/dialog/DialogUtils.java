@@ -78,7 +78,7 @@ public class DialogUtils {
   }
 
   public static void showPasswordDialog(Activity ctx,AlertDialog dialog) {
-    ctx.findViewById(android.R.id.content).setVisibility(View.INVISIBLE);
+    ctx.findViewById(android.R.id.content).setVisibility(View.GONE);
     dialog.show();
     PasswordDialogListener l = new PasswordDialogListener(ctx,dialog);
     Button b = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
