@@ -47,7 +47,7 @@ public class ProtectedPreferenceActivity extends SherlockPreferenceActivity {
   @Override
   protected void onResume() {
     super.onResume();
-    protection.hanldeOnResume(pwDialog);
+    pwDialog = protection.hanldeOnResume(pwDialog);
   }
   @Override
   public boolean onMenuItemSelected(int featureId, MenuItem item) {

@@ -83,7 +83,7 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
         startActivity(intent);
       }
     } else {
-      protection.hanldeOnResume(pwDialog);
+      pwDialog = protection.hanldeOnResume(pwDialog);
     }
   }
   @Override
