@@ -14,6 +14,7 @@
   </item>
   <item
     android:id="@id/INSERT_SPLIT_COMMAND"
+    android:icon="@drawable/create_split_icon"
     android:showAsAction="ifRoom"
     android:title="@string/menu_create_split">
   </item>
