@@ -105,7 +105,9 @@ public class ExpenseEdit extends EditActivity {
     super.onCreate(savedInstanceState);
 
     Bundle extras = getIntent().getExtras();
-    mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
+    //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
+    if ((mRowId = (savedInstanceState == null ? 0L : savedInstanceState.getLong("rowId"))) == 0L)
+      mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
     mTemplateId = extras.getLong("template_id",0);
     mTransferEnabled = extras.getBoolean("transferEnabled",false);
     
@@ -717,6 +719,9 @@ public class ExpenseEdit extends EditActivity {
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable("calendar", mCalendar);
+    //restored in onCreate
+    if (mRowId != 0)
+      outState.putLong("rowId", mRowId);
     if (mCatId != null)
       outState.putLong("catId", mCatId);
     if (mTransferAccount != null)
