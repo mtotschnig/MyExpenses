@@ -42,7 +42,6 @@
             android:layout_height="wrap_content" />
         <Button android:layout_weight="1"
             android:layout_width="0dp"
-            style="@style/button"
             android:layout_height="wrap_content"
             android:id="@+id/TaType"
             android:text="@string/pm_type_neutral" />

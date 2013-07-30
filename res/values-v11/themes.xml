@@ -20,8 +20,4 @@
 	</style>
 	<style name="BaseDark" parent="@android:style/Theme.Holo"/>
   <style name="BaseLight" parent="@android:style/Theme.Holo.Light"/>
-  <style name="button">
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
-    </style>
 </resources>

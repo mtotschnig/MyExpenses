@@ -45,15 +45,13 @@
         <TextView style="@style/form_label"
             android:text="@string/date"/>
         <Button android:id="@+id/Date"
-            android:text="@string/select"
-            style="@style/button" />
+            android:text="@string/select"/>
       </TableRow>
         
       <TableRow android:id="@+id/TimeRow">
         <TextView style="@style/form_label"
             android:text="@string/time"/>
-        <Button android:id="@+id/Time" android:text="@string/select"
-            style="@style/button" />
+        <Button android:id="@+id/Time" android:text="@string/select" />
       </TableRow>
         
       <TableRow>
@@ -78,8 +76,7 @@
       <TableRow android:id="@+id/CategoryRow">
         <TextView style="@style/form_label"
             android:id="@+id/CategoryLabel" android:text="@string/category" />
-        <Button android:id="@+id/Category" android:text="@string/select"
-            style="@style/button" />
+        <Button android:id="@+id/Category" android:text="@string/select" />
       </TableRow>
         
       <TableRow android:id="@+id/PayeeRow">
@@ -95,7 +92,7 @@
       <TableRow android:id="@+id/MethodRow">
       <TextView style="@style/form_label"
           android:id="@+id/MethodLabel" android:text="@string/method" />
-        <Button style="@style/button"
+        <Button
             android:id="@+id/Method" android:text="@string/select" />
       </TableRow>
     </TableLayout>

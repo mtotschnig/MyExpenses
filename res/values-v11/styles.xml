@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- setting text color is only needed in API 10 and lower -->
+  <style name="about_text2" parent="about_text"/>
+</resources>

@@ -50,14 +50,12 @@
               android:layout_width="0dp"
               android:layout_height="fill_parent"
               android:id="@+id/Date"
-              android:text="@string/select"
-              style="@style/button"/>
+              android:text="@string/select"/>
           <Button android:layout_weight="1"
               android:layout_width="0dp"
               android:layout_height="fill_parent"
               android:id="@+id/Time"
-              android:text="@string/select"
-             style="@style/button"/>
+              android:text="@string/select"/>
         </LinearLayout>
       </TableRow>
                 
@@ -66,7 +64,7 @@
         <LinearLayout
             android:orientation="horizontal">
           <include layout="@layout/amount_input"/>
-          <Button style="@style/button" android:layout_weight="2"
+          <Button android:layout_weight="2"
               android:layout_width="0dp"
               android:layout_height="fill_parent"
               android:id="@+id/Category"
@@ -75,7 +73,6 @@
               android:layout_weight="2"
               android:layout_width="0dp"
               android:layout_height="fill_parent"
-              style="@style/button"
               android:text="@string/method" />
         </LinearLayout>
       </TableRow>
