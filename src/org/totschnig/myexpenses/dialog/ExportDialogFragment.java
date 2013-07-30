@@ -42,8 +42,7 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx  = (Activity) getActivity();
-    Context wrappedCtx = Build.VERSION.SDK_INT < 11 ? 
-        new ContextThemeWrapper(ctx, R.style.AboutDialog) : ctx;
+    Context wrappedCtx = DialogUtils.wrapContext1(ctx);
     Bundle args = getArguments();
     Long accountId = args != null ? args.getLong("accountId") : null;
     boolean allP = accountId == null;

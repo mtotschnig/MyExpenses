@@ -91,11 +91,7 @@ public class DialogUtils {
   public static AlertDialog passwordDialog(final Activity ctx) {
     final SharedPreferences settings = MyApplication.getInstance().getSettings();
     final String securityQuestion = settings.getString(MyApplication.PREFKEY_SECURITY_QUESTION, "");
-    //Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
-    //this is necessary only when we are called from one of the transparent activities,
-    //but does not harm in the other cases
-    Context wrappedCtx = Build.VERSION.SDK_INT > 10 ?
-        new ContextThemeWrapper(ctx, MyApplication.getThemeId()) : ctx;
+    Context wrappedCtx = wrapContext2(ctx);
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.password_check, null);
     view.findViewById(R.id.password).setTag(Boolean.valueOf(false));
@@ -164,5 +160,26 @@ public class DialogUtils {
         }
       }
     }
+  }
+  /**
+   * @param ctx
+   * @return Context wrapped with style AboutDialog in API 10 and lower
+   * currently this is only needed in ExportDialogFragment, and makes
+   * sure that RadioButtons get correct style
+   */
+  protected static Context wrapContext1(Context ctx) {
+    return Build.VERSION.SDK_INT < 11 ?
+        new ContextThemeWrapper(ctx, R.style.AboutDialog) : ctx;
+  }
+  /**
+   * @param ctx
+   * @return Context wrapped with current theme (dark or light) in API 11 and higher
+   * Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
+   * this is necessary only when we are called from one of the transparent activities,
+   * but does not harm in the other cases
+   */
+  protected static Context wrapContext2(Context ctx) {
+    return Build.VERSION.SDK_INT > 10 ?
+        new ContextThemeWrapper(ctx, MyApplication.getThemeId()) : ctx;
   }
 }

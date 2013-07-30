@@ -36,9 +36,7 @@ public class HelpDialogFragment extends DialogFragment {
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     FragmentActivity ctx  = getActivity();
-    //Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
-    Context wrappedCtx = Build.VERSION.SDK_INT > 10 ?
-        new ContextThemeWrapper(ctx, MyApplication.getThemeId()) : ctx;
+    Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     final Resources res = getResources();
     final String pack = ctx.getPackageName();
     String activityName = getArguments().getString("activityName");
