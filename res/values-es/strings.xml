@@ -25,8 +25,8 @@
   <string name="account_type_cash">Cuenta de caja</string>
   <string name="account_type_bank">Cuenta bancaria</string>
   <string name="account_type_ccard">Tarjeta de crédito</string>
-  <string name="account_type_asset">Cuenta del acivo</string>
-  <string name="account_type_liability">Cuenta de passivo</string>
+  <string name="account_type_asset">Cuenta del activo</string>
+  <string name="account_type_liability">Cuenta de pasivo</string>
   <string name="amount">Importe</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">La copia de seguridad en la tarjeta SD ha fallado.</string>
