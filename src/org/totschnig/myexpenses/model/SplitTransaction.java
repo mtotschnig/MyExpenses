@@ -50,7 +50,7 @@ public class SplitTransaction extends Transaction {
     //for a new split, both the parent and the parts are in state uncommitted
     //when we edit a split only the parts are in state uncommitted,
     //in any case we only update the state for rows that are uncommitted, to
-    //prevent altering the state of a parent (e.g. from exported to non-exported
+    //prevent altering the state of a parent (e.g. from exported to non-exported)
     cr().update(CONTENT_URI,initialValues,KEY_STATUS + " = ?",
         new String[] {String.valueOf(STATUS_UNCOMMITTED)});
   }
@@ -58,8 +58,10 @@ public class SplitTransaction extends Transaction {
    * all Split Parts are cloned and we work with the uncommitted clones
    */
   public void prepareForEdit() {
+    String idStr = String.valueOf(id);
     Cursor c = cr().query(CONTENT_URI, new String[] {KEY_ROWID},
-        KEY_PARENTID + " = ?", new String[] {String.valueOf(id)} , null);
+        KEY_PARENTID + " = ? AND NOT EXISTS (SELECT 1 from " + VIEW_UNCOMMITTED
+            + " WHERE " + KEY_PARENTID + " = ?)", new String[] {idStr,idStr} , null);
     c.moveToFirst();
     while(!c.isAfterLast()) {
       Transaction t = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
