@@ -38,6 +38,7 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
+  public String helpVariant = null;
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +84,7 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
         startActivity(intent);
       }
     } else {
-      protection.hanldeOnResume(pwDialog);
+      pwDialog = protection.hanldeOnResume(pwDialog);
     }
   }
   @Override

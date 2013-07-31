@@ -23,6 +23,8 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/accounts");
   public static final Uri TRANSACTIONS_URI =
       Uri.parse("content://" + AUTHORITY + "/transactions");
+  public static final Uri UNCOMMITTED_URI =
+      Uri.parse("content://" + AUTHORITY + "/transactions/uncommitted");
   public static final Uri TEMPLATES_URI =
       Uri.parse("content://" + AUTHORITY + "/templates");
   public static final Uri CATEGORIES_URI =
@@ -65,6 +67,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int FEATURE_USED = 18;
   private static final int SQLITE_SEQUENCE_TABLE = 19;
   private static final int AGGREGATES_COUNT = 20;
+  private static final int UNCOMMITTED = 21;
   
   @Override
   public boolean onCreate() {
@@ -85,7 +88,13 @@ public class TransactionProvider extends ContentProvider {
 
     switch (URI_MATCHER.match(uri)) {
     case TRANSACTIONS:
-      qb.setTables(TABLE_TRANSACTIONS);
+      qb.setTables(VIEW_COMMITTED);
+      defaultOrderBy = KEY_DATE + " DESC";
+      if (projection == null)
+        projection = Transaction.PROJECTION;
+      break;
+    case UNCOMMITTED:
+      qb.setTables(VIEW_UNCOMMITTED);
       defaultOrderBy = KEY_DATE + " DESC";
       if (projection == null)
         projection = Transaction.PROJECTION;
@@ -118,9 +127,15 @@ public class TransactionProvider extends ContentProvider {
       break;
     case AGGREGATES:
       qb.setTables("(select currency,opening_balance,"+
-          "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0 and transfer_peer is null) as sum_expenses," +
-          "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount>0 and transfer_peer is null) as sum_income," +
-          "opening_balance + (SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id) as current_balance " +
+          "(SELECT coalesce(abs(sum(amount)),0) FROM "
+              + VIEW_COMMITTED
+              + " WHERE account_id = accounts._id and amount<0 and transfer_peer is null) as sum_expenses," +
+          "(SELECT coalesce(abs(sum(amount)),0) FROM "
+              + VIEW_COMMITTED
+              + " WHERE account_id = accounts._id and amount>0 and transfer_peer is null) as sum_income," +
+          "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
+              + VIEW_COMMITTED
+              + " WHERE account_id = accounts._id) as current_balance " +
           "from " + TABLE_ACCOUNTS + ") as t");
       groupBy = "currency";
       having = "count(*) > 1";
@@ -218,7 +233,6 @@ public class TransactionProvider extends ContentProvider {
   public String getType(Uri uri) {
     return null;
   }
-
   @Override
   public Uri insert(Uri uri, ContentValues values) {
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -286,6 +300,7 @@ public class TransactionProvider extends ContentProvider {
     //we need to notify it when transactions change
     if (uriMatch == TRANSACTIONS) {
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
+      getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
     }
     return id >0 ? Uri.parse(newUri) : null;
   }
@@ -383,6 +398,7 @@ public class TransactionProvider extends ContentProvider {
     getContext().getContentResolver().notifyChange(uri, null);
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTIONS_ID) {
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
+      getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
     }
     return count;
   }
@@ -485,12 +501,14 @@ public class TransactionProvider extends ContentProvider {
     getContext().getContentResolver().notifyChange(uri, null);
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTIONS_ID) {
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
+      getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
     }
     return count;
   }
   static {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/uncommitted", UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTIONS_ID);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORIES_ID);

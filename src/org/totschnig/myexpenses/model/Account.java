@@ -64,10 +64,10 @@ public class Account extends Model {
   public int color;
 
   public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_COLOR,
-    "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and amount>0 and transfer_peer is null) as sum_income",
-    "(SELECT coalesce(abs(sum(amount)),0) FROM transactions WHERE account_id = accounts._id and amount<0 and transfer_peer is null) as sum_expenses",
-    "(SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id and transfer_peer is not null) as sum_transfer",
-    "opening_balance + (SELECT coalesce(sum(amount),0) FROM transactions WHERE account_id = accounts._id) as current_balance"};
+    "(SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and amount>0 and transfer_peer is null) as sum_income",
+    "(SELECT coalesce(abs(sum(amount)),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and amount<0 and transfer_peer is null) as sum_expenses",
+    "(SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and transfer_peer is not null) as sum_transfer",
+    "opening_balance + (SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id) as current_balance"};
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
   public enum ExportFormat {
@@ -418,7 +418,7 @@ public class Account extends Model {
   public void markAsExported() {
     ContentValues args = new ContentValues();
     args.put(KEY_STATUS, STATUS_EXPORTED);
-    cr().update(TransactionProvider.TRANSACTIONS_URI, args, "account_id = ?", new String[] { String.valueOf(id) });
+    cr().update(TransactionProvider.TRANSACTIONS_URI, args, "account_id = ? and parent_id is null", new String[] { String.valueOf(id) });
   }
   
   /**
@@ -470,9 +470,9 @@ public class Account extends Model {
     SharedPreferences settings = ctx.getSettings();
     Log.i("MyExpenses","now starting export");
     //first we check if there are any exportable transactions
-    String selection = KEY_ACCOUNTID + " = " + id;
+    String selection = KEY_ACCOUNTID + " = " + id + " AND " + KEY_PARENTID + " is null";
     if (notYetExportedP)
-      selection += " AND " + KEY_STATUS + " != " + STATUS_EXPORTED;
+      selection += " AND " + KEY_STATUS + " = 0";
     Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI, null,selection, null, KEY_DATE);
     if (c.getCount() == 0)
       return new Result(false,R.string.no_exportable_expenses);
@@ -491,7 +491,7 @@ public class Account extends Model {
         settings.getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));
     switch (format) {
     case CSV:
-      int[] columns = {R.string.date,R.string.payee,R.string.income,R.string.expense,
+      int[] columns = {R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,
           R.string.category,R.string.subcategory,R.string.comment,R.string.method};
       for (int column: columns) {
         sb.append("\"")
@@ -504,22 +504,29 @@ public class Account extends Model {
       sb.append("!Type:")
         .append(type.getQifName());
     }
-    sb.append("\n");
     //Write header
     out.write(sb.toString());
     while( c.getPosition() < c.getCount() ) {
       Long transfer_peer = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER);
       String comment = DbUtils.getString(c, KEY_COMMENT);
-      String full_label = "",label_sub = "" ;
-      String label_main =  DbUtils.getString(c, KEY_LABEL_MAIN);
-      if (label_main.length() > 0) {
-        if (transfer_peer != null) {
-          full_label = "[" + label_main + "]"; 
-        } else {
-          full_label = label_main;
-          label_sub =  DbUtils.getString(c, KEY_LABEL_SUB);
-          if (label_sub.length() > 0) {
-            full_label += ":" + label_sub;
+      String full_label="",label_sub = "",label_main ;
+      Long catId = c.getLong(c.getColumnIndex(KEY_CATID));
+      if (catId == SPLIT_CATID) {
+        full_label = ctx.getString(R.string.split_transaction);
+        label_main = full_label;
+        label_sub = "";
+      } else {
+        label_main =  DbUtils.getString(c, KEY_LABEL_MAIN);
+        if (label_main.length() > 0) {
+          if (transfer_peer != null) {
+            full_label = "[" + label_main + "]";
+            label_main = ctx.getString(R.string.transfer);
+            label_sub = full_label;
+          } else {
+            full_label = label_main;
+            label_sub =  DbUtils.getString(c, KEY_LABEL_SUB);
+            if (label_sub.length() > 0)
+              full_label += ":" + label_sub;
           }
         }
       }
@@ -533,9 +540,9 @@ public class Account extends Model {
       sb.clear();
       switch (format) {
       case CSV:
-        //{R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
+        //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
         Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
-        sb.append("\"")
+        sb.append("\n\"\";\"")
           .append(dateStr)
           .append("\";\"")
           .appendQ(payee)
@@ -544,9 +551,9 @@ public class Account extends Model {
           .append(";")
           .append(amount<0 ? amountAbsStr : "0")
           .append(";\"")
-          .appendQ(transfer_peer == null ? label_main : ctx.getString(R.string.transfer))
+          .appendQ(label_main)
           .append("\";\"")
-          .appendQ(transfer_peer == null ? label_sub : full_label)
+          .appendQ(label_sub)
           .append("\";\"")
           .appendQ(comment)
           .append("\";\"")
@@ -554,7 +561,7 @@ public class Account extends Model {
           .append("\";");
         break;
       default:
-        sb.append( "D" )
+        sb.append( "\nD" )
           .append( dateStr )
           .append( "\nT" );
         if (amount<0)
@@ -572,10 +579,78 @@ public class Account extends Model {
           sb.append( "\nP" )
             .append( payee );
         }
-        sb.append( "\n^" );
       }
-      sb.append("\n");
       out.write(sb.toString());
+      if (catId == SPLIT_CATID) {
+        Cursor splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
+            KEY_PARENTID + " = "+c.getLong(c.getColumnIndex(KEY_ROWID)), null, null);
+        splits.moveToFirst();
+        while( splits.getPosition() < splits.getCount() ) {
+          transfer_peer = DbUtils.getLongOrNull(splits, KEY_TRANSFER_PEER);
+          comment = DbUtils.getString(splits, KEY_COMMENT);
+          label_main =  DbUtils.getString(splits, KEY_LABEL_MAIN);
+          if (label_main.length() > 0) {
+            if (transfer_peer != null) {
+              full_label = "[" + label_main + "]";
+              label_main = ctx.getString(R.string.transfer);
+              label_sub = full_label;
+            } else {
+              full_label = label_main;
+              label_sub =  DbUtils.getString(splits, KEY_LABEL_SUB);
+              if (label_sub.length() > 0)
+                full_label += ":" + label_sub;
+            }
+          } else {
+            label_main = full_label = ctx.getString(R.string.no_category_defined);
+            label_sub = "";
+          }
+          amount = splits.getLong(
+              splits.getColumnIndexOrThrow(KEY_AMOUNT));
+          amountAbsStr = new Money(currency,amount)
+              .getAmountMajor().abs().toPlainString();
+          sb.clear();
+          switch (format) {
+          case CSV:
+            //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
+            Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
+            sb.append("\n\"B\";\"")
+              .append(dateStr)
+              .append("\";\"")
+              .appendQ(payee)
+              .append("\";")
+              .append(amount>0 ? amountAbsStr : "0")
+              .append(";")
+              .append(amount<0 ? amountAbsStr : "0")
+              .append(";\"")
+              .appendQ(label_main)
+              .append("\";\"")
+              .appendQ(label_sub)
+              .append("\";\"")
+              .appendQ(comment)
+              .append("\";\"")
+              .appendQ(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel())
+              .append("\";");
+            break;
+          //QIF  
+          default:
+            sb.append( "\nS" )
+              .append( full_label );
+            if ((comment.length() > 0)) {
+              sb.append( "\nE" )
+              .append( comment );
+            }
+            sb.append( "\n$" );
+            if (amount<0)
+              sb.append( "-");
+            sb.append( amountAbsStr );
+          }
+          out.write(sb.toString());
+          splits.moveToNext();
+        }
+      }
+      if (format.equals(ExportFormat.QIF)) {
+        out.write( "\n^" );
+      }
       c.moveToNext();
     }
     out.close();

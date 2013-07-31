@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.dialog;
 
-import org.totschnig.myexpenses.MyApplication;
+import java.util.Arrays;
+
 import org.totschnig.myexpenses.R;
 
 import android.app.AlertDialog;
@@ -8,27 +9,23 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ContextThemeWrapper;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ImageView;
 
 public class HelpDialogFragment extends DialogFragment {
   
-  public static final HelpDialogFragment newInstance(String activityName) {
+  public static final HelpDialogFragment newInstance(String activityName, String variant) {
     HelpDialogFragment dialogFragment = new HelpDialogFragment();
     Bundle args = new Bundle();
     args.putString("activityName", activityName);
+    if (variant != null)
+      args.putString("variant", variant);
     dialogFragment.setArguments(args);
     return dialogFragment;
   }
@@ -36,21 +33,31 @@ public class HelpDialogFragment extends DialogFragment {
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     FragmentActivity ctx  = getActivity();
-    //Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
-    Context wrappedCtx = Build.VERSION.SDK_INT > 10 ?
-        new ContextThemeWrapper(ctx, MyApplication.getThemeId()) : ctx;
+    Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     final Resources res = getResources();
     final String pack = ctx.getPackageName();
-    String activityName = getArguments().getString("activityName");
+    Bundle args = getArguments();
+    String activityName = args.getString("activityName");
+    String variant = args.getString("variant");
     final LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.help_dialog, null);
     LinearLayout ll = (LinearLayout) view.findViewById(R.id.help);
-    ((TextView) view.findViewById(R.id.screen_info)).setText(
-        getString(res.getIdentifier("help_" +activityName + "_info", "string", pack)));
+    String screenInfo = getString(res.getIdentifier("help_" +activityName + "_info", "string", pack));
+    if (variant != null)
+      screenInfo += getString(res.getIdentifier("help_" +activityName + "_" + variant + "_info", "string", pack));
+    ((TextView) view.findViewById(R.id.screen_info)).setText(screenInfo);
     int resId = res.getIdentifier(activityName+"_menuitems", "array", pack);
     if (resId != 0) {
+      String[] itemsAll;
       final String[] items = res.getStringArray(resId);
-      for (String item: items) {
+      if (variant != null &&
+          (resId = res.getIdentifier(activityName + "_" + variant +"_menuitems", "array", pack)) != 0) {
+        String[] itemsVariant = res.getStringArray(resId);
+        itemsAll = Arrays.copyOf(items, items.length + itemsVariant.length);
+        System.arraycopy(itemsVariant, 0, itemsAll, items.length, itemsVariant.length);
+      } else
+        itemsAll = items;
+      for (String item: itemsAll) {
         View row = li.inflate(R.layout.help_dialog_action_row, null);
         ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
             res.getDrawable(res.getIdentifier(item+"_icon", "drawable", pack)));
@@ -63,8 +70,11 @@ public class HelpDialogFragment extends DialogFragment {
     } else {
       view.findViewById(R.id.menu_commands_heading).setVisibility(View.GONE);
     }
+    String titleIdentifier = "help_" +activityName
+        + (variant != null ? "_" + variant : "")
+        + "_title";
     return new AlertDialog.Builder(wrappedCtx)
-      .setTitle(getString(res.getIdentifier("help_" +activityName + "_title", "string", pack)))
+      .setTitle(getString(res.getIdentifier(titleIdentifier, "string", pack)))
       .setIcon(android.R.drawable.ic_menu_help)
       .setView(view)
       .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener() {

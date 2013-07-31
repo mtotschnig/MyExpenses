@@ -61,10 +61,15 @@
   <string name="menu_create_main_cat_help_text">Ouvre une fenêtre pour saisir le titre d\'une nouvelle catégorie principale.</string>
 
   <!-- ExpenseEdit -->
-  <string name="help_ExpenseEdit_title">Formulaire pour opérations, transferts et modèles</string>
+  <string name="help_ExpenseEdit_transaction_title">Formulaire pour opérations</string>
+  <string name="help_ExpenseEdit_transfer_title">Formulaire pour transferts</string>
+  <string name="help_ExpenseEdit_template_title">Formulaire pour modèles</string>
+  <string name="help_ExpenseEdit_split_title">Formulaire pour operátions ventilées</string>
+  <string name="help_ExpenseEdit_splitPartTransaction_title">Formulaire pour sous-opérations ventilées (catégorie)</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">Formulaire pour sous-opérations ventilées (transfert)</string>
   <string name="help_ExpenseEdit_info">Cliquez sur le bouton - pour basculer entre dépense ou entrée, sur le bouton "="
-    pour accéder à une calculatrice. Le séparateur décimal pour les montants peut être configurés dans les paramètres.
-    Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois que vous entrerez un tiers.
+    pour accéder à une calculatrice. Le séparateur décimal pour les montants peut être configurés dans les paramètres.</string>
+  <string name="help_ExpenseEdit_transaction_info">Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois que vous entrerez un tiers.
     Le bouton pour définir une méthode de paiement s\'affiche uniquement si le type du compte courant est associé à des méthodes.
     Par défaut, seulement les comptes bancaires sont associés à quelques méthodes (Chèque, Carte de crédit, Dépôt, Prélèvement).</string>
   <string name="menu_save_help_text">Sauvegarder les données et fermer le formulaire.</string>

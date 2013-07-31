@@ -53,7 +53,7 @@ public class Template extends Transaction {
     super(accountId,amount);
     title = "";
   }
-  public static Template getTypedNewInstance(boolean mOperationType, long accountId) {
+  public static Template getTypedNewInstance(int mOperationType, long accountId) {
     Template t = new Template(accountId,0);
     t.transfer_peer = mOperationType == MyExpenses.TYPE_TRANSACTION ? null : -1L;
     return t;

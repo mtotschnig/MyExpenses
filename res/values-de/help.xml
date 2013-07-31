@@ -64,10 +64,17 @@
   <string name="menu_create_main_cat_help_text">Öffnet den Dialog zum Anlegen einer neuen Hauptkategorie.</string>
 
   <!-- ExpenseEdit -->
-  <string name="help_ExpenseEdit_title">Formular für Buchungen, Umbuchungen, Vorlagen.</string>
+  <string name="help_ExpenseEdit_title">, Umbuchungen, Vorlagen.</string>
+    <string name="help_ExpenseEdit_transaction_title">Formular für Buchungen</string>
+  <string name="help_ExpenseEdit_transfer_title">Formular für Umbuchungen</string>
+  <string name="help_ExpenseEdit_template_title">Formular für Vorlagen</string>
+  <string name="help_ExpenseEdit_split_title">Formular für Splitbuchungen</string>
+  <string name="help_ExpenseEdit_splitPartTransaction_title">Formular für Split-Teilbetrag (Kategorie)</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">Formular für Split-Teilbetrag (Umbuchung)</string>
   <string name="help_ExpenseEdit_info">Klicken Sie auf die Schaltfläche - um zwischen Ausgabe und Einnahme zu wechseln.
     auf die = Schaltfläche um einen Taschenrechner zu öffnen. In den Einstellungen kann das Dezimaltrennzeichen für
-    Beträge konfiguriert werden.  Das Feld für die Eingabe von Empfänger (bzw. Zahler) merkt sich die von Ihnen
+    Beträge konfiguriert werden.</string>
+  <string name="help_ExpenseEdit_transaction_info">Das Feld für die Eingabe von Empfänger (bzw. Zahler) merkt sich die von Ihnen
     eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld vor.
     Zahlungsweisen können nur dann einer Buchung zugeordnet werden, wenn der Typ des aktuellen Kontos mit Zahlungsweisen
     verknüpft ist. Standardmäßig sind nur Bankkonten mit Zahlungsweisen verknüpft (Scheck, Kreditkarte, Einzahlung,

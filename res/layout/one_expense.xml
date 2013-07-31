@@ -14,10 +14,16 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-  <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="fill_parent"
-      android:layout_height="fill_parent"
-      android:fillViewport="true">
+    <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/OneExpense"
+        android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent">
+  <ScrollView
+     android:layout_width="fill_parent"
+      android:layout_height="0px"
+      android:layout_weight="1"
+      android:fillViewport="true" >
     <TableLayout
         android:paddingRight="@dimen/general_padding"
         android:paddingLeft="@dimen/general_padding"
@@ -40,15 +46,13 @@
         <TextView style="@style/form_label"
             android:text="@string/date"/>
         <Button android:id="@+id/Date"
-            android:text="@string/select"
-            style="@style/button" />
+            android:text="@string/select"/>
       </TableRow>
         
       <TableRow android:id="@+id/TimeRow">
         <TextView style="@style/form_label"
             android:text="@string/time"/>
-        <Button android:id="@+id/Time" android:text="@string/select"
-            style="@style/button" />
+        <Button android:id="@+id/Time" android:text="@string/select" />
       </TableRow>
         
       <TableRow>
@@ -70,11 +74,10 @@
             android:layout_height="wrap_content" />
       </TableRow>
         
-      <TableRow>
+      <TableRow android:id="@+id/CategoryRow">
         <TextView style="@style/form_label"
             android:id="@+id/CategoryLabel" android:text="@string/category" />
-        <Button android:id="@+id/Category" android:text="@string/select"
-            style="@style/button" />
+        <Button android:id="@+id/Category" android:text="@string/select" />
       </TableRow>
         
       <TableRow android:id="@+id/PayeeRow">
@@ -90,8 +93,9 @@
       <TableRow android:id="@+id/MethodRow">
       <TextView style="@style/form_label"
           android:id="@+id/MethodLabel" android:text="@string/method" />
-        <Button style="@style/button"
+        <Button
             android:id="@+id/Method" android:text="@string/select" />
       </TableRow>
     </TableLayout>
-  </ScrollView>
+    </ScrollView>
+</LinearLayout>

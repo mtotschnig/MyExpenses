@@ -68,7 +68,6 @@
           <Button android:layout_weight="1"
               android:layout_width="0dp"
               android:layout_height="fill_parent"
-              style="@style/button"
               android:id="@+id/Select" 
               android:text="@string/select" />
           </LinearLayout>
@@ -77,7 +76,6 @@
         <TextView style="@style/form_label"
             android:text="@string/type" />
           <Button
-              style="@style/button"
               android:layout_width="wrap_content" 
               android:layout_height="wrap_content" 
               android:id="@+id/AccountType"
@@ -92,7 +90,6 @@
 	            android:layout_width="0dp"
               android:layout_height="fill_parent" />
 	        <Button android:id="@+id/SelectColor"
-              style="@style/button"
 	            android:layout_width="wrap_content"
               android:layout_height="fill_parent"
 	            android:text="@string/select" />

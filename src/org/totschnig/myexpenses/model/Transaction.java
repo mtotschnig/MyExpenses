@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.model;
 
 import java.util.Date;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -46,6 +47,13 @@ public class Transaction extends Model {
   public Long transfer_peer;
   public Long transfer_account;
   public Long methodId;
+  public Long parentId = null;
+  /**
+   * 0 = is normal, special states are
+   * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_EXPORTED} and
+   * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_UNCOMMITTED}
+   */
+  public int status = 0;
   public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
     KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID};
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
@@ -64,7 +72,7 @@ public class Transaction extends Model {
   public static Transaction getInstanceFromDb(long id) throws DataObjectNotFoundException  {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
-        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID};
+        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,KEY_PARENTID};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
@@ -75,19 +83,24 @@ public class Transaction extends Model {
     Long transfer_peer = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER);
     long account_id = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
     long amount = c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT));
+    Long parent_id = DbUtils.getLongOrNull(c, KEY_PARENTID);
+    Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
     if (transfer_peer != null) {
-      t = new Transfer(account_id,amount);
-      t.transfer_peer = transfer_peer;
-      t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
+      t = parent_id != null ? new SplitPartTransfer(account_id,amount,parent_id) : new Transfer(account_id,amount);
     }
     else {
-      t = new Transaction(account_id,amount);
-      t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
-      t.catId = DbUtils.getLongOrNull(c, KEY_CATID);
-      t.payee = c.getString(
-          c.getColumnIndexOrThrow(KEY_PAYEE));
+      if (catId == DatabaseConstants.SPLIT_CATID) {
+        t = new SplitTransaction(account_id,amount);
+      } else {
+        t = parent_id != null ? new SplitPartCategory(account_id,amount,parent_id) : new Transaction(account_id,amount);
+      }
     }
-    
+    t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
+    t.catId = catId;
+    t.payee = c.getString(
+        c.getColumnIndexOrThrow(KEY_PAYEE));
+    t.transfer_peer = transfer_peer;
+    t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
     t.id = id;
     t.setDate(c.getString(
         c.getColumnIndexOrThrow(KEY_DATE)));
@@ -119,27 +132,27 @@ public class Transaction extends Model {
   }
   /**
    * factory method for creating an object of the correct type and linked to a given account
-   * @param mDbHelper
-   * @param mOperationType either {@link MyExpenses#TYPE_TRANSACTION} or
+   * @param operationType either {@link MyExpenses#TYPE_TRANSACTION} or
    * {@link MyExpenses#TYPE_TRANSFER}
    * @return instance of {@link Transaction} or {@link Transfer} with date initialized to current date
    */
-  public static Transaction getTypedNewInstance(boolean mOperationType, long accountId) {
-    if(mOperationType == MyExpenses.TYPE_TRANSACTION)
-      return new Transaction(accountId,0);
-    else 
-      return new Transfer(accountId,0);
+  public static Transaction getTypedNewInstance(int operationType, long accountId, Long parentId) {
+    switch (operationType) {
+    case MyExpenses.TYPE_TRANSACTION:
+      return parentId != 0L ? new SplitPartCategory(accountId,0L,parentId) :  new Transaction(accountId,0);
+    case MyExpenses.TYPE_TRANSFER:
+      return parentId != 0L ? new SplitPartTransfer(accountId,0L,parentId) : new Transfer(accountId,0);
+    case MyExpenses.TYPE_SPLIT:
+      return new SplitTransaction(accountId,0);
+    }
+    return null;
   }
   
   public static void delete(long id) {
-    Transaction t = Transaction.getInstanceFromDb(id);
-
-    if (t instanceof Transfer)
-      cr().delete(CONTENT_URI,
-          KEY_ROWID + " in (" + id + "," + t.transfer_peer + ")",null);
-    else
+    String idStr = String.valueOf(id);
       cr().delete(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null);
+        CONTENT_URI,KEY_ROWID + " = ? OR " + KEY_PARENTID + " = ? OR " + KEY_TRANSFER_PEER + " = ?",
+        new String[] {idStr,idStr,idStr});
   }
   //needed for Template subclass
   public Transaction() {
@@ -203,9 +216,11 @@ public class Transaction extends Model {
     initialValues.put(KEY_METHODID, methodId);
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
+      initialValues.put(KEY_PARENTID, parentId);
+      initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);
       id = ContentUris.parseId(uri);
-      if (catId != null)
+      if (catId != null && catId != DatabaseConstants.SPLIT_CATID)
         cr().update(
             TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(catId)).appendPath("increaseUsage").build(),
             null, null, null);

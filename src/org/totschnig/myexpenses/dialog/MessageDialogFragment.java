@@ -78,11 +78,7 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
     Activity ctx  = getActivity();
-    //Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
-    //this is necessary only when we are called from one of the transparent activities,
-    //but does not harm in the other cases
-    Context wrappedCtx = Build.VERSION.SDK_INT > 10 ?
-        new ContextThemeWrapper(ctx, MyApplication.getThemeId()) : ctx;
+    Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     return new AlertDialog.Builder(wrappedCtx)
       .setTitle(bundle.getInt("title"))
       .setMessage(bundle.getCharSequence("message"))

@@ -43,17 +43,13 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx  = getActivity();
-    //Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
-    //this is necessary only when we are called from one of the transparent activities,
-    //but does not harm in the other cases
-    Context wrappedCtx = Build.VERSION.SDK_INT > 10 ?
-        new ContextThemeWrapper(ctx, MyApplication.getThemeId()) : ctx;
-      CharSequence message = TextUtils.concat(
-          Html.fromHtml(String.format(getString(
-            R.string.dialog_contrib_reminder,
-            getString(getResources().getIdentifier(
-                "contrib_feature_" + feature + "_label", "string", getActivity().getPackageName())),
-            usagesLeft > 0 ? getString(R.string.dialog_contrib_usage_count,usagesLeft) :
+    Context wrappedCtx = DialogUtils.wrapContext2(ctx);
+    CharSequence message = TextUtils.concat(
+        Html.fromHtml(String.format(getString(
+          R.string.dialog_contrib_reminder,
+          getString(getResources().getIdentifier(
+              "contrib_feature_" + feature + "_label", "string", getActivity().getPackageName())),
+          usagesLeft > 0 ? getString(R.string.dialog_contrib_usage_count,usagesLeft) :
                 getString(R.string.dialog_contrib_no_usages_left)))),
         getString(R.string.thank_you));
       return new AlertDialog.Builder(wrappedCtx)

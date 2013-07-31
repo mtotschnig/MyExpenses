@@ -14,10 +14,16 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-  <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="fill_parent"
-      android:layout_height="fill_parent"
-      android:fillViewport="true">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/OneExpense"
+      android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent">
+  <ScrollView
+     android:layout_width="fill_parent"
+      android:layout_height="0px"
+      android:layout_weight="1"
+      android:fillViewport="true" >
     <TableLayout
         android:paddingRight="@dimen/general_padding"
         android:paddingLeft="@dimen/general_padding"
@@ -45,14 +51,12 @@
               android:layout_width="0dp"
               android:layout_height="fill_parent"
               android:id="@+id/Date"
-              android:text="@string/select"
-              style="@style/button"/>
+              android:text="@string/select"/>
           <Button android:layout_weight="1"
               android:layout_width="0dp"
               android:layout_height="fill_parent"
               android:id="@+id/Time"
-              android:text="@string/select"
-             style="@style/button"/>
+              android:text="@string/select"/>
         </LinearLayout>
       </TableRow>
                 
@@ -61,7 +65,7 @@
         <LinearLayout
             android:orientation="horizontal">
           <include layout="@layout/amount_input"/>
-          <Button style="@style/button" android:layout_weight="2"
+          <Button android:layout_weight="2"
               android:layout_width="0dp"
               android:layout_height="fill_parent"
               android:id="@+id/Category"
@@ -70,7 +74,6 @@
               android:layout_weight="2"
               android:layout_width="0dp"
               android:layout_height="fill_parent"
-              style="@style/button"
               android:text="@string/method" />
         </LinearLayout>
       </TableRow>
@@ -98,4 +101,5 @@
             android:inputType="textPersonName"/>
       </TableRow>
     </TableLayout>
-  </ScrollView>
+    </ScrollView>
+  </LinearLayout>

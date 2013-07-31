@@ -62,12 +62,17 @@
   <string name="menu_create_main_cat_help_text">Se abre el cuadro de diálogo para especificar el título de una nueva categoría principal.</string>
 
   <!-- ExpenseEdit -->
-  <string name="help_ExpenseEdit_title">Formulario para las transacciones, transferencias, plantillas</string>
+  <string name="help_ExpenseEdit_transaction_title">Modulo per le transazioni</string>
+  <string name="help_ExpenseEdit_transfer_title">Modulo per i trasferimenti</string>
+  <string name="help_ExpenseEdit_template_title">Modulo per i modelli</string>
+  <string name="help_ExpenseEdit_split_title">Modulo per le transazioni suddivise</string>
+  <string name="help_ExpenseEdit_splitPartTransaction_title">Modulo per i somme parziali (categoria)</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">Modulo per i somme parziali (trasferimenti)</string>
   <string name="help_ExpenseEdit_info">
     Fare clico sul pulsante - per passare gli spese ei redditti.
     Fare clic sul pulsante = per aprire una calcolatrice.
-    Il separatore decimale per importi può essere configurato nelle impostazioni.
-    Il campo \"benficiario\" memorizza i valori inseriti, e suggeriscono la prossima volta che si entra questo.
+    Il separatore decimale per importi può essere configurato nelle impostazioni.</string>
+  <string name="help_ExpenseEdit_transaction_info">Il campo \"benficiario\" memorizza i valori inseriti, e suggeriscono la prossima volta che si entra questo.
     Il pulsante per la selezione di un metodo di pagamento, è disponibile solo se il conto corrente è di tipo collegato a qualsiasi metodo di pagamento.
     Per impostazione predefinita, solo i conti bancari sono legati a metodi di pagamento (assegno, carta di credito, deposito,
     addebito diretto).</string>

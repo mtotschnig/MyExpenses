@@ -11,6 +11,7 @@ public class Help extends ProtectedFragmentActivityNoSherlock {
     String activityName = getCallingActivity().getShortClassName();
     //trim leading .
     activityName = activityName.substring(activityName.lastIndexOf(".")+1);
-    HelpDialogFragment.newInstance(activityName).show(getSupportFragmentManager(),"HELP");
+    String variant = getIntent().getStringExtra("variant");
+    HelpDialogFragment.newInstance(activityName,variant).show(getSupportFragmentManager(),"HELP");
   }
 }

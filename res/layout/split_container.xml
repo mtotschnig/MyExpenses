@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/SplitContainer"
+    android:orientation="vertical"
+    android:layout_height="0px"
+    android:layout_weight="1"
+    android:layout_width="fill_parent">
+      <TextView
+        style="@style/headingStyle"
+        android:text="@string/split_parts_heading"/>
+  <fragment android:name="org.totschnig.myexpenses.fragment.SplitPartList"
+              android:id="@+id/transaction_list"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent" />
+      </LinearLayout> 

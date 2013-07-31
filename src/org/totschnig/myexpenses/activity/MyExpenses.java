@@ -92,8 +92,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public static final int ACTIVITY_EDIT_ACCOUNT=4;
   public static final int ACTIVITY_EXPORT=5;
 
-  public static final boolean TYPE_TRANSACTION = true;
-  public static final boolean TYPE_TRANSFER = false;
+  public static final int TYPE_TRANSACTION = 0;
+  public static final int TYPE_TRANSFER = 1;
+  public static final int TYPE_SPLIT = 2;
   public static final boolean ACCOUNT_BUTTON_CYCLE = false;
   public static final boolean ACCOUNT_BUTTON_TOGGLE = true;
   public static final String TRANSFER_EXPENSE = "=> ";
@@ -128,6 +129,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private MyViewPagerAdapter myAdapter;
   private ViewPager myPager;
   private String fragmentCallbackTag = null;
+  public boolean mTransferEnabled = false;
   
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -232,7 +234,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     actionBar.setListNavigationCallbacks(adapter, this);
   }
   
-  private void configButtons() {
+  public void configButtons() {
     supportInvalidateOptionsMenu();
   }
   
@@ -247,13 +249,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     super.onPrepareOptionsMenu(menu);
     //I would prefer to use setEnabled, but the disabled state unfortunately
     //is not visually reflected in the actionbar
-    boolean transferEnabled = false;
     if (currentPosition > -1) {
       Integer sameCurrencyCount = currencyAccountCount.get(mCurrentAccount.currency.getCurrencyCode());
       if (sameCurrencyCount != null && sameCurrencyCount >1)
-        transferEnabled = true;
+        mTransferEnabled = true;
     }
-    menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(transferEnabled);
+    menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(mTransferEnabled);
     menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
       .setVisible(mTemplatesCursor != null && mTemplatesCursor.getCount() > 0);
     return true;
@@ -294,73 +295,14 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     }
   }
 
-  @Override
-  public boolean onContextItemSelected(android.view.MenuItem item) {
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    Transaction t;
-    Bundle args;
-    switch(item.getItemId()) {
-    case R.id.DELETE_COMMAND:
-      Transaction.delete(info.id);
-      configButtons();
-      return true;
-    case R.id.CLONE_TRANSACTION_COMMAND:
-      if (MyApplication.getInstance().isContribEnabled) {
-        contribFeatureCalled(Feature.CLONE_TRANSACTION, info.id);
-      }
-      else {
-        CommonCommands.showContribDialog(this,Feature.CLONE_TRANSACTION, info.id);
-      }
-      return true;
-    case R.id.SHOW_DETAIL_COMMAND:
-      t = Transaction.getInstanceFromDb(info.id);
-      String method = "";
-      if (t.methodId != null) {
-        method= PaymentMethod.getInstanceFromDb(t.methodId).getDisplayLabel();
-      }
-      String msg =  ((t.comment != null && t.comment.length() != 0) ?
-          t.comment : "");
-      if (t.payee != null && t.payee.length() != 0) {
-        if (!msg.equals("")) {
-          msg += "\n";
-        }
-        msg += getString(R.string.payee) + ": " + t.payee;
-      }
-      if (!method.equals("")) {
-        if (!msg.equals("")) {
-          msg += "\n";
-        }
-        msg += getString(R.string.method) + ": " + method;
-      }
-      Toast.makeText(getBaseContext(), msg != "" ? msg : getString(R.string.no_details), Toast.LENGTH_LONG).show();
-      return true;
-    case R.id.MOVE_TRANSACTION_COMMAND:
-      args = new Bundle();
-      args.putInt("id", R.id.MOVE_TRANSACTION_COMMAND);
-      args.putString("dialogTitle",getString(R.string.dialog_title_select_account));
-      //args.putString("selection",KEY_ROWID + " != " + mCurrentAccount.id);
-      args.putString("column", KEY_LABEL);
-      args.putLong("contextTransactionId",info.id);
-      args.putInt("cursorId", ACCOUNTS_OTHER_CURSOR);
-      SelectFromCursorDialogFragment.newInstance(args)
-        .show(getSupportFragmentManager(), "SELECT_ACCOUNT");
-      return true;
-    case R.id.CREATE_TEMPLATE_COMMAND:
-      args = new Bundle();
-      args.putLong("transactionId", info.id);
-      args.putString("dialogTitle", getString(R.string.dialog_title_template_title));
-      EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "TEMPLATE_TITLE");
-      return true;
-    }
-    return super.onContextItemSelected(item);
-  }
   /**
-   * start ExpenseEdit Activity for a new transaction/transfer
-   * @param type either {@link #TYPE_TRANSACTION} or {@link #TYPE_TRANSFER}
+   * start ExpenseEdit Activity for a new transaction/transfer/split
+   * @param type either {@link #TYPE_TRANSACTION} or {@link #TYPE_TRANSFER} or {@link #TYPE_SPLIT}
    */
-  private void createRow(boolean type) {
+  private void createRow(int type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
+    i.putExtra("transferEnabled",mTransferEnabled);
     i.putExtra(KEY_ACCOUNTID,mCurrentAccount.id);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
@@ -480,6 +422,14 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.INSERT_TRANSFER_COMMAND:
       createRow(TYPE_TRANSFER);
       break;
+    case R.id.INSERT_SPLIT_COMMAND:
+      if (MyApplication.getInstance().isContribEnabled) {
+        contribFeatureCalled(Feature.SPLIT_TRANSACTION, null);
+      }
+      else {
+        CommonCommands.showContribDialog(this,Feature.SPLIT_TRANSACTION, null);
+      }
+      break;
     case R.id.RESET_ACCOUNT_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
         DialogUtils.showWarningResetDialog(this,mCurrentAccount.id);
@@ -567,10 +517,18 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     setCurrentAccount(Account.getInstanceFromDb(accountId));
     getSupportActionBar().setSelectedNavigationItem(position);
   }
+  @SuppressWarnings("incomplete-switch")
   @Override
   public void contribFeatureCalled(Feature feature, Serializable tag) {
-    feature.recordUsage();
-    Transaction.getInstanceFromDb((Long) tag).saveAsNew();
+    switch(feature){
+    case CLONE_TRANSACTION:
+      feature.recordUsage();
+      Transaction.getInstanceFromDb((Long) tag).saveAsNew();
+      break;
+    case SPLIT_TRANSACTION:
+      createRow(TYPE_SPLIT);
+      break;
+    }
   }
   @Override
   public void contribFeatureNotCalled() {

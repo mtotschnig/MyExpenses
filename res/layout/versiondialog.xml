@@ -28,7 +28,7 @@
       <TextView android:text="@string/help_heading_whats_new"
           style="@style/headingStyle" />
       <TextView android:id="@+id/versionInfoChanges"
-          style="@style/about_text"/>
+          style="@style/about_text2"/>
       <TextView android:id="@+id/versionInfoImportantHeading"
           android:text="@string/important_version_information"
           style="@style/headingStyle"

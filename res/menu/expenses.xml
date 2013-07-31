@@ -6,11 +6,17 @@
     android:showAsAction="always"
     android:title="@string/menu_create_transaction">
   </item>
-   <item
+  <item
     android:id="@id/INSERT_TRANSFER_COMMAND"
     android:icon="@drawable/create_transfer_icon"
     android:showAsAction="ifRoom"
     android:title="@string/menu_create_transfer">
+  </item>
+  <item
+    android:id="@id/INSERT_SPLIT_COMMAND"
+    android:icon="@drawable/create_split_icon"
+    android:showAsAction="ifRoom"
+    android:title="@string/menu_create_split">
   </item>
   <item
     android:id="@id/NEW_FROM_TEMPLATE_COMMAND"

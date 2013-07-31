@@ -22,11 +22,14 @@ import org.totschnig.myexpenses.util.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.FragmentActivity;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -75,7 +78,7 @@ public class DialogUtils {
   }
 
   public static void showPasswordDialog(Activity ctx,AlertDialog dialog) {
-    ctx.findViewById(android.R.id.content).setVisibility(View.INVISIBLE);
+    ctx.findViewById(android.R.id.content).setVisibility(View.GONE);
     dialog.show();
     PasswordDialogListener l = new PasswordDialogListener(ctx,dialog);
     Button b = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -88,10 +91,11 @@ public class DialogUtils {
   public static AlertDialog passwordDialog(final Activity ctx) {
     final SharedPreferences settings = MyApplication.getInstance().getSettings();
     final String securityQuestion = settings.getString(MyApplication.PREFKEY_SECURITY_QUESTION, "");
-    LayoutInflater li = LayoutInflater.from(ctx);
+    Context wrappedCtx = wrapContext2(ctx);
+    LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.password_check, null);
     view.findViewById(R.id.password).setTag(Boolean.valueOf(false));
-    AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
+    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
       .setTitle(R.string.password_prompt)
       .setView(view)
       .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -156,5 +160,26 @@ public class DialogUtils {
         }
       }
     }
+  }
+  /**
+   * @param ctx
+   * @return Context wrapped with style AboutDialog in API 10 and lower
+   * currently this is only needed in ExportDialogFragment, and makes
+   * sure that RadioButtons get correct style
+   */
+  protected static Context wrapContext1(Context ctx) {
+    return Build.VERSION.SDK_INT < 11 ?
+        new ContextThemeWrapper(ctx, R.style.AboutDialog) : ctx;
+  }
+  /**
+   * @param ctx
+   * @return Context wrapped with current theme (dark or light) in API 11 and higher
+   * Applying the dark/light theme only works starting from 11, below, the dialog uses a dark theme
+   * this is necessary only when we are called from one of the transparent activities,
+   * but does not harm in the other cases
+   */
+  protected static Context wrapContext2(Context ctx) {
+    return Build.VERSION.SDK_INT > 10 ?
+        new ContextThemeWrapper(ctx, MyApplication.getThemeId()) : ctx;
   }
 }

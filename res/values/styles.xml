@@ -39,6 +39,10 @@
     <item name="android:textColorLink">@drawable/linkcolor</item>
     <item name="android:padding">5dp</item>
   </style>
+  <!-- needed in version dialog and more info in API 10 and lower -->
+  <style name="about_text2" parent="about_text">
+    <item name="android:textColor">#ffffff</item>
+  </style>
   <style name="titleTextStyle">
     <item name="android:textStyle">bold</item>
     <item name="android:textSize">17sp</item>

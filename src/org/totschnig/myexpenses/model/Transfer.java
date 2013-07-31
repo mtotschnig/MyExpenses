@@ -50,8 +50,12 @@ public class Transfer extends Transaction {
     initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
+      initialValues.put(KEY_PARENTID, parentId);
+      initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);
       id = ContentUris.parseId(uri);
+      //if the transfer is part of a split, the transfer peer needs to have a null parent
+      initialValues.remove(KEY_PARENTID);
       initialValues.put(KEY_AMOUNT, 0 - amount);
       initialValues.put(KEY_TRANSFER_ACCOUNT, accountId);
       initialValues.put(KEY_ACCOUNTID, transfer_account);

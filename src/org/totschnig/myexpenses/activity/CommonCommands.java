@@ -5,13 +5,11 @@ import java.io.Serializable;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
-import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
@@ -38,7 +36,7 @@ public class CommonCommands {
    return true;
   }
 
-  static boolean dispatchCommand(FragmentActivity ctx,int command) {
+  static boolean dispatchCommand(ProtectedFragmentActivity ctx,int command) {
     Intent i;
     switch(command) {
     case R.id.CONTRIB_PLAY_COMMAND:
@@ -55,8 +53,10 @@ public class CommonCommands {
       ctx.startActivityForResult(i,0);
       return true;
     case R.id.HELP_COMMAND:
+      i = new Intent(ctx,Help.class);
+      i.putExtra("variant",ctx.helpVariant);
       //for result is needed since it allows us to inspect the calling activity
-      ctx.startActivityForResult(new Intent(ctx,Help.class),0);
+      ctx.startActivityForResult(i,0);
       return true;
     case android.R.id.home:
       ctx.setResult(FragmentActivity.RESULT_CANCELED);

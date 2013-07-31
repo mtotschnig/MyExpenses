@@ -22,13 +22,13 @@ public class ProtectionDelegate {
   protected void handleOnDestroy() {
     MyApplication.getInstance().setmLastPause();
   }
-  protected void hanldeOnResume(AlertDialog pwDialog) {
+  protected AlertDialog hanldeOnResume(AlertDialog pwDialog) {
     MyApplication app = MyApplication.getInstance();
     if (app.shouldLock()) {
       if (pwDialog == null)
         pwDialog = DialogUtils.passwordDialog(ctx);
       DialogUtils.showPasswordDialog(ctx,pwDialog);
     }
+    return pwDialog;
   }
-
 }

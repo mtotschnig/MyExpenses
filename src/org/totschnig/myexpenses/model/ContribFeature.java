@@ -12,7 +12,8 @@ import android.net.Uri;
 public class ContribFeature extends Model {
 
   public enum Feature {
-    EDIT_TEMPLATE,RESTORE,AGGREGATE,RESET_ALL,SECURITY_QUESTION,CLONE_TRANSACTION;
+    EDIT_TEMPLATE,RESTORE,AGGREGATE,RESET_ALL,
+    SECURITY_QUESTION,CLONE_TRANSACTION,SPLIT_TRANSACTION;
     
     public static final Uri CONTENT_URI = TransactionProvider.FEATURE_USED_URI;    /**
      * how many times contrib features can be used for free

@@ -15,15 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
-import java.io.Serializable;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ContribDialogFragment;
-import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
-import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -58,7 +50,7 @@ public class ProtectedFragmentActivityNoSherlock extends FragmentActivity implem
   @Override
   protected void onResume() {
     super.onResume();
-    protection.hanldeOnResume(pwDialog);
+    pwDialog = protection.hanldeOnResume(pwDialog);
   }
   public void cancelDialog() {
     // TODO Auto-generated method stub

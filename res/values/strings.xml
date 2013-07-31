@@ -41,6 +41,7 @@
   <string name="contrib_feature_reset_all_label">Reset all accounts</string>
   <string name="contrib_feature_security_question_label">Security question</string>
   <string name="contrib_feature_clone_transaction_label">Clone transactions</string>
+  <string name="contrib_feature_split_transaction_label">Split transaction</string>
   <string name="contrib_key">Contrib key</string>
   <string name="currency">Currency</string>
   <string name="currency_not_iso4217">%1$s is not defined in ISO 4217</string>
@@ -121,8 +122,7 @@
   	- Manage them directly on your smartphone.\n
   	- Export them into a Desktop finance program like Grisbi, GnuCash, Quicken or MS Money.</string>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
-  <string name="help_whats_new">&#160;- Vietnamese translation\n
-  	- Minor improvements</string>
+  <string name="help_whats_new">&#160;- Split transactions</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">Income</string>
@@ -139,6 +139,9 @@
   <string name="menu_create_method">New payment method</string>
   <string name="menu_create_transaction">New Transaction</string>
   <string name="menu_create_transfer">New Transfer</string>
+  <string name="menu_create_split">New split</string>
+  <string name="menu_create_split_part_category">New category split part</string>
+  <string name="menu_create_split_part_transfer">New transfer split part</string>
   <string name="menu_create_main_cat">New main category</string>
   <string name="menu_create_sub_cat">New sub category</string>
   <string name="menu_create_template">New template</string>
@@ -151,6 +154,9 @@
   <string name="menu_edit_account">Edit Account</string>
   <string name="menu_edit_method">Edit Payment Method</string>
   <string name="menu_edit_cat">Edit category</string>
+  <string name="menu_edit_split">Edit Split</string>
+  <string name="menu_edit_split_part_category">Edit category split part</string>
+  <string name="menu_edit_split_part_transfer">Edit transfer split part</string>
   <string name="menu_edit_transaction">Edit Transaction</string>
   <string name="menu_edit_template">Edit Template</string>
   <string name="menu_edit_transfer">Edit Transfer</string>
@@ -170,10 +176,12 @@
   <string name="no_app_handling_email_available">No app handling email available.</string>
   <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i> from Google Play?</string>
   <string name="no_categories">No categories.</string>
+  <string name="no_category_defined">No category defined.</string>
   <string name="no_details">No details.</string>
   <string name="no_expenses">No Expenses Yet!</string>
   <string name="no_exportable_expenses">There are no transactions that have not yet been exported.</string>
   <string name="no_parties">No parties.</string>
+  <string name="no_split_parts">No split parts.</string>
   <string name="no_templates">No templates.</string>
   <string name="no_title_given">You did not enter any title.</string>
   <string name="no_valid_payment_methods">No valid payment methods for %1$s (%2$s)</string>
@@ -289,6 +297,8 @@
   <string name="select_parent_category">Select this category</string>
   <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
   <string name="share_sending">Send export file</string>
+  <string name="split_parts_heading">Split parts</string>
+  <string name="split_transaction">Split transaction</string>
   <string name="subcategory">Subcategory</string>
   <string name="sum_income">Income</string>
   <string name="sum_expenses">Expenses</string>
@@ -302,6 +312,8 @@
   <string name="transfer">Transfer</string>
   <string name="tutorial">User guide</string>
   <string name="type">Type</string>
+  <string name="unsplit_amount">Unsplit amount</string>
+  <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit</string>
   <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing
       backup will be overwritten. &continue;</string>
