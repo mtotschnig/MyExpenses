@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.dialog;
 
+import java.util.Arrays;
+
 import org.totschnig.myexpenses.R;
 
 import android.app.AlertDialog;
@@ -46,8 +48,16 @@ public class HelpDialogFragment extends DialogFragment {
     ((TextView) view.findViewById(R.id.screen_info)).setText(screenInfo);
     int resId = res.getIdentifier(activityName+"_menuitems", "array", pack);
     if (resId != 0) {
+      String[] itemsAll;
       final String[] items = res.getStringArray(resId);
-      for (String item: items) {
+      if (variant != null &&
+          (resId = res.getIdentifier(activityName + "_" + variant +"_menuitems", "array", pack)) != 0) {
+        String[] itemsVariant = res.getStringArray(resId);
+        itemsAll = Arrays.copyOf(items, items.length + itemsVariant.length);
+        System.arraycopy(itemsVariant, 0, itemsAll, items.length, itemsVariant.length);
+      } else
+        itemsAll = items;
+      for (String item: itemsAll) {
         View row = li.inflate(R.layout.help_dialog_action_row, null);
         ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
             res.getDrawable(res.getIdentifier(item+"_icon", "drawable", pack)));
