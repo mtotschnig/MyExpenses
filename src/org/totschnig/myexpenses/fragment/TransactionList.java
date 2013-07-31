@@ -111,11 +111,13 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
       ContextMenuInfo menuInfo) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
     super.onCreateContextMenu(menu, v, menuInfo);
+    mTransactionsCursor.moveToPosition(info.position);
     menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
     menu.add(0, R.id.SHOW_DETAIL_COMMAND, 0, R.string.menu_show_detail);
-    menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
+    //templates for splits is not yet implemented
+    if (! Long.valueOf(-1).equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
+      menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
     menu.add(0, R.id.CLONE_TRANSACTION_COMMAND, 0, R.string.menu_clone_transaction);
-    mTransactionsCursor.moveToPosition(info.position);
     //move transaction is disabled for transfers,
     if (((MyExpenses) getSherlockActivity()).getCursor(MyExpenses.ACCOUNTS_CURSOR,null).getCount() > 1 &&
         DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER) == null) {
