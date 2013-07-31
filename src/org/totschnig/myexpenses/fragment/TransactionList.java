@@ -203,14 +203,16 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
           tv1.setTextColor(colorIncome);
         }
         TextView tv2 = (TextView)row.findViewById(R.id.category);
-        col = c.getColumnIndex(KEY_TRANSFER_PEER);
         String catText = (String) tv2.getText();
-        if (c.getLong(col) != 0) {
+        if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
           catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
         } else {
-          col = c.getColumnIndex(KEY_CATID);
-          if (c.getLong(col) == SPLIT_CATID)
+          Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
+          if (SPLIT_CATID.equals(catId))
             catText = getString(R.string.split_transaction);
+          else if (catId == null) {
+            catText = getString(R.string.no_category_defined);
+          }
           else {
             col = c.getColumnIndex(KEY_LABEL_SUB);
             String label_sub = c.getString(col);

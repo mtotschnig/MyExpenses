@@ -124,15 +124,20 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
           tv1.setTextColor(colorIncome);
         }
         TextView tv2 = (TextView)row.findViewById(R.id.category);
-        col = c.getColumnIndex(KEY_TRANSFER_PEER);
         String catText = (String) tv2.getText();
-        if (c.getLong(col) != 0) {
+        if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
           catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
         } else {
-          col = c.getColumnIndex(KEY_LABEL_SUB);
-          String label_sub = c.getString(col);
-          if (label_sub != null && label_sub.length() > 0) {
-            catText += categorySeparator + label_sub;
+          Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
+          if (catId == null) {
+            catText = getString(R.string.no_category_defined);
+          }
+          else {
+            col = c.getColumnIndex(KEY_LABEL_SUB);
+            String label_sub = c.getString(col);
+            if (label_sub != null && label_sub.length() > 0) {
+              catText += categorySeparator + label_sub;
+            }
           }
         }
         col = c.getColumnIndex(KEY_COMMENT);
