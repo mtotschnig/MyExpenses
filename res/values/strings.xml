@@ -181,6 +181,7 @@
   <string name="no_expenses">No Expenses Yet!</string>
   <string name="no_exportable_expenses">There are no transactions that have not yet been exported.</string>
   <string name="no_parties">No parties.</string>
+  <string name="no_split_parts">No split parts.</string>
   <string name="no_templates">No templates.</string>
   <string name="no_title_given">You did not enter any title.</string>
   <string name="no_valid_payment_methods">No valid payment methods for %1$s (%2$s)</string>
@@ -296,6 +297,7 @@
   <string name="select_parent_category">Select this category</string>
   <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
   <string name="share_sending">Send export file</string>
+  <string name="split_parts_heading">Split parts</string>
   <string name="split_transaction">Split transaction</string>
   <string name="subcategory">Subcategory</string>
   <string name="sum_income">Income</string>
@@ -310,7 +312,8 @@
   <string name="transfer">Transfer</string>
   <string name="tutorial">User guide</string>
   <string name="type">Type</string>
-  <string name="unsplit_amount_greater_than_zero">There is still some amount left un-split</string>
+  <string name="unsplit_amount">Unsplit amount</string>
+  <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit</string>
   <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing
       backup will be overwritten. &continue;</string>

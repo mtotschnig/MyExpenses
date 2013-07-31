@@ -6,9 +6,9 @@
     android:layout_height="0px"
     android:layout_weight="1"
     android:layout_width="fill_parent">
-      <TextView android:id="@+id/menu_commands_heading"
+      <TextView
         style="@style/headingStyle"
-        android:text="Splits"/>
+        android:text="@string/split_parts_heading"/>
   <fragment android:name="org.totschnig.myexpenses.fragment.SplitPartList"
               android:id="@+id/transaction_list"
               android:layout_width="wrap_content"
