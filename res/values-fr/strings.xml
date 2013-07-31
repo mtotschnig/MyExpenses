@@ -61,8 +61,8 @@
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> vous est offert sans publicité et open source.
     S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux
     fonctions Premium suivantes:&lt;br>%1$s&lt;br></string>
-  <string name="dialog_export_delete">Effacer les transactions exportés</string>
-  <string name="dialog_export_not_yet_exported">Exporter uniquement les transactions qui n\'ont pas encore été exportés</string>
+  <string name="dialog_export_delete">Effacer les transactions exportées</string>
+  <string name="dialog_export_not_yet_exported">Exporter uniquement les transactions qui n\'ont pas encore été exportées</string>
   <string name="dialog_password_activate_protection">Activer la protection par mot de passe</string>
   <string name="dialog_password_change_password">Changer le mot de passe</string>
   <string name="dialog_password_new_password">Nouveau mot de passe</string>
@@ -269,7 +269,7 @@
   <string name="pref_request_licence_summary">Si vous avez contribué par d\'autres moyens, demandez une clé contrib par e-mail.</string>
   <string name="pref_restore_title">Restauration</string>
   <string name="pref_restore_summary">Restaurez la sauvegarde à partir du dossier \"myexpenses\" de la carte SD.</string>
-  <string name="pref_send_feedback_title">Envoyer feedback</string>
+  <string name="pref_send_feedback_title">Envoyer vos réactions</string>
   <string name="pref_share_target_title">URL où sera téléchargé le fichier d\'export</string>
   <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les 
       différentes applications pour le transfert du fichier (Email, Dropbox, Google Docs, &#8230;), sinon
