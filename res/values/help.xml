@@ -62,9 +62,15 @@
   <string name="menu_create_main_cat_help_text">Opens the dialog for specifying the title of a new main category.</string>
 
   <!-- ExpenseEdit -->
-  <string name="help_ExpenseEdit_title">Form for transactions, transfers, templates</string>
+  <string name="help_ExpenseEdit_transaction_title">Form for transactions</string>
+  <string name="help_ExpenseEdit_transfer_title">Form for transfers</string>
+  <string name="help_ExpenseEdit_template_title">Form for templates</string>
+  <string name="help_ExpenseEdit_split_title">Form for splits</string>
+  <string name="help_ExpenseEdit_splitPartTransaction_title">Form for category split parts</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">Form for transfer split parts</string>
   <string name="help_ExpenseEdit_info">Click on the - Button to toggle between expense and income, click on the = Button
-    to open a calculator. The decimal separator for amounts can be configured in the settings. The payee (or payer)
+    to open a calculator. The decimal separator for amounts can be configured in the settings.</string>
+  <string name="help_ExpenseEdit_transaction_info">The payee (or payer)
     field remembers the values you enter and will suggest them in the future. The button for selecting a payment method,
     is only available if the current account is of a type linked to any payment method. By default only bank accounts, are 
     linked to payment methods (cheque,credit card, deposit,direct debit).</string>

@@ -52,11 +52,11 @@
     Alt kategorilerin silmek ve düzenlemek için bağlam menüleri vardır.</string>
   <string name="menu_create_main_cat_help_text">Yeni bir ana kategorinin başlığını belirtmek için diyalog açar.</string>
   <!--ExpenseEdit-->
-  <string name="help_ExpenseEdit_title">Muameleler, transferler ve şablonlar için form</string>
+<!--   <string name="help_ExpenseEdit_title">Muameleler, transferler ve şablonlar için form</string> -->
   <string name="help_ExpenseEdit_info">Gelir ve gider arası geçiş yapmak için - düğmesine tıklayın, hesap
     makinesini açmak için de = düğmesine tıklayabilirsiniz. 
-    Meblağlar için ondalık ayırıcı ayarlarda yapılandırılabilir.    
-    Alacaklı (ya da borçlu) alanları girdiğiniz değerleri hatırlar ve gelecekte önerir. Ödeme metodu seçmeye yarayan düğme
+    Meblağlar için ondalık ayırıcı ayarlarda yapılandırılabilir.</string>
+  <string name="help_ExpenseEdit_transaction_info">Alacaklı (ya da borçlu) alanları girdiğiniz değerleri hatırlar ve gelecekte önerir. Ödeme metodu seçmeye yarayan düğme
     sadece güncel hesap herhangi bir ödeme metoduyla ilişkilendirilmiş türden ise kullanılabilir. Varsayılan değer olarak
     sadece banka hesapları ödeme metotları ile ilişkilidir (çek, kredi kartı, mevduat, doğrudan ödeme).</string>
   <string name="menu_save_help_text">Verileri kaydet ve formu kapat.</string>

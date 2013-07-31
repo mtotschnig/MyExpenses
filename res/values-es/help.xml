@@ -60,12 +60,17 @@
   <string name="menu_create_main_cat_help_text">Apre la finestra di dialogo per specificare il titolo di una nuova categoria principale.</string>
 
   <!-- ExpenseEdit -->
-  <string name="help_ExpenseEdit_title">Formulario para las transacciones, transferencias, plantillas</string>
+  <string name="help_ExpenseEdit_transaction_title">Formulario para las transacciones</string>
+  <string name="help_ExpenseEdit_transfer_title">Formulario para las transferencias</string>
+  <string name="help_ExpenseEdit_template_title">Formulario para las plantillas</string>
+  <string name="help_ExpenseEdit_split_title">Formulario para transacciónes divididas</string>
+  <string name="help_ExpenseEdit_splitPartTransaction_title">Formulario para divisiónes de catégorias</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">Formulario para divisiónes de transferencias</string>
   <string name="help_ExpenseEdit_info">
     <!-- Haga click en ? -->
     Presione el botón - para alternar entre gasto u ingreso. Presione el botón = para abrir una calculadora.
-    El separador decimal para cantidades puede ser configurado en la configuración.
-    La casilla para la inserción del beneficiario (o del pagador) memoriza los valores que usted ha insertado,
+    El separador decimal para cantidades puede ser configurado en la configuración.</string>
+  <string name="help_ExpenseEdit_transaction_info">La casilla para la inserción del beneficiario (o del pagador) memoriza los valores que usted ha insertado,
     y se los propone si usted vuelve a hacer inserciones en esta casilla.
     El botón para seleccionar un método de pago, sólo está disponible si la cuenta corriente es de un tipo vinculado a ninguna forma de pago.
     De forma predeterminada, sólo las cuentas bancarias están vinculados a formas de pago (cheque, tarjeta de crédito, depósito,

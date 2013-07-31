@@ -31,7 +31,7 @@
   <!--ManageTemplates-->
   <!--SelectCategory-->
   <!--ExpenseEdit-->
-  <string name="help_ExpenseEdit_title">Mẫu đơn giao dịch, truyền đổi, mẫu</string>
+<!--   <string name="help_ExpenseEdit_title">Mẫu đơn giao dịch, truyền đổi, mẫu</string> -->
   <string name="menu_save_help_text">Lưu dữ liệu và đóng lại mẫu đơn.</string>
   <string name="menu_save_and_new_help_text">Lưu dữ liệu, để trạng thái mở cho mẫu đơn để tạo một giao dịch mới với cùng
     dữ liệu.</string>

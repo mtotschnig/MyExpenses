@@ -144,6 +144,7 @@ public class ExpenseEdit extends EditActivity {
       mTitleText = (EditText) findViewById(R.id.Title);
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
+      helpVariant = "template";
     } else if (mTransaction instanceof SplitTransaction) {
       //SplitTransaction are always instantiated with status uncommitted,
       //we save them to DB as uncommitted, before working with them
@@ -165,19 +166,28 @@ public class ExpenseEdit extends EditActivity {
       li.inflate(R.layout.split_container,(ViewGroup) findViewById(R.id.OneExpense));
       //((ViewGroup) findViewById(R.id.OneExpense)).addView(li.inflate(R.layout.welcome_dialog, null));
       setTitle(mTransaction.id == 0 ? R.string.menu_create_split : R.string.menu_edit_split);
+      helpVariant = "split";
     } else {
-      if (mTransaction instanceof SplitPartCategory)
+      if (mTransaction instanceof SplitPartCategory) {
         setTitle(mTransaction.id == 0 ?
             R.string.menu_create_split_part_category : R.string.menu_edit_split_part_category  );
-      else if (mTransaction instanceof SplitPartTransfer)
+        helpVariant = "splitPartCategory";
+      }
+      else if (mTransaction instanceof SplitPartTransfer) {
         setTitle(mTransaction.id == 0 ?
             R.string.menu_create_split_part_transfer : R.string.menu_edit_split_part_transfer );
-      else if (mTransaction instanceof Transfer)
+        helpVariant = "splitPartTransfer";
+      }
+      else if (mTransaction instanceof Transfer) {
         setTitle(mTransaction.id == 0 ?
             R.string.menu_create_transfer : R.string.menu_edit_transfer );
-      else if (mTransaction instanceof Transaction)
+        helpVariant = "transfer";
+      }
+      else if (mTransaction instanceof Transaction) {
         setTitle(mTransaction.id == 0 ?
             R.string.menu_create_transaction : R.string.menu_edit_transaction );
+        helpVariant = "transaction";
+      }
     }
 
     if (mTransaction instanceof Template ||
