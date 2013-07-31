@@ -3,13 +3,12 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="5dip" >
+    android:padding="3dip" >
  
     <!--  Menu icon -->
     <LinearLayout android:id="@+id/menu_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="3dip"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="5dip"> 
         <ImageView
@@ -36,4 +35,6 @@
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/menu_icon"
      />
+    <View style="@style/Divider" 
+        android:layout_below="@id/help_text"/>
  </RelativeLayout>
