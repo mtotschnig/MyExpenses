@@ -178,10 +178,12 @@
       gefunden.</string>
   <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> von Google Play installieren?</string>
   <string name="no_categories">Noch keine Kategorien vorhanden.</string>
+  <string name="no_category_assigned">Keine Kategorie zugeordnet</string>
   <string name="no_details">Keine Details vorhanden.</string>
   <string name="no_expenses">Noch keine Ausgaben!</string>
   <string name="no_exportable_expenses">Es gibt keine Buchungen, die noch nicht exportiert wurden.</string>
   <string name="no_parties">Keine Parteien.</string>
+  <string name="no_split_parts">Keine Split-Teilbeträge.</string>
   <string name="no_templates">Keine Vorlagen.</string>
   <string name="no_title_given">Sie haben keinen Titel eingegeben.</string>
   <string name="no_valid_payment_methods">Keine gültigen Zahlungsweisen für %1$s (%2$s)</string>
@@ -301,6 +303,8 @@
   <string name="select_parent_category">Wähle diese Kategorie</string>
   <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>
   <string name="share_sending">Export Datei senden</string>
+  <string name="split_parts_heading">Split-Teilbeträge</string>
+  <string name="split_transaction">Splitbuchung</string>
   <string name="subcategory">Unterkategorie</string>
   <string name="sum_income">Einnahmen</string>
   <string name="sum_expenses">Ausgaben</string>

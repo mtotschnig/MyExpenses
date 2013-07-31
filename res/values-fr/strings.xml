@@ -179,10 +179,12 @@
       e-mail.</string>
   <string name="no_app_handling_ftp_available">Aucune application disponible pour ftp. Installer <i>Envoi par FTP</i> à partir de Google Play?</string>
   <string name="no_categories">Aucune catégorie.</string>
+  <string name="no_category_assigned">Sans catégorie</string>
   <string name="no_details">Aucun détail.</string>
   <string name="no_expenses">Aucune dépense !</string>
   <string name="no_exportable_expenses">Il n\'y a pas d\'opérations qui n\'ont pas encore été exportées.</string>
   <string name="no_parties">Aucun tiers.</string>
+  <string name="no_split_parts">Aucune sous-opération.</string>
   <string name="no_templates">Pas de modèle.</string>
   <string name="no_title_given">Vous n\'avez pas saisi de titre.</string>
   <string name="not_deletable_mapped_transactions">Suppression ne peut pas être exécutée, parce
@@ -304,6 +306,8 @@
   <string name="select_parent_category">Choisir cette catégorie</string>
   <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
   <string name="share_sending">Envoyer le fichier d\'export</string>
+  <string name="split_parts_heading">Sous-opérations ventillées</string>
+  <string name="split_transaction">Opération ventillée</string>
   <string name="subcategory">Sous-catégorie</string>
   <string name="sum_income">Revenus</string>
   <string name="sum_expenses">Dépenses</string>

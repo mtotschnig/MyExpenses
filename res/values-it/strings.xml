@@ -136,7 +136,7 @@
   <string name="menu_contrib">Contribuire</string>
   <string name="menu_create_account">Nuovo conto</string>
   <string name="menu_create_method">Nuovo modo di pagamento</string>
-  <string name="menu_create_split">Nuova operazioni suddivise</string>
+  <string name="menu_create_split">Nuova operazione suddivisa</string>
   <string name="menu_create_split_part_category">Nuova somma parziale (categoria)</string>
   <string name="menu_create_split_part_transfer">Nuova somma parziale (trasferimenti)</string>
   <string name="menu_create_template">Nuovo modello</string>
@@ -153,7 +153,7 @@
   <string name="menu_edit_account">Modificare il conto</string>
   <string name="menu_edit_cat">Modificare la categoria</string>
   <string name="menu_edit_method">Modificare modo di pagamento</string>
-  <string name="menu_edit_split">Modificare operazioni suddivise</string>
+  <string name="menu_edit_split">Modificare operazione suddivisa</string>
   <string name="menu_edit_split_part_category">Modificare somma parziale (categoria)</string>
   <string name="menu_edit_split_part_transfer">Modificare somma parziale (trasferimenti)</string>
   <string name="menu_edit_transaction">Modificare operazione</string>
@@ -176,10 +176,12 @@
   </string>
   <string name="no_app_handling_ftp_available">Nessuna applicazione disponibile per ftp. Installare <i>Invia via FTP</i> da Google Play?</string>
   <string name="no_categories">Non ci sono categorie.</string>
+  <string name="no_category_assigned">Nessuna categoria assegnata</string>
   <string name="no_details">Nessun dettaglio.</string>
   <string name="no_expenses">Non ci sono spese.</string>
   <string name="no_exportable_expenses">Non ci sono operazioni che non sono ancora stati esportati.</string>
   <string name="no_parties">Non ci sono beneficiari.</string>
+  <string name="no_split_parts">Nessuna somma parziale.</string>
   <string name="no_templates">Non ci sono modelli.</string>
   <string name="no_title_given">Non ha scritto ningun titolo.</string>
   <string name="no_valid_payment_methods">Nessuni modi di pagamento validi per %1$s (%2$s)</string>
@@ -302,6 +304,8 @@
   <string name="select_parent_category">Selezionare questa categoria</string>
   <string name="share_sending">Invia file export</string>
   <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
+  <string name="split_parts_heading">Somme parziali</string>
+  <string name="split_transaction">Operazione suddivisa</string>
   <string name="subcategory">Sottocategoria</string>
   <string name="sum_income">Redditi</string>
   <string name="sum_expenses">Spese</string>

@@ -181,10 +181,12 @@
       electrónico.</string>
   <string name="no_app_handling_ftp_available">No se ha encontrado aplicación para ftp. Installar <i>Enviar con FTP</i> desde Google Play?</string>
   <string name="no_categories">Todavía no hay categorías.</string>
+  <string name="no_category_assigned">Ninguna categoría asignada</string>
   <string name="no_details">No hay detalles.</string>
   <string name="no_expenses">¡Todavía no hay gastos!</string>
   <string name="no_exportable_expenses">No hay transacciones que aún no han sido exportados.</string>
   <string name="no_parties">Ningunos partes</string>
+  <string name="no_split_parts">Ningunas divisiones.</string>
   <string name="no_templates">Ningunas plantillas</string>
   <string name="no_title_given">No ha insertado usted titulo alguno.</string>
   <string name="not_deletable_mapped_transactions">No se puede borrar, porque tiene gastos asignados.</string>
@@ -307,6 +309,8 @@
   <string name="select_parent_category">Escoger esta categoría</string>
   <string name="share_scheme_not_supported">Esquema %1$s no es apoyado.</string>
   <string name="share_sending">Enviar el archivo</string>
+  <string name="split_parts_heading">Divisiones</string>
+  <string name="split_transaction">Asiento dividido</string>
   <string name="subcategory">Subcategoría</string>
   <string name="sum_income">Ingresos</string>
   <string name="sum_expenses">Gastos</string>

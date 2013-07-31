@@ -176,7 +176,7 @@
   <string name="no_app_handling_email_available">No app handling email available.</string>
   <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i> from Google Play?</string>
   <string name="no_categories">No categories.</string>
-  <string name="no_category_defined">No category defined</string>
+  <string name="no_category_assigned">No category assigned</string>
   <string name="no_details">No details.</string>
   <string name="no_expenses">No Expenses Yet!</string>
   <string name="no_exportable_expenses">There are no transactions that have not yet been exported.</string>
