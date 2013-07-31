@@ -64,7 +64,7 @@
   <string name="help_ExpenseEdit_transfer_title">Formulario para las transferencias</string>
   <string name="help_ExpenseEdit_template_title">Formulario para las plantillas</string>
   <string name="help_ExpenseEdit_split_title">Formulario para asientos divididos</string>
-  <string name="help_ExpenseEdit_splitPartTransaction_title">Formulario para divisiónes de catégorias</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">Formulario para divisiónes de catégorias</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">Formulario para divisiónes de transferencias</string>
   <string name="help_ExpenseEdit_info">
     <!-- Haga click en ? -->

@@ -64,12 +64,11 @@
   <string name="menu_create_main_cat_help_text">Öffnet den Dialog zum Anlegen einer neuen Hauptkategorie.</string>
 
   <!-- ExpenseEdit -->
-  <string name="help_ExpenseEdit_title">, Umbuchungen, Vorlagen.</string>
-    <string name="help_ExpenseEdit_transaction_title">Formular für Buchungen</string>
+  <string name="help_ExpenseEdit_transaction_title">Formular für Buchungen</string>
   <string name="help_ExpenseEdit_transfer_title">Formular für Umbuchungen</string>
   <string name="help_ExpenseEdit_template_title">Formular für Vorlagen</string>
   <string name="help_ExpenseEdit_split_title">Formular für Splitbuchungen</string>
-  <string name="help_ExpenseEdit_splitPartTransaction_title">Formular für Split-Teilbetrag (Kategorie)</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">Formular für Split-Teilbetrag (Kategorie)</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">Formular für Split-Teilbetrag (Umbuchung)</string>
   <string name="help_ExpenseEdit_info">Klicken Sie auf die Schaltfläche - um zwischen Ausgabe und Einnahme zu wechseln.
     auf die = Schaltfläche um einen Taschenrechner zu öffnen. In den Einstellungen kann das Dezimaltrennzeichen für
@@ -79,9 +78,21 @@
     Zahlungsweisen können nur dann einer Buchung zugeordnet werden, wenn der Typ des aktuellen Kontos mit Zahlungsweisen
     verknüpft ist. Standardmäßig sind nur Bankkonten mit Zahlungsweisen verknüpft (Scheck, Kreditkarte, Einzahlung,
     Abbuchung).</string>
+  <string name="help_ExpenseEdit_transfer_info">Wenn es nur ein Konto mit derselben Währung gibt wie das aktuelle Konto, ist dieses
+    bereits vorausgewählt.</string>
+  <string name="help_ExpenseEdit_template_info">Anhand des Titels können Sie die Vorlage auswählen, wenn Sie von dieser eine neue Buchung ableiten.</string>
+  <string name="help_ExpenseEdit_split_info">Fügen Sie beliebig viele Teilbeträge (für Kategorien und Umbuchungen) mittels der Menübefehle ein.
+    In der unteren Hälfte des Bildschirms werden die Teilbeträge aufgelistet, und der Restbetrag angezeigt, der noch nicht zugeordnet wurde.
+    Die Split-Buchung kann nur gespeichert werden, wenn die Summe der Teilbeträge genau dem Buchungsbetrag entspricht.</string>
+  <string name="help_ExpenseEdit_splitPartCategory_info">Wählen Sie eine Kategorie für den Teilbetrag aus.</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_info">Wählen Sie das Konto aus, an den dieser Teilbetrag übertragen werden soll.</string>
+
   <string name="menu_save_help_text">Abspeichern und Formular schließen.</string>
   <string name="menu_save_and_new_help_text">Abspeichern, und das Formular für das Erfassen einer neuen 
     Buchung mit denselben Daten offen lassen</string>
+  <string name="menu_create_split_part_category_help_text">Öffnet ein Formular für die Zuordnung eines Teilbetrages zu einer Kategorie.</string>
+  <string name="menu_create_split_part_transfer_help_text">Öffnet ein Formular für die Übertragung eines Teilbetrages auf ein anderes Konto.</string>
+
   <!-- AccountEdit -->
     <string name="help_AccountEdit_title">Formular für Konten</string>
     <string name="help_AccountEdit_info">Konten werden anhand Ihrer Bezeichung identifiziert. Die Beschreibung dient nur

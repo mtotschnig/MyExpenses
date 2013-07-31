@@ -65,7 +65,7 @@
   <string name="help_ExpenseEdit_transfer_title">Formulaire pour transferts</string>
   <string name="help_ExpenseEdit_template_title">Formulaire pour modèles</string>
   <string name="help_ExpenseEdit_split_title">Formulaire pour operátions ventilées</string>
-  <string name="help_ExpenseEdit_splitPartTransaction_title">Formulaire pour sous-opérations ventilées (catégorie)</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">Formulaire pour sous-opérations ventilées (catégorie)</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">Formulaire pour sous-opérations ventilées (transfert)</string>
   <string name="help_ExpenseEdit_info">Cliquez sur le bouton - pour basculer entre dépense ou entrée, sur le bouton "="
     pour accéder à une calculatrice. Le séparateur décimal pour les montants peut être configurés dans les paramètres.</string>
