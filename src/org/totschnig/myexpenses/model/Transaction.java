@@ -97,16 +97,14 @@ public class Transaction extends Model {
     }
     t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
     t.catId = catId;
-    t.payee = c.getString(
-        c.getColumnIndexOrThrow(KEY_PAYEE));
+    t.payee = DbUtils.getString(c,KEY_PAYEE);
     t.transfer_peer = transfer_peer;
     t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
     t.id = id;
     t.setDate(c.getString(
         c.getColumnIndexOrThrow(KEY_DATE)));
-    t.comment = c.getString(
-        c.getColumnIndexOrThrow(KEY_COMMENT));
-    t.label = c.getString(c.getColumnIndexOrThrow("label"));
+    t.comment = DbUtils.getString(c,KEY_COMMENT);
+    t.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     c.close();
     return t;
   }
@@ -189,6 +187,9 @@ public class Transaction extends Model {
   public void setDate(Date date){
     this.date = date;
     dateAsString = TransactionDatabase.dateFormat.format(date);
+  }
+  public String getDate() {
+    return dateAsString;
   }
   /**
    * 

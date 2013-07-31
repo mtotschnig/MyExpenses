@@ -75,7 +75,7 @@ public class DatabaseConstants {
     "  (SELECT label FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
     "END AS " + KEY_LABEL_SUB;
   /**
-   * same as {@link FULL_LABEL}, but if transaction is linked to a subcategory
+   * if transaction is linked to a subcategory
    * only the label from the subcategory is returned
    */
   public static final String SHORT_LABEL = 

@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
+import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
@@ -272,26 +273,8 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
       }
       return true;
     case R.id.SHOW_DETAIL_COMMAND:
-      t = Transaction.getInstanceFromDb(info.id);
-      String method = "";
-      if (t.methodId != null) {
-        method= PaymentMethod.getInstanceFromDb(t.methodId).getDisplayLabel();
-      }
-      String msg =  ((t.comment != null && t.comment.length() != 0) ?
-          t.comment : "");
-      if (t.payee != null && t.payee.length() != 0) {
-        if (!msg.equals("")) {
-          msg += "\n";
-        }
-        msg += getString(R.string.payee) + ": " + t.payee;
-      }
-      if (!method.equals("")) {
-        if (!msg.equals("")) {
-          msg += "\n";
-        }
-        msg += getString(R.string.method) + ": " + method;
-      }
-      Toast.makeText(ctx, msg != "" ? msg : getString(R.string.no_details), Toast.LENGTH_LONG).show();
+      TransactionDetailFragment.newInstance(info.id)
+      .show(ctx.getSupportFragmentManager(), "TRANSACTION_DETAIL");
       return true;
     case R.id.MOVE_TRANSACTION_COMMAND:
       args = new Bundle();
