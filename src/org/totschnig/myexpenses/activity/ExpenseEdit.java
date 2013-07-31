@@ -162,7 +162,8 @@ public class ExpenseEdit extends EditActivity {
       CategoryContainer.setVisibility(View.GONE);
       //add split list
       LayoutInflater li = LayoutInflater.from(this);
-      ((ViewGroup) findViewById(R.id.OneExpense)).addView(li.inflate(R.layout.split_container, null));
+      li.inflate(R.layout.split_container,(ViewGroup) findViewById(R.id.OneExpense));
+      //((ViewGroup) findViewById(R.id.OneExpense)).addView(li.inflate(R.layout.welcome_dialog, null));
       setTitle(mTransaction.id == 0 ? R.string.menu_create_split : R.string.menu_edit_split);
     } else {
       if (mTransaction instanceof SplitPartCategory)
