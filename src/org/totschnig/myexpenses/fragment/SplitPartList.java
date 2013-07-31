@@ -130,7 +130,7 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
         } else {
           Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
           if (catId == null) {
-            catText = getString(R.string.no_category_defined);
+            catText = getString(R.string.no_category_assigned);
           }
           else {
             col = c.getColumnIndex(KEY_LABEL_SUB);

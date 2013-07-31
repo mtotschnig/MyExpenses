@@ -601,7 +601,7 @@ public class Account extends Model {
                 full_label += ":" + label_sub;
             }
           } else {
-            label_main = full_label = ctx.getString(R.string.no_category_defined);
+            label_main = full_label = ctx.getString(R.string.no_category_assigned);
             label_sub = "";
           }
           amount = splits.getLong(
