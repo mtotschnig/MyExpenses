@@ -6,7 +6,7 @@
   <string name="help_MyExpenses_title">Buchungsliste</string>
   <string name="help_MyExpenses_info">Auf diesem Bildschirm werden alle Buchungen des aktuellen Kontos aufgelistet.
     Über die Navigationsleiste gelangen Sie zur Kontoliste oder Sie wechseln zu einem anderen Konto.
-    Klicken Sie auf eine Buchung, um Sie zu verändern.</string>
+    Klicken Sie auf eine Buchung, um diese zu verändern.</string>
   <string name="menu_create_transaction_help_text">Öffnet das Formular für die Eingabe einer neuen Buchung.</string>
   <string name="menu_create_transfer_help_text">Anlegen einer Umbuchung zwischen Konten. Dieser Befehl steht nur dann
     zur Verfügung, wenn es zumindest ein zweites Konto mit derselben Währung gibt.</string>
