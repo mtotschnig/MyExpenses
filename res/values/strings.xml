@@ -176,7 +176,7 @@
   <string name="no_app_handling_email_available">No app handling email available.</string>
   <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i> from Google Play?</string>
   <string name="no_categories">No categories.</string>
-  <string name="no_category_defined">No category defined.</string>
+  <string name="no_category_defined">No category defined</string>
   <string name="no_details">No details.</string>
   <string name="no_expenses">No Expenses Yet!</string>
   <string name="no_exportable_expenses">There are no transactions that have not yet been exported.</string>
@@ -313,7 +313,7 @@
   <string name="tutorial">User guide</string>
   <string name="type">Type</string>
   <string name="unsplit_amount">Unsplit amount</string>
-  <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit</string>
+  <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit.</string>
   <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing
       backup will be overwritten. &continue;</string>

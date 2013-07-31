@@ -62,10 +62,10 @@
   <string name="menu_create_main_cat_help_text">Se abre el cuadro de diálogo para especificar el título de una nueva categoría principal.</string>
 
   <!-- ExpenseEdit -->
-  <string name="help_ExpenseEdit_transaction_title">Modulo per le transazioni</string>
+  <string name="help_ExpenseEdit_transaction_title">Modulo per le operazioni</string>
   <string name="help_ExpenseEdit_transfer_title">Modulo per i trasferimenti</string>
   <string name="help_ExpenseEdit_template_title">Modulo per i modelli</string>
-  <string name="help_ExpenseEdit_split_title">Modulo per le transazioni suddivise</string>
+  <string name="help_ExpenseEdit_split_title">Modulo per le operazioni suddivise</string>
   <string name="help_ExpenseEdit_splitPartTransaction_title">Modulo per i somme parziali (categoria)</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">Modulo per i somme parziali (trasferimenti)</string>
   <string name="help_ExpenseEdit_info">

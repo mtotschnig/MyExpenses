@@ -42,6 +42,7 @@
   <string name="contrib_feature_reset_all_label">Alle Konten zurücksetzen</string>
   <string name="contrib_feature_security_question_label">Sicherheitsfrage</string>
   <string name="contrib_feature_clone_transaction_label">Buchungen klonen</string>
+  <string name="contrib_feature_split_transaction_label">Splitbuchung</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
   <string name="currency">Währung</string>
   <string name="currency_not_iso4217">%1$s ist kein gültiger ISO 4217 Währungscode</string>
@@ -139,6 +140,9 @@
   <string name="menu_create_method">Neue Zahlungsweise</string>
   <string name="menu_create_transaction">Neue Buchung</string>
   <string name="menu_create_transfer">Neue Umbuchung</string>
+  <string name="menu_create_split">Neue Splitbuchung</string>
+  <string name="menu_create_split_part_category">Neuer Split-Teilbetrag (Kategorie)</string>
+  <string name="menu_create_split_part_transfer">Neuer Split-Teilbetrag (Umbuchung)</string>
   <string name="menu_create_main_cat">Neue Hauptkategorie</string>
   <string name="menu_create_sub_cat">Neue Unterkategorie</string>
   <string name="menu_create_template">Neue Vorlage</string>
@@ -151,6 +155,9 @@
   <string name="menu_edit_account">Konto verändern</string>
   <string name="menu_edit_cat">Kategorie verändern</string>
   <string name="menu_edit_method">Zahlungsweise verändern</string>
+  <string name="menu_edit_split">Split-Buchung verändern</string>
+  <string name="menu_edit_split_part_category">Split-Teilbetrag (Kategorie) verändern</string>
+  <string name="menu_edit_split_part_transfer">Split-Teilbetrag (Umbuchung) verändern</string>
   <string name="menu_edit_transaction">Buchung verändern</string>
   <string name="menu_edit_template">Vorlage verändern</string>
   <string name="menu_edit_transfer">Umbuchung verändern</string>
@@ -307,6 +314,8 @@
   <string name="transfer">Umbuchung</string>
   <string name="tutorial">Anleitung</string>
   <string name="type">Typ</string>
+  <string name="unsplit_amount">Ungesplitteter Betrag</string>
+  <string name="unsplit_amount_greater_than_zero">Es wurde noch nicht der gesamte Betrag aufgesplittet.</string>
   <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte
       gesichert. &continue;</string>
   <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte

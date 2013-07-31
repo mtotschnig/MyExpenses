@@ -41,7 +41,8 @@
   <string name="contrib_feature_edit_template_label">Éditer les modèles</string>
   <string name="contrib_feature_reset_all_label">Réinitialiser tous les comptes</string>
   <string name="contrib_feature_security_question_label">Question de sécurité</string>
-  <string name="contrib_feature_clone_transaction_label">Cloner les transactions</string>
+  <string name="contrib_feature_clone_transaction_label">Cloner les opérations</string>
+  <string name="contrib_feature_split_transaction_label">Operátion ventilée</string>
   <string name="contrib_key">Clé Contrib</string>
   <string name="currency">Devise</string>
   <string name="currency_not_iso4217">%1$s n\'est pas un code valide selon ISO 4217</string>
@@ -61,8 +62,8 @@
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> vous est offert sans publicité et open source.
     S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux
     fonctions Premium suivantes:&lt;br>%1$s&lt;br></string>
-  <string name="dialog_export_delete">Effacer les transactions exportées</string>
-  <string name="dialog_export_not_yet_exported">Exporter uniquement les transactions qui n\'ont pas encore été exportées</string>
+  <string name="dialog_export_delete">Effacer les opérations exportées</string>
+  <string name="dialog_export_not_yet_exported">Exporter uniquement les opérations qui n\'ont pas encore été exportées</string>
   <string name="dialog_password_activate_protection">Activer la protection par mot de passe</string>
   <string name="dialog_password_change_password">Changer le mot de passe</string>
   <string name="dialog_password_new_password">Nouveau mot de passe</string>
@@ -138,12 +139,15 @@
   <string name="menu_contrib">Contribuer</string>
   <string name="menu_create_account">Nouveau compte</string>
   <string name="menu_create_method">Nouvelle méthode de paiement</string>
-  <string name="menu_create_transaction">Nouvelle transaction</string>
+  <string name="menu_create_transaction">Nouvelle opération</string>
   <string name="menu_create_transfer">Nouveau virement</string>
   <string name="menu_create_main_cat">Nouvelle catégorie principale</string>
+  <string name="menu_create_split">Nouvelle opération ventilée</string>
+  <string name="menu_create_split_part_category">Nouvelle sous-opération ventilée (catégorie)</string>
+  <string name="menu_create_split_part_transfer">Nouvelle sous-opération ventilée (transfert)</string>
   <string name="menu_create_sub_cat">Nouvelle sous-catégorie</string>
   <string name="menu_create_template">Nouveau modèle</string>
-  <string name="menu_create_template_for_transaction">Nouveau modèle (transaction)</string>
+  <string name="menu_create_template_for_transaction">Nouveau modèle (opération)</string>
   <string name="menu_create_template_for_transfer">Nouveau modèle (virement)</string>
   <string name="menu_create_transaction_from_template_and_edit">Nouveau et éditer</string>
   <string name="menu_create_transaction_from_template_and_save">Nouveau et enregistrer</string>
@@ -152,7 +156,10 @@
   <string name="menu_edit_account">Éditer le compte</string>
   <string name="menu_edit_method">Éditer la méthode de paiement</string>
   <string name="menu_edit_cat">Éditer la catégorie</string>
-  <string name="menu_edit_transaction">Éditer une transaction</string>
+  <string name="menu_edit_split">Éditer opération ventilée</string>
+  <string name="menu_edit_split_part_category">Éditer sous-opération ventilée (catégorie)</string>
+  <string name="menu_edit_split_part_transfer">Éditer sous-opération ventilée (transfert)</string>
+  <string name="menu_edit_transaction">Éditer une opération</string>
   <string name="menu_edit_template">Éditer le modèle</string>
   <string name="menu_edit_transfer">Éditer un virement</string>
   <string name="menu_help">Aide</string>
@@ -174,12 +181,12 @@
   <string name="no_categories">Aucune catégorie.</string>
   <string name="no_details">Aucun détail.</string>
   <string name="no_expenses">Aucune dépense !</string>
-  <string name="no_exportable_expenses">Il n\'y a pas de transactions qui n\'ont pas encore été exportées.</string>
+  <string name="no_exportable_expenses">Il n\'y a pas d\'opérations qui n\'ont pas encore été exportées.</string>
   <string name="no_parties">Aucun tiers.</string>
   <string name="no_templates">Pas de modèle.</string>
   <string name="no_title_given">Vous n\'avez pas saisi de titre.</string>
   <string name="not_deletable_mapped_transactions">Suppression ne peut pas être exécutée, parce
-      qu\'il existe des transactions attribuées.</string>
+      qu\'il existe des opérations attribuées.</string>
   <string name="not_deletable_mapped_templates">Suppression ne peut pas être exécutée, parce
       qu\'il existe des modèles attribués.</string>
   <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce
@@ -214,7 +221,7 @@
   <string name="pm_type_neutral">Neutre</string>
   <string name="pm_type_debit">Débit</string>
   <string name="pm_type_credit">Crédit</string>
-  <string name="peer_transaction_deleted">Cette transaction était liée à une autre (compte %1$s) qui
+  <string name="peer_transaction_deleted">Cette opération était liée à une autre (compte %1$s) qui
       a été supprimée</string>
   <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences
       sur la carte SD.</string>
@@ -289,9 +296,9 @@
   <string name="restore_preferences_failure">La restauration des paramètres a échoué</string>
   <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la
       sauvegarde.</string>
-  <string name="save_transaction_error">La transaction à partir du modèle n\'a pas été enregistrée</string>
-  <string name="save_transaction_from_template_success">Nouvelle transaction sauvegardée à partir du modèle</string>
-  <string name="save_transaction_and_new_success">Transaction sauvegardée</string>
+  <string name="save_transaction_error">L\'opération à partir du modèle n\'a pas été enregistrée</string>
+  <string name="save_transaction_from_template_success">Nouvelle opération sauvegardée à partir du modèle</string>
+  <string name="save_transaction_and_new_success">Opération sauvegardée</string>
   <string name="select">Sélectionner</string>
   <string name="select_category">Sélectionner une catégorie</string>
   <string name="select_parent_category">Choisir cette catégorie</string>
@@ -306,7 +313,7 @@
   <string name="thank_you">Merci de votre soutien!</string>
   <string name="time">Heure</string>
   <string name="title">Titre</string>
-  <string name="transaction">Transaction</string>
+  <string name="transaction">Opération</string>
   <string name="transfer">Transfert</string>
   <string name="tutorial">Manuel</string>
   <string name="type">Type</string>

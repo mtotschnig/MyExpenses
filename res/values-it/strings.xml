@@ -41,6 +41,7 @@
   <string name="contrib_feature_reset_all_label">Reinizializzare tutti i conti</string>
   <string name="contrib_feature_security_question_label">Domanda di sicurezza</string>
   <string name="contrib_feature_clone_transaction_label">Ricopiare operazioni</string>
+  <string name="contrib_feature_split_transaction_label">Operazione suddivisa</string>
   <string name="contrib_key">Chiave Contrib</string>
   <string name="currency">Valuta</string>
   <string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
@@ -135,6 +136,9 @@
   <string name="menu_contrib">Contribuire</string>
   <string name="menu_create_account">Nuovo conto</string>
   <string name="menu_create_method">Nuovo modo di pagamento</string>
+  <string name="menu_create_split">Nuova operazioni suddivise</string>
+  <string name="menu_create_split_part_category">Nuova somma parziale (categoria)</string>
+  <string name="menu_create_split_part_transfer">Nuova somma parziale (trasferimenti)</string>
   <string name="menu_create_template">Nuovo modello</string>
   <string name="menu_create_template_for_transaction">Nuovo modello (operazione)</string>
   <string name="menu_create_template_for_transfer">Nuovo modello (trasferimento)</string>
@@ -149,6 +153,9 @@
   <string name="menu_edit_account">Modificare il conto</string>
   <string name="menu_edit_cat">Modificare la categoria</string>
   <string name="menu_edit_method">Modificare modo di pagamento</string>
+  <string name="menu_edit_split">Modificare operazioni suddivise</string>
+  <string name="menu_edit_split_part_category">Modificare somma parziale (categoria)</string>
+  <string name="menu_edit_split_part_transfer">Modificare somma parziale (trasferimenti)</string>
   <string name="menu_edit_transaction">Modificare operazione</string>
   <string name="menu_edit_template">Modificare modello</string>
   <string name="menu_edit_transfer">Modificare un trasferimento</string>
@@ -308,6 +315,8 @@
   <string name="transfer">Trasferimento</string>
   <string name="tutorial">Manuale</string>
   <string name="type">Tipo</string>
+  <string name="unsplit_amount">Importo non diviso</string>
+  <string name="unsplit_amount_greater_than_zero">C\'è ancora qualche importo non diviso.</string>
   <string name="warning_backup">Database e le preferenze verranno salvate su scheda SD. &continue;</string>
   <string name="warning_backup_exists">Database e le preferenze verranno salvate su scheda SD.
     Backup esistente verrà sovrascritto. &continue;</string>

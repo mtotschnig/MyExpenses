@@ -42,6 +42,7 @@
   <string name="contrib_feature_reset_all_label">Restablecer todas las cuentas</string>
   <string name="contrib_feature_security_question_label">Pregunta de seguridad</string>
   <string name="contrib_feature_clone_transaction_label">Clonar asientos</string>
+  <string name="contrib_feature_split_transaction_label">Asientos divididos</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="currency">Moneda</string>
   <string name="currency_not_iso4217">%1$s no es un código de moneda válido según ISO 4217.</string>
@@ -149,11 +150,17 @@
   <string name="menu_create_template_for_transfer">Nueva plantilla (traslado)</string>
   <string name="menu_create_transaction_from_template_and_edit">Nueva y modificar</string>
   <string name="menu_create_transaction_from_template_and_save">Nueva y guardar</string>
+  <string name="menu_create_split">Nuevo asiento dividido</string>
+  <string name="menu_create_split_part_category">Nueva divisióne de catégorias</string>
+  <string name="menu_create_split_part_transfer">Nueva divisióne de transferencia</string>
   <string name="menu_delete">Borrar</string>
   <string name="menu_edit">Modificar</string>
   <string name="menu_edit_account">Modificar la cuenta</string>
   <string name="menu_edit_cat">Modificar la categoría</string>
   <string name="menu_edit_method">Modificar el método de pago</string>
+  <string name="menu_edit_split">Modificar asiento dividido</string>
+  <string name="menu_edit_split_part_category">Modificar divisióne de catégorias</string>
+  <string name="menu_edit_split_part_transfer">Modificar divisióne de transferencia</string>
   <string name="menu_edit_transaction">Modificar el asiento</string>
   <string name="menu_edit_template">Editar plantilla</string>
   <string name="menu_edit_transfer">Modificar el traslado a otra cuenta</string>
