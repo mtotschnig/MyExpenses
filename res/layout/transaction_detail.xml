@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+    <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/OneExpense"
+        android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent">
+    <TableLayout
+        android:paddingRight="@dimen/general_padding"
+        android:paddingLeft="@dimen/general_padding"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:id="@+id/Table"
+        android:stretchColumns="1"
+        android:shrinkColumns="1">
+      <TableRow android:id="@+id/DateRow">
+        <TextView style="@style/form_label"
+            android:text="@string/date"/>
+        <TextView android:id="@+id/Date"/>
+      </TableRow>        
+      <TableRow>
+        <TextView style="@style/form_label"
+            android:text="@string/amount"/>
+        <TextView android:id="@+id/Amount"/>
+      </TableRow>
+      <TableRow android:id="@+id/CommentRow">
+        <TextView style="@style/form_label"
+            android:text="@string/comment" />
+        <TextView 
+            android:id="@+id/Comment"/>
+      </TableRow>
+      <TableRow android:id="@+id/CategoryRow">
+        <TextView style="@style/form_label"
+            android:id="@+id/CategoryLabel" android:text="@string/category" />
+        <TextView android:id="@+id/Category"/>
+      </TableRow>
+        
+      <TableRow android:id="@+id/PayeeRow">
+        <TextView style="@style/form_label"
+            android:id="@+id/PayeeLabel" android:text="@string/payee" />
+        <TextView 
+            android:id="@+id/Payee" />
+      </TableRow>
+      
+      <TableRow android:id="@+id/MethodRow">
+      <TextView style="@style/form_label"
+          android:id="@+id/MethodLabel" android:text="@string/method" />
+        <TextView
+            android:id="@+id/Method"/>
+      </TableRow>
+    </TableLayout>
+    <LinearLayout
+    android:id="@+id/SplitContainer"
+    android:orientation="vertical"
+    android:layout_height="0px"
+    android:layout_weight="1"
+    android:layout_width="fill_parent">
+      <TextView
+        style="@style/headingStyle"
+        android:text="@string/split_parts_heading"/>
+        <ListView
+      android:id="@+id/list"
+      android:layout_width="fill_parent"
+      android:layout_height="0px"
+      android:layout_weight="1" />
+    <TextView
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:gravity="center"
+        android:id="@+id/empty"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:text="@string/no_split_parts" />
+        <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"/>
+        </LinearLayout>
+ </LinearLayout>
