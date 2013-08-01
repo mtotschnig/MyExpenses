@@ -162,7 +162,8 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       else
         title = R.string.transaction;
     }
-    if (mTransaction.catId > 0 || mTransaction.transfer_peer > 0)
+    if ((mTransaction.catId != null && mTransaction.catId > 0) ||
+        mTransaction.transfer_peer != null)
       ((TextView) view.findViewById(R.id.Category)).setText(mTransaction.label);
     else
       view.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
