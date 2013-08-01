@@ -42,7 +42,7 @@
   <string name="contrib_feature_reset_all_label">Réinitialiser tous les comptes</string>
   <string name="contrib_feature_security_question_label">Question de sécurité</string>
   <string name="contrib_feature_clone_transaction_label">Cloner les opérations</string>
-  <string name="contrib_feature_split_transaction_label">Operátion ventilée</string>
+  <string name="contrib_feature_split_transaction_label">Opération ventilée</string>
   <string name="contrib_key">Clé Contrib</string>
   <string name="currency">Devise</string>
   <string name="currency_not_iso4217">%1$s n\'est pas un code valide selon ISO 4217</string>
@@ -210,7 +210,7 @@
   <string name="password_disabled_reenable">La protection par mot de passe a été désactivée.
     Vous pouvez la réactiver dans les paramètres.</string>
   <string name="password_lost">Mot de passe oublié</string>
-  <string name="password_prompt">Saississez le mot de passe</string>
+  <string name="password_prompt">Saisissez le mot de passe</string>
   <string name="password_not_valid">Mot de passe invalide. Essayez de nouveau!</string>
   <string name="password_security_answer_not_valid">Réponse invalide. Essayez de nouveau!</string>
   <string name="payee">Tiers</string>
@@ -267,7 +267,7 @@
   <string name="pref_password_empty">Le mot de passe ne doit pas être vide</string>
   <string name="pref_password_not_equal">Les mots de passe sont différents</string>
   <string name="pref_perform_protection_title">Protection par mot de passe</string>
-  <string name="pref_perform_protection_summary">Protéger le lancement et la reprise de l\'app?</string>
+  <string name="pref_perform_protection_summary">Protéger le lancement et la reprise de l\'app</string>
   <string name="pref_perform_share_title">Envoyer le fichier d\'export</string>
   <string name="pref_perform_share_summaryOn">Le fichier sera envoyé après chaque export</string>
   <string name="pref_perform_share_summaryOff">Le fichier ne sera pas envoyé après chaque export</string>
@@ -306,8 +306,8 @@
   <string name="select_parent_category">Choisir cette catégorie</string>
   <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
   <string name="share_sending">Envoyer le fichier d\'export</string>
-  <string name="split_parts_heading">Sous-opérations ventillées</string>
-  <string name="split_transaction">Opération ventillée</string>
+  <string name="split_parts_heading">Sous-opérations ventilées</string>
+  <string name="split_transaction">Opération ventilée</string>
   <string name="subcategory">Sous-catégorie</string>
   <string name="sum_income">Revenus</string>
   <string name="sum_expenses">Dépenses</string>
