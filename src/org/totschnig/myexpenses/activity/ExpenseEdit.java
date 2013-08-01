@@ -755,8 +755,12 @@ public class ExpenseEdit extends EditActivity {
     else if (mMethodButton != null)
         mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel());
     configureType();
-    setDate();
-    setTime();
+    if (!(mTransaction instanceof Template ||
+        mTransaction instanceof SplitPartCategory ||
+        mTransaction instanceof SplitPartTransfer)) {
+      setDate();
+      setTime();
+    }
   }
 
   public Money getAmount() {
