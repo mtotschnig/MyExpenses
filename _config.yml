@@ -6,7 +6,7 @@ title:
   es: Mis gastos
   ca: Les Meves Despeses
   tr: Harcamalarım
-  vi: My Expenses
+  vi: Chi Tiêu Của Tôi
 langs:
   -
     - en
@@ -44,7 +44,7 @@ sections:
       es: Mis gastos
       ca: Les Meves Despeses
       tr: Harcamalarım
-      vi: My Expenses
+      vi: Chi Tiêu Của Tôi
     headstuff: |
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"> </script>
       <script type="text/javascript" src="/script/images.js" charset="UTF-8"> </script>
