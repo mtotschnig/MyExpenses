@@ -39,18 +39,24 @@
     <item name="android:textColorLink">@drawable/linkcolor</item>
     <item name="android:padding">5dp</item>
   </style>
+  <style name="form_label">
+      <item name="android:textStyle">bold</item>
+      <item name="android:paddingRight">5dp</item>
+      <item name="android:layout_gravity">center_vertical</item>
+  </style>
   <!-- needed in version dialog and more info in API 10 and lower -->
   <style name="about_text2" parent="about_text">
+    <item name="android:textColor">#ffffff</item>
+  </style>
+  <style name="form_label_dialog" parent="form_label">
+    <item name="android:textColor">#ffffff</item>
+  </style>
+  <style name="dialog_text">
     <item name="android:textColor">#ffffff</item>
   </style>
   <style name="titleTextStyle">
     <item name="android:textStyle">bold</item>
     <item name="android:textSize">17sp</item>
-  </style>
-  <style name="form_label">
-      <item name="android:textStyle">bold</item>
-      <item name="android:paddingRight">5dp</item>
-      <item name="android:layout_gravity">center_vertical</item>
   </style>
   <style name="paddedListRow">
     <item name="android:paddingRight">@dimen/general_padding</item>

@@ -30,6 +30,8 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -103,7 +105,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
         public void setViewText(TextView v, String text) {
           switch (v.getId()) {
           case R.id.amount:
-            //text = Utils.convAmount(text,ctx.mAccount.currency);
+            text = Utils.convAmount(text,mTransaction.amount.getCurrency());
           }
           super.setViewText(v, text);
         }
@@ -128,6 +130,8 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
             tv1.setTextColor(colorIncome);
           }
           TextView tv2 = (TextView)row.findViewById(R.id.category);
+          if (Build.VERSION.SDK_INT < 11)
+            tv2.setTextColor(Color.WHITE);
           String catText = (String) tv2.getText();
           if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
             catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
@@ -157,8 +161,10 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       lv.setEmptyView(emptyView);
     } else {
       view.findViewById(R.id.SplitContainer).setVisibility(View.GONE);
-      if (mTransaction instanceof Transfer)
-          title = R.string.transfer;
+      if (mTransaction instanceof Transfer) {
+        title = R.string.transfer;
+        ((TextView) view.findViewById(R.id.CategoryLabel)).setText(R.string.account);
+      }
       else
         title = R.string.transaction;
     }

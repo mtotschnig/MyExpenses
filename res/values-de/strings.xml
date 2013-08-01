@@ -151,7 +151,7 @@
   <string name="menu_create_transaction_from_template_and_edit">Neu und verändern</string>
   <string name="menu_create_transaction_from_template_and_save">Neu und speichern</string>
   <string name="menu_delete">Löschen</string>
-  <string name="menu_edit">Verändern</string>
+  <string name="menu_edit">Bearbeiten</string>
   <string name="menu_edit_account">Konto verändern</string>
   <string name="menu_edit_cat">Kategorie verändern</string>
   <string name="menu_edit_method">Zahlungsweise verändern</string>

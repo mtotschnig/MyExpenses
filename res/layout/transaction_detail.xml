@@ -28,39 +28,38 @@
         android:stretchColumns="1"
         android:shrinkColumns="1">
       <TableRow android:id="@+id/DateRow">
-        <TextView style="@style/form_label"
+        <TextView style="@style/form_label_dialog"
             android:text="@string/date"/>
-        <TextView android:id="@+id/Date"/>
+        <TextView android:id="@+id/Date" style="@style/dialog_text"/>
       </TableRow>        
       <TableRow>
-        <TextView style="@style/form_label"
+        <TextView style="@style/form_label_dialog"
             android:text="@string/amount"/>
-        <TextView android:id="@+id/Amount"/>
+        <TextView android:id="@+id/Amount" style="@style/dialog_text"/>
       </TableRow>
       <TableRow android:id="@+id/CommentRow">
-        <TextView style="@style/form_label"
+        <TextView style="@style/form_label_dialog"
             android:text="@string/comment" />
-        <TextView 
-            android:id="@+id/Comment"/>
+        <TextView android:id="@+id/Comment"  style="@style/dialog_text"/>
       </TableRow>
       <TableRow android:id="@+id/CategoryRow">
-        <TextView style="@style/form_label"
+        <TextView style="@style/form_label_dialog"
             android:id="@+id/CategoryLabel" android:text="@string/category" />
-        <TextView android:id="@+id/Category"/>
+        <TextView android:id="@+id/Category"  style="@style/dialog_text"/>
       </TableRow>
         
       <TableRow android:id="@+id/PayeeRow">
-        <TextView style="@style/form_label"
+        <TextView style="@style/form_label_dialog"
             android:id="@+id/PayeeLabel" android:text="@string/payee" />
         <TextView 
-            android:id="@+id/Payee" />
+            android:id="@+id/Payee" style="@style/dialog_text" />
       </TableRow>
       
       <TableRow android:id="@+id/MethodRow">
-      <TextView style="@style/form_label"
+      <TextView style="@style/form_label_dialog"
           android:id="@+id/MethodLabel" android:text="@string/method" />
         <TextView
-            android:id="@+id/Method"/>
+            android:id="@+id/Method" style="@style/dialog_text"/>
       </TableRow>
     </TableLayout>
     <LinearLayout
@@ -77,7 +76,7 @@
       android:layout_width="fill_parent"
       android:layout_height="0px"
       android:layout_weight="1" />
-    <TextView
+    <TextView style="@style/dialog_text"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
         android:gravity="center"
