@@ -155,15 +155,17 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       };
       lv.setAdapter(mAdapter);
       lv.setEmptyView(emptyView);
-      view.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
     } else {
       view.findViewById(R.id.SplitContainer).setVisibility(View.GONE);
-      ((TextView) view.findViewById(R.id.Category)).setText(mTransaction.label);
       if (mTransaction instanceof Transfer)
           title = R.string.transfer;
       else
         title = R.string.transaction;
     }
+    if (mTransaction.catId > 0 || mTransaction.transfer_peer > 0)
+      ((TextView) view.findViewById(R.id.Category)).setText(mTransaction.label);
+    else
+      view.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
     ((TextView) view.findViewById(R.id.Date)).setText(
         java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(mTransaction.date)
         + " "
