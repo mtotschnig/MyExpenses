@@ -126,16 +126,18 @@ public class TransactionProvider extends ContentProvider {
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
     case AGGREGATES:
+      //we calculate the aggregates by taking in account the split parts instead of the split transactions,
+      //thus we can ignore split parts that are transfers
       qb.setTables("(select currency,opening_balance,"+
           "(SELECT coalesce(abs(sum(amount)),0) FROM "
               + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id and amount<0 and transfer_peer is null) as sum_expenses," +
+              + " WHERE account_id = accounts._id and amount<0 and cat_id is not -1 and transfer_peer is null) as sum_expenses," +
           "(SELECT coalesce(abs(sum(amount)),0) FROM "
               + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id and amount>0 and transfer_peer is null) as sum_income," +
+              + " WHERE account_id = accounts._id and amount>0 and cat_id is not -1 and transfer_peer is null) as sum_income," +
           "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
               + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id) as current_balance " +
+              + " WHERE account_id = accounts._id and cat_id is not -1) as current_balance " +
           "from " + TABLE_ACCOUNTS + ") as t");
       groupBy = "currency";
       having = "count(*) > 1";
