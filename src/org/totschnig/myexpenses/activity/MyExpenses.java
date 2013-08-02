@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
@@ -31,6 +32,7 @@ import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment.SelectFromCursorDialogListener;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
+import org.totschnig.myexpenses.fragment.CloneTaskFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
@@ -87,7 +89,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class MyExpenses extends ProtectedFragmentActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, OnNavigationListener,
-    SelectFromCursorDialogListener, ContribIFace {
+    SelectFromCursorDialogListener, ContribIFace, CloneTaskFragment.TaskCallbacks  {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_EDIT_ACCOUNT=4;
   public static final int ACTIVITY_EXPORT=5;
@@ -130,6 +132,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private ViewPager myPager;
   private String fragmentCallbackTag = null;
   public boolean mTransferEnabled = false;
+  private CloneTaskFragment mTaskFragment;
   
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -523,7 +526,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     switch(feature){
     case CLONE_TRANSACTION:
       feature.recordUsage();
-      Transaction.getInstanceFromDb((Long) tag).saveAsNew();
+      FragmentManager fm = getSupportFragmentManager();
+      mTaskFragment = CloneTaskFragment.newInstance((Long) tag);
+      fm.beginTransaction().add(mTaskFragment, "CLONE_TASK").commit();
+      ProgressDialogFragment.newInstance(R.string.progress_dialog_cloning).show(fm, "PROGRESS");
       break;
     case SPLIT_TRANSACTION:
       createRow(TYPE_SPLIT);
@@ -662,5 +668,24 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     if (c==null)
       this.fragmentCallbackTag = fragmentCallbackTag;
     return c;
+  }
+  @Override
+  public void onPreExecute() {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void onProgressUpdate(int percent) {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void onCancelled() {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void onPostExecute() {
+    ((ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag("PROGRESS")).dismiss();
   }
 }

@@ -236,6 +236,7 @@ public class Transaction extends Model {
     id = 0L;
     setDate(new Date());
     return save();
+    //TODO clone split parts
   }
   /**
    * @param whichTransactionId
