@@ -19,6 +19,5 @@ public class SplitPartTransfer extends Transfer {
   public SplitPartTransfer(long accountId, Long amount,long transactionId) {
     super(accountId,amount);
     this.parentId = transactionId;
-    this.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
   }
 }

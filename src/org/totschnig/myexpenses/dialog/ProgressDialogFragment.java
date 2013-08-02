@@ -13,7 +13,7 @@ public class ProgressDialogFragment extends DialogFragment {
   public static ProgressDialogFragment newInstance(int message) {
     ProgressDialogFragment f = new ProgressDialogFragment ();
     Bundle bundle = new Bundle();
-    bundle.putLong("message", message);
+    bundle.putInt("message", message);
     f.setArguments(bundle);
     return f;
   }

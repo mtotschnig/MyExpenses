@@ -235,8 +235,9 @@ public class Transaction extends Model {
   public Uri saveAsNew() {
     id = 0L;
     setDate(new Date());
-    return save();
-    //TODO clone split parts
+    Uri result = save();
+    id = ContentUris.parseId(result);
+    return result;
   }
   /**
    * @param whichTransactionId

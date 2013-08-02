@@ -172,11 +172,13 @@ public class ExpenseEdit extends EditActivity {
         setTitle(mTransaction.id == 0 ?
             R.string.menu_create_split_part_category : R.string.menu_edit_split_part_category  );
         helpVariant = "splitPartCategory";
+        mTransaction.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
       }
       else if (mTransaction instanceof SplitPartTransfer) {
         setTitle(mTransaction.id == 0 ?
             R.string.menu_create_split_part_transfer : R.string.menu_edit_split_part_transfer );
         helpVariant = "splitPartTransfer";
+        mTransaction.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
       }
       else if (mTransaction instanceof Transfer) {
         setTitle(mTransaction.id == 0 ?

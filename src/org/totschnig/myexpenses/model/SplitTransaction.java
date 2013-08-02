@@ -18,11 +18,10 @@ package org.totschnig.myexpenses.model;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.util.Log;
+import android.net.Uri;
 
 public class SplitTransaction extends Transaction {
   
@@ -59,6 +58,7 @@ public class SplitTransaction extends Transaction {
    */
   public void prepareForEdit() {
     String idStr = String.valueOf(id);
+    //we only create uncommited clones if none exist yet
     Cursor c = cr().query(CONTENT_URI, new String[] {KEY_ROWID},
         KEY_PARENTID + " = ? AND NOT EXISTS (SELECT 1 from " + VIEW_UNCOMMITTED
             + " WHERE " + KEY_PARENTID + " = ?)", new String[] {idStr,idStr} , null);
@@ -78,5 +78,21 @@ public class SplitTransaction extends Transaction {
   public void cleanupCanceledEdit() {
     cr().delete(CONTENT_URI, KEY_STATUS + " = ?",
         new String[] { String.valueOf(STATUS_UNCOMMITTED) });
+  }
+  public Uri saveAsNew() {
+    Long oldId = id;
+    //saveAsNew sets new id
+    Uri result = super.saveAsNew();
+    Cursor c = cr().query(CONTENT_URI, new String[] {KEY_ROWID},
+        KEY_PARENTID + " = ?", new String[] {String.valueOf(oldId)} , null);
+    c.moveToFirst();
+    while(!c.isAfterLast()) {
+      Transaction t = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
+      t.parentId = id;
+      t.saveAsNew();
+      c.moveToNext();
+    }
+    c.close();
+    return result;
   }
 }
