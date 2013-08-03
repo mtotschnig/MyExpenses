@@ -44,7 +44,7 @@ public class HelpDialogFragment extends DialogFragment {
     LinearLayout ll = (LinearLayout) view.findViewById(R.id.help);
     String screenInfo = getString(res.getIdentifier("help_" +activityName + "_info", "string", pack));
     if (variant != null)
-      screenInfo += getString(res.getIdentifier("help_" +activityName + "_" + variant + "_info", "string", pack));
+      screenInfo += "\n" + getString(res.getIdentifier("help_" +activityName + "_" + variant + "_info", "string", pack));
     ((TextView) view.findViewById(R.id.screen_info)).setText(screenInfo);
     int resId = res.getIdentifier(activityName+"_menuitems", "array", pack);
     if (resId != 0) {
