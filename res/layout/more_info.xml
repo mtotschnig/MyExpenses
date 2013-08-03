@@ -27,6 +27,8 @@
       android:orientation="vertical"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content">
+    <TextView android:id="@+id/aboutVersionCode"
+      style="@style/about_text" />
   <!-- Licence -->
     <TextView android:text="@string/help_heading_license"
         style="@style/headingStyle" />

@@ -39,6 +39,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
  
 /**
@@ -139,6 +140,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     case R.id.MORE_INFO_DIALOG:
       LayoutInflater li = LayoutInflater.from(this);
       View view = li.inflate(R.layout.more_info, null);
+      ((TextView)view.findViewById(R.id.aboutVersionCode)).setText(CommonCommands.getVersionInfo(this));
       return new AlertDialog.Builder(this)
         .setTitle(R.string.pref_more_info_dialog_title)
         .setView(view)
