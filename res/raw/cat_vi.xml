@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="Thu nhập khác"/>
+<Sub_category Nbc="1" Nb="1" Na="Trợ cấp thất nghiệp"/>
+<Sub_category Nbc="1" Nb="2" Na="Khoản cho gia đình"/>
+<Sub_category Nbc="1" Nb="3" Na="Hoàn thuế"/>
+<Sub_category Nbc="1" Nb="4" Na="Chơi bài"/>
+<Sub_category Nbc="1" Nb="5" Na="Bảo hiểm tương trợ"/>
+<Sub_category Nbc="1" Nb="6" Na="An ninh xã hội"/>
+<Category Nb="2" Na="Nghỉ hưu"/>
+<Sub_category Nbc="2" Nb="1" Na="Quỹ hưu trí"/>
+<Sub_category Nbc="2" Nb="2" Na="Lương hưu"/>
+<Sub_category Nbc="2" Nb="3" Na="Lương trợ cấp hưu trí"/>
+<Category Nb="3" Na="Thu nhập từ đầu tư"/>
+<Sub_category Nbc="3" Nb="1" Na="Cổ tức"/>
+<Sub_category Nbc="3" Nb="2" Na="Lãi suất"/>
+<Sub_category Nbc="3" Nb="3" Na="Lãi qua vốn"/>
+<Category Nb="4" Na="Lương"/>
+<Sub_category Nbc="4" Nb="1" Na="Thêm giờ"/>
+<Sub_category Nbc="4" Nb="2" Na="Nghỉ phép"/>
+<Sub_category Nbc="4" Nb="3" Na="Phí linh tinh"/>
+<Sub_category Nbc="4" Nb="4" Na="Phí thành đạt"/>
+<Sub_category Nbc="4" Nb="5" Na="Lương net"/>
+<Category Nb="5" Na="Thu nhập linh tinh"/>
+<Sub_category Nbc="5" Nb="1" Na="Quà cáp"/>
+<Sub_category Nbc="5" Nb="2" Na="Hoàn trả"/>
+<Sub_category Nbc="5" Nb="3" Na="Bán hàng cũ"/>
+<Category Nb="6" Na="Thức ăn"/>
+<Sub_category Nbc="6" Nb="1" Na="Đi bar"/>
+<Sub_category Nbc="6" Nb="2" Na="Bánh"/>
+<Sub_category Nbc="6" Nb="3" Na="Căn tin"/>
+<Sub_category Nbc="6" Nb="4" Na="Kẹo"/>
+<Sub_category Nbc="6" Nb="5" Na="Linh tinh"/>
+<Sub_category Nbc="6" Nb="6" Na="Tạp hóa"/>
+<Sub_category Nbc="6" Nb="7" Na="Khácg sạn"/>
+<Sub_category Nbc="6" Nb="8" Na="Tự phục vụ"/>
+<Sub_category Nbc="6" Nb="9" Na="Siêu thị"/>
+<Category Nb="7" Na="Thú nuôi"/>
+<Sub_category Nbc="7" Nb="1" Na="Thức ăn"/>
+<Sub_category Nbc="7" Nb="2" Na="Phụ kiện linh tinh"/>
+<Sub_category Nbc="7" Nb="3" Na="Đồ chú rể"/>
+<Sub_category Nbc="7" Nb="4" Na="Bác sĩ thú y"/>
+<Category Nb="8" Na="Bảo hiểm"/>
+<Sub_category Nbc="8" Nb="1" Na="Ô tô"/>
+<Sub_category Nbc="8" Nb="2" Na="Sức khỏe"/>
+<Sub_category Nbc="8" Nb="3" Na="Nhà cửa"/>
+<Sub_category Nbc="8" Nb="4" Na="Trách nhiệm dân sự"/>
+<Sub_category Nbc="8" Nb="5" Na="Đời sống"/>
+<Category Nb="9" Na="Ô tô"/>
+<Sub_category Nbc="9" Nb="1" Na="Xăng"/>
+<Sub_category Nbc="9" Nb="2" Na="Sửa chữa"/>
+<Sub_category Nbc="9" Nb="3" Na="Bảo trì"/>
+<Sub_category Nbc="9" Nb="4" Na="Bến bãi"/>
+<Sub_category Nbc="9" Nb="5" Na="Phí"/>
+<Category Nb="11" Na="Quà cáp"/>
+<Category Nb="12" Na="Trẻ nhỏ"/>
+<Sub_category Nbc="12" Nb="1" Na="Y tá"/>
+<Sub_category Nbc="12" Nb="2" Na="Linh tinh"/>
+<Sub_category Nbc="12" Nb="3" Na="Học hành"/>
+<Category Nb="13" Na="Học hành"/>
+<Sub_category Nbc="13" Nb="1" Na="Lớp học"/>
+<Sub_category Nbc="13" Nb="2" Na="Học phí"/>
+<Sub_category Nbc="13" Nb="3" Na="Sách vở"/>
+<Category Nb="14" Na="Linh tinh"/>
+<Sub_category Nbc="14" Nb="1" Na="Quà cáp"/>
+<Category Nb="15" Na="Phí tài chính"/>
+<Sub_category Nbc="15" Nb="1" Na="Linh tinh"/>
+<Sub_category Nbc="15" Nb="2" Na="Phí ngân hàng"/>
+<Sub_category Nbc="15" Nb="3" Na="Vay/Thế chấp"/>
+<Sub_category Nbc="15" Nb="4" Na="Phí"/>
+<Sub_category Nbc="15" Nb="5" Na="Hoàn trả"/>
+<Category Nb="16" Na="Phí nghề"/>
+<Sub_category Nbc="16" Nb="1" Na="Không hoàn trả"/>
+<Sub_category Nbc="16" Nb="2" Na="Hoàn trả"/>
+<Category Nb="17" Na="Thuế"/>
+<Sub_category Nbc="17" Nb="1" Na="Linh tinh"/>
+<Sub_category Nbc="17" Nb="2" Na="Thu nhập"/>
+<Sub_category Nbc="17" Nb="3" Na="Đất đai"/>
+<Category Nb="18" Na="Nhà ở"/>
+<Sub_category Nbc="18" Nb="1" Na="Khách sạn"/>
+<Sub_category Nbc="18" Nb="2" Na="Thuê"/>
+<Sub_category Nbc="18" Nb="3" Na="Tivi"/>
+<Sub_category Nbc="18" Nb="4" Na="Đồ đạc"/>
+<Sub_category Nbc="18" Nb="5" Na="Phí"/>
+<Sub_category Nbc="18" Nb="6" Na="Sưởi"/>
+<Sub_category Nbc="18" Nb="7" Na="Trang trí"/>
+<Sub_category Nbc="18" Nb="8" Na="Nước"/>
+<Sub_category Nbc="18" Nb="9" Na="Điện"/>
+<Sub_category Nbc="18" Nb="10" Na="Hàng trắng ???"/>
+<Sub_category Nbc="18" Nb="11" Na="Trang bị"/>
+<Sub_category Nbc="18" Nb="12" Na="Tiền điện"/>
+<Sub_category Nbc="18" Nb="13" Na="Vườn"/>
+<Sub_category Nbc="18" Nb="14" Na="Giữ nhà - quản gia"/>
+<Sub_category Nbc="18" Nb="15" Na="Điện thoại"/>
+<Sub_category Nbc="18" Nb="16" Na="Điện thoại di động"/>
+<Category Nb="19" Na="Giải trí"/>
+<Sub_category Nbc="19" Nb="1" Na="Bi-da"/>
+<Sub_category Nbc="19" Nb="2" Na="Bô-ling"/>
+<Sub_category Nbc="19" Nb="3" Na="Phim ảnh"/>
+<Sub_category Nbc="19" Nb="4" Na="Bar"/>
+<Sub_category Nbc="19" Nb="5" Na="Công nghệ thông tin"/>
+<Sub_category Nbc="19" Nb="6" Na="Game"/>
+<Sub_category Nbc="19" Nb="7" Na="Sách vở"/>
+<Sub_category Nbc="19" Nb="8" Na="Công viên"/>
+<Sub_category Nbc="19" Nb="9" Na="Buổi hòa nhạc"/>
+<Sub_category Nbc="19" Nb="10" Na="Thể thao"/>
+<Sub_category Nbc="19" Nb="11" Na="Video"/>
+<Sub_category Nbc="19" Nb="12" Na="Du lịch"/>
+<Sub_category Nbc="19" Nb="13" Na="Trang thiết bị"/>
+<Sub_category Nbc="19" Nb="14" Na="Bảo tàng/Triển lãm"/>
+<Category Nb="20" Na="Vay/Thế chấp"/>
+<Sub_category Nbc="20" Nb="1" Na="Vốn sở hữu"/>
+<Category Nb="21" Na="Sức khỏe"/>
+<Sub_category Nbc="21" Nb="1" Na="Bảo hiểm"/>
+<Sub_category Nbc="21" Nb="2" Na="Nha sĩ"/>
+<Sub_category Nbc="21" Nb="3" Na="Bệnh viện"/>
+<Sub_category Nbc="21" Nb="4" Na="Vật lý trị liệu"/>
+<Sub_category Nbc="21" Nb="5" Na="Bác sĩ"/>
+<Sub_category Nbc="21" Nb="6" Na="Phẫu thuật mắt"/>
+<Sub_category Nbc="21" Nb="7" Na="Bó bột"/>
+<Sub_category Nbc="21" Nb="8" Na="Dược phẩm"/>
+<Sub_category Nbc="21" Nb="9" Na="An ninh xã hội"/>
+<Category Nb="22" Na="Chăm sóc y tế"/>
+<Sub_category Nbc="22" Nb="1" Na="Làm tóc"/>
+<Sub_category Nbc="22" Nb="2" Na="Quần áo"/>
+<Category Nb="23" Na="Vận chuyển"/>
+<Sub_category Nbc="23" Nb="1" Na="Xe buýt"/>
+<Sub_category Nbc="23" Nb="2" Na="Tàu điện ngầm"/>
+<Sub_category Nbc="23" Nb="3" Na="Thuế qua cầu"/>
+<Sub_category Nbc="23" Nb="4" Na="Xe điện ngầm"/>
+<Sub_category Nbc="23" Nb="5" Na="Xe điện"/>
+<Sub_category Nbc="23" Nb="6" Na="Du lịch"/>
+<Sub_category Nbc="23" Nb="7" Na="Hàng không"/>
+<Category Nb="24" Na="Ngày nghỉ"/>
+<Sub_category Nbc="24" Nb="1" Na="Nhà ở"/>
+<Sub_category Nbc="24" Nb="2" Na="Viếng thăm"/>
+<Sub_category Nbc="24" Nb="3" Na="Du lịch"/></Grisbi_categ>
