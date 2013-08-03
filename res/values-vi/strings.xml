@@ -26,6 +26,7 @@
   <string name="contrib_feature_reset_all_label">Thiết đặt lại tất cả tài khoản</string>
   <string name="contrib_feature_security_question_label">Câu hỏi an ninh</string>
   <string name="contrib_feature_clone_transaction_label">Sao y giao dịch</string>
+  <string name="contrib_feature_split_transaction_label">Phân tách giao dịch</string>
   <string name="contrib_key">Khóa cống hiến</string>
   <string name="currency">Tiền tệ</string>
   <string name="currency_not_iso4217">%1$s chưa được xác định theo chuẩn ISO 4217</string>
@@ -122,6 +123,9 @@
   <string name="menu_create_transaction">Giao dịch mới</string>
   <string name="menu_create_transfer">Truyền đổi mới</string>
   <string name="menu_create_main_cat">Phân loại chính mới</string>
+  <string name="menu_create_split">Phân tách mới</string>
+  <string name="menu_create_split_part_category">Phần loại của phân tách mới</string>
+  <string name="menu_create_split_part_transfer">Phần chuyển đổi phân tách mới</string>
   <string name="menu_create_sub_cat">Phân loại phụ thuộc</string>
   <string name="menu_create_template">Mẫu mới</string>
   <string name="menu_create_template_for_transaction">Mẫu giao dịch mới</string>
@@ -133,6 +137,9 @@
   <string name="menu_edit_account">Chỉnh sửa tài khoản</string>
   <string name="menu_edit_method">Chỉnh sửa phương thức chi trả</string>
   <string name="menu_edit_cat">Chỉnh sửa phân loại</string>
+  <string name="menu_edit_split">Chỉnh sửa phần phân tách</string>
+  <string name="menu_edit_split_part_category">Chỉnh sửa phần phân loại phân tách</string>
+  <string name="menu_edit_split_part_transfer">Chỉnh sửa phần được phân tách chuyển đổi</string>
   <string name="menu_edit_transaction">Chỉnh sửa giao dịch</string>
   <string name="menu_edit_template">Chỉnh sửa mẫu</string>
   <string name="menu_edit_transfer">Chỉnh sửa Truyền Đổi</string>
@@ -152,10 +159,12 @@
   <string name="no_app_handling_email_available">Không có ứng dụng nào hiện có để xử lý email</string>
   <string name="no_app_handling_ftp_available">Hiện không có ứng dụng xử lý ftp. Cài đặt <i>Send With FTP</i> từ Google Play?</string>
   <string name="no_categories">Không có phân loại nào.</string>
+  <string name="no_category_assigned">Vẫn chưa gán phân loại nào</string>
   <string name="no_details">Không có thông tin chi tiết nào</string>
   <string name="no_expenses">Không có Chi Tiêu nào!</string>
   <string name="no_exportable_expenses">Hiện không có giao dịch nào mà vẫn chưa được xuất dữ liệu.</string>
   <string name="no_parties">Không có nhóm nào</string>
+  <string name="no_split_parts">Không có phần nào được tách</string>
   <string name="no_templates">Không có mẫu nào</string>
   <string name="no_title_given">Bạn vẫn chưa điền vào tiêu đề</string>
   <string name="no_valid_payment_methods">Phương thức chi trả không hợp lệ dành cho %1$s (%2$s)</string>
@@ -252,6 +261,8 @@ số lượng tiền tệ</string>
   <string name="pref_ui_theme_light">sáng</string>
   <string name="pref_visit_website_title">Truy cập Website</string>
   <string name="pref_visit_website_summary">Nhật trình và các câu hỏi thường gặp</string>
+  <string name="progress_dialog_cloning">Đang sao chép hóa &#8230;</string>
+  <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu &#8230;</string>
   <string name="request_licence_mail_body">Vui lòng gửi khóa cống hiến cho phiên bản Android %1$s</string>
   <string name="restore_db_failure">Xảy ra lỗi khi khôi phục cơ sở dữ liệu</string>
   <string name="restore_db_success">Cơ sở dữ liệu đã được phục hồi từ phần sao lưu</string>
@@ -266,6 +277,8 @@ số lượng tiền tệ</string>
   <string name="select_parent_category">Chọn phân loại này</string>
   <string name="share_scheme_not_supported">Sự phối hợp %1$s không được hỗ trợ</string>
   <string name="share_sending">Gửi tập tin xuất dữ liệu</string>
+  <string name="split_parts_heading">Tác thành từng phần</string>
+  <string name="split_transaction">Tách giao dịch</string>
   <string name="subcategory">Phân loại phụ thuộc</string>
   <string name="sum_income">Thu nhập</string>
   <string name="sum_expenses">Chi tiêu</string>
@@ -278,6 +291,8 @@ số lượng tiền tệ</string>
   <string name="transaction">Giao dịch</string>
   <string name="transfer">Truyền đổi</string>
   <string name="tutorial">Hướng dẫn người dùng</string>
+  <string name="unsplit_amount">Số lượng chưa tách</string>
+  <string name="unsplit_amount_greater_than_zero">Có một số thao tác về số lượng chưa được phân tách</string>
   <string name="type">Loại</string>
   <string name="warning_backup">Cơ sở dữ liệu và tùy biến sẽ được lưu vào thẻ nhớ. Bạn có muốn tiếp tục?</string>
   <string name="warning_backup_exists">Cơ sở dữ liệu và tùy biến đã được lưu vào thẻ nhớ. Phần
