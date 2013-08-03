@@ -42,7 +42,7 @@
   <string name="contrib_feature_reset_all_label">Restablecer todas las cuentas</string>
   <string name="contrib_feature_security_question_label">Pregunta de seguridad</string>
   <string name="contrib_feature_clone_transaction_label">Clonar asientos</string>
-  <string name="contrib_feature_split_transaction_label">Asientos divididos</string>
+  <string name="contrib_feature_split_transaction_label">Asiento dividido</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="currency">Moneda</string>
   <string name="currency_not_iso4217">%1$s no es un código de moneda válido según ISO 4217.</string>
@@ -124,8 +124,7 @@
     - Administrar directamente en tu móvil.\n
     - Exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</string>
   <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
-  <string name="help_whats_new">&#160;- Traducción al vietnamita.\n
-    - Pequeñas mejoras.</string>
+  <string name="help_whats_new">&#160;- Asientos divididos</string>
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Información importante</string>
   <string name="income">ingreso</string>
