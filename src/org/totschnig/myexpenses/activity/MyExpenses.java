@@ -23,7 +23,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -32,11 +31,10 @@ import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment.SelectFromCursorDialogListener;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
-import org.totschnig.myexpenses.fragment.CloneTaskFragment;
+import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
-import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
@@ -64,7 +62,6 @@ import com.actionbarsherlock.view.MenuInflater;
 
 import android.view.View;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;  
 import android.support.v4.view.ViewPager;
@@ -89,7 +86,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class MyExpenses extends ProtectedFragmentActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, OnNavigationListener,
-    SelectFromCursorDialogListener, ContribIFace, CloneTaskFragment.TaskCallbacks  {
+    SelectFromCursorDialogListener, ContribIFace, TaskExecutionFragment.TaskCallbacks  {
   public static final int ACTIVITY_EDIT=1;
   public static final int ACTIVITY_EDIT_ACCOUNT=4;
   public static final int ACTIVITY_EXPORT=5;
@@ -132,7 +129,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private ViewPager myPager;
   private String fragmentCallbackTag = null;
   public boolean mTransferEnabled = false;
-  private CloneTaskFragment mTaskFragment;
   
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -527,9 +523,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case CLONE_TRANSACTION:
       feature.recordUsage();
       FragmentManager fm = getSupportFragmentManager();
-      mTaskFragment = CloneTaskFragment.newInstance((Long) tag);
-      fm.beginTransaction().add(mTaskFragment, "CLONE_TASK").commit();
-      ProgressDialogFragment.newInstance(R.string.progress_dialog_cloning).show(fm, "PROGRESS");
+      fm.beginTransaction()
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,(Long) tag), "CLONE_TASK")
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_cloning),"PROGRESS")
+        .commit();
       break;
     case SPLIT_TRANSACTION:
       createRow(TYPE_SPLIT);
@@ -685,7 +682,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     
   }
   @Override
-  public void onPostExecute() {
+  public void onPostExecute(Object ignore) {
     ((ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag("PROGRESS")).dismiss();
   }
 }

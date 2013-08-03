@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -58,6 +59,10 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
   private long transactionSum = 0;
   private Money unsplitAmount;
 
+
+  public static Fragment newInstance() {
+    return new SplitPartList();
+  }
   @Override
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);

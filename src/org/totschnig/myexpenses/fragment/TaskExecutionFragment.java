@@ -1,5 +1,7 @@
+//based on http://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html
 package org.totschnig.myexpenses.fragment;
 
+import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 
 import android.app.Activity;
@@ -10,9 +12,15 @@ import android.support.v4.app.Fragment;
 /**
  * This Fragment manages a single background task and retains
  * itself across configuration changes.
+ * It handles several task that each operate on a single
+ * db object identified by its row id
  */
-public class CloneTaskFragment extends Fragment {
-  Long id;
+public class TaskExecutionFragment extends Fragment {
+  public static final int TASK_CLONE = 1;
+  public static final int TASK_INSTANTIATE_TRANSACTION = 2;
+  public static final int TASK_INSTANTIATE_TEMPLATE = 3;
+  public static final int TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE = 4;
+  
   /**
    * Callback interface through which the fragment will report the
    * task's progress and results back to the Activity.
@@ -21,15 +29,16 @@ public class CloneTaskFragment extends Fragment {
     void onPreExecute();
     void onProgressUpdate(int percent);
     void onCancelled();
-    void onPostExecute();
+    void onPostExecute(Object o);
   }
  
   private TaskCallbacks mCallbacks;
-  private CloneTask mTask;
-  public static CloneTaskFragment newInstance(long transactionId) {
-    CloneTaskFragment f = new CloneTaskFragment();
+  private AbstractTask mTask;
+  public static TaskExecutionFragment newInstance(int taskId, Long objectId) {
+    TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
-    bundle.putLong("id", transactionId);
+    bundle.putInt("taskId", taskId);
+    bundle.putLong("objectId", objectId);
     f.setArguments(bundle);
     return f;
   }
@@ -58,8 +67,22 @@ public class CloneTaskFragment extends Fragment {
     setRetainInstance(true);
  
     // Create and execute the background task.
-    mTask = new CloneTask();
-    mTask.execute(getArguments().getLong("id"));
+    Bundle args = getArguments();
+    switch (args.getInt("taskId")) {
+    case TASK_CLONE:
+      mTask = new CloneTask();
+      break;
+    case TASK_INSTANTIATE_TRANSACTION:
+      mTask = new InstantiateTransactionTask();
+      break;
+    case TASK_INSTANTIATE_TEMPLATE:
+      mTask = new InstantiateTemplateTask();
+      break;
+    case TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
+      mTask = new InstantiateTransactionFromTemplateTask();
+      break;
+    }
+    mTask.execute(args.getLong("objectId"));
   }
  
   /**
@@ -73,14 +96,12 @@ public class CloneTaskFragment extends Fragment {
   }
  
   /**
-   * A dummy task that performs some (dumb) background work and
-   * proxies progress updates and results back to the Activity.
    *
    * Note that we need to check if the callbacks are null in each
    * method in case they are invoked after the Activity's and
    * Fragment's onDestroy() method have been called.
    */
-  private class CloneTask extends AsyncTask<Long, Void, Void> {
+  private abstract class AbstractTask extends AsyncTask<Long, Void, Object> {
  
     @Override
     protected void onPreExecute() {
@@ -95,13 +116,14 @@ public class CloneTaskFragment extends Fragment {
      * in a race condition.
      */
     @Override
-    protected Void doInBackground(Long... id) {
-      Transaction.getInstanceFromDb(id[0]).saveAsNew();
+    protected Object doInBackground(Long... id) {
       return null;
     }
- 
     @Override
     protected void onProgressUpdate(Void... ignore) {
+/*      if (mCallbacks != null) {
+        mCallbacks.onProgressUpdate(ignore[0]);
+      }*/
     }
  
     @Override
@@ -112,10 +134,35 @@ public class CloneTaskFragment extends Fragment {
     }
  
     @Override
-    protected void onPostExecute(Void ignore) {
+    protected void onPostExecute(Object result) {
       if (mCallbacks != null) {
-        mCallbacks.onPostExecute();
+        mCallbacks.onPostExecute(result);
       }
+    }
+  }
+  private class CloneTask extends AbstractTask {
+    @Override
+    protected Object doInBackground(Long... id) {
+      Transaction.getInstanceFromDb(id[0]).saveAsNew();
+      return null;
+    }
+  }
+  private class InstantiateTransactionTask extends AbstractTask {
+    @Override
+    protected Object doInBackground(Long... id) {
+      return Transaction.getInstanceFromDb(id[0]);
+    }
+  }
+  private class InstantiateTemplateTask extends AbstractTask {
+    @Override
+    protected Object doInBackground(Long... id) {
+      return Template.getInstanceFromDb(id[0]);
+    }
+  }
+  private class InstantiateTransactionFromTemplateTask extends AbstractTask {
+    @Override
+    protected Object doInBackground(Long... id) {
+      return Transaction.getInstanceFromTemplate(id[0]);
     }
   }
 }

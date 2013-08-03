@@ -27,7 +27,9 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
+import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -41,6 +43,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -59,7 +62,7 @@ import android.widget.Toast;
  * Activity for editing a transaction
  * @author Michael Totschnig
  */
-public class ExpenseEdit extends EditActivity {
+public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.TaskCallbacks {
 
   private Button mDateButton;
   private Button mTimeButton;
@@ -71,7 +74,6 @@ public class ExpenseEdit extends EditActivity {
   private TextView mPayeeLabel;
   public long mRowId;
   private long mTemplateId;
-  private long mAccountId;
   public Account mAccount;
   private Calendar mCalendar = Calendar.getInstance();
   private final java.text.DateFormat mTitleDateFormat = java.text.DateFormat.
@@ -115,30 +117,34 @@ public class ExpenseEdit extends EditActivity {
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
     
     //1. fetch the transaction or create a new instance
-    if (mRowId != 0) {
-      mTransaction = Transaction.getInstanceFromDb(mRowId);
-
-      mAccountId = mTransaction.accountId;
-      mOperationType = (mTransaction instanceof Transfer) ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-    } else if (mTemplateId != 0) {
-      //are we editing the template or instantiating a new one
-      if (extras.getBoolean("instantiate")) {
-        mTransaction = Transaction.getInstanceFromTemplate(mTemplateId);
-        mOperationType = (mTransaction instanceof Transfer) ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-      } else {
-        mTransaction = Template.getInstanceFromDb(mTemplateId);
-        mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
+    if (mRowId != 0 || mTemplateId != 0) {
+      int taskId;
+      if (mRowId != 0)
+        taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION;
+      else {
+        //are we editing the template or instantiating a new one
+        if (extras.getBoolean("instantiate"))
+          taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE;
+        else
+          taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
       }
-      mAccountId = mTransaction.accountId;
+      FragmentManager fm = getSupportFragmentManager();
+      fm.beginTransaction()
+        .add(TaskExecutionFragment.newInstance(taskId,(Long) mRowId), "INSTANTIATE_TASK")
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
+        .commit();
     } else {
       mOperationType = extras.getInt("operationType");
-      mAccountId = extras.getLong(KEY_ACCOUNTID);
+      Long accountId = extras.getLong(KEY_ACCOUNTID);
       Long parentId = extras.getLong(KEY_PARENTID);
       if (extras.getBoolean("newTemplate",false))
-        mTransaction = Template.getTypedNewInstance(mOperationType, mAccountId);
+        mTransaction = Template.getTypedNewInstance(mOperationType, accountId);
       else
-        mTransaction = Transaction.getTypedNewInstance(mOperationType,mAccountId,parentId);
+        mTransaction = Transaction.getTypedNewInstance(mOperationType,accountId,parentId);
+      setup();
     }
+  }
+  private void setup() {
     configAmountInput();
     if (mTransaction instanceof Template) {
       mTitleText = (EditText) findViewById(R.id.Title);
@@ -162,9 +168,11 @@ public class ExpenseEdit extends EditActivity {
         CategoryContainer = findViewById(R.id.Category);
       CategoryContainer.setVisibility(View.GONE);
       //add split list
-      LayoutInflater li = LayoutInflater.from(this);
-      li.inflate(R.layout.split_container,(ViewGroup) findViewById(R.id.OneExpense));
-      //((ViewGroup) findViewById(R.id.OneExpense)).addView(li.inflate(R.layout.welcome_dialog, null));
+      FragmentManager fm = getSupportFragmentManager();
+      fm.beginTransaction()
+        .add(R.id.OneExpense,SplitPartList.newInstance(),"SPLIT_PART_LIST")
+        .commit();
+      fm.executePendingTransactions();
       setTitle(mTransaction.id == 0 ? R.string.menu_create_split : R.string.menu_edit_split);
       helpVariant = "split";
     } else {
@@ -283,7 +291,7 @@ public class ExpenseEdit extends EditActivity {
     if (mTransaction instanceof SplitTransaction) {
       mAmountText.addTextChangedListener(new TextWatcher(){
         public void afterTextChanged(Editable s) {
-          ((SplitPartList) getSupportFragmentManager().findFragmentById(R.id.transaction_list)).updateBalance();
+          ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
       }
       public void beforeTextChanged(CharSequence s, int start, int count, int after){}
       public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -317,7 +325,7 @@ public class ExpenseEdit extends EditActivity {
       break;
     case R.id.Confirm:
       if (mTransaction instanceof SplitTransaction) {
-        if (((SplitPartList) getSupportFragmentManager().findFragmentById(R.id.transaction_list)).splitComplete() ) {
+        if (((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).splitComplete() ) {
           if (saveState()) {
             ((SplitTransaction) mTransaction).commit();
             setResult(RESULT_OK);
@@ -351,7 +359,7 @@ public class ExpenseEdit extends EditActivity {
   private void createRow(int type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
-    i.putExtra(KEY_ACCOUNTID,mAccountId);
+    i.putExtra(KEY_ACCOUNTID,mTransaction.accountId);
     i.putExtra(KEY_PARENTID,mTransaction.id);
     startActivityForResult(i, ACTIVITY_EDIT_SPLIT);
   }
@@ -474,14 +482,14 @@ public class ExpenseEdit extends EditActivity {
    */
   private void populateFields() {
     int otherAccountsCount = 0;
-    mAccount = Account.getInstanceFromDb(mAccountId);
+    mAccount = Account.getInstanceFromDb(mTransaction.accountId);
 
     //2. get info about other accounts if we are editing a transfer
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       Cursor otherAccounts =  getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
           new String[] {DatabaseConstants.KEY_ROWID, "label"},
           DatabaseConstants.KEY_ROWID + " != ? AND currency = ?",
-          new String[] {String.valueOf(mAccountId),mAccount.currency.getCurrencyCode()},null);
+          new String[] {String.valueOf(mTransaction.accountId),mAccount.currency.getCurrencyCode()},null);
       otherAccountsCount = otherAccounts.getCount();
       accountLabels = new String[otherAccountsCount];
       accountIds = new Long[otherAccountsCount];
@@ -711,7 +719,7 @@ public class ExpenseEdit extends EditActivity {
       mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
     }
     if (mTransaction instanceof SplitTransaction) {
-      ((SplitPartList) getSupportFragmentManager().findFragmentById(R.id.transaction_list)).updateBalance();
+      ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
     }
     setCategoryButton();
   }
@@ -780,5 +788,29 @@ public class ExpenseEdit extends EditActivity {
       result.setAmountMajor(amount);
     }
     return result;
+  }
+  @Override
+  public void onPreExecute() {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void onProgressUpdate(int percent) {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void onCancelled() {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void onPostExecute(Object o) {
+    mTransaction = (Transaction) o;
+    mOperationType = (mTransaction instanceof Template) ?
+        (((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION) :
+        (mTransaction instanceof Transfer) ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
+    setup();
+    ((ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag("PROGRESS")).dismiss();
   }
 }
