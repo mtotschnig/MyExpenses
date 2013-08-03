@@ -147,10 +147,7 @@ public class Transaction extends Model {
   }
   
   public static void delete(long id) {
-    String idStr = String.valueOf(id);
-      cr().delete(
-        CONTENT_URI,KEY_ROWID + " = ? OR " + KEY_PARENTID + " = ? OR " + KEY_TRANSFER_PEER + " = ?",
-        new String[] {idStr,idStr,idStr});
+    cr().delete(ContentUris.appendId(CONTENT_URI.buildUpon(),id).build(),null,null);
   }
   //needed for Template subclass
   public Transaction() {

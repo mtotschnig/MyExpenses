@@ -321,14 +321,13 @@ public class TransactionProvider extends ContentProvider {
       count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
       break;
     case TRANSACTIONS_ID:
+      //maybe TODO ?: where and whereArgs are ignored
       segment = uri.getPathSegments().get(1);
-      if (!TextUtils.isEmpty(where)) {
-        whereString = " AND (" + where + ')';
-      } else {
-        whereString = "";
-      }
-      count = db.delete(TABLE_TRANSACTIONS, "_id=" + segment + whereString,
-          whereArgs);
+      count = db.delete(TABLE_TRANSACTIONS,
+          KEY_ROWID + " = ? OR " + KEY_PARENTID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
+              + KEY_ROWID + " IN "
+              + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)",
+         new String[] {segment,segment,segment,segment});
       break;
     case TEMPLATES:
       count = db.delete(TABLE_TEMPLATES, where, whereArgs);
