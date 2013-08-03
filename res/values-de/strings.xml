@@ -287,7 +287,8 @@
   <string name="pref_ui_theme_light">hell</string>
   <string name="pref_visit_website_title">Website besuchen</string>
   <string name="pref_visit_website_summary">Änderungsprotokoll und FAQ</string>
-  <string name="request_licence_mail_body">Bitte senden Sie mir einen Contrib-Schlüssel für die Android-Id %1$s</string>
+  <string name="request_licence_mail_body">Bitte senden Sie mir einen Contrib-Schlüssel für die Android-Id %1$s.
+    \n\n[Bitte beschreiben Sie Ihren Beitrag zu &app_name; (z.B.: Spende via Paypal, Problembericht, Testen, Übersetzung)]</string>
   <string name="restore_db_failure">Fehler bei der Wiederherstellung der Datenbank.</string>
   <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
   <string name="restore_no_backup_found">Keine Datei BACKUP im Ordner \"myexpenses\" der SD-Karte vorhanden.</string>

@@ -289,7 +289,8 @@
   <string name="pref_visit_website_title">Visiter le site Web</string>
   <string name="pref_visit_website_summary">Journal des modifications et FAQ</string>
   <string name="pref_ui_theme_light">clair</string>
-  <string name="request_licence_mail_body">Envoyez-moi, s\'il-vous-plaît, une clé contrib pour l\'Android-Id %1$s</string>
+  <string name="request_licence_mail_body">Envoyez-moi, s\'il-vous-plaît, une clé contrib pour l\'Android-Id %1$s.
+  	   \n\n[S\'il vous plaît décrire votre contribution à &app_name; (par exemple: un don via Paypal, rapport de bug, des tests, de la traduction)]</string>
   <string name="restore_db_failure">La restauration de la base de données a échoué.</string>
   <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.
   </string>
