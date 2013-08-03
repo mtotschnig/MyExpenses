@@ -159,9 +159,10 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
       helpVariant = "template";
     } else if (mTransaction instanceof SplitTransaction) {
+      setTitle(mTransaction.id == 0 ? R.string.menu_create_split : R.string.menu_edit_split);
       //SplitTransaction are always instantiated with status uncommitted,
       //we save them to DB as uncommitted, before working with them
-      //when the split transaction is save the split and its parts are committed
+      //when the split transaction is saved the split and its parts are committed
       if (mRowId == 0) {
         mTransaction.status = STATUS_UNCOMMITTED;
         mTransaction.save();
@@ -181,7 +182,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
           .commit();
         fm.executePendingTransactions();
       }
-      setTitle(mTransaction.id == 0 ? R.string.menu_create_split : R.string.menu_edit_split);
       helpVariant = "split";
     } else {
       if (mTransaction instanceof SplitPartCategory) {
@@ -230,7 +230,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       });
     }
     
-    if (mOperationType == MyExpenses.TYPE_TRANSACTION && !(mTransaction instanceof SplitPartCategory)) {
+    if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
       //TODO cursorloader ?
       Cursor allPayees = getContentResolver().query(TransactionProvider.PAYEES_URI,
           null, null, null, null);
@@ -808,9 +808,12 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   @Override
   public void onPostExecute(Object o) {
     mTransaction = (Transaction) o;
-    mOperationType = (mTransaction instanceof Template) ?
-        (((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION) :
-        (mTransaction instanceof Transfer) ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
+    if (mTransaction instanceof SplitTransaction)
+      mOperationType = MyExpenses.TYPE_SPLIT;
+    else if (mTransaction instanceof Template)
+      mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
+    else
+      mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
     setup();
     supportInvalidateOptionsMenu();
     ((ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag("PROGRESS")).dismiss();
