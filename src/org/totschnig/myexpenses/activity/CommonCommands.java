@@ -17,8 +17,6 @@ import android.util.Log;
 
 public class CommonCommands {
   static boolean dispatchCommand(Activity ctx,int command) {
-    if (ctx instanceof FragmentActivity && dispatchCommand((FragmentActivity) ctx,command))
-      return true;
     Intent i;
     switch(command) {
     case R.id.FEEDBACK_COMMAND:
@@ -32,13 +30,6 @@ public class CommonCommands {
       i.putExtra(android.content.Intent.EXTRA_TEXT, ctx.getString(R.string.feedback_email_message));
       ctx.startActivity(i);
       break;
-    }
-   return true;
-  }
-
-  static boolean dispatchCommand(ProtectedFragmentActivity ctx,int command) {
-    Intent i;
-    switch(command) {
     case R.id.CONTRIB_PLAY_COMMAND:
       Utils.viewContribApp(ctx);
       return true;
@@ -54,7 +45,7 @@ public class CommonCommands {
       return true;
     case R.id.HELP_COMMAND:
       i = new Intent(ctx,Help.class);
-      i.putExtra("variant",ctx.helpVariant);
+      i.putExtra("variant",((ProtectedFragmentActivity)ctx).helpVariant);
       //for result is needed since it allows us to inspect the calling activity
       ctx.startActivityForResult(i,0);
       return true;
@@ -63,7 +54,7 @@ public class CommonCommands {
       ctx.finish();
       return true;
     }
-    return false;
+   return false;
   }
   public static void showContribDialog(FragmentActivity ctx,Feature feature, Serializable tag) {
     ContribDialogFragment.newInstance(feature, tag).show(ctx.getSupportFragmentManager(),"CONTRIB");
