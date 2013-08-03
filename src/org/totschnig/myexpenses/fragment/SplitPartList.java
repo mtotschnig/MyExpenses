@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -19,6 +20,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -42,6 +44,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -51,7 +54,6 @@ import android.widget.AdapterView.OnItemClickListener;
 public class SplitPartList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final int TRANSACTION_CURSOR = 0;
   private static final int SUM_CURSOR = 1;
-  long parentId;
   SimpleCursorAdapter mAdapter;
   private int colorExpense;
   private int colorIncome;
@@ -59,20 +61,24 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
   private long transactionSum = 0;
   private Money unsplitAmount;
 
-
-  public static Fragment newInstance() {
-    return new SplitPartList();
+  public static SplitPartList newInstance(Long parentId, Long accountId) {
+    SplitPartList f = new SplitPartList(); 
+    Bundle bundle = new Bundle();
+    bundle.putLong(KEY_PARENTID,parentId);
+    bundle.putLong(KEY_ACCOUNTID,accountId);
+    f.setArguments(bundle);
+    return f;
   }
   @Override
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setHasOptionsMenu(true);
+      setRetainInstance(true);
   }
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    final ExpenseEdit ctx = (ExpenseEdit) getSherlockActivity();
-    parentId = ctx.mRowId;
-    View v = inflater.inflate(R.layout.split_parts_list, null, false);
+    final Activity ctx = getSherlockActivity();
+    View v = inflater.inflate(R.layout.split_parts_list, container, false);
     View emptyView = v.findViewById(R.id.empty);
     Resources.Theme theme = ctx.getTheme();
     TypedValue color = new TypedValue();
@@ -92,8 +98,8 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
     final String categorySeparator, commentSeparator;
     categorySeparator = " : ";
     commentSeparator = " / ";
-    getLoaderManager().initLoader(TRANSACTION_CURSOR, null, this);
-    getLoaderManager().initLoader(SUM_CURSOR, null, this);
+    getLoaderManager().initLoader(TRANSACTION_CURSOR, getArguments(), this);
+    getLoaderManager().initLoader(SUM_CURSOR, getArguments(), this);
     // Now create a simple cursor adapter and set it to display
     mAdapter = new SimpleCursorAdapter(ctx, R.layout.split_part_row, null, from, to,0)  {
       /* (non-Javadoc)
@@ -104,7 +110,7 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
       public void setViewText(TextView v, String text) {
         switch (v.getId()) {
         case R.id.amount:
-          text = Utils.convAmount(text,ctx.mAccount.currency);
+          text = Utils.convAmount(text,Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID)).currency);
         }
         super.setViewText(v, text);
       }
@@ -187,18 +193,19 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
     return super.onContextItemSelected(item);
   }
   @Override
-  public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
+  public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    String[] selectionArgs = new String[] {String.valueOf(args.getLong(KEY_PARENTID))};
     CursorLoader cursorLoader = null;
     Uri uri = TransactionProvider.UNCOMMITTED_URI;
     switch(id) {
     case TRANSACTION_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(), uri,null, "parent_id = ?",
-          new String[] { String.valueOf(parentId) }, null);
+          selectionArgs, null);
       return cursorLoader;
     case SUM_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),uri,
           new String[] {"sum(" + KEY_AMOUNT + ")"}, "parent_id = ?",
-          new String[] { String.valueOf(parentId) }, null);
+          selectionArgs, null);
     }
     return cursorLoader;
   }
@@ -230,6 +237,9 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
   public void updateBalance() {
     ExpenseEdit ctx = (ExpenseEdit) getSherlockActivity();
     unsplitAmount = ctx.getAmount();
+    //when we are called before transaction is loaded in parent activity
+    if (unsplitAmount == null)
+      return;
     unsplitAmount.setAmountMinor(unsplitAmount.getAmountMinor()-transactionSum);
     if (balanceTv != null)
       balanceTv.setText(Utils.formatCurrency(unsplitAmount));

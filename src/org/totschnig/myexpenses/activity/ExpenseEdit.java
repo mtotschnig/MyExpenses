@@ -46,7 +46,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -74,7 +73,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   private TextView mPayeeLabel;
   public long mRowId;
   private long mTemplateId;
-  public Account mAccount;
+  private Account mAccount;
   private Calendar mCalendar = Calendar.getInstance();
   private final java.text.DateFormat mTitleDateFormat = java.text.DateFormat.
       getDateInstance(java.text.DateFormat.FULL);
@@ -115,6 +114,15 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     
     setContentView(R.layout.one_expense);
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
+    mTypeButton = (Button) findViewById(R.id.TaType);
+    mCommentText = (EditText) findViewById(R.id.Comment);
+    mTitleText = (EditText) findViewById(R.id.Title);
+    mDateButton = (Button) findViewById(R.id.Date);
+    mTimeButton = (Button) findViewById(R.id.Time);
+    mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
+    mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
+    mCategoryButton = (Button) findViewById(R.id.Category);
+    mMethodButton = (Button) findViewById(R.id.Method);
     
     //1. fetch the transaction or create a new instance
     if (mRowId != 0 || mTemplateId != 0) {
@@ -147,7 +155,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   private void setup() {
     configAmountInput();
     if (mTransaction instanceof Template) {
-      mTitleText = (EditText) findViewById(R.id.Title);
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
       helpVariant = "template";
@@ -159,8 +166,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         mTransaction.status = STATUS_UNCOMMITTED;
         mTransaction.save();
         mRowId = mTransaction.id;
-      } else {
-        ((SplitTransaction) mTransaction).prepareForEdit();
       }
       View CategoryContainer = findViewById(R.id.CategoryRow);
       //in Landscape there is no row for the method button
@@ -169,10 +174,13 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       CategoryContainer.setVisibility(View.GONE);
       //add split list
       FragmentManager fm = getSupportFragmentManager();
-      fm.beginTransaction()
-        .add(R.id.OneExpense,SplitPartList.newInstance(),"SPLIT_PART_LIST")
-        .commit();
-      fm.executePendingTransactions();
+      SplitPartList f = (SplitPartList) fm.findFragmentByTag("SPLIT_PART_LIST");
+      if (f == null) {
+        fm.beginTransaction()
+          .add(R.id.OneExpense,SplitPartList.newInstance(mTransaction.id,mTransaction.accountId),"SPLIT_PART_LIST")
+          .commit();
+        fm.executePendingTransactions();
+      }
       setTitle(mTransaction.id == 0 ? R.string.menu_create_split : R.string.menu_edit_split);
       helpVariant = "split";
     } else {
@@ -209,24 +217,20 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       if (timeRow != null)
         timeRow.setVisibility(View.GONE);
     } else {
-      mDateButton = (Button) findViewById(R.id.Date);
       mDateButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
           showDialog(DATE_DIALOG_ID);
         }
       });
 
-      mTimeButton = (Button) findViewById(R.id.Time);
       mTimeButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
           showDialog(TIME_DIALOG_ID);
         }
       });
     }
-    mCommentText = (EditText) findViewById(R.id.Comment);
     
     if (mOperationType == MyExpenses.TYPE_TRANSACTION && !(mTransaction instanceof SplitPartCategory)) {
-      mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
       //TODO cursorloader ?
       Cursor allPayees = getContentResolver().query(TransactionProvider.PAYEES_URI,
           null, null, null, null);
@@ -238,7 +242,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
            allPayees.moveToNext();
       }
       allPayees.close();
-      mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
       mPayeeText.setAdapter(adapter);
     } else {
       findViewById(R.id.PayeeRow).setVisibility(View.GONE);
@@ -248,8 +251,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         MethodContainer = findViewById(R.id.Method);
       MethodContainer.setVisibility(View.GONE);
     }
-        
-    mTypeButton = (Button) findViewById(R.id.TaType);
+
     mTypeButton.setOnClickListener(new View.OnClickListener() {
 
       public void onClick(View view) {
@@ -262,7 +264,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         configureType();
       } 
     });
-    mCategoryButton = (Button) findViewById(R.id.Category);
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       //if there is a label for the category input (portrait), we adjust it,
       //otherwise directly the button (landscape)
@@ -272,7 +273,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       else
         mCategoryButton.setText(R.string.account);
     } else {
-      mMethodButton = (Button) findViewById(R.id.Method);
       //we store the original text of the button, since it depends on the orientation
       //and we want to restore it eventually
       mMethodButton.setTag(mMethodButton.getText());
@@ -430,7 +430,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
           TransactionProvider.METHODS_URI.buildUpon()
           .appendPath("typeFilter")
           .appendPath(mType == INCOME ? "1" : "-1")
-          .appendPath(mAccount.type.name())
+          .appendPath(getmAccount().type.name())
           .build(), null, null, null, null);
       final String[] methodLabels = new String[paymentMethods.getCount()];
       final Long[] methodIds = new Long[paymentMethods.getCount()];
@@ -447,7 +447,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         //TODO create resource string and fill with types
         Toast.makeText(this,getString(
               R.string.no_valid_payment_methods,
-              mAccount.type.getDisplayName(),
+              getmAccount().type.getDisplayName(),
               getString(mType == EXPENSE ? R.string.expense : R.string.income)
             ), Toast.LENGTH_LONG).show();
         return null;
@@ -482,14 +482,13 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
    */
   private void populateFields() {
     int otherAccountsCount = 0;
-    mAccount = Account.getInstanceFromDb(mTransaction.accountId);
 
     //2. get info about other accounts if we are editing a transfer
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       Cursor otherAccounts =  getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
           new String[] {DatabaseConstants.KEY_ROWID, "label"},
           DatabaseConstants.KEY_ROWID + " != ? AND currency = ?",
-          new String[] {String.valueOf(mTransaction.accountId),mAccount.currency.getCurrencyCode()},null);
+          new String[] {String.valueOf(mTransaction.accountId),getmAccount().currency.getCurrencyCode()},null);
       otherAccountsCount = otherAccounts.getCount();
       accountLabels = new String[otherAccountsCount];
       accountIds = new Long[otherAccountsCount];
@@ -553,7 +552,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         }
       });
       //5c we hide the method button if there are no valid methods, we check for both incomes and expenses
-      if (PaymentMethod.countPerType(mAccount.type) == 0) {
+      if (PaymentMethod.countPerType(getmAccount().type) == 0) {
         View MethodContainer = findViewById(R.id.MethodRow);
         if (MethodContainer == null)
           MethodContainer = findViewById(R.id.Method);
@@ -774,7 +773,9 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   }
 
   public Money getAmount() {
-    Money result = new Money(mAccount.currency,0L);
+    if (getmAccount() == null)
+      return null;
+    Money result = new Money(getmAccount().currency,0L);
     BigDecimal amount = validateAmountInput();
     if (amount == null) {
       return result;
@@ -811,6 +812,15 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         (((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION) :
         (mTransaction instanceof Transfer) ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
     setup();
+    supportInvalidateOptionsMenu();
     ((ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag("PROGRESS")).dismiss();
+  }
+  public Account getmAccount() {
+    if (mAccount == null) {
+      if (mTransaction == null)
+        return null;
+      mAccount = Account.getInstanceFromDb(mTransaction.accountId);
+    }
+    return mAccount;
   }
 }

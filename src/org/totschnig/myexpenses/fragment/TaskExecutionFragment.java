@@ -1,6 +1,7 @@
 //based on http://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html
 package org.totschnig.myexpenses.fragment;
 
+import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 
@@ -150,7 +151,10 @@ public class TaskExecutionFragment extends Fragment {
   private class InstantiateTransactionTask extends AbstractTask {
     @Override
     protected Object doInBackground(Long... id) {
-      return Transaction.getInstanceFromDb(id[0]);
+      Transaction t = Transaction.getInstanceFromDb(id[0]);
+      if (t instanceof SplitTransaction)
+        ((SplitTransaction) t).prepareForEdit();
+      return t;
     }
   }
   private class InstantiateTemplateTask extends AbstractTask {
