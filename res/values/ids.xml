@@ -30,7 +30,6 @@
     <item type="id" name="WEB_COMMAND"/>
     <item type="id" name="DELETE_COMMAND"/>
     <item type="id" name="DELETE_COMMAND_DO"/>
-    <item type="id" name="SHOW_DETAIL_COMMAND"/>
     <item type="id" name="CREATE_TEMPLATE_COMMAND"/>
     <item type="id" name="MOVE_TRANSACTION_COMMAND"/>
     <item type="id" name="FTP_DIALOG"/>

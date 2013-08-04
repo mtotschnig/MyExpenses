@@ -47,6 +47,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class TransactionDetailFragment extends DialogFragment implements LoaderManager.LoaderCallbacks<Cursor>,OnClickListener {
@@ -211,7 +212,11 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
   @Override
   public void onClick(DialogInterface dialog, int which) {
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      final MyExpenses ctx = (MyExpenses) getActivity();
+      MyExpenses ctx = (MyExpenses) getActivity();
+      if (mTransaction.transfer_peer != null && DbUtils.hasParent(mTransaction.transfer_peer)) {
+        Toast.makeText(getActivity(), "Transfers that are part of a split can only be edited or deleted in the context of the split", Toast.LENGTH_LONG).show();
+        return;
+      }
       Intent i = new Intent(ctx, ExpenseEdit.class);
       i.putExtra(KEY_ROWID, mTransaction.id);
       i.putExtra("transferEnabled",ctx.mTransferEnabled);

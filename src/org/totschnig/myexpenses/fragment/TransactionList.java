@@ -7,14 +7,12 @@ import java.text.SimpleDateFormat;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -25,7 +23,6 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.ContentObserver;
@@ -114,7 +111,6 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     super.onCreateContextMenu(menu, v, menuInfo);
     mTransactionsCursor.moveToPosition(info.position);
     menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
-    menu.add(0, R.id.SHOW_DETAIL_COMMAND, 0, R.string.menu_show_detail);
     //templates for splits is not yet implemented
     if (! Long.valueOf(-1).equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
       menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
@@ -238,13 +234,8 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
          @Override
          public void onItemClick(AdapterView<?> a, View v,int position, long id)
          {
-           if (checkSplitPartTransfer(position)) {
-             Intent i = new Intent(ctx, ExpenseEdit.class);
-             i.putExtra(KEY_ROWID, id);
-             i.putExtra("transferEnabled",ctx.mTransferEnabled);
-             //i.putExtra("operationType", operationType);
-             startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
-           }
+           TransactionDetailFragment.newInstance(id)
+           .show(ctx.getSupportFragmentManager(), "TRANSACTION_DETAIL");
          }
     });
     registerForContextMenu(lv);
@@ -274,10 +265,6 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
       else {
         CommonCommands.showContribDialog(ctx,Feature.CLONE_TRANSACTION, info.id);
       }
-      return true;
-    case R.id.SHOW_DETAIL_COMMAND:
-      TransactionDetailFragment.newInstance(info.id)
-      .show(ctx.getSupportFragmentManager(), "TRANSACTION_DETAIL");
       return true;
     case R.id.MOVE_TRANSACTION_COMMAND:
       args = new Bundle();
@@ -372,12 +359,9 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   private boolean checkSplitPartTransfer(int position) {
     mTransactionsCursor.moveToPosition(position);
     Long transferPeer = DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER);
-    if (transferPeer != null) {
-      Transaction peer = Transaction.getInstanceFromDb(transferPeer);
-      if (peer.parentId != null) {
-        Toast.makeText(getActivity(), "Transfers that are part of a split can only be edited or deleted in the context of the split", Toast.LENGTH_LONG).show();
-        return false;
-      }
+    if (transferPeer != null && DbUtils.hasParent(transferPeer)) {
+      Toast.makeText(getActivity(), "Transfers that are part of a split can only be edited or deleted in the context of the split", Toast.LENGTH_LONG).show();
+      return false;
     }
     return true;
   }

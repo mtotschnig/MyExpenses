@@ -9,6 +9,7 @@ import java.util.Date;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -135,5 +136,8 @@ public class DbUtils {
     if (c.isNull(columnIndex))
       return "";
     return c.getString(columnIndex);
+  }
+  public static boolean hasParent(Long id) {
+    return Transaction.getInstanceFromDb(id).parentId != null;
   }
 }
