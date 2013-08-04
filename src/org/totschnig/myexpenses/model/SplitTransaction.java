@@ -25,7 +25,7 @@ import android.net.Uri;
 
 public class SplitTransaction extends Transaction {
   
-  public SplitTransaction(long accountId,long amount) {
+  public SplitTransaction(long accountId,Long amount) {
     super(accountId,amount);
     catId = DatabaseConstants.SPLIT_CATID;
   }

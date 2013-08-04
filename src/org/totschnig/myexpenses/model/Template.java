@@ -49,12 +49,12 @@ public class Template extends Transaction {
     this.isTransfer = t.transfer_peer != null;
     this.transfer_account = t.transfer_account;
   }
-  public Template(long accountId,long amount) {
+  public Template(long accountId,Long amount) {
     super(accountId,amount);
     title = "";
   }
   public static Template getTypedNewInstance(int mOperationType, long accountId) {
-    Template t = new Template(accountId,0);
+    Template t = new Template(accountId,0L);
     t.transfer_peer = mOperationType == MyExpenses.TYPE_TRANSACTION ? null : -1L;
     return t;
   }

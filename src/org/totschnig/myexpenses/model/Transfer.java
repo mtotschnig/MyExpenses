@@ -28,7 +28,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  */
 public class Transfer extends Transaction {
   
-  public Transfer(long accountId,long amount) {
+  public Transfer(long accountId,Long amount) {
     super(accountId,amount);
   }
   public Transfer(long accountId, Money amount) {

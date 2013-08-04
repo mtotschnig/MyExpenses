@@ -137,11 +137,11 @@ public class Transaction extends Model {
   public static Transaction getTypedNewInstance(int operationType, long accountId, Long parentId) {
     switch (operationType) {
     case MyExpenses.TYPE_TRANSACTION:
-      return parentId != 0L ? new SplitPartCategory(accountId,0L,parentId) :  new Transaction(accountId,0);
+      return parentId != 0L ? new SplitPartCategory(accountId,0L,parentId) :  new Transaction(accountId,0L);
     case MyExpenses.TYPE_TRANSFER:
-      return parentId != 0L ? new SplitPartTransfer(accountId,0L,parentId) : new Transfer(accountId,0);
+      return parentId != 0L ? new SplitPartTransfer(accountId,0L,parentId) : new Transfer(accountId,0L);
     case MyExpenses.TYPE_SPLIT:
-      return new SplitTransaction(accountId,0);
+      return new SplitTransaction(accountId,0L);
     }
     return null;
   }
@@ -157,7 +157,7 @@ public class Transaction extends Model {
    * new empty transaction
    * @param mDbHelper
    */
-  public Transaction(long accountId,long amount) {
+  public Transaction(long accountId,Long amount) {
     this();
     Account account = Account.getInstanceFromDb(accountId);
 
