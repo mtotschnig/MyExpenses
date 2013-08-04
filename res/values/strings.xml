@@ -332,4 +332,5 @@
   <string name="warning_restore">Database and preferences will be restored from the backup. The current data
     will be deleted. &continue;</string>
   <string name="warning_select_account">Please select an account!</string>
+  <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited or deleted in the context of the split.</string>
   </resources>

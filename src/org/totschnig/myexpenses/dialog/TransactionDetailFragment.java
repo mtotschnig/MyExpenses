@@ -214,7 +214,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
     if (which == AlertDialog.BUTTON_POSITIVE) {
       MyExpenses ctx = (MyExpenses) getActivity();
       if (mTransaction.transfer_peer != null && DbUtils.hasParent(mTransaction.transfer_peer)) {
-        Toast.makeText(getActivity(), "Transfers that are part of a split can only be edited or deleted in the context of the split", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
         return;
       }
       Intent i = new Intent(ctx, ExpenseEdit.class);

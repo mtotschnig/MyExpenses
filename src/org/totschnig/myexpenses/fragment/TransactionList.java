@@ -360,7 +360,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     mTransactionsCursor.moveToPosition(position);
     Long transferPeer = DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER);
     if (transferPeer != null && DbUtils.hasParent(transferPeer)) {
-      Toast.makeText(getActivity(), "Transfers that are part of a split can only be edited or deleted in the context of the split", Toast.LENGTH_LONG).show();
+      Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
       return false;
     }
     return true;
