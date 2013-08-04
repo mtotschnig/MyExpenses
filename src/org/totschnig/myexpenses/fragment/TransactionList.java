@@ -253,6 +253,9 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
 
   @Override
   public boolean onContextItemSelected(android.view.MenuItem item) {
+    //http://stackoverflow.com/questions/9753213/wrong-fragment-in-viewpager-receives-oncontextitemselected-call
+    if (!getUserVisibleHint())
+      return false;
     MyExpenses ctx = (MyExpenses) getActivity();
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     Transaction t;
