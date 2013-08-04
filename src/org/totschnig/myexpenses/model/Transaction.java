@@ -128,11 +128,15 @@ public class Transaction extends Model {
         null, null, null);
     return tr;
   }
+
   /**
    * factory method for creating an object of the correct type and linked to a given account
    * @param operationType either {@link MyExpenses#TYPE_TRANSACTION} or
-   * {@link MyExpenses#TYPE_TRANSFER}
-   * @return instance of {@link Transaction} or {@link Transfer} with date initialized to current date
+   * {@link MyExpenses#TYPE_TRANSFER} or {@link MyExpenses#TYPE_SPLIT}
+   * @param accountId the account the transaction belongs two
+   * @param parentId if != 0L this is the id of a split part's parent
+   * @return instance of {@link Transaction} or {@link Transfer} or {@link SplitTransaction} with date initialized to current date
+   * if parentId == 0L, otherwise {@link SplitPartCategory} or {@link SplitPartTransfer}
    */
   public static Transaction getTypedNewInstance(int operationType, long accountId, Long parentId) {
     switch (operationType) {
@@ -144,6 +148,9 @@ public class Transaction extends Model {
       return new SplitTransaction(accountId,0L);
     }
     return null;
+  }
+  public static Transaction getTypedNewInstance(int operationType, long accountId) {
+    return getTypedNewInstance(operationType,accountId,0L);
   }
   
   public static void delete(long id) {
