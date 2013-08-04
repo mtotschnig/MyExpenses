@@ -17,7 +17,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 30;
+  public static final int DATABASE_VERSION = 31;
   public static final String DATABASE_NAME = "data";
 
   private static final String TAG = "TransactionDatabase";
@@ -150,10 +150,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(FEATURE_USED_CREATE);
     //-1 category for splits needed to honour foreign constraint
     ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_ROWID, -1);
-    initialValues.put(KEY_PARENTID, -1);
+    initialValues.put(KEY_ROWID, SPLIT_CATID);
+    initialValues.put(KEY_PARENTID, SPLIT_CATID);
     initialValues.put(KEY_LABEL, "__SPLIT_TRANSACTION__");
-    db.insert(TABLE_CATEGORIES, null, initialValues);
+    long result = db.insertOrThrow(TABLE_CATEGORIES, null, initialValues);
+    Log.i("DEBUG",String.valueOf(result));
   }
 
   /**
@@ -322,10 +323,17 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("CREATE VIEW committed AS SELECT * FROM transactions WHERE status != 2;");
       db.execSQL("CREATE VIEW uncommitted AS SELECT * FROM transactions WHERE status = 2;");
       ContentValues initialValues = new ContentValues();
-      initialValues.put("_id", -1);
-      initialValues.put("parent_id", -1);
+      initialValues.put("_id", 0);
+      initialValues.put("parent_id", 0);
       initialValues.put("label", "__SPLIT_TRANSACTION__");
       db.insert("categories", null, initialValues);
+    }
+    if (oldVersion < 31) {
+      //in an alpha version distributed on Google Play, we had SPLIT_CATID as -1
+      ContentValues initialValues = new ContentValues();
+      initialValues.put("_id", 0);
+      initialValues.put("parent_id", 0);
+      db.update("categories", initialValues, "_id=-1", null);
     }
   }
 }

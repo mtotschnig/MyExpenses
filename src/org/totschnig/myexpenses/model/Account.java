@@ -64,10 +64,14 @@ public class Account extends Model {
   public int color;
 
   public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_COLOR,
-    "(SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and amount>0 and (cat_id is null OR cat_id != -1) and transfer_peer is null) as sum_income",
-    "(SELECT coalesce(abs(sum(amount)),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and amount<0 and (cat_id is null OR cat_id != -1) and transfer_peer is null) as sum_expenses",
-    "(SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and (cat_id is null OR cat_id != -1) and transfer_peer is not null) as sum_transfer",
-    "opening_balance + (SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and (cat_id is null OR cat_id != -1)) as current_balance"};
+    "(SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and amount>0 and (cat_id is null OR cat_id != "
+        + SPLIT_CATID + ") and transfer_peer is null) as sum_income",
+    "(SELECT coalesce(abs(sum(amount)),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and amount<0 and (cat_id is null OR cat_id != "
+        + SPLIT_CATID + ") and transfer_peer is null) as sum_expenses",
+    "(SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
+        + SPLIT_CATID + ") and transfer_peer is not null) as sum_transfer",
+    "opening_balance + (SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
+        + SPLIT_CATID + ")) as current_balance"};
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
   public enum ExportFormat {
@@ -510,8 +514,8 @@ public class Account extends Model {
       Long transfer_peer = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER);
       String comment = DbUtils.getString(c, KEY_COMMENT);
       String full_label="",label_sub = "",label_main ;
-      Long catId = c.getLong(c.getColumnIndex(KEY_CATID));
-      if (catId == SPLIT_CATID) {
+      Long catId =  DbUtils.getLongOrNull(c,KEY_CATID);
+      if (SPLIT_CATID.equals(catId)) {
         full_label = ctx.getString(R.string.split_transaction);
         label_main = full_label;
         label_sub = "";
@@ -581,7 +585,7 @@ public class Account extends Model {
         }
       }
       out.write(sb.toString());
-      if (catId == SPLIT_CATID) {
+      if (SPLIT_CATID.equals(catId)) {
         Cursor splits = cr().query(TransactionProvider.TRANSACTIONS_URI,null,
             KEY_PARENTID + " = "+c.getLong(c.getColumnIndex(KEY_ROWID)), null, null);
         splits.moveToFirst();
