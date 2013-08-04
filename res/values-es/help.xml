@@ -75,6 +75,15 @@
     El botón para seleccionar un método de pago, sólo está disponible si la cuenta corriente es de un tipo vinculado a ninguna forma de pago.
     De forma predeterminada, sólo las cuentas bancarias están vinculados a formas de pago (cheque, tarjeta de crédito, depósito,
     impuesto).</string>
+  <string name="help_ExpenseEdit_split_info">Entre tantas divisiones según sea necesario a través de los comandos de menú para divisiones de catégoria y de transferencia.
+    La mitad inferior de la pantalla muestra la lista de las divisiones y la cantidad que aún no se ha asignado a una categoría o una transferencia.
+    Sólo se puede guardar la transacción dividida si el monto de la transacción se ha asignado exactamente.</string>
+  <string name="help_ExpenseEdit_splitPartCategory_info">Selecciona una categoría para la división.</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_info">Asigne una cuenta de transferencia a la división.</string>
+  <string name="help_ExpenseEdit_transfer_info">Si sólo existe una cuenta con la misma moneda que la actual, que ya es preseleccionado como cuenta de transferencia.</string>
+  <string name="help_ExpenseEdit_template_info">El título le permite identificar una plantilla cuando se selecciona para crear nuevas instancias de transacciones.</string>
+  <string name="menu_create_split_part_category_help_text">Abre el formulario para la asignación de una parte de la división de una categoría.</string>
+  <string name="menu_create_split_part_transfer_help_text">Abre el formulario para definir una parte de la división como una transferencia a otra cuenta.</string>
   <string name="menu_save_help_text">Guarda los datos y cierra el formulario.</string>
   <string name="menu_save_and_new_help_text">Guarde los datos, deje abierto el formulario para crear una nueva transacción con el mismo
      datos.</string>
