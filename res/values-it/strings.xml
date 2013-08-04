@@ -338,4 +338,5 @@
   <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup. I dati
     attuali verranno cancellati. &continue;</string>
   <string name="warning_select_account">Si deve selezionare un conto !</string>
+  <string name="warning_splitpartcategory_context">Trasferimenti che sono parte di una operazione suddivisa possono essere modificati o cancellati solo nel contesto della operazione suddivisa.</string>
  </resources>

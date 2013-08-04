@@ -344,4 +344,5 @@
   <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de
     seguridad. Se borrarán los datos actuales. &continue;</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
+  <string name="warning_splitpartcategory_context">Transferencias que forman parte de uno asiento dividido sólo pueden ser editadas o eliminadas en el contexto de lo asiento dividido.</string>  
 </resources>

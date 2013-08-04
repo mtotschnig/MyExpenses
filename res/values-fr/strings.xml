@@ -340,4 +340,5 @@
   <string name="warning_restore">La base de données et les paramètres seront restaurés à partir de la sauvegarde.
     Les données actuelles seront supprimées. &continue;</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
+  <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés ou supprimés que dans le contexte de cette opération.</string>
 </resources>

@@ -311,4 +311,5 @@ số lượng tiền tệ</string>
   <string name="warning_restore">Cơ sở dữ liệu và tùy biến sẽ được phục hồi từ thẻ nhớ. Dữ liệu hiện tại
     sẽ bị xóa. Bạn có muốn tiếp tục hay không?</string>
   <string name="warning_select_account">Vui lòng chọn một tài khoản!</string>
+  <string name="warning_splitpartcategory_context">Các thao tác truyền đổi là một phần của việc phân tách có thể được chỉnh sửa và xóa trong phần ngữ cảnh của phân tách.</string>
 </resources>
