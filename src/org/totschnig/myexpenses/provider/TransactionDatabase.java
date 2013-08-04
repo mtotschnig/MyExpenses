@@ -148,7 +148,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     insertDefaultPaymentMethods(db);
     db.execSQL(TEMPLATE_CREATE);
     db.execSQL(FEATURE_USED_CREATE);
-    //-1 category for splits needed to honour foreign constraint
+    //category for splits needed to honour foreign constraint
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_ROWID, SPLIT_CATID);
     initialValues.put(KEY_PARENTID, SPLIT_CATID);
