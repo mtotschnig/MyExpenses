@@ -263,6 +263,9 @@ số lượng tiền tệ</string>
   <string name="pref_visit_website_summary">Nhật trình và các câu hỏi thường gặp</string>
   <string name="progress_dialog_cloning">Đang sao chép hóa &#8230;</string>
   <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu &#8230;</string>
+  <string name="request_licence_mail_body">Vui lòng gửi đến tác giả mã khóa Cống Hiến dành cho Android-Id %1$s.
+    \n\n[Hãy gửi cho tác giả một mô tả ngắn gọn (bằng tiếng Anh, Đức hoặc Pháp) về sự cống hiến của bạn dành cho &app_name;
+    (ví dụ.: đóng góp qua Paypal, gửi báo cáo lỗi, xài thử chương trình, tham gia vào việc dịch chương trình)]</string>
   <string name="request_licence_mail_body">Vui lòng gửi khóa cống hiến cho phiên bản Android %1$s</string>
   <string name="restore_db_failure">Xảy ra lỗi khi khôi phục cơ sở dữ liệu</string>
   <string name="restore_db_success">Cơ sở dữ liệu đã được phục hồi từ phần sao lưu</string>

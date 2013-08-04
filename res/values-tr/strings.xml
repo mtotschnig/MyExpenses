@@ -41,6 +41,7 @@
   <string name="contrib_feature_reset_all_label">Tüm hesapları sıfırla</string>
   <string name="contrib_feature_security_question_label">Güvenlik sorusu</string>
   <string name="contrib_feature_clone_transaction_label">Muameleleri klonla</string>
+  <string name="contrib_feature_split_transaction_label">Bölünmüş muamele</string>
   <string name="contrib_key">Katkı anahtarı</string>
   <string name="currency">Döviz</string>
   <string name="currency_not_iso4217">%1$s ISO 4217 olarak belirtilmemiş</string>
@@ -95,6 +96,7 @@
   <string name="export_expenses_sdcard_success">Giderler %1$s dosyasına aktarıldı</string>
   <string name="external_storage_unavailable">Harici depolama (SD kartı) mevcut değil</string>
   <string name="feedback">Geri bildirim</string>
+  <string name="feedback_email_message">Lütfen geri bildirimi İngilizce, Fransızca ya da Almanca olarak gönderin!</string>
   <string name="ftp_uri_malformed">Yanlış yapılandırılmış URI %1$s</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_default_source">Varsayılan Türkçe kategoriler</string>
@@ -131,6 +133,9 @@
   <string name="menu_contrib">Katkıda bulun</string>
   <string name="menu_create_account">Yeni hesap oluştur</string>
   <string name="menu_create_method">Yeni ödeme metotu oluştur</string>
+  <string name="menu_create_split">Yeni bölünmüş muamele</string>
+  <string name="menu_create_split_part_category">Yeni bölünmüş alt muamele (kategori)</string>
+  <string name="menu_create_split_part_transfer">Yeni bölünmüş alt muamele (transfer)</string>
   <string name="menu_create_transaction">Muamele ekle</string>
   <string name="menu_create_transfer">Virman ekle</string>
   <string name="menu_create_main_cat">Yeni ana kategori oluştur</string>
@@ -145,6 +150,9 @@
   <string name="menu_edit_account">Hesabı düzenle</string>
   <string name="menu_edit_method">Ödeme metodunu düzenle</string>
   <string name="menu_edit_cat">Kategori düzenle</string>
+  <string name="menu_edit_split">Yeni bölünmüş muamele</string>
+  <string name="menu_edit_split_part_category">Bölünmüş alt muameleyi düzenle (kategori)</string>
+  <string name="menu_edit_split_part_transfer">Bölünmüş alt muameleyi düzenle (transfer)</string>
   <string name="menu_edit_transaction">Muameleyi düzenle</string>
   <string name="menu_edit_template">Şablonu düzenle</string>
   <string name="menu_edit_transfer">Virmanı düzenle</string>
@@ -164,11 +172,13 @@
   <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
   <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> Google Play\'den indirilsin mi?</string>
   <string name="no_categories">Kategori yok.</string>
+  <string name="no_category_assigned">Hiçbir kategori atanmamış</string>
   <string name="no_details">Ayrıntı yok.</string>
   <string name="no_expenses">Henüz hiçbir harcama yok!</string>
   <string name="no_exportable_expenses">Henüz dışa aktarılmamış hiçbir muamele yok.</string> 
   <string name="no_parties">Bölüm yok.</string>
   <string name="no_templates">Şablon yok.</string>
+  <string name="no_split_parts">Hiçbir alt muamele yok.</string>
   <string name="no_title_given">Hiçbir metin girmediniz.</string>
   <string name="no_valid_payment_methods">%1$s için geçerli ödeme metodu yok (%2$s)</string>
   <string name="not_deletable_mapped_transactions">Silinemez çünkü ilişkili muameleler var.</string>
@@ -256,7 +266,10 @@
   <string name="pref_ui_theme_light">aydınlık</string>
   <string name="pref_visit_website_title">Siteyi ziyaret et</string>
   <string name="pref_visit_website_summary">Değişiklikler ya SSS</string>
-  <string name="request_licence_mail_body">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin</string>
+  <string name="progress_dialog_cloning">Klonlanıyor &#8230;</string>
+  <string name="progress_dialog_loading">Veritabanından nesne yükleniyor &#8230;</string>
+  <string name="request_licence_mail_body">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin.
+    \n\n[Harcamalarıma katkınızı (Paypal ile bağış, hata raporu, deneme, tercüme) İngilizce, Almanca ya da Fransızca olarak açıklayınız]</string>
   <string name="restore_db_failure">Veritabanının yüklenmesi başarısız oldu</string>
   <string name="restore_db_success">Veritabanı yedeklemeden restore edilmiştir.</string>
   <string name="restore_no_backup_found">SD kartının \"myexpenses\" klasöründe BACKUP dosyası bulunamadı.</string>
@@ -270,6 +283,8 @@
   <string name="select_parent_category">Bu kategoriyi seç</string>
   <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
   <string name="share_sending">Dışa aktarım dosyasını gönder</string>
+  <string name="split_parts_heading">Bölünmüş alt muameleler</string>
+  <string name="split_transaction">Bölünmüş muamele</string>
   <string name="subcategory">Alt kategori</string>
   <string name="sum_income">Gelirler</string>
   <string name="sum_expenses">Harcamalar</string>
@@ -283,6 +298,8 @@
   <string name="transfer">Transfer</string>
   <string name="tutorial">Kullanıcı rehberi</string>
   <string name="type">Tip</string>
+  <string name="unsplit_amount">Atanmamış meblağ</string>
+  <string name="unsplit_amount_greater_than_zero">Hala atanmamış bir miktar var.</string>
   <string name="warning_backup">Veritabanı ve tercihler SD kartına yazılacaktır. &continue;</string>
   <string name="warning_backup_exists">Veritabanı ve tercihler SD kartına yazılacaktır. Mevcut yedekleme silinecektir. &continue;</string>
   <string name="warning_delete_account">Bu hesap tüm muameleleriyle silinecektir. &continue;</string>
