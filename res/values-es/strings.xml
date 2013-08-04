@@ -295,7 +295,7 @@
   <string name="progress_dialog_cloning">Clonando &#8230;</string>
   <string name="progress_dialog_loading">Cargando objeto de base de datos &#8230;</string>
   <string name="request_licence_mail_body">Por favor, envíeme una clave contrib para Android-Id %1$s.
-    \n\n[Por favor describa su contribución a &app_name; (por ejemplo: donación a través de Paypal, informe de errores, pruebas, traducción)]</string>
+    \n\n[Por favor describa (en Inglés, francés o alemán) su contribución a &app_name; (por ejemplo: donación a través de Paypal, informe de errores, pruebas, traducción)]</string>
   <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.
       </string>
   <string name="restore_db_failure">La restauración de la base de datos ha fallado.</string>

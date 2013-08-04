@@ -291,7 +291,7 @@
   <string name="progress_dialog_cloning">Ricopiando &#8230;</string>
   <string name="progress_dialog_loading">Caricamento di oggetti dal database &#8230;</string>
   <string name="request_licence_mail_body">Vi prego di inviarmi una chiave contrib per Android-Id %1$s.
-  	\n\n[Si prega di descrivere il vostro contributo a &app_name; (es.: donazione tramite Paypal, bug report, analisi, traduzione)]</string>
+  	\n\n[Si prega di descrivere (in inglese, francese o tedesco) il vostro contributo a &app_name; (es.: donazione tramite Paypal, bug report, analisi, traduzione)]</string>
   <string name="restore_db_failure">Ripristino del database non riuscita.</string>
   <string name="restore_no_backup_found">Nessun file BACKUP trovato nella cartella myexpenses sulla scheda sd.</string>
   <string name="restore_preferences_failure">Ripristino delle preferenze non riuscito.</string>

@@ -286,7 +286,7 @@
   <string name="progress_dialog_cloning">Cloning &#8230;</string>
   <string name="progress_dialog_loading">Loading object from database &#8230;</string>
   <string name="request_licence_mail_body">Please send me a Contrib key for Android-Id %1$s.
-  	\n\n[Please describe your contribution to &app_name; (e.g.: donation via Paypal, bug report, testing, translation)]</string>
+  	\n\n[Please describe (in English, German or French) your contribution to &app_name; (e.g.: donation via Paypal, bug report, testing, translation)]</string>
   <string name="restore_db_failure">Database restore failed.</string>
   <string name="restore_db_success">Database has been restored from backup.</string>
   <string name="restore_no_backup_found">No file BACKUP found in folder \"myexpenses\" on sdcard.</string>
