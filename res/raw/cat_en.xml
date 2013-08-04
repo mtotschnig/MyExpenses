@@ -151,7 +151,7 @@
 	<Sub_category Nbc="23" Nb="5" Na="Tramway" />
 	<Sub_category Nbc="23" Nb="6" Na="Travels" />
 	<Sub_category Nbc="23" Nb="7" Na="Air" />
-	<Category Nb="24" Na="Holydays" Kd="1" />
+	<Category Nb="24" Na="Holidays" Kd="1" />
 	<Sub_category Nbc="24" Nb="1" Na="Housing" />
 	<Sub_category Nbc="24" Nb="2" Na="Visits" />
 	<Sub_category Nbc="24" Nb="3" Na="Travels" />
