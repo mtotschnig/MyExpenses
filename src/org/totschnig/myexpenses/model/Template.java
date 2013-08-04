@@ -78,14 +78,12 @@ public class Template extends Transaction {
     } else {
       t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
       t.catId = DbUtils.getLongOrNull(c, KEY_CATID);
-      t.payee = c.getString(
-          c.getColumnIndexOrThrow(KEY_PAYEE));
+      t.payee = DbUtils.getString(c,KEY_PAYEE);
     }
     t.id = id;
-    t.comment = c.getString(
-        c.getColumnIndexOrThrow(KEY_COMMENT));
-    t.label =  c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
-    t.title = c.getString(c.getColumnIndexOrThrow(KEY_TITLE));
+    t.comment = DbUtils.getString(c,KEY_COMMENT);
+    t.label =  DbUtils.getString(c,KEY_LABEL);
+    t.title = DbUtils.getString(c,KEY_TITLE);
     c.close();
     return t;
   }

@@ -36,14 +36,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  */
 public class Transaction extends Model {
   public Long id = 0L;
-  public String comment;
+  public String comment="",label="",payee = "";
   public Date date;
   public Money amount;
   public Long catId;
   //stores a short label of the category or the account the transaction is linked to
-  public String label;
   public Long accountId;
-  public String payee;
   public Long transfer_peer;
   public Long transfer_account;
   public Long methodId;
@@ -104,7 +102,7 @@ public class Transaction extends Model {
     t.setDate(c.getString(
         c.getColumnIndexOrThrow(KEY_DATE)));
     t.comment = DbUtils.getString(c,KEY_COMMENT);
-    t.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
+    t.label = DbUtils.getString(c,KEY_LABEL);
     c.close();
     return t;
   }
