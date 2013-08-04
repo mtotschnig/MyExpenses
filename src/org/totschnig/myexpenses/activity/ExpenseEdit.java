@@ -588,7 +588,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     } else {
       amount = mTransaction.amount.getAmountMajor();
     }
-    switch(amount.signum()) {
+    int signum = amount.signum();
+    switch(signum) {
     case -1:
       amount = amount.abs();
       break;
@@ -596,7 +597,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       mType = INCOME;
       configureType();
     }
-    mAmountText.setText(nfDLocal.format(amount));
+    if (signum != 0)
+      mAmountText.setText(nfDLocal.format(amount));
   }
   /**
    * extracts the fields from a date object for setting them on the buttons
