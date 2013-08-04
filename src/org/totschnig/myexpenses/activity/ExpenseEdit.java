@@ -71,8 +71,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   private Button mTypeButton;
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel;
-  public long mRowId;
-  private long mTemplateId;
+  public Long mRowId;
+  private Long mTemplateId;
   private Account mAccount;
   private Calendar mCalendar = Calendar.getInstance();
   private final java.text.DateFormat mTitleDateFormat = java.text.DateFormat.
@@ -127,9 +127,13 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     //1. fetch the transaction or create a new instance
     if (mRowId != 0 || mTemplateId != 0) {
       int taskId;
-      if (mRowId != 0)
+      Long objectId;
+      if (mRowId != 0) {
         taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION;
+        objectId = mRowId;
+      }
       else {
+        objectId = mTemplateId;
         //are we editing the template or instantiating a new one
         if (extras.getBoolean("instantiate"))
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE;
@@ -138,7 +142,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       }
       FragmentManager fm = getSupportFragmentManager();
       fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(taskId,(Long) mRowId), "INSTANTIATE_TASK")
+        .add(TaskExecutionFragment.newInstance(taskId,objectId), "INSTANTIATE_TASK")
         .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
         .commit();
     } else {
