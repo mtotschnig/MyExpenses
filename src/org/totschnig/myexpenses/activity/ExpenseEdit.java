@@ -642,7 +642,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
    */
   protected boolean saveState() {
     String title = "";
-    BigDecimal amount = validateAmountInput();
+    BigDecimal amount = validateAmountInput(true);
     if (amount == null) {
       return false;
     }
@@ -778,7 +778,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     if (getmAccount() == null)
       return null;
     Money result = new Money(getmAccount().currency,0L);
-    BigDecimal amount = validateAmountInput();
+    BigDecimal amount = validateAmountInput(false);
     if (amount == null) {
       return result;
     }

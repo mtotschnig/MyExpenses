@@ -317,7 +317,7 @@ public class AccountEdit extends EditActivity {
    * @return true upon success, false if validation fails
    */
   protected boolean saveState() {
-    BigDecimal openingBalance = validateAmountInput();
+    BigDecimal openingBalance = validateAmountInput(true);
     if (openingBalance == null)
        return false;
     String strCurrency = mCurrencyText.getText().toString();

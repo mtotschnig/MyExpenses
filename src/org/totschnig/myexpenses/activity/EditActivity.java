@@ -152,15 +152,17 @@ public abstract class EditActivity extends ProtectedFragmentActivity {
     }
     return super.dispatchCommand(command, tag);
   }
-  protected BigDecimal validateAmountInput() {
+  protected BigDecimal validateAmountInput(boolean showToUser) {
     String strAmount = mAmountText.getText().toString();
     if (strAmount.equals("")) {
-      Toast.makeText(this,getString(R.string.no_amount_given), Toast.LENGTH_LONG).show();
+      if (showToUser)
+        Toast.makeText(this,getString(R.string.no_amount_given), Toast.LENGTH_LONG).show();
       return null;
     }
     BigDecimal amount = Utils.validateNumber(nfDLocal, strAmount);
     if (amount == null) {
-      Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
+      if (showToUser)
+        Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
       return null;
     }
     return amount;
