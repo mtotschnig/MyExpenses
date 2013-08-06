@@ -119,7 +119,7 @@
     - Gestire direttamente sul vostro smartphone.\n
     - Esportarli in un programma di finanza Desktop come Grisbi, GnuCash, Quicken o MS Money</string>
   <string name="help_leading">Grazie di probare <i>&app_name;</i> por Android.</string>
-  <string name="help_whats_new">&#160;- Operazioni suddivise</string>
+  <string name="help_whats_new">&#160;- Operazioni suddivise &contrib;</string>
   <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
   <string name="important_version_information">Informazioni importanti</string>

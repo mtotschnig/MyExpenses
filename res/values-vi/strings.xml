@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [
   <!ENTITY app_name "Chi Tiêu Của Tôi">
   <!ENTITY grisbi_file "grisbi.xml">
-  <!ENTITY contrib ' (<b>Premium</b>)'>
+  <!ENTITY contrib ' (<b>nâng cao</b>)'>
   <!ENTITY continue 'Devam etmek istiyor musunuz?'>
 ]>
  
@@ -105,7 +105,7 @@
     - Quản lý tài chính thông qua điện thoại của bạn.\n
     - Xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.</string>
   <string name="help_leading">Cảm ơn bạn đã cài đặt <i>&app_name;</i> dành cho Android.</string>
-  <string name="help_whats_new">&#160;-  Phân tách giao dịch</string>
+  <string name="help_whats_new">&#160;-  Phân tách giao dịch &contrib;</string>
   <string name="important_version_information">Thông tin quan trọng</string>
   <string name="import_categories">Nhập dữ liệu về phân loại</string>
   <string name="income">Thu nhập</string>
@@ -250,7 +250,7 @@ số lượng tiền tệ</string>
   <string name="pref_restore_summary">Khôi phục phần sao lưu từ thư mục \"myexpenses\" trên thẻ nhớ.</string>
   <string name="pref_share_target_title">Đường dẫn tải lên</string>
   <string name="pref_share_target_summary">Để trống nếu bạn muốn chọn giữa các ứng dụng thích hợp
-    (Email, Dropbox, Google Docs,...), hoặc cung cấp đường dẫn liên kết của một trong các loại phối hợp được hỗ trợ</string>
+    (Email, Dropbox, Google Docs, &#8230;), hoặc cung cấp đường dẫn liên kết của một trong các loại phối hợp được hỗ trợ</string>
   <string name="pref_security_question_title">Câu hỏi an ninh</string>
   <string name="pref_security_question_summary">Cho phép bạn khóa ứng dụng, nếu như bạn quên mật khẩu. Yêu cầu sử dụng My Expenses bản Cống Hiến.</string>
   <string name="pref_send_feedback_title">Gửi phản hồi</string>
