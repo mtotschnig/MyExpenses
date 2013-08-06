@@ -124,6 +124,17 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.8.5.
+    - 2013-08-06
+    -
+      en: Split transactions
+      fr: Opérations ventilées
+      de: Splitbuchungen
+      it: Operazioni suddivise
+      es: Asientos divididos
+      tr: Bölünmüş muameleler
+      vi: Phân tách giao dịch
+  -
     - 1.8.1.
     - 2013-07-11
     -
