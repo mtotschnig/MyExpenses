@@ -145,3 +145,18 @@ div.screenshot {
     background-color: #EAF2D3;
     color: #000000;
 }
+.label-success {
+    background-color: #5CB85C;
+}
+.label {
+    border-radius: 0.25em 0.25em 0.25em 0.25em;
+    color: #FFFFFF;
+    display: inline;
+    font-size: 75%;
+    font-weight: 500;
+    line-height: 1;
+    padding: 0.25em 0.6em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+}
