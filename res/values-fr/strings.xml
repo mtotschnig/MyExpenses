@@ -52,7 +52,7 @@
   <string name="default_account_description">Ce compte a été créé automatiquement lors de
       l\'installation</string>
   <string name="description">Description</string>
-  <string name="dialog_confirm_restore_on_install">Un fichier de sauvegarde a été détecté. Voulez-vous que celui-ci soit restauré?</string>
+  <string name="dialog_confirm_restore_on_install">Un fichier de sauvegarde a été détecté. Voulez-vous le restaurer ?</string>
   <string name="dialog_contrib_usage_count">Il vous reste %1$d utilisation(s) gratuite(s)</string>
   <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite</string>
   <string name="dialog_contrib_reminder">\"%1$s\" est une fonction Premium. %2$s.
@@ -142,8 +142,8 @@
   <string name="menu_create_transfer">Nouveau virement</string>
   <string name="menu_create_main_cat">Nouvelle catégorie principale</string>
   <string name="menu_create_split">Nouvelle opération ventilée</string>
-  <string name="menu_create_split_part_category">Nouvelle sous-opération ventilée (catégorie)</string>
-  <string name="menu_create_split_part_transfer">Nouvelle sous-opération ventilée (transfert)</string>
+  <string name="menu_create_split_part_category">Nouvelle sous-opération (catégorie)</string>
+  <string name="menu_create_split_part_transfer">Nouvelle sous-opération (transfert)</string>
   <string name="menu_create_sub_cat">Nouvelle sous-catégorie</string>
   <string name="menu_create_template">Nouveau modèle</string>
   <string name="menu_create_template_for_transaction">Nouveau modèle (opération)</string>
@@ -155,9 +155,9 @@
   <string name="menu_edit_account">Éditer le compte</string>
   <string name="menu_edit_method">Éditer la méthode de paiement</string>
   <string name="menu_edit_cat">Éditer la catégorie</string>
-  <string name="menu_edit_split">Éditer opération ventilée</string>
-  <string name="menu_edit_split_part_category">Éditer sous-opération ventilée (catégorie)</string>
-  <string name="menu_edit_split_part_transfer">Éditer sous-opération ventilée (transfert)</string>
+  <string name="menu_edit_split">Éditer l\'opération ventilée</string>
+  <string name="menu_edit_split_part_category">Éditer la sous-opération (catégorie)</string>
+  <string name="menu_edit_split_part_transfer">Éditer la sous-opération (transfert)</string>
   <string name="menu_edit_transaction">Éditer une opération</string>
   <string name="menu_edit_template">Éditer le modèle</string>
   <string name="menu_edit_transfer">Éditer un virement</string>
@@ -180,17 +180,14 @@
   <string name="no_category_assigned">Sans catégorie</string>
   <string name="no_details">Aucun détail.</string>
   <string name="no_expenses">Aucune dépense !</string>
-  <string name="no_exportable_expenses">Il n\'y a pas d\'opérations qui n\'ont pas encore été exportées.</string>
+  <string name="no_exportable_expenses">Aucune opération exportable.</string>
   <string name="no_parties">Aucun tiers.</string>
   <string name="no_split_parts">Aucune sous-opération.</string>
-  <string name="no_templates">Pas de modèle.</string>
+  <string name="no_templates">Aucun modèle.</string>
   <string name="no_title_given">Vous n\'avez pas saisi de titre.</string>
-  <string name="not_deletable_mapped_transactions">Suppression ne peut pas être exécutée, parce
-      qu\'il existe des opérations attribuées.</string>
-  <string name="not_deletable_mapped_templates">Suppression ne peut pas être exécutée, parce
-      qu\'il existe des modèles attribués.</string>
-  <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée, parce
-      qu\'elle contient des sous-catégories.</string>
+  <string name="not_deletable_mapped_transactions">Suppression ne peut pas être exécutée : il existe des opérations attribuées.</string>
+  <string name="not_deletable_mapped_templates">Suppression ne peut pas être exécutée : il existe des modèles attribués.</string>
+  <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée : elle contient des sous-catégories.</string>
   <string name="no_valid_payment_methods">Aucune méthode valide de paiement pour %1$s (%2$s)</string>
   <string name="oi_pick_colors_info">Installer OI Pick Color pour plus de choix</string>
   <string name="opening_balance">Solde initial</string>
@@ -289,7 +286,7 @@
   <string name="pref_visit_website_summary">Journal des modifications et FAQ</string>
   <string name="pref_ui_theme_light">clair</string>
   <string name="progress_dialog_cloning">Clonage en cours &#8230;</string>
-  <string name="progress_dialog_loading">L\'objet est en train d\'être chargé &#8230;</string>
+  <string name="progress_dialog_loading">Chargement &#8230;</string>
   <string name="request_licence_mail_body">Envoyez-moi, s\'il-vous-plaît, une clé contrib pour l\'Android-Id %1$s.
   	   \n\n[S\'il vous plaît décrire votre contribution à &app_name; (par exemple: un don via Paypal, rapport de bug, des tests, de la traduction)]</string>
   <string name="restore_db_failure">La restauration de la base de données a échoué.</string>
@@ -307,7 +304,7 @@
   <string name="select_parent_category">Choisir cette catégorie</string>
   <string name="share_scheme_not_supported">La forme %1$s n\'est pas supportée.</string>
   <string name="share_sending">Envoyer le fichier d\'export</string>
-  <string name="split_parts_heading">Sous-opérations ventilées</string>
+  <string name="split_parts_heading">Sous-opérations</string>
   <string name="split_transaction">Opération ventilée</string>
   <string name="subcategory">Sous-catégorie</string>
   <string name="sum_income">Revenus</string>
@@ -322,11 +319,12 @@
   <string name="transfer">Transfert</string>
   <string name="tutorial">Manuel</string>
   <string name="type">Type</string>
-  <string name="unsplit_amount">Montant not attribué</string>
-  <string name="unsplit_amount_greater_than_zero">Il y a encore une partie du montant non attribuée.</string>
-  <string name="warning_backup">La base des données et les paramètres vont être sauvegardés sur la
+  <string name="unsplit_amount">Montant non attribué</string>
+  <string name="unsplit_amount_greater_than_zero">Une partie du montant n\'est pas
+attribuée.</string>
+  <string name="warning_backup">La base des données et les paramètres seront sauvegardés sur la
       carte SD. &continue;</string>
-  <string name="warning_backup_exists">La base des données et les paramètres vont être sauvegardés
+  <string name="warning_backup_exists">La base des données et les paramètres seront sauvegardés
       sur la carte SD. La sauvegarde existante sera effacée. &continue;</string>
   <string name="warning_delete_account">Ce compte sera effacé ainsi que toutes ses opérations.
       &continue;</string>
@@ -340,5 +338,5 @@
   <string name="warning_restore">La base de données et les paramètres seront restaurés à partir de la sauvegarde.
     Les données actuelles seront supprimées. &continue;</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
-  <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés ou supprimés que dans le contexte de cette opération.</string>
+  <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés ou supprimés que dans  celle-ci.</string>
 </resources>
