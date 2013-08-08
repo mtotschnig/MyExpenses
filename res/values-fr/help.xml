@@ -27,7 +27,7 @@
     comptes qui ont la même devise. La commande est visible si plus d\'un compte utilise la même devise.
     (Fonction Premium).</string>
   <string name="menu_reset_all_help_text">Cette commande permet d\'exporter et de réinitialiser tous les comptes d\'un seul coup.
-    S\'affiche uniquement quand il existe des opérations à exporter (Fonction Premium).</string>
+    S\'affiche uniquement s\'il existe des opérations à exporter (Fonction Premium).</string>
 
   <!-- ManageMethods -->
   <string name="help_ManageMethods_info">Cet écran affiche la liste des méthodes prédéfinies de paiement
@@ -64,7 +64,7 @@
   <string name="help_ExpenseEdit_transaction_title">Formulaire pour opérations</string>
   <string name="help_ExpenseEdit_transfer_title">Formulaire pour transferts</string>
   <string name="help_ExpenseEdit_template_title">Formulaire pour modèles</string>
-  <string name="help_ExpenseEdit_split_title">Formulaire pour operátions ventilées</string>
+  <string name="help_ExpenseEdit_split_title">Formulaire pour operations ventilées</string>
   <string name="help_ExpenseEdit_splitPartCategory_title">Formulaire pour sous-opérations ventilées (catégorie)</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">Formulaire pour sous-opérations ventilées (transfert)</string>
   <string name="help_ExpenseEdit_info">Cliquez sur le bouton - pour basculer entre dépense ou entrée, sur le bouton "="
@@ -79,9 +79,9 @@
   <string name="help_ExpenseEdit_splitPartTransfer_info">Affecter un compte de transfert à la sous-opération.</string>
   <string name="help_ExpenseEdit_transfer_info">S\'il ya un seul compte avec la même devise que celle en cours, celui-ci est déjà
      présélectionné en tant que compte de transfert.</string>
-  <string name="help_ExpenseEdit_template_info"> Le titre vous permet d\'identifier un modèle lorsque vous le sélectionnez pour l\'instanciation de nouvelles opérations.</string>
-  <string name="menu_create_split_part_category_help_text">Ouvre la forme pour attribuer une sous-opération à une catégorie.</string>
-  <string name="menu_create_split_part_transfer_help_text">Ouvre la forme pour définir une sous-opération en tant que transfert vers un autre compte.</string>
+  <string name="help_ExpenseEdit_template_info"> Le titre vous permet d\'identifier un modèle lorsque vous le sélectionnez pour le création de nouvelles opérations.</string>
+  <string name="menu_create_split_part_category_help_text">Ouvre la fenêtre pour attribuer une sous-opération à une catégorie.</string>
+  <string name="menu_create_split_part_transfer_help_text">Ouvre la fenêtre pour définir une sous-opération en tant que transfert vers un autre compte.</string>
   <string name="menu_save_help_text">Sauvegarder les données et fermer le formulaire.</string>
   <string name="menu_save_and_new_help_text">Sauvegarder les données et garder le formulaire ouvert pour la saisie d\'une nouvelle 
     opération avec les même données.</string>
