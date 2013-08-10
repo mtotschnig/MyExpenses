@@ -85,7 +85,6 @@
       regional. Si us plau, feu servir %1$s</string>
   <string name="label">Etiqueta</string>
   <string name="menu_backup">Còpia de seguretat</string>
-  <string name="menu_change_account">Canvia de compte</string>
   <string name="menu_create_account">Nou compte</string>
   <string name="menu_create_method">Nou mètode de pagament</string>
   <string name="menu_create_transaction">Nou assentament</string>
