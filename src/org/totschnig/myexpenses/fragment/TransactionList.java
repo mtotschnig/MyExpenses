@@ -2,7 +2,10 @@ package org.totschnig.myexpenses.fragment;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -26,6 +29,8 @@ import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.ContentObserver;
@@ -45,14 +50,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 //TODO: consider moving to ListFragment
-public class TransactionList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class TransactionList extends SherlockFragment implements
+    LoaderManager.LoaderCallbacks<Cursor>, OnSharedPreferenceChangeListener {
   private static final int TRANSACTION_CURSOR = 0;
   private static final int SUM_CURSOR = 1;
   long accountId;
@@ -66,7 +71,13 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   private boolean hasItems;
   private long transactionSum = 0;
   private Cursor mTransactionsCursor;
-  private String mGrouping;
+  private TransactionsGrouping mGrouping;
+  public enum TransactionsGrouping {
+    NONE,DAY,WEEK,MONTH,YEAR
+  }
+  DateFormat headerDateFormat;
+  String headerPrefix;
+  private StickyListHeadersListView mListView;
 
   public static TransactionList newInstance(long accountId) {
     
@@ -80,8 +91,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setHasOptionsMenu(true);
-      mGrouping = (MyApplication.getInstance().getSettings()
-          .getString(MyApplication.PREFKEY_TRANSACTIONS_GROUPING, "week"));
+      MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
 
       accountId = getArguments().getLong("account_id");
       mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
@@ -94,6 +104,44 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
       cr.registerContentObserver(
           TransactionProvider.ACCOUNTS_URI,
           true,aObserver);
+  }
+  private void setAdapter() {
+    Context ctx = getSherlockActivity();
+    // Create an array to specify the fields we want to display in the list
+    String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};
+
+    // and an array of the fields we want to bind those fields to 
+    int[] to = new int[]{R.id.category,R.id.date,R.id.amount};
+    mAdapter = mGrouping.equals(TransactionsGrouping.NONE) ?
+        new MyGroupedAdapter(ctx, R.layout.expense_row, null, from, to,0) :
+        new MyGroupedAdapter(ctx, R.layout.expense_row, null, from, to,0);
+    mListView.setAdapter(mAdapter);
+  }
+  private void setGrouping() {
+    try {
+      mGrouping = TransactionsGrouping.valueOf(
+          MyApplication.getInstance().getSettings()
+          .getString(MyApplication.PREFKEY_TRANSACTIONS_GROUPING, "WEEK"));
+    } catch (IllegalArgumentException e) {
+      mGrouping = TransactionsGrouping.WEEK;
+    }
+    switch (mGrouping) {
+    case DAY:
+      headerPrefix = "";
+      headerDateFormat = java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL);
+      break;
+    case MONTH:
+      headerPrefix = "";
+      headerDateFormat = new SimpleDateFormat("MMMM y");
+      break;
+    case WEEK:
+      headerPrefix = "Week ";
+      headerDateFormat = new SimpleDateFormat("ww, y");
+      break;
+    case YEAR:
+      headerPrefix = "";
+      headerDateFormat = new SimpleDateFormat("y");
+    }
   }
   @Override
   public void onDestroy() {
@@ -134,6 +182,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getSherlockActivity();
+    setGrouping();
     Resources.Theme theme = ctx.getTheme();
     TypedValue color = new TypedValue();
     theme.resolveAttribute(R.attr.colorExpense, color, true);
@@ -150,21 +199,14 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     balanceTv = (TextView) v.findViewById(R.id.end);
     bottomLine = v.findViewById(R.id.BottomLine);
     updateColor();
-    StickyListHeadersListView lv = (StickyListHeadersListView) v.findViewById(R.id.list);
-    // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};
-
-    // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.category,R.id.date,R.id.amount};
-
+    mListView = (StickyListHeadersListView) v.findViewById(R.id.list);
+    setAdapter();
     getLoaderManager().initLoader(TRANSACTION_CURSOR, null, this);
     getLoaderManager().initLoader(SUM_CURSOR, null, this);
     // Now create a simple cursor adapter and set it to display
 
-    mAdapter = new MyGroupedAdapter(ctx, R.layout.expense_row, null, from, to,0);
-    lv.setAdapter(mAdapter);
-    lv.setEmptyView(v.findViewById(R.id.empty));
-    lv.setOnItemClickListener(new OnItemClickListener()
+    mListView.setEmptyView(v.findViewById(R.id.empty));
+    mListView.setOnItemClickListener(new OnItemClickListener()
     {
          @Override
          public void onItemClick(AdapterView<?> a, View v,int position, long id)
@@ -173,7 +215,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
            .show(ctx.getSupportFragmentManager(), "TRANSACTION_DETAIL");
          }
     });
-    registerForContextMenu(lv);
+    registerForContextMenu(mListView);
     return v;
   }
 
@@ -302,47 +344,54 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   }
   public class MyGroupedAdapter extends MyAdapter implements StickyListHeadersAdapter {
     LayoutInflater inflater;
-    SimpleDateFormat headerDateFormat;
     public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
         int[] to, int flags) {
       super(context, layout, c, from, to, flags);
       inflater = LayoutInflater.from(getSherlockActivity());
-      headerDateFormat = new SimpleDateFormat("ww");
+      
     }
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
+      if (mGrouping.equals(TransactionsGrouping.NONE))
+        return null;
       HeaderViewHolder holder = new HeaderViewHolder();
       if (convertView == null) {
-        if (mGrouping.equals("none"))
-          convertView = new View(getSherlockActivity());
-        else {
-          convertView = inflater.inflate(R.layout.header, parent, false);
-          holder.text = (TextView) convertView.findViewById(R.id.text);
-          convertView.setTag(holder);
-        }
-      } else {
-        if (!mGrouping.equals("none"))
-          holder = (HeaderViewHolder) convertView.getTag();
-      }
+        convertView = inflater.inflate(R.layout.header, parent, false);
+        holder.text = (TextView) convertView.findViewById(R.id.text);
+        convertView.setTag(holder);
+      } else
+        holder = (HeaderViewHolder) convertView.getTag();
 
-      if (!mGrouping.equals("none")) {
-        Cursor c = getCursor();
-        c.moveToPosition(position);
-        int col = c.getColumnIndex(KEY_DATE);
-        String headerText = "Week " + Utils.convDate(c.getString(col),headerDateFormat);
-        holder.text.setText(headerText);
-      }
+      Cursor c = getCursor();
+      c.moveToPosition(position);
+      int col = c.getColumnIndex(KEY_DATE);
+      String headerText = headerPrefix + Utils.convDate(c.getString(col),headerDateFormat);
+      holder.text.setText(headerText);
       return convertView;
     }
     @Override
     public long getHeaderId(int position) {
-      if (mGrouping.equals("none"))
+      if (mGrouping.equals(TransactionsGrouping.NONE))
         return 0;
-      else {
-        Cursor c = getCursor();
-        c.moveToPosition(position);
-        int col = c.getColumnIndex(KEY_DATE);
-        return Long.valueOf(Utils.convDate(c.getString(col),headerDateFormat));
+      Cursor c = getCursor();
+      c.moveToPosition(position);
+      Calendar calendar = Calendar.getInstance(Locale.US);
+      calendar.setTime(Utils.fromSQL(c.getString(c.getColumnIndex(KEY_DATE))));
+      int year = calendar.get(Calendar.YEAR);
+      int month = calendar.get(Calendar.MONTH);
+      int week = calendar.get(Calendar.WEEK_OF_YEAR);
+      int day = calendar.get(Calendar.DAY_OF_YEAR);
+      switch(mGrouping) {
+      case DAY:
+        return (year-1900)*200+day;
+      case WEEK:
+        return (year-1900)*200+week;
+      case MONTH:
+        return (year-1900)*200+month;
+      case YEAR:
+        return (year-1900);
+      default:
+        return 0;
       }
     }
   }
@@ -432,5 +481,17 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   class HeaderViewHolder {
     TextView text;
 }
-
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+      String key) {
+    if (key.equals(MyApplication.PREFKEY_TRANSACTIONS_GROUPING)) {
+      TransactionsGrouping oldValue = mGrouping; 
+      setGrouping();
+      if (oldValue.equals(TransactionsGrouping.NONE) || mGrouping.equals(TransactionsGrouping.NONE))
+        //setAdapter();
+        ;
+      //else
+        mAdapter.notifyDataSetChanged();
+    }
+  }
 }

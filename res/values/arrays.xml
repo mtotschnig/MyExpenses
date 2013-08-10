@@ -42,11 +42,11 @@
         <item>@string/pref_ui_theme_light</item>
     </string-array>
     <string-array name="pref_transactions_grouping_values">
-        <item>none</item>
-        <item>day</item>
-        <item>week</item>
-        <item>month</item>
-        <item>year</item>
+        <item>NONE</item>
+        <item>DAY</item>
+        <item>WEEK</item>
+        <item>MONTH</item>
+        <item>YEAR</item>
     </string-array>
     <string-array name="pref_transactions_grouping_entries">
         <item>@string/pref_transactions_grouping_none</item>

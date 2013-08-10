@@ -26,6 +26,7 @@ import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -161,7 +162,7 @@ public class Utils {
    * @param text
    * @return formated string
    */
-  public static String convDate(String text, SimpleDateFormat format) {
+  public static String convDate(String text, DateFormat format) {
     Date date = fromSQL(text);
     if (date == null)
       return text;
