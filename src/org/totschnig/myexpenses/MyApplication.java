@@ -64,6 +64,7 @@ public class MyApplication extends Application {
     public static String PREFKEY_EXPORT_FORMAT;
     public static String PREFKEY_SEND_FEEDBACK;
     public static String PREFKEY_MORE_INFO_DIALOG;
+    public static String PREFKEY_TRANSACTIONS_GROUPING;
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
@@ -113,6 +114,7 @@ public class MyApplication extends Application {
         PREFKEY_EXPORT_FORMAT = getString(R.string.pref_export_format_key);
         PREFKEY_SEND_FEEDBACK = getString(R.string.pref_send_feedback_key);
         PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
+        PREFKEY_TRANSACTIONS_GROUPING = getString(R.string.pref_transactions_grouping_key);
         setPasswordCheckDelayNanoSeconds();
         try {
           InputStream rawResource = getResources().openRawResource(R.raw.app);

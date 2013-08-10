@@ -21,8 +21,11 @@ import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
+import com.emilsjolander.components.stickylistheaders.StickyListHeadersAdapter;
+import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.ContentObserver;
@@ -63,6 +66,7 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   private boolean hasItems;
   private long transactionSum = 0;
   private Cursor mTransactionsCursor;
+  private String mGrouping;
 
   public static TransactionList newInstance(long accountId) {
     
@@ -76,6 +80,9 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setHasOptionsMenu(true);
+      mGrouping = (MyApplication.getInstance().getSettings()
+          .getString(MyApplication.PREFKEY_TRANSACTIONS_GROUPING, "week"));
+
       accountId = getArguments().getLong("account_id");
       mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
       aObserver = new AccountObserver(new Handler());
@@ -143,91 +150,18 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     balanceTv = (TextView) v.findViewById(R.id.end);
     bottomLine = v.findViewById(R.id.BottomLine);
     updateColor();
-    ListView lv = (ListView) v.findViewById(R.id.list);
+    StickyListHeadersListView lv = (StickyListHeadersListView) v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};
 
     // and an array of the fields we want to bind those fields to 
     int[] to = new int[]{R.id.category,R.id.date,R.id.amount};
 
-    final SimpleDateFormat dateFormat;
-    final String categorySeparator, commentSeparator;
-    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-      dateFormat =  new SimpleDateFormat("dd.MM HH:mm");
-      categorySeparator = " : ";
-      commentSeparator = " / ";
-    } else {
-      dateFormat = new SimpleDateFormat("dd.MM\nHH:mm");
-      categorySeparator = " :\n";
-      commentSeparator = "<br>";
-    }
     getLoaderManager().initLoader(TRANSACTION_CURSOR, null, this);
     getLoaderManager().initLoader(SUM_CURSOR, null, this);
     // Now create a simple cursor adapter and set it to display
-    mAdapter = new SimpleCursorAdapter(ctx, R.layout.expense_row, null, from, to,0)  {
-      /* (non-Javadoc)
-       * calls {@link #convText for formatting the values retrieved from the cursor}
-       * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
-       */
-      @Override
-      public void setViewText(TextView v, String text) {
-        switch (v.getId()) {
-        case R.id.date:
-          text = Utils.convDate(text,dateFormat);
-          break;
-        case R.id.amount:
-          text = Utils.convAmount(text,mAccount.currency);
-        }
-        super.setViewText(v, text);
-      }
-      /* (non-Javadoc)
-       * manipulates the view for amount (setting expenses to red) and
-       * category (indicate transfer direction with => or <=
-       * @see android.widget.CursorAdapter#getView(int, android.view.View, android.view.ViewGroup)
-       */
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
-        View row=super.getView(position, convertView, parent);
-        TextView tv1 = (TextView)row.findViewById(R.id.amount);
-        Cursor c = getCursor();
-        c.moveToPosition(position);
-        int col = c.getColumnIndex(KEY_AMOUNT);
-        long amount = c.getLong(col);
-        if (amount < 0) {
-          tv1.setTextColor(colorExpense);
-          // Set the background color of the text.
-        }
-        else {
-          tv1.setTextColor(colorIncome);
-        }
-        TextView tv2 = (TextView)row.findViewById(R.id.category);
-        String catText = (String) tv2.getText();
-        if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
-          catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
-        } else {
-          Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
-          if (SPLIT_CATID.equals(catId))
-            catText = getString(R.string.split_transaction);
-          else if (catId == null) {
-            catText = getString(R.string.no_category_assigned);
-          }
-          else {
-            col = c.getColumnIndex(KEY_LABEL_SUB);
-            String label_sub = c.getString(col);
-            if (label_sub != null && label_sub.length() > 0) {
-              catText += categorySeparator + label_sub;
-            }
-          }
-        }
-        col = c.getColumnIndex(KEY_COMMENT);
-        String comment = c.getString(col);
-        if (comment != null && comment.length() > 0) {
-          catText += (catText.equals("") ? "" : commentSeparator) + "<i>" + comment + "</i>";
-        }
-        tv2.setText(Html.fromHtml(catText));
-        return row;
-      }
-    };
+
+    mAdapter = new MyGroupedAdapter(ctx, R.layout.expense_row, null, from, to,0);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     lv.setOnItemClickListener(new OnItemClickListener()
@@ -250,7 +184,6 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
       return false;
     MyExpenses ctx = (MyExpenses) getActivity();
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    Transaction t;
     Bundle args;
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
@@ -355,7 +288,8 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
               mAccount.openingBalance.getAmountMinor() + transactionSum)));
   }
   private void updateColor() {
-    bottomLine.setBackgroundColor(mAccount.color);
+    if (bottomLine != null)
+      bottomLine.setBackgroundColor(mAccount.color);
   }
   private boolean checkSplitPartTransfer(int position) {
     mTransactionsCursor.moveToPosition(position);
@@ -366,4 +300,137 @@ public class TransactionList extends SherlockFragment implements LoaderManager.L
     }
     return true;
   }
+  public class MyGroupedAdapter extends MyAdapter implements StickyListHeadersAdapter {
+    LayoutInflater inflater;
+    SimpleDateFormat headerDateFormat;
+    public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
+        int[] to, int flags) {
+      super(context, layout, c, from, to, flags);
+      inflater = LayoutInflater.from(getSherlockActivity());
+      headerDateFormat = new SimpleDateFormat("ww");
+    }
+    @Override
+    public View getHeaderView(int position, View convertView, ViewGroup parent) {
+      HeaderViewHolder holder = new HeaderViewHolder();
+      if (convertView == null) {
+        if (mGrouping.equals("none"))
+          convertView = new View(getSherlockActivity());
+        else {
+          convertView = inflater.inflate(R.layout.header, parent, false);
+          holder.text = (TextView) convertView.findViewById(R.id.text);
+          convertView.setTag(holder);
+        }
+      } else {
+        if (!mGrouping.equals("none"))
+          holder = (HeaderViewHolder) convertView.getTag();
+      }
+
+      if (!mGrouping.equals("none")) {
+        Cursor c = getCursor();
+        c.moveToPosition(position);
+        int col = c.getColumnIndex(KEY_DATE);
+        String headerText = "Week " + Utils.convDate(c.getString(col),headerDateFormat);
+        holder.text.setText(headerText);
+      }
+      return convertView;
+    }
+    @Override
+    public long getHeaderId(int position) {
+      if (mGrouping.equals("none"))
+        return 0;
+      else {
+        Cursor c = getCursor();
+        c.moveToPosition(position);
+        int col = c.getColumnIndex(KEY_DATE);
+        return Long.valueOf(Utils.convDate(c.getString(col),headerDateFormat));
+      }
+    }
+  }
+  public class MyAdapter extends SimpleCursorAdapter {
+
+    SimpleDateFormat dateFormat;
+    String categorySeparator, commentSeparator;
+
+    public MyAdapter(Context context, int layout, Cursor c, String[] from,
+        int[] to, int flags) {
+      super(context, layout, c, from, to, flags);
+      if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        dateFormat =  new SimpleDateFormat("dd.MM HH:mm");
+        categorySeparator = " : ";
+        commentSeparator = " / ";
+      } else {
+        dateFormat = new SimpleDateFormat("dd.MM\nHH:mm");
+        categorySeparator = " :\n";
+        commentSeparator = "<br>";
+      }
+
+      // TODO Auto-generated constructor stub
+    }
+    /* (non-Javadoc)
+     * calls {@link #convText for formatting the values retrieved from the cursor}
+     * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
+     */
+    @Override
+    public void setViewText(TextView v, String text) {
+      switch (v.getId()) {
+      case R.id.date:
+        text = Utils.convDate(text,dateFormat);
+        break;
+      case R.id.amount:
+        text = Utils.convAmount(text,mAccount.currency);
+      }
+      super.setViewText(v, text);
+    }
+    /* (non-Javadoc)
+     * manipulates the view for amount (setting expenses to red) and
+     * category (indicate transfer direction with => or <=
+     * @see android.widget.CursorAdapter#getView(int, android.view.View, android.view.ViewGroup)
+     */
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+      View row=super.getView(position, convertView, parent);
+      TextView tv1 = (TextView)row.findViewById(R.id.amount);
+      Cursor c = getCursor();
+      c.moveToPosition(position);
+      int col = c.getColumnIndex(KEY_AMOUNT);
+      long amount = c.getLong(col);
+      if (amount < 0) {
+        tv1.setTextColor(colorExpense);
+        // Set the background color of the text.
+      }
+      else {
+        tv1.setTextColor(colorIncome);
+      }
+      TextView tv2 = (TextView)row.findViewById(R.id.category);
+      String catText = (String) tv2.getText();
+      if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
+        catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
+      } else {
+        Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
+        if (SPLIT_CATID.equals(catId))
+          catText = getString(R.string.split_transaction);
+        else if (catId == null) {
+          catText = getString(R.string.no_category_assigned);
+        }
+        else {
+          col = c.getColumnIndex(KEY_LABEL_SUB);
+          String label_sub = c.getString(col);
+          if (label_sub != null && label_sub.length() > 0) {
+            catText += categorySeparator + label_sub;
+          }
+        }
+      }
+      col = c.getColumnIndex(KEY_COMMENT);
+      String comment = c.getString(col);
+      if (comment != null && comment.length() > 0) {
+        catText += (catText.equals("") ? "" : commentSeparator) + "<i>" + comment + "</i>";
+      }
+      tv2.setText(Html.fromHtml(catText));
+      return row;
+    }
+  }
+  class HeaderViewHolder {
+    TextView text;
+}
+
 }

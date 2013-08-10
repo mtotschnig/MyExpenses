@@ -277,6 +277,12 @@
   <string name="pref_security_question_title">Security question</string>
   <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password. Requires &app_name; Contrib.</string>
   <string name="pref_send_feedback_title">Send feedback</string>
+  <string name="pref_transactions_grouping_title">Group transactions</string>
+  <string name="pref_transactions_grouping_none">Ungrouped</string>
+  <string name="pref_transactions_grouping_day">Day</string>
+  <string name="pref_transactions_grouping_week">Week</string>
+  <string name="pref_transactions_grouping_month">Month</string>
+  <string name="pref_transactions_grouping_year">Year</string>
   <string name="pref_ui_theme_title">Theme</string>
   <string name="pref_ui_theme_dark">dark</string>
   <string name="pref_ui_theme_light">light</string>

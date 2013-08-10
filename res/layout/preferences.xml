@@ -55,6 +55,11 @@
         android:title="@string/pref_currency_decimal_separator_title"
         android:entries="@array/pref_currency_decimal_separator_entries"
         android:entryValues="@array/pref_currency_decimal_separator_values"/>
+    <org.totschnig.myexpenses.preference.ListPreferenceShowSummary android:key="@string/pref_transactions_grouping_key"
+        android:defaultValue="week"
+        android:title="@string/pref_transactions_grouping_title"
+        android:entries="@array/pref_transactions_grouping_entries"
+        android:entryValues="@array/pref_transactions_grouping_values"/>
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/pref_category_title_import">
