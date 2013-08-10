@@ -136,7 +136,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
    */
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    //if we are launched from the contrib app, we refreshed the cached contrib status
+    //if we are launched from the contrib app, we refresh the cached contrib status
     Bundle extras = getIntent().getExtras();
     if (extras != null && extras.getBoolean("refresh_contrib",false))
       MyApplication.getInstance().refreshContribEnabled();
