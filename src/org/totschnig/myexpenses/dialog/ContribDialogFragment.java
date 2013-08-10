@@ -51,6 +51,7 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
               "contrib_feature_" + feature + "_label", "string", getActivity().getPackageName())),
           usagesLeft > 0 ? getString(R.string.dialog_contrib_usage_count,usagesLeft) :
                 getString(R.string.dialog_contrib_no_usages_left)))),
+        " ",
         getString(R.string.thank_you));
       return new AlertDialog.Builder(wrappedCtx)
         .setTitle(R.string.dialog_title_contrib_feature)
