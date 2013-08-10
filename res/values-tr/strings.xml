@@ -308,4 +308,5 @@
     aktarılacak ve silinecektir. &continue;</string>
   <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler\n\tsilinecektir. &continue;</string>
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
-</resources>
+  <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilir ya da silinebilirler.</string>
+  </resources>
