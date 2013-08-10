@@ -5,11 +5,11 @@
   <!-- My Expenses Transaction list -->
   <string name="help_MyExpenses_title">Elenco delle transazioni</string>
   <string name="help_MyExpenses_info">Questa schermata elenca tutte le transazioni per il conto corrente. Dalla
-     barra di navigazione, è possibile accedere alla lista dei conti o scegliere un account diverso.
+     barra di navigazione, è possibile accedere alla lista dei conti o scegliere un conto diverso.
      Fare clic su una voce dell\'elenco per modificare la voce.</string>
   <string name="menu_create_transaction_help_text">Apre il modulo per la creazione di una nuova transazione.</string>
   <string name="menu_create_transfer_help_text">Trasferire denaro tra conti. Questo comando è abilitato solo se si
-     dispone di almeno un altro account con la stessa moneta, come quello attuale.</string>
+     dispone di almeno un altro conto con la stessa moneta, come quello attuale.</string>
   <string name="menu_new_from_template_help_text">Se hai creato modelli per il conto corrente, questo comando
     visualizza una finestra di dialogo per la selezione di un modello da cui verrà creata una nuova transazione.</string>
   <string name="menu_reset_help_text">Questo comando consente di esportare tutte le transazioni del conto corrente in un file su
@@ -23,7 +23,7 @@
   <string name="help_ManageAccounts_title">Elenco dei conti</string>
   <string name="help_ManageAccounts_info">Questa schermata elenca tutti i conti. Facendo clic su una voce della lista, si apre l\'
      elenco delle transazioni per il conto.</string>
-  <string name="menu_create_account_help_text">Apre il modulo per la creazione di un nuovo account.</string>
+  <string name="menu_create_account_help_text">Apre il modulo per la creazione di un nuovo conto.</string>
   <string name="menu_aggregates_help_text">La finestra \"Sommare piu conti\" calcola la somma delle spese e redditi di
      tutti gli conti che condividono la stessa moneta. Il comando è disponibile solo se per qualsiasi valuta esistono a
      almeno due conti (funzionalità speciale).</string>
