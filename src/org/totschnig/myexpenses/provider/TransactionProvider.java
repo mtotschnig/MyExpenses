@@ -17,7 +17,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class TransactionProvider extends ContentProvider {
 
   protected static TransactionDatabase mOpenHelper;
-  private static final boolean debug = false;
+  private static final boolean debug = true;
   public static final String AUTHORITY = "org.totschnig.myexpenses";
   public static final Uri ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts");
@@ -68,6 +68,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int SQLITE_SEQUENCE_TABLE = 19;
   private static final int AGGREGATES_COUNT = 20;
   private static final int UNCOMMITTED = 21;
+  private static final int TRANSACTIONS_GROUPS = 22;
   
   @Override
   public boolean onCreate() {
@@ -103,6 +104,23 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(TABLE_TRANSACTIONS);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
+    case TRANSACTIONS_GROUPS:
+      qb.setTables(VIEW_COMMITTED);
+      String group = uri.getPathSegments().get(2);
+      if (group.equals("YEAR")) {
+        projection = new String[] {YEAR,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        groupBy = "year";
+      } else if (group.equals("MONTH")) {
+        projection = new String[] {YEAR,MONTH,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        groupBy = "year,month";
+      } else if (group.equals("WEEK")) {
+        projection = new String[] {YEAR,WEEK,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        groupBy = "year,week";
+      } else if (group.equals("DAY")) {
+        projection = new String[] {YEAR,DAY,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        groupBy = "year,day";
+      }
+      break;
     case CATEGORIES:
       qb.setTables(TABLE_CATEGORIES);
       qb.appendWhere(KEY_ROWID+ " != " + SPLIT_CATID);
@@ -132,12 +150,10 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables("(select currency,opening_balance,"+
           "(SELECT coalesce(abs(sum(amount)),0) FROM "
               + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id and amount<0 and (cat_id is null OR cat_id != "
-                  + SPLIT_CATID + ") and transfer_peer is null) as sum_expenses," +
+              + " WHERE account_id = accounts._id AND " + WHERE_EXPENSE + ") as sum_expenses," +
           "(SELECT coalesce(abs(sum(amount)),0) FROM "
               + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id and amount>0 and (cat_id is null OR cat_id != "
-                  + SPLIT_CATID + ") and transfer_peer is null) as sum_income," +
+              + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") as sum_income," +
           "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
               + VIEW_COMMITTED
               + " WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
@@ -400,11 +416,12 @@ public class TransactionProvider extends ContentProvider {
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
-    getContext().getContentResolver().notifyChange(uri, null);
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTIONS_ID) {
+      getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
       getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
-    }
+    } else
+      getContext().getContentResolver().notifyChange(uri, null);
     return count;
   }
 
@@ -503,17 +520,19 @@ public class TransactionProvider extends ContentProvider {
     default:
       throw new IllegalArgumentException("Unknown URI " + uri);
     }
-    getContext().getContentResolver().notifyChange(uri, null);
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTIONS_ID) {
+      getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
       getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
-    }
+    } else
+      getContext().getContentResolver().notifyChange(uri, null);
     return count;
   }
   static {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/uncommitted", UNCOMMITTED);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/groups/*", TRANSACTIONS_GROUPS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTIONS_ID);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORIES_ID);

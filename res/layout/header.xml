@@ -1,20 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
-
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="7dp"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
     <TextView
+    	  android:text="GROUP_TITLE"
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start|left"
-        android:padding="5dp"
+        android:layout_alignParentLeft="true"
         android:textColor="#ff33b5e5"
         android:textSize="15sp"
         android:textStyle="bold" />
+    <TextView
+        android:id="@+id/sum_income"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SUM_INCOME"/>
+    <TextView
+        android:id="@+id/sum_expense"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/sum_income"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SUM_EXPENSE"/>
+    <TextView
+        android:id="@+id/sum_transfer"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/sum_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SUM_TRANSFER"/>
     <View
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_gravity="bottom"
         android:background="@android:color/white" />
-</FrameLayout>
+</RelativeLayout>

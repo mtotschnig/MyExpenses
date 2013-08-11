@@ -64,12 +64,9 @@ public class Account extends Model {
   public int color;
 
   public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_COLOR,
-    "(SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and amount>0 and (cat_id is null OR cat_id != "
-        + SPLIT_CATID + ") and transfer_peer is null) as sum_income",
-    "(SELECT coalesce(abs(sum(amount)),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and amount<0 and (cat_id is null OR cat_id != "
-        + SPLIT_CATID + ") and transfer_peer is null) as sum_expenses",
-    "(SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
-        + SPLIT_CATID + ") and transfer_peer is not null) as sum_transfer",
+    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income",
+    "(SELECT coalesce(abs(sum(amount)),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses",
+    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer",
     "opening_balance + (SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
         + SPLIT_CATID + ")) as current_balance"};
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;

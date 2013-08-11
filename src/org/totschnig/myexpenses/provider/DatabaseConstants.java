@@ -87,5 +87,22 @@ public class DatabaseConstants {
     "  (SELECT label FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
     "END AS  " + KEY_LABEL;
   public static final Long SPLIT_CATID = 0L;
-
+  
+  public static final String WHERE_INCOME =
+      "amount>0 AND (cat_id IS null OR cat_id != " + SPLIT_CATID + ") AND transfer_peer is null";
+  public static final String WHERE_EXPENSE = 
+      "amount<0 AND (cat_id IS null OR cat_id != " + SPLIT_CATID + ") and transfer_peer is null";
+  public static final String WHERE_TRANSFER =
+      "(cat_id IS null OR cat_id != " + SPLIT_CATID + ") and transfer_peer is not null";
+  public static final String INCOME_SUM = 
+    "sum(CASE WHEN " + WHERE_INCOME + " THEN amount ELSE 0 END) AS sum_income";
+  public static final String EXPENSE_SUM = 
+      "sum(CASE WHEN " + WHERE_EXPENSE + " THEN amount ELSE 0 END) AS sum_expense";
+  public static final String TRANSFER_SUM = 
+      "sum(CASE WHEN " + WHERE_TRANSFER + " THEN amount ELSE 0 END) AS sum_transfer";
+  public static final String YEAR  = "strftime('%Y',date) as year";
+  public static final String MONTH = "strftime('%m',date) as month";
+  public static final String WEEK  = "strftime('%W',date) as week";
+  public static final String DAY   = "strftime('%j',date) as day";
+  
 }
