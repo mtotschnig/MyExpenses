@@ -79,6 +79,7 @@ public class TransactionList extends SherlockFragment implements
   String headerPrefix;
   private StickyListHeadersListView mListView;
   private Cursor mGroupingCursor;
+  private LoaderManager mManager;
 
   public static TransactionList newInstance(long accountId) {
     
@@ -114,9 +115,7 @@ public class TransactionList extends SherlockFragment implements
 
     // and an array of the fields we want to bind those fields to 
     int[] to = new int[]{R.id.category,R.id.date,R.id.amount};
-    mAdapter = mGrouping.equals(TransactionsGrouping.NONE) ?
-        new MyGroupedAdapter(ctx, R.layout.expense_row, null, from, to,0) :
-        new MyGroupedAdapter(ctx, R.layout.expense_row, null, from, to,0);
+    new MyGroupedAdapter(ctx, R.layout.expense_row, null, from, to,0);
     mListView.setAdapter(mAdapter);
   }
   private void setGrouping() {
@@ -203,11 +202,11 @@ public class TransactionList extends SherlockFragment implements
     updateColor();
     mListView = (StickyListHeadersListView) v.findViewById(R.id.list);
     setAdapter();
-    LoaderManager manager = getLoaderManager();
+    mManager = getLoaderManager();
     if (!mGrouping.equals(TransactionsGrouping.NONE))
-      manager.initLoader(GROUPING_CURSOR, null, this);
-    manager.initLoader(TRANSACTION_CURSOR, null, this);
-    manager.initLoader(SUM_CURSOR, null, this);
+      mManager.initLoader(GROUPING_CURSOR, null, this);
+    mManager.initLoader(TRANSACTION_CURSOR, null, this);
+    mManager.initLoader(SUM_CURSOR, null, this);
     // Now create a simple cursor adapter and set it to display
 
     mListView.setEmptyView(v.findViewById(R.id.empty));
@@ -557,13 +556,16 @@ public class TransactionList extends SherlockFragment implements
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
     if (key.equals(MyApplication.PREFKEY_TRANSACTIONS_GROUPING)) {
-      TransactionsGrouping oldValue = mGrouping; 
       setGrouping();
-      if (oldValue.equals(TransactionsGrouping.NONE) || mGrouping.equals(TransactionsGrouping.NONE))
-        //setAdapter();
-        ;
-      //else
-        mAdapter.notifyDataSetChanged();
+      TransactionsGrouping oldValue = mGrouping;
+      if (!mGrouping.equals(TransactionsGrouping.NONE)) {
+        if (oldValue.equals(TransactionsGrouping.NONE))
+          mManager.initLoader(GROUPING_CURSOR, null, this);
+        else
+          mManager.restartLoader(GROUPING_CURSOR, null, this);
+      } else
+        mManager.destroyLoader(GROUPING_CURSOR);
+      mAdapter.notifyDataSetChanged();
     }
   }
 }
