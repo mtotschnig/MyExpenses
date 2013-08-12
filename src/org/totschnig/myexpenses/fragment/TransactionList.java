@@ -339,7 +339,8 @@ public class TransactionList extends SherlockFragment implements
       super.onChange(selfChange);
       updateBalance();
       updateColor();
-      mAdapter.notifyDataSetChanged();
+      if (mAdapter != null)
+        mAdapter.notifyDataSetChanged();
     }
   }
   private void updateBalance() {
