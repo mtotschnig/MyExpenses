@@ -97,7 +97,7 @@ public class DatabaseConstants {
   public static final String INCOME_SUM = 
     "sum(CASE WHEN " + WHERE_INCOME + " THEN amount ELSE 0 END) AS sum_income";
   public static final String EXPENSE_SUM = 
-      "sum(CASE WHEN " + WHERE_EXPENSE + " THEN amount ELSE 0 END) AS sum_expense";
+      "abs(sum(CASE WHEN " + WHERE_EXPENSE + " THEN amount ELSE 0 END)) AS sum_expense";
   public static final String TRANSFER_SUM = 
       "sum(CASE WHEN " + WHERE_TRANSFER + " THEN amount ELSE 0 END) AS sum_transfer";
   public static final String YEAR  = "strftime('%Y',date) as year";

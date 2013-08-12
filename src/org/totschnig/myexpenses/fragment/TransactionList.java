@@ -434,7 +434,7 @@ public class TransactionList extends SherlockFragment implements
       return convertView;
     }
     private void fillSums(HeaderViewHolder holder, Cursor mGroupingCursor) {
-      holder.sumExpense.setText(Utils.convAmount(
+      holder.sumExpense.setText("- " + Utils.convAmount(
           mGroupingCursor.getString(mGroupingCursor.getColumnIndex("sum_expense")),
           mAccount.currency));
       holder.sumIncome.setText("+ " + Utils.convAmount(
