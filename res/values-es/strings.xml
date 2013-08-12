@@ -216,7 +216,7 @@
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Tarjeta de crédito</string>
   <string name="pm_deposit">Déposito</string>
-  <string name="pm_directdebit">Impuesto</string>
+  <string name="pm_directdebit">Retiro</string>
   <string name="pm_type_neutral">Neutral</string>
   <string name="pm_type_debit">Débito</string>
   <string name="pm_type_credit">Crédito</string>
