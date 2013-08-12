@@ -24,6 +24,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.emilsjolander.components.stickylistheaders.StickyListHeadersAdapter;
 import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView;
+import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -56,7 +57,7 @@ import android.widget.Toast;
 
 //TODO: consider moving to ListFragment
 public class TransactionList extends SherlockFragment implements
-    LoaderManager.LoaderCallbacks<Cursor>, OnSharedPreferenceChangeListener {
+    LoaderManager.LoaderCallbacks<Cursor>, OnSharedPreferenceChangeListener, OnHeaderClickListener {
   private static final int TRANSACTION_CURSOR = 0;
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
@@ -115,7 +116,7 @@ public class TransactionList extends SherlockFragment implements
 
     // and an array of the fields we want to bind those fields to 
     int[] to = new int[]{R.id.category,R.id.date,R.id.amount};
-    new MyGroupedAdapter(ctx, R.layout.expense_row, null, from, to,0);
+    mAdapter = new MyGroupedAdapter(ctx, R.layout.expense_row, null, from, to,0);
     mListView.setAdapter(mAdapter);
   }
   private void setGrouping() {
@@ -202,6 +203,7 @@ public class TransactionList extends SherlockFragment implements
     updateColor();
     mListView = (StickyListHeadersListView) v.findViewById(R.id.list);
     setAdapter();
+    mListView.setOnHeaderClickListener(this);
     mManager = getLoaderManager();
     if (!mGrouping.equals(TransactionsGrouping.NONE))
       mManager.initLoader(GROUPING_CURSOR, null, this);
@@ -293,7 +295,6 @@ public class TransactionList extends SherlockFragment implements
 
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
-    Log.i("DEBUG",String.format("finished loading account %d, loader %d", accountId, arg0.getId()));
     switch(arg0.getId()) {
     case TRANSACTION_CURSOR:
       mTransactionsCursor = c;
@@ -309,6 +310,10 @@ public class TransactionList extends SherlockFragment implements
       break;
     case GROUPING_CURSOR:
       mGroupingCursor = c;
+      //if the transactionscursor has been loaded before the grouping cursor, we need to refresh
+      //in order to have accurate grouping values
+      if (mTransactionsCursor != null)
+        mAdapter.notifyDataSetChanged();
     }
   }
 
@@ -563,9 +568,16 @@ public class TransactionList extends SherlockFragment implements
           mManager.initLoader(GROUPING_CURSOR, null, this);
         else
           mManager.restartLoader(GROUPING_CURSOR, null, this);
-      } else
+      } else {
         mManager.destroyLoader(GROUPING_CURSOR);
-      mAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
+      }
     }
+  }
+  @Override
+  public void onHeaderClick(StickyListHeadersListView l, View header,
+      int itemPosition, long headerId, boolean currentlySticky) {
+    View sumLine = header.findViewById(R.id.sum_line);
+    sumLine.setVisibility(sumLine.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
   }
 }
