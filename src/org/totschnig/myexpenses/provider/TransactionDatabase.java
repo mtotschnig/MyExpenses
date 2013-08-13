@@ -56,7 +56,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         + KEY_CURRENCY        + " text not null, "
         + KEY_TYPE            + " text not null check (" + KEY_TYPE     + " in (" + Account.Type.JOIN     + ")) default '" + Account.Type.CASH.name()      + "', "
         + KEY_COLOR           + " integer default -3355444, "
-        + KEY_GROUPING        + " text not null check (" + KEY_GROUPING + " in (" + Account.Grouping.JOIN + ")) default '" +  Account.Grouping.NONE.name() + ");";
+        + KEY_GROUPING        + " text not null check (" + KEY_GROUPING + " in (" + Account.Grouping.JOIN + ")) default '" +  Account.Grouping.NONE.name() + "');";
 
 
   /**
