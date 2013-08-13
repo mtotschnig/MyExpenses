@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
+import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
@@ -394,5 +395,15 @@ public class Utils {
     public void clear() {
       sb = new StringBuilder();
     }
+  }
+  public static <E extends Enum<E>> String joinEnum(Class<E> enumClass)  {
+    String result ="";
+    Iterator<E> iterator = EnumSet.allOf(enumClass).iterator();
+    while (iterator.hasNext()) {
+      result += "'" + iterator.next().name() + "'";
+      if (iterator.hasNext())
+        result += ",";
+    }
+    return result;
   }
 }

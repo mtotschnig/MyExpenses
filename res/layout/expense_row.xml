@@ -24,6 +24,8 @@
     android:ellipsize="end"
     android:text="DATE"
     android:id="@+id/date"
+    android:ems="3"
+    android:gravity="center"
     android:layout_width="wrap_content"
     android:layout_alignParentLeft="true"
     android:layout_height="wrap_content"

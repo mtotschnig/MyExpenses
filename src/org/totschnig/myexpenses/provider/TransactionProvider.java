@@ -119,7 +119,8 @@ public class TransactionProvider extends ContentProvider {
       } else if (group.equals("DAY")) {
         projection = new String[] {YEAR,DAY,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
         groupBy = "year,day";
-      }
+      } else if (group.equals("NONE"))
+        projection = new String[] {"1 as dummy"};
       break;
     case CATEGORIES:
       qb.setTables(TABLE_CATEGORIES);

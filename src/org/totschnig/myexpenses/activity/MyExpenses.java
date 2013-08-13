@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
@@ -412,6 +413,11 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     switch (command) {
+    case R.id.GROUPING_COMMAND:
+      SelectGroupingDialogFragment.newInstance(
+          mCurrentAccount.id,mCurrentAccount.grouping.ordinal())
+        .show(getSupportFragmentManager(), "SELECT_GROUPING");
+      break;
     case R.id.CONTRIB_COMMAND:
       showContribInfoDialog(false);
       break;

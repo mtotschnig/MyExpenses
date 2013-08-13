@@ -17,7 +17,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 31;
+  public static final int DATABASE_VERSION = 32;
   public static final String DATABASE_NAME = "data";
 
   private static final String TAG = "TransactionDatabase";
@@ -54,8 +54,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         + KEY_OPENING_BALANCE + " integer, "
         + KEY_DESCRIPTION     + " text, "
         + KEY_CURRENCY        + " text not null, "
-        + KEY_TYPE            + " text not null check (" + KEY_TYPE + " in (" + Account.Type.JOIN + ")) default '" + Account.Type.CASH.name() + "', "
-        + KEY_COLOR           + " integer default -3355444);";
+        + KEY_TYPE            + " text not null check (" + KEY_TYPE     + " in (" + Account.Type.JOIN     + ")) default '" + Account.Type.CASH.name()      + "', "
+        + KEY_COLOR           + " integer default -3355444, "
+        + KEY_GROUPING        + " text not null check (" + KEY_GROUPING + " in (" + Account.Grouping.JOIN + ")) default '" +  Account.Grouping.NONE.name() + ");";
 
 
   /**
@@ -334,6 +335,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       initialValues.put("_id", 0);
       initialValues.put("parent_id", 0);
       db.update("categories", initialValues, "_id=-1", null);
+    }
+    if (oldVersion < 32) {
+      db.execSQL("ALTER TABLE accounts add column grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE'");
     }
   }
 }

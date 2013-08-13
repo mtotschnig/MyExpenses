@@ -82,6 +82,7 @@
   <string name="dialog_title_select_color">Pick a color</string>
   <string name="dialog_title_select_import_source">Pick a source for import</string>
   <string name="dialog_title_select_currency">Pick a currency</string>
+  <string name="dialog_title_select_grouping">Pick a grouping</string>
   <string name="dialog_title_select_method">Pick a payment method</string>
   <string name="dialog_title_select_template">Pick a template</string>
   <string name="dialog_title_select_type">Pick a type</string>
@@ -112,6 +113,11 @@
   <string name="grisbi_import_categories_success">%1$s categories imported successfully</string>
   <string name="grisbi_import_parsing">Parsing %1$s</string>
   <string name="grisbi_import_parties_loading">Loading parties from %1$s</string>
+  <string name="grouping_none">Ungrouped</string>
+  <string name="grouping_day">Day</string>
+  <string name="grouping_week">Week</string>
+  <string name="grouping_month">Month</string>
+  <string name="grouping_year">Year</string>
   <string name="help_button_rate">Rate or review</string>
   <string name="help_contextuel_help">Please find more information
     about the available functionality through the help menu entry.</string>
@@ -160,6 +166,7 @@
   <string name="menu_edit_transaction">Edit Transaction</string>
   <string name="menu_edit_template">Edit Template</string>
   <string name="menu_edit_transfer">Edit Transfer</string>
+  <string name="menu_grouping">Grouping</string>
   <string name="menu_help">Help</string>
   <string name="menu_move_transaction">Move</string>
   <string name="menu_save">Save</string>
@@ -277,12 +284,6 @@
   <string name="pref_security_question_title">Security question</string>
   <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password. Requires &app_name; Contrib.</string>
   <string name="pref_send_feedback_title">Send feedback</string>
-  <string name="pref_transactions_grouping_title">Group transactions</string>
-  <string name="pref_transactions_grouping_none">Ungrouped</string>
-  <string name="pref_transactions_grouping_day">Day</string>
-  <string name="pref_transactions_grouping_week">Week</string>
-  <string name="pref_transactions_grouping_month">Month</string>
-  <string name="pref_transactions_grouping_year">Year</string>
   <string name="pref_ui_theme_title">Theme</string>
   <string name="pref_ui_theme_dark">dark</string>
   <string name="pref_ui_theme_light">light</string>

@@ -24,6 +24,7 @@ public class DatabaseConstants {
   public static final String KEY_TRANSFER_ACCOUNT = "transfer_account";
   public static final String KEY_STATUS = "status";
   public static final String KEY_TRANSACTIONID = "transaction_id";
+  public static final String KEY_GROUPING = "grouping";
   /**
    * transaction that already has been exported
    */

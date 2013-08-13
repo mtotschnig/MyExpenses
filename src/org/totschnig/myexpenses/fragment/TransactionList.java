@@ -28,9 +28,6 @@ import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView.
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -57,11 +54,11 @@ import android.widget.Toast;
 
 //TODO: consider moving to ListFragment
 public class TransactionList extends SherlockFragment implements
-    LoaderManager.LoaderCallbacks<Cursor>, OnSharedPreferenceChangeListener, OnHeaderClickListener {
+    LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener {
   private static final int TRANSACTION_CURSOR = 0;
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
-  long accountId;
+  long mAccountId;
   SimpleCursorAdapter mAdapter;
   private int colorExpense;
   private int colorIncome;
@@ -72,11 +69,7 @@ public class TransactionList extends SherlockFragment implements
   private boolean hasItems;
   private long transactionSum = 0;
   private Cursor mTransactionsCursor;
-  private TransactionsGrouping mGrouping;
-  public enum TransactionsGrouping {
-    NONE,DAY,WEEK,MONTH,YEAR
-  }
-  DateFormat headerDateFormat;
+  DateFormat headerDateFormat, itemDateFormat;
   String headerPrefix;
   private StickyListHeadersListView mListView;
   private Cursor mGroupingCursor;
@@ -95,16 +88,16 @@ public class TransactionList extends SherlockFragment implements
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setHasOptionsMenu(true);
-      MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
 
-      accountId = getArguments().getLong("account_id");
+      mAccountId = getArguments().getLong("account_id");
       mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
       aObserver = new AccountObserver(new Handler());
       ContentResolver cr= getSherlockActivity().getContentResolver();
       //when account has changed, we might have
       //1) to refresh the list (currency has changed),
       //2) update current balance(opening balance has changed),
-      //3) update the bottombarcolor (color has changed
+      //3) update the bottombarcolor (color has changed)
+      //4) refetch grouping cursor (grouping has changed)
       cr.registerContentObserver(
           TransactionProvider.ACCOUNTS_URI,
           true,aObserver);
@@ -120,30 +113,33 @@ public class TransactionList extends SherlockFragment implements
     mListView.setAdapter(mAdapter);
   }
   private void setGrouping() {
-    try {
-      mGrouping = TransactionsGrouping.valueOf(
-          MyApplication.getInstance().getSettings()
-          .getString(MyApplication.PREFKEY_TRANSACTIONS_GROUPING, "WEEK"));
-    } catch (IllegalArgumentException e) {
-      mGrouping = TransactionsGrouping.WEEK;
-    }
-    switch (mGrouping) {
+    switch (mAccount.grouping) {
     case DAY:
       headerPrefix = "";
       headerDateFormat = java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL);
+      itemDateFormat = new SimpleDateFormat("HH:mm");
       break;
     case MONTH:
       headerPrefix = "";
       headerDateFormat = new SimpleDateFormat("MMMM y");
+      itemDateFormat = new SimpleDateFormat("dd");
       break;
     case WEEK:
       headerPrefix = "Week ";
       headerDateFormat = new SimpleDateFormat("ww, y");
+      itemDateFormat = new SimpleDateFormat("EEE");
       break;
     case YEAR:
       headerPrefix = "";
       headerDateFormat = new SimpleDateFormat("y");
+    case NONE:
+      itemDateFormat = new SimpleDateFormat("dd.MM");
     }
+    mGroupingCursor = null;
+    if (mManager.getLoader(GROUPING_CURSOR) != null && !mManager.getLoader(GROUPING_CURSOR).isReset())
+      mManager.restartLoader(GROUPING_CURSOR, null, this);
+    else
+      mManager.initLoader(GROUPING_CURSOR, null, this);
   }
   @Override
   public void onDestroy() {
@@ -184,6 +180,7 @@ public class TransactionList extends SherlockFragment implements
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final MyExpenses ctx = (MyExpenses) getSherlockActivity();
+    mManager = getLoaderManager();
     setGrouping();
     Resources.Theme theme = ctx.getTheme();
     TypedValue color = new TypedValue();
@@ -204,9 +201,7 @@ public class TransactionList extends SherlockFragment implements
     mListView = (StickyListHeadersListView) v.findViewById(R.id.list);
     setAdapter();
     mListView.setOnHeaderClickListener(this);
-    mManager = getLoaderManager();
-    if (!mGrouping.equals(TransactionsGrouping.NONE))
-      mManager.initLoader(GROUPING_CURSOR, null, this);
+    mManager.initLoader(GROUPING_CURSOR, null, this);
     mManager.initLoader(TRANSACTION_CURSOR, null, this);
     mManager.initLoader(SUM_CURSOR, null, this);
     // Now create a simple cursor adapter and set it to display
@@ -271,23 +266,22 @@ public class TransactionList extends SherlockFragment implements
 
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
-    Log.i("DEBUG",String.format("creating loader account %d, loader %d", accountId, id));
     CursorLoader cursorLoader = null;
     switch(id) {
     case TRANSACTION_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
           TransactionProvider.TRANSACTIONS_URI, null, "account_id = ? AND parent_id is null",
-          new String[] { String.valueOf(accountId) }, null);
+          new String[] { String.valueOf(mAccountId) }, null);
       break;
     case SUM_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
           TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ")"}, "account_id = ? AND parent_id is null",
-          new String[] { String.valueOf(accountId) }, null);
+          new String[] { String.valueOf(mAccountId) }, null);
       break;
     case GROUPING_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath("groups").appendPath(mGrouping.name()).build(),
-          null,"account_id = ?",new String[] { String.valueOf(accountId) }, null);
+          TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath("groups").appendPath(mAccount.grouping.name()).build(),
+          null,"account_id = ?",new String[] { String.valueOf(mAccountId) }, null);
       break;
     }
     return cursorLoader;
@@ -343,8 +337,10 @@ public class TransactionList extends SherlockFragment implements
       super.onChange(selfChange);
       updateBalance();
       updateColor();
-      if (mAdapter != null)
-        mAdapter.notifyDataSetChanged();
+//      if (mAdapter != null)
+//        mAdapter.notifyDataSetChanged();
+      if (mAccount != null)
+        setGrouping();
     }
   }
   private void updateBalance() {
@@ -377,7 +373,7 @@ public class TransactionList extends SherlockFragment implements
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
       Log.i("DEBUG",String.format("Fetching header for position %d", position));
-      if (mGrouping.equals(TransactionsGrouping.NONE))
+      if (mAccount.grouping.equals(Account.Grouping.NONE))
         return null;
       HeaderViewHolder holder = new HeaderViewHolder();
       if (convertView == null) {
@@ -405,7 +401,7 @@ public class TransactionList extends SherlockFragment implements
         while (!mGroupingCursor.isAfterLast()) {
           if (mGroupingCursor.getInt(mGroupingCursor.getColumnIndex("year")) != year)
             continue;
-          switch (mGrouping) {
+          switch (mAccount.grouping) {
           case YEAR:
             fillSums(holder,mGroupingCursor);
             break traverseCursor;
@@ -446,7 +442,7 @@ public class TransactionList extends SherlockFragment implements
     }
     @Override
     public long getHeaderId(int position) {
-      if (mGrouping.equals(TransactionsGrouping.NONE))
+      if (mAccount.grouping.equals(Account.Grouping.NONE))
         return 0;
       Cursor c = getCursor();
       c.moveToPosition(position);
@@ -454,7 +450,7 @@ public class TransactionList extends SherlockFragment implements
       int month = c.getInt(c.getColumnIndex("month"));
       int week = c.getInt(c.getColumnIndex("week"));
       int day = c.getInt(c.getColumnIndex("day"));
-      switch(mGrouping) {
+      switch(mAccount.grouping) {
       case DAY:
         return (year-1900)*200+day;
       case WEEK:
@@ -469,24 +465,12 @@ public class TransactionList extends SherlockFragment implements
     }
   }
   public class MyAdapter extends SimpleCursorAdapter {
-
-    SimpleDateFormat dateFormat;
-    String categorySeparator, commentSeparator;
+    String categorySeparator = " : ",
+        commentSeparator = " / ";
 
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
         int[] to, int flags) {
       super(context, layout, c, from, to, flags);
-      if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        dateFormat =  new SimpleDateFormat("dd.MM HH:mm");
-        categorySeparator = " : ";
-        commentSeparator = " / ";
-      } else {
-        dateFormat = new SimpleDateFormat("dd.MM\nHH:mm");
-        categorySeparator = " :\n";
-        commentSeparator = "<br>";
-      }
-
-      // TODO Auto-generated constructor stub
     }
     /* (non-Javadoc)
      * calls {@link #convText for formatting the values retrieved from the cursor}
@@ -496,7 +480,7 @@ public class TransactionList extends SherlockFragment implements
     public void setViewText(TextView v, String text) {
       switch (v.getId()) {
       case R.id.date:
-        text = Utils.convDate(text,dateFormat);
+        text = Utils.convDate(text,itemDateFormat);
         break;
       case R.id.amount:
         text = Utils.convAmount(text,mAccount.currency);
@@ -510,8 +494,9 @@ public class TransactionList extends SherlockFragment implements
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      View row=super.getView(position, convertView, parent);
-      TextView tv1 = (TextView)row.findViewById(R.id.amount);
+      convertView=super.getView(position, convertView, parent);
+
+      TextView tv1 = (TextView)convertView.findViewById(R.id.amount);
       Cursor c = getCursor();
       c.moveToPosition(position);
       int col = c.getColumnIndex(KEY_AMOUNT);
@@ -523,7 +508,7 @@ public class TransactionList extends SherlockFragment implements
       else {
         tv1.setTextColor(colorIncome);
       }
-      TextView tv2 = (TextView)row.findViewById(R.id.category);
+      TextView tv2 = (TextView)convertView.findViewById(R.id.category);
       String catText = (String) tv2.getText();
       if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
         catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
@@ -548,7 +533,7 @@ public class TransactionList extends SherlockFragment implements
         catText += (catText.equals("") ? "" : commentSeparator) + "<i>" + comment + "</i>";
       }
       tv2.setText(Html.fromHtml(catText));
-      return row;
+      return convertView;
     }
   }
   class HeaderViewHolder {
@@ -557,7 +542,7 @@ public class TransactionList extends SherlockFragment implements
     TextView sumExpense;
     TextView sumTransfer;
 }
-  @Override
+/*  @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
     if (key.equals(MyApplication.PREFKEY_TRANSACTIONS_GROUPING)) {
@@ -573,7 +558,7 @@ public class TransactionList extends SherlockFragment implements
         mAdapter.notifyDataSetChanged();
       }
     }
-  }
+  }*/
   @Override
   public void onHeaderClick(StickyListHeadersListView l, View header,
       int itemPosition, long headerId, boolean currentlySticky) {

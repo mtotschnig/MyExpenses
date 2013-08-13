@@ -54,4 +54,5 @@
     <item type="id" name="REMIND_NO_COMMAND"/>
     <item type="id" name="CLONE_TRANSACTION_COMMAND"/>
     <item type="id" name="AGGREGATES_COMMAND"/>
+    <item type="id" name="GROUPING_COMMAND"/>
 </resources>

@@ -22,9 +22,7 @@ import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Currency;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -63,7 +61,7 @@ public class Account extends Model {
 
   public int color;
 
-  public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_COLOR,
+  public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_COLOR,KEY_GROUPING,
     "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income",
     "(SELECT coalesce(abs(sum(amount)),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses",
     "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer",
@@ -100,18 +98,19 @@ public class Account extends Model {
       return "";
     }
     static {
-      String result ="";
-      Iterator<Type> iterator = EnumSet.allOf(Type.class).iterator();
-      while (iterator.hasNext()) {
-        result += "'" + iterator.next().name() + "'";
-        if (iterator.hasNext())
-          result += ",";
-      }
-      JOIN = result;
+      JOIN = Utils.joinEnum(Type.class);
     }
   }
   public Type type;
-  
+
+  public enum Grouping {
+    NONE,DAY,WEEK,MONTH,YEAR;
+    public static final String JOIN;
+    static {
+        JOIN = Utils.joinEnum(Grouping.class);
+      }
+  }
+  public Grouping grouping;
   /**
    * @see <a href="http://www.currency-iso.org/dl_iso_table_a1.xml">http://www.currency-iso.org/dl_iso_table_a1.xml</a>
    */
@@ -338,6 +337,7 @@ public class Account extends Model {
     this.openingBalance = new Money(currency,openingBalance);
     this.description = description;
     this.type = Type.CASH;
+    this.grouping = Grouping.NONE;
     this.color = defaultColor;
   }
   
@@ -349,7 +349,7 @@ public class Account extends Model {
    */
   private Account(long id) throws DataObjectNotFoundException {
     this.id = id;
-    String[] projection = new String[] {KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_TYPE,KEY_COLOR};
+    String[] projection = new String[] {KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_TYPE,KEY_COLOR,KEY_GROUPING};
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
@@ -371,6 +371,11 @@ public class Account extends Model {
       this.type = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
     } catch (IllegalArgumentException ex) { 
       this.type = Type.CASH;
+    }
+    try {
+      this.grouping = Grouping.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_GROUPING)));
+    } catch (IllegalArgumentException ex) { 
+      this.grouping = Grouping.NONE;
     }
     try {
         this.color = c.getInt(c.getColumnIndexOrThrow(KEY_COLOR));
@@ -671,6 +676,7 @@ public class Account extends Model {
     initialValues.put(KEY_DESCRIPTION,description);
     initialValues.put(KEY_CURRENCY,currency.getCurrencyCode());
     initialValues.put(KEY_TYPE,type.name());
+    initialValues.put(KEY_GROUPING, grouping.name());
     initialValues.put(KEY_COLOR,color);
     
     if (id == 0) {
