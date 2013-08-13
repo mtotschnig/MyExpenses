@@ -559,23 +559,6 @@ public class TransactionList extends SherlockFragment implements
     TextView sumExpense;
     TextView sumTransfer;
 }
-/*  @Override
-  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-      String key) {
-    if (key.equals(MyApplication.PREFKEY_TRANSACTIONS_GROUPING)) {
-      setGrouping();
-      TransactionsGrouping oldValue = mGrouping;
-      if (!mGrouping.equals(TransactionsGrouping.NONE)) {
-        if (oldValue.equals(TransactionsGrouping.NONE))
-          mManager.initLoader(GROUPING_CURSOR, null, this);
-        else
-          mManager.restartLoader(GROUPING_CURSOR, null, this);
-      } else {
-        mManager.destroyLoader(GROUPING_CURSOR);
-        mAdapter.notifyDataSetChanged();
-      }
-    }
-  }*/
   @Override
   public void onHeaderClick(StickyListHeadersListView l, View header,
       int itemPosition, long headerId, boolean currentlySticky) {
