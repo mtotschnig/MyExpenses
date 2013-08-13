@@ -55,7 +55,7 @@ import android.widget.Toast;
 
 //TODO: consider moving to ListFragment
 public class TransactionList extends SherlockFragment implements
-    LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener {
+    LoaderManager.LoaderCallbacks<Cursor> {
   private static final int TRANSACTION_CURSOR = 0;
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
@@ -201,7 +201,7 @@ public class TransactionList extends SherlockFragment implements
     updateColor();
     mListView = (StickyListHeadersListView) v.findViewById(R.id.list);
     setAdapter();
-    mListView.setOnHeaderClickListener(this);
+    //mListView.setOnHeaderClickListener(this);
     mManager.initLoader(GROUPING_CURSOR, null, this);
     mManager.initLoader(TRANSACTION_CURSOR, null, this);
     mManager.initLoader(SUM_CURSOR, null, this);
@@ -559,10 +559,10 @@ public class TransactionList extends SherlockFragment implements
     TextView sumExpense;
     TextView sumTransfer;
 }
-  @Override
-  public void onHeaderClick(StickyListHeadersListView l, View header,
-      int itemPosition, long headerId, boolean currentlySticky) {
-    View sumLine = header.findViewById(R.id.sum_line);
-    sumLine.setVisibility(sumLine.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-  }
+//  @Override
+//  public void onHeaderClick(StickyListHeadersListView l, View header,
+//      int itemPosition, long headerId, boolean currentlySticky) {
+//    View sumLine = header.findViewById(R.id.sum_line);
+//    sumLine.setVisibility(sumLine.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+//  }
 }
