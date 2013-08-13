@@ -4,6 +4,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -372,7 +373,6 @@ public class TransactionList extends SherlockFragment implements
     }
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
-      Log.i("DEBUG",String.format("Fetching header for position %d", position));
       if (mAccount.grouping.equals(Account.Grouping.NONE))
         return null;
       HeaderViewHolder holder = new HeaderViewHolder();
@@ -389,12 +389,15 @@ public class TransactionList extends SherlockFragment implements
       Cursor c = getCursor();
       c.moveToPosition(position);
       int col = c.getColumnIndex(KEY_DATE);
-      String headerText = headerPrefix + Utils.convDate(c.getString(col),headerDateFormat);
+      String headerText = "";//headerPrefix + Utils.convDate(c.getString(col),headerDateFormat);
       int year = c.getInt(c.getColumnIndex("year"));
       int month = c.getInt(c.getColumnIndex("month"));
       int week = c.getInt(c.getColumnIndex("week"));
       int day = c.getInt(c.getColumnIndex("day"));
-      holder.text.setText(headerText);
+      Calendar cal = Calendar.getInstance();
+      int thisDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
+      int thisWeekOfYear = cal.get(Calendar.WEEK_OF_YEAR);
+
       if (mGroupingCursor != null) {
         mGroupingCursor.moveToFirst();
         traverseCursor:
@@ -408,9 +411,14 @@ public class TransactionList extends SherlockFragment implements
           case DAY:
             if (mGroupingCursor.getInt(mGroupingCursor.getColumnIndex("day")) != day)
               break;
-            else
+            else {
               fillSums(holder,mGroupingCursor);
-              break traverseCursor;
+              if (day == thisDayOfYear)
+                headerText = "Today";
+              else if (day == thisDayOfYear -1)
+                headerText = "Yesterday";
+            }
+            break traverseCursor;
           case MONTH:
             if (mGroupingCursor.getInt(mGroupingCursor.getColumnIndex("month")) != month)
               break;
@@ -420,13 +428,22 @@ public class TransactionList extends SherlockFragment implements
           case WEEK:
             if (mGroupingCursor.getInt(mGroupingCursor.getColumnIndex("week")) != week)
               break;
-            else
+            else {
               fillSums(holder,mGroupingCursor);
-              break traverseCursor;
+              //Sqlite3's strftime starts with 0; Calendar with 1
+              if (week == thisWeekOfYear -1)
+                headerText = "This week";
+              else if (week == thisWeekOfYear -2)
+                headerText = "Last week";
+            }
+            break traverseCursor;
           }
           mGroupingCursor.moveToNext();
         }
       }
+      if (headerText.equals(""))
+        headerText = headerPrefix + Utils.convDate(c.getString(col),headerDateFormat);
+      holder.text.setText(headerText);
       return convertView;
     }
     private void fillSums(HeaderViewHolder holder, Cursor mGroupingCursor) {
