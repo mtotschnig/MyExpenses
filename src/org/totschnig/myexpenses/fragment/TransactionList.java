@@ -38,7 +38,10 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextMenu;
@@ -75,7 +78,7 @@ public class TransactionList extends SherlockFragment implements
   private LoaderManager mManager;
 
   int columnIndexDate, columnIndexYear, columnIndexMonth, columnIndexWeek, columnIndexDay,
-    columnIndexAmount, columnIndexLabelSub, columnIndexComment,
+    columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee,
     columnIndexGroupYear, columnIndexGroupSecond,
     columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
   boolean indexesCalculated, indexesGroupingCalculated = false;
@@ -120,23 +123,15 @@ public class TransactionList extends SherlockFragment implements
   private void setGrouping() {
     switch (mAccount.grouping) {
     case DAY:
-      headerPrefix = "";
-      headerDateFormat = java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL);
       itemDateFormat = new SimpleDateFormat("HH:mm");
       break;
     case MONTH:
-      headerPrefix = "";
-      headerDateFormat = new SimpleDateFormat("MMMM y");
       itemDateFormat = new SimpleDateFormat("dd");
       break;
     case WEEK:
-      headerPrefix = "Week ";
-      headerDateFormat = new SimpleDateFormat("ww, y");
       itemDateFormat = new SimpleDateFormat("EEE");
       break;
     case YEAR:
-      headerPrefix = "";
-      headerDateFormat = new SimpleDateFormat("y");
     case NONE:
       itemDateFormat = new SimpleDateFormat("dd.MM");
     }
@@ -306,6 +301,7 @@ public class TransactionList extends SherlockFragment implements
         columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
         columnIndexComment = c.getColumnIndex(KEY_COMMENT);
+        columnIndexPayee = c.getColumnIndex(KEY_PAYEE);
         indexesCalculated = true;
       }
       mAdapter.swapCursor(c);
@@ -419,6 +415,7 @@ public class TransactionList extends SherlockFragment implements
       int week = c.getInt(columnIndexWeek);
       int day = c.getInt(columnIndexDay);
       Calendar cal = Calendar.getInstance();
+      int thisYear = cal.get(Calendar.YEAR);
       int thisDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
       int thisWeekOfYear = cal.get(Calendar.WEEK_OF_YEAR);
 
@@ -431,6 +428,7 @@ public class TransactionList extends SherlockFragment implements
           switch (mAccount.grouping) {
           case YEAR:
             fillSums(holder,mGroupingCursor);
+            headerText = String.valueOf(year);
             break traverseCursor;
           case DAY:
             if (mGroupingCursor.getInt(columnIndexGroupSecond) != day)
@@ -441,13 +439,19 @@ public class TransactionList extends SherlockFragment implements
                 headerText = "Today";
               else if (day == thisDayOfYear -1)
                 headerText = "Yesterday";
+              else
+                headerText = Utils.convDate(c.getString(columnIndexDate),
+                    java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL));
             }
             break traverseCursor;
           case MONTH:
             if (mGroupingCursor.getInt(columnIndexGroupSecond) != month)
               break;
-            else
+            else {
               fillSums(holder,mGroupingCursor);
+              headerText = Utils.convDate(c.getString(columnIndexDate),
+                    new SimpleDateFormat("MMMM y"));
+            }
               break traverseCursor;
           case WEEK:
             if (mGroupingCursor.getInt(columnIndexGroupSecond) != week)
@@ -459,14 +463,14 @@ public class TransactionList extends SherlockFragment implements
                 headerText = "This week";
               else if (week == thisWeekOfYear -2)
                 headerText = "Last week";
+              else 
+                headerText = (year != thisYear ? (year + ",") : "") + "Week " + (week+1);
             }
             break traverseCursor;
           }
           mGroupingCursor.moveToNext();
         }
       }
-      if (headerText.equals(""))
-        headerText = headerPrefix + Utils.convDate(c.getString(columnIndexDate),headerDateFormat);
       holder.text.setText(headerText);
       return convertView;
     }
@@ -549,9 +553,9 @@ public class TransactionList extends SherlockFragment implements
         tv1.setTextColor(colorIncome);
       }
       TextView tv2 = (TextView)convertView.findViewById(R.id.category);
-      String catText = (String) tv2.getText();
+      CharSequence catText = tv2.getText();
       if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
-        catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
+        catText = ((amount < 0) ? "=> " : "<= ") + catText;
       } else {
         Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
         if (SPLIT_CATID.equals(catId))
@@ -562,15 +566,24 @@ public class TransactionList extends SherlockFragment implements
         else {
           String label_sub = c.getString(columnIndexLabelSub);
           if (label_sub != null && label_sub.length() > 0) {
-            catText += categorySeparator + label_sub;
+            catText = catText + categorySeparator + label_sub;
           }
         }
       }
+      SpannableStringBuilder ssb;
       String comment = c.getString(columnIndexComment);
       if (comment != null && comment.length() > 0) {
-        catText += (catText.equals("") ? "" : commentSeparator) + "<i>" + comment + "</i>";
+        ssb = new SpannableStringBuilder(comment);
+        ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, comment.length(), 0);
+        catText = TextUtils.concat(catText,commentSeparator,ssb);
       }
-      tv2.setText(Html.fromHtml(catText));
+      String payee = c.getString(columnIndexPayee);
+      if (payee != null && payee.length() > 0) {
+        ssb = new SpannableStringBuilder(payee);
+        ssb.setSpan(new UnderlineSpan(), 0, payee.length(), 0);
+        catText = TextUtils.concat(catText,commentSeparator,ssb);
+      }
+      tv2.setText(catText);
       return convertView;
     }
   }
@@ -579,7 +592,7 @@ public class TransactionList extends SherlockFragment implements
     TextView sumIncome;
     TextView sumExpense;
     TextView sumTransfer;
-}
+  }
 //  @Override
 //  public void onHeaderClick(StickyListHeadersListView l, View header,
 //      int itemPosition, long headerId, boolean currentlySticky) {
