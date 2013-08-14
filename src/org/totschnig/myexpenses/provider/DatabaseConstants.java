@@ -101,9 +101,9 @@ public class DatabaseConstants {
       "abs(sum(CASE WHEN " + WHERE_EXPENSE + " THEN amount ELSE 0 END)) AS sum_expense";
   public static final String TRANSFER_SUM = 
       "sum(CASE WHEN " + WHERE_TRANSFER + " THEN amount ELSE 0 END) AS sum_transfer";
-  public static final String YEAR  = "strftime('%Y',date) as year";
-  public static final String MONTH = "strftime('%m',date) as month";
-  public static final String WEEK  = "strftime('%W',date) as week";
-  public static final String DAY   = "strftime('%j',date) as day";
+  public static final String YEAR  = "strftime('%Y',date)";
+  public static final String MONTH = "strftime('%m',date)";
+  public static final String WEEK  = "strftime('%W',date)";
+  public static final String DAY   = "strftime('%j',date)";
   
 }

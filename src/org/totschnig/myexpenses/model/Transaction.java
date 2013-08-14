@@ -53,7 +53,8 @@ public class Transaction extends Model {
    */
   public int status = 0;
   public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
-    KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID,YEAR,MONTH,WEEK,DAY};
+    KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID,
+    YEAR + " AS year",MONTH + " AS month",WEEK + " AS week",DAY + " AS day"};
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
   /**
    * we store the date directly from UI to DB without creating a Date object

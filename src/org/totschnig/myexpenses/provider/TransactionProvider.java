@@ -107,18 +107,21 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTIONS_GROUPS:
       qb.setTables(VIEW_COMMITTED);
       String group = uri.getPathSegments().get(2);
+      String yearColumn = YEAR + " AS year";
+      String secondColumnAlias = " AS second";
+      //we use a dummy column for year in order to have the same positions 
       if (group.equals("YEAR")) {
-        projection = new String[] {YEAR,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        projection = new String[] {yearColumn,"1"+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
         groupBy = "year";
       } else if (group.equals("MONTH")) {
-        projection = new String[] {YEAR,MONTH,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
-        groupBy = "year,month";
+        projection = new String[] {yearColumn,MONTH+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        groupBy = "year,second";
       } else if (group.equals("WEEK")) {
-        projection = new String[] {YEAR,WEEK,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
-        groupBy = "year,week";
+        projection = new String[] {yearColumn,WEEK+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        groupBy = "year,second";
       } else if (group.equals("DAY")) {
-        projection = new String[] {YEAR,DAY,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
-        groupBy = "year,day";
+        projection = new String[] {yearColumn,DAY+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        groupBy = "year,second";
       } else if (group.equals("NONE"))
         projection = new String[] {"1 as dummy"};
       break;
