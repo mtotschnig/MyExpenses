@@ -101,9 +101,10 @@ public class DatabaseConstants {
       "abs(sum(CASE WHEN " + WHERE_EXPENSE + " THEN amount ELSE 0 END)) AS sum_expense";
   public static final String TRANSFER_SUM = 
       "sum(CASE WHEN " + WHERE_TRANSFER + " THEN amount ELSE 0 END) AS sum_transfer";
-  public static final String YEAR  = "strftime('%Y',date)";
-  public static final String MONTH = "strftime('%m',date)";
-  public static final String WEEK  = "strftime('%W',date)";
-  public static final String DAY   = "strftime('%j',date)";
+  //if we do not cast the result to integer, we would need to do the conversion in Java
+  public static final String YEAR  = "CAST(strftime('%Y',date) AS integer)";
+  public static final String MONTH = "CAST(strftime('%m',date) AS integer)";
+  public static final String WEEK  = "CAST(strftime('%W',date) AS integer)";
+  public static final String DAY   = "CAST(strftime('%j',date) AS integer)";
   
 }
