@@ -78,7 +78,7 @@ public class TransactionList extends SherlockFragment implements
     columnIndexAmount, columnIndexLabelSub, columnIndexComment,
     columnIndexGroupYear, columnIndexGroupSecond,
     columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
-  static boolean indexesCalculated, indexesGroupingCalculated = false;
+  boolean indexesCalculated, indexesGroupingCalculated = false;
 
   public static TransactionList newInstance(long accountId) {
     
