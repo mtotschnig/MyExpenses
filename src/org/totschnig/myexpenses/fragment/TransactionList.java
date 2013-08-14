@@ -423,50 +423,50 @@ public class TransactionList extends SherlockFragment implements
         mGroupingCursor.moveToFirst();
         traverseCursor:
         while (!mGroupingCursor.isAfterLast()) {
-          if (mGroupingCursor.getInt(columnIndexGroupYear) != year)
-            continue;
-          switch (mAccount.grouping) {
-          case YEAR:
-            fillSums(holder,mGroupingCursor);
-            headerText = String.valueOf(year);
-            break traverseCursor;
-          case DAY:
-            if (mGroupingCursor.getInt(columnIndexGroupSecond) != day)
-              break;
-            else {
+          if (mGroupingCursor.getInt(columnIndexGroupYear) == year) {
+            switch (mAccount.grouping) {
+            case YEAR:
               fillSums(holder,mGroupingCursor);
-              if (day == thisDayOfYear)
-                headerText = "Today";
-              else if (day == thisDayOfYear -1)
-                headerText = "Yesterday";
-              else
-                headerText = Utils.convDate(c.getString(columnIndexDate),
-                    java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL));
-            }
-            break traverseCursor;
-          case MONTH:
-            if (mGroupingCursor.getInt(columnIndexGroupSecond) != month)
-              break;
-            else {
-              fillSums(holder,mGroupingCursor);
-              headerText = Utils.convDate(c.getString(columnIndexDate),
-                    new SimpleDateFormat("MMMM y"));
-            }
+              headerText = String.valueOf(year);
               break traverseCursor;
-          case WEEK:
-            if (mGroupingCursor.getInt(columnIndexGroupSecond) != week)
-              break;
-            else {
-              fillSums(holder,mGroupingCursor);
-              //Sqlite3's strftime starts with 0; Calendar with 1
-              if (week == thisWeekOfYear -1)
-                headerText = "This week";
-              else if (week == thisWeekOfYear -2)
-                headerText = "Last week";
-              else 
-                headerText = (year != thisYear ? (year + ",") : "") + "Week " + (week+1);
+            case DAY:
+              if (mGroupingCursor.getInt(columnIndexGroupSecond) != day)
+                break;
+              else {
+                fillSums(holder,mGroupingCursor);
+                if (day == thisDayOfYear)
+                  headerText = "Today";
+                else if (day == thisDayOfYear -1)
+                  headerText = "Yesterday";
+                else
+                  headerText = Utils.convDate(c.getString(columnIndexDate),
+                      java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL));
+              }
+              break traverseCursor;
+            case MONTH:
+              if (mGroupingCursor.getInt(columnIndexGroupSecond) != month)
+                break;
+              else {
+                fillSums(holder,mGroupingCursor);
+                headerText = Utils.convDate(c.getString(columnIndexDate),
+                      new SimpleDateFormat("MMMM y"));
+              }
+                break traverseCursor;
+            case WEEK:
+              if (mGroupingCursor.getInt(columnIndexGroupSecond) != week)
+                break;
+              else {
+                fillSums(holder,mGroupingCursor);
+                //Sqlite3's strftime starts with 0; Calendar with 1
+                if (week == thisWeekOfYear -1)
+                  headerText = "This week";
+                else if (week == thisWeekOfYear -2)
+                  headerText = "Last week";
+                else
+                  headerText = (year != thisYear ? (year + ", ") : "") + "Week " + (week+1);
+              }
+              break traverseCursor;
             }
-            break traverseCursor;
           }
           mGroupingCursor.moveToNext();
         }
