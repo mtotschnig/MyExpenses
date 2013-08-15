@@ -812,7 +812,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     
   }
   @Override
-  public void onPostExecute(Object o) {
+  public void onPostExecute(int taskId,Object o) {
     mTransaction = (Transaction) o;
     if (mTransaction instanceof SplitTransaction)
       mOperationType = MyExpenses.TYPE_SPLIT;

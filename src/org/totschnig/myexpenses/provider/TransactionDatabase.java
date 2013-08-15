@@ -154,8 +154,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     initialValues.put(KEY_ROWID, SPLIT_CATID);
     initialValues.put(KEY_PARENTID, SPLIT_CATID);
     initialValues.put(KEY_LABEL, "__SPLIT_TRANSACTION__");
-    long result = db.insertOrThrow(TABLE_CATEGORIES, null, initialValues);
-    Log.i("DEBUG",String.valueOf(result));
+    db.insertOrThrow(TABLE_CATEGORIES, null, initialValues);
   }
 
   /**

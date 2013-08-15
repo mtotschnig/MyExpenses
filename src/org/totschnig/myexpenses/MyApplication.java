@@ -18,23 +18,19 @@ package org.totschnig.myexpenses;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
 
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.app.Application;
-import android.content.ContentResolver;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources.NotFoundException;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 //import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -85,47 +81,46 @@ public class MyApplication extends Application {
     public static final String HOST = "myexpenses.totschnig.org";
 
     @Override
-    public void onCreate()
-    {
-        super.onCreate();
-        mSelf = this;
-        if (settings == null)
-        {
-            settings = PreferenceManager.getDefaultSharedPreferences(this);
-        }
+    public void onCreate() {
+      super.onCreate();
+      mSelf = this;
+      if (settings == null)
+      {
+          settings = PreferenceManager.getDefaultSharedPreferences(this);
+      }
 
-        PREFKEY_CATEGORIES_SORT_BY_USAGES = getString(R.string.pref_categories_sort_by_usages_key);
-        PREFKEY_PERFORM_SHARE = getString(R.string.pref_perform_share_key);
-        PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
-        PREFKEY_CURRENCY_DECIMAL_SEPARATOR = getString(R.string.pref_currency_decimal_separator_key);
-        PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
-        PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
-        PREFKEY_BACKUP = getString(R.string.pref_backup_key);
-        PREFKEY_RESTORE = getString(R.string.pref_restore_key);
-        PREFKEY_CONTRIB_INSTALL = getString(R.string.pref_contrib_install_key);
-        PREFKEY_REQUEST_LICENCE = getString(R.string.pref_request_licence_key);
-        PREFKEY_ENTER_LICENCE = getString(R.string.pref_enter_licence_key);
-        PREFKEY_PERFORM_PROTECTION = getString(R.string.pref_perform_protection_key);
-        PREFKEY_SET_PASSWORD = getString(R.string.pref_set_password_key);
-        PREFKEY_SECURITY_ANSWER = getString(R.string.pref_security_answer_key);
-        PREFKEY_SECURITY_QUESTION = getString(R.string.pref_security_question_key);
-        PREFKEY_PROTECTION_DELAY_SECONDS = getString(R.string.pref_protection_delay_seconds_key);
-        PREFKEY_EXPORT_FORMAT = getString(R.string.pref_export_format_key);
-        PREFKEY_SEND_FEEDBACK = getString(R.string.pref_send_feedback_key);
-        PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
-        setPasswordCheckDelayNanoSeconds();
-        try {
-          InputStream rawResource = getResources().openRawResource(R.raw.app);
-          Properties properties = new Properties();
-          properties.load(rawResource);
-          BUILD_DATE = properties.getProperty("build.date");
-          CONTRIB_SECRET = properties.getProperty("contrib.secret");
-        } catch (NotFoundException e) {
-          Log.w("MyExpenses","Did not find raw resource");
-        } catch (IOException e) {
-          Log.w("MyExpenses","Failed to open property file");
-        }
-        refreshContribEnabled();
+      PREFKEY_CATEGORIES_SORT_BY_USAGES = getString(R.string.pref_categories_sort_by_usages_key);
+      PREFKEY_PERFORM_SHARE = getString(R.string.pref_perform_share_key);
+      PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
+      PREFKEY_CURRENCY_DECIMAL_SEPARATOR = getString(R.string.pref_currency_decimal_separator_key);
+      PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
+      PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
+      PREFKEY_BACKUP = getString(R.string.pref_backup_key);
+      PREFKEY_RESTORE = getString(R.string.pref_restore_key);
+      PREFKEY_CONTRIB_INSTALL = getString(R.string.pref_contrib_install_key);
+      PREFKEY_REQUEST_LICENCE = getString(R.string.pref_request_licence_key);
+      PREFKEY_ENTER_LICENCE = getString(R.string.pref_enter_licence_key);
+      PREFKEY_PERFORM_PROTECTION = getString(R.string.pref_perform_protection_key);
+      PREFKEY_SET_PASSWORD = getString(R.string.pref_set_password_key);
+      PREFKEY_SECURITY_ANSWER = getString(R.string.pref_security_answer_key);
+      PREFKEY_SECURITY_QUESTION = getString(R.string.pref_security_question_key);
+      PREFKEY_PROTECTION_DELAY_SECONDS = getString(R.string.pref_protection_delay_seconds_key);
+      PREFKEY_EXPORT_FORMAT = getString(R.string.pref_export_format_key);
+      PREFKEY_SEND_FEEDBACK = getString(R.string.pref_send_feedback_key);
+      PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
+      setPasswordCheckDelayNanoSeconds();
+      try {
+        InputStream rawResource = getResources().openRawResource(R.raw.app);
+        Properties properties = new Properties();
+        properties.load(rawResource);
+        BUILD_DATE = properties.getProperty("build.date");
+        CONTRIB_SECRET = properties.getProperty("contrib.secret");
+      } catch (NotFoundException e) {
+        Log.w("MyExpenses","Did not find raw resource");
+      } catch (IOException e) {
+        Log.w("MyExpenses","Failed to open property file");
+      }
+      refreshContribEnabled();
     }
     public boolean refreshContribEnabled() {
       isContribEnabled = Utils.doesPackageExist(this, "org.totschnig.myexpenses.contrib") ||

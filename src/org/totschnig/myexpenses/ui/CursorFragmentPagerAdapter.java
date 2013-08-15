@@ -1,3 +1,4 @@
+//Credit: https://gist.github.com/peterkuterna/3144266
 package org.totschnig.myexpenses.ui;
 
 import android.content.Context;

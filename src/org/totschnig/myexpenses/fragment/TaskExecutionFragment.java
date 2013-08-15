@@ -1,6 +1,8 @@
 //based on http://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html
 package org.totschnig.myexpenses.fragment;
 
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -21,6 +23,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_INSTANTIATE_TRANSACTION = 2;
   public static final int TASK_INSTANTIATE_TEMPLATE = 3;
   public static final int TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE = 4;
+  public static final int TASK_REQUIRE_ACCOUNT = 5;
   
   /**
    * Callback interface through which the fragment will report the
@@ -30,16 +33,17 @@ public class TaskExecutionFragment extends Fragment {
     void onPreExecute();
     void onProgressUpdate(int percent);
     void onCancelled();
-    void onPostExecute(Object o);
+    void onPostExecute(int taskId,Object o);
   }
  
   private TaskCallbacks mCallbacks;
-  private AbstractTask mTask;
+  private GenericTask mTask;
   public static TaskExecutionFragment newInstance(int taskId, Long objectId) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt("taskId", taskId);
-    bundle.putLong("objectId", objectId);
+    if (objectId != null)
+      bundle.putLong("objectId", objectId);
     f.setArguments(bundle);
     return f;
   }
@@ -69,20 +73,7 @@ public class TaskExecutionFragment extends Fragment {
  
     // Create and execute the background task.
     Bundle args = getArguments();
-    switch (args.getInt("taskId")) {
-    case TASK_CLONE:
-      mTask = new CloneTask();
-      break;
-    case TASK_INSTANTIATE_TRANSACTION:
-      mTask = new InstantiateTransactionTask();
-      break;
-    case TASK_INSTANTIATE_TEMPLATE:
-      mTask = new InstantiateTemplateTask();
-      break;
-    case TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
-      mTask = new InstantiateTransactionFromTemplateTask();
-      break;
-    }
+    mTask = new GenericTask(args.getInt("taskId"));
     mTask.execute(args.getLong("objectId"));
   }
  
@@ -102,8 +93,12 @@ public class TaskExecutionFragment extends Fragment {
    * method in case they are invoked after the Activity's and
    * Fragment's onDestroy() method have been called.
    */
-  private abstract class AbstractTask extends AsyncTask<Long, Void, Object> {
- 
+  private class GenericTask extends AsyncTask<Long, Void, Object> {
+    private int mTaskId;
+    public GenericTask(int taskId) {
+      mTaskId = taskId;
+    }
+
     @Override
     protected void onPreExecute() {
       if (mCallbacks != null) {
@@ -118,6 +113,28 @@ public class TaskExecutionFragment extends Fragment {
      */
     @Override
     protected Object doInBackground(Long... id) {
+      switch (mTaskId) {
+      case TASK_CLONE:
+        Transaction.getInstanceFromDb(id[0]).saveAsNew();
+        return null;
+      case TASK_INSTANTIATE_TRANSACTION:
+        Transaction t = Transaction.getInstanceFromDb(id[0]);
+        if (t instanceof SplitTransaction)
+          ((SplitTransaction) t).prepareForEdit();
+        return t;
+      case TASK_INSTANTIATE_TEMPLATE:
+        return Template.getInstanceFromDb(id[0]);
+      case TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
+        return Transaction.getInstanceFromTemplate(id[0]);
+      case TASK_REQUIRE_ACCOUNT:
+        Account account = new Account(
+            getString(R.string.app_name),
+            0,
+            getString(R.string.default_account_description)
+        );
+        account.save();
+      return account;
+      }
       return null;
     }
     @Override
@@ -137,36 +154,8 @@ public class TaskExecutionFragment extends Fragment {
     @Override
     protected void onPostExecute(Object result) {
       if (mCallbacks != null) {
-        mCallbacks.onPostExecute(result);
+        mCallbacks.onPostExecute(mTaskId,result);
       }
-    }
-  }
-  private class CloneTask extends AbstractTask {
-    @Override
-    protected Object doInBackground(Long... id) {
-      Transaction.getInstanceFromDb(id[0]).saveAsNew();
-      return null;
-    }
-  }
-  private class InstantiateTransactionTask extends AbstractTask {
-    @Override
-    protected Object doInBackground(Long... id) {
-      Transaction t = Transaction.getInstanceFromDb(id[0]);
-      if (t instanceof SplitTransaction)
-        ((SplitTransaction) t).prepareForEdit();
-      return t;
-    }
-  }
-  private class InstantiateTemplateTask extends AbstractTask {
-    @Override
-    protected Object doInBackground(Long... id) {
-      return Template.getInstanceFromDb(id[0]);
-    }
-  }
-  private class InstantiateTransactionFromTemplateTask extends AbstractTask {
-    @Override
-    protected Object doInBackground(Long... id) {
-      return Transaction.getInstanceFromTemplate(id[0]);
     }
   }
 }

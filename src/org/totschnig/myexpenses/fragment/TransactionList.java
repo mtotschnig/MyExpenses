@@ -88,7 +88,6 @@ public class TransactionList extends SherlockFragment implements
     TransactionList pageFragment = new TransactionList();
     Bundle bundle = new Bundle();
     bundle.putLong("account_id", accountId);
-    Log.i("DEBUG",String.format("creating framgent instance for account %d", accountId));
     pageFragment.setArguments(bundle);
     return pageFragment;
   }

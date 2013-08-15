@@ -303,8 +303,15 @@ public class Account extends Model {
     if (account != null) {
       return account;
     }
-    account = new Account(id);
-    accounts.put(id, account);
+    String[] projection = new String[] {KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_TYPE,KEY_COLOR,KEY_GROUPING};
+    Cursor c = cr().query(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
+    if (c == null || c.getCount() == 0) {
+      throw new DataObjectNotFoundException(id);
+    }
+    c.moveToFirst();
+    account = new Account(id,c);
+    c.close();
     return account;
   }
   /**
@@ -342,20 +349,10 @@ public class Account extends Model {
   }
   
   /**
-   * retrieves an Account instance from the database
-   * @param mDbHelper
-   * @param id
-   * @throws DataObjectNotFoundException if no account exists with the given id
+   * @param c Cursor positioned at the row we want to extract into the object
    */
-  private Account(long id) throws DataObjectNotFoundException {
+  public Account(Long id,Cursor c) {
     this.id = id;
-    String[] projection = new String[] {KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_TYPE,KEY_COLOR,KEY_GROUPING};
-    Cursor c = cr().query(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
-    if (c == null || c.getCount() == 0) {
-      throw new DataObjectNotFoundException(id);
-    }
-    c.moveToFirst();
     this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
     String strCurrency = c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY));
@@ -378,11 +375,11 @@ public class Account extends Model {
       this.grouping = Grouping.NONE;
     }
     try {
-        this.color = c.getInt(c.getColumnIndexOrThrow(KEY_COLOR));
-      } catch (IllegalArgumentException ex) {
-        this.color = defaultColor;
-      }
-    c.close();
+      this.color = c.getInt(c.getColumnIndexOrThrow(KEY_COLOR));
+    } catch (IllegalArgumentException ex) {
+      this.color = defaultColor;
+    }
+    accounts.put(id, this);
   }
 
    public void setCurrency(String currency) throws IllegalArgumentException {
@@ -702,17 +699,6 @@ public class Account extends Model {
       cursor.close();
       return result;
     }
-  }
-  public static Long firstId() {
-    Cursor cursor = cr().query(CONTENT_URI,new String[] {"min(_id)"},null,null,null);
-    cursor.moveToFirst();
-    Long result;
-    if (cursor.isNull(0))
-      result = null;
-    else
-      result = cursor.getLong(0);
-    cursor.close();
-    return result;
   }
   @Override
   public boolean equals(Object obj) {

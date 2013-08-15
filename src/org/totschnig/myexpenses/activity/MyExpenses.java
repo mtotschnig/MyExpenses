@@ -35,10 +35,10 @@ import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
@@ -71,6 +71,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.app.DialogFragment;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
@@ -110,17 +111,14 @@ public class MyExpenses extends ProtectedFragmentActivity implements
 
   //private ExpensesDbAdapter mDbHelper;
 
-  private Account mCurrentAccount;
-
   int currentPosition = -1;
-  private void setCurrentAccount(Account newAccount) {
-    long currentAccountId = mCurrentAccount != null? mCurrentAccount.id : 0;
-    this.mCurrentAccount = newAccount;
-    long newAccountId = newAccount.id;
-    if (currentAccountId != newAccount.id)
-      mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId)
-      .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, currentAccountId)
-      .commit();
+  private void setCurrentAccount(long newAccountId) {
+    long currentAccountId = mAccountId;
+    if (currentAccountId != newAccountId)
+      SharedPreferencesCompat.apply(
+        mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId)
+        .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, currentAccountId));
+    mAccountId = newAccountId;
   }
   private SharedPreferences mSettings;
   private Cursor mAccountsCursor, mTemplatesCursor;
@@ -130,6 +128,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private ViewPager myPager;
   private String fragmentCallbackTag = null;
   public boolean mTransferEnabled = false;
+  private long mAccountId = 0;
   
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -151,40 +150,39 @@ public class MyExpenses extends ProtectedFragmentActivity implements
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.viewpager);
-
     if (prev_version == -1) {
+      getSupportActionBar().hide();
       if (MyApplication.backupExists()) {
         if (!mSettings.getBoolean("inRestoreOnInstall", false)) {
-          MessageDialogFragment.newInstance(R.string.dialog_title_restore_on_install,
+          DialogFragment df = MessageDialogFragment.newInstance(R.string.dialog_title_restore_on_install,
               R.string.dialog_confirm_restore_on_install,
               R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true),
-              R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(false))
-              .show(getSupportFragmentManager(),"RESTORE_ON_INSTALL");
-          mSettings.edit().putBoolean("inRestoreOnInstall", true).commit();
+              R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(false));
+          df.setCancelable(false);
+          df.show(getSupportFragmentManager(),"RESTORE_ON_INSTALL");
+          SharedPreferencesCompat.apply(
+              mSettings.edit().putBoolean("inRestoreOnInstall", true));
         }
-        return;
+      } else {
+        initialSetup();
       }
+      return;
     }
+    if (extras != null) {
+      mAccountId = extras.getLong(KEY_ROWID,0);
+    }
+    if (mAccountId == 0)
+      mAccountId = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
     setup();
   }
+  private void initialSetup() {
+    FragmentManager fm = getSupportFragmentManager();
+    fm.beginTransaction()
+      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,null), "REQUIRE_ACCOUNT_TASK")
+      .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_setup),"PROGRESS")
+      .commit();
+  }
   private void setup() {
-    Bundle extras = getIntent().getExtras();
-    long account_id = 0;
-    if (extras != null) {
-      account_id = extras.getLong(KEY_ROWID,0);
-    }
-    if (account_id == 0)
-      account_id = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
-    if (account_id != 0) {
-      try {
-        setCurrentAccount(Account.getInstanceFromDb(account_id));
-      } catch (DataObjectNotFoundException e) {
-        //for any reason the account stored in pref no longer exists
-        setCurrentAccount(Account.getInstanceFromDb(Account.firstId()));
-      }
-    } else {
-      setCurrentAccount(requireAccount());
-    }
     newVersionCheck();
 
     Resources.Theme theme = getTheme();
@@ -247,10 +245,13 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
+    if (mAccountId== 0)
+      return true;
     //I would prefer to use setEnabled, but the disabled state unfortunately
     //is not visually reflected in the actionbar
     if (currentPosition > -1) {
-      Integer sameCurrencyCount = currencyAccountCount.get(mCurrentAccount.currency.getCurrencyCode());
+      Integer sameCurrencyCount = currencyAccountCount.get(
+          Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode());
       if (sameCurrencyCount != null && sameCurrencyCount >1)
         mTransferEnabled = true;
     }
@@ -303,21 +304,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
     i.putExtra("transferEnabled",mTransferEnabled);
-    i.putExtra(KEY_ACCOUNTID,mCurrentAccount.id);
+    i.putExtra(KEY_ACCOUNTID,mAccountId);
     startActivityForResult(i, ACTIVITY_EDIT);
-  }
-
-  /**
-   * create a new account, and return it
-   */
-  private Account requireAccount() {
-    Account account = new Account(
-          getString(R.string.app_name),
-          0,
-          getString(R.string.default_account_description)
-      );
-      account.save();
-    return account;
   }
   /**
    * check if this is the first invocation of a new version
@@ -332,12 +320,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       return;
     if (prev_version == -1) {
       //edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
-      edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
+      SharedPreferencesCompat.apply(edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version));
       WelcomeDialogFragment.newInstance()
         .show(getSupportFragmentManager(),"WELCOME");
     } else if (prev_version != current_version) {
       ArrayList<CharSequence> versionInfo = new ArrayList<CharSequence>();
-      edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version).commit();
+      SharedPreferencesCompat.apply(edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version));
       if (prev_version < 19) {
         //renamed
         edit.putString(MyApplication.PREFKEY_SHARE_TARGET,mSettings.getString("ftp_target",""));
@@ -415,7 +403,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     switch (command) {
     case R.id.GROUPING_COMMAND:
       SelectGroupingDialogFragment.newInstance(
-          mCurrentAccount.id,mCurrentAccount.grouping.ordinal())
+          mAccountId,Account.getInstanceFromDb(mAccountId).grouping.ordinal())
         .show(getSupportFragmentManager(), "SELECT_GROUPING");
       break;
     case R.id.CONTRIB_COMMAND:
@@ -437,7 +425,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       break;
     case R.id.RESET_ACCOUNT_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
-        DialogUtils.showWarningResetDialog(this,mCurrentAccount.id);
+        DialogUtils.showWarningResetDialog(this,mAccountId);
       } else {
         Toast.makeText(getBaseContext(),
             getString(R.string.external_storage_unavailable),
@@ -447,7 +435,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       break;
     case R.id.EDIT_ACCOUNT_COMMAND:
       i = new Intent(this, AccountEdit.class);
-      i.putExtra(KEY_ROWID, mCurrentAccount.id);
+      i.putExtra(KEY_ROWID, mAccountId);
       startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
       break;
     case android.R.id.home:
@@ -468,7 +456,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         .show(getSupportFragmentManager(), "SELECT_TEMPLATE");
       break;
     case R.id.RATE_COMMAND:
-      mSettings.edit().putLong("nextReminderRate", -1).commit();
+      SharedPreferencesCompat.apply(mSettings.edit().putLong("nextReminderRate", -1));
       i = new Intent(Intent.ACTION_VIEW);
       i.setData(Uri.parse("market://details?id=org.totschnig.myexpenses"));
       if (Utils.isIntentAvailable(this,i)) {
@@ -478,7 +466,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       }
       break;
     case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
-      mSettings.edit().remove("inRestoreOnInstall").commit();
+      SharedPreferencesCompat.apply(mSettings.edit().remove("inRestoreOnInstall"));
       if ((Boolean) tag) {
         if (MyApplication.backupRestore()) {
           //if we have successfully restored, we relaunch in order to force password check if needed
@@ -489,15 +477,15 @@ public class MyExpenses extends ProtectedFragmentActivity implements
           break;
         }
       }
-      setup();
+      initialSetup();
       break;
     case R.id.REMIND_NO_COMMAND:
-      mSettings.edit().putLong("nextReminder" + (String) tag,-1).commit();
+      SharedPreferencesCompat.apply(mSettings.edit().putLong("nextReminder" + (String) tag,-1));
       break;
     case R.id.REMIND_LATER_COMMAND:
       String key = "nextReminder" + (String) tag;
       long treshold = ((String) tag).equals("Rate") ? TRESHOLD_REMIND_RATE : TRESHOLD_REMIND_CONTRIB;
-      mSettings.edit().putLong(key,Transaction.getTransactionSequence()+treshold).commit();
+      SharedPreferencesCompat.apply(mSettings.edit().putLong(key,Transaction.getTransactionSequence()+treshold));
       break;
     }
     return super.dispatchCommand(command, tag);
@@ -510,6 +498,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     @Override
     public Fragment getItem(Context context, Cursor cursor) {
       long accountId = cursor.getLong(cursor.getColumnIndex(KEY_ROWID));
+      //we set up the account object that the fragment can retrieve with getInstanceFromDb
+      //since it is cached by the Account class
+      new Account(accountId,cursor);
       return TransactionList.newInstance(accountId);
     }
 
@@ -519,7 +510,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     currentPosition = position;
     mAccountsCursor.moveToPosition(position);
     long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
-    setCurrentAccount(Account.getInstanceFromDb(accountId));
+    setCurrentAccount(accountId);
     getSupportActionBar().setSelectedNavigationItem(position);
   }
   @SuppressWarnings("incomplete-switch")
@@ -572,7 +563,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       Integer count;
       currencyAccountCount = new HashMap<String,Integer>();
       while (mAccountsCursor.isAfterLast() == false) {
-        if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID)) == mCurrentAccount.id) {
+        if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID)) == mAccountId) {
           currentPosition = mAccountsCursor.getPosition();
         }
         currency = mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_CURRENCY));
@@ -688,7 +679,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     
   }
   @Override
-  public void onPostExecute(Object ignore) {
+  public void onPostExecute(int taskId,Object o) {
+    if (taskId == TaskExecutionFragment.TASK_REQUIRE_ACCOUNT) {
+      setCurrentAccount(((Account) o).id);
+      getSupportActionBar().show();
+      setup();
+    }
     ((ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag("PROGRESS")).dismiss();
   }
 }

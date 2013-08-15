@@ -15,6 +15,7 @@ public class ProgressDialogFragment extends DialogFragment {
     Bundle bundle = new Bundle();
     bundle.putInt("message", message);
     f.setArguments(bundle);
+    f.setCancelable(false);
     return f;
   }
  
