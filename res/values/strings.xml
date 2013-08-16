@@ -118,6 +118,10 @@
   <string name="grouping_week">Week</string>
   <string name="grouping_month">Month</string>
   <string name="grouping_year">Year</string>
+  <string name="grouping_today">Today</string>
+  <string name="grouping_yesterday">Yesterday</string>
+  <string name="grouping_this_week">This week</string>
+  <string name="grouping_last_week">Last week</string>
   <string name="help_button_rate">Rate or review</string>
   <string name="help_contextuel_help">Please find more information
     about the available functionality through the help menu entry.</string>

@@ -54,6 +54,7 @@
       <item>new_from_template</item>
       <item>reset</item>
       <item>edit_account</item>
+      <item>grouping</item>
     </string-array>
     <string-array name="ManageAccounts_menuitems">
       <item>create_account</item>

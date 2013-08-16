@@ -438,9 +438,9 @@ public class TransactionList extends SherlockFragment implements
               else {
                 fillSums(holder,mGroupingCursor);
                 if (day == thisDayOfYear)
-                  headerText = "Today";
+                  headerText = getString(R.string.grouping_today);
                 else if (day == thisDayOfYear -1)
-                  headerText = "Yesterday";
+                  headerText = getString(R.string.grouping_yesterday);
                 else
                   headerText = Utils.convDate(c.getString(columnIndexDate),
                       java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL));
@@ -462,9 +462,9 @@ public class TransactionList extends SherlockFragment implements
                 fillSums(holder,mGroupingCursor);
                 //Sqlite3's strftime starts with 0; Calendar with 1
                 if (week == thisWeekOfYear -1)
-                  headerText = "This week";
+                  headerText = getString(R.string.grouping_this_week);
                 else if (week == thisWeekOfYear -2)
-                  headerText = "Last week";
+                  headerText = getString(R.string.grouping_last_week);
                 else
                   headerText = (year != thisYear ? (year + ", ") : "") + "Week " + (week+1);
               }

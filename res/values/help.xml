@@ -20,6 +20,8 @@
     to do so in the Settings.</string>
   <string name="menu_edit_account_help_text">Adjust the properties of the current account
     (title, description, opening balance, account type, currency, color).</string>
+  <string name="menu_grouping_help_text">You can group transactions by day, week, month or year.
+    For each group, the sum of income, expenses and transfers is calculated and displayed.</string>
 
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Accounts list</string>
