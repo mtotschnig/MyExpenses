@@ -24,6 +24,8 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.AggregatesDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
@@ -36,6 +38,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
+import android.support.v4.app.FragmentManager;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -49,7 +52,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  *
  */
 public class ManageAccounts extends ProtectedFragmentActivity implements
-    OnItemClickListener,ContribIFace {
+    OnItemClickListener,ContribIFace, TaskExecutionFragment.TaskCallbacks {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -111,7 +114,11 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
       startActivityForResult(i, 0);
       return true;
     case R.id.DELETE_COMMAND_DO:
-      Account.delete((Long) tag);
+      FragmentManager fm = getSupportFragmentManager();
+      fm.beginTransaction()
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_ACCOUNT,(Long)tag), "DELETE_TASK")
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
+        .commit();
       return true;
     case R.id.RESET_ACCOUNT_ALL_COMMAND:
       if (MyApplication.getInstance().isContribEnabled) {

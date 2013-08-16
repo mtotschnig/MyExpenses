@@ -17,10 +17,13 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.Payee;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -51,7 +54,11 @@ public class ManageParties extends ProtectedFragmentActivity {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
-      Payee.delete(info.id);
+      FragmentManager fm = getSupportFragmentManager();
+      fm.beginTransaction()
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_PAYEE,info.id), "DELETE_TASK")
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
+        .commit();
     }
     return super.onContextItemSelected(item);
   }

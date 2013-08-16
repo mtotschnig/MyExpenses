@@ -19,6 +19,8 @@ import java.io.Serializable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
@@ -26,6 +28,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -76,7 +79,11 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
       if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
         switch(item.getItemId()) {
           case DELETE_TEMPLATE:   
-            Template.delete(id);
+            FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction()
+              .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TEMPLATE,info.id), "DELETE_TASK")
+              .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
+              .commit();
             break;
           case CREATE_INSTANCE_SAVE:
             if (Transaction.getInstanceFromTemplate(id).save() == null)

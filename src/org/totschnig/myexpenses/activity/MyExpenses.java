@@ -685,6 +685,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       getSupportActionBar().show();
       setup();
     }
-    ((ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag("PROGRESS")).dismiss();
+    super.onPostExecute(taskId, o);
   }
 }

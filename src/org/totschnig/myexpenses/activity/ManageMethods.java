@@ -17,6 +17,8 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -29,6 +31,7 @@ import com.actionbarsherlock.view.MenuItem;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -98,7 +101,11 @@ public class ManageMethods extends ProtectedFragmentActivity implements OnItemCl
       } else if (Template.countPerMethod(info.id) > 0 ) {
         Toast.makeText(this,getString(R.string.not_deletable_mapped_templates), Toast.LENGTH_LONG).show();
       }  else {
-        PaymentMethod.delete(info.id);
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_PAYMENT_METHOD,info.id), "DELETE_TASK")
+          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
+          .commit();
       }
       return true;
     }

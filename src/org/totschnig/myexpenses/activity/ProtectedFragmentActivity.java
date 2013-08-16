@@ -17,7 +17,9 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -29,9 +31,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.StrictMode;
 
 public class ProtectedFragmentActivity extends SherlockFragmentActivity
-    implements MessageDialogListener, OnSharedPreferenceChangeListener  {
+    implements MessageDialogListener, OnSharedPreferenceChangeListener,
+    TaskExecutionFragment.TaskCallbacks{
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
@@ -39,7 +43,7 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-/*    StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+    StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
     .detectDiskReads()
     .detectDiskWrites()
     .detectNetwork()   // or .detectAll() for all detectable problems
@@ -47,10 +51,10 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
     .build());
     StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
     .detectLeakedSqlLiteObjects()
-    .detectLeakedClosableObjects()
+    //.detectLeakedClosableObjects()
     .penaltyLog()
     .penaltyDeath()
-    .build());*/
+    .build());
 
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
@@ -110,5 +114,24 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
     if (CommonCommands.dispatchCommand(this, command))
       return true;
     return false;
+  }
+  @Override
+  public void onPreExecute() {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void onProgressUpdate(int percent) {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void onCancelled() {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void onPostExecute(int taskId, Object o) {
+    ((ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag("PROGRESS")).dismiss();
   }
 }

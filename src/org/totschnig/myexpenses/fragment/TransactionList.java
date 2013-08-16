@@ -11,11 +11,11 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -34,6 +34,7 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -230,8 +231,11 @@ public class TransactionList extends SherlockFragment implements
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
       if (checkSplitPartTransfer(info.position)) {
-        Transaction.delete(info.id);
-        ctx.configButtons();
+        FragmentManager fm = ctx.getSupportFragmentManager();
+        fm.beginTransaction()
+          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,info.id), "DELETE_TASK")
+          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
+          .commit();
       }
       return true;
     case R.id.CLONE_TRANSACTION_COMMAND:

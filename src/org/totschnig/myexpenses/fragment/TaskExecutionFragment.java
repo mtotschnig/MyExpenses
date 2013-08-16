@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.fragment;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -24,6 +26,11 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_INSTANTIATE_TEMPLATE = 3;
   public static final int TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE = 4;
   public static final int TASK_REQUIRE_ACCOUNT = 5;
+  public static final int TASK_DELETE_TRANSACTION = 6;
+  public static final int TASK_DELETE_ACCOUNT = 7;
+  public static final int TASK_DELETE_PAYMENT_METHOD = 8;
+  public static final int TASK_DELETE_PAYEE = 9;
+  public static final int TASK_DELETE_TEMPLATE = 10;
   
   /**
    * Callback interface through which the fragment will report the
@@ -134,6 +141,21 @@ public class TaskExecutionFragment extends Fragment {
         );
         account.save();
       return account;
+      case TASK_DELETE_TRANSACTION:
+        Transaction.delete(id[0]);
+        return null;
+      case TASK_DELETE_ACCOUNT:
+        Account.delete(id[0]);
+        return null;
+      case TASK_DELETE_PAYMENT_METHOD:
+        PaymentMethod.delete(id[0]);
+        return null;
+      case TASK_DELETE_PAYEE:
+        Payee.delete(id[0]);
+        return null;
+      case TASK_DELETE_TEMPLATE:
+        Template.delete(id[0]);
+        return null;
       }
       return null;
     }
