@@ -50,9 +50,9 @@
   <string name="date_time">Data / Ora</string>
   <string name="default_account_description">Questo conto è stato creato automaticamente con la installazione</string>
   <string name="description">Descrizione</string>
-  <string name="dialog_confirm_restore_on_install">È stato trovato un file backup. Vuoi ripristinarlo?</string>
+  <string name="dialog_confirm_restore_on_install">È stato trovato un file di backup. Si vuole ripristinarlo?</string>
   <string name="dialog_contrib_no">Non ancora</string>
-  <string name="dialog_contrib_no_usages_left">Non restano alcuni usi gratis</string>
+  <string name="dialog_contrib_no_usages_left">Non restano usi gratuiti</string>
   <string name="dialog_contrib_reminder">\"%1$s\" è una funzionalità speciale. %2$s. Ottiene accesso
     illimitato a questa e altre funzionalità installando &lt;i>&app_name; Contrib&lt;/i>.</string>
   <string name="dialog_contrib_usage_count">Restano %1$d usi gratis</string>
