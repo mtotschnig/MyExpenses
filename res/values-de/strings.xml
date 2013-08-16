@@ -221,7 +221,7 @@
       verknüpft, die gelöscht wurde</string>
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der
       SD-Karte.</string>
-  <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge der Kategorien</string>
+  <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge (Kategorien, Vorlagen, Konten)</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Häufigkeit der Benutzung</string>
   <string name="pref_categories_sort_by_usages_summaryOff">alphabetische Reihung</string>
   <string name="pref_category_title_manage">Verwalten</string>

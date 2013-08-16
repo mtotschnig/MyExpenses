@@ -221,8 +221,7 @@
       %1$s) che è stato eliminato</string>
   <string name="pref_backup_summary">Crea un backup del database e delle preferenze sulla scheda SD.
   </string>
-  <string name="pref_categories_sort_by_usages_title">Criterio di ordinamento per le categorie
-  </string>
+  <string name="pref_categories_sort_by_usages_title">Criterio di ordinamento (categorie, modelli, conti)</string>
   <string name="pref_categories_sort_by_usages_summaryOn">frequenza d\'uso</string>
   <string name="pref_categories_sort_by_usages_summaryOff">ordine alfabetico</string>
   <string name="pref_category_title_import">Import</string>

@@ -224,8 +224,7 @@
       contrapartida (cuenta %1$s) que fue borrado.</string>
   <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y de las
       configuraciones en la tarjeta SD.</string>
-  <string name="pref_categories_sort_by_usages_title">Criterio de ordenación de las categorías
-      </string>
+  <string name="pref_categories_sort_by_usages_title">Criterio de ordenación (categorías, plantillas, cuentas)</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Frecuencia de utilización</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Orden alfabético</string>
   <string name="pref_category_title_import">Import</string>

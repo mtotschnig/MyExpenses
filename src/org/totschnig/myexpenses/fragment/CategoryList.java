@@ -29,16 +29,9 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
   int mGroupIdColumnIndex;
   private LoaderManager mManager;
   
-  /**
-   * how should categories be sorted, configurable through setting
-   */
-  String mOrderBy;
-  
   @Override
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-      mOrderBy = (MyApplication.getInstance().getSettings()
-          .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ? "usages DESC, " : "") + "label";
   }
 
   @Override
@@ -118,7 +111,7 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
       selectionArgs = new String[]{String.valueOf(parentId)};
     }
     return new CursorLoader(getActivity(),TransactionProvider.CATEGORIES_URI, null,
-        selection,selectionArgs, mOrderBy);
+        selection,selectionArgs, null);
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {

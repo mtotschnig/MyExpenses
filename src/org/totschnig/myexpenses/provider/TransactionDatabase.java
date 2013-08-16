@@ -17,7 +17,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 32;
+  public static final int DATABASE_VERSION = 33;
   public static final String DATABASE_NAME = "data";
 
   private static final String TAG = "TransactionDatabase";
@@ -56,8 +56,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         + KEY_CURRENCY        + " text not null, "
         + KEY_TYPE            + " text not null check (" + KEY_TYPE     + " in (" + Account.Type.JOIN     + ")) default '" + Account.Type.CASH.name()      + "', "
         + KEY_COLOR           + " integer default -3355444, "
-        + KEY_GROUPING        + " text not null check (" + KEY_GROUPING + " in (" + Account.Grouping.JOIN + ")) default '" +  Account.Grouping.NONE.name() + "');";
-
+        + KEY_GROUPING        + " text not null check (" + KEY_GROUPING + " in (" + Account.Grouping.JOIN + ")) default '" +  Account.Grouping.NONE.name() + "', "
+        + KEY_USAGES          + " integer default 0);";
 
   /**
    * SQL statement for categories TABLE
@@ -337,6 +337,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     }
     if (oldVersion < 32) {
       db.execSQL("ALTER TABLE accounts add column grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE'");
+    }
+    if (oldVersion < 33) {
+      db.execSQL("ALTER TABLE accounts add column usages integer default 0");
+      db.execSQL("UPDATE accounts SET usages = (SELECT count(*) FROM transactions WHERE account_id = accounts._id AND parent_id IS null)");
     }
   }
 }

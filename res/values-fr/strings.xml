@@ -222,7 +222,7 @@
       a été supprimée</string>
   <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences
       sur la carte SD.</string>
-  <string name="pref_categories_sort_by_usages_title">Critères de tri pour catégories</string>
+  <string name="pref_categories_sort_by_usages_title">Critères de tri (catégories, modèles, comptes)</string>
   <string name="pref_categories_sort_by_usages_summaryOn">fréquence d\'utilisation</string>
   <string name="pref_categories_sort_by_usages_summaryOff">par ordre alphabétique</string>
   <string name="pref_category_title_manage">Gestion</string>

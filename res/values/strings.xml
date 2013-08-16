@@ -231,7 +231,7 @@
       that has been deleted</string>
   <string name="pref_backup_summary">Create a backup of database and preferences on the
       sdcard.</string>
-  <string name="pref_categories_sort_by_usages_title">Sort order for categories</string>
+  <string name="pref_categories_sort_by_usages_title">Sort order (categories, templates, accounts)</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Count of usages</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Alphanumeric</string>
   <string name="pref_category_title_more_information">More information</string>

@@ -148,7 +148,7 @@
   <string name="peer_transaction_deleted">Aquest assentament estava connectat a un assentament de contrapartida (compte %1$s) que es va suprimir.</string>
   <string name="pref_backup_summary">Fes una còpia de seguretat de la base de dades i de les
       preferències a la targeta SD.</string>
-  <string name="pref_categories_sort_by_usages_title">Criteri d\'ordenació de les categories</string>
+  <string name="pref_categories_sort_by_usages_title">Criteri d\'ordenació (categories,plantilles, comptes)</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Freqüència d\'utilizació</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Ordre alfabétic</string>
   <string name="pref_category_title_manage">Personalitza</string>

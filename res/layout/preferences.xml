@@ -46,6 +46,8 @@
         android:title="@string/pref_ui_theme_title"
         android:entries="@array/pref_ui_theme_entries"
         android:entryValues="@array/pref_ui_theme_values"/>
+    <!-- for historical reasons the key is linked to categories, but the preference also
+      determines sorting of templates and accounts -->
     <CheckBoxPreference android:key="@string/pref_categories_sort_by_usages_key"
         android:defaultValue="true"
         android:title="@string/pref_categories_sort_by_usages_title"

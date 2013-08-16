@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.provider;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.*;
 
 import android.content.ContentProvider;
@@ -17,7 +18,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class TransactionProvider extends ContentProvider {
 
   protected static TransactionDatabase mOpenHelper;
-  private static final boolean debug = true;
+  private static final boolean debug = false;
   public static final String AUTHORITY = "org.totschnig.myexpenses";
   public static final Uri ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts");
@@ -131,9 +132,10 @@ public class TransactionProvider extends ContentProvider {
       if (projection == null)
         projection = Category.PROJECTION;
       //qb.appendWhere("parent_id=" + uri.getPathSegments().get(1));
-      //boolean categories_sort = MyApplication.getInstance().getSettings()
-      //  .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true);
-      //String orderBy = (categories_sort ? "usages DESC, " : "") + "label";
+      defaultOrderBy = (MyApplication.getInstance().getSettings()
+          .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
+              KEY_USAGES + " DESC, " : "")
+         + KEY_LABEL;
       break;
     case CATEGORIES_ID:
       qb.setTables(TABLE_CATEGORIES);
@@ -143,6 +145,10 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(TABLE_ACCOUNTS);
       if (projection == null)
         projection = Account.PROJECTION;
+      defaultOrderBy = (MyApplication.getInstance().getSettings()
+          .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
+              KEY_USAGES + " DESC, " : "")
+         + KEY_LABEL;
       break;
     case ACCOUNTS_ID:
       qb.setTables(TABLE_ACCOUNTS);
@@ -217,7 +223,10 @@ public class TransactionProvider extends ContentProvider {
       break;
     case TEMPLATES:
       qb.setTables(TABLE_TEMPLATES);
-      defaultOrderBy =  "usages DESC";
+      defaultOrderBy = (MyApplication.getInstance().getSettings()
+          .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
+              KEY_USAGES + " DESC, " : "")
+         + KEY_TITLE;
       break;
     case TEMPLATES_ID:
       qb.setTables(TABLE_TEMPLATES);
