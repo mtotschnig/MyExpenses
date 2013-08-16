@@ -558,20 +558,28 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case ACCOUNTS_CURSOR:
       mAccountsCursor = cursor;
       mAccountsCursor.moveToFirst();
-      currentPosition = 0;
+      currentPosition = -1;
+      int columnIndexRowId = mAccountsCursor.getColumnIndex(KEY_ROWID),
+          columnIndexCurrency = mAccountsCursor.getColumnIndex(KEY_CURRENCY);
       String currency;
       Integer count;
       currencyAccountCount = new HashMap<String,Integer>();
       while (mAccountsCursor.isAfterLast() == false) {
-        if (mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID)) == mAccountId) {
+        if (mAccountsCursor.getLong(columnIndexRowId) == mAccountId) {
           currentPosition = mAccountsCursor.getPosition();
         }
-        currency = mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_CURRENCY));
+        currency = mAccountsCursor.getString(columnIndexCurrency);
         count = currencyAccountCount.get(currency);
         if (count == null)
           count = 0;
         currencyAccountCount.put(currency, count+1);
         mAccountsCursor.moveToNext();
+      }
+      //the current account was deleted, we set it to the
+      if (currentPosition == -1) {
+        currentPosition = 0;
+        mAccountsCursor.moveToFirst();
+        mAccountId = mAccountsCursor.getLong(columnIndexRowId);
       }
       myAdapter.swapCursor(cursor);
       fillNavigation();
