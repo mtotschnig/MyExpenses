@@ -19,7 +19,6 @@ Features:
 Build:
 *My Expenses* depends on two libraries:
 - Jake Wharton's <a href="http://actionbarsherlock.com">ActionBarSherlock</a>
-- Emil Sjölander's StickyListHeaders in the following <a href="https://github.com/mtotschnig/StickyListHeaders">fork</a> from Github
-
+- Emil Sjölander's StickyListHeaders in the following <a href="https://github.com/mtotschnig/StickyListHeaders">fork</a>
 
 You can support this app's continued development through your <a href="http://myexpenses.totschnig.org/#donate">donation</a> .
