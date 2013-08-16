@@ -16,11 +16,11 @@
  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.totschnig.myexpenses" 
-    android:versionCode="63"
-    android:versionName="1.8.5"
+    android:versionCode="64"
+    android:versionName="1.9.0"
     android:installLocation="auto"
 >
-    <uses-sdk android:minSdkVersion="5" android:targetSdkVersion="15"></uses-sdk>
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="17"></uses-sdk>
     <supports-screens
       android:smallScreens="true"
       android:normalScreens="true"

@@ -124,7 +124,7 @@
     - Administrar directamente en tu móvil.\n
     - Exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</string>
   <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
-  <string name="help_whats_new">&#160;- Asientos divididos &contrib;</string>
+<!--   <string name="help_whats_new">&#160;- Asientos divididos &contrib;</string> -->
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Información importante</string>
   <string name="income">ingreso</string>

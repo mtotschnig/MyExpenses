@@ -128,7 +128,7 @@
   	- Manage them directly on your smartphone.\n
   	- Export them into a Desktop finance program like Grisbi, GnuCash, Quicken or MS Money.</string>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
-  <string name="help_whats_new">&#160;- Split transactions &contrib;</string>
+  <string name="help_whats_new">&#160;- Group transactions per day, week, month, year and display sums per group</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">Income</string>
@@ -290,7 +290,9 @@
   <string name="pref_visit_website_title">Visit Website</string>
   <string name="pref_visit_website_summary">Changelog and FAQ</string>
   <string name="progress_dialog_cloning">Cloning &#8230;</string>
+  <string name="progress_dialog_deleting">Deleting &#8230;</string>
   <string name="progress_dialog_loading">Loading object from database &#8230;</string>
+  <string name="progress_dialog_setup">Transaction database is initialized &#8230;</string>
   <string name="request_licence_mail_body">Please send me a Contrib key for Android-Id %1$s.
     \n\n[Please describe (in English, German or French) your contribution to &app_name;
     (e.g.: donation via Paypal, bug report, testing, translation)]</string>
