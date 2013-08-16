@@ -228,6 +228,10 @@ public class Transaction extends Model {
         cr().update(
             TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(catId)).appendPath("increaseUsage").build(),
             null, null, null);
+      if (parentId == null)
+        cr().update(
+            TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).appendPath("increaseUsage").build(),
+            null, null, null);
     }
     else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();

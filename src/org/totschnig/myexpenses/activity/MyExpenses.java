@@ -557,6 +557,11 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     switch(id) {
     case ACCOUNTS_CURSOR:
       mAccountsCursor = cursor;
+      //swaping the cursor is altering the accountId, if the
+      //sort order has changed, but we want to move to the same account as before
+      long cacheAccountId = mAccountId;
+      myAdapter.swapCursor(cursor);
+      mAccountId = cacheAccountId;
       mAccountsCursor.moveToFirst();
       currentPosition = -1;
       int columnIndexRowId = mAccountsCursor.getColumnIndex(KEY_ROWID),
@@ -581,7 +586,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         mAccountsCursor.moveToFirst();
         mAccountId = mAccountsCursor.getLong(columnIndexRowId);
       }
-      myAdapter.swapCursor(cursor);
       fillNavigation();
       getSupportActionBar().setSelectedNavigationItem(currentPosition);
       if ("SELECT_ACCOUNT".equals(fragmentCallbackTag)) {

@@ -70,6 +70,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int AGGREGATES_COUNT = 20;
   private static final int UNCOMMITTED = 21;
   private static final int TRANSACTIONS_GROUPS = 22;
+  private static final int ACCOUNTS_INCREASE_USAGE = 23;
   
   @Override
   public boolean onCreate() {
@@ -530,6 +531,11 @@ public class TransactionProvider extends ContentProvider {
       db.execSQL("update " + TABLE_TEMPLATES + " set usages = usages +1 WHERE _id = " + segment);
       count = 1;
       break;
+    case ACCOUNTS_INCREASE_USAGE:
+      segment = uri.getPathSegments().get(1);
+      db.execSQL("update " + TABLE_ACCOUNTS + " set usages = usages +1 WHERE _id = " + segment);
+      count = 1;
+      break;
     default:
       throw new IllegalArgumentException("Unknown URI " + uri);
     }
@@ -552,6 +558,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "categories/#/increaseUsage", CATEGORIES_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNTS_ID);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/#/increaseUsage", ACCOUNTS_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEES_ID);
     URI_MATCHER.addURI(AUTHORITY, "methods", METHODS);
