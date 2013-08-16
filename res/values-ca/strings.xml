@@ -218,7 +218,5 @@
       SD. es suprimirà la còpia de seguretat actual. Voleu continuar?</string>
   <string name="warning_delete_account">Es suprimirà aquest compte amb totes les seves transaccions. Voleu
       continuar?</string>
-  <string name="warning_reset_account">Totes les transaccions d\'aquest compte s\'exportaran a un fitxer %1$s
-      de la targeta SD i es suprimiran. Voleu continuar?</string>
   <string name="warning_select_account">Si us plau, trieu un compte!</string>
 </resources>

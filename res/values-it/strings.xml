@@ -330,10 +330,8 @@
     impostato una domanda di sicurezza (Richiede &app_name; Contrib).</string>
   <string name="warning_password_contrib">L\'impostazione di una domanda di sicurezza consente di sbloccare l\'applicazione,
     nel caso in cui si dimentichi la password.</string>
-  <string name="warning_reset_account">Tutte le operazioni di questo conto saranno esportati
-    a un file %1$s nella scheda SD e cancellati. &continue;</string>
-  <string name="warning_reset_account_all">Per tutti i conti, le transazioni vengono esportati in file %1$s
-    su SD-card e cancellati. &continue;</string>
+  <string name="warning_reset_account">Se si continua, tutte le operazioni di questo conto vengono eliminati dal database e non possono essere ripristinati.</string>
+  <string name="warning_reset_account_all">Se si continua, tutte le operazioni di tutti gli conti vengono eliminati dal database e non possono essere ripristinati.</string>
   <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup. I dati
     attuali verranno cancellati. &continue;</string>
   <string name="warning_select_account">Si deve selezionare un conto !</string>

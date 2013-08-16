@@ -336,10 +336,8 @@
     establece una pregunta de seguridad (Requiere &app_name; Contrib).</string>
   <string name="warning_password_contrib">Estableciendo una pregunta de seguridad permite desbloquear la aplicación,
     qen caso de que olvide su contraseña.</string>
-  <string name="warning_reset_account">Todas las transacciones serán exportadas a un archivo %1$s
-    en la tarjeta SD y borradas.&continue;</string>
-  <string name="warning_reset_account_all">Para todas las cuentas, las transacciones serán exportadas en archivos %1$s
-       en la tarjeta SD y eliminadas. &continue;</string>
+  <string name="warning_reset_account">Si continúa, todas las transacciones de esta cuenta se eliminan de la base de datos y no se pueden restaurar.</string>
+  <string name="warning_reset_account_all">Si continúa, todas las transacciones de todas las cuentas se eliminan de la base de datos y no se pueden restaurar.</string>
   <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de
     seguridad. Se borrarán los datos actuales. &continue;</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>

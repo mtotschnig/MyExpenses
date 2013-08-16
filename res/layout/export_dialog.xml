@@ -29,4 +29,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dialog_export_not_yet_exported"/>
+    <TextView
+        style="@style/dialog_text_bold_workaround"
+        android:layout_margin="@dimen/general_padding"
+	      android:layout_height="wrap_content"
+	      android:layout_width="fill_parent"
+	      android:id="@+id/warning_reset"
+	      android:text="@string/warning_reset_account" />
 </LinearLayout>

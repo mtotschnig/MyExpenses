@@ -333,10 +333,8 @@ attribuée.</string>
   <string name="warning_password_contrib">La définition d\'une question de sécurité vous permet de débloquer l\'app, si vous oubliez votre mot de passe.</string>
   <string name="warning_reset_account_all">Pour tous les comptes, les opérations seront exportées vers des fichiers %1$s sur la carte SD et 
       effacées. &continue;</string>
-  <string name="warning_reset_account">Toutes les opérations du compte seront exportées vers un fichier %1$s sur la carte SD et 
-      effacées. &continue;</string>
-  <string name="warning_restore">La base de données et les paramètres seront restaurés à partir de la sauvegarde.
-    Les données actuelles seront supprimées. &continue;</string>
+  <string name="warning_reset_account">Si vous continuez, toutes les opérations de ce compte sont supprimées de la base de données et ne peuvent pas être restaurées.</string>
+  <string name="warning_restore">Si vous continuez, toutes les opérations de tous les comptes sont supprimées de la base de données et ne peuvent pas être restaurées.</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
   <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés ou supprimés que dans  celle-ci.</string>
 </resources>

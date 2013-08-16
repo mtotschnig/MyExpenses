@@ -24,10 +24,13 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ExportDialogFragment extends DialogFragment implements android.content.DialogInterface.OnClickListener, android.view.View.OnClickListener {
-  CheckBox notYetExportedCB;
+  CheckBox notYetExportedCB,deleteCB;
+  RadioButton formatRB;
+  TextView warningTV;
   
   public static final ExportDialogFragment newInstance(Long accountId) {
     ExportDialogFragment dialogFragment = new ExportDialogFragment();
@@ -49,22 +52,33 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.export_dialog, null);
     notYetExportedCB = (CheckBox) view.findViewById(R.id.export_not_yet_exported);
-    if (MyApplication.getInstance().getSettings().
-          getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF").equals("CSV"))
-      ((RadioButton) view.findViewById(R.id.csv)).setChecked(true);
+    deleteCB = (CheckBox) view.findViewById(R.id.export_delete);
+    warningTV = (TextView) view.findViewById(R.id.warning_reset);
+    formatRB = (RadioButton) view.findViewById(R.id.csv);
+    String format = MyApplication.getInstance().getSettings()
+        .getString(MyApplication.PREFKEY_EXPORT_FORMAT, "QIF");
+    boolean deleteP = true;
+    if (format.equals("CSV"))
+      (formatRB).setChecked(true);
+    deleteCB.setOnClickListener(this);
     if (Account.getHasExported(accountId)) {
-      CheckBox deleteCB = (CheckBox) view.findViewById(R.id.export_delete);
+      deleteP = false;
       deleteCB.setChecked(false);
-      deleteCB.setOnClickListener(this);
       notYetExportedCB.setChecked(true);
       notYetExportedCB.setVisibility(View.VISIBLE);
     }
-
+    warningTV.setText(getString(
+        allP ? R.string.warning_reset_account_all : R.string.warning_reset_account));
+    if (deleteP)
+      warningTV.setVisibility(View.VISIBLE);
+    else
+      warningTV.setVisibility(View.GONE);
     return new AlertDialog.Builder(wrappedCtx)
       .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)
       .setNegativeButton(android.R.string.cancel,null)
+      .setIcon(android.R.drawable.ic_dialog_alert)
       .create();
   }
 
@@ -110,9 +124,11 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
    if (((CheckBox) view).isChecked()) {
      notYetExportedCB.setEnabled(false);
      notYetExportedCB.setChecked(false);
+     warningTV.setVisibility(View.VISIBLE);
    } else {
      notYetExportedCB.setEnabled(true);
      notYetExportedCB.setChecked(true);
+     warningTV.setVisibility(View.GONE);
    }
   }
 }
