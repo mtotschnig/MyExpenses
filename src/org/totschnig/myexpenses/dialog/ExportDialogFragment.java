@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,7 +19,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -42,6 +42,7 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     return dialogFragment;
   }
   
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx  = (Activity) getActivity();
@@ -73,13 +74,16 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       warningTV.setVisibility(View.VISIBLE);
     else
       warningTV.setVisibility(View.GONE);
-    return new AlertDialog.Builder(wrappedCtx)
+    AlertDialog.Builder builder = new AlertDialog.Builder(wrappedCtx)
       .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)
-      .setNegativeButton(android.R.string.cancel,null)
-      .setIcon(android.R.drawable.ic_dialog_alert)
-      .create();
+      .setNegativeButton(android.R.string.cancel,null);
+   if (Build.VERSION.SDK_INT < 11)
+     builder.setIcon(android.R.drawable.ic_dialog_alert);
+   else
+     builder.setIconAttribute(android.R.attr.alertDialogIcon);
+      return builder.create();
   }
 
   @Override
