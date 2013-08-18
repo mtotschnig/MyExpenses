@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses.dialog;
 
-import java.util.Arrays;
+import java.lang.reflect.Array;
 
 import org.totschnig.myexpenses.R;
 
@@ -53,7 +53,10 @@ public class HelpDialogFragment extends DialogFragment {
       if (variant != null &&
           (resId = res.getIdentifier(activityName + "_" + variant +"_menuitems", "array", pack)) != 0) {
         String[] itemsVariant = res.getStringArray(resId);
-        itemsAll = Arrays.copyOf(items, items.length + itemsVariant.length);
+        itemsAll = (String[])Array.newInstance(String[].class.getComponentType(), items.length + itemsVariant.length);
+        System.arraycopy(items, 0, itemsAll, 0, items.length);
+        //easier from API 9
+        //itemsAll = Arrays.copyOf(items, items.length + itemsVariant.length);
         System.arraycopy(itemsVariant, 0, itemsAll, items.length, itemsVariant.length);
       } else
         itemsAll = items;
