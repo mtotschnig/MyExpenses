@@ -822,9 +822,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
     setup();
     supportInvalidateOptionsMenu();
-    ProgressDialogFragment f = ((ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag("PROGRESS"));
-    if (f!=null)
-      f.dismiss();
+    super.onPostExecute(taskId, o);
   }
   public Account getmAccount() {
     if (mAccount == null) {

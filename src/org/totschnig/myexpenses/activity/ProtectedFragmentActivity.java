@@ -132,6 +132,8 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   }
   @Override
   public void onPostExecute(int taskId, Object o) {
-    ((ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag("PROGRESS")).dismiss();
+    ProgressDialogFragment f = ((ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag("PROGRESS"));
+    if (f!=null)
+      f.dismiss();
   }
 }
