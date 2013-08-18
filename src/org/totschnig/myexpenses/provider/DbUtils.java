@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
+import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -79,15 +80,11 @@ public class DbUtils {
 
       if (backupDb.exists()) {
         result = Utils.copy(backupDb,currentDb);
-        try {
-          //under certain conditions the content provider has not become aware of the need to
-          //reopen the database, currently unable to reproduce these conditions
-          //from API level 5 we have a method for forcing the reload
-          Class.forName("android.content.ContentProviderClient");
-          DbUtilsApi5.postRestore();
-        } catch (ClassNotFoundException e) {
-          //we are on api 4
-        }
+        ContentResolver resolver = app.getContentResolver();
+        ContentProviderClient client = resolver.acquireContentProviderClient(TransactionProvider.AUTHORITY);
+        TransactionProvider provider = (TransactionProvider) client.getLocalContentProvider();
+        provider.resetDatabase();
+        client.release();
       }
     } catch (Exception e) {
       Log.e("MyExpenses",e.getLocalizedMessage());
