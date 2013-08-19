@@ -19,6 +19,9 @@
     trong phần Thiết Lập.</string>
   <string name="menu_edit_account_help_text">Hiệu chỉnh thuộc tính của tài khoản hiện tại
     (tiêu đề, mô tả, mở trạng thái cân bằng, loại tài khoản, tiền tệ, màu sắc).</string>
+  <string name="menu_grouping_help_text">Bạn có thể gom nhóm các giao dịch theo ngày, tuần, tháng hoặc năm.
+  	Đối với mỗi nhóm, tổng thu nhập, chi tiêu, và truyền đổi được tính toán tỉ mỉ và được hiển thị trực tiếp lên màn hình.</string>
+
   <!--ManageAccounts Accounts list-->
   <string name="help_ManageAccounts_title">Danh sách tài khoản</string>
   <string name="help_ManageAccounts_info">Màn hình này sẽ liệt kê tất cả các tài khoản. Click vào một dòng bất kỳ, mở

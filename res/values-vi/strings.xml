@@ -65,6 +65,7 @@
   <string name="dialog_title_select_color">Chọn một màu sắc</string>
   <string name="dialog_title_select_import_source">Chọn một nguồn để nhập dữ liệu</string>
   <string name="dialog_title_select_currency">Chọn một loại tiền tệ</string>
+  <string name="dialog_title_select_grouping">Chọn một nhóm</string>
   <string name="dialog_title_select_method">Chọn một phương thức chi trả</string>
   <string name="dialog_title_select_template">Chọn một mẫu</string>
   <string name="dialog_title_select_type">Chọn một loại</string>
@@ -95,6 +96,15 @@
   <string name="grisbi_import_categories_success">%1$s phân loại đã được nhập dữ liệu thành công</string>
   <string name="grisbi_import_parsing">Đang phân tích %1$s</string>
   <string name="grisbi_import_parties_loading">Đang tải các nhóm từ %1$s</string>
+  <string name="grouping_none">Gõ bỏ khỏi nhóm</string>
+  <string name="grouping_day">Ngày</string>
+  <string name="grouping_week">Tuần</string>
+  <string name="grouping_month">Tháng</string>
+  <string name="grouping_year">Năm</string>
+  <string name="grouping_today">Hôm nay</string>
+  <string name="grouping_yesterday">Hôm qua</string>
+  <string name="grouping_this_week">Tuần này</string>
+  <string name="grouping_last_week">Tuần rồi</string>
   <string name="help_button_rate">Xếp hạng hoặc xem sơ lược</string>
   <string name="help_contextuel_help">Vui lòng đọc thêm thông tin
     về các tính năng hiện có thông qua phần menu trợ giúp.</string>
@@ -142,6 +152,7 @@
   <string name="menu_edit_transaction">Chỉnh sửa giao dịch</string>
   <string name="menu_edit_template">Chỉnh sửa mẫu</string>
   <string name="menu_edit_transfer">Chỉnh sửa Truyền Đổi</string>
+  <string name="menu_grouping">Gom nhóm</string>
   <string name="menu_help">Trợ giúp</string>
   <string name="menu_move_transaction">Di chuyển</string>
   <string name="menu_save">Lưu</string>
@@ -260,11 +271,12 @@ số lượng tiền tệ</string>
   <string name="pref_visit_website_title">Truy cập Website</string>
   <string name="pref_visit_website_summary">Nhật trình và các câu hỏi thường gặp</string>
   <string name="progress_dialog_cloning">Đang sao chép hóa &#8230;</string>
+  <string name="progress_dialog_deleting">Đang thực hiện thao tác xóa &#8230;</string>
   <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu &#8230;</string>
+  <string name="progress_dialog_setup">Cơ sở dữ liệu của giao dịch đã được thiết lập &#8230;</string>
   <string name="request_licence_mail_body">Vui lòng gửi đến tác giả mã khóa Cống Hiến dành cho Android-Id %1$s.
     \n\n[Hãy gửi cho tác giả một mô tả ngắn gọn (bằng tiếng Anh, Đức hoặc Pháp) về sự cống hiến của bạn dành cho &app_name;
     (ví dụ.: đóng góp qua Paypal, gửi báo cáo lỗi, xài thử chương trình, tham gia vào việc dịch chương trình)]</string>
-  <string name="request_licence_mail_body">Vui lòng gửi khóa cống hiến cho phiên bản Android %1$s</string>
   <string name="restore_db_failure">Xảy ra lỗi khi khôi phục cơ sở dữ liệu</string>
   <string name="restore_db_success">Cơ sở dữ liệu đã được phục hồi từ phần sao lưu</string>
   <string name="restore_no_backup_found">Không có tập tin SAO LƯU nào được tìm thấy trong thư mục \"myexpenses\" trên thẻ nhớ.</string>
