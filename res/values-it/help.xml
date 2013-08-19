@@ -14,12 +14,13 @@
     visualizza una finestra di dialogo per la selezione di un modello da cui verrà creata una nuova transazione.</string>
   <string name="menu_reset_help_text">Questo comando consente di esportare tutte le transazioni del conto corrente in un file su
      la scheda SD in QIF o in formato CSV. Per impostazione predefinita, le operazioni saranno
-     eliminate dal telefono, ma è possibile scegliere di tenerle e segnarle come esportate. Con Le mie spese può condividere il file immediatamente dopo l\'esportazione tramite FTP, e-mail o qualsiasi altra applicazione di file sharing, se lo si configura
+     eliminate dal telefono, ma è possibile scegliere di tenerle e segnarle come esportate. Con Le mie spese si può condividere il 
+     file immediatamente dopo l\'esportazione tramite FTP, e-mail o qualsiasi altra applicazione di file sharing, se lo si configura
      di farlo in Impostazioni.</string>
   <string name="menu_edit_account_help_text">Regolare le proprietà del conto corrente
      (titolo, descrizione, saldo di apertura, tipo di conto, valuta, colore).</string>
   <string name="menu_grouping_help_text">È possibile raggruppare le transazioni per giorno, settimana, mese o anno.
-     Per ogni gruppo, la somma di redditi, spese e trasferimenti viene calcolato e visualizzato.</string>
+     Per ogni gruppo, le somme di redditi, spese e trasferimenti vengono calcolate e visualizzate.</string>
 
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Elenco dei conti</string>
