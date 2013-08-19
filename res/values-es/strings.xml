@@ -80,6 +80,7 @@
   <string name="dialog_title_select_account">Escoger una cuenta</string>
   <string name="dialog_title_select_color">Escoger un color</string>
   <string name="dialog_title_select_currency">Escoger una moneda</string>
+  <string name="dialog_title_select_grouping">Escoger un agrupamiento</string>
   <string name="dialog_title_select_import_source">Escoger una fuente para la importación</string>
   <string name="dialog_title_select_method">Escoger un método de pago</string>
   <string name="dialog_title_select_type">Escoger un tipo</string>
@@ -114,6 +115,15 @@
   <string name="grisbi_import_categories_success">%1$s categorías han sido importadas con éxito.
       </string>
   <string name="grisbi_import_parties_loading">Partes se cargan desde %1$s</string>
+  <string name="grouping_none">Desagrupada</string>
+  <string name="grouping_day">Día</string>
+  <string name="grouping_week">Semana</string>
+  <string name="grouping_month">Mes</string>
+  <string name="grouping_year">Año</string>
+  <string name="grouping_today">Hoy</string>
+  <string name="grouping_yesterday">Ayer</string>
+  <string name="grouping_this_week">Esta semana</string>
+  <string name="grouping_last_week">Semana pasada</string>
   <string name="help_button_rate">Dé su revisión</string>
   <string name="help_contextuel_help">Puede encontrar más información acerca de la funcionalidad disponible
   	a través de la entrada Ayuda del menú.</string>
@@ -163,6 +173,7 @@
   <string name="menu_edit_transaction">Modificar el asiento</string>
   <string name="menu_edit_template">Editar plantilla</string>
   <string name="menu_edit_transfer">Modificar el traslado a otra cuenta</string>
+  <string name="menu_grouping">Agrupamiento</string>
   <string name="menu_help">Ayuda</string>
   <string name="menu_move_transaction">Mover</string>
   <string name="menu_new_from_template">Nuevo a partir de una plantilla</string>
@@ -291,7 +302,9 @@
   <string name="pref_visit_website_title">Visite el sitio web</string>
   <string name="pref_visit_website_summary">Registro de cambios y preguntas frecuentes</string>
   <string name="progress_dialog_cloning">Clonando &#8230;</string>
+  <string name="progress_dialog_deleting">Eliminando &#8230;</string>
   <string name="progress_dialog_loading">Cargando objeto de base de datos &#8230;</string>
+  <string name="progress_dialog_setup">Base de datos se inicializa &#8230;</string>
   <string name="request_licence_mail_body">Por favor, envíeme una clave contrib para Android-Id %1$s.
     \n\n[Por favor describa (en Inglés, francés o alemán) su contribución a &app_name; (por ejemplo: donación a través de Paypal, informe de errores, pruebas, traducción)]</string>
   <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.

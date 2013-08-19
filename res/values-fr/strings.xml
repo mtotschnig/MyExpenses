@@ -80,6 +80,7 @@
   <string name="dialog_title_select_account">Sélectionner un compte</string>
   <string name="dialog_title_select_color">Sélectionner une couleur</string>
   <string name="dialog_title_select_currency">Sélectionner une devise</string>
+  <string name="dialog_title_select_grouping">Sélectionner un regroupement</string>
   <string name="dialog_title_select_import_source">Sélectionner une source pour l\'import</string>
   <string name="dialog_title_select_method">Sélectionner un paiement</string>
   <string name="dialog_title_select_template">Sélectionner un modèle</string>
@@ -114,6 +115,15 @@
   <string name="grisbi_import_categories_loading">Import des catégories à partir de %1$s</string>
   <string name="grisbi_import_categories_success">%1$s catégories ont été importées</string>
   <string name="grisbi_import_parties_loading">Import des tiers à partir de %1$s</string>
+  <string name="grouping_none">Pas de regroupement</string>
+  <string name="grouping_day">Jour</string>
+  <string name="grouping_week">Semaine</string>
+  <string name="grouping_month">Mois</string>
+  <string name="grouping_year">Année</string>
+  <string name="grouping_today">Aujourd\'hui</string>
+  <string name="grouping_yesterday">Hier</string>
+  <string name="grouping_this_week">Cette semaine</string>
+  <string name="grouping_last_week">La semaine dernière</string>
   <string name="help_button_rate">Publier votre avis</string>
   <string name="help_contextuel_help">Vous pouvez accéder à plus d\'informations
     sur les fonctions disponibles dans l\'entrée Aide du menu.</string>
@@ -161,6 +171,7 @@
   <string name="menu_edit_transaction">Éditer une opération</string>
   <string name="menu_edit_template">Éditer le modèle</string>
   <string name="menu_edit_transfer">Éditer un virement</string>
+  <string name="menu_grouping">Regroupement</string>
   <string name="menu_help">Aide</string>
   <string name="menu_move_transaction">Déplacer</string>
   <string name="menu_new_from_template">Nouveau d\'après modèle</string>
@@ -286,7 +297,9 @@
   <string name="pref_visit_website_summary">Journal des modifications et FAQ</string>
   <string name="pref_ui_theme_light">clair</string>
   <string name="progress_dialog_cloning">Clonage en cours &#8230;</string>
+  <string name="progress_dialog_deleting">Effacement en cours &#8230;</string>
   <string name="progress_dialog_loading">Chargement &#8230;</string>
+  <string name="progress_dialog_setup">Initialisation de la base de données &#8230;</string>
   <string name="request_licence_mail_body">Envoyez-moi, s\'il-vous-plaît, une clé contrib pour l\'Android-Id %1$s.
   	   \n\n[S\'il vous plaît décrire votre contribution à &app_name; (par exemple: un don via Paypal, rapport de bug, des tests, de la traduction)]</string>
   <string name="restore_db_failure">La restauration de la base de données a échoué.</string>
@@ -331,10 +344,10 @@ attribuée.</string>
   <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier.
     Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite &app_name; Contrib).</string>
   <string name="warning_password_contrib">La définition d\'une question de sécurité vous permet de débloquer l\'app, si vous oubliez votre mot de passe.</string>
-  <string name="warning_reset_account_all">Pour tous les comptes, les opérations seront exportées vers des fichiers %1$s sur la carte SD et 
-      effacées. &continue;</string>
   <string name="warning_reset_account">Si vous continuez, toutes les opérations de ce compte sont supprimées de la base de données et ne peuvent pas être restaurées.</string>
-  <string name="warning_restore">Si vous continuez, toutes les opérations de tous les comptes sont supprimées de la base de données et ne peuvent pas être restaurées.</string>
+  <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes sont supprimées de la base de données et ne peuvent pas être restaurées.</string>
+  <string name="warning_restore">La base de données et les paramètres seront restaurés à partir de la sauvegarde.
+    Les données actuelles seront supprimées. &continue;</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
   <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés ou supprimés que dans  celle-ci.</string>
 </resources>

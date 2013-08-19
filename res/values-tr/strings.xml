@@ -79,6 +79,7 @@
   <string name="dialog_title_select_import_source">İçe aktarım için bir kaynak seçin</string>
   <string name="dialog_title_select_color">Renk seçimi</string>
   <string name="dialog_title_select_currency">Bir döviz seçin</string>
+  <string name="dialog_title_select_grouping">Bir grup seçin</string>
   <string name="dialog_title_select_method">Bir ödeme metodu seçin</string>
   <string name="dialog_title_select_template">Şablon seç</string>
   <string name="dialog_title_select_type">Bir tür seçin</string>
@@ -108,6 +109,15 @@
   <string name="grisbi_import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
   <string name="grisbi_import_parsing">%1$s ayrıştırılıyor</string>
   <string name="grisbi_import_parties_loading">%1$s konumunundan bölümler yükleniyor</string>
+  <string name="grouping_none">Grupsuz</string>
+  <string name="grouping_day">Gün</string>
+  <string name="grouping_week">Hafta</string>
+  <string name="grouping_month">Ay</string>
+  <string name="grouping_year">Sene</string>
+  <string name="grouping_today">Bugün</string>
+  <string name="grouping_yesterday">Dün</string>
+  <string name="grouping_this_week">Bu hafta</string>
+  <string name="grouping_last_week">Geçen hafta</string>
   <string name="help_button_rate">Not ver veya değerlendir</string>
   <string name="help_contextuel_help">Yardım menüsünde mevcut işlevler hakkında daha fazla bilgi bulabilirsiniz.</string>
   <string name="help_heading_credits">Hazırlayanlar</string>
@@ -154,6 +164,7 @@
   <string name="menu_edit_transaction">Muameleyi düzenle</string>
   <string name="menu_edit_template">Şablonu düzenle</string>
   <string name="menu_edit_transfer">Virmanı düzenle</string>
+  <string name="menu_grouping">Gruplandırma</string>
   <string name="menu_help">Yardım</string>
   <string name="menu_move_transaction">Taşı</string>
   <string name="menu_new_from_template">Şablondan yeni</string>
@@ -264,7 +275,9 @@
   <string name="pref_visit_website_title">Siteyi ziyaret et</string>
   <string name="pref_visit_website_summary">Değişiklikler ya SSS</string>
   <string name="progress_dialog_cloning">Klonlanıyor &#8230;</string>
+  <string name="progress_dialog_deleting">Siliniyor &#8230;</string>
   <string name="progress_dialog_loading">Veritabanından nesne yükleniyor &#8230;</string>
+  <string name="progress_dialog_setup">Muamele veritabanı başlatıldı &#8230;</string>
   <string name="request_licence_mail_body">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin.
     \n\n[Harcamalarıma katkınızı (Paypal ile bağış, hata raporu, deneme, tercüme) İngilizce, Almanca ya da Fransızca olarak açıklayınız]</string>
   <string name="restore_db_failure">Veritabanının yüklenmesi başarısız oldu</string>
@@ -303,9 +316,8 @@
   <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu 
     bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın katkı sürümünü kurmaktır.</string>
   <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
-  <string name="warning_reset_account">Bu hesabın tüm muameleleri SD kartında bir %1$s dosyasına aktarılacak ve silinecektir. &continue;</string>
-  <string name="warning_reset_account_all">Tüm hesaplar için muameleler %1$s dosyaları olarak SD kartına
-    aktarılacak ve silinecektir. &continue;</string>
+  <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>
+  <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler\n\tsilinecektir. &continue;</string>
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
   <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilir ya da silinebilirler.</string>

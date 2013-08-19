@@ -78,6 +78,7 @@
   <string name="dialog_title_select_account">Scegli il conto</string>
   <string name="dialog_title_select_color">Scegli un colore</string>
   <string name="dialog_title_select_currency">Scegli una valuta</string>
+  <string name="dialog_title_select_grouping">Scegli un raggruppamento</string>
   <string name="dialog_title_select_import_source">Scegli un origine per l\'importazione</string>
   <string name="dialog_title_select_method">Scegli un modo di pagamento</string>
   <string name="dialog_title_select_template">Scegli un modello</string>
@@ -109,6 +110,15 @@
   <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
   <string name="grisbi_import_categories_success">%1$s categorie state importate</string>
   <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
+  <string name="grouping_none">Non raggruppati</string>
+  <string name="grouping_day">giorno</string>
+  <string name="grouping_week">settimana</string>
+  <string name="grouping_month">mese</string>
+  <string name="grouping_year">anno</string>
+  <string name="grouping_today">oggi</string>
+  <string name="grouping_yesterday">ieri</string>
+  <string name="grouping_this_week">questa settimana</string>
+  <string name="grouping_last_week">La scorsa settimana</string>
   <string name="help_button_rate">La vostra recensione</string>
   <string name="help_contextuel_help">Potete trovare ulteriori informazioni sulle funzionalità disponibili
   	 tramite la voce Aiuto di menu.</string>
@@ -158,6 +168,7 @@
   <string name="menu_edit_transaction">Modificare operazione</string>
   <string name="menu_edit_template">Modificare modello</string>
   <string name="menu_edit_transfer">Modificare un trasferimento</string>
+  <string name="menu_grouping">Raggruppamento</string>
   <string name="menu_help">Aiuto</string>
   <string name="menu_new_from_template">Nuovo riguardo al modello</string>
   <string name="menu_move_transaction">Spostare</string>
@@ -287,7 +298,9 @@
   <string name="pref_restore_summary">Ripristinare il backup dalla cartella "myexpenses" sulla scheda SD</string>
   <string name="pref_restore_title">Ripristinare</string>
   <string name="progress_dialog_cloning">Ricopiando &#8230;</string>
+  <string name="progress_dialog_deleting">Cancellando &#8230;</string>
   <string name="progress_dialog_loading">Caricamento di oggetti dal database &#8230;</string>
+  <string name="progress_dialog_setup">Il database è inizializzato &#8230;</string>
   <string name="request_licence_mail_body">Vi prego di inviarmi una chiave contrib per Android-Id %1$s.
   	\n\n[Si prega di descrivere (in inglese, francese o tedesco) il vostro contributo a &app_name; (es.: donazione tramite Paypal, bug report, analisi, traduzione)]</string>
   <string name="restore_db_failure">Ripristino del database non riuscita.</string>

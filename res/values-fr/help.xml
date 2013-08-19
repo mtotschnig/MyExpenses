@@ -17,6 +17,8 @@
     les paramètres.</string>
   <string name="menu_edit_account_help_text">Changer les propriétés du compte courant:
     titre, description, solde initial, type, devise, couleur.</string>
+  <string name="menu_grouping_help_text">Les opérations peuvent être regroupées par jour, semaine, mois ou année.
+    Pour chaque group, les totaux des revenus, des dépenses et des transferts sont calculés et affichés.</string>
 
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Liste des comptes</string>

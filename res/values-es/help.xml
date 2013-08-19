@@ -18,6 +18,8 @@
      eliminadas del teléfono, pero puede optar por mantenerlas y marcarlas como exportadas. Inmediatamente después de la exportación se puede transmitir el archivo a través de FTP, correo electrónico o cualquier otra aplicación de intercambio de archivos, si usted lo ha establecido en la configuración.</string>
   <string name="menu_edit_account_help_text">Ajuste las propiedades de la cuenta corriente
      (título, descripción, saldo inicial, tipo de cuenta, moneda, color).</string>
+  <string name="menu_grouping_help_text">Puede agrupar las transacciones por día, semana, mes o año.
+     Para cada grupo, la suma de los ingresos, gastos y transferencias se calcula y se muestra.</string>
 
 
   <!-- ManageAccounts Accounts list -->

@@ -19,6 +19,9 @@
     so festlegen.</string>
   <string name="menu_edit_account_help_text">Einstellungen des aktuellen Kontos verändern
     (Titel, Beschreibung, Anfangssaldo, Währung, Farbe).</string>
+  <string name="menu_grouping_help_text">Buchungen können pro Tag, Woche, Monat oder Jahr gruppiert werden.
+    Für jede Gruppe werden die Summen der Einnahmen, Ausgaben und Umbuchungen berechnget und angezeigt.</string>
+
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Kontenliste</string>
   <string name="help_ManageAccounts_info">Dieser Bildschirm listet alle Konten auf. Klick auf einen Eintrag öffnet

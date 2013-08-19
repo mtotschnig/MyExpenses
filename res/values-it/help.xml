@@ -18,6 +18,8 @@
      di farlo in Impostazioni.</string>
   <string name="menu_edit_account_help_text">Regolare le proprietà del conto corrente
      (titolo, descrizione, saldo di apertura, tipo di conto, valuta, colore).</string>
+  <string name="menu_grouping_help_text">È possibile raggruppare le transazioni per giorno, settimana, mese o anno.
+     Per ogni gruppo, la somma di redditi, spese e trasferimenti viene calcolato e visualizzato.</string>
 
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Elenco dei conti</string>

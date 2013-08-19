@@ -80,6 +80,7 @@
   <string name="dialog_title_select_account">Konto auswählen</string>
   <string name="dialog_title_select_color">Farbe auswählen</string>
   <string name="dialog_title_select_currency">Währung auswählen</string>
+  <string name="dialog_title_select_grouping">Gruppierung auswählen</string>
   <string name="dialog_title_select_import_source">Quelle für Import auswählen</string>
   <string name="dialog_title_select_method">Zahlungsweise auswählen</string>
   <string name="dialog_title_select_template">Vorlage auswählen</string>
@@ -111,6 +112,15 @@
   <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
   <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
   <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
+  <string name="grouping_none">Nicht gruppiert</string>
+  <string name="grouping_day">Tag</string>
+  <string name="grouping_week">Woche</string>
+  <string name="grouping_month">Monat</string>
+  <string name="grouping_year">Jahr</string>
+  <string name="grouping_today">Heute</string>
+  <string name="grouping_yesterday">Gestern</string>
+  <string name="grouping_this_week">Diese Woche</string>
+  <string name="grouping_last_week">Letzte Woche</string>
   <string name="help_button_rate">Bewerten</string>
   <string name="help_contextuel_help">Über den Menü-Eintrag Hilfe, können Sie mehr über die vorhandenen
     Funktionen erfahren.</string>
@@ -160,6 +170,7 @@
   <string name="menu_edit_transaction">Buchung verändern</string>
   <string name="menu_edit_template">Vorlage verändern</string>
   <string name="menu_edit_transfer">Umbuchung verändern</string>
+  <string name="menu_grouping">Gruppierung</string>
   <string name="menu_help">Hilfe</string>
   <string name="menu_move_transaction">Verschieben</string>
   <string name="menu_new_from_template">Neu aus Vorlage</string>
@@ -287,7 +298,9 @@
   <string name="pref_visit_website_title">Website besuchen</string>
   <string name="pref_visit_website_summary">Änderungsprotokoll und FAQ</string>
   <string name="progress_dialog_cloning">Buchung wird geklont &#8230;</string>
+  <string name="progress_dialog_deleting">Buchung wird gelöscht &#8230;</string>
   <string name="progress_dialog_loading">Buchung wird von Datenbank geladen &#8230;</string>
+  <string name="progress_dialog_setup">Datenbank wird initialisiert &#8230;</string>
   <string name="request_licence_mail_body">Bitte senden Sie mir einen Contrib-Schlüssel für die Android-Id %1$s.
     \n\n[Bitte beschreiben Sie Ihren Beitrag zu &app_name; (z.B.: Spende via Paypal, Problembericht, Testen, Übersetzung)]</string>
   <string name="restore_db_failure">Fehler bei der Wiederherstellung der Datenbank.</string>

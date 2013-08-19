@@ -18,6 +18,9 @@
     FTP, e-posta veya başka bir dosya paylaşım uygulaması ile paylaşabilir.</string>
   <string name="menu_edit_account_help_text">Güncel hesabın özelliklerini ayarla
     (başlık, açıklama, başlangıç bakiyesi, hesap türü, döviz, renk).</string>
+  <string name="menu_grouping_help_text">Muameleleri gün, hafta, ay, ya da yıla dayanarak gruplandırabilirsiniz.
+  	Her grup için gelir, gider ve transferlerin toplamı hesaplanır ve görüntülenir.</string>
+
   <!--ManageAccounts Accounts list-->
   <string name="help_ManageAccounts_title">Hesap listesi</string>
   <string name="help_ManageAccounts_info">Bu ekran tüm hesapları listeler. Bir liste unsuruna tıklamak
