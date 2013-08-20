@@ -192,7 +192,9 @@ public class MyApplication extends Application {
         return backupDb.exists();
     }
     /**
-     * @return true if backup successful and a relaunch required due to password protection
+     * as restores database and preferences, as a side effect calls shouldLock to set password protection
+     * if necessary
+     * @return true if backup successful
      */
     public static boolean backupRestore() {
       if (DbUtils.restore()) {
@@ -242,7 +244,8 @@ public class MyApplication extends Application {
             //is it not enough to set mLastPause to zero, since it would be overwritten by the callings activity onpause
             //hence we need to set isLocked if necessary
             mSelf.mLastPause = 0;
-            return mSelf.shouldLock();
+            mSelf.shouldLock();
+            return true;
           }
           else {
             Log.w("MyExpenses","Could not copy backup to private data directory");
