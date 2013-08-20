@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -232,7 +233,7 @@ public class MyApplication extends Application {
                 Log.i("MyExpenses","Found: "+key+ " of type "+val.getClass().getName());
               }
             }
-            edit.commit();
+            SharedPreferencesCompat.apply(edit);
             backupPref = null;
             tempPrefFile.delete();
             mSelf.refreshContribEnabled();
