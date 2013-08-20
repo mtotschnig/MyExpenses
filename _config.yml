@@ -124,6 +124,38 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.9.0
+    - 2013-08-20
+    -
+      en: |
+        Group transactions per day, week, month, year and display sums per group.
+        Payee is displayed in transaction list.
+        Accounts list is sorted (by frequency of usage by default)
+      fr: |
+        Regroupement par jour, semaine, mois, année, et affichage des totaux par groupe.
+        Les tiers sont affichés dans la liste des opérations.
+        La liste des contes est trié (par défaut selon la fréquence d'utilisation)
+      de: |
+        Buchungen pro Tag, Woche, Monate, Jahr gruppieren und Summen pro Gruppe anzeigen.
+        Empfänger wird in Buchungsliste angezeigt.
+        Kontenliste wird sortiert (standardmäßig nach Häufigkeit der Benutzung)
+      it: |
+        Raggruppamento al giorno, settimana, mese, anno e visualizzazione delle somme per gruppo.
+        I beneficiari sono visualizzati nell\'elenco delle transazioni.
+        L'elenco dei conti è ordinato (per frequenza d\'uso di default)
+      es: |
+        Agrupamiento por día, semana, mes, año y visualización sumas por grupo.
+        Beneficiario se muestra en la lista de transacciones.
+        Lista de cuentas está ordenada (por frecuencia de uso de forma predeterminada)
+      tr: |
+        Muameleleri gün, hafta, ay veya yıllık olarak grupla ve grup başına toplamları görüntüle.
+        Alacaklı işlem listesinde görüntülenir.
+        Hesap listesi sıralanır (varsayılan değer kullanım sıklığına göredir)
+      vi: |
+        Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm.
+        Người nhận sẽ được hiển thị trên danh sách giao dịch
+        Danh sách các tài khoản được sắp xếp (dựa theo tần số được sử dụng theo mặc định)
+  -
     - 1.8.5.
     - 2013-08-06
     -
