@@ -481,7 +481,7 @@ public class TransactionList extends SherlockFragment implements
                 else if (week == thisWeekOfYear -2)
                   headerText = getString(R.string.grouping_last_week);
                 else
-                  headerText = (year != thisYear ? (year + ", ") : "") + "Week " + (week+1);
+                  headerText = (year != thisYear ? (year + ", ") : "") + getString(R.string.grouping_week) + " " + (week+1);
               }
               break traverseCursor;
             }
