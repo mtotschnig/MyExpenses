@@ -136,7 +136,7 @@
   <string name="help_leading">Merci d\'essayer <i>&app_name;</i> pour Android.</string>
   <string name="help_whats_new">&#160;- Regroupement par jour, semaine, mois, année, et affichage des totaux par groupe.\n
     - Les tiers sont affichés dans la liste des opérations.\n
-    - La liste des contes est trié (par défaut selon la fréquence d\'utilisation)</string>
+    - La liste des comptes est triée (par défaut selon la fréquence d\'utilisation)</string>
   <string name="import_categories">Importer les catégories</string>
   <string name="important_version_information">Information importante</string>
   <string name="income">revenu</string>
@@ -346,8 +346,8 @@ attribuée.</string>
   <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier.
     Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite &app_name; Contrib).</string>
   <string name="warning_password_contrib">La définition d\'une question de sécurité vous permet de débloquer l\'app, si vous oubliez votre mot de passe.</string>
-  <string name="warning_reset_account">Si vous continuez, toutes les opérations de ce compte sont supprimées de la base de données et ne peuvent pas être restaurées.</string>
-  <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes sont supprimées de la base de données et ne peuvent pas être restaurées.</string>
+  <string name="warning_reset_account">Si vous continuez, toutes les opérations de ce compte seront supprimées de la base de données et ne pourront plus être restaurées.</string>
+  <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes seront supprimées de la base de données et ne pourront pas être restaurées.</string>
   <string name="warning_restore">La base de données et les paramètres seront restaurés à partir de la sauvegarde.
     Les données actuelles seront supprimées. &continue;</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
