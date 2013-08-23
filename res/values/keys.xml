@@ -40,6 +40,10 @@
       licensed under the Creative Commons Attribution 3.0 United States License .</string>
   <string name="help_licence_financisto">Includes CalculatorInput class from https://launchpad.net/financisto
       , licenced under GPL v2.0 .</string>
+  <string name="help_licence_sherlock">Includes ActionBarSherlock from http://actionbarsherlock.com/, licenced under
+  	Apache License, Version 2.0 .</string>
+  <string name="help_licence_stickylistheaders">Includes StickyListHeaders from http://emilsjolander.github.io/StickyListHeaders/,
+  	licenced under Apache License, Version 2.0 .</string>
   <string name="donate_button_flattr">Flattr</string>
   <string name="donate_button_paypal">Paypal</string>
   
