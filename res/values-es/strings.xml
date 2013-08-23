@@ -25,7 +25,7 @@
   <string name="account_type_cash">Cuenta de caja</string>
   <string name="account_type_bank">Cuenta bancaria</string>
   <string name="account_type_ccard">Tarjeta de crédito</string>
-  <string name="account_type_asset">Cuenta del activo</string>
+  <string name="account_type_asset">Cuenta de activo</string>
   <string name="account_type_liability">Cuenta de pasivo</string>
   <string name="amount">Importe</string>
   <string name="app_name">&app_name;</string>
@@ -60,7 +60,7 @@
   <string name="dialog_contrib_usage_count">Quedan %1$d usos libres</string>
   <string name="dialog_contrib_yes">Compre</string>
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> se ofrece sin publicidad y de código abierto. 
-    Por favor, contribuye instalando la versión pagada Contrib. Usted va a obtener acceso ilimitado 
+    Por favor, contribuya instalando la versión pagada Contrib. Usted va a obtener acceso ilimitado 
     a las siguientes características premium: &lt;br>%1$s&lt;br></string>
   <string name="dialog_export_delete">Borrar las transacciones exportados</string>
   <string name="dialog_export_not_yet_exported">Exportar sólo las transacciones aún no exportadas</string>
@@ -68,7 +68,7 @@
   <string name="dialog_password_change_password">Cambiar contraseña</string>
   <string name="dialog_password_new_password">Nueva contraseña</string>
   <string name="dialog_password_new_password_confirmation">Nueva contraseña (confirmación)</string>
-  <string name="dialog_remind_rate">Por favor tome un momento para valorar y comentar &app_name; en Google Play.
+  <string name="dialog_remind_rate">Por favor, tome un momento para valorar y comentar &app_name; en Google Play.
     Sus comentarios me permiten añadir continuamente mejoras.</string>
   <string name="dialog_remind_rate_yes">Valora hoy</string>
   <string name="dialog_remind_later">Más tarde</string>
@@ -89,10 +89,10 @@
   <string name="dialog_title_warning_delete_account">Borrar la cuenta?</string>
   <string name="dialog_title_welcome">¡Bienvenido!</string>
   <string name="donate">Done</string>
-  <string name="donate_dialog_text">Si usted no tiene acceso a Google Play, se puede donar a través de PayPal o Flattr,
-    y luego solicitar una clave contrib de la pantalla de configuraciones.</string>
+  <string name="donate_dialog_text">Si usted no tiene acceso a Google Play, puede donar a través de PayPal o Flattr,
+    y luego solicitar una clave Contrib desde la pantalla de configuraciones.</string>
   <string name="error_accessing_gplay">Error al acceder a Google Play</string>
-  <string name="expense">gasto</string>
+  <string name="expense">Gasto</string>
   <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere
     un minuto antes de intentarlo de nuevo.</string>
   <string name="export_expenses">Exportación de los gastos</string>
@@ -102,19 +102,19 @@
   <string name="external_storage_unavailable">La memoria externa (tarjeta SD) no es
     disponible.</string>
   <string name="feedback">Feedback</string>
-  <string name="feedback_email_message">Envíenos su opinión, en Inglés, francés o alemán, por favor!</string>
+  <string name="feedback_email_message">¡Envíenos su opinión, en inglés, francés o alemán, por favor!</string>
   <string name="ftp_uri_malformed">URI %1$s inválido</string>
   <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_default_source">Categorías españoles estándar</string>
   <string name="grisbi_import_button_categories_only">Categorías</string>
-  <string name="grisbi_import_button_categories_and_parties">Categorías y partes</string>
+  <string name="grisbi_import_button_categories_and_parties">Categorías y partidos</string>
   <string name="grisbi_import_parsing">Análisis de %1$s</string>
-  <string name="grisbi_import_categories_and_parties_success">%1$s categorías y %2$s partes han sido
+  <string name="grisbi_import_categories_and_parties_success">%1$s categorías y %2$s partidos han sido
       importados con éxito.</string>
   <string name="grisbi_import_categories_loading">Las categorías se cargan desde %1$s</string>
   <string name="grisbi_import_categories_success">%1$s categorías han sido importadas con éxito.
       </string>
-  <string name="grisbi_import_parties_loading">Partes se cargan desde %1$s</string>
+  <string name="grisbi_import_parties_loading">Partidos se cargan desde %1$s</string>
   <string name="grouping_none">Desagrupada</string>
   <string name="grouping_day">Día</string>
   <string name="grouping_week">Semana</string>
@@ -125,21 +125,21 @@
   <string name="grouping_this_week">Esta semana</string>
   <string name="grouping_last_week">Semana pasada</string>
   <string name="help_button_rate">Dé su revisión</string>
-  <string name="help_contextuel_help">Puede encontrar más información acerca de la funcionalidad disponible
-  	a través de la entrada Ayuda del menú.</string>
+  <string name="help_contextuel_help">Puede encontrar más información acerca de las funcionalidades disponibles
+    a través de la entrada Ayuda del menú.</string>
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licencia</string>
   <string name="help_heading_whats_new">Novedades</string>
-  <string name="help_intro">&#160;- Lleva contabilidad sobre sus gastos y ingresos.\n
-    - Administrar directamente en tu móvil.\n
+  <string name="help_intro">&#160;- Llevar contabilidad sobre sus gastos y ingresos.\n
+    - Administrar directamente en su móvil.\n
     - Exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</string>
   <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
   <string name="help_whats_new">&#160;- Agrupamiento por día, semana, mes, año y visualización sumas por grupo.\n
-  	Beneficiario se muestra en la lista de transacciones.\n
-  	Lista de cuentas está ordenada (por frecuencia de uso de forma predeterminada)</string>
+    Beneficiario se muestra en la lista de transacciones.\n
+    Lista de cuentas está ordenada (por frecuencia de uso de forma predeterminada)</string>
   <string name="import_categories">Importar categorías</string>
   <string name="important_version_information">Información importante</string>
-  <string name="income">ingreso</string>
+  <string name="income">Ingreso</string>
   <string name="invalid_number_format">Formato de número no es compatible con su configuración
       regional. Por favor, utilice %1$s</string>
   <string name="label">Etiqueta</string>
@@ -162,16 +162,16 @@
   <string name="menu_create_transaction_from_template_and_edit">Nueva y modificar</string>
   <string name="menu_create_transaction_from_template_and_save">Nueva y guardar</string>
   <string name="menu_create_split">Nuevo asiento dividido</string>
-  <string name="menu_create_split_part_category">Nueva división de catégorias</string>
-  <string name="menu_create_split_part_transfer">Nueva división de transferencia</string>
+  <string name="menu_create_split_part_category">Nueva división (catégoria)</string>
+  <string name="menu_create_split_part_transfer">Nueva división (transferencia)</string>
   <string name="menu_delete">Borrar</string>
   <string name="menu_edit">Modificar</string>
   <string name="menu_edit_account">Modificar la cuenta</string>
   <string name="menu_edit_cat">Modificar la categoría</string>
   <string name="menu_edit_method">Modificar el método de pago</string>
   <string name="menu_edit_split">Modificar asiento dividido</string>
-  <string name="menu_edit_split_part_category">Modificar división de catégorias</string>
-  <string name="menu_edit_split_part_transfer">Modificar división de transferencia</string>
+  <string name="menu_edit_split_part_category">Modificar división (catégoria)</string>
+  <string name="menu_edit_split_part_transfer">Modificar división (transferencia)</string>
   <string name="menu_edit_transaction">Modificar el asiento</string>
   <string name="menu_edit_template">Editar plantilla</string>
   <string name="menu_edit_transfer">Modificar el traslado a otra cuenta</string>
@@ -190,13 +190,13 @@
   <string name="no_amount_given">No ha insertado usted importe alguno.</string>
   <string name="no_app_handling_email_available">No se ha encontrado aplicación para enviar correo
       electrónico.</string>
-  <string name="no_app_handling_ftp_available">No se ha encontrado aplicación para ftp. Installar <i>Enviar con FTP</i> desde Google Play?</string>
+  <string name="no_app_handling_ftp_available">No se ha encontrado aplicación para ftp. Instalar <i>Enviar con FTP</i> desde Google Play?</string>
   <string name="no_categories">Todavía no hay categorías.</string>
   <string name="no_category_assigned">Ninguna categoría asignada</string>
   <string name="no_details">No hay detalles.</string>
   <string name="no_expenses">¡Todavía no hay gastos!</string>
-  <string name="no_exportable_expenses">No hay transacciones que aún no han sido exportados.</string>
-  <string name="no_parties">Ningunos partes</string>
+  <string name="no_exportable_expenses">No hay transacciones que aún no han sido exportadas.</string>
+  <string name="no_parties">Ningunos partidos</string>
   <string name="no_split_parts">Ningunas divisiones.</string>
   <string name="no_templates">Ningunas plantillas</string>
   <string name="no_title_given">No ha insertado usted titulo alguno.</string>
@@ -215,7 +215,7 @@
   <!-- 
   <string name="parse_error_grisbi_version_not_determined">No se ha podido determinar la versión del archivo Grisbi.</string>
    -->
-  <string name="parse_error_grisbi_version_not_supported">La versión del archivo Grisbi no es
+  <string name="parse_error_grisbi_version_not_supported">La versión del archivo Grisbi no está
       apoyada.</string>
   <string name="password_disabled_reenable">Se ha desactivado la protección por contraseña.
     Usted puede volver a activarla en las configuraciones.</string>
@@ -240,14 +240,14 @@
   <string name="pref_categories_sort_by_usages_title">Criterio de ordenación (categorías, plantillas, cuentas)</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Frecuencia de utilización</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Orden alfabético</string>
-  <string name="pref_category_title_import">Import</string>
-  <string name="pref_category_title_export">Export</string>
+  <string name="pref_category_title_import">Importación</string>
+  <string name="pref_category_title_export">Exportación</string>
   <string name="pref_category_title_manage">Administrar</string>
   <string name="pref_category_title_security">Seguridad</string>
   <string name="pref_category_title_ui">Interfaz de usuario</string>
   <string name="pref_category_title_more_information">Más información</string>
   <string name="pref_contrib_install_summary">Instalando &app_name; Contrib, usted obiene acceso a
-    características premium.</string>
+    todas las características premium.</string>
   <string name="pref_contrib_install_title">Instalar aplicación Contrib</string>
   <string name="pref_currency_decimal_separator_title">Separador decimal para entrar valores de
       moneda</string>
@@ -255,8 +255,8 @@
   <string name="pref_currency_decimal_separator_point">Punto (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Sub-unidades como números enteros
       </string>
-  <string name="pref_enter_licence_summary">Si ha recibido una clave Contrib, acceda características
-    premium.</string>
+  <string name="pref_enter_licence_summary">Si ha recibido una clave Contrib, puede desbloquear
+    las  características premium.</string>
   <string name="pref_enter_licence_title">Introduzca la clave Contrib</string>
   <string name="pref_export_format_title">Formato de datos</string>
   <string name="pref_import_from_grisbi_title">Importación desde Grisbi</string>
@@ -269,32 +269,33 @@
   <string name="pref_manage_categories_title">Categorías</string>
   <string name="pref_manage_categories_summary">Añadir, modificar y borrar categorías.</string>
   <string name="pref_manage_methods_title">Métodos de pago</string>
-  <string name="pref_manage_methods_summary">Creación, edición de formas de pago y los asocian con los tipos de cuenta.</string>
-  <string name="pref_manage_parties_title">Partes</string>
-  <string name="pref_manage_parties_summary">Borrar partes (pagador y beneficiario)</string>
+  <string name="pref_manage_methods_summary">Crear y editar métodos de pago y asociarlos con  tipos de cuenta.</string>
+  <string name="pref_manage_parties_title">Partidos</string>
+  <string name="pref_manage_parties_summary">Borrar partidos (pagador y beneficiario)</string>
   <string name="pref_manage_templates_summary">Aplicar o borrar plantillas</string>
   <string name="pref_manage_templates_title">Plantillas</string>
   <string name="pref_more_info_dialog_title">Licencia &amp; Créditos</string>
-  <string name="pref_more_info_dialog_summary">Traducción de Tulliver</string>
-  <string name="pref_password_empty">La contraseña no puede estar vacía</string>
+  <string name="pref_more_info_dialog_summary">Traducción por Tulliver</string>
+  <string name="pref_password_empty">La contraseña no debe estar vacía</string>
   <string name="pref_password_not_equal">Las contraseñas no coinciden</string>
   <string name="pref_perform_share_title">Enviar la exportación</string>
-  <string name="pref_perform_share_summaryOn">El archivo será compartida después de cada exportación.</string>
-  <string name="pref_perform_share_summaryOff">El archivo no será compartida después de cada exportación.</string>
+  <string name="pref_perform_share_summaryOn">El archivo se envia después de cada exportación.</string>
+  <string name="pref_perform_share_summaryOff">El archivo no se envia después de cada exportación.</string>
   <string name="pref_perform_protection_title">Protección por contraseña</string>
-  <string name="pref_perform_protection_summary">¿Se deben proteger lanzamientos de la aplicación?</string>
-  <string name="pref_protection_delay_seconds_title">Retardo hasta la protección</string>
-  <string name="pref_protection_delay_seconds_summary">Segundos de inactividad antes de que la aplicación sea bloqueada por contraseña.</string>
+  <string name="pref_perform_protection_summary">¿Se deben proteger el inicio y la reanudación de la aplicación?</string>
+  <string name="pref_protection_delay_seconds_title">Demoa hasta la protección por contraseña</string>
+  <string name="pref_protection_delay_seconds_summary">Segundos de inactividad antes de que la aplicación
+    sea protegida por contraseña.</string>
   <string name="pref_request_licence_summary">Si usted ha contribuido por otros medios, pida una clave
     Contrib por correo electrónico.</string>
-  <string name="pref_request_licence_title">Solicite una clave contrib</string>
+  <string name="pref_request_licence_title">Solicite una clave Contrib</string>
   <string name="pref_restore_summary">Restaurar la copia de seguridad de la carpeta \"myexpenses\" en la tarjeta SD</string>
   <string name="pref_restore_title">Restaurar</string>
   <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
   <string name="pref_send_feedback_title">Envíe sus observaciones</string>
-  <string name="pref_share_target_title">Cargar URL de exportación</string>
+  <string name="pref_share_target_title">Subir URL de exportación</string>
   <string name="pref_share_target_summary">Usted puede dejar esto en blanco, si quiere elegir entre
-      aplicaciones adecuadas (correo electrónico, Dropbox, Google Docs, &#8230;), o indicar un URL
+      aplicaciones adecuadas (correo electrónico, Dropbox, Google Docs, &#8230;), o indicar una URL
       en uno de los esquemas apoyados</string>
   <string name="pref_security_question_title">Pregunta de seguridad</string>
   <string name="pref_security_question_summary">Permite desbloquear la aplicación, si ha olvidado su contraseña. Requiere &app_name; Contrib.</string>
@@ -307,24 +308,24 @@
   <string name="progress_dialog_deleting">Eliminando &#8230;</string>
   <string name="progress_dialog_loading">Cargando objeto de base de datos &#8230;</string>
   <string name="progress_dialog_setup">Base de datos se inicializa &#8230;</string>
-  <string name="request_licence_mail_body">Por favor, envíeme una clave contrib para Android-Id %1$s.
-    \n\n[Por favor describa (en Inglés, francés o alemán) su contribución a &app_name; (por ejemplo: donación a través de Paypal, informe de errores, pruebas, traducción)]</string>
+  <string name="request_licence_mail_body">Por favor, envíeme una clave Contrib para Android-Id %1$s.
+    \n\n[Por favor describa (en inglés, francés o alemán) su contribución a &app_name; (por ejemplo: donación a través de Paypal, informe de errores, pruebas, traducción)]</string>
   <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.
       </string>
   <string name="restore_db_failure">La restauración de la base de datos ha fallado.</string>
   <string name="restore_no_backup_found">No hay ningún archivo BACKUP en la carpeta \"myexpenses\" en la tarjeta SD.</string>
   <string name="restore_preferences_failure">La restauración de las preferencias ha fallado.</string>
-  <string name="restore_preferences_success">Las configuraciones han sidos restauradas desde la
+  <string name="restore_preferences_success">Las configuraciones han sidas restauradas desde la
       copia de seguridad.</string>
-  <string name="save_transaction_error">No se pudo guardar nueva transacción de plantilla</string>
-  <string name="save_transaction_from_template_success">Nueva transacción guardada con éxito de la plantilla</string>
+  <string name="save_transaction_error">No se pudo guardar nueva transacción desde plantilla</string>
+  <string name="save_transaction_from_template_success">Nueva transacción desde plantilla guardada con éxito.</string>
   <string name="save_transaction_and_new_success">Transacción guardada con éxito</string>
   <string name="select">Escoger</string>
   <string name="select_category">Escoger una categoría</string>
   <string name="select_parent_category">Escoger esta categoría</string>
-  <string name="share_scheme_not_supported">Esquema %1$s no es apoyado.</string>
+  <string name="share_scheme_not_supported">Esquema %1$s no está apoyado.</string>
   <string name="share_sending">Enviar el archivo</string>
-  <string name="split_parts_heading">Divisiones</string>
+  <string name="split_parts_heading">Fracciones</string>
   <string name="split_transaction">Asiento dividido</string>
   <string name="subcategory">Subcategoría</string>
   <string name="sum_income">Ingresos</string>
@@ -332,7 +333,7 @@
   <string name="sum_transfer">Traslados</string>
   <string name="template_create_success">Plantilla \"%1$s\" creada con éxito</string>
   <string name="template_title_exists">Ya existe una plantilla con título \"%1$s\" .</string>
-  <string name="thank_you">Gracias por su apoyo!</string>
+  <string name="thank_you">¡Gracias por su apoyo!</string>
   <string name="time">Hora</string>
   <string name="title">Título</string>
   <string name="transaction">Asiento</string>
@@ -350,11 +351,14 @@
     tenga cuidado de no olvidarla. Usted no será capaz de recuperarla, a menos que
     establece una pregunta de seguridad (Requiere &app_name; Contrib).</string>
   <string name="warning_password_contrib">Estableciendo una pregunta de seguridad permite desbloquear la aplicación,
-    qen caso de que olvide su contraseña.</string>
-  <string name="warning_reset_account">Si continúa, todas las transacciones de esta cuenta se eliminan de la base de datos y no se pueden restaurar.</string>
-  <string name="warning_reset_account_all">Si continúa, todas las transacciones de todas las cuentas se eliminan de la base de datos y no se pueden restaurar.</string>
+    en caso de que olvide su contraseña.</string>
+  <string name="warning_reset_account">Si continúa, todas las transacciones de esta cuenta se eliminan
+    de la base de datos y no se pueden restaurar.</string>
+  <string name="warning_reset_account_all">Si continúa, todas las transacciones de todas las cuentas se
+    eliminan de la base de datos y no se pueden restaurar.</string>
   <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de
     seguridad. Se borrarán los datos actuales. &continue;</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
-  <string name="warning_splitpartcategory_context">Transferencias que forman parte de uno asiento dividido sólo pueden ser editadas o eliminadas en el contexto de lo asiento dividido.</string>  
+  <string name="warning_splitpartcategory_context">Transferencias que forman parte de uno asiento dividido sólo pueden ser
+    editadas o eliminadas en el contexto del asiento dividido.</string>
 </resources>
