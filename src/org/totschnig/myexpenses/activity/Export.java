@@ -122,11 +122,6 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
       task.execute(accountIds);
     }
   }
-  @Override
-  public void onStop() {
-    super.onStop();
-    mProgressDialog.dismiss();
-  }
   void updateProgress(String string) {
     mProgressDialog.setMessage(string);
   }
@@ -134,12 +129,12 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
   void markAsDone() {
     //this hides the spinner, setting a different drawable did not work
     mProgressDialog.setIndeterminateDrawable(null);
-    mProgressDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
     ArrayList<File> files = task.getResult();
     if (files != null && files.size() >0)
       Utils.share(this,files,
           MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_SHARE_TARGET,"").trim(),
           "text/" + format.name().toLowerCase(Locale.US));
+    mProgressDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
     mDone = true;
   }
   
