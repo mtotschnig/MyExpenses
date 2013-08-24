@@ -15,7 +15,7 @@ h1 .small { font-size: 0.7em; }
 h1 a { text-decoration: none; color: white; }
 h2 { font-size: 1.1em; margin-top: 0; color: #3383BB;}
 h2 .small { font-size: 0.7em; }
-h3 { color: #3383BB; }
+h3 { font-size: 0.8em; color: #3383BB; }
 .toc dl dt {
   display: inline;
 }
