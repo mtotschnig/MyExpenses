@@ -29,6 +29,8 @@ headstuff: |
             Come posso ripristinare il backup?
           </a></dt><dt>5. <a href="#faq-contrib-it">
              Chiave contrib, che cos'è?
+          </a></dt><dt>6. <a href="#faq-catxml-it">
+          Come faccio a importare le categorie in gruppo?
           </a></dt></dl><table border="0" width="100%" summary="Q and A Set"><col align="left" width="1%"><col><tbody>
         <tr class="question"><td align="left" valign="top"><a name="faq-comma-it"></a><a name="faq-comma-q-it"></a><p><b>1.</b></p></td><td align="left" valign="top"><p>
             Come faccio a inserire gli importi? Non c'è una virgola (,) sul tastierino numerico.
@@ -95,5 +97,32 @@ headstuff: |
              base della Android-ID del dispositivo, che potete comunicare a me attraverso la voce
              <span class="guilabel">Richiede una chiave contrib</span> nella schermata <span class="guilabel">Impostazioni</span>.
            </p></td></tr>
+      
+        <tr class="question"><td align="left" valign="top"><a name="faq-catxml-it"></a><a name="faq-catxml-q-it"></a><p><b>6.</b></p></td><td align="left" valign="top"><p>
+          Come faccio a importare le categorie in gruppo?
+          </p></td></tr>
+        <tr class="answer"><td align="left" valign="top"></td><td align="left" valign="top"><p>
+            <span class="application">Le mie spese</span> può importare le categorie dal file Grisbi. Conservare
+            questo file come grisbi.xml in una cartella myexpenses nella cartella principale della
+            vostra scheda SD e chiamare la voce <span class="guilabel">Importazione dei dati Grisbi</span>
+            nella schermata <span class="guilabel">Impostazioni</span>. Hai anche la possibilità di importare
+            i beneficiari Grisbi registrati nello stesso file (elemento Party). Se si sceglie il
+            proprio file come fonte di importazione, è possibile importare categorie e beneficiari,
+            o solo categorie. Il beneficiario sarà offerta automaticamente per riempire il
+            "Beneficiario" in forma di operazioni. Se si crea il proprio file XML, rispettare la seguente struttura:
+            </p><pre class="programlisting">
+
+&lt;root&gt;
+  &lt;Category Nb="1" Na="Categoria principale A" /&gt;
+  &lt;Sub_category Nbc="1" Nb="1" Na="Sottocategoria A.1" /&gt;
+  &lt;Sub_category Nbc="1" Nb="2" Na="Sottocategoria A.2" /&gt;
+  &lt;Category Nb="2" Na="Categoria principale B" /&gt;
+  &lt;Sub_category Nbc="2" Nb="1" Na="Sottocategoria B.1" /&gt;
+  &lt;Sub_category Nbc="2" Nb="2" Na="Sottocategoria B.2" /&gt;
+  &lt;Party Na="N.N." /&gt;
+&lt;/root&gt; 
+ 
+          </pre><p>
+          </p></td></tr>
       </tbody></table></div>
   </div>

@@ -29,6 +29,8 @@ headstuff: |
             How can I restore a backup?
           </a></dt><dt>5. <a href="#faq-contrib-en">
             Contrib key, what's that?
+          </a></dt><dt>6. <a href="#faq-catxml-en">
+          How do I import categories in batch?
           </a></dt></dl><table border="0" width="100%" summary="Q and A Set"><col align="left" width="1%"><col><tbody>
         <tr class="question"><td align="left" valign="top"><a name="faq-comma-en"></a><a name="faq-comma-q-en"></a><p><b>1.</b></p></td><td align="left" valign="top"><p>
             How do I enter amounts? There is no comma (,) on the numeric keypad.
@@ -92,5 +94,31 @@ headstuff: |
             Android-ID of your device, that you can communicate to me through the <span class="guilabel">Request a Contrib key</span> entry in the <span class="guilabel">Settings</span>
             screen.
           </p></td></tr>
+      
+        <tr class="question"><td align="left" valign="top"><a name="faq-catxml-en"></a><a name="faq-catxml-q-en"></a><p><b>6.</b></p></td><td align="left" valign="top"><p>
+          How do I import categories in batch?
+          </p></td></tr>
+        <tr class="answer"><td align="left" valign="top"></td><td align="left" valign="top"><p>
+            <span class="application">My Expenses</span> can import your categories from your Grisbi file. Store
+            this file as grisbi.xml in a folder myexpenses in the root of your SD card and call
+            <span class="guilabel">Import from Grisbi</span> from the <span class="guilabel">Settings</span> screen. You can also import the parties (payers and payees)
+            stored in this file. When you choose your custom file as import source, you can decide
+            to import both parties and categories, or only categories. Parties will be used for the
+            autocomplete function of the payer/payee field in the transaction form. If you create an
+            XML file on your own, respect the following structure:
+            </p><pre class="programlisting">
+
+&lt;root&gt;
+  &lt;Category Nb="1" Na="Main category A" /&gt;
+  &lt;Sub_category Nbc="1" Nb="1" Na="Sub category A.1" /&gt;
+  &lt;Sub_category Nbc="1" Nb="2" Na="Sub category A.2" /&gt;
+  &lt;Category Nb="2" Na="Main category B" /&gt;
+  &lt;Sub_category Nbc="2" Nb="1" Na="Sub category B.1" /&gt;
+  &lt;Sub_category Nbc="2" Nb="2" Na="Sub category B.2" /&gt;
+  &lt;Party Na="N.N." /&gt;
+&lt;/root&gt; 
+ 
+            </pre><p>
+         </p></td></tr>
       </tbody></table></div>
   </div>

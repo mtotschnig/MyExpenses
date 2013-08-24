@@ -29,6 +29,8 @@ headstuff: |
             ¿Cómo puedo restaurar una copia de seguridad?
           </a></dt><dt>5. <a href="#faq-contrib-es">
             Clave Contrib. ¿Qué es eso?
+          </a></dt><dt>6. <a href="#faq-catxml-es">
+            ¿Cómo puedo importar categorías en batch?
           </a></dt></dl><table border="0" width="100%" summary="Q and A Set"><col align="left" width="1%"><col><tbody>
         <tr class="question"><td align="left" valign="top"><a name="faq-comma-es"></a><a name="faq-comma-q-es"></a><p><b>1.</b></p></td><td align="left" valign="top"><p>
             ¿Cómo puedo insertar valores monitarios? No encuentro la coma (,) en el teclado.
@@ -47,7 +49,7 @@ headstuff: |
           </p></td></tr>
         <tr class="answer"><td align="left" valign="top"></td><td align="left" valign="top"><p>
             Sí, active <span class="guilabel">Enviar la exportación</span> en las configuraciones y deje en
-            blanco <span class="guilabel">Cargar URL de exportación</span>. Así puede elegir después de cada
+            blanco <span class="guilabel">Subir URL de exportación</span>. Así puede elegir después de cada
             exportación la aplicación (por ejemplo Google Docs o Dropbox) mediante la cual desea transferir el archivo.
           </p></td></tr>
       
@@ -90,8 +92,37 @@ headstuff: |
              o
              <a class="ulink" href="https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App" target="_top">Flattr</a>.
             Se calcula la clave basada en el Android-ID de su dispositivo que usted
-            puede comunicar a través la <span class="guilabel">Solicite una clave contrib</span>
+            puede comunicar a través la <span class="guilabel">Solicite una clave Contrib</span>
             entrada en la <span class="guilabel">Configuraciones</span> pantalla.
+          </p></td></tr>
+      
+        <tr class="question"><td align="left" valign="top"><a name="faq-catxml-es"></a><a name="faq-catxml-q-es"></a><p><b>6.</b></p></td><td align="left" valign="top"><p>
+            ¿Cómo puedo importar categorías en batch?
+          </p></td></tr>
+        <tr class="answer"><td align="left" valign="top"></td><td align="left" valign="top"><p>
+            <span class="application">Mis gastos</span> puede importar sus categorías de su archivo de Grisbi.
+            Almacenar este archivo como grisbi.xml en una carpeta myexpenses en la raíz de su
+            tarjeta SD y llamar a la <span class="guilabel">Solicite una clave Contrib</span> entrada en la
+            <span class="guilabel">Configuraciones</span> pantalla. Copie este archivo bajo el nombre grisbi.xml
+            a una carpeta myexpenses en el directorio raíz de la tarjeta SD[5]. Puede importar de
+            este archivo además los partes (receptores y pagadores) guardados en Grisbi (elemento
+            Party). Si elige su propio archivo como fuente de importación, puede importar partes y
+            categorías o sólo categorías. Los partes se utilizan en el formulario de asientos para
+            proponerle un llenado automático en el campo receptor/pagador. Si crea su propio archivo
+            XML, respetar la siguiente estructura:
+            </p><pre class="programlisting">
+
+&lt;root&gt;
+  &lt;Category Nb="1" Na="Categoría principal A" /&gt;
+  &lt;Sub_category Nbc="1" Nb="1" Na="Sub-categoría A.1" /&gt;
+  &lt;Sub_category Nbc="1" Nb="2" Na="Sub-categoría A.2" /&gt;
+  &lt;Category Nb="2" Na="Categoría principal B" /&gt;
+  &lt;Sub_category Nbc="2" Nb="1" Na="Sub-categoría B.1" /&gt;
+  &lt;Sub_category Nbc="2" Nb="2" Na="Sub-categoría B.2" /&gt;
+  &lt;Party Na="N.N." /&gt;
+&lt;/root&gt; 
+ 
+          </pre><p>
           </p></td></tr>
       </tbody></table></div>
   </div>

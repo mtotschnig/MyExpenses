@@ -30,6 +30,8 @@ headstuff: |
             Wie kann ich ein Backup wiederherstellen?
           </a></dt><dt>5. <a href="#faq-contrib-de">
             Contrib-Schlüssel, was ist das?
+          </a></dt><dt>6. <a href="#faq-catxml-de">
+            Wie kann ich Kategorien im Batch importieren?
           </a></dt></dl><table border="0" width="100%" summary="Q and A Set"><col align="left" width="1%"><col><tbody>
         <tr class="question"><td align="left" valign="top"><a name="faq-comma-de"></a><a name="faq-comma-q-de"></a><p><b>1.</b></p></td><td align="left" valign="top"><p>
            Wie kann ich Beträge eingeben? Auf der numerischen Tastatur finde ich kein Komma
@@ -94,6 +96,34 @@ headstuff: |
             Der Schlüssel wird anhand der Android-ID Ihres Gerätes berechnet, die
             Sie mir mittels des Eintrages <span class="guilabel">Contrib-Schlüssel beantragen</span> unter
             <span class="guilabel">Einstellungen</span> mitteilen können.
+          </p></td></tr>
+      
+        <tr class="question"><td align="left" valign="top"><a name="faq-catxml-de"></a><a name="faq-catxml-q-de"></a><p><b>6.</b></p></td><td align="left" valign="top"><p>
+            Wie kann ich Kategorien im Batch importieren?
+          </p></td></tr>
+        <tr class="answer"><td align="left" valign="top"></td><td align="left" valign="top"><p>
+            <span class="application">Meine Ausgaben</span> kann Kategorien aus Ihrer Grisbi Datei importieren.
+            Kopieren Sie diese Datei unter dem Namen grisbi.xml in einen Ordner myexpenses in das
+            Wurzelverzeichnis der SD-Karte und rufen Sie den Eintrag <span class="guilabel">Import aus Grisbi</span> in den <span class="guilabel">Einstellungen</span> auf. Sie
+            können zusätzlich auch die von Grisbi gespeicherten Parteien (Empfänger und Zahler), aus
+            dieser Datei importieren. Wenn Sie Ihre eigene Datei als Import-Quelle auswählen, können
+            Sie entweder Parteien und Kategorien oder nur Kategorien importieren. Die Partner werden
+            im Buchungsformular verwendet, um Ihnen für das Feld Empfänger/Zahler ein automatische
+            Ausfüllen vorzuschlagen. Wenn Sie Ihre eigene XML Datei erstellen, halten Sie sich an
+            die folgende Struktur:
+          </p><pre class="programlisting">
+
+&lt;root&gt;
+  &lt;Category Nb="1" Na="Hauptkategorie A" /&gt;
+  &lt;Sub_category Nbc="1" Nb="1" Na="Unterkategorie A.1" /&gt;
+  &lt;Sub_category Nbc="1" Nb="2" Na="Unterkategorie A.2" /&gt;
+  &lt;Category Nb="2" Na="Hauptkategorie B" /&gt;
+  &lt;Sub_category Nbc="2" Nb="1" Na="Unterkategorie B.1" /&gt;
+  &lt;Sub_category Nbc="2" Nb="2" Na="Unterkategorie B.2" /&gt;
+  &lt;Party Na="N.N." /&gt;
+&lt;/root&gt; 
+ 
+          </pre><p>
           </p></td></tr>
       </tbody></table></div>
   </div>

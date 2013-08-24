@@ -30,6 +30,8 @@ headstuff: |
             Comment puis-je récupérer ma sauvegarde ?
           </a></dt><dt>5. <a href="#faq-contrib-fr">
             Clé Contrib, qu'est-ce que c'est?
+          </a></dt><dt>6. <a href="#faq-catxml-fr">
+          Comment puis-je importer les catégories en batch?
           </a></dt></dl><table border="0" width="100%" summary="Q and A Set"><col align="left" width="1%"><col><tbody>
         <tr class="question"><td align="left" valign="top"><a name="faq-comma-fr"></a><a name="faq-comma-q-fr"></a><p><b>1.</b></p></td><td align="left" valign="top"><p>
             Comment puis-je saisir les montants ? Il n'y a pas de virgule (,) sur le pavé
@@ -95,6 +97,34 @@ headstuff: |
             La clé est calculée sur la base de l'Android-ID de votre appareil, que
             vous pouvez me communiquer par l'entrée <span class="guilabel">Demandez une clé contrib</span>
             dans l'écran <span class="guilabel">Paramètres</span>.
+          </p></td></tr>
+      
+        <tr class="question"><td align="left" valign="top"><a name="faq-catxml-fr"></a><a name="faq-catxml-q-fr"></a><p><b>6.</b></p></td><td align="left" valign="top"><p>
+          Comment puis-je importer les catégories en batch?
+          </p></td></tr>
+        <tr class="answer"><td align="left" valign="top"></td><td align="left" valign="top"><p>
+            <span class="application">Mes dépenses</span> peut importer les catégories à partir de votre fichier
+            Grisbi. Copiez celui-ci sous le nom grisbi.xml dans le répertoire myexpenses de la
+            racine de votre carte SD et appelez l'entree <span class="guilabel">Import des données Grisbi</span> dans l'écran <span class="guilabel">Paramètres</span>.
+            Vous avez aussi la possibilité d'importer les tiers tel que Grisbi les enregistre dans
+            ce même fichier. Si vous choississez votre propre fichier en tant que source de
+            l'import, vous pourrez soit importer tiers et catégories, soit uniquement les
+            catégories. Les tiers vous seront proposés pour remplir automatiquement le champ "tiers"
+            dans le formulaire des opérations. Si vous éditez votre propre fichier XML, respectez la
+            structure suivante:
+                    </p><pre class="programlisting">
+
+&lt;root&gt;
+  &lt;Category Nb="1" Na="Catégorie principale A" /&gt;
+  &lt;Sub_category Nbc="1" Nb="1" Na="Sous-catégorie A.1" /&gt;
+  &lt;Sub_category Nbc="1" Nb="2" Na="Sous-catégorie A.2" /&gt;
+  &lt;Category Nb="2" Na="Catégorie principale B" /&gt;
+  &lt;Sub_category Nbc="2" Nb="1" Na="Sous-catégorie B.1" /&gt;
+  &lt;Sub_category Nbc="2" Nb="2" Na="Sous-catégorie B.2" /&gt;
+  &lt;Party Na="N.N." /&gt;
+&lt;/root&gt; 
+ 
+          </pre><p>
           </p></td></tr>
       </tbody></table></div>
   </div>
