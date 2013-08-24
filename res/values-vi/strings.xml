@@ -131,9 +131,7 @@
     - Quản lý tài chính thông qua điện thoại của bạn.\n
     - Xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.</string>
   <string name="help_leading">Cảm ơn bạn đã cài đặt <i>&app_name;</i> dành cho Android.</string>
-  <string name="help_whats_new">&#160;- Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm.\n
-  	- Người nhận sẽ được hiển thị trên danh sách giao dịch\n
-  	- Danh sách các tài khoản được sắp xếp (dựa theo tần số được sử dụng theo mặc định)</string>
+  <string name="help_whats_new">&#160;- Cải thiện độ ổn định.</string>
   <string name="important_version_information">Thông tin quan trọng</string>
   <string name="import_categories">Nhập dữ liệu về phân loại</string>
   <string name="income">Thu nhập</string>
@@ -291,7 +289,7 @@ số lượng tiền tệ</string>
   <string name="progress_dialog_cloning">Đang sao chép hóa &#8230;</string>
   <string name="progress_dialog_deleting">Đang thực hiện thao tác xóa &#8230;</string>
   <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu &#8230;</string>
-  <string name="progress_dialog_setup">Cơ sở dữ liệu của giao dịch đã được thiết lập &#8230;</string>
+  <string name="progress_dialog_setup">Cơ sở dữ liệu đã được thiết lập &#8230;</string>
   <string name="request_licence_mail_body">Vui lòng gửi đến tác giả mã khóa Cống Hiến dành cho Android-Id %1$s.
     \n\n[Hãy gửi cho tác giả một mô tả ngắn gọn (bằng tiếng Anh, Đức hoặc Pháp) về sự cống hiến của bạn dành cho &app_name;
     (ví dụ.: đóng góp qua Paypal, gửi báo cáo lỗi, xài thử chương trình, tham gia vào việc dịch chương trình)]</string>
