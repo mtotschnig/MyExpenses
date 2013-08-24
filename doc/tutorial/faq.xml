@@ -596,19 +596,171 @@
            </para>
         </answer>
       </qandaentry>
-      <!--
-      <qandaentry id="faq-x-??" lang="??">
-        <question id="faq-x-q-??">
+      <qandaentry id="faq-catxml-en" lang="en">
+        <question id="faq-catxml-q-en">
           <para>
-
+          How do I import categories in batch?
           </para>
         </question>
         <answer>
           <para>
-
+            <application role="app_name"/> can import your categories from your Grisbi file. Store
+            this file as grisbi.xml in a folder myexpenses in the root of your SD card and call
+            <guilabel role="pref_import_from_grisbi_title"/> from the <guilabel
+            role="menu_settings"/> screen. You can also import the parties (payers and payees)
+            stored in this file. When you choose your custom file as import source, you can decide
+            to import both parties and categories, or only categories. Parties will be used for the
+            autocomplete function of the payer/payee field in the transaction form. If you create an
+            XML file on your own, respect the following structure:
+            <programlisting>
+<![CDATA[
+<root>
+  <Category Nb="1" Na="Main category A" />
+  <Sub_category Nbc="1" Nb="1" Na="Sub category A.1" />
+  <Sub_category Nbc="1" Nb="2" Na="Sub category A.2" />
+  <Category Nb="2" Na="Main category B" />
+  <Sub_category Nbc="2" Nb="1" Na="Sub category B.1" />
+  <Sub_category Nbc="2" Nb="2" Na="Sub category B.2" />
+  <Party Na="N.N." />
+</root> 
+ ]]>
+            </programlisting>
+         </para>
+        </answer>
+      </qandaentry>
+      <qandaentry id="faq-catxml-de" lang="de">
+        <question id="faq-catxml-q-de">
+          <para>
+            Wie kann ich Kategorien im Batch importieren?
+          </para>
+        </question>
+        <answer>
+          <para>
+            <application role="app_name"/> kann Kategorien aus Ihrer Grisbi Datei importieren.
+            Kopieren Sie diese Datei unter dem Namen grisbi.xml in einen Ordner myexpenses in das
+            Wurzelverzeichnis der SD-Karte und rufen Sie den Eintrag <guilabel
+            role="pref_import_from_grisbi_title"/> in den <guilabel role="menu_settings"/> auf. Sie
+            können zusätzlich auch die von Grisbi gespeicherten Parteien (Empfänger und Zahler), aus
+            dieser Datei importieren. Wenn Sie Ihre eigene Datei als Import-Quelle auswählen, können
+            Sie entweder Parteien und Kategorien oder nur Kategorien importieren. Die Partner werden
+            im Buchungsformular verwendet, um Ihnen für das Feld Empfänger/Zahler ein automatische
+            Ausfüllen vorzuschlagen. Wenn Sie Ihre eigene XML Datei erstellen, halten Sie sich an
+            die folgende Struktur:
+          <programlisting>
+<![CDATA[
+<root>
+  <Category Nb="1" Na="Hauptkategorie A" />
+  <Sub_category Nbc="1" Nb="1" Na="Unterkategorie A.1" />
+  <Sub_category Nbc="1" Nb="2" Na="Unterkategorie A.2" />
+  <Category Nb="2" Na="Hauptkategorie B" />
+  <Sub_category Nbc="2" Nb="1" Na="Unterkategorie B.1" />
+  <Sub_category Nbc="2" Nb="2" Na="Unterkategorie B.2" />
+  <Party Na="N.N." />
+</root> 
+ ]]>
+          </programlisting>
           </para>
         </answer>
       </qandaentry>
-    -->
+      <qandaentry id="faq-catxml-fr" lang="fr">
+        <question id="faq-catxml-q-fr">
+          <para>
+          Comment puis-je importer les catégories en batch?
+          </para>
+        </question>
+        <answer>
+          <para>
+            <application role="app_name"/> peut importer les catégories à partir de votre fichier
+            Grisbi. Copiez celui-ci sous le nom grisbi.xml dans le répertoire myexpenses de la
+            racine de votre carte SD et appelez l'entree <guilabel
+            role="pref_import_from_grisbi_title"/> dans l'écran <guilabel role="menu_settings"/>.
+            Vous avez aussi la possibilité d'importer les tiers tel que Grisbi les enregistre dans
+            ce même fichier. Si vous choississez votre propre fichier en tant que source de
+            l'import, vous pourrez soit importer tiers et catégories, soit uniquement les
+            catégories. Les tiers vous seront proposés pour remplir automatiquement le champ "tiers"
+            dans le formulaire des opérations. Si vous éditez votre propre fichier XML, respectez la
+            structure suivante:
+                    <programlisting>
+<![CDATA[
+<root>
+  <Category Nb="1" Na="Catégorie principale A" />
+  <Sub_category Nbc="1" Nb="1" Na="Sous-catégorie A.1" />
+  <Sub_category Nbc="1" Nb="2" Na="Sous-catégorie A.2" />
+  <Category Nb="2" Na="Catégorie principale B" />
+  <Sub_category Nbc="2" Nb="1" Na="Sous-catégorie B.1" />
+  <Sub_category Nbc="2" Nb="2" Na="Sous-catégorie B.2" />
+  <Party Na="N.N." />
+</root> 
+ ]]>
+          </programlisting>
+          </para>
+        </answer>
+      </qandaentry>
+      <qandaentry id="faq-catxml-it" lang="it">
+        <question id="faq-catxml-q-it">
+          <para>
+          Come faccio a importare le categorie in gruppo?
+          </para>
+        </question>
+        <answer>
+          <para>
+            <application role="app_name"/> può importare le categorie dal file Grisbi. Conservare
+            questo file come grisbi.xml in una cartella myexpenses nella cartella principale della
+            vostra scheda SD e chiamare la voce <guilabel role="pref_import_from_grisbi_title"/>
+            nella schermata <guilabel role="menu_settings"/>. Hai anche la possibilità di importare
+            i beneficiari Grisbi registrati nello stesso file (elemento Party). Se si sceglie il
+            proprio file come fonte di importazione, è possibile importare categorie e beneficiari,
+            o solo categorie. Il beneficiario sarà offerta automaticamente per riempire il
+            "Beneficiario" in forma di operazioni. Se si crea il proprio file XML, rispettare la seguente struttura:
+            <programlisting>
+<![CDATA[
+<root>
+  <Category Nb="1" Na="Categoria principale A" />
+  <Sub_category Nbc="1" Nb="1" Na="Sottocategoria A.1" />
+  <Sub_category Nbc="1" Nb="2" Na="Sottocategoria A.2" />
+  <Category Nb="2" Na="Categoria principale B" />
+  <Sub_category Nbc="2" Nb="1" Na="Sottocategoria B.1" />
+  <Sub_category Nbc="2" Nb="2" Na="Sottocategoria B.2" />
+  <Party Na="N.N." />
+</root> 
+ ]]>
+          </programlisting>
+          </para>
+        </answer>
+      </qandaentry>
+      <qandaentry id="faq-catxml-es" lang="es">
+        <question id="faq-catxml-q-es">
+          <para>
+            ¿Cómo puedo importar categorías en batch?
+          </para>
+        </question>
+        <answer>
+          <para>
+            <application role="app_name"/> puede importar sus categorías de su archivo de Grisbi.
+            Almacenar este archivo como grisbi.xml en una carpeta myexpenses en la raíz de su
+            tarjeta SD y llamar a la <guilabel role="pref_request_licence_title"/> entrada en la
+            <guilabel role="menu_settings"/> pantalla. Copie este archivo bajo el nombre grisbi.xml
+            a una carpeta myexpenses en el directorio raíz de la tarjeta SD[5]. Puede importar de
+            este archivo además los partes (receptores y pagadores) guardados en Grisbi (elemento
+            Party). Si elige su propio archivo como fuente de importación, puede importar partes y
+            categorías o sólo categorías. Los partes se utilizan en el formulario de asientos para
+            proponerle un llenado automático en el campo receptor/pagador. Si crea su propio archivo
+            XML, respetar la siguiente estructura:
+            <programlisting>
+<![CDATA[
+<root>
+  <Category Nb="1" Na="Categoría principal A" />
+  <Sub_category Nbc="1" Nb="1" Na="Sub-categoría A.1" />
+  <Sub_category Nbc="1" Nb="2" Na="Sub-categoría A.2" />
+  <Category Nb="2" Na="Categoría principal B" />
+  <Sub_category Nbc="2" Nb="1" Na="Sub-categoría B.1" />
+  <Sub_category Nbc="2" Nb="2" Na="Sub-categoría B.2" />
+  <Party Na="N.N." />
+</root> 
+ ]]>
+          </programlisting>
+          </para>
+        </answer>
+      </qandaentry>
     </qandaset>
   </sect1>
