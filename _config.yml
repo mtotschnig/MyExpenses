@@ -124,6 +124,26 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.9.0.1
+    - 2013-08-24
+    -
+      en: |
+        Stability improvements.
+      ca: |
+        Millores en l'estabilitat.
+      fr: |
+        Améliorations de la stabilité.
+      de: |
+        Stabilitätsverbesserungen.
+      it: |
+        Miglioramenti della stabilità.
+      es: |
+        Mejoras en la estabilidad.
+      tr: |
+        Kararlılık geliştirmeleri.
+      vi: |
+        Cải thiện độ ổn định.
+  -
     - 1.9.0
     - 2013-08-20
     -
