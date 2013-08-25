@@ -511,8 +511,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       //3b  fill comment
       mCommentText.setText(mTransaction.comment);
       //3c set title based on type
-      if (mOperationType == MyExpenses.TYPE_TRANSACTION &&
-          !(mTransaction instanceof SplitPartCategory)) {
+      if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
         mPayeeText.setText(mTransaction.payee);
         mMethodId = mTransaction.methodId;
         if (mMethodId != null) {
@@ -673,13 +672,13 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         mTransaction instanceof SplitPartTransfer))
       mTransaction.setDate(mCalendar.getTime());
 
-    if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
+    if (mOperationType == MyExpenses.TYPE_TRANSACTION)
       mTransaction.catId = mCatId;
-      if (!(mTransaction instanceof SplitPartCategory)) {
+    if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
         mTransaction.setPayee(mPayeeText.getText().toString());
         mTransaction.methodId = mMethodId;
-      }
-    } else if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+    }
+    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       if (mTransferAccount == null) {
         Toast.makeText(this,getString(R.string.warning_select_account), Toast.LENGTH_LONG).show();
         return false;
