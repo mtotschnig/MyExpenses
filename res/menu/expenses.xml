@@ -42,7 +42,7 @@
   <item
     android:id="@id/RESET_ACCOUNT_COMMAND"
     android:icon="@drawable/reset_icon"
-    android:showAsAction="always"
+    android:showAsAction="ifRoom"
     android:title="@string/menu_reset">
   </item>
   <item
