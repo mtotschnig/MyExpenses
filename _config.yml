@@ -124,6 +124,24 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.9.0.2
+    - 2013-08-25
+    -
+      en: |
+        Minor improvements.
+      fr: |
+        Améliorations mineures.
+      de: |
+        Gerinfügige Verbesserungen.
+      it: |
+        Piccoli miglioramenti.
+      es: |
+        Pequeñas mejoras.
+      tr: |
+        Küçük iyileştirmeler.
+      vi: |
+        Cải thiện bổ sung.
+  -
     - 1.9.0.1
     - 2013-08-24
     -
@@ -197,8 +215,8 @@ versions:
         Traduction en vietnamien.
         Améliorations mineures.
       de: |
-         Vietnamesische Übersetzung.
-         Gerinfügige Verbesserungen.
+        Vietnamesische Übersetzung.
+        Gerinfügige Verbesserungen.
       it: |
         Traduzione in vietnamita.
         Piccoli miglioramenti.
