@@ -599,8 +599,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       break;
     case 1:
       mType = INCOME;
-      configureType();
     }
+    configureType();
     if (signum != 0)
       mAmountText.setText(nfDLocal.format(amount));
   }
