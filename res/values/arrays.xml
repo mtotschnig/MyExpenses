@@ -51,6 +51,7 @@
     <string-array name="MyExpenses_menuitems">
       <item>create_transaction</item>
       <item>create_transfer</item>
+      <item>create_split</item>
       <item>new_from_template</item>
       <item>reset</item>
       <item>edit_account</item>

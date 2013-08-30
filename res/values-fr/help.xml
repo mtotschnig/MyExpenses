@@ -24,6 +24,8 @@
   <string name="menu_create_transaction_help_text">Ouvre le formulaire pour saisir une nouvelle opération.</string>
   <string name="menu_create_transfer_help_text">Virer une somme entre comptes. Cette commande n\'est active que
     si vous avez au moins deux comptes dans la même devise.</string>
+  <string name="menu_create_split_help_text">Dans une opération ventilée, vous attribuez des montants partiels à différentes catégories ou
+    à des transferts vers d\'autres comptes.</string>
   <string name="menu_new_from_template_help_text">Si vous aviez défini des modèles, cette commande vous permet de choisir
     un modèle d\'une liste pour créer une nouvelle opération.</string>
   <string name="menu_reset_help_text">Cette commande exportera les opérations vers un fichier sur la carte SD en format

@@ -25,6 +25,8 @@
   <string name="menu_create_transaction_help_text">Apre il modulo per la creazione di una nuova transazione.</string>
   <string name="menu_create_transfer_help_text">Trasferire denaro tra conti. Questo comando è abilitato solo se si
      dispone di almeno un altro conto con la stessa moneta, come quello attuale.</string>
+  <string name="menu_create_split_help_text">Una operazione suddivisa consente di assegnare importi parziali a diverse categorie o
+     come trasferimenti a conti diversi.</string>
   <string name="menu_new_from_template_help_text">Se hai creato modelli per il conto corrente, questo comando
     visualizza una finestra di dialogo per la selezione di un modello da cui verrà creata una nuova transazione.</string>
   <string name="menu_reset_help_text">Questo comando consente di esportare tutte le transazioni del conto corrente in un file su

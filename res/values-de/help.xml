@@ -25,6 +25,8 @@
   <string name="menu_create_transaction_help_text">Öffnet das Formular für die Eingabe einer neuen Buchung.</string>
   <string name="menu_create_transfer_help_text">Anlegen einer Umbuchung zwischen Konten. Dieser Befehl steht nur dann
     zur Verfügung, wenn es zumindest ein zweites Konto mit derselben Währung gibt.</string>
+  <string name="menu_create_split_help_text">Eine Splitbuchung erlaubt Ihnen, Teile einer Buchung verschiedenen Kategorien zuzuordnen
+    oder als Umbuchungen zu verschiedenen Konten zu erfassen.</string>
   <string name="menu_new_from_template_help_text">Wenn Sie für das aktuelle Konto Vorlagen angelegt haben, erlaubt dieser
     Befehl die Auswahl einer Vorlage, aus der eine neue Buchung erzeugt wird.</string>
   <string name="menu_reset_help_text">Dieser Befehl exportiert alle Buchungen des aktuellen Kontos in eine Datei

@@ -25,6 +25,8 @@
   <string name="menu_create_transaction_help_text">Opens the form for creating a new transaction.</string>
   <string name="menu_create_transfer_help_text">Transfer money between accounts. This command is enabled
     only if you have at least one other account with the same currency as the current one.</string>
+  <string name="menu_create_split_help_text">A split transaction allows you to assign partial amounts to different categories or
+    as transfers to different accounts.</string>
   <string name="menu_new_from_template_help_text">If you have created templates for the current account,
     this command displays a dialog for selecting a template from which a new transaction will be
     created.</string>
