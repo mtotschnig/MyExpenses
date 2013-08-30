@@ -124,6 +124,12 @@ sections:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar,  ‏العربية‎, Română, 中文"
 versions:
   -
+    - 1.9.0.3
+    - 2013-08-30
+    -
+      en: |
+         Bug in handling of account type fixed.
+  -
     - 1.9.0.2
     - 2013-08-25
     -
