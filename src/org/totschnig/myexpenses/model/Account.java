@@ -61,7 +61,7 @@ public class Account extends Model {
 
   public int color;
 
-  public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_COLOR,KEY_GROUPING,
+  public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_COLOR,KEY_GROUPING,KEY_TYPE,
     "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income",
     "(SELECT coalesce(abs(sum(amount)),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses",
     "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer",
@@ -297,6 +297,9 @@ public class Account extends Model {
   }
   static HashMap<Long,Account> accounts = new HashMap<Long,Account>();
   
+  public static boolean isInstanceCached(long id) {
+    return accounts.containsKey(id);
+  }
   public static Account getInstanceFromDb(long id) throws DataObjectNotFoundException {
     Account account;
     account = accounts.get(id);

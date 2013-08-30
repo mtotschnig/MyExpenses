@@ -498,9 +498,13 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     @Override
     public Fragment getItem(Context context, Cursor cursor) {
       long accountId = cursor.getLong(cursor.getColumnIndex(KEY_ROWID));
-      //we set up the account object that the fragment can retrieve with getInstanceFromDb
+      //we want to make sure that the fragment does not need to create a new cursor
+      //when getting the account object, so we
+      //set up the account object that the fragment can retrieve with getInstanceFromDb
       //since it is cached by the Account class
-      new Account(accountId,cursor);
+      //we only need to do this, if the account has not been cached yet
+      if (!Account.isInstanceCached(accountId))
+        new Account(accountId,cursor);
       return TransactionList.newInstance(accountId);
     }
 
