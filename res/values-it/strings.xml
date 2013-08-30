@@ -263,7 +263,7 @@
   <string name="pref_manage_templates_title">Modelli</string>
   <string name="pref_manage_templates_summary">Utilizzare e eliminare modelli.</string>
   <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
-  <string name="pref_more_info_dialog_summary">Tradotto da Gudrun Totschnig, Laurent Collombet e Silvia Delpero</string>
+  <string name="pref_more_info_dialog_summary">Tradotto da gudrunto, Laurent Collombet e Silvia Delpero</string>
   <string name="pref_password_empty">La password non deve essere vuoto</string>
   <string name="pref_password_not_equal">Le password non corrispondono</string>
   <string name="pref_perform_protection_title">Protezione con password</string>
