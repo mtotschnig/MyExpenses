@@ -132,7 +132,7 @@
     - Manage them directly on your smartphone.\n
     - Export them into a Desktop finance program like Grisbi, GnuCash, Quicken or MS Money.</string>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
-  <string name="help_whats_new">&#160;- Minor improvements.</string>
+  <string name="help_whats_new">&#160;- Bug in handling of account type fixed.</string>
   <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">Income</string>

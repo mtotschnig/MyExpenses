@@ -126,7 +126,7 @@
     Funktionen erfahren.</string>
   <string name="help_heading_credits">Abspann</string>
   <string name="help_heading_license">Lizenz</string>
-  <string name="help_heading_whats_new">Neue Funktionen</string>
+<!--   <string name="help_heading_whats_new">Neue Funktionen</string> -->
   <string name="help_intro">&#160;- Halten Sie über Ihre Einnahmen und Ausgaben Buch.\n
     - Verwalten Sie diese direkt auf Ihrem Smartphone.\n
     - Exportieren Sie diese in ein Desktop-Finanzprogrammm (Grisbi, Gnucash, Quicken oder MS Money).</string>

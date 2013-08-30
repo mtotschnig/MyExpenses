@@ -134,7 +134,7 @@
     - Gérez-les directement sur votre smartphone.\n
     - Exportez-les vers un logiciel de finance, tel que Grisbi, Gnucash, Quicken ou MS Money.</string>
   <string name="help_leading">Merci d\'essayer <i>&app_name;</i> pour Android.</string>
-  <string name="help_whats_new">&#160;- Améliorations mineures.</string>
+<!--   <string name="help_whats_new">&#160;- Améliorations mineures.</string> -->
   <string name="import_categories">Importer les catégories</string>
   <string name="important_version_information">Information importante</string>
   <string name="income">revenu</string>
