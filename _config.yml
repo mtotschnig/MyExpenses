@@ -270,36 +270,6 @@ versions:
         Entegre yardım diyalogları.
         Sıfırlamadan dışarı aktarım.
   -
-    - 1.7.4.3
-    - 2013-06-25
-    -
-      en: |
-        Stability improvements.
-      ca: |
-        Millores en l'estabilitat.
-      fr: |
-        Améliorations de la stabilité.
-      de: |
-        Stabilitätsverbesserungen.
-      it: |
-        Miglioramenti della stabilità.
-      es: |
-        Mejoras en la estabilidad.
-      tr: |
-        Kararlılık geliştirmeleri.
-  -
-    - 1.7.4.2
-    - 2013-06-19
-    -
-      en: |
-        Fixed crash when inserting transaction with payee.
-        Enforce uniqueness of label for main categories.
-  -
-    - 1.7.4.1
-    - 2013-06-18
-    -
-      en: Fixed crash of Settings -> Categories and Templates on Android 2.2 and below.
-  -
     - 1.7.4
     - 2013-06-18
     -
@@ -331,42 +301,6 @@ versions:
         CSV olarak dışa aktarım.
         Google Play'de uygulamanın tabletlere sunulması için büyük ekran desteği beyan et.
         Android 1.6 desteği.
-  -
-    - 1.7.3.2
-    - 2013-05-31
-    -
-      en: |
-        Fixed broken dialog for aggreggates.
-      ca: |
-        Diàleg trencat per aggreggates s'ha solucionat.
-      fr: |
-        Le dialogue pour les sommes totales a été réparé.
-      de: |
-        Fehler beim Dialog für Gesamtsummen behoben.
-      it: |
-        Corretta la finestra per sommare piu conti.
-      es: |
-        Solucionado diálogo roto por agregados.
-      tr: |
-        Toplam miktar için kırık iletişim sabit olmuştur.
-  -
-    - 1.7.3.1
-    - 2013-05-24
-    -
-      en: |
-        Fixed crash in rare occasions.
-      ca: |
-        Solucionat l'error en rares ocasions.
-      fr: |
-        Correction d'un crash dans de rares occasions.
-      de: |
-        Bug unter seltenen Bedingungen behoben.
-      it: |
-        Corretto il crash in rare occasioni.
-      es: |
-        Solucionado el fallo en raras ocasiones.
-      tr: |
-        Nadir kez Sabit kazasında.
   -
     - 1.7.3
     - 2013-05-23
@@ -676,11 +610,6 @@ versions:
     -
       en: "Improved usability and added configurability to input of currency amounts."
   -
-    - 1.4.9.1
-    - 2012-04-07
-    -
-      en: "Solved crash when importing categories in Italian locale and two minor problems with account deletion."
-  -
     - 1.4.9
     - 2012-03-31
     -
@@ -690,17 +619,6 @@ versions:
     - 2012-03-26
     -
       en: "Revamped user interface. Some bug-fixes."
-  -
-    - 1.4.7.2
-    - 2012-03-13
-    -
-      en: "Italian categories and tutorial. Added menu icons."
-  -
-    - 1.4.7.1
-    - 2012-03-10
-    -
-      en: "Fixed layout of expense list in landscape mode. Bug fix for backup."
-  -
     - 1.4.7
     - 2012-03-09
     -
@@ -710,16 +628,6 @@ versions:
     - 2012-03-04
     -
       en: "Backup and restore of database and preferences. User interface translated to Italian."
-  -
-    - 1.4.5.2
-    - 2012-02-27
-    -
-      en: "Tutorial translated to German and French. Fixed problems with orientation change during categories import and help and changelog dialog. Support for Grisbi file format 0.5.0."
-  -
-    - 1.4.5.1
-    - 2012-02-17
-    -
-      en: "Problem with export (FTP, email) fixed."
   -
     - 1.4.5
     - 2012-02-13
