@@ -127,8 +127,14 @@ versions:
     - 1.9.0.3
     - 2013-08-30
     -
+      fr: |
+        Correction d'un problème avec le type de compte.
+      de: |
+        Bug bei Darstellung des Kontentyps behoben.
       en: |
-         Bug in handling of account type fixed.
+        Bug in handling of account type fixed.
+      vi: |
+        Sửa lỗi gặp phải với các loại tài khoản.
   -
     - 1.9.0.2
     - 2013-08-25
