@@ -578,7 +578,9 @@ public class GrisbiImport extends ProtectedFragmentActivityNoSherlock implements
         activity.markAsDone();
       }
     }
-
+    protected void publishProgress(Integer i) {
+      super.publishProgress(i);
+    }
 
     /* (non-Javadoc)
      * this is where the bulk of the work is done via calls to {@link #importCatsMain()}
@@ -594,15 +596,16 @@ public class GrisbiImport extends ProtectedFragmentActivityNoSherlock implements
       setTitle(activity.getString(R.string.grisbi_import_categories_loading,sourceStr));
       phaseChangedP = true;
       publishProgress(0);
-      totalImportedCat = 0;
-      totalImportedParty = 0;
       setMax(catTree.getTotal());
       activity.mProgressDialog.setMax(getMax());
 
-      importCats();
+      totalImportedCat = importCats(catTree,this);
       if (withPartiesP) {
         setTitle(activity.getString(R.string.grisbi_import_parties_loading,sourceStr));
-        importParties();
+        phaseChangedP = true;
+        setMax(partiesList.size());
+        publishProgress(0);
+        totalImportedParty = importParties(partiesList,this);
         setResult(new Result(true,
             R.string.grisbi_import_categories_and_parties_success,
             String.valueOf(getTotalImportedCat()),
@@ -616,60 +619,6 @@ public class GrisbiImport extends ProtectedFragmentActivityNoSherlock implements
       }
         
       return(null);
-    }
-    private void importParties() {
-      phaseChangedP = true;
-      setMax(partiesList.size());
-      publishProgress(0);
-      
-      for (int i=0;i<partiesList.size();i++){
-        if (Payee.create(partiesList.get(i)) != -1) {
-          totalImportedParty++;
-        }
-        if (i % 10 == 0) {
-          publishProgress(i);
-        }
-      }
-    }
-    private void importCats() {
-      int count = 0;
-      String label;
-      long main_id, sub_id;
-
-      for (Map.Entry<Integer,CategoryTree> main : catTree.children().entrySet()) {
-        CategoryTree mainCat = main.getValue();
-        label = mainCat.getLabel();
-        count++;
-        main_id = Category.find(label, null);
-        if (main_id != -1) {
-          Log.i("MyExpenses","category with label" + label + " already defined");
-        } else {
-          main_id = Category.create(label,null);
-          if (main_id != -1) {
-            totalImportedCat++;
-            if (count % 10 == 0) {
-              publishProgress(count);
-            }
-          } else {
-            //this should not happen
-            Log.w("MyExpenses","could neither retrieve nor store main category " + label);
-            continue;
-          }
-        }
-        for (Map.Entry<Integer,CategoryTree> sub : mainCat.children().entrySet()) {
-          label = sub.getValue().getLabel();
-          count++;
-          sub_id = Category.create(label,main_id);
-          if (sub_id != -1) {
-            totalImportedCat++;
-          } else {
-            Log.i("MyExpenses","could not store sub category " + label);
-          }
-          if (count % 10 == 0) {
-            publishProgress(count);
-          }
-        }
-      }
     }
 
     int getMax() {
@@ -711,5 +660,58 @@ public class GrisbiImport extends ProtectedFragmentActivityNoSherlock implements
       ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(
             id == IMPORT_SOURCES.length -1);    
     }
+  }
+  public static int importParties( ArrayList<String> partiesList, MyAsyncTask task) {
+    int total = 0;
+    for (int i=0;i<partiesList.size();i++){
+      if (Payee.create(partiesList.get(i)) != -1) {
+        total++;
+      }
+      if (task != null && i % 10 == 0) {
+        task.publishProgress(i);
+      }
+    }
+    return total;
+  }
+  public static int importCats(CategoryTree catTree, MyAsyncTask task) {
+    int count = 0, total = 0;
+    String label;
+    long main_id, sub_id;
+
+    for (Map.Entry<Integer,CategoryTree> main : catTree.children().entrySet()) {
+      CategoryTree mainCat = main.getValue();
+      label = mainCat.getLabel();
+      count++;
+      main_id = Category.find(label, null);
+      if (main_id != -1) {
+        Log.i("MyExpenses","category with label" + label + " already defined");
+      } else {
+        main_id = Category.create(label,null);
+        if (main_id != -1) {
+          total++;
+          if (task != null && count % 10 == 0) {
+            task.publishProgress(count);
+          }
+        } else {
+          //this should not happen
+          Log.w("MyExpenses","could neither retrieve nor store main category " + label);
+          continue;
+        }
+      }
+      for (Map.Entry<Integer,CategoryTree> sub : mainCat.children().entrySet()) {
+        label = sub.getValue().getLabel();
+        count++;
+        sub_id = Category.create(label,main_id);
+        if (sub_id != -1) {
+          total++;
+        } else {
+          Log.i("MyExpenses","could not store sub category " + label);
+        }
+        if (task != null && count % 10 == 0) {
+          task.publishProgress(count);
+        }
+      }
+    }
+    return total;
   }
 }
