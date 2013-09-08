@@ -280,7 +280,7 @@ public class Account extends Model {
       {"Platinum", "XPT"},
       {"Silver", "XAG"}
   };
-  static int defaultColor = 0xff99CC00;
+  public static int defaultColor = 0xff99CC00;
   public static String [] getCurrencyCodes() {
     int size = CURRENCY_TABLE.length;
     String[] codes = new String[size];
@@ -337,18 +337,31 @@ public class Account extends Model {
   public Account() {
     this("",(long)0,"");
   }
-  public Account(String label, long openingBalance, String description) {
+  public static Currency getLocaleCurrency() {
     try {
-      this.currency = Currency.getInstance(Locale.getDefault());
+      return Currency.getInstance(Locale.getDefault());
     } catch (IllegalArgumentException e) {
-      this.currency = Currency.getInstance("EUR");
+      return Currency.getInstance("EUR");
     }
+  }
+  /**
+   * @param label
+   * @param openingBalance
+   * @param description
+   * @return Account with currency from locale, of type CASH and with defaultColor
+   */
+  public Account(String label, long openingBalance, String description) {
+    this(label,getLocaleCurrency(),openingBalance,description,Type.CASH,defaultColor);
+  }
+  public Account(String label, Currency currency, long openingBalance, String description,
+      Type type, int color) {
     this.label = label;
+    this.currency = currency;
     this.openingBalance = new Money(currency,openingBalance);
     this.description = description;
-    this.type = Type.CASH;
+    this.type = type;
     this.grouping = Grouping.NONE;
-    this.color = defaultColor;
+    this.color = color;
   }
   
   /**
