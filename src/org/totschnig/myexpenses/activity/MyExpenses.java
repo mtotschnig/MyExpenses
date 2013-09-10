@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.activity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -49,6 +50,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
@@ -138,8 +140,19 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public void onCreate(Bundle savedInstanceState) {
     //if we are launched from the contrib app, we refresh the cached contrib status
     Bundle extras = getIntent().getExtras();
-    if (extras != null && extras.getBoolean("refresh_contrib",false))
-      MyApplication.getInstance().refreshContribEnabled();
+    if (extras != null) {
+      if (extras.getBoolean("refresh_contrib",false))
+        MyApplication.getInstance().refreshContribEnabled();
+      String instrumentLanguage = extras.getString("instrument_language");
+      if (instrumentLanguage != null) {
+        Locale locale = new Locale(instrumentLanguage,extras.getString("instrument_country"));
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config,
+            getResources().getDisplayMetrics());
+      }
+    }
     setTheme(MyApplication.getThemeId());
     mSettings = MyApplication.getInstance().getSettings();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
