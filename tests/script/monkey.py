@@ -173,3 +173,6 @@ enter()
 back()
 snapshot("light_theme")
 
+#11 Help
+menu(6)
+snapshot("help")
