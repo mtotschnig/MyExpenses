@@ -145,15 +145,18 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
     GrisbiImport.importCats((CategoryTree) result.extra[0], null);
     //set up transactions
     long now = System.currentTimeMillis();
+    //are used twice
+    long mainCat1 = Category.find(ctx.getString(R.string.testData_transaction1MainCat), null);
+    long mainCat2 = Category.find(ctx.getString(R.string.testData_transaction2MainCat), null);
+    long mainCat6 = Category.find(ctx.getString(R.string.testData_transaction6MainCat), null);
     Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
     op1.amount = new Money(defaultCurrency,-1200L);
-    op1.catId = Category.find(ctx.getString(R.string.testData_transaction1SubCat),
-        Category.find(ctx.getString(R.string.testData_transaction1MainCat), null));
+    op1.catId = Category.find(ctx.getString(R.string.testData_transaction1SubCat), mainCat1);
+    op1.setDate(new Date( now - 300000 ));
     op1.save();
     Transaction op2 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
     op2.amount = new Money(defaultCurrency,-2200L);
-    op2.catId = Category.find(ctx.getString(R.string.testData_transaction2SubCat),
-        Category.find(ctx.getString(R.string.testData_transaction2MainCat), null));
+    op2.catId = Category.find(ctx.getString(R.string.testData_transaction2SubCat), mainCat2);
     op2.comment = ctx.getString(R.string.testData_transaction2Comment);
     op2.setDate(new Date( now - 7200000 ));
     op2.save();
@@ -178,12 +181,23 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
     op5.save();
     Transaction op6 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account1.id);
     op6.amount = new Money(defaultCurrency,10000L);
-    op6.catId = Category.find(ctx.getString(R.string.testData_transaction6MainCat), null);
+    op6.catId = mainCat6;
     op6.setDate(new Date( now - 110390000 ));
     op6.save();
     Transaction op7 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account2.id);
     op7.amount = new Money(foreignCurrency,-34523L);
     op7.setDate(new Date( now - 1003900000 ));
     op7.save();
+    Transaction op8 = Transaction.getTypedNewInstance(MyExpenses.TYPE_SPLIT, account1.id);
+    op8.amount = new Money(defaultCurrency,-8967L);
+    op8.save();
+    Transaction split1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account1.id,op8.id);
+    split1.amount = new Money(defaultCurrency,-4523L);
+    split1.catId = mainCat2;
+    split1.save();
+    Transaction split2 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account1.id,op8.id);
+    split2.amount = new Money(defaultCurrency,-4444L);
+    split2.catId = mainCat6;
+    split2.save();
 	}
 }

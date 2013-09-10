@@ -124,8 +124,17 @@ right()
 enter()
 snapshot("calculator")
 
-#8 Backup
+#8 Split
 back()
+back()
+toOrigin()
+down()
+enter()
+right()
+enter()
+snapshot("split")
+
+#9 Backup
 back()
 menu(5)
 if lang == 'de':
@@ -137,7 +146,7 @@ for _ in range(distance):
 enter()
 snapshot("backup")
 
-#9 Light Theme
+#10 Light Theme
 back()
 back()
 menu(5)
