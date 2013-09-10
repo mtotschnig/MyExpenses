@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Label">Il mio portafoglio</string>
+    <string name="testData_account1Description">Spese quotidiane</string>
+    <string name="testData_account2Label">Viaggio in Inghilterra</string>
+    <string name="testData_account2Description">Agosto 2012</string>
+    <string name="testData_account2Currency">GBP</string>
+    <string name="testData_account3Label">Conto bancario</string>
+    <string name="testData_account3Description">Unicredit</string>
+    <string name="testData_transaction1SubCat">Metro</string>
+    <string name="testData_transaction1MainCat">Trasporto</string>
+    <string name="testData_transaction2SubCat">Supermercato</string>
+    <string name="testData_transaction2MainCat">Alimentazione</string>
+    <string name="testData_transaction2Comment">Frutta y verdura</string>
+    <string name="testData_transaction3SubCat">Carburante</string>
+    <string name="testData_transaction3MainCat">Automobile</string>
+    <string name="testData_transaction4SubCat">Ristorante</string>
+    <string name="testData_transaction4MainCat">Alimentazione</string>
+    <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+    <string name="testData_transaction6MainCat">Donazioni</string>
+</resources>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Label">Ví của tôi</string>
+    <string name="testData_account1Description">chi phí hàng ngày</string>
+    <string name="testData_account2Label">Sang Anh</string>
+    <string name="testData_account2Description">Tháng 8 năm 2012</string>
+    <string name="testData_account2Currency">GBP</string>
+    <string name="testData_account3Label">Tài khoản ngân hàng</string>
+    <string name="testData_account3Description">VietinBank</string>
+    <string name="testData_transaction1SubCat">Tàu điện ngầm</string>
+    <string name="testData_transaction1MainCat">Vận chuyển</string>
+    <string name="testData_transaction2SubCat">Siêu thị</string>
+    <string name="testData_transaction2MainCat">Thức ăn</string>
+    <string name="testData_transaction2Comment">Trái cây và raue</string>
+    <string name="testData_transaction3SubCat">Xăng</string>
+    <string name="testData_transaction3MainCat">Ô tô</string>
+    <string name="testData_transaction4SubCat">Khácg sạn</string>
+    <string name="testData_transaction4MainCat">Thức ăn</string>
+    <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+    <string name="testData_transaction6MainCat">Quà cáp</string>
+</resources>
+
+
+
+
+

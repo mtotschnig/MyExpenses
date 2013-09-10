@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Label">Cüzdanım</string>
+    <string name="testData_account1Description">Günlük giderleri</string>
+    <string name="testData_account2Label">İngiltere\'ye seyahat</string>
+    <string name="testData_account2Description">Ağustos 2012</string>
+    <string name="testData_account2Currency">GBP</string>
+    <string name="testData_account3Label">Banka hesabı</string>
+    <string name="testData_account3Description">Türkiye İş Bankası</string>
+    <string name="testData_transaction1SubCat">Metro</string>
+    <string name="testData_transaction1MainCat">Ulaşım</string>
+    <string name="testData_transaction2SubCat">Süpermarket</string>
+    <string name="testData_transaction2MainCat">Gıda</string>
+    <string name="testData_transaction2Comment">Meyve ve sebzeler</string>
+    <string name="testData_transaction3SubCat">Benzin</string>
+    <string name="testData_transaction3MainCat">Otomobil</string>
+    <string name="testData_transaction4SubCat">Lokanta</string>
+    <string name="testData_transaction4MainCat">Gıda</string>
+    <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+    <string name="testData_transaction6MainCat">Hediyeler</string>
+</resources>

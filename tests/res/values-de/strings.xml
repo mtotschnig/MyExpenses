@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Label">Meine Geldtasche</string>
+    <string name="testData_account1Description">Tägliche Ausgaben</string>
+    <string name="testData_account2Label">Wochenende in London</string>
+    <string name="testData_account2Description">August 2012</string>
+    <string name="testData_account2Currency">GBP</string>
+    <string name="testData_account3Label">Bankkonto</string>
+    <string name="testData_account3Description">Deutsche Bank</string>
+    <string name="testData_transaction1SubCat">Bahnkarten</string>
+    <string name="testData_transaction1MainCat">Urlaub</string>
+    <string name="testData_transaction2SubCat">Supermarkt</string>
+    <string name="testData_transaction2MainCat">Lebensmittel</string>
+    <string name="testData_transaction2Comment">Obst und Gemüse</string>
+    <string name="testData_transaction3SubCat">Kraftstoff</string>
+    <string name="testData_transaction3MainCat">Kfzkosten</string>
+    <string name="testData_transaction4SubCat">Restaurant</string>
+    <string name="testData_transaction4MainCat">Lebensmittel</string>
+    <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+    <string name="testData_transaction6MainCat">Geschenke</string>
+</resources>

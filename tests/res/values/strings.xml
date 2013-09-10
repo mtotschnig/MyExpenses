@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World!</string>
     <string name="app_name">MyExpensesTestTest</string>
     <string name="testData_account1Label">My wallet</string>
     <string name="testData_account1Description">Daily expenses</string>
     <string name="testData_account2Label">weekend in Paris</string>
     <string name="testData_account2Description">August 2012</string>
+    <string name="testData_account2Currency">EUR</string>
     <string name="testData_account3Label">Bank account</string>
     <string name="testData_account3Description">Bank of America</string>
+    <string name="testData_transaction1SubCat">Metro</string>
+    <string name="testData_transaction1MainCat">Transport</string>
+    <string name="testData_transaction2SubCat">Grocery</string>
+    <string name="testData_transaction2MainCat">Food</string>
+    <string name="testData_transaction2Comment">Fruits &amp; Vegetables</string>
+    <string name="testData_transaction3SubCat">Fuel</string>
+    <string name="testData_transaction3MainCat">Car</string>
+    <string name="testData_transaction4SubCat">Restaurant</string>
+    <string name="testData_transaction4MainCat">Food</string>
+    <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+    <string name="testData_transaction6MainCat">Gifts</string>
 </resources>

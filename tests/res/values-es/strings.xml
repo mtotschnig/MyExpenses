@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Label">Mi cartera</string>
+    <string name="testData_account1Description">Los gastos diarios</string>
+    <string name="testData_account2Label">Viaje a Inglaterra</string>
+    <string name="testData_account2Description">Agosto 2012</string>
+    <string name="testData_account2Currency">GBP</string>
+    <string name="testData_account3Label">Cuenta bancaria</string>
+    <string name="testData_account3Description">Banco Santander</string>
+    <string name="testData_transaction1SubCat">Metro</string>
+    <string name="testData_transaction1MainCat">Transporte</string>
+    <string name="testData_transaction2SubCat">Supermercado</string>
+    <string name="testData_transaction2MainCat">Alimentos</string>
+    <string name="testData_transaction2Comment">Frutas y verduras</string>
+    <string name="testData_transaction3SubCat">Gasolina</string>
+    <string name="testData_transaction3MainCat">Coche</string>
+    <string name="testData_transaction4SubCat">Restaurante</string>
+    <string name="testData_transaction4MainCat">Alimentos</string>
+    <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+    <string name="testData_transaction6MainCat">Donaciones</string>
+</resources>

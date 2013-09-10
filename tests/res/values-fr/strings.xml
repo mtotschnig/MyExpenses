@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Label">Mon porte-monnaie</string>
+    <string name="testData_account1Description">Dépenses courantes</string>
+    <string name="testData_account2Label">Week-end à Londres</string>
+    <string name="testData_account2Description">Août 2012</string>
+    <string name="testData_account2Currency">GBP</string>
+    <string name="testData_account3Label">Compte bancaire</string>
+    <string name="testData_account3Description">Crédit agricole</string>
+    <string name="testData_transaction1SubCat">Métro</string>
+    <string name="testData_transaction1MainCat">Transport</string>
+    <string name="testData_transaction2SubCat">Supermarché</string>
+    <string name="testData_transaction2MainCat">Alimentation</string>
+    <string name="testData_transaction2Comment">Fruits et légumes</string>
+    <string name="testData_transaction3SubCat">Carburant</string>
+    <string name="testData_transaction3MainCat">Automobile</string>
+    <string name="testData_transaction4SubCat">Restaurant</string>
+    <string name="testData_transaction4MainCat">Alimentation</string>
+    <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+    <string name="testData_transaction6MainCat">Dons</string>
+</resources>
