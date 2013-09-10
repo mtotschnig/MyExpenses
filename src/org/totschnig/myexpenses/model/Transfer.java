@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.model;
 
+import org.totschnig.myexpenses.provider.TransactionProvider;
+
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
@@ -66,6 +68,12 @@ public class Transfer extends Transaction {
       ContentValues args = new ContentValues();
       args.put(KEY_TRANSFER_PEER,transfer_peer);
       cr().update(Uri.parse(CONTENT_URI+ "/" + id), args, null, null);
+      cr().update(
+          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).appendPath("increaseUsage").build(),
+          null, null, null);
+      cr().update(
+          TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(transfer_account)).appendPath("increaseUsage").build(),
+          null, null, null);
     } else {
       uri = Uri.parse(CONTENT_URI + "/" + id);
       cr().update(uri,initialValues,null,null);
