@@ -146,6 +146,21 @@ for _ in range(distance):
 enter()
 snapshot("backup")
 
+#10 Backup
+
+back()
+back()
+menu(5)
+if lang == 'de':
+  distance = 24
+else:
+  distance = 23
+for _ in range(distance):
+  down()
+enter()
+enter()
+snapshot("password")
+
 #10 Light Theme
 back()
 back()
