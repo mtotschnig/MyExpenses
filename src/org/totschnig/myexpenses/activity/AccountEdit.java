@@ -17,12 +17,12 @@ package org.totschnig.myexpenses.activity;
 
 import java.math.BigDecimal;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -67,11 +67,11 @@ public class AccountEdit extends EditActivity {
   private Account.Type mAccountType;
   private int mAccountColor;
   private String[] mTypes = new String[Account.Type.values().length];
-  private String[] mColorNames;
   private Integer[] mColors;
   private TextView mColorText;
   private Button mColorButton;
   
+  @SuppressLint("InlinedApi")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
