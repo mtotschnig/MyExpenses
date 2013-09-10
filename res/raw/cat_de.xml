@@ -135,4 +135,5 @@
 	<Sub_category Nbc="20" Nb="7" Na="Strom" />
 	<Sub_category Nbc="20" Nb="8" Na="Telefon" />
 	<Sub_category Nbc="20" Nb="9" Na="Wasser" />
+  <Category Nb="21" Na="Geschenke" Kd="1" />
 </Grisbi_categ>
