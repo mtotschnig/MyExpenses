@@ -132,6 +132,8 @@ down()
 enter()
 right()
 enter()
+#give time for loading
+sleep(2)
 snapshot("split")
 
 #9 Backup
@@ -146,7 +148,7 @@ for _ in range(distance):
 enter()
 snapshot("backup")
 
-#10 Backup
+#10 Password
 
 back()
 back()
