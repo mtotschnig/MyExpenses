@@ -45,7 +45,7 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
  * @author Michael Totschnig
  *
  */
-public class SelectCategory extends ProtectedFragmentActivity implements
+public class ManageCategories extends ProtectedFragmentActivity implements
     OnChildClickListener, OnGroupClickListener,EditTextDialogListener  {
     private Button mAddButton;
 
@@ -243,7 +243,7 @@ public class SelectCategory extends ProtectedFragmentActivity implements
         success = Category.create(value,parentId) != -1;
       }
       if (!success) {
-          Toast.makeText(SelectCategory.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
+          Toast.makeText(ManageCategories.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
         }
     }
 }

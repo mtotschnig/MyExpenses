@@ -41,7 +41,7 @@
         <activity android:name=".activity.ExpenseEdit"/>
         <activity android:name=".activity.AccountEdit"/>
         <activity android:name=".activity.MethodEdit"/>
-        <activity android:name=".activity.SelectCategory">
+        <activity android:name=".activity.ManageCategories">
           <intent-filter>  
               <action android:name="myexpenses.intent.manage.categories"/>  
               <category android:name="android.intent.category.DEFAULT" />

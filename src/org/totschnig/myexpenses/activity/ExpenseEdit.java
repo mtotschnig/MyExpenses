@@ -371,7 +371,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
    * calls the activity for selecting (and managing) categories
    */
   private void startSelectCategory() {
-    Intent i = new Intent(this, SelectCategory.class);
+    Intent i = new Intent(this, ManageCategories.class);
     //i.putExtra(DatabaseConstants.KEY_ROWID, id);
     startActivityForResult(i, SELECT_CATEGORY_REQUEST);
   }
