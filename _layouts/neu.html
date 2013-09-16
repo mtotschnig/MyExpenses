@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+{% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/visuals/favicon.png">
+
+    <title>{{site.title[pagelang]}}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+    
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron-narrow.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="/script/html5shiv.js"></script>
+      <script src="/script/respond.min.js"></script>
+    <![endif]-->
+      <script type="text/javascript">
+      var SCREENSHOT_WIDTH = 480;
+      var SCREENSHOT_HEIGTH = 800;
+  var loadImageResources = function(images, callback) {
+  var imageResources = {};
+
+  var checkForCompletion = function() {
+    for (var id in images) {
+      if (!(id in imageResources))
+        return;
+    }
+    (callback || function(){})(imageResources);
+    callback = null;
+  };
+
+  for (var id in images) {
+    var img = document.createElement('img');
+    img.src = images[id];
+    (function(img, id) {
+      img.onload = function() {
+        imageResources[id] = img;
+        checkForCompletion();
+      };
+      img.onerror = function() {
+        imageResources[id] = null;
+        checkForCompletion();
+      }
+    })(img, id);
+  }
+};
+  var DEVICES = [
+    {
+      id: 'nexus_s',
+      title: 'Nexus S',
+      url: 'http://www.google.com/phone/detail/nexus-s',
+      physicalSize: 4.0,
+      physicalHeight: 4.88,
+      density: 'HDPI',
+      landRes: ['shadow', 'back', 'fore'],
+      landOffset: [147,135],
+      portRes: ['shadow', 'back', 'fore'],
+      portOffset: [134,247],
+      portSize: [480,800],
+      archived: true
+    }
+   ];
+   var g_currentDevice = DEVICES[0];
+   var resourceImages = {};
+   function loadDeviceArt() {
+    // Load image resources
+      var res = g_currentDevice.portRes;
+      var resList = {};
+      for (var i = 0; i < res.length; i++) {
+        resList[res[i]] = '/visuals/nexus_s/port_' + res[i] + '.png'
+      }
+      loadImageResources(resList, function(r) {
+        resourceImages = r;
+        loadScreenShots();
+      });
+   }
+   function loadScreenShots() {
+    var ssList = [{% for feature in page.features %}'{{feature.img}}'{% if forloop.last %}{% else %},{% endif %}{% endfor %}];
+    for (var i = 0; i < ssList.length; i++) {
+      var img = document.createElement('img');
+      var id = ssList[i];
+      img.src = 'screenshots/' + id + '.png';
+      (function(img, id) {
+        img.onload = function() {
+          var width = resourceImages['back'].naturalWidth;
+          var height = resourceImages['back'].naturalHeight;
+          var canvas = document.getElementById(id);
+          var scaleW = canvas.width/width;
+          var scaleH = canvas.height/height;
+          var ctx = canvas.getContext('2d');
+          var offset = g_currentDevice.portOffset;
+          ctx.drawImage(resourceImages['shadow'], 0, 0,canvas.width,canvas.height);
+          ctx.drawImage(resourceImages['back'], 0, 0,canvas.width,canvas.height);
+          ctx.drawImage(resourceImages['fore'], 0, 0,canvas.width,canvas.height);
+          ctx.drawImage(img,offset[0]*scaleW, offset[1]*scaleH,SCREENSHOT_WIDTH = 480*scaleW,SCREENSHOT_HEIGTH*scaleH);
+  
+        };
+        img.onerror = function() {
+          //TODO
+        }
+      })(img, id);
+    }
+   }
+  </script>
+
+  </head>
+
+  <body onload="loadDeviceArt()">
+
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li data-target="carousel-features" id="menu-features" class="active"><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+          <li id="menu-moreinfo" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li data-target="participate"><a href="#">Participate</a></li>
+              <li data-target="faq"><a href="#">FAQ</a></li>
+              <li data-target="versionlist"><a href="#">Changelog</a></li>
+              <li data-target="credits"><a href="#">Credits</a></li>
+              <li data-target="licence"><a href="#">Licence</a></li>
+              <li data-target="sourcecode"><a href="#">SourceCode</a></li>
+              <li data-target="links"><a href="#">Links</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <img src="/visuals/flags/{{page.lang}}_25.png"/> <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              {% for lang in site.langs %}
+              {% assign code = lang[0] %}
+              {% assign label = lang[1] %}
+              {% if code != page.lang %}
+              <li><a href="/{{code}}"><img alt="{{label}}" title="{{label}}" src="/visuals/flags/{{code}}_25.png"/></a></li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </li>
+        </ul>
+        <h3 class="text-muted">{{site.title[pagelang]}}</h3>
+      </div>
+    <div class="jumbotron">
+    <p>{{page.hero_main}}</p>
+    {% for hero in page.hero_sub %}<span class="btn btn-primary">{{hero}}</span>{% endfor %}
+    </div>
+    <div id="carousel-features" class="carousel slide block">
+      <!-- Indicators -->      
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
+        {% for feature in page.features %}
+        <div class="item {% if forloop.index0 == 0 %}active{% endif %}">
+          <canvas id="{{feature.img}}" width="749" height="1308"></canvas>
+          <div class="carousel-caption">
+          {{feature.caption}} 
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <ol class="carousel-indicators">
+        {% for feature in page.features %}
+        <li data-target="#carousel-features" data-slide-to="{{forloop.index0}}" {% if forloop.index0 == 0 %}class="active"{% endif %}></li>
+        {% endfor %}
+      </ol>
+      <!-- Controls -->
+      <a class="left carousel-control" href="#carousel-features" data-slide="prev">
+        <span class="icon-prev"></span>
+      </a>
+      <a class="right carousel-control" href="#carousel-features" data-slide="next">
+        <span class="icon-next"></span>
+      </a>
+    </div>
+    {{content}}
+    {% include misc_info.html %}
+    <div class="well">
+    <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses">
+      <img alt="Get it on Google Play"
+          src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png" />
+       </a>
+    </div>
+      <div class="footer">
+        <p>© 2013 Michael Totschnig - <a class="intern" data-target="imprint" href="#">Imprint</a> - <a href="mailto:myexpenses@totschnig.org">Feedback</a></p>
+      </div>
+    </div> <!-- /container -->
+    
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $('.dropdown-menu li').click(function(event){
+        mkActive($(this));
+        $('#menu-moreinfo').addClass('active');
+      });
+      $('#menu-features').click(function(event){
+        mkActive($(this));
+      });
+      $('a.intern').click(function(event){
+        mkActive($(this));
+      });
+      function mkActive(el) {
+        $('.block').toggle(false);
+        $('#'+el.data('target')).toggle(true);
+        $('li.active').removeClass('active');
+        el.addClass('active');
+      }
+    </script>
+  </body>
+</html>

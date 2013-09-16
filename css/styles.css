@@ -1,0 +1,58 @@
+.carousel {
+  margin-bottom: 30px;
+}
+.carousel-caption {
+  bottom: 0px;
+  color: #000000;
+  position: static;
+  margin-top: -50px;
+}
+.carousel-inner {
+  padding-bottom: 30px;
+  text-align: center;
+}
+.carousel-inner > .item > img {
+  display: inline;
+  height: 600px;
+}
+.carousel-indicators li {
+    border: 1px solid #000000;
+}
+.carousel-indicators .active {
+    background-color: #000000;
+}
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+.well {
+  text-align: center;
+}
+.nav li.active .caret {
+    border-bottom-color: #ffffff;
+    border-top-color: #ffffff;
+}
+.dropdown-menu {
+  min-width:0px; 
+}
+dl.versionlist {
+  position: relative;
+}
+dl.versionlist dt {
+  float: left; clear:left; font-weight: bold; margin-bottom: -1px; margin-right: 2px;
+}
+dl.versionlist dd {
+  margin-left: 4.5em;
+}
+.versioncode {
+  display: inline-block;
+  width: 4.5em;
+  }
+.versiondate {
+  display: inline-block;
+  width: 6em;
+}
+.jumbotron .btn {
+  cursor: default;
+  margin: 5px;
+}
