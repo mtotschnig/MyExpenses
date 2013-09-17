@@ -21,10 +21,6 @@
 .carousel-indicators .active {
     background-color: #000000;
 }
-canvas {
-    max-width: 100%;
-    height: auto;
-}
 .well {
   text-align: center;
 }

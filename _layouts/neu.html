@@ -82,25 +82,30 @@
       });
    }
    function loadScreenShots() {
+    var availableWidth=document.getElementById("canvas-parent").clientWidth;
+    var naturalWidth = 749;
+    var naturalHeight = 1308;
+    var scale = availableWidth/naturalWidth;
+    console.log("setting scale "+ scale);
     var ssList = [{% for feature in page.features %}'{{feature[0]}}'{% if forloop.last %}{% else %},{% endif %}{% endfor %}];
     for (var i = 0; i < ssList.length; i++) {
       var img = document.createElement('img');
       var id = ssList[i];
+      console.log("creating image "+id);
       img.src = 'screenshots/' + id + '.png';
       (function(img, id) {
         img.onload = function() {
-          var width = resourceImages['back'].naturalWidth;
-          var height = resourceImages['back'].naturalHeight;
+        console.log("image "+id + " loaded");
           var canvas = document.getElementById(id);
-          var scaleW = canvas.width/width;
-          var scaleH = canvas.height/height;
+          canvas.width=availableWidth;
+          console.log("setting width "+ canvas.width);
+          canvas.height=naturalHeight*scale
           var ctx = canvas.getContext('2d');
           var offset = g_currentDevice.portOffset;
           ctx.drawImage(resourceImages['shadow'], 0, 0,canvas.width,canvas.height);
           ctx.drawImage(resourceImages['back'], 0, 0,canvas.width,canvas.height);
           ctx.drawImage(resourceImages['fore'], 0, 0,canvas.width,canvas.height);
-          ctx.drawImage(img,offset[0]*scaleW, offset[1]*scaleH,SCREENSHOT_WIDTH = 480*scaleW,SCREENSHOT_HEIGTH*scaleH);
-  
+          ctx.drawImage(img,offset[0]*scale, offset[1]*scale,SCREENSHOT_WIDTH*scale,SCREENSHOT_HEIGTH*scale);
         };
         img.onerror = function() {
           //TODO
@@ -151,7 +156,7 @@
     <div id="carousel-features" class="carousel slide block">
       <!-- Indicators -->      
       <!-- Wrapper for slides -->
-      <div class="carousel-inner">
+      <div id="canvas-parent" class="carousel-inner">
         {% for feature in page.features %}
         <div class="item {% if forloop.index0 == 0 %}active{% endif %}">
           <canvas id="{{feature[0]}}" width="749" height="1308"></canvas>
