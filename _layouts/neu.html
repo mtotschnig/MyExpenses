@@ -83,7 +83,7 @@
       });
    }
    function loadScreenShots() {
-    var ssList = [{% for feature in page.features %}'{{feature.img}}'{% if forloop.last %}{% else %},{% endif %}{% endfor %}];
+    var ssList = [{% for feature in page.features %}'{{feature[0]}}'{% if forloop.last %}{% else %},{% endif %}{% endfor %}];
     for (var i = 0; i < ssList.length; i++) {
       var img = document.createElement('img');
       var id = ssList[i];
@@ -123,13 +123,9 @@
             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li data-target="participate"><a href="#">Participate</a></li>
-              <li data-target="faq"><a href="#">FAQ</a></li>
-              <li data-target="versionlist"><a href="#">Changelog</a></li>
-              <li data-target="credits"><a href="#">Credits</a></li>
-              <li data-target="licence"><a href="#">Licence</a></li>
-              <li data-target="sourcecode"><a href="#">SourceCode</a></li>
-              <li data-target="links"><a href="#">Links</a></li>
+            {% for section in page.sections %}
+              <li data-target="{{section[0]}}"><a href="#">{{section[1]}}</a></li>
+            {% endfor %}
             </ul>
           </li>
           <li class="dropdown">
@@ -159,9 +155,9 @@
       <div class="carousel-inner">
         {% for feature in page.features %}
         <div class="item {% if forloop.index0 == 0 %}active{% endif %}">
-          <canvas id="{{feature.img}}" width="749" height="1308"></canvas>
+          <canvas id="{{feature[0]}}" width="749" height="1308"></canvas>
           <div class="carousel-caption">
-          {{feature.caption}} 
+          {{feature[1]}} 
           </div>
         </div>
         {% endfor %}
@@ -188,7 +184,7 @@
        </a>
     </div>
       <div class="footer">
-        <p>© 2013 Michael Totschnig - <a class="intern" data-target="imprint" href="#">Imprint</a> - <a href="mailto:myexpenses@totschnig.org">Feedback</a></p>
+        <p>© 2013 Michael Totschnig - <a class="intern" data-target="imprint" href="#">{{page.imprint}}</a> - <a href="mailto:myexpenses@totschnig.org">Feedback</a></p>
       </div>
     </div> <!-- /container -->
     
