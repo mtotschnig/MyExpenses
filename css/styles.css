@@ -56,3 +56,9 @@ dl.versionlist dd {
   cursor: default;
   margin: 5px;
 }
+/* Smartphone portrait */
+@media (max-width: 480px) {
+  .jumbotron .btn {
+    font-size: 75%;
+  }
+}
