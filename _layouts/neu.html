@@ -206,9 +206,13 @@
       });
       function mkActive(el) {
         $('.block').toggle(false);
-        $('#'+el.data('target')).toggle(true);
+        var target =  $('#'+el.data('target'));
+        target.toggle(true);
         $('li.active').removeClass('active');
         el.addClass('active');
+        $('html, body').animate({
+          scrollTop: target.offset().top
+        }, 'slow');
       }
     </script>
   </body>
