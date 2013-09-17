@@ -57,7 +57,7 @@ dl.versionlist dd {
   margin: 5px;
 }
 /* Smartphone portrait */
-@media (max-width: 480px) {
+@media (max-width: 320px) {
   .jumbotron .btn {
     font-size: 75%;
   }
