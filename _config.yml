@@ -29,9 +29,9 @@ langs:
   -
     - tr
     - Türkçe
-  # -
-    # - vi
-    # - Tiếng Việt
+  -
+    - vi
+    - Tiếng Việt
 sections:
   summary:
     weight: 1
