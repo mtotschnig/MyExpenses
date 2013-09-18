@@ -26,9 +26,9 @@ langs:
   # -
     # - ca
     # - Català
-  # -
-    # - tr
-    # - Türkçe
+  -
+    - tr
+    - Türkçe
   # -
     # - vi
     # - Tiếng Việt
