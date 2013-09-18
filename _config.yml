@@ -23,15 +23,15 @@ langs:
   -
     - es
     - Español
-  -
-    - ca
-    - Català
-  -
-    - tr
-    - Türkçe
-  -
-    - vi
-    - Tiếng Việt
+  # -
+    # - ca
+    # - Català
+  # -
+    # - tr
+    # - Türkçe
+  # -
+    # - vi
+    # - Tiếng Việt
 sections:
   summary:
     weight: 1
