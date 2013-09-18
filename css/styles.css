@@ -1,11 +1,11 @@
 .carousel {
   margin-bottom: 30px;
+  padding-bottom: 30px;
 }
 .carousel-caption {
-  bottom: 0px;
-  color: #000000;
   position: static;
-  margin-top: -50px;
+  color: #000000;
+  padding: 0;
 }
 .carousel-inner {
   padding-bottom: 30px;
@@ -51,6 +51,15 @@ dl.versionlist dd {
 .jumbotron .btn {
   cursor: default;
   margin: 5px;
+}
+.carousel .error {
+  height: 500px;
+  color: red;
+  padding: 235px 0;
+}
+.carousel img {
+  padding: 30px 0; 
+  max-width: 80%;
 }
 /* Smartphone portrait */
 @media (max-width: 320px) {
