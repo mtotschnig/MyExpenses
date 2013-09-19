@@ -750,11 +750,43 @@
 <![CDATA[
 <root>
   <Category Nb="1" Na="Categoría principal A" />
-  <Sub_category Nbc="1" Nb="1" Na="Sub-categoría A.1" />
-  <Sub_category Nbc="1" Nb="2" Na="Sub-categoría A.2" />
+  <Sub_category Nbc="1" Nb="1" Na="Alt kategori A.1" />
+  <Sub_category Nbc="1" Nb="2" Na="Alt kategori A.2" />
   <Category Nb="2" Na="Categoría principal B" />
-  <Sub_category Nbc="2" Nb="1" Na="Sub-categoría B.1" />
-  <Sub_category Nbc="2" Nb="2" Na="Sub-categoría B.2" />
+  <Sub_category Nbc="2" Nb="1" Na="Alt kategori B.1" />
+  <Sub_category Nbc="2" Nb="2" Na="Alt kategori B.2" />
+  <Party Na="N.N." />
+</root> 
+ ]]>
+          </programlisting>
+          </para>
+        </answer>
+      </qandaentry>
+      <qandaentry id="faq-catxml-tr" lang="tr">
+        <question id="faq-catxml-q-tr">
+          <para>
+            Kategorileri nasıl toplu olarak içe aktarabilirim?
+          </para>
+        </question>
+        <answer>
+          <para>
+            <application role="app_name"/> kategorilerinizi bir Grisbi dosyasından içe aktarabilir. Bu
+            dosyayı grisbi.xml adıyla SD kartının köküne myexpenses klasörü içinde konumlayıp<guilabel
+            role="pref_import_from_grisbi_title"/> ekrandan <guilabel role="menu_settings"/> çağırın.
+            Bu dosyadaki alacaklı ve vereceklileri de içe aktarabilirsiniz. Kendi özel dosyanızı içe
+            aktarma kaynağı olarak seçtiğinizde ya hem alacaklı ve vereceklileri hem de kategorileri
+            ya da sadece kategorileri içe aktarmayı seçebilirsiniz. Alacaklı ve verecekliler, muamele
+            formunda ilgili alanların otomatik olarak doldurulmasında kullanılacaktır. Eğer özel bir
+            XML dosyası oluşturmak istiyorsanız, aşağıdaki yapıyı kullanınız:
+            <programlisting>
+<![CDATA[
+<root>
+  <Category Nb="1" Na="ana kategori A" />
+  <Sub_category Nbc="1" Nb="1" Na="Alt kategori A.1" />
+  <Sub_category Nbc="1" Nb="2" Na="Alt kategori A.2" />
+  <Category Nb="2" Na="ana kategori B" />
+  <Sub_category Nbc="2" Nb="1" Na="Alt kategori B.1" />
+  <Sub_category Nbc="2" Nb="2" Na="Alt kategori B.2" />
   <Party Na="N.N." />
 </root> 
  ]]>
