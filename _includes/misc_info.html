@@ -128,3 +128,24 @@ profit from the interface in their language, even if they get the other resource
 with their labels on this website, also used at Google Play. Localized versions of the <a href="/#faq">FAQ</a> are nice-to-haves, but not mandatory either.</p>
 <p>I am looking forward to collaborating with you on making <span class="application">My Expenses</span> available in your language!</p>
 </div>
+<div class="modal fade" id="contrib-features" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">{{page.contrib-feature-dialog-title}}</h4>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group">
+            {% for feature in page.contrib %}
+            <li class="list-group-item">{{feature}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{page.dialog-close}}</button>
+          <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">{{page.dialog-buy}}</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->

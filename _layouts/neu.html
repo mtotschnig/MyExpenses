@@ -140,8 +140,12 @@
             </a>
             <ul class="dropdown-menu">
             {% for section in page.sections %}
-              <li id="{{section[0]}}-link"><a href="#{{section[0]}}">{{section[1]}}</a></li>
+              <li id="{{section[0]}}-link"><a class="intern" href="#{{section[0]}}">{{section[1]}}</a></li>
             {% endfor %}
+              <li role="presentation" class="divider"></li>
+              <li><a href="https://plus.google.com/116736113799210525299">Follow on Google+</a></li>
+              <li role="presentation" class="divider"></li>
+              <li><a data-toggle="modal" href="#contrib-features">Go premium</a></li>
             </ul>
           </li>
           <li class="dropdown">
@@ -211,12 +215,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-      $('#menu-moreinfo .dropdown-menu li a').click(function(event){
-        event.preventDefault(); 
-        mkActive(this.hash);
-        history.pushState(null, null, this.href);
-        $('#menu-moreinfo').addClass('active');
-      });
       $('#menu-features').click(function(event){
         event.preventDefault(); 
         mkActive(this.hash);
@@ -236,6 +234,8 @@
         document.title = "{{site.title[pagelang]}}" + (targetTitle == "" ? "" : (" | " +targetTitle));
         $('li.active').removeClass('active');
         $(target+"-link").addClass('active');
+        if (target != '#carousel-features')
+          $('#menu-moreinfo').addClass('active');
         $('html, body').animate({
           scrollTop: $(target).offset().top
         }, 'slow');
