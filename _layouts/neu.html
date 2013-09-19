@@ -130,17 +130,17 @@
     </script>
   </head>
 
-  <body onload="loadDeviceArt()">
+  <body onload="loadDeviceArt();if (location.hash!='') mkActive(location.hash)">
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li data-target="carousel-features" id="menu-features" class="active"><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+          <li id="carousel-features-link" class="active"><a id="menu-features" href="#carousel-features"><span class="glyphicon glyphicon-home"></span></a></li>
           <li id="menu-moreinfo" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
             {% for section in page.sections %}
-              <li data-target="{{section[0]}}"><a href="#">{{section[1]}}</a></li>
+              <li id="{{section[0]}}-link"><a href="#{{section[0]}}">{{section[1]}}</a></li>
             {% endfor %}
             </ul>
           </li>
@@ -200,7 +200,7 @@
          </a>
       </div>
       <div class="footer">
-        <p>© 2013 Michael Totschnig - <a class="intern" data-target="imprint" href="#">{{page.imprint}}</a> - <a href="mailto:myexpenses@totschnig.org">Feedback</a></p>
+        <p>© 2013 Michael Totschnig - <a class="intern" href="#imprint">{{page.imprint}}</a> - <a href="mailto:myexpenses@totschnig.org">Feedback</a></p>
       </div>
     </div> <!-- /container -->
     
@@ -211,26 +211,38 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-      $('.dropdown-menu li').click(function(event){
-        mkActive($(this));
+      $('#menu-moreinfo .dropdown-menu li a').click(function(event){
+        event.preventDefault(); 
+        mkActive(this.hash);
+        history.pushState(null, null, this.href);
         $('#menu-moreinfo').addClass('active');
       });
       $('#menu-features').click(function(event){
-        mkActive($(this));
+        event.preventDefault(); 
+        mkActive(this.hash);
+        history.pushState(null, null, this.href);
       });
       $('a.intern').click(function(event){
-        mkActive($(this));
+        event.preventDefault(); 
+        mkActive(this.hash);
+        history.pushState(null, null, this.href);
       });
-      function mkActive(el) {
+      //target is hash + id of block  
+      function mkActive(target) {
         $('.block').toggle(false);
-        var target =  $('#'+el.data('target'));
-        target.toggle(true);
+        //var target =  $('#'+el.hash.substr(1));
+        $(target).toggle(true);
+        var targetTitle = $(target + " h2").text();
+        document.title = "{{site.title[pagelang]}}" + (targetTitle == "" ? "" : (" | " +targetTitle));
         $('li.active').removeClass('active');
-        el.addClass('active');
+        $(target+"-link").addClass('active');
         $('html, body').animate({
-          scrollTop: target.offset().top
+          scrollTop: $(target).offset().top
         }, 'slow');
       }
+      window.addEventListener("popstate", function(e) {
+        mkActive(location.hash==""?"#carousel-features":location.hash);
+      });
       {% if pagelang == "en" or pagelang == "fr" or pagelang == "es" %}
       function whichIcon(address) {
         switch(address.country_code) {
