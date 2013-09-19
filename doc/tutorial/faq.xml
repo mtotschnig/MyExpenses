@@ -781,10 +781,10 @@
             <programlisting>
 <![CDATA[
 <root>
-  <Category Nb="1" Na="ana kategori A" />
+  <Category Nb="1" Na="Ana kategori A" />
   <Sub_category Nbc="1" Nb="1" Na="Alt kategori A.1" />
   <Sub_category Nbc="1" Nb="2" Na="Alt kategori A.2" />
-  <Category Nb="2" Na="ana kategori B" />
+  <Category Nb="2" Na="Ana kategori B" />
   <Sub_category Nbc="2" Nb="1" Na="Alt kategori B.1" />
   <Sub_category Nbc="2" Nb="2" Na="Alt kategori B.2" />
   <Party Na="N.N." />

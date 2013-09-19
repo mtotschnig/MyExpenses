@@ -5,14 +5,6 @@
 <xsl:import href="tutorial_strings.xsl"/>
 <xsl:preserve-space elements="*"/>
 
-<custom:supported-langs>
- <lang code="en">English</lang>
- <lang code="fr">Français</lang>
- <lang code="de">Deutsch</lang>
- <lang code="it">Italiano</lang>
- <lang code="es">Español</lang>
-</custom:supported-langs>
-
 <xsl:template name="chunk-element-content">
   <xsl:param name="prev"/>
   <xsl:param name="next"/>
@@ -20,21 +12,7 @@
   <xsl:param name="content">
     <xsl:apply-imports/>
   </xsl:param>
-
-  <xsl:call-template name="user.preroot"/>---
-title: ""
-layout: default
-section: faq
-metatitle: "<xsl:apply-templates select="/article" mode="object.title.markup.textonly"/><xsl:text> | </xsl:text><xsl:apply-templates select="." mode="object.title.markup.textonly"/>"
-metadescription: "<xsl:value-of select="normalize-space(/article/articleinfo/subtitle)"/><xsl:text> | </xsl:text><xsl:value-of select="normalize-space(./sect1info/abstract)"/>"
-lang: <xsl:value-of select="$doc.lang"/>
-headstuff: |
-  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" charset="UTF-8"/>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="UTF-8"><xsl:text> </xsl:text></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript" charset="UTF-8"><xsl:text> </xsl:text></script>
-  <script type="text/javascript" src="/script/images.js" charset="UTF-8"><xsl:text> </xsl:text></script>
-
----
+  <div class="block" id="faq" style="display:none">
       <xsl:call-template name="user.header.navigation"/>
       <xsl:call-template name="header.navigation">
         <xsl:with-param name="prev" select="$prev"/>
@@ -46,6 +24,7 @@ headstuff: |
 
       <xsl:copy-of select="$content"/>
   <xsl:value-of select="$chunk.append"/>
+  </div>
 </xsl:template>
 
 <xsl:param name="chunker.output.encoding" select="UTF-8"/>
@@ -57,7 +36,8 @@ headstuff: |
 <xsl:param name="chunker.output.doctype-public" select="''"/>
 <xsl:param name="chunker.output.doctype-system" select="''"/>
 <xsl:param name="root.filename"  select="''"/>
-
+<xsl:param name="generate.id.attributes" select="1"/>
+<xsl:param name="html.ext">_<xsl:value-of select="$doc.lang"/>.html</xsl:param>
 <!-- no title attribute for sections -->
 <xsl:template name="generate.html.title"/>
 
@@ -68,12 +48,9 @@ headstuff: |
   <xsl:variable name="chunkname">
     <xsl:apply-templates select="." mode="recursive-chunk-filename"/>
   </xsl:variable>
-  <div style="position:relative">
     <h2>
       <xsl:value-of select="title"/>
     </h2>
-  </div>
-  <xsl:apply-templates mode="article.titlepage.recto.auto.mode" select="/article/articleinfo/releaseinfo[not(@role) or @role!='generate-for-pdf']"/>
 </xsl:template>
 
 <xsl:template match="phrase[@role='br']">
@@ -221,4 +198,37 @@ headstuff: |
 <!-- do not float figures and suppress caption-->
 <xsl:template name="floatstyle"/>
 <xsl:template name="formal.object.heading"/>
+<xsl:template match="question">
+  <xsl:variable name="deflabel">
+    <xsl:apply-templates select="." mode="qanda.defaultlabel"/>
+  </xsl:variable>
+
+  <tr>
+    <xsl:apply-templates select="." mode="common.html.attributes"/>
+    <xsl:attribute name="id"><xsl:value-of select="../@id"/></xsl:attribute>
+    <td align="{$direction.align.start}" valign="top">
+
+      <xsl:variable name="label.content">
+        <xsl:apply-templates select="." mode="qanda.label"/>
+      </xsl:variable>
+
+      <xsl:if test="string-length($label.content) &gt; 0">
+        <p><b>
+          <xsl:copy-of select="$label.content"/>
+        </b></p>
+      </xsl:if>
+    </td>
+    <td align="{$direction.align.start}" valign="top">
+      <xsl:choose>
+        <xsl:when test="$deflabel = 'none' and not(label)">
+          <b><xsl:apply-templates select="*[local-name(.) != 'label']"/></b>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates select="*[local-name(.) != 'label']"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </td>
+  </tr>
+</xsl:template>
+
 </xsl:stylesheet>

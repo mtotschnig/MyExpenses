@@ -134,7 +134,7 @@
         <exec executable="xsltproc" failonerror="true">
   			 	<arg value="--stringparam"/>
   			 	<arg value="base.dir"/>
-          <arg value="../MyExpenses.pages/@{language}/"/>
+          <arg value="../MyExpenses.pages/_includes/"/>
           <arg value="--stringparam"/>
           <arg value="doc.lang"/>
           <arg value="@{language}"/>
