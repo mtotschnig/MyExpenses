@@ -159,7 +159,8 @@
             </ul>
           </li>
         </ul>
-        <h3 class="text-muted"><img id="app-icon"> {{site.title[pagelang]}}</h3>
+        <h3 class="text-muted"><img
+        src="/visuals/icon_{% if pagelang == "vi" %}VN{% elsif pagelang == "tr" %}TR{% elsif pagelang == "de" or pagelang == "fr" or pagelang == "ca" or pagelang == "it" %}EU{% else %}US{% endif %}.png" id="app-icon"> {{site.title[pagelang]}}</h3>
       </div>
       <div class="jumbotron">
         <p>{{page.hero_main}}</p>
@@ -230,6 +231,7 @@
           scrollTop: target.offset().top
         }, 'slow');
       }
+      {% if pagelang == "en" or pagelang == "fr" or pagelang == "es" %}
       function whichIcon(address) {
         switch(address.country_code) {
         case "IN":
@@ -241,18 +243,9 @@
       function setIcon(icon) {
         document.getElementById("app-icon").src="/visuals/icon_"+icon+".png";
       }
-      {% if pagelang == "vi" %}setIcon("VN");{% elsif pagelang == "tr" %}setIcon("TR");
-      {% elsif pagelang == "de" or pagelang == "ca" or pagelang == "it" %}setIcon("EU");
-      {% else %}
-      var iconSetP = false;
       $.getJSON('http://api.wipmania.com/jsonp?callback=?', function (data) {
         setIcon(whichIcon(data.address));
-        iconSetP = true;
       });
-      setTimeout(function() {
-        if (!iconSetP)
-          setIcon("US");
-      }, 2000);
       {% endif %}
     </script>
   </body>
