@@ -225,6 +225,14 @@
         mkActive(this.hash);
         history.pushState(null, null, this.href);
       });
+      //we need to prevent links from the FAQ TOC to the FAQ entries
+      //to be recorded in history, since this triggers the popstate eventlistener
+      $('.qandaset a').click(function(event){
+        event.preventDefault();
+        $('html, body').animate({
+          scrollTop: $(this.hash).offset().top
+        }, 'slow');
+      });
       //target is hash + id of block  
       function mkActive(target) {
         $('.block').toggle(false);
