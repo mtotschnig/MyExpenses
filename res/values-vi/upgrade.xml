@@ -14,29 +14,17 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<!DOCTYPE resources [
-  <!ENTITY app_name "Harcamalarım">
-]>
 <resources>
-  <string-array name="whats_new_71">
-    <item>Hata düzeltmesi: #69</item>
-    <item>Arap Tercüme</item>
-  </string-array>
   <string-array name="whats_new_67">
-    <item>Muameleleri gün, hafta, ay veya yıllık olarak grupla ve grup başına toplamları görüntüle</item>
-    <item>Alacaklı işlem listesinde görüntülenir</item>
-    <item>Hesap listesi sıralanır (varsayılan değer kullanım sıklığına göredir)</item>
+    <item>Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm</item>
+    <item>Người nhận sẽ được hiển thị trên danh sách giao dịch</item>
+    <item>Danh sách các tài khoản được sắp xếp (dựa theo tần số được sử dụng theo mặc định)</item>
   </string-array>
   <string-array name="whats_new_63">
-    <item>Bölünmüş muameleler</item>
+    <item>Phân tách giao dịch</item>
   </string-array>
   <string-array name="whats_new_59">
-    <item>Vietnamca tercüme</item>
+    <item>Vietnamca tercüme.</item>
     <item>Küçük iyileştirmeler</item>
-  </string-array>
-  <string-array name="whats_new_58">
-    <item>Holo temasına dayalı yeni kullanıcı arayüzü tasarımı.</item>
-    <item>Entegre yardım diyalogları</item>
-    <item>Sıfırlamadan dışarı aktarım</item>
   </string-array>
 </resources>
