@@ -18,17 +18,25 @@
   <!ENTITY app_name "Mis gastos">
 ]>
 <resources>
-  <string name="version_32_upgrade_info">Ha configurado una URL FTP como destino.
-      <i>&app_name;</i> ya no maneja las transferencias FTP por sí solo.</string>
-  <string name="version_34_upgrade_info">Ahora usted puede apoyar el desarrollo contínuo de  <i>&app_name;</i> através su donación <i>&app_name;</i>.</string>
-  <string name="version_35_upgrade_info"><i>&app_name;</i> ahora tiene un nuevo tema estándar oscuro.
-    Puede volver al tema claro en las configuraciones.</string>
-  <string name="version_39_upgrade_info">Contribuir a &lt;i>&app_name;&lt;/i> ahora es más fácil y más
-    interesante. Si usted instala &lt;i>&app_name; Contrib&lt;/i>, va a obtener acceso ilimitado a las
-    siguientes características premium:&lt;br>%1$s</string>
-  <string name="version_40_upgrade_info">Ahora usted puede proteger &app_name;
-    estableciendo una contraseña en la pantalla Configuraciones (sección Seguridad).</string>
-  <string name="version_41_upgrade_info"><i>&app_name;</i> ahora tiene una página de Google+. Síguelo a través de Ayuda => Noticias</string>
-  <string name="version_46_upgrade_info">Ahora puede exportar las transacciones en CSV en lugar de QIF (Configuraciones, sección Export).</string>
-  
+  <string-array name="whats_new_71">
+    <item>Corrección de errores #69</item>
+    <item>Traducción árabe</item>
+  </string-array>
+  <string-array name="whats_new_67">
+    <item>Agrupamiento por día, semana, mes, año y visualización sumas por grupo</item>
+    <item>Beneficiario se muestra en la lista de transacciones</item>
+    <item>Lista de cuentas está ordenada (por frecuencia de uso de forma predeterminada)</item>
+  </string-array>
+  <string-array name="whats_new_63">
+    <item>Asientos divididos</item>
+  </string-array>
+  <string-array name="whats_new_59">
+    <item>Traducción al vietnamita</item>
+    <item>Pequeñas mejoras</item>
+  </string-array>
+  <string-array name="whats_new_58">
+    <item>Nuevo diseño de interfaz de usuario basada en el tema Holo</item>
+    <item>Diálogo de ayuda integrado</item>
+    <item>Exportar sin restablecer</item>
+  </string-array>
 </resources>

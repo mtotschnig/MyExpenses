@@ -19,12 +19,12 @@
 ]>
 <resources>
   <string-array name="whats_new_71">
-    <item>Bug fix: Issue 69</item>
+    <item>Bug fix: Issue #69</item>
     <item>Arab translation</item>
   </string-array>
   <string-array name="whats_new_67">
     <item>Group transactions per day, week, month, year and display sums per group</item>
-    <item>Payee is displayed in transaction list.</item>
+    <item>Payee is displayed in transaction list</item>
     <item>Accounts list is sorted (by frequency of usage by default)</item>
   </string-array>
   <string-array name="whats_new_63">

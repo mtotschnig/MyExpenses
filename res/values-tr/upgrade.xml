@@ -18,9 +18,25 @@
   <!ENTITY app_name "Harcamalarım">
 ]>
 <resources>
-  <string name="version_39_upgrade_info">Artık &lt;i>&app_name;&lt;/i>\'a katkıda bulunmak daha kolaydır.
-     Eğer &lt;i>&app_name; Contrib&lt;/i> uygulamasını kurarsanız, şu özelliklere sınırsız erişim elde edersiniz:&lt;br>%1$s</string>
-  <string name="version_40_upgrade_info">&app_name; uygulamasını Ayarlarda (güvenlik kısmında) bir parola belirterek koruyabilirsiniz.</string>
-  <string name="version_41_upgrade_info"><i>&app_name;</i> uygulamasının artık bir Google+ sayfası vardır. Yardım => Son Haberlerden takip edebilirsiniz.</string>
-  <string name="version_46_upgrade_info">Muameleleri artık QIF yerine CSV olarak dışa aktarabilirsiniz (Ayarlarda Dışa aktarım bölümü)</string>
+  <string-array name="whats_new_71">
+    <item>Hata düzeltmesi: #69</item>
+    <item>Arap Tercüme</item>
+  </string-array>
+  <string-array name="whats_new_67">
+    <item>Group transactions per day, week, month, year and display sums per group</item>
+    <item>Payee is displayed in transaction list</item>
+    <item>Accounts list is sorted (by frequency of usage by default)</item>
+  </string-array>
+  <string-array name="whats_new_63">
+    <item>Split transactions</item>
+  </string-array>
+  <string-array name="whats_new_59">
+    <item>Vietnamese translation</item>
+    <item>Minor improvements</item>
+  </string-array>
+  <string-array name="whats_new_58">
+    <item>New UI design based on Holo theme</item>
+    <item>Integrated help dialogs</item>
+    <item>Export without reset</item>
+  </string-array>
 </resources>

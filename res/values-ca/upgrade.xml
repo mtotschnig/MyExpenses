@@ -18,6 +18,5 @@
   <!ENTITY app_name "Les meves despeses">
 ]>
 <resources>
-	  <string name="version_35_upgrade_info"><i>&app_name;</i> ara hi ha un nou tema fosc per omissió.
-      Podeu triar el tema clar a les preferències.</string>
+
 </resources>

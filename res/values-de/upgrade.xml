@@ -18,21 +18,25 @@
   <!ENTITY app_name "Meine Ausgaben">
 ]>
 <resources>
-	  <!-- strings below this comment do not need translations for new languages -->
-  <string name="version_26_upgrade_info"><i>&app_name;</i> hat nun eine Symbolleiste als neue
-      Schnittstelle für die Befehlsaufrufe. Sie können im Einstellungs-Bildschirm zum alten
-      Interface zurückwechseln.
-  </string>
-  <string name="version_32_upgrade_info">Sie haben eine FTP URL als Ziel für den Datei-Upload
-     Diese Funktionalität ist nicht mehr Teil von <i>&app_name;</i>.</string>
-  <string name="version_34_upgrade_info">Sie können jetzt die kontinuierliche Weiterentwicklung von
-    <i>&app_name;</i> mit Ihrer Spende unterstützen.</string>
-  <string name="version_35_upgrade_info"><i>&app_name;</i> hat nun einen neuen dunklen Standard-Stil.
-    In den Einstellungen können Sie wieder zum hellen Stil wechseln.</string>
-  <string name="version_39_upgrade_info">Jetzt ist es einfacher und interessanter, für &lt;i>&app_name;&lt;/i> einen Beitrag zu leisten. 
-    Wenn Sie &lt;i>&app_name; Contrib&lt;/i> installieren, können Sie uneingeschränkt auf die folgenden Premium-Funktionen zugreifen:&lt;br>%1$s</string>
-  <string name="version_40_upgrade_info">Sie können &app_name; jetzt mit einem Passwort absichern (im Abschnitt Sicherheit der Einstellungen).</string>
-  <string name="version_41_upgrade_info"><i>&app_name;</i> hat jetzt eine Google+ Seite. Folgen Sie dieser über Hilfe => Neuigkeiten.</string>
-  <string name="version_46_upgrade_info">Sie können Buchungen jetzt anstatt als QIF im CSV Format exportieren (Einstellungen, Abschnitt Export).</string>
-	
+  <string-array name="whats_new_71">
+    <item>Bug #69 behoben</item>
+    <item>Arabische Übersetzung</item>
+  </string-array>
+  <string-array name="whats_new_67">
+    <item>Buchungen pro Tag, Woche, Monate, Jahr gruppieren und Summen pro Gruppe anzeigen</item>
+    <item>Empfänger wird in Buchungsliste angezeigt</item>
+    <item>Kontenliste wird sortiert (standardmäßig nach Häufigkeit der Benutzung)</item>
+  </string-array>
+  <string-array name="whats_new_63">
+    <item>Splitbuchungen</item>
+  </string-array>
+  <string-array name="whats_new_59">
+    <item>Vietnamesische Übersetzung</item>
+    <item>Gerinfügige Verbesserungen</item>
+  </string-array>
+  <string-array name="whats_new_58">
+    <item>Neues UI Design basierend auf Holo</item>
+    <item>Integrierte Hilfe</item>
+    <item>Exportieren ohne Zurücksetzen</item>
+  </string-array>
 </resources>
