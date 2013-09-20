@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="دخل آخر"/>
+<Sub_category Nbc="1" Nb="1" Na="إعانات البطالة"/>
+<Sub_category Nbc="1" Nb="2" Na="إعانة أسرية"/>
+<Sub_category Nbc="1" Nb="3" Na="إعفاء ضريبي"/>
+<Sub_category Nbc="1" Nb="4" Na="قمار"/>
+<Sub_category Nbc="1" Nb="5" Na="تأمين تعاوني"/>
+<Sub_category Nbc="1" Nb="6" Na="ضمان اجتماعي"/>
+<Category Nb="2" Na="تقاعد"/>
+<Sub_category Nbc="2" Nb="1" Na="صندوق التقاعد"/>
+<Sub_category Nbc="2" Nb="2" Na="راتب تقاعد"/>
+<Sub_category Nbc="2" Nb="3" Na="تقاعد إضافي"/>
+<Category Nb="3" Na="دخل استثمار"/>
+<Sub_category Nbc="3" Nb="1" Na="حصة أرباح"/>
+<Sub_category Nbc="3" Nb="2" Na="فوائد"/>
+<Sub_category Nbc="3" Nb="3" Na="رأس مال"/>
+<Category Nb="4" Na="راتب"/>
+<Sub_category Nbc="4" Nb="1" Na="ساعات عمل إضافية"/>
+<Sub_category Nbc="4" Nb="2" Na="بدل إجازة"/>
+<Sub_category Nbc="4" Nb="3" Na="علاوات متفرقة"/>
+<Sub_category Nbc="4" Nb="4" Na="رسوم نجاح"/>
+<Sub_category Nbc="4" Nb="5" Na="الراتب الصافي"/>
+<Category Nb="5" Na="إيرادات متفرقة"/>
+<Sub_category Nbc="5" Nb="1" Na="هدايا"/>
+<Sub_category Nbc="5" Nb="2" Na="مبالغ مستردة"/>
+<Sub_category Nbc="5" Nb="3" Na="مبيعات المستعمل"/>
+<Category Nb="6" Na="طعام"/>
+<Sub_category Nbc="6" Nb="1" Na="حانة"/>
+<Sub_category Nbc="6" Nb="2" Na="خباز"/>
+<Sub_category Nbc="6" Nb="3" Na="مقصف"/>
+<Sub_category Nbc="6" Nb="4" Na="حلويات"/>
+<Sub_category Nbc="6" Nb="5" Na="متفرقات"/>
+<Sub_category Nbc="6" Nb="6" Na="بقالة"/>
+<Sub_category Nbc="6" Nb="7" Na="مطعم"/>
+<Sub_category Nbc="6" Nb="8" Na="خدمة ذاتية"/>
+<Sub_category Nbc="6" Nb="9" Na="سوبر ماركت"/>
+<Category Nb="7" Na="حيوانات أليفة"/>
+<Sub_category Nbc="7" Nb="1" Na="طعام"/>
+<Sub_category Nbc="7" Nb="2" Na="تجهيزات أخرى"/>
+<Sub_category Nbc="7" Nb="3" Na="تزين"/>
+<Sub_category Nbc="7" Nb="4" Na="طبيب بيطري"/>
+<Category Nb="8" Na="تأمين"/>
+<Sub_category Nbc="8" Nb="1" Na="سيارة"/>
+<Sub_category Nbc="8" Nb="2" Na="صحي"/>
+<Sub_category Nbc="8" Nb="3" Na="منزل"/>
+<Sub_category Nbc="8" Nb="4" Na="مسؤولية مدنية"/>
+<Sub_category Nbc="8" Nb="5" Na="حياة"/>
+<Category Nb="9" Na="سيارة"/>
+<Sub_category Nbc="9" Nb="1" Na="وقود"/>
+<Sub_category Nbc="9" Nb="2" Na="اصلاحات"/>
+<Sub_category Nbc="9" Nb="3" Na="صيانة"/>
+<Sub_category Nbc="9" Nb="4" Na="موقف"/>
+<Sub_category Nbc="9" Nb="5" Na="مخالفات"/>
+<Category Nb="11" Na="هدايا"/>
+<Category Nb="12" Na="أطفال"/>
+<Sub_category Nbc="12" Nb="1" Na="حضانة"/>
+<Sub_category Nbc="12" Nb="2" Na="متفرقات"/>
+<Sub_category Nbc="12" Nb="3" Na="دراسة"/>
+<Category Nb="13" Na="دراسة"/>
+<Sub_category Nbc="13" Nb="1" Na="دروس"/>
+<Sub_category Nbc="13" Nb="2" Na="رسوم مدرسة"/>
+<Sub_category Nbc="13" Nb="3" Na="كتب"/>
+<Category Nb="14" Na="متفرقات"/>
+<Sub_category Nbc="14" Nb="1" Na="هدايا"/>
+<Category Nb="15" Na="مصروفات مالية"/>
+<Sub_category Nbc="15" Nb="1" Na="متفرقات"/>
+<Sub_category Nbc="15" Nb="2" Na="رسوم بنكية"/>
+<Sub_category Nbc="15" Nb="3" Na="قرض / رهن"/>
+<Sub_category Nbc="15" Nb="4" Na="رسوم"/>
+<Sub_category Nbc="15" Nb="5" Na="استرجاع"/>
+<Category Nb="16" Na="مصروفات المهنة"/>
+<Sub_category Nbc="16" Nb="1" Na="غير قابلة للاسترجاع"/>
+<Sub_category Nbc="16" Nb="2" Na="قابلة للاسترجاع"/>
+<Category Nb="17" Na="ضرائب"/>
+<Sub_category Nbc="17" Nb="1" Na="متفرقات"/>
+<Sub_category Nbc="17" Nb="2" Na="الدخل"/>
+<Sub_category Nbc="17" Nb="3" Na="أرض"/>
+<Category Nb="18" Na="سكن"/>
+<Sub_category Nbc="18" Nb="1" Na="فندق"/>
+<Sub_category Nbc="18" Nb="2" Na="إيجار"/>
+<Sub_category Nbc="18" Nb="3" Na="تلفزيون"/>
+<Sub_category Nbc="18" Nb="4" Na="أثاث"/>
+<Sub_category Nbc="18" Nb="5" Na="رسوم"/>
+<Sub_category Nbc="18" Nb="6" Na="تدفئة"/>
+<Sub_category Nbc="18" Nb="7" Na="ديكور"/>
+<Sub_category Nbc="18" Nb="8" Na="ماء"/>
+<Sub_category Nbc="18" Nb="9" Na="كهرباء"/>
+<Sub_category Nbc="18" Nb="10" Na="أجهزة"/>
+<Sub_category Nbc="18" Nb="11" Na="معدات"/>
+<Sub_category Nbc="18" Nb="12" Na="غاز"/>
+<Sub_category Nbc="18" Nb="13" Na="حديقة"/>
+<Sub_category Nbc="18" Nb="14" Na="عامل المنزل"/>
+<Sub_category Nbc="18" Nb="15" Na="هاتف"/>
+<Sub_category Nbc="18" Nb="16" Na="جوال"/>
+<Category Nb="19" Na="هوايات"/>
+<Sub_category Nbc="19" Nb="1" Na="سنوكر"/>
+<Sub_category Nbc="19" Nb="2" Na="بولينج"/>
+<Sub_category Nbc="19" Nb="3" Na="أفلام"/>
+<Sub_category Nbc="19" Nb="4" Na="نادي ليلي"/>
+<Sub_category Nbc="19" Nb="5" Na="تكنولوجيا"/>
+<Sub_category Nbc="19" Nb="6" Na="ألعاب"/>
+<Sub_category Nbc="19" Nb="7" Na="كتب"/>
+<Sub_category Nbc="19" Nb="8" Na="منتزهات"/>
+<Sub_category Nbc="19" Nb="9" Na="حفلات"/>
+<Sub_category Nbc="19" Nb="10" Na="رياضات"/>
+<Sub_category Nbc="19" Nb="11" Na="فيديو"/>
+<Sub_category Nbc="19" Nb="12" Na="رحلات"/>
+<Sub_category Nbc="19" Nb="13" Na="معدات"/>
+<Sub_category Nbc="19" Nb="14" Na="متاحف / معارض"/>
+<Category Nb="20" Na="قرض / رهن"/>
+<Sub_category Nbc="20" Nb="1" Na="رأس مال"/>
+<Category Nb="21" Na="صحي"/>
+<Sub_category Nbc="21" Nb="1" Na="تأمين"/>
+<Sub_category Nbc="21" Nb="2" Na="طبيب أسنان"/>
+<Sub_category Nbc="21" Nb="3" Na="مستشفى"/>
+<Sub_category Nbc="21" Nb="4" Na="تدليك"/>
+<Sub_category Nbc="21" Nb="5" Na="طبيب"/>
+<Sub_category Nbc="21" Nb="6" Na="طبيب عيون"/>
+<Sub_category Nbc="21" Nb="7" Na="عظام"/>
+<Sub_category Nbc="21" Nb="8" Na="صيدلي"/>
+<Sub_category Nbc="21" Nb="9" Na="ضمان اجتماعي"/>
+<Category Nb="22" Na="عناية"/>
+<Sub_category Nbc="22" Nb="1" Na="تصفيف شعر"/>
+<Sub_category Nbc="22" Nb="2" Na="ملابس"/>
+<Category Nb="23" Na="مواصلات"/>
+<Sub_category Nbc="23" Nb="1" Na="باص"/>
+<Sub_category Nbc="23" Nb="2" Na="مترو"/>
+<Sub_category Nbc="23" Nb="3" Na="رسوم طريق"/>
+<Sub_category Nbc="23" Nb="4" Na="قطار"/>
+<Sub_category Nbc="23" Nb="5" Na="ترام / عربة معلقة"/>
+<Sub_category Nbc="23" Nb="6" Na="رحلات"/>
+<Sub_category Nbc="23" Nb="7" Na="جو"/>
+<Category Nb="24" Na="العطل"/>
+<Sub_category Nbc="24" Nb="1" Na="سكن"/>
+<Sub_category Nbc="24" Nb="2" Na="زيارات"/>
+<Sub_category Nbc="24" Nb="3" Na="رحلات"/></Grisbi_categ>

@@ -26,6 +26,8 @@
     dövizi kullanan başka bir hesabınız varsa etkinleştirilir.</string>
   <string name="menu_new_from_template_help_text">Eğer güncel hesap için şablon oluşturduysanız
     bu komut yeni bir muamele oluşturulması için şablon seçmenize imkân sağlayan bir diyalog görüntüler.</string>
+  <string name="menu_create_split_help_text">Bölünmüş bir muamele kısmi bir miktarı farklı kategorilere atamanıza
+  	 ya da farklı hesaplara transfer olarak atamanıza imkân verir.</string>
   <string name="menu_reset_help_text">Bu komut güncel hesabın tüm muamelelerini SD kartına QIF veya CSV
     biçiminde bir dosyaya aktarır. Varsayılan ayarlarda muameleler
     telefonunuzdan silinir ancak onları dışa aktarılmış olarak işaretleyip saklamayı seçebilirsiniz.

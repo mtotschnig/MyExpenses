@@ -24,6 +24,8 @@
   <string name="menu_create_transaction_help_text">Mở mẫu đơn để tạo giao dịch mới.</string>
   <string name="menu_create_transfer_help_text">Chuyển đổi tiền giữa các tài khoản. Phần lệnh này được bật
     chỉ khi bạn có ít nhất một tài khoản khác với cùng dạng tiền tệ.</string>
+  <string name="menu_create_split_help_text">Việc phân tách giao dịch cho phép bạn gán các phần ngăn theo những phân loại khác nhau
+  	 hoặc truyền đổi đến các tài khoản khác.</string>
   <string name="menu_new_from_template_help_text">Nếu bạn đã tạo mẫu cho tài khoản hiện tại,
     lệnh này sẽ hiển thị một cửa sổ để chọn các mẫu đó ngay nơi giao dịch mới được
     tạo.</string>
