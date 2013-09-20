@@ -131,8 +131,6 @@
     - Quản lý tài chính thông qua điện thoại của bạn.\n
     - Xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.</string>
   <string name="help_leading">Cảm ơn bạn đã cài đặt <i>&app_name;</i> dành cho Android.</string>
-<!--   <string name="help_whats_new">&#160;- Cải thiện bổ sung.</string> -->
-  <string name="important_version_information">Thông tin quan trọng</string>
   <string name="import_categories">Nhập dữ liệu về phân loại</string>
   <string name="income">Thu nhập</string>
   <string name="invalid_number_format">Định dạng thập phân không được nhận diện bởi hệ thống ngôn ngữ của bạn. Xin sử dụng %1$s</string>
@@ -203,8 +201,6 @@
   <string name="parse_error_no_data_found">Không tìm thấy dữ liệu có thể nhập vào từ tập tin.</string>
   <string name="parse_error_parse_exception">Không thể phân tích tập tin</string>
   <string name="parse_error_other_exception">Xảy ra lỗi: %1$s</string>
-  <!--<string name="parse_error_grisbi_version_not_determined">Unable to determine Grisbi file
-      version</string>-->
   <string name="parse_error_grisbi_version_not_supported">Không hỗ trợ phiên bản tập tin Grisbi: %1$s</string>
   <string name="password_disabled_reenable">Phần bảo vệ mật khẩu hiện đã bị vô hiệu hóa. 
     Bạn có thể bật lại tính năng này trong phần Thiết Lập.</string>

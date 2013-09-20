@@ -134,9 +134,7 @@
     - Gérez-les directement sur votre smartphone.\n
     - Exportez-les vers un logiciel de finance, tel que Grisbi, Gnucash, Quicken ou MS Money.</string>
   <string name="help_leading">Merci d\'essayer <i>&app_name;</i> pour Android.</string>
-<!--   <string name="help_whats_new">&#160;- Améliorations mineures.</string> -->
   <string name="import_categories">Importer les catégories</string>
-  <string name="important_version_information">Information importante</string>
   <string name="income">revenu</string>
   <string name="invalid_number_format">Format de nombre non reconnu. Utilisez %1$s</string>
   <string name="label">Intitulé</string>
@@ -207,10 +205,6 @@
   </string>
   <string name="parse_error_parse_exception">Le fichier ne peut pas être analysé</string>
   <string name="parse_error_other_exception">Une erreur s\'est produite: %1$s</string>
-  <!--
-  <string name="parse_error_grisbi_version_not_determined">La version du fichier Grisbi ne peut pas
-      être determinée</string>
-  -->
   <string name="parse_error_grisbi_version_not_supported">La version du fichier Grisbi n\'est pas
       supportée: %1$s</string>
   <string name="password_disabled_reenable">La protection par mot de passe a été désactivée.

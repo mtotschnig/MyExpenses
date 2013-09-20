@@ -134,9 +134,7 @@
     - Administrar directamente en su móvil.\n
     - Exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</string>
   <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
-<!--   <string name="help_whats_new">&#160;- Pequeñas mejoras.</string> -->
   <string name="import_categories">Importar categorías</string>
-  <string name="important_version_information">Información importante</string>
   <string name="income">Ingreso</string>
   <string name="invalid_number_format">Formato de número no es compatible con su configuración
       regional. Por favor, utilice %1$s</string>
@@ -210,9 +208,6 @@
   </string>
   <string name="parse_error_parse_exception">No se ha podido analizar el archivo.</string>
   <string name="parse_error_other_exception">Se ha producido un error: %1$s</string>
-  <!-- 
-  <string name="parse_error_grisbi_version_not_determined">No se ha podido determinar la versión del archivo Grisbi.</string>
-   -->
   <string name="parse_error_grisbi_version_not_supported">La versión del archivo Grisbi no está
       apoyada.</string>
   <string name="password_disabled_reenable">Se ha desactivado la protección por contraseña.

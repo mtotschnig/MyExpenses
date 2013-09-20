@@ -79,7 +79,6 @@
     - Exportar-a un programa de finançament d\'escriptori com Grisbi, GnuCash, Quicken o MS Money.</string>
   <string name="help_leading">Gràcies per provar <i>&app_name;</i> per a Android.</string>
   <string name="import_categories">Importa categories</string>
-  <string name="important_version_information">Informació important</string>
   <string name="income">ingrés</string>
   <string name="invalid_number_format">El format dels decimals no es compatible amb les vostra configuració
       regional. Si us plau, feu servir %1$s</string>
@@ -132,9 +131,6 @@
   <string name="parse_error_parse_exception">No ha estat possible analitzar el fitxer.</string>
   <string name="parse_error_other_exception">S\'ha produït un error: %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">"La versió  %1$s del fitxer Grisbi no està permesa"</string>
-  <!-- 
-  <string name="parse_error_grisbi_version_not_determined">No ha estat possible determinar la versió del fitxer Grisbi.</string>
-   -->
   <string name="payee">Beneficiari</string>
   <string name="payer">Pagador</string>
   <!-- payment methods -->

@@ -132,8 +132,6 @@
     - Manage them directly on your smartphone.\n
     - Export them into a Desktop finance program like Grisbi, GnuCash, Quicken or MS Money.</string>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
-  <string name="help_whats_new">&#160;- Bug in handling of account type fixed.</string>
-  <string name="important_version_information">Important information</string>
   <string name="import_categories">Import categories</string>
   <string name="income">Income</string>
   <string name="invalid_number_format">Decimal format not regognized by your locale. Please use
@@ -205,10 +203,6 @@
   <string name="parse_error_no_data_found">No importable data found in file.</string>
   <string name="parse_error_parse_exception">Could not parse file</string>
   <string name="parse_error_other_exception">An error occurred: %1$s</string>
-  <!--
-  <string name="parse_error_grisbi_version_not_determined">Unable to determine Grisbi file
-      version</string>
-  -->
   <string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version:
       %1$s</string>
   <string name="password_disabled_reenable">The password protection has been disabled.

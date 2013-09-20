@@ -132,10 +132,8 @@
     - Exportieren Sie diese in ein Desktop-Finanzprogrammm (Grisbi, Gnucash, Quicken oder MS Money).</string>
   <string name="help_leading">Danke fürs Ausprobieren von <i>&app_name;</i> für
       Android.</string>
-  <string name="help_whats_new">&#160;- Gerinfügige Verbesserungen.</string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
-  <string name="important_version_information">Wichtige Information</string>
   <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt.
       Bitte verwenden Sie %1$s</string>
   <string name="label">Bezeichnung</string>
@@ -207,10 +205,6 @@
   </string>
   <string name="parse_error_parse_exception">Konnte Datei nicht analysieren</string>
   <string name="parse_error_other_exception">Ein Fehler ist aufgetreten: %1$s</string>
-  <!--
-  <string name="parse_error_grisbi_version_not_determined">Konnte Version der Grisbi Datei nicht
-      ermitteln</string>
-  -->
   <string name="parse_error_grisbi_version_not_supported">Grisbi Datei Version %1$s wird nicht
       unterstützt</string>
   <string name="password_disabled_reenable">Passwort-Schutz wurde aufgehoben.

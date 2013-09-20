@@ -127,9 +127,6 @@
     - Akıllı telefonunuzda doğrudan yönetin.\n
     - Grisbi, GnuCash, Quicken ya da MS Money gibi masa üstü finans programlarına aktarın.</string>
   <string name="help_leading">Android için <i>&app_name;</i>\'i kurduğunuz için teşekkür ederiz.</string>
-<!--   <string name="help_whats_new">&#160;- Küçük iyileştirmeler.</string> -->
-<!--   <string name="help_whats_new">&#160;- Bölünmüş muameleler &contrib;</string> -->
-  <string name="important_version_information">Önemli bilgi</string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="income">gelirler</string>
   <string name="invalid_number_format">Yerel ayarlarınız ondalık biçimi tanımıyor. Lütfen şunu kullanınız: %1$s</string>

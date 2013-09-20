@@ -129,10 +129,8 @@
     - Gestire direttamente sul vostro smartphone.\n
     - Esportarli in un programma di finanza Desktop come Grisbi, GnuCash, Quicken o MS Money</string>
   <string name="help_leading">Grazie di probare <i>&app_name;</i> por Android.</string>
-<!--   <string name="help_whats_new">&#160;- Piccoli miglioramenti.</string> -->
   <string name="income">redditto</string>
   <string name="import_categories">Importare le categorie</string>
-  <string name="important_version_information">Informazioni importanti</string>
   <string name="invalid_number_format">Numero formato non riconosciuto dal vostra regione. Uso %1$s
   </string>
   <string name="label">Etichetta</string>
@@ -206,10 +204,6 @@
   <string name="parse_error_no_data_found">Nessun dato importabile trovato nel file.</string>
   <string name="parse_error_parse_exception">Il file non può essere analizzato</string>
   <string name="parse_error_other_exception">È stato verificato un errore: %1$s</string>
-  <!--
-  <string name="parse_error_grisbi_version_not_determined">Versione del file Grisbi non può essere
-      determinata</string>
-  -->
   <string name="parse_error_grisbi_version_not_supported">Versione del file Grisbi non è supportata:
       %1$s</string>
   <string name="password_disabled_reenable">La protezione con password è stata disabilitata.
