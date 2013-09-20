@@ -90,4 +90,18 @@
     <string-array name="MethodEdit_menuitems">
       <item>save</item>
     </string-array>
+    <integer-array name="version_codes">
+      <item>71</item>
+      <item>67</item>
+      <item>63</item>
+      <item>59</item>
+      <item>58</item>
+    </integer-array>
+    <string-array name="version_names">
+      <item>1.9.1</item>
+      <item>1.9.0</item>
+      <item>1.8.5</item>
+      <item>1.8.1</item>
+      <item>1.8.0</item>
+    </string-array>
 </resources>

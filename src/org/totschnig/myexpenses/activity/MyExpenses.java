@@ -337,16 +337,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       WelcomeDialogFragment.newInstance()
         .show(getSupportFragmentManager(),"WELCOME");
     } else if (prev_version != current_version) {
-      ArrayList<CharSequence> versionInfo = new ArrayList<CharSequence>();
       SharedPreferencesCompat.apply(edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version));
       if (prev_version < 19) {
         //renamed
         edit.putString(MyApplication.PREFKEY_SHARE_TARGET,mSettings.getString("ftp_target",""));
         edit.remove("ftp_target");
         edit.commit();
-      }
-      if (prev_version < 26) {
-        versionInfo.add(getString(R.string.version_26_upgrade_info));
       }
       if (prev_version < 28) {
         Log.i("MyExpenses",String.format("Upgrading to version 28: Purging %d transactions from datbase",
@@ -358,39 +354,13 @@ public class MyExpenses extends ProtectedFragmentActivity implements
           edit.putBoolean(MyApplication.PREFKEY_PERFORM_SHARE,true).commit();
         }
       }
-      if (prev_version < 32) {
-        String target = mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"");
-        if (target.startsWith("ftp")) {
-          Intent intent = new Intent(android.content.Intent.ACTION_SENDTO);
-          intent.setData(android.net.Uri.parse(target));
-          if (!Utils.isIntentAvailable(this,intent)) {
-            versionInfo.add(getString(R.string.version_32_upgrade_info));
-          }
-        }
-      }
-      if (prev_version < 34) {
-        versionInfo.add(getString(R.string.version_34_upgrade_info));
-      }
-      if (prev_version < 35) {
-        versionInfo.add(getString(R.string.version_35_upgrade_info));
-      }
-      if (prev_version < 39) {
-        versionInfo.add(Html.fromHtml(getString(R.string.version_39_upgrade_info,Utils.getContribFeatureLabelsAsFormattedList(this))));
-      }
       if (prev_version < 40) {
         DbUtils.fixDateValues(getContentResolver());
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
         mSettings.edit().putLong("nextReminderContrib",Transaction.getTransactionSequence()+23).commit();
-        versionInfo.add(getString(R.string.version_40_upgrade_info));
       }
-      if (prev_version < 41) {
-        versionInfo.add(getString(R.string.version_41_upgrade_info));
-      }
-      if (prev_version < 46) {
-        versionInfo.add(getString(R.string.version_46_upgrade_info));
-      }
-      VersionDialogFragment.newInstance(versionInfo)
+      VersionDialogFragment.newInstance(prev_version)
         .show(getSupportFragmentManager(),"VERSION_INFO");
     }
   }

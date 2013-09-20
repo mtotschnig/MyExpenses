@@ -16,11 +16,9 @@
 package org.totschnig.myexpenses.dialog;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
 import android.app.Activity;
@@ -28,19 +26,24 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class VersionDialogFragment extends DialogFragment implements OnClickListener {
-  public static final VersionDialogFragment newInstance(ArrayList<CharSequence> versionInfo) {
+  public static final VersionDialogFragment newInstance(int from) {
     VersionDialogFragment dialogFragment = new VersionDialogFragment();
     Bundle bundle = new Bundle();
-    bundle.putSerializable("versionInfo", versionInfo);
+    bundle.putInt("from", from);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
@@ -49,32 +52,38 @@ public class VersionDialogFragment extends DialogFragment implements OnClickList
     Bundle bundle = getArguments();
     Activity ctx  = (Activity) getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
-    ArrayList<CharSequence> versionInfo = (ArrayList<CharSequence>) bundle.getSerializable("versionInfo");
-    View view = li.inflate(R.layout.versiondialog, null);
-    ((TextView) view.findViewById(R.id.versionInfoChanges))
-      .setText(R.string.help_whats_new);
-    if (versionInfo.size() > 0) {
-      View divider;
-      LinearLayout main = (LinearLayout) view.findViewById(R.id.layoutMain);
-      ((TextView) view.findViewById(R.id.versionInfoImportantHeading)).setVisibility(View.VISIBLE);
-      TextView tv;
-      for(Iterator<CharSequence> i = versionInfo.iterator();i.hasNext();) {
-        tv = new TextView(ctx);
-        tv.setText(i.next());
-        tv.setTextAppearance(ctx, R.style.form_label);
-        tv.setPadding(15, 0, 0, 0);
-        main.addView(tv);
-        if (i.hasNext()) {
-          divider = new View(ctx);
-          divider.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,1));
-          divider.setBackgroundColor(getResources().getColor(R.color.appDefault));
-          main.addView(divider);
-        }
-      }
+    int from = bundle.getInt("from");
+    Resources res = getResources();
+    int[] versionCodes = res.getIntArray(R.array.version_codes);
+    String[] versionNames = res.getStringArray(R.array.version_names);
+    final ArrayList<VersionInfo> versions = new ArrayList<VersionInfo>();
+    for (int i=0;i<versionCodes.length;i++) {
+      int code = versionCodes[i];
+      if (from >= code)
+        break;
+      Log.i("DEBUG", "whats_new_"+code);
+      String changes[] = res.getStringArray(
+          res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName()));
+      versions.add(new VersionInfo(code, versionNames[i], changes));
     }
+    View view = li.inflate(R.layout.versiondialog, null);
+    final ListView lv = (ListView) view.findViewById(R.id.list);
+    ArrayAdapter<VersionInfo> adapter = new ArrayAdapter<VersionInfo>(ctx,
+        R.layout.version_row, R.id.versionInfoName, versions) {
+
+      @Override
+      public View getView(int position, View convertView, ViewGroup parent) {
+        LinearLayout row = (LinearLayout) super.getView(position, convertView, parent);
+        VersionInfo version = versions.get(position);
+        ((TextView) row.findViewById(R.id.versionInfoName)).setText(version.name);
+        ((TextView) row.findViewById(R.id.versionInfoChanges))
+          .setText("- " + TextUtils.join("\n- ", version.changes));
+        return row;
+      }
+    };
+    lv.setAdapter(adapter);
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
-      .setTitle(getString(R.string.new_version) + " : "
-          + CommonCommands.getVersionName(getActivity()))
+      .setTitle(getString(R.string.help_heading_whats_new))
       .setIcon(R.drawable.icon)
       .setView(view)
       .setPositiveButton(android.R.string.ok, this);
@@ -86,5 +95,16 @@ public class VersionDialogFragment extends DialogFragment implements OnClickList
   public void onClick(DialogInterface dialog, int which) {
     if (which == AlertDialog.BUTTON_NEGATIVE)
       ((MessageDialogListener) getActivity()).dispatchCommand(R.id.CONTRIB_COMMAND,null);
+  }
+  private class VersionInfo {
+    int code;
+    String name;
+    String[] changes;
+    public VersionInfo(int code, String name, String[] changes) {
+      super();
+      this.code = code;
+      this.name = name;
+      this.changes = changes;
+    }
   }
 }
