@@ -15,10 +15,13 @@
 
 package org.totschnig.myexpenses.test.model;
 
+import java.util.Date;
+
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
@@ -129,6 +132,36 @@ public class TransactionTest extends ModelTest  {
     } catch (DataObjectNotFoundException e) {
       fail("Could not restore peer for transfer");
     }
+  }
+  /**
+   * we test if split parts get the date of their parent
+   */
+  public void testSplit() {
+    SplitTransaction op1 = (SplitTransaction) Transaction.getTypedNewInstance(MyExpenses.TYPE_SPLIT,mAccount1.id);
+    op1.amount = new Money(mAccount1.currency,100L);
+    op1.comment = "test transaction";
+    op1.setDate(new Date(System.currentTimeMillis()-1003900000));
+    op1.save();
+    assertTrue(op1.id > 0);
+    Transaction split1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id,op1.id);
+    split1.amount = new Money(mAccount1.currency,50L);
+    assertTrue(split1.parentId == op1.id);
+    split1.status =org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+    split1.save();
+    assertTrue(split1.id > 0);
+    Transaction split2 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id,op1.id);
+    split2.amount = new Money(mAccount1.currency,50L);
+    assertTrue(split2.parentId == op1.id);
+    split2.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+    split2.save();
+    assertTrue(split2.id > 0);
+    op1.commit();
+    //that parents and parts are in consistent state is currently guaranteed by the UI
+    //which after saving a parent, commits the parts.
+    //we expect the parent to make sure that parts have the same date
+    Transaction restored = Transaction.getInstanceFromDb(op1.id);
+    assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split1.id).getDate()));
+    assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split2.id).getDate()));
   }
   public int countPayee(String name) {
     Cursor cursor = getMockContentResolver().query(TransactionProvider.PAYEES_URI,new String[] {"count(*)"},

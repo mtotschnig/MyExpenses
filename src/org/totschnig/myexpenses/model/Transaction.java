@@ -181,9 +181,6 @@ public class Transaction extends Model {
    * @param strDate format accepted by {@link TransactionDatabase#dateFormat}
    */
   private void setDate(String strDate) {
-    //as a temporary shortcut we store the date as string,
-    //since we have tested that this way UI->DB works
-    //and have no time at the moment to test detour via Date class
     dateAsString = strDate;
     date = Utils.fromSQL(strDate);
   }
@@ -203,7 +200,7 @@ public class Transaction extends Model {
   }
   /**
    * Saves the transaction, creating it new if necessary
-   * as a side effect calls {@link ExpensesDbAdapter#createPayee(String)}
+   * as a side effect calls {@link Payee#create(String)}
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
   public Uri save() {

@@ -32,7 +32,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 33;
+  public static final int DATABASE_VERSION = 34;
   public static final String DATABASE_NAME = "data";
 
   private static final String TAG = "TransactionDatabase";
@@ -356,6 +356,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 33) {
       db.execSQL("ALTER TABLE accounts add column usages integer default 0");
       db.execSQL("UPDATE accounts SET usages = (SELECT count(*) FROM transactions WHERE account_id = accounts._id AND parent_id IS null)");
+    }
+    if (oldVersion < 34) {
+      //fix for https://github.com/mtotschnig/MyExpenses/issues/69
+      db.execSQL("UPDATE transactions set date = (SELECT date from transactions parent WHERE parent._id = transactions.parent_id) WHERE parent_id IS NOT null");
     }
   }
 }

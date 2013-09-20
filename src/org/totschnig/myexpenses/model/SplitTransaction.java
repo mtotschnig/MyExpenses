@@ -52,6 +52,12 @@ public class SplitTransaction extends Transaction {
     //prevent altering the state of a parent (e.g. from exported to non-exported)
     cr().update(CONTENT_URI,initialValues,KEY_STATUS + " = ?",
         new String[] {String.valueOf(STATUS_UNCOMMITTED)});
+    initialValues.clear();
+    //make sure that parts have the same date as their parent,
+    //otherwise they might be incorrectly counted in groups
+    initialValues.put(KEY_DATE, dateAsString);
+    cr().update(CONTENT_URI,initialValues,KEY_PARENTID + " = ?",
+        new String[] {idStr});
   }
   /**
    * all Split Parts are cloned and we work with the uncommitted clones
