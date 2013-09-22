@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+	  <string-array name="whats_new_71">
+    <item>Sửa lỗi: Vấn đề lỗi #69</item>
+    <item>Phần dịch tiếng Arab</item>
+  </string-array>
   <string-array name="whats_new_67">
     <item>Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm</item>
     <item>Người nhận sẽ được hiển thị trên danh sách giao dịch</item>
@@ -26,5 +30,10 @@
   <string-array name="whats_new_59">
     <item>Vietnamca tercüme.</item>
     <item>Küçük iyileştirmeler</item>
+  </string-array>
+    <string-array name="whats_new_58">
+    <item>Giao diện mới dựa trên Holo</item>
+    <item>Tích hợp kèm theo hộp thoại trợ giúp</item>
+    <item>Xuất dữ liệu mà không cần phải cài đặt lại</item>
   </string-array>
 </resources>
