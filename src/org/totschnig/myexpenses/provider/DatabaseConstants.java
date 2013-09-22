@@ -121,5 +121,9 @@ public class DatabaseConstants {
   public static final String MONTH = "CAST(strftime('%m',date) AS integer)";
   public static final String WEEK  = "CAST(strftime('%W',date) AS integer)";
   public static final String DAY   = "CAST(strftime('%j',date) AS integer)";
+  public static final String THIS_YEAR  = "CAST(strftime('%Y','now') AS integer)";
+  //public static final String THIS_MONTH = "CAST(strftime('%m',date) AS integer)";
+  public static final String THIS_WEEK  = "CAST(strftime('%W','now') AS integer)";
+  public static final String THIS_DAY   = "CAST(strftime('%j','now') AS integer)";
   
 }

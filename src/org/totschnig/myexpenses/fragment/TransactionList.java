@@ -97,6 +97,7 @@ public class TransactionList extends SherlockFragment implements
     columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee,
     columnIndexGroupYear, columnIndexGroupSecond,
     columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
+  int this_year,this_week,this_day;
   boolean indexesCalculated, indexesGroupingCalculated = false;
 
   public static TransactionList newInstance(long accountId) {
@@ -310,6 +311,7 @@ public class TransactionList extends SherlockFragment implements
     switch(arg0.getId()) {
     case TRANSACTION_CURSOR:
       mTransactionsCursor = c;
+      c.moveToFirst();
       if (!indexesCalculated) {
         columnIndexDate = c.getColumnIndex(KEY_DATE);
         columnIndexYear = c.getColumnIndex("year");
@@ -320,6 +322,9 @@ public class TransactionList extends SherlockFragment implements
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
         columnIndexComment = c.getColumnIndex(KEY_COMMENT);
         columnIndexPayee = c.getColumnIndex(KEY_PAYEE);
+        this_year = c.getInt(c.getColumnIndex("this_year"));
+        this_week = c.getInt(c.getColumnIndex("this_week"));
+        this_day = c.getInt(c.getColumnIndex("this_day"));
         indexesCalculated = true;
       }
       mAdapter.swapCursor(c);
@@ -432,10 +437,6 @@ public class TransactionList extends SherlockFragment implements
       int month = c.getInt(columnIndexMonth);
       int week = c.getInt(columnIndexWeek);
       int day = c.getInt(columnIndexDay);
-      Calendar cal = Calendar.getInstance();
-      int thisYear = cal.get(Calendar.YEAR);
-      int thisDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
-      int thisWeekOfYear = cal.get(Calendar.WEEK_OF_YEAR);
 
       if (mGroupingCursor != null) {
         mGroupingCursor.moveToFirst();
@@ -452,9 +453,9 @@ public class TransactionList extends SherlockFragment implements
                 break;
               else {
                 fillSums(holder,mGroupingCursor);
-                if (day == thisDayOfYear)
+                if (day == this_day)
                   headerText = getString(R.string.grouping_today);
-                else if (day == thisDayOfYear -1)
+                else if (day == this_day -1)
                   headerText = getString(R.string.grouping_yesterday);
                 else
                   headerText = Utils.convDate(c.getString(columnIndexDate),
@@ -475,13 +476,12 @@ public class TransactionList extends SherlockFragment implements
                 break;
               else {
                 fillSums(holder,mGroupingCursor);
-                //Sqlite3's strftime starts with 0; Calendar with 1
-                if (week == thisWeekOfYear -1)
+                if (week == this_week)
                   headerText = getString(R.string.grouping_this_week);
-                else if (week == thisWeekOfYear -2)
+                else if (week == this_week)
                   headerText = getString(R.string.grouping_last_week);
                 else
-                  headerText = (year != thisYear ? (year + ", ") : "") + getString(R.string.grouping_week) + " " + (week+1);
+                  headerText = (year != this_year ? (year + ", ") : "") + getString(R.string.grouping_week) + " " + (week+1);
               }
               break traverseCursor;
             }
