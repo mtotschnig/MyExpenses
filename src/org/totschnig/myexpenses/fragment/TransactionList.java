@@ -311,7 +311,13 @@ public class TransactionList extends SherlockFragment implements
     switch(arg0.getId()) {
     case TRANSACTION_CURSOR:
       mTransactionsCursor = c;
-      c.moveToFirst();
+      hasItems = c.getCount()>0;
+      if (hasItems) {
+        c.moveToFirst();
+        this_year = c.getInt(c.getColumnIndex("this_year"));
+        this_week = c.getInt(c.getColumnIndex("this_week"));
+        this_day = c.getInt(c.getColumnIndex("this_day"));
+      }
       if (!indexesCalculated) {
         columnIndexDate = c.getColumnIndex(KEY_DATE);
         columnIndexYear = c.getColumnIndex("year");
@@ -322,13 +328,9 @@ public class TransactionList extends SherlockFragment implements
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
         columnIndexComment = c.getColumnIndex(KEY_COMMENT);
         columnIndexPayee = c.getColumnIndex(KEY_PAYEE);
-        this_year = c.getInt(c.getColumnIndex("this_year"));
-        this_week = c.getInt(c.getColumnIndex("this_week"));
-        this_day = c.getInt(c.getColumnIndex("this_day"));
         indexesCalculated = true;
       }
       mAdapter.swapCursor(c);
-      hasItems = c.getCount()>0;
       if (isVisible())
         getSherlockActivity().supportInvalidateOptionsMenu();
       break;
