@@ -30,7 +30,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +60,6 @@ public class VersionDialogFragment extends DialogFragment implements OnClickList
       int code = versionCodes[i];
       if (from >= code)
         break;
-      Log.i("DEBUG", "whats_new_"+code);
       String changes[] = res.getStringArray(
           res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName()));
       versions.add(new VersionInfo(code, versionNames[i], changes));

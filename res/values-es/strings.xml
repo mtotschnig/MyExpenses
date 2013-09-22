@@ -130,9 +130,11 @@
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licencia</string>
   <string name="help_heading_whats_new">Novedades</string>
-  <string name="help_intro">&#160;- Llevar contabilidad sobre sus gastos y ingresos.\n
-    - Administrar directamente en su móvil.\n
-    - Exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</string>
+  <string-array name="help_intro">
+    <item>Llevar contabilidad sobre sus gastos y ingresos.</item>
+    <item>Administrar directamente en su móvil.</item>
+    <item>Exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</item>
+  </string-array>
   <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
   <string name="import_categories">Importar categorías</string>
   <string name="income">Ingreso</string>
@@ -301,8 +303,8 @@
   <string name="progress_dialog_deleting">Eliminando &#8230;</string>
   <string name="progress_dialog_loading">Cargando objeto de base de datos &#8230;</string>
   <string name="progress_dialog_setup">Base de datos se inicializa &#8230;</string>
-  <string name="request_licence_mail_body">Por favor, envíeme una clave Contrib para Android-Id %1$s.
-    \n\n[Por favor describa (en inglés, francés o alemán) su contribución a &app_name; (por ejemplo: donación a través de Paypal, informe de errores, pruebas, traducción)]</string>
+  <string name="request_licence_mail_head">Por favor, envíeme una clave Contrib para Android-Id %1$s.</string>
+  <string name="request_licence_mail_description">Por favor describa (en inglés, francés o alemán) su contribución a &app_name; (por ejemplo: donación a través de Paypal, informe de errores, pruebas, traducción).</string>
   <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.
       </string>
   <string name="restore_db_failure">La restauración de la base de datos ha fallado.</string>

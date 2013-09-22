@@ -172,7 +172,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       i.putExtra(android.content.Intent.EXTRA_SUBJECT,
           "[" + getString(R.string.app_name) + "] " + getString(R.string.contrib_key));
       i.putExtra(android.content.Intent.EXTRA_TEXT,
-          getString(R.string.request_licence_mail_body,androidId));
+          getString(R.string.request_licence_mail_head,androidId)
+          + " \n\n[" + getString(R.string.request_licence_mail_description) + "]");
       if (!Utils.isIntentAvailable(MyPreferenceActivity.this,i)) {
         Toast.makeText(getBaseContext(),R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
       } else {

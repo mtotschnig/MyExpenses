@@ -27,6 +27,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -44,6 +45,8 @@ public class WelcomeDialogFragment extends DialogFragment {
     Activity ctx  = (Activity) getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
     View view = li.inflate(R.layout.welcome_dialog, null);
+    ((TextView) view.findViewById(R.id.help_intro))
+      .setText("- " + TextUtils.join("\n- ", getResources().getStringArray(R.array.help_intro)));
     return new AlertDialog.Builder(ctx)
       .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.dialog_title_welcome))
       .setIcon(R.drawable.icon)

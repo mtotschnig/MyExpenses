@@ -123,9 +123,11 @@
   <string name="help_heading_credits">Hazırlayanlar</string>
   <string name="help_heading_license">Lisans</string>
   <string name="help_heading_whats_new">Yenilikler</string>
-  <string name="help_intro">&#160;- Gelirleriniz ve harcamalarınızı takip edin.\n
-    - Akıllı telefonunuzda doğrudan yönetin.\n
-    - Grisbi, GnuCash, Quicken ya da MS Money gibi masa üstü finans programlarına aktarın.</string>
+  <string-array name="help_intro">
+    <item>Gelirleriniz ve harcamalarınızı takip edin.</item>
+    <item>Akıllı telefonunuzda doğrudan yönetin.</item>
+    <item>Grisbi, GnuCash, Quicken ya da MS Money gibi masa üstü finans programlarına aktarın.</item>
+  </string-array>
   <string name="help_leading">Android için <i>&app_name;</i>\'i kurduğunuz için teşekkür ederiz.</string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="income">gelirler</string>
@@ -276,8 +278,8 @@
   <string name="progress_dialog_deleting">Siliniyor &#8230;</string>
   <string name="progress_dialog_loading">Veritabanından nesne yükleniyor &#8230;</string>
   <string name="progress_dialog_setup">Muamele veritabanı başlatıldı &#8230;</string>
-  <string name="request_licence_mail_body">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin.
-    \n\n[Harcamalarıma katkınızı (Paypal ile bağış, hata raporu, deneme, tercüme) İngilizce, Almanca ya da Fransızca olarak açıklayınız]</string>
+  <string name="request_licence_mail_head">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin.</string>
+  <string name="request_licence_mail_description">Harcamalarıma katkınızı (Paypal ile bağış, hata raporu, deneme, tercüme) İngilizce, Almanca ya da Fransızca olarak açıklayınız.</string>
   <string name="restore_db_failure">Veritabanının yüklenmesi başarısız oldu</string>
   <string name="restore_db_success">Veritabanı yedeklemeden restore edilmiştir.</string>
   <string name="restore_no_backup_found">SD kartının \"myexpenses\" klasöründe BACKUP dosyası bulunamadı.</string>

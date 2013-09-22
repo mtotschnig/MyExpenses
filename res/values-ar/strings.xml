@@ -27,24 +27,24 @@
   <string name="current_balance">الرصيد الحالي</string>
   <string name="date">التاريخ</string>
   <string name="date_time">التاريخ / الوقت</string>
-  <string name="default_account_description">هذا الحساب تم انشاؤه تلقائيا\nخلال التثبيت</string>
+  <string name="default_account_description">هذا الحساب تم انشاؤه تلقائياخلال التثب</string>
   <string name="description">الوصف</string>
   <string name="dialog_confirm_restore_on_install">تم اكتشاف نسخة احتياطية. هل تريد استعادتها؟</string>
   <string name="dialog_contrib_usage_count">لديك %1$d استعمالات مجانية متبقية</string>
   <string name="dialog_contrib_no_usages_left">انتهت فترة الاستعمال المجاني</string>
   <!--Placeholders: 1 is name of the feature; 2 is count of usages-->
-  <string name="dialog_contrib_reminder">\"%1$s\" خاصية مميزة. %2$s.\nيمكنك الحصول على هذه الخاصية وكامل المميزات الخاصة عن طريق تثبيت &lt;i&gt;My Expenses Contrib&lt;/i&gt;.</string>
+  <string name="dialog_contrib_reminder">\"%1$s\" خاصية مميزة. %2$s.يمكنك الحصول على هذه الخاصية وكامل المميزات الخاصة عن طريق تثبيت &lt;i&gt;My Expenses Contrib&lt;/i&gt;.</string>
   <string name="dialog_contrib_yes">شراء الآن</string>
   <string name="dialog_contrib_no">ليس بعد</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text">&lt;i&gt;My Expenses&lt;/i&gt; تطبيق مفتوح المصدر وبدون إعلانات.\nأرجو المساهمة بتثبيت النسخة المدفوعة. يمكنك الحصول على\nكافة المميزات التالية: &lt;br&gt;%1$s&lt;br&gt;</string>
+  <string name="dialog_contrib_text">&lt;i&gt;My Expenses&lt;/i&gt; تطبيق مفتوح المصدر وبدون إعلانات.أرجو المساهمة بتثبيت النسخة المدفوعة. يمكنك الحصول علىكافة المميزات التالية: &lt;br&gt;%1$s&lt;br&gt;</string>
   <string name="dialog_export_delete">حذف العمليات المصدّرة</string>
   <string name="dialog_export_not_yet_exported">تصدير العمليات التي لم تصدّر بعد</string>
   <string name="dialog_password_activate_protection">تفعيل حماية كلمة المرور</string>
   <string name="dialog_password_change_password">تغيير كلمة المرور</string>
   <string name="dialog_password_new_password">كلمة مرور الجديدة</string>
   <string name="dialog_password_new_password_confirmation">كلمة المرور الجديدة (للتأكيد)</string>
-  <string name="dialog_remind_rate">فضلا قم بتقييم My Expenses في Google Play.\nتعليقاتكم تمنحني الاستمرار في تحسين البرنامج.</string>
+  <string name="dialog_remind_rate">فضلا قم بتقييم My Expenses في Google Play.تعليقاتكم تمنحني الاستمرار في تحسين البرنامج.</string>
   <string name="dialog_remind_rate_yes">تقييم الآن</string>
   <string name="dialog_remind_later">لاحقاً</string>
   <string name="dialog_remind_no">لا شكراً</string>
@@ -64,10 +64,10 @@
   <string name="dialog_title_warning_delete_account">حذف الحساب؟</string>
   <string name="dialog_title_welcome">مرحبا!</string>
   <string name="donate">تبرع</string>
-  <string name="donate_dialog_text">إذا لم تكن قادر على الوصول لـ Google Play، يمكنك المساهمة عن طريق PayPal أو Flatter,\nثم تقوم بطلب مفتاح المساهمة من الاعدادات.</string>
+  <string name="donate_dialog_text">إذا لم تكن قادر على الوصول لـ Google Play، يمكنك المساهمة عن طريق PayPal أو Flatter,ثم تقوم بطلب مفتاح المساهمة من الاعدادات.</string>
   <string name="error_accessing_gplay">خطأ في محاولة الوصول لقوقل بلاي</string>
   <string name="expense">الصرف</string>
-  <string name="export_expenses_outputfile_exists">ملف الاخراج موجود مسبقا. الرجاء حاول مرة\nأخرى بعد دقيقة.</string>
+  <string name="export_expenses_outputfile_exists">ملف الاخراج موجود مسبقا. الرجاء حاول مرةأخرى بعد دقيقة.</string>
   <string name="export_expenses">تصدير المصروفات</string>
   <string name="export_expenses_sdcard_failure">فشلت عملية تصدير المصروفات للذاكرة</string>
   <string name="export_expenses_sdcard_success">تم تصدير المصروفات إلى ملف %1$s</string>
@@ -79,7 +79,7 @@
   <string name="grisbi_import_default_source">التصنيفات الافتراضية الانجليزية</string>
   <string name="grisbi_import_button_categories_only">التصنيفات</string>
   <string name="grisbi_import_button_categories_and_parties">التصنيفات والأطراف</string>
-  <string name="grisbi_import_categories_and_parties_success">تم استيراد %1$s تصنيفات و %2$s أطراف\nبنجاح</string>
+  <string name="grisbi_import_categories_and_parties_success">تم استيراد %1$s تصنيفات و %2$s أطرافبنجاح</string>
   <string name="grisbi_import_categories_loading">جاري تحميل التصنيفات من %1$s</string>
   <string name="grisbi_import_categories_success">تم استيراد %1$s تصنيفات بنجاح</string>
   <string name="grisbi_import_parsing">جاري تحليل %1$s</string>
@@ -94,15 +94,19 @@
   <string name="grouping_this_week">هذا الأسبوع</string>
   <string name="grouping_last_week">آخر أسبوع</string>
   <string name="help_button_rate">تقييم أو تعليق</string>
-  <string name="help_contextuel_help">احصل على المزيد من المعلومات\nحول الوظائف المتاحة عن طريق زر المساعدة في القائمة.</string>
+  <string name="help_contextuel_help">احصل على المزيد من المعلوماتحول الوظائف المتاحة عن طريق زر المساعدة في القائمة.</string>
   <string name="help_heading_credits">النقاط</string>
   <string name="help_heading_license">الترخيص</string>
   <string name="help_heading_whats_new">آخر الاخبار</string>
-  <string name="help_intro">- قم بتتبع مصاريفك والدخل الخاص بك.\n\n- إدارتهم مباشرة من خلال جهازك الذكي.\n\n- تصديرهم لبرامج إدارة الموارد المالية مثل Grisbi, GnuCash, Quicken, MS Money.</string>
+  <string-array name="help_intro">
+    <item>قم بتتبع مصاريفك والدخل الخاص بك.</item>
+    <item>إدارتهم مباشرة من خلال جهازك الذكي.</item>
+    <item>تصديرهم لبرامج إدارة الموارد المالية مثل Grisbi, GnuCash, Quicken, MS Money.</item>
+  </string-array>
   <string name="help_leading">شكرا لتثبيتك تطبيق <i>مصروفاتي</i> للاندرويد.</string>
   <string name="import_categories">استيراد تصنيفات</string>
   <string name="income">الدخل</string>
-  <string name="invalid_number_format">لا يمكن استخدام الاعداد العشرية. فضلا استخدم\n%1$s</string>
+  <string name="invalid_number_format">لا يمكن استخدام الاعداد العشرية. فضلا استخدم%1$s</string>
   <string name="label">وسم</string>
   <string name="licence_validation_success">تم التحقق من مفتاح الترخيص بنجاح: الآن يمكنك استعمال كامل المميزات.</string>
   <string name="licence_validation_failure">تعذر التحقق من صحة مفتاح الترخيص.</string>
@@ -162,15 +166,15 @@
   <string name="no_valid_payment_methods">لا يوجد طرق دفع صالحة لـ %1$s (%2$s)</string>
   <string name="not_deletable_mapped_transactions">لا يمكنك الحذف، لا تزال هناك عمليات معينة موجودة.</string>
   <string name="not_deletable_mapped_templates">لا يمكنك الحذف، لا تزال هناك نماذج معينة موجودة.</string>
-  <string name="not_deletable_subcats_exists">لا يمكن حذف هذا التصنيف، لأن هناك\nتصنيفات أخرى تندرج تحته.</string>
+  <string name="not_deletable_subcats_exists">لا يمكن حذف هذا التصنيف، لأن هناكتصنيفات أخرى تندرج تحته.</string>
   <string name="oi_pick_colors_info">قم بتثبيت OI Color Picker لمزيد من الاختيارات</string>
   <string name="opening_balance">الرصيد الافتتاحي</string>
   <string name="parse_error_file_not_found">لم يتم العثور على الملف %1$s</string>
   <string name="parse_error_no_data_found">لا يوجد بيانات قابلة للاستيراد في الملف.</string>
   <string name="parse_error_parse_exception">لا يمكن فتح الملف</string>
   <string name="parse_error_other_exception">خطأ: %1$s</string>
-  <string name="parse_error_grisbi_version_not_supported">نسخة ملف Grisbi غير مدعومة:\n%1$s</string>
-  <string name="password_disabled_reenable">تم تعطيل كلمة المرور.\nيمكنك تمكينه من جديد عن طريق الاعدادات.</string>
+  <string name="parse_error_grisbi_version_not_supported">نسخة ملف Grisbi غير مدعومة:%1$s</string>
+  <string name="password_disabled_reenable">تم تعطيل كلمة المرور.يمكنك تمكينه من جديد عن طريق الاعدادات.</string>
   <string name="password_lost">نسيت كلمة المرور</string>
   <string name="password_not_valid">كلمة المرور غير صحيحة. حاول مجددا!</string>
   <string name="password_prompt">ادخل كلمة المرور</string>
@@ -185,8 +189,8 @@
   <string name="pm_type_neutral">Neutral</string>
   <string name="pm_type_debit">Debit</string>
   <string name="pm_type_credit">Credit</string>
-  <string name="peer_transaction_deleted">هذه العملية ترجع لقيد نظامي (الحساب %1$s)\nالذي تم حذفه</string>
-  <string name="pref_backup_summary">حفظ نسخة احتياطية لقاعدة البيانات والتفضيلات في\nالذاكرة.</string>
+  <string name="peer_transaction_deleted">هذه العملية ترجع لقيد نظامي (الحساب %1$s)الذي تم حذفه</string>
+  <string name="pref_backup_summary">حفظ نسخة احتياطية لقاعدة البيانات والتفضيلات فيالذاكرة.</string>
   <string name="pref_categories_sort_by_usages_title">ترتيب حسب (التصنيفات، النماذج، الحسابات)</string>
   <string name="pref_categories_sort_by_usages_summaryOn">عدد مرات الاستعمال</string>
   <string name="pref_categories_sort_by_usages_summaryOff">ابجدي</string>
@@ -198,7 +202,7 @@
   <string name="pref_category_title_security">الأمان</string>
   <string name="pref_contrib_install_title">تثبيت النسخة المدفوعة</string>
   <string name="pref_contrib_install_summary">بتثبيتك My Expenses Contrib، يمكنك الوصول إلى المميزات الكاملة.</string>
-  <string name="pref_currency_decimal_separator_title">تنسيق الاعداد العشرية عند ادخال\nالقيم</string>
+  <string name="pref_currency_decimal_separator_title">تنسيق الاعداد العشرية عند ادخالالقيم</string>
   <string name="pref_currency_decimal_separator_comma">فاصلة (،)</string>
   <string name="pref_currency_decimal_separator_point">نقطة (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">كتابة الأعداد الكسرية كأعداد صحيحة</string>
@@ -206,7 +210,7 @@
   <string name="pref_enter_licence_summary">اذا كنت تملك مفتاح مساهمة، يمكنك الوصول لكامل المميزات.</string>
   <string name="pref_export_format_title">تنسيق البيانات</string>
   <string name="pref_import_from_grisbi_title">استيراد من Grisbi</string>
-  <string name="pref_import_from_grisbi_summary">استيراد التصنيفات (والأطراف) من تعريفات Grisbi الافتراضية\nالداخلية إلى التطبيق، أو من ملفك الخاص المخزن على هيئة grisbi.xml داخل\nمجلد \"myexpenses\" على سطح الذاكرة.</string>
+  <string name="pref_import_from_grisbi_summary">استيراد التصنيفات (والأطراف) من تعريفات Grisbi الافتراضيةالداخلية إلى التطبيق، أو من ملفك الخاص المخزن على هيئة grisbi.xml داخلمجلد \"myexpenses\" على سطح الذاكرة.</string>
   <string name="pref_manage_accounts_title">الحسابات</string>
   <string name="pref_manage_accounts_summary">إضافة، تعديل، حذف الحسابات.</string>
   <string name="pref_manage_categories_title">التصنيفات</string>
@@ -219,7 +223,7 @@
   <string name="pref_manage_templates_summary">تطبيق أو حذف النماذج.</string>
   <string name="pref_more_info_dialog_title">الرخصة &amp; الشكر</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
-  <string name="pref_more_info_dialog_summary"> </string>
+  <string name="pref_more_info_dialog_summary">تمت الترجمة بواسطة Ar.Alothaim</string>
   <string name="pref_password_empty">يجب ادخال كلمة مرور</string>
   <string name="pref_password_not_equal">كلمات المرور لا تتطابق</string>
   <string name="pref_perform_share_title">مشاركة الملف المصدّر</string>
@@ -235,7 +239,7 @@
   <string name="pref_restore_title">استعادة</string>
   <string name="pref_restore_summary">استعادة النسخة الاحتياطية من مجلد \"myexpenses\" في الذاكرة.</string>
   <string name="pref_share_target_title">رابط الرفع</string>
-  <string name="pref_share_target_summary">اتركه فارغا إذا أردت الاختيار بين التطبيقات\nالمناسبة (البريد الالكتروني، دروب بوكس، مستندات قوقل، ...) أو قم بإدخل رابط كأحد الطرق المدعومة</string>
+  <string name="pref_share_target_summary">اتركه فارغا إذا أردت الاختيار بين التطبيقاتالمناسبة (البريد الالكتروني، دروب بوكس، مستندات قوقل، ...) أو قم بإدخل رابط كأحد الطرق المدعومة</string>
   <string name="pref_security_question_title">السؤال السري</string>
   <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور. يتطلب My Expenses Contrib.</string>
   <string name="pref_send_feedback_title">ارسال ملاحظة أو تقييم</string>
@@ -248,7 +252,8 @@
   <string name="progress_dialog_deleting">جاري الحذف</string>
   <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات ...</string>
   <string name="progress_dialog_setup">جاري تهيئة قاعدة البيانات ...</string>
-  <string name="request_licence_mail_body">أرجو تزويدي بمفتاح مساهمة لـ Android-Id %1$s.\n\n\n[فضلا قم بكتابة مساهمتك ( باللغة العربية ، الانجليزية، الألمانية أو الفرنسية) في My Expenses\n(على سبيل المثال: تبرع عن طريق PayPal، تقرير عن عطل، اختبار التطبيق، ترجمة، ...)]</string>
+  <string name="request_licence_mail_head">أرجو تزويدي بمفتاح مساهمة لـ Android-Id %1$s.</string>
+  <string name="request_licence_mail_description">فضلا قم بكتابة مساهمتك ( باللغة العربية ، الانجليزية، الألمانية أو الفرنسية) في My Expenses(على سبيل المثال: تبرع عن طريق PayPal، تقرير عن عطل، اختبار التطبيق، ترجمة، ...)</string>
   <string name="restore_db_failure">فشلت عملية استعادة قاعدة البيانات.</string>
   <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
   <string name="restore_no_backup_found">لم يتم العثور على ملف BACKUP داخل مجلد \"myexpenses\" في الذاكرة.</string>
@@ -280,13 +285,13 @@
   <string name="unsplit_amount">توحيد قيمة</string>
   <string name="unsplit_amount_greater_than_zero">لا يزال هناك بعض القيم لم توحد.</string>
   <string name="warning_backup">سيتم حفظ قاعدة البينات والتفضيلات في الذاكرة. استمرار؟</string>
-  <string name="warning_backup_exists">سيتم حفظ قاعدة البيانات والتفضيلات في الذاكرة. سوف تتم الكتابة\nعلى النسخة الاحتياطية الحالية. هل تريد الاستمرار؟</string>
-  <string name="warning_delete_account">سيتم حذف هذا الحساب مع كامل العمليات المتعلقة به.\nهل تريد الاستمرار؟</string>
-  <string name="warning_password_no_contrib">عند قيامك بوضع كلمة مرور، احرص على عدم نسيانك لها. لن تكون قادرا على استرجاعها إلا\nعن طريق سؤال الأمان (يتطلب My Expenses Contrib).</string>
+  <string name="warning_backup_exists">سيتم حفظ قاعدة البيانات والتفضيلات في الذاكرة. سوف تتم الكتابةعلى النسخة الاحتياطية الحالية. هل تريد الاستمرار؟</string>
+  <string name="warning_delete_account">سيتم حذف هذا الحساب مع كامل العمليات المتعلقة به.هل تريد الاستمرار؟</string>
+  <string name="warning_password_no_contrib">عند قيامك بوضع كلمة مرور، احرص على عدم نسيانك لها. لن تكون قادرا على استرجاعها إلاعن طريق سؤال الأمان (يتطلب My Expenses Contrib).</string>
   <string name="warning_password_contrib">اعداد سؤال الامان يمكنك من إلغاء قفل التطبيق، في حال نسيت كلمة المرور.</string>
   <string name="warning_reset_account">إذا قمت بالمتابعة ، كل العمليات الخاصة بهذا الحساب سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
   <string name="warning_reset_account_all">إذا قمت بالمتابعة ، كل الحسابات والعمليات سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
-  <string name="warning_restore">سيتم استرجاع قاعدة البيانات والتفضيلات من النسخة احتياطية. سيتم حذف\nالبيانات الحالية. هل تريد الاستمرار ؟</string>
+  <string name="warning_restore">سيتم استرجاع قاعدة البيانات والتفضيلات من النسخة احتياطية. سيتم حذفالبيانات الحالية. هل تريد الاستمرار ؟</string>
   <string name="warning_select_account">الرجاء اختيار حساب!</string>
   <string name="warning_splitpartcategory_context">لا يمكن تعديل أو حذف التحويلات التي تكون جزء من تقسيم إلا إذا كانت في سياق التقسيم.</string>
 </resources>

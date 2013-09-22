@@ -74,9 +74,11 @@
   <string name="help_heading_credits">Crèdits</string>
   <string name="help_heading_license">Llicència</string>
   <string name="help_heading_whats_new">Novetats</string>
-  <string name="help_intro">&#160;- Mantingui un registre de les seves despeses i ingressos.\n
-    - Administrar directament en el seu telèfon intel·ligent.\n
-    - Exportar-a un programa de finançament d\'escriptori com Grisbi, GnuCash, Quicken o MS Money.</string>
+  <string-array name="help_intro">
+    <item>Mantingui un registre de les seves despeses i ingressos.</item>
+    <item>Administrar directament en el seu telèfon intel·ligent.</item>
+    <item>Exportar-a un programa de finançament d\'escriptori com Grisbi, GnuCash, Quicken o MS Money.</item>
+  </string-array>
   <string name="help_leading">Gràcies per provar <i>&app_name;</i> per a Android.</string>
   <string name="import_categories">Importa categories</string>
   <string name="income">ingrés</string>

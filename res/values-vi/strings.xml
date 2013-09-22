@@ -127,9 +127,11 @@
   <string name="help_heading_credits">Tín dụng</string>
   <string name="help_heading_license">Giấy phép</string>
   <string name="help_heading_whats_new">Những phần mới</string>
-  <string name="help_intro">&#160;- Giữ chi tiêu và thu nhập của bạn theo cách mà bạn muốn.\n
-    - Quản lý tài chính thông qua điện thoại của bạn.\n
-    - Xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.</string>
+  <string-array name="help_intro">
+    <item>Giữ chi tiêu và thu nhập của bạn theo cách mà bạn muốn.</item>
+    <item>Quản lý tài chính thông qua điện thoại của bạn.</item>
+    <item>Xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.</item>
+  </string-array>
   <string name="help_leading">Cảm ơn bạn đã cài đặt <i>&app_name;</i> dành cho Android.</string>
   <string name="import_categories">Nhập dữ liệu về phân loại</string>
   <string name="income">Thu nhập</string>
@@ -286,9 +288,8 @@ số lượng tiền tệ</string>
   <string name="progress_dialog_deleting">Đang thực hiện thao tác xóa &#8230;</string>
   <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu &#8230;</string>
   <string name="progress_dialog_setup">Cơ sở dữ liệu đã được thiết lập &#8230;</string>
-  <string name="request_licence_mail_body">Vui lòng gửi đến tác giả mã khóa Cống Hiến dành cho Android-Id %1$s.
-    \n\n[Hãy gửi cho tác giả một mô tả ngắn gọn (bằng tiếng Anh, Đức hoặc Pháp) về sự cống hiến của bạn dành cho &app_name;
-    (ví dụ.: đóng góp qua Paypal, gửi báo cáo lỗi, xài thử chương trình, tham gia vào việc dịch chương trình)]</string>
+  <string name="request_licence_mail_head">Vui lòng gửi đến tác giả mã khóa Cống Hiến dành cho Android-Id %1$s.</string>
+  <string name="request_licence_mail_description">Hãy gửi cho tác giả một mô tả ngắn gọn (bằng tiếng Anh, Đức hoặc Pháp) về sự cống hiến của bạn dành cho &app_name; (ví dụ.: đóng góp qua Paypal, gửi báo cáo lỗi, xài thử chương trình, tham gia vào việc dịch chương trình).</string>
   <string name="restore_db_failure">Xảy ra lỗi khi khôi phục cơ sở dữ liệu</string>
   <string name="restore_db_success">Cơ sở dữ liệu đã được phục hồi từ phần sao lưu</string>
   <string name="restore_no_backup_found">Không có tập tin SAO LƯU nào được tìm thấy trong thư mục \"myexpenses\" trên thẻ nhớ.</string>

@@ -30,7 +30,7 @@
 
     <TextView android:text="@string/help_leading"
         style="@style/headingStyle" />
-    <TextView android:text="@string/help_intro"
+    <TextView android:id="@+id/help_intro"
         style="@style/about_text" />
      <!-- Quick Guide -->
     <TextView android:text="@string/menu_help"
