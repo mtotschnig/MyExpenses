@@ -73,6 +73,11 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
     defaultCurrency = Currency.getInstance("VND");
     helperTestLang("vi","VI");
   }
+  public void testLang_ar() {
+    //Currency.getInstance(new Locale("vi","VI") => USD on Nexus S
+    defaultCurrency = Currency.getInstance("SAR");
+    helperTestLang("ar","SA");
+  }
 	private void helperTestLang(String lang, String country) {
 	  this.locale = new Locale(lang,country);
 	  Locale.setDefault(locale); 

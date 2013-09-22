@@ -11,6 +11,7 @@ adb shell pm clear org.totschnig.myexpenses
 adb shell am instrument -w -e class "org.totschnig.myexpenses.test.activity.TestMain#testLang_${lang}" org.totschnig.myexpenses.test/android.test.InstrumentationTestRunner
 case $lang in
  en) country=US ;;
+ ar) country=SA ;;
  *) country=${lang^^};;
 esac
 monkeyrunner monkey.py $lang $country

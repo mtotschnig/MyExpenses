@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="testData_account1Label">محفظتي</string>
+  <string name="testData_account1Description">المصروفات اليومية</string>
+  <string name="testData_account2Label">عطلة نهاية الاسبوع في باريس</string>
+  <string name="testData_account2Description">أغسطس 2012</string>
+  <string name="testData_account2Currency">EUR</string>
+  <string name="testData_account3Label">حساب البنك</string>
+  <string name="testData_account3Description">البنك العربي الوطني</string>
+  <string name="testData_transaction1SubCat">مترو</string>
+  <string name="testData_transaction1MainCat">مواصلات</string>
+  <string name="testData_transaction2SubCat">بقالة</string>
+  <string name="testData_transaction2MainCat">طعام</string>
+  <string name="testData_transaction2Comment">فواكه &amp; خضروات</string>
+  <string name="testData_transaction3SubCat">وقود</string>
+  <string name="testData_transaction3MainCat">سيارة</string>
+  <string name="testData_transaction4SubCat">مطعم</string>
+  <string name="testData_transaction4MainCat">طعام</string>
+  <string name="testData_transaction4Payee">مطعم Pizzeria Antonella</string>
+  <string name="testData_transaction6MainCat">هدايا</string>
+</resources>
