@@ -35,55 +35,25 @@ langs:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar, Română, 中文"
 versions:
   -
-    - 1.9.0.3
-    - 2013-08-30
-    -
-      fr: |
-        Correction d'un problème avec le type de compte.
-      de: |
-        Bug bei Darstellung des Kontentyps behoben.
-      en: |
-        Bug in handling of account type fixed.
-      vi: |
-        Sửa lỗi gặp phải với các loại tài khoản.
-  -
-    - 1.9.0.2
-    - 2013-08-25
+    - 1.9.1
+    - 2013-09-23
     -
       en: |
-        Minor improvements.
+        Bug fix: Issue #69. Arab translation.
       fr: |
-        Améliorations mineures.
+        Correction de bug #69. Traduction en arabe.
       de: |
-        Gerinfügige Verbesserungen.
+        Bug #69 behoben. Arabische Übersetzung.
       it: |
-        Piccoli miglioramenti.
+        Correzione di errori #69. Traduzione in arabo.
       es: |
-        Pequeñas mejoras.
+        Corrección de errores #69. Traducción árabe.
       tr: |
-        Küçük iyileştirmeler.
+        Hata düzeltmesi: #69. Arap Tercüme.
       vi: |
-        Cải thiện bổ sung.
-  -
-    - 1.9.0.1
-    - 2013-08-24
-    -
-      en: |
-        Stability improvements.
-      ca: |
-        Millores en l'estabilitat.
-      fr: |
-        Améliorations de la stabilité.
-      de: |
-        Stabilitätsverbesserungen.
-      it: |
-        Miglioramenti della stabilità.
-      es: |
-        Mejoras en la estabilidad.
-      tr: |
-        Kararlılık geliştirmeleri.
-      vi: |
-        Cải thiện độ ổn định.
+        Sửa lỗi: Vấn đề lỗi #69. Phần dịch tiếng Arab.
+      ar: |
+        اصلاح : خطأ #69. دعم اللغة العربية.
   -
     - 1.9.0
     - 2013-08-20
@@ -116,6 +86,8 @@ versions:
         Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm.
         Người nhận sẽ được hiển thị trên danh sách giao dịch
         Danh sách các tài khoản được sắp xếp (dựa theo tần số được sử dụng theo mặc định)
+      ar: |
+        تجميع العمليات حسب اليوم أو الاسبوع أو الشهر أو السنة ، وعرض الاجمالي لكل تجميع. عرض المستفيد في قائمة العمليات. عرض الحسابات مرتبة (افتراضيا حسب تكرار الاستخدام).
   -
     - 1.8.5.
     - 2013-08-06
@@ -127,6 +99,8 @@ versions:
       es: Asientos divididos
       tr: Bölünmüş muameleler
       vi: Phân tách giao dịch
+      ar: |
+        تقسيم العمليات.
   -
     - 1.8.1.
     - 2013-07-11
@@ -152,6 +126,8 @@ versions:
       vi: |
         Chuyển ngữ tiếng Việt.
         Cải thiện bổ sung.
+      ar: |
+        دعم اللغة الفيتنامية. تحسينات أخرى.
   -
     - 1.8.0.
     - 2013-07-10
@@ -180,6 +156,8 @@ versions:
         Holo temasına dayalı yeni kullanıcı arayüzü tasarımı.
         Entegre yardım diyalogları.
         Sıfırlamadan dışarı aktarım.
+      ar: |
+        واجهة مستخدم جديدة باستخدام مظهر Holo. إضافة نافذة للمساعدة. تصدير بدون حاجة للحذف.
   -
     - 1.7.4
     - 2013-06-18
