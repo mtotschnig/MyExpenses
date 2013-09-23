@@ -91,7 +91,7 @@
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
-      <item>71</item>
+      <item>72</item>
       <item>67</item>
       <item>63</item>
       <item>59</item>

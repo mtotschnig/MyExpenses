@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-	  <string-array name="whats_new_71">
+  <string-array name="whats_new_72">
     <item>Sửa lỗi: Vấn đề lỗi #69</item>
     <item>Phần dịch tiếng Arab</item>
   </string-array>

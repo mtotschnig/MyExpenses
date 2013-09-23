@@ -18,7 +18,7 @@
   <!ENTITY app_name "Le mie spese">
 ]>
 <resources>
-  <string-array name="whats_new_71">
+  <string-array name="whats_new_72">
     <item>Correzione di errori #69</item>
     <item>Traduzione in arabo</item>
   </string-array>

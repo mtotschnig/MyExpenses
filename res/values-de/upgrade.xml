@@ -18,7 +18,7 @@
   <!ENTITY app_name "Meine Ausgaben">
 ]>
 <resources>
-  <string-array name="whats_new_71">
+  <string-array name="whats_new_72">
     <item>Bug #69 behoben</item>
     <item>Arabische Übersetzung</item>
   </string-array>
