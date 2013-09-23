@@ -30,8 +30,7 @@
   <string name="amount">Betrag</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
-  <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der
-      SD-Karte gesichert.</string>
+  <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der SD-Karte gesichert.</string>
   <string name="category">Kategorie</string>
   <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
   <string name="color">Farbe</string>
@@ -49,27 +48,22 @@
   <string name="current_balance">Aktueller Saldo</string>
   <string name="date">Datum</string>
   <string name="date_time">Datum / Zeit</string>
-  <string name="default_account_description">Dieses Konto wurde während der Installation automatisch
-      eingerichtet.</string>    
+  <string name="default_account_description">Dieses Konto wurde während der Installation automatisch eingerichtet.</string>    
   <string name="description">Beschreibung</string>
   <string name="dialog_confirm_restore_on_install">Eine Sicherungskopie ist vorhanden. Soll diese wiederhergestellt werden?</string>
   <string name="dialog_contrib_usage_count">Diese Funktion kann noch %1$d mal verwendet werden</string>
   <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden</string>
-  <string name="dialog_contrib_reminder">\"%1$s\" ist eine Premium-Funktion. %2$s.
-    Sie können auf diese und alle anderen uneingeschränkt zugreifen, wenn Sie &lt;i>&app_name; Contrib&lt;/i> installieren.</string>
+  <string name="dialog_contrib_reminder">\"%1$s\" ist eine Premium-Funktion. %2$s. Sie können auf diese und alle anderen uneingeschränkt zugreifen, wenn Sie &lt;i>&app_name; Contrib&lt;/i> installieren.</string>
   <string name="dialog_contrib_yes">Kaufen</string>
   <string name="dialog_contrib_no">Noch nicht</string>
-  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten.
-    Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch
-    uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:&lt;br>%1$s&lt;br></string>
+  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten. Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:&lt;br>%1$s&lt;br></string>
   <string name="dialog_export_delete">Buchungen nach dem Exportieren löschen</string>
   <string name="dialog_export_not_yet_exported">Nur Buchungen exportieren, die noch nicht exportiert wurden</string>
   <string name="dialog_password_activate_protection">Passwort-Schutz aktivieren</string>
   <string name="dialog_password_change_password">Passwort ändern</string>
   <string name="dialog_password_new_password">Neues Passwort</string>
   <string name="dialog_password_new_password_confirmation">Neues Passwort (Bestätigung)</string>
-  <string name="dialog_remind_rate">Bitte nehmen Sie sich einen Augenblick Zeit, um &app_name; auf Google Play zu bewerten und zu rezensieren.
-    Ihre Kommentare ermöglichen regelmäßige Verbesserungen und Erweiterungen.</string>
+  <string name="dialog_remind_rate">Bitte nehmen Sie sich einen Augenblick Zeit, um &app_name; auf Google Play zu bewerten und zu rezensieren. Ihre Kommentare ermöglichen regelmäßige Verbesserungen und Erweiterungen.</string>
   <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
   <string name="dialog_remind_later">Später</string>
   <string name="dialog_remind_no">Nein danke</string>
@@ -89,12 +83,10 @@
   <string name="dialog_title_warning_delete_account">Konto löschen?</string>
   <string name="dialog_title_welcome">Willkommen!</string>
   <string name="donate">Spenden</string>
-  <string name="donate_dialog_text">Wenn Sie nicht auf Google Play zugreifen können, können Sie mittels PayPal oder Flattr spenden,
-    und dann von den Einstellungen aus einen Contrib-Schlüssel anfordern.</string>
+  <string name="donate_dialog_text">Wenn Sie nicht auf Google Play zugreifen können, können Sie mittels PayPal oder Flattr spenden, und dann von den Einstellungen aus einen Contrib-Schlüssel anfordern.</string>
   <string name="error_accessing_gplay">Fehler beim Zugriff auf Google Play</string>
   <string name="expense">Ausgabe</string>
-  <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten 
-    Sie eine Minute bevor Sie es erneut versuchen.</string>
+  <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten Sie eine Minute bevor Sie es erneut versuchen.</string>
   <string name="export_expenses">Ausgaben-Export</string>
   <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
   <string name="export_expenses_sdcard_success">Ausgaben in Datei %1$s exportiert</string>
@@ -107,8 +99,7 @@
   <string name="grisbi_import_button_categories_only">Kategorien</string>
   <string name="grisbi_import_button_categories_and_parties">Kateg. und Parteien</string>
   <string name="grisbi_import_parsing">Analyse von %1$s</string>
-  <string name="grisbi_import_categories_and_parties_success">%1$s Kategorien und %2$s Parteien
-    erfolgreich importiert</string>
+  <string name="grisbi_import_categories_and_parties_success">%1$s Kategorien und %2$s Parteien erfolgreich importiert</string>
   <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
   <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
   <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
@@ -122,8 +113,7 @@
   <string name="grouping_this_week">Diese Woche</string>
   <string name="grouping_last_week">Letzte Woche</string>
   <string name="help_button_rate">Bewerten</string>
-  <string name="help_contextuel_help">Über den Menü-Eintrag Hilfe, können Sie mehr über die vorhandenen
-    Funktionen erfahren.</string>
+  <string name="help_contextuel_help">Über den Menü-Eintrag Hilfe, können Sie mehr über die vorhandenen Funktionen erfahren.</string>
   <string name="help_heading_credits">Abspann</string>
   <string name="help_heading_license">Lizenz</string>
   <string name="help_heading_whats_new">Neue Funktionen</string>
@@ -132,12 +122,10 @@
     <item>Verwalten Sie diese direkt auf Ihrem Smartphone.</item>
     <item>Exportieren Sie diese in ein Desktop-Finanzprogrammm (Grisbi, Gnucash, Quicken oder MS Money).</item>
   </string-array>
-  <string name="help_leading">Danke fürs Ausprobieren von <i>&app_name;</i> für
-      Android.</string>
+  <string name="help_leading">Danke fürs Ausprobieren von <i>&app_name;</i> für Android.</string>
   <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
-  <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt.
-      Bitte verwenden Sie %1$s</string>
+  <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt. Bitte verwenden Sie %1$s</string>
   <string name="label">Bezeichnung</string>
   <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: Premium-Funktionen wurden freigeschaltet.</string>
   <string name="licence_validation_failure">Lizenz-Schlüssel konnte nicht validiert werden.</string>
@@ -183,8 +171,7 @@
   <string name="new_version">Neue Version</string>
   <string name="no_accounts">Keine Konten</string>
   <string name="no_amount_given">Sie haben keinen Betrag eingegeben.</string>
-  <string name="no_app_handling_email_available">Keine App für das Versenden von Email
-      gefunden.</string>
+  <string name="no_app_handling_email_available">Keine App für das Versenden von Email gefunden.</string>
   <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> von Google Play installieren?</string>
   <string name="no_categories">Noch keine Kategorien vorhanden.</string>
   <string name="no_category_assigned">Keine Kategorie zugeordnet</string>
@@ -198,19 +185,15 @@
   <string name="no_valid_payment_methods">Keine gültigen Zahlungsweisen für %1$s (%2$s)</string>
   <string name="not_deletable_mapped_transactions">Kann nicht löschen, weil zugeordnete Buchungen existieren.</string>
   <string name="not_deletable_mapped_templates">Kann nicht löschen, weil zugeordnete Vorlagen existieren.</string>
-  <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie
-      Unterkategorien hat.</string>
+  <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie Unterkategorien hat.</string>
   <string name="oi_pick_colors_info">OI Color Picker installieren für mehr Auswahl</string>
   <string name="opening_balance">Anfangssaldo</string>
   <string name="parse_error_file_not_found">Konnte Datei %1$s nicht finden</string>
-  <string name="parse_error_no_data_found">Keine importierbaren Daten in der Datei gefunden.
-  </string>
+  <string name="parse_error_no_data_found">Keine importierbaren Daten in der Datei gefunden.</string>
   <string name="parse_error_parse_exception">Konnte Datei nicht analysieren</string>
   <string name="parse_error_other_exception">Ein Fehler ist aufgetreten: %1$s</string>
-  <string name="parse_error_grisbi_version_not_supported">Grisbi Datei Version %1$s wird nicht
-      unterstützt</string>
-  <string name="password_disabled_reenable">Passwort-Schutz wurde aufgehoben.
-    Sie können diesen in den Einstellungen wieder aktivieren.</string>
+  <string name="parse_error_grisbi_version_not_supported">Grisbi Datei Version %1$s wird nicht unterstützt</string>
+  <string name="password_disabled_reenable">Passwort-Schutz wurde aufgehoben. Sie können diesen in den Einstellungen wieder aktivieren.</string>
   <string name="password_lost">Passwort vergessen</string>
   <string name="password_not_valid">Passwort ungültig. Versuchen Sie es erneut!</string>
   <string name="password_prompt">Geben Sie Ihr Passwort ein</string>
@@ -224,10 +207,8 @@
   <string name="pm_type_neutral">Neutral</string>
   <string name="pm_type_debit">Ausgaben</string>
   <string name="pm_type_credit">Einnahmen</string>
-  <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s)
-      verknüpft, die gelöscht wurde</string>
-  <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der
-      SD-Karte.</string>
+  <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s) verknüpft, die gelöscht wurde</string>
+  <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der SD-Karte.</string>
   <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge (Kategorien, Vorlagen, Konten)</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Häufigkeit der Benutzung</string>
   <string name="pref_categories_sort_by_usages_summaryOff">alphabetische Reihung</string>
@@ -239,20 +220,15 @@
   <string name="pref_category_title_more_information">Mehr Information</string>
   <string name="pref_contrib_install_title">Contrib App installieren</string>
   <string name="pref_contrib_install_summary">Durch die Installation von &app_name; Contrib, erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
-  <string name="pref_currency_decimal_separator_title">Dezimaltrennzeichen für die Eingabe von
-      Währungsbeträgen</string>
+  <string name="pref_currency_decimal_separator_title">Dezimaltrennzeichen für die Eingabe von Währungsbeträgen</string>
   <string name="pref_currency_decimal_separator_comma">Komma (,)</string>
   <string name="pref_currency_decimal_separator_point">Punkt (.)</string>
-  <string name="pref_currency_decimal_separator_input_minor_unit">Untereinheiten als ganze
-      Zahlen</string>
+  <string name="pref_currency_decimal_separator_input_minor_unit">Untereinheiten als ganze Zahlen</string>
   <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>
   <string name="pref_enter_licence_summary">Wenn Sie einen Contrib-Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
   <string name="pref_export_format_title">Datenformat</string>
   <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
-  <string name="pref_import_from_grisbi_summary">Kategorien (und Partner) aus den inkludierten
-      Grisbi-Standard-Definitionen oder aus Ihrer eigenen Datei importieren. Letztere müssen Sie
-      unter dem Namen &grisbi_file; in dem Ordner myexpenses im Wurzelverzeichnis der SD-Karte
-      speichern</string>
+  <string name="pref_import_from_grisbi_summary">Kategorien (und Partner) aus den inkludierten Grisbi-Standard-Definitionen oder aus Ihrer eigenen Datei importieren. Letztere müssen Sie unter dem Namen &grisbi_file; in dem Ordner myexpenses im Wurzelverzeichnis der SD-Karte speichern</string>
   <string name="pref_manage_accounts_title">Konten</string>
   <string name="pref_manage_accounts_summary">Hinzufügen, Editieren und Löschen von Konten.</string>
   <string name="pref_manage_categories_title">Kategorien</string>
@@ -276,18 +252,14 @@
   <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
   <string name="pref_request_licence_title">Contrib-Schlüssel beantragen</string>
-  <string name="pref_request_licence_summary">Wenn Sie anderweitig einen Beitrag geleistet haben,
-    beantragen Sie einen Contrib-Schlüssel per E-Mail.</string>
+  <string name="pref_request_licence_summary">Wenn Sie anderweitig einen Beitrag geleistet haben, beantragen Sie einen Contrib-Schlüssel per E-Mail.</string>
   <string name="pref_restore_title">Wiederherstellung</string>
   <string name="pref_restore_summary">Die Sicherheitskopie aus dem Ordner \"myexpenses\" der SD-Karte wiederherstellen.</string>
   <string name="pref_security_question_title">Sicherheitsfrage</string>
-  <string name="pref_security_question_summary">Erlaubt den Passwortschutz aufzuheben, sollten Sie das Passwort vergessen.
-    Benötigt &app_name; Contrib.</string>
+  <string name="pref_security_question_summary">Erlaubt den Passwortschutz aufzuheben, sollten Sie das Passwort vergessen. Benötigt &app_name; Contrib.</string>
   <string name="pref_send_feedback_title">Feedback senden</string>
   <string name="pref_share_target_title">Upload URL</string>
-  <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden
-       Apps wählen wollen (Email, Dropbox, Google Docs, &#8230;) oder eine URL in einer der 
-       unterstützten Schemen angeben</string>
+  <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden Apps wählen wollen (Email, Dropbox, Google Docs, &#8230;) oder eine URL in einer der unterstützten Schemen angeben</string>
   <string name="pref_ui_theme_title">Stil</string>
   <string name="pref_ui_theme_dark">dunkel</string>
   <string name="pref_ui_theme_light">hell</string>
@@ -303,8 +275,7 @@
   <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
   <string name="restore_no_backup_found">Keine Datei BACKUP im Ordner \"myexpenses\" der SD-Karte vorhanden.</string>
   <string name="restore_preferences_failure">Fehler bei der Wiederherstellung der Einstellungen</string>
-  <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup
-      wiederhergestellt.</string>
+  <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
   <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden</string>
   <string name="save_transaction_from_template_success">Neue Buchung aus Vorlage wurde erfolgreich gespeichert</string>
   <string name="save_transaction_and_new_success">Buchung wurde erfolgreich gespeichert</string>
@@ -330,20 +301,14 @@
   <string name="type">Typ</string>
   <string name="unsplit_amount">Ungesplitteter Betrag</string>
   <string name="unsplit_amount_greater_than_zero">Es wurde noch nicht der gesamte Betrag aufgesplittet.</string>
-  <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte
-      gesichert. &continue;</string>
-  <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte
-      gesichert. Das bestehende Backup wird gelöscht. &continue;</string>
+  <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. &continue;</string>
+  <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Das bestehende Backup wird gelöscht. &continue;</string>
   <string name="warning_delete_account">Dieses Konto wird mit all seinen Buchungen gelöscht. &continue;</string>
-  <string name="warning_password_no_contrib">Wenn Sie ein Passwort setzen, passen Sie auf dieses nicht zu vergessen. Sie können dieses nur zurücksetzen,
-    wenn Sie eine Sicherheitsfrage setzen (benötigt &app_name; Contrib).</string>
+  <string name="warning_password_no_contrib">Wenn Sie ein Passwort setzen, passen Sie auf dieses nicht zu vergessen. Sie können dieses nur zurücksetzen, wenn Sie eine Sicherheitsfrage setzen (benötigt &app_name; Contrib).</string>
   <string name="warning_password_contrib">Durch das Setzen einer Sicherheitsfrage können Sie den Passwortschutz aufheben, sollten Sie das Passwort vergessen.</string>
-  <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.
-  	Dies kann nicht rückgängig gemacht werden.</string>
-  <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Transaktionen allen Konten von der Datenbank gelöscht.
-    Dies kann nicht rückgängig gemacht werden.</string>
-  <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten
-    werden gelöscht. &continue;</string>
+  <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.	Dies kann nicht rückgängig gemacht werden.</string>
+  <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Transaktionen allen Konten von der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
+  <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten werden gelöscht. &continue;</string>
   <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
   <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert oder gelöscht werden.</string>
 </resources>      

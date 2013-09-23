@@ -107,7 +107,7 @@
   <string name="import_categories">استيراد تصنيفات</string>
   <string name="income">الدخل</string>
   <string name="invalid_number_format">لا يمكن استخدام الاعداد العشرية. فضلا استخدم%1$s</string>
-  <string name="label">وسم</string>
+  <string name="label">عبارة توضيحية</string>
   <string name="licence_validation_success">تم التحقق من مفتاح الترخيص بنجاح: الآن يمكنك استعمال كامل المميزات.</string>
   <string name="licence_validation_failure">تعذر التحقق من صحة مفتاح الترخيص.</string>
   <string name="menu_aggregates">المجموع</string>
@@ -184,10 +184,10 @@
   <!--payment methods-->
   <string name="pm_cheque">شيك</string>
   <string name="pm_creditcard">بطاقة ائتمانية</string>
-  <string name="pm_deposit">Deposit</string>
-  <string name="pm_directdebit">خصم مباشر</string>
-  <string name="pm_type_neutral">Neutral</string>
-  <string name="pm_type_debit">Debit</string>
+  <string name="pm_deposit">إيداع</string>
+  <string name="pm_directdebit">أمر مستديم</string>
+  <string name="pm_type_neutral">محايد</string>
+  <string name="pm_type_debit">مدين</string>
   <string name="pm_type_credit">Credit</string>
   <string name="peer_transaction_deleted">هذه العملية ترجع لقيد نظامي (الحساب %1$s)الذي تم حذفه</string>
   <string name="pref_backup_summary">حفظ نسخة احتياطية لقاعدة البيانات والتفضيلات فيالذاكرة.</string>
@@ -222,8 +222,8 @@
   <string name="pref_manage_templates_title">النماذج</string>
   <string name="pref_manage_templates_summary">تطبيق أو حذف النماذج.</string>
   <string name="pref_more_info_dialog_title">الرخصة &amp; الشكر</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_summary">تمت الترجمة بواسطة Ar.Alothaim</string>
+  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_password_empty">يجب ادخال كلمة مرور</string>
   <string name="pref_password_not_equal">كلمات المرور لا تتطابق</string>
   <string name="pref_perform_share_title">مشاركة الملف المصدّر</string>

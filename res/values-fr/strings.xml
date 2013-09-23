@@ -30,8 +30,7 @@
   <string name="amount">Montant</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">La sauvegarde sur carte SD a échoué.</string>
-  <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur la carte
-      SD.</string>
+  <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur la carte SD.</string>
   <string name="category">Catégorie</string>
   <string name="category_already_defined">La catégorie %1$s existe</string>
   <string name="color">Couleur</string>
@@ -49,27 +48,22 @@
   <string name="current_balance">Solde courant</string>
   <string name="date">Date</string>
   <string name="date_time">Date / Heure</string>
-  <string name="default_account_description">Ce compte a été créé automatiquement lors de
-      l\'installation</string>
+  <string name="default_account_description">Ce compte a été créé automatiquement lors de l\'installation</string>
   <string name="description">Description</string>
   <string name="dialog_confirm_restore_on_install">Un fichier de sauvegarde a été détecté. Voulez-vous le restaurer ?</string>
   <string name="dialog_contrib_usage_count">Il vous reste %1$d utilisation(s) gratuite(s)</string>
   <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite</string>
-  <string name="dialog_contrib_reminder">\"%1$s\" est une fonction Premium. %2$s.
-    Vous obtiendrez un accès illimité à celle-ci et toutes les autres en installant &lt;i>&app_name; Contrib&lt;/i>.</string>
+  <string name="dialog_contrib_reminder">\"%1$s\" est une fonction Premium. %2$s. Vous obtiendrez un accès illimité à celle-ci et toutes les autres en installant &lt;i>&app_name; Contrib&lt;/i>.</string>
   <string name="dialog_contrib_yes">Acheter</string>
   <string name="dialog_contrib_no">Pas tout de suite</string>
-  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> vous est offert sans publicité et open source.
-    S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux
-    fonctions Premium suivantes:&lt;br>%1$s&lt;br></string>
+  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> vous est offert sans publicité et open source. S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux fonctions Premium suivantes:&lt;br>%1$s&lt;br></string>
   <string name="dialog_export_delete">Effacer les opérations exportées</string>
   <string name="dialog_export_not_yet_exported">Exporter uniquement les opérations qui n\'ont pas encore été exportées</string>
   <string name="dialog_password_activate_protection">Activer la protection par mot de passe</string>
   <string name="dialog_password_change_password">Changer le mot de passe</string>
   <string name="dialog_password_new_password">Nouveau mot de passe</string>
   <string name="dialog_password_new_password_confirmation">Nouveau mot de passe (confirmation)</string>
-  <string name="dialog_remind_rate">S\'il vous plaît, publiez votre avis au sujet de &app_name; sur Google Play.
-     Vos commentaires me permettent d\'ajouter sans cesse des améliorations.</string>
+  <string name="dialog_remind_rate">S\'il vous plaît, publiez votre avis au sujet de &app_name; sur Google Play. Vos commentaires me permettent d\'ajouter sans cesse des améliorations.</string>
   <string name="dialog_remind_rate_yes">D\'accord</string>
   <string name="dialog_remind_later">Plus tard</string>
   <string name="dialog_remind_no">Non merci</string>
@@ -89,19 +83,14 @@
   <string name="dialog_title_warning_delete_account">Effacer le compte?</string>
   <string name="dialog_title_welcome">Bienvenue!</string>
   <string name="donate">Don</string>
-  <string name="donate_dialog_text">S\'il ne vous est pas possible d\'accéder à Google Play, vous pouvez faire un don au moyen de PayPal ou Flattr,
-    et ensuite demander une clé Contrib à partir des paramètres.</string>
+  <string name="donate_dialog_text">S\'il ne vous est pas possible d\'accéder à Google Play, vous pouvez faire un don au moyen de PayPal ou Flattr, et ensuite demander une clé Contrib à partir des paramètres.</string>
   <string name="error_accessing_gplay">Erreur lors de l\'accès à Google Play</string>
   <string name="expense">dépense</string>
-  <string name="export_expenses_outputfile_exists">Le fichier d\'export existe déjà. Attendez une
-      minute avant de réessayer.</string>
+  <string name="export_expenses_outputfile_exists">Le fichier d\'export existe déjà. Attendez une minute avant de réessayer.</string>
   <string name="export_expenses">Export des dépenses</string>
-  <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses vers la carte
-      SD</string>
-  <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers le fichier
-      %1$s</string>
-  <string name="external_storage_unavailable">Le stockage externe (carte SD) n\'est pas
-      disponible</string>
+  <string name="export_expenses_sdcard_failure">Erreur lors de l\'export des dépenses vers la carte SD</string>
+  <string name="export_expenses_sdcard_success">Les dépenses ont été exportées vers le fichier %1$s</string>
+  <string name="external_storage_unavailable">Le stockage externe (carte SD) n\'est pas disponible</string>
   <string name="feedback">Réactions</string>
   <string name="feedback_email_message">Envoyez vos réactions en français, anglais ou allemand, s.v.p.!</string>
   <string name="ftp_uri_malformed">Mauvaise syntaxe de l\'URI %1$s</string>
@@ -110,8 +99,7 @@
   <string name="grisbi_import_button_categories_only">Catégories</string>
   <string name="grisbi_import_button_categories_and_parties">Catégories et tiers</string>
   <string name="grisbi_import_parsing">Analyse de %1$s</string>
-  <string name="grisbi_import_categories_and_parties_success">%1$s catégories et %2$s tiers ont été
-      importés</string>
+  <string name="grisbi_import_categories_and_parties_success">%1$s catégories et %2$s tiers ont été importés</string>
   <string name="grisbi_import_categories_loading">Import des catégories à partir de %1$s</string>
   <string name="grisbi_import_categories_success">%1$s catégories ont été importées</string>
   <string name="grisbi_import_parties_loading">Import des tiers à partir de %1$s</string>
@@ -125,8 +113,7 @@
   <string name="grouping_this_week">Cette semaine</string>
   <string name="grouping_last_week">La semaine dernière</string>
   <string name="help_button_rate">Publier votre avis</string>
-  <string name="help_contextuel_help">Vous pouvez accéder à plus d\'informations
-    sur les fonctions disponibles dans l\'entrée Aide du menu.</string>
+  <string name="help_contextuel_help">Vous pouvez accéder à plus d\'informations sur les fonctions disponibles dans l\'entrée Aide du menu.</string>
   <string name="help_heading_credits">Générique</string>
   <string name="help_heading_license">Licence</string>
   <string name="help_heading_whats_new">Nouveautés</string>
@@ -184,8 +171,7 @@
   <string name="new_version">Nouvelle version</string>
   <string name="no_accounts">Aucun compte!</string>
   <string name="no_amount_given">Vous n\'avez pas saisi de montant.</string>
-  <string name="no_app_handling_email_available">Aucune application disponible pour envoyer un
-      e-mail.</string>
+  <string name="no_app_handling_email_available">Aucune application disponible pour envoyer un e-mail.</string>
   <string name="no_app_handling_ftp_available">Aucune application disponible pour ftp. Installer <i>Envoi par FTP</i> à partir de Google Play?</string>
   <string name="no_categories">Aucune catégorie.</string>
   <string name="no_category_assigned">Sans catégorie</string>
@@ -203,14 +189,11 @@
   <string name="oi_pick_colors_info">Installer OI Pick Color pour plus de choix</string>
   <string name="opening_balance">Solde initial</string>
   <string name="parse_error_file_not_found">Le fichier %1$s n\'existe pas</string>
-  <string name="parse_error_no_data_found">Le fichier ne contient pas de données importables.
-  </string>
+  <string name="parse_error_no_data_found">Le fichier ne contient pas de données importables.</string>
   <string name="parse_error_parse_exception">Le fichier ne peut pas être analysé</string>
   <string name="parse_error_other_exception">Une erreur s\'est produite: %1$s</string>
-  <string name="parse_error_grisbi_version_not_supported">La version du fichier Grisbi n\'est pas
-      supportée: %1$s</string>
-  <string name="password_disabled_reenable">La protection par mot de passe a été désactivée.
-    Vous pouvez la réactiver dans les paramètres.</string>
+  <string name="parse_error_grisbi_version_not_supported">La version du fichier Grisbi n\'est pas supportée: %1$s</string>
+  <string name="password_disabled_reenable">La protection par mot de passe a été désactivée. Vous pouvez la réactiver dans les paramètres.</string>
   <string name="password_lost">Mot de passe oublié</string>
   <string name="password_prompt">Saisissez le mot de passe</string>
   <string name="password_not_valid">Mot de passe invalide. Essayez de nouveau!</string>
@@ -225,10 +208,8 @@
   <string name="pm_type_neutral">Neutre</string>
   <string name="pm_type_debit">Débit</string>
   <string name="pm_type_credit">Crédit</string>
-  <string name="peer_transaction_deleted">Cette opération était liée à une autre (compte %1$s) qui
-      a été supprimée</string>
-  <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences
-      sur la carte SD.</string>
+  <string name="peer_transaction_deleted">Cette opération était liée à une autre (compte %1$s) qui a été supprimée</string>
+  <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences sur la carte SD.</string>
   <string name="pref_categories_sort_by_usages_title">Critères de tri (catégories, modèles, comptes)</string>
   <string name="pref_categories_sort_by_usages_summaryOn">fréquence d\'utilisation</string>
   <string name="pref_categories_sort_by_usages_summaryOff">par ordre alphabétique</string>
@@ -240,19 +221,14 @@
   <string name="pref_category_title_more_information">Plus d\'informations</string>
   <string name="pref_contrib_install_title">Installer App Contrib</string>
   <string name="pref_contrib_install_summary">En installant &app_name; Contrib, vous obtiendrez accès à toutes les fonctions Premium.</string>
-  <string name="pref_currency_decimal_separator_title">Séparateur décimal pour l\'entrée des
-      montants</string>
+  <string name="pref_currency_decimal_separator_title">Séparateur décimal pour l\'entrée des montants</string>
   <string name="pref_currency_decimal_separator_comma">Virgule (,)</string>
   <string name="pref_currency_decimal_separator_point">Point (.)</string>
-  <string name="pref_currency_decimal_separator_input_minor_unit">Sous-unités en nombres entiers
-  </string>
+  <string name="pref_currency_decimal_separator_input_minor_unit">Sous-unités en nombres entiers</string>
   <string name="pref_enter_licence_title">Saisir clé contrib</string>
   <string name="pref_enter_licence_summary">Si vous avez reçu une clé contrib, elle déverrouille l\'accès aux fonctions Premium.</string>
   <string name="pref_export_format_title">Format de données</string>
-  <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir des
-      définitions standards de Grisbi, incluses dans l\'application, ou votre propre fichier
-      sauvegardé sous le nom &grisbi_file; dans le répertoire myexpenses de la racine de votre carte
-      SD.</string>
+  <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir des définitions standards de Grisbi, incluses dans l\'application, ou votre propre fichier sauvegardé sous le nom &grisbi_file; dans le répertoire myexpenses de la racine de votre carte SD.</string>
   <string name="pref_import_from_grisbi_title">Import des données Grisbi</string>
   <string name="pref_manage_accounts_title">Comptes</string>
   <string name="pref_manage_accounts_summary">Ajouter, éditer et supprimer les comptes.</string>
@@ -282,9 +258,7 @@
   <string name="pref_restore_summary">Restaurez la sauvegarde à partir du dossier \"myexpenses\" de la carte SD.</string>
   <string name="pref_send_feedback_title">Envoyer vos réactions</string>
   <string name="pref_share_target_title">URL où sera téléchargé le fichier d\'export</string>
-  <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les 
-      différentes applications pour le transfert du fichier (Email, Dropbox, Google Docs, &#8230;), sinon
-      spécifiez une URL dans l\'une des formes supportées</string>
+  <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les différentes applications pour le transfert du fichier (Email, Dropbox, Google Docs, &#8230;), sinon spécifiez une URL dans l\'une des formes supportées</string>
   <string name="pref_security_question_title">Question de sécurité</string>
   <string name="pref_security_question_summary">Vous permet de débloquer l\'app, si vous avez oublié votre mot de passe. Nécessite &app_name; Contrib.</string>
   <string name="pref_ui_theme_title">Style</string>
@@ -299,12 +273,10 @@
   <string name="request_licence_mail_head">Envoyez-moi, s\'il-vous-plaît, une clé contrib pour l\'Android-Id %1$s.</string>
   <string name="request_licence_mail_description">S\'il vous plaît décrire votre contribution à &app_name; (par exemple: un don via Paypal, rapport de bug, des tests, de la traduction).</string>
   <string name="restore_db_failure">La restauration de la base de données a échoué.</string>
-  <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.
-  </string>
+  <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.</string>
   <string name="restore_no_backup_found">Il n\'y a pas de fichier BACKUP dans le dossier \"myexpenses\" de la carte SD.</string>
   <string name="restore_preferences_failure">La restauration des paramètres a échoué</string>
-  <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la
-      sauvegarde.</string>
+  <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
   <string name="save_transaction_error">L\'opération à partir du modèle n\'a pas été enregistrée</string>
   <string name="save_transaction_from_template_success">Nouvelle opération sauvegardée à partir du modèle</string>
   <string name="save_transaction_and_new_success">Opération sauvegardée</string>
@@ -329,21 +301,15 @@
   <string name="tutorial">Manuel</string>
   <string name="type">Type</string>
   <string name="unsplit_amount">Montant non attribué</string>
-  <string name="unsplit_amount_greater_than_zero">Une partie du montant n\'est pas
-attribuée.</string>
-  <string name="warning_backup">La base des données et les paramètres seront sauvegardés sur la
-      carte SD. &continue;</string>
-  <string name="warning_backup_exists">La base des données et les paramètres seront sauvegardés
-      sur la carte SD. La sauvegarde existante sera effacée. &continue;</string>
-  <string name="warning_delete_account">Ce compte sera effacé ainsi que toutes ses opérations.
-      &continue;</string>
-  <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier.
-    Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite &app_name; Contrib).</string>
+  <string name="unsplit_amount_greater_than_zero">Une partie du montant n\'est pas attribuée.</string>
+  <string name="warning_backup">La base des données et les paramètres seront sauvegardés sur la carte SD. &continue;</string>
+  <string name="warning_backup_exists">La base des données et les paramètres seront sauvegardés sur la carte SD. La sauvegarde existante sera effacée. &continue;</string>
+  <string name="warning_delete_account">Ce compte sera effacé ainsi que toutes ses opérations. &continue;</string>
+  <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier. Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite &app_name; Contrib).</string>
   <string name="warning_password_contrib">La définition d\'une question de sécurité vous permet de débloquer l\'app, si vous oubliez votre mot de passe.</string>
   <string name="warning_reset_account">Si vous continuez, toutes les opérations de ce compte seront supprimées de la base de données et ne pourront plus être restaurées.</string>
   <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes seront supprimées de la base de données et ne pourront pas être restaurées.</string>
-  <string name="warning_restore">La base de données et les paramètres seront restaurés à partir de la sauvegarde.
-    Les données actuelles seront supprimées. &continue;</string>
+  <string name="warning_restore">La base de données et les paramètres seront restaurés à partir de la sauvegarde. Les données actuelles seront supprimées. &continue;</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
   <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés ou supprimés que dans  celle-ci.</string>
 </resources>

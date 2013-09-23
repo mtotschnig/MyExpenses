@@ -52,8 +52,7 @@
   <string name="dialog_title_template_title">Trieu el títol</string>
   <string name="error_accessing_gplay">S\'ha produït un error en accedir al Google Play</string>
   <string name="expense">despesa</string>
-  <string name="export_expenses_outputfile_exists">El fitxer de sortida ja existeix. Si us plau, espereu
-       un minut i torneu-ho a intentar.</string>
+  <string name="export_expenses_outputfile_exists">El fitxer de sortida ja existeix. Si us plau, espereu un minut i torneu-ho a intentar.</string>
   <string name="export_expenses">Exporta les despeses</string>
   <string name="export_expenses_sdcard_failure">Hi ha hagut un error en exportar les despeses a la targeta SD.</string>
   <string name="export_expenses_sdcard_success">Les despesas s\'han exportat al fitxer %1$s</string>
@@ -64,8 +63,7 @@
   <string name="grisbi_import_default_source">Categories predeterminades en català</string>
   <string name="grisbi_import_button_categories_only">Categories</string>
   <string name="grisbi_import_button_categories_and_parties">Categories i tercers</string>
-  <string name="grisbi_import_categories_and_parties_success">%1$s categories i %2$s tercers s\'han 
-      importat correctament.</string>
+  <string name="grisbi_import_categories_and_parties_success">%1$s categories i %2$s tercers s\'han importat correctament.</string>
   <string name="grisbi_import_categories_loading">Les categories es carreguen des de %1$s</string>
   <string name="grisbi_import_categories_success">%1$s categories s\'han importat correctament.</string>
   <string name="grisbi_import_parsing">Análisi de %1$s</string>
@@ -82,8 +80,7 @@
   <string name="help_leading">Gràcies per provar <i>&app_name;</i> per a Android.</string>
   <string name="import_categories">Importa categories</string>
   <string name="income">ingrés</string>
-  <string name="invalid_number_format">El format dels decimals no es compatible amb les vostra configuració
-      regional. Si us plau, feu servir %1$s</string>
+  <string name="invalid_number_format">El format dels decimals no es compatible amb les vostra configuració regional. Si us plau, feu servir %1$s</string>
   <string name="label">Etiqueta</string>
   <string name="menu_backup">Còpia de seguretat</string>
   <string name="menu_create_account">Nou compte</string>
@@ -144,8 +141,7 @@
   <string name="pm_type_debit">Dèbit</string>
   <string name="pm_type_credit">Crèdit</string>
   <string name="peer_transaction_deleted">Aquest assentament estava connectat a un assentament de contrapartida (compte %1$s) que es va suprimir.</string>
-  <string name="pref_backup_summary">Fes una còpia de seguretat de la base de dades i de les
-      preferències a la targeta SD.</string>
+  <string name="pref_backup_summary">Fes una còpia de seguretat de la base de dades i de les preferències a la targeta SD.</string>
   <string name="pref_categories_sort_by_usages_title">Criteri d\'ordenació (categories,plantilles, comptes)</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Freqüència d\'utilizació</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Ordre alfabétic</string>
@@ -159,8 +155,7 @@
   <string name="pref_currency_decimal_separator_point">Punt (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Entra totes les quantitats en cèntims</string>
   <string name="pref_import_from_grisbi_title">Importa de Grisbi</string>
-  <string name="pref_import_from_grisbi_summary">Importa les categories (i els tercers) de les definicions estándar de Grisbi,
-      o del vostre propi fitxer &grisbi_file; que ha d\'estar a la carpeta myexpenses del directori arrel de la targeta SD.</string>
+  <string name="pref_import_from_grisbi_summary">Importa les categories (i els tercers) de les definicions estándar de Grisbi, o del vostre propi fitxer &grisbi_file; que ha d\'estar a la carpeta myexpenses del directori arrel de la targeta SD.</string>
   <string name="pref_manage_accounts_title">Comptes</string>
   <string name="pref_manage_accounts_summary">Afegeix, modifica i suprimeix comptes</string>
   <string name="pref_manage_categories_title">Categories</string>
@@ -179,17 +174,14 @@
   <string name="pref_perform_protection_title">Protecció per contrasenya</string>
   <string name="pref_qif_export_file_encoding_title">Codificació de caracters</string>
   <string name="pref_share_target_title">Puja el fitxer (a una URL)</string>
-  <string name="pref_share_target_summary">Podeu deixar-ho en blanc, si voleu triar entre les
-      aplicacions adeqüades (correu electrònic, Dropbox, Google Docs, &#8230;), o indicar un URL
-      en un dels esquemes permesos</string>
+  <string name="pref_share_target_summary">Podeu deixar-ho en blanc, si voleu triar entre les aplicacions adeqüades (correu electrònic, Dropbox, Google Docs, &#8230;), o indicar un URL en un dels esquemes permesos</string>
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_ui_theme_dark">fosc</string>
   <string name="pref_ui_theme_light">clar</string>
 <!--   <string name="pref_visit_website_title">Visit Website</string> -->
   <string name="pref_visit_website_summary">Registre de canvis i preguntes més freqüents</string>
   <string name="restore_db_success">S\'ha restaurat la base de dades des de la còpia de seguretat.</string>
-  <string name="restore_preferences_success">S\'han restaurat les preferències des de la
-      còpia de seguretat.</string>
+  <string name="restore_preferences_success">S\'han restaurat les preferències des de la còpia de seguretat.</string>
   <string name="save_transaction_error">No ha estat possible desar la nova transacció de la plantilla</string>
   <string name="save_transaction_from_template_success">La nova transacció s\'ha desat correctament des de la plantilla</string>
   <string name="save_transaction_and_new_success">La transacció s\'ha desat correctament</string>
@@ -210,11 +202,8 @@
   <string name="transfer">Transferència a un altre compte</string>
   <string name="tutorial">Guia de l\'usuari</string>
   <string name="type">Tipus</string>
-  <string name="warning_backup">La base de dades i les preferències es desaran a la targeta
-      SD. Voleu continuar?</string>
-  <string name="warning_backup_exists">La base de dades i les preferències es desaran a la targeta
-      SD. es suprimirà la còpia de seguretat actual. Voleu continuar?</string>
-  <string name="warning_delete_account">Es suprimirà aquest compte amb totes les seves transaccions. Voleu
-      continuar?</string>
+  <string name="warning_backup">La base de dades i les preferències es desaran a la targeta SD. Voleu continuar?</string>
+  <string name="warning_backup_exists">La base de dades i les preferències es desaran a la targeta SD. es suprimirà la còpia de seguretat actual. Voleu continuar?</string>
+  <string name="warning_delete_account">Es suprimirà aquest compte amb totes les seves transaccions. Voleu continuar?</string>
   <string name="warning_select_account">Si us plau, trieu un compte!</string>
 </resources>

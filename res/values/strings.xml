@@ -54,22 +54,18 @@
   <string name="dialog_contrib_usage_count">You have %1$d free usages left</string>
   <string name="dialog_contrib_no_usages_left">No free usages left</string>
   <!-- Placeholders: 1 is name of the feature; 2 is count of usages -->
-  <string name="dialog_contrib_reminder">\"%1$s\" is a premium feature. %2$s.
-    You will get unrestricted access to this and other features, by installing &lt;i>&app_name; Contrib&lt;/i>.</string>
+  <string name="dialog_contrib_reminder">\"%1$s\" is a premium feature. %2$s. You will get unrestricted access to this and other features, by installing &lt;i>&app_name; Contrib&lt;/i>.</string>
   <string name="dialog_contrib_yes">Buy now</string>
   <string name="dialog_contrib_no">Not yet</string>
   <!-- Placeholders: 1 is feature list -->
-  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> is offered ad free and open source.
-    Please contribute by installing the paid Contrib version. You gain unrestricted access to
-    the following premium features:&lt;br>%1$s&lt;br></string>
+  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> is offered ad free and open source. Please contribute by installing the paid Contrib version. You gain unrestricted access to the following premium features:&lt;br>%1$s&lt;br></string>
   <string name="dialog_export_delete">Delete exported transactions</string>
   <string name="dialog_export_not_yet_exported">Export only transactions not yet exported</string>
   <string name="dialog_password_activate_protection">Activate password protection</string>
   <string name="dialog_password_change_password">Change password</string>
   <string name="dialog_password_new_password">New password</string>
   <string name="dialog_password_new_password_confirmation">New password (confirmation)</string>
-  <string name="dialog_remind_rate">Please take a moment to rate and review &app_name; at Google Play.
-    Your comments allow me to continually add improvements and enhancements.</string>
+  <string name="dialog_remind_rate">Please take a moment to rate and review &app_name; at Google Play. Your comments allow me to continually add improvements and enhancements.</string>
   <string name="dialog_remind_rate_yes">Rate now</string>
   <string name="dialog_remind_later">Later</string>
   <string name="dialog_remind_no">No thanks</string>
@@ -89,12 +85,10 @@
   <string name="dialog_title_warning_delete_account">Delete account?</string>
   <string name="dialog_title_welcome">Welcome!</string>
   <string name="donate">Donate</string>
-  <string name="donate_dialog_text">If you are not able to access Google Play, you can donate via PayPal or Flattr,
-    and then request a contrib key from the settings screen.</string>
+  <string name="donate_dialog_text">If you are not able to access Google Play, you can donate via PayPal or Flattr, and then request a contrib key from the settings screen.</string>
   <string name="error_accessing_gplay">Error while accessing Google Play</string>
   <string name="expense">Expense</string>
-  <string name="export_expenses_outputfile_exists">Output file already exists. Please wait one
-      minute, and try again.</string>
+  <string name="export_expenses_outputfile_exists">Output file already exists. Please wait one minute, and try again.</string>
   <string name="export_expenses">Expenses export</string>
   <string name="export_expenses_sdcard_failure">Expenses export to sdcard failed</string>
   <string name="export_expenses_sdcard_success">Expenses exported to file %1$s</string>
@@ -106,8 +100,7 @@
   <string name="grisbi_import_default_source">English default categories</string>
   <string name="grisbi_import_button_categories_only">Categories</string>
   <string name="grisbi_import_button_categories_and_parties">Categories and parties</string>
-  <string name="grisbi_import_categories_and_parties_success">%1$s categories and %2$s parties
-      imported successfully</string>
+  <string name="grisbi_import_categories_and_parties_success">%1$s categories and %2$s parties imported successfully</string>
   <string name="grisbi_import_categories_loading">Loading categories from %1$s</string>
   <string name="grisbi_import_categories_success">%1$s categories imported successfully</string>
   <string name="grisbi_import_parsing">Parsing %1$s</string>
@@ -122,8 +115,7 @@
   <string name="grouping_this_week">This week</string>
   <string name="grouping_last_week">Last week</string>
   <string name="help_button_rate">Rate or review</string>
-  <string name="help_contextuel_help">Please find more information
-    about the available functionality through the help menu entry.</string>
+  <string name="help_contextuel_help">Please find more information about the available functionality through the help menu entry.</string>
   <string name="help_heading_credits">Credits</string>
   <string name="help_heading_license">License</string>
   <string name="help_heading_whats_new">What\'s new</string>
@@ -135,8 +127,7 @@
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
   <string name="import_categories">Import categories</string>
   <string name="income">Income</string>
-  <string name="invalid_number_format">Decimal format not regognized by your locale. Please use
-      %1$s</string>
+  <string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>
   <string name="label">Label</string>
   <string name="licence_validation_success">Licence key successfully validated: Premium features have been unlocked.</string>
   <string name="licence_validation_failure">Unable to validate licence key.</string>
@@ -196,18 +187,15 @@
   <string name="no_valid_payment_methods">No valid payment methods for %1$s (%2$s)</string>
   <string name="not_deletable_mapped_transactions">Cannot delete, because mapped transactions exist.</string>
   <string name="not_deletable_mapped_templates">Cannot delete, because mapped templates exist.</string>
-  <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has
-      sub-categories.</string>
+  <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
   <string name="oi_pick_colors_info">Install OI Color Picker for more choices</string>
   <string name="opening_balance">Opening balance</string>
   <string name="parse_error_file_not_found">Could not find file %1$s</string>
   <string name="parse_error_no_data_found">No importable data found in file.</string>
   <string name="parse_error_parse_exception">Could not parse file</string>
   <string name="parse_error_other_exception">An error occurred: %1$s</string>
-  <string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version:
-      %1$s</string>
-  <string name="password_disabled_reenable">The password protection has been disabled.
-    You can reenable it in the settings.</string>
+  <string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version: %1$s</string>
+  <string name="password_disabled_reenable">The password protection has been disabled. You can reenable it in the settings.</string>
   <string name="password_lost">Lost password</string>
   <string name="password_not_valid">Password invalid. Try again!</string>
   <string name="password_prompt">Enter your password</string>
@@ -222,10 +210,8 @@
   <string name="pm_type_neutral">Neutral</string>
   <string name="pm_type_debit">Debit</string>
   <string name="pm_type_credit">Credit</string>
-  <string name="peer_transaction_deleted">This transaction referred to a contra-entry (account %1$s)
-      that has been deleted</string>
-  <string name="pref_backup_summary">Create a backup of database and preferences on the
-      sdcard.</string>
+  <string name="peer_transaction_deleted">This transaction referred to a contra-entry (account %1$s) that has been deleted</string>
+  <string name="pref_backup_summary">Create a backup of database and preferences on the sdcard.</string>
   <string name="pref_categories_sort_by_usages_title">Sort order (categories, templates, accounts)</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Count of usages</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Alphanumeric</string>
@@ -237,8 +223,7 @@
   <string name="pref_category_title_security">Security</string>
   <string name="pref_contrib_install_title">Install Contrib app</string>
   <string name="pref_contrib_install_summary">By installing &app_name; Contrib, you gain access to premium features.</string>
-  <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency
-      amounts</string>
+  <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency amounts</string>
   <string name="pref_currency_decimal_separator_comma">Comma (,)</string>
   <string name="pref_currency_decimal_separator_point">Point (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Minor units as integers</string>
@@ -246,9 +231,7 @@
   <string name="pref_enter_licence_summary">If you received a Contrib key, gain access to premium features.</string>
   <string name="pref_export_format_title">Data format</string>
   <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
-  <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default
-      Grisbi definitions internal to the app, or your own file stored as &grisbi_file; in a folder 
-      \"myexpenses\"" in the root of your sdcard.</string>
+  <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default Grisbi definitions internal to the app, or your own file stored as &grisbi_file; in a folder \"myexpenses\"" in the root of your sdcard.</string>
   <string name="pref_manage_accounts_title">Accounts</string>
   <string name="pref_manage_accounts_summary">Add, edit, delete accounts.</string>
   <string name="pref_manage_categories_title">Categories</string>
@@ -276,9 +259,7 @@
   <string name="pref_restore_title">Restore</string>
   <string name="pref_restore_summary">Restore the backup from folder \"myexpenses\" on the sdcard.</string>
   <string name="pref_share_target_title">Upload URL</string>
-  <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate 
-      apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes
-  </string>
+  <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes</string>
   <string name="pref_security_question_title">Security question</string>
   <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password. Requires &app_name; Contrib.</string>
   <string name="pref_send_feedback_title">Send feedback</string>
@@ -324,17 +305,13 @@
   <string name="unsplit_amount">Unsplit amount</string>
   <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit.</string>
   <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
-  <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing
-      backup will be overwritten. &continue;</string>
-  <string name="warning_delete_account">This account will be deleted with all its transactions.
-      &continue;</string>
-  <string name="warning_password_no_contrib">If you set a password, take care not to forget it. You will not be able to recover it, unless you
-    set a security question (Requires &app_name; Contrib).</string>
+  <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. &continue;</string>
+  <string name="warning_delete_account">This account will be deleted with all its transactions. &continue;</string>
+  <string name="warning_password_no_contrib">If you set a password, take care not to forget it. You will not be able to recover it, unless you set a security question (Requires &app_name; Contrib).</string>
   <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
   <string name="warning_reset_account">If you proceed, all transactions of this account are deleted from the database and cannot be restored.</string>
   <string name="warning_reset_account_all">If you proceed, for all accounts, transactions will be deleted from the database and cannot be restored.</string>
-  <string name="warning_restore">Database and preferences will be restored from the backup. The current data
-    will be deleted. &continue;</string>
+  <string name="warning_restore">Database and preferences will be restored from the backup. The current data will be deleted. &continue;</string>
   <string name="warning_select_account">Please select an account!</string>
   <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited or deleted in the context of the split.</string>
-  </resources>
+</resources>

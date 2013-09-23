@@ -57,13 +57,10 @@
   	Bu işleve ve diğerlerine tüm erişimi &lt;i&gt;My Expenses Contrib&lt;/i&gt; uygulamasını kurarak elde edebilirsiniz.</string>
   <string name="dialog_contrib_yes">Satın al</string>
   <string name="dialog_contrib_no">Henüz değil</string>
-  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> ücretsiz ve özgür yazılım olarak sunulmuştur.
-    Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde
-    edersiniz:&lt;br>%1$s&lt;br></string>
+  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> ücretsiz ve özgür yazılım olarak sunulmuştur. Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:&lt;br>%1$s&lt;br></string>
   <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
   <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
-  <string name="dialog_remind_rate">Lütfen &app_name; Google Play\'de değerlendirip not vermek için birkaç dakika ayırınız.
-     Yorumlarınız devamlı bir şekilde yeni işlevler ve geliştirmeler eklememe yardımcı olmaktadır.</string>
+  <string name="dialog_remind_rate">Lütfen &app_name; Google Play\'de değerlendirip not vermek için birkaç dakika ayırınız.  Yorumlarınız devamlı bir şekilde yeni işlevler ve geliştirmeler eklememe yardımcı olmaktadır.</string>
   <string name="dialog_remind_rate_yes">Şimdi not ver</string>
   <string name="dialog_remind_later">Daha sonra</string>
   <string name="dialog_remind_no">Hayır teşekkürler</string>
@@ -87,8 +84,7 @@
   <string name="dialog_title_warning_delete_account">Hesap silinsin mi?</string>
   <string name="dialog_title_welcome">Hoşgeldiniz!</string>
   <string name="donate">Bağış</string>
-  <string name="donate_dialog_text">Eğer Google Play\'e erişemiyorsanız Paypal ya da Flattr ile bağışta bulunup
-    Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
+  <string name="donate_dialog_text">Eğer Google Play\'e erişemiyorsanız Paypal ya da Flattr ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
   <string name="error_accessing_gplay">Google Play erişimi sırasında hata oluştu</string>
   <string name="expense">gider</string>
   <string name="export_expenses_outputfile_exists">Çıktı dosyası zaten mevcut. Lütfen bir dakika bekleyip tekrar deneyin.</string>
@@ -103,8 +99,7 @@
   <string name="grisbi_import_default_source">Varsayılan Türkçe kategoriler</string>
   <string name="grisbi_import_button_categories_only">Kategoriler</string>
   <string name="grisbi_import_button_categories_and_parties">Kategoriler ve bölümler</string>
-  <string name="grisbi_import_categories_and_parties_success">%1$s kategori ve %2$s bölüm
-      başarıyla içe aktarıldı</string>
+  <string name="grisbi_import_categories_and_parties_success">%1$s kategori ve %2$s bölüm başarıyla içe aktarıldı</string>
   <string name="grisbi_import_categories_loading">%1$s konumundan kategoriler yükleniyor</string>
   <string name="grisbi_import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
   <string name="grisbi_import_parsing">%1$s ayrıştırılıyor</string>
@@ -198,10 +193,8 @@
   <string name="parse_error_no_data_found">Dosyada içe aktarılabilecek hiçbir veri bulunamadı.</string>
   <string name="parse_error_parse_exception">Dosya ayrıştırılamadı</string>
   <string name="parse_error_other_exception">Bir hata meydana geldi: %1$s</string>
-  <string name="parse_error_grisbi_version_not_supported">Desteklenmeyen Grisbi dosya sürümü:
-      %1$s</string>
-  <string name="password_disabled_reenable">Parola ile koruma devre dışı bırakıldı.
-    Ayarlarda tekrar etkinleştirebilirsiniz.</string>
+  <string name="parse_error_grisbi_version_not_supported">Desteklenmeyen Grisbi dosya sürümü: %1$s</string>
+  <string name="password_disabled_reenable">Parola ile koruma devre dışı bırakıldı. Ayarlarda tekrar etkinleştirebilirsiniz.</string>
   <string name="password_lost">Unutulmuş parola</string>
   <string name="password_not_valid">Geçersiz parola. Tekrar deneyin!</string>
   <string name="password_prompt">Parolanızı giriniz</string>
@@ -264,8 +257,7 @@
   <string name="pref_restore_title">Geri al</string>
   <string name="pref_restore_summary">Yedeklemeyi SD kartındaki \"myexpenses\" klasöründen yükle.</string>
   <string name="pref_security_question_title">Güvenlik sorusu</string>
-  <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir.
-    Harcamalarımın katkı sürümünü gerektirir.</string>
+  <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir. Harcamalarımın katkı sürümünü gerektirir.</string>
   <string name="pref_send_feedback_title">Geri bildirim gönder</string>
   <string name="pref_share_target_title">Yükleme adresi</string>
   <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, &#8230;) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
@@ -313,8 +305,7 @@
   <string name="warning_backup">Veritabanı ve tercihler SD kartına yazılacaktır. &continue;</string>
   <string name="warning_backup_exists">Veritabanı ve tercihler SD kartına yazılacaktır. Mevcut yedekleme silinecektir. &continue;</string>
   <string name="warning_delete_account">Bu hesap tüm muameleleriyle silinecektir. &continue;</string>
-  <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu 
-    bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın katkı sürümünü kurmaktır.</string>
+  <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın katkı sürümünü kurmaktır.</string>
   <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
   <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
