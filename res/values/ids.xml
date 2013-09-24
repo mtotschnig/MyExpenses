@@ -55,4 +55,5 @@
     <item type="id" name="CLONE_TRANSACTION_COMMAND"/>
     <item type="id" name="AGGREGATES_COMMAND"/>
     <item type="id" name="GROUPING_COMMAND"/>
+    <item type="id" name="DISTRIBUTION_COMMAND"/>
 </resources>

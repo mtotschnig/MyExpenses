@@ -150,6 +150,7 @@
   <string name="menu_create_transaction_from_template_and_edit">New and edit</string>
   <string name="menu_create_transaction_from_template_and_save">New and save</string>
   <string name="menu_delete">Delete</string>
+  <string name="menu_distribution">Distribution</string>
   <string name="menu_edit">Edit</string>
   <string name="menu_edit_account">Edit Account</string>
   <string name="menu_edit_method">Edit Payment Method</string>

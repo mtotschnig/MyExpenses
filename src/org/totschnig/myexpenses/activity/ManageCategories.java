@@ -170,7 +170,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
          return false;
       Intent intent=new Intent();
       long sub_cat = id;
-      String label =   ((TextView) v).getText().toString();
+      String label =  ((TextView) v.findViewById(R.id.label)).getText().toString();
       intent.putExtra("cat_id",sub_cat);
       intent.putExtra("label", label);
       setResult(RESULT_OK,intent);
@@ -183,7 +183,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       long cat_id = id;
       if (mManageOnly || Category.countSub(cat_id) > 0)
         return false;
-      String label =   ((TextView) v).getText().toString();
+      String label =   ((TextView) v.findViewById(R.id.label)).getText().toString();
       Intent intent=new Intent();
       intent.putExtra("cat_id",cat_id);
       intent.putExtra("label", label);

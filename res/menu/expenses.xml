@@ -62,4 +62,8 @@
     android:icon="@android:drawable/ic_menu_preferences"
     android:title="@string/menu_settings">
   </item>
+  <item
+    android:id="@id/DISTRIBUTION_COMMAND"
+    android:title="@string/menu_distribution">
+  </item>
 </menu>

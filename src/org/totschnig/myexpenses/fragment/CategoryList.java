@@ -43,6 +43,7 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
   private MyExpandableListAdapter mAdapter;
   int mGroupIdColumnIndex;
   private LoaderManager mManager;
+  long accountId;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -51,18 +52,25 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    Bundle extras = getActivity().getIntent().getExtras();
+    accountId = extras != null ? extras.getLong(KEY_ACCOUNTID) : 0L;
     View v = inflater.inflate(R.layout.categories_list, null, false);
     ExpandableListView lv = (ExpandableListView) v.findViewById(R.id.list);
     mManager = getLoaderManager();
     mManager.initLoader(-1, null, this);
+    String[] from;
+    int[] to;
+    if (accountId != 0) {
+      from = new String[] {"label","sum"};
+      to = new int[] {R.id.label,R.id.amount};
+    } else {
+      from = new String[] {"label"};
+      to = new int[] {R.id.label};
+    }
     mAdapter = new MyExpandableListAdapter(getActivity(),
         null,
-        android.R.layout.simple_expandable_list_item_1,
-        android.R.layout.simple_expandable_list_item_1,
-        new String[]{"label"},
-        new int[] {android.R.id.text1},
-        new String[] {"label"},
-        new int[] {android.R.id.text1});
+        R.layout.category_row,R.layout.category_row,
+        from,to,from,to);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     //requires using activity (SelectCategory) to implement OnChildClickListener
@@ -115,17 +123,31 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     long parentId;
-    String selection;
-    String[] selectionArgs;
+    String selection = "",strAccountId="";
+    String[] selectionArgs,projection = null;
+    if (accountId != 0) {
+      strAccountId = String.valueOf(accountId);
+      String catFilter = "FROM transactions WHERE account_id = ?";
+      //we need to include transactions mapped to children for main categories
+      if (bundle == null)
+        catFilter += " AND cat_id IN (select _id FROM categories subtree where parent_id = categories._id OR _id = categories._id)";
+      else
+        catFilter += " AND cat_id  = categories._id";
+      selection = " AND exists (select 1 " + catFilter +")";
+      projection = new String[] {KEY_ROWID, KEY_LABEL, KEY_PARENTID,
+          "(SELECT sum(amount) " + catFilter + ") AS sum"};
+    }
     if (bundle == null) {
-      selection = "parent_id is null";
-      selectionArgs = null;
+      selection = "parent_id is null" + selection;
+      selectionArgs = accountId != 0 ? new String[]{strAccountId,strAccountId} : null;
     } else {
       parentId = bundle.getLong("parent_id");
-      selection = "parent_id = ?";
-      selectionArgs = new String[]{String.valueOf(parentId)};
+      selection = "parent_id = ?"  + selection;
+      selectionArgs = accountId != 0 ?
+          new String[]{strAccountId,String.valueOf(parentId),strAccountId} :
+          new String[]{String.valueOf(parentId)};
     }
-    return new CursorLoader(getActivity(),TransactionProvider.CATEGORIES_URI, null,
+    return new CursorLoader(getActivity(),TransactionProvider.CATEGORIES_URI, projection,
         selection,selectionArgs, null);
   }
   @Override

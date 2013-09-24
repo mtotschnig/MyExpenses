@@ -384,6 +384,11 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     switch (command) {
+    case R.id.DISTRIBUTION_COMMAND:
+      i = new Intent(this, ManageCategories.class);
+      i.putExtra(KEY_ACCOUNTID, mAccountId);
+      startActivity(i);
+      break;
     case R.id.GROUPING_COMMAND:
       SelectGroupingDialogFragment.newInstance(
           mAccountId,Account.getInstanceFromDb(mAccountId).grouping.ordinal())
