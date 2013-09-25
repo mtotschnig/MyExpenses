@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -159,7 +158,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       selection = " AND exists (select 1 " + catFilter +")";
       projection = new String[] {KEY_ROWID, KEY_LABEL, KEY_PARENTID,
           "(SELECT sum(amount) " + catFilter + ") AS sum"};
-      sortOrder="sum";
+      sortOrder="abs(sum) DESC";
     }
     if (bundle == null) {
       selection = "parent_id is null" + selection;
