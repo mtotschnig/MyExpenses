@@ -34,7 +34,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class TransactionProvider extends ContentProvider {
 
   protected static TransactionDatabase mOpenHelper;
-  private static final boolean debug = false;
+  private static final boolean debug = true;
   public static final String AUTHORITY = "org.totschnig.myexpenses";
   public static final Uri ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts");

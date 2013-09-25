@@ -19,11 +19,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
+import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
@@ -40,9 +40,11 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.emilsjolander.components.stickylistheaders.StickyListHeadersAdapter;
 import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView;
+import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -58,7 +60,6 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -73,7 +74,7 @@ import android.widget.Toast;
 
 //TODO: consider moving to ListFragment
 public class TransactionList extends SherlockFragment implements
-    LoaderManager.LoaderCallbacks<Cursor> {
+    LoaderManager.LoaderCallbacks<Cursor>,OnHeaderClickListener {
   private static final int TRANSACTION_CURSOR = 0;
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
@@ -216,7 +217,7 @@ public class TransactionList extends SherlockFragment implements
     updateColor();
     mListView = (StickyListHeadersListView) v.findViewById(R.id.list);
     setAdapter();
-    //mListView.setOnHeaderClickListener(this);
+    mListView.setOnHeaderClickListener(this);
     mManager.initLoader(GROUPING_CURSOR, null, this);
     mManager.initLoader(TRANSACTION_CURSOR, null, this);
     mManager.initLoader(SUM_CURSOR, null, this);
@@ -517,13 +518,13 @@ public class TransactionList extends SherlockFragment implements
       int day = c.getInt(columnIndexDay);
       switch(mAccount.grouping) {
       case DAY:
-        return (year-1900)*200+day;
+        return year*1000+day;
       case WEEK:
-        return (year-1900)*200+week;
+        return year*1000+week;
       case MONTH:
-        return (year-1900)*200+month;
+        return year*1000+month;
       case YEAR:
-        return (year-1900);
+        return year;
       default:
         return 0;
       }
@@ -613,10 +614,30 @@ public class TransactionList extends SherlockFragment implements
     TextView sumExpense;
     TextView sumTransfer;
   }
-//  @Override
-//  public void onHeaderClick(StickyListHeadersListView l, View header,
-//      int itemPosition, long headerId, boolean currentlySticky) {
-//    View sumLine = header.findViewById(R.id.sum_line);
-//    sumLine.setVisibility(sumLine.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-//  }
+  @Override
+  public void onHeaderClick(StickyListHeadersListView l, View header,
+      int itemPosition, long headerId, boolean currentlySticky) {
+    int year = (int) (headerId/1000);
+    int secondGroup = (int) (headerId % 1000);
+    String groupingClause = YEAR + " = " + year;
+    switch(mAccount.grouping) {
+    case NONE:
+      return;
+    case DAY:
+      groupingClause += " AND " + DAY + " = " + secondGroup;
+      break;
+    case WEEK:
+      groupingClause += " AND " + WEEK + " = " + secondGroup;
+      break;
+    case MONTH:
+      groupingClause += " AND " + MONTH + " = " + secondGroup;
+      break;
+    case YEAR:
+      break;
+    }
+    Intent i = new Intent(getActivity(), ManageCategories.class);
+    i.putExtra(KEY_ACCOUNTID, mAccountId);
+    i.putExtra("groupingClause", groupingClause);
+    startActivity(i);
+  }
 }

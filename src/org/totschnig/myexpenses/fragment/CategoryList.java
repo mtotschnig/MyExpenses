@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.fragment;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -44,6 +43,7 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
   int mGroupIdColumnIndex;
   private LoaderManager mManager;
   long accountId;
+  String groupingClause;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,11 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Bundle extras = getActivity().getIntent().getExtras();
-    accountId = extras != null ? extras.getLong(KEY_ACCOUNTID) : 0L;
+    if (extras != null) {
+      accountId = extras.getLong(KEY_ACCOUNTID);
+      groupingClause = extras.getString("groupingClause");
+    } else 
+      accountId = 0L;
     View v = inflater.inflate(R.layout.categories_list, null, false);
     ExpandableListView lv = (ExpandableListView) v.findViewById(R.id.list);
     mManager = getLoaderManager();
@@ -128,6 +132,8 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
     if (accountId != 0) {
       strAccountId = String.valueOf(accountId);
       String catFilter = "FROM transactions WHERE account_id = ?";
+      if (groupingClause != null)
+        catFilter += " AND " +groupingClause;
       //we need to include transactions mapped to children for main categories
       if (bundle == null)
         catFilter += " AND cat_id IN (select _id FROM categories subtree where parent_id = categories._id OR _id = categories._id)";
