@@ -8,30 +8,16 @@ title:
   tr: Harcamalarım
   vi: Chi Tiêu Của Tôi
 langs:
-  -
-    - en
-    - English
-  -
-    - fr
-    - Français
-  -
-    - de
-    - Deutsch
-  -
-    - it
-    - Italiano
-  -
-    - es
-    - Español
+  en: English
+  fr: Français
+  de: Deutsch
+  it: Italiano
+  es: Español
   # -
     # - ca
     # - Català
-  -
-    - tr
-    - Türkçe
-  -
-    - vi
-    - Tiếng Việt
+  tr: Türkçe
+  vi: Tiếng Việt
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar, Română, 中文"
 versions:
   -

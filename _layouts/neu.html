@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
-<html lang="en">
+<html lang="{{pagelang}}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -150,14 +150,14 @@
           </li>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-              <img src="/visuals/flags/{{page.lang}}_25.png"/> <span class="caret"></span>
+              <img alt="{{site.langs[pagelang]}}" title="{{site.langs[pagelang]}}" src="/visuals/flags/{{pagelang}}_25.png"/> <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
               {% for lang in site.langs %}
               {% assign code = lang[0] %}
               {% assign label = lang[1] %}
               {% if code != page.lang %}
-              <li><a href="/{{code}}"><img alt="{{label}}" title="{{label}}" src="/visuals/flags/{{code}}_25.png"/></a></li>
+              <li><a href="/{{code}}">{{label}}</a></li>
               {% endif %}
               {% endfor %}
             </ul>
