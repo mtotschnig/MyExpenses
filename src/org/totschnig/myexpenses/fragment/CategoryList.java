@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.fragment;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.Context;
@@ -33,18 +34,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
+import org.totschnig.myexpenses.util.Utils;
 
 
-public class CategoryList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+public class CategoryList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private MyExpandableListAdapter mAdapter;
   int mGroupIdColumnIndex;
   private LoaderManager mManager;
   long accountId;
   String groupingClause;
-  
   @Override
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -52,6 +55,7 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    setColors();
     Bundle extras = getActivity().getIntent().getExtras();
     if (extras != null) {
       accountId = extras.getLong(KEY_ACCOUNTID);
@@ -83,6 +87,7 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
     registerForContextMenu(lv);
     return v;
   }
+
   /**
    * Mapping the categories table into the ExpandableList
    * @author Michael Totschnig
@@ -122,6 +127,18 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
         mManager.initLoader(groupPos, bundle, CategoryList.this);
       }
       return null;
+    }
+    @Override
+    public void setViewText(TextView v, String text) {
+      switch (v.getId()) {
+      case R.id.amount:
+        if (Long.valueOf(text) > 0)
+          v.setTextColor(colorIncome);
+        else
+          v.setTextColor(colorExpense);
+        text = Utils.convAmount(text,Account.getInstanceFromDb(accountId).currency);
+      }
+      super.setViewText(v, text);
     }
   }
   @Override

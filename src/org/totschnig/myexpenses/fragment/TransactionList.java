@@ -36,7 +36,6 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.emilsjolander.components.stickylistheaders.StickyListHeadersAdapter;
 import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView;
@@ -73,15 +72,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 //TODO: consider moving to ListFragment
-public class TransactionList extends SherlockFragment implements
+public class TransactionList extends BudgetListFragment implements
     LoaderManager.LoaderCallbacks<Cursor>,OnHeaderClickListener {
   private static final int TRANSACTION_CURSOR = 0;
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
   long mAccountId;
   SimpleCursorAdapter mAdapter;
-  private int colorExpense;
-  private int colorIncome;
   private AccountObserver aObserver;
   private Account mAccount;
   private TextView balanceTv;
@@ -199,12 +196,7 @@ public class TransactionList extends SherlockFragment implements
     final MyExpenses ctx = (MyExpenses) getSherlockActivity();
     mManager = getLoaderManager();
     setGrouping();
-    Resources.Theme theme = ctx.getTheme();
-    TypedValue color = new TypedValue();
-    theme.resolveAttribute(R.attr.colorExpense, color, true);
-    colorExpense = color.data;
-    theme.resolveAttribute(R.attr.colorIncome,color, true);
-    colorIncome = color.data;
+    setColors();
     
     View v = inflater.inflate(R.layout.expenses_list, null, false);
     //work around the problem that the view pager does not display its background correclty with Sherlock
