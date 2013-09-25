@@ -127,7 +127,7 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     long parentId;
-    String selection = "",strAccountId="";
+    String selection = "",strAccountId="",sortOrder=null;
     String[] selectionArgs,projection = null;
     if (accountId != 0) {
       strAccountId = String.valueOf(accountId);
@@ -142,6 +142,7 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
       selection = " AND exists (select 1 " + catFilter +")";
       projection = new String[] {KEY_ROWID, KEY_LABEL, KEY_PARENTID,
           "(SELECT sum(amount) " + catFilter + ") AS sum"};
+      sortOrder="sum";
     }
     if (bundle == null) {
       selection = "parent_id is null" + selection;
@@ -154,7 +155,7 @@ public class CategoryList extends Fragment implements LoaderManager.LoaderCallba
           new String[]{String.valueOf(parentId)};
     }
     return new CursorLoader(getActivity(),TransactionProvider.CATEGORIES_URI, projection,
-        selection,selectionArgs, null);
+        selection,selectionArgs, sortOrder);
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
