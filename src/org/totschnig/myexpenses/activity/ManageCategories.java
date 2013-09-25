@@ -130,7 +130,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           cat_id = mGroupCursor.getLong(mGroupIdColumnIndex);
         }
         */
-        String label =   ((TextView) info.targetView).getText().toString();
+        String label =   ((TextView) info.targetView.findViewById(R.id.label)).getText().toString();
 
         switch(item.getItemId()) {
           case SELECT_MAIN_CAT:
