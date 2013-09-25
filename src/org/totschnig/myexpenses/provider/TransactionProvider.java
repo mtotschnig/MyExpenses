@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.provider;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.*;
+import org.totschnig.myexpenses.model.Account.Grouping;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -123,24 +124,35 @@ public class TransactionProvider extends ContentProvider {
       break;
     case TRANSACTIONS_GROUPS:
       qb.setTables(VIEW_COMMITTED);
-      String group = uri.getPathSegments().get(2);
+      Grouping group;
+      try {
+        group = Grouping.valueOf(uri.getPathSegments().get(2));
+      } catch (IllegalArgumentException e) {
+        group = Grouping.NONE;
+      }
       String yearColumn = YEAR + " AS year";
       String secondColumnAlias = " AS second";
-      //we use a dummy column for year in order to have the same positions 
-      if (group.equals("YEAR")) {
-        projection = new String[] {yearColumn,"1"+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
-        groupBy = "year";
-      } else if (group.equals("MONTH")) {
-        projection = new String[] {yearColumn,MONTH+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
-        groupBy = "year,second";
-      } else if (group.equals("WEEK")) {
-        projection = new String[] {yearColumn,WEEK+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
-        groupBy = "year,second";
-      } else if (group.equals("DAY")) {
+      switch(group) {
+      case NONE:
+        projection = new String[] {"1 as dummy"};
+        break;
+      case DAY:
         projection = new String[] {yearColumn,DAY+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
         groupBy = "year,second";
-      } else if (group.equals("NONE"))
-        projection = new String[] {"1 as dummy"};
+        break;
+      case WEEK:
+        projection = new String[] {yearColumn,WEEK+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        groupBy = "year,second";
+        break;
+      case MONTH:
+        projection = new String[] {yearColumn,MONTH+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        groupBy = "year,second";
+        break;
+      case YEAR:
+        projection = new String[] {yearColumn,"1"+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        groupBy = "year";
+        break;
+      }
       break;
     case CATEGORIES:
       qb.setTables(TABLE_CATEGORIES);
