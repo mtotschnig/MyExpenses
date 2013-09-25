@@ -66,11 +66,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
      * there are mapped transactions or subcategories
      */
     private static final int DELETE_CAT = Menu.FIRST+4;
-
-    boolean mManageOnly;
-    /**
-     * how should categories be sorted, configurable through setting
-     */
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,13 +74,23 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         setContentView(R.layout.select_category);
         Intent intent = getIntent();
         String action = intent.getAction();
-        mManageOnly = action != null && action.equals("myexpenses.intent.manage.categories");
-        setTitle(mManageOnly ? R.string.pref_manage_categories_title : R.string.select_category);
+        if (action != null && action.equals("myexpenses.intent.manage.categories")) {
+          helpVariant = "manage";
+          setTitle(R.string.pref_manage_categories_title);
+        } else if (intent.getExtras() != null) {
+          //TODO set Title (based on which group we display)
+          helpVariant = "distribution";
+        } else {
+          helpVariant = "select";
+          setTitle(R.string.select_category);
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-      MenuInflater inflater = getSupportMenuInflater();
-      inflater.inflate(R.menu.categories, menu);
+      if (!helpVariant.equals("distribution")) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.categories, menu);
+      }
       super.onCreateOptionsMenu(menu);
       return true;
     }
@@ -107,7 +112,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
           // Menu entries relevant only for the group
           if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-            if (!mManageOnly)
+            if (helpVariant.equals("select"))
               menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
             menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
           }
@@ -166,7 +171,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     @Override
     public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
       //Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
-      if (mManageOnly)
+      if (!helpVariant.equals("select"))
          return false;
       Intent intent=new Intent();
       long sub_cat = id;
@@ -181,7 +186,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     public boolean onGroupClick(ExpandableListView parent, View v,
         int groupPosition, long id) {
       long cat_id = id;
-      if (mManageOnly || Category.countSub(cat_id) > 0)
+      if (!helpVariant.equals("select") || Category.countSub(cat_id) > 0)
         return false;
       String label =   ((TextView) v.findViewById(R.id.label)).getText().toString();
       Intent intent=new Intent();
