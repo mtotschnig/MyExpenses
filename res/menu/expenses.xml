@@ -64,6 +64,7 @@
   </item>
   <item
     android:id="@id/DISTRIBUTION_COMMAND"
+    android:icon="@android:drawable/ic_menu_today"
     android:title="@string/menu_distribution">
   </item>
 </menu>
