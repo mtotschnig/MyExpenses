@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -39,14 +40,14 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
-
-
 public class CategoryList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private MyExpandableListAdapter mAdapter;
   int mGroupIdColumnIndex;
   private LoaderManager mManager;
-  long accountId;
-  String groupingClause;
+  long mAccountId;
+  int groupingYear;
+  int groupingSecond;
+  private Account mAccount;
   @Override
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -56,18 +57,25 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     setColors();
     Bundle extras = getActivity().getIntent().getExtras();
-    if (extras != null) {
-      accountId = extras.getLong(KEY_ACCOUNTID);
-      groupingClause = extras.getString("groupingClause");
-    } else 
-      accountId = 0L;
     View v = inflater.inflate(R.layout.categories_list, null, false);
     ExpandableListView lv = (ExpandableListView) v.findViewById(R.id.list);
+    View emptyView = v.findViewById(R.id.empty);
+    if (extras != null) {
+      mAccountId = extras.getLong(KEY_ACCOUNTID);
+      mAccount = Account.getInstanceFromDb(mAccountId);
+      groupingYear = extras.getInt("groupingYear");
+      groupingSecond = extras.getInt("groupingSecond");
+      emptyView.setVisibility(View.GONE);
+      //getActivity().setTitle();
+    } else {
+      mAccountId = 0L;
+      lv.setEmptyView(emptyView);
+    }
     mManager = getLoaderManager();
     mManager.initLoader(-1, null, this);
     String[] from;
     int[] to;
-    if (accountId != 0) {
+    if (mAccountId != 0) {
       from = new String[] {"label","sum"};
       to = new int[] {R.id.label,R.id.amount};
     } else {
@@ -79,7 +87,6 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
         R.layout.category_row,R.layout.category_row,
         from,to,from,to);
     lv.setAdapter(mAdapter);
-    lv.setEmptyView(v.findViewById(R.id.empty));
     //requires using activity (SelectCategory) to implement OnChildClickListener
     lv.setOnChildClickListener((OnChildClickListener) getActivity());
     lv.setOnGroupClickListener((OnGroupClickListener) getActivity());
@@ -135,7 +142,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
           v.setTextColor(colorIncome);
         else
           v.setTextColor(colorExpense);
-        text = Utils.convAmount(text,Account.getInstanceFromDb(accountId).currency);
+        text = Utils.convAmount(text,mAccount.currency);
       }
       super.setViewText(v, text);
     }
@@ -145,11 +152,24 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     long parentId;
     String selection = "",strAccountId="",sortOrder=null;
     String[] selectionArgs,projection = null;
-    if (accountId != 0) {
-      strAccountId = String.valueOf(accountId);
+    if (mAccountId != 0) {
+      strAccountId = String.valueOf(mAccountId);
       String catFilter = "FROM transactions WHERE account_id = ?";
-      if (groupingClause != null)
+      if (groupingYear != 0) {
+        String groupingClause = YEAR + " = " + groupingYear;
+        switch(mAccount.grouping) {
+        case DAY:
+          groupingClause += " AND " + DAY + " = " + groupingSecond;
+          break;
+        case WEEK:
+          groupingClause += " AND " + WEEK + " = " + groupingSecond;
+          break;
+        case MONTH:
+          groupingClause += " AND " + MONTH + " = " + groupingSecond;
+          break;
+        }
         catFilter += " AND " +groupingClause;
+      }
       //we need to include transactions mapped to children for main categories
       if (bundle == null)
         catFilter += " AND cat_id IN (select _id FROM categories subtree where parent_id = categories._id OR _id = categories._id)";
@@ -157,16 +177,17 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
         catFilter += " AND cat_id  = categories._id";
       selection = " AND exists (select 1 " + catFilter +")";
       projection = new String[] {KEY_ROWID, KEY_LABEL, KEY_PARENTID,
-          "(SELECT sum(amount) " + catFilter + ") AS sum"};
+          "(SELECT sum(amount) " + catFilter + ") AS sum",
+          THIS_YEAR + " AS this_year",THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day"};
       sortOrder="abs(sum) DESC";
     }
     if (bundle == null) {
       selection = "parent_id is null" + selection;
-      selectionArgs = accountId != 0 ? new String[]{strAccountId,strAccountId} : null;
+      selectionArgs = mAccountId != 0 ? new String[]{strAccountId,strAccountId} : null;
     } else {
       parentId = bundle.getLong("parent_id");
       selection = "parent_id = ?"  + selection;
-      selectionArgs = accountId != 0 ?
+      selectionArgs = mAccountId != 0 ?
           new String[]{strAccountId,String.valueOf(parentId),strAccountId} :
           new String[]{String.valueOf(parentId)};
     }
@@ -174,14 +195,25 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
         selection,selectionArgs, sortOrder);
   }
   @Override
-  public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+  public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
     int id = loader.getId();
-    if (id == -1)
-      mAdapter.setGroupCursor(data);
+    if (id == -1) {
+      mAdapter.setGroupCursor(c);
+      if (mAccountId != 0) {
+        String title = mAccount.label + ", " + getString(R.string.menu_distribution);
+        Activity ctx = getSherlockActivity();
+        if (groupingYear != 0) {
+          c.moveToFirst();
+          title += ": " + mAccount.grouping.getDisplayTitle(ctx, groupingYear, groupingSecond,
+            c.getInt(c.getColumnIndex("this_year")), c.getInt(c.getColumnIndex("this_week")), c.getInt(c.getColumnIndex("this_day")));
+        }
+        ctx.setTitle(title);
+      }
+    }
     else {
       //check if group still exists
       if (mAdapter.getGroupId(id) != 0)
-          mAdapter.setChildrenCursor(id, data);
+          mAdapter.setChildrenCursor(id, c);
     }
   }
   @Override

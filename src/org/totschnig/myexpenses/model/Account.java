@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
@@ -105,6 +106,42 @@ public class Account extends Model {
 
   public enum Grouping {
     NONE,DAY,WEEK,MONTH,YEAR;
+    /**
+     * @param groupYear the year of the group to display
+     * @param groupSecond the number of the group in the second dimension (day, week or month)
+     * @param thisYear current year as returned by sqlite3
+     * @param thisDate current date in the second dimension as returned by sqlite3
+     * @return a human readable String representing the group as header or activity title
+     */
+    public String getDisplayTitle(Context ctx, int groupYear, int groupSecond,int thisYear,int thisWeek,int thisDay) {
+      switch (this) {
+      case DAY:
+        if (groupSecond == thisDay)
+          return ctx.getString(R.string.grouping_today);
+        else if (groupSecond == thisDay -1)
+          return ctx.getString(R.string.grouping_yesterday);
+        else {
+          Calendar c = Calendar.getInstance();
+          c.set(Calendar.YEAR, groupYear);
+          c.set(Calendar.DAY_OF_YEAR, groupSecond);
+          return java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(c.getTime());
+        }
+      case WEEK:
+        if (groupSecond == thisWeek)
+          return ctx.getString(R.string.grouping_this_week);
+        else if (groupSecond == thisWeek -1)
+          return ctx.getString(R.string.grouping_last_week);
+        else
+          return (groupYear != thisYear ? (groupYear + ", ") : "") + ctx.getString(R.string.grouping_week) + " " + (groupSecond+1);
+      case MONTH:
+        Calendar c = Calendar.getInstance();
+        c.set(groupYear,groupSecond-1,1);
+        return new SimpleDateFormat("MMMM y").format(c.getTime());
+      case YEAR:
+        return String.valueOf(groupYear);
+      }
+      return null;
+    }
     public static final String JOIN;
     static {
         JOIN = Utils.joinEnum(Grouping.class);

@@ -410,6 +410,7 @@ public class TransactionList extends BudgetListFragment implements
       inflater = LayoutInflater.from(getSherlockActivity());
       
     }
+    @SuppressWarnings("incomplete-switch")
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
       if (mAccount.grouping.equals(Account.Grouping.NONE))
@@ -427,11 +428,8 @@ public class TransactionList extends BudgetListFragment implements
 
       Cursor c = getCursor();
       c.moveToPosition(position);
-      String headerText = "";
       int year = c.getInt(columnIndexYear);
-      int month = c.getInt(columnIndexMonth);
-      int week = c.getInt(columnIndexWeek);
-      int day = c.getInt(columnIndexDay);
+      int second=-1;
 
       if (mGroupingCursor != null) {
         mGroupingCursor.moveToFirst();
@@ -440,51 +438,40 @@ public class TransactionList extends BudgetListFragment implements
           if (mGroupingCursor.getInt(columnIndexGroupYear) == year) {
             switch (mAccount.grouping) {
             case YEAR:
+              //second is ignored by this grouping
               fillSums(holder,mGroupingCursor);
-              headerText = String.valueOf(year);
               break traverseCursor;
             case DAY:
-              if (mGroupingCursor.getInt(columnIndexGroupSecond) != day)
+              second = c.getInt(columnIndexDay);
+              if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
                 break;
               else {
                 fillSums(holder,mGroupingCursor);
-                if (day == this_day)
-                  headerText = getString(R.string.grouping_today);
-                else if (day == this_day -1)
-                  headerText = getString(R.string.grouping_yesterday);
-                else
-                  headerText = Utils.convDate(c.getString(columnIndexDate),
-                      java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL));
-              }
-              break traverseCursor;
-            case MONTH:
-              if (mGroupingCursor.getInt(columnIndexGroupSecond) != month)
-                break;
-              else {
-                fillSums(holder,mGroupingCursor);
-                headerText = Utils.convDate(c.getString(columnIndexDate),
-                      new SimpleDateFormat("MMMM y"));
-              }
                 break traverseCursor;
-            case WEEK:
-              if (mGroupingCursor.getInt(columnIndexGroupSecond) != week)
+              }
+            case MONTH:
+              second = c.getInt(columnIndexMonth);
+              //current month is ignored by this grouping
+              if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
                 break;
               else {
                 fillSums(holder,mGroupingCursor);
-                if (week == this_week)
-                  headerText = getString(R.string.grouping_this_week);
-                else if (week == this_week)
-                  headerText = getString(R.string.grouping_last_week);
-                else
-                  headerText = (year != this_year ? (year + ", ") : "") + getString(R.string.grouping_week) + " " + (week+1);
+                break traverseCursor;
               }
-              break traverseCursor;
+            case WEEK:
+              second = c.getInt(columnIndexWeek);
+              if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
+                break;
+              else {
+                fillSums(holder,mGroupingCursor);
+                break traverseCursor;
+              }
             }
           }
           mGroupingCursor.moveToNext();
         }
       }
-      holder.text.setText(headerText);
+      holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(), year, second, this_year, this_week,this_day));
       return convertView;
     }
     private void fillSums(HeaderViewHolder holder, Cursor mGroupingCursor) {
@@ -516,7 +503,7 @@ public class TransactionList extends BudgetListFragment implements
       case MONTH:
         return year*1000+month;
       case YEAR:
-        return year;
+        return year*1000;
       default:
         return 0;
       }
@@ -610,26 +597,12 @@ public class TransactionList extends BudgetListFragment implements
   public void onHeaderClick(StickyListHeadersListView l, View header,
       int itemPosition, long headerId, boolean currentlySticky) {
     int year = (int) (headerId/1000);
-    int secondGroup = (int) (headerId % 1000);
-    String groupingClause = YEAR + " = " + year;
-    switch(mAccount.grouping) {
-    case NONE:
-      return;
-    case DAY:
-      groupingClause += " AND " + DAY + " = " + secondGroup;
-      break;
-    case WEEK:
-      groupingClause += " AND " + WEEK + " = " + secondGroup;
-      break;
-    case MONTH:
-      groupingClause += " AND " + MONTH + " = " + secondGroup;
-      break;
-    case YEAR:
-      break;
-    }
+    int groupingSecond = (int) (headerId % 1000);
     Intent i = new Intent(getActivity(), ManageCategories.class);
     i.putExtra(KEY_ACCOUNTID, mAccountId);
-    i.putExtra("groupingClause", groupingClause);
+    i.putExtra("groupingYear",year);
+    i.putExtra("groupingSecond", groupingSecond);
+    //i.putExtra("groupingClause", groupingClause);
     startActivity(i);
   }
 }
