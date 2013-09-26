@@ -137,19 +137,19 @@ public class TransactionProvider extends ContentProvider {
         projection = new String[] {"1 as dummy"};
         break;
       case DAY:
-        projection = new String[] {yearColumn,DAY+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        projection = new String[] {yearColumn,DAY+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES};
         groupBy = "year,second";
         break;
       case WEEK:
-        projection = new String[] {yearColumn,WEEK+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        projection = new String[] {yearColumn,WEEK+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES};
         groupBy = "year,second";
         break;
       case MONTH:
-        projection = new String[] {yearColumn,MONTH+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        projection = new String[] {yearColumn,MONTH+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES};
         groupBy = "year,second";
         break;
       case YEAR:
-        projection = new String[] {yearColumn,"1"+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM};
+        projection = new String[] {yearColumn,"1"+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES};
         groupBy = "year";
         break;
       }

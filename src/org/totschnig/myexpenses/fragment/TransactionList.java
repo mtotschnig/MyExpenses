@@ -44,7 +44,6 @@ import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView.
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Build;
@@ -59,7 +58,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
-import android.util.TypedValue;
+import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,17 +82,18 @@ public class TransactionList extends BudgetListFragment implements
   private Account mAccount;
   private TextView balanceTv;
   private View bottomLine;
-  private boolean hasItems, mapped_categories;
+  private boolean hasItems, mappedCategories;
   private long transactionSum = 0;
   private Cursor mTransactionsCursor, mGroupingCursor;
   DateFormat headerDateFormat, itemDateFormat;
   String headerPrefix;
   private StickyListHeadersListView mListView;
   private LoaderManager mManager;
+  private SparseBooleanArray mappedCategoriesPerGroup;
 
   int columnIndexDate, columnIndexYear, columnIndexMonth, columnIndexWeek, columnIndexDay,
     columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee,
-    columnIndexGroupYear, columnIndexGroupSecond,
+    columnIndexGroupYear, columnIndexGroupSecond, columnIndexGroupMappedCategories,
     columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
   int this_year,this_week,this_day;
   boolean indexesCalculated, indexesGroupingCalculated = false;
@@ -111,6 +111,7 @@ public class TransactionList extends BudgetListFragment implements
       super.onCreate(savedInstanceState);
       setHasOptionsMenu(true);
 
+      mappedCategoriesPerGroup = new SparseBooleanArray();
       mAccountId = getArguments().getLong("account_id");
       mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
       aObserver = new AccountObserver(new Handler());
@@ -169,7 +170,7 @@ public class TransactionList extends BudgetListFragment implements
   public void onPrepareOptionsMenu(Menu menu) {
     if (isVisible()) {
       menu.findItem(R.id.RESET_ACCOUNT_COMMAND).setVisible(hasItems);
-      menu.findItem(R.id.DISTRIBUTION_COMMAND).setVisible(mapped_categories);
+      menu.findItem(R.id.DISTRIBUTION_COMMAND).setVisible(mappedCategories);
     }
   }
 
@@ -289,7 +290,7 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case SUM_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ") as sum","count(" + KEY_CATID + ") as mapped_categories"}, "account_id = ? AND parent_id is null",
+          TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ") as sum",MAPPED_CATEGORIES}, "account_id = ? AND parent_id is null",
           new String[] { String.valueOf(mAccountId) }, null);
       break;
     case GROUPING_CURSOR:
@@ -332,7 +333,7 @@ public class TransactionList extends BudgetListFragment implements
     case SUM_CURSOR:
       c.moveToFirst();
       transactionSum = c.getLong(c.getColumnIndex("sum"));
-      mapped_categories = c.getInt(c.getColumnIndex("mapped_categories")) >0;
+      mappedCategories = c.getInt(c.getColumnIndex("mapped_categories")) >0;
       updateBalance();
       if (isVisible())
         getSherlockActivity().supportInvalidateOptionsMenu();
@@ -348,6 +349,7 @@ public class TransactionList extends BudgetListFragment implements
           columnIndexGroupSumIncome = c.getColumnIndex("sum_income");
           columnIndexGroupSumExpense = c.getColumnIndex("sum_expense");
           columnIndexGroupSumTransfer = c.getColumnIndex("sum_transfer");
+          columnIndexGroupMappedCategories = c.getColumnIndex("mapped_categories");
           indexesGroupingCalculated = true;
         }
         if (mTransactionsCursor != null)
@@ -368,7 +370,7 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case SUM_CURSOR:
       transactionSum=0;
-      mapped_categories = false;
+      mappedCategories = false;
       updateBalance();
       if (isVisible())
         getSherlockActivity().supportInvalidateOptionsMenu();
@@ -446,7 +448,6 @@ public class TransactionList extends BudgetListFragment implements
           if (mGroupingCursor.getInt(columnIndexGroupYear) == year) {
             switch (mAccount.grouping) {
             case YEAR:
-              //second is ignored by this grouping
               fillSums(holder,mGroupingCursor);
               break traverseCursor;
             case DAY:
@@ -459,7 +460,6 @@ public class TransactionList extends BudgetListFragment implements
               }
             case MONTH:
               second = c.getInt(columnIndexMonth);
-              //current month is ignored by this grouping
               if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
                 break;
               else {
@@ -478,6 +478,7 @@ public class TransactionList extends BudgetListFragment implements
           }
           mGroupingCursor.moveToNext();
         }
+        mappedCategoriesPerGroup.put(position, mGroupingCursor.getInt(columnIndexGroupMappedCategories)>0);
       }
       holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(), year, second, this_year, this_week,this_day));
       return convertView;
@@ -606,11 +607,15 @@ public class TransactionList extends BudgetListFragment implements
       int itemPosition, long headerId, boolean currentlySticky) {
     int year = (int) (headerId/1000);
     int groupingSecond = (int) (headerId % 1000);
-    Intent i = new Intent(getActivity(), ManageCategories.class);
-    i.putExtra(KEY_ACCOUNTID, mAccountId);
-    i.putExtra("groupingYear",year);
-    i.putExtra("groupingSecond", groupingSecond);
-    //i.putExtra("groupingClause", groupingClause);
-    startActivity(i);
+    if (mappedCategoriesPerGroup.get(itemPosition)) {
+      Intent i = new Intent(getActivity(), ManageCategories.class);
+      i.putExtra(KEY_ACCOUNTID, mAccountId);
+      i.putExtra("groupingYear",year);
+      i.putExtra("groupingSecond", groupingSecond);
+      //i.putExtra("groupingClause", groupingClause);
+      startActivity(i);
+    } else {
+      Toast.makeText(getActivity(), getString(R.string.warning_no_categories_mapped_to_group), Toast.LENGTH_LONG).show();
+    }
   }
 }

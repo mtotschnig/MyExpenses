@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.provider;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+
 public class DatabaseConstants {
   public static final String KEY_DATE = "date";
   public static final String KEY_AMOUNT = "amount";
@@ -125,5 +127,6 @@ public class DatabaseConstants {
   //public static final String THIS_MONTH = "CAST(strftime('%m',date) AS integer)";
   public static final String THIS_WEEK  = "CAST(strftime('%W','now') AS integer)";
   public static final String THIS_DAY   = "CAST(strftime('%j','now') AS integer)";
+  public static final String MAPPED_CATEGORIES = "count(" + KEY_CATID + ") as mapped_categories";
   
 }
