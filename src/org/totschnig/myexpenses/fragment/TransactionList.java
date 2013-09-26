@@ -83,7 +83,7 @@ public class TransactionList extends BudgetListFragment implements
   private Account mAccount;
   private TextView balanceTv;
   private View bottomLine;
-  private boolean hasItems;
+  private boolean hasItems, mapped_categories;
   private long transactionSum = 0;
   private Cursor mTransactionsCursor, mGroupingCursor;
   DateFormat headerDateFormat, itemDateFormat;
@@ -167,8 +167,10 @@ public class TransactionList extends BudgetListFragment implements
   }
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
-    if (isVisible())
+    if (isVisible()) {
       menu.findItem(R.id.RESET_ACCOUNT_COMMAND).setVisible(hasItems);
+      menu.findItem(R.id.DISTRIBUTION_COMMAND).setVisible(mapped_categories);
+    }
   }
 
   @Override
@@ -287,7 +289,7 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case SUM_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ")"}, "account_id = ? AND parent_id is null",
+          TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ") as sum","count(" + KEY_CATID + ") as mapped_categories"}, "account_id = ? AND parent_id is null",
           new String[] { String.valueOf(mAccountId) }, null);
       break;
     case GROUPING_CURSOR:
@@ -329,8 +331,11 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case SUM_CURSOR:
       c.moveToFirst();
-      transactionSum = c.getLong(0);
+      transactionSum = c.getLong(c.getColumnIndex("sum"));
+      mapped_categories = c.getInt(c.getColumnIndex("mapped_categories")) >0;
       updateBalance();
+      if (isVisible())
+        getSherlockActivity().supportInvalidateOptionsMenu();
       break;
     case GROUPING_CURSOR:
       mGroupingCursor = c;
@@ -363,7 +368,10 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case SUM_CURSOR:
       transactionSum=0;
+      mapped_categories = false;
       updateBalance();
+      if (isVisible())
+        getSherlockActivity().supportInvalidateOptionsMenu();
       break;
     case GROUPING_CURSOR:
       mGroupingCursor = null;
