@@ -1,4 +1,5 @@
 title:
+  ar: مصروفاتي
   en: My Expenses
   fr: Mes dépenses
   de: Meine Ausgaben
@@ -8,16 +9,15 @@ title:
   tr: Harcamalarım
   vi: Chi Tiêu Của Tôi
 langs:
-  en: English
-  fr: Français
-  de: Deutsch
   it: Italiano
+  de: Deutsch
+  fr: Français
+  en: English
   es: Español
-  # -
-    # - ca
-    # - Català
   tr: Türkçe
   vi: Tiếng Việt
+  #ca: Català
+  ar: العربية
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar, Română, 中文"
 versions:
   -
