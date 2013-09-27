@@ -67,6 +67,10 @@ public class ManageCategories extends ProtectedFragmentActivity implements
      */
     private static final int DELETE_CAT = Menu.FIRST+4;
     
+    public enum HelpVariant {
+      manage,distribution,select
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(MyApplication.getThemeId());
@@ -75,13 +79,13 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         Intent intent = getIntent();
         String action = intent.getAction();
         if (action != null && action.equals("myexpenses.intent.manage.categories")) {
-          helpVariant = "manage";
+          helpVariant = HelpVariant.manage;
           setTitle(R.string.pref_manage_categories_title);
         } else if (intent.getExtras() != null) {
           //TODO set Title (based on which group we display)
-          helpVariant = "distribution";
+          helpVariant = HelpVariant.distribution;
         } else {
-          helpVariant = "select";
+          helpVariant = HelpVariant.select;
           setTitle(R.string.select_category);
         }
     }

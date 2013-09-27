@@ -35,12 +35,12 @@ import android.widget.ImageView;
 
 public class HelpDialogFragment extends DialogFragment {
   
-  public static final HelpDialogFragment newInstance(String activityName, String variant) {
+  public static final HelpDialogFragment newInstance(String activityName, Enum<?> variant) {
     HelpDialogFragment dialogFragment = new HelpDialogFragment();
     Bundle args = new Bundle();
     args.putString("activityName", activityName);
     if (variant != null)
-      args.putString("variant", variant);
+      args.putString("variant", variant.name());
     dialogFragment.setArguments(args);
     return dialogFragment;
   }

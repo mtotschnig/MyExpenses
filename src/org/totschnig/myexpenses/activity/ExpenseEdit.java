@@ -101,6 +101,10 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   String[] accountLabels ;
   Long[] accountIds ;
 
+  public enum HelpVariant {
+    transaction,transfer,split,template,splitPartCategory,splitPartTransfer
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -161,7 +165,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
-      helpVariant = "template";
+      helpVariant = HelpVariant.template;
     } else if (mTransaction instanceof SplitTransaction) {
       setTitle(mTransaction.id == 0 ? R.string.menu_create_split : R.string.menu_edit_split);
       //SplitTransaction are always instantiated with status uncommitted,
@@ -186,29 +190,29 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
           .commit();
         fm.executePendingTransactions();
       }
-      helpVariant = "split";
+      helpVariant = HelpVariant.split;
     } else {
       if (mTransaction instanceof SplitPartCategory) {
         setTitle(mTransaction.id == 0 ?
             R.string.menu_create_split_part_category : R.string.menu_edit_split_part_category  );
-        helpVariant = "splitPartCategory";
+        helpVariant = HelpVariant.splitPartCategory;
         mTransaction.status = STATUS_UNCOMMITTED;
       }
       else if (mTransaction instanceof SplitPartTransfer) {
         setTitle(mTransaction.id == 0 ?
             R.string.menu_create_split_part_transfer : R.string.menu_edit_split_part_transfer );
-        helpVariant = "splitPartTransfer";
+        helpVariant = HelpVariant.splitPartTransfer;
         mTransaction.status = STATUS_UNCOMMITTED;
       }
       else if (mTransaction instanceof Transfer) {
         setTitle(mTransaction.id == 0 ?
             R.string.menu_create_transfer : R.string.menu_edit_transfer );
-        helpVariant = "transfer";
+        helpVariant = HelpVariant.transfer;
       }
       else if (mTransaction instanceof Transaction) {
         setTitle(mTransaction.id == 0 ?
             R.string.menu_create_transaction : R.string.menu_edit_transaction );
-        helpVariant = "transaction";
+        helpVariant = HelpVariant.transaction;
       }
     }
 
