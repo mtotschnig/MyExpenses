@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.test.activity;
+package org.totschnig.myexpenses.test.screenshots;
 
 import java.util.Currency;
 import java.util.Date;
@@ -28,6 +28,14 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Account.Type;
 
+/**
+ * These tests are meant to be run with script/testLangs.sh
+ * since they depend on the reinitialisation of the db
+ * and they prepare the db for script/monkey.py which
+ * runs through the app and creates screenshots
+ * @author Michael Totschnig
+ *
+ */
 public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
 	private MyApplication app;
 	private Context instCtx;
