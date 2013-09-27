@@ -383,9 +383,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     Intent i;
     switch (command) {
     case R.id.DISTRIBUTION_COMMAND:
-      i = new Intent(this, ManageCategories.class);
-      i.putExtra(KEY_ACCOUNTID, mAccountId);
-      startActivity(i);
+      if (MyApplication.getInstance().isContribEnabled) {
+      contribFeatureCalled(Feature.DISTRIBUTION, null);
+      }
+      else {
+        CommonCommands.showContribDialog(this,Feature.DISTRIBUTION, null);
+      }
       break;
     case R.id.GROUPING_COMMAND:
       SelectGroupingDialogFragment.newInstance(
@@ -507,6 +510,18 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   @Override
   public void contribFeatureCalled(Feature feature, Serializable tag) {
     switch(feature){
+    case DISTRIBUTION:
+      feature.recordUsage();
+      Intent i = new Intent(this, ManageCategories.class);
+      i.putExtra(KEY_ACCOUNTID, mAccountId);
+      if (tag != null) {
+        int year = (int) ((Long)tag/1000);
+        int groupingSecond = (int) ((Long)tag % 1000);
+        i.putExtra("groupingYear",year);
+        i.putExtra("groupingSecond", groupingSecond);
+      }
+      startActivity(i);
+      break;
     case CLONE_TRANSACTION:
       feature.recordUsage();
       FragmentManager fm = getSupportFragmentManager();

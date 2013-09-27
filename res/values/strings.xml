@@ -35,6 +35,7 @@
   <string name="category">Category</string>
   <string name="color">Color</string>
   <string name="comment">Notes</string>
+  <string name="contrib_feature_distribution_label">Distribution of transactions per category</string>
   <string name="contrib_feature_restore_label">Backup restore without uninstall/reinstall</string>
   <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
   <string name="contrib_feature_edit_template_label">Edit templates</string>

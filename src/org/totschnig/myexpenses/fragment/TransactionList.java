@@ -605,17 +605,16 @@ public class TransactionList extends BudgetListFragment implements
   @Override
   public void onHeaderClick(StickyListHeadersListView l, View header,
       int itemPosition, long headerId, boolean currentlySticky) {
-    int year = (int) (headerId/1000);
-    int groupingSecond = (int) (headerId % 1000);
+    MyExpenses ctx = (MyExpenses) getActivity();
     if (mappedCategoriesPerGroup.get(itemPosition)) {
-      Intent i = new Intent(getActivity(), ManageCategories.class);
-      i.putExtra(KEY_ACCOUNTID, mAccountId);
-      i.putExtra("groupingYear",year);
-      i.putExtra("groupingSecond", groupingSecond);
-      //i.putExtra("groupingClause", groupingClause);
-      startActivity(i);
+      if (MyApplication.getInstance().isContribEnabled) {
+        ctx.contribFeatureCalled(Feature.DISTRIBUTION, headerId);
+      }
+      else {
+        CommonCommands.showContribDialog(ctx,Feature.DISTRIBUTION, headerId);
+      }
     } else {
-      Toast.makeText(getActivity(), getString(R.string.warning_no_categories_mapped_to_group), Toast.LENGTH_LONG).show();
+      Toast.makeText(ctx, getString(R.string.warning_no_categories_mapped_to_group), Toast.LENGTH_LONG).show();
     }
   }
 }
