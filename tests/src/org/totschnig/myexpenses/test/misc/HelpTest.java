@@ -65,8 +65,6 @@ public class HelpTest extends android.test.InstrumentationTestCase {
       resId = res.getIdentifier(className+"_menuitems", "array", pack);
       if (resId != 0)
         menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
-      //generic info for the activity
-      Assert.assertTrue("info not defined for "+ className,res.getIdentifier("help_" +className + "_info", "string", pack)!=0);
       try {
         Class<Enum<?>> variants = (Class<Enum<?>>) Class.forName(activity.getName()+"$"+"HelpVariant");
         for (Enum<?> variant: variants.getEnumConstants()) {
@@ -82,6 +80,9 @@ public class HelpTest extends android.test.InstrumentationTestCase {
       } catch (ClassNotFoundException e) {
         //title if there are no variants
         Assert.assertTrue("title not defined for "+ className,res.getIdentifier("help_" +className + "_title", "string", pack)!=0);
+        //classes with variants can have a generic info that is displayed in all variants, but it is not required
+        Assert.assertTrue("info not defined for "+ className,res.getIdentifier("help_" +className + "_info", "string", pack)!=0);
+
       }
     }
     for (String item : menuItems) {
