@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -54,7 +53,7 @@ public class HelpDialogFragment extends DialogFragment {
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     final Resources res = getResources();
     final String pack = ctx.getPackageName();
-    String title;
+    String title,screenInfo="";
     Bundle args = getArguments();
     String activityName = args.getString("activityName");
     String variant = args.getString("variant");
@@ -62,11 +61,15 @@ public class HelpDialogFragment extends DialogFragment {
     View view = li.inflate(R.layout.help_dialog, null);
     LinearLayout ll = (LinearLayout) view.findViewById(R.id.help);
     try {
-      String screenInfo = getString(res.getIdentifier("help_" +activityName + "_info", "string", pack));
+      int resId = res.getIdentifier("help_" +activityName + "_info", "string", pack);
+      if (resId != 0)
+        screenInfo = getString(res.getIdentifier("help_" +activityName + "_info", "string", pack));
+      else if (variant == null)
+        throw new NotFoundException();
       if (variant != null)
         screenInfo += "\n" + getString(res.getIdentifier("help_" +activityName + "_" + variant + "_info", "string", pack));
       ((TextView) view.findViewById(R.id.screen_info)).setText(screenInfo);
-      int resId = res.getIdentifier(activityName+"_menuitems", "array", pack);
+      resId = res.getIdentifier(activityName+"_menuitems", "array", pack);
       ArrayList<String> menuItems= new ArrayList<String>();
       if (resId != 0)
         menuItems.addAll(Arrays.asList(res.getStringArray(resId)));

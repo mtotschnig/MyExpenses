@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.fragment;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -56,7 +57,8 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     setColors();
-    Bundle extras = getActivity().getIntent().getExtras();
+    ManageCategories ctx = (ManageCategories) getActivity();
+    Bundle extras = ctx.getIntent().getExtras();
     View v = inflater.inflate(R.layout.categories_list, null, false);
     ExpandableListView lv = (ExpandableListView) v.findViewById(R.id.list);
     View emptyView = v.findViewById(R.id.empty);
@@ -82,14 +84,16 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       from = new String[] {"label"};
       to = new int[] {R.id.label};
     }
-    mAdapter = new MyExpandableListAdapter(getActivity(),
+    mAdapter = new MyExpandableListAdapter(ctx,
         null,
         R.layout.category_row,R.layout.category_row,
         from,to,from,to);
     lv.setAdapter(mAdapter);
     //requires using activity (SelectCategory) to implement OnChildClickListener
-    lv.setOnChildClickListener((OnChildClickListener) getActivity());
-    lv.setOnGroupClickListener((OnGroupClickListener) getActivity());
+    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select)) {
+      lv.setOnChildClickListener((OnChildClickListener) ctx);
+      lv.setOnGroupClickListener((OnGroupClickListener) ctx);
+    }
     registerForContextMenu(lv);
     return v;
   }

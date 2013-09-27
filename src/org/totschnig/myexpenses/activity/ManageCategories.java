@@ -75,7 +75,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     public void onCreate(Bundle savedInstanceState) {
         setTheme(MyApplication.getThemeId());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.select_category);
         Intent intent = getIntent();
         String action = intent.getAction();
         if (action != null && action.equals("myexpenses.intent.manage.categories")) {
@@ -88,10 +87,11 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           helpVariant = HelpVariant.select;
           setTitle(R.string.select_category);
         }
+        setContentView(R.layout.select_category);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-      if (!helpVariant.equals("distribution")) {
+      if (!helpVariant.equals(HelpVariant.distribution)) {
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.categories, menu);
       }
@@ -116,7 +116,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
           // Menu entries relevant only for the group
           if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-            if (helpVariant.equals("select"))
+            if (helpVariant.equals(HelpVariant.select))
               menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
             menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
           }
@@ -175,8 +175,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     @Override
     public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
       //Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
-      if (!helpVariant.equals("select"))
-         return false;
       Intent intent=new Intent();
       long sub_cat = id;
       String label =  ((TextView) v.findViewById(R.id.label)).getText().toString();
@@ -190,7 +188,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     public boolean onGroupClick(ExpandableListView parent, View v,
         int groupPosition, long id) {
       long cat_id = id;
-      if (!helpVariant.equals("select") || Category.countSub(cat_id) > 0)
+      if (Category.countSub(cat_id) > 0)
         return false;
       String label =   ((TextView) v.findViewById(R.id.label)).getText().toString();
       Intent intent=new Intent();

@@ -68,16 +68,10 @@
     immediately save it or enter its editing form where you can modify it before saving. Clicking on an entry allows to
     modify it (Contrib feature).</string>
 
-  <!-- SelectCategory title is in keys-->
-  <string name="help_SelectCategory_info">This screen allows to create, edit and delete categories
-    and when called from a transaction\'s edit form, to map the transaction to a selected category.
-    By default, the primary sort criteria in the category list is the number of times you use a category
-    (the secondary criteria is alphabetical order). This gives you quick access to the categories you use most often.
-    In the settings, you can opt for sorting the categories in plain alphabetical order.
-    Clicking on a main category, opens up its subcategories. You select a subcategory for mapping to the current
-    transaction by simply clicking on it. In order to map a main category, you have to call its context menu.
-    From here you can also add new subcategories, delete a category or edit it. Subcategories have also context
-    menus for deleting and editing.</string>
+  <!-- ManageCategories_manage titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">This screen displays the distribution of your expenses and incomes per categories. If you call it through the menu, it displays the distribution of all transactions in an account. If you have your transactions displayed per groups (day, week, month, year), clicking on a group header will give you the distribution of transactions only in the respective group.</string>
+  <string name="help_ManageCategories_select_info">In addition to the actions that you can perform when managing categories from the Preferences screen (create, edit, delete), on this screen you map a transaction to a selected category. You select a subcategory for mapping to the current transaction by simply clicking on it. In order to map a main category, you have to call its context menu.</string>
+  <string name="help_ManageCategories_manage_info">This screen allows to create, edit and delete categories. By default, the primary sort criteria in the category list is the number of times you use a category (the secondary criteria is alphabetical order). This gives you quick access to the categories you use most often. In the settings, you can opt for sorting the categories in plain alphabetical order. Clicking on a main category, opens up its subcategories. From a main category\'s context menu, you can add new subcategories, delete a category or edit it. Subcategories have also context menus for deleting and editing.</string>
   <string name="menu_create_main_cat_help_text">Opens the dialog for specifying the title of a new main category.</string>
 
   <!-- ExpenseEdit -->

@@ -65,7 +65,10 @@
     <string-array name="ManageMethods_menuitems">
       <item>create_method</item>
     </string-array>
-    <string-array name="SelectCategory_menuitems">
+    <string-array name="ManageCategories_manage_menuitems">
+      <item>create_main_cat</item>
+    </string-array>
+    <string-array name="ManageCategories_select_menuitems">
       <item>create_main_cat</item>
     </string-array>
     <string-array name="ExpenseEdit_menuitems">
