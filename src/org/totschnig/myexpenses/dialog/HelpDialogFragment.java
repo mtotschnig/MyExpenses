@@ -16,6 +16,8 @@
 package org.totschnig.myexpenses.dialog;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.totschnig.myexpenses.R;
 
@@ -65,20 +67,16 @@ public class HelpDialogFragment extends DialogFragment {
         screenInfo += "\n" + getString(res.getIdentifier("help_" +activityName + "_" + variant + "_info", "string", pack));
       ((TextView) view.findViewById(R.id.screen_info)).setText(screenInfo);
       int resId = res.getIdentifier(activityName+"_menuitems", "array", pack);
-      if (resId != 0) {
-        String[] itemsAll;
-        final String[] items = res.getStringArray(resId);
-        if (variant != null &&
-            (resId = res.getIdentifier(activityName + "_" + variant +"_menuitems", "array", pack)) != 0) {
-          String[] itemsVariant = res.getStringArray(resId);
-          itemsAll = (String[])Array.newInstance(String[].class.getComponentType(), items.length + itemsVariant.length);
-          System.arraycopy(items, 0, itemsAll, 0, items.length);
-          //easier from API 9
-          //itemsAll = Arrays.copyOf(items, items.length + itemsVariant.length);
-          System.arraycopy(itemsVariant, 0, itemsAll, items.length, itemsVariant.length);
-        } else
-          itemsAll = items;
-        for (String item: itemsAll) {
+      ArrayList<String> menuItems= new ArrayList<String>();
+      if (resId != 0)
+        menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
+      if (variant != null &&
+            (resId = res.getIdentifier(activityName + "_" + variant +"_menuitems", "array", pack)) != 0)
+          menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
+      if (menuItems.size() == 0)
+        view.findViewById(R.id.menu_commands_heading).setVisibility(View.GONE);
+      else
+        for (String item: menuItems) {
           View row = li.inflate(R.layout.help_dialog_action_row, null);
           ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
               res.getDrawable(res.getIdentifier(item+"_icon", "drawable", pack)));
@@ -88,9 +86,6 @@ public class HelpDialogFragment extends DialogFragment {
               res.getString(res.getIdentifier("menu_"+item+"_help_text","string",pack)));
           ll.addView(row);
         }
-      } else {
-        view.findViewById(R.id.menu_commands_heading).setVisibility(View.GONE);
-      }
       String titleIdentifier = "help_" +activityName
           + (variant != null ? "_" + variant : "")
           + "_title";
