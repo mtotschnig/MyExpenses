@@ -174,7 +174,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
           SharedPreferencesCompat.apply(
               mSettings.edit().putBoolean("inRestoreOnInstall", true));
         }
-      } else {
+      } else if (!mSettings.getBoolean("inInitialSetup", false)) {
         initialSetup();
       }
       return;
@@ -187,8 +187,11 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     setup();
   }
   private void initialSetup() {
+    SharedPreferencesCompat.apply(
+      mSettings.edit().putBoolean("inInitialSetup", true));
     FragmentManager fm = getSupportFragmentManager();
     fm.beginTransaction()
+      .add(WelcomeDialogFragment.newInstance(),"WELCOME")
       .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,null), "REQUIRE_ACCOUNT_TASK")
       .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_setup),"PROGRESS")
       .commit();
@@ -332,8 +335,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     if (prev_version == -1) {
       //edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       SharedPreferencesCompat.apply(edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version));
-      WelcomeDialogFragment.newInstance()
-        .show(getSupportFragmentManager(),"WELCOME");
     } else if (prev_version != current_version) {
       SharedPreferencesCompat.apply(edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version));
       if (prev_version < 19) {
@@ -700,6 +701,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     if (taskId == TaskExecutionFragment.TASK_REQUIRE_ACCOUNT) {
       setCurrentAccount(((Account) o).id);
       getSupportActionBar().show();
+      SharedPreferencesCompat.apply(mSettings.edit().remove("inInitialSetup"));
       setup();
     }
     super.onPostExecute(taskId, o);
