@@ -1,10 +1,8 @@
 Steps for preparing a new release
 
 * Run unit tests
-* Verify if tutorial and screenshots are up2date
 * Set version info in Manifest
-* update string help_whats_new and versions in _config.yml
-* make sure that backdoors for monkeyrunner are commented out
+* check if update version_codes, version_names, upgrade.xml use the correction version code 
 * ant clean
 * ant release
 * test upgrade mechanism
@@ -12,5 +10,5 @@ Steps for preparing a new release
 * mv APK and proguard folder into a new folder in releases
 * upload to Android Market
 * add recent changes in Market
-* push gh-pages
+* update _config.yml and push gh-pages
 
