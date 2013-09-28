@@ -73,21 +73,21 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setTheme(MyApplication.getThemeId());
-        super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        if (action != null && action.equals("myexpenses.intent.manage.categories")) {
-          helpVariant = HelpVariant.manage;
-          setTitle(R.string.pref_manage_categories_title);
-        } else if (intent.getExtras() != null) {
-          //TODO set Title (based on which group we display)
-          helpVariant = HelpVariant.distribution;
-        } else {
-          helpVariant = HelpVariant.select;
-          setTitle(R.string.select_category);
-        }
-        setContentView(R.layout.select_category);
+      setTheme(MyApplication.getThemeId());
+      super.onCreate(savedInstanceState);
+      Intent intent = getIntent();
+      String action = intent.getAction();
+      if (action != null && action.equals("myexpenses.intent.manage.categories")) {
+        helpVariant = HelpVariant.manage;
+        setTitle(R.string.pref_manage_categories_title);
+      } else if (intent.getExtras() != null) {
+        //TODO set Title (based on which group we display)
+        helpVariant = HelpVariant.distribution;
+      } else {
+        helpVariant = HelpVariant.select;
+        setTitle(R.string.select_category);
+      }
+      setContentView(R.layout.select_category);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
