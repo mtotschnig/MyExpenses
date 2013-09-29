@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
 
@@ -27,16 +28,20 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
+/**
+ * uses {@link MessageDialogFragment.MessageDialogListener} to dispatch result back to activity
+ *
+ */
 public class SelectGroupingDialogFragment extends DialogFragment implements OnClickListener {
   /**
    * @param account_id
    * @return
    */
   public static final SelectGroupingDialogFragment newInstance(
-      Long accountId,int selectedIndex) {
+      int commandId,int selectedIndex) {
     SelectGroupingDialogFragment dialogFragment = new SelectGroupingDialogFragment();
     Bundle args = new Bundle();
-    args.putLong(KEY_ACCOUNTID, accountId);
+    args.putInt("command_id",commandId);
     args.putInt("selected_index",selectedIndex);
     dialogFragment.setArguments(args);
     return dialogFragment;
@@ -52,9 +57,9 @@ public class SelectGroupingDialogFragment extends DialogFragment implements OnCl
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    Account account = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
-    account.grouping=Account.Grouping.values()[which];
-    account.save();
+    Bundle bundle = getArguments();
+    ((MessageDialogListener) getActivity())
+    .dispatchCommand(bundle.getInt("command_id"), which);
     dismiss();
   }
 }

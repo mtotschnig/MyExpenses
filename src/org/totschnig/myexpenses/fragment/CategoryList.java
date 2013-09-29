@@ -20,9 +20,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -41,17 +41,23 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
 public class CategoryList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private MyExpandableListAdapter mAdapter;
   int mGroupIdColumnIndex;
   private LoaderManager mManager;
   long mAccountId;
+  public Grouping mGrouping;
   int groupingYear;
   int groupingSecond;
+  int thisYear,thisMonth,thisWeek,thisDay;
   private Account mAccount;
   @Override
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
+      setHasOptionsMenu(true);
   }
 
   @Override
@@ -65,10 +71,10 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     if (extras != null) {
       mAccountId = extras.getLong(KEY_ACCOUNTID);
       mAccount = Account.getInstanceFromDb(mAccountId);
+      mGrouping = (Grouping) extras.getSerializable("grouping");
       groupingYear = extras.getInt("groupingYear");
       groupingSecond = extras.getInt("groupingSecond");
       emptyView.setVisibility(View.GONE);
-      //getActivity().setTitle();
     } else {
       mAccountId = 0L;
       lv.setEmptyView(emptyView);
@@ -159,9 +165,9 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     if (mAccountId != 0) {
       strAccountId = String.valueOf(mAccountId);
       String catFilter = "FROM transactions WHERE account_id = ?";
-      if (groupingYear != 0) {
+      if (!mGrouping.equals(Grouping.NONE)) {
         String groupingClause = YEAR + " = " + groupingYear;
-        switch(mAccount.grouping) {
+        switch(mGrouping) {
         case DAY:
           groupingClause += " AND " + DAY + " = " + groupingSecond;
           break;
@@ -182,7 +188,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       selection = " AND exists (select 1 " + catFilter +")";
       projection = new String[] {KEY_ROWID, KEY_LABEL, KEY_PARENTID,
           "(SELECT sum(amount) " + catFilter + ") AS sum",
-          THIS_YEAR + " AS this_year",THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day"};
+          THIS_YEAR + " AS this_year",THIS_MONTH + " AS this_month",THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day"};
       sortOrder="abs(sum) DESC";
     }
     if (bundle == null) {
@@ -204,14 +210,23 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     if (id == -1) {
       mAdapter.setGroupCursor(c);
       if (mAccountId != 0) {
-        String title = mAccount.label + ", " + getString(R.string.menu_distribution);
-        Activity ctx = getSherlockActivity();
-        if (groupingYear != 0) {
+        SherlockFragmentActivity ctx = getSherlockActivity();
+        ActionBar actionBar =  ctx.getSupportActionBar();
+        actionBar.setTitle(mAccount.label);
+        //upon first entry into the activity, the cursor
+        //should always have at least one row, since we
+        //only make the command available for accounts/groups
+        //where mapped categories exist
+        if (c.getCount()>0) {
           c.moveToFirst();
-          title += ": " + mAccount.grouping.getDisplayTitle(ctx, groupingYear, groupingSecond,
-            c.getInt(c.getColumnIndex("this_year")), c.getInt(c.getColumnIndex("this_week")), c.getInt(c.getColumnIndex("this_day")));
+          thisYear = c.getInt(c.getColumnIndex("this_year"));
+          thisMonth = c.getInt(c.getColumnIndex("this_month"));
+          thisWeek = c.getInt(c.getColumnIndex("this_week"));
+          thisDay = c.getInt(c.getColumnIndex("this_week"));
         }
-        ctx.setTitle(title);
+        actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
+            groupingYear, groupingSecond,
+            thisYear,thisWeek,thisDay));
       }
     }
     else {
@@ -234,5 +249,34 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     } else {
       mAdapter.setGroupCursor(null);
     }
+  }
+
+  public void updateGrouping(Grouping grouping) {
+    mGrouping = grouping;
+    SherlockFragmentActivity ctx = getSherlockActivity();
+    ActionBar actionBar =  ctx.getSupportActionBar();
+    groupingYear = thisYear;
+    switch(grouping) {
+    case NONE:
+      groupingYear = 0;
+      break;
+    case DAY:
+      groupingSecond = thisDay;
+      break;
+    case WEEK:
+      groupingSecond = thisWeek;
+      break;
+    case MONTH:
+      groupingSecond = thisMonth;
+      break;
+    case YEAR:
+      groupingSecond = 0;
+      break;
+    }
+    mManager.restartLoader(-1, null, this);
+    //mAdapter.notifyDataSetChanged();
+    actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
+        groupingYear, groupingSecond,
+        thisYear,thisWeek,thisDay));
   }
 }

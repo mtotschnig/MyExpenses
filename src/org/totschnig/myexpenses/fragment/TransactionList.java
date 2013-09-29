@@ -23,7 +23,6 @@ import java.text.SimpleDateFormat;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
-import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;

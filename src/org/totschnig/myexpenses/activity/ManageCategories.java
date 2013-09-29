@@ -18,10 +18,13 @@ package org.totschnig.myexpenses.activity;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.fragment.CategoryList;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -31,7 +34,6 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -47,7 +49,6 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
  */
 public class ManageCategories extends ProtectedFragmentActivity implements
     OnChildClickListener, OnGroupClickListener,EditTextDialogListener  {
-    private Button mAddButton;
 
     /**
      * create a new sub category
@@ -77,22 +78,26 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       super.onCreate(savedInstanceState);
       Intent intent = getIntent();
       String action = intent.getAction();
+      Bundle extras = intent.getExtras();
       if (action != null && action.equals("myexpenses.intent.manage.categories")) {
         helpVariant = HelpVariant.manage;
         setTitle(R.string.pref_manage_categories_title);
-      } else if (intent.getExtras() != null) {
-        //TODO set Title (based on which group we display)
+      } else if (extras != null) {
         helpVariant = HelpVariant.distribution;
+        //title is set in categories list
       } else {
         helpVariant = HelpVariant.select;
         setTitle(R.string.select_category);
       }
       setContentView(R.layout.select_category);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-      if (!helpVariant.equals(HelpVariant.distribution)) {
-        MenuInflater inflater = getSupportMenuInflater();
+      MenuInflater inflater = getSupportMenuInflater();
+      if (helpVariant.equals(HelpVariant.distribution)) {
+        inflater.inflate(R.menu.distribution, menu);
+      } else {
         inflater.inflate(R.menu.categories, menu);
       }
       super.onCreateOptionsMenu(menu);
@@ -101,8 +106,17 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
     @Override
     public boolean dispatchCommand(int command, Object tag) {
-      if (command == R.id.CREATE_COMMAND) {
+      CategoryList f = ((CategoryList) getSupportFragmentManager().findFragmentById(R.id.category_list));
+      switch (command) {
+      case R.id.CREATE_COMMAND:
         createCat(null);
+        return true;
+      case R.id.GROUPING_COMMAND:
+        SelectGroupingDialogFragment.newInstance(R.id.GROUPING_COMMAND_DO,f.mGrouping.ordinal())
+          .show(getSupportFragmentManager(), "SELECT_GROUPING");
+      return true;
+      case R.id.GROUPING_COMMAND_DO:
+        f.updateGrouping(Account.Grouping.values()[(Integer)tag]);
         return true;
       }
       return super.dispatchCommand(command, tag);

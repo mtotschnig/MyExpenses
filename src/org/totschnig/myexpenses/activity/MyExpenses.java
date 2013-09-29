@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
@@ -390,21 +391,26 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       else {
         CommonCommands.showContribDialog(this,Feature.DISTRIBUTION, null);
       }
-      break;
+      return true;
     case R.id.GROUPING_COMMAND:
       SelectGroupingDialogFragment.newInstance(
-          mAccountId,Account.getInstanceFromDb(mAccountId).grouping.ordinal())
+          R.id.GROUPING_COMMAND_DO,Account.getInstanceFromDb(mAccountId).grouping.ordinal())
         .show(getSupportFragmentManager(), "SELECT_GROUPING");
-      break;
+      return true;
+    case R.id.GROUPING_COMMAND_DO:
+      Account account = Account.getInstanceFromDb(mAccountId);
+      account.grouping=Account.Grouping.values()[(Integer)tag];
+      account.save();
+      return true;
     case R.id.CONTRIB_COMMAND:
       showContribInfoDialog(false);
-      break;
+      return true;
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
-      break;
+      return true;
     case R.id.INSERT_TRANSFER_COMMAND:
       createRow(TYPE_TRANSFER);
-      break;
+      return true;
     case R.id.INSERT_SPLIT_COMMAND:
       if (MyApplication.getInstance().isContribEnabled) {
         contribFeatureCalled(Feature.SPLIT_TRANSACTION, null);
@@ -412,7 +418,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       else {
         CommonCommands.showContribDialog(this,Feature.SPLIT_TRANSACTION, null);
       }
-      break;
+      return true;
     case R.id.RESET_ACCOUNT_COMMAND:
       if (Utils.isExternalStorageAvailable()) {
         DialogUtils.showWarningResetDialog(this,mAccountId);
@@ -422,20 +428,20 @@ public class MyExpenses extends ProtectedFragmentActivity implements
             Toast.LENGTH_LONG)
             .show();
       }
-      break;
+      return true;
     case R.id.EDIT_ACCOUNT_COMMAND:
       i = new Intent(this, AccountEdit.class);
       i.putExtra(KEY_ROWID, mAccountId);
       startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
-      break;
+      return true;
     case android.R.id.home:
       i = new Intent(this, ManageAccounts.class);
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
       startActivity(i);
-      break;
+      return true;
     case R.id.BACKUP_COMMAND:
       startActivity(new Intent("myexpenses.intent.backup"));
-      break;
+      return true;
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
       Bundle args = new Bundle();
       args.putInt("id", R.id.NEW_FROM_TEMPLATE_COMMAND);
@@ -444,7 +450,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       args.putString("column", KEY_TITLE);
       SelectFromCursorDialogFragment.newInstance(args)
         .show(getSupportFragmentManager(), "SELECT_TEMPLATE");
-      break;
+      return true;
     case R.id.RATE_COMMAND:
       SharedPreferencesCompat.apply(mSettings.edit().putLong("nextReminderRate", -1));
       i = new Intent(Intent.ACTION_VIEW);
@@ -454,7 +460,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       } else {
         Toast.makeText(getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
       }
-      break;
+      return true;
     case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
       SharedPreferencesCompat.apply(mSettings.edit().remove("inRestoreOnInstall"));
       if ((Boolean) tag) {
@@ -468,15 +474,15 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         }
       }
       initialSetup();
-      break;
+      return true;
     case R.id.REMIND_NO_COMMAND:
       SharedPreferencesCompat.apply(mSettings.edit().putLong("nextReminder" + (String) tag,-1));
-      break;
+      return true;
     case R.id.REMIND_LATER_COMMAND:
       String key = "nextReminder" + (String) tag;
       long treshold = ((String) tag).equals("Rate") ? TRESHOLD_REMIND_RATE : TRESHOLD_REMIND_CONTRIB;
       SharedPreferencesCompat.apply(mSettings.edit().putLong(key,Transaction.getTransactionSequence()+treshold));
-      break;
+      return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -515,9 +521,11 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       feature.recordUsage();
       Intent i = new Intent(this, ManageCategories.class);
       i.putExtra(KEY_ACCOUNTID, mAccountId);
+      i.putExtra("grouping",Grouping.NONE);
       if (tag != null) {
         int year = (int) ((Long)tag/1000);
         int groupingSecond = (int) ((Long)tag % 1000);
+        i.putExtra("grouping", Account.getInstanceFromDb(mAccountId).grouping);
         i.putExtra("groupingYear",year);
         i.putExtra("groupingSecond", groupingSecond);
       }

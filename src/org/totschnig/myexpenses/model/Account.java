@@ -139,8 +139,9 @@ public class Account extends Model {
         return new SimpleDateFormat("MMMM y").format(c.getTime());
       case YEAR:
         return String.valueOf(groupYear);
+      default:
+        return "";
       }
-      return null;
     }
     public static final String JOIN;
     static {
