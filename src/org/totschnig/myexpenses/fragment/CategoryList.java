@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public class CategoryList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private MyExpandableListAdapter mAdapter;
@@ -53,6 +54,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
   int groupingYear;
   int groupingSecond;
   int thisYear,thisMonth,thisWeek,thisDay;
+
   private Account mAccount;
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -250,11 +252,39 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       mAdapter.setGroupCursor(null);
     }
   }
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+    case R.id.BACK_COMMAND:
+      if (mGrouping.equals(Grouping.YEAR))
+        groupingYear--;
+      else {
+        groupingSecond--;
+        if (groupingSecond < mGrouping.MIN_VALUE) {
+          groupingYear--;
+          groupingSecond = mGrouping.MAX_VALUE;
+        }
+      }
+      reset();
+      return true;
+    case R.id.FORWARD_COMMAND:
+      if (mGrouping.equals(Grouping.YEAR))
+        groupingYear++;
+      else{
+        groupingSecond++;
+        if (groupingSecond > mGrouping.MAX_VALUE) {
+          groupingYear++;
+          groupingSecond = mGrouping.MIN_VALUE;
+        }
+      }
+      reset();
+      return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
 
   public void updateGrouping(Grouping grouping) {
     mGrouping = grouping;
-    SherlockFragmentActivity ctx = getSherlockActivity();
-    ActionBar actionBar =  ctx.getSupportActionBar();
     groupingYear = thisYear;
     switch(grouping) {
     case NONE:
@@ -273,6 +303,12 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       groupingSecond = 0;
       break;
     }
+    reset();
+  }
+
+  private void reset() {
+    SherlockFragmentActivity ctx = getSherlockActivity();
+    ActionBar actionBar =  ctx.getSupportActionBar();
     mManager.restartLoader(-1, null, this);
     //mAdapter.notifyDataSetChanged();
     actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
