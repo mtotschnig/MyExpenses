@@ -16,12 +16,12 @@
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
   <item
-    android:id="@+id/FORWARD_COMMAND"
-    android:title="Forward"
+    android:id="@+id/BACK_COMMAND"
+    android:title="Back"
     android:showAsAction="always"/>
   <item
-  	android:id="@+id/BACK_COMMAND"
-    android:title="Back"
+    android:id="@+id/FORWARD_COMMAND"
+    android:title="Forward"
     android:showAsAction="always"/>
   <item
     android:id="@id/GROUPING_COMMAND"
