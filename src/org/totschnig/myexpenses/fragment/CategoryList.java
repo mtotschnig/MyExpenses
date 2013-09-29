@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class CategoryList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -76,11 +77,13 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       mGrouping = (Grouping) extras.getSerializable("grouping");
       groupingYear = extras.getInt("groupingYear");
       groupingSecond = extras.getInt("groupingSecond");
-      emptyView.setVisibility(View.GONE);
+      emptyView.findViewById(R.id.importButton).setVisibility(View.GONE);
+      ((TextView) emptyView.findViewById(R.id.noCategories)).setText(R.string.no_mapped_transactions);
+      getSherlockActivity().supportInvalidateOptionsMenu();
     } else {
       mAccountId = 0L;
-      lv.setEmptyView(emptyView);
     }
+    lv.setEmptyView(emptyView);
     mManager = getLoaderManager();
     mManager.initLoader(-1, null, this);
     String[] from;
@@ -224,7 +227,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
           thisYear = c.getInt(c.getColumnIndex("this_year"));
           thisMonth = c.getInt(c.getColumnIndex("this_month"));
           thisWeek = c.getInt(c.getColumnIndex("this_week"));
-          thisDay = c.getInt(c.getColumnIndex("this_week"));
+          thisDay = c.getInt(c.getColumnIndex("this_day"));
         }
         actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
             groupingYear, groupingSecond,
@@ -250,6 +253,12 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
         }
     } else {
       mAdapter.setGroupCursor(null);
+    }
+  }  @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    if (mGrouping != null) {
+      menu.findItem(R.id.FORWARD_COMMAND).setVisible(!mGrouping.equals(Grouping.NONE));
+      menu.findItem(R.id.BACK_COMMAND).setVisible(!mGrouping.equals(Grouping.NONE));
     }
   }
   @Override
@@ -283,7 +292,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     return super.onOptionsItemSelected(item);
   }
 
-  public void updateGrouping(Grouping grouping) {
+  public void setGrouping(Grouping grouping) {
     mGrouping = grouping;
     groupingYear = thisYear;
     switch(grouping) {
@@ -303,6 +312,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       groupingSecond = 0;
       break;
     }
+    getSherlockActivity().supportInvalidateOptionsMenu();
     reset();
   }
 

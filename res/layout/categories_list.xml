@@ -15,17 +15,17 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:orientation="vertical" >
-	<ExpandableListView
-        android:id="@+id/list"
-        android:layout_width="fill_parent" 
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:drawSelectorOnTop="false" />
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+  <ExpandableListView
+      android:id="@+id/list"
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:drawSelectorOnTop="false" />
     <RelativeLayout android:id="@+id/empty"
-        android:layout_width="fill_parent" 
+        android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
@@ -36,6 +36,7 @@
           android:layout_height="wrap_content"
           android:text="@string/no_categories"/>
       <Button
+          android:id="@+id/importButton"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_centerInParent="true"

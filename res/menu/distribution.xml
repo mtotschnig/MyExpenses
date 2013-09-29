@@ -18,9 +18,11 @@
   <item
     android:id="@+id/BACK_COMMAND"
     android:title="Back"
+    android:icon="@drawable/back_icon"
     android:showAsAction="always"/>
   <item
     android:id="@+id/FORWARD_COMMAND"
+    android:icon="@drawable/forward_icon"
     android:title="Forward"
     android:showAsAction="always"/>
   <item

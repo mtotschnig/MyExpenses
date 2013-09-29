@@ -116,7 +116,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           .show(getSupportFragmentManager(), "SELECT_GROUPING");
       return true;
       case R.id.GROUPING_COMMAND_DO:
-        f.updateGrouping(Account.Grouping.values()[(Integer)tag]);
+        f.setGrouping(Account.Grouping.values()[(Integer)tag]);
         return true;
       }
       return super.dispatchCommand(command, tag);
