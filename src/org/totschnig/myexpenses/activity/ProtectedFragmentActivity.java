@@ -107,7 +107,9 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   }
   @Override
   public boolean onMenuItemSelected(int featureId, MenuItem item) {
-      return dispatchCommand(item.getItemId(),null);
+      if (dispatchCommand(item.getItemId(),null))
+        return true;
+      return super.onMenuItemSelected(featureId, item);
   }
   @Override
   public boolean dispatchCommand(int command, Object tag) {
