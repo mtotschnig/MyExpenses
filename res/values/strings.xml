@@ -133,6 +133,7 @@
   <string name="licence_validation_success">Licence key successfully validated: Premium features have been unlocked.</string>
   <string name="licence_validation_failure">Unable to validate licence key.</string>
   <string name="menu_aggregates">Total</string>
+  <string name="menu_back">Back</string>
   <string name="menu_backup">Backup</string>
   <string name="menu_clone_transaction">Clone</string>
   <string name="menu_contrib">Contribute</string>
@@ -162,6 +163,7 @@
   <string name="menu_edit_transaction">Edit Transaction</string>
   <string name="menu_edit_template">Edit Template</string>
   <string name="menu_edit_transfer">Edit Transfer</string>
+  <string name="menu_forward">Forward</string>
   <string name="menu_grouping">Grouping</string>
   <string name="menu_help">Help</string>
   <string name="menu_move_transaction">Move</string>

@@ -85,8 +85,17 @@ public class HelpDialogFragment extends DialogFragment {
               res.getDrawable(res.getIdentifier(item+"_icon", "drawable", pack)));
           ((TextView) row.findViewById(R.id.title)).setText(
               res.getString(res.getIdentifier("menu_"+item,"string",pack)));
+          //we look for a help text specific to the variant first, thank to the activity
+          //and last a generic one
+          resId = res.getIdentifier("menu_" +activityName + "_" + variant + "_" + item + "_help_text","string",pack);
+          if (resId == 0)
+            resId = res.getIdentifier("menu_" +activityName + "_" + item + "_help_text","string",pack);
+          if (resId == 0)
+            resId = res.getIdentifier("menu_" + item + "_help_text","string",pack);
+          if (resId == 0)
+            throw new NotFoundException();
           ((TextView) row.findViewById(R.id.help_text)).setText(
-              res.getString(res.getIdentifier("menu_"+item+"_help_text","string",pack)));
+              res.getString(resId));
           ll.addView(row);
         }
       String titleIdentifier = "help_" +activityName
