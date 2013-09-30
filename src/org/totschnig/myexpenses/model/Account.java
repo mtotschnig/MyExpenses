@@ -146,7 +146,7 @@ public class Account extends Model {
       case YEAR:
         return String.valueOf(groupYear);
       default:
-        return "";
+        return null;
       }
     }
     public static final String JOIN;
