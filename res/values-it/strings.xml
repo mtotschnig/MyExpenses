@@ -36,11 +36,8 @@
   <string name="color">Colore</string>
   <string name="comment">Note</string>
   <string name="contrib_feature_aggregate_label">Sommare piu conti</string>
-  <string name="contrib_feature_edit_template_label">Modificare modelli</string>
-  <string name="contrib_feature_restore_label">Backup ripristino senza disinstallare / reinstallare</string>
   <string name="contrib_feature_reset_all_label">Reinizializzare tutti i conti</string>
   <string name="contrib_feature_security_question_label">Domanda di sicurezza</string>
-  <string name="contrib_feature_clone_transaction_label">Ricopiare operazioni</string>
   <string name="contrib_feature_split_transaction_label">Operazione suddivisa</string>
   <string name="contrib_key">Chiave Contrib</string>
   <string name="currency">Valuta</string>

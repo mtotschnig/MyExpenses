@@ -111,7 +111,6 @@ public class Template extends Transaction {
       }
       id = ContentUris.parseId(uri);
     } else {
-      org.totschnig.myexpenses.model.ContribFeature.Feature.EDIT_TEMPLATE.recordUsage();
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
       try {
         cr().update(uri, initialValues, null, null);

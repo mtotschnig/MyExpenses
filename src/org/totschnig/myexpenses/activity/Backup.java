@@ -16,12 +16,10 @@
 package org.totschnig.myexpenses.activity;
 
 import java.io.File;
-import java.io.Serializable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Intent;
@@ -29,8 +27,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;
 
-public class Backup extends ProtectedFragmentActivityNoSherlock implements
-  ContribIFace {
+public class Backup extends ProtectedFragmentActivityNoSherlock {
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -46,12 +43,7 @@ public class Backup extends ProtectedFragmentActivityNoSherlock implements
         else {
           //restore
           if (MyApplication.backupExists()) {
-            if (MyApplication.getInstance().isContribEnabled) {
-              contribFeatureCalled(Feature.RESTORE,null);
-            }
-            else {
-              CommonCommands.showContribDialog(this,Feature.RESTORE,null);
-            }
+            showRestoreDialog();
           } else {
             Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
             finish();
@@ -67,14 +59,6 @@ public class Backup extends ProtectedFragmentActivityNoSherlock implements
   private void showRestoreDialog() {
     MessageDialogFragment.newInstance(R.string.pref_restore_title,R.string.warning_restore,R.id.RESTORE_COMMAND,null)
       .show(getSupportFragmentManager(),"BACKUP");
-  }
-  @Override
-  public void contribFeatureCalled(Feature feature, Serializable tag) {
-    showRestoreDialog();
-  }
-  @Override
-  public void contribFeatureNotCalled() {
-    finish();
   }
   @Override
   public boolean dispatchCommand(int command, Object tag) {
@@ -96,7 +80,6 @@ public class Backup extends ProtectedFragmentActivityNoSherlock implements
     case R.id.RESTORE_COMMAND:
       if (MyApplication.backupExists()) {
         MyApplication.backupRestore();
-        Feature.RESTORE.recordUsage();
         Intent i = getBaseContext().getPackageManager()
             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

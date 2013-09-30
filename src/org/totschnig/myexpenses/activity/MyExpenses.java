@@ -531,14 +531,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       }
       startActivity(i);
       break;
-    case CLONE_TRANSACTION:
-      feature.recordUsage();
-      FragmentManager fm = getSupportFragmentManager();
-      fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,(Long) tag), "CLONE_TASK")
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_cloning),"PROGRESS")
-        .commit();
-      break;
     case SPLIT_TRANSACTION:
       createRow(TYPE_SPLIT);
       break;

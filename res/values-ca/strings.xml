@@ -34,8 +34,6 @@
   <string name="category_already_defined">La categoria %1$s ja existeix.</string>
   <string name="color">Color</string>
   <string name="comment">Notes</string>
-  <string name="contrib_feature_edit_template_label">Modifica les plantilles</string>
-  <string name="contrib_feature_clone_transaction_label">Clonar les transaccions</string>
   <string name="currency">Moneda</string>
   <string name="currency_not_iso4217">%1$s no és un codi de moneda vàlid segons ISO 4217.</string>
   <string name="current_balance">Saldo actual</string>

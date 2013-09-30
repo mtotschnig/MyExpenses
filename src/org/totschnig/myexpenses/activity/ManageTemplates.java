@@ -15,15 +15,11 @@
 
 package org.totschnig.myexpenses.activity;
 
-import java.io.Serializable;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
-import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import android.content.Intent;
@@ -40,7 +36,7 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
 
 public class ManageTemplates extends ProtectedFragmentActivity implements
-    OnChildClickListener,ContribIFace {
+    OnChildClickListener {
 
   private static final int DELETE_TEMPLATE = Menu.FIRST;
   private static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;
@@ -108,26 +104,14 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
       }
       return true;
     }
-  @Override
-  public void contribFeatureCalled(Feature feature, Serializable tag) {
-    Intent i = new Intent(this, ExpenseEdit.class);
-    i.putExtra("template_id", (Long) tag);
-    i.putExtra("instantiate", false);
-    startActivity(i);
-  }
-  @Override
-  public void contribFeatureNotCalled() {
-    // TODO Auto-generated method stub
-    
-  }
+
   @Override
   public boolean onChildClick(ExpandableListView parent, View v,
       int groupPosition, int childPosition, long id) {
-    if (MyApplication.getInstance().isContribEnabled) {
-      contribFeatureCalled(Feature.EDIT_TEMPLATE, id);
-    } else {
-      CommonCommands.showContribDialog(this,Feature.EDIT_TEMPLATE, id);
-    }
+    Intent i = new Intent(this, ExpenseEdit.class);
+    i.putExtra("template_id", (Long) id);
+    i.putExtra("instantiate", false);
+    startActivity(i);
     return true;
   }
 }

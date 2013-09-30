@@ -239,10 +239,10 @@ public class TransactionList extends BudgetListFragment implements
     MyExpenses ctx = (MyExpenses) getActivity();
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     Bundle args;
+    FragmentManager fm = ctx.getSupportFragmentManager();
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
       if (checkSplitPartTransfer(info.position)) {
-        FragmentManager fm = ctx.getSupportFragmentManager();
         fm.beginTransaction()
           .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,info.id), "DELETE_TASK")
           .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
@@ -250,12 +250,10 @@ public class TransactionList extends BudgetListFragment implements
       }
       return true;
     case R.id.CLONE_TRANSACTION_COMMAND:
-      if (MyApplication.getInstance().isContribEnabled) {
-        ctx.contribFeatureCalled(Feature.CLONE_TRANSACTION, info.id);
-      }
-      else {
-        CommonCommands.showContribDialog(ctx,Feature.CLONE_TRANSACTION, info.id);
-      }
+      fm.beginTransaction()
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,info.id), "CLONE_TASK")
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_cloning),"PROGRESS")
+        .commit();
       return true;
     case R.id.MOVE_TRANSACTION_COMMAND:
       args = new Bundle();

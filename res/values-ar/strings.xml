@@ -14,12 +14,9 @@
   <string name="category">التصنيف</string>
   <string name="color">اللون</string>
   <string name="comment">ملاحظات</string>
-  <string name="contrib_feature_restore_label">استعادة النسخة الاحتياطية بدون إلغاء تثبيت/إعادة تثبيت</string>
   <string name="contrib_feature_aggregate_label">إجمالي الحسابات المتعددة</string>
-  <string name="contrib_feature_edit_template_label">تعديل النماذج</string>
   <string name="contrib_feature_reset_all_label">إعادة تعيين كل الحسابات</string>
   <string name="contrib_feature_security_question_label">السؤال السري</string>
-  <string name="contrib_feature_clone_transaction_label">استنساخ العمليات</string>
   <string name="contrib_feature_split_transaction_label">تقسيم العمليات</string>
   <string name="contrib_key">مفتاح المساهمة</string>
   <string name="currency">العملة</string>

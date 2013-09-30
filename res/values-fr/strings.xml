@@ -35,12 +35,9 @@
   <string name="category_already_defined">La catégorie %1$s existe</string>
   <string name="color">Couleur</string>
   <string name="comment">Remarques</string>
-  <string name="contrib_feature_restore_label">Restauration de la sauvegarde sans désinstallation/réinstallation</string>
   <string name="contrib_feature_aggregate_label">Somme totale sur tous les comptes</string>
-  <string name="contrib_feature_edit_template_label">Éditer les modèles</string>
   <string name="contrib_feature_reset_all_label">Réinitialiser tous les comptes</string>
   <string name="contrib_feature_security_question_label">Question de sécurité</string>
-  <string name="contrib_feature_clone_transaction_label">Cloner les opérations</string>
   <string name="contrib_feature_split_transaction_label">Opération ventilée</string>
   <string name="contrib_key">Clé Contrib</string>
   <string name="currency">Devise</string>
