@@ -67,23 +67,25 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     setColors();
     ManageCategories ctx = (ManageCategories) getActivity();
+    int viewResource;
     Bundle extras = ctx.getIntent().getExtras();
-    View v = inflater.inflate(R.layout.categories_list, null, false);
-    ExpandableListView lv = (ExpandableListView) v.findViewById(R.id.list);
-    View emptyView = v.findViewById(R.id.empty);
     if (extras != null) {
+      viewResource = R.layout.distribution_list;
       mAccountId = extras.getLong(KEY_ACCOUNTID);
       mAccount = Account.getInstanceFromDb(mAccountId);
       mGrouping = (Grouping) extras.getSerializable("grouping");
       groupingYear = extras.getInt("groupingYear");
       groupingSecond = extras.getInt("groupingSecond");
-      emptyView.findViewById(R.id.importButton).setVisibility(View.GONE);
-      ((TextView) emptyView.findViewById(R.id.noCategories)).setText(R.string.no_mapped_transactions);
+      //emptyView.findViewById(R.id.importButton).setVisibility(View.GONE);
+      //((TextView) emptyView.findViewById(R.id.noCategories)).setText(R.string.no_mapped_transactions);
       getSherlockActivity().supportInvalidateOptionsMenu();
     } else {
+      viewResource = R.layout.categories_list;
       mAccountId = 0L;
     }
-    lv.setEmptyView(emptyView);
+    View v = inflater.inflate(viewResource, null, false);
+    ExpandableListView lv = (ExpandableListView) v.findViewById(R.id.list);
+    lv.setEmptyView(v.findViewById(R.id.empty));
     mManager = getLoaderManager();
     mManager.initLoader(-1, null, this);
     String[] from;
