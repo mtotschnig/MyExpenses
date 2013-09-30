@@ -106,12 +106,12 @@ public class DatabaseConstants {
     "END AS  " + KEY_LABEL;
   public static final Long SPLIT_CATID = 0L;
   
-  public static final String WHERE_INCOME =
-      "amount>0 AND (cat_id IS null OR cat_id != " + SPLIT_CATID + ") AND transfer_peer is null";
-  public static final String WHERE_EXPENSE = 
-      "amount<0 AND (cat_id IS null OR cat_id != " + SPLIT_CATID + ") and transfer_peer is null";
+  public static final String WHERE_TRANSACTION =
+      "(cat_id IS null OR cat_id != " + SPLIT_CATID + ") AND transfer_peer is null";
+  public static final String WHERE_INCOME = "amount>0 AND " + WHERE_TRANSACTION;
+  public static final String WHERE_EXPENSE = "amount<0 AND " + WHERE_TRANSACTION;
   public static final String WHERE_TRANSFER =
-      "(cat_id IS null OR cat_id != " + SPLIT_CATID + ") and transfer_peer is not null";
+      "(cat_id IS null OR cat_id != " + SPLIT_CATID + ") AND transfer_peer is not null";
   public static final String INCOME_SUM = 
     "sum(CASE WHEN " + WHERE_INCOME + " THEN amount ELSE 0 END) AS sum_income";
   public static final String EXPENSE_SUM = 

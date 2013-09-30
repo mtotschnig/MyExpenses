@@ -41,32 +41,25 @@
       android:paddingRight="@dimen/general_padding"
       android:id="@+id/sum_line"
       android:orientation="horizontal">
-    <TextView
+    <TextView style="@style/titleTextStyle"
         android:id="@+id/sum_sign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="∑ : "/>
-    <TextView
+    <TextView style="@style/titleTextStyle"
         android:id="@+id/sum_income"
         android:layout_width="1dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:text="SUM_INCOME"/>
-    <TextView
+    <TextView style="@style/titleTextStyle"
         android:id="@+id/sum_expense"
         android:layout_width="1dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:text="SUM_EXPENSE"/>
-    <TextView
-        android:id="@+id/sum_transfer"
-        android:layout_width="1dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:text="SUM_TRANSFER"/>
   </LinearLayout>
 <View
     android:id="@+id/BottomLine"

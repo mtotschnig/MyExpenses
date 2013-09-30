@@ -20,6 +20,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -47,10 +48,14 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class CategoryList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+  private static final int CATEGORY_CURSOR = -1;
+  private static final int SUM_CURSOR = -2;
   private MyExpandableListAdapter mAdapter;
   int mGroupIdColumnIndex;
   private LoaderManager mManager;
   long mAccountId;
+  private TextView incomeSumTv,expenseSumTv;
+  private View bottomLine;
   public Grouping mGrouping;
   int groupingYear;
   int groupingSecond;
@@ -69,6 +74,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     ManageCategories ctx = (ManageCategories) getActivity();
     int viewResource;
     Bundle extras = ctx.getIntent().getExtras();
+    mManager = getLoaderManager();
     if (extras != null) {
       viewResource = R.layout.distribution_list;
       mAccountId = extras.getLong(KEY_ACCOUNTID);
@@ -79,15 +85,19 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       //emptyView.findViewById(R.id.importButton).setVisibility(View.GONE);
       //((TextView) emptyView.findViewById(R.id.noCategories)).setText(R.string.no_mapped_transactions);
       getSherlockActivity().supportInvalidateOptionsMenu();
+      mManager.initLoader(SUM_CURSOR, null, this);
     } else {
       viewResource = R.layout.categories_list;
       mAccountId = 0L;
     }
     View v = inflater.inflate(viewResource, null, false);
+    incomeSumTv = (TextView) v.findViewById(R.id.sum_income);
+    expenseSumTv = (TextView) v.findViewById(R.id.sum_expense);
+    bottomLine = v.findViewById(R.id.BottomLine);
+    updateColor();
     ExpandableListView lv = (ExpandableListView) v.findViewById(R.id.list);
     lv.setEmptyView(v.findViewById(R.id.empty));
-    mManager = getLoaderManager();
-    mManager.initLoader(-1, null, this);
+    mManager.initLoader(CATEGORY_CURSOR, null, this);
     String[] from;
     int[] to;
     if (mAccountId != 0) {
@@ -164,8 +174,29 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       super.setViewText(v, text);
     }
   }
+  private String buildGroupingClause() {
+    String year = YEAR + " = " + groupingYear;
+    switch(mGrouping) {
+    case YEAR:
+      return year;
+    case DAY:
+      return year + " AND " + DAY + " = " + groupingSecond;
+    case WEEK:
+      return year + " AND " + WEEK + " = " + groupingSecond;
+    case MONTH:
+      return year + " AND " + MONTH + " = " + groupingSecond;
+    default:
+      return null;
+    }
+  }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
+    if (id == SUM_CURSOR) {
+      return new CursorLoader(getSherlockActivity(),
+          TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath("sumsForAccountsGroupedByType").appendPath(String.valueOf(mAccountId)).build(),
+          null, buildGroupingClause(),
+          null, null);
+    }
     long parentId;
     String selection = "",strAccountId="",sortOrder=null;
     String[] selectionArgs,projection = null;
@@ -173,19 +204,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       strAccountId = String.valueOf(mAccountId);
       String catFilter = "FROM transactions WHERE account_id = ?";
       if (!mGrouping.equals(Grouping.NONE)) {
-        String groupingClause = YEAR + " = " + groupingYear;
-        switch(mGrouping) {
-        case DAY:
-          groupingClause += " AND " + DAY + " = " + groupingSecond;
-          break;
-        case WEEK:
-          groupingClause += " AND " + WEEK + " = " + groupingSecond;
-          break;
-        case MONTH:
-          groupingClause += " AND " + MONTH + " = " + groupingSecond;
-          break;
-        }
-        catFilter += " AND " +groupingClause;
+        catFilter += " AND " +buildGroupingClause();
       }
       //we need to include transactions mapped to children for main categories
       if (bundle == null)
@@ -214,32 +233,48 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
     int id = loader.getId();
-    if (id == -1) {
-      mAdapter.setGroupCursor(c);
-      if (mAccountId != 0) {
-        SherlockFragmentActivity ctx = getSherlockActivity();
-        ActionBar actionBar =  ctx.getSupportActionBar();
-        actionBar.setTitle(mAccount.label);
-        //upon first entry into the activity, the cursor
-        //should always have at least one row, since we
-        //only make the command available for accounts/groups
-        //where mapped categories exist
-        if (c.getCount()>0) {
-          c.moveToFirst();
-          thisYear = c.getInt(c.getColumnIndex("this_year"));
-          thisMonth = c.getInt(c.getColumnIndex("this_month"));
-          thisWeek = c.getInt(c.getColumnIndex("this_week"));
-          thisDay = c.getInt(c.getColumnIndex("this_day"));
-        }
-        actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
-            groupingYear, groupingSecond,
-            thisYear,thisWeek,thisDay));
+    switch(id) {
+    case SUM_CURSOR:
+      boolean[] seen = new boolean[2];
+      c.moveToFirst();
+      while (c.isAfterLast() == false) {
+        int type = c.getInt(c.getColumnIndex("type"));
+        updateSum(type > 0 ? "+ " : "- ",
+            type > 0 ? incomeSumTv : expenseSumTv,
+            c.getLong(c.getColumnIndex("sum")));
+        c.moveToNext();
+        seen[type] = true;
       }
+      //if we have no income or expense, there is no row in the cursor
+      if (!seen[1]) updateSum("+ ",incomeSumTv,0);
+      if (!seen[0]) updateSum("- ",expenseSumTv,0);
+      break;
+    case CATEGORY_CURSOR:
+    mAdapter.setGroupCursor(c);
+    if (mAccountId != 0) {
+      SherlockFragmentActivity ctx = getSherlockActivity();
+      ActionBar actionBar =  ctx.getSupportActionBar();
+      actionBar.setTitle(mAccount.label);
+      //upon first entry into the activity, the cursor
+      //should always have at least one row, since we
+      //only make the command available for accounts/groups
+      //where mapped categories exist
+      if (c.getCount()>0) {
+        c.moveToFirst();
+        thisYear = c.getInt(c.getColumnIndex("this_year"));
+        thisMonth = c.getInt(c.getColumnIndex("this_month"));
+        thisWeek = c.getInt(c.getColumnIndex("this_week"));
+        thisDay = c.getInt(c.getColumnIndex("this_day"));
+      }
+      actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
+          groupingYear, groupingSecond,
+          thisYear,thisWeek,thisDay));
     }
-    else {
-      //check if group still exists
-      if (mAdapter.getGroupId(id) != 0)
-          mAdapter.setChildrenCursor(id, c);
+    break;
+    default:
+    //check if group still exists
+    if (mAdapter.getGroupId(id) != 0)
+        mAdapter.setChildrenCursor(id, c);
     }
   }
   @Override
@@ -321,10 +356,20 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
   private void reset() {
     SherlockFragmentActivity ctx = getSherlockActivity();
     ActionBar actionBar =  ctx.getSupportActionBar();
-    mManager.restartLoader(-1, null, this);
+    mManager.restartLoader(CATEGORY_CURSOR, null, this);
+    mManager.restartLoader(SUM_CURSOR, null, this);
     //mAdapter.notifyDataSetChanged();
     actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
         groupingYear, groupingSecond,
         thisYear,thisWeek,thisDay));
+  }
+  private void updateSum(String prefix, TextView tv,long amount) {
+    if (tv != null)
+      tv.setText(prefix + Utils.formatCurrency(
+          new Money(mAccount.currency,amount)));
+  }
+  private void updateColor() {
+    if (bottomLine != null)
+      bottomLine.setBackgroundColor(mAccount.color);
   }
 }

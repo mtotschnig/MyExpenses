@@ -87,6 +87,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int UNCOMMITTED = 21;
   private static final int TRANSACTIONS_GROUPS = 22;
   private static final int ACCOUNTS_INCREASE_USAGE = 23;
+  private static final int TRANSACTIONS_SUMS = 24;
   
   @Override
   public boolean onCreate() {
@@ -121,6 +122,13 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTIONS_ID:
       qb.setTables(TABLE_TRANSACTIONS);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+      break;
+    case TRANSACTIONS_SUMS:
+      qb.setTables(VIEW_COMMITTED);
+      projection = new String[] {"amount>0 as type","abs(sum(amount)) as  sum"};
+      groupBy = "type";
+      qb.appendWhere(WHERE_TRANSACTION);
+      qb.appendWhere(" AND " + KEY_ACCOUNTID + "=" + uri.getPathSegments().get(2));
       break;
     case TRANSACTIONS_GROUPS:
       qb.setTables(VIEW_COMMITTED);
@@ -579,6 +587,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/uncommitted", UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/groups/*", TRANSACTIONS_GROUPS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccountsGroupedByType/#", TRANSACTIONS_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTIONS_ID);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORIES_ID);
