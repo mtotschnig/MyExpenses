@@ -27,8 +27,15 @@ import android.net.Uri;
 public class ContribFeature extends Model {
 
   public enum Feature {
-    AGGREGATE,RESET_ALL,SECURITY_QUESTION,SPLIT_TRANSACTION,DISTRIBUTION;
+    ACCOUNTS_UNLIMITED(false),AGGREGATE,RESET_ALL,SECURITY_QUESTION,SPLIT_TRANSACTION,DISTRIBUTION;
 
+    private Feature() {
+      this(true);
+    }
+    private Feature(boolean hasTrial) {
+      this.hasTrial = hasTrial;
+    }
+    public boolean hasTrial;
     public static final Uri CONTENT_URI = TransactionProvider.FEATURE_USED_URI;    /**
      * how many times contrib features can be used for free
      */
@@ -57,7 +64,7 @@ public class ContribFeature extends Model {
       }
     }
     public int usagesLeft() {
-      return USAGES_LIMIT - countUsages();
+      return hasTrial ? USAGES_LIMIT - countUsages() : 0;
     }
   }
 }

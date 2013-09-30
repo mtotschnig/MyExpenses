@@ -35,6 +35,8 @@
   <string name="category">Category</string>
   <string name="color">Color</string>
   <string name="comment">Notes</string>
+  <string name="contrib_feature_accounts_unlimited_description">The number of accounts you can create with &app_name; is limited to 5.</string>
+  <string name="contrib_feature_accounts_unlimited_label">Unlimited number of accounts</string>
   <string name="contrib_feature_distribution_label">Distribution of transactions per category</string>
   <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
   <string name="contrib_feature_reset_all_label">Reset all accounts</string>
@@ -51,8 +53,12 @@
   <string name="dialog_confirm_restore_on_install">A backup file has been detected. Do you want to restore it?</string>
   <string name="dialog_contrib_usage_count">You have %1$d free usages left</string>
   <string name="dialog_contrib_no_usages_left">No free usages left</string>
-  <!-- Placeholders: 1 is name of the feature; 2 is count of usages -->
-  <string name="dialog_contrib_reminder">\"%1$s\" is a premium feature. %2$s. You will get unrestricted access to this and other features, by installing &lt;i>&app_name; Contrib&lt;/i>.</string>
+  <!-- Placeholders: 1 is name of the feature; 2 is count of usages; 3 list of features -->
+  <string name="dialog_contrib_reminder">\"%1$s\" is a premium feature. %2$s. You will get unrestricted access to this and the following features, by installing &lt;i>&app_name; Contrib&lt;/i>:&lt;br>%3$s</string>
+  <!-- this is used for features that are not trial based (try it five times), but limit based (up to five accounts)
+    Placeholders: 1 explains the limit. 2 list of features
+  -->
+  <string name="dialog_contrib_reminder_2">%1$s Remove this limitation by installing &lt;i>&app_name; Contrib&lt;/i>. You also gain unrestricted acces to the following features: &lt;br>%2$s</string>
   <string name="dialog_contrib_yes">Buy now</string>
   <string name="dialog_contrib_no">Not yet</string>
   <!-- Placeholders: 1 is feature list -->

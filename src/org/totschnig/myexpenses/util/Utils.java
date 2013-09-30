@@ -343,13 +343,21 @@ public class Utils {
       }
     }
   }
-  public static String getContribFeatureLabelsAsFormattedList(Context ctx) {
+  /**
+   * @param ctx for retrieving resources
+   * @param other if not null, all features except the one provided will be returned
+   * @return
+   */
+  public static String getContribFeatureLabelsAsFormattedList(Context ctx,Feature other) {
     String result ="";
     Iterator<Feature> iterator = EnumSet.allOf(Feature.class).iterator();
     while (iterator.hasNext()) {
-      result += " - " + ctx.getString(ctx.getResources().getIdentifier("contrib_feature_" + iterator.next().toString() + "_label", "string", ctx.getPackageName()));
-      if (iterator.hasNext())
-        result += "<br>";
+      Feature f = iterator.next();
+      if (!f.equals(other)) {
+        result += " - " + ctx.getString(ctx.getResources().getIdentifier("contrib_feature_" + f.toString() + "_label", "string", ctx.getPackageName()));
+        if (iterator.hasNext())
+          result += "<br>";
+      }
     }
     return result;
   }

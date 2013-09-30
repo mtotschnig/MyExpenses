@@ -48,7 +48,7 @@ public class ContribInfoDialogFragment  extends DialogFragment implements OnClic
       .setTitle(R.string.menu_contrib);
       builder.setMessage(TextUtils.concat(Html.fromHtml(getString(
           R.string.dialog_contrib_text,
-          Utils.getContribFeatureLabelsAsFormattedList(getActivity()))),
+          Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null))),
           getString(R.string.thank_you)))
         .setPositiveButton(R.string.dialog_contrib_yes, this);
       if (getArguments().getBoolean("reminderP")) {

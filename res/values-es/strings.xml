@@ -50,7 +50,7 @@
   <string name="dialog_confirm_restore_on_install">Se ha detectado un archivo de copia de seguridad. ¿Desea restaurarlo?</string>
   <string name="dialog_contrib_no">Todavía no</string>
   <string name="dialog_contrib_no_usages_left">No hay más uso libre</string>
-  <string name="dialog_contrib_reminder">\"%1$s\" es una característica Contrib. %2$s. Usted va a obtener acceso ilimitado a ésta y otras características instalando &lt;i>&app_name; Contrib&lt;/i>.</string>
+  <string name="dialog_contrib_reminder">\"%1$s\" es una característica Contrib. %2$s. Usted va a obtener acceso ilimitado a ésta y otras características instalando &lt;i>&app_name; Contrib&lt;/i>:&lt;br>%3$s</string>
   <string name="dialog_contrib_usage_count">Quedan %1$d usos libres</string>
   <string name="dialog_contrib_yes">Compre</string>
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> se ofrece sin publicidad y de código abierto. Por favor, contribuya instalando la versión pagada Contrib. Usted va a obtener acceso ilimitado a las siguientes características premium: &lt;br>%1$s&lt;br></string>

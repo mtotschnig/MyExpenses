@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribIFace;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -55,22 +56,24 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx  = getActivity();
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
-    CharSequence message = TextUtils.concat(
+    String featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature);
+    CharSequence message = feature.hasTrial ?
         Html.fromHtml(String.format(getString(
-          R.string.dialog_contrib_reminder,
-          getString(getResources().getIdentifier(
-              "contrib_feature_" + feature + "_label", "string", getActivity().getPackageName())),
-          usagesLeft > 0 ? getString(R.string.dialog_contrib_usage_count,usagesLeft) :
-                getString(R.string.dialog_contrib_no_usages_left)))),
-        " ",
-        getString(R.string.thank_you));
-      return new AlertDialog.Builder(wrappedCtx)
-        .setTitle(R.string.dialog_title_contrib_feature)
-        .setMessage(message)
-      //null should be your on click listener
-        .setNegativeButton(R.string.dialog_contrib_no, this)
-        .setPositiveButton(R.string.dialog_contrib_yes, this)
-        .create();
+              R.string.dialog_contrib_reminder,
+              getString(getResources().getIdentifier("contrib_feature_" + feature + "_label", "string", ctx.getPackageName())), //1$s
+              usagesLeft > 0 ? getString(R.string.dialog_contrib_usage_count,usagesLeft) : getString(R.string.dialog_contrib_no_usages_left), //2$s
+              featureList))) : //3$s
+       Html.fromHtml(String.format(getString(
+            R.string.dialog_contrib_reminder_2,
+            getString(getResources().getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName())), //1$s
+            featureList))); //2$s
+    return new AlertDialog.Builder(wrappedCtx)
+      .setTitle(R.string.dialog_title_contrib_feature)
+      .setMessage(message)
+    //null should be your on click listener
+      .setNegativeButton(R.string.dialog_contrib_no, this)
+      .setPositiveButton(R.string.dialog_contrib_yes, this)
+      .create();
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {

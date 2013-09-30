@@ -109,10 +109,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
         CommonCommands.showContribDialog(this,Feature.AGGREGATE, null);
       }
       return true;
-    case R.id.CREATE_COMMAND:
-      i = new Intent(this, AccountEdit.class);
-      startActivityForResult(i, 0);
-      return true;
     case R.id.DELETE_COMMAND_DO:
       FragmentManager fm = getSupportFragmentManager();
       fm.beginTransaction()

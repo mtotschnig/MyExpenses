@@ -18,12 +18,19 @@ package org.totschnig.myexpenses.fragment;
 import java.util.Currency;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.AccountEdit;
+import org.totschnig.myexpenses.activity.CommonCommands;
+import org.totschnig.myexpenses.activity.ManageAccounts;
+import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.MenuItem;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -39,6 +46,13 @@ import android.widget.TextView;
 
 public class AccountList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   SimpleCursorAdapter mAdapter;
+  int accountCount;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setHasOptionsMenu(true);
+  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,12 +112,30 @@ public class AccountList extends SherlockFragment implements LoaderManager.Loade
   }
 
   @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    ManageAccounts ctx = (ManageAccounts) getActivity();
+    switch (item.getItemId()) {
+    case R.id.CREATE_COMMAND:
+    if (MyApplication.getInstance().isContribEnabled || accountCount < 5) {
+      Intent i = new Intent(ctx, AccountEdit.class);
+      startActivityForResult(i, 0);
+    }
+    else {
+      CommonCommands.showContribDialog(ctx,Feature.ACCOUNTS_UNLIMITED, null);
+    }
+    return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+  @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
     mAdapter.swapCursor(c);
+    accountCount = c.getCount();
   }
 
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
     mAdapter.swapCursor(null);
+    accountCount = 0;
   }
 }

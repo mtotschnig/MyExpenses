@@ -30,7 +30,7 @@
   <string name="dialog_contrib_usage_count">لديك %1$d استعمالات مجانية متبقية</string>
   <string name="dialog_contrib_no_usages_left">انتهت فترة الاستعمال المجاني</string>
   <!--Placeholders: 1 is name of the feature; 2 is count of usages-->
-  <string name="dialog_contrib_reminder">\"%1$s\" خاصية مميزة. %2$s. يمكنك الحصول على هذه الخاصية وكامل المميزات الخاصة عن طريق تثبيت &lt;i&gt;My Expenses Contrib&lt;/i&gt;.</string>
+  <!-- <string name="dialog_contrib_reminder">\"%1$s\" خاصية مميزة. %2$s. يمكنك الحصول على هذه الخاصية وكامل المميزات الخاصة عن طريق تثبيت &lt;i&gt;My Expenses Contrib&lt;/i&gt;.</string> -->
   <string name="dialog_contrib_yes">شراء الآن</string>
   <string name="dialog_contrib_no">ليس بعد</string>
   <!--Placeholders: 1 is feature list-->
