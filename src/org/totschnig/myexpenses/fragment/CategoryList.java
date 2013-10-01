@@ -17,6 +17,10 @@ package org.totschnig.myexpenses.fragment;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.model.Account;
@@ -50,6 +54,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class CategoryList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final int CATEGORY_CURSOR = -1;
   private static final int SUM_CURSOR = -2;
+  private static final int DATEINFO_CURSOR = -3;
   private MyExpandableListAdapter mAdapter;
   int mGroupIdColumnIndex;
   private LoaderManager mManager;
@@ -86,6 +91,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       //((TextView) emptyView.findViewById(R.id.noCategories)).setText(R.string.no_mapped_transactions);
       getSherlockActivity().supportInvalidateOptionsMenu();
       mManager.initLoader(SUM_CURSOR, null, this);
+      mManager.initLoader(DATEINFO_CURSOR, null, this);
     } else {
       viewResource = R.layout.categories_list;
       mAccountId = 0L;
@@ -182,7 +188,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     case DAY:
       return year + " AND " + DAY + " = " + groupingSecond;
     case WEEK:
-      return year + " AND " + WEEK + " = " + groupingSecond;
+      return YEAR_OF_WEEK_START + " = " + groupingYear + " AND " + WEEK + " = " + groupingSecond;
     case MONTH:
       return year + " AND " + MONTH + " = " + groupingSecond;
     default:
@@ -197,6 +203,24 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
           null, buildGroupingClause(),
           null, null);
     }
+    if (id == DATEINFO_CURSOR) {
+      ArrayList<String> projection = new ArrayList<String>(Arrays.asList(
+          new String[] { THIS_YEAR + " AS this_year",THIS_YEAR_OF_WEEK_START + " AS this_year_of_week_start",
+              THIS_MONTH + " AS this_month",THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day"}));
+      if (mGrouping.equals(Grouping.WEEK)) {
+        //we want to find out the week range when we are given a week number
+        //we find out the first Monday in the year, which is the beginning of week 1 and than
+        //add (weekNumber-1)*7 days to get at the beginning of the week
+        String weekStart = String.format(Locale.US, "'%d-01-01','weekday 1','+%d day'",groupingYear,(groupingSecond-1)*7);
+        String weekEnd = String.format(Locale.US, "'%d-01-01','weekday 1','+%d day'",groupingYear,groupingSecond*7-1);
+        projection.add(String.format(Locale.US,"strftime('%%m/%%d', date(%s)) || '-' || strftime('%%m/%%d', date(%s)) AS week_range",weekStart,weekEnd));
+      }
+      return new CursorLoader(getSherlockActivity(),
+          TransactionProvider.TRANSACTIONS_URI,
+          projection.toArray(new String[projection.size()]),
+          null,null, null);
+    }
+    //CATEGORY_CURSOR
     long parentId;
     String selection = "",strAccountId="",sortOrder=null;
     String[] selectionArgs,projection = null;
@@ -213,8 +237,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
         catFilter += " AND cat_id  = categories._id";
       selection = " AND exists (select 1 " + catFilter +")";
       projection = new String[] {KEY_ROWID, KEY_LABEL, KEY_PARENTID,
-          "(SELECT sum(amount) " + catFilter + ") AS sum",
-          THIS_YEAR + " AS this_year",THIS_MONTH + " AS this_month",THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day"};
+          "(SELECT sum(amount) " + catFilter + ") AS sum"};
       sortOrder="abs(sum) DESC";
     }
     if (bundle == null) {
@@ -233,6 +256,8 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
     int id = loader.getId();
+    SherlockFragmentActivity ctx = getSherlockActivity();
+    ActionBar actionBar =  ctx.getSupportActionBar();
     switch(id) {
     case SUM_CURSOR:
       boolean[] seen = new boolean[2];
@@ -249,26 +274,19 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       if (!seen[1]) updateSum("+ ",incomeSumTv,0);
       if (!seen[0]) updateSum("- ",expenseSumTv,0);
       break;
+    case DATEINFO_CURSOR:
+    c.moveToFirst();
+    actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
+        groupingYear, groupingSecond,c));
+    thisYear = c.getInt(c.getColumnIndex("this_year"));
+    thisMonth = c.getInt(c.getColumnIndex("this_month"));
+    thisWeek = c.getInt(c.getColumnIndex("this_week"));
+    thisDay = c.getInt(c.getColumnIndex("this_day"));
+    break;
     case CATEGORY_CURSOR:
     mAdapter.setGroupCursor(c);
     if (mAccountId != 0) {
-      SherlockFragmentActivity ctx = getSherlockActivity();
-      ActionBar actionBar =  ctx.getSupportActionBar();
       actionBar.setTitle(mAccount.label);
-      //upon first entry into the activity, the cursor
-      //should always have at least one row, since we
-      //only make the command available for accounts/groups
-      //where mapped categories exist
-      if (c.getCount()>0) {
-        c.moveToFirst();
-        thisYear = c.getInt(c.getColumnIndex("this_year"));
-        thisMonth = c.getInt(c.getColumnIndex("this_month"));
-        thisWeek = c.getInt(c.getColumnIndex("this_week"));
-        thisDay = c.getInt(c.getColumnIndex("this_day"));
-      }
-      actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
-          groupingYear, groupingSecond,
-          thisYear,thisWeek,thisDay));
     }
     break;
     default:
@@ -354,14 +372,9 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
   }
 
   private void reset() {
-    SherlockFragmentActivity ctx = getSherlockActivity();
-    ActionBar actionBar =  ctx.getSupportActionBar();
     mManager.restartLoader(CATEGORY_CURSOR, null, this);
     mManager.restartLoader(SUM_CURSOR, null, this);
-    //mAdapter.notifyDataSetChanged();
-    actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
-        groupingYear, groupingSecond,
-        thisYear,thisWeek,thisDay));
+    mManager.restartLoader(DATEINFO_CURSOR, null, this);
   }
   private void updateSum(String prefix, TextView tv,long amount) {
     if (tv != null)

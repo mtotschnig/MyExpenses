@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -90,11 +91,10 @@ public class TransactionList extends BudgetListFragment implements
   private LoaderManager mManager;
   private SparseBooleanArray mappedCategoriesPerGroup;
 
-  int columnIndexDate, columnIndexYear, columnIndexMonth, columnIndexWeek, columnIndexDay,
+  int columnIndexDate, columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth, columnIndexWeek, columnIndexDay,
     columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee,
     columnIndexGroupYear, columnIndexGroupSecond, columnIndexGroupMappedCategories,
     columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
-  int this_year,this_week,this_day;
   boolean indexesCalculated, indexesGroupingCalculated = false;
 
   public static TransactionList newInstance(long accountId) {
@@ -305,15 +305,10 @@ public class TransactionList extends BudgetListFragment implements
     case TRANSACTION_CURSOR:
       mTransactionsCursor = c;
       hasItems = c.getCount()>0;
-      if (hasItems) {
-        c.moveToFirst();
-        this_year = c.getInt(c.getColumnIndex("this_year"));
-        this_week = c.getInt(c.getColumnIndex("this_week"));
-        this_day = c.getInt(c.getColumnIndex("this_day"));
-      }
       if (!indexesCalculated) {
         columnIndexDate = c.getColumnIndex(KEY_DATE);
         columnIndexYear = c.getColumnIndex("year");
+        columnIndexYearOfWeekStart = c.getColumnIndex("year_of_week_start");
         columnIndexMonth = c.getColumnIndex("month");
         columnIndexWeek = c.getColumnIndex("week");
         columnIndexDay  = c.getColumnIndex("day");
@@ -435,7 +430,7 @@ public class TransactionList extends BudgetListFragment implements
 
       Cursor c = getCursor();
       c.moveToPosition(position);
-      int year = c.getInt(columnIndexYear);
+      int year = c.getInt(mAccount.grouping.equals(Grouping.WEEK)?columnIndexYearOfWeekStart:columnIndexYear);
       int second=-1;
 
       if (mGroupingCursor != null) {
@@ -477,7 +472,8 @@ public class TransactionList extends BudgetListFragment implements
         }
         mappedCategoriesPerGroup.put(position, mGroupingCursor.getInt(columnIndexGroupMappedCategories)>0);
       }
-      holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(), year, second, this_year, this_week,this_day));
+      holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(),year,second,c));
+      //holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(), year, second, mAccount.grouping.equals(Grouping.WEEK)?this_year_of_week_start:this_year, this_week,this_day));
       return convertView;
     }
     private void fillSums(HeaderViewHolder holder, Cursor mGroupingCursor) {
@@ -497,7 +493,7 @@ public class TransactionList extends BudgetListFragment implements
         return 0;
       Cursor c = getCursor();
       c.moveToPosition(position);
-      int year = c.getInt(columnIndexYear);
+      int year = c.getInt(mAccount.grouping.equals(Grouping.WEEK)?columnIndexYearOfWeekStart:columnIndexYear);
       int month = c.getInt(columnIndexMonth);
       int week = c.getInt(columnIndexWeek);
       int day = c.getInt(columnIndexDay);

@@ -138,7 +138,7 @@ public class TransactionProvider extends ContentProvider {
       } catch (IllegalArgumentException e) {
         group = Grouping.NONE;
       }
-      String yearColumn = YEAR + " AS year";
+      String yearColumn = (group.equals(Grouping.WEEK) ? YEAR_OF_WEEK_START : YEAR) + " AS year";
       String secondColumnAlias = " AS second";
       switch(group) {
       case NONE:
