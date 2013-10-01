@@ -48,9 +48,11 @@
   <string name="default_account_description">Dieses Konto wurde während der Installation automatisch eingerichtet.</string>    
   <string name="description">Beschreibung</string>
   <string name="dialog_confirm_restore_on_install">Eine Sicherungskopie ist vorhanden. Soll diese wiederhergestellt werden?</string>
-  <string name="dialog_contrib_usage_count">Diese Funktion kann noch %1$d mal verwendet werden</string>
-  <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden</string>
-  <string name="dialog_contrib_reminder">\"%1$s\" ist eine Premium-Funktion. %2$s. Sie können auf diese und die folgenden uneingeschränkt zugreifen, wenn Sie &lt;i>&app_name; Contrib&lt;/i> installieren:&lt;br>%3$s</string>
+  <string name="dialog_contrib_usage_count">Diese Funktion kann noch %1$d mal verwendet werden.</string>
+  <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden.</string>
+  <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Sie können diese Einschränkung durch die Installation von &lt;i>&app_name; Contrib&lt;/i> aufheben.</string>
+  <string name="dialog_contrib_reminder_gain_access">Auch auf folgende Funktionen können Sie dann uneingeschränkt zugreifen:</string>
   <string name="dialog_contrib_yes">Kaufen</string>
   <string name="dialog_contrib_no">Noch nicht</string>
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten. Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:&lt;br>%1$s&lt;br></string>

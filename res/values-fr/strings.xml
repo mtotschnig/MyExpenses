@@ -48,9 +48,11 @@
   <string name="default_account_description">Ce compte a été créé automatiquement lors de l\'installation</string>
   <string name="description">Description</string>
   <string name="dialog_confirm_restore_on_install">Un fichier de sauvegarde a été détecté. Voulez-vous le restaurer ?</string>
-  <string name="dialog_contrib_usage_count">Il vous reste %1$d utilisation(s) gratuite(s)</string>
-  <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite</string>
-  <string name="dialog_contrib_reminder">\"%1$s\" est une fonction Premium. %2$s. Vous obtiendrez un accès illimité à celle-ci et toutes les autres en installant &lt;i>&app_name; Contrib&lt;/i>:&lt;br>%3$s</string>
+  <string name="dialog_contrib_usage_count">Il vous reste %1$d utilisation(s) gratuite(s).</string>
+  <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite.</string>
+  <string name="dialog_contrib_premium_feature">%1$s est une fonction Premium.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Supprimez cette limitation en installant  &lt;i>&app_name; Contrib&lt;/i>.</string>
+  <string name="dialog_contrib_reminder_gain_access">Vous gagnez également accès illimité aux fonctionnalités suivantes:</string>
   <string name="dialog_contrib_yes">Acheter</string>
   <string name="dialog_contrib_no">Pas tout de suite</string>
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> vous est offert sans publicité et open source. S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux fonctions Premium suivantes:&lt;br>%1$s&lt;br></string>

@@ -49,9 +49,11 @@
   <string name="description">Descrizione</string>
   <string name="dialog_confirm_restore_on_install">È stato trovato un file di backup. Si vuole ripristinarlo?</string>
   <string name="dialog_contrib_no">Non ancora</string>
-  <string name="dialog_contrib_no_usages_left">Non restano usi gratuiti</string>
-  <string name="dialog_contrib_reminder">\"%1$s\" è una funzionalità speciale. %2$s. Ottiene accesso illimitato a questa e altre funzionalità installando &lt;i>&app_name; Contrib&lt;/i>:&lt;br>%3$s</string>
-  <string name="dialog_contrib_usage_count">Restano %1$d usi gratis</string>
+  <string name="dialog_contrib_no_usages_left">Non restano usi gratuiti.</string>
+  <string name="dialog_contrib_premium_feature">%1$s è una funzionalità speciale.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Rimuovere questa limitazione con l\'installazione di &lt;i>&app_name; Contrib&lt;/i>.</string>
+  <string name="dialog_contrib_reminder_gain_access">È inoltre acquisire accesso illimitato ai seguenti caratteristiche:</string>
+  <string name="dialog_contrib_usage_count">Restano %1$d usi gratis.</string>
   <string name="dialog_contrib_yes">Comprare</string>
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> è gratuito e open source. Si prega di contribuire installando la versione Contrib a pagamento. Ottiene l’accesso illimitato alle seguenti funzionalità speciali:&lt;br>%1$s&lt;br></string>
   <string name="dialog_export_delete">Cancellare le transazioni esportati</string>

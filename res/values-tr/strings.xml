@@ -48,9 +48,9 @@
   <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>    
   <string name="description">Açıklama</string>
   <string name="dialog_confirm_restore_on_install">Bir yedekleme dosyası tespit edildi. Onu yüklemek istiyor musunuz?</string>
-  <string name="dialog_contrib_usage_count">%1$d ücretsiz kullanım kalmıştır</string>
-  <string name="dialog_contrib_no_usages_left">Hiçbir ücretsiz kullanım kalmamıştır</string>
-  <string name="dialog_contrib_reminder">\"%1$s\" katkı işlevidir. %2$s. Bu işleve ve diğerlerine tüm erişimi &lt;i&gt;My Expenses Contrib&lt;/i&gt; uygulamasını kurarak elde edebilirsiniz:&lt;br>%3$s</string>
+  <string name="dialog_contrib_usage_count">%1$d ücretsiz kullanım kalmıştır.</string>
+  <string name="dialog_contrib_no_usages_left">Hiçbir ücretsiz kullanım kalmamıştır.</string>
+  <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir.</string>
   <string name="dialog_contrib_yes">Satın al</string>
   <string name="dialog_contrib_no">Henüz değil</string>
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> ücretsiz ve özgür yazılım olarak sunulmuştur. Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:&lt;br>%1$s&lt;br></string>

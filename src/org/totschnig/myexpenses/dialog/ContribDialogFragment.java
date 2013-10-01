@@ -57,20 +57,22 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
     Activity ctx  = getActivity();
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     String featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature);
-    CharSequence message = feature.hasTrial ?
-        Html.fromHtml(String.format(getString(
-              R.string.dialog_contrib_reminder,
-              getString(getResources().getIdentifier("contrib_feature_" + feature + "_label", "string", ctx.getPackageName())), //1$s
-              usagesLeft > 0 ? getString(R.string.dialog_contrib_usage_count,usagesLeft) : getString(R.string.dialog_contrib_no_usages_left), //2$s
-              featureList))) : //3$s
-       Html.fromHtml(String.format(getString(
-            R.string.dialog_contrib_reminder_2,
-            getString(getResources().getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName())), //1$s
-            featureList))); //2$s
+    String featureDescription;
+    if (feature.hasTrial)
+      featureDescription = getString(R.string.dialog_contrib_premium_feature,
+              "<i>"+getString(getResources().getIdentifier("contrib_feature_" + feature + "_label", "string", ctx.getPackageName()))+"</i>") +
+              (usagesLeft > 0 ? getString(R.string.dialog_contrib_usage_count,usagesLeft) : getString(R.string.dialog_contrib_no_usages_left));
+    else
+      featureDescription = getString(getResources().getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
+    CharSequence message = Html.fromHtml((String) TextUtils.concat(
+        featureDescription," ",
+        getString(R.string.dialog_contrib_reminder_remove_limitation)," ",
+        getString(R.string.dialog_contrib_reminder_gain_access),
+        "<br>",
+        featureList));
     return new AlertDialog.Builder(wrappedCtx)
       .setTitle(R.string.dialog_title_contrib_feature)
       .setMessage(message)
-    //null should be your on click listener
       .setNegativeButton(R.string.dialog_contrib_no, this)
       .setPositiveButton(R.string.dialog_contrib_yes, this)
       .create();

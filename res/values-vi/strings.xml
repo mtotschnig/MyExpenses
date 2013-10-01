@@ -49,9 +49,9 @@
   <string name="default_account_description">Tài khỏa này đã được cài đặt tự động trong suốt quá trình cài đặt</string>
   <string name="description">Mô tả</string>
   <string name="dialog_confirm_restore_on_install">Một tập tin sao lưu đã được phát hiện. Bạn có muốn phục hồi tập tin này không?</string>
-  <string name="dialog_contrib_usage_count">Bạn có %1$d sử dụng miễn phí còn lại</string>
-  <string name="dialog_contrib_no_usages_left">Không còn lần sử dụng miễn phí nào nữa</string>
-  <string name="dialog_contrib_reminder">\"%1$s\" là một tính năng nâng cao. %2$s. Bạn có thể sử dụng các tính năng này, bằng việc cài đặt &lt;i>&app_name; Contrib&lt;/i>:&lt;br>%3$s</string>
+  <string name="dialog_contrib_usage_count">Bạn có %1$d sử dụng miễn phí còn lại.</string>
+  <string name="dialog_contrib_no_usages_left">Không còn lần sử dụng miễn phí nào nữa.</string>
+  <string name="dialog_contrib_premium_feature">%1$s là một tính năng nâng cao.</string>
   <string name="dialog_contrib_yes">Mua ngay</string>
   <string name="dialog_contrib_no">Vẫn chưa</string>
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> được cung cấp dưới dạng mã nguồn mở và không hiện quảng cáo. Xin vui lòng cống hiến cho chương trình bằng cách cài đặt phiên bản cống hiến. Bạn sẽ được phép sử dụng các tính năng của phiên bản nâng cao:&lt;br>%1$s&lt;br></string>
