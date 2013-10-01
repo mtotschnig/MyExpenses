@@ -611,7 +611,7 @@ public class TransactionList extends BudgetListFragment implements
         CommonCommands.showContribDialog(ctx,Feature.DISTRIBUTION, headerId);
       }
     } else {
-      Toast.makeText(ctx, getString(R.string.warning_no_categories_mapped_to_group), Toast.LENGTH_LONG).show();
+      Toast.makeText(ctx, getString(R.string.no_mapped_transactions), Toast.LENGTH_LONG).show();
     }
   }
 }

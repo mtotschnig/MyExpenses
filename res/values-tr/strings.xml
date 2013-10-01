@@ -35,7 +35,9 @@
   <string name="category">Kategori</string>
   <string name="color">Renk</string>
   <string name="comment">Notlar</string>
+  <string name="contrib_feature_accounts_unlimited_label">Sınırsız sayıda hesap</string>
   <string name="contrib_feature_aggregate_label">Birden çok hesabın birleşik görünümü</string>
+  <string name="contrib_feature_distribution_label">Muamelelerin kategori başına dağılımı</string>
   <string name="contrib_feature_reset_all_label">Tüm hesapları sıfırla</string>
   <string name="contrib_feature_security_question_label">Güvenlik sorusu</string>
   <string name="contrib_feature_split_transaction_label">Bölünmüş muamele</string>
@@ -53,7 +55,7 @@
   <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir.</string>
   <string name="dialog_contrib_yes">Satın al</string>
   <string name="dialog_contrib_no">Henüz değil</string>
-  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> ücretsiz ve özgür yazılım olarak sunulmuştur. Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:&lt;br>%1$s&lt;br></string>
+  <string name="dialog_contrib_text">&lt;i&gt;&app_name;&lt;/i&gt; ücretsiz ve özgür yazılım olarak sunulmuştur. Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:</string>
   <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
   <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
   <string name="dialog_remind_rate">Lütfen &app_name; Google Play\'de değerlendirip not vermek için birkaç dakika ayırınız.  Yorumlarınız devamlı bir şekilde yeni işlevler ve geliştirmeler eklememe yardımcı olmaktadır.</string>
@@ -91,7 +93,6 @@
   <string name="feedback">Geri bildirim</string>
   <string name="feedback_email_message">Lütfen geri bildirimi İngilizce, Fransızca ya da Almanca olarak gönderin!</string>
   <string name="ftp_uri_malformed">Yanlış yapılandırılmış URI %1$s</string>
-  <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_default_source">Varsayılan Türkçe kategoriler</string>
   <string name="grisbi_import_button_categories_only">Kategoriler</string>
   <string name="grisbi_import_button_categories_and_parties">Kategoriler ve bölümler</string>
@@ -127,6 +128,7 @@
   <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı: katkı işlevlerinin kilidi kaldırılmıştır.</string>
   <string name="licence_validation_failure">Lisans anahtarı doğrulanamadı.</string>
   <string name="menu_aggregates">Toplam</string>
+  <string name="menu_back">Önceki</string>
   <string name="menu_backup">Yedekleme</string>
   <string name="menu_clone_transaction">Klonla</string>
   <string name="menu_contrib">Katkıda bulun</string>
@@ -145,6 +147,7 @@
   <string name="menu_create_template_for_transaction">Yeni muamele şablonu</string>
   <string name="menu_create_template_for_transfer">Yeni transfer şablonu</string>
   <string name="menu_delete">Sil</string>
+  <string name="menu_distribution">Dağılım</string>
   <string name="menu_edit">Düzenle</string>
   <string name="menu_edit_account">Hesabı düzenle</string>
   <string name="menu_edit_method">Ödeme metodunu düzenle</string>
@@ -155,6 +158,7 @@
   <string name="menu_edit_transaction">Muameleyi düzenle</string>
   <string name="menu_edit_template">Şablonu düzenle</string>
   <string name="menu_edit_transfer">Virmanı düzenle</string>
+  <string name="menu_forward">Sonraki</string>
   <string name="menu_grouping">Gruplandırma</string>
   <string name="menu_help">Yardım</string>
   <string name="menu_move_transaction">Taşı</string>
@@ -174,7 +178,8 @@
   <string name="no_category_assigned">Hiçbir kategori atanmamış</string>
   <string name="no_details">Ayrıntı yok.</string>
   <string name="no_expenses">Henüz hiçbir harcama yok!</string>
-  <string name="no_exportable_expenses">Henüz dışa aktarılmamış hiçbir muamele yok.</string> 
+  <string name="no_exportable_expenses">Henüz dışa aktarılmamış hiçbir muamele yok.</string>
+  <string name="no_mapped_transactions">Bu zaman aralığında hiçbir muamele kategoriler ile ilişkilendirilmemiştir.</string>
   <string name="no_parties">Bölüm yok.</string>
   <string name="no_templates">Şablon yok.</string>
   <string name="no_split_parts">Hiçbir alt muamele yok.</string>

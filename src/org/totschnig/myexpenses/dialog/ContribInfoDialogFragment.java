@@ -43,13 +43,16 @@ public class ContribInfoDialogFragment  extends DialogFragment implements OnClic
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
+    CharSequence message = Html.fromHtml((String) TextUtils.concat(
+        getString(R.string.dialog_contrib_text),
+        "<br>",
+        Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null),
+        "<br>",
+        getString(R.string.thank_you)));
     //tv.setMovementMethod(LinkMovementMethod.getInstance());
     AlertDialog.Builder builder =  new AlertDialog.Builder(getActivity())
       .setTitle(R.string.menu_contrib);
-      builder.setMessage(TextUtils.concat(Html.fromHtml(getString(
-          R.string.dialog_contrib_text,
-          Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null))),
-          getString(R.string.thank_you)))
+      builder.setMessage(message)
         .setPositiveButton(R.string.dialog_contrib_yes, this);
       if (getArguments().getBoolean("reminderP")) {
         builder.setCancelable(false)

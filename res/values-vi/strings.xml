@@ -36,6 +36,7 @@
   <string name="category">Phân loại</string>
   <string name="color">Màu sắc</string>
   <string name="comment">Ghi chú</string>
+  <string name="contrib_feature_accounts_unlimited_label">Không giới hạn số lượng các tài khoản</string>
   <string name="contrib_feature_aggregate_label">Gom nhóm nhiều dạng tài khoản</string>
   <string name="contrib_feature_reset_all_label">Thiết đặt lại tất cả tài khoản</string>
   <string name="contrib_feature_security_question_label">Câu hỏi an ninh</string>
@@ -54,7 +55,7 @@
   <string name="dialog_contrib_premium_feature">%1$s là một tính năng nâng cao.</string>
   <string name="dialog_contrib_yes">Mua ngay</string>
   <string name="dialog_contrib_no">Vẫn chưa</string>
-  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> được cung cấp dưới dạng mã nguồn mở và không hiện quảng cáo. Xin vui lòng cống hiến cho chương trình bằng cách cài đặt phiên bản cống hiến. Bạn sẽ được phép sử dụng các tính năng của phiên bản nâng cao:&lt;br>%1$s&lt;br></string>
+  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> được cung cấp dưới dạng mã nguồn mở và không hiện quảng cáo. Xin vui lòng cống hiến cho chương trình bằng cách cài đặt phiên bản cống hiến. Bạn sẽ được phép sử dụng các tính năng của phiên bản nâng cao:</string>
   <string name="dialog_export_delete">Xóa các giao dịch được xuất dữ liệu</string>
   <string name="dialog_export_not_yet_exported">Xuất dữ liệu về các giao dịch chưa được xuất</string>
   <string name="dialog_password_activate_protection">Bật tính năng bảo vệ mật khẩu</string>
@@ -92,7 +93,6 @@
   <string name="feedback">Phản hồi</string>
   <string name="feedback_email_message">Gửi phản hồi của bạn, bằng tiếng Anh, Pháp hoặc tiếng Đức!</string>
   <string name="ftp_uri_malformed">URI lỗi %1$s</string>
-  <string name="grisbi_file">grisbi.xml</string>
   <string name="grisbi_import_default_source">Phân loại mặc định theo tiếng Anh</string>
   <string name="grisbi_import_button_categories_only">Phân loại</string>
   <string name="grisbi_import_button_categories_and_parties">Các phân loại và nhóm</string>

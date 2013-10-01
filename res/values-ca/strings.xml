@@ -57,7 +57,6 @@
   <string name="external_storage_unavailable">La memòria externa (targeta SD) no està disponible.</string>
   <string name="feedback">Feedback</string>
   <string name="ftp_uri_malformed">URI %1$s no és vàlid</string>
-  <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_default_source">Categories predeterminades en català</string>
   <string name="grisbi_import_button_categories_only">Categories</string>
   <string name="grisbi_import_button_categories_and_parties">Categories i tercers</string>

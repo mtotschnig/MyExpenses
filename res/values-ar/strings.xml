@@ -32,7 +32,7 @@
   <string name="dialog_contrib_yes">شراء الآن</string>
   <string name="dialog_contrib_no">ليس بعد</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text">&lt;i&gt;My Expenses&lt;/i&gt; تطبيق مفتوح المصدر وبدون إعلانات. أرجو المساهمة بتثبيت النسخة المدفوعة. يمكنك الحصول على كافة المميزات التالية: &lt;br&gt;%1$s&lt;br&gt;</string>
+  <string name="dialog_contrib_text">&lt;i&gt;My Expenses&lt;/i&gt; تطبيق مفتوح المصدر وبدون إعلانات. أرجو المساهمة بتثبيت النسخة المدفوعة. يمكنك الحصول على كافة المميزات التالية:</string>
   <string name="dialog_export_delete">حذف العمليات المصدّرة</string>
   <string name="dialog_export_not_yet_exported">تصدير العمليات التي لم تصدّر بعد</string>
   <string name="dialog_password_activate_protection">تفعيل حماية كلمة المرور</string>
@@ -70,7 +70,6 @@
   <string name="feedback">التقييم</string>
   <string name="feedback_email_message">من فضلك! ارسل ملاحظاتك، بحروف انجليزية، فرنسية أو ألمانية.</string>
   <string name="ftp_uri_malformed">خطأ في العنوان %1$s</string>
-  <string name="grisbi_file">grisbi.xml</string>
   <string name="grisbi_import_default_source">التصنيفات الافتراضية الانجليزية</string>
   <string name="grisbi_import_button_categories_only">التصنيفات</string>
   <string name="grisbi_import_button_categories_and_parties">التصنيفات والأطراف</string>

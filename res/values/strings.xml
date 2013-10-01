@@ -60,7 +60,7 @@
   <string name="dialog_contrib_yes">Buy now</string>
   <string name="dialog_contrib_no">Not yet</string>
   <!-- Placeholders: 1 is feature list -->
-  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> is offered ad free and open source. Please contribute by installing the paid Contrib version. You gain unrestricted access to the following premium features:&lt;br>%1$s&lt;br></string>
+  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> is offered ad free and open source. Please contribute by installing the paid Contrib version. You gain unrestricted access to the following premium features:</string>
   <string name="dialog_export_delete">Delete exported transactions</string>
   <string name="dialog_export_not_yet_exported">Export only transactions not yet exported</string>
   <string name="dialog_password_activate_protection">Activate password protection</string>
@@ -98,7 +98,6 @@
   <string name="feedback">Feedback</string>
   <string name="feedback_email_message">Send your feedback, in English, French or German, please!</string>
   <string name="ftp_uri_malformed">Malformed URI %1$s</string>
-  <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_default_source">English default categories</string>
   <string name="grisbi_import_button_categories_only">Categories</string>
   <string name="grisbi_import_button_categories_and_parties">Categories and parties</string>
@@ -313,7 +312,6 @@
   <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. &continue;</string>
   <string name="warning_delete_account">This account will be deleted with all its transactions. &continue;</string>
-  <string name="warning_no_categories_mapped_to_group">There are no categories that have been mapped to transactions in this group.</string>
   <string name="warning_password_no_contrib">If you set a password, take care not to forget it. You will not be able to recover it, unless you set a security question (Requires &app_name; Contrib).</string>
   <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
   <string name="warning_reset_account">If you proceed, all transactions of this account are deleted from the database and cannot be restored.</string>

@@ -35,7 +35,10 @@
   <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
   <string name="color">Farbe</string>
   <string name="comment">Notizen</string>
+  <string name="contrib_feature_accounts_unlimited_description">Mit &lt;i>&app_name;&lt;/i> können Sie bis zu 5 Konten anlegen.</string>
+  <string name="contrib_feature_accounts_unlimited_label">Unbegrenzte Anzahl von Konten</string>
   <string name="contrib_feature_aggregate_label">Gesamtsumme über mehrere Konten</string>
+  <string name="contrib_feature_distribution_label">Verteilung der Buchungen auf Kategorien</string>
   <string name="contrib_feature_reset_all_label">Alle Konten zurücksetzen</string>
   <string name="contrib_feature_security_question_label">Sicherheitsfrage</string>
   <string name="contrib_feature_split_transaction_label">Splitbuchung</string>
@@ -55,7 +58,7 @@
   <string name="dialog_contrib_reminder_gain_access">Auch auf folgende Funktionen können Sie dann uneingeschränkt zugreifen:</string>
   <string name="dialog_contrib_yes">Kaufen</string>
   <string name="dialog_contrib_no">Noch nicht</string>
-  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten. Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:&lt;br>%1$s&lt;br></string>
+  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten. Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:</string>
   <string name="dialog_export_delete">Buchungen nach dem Exportieren löschen</string>
   <string name="dialog_export_not_yet_exported">Nur Buchungen exportieren, die noch nicht exportiert wurden</string>
   <string name="dialog_password_activate_protection">Passwort-Schutz aktivieren</string>
@@ -93,7 +96,6 @@
   <string name="feedback">Feedback</string>
   <string name="feedback_email_message">Senden Sie Ihr Feedback, bitte auf Deutsch, Englisch oder Französisch!</string>
   <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
-  <string name="grisbi_file">&grisbi_file;</string>
   <string name="grisbi_import_default_source">Deutsche Standard-Kategorien</string>
   <string name="grisbi_import_button_categories_only">Kategorien</string>
   <string name="grisbi_import_button_categories_and_parties">Kateg. und Parteien</string>
@@ -129,6 +131,7 @@
   <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: Premium-Funktionen wurden freigeschaltet.</string>
   <string name="licence_validation_failure">Lizenz-Schlüssel konnte nicht validiert werden.</string>
   <string name="menu_aggregates">Gesamt</string>
+  <string name="menu_back">Zurück</string>
   <string name="menu_backup">Sicherungskopie</string>
   <string name="menu_clone_transaction">Klonen</string>
   <string name="menu_contrib">Beitragen</string>
@@ -147,6 +150,7 @@
   <string name="menu_create_transaction_from_template_and_edit">Neu und verändern</string>
   <string name="menu_create_transaction_from_template_and_save">Neu und speichern</string>
   <string name="menu_delete">Löschen</string>
+  <string name="menu_distribution">Verteilung</string>
   <string name="menu_edit">Bearbeiten</string>
   <string name="menu_edit_account">Konto verändern</string>
   <string name="menu_edit_cat">Kategorie verändern</string>
@@ -157,6 +161,7 @@
   <string name="menu_edit_transaction">Buchung verändern</string>
   <string name="menu_edit_template">Vorlage verändern</string>
   <string name="menu_edit_transfer">Umbuchung verändern</string>
+  <string name="menu_forward">Weiter</string>
   <string name="menu_grouping">Gruppierung</string>
   <string name="menu_help">Hilfe</string>
   <string name="menu_move_transaction">Verschieben</string>
