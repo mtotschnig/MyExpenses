@@ -211,12 +211,14 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       int yearToLookUp = groupingSecond ==1 ? groupingYear -1 : groupingYear;
       switch (mGrouping) {
       case DAY:
-        projection.add(String.format(Locale.US,"strftime('%%W','%d-12-31') AS max_value",yearToLookUp));
+        projection.add(String.format(Locale.US,"strftime('%%j','%d-12-31') AS max_value",yearToLookUp));
+        break;
       case WEEK:
         projection.add(String.format(Locale.US,"strftime('%%W','%d-12-31') AS max_value",yearToLookUp));
         break;
       case MONTH:
         projection.add("12 as max_value");
+        break;
       default:
         projection.add("0 as max_value");
       }
@@ -296,6 +298,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     thisWeek = c.getInt(c.getColumnIndex("this_week"));
     thisDay = c.getInt(c.getColumnIndex("this_day"));
     maxValue = c.getInt(c.getColumnIndex("max_value"));
+    Log.i("DEBUG",String.valueOf(maxValue));
     break;
     case CATEGORY_CURSOR:
     mAdapter.setGroupCursor(c);
