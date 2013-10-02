@@ -36,6 +36,7 @@
     titre, description, solde initial, type, devise, couleur.</string>
   <string name="menu_grouping_help_text">Les opérations peuvent être regroupées par jour, semaine, mois ou année.
     Pour chaque group, les totaux des revenus, des dépenses et des transferts sont calculés et affichés.</string>
+  <string name="menu_distribution_help_text">Afficher la répartition de vos dépenses par catégorie. Vous pouvez également cliquer sur une tête de groupe pour contrôler la distribution pour un groupe spécifique.</string>
 
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Liste des comptes</string>
@@ -65,19 +66,15 @@
     Le menu contextuel de chaque modèle vous permet aussi de créer de nouvelles opérations,
     soit en la sauvegardant directement, soit en l\'éditant. Cliquez sur une entrée pour éditer un modèle (Fonction Premium).</string>
 
-  <!-- SelectCategory -->
-  <string name="help_SelectCategory_info">Sur cet écran, vous créez, éditez et supprimez les catégories.
-    Si appelé depuis un formulaire de saisie d\'opération, vous pouvez associer la catégorie avec l\'opération.
-    Par défaut, les catégories sont triées par fréquence de leur utilisation (l\'ordre alphabétique est utilisé
-    comme critère secondaire). Ce fonctionnement vous donne un accès rapide aux catégories associées aux transactions
-    les plus utilisées. Si vous préférez voir apparaître les catégories dans l\'ordre alphabétique, vous pouvez
-    le configurer dans les paramètres.
-    Cliquez sur une catégorie principale pour ouvrir ses sous-catégories. Vous pouvez sélectionner une sous-catégorie
-    pour l\'opération en cours en cliquant simplement dessus. Si vous voulez utiliser la catégorie principale,
-    il vous faudra passer par le menu contextuel.
-    Dans celui-ci, vous pouvez ajouter de nouvelles sous-catégories, effacer ou modifier une catégorie principale.
-    Les sous-catégories ont aussi un menu contextuel afin de les effacer ou de les modifier. </string>
+  <!-- ManageCategories -->
+  <string name="help_ManageCategories_distribution_info">Cet écran affiche la répartition de vos dépenses et revenus par catégories, pour toutes les transactions dans un compte, ou pour un groupe spécifique.
+</string>
+  <string name="help_ManageCategories_select_info">En plus des actions que vous pouvez effectuer dans la gestion de catégories de l'écran Préférences (créer, modifier, supprimer), sur cet écran, vous associez une opération à une catégorie sélectionnée. Vous pouvez sélectionner une sous-catégorie pour l\'opération en cours en cliquant simplement dessus. Si vous voulez utiliser la catégorie principale, il vous faudra passer par le menu contextuel.</string>
+  <string name="help_ManageCategories_manage_info">Sur cet écran, vous créez, éditez et supprimez les catégories. Par défaut, les catégories sont triées par fréquence de leur utilisation (l\'ordre alphabétique est utilisé comme critère secondaire). Ce fonctionnement vous donne un accès rapide aux catégories associées aux transactions les plus utilisées. Si vous préférez voir apparaître les catégories dans l\'ordre alphabétique, vous pouvez le configurer dans les paramètres. Cliquez sur une catégorie principale pour ouvrir ses sous-catégories. À partir du menu contextuel d\'une catégorie principale, vous pouvez ajouter de nouvelles sous-catégories, effacer ou modifier une catégorie principale. Les sous-catégories ont aussi un menu contextuel afin de les effacer ou de les modifier.</string>
   <string name="menu_create_main_cat_help_text">Ouvre une fenêtre pour saisir le titre d\'une nouvelle catégorie principale.</string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">Définissez le type de regroupement et d'afficher la distribution par jour, le mois, la semaine ou de l'année.</string>
+  <string name="menu_back_help_text">Accédez au groupe précédent.</string>
+  <string name="menu_forward_help_text">Accédez au groupe suivant.</string>
 
   <!-- ExpenseEdit -->
   <string name="help_ExpenseEdit_transaction_title">Formulaire pour opérations</string>

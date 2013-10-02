@@ -38,6 +38,8 @@
      (titolo, descrizione, saldo di apertura, tipo di conto, valuta, colore).</string>
   <string name="menu_grouping_help_text">È possibile raggruppare le transazioni per giorno, settimana, mese o anno.
      Per ogni gruppo, le somme di redditi, spese e trasferimenti vengono calcolate e visualizzate.</string>
+  <string name="menu_distribution_help_text">Visualizzare la distribuzione delle vostre spese per categoria. È anche possibile fare clic su un'intestazione di gruppo per controllare la distribuzione di un gruppo specifico.</string>
+
 
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Elenco dei conti</string>
@@ -67,18 +69,16 @@
     Dal menu contestuale di un modello è possibile creare un\'istanza di esso e decidere se salvare immediatamente o inserire la sua forma di modifica in cui è possibile modificarla prima di salvare.
     Facendo clic su una voce permette di modificarlo (caratteristica Contrib).</string>
 
-  <!-- SelectCategory title is in keys-->
-  <string name="help_SelectCategory_info">Questa schermata consente di creare, modificare e eliminare le categorie
-    e quando viene chiamato dal modulo di modifica di una transazione, per mappare la transazione di una categoria selezionata.
-    Per impostazione predefinita, le categorie sono ordinate per frequenza di utilizzo
-    (in ordine alfabetico viene utilizzato come criterio secondario).
-    Questa funzione consente di accedere rapidamente alle categorie relative alle operazioni che si utilizzano più.
-    Nelle impostazioni, si può optare per il ordine alfabetico.
-    Cliccando su una categoria principale, apre le sue sottocategorie. Si seleziona una sottocategoria per la transazione corrente,
-    semplicemente cliccando. Al fine di mappare un categoria principale, si deve chiamare il suo menù contestuale.
-    Da qui è inoltre possibile aggiungere nuove sottocategorie, eliminare una categoria o modificarla.
-    Sottocategorie hanno anche menù di scelta rapida per la eliminazione e la modifica.</string>
+  <!-- ManageCategories -->
+  <string name="help_ManageCategories_distribution_info">Questa schermata mostra la distribuzione delle tue spese e redditi per categorie, per tutte le operazioni in un conto, o per un gruppo specifico.</string>
+  <string name="help_ManageCategories_select_info">Oltre alle azioni che è possibile eseguire durante la gestione categorie dalla schermata Preferenze (creare, modificare, eliminare), su questa schermata si mappa una transazione per una categoria selezionata. Si seleziona una sottocategoria per la transazione corrente, semplicemente cliccando. Al fine di mappare un categoria principale, si deve chiamare il suo menù contestuale.</string>
+  <string name="help_ManageCategories_manage_info">Questa schermata consente di creare, modificare e eliminare le categorie. Per impostazione predefinita, le categorie sono ordinate per frequenza di utilizzo (in ordine alfabetico viene utilizzato come criterio secondario). Questa funzione consente di accedere rapidamente alle categorie relative alle operazioni che si utilizzano più. Nelle impostazioni, si può optare per il ordine alfabetico. Cliccando su una categoria principale, apre le sue sottocategorie. Nel menù contestuale di una categoria principale, è aggiungere nuove sottocategorie, eliminare una categoria o modificarla. Sottocategorie hanno anche menù di scelta rapida per la eliminazione e la modifica.</string>
   <string name="menu_create_main_cat_help_text">Si apre il diálogo per definiere il titulo di una nuova categoría principale.</string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">Impostare il tipo di raggruppamento e di visualizzare la distribuzione per giorno, mese, settimana o anno.</string>
+  <string name="menu_back_help_text">Passare al gruppo precedente.</string>
+  <string name="menu_forward_help_text">Passare al gruppo successivo.</string>
+  
+
 
   <!-- ExpenseEdit -->
   <string name="help_ExpenseEdit_transaction_title">Modulo per le operazioni</string>

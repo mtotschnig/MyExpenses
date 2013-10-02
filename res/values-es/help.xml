@@ -37,6 +37,7 @@
      (título, descripción, saldo inicial, tipo de cuenta, moneda, color).</string>
   <string name="menu_grouping_help_text">Puede agrupar las transacciones por día, semana, mes o año.
      Para cada grupo, la suma de los ingresos, gastos y transferencias se calcula y se muestra.</string>
+  <string name="menu_distribution_help_text">Muestra la distribución de los gastos por categoría. También puede hacer clic en un encabezado de grupo para inspeccionar la distribución de un grupo específico.</string>
 
 
   <!-- ManageAccounts Accounts list -->
@@ -71,17 +72,13 @@
 
 
   <!-- SelectCategory title is in keys-->
-  <string name="help_SelectCategory_info">Esta pantalla le permite crear, editar y eliminar categorías
-    y si usted la convoca a travès del formulario de una transacción, se selecciona además una categoría para asignarla a la transacción.
-    Como primer criterio de clasificación se utiliza el número de usos de una categoría (criterio secundario es el orden alfabético).
-    Así usted puede acceder de manera muy rápida a las categorías de uso más frecuente.
-    En la configuración, se puede optar por el orden alfabético.
-    Un clic sobre una categoría principal abre la lista de subcategorías. La asignación de una subcategoría al asiento
-    actual se realiza a través de un breve clic. La asignación de una categoría principal es posible a través del menú contextual.
-    Este menú permite también crear nuevas subcategorías, y borrar y modificar categorías principales.
-    También las subcategorías disponen de un menú contextual para borrar- o modificarlas.</string>
+  <string name="help_ManageCategories_distribution_info">Esta pantalla muestra la distribución de los gastos y de los ingresos por categorías, para todas las transacciones en una cuenta, o para un grupo específico.</string>
+  <string name="help_ManageCategories_select_info">Además de las acciones que se pueden realizar en la gestión de categorías en la pantalla de Preferencias (crear, editar, borrar), en esta pantalla se asigna una operación a una categoría seleccionada.  La asignación de una subcategoría al asiento actual se realiza a través de un breve clic. La asignación de una categoría principal es posible a través del menú contextual.</string>
+  <string name="help_ManageCategories_manage_info">Esta pantalla le permite crear, editar y eliminar categorías. Como primer criterio de clasificación se utiliza el número de usos de una categoría (criterio secundario es el orden alfabético). Así usted puede acceder de manera muy rápida a las categorías de uso más frecuente. En la configuración, se puede optar por el orden alfabético. Un clic sobre una categoría principal abre la lista de subcategorías. El menú contextual de une una categoría principal permite crear nuevas subcategorías, y borrar y modificar categorías principales. También las subcategorías disponen de un menú contextual para borrar- o modificarlas.</string>
   <string name="menu_create_main_cat_help_text">Apre la finestra di dialogo per specificare il titolo di una nuova categoria principale.</string>
-
+  <string name="menu_ManageCategories_distribution_grouping_help_text">Ajuste el tipo de agrupación y mostrar la distribución por días, meses, semanas o años.</string>
+  <string name="menu_back_help_text">Acceda al grupo anterior.</string>
+  <string name="menu_forward_help_text">Vaya al siguiente grupo.</string>
 
   <!-- ExpenseEdit -->
   <string name="help_ExpenseEdit_transaction_title">Formulario para los asientos</string>
