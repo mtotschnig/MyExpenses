@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+  <string-array name="whats_new_73">
+    <item>Phân phối các giao dịch cho mỗi phân loại</item>
+  </string-array>
   <string-array name="whats_new_72">
     <item>Sửa lỗi: Vấn đề lỗi #69</item>
     <item>Phần dịch tiếng Arab</item>

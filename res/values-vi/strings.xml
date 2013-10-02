@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
@@ -14,13 +14,6 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<!DOCTYPE resources [
-  <!ENTITY app_name "Chi Tiêu Của Tôi">
-  <!ENTITY grisbi_file "grisbi.xml">
-  <!ENTITY contrib ' (<b>nâng cao</b>)'>
-  <!ENTITY continue 'Devam etmek istiyor musunuz?'>
-]>
- 
 <resources>
   <string name="account">Tài khoản</string>
   <string name="account_type_cash">Tài khoản tiền mặt</string>
@@ -29,14 +22,16 @@
   <string name="account_type_asset">Tài khoản tài sản</string>
   <string name="account_type_liability">Nợ phải trả</string>
   <string name="amount">Số lượng</string>
-  <string name="app_name">&app_name;</string>
+  <string name="app_name">Chi Tiêu Của Tôi</string>
   <string name="backup_failure">Xảy ra lỗi khi sao lưu vào thẻ nhớ.</string>
   <string name="backup_success">Đã ghi dữ liệu về cơ sở dữ liệu và tùy biến thành công vào thẻ nhớ.</string>
   <string name="category_already_defined">Phân loại %1$s đã được xác định</string>
   <string name="category">Phân loại</string>
   <string name="color">Màu sắc</string>
   <string name="comment">Ghi chú</string>
-  <string name="contrib_feature_accounts_unlimited_label">Không giới hạn số lượng các tài khoản</string>
+  <string name="contrib_feature_accounts_unlimited_description">Số lượng tài khoản bạn có thể tạo trong &lt;i&gt;My Expenses&lt;/i&gt; bị giới hạn bởi 5 tài khoản.</string>
+  <string name="contrib_feature_accounts_unlimited_label">Số lượng không giới hạn các tài khoản</string>
+  <string name="contrib_feature_distribution_label">Tác động phân phối các giao dịch cho mỗi phân loại</string>
   <string name="contrib_feature_aggregate_label">Gom nhóm nhiều dạng tài khoản</string>
   <string name="contrib_feature_reset_all_label">Thiết đặt lại tất cả tài khoản</string>
   <string name="contrib_feature_security_question_label">Câu hỏi an ninh</string>
@@ -50,19 +45,23 @@
   <string name="default_account_description">Tài khỏa này đã được cài đặt tự động trong suốt quá trình cài đặt</string>
   <string name="description">Mô tả</string>
   <string name="dialog_confirm_restore_on_install">Một tập tin sao lưu đã được phát hiện. Bạn có muốn phục hồi tập tin này không?</string>
-  <string name="dialog_contrib_usage_count">Bạn có %1$d sử dụng miễn phí còn lại.</string>
-  <string name="dialog_contrib_no_usages_left">Không còn lần sử dụng miễn phí nào nữa.</string>
-  <string name="dialog_contrib_premium_feature">%1$s là một tính năng nâng cao.</string>
+  <string name="dialog_contrib_usage_count">Bạn còn %1$d phần sử dụng miễn phí còn lại.</string>
+  <string name="dialog_contrib_no_usages_left">Hiện không còn thời hạn cho việc sử dụng miễn phí.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <string name="dialog_contrib_premium_feature">%1$s thuộc về tính năng nâng cao.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Loại bỏ giới hạn này bằng cách cài đặt </string>
+  <string name="dialog_contrib_reminder_gain_access">Bạn có thể tăng quyền hạn truy cập bằng những tiện ích sau:</string>
   <string name="dialog_contrib_yes">Mua ngay</string>
   <string name="dialog_contrib_no">Vẫn chưa</string>
-  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> được cung cấp dưới dạng mã nguồn mở và không hiện quảng cáo. Xin vui lòng cống hiến cho chương trình bằng cách cài đặt phiên bản cống hiến. Bạn sẽ được phép sử dụng các tính năng của phiên bản nâng cao:</string>
+  <!--Placeholders: 1 is feature list-->
+  <string name="dialog_contrib_text">&lt;i&gt;My Expenses&lt;/i&gt; là một chương trình miễn phí và mã nguồn mở. Xin hãy đóng góp bằng cách sử dụng phiên bản trả phí Contrib version. Bạn sẽ được tiếp cận các tính năng cao cấp như sau:</string>
   <string name="dialog_export_delete">Xóa các giao dịch được xuất dữ liệu</string>
   <string name="dialog_export_not_yet_exported">Xuất dữ liệu về các giao dịch chưa được xuất</string>
   <string name="dialog_password_activate_protection">Bật tính năng bảo vệ mật khẩu</string>
   <string name="dialog_password_change_password">Thay đổi mật khẩu</string>
   <string name="dialog_password_new_password">Mật khẩu mới</string>
   <string name="dialog_password_new_password_confirmation">Mật khẩu mới (xác nhận)</string>
-  <string name="dialog_remind_rate">Xin dành chút thời gian để xếp hạng và xem các nhận xét về &app_name; trên Google Play. Các bình luận của bạn sẽ giúp chúng tôi cải thiện chất lượng dịch vụ về sản phẩm tốt hơn.</string>
+  <string name="dialog_remind_rate">Xin dành chút thời gian để xếp hạng và xem các nhận xét về Chi Tiêu Của Tôi trên Google Play. Các bình luận của bạn sẽ giúp chúng tôi cải thiện chất lượng dịch vụ về sản phẩm tốt hơn.</string>
   <string name="dialog_remind_rate_yes">Xếp hạng ngay</string>
   <string name="dialog_remind_later">Để sau</string>
   <string name="dialog_remind_no">Không cảm ơn</string>
@@ -120,7 +119,7 @@
     <item>Quản lý tài chính thông qua điện thoại của bạn.</item>
     <item>Xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.</item>
   </string-array>
-  <string name="help_leading">Cảm ơn bạn đã cài đặt <i>&app_name;</i> dành cho Android.</string>
+  <string name="help_leading">Cảm ơn bạn đã cài đặt <i>Chi Tiêu Của Tôi</i> dành cho Android.</string>
   <string name="import_categories">Nhập dữ liệu về phân loại</string>
   <string name="income">Thu nhập</string>
   <string name="invalid_number_format">Định dạng thập phân không được nhận diện bởi hệ thống ngôn ngữ của bạn. Xin sử dụng %1$s</string>
@@ -128,6 +127,7 @@
   <string name="licence_validation_success">Khóa bản quyền đã được xác minh thành công: Các tính năng nâng cao đã được mở khóa.</string>
   <string name="licence_validation_failure">Không thể phân tích khóa bản quyền.</string>
   <string name="menu_aggregates">Tổng cộng</string>
+  <string name="menu_back">Quay lại</string>
   <string name="menu_backup">Sao lưu</string>
   <string name="menu_clone_transaction">Sao y</string>
   <string name="menu_contrib">Cống hiến</string>
@@ -135,10 +135,10 @@
   <string name="menu_create_method">Phương pháp chi trả mới</string>
   <string name="menu_create_transaction">Giao dịch mới</string>
   <string name="menu_create_transfer">Truyền đổi mới</string>
-  <string name="menu_create_main_cat">Phân loại chính mới</string>
   <string name="menu_create_split">Phân tách mới</string>
   <string name="menu_create_split_part_category">Phần loại của phân tách mới</string>
   <string name="menu_create_split_part_transfer">Phần chuyển đổi phân tách mới</string>
+  <string name="menu_create_main_cat">Phân loại chính mới</string>
   <string name="menu_create_sub_cat">Phân loại phụ thuộc</string>
   <string name="menu_create_template">Mẫu mới</string>
   <string name="menu_create_template_for_transaction">Mẫu giao dịch mới</string>
@@ -146,6 +146,7 @@
   <string name="menu_create_transaction_from_template_and_edit">Tạo mới và chỉnh sửa</string>
   <string name="menu_create_transaction_from_template_and_save">Tạo mới và lưu</string>
   <string name="menu_delete">Xóa</string>
+  <string name="menu_distribution">Phân phối</string>
   <string name="menu_edit">Chỉnh sửa</string>
   <string name="menu_edit_account">Chỉnh sửa tài khoản</string>
   <string name="menu_edit_method">Chỉnh sửa phương thức chi trả</string>
@@ -156,6 +157,7 @@
   <string name="menu_edit_transaction">Chỉnh sửa giao dịch</string>
   <string name="menu_edit_template">Chỉnh sửa mẫu</string>
   <string name="menu_edit_transfer">Chỉnh sửa Truyền Đổi</string>
+  <string name="menu_forward">Tiếp theo</string>
   <string name="menu_grouping">Gom nhóm</string>
   <string name="menu_help">Trợ giúp</string>
   <string name="menu_move_transaction">Di chuyển</string>
@@ -176,6 +178,7 @@
   <string name="no_details">Không có thông tin chi tiết nào</string>
   <string name="no_expenses">Không có Chi Tiêu nào!</string>
   <string name="no_exportable_expenses">Hiện không có giao dịch nào mà vẫn chưa được xuất dữ liệu.</string>
+  <string name="no_mapped_transactions">Không có giao dịch nào được cho vào phần phân loại trong suốt giai đoạn này.</string>
   <string name="no_parties">Không có nhóm nào</string>
   <string name="no_split_parts">Không có phần nào được tách</string>
   <string name="no_templates">Không có mẫu nào</string>
@@ -218,9 +221,8 @@
   <string name="pref_category_title_export">Xuất dữ liệu</string>
   <string name="pref_category_title_security">An ninh</string>
   <string name="pref_contrib_install_title">Cài đặt ứng dụng cống hiến</string>
-  <string name="pref_contrib_install_summary">Khi cài đặt chế độ cống hiến của &app_name;, bạn được quyền truy cập các tính năng nâng cao</string>
-  <string name="pref_currency_decimal_separator_title">Dấu phân cách thập phan dành cho việc nhập dữ liệu 
-số lượng tiền tệ</string>
+  <string name="pref_contrib_install_summary">Khi cài đặt chế độ cống hiến của Chi Tiêu Của Tôi, bạn được quyền truy cập các tính năng nâng cao</string>
+  <string name="pref_currency_decimal_separator_title">Dấu phân cách thập phan dành cho việc nhập dữ liệu số lượng tiền tệ</string>
   <string name="pref_currency_decimal_separator_comma">Dấu phẩy (,)</string>
   <string name="pref_currency_decimal_separator_point">Dấu chấm (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Đơn vị sử dụng dự phòng dạng số nguyên</string>
@@ -241,6 +243,7 @@ số lượng tiền tệ</string>
   <string name="pref_manage_templates_summary">Áp dụng hoặc xóa các mẫu.</string>
   <string name="pref_more_info_dialog_title">Giấy phép &amp; Quà Tặng</string>
   <string name="pref_more_info_dialog_summary">Dịch bởi Phan Anh</string>
+  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_password_empty">Mật khẩu không được để trống</string>
   <string name="pref_password_not_equal">Mật khẩu không khớp</string>
   <string name="pref_perform_share_title">Chia sẻ tập tin xuất dữ liệu</string>
@@ -256,7 +259,7 @@ số lượng tiền tệ</string>
   <string name="pref_restore_title">Khôi phục</string>
   <string name="pref_restore_summary">Khôi phục phần sao lưu từ thư mục \"myexpenses\" trên thẻ nhớ.</string>
   <string name="pref_share_target_title">Đường dẫn tải lên</string>
-  <string name="pref_share_target_summary">Để trống nếu bạn muốn chọn giữa các ứng dụng thích hợp (Email, Dropbox, Google Docs, &#8230;), hoặc cung cấp đường dẫn liên kết của một trong các loại phối hợp được hỗ trợ</string>
+  <string name="pref_share_target_summary">Để trống nếu bạn muốn chọn giữa các ứng dụng thích hợp (Email, Dropbox, Google Docs, …), hoặc cung cấp đường dẫn liên kết của một trong các loại phối hợp được hỗ trợ</string>
   <string name="pref_security_question_title">Câu hỏi an ninh</string>
   <string name="pref_security_question_summary">Cho phép bạn khóa ứng dụng, nếu như bạn quên mật khẩu. Yêu cầu sử dụng My Expenses bản Cống Hiến.</string>
   <string name="pref_send_feedback_title">Gửi phản hồi</string>
@@ -265,12 +268,12 @@ số lượng tiền tệ</string>
   <string name="pref_ui_theme_light">sáng</string>
   <string name="pref_visit_website_title">Truy cập Website</string>
   <string name="pref_visit_website_summary">Nhật trình và các câu hỏi thường gặp</string>
-  <string name="progress_dialog_cloning">Đang sao chép hóa &#8230;</string>
-  <string name="progress_dialog_deleting">Đang thực hiện thao tác xóa &#8230;</string>
-  <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu &#8230;</string>
-  <string name="progress_dialog_setup">Cơ sở dữ liệu đã được thiết lập &#8230;</string>
+  <string name="progress_dialog_cloning">Đang sao chép hóa …</string>
+  <string name="progress_dialog_deleting">Đang thực hiện thao tác xóa …</string>
+  <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu …</string>
+  <string name="progress_dialog_setup">Cơ sở dữ liệu đã được thiết lập …</string>
   <string name="request_licence_mail_head">Vui lòng gửi đến tác giả mã khóa Cống Hiến dành cho Android-Id %1$s.</string>
-  <string name="request_licence_mail_description">Hãy gửi cho tác giả một mô tả ngắn gọn (bằng tiếng Anh, Đức hoặc Pháp) về sự cống hiến của bạn dành cho &app_name; (ví dụ.: đóng góp qua Paypal, gửi báo cáo lỗi, xài thử chương trình, tham gia vào việc dịch chương trình).</string>
+  <string name="request_licence_mail_description">Hãy gửi cho tác giả một mô tả ngắn gọn (bằng tiếng Anh, Đức hoặc Pháp) về sự cống hiến của bạn dành cho Chi Tiêu Của Tôi (ví dụ.: đóng góp qua Paypal, gửi báo cáo lỗi, xài thử chương trình, tham gia vào việc dịch chương trình).</string>
   <string name="restore_db_failure">Xảy ra lỗi khi khôi phục cơ sở dữ liệu</string>
   <string name="restore_db_success">Cơ sở dữ liệu đã được phục hồi từ phần sao lưu</string>
   <string name="restore_no_backup_found">Không có tập tin SAO LƯU nào được tìm thấy trong thư mục \"myexpenses\" trên thẻ nhớ.</string>
@@ -298,9 +301,9 @@ số lượng tiền tệ</string>
   <string name="transaction">Giao dịch</string>
   <string name="transfer">Truyền đổi</string>
   <string name="tutorial">Hướng dẫn người dùng</string>
+  <string name="type">Loại</string>
   <string name="unsplit_amount">Số lượng chưa tách</string>
   <string name="unsplit_amount_greater_than_zero">Có một số thao tác về số lượng chưa được phân tách</string>
-  <string name="type">Loại</string>
   <string name="warning_backup">Cơ sở dữ liệu và tùy biến sẽ được lưu vào thẻ nhớ. Bạn có muốn tiếp tục?</string>
   <string name="warning_backup_exists">Cơ sở dữ liệu và tùy biến đã được lưu vào thẻ nhớ. Phần sao lưu trước đó sẽ được ghi đè dữ liệu lên. Bạn có muốn tiếp tục hay không?</string>
   <string name="warning_delete_account">Tài khoản này sẽ bị xóa kèm theo tất cả các giao dịch bên trong. Bạn có thực sự muốn tiếp tục?</string>
