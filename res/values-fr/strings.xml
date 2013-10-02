@@ -131,7 +131,7 @@
   <string name="licence_validation_success">Clé de licence validée : L\'accès aux fonctions Premium a été déverrouillé.</string>
   <string name="licence_validation_failure">Clé de licence invalide.</string>
   <string name="menu_aggregates">Total</string>
-  <string name="menu_back">En arrière</string>
+  <string name="menu_back">Retour</string>
   <string name="menu_backup">Sauvegarde</string>
   <string name="menu_clone_transaction">Cloner</string>
   <string name="menu_contrib">Contribuer</string>
@@ -161,7 +161,7 @@
   <string name="menu_edit_transaction">Éditer une opération</string>
   <string name="menu_edit_template">Éditer le modèle</string>
   <string name="menu_edit_transfer">Éditer un virement</string>
-  <string name="menu_forward">En avant</string>
+  <string name="menu_forward">Suivant</string>
   <string name="menu_grouping">Regroupement</string>
   <string name="menu_help">Aide</string>
   <string name="menu_move_transaction">Déplacer</string>
@@ -182,6 +182,7 @@
   <string name="no_details">Aucun détail.</string>
   <string name="no_expenses">Aucune dépense !</string>
   <string name="no_exportable_expenses">Aucune opération exportable.</string>
+  <string name="no_mapped_transactions">Pas de transactions ont été attribués à des catégories au cours de cette période.</string>
   <string name="no_parties">Aucun tiers.</string>
   <string name="no_split_parts">Aucune sous-opération.</string>
   <string name="no_templates">Aucun modèle.</string>

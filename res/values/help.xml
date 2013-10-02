@@ -39,7 +39,7 @@
     (title, description, opening balance, account type, currency, color).</string>
   <string name="menu_grouping_help_text">You can group transactions by day, week, month or year.
     For each group, the sum of income, expenses and transfers is calculated and displayed.</string>
-  <string name="menu_distribution_help_text">Visualize the distribution of your expenses per category. You can also click on a group header to inspect the distribution for a specific group.</string>
+  <string name="menu_distribution_help_text">Display the distribution of your expenses per category. You can also click on a group header to inspect the distribution for a specific group.</string>
 
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Accounts list</string>

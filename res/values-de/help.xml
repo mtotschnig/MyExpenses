@@ -38,6 +38,7 @@
     (Titel, Beschreibung, Anfangssaldo, Währung, Farbe).</string>
   <string name="menu_grouping_help_text">Buchungen können pro Tag, Woche, Monat oder Jahr gruppiert werden.
     Für jede Gruppe werden die Summen der Einnahmen, Ausgaben und Umbuchungen berechnget und angezeigt.</string>
+  <string name="menu_distribution_help_text">Darstellung der Verteilung Ihrer Buchungen anhand der Kategorien. Sie können auch auf die Kopfzeile einer Gruppe klicken, um die Verteilung nur für einen Zeitraum anzuzeigen.</string>
 
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Kontenliste</string>
@@ -69,19 +70,14 @@
     Formular befüllen, das Sie noch vor dem Speichern verändern können. Klick auf eine Vorlage erlaubt das Formular zu verändern
     (Premium-Funktion).</string>
 
-  <!-- SelectCategory -->
-  <string name="help_SelectCategory_info">Auf diesem Bildschirm können Sie Kategorien erzeugen, editieren und löschen.
-    Wenn Sie ihn über das Buchungsformular aufrufen, wird hier auch eine Kategorie ausgewählt, die der Buchung zugeordnet
-    werden soll.
-    Als primäres Sortierkriterium wird standardmäßig die Anzahl der Verwendungen einer Kategorie verwendet
-    (sekundäres Kriterium ist die alphabetische Reihenfolge). Dadurch haben Sie zu den am häufigsten verwendeten Kategorien
-    am schnellsten Zugriff. Wenn Sie die Kategorien lieber alphabetisch geordnet wollen, können Sie dies in den Einstellung
-    so festlegen-.
-    Ein Klick auf eine Hauptkategorie öffnet die Liste der Unterkategorien. Die Zuordnung einer Unterkategorie zur aktuellen
-    Buchung erfolgt durch kurzen Klick. Die Zuordnung einer Hauptkategorie ist durch das Kontextmenü möglich.
-    Dieses erlaubt auch das Anlegen neuer Unterkategorien, das Löschen und das Verändern einer Hauptkategorie.
-    Die Unterkategorien verfügen auch über ein Kontextmenü mit Einträgen zum Löschen und Verändern. </string>
+  <!-- ManageCategories -->
+  <string name="help_ManageCategories_distribution_info">Dieser Bildschirm zeigt die Verteilung Ihrer Ausgaben und Einnahmen anhand der Kategorien, für alle Buchungen eines Kontos, oder nur für einen bestimmten Zeitraum.</string>
+  <string name="help_ManageCategories_select_info">Zusätzlich zu den Aktionen, die auch in der Kategorienverwaltung in den Einstellungen möglich sind (Erzeugen, Verändern, Löschen), können Sie hier eine Buchung zu einer Kategorie zuordnen.  Die Zuordnung einer Unterkategorie zur aktuellen Buchung erfolgt durch kurzen Klick. Die Zuordnung einer Hauptkategorie ist durch das Kontextmenü möglich.</string>
+  <string name="help_ManageCategories_manage_info">Auf diesem Bildschirm können Sie Kategorien erzeugen, editieren und löschen. Wenn Sie ihn über das Buchungsformular aufrufen, wird hier auch eine Kategorie ausgewählt, die der Buchung zugeordnet werden soll. Als primäres Sortierkriterium dient standardmäßig die Anzahl der Verwendungen einer Kategorie (sekundäres Kriterium ist die alphabetische Reihenfolge). Dadurch haben Sie zu den am häufigsten verwendeten Kategorien am schnellsten Zugriff. Wenn Sie die Kategorien lieber alphabetisch geordnet wollen, können Sie dies in den Einstellung so festlegen. Ein Klick auf eine Hauptkategorie öffnet die Liste der Unterkategorien. Das Kontextmenü einer Hauptkategorie erlaubt auch das Anlegen neuer Unterkategorien, das Löschen und das Verändern einer Hauptkategorie. Die Unterkategorien verfügen auch über ein Kontextmenü mit Einträgen zum Löschen und Verändern. </string>
   <string name="menu_create_main_cat_help_text">Öffnet den Dialog zum Anlegen einer neuen Hauptkategorie.</string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">Wählen Sie, auf welche Zeiträume (Tag, Woche, Monat oder Jahr) bezogen die Verteilung angezeigt werden soll.</string>
+  <string name="menu_back_help_text">Zurück zur nächsten Gruppe.</string>
+  <string name="menu_forward_help_text">Weiter zur nächsten Gruppe.</string>
 
   <!-- ExpenseEdit -->
   <string name="help_ExpenseEdit_transaction_title">Formular für Buchungen</string>

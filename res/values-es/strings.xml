@@ -182,6 +182,7 @@
   <string name="no_details">No hay detalles.</string>
   <string name="no_expenses">¡Todavía no hay gastos!</string>
   <string name="no_exportable_expenses">No hay transacciones que aún no han sido exportadas.</string>
+  <string name="no_mapped_transactions">Ninguna transacción se ha asignado a las categorías durante este período.</string>
   <string name="no_parties">Ningunos partidos</string>
   <string name="no_split_parts">Ningunas divisiones.</string>
   <string name="no_templates">Ningunas plantillas</string>
