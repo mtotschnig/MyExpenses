@@ -64,7 +64,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
   public Grouping mGrouping;
   int groupingYear;
   int groupingSecond;
-  int thisYear,thisMonth,thisWeek,thisDay;
+  int thisYear,thisMonth,thisWeek,thisDay,maxValue;
 
   private Account mAccount;
   @Override
@@ -207,6 +207,19 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       ArrayList<String> projection = new ArrayList<String>(Arrays.asList(
           new String[] { THIS_YEAR + " AS this_year",THIS_YEAR_OF_WEEK_START + " AS this_year_of_week_start",
               THIS_MONTH + " AS this_month",THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day"}));
+      //if we are at the beginning of the year we are interested in the max of the previous year
+      int yearToLookUp = groupingSecond ==1 ? groupingYear -1 : groupingYear;
+      switch (mGrouping) {
+      case DAY:
+        projection.add(String.format(Locale.US,"strftime('%%W','%d-12-31') AS max_value",yearToLookUp));
+      case WEEK:
+        projection.add(String.format(Locale.US,"strftime('%%W','%d-12-31') AS max_value",yearToLookUp));
+        break;
+      case MONTH:
+        projection.add("12 as max_value");
+      default:
+        projection.add("0 as max_value");
+      }
       if (mGrouping.equals(Grouping.WEEK)) {
         //we want to find out the week range when we are given a week number
         //we find out the first Monday in the year, which is the beginning of week 1 and than
@@ -282,6 +295,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     thisMonth = c.getInt(c.getColumnIndex("this_month"));
     thisWeek = c.getInt(c.getColumnIndex("this_week"));
     thisDay = c.getInt(c.getColumnIndex("this_day"));
+    maxValue = c.getInt(c.getColumnIndex("max_value"));
     break;
     case CATEGORY_CURSOR:
     mAdapter.setGroupCursor(c);
@@ -324,9 +338,9 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
         groupingYear--;
       else {
         groupingSecond--;
-        if (groupingSecond < mGrouping.MIN_VALUE) {
+        if (groupingSecond < 1) {
           groupingYear--;
-          groupingSecond = mGrouping.MAX_VALUE;
+          groupingSecond = maxValue;
         }
       }
       reset();
@@ -336,9 +350,9 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
         groupingYear++;
       else{
         groupingSecond++;
-        if (groupingSecond > mGrouping.MAX_VALUE) {
+        if (groupingSecond > maxValue) {
           groupingYear++;
-          groupingSecond = mGrouping.MIN_VALUE;
+          groupingSecond = 1;
         }
       }
       reset();

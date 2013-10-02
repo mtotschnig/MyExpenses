@@ -105,18 +105,12 @@ public class Account extends Model {
   public Type type;
 
   public enum Grouping {
-    NONE(0,0),DAY(1,366),WEEK(0,53),MONTH(1,12),YEAR(0,0);
-    private Grouping(int min,int max) {
-      //TODO for week and day max values have to be calculated depending on the year
-      this.MIN_VALUE = min;
-      this.MAX_VALUE = max;
-    }
-    public final int MIN_VALUE,MAX_VALUE;
+    NONE,DAY,WEEK,MONTH,YEAR;
+
     /**
      * @param groupYear the year of the group to display
      * @param groupSecond the number of the group in the second dimension (day, week or month)
-     * @param thisYear current year as returned by sqlite3
-     * @param thisDate current date in the second dimension as returned by sqlite3
+     * @param c a cursor where we can find information about the current date
      * @return a human readable String representing the group as header or activity title
      */
     public String getDisplayTitle(Context ctx, int groupYear, int groupSecond,Cursor c) {
