@@ -38,7 +38,7 @@
      (titolo, descrizione, saldo di apertura, tipo di conto, valuta, colore).</string>
   <string name="menu_grouping_help_text">È possibile raggruppare le transazioni per giorno, settimana, mese o anno.
      Per ogni gruppo, le somme di redditi, spese e trasferimenti vengono calcolate e visualizzate.</string>
-  <string name="menu_distribution_help_text">Visualizzare la distribuzione delle vostre spese per categoria. È anche possibile fare clic su un'intestazione di gruppo per controllare la distribuzione di un gruppo specifico.</string>
+  <string name="menu_distribution_help_text">Visualizzare la distribuzione delle vostre spese per categoria. È anche possibile fare clic su un intestazione di gruppo per controllare la distribuzione di un gruppo specifico.</string>
 
 
   <!-- ManageAccounts Accounts list -->
