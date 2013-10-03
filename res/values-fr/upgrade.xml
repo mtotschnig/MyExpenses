@@ -25,7 +25,7 @@
   <string-array name="whats_new_67">
     <item>Regroupement par jour, semaine, mois, année, et affichage des totaux par groupe</item>
     <item>Les tiers sont affichés dans la liste des opérations</item>
-    <item>La liste des contes est trié (par défaut selon la fréquence d\'utilisation)</item>
+    <item>La liste des comptes est triée (selon la fréquence d\'utilisation par défaut)</item>
   </string-array>
   <string-array name="whats_new_63">
     <item>Opérations ventilées</item>
