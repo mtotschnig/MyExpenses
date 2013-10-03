@@ -20,56 +20,32 @@
 
   <!-- My Expenses Transaction list -->
   <string name="help_MyExpenses_title">Lista de transacciones</string>
-  <string name="help_MyExpenses_info">Esta pantalla muestra todas las transacciones de la cuenta corriente. Desde
-     la barra de navegación, puede navegar a la lista de cuentas o seleccionar una cuenta diferente.
-     Haga clic en una entrada de la lista para editar el elemento.</string>
+  <string name="help_MyExpenses_info">Esta pantalla muestra todas las transacciones de la cuenta corriente. Desde la barra de navegación, puede navegar a la lista de cuentas o seleccionar una cuenta diferente. Haga clic en una entrada de la lista para editar el elemento.</string>
   <string name="menu_create_transaction_help_text">Abre el formulario para crear una nueva transacción.</string>
-  <string name="menu_create_transfer_help_text">Transferir dinero entre cuentas. Este comando  sólo está disponible si hay
-    al menos otra cuenta en la misma moneda que la actual.</string>
-  <string name="menu_create_split_help_text">Uno asiento dividido le permite asignar cantidades parciales a diferentes categorías o
-    como las transferencias a diferentes cuentas.</string>
-  <string name="menu_new_from_template_help_text">Si ha creado plantillas para la cuenta corriente, este comando
-      le permiteseleccionar una plantilla con la que se creará una nueva transacción.</string>
-  <string name="menu_reset_help_text">Este comando exportará todas las transacciones de la cuenta corriente a un archivo en
-     la tarjeta SD en formato CSV o QIF. De forma predeterminada, las transacciones serán
-     eliminadas del teléfono, pero puede optar por mantenerlas y marcarlas como exportadas. Inmediatamente después de la exportación se puede transmitir el archivo a través de FTP, correo electrónico o cualquier otra aplicación de intercambio de archivos, si usted lo ha establecido en la configuración.</string>
-  <string name="menu_edit_account_help_text">Ajuste las propiedades de la cuenta corriente
-     (título, descripción, saldo inicial, tipo de cuenta, moneda, color).</string>
-  <string name="menu_grouping_help_text">Puede agrupar las transacciones por día, semana, mes o año.
-     Para cada grupo, la suma de los ingresos, gastos y transferencias se calcula y se muestra.</string>
+  <string name="menu_create_transfer_help_text">Transferir dinero entre cuentas. Este comando  sólo está disponible si hay al menos otra cuenta en la misma moneda que la actual.</string>
+  <string name="menu_create_split_help_text">Uno asiento dividido le permite asignar cantidades parciales a diferentes categorías o como las transferencias a diferentes cuentas.</string>
+  <string name="menu_new_from_template_help_text">Si ha creado plantillas para la cuenta corriente, este comando le permiteseleccionar una plantilla con la que se creará una nueva transacción.</string>
+  <string name="menu_reset_help_text">Este comando exportará todas las transacciones de la cuenta corriente a un archivo en la tarjeta SD en formato CSV o QIF. De forma predeterminada, las transacciones serán eliminadas del teléfono, pero puede optar por mantenerlas y marcarlas como exportadas. Inmediatamente después de la exportación se puede transmitir el archivo a través de FTP, correo electrónico o cualquier otra aplicación de intercambio de archivos, si usted lo ha establecido en la configuración.</string>
+  <string name="menu_edit_account_help_text">Ajuste las propiedades de la cuenta corriente (título, descripción, saldo inicial, tipo de cuenta, moneda, color).</string>
+  <string name="menu_grouping_help_text">Puede agrupar las transacciones por día, semana, mes o año. Para cada grupo, la suma de los ingresos, gastos y transferencias se calcula y se muestra.</string>
   <string name="menu_distribution_help_text">Muestra la distribución de los gastos por categoría. También puede hacer clic en un encabezado de grupo para inspeccionar la distribución de un grupo específico.</string>
-
 
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Lista de cuentas</string>
-  <string name="help_ManageAccounts_info">Esta pantalla muestra todas las cuentas. Al hacer clic en una entrada de la lista, se abre la
-     lista de transacciones de la cuenta.</string>
+  <string name="help_ManageAccounts_info">Esta pantalla muestra todas las cuentas. Al hacer clic en una entrada de la lista, se abre la lista de transacciones de la cuenta.</string>
   <string name="menu_create_account_help_text">Abre el formulario para crear una nueva cuenta.</string>
-  <string name="menu_aggregates_help_text">El diálogo \"Agregados de varias cuentas\" calcula la suma de los gastos y los ingresos de
-     todas las cuentasagrupadas por tipo de moneda. El comando sólo está disponible si al
-     menos hay dos cuentas con la misma moneda (característica Contrib).</string>
-  <string name="menu_reset_all_help_text">Este comando le permite exportar y restablecer todas sus cuentas en batch. No está disponible
-     si no hay transacciones (característica Contrib).</string>
-
+  <string name="menu_aggregates_help_text">El diálogo \"Agregados de varias cuentas\" calcula la suma de los gastos y los ingresos de todas las cuentasagrupadas por tipo de moneda. El comando sólo está disponible si al menos hay dos cuentas con la misma moneda (característica Contrib).</string>
+  <string name="menu_reset_all_help_text">Este comando le permite exportar y restablecer todas sus cuentas en batch. No está disponible si no hay transacciones (característica Contrib).</string>
 
   <!-- ManageMethods title is in keys-->
-  <string name="help_ManageMethods_info">Esta pantalla muestra los métodos de pago predefinidos (cheque, tarjeta de crédito, depósito,
-     retiro) y le permite definir otros nuevos.
-     Al hacer clic en una entrada de la lista, puede especificar la relación entre el método y los tipos de cuenta.</string>
+  <string name="help_ManageMethods_info">Esta pantalla muestra los métodos de pago predefinidos (cheque, tarjeta de crédito, depósito, retiro) y le permite definir otros nuevos. Al hacer clic en una entrada de la lista, puede especificar la relación entre el método y los tipos de cuenta.</string>
   <string name="menu_create_method_help_text">Abre el formulario para crear un nuevo método de pago.</string>
 
-
   <!-- ManageParties title is in keys -->
-  <string name="help_ManageParties_info">Esta pantalla muestra los partidos utilizados para la cumplimentación automática de la casilla pagador / beneficiario.
-     Puede eliminar las entradas de esta lista a través del menú contextual de cada entrada.</string>
-
+  <string name="help_ManageParties_info">Esta pantalla muestra los partidos utilizados para la cumplimentación automática de la casilla pagador / beneficiario. Puede eliminar las entradas de esta lista a través del menú contextual de cada entrada.</string>
 
   <!-- ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_info">Esta pantalla muestra las plantillas disponibles agrupadas por cuenta.
-    Mientras que las plantillas normalmente se pueden derivar de las transacciones, aquí el menú contextual de cada cuenta le permite crear nuevas plantillas (para transacciones o traslados a otra cuenta).
-    Desde el menú contextual de una plantilla se puede crear una nueva transacción y de forma inmediata o guardarla o llenar un formulario de edición que puede modificar antes de guardarlo.
-    Haciendo clic en una plantilla le permite modificar el formulario (característica Contrib).</string>
-
+  <string name="help_ManageTemplates_info">Esta pantalla muestra las plantillas disponibles agrupadas por cuenta. Mientras que las plantillas normalmente se pueden derivar de las transacciones, aquí el menú contextual de cada cuenta le permite crear nuevas plantillas (para transacciones o traslados a otra cuenta). Desde el menú contextual de una plantilla se puede crear una nueva transacción y de forma inmediata o guardarla o llenar un formulario de edición que puede modificar antes de guardarlo. Haciendo clic en una plantilla le permite modificar el formulario (característica Contrib).</string>
 
   <!-- SelectCategory title is in keys-->
   <string name="help_ManageCategories_distribution_info">Esta pantalla muestra la distribución de los gastos y de los ingresos por categorías, para todas las transacciones en una cuenta, o para un grupo específico.</string>
@@ -87,18 +63,9 @@
   <string name="help_ExpenseEdit_split_title">Formulario para asientos divididos</string>
   <string name="help_ExpenseEdit_splitPartCategory_title">Formulario para divisiónes de catégorias</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">Formulario para divisiónes de transferencias</string>
-  <string name="help_ExpenseEdit_info">
-    <!-- Haga click en ? -->
-    Haga clic en el botón - para alternar entre gasto u ingreso. Haga clic en el botón = para abrir una calculadora.
-    El separador decimal para cantidades puede ser configurado en la configuración.</string>
-  <string name="help_ExpenseEdit_transaction_info">La casilla para la inserción del beneficiario (o del pagador) memoriza los valores que usted ha insertado,
-    y se los propone si usted vuelve a hacer inserciones en esta casilla.
-    El botón para seleccionar un método de pago, sólo está disponible si la cuenta corriente es de un tipo vinculado a alguna forma de pago.
-    De forma predeterminada, sólo las cuentas bancarias están vinculadas a formas de pago (cheque, tarjeta de crédito, depósito,
-    retiro).</string>
-  <string name="help_ExpenseEdit_split_info">Entre tantas fracciones (para categoriás y transferencias) cuantas sean necesarias a través de los comandos del.
-    La mitad inferior de la pantalla muestra la lista de las fracciones y la cantidad que aún no se ha asignado a una categoría o una transferencia.
-    Sólo se puede guardar el asiento dividido si la suma de las fracciones es igual a la monta del asiento.</string>
+  <string name="help_ExpenseEdit_info">Haga clic en el botón - para alternar entre gasto u ingreso. Haga clic en el botón = para abrir una calculadora. El separador decimal para cantidades puede ser configurado en la configuración.</string>
+  <string name="help_ExpenseEdit_transaction_info">La casilla para la inserción del beneficiario (o del pagador) memoriza los valores que usted ha insertado, y se los propone si usted vuelve a hacer inserciones en esta casilla. El botón para seleccionar un método de pago, sólo está disponible si la cuenta corriente es de un tipo vinculado a alguna forma de pago. De forma predeterminada, sólo las cuentas bancarias están vinculadas a formas de pago (cheque, tarjeta de crédito, depósito, retiro).</string>
+  <string name="help_ExpenseEdit_split_info">Entre tantas fracciones (para categoriás y transferencias) cuantas sean necesarias a través de los comandos del. La mitad inferior de la pantalla muestra la lista de las fracciones y la cantidad que aún no se ha asignado a una categoría o una transferencia. Sólo se puede guardar el asiento dividido si la suma de las fracciones es igual a la monta del asiento.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Seleccione una categoría para la fracción.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Asigne una cuenta de transferencia a la fracción.</string>
   <string name="help_ExpenseEdit_transfer_info">Si sólo existe una cuenta con la misma moneda que la actual ya está preseleccionada como cuenta de transferencia.</string>
@@ -106,18 +73,11 @@
   <string name="menu_create_split_part_category_help_text">Abre el formulario para la asignación de una fracción a una categoría.</string>
   <string name="menu_create_split_part_transfer_help_text">Abre el formulario para la transferencia de una fracción a otra cuenta.</string>
   <string name="menu_save_help_text">Guardar los datos y cerrar el formulario.</string>
-  <string name="menu_save_and_new_help_text">Guardar los datos y dejar abierto el formulario para crear una nueva transacción con los mismos
-     datos.</string>
+  <string name="menu_save_and_new_help_text">Guardar los datos y dejar abierto el formulario para crear una nueva transacción con los mismos datos.</string>
   <!-- AccountEdit -->
   <string name="help_AccountEdit_title">Formulario para las cuentas</string>
-  <string name="help_AccountEdit_info">Las cuentas se identifican por su designación, la descripción sólo sirve para fines informativos.
-    El separador decimal para el saldo inicial se puede configurar en la configuración.
-    La moneda se debe insertar por su abreviación de tres cifras ISO 4217 o puede ser elegida de una lista
-    Usted puede asignar una cuenta a uno de los siguientes tipos: cuenta de caja, cuenta bancaria, cuenta de inversiones, cuenta de crédito.
-    El tipo determina los métodos de pago disponibles que se pueden configurar en Configuraciones -> Administrar -> Métodos de pago.</string>
+  <string name="help_AccountEdit_info">Las cuentas se identifican por su designación, la descripción sólo sirve para fines informativos. El separador decimal para el saldo inicial se puede configurar en la configuración. La moneda se debe insertar por su abreviación de tres cifras ISO 4217 o puede ser elegida de una lista Usted puede asignar una cuenta a uno de los siguientes tipos: cuenta de caja, cuenta bancaria, cuenta de inversiones, cuenta de crédito. El tipo determina los métodos de pago disponibles que se pueden configurar en Configuraciones -> Administrar -> Métodos de pago.</string>
   <!-- MethodEdit -->
   <string name="help_MethodEdit_title">Formulario para los métodos de pago</string>
-  <string name="help_MethodEdit_info">En esta pantalla, se asocia un método de pago a tipos de cuenta.
-    También puede definir una designación (con la excepción de los métodos predefinidos que tienen una designación fija que no se puede modificar).
-    A través del tipo de un método se determina si es aplicable a los gastos (débito), ingresos (crédito) o ambos (neutro).</string>
+  <string name="help_MethodEdit_info">En esta pantalla, se asocia un método de pago a tipos de cuenta. También puede definir una designación (con la excepción de los métodos predefinidos que tienen una designación fija que no se puede modificar). A través del tipo de un método se determina si es aplicable a los gastos (débito), ingresos (crédito) o ambos (neutro).</string>
 </resources>
