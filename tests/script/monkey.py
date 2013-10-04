@@ -98,7 +98,7 @@ back()
 menu(2)
 snapshot("export")
 
-#6 SelectCategory
+#6 Calculator
 back()
 toOrigin()
 sleep()
@@ -108,23 +108,12 @@ right()
 sleep()
 enter()
 toOrigin()
-for _ in range(5):
+for _ in range(3):
   down()
-enter()
-down()
-enter()
-snapshot("categories")
-
-#7 Calculator
-back()
-up()
-up()
-right()
-right()
 enter()
 snapshot("calculator")
 
-#8 Split
+#7 Split
 back()
 back()
 toOrigin()
@@ -136,9 +125,22 @@ enter()
 sleep(2)
 snapshot("split")
 
-#9 Backup
+#8 Distribution
 back()
 menu(5)
+right()
+enter()
+down()
+down()
+down()
+enter()
+down() 
+enter()
+snapshot("distribution")
+
+#9 Backup
+back()
+menu(6)
 if lang == 'de':
   distance = 17
 else:
@@ -152,7 +154,7 @@ snapshot("backup")
 
 back()
 back()
-menu(5)
+menu(6)
 if lang == 'de':
   distance = 24
 else:
@@ -166,7 +168,7 @@ snapshot("password")
 #10 Light Theme
 back()
 back()
-menu(5)
+menu(6)
 for _ in range(5):
   down()
 enter()
@@ -176,5 +178,5 @@ back()
 snapshot("light_theme")
 
 #11 Help
-menu(6)
+menu(7)
 snapshot("help")
