@@ -9,7 +9,7 @@ import junit.framework.Assert;
 public class ContribFeatureTest extends ModelTest  {
   
   public void testFormattedList() {
-    Assert.assertNotNull(Utils.getContribFeatureLabelsAsFormattedList(getContext()));
+    Assert.assertNotNull(Utils.getContribFeatureLabelsAsFormattedList(getContext(), null));
   }
   public void testRecordUsage() {
     Feature feature = Feature.AGGREGATE;
