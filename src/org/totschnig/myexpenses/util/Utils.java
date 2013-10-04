@@ -346,7 +346,7 @@ public class Utils {
   /**
    * @param ctx for retrieving resources
    * @param other if not null, all features except the one provided will be returned
-   * @return
+   * @return construct a list of all contrib features to be included into a TextView
    */
   public static String getContribFeatureLabelsAsFormattedList(Context ctx,Feature other) {
     String result ="";
