@@ -21,6 +21,24 @@ langs:
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar, Română, 中文"
 versions:
   -
+    - 1.9.5
+    - 2013-10-04
+    -
+      en: |
+        Distribution of transactions by category (Premium).
+      fr: |
+        Répartition des transactions par catégorie (Premium).
+      de: |
+        Verteilung der Buchungen auf Kategorien (Premium).
+      it: |
+        Distribuzione di transazioni per categoria (Premium).
+      es: |
+        Distribución de las transacciones por categoría (Premium).
+      tr: |
+        Muamelelerin kategori başına dağılımı (Premium).
+      vi: |
+        Phân phối các giao dịch cho mỗi phân loại (Premium).
+  -
     - 1.9.1
     - 2013-09-23
     -
@@ -78,13 +96,13 @@ versions:
     - 1.8.5.
     - 2013-08-06
     -
-      en: Split transactions
-      fr: Opérations ventilées
-      de: Splitbuchungen
-      it: Operazioni suddivise
-      es: Asientos divididos
-      tr: Bölünmüş muameleler
-      vi: Phân tách giao dịch
+      en: Split transactions (Premium).
+      fr: Opérations ventilées (Premium).
+      de: Splitbuchungen (Premium).
+      it: Operazioni suddivise (Premium).
+      es: Asientos divididos (Premium).
+      tr: Bölünmüş muameleler (Premium).
+      vi: Phân tách giao dịch (Premium).
       ar: |
         تقسيم العمليات.
   -

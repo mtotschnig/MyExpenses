@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
-<html lang="{{pagelang}}">
+{% assign msg = page[pagelang]  %}
+<html lang="{{pagelang}}" {{msg.imprint}}>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -95,7 +96,7 @@
           ctx.drawImage(resourceImages['fore'], 0, 0,canvasTemplate.width,canvasTemplate.height);
         }
         //console.log("setting scale "+ scale);
-        var ssList = [{% for feature in page.features %}'{{feature[0]}}'{% if forloop.last %}{% else %},{% endif %}{% endfor %}];
+        var ssList = [{% for feature in msg.features %}'{{feature[0]}}'{% if forloop.last %}{% else %},{% endif %}{% endfor %}];
         for (var i = 0; i < ssList.length; i++) {
           var img = document.createElement('img');
           var id = ssList[i];
@@ -139,7 +140,7 @@
             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-            {% for section in page.sections %}
+            {% for section in msg.sections %}
               <li id="{{section[0]}}-link"><a class="intern" href="#{{section[0]}}">{{section[1]}}</a></li>
             {% endfor %}
               <li role="presentation" class="divider"></li>
@@ -156,7 +157,7 @@
               {% for lang in site.langs %}
               {% assign code = lang[0] %}
               {% assign label = lang[1] %}
-              {% if code != page.lang %}
+              {% if code != pagelang %}
               <li><a href="/{{code}}">{{label}}</a></li>
               {% endif %}
               {% endfor %}
@@ -167,14 +168,14 @@
         src="/visuals/icon_{% if pagelang == "vi" %}VN{% elsif pagelang == "tr" %}TR{% elsif pagelang == "de" or pagelang == "fr" or pagelang == "ca" or pagelang == "it" %}EU{% else %}US{% endif %}.png" id="app-icon"> {{site.title[pagelang]}}</h3>
       </div>
       <div class="jumbotron">
-        <p>{{page.hero_main}}</p>
-        {% for hero in page.hero_sub %}<span class="btn btn-primary">{{hero}}</span>{% endfor %}
+        <p>{{msg.hero_main}}</p>
+        {% for hero in msg.hero_sub %}<span class="btn btn-primary">{{hero}}</span>{% endfor %}
       </div>
       <div id="carousel-features" class="carousel slide block">
         <!-- Indicators -->      
         <!-- Wrapper for slides -->
         <div id="canvas-parent" class="carousel-inner">
-          {% for feature in page.features %}
+          {% for feature in msg.features %}
           <div id="{{feature[0]}}" class="item {% if forloop.index0 == 0 %}active{% endif %}">
             <div class="carousel-caption">
             {{feature[1]}} 
@@ -183,7 +184,7 @@
           {% endfor %}
         </div>
         <ol class="carousel-indicators">
-          {% for feature in page.features %}
+          {% for feature in msg.features %}
           <li data-target="#carousel-features" data-slide-to="{{forloop.index0}}" {% if forloop.index0 == 0 %}class="active"{% endif %}></li>
           {% endfor %}
         </ol>
@@ -204,7 +205,7 @@
          </a>
       </div>
       <div class="footer">
-        <p>© 2013 Michael Totschnig - <a class="intern" href="#imprint">{{page.imprint}}</a> - <a href="mailto:myexpenses@totschnig.org">Feedback</a></p>
+        <p>© 2013 Michael Totschnig - <a class="intern" href="#imprint">{{msg.imprint}}</a> - <a href="mailto:myexpenses@totschnig.org">Feedback</a></p>
       </div>
     </div> <!-- /container -->
     
