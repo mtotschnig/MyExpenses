@@ -185,7 +185,7 @@
         </div>
         <ol class="carousel-indicators">
           {% for feature in msg.features %}
-          <li data-target="#carousel-features" data-slide-to="{{forloop.index0}}" {% if forloop.index0 == 0 %}class="active"{% endif %}></li>
+          <li title="{{feature[1]}}" data-target="#carousel-features" data-slide-to="{{forloop.index0}}" {% if forloop.index0 == 0 %}class="active"{% endif %}></li>
           {% endfor %}
         </ol>
         <!-- Controls -->
