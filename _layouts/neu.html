@@ -26,6 +26,7 @@
       /* based on Android Asset Studio - Device Frame Generator */
       var SCREENSHOT_WIDTH = 480;
       var SCREENSHOT_HEIGTH = 800;
+      var MINIMAL_WIDTH_DEVICE_ART = 500;
       
       var loadImageResources = function(images, callback) {
         var imageResources = {};
@@ -82,9 +83,22 @@
           loadScreenShots();
         });
       }
+      //http://www.howtocreate.co.uk/tutorials/javascript/browserwindow
+      function availableWidth() {
+        var myWidth = 0;
+        if( typeof( window.innerWidth ) == 'number' ) {
+          //Non-IE
+          return window.innerWidth;
+        } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+          //IE 6+ in 'standards compliant mode'
+          return document.documentElement.clientWidth;
+        } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+          return document.body.clientWidth;
+        }
+      }
+      var availableWidth=availableWidth();
       function loadScreenShots() {
-        var availableWidth=document.getElementById("canvas-parent").clientWidth;
-        if (availableWidth > 500) {
+        if (availableWidth > MINIMAL_WIDTH_DEVICE_ART) {
           var naturalWidth = 749;
           var naturalHeight = 1308;
           var scale = availableWidth/naturalWidth;
@@ -103,7 +117,7 @@
           //console.log("creating image "+id);
           (function(img, id) {
             img.onload = function() {
-              if (availableWidth > 500) {
+              if (availableWidth > MINIMAL_WIDTH_DEVICE_ART) {
                 //console.log("image "+id + " loaded");
                 var canvas = document.createElement('canvas');
                 canvas.width=availableWidth;
