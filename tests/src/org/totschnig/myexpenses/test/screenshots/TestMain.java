@@ -6,20 +6,15 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.content.res.Resources.NotFoundException;
 import android.graphics.Color;
 import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
-import com.jayway.android.robotium.solo.Solo;
-import com.squareup.spoon.Spoon;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.test.R;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.activity.GrisbiImport;
-import org.totschnig.myexpenses.activity.ManageAccounts;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
