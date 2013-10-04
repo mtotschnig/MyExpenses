@@ -36,6 +36,7 @@
   <string name="color">Renk</string>
   <string name="comment">Notlar</string>
   <string name="contrib_feature_accounts_unlimited_label">Sınırsız sayıda hesap</string>
+  <string name="contrib_feature_accounts_unlimited_description">&lt;i&gt;Harcamalarım&lt;/i&gt; ile oluşturabileceğiniz hesap sayısı 5 ile sınırlıdır.</string>
   <string name="contrib_feature_aggregate_label">Birden çok hesabın birleşik görünümü</string>
   <string name="contrib_feature_distribution_label">Muamelelerin kategori başına dağılımı</string>
   <string name="contrib_feature_reset_all_label">Tüm hesapları sıfırla</string>
@@ -53,6 +54,8 @@
   <string name="dialog_contrib_usage_count">%1$d ücretsiz kullanım kalmıştır.</string>
   <string name="dialog_contrib_no_usages_left">Hiçbir ücretsiz kullanım kalmamıştır.</string>
   <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırmak için &lt;i&gt;Harcamalarım Katkı Sürümünü&lt;/i&gt;. kurabilirsiniz.</string>
+  <string name="dialog_contrib_reminder_gain_access">Bu şekilde aşağıdaki özelliklere de sınırsız erişim elde edersiniz:</string>
   <string name="dialog_contrib_yes">Satın al</string>
   <string name="dialog_contrib_no">Henüz değil</string>
   <string name="dialog_contrib_text">&lt;i&gt;&app_name;&lt;/i&gt; ücretsiz ve özgür yazılım olarak sunulmuştur. Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:</string>

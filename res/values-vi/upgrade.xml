@@ -15,8 +15,8 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-  <string-array name="whats_new_73">
-    <item>Phân phối các giao dịch cho mỗi phân loại</item>
+  <string-array name="whats_new_75">
+    <item>Phân phối các giao dịch cho mỗi phân loại (Premium)</item>
   </string-array>
   <string-array name="whats_new_72">
     <item>Sửa lỗi: Vấn đề lỗi #69</item>
@@ -28,7 +28,7 @@
     <item>Danh sách các tài khoản được sắp xếp (dựa theo tần số được sử dụng theo mặc định)</item>
   </string-array>
   <string-array name="whats_new_63">
-    <item>Phân tách giao dịch</item>
+    <item>Phân tách giao dịch (Premium)</item>
   </string-array>
   <string-array name="whats_new_59">
     <item>Vietnamca tercüme.</item>

@@ -18,6 +18,9 @@
   <!ENTITY app_name "Mis gastos">
 ]>
 <resources>
+  <string-array name="whats_new_75">
+    <item>Distribución de las transacciones por categoría (Premium)</item>
+  </string-array>
   <string-array name="whats_new_72">
     <item>Corrección de errores #69</item>
     <item>Traducción árabe</item>
@@ -28,7 +31,7 @@
     <item>Lista de cuentas está ordenada (por frecuencia de uso de forma predeterminada)</item>
   </string-array>
   <string-array name="whats_new_63">
-    <item>Asientos divididos</item>
+    <item>Asientos divididos (Premium)</item>
   </string-array>
   <string-array name="whats_new_59">
     <item>Traducción al vietnamita</item>

@@ -18,8 +18,8 @@
   <!ENTITY app_name "Mes dépenses">
 ]>
 <resources>
-  <string-array name="whats_new_73">
-    <item>Répartition des transactions par catégorie</item>
+  <string-array name="whats_new_75">
+    <item>Répartition des transactions par catégorie (Premium)</item>
   </string-array>
   <string-array name="whats_new_72">
     <item>Correction du bug #69</item>
@@ -31,7 +31,7 @@
     <item>La liste des comptes est triée (par défaut selon la fréquence d\'utilisation)</item>
   </string-array>
   <string-array name="whats_new_63">
-    <item>Opérations ventilées</item>
+    <item>Opérations ventilées (Premium)</item>
   </string-array>
   <string-array name="whats_new_59">
     <item>Traduction en vietnamien</item>

@@ -18,6 +18,9 @@
   <!ENTITY app_name "Meine Ausgaben">
 ]>
 <resources>
+  <string-array name="whats_new_75">
+    <item>Verteilung der Buchungen auf Kategorien (Premium)</item>
+  </string-array>
   <string-array name="whats_new_72">
     <item>Bug #69 behoben</item>
     <item>Arabische Übersetzung</item>
@@ -28,7 +31,7 @@
     <item>Kontenliste wird sortiert (standardmäßig nach Häufigkeit der Benutzung)</item>
   </string-array>
   <string-array name="whats_new_63">
-    <item>Splitbuchungen</item>
+    <item>Splitbuchungen (Premium)</item>
   </string-array>
   <string-array name="whats_new_59">
     <item>Vietnamesische Übersetzung</item>

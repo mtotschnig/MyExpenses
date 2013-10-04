@@ -18,7 +18,10 @@
   <!ENTITY app_name "Harcamalarım">
 ]>
 <resources>
-  <string-array name="whats_new_72">
+  <string-array name="whats_new_75">
+    <item>Muamelelerin kategori başına dağılımı (Premium)</item>
+  </string-array>
+	<string-array name="whats_new_72">
     <item>Hata düzeltmesi: #69</item>
     <item>Arap Tercüme</item>
   </string-array>
@@ -28,7 +31,7 @@
     <item>Hesap listesi sıralanır (varsayılan değer kullanım sıklığına göredir)</item>
   </string-array>
   <string-array name="whats_new_63">
-    <item>Bölünmüş muameleler</item>
+    <item>Bölünmüş muameleler (Premium)</item>
   </string-array>
   <string-array name="whats_new_59">
     <item>Vietnamca tercüme</item>
