@@ -128,6 +128,9 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           int type = ExpandableListView
                   .getPackedPositionType(info.packedPosition);
 
+          menu.add(0,EDIT_CAT,0,R.string.menu_edit_cat);
+          if (helpVariant.equals(HelpVariant.distribution))
+            return;
           // Menu entries relevant only for the group
           if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
             if (helpVariant.equals(HelpVariant.select))
@@ -135,7 +138,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
             menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
           }
           menu.add(0,DELETE_CAT,0,R.string.menu_delete);
-          menu.add(0,EDIT_CAT,0,R.string.menu_edit_cat);
     }
 
     @Override
