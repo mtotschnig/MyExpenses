@@ -5,8 +5,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="My Expenses, Open Source Android App for personal finance management">
+    <meta name="author" content="Michael Totschnig">
     <link rel="shortcut icon" href="/visuals/favicon.png">
 
     <title>{{site.title[pagelang]}}</title>
@@ -187,6 +187,30 @@
         <p>{{msg.hero_main}}</p>
         {% for hero in msg.hero_sub %}<span class="btn btn-primary">{{hero}}</span>{% endfor %}
       </div>
+      <div class="well">
+        <table style="width:100%">
+          <tr>
+            <td width="50%">
+              <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses">
+                <img alt="Get it on Google Play"
+                  src="https://developer.android.com/images/brand/{{pagelang}}_generic_rgb_wo_60.png" />
+              </a>
+            </td>
+            <td width="50%">
+              <div class="btn-group">
+                <button type="button" class="btn btn-info btn-lg dropdown-toggle" data-toggle="dropdown">
+                  Latest news <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  {% for post in site.gplus %}
+                  <li style="text-align:left"><a href="https://plus.google.com/116736113799210525299/posts/{{post[0]}}">{{post[1]}}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
       <div id="carousel-features" class="carousel slide block">
         <!-- Indicators -->      
         <!-- Wrapper for slides -->
@@ -214,18 +238,6 @@
       </div>
       {{content}}
       {% include misc_info.html %}
-      <div class="well">
-      <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses">
-        <img alt="Get it on Google Play"
-            src="https://developer.android.com/images/brand/{{pagelang}}_generic_rgb_wo_60.png" />
-         </a><br><br>
-         <span title="{{site.versions[0][2][pagelang]}}" class="label label-success">{{msg.current}} {{site.versions[0][0]}}</span>
-      </div>
-      <div class="well">
-      <h2>Latest news</h2>
-      <!-- Place this tag where you want the widget to render. -->
-        <div class="g-post" data-href="https://plus.google.com/116736113799210525299/posts/dSB3Kj2ojMo"></div>
-      </div>
       <div class="footer">
         <p>© 2013 Michael Totschnig - <a class="intern" href="#imprint">{{msg.imprint}}</a> - <a href="mailto:myexpenses@totschnig.org">Feedback</a></p>
       </div>

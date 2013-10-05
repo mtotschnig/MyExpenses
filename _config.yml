@@ -19,6 +19,19 @@ langs:
   #ca: Català
   ar: العربية
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar, Română, 中文"
+gplus:
+  -
+    - "dSB3Kj2ojMo"
+    - "Statistical distribution of transactions per categories (1.9.5)"
+  -
+    - "BH5srPpsJwv"
+    - "مصروفاتي now available in Arab (1.9.1)"
+  -
+    - "hhYFYDXKXm7"
+    - "Group transactions per day, week, month, year (1.9.0)"
+  -
+    - "QE9DVBtMajG"
+    - "Split transactions (1.8.5)"
 versions:
   -
     - 1.9.5
