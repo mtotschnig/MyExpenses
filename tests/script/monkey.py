@@ -110,6 +110,7 @@ enter()
 toOrigin()
 for _ in range(3):
   down()
+right()
 enter()
 snapshot("calculator")
 
