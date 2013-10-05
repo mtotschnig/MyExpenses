@@ -1,5 +1,5 @@
 #!/bin/bash
-#Prerequisite: execute "ant debug install" from tests directory
+#Prerequisites: run test project first on Eclipse, install Contrib app
 #TODO: create dirs if needed, for the moment need to be created by hand:
 #for i in en fr de it es tr vi; do mkdir $i; done
 if [ $# -ne 1 ]
