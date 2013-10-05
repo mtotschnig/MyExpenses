@@ -151,7 +151,7 @@
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li id="carousel-features-link" class="active"><a id="menu-features" href="#carousel-features"><span class="glyphicon glyphicon-home"></span></a></li>
+          <li id="features-link" class="active"><a id="menu-features" href="#features"><span class="glyphicon glyphicon-home"></span></a></li>
           <li id="menu-moreinfo" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
             </a>
@@ -211,7 +211,7 @@
           </tr>
         </table>
       </div>
-      <div id="carousel-features" class="carousel slide block">
+      <div id="features" class="carousel slide block">
         <!-- Indicators -->      
         <!-- Wrapper for slides -->
         <div id="canvas-parent" class="carousel-inner">
@@ -225,14 +225,14 @@
         </div>
         <ol class="carousel-indicators">
           {% for feature in msg.features %}
-          <li title="{{feature[1]}}" data-target="#carousel-features" data-slide-to="{{forloop.index0}}" {% if forloop.index0 == 0 %}class="active"{% endif %}></li>
+          <li title="{{feature[1]}}" data-target="#features" data-slide-to="{{forloop.index0}}" {% if forloop.index0 == 0 %}class="active"{% endif %}></li>
           {% endfor %}
         </ol>
         <!-- Controls -->
-        <a class="left carousel-control" href="#carousel-features" data-slide="prev">
+        <a class="left carousel-control" href="#features" data-slide="prev">
           <span class="icon-prev"></span>
         </a>
-        <a class="right carousel-control" href="#carousel-features" data-slide="next">
+        <a class="right carousel-control" href="#features" data-slide="next">
           <span class="icon-next"></span>
         </a>
       </div>
@@ -270,21 +270,21 @@
       });
       //target is hash + id of block  
       function mkActive(target) {
+        var block=target.split("-")[0];
         $('.block').toggle(false);
-        //var target =  $('#'+el.hash.substr(1));
-        $(target).toggle(true);
-        var targetTitle = $(target + " h2").text();
+        $(block).toggle(true);
+        var targetTitle = $(block + " h2").text();
         document.title = "{{site.title[pagelang]}}" + (targetTitle == "" ? "" : (" | " +targetTitle));
         $('li.active').removeClass('active');
-        $(target+"-link").addClass('active');
-        if (target != '#carousel-features')
+        $(block+"-link").addClass('active');
+        if (block != '#features')
           $('#menu-moreinfo').addClass('active');
         $('html, body').animate({
           scrollTop: $(target).offset().top
         }, 'slow');
       }
       window.addEventListener("popstate", function(e) {
-        mkActive(location.hash==""?"#carousel-features":location.hash);
+        mkActive(location.hash==""?"#features":location.hash);
       });
       {% if pagelang == "en" or pagelang == "fr" or pagelang == "es" %}
       function whichIcon(address) {
