@@ -11,6 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+    android:paddingRight="5dip"
     android:layout_alignParentLeft="true"
     android:layout_toLeftOf="@+id/amount"
     android:gravity="center_vertical" />
