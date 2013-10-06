@@ -271,6 +271,7 @@
         var block=target.split("-")[0];
         $('.block').toggle(false);
         $(block).toggle(true);
+        _gaq.push(['_trackPageview', location.pathname + block]);
         var targetTitle = $(block + " h2").text();
         document.title = "{{site.title[pagelang]}}" + (targetTitle == "" ? "" : (" | " +targetTitle));
         $('li.active').removeClass('active');
