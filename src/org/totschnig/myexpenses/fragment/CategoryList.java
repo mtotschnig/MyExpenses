@@ -62,8 +62,8 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
   private TextView incomeSumTv,expenseSumTv;
   private View bottomLine;
   public Grouping mGrouping;
-  int groupingYear;
-  int groupingSecond;
+  int mGroupingYear;
+  int mGroupingSecond;
   int thisYear,thisMonth,thisWeek,thisDay,maxValue;
 
   private Account mAccount;
@@ -84,9 +84,10 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       viewResource = R.layout.distribution_list;
       mAccountId = extras.getLong(KEY_ACCOUNTID);
       mAccount = Account.getInstanceFromDb(mAccountId);
-      mGrouping = (Grouping) extras.getSerializable("grouping");
-      groupingYear = extras.getInt("groupingYear");
-      groupingSecond = extras.getInt("groupingSecond");
+      Bundle b = savedInstanceState != null ? savedInstanceState : extras;
+      mGrouping = (Grouping) b.getSerializable("grouping");
+      mGroupingYear = b.getInt("groupingYear");
+      mGroupingSecond = b.getInt("groupingSecond");
       //emptyView.findViewById(R.id.importButton).setVisibility(View.GONE);
       //((TextView) emptyView.findViewById(R.id.noCategories)).setText(R.string.no_mapped_transactions);
       getSherlockActivity().supportInvalidateOptionsMenu();
@@ -181,16 +182,16 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     }
   }
   private String buildGroupingClause() {
-    String year = YEAR + " = " + groupingYear;
+    String year = YEAR + " = " + mGroupingYear;
     switch(mGrouping) {
     case YEAR:
       return year;
     case DAY:
-      return year + " AND " + DAY + " = " + groupingSecond;
+      return year + " AND " + DAY + " = " + mGroupingSecond;
     case WEEK:
-      return YEAR_OF_WEEK_START + " = " + groupingYear + " AND " + WEEK + " = " + groupingSecond;
+      return YEAR_OF_WEEK_START + " = " + mGroupingYear + " AND " + WEEK + " = " + mGroupingSecond;
     case MONTH:
-      return year + " AND " + MONTH + " = " + groupingSecond;
+      return year + " AND " + MONTH + " = " + mGroupingSecond;
     default:
       return null;
     }
@@ -208,7 +209,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
           new String[] { THIS_YEAR + " AS this_year",THIS_YEAR_OF_WEEK_START + " AS this_year_of_week_start",
               THIS_MONTH + " AS this_month",THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day"}));
       //if we are at the beginning of the year we are interested in the max of the previous year
-      int yearToLookUp = groupingSecond ==1 ? groupingYear -1 : groupingYear;
+      int yearToLookUp = mGroupingSecond ==1 ? mGroupingYear -1 : mGroupingYear;
       switch (mGrouping) {
       case DAY:
         projection.add(String.format(Locale.US,"strftime('%%j','%d-12-31') AS max_value",yearToLookUp));
@@ -226,8 +227,8 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
         //we want to find out the week range when we are given a week number
         //we find out the first Monday in the year, which is the beginning of week 1 and than
         //add (weekNumber-1)*7 days to get at the beginning of the week
-        String weekStart = String.format(Locale.US, "'%d-01-01','weekday 1','+%d day'",groupingYear,(groupingSecond-1)*7);
-        String weekEnd = String.format(Locale.US, "'%d-01-01','weekday 1','+%d day'",groupingYear,groupingSecond*7-1);
+        String weekStart = String.format(Locale.US, "'%d-01-01','weekday 1','+%d day'",mGroupingYear,(mGroupingSecond-1)*7);
+        String weekEnd = String.format(Locale.US, "'%d-01-01','weekday 1','+%d day'",mGroupingYear,mGroupingSecond*7-1);
         projection.add(String.format(Locale.US,"strftime('%%m/%%d', date(%s)) || '-' || strftime('%%m/%%d', date(%s)) AS week_range",weekStart,weekEnd));
       }
       return new CursorLoader(getSherlockActivity(),
@@ -292,7 +293,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     case DATEINFO_CURSOR:
     c.moveToFirst();
     actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
-        groupingYear, groupingSecond,c));
+        mGroupingYear, mGroupingSecond,c));
     thisYear = c.getInt(c.getColumnIndex("this_year"));
     thisMonth = c.getInt(c.getColumnIndex("this_month"));
     thisWeek = c.getInt(c.getColumnIndex("this_week"));
@@ -338,24 +339,24 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     switch (item.getItemId()) {
     case R.id.BACK_COMMAND:
       if (mGrouping.equals(Grouping.YEAR))
-        groupingYear--;
+        mGroupingYear--;
       else {
-        groupingSecond--;
-        if (groupingSecond < 1) {
-          groupingYear--;
-          groupingSecond = maxValue;
+        mGroupingSecond--;
+        if (mGroupingSecond < 1) {
+          mGroupingYear--;
+          mGroupingSecond = maxValue;
         }
       }
       reset();
       return true;
     case R.id.FORWARD_COMMAND:
       if (mGrouping.equals(Grouping.YEAR))
-        groupingYear++;
+        mGroupingYear++;
       else{
-        groupingSecond++;
-        if (groupingSecond > maxValue) {
-          groupingYear++;
-          groupingSecond = 1;
+        mGroupingSecond++;
+        if (mGroupingSecond > maxValue) {
+          mGroupingYear++;
+          mGroupingSecond = 1;
         }
       }
       reset();
@@ -366,22 +367,22 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
 
   public void setGrouping(Grouping grouping) {
     mGrouping = grouping;
-    groupingYear = thisYear;
+    mGroupingYear = thisYear;
     switch(grouping) {
     case NONE:
-      groupingYear = 0;
+      mGroupingYear = 0;
       break;
     case DAY:
-      groupingSecond = thisDay;
+      mGroupingSecond = thisDay;
       break;
     case WEEK:
-      groupingSecond = thisWeek;
+      mGroupingSecond = thisWeek;
       break;
     case MONTH:
-      groupingSecond = thisMonth;
+      mGroupingSecond = thisMonth;
       break;
     case YEAR:
-      groupingSecond = 0;
+      mGroupingSecond = 0;
       break;
     }
     getSherlockActivity().supportInvalidateOptionsMenu();
@@ -402,4 +403,12 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     if (bottomLine != null)
       bottomLine.setBackgroundColor(mAccount.color);
   }
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+      super.onSaveInstanceState(outState);
+      outState.putSerializable("grouping", mGrouping);
+      outState.putInt("groupingYear",mGroupingYear);
+      outState.putInt("groupingSecond",mGroupingSecond);
+  }
+
 }
