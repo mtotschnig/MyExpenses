@@ -80,5 +80,10 @@ dl.versionlist dd {
    width:100%;
    margin-bottom: 10px;
  }
-
+}
+.loading {
+  border: 1px solid #ccc;
+  width: 100%;
+  height: 500px;
+  background: url(/visuals/ajax-loader.gif) no-repeat center center;
 }

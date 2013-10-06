@@ -134,6 +134,7 @@
               } else {
                 $('#'+id).prepend(img);
               }
+              $('#'+id + " .loading").toggle(false);
             };
             img.onerror = function() {
               $('#'+id).prepend($('<p class="error">Error retrieving screenshot ' + id + '</p>'));
@@ -154,7 +155,7 @@
     </script>
   </head>
 
-  <body onload="loadDeviceArt();if (location.hash!='') mkActive(location.hash)">
+  <body>
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
@@ -220,6 +221,7 @@
         <div id="canvas-parent" class="carousel-inner">
           {% for feature in msg.features %}
           <div id="{{feature[0]}}" class="item {% if forloop.index0 == 0 %}active{% endif %}">
+            <div class="loading"></div>
             <div class="carousel-caption">
             {{feature[1]}} 
             </div>
@@ -306,6 +308,10 @@
         setIcon(whichIcon(data.address));
       });
       {% endif %}
+      $(document).ready(function(){
+        if (location.hash!='') mkActive(location.hash);
+        loadDeviceArt();
+      })
     </script>
   </body>
 </html>
