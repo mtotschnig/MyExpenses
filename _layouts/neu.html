@@ -195,28 +195,24 @@
         {% for hero in msg.hero_sub %}<span class="btn btn-primary">{{hero}}</span>{% endfor %}
       </div>
       <div class="well">
-        <table style="width:100%">
-          <tr>
-            <td width="50%">
-              <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses">
-                <img alt="Get it on Google Play"
-                  src="https://developer.android.com/images/brand/{{pagelang}}_generic_rgb_wo_60.png" />
-              </a>
-            </td>
-            <td width="50%">
-              <div class="btn-group">
-                <button type="button" class="btn btn-info btn-lg dropdown-toggle" data-toggle="dropdown">
-                  {{msg.latest_news}} <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  {% for post in site.gplus %}
-                  <li style="text-align:left"><a href="https://plus.google.com/116736113799210525299/posts/{{post[0]}}">{{post[1]}}</a></li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </td>
-          </tr>
-        </table>
+        <div>
+          <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses">
+            <img alt="Get it on Google Play"
+              src="https://developer.android.com/images/brand/{{pagelang}}_generic_rgb_wo_60.png" />
+          </a>
+        </div>
+        <div>
+          <div class="btn-group">
+            <button style="height:58px;min-width:170px;" type="button" class="btn btn-info btn-lg dropdown-toggle" data-toggle="dropdown">
+              {{msg.latest_news}} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              {% for post in site.gplus %}
+              <li style="text-align:left"><a href="https://plus.google.com/116736113799210525299/posts/{{post[0]}}">{{post[1]}}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
       </div>
       <div id="features" class="carousel slide block">
         <!-- Indicators -->      
