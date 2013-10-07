@@ -197,7 +197,7 @@
       </div>
       <div class="well">
         <div>
-          <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses">
+          <a id="gplay" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses">
             <img alt="Get it on Google Play"
               src="https://developer.android.com/images/brand/{{pagelang}}_generic_rgb_wo_60.png" />
           </a>
@@ -209,7 +209,7 @@
             </button>
             <ul class="dropdown-menu" role="menu">
               {% for post in site.gplus %}
-              <li style="text-align:left"><a href="https://plus.google.com/116736113799210525299/posts/{{post[0]}}">{{post[1]}}</a></li>
+              <li style="text-align:left"><a class="gplus" href="https://plus.google.com/116736113799210525299/posts/{{post[0]}}">{{post[1]}}</a></li>
               {% endfor %}
             </ul>
           </div>
@@ -312,6 +312,13 @@
         if (location.hash!='') mkActive(location.hash);
         loadDeviceArt();
       })
+      $('#gplay').on('click', function() {
+        ga('send', 'event', 'gplay', 'click');
+      });
+      $('.gplus').on('click', function() {
+        var urlParts = this.href.split('/');
+        ga('send', 'event', 'gplus', 'click',urlParts[urlParts.length - 1]);
+      });
     </script>
   </body>
 </html>
