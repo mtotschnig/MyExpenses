@@ -23,7 +23,7 @@ import android.util.TypedValue;
 import com.actionbarsherlock.app.SherlockFragment;
 
 /**
- * Helper that factors out commen properties
+ * Helper that factors out common properties
  *
  */
 public class BudgetListFragment extends SherlockFragment {
