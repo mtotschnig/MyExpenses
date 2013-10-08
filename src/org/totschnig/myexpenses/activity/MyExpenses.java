@@ -285,8 +285,8 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   }
 
   /* (non-Javadoc)
-  * upon return from CREATE or EDIT we call fillData to renew state of reset button
-  * and to update current balance
+  * upon return from CREATE or EDIT we call configButtons
+  * and check if we should show one of the reminderDialogs
   * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
   */
   @Override
