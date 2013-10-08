@@ -380,7 +380,9 @@ public class TransactionList extends BudgetListFragment implements
       updateColor();
       if (mAdapter != null) {
         setGrouping();
-        mAdapter.notifyDataSetChanged();
+        //we should not need to notify here, since setGrouping restarts
+        //the loader and in onLoadFinished we notify
+        //mAdapter.notifyDataSetChanged();
       }
     }
   }
@@ -469,7 +471,8 @@ public class TransactionList extends BudgetListFragment implements
           }
           mGroupingCursor.moveToNext();
         }
-        mappedCategoriesPerGroup.put(position, mGroupingCursor.getInt(columnIndexGroupMappedCategories)>0);
+        if (!mGroupingCursor.isAfterLast())
+          mappedCategoriesPerGroup.put(position, mGroupingCursor.getInt(columnIndexGroupMappedCategories)>0);
       }
       holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(),year,second,c));
       //holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(), year, second, mAccount.grouping.equals(Grouping.WEEK)?this_year_of_week_start:this_year, this_week,this_day));
