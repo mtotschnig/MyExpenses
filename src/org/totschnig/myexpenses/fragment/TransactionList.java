@@ -43,7 +43,6 @@ import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView.
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Build;
