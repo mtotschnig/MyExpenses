@@ -42,6 +42,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
@@ -53,6 +54,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -162,6 +165,26 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   }
   private void setup() {
     configAmountInput();
+    Spinner spinner = (Spinner) findViewById(R.id.Status);
+    ArrayAdapter<String> sAdapter = new ArrayAdapter<String>(this,
+        R.layout.custom_spinner_item, android.R.id.text1, getResources().getStringArray(R.array.transaction_status)) {
+      @Override
+      public View getView(int position, View convertView, ViewGroup parent) {
+        return getCustomView(position,super.getView(position, convertView, parent));
+      }
+      @Override
+      public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        return getCustomView(position,super.getDropDownView(position, convertView, parent));
+      }
+      private View getCustomView(int position, View row) {
+        View color = row.findViewById(R.id.color1);
+        color.setBackgroundColor(Color.RED);
+        color.setLayoutParams(new LinearLayout.LayoutParams(20,20));
+        return row;
+      }
+    };
+    sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
+    spinner.setAdapter(sAdapter);
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
