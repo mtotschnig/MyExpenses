@@ -23,10 +23,8 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,7 +32,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -105,15 +105,21 @@ public abstract class EditActivity extends ProtectedFragmentActivity {
       mAmountText.setRawInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
       mAmountText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
     }
-    nfDLocal.setGroupingUsed(false);
-    findViewById(R.id.calculator).setOnClickListener(new View.OnClickListener() {
+    mAmountText.setOnTouchListener(new OnTouchListener() {
       @Override
-      public void onClick(View v) {
-        Intent intent = new Intent(EditActivity.this,CalculatorInput.class);
-        intent.putExtra(MyApplication.EXTRA_AMOUNT,mAmountText.getText().toString());
-        startActivityForResult(intent, CALCULATOR_REQUEST);
+      public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+          if (event.getX() > v.getWidth() - v.getPaddingRight() - mAmountText.getCompoundDrawables()[2].getIntrinsicWidth()) {
+            Intent intent = new Intent(EditActivity.this,CalculatorInput.class);
+            intent.putExtra(MyApplication.EXTRA_AMOUNT,mAmountText.getText().toString());
+            startActivityForResult(intent, CALCULATOR_REQUEST);
+            return false;
+          }
+      }
+      return false;
       }
     });
+    nfDLocal.setGroupingUsed(false);
   }
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
