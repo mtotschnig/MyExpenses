@@ -11,3 +11,19 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
+Category Import Icon (squiggle) from glyphish.com, licensed under the Creative Commons Attribution
+3.0 United States License.
+
+Calculator Icon (ic_action_calc), generated with Android Asset Studio,
+http://android-ui-utils.googlecode.com/hg/asset-studio/dist/icons-actionbar.html.
+
+Calls OI Color Picker (http://www.openintents.org/en/colorpicker), if available on device.
+
+Includes CalculatorInput class from https://launchpad.net/financisto, licenced under GPL v2.0.
+
+Includes ActionBarSherlock from http://actionbarsherlock.com/, licenced under Apache License, Version 2.0.
+
+Includes StickyListHeaders from http://emilsjolander.github.io/StickyListHeaders/, licenced under
+Apache License, Version 2.0.
+
+
