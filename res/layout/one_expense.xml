@@ -71,14 +71,11 @@
       <TableRow>
         <TextView style="@style/form_label"
             android:text="@string/comment" />
-        <LinearLayout
-            android:orientation="horizontal">
         <EditText 
             android:id="@+id/Comment"
             android:singleLine="true"
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content" />
-        </LinearLayout>
       </TableRow>
         
       <TableRow android:id="@+id/CategoryRow">
