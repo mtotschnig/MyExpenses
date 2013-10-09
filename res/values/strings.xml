@@ -294,6 +294,9 @@
   <string name="share_sending">Send export file</string>
   <string name="split_parts_heading">Split parts</string>
   <string name="split_transaction">Split transaction</string>
+  <string name="status_cleared">cleared</string>
+  <string name="status_reconciled">reconciled</string>
+  <string name="status_uncreconciled">unreconciled</string>
   <string name="subcategory">Subcategory</string>
   <string name="sum_income">Income</string>
   <string name="sum_expenses">Expenses</string>
