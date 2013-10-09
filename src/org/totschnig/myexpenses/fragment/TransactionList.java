@@ -343,9 +343,9 @@ public class TransactionList extends BudgetListFragment implements
           columnIndexGroupMappedCategories = c.getColumnIndex("mapped_categories");
           indexesGroupingCalculated = true;
         }
-        if (mTransactionsCursor != null)
-          mAdapter.notifyDataSetChanged();
       }
+      if (mTransactionsCursor != null)
+        mAdapter.notifyDataSetChanged();
     }
   }
 
