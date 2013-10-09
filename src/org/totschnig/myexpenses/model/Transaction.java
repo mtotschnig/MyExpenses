@@ -16,6 +16,9 @@
 package org.totschnig.myexpenses.model;
 
 import java.util.Date;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -25,6 +28,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -69,6 +73,18 @@ public class Transaction extends Model {
     public int color;
     private CrStatus(int color) {
       this.color = color;
+    }
+    public String toString() {
+      Context ctx = MyApplication.getInstance();
+      switch (this) {
+      case CLEARED:
+        return ctx.getString(R.string.status_cleared);
+      case RECONCILED:
+        return ctx.getString(R.string.status_reconciled);
+      case UNRECONCILED:
+        return ctx.getString(R.string.status_uncreconciled);
+      }
+      return super.toString();
     }
     public static final String JOIN;
     static {
