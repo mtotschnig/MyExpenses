@@ -174,17 +174,23 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         R.layout.custom_spinner_item, android.R.id.text1,Transaction.CrStatus.values()) {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
-        return getCustomView(position,super.getView(position, convertView, parent));
+        View row = super.getView(position, convertView, parent);
+        setColor(position,row);
+        row.findViewById(android.R.id.text1).setVisibility(View.GONE);
+        return row;
       }
       @Override
       public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return getCustomView(position,super.getDropDownView(position, convertView, parent));
+        View row = super.getDropDownView(position, convertView, parent);
+        setColor(position,row);
+        return row;
       }
-      private View getCustomView(int position, View row) {
+      private void setColor(int position, View row) {
         View color = row.findViewById(R.id.color1);
         color.setBackgroundColor(getItem(position).color);
-        color.setLayoutParams(new LinearLayout.LayoutParams(20,20));
-        return row;
+        LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(20,20);
+        lps.setMargins(10, 0, 0, 0);
+        color.setLayoutParams(lps);
       }
     };
     sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
