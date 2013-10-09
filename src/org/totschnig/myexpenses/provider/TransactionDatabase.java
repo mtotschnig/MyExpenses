@@ -42,7 +42,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
    * for transfers there are two rows (one per account) which
    * are linked by transfer_peer
    * for normal transactions transfer_peer is set to NULL
-   * for transfers cat_id stores the account
    */
   private static final String DATABASE_CREATE =
     "CREATE TABLE " + TABLE_TRANSACTIONS  +  "( "
