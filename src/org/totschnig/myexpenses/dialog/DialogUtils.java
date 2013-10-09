@@ -167,7 +167,7 @@ public class DialogUtils {
    * currently this is only needed in ExportDialogFragment, and makes
    * sure that RadioButtons get correct style
    */
-  protected static Context wrapContext1(Context ctx) {
+  public static Context wrapContext1(Context ctx) {
     return Build.VERSION.SDK_INT < 11 ?
         new ContextThemeWrapper(ctx, R.style.AboutDialog) : ctx;
   }
@@ -178,7 +178,7 @@ public class DialogUtils {
    * this is necessary only when we are called from one of the transparent activities,
    * but does not harm in the other cases
    */
-  protected static Context wrapContext2(Context ctx) {
+  public static Context wrapContext2(Context ctx) {
     return Build.VERSION.SDK_INT > 10 ?
         new ContextThemeWrapper(ctx, MyApplication.getThemeId()) : ctx;
   }

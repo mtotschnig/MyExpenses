@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
@@ -49,6 +50,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -64,7 +67,7 @@ import android.widget.Toast;
  * Activity for editing a transaction
  * @author Michael Totschnig
  */
-public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.TaskCallbacks {
+public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.TaskCallbacks, OnItemSelectedListener {
 
   private Button mDateButton;
   private Button mTimeButton;
@@ -166,8 +169,9 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   private void setup() {
     configAmountInput();
     Spinner spinner = (Spinner) findViewById(R.id.Status);
-    ArrayAdapter<Transaction.CrStatus> sAdapter = new ArrayAdapter<Transaction.CrStatus>(this,
-        R.layout.custom_spinner_item, android.R.id.text1, Transaction.CrStatus.values()) {
+    ArrayAdapter<Transaction.CrStatus> sAdapter = new ArrayAdapter<Transaction.CrStatus>(
+        DialogUtils.wrapContext1(this),
+        R.layout.custom_spinner_item, android.R.id.text1,Transaction.CrStatus.values()) {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
         return getCustomView(position,super.getView(position, convertView, parent));
@@ -178,13 +182,15 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       }
       private View getCustomView(int position, View row) {
         View color = row.findViewById(R.id.color1);
-        color.setBackgroundColor(Color.RED);
+        color.setBackgroundColor(getItem(position).color);
         color.setLayoutParams(new LinearLayout.LayoutParams(20,20));
         return row;
       }
     };
     sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
     spinner.setAdapter(sAdapter);
+    spinner.setSelection(mTransaction.crStatus.ordinal());
+    spinner.setOnItemSelectedListener(this);
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
@@ -857,5 +863,14 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       mAccount = Account.getInstanceFromDb(mTransaction.accountId);
     }
     return mAccount;
+  }
+  @Override
+  public void onItemSelected(AdapterView<?> parent, View view, int position,
+      long id) {
+    mTransaction.crStatus = (Transaction.CrStatus) parent.getItemAtPosition(position);
+  }
+  @Override
+  public void onNothingSelected(AdapterView<?> parent) {
+    // TODO Auto-generated method stub    
   }
 }

@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.util.Utils;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -64,7 +65,11 @@ public class Transaction extends Model {
   protected String dateAsString;
 
   public enum CrStatus {
-    UNRECONCILED,CLEARED,RECONCILED;
+    UNRECONCILED(Color.GRAY),CLEARED(Color.BLUE),RECONCILED(Color.GREEN);
+    public int color;
+    private CrStatus(int color) {
+      this.color = color;
+    }
     public static final String JOIN;
     static {
       JOIN = Utils.joinEnum(CrStatus.class);
@@ -82,7 +87,8 @@ public class Transaction extends Model {
   public static Transaction getInstanceFromDb(long id) throws DataObjectNotFoundException  {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
-        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,KEY_PARENTID};
+        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,
+        KEY_PARENTID,KEY_CR_STATUS};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
@@ -174,6 +180,7 @@ public class Transaction extends Model {
   //needed for Template subclass
   public Transaction() {
     setDate(new Date());
+    this.crStatus = CrStatus.UNRECONCILED;
   }
   /**
    * new empty transaction
