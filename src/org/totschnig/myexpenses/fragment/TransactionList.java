@@ -29,9 +29,11 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -91,7 +93,7 @@ public class TransactionList extends BudgetListFragment implements
   private SparseBooleanArray mappedCategoriesPerGroup;
 
   int columnIndexDate, columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth, columnIndexWeek, columnIndexDay,
-    columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee,
+    columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee, columnIndexCrStatus,
     columnIndexGroupYear, columnIndexGroupSecond, columnIndexGroupMappedCategories,
     columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
   boolean indexesCalculated, indexesGroupingCalculated = false;
@@ -315,6 +317,7 @@ public class TransactionList extends BudgetListFragment implements
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
         columnIndexComment = c.getColumnIndex(KEY_COMMENT);
         columnIndexPayee = c.getColumnIndex(KEY_PAYEE);
+        columnIndexCrStatus = c.getColumnIndex(KEY_CR_STATUS);
         indexesCalculated = true;
       }
       mAdapter.swapCursor(c);
@@ -588,6 +591,15 @@ public class TransactionList extends BudgetListFragment implements
         catText = TextUtils.concat(catText,commentSeparator,ssb);
       }
       tv2.setText(catText);
+      CrStatus status;
+      try {
+        status = CrStatus.valueOf(c.getString(columnIndexCrStatus));
+      } catch (IllegalArgumentException ex) {
+        status = CrStatus.UNRECONCILED;
+      }
+      View v = convertView.findViewById(R.id.color1);
+      v.setBackgroundColor(status.color);
+      convertView.findViewById(R.id.amount);
       return convertView;
     }
   }
