@@ -34,6 +34,12 @@ gplus:
     - "Split transactions (1.8.5)"
 versions:
   -
+    - 1.9.5.1
+    - 2013-10-09
+    -
+      en: |
+        Stability improvements.
+  -
     - 1.9.5
     - 2013-10-04
     -
