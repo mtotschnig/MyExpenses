@@ -115,9 +115,4 @@
       <item>1.8.1</item>
       <item>1.8.0</item>
     </string-array>
-    <string-array name="transaction_status">
-      <item>unreconciled</item>
-      <item>cleared</item>
-      <item>reconciled</item>
-    </string-array>
 </resources>

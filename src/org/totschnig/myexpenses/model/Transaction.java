@@ -53,7 +53,7 @@ public class Transaction extends Model {
    */
   public int status = 0;
   public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
-    KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID,
+    KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID,KEY_CR_STATUS,
     YEAR + " AS year",YEAR_OF_WEEK_START + " AS year_of_week_start",MONTH + " AS month",WEEK + " AS week",DAY + " AS day",
     THIS_YEAR + " AS this_year",THIS_YEAR_OF_WEEK_START + " AS this_year_of_week_start",
     THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day",WEEK_RANGE+ " AS week_range" };
@@ -62,6 +62,15 @@ public class Transaction extends Model {
    * we store the date directly from UI to DB without creating a Date object
    */
   protected String dateAsString;
+
+  public enum CrStatus {
+    UNRECONCILED,CLEARED,RECONCILED;
+    public static final String JOIN;
+    static {
+      JOIN = Utils.joinEnum(CrStatus.class);
+    }
+  }
+  public CrStatus crStatus;
 
   /**
    * factory method for retrieving an instance from the db with the given id
@@ -95,6 +104,11 @@ public class Transaction extends Model {
       } else {
         t = parent_id != null ? new SplitPartCategory(account_id,amount,parent_id) : new Transaction(account_id,amount);
       }
+    }
+    try {
+      t.crStatus = CrStatus.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_CR_STATUS)));
+    } catch (IllegalArgumentException ex) {
+      t.crStatus = CrStatus.UNRECONCILED;
     }
     t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
     t.catId = catId;
@@ -217,6 +231,7 @@ public class Transaction extends Model {
     initialValues.put(KEY_CATID, catId);
     initialValues.put(KEY_PAYEE, payee);
     initialValues.put(KEY_METHODID, methodId);
+    initialValues.put(KEY_CR_STATUS,crStatus.name());
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_PARENTID, parentId);

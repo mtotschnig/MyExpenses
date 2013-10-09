@@ -166,8 +166,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   private void setup() {
     configAmountInput();
     Spinner spinner = (Spinner) findViewById(R.id.Status);
-    ArrayAdapter<String> sAdapter = new ArrayAdapter<String>(this,
-        R.layout.custom_spinner_item, android.R.id.text1, getResources().getStringArray(R.array.transaction_status)) {
+    ArrayAdapter<Transaction.CrStatus> sAdapter = new ArrayAdapter<Transaction.CrStatus>(this,
+        R.layout.custom_spinner_item, android.R.id.text1, Transaction.CrStatus.values()) {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
         return getCustomView(position,super.getView(position, convertView, parent));

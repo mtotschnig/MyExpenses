@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Transaction;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -32,7 +33,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 34;
+  public static final int DATABASE_VERSION = 35;
   public static final String DATABASE_NAME = "data";
 
   private static final String TAG = "TransactionDatabase";
@@ -40,8 +41,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
    * SQL statement for expenses TABLE
    * both transactions and transfers are stored in this table
    * for transfers there are two rows (one per account) which
-   * are linked by transfer_peer
-   * for normal transactions transfer_peer is set to NULL
+   * are linked by KEY_TRANSFER_PEER
+   * for normal transactions KEY_TRANSFER_PEER is set to NULL
+   * split parts are linked with their parents through KEY_PARENTID
+   * KEY_STATUS has STATUS_EXPORTED if transaction is exported, and
+   * STATUS_UNCOMMITTED for transactions that are created during editing of splits
+   * KEY_CR_STATUS stores cleared/reconciled
    */
   private static final String DATABASE_CREATE =
     "CREATE TABLE " + TABLE_TRANSACTIONS  +  "( "
@@ -56,7 +61,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
     + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "),"
     + KEY_PARENTID         + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + "), "
-    + KEY_STATUS           + " integer default 0);";
+    + KEY_STATUS           + " integer default 0, "
+    + KEY_CR_STATUS        + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" +  Transaction.CrStatus.RECONCILED.name() + "');";
 
   /**
    * SQL statement for accounts TABLE
@@ -359,6 +365,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 34) {
       //fix for https://github.com/mtotschnig/MyExpenses/issues/69
       db.execSQL("UPDATE transactions set date = (SELECT date from transactions parent WHERE parent._id = transactions.parent_id) WHERE parent_id IS NOT null");
+    }
+    if (oldVersion < 35) {
+      db.execSQL("ALTER TABLE transactions add column cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED')) default 'UNRECONCILED'");
     }
   }
 }
