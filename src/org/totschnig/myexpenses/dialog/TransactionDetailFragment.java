@@ -29,6 +29,8 @@ import java.text.SimpleDateFormat;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
@@ -206,6 +208,13 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       ((TextView) view.findViewById(R.id.Method)).setText(PaymentMethod.getInstanceFromDb(mTransaction.methodId).getDisplayLabel());
     else
       view.findViewById(R.id.MethodRow).setVisibility(View.GONE);
+    if (Account.getInstanceFromDb(mTransaction.accountId).type.equals(Type.CASH))
+      view.findViewById(R.id.StatusRow).setVisibility(View.GONE);
+    else {
+      TextView tv = (TextView)view.findViewById(R.id.Status);
+      tv.setBackgroundColor(mTransaction.crStatus.color);
+      tv.setText(mTransaction.crStatus.toString());
+    }
     return new AlertDialog.Builder(getActivity())
       .setTitle(title)
       .setView(view)

@@ -51,15 +51,27 @@
       <TableRow android:id="@+id/PayeeRow">
         <TextView style="@style/form_label_dialog"
             android:id="@+id/PayeeLabel" android:text="@string/payee" />
-        <TextView 
+        <TextView
             android:id="@+id/Payee" style="@style/dialog_text" />
       </TableRow>
       
       <TableRow android:id="@+id/MethodRow">
-      <TextView style="@style/form_label_dialog"
-          android:id="@+id/MethodLabel" android:text="@string/method" />
-        <TextView
+	      <TextView style="@style/form_label_dialog"
+	          android:id="@+id/MethodLabel" android:text="@string/method" />
+	      <TextView
             android:id="@+id/Method" style="@style/dialog_text"/>
+      </TableRow>
+
+      <TableRow android:id="@+id/StatusRow">
+        <TextView style="@style/form_label_dialog"
+            android:id="@+id/StatusLabel" android:text="@string/status" />
+        <LinearLayout>
+          <TextView android:id="@+id/Status"
+              android:padding="3dp"
+              android:layout_height="fill_parent"
+              android:layout_width="wrap_content"
+              android:textColor="#000000" />
+        </LinearLayout>
       </TableRow>
     </TableLayout>
     <LinearLayout
