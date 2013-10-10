@@ -46,7 +46,6 @@ public class MyApplication extends Application {
     public static String PREFKEY_UI_THEME_KEY;
     public static String PREFKEY_CURRENT_VERSION = "currentversion";
     public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
-    public static String PREFKEY_LAST_ACCOUNT = "last_account";
     public static String PREFKEY_BACKUP;
     public static String PREFKEY_RESTORE;
     public static String PREFKEY_CONTRIB_INSTALL;

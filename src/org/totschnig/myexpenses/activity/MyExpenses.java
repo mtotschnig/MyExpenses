@@ -117,8 +117,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     long currentAccountId = mAccountId;
     if (currentAccountId != newAccountId)
       SharedPreferencesCompat.apply(
-        mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId)
-        .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, currentAccountId));
+        mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId));
     mAccountId = newAccountId;
   }
   private SharedPreferences mSettings;
