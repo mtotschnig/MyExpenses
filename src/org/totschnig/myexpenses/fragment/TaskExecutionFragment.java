@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -46,6 +47,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_DELETE_PAYMENT_METHOD = 8;
   public static final int TASK_DELETE_PAYEE = 9;
   public static final int TASK_DELETE_TEMPLATE = 10;
+  public static final int TASK_TOGGLE_CRSTATUS = 11;
   
   /**
    * Callback interface through which the fragment will report the
@@ -135,12 +137,13 @@ public class TaskExecutionFragment extends Fragment {
      */
     @Override
     protected Object doInBackground(Long... id) {
+      Transaction t;
       switch (mTaskId) {
       case TASK_CLONE:
         Transaction.getInstanceFromDb(id[0]).saveAsNew();
         return null;
       case TASK_INSTANTIATE_TRANSACTION:
-        Transaction t = Transaction.getInstanceFromDb(id[0]);
+         t = Transaction.getInstanceFromDb(id[0]);
         if (t instanceof SplitTransaction)
           ((SplitTransaction) t).prepareForEdit();
         return t;
@@ -170,6 +173,21 @@ public class TaskExecutionFragment extends Fragment {
         return null;
       case TASK_DELETE_TEMPLATE:
         Template.delete(id[0]);
+        return null;
+      case TASK_TOGGLE_CRSTATUS:
+        t = Transaction.getInstanceFromDb(id[0]);
+        switch (t.crStatus) {
+        case CLEARED:
+          t.crStatus = CrStatus.RECONCILED;
+          break;
+        case RECONCILED:
+          t.crStatus = CrStatus.UNRECONCILED;
+          break;
+        case UNRECONCILED:
+          t.crStatus = CrStatus.CLEARED;
+          break;
+        }
+        t.save();
         return null;
       }
       return null;

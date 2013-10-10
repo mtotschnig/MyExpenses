@@ -66,6 +66,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -597,9 +599,8 @@ public class TransactionList extends BudgetListFragment implements
       } catch (IllegalArgumentException ex) {
         status = CrStatus.UNRECONCILED;
       }
-      View v = convertView.findViewById(R.id.color1);
-      v.setBackgroundColor(status.color);
-      convertView.findViewById(R.id.amount);
+      convertView.findViewById(R.id.color1).setBackgroundColor(status.color);
+      convertView.findViewById(R.id.colorContainer).setTag(getItemId(position));
       return convertView;
     }
   }

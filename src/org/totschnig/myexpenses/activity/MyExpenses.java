@@ -706,4 +706,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     }
     super.onPostExecute(taskId, o);
   }
+  public void toggleCrStatus (View v) {
+    getSupportFragmentManager().beginTransaction()
+    .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,(Long) v.getTag()), "TOGGLE_TASK")
+    .commit();
+  }
 }
