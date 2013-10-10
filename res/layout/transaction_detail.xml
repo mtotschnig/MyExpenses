@@ -18,7 +18,8 @@
         android:id="@+id/OneExpense"
         android:orientation="vertical"
         android:layout_height="fill_parent"
-        android:layout_width="fill_parent">
+        android:layout_width="fill_parent"
+        android:paddingBottom="@dimen/general_padding">
     <TableLayout
         android:paddingRight="@dimen/general_padding"
         android:paddingLeft="@dimen/general_padding"
@@ -67,7 +68,10 @@
             android:id="@+id/StatusLabel" android:text="@string/status" />
         <LinearLayout>
           <TextView android:id="@+id/Status"
-              android:padding="3dp"
+              android:paddingRight="5dp"
+              android:paddingLeft="5dp"
+              android:paddingBottom="2dp"
+              android:paddingTop="2dp"
               android:layout_height="fill_parent"
               android:layout_width="wrap_content"
               android:textColor="#000000" />
