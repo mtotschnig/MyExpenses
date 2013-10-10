@@ -50,6 +50,7 @@ public class Transfer extends Transaction {
     initialValues.put(KEY_DATE, dateAsString);
     initialValues.put(KEY_AMOUNT, amount);
     initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
+    initialValues.put(KEY_CR_STATUS,crStatus.name());
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_PARENTID, parentId);
