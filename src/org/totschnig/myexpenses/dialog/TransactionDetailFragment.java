@@ -184,7 +184,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
         ((TextView) view.findViewById(R.id.CategoryLabel)).setText(R.string.account);
       }
       else
-        title = R.string.transaction;
+        title = mTransaction.amount.getAmountMinor() > 0 ? R.string.income : R.string.expense;
     }
     if ((mTransaction.catId != null && mTransaction.catId > 0) ||
         mTransaction.transfer_peer != null)
