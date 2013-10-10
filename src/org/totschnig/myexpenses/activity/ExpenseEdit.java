@@ -25,6 +25,7 @@ import java.util.Date;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
+import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -169,34 +170,40 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   private void setup() {
     configAmountInput();
     Spinner spinner = (Spinner) findViewById(R.id.Status);
-    ArrayAdapter<Transaction.CrStatus> sAdapter = new ArrayAdapter<Transaction.CrStatus>(
-        DialogUtils.wrapContext1(this),
-        R.layout.custom_spinner_item, android.R.id.text1,Transaction.CrStatus.values()) {
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
-        View row = super.getView(position, convertView, parent);
-        setColor(position,row);
-        row.findViewById(android.R.id.text1).setVisibility(View.GONE);
-        return row;
-      }
-      @Override
-      public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        View row = super.getDropDownView(position, convertView, parent);
-        setColor(position,row);
-        return row;
-      }
-      private void setColor(int position, View row) {
-        View color = row.findViewById(R.id.color1);
-        color.setBackgroundColor(getItem(position).color);
-        LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(20,20);
-        lps.setMargins(10, 0, 0, 0);
-        color.setLayoutParams(lps);
-      }
-    };
-    sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
-    spinner.setAdapter(sAdapter);
-    spinner.setSelection(mTransaction.crStatus.ordinal());
-    spinner.setOnItemSelectedListener(this);
+    if (getmAccount().type.equals(Type.CASH) ||
+        mTransaction instanceof SplitPartCategory ||
+        mTransaction instanceof SplitPartTransfer)
+      spinner.setVisibility(View.GONE);
+    else {
+      ArrayAdapter<Transaction.CrStatus> sAdapter = new ArrayAdapter<Transaction.CrStatus>(
+          DialogUtils.wrapContext1(this),
+          R.layout.custom_spinner_item, android.R.id.text1,Transaction.CrStatus.values()) {
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+          View row = super.getView(position, convertView, parent);
+          setColor(position,row);
+          row.findViewById(android.R.id.text1).setVisibility(View.GONE);
+          return row;
+        }
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+          View row = super.getDropDownView(position, convertView, parent);
+          setColor(position,row);
+          return row;
+        }
+        private void setColor(int position, View row) {
+          View color = row.findViewById(R.id.color1);
+          color.setBackgroundColor(getItem(position).color);
+          LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(20,20);
+          lps.setMargins(10, 0, 0, 0);
+          color.setLayoutParams(lps);
+        }
+      };
+      sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
+      spinner.setAdapter(sAdapter);
+      spinner.setSelection(mTransaction.crStatus.ordinal());
+      spinner.setOnItemSelectedListener(this);
+    }
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
