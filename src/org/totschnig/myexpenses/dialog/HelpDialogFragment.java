@@ -98,10 +98,10 @@ public class HelpDialogFragment extends DialogFragment {
               res.getString(resId));
           ll.addView(row);
         }
-      String titleIdentifier = "help_" +activityName
-          + (variant != null ? "_" + variant : "")
-          + "_title";
-      title = getString(res.getIdentifier(titleIdentifier, "string", pack));
+      resId = variant != null ? res.getIdentifier("help_" +activityName + "_" + variant + "_title", "string", pack) : 0;
+      if (resId == 0)
+        resId = res.getIdentifier("help_" +activityName + "_title", "string", pack);
+      title = getString(resId);
     } catch (NotFoundException e) {
       return new AlertDialog.Builder(wrappedCtx)
           .setMessage("Error generating Help dialog")
