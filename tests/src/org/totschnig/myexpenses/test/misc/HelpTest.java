@@ -42,11 +42,10 @@ import junit.framework.Assert;
  */
 public class HelpTest extends android.test.InstrumentationTestCase {
   public void testHelpStringResExists() {
-    Log.i("DEBUG","starting");
     Context ctx =  getInstrumentation().getTargetContext();
     Resources res = ctx.getResources();
     String pack = ctx.getPackageName();
-    int resId;
+    int menuItemsIdentifier;
     ArrayList<String> menuItems= new ArrayList<String>();
     Class<?>[] activities = new Class<?>[] {
         ManageParties.class,
@@ -62,24 +61,26 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     for (Class<?> activity: activities) {
       String className = activity.getSimpleName();
       Assert.assertTrue(org.totschnig.myexpenses.activity.ProtectedFragmentActivity.class.isAssignableFrom(activity));
-      resId = res.getIdentifier(className+"_menuitems", "array", pack);
-      if (resId != 0)
-        menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
+      int titleIdentifier = res.getIdentifier("help_" +className + "_title", "string", pack);
+      menuItemsIdentifier = res.getIdentifier(className+"_menuitems", "array", pack);
+      if (menuItemsIdentifier != 0)
+        menuItems.addAll(Arrays.asList(res.getStringArray(menuItemsIdentifier)));
       try {
         Class<Enum<?>> variants = (Class<Enum<?>>) Class.forName(activity.getName()+"$"+"HelpVariant");
         for (Enum<?> variant: variants.getEnumConstants()) {
           String variantName = variant.name();
-          //each variant has its title
-          Assert.assertTrue("title not defined for "+ className+", variant "+variantName,res.getIdentifier("help_" +className + "_" + variantName + "_title", "string", pack)!=0);
+          //if there is no generic title, variant specifc ones are required
+          if (titleIdentifier == 0)
+            Assert.assertTrue("title not defined for "+ className+", variant "+variantName+ " and no generic title exists",res.getIdentifier("help_" +className + "_" + variantName + "_title", "string", pack)!=0);
           //and its specific info
           Assert.assertTrue("info not defined for "+ className+", variant "+variantName,res.getIdentifier("help_" +className + "_" + variantName + "_info", "string", pack)!=0);
-          resId = res.getIdentifier(className + "_" + variantName +"_menuitems", "array", pack);
-          if (resId != 0)
-            menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
+          menuItemsIdentifier = res.getIdentifier(className + "_" + variantName +"_menuitems", "array", pack);
+          if (menuItemsIdentifier != 0)
+            menuItems.addAll(Arrays.asList(res.getStringArray(menuItemsIdentifier)));
         }
       } catch (ClassNotFoundException e) {
         //title if there are no variants
-        Assert.assertTrue("title not defined for "+ className,res.getIdentifier("help_" +className + "_title", "string", pack)!=0);
+        Assert.assertTrue("title not defined for "+ className,titleIdentifier!=0);
         //classes with variants can have a generic info that is displayed in all variants, but it is not required
         Assert.assertTrue("info not defined for "+ className,res.getIdentifier("help_" +className + "_info", "string", pack)!=0);
 
