@@ -65,10 +65,10 @@ public class TransactionProvider extends ContentProvider {
   private static final UriMatcher URI_MATCHER;
   //Basic tables
   private static final int TRANSACTIONS = 1;
-  private static final int TRANSACTIONS_ID = 2;
+  private static final int TRANSACTION_ID = 2;
   private static final int CATEGORIES = 3;
   private static final int ACCOUNTS = 4;
-  private static final int ACCOUNTS_ID = 5;
+  private static final int ACCOUNT_ID = 5;
   private static final int AGGREGATES = 6;
   private static final int PAYEES = 7;
   private static final int METHODS = 8;
@@ -76,8 +76,8 @@ public class TransactionProvider extends ContentProvider {
   private static final int ACCOUNTTYPES_METHODS = 10;
   private static final int TEMPLATES = 11;
   private static final int TEMPLATES_ID = 12;
-  private static final int CATEGORIES_ID = 13;
-  private static final int CATEGORIES_INCREASE_USAGE = 14;
+  private static final int CATEGORY_ID = 13;
+  private static final int CATEGORY_INCREASE_USAGE = 14;
   private static final int PAYEES_ID = 15;
   private static final int METHODS_FILTERED = 16;
   private static final int TEMPLATES_INCREASE_USAGE = 17;
@@ -86,7 +86,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int AGGREGATES_COUNT = 20;
   private static final int UNCOMMITTED = 21;
   private static final int TRANSACTIONS_GROUPS = 22;
-  private static final int ACCOUNTS_INCREASE_USAGE = 23;
+  private static final int ACCOUNT_INCREASE_USAGE = 23;
   private static final int TRANSACTIONS_SUMS = 24;
   
   @Override
@@ -119,7 +119,7 @@ public class TransactionProvider extends ContentProvider {
       if (projection == null)
         projection = Transaction.PROJECTION;
       break;
-    case TRANSACTIONS_ID:
+    case TRANSACTION_ID:
       qb.setTables(TABLE_TRANSACTIONS);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
@@ -173,7 +173,7 @@ public class TransactionProvider extends ContentProvider {
               KEY_USAGES + " DESC, " : "")
          + KEY_LABEL;
       break;
-    case CATEGORIES_ID:
+    case CATEGORY_ID:
       qb.setTables(TABLE_CATEGORIES);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
@@ -186,7 +186,7 @@ public class TransactionProvider extends ContentProvider {
               KEY_USAGES + " DESC, " : "")
          + KEY_LABEL;
       break;
-    case ACCOUNTS_ID:
+    case ACCOUNT_ID:
       qb.setTables(TABLE_ACCOUNTS);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
@@ -389,7 +389,7 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTIONS:
       count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
       break;
-    case TRANSACTIONS_ID:
+    case TRANSACTION_ID:
       //maybe TODO ?: where and whereArgs are ignored
       segment = uri.getPathSegments().get(1);
       count = db.delete(TABLE_TRANSACTIONS,
@@ -417,7 +417,7 @@ public class TransactionProvider extends ContentProvider {
     case ACCOUNTS:
       count = db.delete(TABLE_ACCOUNTS, where, whereArgs);
       break;
-    case ACCOUNTS_ID:
+    case ACCOUNT_ID:
       segment = uri.getPathSegments().get(1);
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
@@ -432,7 +432,7 @@ public class TransactionProvider extends ContentProvider {
     case CATEGORIES:
       count = db.delete(TABLE_CATEGORIES, where, whereArgs);
       break;
-    case CATEGORIES_ID:
+    case CATEGORY_ID:
       segment = uri.getPathSegments().get(1);
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
@@ -465,7 +465,7 @@ public class TransactionProvider extends ContentProvider {
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
-    if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTIONS_ID) {
+    if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID) {
       getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
       getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
@@ -486,7 +486,7 @@ public class TransactionProvider extends ContentProvider {
     case TRANSACTIONS:
       count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
       break;
-    case TRANSACTIONS_ID:
+    case TRANSACTION_ID:
       segment = uri.getPathSegments().get(1); 
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
@@ -499,7 +499,7 @@ public class TransactionProvider extends ContentProvider {
     case ACCOUNTS:
       count = db.update(TABLE_ACCOUNTS, values, where, whereArgs);
       break;
-    case ACCOUNTS_ID:
+    case ACCOUNT_ID:
       segment = uri.getPathSegments().get(1); 
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
@@ -525,7 +525,7 @@ public class TransactionProvider extends ContentProvider {
       //TODO should not support bulk update of categories
       count = db.update(TABLE_CATEGORIES, values, where, whereArgs);
       break;
-    case CATEGORIES_ID:
+    case CATEGORY_ID:
       segment = uri.getPathSegments().get(1);
       //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
       String label = values.getAsString(KEY_LABEL);
@@ -555,7 +555,7 @@ public class TransactionProvider extends ContentProvider {
       count = db.update(TABLE_METHODS, values, "_id=" + segment + whereString,
           whereArgs);
       break;
-    case CATEGORIES_INCREASE_USAGE:
+    case CATEGORY_INCREASE_USAGE:
       segment = uri.getPathSegments().get(1);
       db.execSQL("update " + TABLE_CATEGORIES + " set usages = usages +1 WHERE _id IN (" + segment +
           " , (SELECT parent_id FROM categories WHERE _id = " + segment + "))");
@@ -566,7 +566,7 @@ public class TransactionProvider extends ContentProvider {
       db.execSQL("update " + TABLE_TEMPLATES + " set usages = usages +1 WHERE _id = " + segment);
       count = 1;
       break;
-    case ACCOUNTS_INCREASE_USAGE:
+    case ACCOUNT_INCREASE_USAGE:
       segment = uri.getPathSegments().get(1);
       db.execSQL("update " + TABLE_ACCOUNTS + " set usages = usages +1 WHERE _id = " + segment);
       count = 1;
@@ -574,7 +574,7 @@ public class TransactionProvider extends ContentProvider {
     default:
       throw new IllegalArgumentException("Unknown URI " + uri);
     }
-    if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTIONS_ID) {
+    if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID) {
       getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
       getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
@@ -588,13 +588,13 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/uncommitted", UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/groups/*", TRANSACTIONS_GROUPS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccountsGroupedByType/#", TRANSACTIONS_SUMS);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTIONS_ID);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
-    URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORIES_ID);
-    URI_MATCHER.addURI(AUTHORITY, "categories/#/increaseUsage", CATEGORIES_INCREASE_USAGE);
+    URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORY_ID);
+    URI_MATCHER.addURI(AUTHORITY, "categories/#/increaseUsage", CATEGORY_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNTS_ID);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/#/increaseUsage", ACCOUNTS_INCREASE_USAGE);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/#/increaseUsage", ACCOUNT_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEES_ID);
     URI_MATCHER.addURI(AUTHORITY, "methods", METHODS);
