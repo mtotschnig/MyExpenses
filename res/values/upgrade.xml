@@ -19,7 +19,7 @@
 ]>
 <resources>
   <string-array name="whats_new_77">
-    <item>Cleared / reconciled</item>
+    <item>Flag transactions as cleared / reconciled (enabled for bank acounts and credit cards)</item>
   </string-array>
   <string-array name="whats_new_75">
     <item>Distribution of transactions by category (Premium)</item>

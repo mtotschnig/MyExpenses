@@ -20,6 +20,7 @@
   <!-- My Expenses Transaction list -->
   <string name="help_MyExpenses_title">Liste des opérations</string>
   <string name="help_MyExpenses_info">Cet écran affiche les opérations du compte courant. La barre de navigation permet d\'accéder à la liste des comptes et de sélectionner un autre compte. Cliquez sur une entrée dans la liste pour l\'éditer.</string>
+  <string name="help_MyExpenses_crStatus_info">L\'état de la transaction est indiquée par la couleur du rectangle : gris pour non-rapprochée, bleu pour pointé, vert pour rapprochée. Cliquer sur le rectangle modifie l\'état.</string>
   <string name="menu_create_transaction_help_text">Ouvre le formulaire pour saisir une nouvelle opération.</string>
   <string name="menu_create_transfer_help_text">Virer une somme entre comptes. Cette commande n\'est active que si vous avez au moins deux comptes dans la même devise.</string>
   <string name="menu_create_split_help_text">Dans une opération ventilée, vous attribuez des montants partiels à plusieurs catégories ou aux transferts vers d\'autres comptes.</string>

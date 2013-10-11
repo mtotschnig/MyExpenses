@@ -14,7 +14,10 @@
   <string name="category">التصنيف</string>
   <string name="color">اللون</string>
   <string name="comment">ملاحظات</string>
+  <string name="contrib_feature_accounts_unlimited_description">يمكنك انشاء فقط 5 حسابات لـ &lt;i&gt;مصروفاتي&lt;/i&gt;</string>
+  <string name="contrib_feature_accounts_unlimited_label">عدد حسابات غير محدود</string>
   <string name="contrib_feature_aggregate_label">إجمالي الحسابات المتعددة</string>
+  <string name="contrib_feature_distribution_label">ترزيع </string>
   <string name="contrib_feature_reset_all_label">إعادة تعيين كل الحسابات</string>
   <string name="contrib_feature_security_question_label">السؤال السري</string>
   <string name="contrib_feature_split_transaction_label">تقسيم العمليات</string>
@@ -29,6 +32,9 @@
   <string name="dialog_confirm_restore_on_install">تم اكتشاف نسخة احتياطية. هل تريد استعادتها؟</string>
   <string name="dialog_contrib_usage_count">لديك %1$d استعمالات مجانية متبقية</string>
   <string name="dialog_contrib_no_usages_left">انتهت فترة الاستعمال المجاني</string>
+  <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">حذف هذه القيود بتثبيت &lt;i&gt;My Expenses Contrib&lt;/i&gt;.</string>
+  <string name="dialog_contrib_reminder_gain_access">يمكنك أيضا الوصول الغير مقيد لهذه الميزات التالية:</string>
   <string name="dialog_contrib_yes">شراء الآن</string>
   <string name="dialog_contrib_no">ليس بعد</string>
   <!--Placeholders: 1 is feature list-->
@@ -105,6 +111,7 @@
   <string name="licence_validation_success">تم التحقق من مفتاح الترخيص بنجاح: الآن يمكنك استعمال كامل المميزات.</string>
   <string name="licence_validation_failure">تعذر التحقق من صحة مفتاح الترخيص.</string>
   <string name="menu_aggregates">المجموع</string>
+  <string name="menu_back">رجوع</string>
   <string name="menu_backup">نسخة احتياطية</string>
   <string name="menu_clone_transaction">استنساخ</string>
   <string name="menu_contrib">المساهمة</string>
@@ -123,6 +130,7 @@
   <string name="menu_create_transaction_from_template_and_edit">جديد وتعديل</string>
   <string name="menu_create_transaction_from_template_and_save">جديد وحفظ</string>
   <string name="menu_delete">حذف</string>
+  <string name="menu_distribution">توزيع</string>
   <string name="menu_edit">تعديل</string>
   <string name="menu_edit_account">تعديل الحساب</string>
   <string name="menu_edit_method">تعديل طريقة الدفع</string>
@@ -133,6 +141,7 @@
   <string name="menu_edit_transaction">تعديل عملية</string>
   <string name="menu_edit_template">تعديل نموذج</string>
   <string name="menu_edit_transfer">تعديل تحويل</string>
+  <string name="menu_forward">تقدم</string>
   <string name="menu_grouping">تجميع</string>
   <string name="menu_help">مساعدة</string>
   <string name="menu_move_transaction">تحريك</string>

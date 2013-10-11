@@ -19,6 +19,7 @@
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Muamele listesi</string>
   <string name="help_MyExpenses_info">Bu ekran güncel hesap için tüm muameleleri listeler. Gezinti çubuğundan hesap listesine gidebilir ya da başka bir hesap seçebilirsiniz. Düzenlemek için listedeki herhangi bir unsura dokunun.</string>
+  <string name="help_MyExpenses_crStatus_info">Muamelenin durumu renkli bir dikdörtgen ile gösterilir: uzlaşmamış için gri, temiz için mavi, uzlaşmış için yeşil. Dikdörtgene tıklamak durumu değiştirir.</string>
   <string name="menu_create_transaction_help_text">Yeni muamele oluşturmak için formu açar.</string>
   <string name="menu_create_transfer_help_text">Hesaplar arası para aktarımı. Bu komut sadece güncel hesapla aynı dövizi kullanan başka bir hesabınız varsa etkinleştirilir.</string>
   <string name="menu_new_from_template_help_text">Eğer güncel hesap için şablon oluşturduysanız bu komut yeni bir muamele oluşturulması için şablon seçmenize imkân sağlayan bir diyalog görüntüler.</string>

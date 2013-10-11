@@ -292,6 +292,10 @@
   <string name="share_sending">Envoyer le fichier d\'export</string>
   <string name="split_parts_heading">Sous-opérations</string>
   <string name="split_transaction">Opération ventilée</string>
+  <string name="status">État</string>
+  <string name="status_cleared">pointée</string>
+  <string name="status_reconciled">rapproché</string>
+  <string name="status_uncreconciled">non-rapprochée</string>
   <string name="subcategory">Sous-catégorie</string>
   <string name="sum_income">Revenus</string>
   <string name="sum_expenses">Dépenses</string>

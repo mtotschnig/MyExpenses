@@ -291,6 +291,10 @@
   <string name="share_sending">Dışa aktarım dosyasını gönder</string>
   <string name="split_parts_heading">Bölünmüş alt muameleler</string>
   <string name="split_transaction">Bölünmüş muamele</string>
+  <string name="status">Durum</string>
+  <string name="status_cleared">temizlendi</string>
+  <string name="status_reconciled">uzlaşmış</string>
+  <string name="status_uncreconciled">uzlaşmamış</string>
   <string name="subcategory">Alt kategori</string>
   <string name="sum_income">Gelirler</string>
   <string name="sum_expenses">Harcamalar</string>
