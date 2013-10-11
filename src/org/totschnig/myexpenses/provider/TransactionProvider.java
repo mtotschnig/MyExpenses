@@ -88,6 +88,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int TRANSACTIONS_GROUPS = 22;
   private static final int ACCOUNT_INCREASE_USAGE = 23;
   private static final int TRANSACTIONS_SUMS = 24;
+  private static final int TRANSACTION_MOVE = 25;
   
   @Override
   public boolean onCreate() {
@@ -571,6 +572,31 @@ public class TransactionProvider extends ContentProvider {
       db.execSQL("update " + TABLE_ACCOUNTS + " set usages = usages +1 WHERE _id = " + segment);
       count = 1;
       break;
+    //   when we move a transaction to a new target we apply two checks
+    //1) we do not move a transfer to its own transfer_account
+    //2) we check if the transactions method_id is also available in the target account, if not we set it to null
+    case TRANSACTION_MOVE:
+      segment = uri.getPathSegments().get(1);
+      String target = uri.getPathSegments().get(3);
+      db.execSQL("UPDATE " + TABLE_TRANSACTIONS +
+          " SET " +
+            KEY_ACCOUNTID + " = ?, " +
+            KEY_METHODID + " = " +
+                " CASE " +
+                    " WHEN exists " +
+                        " (SELECT 1 FROM " + TABLE_ACCOUNTTYES_METHODS +
+                            " WHERE " + KEY_TYPE + " = " +
+                                " (SELECT " + KEY_TYPE + " FROM " + TABLE_ACCOUNTS +
+                                    " WHERE " + KEY_ROWID + " = ?) " +
+                                    " AND " + KEY_METHODID + " = " + TABLE_TRANSACTIONS + "." + KEY_METHODID + ")" +
+                    " THEN " + KEY_METHODID +
+                    " ELSE null " +
+                " END " +
+            " WHERE " + KEY_ROWID + " = ? " +
+            " AND " + KEY_TRANSFER_ACCOUNT + " IS NOT ?",
+          new String[]{target,target,segment,target});
+      count=1;
+      break;
     default:
       throw new IllegalArgumentException("Unknown URI " + uri);
     }
@@ -589,6 +615,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/groups/*", TRANSACTIONS_GROUPS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccountsGroupedByType/#", TRANSACTIONS_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/#/move/#", TRANSACTION_MOVE);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORY_ID);
     URI_MATCHER.addURI(AUTHORITY, "categories/#/increaseUsage", CATEGORY_INCREASE_USAGE);

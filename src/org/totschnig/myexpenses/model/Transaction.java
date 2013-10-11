@@ -295,8 +295,7 @@ public class Transaction extends Model {
     args.put(KEY_ACCOUNTID, whereAccountId);
     //we verify that a transfer can not be moved to the account it transfers to
     //IS NOT instead of != accepts cases where transfer_account is null
-    cr().update(Uri.parse(CONTENT_URI + "/" + whichTransactionId), args,
-        KEY_TRANSFER_ACCOUNT + " IS NOT ?", new String[]{String.valueOf(whereAccountId)});
+    cr().update(Uri.parse(CONTENT_URI + "/" + whichTransactionId + "/move/" + whereAccountId), null,null,null);
   }
   public static int count(Uri uri,String selection,String[] selectionArgs) {
     Cursor cursor = cr().query(uri,new String[] {"count(*)"},
