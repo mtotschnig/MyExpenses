@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -555,7 +556,7 @@ public class Account extends Model {
     switch (format) {
     case CSV:
       int[] columns = {R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,
-          R.string.category,R.string.subcategory,R.string.comment,R.string.method};
+          R.string.category,R.string.subcategory,R.string.comment,R.string.method,R.string.status};
       for (int column: columns) {
         sb.append("\"")
           .appendQ(ctx.getString(column))
@@ -572,7 +573,8 @@ public class Account extends Model {
     while( c.getPosition() < c.getCount() ) {
       Long transfer_peer = DbUtils.getLongOrNull(c, KEY_TRANSFER_PEER);
       String comment = DbUtils.getString(c, KEY_COMMENT);
-      String full_label="",label_sub = "",label_main ;
+      String full_label="",label_sub = "",label_main;
+      CrStatus status;
       Long catId =  DbUtils.getLongOrNull(c,KEY_CATID);
       if (SPLIT_CATID.equals(catId)) {
         full_label = ctx.getString(R.string.split_transaction);
@@ -600,6 +602,11 @@ public class Account extends Model {
           c.getColumnIndexOrThrow(KEY_AMOUNT));
       String amountAbsStr = new Money(currency,amount)
           .getAmountMajor().abs().toPlainString();
+      try {
+        status = CrStatus.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_CR_STATUS)));
+      } catch (IllegalArgumentException ex) {
+        status = CrStatus.UNRECONCILED;
+      }
       sb.clear();
       switch (format) {
       case CSV:
@@ -621,6 +628,8 @@ public class Account extends Model {
           .appendQ(comment)
           .append("\";\"")
           .appendQ(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel())
+          .append("\";\"")
+          .append(status.symbol)
           .append("\";");
         break;
       default:
@@ -630,18 +639,21 @@ public class Account extends Model {
         if (amount<0)
           sb.append( "-");
         sb.append( amountAbsStr );
-        if ((comment.length() > 0)) {
+        if (comment.length() > 0) {
           sb.append( "\nM" )
           .append( comment );
         }
-        if ((full_label.length() > 0)) {
+        if (full_label.length() > 0) {
           sb.append( "\nL" )
             .append( full_label );
         }
-        if ((payee.length() > 0)) {
+        if (payee.length() > 0) {
           sb.append( "\nP" )
             .append( payee );
         }
+        if (!status.equals(CrStatus.UNRECONCILED))
+          sb.append( "\nC")
+            .append( status.symbol );
       }
       out.write(sb.toString());
       if (SPLIT_CATID.equals(catId)) {

@@ -69,10 +69,12 @@ public class Transaction extends Model {
   protected String dateAsString;
 
   public enum CrStatus {
-    UNRECONCILED(Color.GRAY),CLEARED(Color.BLUE),RECONCILED(Color.GREEN);
+    UNRECONCILED(Color.GRAY,""),CLEARED(Color.BLUE,"*"),RECONCILED(Color.GREEN,"X");
     public int color;
-    private CrStatus(int color) {
+    public String symbol;
+    private CrStatus(int color,String symbol) {
       this.color = color;
+      this.symbol = symbol;
     }
     public String toString() {
       Context ctx = MyApplication.getInstance();
