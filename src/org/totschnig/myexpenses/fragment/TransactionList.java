@@ -29,9 +29,12 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -64,6 +67,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -91,10 +96,12 @@ public class TransactionList extends BudgetListFragment implements
   private SparseBooleanArray mappedCategoriesPerGroup;
 
   int columnIndexDate, columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth, columnIndexWeek, columnIndexDay,
-    columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee,
+    columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee, columnIndexCrStatus,
     columnIndexGroupYear, columnIndexGroupSecond, columnIndexGroupMappedCategories,
     columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
   boolean indexesCalculated, indexesGroupingCalculated = false;
+  private Grouping mGrouping;
+  private Type mType;
 
   public static TransactionList newInstance(long accountId) {
     
@@ -112,6 +119,8 @@ public class TransactionList extends BudgetListFragment implements
       mappedCategoriesPerGroup = new SparseBooleanArray();
       mAccountId = getArguments().getLong("account_id");
       mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
+      mGrouping = mAccount.grouping;
+      mType = mAccount.type;
       aObserver = new AccountObserver(new Handler());
       ContentResolver cr= getSherlockActivity().getContentResolver();
       //when account has changed, we might have
@@ -315,6 +324,7 @@ public class TransactionList extends BudgetListFragment implements
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
         columnIndexComment = c.getColumnIndex(KEY_COMMENT);
         columnIndexPayee = c.getColumnIndex(KEY_PAYEE);
+        columnIndexCrStatus = c.getColumnIndex(KEY_CR_STATUS);
         indexesCalculated = true;
       }
       mAdapter.swapCursor(c);
@@ -378,11 +388,19 @@ public class TransactionList extends BudgetListFragment implements
       super.onChange(selfChange);
       updateBalance();
       updateColor();
-      if (mAdapter != null) {
-        setGrouping();
-        //we should not need to notify here, since setGrouping restarts
-        //the loader and in onLoadFinished we notify
-        //mAdapter.notifyDataSetChanged();
+      //if grouping has changed
+      if (mAccount.grouping != mGrouping) {
+        if (mAdapter != null) {
+          mGrouping = mAccount.grouping;
+          setGrouping();
+          //we should not need to notify here, since setGrouping restarts
+          //the loader and in onLoadFinished we notify
+          //mAdapter.notifyDataSetChanged();
+        }
+      }
+      if (mAccount.type != mType) {
+        mListView.setAdapter(mAdapter);
+        mType = mAccount.type;
       }
     }
   }
@@ -521,6 +539,13 @@ public class TransactionList extends BudgetListFragment implements
         int[] to, int flags) {
       super(context, layout, c, from, to, flags);
     }
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+      View v= super.newView(context, cursor, parent);
+      if (mAccount.type.equals(Type.CASH))
+        v.findViewById(R.id.colorContainer).setVisibility(View.GONE);
+      return v;
+  }
     /* (non-Javadoc)
      * calls {@link #convText for formatting the values retrieved from the cursor}
      * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
@@ -588,6 +613,17 @@ public class TransactionList extends BudgetListFragment implements
         catText = TextUtils.concat(catText,commentSeparator,ssb);
       }
       tv2.setText(catText);
+      
+      if (!mAccount.type.equals(Type.CASH)) {
+        CrStatus status;
+        try {
+          status = CrStatus.valueOf(c.getString(columnIndexCrStatus));
+        } catch (IllegalArgumentException ex) {
+          status = CrStatus.UNRECONCILED;
+        }
+        convertView.findViewById(R.id.color1).setBackgroundColor(status.color);
+        convertView.findViewById(R.id.colorContainer).setTag(getItemId(position));
+      }
       return convertView;
     }
   }

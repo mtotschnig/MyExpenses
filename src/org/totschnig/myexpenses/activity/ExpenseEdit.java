@@ -25,8 +25,10 @@ import java.util.Date;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
+import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
@@ -42,17 +44,22 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +68,7 @@ import android.widget.Toast;
  * Activity for editing a transaction
  * @author Michael Totschnig
  */
-public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.TaskCallbacks {
+public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.TaskCallbacks, OnItemSelectedListener {
 
   private Button mDateButton;
   private Button mTimeButton;
@@ -162,6 +169,41 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   }
   private void setup() {
     configAmountInput();
+    Spinner spinner = (Spinner) findViewById(R.id.Status);
+    if (getmAccount().type.equals(Type.CASH) ||
+        mTransaction instanceof SplitPartCategory ||
+        mTransaction instanceof SplitPartTransfer)
+      spinner.setVisibility(View.GONE);
+    else {
+      ArrayAdapter<Transaction.CrStatus> sAdapter = new ArrayAdapter<Transaction.CrStatus>(
+          DialogUtils.wrapContext1(this),
+          R.layout.custom_spinner_item, android.R.id.text1,Transaction.CrStatus.values()) {
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+          View row = super.getView(position, convertView, parent);
+          setColor(position,row);
+          row.findViewById(android.R.id.text1).setVisibility(View.GONE);
+          return row;
+        }
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+          View row = super.getDropDownView(position, convertView, parent);
+          setColor(position,row);
+          return row;
+        }
+        private void setColor(int position, View row) {
+          View color = row.findViewById(R.id.color1);
+          color.setBackgroundColor(getItem(position).color);
+          LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(20,20);
+          lps.setMargins(10, 0, 0, 0);
+          color.setLayoutParams(lps);
+        }
+      };
+      sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
+      spinner.setAdapter(sAdapter);
+      spinner.setSelection(mTransaction.crStatus.ordinal());
+      spinner.setOnItemSelectedListener(this);
+    }
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
@@ -834,5 +876,14 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       mAccount = Account.getInstanceFromDb(mTransaction.accountId);
     }
     return mAccount;
+  }
+  @Override
+  public void onItemSelected(AdapterView<?> parent, View view, int position,
+      long id) {
+    mTransaction.crStatus = (Transaction.CrStatus) parent.getItemAtPosition(position);
+  }
+  @Override
+  public void onNothingSelected(AdapterView<?> parent) {
+    // TODO Auto-generated method stub    
   }
 }

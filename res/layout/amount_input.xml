@@ -22,14 +22,9 @@
 	    android:id="@+id/TaType"
 	    android:text="-" />
 	<EditText
+		  android:drawableRight="@drawable/ic_action_calc"
 	    android:id="@+id/Amount"
       android:layout_weight="2"
 	    android:layout_width="0dp"
 	    android:layout_height="fill_parent"/>
-	<Button 
-	    android:layout_width="0dp" 
-      android:layout_weight="1"
-	    android:layout_height="fill_parent"
-	    android:id="@+id/calculator" 
-	    android:text="="/>
 </merge>

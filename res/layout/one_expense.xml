@@ -61,6 +61,10 @@
         <LinearLayout
             android:orientation="horizontal">
           <include layout="@layout/amount_input"/>
+        <Spinner
+          android:id="@+id/Status"
+          android:layout_width="wrap_content"
+          android:layout_height="fill_parent" />
         </LinearLayout>
       </TableRow>
         

@@ -20,6 +20,7 @@
   <!-- My Expenses Transaction list -->
   <string name="help_MyExpenses_title">Transaction list</string>
   <string name="help_MyExpenses_info">This screen lists all transactions for the current account. From the navigation bar, you can navigate to the accounts list or select a different account. Click on a list entry to edit the item.</string>
+  <string name="help_MyExpenses_crStatus_info">The status of the transaction is indicated by a colored rectangle: gray for unreconciled, blue for clear, green for reconciled. Clicking on the rectangle, changes the status.</string>
   <string name="menu_create_transaction_help_text">Opens the form for creating a new transaction.</string>
   <string name="menu_create_transfer_help_text">Transfer money between accounts. This command is enabled only if you have at least one other account with the same currency as the current one.</string>
   <string name="menu_create_split_help_text">A split transaction allows you to assign partial amounts to different categories or as transfers to different accounts.</string>

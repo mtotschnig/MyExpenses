@@ -16,6 +16,9 @@
 package org.totschnig.myexpenses.model;
 
 import java.util.Date;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -25,7 +28,9 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -53,7 +58,7 @@ public class Transaction extends Model {
    */
   public int status = 0;
   public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
-    KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID,
+    KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID,KEY_CR_STATUS,
     YEAR + " AS year",YEAR_OF_WEEK_START + " AS year_of_week_start",MONTH + " AS month",WEEK + " AS week",DAY + " AS day",
     THIS_YEAR + " AS this_year",THIS_YEAR_OF_WEEK_START + " AS this_year_of_week_start",
     THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day",WEEK_RANGE+ " AS week_range" };
@@ -62,6 +67,33 @@ public class Transaction extends Model {
    * we store the date directly from UI to DB without creating a Date object
    */
   protected String dateAsString;
+
+  public enum CrStatus {
+    UNRECONCILED(Color.GRAY,""),CLEARED(Color.BLUE,"*"),RECONCILED(Color.GREEN,"X");
+    public int color;
+    public String symbol;
+    private CrStatus(int color,String symbol) {
+      this.color = color;
+      this.symbol = symbol;
+    }
+    public String toString() {
+      Context ctx = MyApplication.getInstance();
+      switch (this) {
+      case CLEARED:
+        return ctx.getString(R.string.status_cleared);
+      case RECONCILED:
+        return ctx.getString(R.string.status_reconciled);
+      case UNRECONCILED:
+        return ctx.getString(R.string.status_uncreconciled);
+      }
+      return super.toString();
+    }
+    public static final String JOIN;
+    static {
+      JOIN = Utils.joinEnum(CrStatus.class);
+    }
+  }
+  public CrStatus crStatus;
 
   /**
    * factory method for retrieving an instance from the db with the given id
@@ -73,7 +105,8 @@ public class Transaction extends Model {
   public static Transaction getInstanceFromDb(long id) throws DataObjectNotFoundException  {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
-        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,KEY_PARENTID};
+        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,
+        KEY_PARENTID,KEY_CR_STATUS};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
@@ -95,6 +128,11 @@ public class Transaction extends Model {
       } else {
         t = parent_id != null ? new SplitPartCategory(account_id,amount,parent_id) : new Transaction(account_id,amount);
       }
+    }
+    try {
+      t.crStatus = CrStatus.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_CR_STATUS)));
+    } catch (IllegalArgumentException ex) {
+      t.crStatus = CrStatus.UNRECONCILED;
     }
     t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
     t.catId = catId;
@@ -160,6 +198,7 @@ public class Transaction extends Model {
   //needed for Template subclass
   public Transaction() {
     setDate(new Date());
+    this.crStatus = CrStatus.UNRECONCILED;
   }
   /**
    * new empty transaction
@@ -217,6 +256,7 @@ public class Transaction extends Model {
     initialValues.put(KEY_CATID, catId);
     initialValues.put(KEY_PAYEE, payee);
     initialValues.put(KEY_METHODID, methodId);
+    initialValues.put(KEY_CR_STATUS,crStatus.name());
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_PARENTID, parentId);

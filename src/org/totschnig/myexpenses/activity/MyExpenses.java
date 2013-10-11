@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
@@ -114,11 +115,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
 
   int currentPosition = -1;
   private void setCurrentAccount(long newAccountId) {
-    long currentAccountId = mAccountId;
-    if (currentAccountId != newAccountId)
+    if (mAccountId != newAccountId)
       SharedPreferencesCompat.apply(
-        mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId)
-        .putLong(MyApplication.PREFKEY_LAST_ACCOUNT, currentAccountId));
+        mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId));
     mAccountId = newAccountId;
   }
   private SharedPreferences mSettings;
@@ -130,6 +129,13 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   private String fragmentCallbackTag = null;
   public boolean mTransferEnabled = false;
   private long mAccountId = 0;
+  public enum HelpVariant {
+    crStatus
+  }
+  private void setHelpVariant() {
+    helpVariant = Account.getInstanceFromDb(mAccountId).type.equals(Type.CASH) ?
+        null : HelpVariant.crStatus;
+  }
   
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -483,6 +489,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       long treshold = ((String) tag).equals("Rate") ? TRESHOLD_REMIND_RATE : TRESHOLD_REMIND_CONTRIB;
       SharedPreferencesCompat.apply(mSettings.edit().putLong(key,Transaction.getTransactionSequence()+treshold));
       return true;
+    case R.id.HELP_COMMAND:
+      setHelpVariant();
+      break;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -586,7 +595,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         currencyAccountCount.put(currency, count+1);
         mAccountsCursor.moveToNext();
       }
-      //the current account was deleted, we set it to the
+      //the current account was deleted, we set it to the first
       if (currentPosition == -1) {
         currentPosition = 0;
         mAccountsCursor.moveToFirst();
@@ -705,5 +714,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       setup();
     }
     super.onPostExecute(taskId, o);
+  }
+  public void toggleCrStatus (View v) {
+    getSupportFragmentManager().beginTransaction()
+    .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,(Long) v.getTag()), "TOGGLE_TASK")
+    .commit();
   }
 }

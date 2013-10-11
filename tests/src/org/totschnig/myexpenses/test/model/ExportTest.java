@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.model.Account;import org.totschnig.myexpenses.mo
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.util.Result;
 
 import android.util.Log;
@@ -38,11 +39,11 @@ import android.util.Log;
 public class ExportTest extends ModelTest  {
   Account account1, account2;
   Long openingBalance = 100L,
-      expense1 = 10L,
+      expense1 = 10L, //status cleared
       expense2 = 20L,
       income1 = 30L,
       income2 = 40L,
-      transferP = 50L,
+      transferP = 50L, //status reconciled
       transferN = 60L,
       expense3 = 100L,
       income3 = 100L;
@@ -61,10 +62,12 @@ public class ExportTest extends ModelTest  {
     op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
     op.amount = new Money(account1.currency,-expense1);
     op.methodId = PaymentMethod.find("CHEQUE");
+    op.crStatus = CrStatus.CLEARED;
     op.save();
     op.amount = new Money(account1.currency,-expense2);
     op.catId = cat1Id;
     op.payee = "N.N.";
+    op.crStatus = CrStatus.UNRECONCILED;
     op.saveAsNew();
     op.amount = new Money(account1.currency,income1);
     op.catId = cat2Id;
@@ -76,7 +79,9 @@ public class ExportTest extends ModelTest  {
     op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER,account1.id);
     op.transfer_account = account2.id;
     op.amount = new Money(account1.currency,transferP);
+    op.crStatus = CrStatus.RECONCILED;
     op.save();
+    op.crStatus = CrStatus.UNRECONCILED;
     op.amount = new Money(account1.currency,-transferN);
     op.saveAsNew();
   }
@@ -97,6 +102,7 @@ public class ExportTest extends ModelTest  {
       "!Type:Bank",
       "D" + date,
       "T-0.1",
+      "C*",
       "^",
       "D" + date,
       "T-0.2",
@@ -115,6 +121,7 @@ public class ExportTest extends ModelTest  {
       "D" + date,
       "T0.5",
       "L[Account 2]",
+      "CX",
       "^",
       "D" + date,
       "T-0.6",
@@ -134,13 +141,13 @@ public class ExportTest extends ModelTest  {
   public void testExportCSV() {
     String[] linesCSV = new String[] {
         //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
-        "\"Split transaction\";\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";",
-        "\"\";\"" + date + "\";\"\";0;0.1;\"\";\"\";\"\";\"Cheque\";",
-        "\"\";\"" + date + "\";\"N.N.\";0;0.2;\"Main\";\"\";\"\";\"Cheque\";",
-        "\"\";\"" + date + "\";\"\";0.3;0;\"Main\";\"Sub\";\"\";\"Cheque\";",
-        "\"\";\"" + date + "\";\"\";0.4;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"Cheque\";",
-        "\"\";\"" + date + "\";\"\";0.5;0;\"Transfer\";\"[Account 2]\";\"\";\"\";",
-        "\"\";\"" + date + "\";\"\";0;0.6;\"Transfer\";\"[Account 2]\";\"\";\"\";"
+        "\"Split transaction\";\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";\"Status\";",
+        "\"\";\"" + date + "\";\"\";0;0.1;\"\";\"\";\"\";\"Cheque\";\"*\";",
+        "\"\";\"" + date + "\";\"N.N.\";0;0.2;\"Main\";\"\";\"\";\"Cheque\";\"\";",
+        "\"\";\"" + date + "\";\"\";0.3;0;\"Main\";\"Sub\";\"\";\"Cheque\";\"\";",
+        "\"\";\"" + date + "\";\"\";0.4;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"Cheque\";\"\";",
+        "\"\";\"" + date + "\";\"\";0.5;0;\"Transfer\";\"[Account 2]\";\"\";\"\";\"X\";",
+        "\"\";\"" + date + "\";\"\";0;0.6;\"Transfer\";\"[Account 2]\";\"\";\"\";\"\";"
     };
     try {
       insertData1();
@@ -155,9 +162,9 @@ public class ExportTest extends ModelTest  {
   public void testExportNotYetExported() {
     String[] linesCSV = new String[] {
         //{R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
-        "\"Split transaction\";\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";",
-        "\"\";\"" + date + "\";\"\";0;1;\"\";\"\";\"Expense inserted after first export\";\"Cheque\";",
-        "\"\";\"" + date + "\";\"N.N.\";1;0;\"\";\"\";\"Income inserted after first export\";\"Cheque\";",
+        "\"Split transaction\";\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";\"Status\";",
+        "\"\";\"" + date + "\";\"\";0;1;\"\";\"\";\"Expense inserted after first export\";\"Cheque\";\"\";",
+        "\"\";\"" + date + "\";\"N.N.\";1;0;\"\";\"\";\"Income inserted after first export\";\"Cheque\";\"\";",
     };
     try {
       insertData1();
@@ -184,6 +191,7 @@ public class ExportTest extends ModelTest  {
       String line;
       int count = 0;
       while ((line = r.readLine()) != null) {
+        Log.i("DEBUG",line);
         assertEquals(lines[count],line);
         count++;
       }

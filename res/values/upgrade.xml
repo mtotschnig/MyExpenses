@@ -18,8 +18,8 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_76">
-    <item>Improved stability</item>
+  <string-array name="whats_new_77">
+    <item>Cleared / reconciled</item>
   </string-array>
   <string-array name="whats_new_75">
     <item>Distribution of transactions by category (Premium)</item>
