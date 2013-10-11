@@ -35,6 +35,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ImageView;
 
+/**
+ * @author Michael Totschnig
+ * A Dialog Fragment that displays help information. The content is constructed from resources
+ * based on the activity and an optional variant passed in.
+ *
+ */
 public class HelpDialogFragment extends DialogFragment {
   
   public static final HelpDialogFragment newInstance(String activityName, Enum<?> variant) {
