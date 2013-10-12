@@ -295,8 +295,10 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case SUM_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI, new String[] {"sum(" + KEY_AMOUNT + ") as sum",MAPPED_CATEGORIES}, "account_id = ? AND parent_id is null",
-          new String[] { String.valueOf(mAccountId) }, null);
+          TransactionProvider.TRANSACTIONS_URI,
+          new String[] {"sum(" + KEY_AMOUNT + ") as sum",MAPPED_CATEGORIES},
+          "account_id = ? AND (cat_id IS null OR cat_id != ?)",
+          new String[] { String.valueOf(mAccountId),String.valueOf(SPLIT_CATID) }, null);
       break;
     case GROUPING_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
