@@ -26,7 +26,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -36,14 +35,12 @@ import android.view.ContextMenu;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ManageMethods extends ProtectedFragmentActivity implements OnItemClickListener {
   Cursor mMethodsCursor;
-  private Button mAddButton;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
