@@ -37,7 +37,11 @@ public class ProgressDialogFragment extends DialogFragment {
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) { 
     final ProgressDialog dialog = new ProgressDialog(getActivity());
-    dialog.setMessage(getString(getArguments().getInt("message")));
+    int message = getArguments().getInt("message");
+    if (message != 0)
+      dialog.setMessage(getString(message));
+    else
+      dialog.setMessage("…");
     dialog.setIndeterminate(true);
     dialog.setCancelable(false);
      

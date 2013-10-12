@@ -270,8 +270,6 @@
   <string name="pref_ui_theme_light">aydınlık</string>
   <string name="pref_visit_website_title">Siteyi ziyaret et</string>
   <string name="pref_visit_website_summary">Değişiklikler ya SSS</string>
-  <string name="progress_dialog_cloning">Klonlanıyor &#8230;</string>
-  <string name="progress_dialog_deleting">Siliniyor &#8230;</string>
   <string name="progress_dialog_loading">Veritabanından nesne yükleniyor &#8230;</string>
   <string name="progress_dialog_setup">Muamele veritabanı başlatıldı &#8230;</string>
   <string name="request_licence_mail_head">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin.</string>

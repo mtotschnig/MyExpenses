@@ -271,8 +271,6 @@
   <string name="pref_ui_theme_light">claro</string>
   <string name="pref_visit_website_title">Visite el sitio web</string>
   <string name="pref_visit_website_summary">Registro de cambios y preguntas frecuentes</string>
-  <string name="progress_dialog_cloning">Clonando &#8230;</string>
-  <string name="progress_dialog_deleting">Eliminando &#8230;</string>
   <string name="progress_dialog_loading">Cargando objeto de base de datos &#8230;</string>
   <string name="progress_dialog_setup">Base de datos se inicializa &#8230;</string>
   <string name="request_licence_mail_head">Por favor, envíeme una clave Contrib para Android-Id %1$s.</string>

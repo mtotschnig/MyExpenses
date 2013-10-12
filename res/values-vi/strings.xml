@@ -268,8 +268,6 @@
   <string name="pref_ui_theme_light">sáng</string>
   <string name="pref_visit_website_title">Truy cập Website</string>
   <string name="pref_visit_website_summary">Nhật trình và các câu hỏi thường gặp</string>
-  <string name="progress_dialog_cloning">Đang sao chép hóa …</string>
-  <string name="progress_dialog_deleting">Đang thực hiện thao tác xóa …</string>
   <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu …</string>
   <string name="progress_dialog_setup">Cơ sở dữ liệu đã được thiết lập …</string>
   <string name="request_licence_mail_head">Vui lòng gửi đến tác giả mã khóa Cống Hiến dành cho Android-Id %1$s.</string>

@@ -112,8 +112,8 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     case R.id.DELETE_COMMAND_DO:
       FragmentManager fm = getSupportFragmentManager();
       fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_ACCOUNT,(Long)tag), "DELETE_TASK")
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_ACCOUNT,(Long)tag, null), "DELETE_TASK")
+        .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
         .commit();
       return true;
     case R.id.RESET_ACCOUNT_ALL_COMMAND:

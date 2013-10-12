@@ -251,8 +251,6 @@
   <string name="pref_ui_theme_light">فاتح</string>
   <string name="pref_visit_website_title">زيارة الموقع</string>
   <string name="pref_visit_website_summary">التغييرات والاسئلة المتكررة</string>
-  <string name="progress_dialog_cloning">جاري الاستنساخ ...</string>
-  <string name="progress_dialog_deleting">جاري الحذف</string>
   <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات ...</string>
   <string name="progress_dialog_setup">جاري تهيئة قاعدة البيانات ...</string>
   <string name="request_licence_mail_head">أرجو تزويدي بمفتاح مساهمة لـ Android-Id %1$s.</string>

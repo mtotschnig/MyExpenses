@@ -48,6 +48,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_DELETE_PAYEE = 9;
   public static final int TASK_DELETE_TEMPLATE = 10;
   public static final int TASK_TOGGLE_CRSTATUS = 11;
+  public static final int TASK_MOVE = 12;
   
   /**
    * Callback interface through which the fragment will report the
@@ -62,12 +63,14 @@ public class TaskExecutionFragment extends Fragment {
  
   private TaskCallbacks mCallbacks;
   private GenericTask mTask;
-  public static TaskExecutionFragment newInstance(int taskId, Long objectId) {
+  public static TaskExecutionFragment newInstance(int taskId, Long objectId, Long targetId) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt("taskId", taskId);
     if (objectId != null)
       bundle.putLong("objectId", objectId);
+    if (targetId != null)
+      bundle.putLong("targetId", targetId);
     f.setArguments(bundle);
     return f;
   }
@@ -98,7 +101,7 @@ public class TaskExecutionFragment extends Fragment {
     // Create and execute the background task.
     Bundle args = getArguments();
     mTask = new GenericTask(args.getInt("taskId"));
-    mTask.execute(args.getLong("objectId"));
+    mTask.execute(args.getLong("objectId"),args.getLong("targetId"));
   }
  
   /**
@@ -188,6 +191,9 @@ public class TaskExecutionFragment extends Fragment {
           break;
         }
         t.save();
+        return null;
+      case TASK_MOVE:
+        Transaction.move(id[0],id[1]);
         return null;
       }
       return null;

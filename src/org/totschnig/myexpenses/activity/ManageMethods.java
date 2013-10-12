@@ -103,8 +103,8 @@ public class ManageMethods extends ProtectedFragmentActivity implements OnItemCl
       }  else {
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
-          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_PAYMENT_METHOD,info.id), "DELETE_TASK")
-          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_deleting),"PROGRESS")
+          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_PAYMENT_METHOD,info.id, null), "DELETE_TASK")
+          .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
           .commit();
       }
       return true;
