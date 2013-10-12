@@ -15,10 +15,8 @@
 
 package org.totschnig.myexpenses.model;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.ContentValues;
@@ -58,5 +56,10 @@ public class Payee extends Model {
       // TODO Auto-generated catch block
       return -1;
     }
+  }
+  @Override
+  public Uri save() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

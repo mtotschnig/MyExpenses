@@ -67,4 +67,10 @@ public class ContribFeature extends Model {
       return hasTrial ? USAGES_LIMIT - countUsages() : 0;
     }
   }
+
+  @Override
+  public Uri save() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

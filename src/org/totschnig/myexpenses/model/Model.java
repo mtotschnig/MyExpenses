@@ -18,8 +18,9 @@ package org.totschnig.myexpenses.model;
 import org.totschnig.myexpenses.MyApplication;
 
 import android.content.ContentResolver;
+import android.net.Uri;
 
-public class Model {
+public abstract class Model {
   private static ContentResolver cr;
 
   public static ContentResolver cr() {
@@ -29,4 +30,5 @@ public class Model {
   public static void setContentResolver(ContentResolver crIn) {
     cr = crIn;
   }
+  public abstract Uri save();
 }

@@ -15,16 +15,15 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,7 +138,7 @@ public class MethodEdit extends EditActivity {
     return null;
   }
 
-  protected boolean saveState() {
+  protected void saveState() {
     if (mMethod.predef == null) {
       mMethod.setLabel(mLabelText.getText().toString());
     }
@@ -152,8 +151,8 @@ public class MethodEdit extends EditActivity {
         mMethod.removeAccountType(accountType);
       }
     }
-    mMethod.save();
-    return true;
+    //EditActivity.saveState calls DbWriteFragment
+    super.saveState();
   }
   @Override
   protected void onSaveInstanceState(Bundle outState) {
@@ -165,5 +164,10 @@ public class MethodEdit extends EditActivity {
     super.onRestoreInstanceState(savedInstanceState);
     mPaymentType = savedInstanceState.getInt("type");
     mTypeButton.setText(mTypes[mPaymentType+1]);
+  }
+  @Override
+  public Model getObject() {
+    // TODO Auto-generated method stub
+    return mMethod;
   }
 }

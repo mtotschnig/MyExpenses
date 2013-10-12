@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -316,22 +317,22 @@ public class AccountEdit extends EditActivity {
    * (a valid float according to the format from the locale)
    * @return true upon success, false if validation fails
    */
-  protected boolean saveState() {
+  protected void saveState() {
     BigDecimal openingBalance = validateAmountInput(true);
     if (openingBalance == null)
-       return false;
+       return;
     String strCurrency = mCurrencyText.getText().toString();
     String label;
     try {
       mAccount.setCurrency(strCurrency);
     } catch (IllegalArgumentException e) {
       Toast.makeText(this,getString(R.string.currency_not_iso4217,strCurrency), Toast.LENGTH_LONG).show();
-      return false;
+      return;
     }
     label = mLabelText.getText().toString();
     if (label.equals("")) {
       Toast.makeText(this, R.string.no_title_given, Toast.LENGTH_LONG).show();
-      return false;
+      return;
     }
     mAccount.label = label;
     mAccount.description = mDescriptionText.getText().toString();
@@ -346,8 +347,8 @@ public class AccountEdit extends EditActivity {
     //TODO make sure that this is retained upon orientation change
     mAccount.type = mAccountType;
     mAccount.color = mAccountColor;
-    mAccount.save();
-    return true;
+    //EditActivity.saveState calls DbWriteFragment
+    super.saveState();
   }
   @Override
   protected void onSaveInstanceState(Bundle outState) {
@@ -366,5 +367,10 @@ public class AccountEdit extends EditActivity {
    */
   private void configureType() {
     mBalanceTypeButton.setText(mType ? "+" : "-");
+  }
+  @Override
+  public Model getObject() {
+    // TODO Auto-generated method stub
+    return mAccount;
   }
 }

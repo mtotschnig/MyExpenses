@@ -44,7 +44,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
@@ -107,6 +107,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   
   String[] accountLabels ;
   Long[] accountIds ;
+  private boolean mCreateNew = false;
 
   public enum HelpVariant {
     transaction,transfer,split,template,splitPartCategory,splitPartTransfer
@@ -215,7 +216,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       //when the split transaction is saved the split and its parts are committed
       if (mRowId == 0) {
         mTransaction.status = STATUS_UNCOMMITTED;
-        mTransaction.save();
+        ((SplitTransaction) mTransaction).saveWithoutCommit();
         mRowId = mTransaction.id;
       }
       View CategoryContainer = findViewById(R.id.CategoryRow);
@@ -374,28 +375,16 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       //handled in super
       break;
     case R.id.Confirm:
-      if (mTransaction instanceof SplitTransaction) {
-        if (((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).splitComplete() ) {
-          if (saveState()) {
-            ((SplitTransaction) mTransaction).commit();
-            setResult(RESULT_OK);
-            finish();
-          }
-        } else
+      if (mTransaction instanceof SplitTransaction &&
+        !((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).splitComplete()) {
           Toast.makeText(this,getString(R.string.unsplit_amount_greater_than_zero),Toast.LENGTH_SHORT).show();
-        return true;
-      } else
-        //handled in super
-        break;
-    case R.id.SAVE_AND_NEW_COMMAND:
-      if (saveState()) {
-        mTransaction.id = 0L;
-        mRowId = 0L;
-        setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
-            R.string.menu_create_transaction : R.string.menu_create_transfer);
-        mAmountText.setText("");
-        Toast.makeText(this,getString(R.string.save_transaction_and_new_success),Toast.LENGTH_SHORT).show();
+          return true;
       }
+      //handled in super
+      break;
+    case R.id.SAVE_AND_NEW_COMMAND:
+      saveState();
+      mCreateNew = true;
       return true;
     case R.id.INSERT_TA_COMMAND:
       createRow(MyExpenses.TYPE_TRANSACTION);
@@ -689,11 +678,11 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
    * is account selected for transfers) and saves
    * @return true upon success, false if validation fails
    */
-  protected boolean saveState() {
+  protected void saveState() {
     String title = "";
     BigDecimal amount = validateAmountInput(true);
     if (amount == null) {
-      return false;
+      return;
     }
     if (mType == EXPENSE) {
       amount = amount.negate();
@@ -709,7 +698,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       title = mTitleText.getText().toString();
       if (title.equals("")) {
         Toast.makeText(this, R.string.no_title_given, Toast.LENGTH_LONG).show();
-        return false;
+        return;
       }
       ((Template) mTransaction).title = title;
     }
@@ -727,18 +716,12 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       if (mTransferAccount == null) {
         Toast.makeText(this,getString(R.string.warning_select_account), Toast.LENGTH_LONG).show();
-        return false;
+        return;
       }
       mTransaction.transfer_account = mTransferAccount;
     }
-    if (mTransaction.save() == null) {
-      //for the moment, the only case where we will not get an URI back is
-      //if the unique constraint for template titles is violated
-      //TODO: we should probably validate the title earlier
-      Toast.makeText(this,getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
-      return false;
-    }
-    return true;
+    //EditActivity.saveState calls DbWriteFragment
+    super.saveState();
   }
   /* (non-Javadoc)
    * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
@@ -885,5 +868,30 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   @Override
   public void onNothingSelected(AdapterView<?> parent) {
     // TODO Auto-generated method stub    
+  }
+  @Override
+  public void onPostExecute(Uri result) {
+    if (result == null && mTransaction instanceof Template)
+      //for the moment, the only case where we will not get an URI back is
+      //if the unique constraint for template titles is violated
+      //TODO: we should probably validate the title earlier
+      Toast.makeText(this,getString(R.string.template_title_exists,((Template) mTransaction).title), Toast.LENGTH_LONG).show();
+    else {
+      if (mCreateNew) {
+        mCreateNew = false;
+        mTransaction.id = 0L;
+        mRowId = 0L;
+        setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
+            R.string.menu_create_transaction : R.string.menu_create_transfer);
+        mAmountText.setText("");
+        Toast.makeText(this,getString(R.string.save_transaction_and_new_success),Toast.LENGTH_SHORT).show();
+      } else
+        super.onPostExecute(result);
+    }
+  }
+  @Override
+  public Model getObject() {
+    // TODO Auto-generated method stub
+    return mTransaction;
   }
 }

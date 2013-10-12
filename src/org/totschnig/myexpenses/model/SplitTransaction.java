@@ -33,6 +33,15 @@ public class SplitTransaction extends Transaction {
     super(accountId,amount);
     catId = DatabaseConstants.SPLIT_CATID;
   }
+  @Override
+  public Uri save() {
+    Uri uri = super.save();
+    commit();
+    return uri;
+  }
+  public void saveWithoutCommit() {
+    super.save();
+  }
   /**
    * existing parts are deleted and the uncommitted ones are committed
    */

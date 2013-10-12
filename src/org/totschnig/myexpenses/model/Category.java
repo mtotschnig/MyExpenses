@@ -114,4 +114,9 @@ public class Category extends Model {
       return result;
     }
   }
+  @Override
+  public Uri save() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

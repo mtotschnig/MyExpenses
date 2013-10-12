@@ -22,12 +22,14 @@ import java.text.DecimalFormatSymbols;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.fragment.DbWriteFragment;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -40,7 +42,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public abstract class EditActivity extends ProtectedFragmentActivity {
+public abstract class EditActivity extends ProtectedFragmentActivity implements
+    DbWriteFragment.TaskCallbacks {
   public static final String CURRENCY_USE_MINOR_UNIT = "x";
   private static final int CALCULATOR_REQUEST = 0;
   protected DecimalFormat nfDLocal;
@@ -150,10 +153,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity {
   public boolean dispatchCommand(int command, Object tag) {
     switch(command) {
     case R.id.Confirm:
-      if (saveState()) {
-        setResult(RESULT_OK);
-        finish();
-      }
+      saveState();
       return true;
     }
     return super.dispatchCommand(command, tag);
@@ -173,5 +173,14 @@ public abstract class EditActivity extends ProtectedFragmentActivity {
     }
     return amount;
   }
-  abstract protected boolean saveState();
+  protected void saveState() {
+    getSupportFragmentManager().beginTransaction()
+    .add(DbWriteFragment.newInstance(), "SAVE_TASK")
+    .commit();
+  }
+  @Override
+  public void onPostExecute(Uri result) {
+    setResult(RESULT_OK);
+    finish();
+  }
 }
