@@ -202,7 +202,9 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
-      Transaction.delete(info.id);
+      getActivity().getSupportFragmentManager().beginTransaction()
+      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,info.id, null), "DELETE_TASK")
+      .commit();
       return true;
     }
     return super.onContextItemSelected(item);

@@ -841,15 +841,17 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   }
   @Override
   public void onPostExecute(int taskId,Object o) {
-    mTransaction = (Transaction) o;
-    if (mTransaction instanceof SplitTransaction)
-      mOperationType = MyExpenses.TYPE_SPLIT;
-    else if (mTransaction instanceof Template)
-      mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-    else
-      mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-    setup();
-    supportInvalidateOptionsMenu();
+    if (taskId != TaskExecutionFragment.TASK_DELETE_TRANSACTION) {
+      mTransaction = (Transaction) o;
+      if (mTransaction instanceof SplitTransaction)
+        mOperationType = MyExpenses.TYPE_SPLIT;
+      else if (mTransaction instanceof Template)
+        mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
+      else
+        mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
+      setup();
+      supportInvalidateOptionsMenu();
+    }
     super.onPostExecute(taskId, o);
   }
   public Account getmAccount() {
