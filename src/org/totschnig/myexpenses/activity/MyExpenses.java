@@ -667,14 +667,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       getSupportFragmentManager().beginTransaction()
       .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_MOVE,
           args.getLong("contextTransactionId"), args.getLong("result")), "TOGGLE_TASK")
-      .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
       .commit();
       break;
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
       getSupportFragmentManager().beginTransaction()
       .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
           args.getLong("result"), null), "TOGGLE_TASK")
-      .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
       .commit();
     }
   }
@@ -723,7 +721,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public void toggleCrStatus (View v) {
     getSupportFragmentManager().beginTransaction()
       .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,(Long) v.getTag(), null), "TOGGLE_TASK")
-      .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
       .commit();
   }
 }

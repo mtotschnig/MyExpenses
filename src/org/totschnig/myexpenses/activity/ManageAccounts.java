@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.AggregatesDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Account;
@@ -113,7 +112,6 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
       FragmentManager fm = getSupportFragmentManager();
       fm.beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_ACCOUNT,(Long)tag, null), "DELETE_TASK")
-        .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
         .commit();
       return true;
     case R.id.RESET_ACCOUNT_ALL_COMMAND:

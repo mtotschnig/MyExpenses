@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
@@ -102,7 +101,6 @@ public class ManageMethods extends ProtectedFragmentActivity implements OnItemCl
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
           .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_PAYMENT_METHOD,info.id, null), "DELETE_TASK")
-          .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
           .commit();
       }
       return true;

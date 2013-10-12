@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -78,7 +77,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
             FragmentManager fm = getSupportFragmentManager();
             fm.beginTransaction()
               .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TEMPLATE,info.id, null), "DELETE_TASK")
-              .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
               .commit();
             break;
           case CREATE_INSTANCE_SAVE:

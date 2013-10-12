@@ -86,7 +86,6 @@ public class ManageParties extends ProtectedFragmentActivity implements
       FragmentManager fm = getSupportFragmentManager();
       fm.beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_PAYEE,info.id, null), "DELETE_TASK")
-        .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
         .commit();
       return true;
     case R.id.EDIT_COMMAND:
