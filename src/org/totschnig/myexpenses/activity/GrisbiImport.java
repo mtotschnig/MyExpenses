@@ -686,7 +686,7 @@ public class GrisbiImport extends ProtectedFragmentActivityNoSherlock implements
       if (main_id != -1) {
         Log.i("MyExpenses","category with label" + label + " already defined");
       } else {
-        main_id = Category.create(label,null);
+        main_id = Category.write(0L,label,null);
         if (main_id != -1) {
           total++;
           if (task != null && count % 10 == 0) {
@@ -701,7 +701,7 @@ public class GrisbiImport extends ProtectedFragmentActivityNoSherlock implements
       for (Map.Entry<Integer,CategoryTree> sub : mainCat.children().entrySet()) {
         label = sub.getValue().getLabel();
         count++;
-        sub_id = Category.create(label,main_id);
+        sub_id = Category.write(0L,label,main_id);
         if (sub_id != -1) {
           total++;
         } else {

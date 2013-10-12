@@ -22,14 +22,17 @@ import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.fragment.CategoryList;
+import org.totschnig.myexpenses.fragment.DbWriteFragment;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.View;
@@ -48,7 +51,8 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
  *
  */
 public class ManageCategories extends ProtectedFragmentActivity implements
-    OnChildClickListener, OnGroupClickListener,EditTextDialogListener  {
+    OnChildClickListener, OnGroupClickListener,EditTextDialogListener,
+    DbWriteFragment.TaskCallbacks {
 
     /**
      * create a new sub category
@@ -71,6 +75,8 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     public enum HelpVariant {
       manage,distribution,select
     }
+
+    private Category mCategory;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -255,18 +261,21 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
     @Override
     public void onFinishEditDialog(Bundle args) {
-      Long catId,parentId;
-      boolean success;
-      String value = args.getString("result");
-      if ((catId = args.getLong("catId")) != 0L) {
-        success = Category.update(value,catId) != -1;
-      } else {
-        if ((parentId = args.getLong("parentId")) == 0L)
-            parentId = null;
-        success = Category.create(value,parentId) != -1;
-      }
-      if (!success) {
-          Toast.makeText(ManageCategories.this,getString(R.string.already_defined, value), Toast.LENGTH_LONG).show();
-        }
+      Long parentId;
+      if ((parentId = args.getLong("parentId")) == 0L)
+        parentId = null;
+      mCategory = new Category(args.getLong("catId"), args.getString("result"), parentId);
+      getSupportFragmentManager().beginTransaction()
+        .add(DbWriteFragment.newInstance(), "SAVE_TASK")
+        .commit();
+    }
+    @Override
+    public void onPostExecute(Uri result) {
+      if (result == null)
+        Toast.makeText(ManageCategories.this,getString(R.string.already_defined, mCategory.label), Toast.LENGTH_LONG).show();
+    }
+    @Override
+    public Model getObject() {
+      return mCategory;
     }
 }

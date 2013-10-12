@@ -43,7 +43,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class ManageParties extends ProtectedFragmentActivity implements
-    EditTextDialogListener, DbWriteFragment.TaskCallbacks{
+    EditTextDialogListener, DbWriteFragment.TaskCallbacks {
   Cursor mPartiesCursor;
   Button mDeleteButton;
   Payee mParty;

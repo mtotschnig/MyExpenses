@@ -24,17 +24,17 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 
 public class Payee extends Model {
-  public Long id;
+  public long id;
   public String name;
-  public Payee(Long id, String name) {
+  public Payee(long id, String name) {
     this.id = id;
     this.name = name;
   }
   public static final String[] PROJECTION = new String[] {KEY_ROWID, "name"};
   public static final Uri CONTENT_URI = TransactionProvider.PAYEES_URI;
   /**
-   * inserts a new payee if it does not exist yet
-   * @param id TODO
+   * inserts a new payee if id = 0, or alters an existing one if id != 0
+   * @param id 0 if a new instance, database id otherwise
    * @param name
    * @return id of new record, or -1, if it already exists
    */
