@@ -603,6 +603,7 @@ public class TransactionProvider extends ContentProvider {
                     " ELSE null " +
                 " END " +
             " WHERE " + KEY_ROWID + " = ? " +
+            //IS NOT instead of != accepts cases where transfer_account is null
             " AND " + KEY_TRANSFER_ACCOUNT + " IS NOT ?",
           new String[]{target,target,segment,target});
       count=1;
