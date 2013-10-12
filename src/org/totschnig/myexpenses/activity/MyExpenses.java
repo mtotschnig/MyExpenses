@@ -299,9 +299,10 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    configButtons();
+    //configButtons();
     if (requestCode == ACTIVITY_EDIT && resultCode == RESULT_OK) {
       long nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
+      //TODO move getTransactionSequence out of UI thread, probably cache in Application class
       long transactionCount = Transaction.getTransactionSequence();
       if (nextReminder != -1 && transactionCount >= nextReminder) {
         new RemindRateDialogFragment().show(getSupportFragmentManager(),"REMIND_RATE");
