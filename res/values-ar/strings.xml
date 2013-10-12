@@ -6,11 +6,11 @@
   <string name="account_type_ccard">بطاقة ائتمانية</string>
   <string name="account_type_asset">حساب الاصول</string>
   <string name="account_type_liability">حساب الالتزامات</string>
+  <string name="already_defined">%1$s معرّف مسبقاً</string>
   <string name="amount">القيمة</string>
   <string name="app_name">مصروفاتي</string>
   <string name="backup_failure">فشلت عملية النسخ الاحتياطي للذاكرة.</string>
   <string name="backup_success">تم حفظ قاعدة البيانات والتفضيلات في الذاكرة بنجاح.</string>
-  <string name="category_already_defined">التصنيف %1$s معرّف مسبقاً</string>
   <string name="category">التصنيف</string>
   <string name="color">اللون</string>
   <string name="comment">ملاحظات</string>
@@ -221,7 +221,7 @@
   <string name="pref_manage_methods_title">طرق الدفع</string>
   <string name="pref_manage_methods_summary">إضافة وتعديل طرق الدفع وربطها مع أنواع الحسابات.</string>
   <string name="pref_manage_parties_title">الأطراف</string>
-  <string name="pref_manage_parties_summary">حذف الأطراف (المشترين والمستفيدين)</string>
+  <string name="pref_manage_parties_summary">إضافة، تعديل، حذف الأطراف (المشترين والمستفيدين)</string>
   <string name="pref_manage_templates_title">النماذج</string>
   <string name="pref_manage_templates_summary">تطبيق أو حذف النماذج.</string>
   <string name="pref_more_info_dialog_title">الرخصة &amp; الشكر</string>

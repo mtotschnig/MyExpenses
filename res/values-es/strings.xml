@@ -27,12 +27,12 @@
   <string name="account_type_ccard">Tarjeta de crédito</string>
   <string name="account_type_asset">Cuenta de activo</string>
   <string name="account_type_liability">Cuenta de pasivo</string>
+  <string name="already_defined">%1$s ya existe.</string>
   <string name="amount">Importe</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">La copia de seguridad en la tarjeta SD ha fallado.</string>
   <string name="backup_success">La base de datos y las configuraciones han sido archivados en la tarjeta SD.</string>
   <string name="category">Categoría</string>
-  <string name="category_already_defined">Categoría %1$s ya existe.</string>
   <string name="color">Color</string>
   <string name="comment">Apuntes</string>
   <string name="contrib_feature_accounts_unlimited_description">El número de cuentas que se pueden crear con &lt;i>&app_name;&lt;/i>se limita a 5.</string>
@@ -242,7 +242,7 @@
   <string name="pref_manage_methods_title">Métodos de pago</string>
   <string name="pref_manage_methods_summary">Crear y editar métodos de pago y asociarlos con  tipos de cuenta.</string>
   <string name="pref_manage_parties_title">Partidos</string>
-  <string name="pref_manage_parties_summary">Borrar partidos (pagador y beneficiario)</string>
+  <string name="pref_manage_parties_summary">Añadir, modificar y borrar partidos (pagador y beneficiario)</string>
   <string name="pref_manage_templates_summary">Aplicar o borrar plantillas</string>
   <string name="pref_manage_templates_title">Plantillas</string>
   <string name="pref_more_info_dialog_title">Licencia &amp; Créditos</string>

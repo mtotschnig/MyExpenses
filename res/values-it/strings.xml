@@ -27,12 +27,12 @@
   <string name="account_type_ccard">Carta di credito</string>
   <string name="account_type_asset">Conto di beni</string>
   <string name="account_type_liability">Conto di responsabilità</string>
+  <string name="already_defined">%1$s è già definita</string>
   <string name="amount">Somma</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Backup su SD card non è riuscito.</string>
   <string name="backup_success">Il database e le impostazioni sono state salvate sulla scheda SD.</string>
   <string name="category">Categoria</string>
-  <string name="category_already_defined">La categoria %1$s è già definita</string>
   <string name="color">Colore</string>
   <string name="comment">Note</string>
   <string name="contrib_feature_accounts_unlimited_description">Il numero dei conti che si possono creare con &lt;i>&app_name;&lt;/i> è limitata a 5.</string>
@@ -238,7 +238,7 @@
   <string name="pref_manage_methods_title">Modi di pagamento</string>
   <string name="pref_manage_methods_summary">Creare, modificare i modi di pagamento e di associarli a tipi di conti.</string>
   <string name="pref_manage_parties_title">Beneficiari</string>
-  <string name="pref_manage_parties_summary">Cancellare beneficiari.</string>
+  <string name="pref_manage_parties_summary">Aggiungere, modificare, cancellare beneficiari.</string>
   <string name="pref_manage_templates_title">Modelli</string>
   <string name="pref_manage_templates_summary">Utilizzare e eliminare modelli.</string>
   <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>

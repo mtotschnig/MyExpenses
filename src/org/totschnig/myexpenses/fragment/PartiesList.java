@@ -56,21 +56,7 @@ public class PartiesList extends SherlockFragment implements LoaderManager.Loade
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     registerForContextMenu(lv);
-/*    Button deleteButton = (Button) v.findViewById(R.id.deleteItems);
-    deleteButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        int cntChoice = lv.getCount();
-        SparseBooleanArray sparseBooleanArray = lv.getCheckedItemPositions();
-
-        for(int i = 0; i < cntChoice; i++){
-          if(sparseBooleanArray.get(i)) {
-            Payee.delete(lv.getAdapter().getItemId(i));
-          }
-        }
-      }
-    });
-*/    return v;
+    return v;
   }
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {

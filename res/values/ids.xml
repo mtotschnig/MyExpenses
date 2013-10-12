@@ -25,6 +25,7 @@
     <item type="id" name="SETTINGS_COMMAND"/>
     <item type="id" name="BACKUP_COMMAND"/>
     <item type="id" name="RESTORE_COMMAND"/>
+    <item type="id" name="EDIT_COMMAND"/>
     <item type="id" name="EDIT_ACCOUNT_COMMAND"/>
     <item type="id" name="HELP_COMMAND"/>
     <item type="id" name="WEB_COMMAND"/>

@@ -26,12 +26,12 @@
   <string name="account_type_ccard">Targeta de crèdit</string>
   <string name="account_type_asset">Compte d\'actiu</string>
   <string name="account_type_liability">Compte de passiu</string>
+  <string name="already_defined">%1$s ja existeix.</string>
   <string name="amount">Import</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Hi ha hagut un error en fer la còpia de seguretat a la targeta SD.</string>
   <string name="backup_success">La base de dades i les preferències s\'han desat a la targeta SD.</string>
   <string name="category">Categoria</string>
-  <string name="category_already_defined">La categoria %1$s ja existeix.</string>
   <string name="color">Color</string>
   <string name="comment">Notes</string>
   <string name="currency">Moneda</string>
@@ -160,7 +160,7 @@
   <string name="pref_manage_methods_title">Mètodes de pagament</string>
   <string name="pref_manage_methods_summary">Entrada, edició de formes de pagament i associa-les amb els tipus de compte.</string>
   <string name="pref_manage_parties_title">Tercers</string>
-  <string name="pref_manage_parties_summary">Suprimeix tercers (pagador i beneficiari)</string>
+  <string name="pref_manage_parties_summary">Afegeix, modifica i suprimeix tercers (pagador i beneficiari)</string>
   <string name="pref_manage_templates_summary">Aplica o suprimeix plantilles</string>
   <string name="pref_manage_templates_title">Plantilles</string>
   <string name="pref_more_info_dialog_title">Llicència &amp; Crèdits</string>

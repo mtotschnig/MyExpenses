@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.model;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -46,5 +47,16 @@ public class Payee extends Model {
   public static boolean delete(long id) {
     return cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null) > 0;
+  }
+  public static long update(String value, Long id) {
+    ContentValues args = new ContentValues();
+    args.put("name", value);
+    try {
+      return cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+          args, null, null);
+    } catch (SQLiteConstraintException e) {
+      // TODO Auto-generated catch block
+      return -1;
+    }
   }
 }

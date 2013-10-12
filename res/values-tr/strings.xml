@@ -27,11 +27,11 @@
   <string name="account_type_ccard">Kredi kartı</string>
   <string name="account_type_asset">Aktif hesabı</string>
   <string name="account_type_liability">Borç hesabı</string>
+  <string name="already_defined">%1$s zaten tanımlanmış</string>
   <string name="amount">Miktar</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">SD kartına yedekleme başarısız oldu.</string>
   <string name="backup_success">Veritabanı ve tercihler SD karta başarılı bir şekilde yazıldı.</string>
-  <string name="category_already_defined">%1$s kategorisi zaten tanımlanmış</string>
   <string name="category">Kategori</string>
   <string name="color">Renk</string>
   <string name="comment">Notlar</string>
@@ -241,7 +241,7 @@
   <string name="pref_manage_methods_title">Ödeme metotları</string>
   <string name="pref_manage_methods_summary">Ödeme metotları oluştur, düzenle ve hesap türleri ile ilişkilendir.</string>
   <string name="pref_manage_parties_title">Bölümler</string>
-  <string name="pref_manage_parties_summary">Bölüm sil (alacaklılar ve ödeyenler).</string>
+  <string name="pref_manage_parties_summary">Bölüm ekle, düzenle ve sil (alacaklılar ve ödeyenler).</string>
   <string name="pref_manage_templates_title">Şablonlar</string>
   <string name="pref_manage_templates_summary">Şablonları uygula ya da sil.</string>
   <string name="pref_more_info_dialog_title">Lisans &amp; Hazırlayanlar</string>

@@ -27,12 +27,12 @@
   <string name="account_type_ccard">Carte de crédit</string>
   <string name="account_type_asset">Compte d\'actif</string>
   <string name="account_type_liability">Compte de passif</string>
+  <string name="already_defined">%1$s existe</string>
   <string name="amount">Montant</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">La sauvegarde sur carte SD a échoué.</string>
   <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur la carte SD.</string>
   <string name="category">Catégorie</string>
-  <string name="category_already_defined">La catégorie %1$s existe</string>
   <string name="color">Couleur</string>
   <string name="comment">Remarques</string>
   <string name="contrib_feature_accounts_unlimited_description">Le nombre de comptes que vous pouvez créer avec &lt;i>&app_name;&lt;/i> est limité à 5.</string>
@@ -242,7 +242,7 @@
   <string name="pref_manage_methods_title">Méthodes de paiement</string>
   <string name="pref_manage_methods_summary">Créer, modifier les méthodes de paiement et les associer aux types de comptes.</string>
   <string name="pref_manage_parties_title">Tiers</string>
-  <string name="pref_manage_parties_summary">Effacer les tiers.</string>
+  <string name="pref_manage_parties_summary">Ajouter, éditer, supprimer les tiers.</string>
   <string name="pref_manage_templates_title">Modèles</string>
   <string name="pref_manage_templates_summary">Appliquer ou supprimer les modèles.</string>
   <string name="pref_more_info_dialog_title">Licence &amp; Générique</string>

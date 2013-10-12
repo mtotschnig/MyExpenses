@@ -27,12 +27,12 @@
   <string name="account_type_ccard">Kreditkarte</string>
   <string name="account_type_asset">Anlagekonto</string>
   <string name="account_type_liability">Kreditkonto</string>
+  <string name="already_defined">%1$s existiert bereits</string>
   <string name="amount">Betrag</string>
   <string name="app_name">&app_name;</string>
   <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
   <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der SD-Karte gesichert.</string>
   <string name="category">Kategorie</string>
-  <string name="category_already_defined">Kategorie %1$s existiert bereits</string>
   <string name="color">Farbe</string>
   <string name="comment">Notizen</string>
   <string name="contrib_feature_accounts_unlimited_description">Mit &lt;i>&app_name;&lt;/i> können Sie bis zu 5 Konten anlegen.</string>
@@ -241,7 +241,7 @@
   <string name="pref_manage_methods_title">Zahlungsweisen</string>
   <string name="pref_manage_methods_summary">Zahlungsweisen hinzufügen und verändern, und diese mit Kontotypen verknüpfen.</string>
   <string name="pref_manage_parties_title">Parteien</string>
-  <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) löschen.</string>
+  <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) hinzufügen, editieren und löschen.</string>
   <string name="pref_manage_templates_title">Vorlagen</string>
   <string name="pref_manage_templates_summary">Vorlagen anwenden oder löschen.</string>
   <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>

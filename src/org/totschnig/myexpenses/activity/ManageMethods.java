@@ -62,6 +62,7 @@ public class ManageMethods extends ProtectedFragmentActivity implements OnItemCl
     if (command == R.id.CREATE_COMMAND) {
       Intent i = new Intent(this, MethodEdit.class);
       startActivity(i);
+      return true;
     }
     return super.dispatchCommand(command, tag);
    }

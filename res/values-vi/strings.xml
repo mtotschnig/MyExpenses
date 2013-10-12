@@ -21,11 +21,11 @@
   <string name="account_type_ccard">Thẻ tín dụng</string>
   <string name="account_type_asset">Tài khoản tài sản</string>
   <string name="account_type_liability">Nợ phải trả</string>
+  <string name="already_defined">%1$s đã được xác định</string>
   <string name="amount">Số lượng</string>
   <string name="app_name">Chi Tiêu Của Tôi</string>
   <string name="backup_failure">Xảy ra lỗi khi sao lưu vào thẻ nhớ.</string>
   <string name="backup_success">Đã ghi dữ liệu về cơ sở dữ liệu và tùy biến thành công vào thẻ nhớ.</string>
-  <string name="category_already_defined">Phân loại %1$s đã được xác định</string>
   <string name="category">Phân loại</string>
   <string name="color">Màu sắc</string>
   <string name="comment">Ghi chú</string>
@@ -238,7 +238,7 @@
   <string name="pref_manage_methods_title">Phương thức chi trả</string>
   <string name="pref_manage_methods_summary">Tạo và chỉnh sửa phương thức chi trả và gắn phương thức này với các loại tài khoản.</string>
   <string name="pref_manage_parties_title">Các nhóm</string>
-  <string name="pref_manage_parties_summary">Xóa các nhóm (người trả và người được trả).</string>
+  <string name="pref_manage_parties_summary">Thêm, chỉnh sửa, xóa các nhóm (người trả và người được trả).</string>
   <string name="pref_manage_templates_title">Mẫu</string>
   <string name="pref_manage_templates_summary">Áp dụng hoặc xóa các mẫu.</string>
   <string name="pref_more_info_dialog_title">Giấy phép &amp; Quà Tặng</string>

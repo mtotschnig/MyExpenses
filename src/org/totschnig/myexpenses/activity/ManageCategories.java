@@ -114,7 +114,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       case R.id.GROUPING_COMMAND:
         SelectGroupingDialogFragment.newInstance(R.id.GROUPING_COMMAND_DO,f.mGrouping.ordinal())
           .show(getSupportFragmentManager(), "SELECT_GROUPING");
-      return true;
+        return true;
       case R.id.GROUPING_COMMAND_DO:
         f.setGrouping(Account.Grouping.values()[(Integer)tag]);
         return true;
@@ -266,7 +266,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         success = Category.create(value,parentId) != -1;
       }
       if (!success) {
-          Toast.makeText(ManageCategories.this,getString(R.string.category_already_defined, value), Toast.LENGTH_LONG).show();
+          Toast.makeText(ManageCategories.this,getString(R.string.already_defined, value), Toast.LENGTH_LONG).show();
         }
     }
 }
