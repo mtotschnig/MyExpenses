@@ -245,7 +245,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       i.putExtra(KEY_ROWID, mTransaction.id);
       i.putExtra("transferEnabled",ctx.mTransferEnabled);
       //i.putExtra("operationType", operationType);
-      startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
+      ctx.startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
     }
   }
   @Override
