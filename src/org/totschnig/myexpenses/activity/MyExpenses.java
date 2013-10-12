@@ -671,9 +671,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       .commit();
       break;
     case R.id.NEW_FROM_TEMPLATE_COMMAND:
-      Transaction.getInstanceFromTemplate(args.getLong("result")).save();
+      getSupportFragmentManager().beginTransaction()
+      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
+          args.getLong("result"), null), "TOGGLE_TASK")
+      .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
+      .commit();
     }
-    configButtons();
   }
   @Override
   public Cursor getCursor(int cursorId,String fragmentCallbackTag) {

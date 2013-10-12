@@ -49,6 +49,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_DELETE_TEMPLATE = 10;
   public static final int TASK_TOGGLE_CRSTATUS = 11;
   public static final int TASK_MOVE = 12;
+  public static final int TASK_NEW_FROM_TEMPLATE = 13;
   
   /**
    * Callback interface through which the fragment will report the
@@ -154,6 +155,9 @@ public class TaskExecutionFragment extends Fragment {
         return Template.getInstanceFromDb(id[0]);
       case TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
         return Transaction.getInstanceFromTemplate(id[0]);
+      case TASK_NEW_FROM_TEMPLATE:
+        Transaction.getInstanceFromTemplate(id[0]).save();
+        return null;
       case TASK_REQUIRE_ACCOUNT:
         Account account = new Account(
             getString(R.string.app_name),
