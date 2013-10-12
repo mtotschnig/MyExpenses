@@ -25,12 +25,10 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
@@ -67,8 +65,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -253,14 +249,12 @@ public class TransactionList extends BudgetListFragment implements
       if (checkSplitPartTransfer(info.position)) {
         fm.beginTransaction()
           .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,info.id, null), "DELETE_TASK")
-          .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
           .commit();
       }
       return true;
     case R.id.CLONE_TRANSACTION_COMMAND:
       fm.beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,info.id, null), "CLONE_TASK")
-        .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
         .commit();
       return true;
     case R.id.MOVE_TRANSACTION_COMMAND:
