@@ -271,8 +271,7 @@ public class Transaction extends Model {
         cr().update(
             TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).appendPath("increaseUsage").build(),
             null, null, null);
-    }
-    else {
+    } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
       cr().update(uri,initialValues,null,null);
     }
@@ -293,8 +292,6 @@ public class Transaction extends Model {
   public static void move(long whichTransactionId, long whereAccountId) {
     ContentValues args = new ContentValues();
     args.put(KEY_ACCOUNTID, whereAccountId);
-    //we verify that a transfer can not be moved to the account it transfers to
-    //IS NOT instead of != accepts cases where transfer_account is null
     cr().update(Uri.parse(CONTENT_URI + "/" + whichTransactionId + "/move/" + whereAccountId), null,null,null);
   }
   public static int count(Uri uri,String selection,String[] selectionArgs) {
