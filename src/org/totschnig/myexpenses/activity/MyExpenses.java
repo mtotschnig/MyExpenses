@@ -723,6 +723,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public void toggleCrStatus (View v) {
     getSupportFragmentManager().beginTransaction()
       .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,(Long) v.getTag(), null), "TOGGLE_TASK")
+      .add(ProgressDialogFragment.newInstance(0),"PROGRESS")
       .commit();
   }
 }
