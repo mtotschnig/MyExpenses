@@ -664,7 +664,7 @@ public class GrisbiImport extends ProtectedFragmentActivityNoSherlock implements
   public static int importParties( ArrayList<String> partiesList, MyAsyncTask task) {
     int total = 0;
     for (int i=0;i<partiesList.size();i++){
-      if (Payee.create(partiesList.get(i)) != -1) {
+      if (Payee.write(0L, partiesList.get(i)) != -1) {
         total++;
       }
       if (task != null && i % 10 == 0) {

@@ -241,13 +241,14 @@ public class Transaction extends Model {
   }
   /**
    * Saves the transaction, creating it new if necessary
-   * as a side effect calls {@link Payee#create(String)}
+   * as a side effect calls {@link Payee#create(long, String)}
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
   public Uri save() {
     Uri uri;
     if (payee != null && !payee.equals("")) {
-      Payee.create(payee);
+      //TODO should probably normalize payee table and link by id 
+      Payee.write(0L, payee);
     }
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);

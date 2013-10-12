@@ -20,8 +20,10 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Payee;
 
 import com.actionbarsherlock.view.Menu;
@@ -29,6 +31,7 @@ import com.actionbarsherlock.view.MenuInflater;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.ContextMenu;
@@ -40,9 +43,10 @@ import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class ManageParties extends ProtectedFragmentActivity implements
-    EditTextDialogListener{
+    EditTextDialogListener, DbWriteFragment.TaskCallbacks{
   Cursor mPartiesCursor;
   Button mDeleteButton;
+  Payee mParty;
 
   
   @Override
@@ -100,14 +104,18 @@ public class ManageParties extends ProtectedFragmentActivity implements
   }
   @Override
   public void onFinishEditDialog(Bundle args) {
-    Long partyId;
-    String value = args.getString("result");
-    boolean success;
-    if ((partyId = args.getLong("partyId")) != 0L)
-      success = Payee.update(value,partyId) != -1;
-    else
-      success = Payee.create(value) != -1;
-    if (!success)
-      Toast.makeText(ManageParties.this,getString(R.string.already_defined, value), Toast.LENGTH_LONG).show();
+    mParty = new Payee(args.getLong("partyId"),args.getString("result"));
+    getSupportFragmentManager().beginTransaction()
+    .add(DbWriteFragment.newInstance(), "SAVE_TASK")
+    .commit();
+  }
+  @Override
+  public void onPostExecute(Uri result) {
+    if (result == null)
+      Toast.makeText(ManageParties.this,getString(R.string.already_defined, mParty.name), Toast.LENGTH_LONG).show();
+  }
+  @Override
+  public Model getObject() {
+    return mParty;
   }
 }

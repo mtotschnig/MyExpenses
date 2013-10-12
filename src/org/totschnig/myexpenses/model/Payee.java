@@ -24,42 +24,49 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 
 public class Payee extends Model {
+  public Long id;
+  public String name;
+  public Payee(Long id, String name) {
+    this.id = id;
+    this.name = name;
+  }
   public static final String[] PROJECTION = new String[] {KEY_ROWID, "name"};
   public static final Uri CONTENT_URI = TransactionProvider.PAYEES_URI;
   /**
    * inserts a new payee if it does not exist yet
+   * @param id TODO
    * @param name
    * @return id of new record, or -1, if it already exists
    */
-  public static long create(String name) {
-    ContentValues initialValues = new ContentValues();
-    initialValues.put("name", name);
-    Uri uri;
-    try {
-      uri = cr().insert(CONTENT_URI, initialValues);
-    } catch (SQLiteConstraintException e) {
-      return -1;
-    }
-    return Integer.valueOf(uri.getLastPathSegment());
+  public static long write(long id, String name) {
+    Uri uri = new Payee(id,name).save();
+    return uri == null ? -1 : Integer.valueOf(uri.getLastPathSegment());
   }
   public static boolean delete(long id) {
     return cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null) > 0;
   }
-  public static long update(String value, Long id) {
-    ContentValues args = new ContentValues();
-    args.put("name", value);
-    try {
-      return cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
-          args, null, null);
-    } catch (SQLiteConstraintException e) {
-      // TODO Auto-generated catch block
-      return -1;
-    }
-  }
   @Override
   public Uri save() {
-    // TODO Auto-generated method stub
-    return null;
+    ContentValues initialValues = new ContentValues();
+    initialValues.put("name", name);
+    Uri uri;
+    if (id == 0) {
+      try {
+        uri = cr().insert(CONTENT_URI, initialValues);
+      } catch (SQLiteConstraintException e) {
+        uri = null;
+      }
+    } else {
+      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+      try {
+        cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+            initialValues, null, null);
+      } catch (SQLiteConstraintException e) {
+        // TODO Auto-generated catch block
+        uri = null;
+      }
+    }
+    return uri;
   }
 }
