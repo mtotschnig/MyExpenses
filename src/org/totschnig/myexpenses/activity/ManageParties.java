@@ -75,34 +75,6 @@ public class ManageParties extends ProtectedFragmentActivity implements
     return super.dispatchCommand(command, tag);
    }
   @Override
-  public void onCreateContextMenu(ContextMenu menu, View v,
-      ContextMenuInfo menuInfo) {
-    super.onCreateContextMenu(menu, v, menuInfo);
-    menu.add(0, R.id.EDIT_COMMAND, 0, R.string.menu_edit_party);
-    menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
-  }
-
-  @Override
-  public boolean onContextItemSelected(android.view.MenuItem item) {
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    switch(item.getItemId()) {
-    case R.id.DELETE_COMMAND:
-      FragmentManager fm = getSupportFragmentManager();
-      fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_PAYEE,info.id, null), "DELETE_TASK")
-        .commit();
-      return true;
-    case R.id.EDIT_COMMAND:
-      Bundle args = new Bundle();
-      args.putLong("partyId", info.id);
-      args.putString("dialogTitle", getString(R.string.menu_edit_party));
-      args.putString("value",((TextView) info.targetView.findViewById(android.R.id.text1)).getText().toString());
-      EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "EDIT_PARTY");
-      return true;
-    }
-    return super.onContextItemSelected(item);
-  }
-  @Override
   public void onFinishEditDialog(Bundle args) {
     mParty = new Payee(args.getLong("partyId"),args.getString("result"));
     getSupportFragmentManager().beginTransaction()

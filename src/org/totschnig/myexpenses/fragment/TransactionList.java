@@ -319,7 +319,7 @@ public class TransactionList extends BudgetListFragment implements
         columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
         columnIndexComment = c.getColumnIndex(KEY_COMMENT);
-        columnIndexPayee = c.getColumnIndex(KEY_PAYEE);
+        columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
         columnIndexCrStatus = c.getColumnIndex(KEY_CR_STATUS);
         indexesCalculated = true;
       }

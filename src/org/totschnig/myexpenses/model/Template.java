@@ -63,7 +63,7 @@ public class Template extends Transaction {
   }
   public static Template getInstanceFromDb(long id) throws DataObjectNotFoundException {
     String[] projection = new String[] {KEY_ROWID,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
-        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,KEY_TITLE};
+        SHORT_LABEL,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,KEY_TITLE};
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
     if (c == null || c.getCount() == 0) {
@@ -78,7 +78,7 @@ public class Template extends Transaction {
     } else {
       t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
       t.catId = DbUtils.getLongOrNull(c, KEY_CATID);
-      t.payee = DbUtils.getString(c,KEY_PAYEE);
+      t.payee = DbUtils.getString(c,KEY_PAYEE_NAME);
     }
     t.id = id;
     t.comment = DbUtils.getString(c,KEY_COMMENT);
@@ -93,12 +93,14 @@ public class Template extends Transaction {
    */
   public Uri save() {
     Uri uri;
+    Long payee_id = (payee != null && !payee.equals("")) ?
+        Payee.require(payee) : null;
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
     initialValues.put(KEY_CATID, catId);
     initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
-    initialValues.put(KEY_PAYEE, payee);
+    initialValues.put(KEY_PAYEEID, payee_id);
     initialValues.put(KEY_METHODID, methodId);
     initialValues.put(KEY_TITLE, title);
     if (id == 0) {

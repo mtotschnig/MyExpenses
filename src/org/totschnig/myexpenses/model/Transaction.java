@@ -58,7 +58,7 @@ public class Transaction extends Model {
    */
   public int status = 0;
   public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
-    KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_METHODID,KEY_CR_STATUS,
+    KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_METHODID,KEY_CR_STATUS,
     YEAR + " AS year",YEAR_OF_WEEK_START + " AS year_of_week_start",MONTH + " AS month",WEEK + " AS week",DAY + " AS day",
     THIS_YEAR + " AS this_year",THIS_YEAR_OF_WEEK_START + " AS this_year_of_week_start",
     THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day",WEEK_RANGE+ " AS week_range" };
@@ -105,7 +105,7 @@ public class Transaction extends Model {
   public static Transaction getInstanceFromDb(long id) throws DataObjectNotFoundException  {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
-        SHORT_LABEL,KEY_PAYEE,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,
+        SHORT_LABEL,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,
         KEY_PARENTID,KEY_CR_STATUS};
 
     Cursor c = cr().query(
@@ -136,7 +136,7 @@ public class Transaction extends Model {
     }
     t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
     t.catId = catId;
-    t.payee = DbUtils.getString(c,KEY_PAYEE);
+    t.payee = DbUtils.getString(c,KEY_PAYEE_NAME);
     t.transfer_peer = transfer_peer;
     t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
     t.id = id;
@@ -246,16 +246,14 @@ public class Transaction extends Model {
    */
   public Uri save() {
     Uri uri;
-    if (payee != null && !payee.equals("")) {
-      //TODO should probably normalize payee table and link by id 
-      Payee.write(0L, payee);
-    }
+    Long payee_id = (payee != null && !payee.equals("")) ?
+      Payee.require(payee) : null;
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
     initialValues.put(KEY_DATE, dateAsString);
     initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
     initialValues.put(KEY_CATID, catId);
-    initialValues.put(KEY_PAYEE, payee);
+    initialValues.put(KEY_PAYEEID, payee_id);
     initialValues.put(KEY_METHODID, methodId);
     initialValues.put(KEY_CR_STATUS,crStatus.name());
     if (id == 0) {

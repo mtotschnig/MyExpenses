@@ -33,7 +33,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 35;
+  public static final int DATABASE_VERSION = 36;
   public static final String DATABASE_NAME = "data";
 
   private static final String TAG = "TransactionDatabase";
@@ -56,7 +56,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     + KEY_AMOUNT           + " integer not null, "
     + KEY_CATID            + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
     + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
-    + KEY_PAYEE            + " text, "
+    + KEY_PAYEEID          + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + "), "
     + KEY_TRANSFER_PEER    + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + "), "
     + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
     + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "),"
@@ -64,6 +64,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     + KEY_STATUS           + " integer default 0, "
     + KEY_CR_STATUS        + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" +  Transaction.CrStatus.RECONCILED.name() + "');";
 
+  private static final String VIEW_DEFINITION(String tableName) {
+      return " AS SELECT " +
+          tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME +
+      " FROM " + tableName +
+      " LEFT JOIN " + TABLE_PAYEES + " ON " + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID;
+  }
   /**
    * SQL statement for accounts TABLE
    */
@@ -117,7 +123,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_AMOUNT           + " integer not null, "
       + KEY_CATID            + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
       + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
-      + KEY_PAYEE            + " text, "
+      + KEY_PAYEEID          + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + "), "
       + KEY_TRANSFER_PEER    + " boolean default false, "
       + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
       + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "), "
@@ -157,17 +163,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   @Override
   public void onCreate(SQLiteDatabase db) {
     db.execSQL(DATABASE_CREATE);
-    db.execSQL("CREATE VIEW " + VIEW_COMMITTED + " AS SELECT * FROM "
-        + TABLE_TRANSACTIONS + " WHERE status != " + STATUS_UNCOMMITTED + ";");
-    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + " AS SELECT * FROM "
-        + TABLE_TRANSACTIONS + " WHERE status = " + STATUS_UNCOMMITTED + ";");
+    db.execSQL(PAYEE_CREATE);
+    String viewTransactions = VIEW_DEFINITION(TABLE_TRANSACTIONS);
+    db.execSQL("CREATE VIEW " + VIEW_COMMITTED   + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
+    db.execSQL("CREATE VIEW " + VIEW_ALL + viewTransactions);
+    db.execSQL(TEMPLATE_CREATE);
+    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES +  VIEW_DEFINITION(TABLE_TEMPLATES));
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
-    db.execSQL(PAYEE_CREATE);
     db.execSQL(PAYMENT_METHODS_CREATE);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
     insertDefaultPaymentMethods(db);
-    db.execSQL(TEMPLATE_CREATE);
     db.execSQL(FEATURE_USED_CREATE);
     //category for splits needed to honour foreign constraint
     ContentValues initialValues = new ContentValues();
@@ -196,6 +203,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     }
   }
 
+  /*
+  * in onUpgrade, we can not rely on the constants, since we need the statements to be executed as defined
+  * as is
+  * if we would use the constants, and they change in the future, we would no longer have the same upgrade
+  * and this can lead to bugs, if a later upgrade relies on column names as defined earlier,
+  * and a user upgrading several versions at once would get a broken upgrade process
+  */
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
@@ -368,6 +382,91 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     }
     if (oldVersion < 35) {
       db.execSQL("ALTER TABLE transactions add column cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED')) default 'UNRECONCILED'");
+    }
+    if (oldVersion < 35) {
+      db.execSQL("ALTER TABLE transactions add column cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED')) default 'UNRECONCILED'");
+    }
+    if (oldVersion < 36) {
+      //move payee field in transactions from text to foreign key
+      db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
+      db.execSQL("CREATE TABLE transactions (" +
+          " _id integer primary key autoincrement," +
+          " comment text, date DATETIME not null," +
+          " amount integer not null," +
+          " cat_id integer references categories(_id)," +
+          " account_id integer not null references accounts(_id)," +
+          " payee_id integer references payee(_id)," +
+          " transfer_peer integer references transactions(_id)," +
+          " transfer_account integer references accounts(_id)," +
+          " method_id integer references paymentmethods(_id)," +
+          " parent_id integer references transactions(_id)," +
+          " status integer default 0," +
+          " cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED')) default 'RECONCILED')");
+      //insert all payees that are stored in transactions, but are not in payee
+      db.execSQL("INSERT INTO payee (name) SELECT payee FROM transactions_old WHERE payee != '' AND NOT exists (SELECT 1 FROM payee WHERE name=transactions_old.payee)");
+      db.execSQL("INSERT INTO transactions " +
+          "(_id,comment,date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status) " +
+          "SELECT " +
+            "_id, " +
+            "comment, " +
+            "date, " +
+            "amount, "+
+            "CASE WHEN cat_id THEN cat_id ELSE null END, " +
+            "account_id, " +
+            "(SELECT _id from payee WHERE name = payee), " +
+            "CASE WHEN transfer_peer THEN transfer_peer ELSE null END, " +
+            "CASE WHEN transfer_account THEN transfer_account ELSE null END, " +
+            "CASE WHEN method_id THEN method_id ELSE null END," +
+            "CASE WHEN parent_id THEN parent_id ELSE null END," +
+            "status," +
+            "cr_status " +
+          "FROM transactions_old");
+      db.execSQL("DROP TABLE transactions_old");
+      
+      //move payee field in templates from text to foreign key
+      db.execSQL("ALTER TABLE templates RENAME to templates_old");
+      db.execSQL("CREATE TABLE templates (" +
+          " _id integer primary key autoincrement," +
+          " comment text, date DATETIME not null," +
+          " amount integer not null," +
+          " cat_id integer references categories(_id)," +
+          " account_id integer not null references accounts(_id)," +
+          " payee_id integer references payee(_id)," +
+          " transfer_peer integer references transactions(_id)," +
+          " transfer_account integer references accounts(_id)," +
+          " method_id integer references paymentmethods(_id)," +
+          " title text not null," +
+          " usages integer default 0," +
+          " unique(account_id,title));");
+      //insert all payees that are stored in templates, but are not in payee
+      db.execSQL("INSERT INTO payee (name) SELECT payee FROM templates_old WHERE payee != '' AND NOT exists (SELECT 1 FROM payee WHERE name=templates_old.payee)");
+      db.execSQL("INSERT INTO templates " +
+          "(_id,comment,date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,title,usages) " +
+          "SELECT " +
+            "_id, " +
+            "comment, " +
+            "date, " +
+            "amount, "+
+            "CASE WHEN cat_id THEN cat_id ELSE null END, " +
+            "account_id, " +
+            "(SELECT _id from payee WHERE name = payee), " +
+            "CASE WHEN transfer_peer THEN transfer_peer ELSE null END, " +
+            "CASE WHEN transfer_account THEN transfer_account ELSE null END, " +
+            "CASE WHEN method_id THEN method_id ELSE null END," +
+            "title," +
+            "usages " +
+          "FROM templates_old");
+      db.execSQL("DROP TABLE templates_old");
+
+      db.execSQL("DROP VIEW committed");
+      db.execSQL("DROP VIEW uncommitted");
+      //for the definition of the view, it is safe to rely on the constants,
+      //since we will not alter the view, but drop it, and recreate it, if needed
+      String viewTransactions = VIEW_DEFINITION(TABLE_TRANSACTIONS);
+      db.execSQL("CREATE VIEW transactions_committed "  + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+      db.execSQL("CREATE VIEW transactions_uncommitted" + viewTransactions + " WHERE " + KEY_STATUS +  " = " + STATUS_UNCOMMITTED + ";");
+      db.execSQL("CREATE VIEW transactions_all" + viewTransactions);
+      db.execSQL("CREATE VIEW templates_all" +  VIEW_DEFINITION(TABLE_TEMPLATES));
     }
   }
 }

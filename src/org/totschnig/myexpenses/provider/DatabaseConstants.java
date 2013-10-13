@@ -22,7 +22,7 @@ public class DatabaseConstants {
   public static final String KEY_ROWID = "_id";
   public static final String KEY_CATID = "cat_id";
   public static final String KEY_ACCOUNTID = "account_id";
-  public static final String KEY_PAYEE = "payee";
+  public static final String KEY_PAYEEID = "payee_id";
   public static final String KEY_TRANSFER_PEER = "transfer_peer";
   public static final String KEY_METHODID = "method_id";
   public static final String KEY_TITLE = "title";
@@ -38,6 +38,7 @@ public class DatabaseConstants {
   public static final String KEY_PARENTID = "parent_id";
   public static final String KEY_TRANSFER_ACCOUNT = "transfer_account";
   public static final String KEY_STATUS = "status";
+  public static final String KEY_PAYEE_NAME = "name";
   public static final String KEY_TRANSACTIONID = "transaction_id";
   public static final String KEY_GROUPING = "grouping";
   public static final String KEY_CR_STATUS = "cr_status";
@@ -58,8 +59,10 @@ public class DatabaseConstants {
   public static final String TABLE_TEMPLATES = "templates";
   public static final String TABLE_PAYEES = "payee";
   public static final String TABLE_FEATURE_USED = "feature_used";
-  public static final String VIEW_COMMITTED = "committed";
-  public static final String VIEW_UNCOMMITTED = "uncommitted";
+  public static final String VIEW_COMMITTED = "transactions_committed";
+  public static final String VIEW_UNCOMMITTED = "transactions_uncommitted";
+  public static final String VIEW_ALL = "transactions_all";
+  public static final String VIEW_TEMPLATES = "templates_all";
 
   /**
    * an SQL CASE expression for transactions

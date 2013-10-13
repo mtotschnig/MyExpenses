@@ -34,7 +34,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class TransactionProvider extends ContentProvider {
 
   protected static TransactionDatabase mOpenHelper;
-  private static final boolean debug = false;
+  private static final boolean debug = true;
   public static final String AUTHORITY = "org.totschnig.myexpenses";
   public static final Uri ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts");
@@ -121,7 +121,7 @@ public class TransactionProvider extends ContentProvider {
         projection = Transaction.PROJECTION;
       break;
     case TRANSACTION_ID:
-      qb.setTables(TABLE_TRANSACTIONS);
+      qb.setTables(VIEW_ALL);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
     case TRANSACTIONS_SUMS:
@@ -259,14 +259,14 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(TABLE_ACCOUNTTYES_METHODS);
       break;
     case TEMPLATES:
-      qb.setTables(TABLE_TEMPLATES);
+      qb.setTables(VIEW_TEMPLATES);
       defaultOrderBy = (MyApplication.getInstance().getSettings()
           .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
               KEY_USAGES + " DESC, " : "")
          + KEY_TITLE;
       break;
     case TEMPLATES_ID:
-      qb.setTables(TABLE_TEMPLATES);
+      qb.setTables(VIEW_TEMPLATES);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
     case FEATURE_USED:

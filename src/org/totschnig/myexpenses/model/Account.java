@@ -595,7 +595,7 @@ public class Account extends Model {
           }
         }
       }
-      String payee = DbUtils.getString(c, KEY_PAYEE);
+      String payee = DbUtils.getString(c, KEY_PAYEE_NAME);
       String dateStr = formatter.format(Utils.fromSQL(c.getString(
           c.getColumnIndexOrThrow(KEY_DATE))));
       long amount = c.getLong(
