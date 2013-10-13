@@ -119,7 +119,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String TEMPLATE_CREATE =
       "CREATE TABLE " + TABLE_TEMPLATES + " ( "
       + KEY_ROWID            + " integer primary key autoincrement, "
-      + KEY_COMMENT          + " text not null, "
+      + KEY_COMMENT          + " text, "
       + KEY_AMOUNT           + " integer not null, "
       + KEY_CATID            + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
       + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
@@ -383,9 +383,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 35) {
       db.execSQL("ALTER TABLE transactions add column cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED')) default 'UNRECONCILED'");
     }
-    if (oldVersion < 35) {
-      db.execSQL("ALTER TABLE transactions add column cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED')) default 'UNRECONCILED'");
-    }
     if (oldVersion < 36) {
       //move payee field in transactions from text to foreign key
       db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
@@ -403,7 +400,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           " status integer default 0," +
           " cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED')) default 'RECONCILED')");
       //insert all payees that are stored in transactions, but are not in payee
-      db.execSQL("INSERT INTO payee (name) SELECT payee FROM transactions_old WHERE payee != '' AND NOT exists (SELECT 1 FROM payee WHERE name=transactions_old.payee)");
+      db.execSQL("INSERT INTO payee (name) SELECT DISTINCT payee FROM transactions_old WHERE payee != '' AND NOT exists (SELECT 1 FROM payee WHERE name=transactions_old.payee)");
       db.execSQL("INSERT INTO transactions " +
           "(_id,comment,date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status) " +
           "SELECT " +
@@ -411,13 +408,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "comment, " +
             "date, " +
             "amount, "+
-            "CASE WHEN cat_id THEN cat_id ELSE null END, " +
+            "cat_id, " +
             "account_id, " +
             "(SELECT _id from payee WHERE name = payee), " +
-            "CASE WHEN transfer_peer THEN transfer_peer ELSE null END, " +
-            "CASE WHEN transfer_account THEN transfer_account ELSE null END, " +
-            "CASE WHEN method_id THEN method_id ELSE null END," +
-            "CASE WHEN parent_id THEN parent_id ELSE null END," +
+            "transfer_peer, " +
+            "transfer_account, " +
+            "method_id," +
+            "parent_id," +
             "status," +
             "cr_status " +
           "FROM transactions_old");
@@ -427,32 +424,31 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("ALTER TABLE templates RENAME to templates_old");
       db.execSQL("CREATE TABLE templates (" +
           " _id integer primary key autoincrement," +
-          " comment text, date DATETIME not null," +
+          " comment text," +
           " amount integer not null," +
           " cat_id integer references categories(_id)," +
           " account_id integer not null references accounts(_id)," +
           " payee_id integer references payee(_id)," +
-          " transfer_peer integer references transactions(_id)," +
+          " transfer_peer boolean default false," +
           " transfer_account integer references accounts(_id)," +
           " method_id integer references paymentmethods(_id)," +
           " title text not null," +
           " usages integer default 0," +
           " unique(account_id,title));");
       //insert all payees that are stored in templates, but are not in payee
-      db.execSQL("INSERT INTO payee (name) SELECT payee FROM templates_old WHERE payee != '' AND NOT exists (SELECT 1 FROM payee WHERE name=templates_old.payee)");
+      db.execSQL("INSERT INTO payee (name) SELECT DISTINCT payee FROM templates_old WHERE payee != '' AND NOT exists (SELECT 1 FROM payee WHERE name=templates_old.payee)");
       db.execSQL("INSERT INTO templates " +
-          "(_id,comment,date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,title,usages) " +
+          "(_id,comment,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,title,usages) " +
           "SELECT " +
             "_id, " +
             "comment, " +
-            "date, " +
             "amount, "+
-            "CASE WHEN cat_id THEN cat_id ELSE null END, " +
+            "cat_id, " +
             "account_id, " +
             "(SELECT _id from payee WHERE name = payee), " +
-            "CASE WHEN transfer_peer THEN transfer_peer ELSE null END, " +
-            "CASE WHEN transfer_account THEN transfer_account ELSE null END, " +
-            "CASE WHEN method_id THEN method_id ELSE null END," +
+            "transfer_peer, " +
+            "transfer_account, " +
+            "method_id," +
             "title," +
             "usages " +
           "FROM templates_old");
