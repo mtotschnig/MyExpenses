@@ -40,6 +40,7 @@ import com.actionbarsherlock.view.MenuItem;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,6 +48,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -68,7 +72,8 @@ import android.widget.Toast;
  * Activity for editing a transaction
  * @author Michael Totschnig
  */
-public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.TaskCallbacks, OnItemSelectedListener {
+public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.TaskCallbacks,
+    OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
 
   private Button mDateButton;
   private Button mTimeButton;
@@ -282,18 +287,9 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     }
     
     if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
-      //TODO cursorloader ?
-      Cursor allPayees = getContentResolver().query(TransactionProvider.PAYEES_URI,
-          null, null, null, null);
-      ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+      getSupportLoaderManager().initLoader(0, null, this);
+      mPayeeAdapter = new ArrayAdapter<String>(this,
           android.R.layout.simple_dropdown_item_1line);
-      allPayees.moveToFirst();
-      while(!allPayees.isAfterLast()) {
-           adapter.add(allPayees.getString(allPayees.getColumnIndex("name")));
-           allPayees.moveToNext();
-      }
-      allPayees.close();
-      mPayeeText.setAdapter(adapter);
     } else {
       findViewById(R.id.PayeeRow).setVisibility(View.GONE);
       View MethodContainer = findViewById(R.id.MethodRow);
@@ -433,6 +429,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       setTime();
     }
   };
+  private ArrayAdapter<String>  mPayeeAdapter;
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
@@ -893,7 +890,24 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   }
   @Override
   public Model getObject() {
-    // TODO Auto-generated method stub
     return mTransaction;
+  }
+  @Override
+  public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    return new CursorLoader(this, TransactionProvider.PAYEES_URI, null, mLabel, accountLabels, null);
+  }
+  @Override
+  public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    data.moveToFirst();
+    mPayeeAdapter.clear();
+    while(!data.isAfterLast()) {
+      mPayeeAdapter.add(data.getString(data.getColumnIndex("name")));
+      data.moveToNext();
+    }
+    mPayeeText.setAdapter(mPayeeAdapter);
+  }
+  @Override
+  public void onLoaderReset(Loader<Cursor> loader) {
+    //should not be necessary to empty the autocompletetextview
   }
 }
