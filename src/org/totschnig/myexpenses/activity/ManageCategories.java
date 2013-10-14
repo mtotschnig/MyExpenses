@@ -53,24 +53,6 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 public class ManageCategories extends ProtectedFragmentActivity implements
     OnChildClickListener, OnGroupClickListener,EditTextDialogListener,
     DbWriteFragment.TaskCallbacks {
-
-    /**
-     * create a new sub category
-     */
-    private static final int CREATE_SUB_CAT = Menu.FIRST+2;
-    /**
-     * return the main cat to the calling activity
-     */
-    private static final int SELECT_MAIN_CAT = Menu.FIRST+1;
-    /**
-     * edit the category label
-     */
-    private static final int EDIT_CAT = Menu.FIRST+3;
-    /**
-     * delete the category after checking if
-     * there are mapped transactions or subcategories
-     */
-    private static final int DELETE_CAT = Menu.FIRST+4;
     
     public enum HelpVariant {
       manage,distribution,select
@@ -127,69 +109,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       }
       return super.dispatchCommand(command, tag);
      }
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-
-          ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
-          int type = ExpandableListView
-                  .getPackedPositionType(info.packedPosition);
-
-          menu.add(0,EDIT_CAT,0,R.string.menu_edit_cat);
-          if (helpVariant.equals(HelpVariant.distribution))
-            return;
-          // Menu entries relevant only for the group
-          if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-            if (helpVariant.equals(HelpVariant.select))
-              menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
-            menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
-          }
-          menu.add(0,DELETE_CAT,0,R.string.menu_delete);
-    }
-
-    @Override
-    public boolean onContextItemSelected(android.view.MenuItem item) {
-        ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
-        int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-        long cat_id = info.id;
-/*        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-          Cursor childCursor = (Cursor) mAdapter.getChild(
-              ExpandableListView.getPackedPositionGroup(info.packedPosition),
-              ExpandableListView.getPackedPositionChild(info.packedPosition)
-          );
-          cat_id =  childCursor.getLong(childCursor.getColumnIndexOrThrow("_id"));
-        } else  {
-          cat_id = mGroupCursor.getLong(mGroupIdColumnIndex);
-        }
-        */
-        String label =   ((TextView) info.targetView.findViewById(R.id.label)).getText().toString();
-
-        switch(item.getItemId()) {
-          case SELECT_MAIN_CAT:
-            Intent intent=new Intent();
-            intent.putExtra("cat_id", cat_id);
-            intent.putExtra("label", label);
-            setResult(RESULT_OK,intent);
-            finish();
-            return true;
-          case CREATE_SUB_CAT:
-            createCat(cat_id);
-            return true;
-          case EDIT_CAT:
-            editCat(label,cat_id);
-            return true;
-          case DELETE_CAT:
-            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && Category.countSub(cat_id) > 0) {
-              Toast.makeText(this,getString(R.string.not_deletable_subcats_exists), Toast.LENGTH_LONG).show();
-            } else if (Transaction.countPerCategory(cat_id) > 0 ) {
-              Toast.makeText(this,getString(R.string.not_deletable_mapped_transactions), Toast.LENGTH_LONG).show();
-            } else if (Template.countPerCategory(cat_id) > 0 ) {
-              Toast.makeText(this,getString(R.string.not_deletable_mapped_templates), Toast.LENGTH_LONG).show();
-            } else {
-              Category.delete(cat_id);
-            }
-        }
-        return false;
-      }
 /*     (non-Javadoc)
      * return the sub cat to the calling activity
      * @see android.app.ExpandableListActivity#onChildClick(android.widget.ExpandableListView, android.view.View, int, int, long)

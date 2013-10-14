@@ -23,24 +23,31 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
+import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
@@ -55,8 +62,25 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
   private static final int CATEGORY_CURSOR = -1;
   private static final int SUM_CURSOR = -2;
   private static final int DATEINFO_CURSOR = -3;
+  /**
+   * create a new sub category
+   */
+  private static final int CREATE_SUB_CAT = Menu.FIRST+2;
+  /**
+   * return the main cat to the calling activity
+   */
+  private static final int SELECT_MAIN_CAT = Menu.FIRST+1;
+  /**
+   * edit the category label
+   */
+  private static final int EDIT_CAT = Menu.FIRST+3;
+  /**
+   * delete the category after checking if
+   * there are mapped transactions or subcategories
+   */
+  private static final int DELETE_CAT = Menu.FIRST+4;
+
   private MyExpandableListAdapter mAdapter;
-  int mGroupIdColumnIndex;
   private LoaderManager mManager;
   long mAccountId;
   private TextView incomeSumTv,expenseSumTv;
@@ -67,6 +91,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
   int thisYear,thisMonth,thisWeek,thisDay,maxValue;
 
   private Account mAccount;
+  private Cursor mGroupCursor;
   @Override
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -127,7 +152,73 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     registerForContextMenu(lv);
     return v;
   }
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+    ManageCategories ctx = (ManageCategories) getSherlockActivity();
+    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
+    int type = ExpandableListView
+            .getPackedPositionType(info.packedPosition);
 
+    menu.add(0,EDIT_CAT,0,R.string.menu_edit_cat);
+    if (ctx.helpVariant.equals(HelpVariant.distribution))
+      return;
+    // Menu entries relevant only for the group
+    if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+      if (ctx.helpVariant.equals(HelpVariant.select))
+        menu.add(0,SELECT_MAIN_CAT,0,R.string.select_parent_category);
+      menu.add(0,CREATE_SUB_CAT,0,R.string.menu_create_sub_cat);
+    }
+    menu.add(0,DELETE_CAT,0,R.string.menu_delete);
+  }
+
+  @Override
+  public boolean onContextItemSelected(android.view.MenuItem item) {
+    ManageCategories ctx = (ManageCategories) getSherlockActivity();
+    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
+    int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+    long cat_id = info.id;
+
+    String label =   ((TextView) info.targetView.findViewById(R.id.label)).getText().toString();
+
+    switch(item.getItemId()) {
+      case SELECT_MAIN_CAT:
+        Intent intent=new Intent();
+        intent.putExtra("cat_id", cat_id);
+        intent.putExtra("label", label);
+        ctx.setResult(ManageCategories.RESULT_OK,intent);
+        ctx.finish();
+        return true;
+      case CREATE_SUB_CAT:
+        ctx.createCat(cat_id);
+        return true;
+      case EDIT_CAT:
+        ctx.editCat(label,cat_id);
+        return true;
+      case DELETE_CAT:
+        Cursor c;
+        int message = 0;
+        int group = ExpandableListView.getPackedPositionGroup(info.packedPosition),
+            child = ExpandableListView.getPackedPositionChild(info.packedPosition);
+        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+          c = (Cursor) mAdapter.getChild(group,child);
+        } else  {
+          c = mGroupCursor;
+            if (c.getInt(c.getColumnIndex("child_count")) > 0)
+              message = R.string.not_deletable_subcats_exists;
+        }
+        if (message == 0 ) {
+          if (c.getInt(c.getColumnIndex("mapped_transactions")) > 0)
+            message = R.string.not_deletable_mapped_transactions;
+          else if (c.getInt(c.getColumnIndex("mapped_templates")) > 0)
+            message = R.string.not_deletable_mapped_templates;
+        }
+        if (message != 0 )
+          Toast.makeText(ctx,getString(message), Toast.LENGTH_LONG).show();
+        else
+          Category.delete(cat_id);
+    }
+    return false;
+    }
   /**
    * Mapping the categories table into the ExpandableList
    * @author Michael Totschnig
@@ -252,9 +343,22 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       else
         catFilter += " AND cat_id  = categories._id";
       selection = " AND exists (select 1 " + catFilter +")";
-      projection = new String[] {KEY_ROWID, KEY_LABEL, KEY_PARENTID,
-          "(SELECT sum(amount) " + catFilter + ") AS sum"};
+      projection = new String[] {
+          KEY_ROWID,
+          KEY_LABEL,
+          KEY_PARENTID,
+          "(SELECT sum(amount) " + catFilter + ") AS sum"
+      };
       sortOrder="abs(sum) DESC";
+    } else {
+      projection = new String[] {
+          KEY_ROWID,
+          KEY_LABEL,
+          KEY_PARENTID,
+          "(select count(*) FROM categories subtree where parent_id = categories._id) as child_count",
+          "(select count(*) FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_CATID + "=" + TABLE_CATEGORIES + "." + KEY_ROWID + ") AS mapped_transactions",
+          "(select count(*) FROM " + TABLE_TEMPLATES    + " WHERE " + KEY_CATID + "=" + TABLE_CATEGORIES + "." + KEY_ROWID + ") AS mapped_templates"
+      };
     }
     if (bundle == null) {
       selection = "parent_id is null" + selection;
@@ -291,26 +395,27 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
       if (!seen[0]) updateSum("- ",expenseSumTv,0);
       break;
     case DATEINFO_CURSOR:
-    c.moveToFirst();
-    actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
-        mGroupingYear, mGroupingSecond,c));
-    thisYear = c.getInt(c.getColumnIndex("this_year"));
-    thisMonth = c.getInt(c.getColumnIndex("this_month"));
-    thisWeek = c.getInt(c.getColumnIndex("this_week"));
-    thisDay = c.getInt(c.getColumnIndex("this_day"));
-    maxValue = c.getInt(c.getColumnIndex("max_value"));
-    Log.i("DEBUG",String.valueOf(maxValue));
-    break;
+      c.moveToFirst();
+      actionBar.setSubtitle(mGrouping.getDisplayTitle(ctx,
+          mGroupingYear, mGroupingSecond,c));
+      thisYear = c.getInt(c.getColumnIndex("this_year"));
+      thisMonth = c.getInt(c.getColumnIndex("this_month"));
+      thisWeek = c.getInt(c.getColumnIndex("this_week"));
+      thisDay = c.getInt(c.getColumnIndex("this_day"));
+      maxValue = c.getInt(c.getColumnIndex("max_value"));
+      Log.i("DEBUG",String.valueOf(maxValue));
+      break;
     case CATEGORY_CURSOR:
-    mAdapter.setGroupCursor(c);
-    if (mAccountId != 0) {
-      actionBar.setTitle(mAccount.label);
-    }
-    break;
-    default:
-    //check if group still exists
-    if (mAdapter.getGroupId(id) != 0)
-        mAdapter.setChildrenCursor(id, c);
+      mGroupCursor=c;
+      mAdapter.setGroupCursor(c);
+      if (mAccountId != 0) {
+        actionBar.setTitle(mAccount.label);
+      }
+      break;
+      default:
+      //check if group still exists
+      if (mAdapter.getGroupId(id) != 0)
+          mAdapter.setChildrenCursor(id, c);
     }
   }
   @Override
@@ -325,6 +430,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
                     + e.getMessage());
         }
     } else {
+      mGroupCursor = null;
       mAdapter.setGroupCursor(null);
     }
   }  @Override
