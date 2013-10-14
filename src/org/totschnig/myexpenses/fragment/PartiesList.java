@@ -22,10 +22,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;

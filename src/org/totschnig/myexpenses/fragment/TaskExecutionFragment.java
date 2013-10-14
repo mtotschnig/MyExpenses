@@ -17,12 +17,7 @@
 package org.totschnig.myexpenses.fragment;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Payee;
-import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.model.SplitTransaction;
-import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 
 import android.app.Activity;
@@ -50,6 +45,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_TOGGLE_CRSTATUS = 11;
   public static final int TASK_MOVE = 12;
   public static final int TASK_NEW_FROM_TEMPLATE = 13;
+  public static final int TASK_DELETE_CATEGORY = 14;
   
   /**
    * Callback interface through which the fragment will report the
@@ -177,6 +173,9 @@ public class TaskExecutionFragment extends Fragment {
         return null;
       case TASK_DELETE_PAYEE:
         Payee.delete(id[0]);
+        return null;
+      case TASK_DELETE_CATEGORY:
+        Category.delete(id[0]);
         return null;
       case TASK_DELETE_TEMPLATE:
         Template.delete(id[0]);

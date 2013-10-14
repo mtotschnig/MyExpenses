@@ -156,8 +156,7 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     ManageCategories ctx = (ManageCategories) getSherlockActivity();
     ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
-    int type = ExpandableListView
-            .getPackedPositionType(info.packedPosition);
+    int type = ExpandableListView.getPackedPositionType(info.packedPosition);
 
     menu.add(0,EDIT_CAT,0,R.string.menu_edit_cat);
     if (ctx.helpVariant.equals(HelpVariant.distribution))
@@ -215,7 +214,9 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
         if (message != 0 )
           Toast.makeText(ctx,getString(message), Toast.LENGTH_LONG).show();
         else
-          Category.delete(cat_id);
+          ctx.getSupportFragmentManager().beginTransaction()
+          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,info.id, null), "DELETE_TASK")
+          .commit();
     }
     return false;
     }
