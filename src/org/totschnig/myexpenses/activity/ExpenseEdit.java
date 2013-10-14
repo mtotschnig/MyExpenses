@@ -226,7 +226,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         mRowId = mTransaction.id;
       }
       View CategoryContainer = findViewById(R.id.CategoryRow);
-      //in Landscape there is no row for the method button
       if (CategoryContainer == null)
         CategoryContainer = findViewById(R.id.Category);
       CategoryContainer.setVisibility(View.GONE);
@@ -305,10 +304,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       public void onClick(View view) {
         mType = ! mType;
         //we need to empty payment method, since they are different for expenses and incomes
-        if (mMethodButton != null) {
-          mMethodId = null;
-          mMethodButton.setText((CharSequence) mMethodButton.getTag());
-        }
+        mMethodId = null;
+        mMethodButton.setText((CharSequence) mMethodButton.getTag());
         configureType();
       } 
     });
@@ -793,8 +790,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       mTransferAccount = null;
     if ((mMethodId = savedInstanceState.getLong("methodId")) == 0L)
       mMethodId = null;
-    else if (mMethodButton != null)
-        mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel());
+    else
+      mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel());
     configureType();
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
