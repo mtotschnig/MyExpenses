@@ -113,7 +113,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
     public void testQueriesOnTransactionUri() {
         // Defines a projection of column names to return for a query
         final String[] TEST_PROJECTION = {
-            DatabaseConstants.KEY_COMMENT, DatabaseConstants.KEY_DATE, DatabaseConstants.KEY_PAYEE
+            DatabaseConstants.KEY_COMMENT, DatabaseConstants.KEY_DATE, DatabaseConstants.KEY_PAYEEID
         };
 
         // Defines a selection column for the query. When the selection columns are passed
@@ -337,14 +337,14 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
         int dateIndex = cursor.getColumnIndex(DatabaseConstants.KEY_DATE);
         int commentIndex = cursor.getColumnIndex(DatabaseConstants.KEY_COMMENT);
         int amountIndex = cursor.getColumnIndex(DatabaseConstants.KEY_AMOUNT);
-        int payeeIndex = cursor.getColumnIndex(DatabaseConstants.KEY_PAYEE);
+        int payeeIndex = cursor.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME);
 
         // Tests each column in the returned cursor against the data that was inserted, comparing
         // the field in the NoteInfo object to the data at the column index in the cursor.
         assertEquals(transaction.comment, cursor.getString(commentIndex));
         assertEquals(transaction.date, cursor.getString(dateIndex));
         assertEquals(transaction.amount, cursor.getLong(amountIndex));
-        assertEquals(transaction.payee, cursor.getString(payeeIndex));
+        assertEquals(transaction.payeeName, cursor.getString(payeeIndex));
         // Insert subtest 2.
         // Tests that we can't insert a record whose id value already exists.
 

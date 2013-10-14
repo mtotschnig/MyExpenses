@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.provider;
 
+import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import android.content.ContentValues;
@@ -9,7 +10,8 @@ class TransactionInfo {
     String comment;
     long amount;
     String date;
-    String payee;
+    String payeeName= "N.N";
+    long payeeId;
     long accountId;
     /*
      * Constructor for a NoteInfo instance. This class helps create a note and
@@ -20,7 +22,7 @@ class TransactionInfo {
       this.comment = comment;
       this.date = date;
       this.amount = amount;
-      this.payee = "N.N.";
+      this.payeeId = Payee.require(payeeName);
       this.accountId = accountId;
     }
 
@@ -36,7 +38,7 @@ class TransactionInfo {
         v.put(DatabaseConstants.KEY_COMMENT, comment);
         v.put(DatabaseConstants.KEY_DATE, date);
         v.put(DatabaseConstants.KEY_AMOUNT, amount);
-        v.put(DatabaseConstants.KEY_PAYEE, payee);
+        v.put(DatabaseConstants.KEY_PAYEEID, payeeId);
         v.put(DatabaseConstants.KEY_ACCOUNTID, accountId);
         return v;
     }
