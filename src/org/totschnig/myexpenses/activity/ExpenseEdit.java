@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 
@@ -44,7 +45,6 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -692,8 +692,9 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       }
       mTransaction.transfer_account = mTransferAccount;
     }
-    //EditActivity.saveState calls DbWriteFragment
-    super.saveState();
+    getSupportFragmentManager().beginTransaction()
+    .add(DbWriteFragment.newInstance(true), "SAVE_TASK")
+    .commit();
   }
   /* (non-Javadoc)
    * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
@@ -848,7 +849,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     // TODO Auto-generated method stub    
   }
   @Override
-  public void onPostExecute(Uri result) {
+  public void onPostExecute(Object result) {
     if (result == null && mTransaction instanceof Template)
       //for the moment, the only case where we will not get an URI back is
       //if the unique constraint for template titles is violated
@@ -863,8 +864,12 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
             R.string.menu_create_transaction : R.string.menu_create_transfer);
         mAmountText.setText("");
         Toast.makeText(this,getString(R.string.save_transaction_and_new_success),Toast.LENGTH_SHORT).show();
-      } else
-        super.onPostExecute(result);
+      } else {
+        Intent intent=new Intent();
+        intent.putExtra("sequence_count", (Long) result);
+        setResult(RESULT_OK,intent);
+        finish();
+      }
     }
   }
   @Override

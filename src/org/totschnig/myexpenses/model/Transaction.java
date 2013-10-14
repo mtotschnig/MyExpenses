@@ -333,13 +333,13 @@ public class Transaction extends Model {
   /**
    * @return the number of transactions that have been created since creation of the db based on sqllite sequence
    */
-  public static long getTransactionSequence() {
+  public static Long getSequenceCount() {
     Cursor mCursor = cr().query(TransactionProvider.SQLITE_SEQUENCE_TRANSACTIONS_URI,
         null, null, null, null);
     if (mCursor.getCount() == 0)
-      return 0;
+      return 0L;
     mCursor.moveToFirst();
-    int result = mCursor.getInt(0);
+    Long result = mCursor.getLong(0);
     mCursor.close();
     return result;
   }

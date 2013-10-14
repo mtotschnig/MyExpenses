@@ -29,7 +29,6 @@ import com.actionbarsherlock.view.MenuInflater;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -175,11 +174,11 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
   }
   protected void saveState() {
     getSupportFragmentManager().beginTransaction()
-    .add(DbWriteFragment.newInstance(), "SAVE_TASK")
+    .add(DbWriteFragment.newInstance(false), "SAVE_TASK")
     .commit();
   }
   @Override
-  public void onPostExecute(Uri result) {
+  public void onPostExecute(Object result) {
     setResult(RESULT_OK);
     finish();
   }

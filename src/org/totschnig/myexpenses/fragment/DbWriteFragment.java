@@ -16,15 +16,8 @@
 
 package org.totschnig.myexpenses.fragment;
 
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Payee;
-import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.model.SplitTransaction;
-import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.Transaction.CrStatus;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -35,8 +28,12 @@ import android.support.v4.app.Fragment;
 /**
  * This Fragment manages a single background task and retains
  * itself across configuration changes.
- * It handles several task that each operate on a single
- * db object identified by its row id
+ * It handles saving model objects to the database
+ * It calls getObject on its callback to retrieve the object
+ * and calls save on the Object
+ * it can return either the uri for the new object
+ * or the number of stored objects in the db for the Model
+ * the later is only implemented for transactions
  */
 public class DbWriteFragment extends Fragment {
   public static final int TASK_CLONE = 1;
@@ -60,13 +57,17 @@ public class DbWriteFragment extends Fragment {
   public static interface TaskCallbacks {
     Model getObject();
     void onCancelled();
-    void onPostExecute(Uri result);
+    void onPostExecute(Object result);
   }
  
   private TaskCallbacks mCallbacks;
   private GenericWriteTask mTask;
-  public static DbWriteFragment newInstance() {
-    return new DbWriteFragment();
+  public static DbWriteFragment newInstance(boolean returnSequenceCount) {
+    DbWriteFragment f = new DbWriteFragment();
+    Bundle bundle = new Bundle();
+    bundle.putBoolean("returnSequenceCount", returnSequenceCount);
+    f.setArguments(bundle);
+    return f;
   }
 
   /**
@@ -94,7 +95,7 @@ public class DbWriteFragment extends Fragment {
  
     // Create and execute the background task.
     Bundle args = getArguments();
-    mTask = new GenericWriteTask();
+    mTask = new GenericWriteTask(args.getBoolean("returnSequenceCount", false));
     mTask.execute(mCallbacks.getObject());
   }
  
@@ -114,7 +115,11 @@ public class DbWriteFragment extends Fragment {
    * method in case they are invoked after the Activity's and
    * Fragment's onDestroy() method have been called.
    */
-  private class GenericWriteTask extends AsyncTask<Model, Void, Uri> {
+  private class GenericWriteTask extends AsyncTask<Model, Void, Object> {
+    boolean returnSequenceCount;
+    public GenericWriteTask(boolean returnSequenceCount) {
+      this.returnSequenceCount = returnSequenceCount;
+    }
 
     @Override
     protected void onPreExecute() {
@@ -126,8 +131,12 @@ public class DbWriteFragment extends Fragment {
      * in a race condition.
      */
     @Override
-    protected Uri doInBackground(Model... object) {
-      return object[0].save();
+    protected Object doInBackground(Model... object) {
+      Uri uri = object[0].save();
+      if (returnSequenceCount && object[0] instanceof Transaction)
+        return Transaction.getSequenceCount();
+      else
+        return uri;
     }
     @Override
     protected void onProgressUpdate(Void... ignore) {
@@ -144,7 +153,7 @@ public class DbWriteFragment extends Fragment {
     }
  
     @Override
-    protected void onPostExecute(Uri result) {
+    protected void onPostExecute(Object result) {
       if (mCallbacks != null) {
         mCallbacks.onPostExecute(result);
       }

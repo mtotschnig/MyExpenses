@@ -136,6 +136,12 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     helpVariant = Account.getInstanceFromDb(mAccountId).type.equals(Type.CASH) ?
         null : HelpVariant.crStatus;
   }
+  /**
+   * stores the number of transactions that have been 
+   * created in the db, updated after each creation of
+   * a new transaction
+   */
+  private long sequenceCount = 0;
   
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -303,14 +309,14 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     if (requestCode == ACTIVITY_EDIT && resultCode == RESULT_OK) {
       long nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
       //TODO move getTransactionSequence out of UI thread, probably cache in Application class
-      long transactionCount = Transaction.getTransactionSequence();
-      if (nextReminder != -1 && transactionCount >= nextReminder) {
+      sequenceCount = intent.getLongExtra("sequence_count", 0);
+      if (nextReminder != -1 && sequenceCount >= nextReminder) {
         new RemindRateDialogFragment().show(getSupportFragmentManager(),"REMIND_RATE");
         return;
       }
       if (!MyApplication.getInstance().isContribEnabled) {
         nextReminder = mSettings.getLong("nextReminderContrib",TRESHOLD_REMIND_CONTRIB);
-        if (nextReminder != -1 && transactionCount >= nextReminder) {
+        if (nextReminder != -1 && sequenceCount >= nextReminder) {
           showContribInfoDialog(true);
           return;
         }
@@ -365,7 +371,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         DbUtils.fixDateValues(getContentResolver());
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
-        mSettings.edit().putLong("nextReminderContrib",Transaction.getTransactionSequence()+23).commit();
+        mSettings.edit().putLong("nextReminderContrib",Transaction.getSequenceCount()+23).commit();
       }
       VersionDialogFragment.newInstance(prev_version)
         .show(getSupportFragmentManager(),"VERSION_INFO");
@@ -488,7 +494,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     case R.id.REMIND_LATER_COMMAND:
       String key = "nextReminder" + (String) tag;
       long treshold = ((String) tag).equals("Rate") ? TRESHOLD_REMIND_RATE : TRESHOLD_REMIND_CONTRIB;
-      SharedPreferencesCompat.apply(mSettings.edit().putLong(key,Transaction.getTransactionSequence()+treshold));
+      SharedPreferencesCompat.apply(mSettings.edit().putLong(key,sequenceCount+treshold));
       return true;
     case R.id.HELP_COMMAND:
       setHelpVariant();

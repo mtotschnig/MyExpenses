@@ -31,7 +31,6 @@ import com.actionbarsherlock.view.MenuInflater;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.ContextMenu;
@@ -78,11 +77,11 @@ public class ManageParties extends ProtectedFragmentActivity implements
   public void onFinishEditDialog(Bundle args) {
     mParty = new Payee(args.getLong("partyId"),args.getString("result"));
     getSupportFragmentManager().beginTransaction()
-    .add(DbWriteFragment.newInstance(), "SAVE_TASK")
+    .add(DbWriteFragment.newInstance(false), "SAVE_TASK")
     .commit();
   }
   @Override
-  public void onPostExecute(Uri result) {
+  public void onPostExecute(Object result) {
     if (result == null)
       Toast.makeText(ManageParties.this,getString(R.string.already_defined, mParty.name), Toast.LENGTH_LONG).show();
   }

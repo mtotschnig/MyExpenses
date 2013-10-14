@@ -30,7 +30,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -145,11 +144,11 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         parentId = null;
       mCategory = new Category(args.getLong("catId"), args.getString("result"), parentId);
       getSupportFragmentManager().beginTransaction()
-        .add(DbWriteFragment.newInstance(), "SAVE_TASK")
+        .add(DbWriteFragment.newInstance(false), "SAVE_TASK")
         .commit();
     }
     @Override
-    public void onPostExecute(Uri result) {
+    public void onPostExecute(Object result) {
       if (result == null)
         Toast.makeText(ManageCategories.this,getString(R.string.already_defined, mCategory.label), Toast.LENGTH_LONG).show();
     }
