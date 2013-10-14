@@ -71,14 +71,14 @@ public class TransactionTest extends ModelTest  {
   }
   public void testTransaction() {
     String payee = "N.N";
-    assertEquals(0, Transaction.getTransactionSequence());
+    assertEquals(0L, Transaction.getSequenceCount().longValue());
     Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id);
     op1.amount = new Money(mAccount1.currency,100L);
     op1.comment = "test transaction";
     op1.payee = payee;
     op1.save();
     assertTrue(op1.id > 0);
-    assertEquals(1, Transaction.getTransactionSequence());
+    assertEquals(1L, Transaction.getSequenceCount().longValue());
     //save creates a payee as side effect
     assertEquals(1,countPayee(payee));
     try {
@@ -90,7 +90,7 @@ public class TransactionTest extends ModelTest  {
     Long id = op1.id;
     Transaction.delete(id);
     //Transaction sequence should report on the number of transactions that have been created
-    assertEquals(1, Transaction.getTransactionSequence());
+    assertEquals(1L, Transaction.getSequenceCount().longValue());
     try {
       Transaction.getInstanceFromDb(id);
       fail("Transaction deleted, but can still be retrieved");
