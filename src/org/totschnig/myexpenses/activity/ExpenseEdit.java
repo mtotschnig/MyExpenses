@@ -175,6 +175,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         mTransaction = Template.getTypedNewInstance(mOperationType, accountId);
       else
         mTransaction = Transaction.getTypedNewInstance(mOperationType,accountId,parentId);
+      mManager.initLoader(ACCOUNTS_CURSOR, null, this);
       setup();
     }
   }
@@ -436,6 +437,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   };
   private ArrayAdapter<String>  mPayeeAdapter;
   private Cursor mMethodsCursor;
+  private int otherAccountsCount = 0;
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
@@ -518,26 +520,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
    * populates the input fields with a transaction from the database or a new one
    */
   private void populateFields() {
-    int otherAccountsCount = 0;
 
-    //2. get info about other accounts if we are editing a transfer
-    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      Cursor otherAccounts =  getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
-          new String[] {DatabaseConstants.KEY_ROWID, "label"},
-          DatabaseConstants.KEY_ROWID + " != ? AND currency = ?",
-          new String[] {String.valueOf(mTransaction.accountId),getmAccount().currency.getCurrencyCode()},null);
-      otherAccountsCount = otherAccounts.getCount();
-      accountLabels = new String[otherAccountsCount];
-      accountIds = new Long[otherAccountsCount];
-      if(otherAccounts.moveToFirst()){
-        for (int i = 0; i < otherAccountsCount; i++){
-          accountLabels[i] = otherAccounts.getString(otherAccounts.getColumnIndex("label"));
-          accountIds[i] = otherAccounts.getLong(otherAccounts.getColumnIndex(DatabaseConstants.KEY_ROWID));
-          otherAccounts.moveToNext();
-        }
-       }
-      otherAccounts.close();
-    }
     if (mRowId != 0 || mTemplateId != 0) {
       //3 handle edit existing transaction or new one from template
       //3b  fill comment
@@ -838,7 +821,11 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
       else
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-      setup();
+      if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+        mManager.initLoader(ACCOUNTS_CURSOR, null, this);
+      } else {
+        setup();
+      }
       supportInvalidateOptionsMenu();
     }
     super.onPostExecute(taskId, o);
@@ -896,6 +883,11 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
           .appendPath(mType == INCOME ? "1" : "-1")
           .appendPath(getmAccount().type.name())
           .build(), null, null, null, null);
+    case ACCOUNTS_CURSOR:
+      return new CursorLoader(this,TransactionProvider.ACCOUNTS_URI,
+          new String[] {DatabaseConstants.KEY_ROWID, "label"},
+          DatabaseConstants.KEY_ROWID + " != ? AND currency = ?",
+          new String[] {String.valueOf(mTransaction.accountId),getmAccount().currency.getCurrencyCode()},null);
     }
     return null;
   }
@@ -920,6 +912,19 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
           MethodContainer = findViewById(R.id.Method);
         MethodContainer.setVisibility(View.GONE);
       }
+      break;
+    case ACCOUNTS_CURSOR:
+      otherAccountsCount = data.getCount();
+      accountLabels = new String[otherAccountsCount];
+      accountIds = new Long[otherAccountsCount];
+      if(data.moveToFirst()){
+        for (int i = 0; i < otherAccountsCount; i++){
+          accountLabels[i] = data.getString(data.getColumnIndex("label"));
+          accountIds[i] = data.getLong(data.getColumnIndex(DatabaseConstants.KEY_ROWID));
+          data.moveToNext();
+        }
+      }
+      setup();
       break;
     }
   }
