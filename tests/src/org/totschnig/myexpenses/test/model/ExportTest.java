@@ -57,8 +57,8 @@ public class ExportTest extends ModelTest  {
     account1.save();
     account2 = new Account("Account 2",openingBalance,"Account 2");
     account2.save();
-    cat1Id = Category.create("Main",null);
-    cat2Id = Category.create("Sub", cat1Id);
+    cat1Id = Category.write(0,"Main",null);
+    cat2Id = Category.write(0,"Sub", cat1Id);
     op = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
     op.amount = new Money(account1.currency,-expense1);
     op.methodId = PaymentMethod.find("CHEQUE");
