@@ -117,6 +117,9 @@ public class PaymentMethod extends Model {
     }
     this.label = label;
   }
+  //TODO we should not need to instantiate the methods
+  //to get their display label
+  //move all calls from the instance method to the static metod
   public String getDisplayLabel() {
     Context ctx = MyApplication.getInstance();
     if (predef == null)
@@ -126,6 +129,19 @@ public class PaymentMethod extends Model {
     case CREDITCARD: return ctx.getString(R.string.pm_creditcard);
     case DEPOSIT: return ctx.getString(R.string.pm_deposit);
     case DIRECTDEBIT: return ctx.getString(R.string.pm_directdebit);
+    }
+    return label;
+  }
+  public static String getDisplayLabel(String label) {
+    Context ctx = MyApplication.getInstance();
+    try {
+      switch (PreDefined.valueOf(label)) {
+      case CHEQUE: return ctx.getString(R.string.pm_cheque);
+      case CREDITCARD: return ctx.getString(R.string.pm_creditcard);
+      case DEPOSIT: return ctx.getString(R.string.pm_deposit);
+      case DIRECTDEBIT: return ctx.getString(R.string.pm_directdebit);
+      }
+    } catch (IllegalArgumentException ex) {
     }
     return label;
   }

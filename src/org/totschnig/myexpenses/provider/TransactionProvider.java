@@ -237,7 +237,7 @@ public class TransactionProvider extends ContentProvider {
       break;
     case METHODS_FILTERED:
       qb.setTables(TABLE_METHODS + " JOIN " + TABLE_ACCOUNTTYES_METHODS + " ON (" + KEY_ROWID + " = " + KEY_METHODID + ")");
-      projection =  new String[] {KEY_ROWID,"label"};
+      projection =  new String[] {KEY_ROWID,KEY_LABEL};
       String paymentType = uri.getPathSegments().get(2);
       if (paymentType.equals("1")) {
         selection = TABLE_METHODS + ".type > -1";

@@ -40,7 +40,6 @@ import com.actionbarsherlock.view.MenuItem;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
-import android.app.LoaderManager.LoaderCallbacks;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -56,7 +55,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -111,6 +109,11 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   private static final int ACTIVITY_EDIT_SPLIT = 1;
   private static final int SELECT_CATEGORY_REQUEST = 2;
   
+  public static final int PAYEES_CURSOR=1;
+  public static final int METHODS_CURSOR=2;
+  public static final int ACCOUNTS_CURSOR=3;
+  private LoaderManager mManager;
+  
   String[] accountLabels ;
   Long[] accountIds ;
   private boolean mCreateNew = false;
@@ -141,6 +144,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
     mCategoryButton = (Button) findViewById(R.id.Category);
     mMethodButton = (Button) findViewById(R.id.Method);
+    mManager= getSupportLoaderManager();
     
     //1. fetch the transaction or create a new instance
     if (mRowId != 0 || mTemplateId != 0) {
@@ -287,9 +291,10 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     }
     
     if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
-      getSupportLoaderManager().initLoader(0, null, this);
+      mManager.initLoader(PAYEES_CURSOR, null, this);
       mPayeeAdapter = new ArrayAdapter<String>(this,
           android.R.layout.simple_dropdown_item_1line);
+      mManager.initLoader(METHODS_CURSOR, null, this);
     } else {
       findViewById(R.id.PayeeRow).setVisibility(View.GONE);
       View MethodContainer = findViewById(R.id.MethodRow);
@@ -307,6 +312,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         mMethodId = null;
         mMethodButton.setText((CharSequence) mMethodButton.getTag());
         configureType();
+        if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory))
+          mManager.restartLoader(METHODS_CURSOR, null, ExpenseEdit.this);
       } 
     });
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
@@ -428,6 +435,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     }
   };
   private ArrayAdapter<String>  mPayeeAdapter;
+  private Cursor mMethodsCursor;
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
@@ -460,22 +468,18 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
           }
         ).create();
     case METHOD_DIALOG_ID:
-      Cursor paymentMethods = getContentResolver().query(
-          TransactionProvider.METHODS_URI.buildUpon()
-          .appendPath("typeFilter")
-          .appendPath(mType == INCOME ? "1" : "-1")
-          .appendPath(getmAccount().type.name())
-          .build(), null, null, null, null);
-      final String[] methodLabels = new String[paymentMethods.getCount()];
-      final Long[] methodIds = new Long[paymentMethods.getCount()];
-      PaymentMethod pm;
-      if(paymentMethods.moveToFirst()){
-       for (int i = 0; i < paymentMethods.getCount(); i++){
-         methodIds[i] = paymentMethods.getLong(paymentMethods.getColumnIndex(DatabaseConstants.KEY_ROWID));
-         pm = PaymentMethod.getInstanceFromDb(methodIds[i]);
-  
-         methodLabels[i] = pm.getDisplayLabel();
-         paymentMethods.moveToNext();
+      //TODO: check if this can really happen, and if yes provide Toast
+      if (mMethodsCursor == null)
+        return null;
+      final String[] methodLabels = new String[mMethodsCursor.getCount()];
+      final Long[] methodIds = new Long[mMethodsCursor.getCount()];
+      if (mMethodsCursor.moveToFirst()) {
+       int idIndex = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
+       int labelIndex = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_LABEL);
+       for (int i = 0; i < mMethodsCursor.getCount(); i++){
+         methodIds[i] = mMethodsCursor.getLong(idIndex);
+         methodLabels[i] = PaymentMethod.getDisplayLabel(mMethodsCursor.getString(labelIndex));
+         mMethodsCursor.moveToNext();
        }
       } else {
         //TODO create resource string and fill with types
@@ -486,7 +490,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
             ), Toast.LENGTH_LONG).show();
         return null;
       }
-      paymentMethods.close();
       return new  AlertDialog.Builder(this)
         .setTitle(R.string.dialog_title_select_method)
         .setSingleChoiceItems(methodLabels,
@@ -535,12 +538,10 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
        }
       otherAccounts.close();
     }
-    //TableLayout mScreen = (TableLayout) findViewById(R.id.Table);
     if (mRowId != 0 || mTemplateId != 0) {
       //3 handle edit existing transaction or new one from template
       //3b  fill comment
       mCommentText.setText(mTransaction.comment);
-      //3c set title based on type
       if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
         mPayeeText.setText(mTransaction.payee);
         mMethodId = mTransaction.methodId;
@@ -584,13 +585,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
             startSelectCategory();
         }
       });
-      //5c we hide the method button if there are no valid methods, we check for both incomes and expenses
-      if (PaymentMethod.countPerType(getmAccount().type) == 0) {
-        View MethodContainer = findViewById(R.id.MethodRow);
-        if (MethodContainer == null)
-          MethodContainer = findViewById(R.id.Method);
-        MethodContainer.setVisibility(View.GONE);
-      }
     }
     if (mTransaction instanceof Template)
       mTitleText.setText(((Template) mTransaction).title);
@@ -892,17 +886,42 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    return new CursorLoader(this, TransactionProvider.PAYEES_URI, null, mLabel, accountLabels, null);
+    switch(id){
+    case PAYEES_CURSOR:
+      return new CursorLoader(this, TransactionProvider.PAYEES_URI, null, null, null, null);
+    case METHODS_CURSOR:
+      return new CursorLoader(this,
+          TransactionProvider.METHODS_URI.buildUpon()
+          .appendPath("typeFilter")
+          .appendPath(mType == INCOME ? "1" : "-1")
+          .appendPath(getmAccount().type.name())
+          .build(), null, null, null, null);
+    }
+    return null;
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-    data.moveToFirst();
-    mPayeeAdapter.clear();
-    while(!data.isAfterLast()) {
-      mPayeeAdapter.add(data.getString(data.getColumnIndex("name")));
-      data.moveToNext();
+    int id = loader.getId();
+    switch(id) {
+    case PAYEES_CURSOR:
+      data.moveToFirst();
+      mPayeeAdapter.clear();
+      while(!data.isAfterLast()) {
+        mPayeeAdapter.add(data.getString(data.getColumnIndex("name")));
+        data.moveToNext();
+      }
+      mPayeeText.setAdapter(mPayeeAdapter);
+      break;
+    case METHODS_CURSOR:
+      mMethodsCursor = data;
+      if (data.getCount() == 0) {
+        View MethodContainer = findViewById(R.id.MethodRow);
+        if (MethodContainer == null)
+          MethodContainer = findViewById(R.id.Method);
+        MethodContainer.setVisibility(View.GONE);
+      }
+      break;
     }
-    mPayeeText.setAdapter(mPayeeAdapter);
   }
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
