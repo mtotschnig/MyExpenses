@@ -66,6 +66,9 @@
     <string-array name="ManageMethods_menuitems">
       <item>create_method</item>
     </string-array>
+    <string-array name="ManageParties_menuitems">
+      <item>create_party</item>
+    </string-array>
     <string-array name="ManageCategories_manage_menuitems">
       <item>create_main_cat</item>
     </string-array>
@@ -100,7 +103,7 @@
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
-      <item>77</item>
+      <item>78</item>
       <item>75</item>
       <item>72</item>
       <item>67</item>

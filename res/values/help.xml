@@ -42,8 +42,9 @@
   <string name="menu_create_method_help_text">Opens the form for creating a new payment method.</string>
 
   <!-- ManageParties title is in keys -->
-  <string name="help_ManageParties_info">This screen lists the parties used for the autocompletion of the Payer/Payee field. You can remove entries from this list through each entry\'s context menu.</string>
-
+  <string name="help_ManageParties_info">This screen lists the parties used for the autocompletion of the Payer/Payee field. You can delete and edit parties through each entry\'s context menu.</string>
+  <string name="menu_create_party_help_text">Opens the dialog for specifying the name of a new payer or payee.</string>
+  
   <!-- ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_info">This screen lists the the available templates grouped by account. While templates normally can be derived from transactions, here each account\'s context menu allows you to create new templates (for transactions or transfers). From a template\'s context menu you can instantiate it and either immediately save it or enter its editing form where you can modify it before saving. Clicking on an entry allows to modify it (Contrib feature).</string>
 
