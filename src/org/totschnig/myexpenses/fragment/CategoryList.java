@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -58,7 +57,8 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class CategoryList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class CategoryList extends BudgetListFragment implements
+    OnChildClickListener, OnGroupClickListener,LoaderManager.LoaderCallbacks<Cursor> {
   private static final int CATEGORY_CURSOR = -1;
   private static final int SUM_CURSOR = -2;
   private static final int DATEINFO_CURSOR = -3;
@@ -146,8 +146,8 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     lv.setAdapter(mAdapter);
     //requires using activity (SelectCategory) to implement OnChildClickListener
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select)) {
-      lv.setOnChildClickListener((OnChildClickListener) ctx);
-      lv.setOnGroupClickListener((OnGroupClickListener) ctx);
+      lv.setOnChildClickListener(this);
+      lv.setOnGroupClickListener(this);
     }
     registerForContextMenu(lv);
     return v;
@@ -202,8 +202,8 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
           c = (Cursor) mAdapter.getChild(group,child);
         } else  {
           c = mGroupCursor;
-            if (c.getInt(c.getColumnIndex("child_count")) > 0)
-              message = R.string.not_deletable_subcats_exists;
+          if (c.getInt(c.getColumnIndex("child_count")) > 0)
+            message = R.string.not_deletable_subcats_exists;
         }
         if (message == 0 ) {
           if (c.getInt(c.getColumnIndex("mapped_transactions")) > 0)
@@ -471,7 +471,38 @@ public class CategoryList extends BudgetListFragment implements LoaderManager.Lo
     }
     return super.onOptionsItemSelected(item);
   }
-
+  /*     (non-Javadoc)
+   * return the sub cat to the calling activity
+   * @see android.app.ExpandableListActivity#onChildClick(android.widget.ExpandableListView, android.view.View, int, int, long)
+*/
+  @Override
+  public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+    ManageCategories ctx = (ManageCategories) getSherlockActivity();
+    Intent intent=new Intent();
+    long sub_cat = id;
+    String label =  ((TextView) v.findViewById(R.id.label)).getText().toString();
+    intent.putExtra("cat_id",sub_cat);
+    intent.putExtra("label", label);
+    ctx.setResult(ManageCategories.RESULT_OK,intent);
+    ctx.finish();
+    return true;
+  }
+  @Override
+  public boolean onGroupClick(ExpandableListView parent, View v,
+      int groupPosition, long id) {
+    ManageCategories ctx = (ManageCategories) getSherlockActivity();
+    long cat_id = id;
+    mGroupCursor.moveToPosition(groupPosition);
+    if (mGroupCursor.getInt(mGroupCursor.getColumnIndex("child_count")) > 0)
+      return false;
+    String label =   ((TextView) v.findViewById(R.id.label)).getText().toString();
+    Intent intent=new Intent();
+    intent.putExtra("cat_id",cat_id);
+    intent.putExtra("label", label);
+    ctx.setResult(ManageCategories.RESULT_OK,intent);
+    ctx.finish();
+    return true;
+  }
   public void setGrouping(Grouping grouping) {
     mGrouping = grouping;
     mGroupingYear = thisYear;

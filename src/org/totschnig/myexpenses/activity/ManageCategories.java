@@ -23,8 +23,6 @@ import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 
@@ -34,15 +32,8 @@ import com.actionbarsherlock.view.MenuInflater;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 /**
  * SelectCategory activity allows to select categories while editing a transaction
@@ -51,8 +42,7 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
  *
  */
 public class ManageCategories extends ProtectedFragmentActivity implements
-    OnChildClickListener, OnGroupClickListener,EditTextDialogListener,
-    DbWriteFragment.TaskCallbacks {
+    EditTextDialogListener,DbWriteFragment.TaskCallbacks {
     
     public enum HelpVariant {
       manage,distribution,select
@@ -109,36 +99,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       }
       return super.dispatchCommand(command, tag);
      }
-/*     (non-Javadoc)
-     * return the sub cat to the calling activity
-     * @see android.app.ExpandableListActivity#onChildClick(android.widget.ExpandableListView, android.view.View, int, int, long)
-*/
-    @Override
-    public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-      //Log.w("SelectCategory","group = " + groupPosition + "; childPosition:" + childPosition);
-      Intent intent=new Intent();
-      long sub_cat = id;
-      String label =  ((TextView) v.findViewById(R.id.label)).getText().toString();
-      intent.putExtra("cat_id",sub_cat);
-      intent.putExtra("label", label);
-      setResult(RESULT_OK,intent);
-      finish();
-      return true;
-    }
-    @Override
-    public boolean onGroupClick(ExpandableListView parent, View v,
-        int groupPosition, long id) {
-      long cat_id = id;
-      if (Category.countSub(cat_id) > 0)
-        return false;
-      String label =   ((TextView) v.findViewById(R.id.label)).getText().toString();
-      Intent intent=new Intent();
-      intent.putExtra("cat_id",cat_id);
-      intent.putExtra("label", label);
-      setResult(RESULT_OK,intent);
-      finish();
-      return true;
-    }
     /**
      * presents AlertDialog for adding a new category
      * if label is already used, shows an error
