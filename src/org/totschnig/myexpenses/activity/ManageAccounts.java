@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -66,10 +67,12 @@ public class ManageAccounts extends ProtectedFragmentActivity implements
     super.onPrepareOptionsMenu(menu);
     Cursor c = getContentResolver().query(TransactionProvider.AGGREGATES_URI.buildUpon().appendPath("count").build(),
         null, null, null, null);
-    menu.findItem(R.id.AGGREGATES_COMMAND).setVisible(c.getCount()>0);
+    //TODO Strict mode violation
+    Utils.menuItemSetEnabled(menu,R.id.AGGREGATES_COMMAND,
+        c.getCount()>0 );
     c.close();
-    menu.findItem(R.id.RESET_ACCOUNT_ALL_COMMAND).setVisible
-      (Transaction.countAll() > 0);
+    Utils.menuItemSetEnabled(menu,R.id.RESET_ACCOUNT_ALL_COMMAND,
+        Transaction.countAll() > 0 );
     return true;
   }
   @Override

@@ -172,8 +172,8 @@ public class TransactionList extends BudgetListFragment implements
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     if (isVisible()) {
-      menu.findItem(R.id.RESET_ACCOUNT_COMMAND).setVisible(hasItems);
-      menu.findItem(R.id.DISTRIBUTION_COMMAND).setVisible(mappedCategories);
+      Utils.menuItemSetEnabled(menu,R.id.RESET_ACCOUNT_COMMAND,hasItems);
+      Utils.menuItemSetEnabled(menu,R.id.DISTRIBUTION_COMMAND,mappedCategories);
     }
   }
 

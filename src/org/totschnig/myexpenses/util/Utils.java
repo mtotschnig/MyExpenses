@@ -410,4 +410,14 @@ public class Utils {
     }
     return result;
   }
+  /**
+   * Credit: https://groups.google.com/forum/?fromgroups#!topic/actionbarsherlock/Z8Ic8djq-3o
+   * @param item
+   * @param enabled
+   */
+  public static void menuItemSetEnabled(com.actionbarsherlock.view.Menu menu, int id, boolean enabled) {
+    com.actionbarsherlock.view.MenuItem item = menu.findItem(id);
+    item.setEnabled(enabled);
+    item.getIcon().setAlpha(enabled ? 255 : 90);
+  }
 }

@@ -282,9 +282,9 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       if (sameCurrencyCount != null && sameCurrencyCount >1)
         mTransferEnabled = true;
     }
-    menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(mTransferEnabled);
-    menu.findItem(R.id.NEW_FROM_TEMPLATE_COMMAND)
-      .setVisible(mTemplatesCursor != null && mTemplatesCursor.getCount() > 0);
+    Utils.menuItemSetEnabled(menu,R.id.INSERT_TRANSFER_COMMAND,mTransferEnabled);
+    Utils.menuItemSetEnabled(menu,R.id.NEW_FROM_TEMPLATE_COMMAND,
+        mTemplatesCursor != null && mTemplatesCursor.getCount() > 0);
     return true;
   }
 
