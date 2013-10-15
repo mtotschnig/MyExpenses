@@ -531,6 +531,7 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.update(TABLE_PAYEES, values, "_id=" + segment + whereString,
             whereArgs);
+      getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
       break;
     case CATEGORIES:
       //TODO should not support bulk update of categories
