@@ -32,6 +32,7 @@ public class SoloCompatibilityAbs extends Solo {
 	*/
 	public void clickOnVisibleActionbarItem(int resourceId) {
 		waitForView(LinearLayout.class);
+		//MT modified to make it work with Robotium 4.2.
 		LinearLayout linearLayout = (LinearLayout) getter.getView(resourceId, 0);
 		clickOnView(linearLayout);
 	}
