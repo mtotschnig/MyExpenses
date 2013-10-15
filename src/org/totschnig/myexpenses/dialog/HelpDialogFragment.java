@@ -35,11 +35,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ImageView;
 
-/**
- * @author Michael Totschnig
- * A Dialog Fragment that displays help information. The content is constructed from resources
+/**A Dialog Fragment that displays help information. The content is constructed from resources
  * based on the activity and an optional variant passed in.
- *
+ * @author Michael Totschnig
  */
 public class HelpDialogFragment extends DialogFragment {
   
