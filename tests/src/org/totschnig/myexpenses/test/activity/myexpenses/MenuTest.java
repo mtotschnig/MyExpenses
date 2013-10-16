@@ -4,6 +4,7 @@ import org.totschnig.myexpenses.activity.AccountEdit;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
+import org.totschnig.myexpenses.test.util.Fixture;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 
@@ -11,9 +12,11 @@ import com.jayway.android.robotium.solo.Solo;
 import com.jayway.android.robotium.solo.SoloCompatibilityAbs;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.test.ActivityInstrumentationTestCase2;
@@ -46,9 +49,9 @@ public class MenuTest extends ActivityInstrumentationTestCase2<MyExpenses> {
   public void setUp() throws Exception {        /*
      * Call the super constructor (required by JUnit)
      */
-
     super.setUp();
-
+    mInstrumentation = getInstrumentation();
+    Fixture.clear(mInstrumentation);
     /*
      * prepare to send key events to the app under test by turning off touch mode.
      * Must be done before the first call to getActivity()
