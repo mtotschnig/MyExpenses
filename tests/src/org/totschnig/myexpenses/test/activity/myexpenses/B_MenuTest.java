@@ -34,7 +34,7 @@ import android.view.KeyEvent;
  * It operates on the assumption that on pre-ICS deveice, keys invoked with invokeMenuActionSync
  * are not part of the visible action bar, but in the menu
  */
-public class MenuTest extends ActivityInstrumentationTestCase2<MyExpenses> {
+public class B_MenuTest extends ActivityInstrumentationTestCase2<MyExpenses> {
 
   private MyExpenses mActivity;
   private SoloCompatibilityAbs mSolo;
@@ -43,26 +43,18 @@ public class MenuTest extends ActivityInstrumentationTestCase2<MyExpenses> {
   ViewPager mPager;
   FragmentPagerAdapter mAdapter;
   
-  public MenuTest() {
+  public B_MenuTest() {
     super(MyExpenses.class);
   }
-  public void setUp() throws Exception {        /*
-     * Call the super constructor (required by JUnit)
-     */
+  public void setUp() throws Exception {
     super.setUp();
     mInstrumentation = getInstrumentation();
-    Fixture.clear(mInstrumentation);
-    /*
-     * prepare to send key events to the app under test by turning off touch mode.
-     * Must be done before the first call to getActivity()
-     */
-
+    mContext = mInstrumentation.getTargetContext();
     setActivityInitialTouchMode(false);
     mActivity = getActivity();
     mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
     mInstrumentation = getInstrumentation();
     mContext = mInstrumentation.getTargetContext();
-    //only when we send this key event, onPrepareOptionsMenu is called before the test
   }
 
   public void testInsertTransaction() {
@@ -100,7 +92,14 @@ public class MenuTest extends ActivityInstrumentationTestCase2<MyExpenses> {
     mSolo.waitForDialogToOpen(100);
     assertTrue("Select Grouping dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_select_grouping)));
   }
+  
+  /**
+   * on a fresh install these four command should be inactive,
+   * INSERT_TRANSFER because there is no second account, NEW_FROM_TEMPLATE because there
+   * is no template, the other two depend on transactions being present
+   */
   public void testInactiveItems() {
+    //only when we send this key event, onPrepareOptionsMenu is called before the test
     mInstrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
     for (String command : new String[] {
         "INSERT_TRANSFER",

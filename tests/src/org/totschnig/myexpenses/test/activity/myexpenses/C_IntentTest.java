@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.KeyEvent;
 
 
 /**
@@ -30,7 +31,7 @@ import android.test.ActivityInstrumentationTestCase2;
  * 
  * @author Michael Totschnig
  */
-public class IntentTest extends ActivityInstrumentationTestCase2<MyExpenses> {
+public class C_IntentTest extends ActivityInstrumentationTestCase2<MyExpenses> {
 
   private Activity mActivity;
   private Solo mSolo;
@@ -39,13 +40,14 @@ public class IntentTest extends ActivityInstrumentationTestCase2<MyExpenses> {
   ViewPager mPager;
   FragmentPagerAdapter mAdapter;
   
-  public IntentTest() {
+  public C_IntentTest() {
     super(MyExpenses.class);
   }
   public void setUp() throws Exception { 
     super.setUp();
     mInstrumentation = getInstrumentation();
-    Fixture.clear(mInstrumentation);
+    mContext = mInstrumentation.getTargetContext();
+    setActivityInitialTouchMode(false);
     mActivity = getActivity();
     Fixture.setup(mInstrumentation, new Locale("en","US"), Currency.getInstance("USD"));
 //    setActivityInitialTouchMode(false);
@@ -82,5 +84,16 @@ public class IntentTest extends ActivityInstrumentationTestCase2<MyExpenses> {
   @Override
   public void tearDown() throws Exception {
     mSolo.finishOpenedActivities();
+    backOutToHome();
+  }
+  private void backOutToHome() {
+    boolean more = true;
+    while(more) {
+        try {
+            getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+        } catch (SecurityException e) { // Done, at Home.
+            more = false;
+        }
+    }
   }
 }

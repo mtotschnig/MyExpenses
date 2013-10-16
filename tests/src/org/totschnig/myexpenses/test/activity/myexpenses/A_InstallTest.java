@@ -11,6 +11,7 @@ import com.jayway.android.robotium.solo.Solo;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -26,7 +27,7 @@ import android.util.Log;
  * 
  * @author Michael Totschnig
  */
-public class InstallTest extends ActivityInstrumentationTestCase2<MyExpenses> {
+public class A_InstallTest extends ActivityInstrumentationTestCase2<MyExpenses> {
 
   private Activity mActivity;
   private Solo mSolo;
@@ -35,16 +36,15 @@ public class InstallTest extends ActivityInstrumentationTestCase2<MyExpenses> {
   ViewPager mPager;
   FragmentPagerAdapter mAdapter;
   
-  public InstallTest() {
+  public A_InstallTest() {
     super(MyExpenses.class);
   }
+
   public void setUp() throws Exception {
-
     super.setUp();
-
     mInstrumentation = getInstrumentation();
-    //Fixture.clear(mInstrumentation);
     mContext = mInstrumentation.getTargetContext();
+    Fixture.clear(mContext);
     setActivityInitialTouchMode(false);
     mActivity = getActivity();
     mSolo = new Solo(getInstrumentation(), mActivity);
