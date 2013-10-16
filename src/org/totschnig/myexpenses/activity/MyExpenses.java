@@ -274,8 +274,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     super.onPrepareOptionsMenu(menu);
     if (mAccountId== 0)
       return true;
-    //I would prefer to use setEnabled, but the disabled state unfortunately
-    //is not visually reflected in the actionbar
     if (currentPosition > -1) {
       Integer sameCurrencyCount = currencyAccountCount.get(
           Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode());
