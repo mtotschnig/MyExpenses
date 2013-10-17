@@ -7,6 +7,7 @@ import com.jayway.android.robotium.solo.SoloCompatibilityAbs;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.test.ActivityInstrumentationTestCase2;
@@ -64,5 +65,28 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
             more = false;
         }
     }
+  }
+  /**
+   * Clicks a visible ActionBarItem matching the specified resource id.
+   * @param resourceId
+   */
+  protected void clickOnActionBarItem(int resourceId) {
+    if (Build.VERSION.SDK_INT > 13)
+      mSolo.clickOnActionBarItem(resourceId);
+    else
+      mSolo.clickOnVisibleActionbarItem(resourceId);
+  }
+  /**
+   * @param resourceId
+   * @return true if there exists a resource that can be invoked through the action menu bar
+   * on ICS we simply calling invokeMenuActionSync is sufficient,
+   * below invokeMenuActionSync only deals with the items that are placed on the menu, hence
+   * we need the additional check
+   */
+  protected boolean actionBarItemVisible(int resourceId) {
+    boolean invocable = mInstrumentation.invokeMenuActionSync(mActivity, resourceId, 0);
+    if (invocable || Build.VERSION.SDK_INT > 13)
+      return invocable;
+    return mSolo.actionBarItemEnabled(resourceId);
   }
 }

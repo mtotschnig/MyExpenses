@@ -80,27 +80,4 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
           actionBarItemVisible(resourceId));
     }
   }
-  /**
-   * Clicks a visible ActionBarItem matching the specified resource id.
-   * @param resourceId
-   */
-  private void clickOnActionBarItem(int resourceId) {
-    if (Build.VERSION.SDK_INT > 13)
-      mSolo.clickOnActionBarItem(resourceId);
-    else
-      mSolo.clickOnVisibleActionbarItem(resourceId);
-  }
-  /**
-   * @param resourceId
-   * @return true if there exists a resource that can be invoked through the action menu bar
-   * on ICS we simply calling invokeMenuActionSync is sufficient,
-   * below invokeMenuActionSync only deals with the items that are placed on the menu, hence
-   * we need the additional check
-   */
-  private boolean actionBarItemVisible(int resourceId) {
-    boolean invocable = mInstrumentation.invokeMenuActionSync(mActivity, resourceId, 0);
-    if (invocable || Build.VERSION.SDK_INT > 13)
-      return invocable;
-    return mSolo.actionBarItemEnabled(resourceId);
-  }
 }
