@@ -8,6 +8,7 @@ title:
   ca: Les Meves Despeses
   tr: Harcamalarım
   vi: Chi Tiêu Của Tôi
+  hu: Kiadásaim
 langs:
   it: Italiano
   de: Deutsch
@@ -18,6 +19,7 @@ langs:
   vi: Tiếng Việt
   #ca: Català
   ar: العربية
+  hu: Magyar
 missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Magyar, Română, 中文"
 gplus:
   -
