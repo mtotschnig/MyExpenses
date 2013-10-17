@@ -137,6 +137,7 @@
   <string name="menu_contrib">Contribuire</string>
   <string name="menu_create_account">Nuovo conto</string>
   <string name="menu_create_method">Nuovo modo di pagamento</string>
+  <string name="menu_create_party">Nuovo beneficiaro</string>
   <string name="menu_create_split">Nuova operazione suddivisa</string>
   <string name="menu_create_split_part_category">Nuova somma parziale (categoria)</string>
   <string name="menu_create_split_part_transfer">Nuova somma parziale (trasferimenti)</string>
@@ -155,6 +156,7 @@
   <string name="menu_edit_account">Modificare il conto</string>
   <string name="menu_edit_cat">Modificare la categoria</string>
   <string name="menu_edit_method">Modificare modo di pagamento</string>
+  <string name="menu_edit_party">Modificare beneficiaro</string>
   <string name="menu_edit_split">Modificare operazione suddivisa</string>
   <string name="menu_edit_split_part_category">Modificare somma parziale (categoria)</string>
   <string name="menu_edit_split_part_transfer">Modificare somma parziale (trasferimenti)</string>
@@ -290,6 +292,10 @@
   <string name="share_scheme_not_supported">Shemà %1$s non è supportata.</string>
   <string name="split_parts_heading">Somme parziali</string>
   <string name="split_transaction">Operazione suddivisa</string>
+  <string name="status">Stato</string>
+  <string name="status_cleared">liquidato</string>
+  <string name="status_reconciled">riconciliato</string>
+  <string name="status_uncreconciled">non riconciliato</string>
   <string name="subcategory">Sottocategoria</string>
   <string name="sum_income">Redditi</string>
   <string name="sum_expenses">Spese</string>

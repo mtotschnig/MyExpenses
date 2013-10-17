@@ -41,7 +41,7 @@
   <string name="menu_create_method_help_text">Apre il modulo per la creazione di un nuovo metodo di pagamento.</string>
 
   <!-- ManageParties title is in keys -->
-  <string name="help_ManageParties_info">Questa schermata elenca i nomi utilizzati per il completamento automatico del campo Pagatore / Beneficiario. È possibile rimuovere le voci in questa lista tramite il menu contestuale di ogni voce.</string>
+  <string name="help_ManageParties_info">Questa schermata elenca i nomi utilizzati per il completamento automatico del campo Pagatore / Beneficiario. È possibile rimuovere e modificare le voci in questa lista tramite il menu contestuale di ogni voce.</string>
 
   <!-- ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_info">Questa schermata elenca i modelli disponibili raggruppati per conto. Mentre i modelli possono essere derivate da operazioni, qui, il menu contestuale di ogni conto consente di creare nuovi modelli (per le transazioni o trasferimenti). Dal menu contestuale di un modello è possibile creare un\'istanza di esso e decidere se salvare immediatamente o inserire la sua forma di modifica in cui è possibile modificarla prima di salvare. Facendo clic su una voce permette di modificarlo (caratteristica Contrib).</string>

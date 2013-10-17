@@ -42,8 +42,9 @@
   <string name="menu_create_method_help_text">Ouvre le formulaire pour définir une nouvelle méthode.</string>
 
   <!-- ManageParties -->
-  <string name="help_ManageParties_info">Sur cet écran s\'affiche la liste des tiers utilisés pour le complément automatique du champ Tiers. Supprimer des entrées de cette liste grâce au menu contextuel.</string>
-
+  <string name="help_ManageParties_info">Sur cet écran s\'affiche la liste des tiers utilisés pour le complément automatique du champ Tiers. Vous pouvez en supprimer ou les éditer par le menu contextuel.</string>
+  <string name="menu_create_party_help_text">Ouvre une fenêtre pour saisir le nouveau tiers</string>
+  
   <!-- ManageTemplates -->
   <string name="help_ManageTemplates_info">Sur cet écran s\'affiche les modèles groupés par compte. Les modèles sont créés à partir d\'une opération, et par le menu contextuel de chaque compte, vous pouvez saisir directement de nouveaux modèles (pour des opérations ou des transferts). Le menu contextuel de chaque modèle vous permet aussi de créer de nouvelles opérations, soit en la sauvegardant directement, soit en l\'éditant. Cliquez sur une entrée pour éditer un modèle (Fonction Premium).</string>
 

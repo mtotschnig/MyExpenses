@@ -137,6 +137,7 @@
   <string name="menu_contrib">Beitragen</string>
   <string name="menu_create_account">Neues Konto</string>
   <string name="menu_create_method">Neue Zahlungsweise</string>
+  <string name="menu_create_party">Neue Partei</string>
   <string name="menu_create_transaction">Neue Buchung</string>
   <string name="menu_create_transfer">Neue Umbuchung</string>
   <string name="menu_create_split">Neue Splitbuchung</string>
@@ -155,6 +156,7 @@
   <string name="menu_edit_account">Konto verändern</string>
   <string name="menu_edit_cat">Kategorie verändern</string>
   <string name="menu_edit_method">Zahlungsweise verändern</string>
+  <string name="menu_edit_party">Partei verändern</string>
   <string name="menu_edit_split">Split-Buchung verändern</string>
   <string name="menu_edit_split_part_category">Split-Teilbetrag (Kategorie) verändern</string>
   <string name="menu_edit_split_part_transfer">Split-Teilbetrag (Umbuchung) verändern</string>
@@ -289,6 +291,10 @@
   <string name="share_sending">Export Datei senden</string>
   <string name="split_parts_heading">Split-Teilbeträge</string>
   <string name="split_transaction">Splitbuchung</string>
+  <string name="status">Status</string>
+  <string name="status_cleared">verrechnet</string>
+  <string name="status_reconciled">abgestimmt</string>
+  <string name="status_uncreconciled">nicht abgestimmt</string>
   <string name="subcategory">Unterkategorie</string>
   <string name="sum_income">Einnahmen</string>
   <string name="sum_expenses">Ausgaben</string>

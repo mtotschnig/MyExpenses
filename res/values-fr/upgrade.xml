@@ -18,6 +18,11 @@
   <!ENTITY app_name "Mes dépenses">
 ]>
 <resources>
+  <string-array name="whats_new_79">
+    <item>Marquage des opérations comme pointées / rapprochées ( pour les comptes de banques et cartes de crédit)</item>
+    <item>Les tiers peuvent être désormais édités</item>
+    <item>Traduction en hongrois</item>
+   </string-array>
   <string-array name="whats_new_75">
     <item>Répartition des transactions par catégorie (Premium)</item>
   </string-array>

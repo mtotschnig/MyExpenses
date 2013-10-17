@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+  <string-array name="whats_new_79">
+    <item>Cờ đánh dấu giao dịch là đã dọn dẹp / đã hòa hợp (áp dụng cho tài khoản tại ngân hàng và tài khoản tín dụng)</item>
+    <item>Các hội có thể được chỉnh sửa</item>
+  </string-array>
   <string-array name="whats_new_75">
     <item>Phân phối các giao dịch cho mỗi phân loại (Premium)</item>
   </string-array>

@@ -140,6 +140,7 @@
   <string name="menu_create_transaction">Nuevo asiento</string>
   <string name="menu_create_transfer">Nuevo traslado a otra cuenta</string>
   <string name="menu_create_main_cat">Nueva categoría principal</string>
+  <string name="menu_create_party">Nuevo partido</string>
   <string name="menu_create_sub_cat">Nueva sub-categoría</string>
   <string name="menu_create_template">Nueva plantilla</string>
   <string name="menu_create_template_for_transaction">Nueva plantilla (asiento)</string>
@@ -155,6 +156,7 @@
   <string name="menu_edit_account">Modificar la cuenta</string>
   <string name="menu_edit_cat">Modificar la categoría</string>
   <string name="menu_edit_method">Modificar el método de pago</string>
+  <string name="menu_edit_party">Modificar el partido</string>
   <string name="menu_edit_split">Modificar asiento dividido</string>
   <string name="menu_edit_split_part_category">Modificar división (catégoria)</string>
   <string name="menu_edit_split_part_transfer">Modificar división (transferencia)</string>
@@ -290,6 +292,10 @@
   <string name="share_sending">Enviar el archivo</string>
   <string name="split_parts_heading">Fracciones</string>
   <string name="split_transaction">Asiento dividido</string>
+  <string name="status">Estado</string>
+  <string name="status_cleared">despejado</string>
+  <string name="status_reconciled">reconciliado</string>
+  <string name="status_uncreconciled">no reconciliado</string>
   <string name="subcategory">Subcategoría</string>
   <string name="sum_income">Ingresos</string>
   <string name="sum_expenses">Gastos</string>

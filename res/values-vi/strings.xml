@@ -133,6 +133,7 @@
   <string name="menu_contrib">Cống hiến</string>
   <string name="menu_create_account">Tài khoản mới</string>
   <string name="menu_create_method">Phương pháp chi trả mới</string>
+  <string name="menu_create_party">Hội mới</string>
   <string name="menu_create_transaction">Giao dịch mới</string>
   <string name="menu_create_transfer">Truyền đổi mới</string>
   <string name="menu_create_split">Phân tách mới</string>
@@ -151,6 +152,7 @@
   <string name="menu_edit_account">Chỉnh sửa tài khoản</string>
   <string name="menu_edit_method">Chỉnh sửa phương thức chi trả</string>
   <string name="menu_edit_cat">Chỉnh sửa phân loại</string>
+  <string name="menu_edit_party">Chỉnh sửa hội</string>
   <string name="menu_edit_split">Chỉnh sửa phần phân tách</string>
   <string name="menu_edit_split_part_category">Chỉnh sửa phần phân loại phân tách</string>
   <string name="menu_edit_split_part_transfer">Chỉnh sửa phần được phân tách chuyển đổi</string>
@@ -238,7 +240,7 @@
   <string name="pref_manage_methods_title">Phương thức chi trả</string>
   <string name="pref_manage_methods_summary">Tạo và chỉnh sửa phương thức chi trả và gắn phương thức này với các loại tài khoản.</string>
   <string name="pref_manage_parties_title">Các nhóm</string>
-  <string name="pref_manage_parties_summary">Thêm, chỉnh sửa, xóa các nhóm (người trả và người được trả).</string>
+  <string name="pref_manage_parties_summary">Thêm, chỉnh sửa và xóa các hội (người trả và người nhận tiền).</string>
   <string name="pref_manage_templates_title">Mẫu</string>
   <string name="pref_manage_templates_summary">Áp dụng hoặc xóa các mẫu.</string>
   <string name="pref_more_info_dialog_title">Giấy phép &amp; Quà Tặng</string>
@@ -287,6 +289,10 @@
   <string name="share_sending">Gửi tập tin xuất dữ liệu</string>
   <string name="split_parts_heading">Tác thành từng phần</string>
   <string name="split_transaction">Tách giao dịch</string>
+  <string name="status">Trạng thái</string>
+  <string name="status_cleared">đã dọn xong</string>
+  <string name="status_reconciled">đã hòa hợp</string>
+  <string name="status_uncreconciled">chưa hòa hợp</string>
   <string name="subcategory">Phân loại phụ thuộc</string>
   <string name="sum_income">Thu nhập</string>
   <string name="sum_expenses">Chi tiêu</string>

@@ -18,6 +18,11 @@
   <!ENTITY app_name "Le mie spese">
 ]>
 <resources>
+	<string-array name="whats_new_79">
+    <item>Transazioni segnala come liquidati / riconciliati (abilitato per i conti bancari e carte di credito)</item>
+    <item>Le beneficiari possono ora essere modificati</item>
+    <item>Traduzione ungherese</item>
+  </string-array>
   <string-array name="whats_new_75">
     <item>Distribuzione di transazioni per categoria (Premium)</item>
   </string-array>

@@ -162,6 +162,7 @@
   <string name="no_details">لا يوجد تفاصيل.</string>
   <string name="no_expenses">لا يوجد مصروفات حتى الأن!</string>
   <string name="no_exportable_expenses">لا يوجد عمليات لم يتم تصديرها بعد.</string>
+  <string name="no_mapped_transactions">لا يوجد عمليات لهذا التصنيف خلال هذه الفترة.</string>
   <string name="no_parties">لا يوجد أطراف.</string>
   <string name="no_split_parts">لا يوجد تقسيمات</string>
   <string name="no_templates">لا يوجد نماذج.</string>

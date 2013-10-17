@@ -18,6 +18,11 @@
   <!ENTITY app_name "Meine Ausgaben">
 ]>
 <resources>
+  <string-array name="whats_new_79">
+    <item>Buchungen (von Bankkonten und Kreditkarten) können als verrechnet / abgestimmt ausgezeichnet werden</item>
+    <item>Parteien können jetzt editiert werden</item>
+    <item>Ungarische Übersetzung</item>
+  </string-array>
   <string-array name="whats_new_75">
     <item>Verteilung der Buchungen auf Kategorien (Premium)</item>
   </string-array>

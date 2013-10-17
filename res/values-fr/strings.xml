@@ -137,6 +137,7 @@
   <string name="menu_contrib">Contribuer</string>
   <string name="menu_create_account">Nouveau compte</string>
   <string name="menu_create_method">Nouvelle méthode de paiement</string>
+  <string name="menu_create_party">Nouveau tiers</string>
   <string name="menu_create_transaction">Nouvelle opération</string>
   <string name="menu_create_transfer">Nouveau virement</string>
   <string name="menu_create_main_cat">Nouvelle catégorie principale</string>
@@ -155,6 +156,7 @@
   <string name="menu_edit_account">Éditer le compte</string>
   <string name="menu_edit_method">Éditer la méthode de paiement</string>
   <string name="menu_edit_cat">Éditer la catégorie</string>
+  <string name="menu_edit_party">Éditer un tiers</string>
   <string name="menu_edit_split">Éditer l\'opération ventilée</string>
   <string name="menu_edit_split_part_category">Éditer la sous-opération (catégorie)</string>
   <string name="menu_edit_split_part_transfer">Éditer la sous-opération (transfert)</string>

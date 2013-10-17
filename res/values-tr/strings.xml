@@ -143,6 +143,7 @@
   <string name="menu_create_transaction">Muamele ekle</string>
   <string name="menu_create_transfer">Virman ekle</string>
   <string name="menu_create_main_cat">Yeni ana kategori oluştur</string>
+  <string name="menu_create_party">Yeni borçlu/alacaklı</string>
   <string name="menu_create_sub_cat">Yeni alt kategori oluştur</string>
   <string name="menu_create_template">Şablon oluştur</string>
   <string name="menu_create_transaction_from_template_and_edit">Yeni ve düzenle</string>
@@ -155,6 +156,7 @@
   <string name="menu_edit_account">Hesabı düzenle</string>
   <string name="menu_edit_method">Ödeme metodunu düzenle</string>
   <string name="menu_edit_cat">Kategori düzenle</string>
+  <string name="menu_edit_party">Borçlu/alacaklıyı düzenle</string>
   <string name="menu_edit_split">Yeni bölünmüş muamele</string>
   <string name="menu_edit_split_part_category">Bölünmüş alt muameleyi düzenle (kategori)</string>
   <string name="menu_edit_split_part_transfer">Bölünmüş alt muameleyi düzenle (transfer)</string>
@@ -241,7 +243,7 @@
   <string name="pref_manage_methods_title">Ödeme metotları</string>
   <string name="pref_manage_methods_summary">Ödeme metotları oluştur, düzenle ve hesap türleri ile ilişkilendir.</string>
   <string name="pref_manage_parties_title">Bölümler</string>
-  <string name="pref_manage_parties_summary">Bölüm ekle, düzenle ve sil (alacaklılar ve ödeyenler).</string>
+  <string name="pref_manage_parties_summary">>Borçlu/alacaklı ekle, düzenle veya sil.</string>
   <string name="pref_manage_templates_title">Şablonlar</string>
   <string name="pref_manage_templates_summary">Şablonları uygula ya da sil.</string>
   <string name="pref_more_info_dialog_title">Lisans &amp; Hazırlayanlar</string>

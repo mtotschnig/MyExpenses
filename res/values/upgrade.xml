@@ -18,9 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_78">
-    <item>Flag transactions as cleared / reconciled (enabled for bank acounts and credit cards)</item>
+  <string-array name="whats_new_79">
+    <item>Flag transactions as cleared / reconciled (enabled for bank accounts and credit cards)</item>
     <item>Parties can now be edited</item>
+    <item>Hungarian translation</item>
   </string-array>
   <string-array name="whats_new_75">
     <item>Distribution of transactions by category (Premium)</item>
