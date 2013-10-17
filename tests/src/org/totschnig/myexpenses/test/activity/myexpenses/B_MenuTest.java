@@ -4,57 +4,24 @@ import org.totschnig.myexpenses.activity.AccountEdit;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
-import org.totschnig.myexpenses.test.util.Fixture;
+import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 
-import com.jayway.android.robotium.solo.Solo;
-import com.jayway.android.robotium.solo.SoloCompatibilityAbs;
-
-import android.app.Activity;
-import android.app.Application;
-import android.app.Instrumentation;
-import android.content.Context;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.KeyEvent;
 
 
 /**
  * @author Michael Totschnig
- * The whole package should be tested starting with a cleared database
- * adb shell pm clear org.totschnig.myexpenses
- * This class runs first and tests if the database is initialized
- * welcome dialog shown, and the menu built up
  * It is run on a Nexus S in portrait mode, and on a Android x86 VM, in landscape mode
- * It operates on the assumption that on pre-ICS deveice, keys invoked with invokeMenuActionSync
+ * It operates on the assumption that on pre-ICS device, keys invoked with invokeMenuActionSync
  * are not part of the visible action bar, but in the menu
  */
-public class B_MenuTest extends ActivityInstrumentationTestCase2<MyExpenses> {
-
-  private MyExpenses mActivity;
-  private SoloCompatibilityAbs mSolo;
-  private Instrumentation mInstrumentation;
-  private Context mContext;
-  ViewPager mPager;
-  FragmentPagerAdapter mAdapter;
+public class B_MenuTest extends MyActivityTest<MyExpenses> {
   
   public B_MenuTest() {
     super(MyExpenses.class);
-  }
-  public void setUp() throws Exception {
-    super.setUp();
-    mInstrumentation = getInstrumentation();
-    mContext = mInstrumentation.getTargetContext();
-    setActivityInitialTouchMode(false);
-    mActivity = getActivity();
-    mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
-    mInstrumentation = getInstrumentation();
-    mContext = mInstrumentation.getTargetContext();
   }
 
   public void testInsertTransaction() {
@@ -112,10 +79,6 @@ public class B_MenuTest extends ActivityInstrumentationTestCase2<MyExpenses> {
           "Found " + command + " command that should be inactive",
           actionBarItemVisible(resourceId));
     }
-  }
-  @Override
-  public void tearDown() throws Exception {
-    mSolo.finishOpenedActivities();
   }
   /**
    * Clicks a visible ActionBarItem matching the specified resource id.

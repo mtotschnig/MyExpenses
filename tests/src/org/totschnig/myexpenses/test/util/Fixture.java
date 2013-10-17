@@ -23,11 +23,11 @@ import android.graphics.Color;
 import android.os.Build;
 
 public class Fixture {
-  public static void clear(Instrumentation inst) {
-    File dir = inst.getTargetContext().getExternalCacheDir();
+  public static void clear(Context ctx) {
+    File dir = ctx.getExternalCacheDir();
     if (dir != null)
       delete(dir.getParentFile());
-    dir = inst.getTargetContext().getCacheDir();
+    dir = ctx.getCacheDir();
     if (dir != null)
       delete(dir.getParentFile());
   }

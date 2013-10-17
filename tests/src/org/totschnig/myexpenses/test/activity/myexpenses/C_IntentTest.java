@@ -8,10 +8,12 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.test.util.Fixture;
 import org.totschnig.myexpenses.R;
 
 import com.jayway.android.robotium.solo.Solo;
+import com.jayway.android.robotium.solo.SoloCompatibilityAbs;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -31,30 +33,14 @@ import android.view.KeyEvent;
  * 
  * @author Michael Totschnig
  */
-public class C_IntentTest extends ActivityInstrumentationTestCase2<MyExpenses> {
-
-  private Activity mActivity;
-  private Solo mSolo;
-  private Instrumentation mInstrumentation;
-  private Context mContext;
-  ViewPager mPager;
-  FragmentPagerAdapter mAdapter;
+public class C_IntentTest extends MyActivityTest<MyExpenses> {
   
   public C_IntentTest() {
     super(MyExpenses.class);
   }
   public void setUp() throws Exception { 
     super.setUp();
-    mInstrumentation = getInstrumentation();
-    mContext = mInstrumentation.getTargetContext();
-    setActivityInitialTouchMode(false);
-    mActivity = getActivity();
     Fixture.setup(mInstrumentation, new Locale("en","US"), Currency.getInstance("USD"));
-//    setActivityInitialTouchMode(false);
-//    mSolo = new Solo(getInstrumentation(), mActivity);
-//    mInstrumentation = getInstrumentation();
-//    mContext = mInstrumentation.getTargetContext();
-//    mPager = (ViewPager) mActivity.findViewById(R.id.viewpager);
   }
   public void testNavigateToAccountReceivedThroughIntent() {
     setActivity(null);
@@ -73,27 +59,12 @@ public class C_IntentTest extends ActivityInstrumentationTestCase2<MyExpenses> {
         .setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.MyExpenses");
       setActivityIntent(i);
       mActivity = getActivity();
-      mSolo = new Solo(getInstrumentation(), mActivity);
+      mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
       mSolo.searchText(cursor.getString(cursor.getColumnIndex(KEY_LABEL)));
       mActivity.finish();  // close the activity
       setActivity(null);
       cursor.moveToNext();
     }
     cursor.close();
-  }
-  @Override
-  public void tearDown() throws Exception {
-    mSolo.finishOpenedActivities();
-    backOutToHome();
-  }
-  private void backOutToHome() {
-    boolean more = true;
-    while(more) {
-        try {
-            getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
-        } catch (SecurityException e) { // Done, at Home.
-            more = false;
-        }
-    }
   }
 }

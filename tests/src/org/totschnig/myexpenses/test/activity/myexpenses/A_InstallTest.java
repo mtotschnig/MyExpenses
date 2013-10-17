@@ -1,22 +1,11 @@
 package org.totschnig.myexpenses.test.activity.myexpenses;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.provider.TransactionDatabase;
-import org.totschnig.myexpenses.test.util.Fixture;
+import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.R;
 
-import com.jayway.android.robotium.solo.Solo;
-
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 
 
 /**
@@ -27,27 +16,17 @@ import android.util.Log;
  * 
  * @author Michael Totschnig
  */
-public class A_InstallTest extends ActivityInstrumentationTestCase2<MyExpenses> {
+public class A_InstallTest extends MyActivityTest<MyExpenses> {
 
-  private Activity mActivity;
-  private Solo mSolo;
-  private Instrumentation mInstrumentation;
-  private Context mContext;
   ViewPager mPager;
   FragmentPagerAdapter mAdapter;
   
   public A_InstallTest() {
-    super(MyExpenses.class);
+    super(MyExpenses.class,true);
   }
 
   public void setUp() throws Exception {
     super.setUp();
-    mInstrumentation = getInstrumentation();
-    mContext = mInstrumentation.getTargetContext();
-    Fixture.clear(mContext);
-    setActivityInitialTouchMode(false);
-    mActivity = getActivity();
-    mSolo = new Solo(getInstrumentation(), mActivity);
     mPager = (ViewPager) mActivity.findViewById(R.id.viewpager);
   }
   public void testDatabaseIsCreatedAndWelcomeDialogIsShown() {
@@ -58,9 +37,5 @@ public class A_InstallTest extends ActivityInstrumentationTestCase2<MyExpenses> 
     mAdapter = (FragmentPagerAdapter) mPager.getAdapter();
     assertTrue(mAdapter != null);
     assertEquals(mAdapter.getCount(),1);
-  }
-  @Override
-  public void tearDown() throws Exception {
-    mSolo.finishOpenedActivities();
   }
 }
