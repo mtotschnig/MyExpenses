@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="Más bevétel"/>
+<Sub_category Nbc="1" Nb="1" Na="Munkanélküli segély"/>
+<Sub_category Nbc="1" Nb="2" Na="Családi pótlék"/>
+<Sub_category Nbc="1" Nb="3" Na="Adójóváírás"/>
+<Sub_category Nbc="1" Nb="4" Na="Szerencsejáték"/>
+<Sub_category Nbc="1" Nb="5" Na="Életbiztosítás"/>
+<Sub_category Nbc="1" Nb="6" Na="Társadalombiztosítás"/>
+<Category Nb="2" Na="Nyugdíj-hozzájárulás"/>
+<Sub_category Nbc="2" Nb="1" Na="Nyudíjalap"/>
+<Sub_category Nbc="2" Nb="2" Na="Nyugdíj"/>
+<Sub_category Nbc="2" Nb="3" Na="Nyugdíj-kiegészítés"/>
+<Category Nb="3" Na="Befektetésből származó bevétel"/>
+<Sub_category Nbc="3" Nb="1" Na="Osztalék"/>
+<Sub_category Nbc="3" Nb="2" Na="Kamat"/>
+<Sub_category Nbc="3" Nb="3" Na="Tőkeemelés"/>
+<Category Nb="4" Na="Fizetés"/>
+<Sub_category Nbc="4" Nb="1" Na="Túlóra"/>
+<Sub_category Nbc="4" Nb="2" Na="Végkielégítés"/>
+<Sub_category Nbc="4" Nb="3" Na="Egyéb prémium"/>
+<Sub_category Nbc="4" Nb="4" Na="Sikerdíj"/>
+<Sub_category Nbc="4" Nb="5" Na="Nettó jövedelem"/>
+<Category Nb="5" Na="Egyéb bevétel"/>
+<Sub_category Nbc="5" Nb="1" Na="Ajándékok"/>
+<Sub_category Nbc="5" Nb="2" Na="Visszatérítések"/>
+<Sub_category Nbc="5" Nb="3" Na="Használt áruk eladásából származó bevétel"/>
+<Category Nb="6" Na="Étel"/>
+<Sub_category Nbc="6" Nb="1" Na="Bár/Kocsma"/>
+<Sub_category Nbc="6" Nb="2" Na="Pékség"/>
+<Sub_category Nbc="6" Nb="3" Na="Étkezde/kantin"/>
+<Sub_category Nbc="6" Nb="4" Na="Édességek"/>
+<Sub_category Nbc="6" Nb="5" Na="Egyéb"/>
+<Sub_category Nbc="6" Nb="6" Na="Élelmiszer"/>
+<Sub_category Nbc="6" Nb="7" Na="Étterem"/>
+<Sub_category Nbc="6" Nb="8" Na="Önkiszolgáló"/>
+<Sub_category Nbc="6" Nb="9" Na="Közért"/>
+<Category Nb="7" Na="Háziállatok"/>
+<Sub_category Nbc="7" Nb="1" Na="Étel"/>
+<Sub_category Nbc="7" Nb="2" Na="Különböző szükségletek"/>
+<Sub_category Nbc="7" Nb="3" Na="Ápolás"/>
+<Sub_category Nbc="7" Nb="4" Na="Állatorvos"/>
+<Category Nb="8" Na="Biztosítás"/>
+<Sub_category Nbc="8" Nb="1" Na="Autó"/>
+<Sub_category Nbc="8" Nb="2" Na="Egészség"/>
+<Sub_category Nbc="8" Nb="3" Na="Ház/lakás"/>
+<Sub_category Nbc="8" Nb="4" Na="Civil kezdeményezések"/>
+<Sub_category Nbc="8" Nb="5" Na="Élet"/>
+<Category Nb="9" Na="Autó"/>
+<Sub_category Nbc="9" Nb="1" Na="Üzemanyag"/>
+<Sub_category Nbc="9" Nb="2" Na="Szervíz/javítás"/>
+<Sub_category Nbc="9" Nb="3" Na="Karbantartás"/>
+<Sub_category Nbc="9" Nb="4" Na="Parkolás"/>
+<Sub_category Nbc="9" Nb="5" Na="Büntetések"/>
+<Category Nb="11" Na="Ajándékok"/>
+<Category Nb="12" Na="Gyerek"/>
+<Sub_category Nbc="12" Nb="1" Na="Ápolás"/>
+<Sub_category Nbc="12" Nb="2" Na="Egyéb"/>
+<Sub_category Nbc="12" Nb="3" Na="Tanulmányok"/>
+<Category Nb="13" Na="Tanulmányok"/>
+<Sub_category Nbc="13" Nb="1" Na="Leckék/különórák"/>
+<Sub_category Nbc="13" Nb="2" Na="Iskolai díja"/>
+<Sub_category Nbc="13" Nb="3" Na="Könyvek"/>
+<Category Nb="14" Na="Különböző egyéb kiadások"/>
+<Sub_category Nbc="14" Nb="1" Na="Ajándékok"/>
+<Category Nb="15" Na="Pénzügyi költségek"/>
+<Sub_category Nbc="15" Nb="1" Na="Egyéb"/>
+<Sub_category Nbc="15" Nb="2" Na="Banki díjak"/>
+<Sub_category Nbc="15" Nb="3" Na="Hitel/Jelzálog"/>
+<Sub_category Nbc="15" Nb="4" Na="Díjak"/>
+<Sub_category Nbc="15" Nb="5" Na="Visszatérítés"/>
+<Category Nb="16" Na="Szakmai költségek"/>
+<Sub_category Nbc="16" Nb="1" Na="Vissza nem térítendő"/>
+<Sub_category Nbc="16" Nb="2" Na="Visszatérítendő"/>
+<Category Nb="17" Na="Adók"/>
+<Sub_category Nbc="17" Nb="1" Na="Egyéb"/>
+<Sub_category Nbc="17" Nb="2" Na="Bevétel"/>
+<Sub_category Nbc="17" Nb="3" Na="Föld"/>
+<Category Nb="18" Na="Lakhatás"/>
+<Sub_category Nbc="18" Nb="1" Na="Hotel"/>
+<Sub_category Nbc="18" Nb="2" Na="Bérlés"/>
+<Sub_category Nbc="18" Nb="3" Na="TV"/>
+<Sub_category Nbc="18" Nb="4" Na="Bútorok"/>
+<Sub_category Nbc="18" Nb="5" Na="Díjak"/>
+<Sub_category Nbc="18" Nb="6" Na="Fűtés"/>
+<Sub_category Nbc="18" Nb="7" Na="Dekoráció"/>
+<Sub_category Nbc="18" Nb="8" Na="Víz"/>
+<Sub_category Nbc="18" Nb="9" Na="Villany"/>
+<Sub_category Nbc="18" Nb="10" Na="Fehéráru (mosógép, hűtő, stb.)"/>
+<Sub_category Nbc="18" Nb="11" Na="Berendezés"/>
+<Sub_category Nbc="18" Nb="12" Na="Gáz"/>
+<Sub_category Nbc="18" Nb="13" Na="Kert"/>
+<Sub_category Nbc="18" Nb="14" Na="Gondnok/kertész"/>
+<Sub_category Nbc="18" Nb="15" Na="Telefon"/>
+<Sub_category Nbc="18" Nb="16" Na="Mobil"/>
+<Category Nb="19" Na="Szabadidő"/>
+<Sub_category Nbc="19" Nb="1" Na="Snooker"/>
+<Sub_category Nbc="19" Nb="2" Na="Bowling"/>
+<Sub_category Nbc="19" Nb="3" Na="Mozi"/>
+<Sub_category Nbc="19" Nb="4" Na="Night club"/>
+<Sub_category Nbc="19" Nb="5" Na="IT/számítástechnika"/>
+<Sub_category Nbc="19" Nb="6" Na="Játékok"/>
+<Sub_category Nbc="19" Nb="7" Na="Könyvek"/>
+<Sub_category Nbc="19" Nb="8" Na="Park"/>
+<Sub_category Nbc="19" Nb="9" Na="Koncertek"/>
+<Sub_category Nbc="19" Nb="10" Na="Sport"/>
+<Sub_category Nbc="19" Nb="11" Na="Video"/>
+<Sub_category Nbc="19" Nb="12" Na="Utazás"/>
+<Sub_category Nbc="19" Nb="13" Na="Felszerelés"/>
+<Sub_category Nbc="19" Nb="14" Na="Múzeum/Kiállítás"/>
+<Category Nb="20" Na="Hitel/Jelzálog"/>
+<Sub_category Nbc="20" Nb="1" Na="Tőke"/>
+<Category Nb="21" Na="Egészség"/>
+<Sub_category Nbc="21" Nb="1" Na="Biztosítás"/>
+<Sub_category Nbc="21" Nb="2" Na="Fogászat"/>
+<Sub_category Nbc="21" Nb="3" Na="Kórház"/>
+<Sub_category Nbc="21" Nb="4" Na="Kineziológus"/>
+<Sub_category Nbc="21" Nb="5" Na="Orvos"/>
+<Sub_category Nbc="21" Nb="6" Na="Szemész"/>
+<Sub_category Nbc="21" Nb="7" Na="Csontkovács"/>
+<Sub_category Nbc="21" Nb="8" Na="Chemist"/>
+<Sub_category Nbc="21" Nb="9" Na="Társadalombiztosítás"/>
+<Category Nb="22" Na="Gondozás"/>
+<Sub_category Nbc="22" Nb="1" Na="Fodrász"/>
+<Sub_category Nbc="22" Nb="2" Na="Öltözködés"/>
+<Category Nb="23" Na="Szállítás"/>
+<Sub_category Nbc="23" Nb="1" Na="Busz"/>
+<Sub_category Nbc="23" Nb="2" Na="Metro"/>
+<Sub_category Nbc="23" Nb="3" Na="Útdíj"/>
+<Sub_category Nbc="23" Nb="4" Na="Vonat"/>
+<Sub_category Nbc="23" Nb="5" Na="Villamos"/>
+<Sub_category Nbc="23" Nb="6" Na="Utazások"/>
+<Sub_category Nbc="23" Nb="7" Na="Légi"/>
+<Category Nb="24" Na="Szabadság"/>
+<Sub_category Nbc="24" Nb="1" Na="Lakhatás"/>
+<Sub_category Nbc="24" Nb="2" Na="Látogatások"/>
+<Sub_category Nbc="24" Nb="3" Na="Utazások"/></Grisbi_categ>

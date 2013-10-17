@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+  <string name="help_menu_commands">Menü parancsok</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">Tranzakciós lista</string>
+  <string name="help_MyExpenses_info">Ezen a képernyőn kerül listázásra az aktuális számlához tartozó összes tranzakció. A navigációs menüből elérhető a többi számla is. Koppintásra a lista elemei szerkeszthetőek.</string>
+  <string name="menu_create_transaction_help_text">Megnyit egy űrlapot az új tranzakció készítéséhez.</string>
+  <string name="menu_create_transfer_help_text">Átvezetés/átutalás számlák között. Ez a parancs csak akkor aktív és elérhető, ha az adott pénznemben legalább két számlája van.</string>
+  <string name="menu_create_split_help_text">Az osztott tranzakció lehetővé teszi, hogy egy adott kifizetést több kategóriához rendelje, vagy különböző számlákhoz átutalás/átvezetés esetén.</string>
+  <string name="menu_new_from_template_help_text">Amennyiben rendelkezik legalább egy sablonnal az adott számlához, ezzel a paranccsal megnyithatja a menüt, ahol kiválaszthatja a létrehozandó tranzakciót a sablon alapján.</string>
+  <string name="menu_reset_help_text">A parancs kiexportálja az aktuális számla összes tranzakcióját QIF, vagy CSV formátumban az SD-kártyára. Alapesetben ilyenkor a tranzakciók törlődnek a telefonról, de lehetősége van arra is, hogy az adatok a telefonon is megmaradjanak, de kerüljenek megjelölésre, hogy már exportálva lettek. Amennyiben a Beállítások menüben korábban meghatározásra került FTP, email vagy bármilyen egyéb fájl megosztást támogató app, akkor a My Expenses program azonnal képes az említett módon megosztani a kiexportált adatállományt.</string>
+  <string name="menu_edit_account_help_text">Az aktuális számla beállításainak szerkesztése (elnevezés, leírás, nyitó egyenleg, számla típus, pénznem, szín).</string>
+  <string name="menu_grouping_help_text">Tranzakciók csoportosítása napok, hetek, hónapok vagy évek szerint. Minden csoportban megjelenik az adott időszakra vonatkozó összesítés bevétel/kiadás és egyéb kifizetések szerint.</string>
+  <string name="menu_distribution_help_text">A kiadások megjelenítése kategóriánként. Az adott tételre kattintva kibontható, milyen további elemekből áll az adott csoport.</string>
+  <!--ManageAccounts Accounts list-->
+  <string name="help_ManageAccounts_title">Számla lista</string>
+  <string name="help_ManageAccounts_info">A képernyőn látható az összes számla. Kattintásra az adott számla tranzakciói jelennek meg.</string>
+  <string name="menu_create_account_help_text">Megnyit egy űrlapot új számla készítéséhez.</string>
+  <string name="menu_aggregates_help_text">Az összesítő oldalon megjelenítésre kerül az összes kiadás és bevétel az adott pénznemhez tartozóan, függetlenül attól hány számlát érint. A funkció csak a Contrib verzióban érhető el és legalább két számla szükséges egy adott pénznemhez.</string>
+  <string name="menu_reset_all_help_text">A számlák alapállapotba állítására szolgáló parancs. Nem használható, ha nincsenek exportálásra váró tranzakciók (Contrib szolgáltatás).</string>
+  <!--ManageMethods title is in keys-->
+  <string name="help_ManageMethods_info">Ezen a képernyőn láthatóak az előre definiált fizetési módok (Csekk, Hitelkártya, Előleg, Csoportos beszedés) és itt van lehetőség új módok hozzáadására. Bármely elemre kattintva beállítható az összerendelés a fizetési mód és a számla típusa között.</string>
+  <string name="menu_create_method_help_text">Űrlap az új fizetési mód beállításához.</string>
+  <!--ManageParties title is in keys-->
+  <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_info">A sablonok listájának képernyője - számlánként csoportosítva. A sablonok értelemszerűen a tranzakciók űrlapjánál kerülnek felhasználásra. Itt arra van lehetőség, hogy egy adott tranzakció-sablon segítségével új sablont hozzunk létre, vagy szerkesszük azt. Koppintásra szerkeszthető (Contrib szolgáltatás).</string>
+  <!--ManageCategories_manage titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">Ezen a képernyőn látható a kiadások és bevételek megoszlása kategóriánként minden tranzakcióra egy számlán, vagy annak egy meghatározott csoportján.</string>
+  <string name="help_ManageCategories_select_info">A kategóriák kezelésén kívül, a Beállítások képernyőn (hozzáadás, szerkesztés, törlés) - ezen a képernyőn lehet hozzárendelni az adott tranzakciót a kiválasztott kategóriához. Az összerendeléshez csak rá kell koppintani a kiválasztott alkategóriára. Főkategóriához is rendelhető tranzakció, de az annak a helyi menüjében kell kiválasztani. </string>
+  <string name="help_ManageCategories_manage_info">Ezen a képernyőn lehet létrehozni, szerkeszteni vagy törölni kategóriákat. Alapértelmezetten a legsűrűbben használt kategória áll legelöl, másodlagos rendezési szempont az ábécé-sorrend. Így a legtöbbet használt kategória lesz a leggyorsabban elérhető. A beállítások között átállítható, hogy egyszerű ABC sorrendben kerüljenek rendezésre a kategóriák. Az adott fő kategória menüjében van lehetőség ahhoz a főkategóriához tartozó alkategóriákat létrehozni, szerkeszteni, vagy törölni. Az alkategóriák menüjében is lehet szerkeszteni, vagy törölni. </string>
+  <string name="menu_create_main_cat_help_text">Megnyit egy beviteli mezőt az új főkategória nevének/címének megadásához.</string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">A csoportosítás típusának beállítása és a megoszlás megjelenítése napi, heti, havi, vagy éves bontásban.</string>
+  <string name="menu_back_help_text">Az előző csoportosításhoz lépés.</string>
+  <string name="menu_forward_help_text">A következő csoportosításhoz lépés.</string>
+  <!--ExpenseEdit-->
+  <string name="help_ExpenseEdit_transaction_title">A tranzakciók űrlapja</string>
+  <string name="help_ExpenseEdit_transfer_title">Átutalások űrlapja</string>
+  <string name="help_ExpenseEdit_template_title">Sablonok űrlapja</string>
+  <string name="help_ExpenseEdit_split_title">Megosztások űrlapja</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">A megosztások kategóriához rendelésének űrlapja</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">Megosztások átutalásának űrlapja</string>
+  <string name="help_ExpenseEdit_info">A \"-\" gombra kattintva vált a kiadás és a bevétel között. A \"=\" gomb megnyitja a számológépet. A tizedesjegy a beállítások alatt módosítható.</string>
+  <string name="help_ExpenseEdit_transaction_info">A kedvezményezett (vagy kifizető) mezők megőrzik a bevitt adatokat és használatuk hamarosan további lehetőségeket nyújtanak majd: nyilvántartásra kerülnek a tranzakcióban résztvevő felek. A fizetési mód választására vonatkozó gomb csak akkor érhető el, ha a jelenlegi számla összekapcsolásra került több fizetési móddal.</string>
+  <string name="help_ExpenseEdit_template_info">A cím segít a sablonok kiválasztásánál, hogy mely tranzakcióhoz tartozó sablon kerüljön példányosításra</string>
+  <string name="help_ExpenseEdit_splitPartCategory_info">Kategória kiválasztása az osztott részhez.</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_info">Forrás számla hozzárendelése az osztott részhez.</string>
+  <string name="menu_save_help_text">Adatok mentése és az űrlap bezárása.</string>
+  <string name="menu_create_split_part_category_help_text">Űrlapot nyit meg, amelyen az osztott rész rendelhető kategóriához.</string>
+  <string name="menu_create_split_part_transfer_help_text">Űrlap, melyen meghatározható az osztott rész átvezetése mely más számlára történjen.</string>
+  <!--AccountEdit-->
+  <string name="help_AccountEdit_title">Számlák űrlapja</string>
+  <!--MethodEdit-->
+  <string name="help_MethodEdit_title">Fizetési módok űrlapja</string>
+</resources>

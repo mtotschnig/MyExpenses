@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+  <string-array name="whats_new_79">
+    <item>Tranzakciók megjelölése, mint jóváhagyott, vagy folyamatban/egyeztetés alatt lévő (Bankszámla és hitelkártya számlatípusnál)</item>
+    <item>A pénzügyi folyamatokban résztvevő felek mostantól szerkeszthetőek</item>
+  </string-array>
+  <string-array name="whats_new_75">
+    <item>Egy adott tranzakció több kategóriában történő felosztása (Premium változat)</item>
+  </string-array>
+  <string-array name="whats_new_72">
+    <item>Bug fix: #69-es ügy</item>
+    <item>Arab nyelv</item>
+  </string-array>
+  <string-array name="whats_new_67">
+    <item>Tranzakciók összesítése napi, heti, havi és éves viszonylatban</item>
+    <item>A kedvezményezett a tranzakciós listában megjelenik</item>
+    <item>A számlák sorrendben látszanak (alapértelmezetten a leggyakrabban használt elöl)</item>
+  </string-array>
+  <string-array name="whats_new_63">
+    <item>Tranzakciók felosztása (Premium)</item>
+  </string-array>
+  <string-array name="whats_new_59">
+    <item>Vietnámi nyelv</item>
+    <item>Apróbb fejlesztések</item>
+  </string-array>
+  <string-array name="whats_new_58">
+    <item>Új felhasználói felület a Holo-téma alapján</item>
+    <item>Beágyazott segítség-dialógusok</item>
+    <item>Exportálás újraindítás nélkül</item>
+  </string-array>
+</resources>
