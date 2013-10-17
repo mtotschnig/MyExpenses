@@ -49,6 +49,9 @@ public class Fixture {
       }
   }
   public static void setup(Instrumentation inst, Locale locale, Currency defaultCurrency) {
+    setup(inst,locale,defaultCurrency,-1);
+  }
+  public static void setup(Instrumentation inst, Locale locale, Currency defaultCurrency,int stage) {
     Context testContext = inst.getContext();
     Context appContext = inst.getTargetContext().getApplicationContext(); 
     Currency foreignCurrency = Currency.getInstance(testContext.getString(R.string.testData_account2Currency));
@@ -142,5 +145,6 @@ public class Fixture {
     split2.amount = new Money(defaultCurrency,-4444L);
     split2.catId = mainCat6;
     split2.save();
+    if (stage ==1) return;
   }
 }
