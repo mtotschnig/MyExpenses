@@ -9,10 +9,8 @@ import android.support.v4.view.ViewPager;
 
 
 /**
- * The whole package should be tested starting with a cleared database
- * adb shell pm clear org.totschnig.myexpenses
  * This class runs first and tests if the database is initialized
- * welcome dialog shown, and the menu built up
+ * welcome dialog shown and adapter set up 
  * 
  * @author Michael Totschnig
  */
