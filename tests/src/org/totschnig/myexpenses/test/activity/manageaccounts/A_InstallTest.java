@@ -9,6 +9,8 @@ import org.totschnig.myexpenses.fragment.AccountList;
 import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.test.util.Fixture;
 
+import com.jayway.android.robotium.solo.SoloCompatibilityAbs;
+
 import android.database.DataSetObserver;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -34,6 +36,8 @@ public class A_InstallTest extends MyActivityTest<ManageAccounts> {
   public void setUp() throws Exception {
     super.setUp();
     Fixture.setup(mInstrumentation, new Locale("en","US"), Currency.getInstance("USD"),1);
+    mActivity = getActivity();
+    mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
   }
   public void testFragmentIsSetup() {
     FragmentActivity activity = (FragmentActivity) mActivity;

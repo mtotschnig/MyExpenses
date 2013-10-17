@@ -8,6 +8,8 @@ import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 
+import com.jayway.android.robotium.solo.SoloCompatibilityAbs;
+
 import android.os.Build;
 import android.view.KeyEvent;
 
@@ -22,6 +24,10 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
   
   public B_MenuTest() {
     super(MyExpenses.class);
+  }
+  public void setUp() throws Exception {
+    mActivity = getActivity();
+    mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
   }
 
   public void testInsertTransaction() {

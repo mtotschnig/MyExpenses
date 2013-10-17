@@ -48,8 +48,6 @@ public abstract class MyActivityTest<T extends Activity>  extends ActivityInstru
     if (clear)
       Fixture.clear(mContext);
     setActivityInitialTouchMode(false);
-    mActivity = getActivity();
-    mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
   }
   @Override
   public void tearDown() throws Exception {

@@ -4,6 +4,8 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.test.activity.MyActivityTest;
 import org.totschnig.myexpenses.R;
 
+import com.jayway.android.robotium.solo.SoloCompatibilityAbs;
+
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
@@ -25,6 +27,8 @@ public class A_InstallTest extends MyActivityTest<MyExpenses> {
 
   public void setUp() throws Exception {
     super.setUp();
+    mActivity = getActivity();
+    mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
     mPager = (ViewPager) mActivity.findViewById(R.id.viewpager);
   }
   public void testDatabaseIsCreatedAndWelcomeDialogIsShown() {

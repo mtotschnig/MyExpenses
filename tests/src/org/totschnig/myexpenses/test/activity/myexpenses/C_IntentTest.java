@@ -40,6 +40,8 @@ public class C_IntentTest extends MyActivityTest<MyExpenses> {
   }
   public void setUp() throws Exception { 
     super.setUp();
+    mActivity = getActivity();
+    mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
     Fixture.setup(mInstrumentation, new Locale("en","US"), Currency.getInstance("USD"));
   }
   public void testNavigateToAccountReceivedThroughIntent() {
@@ -56,7 +58,8 @@ public class C_IntentTest extends MyActivityTest<MyExpenses> {
       setActivityInitialTouchMode(false);
       Intent i = new Intent()
         .putExtra(KEY_ROWID, cursor.getLong(cursor.getColumnIndex(KEY_ROWID)))
-        .setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.MyExpenses");
+        .setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.MyExpenses")
+        ;
       setActivityIntent(i);
       mActivity = getActivity();
       mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
