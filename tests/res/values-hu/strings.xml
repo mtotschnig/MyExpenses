@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="testData_account1Label">Saját pénztárca</string>
+  <string name="testData_account1Description">Napi kiadások</string>
+  <string name="testData_account2Label">Párizsi hétvége</string>
+  <string name="testData_account2Description">2012. augusztus</string>
+  <string name="testData_account2Currency">EUR</string>
+  <string name="testData_account3Label">Bankszámla</string>
+  <string name="testData_account3Description">Bank of America</string>
+  <string name="testData_transaction1SubCat">Metro</string>
+  <string name="testData_transaction1MainCat">Szállítás</string>
+  <string name="testData_transaction2SubCat">Élelmiszer</string>
+  <string name="testData_transaction2MainCat">Étel</string>
+  <string name="testData_transaction2Comment">Zöldség, gyümölcs</string>
+  <string name="testData_transaction3SubCat">Üzemanyag</string>
+  <string name="testData_transaction3MainCat">Autó</string>
+  <string name="testData_transaction4SubCat">Étterem</string>
+  <string name="testData_transaction4MainCat">Étel</string>
+  <string name="testData_transaction4Payee">Antonella Pizzéria</string>
+  <string name="testData_transaction6MainCat">Ajándékok</string>
+</resources>
