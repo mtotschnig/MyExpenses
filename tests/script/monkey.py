@@ -103,15 +103,13 @@ back()
 toOrigin()
 sleep()
 right()
-#don't know why one is enough here
 right()
 sleep()
 enter()
 toOrigin()
-for _ in range(3):
-  down()
-right()
-enter()
+activity = 'org.totschnig.myexpenses.activity.CalculatorInput'
+runComponent = package + '/' + activity
+device.startActivity(component=runComponent)
 snapshot("calculator")
 
 #7 Split
