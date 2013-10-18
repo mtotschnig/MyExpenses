@@ -2,7 +2,7 @@ Steps for preparing a new release
 
 * Run unit tests
 * Set version info in Manifest
-* check if update version_codes, version_names, upgrade.xml use the correction version code 
+* check if version_codes, version_names, upgrade.xml use the correction version code 
 * ant clean
 * ant release
 * test upgrade mechanism
