@@ -89,7 +89,11 @@
               <category android:name="android.intent.category.DEFAULT" />  
             </intent-filter>
         </activity>
-        <activity android:name=".activity.CalculatorInput" android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".activity.CalculatorInput" android:theme="@android:style/Theme.Dialog">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
         <provider
            android:exported="false"
            android:name=".provider.TransactionProvider"
