@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.test.R;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
@@ -23,6 +24,22 @@ import android.graphics.Color;
 import android.os.Build;
 
 public class Fixture {
+  private static Account account1;
+  private static Account account2;
+  private static Account account3;
+  public static Account getAccount1() {
+    return account1;
+  }
+  public static Account getAccount2() {
+    return account2;
+  }
+  public static Account getAccount3() {
+    return account3;
+  }
+  public static Account getAccount4() {
+    return account4;
+  }
+  private static Account account4;
   public static void clear(Context ctx) {
     File dir = ctx.getExternalCacheDir();
     if (dir != null)
@@ -56,8 +73,7 @@ public class Fixture {
     Context appContext = inst.getTargetContext().getApplicationContext(); 
     Currency foreignCurrency = Currency.getInstance(testContext.getString(R.string.testData_account2Currency));
 
-    //set up accounts
-    Account account1 = new Account(
+    account1 = new Account(
         testContext.getString(R.string.testData_account1Label),
         defaultCurrency,
         2000,
@@ -65,7 +81,7 @@ public class Fixture {
     );
     account1.grouping = Account.Grouping.DAY;
     account1.save();
-    Account account2 = new Account(
+    account2 = new Account(
         testContext.getString(R.string.testData_account2Label),
         foreignCurrency,
         50000,
@@ -73,17 +89,16 @@ public class Fixture {
         Build.VERSION.SDK_INT > 13 ? testContext.getResources().getColor(android.R.color.holo_red_dark) : Color.RED
     );
     account2.save();
-    Account account3 = new Account(
+    account3 = new Account(
         testContext.getString(R.string.testData_account3Label),
         defaultCurrency,
         200000,
         testContext.getString(R.string.testData_account3Description), Type.BANK,
         Build.VERSION.SDK_INT > 13 ? testContext.getResources().getColor(android.R.color.holo_blue_dark) : Color.BLUE
     );
+    account3.grouping = Account.Grouping.DAY;
     account3.save();
-    //we set up one more account with the foreign currency, in order to have two accounts with the same currency,
-    //which makes sure it appears in the aggregate dialog
-    Account account4 = new Account("ignored",foreignCurrency,0,"",Type.BANK,Account.defaultColor);
+    account4 = new Account("ignored",foreignCurrency,0,"",Type.BANK,Account.defaultColor);
     account4.save();
     //set up categories
     int sourceRes = appContext.getResources().getIdentifier("cat_"+locale.getLanguage(), "raw", appContext.getPackageName());
@@ -95,53 +110,75 @@ public class Fixture {
     long mainCat1 = Category.find(testContext.getString(R.string.testData_transaction1MainCat), null);
     long mainCat2 = Category.find(testContext.getString(R.string.testData_transaction2MainCat), null);
     long mainCat6 = Category.find(testContext.getString(R.string.testData_transaction6MainCat), null);
-    Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
+
+    //Transaction 1
+    Transaction op1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account3.id);
     op1.amount = new Money(defaultCurrency,-1200L);
     op1.catId = Category.find(testContext.getString(R.string.testData_transaction1SubCat), mainCat1);
     op1.setDate(new Date( now - 300000 ));
     op1.save();
-    Transaction op2 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
+
+    //Transaction 2
+    Transaction op2 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account3.id);
     op2.amount = new Money(defaultCurrency,-2200L);
     op2.catId = Category.find(testContext.getString(R.string.testData_transaction2SubCat), mainCat2);
     op2.comment = testContext.getString(R.string.testData_transaction2Comment);
     op2.setDate(new Date( now - 7200000 ));
     op2.save();
-    Transaction op3 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
+    Transaction op3 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account3.id);
+
+    //Transaction 3 Cleared
     op3.amount = new Money(defaultCurrency,-2500L);
     op3.catId = Category.find(testContext.getString(R.string.testData_transaction3SubCat),
         Category.find(testContext.getString(R.string.testData_transaction3MainCat), null));
     op3.setDate(new Date( now - 72230000 ));
+    op3.crStatus = CrStatus.CLEARED;
     op3.save();
-    Transaction op4 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account1.id);
+
+    //Transaction 4 Cleared
+    Transaction op4 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,account3.id);
     op4.amount = new Money(defaultCurrency,-5000L);
     op4.catId = Category.find(testContext.getString(R.string.testData_transaction4SubCat),
         Category.find(testContext.getString(R.string.testData_transaction4MainCat), null));
     op4.payee = testContext.getString(R.string.testData_transaction4Payee);
     op4.setDate(new Date( now - 98030000 ));
+    op4.crStatus = CrStatus.CLEARED;
     op4.save();
+
+    // Template
     new Template(op4,op4.payee).save();
-    Transaction op5 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER, account3.id);
-    op5.transfer_account = account1.id;
+
+    //Transaction 5 Reconciled
+    Transaction op5 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER, account1.id);
+    op5.transfer_account = account3.id;
     op5.amount = new Money(defaultCurrency,-10000L);
-    op5.setDate(new Date( now - 100390000 ));
+    op5.setDate(new Date( now - 800390000 ));
+    op5.crStatus = CrStatus.RECONCILED;
     op5.save();
-    Transaction op6 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account1.id);
+
+    //Transaction 6 Gift Reconciled
+    Transaction op6 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.id);
     op6.amount = new Money(defaultCurrency,10000L);
     op6.catId = mainCat6;
-    op6.setDate(new Date( now - 110390000 ));
+    op6.setDate(new Date( now - 810390000 ));
+    op6.crStatus = CrStatus.RECONCILED;
     op6.save();
+
+    //Transaction 7 Second account foreign Currency
     Transaction op7 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account2.id);
     op7.amount = new Money(foreignCurrency,-34523L);
     op7.setDate(new Date( now - 1003900000 ));
     op7.save();
-    Transaction op8 = Transaction.getTypedNewInstance(MyExpenses.TYPE_SPLIT, account1.id);
+
+    //Transaction 8: Split
+    Transaction op8 = Transaction.getTypedNewInstance(MyExpenses.TYPE_SPLIT, account3.id);
     op8.amount = new Money(defaultCurrency,-8967L);
     op8.save();
-    Transaction split1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account1.id,op8.id);
+    Transaction split1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.id,op8.id);
     split1.amount = new Money(defaultCurrency,-4523L);
     split1.catId = mainCat2;
     split1.save();
-    Transaction split2 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account1.id,op8.id);
+    Transaction split2 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.id,op8.id);
     split2.amount = new Money(defaultCurrency,-4444L);
     split2.catId = mainCat6;
     split2.save();
