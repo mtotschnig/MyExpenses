@@ -26,6 +26,7 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
     super(MyExpenses.class);
   }
   public void setUp() throws Exception {
+    super.setUp();
     mActivity = getActivity();
     mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
   }

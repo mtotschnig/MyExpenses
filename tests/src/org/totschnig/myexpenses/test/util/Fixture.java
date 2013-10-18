@@ -81,6 +81,7 @@ public class Fixture {
     );
     account1.grouping = Account.Grouping.DAY;
     account1.save();
+    if (stage ==1) return;
     account2 = new Account(
         testContext.getString(R.string.testData_account2Label),
         foreignCurrency,
@@ -182,6 +183,5 @@ public class Fixture {
     split2.amount = new Money(defaultCurrency,-4444L);
     split2.catId = mainCat6;
     split2.save();
-    if (stage ==1) return;
   }
 }

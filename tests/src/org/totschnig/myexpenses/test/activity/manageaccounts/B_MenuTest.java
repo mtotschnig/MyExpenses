@@ -23,6 +23,7 @@ public class B_MenuTest extends MyActivityTest<ManageAccounts> {
     super(ManageAccounts.class);
   }
   public void setUp() throws Exception {
+    super.setUp();
     mActivity = getActivity();
     mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
   }
