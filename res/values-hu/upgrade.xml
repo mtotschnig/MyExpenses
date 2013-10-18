@@ -18,6 +18,7 @@
   <string-array name="whats_new_79">
     <item>Tranzakciók megjelölése, mint jóváhagyott, vagy folyamatban/egyeztetés alatt lévő (Bankszámla és hitelkártya számlatípusnál)</item>
     <item>A pénzügyi folyamatokban résztvevő felek mostantól szerkeszthetőek</item>
+    <item>Magyar nyelv</item>
   </string-array>
   <string-array name="whats_new_75">
     <item>Egy adott tranzakció több kategóriában történő felosztása (Premium változat)</item>
