@@ -6,7 +6,7 @@
   <string name="testData_account2Description">2012. augusztus</string>
   <string name="testData_account2Currency">EUR</string>
   <string name="testData_account3Label">Bankszámla</string>
-  <string name="testData_account3Description">Bank of America</string>
+  <string name="testData_account3Description">OTP Bank</string>
   <string name="testData_transaction1SubCat">Metro</string>
   <string name="testData_transaction1MainCat">Szállítás</string>
   <string name="testData_transaction2SubCat">Élelmiszer</string>
