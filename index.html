@@ -36,7 +36,7 @@ function findDestination() {
     case "#privacy":
       hash = "#imprint";
   }
-  translations = ["en","de","fr","it","es","tr","vi"];
+  translations = ["en","de","fr","it","es","tr","vi","ar","hu","ca"];
   lang = translations.indexOf(userLang) > -1 ? userLang : "en";
   return "http://" + window.location.host + "/" + lang + hash;
 }
