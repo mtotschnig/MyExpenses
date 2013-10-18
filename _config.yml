@@ -42,6 +42,12 @@ gplus:
     - "Split transactions (1.8.5)"
 versions:
   -
+    - 1.9.6.1
+    - 2013-10-18
+    -
+      en: |
+        Fixed crash on Eclair and Froyo
+  -
     - 1.9.6
     - 2013-10-18
     -
@@ -61,12 +67,6 @@ versions:
         Cờ đánh dấu giao dịch là đã dọn dẹp / đã hòa hợp (áp dụng cho tài khoản tại ngân hàng và tài khoản tín dụng). Các hội có thể được chỉnh sửa.
       hu: |
         Tranzakciók megjelölése, mint jóváhagyott, vagy folyamatban/egyeztetés alatt lévő (Bankszámla és hitelkártya számlatípusnál). A pénzügyi folyamatokban résztvevő felek mostantól szerkeszthetőek.
-  -
-    - 1.9.5.1
-    - 2013-10-09
-    -
-      en: |
-        Stability improvements.
   -
     - 1.9.5
     - 2013-10-04
