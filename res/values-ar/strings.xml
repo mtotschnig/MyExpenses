@@ -33,19 +33,19 @@
   <string name="dialog_contrib_usage_count">لديك %1$d استعمالات مجانية متبقية</string>
   <string name="dialog_contrib_no_usages_left">انتهت فترة الاستعمال المجاني</string>
   <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">حذف هذه القيود بتثبيت &lt;i&gt;My Expenses Contrib&lt;/i&gt;.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">حذف هذه القيود بتثبيت &lt;i&gt;مصروفاتي Contrib&lt;/i&gt;.</string>
   <string name="dialog_contrib_reminder_gain_access">يمكنك أيضا الوصول الغير مقيد لهذه الميزات التالية:</string>
   <string name="dialog_contrib_yes">شراء الآن</string>
   <string name="dialog_contrib_no">ليس بعد</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text">&lt;i&gt;My Expenses&lt;/i&gt; تطبيق مفتوح المصدر وبدون إعلانات. أرجو المساهمة بتثبيت النسخة المدفوعة. يمكنك الحصول على كافة المميزات التالية:</string>
+  <string name="dialog_contrib_text">&lt;i&gt;مصروفاتي&lt;/i&gt; تطبيق مفتوح المصدر وبدون إعلانات. أرجو المساهمة بتثبيت النسخة المدفوعة. يمكنك الحصول على كافة المميزات التالية:</string>
   <string name="dialog_export_delete">حذف العمليات المصدّرة</string>
   <string name="dialog_export_not_yet_exported">تصدير العمليات التي لم تصدّر بعد</string>
   <string name="dialog_password_activate_protection">تفعيل حماية كلمة المرور</string>
   <string name="dialog_password_change_password">تغيير كلمة المرور</string>
   <string name="dialog_password_new_password">كلمة مرور الجديدة</string>
   <string name="dialog_password_new_password_confirmation">كلمة المرور الجديدة (للتأكيد)</string>
-  <string name="dialog_remind_rate">فضلا قم بتقييم My Expenses في Google Play. تعليقاتكم تمنحني الاستمرار في تحسين البرنامج.</string>
+  <string name="dialog_remind_rate">فضلا قم بتقييم مصروفاتي في Google Play. تعليقاتكم تمنحني الاستمرار في تحسين البرنامج.</string>
   <string name="dialog_remind_rate_yes">تقييم الآن</string>
   <string name="dialog_remind_later">لاحقاً</string>
   <string name="dialog_remind_no">لا شكراً</string>
@@ -205,7 +205,7 @@
   <string name="pref_category_title_export">تصدير</string>
   <string name="pref_category_title_security">الأمان</string>
   <string name="pref_contrib_install_title">تثبيت النسخة المدفوعة</string>
-  <string name="pref_contrib_install_summary">بتثبيتك My Expenses Contrib، يمكنك الوصول إلى المميزات الكاملة.</string>
+  <string name="pref_contrib_install_summary">بتثبيتك مصروفاتي Contrib، يمكنك الوصول إلى المميزات الكاملة.</string>
   <string name="pref_currency_decimal_separator_title">تنسيق الاعداد العشرية عند ادخال القيم</string>
   <string name="pref_currency_decimal_separator_comma">فاصلة (،)</string>
   <string name="pref_currency_decimal_separator_point">نقطة (.)</string>
@@ -245,7 +245,7 @@
   <string name="pref_share_target_title">رابط الرفع</string>
   <string name="pref_share_target_summary">اتركه فارغا إذا أردت الاختيار بين التطبيقات المناسبة (البريد الالكتروني، دروب بوكس، مستندات قوقل، ...) أو قم بإدخل رابط كأحد الطرق المدعومة</string>
   <string name="pref_security_question_title">السؤال السري</string>
-  <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور. يتطلب My Expenses Contrib.</string>
+  <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور. يتطلب مصروفاتي Contrib.</string>
   <string name="pref_send_feedback_title">ارسال ملاحظة أو تقييم</string>
   <string name="pref_ui_theme_title">المظهر</string>
   <string name="pref_ui_theme_dark">غامق</string>
@@ -255,7 +255,7 @@
   <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات ...</string>
   <string name="progress_dialog_setup">جاري تهيئة قاعدة البيانات ...</string>
   <string name="request_licence_mail_head">أرجو تزويدي بمفتاح مساهمة لـ Android-Id %1$s.</string>
-  <string name="request_licence_mail_description">فضلا قم بكتابة مساهمتك ( باللغة العربية ، الانجليزية، الألمانية أو الفرنسية) في My Expenses(على سبيل المثال: تبرع عن طريق PayPal، تقرير عن عطل، اختبار التطبيق، ترجمة، ...)</string>
+  <string name="request_licence_mail_description">فضلا قم بكتابة مساهمتك ( باللغة العربية ، الانجليزية، الألمانية أو الفرنسية) في مصروفاتي(على سبيل المثال: تبرع عن طريق PayPal، تقرير عن عطل، اختبار التطبيق، ترجمة، ...)</string>
   <string name="restore_db_failure">فشلت عملية استعادة قاعدة البيانات.</string>
   <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
   <string name="restore_no_backup_found">لم يتم العثور على ملف BACKUP داخل مجلد \"myexpenses\" في الذاكرة.</string>
@@ -289,7 +289,7 @@
   <string name="warning_backup">سيتم حفظ قاعدة البينات والتفضيلات في الذاكرة. استمرار؟</string>
   <string name="warning_backup_exists">سيتم حفظ قاعدة البيانات والتفضيلات في الذاكرة. سوف تتم الكتابة على النسخة الاحتياطية الحالية. هل تريد الاستمرار؟</string>
   <string name="warning_delete_account">سيتم حذف هذا الحساب مع كامل العمليات المتعلقة به. هل تريد الاستمرار؟</string>
-  <string name="warning_password_no_contrib">عند قيامك بوضع كلمة مرور، احرص على عدم نسيانك لها. لن تكون قادرا على استرجاعها إلا عن طريق سؤال الأمان (يتطلب My Expenses Contrib).</string>
+  <string name="warning_password_no_contrib">عند قيامك بوضع كلمة مرور، احرص على عدم نسيانك لها. لن تكون قادرا على استرجاعها إلا عن طريق سؤال الأمان (يتطلب مصروفاتي Contrib).</string>
   <string name="warning_password_contrib">اعداد سؤال الامان يمكنك من إلغاء قفل التطبيق، في حال نسيت كلمة المرور.</string>
   <string name="warning_reset_account">إذا قمت بالمتابعة ، كل العمليات الخاصة بهذا الحساب سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
   <string name="warning_reset_account_all">إذا قمت بالمتابعة ، كل الحسابات والعمليات سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>

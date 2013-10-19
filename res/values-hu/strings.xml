@@ -29,7 +29,7 @@
   <string name="category">Kategória</string>
   <string name="color">Szín</string>
   <string name="comment">Megjegyzés</string>
-  <string name="contrib_feature_accounts_unlimited_description">A &lt;i&gt;My Expenses&lt;/i&gt; alap változatában maximum 5 számlát kezelhet.</string>
+  <string name="contrib_feature_accounts_unlimited_description">A &lt;i&gt;Kiadásaim&lt;/i&gt; alap változatában maximum 5 számlát kezelhet.</string>
   <string name="contrib_feature_accounts_unlimited_label">Korlátlan számú számla</string>
   <string name="contrib_feature_distribution_label">A tranzakciók kategóriánkénti eloszlása</string>
   <string name="contrib_feature_aggregate_label">Több számla összesítése</string>
@@ -49,19 +49,19 @@
   <string name="dialog_contrib_no_usages_left">Nincs több ingyenes számla lehetőség.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s Prémium szolgáltatás.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">A korlátozás megszűntethető a &lt;i&gt;My Expenses Contrib&lt;/i&gt; telepítésével.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">A korlátozás megszűntethető a &lt;i&gt;Kiadásaim Contrib&lt;/i&gt; telepítésével.</string>
   <string name="dialog_contrib_reminder_gain_access">Az alábbi szolgáltatások is elérhetővé válnak:</string>
   <string name="dialog_contrib_yes">Vásárolja meg most</string>
   <string name="dialog_contrib_no">Nem most</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text">&lt;i&gt;My Expenses&lt;/i&gt; reklám mentes és nyitott forráskódú. Kérjük, ha elégedett járuljon hozzá a fizetős Contrib verzió használatával. Egyúttal az alábbi prémium szolgáltatások korlátlan használatára lesz jogosult:</string>
+  <string name="dialog_contrib_text">&lt;i&gt;Kiadásaim&lt;/i&gt; reklám mentes és nyitott forráskódú. Kérjük, ha elégedett a termékkel, járuljon hozzá a fizetős Contrib verzió használatával. Egyúttal az alábbi prémium szolgáltatások korlátlan használatára lesz jogosult:</string>
   <string name="dialog_export_delete">Exportált tranzakciók törlése</string>
   <string name="dialog_export_not_yet_exported">A nem exportált tranzakciók exportálása</string>
   <string name="dialog_password_activate_protection">Jelszóvédelem aktiválása</string>
   <string name="dialog_password_change_password">Jelszó megváltoztatása</string>
   <string name="dialog_password_new_password">Új jelszó</string>
   <string name="dialog_password_new_password_confirmation">Új jelszó (megerősítés)</string>
-  <string name="dialog_remind_rate">Kérjük szánjon egy percet arra, hogy értékeli és visszajelez a My Expenses programról a Google Play felületen. Észrevételeivel újabb szolgáltatásokat és fejlesztéseket végezhetünk.</string>
+  <string name="dialog_remind_rate">Kérjük szánjon egy percet arra, hogy értékeli és visszajelez a Kiadásaim programról a Google Play felületen. Észrevételeivel újabb szolgáltatásokat és fejlesztéseket végezhetünk.</string>
   <string name="dialog_remind_rate_yes">Értékelje most</string>
   <string name="dialog_remind_later">Későb</string>
   <string name="dialog_remind_no">Nem, köszönöm</string>
@@ -81,7 +81,7 @@
   <string name="dialog_title_warning_delete_account">Számla törlése?</string>
   <string name="dialog_title_welcome">Üdvözlet!</string>
   <string name="donate">Támogatás</string>
-  <string name="donate_dialog_text">Amennyiben nem éri el a Google Play felületét, támogatását PayPal vagy Flattr-en keresztül is megteheti majd kérjen Contrib kulcsot a beállítások képernyőn megtalálható módon.</string>
+  <string name="donate_dialog_text">Amennyiben nem éri el a Google Play felületét, támogatását PayPal vagy Flattr-en keresztül is megteheti, majd kérjen Contrib kulcsot a beállítások képernyőn megtalálható módon.</string>
   <string name="error_accessing_gplay">Hiba történt a Google Play elérése közben</string>
   <string name="expense">Kiadás</string>
   <string name="export_expenses_outputfile_exists">A kimeneti fájl már létezik. Kérem várjon egy percet és próbálja meg újra.</string>
@@ -119,7 +119,7 @@
     <item>Kezelje közvetlenül telefonjáról</item>
     <item>Exportálja adatait olyan alkalmazásokba, mint a Grisbi, GnuCash, Quicken vagy MS Money.</item>
   </string-array>
-  <string name="help_leading">Köszönjük, hogy a <i>My Expenses</i> Android változatát telepítette.</string>
+  <string name="help_leading">Köszönjük, hogy a <i>Kiadásaim</i> Android változatát telepítette.</string>
   <string name="import_categories">Kategóriák importálása</string>
   <string name="income">Bevétel</string>
   <string name="invalid_number_format">Tizedes formátum nem található az Ön nyelvén. Kérem használja ezt: %1$s</string>
@@ -130,11 +130,11 @@
   <string name="menu_back">Vissza</string>
   <string name="menu_backup">Mentés</string>
   <string name="menu_clone_transaction">Másolás</string>
-  <string name="menu_contrib">Támogatás, közreműködés</string>
+  <string name="menu_contrib">Támogatás</string>
   <string name="menu_create_account">Új számla</string>
   <string name="menu_create_method">Új fizetési mód</string>
   <string name="menu_create_party">Új résztvevő</string>
-  <string name="menu_create_transaction">Új tranzakci</string>
+  <string name="menu_create_transaction">Új tranzakció</string>
   <string name="menu_create_transfer">Új átutalás</string>
   <string name="menu_create_split">Új részletösszeg</string>
   <string name="menu_create_split_part_category">Új részlet kategóriája</string>
@@ -223,7 +223,7 @@
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_security">Biztonság</string>
   <string name="pref_contrib_install_title">Contrib app telepítése</string>
-  <string name="pref_contrib_install_summary">A prémium funkciók a My Expenses Contrib változatának telepítésével érhetők el.</string>
+  <string name="pref_contrib_install_summary">A prémium funkciók a Kiadásaim Contrib változatának telepítésével érhetők el.</string>
   <string name="pref_currency_decimal_separator_title">Tizedes-jegy elválasztó az összegek bevitele során</string>
   <string name="pref_currency_decimal_separator_comma">Vessző (,)</string>
   <string name="pref_currency_decimal_separator_point">Pont (.)</string>
@@ -244,13 +244,14 @@
   <string name="pref_manage_templates_title">Sablonok</string>
   <string name="pref_manage_templates_summary">Sablonok alkalmazása, vagy törlése.</string>
   <string name="pref_more_info_dialog_title">Licensz és Közreműködők</string>
-  <string name="pref_more_info_dialog_summary">A fordítást készítette Csipai Roland</string>
+  <string name="pref_more_info_dialog_summary">A fordítást készítette: Csipai Roland</string>
+  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_password_empty">A jelszó mező nem lehet üres</string>
   <string name="pref_password_not_equal">A jelszavak nem egyeznek</string>
   <string name="pref_perform_share_title">Az exportált állomány megosztása</string>
   <string name="pref_perform_share_summaryOn">Ez az állomány megosztásra kerül minden exportálás után.</string>
   <string name="pref_perform_share_summaryOff">Ez az állomány nem kerül megosztásra az exportálások során.</string>
-  <string name="pref_perform_protection_title">Jelszó védelem</string>
+  <string name="pref_perform_protection_title">Jelszavas védelem</string>
   <string name="pref_perform_protection_summary">Legyen az app indítása jelszóval védett? </string>
   <string name="pref_protection_delay_seconds_title">Késleltetés a védelemig</string>
   <string name="pref_protection_delay_seconds_summary">Várakozási idő (másodperc) a jelszóval feloldható zárolás előtt.</string>
@@ -262,7 +263,7 @@
   <string name="pref_share_target_title">URL feltöltés</string>
   <string name="pref_share_target_summary">Hagyja üresen, ha választani akar az alkalmazások közül (Email, Dropbox, Google Docs, stb.), vagy adjon meg egy URL-t valamely támogatott formában</string>
   <string name="pref_security_question_title">Biztonsági kérdés</string>
-  <string name="pref_security_question_summary">Lehetővé teszi, hogy feloldja az alkalmazást abban az esetben is, ha elfelejtette a jelszót. Ehhez szükséges a My Expenses Contrib verziójának letöltése.</string>
+  <string name="pref_security_question_summary">Lehetővé teszi, hogy feloldja az alkalmazást abban az esetben is, ha elvesztette a jelszót. Ehhez a Kiadásaim Contrib verziójának használata szükséges.</string>
   <string name="pref_send_feedback_title">Visszajelzés küldése</string>
   <string name="pref_ui_theme_title">Téma</string>
   <string name="pref_ui_theme_dark">sötét</string>
@@ -272,7 +273,7 @@
   <string name="progress_dialog_loading">Elemek betöltése az adatbázisból...</string>
   <string name="progress_dialog_setup">Adatbázis beállítása...</string>
   <string name="request_licence_mail_head">Kérem, küldjön számomra Contrib kulcsot az alábbi Android-Id alapján: %1$s.</string>
-  <string name="request_licence_mail_description">Kérjük írja meg számunkra angolul, németül vagy franciául, hogy milyen módon vett részt a My Expenses fejlesztésében (például: PayPal támogatás, hibajelentés, tesztelés, fordítás).</string>
+  <string name="request_licence_mail_description">Kérjük írja meg számunkra angolul, németül vagy franciául, hogy milyen módon vett részt a Kiadásaim fejlesztésében (például: PayPal támogatás, hibajelentés, tesztelés, fordítás).</string>
   <string name="restore_db_failure">Az adatbázis visszaállítása sikertelen.</string>
   <string name="restore_db_success">Az adatbázis sikeresen visszaállítva korábbi mentésből.</string>
   <string name="restore_no_backup_found">A rendszer nem talált BACKUP állományt az SD-kártya \"myexpenses\" könyvtárában.</string>
@@ -310,8 +311,8 @@
   <string name="warning_backup">Az adatbázis és beállítások mentése az SD-kártyára. Folytatja?</string>
   <string name="warning_backup_exists">Adatbázis és beállítások mentése az SD-kártyára. A korábbi mentés felülírásra kerül. Folytatja?</string>
   <string name="warning_delete_account">Ez a számla törlésre kerül minden tranzakcióval együtt. Folytatja?</string>
-  <string name="warning_password_no_contrib">Jelszó választása esetén ügyeljen arra, hogy ne felejtse, vagy veszítse el. A jelszó visszaállítása csak biztonsági kérdés és válasz megadásával működik, csak a My Expenses Contrib verzióban!</string>
-  <string name="warning_password_contrib">Biztonsági kérdés és válasz megadásával a jelszó elfelejtése esetén is van lehetőség az alkalmazás megnyitására.</string>
+  <string name="warning_password_no_contrib">Jelszó választása esetén ügyeljen arra, hogy azt ne felejtse, vagy veszítse el. A jelszó visszaállítása csak biztonsági kérdés és válasz megadásával működik, és kizárólag a Kiadásaim Contrib verzióban!</string>
+  <string name="warning_password_contrib">Biztonsági kérdés és válasz megadásával a jelszó elvesztése/elfelejtése esetén is van lehetőség az alkalmazás megnyitására.</string>
   <string name="warning_reset_account">Ha folytatja minden ehhez a számlához tartozó tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>
   <string name="warning_reset_account_all">Ha folytatja minden számla és tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>
   <string name="warning_restore">Adatbázis és beállítások visszaállítása a korábbi mentésből. A jelenlegi adatok törlésre kerülnek. Folytatja?</string>

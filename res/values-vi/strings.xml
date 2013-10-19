@@ -29,7 +29,7 @@
   <string name="category">Phân loại</string>
   <string name="color">Màu sắc</string>
   <string name="comment">Ghi chú</string>
-  <string name="contrib_feature_accounts_unlimited_description">Số lượng tài khoản bạn có thể tạo trong &lt;i&gt;My Expenses&lt;/i&gt; bị giới hạn bởi 5 tài khoản.</string>
+  <string name="contrib_feature_accounts_unlimited_description">Số lượng tài khoản bạn có thể tạo trong &lt;i&gt;Chi Tiêu Của Tôi&lt;/i&gt; bị giới hạn bởi 5 tài khoản.</string>
   <string name="contrib_feature_accounts_unlimited_label">Số lượng không giới hạn các tài khoản</string>
   <string name="contrib_feature_distribution_label">Tác động phân phối các giao dịch cho mỗi phân loại</string>
   <string name="contrib_feature_aggregate_label">Gom nhóm nhiều dạng tài khoản</string>
@@ -54,7 +54,7 @@
   <string name="dialog_contrib_yes">Mua ngay</string>
   <string name="dialog_contrib_no">Vẫn chưa</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text">&lt;i&gt;My Expenses&lt;/i&gt; là một chương trình miễn phí và mã nguồn mở. Xin hãy đóng góp bằng cách sử dụng phiên bản trả phí Contrib version. Bạn sẽ được tiếp cận các tính năng cao cấp như sau:</string>
+  <string name="dialog_contrib_text">&lt;i&gt;Chi Tiêu Của Tôi&lt;/i&gt; là một chương trình miễn phí và mã nguồn mở. Xin hãy đóng góp bằng cách sử dụng phiên bản trả phí Contrib version. Bạn sẽ được tiếp cận các tính năng cao cấp như sau:</string>
   <string name="dialog_export_delete">Xóa các giao dịch được xuất dữ liệu</string>
   <string name="dialog_export_not_yet_exported">Xuất dữ liệu về các giao dịch chưa được xuất</string>
   <string name="dialog_password_activate_protection">Bật tính năng bảo vệ mật khẩu</string>
@@ -229,7 +229,7 @@
   <string name="pref_currency_decimal_separator_point">Dấu chấm (.)</string>
   <string name="pref_currency_decimal_separator_input_minor_unit">Đơn vị sử dụng dự phòng dạng số nguyên</string>
   <string name="pref_enter_licence_title">Điền vào mã cống hiến</string>
-  <string name="pref_enter_licence_summary">Khi cài đặt chế độ cống hiến của My Expenses, bạn được quyền truy cập các tính năng nâng cao</string>
+  <string name="pref_enter_licence_summary">Khi cài đặt chế độ cống hiến của Chi Tiêu Của Tôi, bạn được quyền truy cập các tính năng nâng cao</string>
   <string name="pref_export_format_title">Định dạng dữ liệu</string>
   <string name="pref_import_from_grisbi_title">Nhập dữ liệu về Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Nhập các phân loại (và các nhóm) theo mặc định từ phần dữ liệu thuộc Grisbi, hoặc các tập tin dạng grisbi.xml trong thư mục \"myexpenses\" ở phần thẻ nhớ của bạn.</string>
@@ -263,7 +263,7 @@
   <string name="pref_share_target_title">Đường dẫn tải lên</string>
   <string name="pref_share_target_summary">Để trống nếu bạn muốn chọn giữa các ứng dụng thích hợp (Email, Dropbox, Google Docs, …), hoặc cung cấp đường dẫn liên kết của một trong các loại phối hợp được hỗ trợ</string>
   <string name="pref_security_question_title">Câu hỏi an ninh</string>
-  <string name="pref_security_question_summary">Cho phép bạn khóa ứng dụng, nếu như bạn quên mật khẩu. Yêu cầu sử dụng My Expenses bản Cống Hiến.</string>
+  <string name="pref_security_question_summary">Cho phép bạn khóa ứng dụng, nếu như bạn quên mật khẩu. Yêu cầu sử dụng Chi Tiêu Của Tôi bản Cống Hiến.</string>
   <string name="pref_send_feedback_title">Gửi phản hồi</string>
   <string name="pref_ui_theme_title">Giao diện</string>
   <string name="pref_ui_theme_dark">tối</string>
@@ -311,7 +311,7 @@
   <string name="warning_backup">Cơ sở dữ liệu và tùy biến sẽ được lưu vào thẻ nhớ. Bạn có muốn tiếp tục?</string>
   <string name="warning_backup_exists">Cơ sở dữ liệu và tùy biến đã được lưu vào thẻ nhớ. Phần sao lưu trước đó sẽ được ghi đè dữ liệu lên. Bạn có muốn tiếp tục hay không?</string>
   <string name="warning_delete_account">Tài khoản này sẽ bị xóa kèm theo tất cả các giao dịch bên trong. Bạn có thực sự muốn tiếp tục?</string>
-  <string name="warning_password_no_contrib">Nếu bạn đặt một mật khẩu, hãy cẩn thẩn và đừng quên. Bạn sẽ không thể phục hồi lại được, trừ khi bạn đặt một câu hỏi an ninh (Yêu cầu My Expenses Contrib).</string>
+  <string name="warning_password_no_contrib">Nếu bạn đặt một mật khẩu, hãy cẩn thẩn và đừng quên. Bạn sẽ không thể phục hồi lại được, trừ khi bạn đặt một câu hỏi an ninh (Yêu cầu Chi Tiêu Của Tôi Contrib).</string>
   <string name="warning_password_contrib">Đặt một câu hỏi an ninh để khóa lại ứng dụng, trong trường hợp bạn quên mật khẩu</string>
   <string name="warning_reset_account">Tất cả giao dịch của tài khoản này sẽ được xuất trong tập tin %1$s trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
   <string name="warning_reset_account_all">Tất cả giao dịch của tài khoản này sẽ được xuất trong tập tin %1$s trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>

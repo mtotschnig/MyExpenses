@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Grisbi_categ>
-<Category Nb="1" Na="Más bevétel"/>
+<Category Nb="1" Na="Egyéb bevétel"/>
 <Sub_category Nbc="1" Nb="1" Na="Munkanélküli segély"/>
 <Sub_category Nbc="1" Nb="2" Na="Családi pótlék"/>
 <Sub_category Nbc="1" Nb="3" Na="Adójóváírás"/>
@@ -123,7 +123,7 @@
 <Category Nb="22" Na="Gondozás"/>
 <Sub_category Nbc="22" Nb="1" Na="Fodrász"/>
 <Sub_category Nbc="22" Nb="2" Na="Öltözködés"/>
-<Category Nb="23" Na="Szállítás"/>
+<Category Nb="23" Na="Közlekedés"/>
 <Sub_category Nbc="23" Nb="1" Na="Busz"/>
 <Sub_category Nbc="23" Nb="2" Na="Metro"/>
 <Sub_category Nbc="23" Nb="3" Na="Útdíj"/>
