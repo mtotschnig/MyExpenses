@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_81">
+    <item>Bug fixes</item>
+  </string-array>
 	<string-array name="whats_new_80">
 		<item>Fixed crash on Eclair and Froyo</item>
   </string-array>
