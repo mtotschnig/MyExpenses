@@ -919,6 +919,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       }
       break;
     case ACCOUNTS_CURSOR:
+      if (accountLabels != null)
+        return;
       otherAccountsCount = data.getCount();
       accountLabels = new String[otherAccountsCount];
       accountIds = new Long[otherAccountsCount];
