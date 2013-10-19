@@ -385,8 +385,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       //handled in super
       break;
     case R.id.SAVE_AND_NEW_COMMAND:
-      saveState();
       mCreateNew = true;
+      saveState();
       return true;
     case R.id.INSERT_TA_COMMAND:
       createRow(MyExpenses.TYPE_TRANSACTION);
