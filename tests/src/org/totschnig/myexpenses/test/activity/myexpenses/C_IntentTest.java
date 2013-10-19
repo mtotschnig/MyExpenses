@@ -41,7 +41,7 @@ public class C_IntentTest extends MyActivityTest<MyExpenses> {
   public void setUp() throws Exception { 
     super.setUp();
     mActivity = getActivity();
-    mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
+    mSolo = new SoloCompatibilityAbs(mInstrumentation, mActivity);
     Fixture.setup(mInstrumentation, new Locale("en","US"), Currency.getInstance("USD"));
   }
   public void testNavigateToAccountReceivedThroughIntent() {
