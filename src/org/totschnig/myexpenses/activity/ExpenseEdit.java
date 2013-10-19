@@ -175,8 +175,11 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         mTransaction = Template.getTypedNewInstance(mOperationType, accountId);
       else
         mTransaction = Transaction.getTypedNewInstance(mOperationType,accountId,parentId);
-      mManager.initLoader(ACCOUNTS_CURSOR, null, this);
-      setup();
+      if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+        mManager.initLoader(ACCOUNTS_CURSOR, null, this);
+      } else {
+        setup();
+      }
     }
   }
   private void setup() {
