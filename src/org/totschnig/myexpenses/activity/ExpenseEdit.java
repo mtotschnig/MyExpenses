@@ -175,6 +175,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         mTransaction = Template.getTypedNewInstance(mOperationType, accountId);
       else
         mTransaction = Transaction.getTypedNewInstance(mOperationType,accountId,parentId);
+      //Split transactions are returned persisted to db and already have an id
+      mRowId = mTransaction.id;
       if (mOperationType == MyExpenses.TYPE_TRANSFER) {
         mManager.initLoader(ACCOUNTS_CURSOR, null, this);
       } else {
@@ -228,11 +230,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       //SplitTransaction are always instantiated with status uncommitted,
       //we save them to DB as uncommitted, before working with them
       //when the split transaction is saved the split and its parts are committed
-      if (mRowId == 0) {
-        mTransaction.status = STATUS_UNCOMMITTED;
-        ((SplitTransaction) mTransaction).saveWithoutCommit();
-        mRowId = mTransaction.id;
-      }
       View CategoryContainer = findViewById(R.id.CategoryRow);
       if (CategoryContainer == null)
         CategoryContainer = findViewById(R.id.Category);

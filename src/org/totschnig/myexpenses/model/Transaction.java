@@ -172,6 +172,7 @@ public class Transaction extends Model {
    * factory method for creating an object of the correct type and linked to a given account
    * @param operationType either {@link MyExpenses#TYPE_TRANSACTION} or
    * {@link MyExpenses#TYPE_TRANSFER} or {@link MyExpenses#TYPE_SPLIT}
+   * SplitTransaction is persisted to DB as uncommitted
    * @param accountId the account the transaction belongs two
    * @param parentId if != 0L this is the id of a split part's parent
    * @return instance of {@link Transaction} or {@link Transfer} or {@link SplitTransaction} with date initialized to current date
@@ -184,7 +185,11 @@ public class Transaction extends Model {
     case MyExpenses.TYPE_TRANSFER:
       return parentId != 0L ? new SplitPartTransfer(accountId,0L,parentId) : new Transfer(accountId,0L);
     case MyExpenses.TYPE_SPLIT:
-      return new SplitTransaction(accountId,0L);
+      SplitTransaction t = new SplitTransaction(accountId,0L);
+        t.status = STATUS_UNCOMMITTED;
+        //TODO: Strict mode
+        t.persistForEdit();
+        return t;
     }
     return null;
   }

@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 public class SplitTransaction extends Transaction {
+  private boolean inEditState = false;
   
   public SplitTransaction(long accountId,Long amount) {
     super(accountId,amount);
@@ -39,13 +40,16 @@ public class SplitTransaction extends Transaction {
     commit();
     return uri;
   }
-  public void saveWithoutCommit() {
+  public void persistForEdit() {
     super.save();
+    inEditState = true;
   }
   /**
    * existing parts are deleted and the uncommitted ones are committed
    */
   public void commit() {
+    if (!inEditState)
+      return;
     String idStr = String.valueOf(id);
     cr().delete(CONTENT_URI,"(" + KEY_PARENTID + "= ? OR " + KEY_TRANSFER_PEER
         + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_TRANSACTIONS + " where " 
@@ -67,6 +71,7 @@ public class SplitTransaction extends Transaction {
     initialValues.put(KEY_DATE, dateAsString);
     cr().update(CONTENT_URI,initialValues,KEY_PARENTID + " = ?",
         new String[] {idStr});
+    inEditState = false;
   }
   /**
    * all Split Parts are cloned and we work with the uncommitted clones
@@ -85,6 +90,7 @@ public class SplitTransaction extends Transaction {
       c.moveToNext();
     }
     c.close();
+    inEditState = true;
   }
   /**
    * delete all uncommitted rows in the database,
