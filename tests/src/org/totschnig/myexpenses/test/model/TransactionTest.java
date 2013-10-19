@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -141,7 +142,6 @@ public class TransactionTest extends ModelTest  {
     op1.amount = new Money(mAccount1.currency,100L);
     op1.comment = "test transaction";
     op1.setDate(new Date(System.currentTimeMillis()-1003900000));
-    op1.save();
     assertTrue(op1.id > 0);
     Transaction split1 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION,mAccount1.id,op1.id);
     split1.amount = new Money(mAccount1.currency,50L);
@@ -155,13 +155,20 @@ public class TransactionTest extends ModelTest  {
     split2.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
     split2.save();
     assertTrue(split2.id > 0);
-    op1.commit();
-    //that parents and parts are in consistent state is currently guaranteed by the UI
-    //which after saving a parent, commits the parts.
+    op1.save();
     //we expect the parent to make sure that parts have the same date
     Transaction restored = Transaction.getInstanceFromDb(op1.id);
     assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split1.id).getDate()));
     assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split2.id).getDate()));
+    restored.crStatus = CrStatus.CLEARED;
+    restored.save();
+    try {
+      //splits should not be touched by simply saving the parent
+      Transaction.getInstanceFromDb(split1.id);
+      Transaction.getInstanceFromDb(split2.id);
+    } catch (DataObjectNotFoundException e) {
+      fail("Split parts deleted after saving parent");
+    }
   }
   public int countPayee(String name) {
     Cursor cursor = getMockContentResolver().query(TransactionProvider.PAYEES_URI,new String[] {"count(*)"},
