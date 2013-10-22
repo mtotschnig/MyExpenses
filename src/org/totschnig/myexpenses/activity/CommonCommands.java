@@ -29,6 +29,7 @@ import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 public class CommonCommands {
   static boolean dispatchCommand(Activity ctx,int command) {
@@ -43,7 +44,11 @@ public class CommonCommands {
           getVersionName(ctx) + "] Feedback"
       );
       i.putExtra(android.content.Intent.EXTRA_TEXT, ctx.getString(R.string.feedback_email_message));
-      ctx.startActivity(i);
+      if (!Utils.isIntentAvailable(ctx,i)) {
+        Toast.makeText(ctx,R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
+      } else {
+        ctx.startActivity(i);
+      }
       break;
     case R.id.CONTRIB_PLAY_COMMAND:
       Utils.viewContribApp(ctx);
