@@ -122,8 +122,7 @@ public class MyApplication extends Application {
       refreshContribEnabled();
     }
     public boolean refreshContribEnabled() {
-      isContribEnabled = Utils.doesPackageExist(this, "org.totschnig.myexpenses.contrib") ||
-          Utils.verifyLicenceKey(settings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
+      isContribEnabled = Utils.verifyLicenceKey(settings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
       return isContribEnabled;
     }
     public static MyApplication getInstance() {

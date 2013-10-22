@@ -152,8 +152,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     //if we are launched from the contrib app, we refresh the cached contrib status
     Bundle extras = getIntent().getExtras();
     if (extras != null) {
-      if (extras.getBoolean("refresh_contrib",false))
-        MyApplication.getInstance().refreshContribEnabled();
       String instrumentLanguage = extras.getString("instrument_language");
       if (instrumentLanguage != null) {
         Locale locale = new Locale(instrumentLanguage,extras.getString("instrument_country"));

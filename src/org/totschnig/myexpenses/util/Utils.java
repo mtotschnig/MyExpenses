@@ -307,15 +307,6 @@ public class Utils {
                       PackageManager.MATCH_DEFAULT_ONLY);
       return list.size() > 0;
   }
-  public static boolean doesPackageExist(Context context,String targetPackage){
-    PackageManager pm=context.getPackageManager();
-    try {
-     pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
-        } catch (NameNotFoundException e) {
-     return false;
-     }  
-     return true;
-    }
 
   public static int getTextColorForBackground(int color) {
     int greyLevel = (int) (0.299 * Color.red(color)
