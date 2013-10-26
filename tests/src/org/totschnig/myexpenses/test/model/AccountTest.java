@@ -97,7 +97,6 @@ public class AccountTest extends ModelTest  {
    * but set up is easier through models
    */
   public void testAggregates() {
-    insertData();
     Cursor cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
         null,            // get all the columns
@@ -105,8 +104,18 @@ public class AccountTest extends ModelTest  {
         null,                       // no selection criteria
         null                        // use default the sort order
     );
+    //the database setup creates the default account
+    assertEquals(1, cursor.getCount());
+    insertData();
+    cursor = getMockContentResolver().query(
+        TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
+        null,            // get all the columns
+        null,                       // no selection columns, get all the records
+        null,                       // no selection criteria
+        null                        // use default the sort order
+    );
 
-    assertEquals(2, cursor.getCount());
+    assertEquals(3, cursor.getCount());
 
     assertTrue(cursor.moveToFirst());
 
@@ -124,5 +133,14 @@ public class AccountTest extends ModelTest  {
     assertEquals(0L, cursor.getLong(expensesIndex));
     assertEquals(transferN-transferP, cursor.getLong(transferIndex));
     assertEquals(openingBalance+transferN-transferP, cursor.getLong(balanceIndex));
+  }
+  public void testGetInstanceZeroReturnsAccount () {
+    //even without inserting, there should be always an account in the database
+    insertData();
+    try {
+      assertNotNull(Account.getInstanceFromDb(0));
+    } catch (DataObjectNotFoundException e) {
+      fail("getInstanceFromDb(0) should return an account");
+    }
   }
 }

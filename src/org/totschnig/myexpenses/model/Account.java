@@ -345,15 +345,26 @@ public class Account extends Model {
   public static boolean isInstanceCached(long id) {
     return accounts.containsKey(id);
   }
+  /**
+   * @param id
+   * @return Accouht object, if id == 0, the account with the lowest id is returned
+   * @throws DataObjectNotFoundException
+   */
   public static Account getInstanceFromDb(long id) throws DataObjectNotFoundException {
     Account account;
-    account = accounts.get(id);
-    if (account != null) {
-      return account;
+    String selection = KEY_ROWID + " = ";
+    if (id == 0)
+      selection += "(SELECT min(" + KEY_ROWID + ") FROM accounts)";
+    else {
+      account = accounts.get(id);
+      if (account != null) {
+        return account;
+      }
+      selection += id;
     }
     String[] projection = new String[] {KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_TYPE,KEY_COLOR,KEY_GROUPING};
     Cursor c = cr().query(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
+        CONTENT_URI, projection,selection,null, null);
     if (c == null || c.getCount() == 0) {
       throw new DataObjectNotFoundException(id);
     }

@@ -35,6 +35,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class TransactionDatabase extends SQLiteOpenHelper {
   public static final int DATABASE_VERSION = 36;
   public static final String DATABASE_NAME = "data";
+  private Context mCtx;
 
   private static final String TAG = "TransactionDatabase";
   /**
@@ -150,6 +151,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   TransactionDatabase(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    mCtx = context;
   }
   @Override
   public void onOpen(SQLiteDatabase db) {
@@ -172,6 +174,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES +  VIEW_DEFINITION(TABLE_TEMPLATES));
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
+    insertDefaultAccount(db);
     db.execSQL(PAYMENT_METHODS_CREATE);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
     insertDefaultPaymentMethods(db);
@@ -201,6 +204,17 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       initialValues.put(KEY_TYPE,"BANK");
       db.insert(TABLE_ACCOUNTTYES_METHODS, null, initialValues);
     }
+  }
+  private void insertDefaultAccount(SQLiteDatabase db) {
+    ContentValues initialValues = new ContentValues();
+    initialValues.put(KEY_LABEL,mCtx.getString(R.string.app_name));
+    initialValues.put(KEY_OPENING_BALANCE,0);
+    initialValues.put(KEY_DESCRIPTION,mCtx.getString(R.string.default_account_description));
+    initialValues.put(KEY_CURRENCY,Account.getLocaleCurrency().getCurrencyCode());
+    initialValues.put(KEY_TYPE,Account.Type.CASH.name());
+    initialValues.put(KEY_GROUPING,Account.Grouping.NONE.name());
+    initialValues.put(KEY_COLOR,Account.defaultColor);
+    db.insert(TABLE_ACCOUNTS, null, initialValues);
   }
 
   /*

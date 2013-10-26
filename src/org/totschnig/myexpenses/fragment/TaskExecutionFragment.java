@@ -155,12 +155,17 @@ public class TaskExecutionFragment extends Fragment {
         Transaction.getInstanceFromTemplate(id[0]).save();
         return null;
       case TASK_REQUIRE_ACCOUNT:
-        Account account = new Account(
-            getString(R.string.app_name),
-            0,
-            getString(R.string.default_account_description)
-        );
-        account.save();
+        Account account;
+        try {
+          account = Account.getInstanceFromDb(0);
+        } catch (DataObjectNotFoundException e) {
+          account = new Account(
+              getString(R.string.app_name),
+              0,
+              getString(R.string.default_account_description)
+          );
+          account.save();
+        }
       return account;
       case TASK_DELETE_TRANSACTION:
         Transaction.delete(id[0]);
