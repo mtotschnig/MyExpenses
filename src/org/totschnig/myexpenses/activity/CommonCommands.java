@@ -20,6 +20,7 @@ import java.io.Serializable;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
+import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -50,6 +51,9 @@ public class CommonCommands {
         ctx.startActivity(i);
       }
       break;
+    case R.id.CONTRIB_COMMAND:
+      CommonCommands.showContribInfoDialog((FragmentActivity) ctx,false);
+      return true;
     case R.id.CONTRIB_PLAY_COMMAND:
       Utils.viewContribApp(ctx);
       return true;
@@ -78,6 +82,9 @@ public class CommonCommands {
   }
   public static void showContribDialog(FragmentActivity ctx,Feature feature, Serializable tag) {
     ContribDialogFragment.newInstance(feature, tag).show(ctx.getSupportFragmentManager(),"CONTRIB");
+  }
+  public static void showContribInfoDialog(FragmentActivity ctx,boolean reminderP) {
+    ContribInfoDialogFragment.newInstance(reminderP).show(ctx.getSupportFragmentManager(),"CONTRIB_INFO");
   }
   /**
    * retrieve information about the current version

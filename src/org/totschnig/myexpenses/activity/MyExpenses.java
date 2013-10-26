@@ -21,7 +21,6 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
@@ -30,7 +29,6 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment.SelectFromCursorDialogListener;
-import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
@@ -41,7 +39,6 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.util.AllButOneCursorWrapper;
@@ -49,8 +46,6 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -75,7 +70,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.util.TypedValue;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -87,7 +81,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  * @author Michael Totschnig
  *
  */
-public class MyExpenses extends ProtectedFragmentActivity implements
+public class MyExpenses extends LaunchActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, OnNavigationListener,
     SelectFromCursorDialogListener, ContribIFace, TaskExecutionFragment.TaskCallbacks  {
@@ -120,7 +114,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
         mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId));
     mAccountId = newAccountId;
   }
-  private SharedPreferences mSettings;
   private Cursor mAccountsCursor, mTemplatesCursor;
   private HashMap<String,Integer> currencyAccountCount;
   //private Cursor mExpensesCursor;
@@ -313,7 +306,7 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       if (!MyApplication.getInstance().isContribEnabled) {
         nextReminder = mSettings.getLong("nextReminderContrib",TRESHOLD_REMIND_CONTRIB);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
-          showContribInfoDialog(true);
+          CommonCommands.showContribInfoDialog(this,true);
           return;
         }
       }
@@ -330,48 +323,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
     i.putExtra("transferEnabled",mTransferEnabled);
     i.putExtra(KEY_ACCOUNTID,mAccountId);
     startActivityForResult(i, ACTIVITY_EDIT);
-  }
-  /**
-   * check if this is the first invocation of a new version
-   * in which case help dialog is presented
-   * also is used for hooking version specific upgrade procedures
-   */
-  public void newVersionCheck() {
-    Editor edit = mSettings.edit();
-    int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
-    int current_version = CommonCommands.getVersionNumber(this);
-    if (prev_version == current_version)
-      return;
-    if (prev_version == -1) {
-      //edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
-      SharedPreferencesCompat.apply(edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version));
-    } else if (prev_version != current_version) {
-      SharedPreferencesCompat.apply(edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version));
-      if (prev_version < 19) {
-        //renamed
-        edit.putString(MyApplication.PREFKEY_SHARE_TARGET,mSettings.getString("ftp_target",""));
-        edit.remove("ftp_target");
-        edit.commit();
-      }
-      if (prev_version < 28) {
-        Log.i("MyExpenses",String.format("Upgrading to version 28: Purging %d transactions from datbase",
-            getContentResolver().delete(TransactionProvider.TRANSACTIONS_URI,
-                KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null)));
-      }
-      if (prev_version < 30) {
-        if (mSettings.getString(MyApplication.PREFKEY_SHARE_TARGET,"") != "") {
-          edit.putBoolean(MyApplication.PREFKEY_PERFORM_SHARE,true).commit();
-        }
-      }
-      if (prev_version < 40) {
-        DbUtils.fixDateValues(getContentResolver());
-        //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
-        //if they are already above both tresholds, so we set some delay
-        mSettings.edit().putLong("nextReminderContrib",Transaction.getSequenceCount()+23).commit();
-      }
-      VersionDialogFragment.newInstance(prev_version)
-        .show(getSupportFragmentManager(),"VERSION_INFO");
-    }
   }
 /*  public boolean dispatchLongCommand(int command, Object tag) {
     Intent i;
@@ -410,9 +361,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
       Account account = Account.getInstanceFromDb(mAccountId);
       account.grouping=Account.Grouping.values()[(Integer)tag];
       account.save();
-      return true;
-    case R.id.CONTRIB_COMMAND:
-      showContribInfoDialog(false);
       return true;
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
@@ -643,9 +591,6 @@ public class MyExpenses extends ProtectedFragmentActivity implements
   public void onPageScrolled(int arg0, float arg1, int arg2) {
     // TODO Auto-generated method stub
     
-  }
-  public void showContribInfoDialog(boolean reminderP) {
-    ContribInfoDialogFragment.newInstance(reminderP).show(getSupportFragmentManager(),"CONTRIB_INFO");
   }
   @Override
   public void onFinishEditDialog(Bundle args) {

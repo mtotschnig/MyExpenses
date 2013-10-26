@@ -51,16 +51,18 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  * @author Michael Totschnig
  *
  */
-public class ManageAccounts extends ProtectedFragmentActivity implements
+public class ManageAccounts extends LaunchActivity implements
     OnItemClickListener,ContribIFace, TaskExecutionFragment.TaskCallbacks {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
+    mSettings = MyApplication.getInstance().getSettings();
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_accounts);
     setTitle(R.string.pref_manage_accounts_title);
     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+    newVersionCheck();
   }
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
