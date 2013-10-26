@@ -84,14 +84,14 @@ public class VersionDialogFragment extends DialogFragment implements OnClickList
       .setTitle(getString(R.string.help_heading_whats_new))
       .setIcon(R.drawable.icon)
       .setView(view)
-      .setPositiveButton(android.R.string.ok, this);
+      .setNegativeButton(android.R.string.ok, this);
     if (!MyApplication.getInstance().isContribEnabled)
-      builder.setNegativeButton( R.string.menu_contrib, this);
+      builder.setPositiveButton( R.string.menu_contrib, this);
     return builder.create();
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    if (which == AlertDialog.BUTTON_NEGATIVE)
+    if (which == AlertDialog.BUTTON_POSITIVE)
       ((MessageDialogListener) getActivity()).dispatchCommand(R.id.CONTRIB_COMMAND,null);
   }
   private class VersionInfo {
