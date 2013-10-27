@@ -64,7 +64,7 @@ public class PartiesList extends SherlockFragment implements LoaderManager.Loade
       }
       if (message == 0)
         ctx.getSupportFragmentManager().beginTransaction()
-          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_PAYEE,info.id, null), "DELETE_TASK")
+          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_PAYEE,info.id, null), "ASYNC_TASK")
           .commit();
       else
         Toast.makeText(ctx,getString(message), Toast.LENGTH_LONG).show();

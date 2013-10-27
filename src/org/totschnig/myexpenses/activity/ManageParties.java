@@ -19,27 +19,17 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
-import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Payee;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.view.ContextMenu;
-import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class ManageParties extends ProtectedFragmentActivity implements
     EditTextDialogListener, DbWriteFragment.TaskCallbacks {

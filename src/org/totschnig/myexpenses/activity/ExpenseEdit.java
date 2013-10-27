@@ -164,7 +164,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       }
       FragmentManager fm = getSupportFragmentManager();
       fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(taskId,objectId, null), "INSTANTIATE_TASK")
+        .add(TaskExecutionFragment.newInstance(taskId,objectId, null), "ASYNC_TASK")
         .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
         .commit();
     } else {

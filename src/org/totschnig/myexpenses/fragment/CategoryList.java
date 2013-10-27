@@ -215,7 +215,7 @@ public class CategoryList extends BudgetListFragment implements
           Toast.makeText(ctx,getString(message), Toast.LENGTH_LONG).show();
         else
           ctx.getSupportFragmentManager().beginTransaction()
-          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,info.id, null), "DELETE_TASK")
+          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,info.id, null), "ASYNC_TASK")
           .commit();
     }
     return false;

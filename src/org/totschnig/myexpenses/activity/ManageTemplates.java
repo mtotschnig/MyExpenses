@@ -76,7 +76,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
           case DELETE_TEMPLATE:   
             FragmentManager fm = getSupportFragmentManager();
             fm.beginTransaction()
-              .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TEMPLATE,info.id, null), "DELETE_TASK")
+              .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TEMPLATE,info.id, null), "ASYNC_TASK")
               .commit();
             break;
           case CREATE_INSTANCE_SAVE:

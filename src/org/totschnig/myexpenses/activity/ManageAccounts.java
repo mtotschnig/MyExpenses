@@ -116,7 +116,7 @@ public class ManageAccounts extends LaunchActivity implements
     case R.id.DELETE_COMMAND_DO:
       FragmentManager fm = getSupportFragmentManager();
       fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_ACCOUNT,(Long)tag, null), "DELETE_TASK")
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_ACCOUNT,(Long)tag, null), "ASYNC_TASK")
         .commit();
       return true;
     case R.id.RESET_ACCOUNT_ALL_COMMAND:

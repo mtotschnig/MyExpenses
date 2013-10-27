@@ -203,7 +203,7 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
       getActivity().getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,info.id, null), "DELETE_TASK")
+      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,info.id, null), "ASYNC_TASK")
       .commit();
       return true;
     }

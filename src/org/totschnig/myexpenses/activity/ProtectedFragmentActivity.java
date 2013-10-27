@@ -32,6 +32,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 public class ProtectedFragmentActivity extends SherlockFragmentActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
@@ -134,8 +136,12 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   }
   @Override
   public void onPostExecute(int taskId, Object o) {
-    ProgressDialogFragment f = ((ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag("PROGRESS"));
+    FragmentManager m = getSupportFragmentManager();
+    FragmentTransaction t = m.beginTransaction();
+    ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag("PROGRESS"));
     if (f!=null)
-      f.dismissAllowingStateLoss();
+      t.remove(f);
+    t.remove(m.findFragmentByTag("ASYNC_TASK"));
+    t.commit();
   }
 }

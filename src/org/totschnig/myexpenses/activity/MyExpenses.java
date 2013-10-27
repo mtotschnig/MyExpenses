@@ -196,7 +196,7 @@ public class MyExpenses extends LaunchActivity implements
     FragmentManager fm = getSupportFragmentManager();
     fm.beginTransaction()
       .add(WelcomeDialogFragment.newInstance(),"WELCOME")
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,null, null), "REQUIRE_ACCOUNT_TASK")
+      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,null, null), "ASYNC_TASK")
       .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_setup),"PROGRESS")
       .commit();
   }
@@ -614,7 +614,7 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.MOVE_TRANSACTION_COMMAND:
       getSupportFragmentManager().beginTransaction()
       .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_MOVE,
-          args.getLong("contextTransactionId"), args.getLong("result")), "TOGGLE_TASK")
+          args.getLong("contextTransactionId"), args.getLong("result")), "ASYNC_TASK")
       .commit();
       break;
     case R.id.NEW_FROM_TEMPLATE_COMMAND:

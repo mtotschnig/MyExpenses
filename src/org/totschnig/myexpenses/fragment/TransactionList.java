@@ -248,13 +248,13 @@ public class TransactionList extends BudgetListFragment implements
     case R.id.DELETE_COMMAND:
       if (checkSplitPartTransfer(info.position)) {
         fm.beginTransaction()
-          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,info.id, null), "DELETE_TASK")
+          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,info.id, null), "ASYNC_TASK")
           .commit();
       }
       return true;
     case R.id.CLONE_TRANSACTION_COMMAND:
       fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,info.id, null), "CLONE_TASK")
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,info.id, null), "ASYNC_TASK")
         .commit();
       return true;
     case R.id.MOVE_TRANSACTION_COMMAND:

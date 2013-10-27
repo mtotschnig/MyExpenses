@@ -100,7 +100,7 @@ public class ManageMethods extends ProtectedFragmentActivity implements OnItemCl
       }  else {
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
-          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_PAYMENT_METHOD,info.id, null), "DELETE_TASK")
+          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_PAYMENT_METHOD,info.id, null), "ASYNC_TASK")
           .commit();
       }
       return true;
