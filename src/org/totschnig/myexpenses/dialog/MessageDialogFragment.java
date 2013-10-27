@@ -60,6 +60,14 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
       CharSequence message,
       int yesCommand,
       Serializable yesTag,
+      int yesButton) {
+    return newInstance(title,message,yesCommand,yesTag,yesButton,0,null,android.R.string.no);
+  }
+  public static final MessageDialogFragment newInstance(
+      int title,
+      CharSequence message,
+      int yesCommand,
+      Serializable yesTag,
       int yesButton,
       int noButton) {
     return newInstance(title,message,yesCommand,yesTag,yesButton,0,null,noButton);
