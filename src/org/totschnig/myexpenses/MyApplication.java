@@ -64,7 +64,8 @@ public class MyApplication extends Application {
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
 
     public static final String EXTRA_AMOUNT = "amount";
-    public boolean isContribEnabled;
+    public boolean isContribEnabled,
+      showImportantUpgradeInfo = false;
     private long mLastPause = 0;
     /**
      * how many nanoseconds should we wait before prompting for the password

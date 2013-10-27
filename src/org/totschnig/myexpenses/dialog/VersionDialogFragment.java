@@ -80,6 +80,11 @@ public class VersionDialogFragment extends DialogFragment implements OnClickList
       }
     };
     lv.setAdapter(adapter);
+    if (MyApplication.getInstance().showImportantUpgradeInfo) {
+      view.findViewById(R.id.ImportantUpgradeInfoHeading).setVisibility(View.VISIBLE);
+      view.findViewById(R.id.ImportantUpgradeInfoBody).setVisibility(View.VISIBLE);
+    }
+
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
       .setTitle(getString(R.string.help_heading_whats_new))
       .setIcon(R.drawable.icon)
