@@ -125,6 +125,7 @@
   </string-array>
   <string name="help_leading">Danke fürs Ausprobieren von <i>&app_name;</i> für Android.</string>
   <string name="import_categories">Kategorien importieren</string>
+  <string name="important_version_information">Wichtige Information</string>
   <string name="income">Einnahme</string>
   <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt. Bitte verwenden Sie %1$s</string>
   <string name="label">Bezeichnung</string>

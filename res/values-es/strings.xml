@@ -125,6 +125,7 @@
   </string-array>
   <string name="help_leading">Gracias por probar <i>&app_name;</i> para Android.</string>
   <string name="import_categories">Importar categorías</string>
+  <string name="important_version_information">Información importante</string>
   <string name="income">Ingreso</string>
   <string name="invalid_number_format">Formato de número no es compatible con su configuración regional. Por favor, utilice %1$s</string>
   <string name="label">Etiqueta</string>
