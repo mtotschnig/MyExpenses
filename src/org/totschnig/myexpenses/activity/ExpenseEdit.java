@@ -293,8 +293,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     
     if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
       mManager.initLoader(PAYEES_CURSOR, null, this);
-      mPayeeAdapter = new ArrayAdapter<String>(this,
-          android.R.layout.simple_dropdown_item_1line);
       mManager.initLoader(METHODS_CURSOR, null, this);
     } else {
       findViewById(R.id.PayeeRow).setVisibility(View.GONE);
@@ -902,7 +900,11 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     switch(id) {
     case PAYEES_CURSOR:
       data.moveToFirst();
-      mPayeeAdapter.clear();
+      if (mPayeeAdapter == null)
+        mPayeeAdapter = new ArrayAdapter<String>(this,
+          android.R.layout.simple_dropdown_item_1line);
+      else
+        mPayeeAdapter.clear();
       while(!data.isAfterLast()) {
         mPayeeAdapter.add(data.getString(data.getColumnIndex("name")));
         data.moveToNext();
