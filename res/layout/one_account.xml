@@ -46,7 +46,7 @@
       
       <TableRow>
         <TextView style="@style/form_label"
-            android:id="@+id/OpeningBalanceLabel"/>
+            android:text="@string/opening_balance"/>
         <LinearLayout
             android:orientation="horizontal">
           <include layout="@layout/amount_input"/>

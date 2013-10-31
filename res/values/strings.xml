@@ -232,10 +232,6 @@
   <string name="pref_category_title_security">Security</string>
   <string name="pref_contrib_install_title">Install Contrib app</string>
   <string name="pref_contrib_install_summary">By installing &app_name; Contrib, you gain access to premium features.</string>
-  <string name="pref_currency_decimal_separator_title">Decimal separator for input of currency amounts</string>
-  <string name="pref_currency_decimal_separator_comma">Comma (,)</string>
-  <string name="pref_currency_decimal_separator_point">Point (.)</string>
-  <string name="pref_currency_decimal_separator_input_minor_unit">Minor units as integers</string>
   <string name="pref_enter_licence_title">Enter Contrib key</string>
   <string name="pref_enter_licence_summary">If you received a Contrib key, gain access to premium features.</string>
   <string name="pref_export_format_title">Data format</string>

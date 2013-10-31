@@ -228,10 +228,6 @@
   <string name="pref_category_title_more_information">Mehr Information</string>
   <string name="pref_contrib_install_title">Contrib App installieren</string>
   <string name="pref_contrib_install_summary">Durch die Installation von &app_name; Contrib, erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
-  <string name="pref_currency_decimal_separator_title">Dezimaltrennzeichen für die Eingabe von Währungsbeträgen</string>
-  <string name="pref_currency_decimal_separator_comma">Komma (,)</string>
-  <string name="pref_currency_decimal_separator_point">Punkt (.)</string>
-  <string name="pref_currency_decimal_separator_input_minor_unit">Untereinheiten als ganze Zahlen</string>
   <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>
   <string name="pref_enter_licence_summary">Wenn Sie einen Contrib-Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
   <string name="pref_export_format_title">Datenformat</string>

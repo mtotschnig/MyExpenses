@@ -53,10 +53,6 @@
         android:title="@string/pref_categories_sort_by_usages_title"
         android:summaryOff="@string/pref_categories_sort_by_usages_summaryOff"
         android:summaryOn="@string/pref_categories_sort_by_usages_summaryOn" />
-    <org.totschnig.myexpenses.preference.ListPreferenceShowSummary android:key="@string/pref_currency_decimal_separator_key"
-        android:title="@string/pref_currency_decimal_separator_title"
-        android:entries="@array/pref_currency_decimal_separator_entries"
-        android:entryValues="@array/pref_currency_decimal_separator_values"/>
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/pref_category_title_import">

@@ -206,10 +206,6 @@
   <string name="pref_category_title_security">الأمان</string>
   <string name="pref_contrib_install_title">تثبيت النسخة المدفوعة</string>
   <string name="pref_contrib_install_summary">بتثبيتك مصروفاتي Contrib، يمكنك الوصول إلى المميزات الكاملة.</string>
-  <string name="pref_currency_decimal_separator_title">تنسيق الاعداد العشرية عند ادخال القيم</string>
-  <string name="pref_currency_decimal_separator_comma">فاصلة (،)</string>
-  <string name="pref_currency_decimal_separator_point">نقطة (.)</string>
-  <string name="pref_currency_decimal_separator_input_minor_unit">كتابة الأعداد الكسرية كأعداد صحيحة</string>
   <string name="pref_enter_licence_title">ادخال مفتاح المساهمة</string>
   <string name="pref_enter_licence_summary">اذا كنت تملك مفتاح مساهمة، يمكنك الوصول لكامل المميزات.</string>
   <string name="pref_export_format_title">تنسيق البيانات</string>

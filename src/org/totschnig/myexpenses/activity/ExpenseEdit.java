@@ -579,23 +579,9 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     String currencySymbol;
     Account account = Account.getInstanceFromDb(mTransaction.accountId);
     currencySymbol = account.currency.getSymbol();
-    if (mMinorUnitP) {
-      switch (account.currency.getDefaultFractionDigits()) {
-      case 2:
-        currencySymbol += "¢";
-        break;
-      case 3:
-        currencySymbol += "/1000";
-      }
-    }
     amountLabel.setText(getString(R.string.amount) + " ("+currencySymbol+")");
     //fill amount
-    BigDecimal amount;
-    if (mMinorUnitP) {
-      amount = new BigDecimal(mTransaction.amount.getAmountMinor());
-    } else {
-      amount = mTransaction.amount.getAmountMajor();
-    }
+    BigDecimal amount = mTransaction.amount.getAmountMajor();
     int signum = amount.signum();
     switch(signum) {
     case -1:
@@ -657,11 +643,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     if (mType == EXPENSE) {
       amount = amount.negate();
     }
-    if (mMinorUnitP) {
-      mTransaction.amount.setAmountMinor(amount.longValue());
-    } else {
-      mTransaction.amount.setAmountMajor(amount);
-    }
+
+    mTransaction.amount.setAmountMajor(amount);
 
     mTransaction.comment = mCommentText.getText().toString();
     if (mTransaction instanceof Template) {
@@ -788,11 +771,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     if (mType == EXPENSE) {
       amount = amount.negate();
     }
-    if (mMinorUnitP) {
-      result.setAmountMinor(amount.longValue());
-    } else {
-      result.setAmountMajor(amount);
-    }
+    result.setAmountMajor(amount);
     return result;
   }
   @Override

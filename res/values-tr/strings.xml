@@ -228,10 +228,6 @@
   <string name="pref_category_title_more_information">İlâve bilgi</string>
   <string name="pref_contrib_install_title">Katkı uygulamasını kur</string>
   <string name="pref_contrib_install_summary">&app_name; Contrib uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
-  <string name="pref_currency_decimal_separator_title">Girilen döviz miktarı için ondalık ayırıcı</string>
-  <string name="pref_currency_decimal_separator_comma">Virgül (,)</string>
-  <string name="pref_currency_decimal_separator_point">Nokta (.)</string>
-  <string name="pref_currency_decimal_separator_input_minor_unit">Küçük birimler tamsayı olarak</string>
   <string name="pref_export_format_title">Veri biçimi</string>
   <string name="pref_enter_licence_title">Katkı anahtarını gir</string>
   <string name="pref_enter_licence_summary">Eğer katkı anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>

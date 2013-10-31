@@ -15,16 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="pref_currency_decimal_separator_entries">        
-        <item>@string/pref_currency_decimal_separator_comma</item>
-        <item>@string/pref_currency_decimal_separator_point</item>
-        <item>@string/pref_currency_decimal_separator_input_minor_unit</item>
-    </string-array>
-    <string-array name="pref_currency_decimal_separator_values">        
-        <item>,</item>
-        <item>.</item>
-        <item>x</item>
-    </string-array>
     <string-array name="pref_export_format">
         <item>QIF</item>
         <item>CSV</item>
@@ -103,6 +93,7 @@
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
+      <item>83</item>
       <item>81</item>
       <item>80</item>
       <item>79</item>
@@ -114,6 +105,7 @@
       <item>58</item>
     </integer-array>
     <string-array name="version_names">
+      <item>1.9.7</item>
       <item>1.9.6.2</item>
       <item>1.9.6.1</item>
       <item>1.9.6</item>

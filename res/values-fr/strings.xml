@@ -229,10 +229,6 @@
   <string name="pref_category_title_more_information">Plus d\'informations</string>
   <string name="pref_contrib_install_title">Installer App Contrib</string>
   <string name="pref_contrib_install_summary">En installant &app_name; Contrib, vous aurez un accès à toutes les fonctions Premium.</string>
-  <string name="pref_currency_decimal_separator_title">Séparateur décimal pour l\'entrée des montants</string>
-  <string name="pref_currency_decimal_separator_comma">Virgule (,)</string>
-  <string name="pref_currency_decimal_separator_point">Point (.)</string>
-  <string name="pref_currency_decimal_separator_input_minor_unit">Sous-unités en nombres entiers</string>
   <string name="pref_enter_licence_title">Saisir clé contrib</string>
   <string name="pref_enter_licence_summary">Si vous avez reçu une clé contrib, celle-ci déverrouille l\'accès aux fonctions Premium.</string>
   <string name="pref_export_format_title">Format de données</string>

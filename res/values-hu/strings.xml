@@ -224,10 +224,6 @@
   <string name="pref_category_title_security">Biztonság</string>
   <string name="pref_contrib_install_title">Contrib app telepítése</string>
   <string name="pref_contrib_install_summary">A prémium funkciók a Kiadásaim Contrib változatának telepítésével érhetők el.</string>
-  <string name="pref_currency_decimal_separator_title">Tizedes-jegy elválasztó az összegek bevitele során</string>
-  <string name="pref_currency_decimal_separator_comma">Vessző (,)</string>
-  <string name="pref_currency_decimal_separator_point">Pont (.)</string>
-  <string name="pref_currency_decimal_separator_input_minor_unit">Kisebb egységek egészként</string>
   <string name="pref_enter_licence_title">Contrib kulcs megadása</string>
   <string name="pref_enter_licence_summary">Ha megkapta a Contrib kulcsot, hozzáférhet a Prémium szolgáltatásokhoz.</string>
   <string name="pref_export_format_title">Adat formátum</string>

@@ -42,7 +42,6 @@ public class MyApplication extends Application {
     public static String PREFKEY_PERFORM_SHARE;
     public static String PREFKEY_SHARE_TARGET;
     public static String PREFKEY_QIF_EXPORT_FILE_ENCODING;
-    public static String PREFKEY_CURRENCY_DECIMAL_SEPARATOR;
     public static String PREFKEY_UI_THEME_KEY;
     public static String PREFKEY_CURRENT_VERSION = "currentversion";
     public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
@@ -92,7 +91,6 @@ public class MyApplication extends Application {
       PREFKEY_CATEGORIES_SORT_BY_USAGES = getString(R.string.pref_categories_sort_by_usages_key);
       PREFKEY_PERFORM_SHARE = getString(R.string.pref_perform_share_key);
       PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
-      PREFKEY_CURRENCY_DECIMAL_SEPARATOR = getString(R.string.pref_currency_decimal_separator_key);
       PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
       PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
       PREFKEY_BACKUP = getString(R.string.pref_backup_key);

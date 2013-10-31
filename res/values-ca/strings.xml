@@ -230,10 +230,6 @@
   <string name="pref_contrib_install_title">Instal Contrib aplicació</string>
   <string name="pref_contrib_install_summary">Mitjançant la instal·lació de &app_name; Contrib, tindrà accés a funcions avançades.</string>
   <string name="pref_category_title_more_information">Més informació</string>
-  <string name="pref_currency_decimal_separator_title">Separador decimal de moneda</string>
-  <string name="pref_currency_decimal_separator_comma">Coma (,)</string>
-  <string name="pref_currency_decimal_separator_point">Punt (.)</string>
-  <string name="pref_currency_decimal_separator_input_minor_unit">Entra totes les quantitats en cèntims</string>
   <string name="pref_enter_licence_title">Introduïu la clau de Contrib</string>
   <string name="pref_enter_licence_summary">Si ha rebut una clau Contrib, accedir a funcions avançades.</string>
   <string name="pref_export_format_title">Format de les dades</string>

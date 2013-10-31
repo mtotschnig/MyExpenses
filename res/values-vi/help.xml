@@ -26,7 +26,7 @@
   <string name="menu_new_from_template_help_text">Nếu bạn đã tạo mẫu cho tài khoản hiện tại, lệnh này sẽ hiển thị một cửa sổ để chọn các mẫu đó ngay nơi giao dịch mới được tạo.</string>
   <string name="menu_reset_help_text">Phần lệnh này sẽ xuất dữ liệu về tất cả các giao dịch của tài khoản hiện tại vào một tập tin trên thẻ nhớ dưới định dạng QIF hoặc CSV. Theo mặc định, các giao dịch sẽ bị xóa khỏi điện thoại của bạn, nhưng bạn có thể chọn để giữ các phần này lại và đánh dấu khi xuất dữ liệu. Chương trình có thể chia sẻ tập tin ngay lập tức sau khi xuất dữ liệu thông qua FTP, email hoặc bất kỳ dạng thức chia sẻ nào của ứng dụng, nếu bạn đã cấu hình phần này trong phần Thiết Lập.</string>
   <string name="menu_edit_account_help_text">Hiệu chỉnh thuộc tính của tài khoản hiện tại (tiêu đề, mô tả, mở trạng thái cân bằng, loại tài khoản, tiền tệ, màu sắc).</string>
-  <string name="menu_grouping_help_text">Bạn có thể gom nhóm các giao dịch theo ngày, tuần, tháng hoặc năm.\tĐối với mỗi nhóm, tổng thu nhập, chi tiêu, và truyền đổi được tính toán tỉ mỉ và được hiển thị trực tiếp lên màn hình.</string>
+  <string name="menu_grouping_help_text">Bạn có thể gom nhóm các giao dịch theo ngày, tuần, tháng hoặc năm. Đối với mỗi nhóm, tổng thu nhập, chi tiêu, và truyền đổi được tính toán tỉ mỉ và được hiển thị trực tiếp lên màn hình.</string>
   <string name="menu_distribution_help_text">Hiển thị tiến trình phân phối các chi tiêu của bạn trong từng phân loại theo hướng đồ họa. Bạn có thể click vào một nhóm để xem xét một nhóm cụ thể nào đó.</string>
   <!--ManageAccounts Accounts list-->
   <string name="help_ManageAccounts_title">Danh sách tài khoản</string>
@@ -57,21 +57,21 @@
   <string name="help_ExpenseEdit_split_title">Mẫu đơn cho phần tách biệt</string>
   <string name="help_ExpenseEdit_splitPartCategory_title">Mẫu đơn cho phần tách biệt phân loại</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">Mẫu đơn cho phần chuyển đổi phân tách</string>
-  <string name="help_ExpenseEdit_info">Bấm vào - Nút chuyển đổi giữa chi phí và thu nhập, bấm vào nút = để mở một máy tính. Các dấu phân cách số thập phân đối với số tiền có thể được cấu hình trong cài đặt.</string>
-  <string name="help_ExpenseEdit_transaction_info">Trường người thụ hưởng (hoặc đối tượng nộp) nhớ các giá trị bạn nhập và sẽ đề xuất chúng trong tương lai. Nút để lựa chọn một phương thức thanh toán, chỉ khả dụng nếu tài khoản vãng lai là của một loại liên kết với bất kỳ phương thức thanh toán. Teo mặc định, tài khoản ngân hàng là loại duy nhất \tliên kết đến phương thức thanh toán (séc, thẻ tín dụng, tiền gửi, ghi nợ trực tiếp).</string>
+  <string name="help_ExpenseEdit_info">Bấm vào - Nút chuyển đổi giữa chi phí và thu nhập, bấm vào nút = để mở một máy tính.</string>
+  <string name="help_ExpenseEdit_transaction_info">Trường người thụ hưởng (hoặc đối tượng nộp) nhớ các giá trị bạn nhập và sẽ đề xuất chúng trong tương lai. Nút để lựa chọn một phương thức thanh toán, chỉ khả dụng nếu tài khoản vãng lai là của một loại liên kết với bất kỳ phương thức thanh toán. Teo mặc định, tài khoản ngân hàng là loại duy nhất liên kết đến phương thức thanh toán (séc, thẻ tín dụng, tiền gửi, ghi nợ trực tiếp).</string>
   <string name="help_ExpenseEdit_transfer_info">Nếu chỉ có một tài khoản với các tiền tệ giống như cái hiện tại, nó sẽ được chọn trước như chuyển khoản.</string>
   <string name="help_ExpenseEdit_template_info">Tiêu đề cho phép bạn xác định một mẫu khi bạn chọn nó để khởi đầu các giao dịch mới.</string>
-  <string name="help_ExpenseEdit_split_info">Nhập vào nhiều phần nhỏ khi cần thiết thông qua các lệnh cho việc chia tách và chuyển giao chia tách. \tNửa dưới của màn hình hiển thị danh sách các phân chia phần và số tiền mà chưa được giao cho một hạng mục hoặc một chuyển nhượng. \tBạn chỉ có thể lưu các giao dịch nếu chia số tiền giao dịch đã được chỉ định chính xác.</string>
+  <string name="help_ExpenseEdit_split_info">Nhập vào nhiều phần nhỏ khi cần thiết thông qua các lệnh cho việc chia tách và chuyển giao chia tách. Nửa dưới của màn hình hiển thị danh sách các phân chia phần và số tiền mà chưa được giao cho một hạng mục hoặc một chuyển nhượng. Bạn chỉ có thể lưu các giao dịch nếu chia số tiền giao dịch đã được chỉ định chính xác.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Chọn phân loại để phân tách.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Gán tài khoản truyền đổi cho phần phân tách</string>
   <string name="menu_save_help_text">Lưu dữ liệu và đóng lại mẫu đơn.</string>
-  <string name="menu_save_and_new_help_text">Lưu dữ liệu, để trạng thái mở cho mẫu đơn để tạo một giao dịch mới với cùng\n    dữ liệu.</string>
+  <string name="menu_save_and_new_help_text">Lưu dữ liệu, để trạng thái mở cho mẫu đơn để tạo một giao dịch mới với cùng dữ liệu.</string>
   <string name="menu_create_split_part_category_help_text">Mở mẫu đơn dành cho việc gán phần phân tách đối với một loại nào đó.</string>
   <string name="menu_create_split_part_transfer_help_text">Mở một mẫu đơn để xác định phần phân tách để truyền đổi đến một tài khoản khác.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Mẫu đơn cho các tài khoản</string>
-  <string name="help_AccountEdit_info">Tài khoản được xác định bởi nhãn của nó, là mô tả chỉ có mục đích thông tin. Dấu phân cách thập phân cho định khoản mở có thể được cấu hình trong phần cài đặt. Đồng tiền phải được nhập theo \tmã ba ký tự của nó theo tiêu chuẩn ISO 4217, nhưng có thể được dễ dàng lựa chọn từ một danh sách. Bạn có thể xác định các loại tài khoản là một trong các loại như tiền, tài khoản ngân hàng, tài sản, nợ, thẻ tín dụng. Các loại quyết định thanh toán có sẵn phương pháp mà bạn có thể cấu hình trong Cấu hình -&gt; Quản lý -&gt; Phương thức thanh toán.</string>
+  <string name="help_AccountEdit_info">Tài khoản được xác định bởi nhãn của nó, là mô tả chỉ có mục đích thông tin. Đồng tiền phải được nhập theo mã ba ký tự của nó theo tiêu chuẩn ISO 4217, nhưng có thể được dễ dàng lựa chọn từ một danh sách. Bạn có thể xác định các loại tài khoản là một trong các loại như tiền, tài khoản ngân hàng, tài sản, nợ, thẻ tín dụng. Các loại quyết định thanh toán có sẵn phương pháp mà bạn có thể cấu hình trong Cấu hình -&gt; Quản lý -&gt; Phương thức thanh toán.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Mẫu đơn cho phương thức thanh toán</string>
-  <string name="help_MethodEdit_info">Ở màn hình này, bạn sẽ gắn kết với phương t hức thanh toán với loại tài khoản của mình. \tBạn cũng có thể dùng các mẫu (với các ngoại lệ của việc xác định trước khi thanh toán thì việc xác định các mẫu có thể được hoàn toàn chỉnh sửa). Thông qua loại phương thức, bạn có thể xác định tính khả dĩ của chi tiêu (nợ), thu nhập (tín dụng), hoặc cả hai (nợ và tín dụng).</string>
+  <string name="help_MethodEdit_info">Ở màn hình này, bạn sẽ gắn kết với phương t hức thanh toán với loại tài khoản của mình. Bạn cũng có thể dùng các mẫu (với các ngoại lệ của việc xác định trước khi thanh toán thì việc xác định các mẫu có thể được hoàn toàn chỉnh sửa). Thông qua loại phương thức, bạn có thể xác định tính khả dĩ của chi tiêu (nợ), thu nhập (tín dụng), hoặc cả hai (nợ và tín dụng).</string>
 </resources>

@@ -69,19 +69,12 @@ import android.widget.Toast;
  */
 public class Utils {
 
-  public static String getDefaultDecimalSeparator() {
-    String sep = ".";
-    int sdk =  Build.VERSION.SDK_INT;
-    //there are different intricacies of bug http://code.google.com/p/android/issues/detail?id=2626
-    //on Gingerbread, the numeric keyboard of the default input method
-    //does not have a , thus we default to . as decimal separator
-    if (sdk == 8 || sdk == 9) {
-      return sep;
-    }
-   NumberFormat nfDLocal = NumberFormat.getNumberInstance();
+  public static char getDefaultDecimalSeparator() {
+    char sep = '.';
+    NumberFormat nfDLocal = NumberFormat.getNumberInstance();
     if (nfDLocal instanceof DecimalFormat) {
       DecimalFormatSymbols symbols = ((DecimalFormat)nfDLocal).getDecimalFormatSymbols();
-      sep=String.valueOf(symbols.getDecimalSeparator());
+      sep=symbols.getDecimalSeparator();
     }
     return sep;
   }

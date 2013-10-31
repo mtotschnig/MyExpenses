@@ -57,7 +57,7 @@
   <string name="help_ExpenseEdit_split_title">Bölünmüş muamele formu</string>
   <string name="help_ExpenseEdit_splitPartCategory_title">Bölünmüş alt muamele formu (kategori)</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">Bölünmüş alt muamele formu (transfer)</string>
-  <string name="help_ExpenseEdit_info">Gelir ve gider arası geçiş yapmak için - düğmesine tıklayın, hesap makinesini açmak için de = düğmesine tıklayabilirsiniz.  Meblağlar için ondalık ayırıcı ayarlarda yapılandırılabilir.</string>
+  <string name="help_ExpenseEdit_info">Gelir ve gider arası geçiş yapmak için - düğmesine tıklayın, hesap makinesini açmak için de = düğmesine tıklayabilirsiniz.</string>
   <string name="help_ExpenseEdit_transaction_info">Alacaklı (ya da borçlu) alanları girdiğiniz değerleri hatırlar ve gelecekte önerir. Ödeme metodu seçmeye yarayan düğme sadece güncel hesap herhangi bir ödeme metoduyla ilişkilendirilmiş türden ise kullanılabilir. Varsayılan değer olarak sadece banka hesapları ödeme metotları ile ilişkilidir (çek, kredi kartı, mevduat, doğrudan ödeme).</string>
   <string name="help_ExpenseEdit_transfer_info">Güncel hesap ile aynı para birimini kullanan sadece bir hesap var ve zaten transfer hesabı olarak seçilmiştir.</string>
   <string name="help_ExpenseEdit_template_info">Başlık, yeni muameleler oluşturmak için şablon seçtiğinizde söz konusu şablonu belirlemenize imkân verir. </string>
@@ -70,7 +70,7 @@
   <string name="menu_create_split_part_transfer_help_text">Bölünmüş muamelenin bir kısmının başka bir hesaba transfer olarak tanımlanması için gerekli formu açar.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Hesaplar için form</string>
-  <string name="help_AccountEdit_info">Hesaplar etiketleri ile tanımlanır, açıklamanın amacı sadece bilgilendirici olmaktır. Açılış bakiyesi için ondalık ayırıcı ayarlarda yapılandırılabilir. Döviz, üç harfli ISO 4217 koduna göre girilmelidir ve bir listeden kolayca seçilebilir.  Hesabın türünü nakit, banka hesabı, aktifler, borç ve kredi kartından biri olarak seçebilirsiniz. Hesap türü, Tercihler -&gt; Yönet -&gt; Ödeme metotları bölümünde ayarlayabileceğiniz kullanılabilecek ödeme metotlarını belirler.</string>
+  <string name="help_AccountEdit_info">Hesaplar etiketleri ile tanımlanır, açıklamanın amacı sadece bilgilendirici olmaktır. Döviz, üç harfli ISO 4217 koduna göre girilmelidir ve bir listeden kolayca seçilebilir.  Hesabın türünü nakit, banka hesabı, aktifler, borç ve kredi kartından biri olarak seçebilirsiniz. Hesap türü, Tercihler -&gt; Yönet -&gt; Ödeme metotları bölümünde ayarlayabileceğiniz kullanılabilecek ödeme metotlarını belirler.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Ödeme metotları için form</string>
   <string name="help_MethodEdit_info">Bu ekranda herhangi bir ödeme metodunu hesap türleriyle ilişkilendirebilirsiniz. Bir etiket tanımlamanız da mümkündür (düzenlenmeyen ve sabit etiketi bulunan öntanımlı metotların istisnası dışında). Metodun türüyle, harcalamalar (giderler), gelirler ya da ikisi için (nötr) geçerli olmasını sağlayabilirsiniz.</string>

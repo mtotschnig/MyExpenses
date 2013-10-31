@@ -57,14 +57,6 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
     PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
-    ListPreference listPref = (ListPreference) 
-        findPreference(MyApplication.PREFKEY_CURRENCY_DECIMAL_SEPARATOR);
-    if (listPref.getValue() == null) {
-      String sep = Utils.getDefaultDecimalSeparator();
-      //List<String> values =  Arrays.asList(getResources().getStringArray(R.array.pref_currency_decimal_separator_values));
-      listPref.setValue(sep);
-      //mCurrencyInputFormat.setValueIndex(values.indexOf(sep));
-    }
     Preference pref = findPreference(MyApplication.PREFKEY_SHARE_TARGET);
     pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
         "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +

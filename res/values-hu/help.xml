@@ -54,7 +54,7 @@
   <string name="help_ExpenseEdit_split_title">Megosztások űrlapja</string>
   <string name="help_ExpenseEdit_splitPartCategory_title">A megosztások kategóriához rendelésének űrlapja</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">Megosztások átutalásának űrlapja</string>
-  <string name="help_ExpenseEdit_info">A \"-\" gombra kattintva vált a kiadás és a bevétel között. A \"=\" gomb megnyitja a számológépet. A tizedesjegy a beállítások alatt módosítható.</string>
+  <string name="help_ExpenseEdit_info">A \"-\" gombra kattintva vált a kiadás és a bevétel között. A \"=\" gomb megnyitja a számológépet.</string>
   <string name="help_ExpenseEdit_transaction_info">A kedvezményezett (vagy kifizető) mezők megőrzik a bevitt adatokat és használatuk hamarosan további lehetőségeket nyújtanak majd: nyilvántartásra kerülnek a tranzakcióban résztvevő felek. A fizetési mód választására vonatkozó gomb csak akkor érhető el, ha a jelenlegi számla összekapcsolásra került több fizetési móddal.</string>
   <string name="help_ExpenseEdit_template_info">A cím segít a sablonok kiválasztásánál, hogy mely tranzakcióhoz tartozó sablon kerüljön példányosításra</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Kategória kiválasztása az osztott részhez.</string>

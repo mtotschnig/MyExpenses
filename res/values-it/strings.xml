@@ -227,10 +227,6 @@
   <string name="pref_category_title_security">Sicurezza</string>
   <string name="pref_category_title_ui">Interfaccia utente</string>
   <string name="pref_category_title_more_information">Maggiori informazioni</string>
-  <string name="pref_currency_decimal_separator_title">Separatore decimale per l\'ingresso della quantità</string>
-  <string name="pref_currency_decimal_separator_comma">Virgola (,)</string>
-  <string name="pref_currency_decimal_separator_point">Punto (.)</string>
-  <string name="pref_currency_decimal_separator_input_minor_unit">Unità minori come numeri interi</string>
   <string name="pref_export_format_title">Formato dati</string>
   <string name="pref_import_from_grisbi_summary">Scegli tra le definizioni standard di Grisbi, inclusi  nell\'applicazione, e il vostro proprio file salvato come &grisbi_file; nella cartellla myexpenses della radice della vostra scheda SD.</string>
   <string name="pref_import_from_grisbi_title">Importazione dei dati Grisbi</string>

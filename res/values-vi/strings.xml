@@ -225,10 +225,6 @@
   <string name="pref_category_title_security">An ninh</string>
   <string name="pref_contrib_install_title">Cài đặt ứng dụng cống hiến</string>
   <string name="pref_contrib_install_summary">Khi cài đặt chế độ cống hiến của Chi Tiêu Của Tôi, bạn được quyền truy cập các tính năng nâng cao</string>
-  <string name="pref_currency_decimal_separator_title">Dấu phân cách thập phan dành cho việc nhập dữ liệu số lượng tiền tệ</string>
-  <string name="pref_currency_decimal_separator_comma">Dấu phẩy (,)</string>
-  <string name="pref_currency_decimal_separator_point">Dấu chấm (.)</string>
-  <string name="pref_currency_decimal_separator_input_minor_unit">Đơn vị sử dụng dự phòng dạng số nguyên</string>
   <string name="pref_enter_licence_title">Điền vào mã cống hiến</string>
   <string name="pref_enter_licence_summary">Khi cài đặt chế độ cống hiến của Chi Tiêu Của Tôi, bạn được quyền truy cập các tính năng nâng cao</string>
   <string name="pref_export_format_title">Định dạng dữ liệu</string>

@@ -229,10 +229,6 @@
   <string name="pref_category_title_more_information">Más información</string>
   <string name="pref_contrib_install_summary">Instalando &app_name; Contrib, usted obiene acceso a todas las características premium.</string>
   <string name="pref_contrib_install_title">Instalar aplicación Contrib</string>
-  <string name="pref_currency_decimal_separator_title">Separador decimal para entrar valores de moneda</string>
-  <string name="pref_currency_decimal_separator_comma">Coma (,)</string>
-  <string name="pref_currency_decimal_separator_point">Punto (.)</string>
-  <string name="pref_currency_decimal_separator_input_minor_unit">Sub-unidades como números enteros</string>
   <string name="pref_enter_licence_summary">Si ha recibido una clave Contrib, puede desbloquear las  características premium.</string>
   <string name="pref_enter_licence_title">Introduzca la clave Contrib</string>
   <string name="pref_export_format_title">Formato de datos</string>

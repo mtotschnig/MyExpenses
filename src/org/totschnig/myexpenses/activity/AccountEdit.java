@@ -87,13 +87,6 @@ public class AccountEdit extends EditActivity {
     mLabelText = (EditText) findViewById(R.id.Label);
     mDescriptionText = (EditText) findViewById(R.id.Description);
 
-    TextView openingBalanceLabel = (TextView) findViewById(R.id.OpeningBalanceLabel); 
-    if (mMinorUnitP) {
-      openingBalanceLabel.setText(getString(R.string.opening_balance) + "(¢)");
-    } else {
-      openingBalanceLabel.setText(getString(R.string.opening_balance));
-    }
-
     mCurrencyText = (AutoCompleteTextView) findViewById(R.id.Currency);
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
         android.R.layout.simple_dropdown_item_1line, currencyCodes);
@@ -292,12 +285,8 @@ public class AccountEdit extends EditActivity {
         configureType();
       }
     });
-    BigDecimal amount;
-    if (mMinorUnitP) {
-      amount = new BigDecimal(mAccount.openingBalance.getAmountMinor());
-    } else {
-      amount = mAccount.openingBalance.getAmountMajor();
-    }
+
+    BigDecimal amount = mAccount.openingBalance.getAmountMajor();
     if (amount.signum() == -1) {
       amount = amount.abs();
     } else {
@@ -339,11 +328,9 @@ public class AccountEdit extends EditActivity {
     if (mType == EXPENSE) {
       openingBalance = openingBalance.negate();
     }
-    if (mMinorUnitP) {
-      mAccount.openingBalance.setAmountMinor(openingBalance.longValue());
-    } else {
-      mAccount.openingBalance.setAmountMajor(openingBalance);
-    }
+
+    mAccount.openingBalance.setAmountMajor(openingBalance);
+
     //TODO make sure that this is retained upon orientation change
     mAccount.type = mAccountType;
     mAccount.color = mAccountColor;
