@@ -16,6 +16,8 @@
 package org.totschnig.myexpenses.activity;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
@@ -45,11 +47,14 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.MergeCursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -78,7 +83,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   private Button mTimeButton;
   private EditText mCommentText, mTitleText;
   private Button mCategoryButton;
-  private Button mMethodButton;
+  private Spinner mMethodSpinner;
   private Button mTypeButton;
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel;
@@ -90,7 +95,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       getDateInstance(java.text.DateFormat.FULL);
   private Long mCatId = null;
   private Long mTransferAccount = null;
-  private Long mMethodId = null;
   private String mLabel;
   private Transaction mTransaction;
   private boolean mTransferEnabled = false;
@@ -104,7 +108,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
   static final int ACCOUNT_DIALOG_ID = 2;
-  static final int METHOD_DIALOG_ID = 3;
   //CALCULATOR_REQUEST in super = 0
   private static final int ACTIVITY_EDIT_SPLIT = 1;
   private static final int SELECT_CATEGORY_REQUEST = 2;
@@ -117,6 +120,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   String[] accountLabels ;
   Long[] accountIds ;
   private boolean mCreateNew = false;
+  private SimpleCursorAdapter mMethodsAdapter;
 
   public enum HelpVariant {
     transaction,transfer,split,template,splitPartCategory,splitPartTransfer
@@ -143,7 +147,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
     mCategoryButton = (Button) findViewById(R.id.Category);
-    mMethodButton = (Button) findViewById(R.id.Method);
+    mMethodSpinner = (Spinner) findViewById(R.id.Method);
     mManager= getSupportLoaderManager();
     
     //1. fetch the transaction or create a new instance
@@ -293,6 +297,11 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     
     if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
       mManager.initLoader(PAYEES_CURSOR, null, this);
+      mMethodsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
+          new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
+      mMethodsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      mMethodSpinner.setAdapter(mMethodsAdapter);
+      mMethodSpinner.setOnItemSelectedListener(this);
       mManager.initLoader(METHODS_CURSOR, null, this);
     } else {
       findViewById(R.id.PayeeRow).setVisibility(View.GONE);
@@ -307,9 +316,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
 
       public void onClick(View view) {
         mType = ! mType;
-        //we need to empty payment method, since they are different for expenses and incomes
-        mMethodId = null;
-        mMethodButton.setText((CharSequence) mMethodButton.getTag());
         configureType();
         if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory))
           mManager.restartLoader(METHODS_CURSOR, null, ExpenseEdit.this);
@@ -323,15 +329,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         categoryLabel.setText(R.string.account);
       else
         mCategoryButton.setText(R.string.account);
-    } else {
-      //we store the original text of the button, since it depends on the orientation
-      //and we want to restore it eventually
-      mMethodButton.setTag(mMethodButton.getText());
-      mMethodButton.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View view) {
-          showDialog(METHOD_DIALOG_ID);
-        }
-      });
     }
     //category button and amount label are further set up in populateFields, since it depends on data
     populateFields();
@@ -434,7 +431,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     }
   };
   private ArrayAdapter<String>  mPayeeAdapter;
-  private Cursor mMethodsCursor;
   private int otherAccountsCount = 0;
   @Override
   protected Dialog onCreateDialog(int id) {
@@ -467,49 +463,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
             }
           }
         ).create();
-    case METHOD_DIALOG_ID:
-      //TODO: check if this can really happen, and if yes provide Toast
-      if (mMethodsCursor == null)
-        return null;
-      final String[] methodLabels = new String[mMethodsCursor.getCount()];
-      final Long[] methodIds = new Long[mMethodsCursor.getCount()];
-      if (mMethodsCursor.moveToFirst()) {
-       int idIndex = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
-       int labelIndex = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_LABEL);
-       for (int i = 0; i < mMethodsCursor.getCount(); i++){
-         methodIds[i] = mMethodsCursor.getLong(idIndex);
-         methodLabels[i] = PaymentMethod.getDisplayLabel(mMethodsCursor.getString(labelIndex));
-         mMethodsCursor.moveToNext();
-       }
-      } else {
-        //TODO create resource string and fill with types
-        Toast.makeText(this,getString(
-              R.string.no_valid_payment_methods,
-              getmAccount().type.getDisplayName(),
-              getString(mType == EXPENSE ? R.string.expense : R.string.income)
-            ), Toast.LENGTH_LONG).show();
-        return null;
-      }
-      return new  AlertDialog.Builder(this)
-        .setTitle(R.string.dialog_title_select_method)
-        .setSingleChoiceItems(methodLabels,
-            java.util.Arrays.asList(methodIds).indexOf(mMethodId), 
-            new DialogInterface.OnClickListener() {
-              public void onClick(DialogInterface dialog, int item) {
-                mMethodId = methodIds[item];
-                mMethodButton.setText(methodLabels[item]);
-                removeDialog(METHOD_DIALOG_ID);
-              }
-            }
-        )
-        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-          @Override
-          public void onCancel(DialogInterface dialog) {
-            removeDialog(METHOD_DIALOG_ID);
-          }
-        })
-
-        .create();      
     }
     return null;
   }
@@ -525,10 +478,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       mCommentText.setText(mTransaction.comment);
       if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
         mPayeeText.setText(mTransaction.payee);
-        mMethodId = mTransaction.methodId;
-        if (mMethodId != null) {
-          mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel());
-        }
       }
       //3d fill label (category or account) we got from database, if we are a transfer we prefix 
       //with transfer direction
@@ -664,7 +613,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       mTransaction.catId = mCatId;
     if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
         mTransaction.setPayee(mPayeeText.getText().toString());
-        mTransaction.methodId = mMethodId;
+        mTransaction.methodId = mMethodSpinner.getSelectedItemId();
     }
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       if (mTransferAccount == null) {
@@ -734,8 +683,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       outState.putLong("catId", mCatId);
     if (mTransferAccount != null)
       outState.putLong("transferAccount",mTransferAccount);
-    if (mMethodId != null)
-      outState.putLong("methodId", mMethodId);
     outState.putString("label", mLabel);
   }
   @Override
@@ -747,10 +694,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       mCatId = null;
     if ((mTransferAccount = savedInstanceState.getLong("transferAccount")) == 0L)
       mTransferAccount = null;
-    if ((mMethodId = savedInstanceState.getLong("methodId")) == 0L)
-      mMethodId = null;
-    else
-      mMethodButton.setText(PaymentMethod.getInstanceFromDb(mMethodId).getDisplayLabel());
     configureType();
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
@@ -819,7 +762,11 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {
-    mTransaction.crStatus = (Transaction.CrStatus) parent.getItemAtPosition(position);
+    switch(parent.getId()) {
+    case R.id.Status:
+      mTransaction.crStatus = (Transaction.CrStatus) parent.getItemAtPosition(position);
+      break;
+    }
   }
   @Override
   public void onNothingSelected(AdapterView<?> parent) {
@@ -891,12 +838,21 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       mPayeeText.setAdapter(mPayeeAdapter);
       break;
     case METHODS_CURSOR:
-      mMethodsCursor = data;
-      if (data.getCount() == 0) {
+      if (!data.moveToFirst()) {
         View MethodContainer = findViewById(R.id.MethodRow);
         if (MethodContainer == null)
           MethodContainer = findViewById(R.id.Method);
         MethodContainer.setVisibility(View.GONE);
+      } else {
+        MatrixCursor extras = new MatrixCursor(new String[] { KEY_ROWID,KEY_LABEL });
+        extras.addRow(new String[] { "0", "No method" });
+        mMethodsAdapter.swapCursor(new MergeCursor(new Cursor[] {extras,data}));
+        if (mTransaction.methodId != null)
+          while (data.isAfterLast() == false) {
+            if (data.getLong(data.getColumnIndex(KEY_ROWID)) == mTransaction.methodId)
+              mMethodSpinner.setSelection(data.getPosition()+1);
+            data.moveToNext();
+          }
       }
       break;
     case ACCOUNTS_CURSOR:
@@ -908,7 +864,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       if(data.moveToFirst()){
         for (int i = 0; i < otherAccountsCount; i++){
           accountLabels[i] = data.getString(data.getColumnIndex("label"));
-          accountIds[i] = data.getLong(data.getColumnIndex(DatabaseConstants.KEY_ROWID));
+          accountIds[i] = data.getLong(data.getColumnIndex(KEY_ROWID));
           data.moveToNext();
         }
       }
