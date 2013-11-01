@@ -20,6 +20,7 @@
   <!-- My Expenses Transaction list -->
   <string name="help_MyExpenses_title">Elenco delle transazioni</string>
   <string name="help_MyExpenses_info">Questa schermata elenca tutte le transazioni per il conto corrente. Dalla barra di navigazione, è possibile accedere alla lista dei conti o scegliere un conto diverso. Fare clic su una voce dell\'elenco per modificare la voce.</string>
+  <string name="help_MyExpenses_crStatus_info">Lo stato della transazione è indicata da un rettangolo di colore: grigio per non riconciliato, blu per chiaro, verde per riconciliato . Facendo clic sul rettangolo, modifica lo status.</string>
   <string name="menu_create_transaction_help_text">Apre il modulo per la creazione di una nuova transazione.</string>
   <string name="menu_create_transfer_help_text">Trasferire denaro tra conti. Questo comando è abilitato solo se si dispone di almeno un altro conto con la stessa moneta, come quello attuale.</string>
   <string name="menu_create_split_help_text">Una operazione suddivisa consente di assegnare importi parziali a diverse categorie o come trasferimenti a conti diversi.</string>
@@ -41,7 +42,8 @@
   <string name="menu_create_method_help_text">Apre il modulo per la creazione di un nuovo metodo di pagamento.</string>
 
   <!-- ManageParties title is in keys -->
-  <string name="help_ManageParties_info">Questa schermata elenca i nomi utilizzati per il completamento automatico del campo Pagatore / Beneficiario. È possibile rimuovere e modificare le voci in questa lista tramite il menu contestuale di ogni voce.</string>
+  <string name="help_ManageParties_info">Questa schermata elenca i nomi utilizzati per il completamento automatico del campo Pagatore / Beneficiario. È possibile rimuovere e modificare le voci in questa lista tramite il menu contestuale.</string>
+  <string name="menu_create_party_help_text">Apre la finestra di dialogo per specificare il nome di un nuovo pagatore o beneficiario.</string>
 
   <!-- ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_info">Questa schermata elenca i modelli disponibili raggruppati per conto. Mentre i modelli possono essere derivate da operazioni, qui, il menu contestuale di ogni conto consente di creare nuovi modelli (per le transazioni o trasferimenti). Dal menu contestuale di un modello è possibile creare un\'istanza di esso e decidere se salvare immediatamente o inserire la sua forma di modifica in cui è possibile modificarla prima di salvare. Facendo clic su una voce permette di modificarlo (caratteristica Contrib).</string>

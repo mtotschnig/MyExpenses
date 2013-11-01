@@ -21,6 +21,7 @@
   <!-- My Expenses Transaction list -->
   <string name="help_MyExpenses_title">Lista de transacciones</string>
   <string name="help_MyExpenses_info">Esta pantalla muestra todas las transacciones de la cuenta corriente. Desde la barra de navegación, puede navegar a la lista de cuentas o seleccionar una cuenta diferente. Haga clic en una entrada de la lista para editar el elemento.</string>
+  <string name="help_MyExpenses_crStatus_info">El estatus de la transacción se indica mediante un rectángulo de color: gris por no conciliada, azul por despejada, verde por conciliada. Al hacer clic en el rectángulo, se cambia el estatus.</string> 
   <string name="menu_create_transaction_help_text">Abre el formulario para crear una nueva transacción.</string>
   <string name="menu_create_transfer_help_text">Transferir dinero entre cuentas. Este comando  sólo está disponible si hay al menos otra cuenta en la misma moneda que la actual.</string>
   <string name="menu_create_split_help_text">Uno asiento dividido le permite asignar cantidades parciales a diferentes categorías o como las transferencias a diferentes cuentas.</string>
@@ -43,7 +44,7 @@
 
   <!-- ManageParties title is in keys -->
   <string name="help_ManageParties_info">Esta pantalla muestra los partidos utilizados para la cumplimentación automática de la casilla pagador / beneficiario. Puede eliminar o modificar las entradas de esta lista a través del menú contextual de cada entrada.</string>
-
+  <string name="menu_create_party_help_text"> Abre el diálogo para especificar el nombre de un nuevo ordenante o beneficiario.</string>
   <!-- ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_info">Esta pantalla muestra las plantillas disponibles agrupadas por cuenta. Mientras que las plantillas normalmente se pueden derivar de las transacciones, aquí el menú contextual de cada cuenta le permite crear nuevas plantillas (para transacciones o traslados a otra cuenta). Desde el menú contextual de una plantilla se puede crear una nueva transacción y de forma inmediata o guardarla o llenar un formulario de edición que puede modificar antes de guardarlo. Haciendo clic en una plantilla le permite modificar el formulario (característica Contrib).</string>
 
