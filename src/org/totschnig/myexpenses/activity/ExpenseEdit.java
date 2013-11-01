@@ -84,7 +84,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   private EditText mCommentText, mTitleText;
   private Button mCategoryButton;
   private Spinner mMethodSpinner;
-  private Button mTypeButton;
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel;
   public Long mRowId;
@@ -658,8 +657,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   /**
    * updates interface based on type (EXPENSE or INCOME)
    */
-  private void configureType() {
-    mTypeButton.setText(mType ? "+" : "-");
+  protected void configureType() {
+    super.configureType();
     if (mPayeeLabel != null) {
       mPayeeLabel.setText(mType ? R.string.payer : R.string.payee);
     }

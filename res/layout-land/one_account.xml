@@ -70,12 +70,11 @@
               android:layout_height="fill_parent"
               android:id="@+id/Select" 
               android:text="@string/select" />
-          <Button
+          <Spinner
               android:layout_weight="1"
               android:layout_width="0dp"
               android:layout_height="fill_parent"
-              android:id="@+id/AccountType"
-              android:text="@string/account_type_cash" />
+              android:id="@+id/AccountType" />
           </LinearLayout>
       </TableRow>
       <TableRow>
