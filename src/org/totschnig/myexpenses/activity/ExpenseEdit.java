@@ -311,7 +311,6 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       };
       mMethodsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
       mMethodSpinner.setAdapter(mMethodsAdapter);
-      mMethodSpinner.setOnItemSelectedListener(this);
       mManager.initLoader(METHODS_CURSOR, null, this);
     } else {
       findViewById(R.id.PayeeRow).setVisibility(View.GONE);
