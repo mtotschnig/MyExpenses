@@ -111,12 +111,12 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   //CALCULATOR_REQUEST in super = 0
   private static final int ACTIVITY_EDIT_SPLIT = 1;
   private static final int SELECT_CATEGORY_REQUEST = 2;
-  
+
   public static final int PAYEES_CURSOR=1;
   public static final int METHODS_CURSOR=2;
   public static final int ACCOUNTS_CURSOR=3;
   private LoaderManager mManager;
-  
+
   String[] accountLabels ;
   Long[] accountIds ;
   private boolean mCreateNew = false;
@@ -136,7 +136,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
     mTemplateId = extras.getLong("template_id",0);
     mTransferEnabled = extras.getBoolean("transferEnabled",false);
-    
+
     setContentView(R.layout.one_expense);
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
     mTypeButton = (Button) findViewById(R.id.TaType);
@@ -149,7 +149,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     mCategoryButton = (Button) findViewById(R.id.Category);
     mMethodSpinner = (Spinner) findViewById(R.id.Method);
     mManager= getSupportLoaderManager();
-    
+
     //1. fetch the transaction or create a new instance
     if (mRowId != 0 || mTemplateId != 0) {
       int taskId;
@@ -190,11 +190,13 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   }
   private void setup() {
     configAmountInput();
-    Spinner spinner = (Spinner) findViewById(R.id.Status);
+
+    //Spinner for setting Status
+    Spinner statusSpinner = (Spinner) findViewById(R.id.Status);
     if (getmAccount().type.equals(Type.CASH) ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer)
-      spinner.setVisibility(View.GONE);
+      statusSpinner.setVisibility(View.GONE);
     else {
       ArrayAdapter<Transaction.CrStatus> sAdapter = new ArrayAdapter<Transaction.CrStatus>(
           DialogUtils.wrapContext1(this),
@@ -221,10 +223,11 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         }
       };
       sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
-      spinner.setAdapter(sAdapter);
-      spinner.setSelection(mTransaction.crStatus.ordinal());
-      spinner.setOnItemSelectedListener(this);
+      statusSpinner.setAdapter(sAdapter);
+      statusSpinner.setSelection(mTransaction.crStatus.ordinal());
+      statusSpinner.setOnItemSelectedListener(this);
     }
+
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
@@ -294,11 +297,18 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         }
       });
     }
-    
+
     if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
       mManager.initLoader(PAYEES_CURSOR, null, this);
+
+      // Spinner for methods
       mMethodsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
-          new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
+          new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0) {
+        @Override
+        public void setViewText(TextView v, String text) {
+          super.setViewText(v, PaymentMethod.getDisplayLabel(text));
+        }
+      };
       mMethodsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
       mMethodSpinner.setAdapter(mMethodsAdapter);
       mMethodSpinner.setOnItemSelectedListener(this);
@@ -466,7 +476,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     }
     return null;
   }
-  
+
   /**
    * populates the input fields with a transaction from the database or a new one
    */
@@ -522,7 +532,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer))
       setDateTime(mTransaction.date);
-    
+
     //add currency label to amount label
     TextView amountLabel = (TextView) findViewById(R.id.AmountLabel);    
     String currencySymbol;
@@ -559,7 +569,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   private void setDate() {
     mDateButton.setText(mTitleDateFormat.format(mCalendar.getTime()));
   }
-  
+
   /**
    * sets time on time button
    */
@@ -720,17 +730,17 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   @Override
   public void onPreExecute() {
     // TODO Auto-generated method stub
-    
+
   }
   @Override
   public void onProgressUpdate(int percent) {
     // TODO Auto-generated method stub
-    
+
   }
   @Override
   public void onCancelled() {
     // TODO Auto-generated method stub
-    
+
   }
   @Override
   public void onPostExecute(int taskId,Object o) {
@@ -847,12 +857,15 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
         MatrixCursor extras = new MatrixCursor(new String[] { KEY_ROWID,KEY_LABEL });
         extras.addRow(new String[] { "0", "No method" });
         mMethodsAdapter.swapCursor(new MergeCursor(new Cursor[] {extras,data}));
-        if (mTransaction.methodId != null)
+        if (mTransaction.methodId != null) {
           while (data.isAfterLast() == false) {
-            if (data.getLong(data.getColumnIndex(KEY_ROWID)) == mTransaction.methodId)
+            if (data.getLong(data.getColumnIndex(KEY_ROWID)) == mTransaction.methodId) {
               mMethodSpinner.setSelection(data.getPosition()+1);
+              break;
+            }
             data.moveToNext();
           }
+        }
       }
       break;
     case ACCOUNTS_CURSOR:
