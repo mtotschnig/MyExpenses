@@ -39,7 +39,8 @@ public class PaymentMethod extends Model {
   public static final int NEUTRAL = 0;
   public static final int INCOME = 1;
   private int paymentType;
-  public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL};
+  public boolean isNumbered = false;
+  public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL,KEY_TYPE,KEY_IS_NUMBERED};
   public static final Uri CONTENT_URI = TransactionProvider.METHODS_URI;
   /**
    * array of account types for which this payment method is applicable
@@ -48,17 +49,21 @@ public class PaymentMethod extends Model {
   public PreDefined predef;
   
   public enum PreDefined {
-    CHEQUE(-1),CREDITCARD(-1),DEPOSIT(1),DIRECTDEBIT(-1);
+    CHEQUE(-1,true),CREDITCARD(-1),DEPOSIT(1),DIRECTDEBIT(-1);
     public final int paymentType;
-    PreDefined(int paymentType) {
+    public final boolean isNumbered;
+    PreDefined(int paymentType, boolean isNumbered) {
+      this.isNumbered = isNumbered;
       this.paymentType = paymentType;
+    }
+    PreDefined(int paymentType) {
+      this(paymentType,false);
     }
   }
   private PaymentMethod(long id) throws DataObjectNotFoundException {
     this.id = id;
-    String[] projection = new String[] {KEY_LABEL,KEY_TYPE};
     Cursor c = cr().query(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null,null,null, null);
     if (c == null || c.getCount() == 0) {
       throw new DataObjectNotFoundException(id);
     }
@@ -66,6 +71,7 @@ public class PaymentMethod extends Model {
 
     this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     this.paymentType = c.getInt(c.getColumnIndexOrThrow(KEY_TYPE));
+    this.isNumbered = c.getInt(c.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0;
     c.close();
     try {
       predef = PreDefined.valueOf(this.label);
@@ -162,6 +168,7 @@ public class PaymentMethod extends Model {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_LABEL, label);
     initialValues.put(KEY_TYPE,paymentType);
+    initialValues.put(KEY_IS_NUMBERED,isNumbered);
     if (id == 0) {
       uri = cr().insert(CONTENT_URI, initialValues);
       id = Integer.valueOf(uri.getLastPathSegment());

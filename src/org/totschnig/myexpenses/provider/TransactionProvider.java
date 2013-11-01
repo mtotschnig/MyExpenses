@@ -233,6 +233,8 @@ public class TransactionProvider extends ContentProvider {
       break;
     case METHOD_ID:
       qb.setTables(TABLE_METHODS);
+      if (projection == null)
+        projection = PaymentMethod.PROJECTION;
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
     case METHODS_FILTERED:

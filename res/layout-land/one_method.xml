@@ -45,6 +45,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/TaType"
             android:text="@string/pm_type_neutral" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/IsNumbered"
+            android:text="Is numbered" />
         </LinearLayout>
       </TableRow>
       </TableLayout>

@@ -47,6 +47,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/TaType"
             android:text="@string/pm_type_neutral" />
+      </TableRow>
+      <TableRow>
+        <TextView style="@style/form_label"
+            android:text="Is Numbered" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/IsNumbered" />
       </TableRow>      
       </TableLayout>
   </ScrollView>

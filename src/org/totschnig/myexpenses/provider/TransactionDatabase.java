@@ -63,7 +63,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "),"
     + KEY_PARENTID         + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + "), "
     + KEY_STATUS           + " integer default 0, "
-    + KEY_CR_STATUS        + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" +  Transaction.CrStatus.RECONCILED.name() + "');";
+    + KEY_CR_STATUS        + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" +  Transaction.CrStatus.RECONCILED.name() + "',"
+    + KEY_NUMBER           + " integer);";
 
   private static final String VIEW_DEFINITION(String tableName) {
       return " AS SELECT " +
@@ -102,7 +103,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String PAYMENT_METHODS_CREATE =
     "CREATE TABLE " + TABLE_METHODS + " ("
         + KEY_ROWID + " integer primary key autoincrement, " 
-        + KEY_LABEL + " text not null, " 
+        + KEY_LABEL + " text not null, "
+        + KEY_IS_NUMBERED    + " boolean default 0, "
         + KEY_TYPE  + " integer " + 
           "check (" + KEY_TYPE + " in (" 
             + PaymentMethod.EXPENSE + ","
@@ -125,7 +127,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_CATID            + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
       + KEY_ACCOUNTID        + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
       + KEY_PAYEEID          + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + "), "
-      + KEY_TRANSFER_PEER    + " boolean default false, "
+      + KEY_TRANSFER_PEER    + " boolean default 0, "
       + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + "),"
       + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "), "
       + KEY_TITLE            + " text not null, "
@@ -198,6 +200,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       initialValues = new ContentValues();
       initialValues.put(KEY_LABEL, pm.name());
       initialValues.put(KEY_TYPE,pm.paymentType);
+      initialValues.put(KEY_IS_NUMBERED, pm.isNumbered);
       _id = db.insert(TABLE_METHODS, null, initialValues);
       initialValues = new ContentValues();
       initialValues.put(KEY_METHODID, _id);

@@ -43,6 +43,7 @@ public class MethodEdit extends EditActivity {
   private EditText mLabelText;
   private TableLayout mTable;
   Button mTypeButton;
+  CheckBox mIsNumberedCheckBox;
   PaymentMethod mMethod;
   private int mPaymentType;
   String[] mTypes = new String[3];
@@ -70,6 +71,7 @@ public class MethodEdit extends EditActivity {
     mTypes[1] = getString(R.string.pm_type_neutral);
     mTypes[2] = getString(R.string.pm_type_credit);
     
+    mIsNumberedCheckBox = (CheckBox) findViewById(R.id.IsNumbered);
     populateFields();
   }
   /**
@@ -86,6 +88,7 @@ public class MethodEdit extends EditActivity {
       mLabelText.setText(mMethod.getDisplayLabel());
       mPaymentType = mMethod.getPaymentType();
       mTypeButton.setText(mTypes[mPaymentType+1]);
+      mIsNumberedCheckBox.setChecked(mMethod.isNumbered);
       if (mMethod.predef != null) {
         mLabelText.setFocusable(false);
         mLabelText.setEnabled(false);
@@ -151,6 +154,7 @@ public class MethodEdit extends EditActivity {
         mMethod.removeAccountType(accountType);
       }
     }
+    mMethod.isNumbered = mIsNumberedCheckBox.isChecked();
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
   }

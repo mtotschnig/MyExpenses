@@ -42,6 +42,8 @@ public class DatabaseConstants {
   public static final String KEY_TRANSACTIONID = "transaction_id";
   public static final String KEY_GROUPING = "grouping";
   public static final String KEY_CR_STATUS = "cr_status";
+  public static final String KEY_NUMBER = "number";
+  public static final String KEY_IS_NUMBERED = "is_numbered";
   /**
    * transaction that already has been exported
    */
