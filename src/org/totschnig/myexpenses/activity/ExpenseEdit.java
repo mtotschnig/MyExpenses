@@ -325,8 +325,10 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       public void onClick(View view) {
         mType = ! mType;
         configureType();
-        if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory))
+        if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
+          mTransaction.methodId = null;
           mManager.restartLoader(METHODS_CURSOR, null, ExpenseEdit.this);
+        }
       } 
     });
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
@@ -863,7 +865,8 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
             }
             data.moveToNext();
           }
-        }
+        } else
+          mMethodSpinner.setSelection(0);
       }
       break;
     case ACCOUNTS_CURSOR:
