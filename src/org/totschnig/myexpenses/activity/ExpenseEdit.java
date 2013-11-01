@@ -848,12 +848,13 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       mPayeeText.setAdapter(mPayeeAdapter);
       break;
     case METHODS_CURSOR:
+      View MethodContainer = findViewById(R.id.MethodRow);
+      if (MethodContainer == null)
+        MethodContainer = findViewById(R.id.Method);
       if (!data.moveToFirst()) {
-        View MethodContainer = findViewById(R.id.MethodRow);
-        if (MethodContainer == null)
-          MethodContainer = findViewById(R.id.Method);
         MethodContainer.setVisibility(View.GONE);
       } else {
+        MethodContainer.setVisibility(View.VISIBLE);
         MatrixCursor extras = new MatrixCursor(new String[] { KEY_ROWID,KEY_LABEL });
         extras.addRow(new String[] { "0", "No method" });
         mMethodsAdapter.swapCursor(new MergeCursor(new Cursor[] {extras,data}));
