@@ -185,7 +185,6 @@
   <string name="no_split_parts">Nincsenek részletösszegek.</string>
   <string name="no_templates">Nincsenek sablonok.</string>
   <string name="no_title_given">Nem adott meg címet.</string>
-  <string name="no_valid_payment_methods">Nincs érvényes fizetési mód: %1$s (%2$s)</string>
   <string name="not_deletable_mapped_transactions">Nem törölhető, mert összefüggő tranzakciókat érint.</string>
   <string name="not_deletable_mapped_templates">Nem törölhető, mert összefüggő sablont érint.</string>
   <string name="not_deletable_subcats_exists">Ez a kategória alkategóriákat tartalmaz, így nem törölhető.</string>
