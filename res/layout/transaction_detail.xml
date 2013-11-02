@@ -58,9 +58,16 @@
 
       <TableRow android:id="@+id/MethodRow">
 	      <TextView style="@style/form_label_dialog"
-	          android:id="@+id/MethodLabel" android:text="@string/method" />
+            android:text="@string/method" />
 	      <TextView
             android:id="@+id/Method" style="@style/dialog_text"/>
+      </TableRow>
+
+      <TableRow android:id="@+id/NumberRow">
+        <TextView style="@style/form_label_dialog"
+            android:text="@string/reference_number" />
+        <TextView
+            android:id="@+id/Number" style="@style/dialog_text"/>
       </TableRow>
 
       <TableRow android:id="@+id/StatusRow">

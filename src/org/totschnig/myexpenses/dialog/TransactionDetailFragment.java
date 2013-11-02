@@ -201,6 +201,10 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       ((TextView) view.findViewById(R.id.Comment)).setText(mTransaction.comment);
     else
       view.findViewById(R.id.CommentRow).setVisibility(View.GONE);
+    if (!mTransaction.referenceNumber.equals(""))
+      ((TextView) view.findViewById(R.id.Number)).setText(mTransaction.referenceNumber);
+    else
+      view.findViewById(R.id.NumberRow).setVisibility(View.GONE);
     if (!mTransaction.payee.equals(""))
       ((TextView) view.findViewById(R.id.Payee)).setText(mTransaction.payee);
     else
