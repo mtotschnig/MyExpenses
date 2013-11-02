@@ -483,6 +483,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 37) {
       db.execSQL("ALTER TABLE transactions add column number text");
       db.execSQL("ALTER TABLE paymentmethods add column is_numbered boolean default 0");
+      ContentValues initialValues = new ContentValues();
+      initialValues.put("is_numbered", true);
+      db.update("paymentmethods", initialValues, "label = ?", new String[] {"CHEQUE"});
     }
   }
 }
