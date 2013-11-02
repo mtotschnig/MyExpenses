@@ -92,7 +92,7 @@ public class TransactionList extends BudgetListFragment implements
   private SparseBooleanArray mappedCategoriesPerGroup;
 
   int columnIndexDate, columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth, columnIndexWeek, columnIndexDay,
-    columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee, columnIndexCrStatus,
+    columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee, columnIndexCrStatus, columnIndexReferenceNumber,
     columnIndexGroupYear, columnIndexGroupSecond, columnIndexGroupMappedCategories,
     columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
   boolean indexesCalculated, indexesGroupingCalculated = false;
@@ -319,6 +319,7 @@ public class TransactionList extends BudgetListFragment implements
         columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
         columnIndexComment = c.getColumnIndex(KEY_COMMENT);
+        columnIndexReferenceNumber= c.getColumnIndex(KEY_REFERENCE_NUMBER);
         columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
         columnIndexCrStatus = c.getColumnIndex(KEY_CR_STATUS);
         indexesCalculated = true;
@@ -587,14 +588,16 @@ public class TransactionList extends BudgetListFragment implements
           catText = getString(R.string.split_transaction);
         else if (catId == null) {
           catText = getString(R.string.no_category_assigned);
-        }
-        else {
+        } else {
           String label_sub = c.getString(columnIndexLabelSub);
           if (label_sub != null && label_sub.length() > 0) {
             catText = catText + categorySeparator + label_sub;
           }
         }
       }
+      String referenceNumber= c.getString(columnIndexReferenceNumber);
+      if (referenceNumber != null && referenceNumber.length() > 0)
+        catText = "(" + referenceNumber + ") " + catText;
       SpannableStringBuilder ssb;
       String comment = c.getString(columnIndexComment);
       if (comment != null && comment.length() > 0) {
