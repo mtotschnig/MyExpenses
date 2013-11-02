@@ -64,7 +64,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     + KEY_PARENTID         + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + "), "
     + KEY_STATUS           + " integer default 0, "
     + KEY_CR_STATUS        + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" +  Transaction.CrStatus.RECONCILED.name() + "',"
-    + KEY_NUMBER           + " integer);";
+    + KEY_NUMBER           + " text);";
 
   private static final String VIEW_DEFINITION(String tableName) {
       return " AS SELECT " +
