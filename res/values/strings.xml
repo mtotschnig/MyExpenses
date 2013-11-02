@@ -193,7 +193,6 @@
   <string name="no_split_parts">No split parts.</string>
   <string name="no_templates">No templates.</string>
   <string name="no_title_given">You did not enter any title.</string>
-  <string name="no_valid_payment_methods">No valid payment methods for %1$s (%2$s)</string>
   <string name="not_deletable_mapped_transactions">Cannot delete, because mapped transactions exist.</string>
   <string name="not_deletable_mapped_templates">Cannot delete, because mapped templates exist.</string>
   <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>

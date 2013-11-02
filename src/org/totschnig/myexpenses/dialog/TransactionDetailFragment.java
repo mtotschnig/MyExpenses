@@ -82,6 +82,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     final Bundle bundle = getArguments();
+    //TODO strict mode violation
     mTransaction = Transaction.getInstanceFromDb(bundle.getLong("id"));
   }
   @Override

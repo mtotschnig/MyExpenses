@@ -193,7 +193,6 @@
   <string name="not_deletable_mapped_transactions">No se puede borrar, porque tiene gastos asignados.</string>
   <string name="not_deletable_mapped_templates">No se puede borrar, porque tiene plantillas asignadas.</string>
   <string name="not_deletable_subcats_exists">No se puede borrar esta categoría, porque tiene sub-categorías.</string>
-  <string name="no_valid_payment_methods">No hay medios de pago válidos para %1$s (%2$s)</string>
   <string name="oi_pick_colors_info">Instalar OI Color Picker para ver más opciones</string>
   <string name="opening_balance">Saldo inicial</string>
   <string name="parse_error_file_not_found">No se ha podido encontrar el archivo %1$s</string>

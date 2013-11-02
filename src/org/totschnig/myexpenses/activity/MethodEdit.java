@@ -42,8 +42,8 @@ public class MethodEdit extends EditActivity {
   protected static final int TYPE_DIALOG_ID = 0;
   private EditText mLabelText;
   private TableLayout mTable;
-  Button mTypeButton;
   CheckBox mIsNumberedCheckBox;
+  Button mPaymentTypeButton;
   PaymentMethod mMethod;
   private int mPaymentType;
   String[] mTypes = new String[3];
@@ -59,8 +59,8 @@ public class MethodEdit extends EditActivity {
     mTable = (TableLayout)findViewById(R.id.Table);
     
     
-    mTypeButton = (Button) findViewById(R.id.TaType);
-    mTypeButton.setOnClickListener(new View.OnClickListener() {
+    mPaymentTypeButton = (Button) findViewById(R.id.TaType);
+    mPaymentTypeButton.setOnClickListener(new View.OnClickListener() {
 
       public void onClick(View view) {
         showDialog(TYPE_DIALOG_ID);
@@ -87,8 +87,8 @@ public class MethodEdit extends EditActivity {
       setTitle(R.string.menu_edit_method);
       mLabelText.setText(mMethod.getDisplayLabel());
       mPaymentType = mMethod.getPaymentType();
-      mTypeButton.setText(mTypes[mPaymentType+1]);
       mIsNumberedCheckBox.setChecked(mMethod.isNumbered);
+      mPaymentTypeButton.setText(mTypes[mPaymentType+1]);
       if (mMethod.predef != null) {
         mLabelText.setFocusable(false);
         mLabelText.setEnabled(false);
@@ -132,7 +132,7 @@ public class MethodEdit extends EditActivity {
           .setTitle(R.string.dialog_title_select_type)
           .setSingleChoiceItems(mTypes, checked, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-              mTypeButton.setText(mTypes[item]);
+              mPaymentTypeButton.setText(mTypes[item]);
               mPaymentType = item - 1 ;
               dismissDialog(TYPE_DIALOG_ID);
             }
@@ -167,7 +167,7 @@ public class MethodEdit extends EditActivity {
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
     mPaymentType = savedInstanceState.getInt("type");
-    mTypeButton.setText(mTypes[mPaymentType+1]);
+    mPaymentTypeButton.setText(mTypes[mPaymentType+1]);
   }
   @Override
   public Model getObject() {

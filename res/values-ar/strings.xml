@@ -167,7 +167,6 @@
   <string name="no_split_parts">لا يوجد تقسيمات</string>
   <string name="no_templates">لا يوجد نماذج.</string>
   <string name="no_title_given">لم تقم بإدخال عنوان.</string>
-  <string name="no_valid_payment_methods">لا يوجد طرق دفع صالحة لـ %1$s (%2$s)</string>
   <string name="not_deletable_mapped_transactions">لا يمكنك الحذف، لا تزال هناك عمليات معينة موجودة.</string>
   <string name="not_deletable_mapped_templates">لا يمكنك الحذف، لا تزال هناك نماذج معينة موجودة.</string>
   <string name="not_deletable_subcats_exists">لا يمكن حذف هذا التصنيف، لأن هناك تصنيفات أخرى تندرج تحته.</string>

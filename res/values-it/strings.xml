@@ -190,7 +190,6 @@
   <string name="no_split_parts">Nessuna somma parziale.</string>
   <string name="no_templates">Non ci sono modelli.</string>
   <string name="no_title_given">Non ha scritto ningun titolo.</string>
-  <string name="no_valid_payment_methods">Nessuni modi di pagamento validi per %1$s (%2$s)</string>
   <string name="not_deletable_mapped_transactions">Non può cancellare, perché ci sono operazione ad esso attribuite.</string>
   <string name="not_deletable_mapped_templates">Non può cancellare, perché ci sono modelli ad esso attribuite.</string>
   <string name="not_deletable_subcats_exists">Questa categoria non può essere cancellata perché contiene sottocategorie.</string>
