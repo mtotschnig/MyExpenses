@@ -33,7 +33,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 36;
+  public static final int DATABASE_VERSION = 37;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -480,6 +480,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("CREATE VIEW transactions_uncommitted" + viewTransactions + " WHERE " + KEY_STATUS +  " = " + STATUS_UNCOMMITTED + ";");
       db.execSQL("CREATE VIEW transactions_all" + viewTransactions);
       db.execSQL("CREATE VIEW templates_all" +  VIEW_DEFINITION(TABLE_TEMPLATES));
+    }
+    if (oldVersion < 37) {
+      db.execSQL("ALTER TABLE transactions add column number text");
+      db.execSQL("ALTER TABLE paymentmethods add column is_numbered boolean default 0");
     }
   }
 }
