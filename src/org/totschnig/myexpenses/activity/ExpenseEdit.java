@@ -627,7 +627,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
         mTransaction.setPayee(mPayeeText.getText().toString());
         long selected = mMethodSpinner.getSelectedItemId();
-        mTransaction.methodId = selected == AdapterView.INVALID_ROW_ID ? null : selected;
+        mTransaction.methodId = (selected != AdapterView.INVALID_ROW_ID && selected > 0) ?
+            selected : null;
     }
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       if (mTransferAccount == null) {
