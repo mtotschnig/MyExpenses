@@ -98,8 +98,17 @@
       <TableRow android:id="@+id/MethodRow">
       <TextView style="@style/form_label"
           android:id="@+id/MethodLabel" android:text="@string/method" />
-        <Spinner
-            android:id="@+id/Method" />
+        <LinearLayout
+            android:orientation="horizontal">
+        <Spinner android:id="@+id/Method"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"  />
+        <EditText android:id="@+id/Number"
+            android:visibility="gone"
+            android:singleLine="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
       </TableRow>
     </TableLayout>
     </ScrollView>

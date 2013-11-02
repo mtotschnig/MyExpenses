@@ -75,13 +75,8 @@
               android:layout_height="fill_parent"
               android:id="@+id/Category"
               android:text="@string/category"/>
-          <Spinner android:id="@+id/Method"
-              android:layout_weight="2"
-              android:layout_width="0dp"
-              android:layout_height="fill_parent" />
         </LinearLayout>
       </TableRow>
-        
       <TableRow>
         <TextView style="@style/form_label"
             android:text="@string/comment" />
@@ -103,6 +98,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"/>
+      </TableRow>
+      <TableRow android:id="@+id/MethodRow">
+      <TextView style="@style/form_label"
+          android:id="@+id/MethodLabel" android:text="@string/method" />
+        <LinearLayout
+            android:orientation="horizontal">
+        <Spinner android:id="@+id/Method"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"  />
+        <EditText android:id="@+id/Number"
+            android:visibility="gone"
+            android:singleLine="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
       </TableRow>
     </TableLayout>
     </ScrollView>

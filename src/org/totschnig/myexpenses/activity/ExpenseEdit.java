@@ -19,6 +19,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
 import java.math.BigDecimal;
@@ -81,7 +82,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
 
   private Button mDateButton;
   private Button mTimeButton;
-  private EditText mCommentText, mTitleText;
+  private EditText mCommentText, mTitleText, mNumberText;
   private Button mCategoryButton;
   private Spinner mMethodSpinner;
   private AutoCompleteTextView mPayeeText;
@@ -97,6 +98,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   private String mLabel;
   private Transaction mTransaction;
   private boolean mTransferEnabled = false;
+  private Cursor mMethodsCursor;
 
   /**
    *   transaction, transfer or split
@@ -141,6 +143,7 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     mTypeButton = (Button) findViewById(R.id.TaType);
     mCommentText = (EditText) findViewById(R.id.Comment);
     mTitleText = (EditText) findViewById(R.id.Title);
+    mNumberText = (EditText) findViewById(R.id.Number);
     mDateButton = (Button) findViewById(R.id.Date);
     mTimeButton = (Button) findViewById(R.id.Time);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
@@ -310,13 +313,11 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       };
       mMethodsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
       mMethodSpinner.setAdapter(mMethodsAdapter);
+      mMethodSpinner.setOnItemSelectedListener(this);
       mManager.initLoader(METHODS_CURSOR, null, this);
     } else {
       findViewById(R.id.PayeeRow).setVisibility(View.GONE);
       View MethodContainer = findViewById(R.id.MethodRow);
-      //in Landscape there is no row for the method button
-      if (MethodContainer == null)
-        MethodContainer = findViewById(R.id.Method);
       MethodContainer.setVisibility(View.GONE);
     }
 
@@ -777,6 +778,14 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
     case R.id.Status:
       mTransaction.crStatus = (Transaction.CrStatus) parent.getItemAtPosition(position);
       break;
+    case R.id.Method:
+      mTransaction.methodId = id != 0 ? id : null;
+      if (id>0) {
+        //ignore first row "no method" merged in
+        mMethodsCursor.moveToPosition(position-1);
+        mNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED))>0 ?
+            View.VISIBLE : View.GONE);
+      }
     }
   }
   @Override
@@ -849,15 +858,14 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       mPayeeText.setAdapter(mPayeeAdapter);
       break;
     case METHODS_CURSOR:
+      mMethodsCursor = data;
       View MethodContainer = findViewById(R.id.MethodRow);
-      if (MethodContainer == null)
-        MethodContainer = findViewById(R.id.Method);
       if (!data.moveToFirst()) {
         MethodContainer.setVisibility(View.GONE);
       } else {
         MethodContainer.setVisibility(View.VISIBLE);
-        MatrixCursor extras = new MatrixCursor(new String[] { KEY_ROWID,KEY_LABEL });
-        extras.addRow(new String[] { "0", "No method" });
+        MatrixCursor extras = new MatrixCursor(new String[] { KEY_ROWID,KEY_LABEL,KEY_IS_NUMBERED });
+        extras.addRow(new String[] { "0", "No method","0" });
         mMethodsAdapter.swapCursor(new MergeCursor(new Cursor[] {extras,data}));
         if (mTransaction.methodId != null) {
           while (data.isAfterLast() == false) {
@@ -891,5 +899,10 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
     //should not be necessary to empty the autocompletetextview
+    int id = loader.getId();
+    switch(id) {
+    case METHODS_CURSOR:
+      mMethodsCursor = null;
+    }
   }
 }
