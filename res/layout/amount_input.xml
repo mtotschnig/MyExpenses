@@ -18,7 +18,7 @@
 	<Button
 	    android:layout_width="0dp"
 	    android:layout_weight="1"
-	    android:layout_height="fill_parent"
+	    android:layout_height="wrap_content"
 	    android:id="@+id/TaType"
 	    android:text="-" />
 	<EditText
@@ -28,5 +28,5 @@
 	    android:layout_width="0dp"
 	    android:digits="1234567890,."
 	    android:inputType="numberDecimal"
-	    android:layout_height="fill_parent"/>
+	    android:layout_height="wrap_content"/>
 </merge>

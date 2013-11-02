@@ -14,11 +14,11 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/OneExpense"
-      android:orientation="vertical"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/OneExpense"
+    android:orientation="vertical"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
   <ScrollView
      android:layout_width="fill_parent"
       android:layout_height="0px"
@@ -32,6 +32,7 @@
         android:id="@+id/Table"
         android:stretchColumns="1"
         android:shrinkColumns="1">
+
       <TableRow android:id="@+id/TitleRow"
           android:visibility="gone">
         <TextView style="@style/form_label"
@@ -42,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
       </TableRow>
+
       <TableRow android:id="@+id/DateRow">
         <TextView style="@style/form_label"
             android:text="@string/date_time"/>
@@ -59,24 +61,25 @@
               android:text="@string/select"/>
         </LinearLayout>
       </TableRow>
-                
+
       <TableRow>
         <TextView style="@style/form_label" android:id="@+id/AmountLabel"/>
         <LinearLayout
             android:orientation="horizontal">
           <include layout="@layout/amount_input"/>
           <Spinner
-		          android:prompt="@string/status"
-		          android:id="@+id/Status"
-		          android:layout_width="wrap_content"
-		          android:layout_height="fill_parent" />
+              android:prompt="@string/status"
+              android:id="@+id/Status"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent" />
           <Button android:layout_weight="2"
               android:layout_width="0dp"
-              android:layout_height="fill_parent"
+              android:layout_height="wrap_content"
               android:id="@+id/Category"
               android:text="@string/category"/>
         </LinearLayout>
       </TableRow>
+
       <TableRow>
         <TextView style="@style/form_label"
             android:text="@string/comment" />
@@ -86,9 +89,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
       </TableRow>
-      
-      <TableRow
-          android:id="@+id/PayeeRow">
+
+      <TableRow android:id="@+id/PayeeRow">
         <TextView style="@style/form_label"
             android:id="@+id/PayeeLabel"
             android:text="@string/payee" />
@@ -99,21 +101,26 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"/>
       </TableRow>
+
       <TableRow android:id="@+id/MethodRow">
-      <TextView style="@style/form_label"
+        <TextView style="@style/form_label"
           android:id="@+id/MethodLabel" android:text="@string/method" />
         <LinearLayout
             android:orientation="horizontal">
-        <Spinner android:id="@+id/Method"
-              android:layout_width="wrap_content"
+          <Spinner android:id="@+id/Method"
+              android:layout_weight="1"
+              android:layout_width="0dp"
               android:layout_height="wrap_content"  />
-        <EditText android:id="@+id/Number"
-            android:visibility="gone"
-            android:singleLine="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+          <EditText android:id="@+id/Number"
+              android:visibility="invisible"
+              android:hint="Number"
+              android:singleLine="true"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content" />
         </LinearLayout>
       </TableRow>
-    </TableLayout>
-    </ScrollView>
-  </LinearLayout>
+
+      </TableLayout>
+  </ScrollView>
+</LinearLayout>

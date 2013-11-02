@@ -41,7 +41,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  */
 public class Transaction extends Model {
   public Long id = 0L;
-  public String comment="",label="",payee = "";
+  public String comment="",label="",payee = "",referenceNumber="";
   public Date date;
   public Money amount;
   public Long catId;
@@ -58,7 +58,7 @@ public class Transaction extends Model {
    */
   public int status = 0;
   public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
-    KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_METHODID,KEY_CR_STATUS,
+    KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_METHODID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER,
     YEAR + " AS year",YEAR_OF_WEEK_START + " AS year_of_week_start",MONTH + " AS month",WEEK + " AS week",DAY + " AS day",
     THIS_YEAR + " AS this_year",THIS_YEAR_OF_WEEK_START + " AS this_year_of_week_start",
     THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day",WEEK_RANGE+ " AS week_range" };
@@ -106,7 +106,7 @@ public class Transaction extends Model {
     Transaction t;
     String[] projection = new String[] {KEY_ROWID,KEY_DATE,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
         SHORT_LABEL,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,
-        KEY_PARENTID,KEY_CR_STATUS};
+        KEY_PARENTID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
@@ -143,6 +143,7 @@ public class Transaction extends Model {
     t.setDate(c.getString(
         c.getColumnIndexOrThrow(KEY_DATE)));
     t.comment = DbUtils.getString(c,KEY_COMMENT);
+    t.referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
     t.label = DbUtils.getString(c,KEY_LABEL);
     c.close();
     return t;
@@ -255,6 +256,7 @@ public class Transaction extends Model {
       Payee.require(payee) : null;
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, comment);
+    initialValues.put(KEY_REFERENCE_NUMBER, referenceNumber);
     initialValues.put(KEY_DATE, dateAsString);
     initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
     initialValues.put(KEY_CATID, catId);

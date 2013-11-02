@@ -82,7 +82,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
 
   private Button mDateButton;
   private Button mTimeButton;
-  private EditText mCommentText, mTitleText, mNumberText;
+  private EditText mCommentText, mTitleText, mReferenceNumberText;
   private Button mCategoryButton;
   private Spinner mMethodSpinner;
   private AutoCompleteTextView mPayeeText;
@@ -143,7 +143,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mTypeButton = (Button) findViewById(R.id.TaType);
     mCommentText = (EditText) findViewById(R.id.Comment);
     mTitleText = (EditText) findViewById(R.id.Title);
-    mNumberText = (EditText) findViewById(R.id.Number);
+    mReferenceNumberText = (EditText) findViewById(R.id.Number);
     mDateButton = (Button) findViewById(R.id.Date);
     mTimeButton = (Button) findViewById(R.id.Time);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
@@ -487,6 +487,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       //3 handle edit existing transaction or new one from template
       //3b  fill comment
       mCommentText.setText(mTransaction.comment);
+      mReferenceNumberText.setText(mTransaction.referenceNumber);
       if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
         mPayeeText.setText(mTransaction.payee);
       }
@@ -607,6 +608,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mTransaction.amount.setAmountMajor(amount);
 
     mTransaction.comment = mCommentText.getText().toString();
+    mTransaction.referenceNumber = mReferenceNumberText.getText().toString();
     if (mTransaction instanceof Template) {
       title = mTitleText.getText().toString();
       if (title.equals("")) {
@@ -783,12 +785,12 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mTransaction.methodId = id;
         //ignore first row "no method" merged in
         mMethodsCursor.moveToPosition(position-1);
-        mNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED))>0 ?
+        mReferenceNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED))>0 ?
             View.VISIBLE : View.INVISIBLE);
       }
       else {
         mTransaction.methodId = null;
-        mNumberText.setVisibility(View.INVISIBLE);
+        mReferenceNumberText.setVisibility(View.INVISIBLE);
       }
     }
   }
