@@ -77,7 +77,7 @@ import android.widget.Toast;
  * Activity for editing a transaction
  * @author Michael Totschnig
  */
-public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.TaskCallbacks,
+public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment.TaskCallbacks,
     OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
 
   private Button mDateButton;
@@ -779,12 +779,16 @@ public class ExpenseEdit extends EditActivity implements TaskExecutionFragment.T
       mTransaction.crStatus = (Transaction.CrStatus) parent.getItemAtPosition(position);
       break;
     case R.id.Method:
-      mTransaction.methodId = id != 0 ? id : null;
       if (id>0) {
+        mTransaction.methodId = id;
         //ignore first row "no method" merged in
         mMethodsCursor.moveToPosition(position-1);
         mNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED))>0 ?
-            View.VISIBLE : View.GONE);
+            View.VISIBLE : View.INVISIBLE);
+      }
+      else {
+        mTransaction.methodId = null;
+        mNumberText.setVisibility(View.INVISIBLE);
       }
     }
   }
