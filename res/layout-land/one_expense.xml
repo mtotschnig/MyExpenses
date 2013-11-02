@@ -66,19 +66,19 @@
             android:orientation="horizontal">
           <include layout="@layout/amount_input"/>
           <Spinner
-          android:id="@+id/Status"
-          android:layout_width="wrap_content"
-          android:layout_height="fill_parent" />
+		          android:prompt="@string/status"
+		          android:id="@+id/Status"
+		          android:layout_width="wrap_content"
+		          android:layout_height="fill_parent" />
           <Button android:layout_weight="2"
               android:layout_width="0dp"
               android:layout_height="fill_parent"
               android:id="@+id/Category"
               android:text="@string/category"/>
-           <Button android:id="@+id/Method"
+          <Spinner android:id="@+id/Method"
               android:layout_weight="2"
               android:layout_width="0dp"
-              android:layout_height="fill_parent"
-              android:text="@string/method" />
+              android:layout_height="fill_parent" />
         </LinearLayout>
       </TableRow>
         

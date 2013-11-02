@@ -193,7 +193,6 @@
   <string name="not_deletable_mapped_transactions">Suppression ne peut pas être exécutée : il existe des opérations attribuées.</string>
   <string name="not_deletable_mapped_templates">Suppression ne peut pas être exécutée : il existe des modèles attribués.</string>
   <string name="not_deletable_subcats_exists">Cette catégorie ne peut pas être supprimée : elle contient des sous-catégories.</string>
-  <string name="no_valid_payment_methods">Aucune méthode valide de paiement pour %1$s (%2$s)</string>
   <string name="oi_pick_colors_info">Installer OI Pick Color pour plus de choix</string>
   <string name="opening_balance">Solde initial</string>
   <string name="parse_error_file_not_found">Le fichier %1$s n\'existe pas</string>

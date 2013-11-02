@@ -39,6 +39,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
   public static final boolean EXPENSE = false;
   //stores if we deal with an EXPENSE or an INCOME
   protected boolean mType = EXPENSE;
+  protected Button mTypeButton;
 
   public EditActivity() {
     super();
@@ -145,7 +147,12 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
     mType = savedInstanceState.getBoolean("type");
+    configureType();
   }
+  protected void configureType() {
+    mTypeButton.setText(mType ? "+" : "-");
+  }
+  
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getSupportMenuInflater();

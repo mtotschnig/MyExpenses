@@ -62,6 +62,7 @@
             android:orientation="horizontal">
           <include layout="@layout/amount_input"/>
         <Spinner
+        	android:prompt="@string/status"
           android:id="@+id/Status"
           android:layout_width="wrap_content"
           android:layout_height="fill_parent" />
@@ -97,8 +98,8 @@
       <TableRow android:id="@+id/MethodRow">
       <TextView style="@style/form_label"
           android:id="@+id/MethodLabel" android:text="@string/method" />
-        <Button
-            android:id="@+id/Method" android:text="@string/select" />
+        <Spinner
+            android:id="@+id/Method" />
       </TableRow>
     </TableLayout>
     </ScrollView>
