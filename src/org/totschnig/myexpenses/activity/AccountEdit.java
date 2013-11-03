@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
@@ -25,18 +26,16 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,21 +47,20 @@ import android.widget.Toast;
  * Activity for editing an account
  * @author Michael Totschnig
  */
-public class AccountEdit extends AmountActivity {
+public class AccountEdit extends AmountActivity implements OnItemSelectedListener {
   private static final String OPENINTENTS_COLOR_EXTRA = "org.openintents.extra.COLOR";
   private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
   private static final int PICK_COLOR_REQUEST = 11;
-  private static final int COLOR_DIALOG_ID = 2;
   private EditText mLabelText;
   private EditText mDescriptionText;
   private Spinner mCurrencySpinner;
   private Spinner mAccountTypeSpinner;
+  private Spinner mColorSpinner;
   Account mAccount;
-  private int mAccountColor;
-  private String[] mTypes = new String[Account.Type.values().length];
-  private Integer[] mColors;
-  private TextView mColorText;
-  private Button mColorButton;
+  private ArrayList<Integer> mColors;
+  private boolean mColorIntentAvailable;
+  private Intent mColorIntent;
+  private ArrayAdapter<Integer> mColAdapter;
   
   @SuppressLint("InlinedApi")
   @Override
@@ -76,128 +74,6 @@ public class AccountEdit extends AmountActivity {
     mLabelText = (EditText) findViewById(R.id.Label);
     mDescriptionText = (EditText) findViewById(R.id.Description);
 
-    mCurrencySpinner = (Spinner) findViewById(R.id.Currency);
-    ArrayAdapter<Account.CurrencyEnum> cAdapter = new ArrayAdapter<Account.CurrencyEnum>(
-        this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
-    cAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    mCurrencySpinner.setAdapter(cAdapter);
-    
-    mAccountTypeSpinner = (Spinner) findViewById(R.id.AccountType);
-    ArrayAdapter<Account.Type> tAdapter = new ArrayAdapter<Account.Type>(
-        this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.Type.values());
-    tAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    mAccountTypeSpinner.setAdapter(tAdapter);
-        
-    Account.Type [] allTypes = Account.Type.values();
-    for(int i = 0;i< allTypes.length; i++){
-      mTypes[i] = allTypes[i].getDisplayName();
-    }
-
-    mColorText = (TextView) findViewById(R.id.Color);
-
-    mColorButton = (Button)  findViewById(R.id.SelectColor);
-    mColorButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-        showDialog(COLOR_DIALOG_ID);
-      }
-    });
-    if (Build.VERSION.SDK_INT > 13) {
-      Resources r = getResources();
-      mColors = new Integer[] {
-        r.getColor(android.R.color.holo_blue_bright),
-        r.getColor(android.R.color.holo_blue_light),
-        r.getColor(android.R.color.holo_blue_dark),
-        r.getColor(android.R.color.holo_green_dark),
-        r.getColor(android.R.color.holo_green_light),
-        r.getColor(android.R.color.holo_orange_dark),
-        r.getColor(android.R.color.holo_orange_light),
-        r.getColor(android.R.color.holo_purple),
-        r.getColor(android.R.color.holo_red_dark),
-        r.getColor(android.R.color.holo_red_light),
-        0
-      };
-    } else
-      mColors = new Integer[] {
-        Color.BLUE,  Color.CYAN,   Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW,
-        Color.BLACK, Color.DKGRAY, Color.GRAY,  Color.LTGRAY,  Color.WHITE, 0
-      };
-    populateFields();
-  }
-
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == PICK_COLOR_REQUEST) {
-      if (resultCode == RESULT_OK) {
-        mAccountColor = data.getExtras().getInt(OPENINTENTS_COLOR_EXTRA);
-        mColorText.setBackgroundDrawable(new ColorDrawable(mAccountColor));
-      }
-    }
-  }
-
-  @Override
-  protected Dialog onCreateDialog(int id) {
-    int checked;
-    switch (id) {
-      case COLOR_DIALOG_ID:
-        final Intent colorIntent = new Intent(OPENINTENTS_PICK_COLOR_ACTION);
-        colorIntent.putExtra(OPENINTENTS_COLOR_EXTRA, mAccountColor);
-        final boolean colorIntentAvailable = Utils.isIntentAvailable(AccountEdit.this, colorIntent);
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,
-            android.R.layout.simple_dropdown_item_1line, mColors) {
-
-          @Override
-          public View getView(int position, View convertView, ViewGroup parent) {
-            TextView row = (TextView) super.getView(position, convertView, parent);
-            int color = mColors[position];
-            if (color != 0) {
-              row.setBackgroundColor(color);
-              row.setTextColor(Utils.getTextColorForBackground(color));
-              row.setText("");
-            }
-            else {
-              row.setBackgroundColor(getResources().getColor(android.R.color.black));
-              row.setTextColor(getResources().getColor(android.R.color.white));
-              if (colorIntentAvailable)
-                row.setText("OI Color Picker");
-              else
-                row.setText(R.string.oi_pick_colors_info);
-            }
-            return row;
-          }
-        };
-        checked = java.util.Arrays.asList(mColors).indexOf(mAccountColor);
-        return new AlertDialog.Builder(this)
-          .setTitle(R.string.dialog_title_select_color)
-          .setSingleChoiceItems(adapter, checked, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-              dismissDialog(COLOR_DIALOG_ID);
-              if (mColors[item] != 0) {
-                mAccountColor = mColors[item];
-                mColorText.setBackgroundColor(mAccountColor);
-              } else {
-                if (colorIntentAvailable) {
-                  startActivityForResult(colorIntent, PICK_COLOR_REQUEST);
-                } else {
-                  try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("market://details?id=org.openintents.colorpicker"));
-                    startActivity(intent);
-                  } catch(Exception e) {
-                    Toast toast = Toast.makeText(AccountEdit.this, R.string.error_accessing_gplay, Toast.LENGTH_SHORT);
-                    toast.show();
-                  }
-                }
-              }
-            }
-          })
-          .create();
-    }
-    return null;
-  }
-  /**
-   * populates the input field either from the database or with default value for currency (from Locale)
-   */
-  private void populateFields() {
     Bundle extras = getIntent().getExtras();
     long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID)
           : 0;
@@ -210,6 +86,111 @@ public class AccountEdit extends AmountActivity {
       setTitle(R.string.menu_create_account);
       mAccount = new Account();
     }
+    
+    
+
+    mCurrencySpinner = (Spinner) findViewById(R.id.Currency);
+    ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
+        this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
+    curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mCurrencySpinner.setAdapter(curAdapter);
+    
+    mAccountTypeSpinner = (Spinner) findViewById(R.id.AccountType);
+    ArrayAdapter<Account.Type> typAdapter = new ArrayAdapter<Account.Type>(
+        this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.Type.values());
+    typAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mAccountTypeSpinner.setAdapter(typAdapter);
+    
+    mColorSpinner = (Spinner) findViewById(R.id.Color);
+    mColors = new ArrayList<Integer>();
+    if (Build.VERSION.SDK_INT > 13) {
+      Resources r = getResources();
+      mColors.add(r.getColor(android.R.color.holo_blue_bright));
+      mColors.add(r.getColor(android.R.color.holo_blue_light));
+      mColors.add(r.getColor(android.R.color.holo_blue_dark));
+      mColors.add(r.getColor(android.R.color.holo_green_dark));
+      mColors.add(r.getColor(android.R.color.holo_green_light));
+      mColors.add(r.getColor(android.R.color.holo_orange_dark));
+      mColors.add(r.getColor(android.R.color.holo_orange_light));
+      mColors.add(r.getColor(android.R.color.holo_purple));
+      mColors.add(r.getColor(android.R.color.holo_red_dark));
+      mColors.add(r.getColor(android.R.color.holo_red_light));
+    } else {
+      mColors.add(Color.BLUE);
+      mColors.add(Color.CYAN);
+      mColors.add(Color.GREEN);
+      mColors.add(Color.MAGENTA);
+      mColors.add(Color.RED);
+      mColors.add(Color.YELLOW);
+      mColors.add(Color.BLACK);
+      mColors.add(Color.DKGRAY);
+      mColors.add(Color.GRAY);
+      mColors.add(Color.LTGRAY);
+      mColors.add(Color.WHITE);
+    }
+    if (mColors.indexOf(mAccount.color) == -1)
+      mColors.add(mAccount.color);
+    mColors.add(0);
+    mColorIntent = new Intent(OPENINTENTS_PICK_COLOR_ACTION);
+    mColorIntentAvailable = Utils.isIntentAvailable(AccountEdit.this, mColorIntent);
+    mColAdapter = new ArrayAdapter<Integer>(this,
+        android.R.layout.simple_spinner_item, mColors) {
+      @Override
+      public View getView(int position, View convertView, ViewGroup parent) {
+        TextView tv = (TextView) super.getView(position, convertView, parent);
+        if (mColors.get(position) != 0)
+          setColor(tv,mColors.get(position));
+        else
+          setColor(tv,mAccount.color);
+        if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
+          tv.setTextColor(Utils.getTextColorForBackground(mAccount.color));
+          tv.setText(R.string.color);
+        }
+        return tv;
+      }
+      @Override
+      public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
+        if (mColors.get(position) != 0)
+          setColor(tv,mColors.get(position));
+        else {
+          tv.setBackgroundColor(getResources().getColor(android.R.color.black));
+          tv.setTextColor(getResources().getColor(android.R.color.white));
+          if (mColorIntentAvailable)
+            tv.setText("OI Color Picker");
+          else
+            tv.setText(R.string.oi_pick_colors_info);
+        }
+        return tv;
+      }
+      public void setColor(TextView tv,int color) {
+        tv.setBackgroundColor(color);
+        tv.setText("");
+      }
+    };
+    mColAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mColorSpinner.setAdapter(mColAdapter);
+    populateFields();
+  }
+
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == PICK_COLOR_REQUEST) {
+      if (resultCode == RESULT_OK) {
+        mAccount.color = data.getExtras().getInt(OPENINTENTS_COLOR_EXTRA);
+        if (mColors.indexOf(mAccount.color) == -1) {
+          final int lastButOne = mColors.size()-1;
+          mColors.add(lastButOne,mAccount.color);
+          mColorSpinner.setSelection(lastButOne,true);
+          mColAdapter.notifyDataSetChanged();
+        }
+      }
+    }
+  }
+  /**
+   * populates the input field either from the database or with default value for currency (from Locale)
+   */
+  private void populateFields() {
     mTypeButton = (Button) findViewById(R.id.TaType);
     mTypeButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
@@ -228,8 +209,9 @@ public class AccountEdit extends AmountActivity {
     mAmountText.setText(nfDLocal.format(amount));
     mCurrencySpinner.setSelection(Account.CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode()).ordinal());
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
-    mAccountColor = mAccount.color;
-    mColorText.setBackgroundColor(mAccountColor);
+    int selected = mColors.indexOf(mAccount.color);
+    mColorSpinner.setSelection(selected);
+    mColorSpinner.setOnItemSelectedListener(this);
   }
 
   /**
@@ -256,7 +238,6 @@ public class AccountEdit extends AmountActivity {
     }
     mAccount.openingBalance.setAmountMajor(openingBalance);
     mAccount.type = (Type) mAccountTypeSpinner.getSelectedItem();
-    mAccount.color = mAccountColor;
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
   }
@@ -264,5 +245,33 @@ public class AccountEdit extends AmountActivity {
   public Model getObject() {
     // TODO Auto-generated method stub
     return mAccount;
+  }
+
+  @Override
+  public void onItemSelected(AdapterView<?> parent, View view, int position,
+      long id) {
+    if (mColors.get(position) != 0)
+      mAccount.color = mColors.get(position);
+    else {
+      if (mColorIntentAvailable) {
+        mColorIntent.putExtra(OPENINTENTS_COLOR_EXTRA, mAccount.color);
+        startActivityForResult(mColorIntent, PICK_COLOR_REQUEST);
+      } else {
+        try {
+          Intent intent = new Intent(Intent.ACTION_VIEW);
+          intent.setData(Uri.parse("market://details?id=org.openintents.colorpicker"));
+          startActivity(intent);
+        } catch(Exception e) {
+          Toast toast = Toast.makeText(AccountEdit.this, R.string.error_accessing_gplay, Toast.LENGTH_SHORT);
+          toast.show();
+        }
+      }
+    }
+  }
+
+  @Override
+  public void onNothingSelected(AdapterView<?> parent) {
+    // TODO Auto-generated method stub
+    
   }
 }
