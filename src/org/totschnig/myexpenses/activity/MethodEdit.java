@@ -61,14 +61,9 @@ public class MethodEdit extends EditActivity {
 
     mLabelText = (EditText) findViewById(R.id.Label);
     mTable = (TableLayout)findViewById(R.id.Table);
-    
-    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-        R.array.method_types, android.R.layout.simple_spinner_item);
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    
+
     mPaymentTypeSpinner = (Spinner) findViewById(R.id.TaType);
-    mPaymentTypeSpinner.setAdapter(adapter);
-    
+
     mIsNumberedCheckBox = (CheckBox) findViewById(R.id.IsNumbered);
     populateFields();
   }
