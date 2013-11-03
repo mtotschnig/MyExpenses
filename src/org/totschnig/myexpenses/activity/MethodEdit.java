@@ -16,9 +16,11 @@
 package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import android.app.AlertDialog;
@@ -27,8 +29,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -43,7 +47,7 @@ public class MethodEdit extends EditActivity {
   private EditText mLabelText;
   private TableLayout mTable;
   CheckBox mIsNumberedCheckBox;
-  Button mPaymentTypeButton;
+  Spinner mPaymentTypeSpinner;
   PaymentMethod mMethod;
   private int mPaymentType;
   String[] mTypes = new String[3];
@@ -58,18 +62,12 @@ public class MethodEdit extends EditActivity {
     mLabelText = (EditText) findViewById(R.id.Label);
     mTable = (TableLayout)findViewById(R.id.Table);
     
+    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        R.array.method_types, android.R.layout.simple_spinner_item);
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     
-    mPaymentTypeButton = (Button) findViewById(R.id.TaType);
-    mPaymentTypeButton.setOnClickListener(new View.OnClickListener() {
-
-      public void onClick(View view) {
-        showDialog(TYPE_DIALOG_ID);
-      }
-    });
-
-    mTypes[0] = getString(R.string.pm_type_debit);
-    mTypes[1] = getString(R.string.pm_type_neutral);
-    mTypes[2] = getString(R.string.pm_type_credit);
+    mPaymentTypeSpinner = (Spinner) findViewById(R.id.TaType);
+    mPaymentTypeSpinner.setAdapter(adapter);
     
     mIsNumberedCheckBox = (CheckBox) findViewById(R.id.IsNumbered);
     populateFields();
@@ -88,7 +86,7 @@ public class MethodEdit extends EditActivity {
       mLabelText.setText(mMethod.getDisplayLabel());
       mPaymentType = mMethod.getPaymentType();
       mIsNumberedCheckBox.setChecked(mMethod.isNumbered);
-      mPaymentTypeButton.setText(mTypes[mPaymentType+1]);
+      mPaymentTypeSpinner.setSelection(mPaymentType+1);
       if (mMethod.predef != null) {
         mLabelText.setFocusable(false);
         mLabelText.setEnabled(false);
@@ -123,29 +121,12 @@ public class MethodEdit extends EditActivity {
       cbId++;
     }
   }
-  @Override
-  protected Dialog onCreateDialog(int id) {
-    switch (id) {
-      case TYPE_DIALOG_ID:
-        int checked = mMethod.getPaymentType() + 1;
-        return new AlertDialog.Builder(this)
-          .setTitle(R.string.dialog_title_select_type)
-          .setSingleChoiceItems(mTypes, checked, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-              mPaymentTypeButton.setText(mTypes[item]);
-              mPaymentType = item - 1 ;
-              dismissDialog(TYPE_DIALOG_ID);
-            }
-          }).create();
-    }
-    return null;
-  }
 
   protected void saveState() {
     if (mMethod.predef == null) {
       mMethod.setLabel(mLabelText.getText().toString());
     }
-    mMethod.setPaymentType(mPaymentType);
+    mMethod.setPaymentType(mPaymentTypeSpinner.getSelectedItemPosition()-1);
     for (Account.Type accountType : Account.Type.values()) {
       CheckBox cb = (CheckBox) mTable.findViewWithTag(accountType);
       if (cb.isChecked()) {
@@ -157,17 +138,6 @@ public class MethodEdit extends EditActivity {
     mMethod.isNumbered = mIsNumberedCheckBox.isChecked();
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
-  }
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putInt("type", mPaymentType);
-  }
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    super.onRestoreInstanceState(savedInstanceState);
-    mPaymentType = savedInstanceState.getInt("type");
-    mPaymentTypeButton.setText(mTypes[mPaymentType+1]);
   }
   @Override
   public Model getObject() {

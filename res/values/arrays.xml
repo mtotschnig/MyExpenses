@@ -38,6 +38,11 @@
         <item>@string/grouping_month</item>
         <item>@string/grouping_year</item>
     </string-array>
+    <string-array name="method_types">
+    	<item>@string/pm_type_debit</item>
+      <item>@string/pm_type_neutral</item>
+      <item>@string/pm_type_credit</item>
+    </string-array>
     <string-array name="MyExpenses_menuitems">
       <item>create_transaction</item>
       <item>create_transfer</item>
