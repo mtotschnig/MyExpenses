@@ -70,11 +70,11 @@
               android:layout_height="fill_parent"
               android:id="@+id/Select" 
               android:text="@string/select" />
-          <Spinner
+          <Spinner android:id="@+id/AccountType"
+              android:prompt="@string/type"
               android:layout_weight="1"
               android:layout_width="0dp"
-              android:layout_height="fill_parent"
-              android:id="@+id/AccountType" />
+              android:layout_height="fill_parent" />
           </LinearLayout>
       </TableRow>
       <TableRow>

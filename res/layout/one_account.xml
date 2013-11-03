@@ -75,10 +75,10 @@
       <TableRow>
         <TextView style="@style/form_label"
             android:text="@string/type" />
-          <Spinner
+          <Spinner android:id="@+id/AccountType"
+              android:prompt="@string/type"
               android:layout_width="wrap_content" 
-              android:layout_height="wrap_content" 
-              android:id="@+id/AccountType" />
+              android:layout_height="wrap_content" />
       </TableRow>
       <TableRow>
         <TextView style="@style/form_label"

@@ -101,6 +101,7 @@
         <LinearLayout
             android:orientation="horizontal">
           <Spinner android:id="@+id/Method"
+              android:prompt="@string/method"
               android:layout_weight="1"
               android:layout_width="0dp"
               android:layout_height="wrap_content"  />
