@@ -41,11 +41,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -84,7 +82,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private Button mTimeButton;
   private EditText mCommentText, mTitleText, mReferenceNumberText;
   private Button mCategoryButton;
-  private Spinner mMethodSpinner;
+  private Spinner mMethodSpinner, mAccountSpinner;
+  private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter;
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel;
   public Long mRowId;
@@ -94,7 +93,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private final java.text.DateFormat mTitleDateFormat = java.text.DateFormat.
       getDateInstance(java.text.DateFormat.FULL);
   private Long mCatId = null;
-  private Long mTransferAccount = null;
   private String mLabel;
   private Transaction mTransaction;
   private boolean mTransferEnabled = false;
@@ -108,7 +106,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
 
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
-  static final int ACCOUNT_DIALOG_ID = 2;
   //CALCULATOR_REQUEST in super = 0
   private static final int ACTIVITY_EDIT_SPLIT = 1;
   private static final int SELECT_CATEGORY_REQUEST = 2;
@@ -118,10 +115,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   public static final int ACCOUNTS_CURSOR=3;
   private LoaderManager mManager;
 
-  String[] accountLabels ;
-  Long[] accountIds ;
   private boolean mCreateNew = false;
-  private SimpleCursorAdapter mMethodsAdapter;
 
   public enum HelpVariant {
     transaction,transfer,split,template,splitPartCategory,splitPartTransfer
@@ -150,6 +144,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
     mCategoryButton = (Button) findViewById(R.id.Category);
     mMethodSpinner = (Spinner) findViewById(R.id.Method);
+    mAccountSpinner = (Spinner) findViewById(R.id.Account);
     mManager= getSupportLoaderManager();
 
     //1. fetch the transaction or create a new instance
@@ -183,16 +178,15 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mTransaction = Transaction.getTypedNewInstance(mOperationType,accountId,parentId);
       //Split transactions are returned persisted to db and already have an id
       mRowId = mTransaction.id;
-      if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-        mManager.initLoader(ACCOUNTS_CURSOR, null, this);
-      } else {
-        setup();
-      }
+      setup();
     }
   }
   private void setup() {
     configAmountInput();
 
+    View categoryContainer = findViewById(R.id.CategoryRow);
+    if (categoryContainer == null)
+      categoryContainer = findViewById(R.id.Category);
     //Spinner for setting Status
     Spinner statusSpinner = (Spinner) findViewById(R.id.Status);
     if (getmAccount().type.equals(Type.CASH) ||
@@ -239,10 +233,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       //SplitTransaction are always instantiated with status uncommitted,
       //we save them to DB as uncommitted, before working with them
       //when the split transaction is saved the split and its parts are committed
-      View CategoryContainer = findViewById(R.id.CategoryRow);
-      if (CategoryContainer == null)
-        CategoryContainer = findViewById(R.id.Category);
-      CategoryContainer.setVisibility(View.GONE);
+      categoryContainer.setVisibility(View.GONE);
       //add split list
       FragmentManager fm = getSupportFragmentManager();
       SplitPartList f = (SplitPartList) fm.findFragmentByTag("SPLIT_PART_LIST");
@@ -333,13 +324,19 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       } 
     });
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      //if there is a label for the category input (portrait), we adjust it,
-      //otherwise directly the button (landscape)
-      TextView categoryLabel = (TextView) findViewById(R.id.CategoryLabel);
-      if (categoryLabel != null)
-        categoryLabel.setText(R.string.account);
-      else
-        mCategoryButton.setText(R.string.account);
+      categoryContainer.setVisibility(View.GONE);
+      View accountContainer = findViewById(R.id.AccountRow);
+      if (accountContainer == null)
+        accountContainer = findViewById(R.id.Account);
+      accountContainer.setVisibility(View.VISIBLE);
+
+      // Spinner for accounts
+      mAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
+          new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
+      mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      mAccountSpinner.setAdapter(mAccountsAdapter);
+      mAccountSpinner.setOnItemSelectedListener(this);
+      mManager.initLoader(ACCOUNTS_CURSOR, null, this);
     }
     //category button and amount label are further set up in populateFields, since it depends on data
     populateFields();
@@ -442,7 +439,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     }
   };
   private ArrayAdapter<String>  mPayeeAdapter;
-  private int otherAccountsCount = 0;
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
@@ -460,20 +456,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
           mCalendar.get(Calendar.MINUTE),
           true
       );
-    case ACCOUNT_DIALOG_ID:
-      return new  AlertDialog.Builder(this)
-        .setTitle(R.string.dialog_title_select_account)
-        .setSingleChoiceItems(accountLabels,
-            java.util.Arrays.asList(accountIds).indexOf(mTransferAccount),
-          new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-              mTransferAccount = accountIds[item];
-              mLabel = accountLabels[item];
-              setCategoryButton();
-              dismissDialog(ACCOUNT_DIALOG_ID);
-            }
-          }
-        ).create();
     }
     return null;
   }
@@ -494,33 +476,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       //3d fill label (category or account) we got from database, if we are a transfer we prefix 
       //with transfer direction
       mCatId = mTransaction.catId;
-      mTransferAccount = mTransaction.transfer_account;
       mLabel =  mTransaction.label;
-    } else {
-      //4. handle edit new transaction
-      //4a if we are a transfer, and we have only one other account
-      //we point the transfer to that account
-      if (mOperationType == MyExpenses.TYPE_TRANSFER && otherAccountsCount == 1) {
-        mTransferAccount = accountIds[0];
-        mLabel = accountLabels[0];
-      }
     }
     setCategoryButton();
     //5.configure button behavior
-    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      //5a if we are a transfer
-      if (otherAccountsCount == 1) {
-        //we disable the button, if there is only one account
-        mCategoryButton.setEnabled(false);
-      } else {
-        //otherwise show dialog to select account
-        mCategoryButton.setOnClickListener(new View.OnClickListener() {
-          public void onClick(View view) {
-            showDialog(ACCOUNT_DIALOG_ID);
-          }
-        });
-      }
-    } else {
+    if (mOperationType != MyExpenses.TYPE_TRANSFER) {
       //5b if we are a transaction we start select category activity
       mCategoryButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View view) {
@@ -631,11 +591,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
             selected : null;
     }
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      if (mTransferAccount == null) {
-        Toast.makeText(this,getString(R.string.warning_select_account), Toast.LENGTH_LONG).show();
-        return;
-      }
-      mTransaction.transfer_account = mTransferAccount;
+      mTransaction.transfer_account = mAccountSpinner.getSelectedItemId();
     }
     getSupportFragmentManager().beginTransaction()
     .add(DbWriteFragment.newInstance(true), "SAVE_TASK")
@@ -679,12 +635,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
    */
   private void setCategoryButton() {
     if (mLabel != null && mLabel.length() != 0) {
-      String label = mLabel;
-      if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-        label = (mType == EXPENSE ? MyExpenses.TRANSFER_EXPENSE  : MyExpenses.TRANSFER_INCOME) +
-            label;
-      }
-      mCategoryButton.setText(label);
+      mCategoryButton.setText(mLabel);
     }
   }
   @Override
@@ -696,8 +647,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       outState.putLong("rowId", mRowId);
     if (mCatId != null)
       outState.putLong("catId", mCatId);
-    if (mTransferAccount != null)
-      outState.putLong("transferAccount",mTransferAccount);
     outState.putString("label", mLabel);
   }
   @Override
@@ -707,8 +656,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mLabel = savedInstanceState.getString("label");
     if ((mCatId = savedInstanceState.getLong("catId")) == 0L)
       mCatId = null;
-    if ((mTransferAccount = savedInstanceState.getLong("transferAccount")) == 0L)
-      mTransferAccount = null;
     configureType();
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
@@ -757,11 +704,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
       else
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-      if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-        mManager.initLoader(ACCOUNTS_CURSOR, null, this);
-      } else {
-        setup();
-      }
+      setup();
       supportInvalidateOptionsMenu();
     }
     super.onPostExecute(taskId, o);
@@ -887,19 +830,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       }
       break;
     case ACCOUNTS_CURSOR:
-      if (accountLabels != null)
-        return;
-      otherAccountsCount = data.getCount();
-      accountLabels = new String[otherAccountsCount];
-      accountIds = new Long[otherAccountsCount];
-      if(data.moveToFirst()){
-        for (int i = 0; i < otherAccountsCount; i++){
-          accountLabels[i] = data.getString(data.getColumnIndex("label"));
-          accountIds[i] = data.getLong(data.getColumnIndex(KEY_ROWID));
-          data.moveToNext();
-        }
-      }
-      setup();
+      mAccountsAdapter.swapCursor(data);
       break;
     }
   }
@@ -910,6 +841,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     switch(id) {
     case METHODS_CURSOR:
       mMethodsCursor = null;
+      mMethodsAdapter.swapCursor(null);
+      break;
+    case ACCOUNTS_CURSOR:
+      mAccountsAdapter.swapCursor(null);
+      break;
     }
   }
 }
