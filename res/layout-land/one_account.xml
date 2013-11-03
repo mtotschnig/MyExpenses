@@ -58,18 +58,11 @@
               android:text="@string/currency" />
           <LinearLayout
             android:orientation="horizontal">
-          <AutoCompleteTextView android:layout_weight="1"
+          <Spinner android:id="@+id/Currency"
+              android:prompt="@string/currency"
+              android:layout_weight="1"
               android:layout_width="0dp"
-              android:layout_height="fill_parent"
-              android:completionThreshold="1"
-              android:id="@+id/Currency"
-              android:maxLength="3"
-              android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" />
-          <Button android:layout_weight="1"
-              android:layout_width="0dp"
-              android:layout_height="fill_parent"
-              android:id="@+id/Select" 
-              android:text="@string/select" />
+              android:layout_height="fill_parent" />
           <Spinner android:id="@+id/AccountType"
               android:prompt="@string/type"
               android:layout_weight="1"

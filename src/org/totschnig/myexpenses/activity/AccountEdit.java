@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Utils;
@@ -34,14 +35,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -52,21 +48,16 @@ import android.widget.Toast;
  * Activity for editing an account
  * @author Michael Totschnig
  */
-public class AccountEdit extends AmountActivity implements OnItemSelectedListener {
+public class AccountEdit extends AmountActivity {
   private static final String OPENINTENTS_COLOR_EXTRA = "org.openintents.extra.COLOR";
   private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
   private static final int PICK_COLOR_REQUEST = 11;
-  private static final int CURRENCY_DIALOG_ID = 0;
   private static final int COLOR_DIALOG_ID = 2;
   private EditText mLabelText;
   private EditText mDescriptionText;
-  private AutoCompleteTextView mCurrencyText;
-  private Button mCurrencyButton;
+  private Spinner mCurrencySpinner;
   private Spinner mAccountTypeSpinner;
   Account mAccount;
-  private String[] currencyCodes;
-  private String[] currencyDescs;
-  private TextWatcher currencyInformer;
   private int mAccountColor;
   private String[] mTypes = new String[Account.Type.values().length];
   private Integer[] mColors;
@@ -78,9 +69,6 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     
-    currencyCodes = Account.getCurrencyCodes();
-    currencyDescs = Account.getCurrencyDescs();
-    
     setContentView(R.layout.one_account);
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
     configAmountInput();
@@ -88,40 +76,17 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
     mLabelText = (EditText) findViewById(R.id.Label);
     mDescriptionText = (EditText) findViewById(R.id.Description);
 
-    mCurrencyText = (AutoCompleteTextView) findViewById(R.id.Currency);
-    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-        android.R.layout.simple_dropdown_item_1line, currencyCodes);
-    mCurrencyText.setAdapter(adapter);
-    
-    currencyInformer = new TextWatcher() {
-      public void afterTextChanged(Editable s) {
-        if (s.length() == 3) {
-          int index = java.util.Arrays.asList(currencyCodes).indexOf(
-              s.toString());
-          if (index > -1) {
-            Toast.makeText(AccountEdit.this,currencyDescs[index], Toast.LENGTH_LONG).show();
-          }
-        }
-      }
-      public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-      public void onTextChanged(CharSequence s, int start, int before, int count){}
-    };
-
-    mCurrencyButton = (Button) findViewById(R.id.Select);
-    mCurrencyButton.setOnClickListener(new View.OnClickListener() {
-
-      public void onClick(View view) {
-        mCurrencyText.removeTextChangedListener(currencyInformer);
-        showDialog(CURRENCY_DIALOG_ID);
-      }
-    });
+    mCurrencySpinner = (Spinner) findViewById(R.id.Currency);
+    ArrayAdapter<Account.CurrencyEnum> cAdapter = new ArrayAdapter<Account.CurrencyEnum>(
+        this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
+    cAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mCurrencySpinner.setAdapter(cAdapter);
     
     mAccountTypeSpinner = (Spinner) findViewById(R.id.AccountType);
-    ArrayAdapter<Account.Type> sAdapter = new ArrayAdapter<Account.Type>(
+    ArrayAdapter<Account.Type> tAdapter = new ArrayAdapter<Account.Type>(
         this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.Type.values());
-    sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    mAccountTypeSpinner.setAdapter(sAdapter);
-    mAccountTypeSpinner.setOnItemSelectedListener(this);
+    tAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mAccountTypeSpinner.setAdapter(tAdapter);
         
     Account.Type [] allTypes = Account.Type.values();
     for(int i = 0;i< allTypes.length; i++){
@@ -169,32 +134,10 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
     }
   }
 
-  /* (non-Javadoc)
-   * @see android.app.Activity#onPostCreate(android.os.Bundle)
-   * we add the textwatcher only here, to prevent it being triggered
-   * during orientation change
-   */
-  @Override
-  protected void onPostCreate (Bundle savedInstanceState) {
-    super.onPostCreate(savedInstanceState);
-    mCurrencyText.addTextChangedListener(currencyInformer);
-  }
   @Override
   protected Dialog onCreateDialog(int id) {
     int checked;
     switch (id) {
-      case CURRENCY_DIALOG_ID:
-        checked = java.util.Arrays.asList(currencyCodes).indexOf(
-            mCurrencyText.getText().toString());
-        return new AlertDialog.Builder(this)
-          .setTitle(R.string.dialog_title_select_currency)
-          .setSingleChoiceItems(currencyDescs, checked, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-              mCurrencyText.setText(currencyCodes[item]);
-              dismissDialog(CURRENCY_DIALOG_ID);
-              mCurrencyText.addTextChangedListener(currencyInformer);
-            }
-          }).create();
       case COLOR_DIALOG_ID:
         final Intent colorIntent = new Intent(OPENINTENTS_PICK_COLOR_ACTION);
         colorIntent.putExtra(OPENINTENTS_COLOR_EXTRA, mAccountColor);
@@ -283,7 +226,7 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
       configureType();
     }
     mAmountText.setText(nfDLocal.format(amount));
-    mCurrencyText.setText(mAccount.currency.getCurrencyCode());
+    mCurrencySpinner.setSelection(Account.CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode()).ordinal());
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
     mAccountColor = mAccount.color;
     mColorText.setBackgroundColor(mAccountColor);
@@ -298,14 +241,9 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
     BigDecimal openingBalance = validateAmountInput(true);
     if (openingBalance == null)
        return;
-    String strCurrency = mCurrencyText.getText().toString();
     String label;
-    try {
-      mAccount.setCurrency(strCurrency);
-    } catch (IllegalArgumentException e) {
-      Toast.makeText(this,getString(R.string.currency_not_iso4217,strCurrency), Toast.LENGTH_LONG).show();
-      return;
-    }
+    mAccount.setCurrency(((Account.CurrencyEnum) mCurrencySpinner.getSelectedItem()).name());
+
     label = mLabelText.getText().toString();
     if (label.equals("")) {
       Toast.makeText(this, R.string.no_title_given, Toast.LENGTH_LONG).show();
@@ -316,9 +254,8 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
     if (mType == EXPENSE) {
       openingBalance = openingBalance.negate();
     }
-
     mAccount.openingBalance.setAmountMajor(openingBalance);
-
+    mAccount.type = (Type) mAccountTypeSpinner.getSelectedItem();
     mAccount.color = mAccountColor;
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
@@ -327,21 +264,5 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
   public Model getObject() {
     // TODO Auto-generated method stub
     return mAccount;
-  }
-
-  @Override
-  public void onItemSelected(AdapterView<?> parent, View view, int position,
-      long id) {
-    switch(parent.getId()) {
-    case R.id.AccountType:
-      mAccount.type = (Account.Type) parent.getItemAtPosition(position);
-      break;
-    }
-  }
-
-  @Override
-  public void onNothingSelected(AdapterView<?> parent) {
-    // TODO Auto-generated method stub
-    
   }
 }
