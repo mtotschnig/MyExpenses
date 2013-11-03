@@ -54,13 +54,9 @@
   <string name="dialog_title_contrib_feature">المميزات الكاملة</string>
   <string name="dialog_title_restore_on_install">تم اكتشاف نسخة احتياطية</string>
   <string name="dialog_title_select_account">اختر حساب</string>
-  <string name="dialog_title_select_color">اختر لون</string>
   <string name="dialog_title_select_import_source">اختر مصدر للاستيراد</string>
-  <string name="dialog_title_select_currency">اختر عملة</string>
   <string name="dialog_title_select_grouping">اختر تجميع</string>
-  <string name="dialog_title_select_method">اختر طريقة دفع</string>
   <string name="dialog_title_select_template">اختر نموذج</string>
-  <string name="dialog_title_select_type">اختر نوع</string>
   <string name="dialog_title_template_title">اكتب العنوان</string>
   <string name="dialog_title_warning_delete_account">حذف الحساب؟</string>
   <string name="dialog_title_welcome">مرحبا!</string>

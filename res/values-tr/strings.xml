@@ -75,12 +75,8 @@
   <string name="dialog_title_restore_on_install">Yedekleme tespit edildi</string>
   <string name="dialog_title_select_account">Bir hesap seçin</string>
   <string name="dialog_title_select_import_source">İçe aktarım için bir kaynak seçin</string>
-  <string name="dialog_title_select_color">Renk seçimi</string>
-  <string name="dialog_title_select_currency">Bir döviz seçin</string>
   <string name="dialog_title_select_grouping">Bir grup seçin</string>
-  <string name="dialog_title_select_method">Bir ödeme metodu seçin</string>
   <string name="dialog_title_select_template">Şablon seç</string>
-  <string name="dialog_title_select_type">Bir tür seçin</string>
   <string name="dialog_title_template_title">Başlığı belirtin</string>
   <string name="dialog_title_warning_delete_account">Hesap silinsin mi?</string>
   <string name="dialog_title_welcome">Hoşgeldiniz!</string>

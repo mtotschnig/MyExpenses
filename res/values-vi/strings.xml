@@ -70,13 +70,9 @@
   <string name="dialog_title_contrib_feature">Tính năng nâng cao</string>
   <string name="dialog_title_restore_on_install">Phát hiện phần sao lưu</string>
   <string name="dialog_title_select_account">Chọn một tài khoản</string>
-  <string name="dialog_title_select_color">Chọn một màu sắc</string>
   <string name="dialog_title_select_import_source">Chọn một nguồn để nhập dữ liệu</string>
-  <string name="dialog_title_select_currency">Chọn một loại tiền tệ</string>
   <string name="dialog_title_select_grouping">Chọn một nhóm</string>
-  <string name="dialog_title_select_method">Chọn một phương thức chi trả</string>
   <string name="dialog_title_select_template">Chọn một mẫu</string>
-  <string name="dialog_title_select_type">Chọn một loại</string>
   <string name="dialog_title_template_title">Đặt tiêu đề</string>
   <string name="dialog_title_warning_delete_account">Xóa tài khoản?</string>
   <string name="dialog_title_welcome">Chào mừng!</string>

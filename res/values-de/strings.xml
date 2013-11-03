@@ -74,13 +74,9 @@
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
   <string name="dialog_title_restore_on_install">Backup vorhanden</string>
   <string name="dialog_title_select_account">Konto auswählen</string>
-  <string name="dialog_title_select_color">Farbe auswählen</string>
-  <string name="dialog_title_select_currency">Währung auswählen</string>
   <string name="dialog_title_select_grouping">Gruppierung auswählen</string>
   <string name="dialog_title_select_import_source">Quelle für Import auswählen</string>
-  <string name="dialog_title_select_method">Zahlungsweise auswählen</string>
   <string name="dialog_title_select_template">Vorlage auswählen</string>
-  <string name="dialog_title_select_type">Typ auswählen</string>
   <string name="dialog_title_template_title">Titel festlegen</string>
   <string name="dialog_title_warning_delete_account">Konto löschen?</string>
   <string name="dialog_title_welcome">Willkommen!</string>

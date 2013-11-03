@@ -70,13 +70,9 @@
   <string name="dialog_title_contrib_feature">Prémium szolgáltatás</string>
   <string name="dialog_title_restore_on_install">Korábbi mentés rendelkezésre áll</string>
   <string name="dialog_title_select_account">Számla kiválasztása</string>
-  <string name="dialog_title_select_color">Szín választása</string>
   <string name="dialog_title_select_import_source">Importálás forrásának kiválasztása</string>
-  <string name="dialog_title_select_currency">Pénznem kiválasztása</string>
   <string name="dialog_title_select_grouping">Csoportosítás kiválasztása</string>
-  <string name="dialog_title_select_method">Fizetési mód kiválasztása</string>
   <string name="dialog_title_select_template">Sablon választása</string>
-  <string name="dialog_title_select_type">Számla típus választása</string>
   <string name="dialog_title_template_title">Elnevezés megadása</string>
   <string name="dialog_title_warning_delete_account">Számla törlése?</string>
   <string name="dialog_title_welcome">Üdvözlet!</string>

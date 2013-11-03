@@ -74,13 +74,9 @@
   <string name="dialog_title_contrib_feature">Fonction Premium</string>
   <string name="dialog_title_restore_on_install">Sauvegarde détectée</string>
   <string name="dialog_title_select_account">Sélectionner un compte</string>
-  <string name="dialog_title_select_color">Sélectionner une couleur</string>
-  <string name="dialog_title_select_currency">Sélectionner une devise</string>
   <string name="dialog_title_select_grouping">Sélectionner un regroupement</string>
   <string name="dialog_title_select_import_source">Sélectionner une source pour l\'import</string>
-  <string name="dialog_title_select_method">Sélectionner un paiement</string>
   <string name="dialog_title_select_template">Sélectionner un modèle</string>
-  <string name="dialog_title_select_type">Sélectionner un type</string>
   <string name="dialog_title_template_title">Définir le titre</string>
   <string name="dialog_title_warning_delete_account">Effacer le compte?</string>
   <string name="dialog_title_welcome">Bienvenue!</string>

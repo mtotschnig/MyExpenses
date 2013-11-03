@@ -74,12 +74,8 @@
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
   <string name="dialog_title_restore_on_install">Copia de seguridad detectada</string>
   <string name="dialog_title_select_account">Escoger una cuenta</string>
-  <string name="dialog_title_select_color">Escoger un color</string>
-  <string name="dialog_title_select_currency">Escoger una moneda</string>
   <string name="dialog_title_select_grouping">Escoger un agrupamiento</string>
   <string name="dialog_title_select_import_source">Escoger una fuente para la importación</string>
-  <string name="dialog_title_select_method">Escoger un método de pago</string>
-  <string name="dialog_title_select_type">Escoger un tipo</string>
   <string name="dialog_title_select_template">Escoger une plantilla</string>
   <string name="dialog_title_template_title">Establecer el título</string>
   <string name="dialog_title_warning_delete_account">Borrar la cuenta?</string>
