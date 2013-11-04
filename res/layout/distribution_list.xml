@@ -24,17 +24,17 @@
       android:layout_height="0dp"
       android:layout_weight="1"
       android:drawSelectorOnTop="false" />
-      <TextView android:id="@+id/empty"
-          android:gravity="center"
-          android:layout_width="fill_parent"
-	        android:layout_height="0px"
-	        android:layout_weight="1"
-          android:text="@string/no_mapped_transactions"/>
-        <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#ffffff"/>
-          <LinearLayout
+  <TextView android:id="@+id/empty"
+      android:gravity="center"
+      android:layout_width="fill_parent"
+      android:layout_height="0px"
+      android:layout_weight="1"
+      android:text="@string/no_mapped_transactions"/>
+  <View
+     android:layout_width="fill_parent"
+     android:layout_height="1dp"
+     android:background="#ffffff"/>
+  <LinearLayout
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:paddingLeft="@dimen/general_padding"

@@ -92,6 +92,7 @@ public class CategoryList extends BudgetListFragment implements
 
   private Account mAccount;
   private Cursor mGroupCursor;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -101,7 +102,7 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     setColors();
-    ManageCategories ctx = (ManageCategories) getActivity();
+    final ManageCategories ctx = (ManageCategories) getActivity();
     int viewResource;
     Bundle extras = ctx.getIntent().getExtras();
     mManager = getLoaderManager();
@@ -441,32 +442,38 @@ public class CategoryList extends BudgetListFragment implements
       menu.findItem(R.id.BACK_COMMAND).setVisible(!mGrouping.equals(Grouping.NONE));
     }
   }
+  public void back() {
+    if (mGrouping.equals(Grouping.YEAR))
+      mGroupingYear--;
+    else {
+      mGroupingSecond--;
+      if (mGroupingSecond < 1) {
+        mGroupingYear--;
+        mGroupingSecond = maxValue;
+      }
+    }
+    reset();
+  }
+  public void forward() {
+    if (mGrouping.equals(Grouping.YEAR))
+      mGroupingYear++;
+    else{
+      mGroupingSecond++;
+      if (mGroupingSecond > maxValue) {
+        mGroupingYear++;
+        mGroupingSecond = 1;
+      }
+    }
+    reset();
+  }
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
     case R.id.BACK_COMMAND:
-      if (mGrouping.equals(Grouping.YEAR))
-        mGroupingYear--;
-      else {
-        mGroupingSecond--;
-        if (mGroupingSecond < 1) {
-          mGroupingYear--;
-          mGroupingSecond = maxValue;
-        }
-      }
-      reset();
+      back();
       return true;
     case R.id.FORWARD_COMMAND:
-      if (mGrouping.equals(Grouping.YEAR))
-        mGroupingYear++;
-      else{
-        mGroupingSecond++;
-        if (mGroupingSecond > maxValue) {
-          mGroupingYear++;
-          mGroupingSecond = 1;
-        }
-      }
-      reset();
+      forward();
       return true;
     }
     return super.onOptionsItemSelected(item);
@@ -548,5 +555,4 @@ public class CategoryList extends BudgetListFragment implements
       outState.putInt("groupingYear",mGroupingYear);
       outState.putInt("groupingSecond",mGroupingSecond);
   }
-
 }

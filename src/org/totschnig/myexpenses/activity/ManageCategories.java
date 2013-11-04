@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 
@@ -31,6 +32,8 @@ import com.actionbarsherlock.view.MenuInflater;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -48,6 +51,9 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     }
 
     private Category mCategory;
+    private GestureDetector mDetector;
+    private static final int SWIPE_MIN_DISTANCE = 50;
+    private CategoryList mListFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,11 +68,27 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       } else if (extras != null) {
         helpVariant = HelpVariant.distribution;
         //title is set in categories list
+        mDetector = new GestureDetector(this,new GestureDetector.SimpleOnGestureListener() {
+          @Override
+          public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+              if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) {
+                //Toast.makeText(ManageCategories.this,"Right to left", Toast.LENGTH_LONG).show();
+                mListFragment.forward();
+                return true;
+              }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) {
+                //Toast.makeText(ManageCategories.this,"Left to right", Toast.LENGTH_LONG).show();
+                mListFragment.back();
+                return true;
+              }
+              return false;
+          }
+        });
       } else {
         helpVariant = HelpVariant.select;
         setTitle(R.string.select_category);
       }
       setContentView(R.layout.select_category);
+      mListFragment = ((CategoryList) getSupportFragmentManager().findFragmentById(R.id.category_list));
     }
 
     @Override
@@ -83,17 +105,16 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
     @Override
     public boolean dispatchCommand(int command, Object tag) {
-      CategoryList f = ((CategoryList) getSupportFragmentManager().findFragmentById(R.id.category_list));
       switch (command) {
       case R.id.CREATE_COMMAND:
         createCat(null);
         return true;
       case R.id.GROUPING_COMMAND:
-        SelectGroupingDialogFragment.newInstance(R.id.GROUPING_COMMAND_DO,f.mGrouping.ordinal())
+        SelectGroupingDialogFragment.newInstance(R.id.GROUPING_COMMAND_DO,mListFragment.mGrouping.ordinal())
           .show(getSupportFragmentManager(), "SELECT_GROUPING");
         return true;
       case R.id.GROUPING_COMMAND_DO:
-        f.setGrouping(Account.Grouping.values()[(Integer)tag]);
+        mListFragment.setGrouping(Account.Grouping.values()[(Integer)tag]);
         return true;
       }
       return super.dispatchCommand(command, tag);
@@ -156,4 +177,12 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     public Model getObject() {
       return mCategory;
     }
+    @Override 
+    public boolean dispatchTouchEvent(MotionEvent event){
+       if (mDetector != null && !mListFragment.mGrouping.equals(Grouping.NONE))
+         mDetector.onTouchEvent(event);
+        // Be sure to call the superclass implementation
+        return super.dispatchTouchEvent(event);
+    }
+
 }
