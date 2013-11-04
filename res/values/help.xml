@@ -54,8 +54,8 @@
   <string name="help_ManageCategories_manage_info">This screen allows to create, edit and delete categories. By default, the primary sort criteria in the category list is the number of times you use a category (the secondary criteria is alphabetical order). This gives you quick access to the categories you use most often. In the settings, you can opt for sorting the categories in plain alphabetical order. Clicking on a main category, opens up its subcategories. From a main category\'s context menu, you can add new subcategories, delete a category or edit it. Subcategories have also context menus for deleting and editing.</string>
   <string name="menu_create_main_cat_help_text">Opens the dialog for specifying the title of a new main category.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Set the type of grouping and display the distribution per day, month, week or year.</string>
-  <string name="menu_back_help_text">Navigate to the previous group.</string>
-  <string name="menu_forward_help_text">Navigate to the next group.</string>
+  <string name="menu_back_help_text">Navigate to the previous group. Can also be done through swipe gesture from left to right.</string>
+  <string name="menu_forward_help_text">Navigate to the next group. Can also be done through swipe gesture from right to left.</string>
 
   <!-- ExpenseEdit -->
   <string name="help_ExpenseEdit_transaction_title">Form for transactions</string>

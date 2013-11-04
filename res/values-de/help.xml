@@ -54,8 +54,8 @@
   <string name="help_ManageCategories_manage_info">Auf diesem Bildschirm können Sie Kategorien erzeugen, editieren und löschen. Wenn Sie ihn über das Buchungsformular aufrufen, wird hier auch eine Kategorie ausgewählt, die der Buchung zugeordnet werden soll. Als primäres Sortierkriterium dient standardmäßig die Anzahl der Verwendungen einer Kategorie (sekundäres Kriterium ist die alphabetische Reihenfolge). Dadurch haben Sie zu den am häufigsten verwendeten Kategorien am schnellsten Zugriff. Wenn Sie die Kategorien lieber alphabetisch geordnet wollen, können Sie dies in den Einstellung so festlegen. Ein Klick auf eine Hauptkategorie öffnet die Liste der Unterkategorien. Das Kontextmenü einer Hauptkategorie erlaubt auch das Anlegen neuer Unterkategorien, das Löschen und das Verändern einer Hauptkategorie. Die Unterkategorien verfügen auch über ein Kontextmenü mit Einträgen zum Löschen und Verändern. </string>
   <string name="menu_create_main_cat_help_text">Öffnet den Dialog zum Anlegen einer neuen Hauptkategorie.</string>
   <string name="menu_ManageCategories_distribution_grouping_help_text">Wählen Sie, auf welche Zeiträume (Tag, Woche, Monat oder Jahr) bezogen die Verteilung angezeigt werden soll.</string>
-  <string name="menu_back_help_text">Zurück zur nächsten Gruppe.</string>
-  <string name="menu_forward_help_text">Weiter zur nächsten Gruppe.</string>
+  <string name="menu_back_help_text">Zurück zur nächsten Gruppe. Kann auch durch Swipe Geste von links nach rechts erfolgen.</string>
+  <string name="menu_forward_help_text">Weiter zur nächsten Gruppe. Kann auch durch Swipe Geste von links nach rechts erfolgen.</string>
 
   <!-- ExpenseEdit -->
   <string name="help_ExpenseEdit_transaction_title">Formular für Buchungen</string>
