@@ -79,7 +79,7 @@
 
   <!-- AccountEdit -->
     <string name="help_AccountEdit_title">Formular für Konten</string>
-    <string name="help_AccountEdit_info">Konten werden anhand Ihrer Bezeichung identifiziert. Die Beschreibung dient nur informativen Zwecken. Die Währung muss anhand ihrer dreistelligen Abkürzung ISO 4217 eingegeben werden, aber kann auch einfach aus einer Liste ausgewählt werden. Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto, Kreditkonto. Der Typ bestimmt, welche Zahlungsweisen den Buchungen des Kontos zugeordnet werden können. Zahlungsweisen werden unter Einstellungen -> Verwalten -> Zahlungsweisen konfiguriert.</string>
+    <string name="help_AccountEdit_info">Konten werden anhand Ihrer Bezeichung identifiziert. Die Beschreibung dient nur informativen Zwecken. Die Währung kann einfach aus einer Liste ausgewählt werden. Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto, Kreditkonto. Der Typ bestimmt, welche Zahlungsweisen den Buchungen des Kontos zugeordnet werden können. Zahlungsweisen werden unter Einstellungen -> Verwalten -> Zahlungsweisen konfiguriert.</string>
   <!-- MethodEdit -->
   <string name="help_MethodEdit_title">Formular für Zahlungsweisen</string>
   <string name="help_MethodEdit_info">Auf diesem Bildschirm wählen Sie die Kontotypen, bei denen eine Zahlungsweise zur Anwendung kommt. Die Bezeichnung is bei den vordefinierten Zahlungsweisen nicht veränderbar. Der Typ einer Zahlungsweise bestimmt, ob diese nur für Augaben, Einnahmen oder beides zur Anwendung kommt.</string>

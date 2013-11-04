@@ -76,8 +76,8 @@
   <string name="menu_save_help_text">Sauvegarder les données et fermer le formulaire.</string>
   <string name="menu_save_and_new_help_text">Sauvegarder les données et garder le formulaire ouvert pour la saisie d\'une nouvelle  opération avec les même données.</string>
   <!-- AccountEdit -->
-    <string name="help_AccountEdit_title">Formulaire pour comptes</string>
-    <string name="help_AccountEdit_info">Le compte est identifié par son intitulé, la description est seulement informative. La devise doit être saisie selon le code ISO 4217 en trois lettres, mais peut être facilement sélectionnée sur une liste. Vous pouvez associer au compte les types suivants: compte de caisse, compte bancaire, compte d\'actif ou compte de passif. Selon le type d\'un compte, les opérations peuvent être associées aux méthodes de paiement que vous configurerez sous Paramètres -> Gestion -> Méthodes de paiement.</string>
+  <string name="help_AccountEdit_title">Formulaire pour comptes</string>
+  <string name="help_AccountEdit_info">Le compte est identifié par son intitulé, la description est seulement informative. La devise peut être facilement sélectionnée sur une liste. Vous pouvez associer au compte les types suivants: compte de caisse, compte bancaire, compte d\'actif ou compte de passif. Selon le type d\'un compte, les opérations peuvent être associées aux méthodes de paiement que vous configurerez sous Paramètres -> Gestion -> Méthodes de paiement.</string>
   <!-- MethodEdit -->
   <string name="help_MethodEdit_title">Formulaire pour méthodes de paiement</string>
   <string name="help_MethodEdit_info">Sélectionnez les types de comptes pour lesquels une méthode est applicable. Vous pouvez aussi définir un intitulé (sauf pour les méthodes prédéfinies). Par le type d\'une méthode, vous déterminez si celle-ci est applicable pour les dépenses (débit), les revenus (crédit) ou les deux (neutre).</string>

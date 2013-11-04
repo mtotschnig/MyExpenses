@@ -77,7 +77,7 @@
   <string name="menu_save_and_new_help_text">Salva i dati, lascia la forma aperta per la creazione di una nuova transazione con gli stessi dati.</string>
   <!-- AccountEdit -->
   <string name="help_AccountEdit_title">Modulo per i conti</string>
-  <string name="help_AccountEdit_info">Il conto è identificata dalla sua etichetta, la descrizione ha solo uno scopo informativo. La valuta deve essere inserita secondo la ISO 4217 di tre lettere, ma può essere facilmente selezionato da una lista, Puo assegnare qualsiasi conto a uno dei seguenti tipi: Conto di denaro contante, conto bancario, conto d’investimento, conto d’accredito. Il tipo determina i metodi di pagamento disponibili che possono essere configurate in Impostazioni -> Gestione -> Metodi di pagamento.</string>
+  <string name="help_AccountEdit_info">Il conto è identificata dalla sua etichetta, la descrizione ha solo uno scopo informativo. La valuta può essere facilmente selezionato da una lista. Puo assegnare qualsiasi conto a uno dei seguenti tipi: Conto di denaro contante, conto bancario, conto d’investimento, conto d’accredito. Il tipo determina i metodi di pagamento disponibili che possono essere configurate in Impostazioni -> Gestione -> Metodi di pagamento.</string>
   <!-- MethodEdit -->
   <string name="help_MethodEdit_title">Modulo per i metodi di pagamento</string>
   <string name="help_MethodEdit_info">In questa schermata, è possibile associare un metodo di pagamento con i tipi di conto. È inoltre possibile definire una etichetta (con l\'eccezione dei metodi predefiniti che hanno un etichetta fissa che non può essere modificata). Attraverso il tipo di un metodo, si determina se è applicabile per le spese (debito), reddito (credito) o entrambi (neutrale).</string>

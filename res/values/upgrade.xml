@@ -18,8 +18,11 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_83">
-    <item>Major new stuff</item>
+  <string-array name="whats_new_82">
+    <item>Reference number (cheque payments)</item>
+    <item>Start with account list from launcher</item>
+    <item>Swipe between periods in distribution view</item>
+    <item>UI improvements</item>
   </string-array>
   <string-array name="whats_new_81">
     <item>Bug fixes</item>

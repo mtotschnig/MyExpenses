@@ -77,7 +77,7 @@
   <string name="menu_save_and_new_help_text">Guardar los datos y dejar abierto el formulario para crear una nueva transacción con los mismos datos.</string>
   <!-- AccountEdit -->
   <string name="help_AccountEdit_title">Formulario para las cuentas</string>
-  <string name="help_AccountEdit_info">Las cuentas se identifican por su designación, la descripción sólo sirve para fines informativos. La moneda se debe insertar por su abreviación de tres cifras ISO 4217 o puede ser elegida de una lista Usted puede asignar una cuenta a uno de los siguientes tipos: cuenta de caja, cuenta bancaria, cuenta de inversiones, cuenta de crédito. El tipo determina los métodos de pago disponibles que se pueden configurar en Configuraciones -> Administrar -> Métodos de pago.</string>
+  <string name="help_AccountEdit_info">Las cuentas se identifican por su designación, la descripción sólo sirve para fines informativos. La moneda puede ser elegida de una lista. Usted puede asignar una cuenta a uno de los siguientes tipos: cuenta de caja, cuenta bancaria, cuenta de inversiones, cuenta de crédito. El tipo determina los métodos de pago disponibles que se pueden configurar en Configuraciones -> Administrar -> Métodos de pago.</string>
   <!-- MethodEdit -->
   <string name="help_MethodEdit_title">Formulario para los métodos de pago</string>
   <string name="help_MethodEdit_info">En esta pantalla, se asocia un método de pago a tipos de cuenta. También puede definir una designación (con la excepción de los métodos predefinidos que tienen una designación fija que no se puede modificar). A través del tipo de un método se determina si es aplicable a los gastos (débito), ingresos (crédito) o ambos (neutro).</string>
