@@ -69,7 +69,7 @@
   <string name="help_ExpenseEdit_split_info">Entre tantas fracciones (para categoriás y transferencias) cuantas sean necesarias a través de los comandos del. La mitad inferior de la pantalla muestra la lista de las fracciones y la cantidad que aún no se ha asignado a una categoría o una transferencia. Sólo se puede guardar el asiento dividido si la suma de las fracciones es igual a la monta del asiento.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Seleccione una categoría para la fracción.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Asigne una cuenta de transferencia a la fracción.</string>
-  <string name="help_ExpenseEdit_transfer_info">Si sólo existe una cuenta con la misma moneda que la actual ya está preseleccionada como cuenta de transferencia.</string>
+  <string name="help_ExpenseEdit_transfer_info">Seleccione la cuenta de transferencia de la lista desplegable.</string>
   <string name="help_ExpenseEdit_template_info">El título le permite identificar una plantilla cuando se selecciona para crear nuevas instancias de transacciones.</string>
   <string name="menu_create_split_part_category_help_text">Abre el formulario para la asignación de una fracción a una categoría.</string>
   <string name="menu_create_split_part_transfer_help_text">Abre el formulario para la transferencia de una fracción a otra cuenta.</string>

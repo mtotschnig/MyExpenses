@@ -59,7 +59,6 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Bölünmüş alt muamele formu (transfer)</string>
   <string name="help_ExpenseEdit_info">Gelir ve gider arası geçiş yapmak için - düğmesine tıklayın, hesap makinesini açmak için de = düğmesine tıklayabilirsiniz.</string>
   <string name="help_ExpenseEdit_transaction_info">Alacaklı (ya da borçlu) alanları girdiğiniz değerleri hatırlar ve gelecekte önerir. Ödeme metodu seçmeye yarayan düğme sadece güncel hesap herhangi bir ödeme metoduyla ilişkilendirilmiş türden ise kullanılabilir. Varsayılan değer olarak sadece banka hesapları ödeme metotları ile ilişkilidir (çek, kredi kartı, mevduat, doğrudan ödeme).</string>
-  <string name="help_ExpenseEdit_transfer_info">Güncel hesap ile aynı para birimini kullanan sadece bir hesap var ve zaten transfer hesabı olarak seçilmiştir.</string>
   <string name="help_ExpenseEdit_template_info">Başlık, yeni muameleler oluşturmak için şablon seçtiğinizde söz konusu şablonu belirlemenize imkân verir. </string>
   <string name="help_ExpenseEdit_split_info">Transfer ve kategori bölünmüş muameleleri için gerektiği kadar bölümleri menü vasıtasıyla girin. Ekranın alt yarısı bölünmüş kısımların bir listesini ve herhangi bir kategoriye ya da transfere henüz atanmamış meblağı gösterir. Bölünmüş bir muameleyi ancak meblağ tam olarak atandıysa kaydedebilirsiniz.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Bölünmüş kısım için bir kategori seç.</string>

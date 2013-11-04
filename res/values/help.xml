@@ -66,7 +66,7 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Form for transfer split parts</string>
   <string name="help_ExpenseEdit_info">Click on the - Button to toggle between expense and income, click on the = Button to open a calculator.</string>
   <string name="help_ExpenseEdit_transaction_info">The payee (or payer) field remembers the values you enter and will suggest them in the future. The button for selecting a payment method, is only available if the current account is of a type linked to any payment method. By default only bank accounts, are  linked to payment methods (cheque,credit card, deposit,direct debit).</string>
-  <string name="help_ExpenseEdit_transfer_info">If there is only one account with the same currency as the current one, it is already preselected as transfer account.</string>
+  <string name="help_ExpenseEdit_transfer_info">Select the transfer account from the drop down list.</string>
   <string name="help_ExpenseEdit_template_info">The title lets you identify a template when you select it for instantiating new transactions. </string>
   <string name="help_ExpenseEdit_split_info">Enter as many split parts as needed through the menu commands for category splits and transfer splits. 	The bottom half of the screen displays the list of split parts and the amount that has not yet been assigned to a category or a transfer. 	You can only save the split transaction if the transaction amount has been exactly assigned.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Select a category for the split part.</string>

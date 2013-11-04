@@ -66,7 +66,7 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Formular für Split-Teilbetrag (Umbuchung)</string>
   <string name="help_ExpenseEdit_info">Klicken Sie auf die Schaltfläche - um zwischen Ausgabe und Einnahme zu wechseln. auf die = Schaltfläche um einen Taschenrechner zu öffnen.</string>
   <string name="help_ExpenseEdit_transaction_info">Das Feld für die Eingabe von Empfänger (bzw. Zahler) merkt sich die von Ihnen eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld vor. Zahlungsweisen können nur dann einer Buchung zugeordnet werden, wenn der Typ des aktuellen Kontos mit Zahlungsweisen verknüpft ist. Standardmäßig sind nur Bankkonten mit Zahlungsweisen verknüpft (Scheck, Kreditkarte, Einzahlung, Abbuchung).</string>
-  <string name="help_ExpenseEdit_transfer_info">Wenn es nur ein Konto mit derselben Währung gibt wie das aktuelle Konto, ist dieses bereits vorausgewählt.</string>
+  <string name="help_ExpenseEdit_transfer_info">Wählen Sie das Konto für die Umbuchung aus dem Aufklappmenü.</string>
   <string name="help_ExpenseEdit_template_info">Anhand des Titels können Sie die Vorlage auswählen, wenn Sie von dieser eine neue Buchung ableiten.</string>
   <string name="help_ExpenseEdit_split_info">Fügen Sie beliebig viele Teilbeträge (für Kategorien und Umbuchungen) mittels der Menübefehle ein. In der unteren Hälfte des Bildschirms werden die Teilbeträge aufgelistet, und der Restbetrag angezeigt, der noch nicht zugeordnet wurde. Die Split-Buchung kann nur gespeichert werden, wenn die Summe der Teilbeträge genau dem Buchungsbetrag entspricht.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Wählen Sie eine Kategorie für den Teilbetrag aus.</string>
