@@ -63,15 +63,19 @@ public class ExportTest extends ModelTest  {
     op.amount = new Money(account1.currency,-expense1);
     op.methodId = PaymentMethod.find("CHEQUE");
     op.crStatus = CrStatus.CLEARED;
+    op.referenceNumber = "1";
     op.save();
     op.amount = new Money(account1.currency,-expense2);
     op.catId = cat1Id;
     op.payee = "N.N.";
     op.crStatus = CrStatus.UNRECONCILED;
+    op.referenceNumber = "2";
     op.saveAsNew();
     op.amount = new Money(account1.currency,income1);
     op.catId = cat2Id;
     op.payee = null;
+    op.methodId = null;
+    op.referenceNumber = null;
     op.saveAsNew();
     op.amount = new Money(account1.currency,income2);
     op.comment = "Note for myself with \"quote\"";
@@ -91,10 +95,13 @@ public class ExportTest extends ModelTest  {
     op.amount = new Money(account1.currency,-expense3);
     op.methodId = PaymentMethod.find("CHEQUE");
     op.comment = "Expense inserted after first export";
+    op.referenceNumber = "3";
     op.save();
     op.amount = new Money(account1.currency,income3);
     op.comment = "Income inserted after first export";
     op.payee = "N.N.";
+    op.methodId = null;
+    op.referenceNumber = null;
     op.saveAsNew();
   }
   public void testExportQIF() {
@@ -103,11 +110,13 @@ public class ExportTest extends ModelTest  {
       "D" + date,
       "T-0.1",
       "C*",
+      "N1",
       "^",
       "D" + date,
       "T-0.2",
       "LMain",
       "PN.N.",
+      "N2",
       "^",
       "D" + date,
       "T0.3",
@@ -141,13 +150,13 @@ public class ExportTest extends ModelTest  {
   public void testExportCSV() {
     String[] linesCSV = new String[] {
         //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
-        "\"Split transaction\";\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";\"Status\";",
-        "\"\";\"" + date + "\";\"\";0;0.1;\"\";\"\";\"\";\"Cheque\";\"*\";",
-        "\"\";\"" + date + "\";\"N.N.\";0;0.2;\"Main\";\"\";\"\";\"Cheque\";\"\";",
-        "\"\";\"" + date + "\";\"\";0.3;0;\"Main\";\"Sub\";\"\";\"Cheque\";\"\";",
-        "\"\";\"" + date + "\";\"\";0.4;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"Cheque\";\"\";",
-        "\"\";\"" + date + "\";\"\";0.5;0;\"Transfer\";\"[Account 2]\";\"\";\"\";\"X\";",
-        "\"\";\"" + date + "\";\"\";0;0.6;\"Transfer\";\"[Account 2]\";\"\";\"\";\"\";"
+        "\"Split transaction\";\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";\"Status\";\"Reference Number\";",
+        "\"\";\"" + date + "\";\"\";0;0.1;\"\";\"\";\"\";\"Cheque\";\"*\";\"1\";",
+        "\"\";\"" + date + "\";\"N.N.\";0;0.2;\"Main\";\"\";\"\";\"Cheque\";\"\";\"2\";",
+        "\"\";\"" + date + "\";\"\";0.3;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";",
+        "\"\";\"" + date + "\";\"\";0.4;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";",
+        "\"\";\"" + date + "\";\"\";0.5;0;\"Transfer\";\"[Account 2]\";\"\";\"\";\"X\";\"\";",
+        "\"\";\"" + date + "\";\"\";0;0.6;\"Transfer\";\"[Account 2]\";\"\";\"\";\"\";\"\";"
     };
     try {
       insertData1();
@@ -162,9 +171,9 @@ public class ExportTest extends ModelTest  {
   public void testExportNotYetExported() {
     String[] linesCSV = new String[] {
         //{R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
-        "\"Split transaction\";\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";\"Status\";",
-        "\"\";\"" + date + "\";\"\";0;1;\"\";\"\";\"Expense inserted after first export\";\"Cheque\";\"\";",
-        "\"\";\"" + date + "\";\"N.N.\";1;0;\"\";\"\";\"Income inserted after first export\";\"Cheque\";\"\";",
+        "\"Split transaction\";\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";\"Status\";\"Reference Number\";",
+        "\"\";\"" + date + "\";\"\";0;1;\"\";\"\";\"Expense inserted after first export\";\"Cheque\";\"\";\"3\";",
+        "\"\";\"" + date + "\";\"N.N.\";1;0;\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";"
     };
     try {
       insertData1();

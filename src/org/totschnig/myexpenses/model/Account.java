@@ -563,7 +563,7 @@ public class Account extends Model {
     switch (format) {
     case CSV:
       int[] columns = {R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,
-          R.string.category,R.string.subcategory,R.string.comment,R.string.method,R.string.status};
+          R.string.category,R.string.subcategory,R.string.comment,R.string.method,R.string.status,R.string.reference_number};
       for (int column: columns) {
         sb.append("\"")
           .appendQ(ctx.getString(column))
@@ -614,6 +614,7 @@ public class Account extends Model {
       } catch (IllegalArgumentException ex) {
         status = CrStatus.UNRECONCILED;
       }
+      String referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
       sb.clear();
       switch (format) {
       case CSV:
@@ -637,6 +638,8 @@ public class Account extends Model {
           .appendQ(methodId == null ? "" : PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel())
           .append("\";\"")
           .append(status.symbol)
+          .append("\";\"")
+          .append(referenceNumber)
           .append("\";");
         break;
       default:
@@ -661,6 +664,10 @@ public class Account extends Model {
         if (!status.equals(CrStatus.UNRECONCILED))
           sb.append( "\nC")
             .append( status.symbol );
+        if (referenceNumber.length() > 0) {
+              sb.append( "\nN" )
+              .append( referenceNumber );
+          }
       }
       out.write(sb.toString());
       if (SPLIT_CATID.equals(catId)) {
