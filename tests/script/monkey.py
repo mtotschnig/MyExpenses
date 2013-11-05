@@ -141,9 +141,9 @@ snapshot("distribution")
 back()
 menu(6)
 if lang == 'de':
-  distance = 17
-else:
   distance = 16
+else:
+  distance = 15
 for _ in range(distance):
   down()
 enter()
@@ -155,9 +155,9 @@ back()
 back()
 menu(6)
 if lang == 'de':
-  distance = 24
-else:
   distance = 23
+else:
+  distance = 22
 for _ in range(distance):
   down()
 enter()
