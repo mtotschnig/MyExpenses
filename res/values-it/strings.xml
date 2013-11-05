@@ -267,6 +267,7 @@
   <string name="pref_restore_title">Ripristinare</string>
   <string name="progress_dialog_loading">Caricamento di oggetti dal database &#8230;</string>
   <string name="progress_dialog_setup">Il database è inizializzato &#8230;</string>
+  <string name="reference_number">Numero di riferimento</string>
   <string name="request_licence_mail_head">Vi prego di inviarmi una chiave contrib per Android-Id %1$s.</string>
   <string name="request_licence_mail_description">Si prega di descrivere (in inglese, francese o tedesco) il vostro contributo a &app_name; (es.: donazione tramite Paypal, bug report, analisi, traduzione).</string>
   <string name="restore_db_failure">Ripristino del database non riuscita.</string>

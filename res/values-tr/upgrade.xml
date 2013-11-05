@@ -18,7 +18,13 @@
   <!ENTITY app_name "Harcamalarım">
 ]>
 <resources>
-  <string-array name="whats_new_79">
+  <string-array name="whats_new_82">
+    <item>Referans sayısı (çek ile ödemeler)</item>
+    <item>Hesap listesi ile başlangıç</item>
+    <item>Periyotlar arası kaydırarak geçiş</item>
+    <item>Gelişmiş kullanıcı arayüzü</item>
+  </string-array>
+	<string-array name="whats_new_79">
     <item>Muameleler uzlaşmış olarak işaretlenebilir (banka hesapları ve kredi kartları için etkinleştirilmiştir)</item>
     <item>Borçlu/alacaklılar artık düzenlenebilir</item>
     <item>Macarca tercüme</item>

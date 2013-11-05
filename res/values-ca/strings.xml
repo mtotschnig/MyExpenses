@@ -268,6 +268,7 @@
   <string name="pref_visit_website_summary">Registre de canvis i preguntes més freqüents</string>
   <string name="progress_dialog_loading">Carregant objecte de base de dades &#8230;</string>
   <string name="progress_dialog_setup">Base de dades s\'inicialitza  &#8230;</string>
+  <string name="reference_number">Número de referència</string>
   <string name="request_licence_mail_head">Si us plau, Envieu una clau Contrib per Android-ID %1$s.</string>
   <string name="request_licence_mail_description">Si us plau descrigui (en anglès, alemany o francès) la seva contribució a &app_name; (per exemple, donació mitjançant Paypal, informe d\'errors, proves, traducció).</string>
   <string name="restore_db_failure">Restaurar base de dades ha fallat.</string>

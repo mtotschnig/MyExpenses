@@ -18,6 +18,12 @@
   <!ENTITY app_name "Mes dépenses">
 ]>
 <resources>
+  <string-array name="whats_new_82">
+    <item>Numéro de référence (paiement par chèque) </item>
+    <item>Démarrage avec la liste de comptes</item>
+    <item>Glisser entre les périodes dans la fenêtre de distribution</item>
+    <item>Améliorations d\'UI</item>
+  </string-array>
   <string-array name="whats_new_79">
     <item>Marquage des opérations comme pointées / rapprochées ( pour les comptes de banques et cartes de crédit)</item>
     <item>Les tiers peuvent être désormais édités</item>
