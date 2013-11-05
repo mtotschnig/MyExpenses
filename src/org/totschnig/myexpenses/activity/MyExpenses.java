@@ -268,8 +268,7 @@ public class MyExpenses extends LaunchActivity implements
     if (currentPosition > -1) {
       Integer sameCurrencyCount = currencyAccountCount.get(
           Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode());
-      if (sameCurrencyCount != null && sameCurrencyCount >1)
-        mTransferEnabled = true;
+      mTransferEnabled = (sameCurrencyCount != null && sameCurrencyCount >1);
     }
     Utils.menuItemSetEnabled(menu,R.id.INSERT_TRANSFER_COMMAND,mTransferEnabled);
     Utils.menuItemSetEnabled(menu,R.id.NEW_FROM_TEMPLATE_COMMAND,
