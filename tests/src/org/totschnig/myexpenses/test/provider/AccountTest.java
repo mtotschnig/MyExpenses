@@ -146,8 +146,8 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
             null                        // use default sort order
         );
 
-         // Asserts that the returned cursor contains no records
-        assertEquals(0, cursor.getCount());
+         // Asserts that the returned cursor only contains the default account
+        assertEquals(1, cursor.getCount());
 
          // Query subtest 2.
          // If the table contains records, the returned cursor from a query should contain records.
@@ -165,8 +165,8 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
         );
 
         // Asserts that the returned cursor contains the same number of rows as the size of the
-        // test data array.
-        assertEquals(TEST_ACCOUNTS.length, cursor.getCount());
+        // test data array + the default account
+        assertEquals(TEST_ACCOUNTS.length+1, cursor.getCount());
 
         // Query subtest 3.
         // A query that uses a projection should return a cursor with the same number of columns
@@ -230,32 +230,31 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
       // Defines the argument for the selection column.
       final String[] SELECTION_ARGS = { "Account 0" };
 
-      // Creates a projection includes the note id column, so that note id can be retrieved.
+      // Creates a projection includes the row id column, so that account id can be retrieved.
       final String[] Account_ID_PROJECTION = {
-          DatabaseConstants.KEY_ROWID,                 // The Notes class extends BaseColumns,
-                                              // which includes _ID as the column name for the
-                                              // record's id in the data model
-          DatabaseConstants.KEY_LABEL};  // The note's title
+          DatabaseConstants.KEY_ROWID,
+          DatabaseConstants.KEY_LABEL};
+      
+      // Query subtest 1
+      //Before inserting data the db should contain the default account, and we store its id.
 
-      // Query subtest 1.
-      // Tests that a query against an empty table returns null.
-
-      // Constructs a URI that matches the provider's notes id URI pattern, using an arbitrary
-      // value of 1 as the note ID.
-      Uri AccountIdUri = ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, 1);
-
-      // Queries the table with the notes ID URI. This should return an empty cursor.
+      // Queries the table using the URI for the full table.
       Cursor cursor = mMockResolver.query(
-          AccountIdUri, // URI pointing to a single record
-          null,      // no projection, get all the columns for each record
-          null,      // no selection criteria, get all the records in the table
-          null,      // no need for selection arguments
-          null       // default sort, by ascending title
+          TransactionProvider.ACCOUNTS_URI, // the base URI for the table
+          Account_ID_PROJECTION,        // returns the ID and title columns of rows
+          null,         // no selection, get all
+          null,            //
+          null                 // sort order returned is by title, ascending
       );
 
-      // Asserts that the cursor is null.
-      assertEquals(0,cursor.getCount());
+      // Asserts that the cursor contains only one row.
+      assertEquals(1, cursor.getCount());
+      
+      assertTrue(cursor.moveToFirst());
 
+      // Saves the record's note ID.
+      int defaultAccountId = cursor.getInt(0);
+      
       // Query subtest 2.
       // Tests that a query against a table containing records returns a single record whose ID
       // is the one requested in the URI provided.
@@ -263,26 +262,26 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
       // Inserts the test data into the provider's underlying data source.
       insertData();
 
-      // Queries the table using the URI for the full table.
+      // We filter the default accountId out
       cursor = mMockResolver.query(
           TransactionProvider.ACCOUNTS_URI, // the base URI for the table
-          Account_ID_PROJECTION,        // returns the ID and title columns of rows
-          SELECTION_COLUMNS,         // select based on the title column
-          SELECTION_ARGS,            // select title of "Note1"
-          null                 // sort order returned is by title, ascending
+          Account_ID_PROJECTION,
+          DatabaseConstants.KEY_ROWID + " != " + "?",
+          new String[] {String.valueOf(defaultAccountId)},
+          null
       );
 
-      // Asserts that the cursor contains only one row.
-      assertEquals(1, cursor.getCount());
+      // Asserts that the cursor contains the inserted rows
+      assertEquals( TEST_ACCOUNTS.length, cursor.getCount());
 
       // Moves to the cursor's first row, and asserts that this did not fail.
       assertTrue(cursor.moveToFirst());
 
-      // Saves the record's note ID.
-      int inputNoteId = cursor.getInt(0);
+      // fetch the id of the first row
+      int inputAccountId = cursor.getInt(0);
 
       // Builds a URI based on the provider's content ID URI base and the saved note ID.
-      AccountIdUri = ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, inputNoteId);
+      Uri AccountIdUri = ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, inputAccountId);
 
       // Queries the table using the content ID URI, which returns a single record with the
       // specified note ID, matching the selection criteria provided.
@@ -300,13 +299,26 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
       assertTrue(cursor.moveToFirst());
 
       // Asserts that the note ID passed to the provider is the same as the note ID returned.
-      assertEquals(inputNoteId, cursor.getInt(0));
+      assertEquals(inputAccountId, cursor.getInt(0));
     }
 
     /*
      *  Tests inserts into the data model.
      */
     public void testInserts() {
+      // Does a full query on the table. Since insertData() hasn't yet been called, the
+      // table should only contain the record just inserted.
+      Cursor cursor = mMockResolver.query(
+          TransactionProvider.ACCOUNTS_URI, // the main table URI
+          null,                      // no projection, return all the columns
+          null,                      // no selection criteria, return all the rows in the model
+          null,                      // no selection arguments
+          null                       // default sort order
+      );
+
+      // the db automatically adds one record
+      assertEquals(1, cursor.getCount());
+      
         // Creates a new Account instance
         AccountInfo account = new AccountInfo(
             "Account 4",
@@ -325,7 +337,7 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
 
         // Does a full query on the table. Since insertData() hasn't yet been called, the
         // table should only contain the record just inserted.
-        Cursor cursor = mMockResolver.query(
+        cursor = mMockResolver.query(
             TransactionProvider.ACCOUNTS_URI, // the main table URI
             null,                      // no projection, return all the columns
             null,                      // no selection criteria, return all the rows in the model
@@ -333,8 +345,8 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
             null                       // default sort order
         );
 
-        // Asserts that there should be only 1 record.
-        assertEquals(1, cursor.getCount());
+        // now there are two
+        assertEquals(2, cursor.getCount());
 
         // Moves to the first (and only) record in the cursor and asserts that this worked.
         assertTrue(cursor.moveToFirst());
