@@ -22,6 +22,7 @@
     <item>Numéro de référence (paiement par chèque) </item>
     <item>Démarrage avec la liste de comptes</item>
     <item>Glisser entre les périodes dans la fenêtre de distribution</item>
+    <item>Format de date configurable pour l\'exportation QIF et CSV</item>
     <item>Améliorations d\'UI</item>
   </string-array>
   <string-array name="whats_new_79">

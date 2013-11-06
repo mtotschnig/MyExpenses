@@ -18,6 +18,13 @@
   <!ENTITY app_name "Mis gastos">
 ]>
 <resources>
+  <string-array name="whats_new_82">
+    <item>Número de referencia (cheques)</item>
+    <item>Comience con lista de cuentas de lanzamiento</item>
+    <item>Swipe entre los períodos de vista de distribución</item>
+    <item>Formato de fecha configurable para QIF y CSV exportación</item>
+    <item>Mejoras de interfaz de usuario</item>
+  </string-array>
   <string-array name="whats_new_79">
     <item>Marcar asientos como despejado  / reconciliado (cuentas bancarias y tarjetas de crédito)</item>
     <item>Partidos ahora se pueden editar</item>

@@ -47,6 +47,8 @@
   <string name="current_balance">Saldo actual</string>
   <string name="date">Data</string>
   <string name="date_time">Data / Hora</string>
+  <string name="date_format">Format de data</string>
+  <string name="date_format_illegal">Format de data no vàlida</string>
   <string name="default_account_description">Aquest compte ha estat establert automáticament a l\'instal·lació.</string>
   <string name="description">Descripció</string>
   <string name="dialog_confirm_restore_on_install">S\'ha detectat un fitxer de còpia de seguretat. Voleu restaurar?</string>
@@ -190,6 +192,7 @@
   <string name="not_deletable_mapped_transactions">No ha estat possible suprimir-ho, per que té despeses assignades.</string>
   <string name="not_deletable_mapped_templates">No ha estat possible suprimir-ho, per que te plantilles assignades.</string>
   <string name="not_deletable_subcats_exists">No ha estat possible suprimir aquesta categoria, per que te sub-categories.</string>
+  <string name="numbered">numerat</string>
   <string name="oi_pick_colors_info">Podeu disposar de més opcions si instal·leu OI Color Picker</string>
   <string name="opening_balance">Saldo inicial</string>
   <string name="parse_error_file_not_found">No ha estat possible trobar el fitxer %1$s</string>

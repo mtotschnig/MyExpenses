@@ -22,6 +22,7 @@
     <item>Numero di riferimento (pagamenti tramite assegno) </item>
     <item>Inizio con la lista di conti</item>
     <item>Swipe tra i periodi in vista della distribuzione</item>
+    <item>Configurazione del formato della data per l\'esportazione QIF e CSV</item>
     <item>Miglioramenti dell\'UI</item>
   </string-array>
 	<string-array name="whats_new_79">

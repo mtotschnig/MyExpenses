@@ -48,6 +48,8 @@
   <string name="current_balance">Saldo corrente</string>
   <string name="date">Data</string>
   <string name="date_time">Data / Ora</string>
+  <string name="date_format">Formato dati</string>
+  <string name="date_format_illegal">Formato data non valido</string>
   <string name="default_account_description">Questo conto è stato creato automaticamente con la installazione</string>
   <string name="description">Descrizione</string>
   <string name="dialog_confirm_restore_on_install">È stato trovato un file di backup. Si vuole ripristinarlo?</string>
@@ -189,6 +191,7 @@
   <string name="not_deletable_mapped_transactions">Non può cancellare, perché ci sono operazione ad esso attribuite.</string>
   <string name="not_deletable_mapped_templates">Non può cancellare, perché ci sono modelli ad esso attribuite.</string>
   <string name="not_deletable_subcats_exists">Questa categoria non può essere cancellata perché contiene sottocategorie.</string>
+  <string name="numbered">numerazione</string>
   <string name="oi_pick_colors_info">Installare OI Color Picker per ulteriori opzioni</string>
   <string name="opening_balance">Saldo iniziale</string>
   <string name="parse_error_file_not_found">Il file %1$s non esiste</string>

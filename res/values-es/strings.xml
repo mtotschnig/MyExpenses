@@ -48,6 +48,8 @@
   <string name="current_balance">Saldo actual</string>
   <string name="date">Fecha</string>
   <string name="date_time">Fecha / Hora</string>
+  <string name="date_format">Formato de fecha</string>
+  <string name="date_format_illegal">Formato de fecha no válida</string>
   <string name="default_account_description">Esta cuenta ha sido establecida automáticamente durante la instalación.</string>    
   <string name="description">Descripción</string>
   <string name="dialog_confirm_restore_on_install">Se ha detectado un archivo de copia de seguridad. ¿Desea restaurarlo?</string>
@@ -189,6 +191,7 @@
   <string name="not_deletable_mapped_transactions">No se puede borrar, porque tiene gastos asignados.</string>
   <string name="not_deletable_mapped_templates">No se puede borrar, porque tiene plantillas asignadas.</string>
   <string name="not_deletable_subcats_exists">No se puede borrar esta categoría, porque tiene sub-categorías.</string>
+  <string name="numbered">numeración</string>
   <string name="oi_pick_colors_info">Instalar OI Color Picker para ver más opciones</string>
   <string name="opening_balance">Saldo inicial</string>
   <string name="parse_error_file_not_found">No se ha podido encontrar el archivo %1$s</string>

@@ -48,6 +48,8 @@
   <string name="current_balance">Aktueller Saldo</string>
   <string name="date">Datum</string>
   <string name="date_time">Datum / Zeit</string>
+  <string name="date_format">Datumsformat</string>
+  <string name="date_format_illegal">Unzulässiges Datumsformat</string>
   <string name="default_account_description">Dieses Konto wurde während der Installation automatisch eingerichtet.</string>    
   <string name="description">Beschreibung</string>
   <string name="dialog_confirm_restore_on_install">Eine Sicherungskopie ist vorhanden. Soll diese wiederhergestellt werden?</string>
@@ -189,6 +191,7 @@
   <string name="not_deletable_mapped_transactions">Kann nicht löschen, weil zugeordnete Buchungen existieren.</string>
   <string name="not_deletable_mapped_templates">Kann nicht löschen, weil zugeordnete Vorlagen existieren.</string>
   <string name="not_deletable_subcats_exists">Diese Kategorie kann nicht gelöscht werden, weil sie Unterkategorien hat.</string>
+  <string name="numbered">nummeriert</string>
   <string name="oi_pick_colors_info">OI Color Picker installieren für mehr Auswahl</string>
   <string name="opening_balance">Anfangssaldo</string>
   <string name="parse_error_file_not_found">Konnte Datei %1$s nicht finden</string>

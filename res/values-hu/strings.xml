@@ -42,6 +42,8 @@
   <string name="current_balance">Aktuális egyenleg</string>
   <string name="date">Dátum</string>
   <string name="date_time">Dátum / Idő</string>
+  <string name="date_format">Dátum formátum</string>
+  <string name="date_format_illegal">Helytelen dátum formátum</string>
   <string name="default_account_description">Ez a számla automatikusan került beállításra a telepítés során</string>
   <string name="description">Leírás</string>
   <string name="dialog_confirm_restore_on_install">A rendszer egy korábbi biztonsági mentést talált. Szeretné visszaállítani arra?</string>
@@ -117,6 +119,7 @@
   </string-array>
   <string name="help_leading">Köszönjük, hogy a <i>Kiadásaim</i> Android változatát telepítette.</string>
   <string name="import_categories">Kategóriák importálása</string>
+  <string name="important_upgrade_information_heading">Fontos információ</string>
   <string name="income">Bevétel</string>
   <string name="invalid_number_format">Tizedes formátum nem található az Ön nyelvén. Kérem használja ezt: %1$s</string>
   <string name="label">Címke</string>
@@ -184,6 +187,7 @@
   <string name="not_deletable_mapped_transactions">Nem törölhető, mert összefüggő tranzakciókat érint.</string>
   <string name="not_deletable_mapped_templates">Nem törölhető, mert összefüggő sablont érint.</string>
   <string name="not_deletable_subcats_exists">Ez a kategória alkategóriákat tartalmaz, így nem törölhető.</string>
+  <string name="numbered">számozott</string>
   <string name="oi_pick_colors_info">OI Color Picker telepítése további választási lehetőségekhez</string>
   <string name="opening_balance">Nyitó egyenleg</string>
   <string name="parse_error_file_not_found">%1$s állomány nem található</string>
@@ -261,8 +265,9 @@
   <string name="pref_ui_theme_light">világos</string>
   <string name="pref_visit_website_title">Weboldal megtekintése</string>
   <string name="pref_visit_website_summary">Fejlesztések és GYIK</string>
-  <string name="progress_dialog_loading">Elemek betöltése az adatbázisból...</string>
-  <string name="progress_dialog_setup">Adatbázis beállítása...</string>
+  <string name="progress_dialog_loading">Elemek betöltése az adatbázisból &#8230;</string>
+  <string name="progress_dialog_setup">Adatbázis beállítása &#8230;</string>
+  <string name="reference_number">Referencia szám</string>
   <string name="request_licence_mail_head">Kérem, küldjön számomra Contrib kulcsot az alábbi Android-Id alapján: %1$s.</string>
   <string name="request_licence_mail_description">Kérjük írja meg számunkra angolul, németül vagy franciául, hogy milyen módon vett részt a Kiadásaim fejlesztésében (például: PayPal támogatás, hibajelentés, tesztelés, fordítás).</string>
   <string name="restore_db_failure">Az adatbázis visszaállítása sikertelen.</string>

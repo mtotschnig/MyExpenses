@@ -48,6 +48,8 @@
   <string name="current_balance">Güncel bakiye</string>
   <string name="date">Tarih</string>
   <string name="date_time">Tarih / Zaman</string>
+  <string name="date_format">Tarih biçimi</string>
+  <string name="date_format_illegal">Geçersiz tarih biçimi</string>
   <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>    
   <string name="description">Açıklama</string>
   <string name="dialog_confirm_restore_on_install">Bir yedekleme dosyası tespit edildi. Onu yüklemek istiyor musunuz?</string>
@@ -189,6 +191,7 @@
   <string name="not_deletable_mapped_transactions">Silinemez çünkü ilişkili muameleler var.</string>
   <string name="not_deletable_mapped_templates">Silinemez çünkü ilişkili şablonlar var.</string>
   <string name="not_deletable_subcats_exists">Bu kategori silinemez çünkü alt kategorileri var.</string>
+  <string name="numbered">sayılı</string>
   <string name="oi_pick_colors_info">Daha fazla seçenek için OI Color Picker uygulamasını kurunuz</string>
   <string name="opening_balance">Açılış bakiyesi</string>
   <string name="parse_error_file_not_found">%1$s dosyası bulunamadı</string>

@@ -22,6 +22,7 @@
     <item>Referenznummer (Scheckzahlungen)</item>
     <item>Vom Launcher aus direkt in die Kontoliste starten</item>
     <item>Swipe zwischen den Perioden in der Verteilung</item>
+    <item>Datumsformat für QIF/CSV Export konfigurierbar</item>
     <item>UI Verbesserungen</item>
   </string-array>
   <string-array name="whats_new_79">

@@ -25,12 +25,6 @@
     <item>Configurable date format for QIF and CSV export</item>
     <item>UI improvements</item>
   </string-array>
-  <string-array name="whats_new_81">
-    <item>Bug fixes</item>
-  </string-array>
-	<string-array name="whats_new_80">
-		<item>Fixed crash on Eclair and Froyo</item>
-  </string-array>
   <string-array name="whats_new_79">
     <item>Flag transactions as cleared / reconciled (enabled for bank accounts and credit cards)</item>
     <item>Parties can now be edited</item>
