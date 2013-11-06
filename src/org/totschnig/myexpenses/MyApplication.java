@@ -63,6 +63,8 @@ public class MyApplication extends Application {
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
 
     public static final String EXTRA_AMOUNT = "amount";
+
+    public static final boolean debug = false;
     public boolean isContribEnabled,
       showImportantUpgradeInfo = false;
     private long mLastPause = 0;

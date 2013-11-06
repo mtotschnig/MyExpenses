@@ -34,7 +34,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class TransactionProvider extends ContentProvider {
 
   protected static TransactionDatabase mOpenHelper;
-  private static final boolean debug = false;
   public static final String AUTHORITY = "org.totschnig.myexpenses";
   public static final Uri ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts");
@@ -101,7 +100,7 @@ public class TransactionProvider extends ContentProvider {
       String[] selectionArgs, String sortOrder) {
     SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-    if (debug)
+    if (MyApplication.debug)
       Log.d(TAG, "Query for URL: " + uri);
     String defaultOrderBy = null;
     String groupBy = null;
@@ -291,7 +290,7 @@ public class TransactionProvider extends ContentProvider {
     }
 
     SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-    if (debug) {
+    if (MyApplication.debug) {
       String qs = qb.buildQuery(projection, selection, null, groupBy,
           null, orderBy, null);
       Log.d(TAG, "Query : " + qs);
@@ -381,7 +380,7 @@ public class TransactionProvider extends ContentProvider {
 
   @Override
   public int delete(Uri uri, String where, String[] whereArgs) {
-    if (debug)
+    if (MyApplication.debug)
       Log.d(TAG, "Delete for URL: " + uri);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     int count;
