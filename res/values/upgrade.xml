@@ -22,6 +22,7 @@
     <item>Reference number (cheque payments)</item>
     <item>Start with account list from launcher</item>
     <item>Swipe between periods in distribution view</item>
+    <item>Configurable date format for QIF and CSV export</item>
     <item>UI improvements</item>
   </string-array>
   <string-array name="whats_new_81">
