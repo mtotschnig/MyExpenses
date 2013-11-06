@@ -60,6 +60,7 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
   private Account.ExportFormat format;
   private boolean deleteP;
   private boolean notYetExportedP;
+  private String dateFormat;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
     Bundle extras = getIntent().getExtras();
     deleteP = extras.getBoolean("deleteP");
     notYetExportedP = extras.getBoolean("notYetExportedP");
+    dateFormat = extras.getString("dateFormat");
     if (deleteP && notYetExportedP)
       throw new IllegalStateException(
           "Deleting exported transactions is only allowed when all transactions are exported");
@@ -238,7 +240,7 @@ public class Export extends ProtectedFragmentActivityNoSherlock {
         account = Account.getInstanceFromDb(id);
         publishProgress(account.label + " ...");
         try {
-          Result result = account.exportAll(destDir,activity.format,activity.notYetExportedP);
+          Result result = account.exportAll(destDir,activity.format,activity.notYetExportedP,activity.dateFormat);
           File output = null;
           String progressMsg;
           if (result.extra != null) {

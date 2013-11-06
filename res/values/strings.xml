@@ -48,6 +48,8 @@
   <string name="current_balance">Current balance</string>
   <string name="date">Date</string>
   <string name="date_time">Date / Time</string>
+  <string name="date_format">Date format</string>
+  <string name="date_format_illegal">Illegal date format</string>
   <string name="default_account_description">This account was set up automatically during installation</string>
   <string name="description">Description</string>
   <string name="dialog_confirm_restore_on_install">A backup file has been detected. Do you want to restore it?</string>

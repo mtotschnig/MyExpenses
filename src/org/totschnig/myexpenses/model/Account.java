@@ -532,10 +532,11 @@ public class Account extends Model {
    * @param destDir destination directory
    * @param format QIF or CSV
    * @param notYetExportedP if true only transactions not marked as exported will be handled
+   * @param dateFormat format parseable by SimpleDateFormat class
    * @return Result object indicating success, message and output file
    * @throws IOException
    */
-  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
+  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP, String dateFormat) throws IOException {
     SimpleDateFormat now = new SimpleDateFormat("ddMM-HHmm",Locale.US);
     MyApplication ctx = MyApplication.getInstance();
     SharedPreferences settings = ctx.getSettings();
@@ -556,7 +557,7 @@ public class Account extends Model {
     }
     c.moveToFirst();
     Utils.StringBuilderWrapper sb = new Utils.StringBuilderWrapper();
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
+    SimpleDateFormat formatter = new SimpleDateFormat(dateFormat,Locale.US);
     OutputStreamWriter out = new OutputStreamWriter(
         new FileOutputStream(outputFile),
         settings.getString(MyApplication.PREFKEY_QIF_EXPORT_FILE_ENCODING, "UTF-8"));

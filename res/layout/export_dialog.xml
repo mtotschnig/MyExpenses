@@ -19,7 +19,7 @@
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="wrap_content">
-	<RadioGroup android:id="@+id/format"
+  <RadioGroup android:id="@+id/format"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -33,6 +33,22 @@
         android:layout_height="wrap_content"
         android:text="CSV"/>
     </RadioGroup>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+      <TextView android:text="@string/date_format"
+          style="@style/dialog_text"
+          android:paddingLeft="5dp"
+          android:paddingRight="5dp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+      <EditText android:id="@+id/date_format"
+          android:layout_marginRight="5dp"
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          android:layout_height="wrap_content" />
+    </LinearLayout>
     <CheckBox android:id="@+id/export_delete"
         android:checked="true"
         android:layout_width="wrap_content"
@@ -47,8 +63,8 @@
     <TextView
         style="@style/dialog_text_bold_workaround"
         android:layout_margin="@dimen/general_padding"
-	      android:layout_height="wrap_content"
-	      android:layout_width="fill_parent"
-	      android:id="@+id/warning_reset"
-	      android:text="@string/warning_reset_account" />
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:id="@+id/warning_reset"
+        android:text="@string/warning_reset_account" />
 </LinearLayout>

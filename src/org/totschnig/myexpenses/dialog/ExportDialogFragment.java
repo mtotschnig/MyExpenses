@@ -17,6 +17,10 @@ package org.totschnig.myexpenses.dialog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.Export;
@@ -34,9 +38,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -46,6 +53,9 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
   CheckBox notYetExportedCB,deleteCB;
   RadioButton formatRB;
   TextView warningTV;
+  EditText dateFormatET;
+  AlertDialog mDialog;
+  static final String PREFKEY_EXPORT_DATE_FORMAT = "export_date_format";
   
   public static final ExportDialogFragment newInstance(Long accountId) {
     ExportDialogFragment dialogFragment = new ExportDialogFragment();
@@ -67,6 +77,34 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     boolean allP = accountId == null;
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.export_dialog, null);
+    dateFormatET = (EditText) view.findViewById(R.id.date_format);
+    String dateFormatDefault =
+        ((SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT)).toPattern();
+    String dateFormat = MyApplication.getInstance().getSettings()
+        .getString(PREFKEY_EXPORT_DATE_FORMAT, "");
+    if (dateFormat.equals(""))
+      dateFormat = dateFormatDefault;
+    else {
+      try {
+        new SimpleDateFormat(dateFormat,Locale.US);
+      }  catch (IllegalArgumentException e) {
+        dateFormat = dateFormatDefault;
+      }
+    }
+    dateFormatET.setText(dateFormat);
+    dateFormatET.addTextChangedListener(new TextWatcher(){
+      public void afterTextChanged(Editable s) {
+        try {
+          new SimpleDateFormat(s.toString(),Locale.US);
+          mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+        } catch (IllegalArgumentException e) {
+          dateFormatET.setError(getString(R.string.date_format_illegal));
+          mDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        }
+      }
+      public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+      public void onTextChanged(CharSequence s, int start, int before, int count){}
+    });
     notYetExportedCB = (CheckBox) view.findViewById(R.id.export_not_yet_exported);
     deleteCB = (CheckBox) view.findViewById(R.id.export_delete);
     warningTV = (TextView) view.findViewById(R.id.warning_reset);
@@ -98,7 +136,8 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
      builder.setIcon(android.R.drawable.ic_dialog_alert);
    else
      builder.setIconAttribute(android.R.attr.alertDialogIcon);
-      return builder.create();
+   mDialog = builder.create();
+   return mDialog;
   }
 
   @Override
@@ -110,8 +149,11 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     AlertDialog dlg = (AlertDialog) dialog;
     String format = ((RadioGroup) dlg.findViewById(R.id.format)).getCheckedRadioButtonId() == R.id.csv ?
         "CSV" : "QIF";
+    String dateFormat = ((EditText) dlg.findViewById(R.id.date_format)).getText().toString();
     MyApplication.getInstance().getSettings().edit()
-      .putString(MyApplication.PREFKEY_EXPORT_FORMAT, format).commit();
+      .putString(MyApplication.PREFKEY_EXPORT_FORMAT, format)
+      .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
+      .commit();
     boolean deleteP = ((CheckBox) dlg.findViewById(R.id.export_delete)).isChecked();
     boolean notYetExportedP =  ((CheckBox) dlg.findViewById(R.id.export_not_yet_exported)).isChecked();
     if (Utils.isExternalStorageAvailable()) {
@@ -121,7 +163,8 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
         .putExtra(KEY_ROWID, accountId)
         .putExtra("format", format)
         .putExtra("deleteP", deleteP)
-        .putExtra("notYetExportedP",notYetExportedP);
+        .putExtra("notYetExportedP",notYetExportedP)
+        .putExtra("dateFormat",dateFormat);
       ctx.startActivityForResult(i,0);
     } else {
       Toast.makeText(ctx,
