@@ -39,19 +39,20 @@ public class Backup extends ProtectedFragmentActivityNoSherlock {
           int message = backupDb.exists() ? R.string.warning_backup_exists : R.string.warning_backup;
           MessageDialogFragment.newInstance(R.string.menu_backup,message,R.id.BACKUP_COMMAND,null)
             .show(getSupportFragmentManager(),"BACKUP");
-        }
-        else {
+        } else {
           //restore
           if (MyApplication.backupExists()) {
             showRestoreDialog();
           } else {
             Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
+            setResult(RESULT_CANCELED);
             finish();
           }
         }
       }
       else {
         Toast.makeText(getBaseContext(),getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
+        setResult(RESULT_CANCELED);
         finish();
       }
     }
@@ -80,18 +81,19 @@ public class Backup extends ProtectedFragmentActivityNoSherlock {
     case R.id.RESTORE_COMMAND:
       if (MyApplication.backupExists()) {
         MyApplication.backupRestore();
-        Intent i = getBaseContext().getPackageManager()
-            .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
+        setResult(RESULT_FIRST_USER);
+        finish();
       } else {
         Toast.makeText(getBaseContext(),getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG).show();
+        setResult(RESULT_CANCELED);
+        finish();
       }      
   }
   return true;
   }
   @Override
   public void cancelDialog() {
+    setResult(RESULT_CANCELED);
     finish();
   }
 }

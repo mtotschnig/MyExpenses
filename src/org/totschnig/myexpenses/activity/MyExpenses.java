@@ -85,9 +85,6 @@ public class MyExpenses extends LaunchActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, OnNavigationListener,
     SelectFromCursorDialogListener, ContribIFace, TaskExecutionFragment.TaskCallbacks  {
-  public static final int ACTIVITY_EDIT=1;
-  public static final int ACTIVITY_EDIT_ACCOUNT=4;
-  public static final int ACTIVITY_EXPORT=5;
 
   public static final int TYPE_TRANSACTION = 0;
   public static final int TYPE_TRANSFER = 1;

@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.activity;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.Transaction;
@@ -10,6 +11,7 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
@@ -58,5 +60,34 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       VersionDialogFragment.newInstance(prev_version)
         .show(getSupportFragmentManager(),"VERSION_INFO");
     }
+  }
+  /* (non-Javadoc)
+   * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
+   * The Preferences activity can be launched from activities of this subclass and we handle here 
+   * the need to restart if the restore command has been called
+   */
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, 
+      Intent intent) {
+    super.onActivityResult(requestCode, resultCode, intent);
+    //configButtons();
+    if (requestCode == ACTIVITY_PREFERENCES && resultCode == RESULT_FIRST_USER) {
+      Intent i = new Intent(this, ManageAccounts.class);
+      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      finish();
+      startActivity(i);
+    }
+  }
+  @Override
+  public boolean dispatchCommand(int command, Object tag) {
+    Intent i;
+    switch(command) {
+    case R.id.SETTINGS_COMMAND:
+      i = new Intent(this, MyPreferenceActivity.class);
+      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      startActivityForResult(i,ACTIVITY_PREFERENCES);
+      return true;
+    }
+    return super.dispatchCommand(command, tag);
   }
 }

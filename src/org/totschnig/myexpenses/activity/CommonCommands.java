@@ -62,11 +62,6 @@ public class CommonCommands {
       i.setData(Uri.parse("http://" + MyApplication.HOST));
       ctx.startActivity(i);
       return true;
-    case R.id.SETTINGS_COMMAND:
-      i = new Intent(ctx, MyPreferenceActivity.class);
-      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      ctx.startActivityForResult(i,0);
-      return true;
     case R.id.HELP_COMMAND:
       i = new Intent(ctx,Help.class);
       i.putExtra("variant",((ProtectedFragmentActivity)ctx).helpVariant);

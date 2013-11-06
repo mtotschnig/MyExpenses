@@ -37,6 +37,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ import android.widget.Toast;
 public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     OnPreferenceChangeListener, OnSharedPreferenceChangeListener,OnPreferenceClickListener {
   
+  private static final int ACTIVITY_RESTORE = 1;
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
@@ -68,6 +70,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     findPreference(MyApplication.PREFKEY_REQUEST_LICENCE).setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_SEND_FEEDBACK).setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_MORE_INFO_DIALOG).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_RESTORE).setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_ENTER_LICENCE)
       .setOnPreferenceChangeListener(this);
     setProtectionDependentsState();
@@ -179,7 +182,20 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_MORE_INFO_DIALOG)) {
       showDialog(R.id.MORE_INFO_DIALOG);
+      return true;
+    }
+    if (preference.getKey().equals(MyApplication.PREFKEY_RESTORE)) {
+      startActivityForResult(preference.getIntent(), ACTIVITY_RESTORE);
+      return true;
     }
     return false;
+  }
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, 
+      Intent intent) {
+    if (requestCode == ACTIVITY_RESTORE && resultCode == RESULT_FIRST_USER) {
+      setResult(resultCode);
+      finish();
+    }
   }
 }

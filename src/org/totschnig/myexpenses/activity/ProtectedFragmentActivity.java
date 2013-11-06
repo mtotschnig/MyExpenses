@@ -38,6 +38,10 @@ import android.support.v4.app.FragmentTransaction;
 public class ProtectedFragmentActivity extends SherlockFragmentActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
     TaskExecutionFragment.TaskCallbacks{
+  public static final int ACTIVITY_EDIT=1;
+  public static final int ACTIVITY_EDIT_ACCOUNT=2;
+  public static final int ACTIVITY_EXPORT=3;
+  public static final int ACTIVITY_PREFERENCES=4;
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
