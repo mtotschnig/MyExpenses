@@ -20,7 +20,7 @@ langs:
   ca: Català
   ar: العربية
   hu: Magyar
-missing_langs: "Pусский, Português, Slovenčina, Nederlands, Ελληνικά, Čeština, Română, 中文"
+missing_langs: "русский, português, Nederlands, Ελληνικά, čeština, 中文, română, svenska, Slovenčina, polski"
 gplus:
   -
     - "LAZ7iqa9Wvw"
