@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Account.ExportFormat;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -527,6 +528,18 @@ public class Account extends Model {
     cr().delete(TransactionProvider.TEMPLATES_URI, KEY_ACCOUNTID + " = ?", selectArgs);
     cr().delete(TransactionProvider.TEMPLATES_URI, KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
   }
+
+  /**
+   * calls {@link #exportAll(File, ExportFormat, boolean, String)} with date format "dd/MM/yyyy"
+   * @param destDir
+   * @param format
+   * @param notYetExportedP
+   * @return Result object
+   * @throws IOException
+   */
+  public Result exportAll(File destDir, ExportFormat format, boolean notYetExportedP) throws IOException {
+    return exportAll(destDir, format, notYetExportedP, "dd/MM/yyyy");
+  }
   /**
    * writes transactions to export file
    * @param destDir destination directory
@@ -825,4 +838,3 @@ public class Account extends Model {
     return true;
   }
 }
-
