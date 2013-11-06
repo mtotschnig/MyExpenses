@@ -392,6 +392,7 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     case android.R.id.home:
       i = new Intent(this, ManageAccounts.class);
+      finish();
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
       startActivity(i);
       return true;
