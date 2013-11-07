@@ -26,6 +26,7 @@
     <item name="colorIncome">#00D000</item>
     <item name="colorExpense">#FF0000</item>
     <item name="pageMargin">@android:color/white</item>
+    <item name="calcIcon">@drawable/ic_action_calc_light</item>
   </style>
   <style name="ThemeLight" parent="BaseLight">
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
@@ -33,6 +34,7 @@
     <item name="colorIncome">#008000</item>
     <item name="colorExpense">#800000</item>
     <item name="pageMargin">@android:color/black</item>
+    <item name="calcIcon">@drawable/ic_action_calc_dark</item>
   </style>
   <style name="AboutDialog" parent="@android:style/Theme.Dialog">
     <item name="android:textColor">?android:attr/textColorPrimaryInverseDisableOnly</item>
