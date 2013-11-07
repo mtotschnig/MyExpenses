@@ -18,7 +18,7 @@
   <!ENTITY app_name "Mes dépenses">
 ]>
 <resources>
-  <string-array name="whats_new_82">
+  <string-array name="whats_new_84">
     <item>Numéro de référence (paiement par chèque) </item>
     <item>Démarrage avec la liste de comptes</item>
     <item>Glisser entre les périodes dans la fenêtre de distribution</item>

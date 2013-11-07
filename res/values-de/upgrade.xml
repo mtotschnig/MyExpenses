@@ -18,7 +18,7 @@
   <!ENTITY app_name "Meine Ausgaben">
 ]>
 <resources>
-	  <string-array name="whats_new_82">
+	  <string-array name="whats_new_84">
     <item>Referenznummer (Scheckzahlungen)</item>
     <item>Vom Launcher aus direkt in die Kontoliste starten</item>
     <item>Swipe zwischen den Perioden in der Verteilung</item>
