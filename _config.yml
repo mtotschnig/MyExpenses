@@ -42,11 +42,23 @@ gplus:
     - "Split transactions (1.8.5)"
 versions:
   -
-    - 1.9.6.1
-    - 2013-10-18
+    - 1.9.7
+    - 2013-11-07
     -
       en: |
-        Fixed crash on Eclair and Froyo
+        Reference number (cheque payments). Start with account list from launcher. Swipe between periods in distribution view. Configurable date format for QIF and CSV export. UI improvements.
+      fr: |
+        Numéro de référence (paiement par chèque) . Démarrage avec la liste de comptes. Glisser entre les périodes dans la fenêtre de distribution. Format de date configurable pour l'exportation QIF et CSV. Améliorations d'UI.
+      de: |
+        Referenznummer (Scheckzahlungen). Vom Launcher aus direkt in die Kontoliste starten. Swipe zwischen den Perioden in der Verteilung. Datumsformat für QIF/CSV Export konfigurierbar. UI Verbesserungen.
+      it: |
+        Numero di riferimento (pagamenti tramite assegno) . Inizio con la lista di conti. Swipe tra i periodi in vista della distribuzione. Configurazione del formato della data per l'esportazione QIF e CSV. Miglioramenti dell'UI.
+      es: |
+        Número de referencia (cheques). Comience con lista de cuentas de lanzamiento. Swipe entre los períodos de vista de distribución. Formato de fecha configurable para QIF y CSV exportación. Mejoras de interfaz de usuario.
+      tr: |
+        Referans sayısı (çek ile ödemeler). Hesap listesi ile başlangıç. Periyotlar arası kaydırarak geçiş. QIF ve CSV dışa aktarımı için ayarlanabilir tarih biçimi. Gelişmiş kullanıcı arayüzü.
+      hu: |
+        Referencia szám (csekkes fizetéseknél). Helyből a számlák látszanak. Ujjmozdulattal lapozható időszakok a kiadásoknál. Beállítható dátumformátum a QIF és CSV exportoknál. Felhasználói felület javítások.
   -
     - 1.9.6
     - 2013-10-18
