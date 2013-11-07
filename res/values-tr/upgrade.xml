@@ -18,7 +18,7 @@
   <!ENTITY app_name "Harcamalarım">
 ]>
 <resources>
-  <string-array name="whats_new_82">
+  <string-array name="whats_new_84">
     <item>Referans sayısı (çek ile ödemeler)</item>
     <item>Hesap listesi ile başlangıç</item>
     <item>Periyotlar arası kaydırarak geçiş</item>

@@ -18,7 +18,7 @@
   <!ENTITY app_name "Mis gastos">
 ]>
 <resources>
-  <string-array name="whats_new_82">
+  <string-array name="whats_new_84">
     <item>Número de referencia (cheques)</item>
     <item>Comience con lista de cuentas de lanzamiento</item>
     <item>Swipe entre los períodos de vista de distribución</item>

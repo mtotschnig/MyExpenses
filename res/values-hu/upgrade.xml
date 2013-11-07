@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-  <string-array name="whats_new_82">
+  <string-array name="whats_new_84">
     <item>Referencia szám (csekkes fizetéseknél)</item>
     <item>Helyből a számlák látszanak</item>
     <item>Ujjmozdulattal lapozható időszakok a kiadásoknál</item>

@@ -18,7 +18,7 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_82">
+  <string-array name="whats_new_84">
     <item>Reference number (cheque payments)</item>
     <item>Start with account list from launcher</item>
     <item>Swipe between periods in distribution view</item>
