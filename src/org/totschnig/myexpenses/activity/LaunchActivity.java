@@ -4,8 +4,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -23,13 +23,12 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
    * check if this is the first invocation of a new version
    * in which case help dialog is presented
    * also is used for hooking version specific upgrade procedures
+   * and display information to be presented upon app launch
    */
   public void newVersionCheck() {
     Editor edit = mSettings.edit();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     int current_version = CommonCommands.getVersionNumber(this);
-    if (prev_version == current_version)
-      return;
     if (prev_version == -1) {
       //edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       SharedPreferencesCompat.apply(edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version));
@@ -59,6 +58,13 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       }
       VersionDialogFragment.newInstance(prev_version)
         .show(getSupportFragmentManager(),"VERSION_INFO");
+    }
+    if (MyApplication.getInstance().showContribRetryLimitReachedInfo) {
+      MessageDialogFragment.newInstance(R.string.app_name_contrib,
+          "The license of your purchase could not be verified. Please check your network connection.",
+          R.id.CONTRIB_APP_COMMAND,null,R.string.app_contrib_launch)
+        .show(getSupportFragmentManager(),"MESSAGE");
+      MyApplication.getInstance().showContribRetryLimitReachedInfo = false;
     }
   }
   /* (non-Javadoc)

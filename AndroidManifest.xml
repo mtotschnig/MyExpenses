@@ -26,7 +26,11 @@
       android:normalScreens="true"
       android:largeScreens="true"
       android:xlargeScreens="true" />
+    <permission
+      android:name="org.totschnig.myexpenses.UNLOCK_PREMIUM"
+      android:protectionLevel="signature" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="org.totschnig.myexpenses.UNLOCK_PREMIUM" />
     <application
       android:name="org.totschnig.myexpenses.MyApplication"
       android:icon="@drawable/icon"
@@ -100,9 +104,15 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <service android:name=".service.MyService"
+            android:permission="org.totschnig.myexpenses.UNLOCK_PREMIUM">
+	        <intent-filter>
+	          <action android:name="org.totschnig.myexpenses.service.MyService" />
+	        </intent-filter>
+        </service>
         <provider
            android:exported="false"
            android:name=".provider.TransactionProvider"
            android:authorities="org.totschnig.myexpenses" />
     </application>
-</manifest> 
+</manifest>

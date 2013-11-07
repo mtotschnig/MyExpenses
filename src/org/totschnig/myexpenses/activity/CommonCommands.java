@@ -54,6 +54,11 @@ public class CommonCommands {
     case R.id.CONTRIB_COMMAND:
       CommonCommands.showContribInfoDialog((FragmentActivity) ctx,false);
       return true;
+    case R.id.CONTRIB_APP_COMMAND:
+      i = ctx.getPackageManager().getLaunchIntentForPackage("org.totschnig.myexpenses.contrib");
+      if (i != null)
+        ctx.startActivity(i);
+      return true;
     case R.id.CONTRIB_PLAY_COMMAND:
       Utils.viewContribApp(ctx);
       return true;
