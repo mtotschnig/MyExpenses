@@ -34,6 +34,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 public abstract class AmountActivity extends EditActivity {
   private static final int CALCULATOR_REQUEST = 0;
@@ -91,7 +92,7 @@ public abstract class AmountActivity extends EditActivity {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
           if (event.getX() > v.getWidth() - v.getPaddingRight() - mAmountText.getCompoundDrawables()[2].getIntrinsicWidth()) {
             Intent intent = new Intent(AmountActivity.this,CalculatorInput.class);
-            intent.putExtra(MyApplication.EXTRA_AMOUNT,mAmountText.getText().toString());
+            intent.putExtra(KEY_AMOUNT,mAmountText.getText().toString());
             startActivityForResult(intent, CALCULATOR_REQUEST);
             return false;
           }
@@ -106,7 +107,7 @@ public abstract class AmountActivity extends EditActivity {
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST) {
-      mAmountText.setText(nfDLocal.format(new BigDecimal(intent.getStringExtra(MyApplication.EXTRA_AMOUNT))));
+      mAmountText.setText(nfDLocal.format(new BigDecimal(intent.getStringExtra(KEY_AMOUNT))));
     }
   }
   @Override

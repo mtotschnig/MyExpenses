@@ -22,8 +22,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 import java.math.BigDecimal;
 import java.util.Stack;
@@ -83,7 +83,7 @@ public class CalculatorInput extends ProtectedFragmentActivityNoSherlock impleme
 
         Intent intent = getIntent();
         if (intent != null) {
-          String amount = intent.getStringExtra(MyApplication.EXTRA_AMOUNT);
+          String amount = intent.getStringExtra(KEY_AMOUNT);
             if (amount != null) {
                 setDisplay(amount);
             }
@@ -255,7 +255,7 @@ public class CalculatorInput extends ProtectedFragmentActivityNoSherlock impleme
 
     private void close() {
         Intent data = new Intent();
-        data.putExtra(MyApplication.EXTRA_AMOUNT, result);
+        data.putExtra(KEY_AMOUNT, result);
         setResult(RESULT_OK, data);
         finish();
     }
