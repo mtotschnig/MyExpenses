@@ -8,7 +8,7 @@
   <string name="testData_account3Label">Bankszámla</string>
   <string name="testData_account3Description">OTP Bank</string>
   <string name="testData_transaction1SubCat">Metro</string>
-  <string name="testData_transaction1MainCat">Szállítás</string>
+  <string name="testData_transaction1MainCat">Közlekedés</string>
   <string name="testData_transaction2SubCat">Élelmiszer</string>
   <string name="testData_transaction2MainCat">Étel</string>
   <string name="testData_transaction2Comment">Zöldség, gyümölcs</string>
