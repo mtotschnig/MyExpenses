@@ -831,6 +831,12 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       break;
     case ACCOUNTS_CURSOR:
       mAccountsAdapter.swapCursor(data);
+      for (int position = 0; position < mAccountsAdapter.getCount(); position++) {
+        if(mAccountsAdapter.getItemId(position) == mTransaction.transfer_account) {
+          mAccountSpinner.setSelection(position);
+          break;
+        }
+      }
       break;
     }
   }
