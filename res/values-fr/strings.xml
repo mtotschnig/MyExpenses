@@ -19,6 +19,7 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY contrib ' (<b>Premium</b>)'>
   <!ENTITY continue 'Voulez-vous continuer?'>
+  <!ENTITY market 'Google Play'>
 ]>
 <resources>
   <string name="account">Compte</string>
@@ -67,7 +68,7 @@
   <string name="dialog_password_change_password">Changer le mot de passe</string>
   <string name="dialog_password_new_password">Nouveau mot de passe</string>
   <string name="dialog_password_new_password_confirmation">Nouveau mot de passe (confirmation)</string>
-  <string name="dialog_remind_rate">S\'il vous plaît, publiez votre avis au sujet de &app_name; sur Google Play. Vos commentaires me permettent d\'ajouter sans cesse des améliorations.</string>
+  <string name="dialog_remind_rate">S\'il vous plaît, publiez votre avis au sujet de &app_name; sur &market;. Vos commentaires me permettent d\'ajouter sans cesse des améliorations.</string>
   <string name="dialog_remind_rate_yes">D\'accord</string>
   <string name="dialog_remind_later">Plus tard</string>
   <string name="dialog_remind_no">Non merci</string>
@@ -83,8 +84,8 @@
   <string name="dialog_title_warning_delete_account">Effacer le compte?</string>
   <string name="dialog_title_welcome">Bienvenue!</string>
   <string name="donate">Don</string>
-  <string name="donate_dialog_text">S\'il ne vous est pas possible d\'accéder à Google Play, vous pouvez faire un don au moyen de PayPal ou Flattr, et ensuite demander une clé Contrib à partir des paramètres.</string>
-  <string name="error_accessing_gplay">Erreur lors de l\'accès à Google Play</string>
+  <string name="donate_dialog_text">S\'il ne vous est pas possible d\'accéder à &market;, vous pouvez faire un don au moyen de PayPal ou Flattr, et ensuite demander une clé Contrib à partir des paramètres.</string>
+  <string name="error_accessing_gplay">Erreur lors de l\'accès à &market;</string>
   <string name="expense">dépense</string>
   <string name="export_expenses_outputfile_exists">Le fichier d\'export existe déjà. Attendez une minute avant de réessayer.</string>
   <string name="export_expenses">Export des dépenses</string>
@@ -177,7 +178,7 @@
   <string name="no_accounts">Aucun compte!</string>
   <string name="no_amount_given">Vous n\'avez pas saisi de montant.</string>
   <string name="no_app_handling_email_available">Aucune application disponible pour envoyer un e-mail.</string>
-  <string name="no_app_handling_ftp_available">Aucune application disponible pour ftp. Installer <i>Envoi par FTP</i> à partir de Google Play?</string>
+  <string name="no_app_handling_ftp_available">Aucune application disponible pour ftp. Installer <i>Envoi par FTP</i> à partir de &market;?</string>
   <string name="no_categories">Aucune catégorie.</string>
   <string name="no_category_assigned">Sans catégorie</string>
   <string name="no_details">Aucun détail.</string>

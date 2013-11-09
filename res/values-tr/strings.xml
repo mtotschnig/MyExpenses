@@ -19,6 +19,7 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY contrib ' (<b>Premium</b>)'>
   <!ENTITY continue 'Devam etmek istiyor musunuz?'>
+  <!ENTITY market 'Google Play'>
 ]>
 <resources>
   <string name="account">Hesap</string>
@@ -63,7 +64,7 @@
   <string name="dialog_contrib_text">&lt;i&gt;&app_name;&lt;/i&gt; ücretsiz ve özgür yazılım olarak sunulmuştur. Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:</string>
   <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
   <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
-  <string name="dialog_remind_rate">Lütfen &app_name; Google Play\'de değerlendirip not vermek için birkaç dakika ayırınız.  Yorumlarınız devamlı bir şekilde yeni işlevler ve geliştirmeler eklememe yardımcı olmaktadır.</string>
+  <string name="dialog_remind_rate">Lütfen &app_name; &market;\'de değerlendirip not vermek için birkaç dakika ayırınız.  Yorumlarınız devamlı bir şekilde yeni işlevler ve geliştirmeler eklememe yardımcı olmaktadır.</string>
   <string name="dialog_remind_rate_yes">Şimdi not ver</string>
   <string name="dialog_remind_later">Daha sonra</string>
   <string name="dialog_remind_no">Hayır teşekkürler</string>
@@ -83,8 +84,8 @@
   <string name="dialog_title_warning_delete_account">Hesap silinsin mi?</string>
   <string name="dialog_title_welcome">Hoşgeldiniz!</string>
   <string name="donate">Bağış</string>
-  <string name="donate_dialog_text">Eğer Google Play\'e erişemiyorsanız Paypal ya da Flattr ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
-  <string name="error_accessing_gplay">Google Play erişimi sırasında hata oluştu</string>
+  <string name="donate_dialog_text">Eğer &market;\'e erişemiyorsanız Paypal ya da Flattr ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
+  <string name="error_accessing_gplay">&market; erişimi sırasında hata oluştu</string>
   <string name="expense">gider</string>
   <string name="export_expenses_outputfile_exists">Çıktı dosyası zaten mevcut. Lütfen bir dakika bekleyip tekrar deneyin.</string>
   <string name="export_expenses">Giderleri dışa aktar</string>
@@ -177,7 +178,7 @@
   <string name="no_accounts">Hesap yok!</string>
   <string name="no_amount_given">Hiçbir meblağ girmediniz.</string>
   <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
-  <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> Google Play\'den indirilsin mi?</string>
+  <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> &market;\'den indirilsin mi?</string>
   <string name="no_categories">Kategori yok.</string>
   <string name="no_category_assigned">Hiçbir kategori atanmamış</string>
   <string name="no_details">Ayrıntı yok.</string>

@@ -19,6 +19,7 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY contrib ' (<b>Premium</b>)'>
   <!ENTITY continue '¿Quiere continuar?'>
+  <!ENTITY market 'Google Play'>
 ]>
 <resources>
   <string name="account">Cuenta</string>
@@ -67,7 +68,7 @@
   <string name="dialog_password_change_password">Cambiar contraseña</string>
   <string name="dialog_password_new_password">Nueva contraseña</string>
   <string name="dialog_password_new_password_confirmation">Nueva contraseña (confirmación)</string>
-  <string name="dialog_remind_rate">Por favor, tome un momento para valorar y comentar &app_name; en Google Play. Sus comentarios me permiten añadir continuamente mejoras.</string>
+  <string name="dialog_remind_rate">Por favor, tome un momento para valorar y comentar &app_name; en &market;. Sus comentarios me permiten añadir continuamente mejoras.</string>
   <string name="dialog_remind_rate_yes">Valora hoy</string>
   <string name="dialog_remind_later">Más tarde</string>
   <string name="dialog_remind_no">No, gracias</string>
@@ -83,8 +84,8 @@
   <string name="dialog_title_warning_delete_account">Borrar la cuenta?</string>
   <string name="dialog_title_welcome">¡Bienvenido!</string>
   <string name="donate">Done</string>
-  <string name="donate_dialog_text">Si usted no tiene acceso a Google Play, puede donar a través de PayPal o Flattr, y luego solicitar una clave Contrib desde la pantalla de configuraciones.</string>
-  <string name="error_accessing_gplay">Error al acceder a Google Play</string>
+  <string name="donate_dialog_text">Si usted no tiene acceso a &market;, puede donar a través de PayPal o Flattr, y luego solicitar una clave Contrib desde la pantalla de configuraciones.</string>
+  <string name="error_accessing_gplay">Error al acceder a &market;</string>
   <string name="expense">Gasto</string>
   <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere un minuto antes de intentarlo de nuevo.</string>
   <string name="export_expenses">Exportación de los gastos</string>
@@ -177,7 +178,7 @@
   <string name="no_accounts">Ningunas cuentas</string>
   <string name="no_amount_given">No ha insertado usted importe alguno.</string>
   <string name="no_app_handling_email_available">No se ha encontrado aplicación para enviar correo electrónico.</string>
-  <string name="no_app_handling_ftp_available">No se ha encontrado aplicación para ftp. Instalar <i>Enviar con FTP</i> desde Google Play?</string>
+  <string name="no_app_handling_ftp_available">No se ha encontrado aplicación para ftp. Instalar <i>Enviar con FTP</i> desde &market;?</string>
   <string name="no_categories">Todavía no hay categorías.</string>
   <string name="no_category_assigned">Ninguna categoría asignada</string>
   <string name="no_details">No hay detalles.</string>

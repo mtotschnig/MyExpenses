@@ -14,6 +14,9 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
+ <!DOCTYPE resources [
+  <!ENTITY market 'Google Play'>
+]>
 <resources>
   <string name="account">Tài khoản</string>
   <string name="account_type_cash">Tài khoản tiền mặt</string>
@@ -61,7 +64,7 @@
   <string name="dialog_password_change_password">Thay đổi mật khẩu</string>
   <string name="dialog_password_new_password">Mật khẩu mới</string>
   <string name="dialog_password_new_password_confirmation">Mật khẩu mới (xác nhận)</string>
-  <string name="dialog_remind_rate">Xin dành chút thời gian để xếp hạng và xem các nhận xét về Chi Tiêu Của Tôi trên Google Play. Các bình luận của bạn sẽ giúp chúng tôi cải thiện chất lượng dịch vụ về sản phẩm tốt hơn.</string>
+  <string name="dialog_remind_rate">Xin dành chút thời gian để xếp hạng và xem các nhận xét về Chi Tiêu Của Tôi trên &market;. Các bình luận của bạn sẽ giúp chúng tôi cải thiện chất lượng dịch vụ về sản phẩm tốt hơn.</string>
   <string name="dialog_remind_rate_yes">Xếp hạng ngay</string>
   <string name="dialog_remind_later">Để sau</string>
   <string name="dialog_remind_no">Không cảm ơn</string>
@@ -77,8 +80,8 @@
   <string name="dialog_title_warning_delete_account">Xóa tài khoản?</string>
   <string name="dialog_title_welcome">Chào mừng!</string>
   <string name="donate">Ủng hộ</string>
-  <string name="donate_dialog_text">Nếu bạn không thể truy cập Google Play, bạn có thể ủng hộ chúng tôi thông qua PayPal hoặc Flattr, và sau đó gửi một yêu cầu về khóa cống hiến từ màn hình thiết lập.</string>
-  <string name="error_accessing_gplay">Lỗi khi truy cập Google Play</string>
+  <string name="donate_dialog_text">Nếu bạn không thể truy cập &market;, bạn có thể ủng hộ chúng tôi thông qua PayPal hoặc Flattr, và sau đó gửi một yêu cầu về khóa cống hiến từ màn hình thiết lập.</string>
+  <string name="error_accessing_gplay">Lỗi khi truy cập &market;</string>
   <string name="expense">Chi tiêu</string>
   <string name="export_expenses_outputfile_exists">Tập tin xuất dữ liệu đã tồn tại trước đó. Xin vui lòng đợi một phút, và thử lại lần nữa</string>
   <string name="export_expenses">Xuất dữ liệu chi tiêu</string>
@@ -171,7 +174,7 @@
   <string name="no_accounts">Hiện không có tài khoản nào!</string>
   <string name="no_amount_given">Bạn vẫn chưa điền vào số lượng</string>
   <string name="no_app_handling_email_available">Không có ứng dụng nào hiện có để xử lý email</string>
-  <string name="no_app_handling_ftp_available">Hiện không có ứng dụng xử lý ftp. Cài đặt <i>Send With FTP</i> từ Google Play?</string>
+  <string name="no_app_handling_ftp_available">Hiện không có ứng dụng xử lý ftp. Cài đặt <i>Send With FTP</i> từ &market;?</string>
   <string name="no_categories">Không có phân loại nào.</string>
   <string name="no_category_assigned">Vẫn chưa gán phân loại nào</string>
   <string name="no_details">Không có thông tin chi tiết nào</string>

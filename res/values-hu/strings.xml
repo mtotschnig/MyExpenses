@@ -14,6 +14,9 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
+<!DOCTYPE resources [
+  <!ENTITY market 'Google Play'>
+]>
 <resources>
   <string name="account">Számla</string>
   <string name="account_type_cash">Készpénz számla</string>
@@ -63,7 +66,7 @@
   <string name="dialog_password_change_password">Jelszó megváltoztatása</string>
   <string name="dialog_password_new_password">Új jelszó</string>
   <string name="dialog_password_new_password_confirmation">Új jelszó (megerősítés)</string>
-  <string name="dialog_remind_rate">Kérjük szánjon egy percet arra, hogy értékeli és visszajelez a Kiadásaim programról a Google Play felületen. Észrevételeivel újabb szolgáltatásokat és fejlesztéseket végezhetünk.</string>
+  <string name="dialog_remind_rate">Kérjük szánjon egy percet arra, hogy értékeli és visszajelez a Kiadásaim programról a &market; felületen. Észrevételeivel újabb szolgáltatásokat és fejlesztéseket végezhetünk.</string>
   <string name="dialog_remind_rate_yes">Értékelje most</string>
   <string name="dialog_remind_later">Későb</string>
   <string name="dialog_remind_no">Nem, köszönöm</string>
@@ -79,8 +82,8 @@
   <string name="dialog_title_warning_delete_account">Számla törlése?</string>
   <string name="dialog_title_welcome">Üdvözlet!</string>
   <string name="donate">Támogatás</string>
-  <string name="donate_dialog_text">Amennyiben nem éri el a Google Play felületét, támogatását PayPal vagy Flattr-en keresztül is megteheti, majd kérjen Contrib kulcsot a beállítások képernyőn megtalálható módon.</string>
-  <string name="error_accessing_gplay">Hiba történt a Google Play elérése közben</string>
+  <string name="donate_dialog_text">Amennyiben nem éri el a &market; felületét, támogatását PayPal vagy Flattr-en keresztül is megteheti, majd kérjen Contrib kulcsot a beállítások képernyőn megtalálható módon.</string>
+  <string name="error_accessing_gplay">Hiba történt a &market; elérése közben</string>
   <string name="expense">Kiadás</string>
   <string name="export_expenses_outputfile_exists">A kimeneti fájl már létezik. Kérem várjon egy percet és próbálja meg újra.</string>
   <string name="export_expenses">Kiadások exportálása</string>
@@ -173,7 +176,7 @@
   <string name="no_accounts">Nincs számla!</string>
   <string name="no_amount_given">Nem adott meg értéket.</string>
   <string name="no_app_handling_email_available">Nincs elérhető email kezelő alkalmazás.</string>
-  <string name="no_app_handling_ftp_available">Nincs elérhető FTP kliens alkalmazás. Telepíti a <i>Send With FTP</i> programot a Google Play áruházból?</string>
+  <string name="no_app_handling_ftp_available">Nincs elérhető FTP kliens alkalmazás. Telepíti a <i>Send With FTP</i> programot a &market; áruházból?</string>
   <string name="no_categories">Nincsenek kategóriák.</string>
   <string name="no_category_assigned">Nincs kategória hozzárendelve</string>
   <string name="no_details">Nincsenek részletek.</string>

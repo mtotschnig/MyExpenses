@@ -1,5 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<!-- 
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<!DOCTYPE resources [
+  <!ENTITY market 'لقوقل بلاي'>
+]><resources>
   <string name="account">الحساب</string>
   <string name="account_type_cash">حساب النقد</string>
   <string name="account_type_bank">حساب البنك</string>
@@ -45,7 +62,7 @@
   <string name="dialog_password_change_password">تغيير كلمة المرور</string>
   <string name="dialog_password_new_password">كلمة مرور الجديدة</string>
   <string name="dialog_password_new_password_confirmation">كلمة المرور الجديدة (للتأكيد)</string>
-  <string name="dialog_remind_rate">فضلا قم بتقييم مصروفاتي في Google Play. تعليقاتكم تمنحني الاستمرار في تحسين البرنامج.</string>
+  <string name="dialog_remind_rate">فضلا قم بتقييم مصروفاتي في &market;. تعليقاتكم تمنحني الاستمرار في تحسين البرنامج.</string>
   <string name="dialog_remind_rate_yes">تقييم الآن</string>
   <string name="dialog_remind_later">لاحقاً</string>
   <string name="dialog_remind_no">لا شكراً</string>
@@ -61,8 +78,8 @@
   <string name="dialog_title_warning_delete_account">حذف الحساب؟</string>
   <string name="dialog_title_welcome">مرحبا!</string>
   <string name="donate">تبرع</string>
-  <string name="donate_dialog_text">إذا لم تكن قادر على الوصول لـ Google Play، يمكنك المساهمة عن طريق PayPal أو Flatter, ثم تقوم بطلب مفتاح المساهمة من الاعدادات.</string>
-  <string name="error_accessing_gplay">خطأ في محاولة الوصول لقوقل بلاي</string>
+  <string name="donate_dialog_text">إذا لم تكن قادر على الوصول لـ &market;، يمكنك المساهمة عن طريق PayPal أو Flatter, ثم تقوم بطلب مفتاح المساهمة من الاعدادات.</string>
+  <string name="error_accessing_gplay">خطأ في محاولة الوصول &market;</string>
   <string name="expense">الصرف</string>
   <string name="export_expenses_outputfile_exists">ملف الاخراج موجود مسبقا. الرجاء حاول مرة أخرى بعد دقيقة.</string>
   <string name="export_expenses">تصدير المصروفات</string>
@@ -152,7 +169,7 @@
   <string name="no_accounts">لا يوجد حسابات!</string>
   <string name="no_amount_given">لم تقم بإدخال قيمة.</string>
   <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
-  <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i> من قوقل بلاي؟</string>
+  <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i> من &market;؟</string>
   <string name="no_categories">لا يوجد تصنيفات.</string>
   <string name="no_category_assigned">لم يتم تعيين تصنيف</string>
   <string name="no_details">لا يوجد تفاصيل.</string>
