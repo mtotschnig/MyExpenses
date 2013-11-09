@@ -405,7 +405,6 @@ public class CategoryList extends BudgetListFragment implements
       thisWeek = c.getInt(c.getColumnIndex("this_week"));
       thisDay = c.getInt(c.getColumnIndex("this_day"));
       maxValue = c.getInt(c.getColumnIndex("max_value"));
-      Log.i("DEBUG",String.valueOf(maxValue));
       break;
     case CATEGORY_CURSOR:
       mGroupCursor=c;
@@ -414,7 +413,7 @@ public class CategoryList extends BudgetListFragment implements
         actionBar.setTitle(mAccount.label);
       }
       break;
-      default:
+    default:
       //check if group still exists
       if (mAdapter.getGroupId(id) != 0)
           mAdapter.setChildrenCursor(id, c);
@@ -423,19 +422,20 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
     int id = loader.getId();
-    if (id != -1) {
-        // child cursor
-        try {
-            mAdapter.setChildrenCursor(id, null);
-        } catch (NullPointerException e) {
-            Log.w("TAG", "Adapter expired, try again on the next query: "
-                    + e.getMessage());
-        }
-    } else {
+    if (id == CATEGORY_CURSOR) {
       mGroupCursor = null;
       mAdapter.setGroupCursor(null);
+    } else if (id>0){
+      // child cursor
+      try {
+          mAdapter.setChildrenCursor(id, null);
+      } catch (NullPointerException e) {
+          Log.w("TAG", "Adapter expired, try again on the next query: "
+                  + e.getMessage());
+      }
     }
-  }  @Override
+  }
+  @Override
   public void onPrepareOptionsMenu(Menu menu) {
     if (mGrouping != null) {
       menu.findItem(R.id.FORWARD_COMMAND).setVisible(!mGrouping.equals(Grouping.NONE));
