@@ -22,13 +22,12 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
    * check if this is the first invocation of a new version
    * in which case help dialog is presented
    * also is used for hooking version specific upgrade procedures
+   * and display information to be presented upon app launch
    */
   public void newVersionCheck() {
     Editor edit = mSettings.edit();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     int current_version = CommonCommands.getVersionNumber(this);
-    if (prev_version == current_version)
-      return;
     if (prev_version == -1) {
       //edit.putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, mCurrentAccount.id).commit();
       SharedPreferencesCompat.apply(edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version));
