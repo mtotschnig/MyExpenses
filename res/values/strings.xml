@@ -129,7 +129,7 @@
   <string name="import_categories">Import categories</string>
   <string name="important_upgrade_information_heading">Important information</string>
   <string name="important_upgrade_information_1">The mechanism for validating your purchase of &app_name; Contrib has changed.
-  	Please upgrade &app_name; Contrib to version 1.9 in order to unlock Premium functionality.</string>
+    Please upgrade &app_name; Contrib to version 1.2 in order to unlock Premium functionality.</string>
   <string name="income">Income</string>
   <string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>
   <string name="label">Label</string>
