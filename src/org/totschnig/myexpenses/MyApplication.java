@@ -68,6 +68,8 @@ public class MyApplication extends Application {
     public boolean isContribEnabled,
       showImportantUpgradeInfo = false;
     private long mLastPause = 0;
+    public static String TAG = "MyExpenses";
+
     /**
      * how many nanoseconds should we wait before prompting for the password
      */
@@ -116,9 +118,9 @@ public class MyApplication extends Application {
         BUILD_DATE = properties.getProperty("build.date");
         CONTRIB_SECRET = properties.getProperty("contrib.secret");
       } catch (NotFoundException e) {
-        Log.w("MyExpenses","Did not find raw resource");
+        Log.w("TAG","Did not find raw resource");
       } catch (IOException e) {
-        Log.w("MyExpenses","Failed to open property file");
+        Log.w(TAG,"Failed to open property file");
       }
       refreshContribEnabled();
     }
@@ -153,7 +155,7 @@ public class MyApplication extends Application {
         if (!sharedPrefFile.exists()) {
           sharedPrefFile = new File("/data/data/" + sharedPrefFileCommon);
           if (!sharedPrefFile.exists()) {
-            Log.e("MyExpenses","Unable to determine path to shared preference file");
+            Log.e(TAG,"Unable to determine path to shared preference file");
             return false;
           }
         }
@@ -230,7 +232,7 @@ public class MyApplication extends Application {
               } else if (val.getClass() == Boolean.class) {
                 edit.putBoolean(key,backupPref.getBoolean(key,false));
               } else {
-                Log.i("MyExpenses","Found: "+key+ " of type "+val.getClass().getName());
+                Log.i(TAG,"Found: "+key+ " of type "+val.getClass().getName());
               }
             }
             SharedPreferencesCompat.apply(edit);
@@ -246,10 +248,10 @@ public class MyApplication extends Application {
             return true;
           }
           else {
-            Log.w("MyExpenses","Could not copy backup to private data directory");
+            Log.w(TAG,"Could not copy backup to private data directory");
           }
         } else {
-          Log.w("MyExpenses","Did not find backup for preferences");
+          Log.w(TAG,"Did not find backup for preferences");
         }
         Toast.makeText(mSelf, mSelf.getString(R.string.restore_preferences_failure), Toast.LENGTH_LONG).show();
       }
