@@ -148,8 +148,12 @@ public class MyApplication extends Application {
             final Messenger mMessenger = new Messenger(new UnlockHandler() {
               public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                unbindService(mConnection);
-                Log.i(TAG,"having handled message; unbinding from service");
+                try {
+                  unbindService(mConnection);
+                  Log.i(TAG,"having handled message; unbinding from service");
+                } catch (IllegalArgumentException e) {
+                  Log.i(TAG,"unbind service during handleMessage lead to IllegalArgumentException");
+                }
               }
             });
             mConnection = new ServiceConnection() {
