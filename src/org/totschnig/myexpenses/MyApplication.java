@@ -69,7 +69,6 @@ public class MyApplication extends Application {
       showImportantUpgradeInfo = false;
     private long mLastPause = 0;
     public static String TAG = "MyExpenses";
-
     /**
      * how many nanoseconds should we wait before prompting for the password
      */
@@ -118,7 +117,7 @@ public class MyApplication extends Application {
         BUILD_DATE = properties.getProperty("build.date");
         CONTRIB_SECRET = properties.getProperty("contrib.secret");
       } catch (NotFoundException e) {
-        Log.w("TAG","Did not find raw resource");
+        Log.w(TAG,"Did not find raw resource");
       } catch (IOException e) {
         Log.w(TAG,"Failed to open property file");
       }
