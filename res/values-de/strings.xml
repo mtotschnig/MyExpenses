@@ -84,7 +84,7 @@
   <string name="dialog_title_warning_delete_account">Konto löschen?</string>
   <string name="dialog_title_welcome">Willkommen!</string>
   <string name="donate">Spenden</string>
-  <string name="donate_dialog_text">Wenn Sie nicht auf &market; zugreifen können, können Sie mittels PayPal oder Flattr spenden, und dann von den Einstellungen aus einen Contrib-Schlüssel anfordern.</string>
+  <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal, Flattr oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Contrib-Schlüssel an.</string>
   <string name="error_accessing_gplay">Fehler beim Zugriff auf &market;</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten Sie eine Minute bevor Sie es erneut versuchen.</string>

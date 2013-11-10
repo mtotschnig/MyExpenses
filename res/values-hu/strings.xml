@@ -82,7 +82,7 @@
   <string name="dialog_title_warning_delete_account">Számla törlése?</string>
   <string name="dialog_title_welcome">Üdvözlet!</string>
   <string name="donate">Támogatás</string>
-  <string name="donate_dialog_text">Amennyiben nem éri el a &market; felületét, támogatását PayPal vagy Flattr-en keresztül is megteheti, majd kérjen Contrib kulcsot a beállítások képernyőn megtalálható módon.</string>
+  <string name="donate_dialog_text">Támogatását PayPal, Bitcoin vagy Flattr-en keresztül is megteheti, majd kérjen Contrib kulcsot a beállítások képernyőn megtalálható módon.</string>
   <string name="error_accessing_gplay">Hiba történt a &market; elérése közben</string>
   <string name="expense">Kiadás</string>
   <string name="export_expenses_outputfile_exists">A kimeneti fájl már létezik. Kérem várjon egy percet és próbálja meg újra.</string>

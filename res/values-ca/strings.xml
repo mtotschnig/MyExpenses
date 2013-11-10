@@ -85,7 +85,7 @@
   <string name="dialog_title_warning_delete_account">Eliminar compte?</string>
   <string name="dialog_title_welcome">Benvingut!</string>
   <string name="donate">Donar</string>
-  <string name="donate_dialog_text">Si no és capaç d\'accedir a &market;, es pot donar a través de PayPal o Flattr i, a continuació, demanar una clau contrib de la pantalla d\'ajustos.</string>
+  <string name="donate_dialog_text">Si us plau, donar a través de PayPal, Flattr o Bitcoin i, a continuació, demanar una clau contrib de la pantalla d\'ajustos.</string>
   <string name="error_accessing_gplay">S\'ha produït un error en accedir al &market;</string>
   <string name="expense">despesa</string>
   <string name="export_expenses_outputfile_exists">El fitxer de sortida ja existeix. Si us plau, espereu un minut i torneu-ho a intentar.</string>

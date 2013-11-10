@@ -84,7 +84,7 @@
   <string name="dialog_title_warning_delete_account">Borrar la cuenta?</string>
   <string name="dialog_title_welcome">¡Bienvenido!</string>
   <string name="donate">Done</string>
-  <string name="donate_dialog_text">Si usted no tiene acceso a &market;, puede donar a través de PayPal o Flattr, y luego solicitar una clave Contrib desde la pantalla de configuraciones.</string>
+  <string name="donate_dialog_text">Por favor,  donar a través de PayPal, Flattr o Bitcoin, y luego solicitar una clave Contrib desde la pantalla de configuraciones.</string>
   <string name="error_accessing_gplay">Error al acceder a &market;</string>
   <string name="expense">Gasto</string>
   <string name="export_expenses_outputfile_exists">El archivo de salida ya existe. Por favor, espere un minuto antes de intentarlo de nuevo.</string>

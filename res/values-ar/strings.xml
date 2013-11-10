@@ -78,7 +78,7 @@
   <string name="dialog_title_warning_delete_account">حذف الحساب؟</string>
   <string name="dialog_title_welcome">مرحبا!</string>
   <string name="donate">تبرع</string>
-  <string name="donate_dialog_text">إذا لم تكن قادر على الوصول لـ &market;، يمكنك المساهمة عن طريق PayPal أو Flatter, ثم تقوم بطلب مفتاح المساهمة من الاعدادات.</string>
+  <string name="donate_dialog_text">يمكنك المساهمة عن طريق PayPal أو Flattr أو Bitcoin, ثم تقوم بطلب مفتاح المساهمة من الاعدادات.</string>
   <string name="error_accessing_gplay">خطأ في محاولة الوصول &market;</string>
   <string name="expense">الصرف</string>
   <string name="export_expenses_outputfile_exists">ملف الاخراج موجود مسبقا. الرجاء حاول مرة أخرى بعد دقيقة.</string>

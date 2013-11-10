@@ -17,9 +17,11 @@ package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribIFace;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.text.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +29,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.widget.Toast;
 
 /**
  * the DonateDialog is shown on devices where Google Play is not available, in two contexts
@@ -50,16 +53,17 @@ public class DonateDialogFragment extends DialogFragment {
    * @return
    */
   public static AlertDialog buildDialog(Context ctx) {
-    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ctx);
-    alertDialogBuilder.setTitle(R.string.donate);
-    alertDialogBuilder.setMessage(
+    DonationUriVisitor listener = new DonationUriVisitor(ctx);
+    return new AlertDialog.Builder(ctx)
+      .setTitle(R.string.donate)
+      .setMessage(
         ctx.getString(R.string.donate_dialog_text)
         +"\n\n"+
-        ctx.getString(R.string.thank_you));
-    DonationUriVisitor listener = new DonationUriVisitor(ctx);
-    alertDialogBuilder.setNegativeButton(R.string.donate_button_flattr, listener);
-    alertDialogBuilder.setPositiveButton(R.string.donate_button_paypal, listener);
-    return alertDialogBuilder.create();
+        ctx.getString(R.string.thank_you))
+      .setNegativeButton(R.string.donate_button_flattr, listener)
+      .setPositiveButton(R.string.donate_button_paypal, listener)
+      .setNeutralButton(R.string.donate_button_bitcoin, listener)
+      .create();
   }
   public static class DonationUriVisitor implements OnClickListener {
     Context ctx;
@@ -71,12 +75,28 @@ public class DonateDialogFragment extends DialogFragment {
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-      String uri = (which == AlertDialog.BUTTON_POSITIVE) ?
-          "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KPXNZHMXJE8ZJ" :
-          "https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App";
-      Intent i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse(uri));
-      ctx.startActivity(i); 
+      String bitcoinAddress = "1GCUGCSfFXzSC81ogHu12KxfUn3cShekMn";
+      if (which == AlertDialog.BUTTON_NEUTRAL) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("bitcoin:" + bitcoinAddress));
+        if (Utils.isIntentAvailable(ctx,intent)) {
+          ctx.startActivity(intent);
+        } else {
+          ClipboardManager clipboard = (ClipboardManager)
+              ctx.getSystemService(Context.CLIPBOARD_SERVICE);
+          clipboard.setText(bitcoinAddress);
+          Toast.makeText(ctx,
+              "My Expenses Bitcoin Donation address " + bitcoinAddress + " copied to clipboard",
+              Toast.LENGTH_LONG).show();
+        }
+      } else {
+        String uri = (which == AlertDialog.BUTTON_POSITIVE) ?
+            "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KPXNZHMXJE8ZJ" :
+            "https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(uri));
+        ctx.startActivity(i);
+      }
     }
   }
   @Override

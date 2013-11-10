@@ -84,7 +84,7 @@
   <string name="dialog_title_warning_delete_account">Hesap silinsin mi?</string>
   <string name="dialog_title_welcome">Hoşgeldiniz!</string>
   <string name="donate">Bağış</string>
-  <string name="donate_dialog_text">Eğer &market;\'e erişemiyorsanız Paypal ya da Flattr ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
+  <string name="donate_dialog_text">Eğer &market;\'e erişemiyorsanız Paypal, Flattr ya da Bitcoin ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
   <string name="error_accessing_gplay">&market; erişimi sırasında hata oluştu</string>
   <string name="expense">gider</string>
   <string name="export_expenses_outputfile_exists">Çıktı dosyası zaten mevcut. Lütfen bir dakika bekleyip tekrar deneyin.</string>

@@ -84,7 +84,7 @@
   <string name="dialog_title_warning_delete_account">Cancellare il conto?</string>
   <string name="dialog_title_welcome">Benvenuto!</string>
   <string name="donate">Donare</string>
-  <string name="donate_dialog_text">Se non si dispone di accesso a &market;, è possibile donare tramite PayPal o Flattr, e quindi richiedere una chiave contrib dalla schermata delle impostazioni.</string>
+  <string name="donate_dialog_text">Si prega di donare tramite PayPal, Flattr o Bitcoin, e quindi richiedere una chiave contrib dalla schermata delle impostazioni.</string>
   <string name="error_accessing_gplay">Errore durante l\'accesso a &market;</string>
   <string name="expense">spesa</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già. Attendere un minuto prima di riprovare.</string>
