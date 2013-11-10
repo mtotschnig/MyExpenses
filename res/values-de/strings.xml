@@ -19,7 +19,9 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY contrib ' (<b>Premium</b>)'>
   <!ENTITY continue 'Möchten Sie fortfahren?'>
-  <!ENTITY market 'Google Play'>
+  <!ENTITY market_google 'Google Play'>
+  <!ENTITY market_amazon 'Amazon Appstore'>
+  <!ENTITY market '@market@'>
 ]>
 <resources>
   <string name="account">Konto</string>

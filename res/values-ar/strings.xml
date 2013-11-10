@@ -15,7 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <!DOCTYPE resources [
-  <!ENTITY market 'لقوقل بلاي'>
+  <!ENTITY market_google 'لقوقل بلاي'>
+  <!ENTITY market_amazon 'Amazon Appstore'>
+  <!ENTITY market '@market@'>
 ]><resources>
   <string name="account">الحساب</string>
   <string name="account_type_cash">حساب النقد</string>
