@@ -45,6 +45,7 @@
   	licenced under Apache License, Version 2.0 .</string>
   <string name="donate_button_flattr">Flattr</string>
   <string name="donate_button_paypal">Paypal</string>
+  <string name="donate_button_bitcoin">Bitcoin</string>
   
   <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
   <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>

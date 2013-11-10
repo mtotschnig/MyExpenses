@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.activity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
@@ -259,7 +260,7 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
       } else {
         try {
           Intent intent = new Intent(Intent.ACTION_VIEW);
-          intent.setData(Uri.parse("market://details?id=org.openintents.colorpicker"));
+          intent.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.openintents.colorpicker"));
           startActivity(intent);
         } catch(Exception e) {
           Toast toast = Toast.makeText(AccountEdit.this, R.string.error_accessing_gplay, Toast.LENGTH_SHORT);

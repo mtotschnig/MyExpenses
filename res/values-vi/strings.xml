@@ -80,7 +80,7 @@
   <string name="dialog_title_warning_delete_account">Xóa tài khoản?</string>
   <string name="dialog_title_welcome">Chào mừng!</string>
   <string name="donate">Ủng hộ</string>
-  <string name="donate_dialog_text">Nếu bạn không thể truy cập &market;, bạn có thể ủng hộ chúng tôi thông qua PayPal hoặc Flattr, và sau đó gửi một yêu cầu về khóa cống hiến từ màn hình thiết lập.</string>
+  <string name="donate_dialog_text">Bạn có thể ủng hộ chúng tôi thông qua PayPal, Flattr hoặc Bitcoin, và sau đó gửi một yêu cầu về khóa cống hiến từ màn hình thiết lập.</string>
   <string name="error_accessing_gplay">Lỗi khi truy cập &market;</string>
   <string name="expense">Chi tiêu</string>
   <string name="export_expenses_outputfile_exists">Tập tin xuất dữ liệu đã tồn tại trước đó. Xin vui lòng đợi một phút, và thử lại lần nữa</string>

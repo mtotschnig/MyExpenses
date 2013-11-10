@@ -317,19 +317,19 @@ public class Utils {
     Long l = (s.hashCode() & 0x00000000ffffffffL);
     return l.toString().equals(key);
   }
-  public static void viewContribApp(Activity ctx) {
-    Intent i = new Intent(Intent.ACTION_VIEW);
-    i.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
-    if (Utils.isIntentAvailable(ctx,i)) {
-      ctx.startActivity(i);
-    } else {
+  public static void contribBuyDo(Activity ctx) {
+//    Intent i = new Intent(Intent.ACTION_VIEW);
+//    i.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.totschnig.myexpenses.contrib"));
+//    if (Utils.isIntentAvailable(ctx,i)) {
+//      ctx.startActivity(i);
+//    } else {
       if (ctx instanceof FragmentActivity)
         DonateDialogFragment.newInstance().show(((FragmentActivity) ctx).getSupportFragmentManager(),"CONTRIB");
       else {
         //We are called from MyPreferenceActivity where support fragmentmanager is not available
         ctx.showDialog(R.id.DONATE_DIALOG);
       }
-    }
+//    }
   }
   /**
    * @param ctx for retrieving resources

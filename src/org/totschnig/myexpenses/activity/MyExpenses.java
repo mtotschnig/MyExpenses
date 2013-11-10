@@ -408,7 +408,7 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.RATE_COMMAND:
       SharedPreferencesCompat.apply(mSettings.edit().putLong("nextReminderRate", -1));
       i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse("market://details?id=org.totschnig.myexpenses"));
+      i.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.totschnig.myexpenses"));
       if (Utils.isIntentAvailable(this,i)) {
         startActivity(i);
       } else {

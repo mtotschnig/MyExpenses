@@ -84,7 +84,7 @@
   <string name="dialog_title_warning_delete_account">Effacer le compte?</string>
   <string name="dialog_title_welcome">Bienvenue!</string>
   <string name="donate">Don</string>
-  <string name="donate_dialog_text">S\'il ne vous est pas possible d\'accéder à &market;, vous pouvez faire un don au moyen de PayPal ou Flattr, et ensuite demander une clé Contrib à partir des paramètres.</string>
+  <string name="donate_dialog_text">S\'il vous plaît, faites un don au moyen de PayPal, Flattr ou Bitcoin, et ensuite demander une clé Contrib à partir des paramètres.</string>
   <string name="error_accessing_gplay">Erreur lors de l\'accès à &market;</string>
   <string name="expense">dépense</string>
   <string name="export_expenses_outputfile_exists">Le fichier d\'export existe déjà. Attendez une minute avant de réessayer.</string>

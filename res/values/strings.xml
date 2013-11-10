@@ -88,7 +88,7 @@
   <string name="dialog_title_warning_delete_account">Delete account?</string>
   <string name="dialog_title_welcome">Welcome!</string>
   <string name="donate">Donate</string>
-  <string name="donate_dialog_text">If you are not able to access &market;, you can donate via PayPal or Flattr, and then request a contrib key from the settings screen.</string>
+  <string name="donate_dialog_text">Please donate via PayPal, Flattr or Bitcoin, and then request a contrib key from the settings screen.</string>
   <string name="error_accessing_gplay">Error while accessing &market;</string>
   <string name="expense">Expense</string>
   <string name="export_expenses_outputfile_exists">Output file already exists. Please wait one minute, and try again.</string>

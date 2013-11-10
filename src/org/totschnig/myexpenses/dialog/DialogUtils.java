@@ -54,7 +54,7 @@ public class DialogUtils {
          public void onClick(DialogInterface dialog, int id) {
            ctx.dismissDialog(R.id.FTP_DIALOG);
            Intent intent = new Intent(Intent.ACTION_VIEW);
-           intent.setData(Uri.parse("market://details?id=org.totschnig.sendwithftp"));
+           intent.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.totschnig.sendwithftp"));
            if (Utils.isIntentAvailable(ctx,intent)) {
              ctx.startActivity(intent);
            } else {

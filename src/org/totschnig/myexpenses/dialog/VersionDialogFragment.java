@@ -97,7 +97,7 @@ public class VersionDialogFragment extends DialogFragment implements OnClickList
   @Override
   public void onClick(DialogInterface dialog, int which) {
     if (which == AlertDialog.BUTTON_POSITIVE)
-      ((MessageDialogListener) getActivity()).dispatchCommand(R.id.CONTRIB_COMMAND,null);
+      ((MessageDialogListener) getActivity()).dispatchCommand(R.id.CONTRIB_INFO_COMMAND,null);
   }
   private class VersionInfo {
     int code;

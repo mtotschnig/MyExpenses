@@ -67,7 +67,7 @@ public class ContribInfoDialogFragment  extends DialogFragment implements OnClic
   public void onClick(DialogInterface dialog, int which) {
     if (which == AlertDialog.BUTTON_POSITIVE)
       ((MessageDialogListener) getActivity())
-        .dispatchCommand(R.id.CONTRIB_PLAY_COMMAND,null);
+        .dispatchCommand(R.id.CONTRIB_BUY_COMMAND,null);
     else if (which == AlertDialog.BUTTON_NEUTRAL)
       ((MessageDialogListener) getActivity())
         .dispatchCommand(R.id.REMIND_LATER_COMMAND,"Contrib");
