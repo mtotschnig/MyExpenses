@@ -61,6 +61,8 @@ public class MyApplication extends Application {
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
+    public static String MARKET_PREFIX = "market://details?id=";
+    //public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
     public static final boolean debug = false;
     public boolean isContribEnabled,

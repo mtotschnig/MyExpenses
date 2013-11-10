@@ -315,7 +315,7 @@ public class Utils {
   }
   public static void contribBuyDo(Activity ctx) {
     Intent i = new Intent(Intent.ACTION_VIEW);
-    i.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
+    i.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.totschnig.myexpenses.contrib"));
     if (Utils.isIntentAvailable(ctx,i)) {
       ctx.startActivity(i);
     } else {
