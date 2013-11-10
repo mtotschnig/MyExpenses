@@ -156,7 +156,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   @Override
   public boolean onPreferenceClick(Preference preference) {
     if (preference.getKey().equals(MyApplication.PREFKEY_CONTRIB_INSTALL)) {
-      Utils.viewContribApp(MyPreferenceActivity.this);
+      Utils.contribBuyDo(MyPreferenceActivity.this);
       return true;
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_REQUEST_LICENCE)) {

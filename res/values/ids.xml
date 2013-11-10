@@ -18,9 +18,9 @@
   <item type="id" name="AGGREGATES_COMMAND"/>
   <item type="id" name="BACKUP_COMMAND"/>
   <item type="id" name="CLONE_TRANSACTION_COMMAND"/>
-  <item type="id" name="CONTRIB_COMMAND"/>
+  <item type="id" name="CONTRIB_INFO_COMMAND"/>
   <item type="id" name="CONTRIB_INFO_DIALOG"/>
-  <item type="id" name="CONTRIB_PLAY_COMMAND"/>
+  <item type="id" name="CONTRIB_BUY_COMMAND"/>
   <item type="id" name="CREATE_COMMAND"/>
   <item type="id" name="CREATE_TEMPLATE_COMMAND"/>
   <item type="id" name="DELETE_COMMAND"/>

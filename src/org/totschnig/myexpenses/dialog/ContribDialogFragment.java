@@ -81,7 +81,7 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
   public void onClick(DialogInterface dialog, int which) {
     Context ctx = getActivity();
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      ((MessageDialogListener) ctx).dispatchCommand(R.id.CONTRIB_PLAY_COMMAND,null);
+      ((MessageDialogListener) ctx).dispatchCommand(R.id.CONTRIB_BUY_COMMAND,null);
     } else {
       if (usagesLeft > 0) {
         ((ContribIFace)ctx).contribFeatureCalled(feature, getArguments().getSerializable("tag"));

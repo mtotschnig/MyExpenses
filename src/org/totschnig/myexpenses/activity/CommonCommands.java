@@ -51,11 +51,11 @@ public class CommonCommands {
         ctx.startActivity(i);
       }
       break;
-    case R.id.CONTRIB_COMMAND:
+    case R.id.CONTRIB_INFO_COMMAND:
       CommonCommands.showContribInfoDialog((FragmentActivity) ctx,false);
       return true;
-    case R.id.CONTRIB_PLAY_COMMAND:
-      Utils.viewContribApp(ctx);
+    case R.id.CONTRIB_BUY_COMMAND:
+      Utils.contribBuyDo(ctx);
       return true;
     case R.id.WEB_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);

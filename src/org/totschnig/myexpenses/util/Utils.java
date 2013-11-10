@@ -313,7 +313,7 @@ public class Utils {
     Long l = (s.hashCode() & 0x00000000ffffffffL);
     return l.toString().equals(key);
   }
-  public static void viewContribApp(Activity ctx) {
+  public static void contribBuyDo(Activity ctx) {
     Intent i = new Intent(Intent.ACTION_VIEW);
     i.setData(Uri.parse("market://details?id=org.totschnig.myexpenses.contrib"));
     if (Utils.isIntentAvailable(ctx,i)) {
