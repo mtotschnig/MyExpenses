@@ -18,7 +18,9 @@
   <!ENTITY app_name "Les meves despeses">
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY contrib ' (<b>Premium</b>)'>
-  <!ENTITY market 'Google Play'>
+  <!ENTITY market_google 'Google Play'>
+  <!ENTITY market_amazon 'Amazon Appstore'>
+  <!ENTITY market '@market@'>
 ]>
 <resources>
   <string name="account">Compte</string>

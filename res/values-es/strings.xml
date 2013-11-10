@@ -20,6 +20,9 @@
   <!ENTITY contrib ' (<b>Premium</b>)'>
   <!ENTITY continue '¿Quiere continuar?'>
   <!ENTITY market 'Google Play'>
+  <!ENTITY market_google 'Google Play'>
+  <!ENTITY market_amazon 'Amazon Appstore'>
+  <!ENTITY market '@market@'>
 ]>
 <resources>
   <string name="account">Cuenta</string>
