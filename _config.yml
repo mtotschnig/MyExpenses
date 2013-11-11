@@ -45,6 +45,21 @@ gplus:
     - "Split transactions (1.8.5)"
 versions:
   -
+    - 1.9.7.3
+    - 2013-11-10
+    -
+      en: "F-Droid only: Removed reliance on Google Play"
+  -
+    - 1.9.7.2
+    - 2013-11-10
+    -
+      en: Repaired bug fix
+  -
+    - 1.9.7.1
+    - 2013-11-09
+    -
+      en: Minor bug fix
+  -
     - 1.9.7
     - 2013-11-07
     -
