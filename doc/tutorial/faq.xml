@@ -18,113 +18,6 @@
     </title>
     <qandaset id="quandaset">
       <!-- BEGIN FAQ 1 -->
-      <qandaentry id="faq-comma-en" lang="en">
-        <question id="faq-comma-q-en">
-          <para>
-            How do I enter amounts? There is no comma (,) on the numeric keypad.
-          </para>
-        </question>
-        <answer>
-          <para>
-            There are different decimal separators used in different languages: comma in most
-            European countries, point in most English speaking countries. Unfortunately there
-            is a problem in some versions of the Android OS, which does not handle the comma
-            well in its numeric input method, and in some cases even does not allow at all to
-            enter a comma. If you encounter this problem, you can set the point as decimal
-            separator in the Settings.
-          </para>
-        </answer>
-      </qandaentry>
-      <qandaentry id="faq-comma-fr" lang="fr">
-        <question id="faq-comma-q-fr">
-          <para>
-            Comment puis-je saisir les montants ? Il n'y a pas de virgule (,) sur le pavé
-            numérique.
-          </para>
-        </question>
-        <answer>
-          <para>
-            Il existe différents séparateurs décimaux utilisés dans différentes langues:
-            virgule dans la plupart des pays européens, le point dans les pays anglophones.
-            Malheureusement, il existe un problème dans quelques version du système
-            d'exploitation Android, il ne gère pas bien la virgule dans sa méthode d'entrée
-            numérique, et dans certains cas ne permet même pas du tout d'entrer une virgule. Si
-            vous rencontrez ce problème, vous pouvez définir le point comme séparateur décimal
-            dans les paramètres.
-          </para>
-        </answer>
-      </qandaentry>
-      <qandaentry id="faq-comma-de" lang="de">
-        <question id="faq-comma-q-de">
-          <para>
-           Wie kann ich Beträge eingeben? Auf der numerischen Tastatur finde ich kein Komma
-           (,).
-          </para>
-        </question>
-        <answer>
-          <para>
-            In den verschiedenen Sprachen werden unterschiedliche Dezimaltrennzeichen
-            verwendet: Komma in den meisten europäischen Ländern, Punkt in den meisten
-            englischsprachigen Ländern. Leider gibt es unter manchen Versionen von Android ein 
-            Problem, das die Verwendung des Kommas zur Eingabe von Dezimalzahlen erschwert, in
-            manchen Fällen sogar unmöglich macht. Wenn Sie diesem Problem begegnen, können Sie
-            in den Einstellungen den Punkt als Dezimaltrennzeichen festlegen.
-          </para>
-        </answer>
-      </qandaentry>
-      <qandaentry id="faq-comma-it" lang="it">
-        <question id="faq-comma-q-it">
-          <para>
-            Come faccio a inserire gli importi? Non c'è una virgola (,) sul tastierino numerico.
-          </para>
-          </question>
-        <answer>
-          <para>
-            Ci sono diversi separatori decimali utilizzati nelle diverse lingue: virgola in
-            molti paesi europei, il punto in più paesi di lingua inglese. Purtroppo c'è un
-            problema in alcune versioni del sistema operativo Android, che non gestisce bene la
-            virgola nel suo metodo di input numerico, e in alcuni casi addirittura non consente
-            affatto di inserire una virgola. Se si verifica questo problema, è possibile
-            impostare il punto come separatore decimale nelle Impostazioni.
-          </para>
-        </answer>
-      </qandaentry>
-      <qandaentry id="faq-comma-es" lang="es">
-        <question id="faq-comma-q-es">
-          <para>
-            ¿Cómo puedo insertar valores monitarios? No encuentro la coma (,) en el teclado.
-          </para>
-          </question>
-        <answer>
-          <para>
-            En las distintas lenguas se usan delimitadores decimales distintos: En la mayoría
-            de los países europeos es la coma, en cambio se usa un punto en la mayoría de los
-            países anglófonos. Desafortunadamente existe un problema en algunas versiones del sistema operativo Android, que
-            complica el uso de la coma para la inserción de cifras decimales, y en algunos
-            casos incluso lo imposibilita. Si usted da con este problema, puede determinar el
-            punto como delimitador decimal en la configuración.
-          </para>
-        </answer>
-      </qandaentry>
-      <qandaentry id="faq-comma-tr" lang="tr">
-        <question id="faq-comma-q-tr">
-          <para>
-           Meblağları nasıl girebilirim? Sayısal klavyede virgül (,) yok.
-          </para>
-          </question>
-        <answer>
-          <para>
-            Değişik dillerde değişik ondalık ayraçları kullanılır: Avrupa dillerinin çoğunda virgül,
-            İngilizce konuşulan ülkelerin çoğunluğunda ise nokta kullanılır. Maalesef giriş yönteminde
-            virgülü iyi bir şekilde dikkate almayan Android işletim sisteminin bazı sürümlerinde bu
-            konuda sorun vardır, bazı durumlarda virgül girmeye bile imkân vermez. Bu sorunla
-            karşılaşırsanız Ayarlarda ondalık ayracını belirtebilirsiniz.
-          </para>
-        </answer>
-      </qandaentry>
-      <!-- END FAQ 1 -->
-
-      <!-- BEGIN FAQ 2 -->
       <qandaentry id="faq-share-de" lang="de">
         <question id="faq-share-q-de">
           <para>
@@ -213,9 +106,9 @@
           </para>
         </answer>
       </qandaentry>
-      <!-- END FAQ 2 -->
+      <!-- END FAQ 1 -->
 
-      <!-- BEGIN FAQ 3 -->
+      <!-- BEGIN FAQ 2 -->
       <qandaentry id="faq-methods-de" lang="de">
         <question id="faq-methods-q-de">
           <para>
@@ -333,9 +226,9 @@
           </para>
         </answer>
       </qandaentry>
-      <!-- END FAQ 3 -->
+      <!-- END FAQ 2 -->
 
-      <!-- BEGIN FAQ 4 -->
+      <!-- BEGIN FAQ 3 -->
       <qandaentry id="faq-backup-en" lang="en">
         <question id="faq-backup-q-en">
           <para>
@@ -430,9 +323,9 @@
         </para>
         </answer>
       </qandaentry>
-      <!-- END FAQ 4 -->
+      <!-- END FAQ 3 -->
 
-      <!-- BEGIN FAQ 5 -->
+      <!-- BEGIN FAQ 4 -->
       <qandaentry id="faq-contrib-en" lang="en">
         <question id="faq-contrib-q-en">
           <para>
@@ -596,6 +489,9 @@
            </para>
         </answer>
       </qandaentry>
+      <!-- END FAQ 4 -->
+
+      <!-- BEGIN FAQ 5 -->
       <qandaentry id="faq-catxml-en" lang="en">
         <question id="faq-catxml-q-en">
           <para>
@@ -794,5 +690,6 @@
           </para>
         </answer>
       </qandaentry>
+      <!-- END FAQ 5 -->
     </qandaset>
   </sect1>
