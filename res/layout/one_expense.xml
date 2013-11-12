@@ -122,6 +122,12 @@
         </LinearLayout>
       </TableRow>
 
+      <TableRow android:id="@+id/PlanerRow"
+          android:visibility="gone">
+        <TextView style="@style/form_label"
+            android:text="Plan" />
+        <Button android:id="@+id/Plan"/>
+      </TableRow>
       </TableLayout>
   </ScrollView>
 </LinearLayout>

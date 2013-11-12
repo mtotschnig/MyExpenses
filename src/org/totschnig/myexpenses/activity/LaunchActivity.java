@@ -5,6 +5,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
+import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -25,6 +26,10 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
    * and display information to be presented upon app launch
    */
   public void newVersionCheck() {
+    if (MyApplication.getInstance().planerCalenderId == -1)
+      getSupportFragmentManager().beginTransaction()
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_CALENDAR,null, null), "ASYNC_TASK")
+        .commit();
     Editor edit = mSettings.edit();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     int current_version = CommonCommands.getVersionNumber(this);
@@ -86,5 +91,12 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       return true;
     }
     return super.dispatchCommand(command, tag);
+  }
+  @Override
+  public void onPostExecute(int taskId,Object o) {
+    super.onPostExecute(taskId, o);
+    if (taskId == TaskExecutionFragment.TASK_REQUIRE_CALENDAR) {
+      MyApplication.getInstance().planerCalenderId = (Long) o;
+    }
   }
 }

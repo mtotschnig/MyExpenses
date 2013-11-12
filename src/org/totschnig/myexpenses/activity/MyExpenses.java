@@ -655,13 +655,13 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public void onPostExecute(int taskId,Object o) {
+    super.onPostExecute(taskId, o);
     if (taskId == TaskExecutionFragment.TASK_REQUIRE_ACCOUNT) {
       setCurrentAccount(((Account) o).id);
       getSupportActionBar().show();
       SharedPreferencesCompat.apply(mSettings.edit().remove("inInitialSetup"));
       setup();
     }
-    super.onPostExecute(taskId, o);
   }
   public void toggleCrStatus (View v) {
     getSupportFragmentManager().beginTransaction()

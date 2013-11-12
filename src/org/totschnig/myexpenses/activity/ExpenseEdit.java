@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Type;
@@ -41,6 +42,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -49,6 +51,8 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -81,7 +85,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private Button mDateButton;
   private Button mTimeButton;
   private EditText mCommentText, mTitleText, mReferenceNumberText;
-  private Button mCategoryButton;
+  private Button mCategoryButton, mPlanButton;
   private Spinner mMethodSpinner, mAccountSpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter;
   private AutoCompleteTextView mPayeeText;
@@ -109,6 +113,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   //CALCULATOR_REQUEST in super = 0
   private static final int ACTIVITY_EDIT_SPLIT = 1;
   private static final int SELECT_CATEGORY_REQUEST = 2;
+  private static final int ACTIVITY_ADD_EVENT = 2;
 
   public static final int PAYEES_CURSOR=1;
   public static final int METHODS_CURSOR=2;
@@ -143,6 +148,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
     mCategoryButton = (Button) findViewById(R.id.Category);
+    mPlanButton = (Button) findViewById(R.id.Plan);
     mMethodSpinner = (Spinner) findViewById(R.id.Method);
     mAccountSpinner = (Spinner) findViewById(R.id.Account);
     mManager= getSupportLoaderManager();
@@ -226,6 +232,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
 
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
+      findViewById(R.id.PlanerRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
       helpVariant = HelpVariant.template;
     } else if (mTransaction instanceof SplitTransaction) {
@@ -488,8 +495,21 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         }
       });
     }
-    if (mTransaction instanceof Template)
+    if (mTransaction instanceof Template) {
       mTitleText.setText(((Template) mTransaction).title);
+      mPlanButton.setOnClickListener(new View.OnClickListener() {
+        @SuppressLint("NewApi")
+        public void onClick(View view) {
+          Intent intent = new Intent (Intent.ACTION_INSERT);
+          intent.setData (CalendarContract.Events.CONTENT_URI);
+          intent.putExtra (Events.TITLE,mTitleText.getText().toString());
+          intent.putExtra(Events.CALENDAR_ID,MyApplication.getInstance().planerCalenderId);
+          //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          //intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+          startActivityForResult (intent, ACTIVITY_ADD_EVENT);
+        }
+      });
+    }
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer))
@@ -608,6 +628,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mCatId = intent.getLongExtra("cat_id",0);
       mLabel = intent.getStringExtra("label");
       mCategoryButton.setText(mLabel);
+    }
+    if (requestCode == ACTIVITY_ADD_EVENT) {
+      Toast.makeText(this, "returned from calendar", Toast.LENGTH_LONG).show();
     }
   }
   @Override

@@ -27,6 +27,8 @@
       android:largeScreens="true"
       android:xlargeScreens="true" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
     <application
       android:name="org.totschnig.myexpenses.MyApplication"
       android:icon="@drawable/icon"

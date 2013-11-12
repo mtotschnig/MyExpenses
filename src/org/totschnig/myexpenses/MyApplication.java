@@ -43,8 +43,9 @@ public class MyApplication extends Application {
     public static String PREFKEY_SHARE_TARGET;
     public static String PREFKEY_QIF_EXPORT_FILE_ENCODING;
     public static String PREFKEY_UI_THEME_KEY;
-    public static String PREFKEY_CURRENT_VERSION = "currentversion";
-    public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
+    public static final String PREFKEY_CURRENT_VERSION = "currentversion";
+    public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
+    public static final String PREFKEY_PLANER_CALENDER_ID = "planer_calender_id";
     public static String PREFKEY_BACKUP;
     public static String PREFKEY_RESTORE;
     public static String PREFKEY_CONTRIB_INSTALL;
@@ -69,6 +70,7 @@ public class MyApplication extends Application {
       showImportantUpgradeInfo = false;
     private long mLastPause = 0;
     public static String TAG = "MyExpenses";
+    public long planerCalenderId = -1;
     /**
      * how many nanoseconds should we wait before prompting for the password
      */
