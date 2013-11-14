@@ -227,76 +227,10 @@ public class TaskExecutionFragment extends Fragment {
         Transaction.move(id[0],id[1]);
         return null;
       case TASK_REQUIRE_CALENDAR:
-        MyApplication app = MyApplication.getInstance();
-        String accountName = "org.totschnig.myexpenses";
-        String calendarName = "MyExpensesPlaner3";
-        ContentResolver cr = MyApplication.getInstance().getContentResolver();
-        Uri.Builder builder =
-            CalendarContract.Calendars.CONTENT_URI.buildUpon();
-        builder.appendQueryParameter(
-            Calendars.ACCOUNT_NAME,
-            accountName);
-        builder.appendQueryParameter(
-            Calendars.ACCOUNT_TYPE,
-            CalendarContract.ACCOUNT_TYPE_LOCAL);
-        builder.appendQueryParameter(
-            CalendarContract.CALLER_IS_SYNCADAPTER,
-            "true");
-        Uri calendarUri = builder.build();
-        //int deleted = cr.delete(calendarUri, null, null);
-        //Log.i("DEBUG","deleted old calendard: "+ deleted);
-        c = cr.query(
-            calendarUri,
-            new String[] {CalendarContract.Calendars._ID},
-            Calendars.NAME +  " = ?",
-            new String[]{calendarName}, null);
-        if (c.moveToFirst()) {
-          app.planerCalenderId = c.getLong(0);
-          app.planerLastPlanId = getLastPlanId(app.planerCalenderId);
-          c.close();
-          Calendar cal = Calendar.getInstance();
-          cal.setTimeInMillis(System.currentTimeMillis());
-          cal.set(Calendar.HOUR_OF_DAY, 0); //set hours to zero
-          cal.set(Calendar.MINUTE, 0); // set minutes to zero
-          cal.set(Calendar.SECOND, 0); //set seconds to zero
-          cal.set(Calendar.MILLISECOND, 0);
-          Log.i("Start of Day ", cal.getTime().toString());
-          long startOfDay = cal.getTimeInMillis();
-          app.executePlans(cal.getTimeInMillis(), startOfDay+86400000);
-        } else  {
-          c.close();
-          ContentValues values = new ContentValues();
-          values.put(
-                Calendars.ACCOUNT_NAME,
-                accountName);
-          values.put(
-                Calendars.ACCOUNT_TYPE,
-                CalendarContract.ACCOUNT_TYPE_LOCAL);
-          values.put(
-                Calendars.NAME,
-                calendarName);
-          values.put(
-                Calendars.CALENDAR_DISPLAY_NAME,
-                "My Expenses planer 3"); //TODO resource
-          values.put(
-                Calendars.CALENDAR_COLOR,
-                0xffff0000); //TODO set to default account color
-          values.put(
-                Calendars.CALENDAR_ACCESS_LEVEL,
-                Calendars.CAL_ACCESS_OWNER);
-          values.put(
-                Calendars.OWNER_ACCOUNT, 
-                    "private");
-//              values.put(
-//                    Calendars.CALENDAR_TIME_ZONE, 
-//                    "Europe/Berlin");
-          Uri uri = cr.insert(builder.build(), values);
-          app.planerCalenderId = ContentUris.parseId(uri);
-          app.planerLastPlanId = -1L;
-        }
+        MyApplication.getInstance().requirePlaner();
         return null;
       case TASK_GET_LAST_PLAN:
-        return getLastPlanId(MyApplication.getInstance().planerCalenderId);
+        return MyApplication.getInstance().getLastPlanId();
       }
       return null;
     }
@@ -317,27 +251,6 @@ public class TaskExecutionFragment extends Fragment {
     protected void onPostExecute(Object result) {
       if (mCallbacks != null) {
         mCallbacks.onPostExecute(mTaskId,result);
-      }
-    }
-    @SuppressLint("NewApi")
-    private long getLastPlanId(long calenderId) {
-      String[] proj = 
-          new String[] {
-                "MAX(" + Events._ID + ") as last_event_id"};
-      Cursor c = MyApplication.getInstance().getContentResolver().
-          query(
-              Events.CONTENT_URI, 
-              proj, 
-              Events.CALENDAR_ID + " = ? ", 
-              new String[]{Long.toString(calenderId)}, 
-              null);
-      if (c.moveToFirst()) {
-        long result = c.getLong(0);
-        c.close();
-        return result;
-      } else {
-        c.close();
-        return -1L;
       }
     }
   }
