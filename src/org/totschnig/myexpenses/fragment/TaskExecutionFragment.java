@@ -17,6 +17,7 @@
 package org.totschnig.myexpenses.fragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -226,7 +227,7 @@ public class TaskExecutionFragment extends Fragment {
         Transaction.move(id[0],id[1]);
         return null;
       case TASK_REQUIRE_CALENDAR:
-        ArrayList<Long> result = new ArrayList<Long>();
+        MyApplication app = MyApplication.getInstance();
         String accountName = "org.totschnig.myexpenses";
         String calendarName = "MyExpensesPlaner3";
         ContentResolver cr = MyApplication.getInstance().getContentResolver();
@@ -250,11 +251,18 @@ public class TaskExecutionFragment extends Fragment {
             Calendars.NAME +  " = ?",
             new String[]{calendarName}, null);
         if (c.moveToFirst()) {
-          long calenderId = c.getLong(0);
-          result.add(calenderId);
-          result.add(getLastPlanId(calenderId));
+          app.planerCalenderId = c.getLong(0);
+          app.planerLastPlanId = getLastPlanId(app.planerCalenderId);
           c.close();
-          return result;
+          Calendar cal = Calendar.getInstance();
+          cal.setTimeInMillis(System.currentTimeMillis());
+          cal.set(Calendar.HOUR_OF_DAY, 0); //set hours to zero
+          cal.set(Calendar.MINUTE, 0); // set minutes to zero
+          cal.set(Calendar.SECOND, 0); //set seconds to zero
+          cal.set(Calendar.MILLISECOND, 0);
+          Log.i("Start of Day ", cal.getTime().toString());        
+          long startOfDay = cal.getTimeInMillis();
+          app.executePlans(cal.getTimeInMillis(), startOfDay+86400000);
         } else  {
           c.close();
           ContentValues values = new ContentValues();
@@ -283,10 +291,10 @@ public class TaskExecutionFragment extends Fragment {
 //                    Calendars.CALENDAR_TIME_ZONE, 
 //                    "Europe/Berlin");
           Uri uri = cr.insert(builder.build(), values);
-          result.add(ContentUris.parseId(uri));
-          result.add(-1L);
-          return result;
+          app.planerCalenderId = ContentUris.parseId(uri);
+          app.planerLastPlanId = -1L;
         }
+        return null;
       case TASK_GET_LAST_PLAN:
         return getLastPlanId(MyApplication.getInstance().planerCalenderId);
       }

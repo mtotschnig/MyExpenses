@@ -95,15 +95,4 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
     }
     return super.dispatchCommand(command, tag);
   }
-  @Override
-  public void onPostExecute(int taskId,Object o) {
-    super.onPostExecute(taskId, o);
-    if (taskId == TaskExecutionFragment.TASK_REQUIRE_CALENDAR) {
-      MyApplication app = MyApplication.getInstance();
-      ArrayList<Long> result = (ArrayList<Long>) o;
-      app.planerCalenderId = result.get(0);
-      app.planerLastPlanId = result.get(1);
-      Log.i("DEBUG",String.format("calendar %d, plan %d",app.planerCalenderId,app.planerLastPlanId));
-    }
-  }
 }
