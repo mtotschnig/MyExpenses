@@ -132,7 +132,7 @@
           android:visibility="gone">
         <TextView style="@style/form_label"
             android:text="Plan" />
-        <Button android:id="@+id/Plan"/>
+        <Button android:id="@+id/Plan" android:text="Create"/>
       </TableRow>
       </TableLayout>
   </ScrollView>

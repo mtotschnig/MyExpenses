@@ -32,7 +32,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 37;
+  public static final int DATABASE_VERSION = 38;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -116,8 +116,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "), "
           + "primary key (" + KEY_TYPE + "," + KEY_METHODID + "));";
 
-  //in templates, transfer_peer does not point to another instance
-  //but is a boolean indicating if the template is for a transfer
+  /**
+   * {@link DatabaseConstants#KEY_TRANSFER_PEER} does not point to another instance
+   * but is a boolean indicating if the template is for a transfer
+   * {@link DatabaseConstants#KEY_PLANID} references an event in com.android.providers.calendar
+   */
   private static final String TEMPLATE_CREATE =
       "CREATE TABLE " + TABLE_TEMPLATES + " ( "
       + KEY_ROWID            + " integer primary key autoincrement, "
@@ -131,6 +134,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_METHODID         + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "), "
       + KEY_TITLE            + " text not null, "
       + KEY_USAGES           + " integer default 0, "
+      + KEY_PLANID           + " integer, "
       + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));";
   
   /**
@@ -486,6 +490,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       ContentValues initialValues = new ContentValues();
       initialValues.put("is_numbered", true);
       db.update("paymentmethods", initialValues, "label = ?", new String[] {"CHEQUE"});
+    }
+    if (oldVersion < 38) {
+      db.execSQL("ALTER TABLE templates add column plan_id integer");
     }
   }
 }

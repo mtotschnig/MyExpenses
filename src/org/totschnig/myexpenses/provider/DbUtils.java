@@ -133,7 +133,7 @@ public class DbUtils {
    * @return Long that is null if field is null in db
    */
   public static Long getLongOrNull(Cursor c, String field) {
-    int columnIndex = c.getColumnIndex(field);
+    int columnIndex = c.getColumnIndexOrThrow(field);
     if (c.isNull(columnIndex))
       return null;
     return c.getLong(columnIndex);
@@ -144,7 +144,7 @@ public class DbUtils {
    * @return String that is guaranteed to be not null
    */
   public static String getString(Cursor c, String field) {
-    int columnIndex = c.getColumnIndex(field);
+    int columnIndex = c.getColumnIndexOrThrow(field);
     if (c.isNull(columnIndex))
       return "";
     return c.getString(columnIndex);
