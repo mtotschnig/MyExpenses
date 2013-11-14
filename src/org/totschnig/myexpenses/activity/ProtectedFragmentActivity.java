@@ -148,6 +148,6 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
     if (f!=null)
       t.remove(f);
     t.remove(m.findFragmentByTag("ASYNC_TASK"));
-    t.commit();
+    t.commitAllowingStateLoss();
   }
 }
