@@ -60,6 +60,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -113,7 +114,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   //CALCULATOR_REQUEST in super = 0
   private static final int ACTIVITY_EDIT_SPLIT = 1;
   private static final int SELECT_CATEGORY_REQUEST = 2;
-  private static final int ACTIVITY_ADD_EVENT = 2;
+  private static final int ACTIVITY_ADD_EVENT = 3;
 
   public static final int PAYEES_CURSOR=1;
   public static final int METHODS_CURSOR=2;
@@ -504,6 +505,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
           intent.setData (CalendarContract.Events.CONTENT_URI);
           intent.putExtra (Events.TITLE,mTitleText.getText().toString());
           intent.putExtra(Events.CALENDAR_ID,MyApplication.getInstance().planerCalenderId);
+          intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, System.currentTimeMillis());
+          intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, System.currentTimeMillis());
           //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
           //intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
           startActivityForResult (intent, ACTIVITY_ADD_EVENT);
@@ -630,7 +633,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mCategoryButton.setText(mLabel);
     }
     if (requestCode == ACTIVITY_ADD_EVENT) {
-      Toast.makeText(this, "returned from calendar", Toast.LENGTH_LONG).show();
+      getSupportFragmentManager().beginTransaction()
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_GET_LAST_PLAN,null, null), "ASYNC_TASK")
+        .commit();
     }
   }
   @Override
@@ -719,7 +724,18 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   }
   @Override
   public void onPostExecute(int taskId,Object o) {
-    if (taskId != TaskExecutionFragment.TASK_DELETE_TRANSACTION) {
+    if (taskId == TaskExecutionFragment.TASK_GET_LAST_PLAN) {
+      //((Template) mTransaction).planId = (Long) o;
+      Long result = (Long) o;
+      MyApplication app = MyApplication.getInstance();
+      if (app.planerLastPlanId.equals(result))
+        Log.i("DEBUG", "no new plan created, lastplan is still " + result);
+      else {
+        Log.i("DEBUG", "new plan created with id " + result);
+        app.planerLastPlanId = result;
+      }
+    }
+    else if (taskId != TaskExecutionFragment.TASK_DELETE_TRANSACTION) {
       mTransaction = (Transaction) o;
       if (mTransaction instanceof SplitTransaction)
         mOperationType = MyExpenses.TYPE_SPLIT;
@@ -765,6 +781,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   public void onNothingSelected(AdapterView<?> parent) {
     // TODO Auto-generated method stub    
   }
+
   @Override
   public void onPostExecute(Object result) {
     if (result == null && mTransaction instanceof Template)

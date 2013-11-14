@@ -16,6 +16,8 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import java.util.ArrayList;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
@@ -32,7 +34,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Calendars;
+import android.provider.CalendarContract.Events;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 /**
  * This Fragment manages a single background task and retains
@@ -56,6 +60,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_NEW_FROM_TEMPLATE = 13;
   public static final int TASK_DELETE_CATEGORY = 14;
   public static final int TASK_REQUIRE_CALENDAR = 15;
+  public static final int TASK_GET_LAST_PLAN = 16;
 
   /**
    * Callback interface through which the fragment will report the
@@ -65,6 +70,11 @@ public class TaskExecutionFragment extends Fragment {
     void onPreExecute();
     void onProgressUpdate(int percent);
     void onCancelled();
+    /**
+     * @param taskId with which TaskExecutionFragment was created
+     * @param an object that the activity expects from the task, for example an instantiated
+     * DAO
+     */
     void onPostExecute(int taskId,Object o);
   }
 
@@ -149,6 +159,7 @@ public class TaskExecutionFragment extends Fragment {
     @Override
     protected Object doInBackground(Long... id) {
       Transaction t;
+      Cursor c;
       switch (mTaskId) {
       case TASK_CLONE:
         Transaction.getInstanceFromDb(id[0]).saveAsNew();
@@ -215,8 +226,9 @@ public class TaskExecutionFragment extends Fragment {
         Transaction.move(id[0],id[1]);
         return null;
       case TASK_REQUIRE_CALENDAR:
+        ArrayList<Long> result = new ArrayList<Long>();
         String accountName = "org.totschnig.myexpenses";
-        String calendarName = "MyExpensesPlaner";
+        String calendarName = "MyExpensesPlaner3";
         ContentResolver cr = MyApplication.getInstance().getContentResolver();
         Uri.Builder builder =
             CalendarContract.Calendars.CONTENT_URI.buildUpon();
@@ -230,13 +242,21 @@ public class TaskExecutionFragment extends Fragment {
             CalendarContract.CALLER_IS_SYNCADAPTER,
             "true");
         Uri calendarUri = builder.build();
-        Cursor cursor = cr.query(
+        //int deleted = cr.delete(calendarUri, null, null);
+        //Log.i("DEBUG","deleted old calendard: "+ deleted);
+        c = cr.query(
             calendarUri,
             new String[] {CalendarContract.Calendars._ID},
             Calendars.NAME +  " = ?",
             new String[]{calendarName}, null);
-        if (cursor.getCount() == 0) {
-          cursor.close();
+        if (c.moveToFirst()) {
+          long calenderId = c.getLong(0);
+          result.add(calenderId);
+          result.add(getLastPlanId(calenderId));
+          c.close();
+          return result;
+        } else  {
+          c.close();
           ContentValues values = new ContentValues();
           values.put(
                 Calendars.ACCOUNT_NAME,
@@ -249,21 +269,26 @@ public class TaskExecutionFragment extends Fragment {
                 calendarName);
           values.put(
                 Calendars.CALENDAR_DISPLAY_NAME,
-                "My Expenses planer"); //TODO resource
+                "My Expenses planer 3"); //TODO resource
           values.put(
                 Calendars.CALENDAR_COLOR,
                 0xffff0000); //TODO set to default account color
           values.put(
                 Calendars.CALENDAR_ACCESS_LEVEL,
                 Calendars.CAL_ACCESS_OWNER);
+          values.put(
+                Calendars.OWNER_ACCOUNT, 
+                    "private");
+//              values.put(
+//                    Calendars.CALENDAR_TIME_ZONE, 
+//                    "Europe/Berlin");
           Uri uri = cr.insert(builder.build(), values);
-          return Long.valueOf(ContentUris.parseId(uri));
-        } else {
-          cursor.moveToFirst();
-          Long result = cursor.getLong(0);
-          cursor.close();
+          result.add(ContentUris.parseId(uri));
+          result.add(-1L);
           return result;
         }
+      case TASK_GET_LAST_PLAN:
+        return getLastPlanId(MyApplication.getInstance().planerCalenderId);
       }
       return null;
     }
@@ -280,11 +305,31 @@ public class TaskExecutionFragment extends Fragment {
         mCallbacks.onCancelled();
       }
     }
-
     @Override
     protected void onPostExecute(Object result) {
       if (mCallbacks != null) {
         mCallbacks.onPostExecute(mTaskId,result);
+      }
+    }
+    @SuppressLint("NewApi")
+    private long getLastPlanId(long calenderId) {
+      String[] proj = 
+          new String[] {
+                "MAX(" + Events._ID + ") as last_event_id"};
+      Cursor c = MyApplication.getInstance().getContentResolver().
+          query(
+              Events.CONTENT_URI, 
+              proj, 
+              Events.CALENDAR_ID + " = ? ", 
+              new String[]{Long.toString(calenderId)}, 
+              null);
+      if (c.moveToFirst()) {
+        long result = c.getLong(0);
+        c.close();
+        return result;
+      } else {
+        c.close();
+        return -1L;
       }
     }
   }

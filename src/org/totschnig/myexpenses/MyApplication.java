@@ -70,7 +70,8 @@ public class MyApplication extends Application {
       showImportantUpgradeInfo = false;
     private long mLastPause = 0;
     public static String TAG = "MyExpenses";
-    public long planerCalenderId = -1;
+    public Long planerCalenderId = -1L;
+    public Long planerLastPlanId = -1L;
     /**
      * how many nanoseconds should we wait before prompting for the password
      */

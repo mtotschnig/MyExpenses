@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.activity;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
+import java.util.ArrayList;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
@@ -14,6 +16,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Build;
 import android.util.Log;
 
 public abstract class LaunchActivity extends ProtectedFragmentActivity {
@@ -26,7 +29,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
    * and display information to be presented upon app launch
    */
   public void newVersionCheck() {
-    if (MyApplication.getInstance().planerCalenderId == -1)
+    if (MyApplication.getInstance().planerCalenderId == -1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
       getSupportFragmentManager().beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_CALENDAR,null, null), "ASYNC_TASK")
         .commit();
@@ -96,7 +99,11 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
   public void onPostExecute(int taskId,Object o) {
     super.onPostExecute(taskId, o);
     if (taskId == TaskExecutionFragment.TASK_REQUIRE_CALENDAR) {
-      MyApplication.getInstance().planerCalenderId = (Long) o;
+      MyApplication app = MyApplication.getInstance();
+      ArrayList<Long> result = (ArrayList<Long>) o;
+      app.planerCalenderId = result.get(0);
+      app.planerLastPlanId = result.get(1);
+      Log.i("DEBUG",String.format("calendar %d, plan %d",app.planerCalenderId,app.planerLastPlanId));
     }
   }
 }
