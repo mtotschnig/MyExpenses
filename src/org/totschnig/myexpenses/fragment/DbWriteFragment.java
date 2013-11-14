@@ -42,8 +42,16 @@ public class DbWriteFragment extends Fragment {
    * task's progress and results back to the Activity.
    */
   public static interface TaskCallbacks {
+    /**
+     * @return get the Object that should be saved to DB
+     */
     Model getObject();
     void onCancelled();
+    /**
+     * @param result normally the URI is returned to the calling activity,
+     * optionally, when DbWriteFragment is created with returnSequenceCount true,
+     * the sequence count from the table is returned instead
+     */
     void onPostExecute(Object result);
   }
  
