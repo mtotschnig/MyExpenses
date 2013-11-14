@@ -25,11 +25,18 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.ContentUris;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources.NotFoundException;
+import android.database.Cursor;
+import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
+import android.provider.CalendarContract.Instances;
 import android.util.Log;
 //import android.view.KeyEvent;
 import android.widget.Toast;
@@ -125,6 +132,35 @@ public class MyApplication extends Application {
         Log.w(TAG,"Failed to open property file");
       }
       refreshContribEnabled();
+      handlePlans();
+    }
+    private void handlePlans() {
+      //1) check if last handled timestamp is before start of the day
+      //2) executePlans from last handled timestamp till end of the say
+      //3) schedule alarm
+    }
+    @SuppressLint("NewApi")
+    public void executePlans(long start, long end) {
+      //1) get all event instances for the current date
+      String[] INSTANCE_PROJECTION = new String[] {
+          Instances.EVENT_ID,      // 0
+        };
+      Uri.Builder eventsUriBuilder = CalendarContract.Instances.CONTENT_URI
+          .buildUpon();
+      ContentUris.appendId(eventsUriBuilder, start);
+      ContentUris.appendId(eventsUriBuilder, end);
+      Uri eventsUri = eventsUriBuilder.build();
+      Cursor cursor = getContentResolver().query(eventsUri, INSTANCE_PROJECTION,
+          Events.CALENDAR_ID + " = ?",
+          new String[]{String.valueOf(planerCalenderId)}, null);
+      if (cursor.moveToFirst()) {
+        while (cursor.isAfterLast() == false) {
+          Log.i("DEBUG","found instance of plan "+cursor.getLong(0));
+          cursor.moveToNext();
+        }
+      }
+      //2) check if they are part of a plan linked to a template
+      //3) execute the template
     }
     public boolean refreshContribEnabled() {
       isContribEnabled = Utils.verifyLicenceKey(settings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));

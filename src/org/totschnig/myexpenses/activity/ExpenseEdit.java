@@ -520,7 +520,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
             intent.putExtra (Events.TITLE,mTitleText.getText().toString());
             intent.putExtra(Events.CALENDAR_ID,MyApplication.getInstance().planerCalenderId);
             intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, now);
-            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, now);
+            intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY,true);
             startActivityForResult (intent, ACTIVITY_ADD_EVENT);
          } else {
            //unfortunately ACTION_EDIT does not work see http://code.google.com/p/android/issues/detail?id=39402
@@ -656,6 +656,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mCategoryButton.setText(mLabel);
     }
     if (requestCode == ACTIVITY_ADD_EVENT) {
+      mPlanButton.setEnabled(false);
       getSupportFragmentManager().beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_GET_LAST_PLAN,null, null), "ASYNC_TASK")
         .commit();
@@ -750,12 +751,15 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (taskId == TaskExecutionFragment.TASK_GET_LAST_PLAN) {
       Long result = (Long) o;
       MyApplication app = MyApplication.getInstance();
-      if (app.planerLastPlanId.equals(result))
+      if (app.planerLastPlanId.equals(result)) {
         Log.i("DEBUG", "no new plan created, lastplan is still " + result);
+        mPlanButton.setEnabled(true);
+      }
       else {
         app.planerLastPlanId = result;
         ((Template) mTransaction).planId = result;
         mPlanButton.setText("Plan #" +result);
+        mManager.initLoader(EVENT_CURSOR, null, this);
       }
     }
     else if (taskId != TaskExecutionFragment.TASK_DELETE_TRANSACTION) {
