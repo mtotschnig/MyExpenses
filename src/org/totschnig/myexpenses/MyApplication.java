@@ -391,8 +391,7 @@ public class MyApplication extends Application {
       Intent i = new Intent(this,PlanExecutor.class);
       PendingIntent pendingIntent = PendingIntent.getService(this, 0, i, 0);
       AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-      long interval = 30*1000;
-      //long interval = 86400000; //24* 60 * 60 * 1000 1 day
+      long interval = 86400000; //24* 60 * 60 * 1000 1 day
       Calendar cal = Calendar.getInstance();
       cal.setTimeInMillis(System.currentTimeMillis());
       cal.set(Calendar.HOUR_OF_DAY, 0); //set hours to zero
