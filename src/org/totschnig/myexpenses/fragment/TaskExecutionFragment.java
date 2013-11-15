@@ -160,7 +160,6 @@ public class TaskExecutionFragment extends Fragment {
     @Override
     protected Object doInBackground(Long... id) {
       Transaction t;
-      Cursor c;
       switch (mTaskId) {
       case TASK_CLONE:
         Transaction.getInstanceFromDb(id[0]).saveAsNew();

@@ -24,13 +24,18 @@ import java.util.Properties;
 
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Resources.NotFoundException;
@@ -57,6 +62,7 @@ public class MyApplication extends Application {
     public static final String PREFKEY_CURRENT_VERSION = "currentversion";
     public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static final String PREFKEY_PLANER_CALENDER_ID = "planer_calender_id";
+    public static final String PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP = "planer_last_execution_timestamp";
     public static String PREFKEY_BACKUP;
     public static String PREFKEY_RESTORE;
     public static String PREFKEY_CONTRIB_INSTALL;
@@ -136,36 +142,9 @@ public class MyApplication extends Application {
         Log.w(TAG,"Failed to open property file");
       }
       refreshContribEnabled();
-      handlePlans();
+      initPlaner();
     }
-    private void handlePlans() {
-      //1) check if last handled timestamp is before start of the day
-      //2) executePlans from last handled timestamp till end of the say
-      //3) schedule alarm
-    }
-    @SuppressLint("NewApi")
-    public void executePlans(long start, long end) {
-      //1) get all event instances for the current date
-      String[] INSTANCE_PROJECTION = new String[] {
-          Instances.EVENT_ID,      // 0
-        };
-      Uri.Builder eventsUriBuilder = CalendarContract.Instances.CONTENT_URI
-          .buildUpon();
-      ContentUris.appendId(eventsUriBuilder, start);
-      ContentUris.appendId(eventsUriBuilder, end);
-      Uri eventsUri = eventsUriBuilder.build();
-      Cursor cursor = getContentResolver().query(eventsUri, INSTANCE_PROJECTION,
-          Events.CALENDAR_ID + " = ?",
-          new String[]{String.valueOf(planerCalenderId)}, null);
-      if (cursor.moveToFirst()) {
-        while (cursor.isAfterLast() == false) {
-          Log.i("DEBUG","found instance of plan "+cursor.getLong(0));
-          cursor.moveToNext();
-        }
-      }
-      //2) check if they are part of a plan linked to a template
-      //3) execute the template
-    }
+
     public boolean refreshContribEnabled() {
       isContribEnabled = Utils.verifyLicenceKey(settings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
       return isContribEnabled;
@@ -402,5 +381,26 @@ public class MyApplication extends Application {
         c.close();
         return -1L;
       }
+    }
+    /**
+     * PlanExecutor is executed once, and then rescheduled
+     */
+    public void initPlaner() {
+      Intent service = new Intent(this, PlanExecutor.class);
+      startService(service);
+      Intent i = new Intent(this,PlanExecutor.class);
+      PendingIntent pendingIntent = PendingIntent.getService(this, 0, i, 0);
+      AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+      long interval = 30*1000;
+      //long interval = 86400000; //24* 60 * 60 * 1000 1 day
+      Calendar cal = Calendar.getInstance();
+      cal.setTimeInMillis(System.currentTimeMillis());
+      cal.set(Calendar.HOUR_OF_DAY, 0); //set hours to zero
+      cal.set(Calendar.MINUTE, 0); // set minutes to zero
+      cal.set(Calendar.SECOND, 0); //set seconds to zero
+      cal.set(Calendar.MILLISECOND, 0);
+      //we schedule service for beginning of next day, and then every 24 hours
+      manager.setRepeating(AlarmManager.RTC, cal.getTimeInMillis() + interval, interval,
+          pendingIntent);
     }
 }
