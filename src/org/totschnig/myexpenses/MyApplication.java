@@ -386,10 +386,10 @@ public class MyApplication extends Application {
      * PlanExecutor is executed once, and then rescheduled
      */
     public void initPlaner() {
+      Log.i("DEBUG","Inside init planer");
       Intent service = new Intent(this, PlanExecutor.class);
       startService(service);
-      Intent i = new Intent(this,PlanExecutor.class);
-      PendingIntent pendingIntent = PendingIntent.getService(this, 0, i, 0);
+      PendingIntent pendingIntent = PendingIntent.getService(this, 0, service, 0);
       AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
       long interval = 86400000; //24* 60 * 60 * 1000 1 day
       Calendar cal = Calendar.getInstance();

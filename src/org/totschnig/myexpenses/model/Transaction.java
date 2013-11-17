@@ -149,7 +149,9 @@ public class Transaction extends Model {
     return t;
   }
   public static Transaction getInstanceFromTemplate(long id) {
-    Template te = Template.getInstanceFromDb(id);
+    return getInstanceFromTemplate(Template.getInstanceFromDb(id));
+  }
+  public static Transaction getInstanceFromTemplate(Template te) {
     Transaction tr;
     if (te.isTransfer) {
       tr = new Transfer(te.accountId,te.amount);
@@ -164,7 +166,7 @@ public class Transaction extends Model {
     tr.payee = te.payee;
     tr.label = te.label;
     cr().update(
-        TransactionProvider.TEMPLATES_URI.buildUpon().appendPath(String.valueOf(id)).appendPath("increaseUsage").build(),
+        TransactionProvider.TEMPLATES_URI.buildUpon().appendPath(String.valueOf(te.id)).appendPath("increaseUsage").build(),
         null, null, null);
     return tr;
   }
