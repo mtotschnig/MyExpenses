@@ -412,7 +412,11 @@ public class MyExpenses extends LaunchActivity implements
       if (Utils.isIntentAvailable(this,i)) {
         startActivity(i);
       } else {
-        Toast.makeText(getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
+        Toast.makeText(
+            getBaseContext(),
+            getString(R.string.error_accessing_market,MyApplication.MARKET_NAME),
+            Toast.LENGTH_LONG)
+          .show();
       }
       return true;
     case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:

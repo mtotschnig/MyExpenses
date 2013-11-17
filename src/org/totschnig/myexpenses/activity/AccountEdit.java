@@ -263,8 +263,11 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
           intent.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.openintents.colorpicker"));
           startActivity(intent);
         } catch(Exception e) {
-          Toast toast = Toast.makeText(AccountEdit.this, R.string.error_accessing_gplay, Toast.LENGTH_SHORT);
-          toast.show();
+            Toast.makeText(
+                AccountEdit.this,
+                getString(R.string.error_accessing_market,MyApplication.MARKET_NAME), 
+                Toast.LENGTH_SHORT)
+              .show();
         }
       }
     }

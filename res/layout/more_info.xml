@@ -53,7 +53,7 @@
    <TextView style="@style/about_text"
         android:text="Dark theme design originally suggested by meinnoteblog."/>
    <TextView style="@style/about_text"
-        android:text="Translations: Laurent Collombet, Alexandre Beelen, Gudrun Totschnig, Silvia Delpero, Tulliver, Christof Totschnig, Paco Rivière, mauron, Phan Anh"/>
+        android:text="Translations: Laurent Collombet (fr,it,es), Alexandre Beelen (fr), gudrunto (it), Silvia Delpero (it), Tulliver (es), christoft (es), Paco Rivière (ca), mauron (tr), Caner Başaran (tr), Phan Anh (vi), Ar.Alothaim (ar), Roland Csipai (hu)"/>
    <TextView style="@style/about_text"
     android:text="Code contributions: Configuring and applying custom colors to accounts by khris78"/>
     </LinearLayout>

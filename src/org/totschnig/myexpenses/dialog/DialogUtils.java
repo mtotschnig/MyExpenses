@@ -58,7 +58,11 @@ public class DialogUtils {
            if (Utils.isIntentAvailable(ctx,intent)) {
              ctx.startActivity(intent);
            } else {
-             Toast.makeText(ctx.getBaseContext(),R.string.error_accessing_gplay, Toast.LENGTH_LONG).show();
+             Toast.makeText(
+                 ctx.getBaseContext(),
+                 ctx.getString(R.string.error_accessing_market,MyApplication.MARKET_NAME),
+                 Toast.LENGTH_LONG)
+               .show();
            }
          }
       })

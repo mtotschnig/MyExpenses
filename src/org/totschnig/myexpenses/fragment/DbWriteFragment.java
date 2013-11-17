@@ -36,19 +36,6 @@ import android.support.v4.app.Fragment;
  * the later is only implemented for transactions
  */
 public class DbWriteFragment extends Fragment {
-  public static final int TASK_CLONE = 1;
-  public static final int TASK_INSTANTIATE_TRANSACTION = 2;
-  public static final int TASK_INSTANTIATE_TEMPLATE = 3;
-  public static final int TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE = 4;
-  public static final int TASK_REQUIRE_ACCOUNT = 5;
-  public static final int TASK_DELETE_TRANSACTION = 6;
-  public static final int TASK_DELETE_ACCOUNT = 7;
-  public static final int TASK_DELETE_PAYMENT_METHOD = 8;
-  public static final int TASK_DELETE_PAYEE = 9;
-  public static final int TASK_DELETE_TEMPLATE = 10;
-  public static final int TASK_TOGGLE_CRSTATUS = 11;
-  public static final int TASK_MOVE = 12;
-  public static final int TASK_NEW_FROM_TEMPLATE = 13;
   
   /**
    * Callback interface through which the fragment will report the

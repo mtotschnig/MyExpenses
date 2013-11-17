@@ -19,9 +19,6 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY contrib ' (<b>Premium</b>)'>
   <!ENTITY continue 'Vuoi continuare?'>
-  <!ENTITY market_google 'Google Play'>
-  <!ENTITY market_amazon 'Amazon Appstore'>
-  <!ENTITY market '@market@'>
 ]>
 <resources>
   <string name="account">Conto</string>
@@ -70,7 +67,7 @@
   <string name="dialog_password_change_password">Modificare la password</string>
   <string name="dialog_password_new_password">Nuova password</string>
   <string name="dialog_password_new_password_confirmation">Nuova password (conferma)</string>
-  <string name="dialog_remind_rate">Si prega di prendere un momento per votare &app_name; al &market;. I vostri commenti mi permettono di aggiungere continuamente perfezionamenti.</string>
+  <string name="dialog_remind_rate">Si prega di prendere un momento per votare &app_name;. I vostri commenti mi permettono di aggiungere continuamente perfezionamenti.</string>
   <string name="dialog_remind_rate_yes">Vota ora</string>
   <string name="dialog_remind_later">Più tardi</string>
   <string name="dialog_remind_no">No grazie</string>
@@ -87,7 +84,7 @@
   <string name="dialog_title_welcome">Benvenuto!</string>
   <string name="donate">Donare</string>
   <string name="donate_dialog_text">Si prega di donare tramite PayPal, Flattr o Bitcoin, e quindi richiedere una chiave contrib dalla schermata delle impostazioni.</string>
-  <string name="error_accessing_gplay">Errore durante l\'accesso a &market;</string>
+  <string name="error_accessing_market">Errore durante l\'accesso a %1$s</string>
   <string name="expense">spesa</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già. Attendere un minuto prima di riprovare.</string>
   <string name="export_expenses">Esportazione delle spese</string>
@@ -180,7 +177,7 @@
   <string name="no_accounts">Nessun conto !</string>
   <string name="no_amount_given">Non ha scritto ningun somma.</string>
   <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail</string>
-  <string name="no_app_handling_ftp_available">Nessuna applicazione disponibile per ftp. Installare <i>Invia via FTP</i> da &market;?</string>
+  <string name="no_app_handling_ftp_available">Nessuna applicazione disponibile per ftp. Installare <i>Invia via FTP</i>?</string>
   <string name="no_categories">Non ci sono categorie.</string>
   <string name="no_category_assigned">Nessuna categoria assegnata</string>
   <string name="no_details">Nessun dettaglio.</string>
