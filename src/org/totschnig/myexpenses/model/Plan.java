@@ -1,10 +1,12 @@
 package org.totschnig.myexpenses.model;
 
+import java.io.Serializable;
+
 /**
  * @author Michael Totschnig
  * holds information about an event in the calendar
  */
-public class Plan {
+public class Plan implements Serializable {
   public long id;
   public long dtstart;
   public long dtend;

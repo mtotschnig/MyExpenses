@@ -503,7 +503,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (mTransaction instanceof Template) {
       mTitleText.setText(((Template) mTransaction).title);
       if (((Template) mTransaction).planId !=null) {
-        mPlanButton.setText("Plan #" + ((Template) mTransaction).planId);
         //we need data from the cursor when launching the view intent
         //hence need to disable button until data is loaded
         mPlanButton.setEnabled(false);
@@ -561,6 +560,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (signum != 0)
       mAmountText.setText(nfDLocal.format(amount));
   }
+
   /**
    * extracts the fields from a date object for setting them on the buttons
    * @param date
@@ -636,6 +636,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mTransaction.methodId = (selected != AdapterView.INVALID_ROW_ID && selected > 0) ?
             selected : null;
     }
+
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       mTransaction.transfer_account = mAccountSpinner.getSelectedItemId();
     }
@@ -682,6 +683,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     }
     setCategoryButton();
   }
+  private void configurePlan() {
+    mPlanButton.setText("Plan #" + mPlan.id);
+  }
   /**
    *  for a transfer append an indicator of direction to the label on the category button 
    */
@@ -700,11 +704,18 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (mCatId != null)
       outState.putLong("catId", mCatId);
     outState.putString("label", mLabel);
+    if (mPlan != null)
+      outState.putSerializable("plan",mPlan);
   }
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
     mCalendar = (Calendar) savedInstanceState.getSerializable("calendar");
+    mPlan = (Plan) savedInstanceState.getSerializable("plan");
+    if (mPlan != null) {
+      ((Template) mTransaction).planId = mPlan.id;
+      configurePlan();
+    }
     mLabel = savedInstanceState.getString("label");
     if ((mCatId = savedInstanceState.getLong("catId")) == 0L)
       mCatId = null;
@@ -758,7 +769,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       else {
         app.planerLastPlanId = result;
         ((Template) mTransaction).planId = result;
-        mPlanButton.setText("Plan #" +result);
         mManager.initLoader(EVENT_CURSOR, null, this);
       }
     }
@@ -931,6 +941,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
             data.getString(data.getColumnIndexOrThrow(Events.TITLE))
             );
         mPlanButton.setEnabled(true);
+        configurePlan();
       }
       break;
     }
