@@ -36,7 +36,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
     Editor edit = mSettings.edit();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     int current_version = CommonCommands.getVersionNumber(this);
-    if (prev_version != current_version) {
+    if (prev_version < current_version) {
       SharedPreferencesCompat.apply(edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version));
       if (prev_version == -1)
         return;
