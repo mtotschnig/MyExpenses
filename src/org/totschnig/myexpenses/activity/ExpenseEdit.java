@@ -41,6 +41,8 @@ import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.android.calendar.EventRecurrenceFormatter;
+import com.android.calendarcommon2.EventRecurrence;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -54,6 +56,7 @@ import android.database.MergeCursor;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
+import android.provider.CalendarContract.EventsEntity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -684,7 +687,12 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     setCategoryButton();
   }
   private void configurePlan() {
-    mPlanButton.setText("Plan #" + mPlan.id);
+    if (mPlan.rrule != null) {
+      EventRecurrence eventRecurrence = new EventRecurrence();
+      eventRecurrence.parse(mPlan.rrule);
+      mPlanButton.setText(EventRecurrenceFormatter.getRepeatString(this,getResources(), eventRecurrence,true));
+    } else
+      mPlanButton.setText(new Date(mPlan.dtstart).toLocaleString());
   }
   /**
    *  for a transfer append an indicator of direction to the label on the category button 

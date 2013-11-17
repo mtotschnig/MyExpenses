@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2006 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- A label in a multiple-choice list for the specifying that an event does
+         not repeat -->
+    <string name="does_not_repeat">One-time event</string>
+    <!-- Part of a description of an repeating event. This part states the date when a repeating
+         event ends. The part before the semi-colon describes how it repeats.
+         e.g. Every 2 weeks; until 1/1/2030 [CHAR LIMIT=21] -->
+    <string name="endByDate">; until <xliff:g id="date">%s</xliff:g></string>
+    <!-- Part of a description of an repeating event. This part how many times the event repeats.
+         The part before the semi-colon describes how it repeats.
+         e.g. Every 2 weeks; for 15 times [CHAR LIMIT=15] -->
+    <plurals name="endByCount">
+        <item quantity="one">; for one time</item>
+        <item quantity="other">; for <xliff:g id="number">%d</xliff:g> times</item>
+    </plurals>
+    <!-- A description for an event that repeats daily. For example, Every 2 days [CHAR LIMIT=15]-->
+    <plurals name="daily">
+        <item quantity="one">Daily</item>
+        <item quantity="other">Every <xliff:g id="number">%d</xliff:g> days</item>
+    </plurals>
+    <!-- A label in a multiple-choice list for the specifying that an event
+         repeats every weekday (Monday through Friday) -->
+    <string name="every_weekday">"Every weekday (Mon\u2013Fri)"</string>
+    <!-- A description for an event that repeats weekly on some day of the week. For example,
+         'Weekly on Tuesday' or Every 2 weeks on Monday, Tuesday.  [CHAR LIMIT=25]-->
+    <plurals name="weekly">
+        <item quantity="one">Weekly on <xliff:g id="days_of_week">%2$s</xliff:g></item>
+        <item quantity="other">Every <xliff:g id="number">%1$d</xliff:g> weeks on <xliff:g id="days_of_week">%2$s</xliff:g></item>
+    </plurals>
+
+    <!-- The common portion of a string describing how often an event repeats,
+         example: 'Monthly (on day 2)' -->
+    <string name="monthly">Monthly</string>
+    <!-- Calendar spinner item, to select that an event recurs every year. -->
+    <string name="yearly_plain">Yearly</string>
+    <!-- Example: "Monthly (on day 15)" -->
+    <string name="monthly_on_day">"Monthly (on day <xliff:g id="day_of_month">%s</xliff:g>)"</string>
+    <!-- Example: "Yearly (on April 15)" -->
+    <string name="yearly">"Yearly (on <xliff:g id="dates">%s</xliff:g>)"</string>
+    <!-- This is a label for telling the user that this event repeats in
+         custom (non-standard) way from the usual repeat rates (such as daily,
+         weekly, etc.) and that the user cannot change this on the phone
+         (but only on the web). -->         
+        <!-- The following sets of strings describe a monthly recurring event, which will repeat
+         on the Nth WEEKDAY of every month. For example, the 3rd Monday of every month, or
+         the last Sunday. These are set up like this to resolve any gender-matching issues
+         that were present in some languages.
+     -->
+    <!-- Repeat a monthly event on the same nth day of every Sunday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_sun">
+        <item >on every first Sunday</item>
+        <item >on every second Sunday</item>
+        <item >on every third Sunday</item>
+        <item >on every fourth Sunday</item>
+        <item >on every last Sunday</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Monday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_mon">
+        <item >on every first Monday</item>
+        <item >on every second Monday</item>
+        <item >on every third Monday</item>
+        <item >on every fourth Monday</item>
+        <item >on every last Monday</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Tuesday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_tues">
+        <item >on every first Tuesday</item>
+        <item >on every second Tuesday</item>
+        <item >on every third Tuesday</item>
+        <item >on every fourth Tuesday</item>
+        <item >on every last Tuesday</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Wednesday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_wed">
+        <item >on every first Wednesday</item>
+        <item >on every second Wednesday</item>
+        <item >on every third Wednesday</item>
+        <item >on every fourth Wednesday</item>
+        <item >on every last Wednesday</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Thursday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_thurs">
+        <item >on every first Thursday</item>
+        <item >on every second Thursday</item>
+        <item >on every third Thursday</item>
+        <item >on every fourth Thursday</item>
+        <item >on every last Thursday</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Friday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_fri">
+        <item >on every first Friday</item>
+        <item >on every second Friday</item>
+        <item >on every third Friday</item>
+        <item >on every fourth Friday</item>
+        <item >on every last Friday</item>
+    </string-array>
+    <!-- Repeat a monthly event on the same nth day of every Saturday. [CHAR LIMIT=30] -->
+    <string-array name="repeat_by_nth_sat">
+        <item >on every first Saturday</item>
+        <item >on every second Saturday</item>
+        <item >on every third Saturday</item>
+        <item >on every fourth Saturday</item>
+        <item >on every last Saturday</item>
+    </string-array>
+</resources>
