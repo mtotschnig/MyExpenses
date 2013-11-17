@@ -19,9 +19,6 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY contrib ' (<b>Premium</b>)'>
   <!ENTITY continue 'Möchten Sie fortfahren?'>
-  <!ENTITY market_google 'Google Play'>
-  <!ENTITY market_amazon 'Amazon Appstore'>
-  <!ENTITY market '@market@'>
 ]>
 <resources>
   <string name="account">Konto</string>
@@ -70,7 +67,7 @@
   <string name="dialog_password_change_password">Passwort ändern</string>
   <string name="dialog_password_new_password">Neues Passwort</string>
   <string name="dialog_password_new_password_confirmation">Neues Passwort (Bestätigung)</string>
-  <string name="dialog_remind_rate">Bitte nehmen Sie sich einen Augenblick Zeit, um &app_name; auf &market; zu bewerten und zu rezensieren. Ihre Kommentare ermöglichen regelmäßige Verbesserungen und Erweiterungen.</string>
+  <string name="dialog_remind_rate">Bitte nehmen Sie sich einen Augenblick Zeit, um &app_name; zu bewerten und zu rezensieren. Ihre Kommentare ermöglichen regelmäßige Verbesserungen und Erweiterungen.</string>
   <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
   <string name="dialog_remind_later">Später</string>
   <string name="dialog_remind_no">Nein danke</string>
@@ -87,7 +84,7 @@
   <string name="dialog_title_welcome">Willkommen!</string>
   <string name="donate">Spenden</string>
   <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal, Flattr oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Contrib-Schlüssel an.</string>
-  <string name="error_accessing_gplay">Fehler beim Zugriff auf &market;</string>
+  <string name="error_accessing_market">Fehler beim Zugriff auf %1$s</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten Sie eine Minute bevor Sie es erneut versuchen.</string>
   <string name="export_expenses">Ausgaben-Export</string>
@@ -180,7 +177,7 @@
   <string name="no_accounts">Keine Konten</string>
   <string name="no_amount_given">Sie haben keinen Betrag eingegeben.</string>
   <string name="no_app_handling_email_available">Keine App für das Versenden von Email gefunden.</string>
-  <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> von &market; installieren?</string>
+  <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> installieren?</string>
   <string name="no_categories">Noch keine Kategorien vorhanden.</string>
   <string name="no_category_assigned">Keine Kategorie zugeordnet</string>
   <string name="no_details">Keine Details vorhanden.</string>

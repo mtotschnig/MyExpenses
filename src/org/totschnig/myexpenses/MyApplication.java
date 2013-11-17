@@ -81,6 +81,7 @@ public class MyApplication extends Application {
     public static final String FEEDBACK_EMAIL = "myexpenses@totschnig.org";
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
     public static final String HOST = "myexpenses.totschnig.org";
+    public static final String MARKET_NAME = "Google Play";
 
     @Override
     public void onCreate() {
