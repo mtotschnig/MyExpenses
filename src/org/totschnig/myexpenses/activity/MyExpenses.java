@@ -294,11 +294,11 @@ public class MyExpenses extends LaunchActivity implements
     if (requestCode == ACTIVITY_EDIT && resultCode == RESULT_OK) {
       long nextReminder;
       sequenceCount = intent.getLongExtra("sequence_count", 0);
-      /*nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
+      nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
       if (nextReminder != -1 && sequenceCount >= nextReminder) {
         new RemindRateDialogFragment().show(getSupportFragmentManager(),"REMIND_RATE");
         return;
-      }*/
+      }
       if (!MyApplication.getInstance().isContribEnabled) {
         nextReminder = mSettings.getLong("nextReminderContrib",TRESHOLD_REMIND_CONTRIB);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
