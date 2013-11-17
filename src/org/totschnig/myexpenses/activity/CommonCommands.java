@@ -102,7 +102,7 @@ public class CommonCommands {
     } catch (Exception e) {
       Log.e("MyExpenses", "Package info not found", e);
     }
-    return versionname + version  + MyApplication.BUILD_DATE;
+    return versionname + version  + MyApplication.BUILD_DATE + "-GP";
   }
   /**
    * @return version name
