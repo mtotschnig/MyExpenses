@@ -696,7 +696,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       eventRecurrence.setStartDate(date);
       mPlanButton.setText(EventRecurrenceFormatter.getRepeatString(this,getResources(), eventRecurrence,true));
     } else
-      mPlanButton.setText(new Date(mPlan.dtstart).toLocaleString());
+      mPlanButton.setText(mTitleDateFormat.format(new Date(mPlan.dtstart)));
+    if (mTitleText.getText().toString().equals(""))
+      mTitleText.setText(mPlan.title);
   }
   /**
    *  for a transfer append an indicator of direction to the label on the category button 
@@ -781,7 +783,10 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       else {
         app.planerLastPlanId = result;
         ((Template) mTransaction).planId = result;
-        mManager.initLoader(EVENT_CURSOR, null, this);
+        if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
+          mManager.restartLoader(EVENT_CURSOR, null, this);
+        else
+          mManager.initLoader(EVENT_CURSOR, null, this);
       }
     }
     else if (taskId != TaskExecutionFragment.TASK_DELETE_TRANSACTION) {
