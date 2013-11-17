@@ -952,9 +952,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
             data.getString(data.getColumnIndexOrThrow(Events.RRULE)),
             data.getString(data.getColumnIndexOrThrow(Events.TITLE))
             );
-        mPlanButton.setEnabled(true);
         configurePlan();
-      }
+      } else
+        //plan has been deleted
+        ((Template) mTransaction).planId = null;
+      mPlanButton.setEnabled(true);
       break;
     }
   }
