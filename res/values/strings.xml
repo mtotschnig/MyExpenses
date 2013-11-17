@@ -19,9 +19,6 @@
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY contrib ' (<b>Premium</b>)'>
   <!ENTITY continue 'Do you want to continue?'>
-  <!ENTITY market_google 'Google Play'>
-  <!ENTITY market_amazon 'Amazon Appstore'>
-  <!ENTITY market '@market@'>
 ]>
 <resources>
   <string name="account">Account</string>
@@ -72,7 +69,7 @@
   <string name="dialog_password_change_password">Change password</string>
   <string name="dialog_password_new_password">New password</string>
   <string name="dialog_password_new_password_confirmation">New password (confirmation)</string>
-  <string name="dialog_remind_rate">Please take a moment to rate and review &app_name; at &market;. Your comments allow me to continually add improvements and enhancements.</string>
+  <string name="dialog_remind_rate">Please take a moment to rate and review &app_name;. Your comments allow me to continually add improvements and enhancements.</string>
   <string name="dialog_remind_rate_yes">Rate now</string>
   <string name="dialog_remind_later">Later</string>
   <string name="dialog_remind_no">No thanks</string>
@@ -89,7 +86,8 @@
   <string name="dialog_title_welcome">Welcome!</string>
   <string name="donate">Donate</string>
   <string name="donate_dialog_text">Please donate via PayPal, Flattr or Bitcoin, and then request a contrib key from the settings screen.</string>
-  <string name="error_accessing_gplay">Error while accessing &market;</string>
+  <!-- %1$s will be replaced with Market name (Google Play or Amazon Appstore) -->
+  <string name="error_accessing_market">Error while accessing %1$s</string>
   <string name="expense">Expense</string>
   <string name="export_expenses_outputfile_exists">Output file already exists. Please wait one minute, and try again.</string>
   <string name="export_expenses">Expenses export</string>
@@ -183,7 +181,7 @@
   <string name="no_accounts">No Accounts!</string>
   <string name="no_amount_given">You did not enter any amount.</string>
   <string name="no_app_handling_email_available">No app handling email available.</string>
-  <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i> from &market;?</string>
+  <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i>?</string>
   <string name="no_categories">No categories.</string>
   <string name="no_category_assigned">No category assigned</string>
   <string name="no_details">No details.</string>

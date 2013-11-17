@@ -18,9 +18,6 @@
   <!ENTITY app_name "Les meves despeses">
   <!ENTITY grisbi_file "grisbi.xml">
   <!ENTITY contrib ' (<b>Premium</b>)'>
-  <!ENTITY market_google 'Google Play'>
-  <!ENTITY market_amazon 'Amazon Appstore'>
-  <!ENTITY market '@market@'>
 ]>
 <resources>
   <string name="account">Compte</string>
@@ -71,7 +68,7 @@
   <string name="dialog_password_change_password">Canviar contrasenya</string>
   <string name="dialog_password_new_password">Nova contrasenya</string>
   <string name="dialog_password_new_password_confirmation">Nova contrasenya (confirmació)</string>
-  <string name="dialog_remind_rate">Si us plau prengui un moment per valorar i comentar &app_name; a &market;. Els seus comentaris em permeten afegir contínuament millores.</string>
+  <string name="dialog_remind_rate">Si us plau prengui un moment per valorar i comentar &app_name;. Els seus comentaris em permeten afegir contínuament millores.</string>
   <string name="dialog_remind_rate_yes">Tarifa avui</string>
   <string name="dialog_remind_later">Més tard</string>
   <string name="dialog_remind_no">No, gràcies</string>
@@ -88,7 +85,7 @@
   <string name="dialog_title_welcome">Benvingut!</string>
   <string name="donate">Donar</string>
   <string name="donate_dialog_text">Si us plau, donar a través de PayPal, Flattr o Bitcoin i, a continuació, demanar una clau contrib de la pantalla d\'ajustos.</string>
-  <string name="error_accessing_gplay">S\'ha produït un error en accedir al &market;</string>
+  <string name="error_accessing_market">S\'ha produït un error en accedir al %1$s</string>
   <string name="expense">despesa</string>
   <string name="export_expenses_outputfile_exists">El fitxer de sortida ja existeix. Si us plau, espereu un minut i torneu-ho a intentar.</string>
   <string name="export_expenses">Exporta les despeses</string>
@@ -181,7 +178,7 @@
   <string name="no_accounts">No hi ha cap compte!</string>
   <string name="no_amount_given">Vostè no ha ingressat cap quantitat.</string>
   <string name="no_app_handling_email_available">No s\'ha trobat l\'aplicació del correu electrónic.</string>
-  <string name="no_app_handling_ftp_available">No s\'ha trobat aplicació de ftp. Instal·la <i>Envia amb FTP</i> des de &market;?</string>
+  <string name="no_app_handling_ftp_available">No s\'ha trobat aplicació de ftp. Instal·la <i>Envia amb FTP</i>?</string>
   <string name="no_categories">Encara no hi ha categories.</string>
   <string name="no_category_assigned">Sense categoria assignada</string>
   <string name="no_details">No hi ha cap detall.</string>
