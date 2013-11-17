@@ -414,7 +414,7 @@ public class MyExpenses extends LaunchActivity implements
       } else {
         Toast.makeText(
             getBaseContext(),
-            getString(R.string.error_accessing_market,MyApplication.MARKET_NAME),
+            R.string.error_accessing_market,
             Toast.LENGTH_LONG)
           .show();
       }

@@ -265,7 +265,7 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
         } catch(Exception e) {
             Toast.makeText(
                 AccountEdit.this,
-                getString(R.string.error_accessing_market,MyApplication.MARKET_NAME), 
+                R.string.error_accessing_market,
                 Toast.LENGTH_SHORT)
               .show();
         }

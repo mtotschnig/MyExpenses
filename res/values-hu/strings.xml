@@ -80,7 +80,6 @@
   <string name="dialog_title_welcome">Üdvözlet!</string>
   <string name="donate">Támogatás</string>
   <string name="donate_dialog_text">Támogatását PayPal, Bitcoin vagy Flattr-en keresztül is megteheti, majd kérjen Contrib kulcsot a beállítások képernyőn megtalálható módon.</string>
-  <string name="error_accessing_market">Hiba történt a %1$s elérése közben</string>
   <string name="expense">Kiadás</string>
   <string name="export_expenses_outputfile_exists">A kimeneti fájl már létezik. Kérem várjon egy percet és próbálja meg újra.</string>
   <string name="export_expenses">Kiadások exportálása</string>

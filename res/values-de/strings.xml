@@ -84,7 +84,6 @@
   <string name="dialog_title_welcome">Willkommen!</string>
   <string name="donate">Spenden</string>
   <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal, Flattr oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Contrib-Schlüssel an.</string>
-  <string name="error_accessing_market">Fehler beim Zugriff auf %1$s</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten Sie eine Minute bevor Sie es erneut versuchen.</string>
   <string name="export_expenses">Ausgaben-Export</string>
