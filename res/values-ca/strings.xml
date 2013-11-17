@@ -85,7 +85,6 @@
   <string name="dialog_title_welcome">Benvingut!</string>
   <string name="donate">Donar</string>
   <string name="donate_dialog_text">Si us plau, donar a través de PayPal, Flattr o Bitcoin i, a continuació, demanar una clau contrib de la pantalla d\'ajustos.</string>
-  <string name="error_accessing_market">S\'ha produït un error en accedir al %1$s</string>
   <string name="expense">despesa</string>
   <string name="export_expenses_outputfile_exists">El fitxer de sortida ja existeix. Si us plau, espereu un minut i torneu-ho a intentar.</string>
   <string name="export_expenses">Exporta les despeses</string>

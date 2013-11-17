@@ -292,13 +292,13 @@ public class MyExpenses extends LaunchActivity implements
     super.onActivityResult(requestCode, resultCode, intent);
     //configButtons();
     if (requestCode == ACTIVITY_EDIT && resultCode == RESULT_OK) {
-      long nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
-      //TODO move getTransactionSequence out of UI thread, probably cache in Application class
+      long nextReminder;
       sequenceCount = intent.getLongExtra("sequence_count", 0);
+      /*nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
       if (nextReminder != -1 && sequenceCount >= nextReminder) {
         new RemindRateDialogFragment().show(getSupportFragmentManager(),"REMIND_RATE");
         return;
-      }
+      }*/
       if (!MyApplication.getInstance().isContribEnabled) {
         nextReminder = mSettings.getLong("nextReminderContrib",TRESHOLD_REMIND_CONTRIB);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
@@ -414,7 +414,7 @@ public class MyExpenses extends LaunchActivity implements
       } else {
         Toast.makeText(
             getBaseContext(),
-            getString(R.string.error_accessing_market,MyApplication.MARKET_NAME),
+            R.string.error_accessing_market,
             Toast.LENGTH_LONG)
           .show();
       }

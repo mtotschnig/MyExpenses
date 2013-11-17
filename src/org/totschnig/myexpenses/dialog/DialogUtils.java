@@ -60,7 +60,7 @@ public class DialogUtils {
            } else {
              Toast.makeText(
                  ctx.getBaseContext(),
-                 ctx.getString(R.string.error_accessing_market,MyApplication.MARKET_NAME),
+                 R.string.error_accessing_market,
                  Toast.LENGTH_LONG)
                .show();
            }

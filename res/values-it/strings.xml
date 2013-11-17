@@ -84,7 +84,6 @@
   <string name="dialog_title_welcome">Benvenuto!</string>
   <string name="donate">Donare</string>
   <string name="donate_dialog_text">Si prega di donare tramite PayPal, Flattr o Bitcoin, e quindi richiedere una chiave contrib dalla schermata delle impostazioni.</string>
-  <string name="error_accessing_market">Errore durante l\'accesso a %1$s</string>
   <string name="expense">spesa</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già. Attendere un minuto prima di riprovare.</string>
   <string name="export_expenses">Esportazione delle spese</string>
