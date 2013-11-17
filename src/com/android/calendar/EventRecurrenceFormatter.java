@@ -117,10 +117,12 @@ public class EventRecurrenceFormatter
                     sb.append(endString);
                     return sb.toString();
                 }
-                return r.getString(R.string.monthly) + endString;
+                return r.getString(R.string.monthly_on_day,recurrence.startDate.monthDay) + endString;
             }
             case EventRecurrence.YEARLY:
-                return r.getString(R.string.yearly_plain) + endString;
+                return r.getString(R.string.yearly,
+                    DateUtils.formatDateTime(context, recurrence.startDate.toMillis(false), 0))
+                  + endString;
         }
 
         return null;
