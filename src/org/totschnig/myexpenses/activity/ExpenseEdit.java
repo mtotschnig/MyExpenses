@@ -64,6 +64,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -690,6 +691,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (mPlan.rrule != null) {
       EventRecurrence eventRecurrence = new EventRecurrence();
       eventRecurrence.parse(mPlan.rrule);
+      Time date = new Time();
+      date.set(mPlan.dtstart);
+      eventRecurrence.setStartDate(date);
       mPlanButton.setText(EventRecurrenceFormatter.getRepeatString(this,getResources(), eventRecurrence,true));
     } else
       mPlanButton.setText(new Date(mPlan.dtstart).toLocaleString());
