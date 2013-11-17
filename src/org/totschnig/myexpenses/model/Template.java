@@ -37,6 +37,12 @@ public class Template extends Transaction {
   public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
     SHORT_LABEL,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,KEY_TITLE,KEY_PLANID};
 
+  /**
+   * derives a new template from an existing Transaction
+   * @param t the transaction whose data (account, amount, category, comment, payment method, payee,
+   * populates the template
+   * @param title identifies the template in the template list
+   */
   public Template(Transaction t, String title) {
     this.title = title;
     this.accountId = t.accountId;
@@ -51,6 +57,12 @@ public class Template extends Transaction {
     this.isTransfer = t.transfer_peer != null;
     this.transfer_account = t.transfer_account;
   }
+  /**
+   * @param c Cursor positioned at the row we want to extract into the object
+   */
+  /**
+   * @param c
+   */
   public Template (Cursor c) {
     this(c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID)),
         c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT))
