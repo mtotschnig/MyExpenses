@@ -160,10 +160,7 @@ public class Template extends Transaction {
   public static void delete(long id) {
     Template t = getInstanceFromDb(id);
     if (t.planId != null) {
-      cr().delete(
-          Events.CONTENT_URI.buildUpon().appendPath(String.valueOf(t.planId)).build(),
-          null,
-          null);
+      Plan.delete(t.planId);
     }
     cr().delete(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
