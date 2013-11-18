@@ -135,6 +135,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_TITLE            + " text not null, "
       + KEY_USAGES           + " integer default 0, "
       + KEY_PLANID           + " integer, "
+      + KEY_PLAN_EXECUTION   + " boolean default 0, "
       + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));";
   
   /**
@@ -493,6 +494,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     }
     if (oldVersion < 38) {
       db.execSQL("ALTER TABLE templates add column plan_id integer");
+      db.execSQL("ALTER TABLE templates add column plan_execution boolean default 0");
     }
   }
 }

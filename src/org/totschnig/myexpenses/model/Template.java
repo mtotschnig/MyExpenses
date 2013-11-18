@@ -34,10 +34,23 @@ public class Template extends Transaction {
   public String title;
   public boolean isTransfer;
   public Long planId;
+  public boolean planExecutionAutomatic = false;
 
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
-  public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
-    SHORT_LABEL,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,KEY_TITLE,KEY_PLANID};
+  public static final String[] PROJECTION = new String[] {
+    KEY_ROWID,
+    KEY_AMOUNT,
+    KEY_COMMENT,
+    KEY_CATID,
+    SHORT_LABEL,
+    KEY_PAYEE_NAME,
+    KEY_TRANSFER_PEER,
+    KEY_TRANSFER_ACCOUNT,
+    KEY_ACCOUNTID,
+    KEY_METHODID,
+    KEY_TITLE,
+    KEY_PLANID,
+    KEY_PLAN_EXECUTION};
 
   /**
    * derives a new template from an existing Transaction
@@ -81,6 +94,7 @@ public class Template extends Transaction {
     label =  DbUtils.getString(c,KEY_LABEL);
     title = DbUtils.getString(c,KEY_TITLE);
     planId = DbUtils.getLongOrNull(c, KEY_PLANID);
+    planExecutionAutomatic = c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION)) > 0;
   }
   public Template(long accountId,Long amount) {
     super(accountId,amount);
@@ -137,6 +151,7 @@ public class Template extends Transaction {
     initialValues.put(KEY_METHODID, methodId);
     initialValues.put(KEY_TITLE, title);
     initialValues.put(KEY_PLANID, planId);
+    initialValues.put(KEY_PLAN_EXECUTION,planExecutionAutomatic);
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_TRANSFER_PEER, isTransfer);

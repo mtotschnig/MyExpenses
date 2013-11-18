@@ -211,6 +211,8 @@
   <string name="payer">Payer</string>
   <!-- Plan for future and recurring transactions -->
   <string name="plan">Plan</string>
+  <string name="plan_automatic">automatic</string>
+  <string name="plan_manual">manual</string>
   <!-- payment methods -->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Credit card</string>

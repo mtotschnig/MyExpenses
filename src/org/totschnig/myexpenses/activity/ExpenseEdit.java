@@ -63,6 +63,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Editable;
+import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.text.format.Time;
 import android.util.Log;
@@ -80,6 +81,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 /**
  * Activity for editing a transaction
@@ -96,6 +98,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter;
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel;
+  private ToggleButton mPlanToggleButton;
   public Long mRowId;
   private Long mTemplateId;
   private Account mAccount;
@@ -160,6 +163,14 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mPlanButton = (Button) findViewById(R.id.Plan);
     mMethodSpinner = (Spinner) findViewById(R.id.Method);
     mAccountSpinner = (Spinner) findViewById(R.id.Account);
+    mPlanToggleButton = (ToggleButton) findViewById(R.id.togglebutton);
+    TextPaint paint = mPlanToggleButton.getPaint();
+    int automatic = (int) paint.measureText(getString(R.string.plan_automatic));
+    int manual = (int) paint.measureText(getString(R.string.plan_manual));
+    mPlanToggleButton.setWidth(
+        (automatic > manual ? automatic : manual) +
+        + mPlanToggleButton.getPaddingLeft()
+        + mPlanToggleButton.getPaddingRight());
     mManager= getSupportLoaderManager();
 
     //1. fetch the transaction or create a new instance
@@ -539,6 +550,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
           //intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         }
       });
+      mPlanToggleButton.setChecked(((Template) mTransaction).planExecutionAutomatic);
     }
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
@@ -692,6 +704,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private void configurePlan() {
     if (mPlan == null) {
       mPlanButton.setText(R.string.menu_create);
+      mPlanToggleButton.setVisibility(View.GONE);
     } else {
       if (mPlan.rrule != null) {
         EventRecurrence eventRecurrence = new EventRecurrence();
@@ -705,6 +718,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       }
       if (mTitleText.getText().toString().equals(""))
         mTitleText.setText(mPlan.title);
+      mPlanToggleButton.setVisibility(View.VISIBLE);
     }
     mPlanButton.setEnabled(true);
   }
@@ -987,5 +1001,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mPlan = null;
       break;
     }
+  }
+  public void onToggleClicked(View view) {
+    ((Template) mTransaction).planExecutionAutomatic = ((ToggleButton) view).isChecked();
   }
 }
