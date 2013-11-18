@@ -3,23 +3,29 @@ package org.totschnig.myexpenses.service;
 import java.util.Date;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.annotation.SuppressLint;
 import android.app.IntentService;
-import android.app.Service;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.IBinder;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
 import android.provider.CalendarContract.Instances;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 public class PlanExecutor extends IntentService {
 
@@ -70,10 +76,30 @@ public class PlanExecutor extends IntentService {
           //2) check if they are part of a plan linked to a template
           //3) execute the template
           Log.i("DEBUG",String.format("found instance %d of plan %d",instanceId,planId));
-          Template te = Template.getInstanceForPlan(planId);
-          //TODO show notification handle automatic and manual execution
-          if (te != null)
-            Transaction.getInstanceFromTemplate(te).save();
+          Template template = Template.getInstanceForPlan(planId);
+          Account account = Account.getInstanceFromDb(template.accountId);
+          //TODO handle automatic and manual execution
+          if (template != null) {
+            Uri uri = Transaction.getInstanceFromTemplate(template).save();
+            long id = ContentUris.parseId(uri);
+            Intent resultIntent = new Intent(this, MyExpenses.class);
+            resultIntent.putExtra(DatabaseConstants.KEY_ROWID, template.accountId);
+            resultIntent.putExtra("transaction_id", id);
+            String content = template.label;
+            if (!content.equals(""))
+              content += " : ";
+            content += Utils.formatCurrency(template.amount);
+            NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.icon)
+                .setContentTitle(account.label + " : " + template.title)
+                .setContentText(content);
+            mBuilder.setContentIntent(PendingIntent.getActivity(this, 0, resultIntent, 0));
+            mBuilder.setAutoCancel(true);
+            NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(0, mBuilder.build());
+          }
           cursor.moveToNext();
         }
       }

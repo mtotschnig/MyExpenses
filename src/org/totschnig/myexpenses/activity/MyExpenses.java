@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment.SelectFromCursorDialogListener;
+import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
@@ -182,6 +183,10 @@ public class MyExpenses extends LaunchActivity implements
     }
     if (extras != null) {
       mAccountId = extras.getLong(KEY_ROWID,0);
+      long idFromNotification = extras.getLong("transaction_id",0);
+      if (idFromNotification != 0)
+        TransactionDetailFragment.newInstance(idFromNotification)
+            .show(getSupportFragmentManager(), "TRANSACTION_DETAIL");
     }
     if (mAccountId == 0)
       mAccountId = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
