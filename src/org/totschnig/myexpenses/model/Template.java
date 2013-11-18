@@ -21,11 +21,13 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
+import android.provider.CalendarContract.Events;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class Template extends Transaction {
@@ -154,9 +156,19 @@ public class Template extends Transaction {
     }
     return uri;
   }
+  @SuppressLint("NewApi")
   public static void delete(long id) {
+    Template t = getInstanceFromDb(id);
+    if (t.planId != null) {
+      cr().delete(
+          Events.CONTENT_URI.buildUpon().appendPath(String.valueOf(t.planId)).build(),
+          null,
+          null);
+    }
     cr().delete(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null);
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+        null,
+        null);
   }
   public static int countPerMethod(long methodId) {
     return countPerMethod(CONTENT_URI,methodId);
