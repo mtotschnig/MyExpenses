@@ -114,7 +114,7 @@
               android:layout_height="wrap_content"  />
           <EditText android:id="@+id/Number"
               android:visibility="invisible"
-              android:hint="Number"
+              android:hint="@string/reference_number"
               android:singleLine="true"
               android:layout_weight="1"
               android:layout_width="0dp"
@@ -125,9 +125,10 @@
       <TableRow android:id="@+id/PlanerRow"
           android:visibility="gone">
         <TextView style="@style/form_label"
-            android:text="Plan" />
-        <Button android:id="@+id/Plan" android:text="Create"/>
+            android:text="@string/plan" />
+        <Button android:id="@+id/Plan"
+            android:text="@string/menu_create"/>
       </TableRow>
-      </TableLayout>
+    </TableLayout>
   </ScrollView>
 </LinearLayout>

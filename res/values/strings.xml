@@ -136,6 +136,7 @@
   <string name="menu_backup">Backup</string>
   <string name="menu_clone_transaction">Clone</string>
   <string name="menu_contrib">Contribute</string>
+  <string name="menu_create">Create</string>
   <string name="menu_create_account">New account</string>
   <string name="menu_create_method">New payment method</string>
   <string name="menu_create_party">New party</string>
@@ -208,6 +209,8 @@
   <string name="password_security_answer_not_valid">Wrong answer. Try again!</string>
   <string name="payee">Payee</string>
   <string name="payer">Payer</string>
+  <!-- Plan for future and recurring transactions -->
+  <string name="plan">Plan</string>
   <!-- payment methods -->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Credit card</string>
