@@ -690,17 +690,23 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     setCategoryButton();
   }
   private void configurePlan() {
-    if (mPlan.rrule != null) {
-      EventRecurrence eventRecurrence = new EventRecurrence();
-      eventRecurrence.parse(mPlan.rrule);
-      Time date = new Time();
-      date.set(mPlan.dtstart);
-      eventRecurrence.setStartDate(date);
-      mPlanButton.setText(EventRecurrenceFormatter.getRepeatString(this,getResources(), eventRecurrence,true));
-    } else
-      mPlanButton.setText(mTitleDateFormat.format(new Date(mPlan.dtstart)));
-    if (mTitleText.getText().toString().equals(""))
-      mTitleText.setText(mPlan.title);
+    if (mPlan == null) {
+      mPlanButton.setText(R.string.menu_create);
+    } else {
+      if (mPlan.rrule != null) {
+        EventRecurrence eventRecurrence = new EventRecurrence();
+        eventRecurrence.parse(mPlan.rrule);
+        Time date = new Time();
+        date.set(mPlan.dtstart);
+        eventRecurrence.setStartDate(date);
+        mPlanButton.setText(EventRecurrenceFormatter.getRepeatString(this,getResources(), eventRecurrence,true));
+      } else {
+        mPlanButton.setText(mTitleDateFormat.format(new Date(mPlan.dtstart)));
+      }
+      if (mTitleText.getText().toString().equals(""))
+        mTitleText.setText(mPlan.title);
+    }
+    mPlanButton.setEnabled(true);
   }
   /**
    *  for a transfer append an indicator of direction to the label on the category button 
@@ -769,7 +775,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   }
   @Override
   public void onPostExecute(int taskId,Object o) {
-    if (taskId == TaskExecutionFragment.TASK_GET_LAST_PLAN) {
+    switch(taskId) {
+    case TaskExecutionFragment.TASK_GET_LAST_PLAN:
       Long result = (Long) o;
       MyApplication app = MyApplication.getInstance();
       if (app.planerLastPlanId.equals(result)) {
@@ -784,8 +791,10 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         else
           mManager.initLoader(EVENT_CURSOR, null, this);
       }
-    }
-    else if (taskId != TaskExecutionFragment.TASK_DELETE_TRANSACTION) {
+      break;
+    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
+    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
+    case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
       mTransaction = (Transaction) o;
       if (mTransaction instanceof SplitTransaction)
         mOperationType = MyExpenses.TYPE_SPLIT;
@@ -795,6 +804,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
       setup();
       supportInvalidateOptionsMenu();
+      break;
     }
     super.onPostExecute(taskId, o);
   }
@@ -953,11 +963,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
             data.getString(data.getColumnIndexOrThrow(Events.RRULE)),
             data.getString(data.getColumnIndexOrThrow(Events.TITLE))
             );
-        configurePlan();
-      } else
-        //plan has been deleted
+      } else {
+        mPlan = null;
         mPlanId = null;
-      mPlanButton.setEnabled(true);
+      }
+      configurePlan();
       break;
     }
   }
