@@ -16,9 +16,6 @@
 
 package org.totschnig.myexpenses.fragment;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
@@ -26,18 +23,9 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.provider.CalendarContract.Calendars;
-import android.provider.CalendarContract.Events;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 /**
  * This Fragment manages a single background task and retains
