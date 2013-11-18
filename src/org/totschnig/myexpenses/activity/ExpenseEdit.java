@@ -102,7 +102,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private Calendar mCalendar = Calendar.getInstance();
   private final java.text.DateFormat mTitleDateFormat = java.text.DateFormat.
       getDateInstance(java.text.DateFormat.FULL);
-  private Long mCatId = null;
+  private Long mCatId = null, mPlanId = null;
   private String mLabel;
   private Transaction mTransaction;
   private boolean mTransferEnabled = false;
@@ -506,7 +506,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     }
     if (mTransaction instanceof Template) {
       mTitleText.setText(((Template) mTransaction).title);
-      if (((Template) mTransaction).planId !=null) {
+      mPlanId = ((Template) mTransaction).planId;
+      if (mPlanId !=null) {
         //we need data from the cursor when launching the view intent
         //hence need to disable button until data is loaded
         mPlanButton.setEnabled(false);
@@ -517,7 +518,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         public void onClick(View view) {
           Intent intent;
           long now = System.currentTimeMillis();
-          if (((Template) mTransaction).planId ==null) {
+          if (mPlanId == null) {
             intent = new Intent (Intent.ACTION_INSERT);
             intent.setData (CalendarContract.Events.CONTENT_URI);
             intent.putExtra (Events.TITLE,mTitleText.getText().toString());
@@ -528,7 +529,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
          } else {
            //unfortunately ACTION_EDIT does not work see http://code.google.com/p/android/issues/detail?id=39402
            intent = new Intent (Intent.ACTION_VIEW);
-           intent.setData(ContentUris.withAppendedId(Events.CONTENT_URI, ((Template) mTransaction).planId));
+           intent.setData(ContentUris.withAppendedId(Events.CONTENT_URI, mPlanId));
            //ACTION_VIEW expects to get a range http://code.google.com/p/android/issues/detail?id=23852
            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, mPlan.dtstart);
            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, mPlan.dtend);
@@ -626,6 +627,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         return;
       }
       ((Template) mTransaction).title = title;
+      ((Template) mTransaction).planId = mPlanId;
     }
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
@@ -727,19 +729,13 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mCalendar = (Calendar) savedInstanceState.getSerializable("calendar");
     mPlan = (Plan) savedInstanceState.getSerializable("plan");
     if (mPlan != null) {
-      ((Template) mTransaction).planId = mPlan.id;
+      mPlanId = mPlan.id;
       configurePlan();
     }
     mLabel = savedInstanceState.getString("label");
     if ((mCatId = savedInstanceState.getLong("catId")) == 0L)
       mCatId = null;
     configureType();
-    if (!(mTransaction instanceof Template ||
-        mTransaction instanceof SplitPartCategory ||
-        mTransaction instanceof SplitPartTransfer)) {
-      setDate();
-      setTime();
-    }
   }
 
   public Money getAmount() {
@@ -782,7 +778,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       }
       else {
         app.planerLastPlanId = result;
-        ((Template) mTransaction).planId = result;
+        mPlanId = result;
         if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
           mManager.restartLoader(EVENT_CURSOR, null, this);
         else
@@ -885,7 +881,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     case EVENT_CURSOR:
       return new CursorLoader(
           this,
-          ContentUris.withAppendedId(Events.CONTENT_URI, ((Template) mTransaction).planId),
+          ContentUris.withAppendedId(Events.CONTENT_URI, mPlanId),
           new String[]{
               Events._ID,
               Events.DTSTART,
@@ -960,7 +956,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         configurePlan();
       } else
         //plan has been deleted
-        ((Template) mTransaction).planId = null;
+        mPlanId = null;
       mPlanButton.setEnabled(true);
       break;
     }
