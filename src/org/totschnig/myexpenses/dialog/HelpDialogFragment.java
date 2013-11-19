@@ -26,9 +26,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.text.Html.ImageGetter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -39,7 +43,7 @@ import android.widget.ImageView;
  * based on the activity and an optional variant passed in.
  * @author Michael Totschnig
  */
-public class HelpDialogFragment extends DialogFragment {
+public class HelpDialogFragment extends DialogFragment implements ImageGetter {
   
   public static final HelpDialogFragment newInstance(String activityName, Enum<?> variant) {
     HelpDialogFragment dialogFragment = new HelpDialogFragment();
@@ -64,6 +68,7 @@ public class HelpDialogFragment extends DialogFragment {
     final LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.help_dialog, null);
     LinearLayout ll = (LinearLayout) view.findViewById(R.id.help);
+
     try {
       int resId = res.getIdentifier("help_" +activityName + "_info", "string", pack);
       if (resId != 0)
@@ -71,8 +76,13 @@ public class HelpDialogFragment extends DialogFragment {
       else if (variant == null)
         throw new NotFoundException();
       if (variant != null)
-        screenInfo += "\n" + getString(res.getIdentifier("help_" +activityName + "_" + variant + "_info", "string", pack));
-      ((TextView) view.findViewById(R.id.screen_info)).setText(screenInfo);
+        screenInfo = (String) TextUtils.concat(
+            screenInfo,
+            "\n",
+            getString(
+                res.getIdentifier(
+                    "help_" +activityName + "_" + variant + "_info", "string", pack)));
+      ((TextView) view.findViewById(R.id.screen_info)).setText(Html.fromHtml(screenInfo,this,null));
       resId = res.getIdentifier(activityName+"_menuitems", "array", pack);
       ArrayList<String> menuItems= new ArrayList<String>();
       if (resId != 0)
@@ -84,12 +94,13 @@ public class HelpDialogFragment extends DialogFragment {
         view.findViewById(R.id.menu_commands_heading).setVisibility(View.GONE);
       else
         for (String item: menuItems) {
+          //TODO performance do not inflate multiple times
           View row = li.inflate(R.layout.help_dialog_action_row, null);
           ((ImageView) row.findViewById(R.id.list_image)).setImageDrawable(
               res.getDrawable(res.getIdentifier(item+"_icon", "drawable", pack)));
           ((TextView) row.findViewById(R.id.title)).setText(
               res.getString(res.getIdentifier("menu_"+item,"string",pack)));
-          //we look for a help text specific to the variant first, thank to the activity
+          //we look for a help text specific to the variant first, then to the activity
           //and last a generic one
           resId = res.getIdentifier("menu_" +activityName + "_" + variant + "_" + item + "_help_text","string",pack);
           if (resId == 0)
@@ -126,5 +137,16 @@ public class HelpDialogFragment extends DialogFragment {
   }
   public void onCancel (DialogInterface dialog) {
     getActivity().finish();
+  }
+  @Override
+  public Drawable getDrawable(String name) {
+      Drawable d = getResources().getDrawable(
+          getResources().getIdentifier(
+              name,
+              "drawable",
+              getActivity().getPackageName()));
+      d.setBounds(0, 0, d.getIntrinsicWidth(),
+          d.getIntrinsicHeight());
+      return d;
   }
 }

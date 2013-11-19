@@ -47,11 +47,11 @@
       <item>create_transaction</item>
       <item>create_transfer</item>
       <item>create_split</item>
-      <item>new_from_template</item>
       <item>reset</item>
       <item>edit_account</item>
       <item>grouping</item>
       <item>distribution</item>
+      <item>manage_plans</item>
     </string-array>
     <string-array name="ManageAccounts_menuitems">
       <item>create_account</item>
@@ -63,6 +63,10 @@
     </string-array>
     <string-array name="ManageParties_menuitems">
       <item>create_party</item>
+    </string-array>
+    <string-array name="ManageTemplates_menuitems">
+      <item>create_template_for_transaction</item>
+      <item>create_template_for_transfer</item>
     </string-array>
     <string-array name="ManageCategories_manage_menuitems">
       <item>create_main_cat</item>
