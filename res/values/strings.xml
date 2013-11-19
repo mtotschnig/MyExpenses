@@ -170,10 +170,10 @@
   <string name="menu_forward">Forward</string>
   <string name="menu_grouping">Grouping</string>
   <string name="menu_help">Help</string>
+  <string name="menu_manage_plans">Templates and plans</string>
   <string name="menu_move_transaction">Move</string>
   <string name="menu_save">Save</string>
   <string name="menu_save_and_new">Save and new</string>
-  <string name="menu_new_from_template">New from template</string>
   <string name="menu_reset">Export and reset</string>
   <string name="menu_reset_all">Export and reset all</string>
   <string name="menu_settings">Settings</string>
@@ -253,8 +253,6 @@
   <string name="pref_manage_methods_summary">Create and edit payment methods and associate them with account types.</string>
   <string name="pref_manage_parties_title">Parties</string>
   <string name="pref_manage_parties_summary">Add, edit, delete parties (payers and payees).</string>
-  <string name="pref_manage_templates_title">Templates</string>
-  <string name="pref_manage_templates_summary">Apply or delete templates.</string>
   <string name="pref_more_info_dialog_title">Licence &amp; Credits</string>
   <string name="pref_more_info_dialog_summary"><!-- this is empty for English and gives credit to translators in the other languages --></string>
   <string name="pref_password_empty">Password must not be empty</string>
