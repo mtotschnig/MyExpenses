@@ -77,7 +77,6 @@ public class ManageTemplates extends ProtectedFragmentActivity {
     super.onCreateContextMenu(menu, v, menuInfo);
     menu.add(0,DELETE_TEMPLATE,0,R.string.menu_delete);
     menu.add(0,CREATE_INSTANCE_EDIT,0,R.string.menu_create_transaction_from_template_and_edit);
-    menu.add(0,CREATE_INSTANCE_SAVE,0,R.string.menu_create_transaction_from_template_and_save);
     menu.add(0,EDIT,0,R.string.menu_edit);
   }
   @Override
@@ -90,13 +89,6 @@ public class ManageTemplates extends ProtectedFragmentActivity {
       fm.beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TEMPLATE,info.id, null), "ASYNC_TASK")
         .commit();
-      return true;
-    case CREATE_INSTANCE_SAVE:
-      //TODO Strict mode
-      if (Transaction.getInstanceFromTemplate(info.id).save() == null)
-        Toast.makeText(getBaseContext(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
-      else
-        Toast.makeText(getBaseContext(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
       return true;
     case CREATE_INSTANCE_EDIT:
       intent = new Intent(this, ExpenseEdit.class);
@@ -112,5 +104,13 @@ public class ManageTemplates extends ProtectedFragmentActivity {
       return true;
     }
     return super.onContextItemSelected(item);
+  }
+  public void createInstanceAndSave (View v) {
+    //TODO Strict mode
+    if (Transaction.getInstanceFromTemplate((Long) v.getTag()).save() == null)
+      Toast.makeText(getBaseContext(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
+    else
+      Toast.makeText(getBaseContext(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
+    finish();
   }
 }

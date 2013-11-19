@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.fragment;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.database.Cursor;
@@ -45,11 +46,29 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
     mManager = getLoaderManager();
     mManager.initLoader(0, null, this);
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{DatabaseConstants.KEY_TITLE};
+    String[] from = new String[]{DatabaseConstants.KEY_TITLE,DatabaseConstants.KEY_PLANID};
     // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{android.R.id.text1};
+    int[] to = new int[]{R.id.title,R.id.plan};
     mAdapter = new SimpleCursorAdapter(getActivity(), 
-        android.R.layout.simple_list_item_1, null, from, to,0);
+        R.layout.template_row, null, from, to,0) {
+      @Override
+      public View getView(int position, View convertView, ViewGroup parent) {
+        convertView=super.getView(position, convertView, parent);
+        convertView.findViewById(R.id.apply).setTag(getItemId(position));
+        return convertView;
+      }
+    };
+    mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+      public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+        if (view.getId() == R.id.plan) {
+          view.setVisibility(
+              (DbUtils.getLongOrNull(cursor, DatabaseConstants.KEY_PLANID) == null) ?
+                  View.INVISIBLE : View.VISIBLE);
+          return true;
+        }
+        return false;
+      }
+    });
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     //requires using activity (ManageTemplates) to implement OnChildClickListener
@@ -59,8 +78,12 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-    return new CursorLoader(getActivity(),TransactionProvider.TEMPLATES_URI, null,
-        "account_id = ?",new String[] { String.valueOf(mAccountId) }, "usages DESC");
+    return new CursorLoader(getActivity(),
+        TransactionProvider.TEMPLATES_URI,
+        new String[] {DatabaseConstants.KEY_ROWID,DatabaseConstants.KEY_TITLE,DatabaseConstants.KEY_PLANID},
+        "account_id = ?",
+        new String[] { String.valueOf(mAccountId) },
+        "usages DESC");
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
