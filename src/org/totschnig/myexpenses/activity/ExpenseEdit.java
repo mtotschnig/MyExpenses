@@ -47,8 +47,10 @@ import com.android.calendarcommon2.EventRecurrence;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
+import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -148,7 +150,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
     mTemplateId = extras.getLong("template_id",0);
     mTransferEnabled = extras.getBoolean("transferEnabled",false);
-
+    //were we called from a notification
+    int notificationId = extras.getInt("notification_id", 0);
+    if (notificationId > 0) {
+      ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(notificationId);
+    }
     setContentView(R.layout.one_expense);
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
     mTypeButton = (Button) findViewById(R.id.TaType);

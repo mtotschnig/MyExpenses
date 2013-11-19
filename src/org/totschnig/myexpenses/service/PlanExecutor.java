@@ -116,6 +116,7 @@ public class PlanExecutor extends IntentService {
                   getString(android.R.string.cancel),
                   PendingIntent.getService(this, notificationId, cancelIntent, 0));
               Intent editIntent = new Intent(this,ExpenseEdit.class);
+              editIntent.putExtra("notification_id", notificationId);
               editIntent.putExtra("template_id", template.id);
               editIntent.putExtra("instantiate", true);
               resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, 0);
