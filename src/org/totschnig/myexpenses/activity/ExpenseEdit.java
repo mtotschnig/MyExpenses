@@ -407,8 +407,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   public boolean dispatchCommand(int command, Object tag) {
     switch(command) {
     case android.R.id.home:
+      //TODO Strict mode
       if (mTransaction instanceof SplitTransaction) {
         ((SplitTransaction) mTransaction).cleanupCanceledEdit();
+      } else if (mTransaction instanceof Template) {
+        deleteUnusedPlan();
       }
       //handled in super
       break;
@@ -691,8 +694,19 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   public void onBackPressed() {
     if (mTransaction instanceof SplitTransaction) {
       ((SplitTransaction) mTransaction).cleanupCanceledEdit();
+    } else if (mTransaction instanceof Template) {
+      deleteUnusedPlan();
     }
     super.onBackPressed();
+  }
+  /**
+   * when we have created a new plan without saving the template, we delete the plan
+   */
+  private void deleteUnusedPlan() {
+    if (mPlanId != null && !mPlanId.equals(((Template) mTransaction).planId)) {
+      Log.i("DEBUG","deleting unused plan");
+      Plan.delete(mPlanId);
+    }
   }
   /**
    * updates interface based on type (EXPENSE or INCOME)
