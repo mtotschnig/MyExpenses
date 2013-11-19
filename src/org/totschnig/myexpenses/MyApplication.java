@@ -304,7 +304,7 @@ public class MyApplication extends Application {
     @SuppressLint("NewApi")
     public void requirePlaner() {
       String accountName = "org.totschnig.myexpenses";
-      String calendarName = "MyExpensesPlaner3";
+      String calendarName = "MyExpensesPlaner";
       ContentResolver cr = MyApplication.getInstance().getContentResolver();
       Uri.Builder builder =
           CalendarContract.Calendars.CONTENT_URI.buildUpon();
@@ -319,7 +319,7 @@ public class MyApplication extends Application {
           "true");
       Uri calendarUri = builder.build();
       //int deleted = cr.delete(calendarUri, null, null);
-      //Log.i("DEBUG","deleted old calendard: "+ deleted);
+      //Log.i("DEBUG","deleted old calendar: "+ deleted);
       Cursor c = cr.query(
           calendarUri,
           new String[] {CalendarContract.Calendars._ID},
@@ -343,7 +343,7 @@ public class MyApplication extends Application {
               calendarName);
         values.put(
               Calendars.CALENDAR_DISPLAY_NAME,
-              "My Expenses planer 3"); //TODO resource
+              getString(R.string.plan_calendar_name)); //TODO resource
         values.put(
               Calendars.CALENDAR_COLOR,
               0xffff0000); //TODO set to default account color
