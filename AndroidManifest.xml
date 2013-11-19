@@ -108,6 +108,7 @@
            android:name=".provider.TransactionProvider"
            android:authorities="org.totschnig.myexpenses" />
         <service android:name=".service.PlanExecutor" />
+        <service android:name=".service.PlanNotificationClickHandler" />
         <receiver android:name=".service.MyBootReceiver">
 				  <intent-filter>
 				    <action android:name="android.intent.action.BOOT_COMPLETED" />

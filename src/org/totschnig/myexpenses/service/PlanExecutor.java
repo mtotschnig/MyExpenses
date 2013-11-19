@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.annotation.SuppressLint;
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentUris;
@@ -73,13 +74,15 @@ public class PlanExecutor extends IntentService {
       if (cursor.moveToFirst()) {
         while (cursor.isAfterLast() == false) {
           long planId = cursor.getLong(0);
-          long instanceId = cursor.getLong(1);
+          Long instanceId = cursor.getLong(1);
           //2) check if they are part of a plan linked to a template
           //3) execute the template
           Log.i("DEBUG",String.format("found instance %d of plan %d",instanceId,planId));
           Template template = Template.getInstanceForPlan(planId);
           //TODO handle automatic and manual execution
           if (template != null) {
+            Notification notification;
+            int notificationId = instanceId.hashCode();
             PendingIntent resultIntent;
             Account account = Account.getInstanceFromDb(template.accountId);
             NotificationManager mNotificationManager =
@@ -88,11 +91,12 @@ public class PlanExecutor extends IntentService {
             if (!content.equals(""))
               content += " : ";
             content += Utils.formatCurrency(template.amount);
-            NotificationCompat.Builder mBuilder =
+            String title = account.label + " : " + template.title;
+            NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.icon)
-                .setContentTitle(account.label + " : " + template.title)
-                .setContentText(content);
+                    .setSmallIcon(R.drawable.icon)
+                    .setContentTitle(title)
+                    .setContentText(content);
             if (template.planExecutionAutomatic) {
               Uri uri = Transaction.getInstanceFromTemplate(template).save();
               long id = ContentUris.parseId(uri);
@@ -100,18 +104,40 @@ public class PlanExecutor extends IntentService {
               displayIntent.putExtra(DatabaseConstants.KEY_ROWID, template.accountId);
               displayIntent.putExtra("transaction_id", id);
               resultIntent = PendingIntent.getActivity(this, 0, displayIntent, 0);
+              notification = builder.build();
             } else {
+              Intent cancelIntent = new Intent(this, PlanNotificationClickHandler.class);
+              cancelIntent.setAction("Cancel");
+              cancelIntent.putExtra("notification_id", notificationId);
+              //we also put the title in the intent, because we need it while we update the notification
+              cancelIntent.putExtra("title", title);
+              builder.addAction(
+                  android.R.drawable.ic_menu_close_clear_cancel,
+                  getString(android.R.string.cancel),
+                  PendingIntent.getService(this, 1, cancelIntent, 0));
               Intent editIntent = new Intent(this,ExpenseEdit.class);
               editIntent.putExtra("template_id", template.id);
               editIntent.putExtra("instantiate", true);
               resultIntent = PendingIntent.getActivity(this, 0, editIntent, 0);
-              mBuilder.addAction(android.R.drawable.ic_menu_close_clear_cancel, "Cancel", null);
-              mBuilder.addAction(android.R.drawable.ic_menu_edit, "Edit",resultIntent);
-              mBuilder.addAction(android.R.drawable.ic_menu_save, "Apply", null);
+              builder.addAction(
+                  android.R.drawable.ic_menu_edit,
+                  "Edit",
+                  resultIntent);
+              Intent applyIntent = new Intent(this, PlanNotificationClickHandler.class);
+              applyIntent.setAction("Apply");
+              applyIntent.putExtra("notification_id", notificationId);
+              applyIntent.putExtra("title", title);
+              applyIntent.putExtra("template_id", template.id);
+              builder.addAction(
+                  android.R.drawable.ic_menu_save,
+                  "Apply",
+                  PendingIntent.getService(this, 2, applyIntent, 0));
+              notification = builder.build();
+              notification.flags |= Notification.FLAG_NO_CLEAR;
             }
-            mBuilder.setContentIntent(resultIntent);
-            mBuilder.setAutoCancel(true);  
-            mNotificationManager.notify(0, mBuilder.build());
+            builder.setContentIntent(resultIntent);
+            Log.i("DEBUG","notifying with id " + notificationId);
+            mNotificationManager.notify(notificationId, notification);
           }
           cursor.moveToNext();
         }

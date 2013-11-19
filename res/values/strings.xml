@@ -212,6 +212,8 @@
   <!-- Plan for future and recurring transactions -->
   <string name="plan">Plan</string>
   <string name="plan_automatic">automatic</string>
+  <!-- This message is shown, after a user decides to not apply a manual plan -->
+  <string name="plan_execution_canceled">Plan execution canceled</string>
   <string name="plan_manual">manual</string>
   <!-- payment methods -->
   <string name="pm_cheque">Cheque</string>
