@@ -103,7 +103,7 @@ public class PlanExecutor extends IntentService {
               Intent displayIntent = new Intent(this, MyExpenses.class);
               displayIntent.putExtra(DatabaseConstants.KEY_ROWID, template.accountId);
               displayIntent.putExtra("transaction_id", id);
-              resultIntent = PendingIntent.getActivity(this, 0, displayIntent, 0);
+              resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent, 0);
               notification = builder.build();
             } else {
               Intent cancelIntent = new Intent(this, PlanNotificationClickHandler.class);
@@ -114,11 +114,11 @@ public class PlanExecutor extends IntentService {
               builder.addAction(
                   android.R.drawable.ic_menu_close_clear_cancel,
                   getString(android.R.string.cancel),
-                  PendingIntent.getService(this, 1, cancelIntent, 0));
+                  PendingIntent.getService(this, notificationId, cancelIntent, 0));
               Intent editIntent = new Intent(this,ExpenseEdit.class);
               editIntent.putExtra("template_id", template.id);
               editIntent.putExtra("instantiate", true);
-              resultIntent = PendingIntent.getActivity(this, 0, editIntent, 0);
+              resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, 0);
               builder.addAction(
                   android.R.drawable.ic_menu_edit,
                   "Edit",
@@ -131,7 +131,7 @@ public class PlanExecutor extends IntentService {
               builder.addAction(
                   android.R.drawable.ic_menu_save,
                   "Apply",
-                  PendingIntent.getService(this, 2, applyIntent, 0));
+                  PendingIntent.getService(this, notificationId, applyIntent, 0));
               notification = builder.build();
               notification.flags |= Notification.FLAG_NO_CLEAR;
             }
