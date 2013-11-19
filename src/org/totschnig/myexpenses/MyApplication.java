@@ -398,8 +398,9 @@ public class MyApplication extends Application {
       cal.set(Calendar.MINUTE, 0); // set minutes to zero
       cal.set(Calendar.SECOND, 0); //set seconds to zero
       cal.set(Calendar.MILLISECOND, 0);
+      long alarmTime = cal.getTimeInMillis() + interval;
       //we schedule service for beginning of next day, and then every 24 hours
-      manager.setRepeating(AlarmManager.RTC, cal.getTimeInMillis() + interval, interval,
+      manager.setRepeating(AlarmManager.RTC, alarmTime, interval,
           pendingIntent);
     }
 }
