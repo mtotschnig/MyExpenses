@@ -103,7 +103,10 @@ public class PlanExecutor extends IntentService {
               Intent displayIntent = new Intent(this, MyExpenses.class);
               displayIntent.putExtra(DatabaseConstants.KEY_ROWID, template.accountId);
               displayIntent.putExtra("transaction_id", id);
-              resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent, 0);
+              resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
+                  PendingIntent.FLAG_UPDATE_CURRENT);
+              builder.setContentIntent(resultIntent);
+              builder.setAutoCancel(true);
               notification = builder.build();
             } else {
               Intent cancelIntent = new Intent(this, PlanNotificationClickHandler.class);
@@ -133,10 +136,10 @@ public class PlanExecutor extends IntentService {
                   android.R.drawable.ic_menu_save,
                   "Apply",
                   PendingIntent.getService(this, notificationId, applyIntent, 0));
+              builder.setContentIntent(resultIntent);
               notification = builder.build();
               notification.flags |= Notification.FLAG_NO_CLEAR;
             }
-            builder.setContentIntent(resultIntent);
             Log.i("DEBUG","notifying with id " + notificationId);
             mNotificationManager.notify(notificationId, notification);
           }
