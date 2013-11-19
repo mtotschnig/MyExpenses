@@ -48,7 +48,6 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_MOVE = 12;
   public static final int TASK_NEW_FROM_TEMPLATE = 13;
   public static final int TASK_DELETE_CATEGORY = 14;
-  public static final int TASK_REQUIRE_CALENDAR = 15;
   public static final int TASK_GET_LAST_PLAN = 16;
 
   /**
@@ -212,9 +211,6 @@ public class TaskExecutionFragment extends Fragment {
         return null;
       case TASK_MOVE:
         Transaction.move(id[0],id[1]);
-        return null;
-      case TASK_REQUIRE_CALENDAR:
-        MyApplication.getInstance().requirePlaner();
         return null;
       case TASK_GET_LAST_PLAN:
         return MyApplication.getInstance().getLastPlanId();

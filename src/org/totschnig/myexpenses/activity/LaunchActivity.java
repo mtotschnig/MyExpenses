@@ -29,10 +29,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
    * and display information to be presented upon app launch
    */
   public void newVersionCheck() {
-    if (MyApplication.getInstance().planerCalenderId == -1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-      getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_CALENDAR,null, null), "ASYNC_TASK")
-        .commit();
     Editor edit = mSettings.edit();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     int current_version = CommonCommands.getVersionNumber(this);
