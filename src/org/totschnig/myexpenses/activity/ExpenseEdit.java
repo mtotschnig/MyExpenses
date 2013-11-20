@@ -878,8 +878,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
 
   @Override
   public void onPostExecute(Object result) {
-    if (result == null && mTransaction instanceof Template)
-      //for the moment, the only case where we will not get an URI back is
+    Long sequenceCount = (Long) result;
+    if (sequenceCount == -1L && mTransaction instanceof Template)
+      //for the moment, the only case where saving will fail
       //if the unique constraint for template titles is violated
       //TODO: we should probably validate the title earlier
       Toast.makeText(this,getString(R.string.template_title_exists,((Template) mTransaction).title), Toast.LENGTH_LONG).show();
@@ -888,13 +889,18 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mCreateNew = false;
         mTransaction.id = 0L;
         mRowId = 0L;
-        setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
-            R.string.menu_create_transaction : R.string.menu_create_transfer);
+        if (mTransaction instanceof Template) {
+          setTitle(R.string.menu_create_transfer);
+          mTitleText.setText("");
+        } else {
+          setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
+              R.string.menu_create_transaction : R.string.menu_create_transfer);
+        }
         mAmountText.setText("");
         Toast.makeText(this,getString(R.string.save_transaction_and_new_success),Toast.LENGTH_SHORT).show();
       } else {
         Intent intent=new Intent();
-        intent.putExtra("sequence_count", (Long) result);
+        intent.putExtra("sequence_count", sequenceCount);
         setResult(RESULT_OK,intent);
         finish();
       }

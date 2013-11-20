@@ -276,7 +276,7 @@
   <string name="restore_no_backup_found">SD kartının \"myexpenses\" klasöründe BACKUP dosyası bulunamadı.</string>
   <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
   <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
-  <string name="save_transaction_and_new_success">Muamele başarıyla kaydedildi</string>
+  <string name="save_transaction_and_new_success">Başarıyla kaydedildi</string>
   <string name="save_transaction_error">Şablondan muamele kaydedilemedi</string>
   <string name="save_transaction_from_template_success">Yeni muamele şablondan başarıyla kaydedildi</string>
   <string name="select">Seç</string>

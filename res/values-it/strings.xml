@@ -279,7 +279,7 @@
   <string name="restore_preferences_success">I impostazioni sono stati ripristinati dal backup.</string>
   <string name="save_transaction_error">Non è possible salvare la nuova operazione da modello</string>
   <string name="save_transaction_from_template_success">Nuova operazione salvata con successo da modello</string>
-  <string name="save_transaction_and_new_success">Operazione salvata con successo</string>
+  <string name="save_transaction_and_new_success">Salvata con successo</string>
   <string name="select">Selezionare</string>
   <string name="select_category">Selezionare una categoria</string>
   <string name="select_parent_category">Selezionare questa categoria</string>

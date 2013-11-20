@@ -276,7 +276,7 @@
   <string name="restore_preferences_success">Beállítások sikeresen visszaállítva a korábbi mentésből.</string>
   <string name="save_transaction_error">Nem sikerült a sablonból létrehozott tranzakciót menteni</string>
   <string name="save_transaction_from_template_success">Tranzakció sikeresen mentve a sablon alapján</string>
-  <string name="save_transaction_and_new_success">Tranzakció sikeresen mentve</string>
+  <string name="save_transaction_and_new_success">Sikeresen mentve</string>
   <string name="select">Kiválasztás</string>
   <string name="select_category">Kategória kiválasztása</string>
   <string name="select_parent_category">Ezen kategória kiválasztása</string>

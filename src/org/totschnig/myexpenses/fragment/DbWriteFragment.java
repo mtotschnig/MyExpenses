@@ -31,8 +31,8 @@ import android.support.v4.app.Fragment;
  * It handles saving model objects to the database
  * It calls getObject on its callback to retrieve the object
  * and calls save on the Object
- * it can return either the uri for the new object
- * or the number of stored objects in the db for the Model
+ * it can return either the uri for the new object (null on failure)
+ * or the number of stored objects in the db for the Model (-1 on failure)
  * the later is only implemented for transactions
  */
 public class DbWriteFragment extends Fragment {
@@ -129,7 +129,7 @@ public class DbWriteFragment extends Fragment {
     protected Object doInBackground(Model... object) {
       Uri uri = object[0].save();
       if (returnSequenceCount && object[0] instanceof Transaction)
-        return Transaction.getSequenceCount();
+        return uri == null ? -1 : Transaction.getSequenceCount();
       else
         return uri;
     }
