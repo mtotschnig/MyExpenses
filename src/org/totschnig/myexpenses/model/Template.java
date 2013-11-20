@@ -188,6 +188,9 @@ public class Template extends Transaction {
   public static int countPerAccount(long accountId) {
     return countPerAccount(CONTENT_URI,accountId);
   }
+  public static int countWithPlan() {
+    return count(CONTENT_URI,KEY_PLANID + " IS NOT null",null);
+  }
   public static int countAll() {
     return countAll(CONTENT_URI);
   }
