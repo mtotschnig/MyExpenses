@@ -235,8 +235,6 @@
   <string name="pref_manage_methods_summary">Creare, modificare i modi di pagamento e di associarli a tipi di conti.</string>
   <string name="pref_manage_parties_title">Beneficiari</string>
   <string name="pref_manage_parties_summary">Aggiungere, modificare, cancellare beneficiari.</string>
-  <string name="pref_manage_templates_title">Modelli</string>
-  <string name="pref_manage_templates_summary">Utilizzare e eliminare modelli.</string>
   <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
   <string name="pref_more_info_dialog_summary">Tradotto da gudrunto, Laurent Collombet e Silvia Delpero</string>
   <string name="pref_password_empty">La password non deve essere vuoto</string>

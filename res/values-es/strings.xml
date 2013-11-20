@@ -239,8 +239,6 @@
   <string name="pref_manage_methods_summary">Crear y editar métodos de pago y asociarlos con  tipos de cuenta.</string>
   <string name="pref_manage_parties_title">Partidos</string>
   <string name="pref_manage_parties_summary">Añadir, modificar y borrar partidos (pagador y beneficiario)</string>
-  <string name="pref_manage_templates_summary">Aplicar o borrar plantillas</string>
-  <string name="pref_manage_templates_title">Plantillas</string>
   <string name="pref_more_info_dialog_title">Licencia &amp; Créditos</string>
   <string name="pref_more_info_dialog_summary">Traducción por Tulliver, gudrunto y christoft</string>
   <string name="pref_password_empty">La contraseña no debe estar vacía</string>

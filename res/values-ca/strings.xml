@@ -240,8 +240,6 @@
   <string name="pref_manage_methods_summary">Entrada, edició de formes de pagament i associa-les amb els tipus de compte.</string>
   <string name="pref_manage_parties_title">Tercers</string>
   <string name="pref_manage_parties_summary">Afegeix, modifica i suprimeix tercers (pagador i beneficiari)</string>
-  <string name="pref_manage_templates_summary">Aplica o suprimeix plantilles</string>
-  <string name="pref_manage_templates_title">Plantilles</string>
   <string name="pref_more_info_dialog_title">Llicència &amp; Crèdits</string>
   <string name="pref_more_info_dialog_summary">Traducció de Paco Rivière</string> 
   <string name="pref_password_empty">La contrasenya no ha d\'estar buit</string>

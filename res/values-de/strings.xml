@@ -238,8 +238,6 @@
   <string name="pref_manage_methods_summary">Zahlungsweisen hinzufügen und verändern, und diese mit Kontotypen verknüpfen.</string>
   <string name="pref_manage_parties_title">Parteien</string>
   <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) hinzufügen, editieren und löschen.</string>
-  <string name="pref_manage_templates_title">Vorlagen</string>
-  <string name="pref_manage_templates_summary">Vorlagen anwenden oder löschen.</string>
   <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>
   <string name="pref_more_info_dialog_summary">Übersetzt von Michael Totschnig</string>
   <string name="pref_password_empty">Passwort darf nicht leer sein</string>
