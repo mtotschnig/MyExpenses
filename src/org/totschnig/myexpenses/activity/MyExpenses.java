@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment.SelectFromCursorDialogListener;
+import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
@@ -98,7 +99,6 @@ public class MyExpenses extends LaunchActivity implements
   static final int TRESHOLD_REMIND_CONTRIB = 113;
 
   public static final int ACCOUNTS_CURSOR=-1;
-  public static final int TEMPLATES_CURSOR=1;
   public static final int ACCOUNTS_OTHER_CURSOR=2;
   private LoaderManager mManager;
 
@@ -111,7 +111,7 @@ public class MyExpenses extends LaunchActivity implements
         mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId));
     mAccountId = newAccountId;
   }
-  private Cursor mAccountsCursor, mTemplatesCursor;
+  private Cursor mAccountsCursor;
   private HashMap<String,Integer> currencyAccountCount;
   //private Cursor mExpensesCursor;
   private MyViewPagerAdapter myAdapter;
@@ -182,6 +182,10 @@ public class MyExpenses extends LaunchActivity implements
     }
     if (extras != null) {
       mAccountId = extras.getLong(KEY_ROWID,0);
+      long idFromNotification = extras.getLong("transaction_id",0);
+      if (idFromNotification != 0)
+        TransactionDetailFragment.newInstance(idFromNotification)
+            .show(getSupportFragmentManager(), "TRANSACTION_DETAIL");
     }
     if (mAccountId == 0)
       mAccountId = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
@@ -268,8 +272,6 @@ public class MyExpenses extends LaunchActivity implements
       mTransferEnabled = (sameCurrencyCount != null && sameCurrencyCount >1);
     }
     Utils.menuItemSetEnabled(menu,R.id.INSERT_TRANSFER_COMMAND,mTransferEnabled);
-    Utils.menuItemSetEnabled(menu,R.id.NEW_FROM_TEMPLATE_COMMAND,
-        mTemplatesCursor != null && mTemplatesCursor.getCount() > 0);
     return true;
   }
 
@@ -396,15 +398,6 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.BACKUP_COMMAND:
       startActivity(new Intent("myexpenses.intent.backup"));
       return true;
-    case R.id.NEW_FROM_TEMPLATE_COMMAND:
-      Bundle args = new Bundle();
-      args.putInt("id", R.id.NEW_FROM_TEMPLATE_COMMAND);
-      args.putInt("cursorId", TEMPLATES_CURSOR);
-      args.putString("dialogTitle",getString(R.string.dialog_title_select_template));
-      args.putString("column", KEY_TITLE);
-      SelectFromCursorDialogFragment.newInstance(args)
-        .show(getSupportFragmentManager(), "SELECT_TEMPLATE");
-      return true;
     case R.id.RATE_COMMAND:
       SharedPreferencesCompat.apply(mSettings.edit().putLong("nextReminderRate", -1));
       i = new Intent(Intent.ACTION_VIEW);
@@ -444,6 +437,11 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.HELP_COMMAND:
       setHelpVariant();
       break;
+    case R.id.MANAGE_PLANS_COMMAND:
+      i = new Intent(this, ManageTemplates.class);
+      i.putExtra(KEY_ACCOUNTID, mAccountId);
+      startActivity(i);
+      return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -510,13 +508,7 @@ public class MyExpenses extends LaunchActivity implements
         return new CursorLoader(this,
           TransactionProvider.ACCOUNTS_URI, projection, null, null, null);
     }
-    projection = new String[] {KEY_ROWID,KEY_TITLE};
-    String selection = KEY_ACCOUNTID + " = ?";
-    mAccountsCursor.moveToPosition(currentPosition);
-    String[] selectionArgs = new String[] {
-        String.valueOf(mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID))) };
-    return new CursorLoader(this,TransactionProvider.TEMPLATES_URI,
-          projection,selection,selectionArgs,null);
+    return null;
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
@@ -562,16 +554,6 @@ public class MyExpenses extends LaunchActivity implements
       }
       return;
     }
-    //templates cursor that are loaded are not necessarily for the current account
-    if (id==currentPosition) {
-      mTemplatesCursor = cursor;
-      configButtons();
-      if ("SELECT_TEMPLATE".equals(fragmentCallbackTag)) {
-        ((SelectFromCursorDialogFragment) getSupportFragmentManager().findFragmentByTag("SELECT_TEMPLATE"))
-          .setCursor(mTemplatesCursor);
-        fragmentCallbackTag = null;
-      }
-    }
   }
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
@@ -579,8 +561,6 @@ public class MyExpenses extends LaunchActivity implements
       myAdapter.swapCursor(null);
       currentPosition = -1;
       mAccountsCursor = null;
-    } else {
-      mTemplatesCursor = null;
     }
   }
   @Override
@@ -618,11 +598,6 @@ public class MyExpenses extends LaunchActivity implements
           args.getLong("contextTransactionId"), args.getLong("result")), "ASYNC_TASK")
       .commit();
       break;
-    case R.id.NEW_FROM_TEMPLATE_COMMAND:
-      getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
-          args.getLong("result"), null), "ASYNC_TASK")
-      .commit();
     }
   }
   @Override
@@ -635,8 +610,6 @@ public class MyExpenses extends LaunchActivity implements
     case ACCOUNTS_OTHER_CURSOR:
       c = mAccountsCursor == null ? null : new AllButOneCursorWrapper(mAccountsCursor,currentPosition);
       break;
-    case TEMPLATES_CURSOR:
-      c = mTemplatesCursor;
     }
     if (c==null)
       this.fragmentCallbackTag = fragmentCallbackTag;
@@ -659,13 +632,13 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public void onPostExecute(int taskId,Object o) {
+    super.onPostExecute(taskId, o);
     if (taskId == TaskExecutionFragment.TASK_REQUIRE_ACCOUNT) {
       setCurrentAccount(((Account) o).id);
       getSupportActionBar().show();
       SharedPreferencesCompat.apply(mSettings.edit().remove("inInitialSetup"));
       setup();
     }
-    super.onPostExecute(taskId, o);
   }
   public void toggleCrStatus (View v) {
     getSupportFragmentManager().beginTransaction()

@@ -95,6 +95,7 @@ public class SplitTransaction extends Transaction {
   /**
    * delete all uncommitted rows in the database,
    * this assumes that there are never more than one edits in parallel
+   * TODO get rid of reliance on this assumption
    */
   public void cleanupCanceledEdit() {
     cr().delete(CONTENT_URI, KEY_STATUS + " = ?",

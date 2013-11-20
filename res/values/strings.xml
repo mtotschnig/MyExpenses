@@ -135,10 +135,13 @@
   <string name="licence_validation_success">Licence key successfully validated: Premium features have been unlocked.</string>
   <string name="licence_validation_failure">Unable to validate licence key.</string>
   <string name="menu_aggregates">Total</string>
+  <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+  <string name="menu_apply">Apply</string>
   <string name="menu_back">Back</string>
   <string name="menu_backup">Backup</string>
   <string name="menu_clone_transaction">Clone</string>
   <string name="menu_contrib">Contribute</string>
+  <string name="menu_create">Create</string>
   <string name="menu_create_account">New account</string>
   <string name="menu_create_method">New payment method</string>
   <string name="menu_create_party">New party</string>
@@ -170,10 +173,10 @@
   <string name="menu_forward">Forward</string>
   <string name="menu_grouping">Grouping</string>
   <string name="menu_help">Help</string>
+  <string name="menu_manage_plans">Templates and plans</string>
   <string name="menu_move_transaction">Move</string>
   <string name="menu_save">Save</string>
   <string name="menu_save_and_new">Save and new</string>
-  <string name="menu_new_from_template">New from template</string>
   <string name="menu_reset">Export and reset</string>
   <string name="menu_reset_all">Export and reset all</string>
   <string name="menu_settings">Settings</string>
@@ -211,6 +214,14 @@
   <string name="password_security_answer_not_valid">Wrong answer. Try again!</string>
   <string name="payee">Payee</string>
   <string name="payer">Payer</string>
+  <!-- Plan for future and recurring transactions -->
+  <string name="plan">Plan</string>
+  <string name="plan_automatic">automatic</string>
+  <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+  <string name="plan_calendar_name">My Expenses planer</string>
+  <!-- This message is shown, after a user decides to not apply a manual plan -->
+  <string name="plan_execution_canceled">Plan execution canceled</string>
+  <string name="plan_manual">manual</string>
   <!-- payment methods -->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Credit card</string>
@@ -245,8 +256,6 @@
   <string name="pref_manage_methods_summary">Create and edit payment methods and associate them with account types.</string>
   <string name="pref_manage_parties_title">Parties</string>
   <string name="pref_manage_parties_summary">Add, edit, delete parties (payers and payees).</string>
-  <string name="pref_manage_templates_title">Templates</string>
-  <string name="pref_manage_templates_summary">Apply or delete templates.</string>
   <string name="pref_more_info_dialog_title">Licence &amp; Credits</string>
   <string name="pref_more_info_dialog_summary"><!-- this is empty for English and gives credit to translators in the other languages --></string>
   <string name="pref_password_empty">Password must not be empty</string>
@@ -285,7 +294,7 @@
   <string name="restore_preferences_success">Preferences have been restored from backup.</string>
   <string name="save_transaction_error">Could not save new transaction from template</string>
   <string name="save_transaction_from_template_success">New transaction successfully saved from template</string>
-  <string name="save_transaction_and_new_success">Transaction successfully saved</string>
+  <string name="save_transaction_and_new_success">Successfully saved</string>
   <string name="select">Select</string>
   <string name="select_category">Select category</string>
   <string name="select_parent_category">Select this category</string>

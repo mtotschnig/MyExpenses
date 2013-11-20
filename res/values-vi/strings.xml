@@ -161,7 +161,6 @@
   <string name="menu_move_transaction">Di chuyển</string>
   <string name="menu_save">Lưu</string>
   <string name="menu_save_and_new">Lưu và tạo mới</string>
-  <string name="menu_new_from_template">Tạo mới từ mẫu</string>
   <string name="menu_reset">Xuất dữ liệu và cài đặt lại</string>
   <string name="menu_reset_all">Xuất dữ liệu và cài đặt lại tất cả</string>
   <string name="menu_settings">Thiết lập</string>
@@ -232,8 +231,6 @@
   <string name="pref_manage_methods_summary">Tạo và chỉnh sửa phương thức chi trả và gắn phương thức này với các loại tài khoản.</string>
   <string name="pref_manage_parties_title">Các nhóm</string>
   <string name="pref_manage_parties_summary">Thêm, chỉnh sửa và xóa các hội (người trả và người nhận tiền).</string>
-  <string name="pref_manage_templates_title">Mẫu</string>
-  <string name="pref_manage_templates_summary">Áp dụng hoặc xóa các mẫu.</string>
   <string name="pref_more_info_dialog_title">Giấy phép &amp; Quà Tặng</string>
   <string name="pref_more_info_dialog_summary">Dịch bởi Phan Anh</string>
   <!--this is empty for English and gives credit to translators in the other languages-->

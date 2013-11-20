@@ -18,14 +18,18 @@ package org.totschnig.myexpenses;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.Properties;
 
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.service.UnlockHandler;
+import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -38,7 +42,22 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.app.PendingIntent;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.res.Resources.NotFoundException;
+import android.database.Cursor;
+import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Calendars;
+import android.provider.CalendarContract.Events;
+import android.provider.CalendarContract.Instances;
 import android.util.Log;
 //import android.view.KeyEvent;
 import android.widget.Toast;
@@ -52,8 +71,10 @@ public class MyApplication extends Application {
     public static String PREFKEY_SHARE_TARGET;
     public static String PREFKEY_QIF_EXPORT_FILE_ENCODING;
     public static String PREFKEY_UI_THEME_KEY;
-    public static String PREFKEY_CURRENT_VERSION = "currentversion";
-    public static String PREFKEY_CURRENT_ACCOUNT = "current_account";
+    public static final String PREFKEY_CURRENT_VERSION = "currentversion";
+    public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
+    public static final String PREFKEY_PLANER_CALENDER_ID = "planer_calender_id";
+    public static final String PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP = "planer_last_execution_timestamp";
     public static String PREFKEY_BACKUP;
     public static String PREFKEY_RESTORE;
     public static String PREFKEY_CONTRIB_INSTALL;
@@ -82,6 +103,8 @@ public class MyApplication extends Application {
     private ServiceConnection mConnection;
     private long mLastPause = 0;
     public static String TAG = "MyExpenses";
+    public Long planerCalenderId = -1L;
+    public Long planerLastPlanId = -1L;
     /**
      * how many nanoseconds should we wait before prompting for the password
      */
@@ -136,6 +159,7 @@ public class MyApplication extends Application {
         Log.w(TAG,"Failed to open property file");
       }
       initContribEnabled();
+      initPlaner();
     }
 
     public boolean initContribEnabled() {
@@ -351,5 +375,107 @@ public class MyApplication extends Application {
         return true;
       }
       return false;
+    }
+    @SuppressLint("NewApi")
+    public void requirePlaner() {
+      String accountName = "org.totschnig.myexpenses";
+      String calendarName = "MyExpensesPlaner";
+      ContentResolver cr = MyApplication.getInstance().getContentResolver();
+      Uri.Builder builder =
+          CalendarContract.Calendars.CONTENT_URI.buildUpon();
+      builder.appendQueryParameter(
+          Calendars.ACCOUNT_NAME,
+          accountName);
+      builder.appendQueryParameter(
+          Calendars.ACCOUNT_TYPE,
+          CalendarContract.ACCOUNT_TYPE_LOCAL);
+      builder.appendQueryParameter(
+          CalendarContract.CALLER_IS_SYNCADAPTER,
+          "true");
+      Uri calendarUri = builder.build();
+      //int deleted = cr.delete(calendarUri, null, null);
+      //Log.i("DEBUG","deleted old calendar: "+ deleted);
+      Cursor c = cr.query(
+          calendarUri,
+          new String[] {CalendarContract.Calendars._ID},
+          Calendars.NAME +  " = ?",
+          new String[]{calendarName}, null);
+      if (c.moveToFirst()) {
+        planerCalenderId = c.getLong(0);
+        planerLastPlanId = getLastPlanId();
+        c.close();
+      } else  {
+        c.close();
+        ContentValues values = new ContentValues();
+        values.put(
+              Calendars.ACCOUNT_NAME,
+              accountName);
+        values.put(
+              Calendars.ACCOUNT_TYPE,
+              CalendarContract.ACCOUNT_TYPE_LOCAL);
+        values.put(
+              Calendars.NAME,
+              calendarName);
+        values.put(
+              Calendars.CALENDAR_DISPLAY_NAME,
+              getString(R.string.plan_calendar_name)); //TODO resource
+        values.put(
+              Calendars.CALENDAR_COLOR,
+              0xffff0000); //TODO set to default account color
+        values.put(
+              Calendars.CALENDAR_ACCESS_LEVEL,
+              Calendars.CAL_ACCESS_OWNER);
+        values.put(
+              Calendars.OWNER_ACCOUNT,
+                  "private");
+//            values.put(
+//                  Calendars.CALENDAR_TIME_ZONE,
+//                  "Europe/Berlin");
+        Uri uri = cr.insert(builder.build(), values);
+        planerCalenderId = ContentUris.parseId(uri);
+        planerLastPlanId = -1L;
+      }
+    }
+    @SuppressLint("NewApi")
+    public long getLastPlanId() {
+      String[] proj =
+          new String[] {
+                "MAX(" + Events._ID + ") as last_event_id"};
+      Cursor c = MyApplication.getInstance().getContentResolver().
+          query(
+              Events.CONTENT_URI,
+              proj,
+              Events.CALENDAR_ID + " = ? ",
+              new String[]{Long.toString(planerCalenderId)},
+              null);
+      if (c.moveToFirst()) {
+        long result = c.getLong(0);
+        c.close();
+        return result;
+      } else {
+        c.close();
+        return -1L;
+      }
+    }
+    /**
+     * PlanExecutor is executed once, and then rescheduled
+     */
+    public void initPlaner() {
+      Log.i("DEBUG","Inside init planer");
+      Intent service = new Intent(this, PlanExecutor.class);
+      startService(service);
+      PendingIntent pendingIntent = PendingIntent.getService(this, 0, service, 0);
+      AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+      long interval = 86400000; //24* 60 * 60 * 1000 1 day
+      Calendar cal = Calendar.getInstance();
+      cal.setTimeInMillis(System.currentTimeMillis());
+      cal.set(Calendar.HOUR_OF_DAY, 0); //set hours to zero
+      cal.set(Calendar.MINUTE, 0); // set minutes to zero
+      cal.set(Calendar.SECOND, 0); //set seconds to zero
+      cal.set(Calendar.MILLISECOND, 0);
+      long alarmTime = cal.getTimeInMillis() + interval;
+      //we schedule service for beginning of next day, and then every 24 hours
+      manager.setRepeating(AlarmManager.RTC, alarmTime, interval,
+          pendingIntent);
     }
 }

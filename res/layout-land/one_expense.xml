@@ -120,7 +120,7 @@
               android:layout_height="wrap_content"  />
           <EditText android:id="@+id/Number"
               android:visibility="invisible"
-              android:hint="Number"
+              android:hint="@string/reference_number"
               android:singleLine="true"
               android:layout_weight="1"
               android:layout_width="0dp"
@@ -128,6 +128,28 @@
         </LinearLayout>
       </TableRow>
 
-      </TableLayout>
+      <TableRow android:id="@+id/PlanerRow"
+          android:visibility="gone">
+        <TextView style="@style/form_label"
+            android:text="@string/plan" />
+        <LinearLayout
+            android:orientation="horizontal">
+        <Button android:id="@+id/Plan"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_create"/>
+        <ToggleButton
+            android:id="@+id/togglebutton"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="@string/plan_automatic"
+            android:textOff="@string/plan_manual"
+            android:onClick="onToggleClicked"/>
+        </LinearLayout>
+      </TableRow>
+    </TableLayout>
   </ScrollView>
 </LinearLayout>

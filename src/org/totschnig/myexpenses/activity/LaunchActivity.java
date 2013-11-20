@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.activity;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
+import java.util.ArrayList;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
@@ -14,6 +16,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Build;
 import android.util.Log;
 
 public abstract class LaunchActivity extends ProtectedFragmentActivity {
@@ -29,7 +32,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
     Editor edit = mSettings.edit();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     int current_version = CommonCommands.getVersionNumber(this);
-    if (prev_version != current_version) {
+    if (prev_version < current_version) {
       SharedPreferencesCompat.apply(edit.putInt(MyApplication.PREFKEY_CURRENT_VERSION, current_version));
       if (prev_version == -1)
         return;

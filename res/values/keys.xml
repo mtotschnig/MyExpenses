@@ -52,7 +52,7 @@
   
   <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
   <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>
-  <string name="help_ManageTemplates_title">@string/pref_manage_templates_title</string>
+  <string name="help_ManageTemplates_title">@string/menu_manage_plans</string>
   <string name="help_ManageCategories_manage_title">@string/pref_manage_categories_title</string>
   <string name="help_ManageCategories_distribution_title">@string/menu_distribution</string>
   <string name="help_ManageCategories_select_title">@string/select_category</string>

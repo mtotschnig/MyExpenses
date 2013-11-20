@@ -163,7 +163,6 @@
   <string name="menu_move_transaction">Mozgat</string>
   <string name="menu_save">Mentés</string>
   <string name="menu_save_and_new">Mentés és új</string>
-  <string name="menu_new_from_template">Új létrehozása sablon alapján</string>
   <string name="menu_reset">Export és alap állapotra visszaállítás</string>
   <string name="menu_reset_all">Export és teljes reset</string>
   <string name="menu_settings">Beállítások</string>
@@ -235,8 +234,6 @@
   <string name="pref_manage_methods_summary">Fizetési mód létrehozása és összerendelése a számla típusával.</string>
   <string name="pref_manage_parties_title">Résztvevők</string>
   <string name="pref_manage_parties_summary">Résztvevő (kifizető és kedvezményezett) hozzáadása, szerkesztése, törlése</string>
-  <string name="pref_manage_templates_title">Sablonok</string>
-  <string name="pref_manage_templates_summary">Sablonok alkalmazása, vagy törlése.</string>
   <string name="pref_more_info_dialog_title">Licensz és Közreműködők</string>
   <string name="pref_more_info_dialog_summary">A fordítást készítette: Csipai Roland</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
@@ -276,7 +273,7 @@
   <string name="restore_preferences_success">Beállítások sikeresen visszaállítva a korábbi mentésből.</string>
   <string name="save_transaction_error">Nem sikerült a sablonból létrehozott tranzakciót menteni</string>
   <string name="save_transaction_from_template_success">Tranzakció sikeresen mentve a sablon alapján</string>
-  <string name="save_transaction_and_new_success">Tranzakció sikeresen mentve</string>
+  <string name="save_transaction_and_new_success">Sikeresen mentve</string>
   <string name="select">Kiválasztás</string>
   <string name="select_category">Kategória kiválasztása</string>
   <string name="select_parent_category">Ezen kategória kiválasztása</string>

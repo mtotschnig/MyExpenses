@@ -39,10 +39,10 @@
   <item type="id" name="INSERT_SPLIT_COMMAND"/>
   <item type="id" name="INSERT_TA_COMMAND"/>
   <item type="id" name="INSERT_TRANSFER_COMMAND"/>
+  <item type="id" name="MANAGE_PLANS_COMMAND" />
   <item type="id" name="MORE_ACTIONS_DIALOG"/>
   <item type="id" name="MORE_INFO_DIALOG"/>
   <item type="id" name="MOVE_TRANSACTION_COMMAND"/>
-  <item type="id" name="NEW_FROM_TEMPLATE_COMMAND"/>
   <item type="id" name="PASSWORD_WARNING_DIALOG"/>
   <item type="id" name="RATE_COMMAND"/>
   <item type="id" name="REMIND_LATER_COMMAND"/>

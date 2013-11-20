@@ -44,6 +44,9 @@ public class DatabaseConstants {
   public static final String KEY_CR_STATUS = "cr_status";
   public static final String KEY_REFERENCE_NUMBER = "number";
   public static final String KEY_IS_NUMBERED = "is_numbered";
+  public static final String KEY_PLANID = "plan_id";
+  public static final String KEY_PLAN_EXECUTION = "plan_execution";
+
   /**
    * transaction that already has been exported
    */

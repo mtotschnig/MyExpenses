@@ -14,7 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="help_menu_commands">Menu commands</string>
 
   <!-- My Expenses Transaction list -->
@@ -24,17 +24,17 @@
   <string name="menu_create_transaction_help_text">Opens the form for creating a new transaction.</string>
   <string name="menu_create_transfer_help_text">Transfer money between accounts. This command is enabled only if you have at least one other account with the same currency as the current one.</string>
   <string name="menu_create_split_help_text">A split transaction allows you to assign partial amounts to different categories or as transfers to different accounts.</string>
-  <string name="menu_new_from_template_help_text">If you have created templates for the current account, this command displays a dialog for selecting a template from which a new transaction will be created.</string>
   <string name="menu_reset_help_text">This command will export all transactions of the current account to a file on the SD card in QIF or CSV format. By default, the transactions will be deleted from your phone, but you can select to keep them and mark as exported. My Expenses can share the file immediately after the export through FTP, email or any other file sharing app, if you configure it to do so in the Settings.</string>
   <string name="menu_edit_account_help_text">Adjust the properties of the current account (title, description, opening balance, account type, currency, color).</string>
   <string name="menu_grouping_help_text">You can group transactions by day, week, month or year. For each group, the sum of income, expenses and transfers is calculated and displayed.</string>
   <string name="menu_distribution_help_text">Display the distribution of your expenses per category. You can also click on a group header to inspect the distribution for a specific group.</string>
+  <string name="menu_manage_plans_help_text">Opens the list of templates and plans for the current account, where you can apply, edit or delete them, and also define plans for future and recurrent transactions.</string>
 
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Accounts list</string>
   <string name="help_ManageAccounts_info">This screen lists all accounts. Clicking on a list entry, opens the transaction list for the account.</string>
   <string name="menu_create_account_help_text">Opens the form for creating a new account.</string>
-  <string name="menu_aggregates_help_text">The aggregates dialog calculates the sum of expenses and income accross all accounts that share the same currency. The command is only available if for any currency there exist at least two accounts (Contrib feature).</string>
+  <string name="menu_aggregates_help_text">The aggregates dialog calculates the sum of expenses and income across all accounts that share the same currency. The command is only available if for any currency there exist at least two accounts (Contrib feature).</string>
   <string name="menu_reset_all_help_text">This command allows to reset all your accounts in batch. It is not available if there are no transactions to export (Contrib feature).</string>
 
   <!-- ManageMethods title is in keys-->
@@ -46,8 +46,10 @@
   <string name="menu_create_party_help_text">Opens the dialog for specifying the name of a new payer or payee.</string>
   
   <!-- ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_info">This screen lists the the available templates grouped by account. While templates normally can be derived from transactions, here each account\'s context menu allows you to create new templates (for transactions or transfers). From a template\'s context menu you can instantiate it and either immediately save it or enter its editing form where you can modify it before saving. Clicking on an entry allows to modify it (Contrib feature).</string>
-
+  <string name="help_ManageTemplates_info">This screen lists the available templates for the current account. While templates can be derived from transactions through their context menu, here you can create new templates from scratch (for transactions or transfers).<xliff:g id="html">&lt;br>&lt;img src=\"android:ic_menu_my_calendar\" /></xliff:g> This icon indicates that there is a plan defined for future or recurring instantiations of the template. <xliff:g id="html">&lt;br>&lt;img src=\"manage_plans_icon\" /></xliff:g> Clicking on this icon, instantiates the transaction and returns to the transaction list.<xliff:g id="html">&lt;br></xliff:g>From a template\'s context menu, you can also instantiate the template and enter its editing form where you can modify it before saving. The context menu also offers commands for editing and deleting the template.</string>
+  <string name="menu_create_template_for_transaction_help_text">Create a new template for a transaction</string>
+  <string name="menu_create_template_for_transfer_help_text">Create a new template for a transfer</string>
+  
   <!-- ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">This screen displays the distribution of your expenses and incomes per categories, for all transactions in an account, or for a specific group.</string>
   <string name="help_ManageCategories_select_info">In addition to the actions that you can perform when managing categories from the Preferences screen (create, edit, delete), on this screen you map a transaction to a selected category. You select a subcategory for mapping to the current transaction by simply clicking on it. In order to map a main category, you have to call its context menu.</string>
@@ -67,7 +69,7 @@
   <string name="help_ExpenseEdit_info">Click on the - Button to toggle between expense and income, click on the = Button to open a calculator.</string>
   <string name="help_ExpenseEdit_transaction_info">The payee (or payer) field remembers the values you enter and will suggest them in the future. The button for selecting a payment method, is only available if the current account is of a type linked to any payment method. By default only bank accounts, are  linked to payment methods (cheque,credit card, deposit,direct debit).</string>
   <string name="help_ExpenseEdit_transfer_info">Select the transfer account from the drop down list.</string>
-  <string name="help_ExpenseEdit_template_info">The title lets you identify a template when you select it for instantiating new transactions. </string>
+  <string name="help_ExpenseEdit_template_info">Enter a title that uniquely identifies the template.<xliff:g id="html">&lt;h2></xliff:g>Plans<xliff:g id="html">&lt;/h2></xliff:g>When you create a plan for a template, it is added to a private calendar handled by your Calendar app. You can define the plan as a one-time event or as any type of recurring event that the calendar can handle. You can create, modify and delete the plan from the plan button, but once the plan is set up, you can also use the Calendar app to manage it. A plan can be set to automatic or manual. When an instance of an automatic plan occurs, the transaction will be created, and you receive a notification. When the plan is manual, you also receive a notification, which leaves the choice of canceling, modifying or applying the template to you.</string>
   <string name="help_ExpenseEdit_split_info">Enter as many split parts as needed through the menu commands for category splits and transfer splits. 	The bottom half of the screen displays the list of split parts and the amount that has not yet been assigned to a category or a transfer. 	You can only save the split transaction if the transaction amount has been exactly assigned.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Select a category for the split part.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Assign a transfer account to the split part.</string>

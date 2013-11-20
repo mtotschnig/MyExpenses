@@ -23,7 +23,6 @@
   <string name="menu_create_transaction_help_text">Mở mẫu đơn để tạo giao dịch mới.</string>
   <string name="menu_create_transfer_help_text">Chuyển đổi tiền giữa các tài khoản. Phần lệnh này được bật chỉ khi bạn có ít nhất một tài khoản khác với cùng dạng tiền tệ.</string>
   <string name="menu_create_split_help_text">Việc phân tách giao dịch cho phép bạn gán các phần ngăn theo những phân loại khác nhau hoặc truyền đổi đến các tài khoản khác.</string>
-  <string name="menu_new_from_template_help_text">Nếu bạn đã tạo mẫu cho tài khoản hiện tại, lệnh này sẽ hiển thị một cửa sổ để chọn các mẫu đó ngay nơi giao dịch mới được tạo.</string>
   <string name="menu_reset_help_text">Phần lệnh này sẽ xuất dữ liệu về tất cả các giao dịch của tài khoản hiện tại vào một tập tin trên thẻ nhớ dưới định dạng QIF hoặc CSV. Theo mặc định, các giao dịch sẽ bị xóa khỏi điện thoại của bạn, nhưng bạn có thể chọn để giữ các phần này lại và đánh dấu khi xuất dữ liệu. Chương trình có thể chia sẻ tập tin ngay lập tức sau khi xuất dữ liệu thông qua FTP, email hoặc bất kỳ dạng thức chia sẻ nào của ứng dụng, nếu bạn đã cấu hình phần này trong phần Thiết Lập.</string>
   <string name="menu_edit_account_help_text">Hiệu chỉnh thuộc tính của tài khoản hiện tại (tiêu đề, mô tả, mở trạng thái cân bằng, loại tài khoản, tiền tệ, màu sắc).</string>
   <string name="menu_grouping_help_text">Bạn có thể gom nhóm các giao dịch theo ngày, tuần, tháng hoặc năm. Đối với mỗi nhóm, tổng thu nhập, chi tiêu, và truyền đổi được tính toán tỉ mỉ và được hiển thị trực tiếp lên màn hình.</string>

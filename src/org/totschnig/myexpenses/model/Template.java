@@ -17,24 +17,47 @@ package org.totschnig.myexpenses.model;
 
 import java.util.Date;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
+import android.provider.CalendarContract.Events;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class Template extends Transaction {
   public String title;
   public boolean isTransfer;
+  public Long planId;
+  public boolean planExecutionAutomatic = false;
 
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
+  public static final String[] PROJECTION = new String[] {
+    KEY_ROWID,
+    KEY_AMOUNT,
+    KEY_COMMENT,
+    KEY_CATID,
+    SHORT_LABEL,
+    KEY_PAYEE_NAME,
+    KEY_TRANSFER_PEER,
+    KEY_TRANSFER_ACCOUNT,
+    KEY_ACCOUNTID,
+    KEY_METHODID,
+    KEY_TITLE,
+    KEY_PLANID,
+    KEY_PLAN_EXECUTION};
 
+  /**
+   * derives a new template from an existing Transaction
+   * @param t the transaction whose data (account, amount, category, comment, payment method, payee,
+   * populates the template
+   * @param title identifies the template in the template list
+   */
   public Template(Transaction t, String title) {
     this.title = title;
     this.accountId = t.accountId;
@@ -49,6 +72,30 @@ public class Template extends Transaction {
     this.isTransfer = t.transfer_peer != null;
     this.transfer_account = t.transfer_account;
   }
+  /**
+   * @param c Cursor positioned at the row we want to extract into the object
+   */
+  /**
+   * @param c
+   */
+  public Template (Cursor c) {
+    this(c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID)),
+        c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT))
+        );
+    if (isTransfer = c.getInt(c.getColumnIndexOrThrow(KEY_TRANSFER_PEER)) > 0) {
+      transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
+    } else {
+      methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
+      catId = DbUtils.getLongOrNull(c, KEY_CATID);
+      payee = DbUtils.getString(c,KEY_PAYEE_NAME);
+    }
+    id = c.getLong(c.getColumnIndexOrThrow(KEY_ROWID));
+    comment = DbUtils.getString(c,KEY_COMMENT);
+    label =  DbUtils.getString(c,KEY_LABEL);
+    title = DbUtils.getString(c,KEY_TITLE);
+    planId = DbUtils.getLongOrNull(c, KEY_PLANID);
+    planExecutionAutomatic = c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION)) > 0;
+  }
   public Template(long accountId,Long amount) {
     super(accountId,amount);
     title = "";
@@ -61,29 +108,29 @@ public class Template extends Transaction {
   public void setDate(Date date){
     //templates have no date
   }
-  public static Template getInstanceFromDb(long id) throws DataObjectNotFoundException {
-    String[] projection = new String[] {KEY_ROWID,KEY_AMOUNT,KEY_COMMENT, KEY_CATID,
-        SHORT_LABEL,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_TRANSFER_ACCOUNT,KEY_ACCOUNTID,KEY_METHODID,KEY_TITLE};
+  public static Template getInstanceForPlan(long planId) {
     Cursor c = cr().query(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection,null,null, null);
+        CONTENT_URI,
+        null,
+        KEY_PLANID + "= ?",
+        new String[] {String.valueOf(planId)},
+        null);
+    if (c == null || c.getCount() == 0) {
+      return null;
+    }
+    c.moveToFirst();
+    Template t = new Template(c);
+    c.close();
+    return t;
+  }
+  public static Template getInstanceFromDb(long id) throws DataObjectNotFoundException {
+    Cursor c = cr().query(
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null,null,null, null);
     if (c == null || c.getCount() == 0) {
       throw new DataObjectNotFoundException(id);
     }
     c.moveToFirst();
-    Template t = new Template(c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID)),
-        c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT))  
-        );
-    if (t.isTransfer = c.getInt(c.getColumnIndexOrThrow(KEY_TRANSFER_PEER)) > 0) {
-      t.transfer_account = DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
-    } else {
-      t.methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
-      t.catId = DbUtils.getLongOrNull(c, KEY_CATID);
-      t.payee = DbUtils.getString(c,KEY_PAYEE_NAME);
-    }
-    t.id = id;
-    t.comment = DbUtils.getString(c,KEY_COMMENT);
-    t.label =  DbUtils.getString(c,KEY_LABEL);
-    t.title = DbUtils.getString(c,KEY_TITLE);
+    Template t = new Template(c);
     c.close();
     return t;
   }
@@ -103,6 +150,8 @@ public class Template extends Transaction {
     initialValues.put(KEY_PAYEEID, payee_id);
     initialValues.put(KEY_METHODID, methodId);
     initialValues.put(KEY_TITLE, title);
+    initialValues.put(KEY_PLANID, planId);
+    initialValues.put(KEY_PLAN_EXECUTION,planExecutionAutomatic);
     if (id == 0) {
       initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_TRANSFER_PEER, isTransfer);
@@ -122,9 +171,16 @@ public class Template extends Transaction {
     }
     return uri;
   }
+  @SuppressLint("NewApi")
   public static void delete(long id) {
+    Template t = getInstanceFromDb(id);
+    if (t.planId != null) {
+      Plan.delete(t.planId);
+    }
     cr().delete(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),null,null);
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
+        null,
+        null);
   }
   public static int countPerMethod(long methodId) {
     return countPerMethod(CONTENT_URI,methodId);

@@ -16,8 +16,8 @@
  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.totschnig.myexpenses" 
-    android:versionCode="87"
-    android:versionName="1.9.7.3"
+    android:versionCode="88"
+    android:versionName="1.10.0"
     android:installLocation="auto"
 >
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="17"></uses-sdk>
@@ -31,6 +31,9 @@
       android:protectionLevel="signature" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="org.totschnig.myexpenses.UNLOCK_PREMIUM" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
       android:name="org.totschnig.myexpenses.MyApplication"
       android:icon="@drawable/icon"
@@ -114,5 +117,12 @@
            android:exported="false"
            android:name=".provider.TransactionProvider"
            android:authorities="org.totschnig.myexpenses" />
+        <service android:name=".service.PlanExecutor" />
+        <service android:name=".service.PlanNotificationClickHandler" />
+        <receiver android:name=".service.MyBootReceiver">
+				  <intent-filter>
+				    <action android:name="android.intent.action.BOOT_COMPLETED" />
+				  </intent-filter>
+        </receiver>
     </application>
 </manifest>

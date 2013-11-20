@@ -165,7 +165,6 @@
   <string name="menu_grouping">Agrupamiento</string>
   <string name="menu_help">Ayuda</string>
   <string name="menu_move_transaction">Mover</string>
-  <string name="menu_new_from_template">Nuevo a partir de una plantilla</string>
   <string name="menu_reset">Exportar y restablecer</string>
   <string name="menu_reset_all">Exportar y restablecer todas</string>
   <string name="menu_save">Guardar</string>
@@ -239,8 +238,6 @@
   <string name="pref_manage_methods_summary">Crear y editar métodos de pago y asociarlos con  tipos de cuenta.</string>
   <string name="pref_manage_parties_title">Partidos</string>
   <string name="pref_manage_parties_summary">Añadir, modificar y borrar partidos (pagador y beneficiario)</string>
-  <string name="pref_manage_templates_summary">Aplicar o borrar plantillas</string>
-  <string name="pref_manage_templates_title">Plantillas</string>
   <string name="pref_more_info_dialog_title">Licencia &amp; Créditos</string>
   <string name="pref_more_info_dialog_summary">Traducción por Tulliver, gudrunto y christoft</string>
   <string name="pref_password_empty">La contraseña no debe estar vacía</string>
@@ -279,7 +276,7 @@
   <string name="restore_preferences_success">Las configuraciones han sidas restauradas desde la copia de seguridad.</string>
   <string name="save_transaction_error">No se pudo guardar nueva transacción desde plantilla</string>
   <string name="save_transaction_from_template_success">Nueva transacción desde plantilla guardada con éxito.</string>
-  <string name="save_transaction_and_new_success">Transacción guardada con éxito</string>
+  <string name="save_transaction_and_new_success">Guardada con éxito</string>
   <string name="select">Escoger</string>
   <string name="select_category">Escoger una categoría</string>
   <string name="select_parent_category">Escoger esta categoría</string>

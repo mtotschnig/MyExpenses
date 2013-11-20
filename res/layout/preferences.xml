@@ -19,11 +19,6 @@
   <PreferenceCategory 
       android:title="@string/pref_category_title_manage">
     <PreferenceScreen
-        android:title="@string/pref_manage_templates_title"
-        android:summary="@string/pref_manage_templates_summary">
-        <intent android:action="myexpenses.intent.manage.templates"/>
-    </PreferenceScreen>
-    <PreferenceScreen
         android:title="@string/pref_manage_categories_title"
         android:summary="@string/pref_manage_categories_summary">
         <intent android:action="myexpenses.intent.manage.categories"/>

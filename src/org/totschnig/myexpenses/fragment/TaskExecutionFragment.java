@@ -16,10 +16,12 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -46,7 +48,8 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_MOVE = 12;
   public static final int TASK_NEW_FROM_TEMPLATE = 13;
   public static final int TASK_DELETE_CATEGORY = 14;
-  
+  public static final int TASK_GET_LAST_PLAN = 16;
+
   /**
    * Callback interface through which the fragment will report the
    * task's progress and results back to the Activity.
@@ -55,9 +58,14 @@ public class TaskExecutionFragment extends Fragment {
     void onPreExecute();
     void onProgressUpdate(int percent);
     void onCancelled();
+    /**
+     * @param taskId with which TaskExecutionFragment was created
+     * @param an object that the activity expects from the task, for example an instantiated
+     * DAO
+     */
     void onPostExecute(int taskId,Object o);
   }
- 
+
   private TaskCallbacks mCallbacks;
   private GenericTask mTask;
   public static TaskExecutionFragment newInstance(int taskId, Long objectId, Long targetId) {
@@ -83,7 +91,7 @@ public class TaskExecutionFragment extends Fragment {
     super.onAttach(activity);
     mCallbacks = (TaskCallbacks) activity;
   }
- 
+
   /**
    * This method will only be called once when the retained
    * Fragment is first created.
@@ -91,16 +99,16 @@ public class TaskExecutionFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
- 
+
     // Retain this fragment across configuration changes.
     setRetainInstance(true);
- 
+
     // Create and execute the background task.
     Bundle args = getArguments();
     mTask = new GenericTask(args.getInt("taskId"));
     mTask.execute(args.getLong("objectId"),args.getLong("targetId"));
   }
- 
+
   /**
    * Set the callback to null so we don't accidentally leak the
    * Activity instance.
@@ -110,7 +118,7 @@ public class TaskExecutionFragment extends Fragment {
     super.onDetach();
     mCallbacks = null;
   }
- 
+
   /**
    *
    * Note that we need to check if the callbacks are null in each
@@ -129,12 +137,13 @@ public class TaskExecutionFragment extends Fragment {
         mCallbacks.onPreExecute();
       }
     }
- 
+
     /**
      * Note that we do NOT call the callback object's methods
      * directly from the background thread, as this could result
      * in a race condition.
      */
+    @SuppressLint("NewApi")
     @Override
     protected Object doInBackground(Long... id) {
       Transaction t;
@@ -203,6 +212,8 @@ public class TaskExecutionFragment extends Fragment {
       case TASK_MOVE:
         Transaction.move(id[0],id[1]);
         return null;
+      case TASK_GET_LAST_PLAN:
+        return MyApplication.getInstance().getLastPlanId();
       }
       return null;
     }
@@ -212,14 +223,13 @@ public class TaskExecutionFragment extends Fragment {
         mCallbacks.onProgressUpdate(ignore[0]);
       }*/
     }
- 
+
     @Override
     protected void onCancelled() {
       if (mCallbacks != null) {
         mCallbacks.onCancelled();
       }
     }
- 
     @Override
     protected void onPostExecute(Object result) {
       if (mCallbacks != null) {

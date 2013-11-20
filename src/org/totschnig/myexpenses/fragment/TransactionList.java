@@ -109,24 +109,24 @@ public class TransactionList extends BudgetListFragment implements
   }
   @Override
   public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      setHasOptionsMenu(true);
+    super.onCreate(savedInstanceState);
+    setHasOptionsMenu(true);
 
-      mappedCategoriesPerGroup = new SparseBooleanArray();
-      mAccountId = getArguments().getLong("account_id");
-      mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
-      mGrouping = mAccount.grouping;
-      mType = mAccount.type;
-      aObserver = new AccountObserver(new Handler());
-      ContentResolver cr= getSherlockActivity().getContentResolver();
-      //when account has changed, we might have
-      //1) to refresh the list (currency has changed),
-      //2) update current balance(opening balance has changed),
-      //3) update the bottombarcolor (color has changed)
-      //4) refetch grouping cursor (grouping has changed)
-      cr.registerContentObserver(
-          TransactionProvider.ACCOUNTS_URI,
-          true,aObserver);
+    mappedCategoriesPerGroup = new SparseBooleanArray();
+    mAccountId = getArguments().getLong("account_id");
+    mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
+    mGrouping = mAccount.grouping;
+    mType = mAccount.type;
+    aObserver = new AccountObserver(new Handler());
+    ContentResolver cr= getSherlockActivity().getContentResolver();
+    //when account has changed, we might have
+    //1) to refresh the list (currency has changed),
+    //2) update current balance(opening balance has changed),
+    //3) update the bottombarcolor (color has changed)
+    //4) refetch grouping cursor (grouping has changed)
+    cr.registerContentObserver(
+        TransactionProvider.ACCOUNTS_URI,
+        true,aObserver);
   }
   private void setAdapter() {
     Context ctx = getSherlockActivity();

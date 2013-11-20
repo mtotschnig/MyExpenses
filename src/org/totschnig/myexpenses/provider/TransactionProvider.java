@@ -265,10 +265,14 @@ public class TransactionProvider extends ContentProvider {
           .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
               KEY_USAGES + " DESC, " : "")
          + KEY_TITLE;
+      if (projection == null)
+        projection = Template.PROJECTION;
       break;
     case TEMPLATES_ID:
       qb.setTables(VIEW_TEMPLATES);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+      if (projection == null)
+        projection = Template.PROJECTION;
       break;
     case FEATURE_USED:
       qb.setTables(TABLE_FEATURE_USED);

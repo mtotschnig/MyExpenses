@@ -8,7 +8,6 @@
   <string name="menu_create_transaction_help_text">Ouvre le formulaire pour saisir une nouvelle opération.</string>
   <string name="menu_create_transfer_help_text">Virer une somme entre comptes. Cette commande n\'est active que si vous avez au moins deux comptes dans la même devise.</string>
   <string name="menu_create_split_help_text">Dans une opération ventilée, vous attribuez des montants partiels à plusieurs catégories ou aux transferts vers d\'autres comptes.</string>
-  <string name="menu_new_from_template_help_text">Si vous aviez défini des modèles, cette commande vous permet de choisir un modèle dans la liste pour créer une nouvelle opération.</string>
   <string name="menu_reset_help_text">Cette commande exportera les opérations vers un fichier sur la carte SD en format QIF ou CSV. Par défaut, les opérations seront effacées, mais vous pouvez choisir de seulement les marquer comme exportées. Ce fichier peut être immédiatement transféré par FTP, courriel ou d\'autres applications, si vous activez cette option dans les paramètres.</string>
   <string name="menu_edit_account_help_text">Changer les propriétés du compte courant: titre, description, solde initial, type, devise, couleur.</string>
   <string name="menu_grouping_help_text">Les opérations peuvent être regroupées par jour, semaine, mois ou année. Pour chaque groupe, les totaux des revenus, des dépenses et des transferts sont calculés et affichés.</string>

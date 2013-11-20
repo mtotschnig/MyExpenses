@@ -165,7 +165,6 @@
   <string name="menu_grouping">Regroupement</string>
   <string name="menu_help">Aide</string>
   <string name="menu_move_transaction">Déplacer</string>
-  <string name="menu_new_from_template">Nouveau d\'après modèle</string>
   <string name="menu_reset">Exporter et réinitialiser</string>
   <string name="menu_reset_all">Exporter et réinitialiser tous</string>
   <string name="menu_save">Enregistrer</string>
@@ -239,8 +238,6 @@
   <string name="pref_manage_methods_summary">Créer, modifier les méthodes de paiement et les associer aux types de comptes.</string>
   <string name="pref_manage_parties_title">Tiers</string>
   <string name="pref_manage_parties_summary">Ajouter, éditer, supprimer les tiers.</string>
-  <string name="pref_manage_templates_title">Modèles</string>
-  <string name="pref_manage_templates_summary">Appliquer ou supprimer les modèles.</string>
   <string name="pref_more_info_dialog_title">Licence &amp; Générique</string>
   <string name="pref_more_info_dialog_summary">Traduit par Laurent Collombet, Alexandre Beelen et Michael Totschnig</string>
   <string name="pref_password_empty">Le mot de passe ne doit pas être vide</string>
@@ -279,7 +276,7 @@
   <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
   <string name="save_transaction_error">L\'opération à partir du modèle n\'a pas été enregistrée</string>
   <string name="save_transaction_from_template_success">Nouvelle opération sauvegardée à partir du modèle</string>
-  <string name="save_transaction_and_new_success">Opération sauvegardée</string>
+  <string name="save_transaction_and_new_success">Sauvegardée</string>
   <string name="select">Sélectionner</string>
   <string name="select_category">Sélectionner une catégorie</string>
   <string name="select_parent_category">Choisir cette catégorie</string>
