@@ -165,7 +165,6 @@
   <string name="menu_grouping">Gruplandırma</string>
   <string name="menu_help">Yardım</string>
   <string name="menu_move_transaction">Taşı</string>
-  <string name="menu_new_from_template">Şablondan yeni</string>
   <string name="menu_reset">Dışa aktar ve sıfırla</string>
   <string name="menu_reset_all">Tümünü dışa aktar ve sıfırla</string>
   <string name="menu_save">Kaydet</string>

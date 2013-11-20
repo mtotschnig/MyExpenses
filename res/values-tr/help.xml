@@ -8,7 +8,6 @@
   <string name="menu_create_transaction_help_text">Yeni muamele oluşturmak için formu açar.</string>
   <string name="menu_create_transfer_help_text">Hesaplar arası para aktarımı. Bu komut sadece güncel hesapla aynı dövizi kullanan başka bir hesabınız varsa etkinleştirilir.</string>
   <string name="menu_create_split_help_text">Bölünmüş bir muamele kısmi bir miktarı farklı kategorilere atamanıza ya da farklı hesaplara transfer olarak atamanıza imkân verir.</string>
-  <string name="menu_new_from_template_help_text">Eğer güncel hesap için şablon oluşturduysanız bu komut yeni bir muamele oluşturulması için şablon seçmenize imkân sağlayan bir diyalog görüntüler.</string>
   <string name="menu_reset_help_text">Bu komut güncel hesabın tüm muamelelerini SD kartına QIF veya CSV biçiminde bir dosyaya aktarır. Varsayılan ayarlarda muameleler telefonunuzdan silinir ancak onları dışa aktarılmış olarak işaretleyip saklamayı seçebilirsiniz. Ayarlarda gerekli yapılandırmayı yaptıysanız Harcalamalarım dosyayı dışa aktarımın ardından FTP, e-posta veya başka bir dosya paylaşım uygulaması ile paylaşabilir.</string>
   <string name="menu_edit_account_help_text">Güncel hesabın özelliklerini ayarla (başlık, açıklama, başlangıç bakiyesi, hesap türü, döviz, renk).</string>
   <string name="menu_grouping_help_text">Muameleleri gün, hafta, ay, ya da yıla dayanarak gruplandırabilirsiniz. Her grup için gelir, gider ve transferlerin toplamı hesaplanır ve görüntülenir.</string>

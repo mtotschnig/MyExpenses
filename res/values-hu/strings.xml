@@ -163,7 +163,6 @@
   <string name="menu_move_transaction">Mozgat</string>
   <string name="menu_save">Mentés</string>
   <string name="menu_save_and_new">Mentés és új</string>
-  <string name="menu_new_from_template">Új létrehozása sablon alapján</string>
   <string name="menu_reset">Export és alap állapotra visszaállítás</string>
   <string name="menu_reset_all">Export és teljes reset</string>
   <string name="menu_settings">Beállítások</string>

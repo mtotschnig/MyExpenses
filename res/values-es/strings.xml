@@ -165,7 +165,6 @@
   <string name="menu_grouping">Agrupamiento</string>
   <string name="menu_help">Ayuda</string>
   <string name="menu_move_transaction">Mover</string>
-  <string name="menu_new_from_template">Nuevo a partir de una plantilla</string>
   <string name="menu_reset">Exportar y restablecer</string>
   <string name="menu_reset_all">Exportar y restablecer todas</string>
   <string name="menu_save">Guardar</string>

@@ -157,7 +157,6 @@
   <string name="menu_move_transaction">تحريك</string>
   <string name="menu_save">حفظ</string>
   <string name="menu_save_and_new">حفظ وجديد</string>
-  <string name="menu_new_from_template">جديد من نموذج</string>
   <string name="menu_reset">تصدير وإعادة تعيين</string>
   <string name="menu_reset_all">تصدير وإعادة تعيين الكل</string>
   <string name="menu_settings">الاعدادات</string>
