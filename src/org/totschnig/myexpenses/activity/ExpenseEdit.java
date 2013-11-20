@@ -22,6 +22,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +31,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -58,7 +60,6 @@ import android.database.MergeCursor;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
-import android.provider.CalendarContract.EventsEntity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -90,7 +91,7 @@ import android.widget.ToggleButton;
  * @author Michael Totschnig
  */
 public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment.TaskCallbacks,
-    OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
+    OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>,ContribIFace {
 
   private Button mDateButton;
   private Button mTimeButton;
@@ -539,13 +540,18 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
           Intent intent;
           long now = System.currentTimeMillis();
           if (mPlanId == null) {
-            intent = new Intent (Intent.ACTION_INSERT);
-            intent.setData (CalendarContract.Events.CONTENT_URI);
-            intent.putExtra (Events.TITLE,mTitleText.getText().toString());
-            intent.putExtra(Events.CALENDAR_ID,MyApplication.getInstance().planerCalenderId);
-            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, now);
-            intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY,true);
-            startActivityForResult (intent, ACTIVITY_ADD_EVENT);
+            if (MyApplication.getInstance().isContribEnabled ||
+                Template.countWithPlan() < 3) {
+              intent = new Intent (Intent.ACTION_INSERT);
+              intent.setData (CalendarContract.Events.CONTENT_URI);
+              intent.putExtra (Events.TITLE,mTitleText.getText().toString());
+              intent.putExtra(Events.CALENDAR_ID,MyApplication.getInstance().planerCalenderId);
+              intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, now);
+              intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY,true);
+              startActivityForResult (intent, ACTIVITY_ADD_EVENT);
+            } else {
+              CommonCommands.showContribDialog(ExpenseEdit.this,Feature.PLANS_UNLIMITED, null);
+            }
          } else {
            //unfortunately ACTION_EDIT does not work see http://code.google.com/p/android/issues/detail?id=39402
            intent = new Intent (Intent.ACTION_VIEW);
@@ -1030,5 +1036,13 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   }
   public void onToggleClicked(View view) {
     ((Template) mTransaction).planExecutionAutomatic = ((ToggleButton) view).isChecked();
+  }
+  @Override
+  public void contribFeatureCalled(Feature feature, Serializable tag) {
+    // not used
+  }
+  @Override
+  public void contribFeatureNotCalled() {
+    // nothing to do
   }
 }
