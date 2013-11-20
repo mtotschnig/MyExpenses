@@ -276,6 +276,8 @@
       //target is hash + id of block  
       function mkActive(target) {
         var block=target.split("-")[0];
+        //when called with non existent hash do nothing
+        if ($(block).length == 0) return;
         $('.block').toggle(false);
         $(block).toggle(true);
         ga('send', 'pageview', location.pathname + block);
