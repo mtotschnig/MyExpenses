@@ -18,15 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_87">
-    <item>Removed link to Contrib version on Google Play and added Bitcoin donation address</item>
-  </string-array>
-  <string-array name="whats_new_86">
-    <item>Repaired bug fix</item>
-  </string-array>
-  <string-array name="whats_new_85">
-    <item>Minor bug fix</item>
-  </string-array>
+	<string-array name="whats_new_88">
+		<item>Plans for future and recurring transactions</item>
+	</string-array>
   <string-array name="whats_new_84">
     <item>Reference number (cheque payments)</item>
     <item>Start with account list from launcher</item>
@@ -51,16 +45,5 @@
     <item>Payee is displayed in transaction list</item>
     <item>Accounts list is sorted (by frequency of usage by default)</item>
   </string-array>
-  <string-array name="whats_new_63">
-    <item>Split transactions (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_59">
-    <item>Vietnamese translation</item>
-    <item>Minor improvements</item>
-  </string-array>
-  <string-array name="whats_new_58">
-    <item>New UI design based on Holo theme</item>
-    <item>Integrated help dialogs</item>
-    <item>Export without reset</item>
   </string-array>
 </resources>
