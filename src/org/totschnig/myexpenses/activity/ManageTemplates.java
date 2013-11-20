@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.activity;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
@@ -38,7 +39,6 @@ public class ManageTemplates extends ProtectedFragmentActivity {
 
   private static final int DELETE_TEMPLATE = Menu.FIRST;
   private static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;
-  private static final int CREATE_INSTANCE_SAVE = Menu.FIRST +2;
   private static final int EDIT = Menu.FIRST +3;
 
   public long mAccountId;
@@ -48,6 +48,7 @@ public class ManageTemplates extends ProtectedFragmentActivity {
       setTheme(MyApplication.getThemeId());
       super.onCreate(savedInstanceState);
       mAccountId = getIntent().getExtras().getLong(DatabaseConstants.KEY_ACCOUNTID);
+      getSupportActionBar().setSubtitle(Account.getInstanceFromDb(mAccountId).label);
       setContentView(R.layout.manage_templates);
       setTitle(R.string.menu_manage_plans);
   }
