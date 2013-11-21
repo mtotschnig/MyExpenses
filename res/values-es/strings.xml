@@ -257,6 +257,7 @@
   <string name="pref_send_feedback_title">Envíe sus observaciones</string>
   <string name="pref_share_target_title">Subir URL de exportación</string>
   <string name="pref_share_target_summary">Usted puede dejar esto en blanco, si quiere elegir entre aplicaciones adecuadas (correo electrónico, Dropbox, Google Docs, &#8230;), o indicar una URL en uno de los esquemas apoyados</string>
+  <string name="pref_shortcut_summary">Añadir este atajo a la Pantalla de Inicio</string>
   <string name="pref_security_question_title">Pregunta de seguridad</string>
   <string name="pref_security_question_summary">Permite desbloquear la aplicación, si ha olvidado su contraseña. Requiere &app_name; Contrib.</string>
   <string name="pref_ui_theme_title">Tema</string>

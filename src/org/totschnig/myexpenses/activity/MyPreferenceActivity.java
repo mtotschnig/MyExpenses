@@ -27,7 +27,9 @@ import org.totschnig.myexpenses.util.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.Intent.ShortcutIconResource;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -69,6 +71,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     findPreference(MyApplication.PREFKEY_SEND_FEEDBACK).setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_MORE_INFO_DIALOG).setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_RESTORE).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST).setOnPreferenceClickListener(this);
+
     findPreference(MyApplication.PREFKEY_ENTER_LICENCE)
       .setOnPreferenceChangeListener(this);
     setProtectionDependentsState();
@@ -186,6 +190,10 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       startActivityForResult(preference.getIntent(), ACTIVITY_RESTORE);
       return true;
     }
+    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)) {
+      addShortcut(".activity.ManageAccounts",R.string.pref_manage_accounts_title, R.drawable.icon);
+      return true;
+    }
     return false;
   }
   @Override
@@ -195,5 +203,26 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       setResult(resultCode);
       finish();
     }
+  }
+
+  // credits Financisto
+  // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java
+  private void addShortcut(String activity, int nameId, int iconId) {
+    Intent intent = createShortcutIntent(activity, getString(nameId), Intent.ShortcutIconResource.fromContext(this, iconId), 
+        "com.android.launcher.action.INSTALL_SHORTCUT");
+    sendBroadcast(intent);
+}
+
+  private Intent createShortcutIntent(String activity, String shortcutName, ShortcutIconResource shortcutIcon, String action) {
+    Intent shortcutIntent = new Intent();
+    shortcutIntent.setComponent(new ComponentName(this.getPackageName(), activity));
+    shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    Intent intent = new Intent();
+    intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+    intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutName);
+    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, shortcutIcon);
+    intent.setAction(action);
+    return intent;
   }
 }

@@ -273,6 +273,8 @@
   <string name="pref_restore_summary">Restore the backup from folder \"myexpenses\" on the sdcard.</string>
   <string name="pref_share_target_title">Upload URL</string>
   <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes</string>
+  <string name="pref_shortcut_account_list_title">\'Account list\' shortcut</string>
+  <string name="pref_shortcut_summary">Add the shortcut to the Home Screen</string>
   <string name="pref_security_question_title">Security question</string>
   <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password. Requires &app_name; Contrib.</string>
   <string name="pref_send_feedback_title">Send feedback</string>

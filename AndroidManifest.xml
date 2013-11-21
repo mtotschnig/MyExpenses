@@ -30,6 +30,7 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <application
       android:name="org.totschnig.myexpenses.MyApplication"
       android:icon="@drawable/icon"
@@ -54,7 +55,7 @@
         <activity android:name=".activity.ManageAccounts" android:label="@string/pref_manage_accounts_title">
           <intent-filter>
             <action android:name="android.intent.action.MAIN" />
-              <category android:name="android.intent.category.LAUNCHER" />
+            <category android:name="android.intent.category.DEFAULT" />
           </intent-filter>
         </activity>
         <activity android:name=".activity.Backup"

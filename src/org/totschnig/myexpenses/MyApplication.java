@@ -54,15 +54,14 @@ public class MyApplication extends Application {
     private SharedPreferences settings;
     private static MyApplication mSelf;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
+    //the following keys are stored as string resources, so that
+    //they can be referenced from preferences.xml, and thus we
+    //can guarantee the referential integrity
     public static String PREFKEY_CATEGORIES_SORT_BY_USAGES;
     public static String PREFKEY_PERFORM_SHARE;
     public static String PREFKEY_SHARE_TARGET;
     public static String PREFKEY_QIF_EXPORT_FILE_ENCODING;
     public static String PREFKEY_UI_THEME_KEY;
-    public static final String PREFKEY_CURRENT_VERSION = "currentversion";
-    public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
-    public static final String PREFKEY_PLANER_CALENDER_ID = "planer_calender_id";
-    public static final String PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP = "planer_last_execution_timestamp";
     public static String PREFKEY_BACKUP;
     public static String PREFKEY_RESTORE;
     public static String PREFKEY_CONTRIB_INSTALL;
@@ -76,6 +75,11 @@ public class MyApplication extends Application {
     public static String PREFKEY_EXPORT_FORMAT;
     public static String PREFKEY_SEND_FEEDBACK;
     public static String PREFKEY_MORE_INFO_DIALOG;
+    public static String PREFKEY_SHORTCUT_ACCOUNT_LIST;
+    public static final String PREFKEY_CURRENT_VERSION = "currentversion";
+    public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
+    public static final String PREFKEY_PLANER_CALENDER_ID = "planer_calender_id";
+    public static final String PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP = "planer_last_execution_timestamp";
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
@@ -129,6 +133,7 @@ public class MyApplication extends Application {
       PREFKEY_EXPORT_FORMAT = getString(R.string.pref_export_format_key);
       PREFKEY_SEND_FEEDBACK = getString(R.string.pref_send_feedback_key);
       PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
+      PREFKEY_SHORTCUT_ACCOUNT_LIST = getString(R.string.pref_shortcut_account_list_key);
       setPasswordCheckDelayNanoSeconds();
       try {
         InputStream rawResource = getResources().openRawResource(R.raw.app);
