@@ -192,6 +192,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)) {
       addShortcut(".activity.ManageAccounts",R.string.pref_manage_accounts_title, R.drawable.icon);
+      Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
       return true;
     }
     return false;

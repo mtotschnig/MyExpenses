@@ -247,7 +247,7 @@
   <string name="pref_protection_delay_seconds_summary">Inattive secondi prima app verranno bloccati da password.</string>
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
   <string name="pref_share_target_title">Carica URL Export</string>
-  <string name="shortcut_summary">Aggiunge il collegamento nella schermata Home</string>
+  <string name="pref_shortcut_summary">Aggiunge il collegamento nella schermata Home</string>
   <string name="pref_share_target_summary">Lascia vuoto se si vuole scegliere tra le applicazioni appropriate (e-mail, Dropbox, Google Docs, &#8230;), o fornire l\'URL in uno dei sistemi sostenuti</string>
   <string name="pref_security_question_title">Domanda di sicurezza</string>
   <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se si è dimenticata la password. Richiede &app_name; Contrib.</string>
