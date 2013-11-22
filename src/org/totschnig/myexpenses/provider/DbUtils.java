@@ -27,6 +27,8 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.android.calendar.CalendarContractCompat.Events;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import android.content.ContentProviderClient;
@@ -151,5 +153,25 @@ public class DbUtils {
   }
   public static boolean hasParent(Long id) {
     return Transaction.getInstanceFromDb(id).parentId != null;
+  }
+  public static long getLastEventId(long calendarId) {
+    String[] proj =
+        new String[] {
+              "MAX(" + Events._ID + ") as last_event_id"};
+    Cursor c = MyApplication.getInstance().getContentResolver().
+        query(
+            Events.CONTENT_URI,
+            proj,
+            Events.CALENDAR_ID + " = ? ",
+            new String[]{Long.toString(calendarId)},
+            null);
+    if (c.moveToFirst()) {
+      long result = c.getLong(0);
+      c.close();
+      return result;
+    } else {
+      c.close();
+      return -1L;
+    }
   }
 }

@@ -2,9 +2,10 @@ package org.totschnig.myexpenses.model;
 
 import java.io.Serializable;
 
+import com.android.calendar.CalendarContractCompat.Events;
+
 import android.annotation.SuppressLint;
 import android.net.Uri;
-import android.provider.CalendarContract.Events;
 
 /**
  * @author Michael Totschnig
@@ -29,7 +30,6 @@ public class Plan extends Model implements Serializable {
     // not handled here, but in Calendar app
     return null;
   }
-  @SuppressLint("NewApi")
   public static void delete(Long id) {
     cr().delete(
         Events.CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),

@@ -21,13 +21,14 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+import com.android.calendar.CalendarContractCompat.Events;
+
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
-import android.provider.CalendarContract.Events;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class Template extends Transaction {
@@ -171,7 +172,6 @@ public class Template extends Transaction {
     }
     return uri;
   }
-  @SuppressLint("NewApi")
   public static void delete(long id) {
     Template t = getInstanceFromDb(id);
     if (t.planId != null) {

@@ -13,6 +13,10 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.android.calendar.CalendarContractCompat;
+import com.android.calendar.CalendarContractCompat.Events;
+import com.android.calendar.CalendarContractCompat.Instances;
+
 import android.annotation.SuppressLint;
 import android.app.IntentService;
 import android.app.Notification;
@@ -23,9 +27,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.CalendarContract;
-import android.provider.CalendarContract.Events;
-import android.provider.CalendarContract.Instances;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -36,12 +37,10 @@ public class PlanExecutor extends IntentService {
 
   }
 
-  @SuppressLint("NewApi")
   @Override
   public void onHandleIntent(Intent intent) {
     Log.i("DEBUG","Inside plan executor onHandleIntent");
     MyApplication app = MyApplication.getInstance();
-    app.requirePlaner();
     long lastExecutionTimeStamp = app.getSettings().getLong(
         MyApplication.PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP, 0);
     long now = System.currentTimeMillis();
@@ -56,7 +55,7 @@ public class PlanExecutor extends IntentService {
           Instances.EVENT_ID,
           Instances._ID
         };
-      Uri.Builder eventsUriBuilder = CalendarContract.Instances.CONTENT_URI
+      Uri.Builder eventsUriBuilder = CalendarContractCompat.Instances.CONTENT_URI
           .buildUpon();
       ContentUris.appendId(eventsUriBuilder, lastExecutionTimeStamp);
       ContentUris.appendId(eventsUriBuilder, now);
@@ -67,7 +66,7 @@ public class PlanExecutor extends IntentService {
       Cursor cursor = getContentResolver().query(eventsUri, INSTANCE_PROJECTION,
           Events.CALENDAR_ID + " = ? AND "+ Instances.BEGIN + " BETWEEN ? AND ?",
           new String[]{
-            String.valueOf(MyApplication.getInstance().planerCalenderId),
+            String.valueOf(MyApplication.getInstance().getSettings().getLong(MyApplication.PREFKEY_PLANER_CALENDAR_ID, -1)),
             String.valueOf(lastExecutionTimeStamp),
             String.valueOf(now)}, 
             null);

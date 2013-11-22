@@ -16,7 +16,8 @@
  -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="first_preferencescreen">
-  <PreferenceCategory 
+  <PreferenceCategory
+  	  android:key="@string/pref_category_manage_key"
       android:title="@string/pref_category_title_manage">
     <PreferenceScreen
         android:title="@string/pref_manage_categories_title"
@@ -33,6 +34,11 @@
         android:summary="@string/pref_manage_methods_summary">
         <intent android:action="myexpenses.intent.manage.methods"/>
     </PreferenceScreen>
+    <ListPreference android:key="@string/pref_planer_calendar_id_key"
+        android:title="Calendar"
+        android:entries="@array/pref_ui_theme_entries"
+        android:entryValues="@array/pref_ui_theme_values"
+        android:summary="Select the calendar where plans for future and recurring transactions are stored"/>
   </PreferenceCategory>
   <PreferenceCategory
       android:title="@string/pref_category_title_ui">

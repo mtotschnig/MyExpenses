@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.provider.DbUtils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -143,7 +144,6 @@ public class TaskExecutionFragment extends Fragment {
      * directly from the background thread, as this could result
      * in a race condition.
      */
-    @SuppressLint("NewApi")
     @Override
     protected Object doInBackground(Long... id) {
       Transaction t;
@@ -213,7 +213,7 @@ public class TaskExecutionFragment extends Fragment {
         Transaction.move(id[0],id[1]);
         return null;
       case TASK_GET_LAST_PLAN:
-        return MyApplication.getInstance().getLastPlanId();
+        return DbUtils.getLastEventId(id[0]);
       }
       return null;
     }
