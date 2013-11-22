@@ -896,8 +896,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mTransaction.id = 0L;
         mRowId = 0L;
         if (mTransaction instanceof Template) {
-          setTitle(R.string.menu_create_transfer);
+          setTitle(R.string.menu_create_template);
           mTitleText.setText("");
+          mPlanId = null;
+          mPlan = null;
+          configurePlan();
         } else {
           setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
               R.string.menu_create_transaction : R.string.menu_create_transfer);
