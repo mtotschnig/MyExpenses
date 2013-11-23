@@ -36,7 +36,6 @@ import android.provider.SyncStateContract;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.util.Log;
-
 /**
  * <p>
  * The contract between the calendar provider and applications. Contains
@@ -165,9 +164,13 @@ public final class CalendarContractCompat {
      */
     public static String AUTHORITY;
     static {
-        try {
-          AUTHORITY = (String) Class.forName("android.provider.Calendar").getField("AUTHORITY").get(null);
-        } catch (Exception e) {
+        if (legacyApi) {
+          try {
+            AUTHORITY = (String) Class.forName("android.provider.Calendar").getField("AUTHORITY").get(null);
+          } catch (Exception e) {
+            AUTHORITY = "com.android.calendar";
+          }
+        } else {
           AUTHORITY = "com.android.calendar";
         }
     }
