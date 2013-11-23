@@ -310,7 +310,8 @@ public class MyApplication extends Application {
         return planerCalendarId;
         //TODO check if calendar has been deleted
       } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-        //on API 2 and 3, we require users to select a calendar in the settings
+        //on API 2 and 3 a local calendar leads to crashes of the Calendar app
+        //hence we require users to select a different calendar in the settings
         String accountName = "org.totschnig.myexpenses";
         String calendarName = "MyExpensesPlaner";
         ContentResolver cr = MyApplication.getInstance().getContentResolver();
@@ -327,8 +328,6 @@ public class MyApplication extends Application {
             CalendarContractCompat.CALLER_IS_SYNCADAPTER,
             "true");
         Uri calendarUri = builder.build();
-        int deleted = cr.delete(calendarUri, null, null);
-        Log.i("DEBUG","deleted old calendar: "+ deleted);
         Cursor c = cr.query(
             calendarUri,
             new String[] {CalendarContractCompat.Calendars._ID},
@@ -356,16 +355,13 @@ public class MyApplication extends Application {
               getString(R.string.plan_calendar_name));
           values.put(
               Calendars.CALENDAR_COLOR,
-              getResources().getColor(R.color.appDefault)); //TODO set to default account color
+              getResources().getColor(R.color.appDefault));
           values.put(
               Calendars.CALENDAR_ACCESS_LEVEL,
               Calendars.CAL_ACCESS_OWNER);
           values.put(
               Calendars.OWNER_ACCOUNT,
               "private");
-//            values.put(
-//                  Calendars.CALENDAR_TIME_ZONE,
-//                  "Europe/Berlin");
           Uri uri;
           try {
             uri = cr.insert(builder.build(), values);
