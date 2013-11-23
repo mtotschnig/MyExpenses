@@ -28,20 +28,11 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-//import android.content.CursorEntityIterator;
-import android.content.Entity;
-import android.content.EntityIterator;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.net.Uri;
-import android.os.Build;
-import android.os.RemoteException;
 import android.provider.BaseColumns;
 import android.provider.SyncStateContract;
-import android.provider.ContactsContract.CommonDataKinds.Identity;
-import android.provider.SyncStateContract.Columns;
-import android.provider.SyncStateContract.Constants;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.util.Log;
@@ -172,8 +163,14 @@ public final class CalendarContractCompat {
      * provider. Note: This is set at first run and cannot be changed without
      * breaking apps that access the provider.
      */
-    public static final String AUTHORITY = "com.android.calendar";
-
+    public static String AUTHORITY;
+    static {
+        try {
+          AUTHORITY = (String) Class.forName("android.provider.Calendar").getField("AUTHORITY").get(null);
+        } catch (Exception e) {
+          AUTHORITY = "com.android.calendar";
+        }
+    }
     /**
      * The content:// style URL for the top-level calendar authority
      */

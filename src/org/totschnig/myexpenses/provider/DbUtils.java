@@ -154,7 +154,7 @@ public class DbUtils {
   public static boolean hasParent(Long id) {
     return Transaction.getInstanceFromDb(id).parentId != null;
   }
-  public static long getLastEventId(long calendarId) {
+  public static long getLastEventId(String calendarId) {
     String[] proj =
         new String[] {
               "MAX(" + Events._ID + ") as last_event_id"};
@@ -163,7 +163,7 @@ public class DbUtils {
             Events.CONTENT_URI,
             proj,
             Events.CALENDAR_ID + " = ? ",
-            new String[]{Long.toString(calendarId)},
+            new String[]{calendarId},
             null);
     if (c.moveToFirst()) {
       long result = c.getLong(0);

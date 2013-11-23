@@ -26,6 +26,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -53,12 +54,16 @@ import android.app.Dialog;
 import android.app.DatePickerDialog;
 import android.app.NotificationManager;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -127,7 +132,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   //CALCULATOR_REQUEST in super = 0
   private static final int ACTIVITY_EDIT_SPLIT = 1;
   private static final int SELECT_CATEGORY_REQUEST = 2;
-  private static final int ACTIVITY_ADD_EVENT = 3;
   protected static final int ACTIVITY_EDIT_EVENT = 4;
 
   public static final int PAYEES_CURSOR=1;
@@ -260,7 +264,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
 
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
-      mPlanerCalendarId = MyApplication.getInstance().getSettings().getLong(MyApplication.PREFKEY_PLANER_CALENDAR_ID,-1);
+      mPlanerCalendarId = Long.parseLong(MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_PLANER_CALENDAR_ID,"-1"));
       if (mPlanerCalendarId != -1)
         findViewById(R.id.PlanerRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
@@ -541,33 +545,44 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mPlanButton.setOnClickListener(new View.OnClickListener() {
           public void onClick(View view) {
             Intent intent;
-            long now = System.currentTimeMillis();
+            long now = System.currentTimeMillis(),start,end;
             if (mPlanId == null) {
+              String title = mTitleText.getText().toString();
               if (MyApplication.getInstance().isContribEnabled ||
                   Template.countWithPlan() < 3) {
-                intent = new Intent (Intent.ACTION_EDIT);
-                intent.setType("vnd.android.cursor.item/event");
-                //intent.setData (CalendarContract.Events.CONTENT_URI);
-                intent.putExtra (Events.TITLE,mTitleText.getText().toString());
-                intent.putExtra(Events.CALENDAR_ID,mPlanerCalendarId);
-                intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, now);
-                intent.putExtra(CalendarContractCompat.EXTRA_EVENT_ALL_DAY,true);
-                startActivityForResult (intent, ACTIVITY_ADD_EVENT);
+                ContentResolver contentResolver = getContentResolver();
+                ContentValues values = new ContentValues();
+                values.put(Events.CALENDAR_ID, mPlanerCalendarId);
+                values.put(Events.TITLE, title);
+                values.put(Events.DTSTART, now);
+                values.put(Events.DTEND, now);
+                values.put(Events.ALL_DAY,1);
+                values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+                Uri uri = contentResolver.insert(CalendarContractCompat.Events.CONTENT_URI, values);
+                mPlanId = ContentUris.parseId(uri);
+                MyApplication.getInstance().planerLastPlanId = mPlanId;
+                start = now;
+                end = now;
+                if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
+                  mManager.restartLoader(EVENT_CURSOR, null, ExpenseEdit.this);
+                else
+                  mManager.initLoader(EVENT_CURSOR, null, ExpenseEdit.this);
               } else {
                 CommonCommands.showContribDialog(ExpenseEdit.this,Feature.PLANS_UNLIMITED, null);
+                return;
               }
            } else {
-             //unfortunately ACTION_EDIT does not work see http://code.google.com/p/android/issues/detail?id=39402
-             intent = new Intent (Intent.ACTION_VIEW);
-             intent.setData(ContentUris.withAppendedId(Events.CONTENT_URI, mPlanId));
-             //ACTION_VIEW expects to get a range http://code.google.com/p/android/issues/detail?id=23852
-             intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, mPlan.dtstart);
-             intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan.dtend);
-             startActivityForResult (intent, ACTIVITY_EDIT_EVENT);
+             start = mPlan.dtstart;
+             end = mPlan.dtend;
            }
-            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-          }
+           //unfortunately ACTION_EDIT does not work see http://code.google.com/p/android/issues/detail?id=39402
+           intent = new Intent (Intent.ACTION_VIEW);
+           intent.setData(ContentUris.withAppendedId(Events.CONTENT_URI, mPlanId));
+           //ACTION_VIEW expects to get a range http://code.google.com/p/android/issues/detail?id=23852
+           intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, start);
+           intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, end);
+           startActivityForResult (intent, ACTIVITY_EDIT_EVENT);
+         }
         });
         mPlanToggleButton.setChecked(((Template) mTransaction).planExecutionAutomatic);
       }
@@ -694,12 +709,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mLabel = intent.getStringExtra("label");
       mCategoryButton.setText(mLabel);
     }
-    if (requestCode == ACTIVITY_ADD_EVENT) {
-      mPlanButton.setEnabled(false);
-      getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_GET_LAST_PLAN,(Long)mPlanerCalendarId, null), "ASYNC_TASK")
-        .commit();
-    }
   }
   @Override
   public void onBackPressed() {
@@ -821,22 +830,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   @Override
   public void onPostExecute(int taskId,Object o) {
     switch(taskId) {
-    case TaskExecutionFragment.TASK_GET_LAST_PLAN:
-      Long result = (Long) o;
-      MyApplication app = MyApplication.getInstance();
-      if (app.planerLastPlanId.equals(result)) {
-        Log.i("DEBUG", "no new plan created, lastplan is still " + result);
-        mPlanButton.setEnabled(true);
-      }
-      else {
-        app.planerLastPlanId = result;
-        mPlanId = result;
-        if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
-          mManager.restartLoader(EVENT_CURSOR, null, this);
-        else
-          mManager.initLoader(EVENT_CURSOR, null, this);
-      }
-      break;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
     case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:

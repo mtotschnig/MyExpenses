@@ -213,7 +213,7 @@ public class TaskExecutionFragment extends Fragment {
         Transaction.move(id[0],id[1]);
         return null;
       case TASK_GET_LAST_PLAN:
-        return DbUtils.getLastEventId(id[0]);
+        return DbUtils.getLastEventId(String.valueOf(id[0]));
       }
       return null;
     }

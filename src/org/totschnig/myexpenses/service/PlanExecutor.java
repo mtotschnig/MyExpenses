@@ -17,7 +17,7 @@ import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.CalendarContractCompat.Instances;
 
-import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -25,6 +25,7 @@ import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -40,8 +41,12 @@ public class PlanExecutor extends IntentService {
   @Override
   public void onHandleIntent(Intent intent) {
     Log.i("DEBUG","Inside plan executor onHandleIntent");
-    MyApplication app = MyApplication.getInstance();
-    long lastExecutionTimeStamp = app.getSettings().getLong(
+    String planerCalendarId = MyApplication.getInstance().requirePlaner();
+    if (planerCalendarId.equals("-1")) {
+      return;
+    }
+    SharedPreferences settings = MyApplication.getInstance().getSettings();
+    long lastExecutionTimeStamp = settings.getLong(
         MyApplication.PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP, 0);
     long now = System.currentTimeMillis();
     if (lastExecutionTimeStamp == 0) {
@@ -66,7 +71,7 @@ public class PlanExecutor extends IntentService {
       Cursor cursor = getContentResolver().query(eventsUri, INSTANCE_PROJECTION,
           Events.CALENDAR_ID + " = ? AND "+ Instances.BEGIN + " BETWEEN ? AND ?",
           new String[]{
-            String.valueOf(MyApplication.getInstance().getSettings().getLong(MyApplication.PREFKEY_PLANER_CALENDAR_ID, -1)),
+            planerCalendarId,
             String.valueOf(lastExecutionTimeStamp),
             String.valueOf(now)}, 
             null);
@@ -147,9 +152,13 @@ public class PlanExecutor extends IntentService {
       }
       cursor.close();
     }
-    SharedPreferencesCompat.apply(app.getSettings().edit()
+    SharedPreferencesCompat.apply(settings.edit()
         .putLong(MyApplication.PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP, now));
+    PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
+    AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+    //long interval = 21600000; //6* 60 * 60 * 1000 6 hours
+    long interval = 60000; // 1 minute
+    manager.set(AlarmManager.RTC, now+interval, 
+        pendingIntent);
   }
-
-
 }

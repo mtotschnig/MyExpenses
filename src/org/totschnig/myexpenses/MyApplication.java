@@ -305,9 +305,9 @@ public class MyApplication extends Application {
       }
       return false;
     }
-    public long requirePlaner() {
-      long planerCalendarId = settings.getLong(PREFKEY_PLANER_CALENDAR_ID, -1);
-      if (planerCalendarId != -1) {
+    public String requirePlaner() {
+      String planerCalendarId = settings.getString(PREFKEY_PLANER_CALENDAR_ID, "-1");
+      if (!planerCalendarId.equals("-1")) {
         planerLastPlanId = DbUtils.getLastEventId(planerCalendarId);
         return planerCalendarId;
         //TODO check if calendar has been deleted
@@ -316,68 +316,89 @@ public class MyApplication extends Application {
         String accountName = "org.totschnig.myexpenses";
         String calendarName = "MyExpensesPlaner";
         ContentResolver cr = MyApplication.getInstance().getContentResolver();
-        ContentValues values = new ContentValues();
-        values.put(
+        //first we check if our calendar exists already
+        Uri.Builder builder =
+            CalendarContractCompat.Calendars.CONTENT_URI.buildUpon();
+        builder.appendQueryParameter(
+            Calendars.ACCOUNT_NAME,
+            accountName);
+        builder.appendQueryParameter(
+            Calendars.ACCOUNT_TYPE,
+            CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
+        builder.appendQueryParameter(
+            CalendarContractCompat.CALLER_IS_SYNCADAPTER,
+            "true");
+        Uri calendarUri = builder.build();
+        int deleted = cr.delete(calendarUri, null, null);
+        Log.i("DEBUG","deleted old calendar: "+ deleted);
+        Cursor c = cr.query(
+            calendarUri,
+            new String[] {CalendarContractCompat.Calendars._ID},
+              Calendars.NAME +  " = ?",
+            new String[]{calendarName}, null);
+        if (c.moveToFirst()) {
+          planerCalendarId = c.getString(0);
+          Log.i("DEBUG","found preexisting calendar: "+ planerCalendarId);
+          planerLastPlanId = DbUtils.getLastEventId(planerCalendarId);
+          c.close();
+          return planerCalendarId;
+        } else  {
+          c.close();
+          ContentValues values = new ContentValues();
+          values.put(
               Calendars.ACCOUNT_NAME,
               accountName);
-        values.put(
+          values.put(
               Calendars.ACCOUNT_TYPE,
               CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
-        values.put(
+          values.put(
               Calendars.NAME,
               calendarName);
-        values.put(
+          values.put(
               Calendars.CALENDAR_DISPLAY_NAME,
               getString(R.string.plan_calendar_name));
-        values.put(
+          values.put(
               Calendars.CALENDAR_COLOR,
               getResources().getColor(R.color.appDefault)); //TODO set to default account color
-        values.put(
+          values.put(
               Calendars.CALENDAR_ACCESS_LEVEL,
               Calendars.CAL_ACCESS_OWNER);
-        values.put(
+          values.put(
               Calendars.OWNER_ACCOUNT,
-                  "private");
+              "private");
 //            values.put(
 //                  Calendars.CALENDAR_TIME_ZONE,
 //                  "Europe/Berlin");
-        Uri.Builder builder =
-            CalendarContractCompat.Calendars.CONTENT_URI.buildUpon();
-        try {
-          Uri uri = cr.insert(builder.build(), values);
-          planerCalendarId = ContentUris.parseId(uri);
+          Uri uri;
+          try {
+            uri = cr.insert(builder.build(), values);
+          } catch (IllegalArgumentException e) {
+            Log.i("DEBUG","Inserting planer calendar failed, Calendar app not installed?");
+            return "-1";
+          }
+          planerCalendarId = uri.getLastPathSegment();
+          if (planerCalendarId == null) {
+            Log.i("DEBUG","Inserting planer calendar failed, last path segment is null");
+            return "-1";
+          }
+          Log.i("DEBUG","successfully set up new calendar: "+ planerCalendarId);
           SharedPreferencesCompat.apply(
-              settings.edit().putLong(PREFKEY_PLANER_CALENDAR_ID, planerCalendarId));
+              settings.edit().putString(PREFKEY_PLANER_CALENDAR_ID, planerCalendarId));
           planerLastPlanId = -1L;
           return planerCalendarId;
-        } catch (IllegalArgumentException e) {
         }
       }
-      return -1;
+      return "-1";
     }
-
     /**
-     * PlanExecutor is executed once, and then rescheduled
+     * call PlanExecutor, which will 
+     * 1) set up the planer calendar
+     * 2) execute plans
+     * 3) reschedule execution through alarm 
      */
     public void initPlaner() {
       Log.i("DEBUG","Inside init planer");
-      long planerCalendarId = requirePlaner();
-      if (planerCalendarId != -1) {
-        Intent service = new Intent(this, PlanExecutor.class);
-        startService(service);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, service, 0);
-        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        long interval = 86400000; //24* 60 * 60 * 1000 1 day
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(System.currentTimeMillis());
-        cal.set(Calendar.HOUR_OF_DAY, 0); //set hours to zero
-        cal.set(Calendar.MINUTE, 0); // set minutes to zero
-        cal.set(Calendar.SECOND, 0); //set seconds to zero
-        cal.set(Calendar.MILLISECOND, 0);
-        long alarmTime = cal.getTimeInMillis() + interval;
-        //we schedule service for beginning of next day, and then every 24 hours
-        manager.setRepeating(AlarmManager.RTC, alarmTime, interval,
-            pendingIntent);
-      }
+      Intent service = new Intent(this, PlanExecutor.class);
+      startService(service);
     }
 }
