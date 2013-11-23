@@ -49,7 +49,6 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_MOVE = 12;
   public static final int TASK_NEW_FROM_TEMPLATE = 13;
   public static final int TASK_DELETE_CATEGORY = 14;
-  public static final int TASK_GET_LAST_PLAN = 16;
 
   /**
    * Callback interface through which the fragment will report the
@@ -212,8 +211,6 @@ public class TaskExecutionFragment extends Fragment {
       case TASK_MOVE:
         Transaction.move(id[0],id[1]);
         return null;
-      case TASK_GET_LAST_PLAN:
-        return DbUtils.getLastEventId(String.valueOf(id[0]));
       }
       return null;
     }

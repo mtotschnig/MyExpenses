@@ -90,7 +90,6 @@ public class MyApplication extends Application {
       showImportantUpgradeInfo = false;
     private long mLastPause = 0;
     public static String TAG = "MyExpenses";
-    public Long planerLastPlanId = -1L;
     /**
      * how many nanoseconds should we wait before prompting for the password
      */
@@ -308,7 +307,6 @@ public class MyApplication extends Application {
     public String requirePlaner() {
       String planerCalendarId = settings.getString(PREFKEY_PLANER_CALENDAR_ID, "-1");
       if (!planerCalendarId.equals("-1")) {
-        planerLastPlanId = DbUtils.getLastEventId(planerCalendarId);
         return planerCalendarId;
         //TODO check if calendar has been deleted
       } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -339,7 +337,6 @@ public class MyApplication extends Application {
         if (c.moveToFirst()) {
           planerCalendarId = c.getString(0);
           Log.i("DEBUG","found preexisting calendar: "+ planerCalendarId);
-          planerLastPlanId = DbUtils.getLastEventId(planerCalendarId);
           c.close();
           return planerCalendarId;
         } else  {
@@ -384,7 +381,6 @@ public class MyApplication extends Application {
           Log.i("DEBUG","successfully set up new calendar: "+ planerCalendarId);
           SharedPreferencesCompat.apply(
               settings.edit().putString(PREFKEY_PLANER_CALENDAR_ID, planerCalendarId));
-          planerLastPlanId = -1L;
           return planerCalendarId;
         }
       }

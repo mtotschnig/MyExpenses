@@ -560,7 +560,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
                 values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
                 Uri uri = contentResolver.insert(CalendarContractCompat.Events.CONTENT_URI, values);
                 mPlanId = ContentUris.parseId(uri);
-                MyApplication.getInstance().planerLastPlanId = mPlanId;
                 start = now;
                 end = now;
                 if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
