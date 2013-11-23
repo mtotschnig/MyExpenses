@@ -65,12 +65,12 @@ public class PlanExecutor extends IntentService {
       //Instances.Content_URI returns events that fall totally or partially in a given range
       //we additionally select only instances where the begin is inside the range
       //because we want to deal with each instance only once
-      //the calendar content provider on Android < 4 does not interpret
-      //hence we put them into the selection 
+      //the calendar content provider on Android < 4 does not interpret the selection arguments
+      //hence we put them into the selection
       Cursor cursor = getContentResolver().query(eventsUri, INSTANCE_PROJECTION,
-          Events.CALENDAR_ID + " = " + planerCalendarId + " AND "+ Instances.BEGIN + 
+          Events.CALENDAR_ID + " = " + planerCalendarId + " AND "+ Instances.BEGIN +
               " BETWEEN " + lastExecutionTimeStamp + " AND " + now,
-          null, 
+          null,
           null);
 
       if (cursor.moveToFirst()) {
