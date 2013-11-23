@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.service;
 
-import java.util.Date;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -35,7 +33,6 @@ public class PlanExecutor extends IntentService {
 
   public PlanExecutor() {
     super("PlanExexcutor");
-
   }
 
   @Override
@@ -53,9 +50,9 @@ public class PlanExecutor extends IntentService {
       Log.i("DEBUG", "first call, nothting to do");
     } else {
       Log.i("DEBUG", String.format(
-          "executing plans from %s to %s",
-          new Date(lastExecutionTimeStamp).toString(),
-          new Date(now).toString()));
+          "executing plans from %d to %d",
+          lastExecutionTimeStamp,
+          now));
       String[] INSTANCE_PROJECTION = new String[] {
           Instances.EVENT_ID,
           Instances._ID
@@ -68,13 +65,14 @@ public class PlanExecutor extends IntentService {
       //Instances.Content_URI returns events that fall totally or partially in a given range
       //we additionally select only instances where the begin is inside the range
       //because we want to deal with each instance only once
+      //the calendar content provider on Android < 4 does not interpret
+      //hence we put them into the selection 
       Cursor cursor = getContentResolver().query(eventsUri, INSTANCE_PROJECTION,
-          Events.CALENDAR_ID + " = ? AND "+ Instances.BEGIN + " BETWEEN ? AND ?",
-          new String[]{
-            planerCalendarId,
-            String.valueOf(lastExecutionTimeStamp),
-            String.valueOf(now)}, 
-            null);
+          Events.CALENDAR_ID + " = " + planerCalendarId + " AND "+ Instances.BEGIN + 
+              " BETWEEN " + lastExecutionTimeStamp + " AND " + now,
+          null, 
+          null);
+
       if (cursor.moveToFirst()) {
         while (cursor.isAfterLast() == false) {
           long planId = cursor.getLong(0);
@@ -83,7 +81,6 @@ public class PlanExecutor extends IntentService {
           //3) execute the template
           Log.i("DEBUG",String.format("found instance %d of plan %d",instanceId,planId));
           Template template = Template.getInstanceForPlan(planId);
-          //TODO handle automatic and manual execution
           if (template != null) {
             Notification notification;
             int notificationId = instanceId.hashCode();
@@ -156,8 +153,8 @@ public class PlanExecutor extends IntentService {
         .putLong(MyApplication.PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP, now));
     PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
     AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-    //long interval = 21600000; //6* 60 * 60 * 1000 6 hours
-    long interval = 60000; // 1 minute
+    long interval = 21600000; //6* 60 * 60 * 1000 6 hours
+    //long interval = 60000; // 1 minute
     manager.set(AlarmManager.RTC, now+interval, 
         pendingIntent);
   }
