@@ -882,12 +882,13 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   @Override
   public void onPostExecute(Object result) {
     Long sequenceCount = (Long) result;
-    if (sequenceCount == -1L && mTransaction instanceof Template)
+    if (sequenceCount == -1L && mTransaction instanceof Template) {
       //for the moment, the only case where saving will fail
       //if the unique constraint for template titles is violated
       //TODO: we should probably validate the title earlier
       Toast.makeText(this,getString(R.string.template_title_exists,((Template) mTransaction).title), Toast.LENGTH_LONG).show();
-    else {
+      mCreateNew = false;
+    } else {
       if (mCreateNew) {
         mCreateNew = false;
         mTransaction.id = 0L;
