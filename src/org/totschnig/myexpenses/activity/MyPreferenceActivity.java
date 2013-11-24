@@ -94,43 +94,38 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     findPreference(MyApplication.PREFKEY_PERFORM_PROTECTION)
       .setOnPreferenceChangeListener(this);
     calendarPref = (ListPreference) findPreference(MyApplication.PREFKEY_PLANER_CALENDAR_ID);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-      ((PreferenceCategory) findPreference(getString(R.string.pref_category_manage_key)))
-        .removePreference(calendarPref);
-    } else {
-      CharSequence[] lEntries;
-      CharSequence[] lEntryValues;
+    CharSequence[] lEntries;
+    CharSequence[] lEntryValues;
 
-      String[] projection = 
-          new String[]{
-                Calendars._ID, 
-                Calendars.CALENDAR_DISPLAY_NAME, 
-                Calendars.ACCOUNT_NAME, 
-      };
-      Cursor calCursor = 
-          getContentResolver().
-              query(Calendars.CONTENT_URI, 
-                  projection, 
-                  Calendars.VISIBLE + " = 1", 
-                  null, 
-                  Calendars._ID + " ASC");
-    if (calCursor == null || !calCursor.moveToFirst()) {
-      lEntries = new CharSequence[]{};
-      lEntryValues = new CharSequence[]{};
-    } else {
-      lEntries = new CharSequence[calCursor.getCount()];
-      lEntryValues = new CharSequence[calCursor.getCount()];
-      int count = 0;
-      do {
-        lEntries[count] = calCursor.getString(2) + " / " + calCursor.getString(1);
-        lEntryValues[count] = calCursor.getString(0);
-        count++;
-          } while (calCursor.moveToNext());
-      }
-      calendarPref.setEntries(lEntries);
-      calendarPref.setEntryValues(lEntryValues);
-      calendarPref.setOnPreferenceChangeListener(this);
+    String[] projection =
+        new String[]{
+              Calendars._ID,
+              Calendars.CALENDAR_DISPLAY_NAME,
+              Calendars.ACCOUNT_NAME,
+    };
+    Cursor calCursor =
+        getContentResolver().
+            query(Calendars.CONTENT_URI,
+                projection,
+                null,
+                null,
+                Calendars._ID + " ASC");
+  if (calCursor == null || !calCursor.moveToFirst()) {
+    lEntries = new CharSequence[]{};
+    lEntryValues = new CharSequence[]{};
+  } else {
+    lEntries = new CharSequence[calCursor.getCount()];
+    lEntryValues = new CharSequence[calCursor.getCount()];
+    int count = 0;
+    do {
+      lEntries[count] = calCursor.getString(2) + " / " + calCursor.getString(1);
+      lEntryValues[count] = calCursor.getString(0);
+      count++;
+        } while (calCursor.moveToNext());
     }
+    calendarPref.setEntries(lEntries);
+    calendarPref.setEntryValues(lEntryValues);
+    calendarPref.setOnPreferenceChangeListener(this);
   }
   private void setProtectionDependentsState() {
     boolean isProtected = MyApplication.getInstance().getSettings().getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false);
