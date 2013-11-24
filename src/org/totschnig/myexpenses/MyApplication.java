@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
@@ -42,6 +43,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -425,25 +427,53 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         if (oldValue == "-1" && newValue != "-1") {
          initPlaner();
         } else if (newValue != "-1") {
-          ContentValues values = new ContentValues();
-          values.put(Events.CALENDAR_ID, Long.parseLong(newValue));
-          Cursor c = getContentResolver().query(
+          ContentResolver cr = getContentResolver();
+          ContentValues eventValues = new ContentValues(),
+              planValues = new ContentValues();
+          eventValues.put(Events.CALENDAR_ID, Long.parseLong(newValue));
+          Cursor planCursor = cr.query(
               Template.CONTENT_URI,
-              new String[] {DatabaseConstants.KEY_PLANID},
+              new String[] {DatabaseConstants.KEY_ROWID,DatabaseConstants.KEY_PLANID},
               DatabaseConstants.KEY_PLANID + " IS NOT null",
               null,
               null);
-          if (c!=null && c.moveToFirst()) {
+          if (planCursor!=null && planCursor.moveToFirst()) {
             do {
-              long planId = c.getLong(0);
-              int updated = getContentResolver().update(
-                  ContentUris.withAppendedId(Events.CONTENT_URI, planId),
-                  values,
+              long templateId = planCursor.getLong(0);
+              long planId = planCursor.getLong(1);
+              Uri eventUri = ContentUris.withAppendedId(Events.CONTENT_URI, planId);
+              Cursor eventCursor = cr.query(
+                  eventUri,
+                  new String[]{
+                      Events.DTSTART,
+                      Events.DTEND,
+                      Events.RRULE,
+                      Events.TITLE,
+                      Events.ALL_DAY,
+                      Events.EVENT_TIMEZONE},
+                  null,
                   null,
                   null);
-              Log.i("DEBUG",String.format("move plan %d to new calendar; result: %d",planId,updated));
-                } while (c.moveToNext());
+              if (eventCursor != null && eventCursor.moveToFirst()) {
+                eventValues.put(Events.DTSTART, eventCursor.getLong(0));
+                eventValues.put(Events.DTEND, eventCursor.getLong(1));
+                eventValues.put(Events.RRULE, eventCursor.getString(2));
+                eventValues.put(Events.TITLE, eventCursor.getString(3));
+                eventValues.put(Events.ALL_DAY,eventCursor.getInt(4));
+                eventValues.put(Events.EVENT_TIMEZONE, eventCursor.getString(5));
+                Uri uri = cr.insert(Events.CONTENT_URI, eventValues);
+                planId = ContentUris.parseId(uri);
+                Log.i("DEBUG","copied event from old to new" + planId);
+                planValues.put(DatabaseConstants.KEY_PLANID, planId);
+                int updated = cr.update(ContentUris.withAppendedId(Template.CONTENT_URI, templateId), planValues, null, null);
+                Log.i("DEBUG","updated plan id in template:" + updated);
+                int deleted = cr.delete(eventUri, null, null);
+                Log.i("DEBUG","deleted old event: " + deleted);
+              }
+              eventCursor.close();
+            } while (planCursor.moveToNext());
           }
+          planCursor.close();
         }
       }
     }
