@@ -1,10 +1,12 @@
 package org.totschnig.myexpenses.model;
 
 import java.io.Serializable;
+import java.util.TimeZone;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
-import android.annotation.SuppressLint;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.net.Uri;
 
 /**
@@ -35,5 +37,22 @@ public class Plan extends Model implements Serializable {
         Events.CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null,
         null);
+  }
+  /**
+   * insert a new planing event into the calendar
+   * @param calendarId
+   * @return the id of the created objcet
+   */
+  public static Long create(long calendarId, String title) {
+    long now = System.currentTimeMillis();
+    ContentValues values = new ContentValues();
+    values.put(Events.CALENDAR_ID, calendarId);
+    values.put(Events.TITLE, title);
+    values.put(Events.DTSTART, now);
+    values.put(Events.DTEND, now);
+    values.put(Events.ALL_DAY,1);
+    values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+    Uri uri = cr().insert(Events.CONTENT_URI, values);
+    return ContentUris.parseId(uri);
   }
 }
