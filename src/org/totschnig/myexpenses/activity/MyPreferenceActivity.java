@@ -44,6 +44,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -123,6 +124,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       count++;
         } while (calCursor.moveToNext());
     }
+    calCursor.close();
     calendarPref.setEntries(lEntries);
     calendarPref.setEntryValues(lEntryValues);
     calendarPref.setOnPreferenceChangeListener(this);
