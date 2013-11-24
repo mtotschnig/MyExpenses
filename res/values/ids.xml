@@ -42,6 +42,7 @@
   <item type="id" name="MORE_ACTIONS_DIALOG"/>
   <item type="id" name="MORE_INFO_DIALOG"/>
   <item type="id" name="MOVE_TRANSACTION_COMMAND"/>
+  <item type="id" name="NO_COMMAND"/>
   <item type="id" name="PASSWORD_WARNING_DIALOG"/>
   <item type="id" name="RATE_COMMAND"/>
   <item type="id" name="REMIND_LATER_COMMAND"/>
