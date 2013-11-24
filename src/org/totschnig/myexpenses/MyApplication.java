@@ -337,7 +337,6 @@ public class MyApplication extends Application {
           planerCalendarId = c.getString(0);
           Log.i("DEBUG","found preexisting calendar: "+ planerCalendarId);
           c.close();
-          return planerCalendarId;
         } else  {
           c.close();
           ContentValues values = new ContentValues();
@@ -375,11 +374,11 @@ public class MyApplication extends Application {
             return "-1";
           }
           Log.i("DEBUG","successfully set up new calendar: "+ planerCalendarId);
-          SharedPreferencesCompat.apply(
-              settings.edit().putString(PREFKEY_PLANER_CALENDAR_ID, planerCalendarId));
-          return planerCalendarId;
         }
-      }
+        SharedPreferencesCompat.apply(
+            settings.edit().putString(PREFKEY_PLANER_CALENDAR_ID, planerCalendarId));
+        return planerCalendarId;
+        }
       return "-1";
     }
     /**
