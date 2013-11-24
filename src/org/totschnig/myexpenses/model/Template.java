@@ -21,9 +21,6 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
-import com.android.calendar.CalendarContractCompat.Events;
-
-import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
