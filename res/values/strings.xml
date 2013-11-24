@@ -78,6 +78,7 @@
   <string name="dialog_security_question">Question</string>
   <string name="dialog_security_answer">Answer</string>
   <string name="dialog_title_contrib_feature">Premium feature</string>
+  <string name="dialog_title_planer_setup_info">Calendar setup required</string>
   <string name="dialog_title_restore_on_install">Backup detected</string>
   <string name="dialog_title_select_account">Pick an account</string>
   <string name="dialog_title_select_import_source">Pick a source for import</string>
@@ -221,6 +222,7 @@
   <!-- This message is shown, after a user decides to not apply a manual plan -->
   <string name="plan_execution_canceled">Plan execution canceled</string>
   <string name="plan_manual">manual</string>
+  <string name="planer_setup_info">Please select a calendar for storing plans in the settings.</string>
   <!-- payment methods -->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Credit card</string>

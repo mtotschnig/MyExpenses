@@ -36,6 +36,11 @@ public class CommonCommands {
   static boolean dispatchCommand(Activity ctx,int command) {
     Intent i;
     switch(command) {
+    case R.id.SETTINGS_COMMAND:
+      i = new Intent(ctx, MyPreferenceActivity.class);
+      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      ctx.startActivityForResult(i,ProtectedFragmentActivity.ACTIVITY_PREFERENCES);
+      return true;
     case R.id.FEEDBACK_COMMAND:
       i = new Intent(android.content.Intent.ACTION_SEND);
       i.setType("plain/text");

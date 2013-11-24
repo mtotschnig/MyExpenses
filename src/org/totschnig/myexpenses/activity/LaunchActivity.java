@@ -79,16 +79,4 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       startActivity(i);
     }
   }
-  @Override
-  public boolean dispatchCommand(int command, Object tag) {
-    Intent i;
-    switch(command) {
-    case R.id.SETTINGS_COMMAND:
-      i = new Intent(this, MyPreferenceActivity.class);
-      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      startActivityForResult(i,ACTIVITY_PREFERENCES);
-      return true;
-    }
-    return super.dispatchCommand(command, tag);
-  }
 }

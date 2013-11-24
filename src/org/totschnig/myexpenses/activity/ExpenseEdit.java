@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
@@ -806,7 +807,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mPlanId = (Long) o;
       if (mPlanId == null) {
         Log.i("DEBUG", "Could not create new plan");
-       //TODO show message pointing to calendar setup  
+        MessageDialogFragment.newInstance(R.string.dialog_title_planer_setup_info,
+            R.string.planer_setup_info,R.id.SETTINGS_COMMAND,null)
+          .show(getSupportFragmentManager(),"CALENDAR_SETUP_INFO");
       } else {
         if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
           mManager.restartLoader(EVENT_CURSOR, null, ExpenseEdit.this);
