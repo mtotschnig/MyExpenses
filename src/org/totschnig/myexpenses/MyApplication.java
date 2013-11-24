@@ -18,11 +18,12 @@ package org.totschnig.myexpenses;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Calendar;
 import java.util.Map;
 import java.util.Properties;
 
+import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.Utils;
@@ -31,15 +32,14 @@ import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
 
-import android.app.AlarmManager;
 import android.app.Application;
-import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
 import android.net.Uri;
@@ -49,7 +49,7 @@ import android.util.Log;
 //import android.view.KeyEvent;
 import android.widget.Toast;
 
-public class MyApplication extends Application {
+public class MyApplication extends Application implements OnSharedPreferenceChangeListener {
     private SharedPreferences settings;
     private static MyApplication mSelf;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
@@ -102,6 +102,11 @@ public class MyApplication extends Application {
     public static final String FEEDBACK_EMAIL = "myexpenses@totschnig.org";
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
     public static final String HOST = "myexpenses.totschnig.org";
+    
+    /**
+     * we cache value of planer calendar id, so that we can handle changes in value
+     */
+    private String mPlanerCalendarId;
 
     @Override
     public void onCreate() {
@@ -111,7 +116,7 @@ public class MyApplication extends Application {
       {
           settings = PreferenceManager.getDefaultSharedPreferences(this);
       }
-
+      settings.registerOnSharedPreferenceChangeListener(this);
       PREFKEY_CATEGORIES_SORT_BY_USAGES = getString(R.string.pref_categories_sort_by_usages_key);
       PREFKEY_PERFORM_SHARE = getString(R.string.pref_perform_share_key);
       PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
@@ -145,6 +150,7 @@ public class MyApplication extends Application {
         Log.w(TAG,"Failed to open property file");
       }
       refreshContribEnabled();
+      mPlanerCalendarId = settings.getString(PREFKEY_PLANER_CALENDAR_ID, "-1");
       initPlaner();
     }
 
@@ -305,7 +311,7 @@ public class MyApplication extends Application {
       return false;
     }
     public String requirePlaner() {
-      String planerCalendarId = settings.getString(PREFKEY_PLANER_CALENDAR_ID, "-1");
+      String planerCalendarId = mPlanerCalendarId;
       ContentResolver cr = getContentResolver();
       Cursor c;
       if (!planerCalendarId.equals("-1")) {
@@ -406,5 +412,39 @@ public class MyApplication extends Application {
       Log.i("DEBUG","Inside init planer");
       Intent service = new Intent(this, PlanExecutor.class);
       startService(service);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+        String key) {
+      if (key.equals(PREFKEY_PLANER_CALENDAR_ID)) {
+        Log.i("DEBUG","onSharedPreferenceChanged fired in MyApplication");
+        String oldValue = mPlanerCalendarId;
+        String newValue = sharedPreferences.getString(PREFKEY_PLANER_CALENDAR_ID, "-1");
+        mPlanerCalendarId = newValue;
+        if (oldValue == "-1" && newValue != "-1") {
+         initPlaner();
+        } else if (newValue != "-1") {
+          ContentValues values = new ContentValues();
+          values.put(Events.CALENDAR_ID, Long.parseLong(newValue));
+          Cursor c = getContentResolver().query(
+              Template.CONTENT_URI,
+              new String[] {DatabaseConstants.KEY_PLANID},
+              DatabaseConstants.KEY_PLANID + " IS NOT null",
+              null,
+              null);
+          if (c!=null && c.moveToFirst()) {
+            do {
+              long planId = c.getLong(0);
+              int updated = getContentResolver().update(
+                  ContentUris.withAppendedId(Events.CONTENT_URI, planId),
+                  values,
+                  null,
+                  null);
+              Log.i("DEBUG",String.format("move plan %d to new calendar; result: %d",planId,updated));
+                } while (c.moveToNext());
+          }
+        }
+      }
     }
 }
