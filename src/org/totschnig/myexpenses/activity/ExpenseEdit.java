@@ -119,7 +119,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private boolean mTransferEnabled = false;
   private Cursor mMethodsCursor;
   private Plan mPlan;
-  private long mPlanerCalendarId = -1L;
 
   /**
    *   transaction, transfer or split
@@ -264,7 +263,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
 
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
-      mPlanerCalendarId = Long.parseLong(MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_PLANER_CALENDAR_ID,"-1"));
       findViewById(R.id.PlanerRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
       helpVariant = HelpVariant.template;
@@ -542,17 +540,13 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       }
       mPlanButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View view) {
-          if (mPlanerCalendarId == -1) {
-            //TODO show message
-            return;
-          }
           if (mPlanId == null) {
             String title = mTitleText.getText().toString();
             if (MyApplication.getInstance().isContribEnabled ||
                 Template.countWithPlan() < 3) {
               mLaunchPlanView = true;
               getSupportFragmentManager().beginTransaction()
-              .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_PLAN,mPlanerCalendarId, title), "ASYNC_TASK")
+              .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_PLAN,null, title), "ASYNC_TASK")
               .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
               .commit();
             } else {
@@ -810,10 +804,15 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     switch(taskId) {
     case TaskExecutionFragment.TASK_NEW_PLAN:
       mPlanId = (Long) o;
-      if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
-        mManager.restartLoader(EVENT_CURSOR, null, ExpenseEdit.this);
-      else
-        mManager.initLoader(EVENT_CURSOR, null, ExpenseEdit.this);
+      if (mPlanId == null) {
+        Log.i("DEBUG", "Could not create new plan");
+       //TODO show message pointing to calendar setup  
+      } else {
+        if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
+          mManager.restartLoader(EVENT_CURSOR, null, ExpenseEdit.this);
+        else
+          mManager.initLoader(EVENT_CURSOR, null, ExpenseEdit.this);
+      }
       break;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:

@@ -306,18 +306,34 @@ public class MyApplication extends Application {
     }
     public String requirePlaner() {
       String planerCalendarId = settings.getString(PREFKEY_PLANER_CALENDAR_ID, "-1");
+      ContentResolver cr = getContentResolver();
+      Cursor c;
       if (!planerCalendarId.equals("-1")) {
+        c = cr.query(Calendars.CONTENT_URI,
+            new String[]{"1 as ignore"},
+            Calendars._ID + " = ?",
+            new String[] {planerCalendarId},
+            null);
+        if (c==null)
+          planerCalendarId = "-1";
+        else {
+          if (c.getCount() == 0) {
+            Log.i("DEBUG","configured calendar has been deleted: "+ planerCalendarId);
+            planerCalendarId = "-1";
+          }
+          c.close();
+        }
+        if (planerCalendarId.equals("-1")) {
+          settings.edit().remove(PREFKEY_PLANER_CALENDAR_ID).commit();
+        }
         return planerCalendarId;
-        //TODO check if calendar has been deleted
       } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
         //on API below 16 a local calendar leads to crashes of the com.android.calendar app
         //hence we require users to select a different calendar in the settings
         String accountName = "Local Calendar";
         String calendarName = "MyExpensesPlaner";
-        ContentResolver cr = MyApplication.getInstance().getContentResolver();
         //first we check if our calendar exists already
-        Uri.Builder builder =
-            CalendarContractCompat.Calendars.CONTENT_URI.buildUpon();
+        Uri.Builder builder = Calendars.CONTENT_URI.buildUpon();
         builder.appendQueryParameter(
             Calendars.ACCOUNT_NAME,
             accountName);
@@ -328,9 +344,9 @@ public class MyApplication extends Application {
             CalendarContractCompat.CALLER_IS_SYNCADAPTER,
             "true");
         Uri calendarUri = builder.build();
-        Cursor c = cr.query(
+        c = cr.query(
             calendarUri,
-            new String[] {CalendarContractCompat.Calendars._ID},
+            new String[] {Calendars._ID},
               Calendars.NAME +  " = ?",
             new String[]{calendarName}, null);
         if (c.moveToFirst()) {
@@ -375,8 +391,7 @@ public class MyApplication extends Application {
           }
           Log.i("DEBUG","successfully set up new calendar: "+ planerCalendarId);
         }
-        SharedPreferencesCompat.apply(
-            settings.edit().putString(PREFKEY_PLANER_CALENDAR_ID, planerCalendarId));
+        settings.edit().putString(PREFKEY_PLANER_CALENDAR_ID, planerCalendarId).commit();
         return planerCalendarId;
         }
       return "-1";

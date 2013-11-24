@@ -226,7 +226,7 @@ public class TaskExecutionFragment extends Fragment {
         Transaction.move(id[0],(Long) mExtra);
         return null;
       case TASK_NEW_PLAN:
-        return Plan.create(id[0],(String)mExtra);
+        return Plan.create((String)mExtra);
       }
       return null;
     }

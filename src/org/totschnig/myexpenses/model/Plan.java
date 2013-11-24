@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.model;
 import java.io.Serializable;
 import java.util.TimeZone;
 
+import org.totschnig.myexpenses.MyApplication;
+
 import com.android.calendar.CalendarContractCompat.Events;
 
 import android.content.ContentUris;
@@ -43,10 +45,13 @@ public class Plan extends Model implements Serializable {
    * @param calendarId
    * @return the id of the created objcet
    */
-  public static Long create(long calendarId, String title) {
+  public static Long create(String title) {
+    String calendarId = MyApplication.getInstance().requirePlaner();
+    if (calendarId.equals("-1"))
+      return null;
     long now = System.currentTimeMillis();
     ContentValues values = new ContentValues();
-    values.put(Events.CALENDAR_ID, calendarId);
+    values.put(Events.CALENDAR_ID, Long.parseLong(calendarId));
     values.put(Events.TITLE, title);
     values.put(Events.DTSTART, now);
     values.put(Events.DTEND, now);
