@@ -309,10 +309,10 @@ public class MyApplication extends Application {
       if (!planerCalendarId.equals("-1")) {
         return planerCalendarId;
         //TODO check if calendar has been deleted
-      } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-        //on API 2 and 3 a local calendar leads to crashes of the Calendar app
+      } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        //on API below 16 a local calendar leads to crashes of the com.android.calendar app
         //hence we require users to select a different calendar in the settings
-        String accountName = "org.totschnig.myexpenses";
+        String accountName = "Local Calendar";
         String calendarName = "MyExpensesPlaner";
         ContentResolver cr = MyApplication.getInstance().getContentResolver();
         //first we check if our calendar exists already
