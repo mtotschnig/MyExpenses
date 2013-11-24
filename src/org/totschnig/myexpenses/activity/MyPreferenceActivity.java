@@ -102,13 +102,13 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         new String[]{
               Calendars._ID,
               Calendars.CALENDAR_DISPLAY_NAME,
-              Calendars.ACCOUNT_NAME,
+              Calendars.ACCOUNT_NAME
     };
     Cursor calCursor =
         getContentResolver().
             query(Calendars.CONTENT_URI,
                 projection,
-                null,
+                Calendars.CALENDAR_ACCESS_LEVEL + " >= " + Calendars.CAL_ACCESS_CONTRIBUTOR,
                 null,
                 Calendars._ID + " ASC");
   if (calCursor == null || !calCursor.moveToFirst()) {
