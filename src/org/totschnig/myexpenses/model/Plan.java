@@ -18,14 +18,12 @@ import android.net.Uri;
 public class Plan extends Model implements Serializable {
   public long id;
   public long dtstart;
-  public long dtend;
   public String rrule;
   public String title;
-  public Plan(long id, long dtstart, long dtend, String rrule, String title) {
+  public Plan(long id, long dtstart, String rrule, String title) {
     super();
     this.id = id;
     this.dtstart = dtstart;
-    this.dtend = dtend;
     this.rrule = rrule;
     this.title = title;
   }
@@ -55,7 +53,7 @@ public class Plan extends Model implements Serializable {
     values.put(Events.TITLE, title);
     values.put(Events.DTSTART, now);
     values.put(Events.DTEND, now);
-    values.put(Events.ALL_DAY,1);
+    //values.put(Events.ALL_DAY,1);
     values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
     Uri uri = cr().insert(Events.CONTENT_URI, values);
     return ContentUris.parseId(uri);

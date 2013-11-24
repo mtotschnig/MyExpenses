@@ -929,7 +929,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
           new String[]{
               Events._ID,
               Events.DTSTART,
-              Events.DTEND,
               Events.RRULE,
               Events.TITLE},
           null,
@@ -992,20 +991,17 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       if (data.moveToFirst()) {
         long eventId = data.getLong(data.getColumnIndexOrThrow(Events._ID));
         long dtStart = data.getLong(data.getColumnIndexOrThrow(Events.DTSTART));
-        long dtEnd = data.getLong(data.getColumnIndexOrThrow(Events.DTEND));
         String rRule = data.getString(data.getColumnIndexOrThrow(Events.RRULE));
         String title = data.getString(data.getColumnIndexOrThrow(Events.TITLE));
         if (mPlan == null) {
           mPlan = new Plan(
               eventId,
               dtStart,
-              dtEnd,
               rRule,
               title);
         } else {
           mPlan.id = eventId;
           mPlan.dtstart= dtStart;
-          mPlan.dtend = dtEnd;
           mPlan.rrule = rRule;
           mPlan.title = title;
         }
@@ -1027,7 +1023,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     intent.setData(ContentUris.withAppendedId(Events.CONTENT_URI, mPlanId));
     //ACTION_VIEW expects to get a range http://code.google.com/p/android/issues/detail?id=23852
     intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, mPlan.dtstart);
-    intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan.dtend);
+    intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan.dtstart);
     startActivityForResult (intent, ACTIVITY_EDIT_EVENT);
   }
   @Override
