@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
-import java.util.TimeZone;
 
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
@@ -457,8 +456,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
                   null,
                   null);
               if (eventCursor != null && eventCursor.moveToFirst()) {
-                eventValues.put(Events.DTSTART, eventCursor.getLong(0));
-                eventValues.put(Events.DTEND, eventCursor.getLong(1));
+                //Log.i("DEBUG", DatabaseUtils.dumpCursorToString(eventCursor));
+                eventValues.put(Events.DTSTART, DbUtils.getLongOrNull(eventCursor,0));
+                eventValues.put(Events.DTEND, DbUtils.getLongOrNull(eventCursor,1));
                 eventValues.put(Events.RRULE, eventCursor.getString(2));
                 eventValues.put(Events.TITLE, eventCursor.getString(3));
                 eventValues.put(Events.ALL_DAY,eventCursor.getInt(4));
