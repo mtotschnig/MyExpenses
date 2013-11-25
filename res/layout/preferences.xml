@@ -34,10 +34,8 @@
         android:summary="@string/pref_manage_methods_summary">
         <intent android:action="myexpenses.intent.manage.methods"/>
     </PreferenceScreen>
-    <ListPreference android:key="@string/pref_planer_calendar_id_key"
-        android:title="Calendar"
-        android:entries="@array/pref_ui_theme_entries"
-        android:entryValues="@array/pref_ui_theme_values"
+    <org.totschnig.myexpenses.preference.CalendarListPreference android:key="@string/pref_planer_calendar_id_key"
+        android:title="Calendar for storing"
         android:summary="Select the calendar where plans for future and recurring transactions are stored"/>
   </PreferenceCategory>
   <PreferenceCategory

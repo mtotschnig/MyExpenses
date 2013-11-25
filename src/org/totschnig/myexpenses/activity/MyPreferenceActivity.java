@@ -24,8 +24,6 @@ import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.util.Utils;
 
-import com.android.calendar.CalendarContractCompat.Calendars;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -34,17 +32,13 @@ import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -56,10 +50,11 @@ import android.widget.Toast;
  *
  */
 public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
-    OnPreferenceChangeListener, OnSharedPreferenceChangeListener,OnPreferenceClickListener {
+    OnPreferenceChangeListener,
+    OnSharedPreferenceChangeListener,
+    OnPreferenceClickListener {
   
   private static final int ACTIVITY_RESTORE = 1;
-  private ListPreference calendarPref;
   @SuppressWarnings("deprecation")
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -94,40 +89,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
 
     findPreference(MyApplication.PREFKEY_PERFORM_PROTECTION)
       .setOnPreferenceChangeListener(this);
-    calendarPref = (ListPreference) findPreference(MyApplication.PREFKEY_PLANER_CALENDAR_ID);
-    CharSequence[] lEntries;
-    CharSequence[] lEntryValues;
-
-    String[] projection =
-        new String[]{
-              Calendars._ID,
-              Calendars.CALENDAR_DISPLAY_NAME,
-              Calendars.ACCOUNT_NAME
-    };
-    Cursor calCursor =
-        getContentResolver().
-            query(Calendars.CONTENT_URI,
-                projection,
-                Calendars.CALENDAR_ACCESS_LEVEL + " >= " + Calendars.CAL_ACCESS_CONTRIBUTOR,
-                null,
-                Calendars._ID + " ASC");
-  if (calCursor == null || !calCursor.moveToFirst()) {
-    lEntries = new CharSequence[]{};
-    lEntryValues = new CharSequence[]{};
-  } else {
-    lEntries = new CharSequence[calCursor.getCount()];
-    lEntryValues = new CharSequence[calCursor.getCount()];
-    int count = 0;
-    do {
-      lEntries[count] = calCursor.getString(2) + " / " + calCursor.getString(1);
-      lEntryValues[count] = calCursor.getString(0);
-      count++;
-        } while (calCursor.moveToNext());
-    }
-    calCursor.close();
-    calendarPref.setEntries(lEntries);
-    calendarPref.setEntryValues(lEntryValues);
-    calendarPref.setOnPreferenceChangeListener(this);
+    findPreference(MyApplication.PREFKEY_PLANER_CALENDAR_ID)
+      .setOnPreferenceChangeListener(this);
   }
   private void setProtectionDependentsState() {
     boolean isProtected = MyApplication.getInstance().getSettings().getBoolean(MyApplication.PREFKEY_PERFORM_PROTECTION, false);
