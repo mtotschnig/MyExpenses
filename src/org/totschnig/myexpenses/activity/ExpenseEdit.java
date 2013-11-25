@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
@@ -1019,7 +1020,10 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     //ACTION_VIEW expects to get a range http://code.google.com/p/android/issues/detail?id=23852
     intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, mPlan.dtstart);
     intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan.dtstart);
-    startActivityForResult (intent, ACTIVITY_EDIT_EVENT);
+    if (Utils.isIntentAvailable(this, intent))
+      startActivityForResult (intent, ACTIVITY_EDIT_EVENT);
+    else
+      Log.i("DEBUG","could not launch event view in calendar");
   }
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
