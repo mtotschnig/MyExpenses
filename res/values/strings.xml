@@ -78,7 +78,7 @@
   <string name="dialog_security_question">Question</string>
   <string name="dialog_security_answer">Answer</string>
   <string name="dialog_title_contrib_feature">Premium feature</string>
-  <string name="dialog_title_planer_setup_info">Calendar setup required</string>
+  <string name="dialog_title_planner_setup_info">Calendar setup required</string>
   <string name="dialog_title_restore_on_install">Backup detected</string>
   <string name="dialog_title_select_account">Pick an account</string>
   <string name="dialog_title_select_import_source">Pick a source for import</string>
@@ -218,11 +218,11 @@
   <string name="plan">Plan</string>
   <string name="plan_automatic">automatic</string>
   <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
-  <string name="plan_calendar_name">My Expenses planer</string>
+  <string name="plan_calendar_name">My Expenses planner</string>
   <!-- This message is shown, after a user decides to not apply a manual plan -->
   <string name="plan_execution_canceled">Plan execution canceled</string>
   <string name="plan_manual">manual</string>
-  <string name="planer_setup_info">Please select a calendar for storing plans in the settings.</string>
+  <string name="planner_setup_info">Please select a calendar for storing plans in the settings.</string>
   <!-- payment methods -->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Credit card</string>
@@ -266,6 +266,8 @@
   <string name="pref_perform_share_summaryOff">The file will not be shared after each export.</string>
   <string name="pref_perform_protection_title">Password protection</string>
   <string name="pref_perform_protection_summary">Should app launches and resumes be protected?</string>
+  <string name="pref_planning_calendar_title">Planning calendar</string>
+  <string name="pref_planning_calendar_summary">Select the calendar where plans for future and recurring transactions are stored</string>
   <string name="pref_protection_delay_seconds_title">Delay until protection</string>
   <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password.</string>
   <string name="pref_qif_export_file_encoding_title">Character encoding</string>

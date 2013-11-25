@@ -76,10 +76,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String PREFKEY_SEND_FEEDBACK;
     public static String PREFKEY_MORE_INFO_DIALOG;
     public static String PREFKEY_SHORTCUT_ACCOUNT_LIST;
-    public static String PREFKEY_PLANER_CALENDAR_ID;
+    public static String PREFKEY_PLANNER_CALENDAR_ID;
     public static final String PREFKEY_CURRENT_VERSION = "currentversion";
     public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
-    public static final String PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP = "planer_last_execution_timestamp";
+    public static final String PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP = "planner_last_execution_timestamp";
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
@@ -105,9 +105,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static final String HOST = "myexpenses.totschnig.org";
     
     /**
-     * we cache value of planer calendar id, so that we can handle changes in value
+     * we cache value of planner calendar id, so that we can handle changes in value
      */
-    private String mPlanerCalendarId;
+    private String mPlannerCalendarId;
 
     @Override
     public void onCreate() {
@@ -137,7 +137,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       PREFKEY_SEND_FEEDBACK = getString(R.string.pref_send_feedback_key);
       PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
       PREFKEY_SHORTCUT_ACCOUNT_LIST = getString(R.string.pref_shortcut_account_list_key);
-      PREFKEY_PLANER_CALENDAR_ID = getString(R.string.pref_planer_calendar_id_key);
+      PREFKEY_PLANNER_CALENDAR_ID = getString(R.string.pref_planner_calendar_id_key);
       setPasswordCheckDelayNanoSeconds();
       try {
         InputStream rawResource = getResources().openRawResource(R.raw.app);
@@ -151,8 +151,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         Log.w(TAG,"Failed to open property file");
       }
       refreshContribEnabled();
-      mPlanerCalendarId = settings.getString(PREFKEY_PLANER_CALENDAR_ID, "-1");
-      initPlaner();
+      mPlannerCalendarId = settings.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
+      initPlanner();
     }
 
     public boolean refreshContribEnabled() {
@@ -311,34 +311,34 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
       return false;
     }
-    public String requirePlaner() {
-      String planerCalendarId = mPlanerCalendarId;
+    public String requirePlanner() {
+      String plannerCalendarId = mPlannerCalendarId;
       ContentResolver cr = getContentResolver();
       Cursor c;
-      if (!planerCalendarId.equals("-1")) {
+      if (!plannerCalendarId.equals("-1")) {
         c = cr.query(Calendars.CONTENT_URI,
             new String[]{"1 as ignore"},
             Calendars._ID + " = ?",
-            new String[] {planerCalendarId},
+            new String[] {plannerCalendarId},
             null);
         if (c==null)
-          planerCalendarId = "-1";
+          plannerCalendarId = "-1";
         else {
           if (c.getCount() == 0) {
-            Log.i("DEBUG","configured calendar has been deleted: "+ planerCalendarId);
-            planerCalendarId = "-1";
+            Log.i("DEBUG","configured calendar has been deleted: "+ plannerCalendarId);
+            plannerCalendarId = "-1";
           }
           c.close();
         }
-        if (planerCalendarId.equals("-1")) {
-          settings.edit().remove(PREFKEY_PLANER_CALENDAR_ID).commit();
+        if (plannerCalendarId.equals("-1")) {
+          settings.edit().remove(PREFKEY_PLANNER_CALENDAR_ID).commit();
         }
-        return planerCalendarId;
+        return plannerCalendarId;
       } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
         //on API below 16 a local calendar leads to crashes of the com.android.calendar app
         //hence we require users to select a different calendar in the settings
         String accountName = "Local Calendar";
-        String calendarName = "MyExpensesPlaner";
+        String calendarName = "MyExpensesPlanner";
         //first we check if our calendar exists already
         Uri.Builder builder = Calendars.CONTENT_URI.buildUpon();
         builder.appendQueryParameter(
@@ -357,8 +357,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
               Calendars.NAME +  " = ?",
             new String[]{calendarName}, null);
         if (c.moveToFirst()) {
-          planerCalendarId = c.getString(0);
-          Log.i("DEBUG","found preexisting calendar: "+ planerCalendarId);
+          plannerCalendarId = c.getString(0);
+          Log.i("DEBUG","found preexisting calendar: "+ plannerCalendarId);
           c.close();
         } else  {
           c.close();
@@ -388,29 +388,29 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           try {
             uri = cr.insert(builder.build(), values);
           } catch (IllegalArgumentException e) {
-            Log.i("DEBUG","Inserting planer calendar failed, Calendar app not installed?");
+            Log.i("DEBUG","Inserting planner calendar failed, Calendar app not installed?");
             return "-1";
           }
-          planerCalendarId = uri.getLastPathSegment();
-          if (planerCalendarId == null) {
-            Log.i("DEBUG","Inserting planer calendar failed, last path segment is null");
+          plannerCalendarId = uri.getLastPathSegment();
+          if (plannerCalendarId == null) {
+            Log.i("DEBUG","Inserting planner calendar failed, last path segment is null");
             return "-1";
           }
-          Log.i("DEBUG","successfully set up new calendar: "+ planerCalendarId);
+          Log.i("DEBUG","successfully set up new calendar: "+ plannerCalendarId);
         }
-        settings.edit().putString(PREFKEY_PLANER_CALENDAR_ID, planerCalendarId).commit();
-        return planerCalendarId;
+        settings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId).commit();
+        return plannerCalendarId;
         }
       return "-1";
     }
     /**
      * call PlanExecutor, which will 
-     * 1) set up the planer calendar
+     * 1) set up the planner calendar
      * 2) execute plans
      * 3) reschedule execution through alarm 
      */
-    public void initPlaner() {
-      Log.i("DEBUG","Inside init planer");
+    public void initPlanner() {
+      Log.i("DEBUG","Inside init planner");
       Intent service = new Intent(this, PlanExecutor.class);
       startService(service);
     }
@@ -418,13 +418,13 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
         String key) {
-      if (key.equals(PREFKEY_PLANER_CALENDAR_ID)) {
+      if (key.equals(PREFKEY_PLANNER_CALENDAR_ID)) {
         Log.i("DEBUG","onSharedPreferenceChanged fired in MyApplication");
-        String oldValue = mPlanerCalendarId;
-        String newValue = sharedPreferences.getString(PREFKEY_PLANER_CALENDAR_ID, "-1");
-        mPlanerCalendarId = newValue;
+        String oldValue = mPlannerCalendarId;
+        String newValue = sharedPreferences.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
+        mPlannerCalendarId = newValue;
         if (oldValue == "-1" && newValue != "-1") {
-         initPlaner();
+         initPlanner();
         } else if (newValue != "-1") {
           ContentResolver cr = getContentResolver();
           ContentValues eventValues = new ContentValues(),

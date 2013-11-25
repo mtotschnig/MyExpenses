@@ -264,7 +264,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
 
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
-      findViewById(R.id.PlanerRow).setVisibility(View.VISIBLE);
+      findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
       helpVariant = HelpVariant.template;
     } else if (mTransaction instanceof SplitTransaction) {
@@ -807,8 +807,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mPlanId = (Long) o;
       if (mPlanId == null) {
         Log.i("DEBUG", "Could not create new plan");
-        MessageDialogFragment.newInstance(R.string.dialog_title_planer_setup_info,
-            R.string.planer_setup_info,R.id.SETTINGS_COMMAND,null)
+        MessageDialogFragment.newInstance(R.string.dialog_title_planner_setup_info,
+            R.string.planner_setup_info,R.id.SETTINGS_COMMAND,null)
           .show(getSupportFragmentManager(),"CALENDAR_SETUP_INFO");
       } else {
         if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())

@@ -38,13 +38,13 @@ public class PlanExecutor extends IntentService {
   @Override
   public void onHandleIntent(Intent intent) {
     Log.i("DEBUG","Inside plan executor onHandleIntent");
-    String planerCalendarId = MyApplication.getInstance().requirePlaner();
-    if (planerCalendarId.equals("-1")) {
+    String plannerCalendarId = MyApplication.getInstance().requirePlanner();
+    if (plannerCalendarId.equals("-1")) {
       return;
     }
     SharedPreferences settings = MyApplication.getInstance().getSettings();
     long lastExecutionTimeStamp = settings.getLong(
-        MyApplication.PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP, 0);
+        MyApplication.PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP, 0);
     long now = System.currentTimeMillis();
     if (lastExecutionTimeStamp == 0) {
       Log.i("DEBUG", "first call, nothting to do");
@@ -68,7 +68,7 @@ public class PlanExecutor extends IntentService {
       //the calendar content provider on Android < 4 does not interpret the selection arguments
       //hence we put them into the selection
       Cursor cursor = getContentResolver().query(eventsUri, INSTANCE_PROJECTION,
-          Events.CALENDAR_ID + " = " + planerCalendarId + " AND "+ Instances.BEGIN +
+          Events.CALENDAR_ID + " = " + plannerCalendarId + " AND "+ Instances.BEGIN +
               " BETWEEN " + lastExecutionTimeStamp + " AND " + now,
           null,
           null);
@@ -150,7 +150,7 @@ public class PlanExecutor extends IntentService {
       cursor.close();
     }
     SharedPreferencesCompat.apply(settings.edit()
-        .putLong(MyApplication.PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP, now));
+        .putLong(MyApplication.PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP, now));
     PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
     AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
     long interval = 21600000; //6* 60 * 60 * 1000 6 hours

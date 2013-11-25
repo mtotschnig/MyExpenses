@@ -89,7 +89,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
 
     findPreference(MyApplication.PREFKEY_PERFORM_PROTECTION)
       .setOnPreferenceChangeListener(this);
-    findPreference(MyApplication.PREFKEY_PLANER_CALENDAR_ID)
+    findPreference(MyApplication.PREFKEY_PLANNER_CALENDAR_ID)
       .setOnPreferenceChangeListener(this);
   }
   private void setProtectionDependentsState() {
