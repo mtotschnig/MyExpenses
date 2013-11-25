@@ -14,12 +14,6 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<!DOCTYPE resources [
-  <!ENTITY app_name "Harcamalarım">
-  <!ENTITY grisbi_file "grisbi.xml">
-  <!ENTITY contrib ' (<b>Premium</b>)'>
-  <!ENTITY continue 'Devam etmek istiyor musunuz?'>
-]>
 <resources>
   <string name="account">Hesap</string>
   <string name="account_type_cash">Nakit hesabı</string>
@@ -29,7 +23,7 @@
   <string name="account_type_liability">Borç hesabı</string>
   <string name="already_defined">%1$s zaten tanımlanmış</string>
   <string name="amount">Miktar</string>
-  <string name="app_name">&app_name;</string>
+  <string name="app_name">Harcamalarım</string>
   <string name="backup_failure">SD kartına yedekleme başarısız oldu.</string>
   <string name="backup_success">Veritabanı ve tercihler SD karta başarılı bir şekilde yazıldı.</string>
   <string name="category">Kategori</string>
@@ -39,6 +33,8 @@
   <string name="contrib_feature_accounts_unlimited_description">&lt;i&gt;Harcamalarım&lt;/i&gt; ile oluşturabileceğiniz hesap sayısı 5 ile sınırlıdır.</string>
   <string name="contrib_feature_aggregate_label">Birden çok hesabın birleşik görünümü</string>
   <string name="contrib_feature_distribution_label">Muamelelerin kategori başına dağılımı</string>
+  <string name="contrib_feature_plans_unlimited_description">&lt;i&gt;Harcalamalarım&lt;/i&gt; ile oluşturabileceğiniz plan sayısı 3 ile sınırlıdır.</string>
+  <string name="contrib_feature_plans_unlimited_label">Sınırsız plan sayısı</string>  
   <string name="contrib_feature_reset_all_label">Tüm hesapları sıfırla</string>
   <string name="contrib_feature_security_question_label">Güvenlik sorusu</string>
   <string name="contrib_feature_split_transaction_label">Bölünmüş muamele</string>
@@ -50,7 +46,7 @@
   <string name="date_time">Tarih / Zaman</string>
   <string name="date_format">Tarih biçimi</string>
   <string name="date_format_illegal">Geçersiz tarih biçimi</string>
-  <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>    
+  <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>
   <string name="description">Açıklama</string>
   <string name="dialog_confirm_restore_on_install">Bir yedekleme dosyası tespit edildi. Onu yüklemek istiyor musunuz?</string>
   <string name="dialog_contrib_usage_count">%1$d ücretsiz kullanım kalmıştır.</string>
@@ -60,10 +56,10 @@
   <string name="dialog_contrib_reminder_gain_access">Bu şekilde aşağıdaki özelliklere de sınırsız erişim elde edersiniz:</string>
   <string name="dialog_contrib_yes">Satın al</string>
   <string name="dialog_contrib_no">Henüz değil</string>
-  <string name="dialog_contrib_text">&lt;i&gt;&app_name;&lt;/i&gt; ücretsiz ve özgür yazılım olarak sunulmuştur. Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:</string>
+  <string name="dialog_contrib_text">&lt;i&gt;Harcamalarım&lt;/i&gt; ücretsiz ve özgür yazılım olarak sunulmuştur. Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:</string>
   <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
   <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
-  <string name="dialog_remind_rate">Lütfen &app_name; değerlendirip not vermek için birkaç dakika ayırınız.  Yorumlarınız devamlı bir şekilde yeni işlevler ve geliştirmeler eklememe yardımcı olmaktadır.</string>
+  <string name="dialog_remind_rate">Lütfen Harcamalarım değerlendirip not vermek için birkaç dakika ayırınız.  Yorumlarınız devamlı bir şekilde yeni işlevler ve geliştirmeler eklememe yardımcı olmaktadır.</string>
   <string name="dialog_remind_rate_yes">Şimdi not ver</string>
   <string name="dialog_remind_later">Daha sonra</string>
   <string name="dialog_remind_no">Hayır teşekkürler</string>
@@ -120,7 +116,7 @@
     <item>Akıllı telefonunuzda doğrudan yönetin.</item>
     <item>Grisbi, GnuCash, Quicken ya da MS Money gibi masa üstü finans programlarına aktarın.</item>
   </string-array>
-  <string name="help_leading">Android için <i>&app_name;</i>\'i kurduğunuz için teşekkür ederiz.</string>
+  <string name="help_leading">Android için <i>Harcamalarım</i>\'i kurduğunuz için teşekkür ederiz.</string>
   <string name="import_categories">Kategorileri içe aktar</string>
   <string name="important_upgrade_information_heading">Önemli bilgi</string>
   <string name="income">gelirler</string>
@@ -129,25 +125,27 @@
   <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı: katkı işlevlerinin kilidi kaldırılmıştır.</string>
   <string name="licence_validation_failure">Lisans anahtarı doğrulanamadı.</string>
   <string name="menu_aggregates">Toplam</string>
+  <string name="menu_apply">Uygula</string>
   <string name="menu_back">Önceki</string>
   <string name="menu_backup">Yedekleme</string>
   <string name="menu_clone_transaction">Klonla</string>
   <string name="menu_contrib">Katkıda bulun</string>
+  <string name="menu_create">Oluştur</string>
   <string name="menu_create_account">Yeni hesap oluştur</string>
+  <string name="menu_create_main_cat">Yeni ana kategori oluştur</string>
   <string name="menu_create_method">Yeni ödeme metotu oluştur</string>
+  <string name="menu_create_party">Yeni borçlu/alacaklı</string>
   <string name="menu_create_split">Yeni bölünmüş muamele</string>
   <string name="menu_create_split_part_category">Yeni bölünmüş alt muamele (kategori)</string>
   <string name="menu_create_split_part_transfer">Yeni bölünmüş alt muamele (transfer)</string>
-  <string name="menu_create_transaction">Muamele ekle</string>
-  <string name="menu_create_transfer">Virman ekle</string>
-  <string name="menu_create_main_cat">Yeni ana kategori oluştur</string>
-  <string name="menu_create_party">Yeni borçlu/alacaklı</string>
   <string name="menu_create_sub_cat">Yeni alt kategori oluştur</string>
   <string name="menu_create_template">Şablon oluştur</string>
-  <string name="menu_create_transaction_from_template_and_edit">Yeni ve düzenle</string>
-  <string name="menu_create_transaction_from_template_and_save">Yeni ve kaydet</string>
   <string name="menu_create_template_for_transaction">Yeni muamele şablonu</string>
   <string name="menu_create_template_for_transfer">Yeni transfer şablonu</string>
+  <string name="menu_create_transaction">Muamele ekle</string>
+  <string name="menu_create_transaction_from_template_and_edit">Yeni ve düzenle</string>
+  <string name="menu_create_transaction_from_template_and_save">Yeni ve kaydet</string>
+  <string name="menu_create_transfer">Virman ekle</string>
   <string name="menu_delete">Sil</string>
   <string name="menu_distribution">Dağılım</string>
   <string name="menu_edit">Düzenle</string>
@@ -164,6 +162,7 @@
   <string name="menu_forward">Sonraki</string>
   <string name="menu_grouping">Gruplandırma</string>
   <string name="menu_help">Yardım</string>
+  <string name="menu_manage_plans">Şablonlar ve planlar</string>
   <string name="menu_move_transaction">Taşı</string>
   <string name="menu_reset">Dışa aktar ve sıfırla</string>
   <string name="menu_reset_all">Tümünü dışa aktar ve sıfırla</string>
@@ -204,6 +203,11 @@
   <string name="password_security_answer_not_valid">Yanlış cevap. Yeniden deneyin!</string>
   <string name="payee">Alacaklı</string>
   <string name="payer">Ödeyen</string>
+  <string name="plan">Planla</string>
+  <string name="plan_automatic">otomatik</string>
+  <string name="plan_calendar_name">Harcamalarım planlayıcısı</string>
+  <string name="plan_execution_canceled">Planı yürütme iptal edildi</string>
+  <string name="plan_manual">el ile</string>
   <string name="pm_cheque">Çek</string>
   <string name="pm_creditcard">Kredi kartı</string>
   <string name="pm_deposit">Mevduat</string>
@@ -223,12 +227,12 @@
   <string name="pref_category_title_security">Güvenlik</string>
   <string name="pref_category_title_more_information">İlâve bilgi</string>
   <string name="pref_contrib_install_title">Katkı uygulamasını kur</string>
-  <string name="pref_contrib_install_summary">&app_name; Contrib uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
+  <string name="pref_contrib_install_summary">Harcamalarım Contrib uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
   <string name="pref_export_format_title">Veri biçimi</string>
   <string name="pref_enter_licence_title">Katkı anahtarını gir</string>
   <string name="pref_enter_licence_summary">Eğer katkı anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
   <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
-  <string name="pref_import_from_grisbi_summary">Uygulamaya dahili olan ve varsayılan Grisbi tanımlamalarından ya da SD kartının kökünde \"myexpenses\" klasöründe &grisbi_file; dosyası olarak saklanmış kendi dosyanızdan kategori (ve bölüm) içeri aktar.</string>
+  <string name="pref_import_from_grisbi_summary">Uygulamaya dahili olan ve varsayılan Grisbi tanımlamalarından ya da SD kartının kökünde \"myexpenses\" klasöründe grisbi.xml dosyası olarak saklanmış kendi dosyanızdan kategori (ve bölüm) içeri aktar.</string>
   <string name="pref_manage_accounts_title">Hesaplar</string>
   <string name="pref_manage_accounts_summary">Hesap ekle, düzenle ve sil.</string>
   <string name="pref_manage_categories_title">Kategoriler</string>
@@ -236,7 +240,7 @@
   <string name="pref_manage_methods_title">Ödeme metotları</string>
   <string name="pref_manage_methods_summary">Ödeme metotları oluştur, düzenle ve hesap türleri ile ilişkilendir.</string>
   <string name="pref_manage_parties_title">Bölümler</string>
-  <string name="pref_manage_parties_summary">>Borçlu/alacaklı ekle, düzenle veya sil.</string>
+  <string name="pref_manage_parties_summary">Borçlu/alacaklı ekle, düzenle veya sil.</string>
   <string name="pref_more_info_dialog_title">Lisans &amp; Hazırlayanlar</string>
   <string name="pref_more_info_dialog_summary">Türkçe tercüme: mauron</string>
   <string name="pref_password_empty">Parola boş olmamalıdır</string>
@@ -257,14 +261,14 @@
   <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir. Harcamalarımın katkı sürümünü gerektirir.</string>
   <string name="pref_send_feedback_title">Geri bildirim gönder</string>
   <string name="pref_share_target_title">Yükleme adresi</string>
-  <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, &#8230;) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
+  <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, …) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_ui_theme_dark">karanlık</string>
   <string name="pref_ui_theme_light">aydınlık</string>
   <string name="pref_visit_website_title">Siteyi ziyaret et</string>
   <string name="pref_visit_website_summary">Değişiklikler ya SSS</string>
-  <string name="progress_dialog_loading">Veritabanından nesne yükleniyor &#8230;</string>
-  <string name="progress_dialog_setup">Muamele veritabanı başlatıldı &#8230;</string>
+  <string name="progress_dialog_loading">Veritabanından nesne yükleniyor …</string>
+  <string name="progress_dialog_setup">Muamele veritabanı başlatıldı …</string>
   <string name="reference_number">Referans sayısı</string>
   <string name="request_licence_mail_head">Lütfen bana Android kimliği %1$s için bir katkı anahtarı gönderin.</string>
   <string name="request_licence_mail_description">Harcamalarıma katkınızı (Paypal ile bağış, hata raporu, deneme, tercüme) İngilizce, Almanca ya da Fransızca olarak açıklayınız.</string>
@@ -302,14 +306,14 @@
   <string name="type">Tip</string>
   <string name="unsplit_amount">Atanmamış meblağ</string>
   <string name="unsplit_amount_greater_than_zero">Hala atanmamış bir miktar var.</string>
-  <string name="warning_backup">Veritabanı ve tercihler SD kartına yazılacaktır. &continue;</string>
-  <string name="warning_backup_exists">Veritabanı ve tercihler SD kartına yazılacaktır. Mevcut yedekleme silinecektir. &continue;</string>
-  <string name="warning_delete_account">Bu hesap tüm muameleleriyle silinecektir. &continue;</string>
+  <string name="warning_backup">Veritabanı ve tercihler SD kartına yazılacaktır. Devam etmek istiyor musunuz?;</string>
+  <string name="warning_backup_exists">Veritabanı ve tercihler SD kartına yazılacaktır. Mevcut yedekleme silinecektir. Devam etmek istiyor musunuz?;</string>
+  <string name="warning_delete_account">Bu hesap tüm muameleleriyle silinecektir. Devam etmek istiyor musunuz?;</string>
   <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın katkı sürümünü kurmaktır.</string>
   <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
   <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
-  <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler\n\tsilinecektir. &continue;</string>
+  <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler\n\tsilinecektir. Devam etmek istiyor musunuz?;</string>
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
   <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilir ya da silinebilirler.</string>
   </resources>

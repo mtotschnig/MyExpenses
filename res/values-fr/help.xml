@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="help_menu_commands">Commandes de menu</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Liste des opérations</string>
@@ -12,6 +12,7 @@
   <string name="menu_edit_account_help_text">Changer les propriétés du compte courant: titre, description, solde initial, type, devise, couleur.</string>
   <string name="menu_grouping_help_text">Les opérations peuvent être regroupées par jour, semaine, mois ou année. Pour chaque groupe, les totaux des revenus, des dépenses et des transferts sont calculés et affichés.</string>
   <string name="menu_distribution_help_text">Visualisez la répartition de vos dépenses et entrées par catégorie. Vous pouvez aussi cliquer sur un groupe pour inspecter une répartition spécifique.</string>
+  <string name="menu_manage_plans_help_text">Ouvre la liste des modèles et des échéances pour le compte courant. Vous pouvez appliquer, modifier, supprimer des modèles mais aussi définir vos opérations futures et périodiques.</string>
   <!--ManageAccounts Accounts list-->
   <string name="help_ManageAccounts_title">Liste des comptes</string>
   <string name="help_ManageAccounts_info">Cet écran affiche tous les comptes. Cliquez sur une entrée de la liste pour accéder à la liste des opérations correspondantes.</string>
@@ -25,7 +26,8 @@
   <string name="help_ManageParties_info">Sur cet écran s\'affiche la liste des tiers utilisés pour le complément automatique du champ Tiers. Vous pouvez en supprimer ou les éditer par le menu contextuel.</string>
   <string name="menu_create_party_help_text">Ouvre une fenêtre pour saisir le nouveau tiers</string>
   <!--ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_info">Sur cet écran s\'affiche les modèles groupés par compte. Les modèles sont créés à partir d\'une opération, et par le menu contextuel de chaque compte, vous pouvez saisir directement de nouveaux modèles (pour des opérations ou des transferts). Le menu contextuel de chaque modèle vous permet aussi de créer de nouvelles opérations, soit en la sauvegardant directement, soit en l\'éditant. Cliquez sur une entrée pour éditer un modèle (Fonction Premium).</string>
+  <string name="menu_create_template_for_transaction_help_text">Crée un nouveau modèle d\'opération</string>
+  <string name="menu_create_template_for_transfer_help_text">Crée un nouveau modèle de transfert</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Cet écran affiche la répartition de vos dépenses et entrées par catégories, pour toutes les transactions d\'un compte ou d\'un groupe spécifique.</string>
   <string name="help_ManageCategories_select_info">En plus des actions que vous pouvez effectuer dans la gestion de catégories de l\'écran Préférences (créer, modifier, supprimer), sur cet écran, vous pouvez lier une opération à une catégorie sélectionnée. Vous sélectionnez une sous-catégorie pour la liaison de la transaction en cours en cliquant simplement dessus. Afin de lioer une catégorie principale, vous devez appeler le menu contextuel.</string>
@@ -44,7 +46,6 @@
   <string name="help_ExpenseEdit_info">Cliquez sur le bouton - pour basculer entre dépense ou entrée, sur le bouton \"=\" pour accéder à une calculatrice.</string>
   <string name="help_ExpenseEdit_transaction_info">Le champ Tiers mémorise les valeurs que vous entrez, et les suggérera la prochaine fois que vous entrerez un tiers. Le bouton pour définir une méthode de paiement s\'affiche uniquement si le type du compte courant est associé aux méthodes. Par défaut, seulement les comptes bancaires sont associés à quelques méthodes (Chèque, Carte de crédit, Dépôt, Prélèvement).</string>
   <string name="help_ExpenseEdit_transfer_info">Sélectionnez le compte de transfert à partir de la liste déroulante.</string>
-  <string name="help_ExpenseEdit_template_info"> Le titre vous permet d\'identifier un modèle lorsque vous le sélectionnez pour la création de nouvelles opérations.</string>
   <string name="help_ExpenseEdit_split_info">Entrez autant de sous-opérations que nécessaire par le menu des sous-opérations (catégorie et transfert). La moitié inférieure de l\'écran affiche la liste des sous-opérations et le montant non encore assigné à une catégorie ou à un transfert. Vous ne pouvez enregistrer l\'opération ventilée tant que le montant de l\'opération n\'a pas été attribué completement.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Sélectionner une catégorie pour la sous-opération.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Affecter un compte de transfert à la sous-opération.</string>

@@ -18,6 +18,9 @@
   <!ENTITY app_name "Mes dépenses">
 ]>
 <resources>
+  <string-array name="whats_new_88">
+    <item>Échéancier des opérations futures et périodiques</item>
+  </string-array>
   <string-array name="whats_new_84">
     <item>Numéro de référence (paiement par chèque) </item>
     <item>Démarrage avec la liste de comptes</item>

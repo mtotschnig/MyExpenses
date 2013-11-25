@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="help_menu_commands">Menü komutları</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Muamele listesi</string>
@@ -12,11 +12,12 @@
   <string name="menu_edit_account_help_text">Güncel hesabın özelliklerini ayarla (başlık, açıklama, başlangıç bakiyesi, hesap türü, döviz, renk).</string>
   <string name="menu_grouping_help_text">Muameleleri gün, hafta, ay, ya da yıla dayanarak gruplandırabilirsiniz. Her grup için gelir, gider ve transferlerin toplamı hesaplanır ve görüntülenir.</string>
   <string name="menu_distribution_help_text">Harcamalarınızın kategori başına dağılımını görüntüleyin. Ayrıca herhangi bir grup başlığına tıklayarak belli bir grup için dağılımı inceleyebilirsiniz.</string>
+  <string name="menu_manage_plans_help_text">Güncel hesap için gelecekteki ve tekrar eden muameleleri tanımlayabileceğiniz ve bunları uygulamanıza, düzenlemenize ve silmenize imkân veren şablonlar ve planlar listesini açar.</string>
   <!--ManageAccounts Accounts list-->
   <string name="help_ManageAccounts_title">Hesap listesi</string>
   <string name="help_ManageAccounts_info">Bu ekran tüm hesapları listeler. Bir liste unsuruna tıklamak o hesabın muamele listesini açar.</string>
   <string name="menu_create_account_help_text">Yeni bir hesap oluşturma formunu açar.</string>
-  <string name="menu_aggregates_help_text">Bu diyalog aynı dövizi paylaşan tüm hesaplar için toplam gelir ve giderleri hesaplar. Bu komut sadece belli bir döviz için asgari iki hesap varsa kullanılabilir (Katkı sürümünü gerektirir).</string>
+  <string name="menu_aggregates_help_text">Agrega diyaloğu aynı para birimini paylaşan tüm hesaplar üzerinde gelir ve gider toplamını hesaplar. Bu komut sadece belli bir para birimi için en az iki hesap varsa kullanılabilir (katkı işlevi).</string>
   <string name="menu_reset_all_help_text">Bu komut hesaplarınızı topluca sıfırlamanıza imkân sağlar. Dışa aktarılacak hiçbir muamele yoksa kullanılamaz (Katkı sürümünü gerektirir).</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme metotlarını (çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerinin tanımlanmasına imkân verir. Bir liste unsuruna tıklamak metot ve hesap türleri arasındaki ilişkiyi değiştirmenize olanak sağlar.</string>
@@ -25,7 +26,9 @@
   <string name="help_ManageParties_info">Bu ekran borçlu/alacaklı alanlarının otomatik tamamlanmasında kullanılan bölümleri listeler. Her unsurun bağlam menüsünü kullanarak bu listedeki öğeleri silmeniz ve düzenlemeniz mümkündür.</string>
   <string name="menu_create_party_help_text">Yeni bir borçlu veya alacaklı isminin belirtilmesi için bir diyalog açar.</string>
   <!--ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_info">Bu ekran hesaplarla gruplandırılmış mevcut şablonları listeler. Normalde şablonlar muamelelerden türetilebilir ancak burada her hesabın bağlam menüsü (muamele veya virmanlar için) yeni şablon oluşturmanıza imkân sağlar. Herhangi bir şablonun bağlam menüsünden onu örneklendirebilir ve ya hemen kaydedebilir ya da kaydetmeden önce düzenleyebilirsiniz. Bir unsura tıklamak onu değiştirmeye imkân verir (Katkı sürümü işlevi).</string>
+  <string name="help_ManageTemplates_info">Bu ekran güncel hesap için mevcut şablonların listesini gösterir. Şablonlar muamelelerin bağlam menüsünden oluşturulabilse de, burada muameleler ve transferler için sıfırdan yeni şablonlar oluşturabilirsiniz. &lt;xliff:g id="html"&gt;&amp;lt;br&amp;gt;&amp;lt;img src="android:ic_menu_my_calendar" /&amp;gt;&lt;/xliff:g&gt; Bu ikon, şablonun gelecekteki ya da tekrar eden örneklenmeleri için bir plan bulunduğunu gösterir. &lt;xliff:g id="html"&gt;&amp;lt;br&amp;gt;&amp;lt;img src="manage_plans_icon" /&amp;gt;&lt;/xliff:g&gt; Bu ikona dokunmak muameleyi örnekler ve muamele listesine döner. &lt;xliff:g id="html"&gt;&amp;lt;br&amp;gt;&lt;/xliff:g&gt; Bir şablonun bağlam menüsünden şablonu örneklendirebilir ve kaydetmeden önce değiştirmeye imkân veren düzenleme formuna girebilirsiniz. Bağlam menüsü ayrıca şablonu düzenlemeye ve silmeye yarayan komutlar da sunar.</string>
+  <string name="menu_create_template_for_transaction_help_text">Muamele için yeni bir şablon oluştur</string>
+  <string name="menu_create_template_for_transfer_help_text">Transfer için yeni bir şablon oluştur</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Bu ekran,herhangi bir hesaptaki tüm muameleler ya da belli bir grup için gelirleriniz ve harcamalarınızın kategori başına dağılımını gösterir.</string>
   <string name="help_ManageCategories_select_info">Kategorileri yönetirken tercihler ekranında yapabileceğiniz işlemlere (oluşturma, düzenleme, silme) ek olarak bu ekranda herhangi bir muameleyi belli bir kategoriyle ilişkilendirebilirsiniz. Güncel muameleyi bir alt kategoriyle ilişkilendirmek için tıklamanız yeterlidir. Bir ana kategoriyle ilişkilendirmek için bağlam menüsünü kullanmanız gerekir.</string>
@@ -44,7 +47,7 @@
   <string name="help_ExpenseEdit_info">Gelir ve gider arası geçiş yapmak için - düğmesine tıklayın, hesap makinesini açmak için de = düğmesine tıklayabilirsiniz.</string>
   <string name="help_ExpenseEdit_transaction_info">Alacaklı (ya da borçlu) alanları girdiğiniz değerleri hatırlar ve gelecekte önerir. Ödeme metodu seçmeye yarayan düğme sadece güncel hesap herhangi bir ödeme metoduyla ilişkilendirilmiş türden ise kullanılabilir. Varsayılan değer olarak sadece banka hesapları ödeme metotları ile ilişkilidir (çek, kredi kartı, mevduat, doğrudan ödeme).</string>
   <string name="help_ExpenseEdit_transfer_info">Transfer hesabını listeden seçin.</string>
-  <string name="help_ExpenseEdit_template_info">Başlık, yeni muameleler oluşturmak için şablon seçtiğinizde söz konusu şablonu belirlemenize imkân verir. </string>
+  <string name="help_ExpenseEdit_template_info">Şablonu benzersiz bir biçimde tanımlayacak bir başlık girin. &lt;xliff:g id="html"&gt;&amp;lt;h2&amp;gt;&lt;/xliff:g&gt;Planlar&lt;xliff:g id="html"&gt;&amp;lt;/h2&amp;gt;&lt;/xliff:g&gt; Bir şablon için yeni bir plan oluşturduğunuzda bu, Takvim uygulaması tarafından yönetilen özel bir takvime ilâve edilir. Planı bir kerelik bir olay olarak ya da takvimin yönetebileceği her tür tekrar eden olay olarak tanımlayabilirsiniz. Planı, plan düğmesinden oluşturabilir, değiştirebilir ve silebilirsiniz ancak bir plan ayarlandığında onu yönetmek için Takvim uygulamasını da kullanabilirsiniz. Bir plan el ile ya da otomatik olarak ayarlanabilir. Otomatik bir planın bir örneklendirmesi oluşturulduğunda muamele oluşturulacak ve size bir bildirim sunulacaktır. Plan el ile şeklinde ayarlandığında da bir bildirim sunulur ki bu size şablonu iptal etme, değiştirme ya da uygulama seçeneği sunar.</string>
   <string name="help_ExpenseEdit_split_info">Transfer ve kategori bölünmüş muameleleri için gerektiği kadar bölümleri menü vasıtasıyla girin. Ekranın alt yarısı bölünmüş kısımların bir listesini ve herhangi bir kategoriye ya da transfere henüz atanmamış meblağı gösterir. Bölünmüş bir muameleyi ancak meblağ tam olarak atandıysa kaydedebilirsiniz.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Bölünmüş kısım için bir kategori seç.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Bölünmüş kısma bir transfer hesabı ata.</string>
