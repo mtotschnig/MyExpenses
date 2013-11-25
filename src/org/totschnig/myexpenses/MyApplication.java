@@ -450,7 +450,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
                       Events.RRULE,
                       Events.TITLE,
                       Events.ALL_DAY,
-                      Events.EVENT_TIMEZONE},
+                      Events.EVENT_TIMEZONE,
+                      Events.DURATION,
+                      Events.DESCRIPTION},
                   null,
                   null,
                   null);
@@ -461,6 +463,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
                 eventValues.put(Events.TITLE, eventCursor.getString(3));
                 eventValues.put(Events.ALL_DAY,eventCursor.getInt(4));
                 eventValues.put(Events.EVENT_TIMEZONE, eventCursor.getString(5));
+                eventValues.put(Events.DURATION, eventCursor.getString(6));
+                eventValues.put(Events.DESCRIPTION, eventCursor.getString(7));
                 Uri uri = cr.insert(Events.CONTENT_URI, eventValues);
                 planId = ContentUris.parseId(uri);
                 Log.i("DEBUG","copied event from old to new" + planId);
