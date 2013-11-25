@@ -165,7 +165,7 @@ public class MyExpenses extends LaunchActivity implements
     if (prev_version == -1) {
       getSupportActionBar().hide();
       if (MyApplication.backupExists()) {
-        if (!mSettings.getBoolean("inRestoreOnInstall", false)) {
+        if (!mSettings.getBoolean("restoreOnInstallAsked", false)) {
           DialogFragment df = MessageDialogFragment.newInstance(R.string.dialog_title_restore_on_install,
               R.string.dialog_confirm_restore_on_install,
               R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true),
@@ -173,9 +173,9 @@ public class MyExpenses extends LaunchActivity implements
           df.setCancelable(false);
           df.show(getSupportFragmentManager(),"RESTORE_ON_INSTALL");
           SharedPreferencesCompat.apply(
-              mSettings.edit().putBoolean("inRestoreOnInstall", true));
+              mSettings.edit().putBoolean("restoreOnInstallAsked", true));
         }
-      } else if (!mSettings.getBoolean("inInitialSetup", false)) {
+      } else {
         initialSetup();
       }
       return;
@@ -192,18 +192,18 @@ public class MyExpenses extends LaunchActivity implements
     setup();
   }
   private void initialSetup() {
-    SharedPreferencesCompat.apply(
-      mSettings.edit().putBoolean("inInitialSetup", true));
     FragmentManager fm = getSupportFragmentManager();
-    fm.beginTransaction()
-      .add(WelcomeDialogFragment.newInstance(),"WELCOME")
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,null, null), "ASYNC_TASK")
-      .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_setup),"PROGRESS")
-      .commit();
+    if (fm.findFragmentByTag("ASYNC_TASK") == null) {
+      fm.beginTransaction()
+        .add(WelcomeDialogFragment.newInstance(),"WELCOME")
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_REQUIRE_ACCOUNT,null, null), "ASYNC_TASK")
+        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_setup),"PROGRESS")
+        .commit();
+    }
   }
   private void setup() {
     newVersionCheck();
-
+    SharedPreferencesCompat.apply(mSettings.edit().remove("restoreOnInstallAsked"));
     Resources.Theme theme = getTheme();
     TypedValue margin = new TypedValue();
     theme.resolveAttribute(R.attr.pageMargin,margin, true);
@@ -413,7 +413,6 @@ public class MyExpenses extends LaunchActivity implements
       }
       return true;
     case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
-      SharedPreferencesCompat.apply(mSettings.edit().remove("inRestoreOnInstall"));
       if ((Boolean) tag) {
         if (MyApplication.backupRestore()) {
           //if we have successfully restored, we relaunch in order to force password check if needed
@@ -636,7 +635,6 @@ public class MyExpenses extends LaunchActivity implements
     if (taskId == TaskExecutionFragment.TASK_REQUIRE_ACCOUNT) {
       setCurrentAccount(((Account) o).id);
       getSupportActionBar().show();
-      SharedPreferencesCompat.apply(mSettings.edit().remove("inInitialSetup"));
       setup();
     }
   }

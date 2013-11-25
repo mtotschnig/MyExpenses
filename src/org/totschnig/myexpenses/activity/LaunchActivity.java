@@ -2,12 +2,8 @@ package org.totschnig.myexpenses.activity;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
-import java.util.ArrayList;
-
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
-import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -16,7 +12,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.Build;
 import android.util.Log;
 
 public abstract class LaunchActivity extends ProtectedFragmentActivity {

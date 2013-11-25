@@ -165,7 +165,7 @@ public class TaskExecutionFragment extends Fragment {
         Transaction.getInstanceFromDb(id[0]).saveAsNew();
         return null;
       case TASK_INSTANTIATE_TRANSACTION:
-         t = Transaction.getInstanceFromDb(id[0]);
+        t = Transaction.getInstanceFromDb(id[0]);
         if (t instanceof SplitTransaction)
           ((SplitTransaction) t).prepareForEdit();
         return t;

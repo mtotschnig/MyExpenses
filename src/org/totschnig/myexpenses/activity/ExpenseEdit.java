@@ -26,8 +26,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
@@ -50,21 +48,16 @@ import com.android.calendar.EventRecurrenceFormatter;
 import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendarcommon2.EventRecurrence;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
 import android.app.NotificationManager;
 import android.app.TimePickerDialog;
-import android.content.ContentResolver;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -202,10 +195,12 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
       }
       FragmentManager fm = getSupportFragmentManager();
-      fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(taskId,objectId, null), "ASYNC_TASK")
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
-        .commit();
+      if (fm.findFragmentByTag("ASYNC_TASK") == null) {
+        fm.beginTransaction()
+          .add(TaskExecutionFragment.newInstance(taskId,objectId, null), "ASYNC_TASK")
+          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
+          .commit();
+      }
     } else {
       mOperationType = extras.getInt("operationType");
       Long accountId = extras.getLong(KEY_ACCOUNTID);
