@@ -37,7 +37,7 @@ public class PlanExecutor extends IntentService {
 
   @Override
   public void onHandleIntent(Intent intent) {
-    Log.i("DEBUG","Inside plan executor onHandleIntent");
+    Log.i(MyApplication.TAG,"started PlanExecutor");
     String plannerCalendarId = MyApplication.getInstance().requirePlanner();
     if (plannerCalendarId.equals("-1")) {
       return;
@@ -47,9 +47,9 @@ public class PlanExecutor extends IntentService {
         MyApplication.PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP, 0);
     long now = System.currentTimeMillis();
     if (lastExecutionTimeStamp == 0) {
-      Log.i("DEBUG", "first call, nothting to do");
+      Log.i(MyApplication.TAG, "PlanExecutor started first time, nothing to do");
     } else {
-      Log.i("DEBUG", String.format(
+      Log.i(MyApplication.TAG, String.format(
           "executing plans from %d to %d",
           lastExecutionTimeStamp,
           now));
@@ -79,10 +79,10 @@ public class PlanExecutor extends IntentService {
           Long instanceId = cursor.getLong(1);
           //2) check if they are part of a plan linked to a template
           //3) execute the template
-          Log.i("DEBUG",String.format("found instance %d of plan %d",instanceId,planId));
+          Log.i(MyApplication.TAG,String.format("found instance %d of plan %d",instanceId,planId));
           Template template = Template.getInstanceForPlan(planId);
           if (template != null) {
-            Log.i("DEBUG",String.format("belongs to template %d",template.id));
+            Log.i(MyApplication.TAG,String.format("belongs to template %d",template.id));
             Notification notification;
             int notificationId = instanceId.hashCode();
             PendingIntent resultIntent;
@@ -142,7 +142,6 @@ public class PlanExecutor extends IntentService {
               notification = builder.build();
               notification.flags |= Notification.FLAG_NO_CLEAR;
             }
-            Log.i("DEBUG","notifying with id " + notificationId);
             mNotificationManager.notify(notificationId, notification);
           }
           cursor.moveToNext();

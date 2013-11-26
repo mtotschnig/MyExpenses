@@ -695,7 +695,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
    */
   private void deleteUnusedPlan() {
     if (mPlanId != null && !mPlanId.equals(((Template) mTransaction).planId)) {
-      Log.i("DEBUG","deleting unused plan");
+      Log.i(MyApplication.TAG,"deleting unused plan " + mPlanId);
       Plan.delete(mPlanId);
     }
   }
@@ -804,7 +804,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     case TaskExecutionFragment.TASK_NEW_PLAN:
       mPlanId = (Long) o;
       if (mPlanId == null) {
-        Log.i("DEBUG", "Could not create new plan");
         MessageDialogFragment.newInstance(R.string.dialog_title_planner_setup_info,
             R.string.planner_setup_info,R.id.SETTINGS_COMMAND,null)
           .show(getSupportFragmentManager(),"CALENDAR_SETUP_INFO");
@@ -1028,10 +1027,13 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     //ACTION_VIEW expects to get a range http://code.google.com/p/android/issues/detail?id=23852
     intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, mPlan.dtstart);
     intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan.dtstart);
-    if (Utils.isIntentAvailable(this, intent))
+    if (Utils.isIntentAvailable(this, intent)) {
+      //TODO on the Xperia X8 the calendar app started with this intent crashes
+      //can we catch such a crash and inform the user?
       startActivityForResult (intent, ACTIVITY_EDIT_EVENT);
-    else
-      Log.i("DEBUG","could not launch event view in calendar");
+    } else {
+      Log.w(MyApplication.TAG,"no intent found for viewing event in calendar");
+    }
   }
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
