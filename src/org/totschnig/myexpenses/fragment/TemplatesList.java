@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.fragment;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -30,7 +31,10 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
+
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class TemplatesList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -73,6 +77,15 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
     lv.setEmptyView(v.findViewById(R.id.empty));
     //requires using activity (ManageTemplates) to implement OnChildClickListener
     //lv.setOnChildClickListener((OnChildClickListener) getActivity());
+    lv.setOnItemClickListener(new OnItemClickListener()
+    {
+         @Override
+         public void onItemClick(AdapterView<?> a, View v,int position, long id)
+         {
+           TemplateDetailFragment.newInstance(id)
+           .show(getActivity().getSupportFragmentManager(), "TEMPLATE_DETAIL");
+         }
+    });
     registerForContextMenu(lv);
     return v;
   }

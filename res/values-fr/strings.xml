@@ -296,6 +296,7 @@
   <string name="sum_income">Revenus</string>
   <string name="sum_expenses">Dépenses</string>
   <string name="sum_transfer">Transferts</string>
+  <string name="template">Modèle</string>
   <string name="template_create_success">Modèle \"%1$s\" créé avec succès</string>
   <string name="template_title_exists">Un modèle avec le titre \"%1$s\" existe déjà</string>
   <string name="thank_you">Merci de votre soutien!</string>

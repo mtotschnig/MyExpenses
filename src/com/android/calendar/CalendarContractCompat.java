@@ -22,23 +22,20 @@ import android.provider.BaseColumns;
 import android.provider.CalendarContract;
 
 @SuppressLint({ "NewApi", "InlinedApi" })
-public final class CalendarContractCompat {    
+public final class CalendarContractCompat {
     /**
      * True if we have to use the legacy API found on 2.x and 3.x
      */
     public static final boolean legacyApi = android.os.Build.VERSION.SDK_INT<14;
 
-    /**
-     * This authority is used for writing to or querying from the calendar
-     * provider. Note: This is set at first run and cannot be changed without
-     * breaking apps that access the provider.
-     */
     public static String AUTHORITY,
       EXTRA_EVENT_BEGIN_TIME,
       EXTRA_EVENT_END_TIME,
       EXTRA_EVENT_ALL_DAY,
       CALLER_IS_SYNCADAPTER,
-      ACCOUNT_TYPE_LOCAL;
+      ACCOUNT_TYPE_LOCAL,
+      ACTION_HANDLE_CUSTOM_EVENT,
+      EXTRA_CUSTOM_APP_URI;
     public static Uri CONTENT_URI;
     static {
         if (legacyApi) {
@@ -61,6 +58,10 @@ public final class CalendarContractCompat {
           CONTENT_URI = CalendarContract.CONTENT_URI;
           CALLER_IS_SYNCADAPTER = CalendarContract.CALLER_IS_SYNCADAPTER;
           ACCOUNT_TYPE_LOCAL = CalendarContract.ACCOUNT_TYPE_LOCAL;
+        }
+        if (android.os.Build.VERSION.SDK_INT>=16) {
+          ACTION_HANDLE_CUSTOM_EVENT = CalendarContract.ACTION_HANDLE_CUSTOM_EVENT;
+          EXTRA_CUSTOM_APP_URI = CalendarContract.EXTRA_CUSTOM_APP_URI;
         }
     }
 
@@ -149,6 +150,8 @@ public final class CalendarContractCompat {
           EVENT_TIMEZONE,
           HAS_ALARM,
           RRULE,
+          CUSTOM_APP_PACKAGE,
+          CUSTOM_APP_URI,
           ALL_DAY;
       public static Uri CONTENT_URI;
       static {
@@ -178,6 +181,10 @@ public final class CalendarContractCompat {
           RRULE = CalendarContract.Events.RRULE;
           ALL_DAY = CalendarContract.Events.ALL_DAY;
           CONTENT_URI = CalendarContract.Events.CONTENT_URI;
+        }
+        if (android.os.Build.VERSION.SDK_INT>=16) {
+          CUSTOM_APP_PACKAGE = CalendarContract.Events.CUSTOM_APP_PACKAGE;
+          CUSTOM_APP_URI = CalendarContract.Events.CUSTOM_APP_URI;
         }
       }
     }

@@ -316,6 +316,7 @@
   <string name="sum_income">Income</string>
   <string name="sum_expenses">Expenses</string>
   <string name="sum_transfer">Transfers</string>
+  <string name="template">Template</string>
   <string name="template_create_success">Template \"%1$s\" created successfully</string>
   <string name="template_title_exists">A template with title \"%1$s\" already exists</string>
   <string name="thank_you">Thank you for your support!</string>
