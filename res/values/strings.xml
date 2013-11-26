@@ -39,9 +39,6 @@
   <string name="comment">Notes</string>
   <string name="contrib_feature_accounts_unlimited_description">The number of accounts you can create with &lt;i>&app_name;&lt;/i> is limited to 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Unlimited number of accounts</string>
-  <string name="contrib_feature_plans_unlimited_description">The number of plans you can create with &lt;i>&app_name;&lt;/i> is limited to 3.</string>
-  <string name="contrib_feature_plans_unlimited_label">Unlimited number of plans</string>
-  <string name="contrib_feature_distribution_label">Distribution of transactions per category</string>
   <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
   <string name="contrib_feature_distribution_label">Distribution of transactions per category</string>
   <string name="contrib_feature_plans_unlimited_description">The number of plans you can create with &lt;i>&app_name;&lt;/i> is limited to 3.</string>
