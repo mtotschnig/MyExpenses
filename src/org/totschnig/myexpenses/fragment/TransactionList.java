@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
@@ -247,9 +248,9 @@ public class TransactionList extends BudgetListFragment implements
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
       if (checkSplitPartTransfer(info.position)) {
-        fm.beginTransaction()
-          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,info.id, null), "ASYNC_TASK")
-          .commit();
+        MessageDialogFragment.newInstance(R.string.dialog_title_warning_delete_transaction,
+            R.string.warning_delete_transaction,R.id.DELETE_COMMAND_DO,info.id)
+          .show(ctx.getSupportFragmentManager(),"DELETE_TRANSACTION");
       }
       return true;
     case R.id.CLONE_TRANSACTION_COMMAND:

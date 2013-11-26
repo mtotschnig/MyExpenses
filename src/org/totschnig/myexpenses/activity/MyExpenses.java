@@ -441,6 +441,10 @@ public class MyExpenses extends LaunchActivity implements
       i.putExtra(KEY_ACCOUNTID, mAccountId);
       startActivity(i);
       return true;
+    case R.id.DELETE_COMMAND_DO:
+      getSupportFragmentManager().beginTransaction()
+      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,(Long)tag, null), "ASYNC_TASK")
+      .commit();
     }
     return super.dispatchCommand(command, tag);
   }
