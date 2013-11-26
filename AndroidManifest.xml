@@ -88,10 +88,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ManageTemplates">
-             <intent-filter>  
-              <action android:name="myexpenses.intent.manage.templates"/>
-              <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+        <intent-filter>
+            <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <data android:mimeType="vnd.android.cursor.item/event" />
+         </intent-filter>
         </activity>
         <activity android:name=".activity.ManageMethods">
              <intent-filter>  
