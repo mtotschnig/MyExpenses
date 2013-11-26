@@ -813,8 +813,13 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
           mManager.initLoader(EVENT_CURSOR, null, ExpenseEdit.this);
       }
       break;
-    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
+      if (o==null) {
+        Toast.makeText(this, R.string.save_transaction_template_deleted,Toast.LENGTH_LONG).show();
+        finish();
+        return;
+      }
+    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
       mTransaction = (Transaction) o;
       if (mTransaction instanceof SplitTransaction)

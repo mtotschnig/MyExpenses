@@ -172,7 +172,13 @@ public class TaskExecutionFragment extends Fragment {
       case TASK_INSTANTIATE_TEMPLATE:
         return Template.getInstanceFromDb(id[0]);
       case TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
-        return Transaction.getInstanceFromTemplate(id[0]);
+        //when we are called from a notification,
+        //the template could have been deleted in the meantime 
+        try {
+          return Transaction.getInstanceFromTemplate(id[0]);
+        } catch (DataObjectNotFoundException e1) {
+          return null;
+        }
       case TASK_NEW_FROM_TEMPLATE:
         Transaction.getInstanceFromTemplate(id[0]).save();
         return null;
