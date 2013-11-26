@@ -39,6 +39,8 @@
   <string name="contrib_feature_accounts_unlimited_label">Unbegrenzte Anzahl von Konten</string>
   <string name="contrib_feature_aggregate_label">Gesamtsumme über mehrere Konten</string>
   <string name="contrib_feature_distribution_label">Verteilung der Buchungen auf Kategorien</string>
+  <string name="contrib_feature_plans_unlimited_description">Mit &lt;i>&app_name;&lt;/i> können Sie bis zu 3 Pläne anlegen.</string>
+  <string name="contrib_feature_plans_unlimited_label">Unbegrenzte Anzahl von Plänen</string>
   <string name="contrib_feature_reset_all_label">Alle Konten zurücksetzen</string>
   <string name="contrib_feature_security_question_label">Sicherheitsfrage</string>
   <string name="contrib_feature_split_transaction_label">Splitbuchung</string>
@@ -74,6 +76,7 @@
   <string name="dialog_security_question">Frage</string>
   <string name="dialog_security_answer">Antwort</string>
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
+  <string name="dialog_title_planner_setup_info">Einrichtung des Kalenders erforderlich</string>
   <string name="dialog_title_restore_on_install">Backup vorhanden</string>
   <string name="dialog_title_select_account">Konto auswählen</string>
   <string name="dialog_title_select_grouping">Gruppierung auswählen</string>
@@ -81,6 +84,8 @@
   <string name="dialog_title_select_template">Vorlage auswählen</string>
   <string name="dialog_title_template_title">Titel festlegen</string>
   <string name="dialog_title_warning_delete_account">Konto löschen?</string>
+  <string name="dialog_title_warning_delete_template">Vorlage löschen?</string>
+  <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>
   <string name="dialog_title_welcome">Willkommen!</string>
   <string name="donate">Spenden</string>
   <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal, Flattr oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Contrib-Schlüssel an.</string>
@@ -129,10 +134,12 @@
   <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: Premium-Funktionen wurden freigeschaltet.</string>
   <string name="licence_validation_failure">Lizenz-Schlüssel konnte nicht validiert werden.</string>
   <string name="menu_aggregates">Gesamt</string>
+  <string name="menu_apply">Anwenden</string>
   <string name="menu_back">Zurück</string>
   <string name="menu_backup">Sicherungskopie</string>
   <string name="menu_clone_transaction">Klonen</string>
   <string name="menu_contrib">Beitragen</string>
+  <string name="menu_create">Erstellen</string>
   <string name="menu_create_account">Neues Konto</string>
   <string name="menu_create_method">Neue Zahlungsweise</string>
   <string name="menu_create_party">Neue Partei</string>
@@ -164,6 +171,7 @@
   <string name="menu_forward">Weiter</string>
   <string name="menu_grouping">Gruppierung</string>
   <string name="menu_help">Hilfe</string>
+  <string name="menu_manage_plans">Vorlagen und Pläne</string>
   <string name="menu_move_transaction">Verschieben</string>
   <string name="menu_reset">Exportieren und zurücksetzen</string>
   <string name="menu_reset_all">Alle exportieren und zurücksetzen</string>
@@ -204,6 +212,12 @@
   <string name="password_security_answer_not_valid">Falsche Antwort. Versuchen Sie es erneut!</string>
   <string name="payee">Empfänger</string>
   <string name="payer">Zahler</string>
+  <string name="plan">Plan</string>
+  <string name="plan_automatic">automatisch</string>
+  <string name="plan_calendar_name">Meine Ausgaben Planer</string>
+  <string name="plan_execution_canceled">Durchführung des Plans abgebrochen</string>
+  <string name="plan_manual">manuell</string>
+  <string name="planner_setup_info">Bitte wählen Sie in den Einstellungen den Kalender aus, in dem Pläne gespeichert werden sollen.</string>
   <string name="pm_cheque">Scheck</string>
   <string name="pm_creditcard">Kreditkarte</string>
   <string name="pm_deposit">Einzahlung</string>
@@ -246,6 +260,8 @@
   <string name="pref_perform_share_summaryOff">Die Datei wird nicht nach jedem Export versendet?</string>
   <string name="pref_perform_protection_title">Passwortschutz</string>
   <string name="pref_perform_protection_summary">Sollen das Starten und Wiederaufnehmen der App abgesichert werden?</string>
+  <string name="pref_planning_calendar_title">Planer</string>
+  <string name="pref_planning_calendar_summary">Wählen Sie den Kalender aus, in dem Pläne für zukünftige und wiederkehrende Buchungen gespeichert werden sollen.</string>
   <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
   <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
@@ -258,6 +274,8 @@
   <string name="pref_send_feedback_title">Feedback senden</string>
   <string name="pref_share_target_title">Upload URL</string>
   <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden Apps wählen wollen (Email, Dropbox, Google Docs, &#8230;) oder eine URL in einer der unterstützten Schemen angeben</string>
+  <string name="pref_shortcut_account_list_title">\'Kontenliste\' Verknüpfung</string>
+  <string name="pref_shortcut_added">Verknüpfung dem Home Screen hinzugefügt</string>
   <string name="pref_shortcut_summary">Fügt den Shortcut dem Home Screen hinzu</string>
   <string name="pref_ui_theme_title">Stil</string>
   <string name="pref_ui_theme_dark">dunkel</string>
@@ -275,6 +293,7 @@
   <string name="restore_preferences_failure">Fehler bei der Wiederherstellung der Einstellungen</string>
   <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
   <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden</string>
+  <string name="save_transaction_template_deleted">Vorlage wurde gelöscht</string>
   <string name="save_transaction_from_template_success">Neue Buchung aus Vorlage wurde erfolgreich gespeichert</string>
   <string name="save_transaction_and_new_success">Erfolgreich gespeichert</string>
   <string name="select">Auswählen</string>
@@ -292,6 +311,7 @@
   <string name="sum_income">Einnahmen</string>
   <string name="sum_expenses">Ausgaben</string>
   <string name="sum_transfer">Umbuchungen</string>
+  <string name="template">Vorlage</string>
   <string name="template_create_success">Vorlage \"%1$s\" erfolgreich angelegt</string>
   <string name="template_title_exists">Es existiert bereits eine Vorlage mit dem Titel \"%1$s\"</string>
   <string name="thank_you">Danke für Ihre Unterstützung!</string>
@@ -306,6 +326,8 @@
   <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. &continue;</string>
   <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Das bestehende Backup wird gelöscht. &continue;</string>
   <string name="warning_delete_account">Dieses Konto wird mit all seinen Buchungen gelöscht. &continue;</string>
+  <string name="warning_delete_template">Diese Vorlage (und ein etwaig dafür angelegter Plan) wird gelöscht. &continue;</string>
+  <string name="warning_delete_transaction">Diese Buchung wird gelöscht. &continue;</string>
   <string name="warning_password_no_contrib">Wenn Sie ein Passwort setzen, passen Sie auf dieses nicht zu vergessen. Sie können dieses nur zurücksetzen, wenn Sie eine Sicherheitsfrage setzen (benötigt &app_name; Contrib).</string>
   <string name="warning_password_contrib">Durch das Setzen einer Sicherheitsfrage können Sie den Passwortschutz aufheben, sollten Sie das Passwort vergessen.</string>
   <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.	Dies kann nicht rückgängig gemacht werden.</string>

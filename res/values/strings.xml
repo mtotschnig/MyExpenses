@@ -143,6 +143,7 @@
   <string name="menu_backup">Backup</string>
   <string name="menu_clone_transaction">Clone</string>
   <string name="menu_contrib">Contribute</string>
+  <!-- Currently used on button for creating a new plan -->
   <string name="menu_create">Create</string>
   <string name="menu_create_account">New account</string>
   <string name="menu_create_main_cat">New main category</string>
@@ -280,8 +281,8 @@
   <string name="pref_share_target_title">Upload URL</string>
   <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes</string>
   <string name="pref_shortcut_account_list_title">\'Account list\' shortcut</string>
-  <string name="pref_shortcut_summary">Add the shortcut to Home Screen</string>
   <string name="pref_shortcut_added">Shortcut has been added to Home Screen</string>
+  <string name="pref_shortcut_summary">Add the shortcut to Home Screen</string>
   <string name="pref_security_question_title">Security question</string>
   <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password. Requires &app_name; Contrib.</string>
   <string name="pref_send_feedback_title">Send feedback</string>

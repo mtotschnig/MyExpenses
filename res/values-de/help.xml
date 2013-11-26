@@ -28,6 +28,7 @@
   <string name="menu_edit_account_help_text">Einstellungen des aktuellen Kontos verändern (Titel, Beschreibung, Anfangssaldo, Währung, Farbe).</string>
   <string name="menu_grouping_help_text">Buchungen können pro Tag, Woche, Monat oder Jahr gruppiert werden. Für jede Gruppe werden die Summen der Einnahmen, Ausgaben und Umbuchungen berechnget und angezeigt.</string>
   <string name="menu_distribution_help_text">Darstellung der Verteilung Ihrer Buchungen anhand der Kategorien. Sie können auch auf die Kopfzeile einer Gruppe klicken, um die Verteilung nur für einen Zeitraum anzuzeigen.</string>
+  <string name="menu_manage_plans_help_text">Öffnet die Liste der Vorlagen und Pläne für das aktuelle Konto. Sie können Vorlagen anwenden, verändern oder löschen, und auch Pläne für zukünftige und wiederkehrende Buchungen anlegen.</string>
 
   <!-- ManageAccounts Accounts list -->
   <string name="help_ManageAccounts_title">Kontenliste</string>
@@ -45,8 +46,9 @@
   <string name="menu_create_party_help_text">Öffnet das Formular für die Erfassung einer neuen Partei.</string>
 
   <!-- ManageTemplates -->
-  <string name="help_ManageTemplates_info">Hier haben Sie Zugriff auf eine nach Konten gruppierte Liste der Vorlagen. Vorlagen können in der Buchungsliste aus einer Buchung abgeleitet werden. Hier können Sie diese auch für das jeweilige Konto über dessen Kontextmenü neu anlegen (für Buchungen und Umbuchungen). Über das Kontextmenü einer Vorlage können Sie aus dieser eine neue Buchung erzeugen, und entweder gleich abspeichern, oder zunächst ein Formular befüllen, das Sie noch vor dem Speichern verändern können. Klick auf eine Vorlage erlaubt das Formular zu verändern (Premium-Funktion).</string>
-
+  <string name="help_ManageTemplates_info">Hier werden die Vorlagen für das aktuelle Konto aufgelistet. Während Vorlagen auch von bestehenden Buchungen abgeleitet werden können (über deren Kontextmenü), können Sie hier neue Vorlagen von Grund auf festlegen. <xliff:g id="html">&lt;br&gt;&lt;img src="android:ic_menu_my_calendar" /&gt;</xliff:g>Dieses Icon zeigt an, dass es für diese Vorlage ein Plan definiert ist. <xliff:g id="html">&lt;br&gt;&lt;img src="manage_plans_icon" /&gt;</xliff:g> Wenn Sie auf dieses Icon klicken, wird die Vorlage angewendet und die Liste geschlossen.<xliff:g id="html">&lt;br&gt;</xliff:g>Das Kontextmenü der Vorlagen erlaubt, die Buchung vor dem Speichern zu verändern, und enthält auch den Befehl zum Löschen.</string>
+  <string name="menu_create_template_for_transaction_help_text">Eine neue Vorlage für Buchungen anlegen</string>
+  <string name="menu_create_template_for_transfer_help_text">Eine neue Vorlage für Umbuchungen anlegen</string>
   <!-- ManageCategories -->
   <string name="help_ManageCategories_distribution_info">Dieser Bildschirm zeigt die Verteilung Ihrer Ausgaben und Einnahmen anhand der Kategorien, für alle Buchungen eines Kontos, oder nur für einen bestimmten Zeitraum.</string>
   <string name="help_ManageCategories_select_info">Zusätzlich zu den Aktionen, die auch in der Kategorienverwaltung in den Einstellungen möglich sind (Erzeugen, Verändern, Löschen), können Sie hier eine Buchung zu einer Kategorie zuordnen.  Die Zuordnung einer Unterkategorie zur aktuellen Buchung erfolgt durch kurzen Klick. Die Zuordnung einer Hauptkategorie ist durch das Kontextmenü möglich.</string>
@@ -66,7 +68,7 @@
   <string name="help_ExpenseEdit_info">Klicken Sie auf die Schaltfläche - um zwischen Ausgabe und Einnahme zu wechseln. auf die = Schaltfläche um einen Taschenrechner zu öffnen.</string>
   <string name="help_ExpenseEdit_transaction_info">Das Feld für die Eingabe von Empfänger (bzw. Zahler) merkt sich die von Ihnen eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld vor. Zahlungsweisen können nur dann einer Buchung zugeordnet werden, wenn der Typ des aktuellen Kontos mit Zahlungsweisen verknüpft ist. Standardmäßig sind nur Bankkonten mit Zahlungsweisen verknüpft (Scheck, Kreditkarte, Einzahlung, Abbuchung).</string>
   <string name="help_ExpenseEdit_transfer_info">Wählen Sie das Konto für die Umbuchung aus dem Aufklappmenü.</string>
-  <string name="help_ExpenseEdit_template_info">Anhand des Titels können Sie die Vorlage auswählen, wenn Sie von dieser eine neue Buchung ableiten.</string>
+  <string name="help_ExpenseEdit_template_info">Sie müssen der Vorlag einen eindeutigen Titel geben.<xliff:g id="html">&lt;h2&gt;</xliff:g>Pläne<xliff:g id="html">&lt;/h2&gt;</xliff:g>Wenn Sie für eine Vorlage einen Plan definieren, wird dieser in einem privaten Kalender Ihrer Kalender App gespeichert. Ein Plan kann als einmaliges Ereignis oder mit jeder im Kalender zur Verfügung stehenden Art von Wiederholung definiert werden. Die Plan-Schaltfläche erlaubt den Plan anzulegen, zu verändern, zu löschen. Sobald der Plan angelegt ist, kann er auch direkt mit der Kalender App verwaltet werden. Pläne können als automatisch oder manuell eingerichtet werden. Beim automatischen Plan, erhalten Sie bei der Durchführung eine Benachrichtigung. Beim manuellen Plan erhalten Sie auch eine Benachrichtigung, die es Ihnen erlaubt die Durchführung abzubrechen, zu bestätigen, oder zu verändern.</string>
   <string name="help_ExpenseEdit_split_info">Fügen Sie beliebig viele Teilbeträge (für Kategorien und Umbuchungen) mittels der Menübefehle ein. In der unteren Hälfte des Bildschirms werden die Teilbeträge aufgelistet, und der Restbetrag angezeigt, der noch nicht zugeordnet wurde. Die Split-Buchung kann nur gespeichert werden, wenn die Summe der Teilbeträge genau dem Buchungsbetrag entspricht.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Wählen Sie eine Kategorie für den Teilbetrag aus.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Wählen Sie das Konto aus, an den dieser Teilbetrag übertragen werden soll.</string>
@@ -77,8 +79,8 @@
   <string name="menu_create_split_part_transfer_help_text">Öffnet ein Formular für die Übertragung eines Teilbetrages auf ein anderes Konto.</string>
 
   <!-- AccountEdit -->
-    <string name="help_AccountEdit_title">Formular für Konten</string>
-    <string name="help_AccountEdit_info">Konten werden anhand Ihrer Bezeichung identifiziert. Die Beschreibung dient nur informativen Zwecken. Die Währung kann einfach aus einer Liste ausgewählt werden. Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto, Kreditkonto. Der Typ bestimmt, welche Zahlungsweisen den Buchungen des Kontos zugeordnet werden können. Zahlungsweisen werden unter Einstellungen -> Verwalten -> Zahlungsweisen konfiguriert.</string>
+  <string name="help_AccountEdit_title">Formular für Konten</string>
+  <string name="help_AccountEdit_info">Konten werden anhand Ihrer Bezeichung identifiziert. Die Beschreibung dient nur informativen Zwecken. Die Währung kann einfach aus einer Liste ausgewählt werden. Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto, Kreditkonto. Der Typ bestimmt, welche Zahlungsweisen den Buchungen des Kontos zugeordnet werden können. Zahlungsweisen werden unter Einstellungen -> Verwalten -> Zahlungsweisen konfiguriert.</string>
   <!-- MethodEdit -->
   <string name="help_MethodEdit_title">Formular für Zahlungsweisen</string>
   <string name="help_MethodEdit_info">Auf diesem Bildschirm wählen Sie die Kontotypen, bei denen eine Zahlungsweise zur Anwendung kommt. Die Bezeichnung is bei den vordefinierten Zahlungsweisen nicht veränderbar. Der Typ einer Zahlungsweise bestimmt, ob diese nur für Augaben, Einnahmen oder beides zur Anwendung kommt.</string>
