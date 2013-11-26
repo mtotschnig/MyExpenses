@@ -86,6 +86,7 @@
   <string name="dialog_title_select_template">Pick a template</string>
   <string name="dialog_title_template_title">Set the title</string>
   <string name="dialog_title_warning_delete_account">Delete account?</string>
+  <string name="dialog_title_warning_delete_template">Delete template?</string>
   <string name="dialog_title_welcome">Welcome!</string>
   <string name="donate">Donate</string>
   <string name="donate_dialog_text">Please donate via PayPal, Flattr or Bitcoin, and then request a contrib key from the settings screen.</string>
@@ -331,6 +332,7 @@
   <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. &continue;</string>
   <string name="warning_delete_account">This account will be deleted with all its transactions. &continue;</string>
+  <string name="warning_delete_template">This template (and any associated plan) will be deleted. &continue;</string>
   <string name="warning_password_no_contrib">If you set a password, take care not to forget it. You will not be able to recover it, unless you set a security question (Requires &app_name; Contrib).</string>
   <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
   <string name="warning_reset_account">If you proceed, all transactions of this account are deleted from the database and cannot be restored.</string>

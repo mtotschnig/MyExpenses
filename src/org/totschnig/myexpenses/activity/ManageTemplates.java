@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.Account;
@@ -78,13 +79,21 @@ public class ManageTemplates extends ProtectedFragmentActivity {
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
-    if (command == R.id.INSERT_TA_COMMAND || command == R.id.INSERT_TRANSFER_COMMAND) {
+    switch(command) {
+    case R.id.INSERT_TA_COMMAND:
+    case R.id.INSERT_TRANSFER_COMMAND:
       Intent intent = new Intent(this, ExpenseEdit.class);
       intent.putExtra("operationType",
           command == R.id.INSERT_TA_COMMAND ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
       intent.putExtra("newTemplate", true);
       intent.putExtra(DatabaseConstants.KEY_ACCOUNTID,mAccountId);
       startActivity(intent);
+      return true;
+    case R.id.DELETE_COMMAND_DO:
+      FragmentManager fm = getSupportFragmentManager();
+      fm.beginTransaction()
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TEMPLATE,(Long)tag, null), "ASYNC_TASK")
+        .commit();
       return true;
     }
     return super.dispatchCommand(command, tag);
@@ -101,10 +110,9 @@ public class ManageTemplates extends ProtectedFragmentActivity {
     Intent intent;
     switch(item.getItemId()) {
     case DELETE_TEMPLATE:   
-      FragmentManager fm = getSupportFragmentManager();
-      fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TEMPLATE,info.id, null), "ASYNC_TASK")
-        .commit();
+      MessageDialogFragment.newInstance(R.string.dialog_title_warning_delete_template,
+          R.string.warning_delete_template,R.id.DELETE_COMMAND_DO,info.id)
+        .show(getSupportFragmentManager(),"DELETE_TEMPLATE");
       return true;
     case CREATE_INSTANCE_EDIT:
       intent = new Intent(this, ExpenseEdit.class);
