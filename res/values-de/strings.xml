@@ -258,6 +258,7 @@
   <string name="pref_send_feedback_title">Feedback senden</string>
   <string name="pref_share_target_title">Upload URL</string>
   <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden Apps wählen wollen (Email, Dropbox, Google Docs, &#8230;) oder eine URL in einer der unterstützten Schemen angeben</string>
+  <string name="pref_shortcut_summary">Fügt den Shortcut dem Home Screen hinzu</string>
   <string name="pref_ui_theme_title">Stil</string>
   <string name="pref_ui_theme_dark">dunkel</string>
   <string name="pref_ui_theme_light">hell</string>

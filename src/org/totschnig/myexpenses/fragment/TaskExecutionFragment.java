@@ -16,13 +16,24 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import java.io.Serializable;
+import java.util.TimeZone;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.provider.DbUtils;
+
+import com.android.calendar.CalendarContractCompat.Events;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,6 +43,7 @@ import android.support.v4.app.Fragment;
  * itself across configuration changes.
  * It handles several task that each operate on a single
  * db object identified by its row id
+ * 
  */
 public class TaskExecutionFragment extends Fragment {
   public static final int TASK_CLONE = 1;
@@ -48,7 +60,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_MOVE = 12;
   public static final int TASK_NEW_FROM_TEMPLATE = 13;
   public static final int TASK_DELETE_CATEGORY = 14;
-  public static final int TASK_GET_LAST_PLAN = 16;
+  public static final int TASK_NEW_PLAN = 15;
 
   /**
    * Callback interface through which the fragment will report the
@@ -68,14 +80,14 @@ public class TaskExecutionFragment extends Fragment {
 
   private TaskCallbacks mCallbacks;
   private GenericTask mTask;
-  public static TaskExecutionFragment newInstance(int taskId, Long objectId, Long targetId) {
+  public static TaskExecutionFragment newInstance(int taskId, Long objectId, Serializable extra) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt("taskId", taskId);
     if (objectId != null)
       bundle.putLong("objectId", objectId);
-    if (targetId != null)
-      bundle.putLong("targetId", targetId);
+    if (extra != null)
+      bundle.putSerializable("extra", extra);
     f.setArguments(bundle);
     return f;
   }
@@ -105,8 +117,8 @@ public class TaskExecutionFragment extends Fragment {
 
     // Create and execute the background task.
     Bundle args = getArguments();
-    mTask = new GenericTask(args.getInt("taskId"));
-    mTask.execute(args.getLong("objectId"),args.getLong("targetId"));
+    mTask = new GenericTask(args.getInt("taskId"),args.getSerializable("extra"));
+    mTask.execute(args.getLong("objectId"));
   }
 
   /**
@@ -127,8 +139,10 @@ public class TaskExecutionFragment extends Fragment {
    */
   private class GenericTask extends AsyncTask<Long, Void, Object> {
     private int mTaskId;
-    public GenericTask(int taskId) {
+    private Serializable mExtra;
+    public GenericTask(int taskId,Serializable extra) {
       mTaskId = taskId;
+      mExtra = extra;
     }
 
     @Override
@@ -143,7 +157,6 @@ public class TaskExecutionFragment extends Fragment {
      * directly from the background thread, as this could result
      * in a race condition.
      */
-    @SuppressLint("NewApi")
     @Override
     protected Object doInBackground(Long... id) {
       Transaction t;
@@ -152,14 +165,20 @@ public class TaskExecutionFragment extends Fragment {
         Transaction.getInstanceFromDb(id[0]).saveAsNew();
         return null;
       case TASK_INSTANTIATE_TRANSACTION:
-         t = Transaction.getInstanceFromDb(id[0]);
+        t = Transaction.getInstanceFromDb(id[0]);
         if (t instanceof SplitTransaction)
           ((SplitTransaction) t).prepareForEdit();
         return t;
       case TASK_INSTANTIATE_TEMPLATE:
         return Template.getInstanceFromDb(id[0]);
       case TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
-        return Transaction.getInstanceFromTemplate(id[0]);
+        //when we are called from a notification,
+        //the template could have been deleted in the meantime 
+        try {
+          return Transaction.getInstanceFromTemplate(id[0]);
+        } catch (DataObjectNotFoundException e1) {
+          return null;
+        }
       case TASK_NEW_FROM_TEMPLATE:
         Transaction.getInstanceFromTemplate(id[0]).save();
         return null;
@@ -210,10 +229,10 @@ public class TaskExecutionFragment extends Fragment {
         t.save();
         return null;
       case TASK_MOVE:
-        Transaction.move(id[0],id[1]);
+        Transaction.move(id[0],(Long) mExtra);
         return null;
-      case TASK_GET_LAST_PLAN:
-        return MyApplication.getInstance().getLastPlanId();
+      case TASK_NEW_PLAN:
+        return Plan.create((String)mExtra);
       }
       return null;
     }

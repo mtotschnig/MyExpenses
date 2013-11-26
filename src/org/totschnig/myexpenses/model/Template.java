@@ -21,13 +21,13 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
-import android.annotation.SuppressLint;
+import com.android.calendar.CalendarContractCompat.Events;
+
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
-import android.provider.CalendarContract.Events;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class Template extends Transaction {
@@ -169,9 +169,24 @@ public class Template extends Transaction {
         return null;
       }
     }
+    //add callback to event
+    if (planId != null && android.os.Build.VERSION.SDK_INT>=16) {
+      initialValues.clear();
+      initialValues.put(
+          //we encode both account and template into the CUSTOM URI
+          Events.CUSTOM_APP_URI,
+          ContentUris.withAppendedId(
+              ContentUris.withAppendedId(Template.CONTENT_URI,accountId),
+              id).toString());
+      initialValues.put(Events.CUSTOM_APP_PACKAGE, "org.totschnig.myexpenses");
+      cr().update(
+          ContentUris.withAppendedId(Events.CONTENT_URI, planId),
+          initialValues,
+          null,
+          null);
+    }
     return uri;
   }
-  @SuppressLint("NewApi")
   public static void delete(long id) {
     Template t = getInstanceFromDb(id);
     if (t.planId != null) {

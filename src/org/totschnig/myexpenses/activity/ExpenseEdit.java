@@ -26,7 +26,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
@@ -34,7 +33,9 @@ import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
@@ -43,10 +44,11 @@ import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.EventRecurrenceFormatter;
+import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendarcommon2.EventRecurrence;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DatePickerDialog;
 import android.app.NotificationManager;
@@ -126,7 +128,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   //CALCULATOR_REQUEST in super = 0
   private static final int ACTIVITY_EDIT_SPLIT = 1;
   private static final int SELECT_CATEGORY_REQUEST = 2;
-  private static final int ACTIVITY_ADD_EVENT = 3;
   protected static final int ACTIVITY_EDIT_EVENT = 4;
 
   public static final int PAYEES_CURSOR=1;
@@ -135,7 +136,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private static final int EVENT_CURSOR = 4;
   private LoaderManager mManager;
 
-  private boolean mCreateNew = false;
+  private boolean mCreateNew = false, mLaunchPlanView = false;
 
   public enum HelpVariant {
     transaction,transfer,split,template,splitPartCategory,splitPartTransfer
@@ -197,10 +198,12 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
       }
       FragmentManager fm = getSupportFragmentManager();
-      fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(taskId,objectId, null), "ASYNC_TASK")
-        .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
-        .commit();
+      if (fm.findFragmentByTag("ASYNC_TASK") == null) {
+        fm.beginTransaction()
+          .add(TaskExecutionFragment.newInstance(taskId,objectId, null), "ASYNC_TASK")
+          .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
+          .commit();
+      }
     } else {
       mOperationType = extras.getInt("operationType");
       Long accountId = extras.getLong(KEY_ACCOUNTID);
@@ -223,6 +226,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     //Spinner for setting Status
     Spinner statusSpinner = (Spinner) findViewById(R.id.Status);
     if (getmAccount().type.equals(Type.CASH) ||
+        mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer)
       statusSpinner.setVisibility(View.GONE);
@@ -259,7 +263,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
 
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
-      findViewById(R.id.PlanerRow).setVisibility(View.VISIBLE);
+      findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
       helpVariant = HelpVariant.template;
     } else if (mTransaction instanceof SplitTransaction) {
@@ -506,7 +510,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       //3 handle edit existing transaction or new one from template
       //3b  fill comment
       mCommentText.setText(mTransaction.comment);
-      mReferenceNumberText.setText(mTransaction.referenceNumber);
       if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
         mPayeeText.setText(mTransaction.payee);
       }
@@ -535,38 +538,27 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mManager.initLoader(EVENT_CURSOR, null, this);
       }
       mPlanButton.setOnClickListener(new View.OnClickListener() {
-        @SuppressLint("NewApi")
         public void onClick(View view) {
-          Intent intent;
-          long now = System.currentTimeMillis();
           if (mPlanId == null) {
+            String title = mTitleText.getText().toString();
             if (MyApplication.getInstance().isContribEnabled ||
                 Template.countWithPlan() < 3) {
-              intent = new Intent (Intent.ACTION_INSERT);
-              intent.setData (CalendarContract.Events.CONTENT_URI);
-              intent.putExtra (Events.TITLE,mTitleText.getText().toString());
-              intent.putExtra(Events.CALENDAR_ID,MyApplication.getInstance().planerCalenderId);
-              intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, now);
-              intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY,true);
-              startActivityForResult (intent, ACTIVITY_ADD_EVENT);
+              mLaunchPlanView = true;
+              getSupportFragmentManager().beginTransaction()
+              .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_PLAN,null, title), "ASYNC_TASK")
+              .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
+              .commit();
             } else {
               CommonCommands.showContribDialog(ExpenseEdit.this,Feature.PLANS_UNLIMITED, null);
             }
-         } else {
-           //unfortunately ACTION_EDIT does not work see http://code.google.com/p/android/issues/detail?id=39402
-           intent = new Intent (Intent.ACTION_VIEW);
-           intent.setData(ContentUris.withAppendedId(Events.CONTENT_URI, mPlanId));
-           //ACTION_VIEW expects to get a range http://code.google.com/p/android/issues/detail?id=23852
-           intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, mPlan.dtstart);
-           intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, mPlan.dtend);
-           startActivityForResult (intent, ACTIVITY_EDIT_EVENT);
+            return;
          }
-          //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-          //intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        }
+         launchPlanView();
+       }
       });
       mPlanToggleButton.setChecked(((Template) mTransaction).planExecutionAutomatic);
-    }
+    } else
+      mReferenceNumberText.setText(mTransaction.referenceNumber);
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer))
@@ -646,7 +638,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mTransaction.amount.setAmountMajor(amount);
 
     mTransaction.comment = mCommentText.getText().toString();
-    mTransaction.referenceNumber = mReferenceNumberText.getText().toString();
+
     if (mTransaction instanceof Template) {
       title = mTitleText.getText().toString();
       if (title.equals("")) {
@@ -655,7 +647,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       }
       ((Template) mTransaction).title = title;
       ((Template) mTransaction).planId = mPlanId;
-    }
+    } else
+      mTransaction.referenceNumber = mReferenceNumberText.getText().toString();
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer))
@@ -688,12 +681,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mCatId = intent.getLongExtra("cat_id",0);
       mLabel = intent.getStringExtra("label");
       mCategoryButton.setText(mLabel);
-    }
-    if (requestCode == ACTIVITY_ADD_EVENT) {
-      mPlanButton.setEnabled(false);
-      getSupportFragmentManager().beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_GET_LAST_PLAN,null, null), "ASYNC_TASK")
-        .commit();
     }
   }
   @Override
@@ -816,24 +803,27 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   @Override
   public void onPostExecute(int taskId,Object o) {
     switch(taskId) {
-    case TaskExecutionFragment.TASK_GET_LAST_PLAN:
-      Long result = (Long) o;
-      MyApplication app = MyApplication.getInstance();
-      if (app.planerLastPlanId.equals(result)) {
-        Log.i("DEBUG", "no new plan created, lastplan is still " + result);
-        mPlanButton.setEnabled(true);
-      }
-      else {
-        app.planerLastPlanId = result;
-        mPlanId = result;
+    case TaskExecutionFragment.TASK_NEW_PLAN:
+      mPlanId = (Long) o;
+      if (mPlanId == null) {
+        Log.i("DEBUG", "Could not create new plan");
+        MessageDialogFragment.newInstance(R.string.dialog_title_planner_setup_info,
+            R.string.planner_setup_info,R.id.SETTINGS_COMMAND,null)
+          .show(getSupportFragmentManager(),"CALENDAR_SETUP_INFO");
+      } else {
         if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
-          mManager.restartLoader(EVENT_CURSOR, null, this);
+          mManager.restartLoader(EVENT_CURSOR, null, ExpenseEdit.this);
         else
-          mManager.initLoader(EVENT_CURSOR, null, this);
+          mManager.initLoader(EVENT_CURSOR, null, ExpenseEdit.this);
       }
       break;
-    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
+      if (o==null) {
+        Toast.makeText(this, R.string.save_transaction_template_deleted,Toast.LENGTH_LONG).show();
+        finish();
+        return;
+      }
+    case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
       mTransaction = (Transaction) o;
       if (mTransaction instanceof SplitTransaction)
@@ -868,8 +858,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mTransaction.methodId = id;
         //ignore first row "no method" merged in
         mMethodsCursor.moveToPosition(position-1);
-        mReferenceNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED))>0 ?
-            View.VISIBLE : View.INVISIBLE);
+        if (!(mTransaction instanceof Template))
+          mReferenceNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED))>0 ?
+              View.VISIBLE : View.INVISIBLE);
       }
       else {
         mTransaction.methodId = null;
@@ -885,19 +876,23 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   @Override
   public void onPostExecute(Object result) {
     Long sequenceCount = (Long) result;
-    if (sequenceCount == -1L && mTransaction instanceof Template)
+    if (sequenceCount == -1L && mTransaction instanceof Template) {
       //for the moment, the only case where saving will fail
       //if the unique constraint for template titles is violated
       //TODO: we should probably validate the title earlier
       Toast.makeText(this,getString(R.string.template_title_exists,((Template) mTransaction).title), Toast.LENGTH_LONG).show();
-    else {
+      mCreateNew = false;
+    } else {
       if (mCreateNew) {
         mCreateNew = false;
         mTransaction.id = 0L;
         mRowId = 0L;
         if (mTransaction instanceof Template) {
-          setTitle(R.string.menu_create_transfer);
+          setTitle(R.string.menu_create_template);
           mTitleText.setText("");
+          mPlanId = null;
+          mPlan = null;
+          configurePlan();
         } else {
           setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
               R.string.menu_create_transaction : R.string.menu_create_transfer);
@@ -916,7 +911,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   public Model getObject() {
     return mTransaction;
   }
-  @SuppressLint("NewApi")
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     switch(id){
@@ -941,7 +935,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
           new String[]{
               Events._ID,
               Events.DTSTART,
-              Events.DTEND,
               Events.RRULE,
               Events.TITLE},
           null,
@@ -1002,13 +995,25 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       break;
     case EVENT_CURSOR:
       if (data.moveToFirst()) {
-        mPlan = new Plan(
-            data.getLong(data.getColumnIndexOrThrow(Events._ID)),
-            data.getLong(data.getColumnIndexOrThrow(Events.DTSTART)),
-            data.getLong(data.getColumnIndexOrThrow(Events.DTEND)),
-            data.getString(data.getColumnIndexOrThrow(Events.RRULE)),
-            data.getString(data.getColumnIndexOrThrow(Events.TITLE))
-            );
+        long eventId = data.getLong(data.getColumnIndexOrThrow(Events._ID));
+        long dtStart = data.getLong(data.getColumnIndexOrThrow(Events.DTSTART));
+        String rRule = data.getString(data.getColumnIndexOrThrow(Events.RRULE));
+        String title = data.getString(data.getColumnIndexOrThrow(Events.TITLE));
+        if (mPlan == null) {
+          mPlan = new Plan(
+              eventId,
+              dtStart,
+              rRule,
+              title);
+        } else {
+          mPlan.id = eventId;
+          mPlan.dtstart= dtStart;
+          mPlan.rrule = rRule;
+          mPlan.title = title;
+        }
+        if (mLaunchPlanView) {
+          launchPlanView();
+        }
       } else {
         mPlan = null;
         mPlanId = null;
@@ -1016,6 +1021,19 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       configurePlan();
       break;
     }
+  }
+  private void launchPlanView() {
+    mLaunchPlanView = false;
+    //unfortunately ACTION_EDIT does not work see http://code.google.com/p/android/issues/detail?id=39402
+    Intent intent = new Intent (Intent.ACTION_VIEW);
+    intent.setData(ContentUris.withAppendedId(Events.CONTENT_URI, mPlanId));
+    //ACTION_VIEW expects to get a range http://code.google.com/p/android/issues/detail?id=23852
+    intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, mPlan.dtstart);
+    intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan.dtstart);
+    if (Utils.isIntentAvailable(this, intent))
+      startActivityForResult (intent, ACTIVITY_EDIT_EVENT);
+    else
+      Log.i("DEBUG","could not launch event view in calendar");
   }
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {

@@ -18,18 +18,21 @@ package org.totschnig.myexpenses;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Calendar;
 import java.util.Map;
 import java.util.Properties;
 
+import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.service.UnlockHandler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.annotation.SuppressLint;
-import android.app.AlarmManager;
+import com.android.calendar.CalendarContractCompat;
+import com.android.calendar.CalendarContractCompat.Calendars;
+import com.android.calendar.CalendarContractCompat.Events;
+
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -46,35 +49,32 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract;
-import android.provider.CalendarContract.Calendars;
-import android.provider.CalendarContract.Events;
-import android.provider.CalendarContract.Instances;
 import android.util.Log;
 //import android.view.KeyEvent;
 import android.widget.Toast;
 
-public class MyApplication extends Application {
+public class MyApplication extends Application implements OnSharedPreferenceChangeListener {
     private SharedPreferences settings;
     private static MyApplication mSelf;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
+    //the following keys are stored as string resources, so that
+    //they can be referenced from preferences.xml, and thus we
+    //can guarantee the referential integrity
     public static String PREFKEY_CATEGORIES_SORT_BY_USAGES;
     public static String PREFKEY_PERFORM_SHARE;
     public static String PREFKEY_SHARE_TARGET;
     public static String PREFKEY_QIF_EXPORT_FILE_ENCODING;
     public static String PREFKEY_UI_THEME_KEY;
-    public static final String PREFKEY_CURRENT_VERSION = "currentversion";
-    public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
-    public static final String PREFKEY_PLANER_CALENDER_ID = "planer_calender_id";
-    public static final String PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP = "planer_last_execution_timestamp";
     public static String PREFKEY_BACKUP;
     public static String PREFKEY_RESTORE;
     public static String PREFKEY_CONTRIB_INSTALL;
@@ -90,6 +90,11 @@ public class MyApplication extends Application {
     public static String PREFKEY_MORE_INFO_DIALOG;
     public static final String PREFKEY_LICENSE_STATUS = "licenseStatus";
     public static final String PREFKEY_LICENSE_RETRY_COUNT = "retryCount";
+    public static String PREFKEY_SHORTCUT_ACCOUNT_LIST;
+    public static String PREFKEY_PLANNER_CALENDAR_ID;
+    public static final String PREFKEY_CURRENT_VERSION = "currentversion";
+    public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
+    public static final String PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP = "planner_last_execution_timestamp";
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
@@ -103,8 +108,6 @@ public class MyApplication extends Application {
     private ServiceConnection mConnection;
     private long mLastPause = 0;
     public static String TAG = "MyExpenses";
-    public Long planerCalenderId = -1L;
-    public Long planerLastPlanId = -1L;
     /**
      * how many nanoseconds should we wait before prompting for the password
      */
@@ -118,6 +121,11 @@ public class MyApplication extends Application {
     public static final String FEEDBACK_EMAIL = "myexpenses@totschnig.org";
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
     public static final String HOST = "myexpenses.totschnig.org";
+    
+    /**
+     * we cache value of planner calendar id, so that we can handle changes in value
+     */
+    private String mPlannerCalendarId;
 
     @Override
     public void onCreate() {
@@ -127,7 +135,7 @@ public class MyApplication extends Application {
       {
           settings = PreferenceManager.getDefaultSharedPreferences(this);
       }
-
+      settings.registerOnSharedPreferenceChangeListener(this);
       PREFKEY_CATEGORIES_SORT_BY_USAGES = getString(R.string.pref_categories_sort_by_usages_key);
       PREFKEY_PERFORM_SHARE = getString(R.string.pref_perform_share_key);
       PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
@@ -146,6 +154,8 @@ public class MyApplication extends Application {
       PREFKEY_EXPORT_FORMAT = getString(R.string.pref_export_format_key);
       PREFKEY_SEND_FEEDBACK = getString(R.string.pref_send_feedback_key);
       PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
+      PREFKEY_SHORTCUT_ACCOUNT_LIST = getString(R.string.pref_shortcut_account_list_key);
+      PREFKEY_PLANNER_CALENDAR_ID = getString(R.string.pref_planner_calendar_id_key);
       setPasswordCheckDelayNanoSeconds();
       try {
         InputStream rawResource = getResources().openRawResource(R.raw.app);
@@ -159,7 +169,8 @@ public class MyApplication extends Application {
         Log.w(TAG,"Failed to open property file");
       }
       initContribEnabled();
-      initPlaner();
+      mPlannerCalendarId = settings.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
+      initPlanner();
     }
 
     public boolean initContribEnabled() {
@@ -376,106 +387,176 @@ public class MyApplication extends Application {
       }
       return false;
     }
-    @SuppressLint("NewApi")
-    public void requirePlaner() {
-      String accountName = "org.totschnig.myexpenses";
-      String calendarName = "MyExpensesPlaner";
-      ContentResolver cr = MyApplication.getInstance().getContentResolver();
-      Uri.Builder builder =
-          CalendarContract.Calendars.CONTENT_URI.buildUpon();
-      builder.appendQueryParameter(
-          Calendars.ACCOUNT_NAME,
-          accountName);
-      builder.appendQueryParameter(
-          Calendars.ACCOUNT_TYPE,
-          CalendarContract.ACCOUNT_TYPE_LOCAL);
-      builder.appendQueryParameter(
-          CalendarContract.CALLER_IS_SYNCADAPTER,
-          "true");
-      Uri calendarUri = builder.build();
-      //int deleted = cr.delete(calendarUri, null, null);
-      //Log.i("DEBUG","deleted old calendar: "+ deleted);
-      Cursor c = cr.query(
-          calendarUri,
-          new String[] {CalendarContract.Calendars._ID},
-          Calendars.NAME +  " = ?",
-          new String[]{calendarName}, null);
-      if (c.moveToFirst()) {
-        planerCalenderId = c.getLong(0);
-        planerLastPlanId = getLastPlanId();
-        c.close();
-      } else  {
-        c.close();
-        ContentValues values = new ContentValues();
-        values.put(
+    public String requirePlanner() {
+      String plannerCalendarId = mPlannerCalendarId;
+      ContentResolver cr = getContentResolver();
+      Cursor c;
+      if (!plannerCalendarId.equals("-1")) {
+        c = cr.query(Calendars.CONTENT_URI,
+            new String[]{"1 as ignore"},
+            Calendars._ID + " = ?",
+            new String[] {plannerCalendarId},
+            null);
+        if (c==null)
+          plannerCalendarId = "-1";
+        else {
+          if (c.getCount() == 0) {
+            Log.i("DEBUG","configured calendar has been deleted: "+ plannerCalendarId);
+            plannerCalendarId = "-1";
+          }
+          c.close();
+        }
+        if (plannerCalendarId.equals("-1")) {
+          settings.edit().remove(PREFKEY_PLANNER_CALENDAR_ID).commit();
+        }
+        return plannerCalendarId;
+      } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        //on API below 16 a local calendar leads to crashes of the com.android.calendar app
+        //hence we require users to select a different calendar in the settings
+        String accountName = "Local Calendar";
+        String calendarName = "MyExpensesPlanner";
+        //first we check if our calendar exists already
+        Uri.Builder builder = Calendars.CONTENT_URI.buildUpon();
+        builder.appendQueryParameter(
+            Calendars.ACCOUNT_NAME,
+            accountName);
+        builder.appendQueryParameter(
+            Calendars.ACCOUNT_TYPE,
+            CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
+        builder.appendQueryParameter(
+            CalendarContractCompat.CALLER_IS_SYNCADAPTER,
+            "true");
+        Uri calendarUri = builder.build();
+        c = cr.query(
+            calendarUri,
+            new String[] {Calendars._ID},
+              Calendars.NAME +  " = ?",
+            new String[]{calendarName}, null);
+        if (c.moveToFirst()) {
+          plannerCalendarId = c.getString(0);
+          Log.i("DEBUG","found preexisting calendar: "+ plannerCalendarId);
+          c.close();
+        } else  {
+          c.close();
+          ContentValues values = new ContentValues();
+          values.put(
               Calendars.ACCOUNT_NAME,
               accountName);
-        values.put(
+          values.put(
               Calendars.ACCOUNT_TYPE,
-              CalendarContract.ACCOUNT_TYPE_LOCAL);
-        values.put(
+              CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
+          values.put(
               Calendars.NAME,
               calendarName);
-        values.put(
+          values.put(
               Calendars.CALENDAR_DISPLAY_NAME,
-              getString(R.string.plan_calendar_name)); //TODO resource
-        values.put(
+              getString(R.string.plan_calendar_name));
+          values.put(
               Calendars.CALENDAR_COLOR,
-              0xffff0000); //TODO set to default account color
-        values.put(
+              getResources().getColor(R.color.appDefault));
+          values.put(
               Calendars.CALENDAR_ACCESS_LEVEL,
               Calendars.CAL_ACCESS_OWNER);
-        values.put(
+          values.put(
               Calendars.OWNER_ACCOUNT,
-                  "private");
-//            values.put(
-//                  Calendars.CALENDAR_TIME_ZONE,
-//                  "Europe/Berlin");
-        Uri uri = cr.insert(builder.build(), values);
-        planerCalenderId = ContentUris.parseId(uri);
-        planerLastPlanId = -1L;
-      }
-    }
-    @SuppressLint("NewApi")
-    public long getLastPlanId() {
-      String[] proj =
-          new String[] {
-                "MAX(" + Events._ID + ") as last_event_id"};
-      Cursor c = MyApplication.getInstance().getContentResolver().
-          query(
-              Events.CONTENT_URI,
-              proj,
-              Events.CALENDAR_ID + " = ? ",
-              new String[]{Long.toString(planerCalenderId)},
-              null);
-      if (c.moveToFirst()) {
-        long result = c.getLong(0);
-        c.close();
-        return result;
-      } else {
-        c.close();
-        return -1L;
-      }
+              "private");
+          Uri uri;
+          try {
+            uri = cr.insert(builder.build(), values);
+          } catch (IllegalArgumentException e) {
+            Log.i("DEBUG","Inserting planner calendar failed, Calendar app not installed?");
+            return "-1";
+          }
+          plannerCalendarId = uri.getLastPathSegment();
+          if (plannerCalendarId == null) {
+            Log.i("DEBUG","Inserting planner calendar failed, last path segment is null");
+            return "-1";
+          }
+          Log.i("DEBUG","successfully set up new calendar: "+ plannerCalendarId);
+        }
+        settings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId).commit();
+        return plannerCalendarId;
+        }
+      return "-1";
     }
     /**
-     * PlanExecutor is executed once, and then rescheduled
+     * call PlanExecutor, which will 
+     * 1) set up the planner calendar
+     * 2) execute plans
+     * 3) reschedule execution through alarm 
      */
-    public void initPlaner() {
-      Log.i("DEBUG","Inside init planer");
+    public void initPlanner() {
+      Log.i("DEBUG","Inside init planner");
       Intent service = new Intent(this, PlanExecutor.class);
       startService(service);
-      PendingIntent pendingIntent = PendingIntent.getService(this, 0, service, 0);
-      AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-      long interval = 86400000; //24* 60 * 60 * 1000 1 day
-      Calendar cal = Calendar.getInstance();
-      cal.setTimeInMillis(System.currentTimeMillis());
-      cal.set(Calendar.HOUR_OF_DAY, 0); //set hours to zero
-      cal.set(Calendar.MINUTE, 0); // set minutes to zero
-      cal.set(Calendar.SECOND, 0); //set seconds to zero
-      cal.set(Calendar.MILLISECOND, 0);
-      long alarmTime = cal.getTimeInMillis() + interval;
-      //we schedule service for beginning of next day, and then every 24 hours
-      manager.setRepeating(AlarmManager.RTC, alarmTime, interval,
-          pendingIntent);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+        String key) {
+      if (key.equals(PREFKEY_PLANNER_CALENDAR_ID)) {
+        Log.i("DEBUG","onSharedPreferenceChanged fired in MyApplication");
+        String oldValue = mPlannerCalendarId;
+        String newValue = sharedPreferences.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
+        mPlannerCalendarId = newValue;
+        if (oldValue == "-1" && newValue != "-1") {
+         initPlanner();
+        } else if (newValue != "-1") {
+          ContentResolver cr = getContentResolver();
+          ContentValues eventValues = new ContentValues(),
+              planValues = new ContentValues();
+          eventValues.put(Events.CALENDAR_ID, Long.parseLong(newValue));
+          Cursor planCursor = cr.query(
+              Template.CONTENT_URI,
+              new String[] {DatabaseConstants.KEY_ROWID,DatabaseConstants.KEY_PLANID},
+              DatabaseConstants.KEY_PLANID + " IS NOT null",
+              null,
+              null);
+          if (planCursor!=null && planCursor.moveToFirst()) {
+            do {
+              long templateId = planCursor.getLong(0);
+              long planId = planCursor.getLong(1);
+              Uri eventUri = ContentUris.withAppendedId(Events.CONTENT_URI, planId);
+              Cursor eventCursor = cr.query(
+                  eventUri,
+                  new String[]{
+                      Events.DTSTART,
+                      Events.DTEND,
+                      Events.RRULE,
+                      Events.TITLE,
+                      Events.ALL_DAY,
+                      Events.EVENT_TIMEZONE,
+                      Events.DURATION,
+                      Events.DESCRIPTION},
+                  Events.CALENDAR_ID + " = ?",
+                  new String[] {oldValue},
+                  null);
+              if (eventCursor != null && eventCursor.moveToFirst()) {
+                //Log.i("DEBUG", DatabaseUtils.dumpCursorToString(eventCursor));
+                eventValues.put(Events.DTSTART, DbUtils.getLongOrNull(eventCursor,0));
+                eventValues.put(Events.DTEND, DbUtils.getLongOrNull(eventCursor,1));
+                eventValues.put(Events.RRULE, eventCursor.getString(2));
+                eventValues.put(Events.TITLE, eventCursor.getString(3));
+                eventValues.put(Events.ALL_DAY,eventCursor.getInt(4));
+                eventValues.put(Events.EVENT_TIMEZONE, eventCursor.getString(5));
+                eventValues.put(Events.DURATION, eventCursor.getString(6));
+                eventValues.put(Events.DESCRIPTION, eventCursor.getString(7));
+                Uri uri = cr.insert(Events.CONTENT_URI, eventValues);
+                planId = ContentUris.parseId(uri);
+                Log.i("DEBUG","copied event from old to new" + planId);
+                planValues.put(DatabaseConstants.KEY_PLANID, planId);
+                int updated = cr.update(ContentUris.withAppendedId(Template.CONTENT_URI, templateId), planValues, null, null);
+                Log.i("DEBUG","updated plan id in template:" + updated);
+                int deleted = cr.delete(eventUri,
+                    null,
+                    null);
+                Log.i("DEBUG","deleted old event: " + deleted);
+              }
+              eventCursor.close();
+            } while (planCursor.moveToNext());
+          }
+          planCursor.close();
+        }
+      }
     }
 }

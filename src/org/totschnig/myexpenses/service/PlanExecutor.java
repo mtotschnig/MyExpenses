@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.service;
 
-import java.util.Date;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -13,7 +11,11 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.annotation.SuppressLint;
+import com.android.calendar.CalendarContractCompat;
+import com.android.calendar.CalendarContractCompat.Events;
+import com.android.calendar.CalendarContractCompat.Instances;
+
+import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -21,11 +23,9 @@ import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.CalendarContract;
-import android.provider.CalendarContract.Events;
-import android.provider.CalendarContract.Instances;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -33,30 +33,31 @@ public class PlanExecutor extends IntentService {
 
   public PlanExecutor() {
     super("PlanExexcutor");
-
   }
 
-  @SuppressLint("NewApi")
   @Override
   public void onHandleIntent(Intent intent) {
     Log.i("DEBUG","Inside plan executor onHandleIntent");
-    MyApplication app = MyApplication.getInstance();
-    app.requirePlaner();
-    long lastExecutionTimeStamp = app.getSettings().getLong(
-        MyApplication.PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP, 0);
+    String plannerCalendarId = MyApplication.getInstance().requirePlanner();
+    if (plannerCalendarId.equals("-1")) {
+      return;
+    }
+    SharedPreferences settings = MyApplication.getInstance().getSettings();
+    long lastExecutionTimeStamp = settings.getLong(
+        MyApplication.PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP, 0);
     long now = System.currentTimeMillis();
     if (lastExecutionTimeStamp == 0) {
       Log.i("DEBUG", "first call, nothting to do");
     } else {
       Log.i("DEBUG", String.format(
-          "executing plans from %s to %s",
-          new Date(lastExecutionTimeStamp).toString(),
-          new Date(now).toString()));
+          "executing plans from %d to %d",
+          lastExecutionTimeStamp,
+          now));
       String[] INSTANCE_PROJECTION = new String[] {
           Instances.EVENT_ID,
           Instances._ID
         };
-      Uri.Builder eventsUriBuilder = CalendarContract.Instances.CONTENT_URI
+      Uri.Builder eventsUriBuilder = CalendarContractCompat.Instances.CONTENT_URI
           .buildUpon();
       ContentUris.appendId(eventsUriBuilder, lastExecutionTimeStamp);
       ContentUris.appendId(eventsUriBuilder, now);
@@ -64,13 +65,14 @@ public class PlanExecutor extends IntentService {
       //Instances.Content_URI returns events that fall totally or partially in a given range
       //we additionally select only instances where the begin is inside the range
       //because we want to deal with each instance only once
+      //the calendar content provider on Android < 4 does not interpret the selection arguments
+      //hence we put them into the selection
       Cursor cursor = getContentResolver().query(eventsUri, INSTANCE_PROJECTION,
-          Events.CALENDAR_ID + " = ? AND "+ Instances.BEGIN + " BETWEEN ? AND ?",
-          new String[]{
-            String.valueOf(MyApplication.getInstance().planerCalenderId),
-            String.valueOf(lastExecutionTimeStamp),
-            String.valueOf(now)}, 
-            null);
+          Events.CALENDAR_ID + " = " + plannerCalendarId + " AND "+ Instances.BEGIN +
+              " BETWEEN " + lastExecutionTimeStamp + " AND " + now,
+          null,
+          null);
+
       if (cursor.moveToFirst()) {
         while (cursor.isAfterLast() == false) {
           long planId = cursor.getLong(0);
@@ -79,8 +81,8 @@ public class PlanExecutor extends IntentService {
           //3) execute the template
           Log.i("DEBUG",String.format("found instance %d of plan %d",instanceId,planId));
           Template template = Template.getInstanceForPlan(planId);
-          //TODO handle automatic and manual execution
           if (template != null) {
+            Log.i("DEBUG",String.format("belongs to template %d",template.id));
             Notification notification;
             int notificationId = instanceId.hashCode();
             PendingIntent resultIntent;
@@ -148,9 +150,13 @@ public class PlanExecutor extends IntentService {
       }
       cursor.close();
     }
-    SharedPreferencesCompat.apply(app.getSettings().edit()
-        .putLong(MyApplication.PREFKEY_PLANER_LAST_EXECUTION_TIMESTAMP, now));
+    SharedPreferencesCompat.apply(settings.edit()
+        .putLong(MyApplication.PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP, now));
+    PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
+    AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+    //long interval = 21600000; //6* 60 * 60 * 1000 6 hours
+    long interval = 60000; // 1 minute
+    manager.set(AlarmManager.RTC, now+interval, 
+        pendingIntent);
   }
-
-
 }

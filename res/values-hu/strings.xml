@@ -253,6 +253,7 @@
   <string name="pref_restore_summary">A biztonsági mentés visszaállítása az SD-kártya \"myexpenses\" könyvtárából.</string>
   <string name="pref_share_target_title">URL feltöltés</string>
   <string name="pref_share_target_summary">Hagyja üresen, ha választani akar az alkalmazások közül (Email, Dropbox, Google Docs, stb.), vagy adjon meg egy URL-t valamely támogatott formában</string>
+  <string name="pref_shortcut_summary">Parancsikon hozzáadása a kezdő képernyőre</string>
   <string name="pref_security_question_title">Biztonsági kérdés</string>
   <string name="pref_security_question_summary">Lehetővé teszi, hogy feloldja az alkalmazást abban az esetben is, ha elvesztette a jelszót. Ehhez a Kiadásaim Contrib verziójának használata szükséges.</string>
   <string name="pref_send_feedback_title">Visszajelzés küldése</string>

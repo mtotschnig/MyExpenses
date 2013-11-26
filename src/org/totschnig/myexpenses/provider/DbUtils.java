@@ -27,6 +27,8 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.android.calendar.CalendarContractCompat.Events;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import android.content.ContentProviderClient;
@@ -133,7 +135,9 @@ public class DbUtils {
    * @return Long that is null if field is null in db
    */
   public static Long getLongOrNull(Cursor c, String field) {
-    int columnIndex = c.getColumnIndexOrThrow(field);
+    return getLongOrNull(c,c.getColumnIndexOrThrow(field));
+  }
+  public static Long getLongOrNull(Cursor c, int columnIndex) {
     if (c.isNull(columnIndex))
       return null;
     return c.getLong(columnIndex);

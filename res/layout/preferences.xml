@@ -16,7 +16,8 @@
  -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="first_preferencescreen">
-  <PreferenceCategory 
+  <PreferenceCategory
+  	  android:key="@string/pref_category_manage_key"
       android:title="@string/pref_category_title_manage">
     <PreferenceScreen
         android:title="@string/pref_manage_categories_title"
@@ -33,6 +34,9 @@
         android:summary="@string/pref_manage_methods_summary">
         <intent android:action="myexpenses.intent.manage.methods"/>
     </PreferenceScreen>
+    <org.totschnig.myexpenses.preference.CalendarListPreference android:key="@string/pref_planner_calendar_id_key"
+        android:title="@string/pref_planning_calendar_title"
+        android:summary="@string/pref_planning_calendar_summary"/>
   </PreferenceCategory>
   <PreferenceCategory
       android:title="@string/pref_category_title_ui">
@@ -48,6 +52,8 @@
         android:title="@string/pref_categories_sort_by_usages_title"
         android:summaryOff="@string/pref_categories_sort_by_usages_summaryOff"
         android:summaryOn="@string/pref_categories_sort_by_usages_summaryOn" />
+    <Preference android:title="@string/pref_shortcut_account_list_title"
+        android:key="@string/pref_shortcut_account_list_key" android:summary="@string/pref_shortcut_summary"/>
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/pref_category_title_import">

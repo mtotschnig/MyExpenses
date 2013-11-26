@@ -40,6 +40,11 @@
     android:title="@string/menu_reset">
   </item>
   <item
+    android:id="@id/MANAGE_PLANS_COMMAND"
+    android:icon="@drawable/manage_plans_icon"
+    android:title="@string/menu_manage_plans">
+  </item>
+  <item
     android:id="@id/EDIT_ACCOUNT_COMMAND"
     android:icon="@drawable/edit_account_icon"
     android:showAsAction="ifRoom"
@@ -55,11 +60,6 @@
     android:id="@id/DISTRIBUTION_COMMAND"
     android:icon="@drawable/distribution_icon"
     android:title="@string/menu_distribution">
-  </item>
-  <item
-    android:id="@id/MANAGE_PLANS_COMMAND"
-    android:icon="@drawable/manage_plans_icon"
-    android:title="@string/menu_manage_plans">
   </item>
   <item
     android:id="@id/SETTINGS_COMMAND"

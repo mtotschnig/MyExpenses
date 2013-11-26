@@ -27,10 +27,13 @@ import org.totschnig.myexpenses.util.Utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.Intent.ShortcutIconResource;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -47,9 +50,12 @@ import android.widget.Toast;
  *
  */
 public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
-    OnPreferenceChangeListener, OnSharedPreferenceChangeListener,OnPreferenceClickListener {
+    OnPreferenceChangeListener,
+    OnSharedPreferenceChangeListener,
+    OnPreferenceClickListener {
   
   private static final int ACTIVITY_RESTORE = 1;
+  @SuppressWarnings("deprecation")
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
@@ -64,16 +70,26 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     pref.setOnPreferenceChangeListener(this);
     findPreference(MyApplication.PREFKEY_UI_THEME_KEY)
       .setOnPreferenceChangeListener(this);
-    findPreference(MyApplication.PREFKEY_CONTRIB_INSTALL).setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PREFKEY_REQUEST_LICENCE).setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PREFKEY_SEND_FEEDBACK).setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PREFKEY_MORE_INFO_DIALOG).setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PREFKEY_RESTORE).setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_CONTRIB_INSTALL)
+       .setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_REQUEST_LICENCE)
+      .setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_SEND_FEEDBACK)
+      .setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_MORE_INFO_DIALOG)
+      .setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_RESTORE)
+      .setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)
+      .setOnPreferenceClickListener(this);
+
     findPreference(MyApplication.PREFKEY_ENTER_LICENCE)
       .setOnPreferenceChangeListener(this);
     setProtectionDependentsState();
 
     findPreference(MyApplication.PREFKEY_PERFORM_PROTECTION)
+      .setOnPreferenceChangeListener(this);
+    findPreference(MyApplication.PREFKEY_PLANNER_CALENDAR_ID)
       .setOnPreferenceChangeListener(this);
   }
   private void setProtectionDependentsState() {
@@ -186,6 +202,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       startActivityForResult(preference.getIntent(), ACTIVITY_RESTORE);
       return true;
     }
+    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)) {
+      addShortcut(".activity.ManageAccounts",R.string.pref_manage_accounts_title, R.drawable.icon);
+      Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
+      return true;
+    }
     return false;
   }
   @Override
@@ -195,5 +216,26 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       setResult(resultCode);
       finish();
     }
+  }
+
+  // credits Financisto
+  // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java
+  private void addShortcut(String activity, int nameId, int iconId) {
+    Intent intent = createShortcutIntent(activity, getString(nameId), Intent.ShortcutIconResource.fromContext(this, iconId), 
+        "com.android.launcher.action.INSTALL_SHORTCUT");
+    sendBroadcast(intent);
+}
+
+  private Intent createShortcutIntent(String activity, String shortcutName, ShortcutIconResource shortcutIcon, String action) {
+    Intent shortcutIntent = new Intent();
+    shortcutIntent.setComponent(new ComponentName(this.getPackageName(), activity));
+    shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    Intent intent = new Intent();
+    intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+    intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutName);
+    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, shortcutIcon);
+    intent.setAction(action);
+    return intent;
   }
 }

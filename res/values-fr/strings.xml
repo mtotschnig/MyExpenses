@@ -14,12 +14,6 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
- <!DOCTYPE resources [
-  <!ENTITY app_name "Mes dépenses">
-  <!ENTITY grisbi_file "grisbi.xml">
-  <!ENTITY contrib ' (<b>Premium</b>)'>
-  <!ENTITY continue 'Voulez-vous continuer?'>
-]>
 <resources>
   <string name="account">Compte</string>
   <string name="account_type_cash">Compte de caisse</string>
@@ -29,16 +23,18 @@
   <string name="account_type_liability">Compte de passif</string>
   <string name="already_defined">%1$s existe</string>
   <string name="amount">Montant</string>
-  <string name="app_name">&app_name;</string>
+  <string name="app_name">Mes dépenses</string>
   <string name="backup_failure">La sauvegarde sur carte SD a échoué.</string>
   <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur la carte SD.</string>
   <string name="category">Catégorie</string>
   <string name="color">Couleur</string>
   <string name="comment">Remarques</string>
-  <string name="contrib_feature_accounts_unlimited_description">Le nombre de comptes que vous pouvez créer avec &lt;i>&app_name;&lt;/i> est limité à 5.</string>
+  <string name="contrib_feature_accounts_unlimited_description">Le nombre de comptes que vous pouvez créer avec &lt;i>Mes dépenses&lt;/i> est limité à 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Nombre illimité de comptes</string>
   <string name="contrib_feature_aggregate_label">Somme totale sur tous les comptes</string>
   <string name="contrib_feature_distribution_label">Répartition des transactions par catégorie</string>
+  <string name="contrib_feature_plans_unlimited_description">Le nombre d\'échéances que vous pouvez créer avec &lt;i&gt;Mes dépenses&lt;/i&gt; est limité à 3.</string>
+  <string name="contrib_feature_plans_unlimited_label">Nombre d\'échéances illimité</string>
   <string name="contrib_feature_reset_all_label">Réinitialiser tous les comptes</string>
   <string name="contrib_feature_security_question_label">Question de sécurité</string>
   <string name="contrib_feature_split_transaction_label">Opération ventilée</string>
@@ -56,18 +52,18 @@
   <string name="dialog_contrib_usage_count">Il vous reste %1$d utilisation(s) gratuite(s).</string>
   <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite.</string>
   <string name="dialog_contrib_premium_feature">%1$s est une fonction Premium.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Supprimez cette limitation en installant  &lt;i>&app_name; Contrib&lt;/i>.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Supprimez cette limitation en installant  &lt;i>Mes dépenses Contrib&lt;/i>.</string>
   <string name="dialog_contrib_reminder_gain_access">Vous gagnez également accès illimité aux fonctionnalités suivantes:</string>
   <string name="dialog_contrib_yes">Acheter</string>
   <string name="dialog_contrib_no">Pas tout de suite</string>
-  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> vous est offert sans publicité et open source. S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux fonctions Premium suivantes:</string>
+  <string name="dialog_contrib_text">&lt;i>Mes dépenses&lt;/i> vous est offert sans publicité et open source. S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux fonctions Premium suivantes:</string>
   <string name="dialog_export_delete">Effacer les opérations exportées</string>
   <string name="dialog_export_not_yet_exported">Exporter uniquement les opérations qui n\'ont pas encore été exportées</string>
   <string name="dialog_password_activate_protection">Activer la protection par mot de passe</string>
   <string name="dialog_password_change_password">Changer le mot de passe</string>
   <string name="dialog_password_new_password">Nouveau mot de passe</string>
   <string name="dialog_password_new_password_confirmation">Nouveau mot de passe (confirmation)</string>
-  <string name="dialog_remind_rate">S\'il vous plaît, publiez votre avis au sujet de &app_name;. Vos commentaires me permettent d\'ajouter sans cesse des améliorations.</string>
+  <string name="dialog_remind_rate">S\'il vous plaît, publiez votre avis au sujet de Mes dépenses. Vos commentaires me permettent d\'ajouter sans cesse des améliorations.</string>
   <string name="dialog_remind_rate_yes">D\'accord</string>
   <string name="dialog_remind_later">Plus tard</string>
   <string name="dialog_remind_no">Non merci</string>
@@ -120,7 +116,7 @@
     <item>Gérez-les directement sur votre smartphone.</item>
     <item>Exportez-les vers un logiciel de finance, tel que Grisbi, Gnucash, Quicken ou MS Money.</item>
   </string-array>
-  <string name="help_leading">Merci d\'essayer <i>&app_name;</i> pour Android.</string>
+  <string name="help_leading">Merci d\'essayer <i>Mes dépenses</i> pour Android.</string>
   <string name="import_categories">Importer les catégories</string>
   <string name="important_upgrade_information_heading">Information importante</string>
   <string name="income">revenu</string>
@@ -129,10 +125,12 @@
   <string name="licence_validation_success">Clé de licence validée : L\'accès aux fonctions Premium a été déverrouillé.</string>
   <string name="licence_validation_failure">Clé de licence non valide.</string>
   <string name="menu_aggregates">Total</string>
+  <string name="menu_apply">Appliquer</string>
   <string name="menu_back">Retour</string>
   <string name="menu_backup">Sauvegarde</string>
   <string name="menu_clone_transaction">Cloner</string>
   <string name="menu_contrib">Contribuer</string>
+  <string name="menu_create">Create</string>
   <string name="menu_create_account">Nouveau compte</string>
   <string name="menu_create_method">Nouvelle méthode de paiement</string>
   <string name="menu_create_party">Nouveau tiers</string>
@@ -164,6 +162,7 @@
   <string name="menu_forward">Suivant</string>
   <string name="menu_grouping">Regroupement</string>
   <string name="menu_help">Aide</string>
+  <string name="menu_manage_plans">Modèles et échéances</string>
   <string name="menu_move_transaction">Déplacer</string>
   <string name="menu_reset">Exporter et réinitialiser</string>
   <string name="menu_reset_all">Exporter et réinitialiser tous</string>
@@ -204,7 +203,11 @@
   <string name="password_security_answer_not_valid">Réponse invalide. Essayez de nouveau!</string>
   <string name="payee">Tiers</string>
   <string name="payer">Tiers</string>
-  <!-- payment methods -->
+  <string name="plan">Échéance</string>
+  <string name="plan_automatic">automatique</string>
+  <string name="plan_calendar_name">Échéancier Mes Dépenses</string>
+  <string name="plan_execution_canceled">Exécution de l\'échéance annulée</string>
+  <string name="plan_manual">manuelle</string>
   <string name="pm_cheque">Chèque</string>
   <string name="pm_creditcard">Carte de crédit</string>
   <string name="pm_deposit">Dépôt</string>
@@ -224,11 +227,11 @@
   <string name="pref_category_title_security">Sécurité</string>
   <string name="pref_category_title_more_information">Plus d\'informations</string>
   <string name="pref_contrib_install_title">Installer App Contrib</string>
-  <string name="pref_contrib_install_summary">En installant &app_name; Contrib, vous aurez un accès à toutes les fonctions Premium.</string>
+  <string name="pref_contrib_install_summary">En installant Mes dépenses Contrib, vous aurez un accès à toutes les fonctions Premium.</string>
   <string name="pref_enter_licence_title">Saisir clé contrib</string>
   <string name="pref_enter_licence_summary">Si vous avez reçu une clé contrib, celle-ci déverrouille l\'accès aux fonctions Premium.</string>
   <string name="pref_export_format_title">Format de données</string>
-  <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir des définitions standards de Grisbi, incluses dans l\'application, ou votre propre fichier sauvegardé sous le nom &grisbi_file; dans le répertoire myexpenses de la racine de votre carte SD.</string>
+  <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir des définitions standards de Grisbi, incluses dans l\'application, ou votre propre fichier sauvegardé sous le nom grisbi.xml dans le répertoire myexpenses de la racine de votre carte SD.</string>
   <string name="pref_import_from_grisbi_title">Import des données Grisbi</string>
   <string name="pref_manage_accounts_title">Comptes</string>
   <string name="pref_manage_accounts_summary">Ajouter, éditer et supprimer les comptes.</string>
@@ -257,8 +260,9 @@
   <string name="pref_send_feedback_title">Envoyer vos réactions</string>
   <string name="pref_share_target_title">URL où sera téléchargé le fichier d\'export</string>
   <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les différentes applications pour le transfert du fichier (Email, Dropbox, Google Docs, &#8230;), sinon spécifiez une URL dans l\'une des formes supportées</string>
+  <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran Home</string>
   <string name="pref_security_question_title">Question de sécurité</string>
-  <string name="pref_security_question_summary">Vous permet de débloquer l\'app, si vous avez oublié votre mot de passe. Nécessite &app_name; Contrib.</string>
+  <string name="pref_security_question_summary">Vous permet de débloquer l\'app, si vous avez oublié votre mot de passe. Nécessite Mes dépenses Contrib.</string>
   <string name="pref_ui_theme_title">Style</string>
   <string name="pref_ui_theme_dark">sombre</string>
   <string name="pref_visit_website_title">Visiter le site Web</string>
@@ -268,7 +272,7 @@
   <string name="progress_dialog_setup">Initialisation de la base de données &#8230;</string>
   <string name="reference_number">Numéro de référence</string>
   <string name="request_licence_mail_head">Envoyez-moi, s\'il-vous-plaît, une clé contrib pour l\'Android-Id %1$s.</string>
-  <string name="request_licence_mail_description">S\'il vous plaît décrire votre contribution à &app_name; (par exemple: un don via Paypal, rapport de bug, des tests, de la traduction).</string>
+  <string name="request_licence_mail_description">S\'il vous plaît décrire votre contribution à Mes dépenses (par exemple: un don via Paypal, rapport de bug, des tests, de la traduction).</string>
   <string name="restore_db_failure">La restauration de la base de données a échoué.</string>
   <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.</string>
   <string name="restore_no_backup_found">Il n\'y a pas de fichier BACKUP dans le dossier \"myexpenses\" de la carte SD.</string>
@@ -292,6 +296,7 @@
   <string name="sum_income">Revenus</string>
   <string name="sum_expenses">Dépenses</string>
   <string name="sum_transfer">Transferts</string>
+  <string name="template">Modèle</string>
   <string name="template_create_success">Modèle \"%1$s\" créé avec succès</string>
   <string name="template_title_exists">Un modèle avec le titre \"%1$s\" existe déjà</string>
   <string name="thank_you">Merci de votre soutien!</string>
@@ -303,14 +308,14 @@
   <string name="type">Type</string>
   <string name="unsplit_amount">Montant non attribué</string>
   <string name="unsplit_amount_greater_than_zero">Une partie du montant n\'est pas attribuée.</string>
-  <string name="warning_backup">La base des données et les paramètres seront sauvegardés sur la carte SD. &continue;</string>
-  <string name="warning_backup_exists">La base des données et les paramètres seront sauvegardés sur la carte SD. La sauvegarde existante sera effacée. &continue;</string>
-  <string name="warning_delete_account">Ce compte sera effacé ainsi que toutes ses opérations. &continue;</string>
-  <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier. Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite &app_name; Contrib).</string>
+  <string name="warning_backup">La base des données et les paramètres seront sauvegardés sur la carte SD. Voulez-vous continuer?</string>
+  <string name="warning_backup_exists">La base des données et les paramètres seront sauvegardés sur la carte SD. La sauvegarde existante sera effacée. Voulez-vous continuer?</string>
+  <string name="warning_delete_account">Ce compte sera effacé ainsi que toutes ses opérations. Voulez-vous continuer?</string>
+  <string name="warning_password_no_contrib">Si vous définissez un mot de passe, prenez soin de ne pas l\'oublier. Vous ne serez pas en mesure de le récupérer, sauf si vous définissez une question de sécurité (Nécessite Mes dépenses Contrib).</string>
   <string name="warning_password_contrib">La définition d\'une question de sécurité vous permet de débloquer l\'app, si vous oubliez votre mot de passe.</string>
   <string name="warning_reset_account">Si vous continuez, toutes les opérations de ce compte seront supprimées de la base de données et ne pourront plus être restaurées.</string>
   <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes seront supprimées de la base de données et ne pourront pas être restaurées.</string>
-  <string name="warning_restore">La base de données et les paramètres seront restaurés à partir de la sauvegarde. Les données actuelles seront supprimées. &continue;</string>
+  <string name="warning_restore">La base de données et les paramètres seront restaurés à partir de la sauvegarde. Les données actuelles seront supprimées. Voulez-vous continuer?</string>
   <string name="warning_select_account">Vous devez sélectionner un compte!</string>
   <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés ou supprimés que dans  celle-ci.</string>
 </resources>

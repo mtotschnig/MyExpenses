@@ -15,8 +15,12 @@
 
 package org.totschnig.myexpenses.activity;
 
+import java.util.List;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
@@ -24,8 +28,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.android.calendar.CalendarContractCompat.Events;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.ContextMenu;
@@ -42,12 +48,23 @@ public class ManageTemplates extends ProtectedFragmentActivity {
   private static final int EDIT = Menu.FIRST +3;
 
   public long mAccountId;
+  public boolean calledFromCalendar;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
       setTheme(MyApplication.getThemeId());
       super.onCreate(savedInstanceState);
-      mAccountId = getIntent().getExtras().getLong(DatabaseConstants.KEY_ACCOUNTID);
+      Bundle extras = getIntent().getExtras();
+      String uriString = extras.getString(Events.CUSTOM_APP_URI);
+      if (uriString != null) {
+        calledFromCalendar = true;
+        List <String> uriPath = Uri.parse(uriString).getPathSegments();
+        mAccountId = Long.parseLong(uriPath.get(1));
+        TemplateDetailFragment.newInstance(Long.parseLong(uriPath.get(2)))
+          .show(getSupportFragmentManager(), "TEMPLATE_DETAIL");
+      } else {
+        mAccountId = extras.getLong(DatabaseConstants.KEY_ACCOUNTID);
+      }
       getSupportActionBar().setSubtitle(Account.getInstanceFromDb(mAccountId).label);
       setContentView(R.layout.manage_templates);
       setTitle(R.string.menu_manage_plans);
@@ -62,13 +79,21 @@ public class ManageTemplates extends ProtectedFragmentActivity {
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
-    if (command == R.id.INSERT_TA_COMMAND || command == R.id.INSERT_TRANSFER_COMMAND) {
+    switch(command) {
+    case R.id.INSERT_TA_COMMAND:
+    case R.id.INSERT_TRANSFER_COMMAND:
       Intent intent = new Intent(this, ExpenseEdit.class);
       intent.putExtra("operationType",
           command == R.id.INSERT_TA_COMMAND ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
       intent.putExtra("newTemplate", true);
       intent.putExtra(DatabaseConstants.KEY_ACCOUNTID,mAccountId);
       startActivity(intent);
+      return true;
+    case R.id.DELETE_COMMAND_DO:
+      FragmentManager fm = getSupportFragmentManager();
+      fm.beginTransaction()
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TEMPLATE,(Long)tag, null), "ASYNC_TASK")
+        .commit();
       return true;
     }
     return super.dispatchCommand(command, tag);
@@ -78,7 +103,6 @@ public class ManageTemplates extends ProtectedFragmentActivity {
     super.onCreateContextMenu(menu, v, menuInfo);
     menu.add(0,DELETE_TEMPLATE,0,R.string.menu_delete);
     menu.add(0,CREATE_INSTANCE_EDIT,0,R.string.menu_create_transaction_from_template_and_edit);
-    menu.add(0,EDIT,0,R.string.menu_edit);
   }
   @Override
   public boolean onContextItemSelected(MenuItem item) {
@@ -86,10 +110,9 @@ public class ManageTemplates extends ProtectedFragmentActivity {
     Intent intent;
     switch(item.getItemId()) {
     case DELETE_TEMPLATE:   
-      FragmentManager fm = getSupportFragmentManager();
-      fm.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TEMPLATE,info.id, null), "ASYNC_TASK")
-        .commit();
+      MessageDialogFragment.newInstance(R.string.dialog_title_warning_delete_template,
+          R.string.warning_delete_template,R.id.DELETE_COMMAND_DO,info.id)
+        .show(getSupportFragmentManager(),"DELETE_TEMPLATE");
       return true;
     case CREATE_INSTANCE_EDIT:
       intent = new Intent(this, ExpenseEdit.class);
@@ -97,21 +120,18 @@ public class ManageTemplates extends ProtectedFragmentActivity {
       intent.putExtra("instantiate", true);
       startActivity(intent);
       return true;
-    case EDIT:
-      intent = new Intent(this, ExpenseEdit.class);
-      intent.putExtra("template_id", info.id);
-      intent.putExtra("instantiate", false);
-      startActivity(intent);
-      return true;
     }
     return super.onContextItemSelected(item);
   }
   public void createInstanceAndSave (View v) {
+    applyTemplate((Long) v.getTag());
+    finish();
+  }
+  public void applyTemplate(long id) {
     //TODO Strict mode
-    if (Transaction.getInstanceFromTemplate((Long) v.getTag()).save() == null)
+    if (Transaction.getInstanceFromTemplate(id).save() == null)
       Toast.makeText(getBaseContext(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
     else
       Toast.makeText(getBaseContext(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
-    finish();
   }
 }

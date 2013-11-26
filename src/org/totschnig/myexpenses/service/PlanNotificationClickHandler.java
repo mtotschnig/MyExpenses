@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.service;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.Transaction;
 
 import android.app.IntentService;
@@ -21,14 +22,18 @@ public class PlanNotificationClickHandler extends IntentService {
   @Override
   protected void onHandleIntent(Intent intent) {
     Log.i("DEBUG","Inside PlanNotificationClickHandler onHandleIntent");
-    final int message;
+    int message;
     String title = intent.getExtras().getString("title");
     if (intent.getAction().equals("Apply")) {
       Long templateId = intent.getExtras().getLong("template_id");
-      if (Transaction.getInstanceFromTemplate(templateId).save() == null)
-        message = R.string.save_transaction_error;
-      else
-        message = R.string.save_transaction_from_template_success;
+      try {
+        if (Transaction.getInstanceFromTemplate(templateId).save() == null)
+          message = R.string.save_transaction_error;
+        else
+          message = R.string.save_transaction_from_template_success;
+      } catch (DataObjectNotFoundException e) {
+        message = R.string.save_transaction_template_deleted;
+      }
     } else {
       message = R.string.plan_execution_canceled;
     }

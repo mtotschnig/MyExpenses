@@ -43,6 +43,9 @@
   <string name="contrib_feature_plans_unlimited_label">Unlimited number of plans</string>
   <string name="contrib_feature_distribution_label">Distribution of transactions per category</string>
   <string name="contrib_feature_aggregate_label">Aggregates over multiple accounts</string>
+  <string name="contrib_feature_distribution_label">Distribution of transactions per category</string>
+  <string name="contrib_feature_plans_unlimited_description">The number of plans you can create with &lt;i>&app_name;&lt;/i> is limited to 3.</string>
+  <string name="contrib_feature_plans_unlimited_label">Unlimited number of plans</string>
   <string name="contrib_feature_reset_all_label">Reset all accounts</string>
   <string name="contrib_feature_security_question_label">Security question</string>
   <string name="contrib_feature_split_transaction_label">Split transaction</string>
@@ -80,6 +83,7 @@
   <string name="dialog_security_question">Question</string>
   <string name="dialog_security_answer">Answer</string>
   <string name="dialog_title_contrib_feature">Premium feature</string>
+  <string name="dialog_title_planner_setup_info">Calendar setup required</string>
   <string name="dialog_title_restore_on_install">Backup detected</string>
   <string name="dialog_title_select_account">Pick an account</string>
   <string name="dialog_title_select_import_source">Pick a source for import</string>
@@ -87,6 +91,8 @@
   <string name="dialog_title_select_template">Pick a template</string>
   <string name="dialog_title_template_title">Set the title</string>
   <string name="dialog_title_warning_delete_account">Delete account?</string>
+  <string name="dialog_title_warning_delete_template">Delete template?</string>
+  <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
   <string name="dialog_title_welcome">Welcome!</string>
   <string name="donate">Donate</string>
   <string name="donate_dialog_text">Please donate via PayPal, Flattr or Bitcoin, and then request a contrib key from the settings screen.</string>
@@ -145,20 +151,20 @@
   <string name="menu_contrib">Contribute</string>
   <string name="menu_create">Create</string>
   <string name="menu_create_account">New account</string>
+  <string name="menu_create_main_cat">New main category</string>
   <string name="menu_create_method">New payment method</string>
   <string name="menu_create_party">New party</string>
-  <string name="menu_create_transaction">New Transaction</string>
-  <string name="menu_create_transfer">New Transfer</string>
   <string name="menu_create_split">New split</string>
   <string name="menu_create_split_part_category">New category split part</string>
   <string name="menu_create_split_part_transfer">New transfer split part</string>
-  <string name="menu_create_main_cat">New main category</string>
   <string name="menu_create_sub_cat">New sub category</string>
   <string name="menu_create_template">New template</string>
   <string name="menu_create_template_for_transaction">New transaction template</string>
   <string name="menu_create_template_for_transfer">New transfer template</string>
+  <string name="menu_create_transaction">New Transaction</string>
   <string name="menu_create_transaction_from_template_and_edit">New and edit</string>
   <string name="menu_create_transaction_from_template_and_save">New and save</string>
+  <string name="menu_create_transfer">New Transfer</string>
   <string name="menu_delete">Delete</string>
   <string name="menu_distribution">Distribution</string>
   <string name="menu_edit">Edit</string>
@@ -220,10 +226,11 @@
   <string name="plan">Plan</string>
   <string name="plan_automatic">automatic</string>
   <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
-  <string name="plan_calendar_name">My Expenses planer</string>
+  <string name="plan_calendar_name">My Expenses planner</string>
   <!-- This message is shown, after a user decides to not apply a manual plan -->
   <string name="plan_execution_canceled">Plan execution canceled</string>
   <string name="plan_manual">manual</string>
+  <string name="planner_setup_info">Please select a calendar for storing plans in the settings.</string>
   <!-- payment methods -->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Credit card</string>
@@ -267,6 +274,8 @@
   <string name="pref_perform_share_summaryOff">The file will not be shared after each export.</string>
   <string name="pref_perform_protection_title">Password protection</string>
   <string name="pref_perform_protection_summary">Should app launches and resumes be protected?</string>
+  <string name="pref_planning_calendar_title">Planning calendar</string>
+  <string name="pref_planning_calendar_summary">Select the calendar where plans for future and recurring transactions are stored</string>
   <string name="pref_protection_delay_seconds_title">Delay until protection</string>
   <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password.</string>
   <string name="pref_qif_export_file_encoding_title">Character encoding</string>
@@ -276,6 +285,9 @@
   <string name="pref_restore_summary">Restore the backup from folder \"myexpenses\" on the sdcard.</string>
   <string name="pref_share_target_title">Upload URL</string>
   <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate apps (Email, Dropbox, Google Docs, &#8230;), or provide URL in one of the supported schemes</string>
+  <string name="pref_shortcut_account_list_title">\'Account list\' shortcut</string>
+  <string name="pref_shortcut_summary">Add the shortcut to Home Screen</string>
+  <string name="pref_shortcut_added">Shortcut has been added to Home Screen</string>
   <string name="pref_security_question_title">Security question</string>
   <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password. Requires &app_name; Contrib.</string>
   <string name="pref_send_feedback_title">Send feedback</string>
@@ -295,6 +307,7 @@
   <string name="restore_preferences_failure">Preferences restore failed</string>
   <string name="restore_preferences_success">Preferences have been restored from backup.</string>
   <string name="save_transaction_error">Could not save new transaction from template</string>
+  <string name="save_transaction_template_deleted">Template has been deleted</string>
   <string name="save_transaction_from_template_success">New transaction successfully saved from template</string>
   <string name="save_transaction_and_new_success">Successfully saved</string>
   <string name="select">Select</string>
@@ -312,6 +325,7 @@
   <string name="sum_income">Income</string>
   <string name="sum_expenses">Expenses</string>
   <string name="sum_transfer">Transfers</string>
+  <string name="template">Template</string>
   <string name="template_create_success">Template \"%1$s\" created successfully</string>
   <string name="template_title_exists">A template with title \"%1$s\" already exists</string>
   <string name="thank_you">Thank you for your support!</string>
@@ -326,6 +340,8 @@
   <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. &continue;</string>
   <string name="warning_delete_account">This account will be deleted with all its transactions. &continue;</string>
+  <string name="warning_delete_template">This template (and any associated plan) will be deleted. &continue;</string>
+  <string name="warning_delete_transaction">This transaction will be deleted. &continue;</string>
   <string name="warning_password_no_contrib">If you set a password, take care not to forget it. You will not be able to recover it, unless you set a security question (Requires &app_name; Contrib).</string>
   <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
   <string name="warning_reset_account">If you proceed, all transactions of this account are deleted from the database and cannot be restored.</string>

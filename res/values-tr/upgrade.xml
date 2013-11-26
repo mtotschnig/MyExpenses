@@ -18,6 +18,9 @@
   <!ENTITY app_name "Harcamalarım">
 ]>
 <resources>
+	<string-array name="whats_new_88">
+    <item>Gelecekteki ve tekrar eden muameleler için planlama</item>
+  </string-array>
   <string-array name="whats_new_84">
     <item>Referans sayısı (çek ile ödemeler)</item>
     <item>Hesap listesi ile başlangıç</item>
