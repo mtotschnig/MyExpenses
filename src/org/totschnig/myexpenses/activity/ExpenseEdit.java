@@ -224,6 +224,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     //Spinner for setting Status
     Spinner statusSpinner = (Spinner) findViewById(R.id.Status);
     if (getmAccount().type.equals(Type.CASH) ||
+        mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer)
       statusSpinner.setVisibility(View.GONE);
@@ -507,7 +508,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       //3 handle edit existing transaction or new one from template
       //3b  fill comment
       mCommentText.setText(mTransaction.comment);
-      mReferenceNumberText.setText(mTransaction.referenceNumber);
       if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
         mPayeeText.setText(mTransaction.payee);
       }
@@ -555,7 +555,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
        }
       });
       mPlanToggleButton.setChecked(((Template) mTransaction).planExecutionAutomatic);
-    }
+    } else
+      mReferenceNumberText.setText(mTransaction.referenceNumber);
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer))
@@ -635,7 +636,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mTransaction.amount.setAmountMajor(amount);
 
     mTransaction.comment = mCommentText.getText().toString();
-    mTransaction.referenceNumber = mReferenceNumberText.getText().toString();
+
     if (mTransaction instanceof Template) {
       title = mTitleText.getText().toString();
       if (title.equals("")) {
@@ -644,7 +645,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       }
       ((Template) mTransaction).title = title;
       ((Template) mTransaction).planId = mPlanId;
-    }
+    } else
+      mTransaction.referenceNumber = mReferenceNumberText.getText().toString();
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer))
@@ -854,8 +856,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mTransaction.methodId = id;
         //ignore first row "no method" merged in
         mMethodsCursor.moveToPosition(position-1);
-        mReferenceNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED))>0 ?
-            View.VISIBLE : View.INVISIBLE);
+        if (!(mTransaction instanceof Template))
+          mReferenceNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED))>0 ?
+              View.VISIBLE : View.INVISIBLE);
       }
       else {
         mTransaction.methodId = null;
