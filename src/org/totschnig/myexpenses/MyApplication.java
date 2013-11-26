@@ -452,8 +452,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
                       Events.EVENT_TIMEZONE,
                       Events.DURATION,
                       Events.DESCRIPTION},
-                  null,
-                  null,
+                  Events.CALENDAR_ID + " = ?",
+                  new String[] {oldValue},
                   null);
               if (eventCursor != null && eventCursor.moveToFirst()) {
                 //Log.i("DEBUG", DatabaseUtils.dumpCursorToString(eventCursor));
@@ -471,7 +471,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
                 planValues.put(DatabaseConstants.KEY_PLANID, planId);
                 int updated = cr.update(ContentUris.withAppendedId(Template.CONTENT_URI, templateId), planValues, null, null);
                 Log.i("DEBUG","updated plan id in template:" + updated);
-                int deleted = cr.delete(eventUri, null, null);
+                int deleted = cr.delete(eventUri,
+                    null,
+                    null);
                 Log.i("DEBUG","deleted old event: " + deleted);
               }
               eventCursor.close();
