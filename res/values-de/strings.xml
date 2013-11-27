@@ -46,7 +46,6 @@
   <string name="contrib_feature_split_transaction_label">Splitbuchung</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
   <string name="currency">Währung</string>
-  <string name="currency_not_iso4217">%1$s ist kein gültiger ISO 4217 Währungscode</string>
   <string name="current_balance">Aktueller Saldo</string>
   <string name="date">Datum</string>
   <string name="date_time">Datum / Zeit</string>
@@ -244,7 +243,6 @@
   <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Kategorien (und Partner) aus den inkludierten Grisbi-Standard-Definitionen oder aus Ihrer eigenen Datei importieren. Letztere müssen Sie unter dem Namen &grisbi_file; in dem Ordner myexpenses im Wurzelverzeichnis der SD-Karte speichern</string>
   <string name="pref_manage_accounts_title">Konten</string>
-  <string name="pref_manage_accounts_summary">Hinzufügen, Editieren und Löschen von Konten.</string>
   <string name="pref_manage_categories_title">Kategorien</string>
   <string name="pref_manage_categories_summary">Hinzufügen, Editieren und Löschen von Kategorien.</string>
   <string name="pref_manage_methods_title">Zahlungsweisen</string>

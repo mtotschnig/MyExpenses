@@ -44,7 +44,6 @@
   <string name="contrib_feature_split_transaction_label">Operazione suddivisa</string>
   <string name="contrib_key">Chiave Contrib</string>
   <string name="currency">Valuta</string>
-  <string name="currency_not_iso4217">%1$s non è un codice valido secondo la ISO 4217</string>
   <string name="current_balance">Saldo corrente</string>
   <string name="date">Data</string>
   <string name="date_time">Data / Ora</string>
@@ -227,7 +226,6 @@
   <string name="pref_import_from_grisbi_summary">Scegli tra le definizioni standard di Grisbi, inclusi  nell\'applicazione, e il vostro proprio file salvato come &grisbi_file; nella cartellla myexpenses della radice della vostra scheda SD.</string>
   <string name="pref_import_from_grisbi_title">Importazione dei dati Grisbi</string>
   <string name="pref_manage_accounts_title">Conti</string>
-  <string name="pref_manage_accounts_summary">Aggiungere, modificare e cancellare conti.</string>
   <string name="pref_manage_categories_title">Categorie</string>
   <string name="pref_manage_categories_summary">Aggiungere, modificare, cancellare categorie.</string>
   <string name="pref_manage_methods_title">Modi di pagamento</string>

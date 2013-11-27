@@ -38,7 +38,6 @@
   <string name="contrib_feature_split_transaction_label">Tranzakció felosztása</string>
   <string name="contrib_key">Contrib kulcs</string>
   <string name="currency">Pénznem</string>
-  <string name="currency_not_iso4217">%1$s nem szerepel az ISO 4217-ben</string>
   <string name="current_balance">Aktuális egyenleg</string>
   <string name="date">Dátum</string>
   <string name="date_time">Dátum / Idő</string>
@@ -227,7 +226,6 @@
   <string name="pref_import_from_grisbi_title">Importálás innen: Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Kategóriák (és résztvevők) beolvasása az alap Grisbi meghatározások, vagy a saját SD-kártya root könyvtárában található \"myexpenses\" könyvtár grisbi.xml alapján.</string>
   <string name="pref_manage_accounts_title">Számlák</string>
-  <string name="pref_manage_accounts_summary">Számlák hozzáadása, szerkesztése, törlése</string>
   <string name="pref_manage_categories_title">Kategóriák</string>
   <string name="pref_manage_categories_summary">Kategóriák hozzáadása, szerkesztése, törlése.</string>
   <string name="pref_manage_methods_title">Fizetési módok</string>

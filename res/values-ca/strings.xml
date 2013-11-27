@@ -43,7 +43,6 @@
   <string name="contrib_feature_split_transaction_label">Transacció dividida</string>
   <string name="contrib_key">Clau Contrib</string>
   <string name="currency">Moneda</string>
-  <string name="currency_not_iso4217">%1$s no és un codi de moneda vàlid segons ISO 4217.</string>
   <string name="current_balance">Saldo actual</string>
   <string name="date">Data</string>
   <string name="date_time">Data / Hora</string>
@@ -232,7 +231,6 @@
   <string name="pref_import_from_grisbi_title">Importa de Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Importa les categories (i els tercers) de les definicions estándar de Grisbi, o del vostre propi fitxer &grisbi_file; que ha d\'estar a la carpeta myexpenses del directori arrel de la targeta SD.</string>
   <string name="pref_manage_accounts_title">Comptes</string>
-  <string name="pref_manage_accounts_summary">Afegeix, modifica i suprimeix comptes</string>
   <string name="pref_manage_categories_title">Categories</string>
   <string name="pref_manage_categories_summary">Afegeix, modifica i suprimeix categories.</string>
   <string name="pref_manage_methods_title">Mètodes de pagament</string>

@@ -40,7 +40,6 @@
   <string name="contrib_feature_split_transaction_label">Bölünmüş muamele</string>
   <string name="contrib_key">Katkı anahtarı</string>
   <string name="currency">Döviz</string>
-  <string name="currency_not_iso4217">%1$s ISO 4217 olarak belirtilmemiş</string>
   <string name="current_balance">Güncel bakiye</string>
   <string name="date">Tarih</string>
   <string name="date_time">Tarih / Zaman</string>
@@ -70,6 +69,7 @@
   <string name="dialog_security_question">Soru</string>
   <string name="dialog_security_answer">Cevap</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
+  <string name="dialog_title_planner_setup_info">Takvim kurulumu gereklidir</string>
   <string name="dialog_title_restore_on_install">Yedekleme tespit edildi</string>
   <string name="dialog_title_select_account">Bir hesap seçin</string>
   <string name="dialog_title_select_import_source">İçe aktarım için bir kaynak seçin</string>
@@ -208,6 +208,7 @@
   <string name="plan_calendar_name">Harcamalarım planlayıcısı</string>
   <string name="plan_execution_canceled">Planı yürütme iptal edildi</string>
   <string name="plan_manual">el ile</string>
+  <string name="planner_setup_info">Ayarlarda planların saklanacağı bir takvim seç</string>
   <string name="pm_cheque">Çek</string>
   <string name="pm_creditcard">Kredi kartı</string>
   <string name="pm_deposit">Mevduat</string>
@@ -234,7 +235,6 @@
   <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
   <string name="pref_import_from_grisbi_summary">Uygulamaya dahili olan ve varsayılan Grisbi tanımlamalarından ya da SD kartının kökünde \"myexpenses\" klasöründe grisbi.xml dosyası olarak saklanmış kendi dosyanızdan kategori (ve bölüm) içeri aktar.</string>
   <string name="pref_manage_accounts_title">Hesaplar</string>
-  <string name="pref_manage_accounts_summary">Hesap ekle, düzenle ve sil.</string>
   <string name="pref_manage_categories_title">Kategoriler</string>
   <string name="pref_manage_categories_summary">Kategori ekle, düzenle ve sil.</string>
   <string name="pref_manage_methods_title">Ödeme metotları</string>
@@ -250,6 +250,8 @@
   <string name="pref_perform_share_summaryOff">Dışa aktarımlardan sonra dosya paylaşılmayacaktır.</string>
   <string name="pref_perform_protection_title">Parola ile güvenlik</string>
   <string name="pref_perform_protection_summary">Uygulama başlatılmaları ve sürdürmeleri korunsun mu?</string>
+  <string name="pref_planning_calendar_title">Planlama takvimi</string>
+  <string name="pref_planning_calendar_summary">Gelecekteki ve tekrar eden muamelelerin saklanacağı takvimi seç</string>
   <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
   <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
@@ -262,6 +264,9 @@
   <string name="pref_send_feedback_title">Geri bildirim gönder</string>
   <string name="pref_share_target_title">Yükleme adresi</string>
   <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, …) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
+  <string name="pref_shortcut_account_list_title">\'Hesap listesi\' kısayolu</string>
+  <string name="pref_shortcut_added">Ana ekrana kısayol eklenmiştir</string>
+  <string name="pref_shortcut_summary">Ana ekrana kısayol ekle</string>
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_ui_theme_dark">karanlık</string>
   <string name="pref_ui_theme_light">aydınlık</string>

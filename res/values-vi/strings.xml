@@ -38,7 +38,6 @@
   <string name="contrib_feature_split_transaction_label">Phân tách giao dịch</string>
   <string name="contrib_key">Khóa cống hiến</string>
   <string name="currency">Tiền tệ</string>
-  <string name="currency_not_iso4217">%1$s chưa được xác định theo chuẩn ISO 4217</string>
   <string name="current_balance">Trạng thái cân bằng hiện tại</string>
   <string name="date">Ngày tháng</string>
   <string name="date_time">Ngày tháng / Thời gian</string>
@@ -224,7 +223,6 @@
   <string name="pref_import_from_grisbi_title">Nhập dữ liệu về Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Nhập các phân loại (và các nhóm) theo mặc định từ phần dữ liệu thuộc Grisbi, hoặc các tập tin dạng grisbi.xml trong thư mục \"myexpenses\" ở phần thẻ nhớ của bạn.</string>
   <string name="pref_manage_accounts_title">Tài khoản</string>
-  <string name="pref_manage_accounts_summary">Thêm, chỉnh sửa, xóa tài khoản.</string>
   <string name="pref_manage_categories_title">Phân loại</string>
   <string name="pref_manage_categories_summary">Thêm, chỉnh sửa, xóa phân loại.</string>
   <string name="pref_manage_methods_title">Phương thức chi trả</string>
