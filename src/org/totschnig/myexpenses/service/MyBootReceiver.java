@@ -11,7 +11,7 @@ public class MyBootReceiver extends BroadcastReceiver {
 
   @Override
   public void onReceive(Context context, Intent intent) {
-    Log.i("DEBUG","Inside boot receiver");
+    Log.i(MyApplication.TAG,"Boot broadcast received, calling initPlanner");
     MyApplication.getInstance().initPlanner();
   }
 }

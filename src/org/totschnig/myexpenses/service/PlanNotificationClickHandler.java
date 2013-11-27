@@ -21,7 +21,6 @@ public class PlanNotificationClickHandler extends IntentService {
   }
   @Override
   protected void onHandleIntent(Intent intent) {
-    Log.i("DEBUG","Inside PlanNotificationClickHandler onHandleIntent");
     int message;
     String title = intent.getExtras().getString("title");
     if (intent.getAction().equals("Apply")) {
@@ -38,7 +37,6 @@ public class PlanNotificationClickHandler extends IntentService {
       message = R.string.plan_execution_canceled;
     }
     int notificationId = intent.getExtras().getInt("notification_id");
-    Log.i("DEBUG","updating with id " + notificationId);
     NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
         .setSmallIcon(R.drawable.icon)
         .setContentTitle(title)

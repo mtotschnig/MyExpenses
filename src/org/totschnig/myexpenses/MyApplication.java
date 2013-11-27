@@ -401,7 +401,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           plannerCalendarId = "-1";
         else {
           if (c.getCount() == 0) {
-            Log.i("DEBUG","configured calendar has been deleted: "+ plannerCalendarId);
+            Log.i(TAG,"configured calendar has been deleted: "+ plannerCalendarId);
             plannerCalendarId = "-1";
           }
           c.close();
@@ -434,7 +434,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             new String[]{calendarName}, null);
         if (c.moveToFirst()) {
           plannerCalendarId = c.getString(0);
-          Log.i("DEBUG","found preexisting calendar: "+ plannerCalendarId);
+          Log.i(TAG,"found a preexisting calendar: "+ plannerCalendarId);
           c.close();
         } else  {
           c.close();
@@ -464,15 +464,15 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           try {
             uri = cr.insert(builder.build(), values);
           } catch (IllegalArgumentException e) {
-            Log.i("DEBUG","Inserting planner calendar failed, Calendar app not installed?");
+            Log.w(TAG,"Inserting planner calendar failed, Calendar app not installed?");
             return "-1";
           }
           plannerCalendarId = uri.getLastPathSegment();
           if (plannerCalendarId == null) {
-            Log.i("DEBUG","Inserting planner calendar failed, last path segment is null");
+            Log.w(TAG,"Inserting planner calendar failed, last path segment is null");
             return "-1";
           }
-          Log.i("DEBUG","successfully set up new calendar: "+ plannerCalendarId);
+          Log.i(TAG,"successfully set up new calendar: "+ plannerCalendarId);
         }
         settings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId).commit();
         return plannerCalendarId;
@@ -486,7 +486,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      * 3) reschedule execution through alarm 
      */
     public void initPlanner() {
-      Log.i("DEBUG","Inside init planner");
+      Log.i(TAG,"initPlanner called");
       Intent service = new Intent(this, PlanExecutor.class);
       startService(service);
     }
@@ -495,7 +495,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
         String key) {
       if (key.equals(PREFKEY_PLANNER_CALENDAR_ID)) {
-        Log.i("DEBUG","onSharedPreferenceChanged fired in MyApplication");
         String oldValue = mPlannerCalendarId;
         String newValue = sharedPreferences.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
         mPlannerCalendarId = newValue;
@@ -543,14 +542,14 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
                 eventValues.put(Events.DESCRIPTION, eventCursor.getString(7));
                 Uri uri = cr.insert(Events.CONTENT_URI, eventValues);
                 planId = ContentUris.parseId(uri);
-                Log.i("DEBUG","copied event from old to new" + planId);
+                Log.i(TAG,"copied event from old to new" + planId);
                 planValues.put(DatabaseConstants.KEY_PLANID, planId);
                 int updated = cr.update(ContentUris.withAppendedId(Template.CONTENT_URI, templateId), planValues, null, null);
-                Log.i("DEBUG","updated plan id in template:" + updated);
+                Log.i(TAG,"updated plan id in template:" + updated);
                 int deleted = cr.delete(eventUri,
                     null,
                     null);
-                Log.i("DEBUG","deleted old event: " + deleted);
+                Log.i(TAG,"deleted old event: " + deleted);
               }
               eventCursor.close();
             } while (planCursor.moveToNext());

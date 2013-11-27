@@ -38,7 +38,6 @@
   <string name="contrib_feature_split_transaction_label">تقسيم العمليات</string>
   <string name="contrib_key">مفتاح المساهمة</string>
   <string name="currency">العملة</string>
-  <string name="currency_not_iso4217">%1$s ليس معرّفا في ISO 4217</string>
   <string name="current_balance">الرصيد الحالي</string>
   <string name="date">التاريخ</string>
   <string name="date_time">التاريخ / الوقت</string>
@@ -220,7 +219,6 @@
   <string name="pref_import_from_grisbi_title">استيراد من Grisbi</string>
   <string name="pref_import_from_grisbi_summary">استيراد التصنيفات (والأطراف) من تعريفات Grisbi الافتراضية الداخلية إلى التطبيق، أو من ملفك الخاص المخزن على هيئة grisbi.xml داخل مجلد \"myexpenses\" على سطح الذاكرة.</string>
   <string name="pref_manage_accounts_title">الحسابات</string>
-  <string name="pref_manage_accounts_summary">إضافة، تعديل، حذف الحسابات.</string>
   <string name="pref_manage_categories_title">التصنيفات</string>
   <string name="pref_manage_categories_summary">إضافة، تعديل، حذف التصنيفات.</string>
   <string name="pref_manage_methods_title">طرق الدفع</string>

@@ -44,7 +44,6 @@
   <string name="contrib_feature_split_transaction_label">Asiento dividido</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="currency">Moneda</string>
-  <string name="currency_not_iso4217">%1$s no es un código de moneda válido según ISO 4217.</string>
   <string name="current_balance">Saldo actual</string>
   <string name="date">Fecha</string>
   <string name="date_time">Fecha / Hora</string>
@@ -231,7 +230,6 @@
   <string name="pref_import_from_grisbi_title">Importación desde Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Importar categorías (y socios) desde las incluidas definiciones estándar de Grisbi o de su propio archivo. Usted tiene que archivar este último bajo el nombre &grisbi_file; en la carpeta myexpenses en el directorio raíz de la tarjeta SD.</string>
   <string name="pref_manage_accounts_title">Cuentas</string>
-  <string name="pref_manage_accounts_summary">Añadir, modificar y borrar cuentas</string>
   <string name="pref_manage_categories_title">Categorías</string>
   <string name="pref_manage_categories_summary">Añadir, modificar y borrar categorías.</string>
   <string name="pref_manage_methods_title">Métodos de pago</string>
