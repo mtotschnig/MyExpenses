@@ -38,7 +38,7 @@ public class PlanExecutor extends IntentService {
   @Override
   public void onHandleIntent(Intent intent) {
     Log.i(MyApplication.TAG,"started PlanExecutor");
-    String plannerCalendarId = MyApplication.getInstance().requirePlanner();
+    String plannerCalendarId = MyApplication.getInstance().checkPlanner();
     if (plannerCalendarId.equals("-1")) {
       return;
     }

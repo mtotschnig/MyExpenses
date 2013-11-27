@@ -59,6 +59,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -436,6 +437,13 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     case R.id.INSERT_TRANSFER_COMMAND:
       createRow(MyExpenses.TYPE_TRANSFER);
       return true;
+    case R.id.CREATE_COMMAND:
+      //create calendar
+      getSupportFragmentManager().beginTransaction()
+      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_CALENDAR,null), "ASYNC_TASK")
+      .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
+      .commit();
+      return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -803,10 +811,34 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     switch(taskId) {
     case TaskExecutionFragment.TASK_NEW_PLAN:
       mPlanId = (Long) o;
+      //unable to create new plan, inform user
       if (mPlanId == null) {
-        MessageDialogFragment.newInstance(R.string.dialog_title_planner_setup_info,
-            R.string.planner_setup_info,R.id.SETTINGS_COMMAND,null)
-          .show(getSupportFragmentManager(),"CALENDAR_SETUP_INFO");
+        MessageDialogFragment.Button createNewButton;
+        int message;
+        int selectButtonLabel;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+          createNewButton =
+                new MessageDialogFragment.Button(
+                    R.string.dialog_setup_planner_create_new,
+                    R.id.CREATE_COMMAND,
+                    null);
+          message = R.string.planner_setup_info_jb;
+          selectButtonLabel = R.string.dialog_setup_planner_select_existing;
+        } else {
+          createNewButton = null;
+          message = R.string.planner_setup_info;
+          selectButtonLabel = android.R.string.yes;
+        }
+        MessageDialogFragment.newInstance(
+            R.string.dialog_title_planner_setup_info,
+            message,
+            new MessageDialogFragment.Button(
+                selectButtonLabel,
+                R.id.SETTINGS_COMMAND,
+                null),
+            createNewButton,
+            MessageDialogFragment.Button.CANCEL_BUTTON())
+         .show(getSupportFragmentManager(),"CALENDAR_SETUP_INFO");
       } else {
         if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
           mManager.restartLoader(EVENT_CURSOR, null, ExpenseEdit.this);
