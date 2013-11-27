@@ -148,8 +148,12 @@ public class ManageAccounts extends LaunchActivity implements
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
-      MessageDialogFragment.newInstance(R.string.dialog_title_warning_delete_account,
-          R.string.warning_delete_account,R.id.DELETE_COMMAND_DO,info.id)
+      MessageDialogFragment.newInstance(
+          R.string.dialog_title_warning_delete_account,
+          R.string.warning_delete_account,
+          new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, info.id),
+          null,
+          MessageDialogFragment.Button.CANCEL_BUTTON())
         .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
       return true;
     case R.id.RESET_ACCOUNT_COMMAND:
