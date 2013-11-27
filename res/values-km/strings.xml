@@ -25,7 +25,6 @@
   <string name="contrib_feature_split_transaction_label">ការញែក​​ប្រតិបត្តិការ</string>
   <string name="contrib_key">Contrib key</string>
   <string name="currency">រូបិយប័ណ្ណ</string>
-  <string name="currency_not_iso4217">%1$s មិនមាន​កំណត់ក្នុង ISO 4217 ទេ</string>
   <string name="current_balance">សមតុល្យ​បច្ចុប្បន្ន</string>
   <string name="date">កាលបរិច្ឆេទ</string>
   <string name="date_time">កាលបរិច្ឆេទ / ពេលវេលា</string>
@@ -232,7 +231,6 @@
   <string name="pref_import_from_grisbi_title">នាំចូលពី Grisbi</string>
   <string name="pref_import_from_grisbi_summary">នាំចូល​ចំណាត់ថ្នាក់ (និង​ភាគី) ពី​ទិន្នន័យ​ដើម​របស់ Grisbi ខាងក្នុង​ចូល​ក្នុង​កម្មវិធី ឬ​ដាក់​ឯកសារ​ជា grisbi.xml ក្នុងថត \"myexpenses\" នៃថត​ដើម​បំផុត​​របស់ sdcard អ្នក</string>
   <string name="pref_manage_accounts_title">គណនី</string>
-  <string name="pref_manage_accounts_summary">បញ្ចូល កែ លុប​ គណនី។</string>
   <string name="pref_manage_categories_title">ចំណាត់ថ្នាក់</string>
   <string name="pref_manage_categories_summary">បញ្ចូល កែ លុប​ចំណាត់ថ្នាក់។</string>
   <string name="pref_manage_methods_title">វិធីសាស្ត្រទូទាត់​ប្រាក់</string>

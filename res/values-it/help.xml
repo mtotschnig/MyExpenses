@@ -45,7 +45,8 @@
   <string name="menu_create_party_help_text">Apre la finestra di dialogo per specificare il nome di un nuovo pagatore o beneficiario.</string>
 
   <!-- ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_info">Questa schermata elenca i modelli disponibili raggruppati per conto. Mentre i modelli possono essere derivate da operazioni, qui, il menu contestuale di ogni conto consente di creare nuovi modelli (per le transazioni o trasferimenti). Dal menu contestuale di un modello è possibile creare un\'istanza di esso e decidere se salvare immediatamente o inserire la sua forma di modifica in cui è possibile modificarla prima di salvare. Facendo clic su una voce permette di modificarlo (caratteristica Contrib).</string>
+  <string name="menu_create_template_for_transaction_help_text">Creare un nuovo modello per un operazione</string>
+  <string name="menu_create_template_for_transfer_help_text">Creare un nuovo modello per il trasferimento</string>
 
   <!-- ManageCategories -->
   <string name="help_ManageCategories_distribution_info">Questa schermata mostra la distribuzione delle tue spese e redditi per categorie, per tutte le operazioni in un conto, o per un gruppo specifico.</string>
@@ -65,18 +66,17 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Modulo per i somme parziali (trasferimenti)</string>
   <string name="help_ExpenseEdit_info">Fare clic sul pulsante - per passare gli spese e i redditti. Fare clic sul pulsante = per aprire una calcolatrice.</string>
   <string name="help_ExpenseEdit_transaction_info">Il campo \"benficiario\" memorizza i valori inseriti, e li suggerisce la prossima volta che si entra questo. Il pulsante per la selezione di un metodo di pagamento, è disponibile solo se il conto corrente è di tipo collegato a qualsiasi metodo di pagamento. Per impostazione predefinita, solo i conti bancari sono legati a metodi di pagamento (assegno, carta di credito, deposito, addebito diretto).</string>
+  <string name="help_ExpenseEdit_transfer_info">Selezionare il conto di trasferimento dal menu a tendina.</string>
   <string name="help_ExpenseEdit_split_info">Inserisci come molte somme parziali come necessari attraverso i comandi di menu per la somma parziale (categoria e trasferimento). La metà inferiore dello schermo visualizza l\'elenco delle somme parziali e l\'importo che non è ancora stato assegnato a una categoria o di un trasferimento. Si può solo salvare la operazione suddivisa, se l\'importo della operazione è stato esattamente assegnato.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Seleziona una categoria per la somma parziale.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Assegnare un conto di trasferimento per la somma parziale.</string>
-  <string name="help_ExpenseEdit_transfer_info">Selezionare il conto di trasferimento dal menu a tendina.</string>
-  <string name="help_ExpenseEdit_template_info">Il titolo consente di identificare un modello quando lo si seleziona per istanziare nuove operazioni.</string>
   <string name="menu_create_split_part_category_help_text">Apre il modulo per l\'assegnazione di una somma parziale di una categoria.</string>
   <string name="menu_create_split_part_transfer_help_text">Apre il modulo per la definizione di una somma parziale come un trasferimento a un altro conto.</string>
   <string name="menu_save_help_text">Salva i dati e chiude il modulo.</string>
   <string name="menu_save_and_new_help_text">Salva i dati, lascia la forma aperta per la creazione di una nuova transazione con gli stessi dati.</string>
   <!-- AccountEdit -->
   <string name="help_AccountEdit_title">Modulo per i conti</string>
-  <string name="help_AccountEdit_info">Il conto è identificata dalla sua etichetta, la descrizione ha solo uno scopo informativo. La valuta può essere facilmente selezionato da una lista. Puo assegnare qualsiasi conto a uno dei seguenti tipi: Conto di denaro contante, conto bancario, conto d’investimento, conto d’accredito. Il tipo determina i metodi di pagamento disponibili che possono essere configurate in Impostazioni -> Gestione -> Metodi di pagamento.</string>
+  <string name="help_AccountEdit_info">Il conto è identificata dalla sua etichetta, la descrizione ha solo uno scopo informativo. La valuta può essere facilmente selezionato da una lista. Puo assegnare qualsiasi conto a uno dei seguenti tipi: Conto di denaro contante, conto bancario, conto d’investimento, conto d’accredito. Il tipo determina i metodi di pagamento disponibili che possono essere configurate in Impostazioni -&gt; Gestione -&gt; Metodi di pagamento.</string>
   <!-- MethodEdit -->
   <string name="help_MethodEdit_title">Modulo per i metodi di pagamento</string>
   <string name="help_MethodEdit_info">In questa schermata, è possibile associare un metodo di pagamento con i tipi di conto. È inoltre possibile definire una etichetta (con l\'eccezione dei metodi predefiniti che hanno un etichetta fissa che non può essere modificata). Attraverso il tipo di un metodo, si determina se è applicabile per le spese (debito), reddito (credito) o entrambi (neutrale).</string>

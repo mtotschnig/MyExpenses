@@ -20,6 +20,7 @@
 <resources>
 	<string-array name="whats_new_88">
 		<item>Plans for future and recurring transactions</item>
+		<item>Khmer translation</item>
 	</string-array>
   <string-array name="whats_new_84">
     <item>Reference number (cheque payments)</item>

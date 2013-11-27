@@ -80,8 +80,8 @@
   <string name="dialog_title_planner_setup_info">Calendar setup required</string>
   <string name="dialog_title_restore_on_install">Backup detected</string>
   <string name="dialog_title_select_account">Pick an account</string>
-  <string name="dialog_title_select_import_source">Pick a source for import</string>
   <string name="dialog_title_select_grouping">Pick a grouping</string>
+  <string name="dialog_title_select_import_source">Pick a source for import</string>
   <string name="dialog_title_select_template">Pick a template</string>
   <string name="dialog_title_template_title">Set the title</string>
   <string name="dialog_title_warning_delete_account">Delete account?</string>

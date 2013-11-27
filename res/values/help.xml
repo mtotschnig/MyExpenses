@@ -73,10 +73,10 @@
   <string name="help_ExpenseEdit_split_info">Enter as many split parts as needed through the menu commands for category splits and transfer splits. 	The bottom half of the screen displays the list of split parts and the amount that has not yet been assigned to a category or a transfer. 	You can only save the split transaction if the transaction amount has been exactly assigned.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Select a category for the split part.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Assign a transfer account to the split part.</string>
-  <string name="menu_save_help_text">Save the data and close the form.</string>
-  <string name="menu_save_and_new_help_text">Save the data, leave the form open for creating a new transaction with the same data.</string>
   <string name="menu_create_split_part_category_help_text">Opens the form for assigning a part of the split to a category.</string>
   <string name="menu_create_split_part_transfer_help_text">Opens the form for defining a part of the split as a transfer to another account.</string>
+  <string name="menu_save_help_text">Save the data and close the form.</string>
+  <string name="menu_save_and_new_help_text">Save the data, leave the form open for creating a new transaction with the same data.</string>
   <!-- AccountEdit -->
   <string name="help_AccountEdit_title">Form for accounts</string>
   <string name="help_AccountEdit_info">The account is identified by its label, the description has only an informative purpose. The currency can be chosen easily from a list. You can define the type of an account as one of Cash, Bank, Asset, Liabilities, Credit Card. The type determines the available payment methods that you can configure under Settings -> Manage -> Payment Methods.</string>
