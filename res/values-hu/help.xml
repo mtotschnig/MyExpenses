@@ -36,8 +36,6 @@
   <string name="help_ManageMethods_info">Ezen a képernyőn láthatóak az előre definiált fizetési módok (Csekk, Hitelkártya, Előleg, Csoportos beszedés) és itt van lehetőség új módok hozzáadására. Bármely elemre kattintva beállítható az összerendelés a fizetési mód és a számla típusa között.</string>
   <string name="menu_create_method_help_text">Űrlap az új fizetési mód beállításához.</string>
   <!--ManageParties title is in keys-->
-  <!--ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_info">A sablonok listájának képernyője - számlánként csoportosítva. A sablonok értelemszerűen a tranzakciók űrlapjánál kerülnek felhasználásra. Itt arra van lehetőség, hogy egy adott tranzakció-sablon segítségével új sablont hozzunk létre, vagy szerkesszük azt. Koppintásra szerkeszthető (Contrib szolgáltatás).</string>
   <!--ManageCategories_manage titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Ezen a képernyőn látható a kiadások és bevételek megoszlása kategóriánként minden tranzakcióra egy számlán, vagy annak egy meghatározott csoportján.</string>
   <string name="help_ManageCategories_select_info">A kategóriák kezelésén kívül, a Beállítások képernyőn (hozzáadás, szerkesztés, törlés) - ezen a képernyőn lehet hozzárendelni az adott tranzakciót a kiválasztott kategóriához. Az összerendeléshez csak rá kell koppintani a kiválasztott alkategóriára. Főkategóriához is rendelhető tranzakció, de az annak a helyi menüjében kell kiválasztani. </string>
@@ -55,7 +53,6 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Megosztások átutalásának űrlapja</string>
   <string name="help_ExpenseEdit_info">A \"-\" gombra kattintva vált a kiadás és a bevétel között. A \"=\" gomb megnyitja a számológépet.</string>
   <string name="help_ExpenseEdit_transaction_info">A kedvezményezett (vagy kifizető) mezők megőrzik a bevitt adatokat és használatuk hamarosan további lehetőségeket nyújtanak majd: nyilvántartásra kerülnek a tranzakcióban résztvevő felek. A fizetési mód választására vonatkozó gomb csak akkor érhető el, ha a jelenlegi számla összekapcsolásra került több fizetési móddal.</string>
-  <string name="help_ExpenseEdit_template_info">A cím segít a sablonok kiválasztásánál, hogy mely tranzakcióhoz tartozó sablon kerüljön példányosításra</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Kategória kiválasztása az osztott részhez.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Forrás számla hozzárendelése az osztott részhez.</string>
   <string name="menu_save_help_text">Adatok mentése és az űrlap bezárása.</string>

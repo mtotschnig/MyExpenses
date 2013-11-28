@@ -40,7 +40,6 @@
   <string name="help_ManageParties_info">Màn hình này hiển thị danh sách các hội được sử dụng cho tính năng điền thông tin tự động ở các khung thông tin của Người Trả/Người Nhận tiền. Bạn có thể xóa và chỉnh sửa các hội thông qua mỗi dòng điều tác của menu ngữ cảnh.</string>
   <string name="menu_create_party_help_text">Mở hộp thoại này để chỉ định tên của người trả hoặc người nhận tiền.</string>
   <!--ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_info">Màn hình nàyh hiển thị các danh sách mẫu hiện có được gom nhóm theo từng tài khoản. Nếu các mẫu bình thường có thể được tiếp nhận từ các giao dịch, tại đây ở menu ngữ cảnh của từng tài khoản sẽ cho phép bạn tạo các mẫu mới (dùng cho các giao dịch hoặc truyền đổi). Từ menu ngữ cảnh của mẫu bạn có thể ghi chú và cũng như có thể lưu hoặc chỉnh sửa các dòng thông tin trong mẫu đơn trước khi lưu dữ liệu. Click vào bất cứ dòng nào để có thể chỉnh sửa (dành cho tính năng cống hiến).</string>
   <!--ManageCategories_manage titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Màn hình này hiển thị việc phân phối chi tiêu của bạn cũng như thu nhập cho từng phân loại, đối với mọi giao dịch trong một tài khoản hoặc một nhóm cụ thể nào đó.</string>
   <string name="help_ManageCategories_select_info">Để có thể tác động thêm các thao tác khi quản lý các phần phân loại từ màn hình Tùy Biến (tạo, chỉnh sửa, xóa), trên màn hình này bạn có thể gán các giao dịch vào các phần phân loại đã được chọn. Bạn chọn một phân loại con để gán vào giáo dịch hiện tại chỉ đơn giản bằng cách click vào đối tượng này. Để có thể gán vào phần phân loại chính, bạn sẽ cần phải sử dụng menu bổ sung.</string>
@@ -58,7 +57,6 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Mẫu đơn cho phần chuyển đổi phân tách</string>
   <string name="help_ExpenseEdit_info">Bấm vào - Nút chuyển đổi giữa chi phí và thu nhập, bấm vào nút = để mở một máy tính.</string>
   <string name="help_ExpenseEdit_transaction_info">Trường người thụ hưởng (hoặc đối tượng nộp) nhớ các giá trị bạn nhập và sẽ đề xuất chúng trong tương lai. Nút để lựa chọn một phương thức thanh toán, chỉ khả dụng nếu tài khoản vãng lai là của một loại liên kết với bất kỳ phương thức thanh toán. Teo mặc định, tài khoản ngân hàng là loại duy nhất liên kết đến phương thức thanh toán (séc, thẻ tín dụng, tiền gửi, ghi nợ trực tiếp).</string>
-  <string name="help_ExpenseEdit_template_info">Tiêu đề cho phép bạn xác định một mẫu khi bạn chọn nó để khởi đầu các giao dịch mới.</string>
   <string name="help_ExpenseEdit_split_info">Nhập vào nhiều phần nhỏ khi cần thiết thông qua các lệnh cho việc chia tách và chuyển giao chia tách. Nửa dưới của màn hình hiển thị danh sách các phân chia phần và số tiền mà chưa được giao cho một hạng mục hoặc một chuyển nhượng. Bạn chỉ có thể lưu các giao dịch nếu chia số tiền giao dịch đã được chỉ định chính xác.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Chọn phân loại để phân tách.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Gán tài khoản truyền đổi cho phần phân tách</string>
