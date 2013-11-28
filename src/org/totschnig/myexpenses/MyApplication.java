@@ -51,6 +51,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class MyApplication extends Application implements OnSharedPreferenceChangeListener {
+    public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
+    public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
     private SharedPreferences settings;
     private static MyApplication mSelf;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
@@ -337,12 +339,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       return plannerCalendarId;
     }
     public boolean createPlanner() {
-      String accountName = "Local Calendar";
-      String calendarName = "MyExpensesPlanner";
       Uri.Builder builder = Calendars.CONTENT_URI.buildUpon();
       builder.appendQueryParameter(
           Calendars.ACCOUNT_NAME,
-          accountName);
+          PLANNER_ACCOUNT_NAME);
       builder.appendQueryParameter(
           Calendars.ACCOUNT_TYPE,
           CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
@@ -353,13 +353,13 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       ContentValues values = new ContentValues();
       values.put(
           Calendars.ACCOUNT_NAME,
-          accountName);
+          PLANNER_ACCOUNT_NAME);
       values.put(
           Calendars.ACCOUNT_TYPE,
           CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
       values.put(
           Calendars.NAME,
-          calendarName);
+          PLANNER_CALENDAR_NAME);
       values.put(
           Calendars.CALENDAR_DISPLAY_NAME,
           getString(R.string.plan_calendar_name));
