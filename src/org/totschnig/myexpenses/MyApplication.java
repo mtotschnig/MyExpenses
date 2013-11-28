@@ -335,74 +335,59 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         }
       }
       return plannerCalendarId;
-//      else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//        //on API below 16 a local calendar leads to crashes of the com.android.calendar app
-//        //hence we require users to select a different calendar in the settings
-//        String accountName = "Local Calendar";
-//        String calendarName = "MyExpensesPlanner";
-//        //first we check if our calendar exists already
-//        Uri.Builder builder = Calendars.CONTENT_URI.buildUpon();
-//        builder.appendQueryParameter(
-//            Calendars.ACCOUNT_NAME,
-//            accountName);
-//        builder.appendQueryParameter(
-//            Calendars.ACCOUNT_TYPE,
-//            CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
-//        builder.appendQueryParameter(
-//            CalendarContractCompat.CALLER_IS_SYNCADAPTER,
-//            "true");
-//        Uri calendarUri = builder.build();
-//        c = cr.query(
-//            calendarUri,
-//            new String[] {Calendars._ID},
-//              Calendars.NAME +  " = ?",
-//            new String[]{calendarName}, null);
-//        if (c.moveToFirst()) {
-//          plannerCalendarId = c.getString(0);
-//          Log.i(TAG,"found a preexisting calendar: "+ plannerCalendarId);
-//          c.close();
-//        } else {
-//          c.close();
-//          ContentValues values = new ContentValues();
-//          values.put(
-//              Calendars.ACCOUNT_NAME,
-//              accountName);
-//          values.put(
-//              Calendars.ACCOUNT_TYPE,
-//              CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
-//          values.put(
-//              Calendars.NAME,
-//              calendarName);
-//          values.put(
-//              Calendars.CALENDAR_DISPLAY_NAME,
-//              getString(R.string.plan_calendar_name));
-//          values.put(
-//              Calendars.CALENDAR_COLOR,
-//              getResources().getColor(R.color.appDefault));
-//          values.put(
-//              Calendars.CALENDAR_ACCESS_LEVEL,
-//              Calendars.CAL_ACCESS_OWNER);
-//          values.put(
-//              Calendars.OWNER_ACCOUNT,
-//              "private");
-//          Uri uri;
-//          try {
-//            uri = cr.insert(builder.build(), values);
-//          } catch (IllegalArgumentException e) {
-//            Log.w(TAG,"Inserting planner calendar failed, Calendar app not installed?");
-//            return "-1";
-//          }
-//          plannerCalendarId = uri.getLastPathSegment();
-//          if (plannerCalendarId == null) {
-//            Log.w(TAG,"Inserting planner calendar failed, last path segment is null");
-//            return "-1";
-//          }
-//          Log.i(TAG,"successfully set up new calendar: "+ plannerCalendarId);
-//        }
-//        settings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId).commit();
-//        return plannerCalendarId;
-//        }
-//      return "-1";
+    }
+    public boolean createPlanner() {
+      String accountName = "Local Calendar";
+      String calendarName = "MyExpensesPlanner";
+      Uri.Builder builder = Calendars.CONTENT_URI.buildUpon();
+      builder.appendQueryParameter(
+          Calendars.ACCOUNT_NAME,
+          accountName);
+      builder.appendQueryParameter(
+          Calendars.ACCOUNT_TYPE,
+          CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
+      builder.appendQueryParameter(
+          CalendarContractCompat.CALLER_IS_SYNCADAPTER,
+          "true");
+      Uri calendarUri = builder.build();
+      ContentValues values = new ContentValues();
+      values.put(
+          Calendars.ACCOUNT_NAME,
+          accountName);
+      values.put(
+          Calendars.ACCOUNT_TYPE,
+          CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
+      values.put(
+          Calendars.NAME,
+          calendarName);
+      values.put(
+          Calendars.CALENDAR_DISPLAY_NAME,
+          getString(R.string.plan_calendar_name));
+      values.put(
+          Calendars.CALENDAR_COLOR,
+          getResources().getColor(R.color.appDefault));
+      values.put(
+          Calendars.CALENDAR_ACCESS_LEVEL,
+          Calendars.CAL_ACCESS_OWNER);
+      values.put(
+          Calendars.OWNER_ACCOUNT,
+          "private");
+      Uri uri;
+      try {
+        uri = getContentResolver().insert(calendarUri, values);
+      } catch (IllegalArgumentException e) {
+        Log.w(TAG,"Inserting planner calendar failed, Calendar app not installed?");
+        return false;
+      }
+      String plannerCalendarId = uri.getLastPathSegment();
+      if (plannerCalendarId == null) {
+        Log.w(TAG,"Inserting planner calendar failed, last path segment is null");
+        return false;
+      }
+      Log.i(TAG,"successfully set up new calendar: "+ plannerCalendarId);
+      //onSharedPreferenceChanged should now trigger initPlanner
+      settings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId).commit();
+      return true;
     }
     /**
      * call PlanExecutor, which will 
@@ -426,7 +411,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         if (newValue != "-1") {
           if (oldValue == "-1") {
             initPlanner();
-          } else if (newValue != "-1") {
+          } else {
             ContentResolver cr = getContentResolver();
             ContentValues eventValues = new ContentValues(),
                 planValues = new ContentValues();

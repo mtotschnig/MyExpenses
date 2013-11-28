@@ -440,8 +440,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     case R.id.CREATE_COMMAND:
       //create calendar
       getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_CALENDAR,null), "ASYNC_TASK")
-      .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
+      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_CALENDAR,null,null), "ASYNC_TASK")
+      .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_calendar),"PROGRESS")
       .commit();
       return true;
     }
@@ -549,10 +549,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
             String title = mTitleText.getText().toString();
             if (MyApplication.getInstance().isContribEnabled ||
                 Template.countWithPlan() < 3) {
-              mLaunchPlanView = true;
               getSupportFragmentManager().beginTransaction()
               .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_PLAN,null, title), "ASYNC_TASK")
-              .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),"PROGRESS")
+              .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_plan),"PROGRESS")
               .commit();
             } else {
               CommonCommands.showContribDialog(ExpenseEdit.this,Feature.PLANS_UNLIMITED, null);
@@ -840,10 +839,32 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
             MessageDialogFragment.Button.CANCEL_BUTTON())
          .show(getSupportFragmentManager(),"CALENDAR_SETUP_INFO");
       } else {
+        mLaunchPlanView = true;
         if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
           mManager.restartLoader(EVENT_CURSOR, null, ExpenseEdit.this);
         else
           mManager.initLoader(EVENT_CURSOR, null, ExpenseEdit.this);
+      }
+      break;
+    case TaskExecutionFragment.TASK_NEW_CALENDAR:
+      boolean success= (Boolean) o;
+      Toast.makeText(
+          this,
+          success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
+          Toast.LENGTH_LONG).show();
+      //if we successfully created the calendar, we set up the plan immediately
+      if (success) {
+        getSupportFragmentManager().beginTransaction()
+          .add(
+              TaskExecutionFragment.newInstance(
+                  TaskExecutionFragment.TASK_NEW_PLAN,
+                  null,
+                  mTitleText.getText().toString()),
+              "ASYNC_TASK")
+          .add(
+              ProgressDialogFragment.newInstance(R.string.progress_dialog_create_plan),
+              "PROGRESS")
+          .commit();
       }
       break;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
