@@ -276,6 +276,7 @@
   <string name="pref_perform_share_title">Share export file</string>
   <string name="pref_perform_share_summaryOff">The file will not be shared after each export.</string>
   <string name="pref_perform_share_summaryOn">The file will be shared after each export.</string>
+  <string name="pref_planning_calendar_create_local">Create new local planning calendar</string>
   <string name="pref_planning_calendar_summary">Select the calendar where plans for future and recurring transactions are stored</string>
   <string name="pref_planning_calendar_title">Planning calendar</string>
   <string name="pref_protection_delay_seconds_summary">Idle seconds before app will be locked by password.</string>
