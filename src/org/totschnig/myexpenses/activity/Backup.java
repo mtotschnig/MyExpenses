@@ -22,7 +22,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;
@@ -37,7 +36,12 @@ public class Backup extends ProtectedFragmentActivityNoSherlock {
         if (getIntent().getAction().equals("myexpenses.intent.backup")) {
           File backupDb = MyApplication.getBackupDbFile();
           int message = backupDb.exists() ? R.string.warning_backup_exists : R.string.warning_backup;
-          MessageDialogFragment.newInstance(R.string.menu_backup,message,R.id.BACKUP_COMMAND,null)
+          MessageDialogFragment.newInstance(
+              R.string.menu_backup,
+              message,
+              new MessageDialogFragment.Button(android.R.string.yes, R.id.BACKUP_COMMAND, null),
+              null,
+              MessageDialogFragment.Button.CANCEL_BUTTON())
             .show(getSupportFragmentManager(),"BACKUP");
         } else {
           //restore
@@ -58,7 +62,12 @@ public class Backup extends ProtectedFragmentActivityNoSherlock {
     }
   }
   private void showRestoreDialog() {
-    MessageDialogFragment.newInstance(R.string.pref_restore_title,R.string.warning_restore,R.id.RESTORE_COMMAND,null)
+    MessageDialogFragment.newInstance(
+        R.string.pref_restore_title,
+        R.string.warning_restore,
+        new MessageDialogFragment.Button(android.R.string.yes, R.id.RESTORE_COMMAND, null),
+        null,
+        MessageDialogFragment.Button.CANCEL_BUTTON())
       .show(getSupportFragmentManager(),"BACKUP");
   }
   @Override

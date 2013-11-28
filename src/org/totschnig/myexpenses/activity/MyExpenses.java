@@ -166,10 +166,18 @@ public class MyExpenses extends LaunchActivity implements
       getSupportActionBar().hide();
       if (MyApplication.backupExists()) {
         if (!mSettings.getBoolean("restoreOnInstallAsked", false)) {
-          DialogFragment df = MessageDialogFragment.newInstance(R.string.dialog_title_restore_on_install,
+          DialogFragment df = MessageDialogFragment.newInstance(
+              R.string.dialog_title_restore_on_install,
               R.string.dialog_confirm_restore_on_install,
-              R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(true),
-              R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,Boolean.valueOf(false));
+              new MessageDialogFragment.Button(
+                  android.R.string.yes,
+                  R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,
+                  Boolean.valueOf(true)),
+              null,
+              new MessageDialogFragment.Button(
+                  android.R.string.no,
+                  R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND,
+                  Boolean.valueOf(false)));
           df.setCancelable(false);
           df.show(getSupportFragmentManager(),"RESTORE_ON_INSTALL");
           SharedPreferencesCompat.apply(

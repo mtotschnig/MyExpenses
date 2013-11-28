@@ -248,8 +248,12 @@ public class TransactionList extends BudgetListFragment implements
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
       if (checkSplitPartTransfer(info.position)) {
-        MessageDialogFragment.newInstance(R.string.dialog_title_warning_delete_transaction,
-            R.string.warning_delete_transaction,R.id.DELETE_COMMAND_DO,info.id)
+        MessageDialogFragment.newInstance(
+            R.string.dialog_title_warning_delete_transaction,
+            R.string.warning_delete_transaction,
+            new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, info.id),
+            null,
+            MessageDialogFragment.Button.CANCEL_BUTTON())
           .show(ctx.getSupportFragmentManager(),"DELETE_TRANSACTION");
       }
       return true;

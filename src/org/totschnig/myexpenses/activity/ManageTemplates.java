@@ -45,7 +45,6 @@ public class ManageTemplates extends ProtectedFragmentActivity {
 
   private static final int DELETE_TEMPLATE = Menu.FIRST;
   private static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;
-  private static final int EDIT = Menu.FIRST +3;
 
   public long mAccountId;
   public boolean calledFromCalendar;
@@ -109,10 +108,14 @@ public class ManageTemplates extends ProtectedFragmentActivity {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     Intent intent;
     switch(item.getItemId()) {
-    case DELETE_TEMPLATE:   
-      MessageDialogFragment.newInstance(R.string.dialog_title_warning_delete_template,
-          R.string.warning_delete_template,R.id.DELETE_COMMAND_DO,info.id)
-        .show(getSupportFragmentManager(),"DELETE_TEMPLATE");
+    case DELETE_TEMPLATE:
+      MessageDialogFragment.newInstance(
+          R.string.dialog_title_warning_delete_template,
+          R.string.warning_delete_template,
+          new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, info.id),
+          null,
+          MessageDialogFragment.Button.CANCEL_BUTTON())
+        .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
       return true;
     case CREATE_INSTANCE_EDIT:
       intent = new Intent(this, ExpenseEdit.class);

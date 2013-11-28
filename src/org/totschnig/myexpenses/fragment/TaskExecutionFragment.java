@@ -61,6 +61,7 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_NEW_FROM_TEMPLATE = 13;
   public static final int TASK_DELETE_CATEGORY = 14;
   public static final int TASK_NEW_PLAN = 15;
+  public static final int TASK_NEW_CALENDAR = 16;
 
   /**
    * Callback interface through which the fragment will report the
@@ -230,9 +231,10 @@ public class TaskExecutionFragment extends Fragment {
         return null;
       case TASK_MOVE:
         Transaction.move(id[0],(Long) mExtra);
-        return null;
       case TASK_NEW_PLAN:
         return Plan.create((String)mExtra);
+      case TASK_NEW_CALENDAR:
+        return MyApplication.getInstance().createPlanner();
       }
       return null;
     }

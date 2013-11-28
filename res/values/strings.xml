@@ -78,6 +78,8 @@
   <string name="dialog_remind_rate_yes">Rate now</string>
   <string name="dialog_security_answer">Answer</string>
   <string name="dialog_security_question">Question</string>
+  <string name="dialog_setup_planner_select_existing">Select existing</string>
+  <string name="dialog_setup_planner_create_new">Create new</string>
   <string name="dialog_title_contrib_feature">Premium feature</string>
   <string name="dialog_title_planner_setup_info">Calendar setup required</string>
   <string name="dialog_title_restore_on_install">Backup detected</string>
@@ -228,7 +230,11 @@
   <!-- This message is shown, after a user decides to not apply a manual plan -->
   <string name="plan_execution_canceled">Plan execution canceled</string>
   <string name="plan_manual">manual</string>
+  <string name="planner_create_calendar_failure">Unable to create local planner calendar</string>
+  <!-- On Jelly Bean and above, we offer the option of creating a local calendar -->
+  <string name="planner_setup_info_jb">You can either create a local dedicated calendar or select an existing one in the settings.</string>
   <string name="planner_setup_info">Please select a calendar for storing plans in the settings.</string>
+  <string name="planner_create_calendar_success">Local planner calendar successfully created</string>
   <!-- payment methods -->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Credit card</string>
@@ -292,6 +298,8 @@
   <string name="pref_ui_theme_title">Theme</string>
   <string name="pref_visit_website_summary">Changelog and FAQ</string>
   <string name="pref_visit_website_title">Visit Website</string>
+  <string name="progress_dialog_create_calendar">Creating local calendar &#8230;</string>
+  <string name="progress_dialog_create_plan">Creating new plan &#8230;</string>
   <string name="progress_dialog_loading">Loading object from database &#8230;</string>
   <string name="progress_dialog_setup">Database is initialized &#8230;</string>
   <string name="reference_number">Reference Number</string>

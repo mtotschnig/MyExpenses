@@ -62,7 +62,7 @@ public class Plan extends Model implements Serializable {
    * @return the id of the created object
    */
   public static Long create(String title) {
-    String calendarId = MyApplication.getInstance().requirePlanner();
+    String calendarId = MyApplication.getInstance().checkPlanner();
     if (calendarId.equals("-1"))
       return null;
     long now = System.currentTimeMillis();
