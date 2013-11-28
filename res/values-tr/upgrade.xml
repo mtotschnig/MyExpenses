@@ -1,25 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  This file is part of My Expenses.
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<!DOCTYPE resources [
-  <!ENTITY app_name "Harcamalarım">
-]>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-	<string-array name="whats_new_88">
-    <item>Gelecekteki ve tekrar eden muameleler için planlama</item>
+  <string-array name="whats_new_88">
+    <item>Gelecekteki ve tekrarlanan muameleler için planlamalar</item>
+    <item>Kmerce tercüme</item>
   </string-array>
   <string-array name="whats_new_84">
     <item>Referans sayısı (çek ile ödemeler)</item>
@@ -28,15 +11,15 @@
     <item>QIF ve CSV dışa aktarımı için ayarlanabilir tarih biçimi</item>
     <item>Gelişmiş kullanıcı arayüzü</item>
   </string-array>
-	<string-array name="whats_new_79">
-    <item>Muameleler uzlaşmış olarak işaretlenebilir (banka hesapları ve kredi kartları için etkinleştirilmiştir)</item>
+  <string-array name="whats_new_79">
+    <item>Muamelelerin uzlaşmış olarak işaretlenmeleri (banka hesapları ve kredi kartları için etkinleştirilmiştir)</item>
     <item>Borçlu/alacaklılar artık düzenlenebilir</item>
     <item>Macarca tercüme</item>
   </string-array>
   <string-array name="whats_new_75">
     <item>Muamelelerin kategori başına dağılımı (Premium)</item>
   </string-array>
-	<string-array name="whats_new_72">
+  <string-array name="whats_new_72">
     <item>Hata düzeltmesi: #69</item>
     <item>Arap Tercüme</item>
   </string-array>
@@ -44,17 +27,5 @@
     <item>Muameleleri gün, hafta, ay veya yıllık olarak grupla ve grup başına toplamları görüntüle</item>
     <item>Alacaklı işlem listesinde görüntülenir</item>
     <item>Hesap listesi sıralanır (varsayılan değer kullanım sıklığına göredir)</item>
-  </string-array>
-  <string-array name="whats_new_63">
-    <item>Bölünmüş muameleler (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_59">
-    <item>Vietnamca tercüme</item>
-    <item>Küçük iyileştirmeler</item>
-  </string-array>
-  <string-array name="whats_new_58">
-    <item>Holo temasına dayalı yeni kullanıcı arayüzü tasarımı.</item>
-    <item>Entegre yardım diyalogları</item>
-    <item>Sıfırlamadan dışarı aktarım</item>
   </string-array>
 </resources>

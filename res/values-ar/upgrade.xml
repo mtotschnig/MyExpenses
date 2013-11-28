@@ -9,16 +9,4 @@
     <item>عرض المستفيد في قائمة العمليات</item>
     <item>عرض الحسابات مرتبة (افتراضيا حسب تكرار الاستخدام)</item>
   </string-array>
-  <string-array name="whats_new_63">
-    <item>تقسيم العمليات (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_59">
-    <item>دعم اللغة الفيتنامية</item>
-    <item>تحسينات أخرى</item>
-  </string-array>
-  <string-array name="whats_new_58">
-    <item>واجهة مستخدم جديدة باستخدام مظهر Holo</item>
-    <item>إضافة نافذة للمساعدة</item>
-    <item>تصدير بدون حاجة للحذف</item>
-  </string-array>
 </resources>

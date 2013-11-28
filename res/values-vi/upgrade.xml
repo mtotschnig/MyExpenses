@@ -31,16 +31,4 @@
     <item>Người nhận sẽ được hiển thị trên danh sách giao dịch</item>
     <item>Danh sách các tài khoản được sắp xếp (dựa theo tần số được sử dụng theo mặc định)</item>
   </string-array>
-  <string-array name="whats_new_63">
-    <item>Phân tách giao dịch (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_59">
-    <item>Vietnamca tercüme.</item>
-    <item>Küçük iyileştirmeler</item>
-  </string-array>
-    <string-array name="whats_new_58">
-    <item>Giao diện mới dựa trên Holo</item>
-    <item>Tích hợp kèm theo hộp thoại trợ giúp</item>
-    <item>Xuất dữ liệu mà không cần phải cài đặt lại</item>
-  </string-array>
 </resources>
