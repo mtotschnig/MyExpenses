@@ -818,11 +818,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
           createNewButton =
                 new MessageDialogFragment.Button(
-                    R.string.dialog_setup_planner_create_new,
+                    R.string.dialog_setup_planner_button_create_new,
                     R.id.CREATE_COMMAND,
                     null);
           message = R.string.planner_setup_info_jb;
-          selectButtonLabel = R.string.dialog_setup_planner_select_existing;
+          selectButtonLabel = R.string.dialog_setup_planner_button_select_existing;
         } else {
           createNewButton = null;
           message = R.string.planner_setup_info;

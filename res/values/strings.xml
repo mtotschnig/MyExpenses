@@ -76,8 +76,10 @@
   <string name="dialog_remind_rate_yes">Rate now</string>
   <string name="dialog_security_answer">Answer</string>
   <string name="dialog_security_question">Question</string>
-  <string name="dialog_setup_planner_select_existing">Select existing</string>
-  <string name="dialog_setup_planner_create_new">Create new</string>
+  <!-- Label for button that leads to creation of new local calendar -->
+  <string name="dialog_setup_planner_button_create_new">Create new</string>
+  <!-- Label for button that opens preferences for selecting an existing calendar -->
+  <string name="dialog_setup_planner_button_select_existing">Select existing</string>
   <string name="dialog_title_contrib_feature">Premium feature</string>
   <string name="dialog_title_planner_setup_info">Calendar setup required</string>
   <string name="dialog_title_restore_on_install">Backup detected</string>
