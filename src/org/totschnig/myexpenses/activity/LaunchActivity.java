@@ -59,9 +59,12 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         .show(getSupportFragmentManager(),"VERSION_INFO");
     }
     if (MyApplication.getInstance().showContribRetryLimitReachedInfo) {
-      MessageDialogFragment.newInstance(R.string.app_name_contrib,
+      MessageDialogFragment.newInstance(
+          R.string.app_name_contrib,
           "The license of your purchase could not be verified. Please check your network connection.",
-          R.id.CONTRIB_APP_COMMAND,null,R.string.app_contrib_launch)
+          new MessageDialogFragment.Button(R.string.app_contrib_launch, R.id.CONTRIB_APP_COMMAND, null),
+          null,
+          MessageDialogFragment.Button.CANCEL_BUTTON())
         .show(getSupportFragmentManager(),"MESSAGE");
       MyApplication.getInstance().showContribRetryLimitReachedInfo = false;
     }
