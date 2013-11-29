@@ -37,6 +37,7 @@
     android:onClick="toggleCrStatus"
     android:id="@+id/colorContainer"
     android:layout_centerInParent="true"
+    android:background="?attr/selectableItemBackground"
     android:layout_height="25dp"
     android:layout_width="25dp"
     android:layout_toRightOf="@+id/date">
