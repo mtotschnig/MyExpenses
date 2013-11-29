@@ -1,27 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  This file is part of My Expenses.
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="help_menu_commands">Comandos de menú</string>
-
-
-  <!-- My Expenses Transaction list -->
+  <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Lista de transacciones</string>
   <string name="help_MyExpenses_info">Esta pantalla muestra todas las transacciones de la cuenta corriente. Desde la barra de navegación, puede navegar a la lista de cuentas o seleccionar una cuenta diferente. Haga clic en una entrada de la lista para editar el elemento.</string>
-  <string name="help_MyExpenses_crStatus_info">El estatus de la transacción se indica mediante un rectángulo de color: gris por no conciliada, azul por despejada, verde por conciliada. Al hacer clic en el rectángulo, se cambia el estatus.</string> 
+  <string name="help_MyExpenses_crStatus_info">El estatus de la transacción se indica mediante un rectángulo de color: gris por no conciliada, azul por despejada, verde por conciliada. Al hacer clic en el rectángulo, se cambia el estatus.</string>
   <string name="menu_create_transaction_help_text">Abre el formulario para crear una nueva transacción.</string>
   <string name="menu_create_transfer_help_text">Transferir dinero entre cuentas. Este comando  sólo está disponible si hay al menos otra cuenta en la misma moneda que la actual.</string>
   <string name="menu_create_split_help_text">Uno asiento dividido le permite asignar cantidades parciales a diferentes categorías o como las transferencias a diferentes cuentas.</string>
@@ -29,23 +12,24 @@
   <string name="menu_edit_account_help_text">Ajuste las propiedades de la cuenta corriente (título, descripción, saldo inicial, tipo de cuenta, moneda, color).</string>
   <string name="menu_grouping_help_text">Puede agrupar las transacciones por día, semana, mes o año. Para cada grupo, la suma de los ingresos, gastos y transferencias se calcula y se muestra.</string>
   <string name="menu_distribution_help_text">Muestra la distribución de los gastos por categoría. También puede hacer clic en un encabezado de grupo para inspeccionar la distribución de un grupo específico.</string>
-
-  <!-- ManageAccounts Accounts list -->
+  <string name="menu_manage_plans_help_text">Abre la lista de plantillas y planes para la cuenta corriente, donde se puede aplicar, editar o borrar, y también definir planes para las transacciones futuras y recurrentes.</string>
+  <!--ManageAccounts Accounts list-->
   <string name="help_ManageAccounts_title">Lista de cuentas</string>
   <string name="help_ManageAccounts_info">Esta pantalla muestra todas las cuentas. Al hacer clic en una entrada de la lista, se abre la lista de transacciones de la cuenta.</string>
   <string name="menu_create_account_help_text">Abre el formulario para crear una nueva cuenta.</string>
-  <string name="menu_aggregates_help_text">El diálogo \"Agregados de varias cuentas\" calcula la suma de los gastos y los ingresos de todas las cuentasagrupadas por tipo de moneda. El comando sólo está disponible si al menos hay dos cuentas con la misma moneda (característica Contrib).</string>
+  <string name="menu_aggregates_help_text">El diálogo de los agregados calcula la suma de gastos e ingresos, a través de todas las cuentas que comparten la misma moneda. El comando sólo está disponible si para cualquier moneda, existen al menos dos cuentas (característica Contrib).</string>
   <string name="menu_reset_all_help_text">Este comando le permite exportar y restablecer todas sus cuentas en batch. No está disponible si no hay transacciones (característica Contrib).</string>
-
-  <!-- ManageMethods title is in keys-->
+  <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Esta pantalla muestra los métodos de pago predefinidos (cheque, tarjeta de crédito, depósito, retiro) y le permite definir otros nuevos. Al hacer clic en una entrada de la lista, puede especificar la relación entre el método y los tipos de cuenta.</string>
   <string name="menu_create_method_help_text">Abre el formulario para crear un nuevo método de pago.</string>
-
-  <!-- ManageParties title is in keys -->
+  <!--ManageParties title is in keys-->
   <string name="help_ManageParties_info">Esta pantalla muestra los partidos utilizados para la cumplimentación automática de la casilla pagador / beneficiario. Puede eliminar o modificar las entradas de esta lista a través del menú contextual de cada entrada.</string>
   <string name="menu_create_party_help_text"> Abre el diálogo para especificar el nombre de un nuevo ordenante o beneficiario.</string>
-
-  <!-- SelectCategory title is in keys-->
+  <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_info">Esta pantalla muestra las plantillas disponibles para la cuenta corriente. Mientras que las plantillas se pueden derivar de las transacciones a través de su menú contextual, aquí se puede crear nuevas plantillas desde cero (para las transacciones o transferencias).<xliff:g id="html">&lt;br>&lt;img src=\"android:ic_menu_my_calendar\" /></xliff:g> Este icono indica que hay un plan definido para instancias futuray y recurrentes de la plantilla. <xliff:g id="html">&lt;br>&lt;img src=\"manage_plans_icon\" /></xliff:g>  Al hacer clic en este icono, crea instancias de la operación y vuelve a la lista de transacciones.<xliff:g id="html">&lt;br></xliff:g> Desde el menú contextual de una plantilla, también puede crear una instancia de la plantilla y entrar en su formulario de edición donde puede modificarla antes de guardar. El menú contextual también permite borrar la plantilla.</string>
+  <string name="menu_create_template_for_transaction_help_text">Crear una nueva plantilla para una transacción</string>
+  <string name="menu_create_template_for_transfer_help_text">Crear una nueva plantilla para una transferencia</string>
+  <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Esta pantalla muestra la distribución de los gastos y de los ingresos por categorías, para todas las transacciones en una cuenta, o para un grupo específico.</string>
   <string name="help_ManageCategories_select_info">Además de las acciones que se pueden realizar en la gestión de categorías en la pantalla de Preferencias (crear, editar, borrar), en esta pantalla se asigna una operación a una categoría seleccionada.  La asignación de una subcategoría al asiento actual se realiza a través de un breve clic. La asignación de una categoría principal es posible a través del menú contextual.</string>
   <string name="help_ManageCategories_manage_info">Esta pantalla le permite crear, editar y eliminar categorías. Como primer criterio de clasificación se utiliza el número de usos de una categoría (criterio secundario es el orden alfabético). Así usted puede acceder de manera muy rápida a las categorías de uso más frecuente. En la configuración, se puede optar por el orden alfabético. Un clic sobre una categoría principal abre la lista de subcategorías. El menú contextual de une una categoría principal permite crear nuevas subcategorías, y borrar y modificar categorías principales. También las subcategorías disponen de un menú contextual para borrar- o modificarlas.</string>
@@ -53,8 +37,7 @@
   <string name="menu_ManageCategories_distribution_grouping_help_text">Ajuste el tipo de agrupación y mostrar la distribución por días, meses, semanas o años.</string>
   <string name="menu_back_help_text">Acceda al grupo anterior. También se puede hacer a través del gesto Swipe de izquierda a derecha.</string>
   <string name="menu_forward_help_text">Vaya al siguiente grupo. También se puede hacer a través del gesto Swipe de derecha a izquierda.</string>
-
-  <!-- ExpenseEdit -->
+  <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formulario para los asientos</string>
   <string name="help_ExpenseEdit_transfer_title">Formulario para las transferencias</string>
   <string name="help_ExpenseEdit_template_title">Formulario para las plantillas</string>
@@ -63,18 +46,19 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Formulario para divisiónes de transferencias</string>
   <string name="help_ExpenseEdit_info">Haga clic en el botón - para alternar entre gasto u ingreso. Haga clic en el botón = para abrir una calculadora.</string>
   <string name="help_ExpenseEdit_transaction_info">La casilla para la inserción del beneficiario (o del pagador) memoriza los valores que usted ha insertado, y se los propone si usted vuelve a hacer inserciones en esta casilla. El botón para seleccionar un método de pago, sólo está disponible si la cuenta corriente es de un tipo vinculado a alguna forma de pago. De forma predeterminada, sólo las cuentas bancarias están vinculadas a formas de pago (cheque, tarjeta de crédito, depósito, retiro).</string>
+  <string name="help_ExpenseEdit_transfer_info">Seleccione la cuenta de transferencia de la lista desplegable.</string>
+  <string name="help_ExpenseEdit_template_info">Escriba un título que identifica de forma exclusiva la plantilla.<xliff:g id="html">&lt;h2></xliff:g>Planes<xliff:g id="html">&lt;/h2></xliff:g>Cuando se crea un plan para una plantilla, se agrega a un calendario privado manejado por su aplicación Calendario. Puede definir el plan como un evento de una sola vez o como cualquier tipo de evento que se repite que el calendario puede manejar. Puede crear, modificar y eliminar el plan desde el botón plan, pero una vez que el plan está configurado, también puede utilizar la aplicación Calendario para gestionarlo. Un plan puede estar en modo automático o manual. Cuando se produce una instancia de un plan automático, se creará la operación y recibirá una notificación. Cuando el plan es manual, también recibirá una notificación, lo que deja la opción de cancelar, modificar o aplicar la plantilla para usted.</string>
   <string name="help_ExpenseEdit_split_info">Entre tantas fracciones (para categoriás y transferencias) cuantas sean necesarias a través de los comandos del. La mitad inferior de la pantalla muestra la lista de las fracciones y la cantidad que aún no se ha asignado a una categoría o una transferencia. Sólo se puede guardar el asiento dividido si la suma de las fracciones es igual a la monta del asiento.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Seleccione una categoría para la fracción.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Asigne una cuenta de transferencia a la fracción.</string>
-  <string name="help_ExpenseEdit_transfer_info">Seleccione la cuenta de transferencia de la lista desplegable.</string>
-  <string name="menu_create_split_part_category_help_text">Abre el formulario para la asignación de una fracción a una categoría.</string>
-  <string name="menu_create_split_part_transfer_help_text">Abre el formulario para la transferencia de una fracción a otra cuenta.</string>
   <string name="menu_save_help_text">Guardar los datos y cerrar el formulario.</string>
   <string name="menu_save_and_new_help_text">Guardar los datos y dejar abierto el formulario para crear una nueva transacción con los mismos datos.</string>
-  <!-- AccountEdit -->
+  <string name="menu_create_split_part_category_help_text">Abre el formulario para la asignación de una fracción a una categoría.</string>
+  <string name="menu_create_split_part_transfer_help_text">Abre el formulario para la transferencia de una fracción a otra cuenta.</string>
+  <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulario para las cuentas</string>
-  <string name="help_AccountEdit_info">Las cuentas se identifican por su designación, la descripción sólo sirve para fines informativos. La moneda puede ser elegida de una lista. Usted puede asignar una cuenta a uno de los siguientes tipos: cuenta de caja, cuenta bancaria, cuenta de inversiones, cuenta de crédito. El tipo determina los métodos de pago disponibles que se pueden configurar en Configuraciones -> Administrar -> Métodos de pago.</string>
-  <!-- MethodEdit -->
+  <string name="help_AccountEdit_info">Las cuentas se identifican por su designación, la descripción sólo sirve para fines informativos. La moneda puede ser elegida de una lista. Usted puede asignar una cuenta a uno de los siguientes tipos: cuenta de caja, cuenta bancaria, cuenta de inversiones, cuenta de crédito. El tipo determina los métodos de pago disponibles que se pueden configurar en Configuraciones -&gt; Administrar -&gt; Métodos de pago.</string>
+  <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulario para los métodos de pago</string>
   <string name="help_MethodEdit_info">En esta pantalla, se asocia un método de pago a tipos de cuenta. También puede definir una designación (con la excepción de los métodos predefinidos que tienen una designación fija que no se puede modificar). A través del tipo de un método se determina si es aplicable a los gastos (débito), ingresos (crédito) o ambos (neutro).</string>
 </resources>

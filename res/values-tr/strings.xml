@@ -1,19 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- 
-  This file is part of My Expenses.
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="account">Hesap</string>
   <string name="account_type_asset">Aktif hesabı</string>
@@ -70,6 +55,10 @@
   <string name="dialog_remind_rate_yes">Şimdi not ver</string>
   <string name="dialog_security_answer">Cevap</string>
   <string name="dialog_security_question">Soru</string>
+  <!--Label for button that leads to creation of new local calendar-->
+  <string name="dialog_setup_planner_button_create_new">Yenisini oluştur</string>
+  <!--Label for button that opens preferences for selecting an existing calendar-->
+  <string name="dialog_setup_planner_button_select_existing">Mevcuttan seç</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
   <string name="dialog_title_planner_setup_info">Takvim kurulumu gereklidir</string>
   <string name="dialog_title_restore_on_install">Yedekleme tespit edildi</string>
@@ -219,7 +208,11 @@
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Planı yürütme iptal edildi</string>
   <string name="plan_manual">el ile</string>
+  <string name="planner_create_calendar_failure">Yerel planlama takvimi oluşturulamadı</string>
+  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
+  <string name="planner_setup_info_jb">Yerel özel bir takvim oluşturabilir ya da ayarlardan mevcut birini seçebilirsiniz.</string>
   <string name="planner_setup_info">Ayarlarda planların saklanacağı bir takvim seç</string>
+  <string name="planner_create_calendar_success">Yerel planlama takvimi başarıyla oluşturuldu</string>
   <!--payment methods-->
   <string name="pm_cheque">Çek</string>
   <string name="pm_creditcard">Kredi kartı</string>
@@ -262,6 +255,7 @@
   <string name="pref_perform_share_title">Dışa aktarım dosyasını paylaş</string>
   <string name="pref_perform_share_summaryOff">Dışa aktarımlardan sonra dosya paylaşılmayacaktır.</string>
   <string name="pref_perform_share_summaryOn">Her dışa aktarımdan sonra dosya paylaşılacaktır.</string>
+  <string name="pref_planning_calendar_create_local">Yeni yerel planlama takvimi oluştur</string>
   <string name="pref_planning_calendar_summary">Gelecekteki ve tekrar eden muamelelerin saklanacağı takvimi seç</string>
   <string name="pref_planning_calendar_title">Planlama takvimi</string>
   <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
@@ -284,6 +278,8 @@
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Değişiklikler ya SSS</string>
   <string name="pref_visit_website_title">Siteyi ziyaret et</string>
+  <string name="progress_dialog_create_calendar">Yerel takvim oluşturuluyor…</string>
+  <string name="progress_dialog_create_plan">Yeni planlama oluşturuluyor…</string>
   <string name="progress_dialog_loading">Veritabanından nesne yükleniyor …</string>
   <string name="progress_dialog_setup">Muamele veritabanı başlatıldı …</string>
   <string name="reference_number">Referans sayısı</string>
@@ -337,4 +333,4 @@
   <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler\n\tsilinecektir. Devam etmek istiyor musunuz?;</string>
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
   <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilir ya da silinebilirler.</string>
-  </resources>
+</resources>
