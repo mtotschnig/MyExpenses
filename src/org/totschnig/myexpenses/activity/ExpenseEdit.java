@@ -402,13 +402,24 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mPlanButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
         if (mPlanId == null) {
-          String title = mTitleText.getText().toString();
           if (MyApplication.getInstance().isContribEnabled ||
               Template.countWithPlan() < 3) {
-            getSupportFragmentManager().beginTransaction()
-            .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_PLAN,null, title), "ASYNC_TASK")
-            .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_plan),"PROGRESS")
-            .commit();
+            if (syncStateAndValidate()) {
+              String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
+              getSupportFragmentManager().beginTransaction()
+              .add(TaskExecutionFragment.newInstance(
+                  TaskExecutionFragment.TASK_NEW_PLAN,
+                  null,
+                  new Plan(
+                      0,
+                      System.currentTimeMillis(),
+                      "",
+                      ((Template) mTransaction).title,
+                      description)),
+                  "ASYNC_TASK")
+              .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_plan),"PROGRESS")
+              .commit();
+            }
           } else {
             CommonCommands.showContribDialog(ExpenseEdit.this,Feature.PLANS_UNLIMITED, null);
           }
@@ -625,22 +636,31 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       return "0" + String.valueOf(c);
   }
 
-  /**
-   * validates (is number interpretable as float in current locale,
-   * is account selected for transfers) and saves
-   * @return true upon success, false if validation fails
-   */
   protected void saveState() {
+    if (syncStateAndValidate()) {
+      getSupportFragmentManager().beginTransaction()
+        .add(DbWriteFragment.newInstance(true), "SAVE_TASK")
+        .commit();
+    }
+  }
+  /**
+   * sets the state of the UI on mTransaction
+   * @return false if any data is not valid, also informs user through toast
+   */
+  protected boolean syncStateAndValidate() {
+    boolean validP = true;
     String title = "";
     BigDecimal amount = validateAmountInput(true);
     if (amount == null) {
-      return;
+      //not localized because will not arrive practically
+      Toast.makeText(this, "Amount is not valid", Toast.LENGTH_LONG).show();
+      validP = false;
+    } else {
+      if (mType == EXPENSE) {
+        amount = amount.negate();
+      }
+      mTransaction.amount.setAmountMajor(amount);
     }
-    if (mType == EXPENSE) {
-      amount = amount.negate();
-    }
-
-    mTransaction.amount.setAmountMajor(amount);
 
     mTransaction.comment = mCommentText.getText().toString();
 
@@ -648,7 +668,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       title = mTitleText.getText().toString();
       if (title.equals("")) {
         Toast.makeText(this, R.string.no_title_given, Toast.LENGTH_LONG).show();
-        return;
+        validP = false;
       }
       ((Template) mTransaction).title = title;
       ((Template) mTransaction).planId = mPlanId;
@@ -667,13 +687,10 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mTransaction.methodId = (selected != AdapterView.INVALID_ROW_ID && selected > 0) ?
             selected : null;
     }
-
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       mTransaction.transfer_account = mAccountSpinner.getSelectedItemId();
     }
-    getSupportFragmentManager().beginTransaction()
-    .add(DbWriteFragment.newInstance(true), "SAVE_TASK")
-    .commit();
+    return validP;
   }
   /* (non-Javadoc)
    * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
@@ -1066,7 +1083,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
               eventId,
               dtStart,
               rRule,
-              title);
+              title,
+              "" // we do not need the description stored in the event
+              );
         } else {
           mPlan.id = eventId;
           mPlan.dtstart= dtStart;
