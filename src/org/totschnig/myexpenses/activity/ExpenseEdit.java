@@ -652,8 +652,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     String title = "";
     BigDecimal amount = validateAmountInput(true);
     if (amount == null) {
-      //not localized because will not arrive practically
-      Toast.makeText(this, "Amount is not valid", Toast.LENGTH_LONG).show();
+      //Toast is shown in validateAmountInput
       validP = false;
     } else {
       if (mType == EXPENSE) {
