@@ -15,9 +15,6 @@
 
 package org.totschnig.myexpenses.dialog;
 
-
-import java.text.SimpleDateFormat;
-
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
@@ -66,8 +63,12 @@ public class TemplateDetailFragment extends DialogFragment implements OnClickLis
     //title
     ((TextView) view.findViewById(R.id.Title)).setText(mTemplate.title);
     if ((mTemplate.catId != null && mTemplate.catId > 0) ||
-        mTemplate.transfer_peer != null)
+        mTemplate.isTransfer) {
       ((TextView) view.findViewById(R.id.Category)).setText(mTemplate.label);
+      if (mTemplate.isTransfer) {
+        ((TextView) view.findViewById(R.id.CategoryLabel)).setText(R.string.account);
+      }
+    }
     else
       view.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
     //amount
