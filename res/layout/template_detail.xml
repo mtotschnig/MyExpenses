@@ -60,5 +60,11 @@
 	      <TextView
             android:id="@+id/Method" style="@style/dialog_text"/>
       </TableRow>
+      <TableRow android:id="@+id/PlanRow">
+        <TextView style="@style/form_label_dialog"
+            android:text="@string/plan" />
+        <TextView
+            android:id="@+id/Plan" style="@style/dialog_text"/>
+      </TableRow>
     </TableLayout>
  </LinearLayout>
