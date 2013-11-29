@@ -740,16 +740,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mPlanButton.setText(R.string.menu_create);
       mPlanToggleButton.setVisibility(View.GONE);
     } else {
-      if (mPlan.rrule != null) {
-        EventRecurrence eventRecurrence = new EventRecurrence();
-        eventRecurrence.parse(mPlan.rrule);
-        Time date = new Time();
-        date.set(mPlan.dtstart);
-        eventRecurrence.setStartDate(date);
-        mPlanButton.setText(EventRecurrenceFormatter.getRepeatString(this,getResources(), eventRecurrence,true));
-      } else {
-        mPlanButton.setText(mTitleDateFormat.format(new Date(mPlan.dtstart)));
-      }
+      mPlanButton.setText(Plan.prettyTimeInfo(this,mPlan.rrule, mPlan.dtstart));
       if (mTitleText.getText().toString().equals(""))
         mTitleText.setText(mPlan.title);
       mPlanToggleButton.setVisibility(View.VISIBLE);

@@ -1,15 +1,21 @@
 package org.totschnig.myexpenses.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.TimeZone;
 
 import org.totschnig.myexpenses.MyApplication;
+
+import com.android.calendar.EventRecurrenceFormatter;
 import com.android.calendar.CalendarContractCompat.Events;
+import com.android.calendarcommon2.EventRecurrence;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.format.Time;
 import android.util.Log;
 
 /**
@@ -77,5 +83,19 @@ public class Plan extends Model implements Serializable {
     values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
     Uri uri = cr().insert(Events.CONTENT_URI, values);
     return ContentUris.parseId(uri);
+  }
+  public static String prettyTimeInfo(Context ctx, String rRule, Long start) {
+    if (rRule != null) {
+      EventRecurrence eventRecurrence = new EventRecurrence();
+      eventRecurrence.parse(rRule);
+      Time date = new Time();
+      date.set(start);
+      eventRecurrence.setStartDate(date);
+      return EventRecurrenceFormatter.getRepeatString(ctx,ctx.getResources(), eventRecurrence,true);
+    } else {
+      return java.text.DateFormat
+          .getDateInstance(java.text.DateFormat.FULL)
+          .format(new Date(start));
+    }
   }
 }
