@@ -15,24 +15,25 @@
 
 package org.totschnig.myexpenses.dialog;
 
-
-import java.text.SimpleDateFormat;
-
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.util.Utils;
 
+import com.android.calendar.CalendarContractCompat.Events;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -60,14 +61,19 @@ public class TemplateDetailFragment extends DialogFragment implements OnClickLis
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
+    Context ctx = getActivity();
+    Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     final LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.template_detail, null);
     //title
     ((TextView) view.findViewById(R.id.Title)).setText(mTemplate.title);
     if ((mTemplate.catId != null && mTemplate.catId > 0) ||
-        mTemplate.transfer_peer != null)
+        mTemplate.isTransfer) {
       ((TextView) view.findViewById(R.id.Category)).setText(mTemplate.label);
+      if (mTemplate.isTransfer) {
+        ((TextView) view.findViewById(R.id.CategoryLabel)).setText(R.string.account);
+      }
+    }
     else
       view.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
     //amount
@@ -87,7 +93,25 @@ public class TemplateDetailFragment extends DialogFragment implements OnClickLis
       ((TextView) view.findViewById(R.id.Method)).setText(PaymentMethod.getInstanceFromDb(mTemplate.methodId).getDisplayLabel());
     else
       view.findViewById(R.id.MethodRow).setVisibility(View.GONE);
-    return new AlertDialog.Builder(getActivity())
+    Cursor c;
+    if (mTemplate.planId != null &&
+      (c = ctx.getContentResolver().query(
+          ContentUris.withAppendedId(Events.CONTENT_URI, mTemplate.planId),
+          new String[]{
+            Events.DTSTART,
+            Events.RRULE,
+          },
+          null,
+          null,
+          null
+          )) !=null &&
+      c.moveToFirst()) {
+      ((TextView) view.findViewById(R.id.Plan)).setText(
+          Plan.prettyTimeInfo(ctx, c.getString(1), c.getLong(0)));
+      c.close();
+    } else
+      view.findViewById(R.id.PlanRow).setVisibility(View.GONE);
+    return new AlertDialog.Builder(ctx)
       .setTitle(R.string.template)
       .setView(view)
       .setNegativeButton(android.R.string.ok,this)

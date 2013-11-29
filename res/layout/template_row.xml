@@ -23,8 +23,10 @@
     android:id="@+id/apply"
     android:onClick="createInstanceAndSave"
     android:src="@drawable/manage_plans_icon"
+    android:background="?attr/selectableItemBackground"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentRight="true"
+    android:layout_centerInParent="true"
     />
 </RelativeLayout>

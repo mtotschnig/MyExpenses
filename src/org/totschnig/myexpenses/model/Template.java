@@ -17,14 +17,18 @@ package org.totschnig.myexpenses.model;
 
 import java.util.Date;
 
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
@@ -102,7 +106,7 @@ public class Template extends Transaction {
   }
   public static Template getTypedNewInstance(int mOperationType, long accountId) {
     Template t = new Template(accountId,0L);
-    t.transfer_peer = mOperationType == MyExpenses.TYPE_TRANSACTION ? null : -1L;
+    t.isTransfer = mOperationType == MyExpenses.TYPE_TRANSFER;
     return t;
   }
   public void setDate(Date date){
@@ -170,15 +174,19 @@ public class Template extends Transaction {
       }
     }
     //add callback to event
-    if (planId != null && android.os.Build.VERSION.SDK_INT>=16) {
+    if (planId != null) {
       initialValues.clear();
-      initialValues.put(
-          //we encode both account and template into the CUSTOM URI
-          Events.CUSTOM_APP_URI,
-          ContentUris.withAppendedId(
-              ContentUris.withAppendedId(Template.CONTENT_URI,accountId),
-              id).toString());
-      initialValues.put(Events.CUSTOM_APP_PACKAGE, "org.totschnig.myexpenses");
+      if (android.os.Build.VERSION.SDK_INT>=16) {
+        initialValues.put(
+            //we encode both account and template into the CUSTOM URI
+            Events.CUSTOM_APP_URI,
+            ContentUris.withAppendedId(
+                ContentUris.withAppendedId(Template.CONTENT_URI,accountId),
+                id).toString());
+        initialValues.put(Events.CUSTOM_APP_PACKAGE, "org.totschnig.myexpenses");
+      }
+      initialValues.put(Events.TITLE,title);
+      initialValues.put(Events.DESCRIPTION, compileDescription(MyApplication.getInstance()));
       cr().update(
           ContentUris.withAppendedId(Events.CONTENT_URI, planId),
           initialValues,
@@ -208,5 +216,46 @@ public class Template extends Transaction {
   }
   public static int countAll() {
     return countAll(CONTENT_URI);
+  }
+  public String compileDescription(Context ctx) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(ctx.getString(R.string.amount));
+    sb.append(" : ");
+    sb.append(Utils.formatCurrency(amount));
+    sb.append("\n");
+    if (catId != null && catId > 0) {
+      sb.append(ctx.getString(R.string.category));
+      sb.append(" : ");
+      sb.append(label);
+      sb.append("\n");
+    }
+    if (isTransfer) {
+      sb.append(ctx.getString(R.string.account));
+      sb.append(" : ");
+      sb.append(label);
+      sb.append("\n");
+    }
+    //comment
+    if (!comment.equals("")) {
+      sb.append(ctx.getString(R.string.comment));
+      sb.append(" : ");
+      sb.append(comment);
+      sb.append("\n");
+    }
+    //comment
+    if (!payee.equals("")) {
+      sb.append(ctx.getString(
+          amount.getAmountMajor().signum() == 1 ? R.string.payer : R.string.payee));
+      sb.append(" : ");
+      sb.append(payee);
+      sb.append("\n");
+    }
+    //Method
+    if (methodId != null) {
+      sb.append(ctx.getString(R.string.method));
+      sb.append(" : ");
+      sb.append(PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel());
+    }
+    return sb.toString();
   }
 }

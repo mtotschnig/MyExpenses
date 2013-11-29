@@ -1,15 +1,21 @@
 package org.totschnig.myexpenses.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.TimeZone;
 
 import org.totschnig.myexpenses.MyApplication;
+
+import com.android.calendar.EventRecurrenceFormatter;
 import com.android.calendar.CalendarContractCompat.Events;
+import com.android.calendarcommon2.EventRecurrence;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.format.Time;
 import android.util.Log;
 
 /**
@@ -21,12 +27,14 @@ public class Plan extends Model implements Serializable {
   public long dtstart;
   public String rrule;
   public String title;
-  public Plan(long id, long dtstart, String rrule, String title) {
+  public String description;
+  public Plan(long id, long dtstart, String rrule, String title, String description) {
     super();
     this.id = id;
     this.dtstart = dtstart;
     this.rrule = rrule;
     this.title = title;
+    this.description = description;
   }
   @Override
   public Uri save() {
@@ -61,19 +69,33 @@ public class Plan extends Model implements Serializable {
    * @param calendarId
    * @return the id of the created object
    */
-  public static Long create(String title) {
+  public static Long create(Plan plan) {
     String calendarId = MyApplication.getInstance().checkPlanner();
     if (calendarId.equals("-1"))
       return null;
-    long now = System.currentTimeMillis();
     ContentValues values = new ContentValues();
     values.put(Events.CALENDAR_ID, Long.parseLong(calendarId));
-    values.put(Events.TITLE, title);
-    values.put(Events.DTSTART, now);
-    values.put(Events.DTEND, now);
+    values.put(Events.TITLE, plan.title);
+    values.put(Events.DESCRIPTION, plan.description);
+    values.put(Events.DTSTART, plan.dtstart);
+    values.put(Events.DTEND, plan.dtstart);
     //values.put(Events.ALL_DAY,1);
     values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
     Uri uri = cr().insert(Events.CONTENT_URI, values);
     return ContentUris.parseId(uri);
+  }
+  public static String prettyTimeInfo(Context ctx, String rRule, Long start) {
+    if (rRule != null) {
+      EventRecurrence eventRecurrence = new EventRecurrence();
+      eventRecurrence.parse(rRule);
+      Time date = new Time();
+      date.set(start);
+      eventRecurrence.setStartDate(date);
+      return EventRecurrenceFormatter.getRepeatString(ctx,ctx.getResources(), eventRecurrence,true);
+    } else {
+      return java.text.DateFormat
+          .getDateInstance(java.text.DateFormat.FULL)
+          .format(new Date(start));
+    }
   }
 }

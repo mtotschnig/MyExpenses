@@ -42,16 +42,4 @@
     <item>Empfänger wird in Buchungsliste angezeigt</item>
     <item>Kontenliste wird sortiert (standardmäßig nach Häufigkeit der Benutzung)</item>
   </string-array>
-  <string-array name="whats_new_63">
-    <item>Splitbuchungen (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_59">
-    <item>Vietnamesische Übersetzung</item>
-    <item>Gerinfügige Verbesserungen</item>
-  </string-array>
-  <string-array name="whats_new_58">
-    <item>Neues UI Design basierend auf Holo</item>
-    <item>Integrierte Hilfe</item>
-    <item>Exportieren ohne Zurücksetzen</item>
-  </string-array>
 </resources>

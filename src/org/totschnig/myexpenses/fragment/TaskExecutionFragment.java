@@ -232,7 +232,7 @@ public class TaskExecutionFragment extends Fragment {
       case TASK_MOVE:
         Transaction.move(id[0],(Long) mExtra);
       case TASK_NEW_PLAN:
-        return Plan.create((String)mExtra);
+        return Plan.create((Plan)mExtra);
       case TASK_NEW_CALENDAR:
         return MyApplication.getInstance().createPlanner();
       }

@@ -44,8 +44,6 @@
   <!-- ManageParties title is in keys -->
   <string name="help_ManageParties_info">Esta pantalla muestra los partidos utilizados para la cumplimentación automática de la casilla pagador / beneficiario. Puede eliminar o modificar las entradas de esta lista a través del menú contextual de cada entrada.</string>
   <string name="menu_create_party_help_text"> Abre el diálogo para especificar el nombre de un nuevo ordenante o beneficiario.</string>
-  <!-- ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_info">Esta pantalla muestra las plantillas disponibles agrupadas por cuenta. Mientras que las plantillas normalmente se pueden derivar de las transacciones, aquí el menú contextual de cada cuenta le permite crear nuevas plantillas (para transacciones o traslados a otra cuenta). Desde el menú contextual de una plantilla se puede crear una nueva transacción y de forma inmediata o guardarla o llenar un formulario de edición que puede modificar antes de guardarlo. Haciendo clic en una plantilla le permite modificar el formulario (característica Contrib).</string>
 
   <!-- SelectCategory title is in keys-->
   <string name="help_ManageCategories_distribution_info">Esta pantalla muestra la distribución de los gastos y de los ingresos por categorías, para todas las transacciones en una cuenta, o para un grupo específico.</string>
@@ -69,7 +67,6 @@
   <string name="help_ExpenseEdit_splitPartCategory_info">Seleccione una categoría para la fracción.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Asigne una cuenta de transferencia a la fracción.</string>
   <string name="help_ExpenseEdit_transfer_info">Seleccione la cuenta de transferencia de la lista desplegable.</string>
-  <string name="help_ExpenseEdit_template_info">El título le permite identificar una plantilla cuando se selecciona para crear nuevas instancias de transacciones.</string>
   <string name="menu_create_split_part_category_help_text">Abre el formulario para la asignación de una fracción a una categoría.</string>
   <string name="menu_create_split_part_transfer_help_text">Abre el formulario para la transferencia de una fracción a otra cuenta.</string>
   <string name="menu_save_help_text">Guardar los datos y cerrar el formulario.</string>

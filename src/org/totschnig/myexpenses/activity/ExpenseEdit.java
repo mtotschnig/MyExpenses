@@ -103,7 +103,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel;
   private ToggleButton mPlanToggleButton;
-  public Long mRowId;
+  public Long mRowId = 0L;
   private Long mTemplateId;
   private Account mAccount;
   private Calendar mCalendar = Calendar.getInstance();
@@ -135,7 +135,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private static final int EVENT_CURSOR = 4;
   private LoaderManager mManager;
 
-  private boolean mCreateNew = false, mLaunchPlanView = false;
+  private boolean mCreateNew = false, mLaunchPlanView = false, mSavedInstance = false;
 
   public enum HelpVariant {
     transaction,transfer,split,template,splitPartCategory,splitPartTransfer
@@ -147,7 +147,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
 
     Bundle extras = getIntent().getExtras();
     //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
-    if ((mRowId = (savedInstanceState == null ? 0L : savedInstanceState.getLong("rowId"))) == 0L)
+    if (savedInstanceState != null) {
+      mSavedInstance = true;
+      mRowId = savedInstanceState.getLong("rowId");
+    }
+    if (mRowId == 0L)
       mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
     mTemplateId = extras.getLong("template_id",0);
     mTransferEnabled = extras.getBoolean("transferEnabled",false);
@@ -376,7 +380,55 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mManager.initLoader(ACCOUNTS_CURSOR, null, this);
     }
     //category button and amount label are further set up in populateFields, since it depends on data
-    populateFields();
+    //when we have a savedInstance field have already been populated
+    if (!mSavedInstance) {
+      populateFields();
+    }
+
+    setCategoryButton();
+    if (mOperationType != MyExpenses.TYPE_TRANSFER) {
+      mCategoryButton.setOnClickListener(new View.OnClickListener() {
+        public void onClick(View view) {
+            startSelectCategory();
+        }
+      });
+      //add currency label to amount label
+      TextView amountLabel = (TextView) findViewById(R.id.AmountLabel);
+      String currencySymbol;
+      Account account = Account.getInstanceFromDb(mTransaction.accountId);
+      currencySymbol = account.currency.getSymbol();
+      amountLabel.setText(getString(R.string.amount) + " ("+currencySymbol+")");
+    }
+    mPlanButton.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View view) {
+        if (mPlanId == null) {
+          if (MyApplication.getInstance().isContribEnabled ||
+              Template.countWithPlan() < 3) {
+            if (syncStateAndValidate()) {
+              String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
+              getSupportFragmentManager().beginTransaction()
+              .add(TaskExecutionFragment.newInstance(
+                  TaskExecutionFragment.TASK_NEW_PLAN,
+                  null,
+                  new Plan(
+                      0,
+                      System.currentTimeMillis(),
+                      "",
+                      ((Template) mTransaction).title,
+                      description)),
+                  "ASYNC_TASK")
+              .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_plan),"PROGRESS")
+              .commit();
+            }
+          } else {
+            CommonCommands.showContribDialog(ExpenseEdit.this,Feature.PLANS_UNLIMITED, null);
+          }
+          return;
+       }
+       launchPlanView();
+     }
+    });
+    configureType();
   }
   @Override
   protected void configAmountInput() {
@@ -511,7 +563,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
    * populates the input fields with a transaction from the database or a new one
    */
   private void populateFields() {
-
     if (mRowId != 0 || mTemplateId != 0) {
       //3 handle edit existing transaction or new one from template
       //3b  fill comment
@@ -519,48 +570,15 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
         mPayeeText.setText(mTransaction.payee);
       }
-      //3d fill label (category or account) we got from database, if we are a transfer we prefix 
-      //with transfer direction
-      mCatId = mTransaction.catId;
-      mLabel =  mTransaction.label;
-    }
-    setCategoryButton();
-    //5.configure button behavior
-    if (mOperationType != MyExpenses.TYPE_TRANSFER) {
-      //5b if we are a transaction we start select category activity
-      mCategoryButton.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View view) {
-            startSelectCategory();
-        }
-      });
     }
     if (mTransaction instanceof Template) {
       mTitleText.setText(((Template) mTransaction).title);
-      mPlanId = ((Template) mTransaction).planId;
       if (mPlanId !=null) {
         //we need data from the cursor when launching the view intent
         //hence need to disable button until data is loaded
         mPlanButton.setEnabled(false);
         mManager.initLoader(EVENT_CURSOR, null, this);
       }
-      mPlanButton.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View view) {
-          if (mPlanId == null) {
-            String title = mTitleText.getText().toString();
-            if (MyApplication.getInstance().isContribEnabled ||
-                Template.countWithPlan() < 3) {
-              getSupportFragmentManager().beginTransaction()
-              .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_PLAN,null, title), "ASYNC_TASK")
-              .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_plan),"PROGRESS")
-              .commit();
-            } else {
-              CommonCommands.showContribDialog(ExpenseEdit.this,Feature.PLANS_UNLIMITED, null);
-            }
-            return;
-         }
-         launchPlanView();
-       }
-      });
       mPlanToggleButton.setChecked(((Template) mTransaction).planExecutionAutomatic);
     } else
       mReferenceNumberText.setText(mTransaction.referenceNumber);
@@ -569,12 +587,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mTransaction instanceof SplitPartTransfer))
       setDateTime(mTransaction.date);
 
-    //add currency label to amount label
-    TextView amountLabel = (TextView) findViewById(R.id.AmountLabel);    
-    String currencySymbol;
-    Account account = Account.getInstanceFromDb(mTransaction.accountId);
-    currencySymbol = account.currency.getSymbol();
-    amountLabel.setText(getString(R.string.amount) + " ("+currencySymbol+")");
     //fill amount
     BigDecimal amount = mTransaction.amount.getAmountMajor();
     int signum = amount.signum();
@@ -585,7 +597,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     case 1:
       mType = INCOME;
     }
-    configureType();
     if (signum != 0)
       mAmountText.setText(nfDLocal.format(amount));
   }
@@ -625,22 +636,30 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       return "0" + String.valueOf(c);
   }
 
-  /**
-   * validates (is number interpretable as float in current locale,
-   * is account selected for transfers) and saves
-   * @return true upon success, false if validation fails
-   */
   protected void saveState() {
+    if (syncStateAndValidate()) {
+      getSupportFragmentManager().beginTransaction()
+        .add(DbWriteFragment.newInstance(true), "SAVE_TASK")
+        .commit();
+    }
+  }
+  /**
+   * sets the state of the UI on mTransaction
+   * @return false if any data is not valid, also informs user through toast
+   */
+  protected boolean syncStateAndValidate() {
+    boolean validP = true;
     String title = "";
     BigDecimal amount = validateAmountInput(true);
     if (amount == null) {
-      return;
+      //Toast is shown in validateAmountInput
+      validP = false;
+    } else {
+      if (mType == EXPENSE) {
+        amount = amount.negate();
+      }
+      mTransaction.amount.setAmountMajor(amount);
     }
-    if (mType == EXPENSE) {
-      amount = amount.negate();
-    }
-
-    mTransaction.amount.setAmountMajor(amount);
 
     mTransaction.comment = mCommentText.getText().toString();
 
@@ -648,7 +667,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       title = mTitleText.getText().toString();
       if (title.equals("")) {
         Toast.makeText(this, R.string.no_title_given, Toast.LENGTH_LONG).show();
-        return;
+        validP = false;
       }
       ((Template) mTransaction).title = title;
       ((Template) mTransaction).planId = mPlanId;
@@ -667,13 +686,10 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mTransaction.methodId = (selected != AdapterView.INVALID_ROW_ID && selected > 0) ?
             selected : null;
     }
-
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       mTransaction.transfer_account = mAccountSpinner.getSelectedItemId();
     }
-    getSupportFragmentManager().beginTransaction()
-    .add(DbWriteFragment.newInstance(true), "SAVE_TASK")
-    .commit();
+    return validP;
   }
   /* (non-Javadoc)
    * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
@@ -724,16 +740,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mPlanButton.setText(R.string.menu_create);
       mPlanToggleButton.setVisibility(View.GONE);
     } else {
-      if (mPlan.rrule != null) {
-        EventRecurrence eventRecurrence = new EventRecurrence();
-        eventRecurrence.parse(mPlan.rrule);
-        Time date = new Time();
-        date.set(mPlan.dtstart);
-        eventRecurrence.setStartDate(date);
-        mPlanButton.setText(EventRecurrenceFormatter.getRepeatString(this,getResources(), eventRecurrence,true));
-      } else {
-        mPlanButton.setText(mTitleDateFormat.format(new Date(mPlan.dtstart)));
-      }
+      mPlanButton.setText(Plan.prettyTimeInfo(this,mPlan.rrule, mPlan.dtstart));
       if (mTitleText.getText().toString().equals(""))
         mTitleText.setText(mPlan.title);
       mPlanToggleButton.setVisibility(View.VISIBLE);
@@ -773,7 +780,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mLabel = savedInstanceState.getString("label");
     if ((mCatId = savedInstanceState.getLong("catId")) == 0L)
       mCatId = null;
-    configureType();
+    setDate();
+    setTime();
   }
 
   public Money getAmount() {
@@ -805,6 +813,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     // TODO Auto-generated method stub
 
   }
+  /*
+   * callback of TaskExecutionFragment
+   */
   @Override
   public void onPostExecute(int taskId,Object o) {
     switch(taskId) {
@@ -818,11 +829,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
           createNewButton =
                 new MessageDialogFragment.Button(
-                    R.string.dialog_setup_planner_create_new,
+                    R.string.dialog_setup_planner_button_create_new,
                     R.id.CREATE_COMMAND,
                     null);
           message = R.string.planner_setup_info_jb;
-          selectButtonLabel = R.string.dialog_setup_planner_select_existing;
+          selectButtonLabel = R.string.dialog_setup_planner_button_select_existing;
         } else {
           createNewButton = null;
           message = R.string.planner_setup_info;
@@ -876,13 +887,18 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
       mTransaction = (Transaction) o;
-      if (mTransaction instanceof SplitTransaction)
+      if (mTransaction instanceof SplitTransaction) {
         mOperationType = MyExpenses.TYPE_SPLIT;
-      else if (mTransaction instanceof Template)
+      }
+      else if (mTransaction instanceof Template) {
         mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
+        mPlanId = ((Template) mTransaction).planId;
+      }
       else
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
       setup();
+      mCatId = mTransaction.catId;
+      mLabel =  mTransaction.label;
       supportInvalidateOptionsMenu();
       break;
     }
@@ -923,6 +939,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     // TODO Auto-generated method stub    
   }
 
+  /*
+   * callback of DbWriteFragment
+   */
   @Override
   public void onPostExecute(Object result) {
     Long sequenceCount = (Long) result;
@@ -1018,7 +1037,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       } else {
         MethodContainer.setVisibility(View.VISIBLE);
         MatrixCursor extras = new MatrixCursor(new String[] { KEY_ROWID,KEY_LABEL,KEY_IS_NUMBERED });
-        extras.addRow(new String[] { "0", "No method","0" });
+        extras.addRow(new String[] { "0", "- - - -","0" });
         mMethodsAdapter.swapCursor(new MergeCursor(new Cursor[] {extras,data}));
         if (mTransaction.methodId != null) {
           while (data.isAfterLast() == false) {
@@ -1054,7 +1073,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
               eventId,
               dtStart,
               rRule,
-              title);
+              title,
+              "" // we do not need the description stored in the event
+              );
         } else {
           mPlan.id = eventId;
           mPlan.dtstart= dtStart;

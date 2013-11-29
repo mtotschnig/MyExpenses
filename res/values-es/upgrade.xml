@@ -42,16 +42,4 @@
     <item>Beneficiario se muestra en la lista de transacciones</item>
     <item>Lista de cuentas está ordenada (por frecuencia de uso de forma predeterminada)</item>
   </string-array>
-  <string-array name="whats_new_63">
-    <item>Asientos divididos (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_59">
-    <item>Traducción al vietnamita</item>
-    <item>Pequeñas mejoras</item>
-  </string-array>
-  <string-array name="whats_new_58">
-    <item>Nuevo diseño de interfaz de usuario basada en el tema Holo</item>
-    <item>Diálogo de ayuda integrado</item>
-    <item>Exportar sin restablecer</item>
-  </string-array>
 </resources>

@@ -1,38 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  This file is part of My Expenses.
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
- <!DOCTYPE resources [
-  <!ENTITY app_name "Mes dépenses">
-]>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string-array name="whats_new_88">
-    <item>Échéancier des opérations futures et périodiques</item>
+    <item>Échéancier de transactions futures et périodiques</item>
+    <item>Traduction en Khmer</item>
   </string-array>
   <string-array name="whats_new_84">
     <item>Numéro de référence (paiement par chèque) </item>
     <item>Démarrage avec la liste de comptes</item>
-    <item>Glisser entre les périodes dans la fenêtre de distribution</item>
     <item>Format de date configurable pour l\'exportation QIF et CSV</item>
-    <item>Améliorations d\'UI</item>
+    <item> Glisser entre les périodes dans la fenêtre de distribution</item>
+    <item> Améliorations de l\'interface utilisateur</item>
   </string-array>
   <string-array name="whats_new_79">
     <item>Marquage des opérations comme pointées / rapprochées ( pour les comptes de banques et cartes de crédit)</item>
     <item>Les tiers peuvent être désormais édités</item>
     <item>Traduction en hongrois</item>
-   </string-array>
+  </string-array>
   <string-array name="whats_new_75">
     <item>Répartition des transactions par catégorie (Premium)</item>
   </string-array>
@@ -44,17 +27,5 @@
     <item>Regroupement par jour, semaine, mois, année, et affichage des totaux par groupe</item>
     <item>Les tiers sont affichés dans la liste des opérations</item>
     <item>La liste des comptes est triée (par défaut selon la fréquence d\'utilisation)</item>
-  </string-array>
-  <string-array name="whats_new_63">
-    <item>Opérations ventilées (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_59">
-    <item>Traduction en vietnamien</item>
-    <item>Améliorations mineures</item>
-  </string-array>
-  <string-array name="whats_new_58">
-    <item>Nouvelle interface utilisateur basée sur le thème Holo</item>
-    <item>Dialogues d\'aide intégrés</item>
-    <item>Exporter sans réinitialiser</item>
   </string-array>
 </resources>

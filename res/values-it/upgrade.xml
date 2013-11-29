@@ -1,23 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  This file is part of My Expenses.
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<!DOCTYPE resources [
-  <!ENTITY app_name "Le mie spese">
-]>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_88">
+    <item>Scadenze per il futuro e operazioni ricorrenti</item>
+    <item>Traduzione Khmer </item>
+  </string-array>
   <string-array name="whats_new_84">
     <item>Numero di riferimento (pagamenti tramite assegno) </item>
     <item>Inizio con la lista di conti</item>
@@ -25,7 +11,7 @@
     <item>Configurazione del formato della data per l\'esportazione QIF e CSV</item>
     <item>Miglioramenti dell\'UI</item>
   </string-array>
-	<string-array name="whats_new_79">
+  <string-array name="whats_new_79">
     <item>Transazioni segnala come liquidati / riconciliati (abilitato per i conti bancari e carte di credito)</item>
     <item>Le beneficiari possono ora essere modificati</item>
     <item>Traduzione ungherese</item>
@@ -42,15 +28,4 @@
     <item>I beneficiari sono visualizzati nell\'elenco delle transazioni</item>
     <item>L\'elenco dei conti è ordinato (per frequenza d\'uso di default)</item>
   </string-array>
-  <string-array name="whats_new_63">
-    <item>Operazioni suddivise (Premium)</item>
-  </string-array>
-  <string-array name="whats_new_59">
-    <item>Traduzione in vietnamita</item>
-    <item>Piccoli miglioramenti</item>
-  </string-array>
-  <string-array name="whats_new_58">
-    <item>Nuovo design dell\'interfaccia utente basata sul tema Holo </item>
-    <item>Dialogo di aiuto integrato</item>
-    <item>Esportare senza reinizializzare</item>
-  </string-array></resources>
+</resources>
