@@ -119,29 +119,34 @@ public class Account extends Model {
       int this_year_of_week_start = c.getInt(c.getColumnIndex("this_year_of_week_start"));
       int this_week = c.getInt(c.getColumnIndex("this_week"));
       int this_day = c.getInt(c.getColumnIndex("this_day"));
+      int this_year = c.getInt(c.getColumnIndex("this_year"));
+      Calendar cal;
       switch (this) {
       case DAY:
-        if (groupSecond == this_day)
-          return ctx.getString(R.string.grouping_today);
-        else if (groupSecond == this_day -1)
-          return ctx.getString(R.string.grouping_yesterday);
-        else {
-          Calendar cal = Calendar.getInstance();
-          cal.set(Calendar.YEAR, groupYear);
-          cal.set(Calendar.DAY_OF_YEAR, groupSecond);
-          return java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(cal.getTime());
+        if (groupYear == this_year) {
+          if (groupSecond == this_day)
+            return ctx.getString(R.string.grouping_today);
+          else if (groupSecond == this_day -1)
+            return ctx.getString(R.string.grouping_yesterday);
         }
+        cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, groupYear);
+        cal.set(Calendar.DAY_OF_YEAR, groupSecond);
+        return java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(cal.getTime());
       case WEEK:
         String weekRange = " (" + c.getString(c.getColumnIndex("week_range")) + " )";
-        if (groupSecond == this_week)
-          return ctx.getString(R.string.grouping_this_week) + weekRange;
-        else if (groupSecond == this_week -1)
-          return ctx.getString(R.string.grouping_last_week) + weekRange;
-        else {
-          return (groupYear != this_year_of_week_start ? (groupYear + ", ") : "") + ctx.getString(R.string.grouping_week) + " " + groupSecond + weekRange;
-        }
+        String yearPrefix;
+        if (groupYear == this_year_of_week_start) {
+          if (groupSecond == this_week)
+            return ctx.getString(R.string.grouping_this_week) + weekRange;
+          else if (groupSecond == this_week -1)
+            return ctx.getString(R.string.grouping_last_week) + weekRange;
+          yearPrefix = "";
+        } else
+          yearPrefix = groupYear + ", ";
+        return yearPrefix + ctx.getString(R.string.grouping_week) + " " + groupSecond + weekRange;
       case MONTH:
-        Calendar cal = Calendar.getInstance();
+        cal = Calendar.getInstance();
         cal.set(groupYear,groupSecond-1,1);
         return new SimpleDateFormat("MMMM y").format(cal.getTime());
       case YEAR:
