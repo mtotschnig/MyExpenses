@@ -1018,7 +1018,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       } else {
         MethodContainer.setVisibility(View.VISIBLE);
         MatrixCursor extras = new MatrixCursor(new String[] { KEY_ROWID,KEY_LABEL,KEY_IS_NUMBERED });
-        extras.addRow(new String[] { "0", "No method","0" });
+        extras.addRow(new String[] { "0", "- - - -","0" });
         mMethodsAdapter.swapCursor(new MergeCursor(new Cursor[] {extras,data}));
         if (mTransaction.methodId != null) {
           while (data.isAfterLast() == false) {
