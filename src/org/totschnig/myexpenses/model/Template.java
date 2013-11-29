@@ -102,7 +102,7 @@ public class Template extends Transaction {
   }
   public static Template getTypedNewInstance(int mOperationType, long accountId) {
     Template t = new Template(accountId,0L);
-    t.transfer_peer = mOperationType == MyExpenses.TYPE_TRANSACTION ? null : -1L;
+    t.isTransfer = mOperationType == MyExpenses.TYPE_TRANSFER;
     return t;
   }
   public void setDate(Date date){
