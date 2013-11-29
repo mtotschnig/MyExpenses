@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.model;
 
 import java.util.Date;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -173,15 +174,19 @@ public class Template extends Transaction {
       }
     }
     //add callback to event
-    if (planId != null && android.os.Build.VERSION.SDK_INT>=16) {
+    if (planId != null) {
       initialValues.clear();
-      initialValues.put(
-          //we encode both account and template into the CUSTOM URI
-          Events.CUSTOM_APP_URI,
-          ContentUris.withAppendedId(
-              ContentUris.withAppendedId(Template.CONTENT_URI,accountId),
-              id).toString());
-      initialValues.put(Events.CUSTOM_APP_PACKAGE, "org.totschnig.myexpenses");
+      if (android.os.Build.VERSION.SDK_INT>=16) {
+        initialValues.put(
+            //we encode both account and template into the CUSTOM URI
+            Events.CUSTOM_APP_URI,
+            ContentUris.withAppendedId(
+                ContentUris.withAppendedId(Template.CONTENT_URI,accountId),
+                id).toString());
+        initialValues.put(Events.CUSTOM_APP_PACKAGE, "org.totschnig.myexpenses");
+      }
+      initialValues.put(Events.TITLE,title);
+      initialValues.put(Events.DESCRIPTION, compileDescription(MyApplication.getInstance()));
       cr().update(
           ContentUris.withAppendedId(Events.CONTENT_URI, planId),
           initialValues,
