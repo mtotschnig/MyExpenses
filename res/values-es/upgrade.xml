@@ -18,6 +18,11 @@
   <!ENTITY app_name "Mis gastos">
 ]>
 <resources>
+  <string-array name="whats_new_88">
+    <item>Planes par las transacciones futuras y recurrentes</item>
+    <item>Khmer traducción</item>
+  </string-array>
+
   <string-array name="whats_new_84">
     <item>Número de referencia (cheques)</item>
     <item>Comience con lista de cuentas de lanzamiento</item>
