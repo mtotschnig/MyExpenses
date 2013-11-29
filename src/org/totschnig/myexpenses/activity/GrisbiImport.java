@@ -515,7 +515,6 @@ public class GrisbiImport extends ProtectedFragmentActivityNoSherlock implements
         try {
           catXML = activity.getResources().openRawResource(sourceRes);
         } catch (NotFoundException e) {
-          // TODO Auto-generated catch block
           catXML = activity.getResources().openRawResource(R.raw.cat_en);
         }
       }
