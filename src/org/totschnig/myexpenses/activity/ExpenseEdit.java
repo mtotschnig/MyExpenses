@@ -452,8 +452,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (mTransaction instanceof SplitTransaction) {
       MenuInflater inflater = getSupportMenuInflater();
       inflater.inflate(R.menu.split, menu);
-      if (!mTransferEnabled)
-        menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(false);
+      Utils.menuItemSetEnabled(menu,R.id.INSERT_TRANSFER_COMMAND,mTransferEnabled);
     } else if (!(mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer))
       menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)

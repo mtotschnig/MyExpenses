@@ -446,6 +446,7 @@ public class MyExpenses extends LaunchActivity implements
       break;
     case R.id.MANAGE_PLANS_COMMAND:
       i = new Intent(this, ManageTemplates.class);
+      i.putExtra("transferEnabled",mTransferEnabled);
       i.putExtra(KEY_ACCOUNTID, mAccountId);
       startActivity(i);
       return true;
