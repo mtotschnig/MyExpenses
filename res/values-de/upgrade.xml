@@ -14,10 +14,11 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<!DOCTYPE resources [
-  <!ENTITY app_name "Meine Ausgaben">
-]>
 <resources>
+  <string-array name="whats_new_92">
+    <item>Pläne für zukünftige und wiederkehrende Ausgaben</item>
+    <item>Khmer Übersetzung</item>
+  </string-array>
 	  <string-array name="whats_new_84">
     <item>Referenznummer (Scheckzahlungen)</item>
     <item>Vom Launcher aus direkt in die Kontoliste starten</item>
