@@ -45,9 +45,13 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 
+import com.google.android.vending.licensing.AESObfuscator;
+import com.google.android.vending.licensing.PreferenceObfuscator;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
@@ -314,18 +318,18 @@ public class Utils {
     return l.toString().equals(key);
   }
   public static void contribBuyDo(Activity ctx) {
-//    Intent i = new Intent(Intent.ACTION_VIEW);
-//    i.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.totschnig.myexpenses.contrib"));
-//    if (Utils.isIntentAvailable(ctx,i)) {
-//      ctx.startActivity(i);
-//    } else {
+   Intent i = new Intent(Intent.ACTION_VIEW);
+   i.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.totschnig.myexpenses.contrib"));
+   if (Utils.isIntentAvailable(ctx,i)) {
+     ctx.startActivity(i);
+   } else {
       if (ctx instanceof FragmentActivity)
         DonateDialogFragment.newInstance().show(((FragmentActivity) ctx).getSupportFragmentManager(),"CONTRIB");
       else {
         //We are called from MyPreferenceActivity where support fragmentmanager is not available
         ctx.showDialog(R.id.DONATE_DIALOG);
       }
-//    }
+   }
   }
   /**
    * @param ctx for retrieving resources
@@ -403,5 +407,35 @@ public class Utils {
     com.actionbarsherlock.view.MenuItem item = menu.findItem(id);
     item.setEnabled(enabled);
     item.getIcon().setAlpha(enabled ? 255 : 90);
+  }
+  public static PreferenceObfuscator getLicenseStatusPrefs(Context ctx) {
+    String PREFS_FILE = "license_status";
+    String deviceId = Secure.getString(ctx.getContentResolver(), Secure.ANDROID_ID);
+    SharedPreferences sp = ctx.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
+    byte[] SALT = new byte[] {
+        -1, -124, -4, -59, -52, 1, -97, -32, 38, 59, 64, 13, 45, -104, -3, -92, -56, -49, 65, -25
+    };
+    return new PreferenceObfuscator(
+        sp, new AESObfuscator(SALT, ctx.getPackageName(), deviceId));
+  }
+  /**
+   * @param ctx
+   * @return -1 if we have a permanent license confirmed, otherwise the number of retrys returned from the licensing service
+   */
+  public static int getContribStatusInfo(Context ctx) {
+    PreferenceObfuscator p = getLicenseStatusPrefs(ctx);
+    if (p.getString(MyApplication.PREFKEY_LICENSE_STATUS,"0").equals("1"))
+      return -1;
+    else
+      return Integer.parseInt(p.getString(
+          MyApplication.PREFKEY_LICENSE_RETRY_COUNT,"0"));
+  }
+  public static boolean doesPackageExist(Context context,String targetPackage) {
+    try {
+      context.getPackageManager().getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
+        } catch (NameNotFoundException e) {
+     return false;
+     }
+     return true;
   }
 }

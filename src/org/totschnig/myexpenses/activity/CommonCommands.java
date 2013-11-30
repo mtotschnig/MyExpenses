@@ -59,6 +59,11 @@ public class CommonCommands {
     case R.id.CONTRIB_INFO_COMMAND:
       CommonCommands.showContribInfoDialog((FragmentActivity) ctx,false);
       return true;
+    case R.id.CONTRIB_APP_COMMAND:
+      i = ctx.getPackageManager().getLaunchIntentForPackage("org.totschnig.myexpenses.contrib");
+      if (i != null)
+        ctx.startActivity(i);
+      return true;
     case R.id.CONTRIB_BUY_COMMAND:
       Utils.contribBuyDo(ctx);
       return true;
@@ -102,7 +107,7 @@ public class CommonCommands {
     } catch (Exception e) {
       Log.e("MyExpenses", "Package info not found", e);
     }
-    return versionname + version  + MyApplication.BUILD_DATE;
+    return versionname + version  + MyApplication.BUILD_DATE + "-GP";
   }
   /**
    * @return version name

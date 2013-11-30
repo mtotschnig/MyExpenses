@@ -18,6 +18,7 @@
   <item type="id" name="AGGREGATES_COMMAND"/>
   <item type="id" name="BACKUP_COMMAND"/>
   <item type="id" name="CLONE_TRANSACTION_COMMAND"/>
+  <item type="id" name="CONTRIB_APP_COMMAND"/>
   <item type="id" name="CONTRIB_INFO_COMMAND"/>
   <item type="id" name="CONTRIB_INFO_DIALOG"/>
   <item type="id" name="CONTRIB_BUY_COMMAND"/>
