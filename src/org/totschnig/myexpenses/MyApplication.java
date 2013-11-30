@@ -94,6 +94,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static final String PREFKEY_LICENSE_RETRY_COUNT = "retryCount";
     public static String PREFKEY_SHORTCUT_ACCOUNT_LIST;
     public static String PREFKEY_PLANNER_CALENDAR_ID;
+    private static final String PREFKEY_PLANNER_CALENDAR_PATH = "planner_calendar_path";
     public static final String PREFKEY_CURRENT_VERSION = "currentversion";
     public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static final String PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP = "planner_last_execution_timestamp";
@@ -101,6 +102,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
     public static String MARKET_PREFIX = "market://details?id=";
+    public static String CALENDAR_FULL_PATH_PROJECTION = 
+        Calendars.ACCOUNT_NAME + " || '/' ||" +
+        Calendars.ACCOUNT_TYPE + " || '/' ||" +
+        Calendars.NAME + " AS path";
     //public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
     public static final boolean debug = false;
@@ -389,30 +394,47 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
       return false;
     }
-    public String checkPlanner() {
-      String plannerCalendarId = mPlannerCalendarId;
+    /**
+     * @param calendarId
+     * @return verifies if the passed in calendarid exists and
+     * is the one stored in {@link PREFKEY_PLANNER_CALENDAR_PATH}
+     */
+    private boolean checkPlannerInternal(String calendarId) {
       ContentResolver cr = getContentResolver();
-      Cursor c;
-      if (!plannerCalendarId.equals("-1")) {
-        c = cr.query(Calendars.CONTENT_URI,
-            new String[]{"1 as ignore"},
+      Cursor c = cr.query(Calendars.CONTENT_URI,
+            new String[]{CALENDAR_FULL_PATH_PROJECTION},
             Calendars._ID + " = ?",
-            new String[] {plannerCalendarId},
+            new String[] {calendarId},
             null);
-        if (c==null)
-          plannerCalendarId = "-1";
-        else {
-          if (c.getCount() == 0) {
-            Log.i(TAG,"configured calendar has been deleted: "+ plannerCalendarId);
-            plannerCalendarId = "-1";
+      boolean result = true;
+      if (c==null)
+        return false;
+      else {
+        if (c.moveToFirst()) {
+          String found = c.getString(0);
+          String expected = settings.getString(PREFKEY_PLANNER_CALENDAR_PATH,"");
+          if (!found.equals(expected)) {
+            Log.w(TAG,String.format(
+                "found calendar, but path did not match; expected %s ; got %s",
+                expected,found));
+            result = false;
           }
-          c.close();
+        } else {
+          Log.i(TAG,"configured calendar has been deleted: "+ calendarId);
+          result = false;
         }
-        if (plannerCalendarId.equals("-1")) {
+        c.close();
+        return result;
+      }
+    }
+    public String checkPlanner() {
+      if (!mPlannerCalendarId.equals("-1")) {
+        if (!checkPlannerInternal(mPlannerCalendarId)) {
           settings.edit().remove(PREFKEY_PLANNER_CALENDAR_ID).commit();
+          return "-1";
         }
       }
-      return plannerCalendarId;
+      return mPlannerCalendarId;
     }
     public boolean createPlanner() {
       Uri.Builder builder = Calendars.CONTENT_URI.buildUpon();
@@ -482,13 +504,33 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         String key) {
       if (key.equals(PREFKEY_PLANNER_CALENDAR_ID)) {
         String oldValue = mPlannerCalendarId;
+        //if we cannot verify that the oldValue has the correct path
+        //we give up because we would risk mangling with an unrelated calendar
+        if (!checkPlannerInternal(oldValue))
+          return;
         String newValue = sharedPreferences.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
         mPlannerCalendarId = newValue;
         if (newValue != "-1") {
+          ContentResolver cr = getContentResolver();
+          //we also store the name and account of the calendar,
+          //to protect against cases where a user wipes the data of the calendar provider
+          //and then accidentally we link to the wrong calendar
+          Uri uri= ContentUris.withAppendedId(Calendars.CONTENT_URI, Long.parseLong(mPlannerCalendarId));
+          Cursor c = cr.query(uri,
+              new String[]{CALENDAR_FULL_PATH_PROJECTION},
+                  null, null, null);
+          if (c != null) {
+            if (c.moveToFirst()) {
+              String path = c.getString(0);
+              Log.i(TAG,"storing calendar path : "+ path);
+              SharedPreferencesCompat.apply(sharedPreferences.edit().putString(
+                  PREFKEY_PLANNER_CALENDAR_PATH, path));
+            }
+            c.close();
+          }
           if (oldValue == "-1") {
             initPlanner();
           } else {
-            ContentResolver cr = getContentResolver();
             ContentValues eventValues = new ContentValues(),
                 planValues = new ContentValues();
             eventValues.put(Events.CALENDAR_ID, Long.parseLong(newValue));
@@ -527,7 +569,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
                   eventValues.put(Events.EVENT_TIMEZONE, eventCursor.getString(5));
                   eventValues.put(Events.DURATION, eventCursor.getString(6));
                   eventValues.put(Events.DESCRIPTION, eventCursor.getString(7));
-                  Uri uri = cr.insert(Events.CONTENT_URI, eventValues);
+                  uri = cr.insert(Events.CONTENT_URI, eventValues);
                   planId = ContentUris.parseId(uri);
                   Log.i(TAG,"copied event from old to new" + planId);
                   planValues.put(DatabaseConstants.KEY_PLANID, planId);
