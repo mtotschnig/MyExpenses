@@ -92,4 +92,14 @@ public class HelpTest extends android.test.InstrumentationTestCase {
       Assert.assertTrue("help text not defined for "+ item,res.getIdentifier("menu_"+item+"_help_text","string",pack)!=0);
     }
   }
+  public void testVersionCodes() {
+    Context ctx =  getInstrumentation().getTargetContext();
+    Resources res = ctx.getResources();
+    int[] versionCodes = res.getIntArray(R.array.version_codes);
+    for (int i=0;i<versionCodes.length;i++) {
+      int code = versionCodes[i];
+      Assert.assertTrue("missing change log entry for version " + code,
+          res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName()) != 0);
+    }
+  }
 }
