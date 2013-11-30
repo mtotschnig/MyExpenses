@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.service.UnlockHandler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -34,18 +33,6 @@ import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
 
 import android.app.Application;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.res.Resources.NotFoundException;
-import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
-import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -90,8 +77,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String PREFKEY_EXPORT_FORMAT;
     public static String PREFKEY_SEND_FEEDBACK;
     public static String PREFKEY_MORE_INFO_DIALOG;
-    public static final String PREFKEY_LICENSE_STATUS = "licenseStatus";
-    public static final String PREFKEY_LICENSE_RETRY_COUNT = "retryCount";
     public static String PREFKEY_SHORTCUT_ACCOUNT_LIST;
     public static String PREFKEY_PLANNER_CALENDAR_ID;
     private static final String PREFKEY_PLANNER_CALENDAR_PATH = "planner_calendar_path";
@@ -109,10 +94,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     //public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
     public static final boolean debug = false;
-    public boolean isContribEnabled = false,
-        showImportantUpgradeInfo = false,
-        showContribRetryLimitReachedInfo = false;
-    private ServiceConnection mConnection;
+    public boolean isContribEnabled,
+      showImportantUpgradeInfo = false;
     private long mLastPause = 0;
     public static String TAG = "MyExpenses";
     /**
@@ -124,7 +107,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     }
 
     public boolean isLocked;
-    protected Messenger mService;
     public static final String FEEDBACK_EMAIL = "myexpenses@totschnig.org";
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
     public static final String HOST = "myexpenses.totschnig.org";
@@ -175,71 +157,13 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       } catch (IOException e) {
         Log.w(TAG,"Failed to open property file");
       }
-      initContribEnabled();
+      refreshContribEnabled();
       mPlannerCalendarId = settings.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
       initPlanner();
     }
 
-    public boolean initContribEnabled() {
-      //TODO profile time taken in this function
-      int contribStatusInfo = Utils.getContribStatusInfo(this);
-      isContribEnabled = contribStatusInfo == -1 ||Utils.verifyLicenceKey(settings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
-      //we call MyExpensesContrib to check status
-      if (!isContribEnabled) {
-        Log.i(TAG,"contribStatusInfo: " + contribStatusInfo);
-        if (contribStatusInfo < 5) {
-          try {
-            final Messenger mMessenger = new Messenger(new UnlockHandler() {
-              public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                try {
-                  unbindService(mConnection);
-                  Log.i(TAG,"having handled message; unbinding from service");
-                } catch (IllegalArgumentException e) {
-                  Log.i(TAG,"unbind service during handleMessage lead to IllegalArgumentException");
-                }
-              }
-            });
-            mConnection = new ServiceConnection() {
-              public void onServiceConnected(ComponentName className, IBinder service) {
-                  // This is called when the connection with the service has been
-                  // established, giving us the object we can use to
-                  // interact with the service.  We are communicating with the
-                  // service using a Messenger, so here we get a client-side
-                  // representation of that from the raw IBinder object.
-                  mService = new Messenger(service);
-                  try {
-                    Message msg = Message.obtain();
-                    msg.replyTo = mMessenger;
-                    mService.send(msg);
-                  } catch (RemoteException e) {
-                    Log.w(TAG,"Could not communicate with licence verification service");
-                  }
-              }
-  
-              public void onServiceDisconnected(ComponentName className) {
-                  // This is called when the connection with the service has been
-                  // unexpectedly disconnected -- that is, its process crashed.
-                  mService = null;
-              }
-            };
-            if (!bindService(new Intent("org.totschnig.myexpenses.contrib.MyService"), mConnection,
-                Context.BIND_AUTO_CREATE)) {
-              showImportantUpgradeInfo = Utils.doesPackageExist(this, "org.totschnig.myexpenses.contrib");
-              try {
-                //prevent ServiceConnectionLeaked warning
-                unbindService(mConnection);
-              } catch (Throwable t) {}
-            }
-            //TODO implement dialog showing contribupgradeinfo
-          } catch (SecurityException e) {
-            Log.w(TAG,"Could not bind to licence verification service");
-          }
-        }
-        else
-          showContribRetryLimitReachedInfo = true;
-      } else
-        Log.i(TAG,"Contrib status enabled");
+    public boolean refreshContribEnabled() {
+      isContribEnabled = Utils.verifyLicenceKey(settings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
       return isContribEnabled;
     }
     public static MyApplication getInstance() {
@@ -352,7 +276,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             SharedPreferencesCompat.apply(edit);
             backupPref = null;
             tempPrefFile.delete();
-            mSelf.initContribEnabled();
+            mSelf.refreshContribEnabled();
             Toast.makeText(mSelf, mSelf.getString(R.string.restore_preferences_success), Toast.LENGTH_LONG).show();
             //if the backup is password protected, we want to force the password check
             //is it not enough to set mLastPause to zero, since it would be overwritten by the callings activity onpause

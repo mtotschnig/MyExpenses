@@ -30,8 +30,6 @@
   <string name="already_defined">%1$s already defined</string>
   <string name="amount">Amount</string>
   <string name="app_name">&app_name;</string>
-  <string name="app_name_contrib">&app_name; Contrib</string>
-  <string name="app_contrib_launch">Launch &app_name; Contrib</string>
   <string name="backup_failure">Backup to sdcard failed.</string>
   <string name="backup_success">Database and preferences successfully written to sdcard.</string>
   <string name="category">Category</string>
@@ -134,8 +132,7 @@
   </string-array>
   <string name="help_leading">Thanks for installing <i>&app_name;</i> for Android.</string>
   <string name="important_upgrade_information_heading">Important information</string>
-  <string name="important_upgrade_information_1">The mechanism for validating your purchase of &app_name; Contrib has changed.
-    Please upgrade &app_name; Contrib to version 1.2 in order to unlock Premium functionality.</string>
+  <string name="important_upgrade_information_1"></string>
   <string name="import_categories">Import categories</string>
   <string name="income">Income</string>
   <string name="invalid_number_format">Decimal format not regognized by your locale. Please use %1$s</string>

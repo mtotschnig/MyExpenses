@@ -3,9 +3,7 @@ package org.totschnig.myexpenses.activity;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -57,16 +55,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       }
       VersionDialogFragment.newInstance(prev_version)
         .show(getSupportFragmentManager(),"VERSION_INFO");
-    }
-    if (MyApplication.getInstance().showContribRetryLimitReachedInfo) {
-      MessageDialogFragment.newInstance(
-          R.string.app_name_contrib,
-          "The license of your purchase could not be verified. Please check your network connection.",
-          new MessageDialogFragment.Button(R.string.app_contrib_launch, R.id.CONTRIB_APP_COMMAND, null),
-          null,
-          MessageDialogFragment.Button.CANCEL_BUTTON())
-        .show(getSupportFragmentManager(),"MESSAGE");
-      MyApplication.getInstance().showContribRetryLimitReachedInfo = false;
     }
   }
   /* (non-Javadoc)
