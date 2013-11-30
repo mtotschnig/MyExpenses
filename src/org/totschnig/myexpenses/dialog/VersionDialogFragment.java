@@ -30,6 +30,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,9 +61,14 @@ public class VersionDialogFragment extends DialogFragment implements OnClickList
       int code = versionCodes[i];
       if (from >= code)
         break;
-      String changes[] = res.getStringArray(
-          res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName()));
-      versions.add(new VersionInfo(code, versionNames[i], changes));
+      int resId = res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName());
+      if (resId == 0) {
+        Log.e(MyApplication.TAG, "missing change log entry for version " + code);
+      } else {
+        String changes[] = res.getStringArray(
+            res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName()));
+        versions.add(new VersionInfo(code, versionNames[i], changes));
+      }
     }
     View view = li.inflate(R.layout.versiondialog, null);
     final ListView lv = (ListView) view.findViewById(R.id.list);
