@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.test.util;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
@@ -20,6 +21,7 @@ import org.totschnig.myexpenses.util.Result;
 
 import android.app.Instrumentation;
 import android.content.Context;
+import android.content.res.Resources.NotFoundException;
 import android.graphics.Color;
 import android.os.Build;
 
@@ -103,7 +105,14 @@ public class Fixture {
     account4.save();
     //set up categories
     int sourceRes = appContext.getResources().getIdentifier("cat_"+locale.getLanguage(), "raw", appContext.getPackageName());
-    Result result = GrisbiImport.analyzeGrisbiFileWithSAX(appContext.getResources().openRawResource(sourceRes));
+    InputStream catXML;
+    try {
+      catXML = appContext.getResources().openRawResource(sourceRes);
+    } catch (NotFoundException e) {
+      catXML = appContext.getResources().openRawResource(org.totschnig.myexpenses.R.raw.cat_en);
+    }
+
+    Result result = GrisbiImport.analyzeGrisbiFileWithSAX(catXML);
     GrisbiImport.importCats((CategoryTree) result.extra[0], null);
     //set up transactions
     long now = System.currentTimeMillis();

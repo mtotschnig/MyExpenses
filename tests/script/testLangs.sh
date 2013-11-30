@@ -13,6 +13,7 @@ adb shell am instrument -w -e class "org.totschnig.myexpenses.test.screenshots.T
 case $lang in
  en) country=US ;;
  ar) country=SA ;;
+ ca) country=ES ;;
  *) country=${lang^^};;
 esac
 monkeyrunner monkey.py $lang $country

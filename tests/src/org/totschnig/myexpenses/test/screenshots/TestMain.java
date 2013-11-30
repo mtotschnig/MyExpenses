@@ -39,7 +39,7 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
 	private Currency defaultCurrency;
 	
 	public TestMain() {
-		super(MyExpenses.class);
+		super("org.totschnig.myexpenses",MyExpenses.class);
 	}
 	
 	@Override
@@ -88,6 +88,10 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
   public void testLang_ca() {
     defaultCurrency = Currency.getInstance("EUR");
     helperTestLang("ca","ES");
+  }
+  public void testLang_km() {
+    defaultCurrency = Currency.getInstance("KHR");
+    helperTestLang("km","KH");
   }
 	private void helperTestLang(String lang, String country) {
 	  this.locale = new Locale(lang,country);
