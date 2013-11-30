@@ -18,29 +18,29 @@ import static  org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 public class TransactionEditTest extends MyActivityTest<ExpenseEdit> {
 
   public TransactionEditTest() {
-    super(ExpenseEdit.class,true);
+    super(ExpenseEdit.class,false);
   }
   public void setUp() throws Exception {
     super.setUp();
     //mActivity = getActivity();
     mSolo = new SoloCompatibilityAbs(getInstrumentation(), mActivity);
-    Fixture.setup(mInstrumentation, new Locale("en","US"), Currency.getInstance("USD"));
+    Fixture.setup(mInstrumentation, Locale.getDefault(), Currency.getInstance("USD"));
   }
   public void testTransaction() {
     setActivity(null);
-    //we assume that MyExpenses has set up the default account with id 1
+    //we assume that Fixture has set up the default account with id 1
     Intent i = new Intent(Intent.ACTION_EDIT);
     i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
     i.putExtra("operationType", MyExpenses.TYPE_TRANSACTION);
     i.putExtra(KEY_ACCOUNTID, 1L);
     setActivityIntent(i);
     mActivity = getActivity();
-    assertTrue(mSolo.searchText(mContext.getString(R.string.date),true));
-    assertTrue(mSolo.searchText(mContext.getString(R.string.time),true));
-    assertTrue(mSolo.searchText(mContext.getString(R.string.amount),true));
-    assertTrue(mSolo.searchText(mContext.getString(R.string.comment),true));
-    assertTrue(mSolo.searchText(mContext.getString(R.string.category),true));
-    assertTrue(mSolo.searchText(mContext.getString(R.string.payee),true));
+    assertTrue("Date is not shown",mSolo.searchText(mContext.getString(R.string.date),true));
+    assertTrue("Time is not shown",mSolo.searchText(mContext.getString(R.string.time),true));
+    assertTrue("Amount is not shown",mSolo.searchText(mContext.getString(R.string.amount),true));
+    assertTrue("Comment is not shown",mSolo.searchText(mContext.getString(R.string.comment),true));
+    assertTrue("Category is not shown",mSolo.searchText(mContext.getString(R.string.category),true));
+    assertTrue("Payee is not shown",mSolo.searchText(mContext.getString(R.string.payee),true));
   }
   public void testTransfer() {
     setActivity(null);
@@ -51,9 +51,9 @@ public class TransactionEditTest extends MyActivityTest<ExpenseEdit> {
     i.putExtra(KEY_ACCOUNTID, 1L);
     setActivityIntent(i);
     mActivity = getActivity();
-    assertTrue(mSolo.searchText(mContext.getString(R.string.date),true));
-    assertTrue(mSolo.searchText(mContext.getString(R.string.time),true));
-    assertTrue(mSolo.searchText(mContext.getString(R.string.amount),true));
-    assertTrue(mSolo.searchText(mContext.getString(R.string.comment),true));
+    assertTrue("Date is not shown",mSolo.searchText(mContext.getString(R.string.date),true));
+    assertTrue("Time is not shown",mSolo.searchText(mContext.getString(R.string.time),true));
+    assertTrue("Amount is not shown",mSolo.searchText(mContext.getString(R.string.amount),true));
+    assertTrue("Comment is not shown",mSolo.searchText(mContext.getString(R.string.comment),true));
   }
 }
