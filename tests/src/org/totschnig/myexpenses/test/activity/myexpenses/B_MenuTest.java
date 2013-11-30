@@ -77,13 +77,13 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
     mInstrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
     for (String command : new String[] {
         "INSERT_TRANSFER",
-        "NEW_FROM_TEMPLATE",
         "RESET_ACCOUNT",
         "DISTRIBUTION"
     }) {
       int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
+      assertTrue(command + "not found", resourceId!=0);
       assertFalse(
-          "Found " + command + " command that should be inactive",
+          "Could call " + command + " command that should be inactive",
           actionBarItemVisible(resourceId));
     }
   }
