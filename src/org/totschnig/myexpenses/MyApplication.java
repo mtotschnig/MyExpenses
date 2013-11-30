@@ -504,13 +504,14 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         String key) {
       if (key.equals(PREFKEY_PLANNER_CALENDAR_ID)) {
         String oldValue = mPlannerCalendarId;
-        //if we cannot verify that the oldValue has the correct path
-        //we give up because we would risk mangling with an unrelated calendar
-        if (!checkPlannerInternal(oldValue))
-          return;
+        boolean safeToMovePlans = true;
         String newValue = sharedPreferences.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
         mPlannerCalendarId = newValue;
-        if (newValue != "-1") {
+        if (!newValue.equals("-1")) {
+          //if we cannot verify that the oldValue has the correct path
+          //we will not risk mangling with an unrelated calendar
+          if (!oldValue.equals("-1") && !checkPlannerInternal(oldValue))
+            safeToMovePlans = false;
           ContentResolver cr = getContentResolver();
           //we also store the name and account of the calendar,
           //to protect against cases where a user wipes the data of the calendar provider
@@ -519,18 +520,22 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           Cursor c = cr.query(uri,
               new String[]{CALENDAR_FULL_PATH_PROJECTION},
                   null, null, null);
-          if (c != null) {
-            if (c.moveToFirst()) {
-              String path = c.getString(0);
-              Log.i(TAG,"storing calendar path : "+ path);
-              SharedPreferencesCompat.apply(sharedPreferences.edit().putString(
-                  PREFKEY_PLANNER_CALENDAR_PATH, path));
-            }
-            c.close();
-          }
-          if (oldValue == "-1") {
-            initPlanner();
+          if (c != null && c.moveToFirst()) {
+            String path = c.getString(0);
+            Log.i(TAG,"storing calendar path : "+ path);
+            SharedPreferencesCompat.apply(sharedPreferences.edit().putString(
+                PREFKEY_PLANNER_CALENDAR_PATH, path));
           } else {
+            Log.e("TAG","could not retrieve configured calendar");
+            mPlannerCalendarId = "-1";
+            SharedPreferencesCompat.apply(sharedPreferences.edit().putString(
+                PREFKEY_PLANNER_CALENDAR_ID, "-1"));
+          }
+          if (c != null)
+            c.close();
+          if (oldValue.equals("-1")) {
+            initPlanner();
+          } else if (safeToMovePlans) {
             ContentValues eventValues = new ContentValues(),
                 planValues = new ContentValues();
             eventValues.put(Events.CALENDAR_ID, Long.parseLong(newValue));
@@ -585,6 +590,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             }
             planCursor.close();
           }
+        } else {
+          sharedPreferences.edit().remove(PREFKEY_PLANNER_CALENDAR_PATH).commit();
         }
       }
     }
