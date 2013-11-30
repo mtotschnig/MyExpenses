@@ -104,11 +104,14 @@ public class TemplateDetailFragment extends DialogFragment implements OnClickLis
           null,
           null,
           null
-          )) !=null &&
-      c.moveToFirst()) {
-      ((TextView) view.findViewById(R.id.Plan)).setText(
-          Plan.prettyTimeInfo(ctx, c.getString(1), c.getLong(0)));
-      c.close();
+          )) !=null) {
+        if (c.moveToFirst()) {
+          ((TextView) view.findViewById(R.id.Plan)).setText(
+              Plan.prettyTimeInfo(ctx, c.getString(1), c.getLong(0)));
+        } else {
+          view.findViewById(R.id.PlanRow).setVisibility(View.GONE);
+        }
+        c.close();
     } else
       view.findViewById(R.id.PlanRow).setVisibility(View.GONE);
     return new AlertDialog.Builder(ctx)
