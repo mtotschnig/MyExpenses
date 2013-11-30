@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -48,12 +49,14 @@ public class ManageTemplates extends ProtectedFragmentActivity {
 
   public long mAccountId;
   public boolean calledFromCalendar;
+  private boolean mTransferEnabled = false;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
       setTheme(MyApplication.getThemeId());
       super.onCreate(savedInstanceState);
       Bundle extras = getIntent().getExtras();
+      mTransferEnabled = extras.getBoolean("transferEnabled",false);
       String uriString = extras.getString(Events.CUSTOM_APP_URI);
       if (uriString != null) {
         calledFromCalendar = true;
@@ -73,6 +76,7 @@ public class ManageTemplates extends ProtectedFragmentActivity {
     MenuInflater inflater = getSupportMenuInflater();
     inflater.inflate(R.menu.templates, menu);
     super.onCreateOptionsMenu(menu);
+    Utils.menuItemSetEnabled(menu,R.id.INSERT_TRANSFER_COMMAND,mTransferEnabled);
     return true;
   }
 
