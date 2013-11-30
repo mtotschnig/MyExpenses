@@ -392,13 +392,15 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
             startSelectCategory();
         }
       });
-      //add currency label to amount label
-      TextView amountLabel = (TextView) findViewById(R.id.AmountLabel);
-      String currencySymbol;
-      Account account = Account.getInstanceFromDb(mTransaction.accountId);
-      currencySymbol = account.currency.getSymbol();
-      amountLabel.setText(getString(R.string.amount) + " ("+currencySymbol+")");
     }
+
+    //add currency label to amount label
+    TextView amountLabel = (TextView) findViewById(R.id.AmountLabel);
+    String currencySymbol;
+    Account account = Account.getInstanceFromDb(mTransaction.accountId);
+    currencySymbol = account.currency.getSymbol();
+    amountLabel.setText(getString(R.string.amount) + " ("+currencySymbol+")");
+
     mPlanButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
         if (mPlanId == null) {
