@@ -436,8 +436,15 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
       return mPlannerCalendarId;
     }
+    /**
+     * check if we already have a calendar in Account {@link PLANNER_ACCOUNT_NAME} of
+     * type {@link CalendarContractCompat.ACCOUNT_TYPE_LOCAL} with name {@link PLANNER_ACCOUNT_NAME}
+     * if yes use it, otherwise create it
+     * @return true if we have configured a useable calendar
+     */
     public boolean createPlanner() {
       Uri.Builder builder = Calendars.CONTENT_URI.buildUpon();
+      String plannerCalendarId;
       builder.appendQueryParameter(
           Calendars.ACCOUNT_NAME,
           PLANNER_ACCOUNT_NAME);
@@ -448,41 +455,57 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           CalendarContractCompat.CALLER_IS_SYNCADAPTER,
           "true");
       Uri calendarUri = builder.build();
-      ContentValues values = new ContentValues();
-      values.put(
-          Calendars.ACCOUNT_NAME,
-          PLANNER_ACCOUNT_NAME);
-      values.put(
-          Calendars.ACCOUNT_TYPE,
-          CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
-      values.put(
-          Calendars.NAME,
-          PLANNER_CALENDAR_NAME);
-      values.put(
-          Calendars.CALENDAR_DISPLAY_NAME,
-          getString(R.string.plan_calendar_name));
-      values.put(
-          Calendars.CALENDAR_COLOR,
-          getResources().getColor(R.color.appDefault));
-      values.put(
-          Calendars.CALENDAR_ACCESS_LEVEL,
-          Calendars.CAL_ACCESS_OWNER);
-      values.put(
-          Calendars.OWNER_ACCOUNT,
-          "private");
-      Uri uri;
-      try {
-        uri = getContentResolver().insert(calendarUri, values);
-      } catch (IllegalArgumentException e) {
-        Log.w(TAG,"Inserting planner calendar failed, Calendar app not installed?");
+      Cursor c = getContentResolver().query(
+          calendarUri,
+          new String[] {Calendars._ID},
+            Calendars.NAME +  " = ?",
+          new String[]{PLANNER_CALENDAR_NAME}, null);
+      if (c == null) {
+        Log.w(TAG,"Searching for planner calendar failed, Calendar app not installed?");
         return false;
       }
-      String plannerCalendarId = uri.getLastPathSegment();
-      if (plannerCalendarId == null) {
-        Log.w(TAG,"Inserting planner calendar failed, last path segment is null");
-        return false;
+      if (c.moveToFirst()) {
+        plannerCalendarId = String.valueOf(c.getLong(0));
+        Log.i(TAG,"found a preexisting calendar: "+ plannerCalendarId);
+        c.close();
+      } else {
+        c.close();
+        ContentValues values = new ContentValues();
+        values.put(
+            Calendars.ACCOUNT_NAME,
+            PLANNER_ACCOUNT_NAME);
+        values.put(
+            Calendars.ACCOUNT_TYPE,
+            CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
+        values.put(
+            Calendars.NAME,
+            PLANNER_CALENDAR_NAME);
+        values.put(
+            Calendars.CALENDAR_DISPLAY_NAME,
+            getString(R.string.plan_calendar_name));
+        values.put(
+            Calendars.CALENDAR_COLOR,
+            getResources().getColor(R.color.appDefault));
+        values.put(
+            Calendars.CALENDAR_ACCESS_LEVEL,
+            Calendars.CAL_ACCESS_OWNER);
+        values.put(
+            Calendars.OWNER_ACCOUNT,
+            "private");
+        Uri uri;
+        try {
+          uri = getContentResolver().insert(calendarUri, values);
+        } catch (IllegalArgumentException e) {
+          Log.w(TAG,"Inserting planner calendar failed, Calendar app not installed?");
+          return false;
+        }
+        plannerCalendarId = uri.getLastPathSegment();
+        if (plannerCalendarId == null) {
+          Log.w(TAG,"Inserting planner calendar failed, last path segment is null");
+          return false;
+        }
+        Log.i(TAG,"successfully set up new calendar: "+ plannerCalendarId);
       }
-      Log.i(TAG,"successfully set up new calendar: "+ plannerCalendarId);
       //onSharedPreferenceChanged should now trigger initPlanner
       settings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId).commit();
       return true;
