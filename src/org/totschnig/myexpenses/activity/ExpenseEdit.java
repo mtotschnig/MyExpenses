@@ -407,20 +407,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
           if (MyApplication.getInstance().isContribEnabled ||
               Template.countWithPlan() < 3) {
             if (syncStateAndValidate()) {
-              String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
-              getSupportFragmentManager().beginTransaction()
-              .add(TaskExecutionFragment.newInstance(
-                  TaskExecutionFragment.TASK_NEW_PLAN,
-                  null,
-                  new Plan(
-                      0,
-                      System.currentTimeMillis(),
-                      "",
-                      ((Template) mTransaction).title,
-                      description)),
-                  "ASYNC_TASK")
-              .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_plan),"PROGRESS")
-              .commit();
+              launchNewPlan();
             }
           } else {
             CommonCommands.showContribDialog(ExpenseEdit.this,Feature.PLANS_UNLIMITED, null);
@@ -866,17 +853,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
           Toast.LENGTH_LONG).show();
       //if we successfully created the calendar, we set up the plan immediately
       if (success) {
-        getSupportFragmentManager().beginTransaction()
-          .add(
-              TaskExecutionFragment.newInstance(
-                  TaskExecutionFragment.TASK_NEW_PLAN,
-                  null,
-                  mTitleText.getText().toString()),
-              "ASYNC_TASK")
-          .add(
-              ProgressDialogFragment.newInstance(R.string.progress_dialog_create_plan),
-              "PROGRESS")
-          .commit();
+        launchNewPlan();
       }
       break;
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
@@ -1137,5 +1114,21 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   @Override
   public void contribFeatureNotCalled() {
     // nothing to do
+  }
+  private void launchNewPlan() {
+    String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
+    getSupportFragmentManager().beginTransaction()
+    .add(TaskExecutionFragment.newInstance(
+        TaskExecutionFragment.TASK_NEW_PLAN,
+        null,
+        new Plan(
+            0,
+            System.currentTimeMillis(),
+            "",
+            ((Template) mTransaction).title,
+            description)),
+        "ASYNC_TASK")
+    .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_plan),"PROGRESS")
+    .commit();
   }
 }
