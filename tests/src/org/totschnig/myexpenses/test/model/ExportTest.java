@@ -176,7 +176,8 @@ public class ExportTest extends ModelTest  {
   public void testExportNotYetExported() {
     String[] linesCSV = new String[] {
         csvHeader(),
-        "\"\";\"" + date + "\";\"\";0;1;\"\";\"\";\"Expense inserted after first export\";\"Cheque\";\"\";\"3\";",
+        "\"\";\"" + date + "\";\"\";0;1;\"\";\"\";\"Expense inserted after first export\";\""
+            + getContext().getString(R.string.pm_cheque) + "\";\"\";\"3\";",
         "\"\";\"" + date + "\";\"N.N.\";1;0;\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";"
     };
     try {
@@ -205,7 +206,7 @@ public class ExportTest extends ModelTest  {
       int count = 0;
       while ((line = r.readLine()) != null) {
         Log.i("DEBUG",line);
-        assertEquals(lines[count],line);
+        assertEquals("Lines do not match", lines[count],line);
         count++;
       }
       r.close();
