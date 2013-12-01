@@ -6,6 +6,7 @@ Steps for preparing a new release
   - adb uninstall org.totschnig.myexpenses
   - adb uninstall org.totschnig.myexpenses.test
   - cd tests
+  - ant clean
   - ant debug install
   - script/runAllTests.sh
 * cd ..
