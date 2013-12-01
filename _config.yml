@@ -45,20 +45,23 @@ gplus:
     - "Split transactions (1.8.5)"
 versions:
   -
-    - 1.9.7.3
-    - 2013-11-10
+    - 1.10.0
+    - 2013-12-01
     -
-      en: "F-Droid only: Removed reliance on Google Play"
-  -
-    - 1.9.7.2
-    - 2013-11-10
-    -
-      en: Repaired bug fix
-  -
-    - 1.9.7.1
-    - 2013-11-09
-    -
-      en: Minor bug fix
+      en: |
+        Plans for future and recurring transactions. Khmer translation.
+      fr: |
+        Échéancier de transactions futures et périodiques. Traduction en Khmer.
+      de: |
+        Pläne für zukünftige und wiederkehrende Ausgaben. Khmer Übersetzung.
+      it: |
+        Scadenze per il futuro e operazioni ricorrenti. Traduzione Khmer .
+      es: |
+        Planes par las transacciones futuras y recurrentes. Khmer traducción.
+      tr: |
+        Gelecekteki ve tekrarlanan muameleler için planlamalar. Kmerce tercüme.
+      hu: |
+        Tervek készítése a jövőbeli, vagy ismétlődő tranzakciók kezelésére. Khmer nyelv.
   -
     - 1.9.7
     - 2013-11-07
