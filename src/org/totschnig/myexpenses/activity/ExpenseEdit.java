@@ -45,9 +45,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.android.calendar.CalendarContractCompat;
-import com.android.calendar.EventRecurrenceFormatter;
 import com.android.calendar.CalendarContractCompat.Events;
-import com.android.calendarcommon2.EventRecurrence;
 
 import android.app.Dialog;
 import android.app.DatePickerDialog;
@@ -69,7 +67,6 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Editable;
 import android.text.TextPaint;
 import android.text.TextWatcher;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -626,6 +623,10 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
 
   protected void saveState() {
     if (syncStateAndValidate()) {
+      //we are not interested in receiving onLoadFinished about
+      //the updated plan, it will cause problems if we are in SAVE_AND_NEW
+      //since we reset the plan to null in that case
+      mManager.destroyLoader(EVENT_CURSOR);
       getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(true), "SAVE_TASK")
         .commit();
