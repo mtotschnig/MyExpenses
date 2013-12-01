@@ -11,7 +11,9 @@ public class MyBootReceiver extends BroadcastReceiver {
 
   @Override
   public void onReceive(Context context, Intent intent) {
-    Log.i(MyApplication.TAG,"Boot broadcast received, calling initPlanner");
-    MyApplication.getInstance().initPlanner();
+    Log.i(MyApplication.TAG,"Boot broadcast received");
+    //no need to explicitly calling initPlanner, since instantiating MyApplication will allready trigger
+    //start of Planner
+    //MyApplication.getInstance().initPlanner();
   }
 }
