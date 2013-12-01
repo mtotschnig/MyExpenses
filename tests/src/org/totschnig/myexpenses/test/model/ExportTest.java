@@ -236,8 +236,8 @@ public class ExportTest extends ModelTest  {
   }
   protected void tearDown() throws Exception {
     super.tearDown();
-    if (export!=null)
-      Log.i(MyApplication.TAG,export.getAbsolutePath());
+    if (export!=null) {
       export.delete();
+    }
   }
 }
