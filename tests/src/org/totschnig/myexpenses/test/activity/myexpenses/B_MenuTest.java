@@ -68,9 +68,9 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
   }
   
   /**
-   * on a fresh install these four command should be inactive,
-   * INSERT_TRANSFER because there is no second account, NEW_FROM_TEMPLATE because there
-   * is no template, the other two depend on transactions being present
+   * on a fresh install these three commands should be inactive,
+   * INSERT_TRANSFER because there is no second account,
+   * the other two depend on transactions being present
    */
   public void testInactiveItems() {
     //only when we send this key event, onPrepareOptionsMenu is called before the test
