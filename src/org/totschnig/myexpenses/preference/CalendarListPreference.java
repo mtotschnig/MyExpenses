@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
+import android.os.Build;
 import android.preference.ListPreference;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.AttributeSet;
@@ -55,9 +56,9 @@ public class CalendarListPreference extends ListPreference {
             localExists = true;
         } while (calCursor.moveToNext());
       }
-      if (localExists)
+      if (localExists || Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
         selectionCursor = calCursor;
-      else {
+      } else {
         MatrixCursor extras = new MatrixCursor(new String[] {
             Calendars._ID,
             Calendars.ACCOUNT_NAME,
