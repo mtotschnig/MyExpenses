@@ -102,7 +102,7 @@
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
-      <item>92</item>
+      <item>93</item>
       <item>84</item>
       <item>79</item>
       <item>75</item>

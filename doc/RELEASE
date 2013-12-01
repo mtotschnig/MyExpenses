@@ -1,8 +1,14 @@
 Steps for preparing a new release
-
-* Run unit tests
+  
 * Set version info in Manifest
-* check if version_codes, version_names, upgrade.xml use the correction version code 
+* check if version_codes, version_names, upgrade.xml use the correction version code
+* * Run unit tests (with the testdevice connceted in adb, testdevice locale should be set to en_US)
+  - adb uninstall org.totschnig.myexpenses
+  - adb uninstall org.totschnig.myexpenses.test
+  - cd tests
+  - ant debug install
+  - script/runAllTests.sh
+* cd ..
 * ant clean
 * ant release
 * test upgrade mechanism

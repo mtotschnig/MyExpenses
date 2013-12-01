@@ -25,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
@@ -149,14 +151,17 @@ public class ExportTest extends ModelTest  {
   }
   public void testExportCSV() {
     String[] linesCSV = new String[] {
-        //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
-        "\"Split transaction\";\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";\"Status\";\"Reference Number\";",
-        "\"\";\"" + date + "\";\"\";0;0.1;\"\";\"\";\"\";\"Cheque\";\"*\";\"1\";",
-        "\"\";\"" + date + "\";\"N.N.\";0;0.2;\"Main\";\"\";\"\";\"Cheque\";\"\";\"2\";",
+        csvHeader(),
+        "\"\";\"" + date + "\";\"\";0;0.1;\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
+            + "\";\"*\";\"1\";",
+        "\"\";\"" + date + "\";\"N.N.\";0;0.2;\"Main\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
+            + "\";\"\";\"2\";",
         "\"\";\"" + date + "\";\"\";0.3;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";",
         "\"\";\"" + date + "\";\"\";0.4;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";",
-        "\"\";\"" + date + "\";\"\";0.5;0;\"Transfer\";\"[Account 2]\";\"\";\"\";\"X\";\"\";",
-        "\"\";\"" + date + "\";\"\";0;0.6;\"Transfer\";\"[Account 2]\";\"\";\"\";\"\";\"\";"
+        "\"\";\"" + date + "\";\"\";0.5;0;\"" + getContext().getString(R.string.transfer)
+            + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\";",
+        "\"\";\"" + date + "\";\"\";0;0.6;\"" + getContext().getString(R.string.transfer)
+            + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";"
     };
     try {
       insertData1();
@@ -170,8 +175,7 @@ public class ExportTest extends ModelTest  {
   }
   public void testExportNotYetExported() {
     String[] linesCSV = new String[] {
-        //{R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
-        "\"Split transaction\";\"Date\";\"Payee\";\"Income\";\"Expense\";\"Category\";\"Subcategory\";\"Notes\";\"Method\";\"Status\";\"Reference Number\";",
+        csvHeader(),
         "\"\";\"" + date + "\";\"\";0;1;\"\";\"\";\"Expense inserted after first export\";\"Cheque\";\"\";\"3\";",
         "\"\";\"" + date + "\";\"N.N.\";1;0;\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";"
     };
@@ -210,9 +214,31 @@ public class ExportTest extends ModelTest  {
       fail("Could not compare exported file. Error: " + e.getMessage());
     }
   }
+  private String csvHeader() {
+    StringBuilder sb = new StringBuilder();
+    int[] resArray = {
+        R.string.split_transaction,
+        R.string.date,R.string.payee,
+        R.string.income,
+        R.string.expense,
+        R.string.category,
+        R.string.subcategory,
+        R.string.comment,
+        R.string.method,
+        R.string.status,
+        R.string.reference_number};
+    for(int res : resArray)
+    {
+      sb.append("\"");
+      sb.append(getContext().getString(res));
+      sb.append("\";");
+    }
+    return sb.toString();
+  }
   protected void tearDown() throws Exception {
     super.tearDown();
     if (export!=null)
-      export.delete();
+      Log.i(MyApplication.TAG,export.getAbsolutePath());
+      //export.delete();
   }
 }

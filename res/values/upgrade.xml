@@ -18,7 +18,7 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-	<string-array name="whats_new_92">
+	<string-array name="whats_new_93">
 		<item>Plans for future and recurring transactions</item>
 		<item>Khmer translation</item>
 	</string-array>
