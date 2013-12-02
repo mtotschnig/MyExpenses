@@ -38,16 +38,16 @@ by this bug.
 
 When you have created or selected a calendar for storing plans, creating a plan will now create an
 event in this calendar, you will be shown the calendar view of this event. Originally the event will
-be a one-time event with the current time, so to make it useful, will change the time, and optionally
+be a one-time event with the current time, so to make it useful, you will change the time, and optionally
 create a recurrence. When you confirm the modifications to the event, the Calendar app will bring you
-to a overview of your calendar, and you have to use the BACK key to return to My Expenses. You can
+to an overview of your calendar, and you have to use the BACK key to return to My Expenses. You can
 change the event any time, either from My Expenses, or through the Calendar.
 
 <div class="screenshot" style="text-align:center">
 <img src="/visuals/screenshots/blog/event_view.png" alt="Event view" title="Event view">
 </div>
 
-Before save the template, you can configure the plan to be automatic or manual. When an instance of
+Before saving the template, you can configure the plan to be automatic or manual. When an instance of
 an automatic plan occurs, the transaction will be created, and you receive a notification. When the
 plan is manual, you also receive a notification, which leaves the choice of canceling, modifying or
 applying the template to you. Back at the template list for the current account, you will see
@@ -55,7 +55,7 @@ the _plan_ icon in the beginning of the entry to indicate that this template is 
 Since it is a template, you can still apply it independently from the plan, by clicking on the _apply_
 icon.
 
-MyExpenses is configured to check every six hours if a plan occurences has arrived. For a manual plan,
+MyExpenses is configured to check every six hours if a plan occurence has arrived. For a manual plan,
 you will see the following notification.
 
 <div class="screenshot" style="text-align:center">

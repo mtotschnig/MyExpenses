@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
-{% assign msg = page[pagelang]  %}
+{% assign msg = site.data.msg[pagelang]  %}
 <html lang="{{pagelang}}">
   <head>
     <meta charset="utf-8">

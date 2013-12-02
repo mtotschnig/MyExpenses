@@ -1,0 +1,458 @@
+en:
+  current: Currently
+  imprint: Imprint
+  hero_main: "Personal finance manager for Android"
+  hero_sub:
+    - "Easy to use"
+    - "Rich functionality"
+    - "Open Source"
+  latest_news: Latest news
+  menu_title:
+    features: Features
+    more_information: More information
+  sections:
+    participate: Participate
+    faq: FAQ
+    versionlist: Changelog
+    credits: Credits
+    licence: Licence
+    sourcecode: Source code
+    links: Links
+  features:
+    manage_accounts: Up to five accounts with transfers (unlimited in Contrib version)
+    plans: Define plans (3) for future and recurrent transactions  (unlimited in Contrib version)
+    grouped_list: Group transactions per day, week, month, year and display sums per group
+    distribution: Two levels of categories (import from Grisbi XML), display distribution of transactions in Contrib version
+    split: Split transactions (Contrib version)
+    calculator: Calculator
+    export: Export to QIF and CSV (MS Excel), can be automatically shared (via email, FTP, Dropbox, ...) and done in batch in Contrib version
+    password: Password protection, recoverable with security question in Contrib version
+    help: Integrated Help
+    new_from_template: Create transactions from templates
+    backup: Data backup and restore
+    aggregate_dialog: Aggregate financial situation (Contrib version)
+    light_theme: "Two themes: light and dark"
+  contrib-feature-dialog-title: |
+    My Expenses Contrib gives you unrestricted access to the following Premium features:
+  contrib:
+    - Unlimited number of accounts
+    - Distribution of transactions per category
+    - Split transaction
+    - Security question
+    - Reset all accounts
+    - Aggregates over multiple accounts
+  dialog-close: Close
+  dialog-buy: Buy
+ar:
+  current: Currently
+  imprint: Imprint
+  hero_main: "مدير التمويل الشخصي لالروبوت"
+  hero_sub:
+    - سهلة الاستخدام
+    - الوظائف الغنية
+    - المصدر المفتوح
+  latest_news: آخر الأخبار
+  menu_title:
+    features: Features
+    more_information: المزيد من المعلومات
+  sections:
+    participate: Participate
+    faq: FAQ
+    versionlist: Changelog
+    credits: الشكر
+    licence: Licence
+    sourcecode: Source code
+    links: Links
+  features:
+    manage_accounts: Up to five accounts with transfers (unlimited in Contrib version)
+    plans: Define plans (3) for future and recurrent transactions  (unlimited in Contrib version)
+    grouped_list: Group transactions per day, week, month, year and display sums per group
+    distribution: Two levels of categories (import from Grisbi XML)
+    split: Split transactions (Contrib version)
+    calculator: Calculator
+    export: Export to QIF and CSV (MS Excel), can be automatically shared (via email, FTP, Dropbox, ...) and done in batch in Contrib version
+    password: Password protection, recoverable with security question in Contrib version
+    help: Integrated Help
+    new_from_template: Create transactions from templates
+    backup: Data backup and restore
+    aggregate_dialog: Aggregate financial situation (Contrib version)
+    light_theme: "Two themes: light and dark"
+  contrib-feature-dialog-title: |
+    My Expenses Contrib gives you unrestricted access to the following Premium features:
+  contrib:
+    - Unlimited number of accounts
+    - Distribution of transactions per category
+    - تقسيم العمليات
+    - السؤال السري
+    - إعادة تعيين كل الحسابات
+    - إجمالي الحسابات المتعددة
+  dialog-close: Close
+  dialog-buy: Buy
+ca:
+  imprint: Imprint
+  hero_main: "Gestor de finances personals per Android "
+  hero_sub:
+    - "Fàcil d'usar"
+    - "Moltes funcionalitats"
+    - "Open Source"
+  latest_news: Últimes notícies
+  menu_title:
+    features: Features
+    more_information: Més informació
+  sections:
+    participate: Participa
+    faq: Preguntes més freqüents
+    versionlist: Registre de canvis
+    credits: Crèdits
+    licence: Llicència
+    sourcecode: Codi font
+    links: Enllaços
+  features:
+    manage_accounts: Fins a cinc comptes amb transferències ( sense límit en la versió Contrib )
+    plans: Define plans (3) for future and recurrent transactions  (unlimited in Contrib version)
+    grouped_list: Agrupació de transaccions per dia , setmana , mes, any i visualització sumes per grup
+    distribution: Dos nivells de les categories ( d'importació de grisbi XML ) , mostren la distribució de les transaccions en la versió Contrib
+    split: Transaccions dividides ( versió Contrib )
+    calculator: Calculadora
+    export: L'exportació a QIF i CSV ( MS Excel ) , es pot compartir de forma automàtica ( a través de correu electrònic , FTP , Dropbox , ... ) i es fa en lots en la versió Contrib
+    password: La protecció per contrasenya , recuperable amb la pregunta de seguretat en la versió Contrib
+    help: Ajuda integrada
+    new_from_template: Crear les transaccions a partir de plantilles
+    backup: Còpia de seguretat i restauració de dades
+    aggregate_dialog: Situació financera global ( versió Contrib )
+    light_theme: "Dos temes : fosc i clar"
+  contrib-feature-dialog-title: |
+    El meu Despeses Contrib et dóna accés il·limitat a les següents característiques premium:
+  contrib:
+    - Nombre il·limitat de comptes
+    - Distribució de les transaccions per categoria
+    - Transaccions dividides
+    - Pregunta de seguretat
+    - Restablir tots els comptes
+    - Els agregats més d'un compte
+  dialog-close: Tancament
+  dialog-buy: Compra
+de:
+  current: Aktuell
+  imprint: Impressum
+  hero_main: "Persönliches Finanz-Management für Android"
+  hero_sub:
+    - "Einfach zu bedienen"
+    - "Reich an Funktionalität"
+    - "Open Source"
+  latest_news: Neuigkeiten
+  menu_title:
+    features: Funktionen
+    more_information: Mehr Information
+  sections:
+    participate: Mitmachen
+    faq: FAQ
+    versionlist: Änderungen
+    credits: Abspann
+    licence: Lizenz
+    sourcecode: Quellcode
+    links: Links
+  features:
+    manage_accounts: Bis zu fünf Konten mit Umbuchungen (unbegrenzt in Contrib Version)
+    plans: Pläne (3) für zukünftige und wiederkehrende Ausgaben (unbegrenzt in Contrib Version)
+    grouped_list: Buchungen pro Tag, Woche, Monate, Jahr gruppieren und Summen pro Gruppe anzeigen
+    distribution: Zwei Ebenen von Kategorien mit Import aus Grisbi XML Datei, Verteilung der Buchungen (Contrib Version)
+    split: Splitbuchungen (nur in Contrib Version)
+    calculator: Taschenrechner
+    export: |
+      Export nach QIF und CSV (MS Excel), Übertragung via email, FTP, Dropbox, ...,
+      Export aller Konten in einem in Contrib Version
+    password: Passwortschutz (Sicherheitsfrage für Passwortverlust in Contrib Version)
+    help: Integrierte Hilfe
+    new_from_template: Buchungen aus Vorlagen erzeugen
+    backup: Daten Backup und Wiederherstellung
+    aggregate_dialog: Darstellung der Gesamtsummen in der Kontenübersicht (Contrib Version)
+    light_theme: "Zwei Themen: hell und dunkel"
+  contrib-feature-dialog-title: |
+    Meine Ausgaben Contrib gibt Ihnen uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:
+  contrib:
+    - Unbegrenzte Anzahl von Konten
+    - Verteilung der Buchungen auf Kategorien
+    - Splitbuchung
+    - Sicherheitsfrage
+    - Alle Konten zurücksetzen
+    - Gesamtsumme über mehrere Konten
+  dialog-close: Schließen
+  dialog-buy: Kaufen
+es:
+  current: Actualmente
+  imprint: Imprint
+  hero_main: "Gestión de las finanzas personales para Android"
+  hero_sub:
+    - "Fácil de usar"
+    - "Rico en funcionalidad"
+    - "Open Source"
+  latest_news: Últimas noticias
+  menu_title:
+    features: Características
+    more_information: Más información
+  sections:
+    participate: Participar
+    faq: FAQ
+    versionlist: Cambios
+    credits: Créditos
+    licence: Licencia
+    sourcecode: Código fuente
+    links: Enlaces
+  features:
+    manage_accounts: Hasta cinco cuentas con transferencias (sin límite en la versión Contrib)
+    plans: Planes para las transacciones futuras y recurrentes (3, sin límite en la versión Contrib)
+    grouped_list: Agrupamiento por día, semana, mes, año y visualización sumas por grupo
+    distribution: Dos niveles de categorías (de importación de Grisbi XML), Distribución de las transacciones (versión Contrib)
+    split: Asientos divididos (versión Contrib)
+    calculator: Calculadora
+    export: |
+      Formatos de exportación: QIF y CSV (MS Excel), cargar el archivo export (a través de FTP, correo
+      electrónico, Dropbox, ...), exportar todo en una sola operación (versión Contrib)
+    password: Protección por contraseña, pregunta de seguridad en la versión Contrib
+    help: Ayuda integrada
+    new_from_template: Crear asientos a partir de una plantilla
+    backup: Backup y Restauración
+    aggregate_dialog: Situación financiera global en la lista de cuentas (versión Contrib)
+    light_theme: "Dos temas: oscuro y claro"
+  contrib-feature-dialog-title: |
+    Instalando Mis Gastos Contrib, Usted va a obtener acceso ilimitado 
+      a las siguientes características premium:
+  contrib:
+    - Cuentas sin limite
+    - Distribución de las transacciones por categoría
+    - Asiento dividido
+    - Pregunta de seguridad
+    - Restablecer todas las cuentas
+    - Agregados de varias cuentas
+  dialog-close: Cerrar
+  dialog-buy: Comprar
+fr:
+  imprint: Imprint
+  hero_main: "Gestionnaire de finances personnelles pour Android"
+  hero_sub:
+  - Facile à utiliser
+  - Riche en fonctions
+  - Open Source
+  latest_news: Dernières nouvelles
+  menu_title:
+    features: Fonctions
+    more_information: Plus d'informations
+  sections:
+    participate: Participer
+    faq: FAQ
+    versionlist: Modifications
+    credits: Générique
+    licence: Licence
+    sourcecode: Code source
+    links: Liens
+  features:
+    manage_accounts: Jusqu'à cinq comptes avec virement (sans limite dans la version Contrib)
+    plans: Définir l'échéancier d'opérations futures et périodiques (3, sans limite dans la version Contrib)
+    grouped_list: Regroupement par jour, semaine, mois, année, et affichage des totaux par groupe
+    distribution: Deux niveaux de catégories (importation de Grisbi XML), affichage de la répartition des transactions dans la version Contrib
+    split: Opérations ventilées (version Contrib)
+    calculator: Calculatrice
+    export: 'Export vers QIF et CSV (MS Excel), téléchargement du fichier export (par e-mail, FTP, Dropbox, ...), exporter tous les comptes ensemble dans la version Contrib'
+    password: Protection par mot de passe (Question de sécurité en cas d'oubli en version Contrib)
+    help: Aide integrée
+    new_from_template: 'Créer des opérations à partir de modèles '
+    backup: Sauvegarde et restauration de données
+    aggregate_dialog: Affichage des sommes totales (version Contrib)
+    light_theme: "Deux thèmes: clair et sombre"
+  contrib-feature-dialog-title: |
+    Mes dépenses Contrib vous donne  un accès illimité aux fonctions Premium suivantes :
+  contrib:
+  - Nombre illimité de comptes
+  - Répartition des transactions par catégorie
+  - Opération de répartition
+  - Question de sécurité
+  - Réinitialiser tous les comptes
+  - Regroupement sur plusieurs comptes
+  dialog-close: Fermer
+  dialog-buy: Acheter
+hu:
+  imprint: Impresszum
+  hero_main: "A személyes pénzügyi nyilvántartás - Android"
+  hero_sub:
+  - Egyszerű használat
+  - Sok szolgáltatás
+  - Nyílt forráskód
+  latest_news: Újdonságok
+  menu_title:
+    features: Features
+    more_information: További információ
+  sections:
+    participate: Támogatás
+    faq: GYIK
+    versionlist: Újdonságok
+    credits: Közreműködők
+    licence: Licensz
+    sourcecode: Forráskód
+    links: Linkek
+  features:
+    manage_accounts: Akár öt számla kezelése, számlák közötti átvezetéssel (korlátlan a Contrib verzióban)
+    plans: Tervek készítése a jövőbeli események, vagy ismétlődő tranzakciók kezelése érdekében (3, korlátlan a Contrib verzióban)
+    grouped_list: Tranzakciók csoportosítása napi, heti, havi, éves összesítéssel - kategóriánként
+    distribution: Két szintű kategorizálás (a Grisbi XML-nek megfelelően), a Contrib verzióban a tranzakciók részletes megjelenítési lehetőségével
+    split: Megosztott tranzakciók (a Contrib verzióban)
+    calculator: Számológép
+    export: Adatok exportálása QIF és CSV (MS Excel) formátumban, amely automatikusan megosztható emailben, FTP-n, Dropbox-on, stb... - mindezt automatizálva a Contrib verzióban
+    password: Jelszavas védelem - jelszó visszaállítási lehetőséggel (biztonsági kérdésre adott válasszal) a Contrib verzióban
+    help: Integrált súgó
+    new_from_template: Sablonok készítése a tranzakciókból
+    backup: Adat mentés és visszaállítás
+    aggregate_dialog: A pénzügyi helyzet összesítése (csak a Contrib verzióban)
+    light_theme: "Két háttértéma: világos és sötét"
+  contrib-feature-dialog-title: |
+    A My Expenses Contrib (Prémium) verzió kiterjesztett, megkötések nélkül használható lehetőségei:
+  contrib:
+  - Korlátlan számú számla kezelése
+  - Tranzakciók kategóriánkénti felosztása
+  - Tranzakciók megosztása a számlák között
+  - Biztonsági kérdés - jelszó visszaállításhoz
+  - Az összes számla alaphelyzetbe állítása
+  - Több számla tételeinek összesítése
+  dialog-close: Bezár
+  dialog-buy: Vásárlás
+it:
+  current: Attualmente
+  imprint: Colophon
+  hero_main: "Gestione delle finanze personali per Android"
+  hero_sub:
+    - "Facile da usare"
+    - "Ricco di funzionalità"
+    - "Open Source"
+  latest_news: Ultime notizie
+  menu_title:
+    features: Funzionalità
+    more_information: Maggiori informazioni
+  sections:
+    participate: Partecipare
+    faq: FAQ
+    versionlist: Aggiornamenti
+    credits: Generico
+    licence: Licenza
+    sourcecode: Codice sorgente
+    links: Collegamenti
+  features:
+    manage_accounts: Fino a cinque conti con trasferimenti (illimitato in versione Contrib)
+    plans: Scadenze per le transazioni future e ripetute (3, illimitato in versione Contrib)
+    grouped_list: Raggruppamento al giorno, settimana, mese, anno e visualizzazione delle somme per gruppo
+    distribution: Due livelli di categorie (importazione da Grisbi XML), Distribuzione di transazioni (versione Contrib)
+    split: Operazioni suddivise (versione Contrib)
+    calculator: Calcolatrice
+    export: |
+      Formati di esportazione: QIF e CSV (MS Excel), caricare file export via FTP, e-mail o Dropbox, ...,
+      Esporta tutti in una sola operazione (versione Contrib)
+    password: Protezione con password, domanda di sicurezza in versione Contrib
+    help: Aiuto integrato
+    new_from_template: Creare operazione riguardo modelli
+    backup: Backup e ripristino di dati
+    aggregate_dialog: Raffigurazione della situazione finanziaria sommata (versione Contrib)
+    light_theme: "Due stili: buio e chiaro"
+  contrib-feature-dialog-title: |
+    Installando Le Mie Spese Contrib, ottiene l’accesso illimitato alle
+    seguenti funzionalità speciali:
+  contrib:
+    - Numero illimitato di conti
+    - Distribuzione di transazioni per categoria
+    - Operazione suddivisa
+    - Domanda di sicurezza
+    - Reinizializzare tutti i conti
+    - Sommare piu conti
+  dialog-close: Chiudere
+  dialog-buy: Comprare
+tr:
+  imprint: Imprint
+  hero_main: "Android için kişisel finans yöneticisi"
+  hero_sub:
+  - Kolay kullanım
+  - Zengin işlevsellik
+  - Açık Kaynak
+  latest_news: Son haberler
+  menu_title:
+    features: Features
+    more_information: İlâve bilgi
+  sections:
+    participate: İştirak edin
+    faq: SSS
+    versionlist: Değişiklikler
+    credits: Hazırlayanlar
+    licence: Lisans
+    sourcecode: Kaynak kodu
+    links: Bağlantılar
+  features:
+    manage_accounts: Transferleri dikkate alan 5 hesap (Katkı sürümü ile sınırsız sayıda hesap)
+    plans: Gelecekteki ve tekrar eden muameleler için plan tanımlaması (3, Katkı sürümü ile sınırsız sayıda hesap)
+    grouped_list: Muameleleri gün, hafta, ay veya yıllık olarak grupla ve grup başına toplamları görüntüle
+    distribution: İki kategori seviyesi (Grisbi XML dosyalarından içe aktarım), muamelelerin dağılımını katkı sürümünde görüntüleme
+    split: Bölünmüş muameleler (Ücretli işlev)
+    calculator: Hesap makinesi
+    export: 'QIF ve CSV (MS Excel) dosyası olarak dışa aktarma, Dışa aktarım dosyalarının FTP ya da e-posta ile yedeklenmeleri, Tüm hesapları sıfırla (Ücretli işlev)'
+    password: Parola ile güvenlik, Güvenlik sorusu (Ücretli işlev)
+    help: Entegre yardım
+    new_from_template: Şablonlardan muamele oluşturulması
+    backup: Veri yedekleme ve geri yükleme
+    aggregate_dialog: Birden çok hesabın birleşik görünümü (Ücretli işlev)
+    light_theme: "İki tema: karanlık ve aydınlık"
+  contrib-feature-dialog-title: |
+    Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde
+      edersiniz:
+  contrib:
+  - Sınırsız hesap sayısı
+  - Muamelelerin kategoriye göre dağılımı
+  - Bölünmüş muameleler
+  - Güvenlik sorusu
+  - Tüm hesapları sıfırlama
+  - Birden fazla hesabı agrega olarak toplama
+  dialog-close: Yakın
+  dialog-buy: Satın al
+vi:
+  current: Currently
+  imprint: Imprint
+  hero_main: "Quản lý tài chính cá nhân trên Android"
+  hero_sub:
+    - "Dễ dàng sử dụng"
+    - "Sở hữu nhiều chức năng"
+    - "Mã nguồn mở"
+  latest_news: Tin tức mới nhất
+  menu_title:
+    features: Features
+    more_information: Thêm thông tin
+  sections:
+    participate: Tham gia vào dự án
+    faq: Các câu hỏi thường gặp
+    versionlist: Danh sách các phiên bản
+    credits: Các thành viên trong dự án
+    licence: Giấy phép
+    sourcecode: Mã nguồn
+    links: Liên kết
+  features:
+    manage_accounts: Sở hữu đến 5 tài khoản quản lý tài chính (không giới hạn số lượng tài khoản trong phiên bản Contrib)
+    plans: Define plans (3) for future and recurrent transactions  (unlimited in Contrib version)
+    grouped_list: Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm
+    distribution: Tạo các cấp độ phân loại dễ dàng cho nhiều đối tượng chi tiêu (có thể nhập dữ liệu dạng XML theo kiểu Grisbi), Tác động phân phối các giao dịch cho mỗi phân loạ (Tính năng nâng cao)
+    split: Phân tích giao dịch (Tính năng nâng cao)
+    calculator: Máy tính hỗ trợ
+    export: |
+      Xuất sang định dạng QIF hoặc CSV (dùng cho Excel), Chia sẻ các tập tin dữ liệu được xuất ra
+      (thông qua email, FTP, Dropbox...) Thiết đặt lại tất cả tài khoản (Tính năng nâng cao)
+    password: Bảo vệ bởi mật khẩu an toàn, dùng chức năng câu hỏi an ninh (Tính năng nâng cao)
+    help: Trợ giúp tích hợp
+    new_from_template: Tạo các giao dịch dựa theo các mẫu cho sẵn
+    backup: Sao lưu và phục hồi dữ liệu
+    aggregate_dialog: Gom nhóm nhiều dạng tài khoản (Tính năng nâng cao)
+    light_theme: "hai giao diện: sáng màu và tối màu"
+  contrib-feature-dialog-title: |
+    Xin vui lòng đóng góp cho chương trình bằng cách cài đặt phiên bản Contrib. Bạn sẽ được phép sử dụng các
+    tính năng của phiên bản nâng cao:
+  contrib:
+    - Không giới hạn số lượng các tài khoản
+    - Tác động phân phối các giao dịch cho mỗi phân loại
+    - Phân tích giao dịch
+    - Câu hỏi an ninh
+    - Thiết đặt lại tất cả tài khoản
+    - Gom nhóm nhiều dạng tài khoản
+  dialog-close: Đóng
+  dialog-buy: Mua
