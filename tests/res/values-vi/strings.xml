@@ -18,6 +18,10 @@
     <string name="testData_transaction4MainCat">Thức ăn</string>
     <string name="testData_transaction4Payee">Pizzeria Antonella</string>
     <string name="testData_transaction6MainCat">Quà cáp</string>
+    <string name="testData_templateMainCat">Nhà ở</string>
+    <string name="testData_templateSubCat">Thuê</string>
+    <!-- a name typically used as example name -->
+    <string name="testData_templatePayee">Trần Thị B</string>
 </resources>
 
 

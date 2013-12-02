@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.test.R;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
 
+import android.annotation.SuppressLint;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
@@ -42,6 +43,7 @@ public class Fixture {
     return account4;
   }
   private static Account account4;
+  @SuppressLint("NewApi")
   public static void clear(Context ctx) {
     File dir = ctx.getExternalCacheDir();
     if (dir != null)
@@ -155,9 +157,6 @@ public class Fixture {
     op4.crStatus = CrStatus.CLEARED;
     op4.save();
 
-    // Template
-    new Template(op4,op4.payee).save();
-
     //Transaction 5 Reconciled
     Transaction op5 = Transaction.getTypedNewInstance(MyExpenses.TYPE_TRANSFER, account1.id);
     op5.transfer_account = account3.id;
@@ -192,5 +191,15 @@ public class Fixture {
     split2.amount = new Money(defaultCurrency,-4444L);
     split2.catId = mainCat6;
     split2.save();
+
+    // Template
+    Template template = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.id);
+    template.amount = new Money(defaultCurrency,-90000L);
+    String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
+    template.catId = Category.find(templateSubCat,
+        Category.find(testContext.getString(R.string.testData_templateMainCat), null));
+    template.title = templateSubCat;
+    template.payee = testContext.getString(R.string.testData_templatePayee);
+    template.save();
   }
 }

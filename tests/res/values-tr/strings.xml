@@ -18,4 +18,8 @@
     <string name="testData_transaction4MainCat">Gıda</string>
     <string name="testData_transaction4Payee">Pizzeria Antonella</string>
     <string name="testData_transaction6MainCat">Hediyeler</string>
+    <string name="testData_templateMainCat">Konut</string>
+    <string name="testData_templateSubCat">Kira</string>
+    <!-- a name typically used as example name -->
+    <string name="testData_templatePayee">Sarı Çizmeli Mehmet Ağa</string>
 </resources>

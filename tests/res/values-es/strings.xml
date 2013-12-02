@@ -18,4 +18,8 @@
     <string name="testData_transaction4MainCat">Alimentos</string>
     <string name="testData_transaction4Payee">Pizzeria Antonella</string>
     <string name="testData_transaction6MainCat">Donaciones</string>
+    <string name="testData_templateMainCat">Vivienda</string>
+    <string name="testData_templateSubCat">Alquiler</string>
+    <!-- a name typically used as example name -->
+    <string name="testData_templatePayee">Fulano de Tal</string>
 </resources>

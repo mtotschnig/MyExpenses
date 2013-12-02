@@ -24,4 +24,8 @@
     <!-- should be the name of a typical restaurant -->
     <string name="testData_transaction4Payee">Pizzeria Antonella</string>
     <string name="testData_transaction6MainCat">Gifts</string>
+    <string name="testData_templateMainCat">Housing</string>
+    <string name="testData_templateSubCat">Rent</string>
+    <!-- a name typically used as example name -->
+    <string name="testData_templatePayee">John Doe</string>
 </resources>
