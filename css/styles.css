@@ -26,7 +26,7 @@
 }
 .well > div {
   display: inline-block;
-  width: 49%;
+  width: 30%;
 }
 .nav li.active .caret {
     border-bottom-color: #ffffff;

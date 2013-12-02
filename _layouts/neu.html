@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
 {% assign msg = page[pagelang]  %}
-<html lang="{{pagelang}}" {{msg.imprint}}>
+<html lang="{{pagelang}}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -159,9 +159,10 @@
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li id="features-link" class="active"><a id="menu-features" href="#features"><span class="glyphicon glyphicon-home"></span></a></li>
+          <li id="features-link" class="active" title="{{msg.menu_title.features}}"><a id="menu-features" href="#features"><span class="glyphicon glyphicon-home"></span></a></li>
+          <li><a href="{{site.posts[0].url}}">Blog</a></li>
           <li id="menu-moreinfo" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{{msg.menu_title.more_information}}"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
             {% for section in msg.sections %}
@@ -199,20 +200,18 @@
         <div>
           <a id="gplay" class="track" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses">
             <img alt="Get it on Google Play"
-              src="https://developer.android.com/images/brand/{{pagelang}}_generic_rgb_wo_60.png" />
+              src="https://developer.android.com/images/brand/{{pagelang}}_generic_rgb_wo_45.png" />
           </a>
         </div>
         <div>
-          <div class="btn-group">
-            <button style="height:58px;min-width:170px;" type="button" class="btn btn-info btn-lg dropdown-toggle" data-toggle="dropdown">
-              {{msg.latest_news}} <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              {% for post in site.gplus %}
-              <li style="text-align:left"><a class="track" id="{{post[0]}}" href="https://plus.google.com/116736113799210525299/posts/{{post[0]}}">{{post[1]}}</a></li>
-              {% endfor %}
-            </ul>
-          </div>
+          <a id="fdroid" class="track" href="https://f-droid.org/repository/browse/?fdid=org.totschnig.myexpenses">
+            <img alt="Get it on F-Droid" src="/visuals/getitonfdroid.png" />
+          </a>
+        </div>
+        <div>
+          <a id="amazon" class="track" href="http://www.amazon.com/gp/product/B00FEFVFOQref=mas_pm_MyExpenses">
+            <img alt="Get it on Amazon" src="/visuals/amazon-apps-store-{% if pagelang == "es" or pagelang == "de" or pagelang == "fr" or pagelang == "en" or pagelang == "it" %}{{pagelang}}{% else %}en{% endif %}-black.png" />
+          </a>
         </div>
       </div>
       <div id="features" class="carousel slide block">

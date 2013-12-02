@@ -1,0 +1,94 @@
+---
+sections:
+  participate: Participate
+  faq: FAQ
+  versionlist: Changelog
+  credits: Credits
+  licence: Licence
+  sourcecode: Source code
+  links: Links
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="My Expenses, Open Source Android App for personal finance management">
+    <meta name="author" content="Michael Totschnig">
+    <link rel="shortcut icon" href="/visuals/favicon.png">
+
+    <title>My Expenses Blog</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/smoothness/jquery-ui.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="/script/html5shiv.js"></script>
+      <script src="/script/respond.min.js"></script>
+    <![endif]-->
+    
+    <style type="text/css">
+    div.screenshot img {
+    border: 1px solid #021A40;
+    cursor: pointer;
+    padding: 1px;
+    }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li id="features-link" class="active"><a id="menu-features" href="/en#features"><span class="glyphicon glyphicon-home"></span></a></li>
+          <li id="menu-moreinfo" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+            {% for section in page.sections %}
+              <li id="{{section[0]}}-link"><a class="intern" href="/en#{{section[0]}}">{{section[1]}}</a></li>
+            {% endfor %}
+              <li role="presentation" class="divider"></li>
+              <li><a class="track" id="gplus" href="https://plus.google.com/116736113799210525299">Follow on Google+</a></li>
+              <li role="presentation" class="divider"></li>
+              <li><a id="premium" class="track" data-toggle="modal" href="#contrib-features">Go premium</a></li>
+            </ul>
+          </li>
+        </ul>
+        <h3 class="text-muted">My Expenses Blog</h3>
+      </div>
+      <main>
+      <article>
+        <header>
+            <h2>{{ page.title }}</h2>
+            <span><i class="icon-clock"></i><time datetime="{{page.date|date:"%F"}}">{{page.date|date:"%b %d, %Y"}}</time></span><br/>
+            <span class="category"><i class="icon-tag"></i> {{ page.categories | category_links }}</span><br/>
+            <span class="author"><i class="icon-user"></i> {% if page.author %}{{page.author}}{% else %}{{site.author}}{% endif%}</span>
+        </header>
+
+        <div class="entry">{{ content }}</div>
+
+        <footer><!-- additional info --></footer>
+
+      </article>
+      </main>
+      <div class="footer">
+        <p>© 2013 Michael Totschnig - <a class="intern" href="#imprint">{{msg.imprint}}</a> - <a href="mailto:myexpenses@totschnig.org">Feedback</a></p>
+      </div>
+    </div> <!-- /container -->
+    
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/script/images.js" charset="UTF-8"></script>
+  </body>
+</html>
