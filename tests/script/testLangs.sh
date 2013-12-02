@@ -16,4 +16,4 @@ case $lang in
  ca) country=ES ;;
  *) country=${lang^^};;
 esac
-monkeyrunner monkey.py $lang $country
+monkeyrunner $(dirname $0)/monkey.py $lang $country

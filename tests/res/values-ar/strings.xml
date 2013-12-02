@@ -18,4 +18,8 @@
   <string name="testData_transaction4MainCat">طعام</string>
   <string name="testData_transaction4Payee">مطعم Pizzeria Antonella</string>
   <string name="testData_transaction6MainCat">هدايا</string>
+    <string name="testData_templateMainCat">سكن</string>
+    <string name="testData_templateSubCat">إيجار</string>
+    <!-- a name typically used as example name -->
+    <string name="testData_templatePayee">فلانة الفلانية</string>
 </resources>

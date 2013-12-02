@@ -90,12 +90,24 @@ enter()
 snapshot("grouped_list")
 
 #4 NewFromTemplate
-menu(1)
-snapshot("new_from_template")
+menu(2)
+down()
+enter()
+right()
+right()
+right()
+enter()
+for _ in range(6):
+  down()
+enter()
+sleep(5)
+snapshot("plan")
 
 #5 ExportAndReset
 back()
-menu(2)
+back()
+back()
+menu(1)
 snapshot("export")
 
 #6 Calculator
@@ -141,9 +153,9 @@ snapshot("distribution")
 back()
 menu(6)
 if lang == 'de':
-  distance = 16
+  distance = 17
 else:
-  distance = 15
+  distance = 16
 for _ in range(distance):
   down()
 enter()
@@ -155,9 +167,9 @@ back()
 back()
 menu(6)
 if lang == 'de':
-  distance = 23
+  distance = 24
 else:
-  distance = 22
+  distance = 23
 for _ in range(distance):
   down()
 enter()

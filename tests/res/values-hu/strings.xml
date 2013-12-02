@@ -18,4 +18,8 @@
   <string name="testData_transaction4MainCat">Étel</string>
   <string name="testData_transaction4Payee">Antonella Pizzéria</string>
   <string name="testData_transaction6MainCat">Ajándékok</string>
+    <string name="testData_templateMainCat">Lakhatás</string>
+    <string name="testData_templateSubCat">Bérlés</string>
+    <!-- a name typically used as example name -->
+    <string name="testData_templatePayee">Minta János</string>
 </resources>

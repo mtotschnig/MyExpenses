@@ -18,4 +18,8 @@
     <string name="testData_transaction4MainCat">Alimentation</string>
     <string name="testData_transaction4Payee">Pizzeria Antonella</string>
     <string name="testData_transaction6MainCat">Dons</string>
+    <string name="testData_templateMainCat">Logement</string>
+    <string name="testData_templateSubCat">Loyer</string>
+    <!-- a name typically used as example name -->
+    <string name="testData_templatePayee">Jean Dupont</string>
 </resources>
