@@ -51,9 +51,9 @@ Before saving the template, you can configure the plan to be automatic or manual
 an automatic plan occurs, the transaction will be created, and you receive a notification. When the
 plan is manual, you also receive a notification, which leaves the choice of canceling, modifying or
 applying the template to you. Back at the template list for the current account, you will see
-the _plan_ icon in the beginning of the entry to indicate that this template is linked to a plan.
-Since it is a template, you can still apply it independently from the plan, by clicking on the _apply_
-icon.
+the ![Plan icon](/visuals/ic_menu_my_calendar.png) icon in the beginning of the entry to indicate that this template is linked to a plan.
+Since it is a template, you can still apply it independently from the plan, by clicking on the
+![Apply icon](/visuals/ic_menu_set_as.png) icon.
 
 MyExpenses is configured to check every six hours if a plan occurence has arrived. For a manual plan,
 you will see the following notification.
