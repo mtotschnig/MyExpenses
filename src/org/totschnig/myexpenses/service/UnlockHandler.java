@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.service;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.Distrib;
 
 import android.os.Handler;
 import android.os.Message;
@@ -25,7 +25,7 @@ public class UnlockHandler extends Handler {
     MyApplication app = MyApplication.getInstance();
     Log.i(MyApplication.TAG,"Now handling answer from license verification service; got status "+msg.what);
     if (msg.what == STATUS_PERMANENT || msg.what == STATUS_TEMPORARY || msg.what == STATUS_RETRY) {
-      PreferenceObfuscator mPreferences = Utils.getLicenseStatusPrefs(app);
+      PreferenceObfuscator mPreferences = Distrib.getLicenseStatusPrefs(app);
       app.isContribEnabled = true;
       //TODO show notification
       if (msg.what == STATUS_PERMANENT) {

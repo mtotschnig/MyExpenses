@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.service.UnlockHandler;
 import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.util.Distrib;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat;
@@ -184,7 +185,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 
     public boolean initContribEnabled() {
       //TODO profile time taken in this function
-      int contribStatusInfo = Utils.getContribStatusInfo(this);
+      int contribStatusInfo = Distrib.getContribStatusInfo(this);
       isContribEnabled = contribStatusInfo == -1 ||Utils.verifyLicenceKey(settings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
       //we call MyExpensesContrib to check status
       if (!isContribEnabled) {
