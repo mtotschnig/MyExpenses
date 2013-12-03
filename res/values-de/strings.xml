@@ -281,6 +281,8 @@
   <string name="pref_shortcut_account_list_title">\'Kontenliste\' Verknüpfung</string>
   <string name="pref_shortcut_added">Verknüpfung dem Home Screen hinzugefügt</string>
   <string name="pref_shortcut_summary">Fügt den Shortcut dem Home Screen hinzu</string>
+  <string name="pref_ui_language_summary">>Sprache der Bedienoberfläche festlegen </string>
+  <string name="pref_ui_language_title">Sprache</string>
   <string name="pref_ui_theme_title">Stil</string>
   <string name="pref_ui_theme_dark">dunkel</string>
   <string name="pref_ui_theme_light">hell</string>

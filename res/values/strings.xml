@@ -294,6 +294,10 @@
   <string name="pref_shortcut_account_list_title">\'Account list\' shortcut</string>
   <string name="pref_shortcut_added">Shortcut has been added to Home Screen</string>
   <string name="pref_shortcut_summary">Add the shortcut to Home Screen</string>
+  <string name="pref_ui_language_default">System default</string>
+  <string name="pref_ui_language_summary">Set language of user interface</string>
+  <!-- Title of the preference for selecting the UI language -->
+  <string name="pref_ui_language_title">Language</string>
   <string name="pref_ui_theme_dark">dark</string>
   <string name="pref_ui_theme_light">light</string>
   <string name="pref_ui_theme_title">Theme</string>

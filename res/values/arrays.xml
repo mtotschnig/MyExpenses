@@ -31,6 +31,32 @@
         <item>@string/pref_ui_theme_dark</item>
         <item>@string/pref_ui_theme_light</item>
     </string-array>
+    <string-array name="pref_ui_language_entries">
+    	<item>@string/pref_ui_language_default</item>
+      <item>العربية</item>
+      <item>Català</item>
+      <item>Deutsch</item>
+      <item>Español</item>
+      <item>Français</item>
+      <item>Magyar</item>
+      <item>Italiano</item>
+      <item>Khmer</item>
+      <item>Türkçe</item>
+      <item>Tiếng Việt</item>
+    </string-array>
+    <string-array name="pref_ui_language_values">
+    	<item>default</item>
+      <item>ar</item>
+      <item>ca</item>
+      <item>de</item>
+      <item>es</item>
+      <item>fr</item>
+      <item>hu</item>
+      <item>it</item>
+      <item>km</item>
+      <item>tr</item>
+      <item>vi</item>
+    </string-array>
     <string-array name="grouping_entries">
         <item>@string/grouping_none</item>
         <item>@string/grouping_day</item>

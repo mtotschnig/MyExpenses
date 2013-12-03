@@ -54,6 +54,10 @@
         android:summaryOn="@string/pref_categories_sort_by_usages_summaryOn" />
     <Preference android:title="@string/pref_shortcut_account_list_title"
         android:key="@string/pref_shortcut_account_list_key" android:summary="@string/pref_shortcut_summary"/>
+    <ListPreference android:key="@string/pref_ui_language_key"
+    	android:title="@string/pref_ui_language_title"
+    	android:summary="@string/pref_ui_language_summary"
+    	android:entries="@array/pref_ui_language_entries" android:entryValues="@array/pref_ui_language_values"/>
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/pref_category_title_import">

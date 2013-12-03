@@ -37,6 +37,7 @@
   <string name="pref_shortcut_account_list_key">shortcut_account_list</string>
   <string name="pref_planner_calendar_id_key">planner_calendar_id</string>
   <string name="pref_rate_key">rate</string>
+  <string name="pref_ui_language_key">ui_language</string>
 
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 

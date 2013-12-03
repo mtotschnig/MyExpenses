@@ -273,6 +273,8 @@
   <string name="pref_shortcut_account_list_title">Collegamento \'Elenco dei conti\'</string>
   <string name="pref_shortcut_added">Collegamento è stato aggiunto alla schermata Home</string>
   <string name="pref_shortcut_summary">Aggiungere il collegamento a Home</string>
+  <string name="pref_ui_language_summary">Imposta la lingua dell\'interfaccia utente</string>
+  <string name="pref_ui_language_title">Lingua</string>
   <string name="pref_ui_theme_dark">buio</string>
   <string name="pref_ui_theme_light">chiaro</string>
   <string name="pref_ui_theme_title">Stile</string>
