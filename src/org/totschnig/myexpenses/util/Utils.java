@@ -31,12 +31,14 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.EnumSet;
+import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -403,5 +405,12 @@ public class Utils {
     com.actionbarsherlock.view.MenuItem item = menu.findItem(id);
     item.setEnabled(enabled);
     item.getIcon().setAlpha(enabled ? 255 : 90);
+  }
+
+  public static DateFormat localizedYearlessDateFormat() {
+    Locale l = Locale.getDefault();
+    String yearlessPattern = ((SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT,l))
+        .toPattern().replaceAll("\\W?[Yy]+\\W?", "");
+    return new SimpleDateFormat(yearlessPattern, l);
   }
 }
