@@ -33,7 +33,6 @@ import android.content.Intent.ShortcutIconResource;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -82,6 +81,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       .setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)
       .setOnPreferenceClickListener(this);
+    findPreference(MyApplication.PREFKEY_RATE)
+    .setOnPreferenceClickListener(this);
 
     findPreference(MyApplication.PREFKEY_ENTER_LICENCE)
       .setOnPreferenceChangeListener(this);
@@ -190,6 +191,10 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_SEND_FEEDBACK)) {
       CommonCommands.dispatchCommand(this, R.id.FEEDBACK_COMMAND);
+      return true;
+    }
+    if (preference.getKey().equals(MyApplication.PREFKEY_RATE)) {
+      CommonCommands.dispatchCommand(this, R.id.RATE_COMMAND);
       return true;
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_MORE_INFO_DIALOG)) {
