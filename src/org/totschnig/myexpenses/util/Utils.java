@@ -407,6 +407,15 @@ public class Utils {
     item.getIcon().setAlpha(enabled ? 255 : 90);
   }
 
+  public static boolean doesPackageExist(Context context,String targetPackage) {
+    try {
+      context.getPackageManager().getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
+        } catch (NameNotFoundException e) {
+     return false;
+     }
+     return true;
+  }
+
   public static DateFormat localizedYearlessDateFormat() {
     Locale l = Locale.getDefault();
     String yearlessPattern = ((SimpleDateFormat)DateFormat.getDateInstance(DateFormat.SHORT,l))
