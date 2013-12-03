@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -36,6 +37,21 @@ public class CommonCommands {
   static boolean dispatchCommand(Activity ctx,int command) {
     Intent i;
     switch(command) {
+    case R.id.RATE_COMMAND:
+      SharedPreferencesCompat.apply(
+          MyApplication.getInstance().getSettings().edit().putLong("nextReminderRate", -1));
+      i = new Intent(Intent.ACTION_VIEW);
+      i.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.totschnig.myexpenses"));
+      if (Utils.isIntentAvailable(ctx,i)) {
+        ctx.startActivity(i);
+      } else {
+        Toast.makeText(
+            ctx,
+            R.string.error_accessing_market,
+            Toast.LENGTH_LONG)
+          .show();
+      }
+      return true;
     case R.id.SETTINGS_COMMAND:
       i = new Intent(ctx, MyPreferenceActivity.class);
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

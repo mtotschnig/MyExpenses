@@ -406,20 +406,6 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.BACKUP_COMMAND:
       startActivity(new Intent("myexpenses.intent.backup"));
       return true;
-    case R.id.RATE_COMMAND:
-      SharedPreferencesCompat.apply(mSettings.edit().putLong("nextReminderRate", -1));
-      i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse(MyApplication.MARKET_PREFIX + "org.totschnig.myexpenses"));
-      if (Utils.isIntentAvailable(this,i)) {
-        startActivity(i);
-      } else {
-        Toast.makeText(
-            getBaseContext(),
-            R.string.error_accessing_market,
-            Toast.LENGTH_LONG)
-          .show();
-      }
-      return true;
     case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
       if ((Boolean) tag) {
         if (MyApplication.backupRestore()) {

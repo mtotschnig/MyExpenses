@@ -98,6 +98,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static final String PREFKEY_CURRENT_VERSION = "currentversion";
     public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static final String PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP = "planner_last_execution_timestamp";
+    public static String PREFKEY_RATE;
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
@@ -163,6 +164,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       PREFKEY_MORE_INFO_DIALOG = getString(R.string.pref_more_info_dialog_key);
       PREFKEY_SHORTCUT_ACCOUNT_LIST = getString(R.string.pref_shortcut_account_list_key);
       PREFKEY_PLANNER_CALENDAR_ID = getString(R.string.pref_planner_calendar_id_key);
+      PREFKEY_RATE = getString(R.string.pref_rate_key);
       setPasswordCheckDelayNanoSeconds();
       try {
         InputStream rawResource = getResources().openRawResource(R.raw.app);

@@ -144,11 +144,8 @@
         android:summary="@string/pref_more_info_dialog_summary"/>
      </PreferenceCategory>
      <PreferenceCategory android:title="@string/feedback">
-    <Preference
+    <Preference android:key="@string/pref_rate_key"
         android:title="@string/help_button_rate">>
-      <intent
-          android:action="android.intent.action.VIEW"
-          android:data="market://details?id=org.totschnig.myexpenses" />
     </Preference>
     <Preference android:key="@string/pref_send_feedback_key"
         android:title="@string/pref_send_feedback_title"/>

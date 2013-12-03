@@ -152,7 +152,7 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case YEAR:
     case NONE:
-      itemDateFormat = new SimpleDateFormat("dd.MM");
+      itemDateFormat = Utils.localizedYearlessDateFormat();
     }
     mGroupingCursor = null;
     if (mManager.getLoader(GROUPING_CURSOR) != null && !mManager.getLoader(GROUPING_CURSOR).isReset())
