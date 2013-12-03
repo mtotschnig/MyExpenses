@@ -24,8 +24,8 @@
     <![endif]-->
     <script type="text/javascript">
       /* based on Android Asset Studio - Device Frame Generator */
-      var SCREENSHOT_WIDTH = 480;
-      var SCREENSHOT_HEIGTH = 800;
+      var SCREENSHOT_WIDTH = 288;
+      var SCREENSHOT_HEIGTH = 480;
       var MINIMAL_WIDTH_DEVICE_ART = 500;
       
       var loadImageResources = function(images, callback) {
@@ -65,8 +65,8 @@
         landRes: ['shadow', 'back', 'fore'],
         landOffset: [147,135],
         portRes: ['shadow', 'back', 'fore'],
-        portOffset: [134,247],
-        portSize: [480,800],
+        portOffset: [80,148],
+        portSize: [288,480],
         archived: true
       }
      var resourceImages = {};
@@ -97,13 +97,15 @@
         }
       }
       var availableWidth=availableWidth();
+      //console.log("setting availableWidth "+ availableWidth);
       function loadScreenShots() {
         if (availableWidth > MINIMAL_WIDTH_DEVICE_ART) {
-          var naturalWidth = 749;
-          var naturalHeight = 1308;
-          var scale = availableWidth/naturalWidth;
+          var naturalWidth = 449;
+          var naturalHeight = 785;
+          var scale = (availableWidth < naturalWidth) ? availableWidth/naturalWidth : 1;
+          //console.log("setting SCALE "+ scale);
           var ctx = canvasTemplate.getContext('2d');
-          canvasTemplate.width=availableWidth;
+          canvasTemplate.width=naturalWidth*scale;
           canvasTemplate.height=naturalHeight*scale
           ctx.drawImage(resourceImages['shadow'], 0, 0,canvasTemplate.width,canvasTemplate.height);
           ctx.drawImage(resourceImages['back'], 0, 0,canvasTemplate.width,canvasTemplate.height);
@@ -120,7 +122,7 @@
               if (availableWidth > MINIMAL_WIDTH_DEVICE_ART) {
                 //console.log("image "+id + " loaded");
                 var canvas = document.createElement('canvas');
-                canvas.width=availableWidth;
+                canvas.width=naturalWidth*scale;
                 //console.log("setting width "+ canvas.width);
                 canvas.height=naturalHeight*scale
                 if (!navigator.userAgent.match(/msie/i) ){
