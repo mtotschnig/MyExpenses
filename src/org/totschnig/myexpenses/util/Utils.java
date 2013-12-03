@@ -432,14 +432,6 @@ public class Utils {
       return Integer.parseInt(p.getString(
           MyApplication.PREFKEY_LICENSE_RETRY_COUNT,"0"));
   }
-  public static boolean doesPackageExist(Context context,String targetPackage) {
-    try {
-      context.getPackageManager().getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
-        } catch (NameNotFoundException e) {
-     return false;
-     }
-     return true;
-  }
 
   public static boolean doesPackageExist(Context context,String targetPackage) {
     try {
