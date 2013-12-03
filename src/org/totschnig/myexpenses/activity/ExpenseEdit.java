@@ -376,8 +376,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mAccountSpinner.setOnItemSelectedListener(this);
       mManager.initLoader(ACCOUNTS_CURSOR, null, this);
     }
-    //category button and amount label are further set up in populateFields, since it depends on data
-    //when we have a savedInstance field have already been populated
+
+    //when we have a savedInstance, fields have already been populated
     if (!mSavedInstance) {
       populateFields();
     }
@@ -875,9 +875,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       }
       else
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-      setup();
       mCatId = mTransaction.catId;
       mLabel =  mTransaction.label;
+      setup();
       supportInvalidateOptionsMenu();
       break;
     }
