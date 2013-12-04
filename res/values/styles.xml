@@ -74,7 +74,37 @@
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">1dp</item>
     <item name="android:background">?android:attr/listDivider</item>
-</style>
+  </style>
+	<style name="MyTextAppearanceLarge" parent="@android:style/TextAppearance.Large" />
+  <style name="MyTextAppearanceMedium" parent="@android:style/TextAppearance.Medium" />
+	<style name="MyTextAppearanceSmall" parent="@android:style/TextAppearance.Small" />
+  <style name="MyTextAppearanceLarge.s1">
+  	<item name="android:textSize">24sp</item>
+  </style>
+  <style name="MyTextAppearanceMedium.s1">
+    <item name="android:textSize">20sp</item>      
+  </style>
+  <style name="MyTextAppearanceSmall.s1">
+  	<item name="android:textSize">16sp</item>
+  </style>
+  <style name="MyTextAppearanceLarge.s2">
+    <item name="android:textSize">26sp</item>
+  </style>
+  <style name="MyTextAppearanceMedium.s2">
+    <item name="android:textSize">22sp</item>      
+  </style>
+  <style name="MyTextAppearanceSmall.s2">
+    <item name="android:textSize">18sp</item>
+  </style>
+  <style name="MyTextAppearanceLarge.s3">
+    <item name="android:textSize">28sp</item>
+  </style>
+  <style name="MyTextAppearanceMedium.s3">
+    <item name="android:textSize">24sp</item>      
+  </style>
+  <style name="MyTextAppearanceSmall.s3">
+    <item name="android:textSize">20sp</item>
+  </style>	
   <dimen name="calculator_button_large">50dp</dimen>
   <dimen name="calculator_button_small">40dp</dimen>
   <dimen name="general_padding">7dp</dimen>
