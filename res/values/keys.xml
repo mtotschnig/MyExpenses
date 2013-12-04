@@ -21,6 +21,7 @@
   <string name="pref_share_target_key">share_target</string>
   <string name="pref_qif_export_file_encoding_key">qif_export_file_encoding</string>
   <string name="pref_ui_theme_key">pref_ui_theme</string>
+  <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
   <string name="pref_backup_key">backup</string>
   <string name="pref_restore_key">restore</string>
   <string name="pref_contrib_install_key">contrib_install</string>

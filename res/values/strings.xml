@@ -301,6 +301,8 @@
   <string name="pref_ui_theme_dark">dark</string>
   <string name="pref_ui_theme_light">light</string>
   <string name="pref_ui_theme_title">Theme</string>
+  <string name="pref_ui_fontsize_title">Increase font size</string>
+  <string name="pref_ui_fontsize_summary">Each step increases base font size by 2sp</string>
   <string name="pref_visit_website_summary">Changelog and FAQ</string>
   <string name="pref_visit_website_title">Visit Website</string>
   <string name="progress_dialog_create_calendar">Creating local calendar &#8230;</string>

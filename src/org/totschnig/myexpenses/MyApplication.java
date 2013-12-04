@@ -66,6 +66,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String PREFKEY_SHARE_TARGET;
     public static String PREFKEY_QIF_EXPORT_FILE_ENCODING;
     public static String PREFKEY_UI_THEME_KEY;
+    public static String PREFKEY_UI_FONTSIZE;
     public static String PREFKEY_BACKUP;
     public static String PREFKEY_RESTORE;
     public static String PREFKEY_CONTRIB_INSTALL;
@@ -140,6 +141,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
       PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
       PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
+      PREFKEY_UI_FONTSIZE = getString(R.string.pref_ui_fontsize_key);
       PREFKEY_BACKUP = getString(R.string.pref_backup_key);
       PREFKEY_RESTORE = getString(R.string.pref_restore_key);
       PREFKEY_CONTRIB_INSTALL = getString(R.string.pref_contrib_install_key);
@@ -213,10 +215,21 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       } else
         return false;
     }
-    public static int getThemeId()
-    {
-      return mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light") ?
-          R.style.ThemeLight : R.style.ThemeDark;
+    public static int getThemeId() {
+      int fontScale = mSelf.settings.getInt(PREFKEY_UI_FONTSIZE, 0);
+      int resId;
+      if (mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light")) {
+        if (fontScale < 1 || fontScale > 3)
+          return R.style.ThemeLight;
+        else
+          resId = mSelf.getResources().getIdentifier("ThemeLight.s"+fontScale, "style", mSelf.getPackageName());
+      } else{
+        if (fontScale < 1 || fontScale > 3)
+          return R.style.ThemeDark;
+        else
+          resId = mSelf.getResources().getIdentifier("ThemeDark.s"+fontScale, "style", mSelf.getPackageName());
+      }
+      return resId;
     }
     /**
      * this is only used from instrumentation

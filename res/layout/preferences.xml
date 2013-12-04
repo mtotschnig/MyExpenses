@@ -45,6 +45,12 @@
         android:title="@string/pref_ui_theme_title"
         android:entries="@array/pref_ui_theme_entries"
         android:entryValues="@array/pref_ui_theme_values"/>
+    <org.totschnig.myexpenses.preference.SeekBarPreference xmlns:my="http://schemas.android.com/apk/res-auto"
+        android:key="@string/pref_ui_fontsize_key"
+        android:title="@string/pref_ui_fontsize_title"
+        android:summary="@string/pref_ui_fontsize_summary"
+        android:defaultValue="0" my:max_value="3" my:min_value="0"
+        my:unit_symbol=""/>
     <!-- for historical reasons the key is linked to categories, but the preference also
       determines sorting of templates and accounts -->
     <CheckBoxPreference android:key="@string/pref_categories_sort_by_usages_key"

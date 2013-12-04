@@ -62,16 +62,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     super.onCreate(savedInstanceState);
     setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);
-    PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     Preference pref = findPreference(MyApplication.PREFKEY_SHARE_TARGET);
     pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" + 
         "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
         "mailto: \"mailto:john@my.example.com\"");
     pref.setOnPreferenceChangeListener(this);
-    findPreference(MyApplication.PREFKEY_UI_THEME_KEY)
-      .setOnPreferenceChangeListener(this);
-    findPreference(MyApplication.PREFKEY_UI_LANGUAGE)
-    .setOnPreferenceChangeListener(this);
     findPreference(MyApplication.PREFKEY_CONTRIB_INSTALL)
        .setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_REQUEST_LICENCE)
@@ -99,6 +94,17 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     findPreference(MyApplication.PREFKEY_SECURITY_QUESTION).setEnabled( MyApplication.getInstance().isContribEnabled && isProtected);
     findPreference(MyApplication.PREFKEY_PROTECTION_DELAY_SECONDS).setEnabled(isProtected);
   }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+  }
+  @Override
+  protected void onPause() {
+    super.onPause();
+    PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+  }
   @Override
   public boolean onPreferenceChange(Preference pref, Object value) {
     String key = pref.getKey();
@@ -125,11 +131,6 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
           }
         }
       }
-    } else if (key.equals(MyApplication.PREFKEY_UI_LANGUAGE)) {
-      MyApplication.getInstance().setLanguage((String) value);
-      restart();
-    } else if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
-      restart();
     } else if (key.equals(MyApplication.PREFKEY_ENTER_LICENCE)) {
      if (Utils.verifyLicenceKey((String)value)) {
        Toast.makeText(getBaseContext(), R.string.licence_validation_success, Toast.LENGTH_LONG).show();
@@ -173,6 +174,14 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       setProtectionDependentsState();
     } else if (key.equals(MyApplication.PREFKEY_PROTECTION_DELAY_SECONDS)) {
       MyApplication.setPasswordCheckDelayNanoSeconds() ;
+    }  else if (key.equals(MyApplication.PREFKEY_UI_LANGUAGE)) {
+      MyApplication.getInstance().setLanguage(
+          sharedPreferences.getString(key, "default"));
+      restart();
+    } else if (key.equals(MyApplication.PREFKEY_UI_FONTSIZE)) {
+      restart();
+    } else if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
+      restart();
     }
   }
   @Override

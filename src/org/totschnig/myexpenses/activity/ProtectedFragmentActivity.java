@@ -65,7 +65,6 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
     }*/
 
     super.onCreate(savedInstanceState);
-    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     protection = new ProtectionDelegate(this);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -73,6 +72,7 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   @Override
   protected void onPause() {
     super.onPause();
+    MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
     protection.handleOnPause(pwDialog);
   }
   @Override
@@ -83,6 +83,7 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   @Override
   protected void onResume() {
     super.onResume();
+    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     if(scheduledRestart) {
       scheduledRestart = false;
       if (android.os.Build.VERSION.SDK_INT>=11)
