@@ -83,12 +83,12 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
     if (extras != null) {
       String instrumentLanguage = extras.getString("instrument_language");
       if (instrumentLanguage != null) {
-        MyApplication.getInstance().setLanguage(new Locale(instrumentLanguage,extras.getString("instrument_country")));
+        MyApplication.getInstance().setLanguage(instrumentLanguage,extras.getString("instrument_country"));
         return;
       }
     }
-    String language = mSettings.getString(MyApplication.PREFKEY_UI_LANGUAGE, "default");
-    if (!language.equals("default"))
-      MyApplication.getInstance().setLanguage(new Locale(language));
+    MyApplication.getInstance().setLanguage(
+        mSettings.getString(MyApplication.PREFKEY_UI_LANGUAGE, "default")
+        );
   }
 }

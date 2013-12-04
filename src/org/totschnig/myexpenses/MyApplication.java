@@ -119,6 +119,12 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      * we cache value of planner calendar id, so that we can handle changes in value
      */
     private String mPlannerCalendarId;
+    /**
+     * we store the systemLocale if the user wants to come back to it
+     * after having tried a different locale;
+     */
+    private final Locale systemLocale = Locale.getDefault();
+    private String currentLanguage = "default";
 
     @Override
     public void onCreate() {
@@ -212,7 +218,25 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       return mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light") ?
           R.style.ThemeLight : R.style.ThemeDark;
     }
-    public void setLanguage(Locale locale) {
+    /**
+     * this is only used from instrumentation
+     * @param language
+     * @param coutry
+     */
+    public void setLanguage(String language, String country) {
+      setLanguage(new Locale(language,country));
+      currentLanguage = language;
+    }
+    public void setLanguage(String language) {
+      if (!currentLanguage.equals(language)) {
+        setLanguage(language.equals("default") ?
+            systemLocale :
+            new Locale(language)
+            );
+        currentLanguage = language;
+      }
+    }
+    private void setLanguage(Locale locale) {
       Locale.setDefault(locale);
       Configuration config = new Configuration();
       config.locale = locale;

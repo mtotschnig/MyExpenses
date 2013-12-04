@@ -126,11 +126,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         }
       }
     } else if (key.equals(MyApplication.PREFKEY_UI_LANGUAGE)) {
-      String language = (String) value;
-      if (!language.equals("default")) {
-        MyApplication.getInstance().setLanguage(new Locale(language));
-        restart();
-      }
+      MyApplication.getInstance().setLanguage((String) value);
+      restart();
     } else if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
       restart();
     } else if (key.equals(MyApplication.PREFKEY_ENTER_LICENCE)) {
