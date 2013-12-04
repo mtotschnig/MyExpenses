@@ -18,6 +18,7 @@ package org.totschnig.myexpenses;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -40,6 +41,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.Configuration;
 import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -210,7 +212,13 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       return mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light") ?
           R.style.ThemeLight : R.style.ThemeDark;
     }
-
+    public void setLanguage(Locale locale) {
+      Locale.setDefault(locale);
+      Configuration config = new Configuration();
+      config.locale = locale;
+      getResources().updateConfiguration(config,
+          getResources().getDisplayMetrics());
+    }
     public static File getBackupDbFile() {
       File appDir = Utils.requireAppDir();
       if (appDir == null)

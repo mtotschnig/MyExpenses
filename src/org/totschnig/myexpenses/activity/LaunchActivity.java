@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.activity;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
+import java.util.Locale;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.Transaction;
@@ -12,6 +14,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Configuration;
+import android.os.Bundle;
 import android.util.Log;
 
 public abstract class LaunchActivity extends ProtectedFragmentActivity {
@@ -73,5 +77,18 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       finish();
       startActivity(i);
     }
+  }
+  protected void setLanguage() {
+    Bundle extras = getIntent().getExtras();
+    if (extras != null) {
+      String instrumentLanguage = extras.getString("instrument_language");
+      if (instrumentLanguage != null) {
+        MyApplication.getInstance().setLanguage(new Locale(instrumentLanguage,extras.getString("instrument_country")));
+        return;
+      }
+    }
+    String language = mSettings.getString(MyApplication.PREFKEY_UI_LANGUAGE, "default");
+    if (!language.equals("default"))
+      MyApplication.getInstance().setLanguage(new Locale(language));
   }
 }

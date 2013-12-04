@@ -99,7 +99,8 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
-    if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
+    if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY) ||
+        key.equals(MyApplication.PREFKEY_UI_LANGUAGE)) {
       scheduledRestart = true;
     }
   }

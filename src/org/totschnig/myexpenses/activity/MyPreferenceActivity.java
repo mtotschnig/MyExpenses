@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 
 import java.net.URI;
+import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -42,7 +43,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
- 
+
 /**
  * Present references screen defined in Layout file
  * @author Michael Totschnig
@@ -69,6 +70,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     pref.setOnPreferenceChangeListener(this);
     findPreference(MyApplication.PREFKEY_UI_THEME_KEY)
       .setOnPreferenceChangeListener(this);
+    findPreference(MyApplication.PREFKEY_UI_LANGUAGE)
+    .setOnPreferenceChangeListener(this);
     findPreference(MyApplication.PREFKEY_CONTRIB_INSTALL)
        .setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_REQUEST_LICENCE)
@@ -122,10 +125,14 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
           }
         }
       }
+    } else if (key.equals(MyApplication.PREFKEY_UI_LANGUAGE)) {
+      String language = (String) value;
+      if (!language.equals("default")) {
+        MyApplication.getInstance().setLanguage(new Locale(language));
+        restart();
+      }
     } else if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
-      Intent intent = getIntent();
-      finish();
-      startActivity(intent);
+      restart();
     } else if (key.equals(MyApplication.PREFKEY_ENTER_LICENCE)) {
      if (Utils.verifyLicenceKey((String)value)) {
        Toast.makeText(getBaseContext(), R.string.licence_validation_success, Toast.LENGTH_LONG).show();
@@ -137,6 +144,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
      }
     }
     return true;
+  }
+  private void restart() {
+    Intent intent = getIntent();
+    finish();
+    startActivity(intent);
   }
   @Override
   protected Dialog onCreateDialog(int id) {
