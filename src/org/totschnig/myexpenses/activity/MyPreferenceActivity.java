@@ -67,7 +67,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
         "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
         "mailto: \"mailto:john@my.example.com\"");
     pref.setOnPreferenceChangeListener(this);
-    findPreference(MyApplication.PREFKEY_CONTRIB_INSTALL)
+    findPreference(MyApplication.PREFKEY_CONTRIB_DONATE)
        .setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_REQUEST_LICENCE)
       .setOnPreferenceClickListener(this);
@@ -185,7 +185,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   }
   @Override
   public boolean onPreferenceClick(Preference preference) {
-    if (preference.getKey().equals(MyApplication.PREFKEY_CONTRIB_INSTALL)) {
+    if (preference.getKey().equals(MyApplication.PREFKEY_CONTRIB_DONATE)) {
       Utils.contribBuyDo(MyPreferenceActivity.this);
       return true;
     }

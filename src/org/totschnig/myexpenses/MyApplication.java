@@ -69,7 +69,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String PREFKEY_UI_FONTSIZE;
     public static String PREFKEY_BACKUP;
     public static String PREFKEY_RESTORE;
-    public static String PREFKEY_CONTRIB_INSTALL;
+    public static String PREFKEY_CONTRIB_DONATE;
     public static String PREFKEY_REQUEST_LICENCE;
     public static String PREFKEY_ENTER_LICENCE;
     public static String PREFKEY_PERFORM_PROTECTION;
@@ -144,7 +144,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       PREFKEY_UI_FONTSIZE = getString(R.string.pref_ui_fontsize_key);
       PREFKEY_BACKUP = getString(R.string.pref_backup_key);
       PREFKEY_RESTORE = getString(R.string.pref_restore_key);
-      PREFKEY_CONTRIB_INSTALL = getString(R.string.pref_contrib_install_key);
+      PREFKEY_CONTRIB_DONATE = getString(R.string.pref_contrib_donate_key);
       PREFKEY_REQUEST_LICENCE = getString(R.string.pref_request_licence_key);
       PREFKEY_ENTER_LICENCE = getString(R.string.pref_enter_licence_key);
       PREFKEY_PERFORM_PROTECTION = getString(R.string.pref_perform_protection_key);
