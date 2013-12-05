@@ -109,6 +109,7 @@
       <Preference android:key="@string/pref_contrib_install_key"
         android:title="@string/pref_contrib_install_title"
         android:summary="@string/pref_contrib_install_summary"/>
+      <!-- 
       <Preference android:key="@string/pref_request_licence_key"
         android:title="@string/pref_request_licence_title"
         android:summary="@string/pref_request_licence_summary"/>
@@ -116,6 +117,7 @@
         android:inputType="number"
         android:title="@string/pref_enter_licence_title"
         android:summary="@string/pref_enter_licence_summary" />
+      -->
    </PreferenceCategory>
    <PreferenceCategory android:title="@string/pref_category_title_security">
      <org.totschnig.myexpenses.preference.PasswordPreference

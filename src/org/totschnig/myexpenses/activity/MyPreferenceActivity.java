@@ -69,8 +69,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     pref.setOnPreferenceChangeListener(this);
     findPreference(MyApplication.PREFKEY_CONTRIB_INSTALL)
        .setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PREFKEY_REQUEST_LICENCE)
-      .setOnPreferenceClickListener(this);
+    //findPreference(MyApplication.PREFKEY_REQUEST_LICENCE)
+    //  .setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_SEND_FEEDBACK)
       .setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_MORE_INFO_DIALOG)
@@ -82,8 +82,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     findPreference(MyApplication.PREFKEY_RATE)
     .setOnPreferenceClickListener(this);
 
-    findPreference(MyApplication.PREFKEY_ENTER_LICENCE)
-      .setOnPreferenceChangeListener(this);
+    //findPreference(MyApplication.PREFKEY_ENTER_LICENCE)
+    //  .setOnPreferenceChangeListener(this);
     setProtectionDependentsState();
 
     findPreference(MyApplication.PREFKEY_PERFORM_PROTECTION)
