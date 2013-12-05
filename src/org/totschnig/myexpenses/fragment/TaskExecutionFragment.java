@@ -231,6 +231,7 @@ public class TaskExecutionFragment extends Fragment {
         return null;
       case TASK_MOVE:
         Transaction.move(id[0],(Long) mExtra);
+        return null;
       case TASK_NEW_PLAN:
         return Plan.create((Plan)mExtra);
       case TASK_NEW_CALENDAR:
