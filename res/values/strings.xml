@@ -252,6 +252,8 @@
   <string name="pref_category_title_more_information">More information</string>
   <string name="pref_category_title_security">Security</string>
   <string name="pref_category_title_ui">User interface</string>
+  <string name="pref_contrib_donate_summary">Donate via PayPal, Flattr or Bitcoin and gain access to premium features.</string>
+  <string name="pref_contrib_donate_title">Send donation</string>
   <string name="pref_contrib_install_summary">By installing &app_name; Contrib, you gain access to premium features.</string>
   <string name="pref_contrib_install_title">Install Contrib app</string>
   <string name="pref_enter_licence_summary">If you received a Contrib key, gain access to premium features.</string>
