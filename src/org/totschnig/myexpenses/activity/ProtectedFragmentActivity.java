@@ -65,6 +65,7 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
     }*/
 
     super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     protection = new ProtectionDelegate(this);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -72,18 +73,17 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   @Override
   protected void onPause() {
     super.onPause();
-    MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
     protection.handleOnPause(pwDialog);
   }
   @Override
   protected void onDestroy() {
     super.onDestroy();
+    MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
     protection.handleOnDestroy();
   }
   @Override
   protected void onResume() {
     super.onResume();
-    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     if(scheduledRestart) {
       scheduledRestart = false;
       if (android.os.Build.VERSION.SDK_INT>=11)
@@ -101,7 +101,8 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
       String key) {
     if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY) ||
-        key.equals(MyApplication.PREFKEY_UI_LANGUAGE)) {
+        key.equals(MyApplication.PREFKEY_UI_LANGUAGE) ||
+        key.equals(MyApplication.PREFKEY_UI_FONTSIZE)) {
       scheduledRestart = true;
     }
   }
