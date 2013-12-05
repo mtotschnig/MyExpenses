@@ -178,9 +178,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       MyApplication.getInstance().setLanguage(
           sharedPreferences.getString(key, "default"));
       restart();
-    } else if (key.equals(MyApplication.PREFKEY_UI_FONTSIZE)) {
-      restart();
-    } else if (key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
+    } else if (key.equals(MyApplication.PREFKEY_UI_FONTSIZE) ||
+        key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
       restart();
     }
   }
