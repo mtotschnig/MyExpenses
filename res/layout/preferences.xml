@@ -106,9 +106,9 @@
   </PreferenceCategory>
   <PreferenceCategory 
       android:title="@string/menu_contrib">
-      <Preference android:key="@string/pref_contrib_donate_key"
-        android:title="@string/pref_contrib_donate_title"
-        android:summary="@string/pref_contrib_donate_summary"/>
+      <Preference android:key="@string/pref_contrib_install_key"
+        android:title="@string/pref_contrib_install_title"
+        android:summary="@string/pref_contrib_install_summary"/>
       <Preference android:key="@string/pref_request_licence_key"
         android:title="@string/pref_request_licence_title"
         android:summary="@string/pref_request_licence_summary"/>
