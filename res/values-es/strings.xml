@@ -19,7 +19,7 @@
   <string name="contrib_feature_aggregate_label">Agregados de varias cuentas</string>
   <string name="contrib_feature_distribution_label">Distribución de las transacciones por categoría</string>
   <string name="contrib_feature_plans_unlimited_description">El número de planes que se pueden crear con &lt;i&gt;Mis gastos&lt;/i&gt; se limita a 3.</string>
-  <string name="contrib_feature_plans_unlimited_label">Número ilimitado de planes</string>
+  <string name="contrib_feature_plans_unlimited_label">Planes sin limite</string>
   <string name="contrib_feature_reset_all_label">Restablecer todas las cuentas</string>
   <string name="contrib_feature_security_question_label">Pregunta de seguridad</string>
   <string name="contrib_feature_split_transaction_label">Asiento dividido</string>

@@ -294,6 +294,9 @@
   <string name="pref_shortcut_account_list_title">\'Account list\' shortcut</string>
   <string name="pref_shortcut_added">Shortcut has been added to Home Screen</string>
   <string name="pref_shortcut_summary">Add the shortcut to Home Screen</string>
+  <!-- This preference presents a slider where the user selects a value from 0 to 4 -->
+  <string name="pref_ui_fontsize_summary">Each step increases base font size by 2sp</string>
+  <string name="pref_ui_fontsize_title">Increase font size</string>
   <string name="pref_ui_language_default">System default</string>
   <string name="pref_ui_language_summary">Set language of user interface</string>
   <!-- Title of the preference for selecting the UI language -->
@@ -301,8 +304,6 @@
   <string name="pref_ui_theme_dark">dark</string>
   <string name="pref_ui_theme_light">light</string>
   <string name="pref_ui_theme_title">Theme</string>
-  <string name="pref_ui_fontsize_title">Increase font size</string>
-  <string name="pref_ui_fontsize_summary">Each step increases base font size by 2sp</string>
   <string name="pref_visit_website_summary">Changelog and FAQ</string>
   <string name="pref_visit_website_title">Visit Website</string>
   <string name="progress_dialog_create_calendar">Creating local calendar &#8230;</string>
