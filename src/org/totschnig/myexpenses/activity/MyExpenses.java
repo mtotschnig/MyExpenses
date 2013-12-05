@@ -140,20 +140,9 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public void onCreate(Bundle savedInstanceState) {
     //if we are launched from the contrib app, we refresh the cached contrib status
-    Bundle extras = getIntent().getExtras();
-    if (extras != null) {
-      String instrumentLanguage = extras.getString("instrument_language");
-      if (instrumentLanguage != null) {
-        Locale locale = new Locale(instrumentLanguage,extras.getString("instrument_country"));
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getResources().updateConfiguration(config,
-            getResources().getDisplayMetrics());
-      }
-    }
     setTheme(MyApplication.getThemeId());
     mSettings = MyApplication.getInstance().getSettings();
+    setLanguage();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     if (prev_version == -1) {
       //prevent preference change listener from firing when preference file is created
@@ -188,6 +177,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       return;
     }
+    Bundle extras = getIntent().getExtras();
     if (extras != null) {
       mAccountId = extras.getLong(KEY_ROWID,0);
       long idFromNotification = extras.getLong("transaction_id",0);

@@ -18,6 +18,7 @@ package org.totschnig.myexpenses;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -54,6 +55,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.Configuration;
 import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -78,6 +80,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String PREFKEY_SHARE_TARGET;
     public static String PREFKEY_QIF_EXPORT_FILE_ENCODING;
     public static String PREFKEY_UI_THEME_KEY;
+    public static String PREFKEY_UI_FONTSIZE;
     public static String PREFKEY_BACKUP;
     public static String PREFKEY_RESTORE;
     public static String PREFKEY_CONTRIB_INSTALL;
@@ -100,6 +103,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static final String PREFKEY_CURRENT_ACCOUNT = "current_account";
     public static final String PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP = "planner_last_execution_timestamp";
     public static String PREFKEY_RATE;
+    public static String PREFKEY_UI_LANGUAGE;
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static String BUILD_DATE = "";
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
@@ -135,6 +139,12 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      * we cache value of planner calendar id, so that we can handle changes in value
      */
     private String mPlannerCalendarId;
+    /**
+     * we store the systemLocale if the user wants to come back to it
+     * after having tried a different locale;
+     */
+    private final Locale systemLocale = Locale.getDefault();
+    private String currentLanguage = "default";
 
     @Override
     public void onCreate() {
@@ -150,6 +160,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
       PREFKEY_QIF_EXPORT_FILE_ENCODING = getString(R.string.pref_qif_export_file_encoding_key);
       PREFKEY_UI_THEME_KEY = getString(R.string.pref_ui_theme_key);
+      PREFKEY_UI_FONTSIZE = getString(R.string.pref_ui_fontsize_key);
       PREFKEY_BACKUP = getString(R.string.pref_backup_key);
       PREFKEY_RESTORE = getString(R.string.pref_restore_key);
       PREFKEY_CONTRIB_INSTALL = getString(R.string.pref_contrib_install_key);
@@ -166,6 +177,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       PREFKEY_SHORTCUT_ACCOUNT_LIST = getString(R.string.pref_shortcut_account_list_key);
       PREFKEY_PLANNER_CALENDAR_ID = getString(R.string.pref_planner_calendar_id_key);
       PREFKEY_RATE = getString(R.string.pref_rate_key);
+      PREFKEY_UI_LANGUAGE = getString(R.string.pref_ui_language_key);
       setPasswordCheckDelayNanoSeconds();
       try {
         InputStream rawResource = getResources().openRawResource(R.raw.app);
@@ -280,12 +292,47 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       } else
         return false;
     }
-    public static int getThemeId()
-    {
-      return mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light") ?
-          R.style.ThemeLight : R.style.ThemeDark;
+    public static int getThemeId() {
+      int fontScale = mSelf.settings.getInt(PREFKEY_UI_FONTSIZE, 0);
+      int resId;
+      if (mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light")) {
+        if (fontScale < 1 || fontScale > 3)
+          return R.style.ThemeLight;
+        else
+          resId = mSelf.getResources().getIdentifier("ThemeLight.s"+fontScale, "style", mSelf.getPackageName());
+      } else{
+        if (fontScale < 1 || fontScale > 3)
+          return R.style.ThemeDark;
+        else
+          resId = mSelf.getResources().getIdentifier("ThemeDark.s"+fontScale, "style", mSelf.getPackageName());
+      }
+      return resId;
     }
-
+    /**
+     * this is only used from instrumentation
+     * @param language
+     * @param coutry
+     */
+    public void setLanguage(String language, String country) {
+      setLanguage(new Locale(language,country));
+      currentLanguage = language;
+    }
+    public void setLanguage(String language) {
+      if (!currentLanguage.equals(language)) {
+        setLanguage(language.equals("default") ?
+            systemLocale :
+            new Locale(language)
+            );
+        currentLanguage = language;
+      }
+    }
+    private void setLanguage(Locale locale) {
+      Locale.setDefault(locale);
+      Configuration config = new Configuration();
+      config.locale = locale;
+      getResources().updateConfiguration(config,
+          getResources().getDisplayMetrics());
+    }
     public static File getBackupDbFile() {
       File appDir = Utils.requireAppDir();
       if (appDir == null)

@@ -273,6 +273,7 @@
   <string name="pref_shortcut_account_list_title">Raccourci \'Liste des comptes\'</string>
   <string name="pref_shortcut_added">Le raccourci a été ajouté à l\'écran d\'accueil</string>
   <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran Home</string>
+  <string name="pref_ui_language_title">Langue</string>
   <string name="pref_ui_theme_dark">sombre</string>
   <string name="pref_ui_theme_light">clair</string>
   <string name="pref_ui_theme_title">Style</string>

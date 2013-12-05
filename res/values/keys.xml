@@ -21,9 +21,10 @@
   <string name="pref_share_target_key">share_target</string>
   <string name="pref_qif_export_file_encoding_key">qif_export_file_encoding</string>
   <string name="pref_ui_theme_key">pref_ui_theme</string>
+  <string name="pref_ui_fontsize_key">pref_ui_fontsize</string>
   <string name="pref_backup_key">backup</string>
   <string name="pref_restore_key">restore</string>
-  <string name="pref_contrib_install_key">contrib_install</string>
+  <string name="pref_contrib_donate_key">contrib_donate</string>
   <string name="pref_request_licence_key">request_licence</string>
   <string name="pref_enter_licence_key">pref_enter_licence_key</string>
   <string name="pref_perform_protection_key">perform_protection</string>
@@ -37,6 +38,7 @@
   <string name="pref_shortcut_account_list_key">shortcut_account_list</string>
   <string name="pref_planner_calendar_id_key">planner_calendar_id</string>
   <string name="pref_rate_key">rate</string>
+  <string name="pref_ui_language_key">ui_language</string>
 
   <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_glyphish">Category Import Icon (squiggle) from glyphish.com , 

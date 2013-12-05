@@ -24,7 +24,7 @@
   </style>
   <style name="ThemeDark" parent="BaseDark">
     <item name="colorIncome">#00D000</item>
-    <item name="colorExpense">#FF0000</item>
+    <item name="colorExpense">#FF0000</item> 
     <item name="pageMargin">@android:color/white</item>
     <item name="calcIcon">@drawable/ic_action_calc_light</item>
   </style>
@@ -38,5 +38,35 @@
   </style>
   <style name="AboutDialog" parent="@android:style/Theme.Dialog">
     <item name="android:textColor">?android:attr/textColorPrimaryInverseDisableOnly</item>
+  </style>
+  <style name="ThemeDark.s1">
+    <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s1</item>
+    <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s1</item>
+    <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s1</item>
+  </style>
+  <style name="ThemeLight.s1">
+    <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s1</item>
+    <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s1</item>
+    <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s1</item>
+  </style>
+  <style name="ThemeDark.s2">
+    <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s2</item>
+    <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s2</item>
+    <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s2</item>
+  </style>
+  <style name="ThemeLight.s2">
+    <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s2</item>
+    <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s2</item>
+    <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s2</item>
+  </style>
+  <style name="ThemeDark.s3" parent="ThemeDark">
+    <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s3</item>
+    <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s3</item>
+    <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s3</item>
+  </style>
+  <style name="ThemeLight.s3">
+    <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s3</item>
+    <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s3</item>
+    <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s3</item>
   </style>
 </resources>
