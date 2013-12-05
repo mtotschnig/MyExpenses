@@ -27,6 +27,7 @@
     android:layout_height="fill_parent"
     android:layout_width="4dp"/>
 <TextView
+    android:textAppearance="?android:attr/textAppearanceMedium"
     android:id="@android:id/text1"
     style="?android:attr/spinnerDropDownItemStyle"
     android:singleLine="true"

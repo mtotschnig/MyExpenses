@@ -21,7 +21,6 @@
     <item name="android:paddingLeft">@dimen/general_padding</item>
        <!-- <item name="android:textAllCaps">true</item> -->
     <item name="android:textColor">@color/emphasis</item>
-    <item name="android:textSize">14sp</item>
   </style>
   <style name="headingStyle" parent="headingStyleNoBorder">
     <item name="android:layout_marginTop">8dp</item>
@@ -63,7 +62,6 @@
   </style>
   <style name="titleTextStyle">
     <item name="android:textStyle">bold</item>
-    <item name="android:textSize">17sp</item>
   </style>
   <style name="paddedListRow">
     <item name="android:paddingRight">@dimen/general_padding</item>
