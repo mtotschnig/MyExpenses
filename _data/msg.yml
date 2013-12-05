@@ -36,6 +36,7 @@ en:
     My Expenses Contrib gives you unrestricted access to the following Premium features:
   contrib:
     - Unlimited number of accounts
+    - Unlimited number of plans
     - Distribution of transactions per category
     - Split transaction
     - Security question
@@ -80,8 +81,9 @@ ar:
   contrib-feature-dialog-title: |
     My Expenses Contrib gives you unrestricted access to the following Premium features:
   contrib:
-    - Unlimited number of accounts
-    - Distribution of transactions per category
+    - عدد حسابات غير محدود
+    - Unlimited number of plans
+    - توزيع العمليات لكل تصنيف
     - تقسيم العمليات
     - السؤال السري
     - إعادة تعيين كل الحسابات
@@ -125,6 +127,7 @@ ca:
     El meu Despeses Contrib et dóna accés il·limitat a les següents característiques premium:
   contrib:
     - Nombre il·limitat de comptes
+    - Nombre il·limitat de planes
     - Distribució de les transaccions per categoria
     - Transaccions dividides
     - Pregunta de seguretat
@@ -172,6 +175,7 @@ de:
     Meine Ausgaben Contrib gibt Ihnen uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:
   contrib:
     - Unbegrenzte Anzahl von Konten
+    - Unbegrenzte Anzahl von Plänen
     - Verteilung der Buchungen auf Kategorien
     - Splitbuchung
     - Sicherheitsfrage
@@ -220,6 +224,7 @@ es:
       a las siguientes características premium:
   contrib:
     - Cuentas sin limite
+    - Planes sin limite
     - Distribución de las transacciones por categoría
     - Asiento dividido
     - Pregunta de seguridad
@@ -264,6 +269,7 @@ fr:
     Mes dépenses Contrib vous donne  un accès illimité aux fonctions Premium suivantes :
   contrib:
   - Nombre illimité de comptes
+  - Nombre d'échéances illimité
   - Répartition des transactions par catégorie
   - Opération de répartition
   - Question de sécurité
@@ -308,6 +314,7 @@ hu:
     A My Expenses Contrib (Prémium) verzió kiterjesztett, megkötések nélkül használható lehetőségei:
   contrib:
   - Korlátlan számú számla kezelése
+  - Korlátlan számú terv
   - Tranzakciók kategóriánkénti felosztása
   - Tranzakciók megosztása a számlák között
   - Biztonsági kérdés - jelszó visszaállításhoz
@@ -356,6 +363,7 @@ it:
     seguenti funzionalità speciali:
   contrib:
     - Numero illimitato di conti
+    - Numero illimitato di scadenze
     - Distribuzione di transazioni per categoria
     - Operazione suddivisa
     - Domanda di sicurezza
@@ -400,7 +408,8 @@ tr:
     Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde
       edersiniz:
   contrib:
-  - Sınırsız hesap sayısı
+  - Sınırsız sayıda hesap
+  - Sınırsız plan sayısı
   - Muamelelerin kategoriye göre dağılımı
   - Bölünmüş muameleler
   - Güvenlik sorusu
@@ -449,6 +458,7 @@ vi:
     tính năng của phiên bản nâng cao:
   contrib:
     - Không giới hạn số lượng các tài khoản
+    - Unlimited number of plans
     - Tác động phân phối các giao dịch cho mỗi phân loại
     - Phân tích giao dịch
     - Câu hỏi an ninh
