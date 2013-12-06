@@ -231,6 +231,8 @@
   <string name="pref_category_title_more_information">Maggiori informazioni</string>
   <string name="pref_category_title_security">Sicurezza</string>
   <string name="pref_category_title_ui">Interfaccia utente</string>
+  <string name="pref_contrib_donate_summary">Donare tramite PayPal, Flattr o Bitcoin, e ottiene accesso a funzionalità speciali.</string>
+  <string name="pref_contrib_donate_title">Donare</string>
   <string name="pref_contrib_install_summary">Installando Le mie spese Contrib ottiene accesso a funzionalità speciali.</string>
   <string name="pref_contrib_install_title">Installare Contrib app</string>
   <string name="pref_enter_licence_summary">Se ha ricevuto una chiave Contrib, ottiene accesso a funzionalità speciali.</string>

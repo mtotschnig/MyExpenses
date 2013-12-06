@@ -240,6 +240,8 @@
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_security">Sicherheit</string>
   <string name="pref_category_title_more_information">Mehr Information</string>
+  <string name="pref_contrib_donate_summary">Spenden Sie mittels PayPal, Flattr oder Bitcoin und erhalten Sie Zugriff auf Premium-Funktionen.</string>
+  <string name="pref_contrib_donate_title">Spenden</string>
   <string name="pref_contrib_install_title">Contrib App installieren</string>
   <string name="pref_contrib_install_summary">Durch die Installation von &app_name; Contrib, erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
   <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>
