@@ -13,7 +13,7 @@ Steps for preparing a new release
 * ant clean
 * ant release
 * test upgrade mechanism
-* Create release tag in GIT (git tag r39, git push --tags)
+* Create release tag in GIT (git checkout master;git tag r39; git push --tags)
 * mv APK and proguard folder into a new folder in releases
 * upload to Android Market
 * add recent changes in Market
