@@ -233,6 +233,8 @@
   <string name="pref_category_title_ui">Interface utilisateur</string>
   <string name="pref_contrib_install_summary">En installant Mes dépenses Contrib, vous aurez un accès à toutes les fonctions Premium.</string>
   <string name="pref_contrib_install_title">Installer App Contrib</string>
+  <string name="pref_contrib_donate_summary">Faites un don au moyen de PayPal, Flattr ou Bitcoin et déverrouillez l\'accès aux fonctions Premium.</string>
+  <string name="pref_contrib_donate_title">Faire un don</string>
   <string name="pref_enter_licence_summary">Si vous avez reçu une clé contrib, celle-ci déverrouille l\'accès aux fonctions Premium.</string>
   <string name="pref_enter_licence_title">Saisir clé contrib</string>
   <string name="pref_export_format_title">Format de données</string>
