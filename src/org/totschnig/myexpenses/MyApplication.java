@@ -93,9 +93,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
     public static String MARKET_PREFIX = "market://details?id=";
     public static String CALENDAR_FULL_PATH_PROJECTION = 
-        Calendars.ACCOUNT_NAME + " || '/' ||" +
-        Calendars.ACCOUNT_TYPE + " || '/' ||" +
-        Calendars.NAME + " AS path";
+        "ifnull(" + Calendars.ACCOUNT_NAME + ",'') || '/' ||" +
+        "ifnull(" + Calendars.ACCOUNT_TYPE + ",'') || '/' ||" +
+        "ifnull(" + Calendars.NAME + ",'') AS path";
     //public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
     public static final boolean debug = false;
@@ -390,7 +390,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         return false;
       else {
         if (c.moveToFirst()) {
-          String found = c.getString(0);
+          String found = DbUtils.getString(c,0);
           String expected = settings.getString(PREFKEY_PLANNER_CALENDAR_PATH,"");
           if (!found.equals(expected)) {
             Log.w(TAG,String.format(
