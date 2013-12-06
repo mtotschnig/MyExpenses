@@ -21,29 +21,24 @@ langs:
   ar: العربية
   hu: Magyar
 missing_langs: "русский, português, Nederlands, Ελληνικά, čeština, 中文, română, svenska, Slovenčina, polski"
-gplus:
-  -
-    - "UBUFub37sTs"
-    - "Among many improvements, 1.9.7 supports cheque numbers"
-  -
-    - "LAZ7iqa9Wvw"
-    - "Kiadásaim now available in Hungarian"
-  -
-    - "eRjFoGptCqH"
-    - "Support for Cleared / Reconciled (1.9.6)"
-  -
-    - "dSB3Kj2ojMo"
-    - "Statistical distribution of transactions per categories (1.9.5)"
-  -
-    - "BH5srPpsJwv"
-    - "مصروفاتي now available in Arabic (1.9.1)"
-  -
-    - "hhYFYDXKXm7"
-    - "Group transactions per day, week, month, year (1.9.0)"
-  -
-    - "QE9DVBtMajG"
-    - "Split transactions (1.8.5)"
 versions:
+  -
+    - 1.10.1
+    - 2013-12-06
+    -
+      en: |
+        UI language configurable. Font size configurable.
+      fr: |
+        Langue de l'interface configurable. Taille de police configurable.
+      de: |
+        Sprache der Bedienoberfläche einstellbar. Schriftgröße einstellbar.
+      it: |
+        Lingua dell'interfaccia configurabile. Dimensione dei caratteri configurabile.
+      es: |
+        Idioma de interfaz de usuario configurable. Tamaño de fuente configurable.
+      tr: |
+        Değiştirilebilir arayüz dili. Değiştirilebilir yazı boyutu.
+
   -
     - 1.10.0
     - 2013-12-01
@@ -55,7 +50,7 @@ versions:
       de: |
         Pläne für zukünftige und wiederkehrende Ausgaben. Khmer Übersetzung.
       it: |
-        Scadenze per il futuro e operazioni ricorrenti. Traduzione Khmer .
+        Scadenze per il futuro e operazioni ricorrenti. Traduzione Khmer.
       es: |
         Planes par las transacciones futuras y recurrentes. Khmer traducción.
       tr: |
