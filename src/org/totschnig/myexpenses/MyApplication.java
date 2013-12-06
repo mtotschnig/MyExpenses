@@ -216,7 +216,13 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         return false;
     }
     public static int getThemeId() {
-      int fontScale = mSelf.settings.getInt(PREFKEY_UI_FONTSIZE, 0);
+      int fontScale;
+      try {
+        fontScale = mSelf.settings.getInt(PREFKEY_UI_FONTSIZE, 0);
+      } catch (Exception e) {
+        //in a previous version, the same key was holding an integer
+        fontScale = 0;
+      }
       int resId;
       if (mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light")) {
         if (fontScale < 1 || fontScale > 3)
