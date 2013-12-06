@@ -23,6 +23,12 @@ langs:
 missing_langs: "русский, português, Nederlands, Ελληνικά, čeština, 中文, română, svenska, Slovenčina, polski"
 versions:
   -
+    - 1.10.1.1
+    - 2013-12-06
+    -
+      en: |
+        Minor fixes
+  -
     - 1.10.1
     - 2013-12-06
     -
