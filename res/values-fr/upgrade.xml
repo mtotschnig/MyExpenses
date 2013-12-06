@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_94">
+    <item>langue de l\'interface configurable</item>
+    <item> taille de police configurable</item>
+  </string-array>
   <string-array name="whats_new_93">
     <item>Échéancier de transactions futures et périodiques</item>
     <item>Traduction en Khmer</item>

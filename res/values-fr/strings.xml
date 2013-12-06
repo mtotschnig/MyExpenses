@@ -209,10 +209,10 @@
   <string name="plan_execution_canceled">Exécution de l\'échéance annulée</string>
   <string name="plan_manual">manuelle</string>
   <string name="planner_create_calendar_failure">impossible de créer un échéancier local dans le calendrier</string>
+  <string name="planner_create_calendar_success">Échéancier du calendrier créé avec succès</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
   <string name="planner_setup_info_jb">Vous pouvez créer un calendrier local dédié ou en sélectionnez un dans les paramètres.</string>
   <string name="planner_setup_info">Veuillez sélectionner un calendrier pour stocker les échéances dans les paramètres.</string>
-  <string name="planner_create_calendar_success">Échéancier du calendrier créé avec succès</string>
   <!--payment methods-->
   <string name="pm_cheque">Chèque</string>
   <string name="pm_creditcard">Carte de crédit</string>
@@ -255,6 +255,7 @@
   <string name="pref_perform_share_title">Envoyer le fichier d\'export</string>
   <string name="pref_perform_share_summaryOff">Le fichier ne sera pas envoyé après chaque export</string>
   <string name="pref_perform_share_summaryOn">Le fichier sera envoyé après chaque export</string>
+  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Créer un nouveau calendrier de planification</string>
   <string name="pref_planning_calendar_summary">Sélectionnez le calendrier dans lequel les échéances futures et périodiques seront stockés</string>
   <string name="pref_planning_calendar_title">calendrier de l\'échéancier</string>
@@ -273,6 +274,12 @@
   <string name="pref_shortcut_account_list_title">Raccourci \'Liste des comptes\'</string>
   <string name="pref_shortcut_added">Le raccourci a été ajouté à l\'écran d\'accueil</string>
   <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran Home</string>
+  <!--This preference presents a slider where the user selects a value from 0 to 4-->
+  <string name="pref_ui_fontsize_summary">Chaque pas augmente la taille de la police de base de 2sp</string>
+  <string name="pref_ui_fontsize_title">Augmenter la taille du texte</string>
+  <string name="pref_ui_language_default">Défaut du système</string>
+  <string name="pref_ui_language_summary">Définir la langue de l\'interface</string>
+  <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Langue</string>
   <string name="pref_ui_theme_dark">sombre</string>
   <string name="pref_ui_theme_light">clair</string>

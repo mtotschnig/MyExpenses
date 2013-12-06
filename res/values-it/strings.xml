@@ -209,10 +209,10 @@
   <string name="plan_execution_canceled">Esecuzione della scadenza annullata</string>
   <string name="plan_manual">manuale</string>
   <string name="planner_create_calendar_failure">Impossibile creare il calendario locale di scadenze</string>
+  <string name="planner_create_calendar_success">Calendario locale di scadenze creato con successo</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
   <string name="planner_setup_info_jb">Si sia possibile creare un calendario dedicato locale o selezionarne uno esistente nelle impostazioni.</string>
   <string name="planner_setup_info">Scegliete un calendario per memorizzare le scadenze nelle impostazioni.</string>
-  <string name="planner_create_calendar_success">Calendario locale di scadenze creato con successo</string>
   <!--payment methods-->
   <string name="pm_cheque">Assegno</string>
   <string name="pm_creditcard">Carta di credito</string>
@@ -255,6 +255,7 @@
   <string name="pref_perform_share_title">Condividi Export</string>
   <string name="pref_perform_share_summaryOff">Il file non sarà condiviso dopo ogni esportazione.</string>
   <string name="pref_perform_share_summaryOn">Il file sarà condiviso dopo ogni esportazione.</string>
+  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Creare un nuovo calendario locale di scadenze</string>
   <string name="pref_planning_calendar_summary">Selezionare il calendario in cui sono memorizzati le scadenze per le transazioni future e ripetute</string>
   <string name="pref_planning_calendar_title">Calendario di pianificazione</string>
@@ -273,7 +274,12 @@
   <string name="pref_shortcut_account_list_title">Collegamento \'Elenco dei conti\'</string>
   <string name="pref_shortcut_added">Collegamento è stato aggiunto alla schermata Home</string>
   <string name="pref_shortcut_summary">Aggiungere il collegamento a Home</string>
-  <string name="pref_ui_language_summary">Imposta la lingua dell\'interfaccia utente</string>
+  <!--This preference presents a slider where the user selects a value from 0 to 4-->
+  <string name="pref_ui_fontsize_summary">Ogni passo aumenta la dimensione del font di base da 2sp</string>
+  <string name="pref_ui_fontsize_title">Aumenta la dimensione del carattere</string>
+  <string name="pref_ui_language_default">Default del sistema</string>
+  <string name="pref_ui_language_summary">Imposta la lingua dell\'interfaccia</string>
+  <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Lingua</string>
   <string name="pref_ui_theme_dark">buio</string>
   <string name="pref_ui_theme_light">chiaro</string>

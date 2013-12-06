@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_94">
+    <item>Değiştirilebilir arayüz dili</item>
+    <item>Değiştirilebilir yazı boyutu</item>
+  </string-array>
   <string-array name="whats_new_93">
     <item>Gelecekteki ve tekrarlanan muameleler için planlamalar</item>
     <item>Kmerce tercüme</item>
