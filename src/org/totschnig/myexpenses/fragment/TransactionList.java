@@ -209,7 +209,8 @@ public class TransactionList extends BudgetListFragment implements
     //work around the problem that the view pager does not display its background correclty with Sherlock
     if (Build.VERSION.SDK_INT < 11) {
       v.setBackgroundColor(ctx.getResources().getColor(
-          MyApplication.getThemeId() == R.style.ThemeLight ? android.R.color.white : android.R.color.black));
+         MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light")
+          ? android.R.color.white : android.R.color.black));
     }
     balanceTv = (TextView) v.findViewById(R.id.end);
     bottomLine = v.findViewById(R.id.BottomLine);

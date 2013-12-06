@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_96">
+    <item>Minor problem fixes</item>
+  </string-array>
   <string-array name="whats_new_95">
     <item>UI language configurable</item>
     <item>Font size configurable</item>
