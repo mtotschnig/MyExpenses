@@ -209,10 +209,10 @@
   <string name="plan_execution_canceled">Ejecución del plan cancelado</string>
   <string name="plan_manual">manual</string>
   <string name="planner_create_calendar_failure">No se puede crear el calendario planificador local</string>
+  <string name="planner_create_calendar_success">Calendario planificador local creado con éxito</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
   <string name="planner_setup_info_jb">Puede crear ya sea un calendario dedicado local o seleccionar una ya existente en la configuración.</string>
   <string name="planner_setup_info">Por favor, seleccione un calendario para el almacenamiento de los planes en los ajustes.</string>
-  <string name="planner_create_calendar_success">Calendario planificador local creado con éxito</string>
   <!--payment methods-->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Tarjeta de crédito</string>
@@ -255,6 +255,7 @@
   <string name="pref_perform_share_title">Enviar la exportación</string>
   <string name="pref_perform_share_summaryOff">El archivo no se envia después de cada exportación.</string>
   <string name="pref_perform_share_summaryOn">El archivo se envia después de cada exportación.</string>
+  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Crear nuevo calendario de planificación local</string>
   <string name="pref_planning_calendar_summary">Seleccione el calendario que se almacenan los planes para las transacciones futuras y recurrentes</string>
   <string name="pref_planning_calendar_title">Calendario de planificación</string>
@@ -273,7 +274,12 @@
   <string name="pref_shortcut_account_list_title">Acceso directo de \'lista de cuentas\'</string>
   <string name="pref_shortcut_added">Acceso directo se ha añadido a la pantalla de inicio</string>
   <string name="pref_shortcut_summary">Añadir el acceso directo a pantalla de inicio</string>
+  <!--This preference presents a slider where the user selects a value from 0 to 4-->
+  <string name="pref_ui_fontsize_summary">Cada paso aumenta el tamaño de fuente por 2sp</string>
+  <string name="pref_ui_fontsize_title">Aumentar el tamaño de la fuente</string>
+  <string name="pref_ui_language_default">Estándar del sistema</string>
   <string name="pref_ui_language_summary">Definir el lenguaje de la interfaz de usuario</string>
+  <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Idioma</string>
   <string name="pref_ui_theme_dark">oscuro</string>
   <string name="pref_ui_theme_light">claro</string>
