@@ -66,10 +66,11 @@ public class CalendarListPreference extends ListPreference {
         MatrixCursor extras = new MatrixCursor(new String[] {
             Calendars._ID,
             Calendars.ACCOUNT_NAME,
+            Calendars.ACCOUNT_TYPE,
             Calendars.NAME,
             "full_name"});
         extras.addRow(new String[] {
-            "-1", "","",
+            "-1", "","","",
             getContext().getString(R.string.pref_planning_calendar_create_local) });
         selectionCursor = new MergeCursor(new Cursor[] {calCursor,extras});
       }
