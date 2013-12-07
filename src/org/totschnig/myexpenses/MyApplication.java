@@ -222,6 +222,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       } catch (Exception e) {
         //in a previous version, the same key was holding an integer
         fontScale = 0;
+        SharedPreferencesCompat.apply(
+            mSelf.settings.edit().remove(PREFKEY_UI_FONTSIZE));
       }
       int resId;
       if (mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light")) {
