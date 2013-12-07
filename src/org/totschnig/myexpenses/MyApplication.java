@@ -559,8 +559,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           return false;
         }
         plannerCalendarId = uri.getLastPathSegment();
-        if (plannerCalendarId == null) {
-          Log.w(TAG,"Inserting planner calendar failed, last path segment is null");
+        if (plannerCalendarId == null || plannerCalendarId.equals("0")) {
+          Log.w(TAG,"Inserting planner calendar failed, last path segment is null or 0");
           return false;
         }
         Log.i(TAG,"successfully set up new calendar: "+ plannerCalendarId);
