@@ -2,7 +2,9 @@ package org.totschnig.myexpenses.preference;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.provider.DbUtils;
 
+import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 
 import android.app.AlertDialog;
@@ -34,9 +36,10 @@ public class CalendarListPreference extends ListPreference {
       new String[]{
             Calendars._ID,
             Calendars.ACCOUNT_NAME,
+            Calendars.ACCOUNT_TYPE,
             Calendars.NAME,
-            Calendars.ACCOUNT_NAME + " || ' / ' ||" +
-            Calendars.CALENDAR_DISPLAY_NAME + " AS full_name"
+            "ifnull(" + Calendars.ACCOUNT_NAME + ",'') || ' / ' ||" +
+            "ifnull(" + Calendars.CALENDAR_DISPLAY_NAME + ",'') AS full_name"
     };
     Cursor calCursor =
         getContext().getContentResolver().
@@ -51,8 +54,9 @@ public class CalendarListPreference extends ListPreference {
           if (calCursor.getString(0).equals(value)) {
             selectedIndex = calCursor.getPosition();
           }
-          if (calCursor.getString(1).equals(MyApplication.PLANNER_ACCOUNT_NAME)
-              && calCursor.getString(2).equals(MyApplication.PLANNER_CALENDAR_NAME))
+          if (DbUtils.getString(calCursor,1).equals(MyApplication.PLANNER_ACCOUNT_NAME)
+              && DbUtils.getString(calCursor,2).equals(CalendarContractCompat.ACCOUNT_TYPE_LOCAL)
+              && DbUtils.getString(calCursor,3).equals(MyApplication.PLANNER_CALENDAR_NAME))
             localExists = true;
         } while (calCursor.moveToNext());
       }

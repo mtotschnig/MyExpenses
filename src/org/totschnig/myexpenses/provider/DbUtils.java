@@ -148,7 +148,9 @@ public class DbUtils {
    * @return String that is guaranteed to be not null
    */
   public static String getString(Cursor c, String field) {
-    int columnIndex = c.getColumnIndexOrThrow(field);
+    return getString(c,c.getColumnIndexOrThrow(field));
+  }
+  public static String getString(Cursor c, int columnIndex) {
     if (c.isNull(columnIndex))
       return "";
     return c.getString(columnIndex);

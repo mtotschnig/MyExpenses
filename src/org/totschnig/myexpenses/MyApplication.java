@@ -109,9 +109,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String CONTRIB_SECRET = "RANDOM_SECRET";
     public static String MARKET_PREFIX = "market://details?id=";
     public static String CALENDAR_FULL_PATH_PROJECTION = 
-        Calendars.ACCOUNT_NAME + " || '/' ||" +
-        Calendars.ACCOUNT_TYPE + " || '/' ||" +
-        Calendars.NAME + " AS path";
+        "ifnull(" + Calendars.ACCOUNT_NAME + ",'') || '/' ||" +
+        "ifnull(" + Calendars.ACCOUNT_TYPE + ",'') || '/' ||" +
+        "ifnull(" + Calendars.NAME + ",'') AS path";
     //public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
     public static final boolean debug = false;
@@ -299,6 +299,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       } catch (Exception e) {
         //in a previous version, the same key was holding an integer
         fontScale = 0;
+        SharedPreferencesCompat.apply(
+            mSelf.settings.edit().remove(PREFKEY_UI_FONTSIZE));
       }
       int resId;
       if (mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light")) {
@@ -467,7 +469,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         return false;
       else {
         if (c.moveToFirst()) {
-          String found = c.getString(0);
+          String found = DbUtils.getString(c,0);
           String expected = settings.getString(PREFKEY_PLANNER_CALENDAR_PATH,"");
           if (!found.equals(expected)) {
             Log.w(TAG,String.format(
@@ -486,7 +488,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public String checkPlanner() {
       if (!mPlannerCalendarId.equals("-1")) {
         if (!checkPlannerInternal(mPlannerCalendarId)) {
-          settings.edit().remove(PREFKEY_PLANNER_CALENDAR_ID).commit();
+          SharedPreferencesCompat.apply(
+              settings.edit().remove(PREFKEY_PLANNER_CALENDAR_ID));
           return "-1";
         }
       }
@@ -563,7 +566,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         Log.i(TAG,"successfully set up new calendar: "+ plannerCalendarId);
       }
       //onSharedPreferenceChanged should now trigger initPlanner
-      settings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId).commit();
+      SharedPreferencesCompat.apply(
+          settings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId));
       return true;
     }
     /**
@@ -670,7 +674,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             planCursor.close();
           }
         } else {
-          sharedPreferences.edit().remove(PREFKEY_PLANNER_CALENDAR_PATH).commit();
+          SharedPreferencesCompat.apply(
+              sharedPreferences.edit().remove(PREFKEY_PLANNER_CALENDAR_PATH));
         }
       }
     }
