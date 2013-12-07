@@ -411,7 +411,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public String checkPlanner() {
       if (!mPlannerCalendarId.equals("-1")) {
         if (!checkPlannerInternal(mPlannerCalendarId)) {
-          settings.edit().remove(PREFKEY_PLANNER_CALENDAR_ID).commit();
+          SharedPreferencesCompat.apply(
+              settings.edit().remove(PREFKEY_PLANNER_CALENDAR_ID));
           return "-1";
         }
       }
@@ -488,7 +489,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         Log.i(TAG,"successfully set up new calendar: "+ plannerCalendarId);
       }
       //onSharedPreferenceChanged should now trigger initPlanner
-      settings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId).commit();
+      SharedPreferencesCompat.apply(
+          settings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId));
       return true;
     }
     /**
@@ -595,7 +597,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             planCursor.close();
           }
         } else {
-          sharedPreferences.edit().remove(PREFKEY_PLANNER_CALENDAR_PATH).commit();
+          SharedPreferencesCompat.apply(
+              sharedPreferences.edit().remove(PREFKEY_PLANNER_CALENDAR_PATH));
         }
       }
     }
