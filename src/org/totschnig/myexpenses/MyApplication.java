@@ -412,7 +412,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       if (!mPlannerCalendarId.equals("-1")) {
         if (!checkPlannerInternal(mPlannerCalendarId)) {
           SharedPreferencesCompat.apply(
-              settings.edit().remove(PREFKEY_PLANNER_CALENDAR_ID));
+              settings.edit()
+                .remove(PREFKEY_PLANNER_CALENDAR_ID)
+                .remove(PREFKEY_PLANNER_CALENDAR_PATH)
+                .remove(PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP));
           return "-1";
         }
       }
