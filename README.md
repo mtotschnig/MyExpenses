@@ -11,11 +11,18 @@ GPL licenced Android Expense Tracking App.
 
 Features
 ========
-- Multiple accounts with transfers
-- Create transactions from templates
-- Two levels of categories (import from Grisbi XML)
-- Share QIF file (via email, FTP, Dropbox, ...)
+- Up to five accounts with transfers (unlimited in Contrib version)
+- Define plans (3) for future and recurrent transactions  (unlimited in Contrib version)
+- Group transactions per day, week, month, year and display sums per group
+- Two levels of categories (import from Grisbi XML), display distribution of transactions in Contrib version
+- Split transactions (Contrib version)
+- Calculator
+- Export to QIF and CSV (MS Excel), can be automatically shared (via email, FTP, Dropbox, ...) and done in batch in Contrib version
+- Password protection, recoverable with security question in Contrib version
+- Integrated Help
 - Data backup and restore
+- Aggregate financial situation (Contrib version)
+- Two themes: light and dark
 
 Build
 =====
