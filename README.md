@@ -39,7 +39,7 @@ Gradle
 ------
 ```
 cd MyExpenses
-#need to figure out how to migrate this from Ant to Task
+#need to figure out how to migrate this from Ant to Gradle
 cp template/app.properties res/raw/
 gradle build
 ```
