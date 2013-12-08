@@ -838,6 +838,12 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
             createNewButton,
             MessageDialogFragment.Button.CANCEL_BUTTON())
          .show(getSupportFragmentManager(),"CALENDAR_SETUP_INFO");
+      } else if (mPlanId == 0L) {
+        mPlanId = null;
+        Toast.makeText(
+            this,
+            "Unable to create plan. Need WRITE_CALENDAR permission.",
+            Toast.LENGTH_LONG).show();
       } else {
         mLaunchPlanView = true;
         if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
