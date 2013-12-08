@@ -20,7 +20,7 @@ en:
     links: Links
   features:
     manage_accounts: Up to five accounts with transfers (unlimited in Contrib version)
-    plans: Define plans (3) for future and recurrent transactions  (unlimited in Contrib version)
+    plans: Define templates and plans (3) for future and recurrent transactions  (unlimited in Contrib version)
     grouped_list: Group transactions per day, week, month, year and display sums per group
     distribution: Two levels of categories (import from Grisbi XML), display distribution of transactions in Contrib version
     split: Split transactions (Contrib version)
@@ -28,7 +28,6 @@ en:
     export: Export to QIF and CSV (MS Excel), can be automatically shared (via email, FTP, Dropbox, ...) and done in batch in Contrib version
     password: Password protection, recoverable with security question in Contrib version
     help: Integrated Help
-    new_from_template: Create transactions from templates
     backup: Data backup and restore
     aggregate_dialog: Aggregate financial situation (Contrib version)
     light_theme: "Two themes: light and dark"
@@ -66,7 +65,7 @@ ar:
     links: Links
   features:
     manage_accounts: Up to five accounts with transfers (unlimited in Contrib version)
-    plans: Define plans (3) for future and recurrent transactions  (unlimited in Contrib version)
+    plans: Define templates and plans (3) for future and recurrent transactions  (unlimited in Contrib version)
     grouped_list: Group transactions per day, week, month, year and display sums per group
     distribution: Two levels of categories (import from Grisbi XML)
     split: Split transactions (Contrib version)
@@ -74,7 +73,6 @@ ar:
     export: Export to QIF and CSV (MS Excel), can be automatically shared (via email, FTP, Dropbox, ...) and done in batch in Contrib version
     password: Password protection, recoverable with security question in Contrib version
     help: Integrated Help
-    new_from_template: Create transactions from templates
     backup: Data backup and restore
     aggregate_dialog: Aggregate financial situation (Contrib version)
     light_theme: "Two themes: light and dark"
@@ -111,7 +109,7 @@ ca:
     links: Enllaços
   features:
     manage_accounts: Fins a cinc comptes amb transferències ( sense límit en la versió Contrib )
-    plans: Define plans (3) for future and recurrent transactions  (unlimited in Contrib version)
+    plans: Define templates and plans (3) for future and recurrent transactions  (unlimited in Contrib version)
     grouped_list: Agrupació de transaccions per dia , setmana , mes, any i visualització sumes per grup
     distribution: Dos nivells de les categories ( d'importació de grisbi XML ) , mostren la distribució de les transaccions en la versió Contrib
     split: Transaccions dividides ( versió Contrib )
@@ -119,7 +117,6 @@ ca:
     export: L'exportació a QIF i CSV ( MS Excel ) , es pot compartir de forma automàtica ( a través de correu electrònic , FTP , Dropbox , ... ) i es fa en lots en la versió Contrib
     password: La protecció per contrasenya , recuperable amb la pregunta de seguretat en la versió Contrib
     help: Ajuda integrada
-    new_from_template: Crear les transaccions a partir de plantilles
     backup: Còpia de seguretat i restauració de dades
     aggregate_dialog: Situació financera global ( versió Contrib )
     light_theme: "Dos temes : fosc i clar"
@@ -157,7 +154,7 @@ de:
     links: Links
   features:
     manage_accounts: Bis zu fünf Konten mit Umbuchungen (unbegrenzt in Contrib Version)
-    plans: Pläne (3) für zukünftige und wiederkehrende Ausgaben (unbegrenzt in Contrib Version)
+    plans: Vorlagen und Pläne (3) für zukünftige und wiederkehrende Ausgaben (unbegrenzt in Contrib Version)
     grouped_list: Buchungen pro Tag, Woche, Monate, Jahr gruppieren und Summen pro Gruppe anzeigen
     distribution: Zwei Ebenen von Kategorien mit Import aus Grisbi XML Datei, Verteilung der Buchungen (Contrib Version)
     split: Splitbuchungen (nur in Contrib Version)
@@ -167,7 +164,6 @@ de:
       Export aller Konten in einem in Contrib Version
     password: Passwortschutz (Sicherheitsfrage für Passwortverlust in Contrib Version)
     help: Integrierte Hilfe
-    new_from_template: Buchungen aus Vorlagen erzeugen
     backup: Daten Backup und Wiederherstellung
     aggregate_dialog: Darstellung der Gesamtsummen in der Kontenübersicht (Contrib Version)
     light_theme: "Zwei Themen: hell und dunkel"
@@ -205,7 +201,7 @@ es:
     links: Enlaces
   features:
     manage_accounts: Hasta cinco cuentas con transferencias (sin límite en la versión Contrib)
-    plans: Planes para las transacciones futuras y recurrentes (3, sin límite en la versión Contrib)
+    plans: Plantillay y planes para las transacciones futuras y recurrentes (3, sin límite en la versión Contrib)
     grouped_list: Agrupamiento por día, semana, mes, año y visualización sumas por grupo
     distribution: Dos niveles de categorías (de importación de Grisbi XML), Distribución de las transacciones (versión Contrib)
     split: Asientos divididos (versión Contrib)
@@ -215,7 +211,6 @@ es:
       electrónico, Dropbox, ...), exportar todo en una sola operación (versión Contrib)
     password: Protección por contraseña, pregunta de seguridad en la versión Contrib
     help: Ayuda integrada
-    new_from_template: Crear asientos a partir de una plantilla
     backup: Backup y Restauración
     aggregate_dialog: Situación financiera global en la lista de cuentas (versión Contrib)
     light_theme: "Dos temas: oscuro y claro"
@@ -253,7 +248,7 @@ fr:
     links: Liens
   features:
     manage_accounts: Jusqu'à cinq comptes avec virement (sans limite dans la version Contrib)
-    plans: Définir l'échéancier d'opérations futures et périodiques (3, sans limite dans la version Contrib)
+    plans: Définir des modèles et l'échéancier d'opérations futures et périodiques (3, sans limite dans la version Contrib)
     grouped_list: Regroupement par jour, semaine, mois, année, et affichage des totaux par groupe
     distribution: Deux niveaux de catégories (importation de Grisbi XML), affichage de la répartition des transactions dans la version Contrib
     split: Opérations ventilées (version Contrib)
@@ -261,7 +256,6 @@ fr:
     export: 'Export vers QIF et CSV (MS Excel), téléchargement du fichier export (par e-mail, FTP, Dropbox, ...), exporter tous les comptes ensemble dans la version Contrib'
     password: Protection par mot de passe (Question de sécurité en cas d'oubli en version Contrib)
     help: Aide integrée
-    new_from_template: 'Créer des opérations à partir de modèles '
     backup: Sauvegarde et restauration de données
     aggregate_dialog: Affichage des sommes totales (version Contrib)
     light_theme: "Deux thèmes: clair et sombre"
@@ -306,7 +300,6 @@ hu:
     export: Adatok exportálása QIF és CSV (MS Excel) formátumban, amely automatikusan megosztható emailben, FTP-n, Dropbox-on, stb... - mindezt automatizálva a Contrib verzióban
     password: Jelszavas védelem - jelszó visszaállítási lehetőséggel (biztonsági kérdésre adott válasszal) a Contrib verzióban
     help: Integrált súgó
-    new_from_template: Sablonok készítése a tranzakciókból
     backup: Adat mentés és visszaállítás
     aggregate_dialog: A pénzügyi helyzet összesítése (csak a Contrib verzióban)
     light_theme: "Két háttértéma: világos és sötét"
@@ -344,7 +337,7 @@ it:
     links: Collegamenti
   features:
     manage_accounts: Fino a cinque conti con trasferimenti (illimitato in versione Contrib)
-    plans: Scadenze per le transazioni future e ripetute (3, illimitato in versione Contrib)
+    plans: Modelli e scadenze per le transazioni future e ripetute (3, illimitato in versione Contrib)
     grouped_list: Raggruppamento al giorno, settimana, mese, anno e visualizzazione delle somme per gruppo
     distribution: Due livelli di categorie (importazione da Grisbi XML), Distribuzione di transazioni (versione Contrib)
     split: Operazioni suddivise (versione Contrib)
@@ -354,7 +347,6 @@ it:
       Esporta tutti in una sola operazione (versione Contrib)
     password: Protezione con password, domanda di sicurezza in versione Contrib
     help: Aiuto integrato
-    new_from_template: Creare operazione riguardo modelli
     backup: Backup e ripristino di dati
     aggregate_dialog: Raffigurazione della situazione finanziaria sommata (versione Contrib)
     light_theme: "Due stili: buio e chiaro"
@@ -400,7 +392,6 @@ tr:
     export: 'QIF ve CSV (MS Excel) dosyası olarak dışa aktarma, Dışa aktarım dosyalarının FTP ya da e-posta ile yedeklenmeleri, Tüm hesapları sıfırla (Ücretli işlev)'
     password: Parola ile güvenlik, Güvenlik sorusu (Ücretli işlev)
     help: Entegre yardım
-    new_from_template: Şablonlardan muamele oluşturulması
     backup: Veri yedekleme ve geri yükleme
     aggregate_dialog: Birden çok hesabın birleşik görünümü (Ücretli işlev)
     light_theme: "İki tema: karanlık ve aydınlık"
@@ -439,7 +430,7 @@ vi:
     links: Liên kết
   features:
     manage_accounts: Sở hữu đến 5 tài khoản quản lý tài chính (không giới hạn số lượng tài khoản trong phiên bản Contrib)
-    plans: Define plans (3) for future and recurrent transactions  (unlimited in Contrib version)
+    plans: Define templates and plans (3) for future and recurrent transactions  (unlimited in Contrib version)
     grouped_list: Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm
     distribution: Tạo các cấp độ phân loại dễ dàng cho nhiều đối tượng chi tiêu (có thể nhập dữ liệu dạng XML theo kiểu Grisbi), Tác động phân phối các giao dịch cho mỗi phân loạ (Tính năng nâng cao)
     split: Phân tích giao dịch (Tính năng nâng cao)
@@ -449,7 +440,6 @@ vi:
       (thông qua email, FTP, Dropbox...) Thiết đặt lại tất cả tài khoản (Tính năng nâng cao)
     password: Bảo vệ bởi mật khẩu an toàn, dùng chức năng câu hỏi an ninh (Tính năng nâng cao)
     help: Trợ giúp tích hợp
-    new_from_template: Tạo các giao dịch dựa theo các mẫu cho sẵn
     backup: Sao lưu và phục hồi dữ liệu
     aggregate_dialog: Gom nhóm nhiều dạng tài khoản (Tính năng nâng cao)
     light_theme: "hai giao diện: sáng màu và tối màu"
