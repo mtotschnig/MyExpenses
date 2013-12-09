@@ -48,21 +48,7 @@
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li id="features-link"><a id="menu-features" href="/en#features"><span class="glyphicon glyphicon-home"></span></a></li>
-          <li class="active"><a>Blog</a></li>
-          <li id="menu-moreinfo" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-            {% for section in msg.sections %}
-              <li id="{{section[0]}}-link"><a class="intern" href="/en#{{section[0]}}">{{section[1]}}</a></li>
-            {% endfor %}
-              <li role="presentation" class="divider"></li>
-              <li><a class="track" id="gplus" href="https://plus.google.com/116736113799210525299">Follow on Google+</a></li>
-              <li role="presentation" class="divider"></li>
-              <li><a id="premium" class="track" data-toggle="modal" href="#contrib-features">Go premium</a></li>
-            </ul>
-          </li>
+          <li id="features-link"><a id="menu-features" href="/en"><span class="glyphicon glyphicon-home"></span></a></li>
         </ul>
         <h3 class="text-muted">My Expenses Blog</h3>
       </div>

@@ -66,9 +66,14 @@ dl.versionlist dd {
   max-width: 80%;
 }
 /* Smartphone portrait */
-@media (max-width: 320px) {
+@media screen and (max-width: 320px) {
   .jumbotron .btn {
     font-size: 75%;
+  }
+}
+@media screen and (max-width: 450px) {
+  .nav-pills > li {
+    float: none;
   }
 }
 #go-premium {

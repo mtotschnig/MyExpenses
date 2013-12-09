@@ -161,7 +161,6 @@
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li id="features-link" class="active" title="{{msg.menu_title.features}}"><a id="menu-features" href="#features"><span class="glyphicon glyphicon-home"></span></a></li>
           <li><a href="{{site.posts[0].url}}">Blog</a></li>
           <li id="menu-moreinfo" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{{msg.menu_title.more_information}}"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
@@ -284,10 +283,6 @@
         ga('send', 'pageview', location.pathname + block);
         var targetTitle = $(block + " h2").text();
         document.title = "{{site.title[pagelang]}}" + (targetTitle == "" ? "" : (" | " +targetTitle));
-        $('li.active').removeClass('active');
-        $(block+"-link").addClass('active');
-        if (block != '#features')
-          $('#menu-moreinfo').addClass('active');
         $('html, body').animate({
           scrollTop: $(target).offset().top
         }, 'slow');

@@ -8,9 +8,9 @@ en:
     - "Open Source"
   latest_news: Latest news
   menu_title:
-    features: Features
     more_information: More information
   sections:
+    features: Features
     participate: Participate
     faq: FAQ
     versionlist: Changelog
@@ -53,9 +53,9 @@ ar:
     - المصدر المفتوح
   latest_news: آخر الأخبار
   menu_title:
-    features: Features
     more_information: المزيد من المعلومات
   sections:
+    features: Features
     participate: Participate
     faq: FAQ
     versionlist: Changelog
@@ -97,9 +97,9 @@ ca:
     - "Open Source"
   latest_news: Últimes notícies
   menu_title:
-    features: Features
     more_information: Més informació
   sections:
+    features: Features
     participate: Participa
     faq: Preguntes més freqüents
     versionlist: Registre de canvis
@@ -142,9 +142,9 @@ de:
     - "Open Source"
   latest_news: Neuigkeiten
   menu_title:
-    features: Funktionen
     more_information: Mehr Information
   sections:
+    features: Funktionen
     participate: Mitmachen
     faq: FAQ
     versionlist: Änderungen
@@ -189,9 +189,9 @@ es:
     - "Open Source"
   latest_news: Últimas noticias
   menu_title:
-    features: Características
     more_information: Más información
   sections:
+    features: Características
     participate: Participar
     faq: FAQ
     versionlist: Cambios
@@ -236,9 +236,9 @@ fr:
   - Open Source
   latest_news: Dernières nouvelles
   menu_title:
-    features: Fonctions
     more_information: Plus d'informations
   sections:
+    features: Fonctions
     participate: Participer
     faq: FAQ
     versionlist: Modifications
@@ -280,9 +280,9 @@ hu:
   - Nyílt forráskód
   latest_news: Újdonságok
   menu_title:
-    features: Features
     more_information: További információ
   sections:
+    features: Features
     participate: Támogatás
     faq: GYIK
     versionlist: Újdonságok
@@ -325,9 +325,9 @@ it:
     - "Open Source"
   latest_news: Ultime notizie
   menu_title:
-    features: Funzionalità
     more_information: Maggiori informazioni
   sections:
+    features: Funzionalità
     participate: Partecipare
     faq: FAQ
     versionlist: Aggiornamenti
@@ -372,9 +372,9 @@ tr:
   - Açık Kaynak
   latest_news: Son haberler
   menu_title:
-    features: Features
     more_information: İlâve bilgi
   sections:
+    features: Features
     participate: İştirak edin
     faq: SSS
     versionlist: Değişiklikler
@@ -418,9 +418,9 @@ vi:
     - "Mã nguồn mở"
   latest_news: Tin tức mới nhất
   menu_title:
-    features: Features
     more_information: Thêm thông tin
   sections:
+    features: Features
     participate: Tham gia vào dự án
     faq: Các câu hỏi thường gặp
     versionlist: Danh sách các phiên bản
