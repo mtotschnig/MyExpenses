@@ -302,8 +302,10 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case GROUPING_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
+          //the selectionArg is used in a subquery used by the content provider
+          //this will change once filters are implemented
           TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath("groups").appendPath(mAccount.grouping.name()).build(),
-          null,"account_id = ?",new String[] { String.valueOf(mAccountId) }, null);
+          null,null,new String[] { String.valueOf(mAccountId) }, null);
       break;
     }
     return cursorLoader;
@@ -346,16 +348,14 @@ public class TransactionList extends BudgetListFragment implements
       mGroupingCursor = c;
       //if the transactionscursor has been loaded before the grouping cursor, we need to refresh
       //in order to have accurate grouping values
-      if (mAccount.grouping != Account.Grouping.NONE) {
-        if (!indexesGroupingCalculated) {
-          columnIndexGroupYear = c.getColumnIndex("year");
-          columnIndexGroupSecond = c.getColumnIndex("second");
-          columnIndexGroupSumIncome = c.getColumnIndex("sum_income");
-          columnIndexGroupSumExpense = c.getColumnIndex("sum_expense");
-          columnIndexGroupSumTransfer = c.getColumnIndex("sum_transfer");
-          columnIndexGroupMappedCategories = c.getColumnIndex("mapped_categories");
-          indexesGroupingCalculated = true;
-        }
+      if (!indexesGroupingCalculated) {
+        columnIndexGroupYear = c.getColumnIndex("year");
+        columnIndexGroupSecond = c.getColumnIndex("second");
+        columnIndexGroupSumIncome = c.getColumnIndex("sum_income");
+        columnIndexGroupSumExpense = c.getColumnIndex("sum_expense");
+        columnIndexGroupSumTransfer = c.getColumnIndex("sum_transfer");
+        columnIndexGroupMappedCategories = c.getColumnIndex("mapped_categories");
+        indexesGroupingCalculated = true;
       }
       if (mTransactionsCursor != null)
         mAdapter.notifyDataSetChanged();
@@ -437,8 +437,6 @@ public class TransactionList extends BudgetListFragment implements
     @SuppressWarnings("incomplete-switch")
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
-      if (mAccount.grouping.equals(Account.Grouping.NONE))
-        return null;
       HeaderViewHolder holder = new HeaderViewHolder();
       if (convertView == null) {
         convertView = inflater.inflate(R.layout.header, parent, false);
@@ -457,40 +455,45 @@ public class TransactionList extends BudgetListFragment implements
 
       if (mGroupingCursor != null) {
         mGroupingCursor.moveToFirst();
-        traverseCursor:
-        while (!mGroupingCursor.isAfterLast()) {
-          if (mGroupingCursor.getInt(columnIndexGroupYear) == year) {
-            switch (mAccount.grouping) {
-            case YEAR:
-              fillSums(holder,mGroupingCursor);
-              break traverseCursor;
-            case DAY:
-              second = c.getInt(columnIndexDay);
-              if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
-                break;
-              else {
+        //no grouping, we need the first and only row
+        if (mAccount.grouping.equals(Grouping.NONE)) {
+          fillSums(holder,mGroupingCursor);
+        } else {
+          traverseCursor:
+          while (!mGroupingCursor.isAfterLast()) {
+            if (mGroupingCursor.getInt(columnIndexGroupYear) == year) {
+              switch (mAccount.grouping) {
+              case YEAR:
                 fillSums(holder,mGroupingCursor);
                 break traverseCursor;
-              }
-            case MONTH:
-              second = c.getInt(columnIndexMonth);
-              if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
-                break;
-              else {
-                fillSums(holder,mGroupingCursor);
-                break traverseCursor;
-              }
-            case WEEK:
-              second = c.getInt(columnIndexWeek);
-              if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
-                break;
-              else {
-                fillSums(holder,mGroupingCursor);
-                break traverseCursor;
+              case DAY:
+                second = c.getInt(columnIndexDay);
+                if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
+                  break;
+                else {
+                  fillSums(holder,mGroupingCursor);
+                  break traverseCursor;
+                }
+              case MONTH:
+                second = c.getInt(columnIndexMonth);
+                if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
+                  break;
+                else {
+                  fillSums(holder,mGroupingCursor);
+                  break traverseCursor;
+                }
+              case WEEK:
+                second = c.getInt(columnIndexWeek);
+                if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
+                  break;
+                else {
+                  fillSums(holder,mGroupingCursor);
+                  break traverseCursor;
+                }
               }
             }
+            mGroupingCursor.moveToNext();
           }
-          mGroupingCursor.moveToNext();
         }
         if (!mGroupingCursor.isAfterLast())
           mappedCategoriesPerGroup.put(position, mGroupingCursor.getInt(columnIndexGroupMappedCategories)>0);
@@ -513,7 +516,7 @@ public class TransactionList extends BudgetListFragment implements
     @Override
     public long getHeaderId(int position) {
       if (mAccount.grouping.equals(Account.Grouping.NONE))
-        return 0;
+        return 1;
       Cursor c = getCursor();
       c.moveToPosition(position);
       int year = c.getInt(mAccount.grouping.equals(Grouping.WEEK)?columnIndexYearOfWeekStart:columnIndexYear);

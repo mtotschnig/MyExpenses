@@ -131,7 +131,6 @@ public class TransactionProvider extends ContentProvider {
       qb.appendWhere(" AND " + KEY_ACCOUNTID + "=" + uri.getPathSegments().get(2));
       break;
     case TRANSACTIONS_GROUPS:
-      qb.setTables(VIEW_COMMITTED);
       Grouping group;
       try {
         group = Grouping.valueOf(uri.getPathSegments().get(2));
@@ -140,26 +139,33 @@ public class TransactionProvider extends ContentProvider {
       }
       String yearColumn = (group.equals(Grouping.WEEK) ? YEAR_OF_WEEK_START : YEAR) + " AS year";
       String secondColumnAlias = " AS second";
-      switch(group) {
-      case NONE:
-        projection = new String[] {"1 as dummy"};
-        break;
-      case DAY:
-        projection = new String[] {yearColumn,DAY+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES};
-        groupBy = "year,second";
-        break;
-      case WEEK:
-        projection = new String[] {yearColumn,WEEK+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES};
-        groupBy = "year,second";
-        break;
-      case MONTH:
-        projection = new String[] {yearColumn,MONTH+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES};
-        groupBy = "year,second";
-        break;
-      case YEAR:
-        projection = new String[] {yearColumn,"1"+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES};
-        groupBy = "year";
-        break;
+      if (group.equals(Grouping.NONE)) {
+        qb.setTables(VIEW_COMMITTED);
+        projection = new String[] {"1 AS year","1"+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES,"coalesce(sum(amount),0) AS sum_interim"};
+      } else {
+        String secondColumn="";
+        String subGroupBy = "year,second";
+        switch(group) {
+        case DAY:
+          secondColumn = DAY+secondColumnAlias;
+          break;
+        case WEEK:
+          secondColumn = DAY+secondColumnAlias;
+          break;
+        case MONTH:
+          secondColumn = DAY+secondColumnAlias;
+          break;
+        case YEAR:
+          secondColumn = "1"+secondColumnAlias;
+          subGroupBy = "year";
+          break;
+        }
+        qb.setTables("(SELECT "+ yearColumn + "," + secondColumn + "," + INCOME_SUM + "," + EXPENSE_SUM + "," + TRANSFER_SUM + "," + MAPPED_CATEGORIES +
+            "FROM " + VIEW_COMMITTED +
+            "WHERE  (" + KEY_ACCOUNTID + " = ?) GROUP BY " + subGroupBy + ") as t");
+        projection = new String[] {"year","second","sum_income","sum_expense","sum_transfer","mapped_categories",
+            "(select sum(amount) from transactions_committed where CAST(strftime('%Y',date) AS integer) < year or (CAST(strftime('%Y',date) AS integer) = year and CAST(strftime('%j',date) AS integer) <= second)) as sum_interim"
+            };
       }
       break;
     case CATEGORIES:
