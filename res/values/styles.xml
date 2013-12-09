@@ -18,12 +18,13 @@
   <style name="headingStyleNoBorder">
     <item name="android:layout_width">fill_parent</item>
     <item name="android:layout_height">wrap_content</item>
-    <item name="android:paddingLeft">@dimen/general_padding</item>
        <!-- <item name="android:textAllCaps">true</item> -->
     <item name="android:textColor">@color/emphasis</item>
   </style>
   <style name="headingStyle" parent="headingStyleNoBorder">
     <item name="android:layout_marginTop">8dp</item>
+    <item name="android:paddingLeft">@dimen/general_padding</item>
+    <item name="android:paddingRight">@dimen/general_padding</item>
     <item name="android:drawableBottom">@drawable/section_header</item>
     <item name="android:drawablePadding">4dp</item>
   </style>

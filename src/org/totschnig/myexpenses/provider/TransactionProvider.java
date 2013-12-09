@@ -15,6 +15,10 @@
 
 package org.totschnig.myexpenses.provider;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
@@ -141,7 +145,14 @@ public class TransactionProvider extends ContentProvider {
       String secondColumnAlias = " AS second";
       if (group.equals(Grouping.NONE)) {
         qb.setTables(VIEW_COMMITTED);
-        projection = new String[] {"1 AS year","1"+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES,"coalesce(sum(amount),0) AS sum_interim"};
+        projection = new String[] {
+            "1 AS year",
+            "1"+secondColumnAlias,
+            INCOME_SUM,
+            EXPENSE_SUM,
+            TRANSFER_SUM,
+            MAPPED_CATEGORIES,
+            "coalesce(sum(amount),0) AS sum_interim"};
       } else {
         String secondColumn="";
         String subGroupBy = "year,second";
@@ -160,12 +171,31 @@ public class TransactionProvider extends ContentProvider {
           subGroupBy = "year";
           break;
         }
-        qb.setTables("(SELECT "+ yearColumn + "," + secondColumn + "," + INCOME_SUM + "," + EXPENSE_SUM + "," + TRANSFER_SUM + "," + MAPPED_CATEGORIES +
-            "FROM " + VIEW_COMMITTED +
-            "WHERE  (" + KEY_ACCOUNTID + " = ?) GROUP BY " + subGroupBy + ") as t");
+        qb.setTables("(SELECT "
+            + yearColumn + ","
+            + secondColumn + ","
+            + INCOME_SUM + ","
+            + EXPENSE_SUM + ","
+            + TRANSFER_SUM + ","
+            + MAPPED_CATEGORIES
+            + " FROM " + VIEW_COMMITTED
+            + " WHERE " + selection
+            + " GROUP BY " + subGroupBy + ") AS t");
         projection = new String[] {"year","second","sum_income","sum_expense","sum_transfer","mapped_categories",
-            "(select sum(amount) from transactions_committed where CAST(strftime('%Y',date) AS integer) < year or (CAST(strftime('%Y',date) AS integer) = year and CAST(strftime('%j',date) AS integer) <= second)) as sum_interim"
+            "(SELECT sum(amount) FROM "
+                + VIEW_COMMITTED
+                + " WHERE " + selection
+                + " AND (CAST(strftime('%Y',date) AS integer) < year OR "
+                + "(CAST(strftime('%Y',date) AS integer) = year AND CAST(strftime('%j',date) AS integer) <= second)))" +
+                " AS sum_interim"
             };
+        //the selection is used twice, once in the table subquery, once in the column subquery,
+        //we do not need it any more in the query builder, but we need the selection arguments twice
+        selection = null;
+        List<String> newArgs = new ArrayList<String>(selectionArgs.length * 2);
+        Collections.addAll(newArgs, selectionArgs);
+        Collections.addAll(newArgs, selectionArgs);
+        selectionArgs = newArgs.toArray(new String[newArgs.size()]);
       }
       break;
     case CATEGORIES:

@@ -22,8 +22,18 @@
       style="@style/headingStyleNoBorder"
       android:text="GROUP_TITLE"
       android:id="@+id/text"
+      android:paddingLeft="@dimen/general_padding"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content" />
+  <TextView
+        style="@style/headingStyleNoBorder"
+        android:paddingRight="@dimen/general_padding"
+        android:id="@+id/sum_interim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sum_line"
+        android:layout_alignParentRight="true"
+        android:text="SUM_INTERIM"/>
   <LinearLayout
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
