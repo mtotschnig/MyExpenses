@@ -142,7 +142,6 @@ public class MyExpenses extends LaunchActivity implements
     //if we are launched from the contrib app, we refresh the cached contrib status
     setTheme(MyApplication.getThemeId());
     mSettings = MyApplication.getInstance().getSettings();
-    setLanguage();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     if (prev_version == -1) {
       //prevent preference change listener from firing when preference file is created

@@ -67,6 +67,7 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
     super.onCreate(savedInstanceState);
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
     protection = new ProtectionDelegate(this);
+    setLanguage();
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
   }
@@ -152,5 +153,9 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
       t.remove(f);
     t.remove(m.findFragmentByTag("ASYNC_TASK"));
     t.commitAllowingStateLoss();
+  }
+
+  protected void setLanguage() {
+    MyApplication.getInstance().setLanguage();
   }
 }

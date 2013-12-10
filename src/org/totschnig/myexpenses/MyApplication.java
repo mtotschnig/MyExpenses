@@ -125,7 +125,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      * after having tried a different locale;
      */
     private final Locale systemLocale = Locale.getDefault();
-    private String currentLanguage = "default";
 
     @Override
     public void onCreate() {
@@ -246,23 +245,22 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      */
     public void setLanguage(String language, String country) {
       setLanguage(new Locale(language,country));
-      currentLanguage = language;
     }
-    public void setLanguage(String language) {
-      if (!currentLanguage.equals(language)) {
-        setLanguage(language.equals("default") ?
-            systemLocale :
-            new Locale(language)
-            );
-        currentLanguage = language;
-      }
+    public void setLanguage() {
+      String language = settings.getString(MyApplication.PREFKEY_UI_LANGUAGE, "default");
+      setLanguage(language.equals("default") ?
+          systemLocale :
+          new Locale(language)
+          );
     }
     private void setLanguage(Locale locale) {
-      Locale.setDefault(locale);
-      Configuration config = new Configuration();
-      config.locale = locale;
-      getResources().updateConfiguration(config,
-          getResources().getDisplayMetrics());
+      if (!Locale.getDefault().equals(locale)) {
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config,
+            getResources().getDisplayMetrics());
+      }
     }
     public static File getBackupDbFile() {
       File appDir = Utils.requireAppDir();
