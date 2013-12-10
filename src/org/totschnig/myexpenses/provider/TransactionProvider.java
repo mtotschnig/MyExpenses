@@ -152,7 +152,7 @@ public class TransactionProvider extends ContentProvider {
             EXPENSE_SUM,
             TRANSFER_SUM,
             MAPPED_CATEGORIES,
-            "coalesce(sum(amount),0) AS sum_interim"};
+            "coalesce(sum(CASE WHEN " + WHERE_NOT_SPLIT + " THEN amount ELSE 0 END),0) AS sum_interim"};
       } else {
         String secondColumn="";
         String subGroupBy = "year,second";
@@ -184,7 +184,7 @@ public class TransactionProvider extends ContentProvider {
         projection = new String[] {"year","second","sum_income","sum_expense","sum_transfer","mapped_categories",
             "(SELECT sum(amount) FROM "
                 + VIEW_COMMITTED
-                + " WHERE " + selection
+                + " WHERE " + selection + " AND " + WHERE_NOT_SPLIT
                 + " AND (CAST(strftime('%Y',date) AS integer) < year OR "
                 + "(CAST(strftime('%Y',date) AS integer) = year AND CAST(strftime('%j',date) AS integer) <= second)))" +
                 " AS sum_interim"
