@@ -18,8 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_98">
-    <item>Stability improvements</item>
+  <string-array name="whats_new_99">
+    <item>When transaction list is grouped, show intermediate balance for each period in group header</item>
+    <item>Bug fix: Issue #90</item>
   </string-array>
   <string-array name="whats_new_95">
     <item>UI language configurable</item>

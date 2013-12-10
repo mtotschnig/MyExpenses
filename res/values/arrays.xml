@@ -36,6 +36,7 @@
       <item>العربية</item>
       <item>Català</item>
       <item>Deutsch</item>
+      <item>English</item>
       <item>Español</item>
       <item>Français</item>
       <item>Magyar</item>
@@ -49,6 +50,7 @@
       <item>ar</item>
       <item>ca</item>
       <item>de</item>
+      <item>en</item>
       <item>es</item>
       <item>fr</item>
       <item>hu</item>
@@ -128,7 +130,7 @@
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
-      <item>98</item>
+      <item>99</item>
       <item>95</item>
       <item>93</item>
       <item>84</item>
@@ -138,7 +140,7 @@
       <item>67</item>
     </integer-array>
     <string-array name="version_names">
-      <item>1.10.1.3</item>
+      <item>1.10.2</item>
       <item>1.10.1</item>
       <item>1.10.0</item>
       <item>1.9.7</item>
