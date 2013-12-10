@@ -304,8 +304,12 @@ public class TransactionList extends BudgetListFragment implements
       cursorLoader = new CursorLoader(getSherlockActivity(),
           //the selectionArg is used in a subquery used by the content provider
           //this will change once filters are implemented
-          TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath("groups").appendPath(mAccount.grouping.name()).build(),
-          null,"account_id = ?",new String[] { String.valueOf(mAccountId) }, null);
+          TransactionProvider.TRANSACTIONS_URI.buildUpon()
+              .appendPath("groups")
+              .appendPath(mAccount.grouping.name())
+              .appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccountId))
+              .build(),
+          null,null,null, null);
       break;
     }
     return cursorLoader;
@@ -354,7 +358,7 @@ public class TransactionList extends BudgetListFragment implements
         columnIndexGroupSumExpense = c.getColumnIndex("sum_expense");
         columnIndexGroupSumTransfer = c.getColumnIndex("sum_transfer");
         columnIndexGroupMappedCategories = c.getColumnIndex("mapped_categories");
-        columIndexGroupSumInterim = c.getColumnIndex("sum_interim");
+        columIndexGroupSumInterim = c.getColumnIndex("interim_balance");
         indexesGroupingCalculated = true;
       }
       if (mTransactionsCursor != null)
@@ -444,7 +448,7 @@ public class TransactionList extends BudgetListFragment implements
         holder.sumExpense = (TextView) convertView.findViewById(R.id.sum_expense);
         holder.sumIncome = (TextView) convertView.findViewById(R.id.sum_income);
         holder.sumTransfer = (TextView) convertView.findViewById(R.id.sum_transfer);
-        holder.sumInterim = (TextView) convertView.findViewById(R.id.sum_interim);
+        holder.interimBalance = (TextView) convertView.findViewById(R.id.interim_balance);
         convertView.setTag(holder);
       } else
         holder = (HeaderViewHolder) convertView.getTag();
@@ -513,7 +517,7 @@ public class TransactionList extends BudgetListFragment implements
       holder.sumTransfer.setText("<-> " + Utils.convAmount(
           mGroupingCursor.getString(columnIndexGroupSumTransfer),
           mAccount.currency));
-      holder.sumInterim.setText("= " + Utils.convAmount(
+      holder.interimBalance.setText("= " + Utils.convAmount(
           mGroupingCursor.getString(columIndexGroupSumInterim),
           mAccount.currency));
     }
@@ -640,7 +644,7 @@ public class TransactionList extends BudgetListFragment implements
     }
   }
   class HeaderViewHolder {
-    TextView sumInterim;
+    TextView interimBalance;
     TextView text;
     TextView sumIncome;
     TextView sumExpense;

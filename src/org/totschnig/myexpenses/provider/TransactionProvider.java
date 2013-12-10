@@ -135,6 +135,14 @@ public class TransactionProvider extends ContentProvider {
       qb.appendWhere(" AND " + KEY_ACCOUNTID + "=" + uri.getPathSegments().get(2));
       break;
     case TRANSACTIONS_GROUPS:
+      if (selection != null || selectionArgs != null) {
+        throw new IllegalArgumentException("TRANSACTIONS_GROUPS query does not allow filtering with selection, " +
+            "use query parameters");
+      }
+      String accountId = uri.getQueryParameter(KEY_ACCOUNTID);
+      String accountSelection = KEY_ACCOUNTID + " = ?";
+      String openingBalanceSubQuery =
+          "(SELECT " + KEY_OPENING_BALANCE + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = ?)";
       Grouping group;
       try {
         group = Grouping.valueOf(uri.getPathSegments().get(2));
@@ -145,6 +153,9 @@ public class TransactionProvider extends ContentProvider {
       String secondColumnAlias = " AS second";
       if (group.equals(Grouping.NONE)) {
         qb.setTables(VIEW_COMMITTED);
+        selection = accountSelection;
+        //the second accountId is used in openingBalanceSubquery
+        selectionArgs = new String[]{accountId,accountId};
         projection = new String[] {
             "1 AS year",
             "1"+secondColumnAlias,
@@ -152,7 +163,9 @@ public class TransactionProvider extends ContentProvider {
             EXPENSE_SUM,
             TRANSFER_SUM,
             MAPPED_CATEGORIES,
-            "coalesce(sum(CASE WHEN " + WHERE_NOT_SPLIT + " THEN amount ELSE 0 END),0) AS sum_interim"};
+            openingBalanceSubQuery
+                + " + coalesce(sum(CASE WHEN " + WHERE_NOT_SPLIT + " THEN amount ELSE 0 END),0) AS interim_balance"
+        };
       } else {
         String secondColumn="";
         String subGroupBy = "year,second";
@@ -179,23 +192,26 @@ public class TransactionProvider extends ContentProvider {
             + TRANSFER_SUM + ","
             + MAPPED_CATEGORIES
             + " FROM " + VIEW_COMMITTED
-            + " WHERE " + selection
+            + " WHERE " + accountSelection
             + " GROUP BY " + subGroupBy + ") AS t");
-        projection = new String[] {"year","second","sum_income","sum_expense","sum_transfer","mapped_categories",
-            "(SELECT sum(amount) FROM "
-                + VIEW_COMMITTED
-                + " WHERE " + selection + " AND " + WHERE_NOT_SPLIT
-                + " AND (CAST(strftime('%Y',date) AS integer) < year OR "
-                + "(CAST(strftime('%Y',date) AS integer) = year AND CAST(strftime('%j',date) AS integer) <= second)))" +
-                " AS sum_interim"
+        projection = new String[] {
+            "year",
+            "second",
+            "sum_income",
+            "sum_expense",
+            "sum_transfer",
+            "mapped_categories",
+            openingBalanceSubQuery +
+                " + (SELECT sum(amount) FROM "
+                    + VIEW_COMMITTED
+                    + " WHERE " + accountSelection + " AND " + WHERE_NOT_SPLIT
+                    + " AND (CAST(strftime('%Y',date) AS integer) < year OR "
+                    + "(CAST(strftime('%Y',date) AS integer) = year AND CAST(strftime('%j',date) AS integer) <= second)))" +
+                    " AS interim_balance"
             };
-        //the selection is used twice, once in the table subquery, once in the column subquery,
-        //we do not need it any more in the query builder, but we need the selection arguments twice
-        selection = null;
-        List<String> newArgs = new ArrayList<String>(selectionArgs.length * 2);
-        Collections.addAll(newArgs, selectionArgs);
-        Collections.addAll(newArgs, selectionArgs);
-        selectionArgs = newArgs.toArray(new String[newArgs.size()]);
+        //the accountId is used three times , once in the table subquery, twice in the column subquery
+        //(first in the where clause, second in the subselect for the opening balance),
+        selectionArgs = new String[]{accountId,accountId,accountId};
       }
       break;
     case CATEGORIES:
