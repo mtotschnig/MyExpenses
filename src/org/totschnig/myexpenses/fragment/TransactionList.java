@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Account.Grouping;
-import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -82,10 +81,7 @@ public class TransactionList extends BudgetListFragment implements
   StickyListHeadersAdapter mAdapter;
   private AccountObserver aObserver;
   private Account mAccount;
-  private TextView balanceTv;
-  private View bottomLine;
   private boolean hasItems, mappedCategories;
-  private long transactionSum = 0;
   private Cursor mTransactionsCursor, mGroupingCursor;
   DateFormat headerDateFormat, itemDateFormat;
   String headerPrefix;
@@ -213,9 +209,6 @@ public class TransactionList extends BudgetListFragment implements
          MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light")
           ? android.R.color.white : android.R.color.black));
     }
-    balanceTv = (TextView) v.findViewById(R.id.end);
-    bottomLine = v.findViewById(R.id.BottomLine);
-    updateColor();
     mListView = (StickyListHeadersListView) v.findViewById(R.id.list);
     setAdapter();
     mListView.setOnHeaderClickListener(this);
@@ -295,10 +288,11 @@ public class TransactionList extends BudgetListFragment implements
           TransactionProvider.TRANSACTIONS_URI, null, "account_id = ? AND parent_id is null",
           new String[] { String.valueOf(mAccountId) }, null);
       break;
+    //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions
     case SUM_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
           TransactionProvider.TRANSACTIONS_URI,
-          new String[] {"sum(" + KEY_AMOUNT + ") as sum",MAPPED_CATEGORIES},
+          new String[] {MAPPED_CATEGORIES},
           "account_id = ? AND (cat_id IS null OR cat_id != ?)",
           new String[] { String.valueOf(mAccountId),String.valueOf(SPLIT_CATID) }, null);
       break;
@@ -343,9 +337,7 @@ public class TransactionList extends BudgetListFragment implements
       break;
     case SUM_CURSOR:
       c.moveToFirst();
-      transactionSum = c.getLong(c.getColumnIndex("sum"));
       mappedCategories = c.getInt(c.getColumnIndex("mapped_categories")) >0;
-      updateBalance();
       if (isVisible())
         getSherlockActivity().supportInvalidateOptionsMenu();
       break;
@@ -379,9 +371,7 @@ public class TransactionList extends BudgetListFragment implements
         getSherlockActivity().supportInvalidateOptionsMenu();
       break;
     case SUM_CURSOR:
-      transactionSum=0;
       mappedCategories = false;
-      updateBalance();
       if (isVisible())
         getSherlockActivity().supportInvalidateOptionsMenu();
       break;
@@ -395,8 +385,6 @@ public class TransactionList extends BudgetListFragment implements
     }
     public void onChange(boolean selfChange) {
       super.onChange(selfChange);
-      updateBalance();
-      updateColor();
       //if grouping has changed
       if (mAccount.grouping != mGrouping) {
         if (mAdapter != null) {
@@ -412,16 +400,6 @@ public class TransactionList extends BudgetListFragment implements
         mType = mAccount.type;
       }
     }
-  }
-  private void updateBalance() {
-    if (balanceTv != null)
-      balanceTv.setText(Utils.formatCurrency(
-          new Money(mAccount.currency,
-              mAccount.openingBalance.getAmountMinor() + transactionSum)));
-  }
-  private void updateColor() {
-    if (bottomLine != null)
-      bottomLine.setBackgroundColor(mAccount.color);
   }
   private boolean checkSplitPartTransfer(int position) {
     mTransactionsCursor.moveToPosition(position);
