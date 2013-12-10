@@ -39,9 +39,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.view.Menu;
-import com.emilsjolander.components.stickylistheaders.StickyListHeadersAdapter;
-import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView;
-import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -66,6 +66,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -78,7 +79,7 @@ public class TransactionList extends BudgetListFragment implements
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
   long mAccountId;
-  SimpleCursorAdapter mAdapter;
+  StickyListHeadersAdapter mAdapter;
   private AccountObserver aObserver;
   private Account mAccount;
   private TextView balanceTv;
@@ -218,6 +219,7 @@ public class TransactionList extends BudgetListFragment implements
     mListView = (StickyListHeadersListView) v.findViewById(R.id.list);
     setAdapter();
     mListView.setOnHeaderClickListener(this);
+    mListView.setDrawingListUnderStickyHeader(false);
     mManager.initLoader(GROUPING_CURSOR, null, this);
     mManager.initLoader(TRANSACTION_CURSOR, null, this);
     mManager.initLoader(SUM_CURSOR, null, this);
@@ -335,7 +337,7 @@ public class TransactionList extends BudgetListFragment implements
         columnIndexCrStatus = c.getColumnIndex(KEY_CR_STATUS);
         indexesCalculated = true;
       }
-      mAdapter.swapCursor(c);
+      ((SimpleCursorAdapter) mAdapter).swapCursor(c);
       if (isVisible())
         getSherlockActivity().supportInvalidateOptionsMenu();
       break;
@@ -362,7 +364,7 @@ public class TransactionList extends BudgetListFragment implements
         indexesGroupingCalculated = true;
       }
       if (mTransactionsCursor != null)
-        mAdapter.notifyDataSetChanged();
+        ((BaseAdapter) mAdapter).notifyDataSetChanged();
     }
   }
 
@@ -371,7 +373,7 @@ public class TransactionList extends BudgetListFragment implements
     switch(arg0.getId()) {
     case TRANSACTION_CURSOR:
       mTransactionsCursor = null;
-      mAdapter.swapCursor(null);
+      ((SimpleCursorAdapter) mAdapter).swapCursor(null);
       hasItems = false;
       if (isVisible())
         getSherlockActivity().supportInvalidateOptionsMenu();
