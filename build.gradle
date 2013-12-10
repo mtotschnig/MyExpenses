@@ -16,7 +16,7 @@ repositories {
 dependencies {
   compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
   compile 'com.android.support:support-v4:18.0.+'
-  compile project(':..:StickyListHeaders:library')
+  compile 'se.emilsjolander:stickylistheaders:2.1.3'
 }
 
 
