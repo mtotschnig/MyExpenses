@@ -167,26 +167,26 @@ public class TransactionProvider extends ContentProvider {
                 + " + coalesce(sum(CASE WHEN " + WHERE_NOT_SPLIT + " THEN amount ELSE 0 END),0) AS interim_balance"
         };
       } else {
-        String secondColumn="";
         String subGroupBy = "year,second";
+        String secondDef ="";
         switch(group) {
         case DAY:
-          secondColumn = DAY+secondColumnAlias;
+          secondDef = DAY;
           break;
         case WEEK:
-          secondColumn = DAY+secondColumnAlias;
+          secondDef = WEEK;
           break;
         case MONTH:
-          secondColumn = DAY+secondColumnAlias;
+          secondDef = MONTH;
           break;
         case YEAR:
-          secondColumn = "1"+secondColumnAlias;
+          secondDef = "1";
           subGroupBy = "year";
           break;
         }
         qb.setTables("(SELECT "
             + yearColumn + ","
-            + secondColumn + ","
+            + secondDef + secondColumnAlias + ","
             + INCOME_SUM + ","
             + EXPENSE_SUM + ","
             + TRANSFER_SUM + ","
@@ -206,8 +206,8 @@ public class TransactionProvider extends ContentProvider {
                     + VIEW_COMMITTED
                     + " WHERE " + accountSelection + " AND " + WHERE_NOT_SPLIT
                     + " AND (CAST(strftime('%Y',date) AS integer) < year OR "
-                    + "(CAST(strftime('%Y',date) AS integer) = year AND CAST(strftime('%j',date) AS integer) <= second)))" +
-                    " AS interim_balance"
+                    + "(CAST(strftime('%Y',date) AS integer) = year AND "
+                    + secondDef + " <= second))) AS interim_balance"
             };
         //the accountId is used three times , once in the table subquery, twice in the column subquery
         //(first in the where clause, second in the subselect for the opening balance),
