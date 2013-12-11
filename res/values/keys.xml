@@ -55,6 +55,7 @@
   <!-- User retrieving MyExpenses from a repository should not hit this message,
    so we leave it without localization -->
   <string name="error_accessing_market">No market application found</string>
+  <string name="website">http://www.myexpenses.mobi</string>
   
   <string name="help_ManageMethods_title">@string/pref_manage_methods_title</string>
   <string name="help_ManageParties_title">@string/pref_manage_parties_title</string>

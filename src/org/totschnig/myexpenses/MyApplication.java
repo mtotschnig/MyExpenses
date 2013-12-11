@@ -112,9 +112,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     }
 
     public boolean isLocked;
-    public static final String FEEDBACK_EMAIL = "myexpenses@totschnig.org";
+    public static final String FEEDBACK_EMAIL = "support@myexpenses.mobi";
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
-    public static final String HOST = "myexpenses.totschnig.org";
     
     /**
      * we cache value of planner calendar id, so that we can handle changes in value

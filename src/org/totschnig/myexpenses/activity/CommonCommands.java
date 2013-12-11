@@ -80,7 +80,7 @@ public class CommonCommands {
       return true;
     case R.id.WEB_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse("http://" + MyApplication.HOST));
+      i.setData(Uri.parse(ctx.getString(R.string.website)));
       ctx.startActivity(i);
       return true;
     case R.id.HELP_COMMAND:
