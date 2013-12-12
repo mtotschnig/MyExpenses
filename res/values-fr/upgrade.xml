@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_99">
+    <item>Lorsque la liste des transactions est groupée, afficher le solde intermédiaire pour chaque période dans l\'en-tête du groupe</item>
+    <item>Correction de bogue : Bogue #90</item>
+  </string-array>
   <string-array name="whats_new_95">
     <item>Langue de l\'interface configurable</item>
     <item>Taille de police configurable</item>

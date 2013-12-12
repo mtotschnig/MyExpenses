@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_99">
+    <item>Muamele listesi gruplandığında, grup başlığında her dönem için ara bakiyeyi göster</item>
+    <item>Hata düzeltmesi: Hata #90</item>
+  </string-array>
   <string-array name="whats_new_95">
     <item>Değiştirilebilir arayüz dili</item>
     <item>Değiştirilebilir yazı boyutu</item>
