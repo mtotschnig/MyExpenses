@@ -18,7 +18,7 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_99">
+  <string-array name="whats_new_100">
     <item>When transaction list is grouped, show intermediate balance for each period in group header</item>
     <item>Bug fix: Issue #90</item>
   </string-array>

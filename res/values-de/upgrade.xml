@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+  <string-array name="whats_new_100">
+    <item>Wenn die Buchungsliste gruppiert angezeigt wird, erscheint in der Kopfzeile jeder Gruppe der Zwischenstand für den jeweiligen Zeitraum.</item>
+    <item>Bug fix: Issue #90</item>
+  </string-array>
   <string-array name="whats_new_95">
     <item>Sprache der Bedienoberfläche einstellbar</item>
     <item>Schriftgröße einstellbar</item>
