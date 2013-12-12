@@ -44,7 +44,7 @@
   <string name="dialog_contrib_usage_count">Disposeu de %1$d usos gratuïts més.</string>
   <string name="dialog_contrib_yes">Compreu-ho ara</string>
   <string name="dialog_export_delete">Suprimeix les operacions exportades</string>
-  <string name="dialog_export_not_yet_exported">Exporta només les operacions encara no exportades</string>
+  <string name="dialog_export_not_yet_exported">Exporta només les operacions que encara no s\'han exportat</string>
   <string name="dialog_password_activate_protection">Activa la protecció amb contrasenya</string>
   <string name="dialog_password_change_password">Canvia la contrasenya</string>
   <string name="dialog_password_new_password">Nova contrasenya</string>
@@ -74,10 +74,10 @@
   <string name="donate">Feu una donació</string>
   <string name="donate_dialog_text">Si us plau, feu una donació amb PayPal, Flattr o Bitcoin i, a continuació, demaneu una clau de contribuïdor a la pantalla de preferències.</string>
   <string name="expense">Despesa</string>
-  <string name="export_expenses">Exporta les despeses</string>
+  <string name="export_expenses">Exporteu les despeses</string>
   <string name="export_expenses_outputfile_exists">El fitxer de sortida ja existeix. Si us plau, espereu un minut i torneu-ho a intentar.</string>
   <string name="export_expenses_sdcard_failure">Hi ha hagut un error en exportar les despeses a la tarja SD.</string>
-  <string name="export_expenses_sdcard_success">Les despesas s\'han exportat al fitxer %1$s</string>
+  <string name="export_expenses_sdcard_success">Les despses s\'han exportat al fitxer %1$s</string>
   <string name="external_storage_unavailable">La memòria externa (tarja SD) no està disponible.</string>
   <string name="feedback">Comentaris</string>
   <string name="feedback_email_message">Envieu-nos la seva opinió, en anglès, francès o alemany, per favor!</string>
@@ -105,9 +105,9 @@
   <string name="help_heading_license">Llicència</string>
   <string name="help_heading_whats_new">Novetats</string>
   <string-array name="help_intro">
-    <item>Mantingueu un registre de les seves despeses i ingressos.</item>
-    <item>Administrar directament en el seu telèfon intel·ligent.</item>
-    <item>Exportar-a un programa de finançament d\'escriptori com Grisbi, GnuCash, Quicken o MS Money.</item>
+    <item>Mantingueu un registre de les vostres despeses i ingressos.</item>
+    <item>Administreu directament en el seu telèfon intel·ligent.</item>
+    <item>Exportaeu a un programa de finançament d\'escriptori com Grisbi, GnuCash, Quicken o MS Money.</item>
   </string-array>
   <string name="help_leading">Gràcies per provar <i>Les meves despeses</i> per a Android.</string>
   <string name="important_upgrade_information_heading">Informació important</string>
@@ -161,7 +161,7 @@
   <string name="menu_manage_plans">Plantilles i planificacions</string>
   <string name="menu_move_transaction">Mou</string>
   <string name="menu_reset">Exporta i reinicia</string>
-  <string name="menu_reset_all">Exporta i reinicia-ho to</string>
+  <string name="menu_reset_all">Exporta i reinicia-ho tot</string>
   <string name="menu_save">Desa</string>
   <string name="menu_save_and_new">Desa i nova</string>
   <string name="menu_settings">Preferències</string>
@@ -175,7 +175,7 @@
   <string name="no_category_assigned">No hi ha cap categoria assignada</string>
   <string name="no_details">No hi ha cap detall.</string>
   <string name="no_expenses">Encara no hi ha cap despesa!</string>
-  <string name="no_exportable_expenses">No hi ha operacions que encara no han estat exportades.</string>
+  <string name="no_exportable_expenses">No hi ha operacions que encara no hagin estat exportades.</string>
   <string name="no_mapped_transactions">No s\'ha assignat cap operació a cap categoria durant aquest període.</string>
   <string name="no_parties">No hi ha cap tercer</string>
   <string name="no_split_parts">No hi ha cap divisió.</string>
@@ -225,8 +225,8 @@
   <string name="pref_categories_sort_by_usages_summaryOn">Freqüència d\'ús</string>
   <string name="pref_categories_sort_by_usages_summaryOff">Ordre alfanumèric</string>
   <string name="pref_categories_sort_by_usages_title">Criteri d\'ordenació (categories, plantilles, comptes)</string>
-  <string name="pref_category_title_export">Exporta</string>
-  <string name="pref_category_title_import">Importa</string>
+  <string name="pref_category_title_export">Exportació</string>
+  <string name="pref_category_title_import">Importació</string>
   <string name="pref_category_title_manage">Personalitza</string>
   <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_category_title_security">Seguretat</string>
@@ -236,12 +236,12 @@
   <string name="pref_enter_licence_summary">Si heu rebut una clau Contrib, podeu accedir a les funcions avançades.</string>
   <string name="pref_enter_licence_title">Introduïu la clau del Contribuïdor</string>
   <string name="pref_export_format_title">Format de les dades</string>
-  <string name="pref_import_from_grisbi_summary">Importa les categories (i els tercers) de les definicions estàndard de Grisbi, o del vostre propi fitxer grisbi.xml que ha d\'estar a la carpeta myexpenses de la carpeta arrel de la tarja SD.</string>
-  <string name="pref_import_from_grisbi_title">Importa de Grisbi</string>
+  <string name="pref_import_from_grisbi_summary">Importeu les categories (i els tercers) de les definicions estàndard de Grisbi, o del vostre propi fitxer grisbi.xml que ha d\'estar a la carpeta myexpenses de la carpeta arrel de la tarja SD.</string>
+  <string name="pref_import_from_grisbi_title">Importeu de Grisbi</string>
   <string name="pref_manage_accounts_title">Comptes</string>
   <string name="pref_manage_categories_summary">Afegeix, modifica i suprimeix categories.</string>
   <string name="pref_manage_categories_title">Categories</string>
-  <string name="pref_manage_methods_summary">Entrada, edició de formes de pagament i associa-les amb els tipus de compte.</string>
+  <string name="pref_manage_methods_summary">Entraeu, editeu formes de pagament i associeu-les amb els tipus de compte.</string>
   <string name="pref_manage_methods_title">Mètodes de pagament</string>
   <string name="pref_manage_parties_summary">Afegeix, modifica i suprimeix tercers (pagadors i beneficiaris)</string>
   <string name="pref_manage_parties_title">Tercers</string>
@@ -278,7 +278,7 @@
   <string name="pref_ui_fontsize_summary">Cada pas augmenta 2sp la mida de la lletra</string>
   <string name="pref_ui_fontsize_title">Augmenta la mida de la lletra</string>
   <string name="pref_ui_language_default">Per omissió del sistema</string>
-  <string name="pref_ui_language_summary">Tria l\'idioma de la interfície</string>
+  <string name="pref_ui_language_summary">Trieu l\'idioma de la interfície</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Idioma</string>
   <string name="pref_ui_theme_dark">fosc</string>
