@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_100">
+    <item>Cuando la lista de transacciones se agrupa, mostrar equilibrio intermedio para cada periodo en el encabezado de grupo</item>
+    <item>Corrección de errores #90</item>
+  </string-array>
   <string-array name="whats_new_95">
     <item>Idioma de interfaz de usuario configurable</item>
     <item>Tamaño de fuente configurable</item>

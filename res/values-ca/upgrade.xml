@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string-array name="whats_new_99">
+  <string-array name="whats_new_100">
     <item>Quan la llista d\'operacions està agrupada, mostra el balanç intermedi per a cada període a la capçalera del grup</item>
     <item>Correcció: problema #90</item>
   </string-array>
