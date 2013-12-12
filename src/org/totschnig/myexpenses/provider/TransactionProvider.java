@@ -15,6 +15,10 @@
 
 package org.totschnig.myexpenses.provider;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
@@ -131,7 +135,14 @@ public class TransactionProvider extends ContentProvider {
       qb.appendWhere(" AND " + KEY_ACCOUNTID + "=" + uri.getPathSegments().get(2));
       break;
     case TRANSACTIONS_GROUPS:
-      qb.setTables(VIEW_COMMITTED);
+      if (selection != null || selectionArgs != null) {
+        throw new IllegalArgumentException("TRANSACTIONS_GROUPS query does not allow filtering with selection, " +
+            "use query parameters");
+      }
+      String accountId = uri.getQueryParameter(KEY_ACCOUNTID);
+      String accountSelection = KEY_ACCOUNTID + " = ?";
+      String openingBalanceSubQuery =
+          "(SELECT " + KEY_OPENING_BALANCE + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = ?)";
       Grouping group;
       try {
         group = Grouping.valueOf(uri.getPathSegments().get(2));
@@ -140,26 +151,67 @@ public class TransactionProvider extends ContentProvider {
       }
       String yearColumn = (group.equals(Grouping.WEEK) ? YEAR_OF_WEEK_START : YEAR) + " AS year";
       String secondColumnAlias = " AS second";
-      switch(group) {
-      case NONE:
-        projection = new String[] {"1 as dummy"};
-        break;
-      case DAY:
-        projection = new String[] {yearColumn,DAY+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES};
-        groupBy = "year,second";
-        break;
-      case WEEK:
-        projection = new String[] {yearColumn,WEEK+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES};
-        groupBy = "year,second";
-        break;
-      case MONTH:
-        projection = new String[] {yearColumn,MONTH+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES};
-        groupBy = "year,second";
-        break;
-      case YEAR:
-        projection = new String[] {yearColumn,"1"+secondColumnAlias,INCOME_SUM,EXPENSE_SUM,TRANSFER_SUM,MAPPED_CATEGORIES};
-        groupBy = "year";
-        break;
+      if (group.equals(Grouping.NONE)) {
+        qb.setTables(VIEW_COMMITTED);
+        selection = accountSelection;
+        //the second accountId is used in openingBalanceSubquery
+        selectionArgs = new String[]{accountId,accountId};
+        projection = new String[] {
+            "1 AS year",
+            "1"+secondColumnAlias,
+            INCOME_SUM,
+            EXPENSE_SUM,
+            TRANSFER_SUM,
+            MAPPED_CATEGORIES,
+            openingBalanceSubQuery
+                + " + coalesce(sum(CASE WHEN " + WHERE_NOT_SPLIT + " THEN amount ELSE 0 END),0) AS interim_balance"
+        };
+      } else {
+        String subGroupBy = "year,second";
+        String secondDef ="";
+        switch(group) {
+        case DAY:
+          secondDef = DAY;
+          break;
+        case WEEK:
+          secondDef = WEEK;
+          break;
+        case MONTH:
+          secondDef = MONTH;
+          break;
+        case YEAR:
+          secondDef = "1";
+          subGroupBy = "year";
+          break;
+        }
+        qb.setTables("(SELECT "
+            + yearColumn + ","
+            + secondDef + secondColumnAlias + ","
+            + INCOME_SUM + ","
+            + EXPENSE_SUM + ","
+            + TRANSFER_SUM + ","
+            + MAPPED_CATEGORIES
+            + " FROM " + VIEW_COMMITTED
+            + " WHERE " + accountSelection
+            + " GROUP BY " + subGroupBy + ") AS t");
+        projection = new String[] {
+            "year",
+            "second",
+            "sum_income",
+            "sum_expense",
+            "sum_transfer",
+            "mapped_categories",
+            openingBalanceSubQuery +
+                " + (SELECT sum(amount) FROM "
+                    + VIEW_COMMITTED
+                    + " WHERE " + accountSelection + " AND " + WHERE_NOT_SPLIT
+                    + " AND (CAST(strftime('%Y',date) AS integer) < year OR "
+                    + "(CAST(strftime('%Y',date) AS integer) = year AND "
+                    + secondDef + " <= second))) AS interim_balance"
+            };
+        //the accountId is used three times , once in the table subquery, twice in the column subquery
+        //(first in the where clause, second in the subselect for the opening balance),
+        selectionArgs = new String[]{accountId,accountId,accountId};
       }
       break;
     case CATEGORIES:

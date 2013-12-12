@@ -1,22 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  This file is part of My Expenses.
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<!DOCTYPE resources [
-  <!ENTITY app_name "Les meves despeses">
-]>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-
+  <string-array name="whats_new_99">
+    <item>Quan la llista d\'operacions està agrupada, mostra el balanç intermedi per a cada període a la capçalera del grup</item>
+    <item>Correcció: problema #90</item>
+  </string-array>
+  <string-array name="whats_new_95">
+    <item>Idioma configurable</item>
+    <item>Tipus de lletra configurable</item>
+  </string-array>
+  <string-array name="whats_new_93">
+    <item>Planificacions per operacions futures i recurrents</item>
+    <item>Traducció al Khmer</item>
+  </string-array>
+  <string-array name="whats_new_84">
+    <item>Número de referència (pagaments per xec)</item>
+    <item>Comenceu a la llista de comptes des del launcher</item>
+    <item>Feu lliscar el dit per canviar de període a la vista de distribució</item>
+    <item>Es pot configurar el format de la data per a exportar en formats QIF i CSV</item>
+    <item>Millores a la interfície</item>
+  </string-array>
+  <string-array name="whats_new_79">
+    <item>Marqueu les operacions al autoritzar-les / reconciliar-les (activat per a comptes bancaris i targes de crèdit)</item>
+    <item>Ara és possible editar les parts</item>
+    <item>Traducció a l\'hongarès</item>
+  </string-array>
+  <string-array name="whats_new_75">
+    <item>Distribució d\'operacions per categoria (Premium)</item>
+  </string-array>
+  <string-array name="whats_new_72">
+    <item>Correcció: problema #69</item>
+    <item>Traducció a l\'àrab</item>
+  </string-array>
+  <string-array name="whats_new_67">
+    <item>Agrupeu les operacions per dia, setmana, mes, any i mostreu el total per grup</item>
+    <item>A la llista d\'operacions es mostra el beneficiari</item>
+    <item>La llista de comptes està ordenada (per freqüència d\'ús per omissió)</item>
+  </string-array>
 </resources>

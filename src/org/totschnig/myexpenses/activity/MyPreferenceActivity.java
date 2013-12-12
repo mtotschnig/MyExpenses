@@ -174,11 +174,8 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       setProtectionDependentsState();
     } else if (key.equals(MyApplication.PREFKEY_PROTECTION_DELAY_SECONDS)) {
       MyApplication.setPasswordCheckDelayNanoSeconds() ;
-    }  else if (key.equals(MyApplication.PREFKEY_UI_LANGUAGE)) {
-      MyApplication.getInstance().setLanguage(
-          sharedPreferences.getString(key, "default"));
-      restart();
     } else if (key.equals(MyApplication.PREFKEY_UI_FONTSIZE) ||
+        key.equals(MyApplication.PREFKEY_UI_LANGUAGE) ||
         key.equals(MyApplication.PREFKEY_UI_THEME_KEY)) {
       restart();
     }

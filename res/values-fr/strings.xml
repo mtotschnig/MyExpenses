@@ -209,7 +209,7 @@
   <string name="plan_execution_canceled">Exécution de l\'échéance annulée</string>
   <string name="plan_manual">manuelle</string>
   <string name="planner_create_calendar_failure">impossible de créer un échéancier local dans le calendrier</string>
-  <string name="planner_create_calendar_success">Échéancier du calendrier créé avec succès</string>
+  <string name="planner_create_calendar_success">Échéancier créé avec succès</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
   <string name="planner_setup_info_jb">Vous pouvez créer un calendrier local dédié ou en sélectionnez un dans les paramètres.</string>
   <string name="planner_setup_info">Veuillez sélectionner un calendrier pour stocker les échéances dans les paramètres.</string>
@@ -258,9 +258,9 @@
   <string name="pref_perform_share_summaryOff">Le fichier ne sera pas envoyé après chaque export</string>
   <string name="pref_perform_share_summaryOn">Le fichier sera envoyé après chaque export</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">Créer un nouveau calendrier de planification</string>
+  <string name="pref_planning_calendar_create_local">Créer un nouveau calendrier de l\'échéancier</string>
   <string name="pref_planning_calendar_summary">Sélectionnez le calendrier dans lequel les échéances futures et périodiques seront stockés</string>
-  <string name="pref_planning_calendar_title">calendrier de l\'échéancier</string>
+  <string name="pref_planning_calendar_title">Calendrier de l\'échéancier</string>
   <string name="pref_protection_delay_seconds_summary">Durée d\'inactivité en secondes avant que la protection ne soit activée.</string>
   <string name="pref_protection_delay_seconds_title">Délai avant protection</string>
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>

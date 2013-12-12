@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Account.Grouping;
-import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -39,9 +38,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.view.Menu;
-import com.emilsjolander.components.stickylistheaders.StickyListHeadersAdapter;
-import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView;
-import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -66,6 +65,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -78,13 +78,10 @@ public class TransactionList extends BudgetListFragment implements
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
   long mAccountId;
-  SimpleCursorAdapter mAdapter;
+  StickyListHeadersAdapter mAdapter;
   private AccountObserver aObserver;
   private Account mAccount;
-  private TextView balanceTv;
-  private View bottomLine;
   private boolean hasItems, mappedCategories;
-  private long transactionSum = 0;
   private Cursor mTransactionsCursor, mGroupingCursor;
   DateFormat headerDateFormat, itemDateFormat;
   String headerPrefix;
@@ -92,9 +89,9 @@ public class TransactionList extends BudgetListFragment implements
   private LoaderManager mManager;
   private SparseBooleanArray mappedCategoriesPerGroup;
 
-  int columnIndexDate, columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth, columnIndexWeek, columnIndexDay,
+  private int columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth, columnIndexWeek, columnIndexDay,
     columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee, columnIndexCrStatus, columnIndexReferenceNumber,
-    columnIndexGroupYear, columnIndexGroupSecond, columnIndexGroupMappedCategories,
+    columnIndexGroupYear, columnIndexGroupSecond, columnIndexGroupMappedCategories, columIndexGroupSumInterim,
     columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
   boolean indexesCalculated, indexesGroupingCalculated = false;
   private Grouping mGrouping;
@@ -212,12 +209,10 @@ public class TransactionList extends BudgetListFragment implements
          MyApplication.getInstance().getSettings().getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light")
           ? android.R.color.white : android.R.color.black));
     }
-    balanceTv = (TextView) v.findViewById(R.id.end);
-    bottomLine = v.findViewById(R.id.BottomLine);
-    updateColor();
     mListView = (StickyListHeadersListView) v.findViewById(R.id.list);
     setAdapter();
     mListView.setOnHeaderClickListener(this);
+    mListView.setDrawingListUnderStickyHeader(false);
     mManager.initLoader(GROUPING_CURSOR, null, this);
     mManager.initLoader(TRANSACTION_CURSOR, null, this);
     mManager.initLoader(SUM_CURSOR, null, this);
@@ -293,17 +288,24 @@ public class TransactionList extends BudgetListFragment implements
           TransactionProvider.TRANSACTIONS_URI, null, "account_id = ? AND parent_id is null",
           new String[] { String.valueOf(mAccountId) }, null);
       break;
+    //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions
     case SUM_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
           TransactionProvider.TRANSACTIONS_URI,
-          new String[] {"sum(" + KEY_AMOUNT + ") as sum",MAPPED_CATEGORIES},
+          new String[] {MAPPED_CATEGORIES},
           "account_id = ? AND (cat_id IS null OR cat_id != ?)",
           new String[] { String.valueOf(mAccountId),String.valueOf(SPLIT_CATID) }, null);
       break;
     case GROUPING_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath("groups").appendPath(mAccount.grouping.name()).build(),
-          null,"account_id = ?",new String[] { String.valueOf(mAccountId) }, null);
+          //the selectionArg is used in a subquery used by the content provider
+          //this will change once filters are implemented
+          TransactionProvider.TRANSACTIONS_URI.buildUpon()
+              .appendPath("groups")
+              .appendPath(mAccount.grouping.name())
+              .appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccountId))
+              .build(),
+          null,null,null, null);
       break;
     }
     return cursorLoader;
@@ -316,7 +318,6 @@ public class TransactionList extends BudgetListFragment implements
       mTransactionsCursor = c;
       hasItems = c.getCount()>0;
       if (!indexesCalculated) {
-        columnIndexDate = c.getColumnIndex(KEY_DATE);
         columnIndexYear = c.getColumnIndex("year");
         columnIndexYearOfWeekStart = c.getColumnIndex("year_of_week_start");
         columnIndexMonth = c.getColumnIndex("month");
@@ -330,15 +331,13 @@ public class TransactionList extends BudgetListFragment implements
         columnIndexCrStatus = c.getColumnIndex(KEY_CR_STATUS);
         indexesCalculated = true;
       }
-      mAdapter.swapCursor(c);
+      ((SimpleCursorAdapter) mAdapter).swapCursor(c);
       if (isVisible())
         getSherlockActivity().supportInvalidateOptionsMenu();
       break;
     case SUM_CURSOR:
       c.moveToFirst();
-      transactionSum = c.getLong(c.getColumnIndex("sum"));
       mappedCategories = c.getInt(c.getColumnIndex("mapped_categories")) >0;
-      updateBalance();
       if (isVisible())
         getSherlockActivity().supportInvalidateOptionsMenu();
       break;
@@ -346,19 +345,18 @@ public class TransactionList extends BudgetListFragment implements
       mGroupingCursor = c;
       //if the transactionscursor has been loaded before the grouping cursor, we need to refresh
       //in order to have accurate grouping values
-      if (mAccount.grouping != Account.Grouping.NONE) {
-        if (!indexesGroupingCalculated) {
-          columnIndexGroupYear = c.getColumnIndex("year");
-          columnIndexGroupSecond = c.getColumnIndex("second");
-          columnIndexGroupSumIncome = c.getColumnIndex("sum_income");
-          columnIndexGroupSumExpense = c.getColumnIndex("sum_expense");
-          columnIndexGroupSumTransfer = c.getColumnIndex("sum_transfer");
-          columnIndexGroupMappedCategories = c.getColumnIndex("mapped_categories");
-          indexesGroupingCalculated = true;
-        }
+      if (!indexesGroupingCalculated) {
+        columnIndexGroupYear = c.getColumnIndex("year");
+        columnIndexGroupSecond = c.getColumnIndex("second");
+        columnIndexGroupSumIncome = c.getColumnIndex("sum_income");
+        columnIndexGroupSumExpense = c.getColumnIndex("sum_expense");
+        columnIndexGroupSumTransfer = c.getColumnIndex("sum_transfer");
+        columnIndexGroupMappedCategories = c.getColumnIndex("mapped_categories");
+        columIndexGroupSumInterim = c.getColumnIndex("interim_balance");
+        indexesGroupingCalculated = true;
       }
       if (mTransactionsCursor != null)
-        mAdapter.notifyDataSetChanged();
+        ((BaseAdapter) mAdapter).notifyDataSetChanged();
     }
   }
 
@@ -367,15 +365,13 @@ public class TransactionList extends BudgetListFragment implements
     switch(arg0.getId()) {
     case TRANSACTION_CURSOR:
       mTransactionsCursor = null;
-      mAdapter.swapCursor(null);
+      ((SimpleCursorAdapter) mAdapter).swapCursor(null);
       hasItems = false;
       if (isVisible())
         getSherlockActivity().supportInvalidateOptionsMenu();
       break;
     case SUM_CURSOR:
-      transactionSum=0;
       mappedCategories = false;
-      updateBalance();
       if (isVisible())
         getSherlockActivity().supportInvalidateOptionsMenu();
       break;
@@ -389,8 +385,6 @@ public class TransactionList extends BudgetListFragment implements
     }
     public void onChange(boolean selfChange) {
       super.onChange(selfChange);
-      updateBalance();
-      updateColor();
       //if grouping has changed
       if (mAccount.grouping != mGrouping) {
         if (mAdapter != null) {
@@ -406,16 +400,6 @@ public class TransactionList extends BudgetListFragment implements
         mType = mAccount.type;
       }
     }
-  }
-  private void updateBalance() {
-    if (balanceTv != null)
-      balanceTv.setText(Utils.formatCurrency(
-          new Money(mAccount.currency,
-              mAccount.openingBalance.getAmountMinor() + transactionSum)));
-  }
-  private void updateColor() {
-    if (bottomLine != null)
-      bottomLine.setBackgroundColor(mAccount.color);
   }
   private boolean checkSplitPartTransfer(int position) {
     mTransactionsCursor.moveToPosition(position);
@@ -437,8 +421,6 @@ public class TransactionList extends BudgetListFragment implements
     @SuppressWarnings("incomplete-switch")
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
-      if (mAccount.grouping.equals(Account.Grouping.NONE))
-        return null;
       HeaderViewHolder holder = new HeaderViewHolder();
       if (convertView == null) {
         convertView = inflater.inflate(R.layout.header, parent, false);
@@ -446,6 +428,7 @@ public class TransactionList extends BudgetListFragment implements
         holder.sumExpense = (TextView) convertView.findViewById(R.id.sum_expense);
         holder.sumIncome = (TextView) convertView.findViewById(R.id.sum_income);
         holder.sumTransfer = (TextView) convertView.findViewById(R.id.sum_transfer);
+        holder.interimBalance = (TextView) convertView.findViewById(R.id.interim_balance);
         convertView.setTag(holder);
       } else
         holder = (HeaderViewHolder) convertView.getTag();
@@ -457,40 +440,45 @@ public class TransactionList extends BudgetListFragment implements
 
       if (mGroupingCursor != null) {
         mGroupingCursor.moveToFirst();
-        traverseCursor:
-        while (!mGroupingCursor.isAfterLast()) {
-          if (mGroupingCursor.getInt(columnIndexGroupYear) == year) {
-            switch (mAccount.grouping) {
-            case YEAR:
-              fillSums(holder,mGroupingCursor);
-              break traverseCursor;
-            case DAY:
-              second = c.getInt(columnIndexDay);
-              if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
-                break;
-              else {
+        //no grouping, we need the first and only row
+        if (mAccount.grouping.equals(Grouping.NONE)) {
+          fillSums(holder,mGroupingCursor);
+        } else {
+          traverseCursor:
+          while (!mGroupingCursor.isAfterLast()) {
+            if (mGroupingCursor.getInt(columnIndexGroupYear) == year) {
+              switch (mAccount.grouping) {
+              case YEAR:
                 fillSums(holder,mGroupingCursor);
                 break traverseCursor;
-              }
-            case MONTH:
-              second = c.getInt(columnIndexMonth);
-              if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
-                break;
-              else {
-                fillSums(holder,mGroupingCursor);
-                break traverseCursor;
-              }
-            case WEEK:
-              second = c.getInt(columnIndexWeek);
-              if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
-                break;
-              else {
-                fillSums(holder,mGroupingCursor);
-                break traverseCursor;
+              case DAY:
+                second = c.getInt(columnIndexDay);
+                if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
+                  break;
+                else {
+                  fillSums(holder,mGroupingCursor);
+                  break traverseCursor;
+                }
+              case MONTH:
+                second = c.getInt(columnIndexMonth);
+                if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
+                  break;
+                else {
+                  fillSums(holder,mGroupingCursor);
+                  break traverseCursor;
+                }
+              case WEEK:
+                second = c.getInt(columnIndexWeek);
+                if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
+                  break;
+                else {
+                  fillSums(holder,mGroupingCursor);
+                  break traverseCursor;
+                }
               }
             }
+            mGroupingCursor.moveToNext();
           }
-          mGroupingCursor.moveToNext();
         }
         if (!mGroupingCursor.isAfterLast())
           mappedCategoriesPerGroup.put(position, mGroupingCursor.getInt(columnIndexGroupMappedCategories)>0);
@@ -509,11 +497,14 @@ public class TransactionList extends BudgetListFragment implements
       holder.sumTransfer.setText("<-> " + Utils.convAmount(
           mGroupingCursor.getString(columnIndexGroupSumTransfer),
           mAccount.currency));
+      holder.interimBalance.setText("= " + Utils.convAmount(
+          mGroupingCursor.getString(columIndexGroupSumInterim),
+          mAccount.currency));
     }
     @Override
     public long getHeaderId(int position) {
       if (mAccount.grouping.equals(Account.Grouping.NONE))
-        return 0;
+        return 1;
       Cursor c = getCursor();
       c.moveToPosition(position);
       int year = c.getInt(mAccount.grouping.equals(Grouping.WEEK)?columnIndexYearOfWeekStart:columnIndexYear);
@@ -633,6 +624,7 @@ public class TransactionList extends BudgetListFragment implements
     }
   }
   class HeaderViewHolder {
+    TextView interimBalance;
     TextView text;
     TextView sumIncome;
     TextView sumExpense;

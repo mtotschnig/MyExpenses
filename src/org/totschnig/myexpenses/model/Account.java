@@ -122,6 +122,8 @@ public class Account extends Model {
       int this_year = c.getInt(c.getColumnIndex("this_year"));
       Calendar cal;
       switch (this) {
+      case NONE:
+        return ctx.getString(R.string.menu_aggregates);
       case DAY:
         if (groupYear == this_year) {
           if (groupSecond == this_day)

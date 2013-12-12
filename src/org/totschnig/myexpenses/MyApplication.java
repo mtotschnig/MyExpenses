@@ -131,9 +131,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
 
     public boolean isLocked;
     protected Messenger mService;
-    public static final String FEEDBACK_EMAIL = "myexpenses@totschnig.org";
+    public static final String FEEDBACK_EMAIL = "support@myexpenses.mobi";
 //    public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
-    public static final String HOST = "myexpenses.totschnig.org";
     
     /**
      * we cache value of planner calendar id, so that we can handle changes in value
@@ -144,7 +143,6 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      * after having tried a different locale;
      */
     private final Locale systemLocale = Locale.getDefault();
-    private String currentLanguage = "default";
 
     @Override
     public void onCreate() {
@@ -323,23 +321,22 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      */
     public void setLanguage(String language, String country) {
       setLanguage(new Locale(language,country));
-      currentLanguage = language;
     }
-    public void setLanguage(String language) {
-      if (!currentLanguage.equals(language)) {
-        setLanguage(language.equals("default") ?
-            systemLocale :
-            new Locale(language)
-            );
-        currentLanguage = language;
-      }
+    public void setLanguage() {
+      String language = settings.getString(MyApplication.PREFKEY_UI_LANGUAGE, "default");
+      setLanguage(language.equals("default") ?
+          systemLocale :
+          new Locale(language)
+          );
     }
     private void setLanguage(Locale locale) {
-      Locale.setDefault(locale);
-      Configuration config = new Configuration();
-      config.locale = locale;
-      getResources().updateConfiguration(config,
-          getResources().getDisplayMetrics());
+      if (!Locale.getDefault().equals(locale)) {
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config,
+            getResources().getDisplayMetrics());
+      }
     }
     public static File getBackupDbFile() {
       File appDir = Utils.requireAppDir();
@@ -489,7 +486,10 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       if (!mPlannerCalendarId.equals("-1")) {
         if (!checkPlannerInternal(mPlannerCalendarId)) {
           SharedPreferencesCompat.apply(
-              settings.edit().remove(PREFKEY_PLANNER_CALENDAR_ID));
+              settings.edit()
+                .remove(PREFKEY_PLANNER_CALENDAR_ID)
+                .remove(PREFKEY_PLANNER_CALENDAR_PATH)
+                .remove(PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP));
           return "-1";
         }
       }

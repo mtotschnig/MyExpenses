@@ -142,7 +142,6 @@ public class MyExpenses extends LaunchActivity implements
     //if we are launched from the contrib app, we refresh the cached contrib status
     setTheme(MyApplication.getThemeId());
     mSettings = MyApplication.getInstance().getSettings();
-    setLanguage();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     if (prev_version == -1) {
       //prevent preference change listener from firing when preference file is created
@@ -229,7 +228,11 @@ public class MyExpenses extends LaunchActivity implements
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
     SimpleCursorAdapter adapter = new SimpleCursorAdapter(
         actionBar.getThemedContext(),
-        R.layout.custom_spinner_item, mAccountsCursor, new String[] {KEY_LABEL}, new int[] {android.R.id.text1}) {
+        R.layout.custom_spinner_item,
+        mAccountsCursor,
+        new String[] {KEY_LABEL},
+        new int[] {android.R.id.text1},
+        0) {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
         return getCustomView(position,super.getView(position, convertView, parent));

@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.activity;
 
+import org.totschnig.myexpenses.MyApplication;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -31,6 +33,7 @@ public class ProtectedPreferenceActivity extends SherlockPreferenceActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     protection = new ProtectionDelegate(this);
+    MyApplication.getInstance().setLanguage();
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
   }

@@ -99,8 +99,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         return;
       }
     }
-    MyApplication.getInstance().setLanguage(
-        mSettings.getString(MyApplication.PREFKEY_UI_LANGUAGE, "default")
-        );
+    super.setLanguage();
   }
 }

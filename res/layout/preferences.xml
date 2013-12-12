@@ -141,7 +141,7 @@
         android:summary="@string/pref_visit_website_summary">
         <intent
         android:action="android.intent.action.VIEW"
-        android:data="http://myexpenses.totschnig.org"
+        android:data="@string/website"
         />
     </Preference>
     <Preference
