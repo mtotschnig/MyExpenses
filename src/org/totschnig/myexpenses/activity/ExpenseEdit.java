@@ -734,7 +734,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mPlanButton.setEnabled(true);
   }
   /**
-   *  for a transfer append an indicator of direction to the label on the category button 
+   *  set label on category button
    */
   private void setCategoryButton() {
     if (mLabel != null && mLabel.length() != 0) {
