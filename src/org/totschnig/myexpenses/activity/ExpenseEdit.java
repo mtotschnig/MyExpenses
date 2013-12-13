@@ -756,7 +756,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   }
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    super.onRestoreInstanceState(savedInstanceState);
     mCalendar = (Calendar) savedInstanceState.getSerializable("calendar");
     mPlan = (Plan) savedInstanceState.getSerializable("plan");
     if (mPlan != null) {
@@ -768,6 +767,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mCatId = null;
     setDate();
     setTime();
+    super.onRestoreInstanceState(savedInstanceState);
   }
 
   public Money getAmount() {
