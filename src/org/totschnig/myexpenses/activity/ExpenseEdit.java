@@ -878,8 +878,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       }
       else
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-      mCatId = mTransaction.catId;
-      mLabel =  mTransaction.label;
+      //if catId has already been set by onRestoreInstanceState, the value might have been edited by the user and has precedence
+      if (mCatId == null) {
+        mCatId = mTransaction.catId;
+        mLabel =  mTransaction.label;
+      }
       setup();
       supportInvalidateOptionsMenu();
       break;
