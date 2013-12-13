@@ -129,13 +129,13 @@ public abstract class AmountActivity extends EditActivity {
     String strAmount = mAmountText.getText().toString();
     if (strAmount.equals("")) {
       if (showToUser)
-        Toast.makeText(this,getString(R.string.no_amount_given), Toast.LENGTH_LONG).show();
+        mAmountText.setError(getString(R.string.no_amount_given));
       return null;
     }
     BigDecimal amount = Utils.validateNumber(nfDLocal, strAmount);
     if (amount == null) {
       if (showToUser)
-        Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
+        mAmountText.setError(getString(R.string.invalid_number_format,nfDLocal.format(11.11)));
       return null;
     }
     return amount;

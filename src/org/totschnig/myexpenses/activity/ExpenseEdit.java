@@ -655,7 +655,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (mTransaction instanceof Template) {
       title = mTitleText.getText().toString();
       if (title.equals("")) {
-        Toast.makeText(this, R.string.no_title_given, Toast.LENGTH_LONG).show();
+        mTitleText.setError(getString(R.string.no_title_given));
         validP = false;
       }
       ((Template) mTransaction).title = title;
