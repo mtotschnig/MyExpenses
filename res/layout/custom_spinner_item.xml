@@ -17,31 +17,20 @@
 ** limitations under the License.
 */
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:paddingRight="@dimen/general_padding"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent">
-  <View
-      android:layout_marginRight="@dimen/general_padding"
-      android:layout_alignParentLeft="true"
-	    android:id="@+id/color1"
-	    android:layout_height="fill_parent"
-	    android:layout_width="4dp"/>
-  <TextView
-      android:layout_centerVertical="true"
-		  android:layout_toRightOf="@id/color1"
-	    android:textAppearance="?android:attr/textAppearanceMedium"
-	    android:id="@android:id/text1"
-	    android:singleLine="true"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:ellipsize="marquee" />
-  <TextView
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold"
-        android:id="@+id/end"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
-</RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal">
+<View
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/color1"
+    android:layout_height="15dp"
+    android:layout_width="15dp"/>
+<TextView
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+</LinearLayout>

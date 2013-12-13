@@ -231,7 +231,7 @@ public class MyExpenses extends LaunchActivity implements
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
     SimpleCursorAdapter adapter = new SimpleCursorAdapter(
         actionBar.getThemedContext(),
-        R.layout.custom_spinner_item,
+        R.layout.account_navigation_spinner_item,
         mAccountsCursor,
         new String[] {KEY_LABEL},
         new int[] {android.R.id.text1},
@@ -256,7 +256,7 @@ public class MyExpenses extends LaunchActivity implements
         return row;
       }
     };
-    adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
+    adapter.setDropDownViewResource(R.layout.account_navigation_spinner_dropdown_item);
     actionBar.setListNavigationCallbacks(adapter, this);
   }
   

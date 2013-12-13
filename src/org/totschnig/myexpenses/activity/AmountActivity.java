@@ -86,20 +86,6 @@ public abstract class AmountActivity extends EditActivity {
         return null; // keep original
       }
     }});
-    mAmountText.setOnTouchListener(new OnTouchListener() {
-      @Override
-      public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-          if (event.getX() > v.getWidth() - v.getPaddingRight() - mAmountText.getCompoundDrawables()[2].getIntrinsicWidth()) {
-            Intent intent = new Intent(AmountActivity.this,CalculatorInput.class);
-            intent.putExtra(KEY_AMOUNT,mAmountText.getText().toString());
-            startActivityForResult(intent, CALCULATOR_REQUEST);
-            return false;
-          }
-      }
-      return false;
-      }
-    });
     nfDLocal.setGroupingUsed(false);
   }
   @Override
@@ -139,5 +125,10 @@ public abstract class AmountActivity extends EditActivity {
       return null;
     }
     return amount;
+  }
+  public void showCalculator(View view) {
+    Intent intent = new Intent(AmountActivity.this,CalculatorInput.class);
+    intent.putExtra(KEY_AMOUNT,mAmountText.getText().toString());
+    startActivityForResult(intent, CALCULATOR_REQUEST);
   }
 }

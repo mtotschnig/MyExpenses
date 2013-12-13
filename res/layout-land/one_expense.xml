@@ -67,11 +67,6 @@
         <LinearLayout
             android:orientation="horizontal">
           <include layout="@layout/amount_input"/>
-          <Spinner
-              android:prompt="@string/status"
-              android:id="@+id/Status"
-              android:layout_width="wrap_content"
-              android:layout_height="fill_parent" />
           <Button android:id="@+id/Category"
               android:layout_weight="2"
               android:layout_width="0dp"
@@ -83,6 +78,12 @@
               android:layout_weight="2"
               android:layout_width="0dp"
               android:layout_height="fill_parent" />
+          <Spinner
+              android:layout_gravity="center"
+              android:prompt="@string/status"
+              android:id="@+id/Status"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
         </LinearLayout>
       </TableRow>
 

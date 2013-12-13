@@ -250,9 +250,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         private void setColor(int position, View row) {
           View color = row.findViewById(R.id.color1);
           color.setBackgroundColor(getItem(position).color);
-          LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(20,20);
-          lps.setMargins(10, 0, 0, 0);
-          color.setLayoutParams(lps);
         }
       };
       sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);

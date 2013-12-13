@@ -62,21 +62,24 @@
             android:id="@+id/AmountLabel"/>
         <LinearLayout android:orientation="horizontal">
           <include layout="@layout/amount_input"/>
-          <Spinner android:id="@+id/Status"
-              android:prompt="@string/status"
-              android:layout_width="wrap_content"
-              android:layout_height="fill_parent" />
         </LinearLayout>
       </TableRow>
 
       <TableRow>
         <TextView style="@style/form_label"
             android:text="@string/comment" />
+        <LinearLayout android:orientation="horizontal">
         <EditText 
             android:id="@+id/Comment"
             android:singleLine="true"
-            android:layout_width="wrap_content" 
+			      android:layout_width="0dp"
+			      android:layout_weight="1"
             android:layout_height="wrap_content" />
+          <Spinner android:id="@+id/Status"
+              android:prompt="@string/status"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent" />
+          </LinearLayout>
       </TableRow>
 
       <TableRow android:id="@+id/CategoryRow">
