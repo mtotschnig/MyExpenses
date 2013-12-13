@@ -32,8 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/sum_line"
-        android:layout_alignParentRight="true"
-        android:text="INTERIM_BALANCE"/>
+        android:layout_alignParentRight="true"/>
   <LinearLayout
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
@@ -52,22 +51,19 @@
         android:layout_width="1dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:text="SUM_INCOME"/>
+        android:gravity="right"/>
     <TextView
         android:id="@+id/sum_expense"
         android:layout_width="1dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:text="SUM_EXPENSE"/>
+        android:gravity="right"/>
     <TextView
         android:id="@+id/sum_transfer"
         android:layout_width="1dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:text="SUM_TRANSFER"/>
+        android:gravity="right"/>
   </LinearLayout>
   <View
       android:layout_margin="2dip"
