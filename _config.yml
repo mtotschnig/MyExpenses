@@ -23,11 +23,21 @@ langs:
 missing_langs: "русский, português, Nederlands, Ελληνικά, čeština, 中文, română, svenska, Slovenčina, polski"
 versions:
   -
-    - 1.10.1.3
-    - 2013-12-07
+    - 1.10.2
+    - 2013-12-12
     -
       en: |
-        Stability improvements.
+        When transaction list is grouped, show intermediate balance for each period in group header. Bug fix: Issue #90.
+      fr: |
+        Lorsque la liste des transactions est groupée, afficher le solde intermédiaire pour chaque période dans l\'en-tête du groupe. Correction de bogue : Bogue #90.
+      de: |
+        Wenn die Buchungsliste gruppiert angezeigt wird, erscheint in der Kopfzeile jeder Gruppe der Zwischenstand für den jeweiligen Zeitraum.. Bug fix: Issue #90.
+      it: |
+        Quando la lista delle transazioni è raggruppato, mostra equilibrio intermedio per ciascun periodo in un\'intestazione di gruppo. Correzione di errori #90.
+      es: |
+        Cuando la lista de transacciones se agrupa, mostrar equilibrio intermedio para cada periodo en el encabezado de grupo. Corrección de errores #90.
+      tr: |
+        Muamele listesi gruplandığında, grup başlığında her dönem için ara bakiyeyi göster. Hata düzeltmesi: Hata #90.
   -
     - 1.10.1
     - 2013-12-06
