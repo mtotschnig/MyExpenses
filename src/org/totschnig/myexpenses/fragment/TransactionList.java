@@ -19,6 +19,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Currency;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -94,8 +95,11 @@ public class TransactionList extends BudgetListFragment implements
     columnIndexGroupYear, columnIndexGroupSecond, columnIndexGroupMappedCategories, columIndexGroupSumInterim,
     columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
   boolean indexesCalculated, indexesGroupingCalculated = false;
+  //the following values are cached from the account object, so that we can react to changes in the observer
   private Grouping mGrouping;
   private Type mType;
+  private String mCurrency;
+  private Long mOpeningBalance;
 
   public static TransactionList newInstance(long accountId) {
     
@@ -115,6 +119,8 @@ public class TransactionList extends BudgetListFragment implements
     mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
     mGrouping = mAccount.grouping;
     mType = mAccount.type;
+    mCurrency = mAccount.currency.getCurrencyCode();
+    mOpeningBalance = mAccount.openingBalance.getAmountMinor();
     aObserver = new AccountObserver(new Handler());
     ContentResolver cr= getSherlockActivity().getContentResolver();
     //when account has changed, we might have
@@ -151,12 +157,16 @@ public class TransactionList extends BudgetListFragment implements
     case NONE:
       itemDateFormat = Utils.localizedYearlessDateFormat();
     }
+    restartGroupingLoader();
+  }
+  private void restartGroupingLoader() {
     mGroupingCursor = null;
     if (mManager.getLoader(GROUPING_CURSOR) != null && !mManager.getLoader(GROUPING_CURSOR).isReset())
       mManager.restartLoader(GROUPING_CURSOR, null, this);
     else
       mManager.initLoader(GROUPING_CURSOR, null, this);
   }
+
   @Override
   public void onDestroy() {
     super.onDestroy();
@@ -394,10 +404,17 @@ public class TransactionList extends BudgetListFragment implements
           //the loader and in onLoadFinished we notify
           //mAdapter.notifyDataSetChanged();
         }
+        return;
       }
-      if (mAccount.type != mType) {
+      if (mAccount.type != mType ||
+          mAccount.currency.getCurrencyCode() != mCurrency) {
         mListView.setAdapter(mAdapter);
         mType = mAccount.type;
+        mCurrency = mAccount.currency.getCurrencyCode();
+      }
+      if (mAccount.openingBalance.getAmountMinor() != mOpeningBalance) {
+        restartGroupingLoader();
+        mOpeningBalance = mAccount.openingBalance.getAmountMinor();
       }
     }
   }
