@@ -61,7 +61,7 @@ public class Transaction extends Model {
     KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_METHODID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER,
     YEAR + " AS year",YEAR_OF_WEEK_START + " AS year_of_week_start",MONTH + " AS month",WEEK + " AS week",DAY + " AS day",
     THIS_YEAR + " AS this_year",THIS_YEAR_OF_WEEK_START + " AS this_year_of_week_start",
-    THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day",WEEK_RANGE+ " AS week_range" };
+    THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day",WEEK_START+ " AS week_start",WEEK_END +" AS week_end"};
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
   /**
    * we store the date directly from UI to DB without creating a Date object
@@ -227,15 +227,15 @@ public class Transaction extends Model {
   /**
    * we store the date string and create a date object from it
    * this is only used with String stored in the database, where we are sure that they are correctly formated
-   * @param strDate format accepted by {@link TransactionDatabase#dateFormat}
+   * @param strDate format accepted by {@link TransactionDatabase#dateTimeFormat}
    */
   private void setDate(String strDate) {
     dateAsString = strDate;
-    date = Utils.fromSQL(strDate);
+    date = Utils.dateTimeFromSQL(strDate);
   }
   public void setDate(Date date){
     this.date = date;
-    dateAsString = TransactionDatabase.dateFormat.format(date);
+    dateAsString = TransactionDatabase.dateTimeFormat.format(date);
   }
   public String getDate() {
     return dateAsString;

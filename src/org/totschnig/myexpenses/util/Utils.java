@@ -140,8 +140,7 @@ public class Utils {
     nf.setMaximumFractionDigits(fractionDigits);
     return nf.format(amount);
   }
-
-  public static Date fromSQL(String dateString) {
+  public static Date dateFromSQL(String dateString) {
     try {
       return TransactionDatabase.dateFormat.parse(dateString);
     } catch (ParseException e) {
@@ -155,7 +154,27 @@ public class Utils {
    * @return formated string
    */
   public static String convDate(String text, DateFormat format) {
-    Date date = fromSQL(text);
+    Date date = dateFromSQL(text);
+    if (date == null)
+      return text;
+    else
+      return format.format(date);
+  }
+  public static Date dateTimeFromSQL(String dateString) {
+    try {
+      return TransactionDatabase.dateTimeFormat.parse(dateString);
+    } catch (ParseException e) {
+      return null;
+    }
+  }
+
+  /**
+   * utility method that calls formatters for date
+   * @param text
+   * @return formated string
+   */
+  public static String convDateTime(String text, DateFormat format) {
+    Date date = dateTimeFromSQL(text);
     if (date == null)
       return text;
     else

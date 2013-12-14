@@ -79,13 +79,12 @@ public class TransactionList extends BudgetListFragment implements
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
   long mAccountId;
-  StickyListHeadersAdapter mAdapter;
+  private StickyListHeadersAdapter mAdapter;
   private AccountObserver aObserver;
   private Account mAccount;
   private boolean hasItems, mappedCategories;
   private Cursor mTransactionsCursor, mGroupingCursor;
-  DateFormat headerDateFormat, itemDateFormat;
-  String headerPrefix;
+  private DateFormat itemDateFormat;
   private StickyListHeadersListView mListView;
   private LoaderManager mManager;
   private SparseBooleanArray mappedCategoriesPerGroup;
@@ -565,7 +564,7 @@ public class TransactionList extends BudgetListFragment implements
     public void setViewText(TextView v, String text) {
       switch (v.getId()) {
       case R.id.date:
-        text = Utils.convDate(text,itemDateFormat);
+        text = Utils.convDateTime(text,itemDateFormat);
         break;
       case R.id.amount:
         text = Utils.convAmount(text,mAccount.currency);
