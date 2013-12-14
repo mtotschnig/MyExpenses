@@ -51,9 +51,16 @@ def enter():
 def up():
   down_and_up('KEYCODE_DPAD_UP')
 
-def toOrigin():
-  for _ in range(5):
+def toTopLeft():
+  for _ in range(10):
     up()
+  for _ in range(5):
+    left()
+
+def toBottomLeft():
+  for _ in range(10):
+    down()
+  for _ in range(5):
     left()
 
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
@@ -84,13 +91,18 @@ snapshot("aggregate_dialog")
 
 #3 GrooupedList
 back()
-toOrigin()
+toTopLeft()
 down()
 enter()
 snapshot("grouped_list")
 
-#4 NewFromTemplate
-menu(2)
+#4 Templates and Plans
+toBottomLeft()
+right()
+right()
+right()
+#hit Templats button
+enter()
 down()
 enter()
 sleep(2)
@@ -112,18 +124,17 @@ snapshot("plans")
 back()
 back()
 back()
-menu(1)
+menu(0)
 snapshot("export")
 
 #6 Calculator
 back()
-toOrigin()
+toBottomLeft()
 sleep()
-right()
 right()
 sleep()
 enter()
-toOrigin()
+toTopLeft()
 activity = 'org.totschnig.myexpenses.activity.CalculatorInput'
 runComponent = package + '/' + activity
 device.startActivity(component=runComponent)
@@ -132,7 +143,7 @@ snapshot("calculator")
 #7 Split
 back()
 back()
-toOrigin()
+toTopLeft()
 down()
 enter()
 right()
@@ -143,7 +154,7 @@ snapshot("split")
 
 #8 Distribution
 back()
-menu(5)
+menu(3)
 right()
 enter()
 down()
@@ -156,25 +167,24 @@ snapshot("distribution")
 
 #9 Backup
 back()
-menu(6)
+menu(4)
 if lang == 'de':
-  distance = 17
+  distance = 20
 else:
-  distance = 16
+  distance = 19
 for _ in range(distance):
   down()
 enter()
 snapshot("backup")
 
 #10 Password
-
 back()
 back()
-menu(6)
+menu(4)
 if lang == 'de':
-  distance = 24
+  distance = 25
 else:
-  distance = 23
+  distance = 24
 for _ in range(distance):
   down()
 enter()
@@ -184,7 +194,7 @@ snapshot("password")
 #10 Light Theme
 back()
 back()
-menu(6)
+menu(4)
 for _ in range(5):
   down()
 enter()
@@ -194,7 +204,7 @@ back()
 snapshot("light_theme")
 
 #11 Help
-menu(7)
+menu(5)
 snapshot("help")
 back()
 back()
