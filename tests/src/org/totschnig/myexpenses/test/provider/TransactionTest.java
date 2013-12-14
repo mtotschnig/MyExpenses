@@ -89,9 +89,9 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
      */
     private void insertData() {
 
-      TEST_TRANSACTIONS[0] = new TransactionInfo("Transaction 0", TransactionDatabase.dateFormat.format(new Date()), 0,testAccountId);
-      TEST_TRANSACTIONS[1] = new TransactionInfo("Transaction 1", TransactionDatabase.dateFormat.format(new Date()), 100,testAccountId);
-      TEST_TRANSACTIONS[2] = new TransactionInfo("Transaction 2", TransactionDatabase.dateFormat.format(new Date()), -100,testAccountId);
+      TEST_TRANSACTIONS[0] = new TransactionInfo("Transaction 0", TransactionDatabase.dateTimeFormat.format(new Date()), 0,testAccountId);
+      TEST_TRANSACTIONS[1] = new TransactionInfo("Transaction 1", TransactionDatabase.dateTimeFormat.format(new Date()), 100,testAccountId);
+      TEST_TRANSACTIONS[2] = new TransactionInfo("Transaction 2", TransactionDatabase.dateTimeFormat.format(new Date()), -100,testAccountId);
 
         // Sets up test data
         for (int index = 0; index < TEST_TRANSACTIONS.length; index++) {
@@ -304,7 +304,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
         // Creates a new transaction instance
         TransactionInfo transaction = new TransactionInfo(
             "Transaction 4",
-            TransactionDatabase.dateFormat.format(new Date()), 1000, testAccountId);
+            TransactionDatabase.dateTimeFormat.format(new Date()), 1000, testAccountId);
 
         // Insert subtest 1.
         // Inserts a row using the new note instance.
@@ -366,7 +366,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
     public void testInsertViolatesForeignKey() {
       TransactionInfo transaction = new TransactionInfo(
           "Transaction 4",
-          TransactionDatabase.dateFormat.format(new Date()), 1000, testAccountId+1);
+          TransactionDatabase.dateTimeFormat.format(new Date()), 1000, testAccountId+1);
       try {
         mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, transaction.getContentValues());
         fail("Expected insert failure for link to non-existing account but insert succeeded.");
