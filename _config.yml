@@ -23,6 +23,24 @@ langs:
 missing_langs: "русский, português, Nederlands, Ελληνικά, čeština, 中文, română, svenska, Slovenčina, polski"
 versions:
   -
+    - 1.10.3
+    - 2013-12-14
+    -
+      en: |
+        Current balance is displayed more prominently again and show main buttons at bottom, when device orientation is portrait. Bug fixes: Issues #71,#91,#92,#93.
+      fr: |
+        Le solde courant est de nouveau mis en évidence et les boutons principaux sont apparaissent en bas, lorsque l'orientation de l'appareil est en mode portrait. Correction des bogues #71,#91,#92,#93.
+      de: |
+        Kontostand wird wieder deutlicher angezeigt; die wichtigsten Schaltflächen werden im Porträt-Modus am unteren Bildschirmrand angezeigt. Bugs #71,#91,#92,#93 behoben.
+      it: |
+        Saldo corrente viene visualizzata in maniera più evidente di nuovo e mostrare i tasti principali, in fondo, quando l'orientamento del dispositivo è verticale. Correzione di errori  #71,#91,#92,#93.
+      es: |
+        Se muestra de manera más prominente de nuevo el equilibrio actual y mostrar los botones principales en el fondo, cuando la orientación del dispositivo es el retrato. Corrección de errores #71,#91,#92,#93.
+      tr: |
+        Güncel bakiye gene daha belirgin olarak görüntülenir ve cihaz portre yönünde kullanıldığında ana düğmeler aşağıda konumlanır. Hata düzeltmeleri: hata #71,#91,#92,#93.
+      ca: |
+        Ara el saldo actual es torna a mostrar de forma més destacada  i mostra els botons principals a la part inferior, quan el dispositiu està en orientació vertical. Correccions: Problemes #71,#91,#92,#93.
+  -
     - 1.10.2
     - 2013-12-12
     -
