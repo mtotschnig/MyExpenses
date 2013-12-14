@@ -937,7 +937,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       //for the moment, the only case where saving will fail
       //if the unique constraint for template titles is violated
       //TODO: we should probably validate the title earlier
-      Toast.makeText(this,getString(R.string.template_title_exists,((Template) mTransaction).title), Toast.LENGTH_LONG).show();
+      mTitleText.setError(getString(R.string.template_title_exists,((Template) mTransaction).title));
       mCreateNew = false;
     } else {
       if (mCreateNew) {
