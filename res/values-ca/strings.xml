@@ -22,12 +22,12 @@
   <string name="contrib_feature_plans_unlimited_label">Nombre de planificacions il·limitat</string>
   <string name="contrib_feature_reset_all_label">Reinicieu tots els comptes</string>
   <string name="contrib_feature_security_question_label">Pregunta de seguretat</string>
-  <string name="contrib_feature_split_transaction_label">Reparteix l\'operació</string>
+  <string name="contrib_feature_split_transaction_label">Operació repartida</string>
   <string name="contrib_key">Clau del Contribuïdor</string>
   <string name="currency">Moneda</string>
   <string name="current_balance">Saldo actual</string>
   <string name="date">Data</string>
-  <string name="date_format">Format de la data</string>
+  <string name="date_format">Format de la data (yy=any)</string>
   <string name="date_format_illegal">El format de data no és vàlid</string>
   <string name="date_time">Data / Hora</string>
   <string name="default_account_description">Aquest compte s\'ha configurat automàticament a l\'instal·lació.</string>
@@ -139,18 +139,18 @@
   <string name="menu_create_template_for_transaction">Nova plantilla d\'operació</string>
   <string name="menu_create_template_for_transfer">Nova plantilla de transferència</string>
   <string name="menu_create_transaction">Nova operació</string>
-  <string name="menu_create_transaction_from_template_and_edit">Nou i modifica</string>
+  <string name="menu_create_transaction_from_template_and_edit">Nova i modifica</string>
   <string name="menu_create_transaction_from_template_and_save">Nova i desar</string>
   <string name="menu_create_transfer">Nova transferència</string>
   <string name="menu_delete">Suprimeix</string>
-  <string name="menu_distribution">Distribució</string>
+  <string name="menu_distribution">Per categories</string>
   <string name="menu_edit">Modifica</string>
   <string name="menu_edit_account">Modifica el compte</string>
   <string name="menu_edit_cat">Modifica la categoria</string>
   <string name="menu_edit_method">Modifica la forma de pagament</string>
   <string name="menu_edit_party">Modifica el tercer</string>
-  <string name="menu_edit_split">Modifica el repartiment</string>
-  <string name="menu_edit_split_part_category">Modifica la partició de la categoria</string>
+  <string name="menu_edit_split">Edita el repartiment</string>
+  <string name="menu_edit_split_part_category">Edita la partició de la categoria</string>
   <string name="menu_edit_split_part_transfer">Modifica la partició de la transferència</string>
   <string name="menu_edit_template">Modifica la plantilla</string>
   <string name="menu_edit_transaction">Modifica l\'operació</string>
@@ -310,7 +310,7 @@
   <string name="split_parts_heading">Particions</string>
   <string name="split_transaction">Operació repartida</string>
   <string name="status">Estat</string>
-  <string name="status_cleared">aprovat</string>
+  <string name="status_cleared">aprovada</string>
   <string name="status_reconciled">reconciliat</string>
   <string name="status_uncreconciled">sense reconciliar</string>
   <string name="subcategory">Subcategoria</string>
