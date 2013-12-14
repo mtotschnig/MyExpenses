@@ -123,7 +123,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      * we store the systemLocale if the user wants to come back to it
      * after having tried a different locale;
      */
-    private final Locale systemLocale = Locale.getDefault();
+    private Locale systemLocale = Locale.getDefault();
 
     @Override
     public void onCreate() {
@@ -236,6 +236,12 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           resId = mSelf.getResources().getIdentifier("ThemeDark.s"+fontScale, "style", mSelf.getPackageName());
       }
       return resId;
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+        systemLocale = newConfig.locale;
     }
     /**
      * this is only used from instrumentation
