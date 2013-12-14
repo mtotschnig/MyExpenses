@@ -30,12 +30,13 @@
   <TextView
       android:layout_centerVertical="true"
 		  android:layout_toRightOf="@id/color1"
+		  android:layout_toLeftOf="@id/end"
 	    android:textAppearance="?android:attr/textAppearanceMedium"
 	    android:id="@android:id/text1"
 	    android:singleLine="true"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:ellipsize="marquee" />
+	    android:ellipsize="end" />
   <TextView
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
