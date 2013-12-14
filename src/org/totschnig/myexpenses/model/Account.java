@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Currency;
@@ -79,7 +80,7 @@ public class Account extends Model {
   public enum Type {
     CASH,BANK,CCARD,ASSET,LIABILITY;
     public static final String JOIN;
-    public String getDisplayName() {
+    public String toString() {
       Context ctx = MyApplication.getInstance();
       switch (this) {
       case CASH: return ctx.getString(R.string.account_type_cash);
@@ -136,7 +137,9 @@ public class Account extends Model {
         cal.set(Calendar.DAY_OF_YEAR, groupSecond);
         return java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(cal.getTime());
       case WEEK:
-        String weekRange = " (" + c.getString(c.getColumnIndex("week_range")) + " )";
+        DateFormat dateformat = Utils.localizedYearlessDateFormat();
+        String weekRange = " (" + Utils.convDate(c.getString(c.getColumnIndex("week_start")),dateformat)
+            + " - " + Utils.convDate(c.getString(c.getColumnIndex("week_end")),dateformat)  + " )";
         String yearPrefix;
         if (groupYear == this_year_of_week_start) {
           if (groupSecond == this_week)
@@ -624,7 +627,7 @@ public class Account extends Model {
         }
       }
       String payee = DbUtils.getString(c, KEY_PAYEE_NAME);
-      String dateStr = formatter.format(Utils.fromSQL(c.getString(
+      String dateStr = formatter.format(Utils.dateTimeFromSQL(c.getString(
           c.getColumnIndexOrThrow(KEY_DATE))));
       long amount = c.getLong(
           c.getColumnIndexOrThrow(KEY_AMOUNT));

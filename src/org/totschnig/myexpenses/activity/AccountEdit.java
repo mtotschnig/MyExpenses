@@ -229,7 +229,7 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
 
     label = mLabelText.getText().toString();
     if (label.equals("")) {
-      Toast.makeText(this, R.string.no_title_given, Toast.LENGTH_LONG).show();
+      mLabelText.setError(getString(R.string.no_title_given));
       return;
     }
     mAccount.label = label;

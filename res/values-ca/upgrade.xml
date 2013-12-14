@@ -1,8 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_102">
+    <item>Ara el saldo actual es torna a mostrar de forma més destacada  i mostra els botons principals a la part inferior, quan el dispositiu està en orientació vertical</item>
+    <item>Correccions: Problemes #71,#91,#92,#93</item>
+  </string-array>
   <string-array name="whats_new_100">
     <item>Quan la llista d\'operacions està agrupada, mostra el balanç intermedi per a cada període a la capçalera del grup</item>
-    <item>Correcció: problema #90</item>
+    <item>Correcció: Problema #90</item>
   </string-array>
   <string-array name="whats_new_95">
     <item>Idioma configurable</item>
@@ -14,13 +18,13 @@
   </string-array>
   <string-array name="whats_new_84">
     <item>Número de referència (pagaments per xec)</item>
-    <item>Comenceu a la llista de comptes des del launcher</item>
+    <item>Comenceu a la llista de comptes des del llançador</item>
     <item>Feu lliscar el dit per canviar de període a la vista de distribució</item>
     <item>Es pot configurar el format de la data per a exportar en formats QIF i CSV</item>
     <item>Millores a la interfície</item>
   </string-array>
   <string-array name="whats_new_79">
-    <item>Marqueu les operacions al autoritzar-les / reconciliar-les (activat per a comptes bancaris i targes de crèdit)</item>
+    <item>Marqueu les operacions al aprovar-les / reconciliar-les (activat per a comptes bancaris i targes de crèdit)</item>
     <item>Ara és possible editar les parts</item>
     <item>Traducció a l\'hongarès</item>
   </string-array>
@@ -28,7 +32,7 @@
     <item>Distribució d\'operacions per categoria (Premium)</item>
   </string-array>
   <string-array name="whats_new_72">
-    <item>Correcció: problema #69</item>
+    <item>Correcció: Problema #69</item>
     <item>Traducció a l\'àrab</item>
   </string-array>
   <string-array name="whats_new_67">

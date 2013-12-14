@@ -36,12 +36,12 @@
             android:text="@string/label" />
         <LinearLayout
             android:orientation="horizontal">
-        <EditText android:layout_weight="1"
-            android:layout_width="0dp"
+        <EditText
+            android:layout_width="wrap_content"
             android:id="@+id/Label" 
             android:layout_height="wrap_content" />
-        <Spinner android:layout_weight="1"
-            android:layout_width="0dp"
+        <Spinner
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/TaType"
             android:entries="@array/method_types"
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/IsNumbered"
-            android:text="Is numbered" />
+            android:text="@string/numbered" />
         </LinearLayout>
       </TableRow>
       </TableLayout>

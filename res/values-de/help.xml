@@ -14,7 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
   <string name="help_menu_commands">Menübefehle</string>
 
   <!-- My Expenses Transaction list -->
@@ -46,7 +46,7 @@
   <string name="menu_create_party_help_text">Öffnet das Formular für die Erfassung einer neuen Partei.</string>
 
   <!-- ManageTemplates -->
-  <string name="help_ManageTemplates_info">Hier werden die Vorlagen für das aktuelle Konto aufgelistet. Während Vorlagen auch von bestehenden Buchungen abgeleitet werden können (über deren Kontextmenü), können Sie hier neue Vorlagen von Grund auf festlegen. <xliff:g id="html">&lt;br&gt;&lt;img src="android:ic_menu_my_calendar" /&gt;</xliff:g>Dieses Icon zeigt an, dass es für diese Vorlage ein Plan definiert ist. <xliff:g id="html">&lt;br&gt;&lt;img src="manage_plans_icon" /&gt;</xliff:g> Wenn Sie auf dieses Icon klicken, wird die Vorlage angewendet und die Liste geschlossen.<xliff:g id="html">&lt;br&gt;</xliff:g>Das Kontextmenü der Vorlagen erlaubt, die Buchung vor dem Speichern zu verändern, und enthält auch den Befehl zum Löschen.</string>
+  <string name="help_ManageTemplates_info">Hier werden die Vorlagen für das aktuelle Konto aufgelistet. Während Vorlagen auch von bestehenden Buchungen abgeleitet werden können (über deren Kontextmenü), können Sie hier neue Vorlagen von Grund auf festlegen. &lt;br&gt;&lt;img src="android:ic_menu_my_calendar" /&gt;Dieses Icon zeigt an, dass es für diese Vorlage ein Plan definiert ist. &lt;br&gt;&lt;img src="manage_plans_icon" /&gt; Wenn Sie auf dieses Icon klicken, wird die Vorlage angewendet und die Liste geschlossen.&lt;br&gt;Das Kontextmenü der Vorlagen erlaubt, die Buchung vor dem Speichern zu verändern, und enthält auch den Befehl zum Löschen.</string>
   <string name="menu_create_template_for_transaction_help_text">Eine neue Vorlage für Buchungen anlegen</string>
   <string name="menu_create_template_for_transfer_help_text">Eine neue Vorlage für Umbuchungen anlegen</string>
   <!-- ManageCategories -->
@@ -68,7 +68,7 @@
   <string name="help_ExpenseEdit_info">Klicken Sie auf die Schaltfläche - um zwischen Ausgabe und Einnahme zu wechseln. auf die = Schaltfläche um einen Taschenrechner zu öffnen.</string>
   <string name="help_ExpenseEdit_transaction_info">Das Feld für die Eingabe von Empfänger (bzw. Zahler) merkt sich die von Ihnen eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld vor. Zahlungsweisen können nur dann einer Buchung zugeordnet werden, wenn der Typ des aktuellen Kontos mit Zahlungsweisen verknüpft ist. Standardmäßig sind nur Bankkonten mit Zahlungsweisen verknüpft (Scheck, Kreditkarte, Einzahlung, Abbuchung).</string>
   <string name="help_ExpenseEdit_transfer_info">Wählen Sie das Konto für die Umbuchung aus dem Aufklappmenü.</string>
-  <string name="help_ExpenseEdit_template_info">Sie müssen der Vorlag einen eindeutigen Titel geben.<xliff:g id="html">&lt;h2&gt;</xliff:g>Pläne<xliff:g id="html">&lt;/h2&gt;</xliff:g>Wenn Sie für eine Vorlage einen Plan definieren, wird dieser in einem privaten Kalender Ihrer Kalender App gespeichert. Ein Plan kann als einmaliges Ereignis oder mit jeder im Kalender zur Verfügung stehenden Art von Wiederholung definiert werden. Die Plan-Schaltfläche erlaubt den Plan anzulegen, zu verändern, zu löschen. Sobald der Plan angelegt ist, kann er auch direkt mit der Kalender App verwaltet werden. Pläne können als automatisch oder manuell eingerichtet werden. Beim automatischen Plan, erhalten Sie bei der Durchführung eine Benachrichtigung. Beim manuellen Plan erhalten Sie auch eine Benachrichtigung, die es Ihnen erlaubt die Durchführung abzubrechen, zu bestätigen, oder zu verändern.</string>
+  <string name="help_ExpenseEdit_template_info">Sie müssen der Vorlag einen eindeutigen Titel geben.&lt;h2&gt;Pläne&lt;/h2&gt;Wenn Sie für eine Vorlage einen Plan definieren, wird dieser in einem privaten Kalender Ihrer Kalender App gespeichert. Ein Plan kann als einmaliges Ereignis oder mit jeder im Kalender zur Verfügung stehenden Art von Wiederholung definiert werden. Die Plan-Schaltfläche erlaubt den Plan anzulegen, zu verändern, zu löschen. Sobald der Plan angelegt ist, kann er auch direkt mit der Kalender App verwaltet werden. Pläne können als automatisch oder manuell eingerichtet werden. Beim automatischen Plan, erhalten Sie bei der Durchführung eine Benachrichtigung. Beim manuellen Plan erhalten Sie auch eine Benachrichtigung, die es Ihnen erlaubt die Durchführung abzubrechen, zu bestätigen, oder zu verändern.</string>
   <string name="help_ExpenseEdit_split_info">Fügen Sie beliebig viele Teilbeträge (für Kategorien und Umbuchungen) mittels der Menübefehle ein. In der unteren Hälfte des Bildschirms werden die Teilbeträge aufgelistet, und der Restbetrag angezeigt, der noch nicht zugeordnet wurde. Die Split-Buchung kann nur gespeichert werden, wenn die Summe der Teilbeträge genau dem Buchungsbetrag entspricht.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">Wählen Sie eine Kategorie für den Teilbetrag aus.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">Wählen Sie das Konto aus, an den dieser Teilbetrag übertragen werden soll.</string>

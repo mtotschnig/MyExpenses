@@ -57,9 +57,9 @@ public class DbUtils {
         ContentValues args = new ContentValues();
         //first we try to parse in the users locale
         try {
-          dateString = TransactionDatabase.dateFormat.format(localeDependent.parse(dateString));
+          dateString = TransactionDatabase.dateTimeFormat.format(localeDependent.parse(dateString));
         } catch (ParseException e1) {
-          dateString = TransactionDatabase.dateFormat.format(new Date());
+          dateString = TransactionDatabase.dateTimeFormat.format(new Date());
           args.put(KEY_COMMENT,"corrupted Date has been reset");
         }
         args.put(KEY_DATE,dateString);

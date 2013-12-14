@@ -64,6 +64,9 @@
   <style name="titleTextStyle">
     <item name="android:textStyle">bold</item>
   </style>
+  <style name="titleTextStyleMedium" parent="titleTextStyle">
+    <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+  </style>
   <style name="paddedListRow">
     <item name="android:paddingRight">@dimen/general_padding</item>
     <item name="android:paddingLeft">@dimen/general_padding</item>

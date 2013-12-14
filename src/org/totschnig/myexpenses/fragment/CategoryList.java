@@ -321,9 +321,8 @@ public class CategoryList extends BudgetListFragment implements
         //we want to find out the week range when we are given a week number
         //we find out the first Monday in the year, which is the beginning of week 1 and than
         //add (weekNumber-1)*7 days to get at the beginning of the week
-        String weekStart = String.format(Locale.US, "'%d-01-01','weekday 1','+%d day'",mGroupingYear,(mGroupingSecond-1)*7);
-        String weekEnd = String.format(Locale.US, "'%d-01-01','weekday 1','+%d day'",mGroupingYear,mGroupingSecond*7-1);
-        projection.add(String.format(Locale.US,"strftime('%%m/%%d', date(%s)) || '-' || strftime('%%m/%%d', date(%s)) AS week_range",weekStart,weekEnd));
+        projection.add(String.format(Locale.US, "date('%d-01-01','weekday 1','+%d day') AS week_start",mGroupingYear,(mGroupingSecond-1)*7));
+        projection.add(String.format(Locale.US, "date('%d-01-01','weekday 1','+%d day') AS week_end",mGroupingYear,mGroupingSecond*7-1));
       }
       return new CursorLoader(getSherlockActivity(),
           TransactionProvider.TRANSACTIONS_URI,

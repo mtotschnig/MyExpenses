@@ -137,7 +137,9 @@ public class DatabaseConstants {
   public static final String THIS_YEAR_OF_WEEK_START  = "CAST(strftime('%Y','now','weekday 0', '-6 day') AS integer)";
   public static final String THIS_MONTH = "CAST(strftime('%m','now') AS integer)";
   public static final String THIS_WEEK  = "CAST(strftime('%W','now','weekday 0', '-6 day') AS integer)";
-  public static final String WEEK_RANGE ="strftime('%m/%d', date(date, 'weekday 0', '-6 day'))||'-'|| strftime('%m/%d', date(date, 'weekday 0'))";
+  public static final String WEEK_START = "date(date, 'weekday 0', '-6 day')";
+  public static final String WEEK_END = "date(date, 'weekday 0')";
+  //public static final String WEEK_RANGE ="strftime('%m/%d', date(date, 'weekday 0', '-6 day'))||'-'|| strftime('%m/%d', date(date, 'weekday 0'))";
   public static final String THIS_DAY   = "CAST(strftime('%j','now') AS integer)";
   //exclude split_catid
   public static final String MAPPED_CATEGORIES =

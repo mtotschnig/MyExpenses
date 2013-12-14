@@ -103,7 +103,7 @@ public class MethodEdit extends EditActivity {
                      LayoutParams.WRAP_CONTENT));*/
            /* Create a Button to be the row-content. */
       tv = new TextView(this);
-      tv.setText(accountType.getDisplayName());
+      tv.setText(accountType.toString());
       tv.setTextAppearance(this, R.style.form_label);
       cb = new CheckBox(this);
       cb.setTag(accountType);
@@ -119,7 +119,12 @@ public class MethodEdit extends EditActivity {
 
   protected void saveState() {
     if (mMethod.predef == null) {
-      mMethod.setLabel(mLabelText.getText().toString());
+      String label = mLabelText.getText().toString();
+      if (label.equals("")) {
+        mLabelText.setError(getString(R.string.no_title_given));
+        return;
+      }
+      mMethod.setLabel(label);
     }
     mMethod.setPaymentType(mPaymentTypeSpinner.getSelectedItemPosition()-1);
     for (Account.Type accountType : Account.Type.values()) {

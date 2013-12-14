@@ -1,8 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_102">
+    <item>Le solde courant est de nouveau mis en évidence et les boutons principaux sont apparaissent en bas, lorsque l\'orientation de l\'appareil est en mode portrait</item>
+    <item>Correction des bogues #71,#91,#92,#93</item>
+  </string-array>
   <string-array name="whats_new_100">
     <item>Lorsque la liste des transactions est groupée, afficher le solde intermédiaire pour chaque période dans l\'en-tête du groupe</item>
-    <item>Correction de bogue : Bogue #90</item>
+    <item>Correction de bogue #90</item>
   </string-array>
   <string-array name="whats_new_95">
     <item>Langue de l\'interface configurable</item>
@@ -28,7 +32,7 @@
     <item>Répartition des transactions par catégorie (Premium)</item>
   </string-array>
   <string-array name="whats_new_72">
-    <item>Correction du bug #69</item>
+    <item>Correction de bogue #69</item>
     <item>Traduction en arabe</item>
   </string-array>
   <string-array name="whats_new_67">

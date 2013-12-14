@@ -153,7 +153,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String PAYEE_CREATE =
     "CREATE TABLE " + TABLE_PAYEES
       + " (_id integer primary key autoincrement, name text unique not null);";
-  public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
+  public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
+  public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
 
   TransactionDatabase(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
