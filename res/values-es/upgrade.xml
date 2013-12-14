@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_102">
+    <item>Se muestra de manera más prominente de nuevo el equilibrio actual y mostrar los botones principales en el fondo, cuando la orientación del dispositivo es el retrato</item>
+    <item>Corrección de errores #71,#91,#92,#93</item>
+  </string-array>
   <string-array name="whats_new_100">
     <item>Cuando la lista de transacciones se agrupa, mostrar equilibrio intermedio para cada periodo en el encabezado de grupo</item>
     <item>Corrección de errores #90</item>

@@ -16,7 +16,7 @@
  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.totschnig.myexpenses" 
-    android:versionCode="101"
+    android:versionCode="102"
     android:versionName="1.10.3"
     android:installLocation="auto"
 >

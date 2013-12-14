@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_101">
+    <item>Güncel bakiye gene daha belirgin olarak görüntülenir ve cihaz portre yönünde kullanıldığında ana düğmeler aşağıda konumlanır</item>
+    <item>Hata düzeltmeleri: hata #71,#91,#92,#93</item>
+  </string-array>
   <string-array name="whats_new_100">
     <item>Muamele listesi gruplandığında, grup başlığında her dönem için ara bakiyeyi göster</item>
     <item>Hata düzeltmesi: Hata #90</item>

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string-array name="whats_new_101">
+  <string-array name="whats_new_102">
     <item>Ara el saldo actual es torna a mostrar de forma més destacada  i mostra els botons principals a la part inferior, quan el dispositiu està en orientació vertical</item>
     <item>Correccions: Problemes #71,#91,#92,#93</item>
   </string-array>
