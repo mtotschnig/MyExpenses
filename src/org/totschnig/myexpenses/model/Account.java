@@ -80,7 +80,7 @@ public class Account extends Model {
   public enum Type {
     CASH,BANK,CCARD,ASSET,LIABILITY;
     public static final String JOIN;
-    public String getDisplayName() {
+    public String toString() {
       Context ctx = MyApplication.getInstance();
       switch (this) {
       case CASH: return ctx.getString(R.string.account_type_cash);

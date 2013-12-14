@@ -103,7 +103,7 @@ public class MethodEdit extends EditActivity {
                      LayoutParams.WRAP_CONTENT));*/
            /* Create a Button to be the row-content. */
       tv = new TextView(this);
-      tv.setText(accountType.getDisplayName());
+      tv.setText(accountType.toString());
       tv.setTextAppearance(this, R.style.form_label);
       cb = new CheckBox(this);
       cb.setTag(accountType);
