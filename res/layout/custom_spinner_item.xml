@@ -23,16 +23,14 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal">
 <View
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
     android:id="@+id/color1"
-    android:layout_height="fill_parent"
-    android:layout_width="4dp"/>
+    android:layout_height="15dp"
+    android:layout_width="15dp"/>
 <TextView
-	  android:textAppearance="?android:attr/textAppearanceMedium"
-    android:layout_gravity="center"
     android:id="@android:id/text1"
-    style="?attr/spinnerItemStyle"
-    android:singleLine="true"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:ellipsize="marquee" />
+    android:layout_height="wrap_content" />
 </LinearLayout>

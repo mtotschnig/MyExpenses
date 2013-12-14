@@ -250,9 +250,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         private void setColor(int position, View row) {
           View color = row.findViewById(R.id.color1);
           color.setBackgroundColor(getItem(position).color);
-          LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(20,20);
-          lps.setMargins(10, 0, 0, 0);
-          color.setLayoutParams(lps);
         }
       };
       sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
@@ -496,7 +493,10 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
    */
   private void startSelectCategory() {
     Intent i = new Intent(this, ManageCategories.class);
-    //i.putExtra(DatabaseConstants.KEY_ROWID, id);
+    //we pass the currently selected category in to prevent
+    //it from being deleted, which can theoretically lead
+    //to crash upon saving https://github.com/mtotschnig/MyExpenses/issues/71
+    i.putExtra(DatabaseConstants.KEY_ROWID, mCatId);
     startActivityForResult(i, SELECT_CATEGORY_REQUEST);
   }
   /**
@@ -655,7 +655,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (mTransaction instanceof Template) {
       title = mTitleText.getText().toString();
       if (title.equals("")) {
-        Toast.makeText(this, R.string.no_title_given, Toast.LENGTH_LONG).show();
+        mTitleText.setError(getString(R.string.no_title_given));
         validP = false;
       }
       ((Template) mTransaction).title = title;
@@ -737,7 +737,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mPlanButton.setEnabled(true);
   }
   /**
-   *  for a transfer append an indicator of direction to the label on the category button 
+   *  set label on category button
    */
   private void setCategoryButton() {
     if (mLabel != null && mLabel.length() != 0) {
@@ -759,7 +759,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   }
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    super.onRestoreInstanceState(savedInstanceState);
     mCalendar = (Calendar) savedInstanceState.getSerializable("calendar");
     mPlan = (Plan) savedInstanceState.getSerializable("plan");
     if (mPlan != null) {
@@ -771,6 +770,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       mCatId = null;
     setDate();
     setTime();
+    super.onRestoreInstanceState(savedInstanceState);
   }
 
   public Money getAmount() {
@@ -881,8 +881,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       }
       else
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-      mCatId = mTransaction.catId;
-      mLabel =  mTransaction.label;
+      //if catId has already been set by onRestoreInstanceState, the value might have been edited by the user and has precedence
+      if (mCatId == null) {
+        mCatId = mTransaction.catId;
+        mLabel =  mTransaction.label;
+      }
       setup();
       supportInvalidateOptionsMenu();
       break;

@@ -86,20 +86,6 @@ public abstract class AmountActivity extends EditActivity {
         return null; // keep original
       }
     }});
-    mAmountText.setOnTouchListener(new OnTouchListener() {
-      @Override
-      public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-          if (event.getX() > v.getWidth() - v.getPaddingRight() - mAmountText.getCompoundDrawables()[2].getIntrinsicWidth()) {
-            Intent intent = new Intent(AmountActivity.this,CalculatorInput.class);
-            intent.putExtra(KEY_AMOUNT,mAmountText.getText().toString());
-            startActivityForResult(intent, CALCULATOR_REQUEST);
-            return false;
-          }
-      }
-      return false;
-      }
-    });
     nfDLocal.setGroupingUsed(false);
   }
   @Override
@@ -129,15 +115,20 @@ public abstract class AmountActivity extends EditActivity {
     String strAmount = mAmountText.getText().toString();
     if (strAmount.equals("")) {
       if (showToUser)
-        Toast.makeText(this,getString(R.string.no_amount_given), Toast.LENGTH_LONG).show();
+        mAmountText.setError(getString(R.string.no_amount_given));
       return null;
     }
     BigDecimal amount = Utils.validateNumber(nfDLocal, strAmount);
     if (amount == null) {
       if (showToUser)
-        Toast.makeText(this,getString(R.string.invalid_number_format,nfDLocal.format(11.11)), Toast.LENGTH_LONG).show();
+        mAmountText.setError(getString(R.string.invalid_number_format,nfDLocal.format(11.11)));
       return null;
     }
     return amount;
+  }
+  public void showCalculator(View view) {
+    Intent intent = new Intent(AmountActivity.this,CalculatorInput.class);
+    intent.putExtra(KEY_AMOUNT,mAmountText.getText().toString());
+    startActivityForResult(intent, CALCULATOR_REQUEST);
   }
 }

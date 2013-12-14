@@ -106,7 +106,7 @@ public class CategoryList extends BudgetListFragment implements
     int viewResource;
     Bundle extras = ctx.getIntent().getExtras();
     mManager = getLoaderManager();
-    if (extras != null) {
+    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       viewResource = R.layout.distribution_list;
       mAccountId = extras.getLong(KEY_ACCOUNTID);
       mAccount = Account.getInstanceFromDb(mAccountId);
@@ -207,7 +207,8 @@ public class CategoryList extends BudgetListFragment implements
             message = R.string.not_deletable_subcats_exists;
         }
         if (message == 0 ) {
-          if (c.getInt(c.getColumnIndex("mapped_transactions")) > 0)
+          Bundle extras = ctx.getIntent().getExtras();
+          if ((extras != null && extras.getLong(KEY_ROWID) == info.id) || c.getInt(c.getColumnIndex("mapped_transactions")) > 0)
             message = R.string.not_deletable_mapped_transactions;
           else if (c.getInt(c.getColumnIndex("mapped_templates")) > 0)
             message = R.string.not_deletable_mapped_templates;

@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import java.io.Serializable;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -36,6 +37,7 @@ import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
@@ -61,6 +63,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;  
@@ -228,7 +231,7 @@ public class MyExpenses extends LaunchActivity implements
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
     SimpleCursorAdapter adapter = new SimpleCursorAdapter(
         actionBar.getThemedContext(),
-        R.layout.custom_spinner_item,
+        R.layout.account_navigation_spinner_item,
         mAccountsCursor,
         new String[] {KEY_LABEL},
         new int[] {android.R.id.text1},
@@ -245,10 +248,15 @@ public class MyExpenses extends LaunchActivity implements
         Cursor c = getCursor();
         c.moveToPosition(position);
         row.findViewById(R.id.color1).setBackgroundColor(c.getInt(c.getColumnIndex(KEY_COLOR)));
+        ((TextView) row.findViewById(R.id.end)).setText(
+            Utils.formatCurrency(
+                new Money(
+                    Currency.getInstance(c.getString(c.getColumnIndex(KEY_CURRENCY))),
+                    c.getLong(c.getColumnIndex("current_balance")))));
         return row;
       }
     };
-    adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
+    adapter.setDropDownViewResource(R.layout.account_navigation_spinner_dropdown_item);
     actionBar.setListNavigationCallbacks(adapter, this);
   }
   
@@ -470,6 +478,7 @@ public class MyExpenses extends LaunchActivity implements
     case DISTRIBUTION:
       feature.recordUsage();
       Intent i = new Intent(this, ManageCategories.class);
+      i.setAction("myexpenses.intent.distribution");
       i.putExtra(KEY_ACCOUNTID, mAccountId);
       i.putExtra("grouping",Grouping.NONE);
       if (tag != null) {
