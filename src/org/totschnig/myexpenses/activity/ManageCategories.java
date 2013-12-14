@@ -61,11 +61,10 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       super.onCreate(savedInstanceState);
       Intent intent = getIntent();
       String action = intent.getAction();
-      Bundle extras = intent.getExtras();
       if (action != null && action.equals("myexpenses.intent.manage.categories")) {
         helpVariant = HelpVariant.manage;
         setTitle(R.string.pref_manage_categories_title);
-      } else if (extras != null) {
+      } else if (action != null && action.equals("myexpenses.intent.distribution")) {
         helpVariant = HelpVariant.distribution;
         //title is set in categories list
         mDetector = new GestureDetector(this,new GestureDetector.SimpleOnGestureListener() {

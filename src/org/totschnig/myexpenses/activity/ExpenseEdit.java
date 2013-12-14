@@ -493,7 +493,10 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
    */
   private void startSelectCategory() {
     Intent i = new Intent(this, ManageCategories.class);
-    //i.putExtra(DatabaseConstants.KEY_ROWID, id);
+    //we pass the currently selected category in to prevent
+    //it from being deleted, which can theoretically lead
+    //to crash upon saving https://github.com/mtotschnig/MyExpenses/issues/71
+    i.putExtra(DatabaseConstants.KEY_ROWID, mCatId);
     startActivityForResult(i, SELECT_CATEGORY_REQUEST);
   }
   /**

@@ -478,6 +478,7 @@ public class MyExpenses extends LaunchActivity implements
     case DISTRIBUTION:
       feature.recordUsage();
       Intent i = new Intent(this, ManageCategories.class);
+      i.setAction("myexpenses.intent.distribution");
       i.putExtra(KEY_ACCOUNTID, mAccountId);
       i.putExtra("grouping",Grouping.NONE);
       if (tag != null) {
