@@ -68,7 +68,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
           "The license of your purchase could not be verified. Please check your network connection.",
           new MessageDialogFragment.Button(R.string.app_contrib_launch, R.id.CONTRIB_APP_COMMAND, null),
           null,
-          MessageDialogFragment.Button.CANCEL_BUTTON())
+          MessageDialogFragment.Button.noButton())
         .show(getSupportFragmentManager(),"MESSAGE");
       MyApplication.getInstance().showContribRetryLimitReachedInfo = false;
     }
