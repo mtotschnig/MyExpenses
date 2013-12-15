@@ -82,7 +82,7 @@ public class TransactionList extends BudgetListFragment implements
   private StickyListHeadersAdapter mAdapter;
   private AccountObserver aObserver;
   private Account mAccount;
-  private boolean hasItems, mappedCategories;
+  public boolean hasItems, mappedCategories;
   private Cursor mTransactionsCursor, mGroupingCursor;
   private DateFormat itemDateFormat;
   private StickyListHeadersListView mListView;
@@ -176,13 +176,6 @@ public class TransactionList extends BudgetListFragment implements
         // Do Nothing.  Observer has already been unregistered.
     }
   }
-  @Override
-  public void onPrepareOptionsMenu(Menu menu) {
-    if (isVisible()) {
-      Utils.menuItemSetEnabled(menu,R.id.RESET_ACCOUNT_COMMAND,hasItems);
-      Utils.menuItemSetEnabled(menu,R.id.DISTRIBUTION_COMMAND,mappedCategories);
-    }
-  }
 
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
@@ -258,7 +251,7 @@ public class TransactionList extends BudgetListFragment implements
             R.string.warning_delete_transaction,
             new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, info.id),
             null,
-            MessageDialogFragment.Button.CANCEL_BUTTON())
+            MessageDialogFragment.Button.noButton())
           .show(ctx.getSupportFragmentManager(),"DELETE_TRANSACTION");
       }
       return true;
@@ -341,14 +334,10 @@ public class TransactionList extends BudgetListFragment implements
         indexesCalculated = true;
       }
       ((SimpleCursorAdapter) mAdapter).swapCursor(c);
-      if (isVisible())
-        getSherlockActivity().supportInvalidateOptionsMenu();
       break;
     case SUM_CURSOR:
       c.moveToFirst();
       mappedCategories = c.getInt(c.getColumnIndex("mapped_categories")) >0;
-      if (isVisible())
-        getSherlockActivity().supportInvalidateOptionsMenu();
       break;
     case GROUPING_CURSOR:
       mGroupingCursor = c;
@@ -376,13 +365,9 @@ public class TransactionList extends BudgetListFragment implements
       mTransactionsCursor = null;
       ((SimpleCursorAdapter) mAdapter).swapCursor(null);
       hasItems = false;
-      if (isVisible())
-        getSherlockActivity().supportInvalidateOptionsMenu();
       break;
     case SUM_CURSOR:
       mappedCategories = false;
-      if (isVisible())
-        getSherlockActivity().supportInvalidateOptionsMenu();
       break;
     case GROUPING_CURSOR:
       mGroupingCursor = null;
@@ -505,16 +490,16 @@ public class TransactionList extends BudgetListFragment implements
     }
     private void fillSums(HeaderViewHolder holder, Cursor mGroupingCursor) {
       holder.sumExpense.setText("- " + Utils.convAmount(
-          mGroupingCursor.getString(columnIndexGroupSumExpense),
+          DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumExpense),
           mAccount.currency));
       holder.sumIncome.setText("+ " + Utils.convAmount(
-          mGroupingCursor.getString(columnIndexGroupSumIncome),
+          DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumIncome),
           mAccount.currency));
       holder.sumTransfer.setText("<-> " + Utils.convAmount(
-          mGroupingCursor.getString(columnIndexGroupSumTransfer),
+          DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumTransfer),
           mAccount.currency));
       holder.interimBalance.setText("= " + Utils.convAmount(
-          mGroupingCursor.getString(columIndexGroupSumInterim),
+          DbUtils.getLongOr0L(mGroupingCursor, columIndexGroupSumInterim),
           mAccount.currency));
     }
     @Override

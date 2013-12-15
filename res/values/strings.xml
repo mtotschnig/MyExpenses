@@ -55,6 +55,9 @@
   <string name="date_time">Date / Time</string>
   <string name="default_account_description">This account was set up automatically during installation</string>
   <string name="description">Description</string>
+  <string name="dialog_command_disabled_insert_transfer">Transfer transactions require a second account with the same currency. Create one from the account list (accessible through the HOME button in the top left corner).</string>
+  <string name="dialog_command_disabled_reset_account">No transactions to export.</string>
+  <string name="dialog_command_disabled_distribution">No transactions have been mapped to categories in this account.</string>
   <string name="dialog_confirm_restore_on_install">A backup file has been detected. Do you want to restore it?</string>
   <string name="dialog_contrib_no">Not yet</string>
   <string name="dialog_contrib_no_usages_left">No free usages left.</string>
@@ -82,6 +85,7 @@
   <string name="dialog_setup_planner_button_create_new">Create new</string>
   <!-- Label for button that opens preferences for selecting an existing calendar -->
   <string name="dialog_setup_planner_button_select_existing">Select existing</string>
+  <string name="dialog_title_menu_command_disabled">Menu command disabled</string>
   <string name="dialog_title_contrib_feature">Premium feature</string>
   <string name="dialog_title_planner_setup_info">Calendar setup required</string>
   <string name="dialog_title_restore_on_install">Backup detected</string>

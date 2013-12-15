@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string-array name="whats_new_101">
+  <string-array name="whats_new_102">
     <item>Güncel bakiye gene daha belirgin olarak görüntülenir ve cihaz portre yönünde kullanıldığında ana düğmeler aşağıda konumlanır</item>
     <item>Hata düzeltmeleri: hata #71,#91,#92,#93</item>
   </string-array>

@@ -248,7 +248,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       }
       Intent i = new Intent(ctx, ExpenseEdit.class);
       i.putExtra(KEY_ROWID, mTransaction.id);
-      i.putExtra("transferEnabled",ctx.mTransferEnabled);
+      i.putExtra("transferEnabled",ctx.transferEnabled());
       //i.putExtra("operationType", operationType);
       ctx.startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
     }
