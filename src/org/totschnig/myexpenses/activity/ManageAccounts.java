@@ -65,19 +65,6 @@ public class ManageAccounts extends LaunchActivity implements
     newVersionCheck();
   }
   @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    super.onPrepareOptionsMenu(menu);
-    Cursor c = getContentResolver().query(TransactionProvider.AGGREGATES_URI.buildUpon().appendPath("count").build(),
-        null, null, null, null);
-    //TODO Strict mode violation
-    Utils.menuItemSetEnabled(menu,R.id.AGGREGATES_COMMAND,
-        c.getCount()>0 );
-    c.close();
-    Utils.menuItemSetEnabled(menu,R.id.RESET_ACCOUNT_ALL_COMMAND,
-        Transaction.countAll() > 0 );
-    return true;
-  }
-  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getSupportMenuInflater();
     inflater.inflate(R.menu.accounts, menu);
@@ -93,13 +80,6 @@ public class ManageAccounts extends LaunchActivity implements
     //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     startActivityForResult(i,0);
   }
-
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, 
-      Intent intent) {
-    super.onActivityResult(requestCode, resultCode, intent);
-    configButtons();
-  }
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     switch(command) {
@@ -107,11 +87,24 @@ public class ManageAccounts extends LaunchActivity implements
     case android.R.id.home:
       return true;
     case R.id.AGGREGATES_COMMAND:
-      if (MyApplication.getInstance().isContribEnabled) {
-        contribFeatureCalled(Feature.AGGREGATE, null);
+      //TODO Strict mode violation
+      Cursor c = getContentResolver().query(TransactionProvider.AGGREGATES_URI.buildUpon().appendPath("count").build(),
+          null, null, null, null);
+      if (c.getCount()>0 ) {
+        if (MyApplication.getInstance().isContribEnabled) {
+          contribFeatureCalled(Feature.AGGREGATE, null);
+        } else {
+          CommonCommands.showContribDialog(this,Feature.AGGREGATE, null);
+        }
       } else {
-        CommonCommands.showContribDialog(this,Feature.AGGREGATE, null);
+        MessageDialogFragment.newInstance(
+            R.string.dialog_title_menu_command_disabled,
+            "This command is only enabled if for any currency there exist at least two accounts.", //will not localize since AGGREGATES_COMMAND will be removed in 1.11
+            MessageDialogFragment.Button.okButton(),
+            null,null)
+         .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
       }
+      c.close();
       return true;
     case R.id.DELETE_COMMAND_DO:
       FragmentManager fm = getSupportFragmentManager();
@@ -120,14 +113,22 @@ public class ManageAccounts extends LaunchActivity implements
         .commit();
       return true;
     case R.id.RESET_ACCOUNT_ALL_COMMAND:
-      if (MyApplication.getInstance().isContribEnabled) {
-        contribFeatureCalled(Feature.RESET_ALL, null);
+      if (Transaction.countAll() > 0 ) {
+        if (MyApplication.getInstance().isContribEnabled) {
+          contribFeatureCalled(Feature.RESET_ALL, null);
+        } else {
+          CommonCommands.showContribDialog(this,Feature.RESET_ALL, null);
+        }
       } else {
-        CommonCommands.showContribDialog(this,Feature.RESET_ALL, null);
+        MessageDialogFragment.newInstance(
+            R.string.dialog_title_menu_command_disabled,
+            R.string.dialog_command_disabled_reset_account,
+            MessageDialogFragment.Button.okButton(),
+            null,null)
+         .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
       }
       return true;
     }
-    configButtons();
     return super.dispatchCommand(command, tag);
   }
 
@@ -166,9 +167,6 @@ public class ManageAccounts extends LaunchActivity implements
       return true;
     }
     return super.onContextItemSelected(item);
-  }
-  private void configButtons() {
-    supportInvalidateOptionsMenu();
   }
   @SuppressWarnings("incomplete-switch")
   @Override
