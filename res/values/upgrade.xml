@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_103">
+    <item>UI improvements (#94) and bug fixes (#95,#96)</item>
+  </string-array>
   <string-array name="whats_new_102">
     <item>Current balance is displayed more prominently again and show main buttons at bottom, when device orientation is portrait</item>
     <item>Bug fixes: Issues #71,#91,#92,#93</item>
