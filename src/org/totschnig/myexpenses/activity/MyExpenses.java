@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.activity;
 import java.io.Serializable;
 import java.util.Currency;
 import java.util.HashMap;
-import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
