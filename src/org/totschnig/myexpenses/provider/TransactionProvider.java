@@ -661,8 +661,7 @@ public class TransactionProvider extends ContentProvider {
                     " ELSE null " +
                 " END " +
             " WHERE " + KEY_ROWID + " = ? " +
-            //IS NOT instead of != accepts cases where transfer_account is null
-            " AND " + KEY_TRANSFER_ACCOUNT + " IS NOT ?",
+            " AND ( " + KEY_TRANSFER_ACCOUNT + " IS NULL OR " + KEY_TRANSFER_ACCOUNT + "  != ? )",
           new String[]{target,target,segment,target});
       count=1;
       break;
