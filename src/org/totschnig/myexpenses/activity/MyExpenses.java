@@ -119,7 +119,6 @@ public class MyExpenses extends LaunchActivity implements
   private MyViewPagerAdapter myAdapter;
   private ViewPager myPager;
   private String fragmentCallbackTag = null;
-  public boolean mTransferEnabled = false;
   private long mAccountId = 0;
   public enum HelpVariant {
     crStatus
@@ -217,7 +216,6 @@ public class MyExpenses extends LaunchActivity implements
   }
   private void moveToPosition(int position) {
     myPager.setCurrentItem(position,false);
-    configButtons();
   }
   private void fillNavigation() {
     ActionBar actionBar = getSupportActionBar();
@@ -253,30 +251,6 @@ public class MyExpenses extends LaunchActivity implements
     adapter.setDropDownViewResource(R.layout.account_navigation_spinner_dropdown_item);
     actionBar.setListNavigationCallbacks(adapter, this);
   }
-  
-  public void configButtons() {
-    supportInvalidateOptionsMenu();
-  }
-  
-  /* (non-Javadoc)
-* here we check if we have other accounts with the same category,
-* only under this condition do we make the Insert Transfer Activity
-* available
-* @see android.app.Activity#onPrepareOptionsMenu(android.view.Menu)
-*/
-  @Override
-  public boolean onPrepareOptionsMenu(Menu menu) {
-    super.onPrepareOptionsMenu(menu);
-    if (mAccountId== 0)
-      return true;
-    if (currentPosition > -1) {
-      Integer sameCurrencyCount = currencyAccountCount.get(
-          Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode());
-      mTransferEnabled = (sameCurrencyCount != null && sameCurrencyCount >1);
-    }
-    Utils.menuItemSetEnabled(menu,R.id.INSERT_TRANSFER_COMMAND,mTransferEnabled);
-    return true;
-  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -287,15 +261,13 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   /* (non-Javadoc)
-  * upon return from CREATE or EDIT we call configButtons
-  * and check if we should show one of the reminderDialogs
+  * check if we should show one of the reminderDialogs
   * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
   */
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    //configButtons();
     if (requestCode == ACTIVITY_EDIT && resultCode == RESULT_OK) {
       long nextReminder;
       sequenceCount = intent.getLongExtra("sequence_count", 0);
@@ -321,7 +293,7 @@ public class MyExpenses extends LaunchActivity implements
   private void createRow(int type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
-    i.putExtra("transferEnabled",mTransferEnabled);
+    i.putExtra("transferEnabled",transferEnabled());
     i.putExtra(KEY_ACCOUNTID,mAccountId);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
@@ -344,13 +316,25 @@ public class MyExpenses extends LaunchActivity implements
    */
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
+    TransactionList tl;
     switch (command) {
     case R.id.DISTRIBUTION_COMMAND:
-      if (MyApplication.getInstance().isContribEnabled) {
-      contribFeatureCalled(Feature.DISTRIBUTION, null);
-      }
-      else {
-        CommonCommands.showContribDialog(this,Feature.DISTRIBUTION, null);
+      tl = (TransactionList) getSupportFragmentManager().findFragmentByTag(
+          myAdapter.getFragmentName(currentPosition));
+      if (tl != null && tl.mappedCategories) {
+        if (MyApplication.getInstance().isContribEnabled) {
+        contribFeatureCalled(Feature.DISTRIBUTION, null);
+        }
+        else {
+          CommonCommands.showContribDialog(this,Feature.DISTRIBUTION, null);
+        }
+      } else {
+        MessageDialogFragment.newInstance(
+            R.string.dialog_title_menu_command_disabled,
+            R.string.dialog_command_disabled_distribution,
+            MessageDialogFragment.Button.okButton(),
+            null,null)
+         .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
       }
       return true;
     case R.id.GROUPING_COMMAND:
@@ -367,7 +351,16 @@ public class MyExpenses extends LaunchActivity implements
       createRow(TYPE_TRANSACTION);
       return true;
     case R.id.INSERT_TRANSFER_COMMAND:
-      createRow(TYPE_TRANSFER);
+      if (transferEnabled()) {
+        createRow(TYPE_TRANSFER);
+      } else {
+        MessageDialogFragment.newInstance(
+            R.string.dialog_title_menu_command_disabled,
+            R.string.dialog_command_disabled_insert_transfer,
+            MessageDialogFragment.Button.okButton(),
+            null,null)
+         .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
+      }
       return true;
     case R.id.INSERT_SPLIT_COMMAND:
       if (MyApplication.getInstance().isContribEnabled) {
@@ -378,13 +371,24 @@ public class MyExpenses extends LaunchActivity implements
       }
       return true;
     case R.id.RESET_ACCOUNT_COMMAND:
-      if (Utils.isExternalStorageAvailable()) {
-        DialogUtils.showWarningResetDialog(this,mAccountId);
+      tl = (TransactionList) getSupportFragmentManager().findFragmentByTag(
+          myAdapter.getFragmentName(currentPosition));
+      if (tl != null && tl.hasItems) {
+        if (Utils.isExternalStorageAvailable()) {
+          DialogUtils.showWarningResetDialog(this,mAccountId);
+        } else {
+          Toast.makeText(getBaseContext(),
+              getString(R.string.external_storage_unavailable),
+              Toast.LENGTH_LONG)
+              .show();
+        }
       } else {
-        Toast.makeText(getBaseContext(),
-            getString(R.string.external_storage_unavailable),
-            Toast.LENGTH_LONG)
-            .show();
+        MessageDialogFragment.newInstance(
+            R.string.dialog_title_menu_command_disabled,
+            R.string.dialog_command_disabled_reset_account,
+            MessageDialogFragment.Button.okButton(),
+            null,null)
+         .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
       }
       return true;
     case R.id.EDIT_ACCOUNT_COMMAND:
@@ -427,7 +431,7 @@ public class MyExpenses extends LaunchActivity implements
       break;
     case R.id.MANAGE_PLANS_COMMAND:
       i = new Intent(this, ManageTemplates.class);
-      i.putExtra("transferEnabled",mTransferEnabled);
+      i.putExtra("transferEnabled",transferEnabled());
       i.putExtra(KEY_ACCOUNTID, mAccountId);
       startActivity(i);
       return true;
@@ -441,6 +445,13 @@ public class MyExpenses extends LaunchActivity implements
   private class MyViewPagerAdapter extends CursorFragmentPagerAdapter {
     public MyViewPagerAdapter(Context context, FragmentManager fm, Cursor cursor) {
       super(context, fm, cursor);
+    }
+
+    public String getFragmentName(int currentPosition) {
+      //http://stackoverflow.com/questions/7379165/update-data-in-listfragment-as-part-of-viewpager
+      //would call this function if it were visible
+      //return makeFragmentName(R.id.viewpager,currentPosition);
+      return "android:switcher:"+R.id.viewpager+":"+getItemId(currentPosition);
     }
 
     @Override
@@ -574,7 +585,6 @@ public class MyExpenses extends LaunchActivity implements
       Toast.makeText(getBaseContext(),getString(R.string.template_title_exists,title), Toast.LENGTH_LONG).show();
     } else {
       Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
-      configButtons();
     }
   }
   @Override
@@ -637,5 +647,10 @@ public class MyExpenses extends LaunchActivity implements
     getSupportFragmentManager().beginTransaction()
       .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,(Long) v.getTag(), null), "ASYNC_TASK")
       .commit();
+  }
+  public boolean transferEnabled() {
+    Integer sameCurrencyCount = currencyAccountCount.get(
+        Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode());
+      return sameCurrencyCount != null && sameCurrencyCount >1;
   }
 }

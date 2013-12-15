@@ -433,7 +433,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (mTransaction instanceof SplitTransaction) {
       MenuInflater inflater = getSupportMenuInflater();
       inflater.inflate(R.menu.split, menu);
-      Utils.menuItemSetEnabled(menu,R.id.INSERT_TRANSFER_COMMAND,mTransferEnabled);
+      menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(mTransferEnabled);
     } else if (!(mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer))
       menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
@@ -836,7 +836,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
                 R.id.SETTINGS_COMMAND,
                 null),
             createNewButton,
-            MessageDialogFragment.Button.CANCEL_BUTTON())
+            MessageDialogFragment.Button.noButton())
          .show(getSupportFragmentManager(),"CALENDAR_SETUP_INFO");
       } else if (mPlanId == 0L) {
         mPlanId = null;

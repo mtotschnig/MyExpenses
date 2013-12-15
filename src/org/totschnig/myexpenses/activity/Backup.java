@@ -41,7 +41,7 @@ public class Backup extends ProtectedFragmentActivityNoSherlock {
               message,
               new MessageDialogFragment.Button(android.R.string.yes, R.id.BACKUP_COMMAND, null),
               null,
-              MessageDialogFragment.Button.CANCEL_BUTTON())
+              MessageDialogFragment.Button.noButton())
             .show(getSupportFragmentManager(),"BACKUP");
         } else {
           //restore
@@ -67,7 +67,7 @@ public class Backup extends ProtectedFragmentActivityNoSherlock {
         R.string.warning_restore,
         new MessageDialogFragment.Button(android.R.string.yes, R.id.RESTORE_COMMAND, null),
         null,
-        MessageDialogFragment.Button.CANCEL_BUTTON())
+        MessageDialogFragment.Button.noButton())
       .show(getSupportFragmentManager(),"BACKUP");
   }
   @Override

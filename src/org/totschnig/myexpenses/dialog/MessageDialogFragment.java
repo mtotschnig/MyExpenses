@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.Button;
 import org.totschnig.myexpenses.model.Model;
 
 import android.app.Activity;
@@ -38,12 +39,18 @@ public class MessageDialogFragment extends DialogFragment implements OnClickList
       this.command = command;
       this.tag = tag;
     }
-    public static final Button CANCEL_BUTTON() {
-     return new Button(android.R.string.no,R.id.NO_COMMAND,null);
+    public static final Button noButton() {
+     return nullButton(android.R.string.no);
     }
     int label;
     int command;
     Serializable tag;
+    public static final Button okButton() {
+      return nullButton(android.R.string.ok);
+    }
+    private static Button nullButton(int label) {
+      return new Button(label,R.id.NO_COMMAND,null);
+    }
   }
   public static final MessageDialogFragment newInstance(
       int title, int message, Button positive, Button neutral, Button negative) {

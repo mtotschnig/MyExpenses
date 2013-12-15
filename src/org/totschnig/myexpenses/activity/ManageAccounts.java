@@ -153,7 +153,7 @@ public class ManageAccounts extends LaunchActivity implements
           R.string.warning_delete_account,
           new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, info.id),
           null,
-          MessageDialogFragment.Button.CANCEL_BUTTON())
+          MessageDialogFragment.Button.noButton())
         .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
       return true;
     case R.id.RESET_ACCOUNT_COMMAND:

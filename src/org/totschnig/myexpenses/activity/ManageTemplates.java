@@ -76,7 +76,7 @@ public class ManageTemplates extends ProtectedFragmentActivity {
     MenuInflater inflater = getSupportMenuInflater();
     inflater.inflate(R.menu.templates, menu);
     super.onCreateOptionsMenu(menu);
-    Utils.menuItemSetEnabled(menu,R.id.INSERT_TRANSFER_COMMAND,mTransferEnabled);
+    menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(mTransferEnabled);
     return true;
   }
 
@@ -118,7 +118,7 @@ public class ManageTemplates extends ProtectedFragmentActivity {
           R.string.warning_delete_template,
           new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, info.id),
           null,
-          MessageDialogFragment.Button.CANCEL_BUTTON())
+          MessageDialogFragment.Button.noButton())
         .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
       return true;
     case CREATE_INSTANCE_EDIT:
