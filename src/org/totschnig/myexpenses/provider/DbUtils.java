@@ -145,6 +145,19 @@ public class DbUtils {
   /**
    * @param c
    * @param field
+   * @return Long that is OL if field is null in db
+   */
+  public static Long getLongOr0L(Cursor c, String field) {
+    return getLongOr0L(c,c.getColumnIndexOrThrow(field));
+  }
+  public static Long getLongOr0L(Cursor c, int columnIndex) {
+    if (c.isNull(columnIndex))
+      return 0L;
+    return c.getLong(columnIndex);
+  }
+  /**
+   * @param c
+   * @param field
    * @return String that is guaranteed to be not null
    */
   public static String getString(Cursor c, String field) {

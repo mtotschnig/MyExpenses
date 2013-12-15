@@ -182,12 +182,23 @@ public class Utils {
   }
   /**
    * utility method that calls formatters for amount
-   * @param text amount as String retrieved from DB (stored as int minor unit)
-   * @param currency 
+   * this method is called from adapters that give us the amount as String
+   * @param text amount as String
+   * @param currency
    * @return formated string
    */
   public static String convAmount(String text, Currency currency) {
-    return formatCurrency(new Money(currency,Long.valueOf(text)));
+    return convAmount(Long.valueOf(text), currency);
+  }
+  /**
+   * utility method that calls formatters for amount
+   * this method can be called directly with Long values retrieved from db
+   * @param text amount as String
+   * @param currency
+   * @return formated string
+   */
+  public static String convAmount(Long amount, Currency currency) {
+    return formatCurrency(new Money(currency,amount));
   }
   /**
    * @return directory for storing backups and exports, null if external storage is not available

@@ -505,16 +505,16 @@ public class TransactionList extends BudgetListFragment implements
     }
     private void fillSums(HeaderViewHolder holder, Cursor mGroupingCursor) {
       holder.sumExpense.setText("- " + Utils.convAmount(
-          mGroupingCursor.getString(columnIndexGroupSumExpense),
+          DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumExpense),
           mAccount.currency));
       holder.sumIncome.setText("+ " + Utils.convAmount(
-          mGroupingCursor.getString(columnIndexGroupSumIncome),
+          DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumIncome),
           mAccount.currency));
       holder.sumTransfer.setText("<-> " + Utils.convAmount(
-          mGroupingCursor.getString(columnIndexGroupSumTransfer),
+          DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumTransfer),
           mAccount.currency));
       holder.interimBalance.setText("= " + Utils.convAmount(
-          mGroupingCursor.getString(columIndexGroupSumInterim),
+          DbUtils.getLongOr0L(mGroupingCursor, columIndexGroupSumInterim),
           mAccount.currency));
     }
     @Override
