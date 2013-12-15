@@ -217,11 +217,6 @@ public class MyExpenses extends LaunchActivity implements
   }
   private void moveToPosition(int position) {
     myPager.setCurrentItem(position,false);
-    if (mManager.getLoader(position) != null && !mManager.getLoader(position).isReset()) {
-        mManager.restartLoader(position, null,this);
-    } else {
-      mManager.initLoader(position, null, this);
-    }
     configButtons();
   }
   private void fillNavigation() {
