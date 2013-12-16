@@ -1,8 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_104">
+    <item>Miglioramenti dell\'UI (#94) e correzione di errori (#95,#96)</item>
+  </string-array>
   <string-array name="whats_new_102">
     <item>Saldo corrente viene visualizzata in maniera più evidente di nuovo e mostrare i tasti principali, in fondo, quando l\'orientamento del dispositivo è verticale</item>
-    <item>Correzione di errori  #71,#91,#92,#93</item>
+    <item>Correzione di errori #71,#91,#92,#93</item>
   </string-array>
   <string-array name="whats_new_100">
     <item>Quando la lista delle transazioni è raggruppato, mostra equilibrio intermedio per ciascun periodo in un\'intestazione di gruppo</item>

@@ -32,6 +32,9 @@
   <string name="date_time">Fecha / Hora</string>
   <string name="default_account_description">Esta cuenta ha sido establecida automáticamente durante la instalación.</string>
   <string name="description">Descripción</string>
+  <string name="dialog_command_disabled_insert_transfer">Los traslados a otra cuenta requieren una segunda cuenta con la misma moneda. Crear una cuenta desde la lista (accesible a través del botón HOME en la esquina superior izquierda).</string>
+  <string name="dialog_command_disabled_reset_account">No hay transacciones para exportar.</string>
+  <string name="dialog_command_disabled_distribution">Ninguna transacción se ha asignado a las categorías en esta cuenta.</string>
   <string name="dialog_confirm_restore_on_install">Se ha detectado un archivo de copia de seguridad. ¿Desea restaurarlo?</string>
   <string name="dialog_contrib_no">Todavía no</string>
   <string name="dialog_contrib_no_usages_left">No hay más uso libre.</string>
@@ -60,6 +63,7 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Seleccione existente</string>
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
+  <string name="dialog_title_menu_command_disabled">Comando de menú desactivado</string>
   <string name="dialog_title_planner_setup_info">Configuración de calendar requerido</string>
   <string name="dialog_title_restore_on_install">Copia de seguridad detectada</string>
   <string name="dialog_title_select_account">Escoger una cuenta</string>

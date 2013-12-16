@@ -32,6 +32,9 @@
   <string name="date_time">Date / Heure</string>
   <string name="default_account_description">Ce compte a été créé automatiquement lors de l\'installation</string>
   <string name="description">Description</string>
+  <string name="dialog_command_disabled_insert_transfer">Les opérations de transfert nécessitent un autre compte dans la même devise. Vous pouvez en créer un à partir de la liste des comptes (accessible par la touche HOME en haut à gauche).</string>
+  <string name="dialog_command_disabled_reset_account">Aucune opération à exporter</string>
+  <string name="dialog_command_disabled_distribution">Aucune opération n\'a été attribuée dans aucune catégorie pour ce compte.</string>
   <string name="dialog_confirm_restore_on_install">Un fichier de sauvegarde a été détecté. Voulez-vous le restaurer ?</string>
   <string name="dialog_contrib_no">Pas tout de suite</string>
   <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite.</string>
@@ -60,6 +63,7 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Sélectionner existant</string>
   <string name="dialog_title_contrib_feature">Fonction Premium</string>
+  <string name="dialog_title_menu_command_disabled">Commande désactivée</string>
   <string name="dialog_title_planner_setup_info">Configuration du calendrier nécessaire</string>
   <string name="dialog_title_restore_on_install">Sauvegarde détectée</string>
   <string name="dialog_title_select_account">Sélectionner un compte</string>
@@ -233,8 +237,8 @@
   <string name="pref_category_title_ui">Interface utilisateur</string>
   <string name="pref_contrib_install_summary">En installant Mes dépenses Contrib, vous aurez un accès à toutes les fonctions Premium.</string>
   <string name="pref_contrib_install_title">Installer App Contrib</string>
-  <string name="pref_contrib_donate_summary">Faites un don au moyen de PayPal, Flattr ou Bitcoin et déverrouillez l\'accès aux fonctions Premium.</string>
-  <string name="pref_contrib_donate_title">Faire un don</string>
+  <string name="pref_contrib_donate_summary">Faites un don avec Paypal, Flattr or Bitcoin et accédez aux fonctions Premium</string>
+  <string name="pref_contrib_donate_title">Envoyer un don</string>
   <string name="pref_enter_licence_summary">Si vous avez reçu une clé contrib, celle-ci déverrouille l\'accès aux fonctions Premium.</string>
   <string name="pref_enter_licence_title">Saisir clé contrib</string>
   <string name="pref_export_format_title">Format de données</string>
