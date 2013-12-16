@@ -23,6 +23,24 @@ langs:
 missing_langs: "русский, português, Nederlands, Ελληνικά, čeština, 中文, română, svenska, Slovenčina, polski"
 versions:
   -
+    - 1.10.4
+    - 2013-12-16
+    -
+      en: |
+        UI improvements (#94) and bug fixes (#95,#96).
+      fr: |
+        Améliorations de l\'interface utilisateur (#94) et corrections des bogues (#95,#96).
+      de: |
+        UI Verbesserungen (#94) und Bugs (#95,#96) behoben.
+      it: |
+        Miglioramenti dell\'UI (#94) e correzione di errori (#95,#96).
+      es: |
+        Mejoras de interfaz de usuario (#94) y corrección de errores (#95,#96).
+      tr: |
+        Gelişmiş kullanıcı arayüzü (#94) ve hata düzeltmeleri (#95,#96).
+      ca: |
+        Millores a la interfície (#94). Correccions: Problemes (#95,#96).
+  -
     - 1.10.3
     - 2013-12-14
     -
