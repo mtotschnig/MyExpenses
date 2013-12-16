@@ -32,6 +32,9 @@
   <string name="date_time">Data / Hora</string>
   <string name="default_account_description">Aquest compte s\'ha configurat automàticament a l\'instal·lació.</string>
   <string name="description">Descripció</string>
+  <string name="dialog_command_disabled_insert_transfer">Cal un segon compte amb la mateixa moneda per a les transferències. Obriu-ne un des de la llista de comptes (la trobareu a botó inici a la part superior esquerra).</string>
+  <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
+  <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
   <string name="dialog_confirm_restore_on_install">S\'ha detectat un fitxer de còpia de seguretat. El voleu restaurar?</string>
   <string name="dialog_contrib_no">Encara no</string>
   <string name="dialog_contrib_no_usages_left">No disposeu de cap ús gratuït més.</string>
@@ -59,6 +62,7 @@
   <string name="dialog_setup_planner_button_create_new">Nova</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Trieu</string>
+  <string name="dialog_title_menu_command_disabled">S\'ha desactivat el menú d\'ordres</string>
   <string name="dialog_title_contrib_feature">Característica premium</string>
   <string name="dialog_title_planner_setup_info">Cal configurar l\'agenda</string>
   <string name="dialog_title_restore_on_install">S\'ha trobat una còpia de seguretat</string>
@@ -231,6 +235,8 @@
   <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_category_title_security">Seguretat</string>
   <string name="pref_category_title_ui">Interfície d\'usuari</string>
+  <string name="pref_contrib_donate_summary">Accediu a les característiques premium fent  una donació amb Paypal, Flattr o Bitcoin.</string>
+  <string name="pref_contrib_donate_title">Envieu una donació</string>
   <string name="pref_contrib_install_summary">Instal·lant Les meves despeses Contrib, tindreu accés a funcions avançades.</string>
   <string name="pref_contrib_install_title">Instal·la l\'aplicació Contrib</string>
   <string name="pref_enter_licence_summary">Si heu rebut una clau Contrib, podeu accedir a les funcions avançades.</string>

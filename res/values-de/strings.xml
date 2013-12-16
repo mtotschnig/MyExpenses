@@ -53,6 +53,9 @@
   <string name="date_format_illegal">Unzulässiges Datumsformat</string>
   <string name="default_account_description">Dieses Konto wurde während der Installation automatisch eingerichtet.</string>    
   <string name="description">Beschreibung</string>
+  <string name="dialog_command_disabled_insert_transfer">Umbuchungen benötigen ein zweites Konto mit derselben Währung. Sie können ein solches von der Kontenliste (erreichbar über die HOME-Schaltfläche in der oberen linken Ecke) aus anlegen..</string>
+  <string name="dialog_command_disabled_reset_account">Keine exportierbare Buchungen vorhanden.</string>
+  <string name="dialog_command_disabled_distribution">In diesem Konto wurden keine Buchungen Kategorien zugeordnet.</string>
   <string name="dialog_confirm_restore_on_install">Eine Sicherungskopie ist vorhanden. Soll diese wiederhergestellt werden?</string>
   <string name="dialog_contrib_usage_count">Diese Funktion kann noch %1$d mal verwendet werden.</string>
   <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden.</string>
@@ -77,6 +80,7 @@
   <string name="dialog_setup_planner_button_create_new">Neu anlegen</string>
   <string name="dialog_setup_planner_button_select_existing">Bestehenden auswählen</string>
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
+  <string name="dialog_title_menu_command_disabled">Menübefehl deaktiviert</string>
   <string name="dialog_title_planner_setup_info">Einrichtung des Kalenders erforderlich</string>
   <string name="dialog_title_restore_on_install">Backup vorhanden</string>
   <string name="dialog_title_select_account">Konto auswählen</string>

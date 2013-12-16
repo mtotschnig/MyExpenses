@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_104">
+    <item>Millores a la interfície (#94). Correccions: Problemes (#95,#96)</item>
+  </string-array>
   <string-array name="whats_new_102">
     <item>Ara el saldo actual es torna a mostrar de forma més destacada  i mostra els botons principals a la part inferior, quan el dispositiu està en orientació vertical</item>
     <item>Correccions: Problemes #71,#91,#92,#93</item>

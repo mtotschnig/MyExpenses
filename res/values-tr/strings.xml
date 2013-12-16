@@ -32,6 +32,9 @@
   <string name="date_time">Tarih / Zaman</string>
   <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>
   <string name="description">Açıklama</string>
+  <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir. Hesap listesinden yeni hesap oluşturabilirsiniz (üst sol köşede EV düğmesiyle erişilebilir).</string>
+  <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
+  <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
   <string name="dialog_confirm_restore_on_install">Bir yedekleme dosyası tespit edildi. Onu yüklemek istiyor musunuz?</string>
   <string name="dialog_contrib_no">Henüz değil</string>
   <string name="dialog_contrib_no_usages_left">Hiçbir ücretsiz kullanım kalmamıştır.</string>
@@ -59,6 +62,7 @@
   <string name="dialog_setup_planner_button_create_new">Yenisini oluştur</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Mevcuttan seç</string>
+  <string name="dialog_title_menu_command_disabled">Menü komutu devre dışıdır</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
   <string name="dialog_title_planner_setup_info">Takvim kurulumu gereklidir</string>
   <string name="dialog_title_restore_on_install">Yedekleme tespit edildi</string>
@@ -231,6 +235,8 @@
   <string name="pref_category_title_more_information">İlâve bilgi</string>
   <string name="pref_category_title_security">Güvenlik</string>
   <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
+  <string name="pref_contrib_donate_summary">PayPal, Flattr ya da Bitcoin ile bağış yapın ve katkı işlevlerine erişim kazanın.</string>
+  <string name="pref_contrib_donate_title">Bağışı gönder</string>
   <string name="pref_contrib_install_summary">Harcamalarım Contrib uygulamasını kurarak tüm işlevlere erişebilirsiniz.</string>
   <string name="pref_contrib_install_title">Katkı uygulamasını kur</string>
   <string name="pref_enter_licence_summary">Eğer katkı anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>

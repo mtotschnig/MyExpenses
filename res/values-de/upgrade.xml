@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+  <string-array name="whats_new_104">
+    <item>UI Verbesserungen (#94) und Bugs (#95,#96) behoben</item>
+  </string-array>
   <string-array name="whats_new_102">
     <item>Kontostand wird wieder deutlicher angezeigt; die wichtigsten Schaltflächen werden im Porträt-Modus am unteren Bildschirmrand angezeigt</item>
     <item>Bugs #71,#91,#92,#93 behoben</item>

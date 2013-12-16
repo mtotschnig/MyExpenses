@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_104">
+    <item>Améliorations de l\'interface utilisateur (#94) et corrections des bogues (#95,#96)</item>
+  </string-array>
   <string-array name="whats_new_102">
     <item>Le solde courant est de nouveau mis plus en évidence et les boutons principaux sont apparents en bas, lorsque l\'orientation de l\'appareil est en mode portrait.</item>
     <item>Corrections des bogues n° 71, 91, 92 et 93</item>
@@ -20,8 +23,8 @@
     <item>Numéro de référence (paiement par chèque) </item>
     <item>Démarrage avec la liste de comptes</item>
     <item>Format de date configurable pour l\'exportation QIF et CSV</item>
-    <item> Glisser entre les périodes dans la fenêtre de distribution</item>
-    <item> Améliorations de l\'interface utilisateur</item>
+    <item>Glisser entre les périodes dans la fenêtre de distribution</item>
+    <item>Améliorations de l\'interface utilisateur</item>
   </string-array>
   <string-array name="whats_new_79">
     <item>Marquage des opérations comme pointées / rapprochées ( pour les comptes de banques et cartes de crédit)</item>

@@ -32,6 +32,9 @@
   <string name="date_time">Data / Ora</string>
   <string name="default_account_description">Questo conto è stato creato automaticamente con la installazione</string>
   <string name="description">Descrizione</string>
+  <string name="dialog_command_disabled_insert_transfer">Le operazioni di trasferimento richiedono un secondo account con la stessa moneta. Creare uno dalla lista di conti (accessibile tramite il tasto HOME nell\'angolo in alto a sinistra).</string>
+  <string name="dialog_command_disabled_reset_account">Nessun operazioni per esportare.</string>
+  <string name="dialog_command_disabled_distribution">Nessuna transazione è stata assegnata a categorie in questo conto.</string>
   <string name="dialog_confirm_restore_on_install">È stato trovato un file di backup. Si vuole ripristinarlo?</string>
   <string name="dialog_contrib_no">Non ancora</string>
   <string name="dialog_contrib_no_usages_left">Non restano usi gratuiti.</string>
@@ -59,6 +62,7 @@
   <string name="dialog_setup_planner_button_create_new">Creare nuovo</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Selezionare esistente</string>
+  <string name="dialog_title_menu_command_disabled">Comando di menu disattivato</string>
   <string name="dialog_title_contrib_feature">Funzionalità speciale</string>
   <string name="dialog_title_planner_setup_info">Configurazione di calendario richiesta</string>
   <string name="dialog_title_restore_on_install">Backup rilevata</string>
@@ -231,8 +235,8 @@
   <string name="pref_category_title_more_information">Maggiori informazioni</string>
   <string name="pref_category_title_security">Sicurezza</string>
   <string name="pref_category_title_ui">Interfaccia utente</string>
-  <string name="pref_contrib_donate_summary">Donare tramite PayPal, Flattr o Bitcoin, e ottiene accesso a funzionalità speciali.</string>
-  <string name="pref_contrib_donate_title">Donare</string>
+  <string name="pref_contrib_donate_summary">Donare tramite PayPal, Flattr o Bitcoin e ottenere l\'accesso a funzioni premium.</string>
+  <string name="pref_contrib_donate_title">Invia donazione</string>
   <string name="pref_contrib_install_summary">Installando Le mie spese Contrib ottiene accesso a funzionalità speciali.</string>
   <string name="pref_contrib_install_title">Installare Contrib app</string>
   <string name="pref_enter_licence_summary">Se ha ricevuto una chiave Contrib, ottiene accesso a funzionalità speciali.</string>
