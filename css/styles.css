@@ -1,3 +1,6 @@
+.container {
+  padding-left: 75px;
+}
 .carousel {
   margin-bottom: 30px;
   padding-bottom: 30px;
@@ -91,4 +94,47 @@ dl.versionlist dd {
   width: 100%;
   height: 500px;
   background: url(/visuals/ajax-loader.gif) no-repeat center center;
+}
+/*
+Back to top button
+*/
+#back-top {
+	position: fixed;
+	bottom: 30px;
+	margin-left: -75px;
+}
+#back-top a {
+	width: 54px;
+	display: block;
+	text-align: center;
+	font: 11px/100% Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #bbb;
+	/* background color transition */
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+}
+#back-top a:hover {
+	color: #000;
+}
+/* arrow icon (span tag) */
+#back-top span {
+	width: 54px;
+	height: 54px;
+	display: block;
+	margin-bottom: 7px;
+	background: #ddd url(/visuals/up-arrow.png) no-repeat center center;
+	/* rounded corners */
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	/* background color transition */
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+}
+#back-top a:hover span {
+	background-color: #777;
 }

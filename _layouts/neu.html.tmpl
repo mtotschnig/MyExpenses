@@ -246,8 +246,11 @@
       <div class="footer">
         <p>© 2013 Michael Totschnig - <a class="intern" href="#imprint">{{t.imprint}}</a> - <a href="mailto:myexpenses@totschnig.org">Feedback</a></p>
       </div>
+      <p id="back-top" style="display:none">
+        <a href="#top"><span></span>Top</a>
+      </p>
     </div> <!-- /container -->
-    
+
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -255,6 +258,35 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+      $(document).ready(function(){
+        // Credits: http://webdesignerwall.com/tutorials/animated-scroll-to-top
+
+        // fade in #back-top
+        $(function () {
+          $(window).scroll(function () {
+            if ($(this).scrollTop() > 100) {
+              $('#back-top').fadeIn();
+            } else {
+              $('#back-top').fadeOut();
+            }
+          });
+
+          // scroll body to 0px on click
+          $('#back-top a').click(function () {
+            $('body,html').animate({
+              scrollTop: 0
+            }, 800);
+            $(this).blur();
+            return false;
+          });
+        });
+        if (location.hash!='')
+          mkActive(location.hash);
+        else
+          $("#features-link").addClass('active');
+
+        loadDeviceArt();
+      })
      $('a.lang_switch').click(function(event){
         this.hash = location.hash;
       });
@@ -307,13 +339,6 @@
         setIcon(whichIcon(data.address));
       });
       {% endif %}
-      $(document).ready(function(){
-        if (location.hash!='')
-          mkActive(location.hash);
-        else
-          $("#features-link").addClass('active');
-        loadDeviceArt();
-      })
       $('.track').on('click', function() {
         ga('send', 'event', 'track', 'click',$(this).attr('id'));
       });
