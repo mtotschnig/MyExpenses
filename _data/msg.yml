@@ -183,6 +183,21 @@ de:
       security_question:  Sicherheitsfrage
       reset_all:          Alle Konten zurücksetzen
       aggregate:          Gesamtsumme über mehrere Konten
+  participate:
+    intro: |
+      Mit Ihrer Unterstützung können wir <span class="application">Meine Ausgaben</span> stetig verbessern
+      und es weiterhin werbefrei und OpenSource anbieten.
+    submit_issue: |
+      <span class="application">Meine Ausgaben</span> entwickelt sich durch Ihre Erfahrungsberichte und Vorschläge weiter.
+      Falls Sie auf ein Problem stoßen oder eine Verbesserung im Kopf haben, erzeugen Sie einen
+      <a href="https://github.com/mtotschnig/MyExpenses/issues/new">Eintrag</a> in Githubs's Issue Tracker.
+    test: |
+      Falls Sie Interesse haben, beim Testen neuer Versionen zu helfen, treten Sie der Google Gruppe 
+      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a> bei.
+    translate: |
+      Sie können auch beim <a class="intern" href="#translate">Übersetzen</a> in zusätzliche Sprachen helfen.
+    premium: |
+      Bitte erwägen Sie auch den Kauf der <a class="intern" href="#premium">Contrib Lizenz</a> für uneingeschränkten Zugriff auf alle Premium-Funktionen.
 es:
   hero_main: "Gestión de las finanzas personales para Android"
   hero_sub:
@@ -227,6 +242,20 @@ es:
     security_question:  Pregunta de seguridad
     reset_all:          Restablecer todas las cuentas
     aggregate:          Agregados de varias cuentas
+  participate:
+    intro: |
+      Con su apoyo, <span class="application">Mis Gastos</span> sigue creciendo en funcionalidad, al tiempo que se distribuye sin publicidad y de código abierto.
+    submit_issue: |
+      <span class="application">Mis Gastos</span> se desarrolla a través de sus informes y sugerencias.
+      Si usted encuentra un problema o piensa en una mejora, cree un <a href="https://github.com/mtotschnig/MyExpenses/issues/new">tema</a>
+      nuevo en el Issue Tracker de Github.
+    test: |
+      Si usted está interesado en ayudar a probar las próximas versiones, por favor únase a la Google
+      Grupo <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a>.
+    translate: |
+      También pueden ayudar en la <a class="intern" href="#translate">traducción</a> a otros idiomas.
+    premium: |
+      Por favor considerar la compra de una <a class="intern" href="#premium">licencia Contrib</a> para el acceso sin restricciones a todas las características premium.
 fr:
   hero_main: "Gestionnaire de finances personnelles pour Android"
   hero_sub:
@@ -269,6 +298,20 @@ fr:
       security_question:  Question de sécurité
       reset_all:          Réinitialiser tous les comptes
       aggregate:          Regroupement sur plusieurs comptes
+  participate:
+    intro: |
+      Avec votre soutien, <span class="application">Mes dépenses</span> ne cesse de croître en fonctionnalités, tout en étant distribué sans publicité et Open Source.
+    submit_issue: |
+      <span class="application">My Expenses</span> évolue à travers votre retour d'expérience et vos
+      suggestions. Si vous rencontrez un problème ou imaginez une amélioration, ajoutez une
+      <a href="https://github.com/mtotschnig/MyExpenses/issues/new">entrée</a> dans le Issue Tracker de Github.
+    test: |
+      Si vous êtes intéressé à aider à tester les versions à venir, rejoignez le Google groupe
+      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a>.
+    translate: |
+      Vous pouvez aider à <a class="intern" href="#translate">traduire</a> <span class="application">My Expenses</span> dans d'autres langues.
+    premium: |
+      S'il vous plaît envisager l'achat d'une <a class="intern" href="#premium">licence Contrib</a> pour un accès illimité à toutes les fonctions Premium.
 hu:
   imprint: Impresszum
   hero_main: "A személyes pénzügyi nyilvántartás - Android"
@@ -358,6 +401,19 @@ it:
       security_question:  Domanda di sicurezza
       reset_all:          Reinizializzare tutti i conti
       aggregate:          Sommare piu conti
+  participate:
+    intro: |
+      Con il vostro sostegno, <span class="application">Le mie spese</span> continua a crescere in termini di funzionalità, pur essendo distribuite senza pubblicità e Open Source.
+    submit_issue: |
+      <span class="application">Le Mie Spese</span> si evolve per i suoi rapporti e incitamenti. Se trova un problema o
+      pensa a un miglioramento, crea un <a href="https://github.com/mtotschnig/MyExpenses/issues/new">nuovo tema</a>, in Github's Issue Tracker.
+    test: |
+      Se siete interessati ad aiutare a testare prossime versioni, si prega di aderire al Google
+      Gruppo <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a>.
+    translate: |
+      Essi possono anche aiutare a <a class="intern" href="#translate">traduire</a> in altre lingue.
+    premium: |
+      Si prega di considerare l'acquisto di una <a class="intern" href="#premium">licenza Contrib</a> per un accesso illimitato a tutte le funzionalità Premium.
 tr:
   hero_main: "Android için kişisel finans yöneticisi"
   hero_sub:
