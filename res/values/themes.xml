@@ -59,7 +59,7 @@
     <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s2</item>
     <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s2</item>
   </style>
-  <style name="ThemeDark.s3" parent="ThemeDark">
+  <style name="ThemeDark.s3">
     <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge.s3</item>
     <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s3</item>
     <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s3</item>
