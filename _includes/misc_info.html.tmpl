@@ -194,35 +194,35 @@
 -->
 
 <div class="block" id="premium" style="display:none">
-  <h2>{% if msg.sections.features %}{{msg.sections.features}}{% else %}{{site.data.msg.en.sections.features}}{% endif %}</h2>
-  <p>{% if msg.contrib.feature-list-title %}{{msg.contrib.feature-list-title}}{% else %}{{site.data.msg.en.contrib.feature-list-title}}{% endif %}</p>
+  <h2>{{t.sections.features}}</h2>
+  <p>{{t.contrib.feature-list-title}}</p>
   <ul>
     {% for feature in site.contrib %}
-    <li>{% if msg.contrib.feature[feature] %}{{msg.contrib.feature[feature]}}{% else %}{{site.data.msg.en.contrib.feature[feature]}}{% endif %}</li>
+    <li>{{t.contrib.feature[feature]}}</li>
     {% endfor %}
   </ul>
-  <p>{% if msg.contrib.licence-howto-buy.intro %}{{msg.contrib.licence-howto-buy.intro}}{% else %}{{site.data.msg.en.contrib.licence-howto-buy.intro}}{% endif %}</p>
+  <p>{{t.contrib.licence-howto-buy.intro}}</p>
   <ul>
-    <li>{% if msg.contrib.licence-howto-buy.gplay %}{{msg.contrib.licence-howto-buy.gplay}}{% else %}{{site.data.msg.en.contrib.licence-howto-buy.gplay}}{% endif %}</li>
-    <li>{% if msg.contrib.licence-howto-buy.amazon %}{{msg.contrib.licence-howto-buy.amazon}}{% else %}{{site.data.msg.en.contrib.licence-howto-buy.amazon}}{% endif %}</li>
-    <li>{% if msg.contrib.licence-howto-buy.other %}{{msg.contrib.licence-howto-buy.other}}{% else %}{{site.data.msg.en.contrib.licence-howto-buy.other}}{% endif %}
+    <li>{{t.contrib.licence-howto-buy.gplay}}</li>
+    <li>{{t.contrib.licence-howto-buy.amazon}}</li>
+    <li>{{t.contrib.licence-howto-buy.other}}
       <ul>
         <li>Flattr <a href="http://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App" target="_blank"><img
           src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a></li>
         <li>PayPal <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KPXNZHMXJE8ZJ"><img
           src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a></li>
         <li><a href="http://bitcoin.org">Bitcoins</a>: <a href="bitcoin:1GCUGCSfFXzSC81ogHu12KxfUn3cShekMn">1GCUGCSfFXzSC81ogHu12KxfUn3cShekMn</a></li>
-        <li>{% if msg.contrib.licence-howto-buy.transfer %}{{msg.contrib.licence-howto-buy.transfer}}{% else %}{{site.data.msg.en.contrib.licence-howto-buy.transfer}}{% endif %}<br> 
+        <li>{{t.contrib.licence-howto-buy.transfer}}<br> 
         Michael Totschnig<br>
         Bank: Postbank<br>
         IBAN: DE05 1001 0010 0750 5141 00<br>
         BIC: PBNKDEFF
         </li>
       </ul>
-      {% if msg.contrib.licence-howto-buy.key %}{{msg.contrib.licence-howto-buy.key}}{% else %}{{site.data.msg.en.contrib.licence-howto-buy.key}}{% endif %}
+      {{t.contrib.licence-howto-buy.key}}
     </li>
   </ul>
-  <p>{% if msg.contrib.licence-howto-buy.outro %}{{msg.contrib.licence-howto-buy.outro}}{% else %}{{site.data.msg.en.contrib.licence-howto-buy.outro}}{% endif %}</p>
+  <p>{{t.contrib.licence-howto-buy.outro}}</p>
 </div>
 
 
@@ -231,13 +231,13 @@
 -->
 
 <div class="block" id="participate" style="display:none">
-  <h2>{% if msg.sections.participate %}{{msg.sections.participate}}{% else %}{{site.data.msg.en.sections.participate}}{% endif %}</h2>
-  <p>{% if msg.participate.intro %}{{msg.participate.intro}}{% else %}{{site.data.msg.en.participate.intro}}{% endif %}</p>
+  <h2>{{t.sections.participate}}</h2>
+  <p>{{t.participate.intro}}</p>
   <ul>
-    <li>{% if msg.participate.submit_issue %}{{msg.participate.submit_issue}}{% else %}{{site.data.msg.en.participate.submit_issue}}{% endif %}</li>
-    <li>{% if msg.participate.test %}{{msg.participate.test}}{% else %}{{site.data.msg.en.participate.test}}{% endif %}</li>
-    <li>{% if msg.participate.translate %}{{msg.participate.translate}}{% else %}{{site.data.msg.en.participate.translate}}{% endif %}</li>
-    <li>{% if msg.participate.premium %}{{msg.participate.premium}}{% else %}{{site.data.msg.en.participate.premium}}{% endif %}</li>
+    <li>{{t.participate.submit_issue}}</li>
+    <li>{{t.participate.test}}</li>
+    <li>{{t.participate.translate}}</li>
+    <li>{{t.participate.premium}}</li>
   </ul>
 </div>
 

@@ -163,11 +163,11 @@
         <ul class="nav nav-pills pull-right">
           <li><a href="{{site.posts[0].url}}">Blog</a></li>
           <li id="menu-moreinfo" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{% if msg.menu_title.more_information %}{{msg.menu_title.more_information}}{% else %}{{site.data.msg.en.menu_title.more_information}}{% endif %}"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{{t.menu_title.more_information}}"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
             {% for section in site.sections %}
-              <li id="{{section}}-link"><a class="intern" href="#{{section}}">{% if msg.sections[section] %}{{msg.sections[section]}}{% else %}{{site.data.msg.en.sections[section]}}{% endif %}</a></li>
+              <li id="{{section}}-link"><a class="intern" href="#{{section}}">{{t.sections[section]}}</a></li>
             {% endfor %}
               <li role="presentation" class="divider"></li>
               <li><a class="track" id="gplus" href="https://plus.google.com/116736113799210525299">Follow on Google+</a></li>
@@ -192,10 +192,10 @@
         src="/visuals/icon_{% if pagelang == "vi" %}VN{% elsif pagelang == "tr" %}TR{% elsif pagelang == "de" or pagelang == "fr" or pagelang == "ca" or pagelang == "it" %}EU{% else %}US{% endif %}.png" id="app-icon"> {{site.title[pagelang]}}</h3>
       </div>
       <div class="jumbotron">
-        <p>{% if msg.hero_main %}{{msg.hero_main}}{% else %}{{site.data.msg.en.hero_main}}{% endif %}</p>
-        <span class="btn btn-primary">{% if msg.hero_sub.use %}{{msg.hero_sub.use}}{% else %}{{site.data.msg.en.hero_sub.use}}{% endif %}</span>
-        <span class="btn btn-primary">{% if msg.hero_sub.functionality %}{{msg.hero_sub.functionality}}{% else %}{{site.data.msg.en.hero_sub.functionality}}{% endif %}</span>
-        <span class="btn btn-primary">{% if msg.hero_sub.source %}{{msg.hero_sub.source}}{% else %}{{site.data.msg.en.hero_sub.source}}{% endif %}</span>
+        <p>{{t.hero_main}}</p>
+        <span class="btn btn-primary">{{t.hero_sub.use}}</span>
+        <span class="btn btn-primary">{{t.hero_sub.functionality}}</span>
+        <span class="btn btn-primary">{{t.hero_sub.source}}</span>
       </div>
       <div class="well">
         <div>
@@ -223,14 +223,14 @@
           <div id="{{feature}}" class="item {% if forloop.index0 == 0 %}active{% endif %}">
             <div class="loading"></div>
             <div class="carousel-caption">
-            {% if msg.features[feature] %}{{msg.features[feature]}}{% else %}{{site.data.msg.en.features[feature]}}{% endif %}
+            {{t.features[feature]}}
             </div>
           </div>
           {% endfor %}
         </div>
         <ol class="carousel-indicators">
           {% for feature in msg.features %}
-          <li title="{% if msg.features[feature]}}" data-target="#features" data-slide-to="{{forloop.index0 %}{{msg.features[feature]}}" data-target="#features" data-slide-to="{{forloop.index0}}{% else %}{{site.data.msg.en.features[feature]}}" data-target="#features" data-slide-to="{{forloop.index0}}{% endif %}" {% if forloop.index0 == 0 %}class="active"{% endif %}></li>
+          <li title="{{t.features[feature]}}" data-target="#features" data-slide-to="{{forloop.index0}}" {% if forloop.index0 == 0 %}class="active"{% endif %}></li>
           {% endfor %}
         </ol>
         <!-- Controls -->
@@ -244,7 +244,7 @@
       {{content}}
       {% include misc_info.html %}
       <div class="footer">
-        <p>© 2013 Michael Totschnig - <a class="intern" href="#imprint">{% if msg.imprint %}{{msg.imprint}}{% else %}{{site.data.msg.en.imprint}}{% endif %}</a> - <a href="mailto:myexpenses@totschnig.org">Feedback</a></p>
+        <p>© 2013 Michael Totschnig - <a class="intern" href="#imprint">{{t.imprint}}</a> - <a href="mailto:myexpenses@totschnig.org">Feedback</a></p>
       </div>
     </div> <!-- /container -->
     

@@ -1,3 +1,34 @@
+sections:
+  - features
+  - premium
+  - participate
+  - faq
+  - versionlist
+  - credits
+  - licence
+  - sourcecode
+  - links
+features:
+  - manage_accounts
+  - plans
+  - grouped_list
+  - distribution
+  - split
+  - calculator
+  - export
+  - password
+  - help
+  - backup
+  - aggregate_dialog
+  - light_theme
+contrib:
+  - accounts_unlimited
+  - aggregate
+  - distribution
+  - plans_unlimited
+  - reset_all
+  - security_question
+  - split_transaction
 title:
   ar: مصروفاتي
   en: My Expenses

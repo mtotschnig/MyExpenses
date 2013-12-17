@@ -1,16 +1,16 @@
 en:
-  current: Currently
   imprint: Imprint
   hero_main: "Personal finance manager for Android"
   hero_sub:
-    - "Easy to use"
-    - "Rich functionality"
-    - "Open Source"
+    use:           "Easy to use"
+    functionality: "Rich functionality"
+    source:        "Open Source"
   latest_news: Latest news
   menu_title:
     more_information: More information
   sections:
     features: Features
+    premium: Go Premium
     participate: Participate
     faq: FAQ
     versionlist: Changelog
@@ -31,75 +31,83 @@ en:
     backup: Data backup and restore
     aggregate_dialog: Aggregate financial situation (Contrib version)
     light_theme: "Two themes: light and dark"
-  contrib-feature-dialog-title: |
-    My Expenses Contrib gives you unrestricted access to the following Premium features:
   contrib:
-    - Unlimited number of accounts
-    - Unlimited number of plans
-    - Distribution of transactions per category
-    - Split transaction
-    - Security question
-    - Reset all accounts
-    - Aggregates over multiple accounts
-  dialog-close: Close
-  dialog-buy: Buy
+    feature-list-title: |
+      The following Premium features can be unlocked by acquiring a Contrib licence:
+    feature:
+      accounts_unlimited: Unlimited number of accounts
+      plans_unlimited:    Unlimited number of plans
+      distribution:       Distribution of transactions per category
+      split_transaction:  Split transaction
+      security_question:  Security question
+      reset_all:          Reset all accounts
+      aggregate:          Aggregates over multiple accounts
+    licence-howto-buy:
+      intro: |
+        You have the following options for purchasing the Contrib licence:
+      gplay: |
+        If you have installed My Expenses from Google Play, install
+        <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">My Expenses Contrib</a>.
+      amazon: |
+        If you have installed My Expenses from Amazon App Store, install
+        <a href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">My Expenses Contrib</a>.
+      other: |
+        If you have downloaded My Expenses from F-Droid, Androidpit or Github,
+        send a donation via one of the following:
+      transfer: |
+        Alternatively, transfer money to the following account information:
+      key: |
+        and then request the licence key from the settings screen.
+        Once you receive it by email, enter it also from the settings screen.
+      outro: |
+        Google and Amazon charge 30% of the transaction amount, Flattr 10%, Paypal approximately 0,45€.
+        So if it is convenient for you, I encourage you to install My Expenses from F-Droid, Androidpit
+        or Github and send your donation by money transfer, Paypal or Flattr.
+  participate:
+    intro: |
+      With your support, <span class="application">My Expenses</span> keeps growing in functionality, while being distributed
+      ad free and Open Source.
+    submit_issue: |
+      <span class="application">My Expenses</span> evolves through your reports and suggestions.
+      If you find a problem or think of an improvement,
+      create a <a href="https://github.com/mtotschnig/MyExpenses/issues/new">new issue</a>, in Github's Issue Tracker.
+    test: |
+      If you are interested in helping to test upcoming versions, please join the
+      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a> Google
+      Group.
+    translate: |
+      You can also help <a class="intern" href="#translate">translate</a> <span class="application">My Expenses</span> into new languages.
+    premium: |
+      Please consider purchasing a <a class="intern" href="#premium">Contrib licence</a> for unrestricted access to all Premium features.
 ar:
-  current: Currently
-  imprint: Imprint
   hero_main: "مدير التمويل الشخصي لالروبوت"
   hero_sub:
-    - سهلة الاستخدام
-    - الوظائف الغنية
-    - المصدر المفتوح
+    use: سهلة الاستخدام
+    functionality: الوظائف الغنية
+    source: المصدر المفتوح
   latest_news: آخر الأخبار
   menu_title:
     more_information: المزيد من المعلومات
   sections:
-    features: Features
-    participate: Participate
-    faq: FAQ
-    versionlist: Changelog
     credits: الشكر
-    licence: Licence
-    sourcecode: Source code
-    links: Links
-  features:
-    manage_accounts: Up to five accounts with transfers (unlimited in Contrib version)
-    plans: Define templates and plans (3) for future and recurrent transactions  (unlimited in Contrib version)
-    grouped_list: Group transactions per day, week, month, year and display sums per group
-    distribution: Two levels of categories (import from Grisbi XML)
-    split: Split transactions (Contrib version)
-    calculator: Calculator
-    export: Export to QIF and CSV (MS Excel), can be automatically shared (via email, FTP, Dropbox, ...) and done in batch in Contrib version
-    password: Password protection, recoverable with security question in Contrib version
-    help: Integrated Help
-    backup: Data backup and restore
-    aggregate_dialog: Aggregate financial situation (Contrib version)
-    light_theme: "Two themes: light and dark"
-  contrib-feature-dialog-title: |
-    My Expenses Contrib gives you unrestricted access to the following Premium features:
   contrib:
-    - عدد حسابات غير محدود
-    - Unlimited number of plans
-    - توزيع العمليات لكل تصنيف
-    - تقسيم العمليات
-    - السؤال السري
-    - إعادة تعيين كل الحسابات
-    - إجمالي الحسابات المتعددة
-  dialog-close: Close
-  dialog-buy: Buy
+    feature:
+      accounts_unlimited: عدد حسابات غير محدود
+      distribution: توزيع العمليات لكل تصنيف
+      split_transaction: تقسيم العمليات
+      security_question: السؤال السري
+      reset_all: إعادة تعيين كل الحسابات
+      aggregate: إجمالي الحسابات المتعددة
 ca:
-  imprint: Imprint
   hero_main: "Gestor de finances personals per Android "
   hero_sub:
-    - "Fàcil d'usar"
-    - "Moltes funcionalitats"
-    - "Open Source"
+    use:           "Fàcil d'usar"
+    functionality: "Moltes funcionalitats"
+    source:        "Open Source"
   latest_news: Últimes notícies
   menu_title:
     more_information: Més informació
   sections:
-    features: Features
     participate: Participa
     faq: Preguntes més freqüents
     versionlist: Registre de canvis
@@ -109,7 +117,6 @@ ca:
     links: Enllaços
   features:
     manage_accounts: Fins a cinc comptes amb transferències ( sense límit en la versió Contrib )
-    plans: Define templates and plans (3) for future and recurrent transactions  (unlimited in Contrib version)
     grouped_list: Agrupació de transaccions per dia , setmana , mes, any i visualització sumes per grup
     distribution: Dos nivells de les categories ( d'importació de grisbi XML ) , mostren la distribució de les transaccions en la versió Contrib
     split: Transaccions dividides ( versió Contrib )
@@ -120,26 +127,24 @@ ca:
     backup: Còpia de seguretat i restauració de dades
     aggregate_dialog: Situació financera global ( versió Contrib )
     light_theme: "Dos temes : fosc i clar"
-  contrib-feature-dialog-title: |
-    El meu Despeses Contrib et dóna accés il·limitat a les següents característiques premium:
   contrib:
-    - Nombre il·limitat de comptes
-    - Nombre il·limitat de planes
-    - Distribució de les transaccions per categoria
-    - Transaccions dividides
-    - Pregunta de seguretat
-    - Restablir tots els comptes
-    - Els agregats més d'un compte
-  dialog-close: Tancament
-  dialog-buy: Compra
+    feature-list-title: |
+      El meu Despeses Contrib et dóna accés il·limitat a les següents característiques premium:
+    feature:
+      accounts_unlimited: Nombre il·limitat de comptes
+      plans_unlimited:    Nombre il·limitat de planes
+      distribution:       Distribució de les transaccions per categoria
+      split_transaction:  Transaccions dividides
+      security_question:  Pregunta de seguretat
+      reset_all:          Restablir tots els comptes
+      aggregate:          Els agregats més d'un compte
 de:
-  current: Aktuell
   imprint: Impressum
   hero_main: "Persönliches Finanz-Management für Android"
   hero_sub:
-    - "Einfach zu bedienen"
-    - "Reich an Funktionalität"
-    - "Open Source"
+    use:           "Einfach zu bedienen"
+    functionality: "Reich an Funktionalität"
+    source:        "Open Source"
   latest_news: Neuigkeiten
   menu_title:
     more_information: Mehr Information
@@ -167,26 +172,23 @@ de:
     backup: Daten Backup und Wiederherstellung
     aggregate_dialog: Darstellung der Gesamtsummen in der Kontenübersicht (Contrib Version)
     light_theme: "Zwei Themen: hell und dunkel"
-  contrib-feature-dialog-title: |
-    Meine Ausgaben Contrib gibt Ihnen uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:
   contrib:
-    - Unbegrenzte Anzahl von Konten
-    - Unbegrenzte Anzahl von Plänen
-    - Verteilung der Buchungen auf Kategorien
-    - Splitbuchung
-    - Sicherheitsfrage
-    - Alle Konten zurücksetzen
-    - Gesamtsumme über mehrere Konten
-  dialog-close: Schließen
-  dialog-buy: Kaufen
+    feature-list-title: |
+      Meine Ausgaben Contrib gibt Ihnen uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:
+    feature:
+      accounts_unlimited: Unbegrenzte Anzahl von Konten
+      plans_unlimited:    Unbegrenzte Anzahl von Plänen
+      distribution:       Verteilung der Buchungen auf Kategorien
+      split_transaction:  Splitbuchung
+      security_question:  Sicherheitsfrage
+      reset_all:          Alle Konten zurücksetzen
+      aggregate:          Gesamtsumme über mehrere Konten
 es:
-  current: Actualmente
-  imprint: Imprint
   hero_main: "Gestión de las finanzas personales para Android"
   hero_sub:
-    - "Fácil de usar"
-    - "Rico en funcionalidad"
-    - "Open Source"
+    use:           "Fácil de usar"
+    functionality: "Rico en funcionalidad"
+    source:        "Open Source"
   latest_news: Últimas noticias
   menu_title:
     more_information: Más información
@@ -214,26 +216,23 @@ es:
     backup: Backup y Restauración
     aggregate_dialog: Situación financiera global en la lista de cuentas (versión Contrib)
     light_theme: "Dos temas: oscuro y claro"
-  contrib-feature-dialog-title: |
-    Instalando Mis Gastos Contrib, Usted va a obtener acceso ilimitado 
-      a las siguientes características premium:
   contrib:
-    - Cuentas sin limite
-    - Planes sin limite
-    - Distribución de las transacciones por categoría
-    - Asiento dividido
-    - Pregunta de seguridad
-    - Restablecer todas las cuentas
-    - Agregados de varias cuentas
-  dialog-close: Cerrar
-  dialog-buy: Comprar
+    feature-list-title: |
+      Instalando Mis Gastos Contrib, Usted va a obtener acceso ilimitado a las siguientes características premium:
+  feature:
+    accounts_unlimited: Cuentas sin limite
+    plans_unlimited:    Planes sin limite
+    distribution:       Distribución de las transacciones por categoría
+    split_transaction:  Asiento dividido
+    security_question:  Pregunta de seguridad
+    reset_all:          Restablecer todas las cuentas
+    aggregate:          Agregados de varias cuentas
 fr:
-  imprint: Imprint
   hero_main: "Gestionnaire de finances personnelles pour Android"
   hero_sub:
-  - Facile à utiliser
-  - Riche en fonctions
-  - Open Source
+    use:           Facile à utiliser
+    functionality: Riche en fonctions
+    source:        Open Source
   latest_news: Dernières nouvelles
   menu_title:
     more_information: Plus d'informations
@@ -259,25 +258,24 @@ fr:
     backup: Sauvegarde et restauration de données
     aggregate_dialog: Affichage des sommes totales (version Contrib)
     light_theme: "Deux thèmes: clair et sombre"
-  contrib-feature-dialog-title: |
-    Mes dépenses Contrib vous donne  un accès illimité aux fonctions Premium suivantes :
   contrib:
-  - Nombre illimité de comptes
-  - Nombre d'échéances illimité
-  - Répartition des transactions par catégorie
-  - Opération de répartition
-  - Question de sécurité
-  - Réinitialiser tous les comptes
-  - Regroupement sur plusieurs comptes
-  dialog-close: Fermer
-  dialog-buy: Acheter
+    feature-list-title: |
+      Mes dépenses Contrib vous donne  un accès illimité aux fonctions Premium suivantes :
+    feature:
+      accounts_unlimited: Nombre illimité de comptes
+      plans_unlimited:    Nombre d'échéances illimité
+      distribution:       Répartition des transactions par catégorie
+      split_transaction:  Opération de répartition
+      security_question:  Question de sécurité
+      reset_all:          Réinitialiser tous les comptes
+      aggregate:          Regroupement sur plusieurs comptes
 hu:
   imprint: Impresszum
   hero_main: "A személyes pénzügyi nyilvántartás - Android"
   hero_sub:
-  - Egyszerű használat
-  - Sok szolgáltatás
-  - Nyílt forráskód
+    use:           Egyszerű használat
+    functionality: Sok szolgáltatás
+    source:        Nyílt forráskód
   latest_news: Újdonságok
   menu_title:
     more_information: További információ
@@ -303,26 +301,24 @@ hu:
     backup: Adat mentés és visszaállítás
     aggregate_dialog: A pénzügyi helyzet összesítése (csak a Contrib verzióban)
     light_theme: "Két háttértéma: világos és sötét"
-  contrib-feature-dialog-title: |
-    A My Expenses Contrib (Prémium) verzió kiterjesztett, megkötések nélkül használható lehetőségei:
   contrib:
-  - Korlátlan számú számla kezelése
-  - Korlátlan számú terv
-  - Tranzakciók kategóriánkénti felosztása
-  - Tranzakciók megosztása a számlák között
-  - Biztonsági kérdés - jelszó visszaállításhoz
-  - Az összes számla alaphelyzetbe állítása
-  - Több számla tételeinek összesítése
-  dialog-close: Bezár
-  dialog-buy: Vásárlás
+    feature-list-title: |
+      A My Expenses Contrib (Prémium) verzió kiterjesztett, megkötések nélkül használható lehetőségei:
+    feature:
+      accounts_unlimited: Korlátlan számú számla kezelése
+      plans_unlimited:    Korlátlan számú terv
+      distribution:       Tranzakciók kategóriánkénti felosztása
+      split_transaction:  Tranzakciók megosztása a számlák között
+      security_question:  Biztonsági kérdés - jelszó visszaállításhoz
+      reset_all:          Az összes számla alaphelyzetbe állítása
+      aggregate:          Több számla tételeinek összesítése
 it:
-  current: Attualmente
   imprint: Colophon
   hero_main: "Gestione delle finanze personali per Android"
   hero_sub:
-    - "Facile da usare"
-    - "Ricco di funzionalità"
-    - "Open Source"
+    use:           "Facile da usare"
+    functionality: "Ricco di funzionalità"
+    source:        "Open Source"
   latest_news: Ultime notizie
   menu_title:
     more_information: Maggiori informazioni
@@ -350,26 +346,24 @@ it:
     backup: Backup e ripristino di dati
     aggregate_dialog: Raffigurazione della situazione finanziaria sommata (versione Contrib)
     light_theme: "Due stili: buio e chiaro"
-  contrib-feature-dialog-title: |
-    Installando Le Mie Spese Contrib, ottiene l’accesso illimitato alle
-    seguenti funzionalità speciali:
   contrib:
-    - Numero illimitato di conti
-    - Numero illimitato di scadenze
-    - Distribuzione di transazioni per categoria
-    - Operazione suddivisa
-    - Domanda di sicurezza
-    - Reinizializzare tutti i conti
-    - Sommare piu conti
-  dialog-close: Chiudere
-  dialog-buy: Comprare
+    feature-list-title: |
+      Installando Le Mie Spese Contrib, ottiene l’accesso illimitato alle
+      seguenti funzionalità speciali:
+    feature:
+      accounts_unlimited: Numero illimitato di conti
+      plans_unlimited:    Numero illimitato di scadenze
+      distribution:       Distribuzione di transazioni per categoria
+      split_transaction:  Operazione suddivisa
+      security_question:  Domanda di sicurezza
+      reset_all:          Reinizializzare tutti i conti
+      aggregate:          Sommare piu conti
 tr:
-  imprint: Imprint
   hero_main: "Android için kişisel finans yöneticisi"
   hero_sub:
-  - Kolay kullanım
-  - Zengin işlevsellik
-  - Açık Kaynak
+    use:           Kolay kullanım
+    functionality: Zengin işlevsellik
+    source:        Açık Kaynak
   latest_news: Son haberler
   menu_title:
     more_information: İlâve bilgi
@@ -398,29 +392,24 @@ tr:
   contrib-feature-dialog-title: |
     Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde
       edersiniz:
-  contrib:
-  - Sınırsız sayıda hesap
-  - Sınırsız plan sayısı
-  - Muamelelerin kategoriye göre dağılımı
-  - Bölünmüş muameleler
-  - Güvenlik sorusu
-  - Tüm hesapları sıfırlama
-  - Birden fazla hesabı agrega olarak toplama
-  dialog-close: Yakın
-  dialog-buy: Satın al
+    feature:
+      accounts_unlimited: Sınırsız sayıda hesap
+      plans_unlimited:    Sınırsız plan sayısı
+      distribution:       Muamelelerin kategoriye göre dağılımı
+      split_transaction:  Bölünmüş muameleler
+      security_question:  Güvenlik sorusu
+      reset_all:          Tüm hesapları sıfırlama
+      aggregate:          Birden fazla hesabı agrega olarak toplama
 vi:
-  current: Currently
-  imprint: Imprint
   hero_main: "Quản lý tài chính cá nhân trên Android"
   hero_sub:
-    - "Dễ dàng sử dụng"
-    - "Sở hữu nhiều chức năng"
-    - "Mã nguồn mở"
+    use:           "Dễ dàng sử dụng"
+    functionality: "Sở hữu nhiều chức năng"
+    source:        "Mã nguồn mở"
   latest_news: Tin tức mới nhất
   menu_title:
     more_information: Thêm thông tin
   sections:
-    features: Features
     participate: Tham gia vào dự án
     faq: Các câu hỏi thường gặp
     versionlist: Danh sách các phiên bản
@@ -430,7 +419,6 @@ vi:
     links: Liên kết
   features:
     manage_accounts: Sở hữu đến 5 tài khoản quản lý tài chính (không giới hạn số lượng tài khoản trong phiên bản Contrib)
-    plans: Define templates and plans (3) for future and recurrent transactions  (unlimited in Contrib version)
     grouped_list: Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm
     distribution: Tạo các cấp độ phân loại dễ dàng cho nhiều đối tượng chi tiêu (có thể nhập dữ liệu dạng XML theo kiểu Grisbi), Tác động phân phối các giao dịch cho mỗi phân loạ (Tính năng nâng cao)
     split: Phân tích giao dịch (Tính năng nâng cao)
@@ -443,16 +431,15 @@ vi:
     backup: Sao lưu và phục hồi dữ liệu
     aggregate_dialog: Gom nhóm nhiều dạng tài khoản (Tính năng nâng cao)
     light_theme: "hai giao diện: sáng màu và tối màu"
-  contrib-feature-dialog-title: |
-    Xin vui lòng đóng góp cho chương trình bằng cách cài đặt phiên bản Contrib. Bạn sẽ được phép sử dụng các
-    tính năng của phiên bản nâng cao:
   contrib:
-    - Không giới hạn số lượng các tài khoản
-    - Unlimited number of plans
-    - Tác động phân phối các giao dịch cho mỗi phân loại
-    - Phân tích giao dịch
-    - Câu hỏi an ninh
-    - Thiết đặt lại tất cả tài khoản
-    - Gom nhóm nhiều dạng tài khoản
-  dialog-close: Đóng
-  dialog-buy: Mua
+    feature-list-title: |
+      Xin vui lòng đóng góp cho chương trình bằng cách cài đặt phiên bản Contrib. Bạn sẽ được phép sử dụng các
+      tính năng của phiên bản nâng cao:
+    feature:
+      accounts_unlimited: Không giới hạn số lượng các tài khoản
+      plans_unlimited:    Unlimited number of plans
+      distribution:       Tác động phân phối các giao dịch cho mỗi phân loại
+      split_transaction:  Phân tích giao dịch
+      security_question:  Câu hỏi an ninh
+      reset_all:          Thiết đặt lại tất cả tài khoản
+      aggregate:          Gom nhóm nhiều dạng tài khoản
