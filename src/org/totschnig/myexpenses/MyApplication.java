@@ -262,6 +262,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
+        config.fontScale = getResources().getConfiguration().fontScale;
         getResources().updateConfiguration(config,
             getResources().getDisplayMetrics());
       }
