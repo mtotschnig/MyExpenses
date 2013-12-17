@@ -194,7 +194,7 @@
 -->
 
 <div class="block" id="premium" style="display:none">
-  <h2>{% if msg.sections.features %}{{msg.sections.features}}{% else %}{{site.data.msg.en.sections.features}}{% endif %}</h2>
+  <h2>{% if msg.sections.premium %}{{msg.sections.premium}}{% else %}{{site.data.msg.en.sections.premium}}{% endif %}</h2>
   <p>{% if msg.contrib.feature-list-title %}{{msg.contrib.feature-list-title}}{% else %}{{site.data.msg.en.contrib.feature-list-title}}{% endif %}</p>
   <ul>
     {% for feature in site.contrib %}
