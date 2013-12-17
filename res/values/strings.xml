@@ -263,6 +263,7 @@
   <string name="pref_enter_licence_summary">If you received a Contrib key, gain access to premium features.</string>
   <string name="pref_enter_licence_title">Enter Contrib key</string>
   <string name="pref_export_format_title">Data format</string>
+  <string name="pref_follow_gplus_title">Follow My Expenses on Google+</string>
   <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default Grisbi definitions internal to the app, or your own file stored as &grisbi_file; in a folder \"myexpenses\"" in the root of your sdcard.</string>
   <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
   <string name="pref_manage_accounts_title">Accounts</string>
