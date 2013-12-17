@@ -1,6 +1,3 @@
-.container {
-  padding-left: 75px;
-}
 .carousel {
   margin-bottom: 30px;
   padding-bottom: 30px;
@@ -101,7 +98,6 @@ Back to top button
 #back-top {
 	position: fixed;
 	bottom: 30px;
-	margin-left: -75px;
 }
 #back-top a {
 	width: 54px;
@@ -137,4 +133,13 @@ Back to top button
 }
 #back-top a:hover span {
 	background-color: #777;
+}
+@media screen and (min-width: 700px) {
+  .container {
+    padding-left: 75px;
+    padding-right: 75px;
+  }
+  #back-top {
+	  margin-left: -75px;
+  }
 }
