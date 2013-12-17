@@ -240,7 +240,7 @@
   <string name="pref_contrib_install_summary">Instal·lant Les meves despeses Contrib, tindreu accés a funcions avançades.</string>
   <string name="pref_contrib_install_title">Instal·la l\'aplicació Contrib</string>
   <string name="pref_enter_licence_summary">Si heu rebut una clau Contrib, podeu accedir a les funcions avançades.</string>
-  <string name="pref_enter_licence_title">Intreu la clau del Contribuïdor</string>
+  <string name="pref_enter_licence_title">Entreu la clau del Contribuïdor</string>
   <string name="pref_export_format_title">Format de les dades</string>
   <string name="pref_import_from_grisbi_summary">Importeu les categories (i els tercers) de les definicions estàndard de Grisbi, o del vostre propi fitxer grisbi.xml que ha d\'estar a la carpeta myexpenses de la carpeta arrel de la tarja SD.</string>
   <string name="pref_import_from_grisbi_title">Importeu de Grisbi</string>
