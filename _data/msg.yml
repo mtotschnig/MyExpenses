@@ -115,19 +115,19 @@ ca:
     sourcecode: Codi font
     links: Enllaços
   features:
-    manage_accounts: Fins a cinc comptes amb transferències (sense límit a la versió pels contribuïdors)
-    grouped_list: Operacions agrupades per dia, setmana, mes, any i dels totals per grups
-    plans: Definiu plans (3) futurs i operacions recurrents (sense limitació a la versió Contrib)
-    distribution: Dos nivells de categories (importa des del Grisbi, XML), mostra la distribució de les operacions a la versió pels contribuïdors
-    split: Repartiment d'operacions (a la versió pels contribuïdors)
-    calculator: Calculadora
-    export: Exporteu al format QIF i al CSV (MS Excel), es pot compartir de forma automàtica (per correu, per FTP, pel Dropbox, ...) i per lots a la versió pels contribuïdors
-    password: Protecció amb contrasenya, recuperable a la versió pels contribuïdors
-    help: Ajuda integrada
+    manage_accounts:   Fins a cinc comptes amb transferències (sense límit a la versió pels contribuïdors)
+    grouped_list:      Operacions agrupades per dia, setmana, mes, any i dels totals per grups
+    plans:             Definiu plans (3) futurs i operacions recurrents (sense limitació a la versió Contrib)
+    distribution:      Dos nivells de categories (importa des del Grisbi, XML), mostra la distribució de les operacions a la versió pels contribuïdors
+    split:             Repartiment d'operacions (a la versió pels contribuïdors)
+    calculator:        Calculadora
+    export:            Exporteu al format QIF i al CSV (MS Excel), es pot compartir de forma automàtica (per correu, per FTP, pel Dropbox, ...) i per lots a la versió pels contribuïdors
+    password:          Protecció amb contrasenya, recuperable a la versió pels contribuïdors
+    help:              Ajuda integrada
     new_from_template: Genereu operacions des de plantilles
-    backup: Còpia de seguretat i restauració
-    aggregate_dialog: Situació financera consolidada (versió pels contribuïdors)
-    light_theme: "Dos temes: clar i fosc"
+    backup:            Còpia de seguretat i restauració
+    aggregate_dialog:  Situació financera consolidada (versió pels contribuïdors)
+    light_theme:       "Dos temes: clar i fosc"
   contrib:
     feature-list-title: |
       Les meves despeses Contrib us dona accés sense restriccions a les següents característiques Premium:
@@ -233,14 +233,14 @@ es:
   contrib:
     feature-list-title: |
       Instalando Mis Gastos Contrib, Usted va a obtener acceso ilimitado a las siguientes características premium:
-  feature:
-    accounts_unlimited: Cuentas sin limite
-    plans_unlimited:    Planes sin limite
-    distribution:       Distribución de las transacciones por categoría
-    split_transaction:  Asiento dividido
-    security_question:  Pregunta de seguridad
-    reset_all:          Restablecer todas las cuentas
-    aggregate:          Agregados de varias cuentas
+    feature:
+      accounts_unlimited: Cuentas sin limite
+      plans_unlimited:    Planes sin limite
+      distribution:       Distribución de las transacciones por categoría
+      split_transaction:  Asiento dividido
+      security_question:  Pregunta de seguridad
+      reset_all:          Restablecer todas las cuentas
+      aggregate:          Agregados de varias cuentas
   participate:
     intro: |
       Con su apoyo, <span class="application">Mis Gastos</span> sigue creciendo en funcionalidad, al tiempo que se distribuye sin publicidad y de código abierto.
@@ -440,8 +440,9 @@ tr:
     backup: Veri yedekleme ve geri yükleme
     aggregate_dialog: Birden çok hesabın birleşik görünümü (Ücretli işlev)
     light_theme: "İki tema: karanlık ve aydınlık"
-  contrib-feature-dialog-title: |
-    Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde
+  contrib:
+    feature-list-title: |
+      Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde
       edersiniz:
     feature:
       accounts_unlimited: Sınırsız sayıda hesap
