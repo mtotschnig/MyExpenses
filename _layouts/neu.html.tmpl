@@ -182,7 +182,7 @@
               {% assign code = lang[0] %}
               {% assign label = lang[1] %}
               {% if code != pagelang %}
-              <li><a href="/{{code}}">{{label}}</a></li>
+              <li><a class="lang_switch" href="/{{code}}">{{label}}</a></li>
               {% endif %}
               {% endfor %}
             </ul>
@@ -255,6 +255,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+     $('a.lang_switch').click(function(event){
+        this.hash = location.hash;
+      });
       $('a.intern').click(function(event){
         event.preventDefault(); 
         mkActive(this.hash);
