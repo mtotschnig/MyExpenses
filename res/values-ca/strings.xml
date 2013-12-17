@@ -27,7 +27,7 @@
   <string name="currency">Moneda</string>
   <string name="current_balance">Saldo actual</string>
   <string name="date">Data</string>
-  <string name="date_format">Format de la data (yy=any)</string>
+  <string name="date_format">Format de la data</string>
   <string name="date_format_illegal">El format de data no és vàlid</string>
   <string name="date_time">Data / Hora</string>
   <string name="default_account_description">Aquest compte s\'ha configurat automàticament a l\'instal·lació.</string>
