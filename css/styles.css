@@ -76,10 +76,6 @@ dl.versionlist dd {
     float: none;
   }
 }
-#go-premium {
-  width: 172px;
-  height: 60px;
-}
 @media screen and (max-width: 340px) {
  .well > div {
    width:100%;
