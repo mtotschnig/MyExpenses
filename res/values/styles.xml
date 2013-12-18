@@ -109,4 +109,7 @@
   <dimen name="calculator_button_large">50dp</dimen>
   <dimen name="calculator_button_small">40dp</dimen>
   <dimen name="general_padding">7dp</dimen>
+  <style name="SmallButton">
+     <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+  </style>
 </resources>

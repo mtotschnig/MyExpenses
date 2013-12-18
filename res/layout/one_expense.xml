@@ -47,14 +47,14 @@
       <TableRow android:id="@+id/DateRow">
         <TextView style="@style/form_label"
             android:text="@string/date"/>
-        <Button android:id="@+id/Date"
+        <Button style="@style/SmallButton" android:id="@+id/Date"
             android:text="@string/select"/>
       </TableRow>
 
       <TableRow android:id="@+id/TimeRow">
         <TextView style="@style/form_label"
             android:text="@string/time"/>
-        <Button android:id="@+id/Time" android:text="@string/select" />
+        <Button style="@style/SmallButton" android:id="@+id/Time" android:text="@string/select" />
       </TableRow>
 
       <TableRow>
@@ -84,7 +84,7 @@
 
       <TableRow android:id="@+id/CategoryRow">
         <TextView style="@style/form_label" android:text="@string/category" />
-        <Button android:id="@+id/Category" android:text="@string/select" />
+        <Button style="@style/SmallButton" android:id="@+id/Category" android:text="@string/select" />
       </TableRow>
 
       <TableRow android:id="@+id/AccountRow"
@@ -131,7 +131,7 @@
             android:text="@string/plan" />
         <LinearLayout
             android:orientation="horizontal">
-        <Button android:id="@+id/Plan"
+        <Button style="@style/SmallButton" android:id="@+id/Plan"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -140,7 +140,8 @@
             android:id="@+id/togglebutton"
             android:layout_gravity="center"
             android:visibility="gone"
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textOn="@string/plan_automatic"
             android:textOff="@string/plan_manual"

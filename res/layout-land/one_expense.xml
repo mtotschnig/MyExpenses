@@ -49,12 +49,12 @@
             android:text="@string/date_time"/>
         <LinearLayout
             android:orientation="horizontal">
-          <Button android:layout_weight="1"
+          <Button style="@style/SmallButton" android:layout_weight="1"
               android:layout_width="0dp"
               android:layout_height="fill_parent"
               android:id="@+id/Date"
               android:text="@string/select"/>
-          <Button android:layout_weight="1"
+          <Button style="@style/SmallButton" android:layout_weight="1"
               android:layout_width="0dp"
               android:layout_height="fill_parent"
               android:id="@+id/Time"
@@ -67,7 +67,7 @@
         <LinearLayout
             android:orientation="horizontal">
           <include layout="@layout/amount_input"/>
-          <Button android:id="@+id/Category"
+          <Button style="@style/SmallButton" android:id="@+id/Category"
               android:layout_weight="2"
               android:layout_width="0dp"
               android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
             android:text="@string/plan" />
         <LinearLayout
             android:orientation="horizontal">
-        <Button android:id="@+id/Plan"
+        <Button style="@style/SmallButton" android:id="@+id/Plan"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
