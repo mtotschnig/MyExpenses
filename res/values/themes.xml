@@ -23,12 +23,14 @@
     
   </style>
   <style name="ThemeDark" parent="BaseDark">
+    <item name="dropdownListPreferredItemHeight">48sp</item>
     <item name="colorIncome">#00D000</item>
     <item name="colorExpense">#FF0000</item> 
     <item name="pageMargin">@android:color/white</item>
     <item name="calcIcon">@drawable/ic_action_calc_light</item>
   </style>
   <style name="ThemeLight" parent="BaseLight">
+    <item name="dropdownListPreferredItemHeight">48sp</item>
     <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
     <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoCompleteTextViewLight</item>
     <item name="colorIncome">#008000</item>

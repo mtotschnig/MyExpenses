@@ -18,34 +18,34 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@android:drawable/list_selector_background">
-  <TextView
-      style="@style/headingStyleNoBorder"
-      android:text="GROUP_TITLE"
-      android:id="@+id/text"
+    <LinearLayout
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
       android:paddingLeft="@dimen/general_padding"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content" />
-  <TextView
-        style="@style/headingStyleNoBorder"
-        android:paddingRight="@dimen/general_padding"
-        android:id="@+id/interim_balance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/sum_line"
-        android:layout_alignParentRight="true"/>
+      android:paddingRight="@dimen/general_padding"
+      android:id="@+id/header_line"
+	    android:orientation="horizontal">
+	  <TextView
+	      style="@style/headingStyleNoBorder"
+	      android:text="GROUP_TITLE"
+	      android:id="@+id/text"
+	      android:layout_width="0dp"
+        android:layout_weight="1"
+	      android:layout_height="wrap_content" />
+	  <TextView
+	        style="@style/headingStyleNoBorder"
+	        android:id="@+id/interim_balance"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"/>
+  </LinearLayout>
   <LinearLayout
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:paddingLeft="@dimen/general_padding"
       android:paddingRight="@dimen/general_padding"
       android:id="@+id/sum_line"
-      android:layout_below="@id/text"
+      android:layout_below="@id/header_line"
       android:orientation="horizontal">
-    <TextView
-        android:id="@+id/sum_sign"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="∑ : "/>
     <TextView
         android:id="@+id/sum_income"
         android:layout_width="1dp"
