@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.test.screenshots;
 import java.util.Currency;
 import java.util.Locale;
 
+import junit.framework.Assert;
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.provider.Settings.Secure;
@@ -94,8 +96,11 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
     String s = Secure.getString(MyApplication.getInstance().getContentResolver(),Secure.ANDROID_ID) + 
         MyApplication.CONTRIB_SECRET;
     Long l = (s.hashCode() & 0x00000000ffffffffL);
-    app.getSettings().edit().putString(
-        MyApplication.PREFKEY_UI_LANGUAGE, lang + "-"+country)
+    android.content.SharedPreferences pref = app.getSettings();
+    if (pref==null)
+      Assert.fail("Could not find prefs");
+    pref.edit()
+      .putString(MyApplication.PREFKEY_UI_LANGUAGE, lang + "-"+country)
       .putString(MyApplication.PREFKEY_ENTER_LICENCE, l.toString())
       .commit();
     
