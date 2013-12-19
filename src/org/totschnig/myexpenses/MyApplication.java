@@ -242,14 +242,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         super.onConfigurationChanged(newConfig);
         systemLocale = newConfig.locale;
     }
-    /**
-     * this is only used from instrumentation
-     * @param language
-     * @param coutry
-     */
-    public void setLanguage(String language, String country) {
-      setLanguage(new Locale(language,country));
-    }
+
     public void setLanguage() {
       String language = settings.getString(MyApplication.PREFKEY_UI_LANGUAGE, "default");
       Locale l;

@@ -78,15 +78,4 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       startActivity(i);
     }
   }
-  protected void setLanguage() {
-    Bundle extras = getIntent().getExtras();
-    if (extras != null) {
-      String instrumentLanguage = extras.getString("instrument_language");
-      if (instrumentLanguage != null) {
-        MyApplication.getInstance().setLanguage(instrumentLanguage,extras.getString("instrument_country"));
-        return;
-      }
-    }
-    super.setLanguage();
-  }
 }

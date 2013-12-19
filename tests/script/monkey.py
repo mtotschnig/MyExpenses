@@ -70,10 +70,7 @@ device = MonkeyRunner.waitForConnection()
 package = 'org.totschnig.myexpenses'
 activity = 'org.totschnig.myexpenses.activity.MyExpenses'
 runComponent = package + '/' + activity
-extraDic = {} 
-extraDic['instrument_language'] = lang 
-extraDic['instrument_country'] = country 
-device.startActivity(extras=extraDic,component=runComponent)
+device.startActivity(component=runComponent)
 
 #1 ManageAccounts
 left()

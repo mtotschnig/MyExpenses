@@ -1,28 +1,16 @@
 package org.totschnig.myexpenses.test.screenshots;
 
 import java.util.Currency;
-import java.util.Date;
 import java.util.Locale;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.os.Build;
+import android.provider.Settings.Secure;
 import android.test.ActivityInstrumentationTestCase2;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.test.R;
 import org.totschnig.myexpenses.test.util.Fixture;
-import org.totschnig.myexpenses.util.CategoryTree;
-import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Category;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.Account.Type;
 
 /**
  * These tests are meant to be run with script/testLangs.sh
@@ -102,6 +90,15 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
 	      app.getResources().getDisplayMetrics());
     instCtx.getResources().updateConfiguration(config,  
         instCtx.getResources().getDisplayMetrics());
+    //set language and contrib key as preference,
+    String s = Secure.getString(MyApplication.getInstance().getContentResolver(),Secure.ANDROID_ID) + 
+        MyApplication.CONTRIB_SECRET;
+    Long l = (s.hashCode() & 0x00000000ffffffffL);
+    app.getSettings().edit().putString(
+        MyApplication.PREFKEY_UI_LANGUAGE, lang + "-"+country)
+      .putString(MyApplication.PREFKEY_ENTER_LICENCE, l.toString())
+      .commit();
+    
     getActivity();
 	  Fixture.setup(getInstrumentation(), locale, defaultCurrency);
 	}
