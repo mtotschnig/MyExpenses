@@ -252,10 +252,16 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     }
     public void setLanguage() {
       String language = settings.getString(MyApplication.PREFKEY_UI_LANGUAGE, "default");
-      setLanguage(language.equals("default") ?
-          systemLocale :
-          new Locale(language)
-          );
+      Locale l;
+      if (language.equals("default")) {
+        l = systemLocale;
+      } else if (language.contains("-")) {
+        String[] parts = language.split("-");
+        l = new Locale(parts[0],parts[1]);
+      } else {
+        l = new Locale(language);
+      }
+      setLanguage(l);
     }
     private void setLanguage(Locale locale) {
       if (!Locale.getDefault().equals(locale)) {

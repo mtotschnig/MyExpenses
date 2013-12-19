@@ -44,6 +44,7 @@
       <item>Khmer</item>
       <item>Türkçe</item>
       <item>Tiếng Việt</item>
+      <item>中文 (繁體)</item>
     </string-array>
     <string-array name="pref_ui_language_values">
     	<item>default</item>
@@ -58,6 +59,7 @@
       <item>km</item>
       <item>tr</item>
       <item>vi</item>
+      <item>zh-TW</item>
     </string-array>
     <string-array name="grouping_entries">
         <item>@string/grouping_none</item>
