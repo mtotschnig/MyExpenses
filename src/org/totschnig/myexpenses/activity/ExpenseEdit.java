@@ -25,6 +25,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import org.totschnig.myexpenses.MyApplication;
@@ -33,6 +34,7 @@ import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -96,7 +98,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private EditText mCommentText, mTitleText, mReferenceNumberText;
   private Button mCategoryButton, mPlanButton;
   private Spinner mMethodSpinner, mAccountSpinner, mTransferAccountSpinner;
-  private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter;
+  private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter;
+  private FilterCursorWrapper mTransferAccountCursor;
   private AutoCompleteTextView mPayeeText;
   private TextView mPayeeLabel;
   private ToggleButton mPlanToggleButton;
@@ -362,7 +365,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         }
       } 
     });
-    // Spinner for transfer accounts
+    // Spinner for account and transfer account
     mAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
     mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -380,7 +383,10 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       } else {
         accountLabelTv.setText(R.string.transfer_from_account);
       }
-      mTransferAccountSpinner.setAdapter(mAccountsAdapter);
+      mTransferAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
+          new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
+      mTransferAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      mTransferAccountSpinner.setAdapter(mTransferAccountsAdapter);
     } else if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
         accountLabelTv.setText(getString(R.string.account) + " / " + getString(R.string.category));
     }
@@ -684,7 +690,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
             selected : null;
     }
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
+      Account transferAccount = mAccounts[mTransferAccountSpinner.getSelectedItemPosition()];
+      mTransaction.transfer_account = transferAccount.id;
     }
     return validP;
   }
@@ -1064,6 +1071,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         }
         data.moveToNext();
       }
+      mTransferAccountCursor = new FilterCursorWrapper(data);
+      setTransferAccountFilterMap();
+      mTransferAccountsAdapter.swapCursor(mTransferAccountCursor);
       //the methods cursor is based on the current account,
       //hence it is loaded only after the accounts cursor is loaded
       if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
@@ -1100,6 +1110,18 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       configurePlan();
       break;
     }
+  }
+  private void setTransferAccountFilterMap() {
+    Account fromAccount = mAccounts[mAccountSpinner.getSelectedItemPosition()];
+    ArrayList<Integer> list = new ArrayList<Integer>();
+    int count = 0;
+    for (Account toAccount: mAccounts ) {
+      if (fromAccount.id != toAccount.id &&
+          fromAccount.currency.equals(toAccount.currency))
+        list.add(count);
+      count++;
+    }
+    mTransferAccountCursor.setFilterMap(list);
   }
   private void launchPlanView() {
     mLaunchPlanView = false;
