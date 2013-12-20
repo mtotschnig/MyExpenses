@@ -44,6 +44,22 @@
             android:layout_height="wrap_content" />
       </TableRow>
 
+      <TableRow android:id="@+id/AccountRow">
+        <TextView style="@style/form_label"
+        	  android:id="@+id/AccountLabel"
+            android:text="@string/account" />
+        <Spinner android:id="@+id/Account"
+            android:prompt="@string/account" />
+      </TableRow>
+
+      <TableRow android:id="@+id/TransferAccountRow"
+          android:visibility="gone">
+        <TextView style="@style/form_label"
+            android:text="@string/transfer_to_account" />
+        <Spinner android:id="@+id/TransferAccount"
+            android:prompt="@string/transfer_to_account" />
+      </TableRow>
+
       <TableRow android:id="@+id/DateRow">
         <TextView style="@style/form_label"
             android:text="@string/date"/>
@@ -85,14 +101,6 @@
       <TableRow android:id="@+id/CategoryRow">
         <TextView style="@style/form_label" android:text="@string/category" />
         <Button style="@style/SmallButton" android:id="@+id/Category" android:text="@string/select" />
-      </TableRow>
-
-      <TableRow android:id="@+id/AccountRow"
-          android:visibility="gone">
-        <TextView style="@style/form_label"
-            android:text="@string/account" />
-        <Spinner android:id="@+id/Account"
-            android:prompt="@string/account" />
       </TableRow>
 
       <TableRow android:id="@+id/PayeeRow">

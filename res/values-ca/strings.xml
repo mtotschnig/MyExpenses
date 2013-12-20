@@ -29,7 +29,6 @@
   <string name="date">Data</string>
   <string name="date_format">Format de la data</string>
   <string name="date_format_illegal">El format de data no és vàlid</string>
-  <string name="date_time">Data / Hora</string>
   <string name="default_account_description">Aquest compte s\'ha configurat automàticament a l\'instal·lació.</string>
   <string name="description">Descripció</string>
   <string name="dialog_command_disabled_insert_transfer">Cal un segon compte amb la mateixa moneda per a les transferències. Obriu-ne un des de la llista de comptes (la trobareu a botó inici a la part superior esquerra).</string>

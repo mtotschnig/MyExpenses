@@ -29,7 +29,6 @@
   <string name="date">Date</string>
   <string name="date_format">Format de date</string>
   <string name="date_format_illegal">Format de date incorrect</string>
-  <string name="date_time">Date / Heure</string>
   <string name="default_account_description">Ce compte a été créé automatiquement lors de l\'installation</string>
   <string name="description">Description</string>
   <string name="dialog_command_disabled_insert_transfer">Les opérations de transfert nécessitent un autre compte dans la même devise. Vous pouvez en créer un à partir de la liste des comptes (accessible par la touche HOME en haut à gauche).</string>

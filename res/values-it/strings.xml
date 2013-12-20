@@ -29,7 +29,6 @@
   <string name="date">Data</string>
   <string name="date_format">Formato dati</string>
   <string name="date_format_illegal">Formato data non valido</string>
-  <string name="date_time">Data / Ora</string>
   <string name="default_account_description">Questo conto è stato creato automaticamente con la installazione</string>
   <string name="description">Descrizione</string>
   <string name="dialog_command_disabled_insert_transfer">Le operazioni di trasferimento richiedono un secondo account con la stessa moneta. Creare uno dalla lista di conti (accessibile tramite il tasto HOME nell\'angolo in alto a sinistra).</string>

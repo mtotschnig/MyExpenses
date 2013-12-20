@@ -29,7 +29,6 @@
   <string name="date">Tarih</string>
   <string name="date_format">Tarih biçimi</string>
   <string name="date_format_illegal">Geçersiz tarih biçimi</string>
-  <string name="date_time">Tarih / Zaman</string>
   <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>
   <string name="description">Açıklama</string>
   <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir. Hesap listesinden yeni hesap oluşturabilirsiniz (üst sol köşede EV düğmesiyle erişilebilir).</string>

@@ -29,7 +29,6 @@
   <string name="date">日期</string>
   <string name="date_format">日期格式</string>
   <string name="date_format_illegal">日期格式錯誤</string>
-  <string name="date_time">日期 / 時間</string>
   <string name="default_account_description">此帳戶是在安裝過程中被自動設定的</string>
   <string name="description">描述</string>
   <string name="dialog_command_disabled_insert_transfer">轉讓交易需要第二個使用相同貨幣為單位的帳戶。從帳戶列表新增一個 (通過左上角的主頁按鈕進行)</string>

@@ -50,7 +50,6 @@
   <string name="date">Date</string>
   <string name="date_format">Date format</string>
   <string name="date_format_illegal">Illegal date format</string>
-  <string name="date_time">Date / Time</string>
   <string name="default_account_description">This account was set up automatically during installation</string>
   <string name="description">Description</string>
   <string name="dialog_command_disabled_insert_transfer">Transfer transactions require a second account with the same currency. Create one from the account list (accessible through the HOME button in the top left corner).</string>
@@ -352,6 +351,8 @@
   <string name="title">Title</string>
   <string name="transaction">Transaction</string>
   <string name="transfer">Transfer</string>
+  <string name="transfer_from_account">From</string>
+  <string name="transfer_to_account">To</string>
   <string name="tutorial">User guide</string>
   <string name="type">Type</string>
   <string name="unsplit_amount">Unsplit amount</string>

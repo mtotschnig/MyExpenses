@@ -65,12 +65,35 @@ public class Account extends Model {
 
   public int color;
 
-  public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_COLOR,KEY_GROUPING,KEY_TYPE,
-    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income",
-    "(SELECT coalesce(abs(sum(amount)),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses",
-    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer",
-    "opening_balance + (SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
-        + SPLIT_CATID + ")) as current_balance"};
+  public static final String[] PROJECTION_BASE = new String[] {
+    KEY_ROWID,
+    KEY_LABEL,
+    KEY_DESCRIPTION,
+    KEY_OPENING_BALANCE,
+    KEY_CURRENCY,
+    KEY_COLOR,
+    KEY_GROUPING,
+    KEY_TYPE
+  };
+  public static final String[] PROJECTION_FULL = new String[] {
+    KEY_ROWID,
+    KEY_LABEL,
+    KEY_DESCRIPTION,
+    KEY_OPENING_BALANCE,
+    KEY_CURRENCY,
+    KEY_COLOR,
+    KEY_GROUPING,
+    KEY_TYPE,
+    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
+      + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income",
+    "(SELECT coalesce(abs(sum(amount)),0) FROM " + VIEW_COMMITTED 
+      + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses",
+    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
+      + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer",
+    KEY_OPENING_BALANCE + " + (SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM " + VIEW_COMMITTED
+      + "  WHERE " + KEY_ACCOUNTID + " = accounts." + KEY_ROWID
+      + " and (" + KEY_CATID + " is null OR " + KEY_CATID + " != "
+      + SPLIT_CATID + ")) as current_balance"};
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
   public enum ExportFormat {

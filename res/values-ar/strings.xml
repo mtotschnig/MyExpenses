@@ -40,7 +40,6 @@
   <string name="currency">العملة</string>
   <string name="current_balance">الرصيد الحالي</string>
   <string name="date">التاريخ</string>
-  <string name="date_time">التاريخ / الوقت</string>
   <string name="default_account_description">هذا الحساب تم انشاؤه تلقائيا خلال التثبيت</string>
   <string name="description">الوصف</string>
   <string name="dialog_confirm_restore_on_install">تم اكتشاف نسخة احتياطية. هل تريد استعادتها؟</string>

@@ -48,7 +48,6 @@
   <string name="currency">Währung</string>
   <string name="current_balance">Aktueller Saldo</string>
   <string name="date">Datum</string>
-  <string name="date_time">Datum / Zeit</string>
   <string name="date_format">Datumsformat</string>
   <string name="date_format_illegal">Unzulässiges Datumsformat</string>
   <string name="default_account_description">Dieses Konto wurde während der Installation automatisch eingerichtet.</string>    

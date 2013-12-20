@@ -508,10 +508,8 @@ public class MyExpenses extends LaunchActivity implements
     String[] projection;
     switch(id) {
     case ACCOUNTS_CURSOR:
-      // TODO specify columns
-      projection = null;
         return new CursorLoader(this,
-          TransactionProvider.ACCOUNTS_URI, projection, null, null, null);
+          TransactionProvider.ACCOUNTS_URI, Account.PROJECTION_FULL, null, null, null);
     }
     return null;
   }
