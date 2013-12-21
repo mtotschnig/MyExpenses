@@ -106,7 +106,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static String PREFKEY_UI_LANGUAGE;
     public static final String BACKUP_DB_PATH = "BACKUP";
     public static String BUILD_DATE = "";
-    public static String CONTRIB_SECRET = "RANDOM_SECRET";
+    public static String CONTRIB_SECRET = "onqn1bKZzM";
     public static String MARKET_PREFIX = "market://details?id=";
     public static String CALENDAR_FULL_PATH_PROJECTION = 
         "ifnull(" + Calendars.ACCOUNT_NAME + ",'') || '/' ||" +
