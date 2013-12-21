@@ -374,6 +374,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mAccountSpinner.setOnItemSelectedListener(this);
     TextView accountLabelTv = (TextView) findViewById(R.id.AccountLabel);
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+      findViewById(R.id.TaType).setVisibility(View.GONE);
       categoryContainer.setVisibility(View.GONE);
       View accountContainer = findViewById(R.id.TransferAccountRow);
       if (accountContainer == null)
@@ -444,10 +445,16 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       MenuInflater inflater = getSupportMenuInflater();
       inflater.inflate(R.menu.split, menu);
     } else if (!(mTransaction instanceof SplitPartCategory ||
-        mTransaction instanceof SplitPartTransfer))
+        mTransaction instanceof SplitPartTransfer)) {
       menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
         .setIcon(R.drawable.save_and_new_icon)
         .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+    }
+    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+      menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
+      .setIcon(R.drawable.ic_menu_refresh)
+      .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
     return true;
   }
   @Override
@@ -486,6 +493,18 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_CALENDAR,null,null), "ASYNC_TASK")
       .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_calendar),"PROGRESS")
       .commit();
+      return true;
+    case R.id.INVERT_TRANSFER_COMMAND:
+      mTransaction.transfer_account = mAccountSpinner.getSelectedItemId();
+      mTransaction.accountId = mTransferAccountSpinner.getSelectedItemId();
+      for (int i = 0; i < mAccounts.length; i++) {
+        if (mTransaction.accountId == mAccounts[i].id) {
+          mAccountSpinner.setSelection(i);
+          break;
+        }
+      }
+      int selectedPosition = setTransferAccountFilterMap();
+      mTransferAccountSpinner.setSelection(selectedPosition);
       return true;
     }
     return super.dispatchCommand(command, tag);
