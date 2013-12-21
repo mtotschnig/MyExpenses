@@ -370,9 +370,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer) {
         disableAccountSpinner();
-    } else {
-      mAccountSpinner.setOnItemSelectedListener(this);
     }
+    mAccountSpinner.setOnItemSelectedListener(this);
     TextView accountLabelTv = (TextView) findViewById(R.id.AccountLabel);
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       categoryContainer.setVisibility(View.GONE);
