@@ -111,7 +111,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private Long mCatId = null, mPlanId = null;
   private String mLabel;
   private Transaction mTransaction;
-  private boolean mTransferEnabled = false;
   private Cursor mMethodsCursor;
   private Plan mPlan;
 
@@ -153,7 +152,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (mRowId == 0L)
       mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
     mTemplateId = extras.getLong("template_id",0);
-    mTransferEnabled = extras.getBoolean("transferEnabled",false);
     //were we called from a notification
     int notificationId = extras.getInt("notification_id", 0);
     if (notificationId > 0) {
@@ -369,7 +367,12 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
     mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mAccountSpinner.setAdapter(mAccountsAdapter);
-    mAccountSpinner.setOnItemSelectedListener(this);
+    if (mTransaction instanceof SplitPartCategory ||
+        mTransaction instanceof SplitPartTransfer) {
+        disableAccountSpinner();
+    } else {
+      mAccountSpinner.setOnItemSelectedListener(this);
+    }
     TextView accountLabelTv = (TextView) findViewById(R.id.AccountLabel);
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       categoryContainer.setVisibility(View.GONE);
@@ -420,7 +423,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
        launchPlanView();
      }
     });
-    configureType();
   }
   @Override
   protected void configAmountInput() {
@@ -442,7 +444,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (mTransaction instanceof SplitTransaction) {
       MenuInflater inflater = getSupportMenuInflater();
       inflater.inflate(R.menu.split, menu);
-      menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(mTransferEnabled);
     } else if (!(mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer))
       menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
@@ -491,11 +492,22 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     return super.dispatchCommand(command, tag);
   }
   private void createRow(int type) {
-    Intent i = new Intent(this, ExpenseEdit.class);
-    i.putExtra("operationType", type);
-    i.putExtra(KEY_ACCOUNTID,mTransaction.accountId);
-    i.putExtra(KEY_PARENTID,mTransaction.id);
-    startActivityForResult(i, ACTIVITY_EDIT_SPLIT);
+    if (type == MyExpenses.TYPE_TRANSFER &&
+        !mAccounts[mAccountSpinner.getSelectedItemPosition()].transferEnabled) {
+      MessageDialogFragment.newInstance(
+          R.string.dialog_title_menu_command_disabled,
+          getString(R.string.dialog_command_disabled_insert_transfer,
+              mAccounts[mAccountSpinner.getSelectedItemPosition()].currency.getCurrencyCode()),
+          MessageDialogFragment.Button.okButton(),
+          null,null)
+       .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
+    } else {
+      Intent i = new Intent(this, ExpenseEdit.class);
+      i.putExtra("operationType", type);
+      i.putExtra(KEY_ACCOUNTID,mAccountSpinner.getSelectedItemId());
+      i.putExtra(KEY_PARENTID,mTransaction.id);
+      startActivityForResult(i, ACTIVITY_EDIT_SPLIT);
+    }
   }
   /**
    * calls the activity for selecting (and managing) categories
@@ -934,8 +946,12 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       break;
     case R.id.Account:
       mAmountLabel.setText(getString(R.string.amount) + " ("+mAccounts[position].currency.getSymbol()+")");
-      if (mOperationType == MyExpenses.TYPE_TRANSFER)
+      if (mOperationType == MyExpenses.TYPE_TRANSFER) {
         setTransferAccountFilterMap();
+      }
+      if (mTransaction instanceof SplitTransaction) {
+        ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
+      }
     }
   }
   @Override
@@ -1082,6 +1098,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
           mManager.initLoader(METHODS_CURSOR, null, this);
         }
       }
+      configureType();
       break;
     case EVENT_CURSOR:
       if (data.moveToFirst()) {
@@ -1191,5 +1208,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         "ASYNC_TASK")
     .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_create_plan),"PROGRESS")
     .commit();
+  }
+  public void disableAccountSpinner() {
+    mAccountSpinner.setEnabled(false);
   }
 }

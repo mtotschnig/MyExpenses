@@ -31,7 +31,8 @@
   <string name="date_format_illegal">Formato data non valido</string>
   <string name="default_account_description">Questo conto è stato creato automaticamente con la installazione</string>
   <string name="description">Descrizione</string>
-  <string name="dialog_command_disabled_insert_transfer">Le operazioni di trasferimento richiedono un secondo account con la stessa moneta. Creare uno dalla lista di conti (accessibile tramite il tasto HOME nell\'angolo in alto a sinistra).</string>
+  <string name="dialog_command_disabled_insert_transfer">Le operazioni di trasferimento richiedono un secondo conto con la stessa moneta. Hai solo un conto della valuta %1$s.</string>
+  <string name="dialog_command_disabled_insert_transfer">Creare altri conti dalla lista di conti (accessibile tramite il tasto HOME nell\'angolo in alto a sinistra).</string>
   <string name="dialog_command_disabled_reset_account">Nessun operazioni per esportare.</string>
   <string name="dialog_command_disabled_distribution">Nessuna transazione è stata assegnata a categorie in questo conto.</string>
   <string name="dialog_confirm_restore_on_install">È stato trovato un file di backup. Si vuole ripristinarlo?</string>
