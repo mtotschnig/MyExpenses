@@ -689,15 +689,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
             selected : null;
     }
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      int position = mTransferAccountSpinner.getSelectedItemPosition();
-      if (position > -1) {
-        Account transferAccount = mAccounts[position];
-        mTransaction.transfer_account = transferAccount.id;
-      } else {
-       validP = false;
-       //should not happen
-       Toast.makeText(this, "No transfer account selected", Toast.LENGTH_LONG).show();
-      }
+        mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
     }
     return validP;
   }
@@ -942,7 +934,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       break;
     case R.id.Account:
       mAmountLabel.setText(getString(R.string.amount) + " ("+mAccounts[position].currency.getSymbol()+")");
-      setTransferAccountFilterMap();
+      if (mOperationType == MyExpenses.TYPE_TRANSFER)
+        setTransferAccountFilterMap();
     }
   }
   @Override
