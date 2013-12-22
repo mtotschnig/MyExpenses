@@ -114,7 +114,6 @@ public class MyExpenses extends LaunchActivity implements
     mAccountId = newAccountId;
   }
   private Cursor mAccountsCursor;
-  private HashMap<String,Integer> currencyAccountCount;
   //private Cursor mExpensesCursor;
   private MyViewPagerAdapter myAdapter;
   private ViewPager myPager;
@@ -526,20 +525,11 @@ public class MyExpenses extends LaunchActivity implements
       mAccountId = cacheAccountId;
       mAccountsCursor.moveToFirst();
       currentPosition = -1;
-      int columnIndexRowId = mAccountsCursor.getColumnIndex(KEY_ROWID),
-          columnIndexCurrency = mAccountsCursor.getColumnIndex(KEY_CURRENCY);
-      String currency;
-      Integer count;
-      currencyAccountCount = new HashMap<String,Integer>();
+      int columnIndexRowId = mAccountsCursor.getColumnIndex(KEY_ROWID);
       while (mAccountsCursor.isAfterLast() == false) {
         if (mAccountsCursor.getLong(columnIndexRowId) == mAccountId) {
           currentPosition = mAccountsCursor.getPosition();
         }
-        currency = mAccountsCursor.getString(columnIndexCurrency);
-        count = currencyAccountCount.get(currency);
-        if (count == null)
-          count = 0;
-        currencyAccountCount.put(currency, count+1);
         mAccountsCursor.moveToNext();
       }
       //the current account was deleted, we set it to the first
@@ -647,8 +637,7 @@ public class MyExpenses extends LaunchActivity implements
       .commit();
   }
   public boolean transferEnabled() {
-    Integer sameCurrencyCount = currencyAccountCount.get(
-        Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode());
-      return sameCurrencyCount != null && sameCurrencyCount >1;
+    mAccountsCursor.moveToPosition(currentPosition);
+    return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow("transfer_enabled")) > 0;
   }
 }
