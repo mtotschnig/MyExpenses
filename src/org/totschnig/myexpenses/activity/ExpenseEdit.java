@@ -31,6 +31,7 @@ import java.util.Date;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
+import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -96,7 +97,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private Button mTimeButton;
   private EditText mCommentText, mTitleText, mReferenceNumberText;
   private Button mCategoryButton, mPlanButton;
-  private Spinner mMethodSpinner, mAccountSpinner, mTransferAccountSpinner;
+  private Spinner mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
   private AutoCompleteTextView mPayeeText;
@@ -173,6 +174,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mMethodSpinner = (Spinner) findViewById(R.id.Method);
     mAccountSpinner = (Spinner) findViewById(R.id.Account);
     mTransferAccountSpinner = (Spinner) findViewById(R.id.TransferAccount);
+    mStatusSpinner = (Spinner) findViewById(R.id.Status);
     mPlanToggleButton = (ToggleButton) findViewById(R.id.togglebutton);
     mAmountLabel = (TextView) findViewById(R.id.AmountLabel);
     TextPaint paint = mPlanToggleButton.getPaint();
@@ -226,12 +228,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     View categoryContainer = findViewById(R.id.CategoryRow);
     if (categoryContainer == null)
       categoryContainer = findViewById(R.id.Category);
-    //Spinner for setting Status
-    Spinner statusSpinner = (Spinner) findViewById(R.id.Status);
+
     if (mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer)
-      statusSpinner.setVisibility(View.GONE);
+      mStatusSpinner.setVisibility(View.GONE);
     else {
       ArrayAdapter<Transaction.CrStatus> sAdapter = new ArrayAdapter<Transaction.CrStatus>(
           DialogUtils.wrapContext1(this),
@@ -255,9 +256,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         }
       };
       sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
-      statusSpinner.setAdapter(sAdapter);
-      statusSpinner.setSelection(mTransaction.crStatus.ordinal());
-      statusSpinner.setOnItemSelectedListener(this);
+      mStatusSpinner.setAdapter(sAdapter);
+      mStatusSpinner.setSelection(mTransaction.crStatus.ordinal());
+      mStatusSpinner.setOnItemSelectedListener(this);
     }
 
     if (mTransaction instanceof Template) {
@@ -770,6 +771,10 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     }
     mPlanButton.setEnabled(true);
   }
+  private void configureStatusSpinner() {
+    mStatusSpinner.setVisibility(
+        getCurrentAccount().type.equals(Type.CASH) ? View.GONE : View.VISIBLE);
+  }
   /**
    *  set label on category button
    */
@@ -989,6 +994,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       if (mTransaction instanceof SplitTransaction) {
         ((SplitPartList) getSupportFragmentManager().findFragmentByTag("SPLIT_PART_LIST")).updateBalance();
       }
+      configureStatusSpinner();
     }
   }
   @Override
@@ -1136,6 +1142,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         }
       }
       configureType();
+      configureStatusSpinner();
       break;
     case EVENT_CURSOR:
       if (data.moveToFirst()) {
