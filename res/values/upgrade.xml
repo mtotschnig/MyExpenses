@@ -18,6 +18,11 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_105">
+    <item>(Traditional) Chinese translation</item>
+    <item>Allow selection of account in transaction editing form</item>
+    <item>Clearer UI for transfers</item>
+  </string-array>
   <string-array name="whats_new_104">
     <item>UI improvements (#94) and bug fixes (#95,#96)</item>
   </string-array>

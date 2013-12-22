@@ -14,8 +14,11 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
+ <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1">
 <LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="wrap_content">
@@ -61,10 +64,11 @@
         android:layout_height="wrap_content"
         android:text="@string/dialog_export_not_yet_exported"/>
     <TextView
-        style="@style/dialog_text_bold_workaround"
+        style="@style/dialog_text_bold"
         android:layout_margin="@dimen/general_padding"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:id="@+id/warning_reset"
         android:text="@string/warning_reset_account" />
 </LinearLayout>
+</ScrollView>

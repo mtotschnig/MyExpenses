@@ -57,9 +57,8 @@
     <item name="android:textColor">#ffffff</item>
   </style>
   <!-- in the export_dialog, the bold TextView is cut on 2.3. if we do not make sure it has at least x lines -->
-  <style name="dialog_text_bold_workaround" parent="dialog_text">
+  <style name="dialog_text_bold" parent="dialog_text">
   	<item name="android:textStyle">bold</item>
-    <item name="android:minLines">3</item>
   </style>
   <style name="titleTextStyle">
     <item name="android:textStyle">bold</item>
@@ -110,4 +109,7 @@
   <dimen name="calculator_button_large">50dp</dimen>
   <dimen name="calculator_button_small">40dp</dimen>
   <dimen name="general_padding">7dp</dimen>
+  <style name="SmallButton">
+     <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+  </style>
 </resources>

@@ -232,6 +232,8 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
     switch(arg0.getId()) {
     case TRANSACTION_CURSOR:
       mAdapter.swapCursor(c);
+      if (c.getCount()>0)
+        ((ExpenseEdit) getSherlockActivity()).disableAccountSpinner();
       break;
     case SUM_CURSOR:
       c.moveToFirst();

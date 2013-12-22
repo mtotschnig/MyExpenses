@@ -69,7 +69,7 @@ import android.widget.Toast;
 public class MyApplication extends Application implements OnSharedPreferenceChangeListener {
     public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
     public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
-    private SharedPreferences settings;
+    private SharedPreferences mSettings;
     private static MyApplication mSelf;
     public static final String BACKUP_PREF_PATH = "BACKUP_PREF";
     //the following keys are stored as string resources, so that
@@ -126,7 +126,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      */
     public static long passwordCheckDelayNanoSeconds;
     public static void setPasswordCheckDelayNanoSeconds() {
-      MyApplication.passwordCheckDelayNanoSeconds = mSelf.settings.getInt(PREFKEY_PROTECTION_DELAY_SECONDS, 15) * 1000000000L;
+      MyApplication.passwordCheckDelayNanoSeconds = mSelf.mSettings.getInt(PREFKEY_PROTECTION_DELAY_SECONDS, 15) * 1000000000L;
     }
 
     public boolean isLocked;
@@ -148,11 +148,8 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public void onCreate() {
       super.onCreate();
       mSelf = this;
-      if (settings == null)
-      {
-          settings = PreferenceManager.getDefaultSharedPreferences(this);
-      }
-      settings.registerOnSharedPreferenceChangeListener(this);
+      //sets up mSettings
+      getSettings().registerOnSharedPreferenceChangeListener(this);
       PREFKEY_CATEGORIES_SORT_BY_USAGES = getString(R.string.pref_categories_sort_by_usages_key);
       PREFKEY_PERFORM_SHARE = getString(R.string.pref_perform_share_key);
       PREFKEY_SHARE_TARGET = getString(R.string.pref_share_target_key);
@@ -258,13 +255,14 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       return mSelf;
     }
 
-    public SharedPreferences getSettings()
-    {
-        return settings;
+    public SharedPreferences getSettings() {
+      if (mSettings == null) {
+        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+      }
+      return mSettings;
     }
-    public void setSettings(SharedPreferences s)
-    {
-        settings = s;
+    public void setSettings(SharedPreferences s) {
+        mSettings = s;
     }
     public boolean backup() {
       File appDir, backupPrefFile, sharedPrefFile;
@@ -292,15 +290,15 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public static int getThemeId() {
       int fontScale;
       try {
-        fontScale = mSelf.settings.getInt(PREFKEY_UI_FONTSIZE, 0);
+        fontScale = mSelf.mSettings.getInt(PREFKEY_UI_FONTSIZE, 0);
       } catch (Exception e) {
         //in a previous version, the same key was holding an integer
         fontScale = 0;
         SharedPreferencesCompat.apply(
-            mSelf.settings.edit().remove(PREFKEY_UI_FONTSIZE));
+            mSelf.mSettings.edit().remove(PREFKEY_UI_FONTSIZE));
       }
       int resId;
-      if (mSelf.settings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light")) {
+      if (mSelf.mSettings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light")) {
         if (fontScale < 1 || fontScale > 3)
           return R.style.ThemeLight;
         else
@@ -319,26 +317,26 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         super.onConfigurationChanged(newConfig);
         systemLocale = newConfig.locale;
     }
-    /**
-     * this is only used from instrumentation
-     * @param language
-     * @param coutry
-     */
-    public void setLanguage(String language, String country) {
-      setLanguage(new Locale(language,country));
-    }
+
     public void setLanguage() {
-      String language = settings.getString(MyApplication.PREFKEY_UI_LANGUAGE, "default");
-      setLanguage(language.equals("default") ?
-          systemLocale :
-          new Locale(language)
-          );
+      String language = mSettings.getString(MyApplication.PREFKEY_UI_LANGUAGE, "default");
+      Locale l;
+      if (language.equals("default")) {
+        l = systemLocale;
+      } else if (language.contains("-")) {
+        String[] parts = language.split("-");
+        l = new Locale(parts[0],parts[1]);
+      } else {
+        l = new Locale(language);
+      }
+      setLanguage(l);
     }
     private void setLanguage(Locale locale) {
       if (!Locale.getDefault().equals(locale)) {
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
+        config.fontScale = getResources().getConfiguration().fontScale;
         getResources().updateConfiguration(config,
             getResources().getDisplayMetrics());
       }
@@ -391,7 +389,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
           File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
           if (Utils.copy(backupPrefFile,tempPrefFile)) {
             SharedPreferences backupPref = mSelf.getSharedPreferences("backup_temp",0);
-            Editor edit = mSelf.settings.edit().clear();
+            Editor edit = mSelf.mSettings.edit().clear();
             String key;
             Object val;
             for (Map.Entry<String, ?> entry : backupPref.getAll().entrySet()) {
@@ -448,7 +446,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
      * sets isLocked as a side effect
      */
     public boolean shouldLock() {
-      if (settings.getBoolean(PREFKEY_PERFORM_PROTECTION, false) && System.nanoTime() - getmLastPause() > passwordCheckDelayNanoSeconds) {
+      if (mSettings.getBoolean(PREFKEY_PERFORM_PROTECTION, false) && System.nanoTime() - getmLastPause() > passwordCheckDelayNanoSeconds) {
         isLocked = true;
         return true;
       }
@@ -472,7 +470,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       else {
         if (c.moveToFirst()) {
           String found = DbUtils.getString(c,0);
-          String expected = settings.getString(PREFKEY_PLANNER_CALENDAR_PATH,"");
+          String expected = mSettings.getString(PREFKEY_PLANNER_CALENDAR_PATH,"");
           if (!found.equals(expected)) {
             Log.w(TAG,String.format(
                 "found calendar, but path did not match; expected %s ; got %s",
@@ -491,7 +489,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       if (!mPlannerCalendarId.equals("-1")) {
         if (!checkPlannerInternal(mPlannerCalendarId)) {
           SharedPreferencesCompat.apply(
-              settings.edit()
+              mSettings.edit()
                 .remove(PREFKEY_PLANNER_CALENDAR_ID)
                 .remove(PREFKEY_PLANNER_CALENDAR_PATH)
                 .remove(PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP));
@@ -572,7 +570,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
       //onSharedPreferenceChanged should now trigger initPlanner
       SharedPreferencesCompat.apply(
-          settings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId));
+          mSettings.edit().putString(PREFKEY_PLANNER_CALENDAR_ID, plannerCalendarId));
       return true;
     }
     /**

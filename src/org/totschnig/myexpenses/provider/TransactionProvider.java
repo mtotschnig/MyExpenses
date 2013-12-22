@@ -232,7 +232,7 @@ public class TransactionProvider extends ContentProvider {
     case ACCOUNTS:
       qb.setTables(TABLE_ACCOUNTS);
       if (projection == null)
-        projection = Account.PROJECTION;
+        projection = Account.PROJECTION_BASE;
       defaultOrderBy = (MyApplication.getInstance().getSettings()
           .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
               KEY_USAGES + " DESC, " : "")

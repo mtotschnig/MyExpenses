@@ -44,6 +44,7 @@
       <item>Khmer</item>
       <item>Türkçe</item>
       <item>Tiếng Việt</item>
+      <item>中文 (繁體)</item>
     </string-array>
     <string-array name="pref_ui_language_values">
     	<item>default</item>
@@ -58,6 +59,7 @@
       <item>km</item>
       <item>tr</item>
       <item>vi</item>
+      <item>zh-TW</item>
     </string-array>
     <string-array name="grouping_entries">
         <item>@string/grouping_none</item>
@@ -130,6 +132,7 @@
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
+      <item>105</item>
       <item>104</item>
       <item>102</item>
       <item>100</item>
@@ -142,6 +145,7 @@
       <item>67</item>
     </integer-array>
     <string-array name="version_names">
+      <item>1.10.5</item>
       <item>1.10.4</item>
       <item>1.10.3</item>
       <item>1.10.2</item>

@@ -27,12 +27,12 @@
   <string name="currency">Moneda</string>
   <string name="current_balance">Saldo actual</string>
   <string name="date">Data</string>
-  <string name="date_format">Format de la data (yy=any)</string>
+  <string name="date_format">Format de la data</string>
   <string name="date_format_illegal">El format de data no és vàlid</string>
-  <string name="date_time">Data / Hora</string>
   <string name="default_account_description">Aquest compte s\'ha configurat automàticament a l\'instal·lació.</string>
   <string name="description">Descripció</string>
-  <string name="dialog_command_disabled_insert_transfer">Cal un segon compte amb la mateixa moneda per a les transferències. Obriu-ne un des de la llista de comptes (la trobareu a botó inici a la part superior esquerra).</string>
+  <string name="dialog_command_disabled_insert_transfer">Cal un segon compte amb la mateixa moneda per a les transferències.</string>
+  <string name="dialog_command_disabled_insert_transfer_1">Obriu-ne un des de la llista de comptes (la trobareu a botó inici a la part superior esquerra).</string>
   <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
   <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
   <string name="dialog_confirm_restore_on_install">S\'ha detectat un fitxer de còpia de seguretat. El voleu restaurar?</string>

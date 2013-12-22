@@ -52,10 +52,11 @@
   <string name="date">Date</string>
   <string name="date_format">Date format</string>
   <string name="date_format_illegal">Illegal date format</string>
-  <string name="date_time">Date / Time</string>
   <string name="default_account_description">This account was set up automatically during installation</string>
   <string name="description">Description</string>
-  <string name="dialog_command_disabled_insert_transfer">Transfer transactions require a second account with the same currency. Create one from the account list (accessible through the HOME button in the top left corner).</string>
+  <string name="dialog_command_disabled_insert_transfer">Transfer transactions require a second account with the same currency. You have only one account of currency %1$s.</string>
+  <!-- the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html -->
+  <string name="dialog_command_disabled_insert_transfer_1">Create additional accounts from the account list (accessible through the \'Up\' button in the top left corner).</string>
   <string name="dialog_command_disabled_reset_account">No transactions to export.</string>
   <string name="dialog_command_disabled_distribution">No transactions have been mapped to categories in this account.</string>
   <string name="dialog_confirm_restore_on_install">A backup file has been detected. Do you want to restore it?</string>
@@ -186,6 +187,8 @@
   <string name="menu_forward">Forward</string>
   <string name="menu_grouping">Grouping</string>
   <string name="menu_help">Help</string>
+  <!-- This command inverts the direction of a transfer -->
+  <string name="menu_invert_transfer">Invert</string>
   <string name="menu_manage_plans">Templates and plans</string>
   <string name="menu_move_transaction">Move</string>
   <string name="menu_reset">Export and reset</string>
@@ -266,6 +269,7 @@
   <string name="pref_enter_licence_summary">If you received a Contrib key, gain access to premium features.</string>
   <string name="pref_enter_licence_title">Enter Contrib key</string>
   <string name="pref_export_format_title">Data format</string>
+  <string name="pref_follow_gplus_title">Follow My Expenses on Google+</string>
   <string name="pref_import_from_grisbi_summary">Import categories (and parties) from the default Grisbi definitions internal to the app, or your own file stored as &grisbi_file; in a folder \"myexpenses\"" in the root of your sdcard.</string>
   <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
   <string name="pref_manage_accounts_title">Accounts</string>
@@ -354,6 +358,8 @@
   <string name="title">Title</string>
   <string name="transaction">Transaction</string>
   <string name="transfer">Transfer</string>
+  <string name="transfer_from_account">From</string>
+  <string name="transfer_to_account">To</string>
   <string name="tutorial">User guide</string>
   <string name="type">Type</string>
   <string name="unsplit_amount">Unsplit amount</string>

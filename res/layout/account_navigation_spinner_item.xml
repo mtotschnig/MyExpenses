@@ -19,26 +19,26 @@
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
       android:paddingRight="@dimen/general_padding"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent">
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent">
   <View
       android:layout_marginRight="@dimen/general_padding"
       android:layout_alignParentLeft="true"
-	    android:id="@+id/color1"
-	    android:layout_height="fill_parent"
-	    android:layout_width="4dp"/>
+      android:id="@+id/color1"
+      android:layout_height="fill_parent"
+      android:layout_width="4dp"/>
   <TextView
+      style="?attr/spinnerItemStyle"
       android:layout_centerVertical="true"
-		  android:layout_toRightOf="@id/color1"
-		  android:layout_toLeftOf="@id/end"
-	    android:textAppearance="?android:attr/textAppearanceMedium"
-	    android:id="@android:id/text1"
-	    android:singleLine="true"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:ellipsize="end" />
+      android:layout_toRightOf="@id/color1"
+      android:layout_toLeftOf="@id/end"
+      android:id="@android:id/text1"
+      android:singleLine="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:ellipsize="marquee" />
   <TextView
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        style="?attr/spinnerItemStyle"
         android:textStyle="bold"
         android:id="@+id/end"
         android:layout_centerVertical="true"

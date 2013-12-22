@@ -293,7 +293,6 @@ public class MyExpenses extends LaunchActivity implements
   private void createRow(int type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
-    i.putExtra("transferEnabled",transferEnabled());
     i.putExtra(KEY_ACCOUNTID,mAccountId);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
@@ -356,7 +355,8 @@ public class MyExpenses extends LaunchActivity implements
       } else {
         MessageDialogFragment.newInstance(
             R.string.dialog_title_menu_command_disabled,
-            R.string.dialog_command_disabled_insert_transfer,
+            getString(R.string.dialog_command_disabled_insert_transfer,Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode())
+              + " " + getString(R.string.dialog_command_disabled_insert_transfer_1),
             MessageDialogFragment.Button.okButton(),
             null,null)
          .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
@@ -508,10 +508,8 @@ public class MyExpenses extends LaunchActivity implements
     String[] projection;
     switch(id) {
     case ACCOUNTS_CURSOR:
-      // TODO specify columns
-      projection = null;
         return new CursorLoader(this,
-          TransactionProvider.ACCOUNTS_URI, projection, null, null, null);
+          TransactionProvider.ACCOUNTS_URI, Account.PROJECTION_FULL, null, null, null);
     }
     return null;
   }

@@ -29,7 +29,6 @@
   <string name="date">Dátum</string>
   <string name="date_format">Dátum formátum</string>
   <string name="date_format_illegal">Helytelen dátum formátum</string>
-  <string name="date_time">Dátum / Idő</string>
   <string name="default_account_description">Ez a számla automatikusan került beállításra a telepítés során</string>
   <string name="description">Leírás</string>
   <string name="dialog_confirm_restore_on_install">A rendszer egy korábbi biztonsági mentést talált. Szeretné visszaállítani arra?</string>

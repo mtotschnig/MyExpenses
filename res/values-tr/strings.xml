@@ -29,10 +29,10 @@
   <string name="date">Tarih</string>
   <string name="date_format">Tarih biçimi</string>
   <string name="date_format_illegal">Geçersiz tarih biçimi</string>
-  <string name="date_time">Tarih / Zaman</string>
   <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>
   <string name="description">Açıklama</string>
-  <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir. Hesap listesinden yeni hesap oluşturabilirsiniz (üst sol köşede EV düğmesiyle erişilebilir).</string>
+  <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir.</string>
+  <string name="dialog_command_disabled_insert_transfer_1">Hesap listesinden yeni hesap oluşturabilirsiniz (üst sol köşede EV düğmesiyle erişilebilir).</string>
   <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
   <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
   <string name="dialog_confirm_restore_on_install">Bir yedekleme dosyası tespit edildi. Onu yüklemek istiyor musunuz?</string>

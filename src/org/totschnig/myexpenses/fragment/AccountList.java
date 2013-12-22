@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ManageAccounts;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -107,7 +108,7 @@ public class AccountList extends SherlockFragment implements LoaderManager.Loade
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
     CursorLoader cursorLoader = new CursorLoader(getActivity(),
-        TransactionProvider.ACCOUNTS_URI, null, null,null, null);
+        TransactionProvider.ACCOUNTS_URI, Account.PROJECTION_FULL, null,null, null);
     return cursorLoader;
   }
 

@@ -44,17 +44,41 @@
             android:layout_height="wrap_content" />
       </TableRow>
 
+      <TableRow>
+        <TextView style="@style/form_label"
+            android:id="@+id/AccountLabel" />
+        <LinearLayout android:id="@+id/AccountParent"
+            android:orientation="horizontal">
+	        <Spinner android:id="@+id/Account"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:prompt="@string/account" />
+	        <Button style="@style/SmallButton" android:id="@+id/Category"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:text="@string/select"/>
+	        <Spinner android:id="@+id/TransferAccount"
+              android:prompt="@string/transfer_to_account"
+              android:visibility="gone"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content" />
+	      </LinearLayout>
+      </TableRow>
+
       <TableRow android:id="@+id/DateRow">
         <TextView style="@style/form_label"
-            android:text="@string/date_time"/>
+        	  android:id="@+id/DateTimeLabel"/>
         <LinearLayout
             android:orientation="horizontal">
-          <Button android:layout_weight="1"
+          <Button style="@style/SmallButton" android:layout_weight="1"
               android:layout_width="0dp"
               android:layout_height="fill_parent"
               android:id="@+id/Date"
               android:text="@string/select"/>
-          <Button android:layout_weight="1"
+          <Button style="@style/SmallButton" android:layout_weight="1"
               android:layout_width="0dp"
               android:layout_height="fill_parent"
               android:id="@+id/Time"
@@ -67,19 +91,6 @@
         <LinearLayout
             android:orientation="horizontal">
           <include layout="@layout/amount_input"/>
-          <Button android:id="@+id/Category"
-              android:layout_weight="2"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center"
-              android:text="@string/category"/>
-          <Spinner android:id="@+id/Account"
-              android:prompt="@string/account"
-              android:visibility="gone"
-              android:layout_weight="2"
-              android:layout_width="0dp"
-              android:layout_gravity="center"
-              android:layout_height="fill_parent" />
           <Spinner
               android:layout_gravity="center"
               android:prompt="@string/status"
@@ -137,7 +148,7 @@
             android:text="@string/plan" />
         <LinearLayout
             android:orientation="horizontal">
-        <Button android:id="@+id/Plan"
+        <Button style="@style/SmallButton" android:id="@+id/Plan"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

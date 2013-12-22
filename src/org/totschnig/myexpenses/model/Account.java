@@ -29,7 +29,6 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Account.ExportFormat;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -64,13 +63,47 @@ public class Account extends Model {
   public String description;
 
   public int color;
+  
+  /**
+   * is there at least one other account with the same currency
+   */
+  public boolean transferEnabled;
 
-  public static final String[] PROJECTION = new String[] {KEY_ROWID,KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_COLOR,KEY_GROUPING,KEY_TYPE,
-    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income",
-    "(SELECT coalesce(abs(sum(amount)),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses",
-    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer",
-    "opening_balance + (SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED + "  WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
-        + SPLIT_CATID + ")) as current_balance"};
+  public static final String[] PROJECTION_BASE = new String[] {
+    KEY_ROWID,
+    KEY_LABEL,
+    KEY_DESCRIPTION,
+    KEY_OPENING_BALANCE,
+    KEY_CURRENCY,
+    KEY_COLOR,
+    KEY_GROUPING,
+    KEY_TYPE,
+    "(select count(*) from " + TABLE_ACCOUNTS + " t WHERE "
+        + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
+        +      "AS transfer_enabled"
+  };
+  public static final String[] PROJECTION_FULL = new String[] {
+    KEY_ROWID,
+    KEY_LABEL,
+    KEY_DESCRIPTION,
+    KEY_OPENING_BALANCE,
+    KEY_CURRENCY,
+    KEY_COLOR,
+    KEY_GROUPING,
+    KEY_TYPE,
+    "(select count(*) from " + TABLE_ACCOUNTS + " t WHERE "
+        + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
+        +      "AS transfer_enabled",
+    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
+      + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income",
+    "(SELECT coalesce(abs(sum(amount)),0) FROM " + VIEW_COMMITTED 
+      + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses",
+    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
+      + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer",
+    KEY_OPENING_BALANCE + " + (SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM " + VIEW_COMMITTED
+      + "  WHERE " + KEY_ACCOUNTID + " = accounts." + KEY_ROWID
+      + " and (" + KEY_CATID + " is null OR " + KEY_CATID + " != "
+      + SPLIT_CATID + ")) as current_balance"};
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
   public enum ExportFormat {
@@ -458,6 +491,7 @@ public class Account extends Model {
     } catch (IllegalArgumentException ex) {
       this.color = defaultColor;
     }
+    this.transferEnabled = c.getInt(c.getColumnIndexOrThrow("transfer_enabled")) > 0;
     accounts.put(id, this);
   }
 

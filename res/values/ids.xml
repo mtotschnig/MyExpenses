@@ -39,6 +39,7 @@
   <item type="id" name="INSERT_SPLIT_COMMAND"/>
   <item type="id" name="INSERT_TA_COMMAND"/>
   <item type="id" name="INSERT_TRANSFER_COMMAND"/>
+  <item type="id" name="INVERT_TRANSFER_COMMAND"/>
   <item type="id" name="MANAGE_PLANS_COMMAND" />
   <item type="id" name="MORE_ACTIONS_DIALOG"/>
   <item type="id" name="MORE_INFO_DIALOG"/>

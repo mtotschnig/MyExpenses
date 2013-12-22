@@ -40,7 +40,6 @@
   <string name="currency">Tiền tệ</string>
   <string name="current_balance">Trạng thái cân bằng hiện tại</string>
   <string name="date">Ngày tháng</string>
-  <string name="date_time">Ngày tháng / Thời gian</string>
   <string name="default_account_description">Tài khỏa này đã được cài đặt tự động trong suốt quá trình cài đặt</string>
   <string name="description">Mô tả</string>
   <string name="dialog_confirm_restore_on_install">Một tập tin sao lưu đã được phát hiện. Bạn có muốn phục hồi tập tin này không?</string>

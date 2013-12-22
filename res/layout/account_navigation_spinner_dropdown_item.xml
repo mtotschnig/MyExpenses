@@ -18,7 +18,7 @@
 */
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:layout_height="?attr/dropdownListPreferredItemHeight"
+      android:layout_height="?attr/dropdownListPreferredItemHeight"
       android:paddingRight="@dimen/general_padding"
       android:layout_width="match_parent"
       android:gravity="fill_horizontal">
@@ -29,17 +29,17 @@
       android:layout_height="fill_parent"
       android:layout_width="4dp"/>
   <TextView
+      style="?android:attr/spinnerDropDownItemStyle"
       android:layout_centerVertical="true"
       android:layout_toRightOf="@id/color1"
       android:layout_alignParentTop="true"
-      android:textAppearance="?android:attr/textAppearanceMedium"
       android:id="@android:id/text1"
       android:singleLine="true"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:ellipsize="end" />
+      android:ellipsize="marquee" />
   <TextView
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        style="?android:attr/spinnerDropDownItemStyle"
         android:layout_below="@android:id/text1"
         android:layout_toRightOf="@id/color1"
         android:id="@+id/end"

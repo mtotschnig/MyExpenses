@@ -265,8 +265,8 @@ public class Transaction extends Model {
     initialValues.put(KEY_PAYEEID, payee_id);
     initialValues.put(KEY_METHODID, methodId);
     initialValues.put(KEY_CR_STATUS,crStatus.name());
+    initialValues.put(KEY_ACCOUNTID, accountId);
     if (id == 0) {
-      initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);

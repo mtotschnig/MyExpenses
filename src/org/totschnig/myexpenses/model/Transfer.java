@@ -51,8 +51,8 @@ public class Transfer extends Transaction {
     initialValues.put(KEY_AMOUNT, amount);
     initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
     initialValues.put(KEY_CR_STATUS,crStatus.name());
+    initialValues.put(KEY_ACCOUNTID, accountId);
     if (id == 0) {
-      initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);
@@ -82,8 +82,8 @@ public class Transfer extends Transaction {
       //if the user has changed the account to which we should transfer,
       //in the peer transaction we need to update the account_id
       initialValues.put(KEY_ACCOUNTID, transfer_account);
-      //the account from which is transfered is not altered
-      initialValues.remove(KEY_TRANSFER_ACCOUNT);
+      //the account from which is transfered could also have been altered
+      initialValues.put(KEY_TRANSFER_ACCOUNT,accountId);
       cr().update(Uri.parse(CONTENT_URI + "/" + transfer_peer),initialValues,null,null);
     }
     return uri;
