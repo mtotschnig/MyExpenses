@@ -32,7 +32,7 @@
   <string name="default_account_description">Ce compte a été créé automatiquement lors de l\'installation</string>
   <string name="description">Description</string>
   <string name="dialog_command_disabled_insert_transfer">Les opérations de transfert nécessitent un autre compte dans la même devise. Vous avez un seul compte de la monnaie %1$s.</string>
-  <string name="dialog_command_disabled_insert_transfer_1">Vous pouvez en créer d\'autres à partir de la liste des comptes (accessible par la touche HOME en haut à gauche).</string>
+  <string name="dialog_command_disabled_insert_transfer_1">Vous pouvez en créer d\'autres à partir de la liste des comptes (accessible par la touche \'En haut\' en haut à gauche).</string>
   <string name="dialog_command_disabled_reset_account">Aucune opération à exporter</string>
   <string name="dialog_command_disabled_distribution">Aucune opération n\'a été attribuée dans aucune catégorie pour ce compte.</string>
   <string name="dialog_confirm_restore_on_install">Un fichier de sauvegarde a été détecté. Voulez-vous le restaurer ?</string>
