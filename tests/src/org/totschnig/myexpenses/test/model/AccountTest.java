@@ -109,7 +109,7 @@ public class AccountTest extends ModelTest  {
     insertData();
     cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
-        null,            // get all the columns
+        Account.PROJECTION_FULL,            // get all the columns
         null,                       // no selection columns, get all the records
         null,                       // no selection criteria
         null                        // use default the sort order
