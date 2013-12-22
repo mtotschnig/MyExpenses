@@ -374,7 +374,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mAccountSpinner.setOnItemSelectedListener(this);
     TextView accountLabelTv = (TextView) findViewById(R.id.AccountLabel);
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      findViewById(R.id.TaType).setVisibility(View.GONE);
+      mTypeButton.setVisibility(View.GONE);
       categoryContainer.setVisibility(View.GONE);
       View accountContainer = findViewById(R.id.TransferAccountRow);
       if (accountContainer == null)
@@ -495,17 +495,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       .commit();
       return true;
     case R.id.INVERT_TRANSFER_COMMAND:
-      mTransaction.transfer_account = mAccountSpinner.getSelectedItemId();
-      mTransaction.accountId = mTransferAccountSpinner.getSelectedItemId();
-      for (int i = 0; i < mAccounts.length; i++) {
-        if (mTransaction.accountId == mAccounts[i].id) {
-          mAccountSpinner.setSelection(i);
-          break;
-        }
-      }
-      int selectedPosition = setTransferAccountFilterMap();
-      mTransferAccountSpinner.setSelection(selectedPosition);
-      return true;
+      mType = ! mType;
+      switchAccountViews();
     }
     return super.dispatchCommand(command, tag);
   }
@@ -814,8 +805,36 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     setDate();
     setTime();
     super.onRestoreInstanceState(savedInstanceState);
+    if (mType == INCOME && mOperationType == MyExpenses.TYPE_TRANSFER) {
+      switchAccountViews();
+    }
   }
 
+  private void switchAccountViews() {
+    ViewGroup accountParent = (ViewGroup) findViewById(R.id.AccountParent);
+    if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
+      if (mType == INCOME) {
+        accountParent.removeView(mAccountSpinner);
+        accountParent.addView(mAccountSpinner);
+      } else {
+        accountParent.removeView(mTransferAccountSpinner);
+        accountParent.addView(mTransferAccountSpinner);
+      }
+    } else {
+      ViewGroup transferAccountRow = (ViewGroup) findViewById(R.id.TransferAccountRow);
+      if (mType == INCOME) {
+        accountParent.removeView(mAccountSpinner);
+        transferAccountRow.removeView(mTransferAccountSpinner);
+        accountParent.addView(mTransferAccountSpinner);
+        transferAccountRow.addView(mAccountSpinner);
+      } else {
+        accountParent.removeView(mTransferAccountSpinner);
+        transferAccountRow.removeView(mAccountSpinner);
+        accountParent.addView(mAccountSpinner);
+        transferAccountRow.addView(mTransferAccountSpinner);
+      }
+    }
+  }
   public Money getAmount() {
     if (getCurrentAccount() == null)
       return null;

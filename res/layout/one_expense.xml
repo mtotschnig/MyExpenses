@@ -44,7 +44,7 @@
             android:layout_height="wrap_content" />
       </TableRow>
 
-      <TableRow android:id="@+id/AccountRow">
+      <TableRow android:id="@+id/AccountParent">
         <TextView style="@style/form_label"
         	  android:id="@+id/AccountLabel"
             android:text="@string/account" />

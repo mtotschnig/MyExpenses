@@ -44,10 +44,10 @@
             android:layout_height="wrap_content" />
       </TableRow>
 
-      <TableRow android:id="@+id/AccountRow">
+      <TableRow>
         <TextView style="@style/form_label"
             android:id="@+id/AccountLabel" />
-        <LinearLayout
+        <LinearLayout android:id="@+id/AccountParent"
             android:orientation="horizontal">
 	        <Spinner android:id="@+id/Account"
               android:layout_weight="1"
