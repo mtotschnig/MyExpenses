@@ -613,6 +613,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       break;
     case 1:
       mType = INCOME;
+      if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+        switchAccountViews();
+      }
     }
     if (signum != 0)
       mAmountText.setText(nfDLocal.format(amount));
