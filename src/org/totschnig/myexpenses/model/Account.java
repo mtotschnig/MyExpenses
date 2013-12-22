@@ -402,9 +402,8 @@ public class Account extends Model {
       }
       selection += id;
     }
-    String[] projection = new String[] {KEY_LABEL,KEY_DESCRIPTION,KEY_OPENING_BALANCE,KEY_CURRENCY,KEY_TYPE,KEY_COLOR,KEY_GROUPING};
     Cursor c = cr().query(
-        CONTENT_URI, projection,selection,null, null);
+        CONTENT_URI, null,selection,null, null);
     if (c == null || c.getCount() == 0) {
       throw new DataObjectNotFoundException(id);
     }
