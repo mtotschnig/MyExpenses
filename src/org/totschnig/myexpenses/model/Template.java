@@ -156,8 +156,8 @@ public class Template extends Transaction {
     initialValues.put(KEY_TITLE, title);
     initialValues.put(KEY_PLANID, planId);
     initialValues.put(KEY_PLAN_EXECUTION,planExecutionAutomatic);
+    initialValues.put(KEY_ACCOUNTID, accountId);
     if (id == 0) {
-      initialValues.put(KEY_ACCOUNTID, accountId);
       initialValues.put(KEY_TRANSFER_PEER, isTransfer);
       try {
         uri = cr().insert(CONTENT_URI, initialValues);
