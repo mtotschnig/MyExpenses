@@ -1126,8 +1126,14 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         mAccounts[position] = new Account(_id, data);
         if(_id == mTransaction.accountId) {
           mAccountSpinner.setSelection(position);
+          break;
         }
         data.moveToNext();
+      }
+      //if the accountId we have been passed does not exist, we select the first entry
+      if (data.isAfterLast()) {
+        mAccountSpinner.setSelection(0);
+        mTransaction.accountId = mAccounts[0].id;
       }
       if (mOperationType == MyExpenses.TYPE_TRANSFER) {
         mTransferAccountCursor = new FilterCursorWrapper(data);
