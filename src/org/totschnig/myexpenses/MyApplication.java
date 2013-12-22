@@ -192,7 +192,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
     public boolean initContribEnabled() {
       //TODO profile time taken in this function
       int contribStatusInfo = Distrib.getContribStatusInfo(this);
-      isContribEnabled = contribStatusInfo == -1 ||Utils.verifyLicenceKey(settings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
+      isContribEnabled = contribStatusInfo == -1 ||Utils.verifyLicenceKey(mSettings.getString(MyApplication.PREFKEY_ENTER_LICENCE, ""));
       //we call MyExpensesContrib to check status
       if (!isContribEnabled) {
         Log.i(TAG,"contribStatusInfo: " + contribStatusInfo);
