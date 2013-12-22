@@ -49,9 +49,9 @@ public class B_MenuTest extends MyActivityTest<ManageAccounts> {
         "RESET_ACCOUNT_ALL",
     }) {
       int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
-      assertFalse(
-          "Found " + command + " command that should be inactive",
-          actionBarItemVisible(resourceId));
+      assertTrue(command + "not found", resourceId!=0);
+      assertTrue(mInstrumentation.invokeMenuActionSync(mActivity, resourceId, 0));
+      assertTrue("Inactive dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_menu_command_disabled)));
     }
   }
 }

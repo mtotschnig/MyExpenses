@@ -82,9 +82,9 @@ public class B_MenuTest extends MyActivityTest<MyExpenses> {
     }) {
       int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());
       assertTrue(command + "not found", resourceId!=0);
-      assertFalse(
-          "Could call " + command + " command that should be inactive",
-          actionBarItemVisible(resourceId));
+      assertTrue(mInstrumentation.invokeMenuActionSync(mActivity, resourceId, 0));
+      assertTrue("Inactive dialog not shown", mSolo.searchText(mContext.getString(R.string.dialog_title_menu_command_disabled)));
+
     }
   }
 }
