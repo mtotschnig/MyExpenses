@@ -185,7 +185,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         Log.w(TAG,"Failed to open property file");
       }
       initContribEnabled();
-      mPlannerCalendarId = settings.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
+      mPlannerCalendarId = mSettings.getString(PREFKEY_PLANNER_CALENDAR_ID, "-1");
       initPlanner();
     }
 
