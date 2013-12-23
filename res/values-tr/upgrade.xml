@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_105">
+    <item>(Geleneksel) Çince çeviri</item>
+    <item>Muamele düzenleme formunda hesap seçimi</item>
+    <item>Transferler için daha temiz arayüz</item>
+  </string-array>
   <string-array name="whats_new_104">
     <item>Gelişmiş kullanıcı arayüzü (#94) ve hata düzeltmeleri (#95,#96)</item>
   </string-array>

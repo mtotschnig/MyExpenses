@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_105">
+    <item>Traducción Chino (tradicional) </item>
+    <item>Permitir la selección de la cuenta en la edición de la operación</item>
+    <item>Interfaz más clara para las transferencias</item>
+  </string-array>
   <string-array name="whats_new_104">
     <item>Mejoras de interfaz de usuario (#94) y corrección de errores (#95,#96)</item>
   </string-array>

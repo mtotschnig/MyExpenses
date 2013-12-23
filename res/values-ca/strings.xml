@@ -31,8 +31,9 @@
   <string name="date_format_illegal">El format de data no és vàlid</string>
   <string name="default_account_description">Aquest compte s\'ha configurat automàticament a l\'instal·lació.</string>
   <string name="description">Descripció</string>
-  <string name="dialog_command_disabled_insert_transfer">Cal un segon compte amb la mateixa moneda per a les transferències.</string>
-  <string name="dialog_command_disabled_insert_transfer_1">Obriu-ne un des de la llista de comptes (la trobareu a botó inici a la part superior esquerra).</string>
+  <string name="dialog_command_disabled_insert_transfer">Les operacions de transferència precisen un segon compte amb la mateixa moneda. Només disposeu d\'un compte i la seva moneda és %1$s.</string>
+  <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
+  <string name="dialog_command_disabled_insert_transfer_1">Podeu obrir més comptes des de la llista de comptes (podeu trobar la llista de comptes amb el botó \'Puja\' a al cantó superior esquerra).</string>
   <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
   <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
   <string name="dialog_confirm_restore_on_install">S\'ha detectat un fitxer de còpia de seguretat. El voleu restaurar?</string>
@@ -40,7 +41,7 @@
   <string name="dialog_contrib_no_usages_left">No disposeu de cap ús gratuït més.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s és una característica premium.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Suprimiu aquesta limitació mitjançant la instal lació de &lt;i&gt;Les meves despeses Contrib&lt;/i&gt;.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Suprimiu aquesta limitació mitjançant la instal·lació de &lt;i&gt;Les meves despeses Contrib&lt;/i&gt;.</string>
   <string name="dialog_contrib_reminder_gain_access">També tindreu accés sense restriccions a les següents característiques:</string>
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;Les meves despeses&lt;/i&gt; s\'ofereix sense publicitat i és de codi obert. Si us plau contribuiu instal·lant la versió Contrib de pagament. Obtindreu accés il·limitat a les següents característiques premium:</string>
@@ -62,8 +63,8 @@
   <string name="dialog_setup_planner_button_create_new">Nova</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Trieu</string>
-  <string name="dialog_title_menu_command_disabled">S\'ha desactivat el menú d\'ordres</string>
   <string name="dialog_title_contrib_feature">Característica premium</string>
+  <string name="dialog_title_menu_command_disabled">S\'ha desactivat el menú d\'ordres</string>
   <string name="dialog_title_planner_setup_info">Cal configurar l\'agenda</string>
   <string name="dialog_title_restore_on_install">S\'ha trobat una còpia de seguretat</string>
   <string name="dialog_title_select_account">Trieu el compte</string>
@@ -162,6 +163,8 @@
   <string name="menu_forward">Endavant</string>
   <string name="menu_grouping">Agrupat</string>
   <string name="menu_help">Ajuda</string>
+  <!--This command inverts the direction of a transfer-->
+  <string name="menu_invert_transfer">Inverteix</string>
   <string name="menu_manage_plans">Plantilles i planificacions</string>
   <string name="menu_move_transaction">Mou</string>
   <string name="menu_reset">Exporta i reinicia</string>
@@ -242,6 +245,7 @@
   <string name="pref_enter_licence_summary">Si heu rebut una clau Contrib, podeu accedir a les funcions avançades.</string>
   <string name="pref_enter_licence_title">Entreu la clau del Contribuïdor</string>
   <string name="pref_export_format_title">Format de les dades</string>
+  <string name="pref_follow_gplus_title">Segueix Les meves despeses a Google+</string>
   <string name="pref_import_from_grisbi_summary">Importeu les categories (i els tercers) de les definicions estàndard de Grisbi, o del vostre propi fitxer grisbi.xml que ha d\'estar a la carpeta myexpenses de la carpeta arrel de la tarja SD.</string>
   <string name="pref_import_from_grisbi_title">Importeu de Grisbi</string>
   <string name="pref_manage_accounts_title">Comptes</string>
@@ -331,6 +335,8 @@
   <string name="title">Títol</string>
   <string name="transaction">Operació</string>
   <string name="transfer">Transferència a un altre compte</string>
+  <string name="transfer_from_account">Origen</string>
+  <string name="transfer_to_account">Destí</string>
   <string name="tutorial">Guia de l\'usuari</string>
   <string name="type">Tipus</string>
   <string name="unsplit_amount">Import abans de repartir</string>
