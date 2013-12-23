@@ -222,12 +222,63 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     }
   }
   private void setup() {
-    mManager.initLoader(ACCOUNTS_CURSOR, null, this);
-    configAmountInput();
+    // Spinner for account and transfer account
+    mAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
+        new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
+    mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mAccountSpinner.setAdapter(mAccountsAdapter);
+    if (mTransaction instanceof SplitPartCategory ||
+        mTransaction instanceof SplitPartTransfer) {
+        disableAccountSpinner();
+    }
+    mAccountSpinner.setOnItemSelectedListener(this);
+
+    if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
+      mManager.initLoader(PAYEES_CURSOR, null, this);
+
+      // Spinner for methods
+      mMethodsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
+          new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0) {
+        @Override
+        public void setViewText(TextView v, String text) {
+          super.setViewText(v, PaymentMethod.getDisplayLabel(text));
+        }
+      };
+      mMethodsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      mMethodSpinner.setAdapter(mMethodsAdapter);
+      mMethodSpinner.setOnItemSelectedListener(this);
+    } else {
+      findViewById(R.id.PayeeRow).setVisibility(View.GONE);
+      View MethodContainer = findViewById(R.id.MethodRow);
+      MethodContainer.setVisibility(View.GONE);
+    }
 
     View categoryContainer = findViewById(R.id.CategoryRow);
     if (categoryContainer == null)
       categoryContainer = findViewById(R.id.Category);
+    TextView accountLabelTv = (TextView) findViewById(R.id.AccountLabel);
+    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+      mTypeButton.setVisibility(View.GONE);
+      categoryContainer.setVisibility(View.GONE);
+      View accountContainer = findViewById(R.id.TransferAccountRow);
+      if (accountContainer == null)
+        accountContainer = findViewById(R.id.TransferAccount);
+      accountContainer.setVisibility(View.VISIBLE);
+      if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
+        accountLabelTv.setText(getString(R.string.transfer_from_account) + " / " + getString(R.string.transfer_to_account));
+      } else {
+        accountLabelTv.setText(R.string.transfer_from_account);
+      }
+      mTransferAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
+          new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
+      mTransferAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      mTransferAccountSpinner.setAdapter(mTransferAccountsAdapter);
+    } else if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
+        accountLabelTv.setText(getString(R.string.account) + " / " + getString(R.string.category));
+    }
+
+    mManager.initLoader(ACCOUNTS_CURSOR, null, this);
+    configAmountInput();
 
     if (mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
@@ -332,26 +383,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       });
     }
 
-    if (mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory)) {
-      mManager.initLoader(PAYEES_CURSOR, null, this);
-
-      // Spinner for methods
-      mMethodsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
-          new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0) {
-        @Override
-        public void setViewText(TextView v, String text) {
-          super.setViewText(v, PaymentMethod.getDisplayLabel(text));
-        }
-      };
-      mMethodsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-      mMethodSpinner.setAdapter(mMethodsAdapter);
-      mMethodSpinner.setOnItemSelectedListener(this);
-    } else {
-      findViewById(R.id.PayeeRow).setVisibility(View.GONE);
-      View MethodContainer = findViewById(R.id.MethodRow);
-      MethodContainer.setVisibility(View.GONE);
-    }
-
     mTypeButton.setOnClickListener(new View.OnClickListener() {
 
       public void onClick(View view) {
@@ -363,36 +394,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         }
       } 
     });
-    // Spinner for account and transfer account
-    mAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
-        new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
-    mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    mAccountSpinner.setAdapter(mAccountsAdapter);
-    if (mTransaction instanceof SplitPartCategory ||
-        mTransaction instanceof SplitPartTransfer) {
-        disableAccountSpinner();
-    }
-    mAccountSpinner.setOnItemSelectedListener(this);
-    TextView accountLabelTv = (TextView) findViewById(R.id.AccountLabel);
-    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      mTypeButton.setVisibility(View.GONE);
-      categoryContainer.setVisibility(View.GONE);
-      View accountContainer = findViewById(R.id.TransferAccountRow);
-      if (accountContainer == null)
-        accountContainer = findViewById(R.id.TransferAccount);
-      accountContainer.setVisibility(View.VISIBLE);
-      if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
-        accountLabelTv.setText(getString(R.string.transfer_from_account) + " / " + getString(R.string.transfer_to_account));
-      } else {
-        accountLabelTv.setText(R.string.transfer_from_account);
-      }
-      mTransferAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
-          new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
-      mTransferAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-      mTransferAccountSpinner.setAdapter(mTransferAccountsAdapter);
-    } else if (getResources().getConfiguration().orientation ==  android.content.res.Configuration.ORIENTATION_LANDSCAPE ) {
-        accountLabelTv.setText(getString(R.string.account) + " / " + getString(R.string.category));
-    }
 
     //when we have a savedInstance, fields have already been populated
     if (!mSavedInstance) {
