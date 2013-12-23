@@ -54,7 +54,7 @@
   <string name="description">Description</string>
   <string name="dialog_command_disabled_insert_transfer">Transfer transactions require a second account with the same currency. You have only one account of currency %1$s.</string>
   <!-- the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html -->
-  <string name="dialog_command_disabled_insert_transfer_1">Create additional accounts from the account list (accessible through the \'Up\' button in the top left corner).</string>
+  <string name="dialog_command_disabled_insert_transfer_1">Create additional accounts from the account list, accessible through the \'Up\' button (app icon) in the top left corner.</string>
   <string name="dialog_command_disabled_reset_account">No transactions to export.</string>
   <string name="dialog_command_disabled_distribution">No transactions have been mapped to categories in this account.</string>
   <string name="dialog_confirm_restore_on_install">A backup file has been detected. Do you want to restore it?</string>
