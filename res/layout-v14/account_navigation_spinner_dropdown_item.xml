@@ -29,7 +29,7 @@
       android:layout_height="fill_parent"
       android:layout_width="4dp"/>
   <TextView
-      style="?attr/spinnerDropDownItemStyle"
+      style="?android:attr/spinnerDropDownItemStyle"
       android:layout_centerVertical="true"
       android:layout_toRightOf="@id/color1"
       android:layout_alignParentTop="true"
@@ -39,7 +39,7 @@
       android:layout_height="wrap_content"
       android:ellipsize="marquee" />
   <TextView
-        style="?attr/spinnerDropDownItemStyle"
+        style="?android:attr/spinnerDropDownItemStyle"
         android:layout_below="@android:id/text1"
         android:layout_toRightOf="@id/color1"
         android:id="@+id/end"

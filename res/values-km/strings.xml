@@ -31,7 +31,7 @@
   <string name="date_format_illegal">ខុសទ្រង់ទ្រាយ​កាល​បរិច្ឆេទ</string>
   <string name="default_account_description">គណនី​នេះ​ត្រូវបាន​រៀប​ចំ​ដោយ​ស្វ័យ​ប្រវត្តិ​ ក្នុងពេល​បញ្ចូលកម្មវិធី</string>
   <string name="description">ការពិពណ៌នា</string>
-  <string name="dialog_command_disabled_insert_transfer">ការផ្ទេរ​ប្រតិបត្តិការទាំង​អស់​ ត្រូវ​ការ​គណនីទី​ពីរ​ ជាមួយនឹង​រូបិយប័ណ្ណ​តែមួយ។ បង្កើតគណនី​មួយ​ ពី​បញ្ជីរ​គណនី (ចុចចេញពីប៊ូតុង HOME នៅ​ខាងលើផ្នែក​ខាងឆ្វែង)។</string>
+  <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
   <string name="dialog_command_disabled_reset_account">គ្មាន​ប្រតិបត្តិការ​ណា​នាំយកចេញ​ឡើយ។</string>
   <string name="dialog_command_disabled_distribution">គ្មាន​ប្រតិបត្តិការ​ណា​ បានភ្ជាប់​ នឹង​ថ្នាក់​ណាមួយ​ ក្នុង​គណនីនេះទេ។</string>
   <string name="dialog_confirm_restore_on_install">ឯកសារព័ត៌មានបម្រុងមួយត្រូវបានគេរកឃើញ។ តើអ្នកចង់ restore វា ឬទេ?</string>
@@ -61,8 +61,8 @@
   <string name="dialog_setup_planner_button_create_new">បង្កើត​ថ្មី</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">ជ្រើសរើស​អ្វី​ដែល​មានស្រាប់</string>
-  <string name="dialog_title_menu_command_disabled">បានបិទ​ពាក្យ​បញ្ជា​ម៉ឺនុយ</string>
   <string name="dialog_title_contrib_feature">លក្ខណៈពិសេសល្អជាងគេ</string>
+  <string name="dialog_title_menu_command_disabled">បានបិទ​ពាក្យ​បញ្ជា​ម៉ឺនុយ</string>
   <string name="dialog_title_planner_setup_info">ត្រូវមានការ​រៀបចំ​​ប្រតិទិន</string>
   <string name="dialog_title_restore_on_install">ការបម្រុងទុកដែលបានរកឃើញ</string>
   <string name="dialog_title_select_account">ជ្រើសយកគណនីមួយ</string>
@@ -161,6 +161,7 @@
   <string name="menu_forward">ទៅមុខ</string>
   <string name="menu_grouping">ដាក់​ជាក្រុម</string>
   <string name="menu_help">ជំនួយ</string>
+  <!--This command inverts the direction of a transfer-->
   <string name="menu_manage_plans">ទិន្នន័យ​គំរូ និងផែនការ</string>
   <string name="menu_move_transaction">រំកិល</string>
   <string name="menu_reset">ការនាំចេញនិងការកំណត់ឡើងវិញ</string>

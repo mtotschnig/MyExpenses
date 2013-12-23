@@ -176,6 +176,7 @@
   <string name="menu_forward">Weiter</string>
   <string name="menu_grouping">Gruppierung</string>
   <string name="menu_help">Hilfe</string>
+  <string name="menu_invert_transfer">Umkehren</string>
   <string name="menu_manage_plans">Vorlagen und Pläne</string>
   <string name="menu_move_transaction">Verschieben</string>
   <string name="menu_reset">Exportieren und zurücksetzen</string>
@@ -251,6 +252,7 @@
   <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>
   <string name="pref_enter_licence_summary">Wenn Sie einen Contrib-Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
   <string name="pref_export_format_title">Datenformat</string>
+  <string name="pref_follow_gplus_title">Meine Ausgaben auf Google+ folgen</string>
   <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
   <string name="pref_import_from_grisbi_summary">Kategorien (und Partner) aus den inkludierten Grisbi-Standard-Definitionen oder aus Ihrer eigenen Datei importieren. Letztere müssen Sie unter dem Namen &grisbi_file; in dem Ordner myexpenses im Wurzelverzeichnis der SD-Karte speichern</string>
   <string name="pref_manage_accounts_title">Konten</string>
@@ -336,6 +338,8 @@
   <string name="title">Titel</string>
   <string name="transaction">Buchung</string>
   <string name="transfer">Umbuchung</string>
+  <string name="transfer_from_account">Von</string>
+  <string name="transfer_to_account">Nach</string>
   <string name="tutorial">Anleitung</string>
   <string name="type">Typ</string>
   <string name="unsplit_amount">Ungesplitteter Betrag</string>

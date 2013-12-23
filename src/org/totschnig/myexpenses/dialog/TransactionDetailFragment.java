@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
@@ -92,6 +93,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
     final LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.transaction_detail, null);
     int title;
+    boolean type = mTransaction.amount.getAmountMinor() > 0 ? ExpenseEdit.INCOME : ExpenseEdit.EXPENSE;
     if (mTransaction instanceof SplitTransaction) {
       //TODO: refactor duplicated code with SplitPartList
       title = R.string.split_transaction;
@@ -182,21 +184,30 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       view.findViewById(R.id.SplitContainer).setVisibility(View.GONE);
       if (mTransaction instanceof Transfer) {
         title = R.string.transfer;
-        ((TextView) view.findViewById(R.id.CategoryLabel)).setText(R.string.account);
+        ((TextView) view.findViewById(R.id.AccountLabel)).setText(R.string.transfer_from_account);
+        ((TextView) view.findViewById(R.id.CategoryLabel)).setText(R.string.transfer_to_account);
       }
       else
-        title = mTransaction.amount.getAmountMinor() > 0 ? R.string.income : R.string.expense;
+        title = type ? R.string.income : R.string.expense;
     }
-    if ((mTransaction.catId != null && mTransaction.catId > 0) ||
-        mTransaction.transfer_peer != null)
-      ((TextView) view.findViewById(R.id.Category)).setText(mTransaction.label);
-    else
-      view.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
+    String accountLabel = Account.getInstanceFromDb(mTransaction.accountId).label;
+    if (mTransaction instanceof Transfer) {
+      ((TextView) view.findViewById(R.id.Account)).setText(type ? mTransaction.label : accountLabel);
+      ((TextView) view.findViewById(R.id.Category)).setText(type ? accountLabel : mTransaction.label);
+    } else {
+      ((TextView) view.findViewById(R.id.Account)).setText(accountLabel);
+      if ((mTransaction.catId != null && mTransaction.catId > 0)) {
+        ((TextView) view.findViewById(R.id.Category)).setText(mTransaction.label);
+      } else {
+        view.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
+      }
+    }
     ((TextView) view.findViewById(R.id.Date)).setText(
         java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(mTransaction.date)
         + " "
         + new SimpleDateFormat("HH:mm").format(mTransaction.date));
-    ((TextView) view.findViewById(R.id.Amount)).setText(Utils.formatCurrency(mTransaction.amount));
+    ((TextView) view.findViewById(R.id.Amount)).setText(Utils.formatCurrency(
+        new Money(mTransaction.amount.getCurrency(),Math.abs(mTransaction.amount.getAmountMinor()))));
     if (!mTransaction.comment.equals(""))
       ((TextView) view.findViewById(R.id.Comment)).setText(mTransaction.comment);
     else

@@ -31,8 +31,9 @@
   <string name="date_format_illegal">Geçersiz tarih biçimi</string>
   <string name="default_account_description">Bu hesap kurulum sırasında otomatik olarak kurulmuştur</string>
   <string name="description">Açıklama</string>
-  <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir.</string>
-  <string name="dialog_command_disabled_insert_transfer_1">Hesap listesinden yeni hesap oluşturabilirsiniz (üst sol köşede EV düğmesiyle erişilebilir).</string>
+  <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri aynı para birimini kullanan ikinci bir hesap gerektirir. %1$s para biriminin sadece bir hesabı olmalısınız.</string>
+  <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
+  <string name="dialog_command_disabled_insert_transfer_1">Hesap listesinden ek hesaplar oluşturabilirsiniz (üst sol köşede \'Yukarı\' düğmesiyle erişilebilir).</string>
   <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
   <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
   <string name="dialog_confirm_restore_on_install">Bir yedekleme dosyası tespit edildi. Onu yüklemek istiyor musunuz?</string>
@@ -62,8 +63,8 @@
   <string name="dialog_setup_planner_button_create_new">Yenisini oluştur</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Mevcuttan seç</string>
-  <string name="dialog_title_menu_command_disabled">Menü komutu devre dışıdır</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
+  <string name="dialog_title_menu_command_disabled">Menü komutu devre dışıdır</string>
   <string name="dialog_title_planner_setup_info">Takvim kurulumu gereklidir</string>
   <string name="dialog_title_restore_on_install">Yedekleme tespit edildi</string>
   <string name="dialog_title_select_account">Bir hesap seçin</string>
@@ -162,6 +163,8 @@
   <string name="menu_forward">Sonraki</string>
   <string name="menu_grouping">Gruplandırma</string>
   <string name="menu_help">Yardım</string>
+  <!--This command inverts the direction of a transfer-->
+  <string name="menu_invert_transfer">Ters Çevir</string>
   <string name="menu_manage_plans">Şablonlar ve planlar</string>
   <string name="menu_move_transaction">Taşı</string>
   <string name="menu_reset">Dışa aktar ve sıfırla</string>
@@ -242,6 +245,7 @@
   <string name="pref_enter_licence_summary">Eğer katkı anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
   <string name="pref_enter_licence_title">Katkı anahtarını gir</string>
   <string name="pref_export_format_title">Veri biçimi</string>
+  <string name="pref_follow_gplus_title">Harcamalarımı Google+\'da takip edin</string>
   <string name="pref_import_from_grisbi_summary">Uygulamaya dahili olan ve varsayılan Grisbi tanımlamalarından ya da SD kartının kökünde \"myexpenses\" klasöründe grisbi.xml dosyası olarak saklanmış kendi dosyanızdan kategori (ve bölüm) içeri aktar.</string>
   <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
   <string name="pref_manage_accounts_title">Hesaplar</string>
@@ -331,6 +335,8 @@
   <string name="title">Başlık</string>
   <string name="transaction">Muamele</string>
   <string name="transfer">Transfer</string>
+  <string name="transfer_from_account">Buradan</string>
+  <string name="transfer_to_account">Buraya</string>
   <string name="tutorial">Kullanıcı rehberi</string>
   <string name="type">Tip</string>
   <string name="unsplit_amount">Atanmamış meblağ</string>

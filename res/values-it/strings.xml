@@ -32,7 +32,7 @@
   <string name="default_account_description">Questo conto è stato creato automaticamente con la installazione</string>
   <string name="description">Descrizione</string>
   <string name="dialog_command_disabled_insert_transfer">Le operazioni di trasferimento richiedono un secondo conto con la stessa moneta. Hai solo un conto della valuta %1$s.</string>
-  <string name="dialog_command_disabled_insert_transfer">Creare altri conti dalla lista di conti (accessibile tramite il tasto \'Sopra\' nell\'angolo in alto a sinistra).</string>
+  <string name="dialog_command_disabled_insert_transfer_1">Creare altri conti dalla lista di conti, accessibile tramite il tasto \'Sopra\' (icona app) nell\'angolo in alto a sinistra.</string>
   <string name="dialog_command_disabled_reset_account">Nessun operazioni per esportare.</string>
   <string name="dialog_command_disabled_distribution">Nessuna transazione è stata assegnata a categorie in questo conto.</string>
   <string name="dialog_confirm_restore_on_install">È stato trovato un file di backup. Si vuole ripristinarlo?</string>
@@ -162,6 +162,7 @@
   <string name="menu_forward">In avanti</string>
   <string name="menu_grouping">Raggruppamento</string>
   <string name="menu_help">Aiuto</string>
+  <string name="menu_invert_transfer">Invertire</string>
   <string name="menu_manage_plans">Modelli e scadenze</string>
   <string name="menu_move_transaction">Spostare</string>
   <string name="menu_reset">Esportare e reinizializzare</string>
@@ -242,6 +243,7 @@
   <string name="pref_enter_licence_summary">Se ha ricevuto una chiave Contrib, ottiene accesso a funzionalità speciali.</string>
   <string name="pref_enter_licence_title">Inserire la chiave Contrib</string>
   <string name="pref_export_format_title">Formato dati</string>
+  <string name="pref_follow_gplus_title">Seguire Le Mie Spese su Google+</string>
   <string name="pref_import_from_grisbi_summary">Scegli tra le definizioni standard di Grisbi, inclusi  nell\'applicazione, e il vostro proprio file salvato come grisbi.xml nella cartellla myexpenses della radice della vostra scheda SD.</string>
   <string name="pref_import_from_grisbi_title">Importazione dei dati Grisbi</string>
   <string name="pref_manage_accounts_title">Conti</string>
@@ -331,6 +333,8 @@
   <string name="title">Titro</string>
   <string name="transaction">Operazione</string>
   <string name="transfer">Trasferimento</string>
+  <string name="transfer_from_account">Da</string>
+  <string name="transfer_to_account">A</string>  
   <string name="tutorial">Manuale</string>
   <string name="type">Tipo</string>
   <string name="unsplit_amount">Importo non diviso</string>
