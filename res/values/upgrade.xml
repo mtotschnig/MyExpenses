@@ -18,7 +18,7 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_105">
+  <string-array name="whats_new_108">
     <item>(Traditional) Chinese translation</item>
     <item>Allow selection of account in transaction editing form</item>
     <item>Clearer UI for transfers</item>
