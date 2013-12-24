@@ -309,12 +309,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
 
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
 
-    if (mTransaction instanceof Template ||
-        mTransaction instanceof SplitPartCategory ||
-        mTransaction instanceof SplitPartTransfer) {
-      mStatusSpinner.setVisibility(View.GONE);
-    }
-
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
       findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
@@ -782,8 +776,12 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mPlanButton.setEnabled(true);
   }
   private void configureStatusSpinner() {
-    mStatusSpinner.setVisibility(
-        getCurrentAccount().type.equals(Type.CASH) ? View.GONE : View.VISIBLE);
+    mStatusSpinner.setVisibility((
+        mTransaction instanceof Template ||
+        mTransaction instanceof SplitPartCategory ||
+        mTransaction instanceof SplitPartTransfer ||
+        getCurrentAccount().type.equals(Type.CASH)) ?
+      View.GONE : View.VISIBLE);
   }
   /**
    *  set label on category button
