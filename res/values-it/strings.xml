@@ -16,11 +16,11 @@
   <string name="comment">Note</string>
   <string name="contrib_feature_accounts_unlimited_description">Il numero dei conti che si possono creare con &lt;i&gt;Le mie spese&lt;/i&gt; è limitata a 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Numero illimitato di conti</string>
-  <string name="contrib_feature_aggregate_label">Sommare piu conti</string>
+  <string name="contrib_feature_aggregate_label">Somma piu conti</string>
   <string name="contrib_feature_distribution_label">Distribuzione di transazioni per categoria</string>
   <string name="contrib_feature_plans_unlimited_description">Il numero di scadenze che si possono creare con &lt;i&gt;Le mie spese&lt;/i&gt; è limitata a 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Numero illimitato di scadenze</string>
-  <string name="contrib_feature_reset_all_label">Reinizializzare tutti i conti</string>
+  <string name="contrib_feature_reset_all_label">Resetta tutti i conti</string>
   <string name="contrib_feature_security_question_label">Domanda di sicurezza</string>
   <string name="contrib_feature_split_transaction_label">Operazione suddivisa</string>
   <string name="contrib_key">Chiave Contrib</string>
@@ -32,8 +32,9 @@
   <string name="default_account_description">Questo conto è stato creato automaticamente con la installazione</string>
   <string name="description">Descrizione</string>
   <string name="dialog_command_disabled_insert_transfer">Le operazioni di trasferimento richiedono un secondo conto con la stessa moneta. Hai solo un conto della valuta %1$s.</string>
+  <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
   <string name="dialog_command_disabled_insert_transfer_1">Creare altri conti dalla lista di conti, accessibile tramite il tasto \'Sopra\' (icona app) nell\'angolo in alto a sinistra.</string>
-  <string name="dialog_command_disabled_reset_account">Nessun operazioni per esportare.</string>
+  <string name="dialog_command_disabled_reset_account">Nessuna transazione da esportare.</string>
   <string name="dialog_command_disabled_distribution">Nessuna transazione è stata assegnata a categorie in questo conto.</string>
   <string name="dialog_confirm_restore_on_install">È stato trovato un file di backup. Si vuole ripristinarlo?</string>
   <string name="dialog_contrib_no">Non ancora</string>
@@ -45,7 +46,7 @@
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;Le mie spese&lt;/i&gt; è gratuito e open source. Si prega di contribuire installando la versione Contrib a pagamento. Ottiene l’accesso illimitato alle seguenti funzionalità speciali:</string>
   <string name="dialog_contrib_usage_count">Restano %1$d usi gratis.</string>
-  <string name="dialog_contrib_yes">Comprare</string>
+  <string name="dialog_contrib_yes">Compra Ora</string>
   <string name="dialog_export_delete">Cancellare le transazioni esportati</string>
   <string name="dialog_export_not_yet_exported">Esportare solo le operazioni non ancora esportati</string>
   <string name="dialog_password_activate_protection">Attivare la protezione con password</string>
@@ -59,11 +60,11 @@
   <string name="dialog_security_answer">Risposta</string>
   <string name="dialog_security_question">Domanda</string>
   <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Creare nuovo</string>
+  <string name="dialog_setup_planner_button_create_new">Crea nuovo</string>
   <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Selezionare esistente</string>
-  <string name="dialog_title_menu_command_disabled">Comando di menu disattivato</string>
+  <string name="dialog_setup_planner_button_select_existing">Seleziona esistente</string>
   <string name="dialog_title_contrib_feature">Funzionalità speciale</string>
+  <string name="dialog_title_menu_command_disabled">Comando di menu disattivato</string>
   <string name="dialog_title_planner_setup_info">Configurazione di calendario richiesta</string>
   <string name="dialog_title_restore_on_install">Backup rilevata</string>
   <string name="dialog_title_select_account">Scegli il conto</string>
@@ -77,7 +78,7 @@
   <string name="dialog_title_welcome">Benvenuto!</string>
   <string name="donate">Donare</string>
   <string name="donate_dialog_text">Si prega di donare tramite PayPal, Flattr o Bitcoin, e quindi richiedere una chiave contrib dalla schermata delle impostazioni.</string>
-  <string name="expense">spesa</string>
+  <string name="expense">Spesa</string>
   <string name="export_expenses">Esportazione delle spese</string>
   <string name="export_expenses_outputfile_exists">Il file di esportazione esiste già. Attendere un minuto prima di riprovare.</string>
   <string name="export_expenses_sdcard_failure">Esportazione delle spese nella scheda SD fallito</string>
@@ -117,7 +118,7 @@
   <string name="important_upgrade_information_heading">Informazioni importanti</string>
   <string name="important_upgrade_information_1"></string>
   <string name="import_categories">Importare le categorie</string>
-  <string name="income">redditto</string>
+  <string name="income">Entrate</string>
   <string name="invalid_number_format">Numero formato non riconosciuto dal vostra regione. Uso %1$s</string>
   <string name="label">Etichetta</string>
   <string name="licence_validation_failure">Impossible convalidare la chiave di licenza.</string>
@@ -156,13 +157,14 @@
   <string name="menu_edit_split">Modificare operazione suddivisa</string>
   <string name="menu_edit_split_part_category">Modificare somma parziale (categoria)</string>
   <string name="menu_edit_split_part_transfer">Modificare somma parziale (trasferimenti)</string>
-  <string name="menu_edit_template">Modificare modello</string>
+  <string name="menu_edit_template">Modifica modello</string>
   <string name="menu_edit_transaction">Modificare operazione</string>
   <string name="menu_edit_transfer">Modificare un trasferimento</string>
   <string name="menu_forward">In avanti</string>
   <string name="menu_grouping">Raggruppamento</string>
   <string name="menu_help">Aiuto</string>
-  <string name="menu_invert_transfer">Invertire</string>
+  <!--This command inverts the direction of a transfer-->
+  <string name="menu_invert_transfer">Inverti</string>
   <string name="menu_manage_plans">Modelli e scadenze</string>
   <string name="menu_move_transaction">Spostare</string>
   <string name="menu_reset">Esportare e reinizializzare</string>
@@ -185,7 +187,7 @@
   <string name="no_parties">Non ci sono beneficiari.</string>
   <string name="no_split_parts">Nessuna somma parziale.</string>
   <string name="no_templates">Non ci sono modelli.</string>
-  <string name="no_title_given">Non ha scritto ningun titolo.</string>
+  <string name="no_title_given">Non hai inserito nessun titolo.</string>
   <string name="not_deletable_mapped_transactions">Non può cancellare, perché ci sono operazione ad esso attribuite.</string>
   <string name="not_deletable_mapped_templates">Non può cancellare, perché ci sono modelli ad esso attribuite.</string>
   <string name="not_deletable_subcats_exists">Questa categoria non può essere cancellata perché contiene sottocategorie.</string>
@@ -216,7 +218,7 @@
   <string name="planner_create_calendar_failure">Impossibile creare il calendario locale di scadenze</string>
   <string name="planner_create_calendar_success">Calendario locale di scadenze creato con successo</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Si sia possibile creare un calendario dedicato locale o selezionarne uno esistente nelle impostazioni.</string>
+  <string name="planner_setup_info_jb">Potete creare un calendario dedicato locale o selezionarne uno esistente nelle impostazioni.</string>
   <string name="planner_setup_info">Scegliete un calendario per memorizzare le scadenze nelle impostazioni.</string>
   <!--payment methods-->
   <string name="pm_cheque">Assegno</string>
@@ -230,20 +232,20 @@
   <string name="pref_categories_sort_by_usages_summaryOn">frequenza d\'uso</string>
   <string name="pref_categories_sort_by_usages_summaryOff">ordine alfabetico</string>
   <string name="pref_categories_sort_by_usages_title">Criterio di ordinamento (categorie, modelli, conti)</string>
-  <string name="pref_category_title_export">Export</string>
-  <string name="pref_category_title_import">Import</string>
+  <string name="pref_category_title_export">Esporta</string>
+  <string name="pref_category_title_import">Importa</string>
   <string name="pref_category_title_manage">Gestione</string>
   <string name="pref_category_title_more_information">Maggiori informazioni</string>
   <string name="pref_category_title_security">Sicurezza</string>
   <string name="pref_category_title_ui">Interfaccia utente</string>
-  <string name="pref_contrib_donate_summary">Donare tramite PayPal, Flattr o Bitcoin e ottenere l\'accesso a funzioni premium.</string>
+  <string name="pref_contrib_donate_summary">Dona tramite PayPal, Flattr o Bitcoin e ottieni l\'accesso a funzioni premium.</string>
   <string name="pref_contrib_donate_title">Invia donazione</string>
-  <string name="pref_contrib_install_summary">Installando Le mie spese Contrib ottiene accesso a funzionalità speciali.</string>
-  <string name="pref_contrib_install_title">Installare Contrib app</string>
-  <string name="pref_enter_licence_summary">Se ha ricevuto una chiave Contrib, ottiene accesso a funzionalità speciali.</string>
-  <string name="pref_enter_licence_title">Inserire la chiave Contrib</string>
+  <string name="pref_contrib_install_summary">Installando Le mie spese Contrib avrete accesso a funzionalità speciali.</string>
+  <string name="pref_contrib_install_title">Installa Contrib app</string>
+  <string name="pref_enter_licence_summary">Se avete ricevuto una chiave Contrib, otterete accesso a funzionalità speciali.</string>
+  <string name="pref_enter_licence_title">Inserisci la chiave Contrib</string>
   <string name="pref_export_format_title">Formato dati</string>
-  <string name="pref_follow_gplus_title">Seguire Le Mie Spese su Google+</string>
+  <string name="pref_follow_gplus_title">Segui Le Mie Spese su Google+</string>
   <string name="pref_import_from_grisbi_summary">Scegli tra le definizioni standard di Grisbi, inclusi  nell\'applicazione, e il vostro proprio file salvato come grisbi.xml nella cartellla myexpenses della radice della vostra scheda SD.</string>
   <string name="pref_import_from_grisbi_title">Importazione dei dati Grisbi</string>
   <string name="pref_manage_accounts_title">Conti</string>
@@ -258,7 +260,7 @@
   <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
   <string name="pref_password_empty">La password non deve essere vuoto</string>
   <string name="pref_password_not_equal">Le password non corrispondono</string>
-  <string name="pref_perform_protection_summary">Dovrebbe lancia e riprende essere protetti?</string>
+  <string name="pref_perform_protection_summary">L\'avvio e la ripresa dell\'app devono essere protette?</string>
   <string name="pref_perform_protection_title">Protezione con password</string>
   <string name="pref_perform_share_title">Condividi Export</string>
   <string name="pref_perform_share_summaryOff">Il file non sarà condiviso dopo ogni esportazione.</string>
@@ -267,14 +269,14 @@
   <string name="pref_planning_calendar_create_local">Creare un nuovo calendario locale di scadenze</string>
   <string name="pref_planning_calendar_summary">Selezionare il calendario in cui sono memorizzati le scadenze per le transazioni future e ripetute</string>
   <string name="pref_planning_calendar_title">Calendario di pianificazione</string>
-  <string name="pref_protection_delay_seconds_summary">Inattive secondi prima app verranno bloccati da password.</string>
-  <string name="pref_protection_delay_seconds_title">Ritardo fino a protezione</string>
+  <string name="pref_protection_delay_seconds_summary">Secondi di inattività prima che l\'app sia bloccata con password.</string>
+  <string name="pref_protection_delay_seconds_title">Ritardo prima della protezione</string>
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
-  <string name="pref_request_licence_summary">Se lei ha contribuito in altri modi, richiede la sua chiave contrib via e-mail.</string>
-  <string name="pref_request_licence_title">Richiede una chiave contrib</string>
+  <string name="pref_request_licence_summary">Se lei ha contribuito in altri modi, richieda la sua chiave Contrib via e-mail.</string>
+  <string name="pref_request_licence_title">Richiedi una chiave Contrib</string>
   <string name="pref_restore_summary">Ripristinare il backup dalla cartella \"myexpenses\" sulla scheda SD</string>
-  <string name="pref_restore_title">Ripristinare</string>
-  <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se si è dimenticata la password. Richiede Le mie spese Contrib.</string>
+  <string name="pref_restore_title">Ripristina</string>
+  <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se avete dimenticato la password. Richiede Le mie spese Contrib.</string>
   <string name="pref_security_question_title">Domanda di sicurezza</string>
   <string name="pref_send_feedback_title">Invia commenti</string>
   <string name="pref_share_target_summary">Lascia vuoto se si vuole scegliere tra le applicazioni appropriate (e-mail, Dropbox, Google Docs, …), o fornire l\'URL in uno dei sistemi sostenuti</string>
@@ -285,7 +287,7 @@
   <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Ogni passo aumenta la dimensione del font di base da 2sp</string>
   <string name="pref_ui_fontsize_title">Aumenta la dimensione del carattere</string>
-  <string name="pref_ui_language_default">Default del sistema</string>
+  <string name="pref_ui_language_default">Default di sistema</string>
   <string name="pref_ui_language_summary">Imposta la lingua dell\'interfaccia</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Lingua</string>
@@ -294,14 +296,14 @@
   <string name="pref_ui_theme_title">Stile</string>
   <string name="pref_visit_website_summary">Aggiornamenti e FAQ</string>
   <string name="pref_visit_website_title">Visita il sito web</string>
-  <string name="progress_dialog_create_calendar">Creazione di calendario locale …</string>
+  <string name="progress_dialog_create_calendar">Creazione calendario locale …</string>
   <string name="progress_dialog_create_plan">Creazione di una nuova scadenza …</string>
   <string name="progress_dialog_loading">Caricamento di oggetti dal database …</string>
   <string name="progress_dialog_setup">Il database è inizializzato …</string>
   <string name="reference_number">Numero di riferimento</string>
   <string name="request_licence_mail_description">Si prega di descrivere (in inglese, francese o tedesco) il vostro contributo a Le mie spese (es.: donazione tramite Paypal, bug report, analisi, traduzione).</string>
   <string name="request_licence_mail_head">Vi prego di inviarmi una chiave contrib per Android-Id %1$s.</string>
-  <string name="restore_db_failure">Ripristino del database non riuscita.</string>
+  <string name="restore_db_failure">Ripristino del database non riuscito.</string>
   <string name="restore_db_success">Il database è stato ripristinato dal backup.</string>
   <string name="restore_no_backup_found">Nessun file BACKUP trovato nella cartella myexpenses sulla scheda sd.</string>
   <string name="restore_preferences_failure">Ripristino delle preferenze non riuscito.</string>
@@ -334,12 +336,12 @@
   <string name="transaction">Operazione</string>
   <string name="transfer">Trasferimento</string>
   <string name="transfer_from_account">Da</string>
-  <string name="transfer_to_account">A</string>  
+  <string name="transfer_to_account">A</string>
   <string name="tutorial">Manuale</string>
   <string name="type">Tipo</string>
   <string name="unsplit_amount">Importo non diviso</string>
   <string name="unsplit_amount_greater_than_zero">C\'è ancora qualche importo non diviso.</string>
-  <string name="warning_backup">Database e le preferenze verranno salvate su scheda SD. Vuoi continuare?</string>
+  <string name="warning_backup">Il database e le preferenze verranno salvate su scheda SD. Vuoi continuare?</string>
   <string name="warning_backup_exists">Database e le preferenze verranno salvate su scheda SD. Backup esistente verrà sovrascritto. Vuoi continuare?</string>
   <string name="warning_delete_account">Questo conto sarà cancelatto con tutte le sue operazioni. Vuoi continuare?</string>
   <string name="warning_delete_template">Questo modello (e di qualsiasi scedenza associata) saranno cancellati. Vuoi continuare?</string>
