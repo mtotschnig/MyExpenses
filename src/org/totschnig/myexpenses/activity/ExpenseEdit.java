@@ -137,7 +137,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   public static final int SUM_CURSOR = 6;
   private LoaderManager mManager;
 
-  private boolean mCreateNew = false, mLaunchPlanView = false, mSavedInstance = false;
+  private boolean mNewInstance = true, mCreateNew = false, mLaunchPlanView = false, mSavedInstance = false;
 
   public enum HelpVariant {
     transaction,transfer,split,template,splitPartCategory,splitPartTransfer
@@ -148,13 +148,15 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     super.onCreate(savedInstanceState);
 
     Bundle extras = getIntent().getExtras();
+    mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
+    if (mRowId != 0L) {
+      mNewInstance = false;
+    }
     //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
     if (savedInstanceState != null) {
       mSavedInstance = true;
       mRowId = savedInstanceState.getLong("rowId");
     }
-    if (mRowId == 0L)
-      mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
     mTemplateId = extras.getLong("template_id",0);
     //were we called from a notification
     int notificationId = extras.getInt("notification_id", 0);
@@ -319,7 +321,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       setTitle(mTransaction.id == 0 ? R.string.menu_create_template : R.string.menu_edit_template);
       helpVariant = HelpVariant.template;
     } else if (mTransaction instanceof SplitTransaction) {
-      setTitle(mTransaction.id == 0 ? R.string.menu_create_split : R.string.menu_edit_split);
+      setTitle(mNewInstance ? R.string.menu_create_split : R.string.menu_edit_split);
       //SplitTransaction are always instantiated with status uncommitted,
       //we save them to DB as uncommitted, before working with them
       //when the split transaction is saved the split and its parts are committed
