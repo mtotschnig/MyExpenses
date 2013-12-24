@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-  <string-array name="whats_new_105">
+  <string-array name="whats_new_108">
     <item>Übersetzung ins (traditionelle) Chinesische</item>
     <item>Im Buchungsformular kann nun das Konto ausgewählt werden</item>
     <item>UI für Umbuchungen verbessert</item>
