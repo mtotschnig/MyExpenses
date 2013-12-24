@@ -102,6 +102,7 @@ public class MyExpenses extends LaunchActivity implements
 
   public static final int ACCOUNTS_CURSOR=-1;
   public static final int ACCOUNTS_OTHER_CURSOR=2;
+  public static final int SPLIT_PART_CURSOR=3;
   private LoaderManager mManager;
 
   //private ExpensesDbAdapter mDbHelper;

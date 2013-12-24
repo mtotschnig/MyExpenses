@@ -17,36 +17,22 @@ package org.totschnig.myexpenses.fragment;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
-import java.text.SimpleDateFormat;
-
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.SplitTransaction;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-
-import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -59,7 +45,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -67,8 +52,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 //TODO: consider moving to ListFragment
 public class SplitPartList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-  private static final int TRANSACTION_CURSOR = 0;
-  private static final int SUM_CURSOR = 1;
+  //
   SimpleCursorAdapter mAdapter;
   private int colorExpense;
   private int colorIncome;
@@ -92,7 +76,7 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
   }
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    final Activity ctx = getSherlockActivity();
+    final SherlockFragmentActivity ctx = getSherlockActivity();
     View v = inflater.inflate(R.layout.split_parts_list, container, false);
     View emptyView = v.findViewById(R.id.empty);
     Resources.Theme theme = ctx.getTheme();
@@ -113,8 +97,8 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
     final String categorySeparator, commentSeparator;
     categorySeparator = " : ";
     commentSeparator = " / ";
-    getLoaderManager().initLoader(TRANSACTION_CURSOR, getArguments(), this);
-    getLoaderManager().initLoader(SUM_CURSOR, getArguments(), this);
+    ctx.getSupportLoaderManager().initLoader(ExpenseEdit.TRANSACTION_CURSOR, getArguments(), this);
+    ctx.getSupportLoaderManager().initLoader(ExpenseEdit.SUM_CURSOR, getArguments(), this);
     // Now create a simple cursor adapter and set it to display
     mAdapter = new SimpleCursorAdapter(ctx, R.layout.split_part_row, null, from, to,0)  {
       /* (non-Javadoc)
@@ -215,11 +199,11 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
     CursorLoader cursorLoader = null;
     Uri uri = TransactionProvider.UNCOMMITTED_URI;
     switch(id) {
-    case TRANSACTION_CURSOR:
+    case ExpenseEdit.TRANSACTION_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(), uri,null, "parent_id = ?",
           selectionArgs, null);
       return cursorLoader;
-    case SUM_CURSOR:
+    case ExpenseEdit.SUM_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),uri,
           new String[] {"sum(" + KEY_AMOUNT + ")"}, "parent_id = ?",
           selectionArgs, null);
@@ -230,12 +214,12 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
   @Override
   public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
     switch(arg0.getId()) {
-    case TRANSACTION_CURSOR:
+    case ExpenseEdit.TRANSACTION_CURSOR:
       mAdapter.swapCursor(c);
       if (c.getCount()>0)
         ((ExpenseEdit) getSherlockActivity()).disableAccountSpinner();
       break;
-    case SUM_CURSOR:
+    case ExpenseEdit.SUM_CURSOR:
       c.moveToFirst();
       transactionSum = c.getLong(0);
       updateBalance();
@@ -245,16 +229,15 @@ public class SplitPartList extends SherlockFragment implements LoaderManager.Loa
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
     switch(arg0.getId()) {
-    case TRANSACTION_CURSOR:
+    case ExpenseEdit.TRANSACTION_CURSOR:
       mAdapter.swapCursor(null);
       break;
-    case SUM_CURSOR:
-      transactionSum=0;
-      updateBalance();
     }
   }
   public void updateBalance() {
     ExpenseEdit ctx = (ExpenseEdit) getSherlockActivity();
+    if (ctx == null)
+      return;
     unsplitAmount = ctx.getAmount();
     //when we are called before transaction is loaded in parent activity
     if (unsplitAmount == null)

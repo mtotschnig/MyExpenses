@@ -133,6 +133,8 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   public static final int METHODS_CURSOR=2;
   public static final int ACCOUNTS_CURSOR=3;
   private static final int EVENT_CURSOR = 4;
+  public static final int TRANSACTION_CURSOR = 5;
+  public static final int SUM_CURSOR = 6;
   private LoaderManager mManager;
 
   private boolean mCreateNew = false, mLaunchPlanView = false, mSavedInstance = false;
@@ -247,6 +249,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     }
   }
   private void setup() {
+    configAmountInput();
     // Spinner for account and transfer account
     mAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
@@ -303,7 +306,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     }
 
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
-    configAmountInput();
 
     if (mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
@@ -975,7 +977,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (mAccounts == null) {
         return null;
     }
-    return mAccounts[mAccountSpinner.getSelectedItemPosition()];
+    int selected = mAccountSpinner.getSelectedItemPosition();
+    if (selected == android.widget.AdapterView.INVALID_POSITION) {
+      return null;
+    }
+    return mAccounts[selected];
   }
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
