@@ -115,7 +115,6 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       final String categorySeparator, commentSeparator;
       categorySeparator = " : ";
       commentSeparator = " / ";
-      getLoaderManager().initLoader(0, null, this);
       // Now create a simple cursor adapter and set it to display
       mAdapter = new SimpleCursorAdapter(ctx, R.layout.split_part_row, null, from, to,0)  {
         /* (non-Javadoc)
@@ -180,6 +179,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       };
       lv.setAdapter(mAdapter);
       lv.setEmptyView(emptyView);
+      ctx.getSupportLoaderManager().initLoader(MyExpenses.SPLIT_PART_CURSOR, null, this);
     } else {
       view.findViewById(R.id.SplitContainer).setVisibility(View.GONE);
       if (mTransaction instanceof Transfer) {
@@ -239,15 +239,23 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       .create();
   }
   @Override
-  public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-    CursorLoader cursorLoader = new CursorLoader(getActivity(), TransactionProvider.TRANSACTIONS_URI,null, "parent_id = ?",
-        new String[] { String.valueOf(mTransaction.id) }, null);
-    return cursorLoader;
+  public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
+    switch(id) {
+      case MyExpenses.SPLIT_PART_CURSOR:
+      CursorLoader cursorLoader = new CursorLoader(getActivity(), TransactionProvider.TRANSACTIONS_URI,null, "parent_id = ?",
+          new String[] { String.valueOf(mTransaction.id) }, null);
+      return cursorLoader;
+    }
+    return null;
   }
 
   @Override
-  public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
-    mAdapter.swapCursor(cursor);
+  public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+    int id = loader.getId();
+    switch(id) {
+      case MyExpenses.SPLIT_PART_CURSOR:
+      mAdapter.swapCursor(cursor);
+    }
   }
   @Override
   public void onClick(DialogInterface dialog, int which) {
@@ -262,6 +270,8 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       i.putExtra("transferEnabled",ctx.transferEnabled());
       //i.putExtra("operationType", operationType);
       ctx.startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
+    } else {
+      this.dismiss();
     }
   }
   @Override

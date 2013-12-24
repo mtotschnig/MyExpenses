@@ -50,6 +50,7 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -221,14 +222,16 @@ public class TransactionList extends BudgetListFragment implements
     // Now create a simple cursor adapter and set it to display
 
     mListView.setEmptyView(v.findViewById(R.id.empty));
-    mListView.setOnItemClickListener(new OnItemClickListener()
-    {
-         @Override
-         public void onItemClick(AdapterView<?> a, View v,int position, long id)
-         {
-           TransactionDetailFragment.newInstance(id)
-           .show(ctx.getSupportFragmentManager(), "TRANSACTION_DETAIL");
+    mListView.setOnItemClickListener(new OnItemClickListener() {
+       @Override
+       public void onItemClick(AdapterView<?> a, View v,int position, long id) {
+         FragmentManager fm = ctx.getSupportFragmentManager();
+         DialogFragment f = (DialogFragment) fm.findFragmentByTag("TRANSACTION_DETAIL");
+         if (f == null) {
+           f = TransactionDetailFragment.newInstance(id);
          }
+         f.show(fm, "TRANSACTION_DETAIL");
+       }
     });
     registerForContextMenu(mListView);
     return v;
