@@ -54,6 +54,24 @@ langs:
 missing_langs: "русский, português, Nederlands, Ελληνικά, čeština, 中文, română, svenska, Slovenčina, polski"
 versions:
   -
+    - 1.10.5
+    - 2013-12-24
+    -
+      en: |
+        (Traditional) Chinese translation. Allow selection of account in transaction editing form. Clearer UI for transfers.
+      fr: |
+        Traduction en Chinois (traditionnel). Autoriser la sélection de compte dans l\'édition de l\'opération. interface plus claire pour les transferts.
+      de: |
+        Übersetzung ins (traditionelle) Chinesische. Im Buchungsformular kann nun das Konto ausgewählt werden. UI für Umbuchungen verbessert.
+      it: |
+        Traduzione Cinese (tradizionale) . Consenti selezionando conto nell\'edizione dell\'operazione . Interfaccia più chiara per i trasferimenti .
+      es: |
+        Traducción Chino (tradicional) . Permitir la selección de la cuenta en la edición de la operación. Interfaz más clara para las transferencias.
+      tr: |
+        (Geleneksel) Çince çeviri. Muamele düzenleme formunda hesap seçimi. Transferler için daha temiz arayüz. 
+      ca: |
+        Traducció al Xinès (Tradicional). El formulari d\'operacions ara permet triar el compte. La interfície de les transferències ara és més clara.
+  -
     - 1.10.4
     - 2013-12-16
     -
