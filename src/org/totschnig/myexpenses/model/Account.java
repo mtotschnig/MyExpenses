@@ -96,7 +96,7 @@ public class Account extends Model {
         +      "AS transfer_enabled",
     "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
       + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income",
-    "(SELECT coalesce(abs(sum(amount)),0) FROM " + VIEW_COMMITTED 
+    "(SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED
       + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses",
     "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
       + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer",

@@ -15,10 +15,6 @@
 
 package org.totschnig.myexpenses.provider;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
@@ -246,10 +242,10 @@ public class TransactionProvider extends ContentProvider {
       //we calculate the aggregates by taking in account the split parts instead of the split transactions,
       //thus we can ignore split parts that are transfers
       qb.setTables("(select currency,opening_balance,"+
-          "(SELECT coalesce(abs(sum(amount)),0) FROM "
+          "(SELECT coalesce(sum(amount),0) FROM "
               + VIEW_COMMITTED
               + " WHERE account_id = accounts._id AND " + WHERE_EXPENSE + ") as sum_expenses," +
-          "(SELECT coalesce(abs(sum(amount)),0) FROM "
+          "(SELECT coalesce(sum(amount),0) FROM "
               + VIEW_COMMITTED
               + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") as sum_income," +
           "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
