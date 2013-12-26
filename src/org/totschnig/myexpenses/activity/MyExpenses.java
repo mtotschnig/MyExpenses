@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -457,6 +458,11 @@ public class MyExpenses extends LaunchActivity implements
     @Override
     public Fragment getItem(Context context, Cursor cursor) {
       long accountId = cursor.getLong(cursor.getColumnIndex(KEY_ROWID));
+      if (accountId == -1) {
+        String currency = cursor.getString(cursor.getColumnIndex(KEY_CURRENCY));
+        new AggregateAccount(currency, cursor);
+        return TransactionList.newInstance(currency);
+      }
       //we want to make sure that the fragment does not need to create a new cursor
       //when getting the account object, so we
       //set up the account object that the fragment can retrieve with getInstanceFromDb
@@ -505,11 +511,12 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-    String[] projection;
     switch(id) {
     case ACCOUNTS_CURSOR:
-        return new CursorLoader(this,
-          TransactionProvider.ACCOUNTS_URI, Account.PROJECTION_FULL, null, null, null);
+      Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
+      builder.appendQueryParameter("mergeCurrencyAggregates", "1");
+      return new CursorLoader(this,
+          builder.build(), Account.PROJECTION_FULL, null, null, null);
     }
     return null;
   }

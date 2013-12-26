@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -47,10 +48,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.net.Uri.Builder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -80,6 +83,7 @@ public class TransactionList extends BudgetListFragment implements
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
   long mAccountId;
+  String mCurrencyCode;
   private StickyListHeadersAdapter mAdapter;
   private AccountObserver aObserver;
   private Account mAccount;
@@ -102,10 +106,16 @@ public class TransactionList extends BudgetListFragment implements
   private Long mOpeningBalance;
 
   public static TransactionList newInstance(long accountId) {
-    
     TransactionList pageFragment = new TransactionList();
     Bundle bundle = new Bundle();
-    bundle.putLong("account_id", accountId);
+    bundle.putLong(KEY_ACCOUNTID, accountId);
+    pageFragment.setArguments(bundle);
+    return pageFragment;
+  }
+  public static Fragment newInstance(String currency) {
+    TransactionList pageFragment = new TransactionList();
+    Bundle bundle = new Bundle();
+    bundle.putString(KEY_CURRENCY, currency);
     pageFragment.setArguments(bundle);
     return pageFragment;
   }
@@ -115,8 +125,13 @@ public class TransactionList extends BudgetListFragment implements
     setHasOptionsMenu(true);
 
     mappedCategoriesPerGroup = new SparseBooleanArray();
-    mAccountId = getArguments().getLong("account_id");
-    mAccount = Account.getInstanceFromDb(getArguments().getLong("account_id"));
+    mAccountId = getArguments().getLong(KEY_ACCOUNTID);
+    if (mAccountId == 0) {
+      mCurrencyCode = getArguments().getString(KEY_CURRENCY);
+      mAccount = AggregateAccount.getCachedInstance(mCurrencyCode);
+    } else {
+      mAccount = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
+    }
     mGrouping = mAccount.grouping;
     mType = mAccount.type;
     mCurrency = mAccount.currency.getCurrencyCode();
@@ -287,29 +302,43 @@ public class TransactionList extends BudgetListFragment implements
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     CursorLoader cursorLoader = null;
+    String selection;
+    String[] selectionArgs;
+    if (mAccountId == 0) {
+      selection = KEY_ACCOUNTID + " IN " +
+          "(SELECT _id from " + TABLE_ACCOUNTS + "WHERE " + KEY_CURRENCY + " = '?')";
+      selectionArgs = new String[] {mCurrencyCode};
+    } else {
+      selection = KEY_ACCOUNTID + " = ?";
+      selectionArgs = new String[] { String.valueOf(mAccountId) };
+    }
     switch(id) {
     case TRANSACTION_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI, null, "account_id = ? AND parent_id is null",
-          new String[] { String.valueOf(mAccountId) }, null);
+          TransactionProvider.TRANSACTIONS_URI, null, selection + " AND parent_id is null",
+          selectionArgs, null);
       break;
     //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions
     case SUM_CURSOR:
       cursorLoader = new CursorLoader(getSherlockActivity(),
           TransactionProvider.TRANSACTIONS_URI,
           new String[] {MAPPED_CATEGORIES},
-          "account_id = ? AND (cat_id IS null OR cat_id != ?)",
-          new String[] { String.valueOf(mAccountId),String.valueOf(SPLIT_CATID) }, null);
+          selection + " AND (cat_id IS null OR cat_id != " + SPLIT_CATID + ")",
+          selectionArgs, null);
       break;
     case GROUPING_CURSOR:
+      Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
+      builder.appendPath("groups")
+        .appendPath(mAccount.grouping.name());
+      //the selectionArg is used in a subquery used by the content provider
+      //this will change once filters are implemented
+      if (mAccountId == 0) {
+        builder.appendQueryParameter(KEY_CURRENCY, mCurrencyCode);
+      } else {
+        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccountId));
+      }
       cursorLoader = new CursorLoader(getSherlockActivity(),
-          //the selectionArg is used in a subquery used by the content provider
-          //this will change once filters are implemented
-          TransactionProvider.TRANSACTIONS_URI.buildUpon()
-              .appendPath("groups")
-              .appendPath(mAccount.grouping.name())
-              .appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccountId))
-              .build(),
+          builder.build(),
           null,null,null, null);
       break;
     }

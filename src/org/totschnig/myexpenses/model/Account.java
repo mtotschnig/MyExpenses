@@ -82,6 +82,23 @@ public class Account extends Model {
         + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
         +      "AS transfer_enabled"
   };
+  public static final String[] PROJECTION_EXTENDED = new String[] {
+    KEY_ROWID,
+    KEY_LABEL,
+    KEY_DESCRIPTION,
+    KEY_OPENING_BALANCE,
+    KEY_CURRENCY,
+    KEY_COLOR,
+    KEY_GROUPING,
+    KEY_TYPE,
+    "(select count(*) from " + TABLE_ACCOUNTS + " t WHERE "
+        + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
+        +      "AS transfer_enabled",
+    KEY_OPENING_BALANCE + " + (SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM " + VIEW_COMMITTED
+        + "  WHERE " + KEY_ACCOUNTID + " = accounts." + KEY_ROWID
+        + " and (" + KEY_CATID + " is null OR " + KEY_CATID + " != "
+        + SPLIT_CATID + ")) as current_balance"
+  };  
   public static final String[] PROJECTION_FULL = new String[] {
     KEY_ROWID,
     KEY_LABEL,
@@ -464,6 +481,14 @@ public class Account extends Model {
    */
   public Account(Long id,Cursor c) {
     this.id = id;
+    extract(c);
+    accounts.put(id, this);
+  }
+  /**
+   * extract information from Cursor and populate fields
+   * @param c
+   */
+  protected void extract(Cursor c) {
     this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
     String strCurrency = c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY));
@@ -491,7 +516,6 @@ public class Account extends Model {
       this.color = defaultColor;
     }
     this.transferEnabled = c.getInt(c.getColumnIndexOrThrow("transfer_enabled")) > 0;
-    accounts.put(id, this);
   }
 
    public void setCurrency(String currency) throws IllegalArgumentException {

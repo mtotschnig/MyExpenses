@@ -99,6 +99,8 @@ public class TransactionProvider extends ContentProvider {
   public Cursor query(Uri uri, String[] projection, String selection,
       String[] selectionArgs, String sortOrder) {
     SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+    SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+    Cursor c;
 
     if (MyApplication.debug)
       Log.d(TAG, "Query for URL: " + uri);
@@ -135,8 +137,15 @@ public class TransactionProvider extends ContentProvider {
         throw new IllegalArgumentException("TRANSACTIONS_GROUPS query does not allow filtering with selection, " +
             "use query parameters");
       }
-      String accountId = uri.getQueryParameter(KEY_ACCOUNTID);
-      String accountSelection = KEY_ACCOUNTID + " = ?";
+      String accountSelection;
+      String accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
+      if (accountSelector == null) {
+        accountSelector = uri.getQueryParameter(KEY_CURRENCY);
+        accountSelection = KEY_ACCOUNTID + " IN " +
+            "(SELECT _id from " + TABLE_ACCOUNTS + "WHERE " + KEY_CURRENCY + " = '?')";
+      } else {
+        accountSelection = KEY_ACCOUNTID + " = ?";
+      }
       String openingBalanceSubQuery =
           "(SELECT " + KEY_OPENING_BALANCE + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = ?)";
       Grouping group;
@@ -151,7 +160,7 @@ public class TransactionProvider extends ContentProvider {
         qb.setTables(VIEW_COMMITTED);
         selection = accountSelection;
         //the second accountId is used in openingBalanceSubquery
-        selectionArgs = new String[]{accountId,accountId};
+        selectionArgs = new String[]{accountSelector,accountSelector};
         projection = new String[] {
             "1 AS year",
             "1"+secondColumnAlias,
@@ -207,7 +216,7 @@ public class TransactionProvider extends ContentProvider {
             };
         //the accountId is used three times , once in the table subquery, twice in the column subquery
         //(first in the where clause, second in the subselect for the opening balance),
-        selectionArgs = new String[]{accountId,accountId,accountId};
+        selectionArgs = new String[]{accountSelector,accountSelector,accountSelector};
       }
       break;
     case CATEGORIES:
@@ -227,12 +236,41 @@ public class TransactionProvider extends ContentProvider {
       break;
     case ACCOUNTS:
       qb.setTables(TABLE_ACCOUNTS);
-      if (projection == null)
-        projection = Account.PROJECTION_BASE;
+      boolean mergeCurrencyAggregates = uri.getQueryParameter("mergeCurrencyAggregates") != null;
+      if (mergeCurrencyAggregates) {
+        String accountSubquery = qb.buildQuery(Account.PROJECTION_EXTENDED, selection, null, groupBy,
+            null, null, null);
+        qb.setTables("(SELECT currency,opening_balance,"+
+            "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
+                + VIEW_COMMITTED
+                + " WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
+                    + SPLIT_CATID + ")) as current_balance " +
+            "from " + TABLE_ACCOUNTS + ") as t");
+        groupBy = "currency";
+        having = "count(*) > 1";
+        projection = new String[] {
+            "-1 as _id",
+            "currency as label",
+            "'' as description",
+            "sum(opening_balance) as opening_balance",
+            "currency",
+            "-1 as color",
+            "'NONE' as grouping",
+            "'NONE' as type",
+            "1 as transfer_enabled",
+            "sum(current_balance) as current_balance"};
+        String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
+        String sql = qb.buildUnionQuery(new String[] {accountSubquery,currencySubquery}, null, null);
+        c = db.rawQuery(sql, null);
+        c.setNotificationUri(getContext().getContentResolver(), uri);
+        return c;
+      }
       defaultOrderBy = (MyApplication.getInstance().getSettings()
           .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
               KEY_USAGES + " DESC, " : "")
          + KEY_LABEL;
+      if (projection == null)
+        projection = Account.PROJECTION_BASE;
       break;
     case ACCOUNT_ID:
       qb.setTables(TABLE_ACCOUNTS);
@@ -341,14 +379,13 @@ public class TransactionProvider extends ContentProvider {
       orderBy = sortOrder;
     }
 
-    SQLiteDatabase db = mOpenHelper.getReadableDatabase();
     if (MyApplication.debug) {
       String qs = qb.buildQuery(projection, selection, null, groupBy,
           null, orderBy, null);
       Log.d(TAG, "Query : " + qs);
     }
 
-    Cursor c = qb.query(db, projection, selection, selectionArgs, groupBy,
+    c = qb.query(db, projection, selection, selectionArgs, groupBy,
         having, orderBy);
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;
