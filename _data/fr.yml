@@ -1,0 +1,65 @@
+fr:
+  hero_main: "Gestionnaire de finances personnelles pour Android"
+  hero_sub:
+    use:           Facile à utiliser
+    functionality: Riche en fonctions
+    source:        Open Source
+  menu_title:
+    more_information: Plus d'informations
+  sections:
+    features: Fonctions
+    participate: Participer
+    faq: FAQ
+    versionlist: Modifications
+    credits: Générique
+    licence: Licence
+    sourcecode: Code source
+    links: Liens
+  features:
+    manage_accounts: Jusqu'à cinq comptes avec virement (sans limite dans la version Contrib)
+    plans: Définir des modèles et l'échéancier d'opérations futures et périodiques (3, sans limite dans la version Contrib)
+    grouped_list: Regroupement par jour, semaine, mois, année, et affichage des totaux par groupe
+    distribution: Deux niveaux de catégories (importation de Grisbi XML), affichage de la répartition des transactions dans la version Contrib
+    split: Opérations ventilées (version Contrib)
+    calculator: Calculatrice
+    export: 'Export vers QIF et CSV (MS Excel), téléchargement du fichier export (par e-mail, FTP, Dropbox, ...), exporter tous les comptes ensemble dans la version Contrib'
+    password: Protection par mot de passe (Question de sécurité en cas d'oubli en version Contrib)
+    help: Aide integrée
+    backup: Sauvegarde et restauration de données
+    aggregate_dialog: Affichage des sommes totales (version Contrib)
+    light_theme: "Deux thèmes: clair et sombre"
+  contrib:
+    feature-list-title: |
+      Mes dépenses Contrib vous donne  un accès illimité aux fonctions Premium suivantes :
+    feature:
+      accounts_unlimited: Nombre illimité de comptes
+      plans_unlimited:    Nombre d'échéances illimité
+      distribution:       Répartition des transactions par catégorie
+      split_transaction:  Opération de répartition
+      security_question:  Question de sécurité
+      reset_all:          Réinitialiser tous les comptes
+      aggregate:          Regroupement sur plusieurs comptes
+  participate:
+    intro: |
+      Avec votre soutien, <span class="application">Mes dépenses</span> ne cesse de croître en fonctionnalités, tout en étant distribué sans publicité et Open Source.
+    submit_issue: |
+      <span class="application">My Expenses</span> évolue à travers votre retour d'expérience et vos
+      suggestions. Si vous rencontrez un problème ou imaginez une amélioration, ajoutez une
+      <a href="https://github.com/mtotschnig/MyExpenses/issues/new">entrée</a> dans le Issue Tracker de Github.
+    test: |
+      Si vous êtes intéressé à aider à tester les versions à venir, rejoignez le Google groupe
+      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a>.
+    translate: |
+      Vous pouvez aider à <a class="intern" href="#translate">traduire</a> <span class="application">My Expenses</span> dans d'autres langues.
+    premium: |
+      S'il vous plaît envisager l'achat d'une <a class="intern" href="#premium">licence Contrib</a> pour un accès illimité à toutes les fonctions Premium.
+  google-play:
+    - Gardez une trace de vos dépenses et revenus.
+    - Gérez-les directement sur votre smartphone.
+    - Exportez-les vers un logiciel de finance, tel que Grisbi, Gnucash, Quicken ou MS Money.
+  permissions-heading: |
+    Mes Dépenses demande les permissions suivantes :
+  permissions-calendar: |
+    Lire et écrire dans le calendrier : les échéances d'opérations futures et périodiques seront stockées dans un calendrier local spécial ou dans celui que vous lui préciserez.
+  permissions-external-storage: |
+    Writing USB storage: Enregistrement des fichiers d'exportation QIF et CSV et des sauvegardes.    

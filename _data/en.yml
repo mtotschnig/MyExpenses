@@ -1,0 +1,90 @@
+en:
+  imprint: Imprint
+  hero_main: "Personal finance manager for Android"
+  hero_sub:
+    use:           "Easy to use"
+    functionality: "Rich functionality"
+    source:        "Open Source"
+  menu_title:
+    more_information: More information
+  sections:
+    features: Features
+    premium: Go Premium
+    participate: Participate
+    faq: FAQ
+    versionlist: Changelog
+    credits: Credits
+    licence: Licence
+    sourcecode: Source code
+    links: Links
+  features:
+    manage_accounts: Up to five accounts with transfers (unlimited in Contrib version)
+    plans: Define templates and plans (3) for future and recurrent transactions  (unlimited in Contrib version)
+    grouped_list: Group transactions per day, week, month, year and display sums per group
+    distribution: Two levels of categories (import from Grisbi XML), display distribution of transactions in Contrib version
+    split: Split transactions (Contrib version)
+    calculator: Calculator
+    export: Export to QIF and CSV (MS Excel), can be automatically shared (via email, FTP, Dropbox, ...) and done in batch in Contrib version
+    password: Password protection, recoverable with security question in Contrib version
+    help: Integrated Help
+    backup: Data backup and restore
+    aggregate_dialog: Aggregate financial situation (Contrib version)
+    light_theme: "Two themes: light and dark"
+  contrib:
+    feature-list-title: |
+      The following Premium features can be unlocked by acquiring a Contrib licence:
+    feature:
+      accounts_unlimited: Unlimited number of accounts
+      plans_unlimited:    Unlimited number of plans
+      distribution:       Distribution of transactions per category
+      split_transaction:  Split transaction
+      security_question:  Security question
+      reset_all:          Reset all accounts
+      aggregate:          Aggregates over multiple accounts
+    licence-howto-buy:
+      intro: |
+        You have the following options for purchasing the Contrib licence:
+      gplay: |
+        If you have installed My Expenses from Google Play, install
+        <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">My Expenses Contrib</a>.
+      amazon: |
+        If you have installed My Expenses from Amazon App Store, install
+        <a href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">My Expenses Contrib</a>.
+      other: |
+        If you have downloaded My Expenses from F-Droid, Androidpit or Github,
+        send a donation via one of the following:
+      transfer: |
+        Alternatively, transfer money to the following account information:
+      key: |
+        and then request the licence key from the settings screen.
+        Once you receive it by email, enter it also from the settings screen.
+      outro: |
+        Google and Amazon charge 30% of the transaction amount, Flattr 10%, Paypal approximately 0,45€.
+        So if it is convenient for you, I encourage you to install My Expenses from F-Droid, Androidpit
+        or Github and send your donation by money transfer, Paypal or Flattr.
+  participate:
+    intro: |
+      With your support, <span class="application">My Expenses</span> keeps growing in functionality, while being distributed
+      ad free and Open Source.
+    submit_issue: |
+      <span class="application">My Expenses</span> evolves through your reports and suggestions.
+      If you find a problem or think of an improvement,
+      create a <a href="https://github.com/mtotschnig/MyExpenses/issues/new">new issue</a>, in Github's Issue Tracker.
+    test: |
+      If you are interested in helping to test upcoming versions, please join the
+      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a> Google
+      Group.
+    translate: |
+      You can also help <a class="intern" href="#translate">translate</a> <span class="application">My Expenses</span> into new languages.
+    premium: |
+      Please consider purchasing a <a class="intern" href="#premium">Contrib licence</a> for unrestricted access to all Premium features.
+  google-play:
+    - "Keep track of your expenses and incomes."
+    - "Manage them directly on your smartphone." 
+    - "Export them into a Desktop finance program like Grisbi, GnuCash, Quicken or  MS Money."
+  permissions-heading: |
+    My Expenses requires the following permissions
+  permissions-calendar: |
+    Reading and writing the calendar: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.
+  permissions-external-storage: |
+    Writing USB storage: Storage of QIF and CSV exports and backup files

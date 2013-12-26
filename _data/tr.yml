@@ -1,0 +1,90 @@
+tr:
+  imprint: Imprint
+  hero_main: "Android için kişisel finans yöneticisi"
+  hero_sub:
+    use: "Kolay kullanım"
+    functionality: "Zengin işlevsellik"
+    source: "Açık Kaynak"
+  menu_title:
+    more_information: İlâve bilgi
+  sections:
+    features: Features
+    premium: Katkı sürümünü kurun
+    participate: İştirak edin
+    faq: SSS
+    versionlist: Değişiklikler
+    credits: Hazırlayanlar
+    licence: Lisans
+    sourcecode: Kaynak kodu
+    links: Bağlantılar
+  features:
+    manage_accounts: Transferleri dikkate alan 5 hesap (Katkı sürümü ile sınırsız sayıda hesap)
+    plans: Gelecekteki ve tekrar eden muameleler için plan tanımlaması (3, Katkı sürümü ile sınırsız sayıda hesap)
+    grouped_list: Muameleleri gün, hafta, ay veya yıllık olarak grupla ve grup başına toplamları görüntüle
+    distribution: İki kategori seviyesi (Grisbi XML dosyalarından içe aktarım), muamelelerin dağılımını katkı sürümünde görüntüleme
+    split: Bölünmüş muameleler (Ücretli işlev)
+    calculator: Hesap makinesi
+    export: QIF ve CSV (MS Excel) dosyası olarak dışa aktarma, Dışa aktarım dosyalarının FTP ya da e-posta ile yedeklenmeleri, Tüm hesapları sıfırla (Ücretli işlev)
+    password: Parola ile güvenlik, Güvenlik sorusu (Ücretli işlev)
+    help: Entegre yardım
+    backup: Veri yedekleme ve geri yükleme
+    aggregate_dialog: Birden çok hesabın birleşik görünümü (Ücretli işlev)
+    light_theme: "İki tema: karanlık ve aydınlık"
+  contrib:
+    feature-list-title: |
+      Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde
+      edersiniz:
+    feature:
+      accounts_unlimited: Sınırsız sayıda hesap
+      plans_unlimited: Sınırsız plan sayısı
+      distribution: Muamelelerin kategoriye göre dağılımı
+      split_transaction: Bölünmüş muameleler
+      security_question: Güvenlik sorusu
+      reset_all: Tüm hesapları sıfırlama
+      aggregate: Birden fazla hesabı agrega olarak toplama
+    licence-howto-buy:
+      intro: |
+        Katkı lisansını satın almak için şu seçenekler mevcuttur:
+      gplay: |
+        Eğer Harcamalarımı Google Play'den indirdiyseniz,
+        <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Harcamalarım Katkı sürümünü</a> kurunuz.
+      amazon: |
+        Eğer Harcamalarımı Amazon App Store'dan indirdiyseniz,
+        <a href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Harcamalarım Katkı sürümünü</a> kurunuz.
+      other: |
+        Eğer Harcamalarımı F-Droid, Androidpit ya da Github'dan indirdiyseniz,
+        aşağıdaki seçeneklerden biriyle bağış gönderiniz:
+      transfer: |
+        Alternatif olarak, aşağıdaki hesap bilgilerine para transferi yapınız:
+      key: |
+        ve bunun ardından ayarlar ekranından bir lisans anahtarı talep ediniz.
+        E-posta ile anahtarı aldıktan sonra yine ayarlar ekranından onu giriniz.
+      outro: |
+        Google ve Amazon muamele meblağının %30'unu ücret olarak alırlar, Flattr %10'unu, Paypal ise yaklaşık 0,45€ alır.
+        Dolayısıyla sizin için kolaysa Harcamalarımı F-Droid, Androidpit ya da Github'dan inidirip
+        ödemeyi Paypal, Flattr ya da banka virmanı ile yapmanızı teşvik ederim.
+  participate:
+    intro: |
+      Desteğiniz sayesinde <span class="application">Harcamalarım</span> yeni özellikler kazanmakta ve
+      reklamsız, özgür ve açık kaynak olarak yayınlanmaktadır.
+    submit_issue: |
+      <span class="application">Harcamalarım</span> raporlarınız ve önerileriniz sayesinde gelişmektedir.
+      Bir sorun bulursanız ya da geliştirme öneriniz varsa,
+      Github'ın Hata izleyicisinde <a href="https://github.com/mtotschnig/MyExpenses/issues/new">yeni bir hata</a> oluşturunuz.
+    test: |
+      Gelecek sürümleri denemek istiyorsanız, lütfen
+      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">Harcamalarımı Deneme</a> Googe Grubuna üye olunuz.
+    translate: |
+      <span class="application">Harcamalarımı</span> yeni dillere <a class="intern" href="#translate">tercüme ederek</a> de yardımda bulunabilirsiniz.
+    premium: |
+      Tüm ücretli sınırsızca işlevlere erişebilmek için <a class="intern" href="#premium">Katkı lisansı</a> almayı değerlendiriniz.
+  google-play:
+  - Gelirleriniz ve harcamalarınızı takip edin.
+  - Akıllı telefonunuzda doğrudan yönetin.
+  - Grisbi (Open Source), Gnucash (Open Source), Quicken ya da MS Money gibi masa üstü finans programlarına aktarın.
+  permissions-heading: |
+    Harcamalarım aşağıdaki izinlere ihtiyaç duyar:
+  permissions-calendar: |
+    Takvimin okunması ve yazılması: gelecekteki ve tekrar eden muameleler için planlar ya özel bir yerel takvimde ya da atadığınız herhangi başka bir takvimde saklanır.
+  permissions-external-storage: |
+    Writing USB storage: QIF ve CSV dışa aktarmaları ve yedekleme dosyalarının saklanması

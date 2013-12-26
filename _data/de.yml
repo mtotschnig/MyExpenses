@@ -1,0 +1,69 @@
+de:
+  imprint: Impressum
+  hero_main: "Persönliches Finanz-Management für Android"
+  hero_sub:
+    use:           "Einfach zu bedienen"
+    functionality: "Reich an Funktionalität"
+    source:        "Open Source"
+  menu_title:
+    more_information: Mehr Information
+  sections:
+    features: Funktionen
+    participate: Mitmachen
+    faq: FAQ
+    versionlist: Änderungen
+    credits: Abspann
+    licence: Lizenz
+    sourcecode: Quellcode
+    links: Links
+  features:
+    manage_accounts: Bis zu fünf Konten mit Umbuchungen (unbegrenzt in Contrib Version)
+    plans: Vorlagen und Pläne (3) für zukünftige und wiederkehrende Ausgaben (unbegrenzt in Contrib Version)
+    grouped_list: Buchungen pro Tag, Woche, Monate, Jahr gruppieren und Summen pro Gruppe anzeigen
+    distribution: Zwei Ebenen von Kategorien mit Import aus Grisbi XML Datei, Verteilung der Buchungen (Contrib Version)
+    split: Splitbuchungen (nur in Contrib Version)
+    calculator: Taschenrechner
+    export: |
+      Export nach QIF und CSV (MS Excel), Übertragung via email, FTP, Dropbox, ...,
+      Export aller Konten in einem in Contrib Version
+    password: Passwortschutz (Sicherheitsfrage für Passwortverlust in Contrib Version)
+    help: Integrierte Hilfe
+    backup: Daten Backup und Wiederherstellung
+    aggregate_dialog: Darstellung der Gesamtsummen in der Kontenübersicht (Contrib Version)
+    light_theme: "Zwei Themen: hell und dunkel"
+  contrib:
+    feature-list-title: |
+      Meine Ausgaben Contrib gibt Ihnen uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:
+    feature:
+      accounts_unlimited: Unbegrenzte Anzahl von Konten
+      plans_unlimited:    Unbegrenzte Anzahl von Plänen
+      distribution:       Verteilung der Buchungen auf Kategorien
+      split_transaction:  Splitbuchung
+      security_question:  Sicherheitsfrage
+      reset_all:          Alle Konten zurücksetzen
+      aggregate:          Gesamtsumme über mehrere Konten
+  participate:
+    intro: |
+      Mit Ihrer Unterstützung können wir <span class="application">Meine Ausgaben</span> stetig verbessern
+      und es weiterhin werbefrei und OpenSource anbieten.
+    submit_issue: |
+      <span class="application">Meine Ausgaben</span> entwickelt sich durch Ihre Erfahrungsberichte und Vorschläge weiter.
+      Falls Sie auf ein Problem stoßen oder eine Verbesserung im Kopf haben, erzeugen Sie einen
+      <a href="https://github.com/mtotschnig/MyExpenses/issues/new">Eintrag</a> in Githubs's Issue Tracker.
+    test: |
+      Falls Sie Interesse haben, beim Testen neuer Versionen zu helfen, treten Sie der Google Gruppe 
+      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a> bei.
+    translate: |
+      Sie können auch beim <a class="intern" href="#translate">Übersetzen</a> in zusätzliche Sprachen helfen.
+    premium: |
+      Bitte erwägen Sie auch den Kauf der <a class="intern" href="#premium">Contrib Lizenz</a> für uneingeschränkten Zugriff auf alle Premium-Funktionen.
+  google-play:
+    - Halten Sie über Ihre Einnahmen und Ausgaben Buch.
+    - Verwalten Sie diese direkt auf Ihrem Smartphone.
+    - Exportieren Sie diese in ein Desktop-Finanzprogrammm wie Grisbi, Gnucash, Quicken oder MS Money.
+  permissions-heading: |
+    Meine Ausgaben verwendet folgende Berechtigungen
+  permissions-calendar: |
+    Kalenderdaten lesen und schreiben: Pläne für zukünftige und wiederkehrenden Transaktionen werden entweder in einem speziellen lokalen Kalender oder in einem anderen Kalender, den Sie zuweisen, gespeichert.
+  permissions-external-storage: |
+    USB Speicher schreiben: Speichern von QIF und CSV-Export und Backup-Dateien.

@@ -60,17 +60,17 @@ versions:
       en: |
         (Traditional) Chinese translation. Allow selection of account in transaction editing form. Clearer UI for transfers.
       fr: |
-        Traduction en Chinois (traditionnel). Autoriser la sélection de compte dans l\'édition de l\'opération. interface plus claire pour les transferts.
+        Traduction en Chinois (traditionnel). Autoriser la sélection de compte dans l'édition de l'opération. interface plus claire pour les transferts.
       de: |
         Übersetzung ins (traditionelle) Chinesische. Im Buchungsformular kann nun das Konto ausgewählt werden. UI für Umbuchungen verbessert.
       it: |
-        Traduzione Cinese (tradizionale) . Consenti selezionando conto nell\'edizione dell\'operazione . Interfaccia più chiara per i trasferimenti .
+        Traduzione Cinese (tradizionale) . Consenti selezionando conto nell'edizione dell'operazione . Interfaccia più chiara per i trasferimenti .
       es: |
         Traducción Chino (tradicional) . Permitir la selección de la cuenta en la edición de la operación. Interfaz más clara para las transferencias.
       tr: |
         (Geleneksel) Çince çeviri. Muamele düzenleme formunda hesap seçimi. Transferler için daha temiz arayüz. 
       ca: |
-        Traducció al Xinès (Tradicional). El formulari d\'operacions ara permet triar el compte. La interfície de les transferències ara és més clara.
+        Traducció al Xinès (Tradicional). El formulari d'operacions ara permet triar el compte. La interfície de les transferències ara és més clara.
   -
     - 1.10.4
     - 2013-12-16
@@ -78,11 +78,11 @@ versions:
       en: |
         UI improvements (#94) and bug fixes (#95,#96).
       fr: |
-        Améliorations de l\'interface utilisateur (#94) et corrections des bogues (#95,#96).
+        Améliorations de l'interface utilisateur (#94) et corrections des bogues (#95,#96).
       de: |
         UI Verbesserungen (#94) und Bugs (#95,#96) behoben.
       it: |
-        Miglioramenti dell\'UI (#94) e correzione di errori (#95,#96).
+        Miglioramenti dell'UI (#94) e correzione di errori (#95,#96).
       es: |
         Mejoras de interfaz de usuario (#94) y corrección de errores (#95,#96).
       tr: |

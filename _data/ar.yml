@@ -1,0 +1,22 @@
+ar:
+  hero_main: "مدير التمويل الشخصي لالروبوت"
+  hero_sub:
+    use: سهلة الاستخدام
+    functionality: الوظائف الغنية
+    source: المصدر المفتوح
+  menu_title:
+    more_information: المزيد من المعلومات
+  sections:
+    credits: الشكر
+  contrib:
+    feature:
+      accounts_unlimited: عدد حسابات غير محدود
+      distribution: توزيع العمليات لكل تصنيف
+      split_transaction: تقسيم العمليات
+      security_question: السؤال السري
+      reset_all: إعادة تعيين كل الحسابات
+      aggregate: إجمالي الحسابات المتعددة
+  google-play:
+    - قم بتتبع مصاريفك والدخل الخاص بك.
+    - إدارتهم مباشرة من خلال جهازك الذكي.
+    - تصديرهم لبرامج إدارة الموارد المالية مثل Grisbi, GnuCash, Quicken, MS Money.
