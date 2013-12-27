@@ -142,7 +142,7 @@ public class TransactionProvider extends ContentProvider {
       if (accountSelector == null) {
         accountSelector = uri.getQueryParameter(KEY_CURRENCY);
         accountSelection = KEY_ACCOUNTID + " IN " +
-            "(SELECT _id from " + TABLE_ACCOUNTS + "WHERE " + KEY_CURRENCY + " = '?')";
+            "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
       } else {
         accountSelection = KEY_ACCOUNTID + " = ?";
       }

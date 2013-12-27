@@ -306,7 +306,7 @@ public class TransactionList extends BudgetListFragment implements
     String[] selectionArgs;
     if (mAccountId == 0) {
       selection = KEY_ACCOUNTID + " IN " +
-          "(SELECT _id from " + TABLE_ACCOUNTS + "WHERE " + KEY_CURRENCY + " = '?')";
+          "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
       selectionArgs = new String[] {mCurrencyCode};
     } else {
       selection = KEY_ACCOUNTID + " = ?";
