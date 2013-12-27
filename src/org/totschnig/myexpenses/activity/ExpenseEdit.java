@@ -476,7 +476,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     }
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
-      .setIcon(R.drawable.ic_menu_refresh)
+      .setIcon(R.drawable.invert_transfer_icon)
       .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
     return true;

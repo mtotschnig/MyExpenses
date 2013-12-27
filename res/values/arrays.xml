@@ -117,6 +117,7 @@
     </string-array>
     <string-array name="ExpenseEdit_transfer_menuitems">
       <item>save_and_new</item>
+      <item>invert_transfer</item>
     </string-array>
     <string-array name="ExpenseEdit_template_menuitems">
       <item>save_and_new</item>
