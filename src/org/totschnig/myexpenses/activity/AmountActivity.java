@@ -96,17 +96,7 @@ public abstract class AmountActivity extends EditActivity {
       mAmountText.setText(nfDLocal.format(new BigDecimal(intent.getStringExtra(KEY_AMOUNT))));
     }
   }
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putBoolean("type", mType);
-  }
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    super.onRestoreInstanceState(savedInstanceState);
-    mType = savedInstanceState.getBoolean("type");
-    configureType();
-  }
+
   protected void configureType() {
     mTypeButton.setText(mType ? "+" : "-");
   }

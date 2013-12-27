@@ -173,7 +173,17 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
     mColorSpinner.setAdapter(mColAdapter);
     populateFields();
   }
-
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putBoolean("type", mType);
+  }
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    mType = savedInstanceState.getBoolean("type");
+    configureType();
+  }
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == PICK_COLOR_REQUEST) {

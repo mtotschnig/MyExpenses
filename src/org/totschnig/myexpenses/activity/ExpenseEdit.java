@@ -146,23 +146,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    Bundle extras = getIntent().getExtras();
-    mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
-    if (mRowId != 0L) {
-      mNewInstance = false;
-    }
-    //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
-    if (savedInstanceState != null) {
-      mSavedInstance = true;
-      mRowId = savedInstanceState.getLong("rowId");
-    }
-    mTemplateId = extras.getLong("template_id",0);
-    //were we called from a notification
-    int notificationId = extras.getInt("notification_id", 0);
-    if (notificationId > 0) {
-      ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(notificationId);
-    }
     setContentView(R.layout.one_expense);
     mManager= getSupportLoaderManager();
     changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
@@ -189,6 +172,44 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         (automatic > manual ? automatic : manual) +
         + mPlanToggleButton.getPaddingLeft()
         + mPlanToggleButton.getPaddingRight());
+
+    Bundle extras = getIntent().getExtras();
+    mRowId = extras.getLong(DatabaseConstants.KEY_ROWID,0);
+    if (mRowId != 0L) {
+      mNewInstance = false;
+    }
+    //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
+    if (savedInstanceState != null) {
+      mSavedInstance = true;
+      mRowId = savedInstanceState.getLong("rowId");
+
+      mCalendar = (Calendar) savedInstanceState.getSerializable("calendar");
+      mPlan = (Plan) savedInstanceState.getSerializable("plan");
+      if (mPlan != null) {
+        mPlanId = mPlan.id;
+        configurePlan();
+      }
+      mLabel = savedInstanceState.getString("label");
+      if ((mCatId = savedInstanceState.getLong("catId")) == 0L)
+        mCatId = null;
+      setDate();
+      setTime();
+      if ((mMethodId = savedInstanceState.getLong("methodId")) == 0L)
+        mMethodId = null;
+      if ((mAccountId = savedInstanceState.getLong("accountId")) == 0L)
+        mAccountId = null;
+      if ((mTransferAccountId = savedInstanceState.getLong("transferAccountId")) == 0L)
+        mTransferAccountId = null;
+      mType = savedInstanceState.getBoolean("type");
+      configureType();
+    }
+    mTemplateId = extras.getLong("template_id",0);
+    //were we called from a notification
+    int notificationId = extras.getInt("notification_id", 0);
+    if (notificationId > 0) {
+      ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(notificationId);
+    }
+
 
     ArrayAdapter<Transaction.CrStatus> sAdapter = new ArrayAdapter<Transaction.CrStatus>(
         DialogUtils.wrapContext1(this),
@@ -794,6 +815,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
+    outState.putBoolean("type", mType);
     outState.putSerializable("calendar", mCalendar);
     //restored in onCreate
     if (mRowId != 0)
@@ -806,27 +828,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     outState.putLong("methodId", mMethodSpinner.getSelectedItemId());
     outState.putLong("accountId", mAccountSpinner.getSelectedItemId());
     outState.putLong("transferAccountId", mTransferAccountSpinner.getSelectedItemId());
-  }
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    mCalendar = (Calendar) savedInstanceState.getSerializable("calendar");
-    mPlan = (Plan) savedInstanceState.getSerializable("plan");
-    if (mPlan != null) {
-      mPlanId = mPlan.id;
-      configurePlan();
-    }
-    mLabel = savedInstanceState.getString("label");
-    if ((mCatId = savedInstanceState.getLong("catId")) == 0L)
-      mCatId = null;
-    setDate();
-    setTime();
-    if ((mMethodId = savedInstanceState.getLong("methodId")) == 0L)
-      mMethodId = null;
-    if ((mAccountId = savedInstanceState.getLong("accountId")) == 0L)
-      mAccountId = null;
-    if ((mTransferAccountId = savedInstanceState.getLong("transferAccountId")) == 0L)
-      mTransferAccountId = null;
-    super.onRestoreInstanceState(savedInstanceState);
   }
 
   private void switchAccountViews() {
