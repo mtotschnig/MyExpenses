@@ -110,7 +110,7 @@ def main():
   right()
   enter()
   sleep(2)
-  for _ in range(6):
+  for _ in range(10):
     down()
   enter()
   sleep(2)
@@ -169,6 +169,8 @@ def main():
   menu(4)
   if lang == 'de':
     distance = 20
+  elif lang == 'zh':
+    distance = 17
   else:
     distance = 18
   for _ in range(distance):
