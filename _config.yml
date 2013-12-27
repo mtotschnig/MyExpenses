@@ -123,6 +123,8 @@ versions:
         Cuando la lista de transacciones se agrupa, mostrar equilibrio intermedio para cada periodo en el encabezado de grupo. Corrección de errores #90.
       tr: |
         Muamele listesi gruplandığında, grup başlığında her dönem için ara bakiyeyi göster. Hata düzeltmesi: Hata #90.
+      ca: |
+        Quan la llista d'operacions està agrupada, mostra el balanç intermedi per a cada període a la capçalera del grup. Correcció: Problema #90.
   -
     - 1.10.1
     - 2013-12-06
@@ -139,7 +141,8 @@ versions:
         Idioma de interfaz de usuario configurable. Tamaño de fuente configurable.
       tr: |
         Değiştirilebilir arayüz dili. Değiştirilebilir yazı boyutu.
-
+      ca: |
+        Idioma configurable. Tipus de lletra configurable.
   -
     - 1.10.0
     - 2013-12-01
@@ -158,6 +161,8 @@ versions:
         Gelecekteki ve tekrarlanan muameleler için planlamalar. Kmerce tercüme.
       hu: |
         Tervek készítése a jövőbeli, vagy ismétlődő tranzakciók kezelésére. Khmer nyelv.
+      ca: |
+        Planificacions per operacions futures i recurrents. Traducció al Khmer.
   -
     - 1.9.7
     - 2013-11-07
@@ -176,6 +181,8 @@ versions:
         Referans sayısı (çek ile ödemeler). Hesap listesi ile başlangıç. Periyotlar arası kaydırarak geçiş. QIF ve CSV dışa aktarımı için ayarlanabilir tarih biçimi. Gelişmiş kullanıcı arayüzü.
       hu: |
         Referencia szám (csekkes fizetéseknél). Helyből a számlák látszanak. Ujjmozdulattal lapozható időszakok a kiadásoknál. Beállítható dátumformátum a QIF és CSV exportoknál. Felhasználói felület javítások.
+      ca: |
+        Número de referència (pagaments per xec). Comenceu a la llista de comptes des del llançador. Feu lliscar el dit per canviar de període a la vista de distribució. Es pot configurar el format de la data per a exportar en formats QIF i CSV. Millores a la interfície.
   -
     - 1.9.6
     - 2013-10-18
@@ -196,6 +203,8 @@ versions:
         Cờ đánh dấu giao dịch là đã dọn dẹp / đã hòa hợp (áp dụng cho tài khoản tại ngân hàng và tài khoản tín dụng). Các hội có thể được chỉnh sửa.
       hu: |
         Tranzakciók megjelölése, mint jóváhagyott, vagy folyamatban/egyeztetés alatt lévő (Bankszámla és hitelkártya számlatípusnál). A pénzügyi folyamatokban résztvevő felek mostantól szerkeszthetőek.
+      ca: |
+        Marqueu les operacions al aprovar-les / reconciliar-les (activat per a comptes bancaris i targes de crèdit). Ara és possible editar les parts. Traducció a l'hongarès.
   -
     - 1.9.5
     - 2013-10-04
@@ -214,6 +223,10 @@ versions:
         Muamelelerin kategori başına dağılımı (Premium).
       vi: |
         Phân phối các giao dịch cho mỗi phân loại (Premium).
+      hu: |
+        Egy adott tranzakció több kategóriában történő felosztása (Premium változat).
+      ca: |
+        Distribució d'operacions per categoria (Premium).
   -
     - 1.9.1
     - 2013-09-23
@@ -234,6 +247,10 @@ versions:
         Sửa lỗi: Vấn đề lỗi #69. Phần dịch tiếng Arab.
       ar: |
         اصلاح : خطأ #69. دعم اللغة العربية.
+      hu: |
+        Bug fix: #69-es ügy. Arab nyelv.
+      ca: |
+        Correcció: Problema #69. Traducció a l\'àrab.
   -
     - 1.9.0
     - 2013-08-20
@@ -268,6 +285,10 @@ versions:
         Danh sách các tài khoản được sắp xếp (dựa theo tần số được sử dụng theo mặc định)
       ar: |
         تجميع العمليات حسب اليوم أو الاسبوع أو الشهر أو السنة ، وعرض الاجمالي لكل تجميع. عرض المستفيد في قائمة العمليات. عرض الحسابات مرتبة (افتراضيا حسب تكرار الاستخدام).
+      hu: |
+        Tranzakciók összesítése napi, heti, havi és éves viszonylatban. A kedvezményezett a tranzakciós listában megjelenik. A számlák sorrendben látszanak (alapértelmezetten a leggyakrabban használt elöl).
+      ca: |
+        Agrupeu les operacions per dia, setmana, mes, any i mostreu el total per grup. A la llista d\'operacions es mostra el beneficiari. La llista de comptes està ordenada (per freqüència d\'ús per omissió).
   -
     - 1.8.5.
     - 2013-08-06
