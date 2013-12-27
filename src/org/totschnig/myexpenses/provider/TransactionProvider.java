@@ -250,7 +250,7 @@ public class TransactionProvider extends ContentProvider {
         groupBy = "currency";
         having = "count(*) > 1";
         projection = new String[] {
-            "-1 as _id",
+            AggregateAccount.ID + " as _id",
             "currency as label",
             "'' as description",
             "sum(opening_balance) as opening_balance",

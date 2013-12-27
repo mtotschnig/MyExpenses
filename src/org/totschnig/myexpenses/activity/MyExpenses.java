@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.activity;
 
 import java.io.Serializable;
 import java.util.Currency;
-import java.util.HashMap;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -49,7 +48,6 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
@@ -121,6 +119,7 @@ public class MyExpenses extends LaunchActivity implements
   private ViewPager myPager;
   private String fragmentCallbackTag = null;
   private long mAccountId = 0;
+  String mCurrencyCode;
   public enum HelpVariant {
     crStatus
   }
@@ -134,6 +133,7 @@ public class MyExpenses extends LaunchActivity implements
    * a new transaction
    */
   private long sequenceCount = 0;
+  private int colorAggregate;
   
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -143,6 +143,10 @@ public class MyExpenses extends LaunchActivity implements
   public void onCreate(Bundle savedInstanceState) {
     //if we are launched from the contrib app, we refresh the cached contrib status
     setTheme(MyApplication.getThemeId());
+    Resources.Theme theme = getTheme();
+    TypedValue color = new TypedValue();
+    theme.resolveAttribute(R.attr.colorAggregate, color, true);
+    colorAggregate = color.data;
     mSettings = MyApplication.getInstance().getSettings();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     if (prev_version == -1) {
@@ -240,7 +244,10 @@ public class MyExpenses extends LaunchActivity implements
       private View getCustomView(int position, View row) {
         Cursor c = getCursor();
         c.moveToPosition(position);
-        row.findViewById(R.id.color1).setBackgroundColor(c.getInt(c.getColumnIndex(KEY_COLOR)));
+        row.findViewById(R.id.color1).setBackgroundColor(
+            getItemId(position) == AggregateAccount.ID ?
+                colorAggregate :
+                c.getInt(c.getColumnIndex(KEY_COLOR)));
         ((TextView) row.findViewById(R.id.end)).setText(
             Utils.formatCurrency(
                 new Money(
@@ -339,13 +346,23 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     case R.id.GROUPING_COMMAND:
       SelectGroupingDialogFragment.newInstance(
-          R.id.GROUPING_COMMAND_DO,Account.getInstanceFromDb(mAccountId).grouping.ordinal())
+          R.id.GROUPING_COMMAND_DO,
+          ((mAccountId == AggregateAccount.ID) ?
+              AggregateAccount.getCachedInstance(mCurrencyCode) :
+              Account.getInstanceFromDb(mAccountId))
+              .grouping.ordinal())
         .show(getSupportFragmentManager(), "SELECT_GROUPING");
       return true;
     case R.id.GROUPING_COMMAND_DO:
-      Account account = Account.getInstanceFromDb(mAccountId);
-      account.grouping=Account.Grouping.values()[(Integer)tag];
-      account.save();
+      Grouping value = Account.Grouping.values()[(Integer)tag];
+      if (mAccountId == AggregateAccount.ID) {
+        AggregateAccount.getCachedInstance(mCurrencyCode).persistGrouping(value);
+        getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
+      } else {
+        Account account = Account.getInstanceFromDb(mAccountId);
+        account.grouping=value;
+        account.save();
+      }
       return true;
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
@@ -480,6 +497,8 @@ public class MyExpenses extends LaunchActivity implements
     mAccountsCursor.moveToPosition(position);
     long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
     setCurrentAccount(accountId);
+    if (accountId == -1)
+      mCurrencyCode = mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_CURRENCY));
     getSupportActionBar().setSelectedNavigationItem(position);
   }
   @SuppressWarnings("incomplete-switch")
@@ -587,6 +606,10 @@ public class MyExpenses extends LaunchActivity implements
   public boolean onNavigationItemSelected(int itemPosition, long itemId) {
     currentPosition = itemPosition;
     moveToPosition(itemPosition);
+    if (itemId == -1) {
+      mAccountsCursor.moveToPosition(itemPosition);
+      mCurrencyCode = mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_CURRENCY));
+    }
     return true;
   }
   @Override
