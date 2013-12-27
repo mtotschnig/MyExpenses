@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="其他收入"/>
+<Sub_category Nbc="1" Nb="1" Na="失業救濟金"/>
+<Sub_category Nbc="1" Nb="2" Na="家庭津貼"/>
+<Sub_category Nbc="1" Nb="3" Na="免稅額"/>
+<Sub_category Nbc="1" Nb="4" Na="博彩"/>
+<Sub_category Nbc="1" Nb="5" Na="互助保險"/>
+<Sub_category Nbc="1" Nb="6" Na="社會保障"/>
+<Category Nb="2" Na="退休"/>
+<Sub_category Nbc="2" Nb="1" Na="退休基金"/>
+<Sub_category Nbc="2" Nb="2" Na="生果金"/>
+<Sub_category Nbc="2" Nb="3" Na="額外補助金"/>
+<Category Nb="3" Na="投資收益"/>
+<Sub_category Nbc="3" Nb="1" Na="紅利"/>
+<Sub_category Nbc="3" Nb="2" Na="利益"/>
+<Sub_category Nbc="3" Nb="3" Na="資本收益"/>
+<Category Nb="4" Na="薪金"/>
+<Sub_category Nbc="4" Nb="1" Na="超時"/>
+<Sub_category Nbc="4" Nb="2" Na="旅費津貼"/>
+<Sub_category Nbc="4" Nb="4" Na="成功費"/>
+<Sub_category Nbc="5" Nb="1" Na="禮品"/>
+<Sub_category Nbc="5" Nb="2" Na="退款"/>
+<Category Nb="6" Na="食物"/>
+<Sub_category Nbc="6" Nb="1" Na="酒吧"/>
+<Sub_category Nbc="6" Nb="2" Na="包點師"/>
+<Sub_category Nbc="6" Nb="3" Na="飯堂"/>
+<Sub_category Nbc="6" Nb="4" Na="糖果"/>
+<Sub_category Nbc="6" Nb="5" Na="音樂"/>
+<Sub_category Nbc="6" Nb="6" Na="雜貨"/>
+<Sub_category Nbc="6" Nb="7" Na="餐廳"/>
+<Category Nb="7" Na="寵物"/>
+<Sub_category Nbc="7" Nb="1" Na="食物"/>
+<Sub_category Nbc="8" Nb="1" Na="車"/>
+<Sub_category Nbc="8" Nb="5" Na="生活"/>
+<Category Nb="9" Na="車"/>
+<Sub_category Nbc="9" Nb="1" Na="燃油"/>
+<Sub_category Nbc="9" Nb="2" Na="維修"/>
+<Sub_category Nbc="9" Nb="3" Na="保養"/>
+<Sub_category Nbc="9" Nb="4" Na="泊車"/>
+<Sub_category Nbc="9" Nb="5" Na="罰款"/>
+<Category Nb="11" Na="禮品"/>
+<Category Nb="12" Na="兒童"/>
+<Sub_category Nbc="12" Nb="1" Na="護士"/>
+<Sub_category Nbc="12" Nb="2" Na="Misc."/>
+<Sub_category Nbc="12" Nb="3" Na="學業"/>
+<Category Nb="13" Na="學業"/>
+<Sub_category Nbc="13" Nb="3" Na="書本"/>
+<Sub_category Nbc="14" Nb="1" Na="禮品"/>
+<Sub_category Nbc="17" Nb="2" Na="收入"/>
+<Category Nb="18" Na="住房"/>
+<Sub_category Nbc="18" Nb="1" Na="酒店"/>
+<Sub_category Nbc="18" Nb="2" Na="租"/>
+<Sub_category Nbc="18" Nb="3" Na="電視"/>
+<Sub_category Nbc="18" Nb="4" Na="家具"/>
+<Sub_category Nbc="18" Nb="15" Na="電話"/>
+<Sub_category Nbc="18" Nb="16" Na="手提電話"/>
+<Sub_category Nbc="19" Nb="7" Na="書本"/>
+<Sub_category Nbc="21" Nb="9" Na="社會保障"/>
+<Category Nb="23" Na="運輸"/>
+<Sub_category Nbc="23" Nb="2" Na="地鐵"/>
+<Sub_category Nbc="24" Nb="1" Na="住房"/></Grisbi_categ>
