@@ -137,17 +137,18 @@ public class TransactionProvider extends ContentProvider {
         throw new IllegalArgumentException("TRANSACTIONS_GROUPS query does not allow filtering with selection, " +
             "use query parameters");
       }
-      String accountSelection;
+      String accountSelectionQuery;
       String accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
       if (accountSelector == null) {
         accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-        accountSelection = KEY_ACCOUNTID + " IN " +
+        accountSelectionQuery = " IN " +
             "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
       } else {
-        accountSelection = KEY_ACCOUNTID + " = ?";
+        accountSelectionQuery = " = ?";
       }
+      String accountSelection = KEY_ACCOUNTID + accountSelectionQuery;
       String openingBalanceSubQuery =
-          "(SELECT " + KEY_OPENING_BALANCE + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = ?)";
+          "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + accountSelectionQuery + ")";
       Grouping group;
       try {
         group = Grouping.valueOf(uri.getPathSegments().get(2));
