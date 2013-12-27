@@ -69,7 +69,10 @@ public class Account extends Model {
    */
   public boolean transferEnabled;
 
-  public static final String[] PROJECTION_BASE = new String[] {
+  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
+
+  static {
+    PROJECTION_BASE = new String[] {
     KEY_ROWID,
     KEY_LABEL,
     KEY_DESCRIPTION,
@@ -82,45 +85,23 @@ public class Account extends Model {
         + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
         +      "AS transfer_enabled"
   };
-  public static final String[] PROJECTION_EXTENDED = new String[] {
-    KEY_ROWID,
-    KEY_LABEL,
-    KEY_DESCRIPTION,
-    KEY_OPENING_BALANCE,
-    KEY_CURRENCY,
-    KEY_COLOR,
-    KEY_GROUPING,
-    KEY_TYPE,
-    "(select count(*) from " + TABLE_ACCOUNTS + " t WHERE "
-        + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
-        +      "AS transfer_enabled",
-    KEY_OPENING_BALANCE + " + (SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM " + VIEW_COMMITTED
+  int baseLength = PROJECTION_BASE.length;
+  PROJECTION_EXTENDED = new String[baseLength+1];
+  System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
+  PROJECTION_EXTENDED[baseLength] =
+      KEY_OPENING_BALANCE + " + (SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM " + VIEW_COMMITTED
         + "  WHERE " + KEY_ACCOUNTID + " = accounts." + KEY_ROWID
         + " and (" + KEY_CATID + " is null OR " + KEY_CATID + " != "
-        + SPLIT_CATID + ")) as current_balance"
-  };  
-  public static final String[] PROJECTION_FULL = new String[] {
-    KEY_ROWID,
-    KEY_LABEL,
-    KEY_DESCRIPTION,
-    KEY_OPENING_BALANCE,
-    KEY_CURRENCY,
-    KEY_COLOR,
-    KEY_GROUPING,
-    KEY_TYPE,
-    "(select count(*) from " + TABLE_ACCOUNTS + " t WHERE "
-        + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
-        +      "AS transfer_enabled",
-    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
-      + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income",
-    "(SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED
-      + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses",
-    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
-      + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer",
-    KEY_OPENING_BALANCE + " + (SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM " + VIEW_COMMITTED
-      + "  WHERE " + KEY_ACCOUNTID + " = accounts." + KEY_ROWID
-      + " and (" + KEY_CATID + " is null OR " + KEY_CATID + " != "
-      + SPLIT_CATID + ")) as current_balance"};
+        + SPLIT_CATID + ")) as current_balance";
+  PROJECTION_FULL = new String[baseLength+4];
+  System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength+1);
+  PROJECTION_FULL[baseLength+1] = "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
+      + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income";
+  PROJECTION_FULL[baseLength+2] = "(SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED
+      + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses";
+  PROJECTION_FULL[baseLength+3] =     "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
+      + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer";
+  }
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
   public enum ExportFormat {
