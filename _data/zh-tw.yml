@@ -22,7 +22,7 @@ zh-tw:
     grouped_list: 交易分組 (可以日、星期、月、年來顯示總金額資料)
     split: 分割交易 (貢獻)
     calculator: 計算機
-    password: 密碼保護，在發行版中，可使用安全問題來進行恢復
+    password: 密碼保護
     help: 綜合幫助
     backup: 數據備份與恢復
     light_theme: "兩種主題：黑、白"
