@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MyExpenses" default="localize">
+ <target name="copy">
+  <copy file="_includes/misc_info.html.tmpl" tofile="_includes/misc_info.html" 
+        overwrite="true" encoding="utf-8"/>
+  <copy file="_layouts/neu.html.tmpl" tofile="_layouts/neu.html" 
+        overwrite="true" encoding="utf-8"/>
+  <copy file="_layouts/post.html.tmpl" tofile="_layouts/post.html" 
+        overwrite="true" encoding="utf-8"/>
+ </target>
+ <target name="localize" depends="copy">
+ <replaceregexp
+               match="\{\{t\.(.*?)\}\}"
+               replace="{% if msg.\1 %}{{msg.\1}}{% else %}{{site.data.en.en.\1}}{% endif %}"
+               byline="true">
+   <fileset dir=".">
+    <include name="_includes/misc_info.html"/>
+    <include name="_layouts/neu.html"/>
+    <include name="_layouts/post.html"/>
+   </fileset>
+ </replaceregexp>
+ </target>
+</project>
