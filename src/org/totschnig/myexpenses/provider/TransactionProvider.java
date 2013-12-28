@@ -245,7 +245,7 @@ public class TransactionProvider extends ContentProvider {
             "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
                 + VIEW_COMMITTED
                 + " WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
-                    + SPLIT_CATID + ")) as current_balance " +
+                    + SPLIT_CATID + ") AND date(" + KEY_DATE + ") <= date('now') ) as current_balance " +
             "from " + TABLE_ACCOUNTS + ") as t");
         groupBy = "currency";
         having = "count(*) > 1";

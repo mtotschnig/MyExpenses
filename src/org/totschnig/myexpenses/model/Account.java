@@ -92,7 +92,7 @@ public class Account extends Model {
       KEY_OPENING_BALANCE + " + (SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM " + VIEW_COMMITTED
         + "  WHERE " + KEY_ACCOUNTID + " = accounts." + KEY_ROWID
         + " and (" + KEY_CATID + " is null OR " + KEY_CATID + " != "
-        + SPLIT_CATID + ")) as current_balance";
+        + SPLIT_CATID + ") AND date(" + KEY_DATE + ") <= date('now') ) as current_balance";
   PROJECTION_FULL = new String[baseLength+4];
   System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength+1);
   PROJECTION_FULL[baseLength+1] = "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
