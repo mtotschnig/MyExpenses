@@ -14,6 +14,8 @@ function getURLParameter(name) {
 function findDestination() {
   var translations, lang;
   var userLang = (getURLParameter("lang") || window.navigator.userLanguage || window.navigator.language).substring(0,2);
+  if (userLang == 'zh')
+    userLang = 'zh-tw';
   var hash = window.location.hash != "" ? window.location.hash : "";
   switch (hash) {
     case "#tutorial":
@@ -37,7 +39,7 @@ function findDestination() {
       hash = "#premium";
     break
   }
-  translations = ["en","de","fr","it","es","tr","vi","ar","hu","ca"];
+  translations = ["en","de","fr","it","es","tr","vi","ar","hu","ca","zh-tw"];
   lang = translations.indexOf(userLang) > -1 ? userLang : "en";
   return "http://" + window.location.host + "/" + lang + hash;
 }

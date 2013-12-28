@@ -1,0 +1,49 @@
+zh-tw:
+  imprint: 版本說明
+  hero_main: "個人理財工具 Android版"
+  hero_sub:
+    use: "易用"
+    functionality: "多功能"
+    source: "開源"
+  menu_title:
+    more_information: 更多資訊
+  sections:
+    features: 特點
+    premium: 升級至高級功能
+    participate: 參與
+    faq: 常見問題
+    versionlist: 活動日誌
+    credits: 積分
+    licence: 許可證
+    sourcecode: 源代碼
+    links: 連結
+  features:
+    manage_accounts: 多達5個轉賬賬戶（無限制發行版）
+    grouped_list: 交易分組 (可以日、星期、月、年來顯示總金額資料)
+    split: 分割交易 (貢獻)
+    calculator: 計算機
+    password: 密碼保護，在發行版中，可使用安全問題來進行恢復
+    help: 綜合幫助
+    backup: 數據備份與恢復
+    light_theme: "兩種主題：黑、白"
+  contrib:
+    feature:
+      accounts_unlimited: 帳戶數量不限
+      plans_unlimited: 計劃數量不限
+      distribution: 每個類別的交易分佈
+      split_transaction: 分割交易
+      security_question: 安全問題
+      reset_all: 重設全部帳戶
+      aggregate: 綜合了多個帳戶
+    licence-howto-buy:
+      intro: |
+        你有以下選擇來購買高級功能的授權：
+  participate:
+    translate: |
+      你可以幫助 <a class="intern" href="#translate">translate</a> <span class="application">我的帳簿</span> 的翻譯工作。
+  permissions-heading: |
+    My Expenses 需要以下權限
+  permissions-calendar: |
+    讀取和寫入到日曆：未來計劃和經常性交易會被存儲在本地日曆或您指定的任何其他日曆。
+  permissions-external-storage: |
+    寫入USB存儲空間：用作存儲QIF和CSV的匯出文件和備份文件
