@@ -126,7 +126,7 @@ public class TransactionList extends BudgetListFragment implements
 
     mappedCategoriesPerGroup = new SparseBooleanArray();
     mAccountId = getArguments().getLong(KEY_ACCOUNTID,-1);
-    if (mAccountId == AggregateAccount.ID) {
+    if (mAccountId < 0) {
       mCurrencyCode = getArguments().getString(KEY_CURRENCY);
       mAccount = AggregateAccount.getCachedInstance(mCurrencyCode);
     } else {
@@ -304,7 +304,7 @@ public class TransactionList extends BudgetListFragment implements
     CursorLoader cursorLoader = null;
     String selection;
     String[] selectionArgs;
-    if (mAccountId == AggregateAccount.ID) {
+    if (mAccountId < 0) {
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
       selectionArgs = new String[] {mCurrencyCode};
@@ -332,7 +332,7 @@ public class TransactionList extends BudgetListFragment implements
         .appendPath(mAccount.grouping.name());
       //the selectionArg is used in a subquery used by the content provider
       //this will change once filters are implemented
-      if (mAccountId == AggregateAccount.ID) {
+      if (mAccountId < 0) {
         builder.appendQueryParameter(KEY_CURRENCY, mCurrencyCode);
       } else {
         builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccountId));

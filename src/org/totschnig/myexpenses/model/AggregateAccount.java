@@ -9,7 +9,6 @@ import android.database.Cursor;
 
 public class AggregateAccount extends Account {
   final static String GROUPING_PREF_PREFIX = "AGGREGATE_GROUPING_";
-  public static final long ID = -1;
   static HashMap<String,AggregateAccount> accounts = new HashMap<String,AggregateAccount>();
   Type type = null;
   /**

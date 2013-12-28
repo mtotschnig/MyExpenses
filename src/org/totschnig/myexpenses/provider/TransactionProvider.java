@@ -241,7 +241,7 @@ public class TransactionProvider extends ContentProvider {
       if (mergeCurrencyAggregates) {
         String accountSubquery = qb.buildQuery(Account.PROJECTION_EXTENDED, selection, null, groupBy,
             null, null, null);
-        qb.setTables("(SELECT currency,opening_balance,"+
+        qb.setTables("(SELECT _id,currency,opening_balance,"+
             "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
                 + VIEW_COMMITTED
                 + " WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
@@ -250,16 +250,16 @@ public class TransactionProvider extends ContentProvider {
         groupBy = "currency";
         having = "count(*) > 1";
         projection = new String[] {
-            AggregateAccount.ID + " as _id",
-            "currency as label",
-            "'' as description",
-            "sum(opening_balance) as opening_balance",
+            "0 - min(_id) AS _id",//we use negative ids for aggregate accounts
+            "currency AS label",
+            "'' AS description",
+            "sum(opening_balance) AS opening_balance",
             "currency",
-            "-1 as color",
-            "'NONE' as grouping",
-            "'NONE' as type",
-            "1 as transfer_enabled",
-            "sum(current_balance) as current_balance"};
+            "-1 AS color",
+            "'NONE' AS grouping",
+            "'CASH' AS type",
+            "1 AS transfer_enabled",
+            "sum(current_balance) AS current_balance"};
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
         String sql = qb.buildUnionQuery(new String[] {accountSubquery,currencySubquery}, null, null);
         c = db.rawQuery(sql, null);

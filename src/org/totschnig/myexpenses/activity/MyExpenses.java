@@ -245,7 +245,7 @@ public class MyExpenses extends LaunchActivity implements
         Cursor c = getCursor();
         c.moveToPosition(position);
         row.findViewById(R.id.color1).setBackgroundColor(
-            getItemId(position) == AggregateAccount.ID ?
+            getItemId(position) < 0 ?
                 colorAggregate :
                 c.getInt(c.getColumnIndex(KEY_COLOR)));
         ((TextView) row.findViewById(R.id.end)).setText(
@@ -347,7 +347,7 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.GROUPING_COMMAND:
       SelectGroupingDialogFragment.newInstance(
           R.id.GROUPING_COMMAND_DO,
-          ((mAccountId == AggregateAccount.ID) ?
+          ((mAccountId < 0) ?
               AggregateAccount.getCachedInstance(mCurrencyCode) :
               Account.getInstanceFromDb(mAccountId))
               .grouping.ordinal())
@@ -355,7 +355,7 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     case R.id.GROUPING_COMMAND_DO:
       Grouping value = Account.Grouping.values()[(Integer)tag];
-      if (mAccountId == AggregateAccount.ID) {
+      if (mAccountId < 0) {
         AggregateAccount.getCachedInstance(mCurrencyCode).persistGrouping(value);
         getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
       } else {
@@ -475,7 +475,7 @@ public class MyExpenses extends LaunchActivity implements
     @Override
     public Fragment getItem(Context context, Cursor cursor) {
       long accountId = cursor.getLong(cursor.getColumnIndex(KEY_ROWID));
-      if (accountId == -1) {
+      if (accountId < 0) {
         String currency = cursor.getString(cursor.getColumnIndex(KEY_CURRENCY));
         new AggregateAccount(currency, cursor);
         return TransactionList.newInstance(currency);
