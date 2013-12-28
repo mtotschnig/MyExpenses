@@ -18,14 +18,14 @@ ca:
     sourcecode: Codi font
     links: Enllaços
   features:
-    manage_accounts: Fins a cinc comptes amb transferències (sense límit a la versió pels contribuïdors)
-    plans: Definiu plans (3) futurs i operacions recurrents (sense limitació a la versió Contrib)
+    manage_accounts: Fins a cinc comptes amb transferències
+    plans: Definiu plans futurs i operacions recurrents
     grouped_list: Operacions agrupades per dia, setmana, mes, any i dels totals per grups
-    distribution: Dos nivells de categories (importa des del Grisbi, XML), mostra la distribució de les operacions a la versió pels contribuïdors
+    distribution: Dos nivells de categories (importa des del Grisbi, XML)
     split: Repartiment d'operacions (a la versió pels contribuïdors)
     calculator: Calculadora
-    export: Exporteu al format QIF i al CSV (MS Excel), es pot compartir de forma automàtica (per correu, per FTP, pel Dropbox, ...) i per lots a la versió pels contribuïdors
-    password: Protecció amb contrasenya, recuperable a la versió pels contribuïdors
+    export: Exporteu al format QIF i al CSV (MS Excel), es pot compartir de forma automàtica (per correu, per FTP, pel Dropbox, ...)
+    password: Protecció amb contrasenya
     help: Ajuda integrada
     backup: Còpia de seguretat i restauració
     aggregate_dialog: Situació financera consolidada (versió pels contribuïdors)

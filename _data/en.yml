@@ -18,14 +18,14 @@ en:
     sourcecode: Source code
     links: Links
   features:
-    manage_accounts: Up to five accounts with transfers (unlimited in Contrib version)
-    plans: Define templates and plans (3) for future and recurrent transactions  (unlimited in Contrib version)
+    manage_accounts: Up to five accounts with transfers
+    plans: Define templates and plans for future and recurrent transactions
     grouped_list: Group transactions per day, week, month, year and display sums per group
-    distribution: Two levels of categories (import from Grisbi XML), display distribution of transactions in Contrib version
+    distribution: Two levels of categories (import from Grisbi XML)
     split: Split transactions (Contrib version)
     calculator: Calculator
-    export: Export to QIF and CSV (MS Excel), can be automatically shared (via email, FTP, Dropbox, ...) and done in batch in Contrib version
-    password: Password protection, recoverable with security question in Contrib version
+    export: Export to QIF and CSV (MS Excel), can be automatically shared (via email, FTP, Dropbox, ...)
+    password: Password protection
     help: Integrated Help
     backup: Data backup and restore
     aggregate_dialog: Aggregate financial situation (Contrib version)

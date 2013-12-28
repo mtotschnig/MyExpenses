@@ -16,16 +16,16 @@ es:
     sourcecode: Código fuente
     links: Enlaces
   features:
-    manage_accounts: Hasta cinco cuentas con transferencias (sin límite en la versión Contrib)
-    plans: Plantillay y planes para las transacciones futuras y recurrentes (3, sin límite en la versión Contrib)
+    manage_accounts: Hasta cinco cuentas con transferencias
+    plans: Plantillas y planes para las transacciones futuras y recurrentes
     grouped_list: Agrupamiento por día, semana, mes, año y visualización sumas por grupo
-    distribution: Dos niveles de categorías (de importación de Grisbi XML), Distribución de las transacciones (versión Contrib)
+    distribution: Dos niveles de categorías (de importación de Grisbi XML)
     split: Asientos divididos (versión Contrib)
     calculator: Calculadora
     export: |
       Formatos de exportación: QIF y CSV (MS Excel), cargar el archivo export (a través de FTP, correo
-      electrónico, Dropbox, ...), exportar todo en una sola operación (versión Contrib)
-    password: Protección por contraseña, pregunta de seguridad en la versión Contrib
+      electrónico, Dropbox, ...)
+    password: Protección por contraseña
     help: Ayuda integrada
     backup: Backup y Restauración
     aggregate_dialog: Situación financiera global en la lista de cuentas (versión Contrib)

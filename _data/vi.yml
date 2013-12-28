@@ -15,15 +15,15 @@ vi:
     sourcecode: Mã nguồn
     links: Liên kết
   features:
-    manage_accounts: Sở hữu đến 5 tài khoản quản lý tài chính (không giới hạn số lượng tài khoản trong phiên bản Contrib)
+    manage_accounts: Sở hữu đến 5 tài khoản quản lý tài chính
     grouped_list: Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm
-    distribution: Tạo các cấp độ phân loại dễ dàng cho nhiều đối tượng chi tiêu (có thể nhập dữ liệu dạng XML theo kiểu Grisbi), Tác động phân phối các giao dịch cho mỗi phân loạ (Tính năng nâng cao)
+    distribution: Tạo các cấp độ phân loại dễ dàng cho nhiều đối tượng chi tiêu (có thể nhập dữ liệu dạng XML theo kiểu Grisbi)
     split: Phân tích giao dịch (Tính năng nâng cao)
     calculator: Máy tính hỗ trợ
     export: |
       Xuất sang định dạng QIF hoặc CSV (dùng cho Excel), Chia sẻ các tập tin dữ liệu được xuất ra
-      (thông qua email, FTP, Dropbox...) Thiết đặt lại tất cả tài khoản (Tính năng nâng cao)
-    password: Bảo vệ bởi mật khẩu an toàn, dùng chức năng câu hỏi an ninh (Tính năng nâng cao)
+      (thông qua email, FTP, Dropbox...)
+    password: Bảo vệ bởi mật khẩu an toàn
     help: Trợ giúp tích hợp
     backup: Sao lưu và phục hồi dữ liệu
     aggregate_dialog: Gom nhóm nhiều dạng tài khoản (Tính năng nâng cao)

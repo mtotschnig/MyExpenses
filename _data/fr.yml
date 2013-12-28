@@ -16,14 +16,14 @@ fr:
     sourcecode: Code source
     links: Liens
   features:
-    manage_accounts: Jusqu'à cinq comptes avec virement (sans limite dans la version Contrib)
-    plans: Définir des modèles et l'échéancier d'opérations futures et périodiques (3, sans limite dans la version Contrib)
+    manage_accounts: Jusqu'à cinq comptes avec virements
+    plans: Définir des modèles et un échéancier pour les opérations futures et périodiques
     grouped_list: Regroupement par jour, semaine, mois, année, et affichage des totaux par groupe
-    distribution: Deux niveaux de catégories (importation de Grisbi XML), affichage de la répartition des transactions dans la version Contrib
-    split: Opérations ventilées (version Contrib)
+    distribution: Deux niveaux de catégories (importation de Grisbi XML)
+    split: Opérations ventilées
     calculator: Calculatrice
-    export: 'Export vers QIF et CSV (MS Excel), téléchargement du fichier export (par e-mail, FTP, Dropbox, ...), exporter tous les comptes ensemble dans la version Contrib'
-    password: Protection par mot de passe (Question de sécurité en cas d'oubli en version Contrib)
+    export: 'Export vers QIF et CSV (MS Excel), téléchargement du fichier export (par e-mail, FTP, Dropbox, ...)'
+    password: Protection par mot de passe
     help: Aide integrée
     backup: Sauvegarde et restauration de données
     aggregate_dialog: Affichage des sommes totales (version Contrib)

@@ -17,14 +17,14 @@ hu:
     sourcecode: Forráskód
     links: Linkek
   features:
-    manage_accounts: Akár öt számla kezelése, számlák közötti átvezetéssel (korlátlan a Contrib verzióban)
-    plans: Tervek készítése a jövőbeli események, vagy ismétlődő tranzakciók kezelése érdekében (3, korlátlan a Contrib verzióban)
+    manage_accounts: Akár öt számla kezelése, számlák közötti átvezetéssel
+    plans: Tervek készítése a jövőbeli események, vagy ismétlődő tranzakciók kezelése érdekében
     grouped_list: Tranzakciók csoportosítása napi, heti, havi, éves összesítéssel - kategóriánként
-    distribution: Két szintű kategorizálás (a Grisbi XML-nek megfelelően), a Contrib verzióban a tranzakciók részletes megjelenítési lehetőségével
+    distribution: Két szintű kategorizálás (a Grisbi XML-nek megfelelően)
     split: Megosztott tranzakciók (a Contrib verzióban)
     calculator: Számológép
-    export: Adatok exportálása QIF és CSV (MS Excel) formátumban, amely automatikusan megosztható emailben, FTP-n, Dropbox-on, stb... - mindezt automatizálva a Contrib verzióban
-    password: Jelszavas védelem - jelszó visszaállítási lehetőséggel (biztonsági kérdésre adott válasszal) a Contrib verzióban
+    export: Adatok exportálása QIF és CSV (MS Excel) formátumban, amely automatikusan megosztható emailben, FTP-n, Dropbox-on, stb...
+    password: Jelszavas védelem
     help: Integrált súgó
     backup: Adat mentés és visszaállítás
     aggregate_dialog: A pénzügyi helyzet összesítése (csak a Contrib verzióban)

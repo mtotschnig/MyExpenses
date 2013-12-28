@@ -17,16 +17,16 @@ de:
     sourcecode: Quellcode
     links: Links
   features:
-    manage_accounts: Bis zu fünf Konten mit Umbuchungen (unbegrenzt in Contrib Version)
-    plans: Vorlagen und Pläne (3) für zukünftige und wiederkehrende Ausgaben (unbegrenzt in Contrib Version)
+    manage_accounts: Bis zu fünf Konten mit Umbuchungen
+    plans: Vorlagen und Pläne für zukünftige und wiederkehrende Ausgaben
     grouped_list: Buchungen pro Tag, Woche, Monate, Jahr gruppieren und Summen pro Gruppe anzeigen
-    distribution: Zwei Ebenen von Kategorien mit Import aus Grisbi XML Datei, Verteilung der Buchungen (Contrib Version)
+    distribution: Zwei Ebenen von Kategorien mit Import aus Grisbi XML Datei
     split: Splitbuchungen (nur in Contrib Version)
     calculator: Taschenrechner
     export: |
       Export nach QIF und CSV (MS Excel), Übertragung via email, FTP, Dropbox, ...,
       Export aller Konten in einem in Contrib Version
-    password: Passwortschutz (Sicherheitsfrage für Passwortverlust in Contrib Version)
+    password: Passwortschutz
     help: Integrierte Hilfe
     backup: Daten Backup und Wiederherstellung
     aggregate_dialog: Darstellung der Gesamtsummen in der Kontenübersicht (Contrib Version)
