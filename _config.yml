@@ -54,6 +54,12 @@ langs:
   hu: Magyar
   zh-tw: 中文 (繁體)
 support-email: "support@myexpenses.mobi"
+amazon:
+  de: "www.amazon.de"
+  fr: "www.amazon.fr"
+  es: "www.amazon.es"
+  it: "www.amazon.it"
+  en: "www.amazon.com"
 versions:
   -
     - 1.10.5
