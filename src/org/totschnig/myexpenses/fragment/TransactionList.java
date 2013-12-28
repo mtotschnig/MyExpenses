@@ -82,8 +82,6 @@ public class TransactionList extends BudgetListFragment implements
   private static final int TRANSACTION_CURSOR = 0;
   private static final int SUM_CURSOR = 1;
   private static final int GROUPING_CURSOR = 2;
-  long mAccountId;
-  String mCurrencyCode;
   private StickyListHeadersAdapter mAdapter;
   private AccountObserver aObserver;
   private Account mAccount;
@@ -105,17 +103,10 @@ public class TransactionList extends BudgetListFragment implements
   private String mCurrency;
   private Long mOpeningBalance;
 
-  public static TransactionList newInstance(long accountId) {
+  public static Fragment newInstance(Account account) {
     TransactionList pageFragment = new TransactionList();
     Bundle bundle = new Bundle();
-    bundle.putLong(KEY_ACCOUNTID, accountId);
-    pageFragment.setArguments(bundle);
-    return pageFragment;
-  }
-  public static Fragment newInstance(String currency) {
-    TransactionList pageFragment = new TransactionList();
-    Bundle bundle = new Bundle();
-    bundle.putString(KEY_CURRENCY, currency);
+    bundle.putSerializable("account", account);
     pageFragment.setArguments(bundle);
     return pageFragment;
   }
@@ -125,13 +116,7 @@ public class TransactionList extends BudgetListFragment implements
     setHasOptionsMenu(true);
 
     mappedCategoriesPerGroup = new SparseBooleanArray();
-    mAccountId = getArguments().getLong(KEY_ACCOUNTID,-1);
-    if (mAccountId < 0) {
-      mCurrencyCode = getArguments().getString(KEY_CURRENCY);
-      mAccount = AggregateAccount.getCachedInstance(mCurrencyCode);
-    } else {
-      mAccount = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
-    }
+    mAccount = (Account) getArguments().getSerializable("account");
     mGrouping = mAccount.grouping;
     mType = mAccount.type;
     mCurrency = mAccount.currency.getCurrencyCode();
@@ -304,13 +289,13 @@ public class TransactionList extends BudgetListFragment implements
     CursorLoader cursorLoader = null;
     String selection;
     String[] selectionArgs;
-    if (mAccountId < 0) {
+    if (mAccount.id < 0) {
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
-      selectionArgs = new String[] {mCurrencyCode};
+      selectionArgs = new String[] {mAccount.currency.getCurrencyCode()};
     } else {
       selection = KEY_ACCOUNTID + " = ?";
-      selectionArgs = new String[] { String.valueOf(mAccountId) };
+      selectionArgs = new String[] { String.valueOf(mAccount.id) };
     }
     switch(id) {
     case TRANSACTION_CURSOR:
@@ -332,10 +317,10 @@ public class TransactionList extends BudgetListFragment implements
         .appendPath(mAccount.grouping.name());
       //the selectionArg is used in a subquery used by the content provider
       //this will change once filters are implemented
-      if (mAccountId < 0) {
-        builder.appendQueryParameter(KEY_CURRENCY, mCurrencyCode);
+      if (mAccount.id < 0) {
+        builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
       } else {
-        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccountId));
+        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.id));
       }
       cursorLoader = new CursorLoader(getSherlockActivity(),
           builder.build(),

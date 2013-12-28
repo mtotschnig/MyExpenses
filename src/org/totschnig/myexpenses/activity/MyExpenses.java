@@ -347,16 +347,14 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.GROUPING_COMMAND:
       SelectGroupingDialogFragment.newInstance(
           R.id.GROUPING_COMMAND_DO,
-          ((mAccountId < 0) ?
-              AggregateAccount.getCachedInstance(mCurrencyCode) :
-              Account.getInstanceFromDb(mAccountId))
+          Account.getInstanceFromDb(mAccountId)
               .grouping.ordinal())
         .show(getSupportFragmentManager(), "SELECT_GROUPING");
       return true;
     case R.id.GROUPING_COMMAND_DO:
       Grouping value = Account.Grouping.values()[(Integer)tag];
       if (mAccountId < 0) {
-        AggregateAccount.getCachedInstance(mCurrencyCode).persistGrouping(value);
+        AggregateAccount.getCachedInstance(mAccountId).persistGrouping(value);
         getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
       } else {
         Account account = Account.getInstanceFromDb(mAccountId);
@@ -474,20 +472,19 @@ public class MyExpenses extends LaunchActivity implements
 
     @Override
     public Fragment getItem(Context context, Cursor cursor) {
+      Account account;
       long accountId = cursor.getLong(cursor.getColumnIndex(KEY_ROWID));
       if (accountId < 0) {
-        String currency = cursor.getString(cursor.getColumnIndex(KEY_CURRENCY));
-        new AggregateAccount(currency, cursor);
-        return TransactionList.newInstance(currency);
-      }
-      //we want to make sure that the fragment does not need to create a new cursor
-      //when getting the account object, so we
-      //set up the account object that the fragment can retrieve with getInstanceFromDb
-      //since it is cached by the Account class
-      //we only need to do this, if the account has not been cached yet
+        account = AggregateAccount.getCachedInstance(accountId);
+        if (account == null)
+          account = new AggregateAccount(accountId,cursor);
+      } else {
       if (!Account.isInstanceCached(accountId))
-        new Account(accountId,cursor);
-      return TransactionList.newInstance(accountId);
+        account = Account.getInstanceFromDb(accountId);
+        else
+        account = new Account(accountId,cursor);
+      }
+      return TransactionList.newInstance(account);
     }
 
   }

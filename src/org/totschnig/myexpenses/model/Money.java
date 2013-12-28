@@ -15,10 +15,11 @@
 
 package org.totschnig.myexpenses.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Currency;
 
-public class Money {
+public class Money implements Serializable {
   private Currency currency;
   private Long amountMinor;
   

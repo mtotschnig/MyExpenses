@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -50,7 +51,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  * @author Michael Totschnig
  *
  */
-public class Account extends Model {
+public class Account extends Model  implements Serializable {
 
   public long id = 0;
 
@@ -385,10 +386,13 @@ public class Account extends Model {
   }
   /**
    * @param id
-   * @return Accouht object, if id == 0, the account with the lowest id is returned
+   * @return Accouht object, if id == 0, the account with the lowest id is returned,
+   * if id < 0 we forward to AggregateAccount
    * @throws DataObjectNotFoundException
    */
   public static Account getInstanceFromDb(long id) throws DataObjectNotFoundException {
+    if (id < 0)
+      return AggregateAccount.getCachedInstance(id);
     Account account;
     String selection = KEY_ROWID + " = ";
     if (id == 0)
