@@ -229,7 +229,7 @@
           {% endfor %}
         </div>
         <ol class="carousel-indicators">
-          {% for feature in msg.features %}
+          {% for feature in site.features %}
           <li title="{{t.features[feature]}}" data-target="#features" data-slide-to="{{forloop.index0}}" {% if forloop.index0 == 0 %}class="active"{% endif %}></li>
           {% endfor %}
         </ol>
@@ -244,7 +244,7 @@
       {{content}}
       {% include misc_info.html %}
       <div class="footer">
-        <p>© 2013 Michael Totschnig - <a class="intern" href="#imprint">{{t.imprint}}</a> - <a href="mailto:myexpenses@totschnig.org">Feedback</a></p>
+        <p>© 2013 Michael Totschnig - <a class="intern" href="#imprint">{{t.imprint}}</a> - <a href="mailto:{{site.support-email}}">Feedback</a></p>
       </div>
       <p id="back-top" style="display:none">
         <a href="#top"><span></span>Top</a>
