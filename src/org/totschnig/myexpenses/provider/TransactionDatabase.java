@@ -189,6 +189,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED   + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
     insertDefaultAccount(db);
     db.execSQL(PAYMENT_METHODS_CREATE);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
@@ -507,6 +508,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     }
     if (oldVersion < 39) {
       db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
     }
   }
 }

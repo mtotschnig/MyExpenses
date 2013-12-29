@@ -67,7 +67,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.RelativeLayout.LayoutParams;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -560,7 +560,7 @@ public class TransactionList extends BudgetListFragment implements
         v.findViewById(R.id.colorContainer).setVisibility(View.GONE);
       if (mAccount.id < 0)
         v.findViewById(R.id.colorAccount).setLayoutParams(
-            new LayoutParams(4, 25));
+            new LayoutParams(4, LayoutParams.FILL_PARENT));
       return v;
   }
     /* (non-Javadoc)

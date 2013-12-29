@@ -348,19 +348,19 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(TABLE_ACCOUNTTYES_METHODS);
       break;
     case TEMPLATES:
-      qb.setTables(VIEW_TEMPLATES);
+      qb.setTables(VIEW_TEMPLATES_EXTENDED);
       defaultOrderBy = (MyApplication.getInstance().getSettings()
           .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
               KEY_USAGES + " DESC, " : "")
          + KEY_TITLE;
       if (projection == null)
-        projection = Template.PROJECTION;
+        projection = Template.PROJECTION_EXTENDED;
       break;
     case TEMPLATES_ID:
       qb.setTables(VIEW_TEMPLATES);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       if (projection == null)
-        projection = Template.PROJECTION;
+        projection = Template.PROJECTION_BASE;
       break;
     case FEATURE_USED:
       qb.setTables(TABLE_FEATURE_USED);

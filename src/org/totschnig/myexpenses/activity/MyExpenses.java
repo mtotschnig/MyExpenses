@@ -449,8 +449,7 @@ public class MyExpenses extends LaunchActivity implements
       break;
     case R.id.MANAGE_PLANS_COMMAND:
       i = new Intent(this, ManageTemplates.class);
-      i.putExtra("transferEnabled",transferEnabled());
-      i.putExtra(KEY_ACCOUNTID, mAccountId);
+      i.putExtra("transferEnabled",transferEnabledGlobal());
       startActivity(i);
       return true;
     case R.id.DELETE_COMMAND_DO:
@@ -666,8 +665,22 @@ public class MyExpenses extends LaunchActivity implements
       .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,(Long) v.getTag(), null), "ASYNC_TASK")
       .commit();
   }
+  /**
+   * @return true if for the current Account there is a second account
+   * with the same currency we can transfer to
+   */
   public boolean transferEnabled() {
     mAccountsCursor.moveToPosition(currentPosition);
     return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow("transfer_enabled")) > 0;
+  }
+  /**
+   * @return true if for any Account there is a second account
+   * with the same currency we can transfer to
+   */
+  public boolean transferEnabledGlobal() {
+    //we move to the last position in account cursor, and we check if it an aggregate account
+    //which means that there is at least one currency having multiple accounts
+    mAccountsCursor.moveToLast();
+    return mAccountsCursor.getLong(mAccountsCursor.getColumnIndexOrThrow(KEY_ROWID)) < 0;
   }
 }
