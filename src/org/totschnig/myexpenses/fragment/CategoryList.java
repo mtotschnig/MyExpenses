@@ -552,9 +552,6 @@ public class CategoryList extends BudgetListFragment implements
   }
 
   private void reset() {
-    mManager.restartLoader(CATEGORY_CURSOR, null, this);
-    mManager.restartLoader(SUM_CURSOR, null, this);
-    mManager.restartLoader(DATEINFO_CURSOR, null, this);
     int count =  mAdapter.getGroupCount();
     for (int i = 0; i <count ; i++) {
 //TODO: would be nice to retrieve the same open groups on the next or previous group
@@ -568,6 +565,9 @@ public class CategoryList extends BudgetListFragment implements
 //      }
       mListView.collapseGroup(i);
     }
+    mManager.restartLoader(CATEGORY_CURSOR, null, this);
+    mManager.restartLoader(SUM_CURSOR, null, this);
+    mManager.restartLoader(DATEINFO_CURSOR, null, this);
   }
   private void updateSum(String prefix, TextView tv,long amount) {
     if (tv != null)
