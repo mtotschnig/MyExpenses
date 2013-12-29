@@ -508,13 +508,14 @@ public class MyExpenses extends LaunchActivity implements
       Intent i = new Intent(this, ManageCategories.class);
       i.setAction("myexpenses.intent.distribution");
       i.putExtra(KEY_ACCOUNTID, mAccountId);
-      i.putExtra("grouping",Grouping.NONE);
       if (tag != null) {
         int year = (int) ((Long)tag/1000);
         int groupingSecond = (int) ((Long)tag % 1000);
         i.putExtra("grouping", Account.getInstanceFromDb(mAccountId).grouping);
         i.putExtra("groupingYear",year);
         i.putExtra("groupingSecond", groupingSecond);
+      } else {
+        i.putExtra("grouping",Grouping.NONE);
       }
       startActivity(i);
       break;

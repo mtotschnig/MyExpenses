@@ -108,6 +108,8 @@ public class TransactionProvider extends ContentProvider {
     String groupBy = null;
     String having = null;
 
+    String accountSelectionQuery;
+    String accountSelector;
     switch (URI_MATCHER.match(uri)) {
     case TRANSACTIONS:
       boolean extended = uri.getQueryParameter("extended") != null;
@@ -127,19 +129,27 @@ public class TransactionProvider extends ContentProvider {
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
     case TRANSACTIONS_SUMS:
+      accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
+      if (accountSelector == null) {
+        accountSelector = uri.getQueryParameter(KEY_CURRENCY);
+        accountSelectionQuery = " IN " +
+            "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+      } else {
+        accountSelectionQuery = " = ?";
+      }
       qb.setTables(VIEW_COMMITTED);
       projection = new String[] {"amount>0 as type","abs(sum(amount)) as  sum"};
       groupBy = "type";
       qb.appendWhere(WHERE_TRANSACTION);
-      qb.appendWhere(" AND " + KEY_ACCOUNTID + "=" + uri.getPathSegments().get(2));
+      qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
+      selectionArgs = new String[]{accountSelector};
       break;
     case TRANSACTIONS_GROUPS:
       if (selection != null || selectionArgs != null) {
         throw new IllegalArgumentException("TRANSACTIONS_GROUPS query does not allow filtering with selection, " +
             "use query parameters");
       }
-      String accountSelectionQuery;
-      String accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
+      accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
       if (accountSelector == null) {
         accountSelector = uri.getQueryParameter(KEY_CURRENCY);
         accountSelectionQuery = " IN " +
@@ -716,7 +726,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/uncommitted", UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/groups/*", TRANSACTIONS_GROUPS);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccountsGroupedByType/#", TRANSACTIONS_SUMS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccountsGroupedByType", TRANSACTIONS_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/move/#", TRANSACTION_MOVE);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
