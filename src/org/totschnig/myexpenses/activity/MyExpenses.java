@@ -301,7 +301,9 @@ public class MyExpenses extends LaunchActivity implements
   private void createRow(int type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
-    i.putExtra(KEY_ACCOUNTID,mAccountId);
+    //the id of an aggregate account is the negative of its first account
+    //thus we use the abs value in order to create the row with this first account
+    i.putExtra(KEY_ACCOUNTID,Math.abs(mAccountId));
     startActivityForResult(i, ACTIVITY_EDIT);
   }
 /*  public boolean dispatchLongCommand(int command, Object tag) {
