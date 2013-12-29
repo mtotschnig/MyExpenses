@@ -1146,7 +1146,9 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       while (data.isAfterLast() == false) {
         int position = data.getPosition();
         long _id = data.getLong(data.getColumnIndex(KEY_ROWID));
-        mAccounts[position] = new Account(_id, data);
+        mAccounts[position] = Account.isInstanceCached(_id) ?
+            Account.getInstanceFromDb(_id):
+            new Account(data);
         if(mTransaction.accountId != null && _id == mTransaction.accountId) {
           mAccountSpinner.setSelection(position);
         }
