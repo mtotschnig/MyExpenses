@@ -68,6 +68,7 @@ public class DatabaseConstants {
   public static final String VIEW_UNCOMMITTED = "transactions_uncommitted";
   public static final String VIEW_ALL = "transactions_all";
   public static final String VIEW_TEMPLATES = "templates_all";
+  public static final String VIEW_EXTENDED = "transactions_extended";
 
   /**
    * an SQL CASE expression for transactions

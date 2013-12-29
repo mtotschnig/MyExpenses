@@ -19,7 +19,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Currency;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -32,14 +31,12 @@ import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Account.Grouping;
-import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
-import com.actionbarsherlock.view.Menu;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
@@ -48,6 +45,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.net.Uri;
 import android.net.Uri.Builder;
 import android.os.Build;
 import android.os.Bundle;
@@ -69,6 +67,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -299,8 +298,11 @@ public class TransactionList extends BudgetListFragment implements
     }
     switch(id) {
     case TRANSACTION_CURSOR:
+      Uri uri = (mAccount.id < 0) ?
+          TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build() :
+          TransactionProvider.TRANSACTIONS_URI;
       cursorLoader = new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI, null, selection + " AND parent_id is null",
+          uri, null, selection + " AND parent_id is null",
           selectionArgs, null);
       break;
     //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions
@@ -556,6 +558,9 @@ public class TransactionList extends BudgetListFragment implements
       View v= super.newView(context, cursor, parent);
       if (mAccount.type.equals(Type.CASH))
         v.findViewById(R.id.colorContainer).setVisibility(View.GONE);
+      if (mAccount.id < 0)
+        v.findViewById(R.id.colorAccount).setLayoutParams(
+            new LayoutParams(4, 25));
       return v;
   }
     /* (non-Javadoc)
@@ -585,6 +590,10 @@ public class TransactionList extends BudgetListFragment implements
       TextView tv1 = (TextView)convertView.findViewById(R.id.amount);
       Cursor c = getCursor();
       c.moveToPosition(position);
+      if (mAccount.id <0) {
+        int color = c.getInt(c.getColumnIndex("color"));
+        convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
+      }
       long amount = c.getLong(columnIndexAmount);
       if (amount < 0) {
         tv1.setTextColor(colorExpense);

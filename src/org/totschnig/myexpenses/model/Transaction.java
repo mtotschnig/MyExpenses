@@ -57,11 +57,38 @@ public class Transaction extends Model {
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_UNCOMMITTED}
    */
   public int status = 0;
-  public static final String[] PROJECTION = new String[]{KEY_ROWID,KEY_DATE,KEY_AMOUNT, KEY_COMMENT,
-    KEY_CATID,LABEL_MAIN,LABEL_SUB,KEY_PAYEE_NAME,KEY_TRANSFER_PEER,KEY_METHODID,KEY_CR_STATUS,KEY_REFERENCE_NUMBER,
-    YEAR + " AS year",YEAR_OF_WEEK_START + " AS year_of_week_start",MONTH + " AS month",WEEK + " AS week",DAY + " AS day",
-    THIS_YEAR + " AS this_year",THIS_YEAR_OF_WEEK_START + " AS this_year_of_week_start",
-    THIS_WEEK + " AS this_week",THIS_DAY + " AS this_day",WEEK_START+ " AS week_start",WEEK_END +" AS week_end"};
+  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED;
+  static {
+    PROJECTION_BASE = new String[]{
+        KEY_ROWID,
+        KEY_DATE,
+        KEY_AMOUNT,
+        KEY_COMMENT,
+        KEY_CATID,
+        LABEL_MAIN,
+        LABEL_SUB,
+        KEY_PAYEE_NAME,
+        KEY_TRANSFER_PEER,
+        KEY_METHODID,
+        KEY_CR_STATUS,
+        KEY_REFERENCE_NUMBER,
+        YEAR + " AS year",
+        YEAR_OF_WEEK_START + " AS year_of_week_start",
+        MONTH + " AS month",
+        WEEK + " AS week",
+        DAY + " AS day",
+        THIS_YEAR + " AS this_year",
+        THIS_YEAR_OF_WEEK_START + " AS this_year_of_week_start",
+        THIS_WEEK + " AS this_week",
+        THIS_DAY + " AS this_day",
+        WEEK_START+ " AS week_start",
+        WEEK_END +" AS week_end"
+    };
+    int baseLength = PROJECTION_BASE.length;
+    PROJECTION_EXTENDED = new String[baseLength+1];
+    System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
+    PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
+  }
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
   /**
    * we store the date directly from UI to DB without creating a Date object

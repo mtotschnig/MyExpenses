@@ -110,16 +110,17 @@ public class TransactionProvider extends ContentProvider {
 
     switch (URI_MATCHER.match(uri)) {
     case TRANSACTIONS:
-      qb.setTables(VIEW_COMMITTED);
+      boolean extended = uri.getQueryParameter("extended") != null;
+      qb.setTables(extended ? VIEW_EXTENDED : VIEW_COMMITTED);
       defaultOrderBy = KEY_DATE + " DESC";
       if (projection == null)
-        projection = Transaction.PROJECTION;
+        projection = extended ? Transaction.PROJECTION_EXTENDED : Transaction.PROJECTION_BASE;
       break;
     case UNCOMMITTED:
       qb.setTables(VIEW_UNCOMMITTED);
       defaultOrderBy = KEY_DATE + " DESC";
       if (projection == null)
-        projection = Transaction.PROJECTION;
+        projection = Transaction.PROJECTION_BASE;
       break;
     case TRANSACTION_ID:
       qb.setTables(VIEW_ALL);
