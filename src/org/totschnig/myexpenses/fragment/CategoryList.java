@@ -82,6 +82,7 @@ public class CategoryList extends BudgetListFragment implements
   private static final int DELETE_CAT = Menu.FIRST+4;
 
   private MyExpandableListAdapter mAdapter;
+  private ExpandableListView mListView;
   private LoaderManager mManager;
   private TextView incomeSumTv,expenseSumTv;
   private View bottomLine;
@@ -126,8 +127,8 @@ public class CategoryList extends BudgetListFragment implements
     expenseSumTv = (TextView) v.findViewById(R.id.sum_expense);
     bottomLine = v.findViewById(R.id.BottomLine);
     updateColor();
-    ExpandableListView lv = (ExpandableListView) v.findViewById(R.id.list);
-    lv.setEmptyView(v.findViewById(R.id.empty));
+    mListView = (ExpandableListView) v.findViewById(R.id.list);
+    mListView.setEmptyView(v.findViewById(R.id.empty));
     mManager.initLoader(CATEGORY_CURSOR, null, this);
     String[] from;
     int[] to;
@@ -142,13 +143,13 @@ public class CategoryList extends BudgetListFragment implements
         null,
         R.layout.category_row,R.layout.category_row,
         from,to,from,to);
-    lv.setAdapter(mAdapter);
+    mListView.setAdapter(mAdapter);
     //requires using activity (SelectCategory) to implement OnChildClickListener
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select)) {
-      lv.setOnChildClickListener(this);
-      lv.setOnGroupClickListener(this);
+      mListView.setOnChildClickListener(this);
+      mListView.setOnGroupClickListener(this);
     }
-    registerForContextMenu(lv);
+    registerForContextMenu(mListView);
     return v;
   }
   @Override
@@ -554,6 +555,19 @@ public class CategoryList extends BudgetListFragment implements
     mManager.restartLoader(CATEGORY_CURSOR, null, this);
     mManager.restartLoader(SUM_CURSOR, null, this);
     mManager.restartLoader(DATEINFO_CURSOR, null, this);
+    int count =  mAdapter.getGroupCount();
+    for (int i = 0; i <count ; i++) {
+//TODO: would be nice to retrieve the same open groups on the next or previous group
+//the following does not work since the groups will not necessarily stay the same
+//      if (mListView.isGroupExpanded(i)) {
+//        mGroupCursor.moveToPosition(i);
+//        long parentId = mGroupCursor.getLong(mGroupCursor.getColumnIndexOrThrow(KEY_ROWID));
+//        Bundle bundle = new Bundle();
+//        bundle.putLong("parent_id", parentId);
+//        mManager.restartLoader(i, bundle, CategoryList.this);
+//      }
+      mListView.collapseGroup(i);
+    }
   }
   private void updateSum(String prefix, TextView tv,long amount) {
     if (tv != null)
