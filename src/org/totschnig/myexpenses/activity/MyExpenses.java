@@ -478,12 +478,12 @@ public class MyExpenses extends LaunchActivity implements
       if (accountId < 0) {
         account = AggregateAccount.getCachedInstance(accountId);
         if (account == null)
-          account = new AggregateAccount(accountId,cursor);
+          account = new AggregateAccount(cursor);
       } else {
       if (Account.isInstanceCached(accountId))
         account = Account.getInstanceFromDb(accountId);
         else
-        account = new Account(accountId,cursor);
+        account = new Account(cursor);
       }
       return TransactionList.newInstance(account);
     }

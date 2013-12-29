@@ -10,8 +10,7 @@ public class AggregateAccount extends Account {
   /**
    * @param c Cursor positioned at the row we want to extract into the object
    */
-  public AggregateAccount(Long id,Cursor c) {
-    this.id = id;
+  public AggregateAccount(Cursor c) {
     extract(c);
     try {
       this.grouping = Grouping.valueOf(MyApplication.getInstance().getSettings().getString(

@@ -410,7 +410,7 @@ public class Account extends Model  implements Serializable {
       throw new DataObjectNotFoundException(id);
     }
     c.moveToFirst();
-    account = new Account(id,c);
+    account = new Account(c);
     c.close();
     return account;
   }
@@ -464,8 +464,7 @@ public class Account extends Model  implements Serializable {
   /**
    * @param c Cursor positioned at the row we want to extract into the object
    */
-  public Account(Long id,Cursor c) {
-    this.id = id;
+  public Account(Cursor c) {
     extract(c);
     accounts.put(id, this);
   }
@@ -474,6 +473,7 @@ public class Account extends Model  implements Serializable {
    * @param c
    */
   protected void extract(Cursor c) {
+    this.id = c.getLong(c.getColumnIndexOrThrow(KEY_ROWID));
     this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
     String strCurrency = c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY));
