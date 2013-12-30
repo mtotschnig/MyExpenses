@@ -21,14 +21,12 @@ import java.io.Serializable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.AggregatesDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.actionbarsherlock.view.Menu;
@@ -86,26 +84,6 @@ public class ManageAccounts extends LaunchActivity implements
     switch(command) {
     //in super home executes finish(), which is not what we want here
     case android.R.id.home:
-      return true;
-    case R.id.AGGREGATES_COMMAND:
-      //TODO Strict mode violation
-      Cursor c = getContentResolver().query(TransactionProvider.AGGREGATES_URI.buildUpon().appendPath("count").build(),
-          null, null, null, null);
-      if (c.getCount()>0 ) {
-        if (MyApplication.getInstance().isContribEnabled) {
-          contribFeatureCalled(Feature.AGGREGATE, null);
-        } else {
-          CommonCommands.showContribDialog(this,Feature.AGGREGATE, null);
-        }
-      } else {
-        MessageDialogFragment.newInstance(
-            R.string.dialog_title_menu_command_disabled,
-            "This command is only enabled if for any currency there exist at least two accounts.", //will not localize since AGGREGATES_COMMAND will be removed in 1.11
-            MessageDialogFragment.Button.okButton(),
-            null,null)
-         .show(getSupportFragmentManager(),"BUTTON_DISABLED_INFO");
-      }
-      c.close();
       return true;
     case R.id.DELETE_COMMAND_DO:
       FragmentManager fm = getSupportFragmentManager();
@@ -180,17 +158,10 @@ public class ManageAccounts extends LaunchActivity implements
   @Override
   public void contribFeatureCalled(Feature feature, Serializable tag) {
     switch (feature) {
-    case AGGREGATE:
-      feature.recordUsage();
-      showAggregatesDialog();
-      break;
     case RESET_ALL:
       DialogUtils.showWarningResetDialog(this, null);
       break;
     }
-  }
-  private void showAggregatesDialog() {
-    new AggregatesDialogFragment().show(getSupportFragmentManager(),"AGGREGATES");
   }
   @Override
   public void contribFeatureNotCalled() {

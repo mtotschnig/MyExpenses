@@ -45,8 +45,8 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/templates");
   public static final Uri CATEGORIES_URI =
       Uri.parse("content://" + AUTHORITY + "/categories");
-  public static final Uri AGGREGATES_URI =
-      Uri.parse("content://" + AUTHORITY + "/accounts/aggregates");
+//  public static final Uri AGGREGATES_URI =
+//      Uri.parse("content://" + AUTHORITY + "/accounts/aggregates");
   public static final Uri PAYEES_URI =
       Uri.parse("content://" + AUTHORITY + "/payees");
   public static final Uri METHODS_URI =
@@ -68,7 +68,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int CATEGORIES = 3;
   private static final int ACCOUNTS = 4;
   private static final int ACCOUNT_ID = 5;
-  private static final int AGGREGATES = 6;
+  //private static final int AGGREGATES = 6;
   private static final int PAYEES = 7;
   private static final int METHODS = 8;
   private static final int METHOD_ID = 9;
@@ -82,7 +82,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int TEMPLATES_INCREASE_USAGE = 17;
   private static final int FEATURE_USED = 18;
   private static final int SQLITE_SEQUENCE_TABLE = 19;
-  private static final int AGGREGATES_COUNT = 20;
+  //private static final int AGGREGATES_COUNT = 20;
   private static final int UNCOMMITTED = 21;
   private static final int TRANSACTIONS_GROUPS = 22;
   private static final int ACCOUNT_INCREASE_USAGE = 23;
@@ -289,35 +289,35 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(TABLE_ACCOUNTS);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
-    case AGGREGATES:
-      //we calculate the aggregates by taking in account the split parts instead of the split transactions,
-      //thus we can ignore split parts that are transfers
-      qb.setTables("(select currency,opening_balance,"+
-          "(SELECT coalesce(sum(amount),0) FROM "
-              + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id AND " + WHERE_EXPENSE + ") as sum_expenses," +
-          "(SELECT coalesce(sum(amount),0) FROM "
-              + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") as sum_income," +
-          "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
-              + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
-                  + SPLIT_CATID + ")) as current_balance " +
-          "from " + TABLE_ACCOUNTS + ") as t");
-      groupBy = "currency";
-      having = "count(*) > 1";
-      projection = new String[] {"1 as _id","currency",
-          "sum(opening_balance) as opening_balance",
-          "sum(sum_income) as sum_income",
-          "sum(sum_expenses) as sum_expenses",
-          "sum(current_balance) as current_balance"};
-      break;
-    case AGGREGATES_COUNT:
-      qb.setTables(TABLE_ACCOUNTS);
-      groupBy = "currency";
-      having = "count(*) > 1";
-      projection = new String[] {"count(*)"};
-      break;
+//    case AGGREGATES:
+//      //we calculate the aggregates by taking in account the split parts instead of the split transactions,
+//      //thus we can ignore split parts that are transfers
+//      qb.setTables("(select currency,opening_balance,"+
+//          "(SELECT coalesce(sum(amount),0) FROM "
+//              + VIEW_COMMITTED
+//              + " WHERE account_id = accounts._id AND " + WHERE_EXPENSE + ") as sum_expenses," +
+//          "(SELECT coalesce(sum(amount),0) FROM "
+//              + VIEW_COMMITTED
+//              + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") as sum_income," +
+//          "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
+//              + VIEW_COMMITTED
+//              + " WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
+//                  + SPLIT_CATID + ")) as current_balance " +
+//          "from " + TABLE_ACCOUNTS + ") as t");
+//      groupBy = "currency";
+//      having = "count(*) > 1";
+//      projection = new String[] {"1 as _id","currency",
+//          "sum(opening_balance) as opening_balance",
+//          "sum(sum_income) as sum_income",
+//          "sum(sum_expenses) as sum_expenses",
+//          "sum(current_balance) as current_balance"};
+//      break;
+//    case AGGREGATES_COUNT:
+//      qb.setTables(TABLE_ACCOUNTS);
+//      groupBy = "currency";
+//      having = "count(*) > 1";
+//      projection = new String[] {"count(*)"};
+//      break;
     case PAYEES:
       qb.setTables(TABLE_PAYEES);
       defaultOrderBy = "name";
@@ -531,7 +531,7 @@ public class TransactionProvider extends ContentProvider {
       count = db.delete(TABLE_ACCOUNTS, "_id=" + segment + whereString,
           whereArgs);
       //update aggregate cursor
-      getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
+      //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
       break;
     case CATEGORIES:
       count = db.delete(TABLE_CATEGORIES, where, whereArgs);
@@ -613,7 +613,7 @@ public class TransactionProvider extends ContentProvider {
       count = db.update(TABLE_ACCOUNTS, values, "_id=" + segment + whereString,
           whereArgs);
       //update aggregate cursor
-      getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
+      //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
       break;
     case TEMPLATES_ID:
       segment = uri.getPathSegments().get(1); 
@@ -744,8 +744,8 @@ public class TransactionProvider extends ContentProvider {
     //TransactionType: 1 Income, -1 Expense
     //AccountType: CASH BANK CCARD ASSET LIABILITY
     URI_MATCHER.addURI(AUTHORITY, "methods/typeFilter/*/*", METHODS_FILTERED);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates", AGGREGATES);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/count", AGGREGATES_COUNT);
+//  URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates", AGGREGATES);
+//  URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/count", AGGREGATES_COUNT);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATES_ID);
