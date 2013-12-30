@@ -15,7 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-  <item type="id" name="AGGREGATES_COMMAND"/>
   <item type="id" name="BACKUP_COMMAND"/>
   <item type="id" name="CLONE_TRANSACTION_COMMAND"/>
   <item type="id" name="CONTRIB_APP_COMMAND"/>

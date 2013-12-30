@@ -41,10 +41,8 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
   private SimpleCursorAdapter mAdapter;
   int mGroupIdColumnIndex;
   private LoaderManager mManager;
-  long mAccountId;
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    mAccountId = ((ManageTemplates) getActivity()).mAccountId;
     View v = inflater.inflate(R.layout.templates_list, null, false);
     ListView lv = (ListView) v.findViewById(R.id.list);
     mManager = getLoaderManager();
@@ -59,6 +57,10 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
       public View getView(int position, View convertView, ViewGroup parent) {
         convertView=super.getView(position, convertView, parent);
         convertView.findViewById(R.id.apply).setTag(getItemId(position));
+        Cursor c = getCursor();
+        c.moveToPosition(position);
+        int color = c.getInt(c.getColumnIndex("color"));
+        convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
         return convertView;
       }
     };
@@ -93,9 +95,14 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     return new CursorLoader(getActivity(),
         TransactionProvider.TEMPLATES_URI,
-        new String[] {DatabaseConstants.KEY_ROWID,DatabaseConstants.KEY_TITLE,DatabaseConstants.KEY_PLANID},
-        "account_id = ?",
-        new String[] { String.valueOf(mAccountId) },
+        new String[] {
+          DatabaseConstants.KEY_ROWID,
+          DatabaseConstants.KEY_TITLE,
+          DatabaseConstants.KEY_PLANID,
+          DatabaseConstants.KEY_COLOR
+        },
+        null,
+        null,
         "usages DESC");
   }
   @Override

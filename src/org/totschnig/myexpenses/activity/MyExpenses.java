@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.activity;
 
 import java.io.Serializable;
 import java.util.Currency;
-import java.util.HashMap;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -36,6 +35,7 @@ import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -48,7 +48,6 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
@@ -133,6 +132,7 @@ public class MyExpenses extends LaunchActivity implements
    * a new transaction
    */
   private long sequenceCount = 0;
+  private int colorAggregate;
   
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -142,6 +142,10 @@ public class MyExpenses extends LaunchActivity implements
   public void onCreate(Bundle savedInstanceState) {
     //if we are launched from the contrib app, we refresh the cached contrib status
     setTheme(MyApplication.getThemeId());
+    Resources.Theme theme = getTheme();
+    TypedValue color = new TypedValue();
+    theme.resolveAttribute(R.attr.colorAggregate, color, true);
+    colorAggregate = color.data;
     mSettings = MyApplication.getInstance().getSettings();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     if (prev_version == -1) {
@@ -239,7 +243,10 @@ public class MyExpenses extends LaunchActivity implements
       private View getCustomView(int position, View row) {
         Cursor c = getCursor();
         c.moveToPosition(position);
-        row.findViewById(R.id.color1).setBackgroundColor(c.getInt(c.getColumnIndex(KEY_COLOR)));
+        row.findViewById(R.id.color1).setBackgroundColor(
+            getItemId(position) < 0 ?
+                colorAggregate :
+                c.getInt(c.getColumnIndex(KEY_COLOR)));
         ((TextView) row.findViewById(R.id.end)).setText(
             Utils.formatCurrency(
                 new Money(
@@ -250,6 +257,11 @@ public class MyExpenses extends LaunchActivity implements
     };
     adapter.setDropDownViewResource(R.layout.account_navigation_spinner_dropdown_item);
     actionBar.setListNavigationCallbacks(adapter, this);
+  }
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(mAccountId > 0);
+    return super.onPrepareOptionsMenu(menu);
   }
 
   @Override
@@ -293,7 +305,9 @@ public class MyExpenses extends LaunchActivity implements
   private void createRow(int type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
-    i.putExtra(KEY_ACCOUNTID,mAccountId);
+    //the id of an aggregate account is the negative of its first account
+    //thus we use the abs value in order to create the row with this first account
+    i.putExtra(KEY_ACCOUNTID,Math.abs(mAccountId));
     startActivityForResult(i, ACTIVITY_EDIT);
   }
 /*  public boolean dispatchLongCommand(int command, Object tag) {
@@ -338,13 +352,21 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     case R.id.GROUPING_COMMAND:
       SelectGroupingDialogFragment.newInstance(
-          R.id.GROUPING_COMMAND_DO,Account.getInstanceFromDb(mAccountId).grouping.ordinal())
+          R.id.GROUPING_COMMAND_DO,
+          Account.getInstanceFromDb(mAccountId)
+              .grouping.ordinal())
         .show(getSupportFragmentManager(), "SELECT_GROUPING");
       return true;
     case R.id.GROUPING_COMMAND_DO:
-      Account account = Account.getInstanceFromDb(mAccountId);
-      account.grouping=Account.Grouping.values()[(Integer)tag];
-      account.save();
+      Grouping value = Account.Grouping.values()[(Integer)tag];
+      if (mAccountId < 0) {
+        AggregateAccount.getCachedInstance(mAccountId).persistGrouping(value);
+        getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
+      } else {
+        Account account = Account.getInstanceFromDb(mAccountId);
+        account.grouping=value;
+        account.save();
+      }
       return true;
     case R.id.INSERT_TA_COMMAND:
       createRow(TYPE_TRANSACTION);
@@ -375,7 +397,11 @@ public class MyExpenses extends LaunchActivity implements
           myAdapter.getFragmentName(currentPosition));
       if (tl != null && tl.hasItems) {
         if (Utils.isExternalStorageAvailable()) {
-          DialogUtils.showWarningResetDialog(this,mAccountId);
+          if (mAccountId > 0 || MyApplication.getInstance().isContribEnabled) {
+            contribFeatureCalled(Feature.RESET_ALL, null);
+          } else {
+            CommonCommands.showContribDialog(this,Feature.RESET_ALL, null);
+          }
         } else {
           Toast.makeText(getBaseContext(),
               getString(R.string.external_storage_unavailable),
@@ -431,8 +457,7 @@ public class MyExpenses extends LaunchActivity implements
       break;
     case R.id.MANAGE_PLANS_COMMAND:
       i = new Intent(this, ManageTemplates.class);
-      i.putExtra("transferEnabled",transferEnabled());
-      i.putExtra(KEY_ACCOUNTID, mAccountId);
+      i.putExtra("transferEnabled",transferEnabledGlobal());
       startActivity(i);
       return true;
     case R.id.DELETE_COMMAND_DO:
@@ -456,15 +481,19 @@ public class MyExpenses extends LaunchActivity implements
 
     @Override
     public Fragment getItem(Context context, Cursor cursor) {
+      Account account;
       long accountId = cursor.getLong(cursor.getColumnIndex(KEY_ROWID));
-      //we want to make sure that the fragment does not need to create a new cursor
-      //when getting the account object, so we
-      //set up the account object that the fragment can retrieve with getInstanceFromDb
-      //since it is cached by the Account class
-      //we only need to do this, if the account has not been cached yet
-      if (!Account.isInstanceCached(accountId))
-        new Account(accountId,cursor);
-      return TransactionList.newInstance(accountId);
+      if (accountId < 0) {
+        account = AggregateAccount.getCachedInstance(accountId);
+        if (account == null)
+          account = new AggregateAccount(cursor);
+      } else {
+      if (Account.isInstanceCached(accountId))
+        account = Account.getInstanceFromDb(accountId);
+        else
+        account = new Account(cursor);
+      }
+      return TransactionList.newInstance(account);
     }
 
   }
@@ -474,6 +503,8 @@ public class MyExpenses extends LaunchActivity implements
     mAccountsCursor.moveToPosition(position);
     long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
     setCurrentAccount(accountId);
+    if (accountId == -1)
+      ;
     getSupportActionBar().setSelectedNavigationItem(position);
   }
   @SuppressWarnings("incomplete-switch")
@@ -485,18 +516,22 @@ public class MyExpenses extends LaunchActivity implements
       Intent i = new Intent(this, ManageCategories.class);
       i.setAction("myexpenses.intent.distribution");
       i.putExtra(KEY_ACCOUNTID, mAccountId);
-      i.putExtra("grouping",Grouping.NONE);
       if (tag != null) {
         int year = (int) ((Long)tag/1000);
         int groupingSecond = (int) ((Long)tag % 1000);
         i.putExtra("grouping", Account.getInstanceFromDb(mAccountId).grouping);
         i.putExtra("groupingYear",year);
         i.putExtra("groupingSecond", groupingSecond);
+      } else {
+        i.putExtra("grouping",Grouping.NONE);
       }
       startActivity(i);
       break;
     case SPLIT_TRANSACTION:
       createRow(TYPE_SPLIT);
+      break;
+    case RESET_ALL:
+      DialogUtils.showWarningResetDialog(this, mAccountId);
       break;
     }
   }
@@ -505,11 +540,12 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-    String[] projection;
     switch(id) {
     case ACCOUNTS_CURSOR:
-        return new CursorLoader(this,
-          TransactionProvider.ACCOUNTS_URI, Account.PROJECTION_FULL, null, null, null);
+      Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
+      builder.appendQueryParameter("mergeCurrencyAggregates", "1");
+      return new CursorLoader(this,
+          builder.build(), Account.PROJECTION_FULL, null, null, null);
     }
     return null;
   }
@@ -637,8 +673,22 @@ public class MyExpenses extends LaunchActivity implements
       .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,(Long) v.getTag(), null), "ASYNC_TASK")
       .commit();
   }
+  /**
+   * @return true if for the current Account there is a second account
+   * with the same currency we can transfer to
+   */
   public boolean transferEnabled() {
     mAccountsCursor.moveToPosition(currentPosition);
     return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow("transfer_enabled")) > 0;
+  }
+  /**
+   * @return true if for any Account there is a second account
+   * with the same currency we can transfer to
+   */
+  public boolean transferEnabledGlobal() {
+    //we move to the last position in account cursor, and we check if it an aggregate account
+    //which means that there is at least one currency having multiple accounts
+    mAccountsCursor.moveToLast();
+    return mAccountsCursor.getLong(mAccountsCursor.getColumnIndexOrThrow(KEY_ROWID)) < 0;
   }
 }

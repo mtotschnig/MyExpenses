@@ -372,7 +372,8 @@
   <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
   <string name="warning_password_no_contrib">If you set a password, take care not to forget it. You will not be able to recover it, unless you set a security question (Requires &app_name; Contrib).</string>
   <string name="warning_reset_account">If you proceed, all transactions of this account are deleted from the database and cannot be restored.</string>
-  <string name="warning_reset_account_all">If you proceed, for all accounts, transactions will be deleted from the database and cannot be restored.</string>
+  <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+  <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
   <string name="warning_restore">Database and preferences will be restored from the backup. The current data will be deleted. &continue;</string>
   <string name="warning_select_account">Please select an account!</string>
   <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited or deleted in the context of the split.</string>

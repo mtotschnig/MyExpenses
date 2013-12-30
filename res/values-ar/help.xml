@@ -32,8 +32,8 @@
   <string name="help_ExpenseEdit_split_title">نموذج للتقسيمات.</string>
   <string name="help_ExpenseEdit_splitPartCategory_title">نموذج لتقسيمات التصنيف</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">نموذج لتقسميات التحويل</string>
-  <string name="help_ExpenseEdit_info">اضغط على زر - للتبديل بين الصرف والدخل ، اضغط على زر = لفتح الحاسبة.</string>
-  <string name="help_ExpenseEdit_transaction_info">المستفيد (أو المشتري) يتم تذكر القيم المدخلة سابقا واقتراحها لك في المستقبل. زر اختيار طريقة الدفع، يتاح فقط عندما يكون نوع الحساب الحالي مرتبط مع طريقة دفع. افتراضيا فقط حسابات البنك،  تكون مربوطة بطرق دفع (شيك، بطاقة ائتمانية، إيداع، أمر مستديم).</string>
+  <string name="help_ExpenseEdit_info">اضغط على زر = لفتح الحاسبة.</string>
+  <string name="help_ExpenseEdit_transaction_info">اضغط على زر - للتبديل بين الصرف والدخل ، المستفيد (أو المشتري) يتم تذكر القيم المدخلة سابقا واقتراحها لك في المستقبل. زر اختيار طريقة الدفع، يتاح فقط عندما يكون نوع الحساب الحالي مرتبط مع طريقة دفع. افتراضيا فقط حسابات البنك،  تكون مربوطة بطرق دفع (شيك، بطاقة ائتمانية، إيداع، أمر مستديم).</string>
   <string name="help_ExpenseEdit_split_info">قم بإدخال تقسيمات بقدر ماتريد من خلال قائمة تقسيمات التصنيف وتقسيمات التحويل.    نصف الشاشة السفلي يقوم بعرض أجزاء التقسيم وقيمها التي لم يتم تعيينها بعد بتصنيف أو تحويل.    يمكنك حفظ تقسيم عملية فقط عندما تكون قيمة العملية محددة.</string>
   <string name="help_ExpenseEdit_splitPartCategory_info">تحديد تصنيف للتقسيم.</string>
   <string name="help_ExpenseEdit_splitPartTransfer_info">تعيين حساب تحويل للتقسيم.</string>

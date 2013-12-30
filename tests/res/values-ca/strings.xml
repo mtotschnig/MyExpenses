@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>	
+    <string name="testData_account1Label">La meva cartera</string>
+    <string name="testData_account1Description">Les despeses diaris</string>
+    <!--  Account 2 is used as an example for a short term budget used for a travel to a country with
+    a different currency -->
+    <string name="testData_account2Label">Cap de setmana a Londres</string>
+    <string name="testData_account2Description">Agost 2012</string>
+    <string name="testData_account2Currency">GBP</string>
+    <!--  Account 3 is a bank account at an institution well known in the locale region -->
+    <string name="testData_account3Label">Compte bancari</string>
+    <string name="testData_account3Description">CatalunyaCaixa</string>
+    <!-- the cats must exist in the categories of the locale -->
+    <string name="testData_transaction1SubCat">Metro</string>
+    <string name="testData_transaction1MainCat">Transport</string>
+    <string name="testData_transaction2SubCat">Supermercat</string>
+    <string name="testData_transaction2MainCat">Alimentació</string>
+    <!-- just an example of how one could describe by a comment a specific purchase -->
+    <string name="testData_transaction2Comment">Fruites i verdures</string>
+    <string name="testData_transaction3SubCat">Carburant</string>
+    <string name="testData_transaction3MainCat">Automòbil</string>
+    <string name="testData_transaction4SubCat">Restaurant</string>
+    <string name="testData_transaction4MainCat">Alimentació</string>
+    <!-- should be the name of a typical restaurant -->
+    <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+    <string name="testData_transaction6MainCat">Donacions</string>
+    <string name="testData_templateMainCat">Allotjament</string>
+    <string name="testData_templateSubCat">Lloguer</string>
+    <!-- a name typically used as example name -->
+    <string name="testData_templatePayee">Fulano de Tal</string>
+</resources>

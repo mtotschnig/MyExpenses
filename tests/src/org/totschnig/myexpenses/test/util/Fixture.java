@@ -198,8 +198,11 @@ public class Fixture {
     String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
     template.catId = Category.find(templateSubCat,
         Category.find(testContext.getString(R.string.testData_templateMainCat), null));
+    if (template.catId == -1)
+      throw new RuntimeException("Could not find category");
     template.title = templateSubCat;
     template.payee = testContext.getString(R.string.testData_templatePayee);
-    template.save();
+    if (template.save() == null)
+      throw new RuntimeException("Could not save template");
   }
 }

@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -50,7 +51,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  * @author Michael Totschnig
  *
  */
-public class Account extends Model {
+public class Account extends Model  implements Serializable {
 
   public long id = 0;
 
@@ -69,7 +70,10 @@ public class Account extends Model {
    */
   public boolean transferEnabled;
 
-  public static final String[] PROJECTION_BASE = new String[] {
+  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
+
+  static {
+    PROJECTION_BASE = new String[] {
     KEY_ROWID,
     KEY_LABEL,
     KEY_DESCRIPTION,
@@ -82,28 +86,23 @@ public class Account extends Model {
         + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
         +      "AS transfer_enabled"
   };
-  public static final String[] PROJECTION_FULL = new String[] {
-    KEY_ROWID,
-    KEY_LABEL,
-    KEY_DESCRIPTION,
-    KEY_OPENING_BALANCE,
-    KEY_CURRENCY,
-    KEY_COLOR,
-    KEY_GROUPING,
-    KEY_TYPE,
-    "(select count(*) from " + TABLE_ACCOUNTS + " t WHERE "
-        + KEY_CURRENCY + " = " + TABLE_ACCOUNTS + "." + KEY_CURRENCY + ") > 1 "
-        +      "AS transfer_enabled",
-    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
-      + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income",
-    "(SELECT coalesce(abs(sum(amount)),0) FROM " + VIEW_COMMITTED 
-      + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses",
-    "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
-      + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer",
-    KEY_OPENING_BALANCE + " + (SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM " + VIEW_COMMITTED
-      + "  WHERE " + KEY_ACCOUNTID + " = accounts." + KEY_ROWID
-      + " and (" + KEY_CATID + " is null OR " + KEY_CATID + " != "
-      + SPLIT_CATID + ")) as current_balance"};
+  int baseLength = PROJECTION_BASE.length;
+  PROJECTION_EXTENDED = new String[baseLength+1];
+  System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
+  PROJECTION_EXTENDED[baseLength] =
+      KEY_OPENING_BALANCE + " + (SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM " + VIEW_COMMITTED
+        + "  WHERE " + KEY_ACCOUNTID + " = accounts." + KEY_ROWID
+        + " and (" + KEY_CATID + " is null OR " + KEY_CATID + " != "
+        + SPLIT_CATID + ") AND date(" + KEY_DATE + ") <= date('now') ) as current_balance";
+  PROJECTION_FULL = new String[baseLength+4];
+  System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_FULL, 0, baseLength+1);
+  PROJECTION_FULL[baseLength+1] = "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
+      + "  WHERE account_id = accounts._id AND " + WHERE_INCOME   + ") AS sum_income";
+  PROJECTION_FULL[baseLength+2] = "(SELECT coalesce(sum(amount),0) FROM " + VIEW_COMMITTED
+      + "  WHERE account_id = accounts._id AND " + WHERE_EXPENSE  + ") AS sum_expenses";
+  PROJECTION_FULL[baseLength+3] =     "(SELECT coalesce(sum(amount),0)      FROM " + VIEW_COMMITTED
+      + "  WHERE account_id = accounts._id AND " + WHERE_TRANSFER + ") AS sum_transfer";
+  }
   public static final Uri CONTENT_URI = TransactionProvider.ACCOUNTS_URI;
 
   public enum ExportFormat {
@@ -387,10 +386,13 @@ public class Account extends Model {
   }
   /**
    * @param id
-   * @return Accouht object, if id == 0, the account with the lowest id is returned
+   * @return Accouht object, if id == 0, the account with the lowest id is returned,
+   * if id < 0 we forward to AggregateAccount
    * @throws DataObjectNotFoundException
    */
   public static Account getInstanceFromDb(long id) throws DataObjectNotFoundException {
+    if (id < 0)
+      return AggregateAccount.getCachedInstance(id);
     Account account;
     String selection = KEY_ROWID + " = ";
     if (id == 0)
@@ -408,7 +410,7 @@ public class Account extends Model {
       throw new DataObjectNotFoundException(id);
     }
     c.moveToFirst();
-    account = new Account(id,c);
+    account = new Account(c);
     c.close();
     return account;
   }
@@ -462,8 +464,16 @@ public class Account extends Model {
   /**
    * @param c Cursor positioned at the row we want to extract into the object
    */
-  public Account(Long id,Cursor c) {
-    this.id = id;
+  public Account(Cursor c) {
+    extract(c);
+    accounts.put(id, this);
+  }
+  /**
+   * extract information from Cursor and populate fields
+   * @param c
+   */
+  protected void extract(Cursor c) {
+    this.id = c.getLong(c.getColumnIndexOrThrow(KEY_ROWID));
     this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
     String strCurrency = c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY));
@@ -491,7 +501,6 @@ public class Account extends Model {
       this.color = defaultColor;
     }
     this.transferEnabled = c.getInt(c.getColumnIndexOrThrow("transfer_enabled")) > 0;
-    accounts.put(id, this);
   }
 
    public void setCurrency(String currency) throws IllegalArgumentException {
@@ -542,8 +551,22 @@ public class Account extends Model {
    * if accountId is null returns true if any account has transactions marked as exported
    */
   public static boolean getHasExported(Long accountId) {
-    String selection = accountId == null ? null : "account_id = ?";
-    String[] selectionArgs  = accountId == null ? null : new String[] { String.valueOf(accountId) };
+    String selection = null;
+    String[] selectionArgs = null;
+    if (accountId != null) {
+      if (accountId < 0L) {
+        //aggregate account
+        AggregateAccount aa = AggregateAccount.getCachedInstance(accountId);
+        if (aa == null)
+          throw new DataObjectNotFoundException(accountId);
+        selection = KEY_ACCOUNTID +  " IN " +
+            "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+        selectionArgs = new String[]{aa.currency.getCurrencyCode()};
+      } else {
+        selection = KEY_ACCOUNTID + " = ?";
+        selectionArgs  = new String[] { String.valueOf(accountId) };
+      }
+    }
     Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI,
         new String[] {"max(" + KEY_STATUS + ")"}, selection, selectionArgs, null);
     c.moveToFirst();

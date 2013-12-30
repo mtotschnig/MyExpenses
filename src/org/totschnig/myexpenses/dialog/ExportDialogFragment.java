@@ -26,6 +26,8 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.Export;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AggregateAccount;
+import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.ContribFeature.Feature;
 
 import android.annotation.TargetApi;
@@ -74,7 +76,20 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
     Context wrappedCtx = DialogUtils.wrapContext1(ctx);
     Bundle args = getArguments();
     Long accountId = args != null ? args.getLong("accountId") : null;
-    boolean allP = accountId == null;
+    boolean allP = false;
+    String warningText;
+    if (accountId == null) {
+      allP = true;
+      warningText = getString(R.string.warning_reset_account_all);
+    } else if (accountId < 0L) {
+      allP = true;
+      AggregateAccount aa = AggregateAccount.getCachedInstance(accountId);
+      if (aa == null)
+        throw new DataObjectNotFoundException(accountId);
+      warningText = getString(R.string.warning_reset_account_all," ("+aa.currency.getCurrencyCode()+")");
+    } else {
+      warningText = getString(R.string.warning_reset_account);
+    }
     LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.export_dialog, null);
     dateFormatET = (EditText) view.findViewById(R.id.date_format);
@@ -121,8 +136,7 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       notYetExportedCB.setChecked(true);
       notYetExportedCB.setVisibility(View.VISIBLE);
     }
-    warningTV.setText(getString(
-        allP ? R.string.warning_reset_account_all : R.string.warning_reset_account));
+    warningTV.setText(warningText);
     if (deleteP)
       warningTV.setVisibility(View.VISIBLE);
     else

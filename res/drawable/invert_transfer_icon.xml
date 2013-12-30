@@ -14,22 +14,5 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-	  <item
-    android:id="@id/CREATE_COMMAND"
-    android:icon="@drawable/create_account_icon"
-    android:showAsAction="always"
-    android:title="@string/menu_create_account">
-  </item>
-    <item
-    android:id="@id/RESET_ACCOUNT_ALL_COMMAND"
-    android:icon="@drawable/reset_all_icon"
-    android:showAsAction="always"
-    android:title="@string/menu_reset_all">
-  </item>
-  <item
-    android:id="@id/SETTINGS_COMMAND"
-    android:icon="@android:drawable/ic_menu_preferences"
-    android:title="@string/menu_settings">
-  </item>
-</menu>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+	android:src="@drawable/ic_menu_refresh"/>

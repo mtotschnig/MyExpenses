@@ -41,21 +41,28 @@ public class Template extends Transaction {
   public boolean planExecutionAutomatic = false;
 
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
-  public static final String[] PROJECTION = new String[] {
-    KEY_ROWID,
-    KEY_AMOUNT,
-    KEY_COMMENT,
-    KEY_CATID,
-    SHORT_LABEL,
-    KEY_PAYEE_NAME,
-    KEY_TRANSFER_PEER,
-    KEY_TRANSFER_ACCOUNT,
-    KEY_ACCOUNTID,
-    KEY_METHODID,
-    KEY_TITLE,
-    KEY_PLANID,
-    KEY_PLAN_EXECUTION};
-
+  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED;
+  static {
+    PROJECTION_BASE = new String[] {
+      KEY_ROWID,
+      KEY_AMOUNT,
+      KEY_COMMENT,
+      KEY_CATID,
+      SHORT_LABEL,
+      KEY_PAYEE_NAME,
+      KEY_TRANSFER_PEER,
+      KEY_TRANSFER_ACCOUNT,
+      KEY_ACCOUNTID,
+      KEY_METHODID,
+      KEY_TITLE,
+      KEY_PLANID,
+      KEY_PLAN_EXECUTION
+    };
+    int baseLength = PROJECTION_BASE.length;
+    PROJECTION_EXTENDED = new String[baseLength+1];
+    System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
+    PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
+  }
   /**
    * derives a new template from an existing Transaction
    * @param t the transaction whose data (account, amount, category, comment, payment method, payee,

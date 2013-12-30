@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri.Builder;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -81,8 +82,8 @@ public class CategoryList extends BudgetListFragment implements
   private static final int DELETE_CAT = Menu.FIRST+4;
 
   private MyExpandableListAdapter mAdapter;
+  private ExpandableListView mListView;
   private LoaderManager mManager;
-  long mAccountId;
   private TextView incomeSumTv,expenseSumTv;
   private View bottomLine;
   public Grouping mGrouping;
@@ -108,8 +109,7 @@ public class CategoryList extends BudgetListFragment implements
     mManager = getLoaderManager();
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       viewResource = R.layout.distribution_list;
-      mAccountId = extras.getLong(KEY_ACCOUNTID);
-      mAccount = Account.getInstanceFromDb(mAccountId);
+      mAccount = Account.getInstanceFromDb(extras.getLong(KEY_ACCOUNTID));
       Bundle b = savedInstanceState != null ? savedInstanceState : extras;
       mGrouping = (Grouping) b.getSerializable("grouping");
       mGroupingYear = b.getInt("groupingYear");
@@ -121,19 +121,18 @@ public class CategoryList extends BudgetListFragment implements
       mManager.initLoader(DATEINFO_CURSOR, null, this);
     } else {
       viewResource = R.layout.categories_list;
-      mAccountId = 0L;
     }
     View v = inflater.inflate(viewResource, null, false);
     incomeSumTv = (TextView) v.findViewById(R.id.sum_income);
     expenseSumTv = (TextView) v.findViewById(R.id.sum_expense);
     bottomLine = v.findViewById(R.id.BottomLine);
     updateColor();
-    ExpandableListView lv = (ExpandableListView) v.findViewById(R.id.list);
-    lv.setEmptyView(v.findViewById(R.id.empty));
+    mListView = (ExpandableListView) v.findViewById(R.id.list);
+    mListView.setEmptyView(v.findViewById(R.id.empty));
     mManager.initLoader(CATEGORY_CURSOR, null, this);
     String[] from;
     int[] to;
-    if (mAccountId != 0) {
+    if (mAccount != null) {
       from = new String[] {"label","sum"};
       to = new int[] {R.id.label,R.id.amount};
     } else {
@@ -144,13 +143,13 @@ public class CategoryList extends BudgetListFragment implements
         null,
         R.layout.category_row,R.layout.category_row,
         from,to,from,to);
-    lv.setAdapter(mAdapter);
+    mListView.setAdapter(mAdapter);
     //requires using activity (SelectCategory) to implement OnChildClickListener
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select)) {
-      lv.setOnChildClickListener(this);
-      lv.setOnGroupClickListener(this);
+      mListView.setOnChildClickListener(this);
+      mListView.setOnGroupClickListener(this);
     }
-    registerForContextMenu(lv);
+    registerForContextMenu(mListView);
     return v;
   }
   @Override
@@ -293,10 +292,19 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
     if (id == SUM_CURSOR) {
-      return new CursorLoader(getSherlockActivity(),
-          TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath("sumsForAccountsGroupedByType").appendPath(String.valueOf(mAccountId)).build(),
-          null, buildGroupingClause(),
-          null, null);
+      Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon().appendPath("sumsForAccountsGroupedByType");
+      if (mAccount.id < 0) {
+        builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
+      } else {
+        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.id));
+      }
+      return new CursorLoader(
+          getSherlockActivity(),
+          builder.build(),
+          null,
+          buildGroupingClause(),
+          null,
+          null);
     }
     if (id == DATEINFO_CURSOR) {
       ArrayList<String> projection = new ArrayList<String>(Arrays.asList(
@@ -331,11 +339,18 @@ public class CategoryList extends BudgetListFragment implements
     }
     //CATEGORY_CURSOR
     long parentId;
-    String selection = "",strAccountId="",sortOrder=null;
+    String selection = "",accountSelector="",sortOrder=null;
     String[] selectionArgs,projection = null;
-    if (mAccountId != 0) {
-      strAccountId = String.valueOf(mAccountId);
-      String catFilter = "FROM transactions WHERE account_id = ?";
+    if (mAccount != null) {
+      if (mAccount.id < 0) {
+        selection = " IN " +
+            "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+        accountSelector = mAccount.currency.getCurrencyCode();
+      } else {
+        selection = " = ?";
+        accountSelector = String.valueOf(mAccount.id);
+      }
+      String catFilter = "FROM transactions WHERE " + KEY_ACCOUNTID + selection;
       if (!mGrouping.equals(Grouping.NONE)) {
         catFilter += " AND " +buildGroupingClause();
       }
@@ -363,13 +378,15 @@ public class CategoryList extends BudgetListFragment implements
       };
     }
     if (bundle == null) {
+      //group cursor
       selection = "parent_id is null" + selection;
-      selectionArgs = mAccountId != 0 ? new String[]{strAccountId,strAccountId} : null;
+      selectionArgs = mAccount != null ? new String[]{accountSelector,accountSelector} : null;
     } else {
+      //child cursor
       parentId = bundle.getLong("parent_id");
       selection = "parent_id = ?"  + selection;
-      selectionArgs = mAccountId != 0 ?
-          new String[]{strAccountId,String.valueOf(parentId),strAccountId} :
+      selectionArgs = mAccount != null ?
+          new String[]{accountSelector,String.valueOf(parentId),accountSelector} :
           new String[]{String.valueOf(parentId)};
     }
     return new CursorLoader(getActivity(),TransactionProvider.CATEGORIES_URI, projection,
@@ -409,7 +426,7 @@ public class CategoryList extends BudgetListFragment implements
     case CATEGORY_CURSOR:
       mGroupCursor=c;
       mAdapter.setGroupCursor(c);
-      if (mAccountId != 0) {
+      if (mAccount != null) {
         actionBar.setTitle(mAccount.label);
       }
       break;
@@ -535,6 +552,19 @@ public class CategoryList extends BudgetListFragment implements
   }
 
   private void reset() {
+    int count =  mAdapter.getGroupCount();
+    for (int i = 0; i <count ; i++) {
+//TODO: would be nice to retrieve the same open groups on the next or previous group
+//the following does not work since the groups will not necessarily stay the same
+//      if (mListView.isGroupExpanded(i)) {
+//        mGroupCursor.moveToPosition(i);
+//        long parentId = mGroupCursor.getLong(mGroupCursor.getColumnIndexOrThrow(KEY_ROWID));
+//        Bundle bundle = new Bundle();
+//        bundle.putLong("parent_id", parentId);
+//        mManager.restartLoader(i, bundle, CategoryList.this);
+//      }
+      mListView.collapseGroup(i);
+    }
     mManager.restartLoader(CATEGORY_CURSOR, null, this);
     mManager.restartLoader(SUM_CURSOR, null, this);
     mManager.restartLoader(DATEINFO_CURSOR, null, this);

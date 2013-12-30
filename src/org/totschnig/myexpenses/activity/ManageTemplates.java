@@ -47,7 +47,6 @@ public class ManageTemplates extends ProtectedFragmentActivity {
   private static final int DELETE_TEMPLATE = Menu.FIRST;
   private static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;
 
-  public long mAccountId;
   public boolean calledFromCalendar;
   private boolean mTransferEnabled = false;
   
@@ -61,13 +60,10 @@ public class ManageTemplates extends ProtectedFragmentActivity {
       if (uriString != null) {
         calledFromCalendar = true;
         List <String> uriPath = Uri.parse(uriString).getPathSegments();
-        mAccountId = Long.parseLong(uriPath.get(1));
+        //mAccountId = Long.parseLong(uriPath.get(1));
         TemplateDetailFragment.newInstance(Long.parseLong(uriPath.get(2)))
           .show(getSupportFragmentManager(), "TEMPLATE_DETAIL");
-      } else {
-        mAccountId = extras.getLong(DatabaseConstants.KEY_ACCOUNTID);
       }
-      getSupportActionBar().setSubtitle(Account.getInstanceFromDb(mAccountId).label);
       setContentView(R.layout.manage_templates);
       setTitle(R.string.menu_manage_plans);
   }
@@ -89,7 +85,6 @@ public class ManageTemplates extends ProtectedFragmentActivity {
       intent.putExtra("operationType",
           command == R.id.INSERT_TA_COMMAND ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
       intent.putExtra("newTemplate", true);
-      intent.putExtra(DatabaseConstants.KEY_ACCOUNTID,mAccountId);
       startActivity(intent);
       return true;
     case R.id.DELETE_COMMAND_DO:

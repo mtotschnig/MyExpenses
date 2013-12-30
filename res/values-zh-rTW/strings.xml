@@ -8,17 +8,17 @@
   <string name="account_type_liability">負債賬戶</string>
   <string name="already_defined">%1$s 已被定義</string>
   <string name="amount">金額</string>
-  <string name="app_name">我的帳簿</string>
+  <string name="app_name">開支助手</string>
   <string name="backup_failure">備份到SD卡失敗。</string>
   <string name="backup_success">數據庫及喜好設定成功寫入到SD卡。</string>
   <string name="category">類別</string>
   <string name="color">顏色</string>
   <string name="comment">附註</string>
-  <string name="contrib_feature_accounts_unlimited_description">你可以在 &lt;i&gt;我的帳簿&lt;/i&gt; 中創建賬戶的數目僅限5個。</string>
+  <string name="contrib_feature_accounts_unlimited_description">你可以在 &lt;i&gt;開支助手&lt;/i&gt; 中創建賬戶的數目僅限5個。</string>
   <string name="contrib_feature_accounts_unlimited_label">帳戶數量不限</string>
   <string name="contrib_feature_aggregate_label">綜合了多個帳戶</string>
   <string name="contrib_feature_distribution_label">每個類別的交易分佈</string>
-  <string name="contrib_feature_plans_unlimited_description">你可以在 &lt;i&gt;我的帳簿&lt;/i&gt; 中創建計劃的數目僅限3個。</string>
+  <string name="contrib_feature_plans_unlimited_description">你可以在 &lt;i&gt;開支助手&lt;/i&gt; 中創建計劃的數目僅限3個。</string>
   <string name="contrib_feature_plans_unlimited_label">計劃數量不限</string>
   <string name="contrib_feature_reset_all_label">重設全部帳戶</string>
   <string name="contrib_feature_security_question_label">安全問題</string>
@@ -41,10 +41,10 @@
   <string name="dialog_contrib_no_usages_left">沒有剩下的免費使用額</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s 是一項高級功能。</string>
-  <string name="dialog_contrib_reminder_remove_limitation">安裝 &lt;i&gt; 我的帳簿 貢獻補丁 &lt;/i&gt; 來去除所有限制。</string>
+  <string name="dialog_contrib_reminder_remove_limitation">安裝 &lt;i&gt; 開支助手 貢獻補丁 &lt;/i&gt; 來去除所有限制。</string>
   <string name="dialog_contrib_reminder_gain_access">你也可以無限制地的使用以下特點：</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text">&lt;i&gt;我的帳簿&lt;/i&gt; 是無廣告和開放源碼的。請通過安裝貢獻補丁來為此軟件作出貢獻。你將可以無限制地使用以下高級功能：</string>
+  <string name="dialog_contrib_text">&lt;i&gt;開支助手&lt;/i&gt; 是無廣告和開放源碼的。請通過安裝貢獻補丁來為此軟件作出貢獻。你將可以無限制地使用以下高級功能：</string>
   <string name="dialog_contrib_usage_count">現在你擁有 %1$d 免費使用額。</string>
   <string name="dialog_contrib_yes">馬上購買</string>
   <string name="dialog_export_delete">刪除已匯出的交易</string>
@@ -55,7 +55,7 @@
   <string name="dialog_password_new_password_confirmation">新密碼 (再確認)</string>
   <string name="dialog_remind_later">以後來說</string>
   <string name="dialog_remind_no">不用感謝</string>
-  <string name="dialog_remind_rate">請大家花點時間來評價我的帳簿。你的意見將不斷鼓勵我改進此工具。</string>
+  <string name="dialog_remind_rate">請大家花點時間來評價開支助手。你的意見將不斷鼓勵我改進此工具。</string>
   <string name="dialog_remind_rate_yes">現在評分</string>
   <string name="dialog_security_answer">答案</string>
   <string name="dialog_security_question">問題</string>
@@ -114,7 +114,7 @@
     <item>直接使用你的智能手機管理它們。</item>
     <item>匯出它們到理財程式，例如Grisbi、GnuCash、Quicken或MS Money。</item>
   </string-array>
-  <string name="help_leading">感謝你安裝<i>我的帳簿</i>Android版。</string>
+  <string name="help_leading">感謝你安裝<i>開支助手</i>Android版。</string>
   <string name="important_upgrade_information_heading">重要資訊</string>
   <string name="important_upgrade_information_1"></string>
   <string name="import_categories">匯入類別</string>
@@ -211,7 +211,7 @@
   <string name="plan">計劃</string>
   <string name="plan_automatic">自動</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">我的帳簿 規劃</string>
+  <string name="plan_calendar_name">開支助手 規劃</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">計劃執行已取消</string>
   <string name="plan_manual">說明書</string>
@@ -240,12 +240,12 @@
   <string name="pref_category_title_ui">用戶界面</string>
   <string name="pref_contrib_donate_summary">通過PayPal、Flattr或Bitcoin捐款，並獲得高級功能。</string>
   <string name="pref_contrib_donate_title">送上捐款</string>
-  <string name="pref_contrib_install_summary">通過安裝 我的帳簿 的貢獻補丁，您可以使用高級功能。</string>
+  <string name="pref_contrib_install_summary">通過安裝 開支助手 的貢獻補丁，您可以使用高級功能。</string>
   <string name="pref_contrib_install_title">安裝貢獻補丁程式</string>
   <string name="pref_enter_licence_summary">如果你已收到貢獻密鑰並輸入，馬上就可以獲得高級功能。</string>
   <string name="pref_enter_licence_title">輸入貢獻密鑰</string>
   <string name="pref_export_format_title">日期格式</string>
-  <string name="pref_follow_gplus_title">跟隨在 Google+ 的 我的帳簿</string>
+  <string name="pref_follow_gplus_title">跟隨在 Google+ 的 開支助手</string>
   <string name="pref_import_from_grisbi_summary">由默認的Grisbi定義路徑匯入類別 (和貿易夥伴)。你的檔案需被儲存成 grisbi.xml，放置在你的SD卡路徑  \"myexpenses\" 資料夾之中。</string>
   <string name="pref_import_from_grisbi_title">由Grisbi匯入</string>
   <string name="pref_manage_accounts_title">賬戶</string>
@@ -276,7 +276,7 @@
   <string name="pref_request_licence_title">要求得到貢獻密鑰</string>
   <string name="pref_restore_summary">從SD卡資料夾 “myExpenses” 中恢復備份。</string>
   <string name="pref_restore_title">恢復</string>
-  <string name="pref_security_question_summary">如果你忘記了你的密碼，貢獻 我的帳簿 可助你解鎖你的應用程式。</string>
+  <string name="pref_security_question_summary">如果你忘記了你的密碼，貢獻 開支助手 可助你解鎖你的應用程式。</string>
   <string name="pref_security_question_title">安全問題</string>
   <string name="pref_send_feedback_title">反饋意見</string>
   <string name="pref_share_target_summary">必需留空，若果你想選擇合適應用程式 (電郵、Dropbox、Google Docs......)，或者提供一個支援上載的URL地址。</string>
@@ -349,7 +349,7 @@
   <string name="warning_password_contrib">若果您忘記了密碼，設置一個安全問題可讓你再次解鎖此應用。</string>
   <string name="warning_password_no_contrib">如果你設置了密碼，但又小心不要忘記了它。你將無法恢復它，除非你成功回答所設置的安全問題 (貢獻後可用) 。</string>
   <string name="warning_reset_account">如果你繼續，這個帳戶的所有交易都從數據庫中被刪除且無法恢復。</string>
-  <string name="warning_reset_account_all">如果你繼續，所有帳戶和當中的所有交易都從數據庫中被刪除且無法恢復。</string>
+  <string name="warning_reset_account_all">如果你繼續，所有帳戶%1$s和當中的所有交易都從數據庫中被刪除且無法恢復。</string>
   <string name="warning_restore">數據庫和喜好設定將會從備份中被恢復過來。當前的數據會被刪除。你要繼續嗎？</string>
   <string name="warning_select_account">請選擇一個帳戶！</string>
   <string name="warning_splitpartcategory_context">轉移是分割的一部分，它只能在有分割的情況下被編輯或刪除。</string>

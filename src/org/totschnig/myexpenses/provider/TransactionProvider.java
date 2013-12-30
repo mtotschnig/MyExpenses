@@ -15,10 +15,6 @@
 
 package org.totschnig.myexpenses.provider;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
@@ -49,8 +45,8 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/templates");
   public static final Uri CATEGORIES_URI =
       Uri.parse("content://" + AUTHORITY + "/categories");
-  public static final Uri AGGREGATES_URI =
-      Uri.parse("content://" + AUTHORITY + "/accounts/aggregates");
+//  public static final Uri AGGREGATES_URI =
+//      Uri.parse("content://" + AUTHORITY + "/accounts/aggregates");
   public static final Uri PAYEES_URI =
       Uri.parse("content://" + AUTHORITY + "/payees");
   public static final Uri METHODS_URI =
@@ -72,7 +68,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int CATEGORIES = 3;
   private static final int ACCOUNTS = 4;
   private static final int ACCOUNT_ID = 5;
-  private static final int AGGREGATES = 6;
+  //private static final int AGGREGATES = 6;
   private static final int PAYEES = 7;
   private static final int METHODS = 8;
   private static final int METHOD_ID = 9;
@@ -86,7 +82,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int TEMPLATES_INCREASE_USAGE = 17;
   private static final int FEATURE_USED = 18;
   private static final int SQLITE_SEQUENCE_TABLE = 19;
-  private static final int AGGREGATES_COUNT = 20;
+  //private static final int AGGREGATES_COUNT = 20;
   private static final int UNCOMMITTED = 21;
   private static final int TRANSACTIONS_GROUPS = 22;
   private static final int ACCOUNT_INCREASE_USAGE = 23;
@@ -103,6 +99,8 @@ public class TransactionProvider extends ContentProvider {
   public Cursor query(Uri uri, String[] projection, String selection,
       String[] selectionArgs, String sortOrder) {
     SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+    SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+    Cursor c;
 
     if (MyApplication.debug)
       Log.d(TAG, "Query for URL: " + uri);
@@ -110,39 +108,58 @@ public class TransactionProvider extends ContentProvider {
     String groupBy = null;
     String having = null;
 
+    String accountSelectionQuery;
+    String accountSelector;
     switch (URI_MATCHER.match(uri)) {
     case TRANSACTIONS:
-      qb.setTables(VIEW_COMMITTED);
+      boolean extended = uri.getQueryParameter("extended") != null;
+      qb.setTables(extended ? VIEW_EXTENDED : VIEW_COMMITTED);
       defaultOrderBy = KEY_DATE + " DESC";
       if (projection == null)
-        projection = Transaction.PROJECTION;
+        projection = extended ? Transaction.PROJECTION_EXTENDED : Transaction.PROJECTION_BASE;
       break;
     case UNCOMMITTED:
       qb.setTables(VIEW_UNCOMMITTED);
       defaultOrderBy = KEY_DATE + " DESC";
       if (projection == null)
-        projection = Transaction.PROJECTION;
+        projection = Transaction.PROJECTION_BASE;
       break;
     case TRANSACTION_ID:
       qb.setTables(VIEW_ALL);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
     case TRANSACTIONS_SUMS:
+      accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
+      if (accountSelector == null) {
+        accountSelector = uri.getQueryParameter(KEY_CURRENCY);
+        accountSelectionQuery = " IN " +
+            "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+      } else {
+        accountSelectionQuery = " = ?";
+      }
       qb.setTables(VIEW_COMMITTED);
       projection = new String[] {"amount>0 as type","abs(sum(amount)) as  sum"};
       groupBy = "type";
       qb.appendWhere(WHERE_TRANSACTION);
-      qb.appendWhere(" AND " + KEY_ACCOUNTID + "=" + uri.getPathSegments().get(2));
+      qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
+      selectionArgs = new String[]{accountSelector};
       break;
     case TRANSACTIONS_GROUPS:
       if (selection != null || selectionArgs != null) {
         throw new IllegalArgumentException("TRANSACTIONS_GROUPS query does not allow filtering with selection, " +
             "use query parameters");
       }
-      String accountId = uri.getQueryParameter(KEY_ACCOUNTID);
-      String accountSelection = KEY_ACCOUNTID + " = ?";
+      accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
+      if (accountSelector == null) {
+        accountSelector = uri.getQueryParameter(KEY_CURRENCY);
+        accountSelectionQuery = " IN " +
+            "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+      } else {
+        accountSelectionQuery = " = ?";
+      }
+      String accountSelection = KEY_ACCOUNTID + accountSelectionQuery;
       String openingBalanceSubQuery =
-          "(SELECT " + KEY_OPENING_BALANCE + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = ?)";
+          "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + accountSelectionQuery + ")";
       Grouping group;
       try {
         group = Grouping.valueOf(uri.getPathSegments().get(2));
@@ -155,7 +172,7 @@ public class TransactionProvider extends ContentProvider {
         qb.setTables(VIEW_COMMITTED);
         selection = accountSelection;
         //the second accountId is used in openingBalanceSubquery
-        selectionArgs = new String[]{accountId,accountId};
+        selectionArgs = new String[]{accountSelector,accountSelector};
         projection = new String[] {
             "1 AS year",
             "1"+secondColumnAlias,
@@ -211,7 +228,7 @@ public class TransactionProvider extends ContentProvider {
             };
         //the accountId is used three times , once in the table subquery, twice in the column subquery
         //(first in the where clause, second in the subselect for the opening balance),
-        selectionArgs = new String[]{accountId,accountId,accountId};
+        selectionArgs = new String[]{accountSelector,accountSelector,accountSelector};
       }
       break;
     case CATEGORIES:
@@ -231,46 +248,76 @@ public class TransactionProvider extends ContentProvider {
       break;
     case ACCOUNTS:
       qb.setTables(TABLE_ACCOUNTS);
-      if (projection == null)
-        projection = Account.PROJECTION_BASE;
+      boolean mergeCurrencyAggregates = uri.getQueryParameter("mergeCurrencyAggregates") != null;
+      if (mergeCurrencyAggregates) {
+        String accountSubquery = qb.buildQuery(Account.PROJECTION_EXTENDED, selection, null, groupBy,
+            null, null, null);
+        qb.setTables("(SELECT _id,currency,opening_balance,"+
+            "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
+                + VIEW_COMMITTED
+                + " WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
+                    + SPLIT_CATID + ") AND date(" + KEY_DATE + ") <= date('now') ) as current_balance " +
+            "from " + TABLE_ACCOUNTS + ") as t");
+        groupBy = "currency";
+        having = "count(*) > 1";
+        projection = new String[] {
+            "0 - (SELECT _id FROM " + TABLE_CURRENCIES
+                + " WHERE code = currency)  AS _id",//we use negative ids for aggregate accounts
+            "currency AS label",
+            "'' AS description",
+            "sum(opening_balance) AS opening_balance",
+            "currency",
+            "-1 AS color",
+            "'NONE' AS grouping",
+            "'CASH' AS type",
+            "1 AS transfer_enabled",
+            "sum(current_balance) AS current_balance"};
+        String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
+        String sql = qb.buildUnionQuery(new String[] {accountSubquery,currencySubquery}, null, null);
+        c = db.rawQuery(sql, null);
+        c.setNotificationUri(getContext().getContentResolver(), uri);
+        return c;
+      }
       defaultOrderBy = (MyApplication.getInstance().getSettings()
           .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
               KEY_USAGES + " DESC, " : "")
          + KEY_LABEL;
+      if (projection == null)
+        projection = Account.PROJECTION_BASE;
       break;
     case ACCOUNT_ID:
       qb.setTables(TABLE_ACCOUNTS);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
-    case AGGREGATES:
-      //we calculate the aggregates by taking in account the split parts instead of the split transactions,
-      //thus we can ignore split parts that are transfers
-      qb.setTables("(select currency,opening_balance,"+
-          "(SELECT coalesce(abs(sum(amount)),0) FROM "
-              + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id AND " + WHERE_EXPENSE + ") as sum_expenses," +
-          "(SELECT coalesce(abs(sum(amount)),0) FROM "
-              + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") as sum_income," +
-          "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
-              + VIEW_COMMITTED
-              + " WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
-                  + SPLIT_CATID + ")) as current_balance " +
-          "from " + TABLE_ACCOUNTS + ") as t");
-      groupBy = "currency";
-      having = "count(*) > 1";
-      projection = new String[] {"1 as _id","currency",
-          "sum(opening_balance) as opening_balance",
-          "sum(sum_income) as sum_income",
-          "sum(sum_expenses) as sum_expenses",
-          "sum(current_balance) as current_balance"};
-      break;
-    case AGGREGATES_COUNT:
-      qb.setTables(TABLE_ACCOUNTS);
-      groupBy = "currency";
-      having = "count(*) > 1";
-      projection = new String[] {"count(*)"};
-      break;
+//    case AGGREGATES:
+//      //we calculate the aggregates by taking in account the split parts instead of the split transactions,
+//      //thus we can ignore split parts that are transfers
+//      qb.setTables("(select currency,opening_balance,"+
+//          "(SELECT coalesce(sum(amount),0) FROM "
+//              + VIEW_COMMITTED
+//              + " WHERE account_id = accounts._id AND " + WHERE_EXPENSE + ") as sum_expenses," +
+//          "(SELECT coalesce(sum(amount),0) FROM "
+//              + VIEW_COMMITTED
+//              + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") as sum_income," +
+//          "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
+//              + VIEW_COMMITTED
+//              + " WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
+//                  + SPLIT_CATID + ")) as current_balance " +
+//          "from " + TABLE_ACCOUNTS + ") as t");
+//      groupBy = "currency";
+//      having = "count(*) > 1";
+//      projection = new String[] {"1 as _id","currency",
+//          "sum(opening_balance) as opening_balance",
+//          "sum(sum_income) as sum_income",
+//          "sum(sum_expenses) as sum_expenses",
+//          "sum(current_balance) as current_balance"};
+//      break;
+//    case AGGREGATES_COUNT:
+//      qb.setTables(TABLE_ACCOUNTS);
+//      groupBy = "currency";
+//      having = "count(*) > 1";
+//      projection = new String[] {"count(*)"};
+//      break;
     case PAYEES:
       qb.setTables(TABLE_PAYEES);
       defaultOrderBy = "name";
@@ -312,19 +359,19 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(TABLE_ACCOUNTTYES_METHODS);
       break;
     case TEMPLATES:
-      qb.setTables(VIEW_TEMPLATES);
+      qb.setTables(VIEW_TEMPLATES_EXTENDED);
       defaultOrderBy = (MyApplication.getInstance().getSettings()
           .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
               KEY_USAGES + " DESC, " : "")
          + KEY_TITLE;
       if (projection == null)
-        projection = Template.PROJECTION;
+        projection = Template.PROJECTION_EXTENDED;
       break;
     case TEMPLATES_ID:
       qb.setTables(VIEW_TEMPLATES);
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       if (projection == null)
-        projection = Template.PROJECTION;
+        projection = Template.PROJECTION_BASE;
       break;
     case FEATURE_USED:
       qb.setTables(TABLE_FEATURE_USED);
@@ -345,14 +392,13 @@ public class TransactionProvider extends ContentProvider {
       orderBy = sortOrder;
     }
 
-    SQLiteDatabase db = mOpenHelper.getReadableDatabase();
     if (MyApplication.debug) {
       String qs = qb.buildQuery(projection, selection, null, groupBy,
           null, orderBy, null);
       Log.d(TAG, "Query : " + qs);
     }
 
-    Cursor c = qb.query(db, projection, selection, selectionArgs, groupBy,
+    c = qb.query(db, projection, selection, selectionArgs, groupBy,
         having, orderBy);
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;
@@ -485,7 +531,7 @@ public class TransactionProvider extends ContentProvider {
       count = db.delete(TABLE_ACCOUNTS, "_id=" + segment + whereString,
           whereArgs);
       //update aggregate cursor
-      getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
+      //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
       break;
     case CATEGORIES:
       count = db.delete(TABLE_CATEGORIES, where, whereArgs);
@@ -567,7 +613,7 @@ public class TransactionProvider extends ContentProvider {
       count = db.update(TABLE_ACCOUNTS, values, "_id=" + segment + whereString,
           whereArgs);
       //update aggregate cursor
-      getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
+      //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
       break;
     case TEMPLATES_ID:
       segment = uri.getPathSegments().get(1); 
@@ -681,7 +727,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/uncommitted", UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/groups/*", TRANSACTIONS_GROUPS);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccountsGroupedByType/#", TRANSACTIONS_SUMS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/sumsForAccountsGroupedByType", TRANSACTIONS_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/move/#", TRANSACTION_MOVE);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
@@ -698,8 +744,8 @@ public class TransactionProvider extends ContentProvider {
     //TransactionType: 1 Income, -1 Expense
     //AccountType: CASH BANK CCARD ASSET LIABILITY
     URI_MATCHER.addURI(AUTHORITY, "methods/typeFilter/*/*", METHODS_FILTERED);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates", AGGREGATES);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/count", AGGREGATES_COUNT);
+//  URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates", AGGREGATES);
+//  URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/count", AGGREGATES_COUNT);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATES_ID);
