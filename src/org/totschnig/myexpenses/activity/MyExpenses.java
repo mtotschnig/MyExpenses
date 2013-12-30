@@ -119,7 +119,6 @@ public class MyExpenses extends LaunchActivity implements
   private ViewPager myPager;
   private String fragmentCallbackTag = null;
   private long mAccountId = 0;
-  String mCurrencyCode;
   public enum HelpVariant {
     crStatus
   }
@@ -496,7 +495,7 @@ public class MyExpenses extends LaunchActivity implements
     long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
     setCurrentAccount(accountId);
     if (accountId == -1)
-      mCurrencyCode = mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_CURRENCY));
+      ;
     getSupportActionBar().setSelectedNavigationItem(position);
   }
   @SuppressWarnings("incomplete-switch")
@@ -605,10 +604,6 @@ public class MyExpenses extends LaunchActivity implements
   public boolean onNavigationItemSelected(int itemPosition, long itemId) {
     currentPosition = itemPosition;
     moveToPosition(itemPosition);
-    if (itemId == -1) {
-      mAccountsCursor.moveToPosition(itemPosition);
-      mCurrencyCode = mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_CURRENCY));
-    }
     return true;
   }
   @Override
