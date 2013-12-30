@@ -352,7 +352,7 @@
   <string name="warning_password_no_contrib">Wenn Sie ein Passwort setzen, passen Sie auf dieses nicht zu vergessen. Sie können dieses nur zurücksetzen, wenn Sie eine Sicherheitsfrage setzen (benötigt &app_name; Contrib).</string>
   <string name="warning_password_contrib">Durch das Setzen einer Sicherheitsfrage können Sie den Passwortschutz aufheben, sollten Sie das Passwort vergessen.</string>
   <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.	Dies kann nicht rückgängig gemacht werden.</string>
-  <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Transaktionen allen Konten von der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
+  <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Transaktionen aller Konten von der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
   <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten werden gelöscht. &continue;</string>
   <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
   <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert oder gelöscht werden.</string>
