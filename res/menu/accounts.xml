@@ -22,12 +22,6 @@
     android:title="@string/menu_create_account">
   </item>
     <item
-    android:id="@id/AGGREGATES_COMMAND"
-    android:icon="@drawable/aggregates_icon"
-    android:showAsAction="always"
-    android:title="@string/menu_aggregates">
-  </item>
-    <item
     android:id="@id/RESET_ACCOUNT_ALL_COMMAND"
     android:icon="@drawable/reset_all_icon"
     android:showAsAction="always"
