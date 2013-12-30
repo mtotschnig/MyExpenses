@@ -182,7 +182,7 @@ def main():
   back()
   back()
   menu(4)
-  if lang == 'de':
+  if lang == 'de' or lang == 'it':
     distance = 25
   else:
     distance = 24
