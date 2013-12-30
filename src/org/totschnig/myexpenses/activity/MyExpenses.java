@@ -392,7 +392,11 @@ public class MyExpenses extends LaunchActivity implements
           myAdapter.getFragmentName(currentPosition));
       if (tl != null && tl.hasItems) {
         if (Utils.isExternalStorageAvailable()) {
-          DialogUtils.showWarningResetDialog(this,mAccountId);
+          if (mAccountId > 0 || MyApplication.getInstance().isContribEnabled) {
+            contribFeatureCalled(Feature.RESET_ALL, null);
+          } else {
+            CommonCommands.showContribDialog(this,Feature.RESET_ALL, null);
+          }
         } else {
           Toast.makeText(getBaseContext(),
               getString(R.string.external_storage_unavailable),
@@ -520,6 +524,9 @@ public class MyExpenses extends LaunchActivity implements
       break;
     case SPLIT_TRANSACTION:
       createRow(TYPE_SPLIT);
+      break;
+    case RESET_ALL:
+      DialogUtils.showWarningResetDialog(this, mAccountId);
       break;
     }
   }
