@@ -258,6 +258,11 @@ public class MyExpenses extends LaunchActivity implements
     adapter.setDropDownViewResource(R.layout.account_navigation_spinner_dropdown_item);
     actionBar.setListNavigationCallbacks(adapter, this);
   }
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(mAccountId > 0);
+    return super.onPrepareOptionsMenu(menu);
+  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
