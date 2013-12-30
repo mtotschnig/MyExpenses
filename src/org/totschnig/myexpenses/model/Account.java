@@ -551,8 +551,22 @@ public class Account extends Model  implements Serializable {
    * if accountId is null returns true if any account has transactions marked as exported
    */
   public static boolean getHasExported(Long accountId) {
-    String selection = accountId == null ? null : "account_id = ?";
-    String[] selectionArgs  = accountId == null ? null : new String[] { String.valueOf(accountId) };
+    String selection = null;
+    String[] selectionArgs = null;
+    if (accountId != null) {
+      if (accountId < 0L) {
+        //aggregate account
+        AggregateAccount aa = AggregateAccount.getCachedInstance(accountId);
+        if (aa == null)
+          throw new DataObjectNotFoundException(accountId);
+        selection = KEY_ACCOUNTID +  " IN " +
+            "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+        selectionArgs = new String[]{aa.currency.getCurrencyCode()};
+      } else {
+        selection = KEY_ACCOUNTID + " = ?";
+        selectionArgs  = new String[] { String.valueOf(accountId) };
+      }
+    }
     Cursor c = cr().query(TransactionProvider.TRANSACTIONS_URI,
         new String[] {"max(" + KEY_STATUS + ")"}, selection, selectionArgs, null);
     c.moveToFirst();

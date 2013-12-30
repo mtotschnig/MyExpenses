@@ -63,6 +63,7 @@ public class DatabaseConstants {
   public static final String TABLE_ACCOUNTTYES_METHODS = "accounttype_paymentmethod";
   public static final String TABLE_TEMPLATES = "templates";
   public static final String TABLE_PAYEES = "payee";
+  public static final String TABLE_CURRENCIES = "currency";
   public static final String TABLE_FEATURE_USED = "feature_used";
   public static final String VIEW_COMMITTED = "transactions_committed";
   public static final String VIEW_UNCOMMITTED = "transactions_uncommitted";

@@ -133,7 +133,7 @@ public class TransactionProvider extends ContentProvider {
       if (accountSelector == null) {
         accountSelector = uri.getQueryParameter(KEY_CURRENCY);
         accountSelectionQuery = " IN " +
-            "(SELECT _id from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
+            "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
       } else {
         accountSelectionQuery = " = ?";
       }
@@ -261,7 +261,8 @@ public class TransactionProvider extends ContentProvider {
         groupBy = "currency";
         having = "count(*) > 1";
         projection = new String[] {
-            "0 - min(_id) AS _id",//we use negative ids for aggregate accounts
+            "0 - (SELECT _id FROM " + TABLE_CURRENCIES
+                + " WHERE code = currency)  AS _id",//we use negative ids for aggregate accounts
             "currency AS label",
             "'' AS description",
             "sum(opening_balance) AS opening_balance",
