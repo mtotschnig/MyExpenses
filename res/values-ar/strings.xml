@@ -291,7 +291,7 @@
   <string name="warning_password_no_contrib">عند قيامك بوضع كلمة مرور، احرص على عدم نسيانك لها. لن تكون قادرا على استرجاعها إلا عن طريق سؤال الأمان (يتطلب مصروفاتي Contrib).</string>
   <string name="warning_password_contrib">اعداد سؤال الامان يمكنك من إلغاء قفل التطبيق، في حال نسيت كلمة المرور.</string>
   <string name="warning_reset_account">إذا قمت بالمتابعة ، كل العمليات الخاصة بهذا الحساب سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
-  <string name="warning_reset_account_all">إذا قمت بالمتابعة ، كل الحسابات والعمليات سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
+  <string name="warning_reset_account_all">إذا قمت بالمتابعة ، كل الحسابات والعمليات%1$s سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
   <string name="warning_restore">سيتم استرجاع قاعدة البيانات والتفضيلات من النسخة احتياطية. سيتم حذف البيانات الحالية. هل تريد الاستمرار ؟</string>
   <string name="warning_select_account">الرجاء اختيار حساب!</string>
   <string name="warning_splitpartcategory_context">لا يمكن تعديل أو حذف التحويلات التي تكون جزء من تقسيم إلا إذا كانت في سياق التقسيم.</string>

@@ -349,7 +349,7 @@
   <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
   <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu bir güvenlik sorusu ayarlamanıza imkan sağlayan Harcamalarımın katkı sürümünü kurmaktır.</string>
   <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>
-  <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
+  <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <string name="warning_restore">Veritabanı ve tercihler yedeklemeden yüklenecektir. Güncel veriler\n\tsilinecektir. Devam etmek istiyor musunuz?;</string>
   <string name="warning_select_account">Lütfen bir hesap seçin!</string>
   <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilir ya da silinebilirler.</string>

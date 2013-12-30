@@ -299,7 +299,7 @@
   <string name="warning_password_no_contrib">Nếu bạn đặt một mật khẩu, hãy cẩn thẩn và đừng quên. Bạn sẽ không thể phục hồi lại được, trừ khi bạn đặt một câu hỏi an ninh (Yêu cầu Chi Tiêu Của Tôi Contrib).</string>
   <string name="warning_password_contrib">Đặt một câu hỏi an ninh để khóa lại ứng dụng, trong trường hợp bạn quên mật khẩu</string>
   <string name="warning_reset_account">Tất cả giao dịch của tài khoản này sẽ được xuất trong tập tin %1$s trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
-  <string name="warning_reset_account_all">Tất cả giao dịch của tài khoản này sẽ được xuất trong tập tin %1$s trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
+  <string name="warning_reset_account_all">Tất cả giao dịch của tài khoản%1$s này sẽ được xuất trong tập tin %1$s trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
   <string name="warning_restore">Cơ sở dữ liệu và tùy biến sẽ được phục hồi từ thẻ nhớ. Dữ liệu hiện tại sẽ bị xóa. Bạn có muốn tiếp tục hay không?</string>
   <string name="warning_select_account">Vui lòng chọn một tài khoản!</string>
   <string name="warning_splitpartcategory_context">Các thao tác truyền đổi là một phần của việc phân tách có thể được chỉnh sửa và xóa trong phần ngữ cảnh của phân tách.</string>

@@ -349,7 +349,7 @@
   <string name="warning_password_contrib">若果您忘記了密碼，設置一個安全問題可讓你再次解鎖此應用。</string>
   <string name="warning_password_no_contrib">如果你設置了密碼，但又小心不要忘記了它。你將無法恢復它，除非你成功回答所設置的安全問題 (貢獻後可用) 。</string>
   <string name="warning_reset_account">如果你繼續，這個帳戶的所有交易都從數據庫中被刪除且無法恢復。</string>
-  <string name="warning_reset_account_all">如果你繼續，所有帳戶和當中的所有交易都從數據庫中被刪除且無法恢復。</string>
+  <string name="warning_reset_account_all">如果你繼續，所有帳戶%1$s和當中的所有交易都從數據庫中被刪除且無法恢復。</string>
   <string name="warning_restore">數據庫和喜好設定將會從備份中被恢復過來。當前的數據會被刪除。你要繼續嗎？</string>
   <string name="warning_select_account">請選擇一個帳戶！</string>
   <string name="warning_splitpartcategory_context">轉移是分割的一部分，它只能在有分割的情況下被編輯或刪除。</string>

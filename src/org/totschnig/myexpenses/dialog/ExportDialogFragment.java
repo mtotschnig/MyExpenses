@@ -85,7 +85,7 @@ public class ExportDialogFragment extends DialogFragment implements android.cont
       AggregateAccount aa = AggregateAccount.getCachedInstance(accountId);
       if (aa == null)
         throw new DataObjectNotFoundException(accountId);
-      warningText = getString(R.string.warning_reset_account_all,"("+aa.currency.getCurrencyCode()+")");
+      warningText = getString(R.string.warning_reset_account_all," ("+aa.currency.getCurrencyCode()+")");
     } else {
       warningText = getString(R.string.warning_reset_account);
     }
