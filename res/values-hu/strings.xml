@@ -31,6 +31,11 @@
   <string name="date_format_illegal">Helytelen dátum formátum</string>
   <string name="default_account_description">Ez a számla automatikusan került beállításra a telepítés során</string>
   <string name="description">Leírás</string>
+  <string name="dialog_command_disabled_insert_transfer">Számlák közötti átutaláshoz szükség van ugyanazt a pénznemet használó másik számlára. A(z) %1$s pénznemhez csak egy számla tartozik.</string>
+  <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
+  <string name="dialog_command_disabled_insert_transfer_1">További számlák hozhatók létre a bal felső sarokban látható \"Vissza\" gomb (applikáció gomb) segítségével.</string>
+  <string name="dialog_command_disabled_reset_account">Nincs exportálható tranzakció</string>
+  <string name="dialog_command_disabled_distribution">Ebben a számlában nincs kategóriához rendelt tranzakció</string>
   <string name="dialog_confirm_restore_on_install">A rendszer egy korábbi biztonsági mentést talált. Szeretné visszaállítani arra?</string>
   <string name="dialog_contrib_no">Nem most</string>
   <string name="dialog_contrib_no_usages_left">Nincs több ingyenes számla lehetőség.</string>
@@ -59,6 +64,7 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Meglévő választása</string>
   <string name="dialog_title_contrib_feature">Prémium szolgáltatás</string>
+  <string name="dialog_title_menu_command_disabled">Parancs letiltva</string>
   <string name="dialog_title_planner_setup_info">Naptár beállítás szükséges</string>
   <string name="dialog_title_restore_on_install">Korábbi mentés rendelkezésre áll</string>
   <string name="dialog_title_select_account">Számla kiválasztása</string>
@@ -157,6 +163,8 @@
   <string name="menu_forward">Előre</string>
   <string name="menu_grouping">Csoportosítás</string>
   <string name="menu_help">Súgó</string>
+  <!--This command inverts the direction of a transfer-->
+  <string name="menu_invert_transfer">Inverz</string>
   <string name="menu_manage_plans">Sablonok és tervek</string>
   <string name="menu_move_transaction">Mozgat</string>
   <string name="menu_reset">Export és alap állapotra visszaállítás</string>
@@ -208,10 +216,10 @@
   <string name="plan_execution_canceled">Terv futtatása leállítva</string>
   <string name="plan_manual">kézi</string>
   <string name="planner_create_calendar_failure">Helyi terv-naptár készítése nem sikerült</string>
+  <string name="planner_create_calendar_success">Helyi terv-naptár készítése sikeres</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
   <string name="planner_setup_info_jb">Készíthet helyi naptárt kifejezetten erre a célra, vagy választhat a létező naptárakból a beállítások menüben.</string>
   <string name="planner_setup_info">Válasszon naptárt a tervek tárolására, a beállítások alatt.</string>
-  <string name="planner_create_calendar_success">Helyi terv-naptár készítése sikeres</string>
   <!--payment methods-->
   <string name="pm_cheque">Csekk</string>
   <string name="pm_creditcard">Hitelkártya</string>
@@ -230,11 +238,14 @@
   <string name="pref_category_title_more_information">További információ</string>
   <string name="pref_category_title_security">Biztonság</string>
   <string name="pref_category_title_ui">Felhasználói felület</string>
+  <string name="pref_contrib_donate_summary">Támogasd a projektet PayPal, Flatter vagy Bitcoin segítségével és szerezz prémium hozzáférést az összes szolgáltatáshoz.</string>
+  <string name="pref_contrib_donate_title">Támogatás küldése</string>
   <string name="pref_contrib_install_summary">A prémium funkciók a Kiadásaim Contrib változatának telepítésével érhetők el.</string>
   <string name="pref_contrib_install_title">Contrib app telepítése</string>
   <string name="pref_enter_licence_summary">Ha megkapta a Contrib kulcsot, hozzáférhet a Prémium szolgáltatásokhoz.</string>
   <string name="pref_enter_licence_title">Contrib kulcs megadása</string>
   <string name="pref_export_format_title">Adat formátum</string>
+  <string name="pref_follow_gplus_title">A Kiadásaim (My Expenses) követése a Google+ oldalain</string>
   <string name="pref_import_from_grisbi_summary">Kategóriák (és résztvevők) beolvasása az alap Grisbi meghatározások, vagy a saját SD-kártya root könyvtárában található \"myexpenses\" könyvtár grisbi.xml alapján.</string>
   <string name="pref_import_from_grisbi_title">Importálás innen: Grisbi</string>
   <string name="pref_manage_accounts_title">Számlák</string>
@@ -254,6 +265,7 @@
   <string name="pref_perform_share_title">Az exportált állomány megosztása</string>
   <string name="pref_perform_share_summaryOff">Ez az állomány nem kerül megosztásra az exportálások során.</string>
   <string name="pref_perform_share_summaryOn">Ez az állomány megosztásra kerül minden exportálás után.</string>
+  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Helyi terv-naptár létrehozása</string>
   <string name="pref_planning_calendar_summary">Válassza ki azt a naptárt, amelyben az ismétlődő tranzakciókat kívánja tárolni</string>
   <string name="pref_planning_calendar_title">Tervnaptár</string>
@@ -272,13 +284,20 @@
   <string name="pref_shortcut_account_list_title">\'Számlák listája\' parancsikon</string>
   <string name="pref_shortcut_added">Parancsikon hozzáadva a Kezdőképernyőhöz</string>
   <string name="pref_shortcut_summary">Parancsikon hozzáadása a Kezdőképernyőhöz</string>
+  <!--This preference presents a slider where the user selects a value from 0 to 4-->
+  <string name="pref_ui_fontsize_summary">Lépésenként 2 ponttal növeli a betűméretet</string>
+  <string name="pref_ui_fontsize_title">Betűméret nagyítása</string>
+  <string name="pref_ui_language_default">Rendszer alapbeállítás0</string>
+  <string name="pref_ui_language_summary">A felhasználói felület nyelvének beállítása</string>
+  <!--Title of the preference for selecting the UI language-->
+  <string name="pref_ui_language_title">Nyelv</string>
   <string name="pref_ui_theme_dark">sötét</string>
   <string name="pref_ui_theme_light">világos</string>
   <string name="pref_ui_theme_title">Téma</string>
   <string name="pref_visit_website_summary">Fejlesztések és GYIK</string>
   <string name="pref_visit_website_title">Weboldal megtekintése</string>
-  <string name="progress_dialog_create_calendar">Helyi naptár készítése …</string>
-  <string name="progress_dialog_create_plan">Új terv készítése  …</string>
+  <string name="progress_dialog_create_calendar">Helyi naptár készítése...</string>
+  <string name="progress_dialog_create_plan">Új terv készítése...</string>
   <string name="progress_dialog_loading">Elemek betöltése az adatbázisból …</string>
   <string name="progress_dialog_setup">Adatbázis beállítása …</string>
   <string name="reference_number">Referencia szám</string>
@@ -316,6 +335,8 @@
   <string name="title">Cím</string>
   <string name="transaction">Tranzakció</string>
   <string name="transfer">Átutalás</string>
+  <string name="transfer_from_account">Innen</string>
+  <string name="transfer_to_account">Ide</string>
   <string name="tutorial">Felhasználói útmutató</string>
   <string name="type">Típus</string>
   <string name="unsplit_amount">Felosztatlan összeg</string>

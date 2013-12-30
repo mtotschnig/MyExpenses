@@ -242,6 +242,7 @@
   <string name="pref_enter_licence_summary">ប្រសិនបើអ្នកបានទទួលគន្លឹះ Contrib, នឹងទទួលបាននូវដំណើរការដែលមានលក្ខណៈពិសេសល្អជាងគេ </string>
   <string name="pref_enter_licence_title">បញ្ចូលគន្លឹះ Contrib</string>
   <string name="pref_export_format_title">ទ្រង់ទ្រាយទិន្នន័យ</string>
+  <string name="pref_follow_gplus_title">ជួប My Expenses នៅ Google+</string>
   <string name="pref_import_from_grisbi_summary">នាំចូល​ចំណាត់ថ្នាក់ (និង​ភាគី) ពី​ទិន្នន័យ​ដើម​របស់ Grisbi ខាងក្នុង​ចូល​ក្នុង​កម្មវិធី ឬ​ដាក់​ឯកសារ​ជា grisbi.xml ក្នុងថត \"myexpenses\" នៃថត​ដើម​បំផុត​​របស់ sdcard អ្នក</string>
   <string name="pref_import_from_grisbi_title">នាំចូលពី Grisbi</string>
   <string name="pref_manage_accounts_title">គណនី</string>
@@ -331,6 +332,8 @@
   <string name="title">ចំណងជើង</string>
   <string name="transaction">ប្រតិបត្តិការ</string>
   <string name="transfer">ការបញ្ជូនចេញ</string>
+  <string name="transfer_from_account">ពី</string>
+  <string name="transfer_to_account">ទៅ</string>
   <string name="tutorial">មគ្គុទេសក៏របស់អ្នក​ប្រើប្រាស់</string>
   <string name="type">ប្រភេទ</string>
   <string name="unsplit_amount">មិនបំបែក​ចំនួន​ទឹក​ប្រាក់</string>
