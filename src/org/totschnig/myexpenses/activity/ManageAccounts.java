@@ -43,6 +43,7 @@ import android.view.ContextMenu;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
@@ -114,10 +115,17 @@ public class ManageAccounts extends LaunchActivity implements
       return true;
     case R.id.RESET_ACCOUNT_ALL_COMMAND:
       if (Transaction.countAll() > 0 ) {
-        if (MyApplication.getInstance().isContribEnabled) {
-          contribFeatureCalled(Feature.RESET_ALL, null);
+        if (Utils.isExternalStorageAvailable()) {
+          if (MyApplication.getInstance().isContribEnabled) {
+            contribFeatureCalled(Feature.RESET_ALL, null);
+          } else {
+            CommonCommands.showContribDialog(this,Feature.RESET_ALL, null);
+          }
         } else {
-          CommonCommands.showContribDialog(this,Feature.RESET_ALL, null);
+          Toast.makeText(getBaseContext(),
+              getString(R.string.external_storage_unavailable),
+              Toast.LENGTH_LONG)
+              .show();
         }
       } else {
         MessageDialogFragment.newInstance(
