@@ -12,7 +12,7 @@ public class ContribFeatureTest extends ModelTest  {
     Assert.assertNotNull(Utils.getContribFeatureLabelsAsFormattedList(getContext(), null));
   }
   public void testRecordUsage() {
-    Feature feature = Feature.AGGREGATE;
+    Feature feature = Feature.RESET_ALL;
     MyApplication app = (MyApplication) getContext().getApplicationContext();
     Assert.assertEquals(5,feature.usagesLeft());
     app.isContribEnabled = false;
