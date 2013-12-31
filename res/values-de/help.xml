@@ -77,7 +77,7 @@
   <string name="menu_save_and_new_help_text">Abspeichern, und das Formular für das Erfassen einer neuen  Buchung mit denselben Daten offen lassen</string>
   <string name="menu_create_split_part_category_help_text">Öffnet ein Formular für die Zuordnung eines Teilbetrages zu einer Kategorie.</string>
   <string name="menu_create_split_part_transfer_help_text">Öffnet ein Formular für die Übertragung eines Teilbetrages auf ein anderes Konto.</string>
-  <string name="menu_invert_transfer_help_text">Verändert die Richtung der Umbuchung indem die Konten Von und Nach ihre Position wechseln.</string>
+  <string name="menu_invert_transfer_help_text">Verändert die Richtung der Umbuchung indem die Konten \'Von\' und \'Nach\' ihre Position wechseln.</string>
   
   <!-- AccountEdit -->
   <string name="help_AccountEdit_title">Formular für Konten</string>
