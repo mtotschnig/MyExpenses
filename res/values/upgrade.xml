@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+	<string-array name="whats_new_109">
+		<item>Display transaction list and statistical distribution for aggregates of multiple accounts</item>
+	</string-array>
   <string-array name="whats_new_108">
     <item>(Traditional) Chinese translation</item>
     <item>Allow selection of account in transaction editing form</item>

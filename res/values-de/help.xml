@@ -77,7 +77,8 @@
   <string name="menu_save_and_new_help_text">Abspeichern, und das Formular für das Erfassen einer neuen  Buchung mit denselben Daten offen lassen</string>
   <string name="menu_create_split_part_category_help_text">Öffnet ein Formular für die Zuordnung eines Teilbetrages zu einer Kategorie.</string>
   <string name="menu_create_split_part_transfer_help_text">Öffnet ein Formular für die Übertragung eines Teilbetrages auf ein anderes Konto.</string>
-
+  <string name="menu_invert_transfer_help_text">Verändert die Richtung der Umbuchung indem die Konten Von und Nach ihre Position wechseln.</string>
+  
   <!-- AccountEdit -->
   <string name="help_AccountEdit_title">Formular für Konten</string>
   <string name="help_AccountEdit_info">Konten werden anhand Ihrer Bezeichung identifiziert. Die Beschreibung dient nur informativen Zwecken. Die Währung kann einfach aus einer Liste ausgewählt werden. Sie können einem Konto einem der folgenden Typen zuordnen: Bargeldkonto, Bankkonto, Anlagekonto, Kreditkonto. Der Typ bestimmt, welche Zahlungsweisen den Buchungen des Kontos zugeordnet werden können. Zahlungsweisen werden unter Einstellungen -> Verwalten -> Zahlungsweisen konfiguriert.</string>

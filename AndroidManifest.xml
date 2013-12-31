@@ -16,8 +16,8 @@
  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.totschnig.myexpenses" 
-    android:versionCode="108"
-    android:versionName="1.10.5"
+    android:versionCode="109"
+    android:versionName="1.11.0"
     android:installLocation="auto"
 >
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="18"></uses-sdk>
