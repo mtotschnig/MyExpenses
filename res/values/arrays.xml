@@ -49,16 +49,16 @@
     <string-array name="pref_ui_language_values">
     	<item>default</item>
       <item>ar</item>
-      <item>ca</item>
-      <item>de</item>
-      <item>en</item>
-      <item>es</item>
-      <item>fr</item>
-      <item>hu</item>
-      <item>it</item>
-      <item>km</item>
-      <item>tr</item>
-      <item>vi</item>
+      <item>ca-ES</item>
+      <item>de-DE</item>
+      <item>en-US</item>
+      <item>es-ES</item>
+      <item>fr-FR</item>
+      <item>hu-HU</item>
+      <item>it-IT</item>
+      <item>km-KH</item>
+      <item>tr-TR</item>
+      <item>vi-VN</item>
       <item>zh-TW</item>
     </string-array>
     <string-array name="grouping_entries">
