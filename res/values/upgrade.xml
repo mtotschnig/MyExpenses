@@ -18,7 +18,7 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-	<string-array name="whats_new_109">
+	<string-array name="whats_new_110">
 		<item>Display transaction list and statistical distribution for aggregates of multiple accounts</item>
 	</string-array>
   <string-array name="whats_new_108">

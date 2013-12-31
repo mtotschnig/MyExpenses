@@ -45,7 +45,6 @@ public class B_MenuTest extends MyActivityTest<ManageAccounts> {
     //only when we send this key event, onPrepareOptionsMenu is called before the test
     mInstrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
     for (String command : new String[] {
-        "AGGREGATES",
         "RESET_ACCOUNT_ALL",
     }) {
       int resourceId = mContext.getResources().getIdentifier(command+"_COMMAND", "id", mContext.getPackageName());

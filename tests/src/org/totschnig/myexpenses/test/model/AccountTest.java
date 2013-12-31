@@ -125,7 +125,7 @@ public class AccountTest extends ModelTest  {
     int transferIndex = cursor.getColumnIndex("sum_transfer");
     int balanceIndex = cursor.getColumnIndex("current_balance");
     assertEquals(income1+income2, cursor.getLong(incomeIndex));
-    assertEquals(expense1+expense2, cursor.getLong(expensesIndex));
+    assertEquals(-expense1-expense2, cursor.getLong(expensesIndex));
     assertEquals(transferP-transferN, cursor.getLong(transferIndex));
     assertEquals(openingBalance+income1+income2-expense1-expense2+transferP-transferN, cursor.getLong(balanceIndex));
     assertTrue(cursor.moveToNext());
@@ -136,7 +136,7 @@ public class AccountTest extends ModelTest  {
   }
   public void testGetInstanceZeroReturnsAccount () {
     //even without inserting, there should be always an account in the database
-    insertData();
+    //insertData();
     try {
       assertNotNull(Account.getInstanceFromDb(0));
     } catch (DataObjectNotFoundException e) {

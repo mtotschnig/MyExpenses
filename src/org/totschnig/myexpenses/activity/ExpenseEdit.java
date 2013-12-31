@@ -1137,6 +1137,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       break;
     case ACCOUNTS_CURSOR:
       mAccountsAdapter.swapCursor(data);
+      //currently we do not need to refresh the mAccounts array, since
+      //we are only updated due to the transaction_URI insert notifying us
+      //this might change, once we have a multi-pane tablet layout
+      if (mAccounts != null)
+        return;
       mAccounts = new Account[data.getCount()];
       if (mSavedInstance) {
         mTransaction.accountId = mAccountId;
