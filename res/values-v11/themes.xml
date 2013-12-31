@@ -18,6 +18,8 @@
 	<style name="Translucent.NoTitleBar" parent="@android:style/Theme.Holo.Dialog">
 		<item name="android:windowNoTitle">true</item>
 	</style>
-	<style name="BaseDark" parent="@android:style/Theme.Holo"/>
-  <style name="BaseLight" parent="@android:style/Theme.Holo.Light"/>
+	<style name="BaseDark" parent="@android:style/Theme.Holo">
+  </style>
+  <style name="BaseLight" parent="@android:style/Theme.Holo.Light">
+  </style>
 </resources>

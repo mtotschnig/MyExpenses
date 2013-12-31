@@ -26,8 +26,6 @@ import org.totschnig.myexpenses.dialog.SelectGroupingDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment.SelectFromCursorDialogListener;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
@@ -86,7 +84,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class MyExpenses extends LaunchActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, OnNavigationListener,
-    SelectFromCursorDialogListener, ContribIFace, TaskExecutionFragment.TaskCallbacks  {
+    ContribIFace, TaskExecutionFragment.TaskCallbacks  {
 
   public static final int TYPE_TRANSACTION = 0;
   public static final int TYPE_TRANSFER = 1;
@@ -117,7 +115,6 @@ public class MyExpenses extends LaunchActivity implements
   //private Cursor mExpensesCursor;
   private MyViewPagerAdapter myAdapter;
   private ViewPager myPager;
-  private String fragmentCallbackTag = null;
   private long mAccountId = 0;
   public enum HelpVariant {
     crStatus
@@ -133,6 +130,7 @@ public class MyExpenses extends LaunchActivity implements
    */
   private long sequenceCount = 0;
   private int colorAggregate;
+  private SimpleCursorAdapter mNavigationAdapter;
   
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -155,6 +153,7 @@ public class MyExpenses extends LaunchActivity implements
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.viewpager);
+    setupActionBar();
     if (prev_version == -1) {
       getSupportActionBar().hide();
       if (MyApplication.backupExists()) {
@@ -221,14 +220,14 @@ public class MyExpenses extends LaunchActivity implements
   private void moveToPosition(int position) {
     myPager.setCurrentItem(position,false);
   }
-  private void fillNavigation() {
+  private void setupActionBar() {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayShowTitleEnabled(false);
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-    SimpleCursorAdapter adapter = new SimpleCursorAdapter(
+    mNavigationAdapter = new SimpleCursorAdapter(
         actionBar.getThemedContext(),
         R.layout.account_navigation_spinner_item,
-        mAccountsCursor,
+        null,
         new String[] {KEY_LABEL},
         new int[] {android.R.id.text1},
         0) {
@@ -255,8 +254,8 @@ public class MyExpenses extends LaunchActivity implements
         return row;
       }
     };
-    adapter.setDropDownViewResource(R.layout.account_navigation_spinner_dropdown_item);
-    actionBar.setListNavigationCallbacks(adapter, this);
+    mNavigationAdapter.setDropDownViewResource(R.layout.account_navigation_spinner_dropdown_item);
+    actionBar.setListNavigationCallbacks(mNavigationAdapter, this);
   }
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
@@ -575,14 +574,8 @@ public class MyExpenses extends LaunchActivity implements
         mAccountsCursor.moveToFirst();
         mAccountId = mAccountsCursor.getLong(columnIndexRowId);
       }
-      fillNavigation();
+      mNavigationAdapter.swapCursor(mAccountsCursor);
       getSupportActionBar().setSelectedNavigationItem(currentPosition);
-      if ("SELECT_ACCOUNT".equals(fragmentCallbackTag)) {
-       ((SelectFromCursorDialogFragment) getSupportFragmentManager().findFragmentByTag("SELECT_ACCOUNT"))
-          .setCursor(new AllButOneCursorWrapper(mAccountsCursor,currentPosition));
-       fragmentCallbackTag = null;
-      }
-      return;
     }
   }
   @Override
@@ -617,32 +610,6 @@ public class MyExpenses extends LaunchActivity implements
     currentPosition = itemPosition;
     moveToPosition(itemPosition);
     return true;
-  }
-  @Override
-  public void onItemSelected(Bundle args) {
-    switch(args.getInt("id")) {
-    case R.id.MOVE_TRANSACTION_COMMAND:
-      getSupportFragmentManager().beginTransaction()
-      .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_MOVE,
-          args.getLong("contextTransactionId"), args.getLong("result")), "ASYNC_TASK")
-      .commit();
-      break;
-    }
-  }
-  @Override
-  public Cursor getCursor(int cursorId,String fragmentCallbackTag) {
-    Cursor c = null;
-    switch(cursorId) {
-    case ACCOUNTS_CURSOR:
-      c = mAccountsCursor;
-      break;
-    case ACCOUNTS_OTHER_CURSOR:
-      c = mAccountsCursor == null ? null : new AllButOneCursorWrapper(mAccountsCursor,currentPosition);
-      break;
-    }
-    if (c==null)
-      this.fragmentCallbackTag = fragmentCallbackTag;
-    return c;
   }
   @Override
   public void onPreExecute() {
