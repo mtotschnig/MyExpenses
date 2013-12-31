@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-  <string-array name="whats_new_109">
+  <string-array name="whats_new_110">
     <item>Buchungsliste und statistische Verteilung können jetzt auf mehrere Konten gleichzeitig angewendet werden.</item>
   </string-array>
   <string-array name="whats_new_108">
