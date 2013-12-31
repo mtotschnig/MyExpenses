@@ -26,7 +26,6 @@ import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectFromCursorDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
@@ -188,12 +187,6 @@ public class TransactionList extends BudgetListFragment implements
     if (! SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID)))
       menu.add(0, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template);
     menu.add(0, R.id.CLONE_TRANSACTION_COMMAND, 0, R.string.menu_clone_transaction);
-    //move transaction is disabled for transfers,
-    //TODO we also would need to check for splits with transfer parts
-    if (((MyExpenses) getSherlockActivity()).getCursor(MyExpenses.ACCOUNTS_CURSOR,null).getCount() > 1 &&
-        DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER) == null) {
-      menu.add(0,R.id.MOVE_TRANSACTION_COMMAND,0,R.string.menu_move_transaction);
-    }
   }
 
 
@@ -261,17 +254,6 @@ public class TransactionList extends BudgetListFragment implements
       fm.beginTransaction()
         .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_CLONE,info.id, null), "ASYNC_TASK")
         .commit();
-      return true;
-    case R.id.MOVE_TRANSACTION_COMMAND:
-      args = new Bundle();
-      args.putInt("id", R.id.MOVE_TRANSACTION_COMMAND);
-      args.putString("dialogTitle",getString(R.string.dialog_title_select_account));
-      //args.putString("selection",KEY_ROWID + " != " + mCurrentAccount.id);
-      args.putString("column", KEY_LABEL);
-      args.putLong("contextTransactionId",info.id);
-      args.putInt("cursorId", MyExpenses.ACCOUNTS_OTHER_CURSOR);
-      SelectFromCursorDialogFragment.newInstance(args)
-        .show(ctx.getSupportFragmentManager(), "SELECT_ACCOUNT");
       return true;
     case R.id.CREATE_TEMPLATE_COMMAND:
       args = new Bundle();
