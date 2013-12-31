@@ -55,6 +55,8 @@
   <string name="menu_save_and_new_help_text">Sauvegarder les données et garder le formulaire ouvert pour la saisie d\'une nouvelle  opération avec les même données.</string>
   <string name="menu_create_split_part_category_help_text">Ouvre la fenêtre pour attribuer une sous-opération à une catégorie.</string>
   <string name="menu_create_split_part_transfer_help_text">Ouvre la fenêtre pour définir une sous-opération en tant que transfert vers un autre compte.</string>
+  <string name="menu_invert_transfer_help_text">Inverse la direction du transfert en échangeant la position des comptes De et À.</string>
+  
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulaire pour comptes</string>
   <string name="help_AccountEdit_info">Le compte est identifié par son intitulé, la description est seulement informative. La devise peut être facilement sélectionnée sur une liste. Vous pouvez associer au compte les types suivants: compte de caisse, compte bancaire, compte d\'actif ou compte de passif. Selon le type d\'un compte, les opérations peuvent être associées aux méthodes de paiement que vous configurerez sous Paramètres -&gt; Gestion -&gt; Méthodes de paiement.</string>
