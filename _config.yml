@@ -60,6 +60,22 @@ amazon:
   en: "www.amazon.com"
 versions:
   -
+    - 1.11.0
+    - 2013-12-31
+    -
+      en: |
+        Display transaction list and statistical distribution for aggregates of multiple accounts.
+      fr: |
+        La liste des opérations et la répartition statistique peuvent être affichées pour un ensemble de comptes.
+      de: |
+        Buchungsliste und statistische Verteilung können jetzt auf mehrere Konten gleichzeitig angewendet werden..
+      it: |
+        Visualizza la lista delle transazioni e la distribuzione statistica per gli aggregati di più conti.
+      es: |
+        Mostrar la lista de transacciones y la distribución estadística de los agregados de varias cuentas.
+      ca: |
+        Mostra la llista d\'operacions i la distribució estadística agrupada dels diferents comptes.
+  -
     - 1.10.5
     - 2013-12-24
     -
