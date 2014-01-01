@@ -28,7 +28,6 @@ it:
     password: Protezione con password
     help: Aiuto integrato
     backup: Backup e ripristino di dati
-    aggregate_dialog: Raffigurazione della situazione finanziaria sommata (versione Contrib)
     light_theme: "Due stili: buio e chiaro"
   contrib:
     feature-list-title: |
@@ -41,7 +40,6 @@ it:
       split_transaction: Operazione suddivisa
       security_question: Domanda di sicurezza
       reset_all: Reinizializzare tutti i conti
-      aggregate: Sommare piu conti
     licence-howto-buy:
       intro: |
         Opzioni per attivare la licenza Contrib:

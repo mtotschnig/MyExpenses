@@ -26,7 +26,6 @@ vi:
     password: Bảo vệ bởi mật khẩu an toàn
     help: Trợ giúp tích hợp
     backup: Sao lưu và phục hồi dữ liệu
-    aggregate_dialog: Gom nhóm nhiều dạng tài khoản (Tính năng nâng cao)
     light_theme: "hai giao diện: sáng màu và tối màu"
   contrib:
     feature-list-title: |
@@ -39,7 +38,6 @@ vi:
       split_transaction:  Phân tích giao dịch
       security_question:  Câu hỏi an ninh
       reset_all:          Thiết đặt lại tất cả tài khoản
-      aggregate:          Gom nhóm nhiều dạng tài khoản
   google-play:
     - Giữ chi tiêu và thu nhập của bạn theo cách mà bạn muốn.
     - Quản lý tài chính thông qua điện thoại của bạn.

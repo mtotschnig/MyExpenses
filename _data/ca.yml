@@ -28,7 +28,6 @@ ca:
     password: Protecció amb contrasenya
     help: Ajuda integrada
     backup: Còpia de seguretat i restauració
-    aggregate_dialog: Situació financera consolidada (versió pels contribuïdors)
     light_theme: "Dos temes: clar i fosc"
   contrib:
     feature-list-title: |
@@ -40,7 +39,6 @@ ca:
       split_transaction: 'Repartiment d''operacions '
       security_question: Pregunta de seguretat
       reset_all: Reinicieu tots els comptes
-      aggregate: Consolidació de diversos comptes
     licence-howto-buy:
       intro: |
         Teniu les següents opcions per adquirir una llicència Contrib:

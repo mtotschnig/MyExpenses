@@ -19,11 +19,9 @@ features:
   - password
   - help
   - backup
-  - aggregate_dialog
   - light_theme
 contrib:
   - accounts_unlimited
-  - aggregate
   - distribution
   - plans_unlimited
   - reset_all

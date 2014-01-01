@@ -34,7 +34,6 @@ zh-tw:
       split_transaction: 分割交易
       security_question: 安全問題
       reset_all: 重設全部帳戶
-      aggregate: 綜合了多個帳戶
     licence-howto-buy:
       intro: |
         你有以下選擇來購買高級功能的授權：

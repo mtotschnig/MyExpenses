@@ -28,7 +28,6 @@ en:
     password: Password protection
     help: Integrated Help
     backup: Data backup and restore
-    aggregate_dialog: Aggregate financial situation (Contrib version)
     light_theme: "Two themes: light and dark"
   contrib:
     feature-list-title: |
@@ -40,7 +39,6 @@ en:
       split_transaction:  Split transaction
       security_question:  Security question
       reset_all:          Reset all accounts
-      aggregate:          Aggregates over multiple accounts
     licence-howto-buy:
       intro: |
         You have the following options for purchasing the Contrib licence:

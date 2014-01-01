@@ -28,7 +28,6 @@ es:
     password: Protección por contraseña
     help: Ayuda integrada
     backup: Backup y Restauración
-    aggregate_dialog: Situación financiera global en la lista de cuentas (versión Contrib)
     light_theme: "Dos temas: oscuro y claro"
   contrib:
     feature-list-title: |
@@ -40,7 +39,6 @@ es:
       split_transaction: Asiento dividido
       security_question: Pregunta de seguridad
       reset_all: Restablecer todas las cuentas
-      aggregate: Agregados de varias cuentas
     licence-howto-buy:
       intro: |
         Usted tiene las siguientes opciones para adquirir la licencia de Contrib:

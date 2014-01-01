@@ -27,7 +27,6 @@ hu:
     password: Jelszavas védelem
     help: Integrált súgó
     backup: Adat mentés és visszaállítás
-    aggregate_dialog: A pénzügyi helyzet összesítése (csak a Contrib verzióban)
     light_theme: "Két háttértéma: világos és sötét"
   contrib:
     feature-list-title: |
@@ -39,7 +38,6 @@ hu:
       split_transaction:  Tranzakciók megosztása a számlák között
       security_question:  Biztonsági kérdés - jelszó visszaállításhoz
       reset_all:          Az összes számla alaphelyzetbe állítása
-      aggregate:          Több számla tételeinek összesítése
   google-play:
   - Kövesse nyomon kiadásait/bevételeit
   - Tartsa nyilván közvetlenül a telefonja segítségével
