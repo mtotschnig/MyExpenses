@@ -9,6 +9,7 @@ it:
     more_information: Maggiori informazioni
   sections:
     features: Funzionalità
+    premium: Vai Premium
     participate: Partecipare
     faq: FAQ
     versionlist: Aggiornamenti
@@ -23,7 +24,7 @@ it:
     distribution: Due livelli di categorie (importazione da Grisbi XML)
     split: Operazioni suddivise (versione Contrib)
     calculator: Calcolatrice
-    export: "Formati di esportazione: QIF e CSV (MS Excel), caricare file export via FTP, e-mail o Dropbox, ..."
+    export: 'Formati di esportazione: QIF e CSV (MS Excel), caricare file export via FTP, e-mail o Dropbox, ...'
     password: Protezione con password
     help: Aiuto integrato
     backup: Backup e ripristino di dati
@@ -50,7 +51,7 @@ it:
 
       amazon: |
         Se avete installato Le Mie Spese da Amazon App Store, installate
-        <a href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Le Mie Spese Contrib</a>.
+        <a href="http://www.amazon.it/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Le Mie Spese Contrib</a>.
       other: |
         Se avete scaricato Le Mie Spese da F-Droid, Androidpit o Github,
         inviate una donazione tramite uno dei seguenti:

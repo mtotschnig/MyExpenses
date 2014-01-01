@@ -18,9 +18,9 @@ zh-tw:
     sourcecode: 源代碼
     links: 連結
   features:
-    manage_accounts: 多達5個轉賬賬戶（無限制發行版）
+    manage_accounts: 多達5個轉賬賬戶
     grouped_list: 交易分組 (可以日、星期、月、年來顯示總金額資料)
-    split: 分割交易 (貢獻)
+    split: 分割交易
     calculator: 計算機
     password: 密碼保護
     help: 綜合幫助

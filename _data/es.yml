@@ -1,13 +1,15 @@
 es:
+  imprint: Imprint
   hero_main: "Gestión de las finanzas personales para Android"
   hero_sub:
-    use:           "Fácil de usar"
+    use: "Fácil de usar"
     functionality: "Rico en funcionalidad"
-    source:        "Open Source"
+    source: "Open Source"
   menu_title:
     more_information: Más información
   sections:
     features: Características
+    premium: Ir Premium
     participate: Participar
     faq: FAQ
     versionlist: Cambios
@@ -22,9 +24,7 @@ es:
     distribution: Dos niveles de categorías (de importación de Grisbi XML)
     split: Asientos divididos (versión Contrib)
     calculator: Calculadora
-    export: |
-      Formatos de exportación: QIF y CSV (MS Excel), cargar el archivo export (a través de FTP, correo
-      electrónico, Dropbox, ...)
+    export: 'Formatos de exportación: QIF y CSV (MS Excel), cargar el archivo export (a través de FTP, correo electrónico, Dropbox, ...)'
     password: Protección por contraseña
     help: Ayuda integrada
     backup: Backup y Restauración
@@ -35,12 +35,30 @@ es:
       Instalando Mis Gastos Contrib, Usted va a obtener acceso ilimitado a las siguientes características premium:
     feature:
       accounts_unlimited: Cuentas sin limite
-      plans_unlimited:    Planes sin limite
-      distribution:       Distribución de las transacciones por categoría
-      split_transaction:  Asiento dividido
-      security_question:  Pregunta de seguridad
-      reset_all:          Restablecer todas las cuentas
-      aggregate:          Agregados de varias cuentas
+      plans_unlimited: Planes sin limite
+      distribution: Distribución de las transacciones por categoría
+      split_transaction: Asiento dividido
+      security_question: Pregunta de seguridad
+      reset_all: Restablecer todas las cuentas
+      aggregate: Agregados de varias cuentas
+    licence-howto-buy:
+      intro: |
+        Usted tiene las siguientes opciones para adquirir la licencia de Contrib:
+      gplay: |
+        Si ha instalado Mis Gastos de Google Play, instalar
+        <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Mis gastos Contrib</a>.
+      amazon: |
+        Si ha instalado Mis Gastos de Amazon App Store, instalar
+        <a href="http://www.amazon.es/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Mis Gastos Contrib</a>.
+      other: |
+        Si ha descargado Mis Gastos de F-Droid, Androidpit o Github, enviar una donación a través de uno de los siguientes:
+      transfer: |
+        Alternativamente, transferir dinero a la siguiente cuenta bancaria:
+      key: |
+        y luego solicitar la clave de licencia en la pantalla Configuración.
+        Una vez que usted lo recibe por correo electrónico, entra también en la pantalla Configuración.
+      outro: |
+        Google y Amazon carga cantidad 30% de la transacción, Flattr 10%, Paypal aproximadamente 0,45€. Si es conveniente para usted, le animo a que instale Mis gastos de F-Droid, AndroidPIT o Github y enviar su donación por transferencia bancaria, Paypal o Flattr.
   participate:
     intro: |
       Con su apoyo, <span class="application">Mis Gastos</span> sigue creciendo en funcionalidad, al tiempo que se distribuye sin publicidad y de código abierto.
@@ -56,9 +74,9 @@ es:
     premium: |
       Por favor considerar la compra de una <a class="intern" href="#premium">licencia Contrib</a> para el acceso sin restricciones a todas las características premium.
   google-play:
-    - Lleva contabilidad sobre sus gastos y ingresos.
-    - Administrar directamente en tu móvil.
-    - Exportarlos a un programa de escritorio de finanzas como Grisbi, Gnucash, Quicken o MS Money.
+  - Lleva contabilidad sobre sus gastos y ingresos.
+  - Administrar directamente en tu móvil.
+  - Exportarlos a un programa de escritorio de finanzas como Grisbi, Gnucash, Quicken o MS Money.
   permissions-heading: |
     Mis gastos requiere los siguientes permisos
   permissions-calendar: |

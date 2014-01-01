@@ -1,13 +1,15 @@
 fr:
+  imprint: Imprint
   hero_main: "Gestionnaire de finances personnelles pour Android"
   hero_sub:
-    use:           Facile à utiliser
-    functionality: Riche en fonctions
-    source:        Open Source
+    use: "Facile à utiliser"
+    functionality: "Riche en fonctions"
+    source: "Open Source"
   menu_title:
     more_information: Plus d'informations
   sections:
     features: Fonctions
+    premium: Aller  sur Premium
     participate: Participer
     faq: FAQ
     versionlist: Modifications
@@ -22,7 +24,7 @@ fr:
     distribution: Deux niveaux de catégories (importation de Grisbi XML)
     split: Opérations ventilées
     calculator: Calculatrice
-    export: 'Export vers QIF et CSV (MS Excel), téléchargement du fichier export (par e-mail, FTP, Dropbox, ...)'
+    export: Export vers QIF et CSV (MS Excel), téléchargement du fichier export (par e-mail, FTP, Dropbox, ...)
     password: Protection par mot de passe
     help: Aide integrée
     backup: Sauvegarde et restauration de données
@@ -33,12 +35,32 @@ fr:
       Mes dépenses Contrib vous donne  un accès illimité aux fonctions Premium suivantes :
     feature:
       accounts_unlimited: Nombre illimité de comptes
-      plans_unlimited:    Nombre d'échéances illimité
-      distribution:       Répartition des transactions par catégorie
-      split_transaction:  Opération de répartition
-      security_question:  Question de sécurité
-      reset_all:          Réinitialiser tous les comptes
-      aggregate:          Regroupement sur plusieurs comptes
+      plans_unlimited: Nombre d'échéances illimité
+      distribution: Répartition des transactions par catégorie
+      split_transaction: Opération de répartition
+      security_question: Question de sécurité
+      reset_all: Réinitialiser tous les comptes
+      aggregate: Regroupement sur plusieurs comptes
+    licence-howto-buy:
+      intro: |
+        Vous avez les options suivantes pour l'achat de la licence de Contrib :
+      gplay: |
+        Si vous avez installé Mes Dépenses depuis Google Play, installez
+        <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Mes Dépenses Contrib</a>.
+      amazon: |
+        Si vous avez installé Mes Dépenses depuis Amazon App Store, installez
+        <a href="http://www.amazon.fr/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Mes Dépenses Contrib</a>.
+      other: |
+        Si vous avez téléchargé Mes Dépenses  depuis F-Droid, Androidpit ou Github, envoyez un don par l'une des opérations suivantes :
+      transfer: |
+        Vous pouvez également transférer de l'argent pour le compte suivant :
+      key: |
+        et ensuite demandez la clé de licence dans l'écran Paramètres.
+        Une fois reçue par courriel, entrez-la également dans l'écran Paramètres.
+      outro: |
+        Google et Amazon prennent des frais d'un montant de 30%  de la transaction, Flattr de 10%, Paypal d'environ 0,45€.
+        Donc s'il vous est possible, je vous encourage à installer Mes Dépenses à partir de F-Droid, Androidpit
+        ou Github et d'envoyer votre don par virement, Paypal ou Flattr.
   participate:
     intro: |
       Avec votre soutien, <span class="application">Mes dépenses</span> ne cesse de croître en fonctionnalités, tout en étant distribué sans publicité et Open Source.
@@ -54,12 +76,11 @@ fr:
     premium: |
       S'il vous plaît envisager l'achat d'une <a class="intern" href="#premium">licence Contrib</a> pour un accès illimité à toutes les fonctions Premium.
   google-play:
-    - Gardez une trace de vos dépenses et revenus.
-    - Gérez-les directement sur votre smartphone.
-    - Exportez-les vers un logiciel de finance, tel que Grisbi, Gnucash, Quicken ou MS Money.
+  - Gardez une trace de vos dépenses et revenus.
+  - Gérez-les directement sur votre smartphone.
+  - Exportez-les vers un logiciel de finance, tel que Grisbi, Gnucash, Quicken ou MS Money.
   permissions-heading: |
     Mes Dépenses demande les permissions suivantes :
   permissions-calendar: |
     Lire et écrire dans le calendrier : les échéances d'opérations futures et périodiques seront stockées dans un calendrier local spécial ou dans celui que vous lui préciserez.
-  permissions-external-storage: |
-    Writing USB storage: Enregistrement des fichiers d'exportation QIF et CSV et des sauvegardes.    
+  permissions-external-storage: "Writing USB storage: Enregistrement des fichiers d'exportation QIF et CSV et des sauvegardes.    \n"
