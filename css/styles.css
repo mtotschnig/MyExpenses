@@ -24,9 +24,8 @@
 .well {
   text-align: center;
 }
-.well > div {
-  display: inline-block;
-  width: 30%;
+.well .row div {
+ padding: 5px; 
 }
 .nav li.active .caret {
     border-bottom-color: #ffffff;
@@ -75,12 +74,6 @@ dl.versionlist dd {
   .nav-pills > li {
     float: none;
   }
-}
-@media screen and (max-width: 340px) {
- .well > div {
-   width:100%;
-   margin-bottom: 10px;
- }
 }
 .loading {
   border: 1px solid #ccc;

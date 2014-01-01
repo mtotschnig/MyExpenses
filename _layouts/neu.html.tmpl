@@ -198,21 +198,30 @@
         <span class="btn btn-primary">{{t.hero_sub.source}}</span>
       </div>
       <div class="well">
-        <div>
-          <a id="gplay" class="track" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses">
-            <img alt="Get it on Google Play"
-              src="https://developer.android.com/images/brand/{{pagelang}}_generic_rgb_wo_45.png" />
-          </a>
+        <div class="row">
+          <div class="col-sm-6">
+            <a id="gplay" class="track" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses">
+              <img alt="Get it on Google Play"
+                src="https://developer.android.com/images/brand/{{pagelang}}_generic_rgb_wo_45.png" />
+            </a>
+          </div>
+          <div class="col-sm-6">
+            <a id="fdroid" class="track" href="https://f-droid.org/repository/browse/?fdid=org.totschnig.myexpenses">
+              <img alt="Get it on F-Droid" src="/visuals/getitonfdroid.png" />
+            </a>
+          </div>
         </div>
-        <div>
-          <a id="fdroid" class="track" href="https://f-droid.org/repository/browse/?fdid=org.totschnig.myexpenses">
-            <img alt="Get it on F-Droid" src="/visuals/getitonfdroid.png" />
-          </a>
-        </div>
-        <div>
-          <a id="amazon" class="track" href="http://{{site.amazon[pagelang]}}/gp/product/B00FEFVFOQ?ref=mas_pm_MyExpenses">
-            <img alt="Get it on Amazon" src="/visuals/amazon-apps-store-{% if pagelang == "es" or pagelang == "de" or pagelang == "fr" or pagelang == "en" or pagelang == "it" %}{{pagelang}}{% else %}en{% endif %}-black.png" />
-          </a>
+        <div class="row">
+          <div class="col-sm-6">
+            <a id="amazon" class="track" href="http://{{site.amazon[pagelang]}}/gp/product/B00FEFVFOQ?ref=mas_pm_MyExpenses">
+              <img alt="Get it on Amazon" src="/visuals/amazon-apps-store-{% if pagelang == "es" or pagelang == "de" or pagelang == "fr" or pagelang == "en" or pagelang == "it" %}{{pagelang}}{% else %}en{% endif %}-black.png" />
+            </a>
+          </div>
+          <div class="col-sm-6">
+            <a id="github" class="track" href="https://github.com/mtotschnig/MyExpenses/releases/latest">
+              <img alt="Get it on Github" src="/visuals/downloadfromgithub.png" />
+            </a>
+          </div>
         </div>
       </div>
       <div id="features" class="carousel slide block">
