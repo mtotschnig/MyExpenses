@@ -37,6 +37,11 @@ public class TransactionProvider extends ContentProvider {
   public static final String AUTHORITY = "org.totschnig.myexpenses";
   public static final Uri ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts");
+  //when we need the accounts cursor without the current balance
+  //we do not want the cursor to be reloaded when a transaction is added
+  //hence we access it through a different URI
+  public static final Uri ACCOUNTS_BASE_URI =
+      Uri.parse("content://" + AUTHORITY + "/accounts/base");
   public static final Uri TRANSACTIONS_URI =
       Uri.parse("content://" + AUTHORITY + "/transactions");
   public static final Uri UNCOMMITTED_URI =
@@ -67,7 +72,8 @@ public class TransactionProvider extends ContentProvider {
   private static final int TRANSACTION_ID = 2;
   private static final int CATEGORIES = 3;
   private static final int ACCOUNTS = 4;
-  private static final int ACCOUNT_ID = 5;
+  private static final int ACCOUNTS_BASE = 5;
+  private static final int ACCOUNT_ID = 6;
   //private static final int AGGREGATES = 6;
   private static final int PAYEES = 7;
   private static final int METHODS = 8;
@@ -110,7 +116,8 @@ public class TransactionProvider extends ContentProvider {
 
     String accountSelectionQuery;
     String accountSelector;
-    switch (URI_MATCHER.match(uri)) {
+    int uriMatch = URI_MATCHER.match(uri);
+    switch (uriMatch) {
     case TRANSACTIONS:
       boolean extended = uri.getQueryParameter("extended") != null;
       qb.setTables(extended ? VIEW_EXTENDED : VIEW_COMMITTED);
@@ -247,6 +254,7 @@ public class TransactionProvider extends ContentProvider {
       qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
       break;
     case ACCOUNTS:
+    case ACCOUNTS_BASE:
       qb.setTables(TABLE_ACCOUNTS);
       boolean mergeCurrencyAggregates = uri.getQueryParameter("mergeCurrencyAggregates") != null;
       if (mergeCurrencyAggregates) {
@@ -282,7 +290,7 @@ public class TransactionProvider extends ContentProvider {
           .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
               KEY_USAGES + " DESC, " : "")
          + KEY_LABEL;
-      if (projection == null)
+      if (uriMatch == ACCOUNTS_BASE || projection == null)
         projection = Account.PROJECTION_BASE;
       break;
     case ACCOUNT_ID:
@@ -734,6 +742,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORY_ID);
     URI_MATCHER.addURI(AUTHORITY, "categories/#/increaseUsage", CATEGORY_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/base", ACCOUNTS_BASE);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#/increaseUsage", ACCOUNT_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
