@@ -1074,7 +1074,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         String selection = (mOperationType == MyExpenses.TYPE_TRANSFER) ? 
             "(select count(*) from accounts t where currency = accounts.currency)>1" :
             null;
-      return new CursorLoader(this,TransactionProvider.ACCOUNTS_URI,
+      return new CursorLoader(this,TransactionProvider.ACCOUNTS_BASE_URI,
           null,
           selection,null,null);
     case EVENT_CURSOR:
@@ -1137,11 +1137,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       break;
     case ACCOUNTS_CURSOR:
       mAccountsAdapter.swapCursor(data);
-      //currently we do not need to refresh the mAccounts array, since
-      //we are only updated due to the transaction_URI insert notifying us
-      //this might change, once we have a multi-pane tablet layout
-      if (mAccounts != null)
-        return;
       mAccounts = new Account[data.getCount()];
       if (mSavedInstance) {
         mTransaction.accountId = mAccountId;
