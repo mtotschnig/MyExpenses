@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_112">
+    <item>Fixed incorrect display of balance after week overlapping end/start of year</item>
+  </string-array>
   <string-array name="whats_new_111">
     <item>Stability improvements</item>
   </string-array>
