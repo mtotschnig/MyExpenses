@@ -173,7 +173,7 @@ public class TransactionProvider extends ContentProvider {
       } catch (IllegalArgumentException e) {
         group = Grouping.NONE;
       }
-      String yearColumn = (group.equals(Grouping.WEEK) ? YEAR_OF_WEEK_START : YEAR) + " AS year";
+      String yearExpression = (group.equals(Grouping.WEEK) ? YEAR_OF_WEEK_START : YEAR);
       String secondColumnAlias = " AS second";
       if (group.equals(Grouping.NONE)) {
         qb.setTables(VIEW_COMMITTED);
@@ -209,7 +209,7 @@ public class TransactionProvider extends ContentProvider {
           break;
         }
         qb.setTables("(SELECT "
-            + yearColumn + ","
+            + yearExpression + " AS year,"
             + secondDef + secondColumnAlias + ","
             + INCOME_SUM + ","
             + EXPENSE_SUM + ","
@@ -229,10 +229,11 @@ public class TransactionProvider extends ContentProvider {
                 " + (SELECT sum(amount) FROM "
                     + VIEW_COMMITTED
                     + " WHERE " + accountSelection + " AND " + WHERE_NOT_SPLIT
-                    + " AND (CAST(strftime('%Y',date) AS integer) < year OR "
-                    + "(CAST(strftime('%Y',date) AS integer) = year AND "
+                    + " AND (" + yearExpression + " < year OR "
+                    + "(" + yearExpression + " = year AND "
                     + secondDef + " <= second))) AS interim_balance"
             };
+        //CAST(strftime('%Y',date) AS integer)
         //the accountId is used three times , once in the table subquery, twice in the column subquery
         //(first in the where clause, second in the subselect for the opening balance),
         selectionArgs = new String[]{accountSelector,accountSelector,accountSelector};
