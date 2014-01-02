@@ -2,13 +2,14 @@ de:
   imprint: Impressum
   hero_main: "Persönliches Finanz-Management für Android"
   hero_sub:
-    use:           "Einfach zu bedienen"
+    use: "Einfach zu bedienen"
     functionality: "Reich an Funktionalität"
-    source:        "Open Source"
+    source: "Open Source"
   menu_title:
     more_information: Mehr Information
   sections:
     features: Funktionen
+    premium: Go Premium
     participate: Mitmachen
     faq: FAQ
     versionlist: Änderungen
@@ -23,23 +24,38 @@ de:
     distribution: Zwei Ebenen von Kategorien mit Import aus Grisbi XML Datei
     split: Splitbuchungen (nur in Contrib Version)
     calculator: Taschenrechner
-    export: |
-      Export nach QIF und CSV (MS Excel), Übertragung via email, FTP, Dropbox, ...,
-      Export aller Konten in einem in Contrib Version
+    export: 'Export nach QIF und CSV (MS Excel), Übertragung via email, FTP, Dropbox, ..., Export aller Konten in einem in Contrib Version'
     password: Passwortschutz
     help: Integrierte Hilfe
     backup: Daten Backup und Wiederherstellung
+    aggregate_dialog: Darstellung der Gesamtsummen in der Kontenübersicht (Contrib Version)
     light_theme: "Zwei Themen: hell und dunkel"
   contrib:
     feature-list-title: |
       Meine Ausgaben Contrib gibt Ihnen uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:
     feature:
       accounts_unlimited: Unbegrenzte Anzahl von Konten
-      plans_unlimited:    Unbegrenzte Anzahl von Plänen
-      distribution:       Verteilung der Buchungen auf Kategorien
-      split_transaction:  Splitbuchung
-      security_question:  Sicherheitsfrage
-      reset_all:          Alle Konten zurücksetzen
+      plans_unlimited: Unbegrenzte Anzahl von Plänen
+      distribution: Verteilung der Buchungen auf Kategorien
+      split_transaction: Splitbuchung
+      security_question: Sicherheitsfrage
+      reset_all: Alle Konten zurücksetzen
+      aggregate: Gesamtsumme über mehrere Konten
+    licence-howto-buy:
+      intro: |
+        Die Contrib Lizenz kann auf folgenden Wegen erworben werden:
+      gplay: |
+        Wenn Sie Meine Ausgaben von Google Play installiert haben, installieren Sie auch <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">Meine Ausgaben Contrib</a>.
+      amazon: |
+        Wenn Sie Meine Ausgaben von Google Play installiert haben, installieren Sie auch <a href="http://www.amazon.de/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">Meine Ausgaben Contrib</a>.
+      other: |
+        Wenn Sie meine Ausgaben von F-Droid, Androidpit oder Github bezogen haben, senden Sie Ihre Spende mittels einer der folgenden Methoden:
+      transfer: |
+        Andernfalls können Sie auch Geld auf das folgende Konto überweisen:
+      key: |
+        und forden Sie dann über die Einstellungen den Lizenz-Schlüssel an. Sobald Sie diesen erhalten haben, geben Sie diesen ebenfalls über die Einstellungen ein.
+      outro: |
+        Google und Amazon behalten 30% der Transaktionssumme, Flattr 10%, Paypal ungefähr 0,45€. Wenn für Sie praktisch möglich, installieren Sie bitte Meine Ausgaben über F-Droid, Androidpit oder Github und senden Sie Ihre Spende mittels Banküberweisung, Paypal oder Flattr.
   participate:
     intro: |
       Mit Ihrer Unterstützung können wir <span class="application">Meine Ausgaben</span> stetig verbessern
@@ -48,17 +64,15 @@ de:
       <span class="application">Meine Ausgaben</span> entwickelt sich durch Ihre Erfahrungsberichte und Vorschläge weiter.
       Falls Sie auf ein Problem stoßen oder eine Verbesserung im Kopf haben, erzeugen Sie einen
       <a href="https://github.com/mtotschnig/MyExpenses/issues/new">Eintrag</a> in Githubs's Issue Tracker.
-    test: |
-      Falls Sie Interesse haben, beim Testen neuer Versionen zu helfen, treten Sie der Google Gruppe 
-      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a> bei.
+    test: "Falls Sie Interesse haben, beim Testen neuer Versionen zu helfen, treten Sie der Google Gruppe \n<a href=\"https://groups.google.com/forum/#!forum/my-expenses-testing\">My Expenses Testing</a> bei.\n"
     translate: |
       Sie können auch beim <a class="intern" href="#translate">Übersetzen</a> in zusätzliche Sprachen helfen.
     premium: |
       Bitte erwägen Sie auch den Kauf der <a class="intern" href="#premium">Contrib Lizenz</a> für uneingeschränkten Zugriff auf alle Premium-Funktionen.
   google-play:
-    - Halten Sie über Ihre Einnahmen und Ausgaben Buch.
-    - Verwalten Sie diese direkt auf Ihrem Smartphone.
-    - Exportieren Sie diese in ein Desktop-Finanzprogrammm wie Grisbi, Gnucash, Quicken oder MS Money.
+  - Halten Sie über Ihre Einnahmen und Ausgaben Buch.
+  - Verwalten Sie diese direkt auf Ihrem Smartphone.
+  - Exportieren Sie diese in ein Desktop-Finanzprogrammm wie Grisbi, Gnucash, Quicken oder MS Money.
   permissions-heading: |
     Meine Ausgaben verwendet folgende Berechtigungen
   permissions-calendar: |
