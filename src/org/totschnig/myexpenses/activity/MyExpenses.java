@@ -304,9 +304,23 @@ public class MyExpenses extends LaunchActivity implements
   private void createRow(int type) {
     Intent i = new Intent(this, ExpenseEdit.class);
     i.putExtra("operationType", type);
-    //the id of an aggregate account is the negative of its first account
-    //thus we use the abs value in order to create the row with this first account
-    i.putExtra(KEY_ACCOUNTID,Math.abs(mAccountId));
+    //if we are called from an aggregate cursor, we look for the first account
+    //with the same currency
+    long accountId = 0;
+    if (mAccountId < 0) {
+      mAccountsCursor.moveToFirst();
+      String currentCurrency = Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode();
+      int columnIndexCurrency = mAccountsCursor.getColumnIndex(KEY_CURRENCY);
+      while (mAccountsCursor.isAfterLast() == false) {
+        if (mAccountsCursor.getString(columnIndexCurrency) == currentCurrency) {
+          accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
+        }
+        mAccountsCursor.moveToNext();
+      }
+    } else {
+      accountId = mAccountId;
+    }
+    i.putExtra(KEY_ACCOUNTID,accountId);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
 /*  public boolean dispatchLongCommand(int command, Object tag) {
