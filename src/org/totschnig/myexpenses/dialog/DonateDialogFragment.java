@@ -91,7 +91,7 @@ public class DonateDialogFragment extends DialogFragment {
         }
       } else {
         String uri = (which == AlertDialog.BUTTON_POSITIVE) ?
-            "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KPXNZHMXJE8ZJ" :
+            "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A7ZPSCUTS23K6" :
             "https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(uri));
