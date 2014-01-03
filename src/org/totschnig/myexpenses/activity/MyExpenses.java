@@ -120,7 +120,8 @@ public class MyExpenses extends LaunchActivity implements
     crStatus
   }
   private void setHelpVariant() {
-    helpVariant = Account.getInstanceFromDb(mAccountId).type.equals(Type.CASH) ?
+    Account account = Account.getInstanceFromDb(mAccountId);
+    helpVariant = account == null || account.type.equals(Type.CASH) ?
         null : HelpVariant.crStatus;
   }
   /**
