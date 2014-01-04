@@ -16,13 +16,17 @@
 package org.totschnig.myexpenses.fragment;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
+import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorWrapper;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -32,49 +36,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class TemplatesList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-  private SimpleCursorAdapter mAdapter;
+  private static final String EXTRA_COLUMN = "RecurrenceInfo";
+  private StickyListHeadersAdapter mAdapter;
+  //private SimpleCursorAdapter mAdapter;
+  //private StickyListHeadersListView mListView;
   int mGroupIdColumnIndex;
   private LoaderManager mManager;
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.templates_list, null, false);
-    ListView lv = (ListView) v.findViewById(R.id.list);
+    StickyListHeadersListView lv = (StickyListHeadersListView) v.findViewById(R.id.list);
     mManager = getLoaderManager();
     mManager.initLoader(0, null, this);
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{DatabaseConstants.KEY_TITLE,DatabaseConstants.KEY_PLANID};
+    String[] from = new String[]{DatabaseConstants.KEY_TITLE};
     // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.title,R.id.plan};
-    mAdapter = new SimpleCursorAdapter(getActivity(), 
-        R.layout.template_row, null, from, to,0) {
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
-        convertView=super.getView(position, convertView, parent);
-        convertView.findViewById(R.id.apply).setTag(getItemId(position));
-        Cursor c = getCursor();
-        c.moveToPosition(position);
-        int color = c.getInt(c.getColumnIndex("color"));
-        convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
-        return convertView;
-      }
-    };
-    mAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
-      public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
-        if (view.getId() == R.id.plan) {
-          view.setVisibility(
-              (DbUtils.getLongOrNull(cursor, DatabaseConstants.KEY_PLANID) == null) ?
-                  View.INVISIBLE : View.VISIBLE);
-          return true;
-        }
-        return false;
-      }
-    });
+    int[] to = new int[]{R.id.title};
+    mAdapter = new MyGroupedAdapter(
+        getActivity(), 
+        R.layout.template_row,
+        null,
+        from,
+        to,
+        0);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     //requires using activity (ManageTemplates) to implement OnChildClickListener
@@ -103,14 +94,88 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
         },
         null,
         null,
-        "usages DESC");
+        null);
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-      mAdapter.swapCursor(data);
+    ((SimpleCursorAdapter) mAdapter).swapCursor(new CursorExtendedWithPlanInfo(data,EXTRA_COLUMN));
   }
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
-      mAdapter.swapCursor(null);
+      ((SimpleCursorAdapter) mAdapter).swapCursor(null);
+  }
+  public class MyAdapter extends SimpleCursorAdapter {
+    public MyAdapter(Context context, int layout, Cursor c, String[] from,
+        int[] to, int flags) {
+      super(context, layout, c, from, to, flags);
+    }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+      convertView=super.getView(position, convertView, parent);
+      ImageView button = (ImageView) convertView.findViewById(R.id.apply);
+      button.setTag(getItemId(position));
+      Cursor c = getCursor();
+      c.moveToPosition(position);
+      if (DbUtils.getLongOrNull(c, DatabaseConstants.KEY_PLANID) != null) {
+        button.setImageResource(android.R.drawable.ic_menu_my_calendar);
+        ((TextView) convertView.findViewById(R.id.title)).setText(
+            c.getString(c.getColumnIndex(DatabaseConstants.KEY_TITLE))
+            +" (" + c.getString(c.getColumnIndex(EXTRA_COLUMN))+ ")");
+      }
+      int color = c.getInt(c.getColumnIndex("color"));
+      convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
+      return convertView;
+    }
+  }
+  public class MyGroupedAdapter extends MyAdapter implements StickyListHeadersAdapter {
+    LayoutInflater inflater;
+    public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
+        int[] to, int flags) {
+      super(context, layout, c, from, to, flags);
+      inflater = LayoutInflater.from(getSherlockActivity());
+    }
+    @Override
+    public long getHeaderId(int position) {
+      Cursor c = getCursor();
+      c.moveToPosition(position);
+      return DbUtils.getLongOrNull(c, DatabaseConstants.KEY_PLANID) == null ?
+          0 : 1;
+    }
+    @Override
+    public View getHeaderView(int position, View convertView, ViewGroup parent) {
+      if (convertView == null) {
+        convertView = inflater.inflate(R.layout.template_plan_header, parent, false);
+      }
+      Cursor c = getCursor();
+      c.moveToPosition(position);
+      ((TextView) convertView.findViewById(R.id.text)).setText(
+          DbUtils.getLongOrNull(c, DatabaseConstants.KEY_PLANID) == null ?
+              "Templates" : "Plans");
+      return convertView;
+    }
+  }
+  private class CursorExtendedWithPlanInfo extends CursorWrapper {
+    int additionalColumnIndex;
+    String additionalColumnName;
+    public CursorExtendedWithPlanInfo(Cursor cursor,String additionalColumnName) {
+      super(cursor);
+      this.additionalColumnName = additionalColumnName;
+      additionalColumnIndex =cursor.getColumnCount();
+    }
+    public int getColumnCount() {
+      return super.getColumnCount()+1;
+    }
+    public int getColumnIndex(String columnName) {
+      if (columnName == additionalColumnName) {
+        return additionalColumnIndex;
+      }
+      return super.getColumnIndex(columnName);
+  }
+    public String getString(int columnIndex) {
+      if (columnIndex == additionalColumnIndex) {
+        return "EXTRA INFO";
+      }
+      return super.getString(columnIndex);
+    }
   }
 }
