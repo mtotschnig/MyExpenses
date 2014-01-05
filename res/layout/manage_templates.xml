@@ -19,7 +19,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
   <fragment android:name="org.totschnig.myexpenses.fragment.TemplatesList"
-              android:id="@+id/category_list"
+              android:id="@+id/templates_list"
               android:layout_width="fill_parent"
               android:layout_height="0dp"
               android:layout_weight="1" />

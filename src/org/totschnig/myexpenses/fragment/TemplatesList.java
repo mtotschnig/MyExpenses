@@ -15,8 +15,12 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
+import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -32,6 +36,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +46,14 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.android.calendar.CalendarContractCompat.Events;
 
 public class TemplatesList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String EXTRA_COLUMN = "RecurrenceInfo";
+  public static final int TEMPLATES_CURSOR=1;
+  public static final int PLANS_CURSOR=2;
+  Cursor mTemplatesCursor;
+  private HashMap<Long,String> mPlanTimeInfo;
   private StickyListHeadersAdapter mAdapter;
   //private SimpleCursorAdapter mAdapter;
   //private StickyListHeadersListView mListView;
@@ -54,7 +64,7 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
     View v = inflater.inflate(R.layout.templates_list, null, false);
     StickyListHeadersListView lv = (StickyListHeadersListView) v.findViewById(R.id.list);
     mManager = getLoaderManager();
-    mManager.initLoader(0, null, this);
+    mManager.initLoader(TEMPLATES_CURSOR, null, this);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{DatabaseConstants.KEY_TITLE};
     // and an array of the fields we want to bind those fields to 
@@ -84,7 +94,9 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-    return new CursorLoader(getActivity(),
+    switch(id) {
+    case TEMPLATES_CURSOR:
+      return new CursorLoader(getActivity(),
         TransactionProvider.TEMPLATES_URI,
         new String[] {
           DatabaseConstants.KEY_ROWID,
@@ -95,10 +107,57 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
         null,
         null,
         null);
+    case PLANS_CURSOR:
+      return new CursorLoader(getActivity(),
+        Events.CONTENT_URI,
+        new String[]{
+          Events._ID,
+          Events.DTSTART,
+          Events.RRULE,
+        },
+        Events._ID + " IN (" + TextUtils.join(",",(ArrayList<Long>) bundle.getSerializable("plans"))  + ")",
+        null,
+        null);
+    }
+    return null;
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-    ((SimpleCursorAdapter) mAdapter).swapCursor(new CursorExtendedWithPlanInfo(data,EXTRA_COLUMN));
+    switch (loader.getId()) {
+    case TEMPLATES_CURSOR:
+      mTemplatesCursor = data;
+      mTemplatesCursor.moveToFirst();
+      ArrayList<Long> plans = new ArrayList<Long>();
+      long planId;
+      Bundle bundle = new Bundle();
+      while (mTemplatesCursor.isAfterLast() == false) {
+        if ((planId = mTemplatesCursor.getLong(data.getColumnIndexOrThrow(DatabaseConstants.KEY_PLANID))) != 0L) {
+          plans.add(planId);
+        }
+        mTemplatesCursor.moveToNext();
+      }
+      if (plans.size()>0) {
+        bundle.putSerializable("plans", plans);
+        mManager.initLoader(PLANS_CURSOR, bundle, this);
+      } else {
+        ((SimpleCursorAdapter) mAdapter).swapCursor(new CursorExtendedWithPlanInfo(mTemplatesCursor,EXTRA_COLUMN));
+      }
+      break;
+    case PLANS_CURSOR:
+      mPlanTimeInfo = new HashMap<Long, String>();
+      data.moveToFirst();
+      while (data.isAfterLast() == false) {
+        mPlanTimeInfo.put(
+            data.getLong(data.getColumnIndex(Events._ID)),
+            Plan.prettyTimeInfo(
+                getActivity(),
+                data.getString(data.getColumnIndex(Events.RRULE)),
+                data.getLong(data.getColumnIndex(Events.DTSTART))));
+        data.moveToNext();
+      }
+      ((SimpleCursorAdapter) mAdapter).swapCursor(new CursorExtendedWithPlanInfo(mTemplatesCursor,EXTRA_COLUMN));
+      break;
+    }
   }
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
@@ -112,7 +171,7 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       convertView=super.getView(position, convertView, parent);
-      ImageView button = (ImageView) convertView.findViewById(R.id.apply);
+      ImageView button = (ImageView) convertView.findViewById(R.id.handleTemplateOrPlan);
       button.setTag(getItemId(position));
       Cursor c = getCursor();
       c.moveToPosition(position);
@@ -121,6 +180,8 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
         ((TextView) convertView.findViewById(R.id.title)).setText(
             c.getString(c.getColumnIndex(DatabaseConstants.KEY_TITLE))
             +" (" + c.getString(c.getColumnIndex(EXTRA_COLUMN))+ ")");
+      } else {
+        button.setImageResource(R.drawable.manage_plans_icon);
       }
       int color = c.getInt(c.getColumnIndex("color"));
       convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
@@ -173,9 +234,12 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
   }
     public String getString(int columnIndex) {
       if (columnIndex == additionalColumnIndex) {
-        return "EXTRA INFO";
+        return mPlanTimeInfo.get(getLong(getColumnIndex(DatabaseConstants.KEY_PLANID)));
       }
       return super.getString(columnIndex);
     }
+  }
+  public void handleTemplateOrPlan(View v) {
+    // TODO Auto-generated method stub
   }
 }

@@ -29,23 +29,16 @@
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-  <ImageView
-    android:id="@+id/plan"
-    android:paddingLeft="6dip"
-    android:src="@android:drawable/ic_menu_my_calendar"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"/>
   <TextView
     android:id="@+id/title"
     android:layout_centerInParent="true"
     android:paddingLeft="6dip"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_toRightOf="@+id/plan" />
+    android:layout_alignParentLeft="true"/>
 	<ImageView
-    android:id="@+id/apply"
-    android:onClick="createInstanceAndSave"
+    android:id="@+id/handleTemplateOrPlan"
+    android:onClick="handleTemplateOrPlan"
     android:src="@drawable/manage_plans_icon"
     android:background="?attr/selectableItemBackground"
     android:layout_width="wrap_content"

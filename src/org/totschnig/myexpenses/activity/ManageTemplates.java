@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
+import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -125,9 +126,9 @@ public class ManageTemplates extends ProtectedFragmentActivity {
     }
     return super.onContextItemSelected(item);
   }
-  public void createInstanceAndSave (View v) {
-    applyTemplate((Long) v.getTag());
-    finish();
+  public void handleTemplateOrPlan (View v) {
+    ((TemplatesList) getSupportFragmentManager().findFragmentById(R.id.templates_list)).
+      handleTemplateOrPlan(v);
   }
   public void applyTemplate(long id) {
     //TODO Strict mode
