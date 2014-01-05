@@ -152,7 +152,7 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
           TextView tv2 = (TextView)row.findViewById(R.id.category);
           if (Build.VERSION.SDK_INT < 11)
             tv2.setTextColor(Color.WHITE);
-          String catText = (String) tv2.getText();
+          String catText = tv2.getText().toString();
           if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
             catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
           } else {
