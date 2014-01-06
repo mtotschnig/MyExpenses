@@ -179,7 +179,11 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       };
       lv.setAdapter(mAdapter);
       lv.setEmptyView(emptyView);
-      ctx.getSupportLoaderManager().initLoader(MyExpenses.SPLIT_PART_CURSOR, null, this);
+      LoaderManager manager = ctx.getSupportLoaderManager();
+      if (manager.getLoader(MyExpenses.SPLIT_PART_CURSOR) != null && !manager.getLoader(MyExpenses.SPLIT_PART_CURSOR).isReset())
+        manager.restartLoader(MyExpenses.SPLIT_PART_CURSOR, null, this);
+      else
+        manager.initLoader(MyExpenses.SPLIT_PART_CURSOR, null, this);
     } else {
       view.findViewById(R.id.SplitContainer).setVisibility(View.GONE);
       if (mTransaction instanceof Transfer) {
@@ -258,6 +262,10 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
     }
   }
   @Override
+  public void onLoaderReset(Loader<Cursor> loader) {
+    mAdapter.swapCursor(null);
+  }
+  @Override
   public void onClick(DialogInterface dialog, int which) {
     if (which == AlertDialog.BUTTON_POSITIVE) {
       MyExpenses ctx = (MyExpenses) getActivity();
@@ -273,9 +281,5 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
     } else {
       this.dismiss();
     }
-  }
-  @Override
-  public void onLoaderReset(Loader<Cursor> loader) {
-    //nothing to do
   }
 }
