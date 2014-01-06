@@ -72,6 +72,7 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
     setColors();
     View v = inflater.inflate(R.layout.templates_list, null, false);
     StickyListHeadersListView lv = (StickyListHeadersListView) v.findViewById(R.id.list);
+    lv.setDrawingListUnderStickyHeader(false);
     mManager = getLoaderManager();
     mManager.initLoader(TEMPLATES_CURSOR, null, this);
     // Create an array to specify the fields we want to display in the list
