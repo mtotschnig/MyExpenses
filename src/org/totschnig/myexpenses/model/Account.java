@@ -476,13 +476,7 @@ public class Account extends Model  implements Serializable {
     this.id = c.getLong(c.getColumnIndexOrThrow(KEY_ROWID));
     this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
-    String strCurrency = c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY));
-    try {
-      this.currency = Currency.getInstance(strCurrency);
-    } catch (IllegalArgumentException e) {
-      Log.e("MyExpenses",strCurrency + " is not defined in ISO 4217");
-      this.currency = Currency.getInstance(Locale.getDefault());
-    }    
+    this.currency = Utils.getSaveInstance(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY)));
     this.openingBalance = new Money(this.currency,
         c.getLong(c.getColumnIndexOrThrow(KEY_OPENING_BALANCE)));
     try {

@@ -48,7 +48,12 @@ public class Template extends Transaction {
       KEY_AMOUNT,
       KEY_COMMENT,
       KEY_CATID,
+      LABEL_MAIN,
       SHORT_LABEL,
+      "CASE" +
+        " WHEN transfer_peer = 0 AND cat_id AND (SELECT parent_id FROM categories WHERE _id = cat_id)" +
+        " THEN (SELECT label FROM categories WHERE _id = cat_id)" +
+        "END AS label_sub",//different from Transaction, since transfer_peer is treated as boolean here
       KEY_PAYEE_NAME,
       KEY_TRANSFER_PEER,
       KEY_TRANSFER_ACCOUNT,
@@ -59,9 +64,10 @@ public class Template extends Transaction {
       KEY_PLAN_EXECUTION
     };
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength+1];
+    PROJECTION_EXTENDED = new String[baseLength+2];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
+    PROJECTION_EXTENDED[baseLength+1] = KEY_CURRENCY;
   }
   /**
    * derives a new template from an existing Transaction

@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,22 +24,24 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.CursorWrapper;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,10 +51,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.android.calendar.CalendarContractCompat.Events;
-//TODO: cache column indexes
-public class TemplatesList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class TemplatesList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   public static final int TEMPLATES_CURSOR=1;
   public static final int PLANS_CURSOR=2;
   Cursor mTemplatesCursor;
@@ -60,16 +62,22 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
   //private StickyListHeadersListView mListView;
   int mGroupIdColumnIndex;
   private LoaderManager mManager;
+  
+  private int columnIndexPlanId, columnIndexAmount, columnIndexLabelSub, columnIndexComment,
+    columnIndexPayee, columnIndexTitle, columnIndexColor,columnIndexTransferPeer,
+    columnIndexCurrency;
+  boolean indexesCalculated = false;
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    setColors();
     View v = inflater.inflate(R.layout.templates_list, null, false);
     StickyListHeadersListView lv = (StickyListHeadersListView) v.findViewById(R.id.list);
     mManager = getLoaderManager();
     mManager.initLoader(TEMPLATES_CURSOR, null, this);
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{DatabaseConstants.KEY_TITLE};
+    String[] from = new String[]{KEY_TITLE,KEY_LABEL_MAIN,KEY_AMOUNT};
     // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.title};
+    int[] to = new int[]{R.id.title,R.id.category,R.id.amount};
     mAdapter = new MyGroupedAdapter(
         getActivity(), 
         R.layout.template_row,
@@ -99,12 +107,7 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
     case TEMPLATES_CURSOR:
       return new CursorLoader(getActivity(),
         TransactionProvider.TEMPLATES_URI,
-        new String[] {
-          DatabaseConstants.KEY_ROWID,
-          DatabaseConstants.KEY_TITLE,
-          DatabaseConstants.KEY_PLANID,
-          DatabaseConstants.KEY_COLOR
-        },
+        null,
         null,
         null,
         null);
@@ -123,16 +126,28 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
     return null;
   }
   @Override
-  public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+  public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
     switch (loader.getId()) {
     case TEMPLATES_CURSOR:
-      mTemplatesCursor = data;
+      mTemplatesCursor = c;
+      if (!indexesCalculated) {
+        columnIndexPlanId = c.getColumnIndex(KEY_PLANID);
+        columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
+        columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
+        columnIndexComment = c.getColumnIndex(KEY_COMMENT);
+        columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
+        columnIndexTitle = c.getColumnIndex(KEY_TITLE);
+        columnIndexColor = c.getColumnIndex(KEY_COLOR);
+        columnIndexTransferPeer = c.getColumnIndex(KEY_TRANSFER_PEER);
+        columnIndexCurrency = c.getColumnIndex(KEY_CURRENCY);
+        indexesCalculated = true;
+      }
       mTemplatesCursor.moveToFirst();
       ArrayList<Long> plans = new ArrayList<Long>();
       long planId;
       Bundle bundle = new Bundle();
       while (mTemplatesCursor.isAfterLast() == false) {
-        if ((planId = mTemplatesCursor.getLong(data.getColumnIndexOrThrow(DatabaseConstants.KEY_PLANID))) != 0L) {
+        if ((planId = mTemplatesCursor.getLong(columnIndexPlanId)) != 0L) {
           plans.add(planId);
         }
         mTemplatesCursor.moveToNext();
@@ -146,15 +161,15 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
       break;
     case PLANS_CURSOR:
       mPlanTimeInfo = new HashMap<Long, String>();
-      data.moveToFirst();
-      while (data.isAfterLast() == false) {
+      c.moveToFirst();
+      while (c.isAfterLast() == false) {
         mPlanTimeInfo.put(
-            data.getLong(data.getColumnIndex(Events._ID)),
+            c.getLong(c.getColumnIndex(Events._ID)),
             Plan.prettyTimeInfo(
                 getActivity(),
-                data.getString(data.getColumnIndex(Events.RRULE)),
-                data.getLong(data.getColumnIndex(Events.DTSTART))));
-        data.moveToNext();
+                c.getString(c.getColumnIndex(Events.RRULE)),
+                c.getLong(c.getColumnIndex(Events.DTSTART))));
+        c.moveToNext();
       }
       ((SimpleCursorAdapter) mAdapter).swapCursor(mTemplatesCursor);
       break;
@@ -165,6 +180,8 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
       ((SimpleCursorAdapter) mAdapter).swapCursor(null);
   }
   public class MyAdapter extends SimpleCursorAdapter {
+    String categorySeparator = " : ",
+        commentSeparator = " / ";
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
         int[] to, int flags) {
       super(context, layout, c, from, to, flags);
@@ -176,7 +193,17 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
       button.setTag(position);
       Cursor c = getCursor();
       c.moveToPosition(position);
-      Long planId = DbUtils.getLongOrNull(c, DatabaseConstants.KEY_PLANID);
+      TextView tv1 = (TextView)convertView.findViewById(R.id.amount);
+      long amount = c.getLong(columnIndexAmount);
+      if (amount < 0) {
+        tv1.setTextColor(colorExpense);
+        // Set the background color of the text.
+      }
+      else {
+        tv1.setTextColor(colorIncome);
+      }
+      tv1.setText(Utils.convAmount(amount,Utils.getSaveInstance(c.getString(columnIndexCurrency))));
+      Long planId = DbUtils.getLongOrNull(c, KEY_PLANID);
       if (planId != null) {
         String planInfo = mPlanTimeInfo.get(planId);
         if (planInfo == null) {
@@ -187,14 +214,43 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
           button.setVisibility(View.VISIBLE);
         }
         ((TextView) convertView.findViewById(R.id.title)).setText(
-            c.getString(c.getColumnIndex(DatabaseConstants.KEY_TITLE))
+            c.getString(columnIndexTitle)
             +" (" + planInfo + ")");
       } else {
         button.setImageResource(R.drawable.manage_plans_icon);
         button.setVisibility(View.VISIBLE);
       }
-      int color = c.getInt(c.getColumnIndex("color"));
+      int color = c.getInt(columnIndexColor);
       convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
+      TextView tv2 = (TextView)convertView.findViewById(R.id.category);
+      CharSequence catText = tv2.getText();
+      if (c.getInt(columnIndexTransferPeer) > 0) {
+        catText = ((amount < 0) ? "=> " : "<= ") + catText;
+      } else {
+        Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
+        if (catId == null) {
+          catText = getString(R.string.no_category_assigned);
+        } else {
+          String label_sub = c.getString(columnIndexLabelSub);
+          if (label_sub != null && label_sub.length() > 0) {
+            catText = catText + categorySeparator + label_sub;
+          }
+        }
+      }
+      SpannableStringBuilder ssb;
+      String comment = c.getString(columnIndexComment);
+      if (comment != null && comment.length() > 0) {
+        ssb = new SpannableStringBuilder(comment);
+        ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, comment.length(), 0);
+        catText = TextUtils.concat(catText,commentSeparator,ssb);
+      }
+      String payee = c.getString(columnIndexPayee);
+      if (payee != null && payee.length() > 0) {
+        ssb = new SpannableStringBuilder(payee);
+        ssb.setSpan(new UnderlineSpan(), 0, payee.length(), 0);
+        catText = TextUtils.concat(catText,commentSeparator,ssb);
+      }
+      tv2.setText(catText);
       return convertView;
     }
   }
@@ -209,7 +265,7 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
     public long getHeaderId(int position) {
       Cursor c = getCursor();
       c.moveToPosition(position);
-      return DbUtils.getLongOrNull(c, DatabaseConstants.KEY_PLANID) == null ?
+      return DbUtils.getLongOrNull(c, KEY_PLANID) == null ?
           0 : 1;
     }
     @Override
@@ -220,16 +276,18 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
       Cursor c = getCursor();
       c.moveToPosition(position);
       ((TextView) convertView.findViewById(R.id.text)).setText(
-          DbUtils.getLongOrNull(c, DatabaseConstants.KEY_PLANID) == null ?
+          DbUtils.getLongOrNull(c, KEY_PLANID) == null ?
               "Templates" : "Plans");
       return convertView;
     }
   }
   public void handleTemplateOrPlan(View v) {
     mTemplatesCursor.moveToPosition((Integer) v.getTag());
-    if (DbUtils.getLongOrNull(mTemplatesCursor, DatabaseConstants.KEY_PLANID) == null) {
+    if (DbUtils.getLongOrNull(mTemplatesCursor, KEY_PLANID) == null) {
     //TODO Strict mode
-      if (Transaction.getInstanceFromTemplate(mTemplatesCursor.getLong(mTemplatesCursor.getColumnIndex(DatabaseConstants.KEY_ROWID))).save() == null)
+      if (Transaction.getInstanceFromTemplate(
+              mTemplatesCursor.getLong(mTemplatesCursor.getColumnIndex(KEY_ROWID)))
+            .save() == null)
         Toast.makeText(getActivity(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
       else
         Toast.makeText(getActivity(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
