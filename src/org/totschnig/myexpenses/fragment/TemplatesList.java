@@ -21,6 +21,7 @@ import java.util.HashMap;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.model.Plan;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -43,13 +44,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.android.calendar.CalendarContractCompat.Events;
-
+//TODO: cache column indexes
 public class TemplatesList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-  private static final String EXTRA_COLUMN = "RecurrenceInfo";
   public static final int TEMPLATES_CURSOR=1;
   public static final int PLANS_CURSOR=2;
   Cursor mTemplatesCursor;
@@ -140,7 +141,7 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
         bundle.putSerializable("plans", plans);
         mManager.initLoader(PLANS_CURSOR, bundle, this);
       } else {
-        ((SimpleCursorAdapter) mAdapter).swapCursor(new CursorExtendedWithPlanInfo(mTemplatesCursor,EXTRA_COLUMN));
+        ((SimpleCursorAdapter) mAdapter).swapCursor(mTemplatesCursor);
       }
       break;
     case PLANS_CURSOR:
@@ -155,7 +156,7 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
                 data.getLong(data.getColumnIndex(Events.DTSTART))));
         data.moveToNext();
       }
-      ((SimpleCursorAdapter) mAdapter).swapCursor(new CursorExtendedWithPlanInfo(mTemplatesCursor,EXTRA_COLUMN));
+      ((SimpleCursorAdapter) mAdapter).swapCursor(mTemplatesCursor);
       break;
     }
   }
@@ -172,16 +173,25 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
     public View getView(int position, View convertView, ViewGroup parent) {
       convertView=super.getView(position, convertView, parent);
       ImageView button = (ImageView) convertView.findViewById(R.id.handleTemplateOrPlan);
-      button.setTag(getItemId(position));
+      button.setTag(position);
       Cursor c = getCursor();
       c.moveToPosition(position);
-      if (DbUtils.getLongOrNull(c, DatabaseConstants.KEY_PLANID) != null) {
-        button.setImageResource(android.R.drawable.ic_menu_my_calendar);
+      Long planId = DbUtils.getLongOrNull(c, DatabaseConstants.KEY_PLANID);
+      if (planId != null) {
+        String planInfo = mPlanTimeInfo.get(planId);
+        if (planInfo == null) {
+          planInfo = "Event deleted from Calendar";
+          button.setVisibility(View.GONE);
+        } else {
+          button.setImageResource(android.R.drawable.ic_menu_my_calendar);
+          button.setVisibility(View.VISIBLE);
+        }
         ((TextView) convertView.findViewById(R.id.title)).setText(
             c.getString(c.getColumnIndex(DatabaseConstants.KEY_TITLE))
-            +" (" + c.getString(c.getColumnIndex(EXTRA_COLUMN))+ ")");
+            +" (" + planInfo + ")");
       } else {
         button.setImageResource(R.drawable.manage_plans_icon);
+        button.setVisibility(View.VISIBLE);
       }
       int color = c.getInt(c.getColumnIndex("color"));
       convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
@@ -215,31 +225,17 @@ public class TemplatesList extends SherlockFragment implements LoaderManager.Loa
       return convertView;
     }
   }
-  private class CursorExtendedWithPlanInfo extends CursorWrapper {
-    int additionalColumnIndex;
-    String additionalColumnName;
-    public CursorExtendedWithPlanInfo(Cursor cursor,String additionalColumnName) {
-      super(cursor);
-      this.additionalColumnName = additionalColumnName;
-      additionalColumnIndex =cursor.getColumnCount();
-    }
-    public int getColumnCount() {
-      return super.getColumnCount()+1;
-    }
-    public int getColumnIndex(String columnName) {
-      if (columnName == additionalColumnName) {
-        return additionalColumnIndex;
-      }
-      return super.getColumnIndex(columnName);
-  }
-    public String getString(int columnIndex) {
-      if (columnIndex == additionalColumnIndex) {
-        return mPlanTimeInfo.get(getLong(getColumnIndex(DatabaseConstants.KEY_PLANID)));
-      }
-      return super.getString(columnIndex);
-    }
-  }
   public void handleTemplateOrPlan(View v) {
-    // TODO Auto-generated method stub
+    mTemplatesCursor.moveToPosition((Integer) v.getTag());
+    if (DbUtils.getLongOrNull(mTemplatesCursor, DatabaseConstants.KEY_PLANID) == null) {
+    //TODO Strict mode
+      if (Transaction.getInstanceFromTemplate(mTemplatesCursor.getLong(mTemplatesCursor.getColumnIndex(DatabaseConstants.KEY_ROWID))).save() == null)
+        Toast.makeText(getActivity(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
+      else
+        Toast.makeText(getActivity(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
+      getActivity().finish();
+    } else {
+        Toast.makeText(getActivity(),"TODO: show instance list", Toast.LENGTH_LONG).show();
+    }
   }
 }
