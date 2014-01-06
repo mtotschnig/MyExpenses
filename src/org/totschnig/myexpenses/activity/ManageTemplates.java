@@ -47,6 +47,7 @@ public class ManageTemplates extends ProtectedFragmentActivity {
 
   private static final int DELETE_TEMPLATE = Menu.FIRST;
   private static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;
+  public static final int PLAN_INSTANCES_CURSOR = 1;
 
   public boolean calledFromCalendar;
   private boolean mTransferEnabled = false;
@@ -131,7 +132,7 @@ public class ManageTemplates extends ProtectedFragmentActivity {
       handleTemplateOrPlan(v);
   }
   public void applyTemplate(long id) {
-    //TODO Strict mode
+    //TODO refactor
     if (Transaction.getInstanceFromTemplate(id).save() == null)
       Toast.makeText(getBaseContext(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
     else

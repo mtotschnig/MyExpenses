@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import java.util.Calendar;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
@@ -26,6 +28,8 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat.Events;
+import com.android.calendar.CalendarContractCompat.Instances;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -35,14 +39,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class TemplateDetailFragment extends DialogFragment implements OnClickListener {
+public class TemplateDetailFragment extends DialogFragment implements LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
   Template mTemplate;
   SimpleCursorAdapter mAdapter;
   
@@ -63,7 +72,7 @@ public class TemplateDetailFragment extends DialogFragment implements OnClickLis
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     boolean type = mTemplate.amount.getAmountMinor() > 0 ? ExpenseEdit.INCOME : ExpenseEdit.EXPENSE;
-    Context ctx = getActivity();
+    final ManageTemplates ctx = (ManageTemplates) getActivity();
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     final LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.template_detail, null);
@@ -115,6 +124,33 @@ public class TemplateDetailFragment extends DialogFragment implements OnClickLis
         if (c.moveToFirst()) {
           ((TextView) view.findViewById(R.id.Plan)).setText(
               Plan.prettyTimeInfo(ctx, c.getString(1), c.getLong(0)));
+          ListView lv = (ListView) view.findViewById(R.id.list);
+          View emptyView = view.findViewById(R.id.empty);
+          // Create an array to specify the fields we want to display in the list
+          String[] from = new String[]{Instances.BEGIN};
+          // and an array of the fields we want to bind those fields to
+          int[] to = new int[]{R.id.date};
+          mAdapter = new SimpleCursorAdapter(ctx, R.layout.plan_instance_row, null, from, to,0) {
+            Calendar calendar = Calendar.getInstance();
+            java.text.DateFormat dateFormat = java.text.DateFormat.
+                getDateInstance(java.text.DateFormat.FULL);
+            @Override
+            public void setViewText(TextView v, String text) {
+              switch (v.getId()) {
+              case R.id.date:
+                calendar.setTimeInMillis(Long.valueOf(text));
+                text = dateFormat.format(calendar.getTime());
+              }
+              super.setViewText(v, text);
+            }
+          };
+          lv.setAdapter(mAdapter);
+          lv.setEmptyView(emptyView);
+          LoaderManager manager = ctx.getSupportLoaderManager();
+          if (manager.getLoader(ManageTemplates.PLAN_INSTANCES_CURSOR) != null && !manager.getLoader(ManageTemplates.PLAN_INSTANCES_CURSOR).isReset())
+            manager.restartLoader(ManageTemplates.PLAN_INSTANCES_CURSOR, null, this);
+          else
+            manager.initLoader(ManageTemplates.PLAN_INSTANCES_CURSOR, null, this);
         } else {
           view.findViewById(R.id.PlanRow).setVisibility(View.GONE);
         }
@@ -148,5 +184,42 @@ public class TemplateDetailFragment extends DialogFragment implements OnClickLis
         ctx.finish();
       }
     }
+  }
+  @Override
+  public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    switch(id) {
+    case ManageTemplates.PLAN_INSTANCES_CURSOR:
+      // The ID of the recurring event whose instances you are searching
+      // for in the Instances table
+      String selection = Instances.EVENT_ID + " = " + mTemplate.planId;
+      // Construct the query with the desired date range.
+      Uri.Builder builder = Instances.CONTENT_URI.buildUpon();
+      long now = System.currentTimeMillis();
+      ContentUris.appendId(builder, now);
+      ContentUris.appendId(builder, now + 7776000000L); //90 days
+      return new CursorLoader(
+          getActivity(),
+          builder.build(),
+          new String[]{
+            Instances._ID,
+            Instances.BEGIN
+          },
+          selection,
+          null,
+          null);
+    }
+    return null;
+  }
+  @Override
+  public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    int id = loader.getId();
+    switch(id) {
+      case ManageTemplates.PLAN_INSTANCES_CURSOR:
+      mAdapter.swapCursor(data);
+    }
+  }
+  @Override
+  public void onLoaderReset(Loader<Cursor> loader) {
+    mAdapter.swapCursor(null);
   }
 }
