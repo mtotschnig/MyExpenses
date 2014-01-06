@@ -52,7 +52,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -62,11 +61,9 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class TransactionDetailFragment extends DialogFragment implements LoaderManager.LoaderCallbacks<Cursor>,OnClickListener {
   Transaction mTransaction;
@@ -258,6 +255,10 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
     }
   }
   @Override
+  public void onLoaderReset(Loader<Cursor> loader) {
+    //nothing to do
+  }
+  @Override
   public void onClick(DialogInterface dialog, int which) {
     if (which == AlertDialog.BUTTON_POSITIVE) {
       MyExpenses ctx = (MyExpenses) getActivity();
@@ -273,9 +274,5 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
     } else {
       this.dismiss();
     }
-  }
-  @Override
-  public void onLoaderReset(Loader<Cursor> loader) {
-    //nothing to do
   }
 }
