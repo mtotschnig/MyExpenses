@@ -313,8 +313,9 @@ public class MyExpenses extends LaunchActivity implements
       String currentCurrency = Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode();
       int columnIndexCurrency = mAccountsCursor.getColumnIndex(KEY_CURRENCY);
       while (mAccountsCursor.isAfterLast() == false) {
-        if (mAccountsCursor.getString(columnIndexCurrency) == currentCurrency) {
+        if (mAccountsCursor.getString(columnIndexCurrency).equals(currentCurrency)) {
           accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
+          break;
         }
         mAccountsCursor.moveToNext();
       }
