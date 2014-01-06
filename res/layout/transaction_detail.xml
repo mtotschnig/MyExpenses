@@ -90,32 +90,33 @@
         </LinearLayout>
       </TableRow>
     </TableLayout>
+
     <LinearLayout
-    android:id="@+id/SplitContainer"
-    android:orientation="vertical"
-    android:layout_height="0px"
-    android:layout_weight="1"
-    android:layout_width="fill_parent">
+		    android:id="@+id/SplitContainer"
+		    android:orientation="vertical"
+		    android:layout_height="0px"
+		    android:layout_weight="1"
+		    android:layout_width="fill_parent">
       <TextView
-        style="@style/headingStyle"
-        android:text="@string/split_parts_heading"/>
-        <ListView
-      android:id="@+id/list"
-      android:layout_width="fill_parent"
-      android:layout_height="0px"
-      android:layout_weight="1" />
-    <TextView style="@style/dialog_text"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        android:gravity="center"
-        android:id="@+id/empty"
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
-        android:text="@string/no_split_parts" />
-        <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#ffffff"/>
-        </LinearLayout>
+          style="@style/headingStyle"
+          android:text="@string/split_parts_heading"/>
+      <ListView
+		      android:id="@+id/list"
+		      android:layout_width="fill_parent"
+		      android:layout_height="0px"
+		      android:layout_weight="1" />
+      <TextView style="@style/dialog_text"
+	        android:paddingRight="10dp"
+	        android:paddingLeft="10dp"
+	        android:gravity="center"
+	        android:id="@+id/empty"
+	        android:layout_width="fill_parent"
+	        android:layout_height="0px"
+	        android:layout_weight="1"
+	        android:text="@string/no_split_parts" />
+      <View
+	        android:layout_width="fill_parent"
+	        android:layout_height="1dp"
+	        android:background="#ffffff"/>
+    </LinearLayout>
  </LinearLayout>

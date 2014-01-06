@@ -33,6 +33,16 @@
             android:text="@string/title"/>
         <TextView android:id="@+id/Title" style="@style/dialog_text"/>
       </TableRow>
+      <TableRow android:id="@+id/AccountRow">
+        <TextView style="@style/form_label_dialog"
+            android:id="@+id/AccountLabel" android:text="@string/account"/>
+        <TextView android:id="@+id/Account" style="@style/dialog_text"/>
+      </TableRow>
+      <TableRow android:id="@+id/CategoryRow">
+        <TextView style="@style/form_label_dialog"
+            android:id="@+id/CategoryLabel" android:text="@string/category" />
+        <TextView android:id="@+id/Category"  style="@style/dialog_text"/>
+      </TableRow>
       <TableRow>
         <TextView style="@style/form_label_dialog"
             android:text="@string/amount"/>
@@ -42,11 +52,6 @@
         <TextView style="@style/form_label_dialog"
             android:text="@string/comment" />
         <TextView android:id="@+id/Comment"  style="@style/dialog_text"/>
-      </TableRow>
-      <TableRow android:id="@+id/CategoryRow">
-        <TextView style="@style/form_label_dialog"
-            android:id="@+id/CategoryLabel" android:text="@string/category" />
-        <TextView android:id="@+id/Category"  style="@style/dialog_text"/>
       </TableRow>
       <TableRow android:id="@+id/PayeeRow">
         <TextView style="@style/form_label_dialog"
@@ -67,4 +72,32 @@
             android:id="@+id/Plan" style="@style/dialog_text"/>
       </TableRow>
     </TableLayout>
+     <LinearLayout
+        android:id="@+id/InstancesContainer"
+        android:orientation="vertical"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:layout_width="fill_parent">
+      <TextView
+          style="@style/headingStyle"
+          android:text="@string/plan_upcoming_instances_heading"/>
+      <ListView
+          android:id="@+id/list"
+          android:layout_width="fill_parent"
+          android:layout_height="0px"
+          android:layout_weight="1" />
+      <TextView style="@style/dialog_text"
+          android:paddingRight="10dp"
+          android:paddingLeft="10dp"
+          android:gravity="center"
+          android:id="@+id/empty"
+          android:layout_width="fill_parent"
+          android:layout_height="0px"
+          android:layout_weight="1"
+          android:text="@string/no_upcoming_instances" />
+      <View
+          android:layout_width="fill_parent"
+          android:layout_height="1dp"
+          android:background="#ffffff"/>
+    </LinearLayout>
  </LinearLayout>

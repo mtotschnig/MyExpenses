@@ -209,6 +209,7 @@
   <string name="no_split_parts">No split parts.</string>
   <string name="no_templates">No templates.</string>
   <string name="no_title_given">You did not enter any title.</string>
+  <string name="no_upcoming_instances">No upcoming_instances.</string>
   <string name="not_deletable_mapped_transactions">Cannot delete, because mapped transactions exist.</string>
   <string name="not_deletable_mapped_templates">Cannot delete, because mapped templates exist.</string>
   <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
@@ -241,6 +242,7 @@
   <!-- On Jelly Bean and above, we offer the option of creating a local calendar -->
   <string name="planner_setup_info_jb">You can either create a local dedicated calendar or select an existing one in the settings.</string>
   <string name="planner_setup_info">Please select a calendar for storing plans in the settings.</string>
+  <string name="plan_upcoming_instances_heading">Upcoming instances</string>
   <!-- payment methods -->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Credit card</string>

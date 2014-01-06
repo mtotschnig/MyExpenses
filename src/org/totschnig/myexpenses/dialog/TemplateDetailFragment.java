@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
@@ -61,21 +62,27 @@ public class TemplateDetailFragment extends DialogFragment implements OnClickLis
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
+    boolean type = mTemplate.amount.getAmountMinor() > 0 ? ExpenseEdit.INCOME : ExpenseEdit.EXPENSE;
     Context ctx = getActivity();
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     final LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.template_detail, null);
     //title
     ((TextView) view.findViewById(R.id.Title)).setText(mTemplate.title);
-    if ((mTemplate.catId != null && mTemplate.catId > 0) ||
-        mTemplate.isTransfer) {
+    String accountLabel = Account.getInstanceFromDb(mTemplate.accountId).label;
+    if (mTemplate.isTransfer) {
+      ((TextView) view.findViewById(R.id.Account)).setText(type ? mTemplate.label : accountLabel);
+      ((TextView) view.findViewById(R.id.Category)).setText(type ? accountLabel : mTemplate.label);
+      ((TextView) view.findViewById(R.id.AccountLabel)).setText(R.string.transfer_from_account);
+      ((TextView) view.findViewById(R.id.CategoryLabel)).setText(R.string.transfer_to_account);
+    } else {
+      ((TextView) view.findViewById(R.id.Account)).setText(accountLabel);
+      if (mTemplate.catId != null && mTemplate.catId > 0) {
       ((TextView) view.findViewById(R.id.Category)).setText(mTemplate.label);
-      if (mTemplate.isTransfer) {
-        ((TextView) view.findViewById(R.id.CategoryLabel)).setText(R.string.account);
+      } else {
+        view.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
       }
     }
-    else
-      view.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
     //amount
     ((TextView) view.findViewById(R.id.Amount)).setText(Utils.formatCurrency(mTemplate.amount));
     //comment
@@ -112,8 +119,10 @@ public class TemplateDetailFragment extends DialogFragment implements OnClickLis
           view.findViewById(R.id.PlanRow).setVisibility(View.GONE);
         }
         c.close();
-    } else
+    } else {
       view.findViewById(R.id.PlanRow).setVisibility(View.GONE);
+      view.findViewById(R.id.InstancesContainer).setVisibility(View.GONE);
+    }
     return new AlertDialog.Builder(ctx)
       .setTitle(R.string.template)
       .setView(view)
