@@ -82,7 +82,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     mAdapter = new MyExpandableListAdapter(
         getActivity(),
         null,
-        R.layout.template_row,
+        R.layout.plan_row,
         R.layout.plan_instance_row,
         new String[]{KEY_TITLE,KEY_LABEL_MAIN,KEY_AMOUNT},
         new int[]{R.id.title,R.id.category,R.id.amount},
