@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.DataObjectNotFoundException;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
@@ -50,6 +51,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TemplateDetailFragment extends DialogFragment implements LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
   Template mTemplate;
@@ -67,12 +69,23 @@ public class TemplateDetailFragment extends DialogFragment implements LoaderMana
     super.onCreate(savedInstanceState);
     final Bundle bundle = getArguments();
     //TODO strict mode violation
-    mTemplate = Template.getInstanceFromDb(bundle.getLong("id"));
+    try {
+      mTemplate = Template.getInstanceFromDb(bundle.getLong("id"));
+    } catch (DataObjectNotFoundException e) {
+      mTemplate = null;
+    }
   }
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    boolean type = mTemplate.amount.getAmountMinor() > 0 ? ExpenseEdit.INCOME : ExpenseEdit.EXPENSE;
     final ManageTemplates ctx = (ManageTemplates) getActivity();
+    if (mTemplate == null) {
+      return new AlertDialog.Builder(ctx)
+      .setTitle(R.string.template)
+      .setMessage("Template associated with event could not be found")
+      .setNegativeButton(android.R.string.ok,this)
+      .create();
+    }
+    boolean type = mTemplate.amount.getAmountMinor() > 0 ? ExpenseEdit.INCOME : ExpenseEdit.EXPENSE;
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     final LayoutInflater li = LayoutInflater.from(wrappedCtx);
     View view = li.inflate(R.layout.template_detail, null);
@@ -180,7 +193,7 @@ public class TemplateDetailFragment extends DialogFragment implements LoaderMana
       ctx.applyTemplate(mTemplate.id);
     case AlertDialog.BUTTON_NEGATIVE:
       if (ctx.calledFromCalendar) {
-        ctx.setResult(Activity.RESULT_OK);
+        ctx.setResult(mTemplate == null ? Activity.RESULT_CANCELED : Activity.RESULT_OK);
         ctx.finish();
       }
     }
