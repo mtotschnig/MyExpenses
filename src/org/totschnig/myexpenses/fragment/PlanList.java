@@ -18,9 +18,11 @@ package org.totschnig.myexpenses.fragment;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Transaction;
@@ -29,8 +31,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -40,6 +44,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +60,8 @@ import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.CalendarContractCompat.Instances;
 
 public class PlanList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-  public static final int TEMPLATES_CURSOR=1;
-  public static final int PLANS_CURSOR=2;
+  public static final int TEMPLATES_CURSOR = -1;
+  public static final int PLANS_CURSOR  =-2;
   Cursor mTemplatesCursor;
   private HashMap<Long,String> mPlanTimeInfo;
   private MyExpandableListAdapter mAdapter;
@@ -126,12 +131,31 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         Events._ID + " IN (" + TextUtils.join(",",(ArrayList<Long>) bundle.getSerializable("plans"))  + ")",
         null,
         null);
+    default:
+      // The ID of the recurring event whose instances you are searching
+      // for in the Instances table
+      String selection = Instances.EVENT_ID + " = " + bundle.getLong("plan_id");
+      // Construct the query with the desired date range.
+      Uri.Builder builder = Instances.CONTENT_URI.buildUpon();
+      long now = System.currentTimeMillis();
+      ContentUris.appendId(builder, now);
+      ContentUris.appendId(builder, now + 7776000000L); //90 days
+      return new CursorLoader(
+          getActivity(),
+          builder.build(),
+          new String[]{
+            Instances._ID,
+            Instances.BEGIN
+          },
+          selection,
+          null,
+          null);
     }
-    return null;
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
-    switch (loader.getId()) {
+    int id = loader.getId();
+    switch (id) {
     case TEMPLATES_CURSOR:
       mTemplatesCursor = c;
       if (!indexesCalculated) {
@@ -178,17 +202,37 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       }
       mAdapter.setGroupCursor(mTemplatesCursor);
       break;
+    default:
+      //check if group still exists
+      if (mAdapter.getGroupId(id) != 0)
+          mAdapter.setChildrenCursor(id, c);
     }
   }
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
-    mTemplatesCursor = null;
-    mAdapter.setGroupCursor(null);
+    int id = loader.getId();
+    switch (id) {
+    case TEMPLATES_CURSOR:
+      mTemplatesCursor = null;
+      mAdapter.setGroupCursor(null);
+    case PLANS_CURSOR:
+      mPlanTimeInfo = null;
+    default:
+      try {
+        mAdapter.setChildrenCursor(id, null);
+      } catch (NullPointerException e) {
+        Log.w("TAG", "Adapter expired, try again on the next query: "
+                + e.getMessage());
+      }
+    }
   }
 
   public class MyExpandableListAdapter extends SimpleCursorTreeAdapter {
     String categorySeparator = " : ",
         commentSeparator = " / ";
+    Calendar calendar = Calendar.getInstance();
+    java.text.DateFormat dateFormat = java.text.DateFormat.
+        getDateInstance(java.text.DateFormat.FULL);
     public MyExpandableListAdapter(Context context, Cursor cursor, int groupLayout,
             int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
             int[] childrenTo) {
@@ -196,11 +240,18 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
                 childrenTo);
     }
     @Override
+    public void setViewText(TextView v, String text) {
+      switch (v.getId()) {
+      case R.id.date:
+        calendar.setTimeInMillis(Long.valueOf(text));
+        text = dateFormat.format(calendar.getTime());
+      }
+      super.setViewText(v, text);
+    }
+    @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
             View convertView, ViewGroup parent) {
       convertView= super.getGroupView(groupPosition, isExpanded, convertView, parent);
-      ImageView button = (ImageView) convertView.findViewById(R.id.handleTemplateOrPlan);
-      button.setTag(groupPosition);
       Cursor c = getCursor();
       c.moveToPosition(groupPosition);
       TextView tv1 = (TextView)convertView.findViewById(R.id.amount);
@@ -214,22 +265,13 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       }
       tv1.setText(Utils.convAmount(amount,Utils.getSaveInstance(c.getString(columnIndexCurrency))));
       Long planId = DbUtils.getLongOrNull(c, KEY_PLANID);
-      if (planId != null) {
-        String planInfo = mPlanTimeInfo.get(planId);
-        if (planInfo == null) {
-          planInfo = "Event deleted from Calendar";
-          button.setVisibility(View.GONE);
-        } else {
-          button.setImageResource(android.R.drawable.ic_menu_my_calendar);
-          button.setVisibility(View.VISIBLE);
-        }
-        ((TextView) convertView.findViewById(R.id.title)).setText(
-            c.getString(columnIndexTitle)
-            +" (" + planInfo + ")");
-      } else {
-        button.setImageResource(R.drawable.manage_plans_icon);
-        button.setVisibility(View.VISIBLE);
+      String planInfo = mPlanTimeInfo.get(planId);
+      if (planInfo == null) {
+        planInfo = "Event deleted from Calendar";
       }
+      ((TextView) convertView.findViewById(R.id.title)).setText(
+          c.getString(columnIndexTitle)
+          +" (" + planInfo + ")");
       int color = c.getInt(columnIndexColor);
       convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
       TextView tv2 = (TextView)convertView.findViewById(R.id.category);
@@ -265,23 +307,26 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     }
     @Override
     protected Cursor getChildrenCursor(Cursor groupCursor) {
-      // TODO Auto-generated method stub
+      long planId = groupCursor.getLong(groupCursor.getColumnIndexOrThrow(KEY_PLANID));
+      Bundle bundle = new Bundle();
+      bundle.putLong("plan_id", planId);
+      int groupPos = groupCursor.getPosition();
+      if (mManager.getLoader(groupPos) != null && !mManager.getLoader(groupPos).isReset()) {
+          try {
+            mManager.restartLoader(groupPos, bundle, PlanList.this);
+          } catch (NullPointerException e) {
+            // a NPE is thrown in the following scenario:
+            //1)open a group
+            //2)orientation change
+            //3)open the same group again
+            //in this scenario getChildrenCursor is called twice, second time leads to error
+            //maybe it is trying to close the group that had been kept open before the orientation change
+            e.printStackTrace();
+          }
+      } else {
+        mManager.initLoader(groupPos, bundle, PlanList.this);
+      }
       return null;
-    }
-  }
-  public void handleTemplateOrPlan(View v) {
-    mTemplatesCursor.moveToPosition((Integer) v.getTag());
-    if (DbUtils.getLongOrNull(mTemplatesCursor, KEY_PLANID) == null) {
-    //TODO Strict mode
-      if (Transaction.getInstanceFromTemplate(
-              mTemplatesCursor.getLong(mTemplatesCursor.getColumnIndex(KEY_ROWID)))
-            .save() == null)
-        Toast.makeText(getActivity(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
-      else
-        Toast.makeText(getActivity(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
-      getActivity().finish();
-    } else {
-        Toast.makeText(getActivity(),"TODO: show instance list", Toast.LENGTH_LONG).show();
     }
   }
 }

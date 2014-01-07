@@ -190,7 +190,7 @@ public class TemplateDetailFragment extends DialogFragment implements LoaderMana
       ctx.startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
       break;
     case AlertDialog.BUTTON_NEUTRAL:
-      ctx.applyTemplate(mTemplate.id);
+      //ctx.applyTemplate(mTemplate.id);
     case AlertDialog.BUTTON_NEGATIVE:
       if (ctx.calledFromCalendar) {
         ctx.setResult(mTemplate == null ? Activity.RESULT_CANCELED : Activity.RESULT_OK);

@@ -21,6 +21,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 <TextView
+    android:layout_centerVertical="true"
     android:text="DATE"
     android:id="@+id/date" 
     android:layout_width="wrap_content"

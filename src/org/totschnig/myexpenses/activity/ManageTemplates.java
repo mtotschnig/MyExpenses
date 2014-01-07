@@ -50,8 +50,10 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class ManageTemplates extends ProtectedFragmentActivity implements TabListener {
 
-  private static final int DELETE_TEMPLATE = Menu.FIRST;
-  private static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;
+  public static final int DELETE_TEMPLATE = Menu.FIRST;
+  public static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;
+  public static final int EDIT_TEMPLATE = Menu.FIRST +2;
+  public static final int CREATE_INSTANCE_SAVE = Menu.FIRST +3;
   public static final int PLAN_INSTANCES_CURSOR = 1;
 
   public boolean calledFromCalendar;
@@ -136,17 +138,23 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     }
     return super.dispatchCommand(command, tag);
    }
-
+  @Override
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
+    menu.add(0,EDIT_TEMPLATE,0,R.string.menu_edit);
     menu.add(0,DELETE_TEMPLATE,0,R.string.menu_delete);
-    menu.add(0,CREATE_INSTANCE_EDIT,0,R.string.menu_create_transaction_from_template_and_edit);
   }
   @Override
   public boolean onContextItemSelected(MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     Intent intent;
     switch(item.getItemId()) {
+    case EDIT_TEMPLATE:
+      Intent i = new Intent(this, ExpenseEdit.class);
+      i.putExtra("template_id", info.id);
+      //TODO check what to do on Result
+      startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
+      return true;
     case DELETE_TEMPLATE:
       MessageDialogFragment.newInstance(
           R.string.dialog_title_warning_delete_template,
@@ -162,19 +170,15 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       intent.putExtra("instantiate", true);
       startActivity(intent);
       return true;
+    case CREATE_INSTANCE_SAVE:
+      //TODO strict mode
+      if (Transaction.getInstanceFromTemplate(info.id).save() == null)
+        Toast.makeText(getBaseContext(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
+      else
+        Toast.makeText(getBaseContext(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
+      return true;
     }
     return super.onContextItemSelected(item);
-  }
-  public void handleTemplateOrPlan (View v) {
-    ((TemplatesList) getSupportFragmentManager().findFragmentById(R.id.templates_list)).
-      handleTemplateOrPlan(v);
-  }
-  public void applyTemplate(long id) {
-    //TODO refactor
-    if (Transaction.getInstanceFromTemplate(id).save() == null)
-      Toast.makeText(getBaseContext(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
-    else
-      Toast.makeText(getBaseContext(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
   }
   @Override
   public void onTabSelected(Tab tab, FragmentTransaction ft) {

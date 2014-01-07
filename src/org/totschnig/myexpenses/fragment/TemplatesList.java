@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Transaction;
@@ -39,9 +40,11 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -86,19 +89,14 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
         0);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
-    //requires using activity (ManageTemplates) to implement OnChildClickListener
-    //lv.setOnChildClickListener((OnChildClickListener) getActivity());
-    lv.setOnItemClickListener(new OnItemClickListener()
-    {
-         @Override
-         public void onItemClick(AdapterView<?> a, View v,int position, long id)
-         {
-           TemplateDetailFragment.newInstance(id)
-           .show(getActivity().getSupportFragmentManager(), "TEMPLATE_DETAIL");
-         }
-    });
     registerForContextMenu(lv);
     return v;
+  }
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+    super.onCreateContextMenu(menu, v, menuInfo);
+    menu.add(0,ManageTemplates.CREATE_INSTANCE_SAVE,0,R.string.menu_create_transaction_from_template_and_save);
+    menu.add(0,ManageTemplates.CREATE_INSTANCE_EDIT,0,R.string.menu_create_transaction_from_template_and_edit);
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
@@ -146,8 +144,6 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       convertView=super.getView(position, convertView, parent);
-      ImageView button = (ImageView) convertView.findViewById(R.id.handleTemplateOrPlan);
-      button.setTag(position);
       Cursor c = getCursor();
       c.moveToPosition(position);
       TextView tv1 = (TextView)convertView.findViewById(R.id.amount);
@@ -192,21 +188,6 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
       }
       tv2.setText(catText);
       return convertView;
-    }
-  }
-  public void handleTemplateOrPlan(View v) {
-    mTemplatesCursor.moveToPosition((Integer) v.getTag());
-    if (DbUtils.getLongOrNull(mTemplatesCursor, KEY_PLANID) == null) {
-    //TODO Strict mode
-      if (Transaction.getInstanceFromTemplate(
-              mTemplatesCursor.getLong(mTemplatesCursor.getColumnIndex(KEY_ROWID)))
-            .save() == null)
-        Toast.makeText(getActivity(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
-      else
-        Toast.makeText(getActivity(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
-      getActivity().finish();
-    } else {
-        Toast.makeText(getActivity(),"TODO: show instance list", Toast.LENGTH_LONG).show();
     }
   }
 }
