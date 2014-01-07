@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_113">
+    <item>Bug fixes: Issues #104,#105,#106,#107</item>
+  </string-array>
   <string-array name="whats_new_112">
     <item>Fixed handling of week overlapping end/start of year in grouping by week</item>
   </string-array>
