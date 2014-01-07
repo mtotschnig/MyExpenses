@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
@@ -64,6 +65,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   public static final int PLANS_CURSOR  =-2;
   Cursor mTemplatesCursor;
   private HashMap<Long,String> mPlanTimeInfo;
+  private HashMap<Long,Long> mInstance2TransactionMap = new HashMap<Long,Long>();
   private MyExpandableListAdapter mAdapter;
   //private SimpleCursorAdapter mAdapter;
   //private StickyListHeadersListView mListView;
@@ -72,7 +74,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   
   private int columnIndexPlanId, columnIndexAmount, columnIndexLabelSub, columnIndexComment,
     columnIndexPayee, columnIndexTitle, columnIndexColor,columnIndexTransferPeer,
-    columnIndexCurrency;
+    columnIndexCurrency, columnIndexRowId;
   boolean indexesCalculated = false;
   
   
@@ -132,24 +134,38 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         null,
         null);
     default:
-      // The ID of the recurring event whose instances you are searching
-      // for in the Instances table
-      String selection = Instances.EVENT_ID + " = " + bundle.getLong("plan_id");
-      // Construct the query with the desired date range.
-      Uri.Builder builder = Instances.CONTENT_URI.buildUpon();
-      long now = System.currentTimeMillis();
-      ContentUris.appendId(builder, now);
-      ContentUris.appendId(builder, now + 7776000000L); //90 days
-      return new CursorLoader(
-          getActivity(),
-          builder.build(),
-          new String[]{
-            Instances._ID,
-            Instances.BEGIN
-          },
-          selection,
-          null,
-          null);
+      if (id % 2 == 0) {
+        // The ID of the recurring event whose instances you are searching
+        // for in the Instances table
+        String selection = Instances.EVENT_ID + " = " + bundle.getLong("plan_id");
+        // Construct the query with the desired date range.
+        Uri.Builder builder = Instances.CONTENT_URI.buildUpon();
+        long now = System.currentTimeMillis();
+        ContentUris.appendId(builder, now);
+        ContentUris.appendId(builder, now + 7776000000L); //90 days
+        return new CursorLoader(
+            getActivity(),
+            builder.build(),
+            new String[]{
+              Instances._ID,
+              Instances.BEGIN
+            },
+            selection,
+            null,
+            null);
+      } else {
+        return new CursorLoader(
+            getActivity(),
+            TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+            new String[]{
+              KEY_TEMPLATEID,
+              KEY_INSTANCEID,
+              KEY_TRANSACTIONID
+            },
+            KEY_TEMPLATEID + " = ?",
+            new String[]{bundle.getString("template_id")},
+            null);
+      }
     }
   }
   @Override
@@ -159,6 +175,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     case TEMPLATES_CURSOR:
       mTemplatesCursor = c;
       if (!indexesCalculated) {
+        columnIndexRowId = c.getColumnIndex(KEY_ROWID);
         columnIndexPlanId = c.getColumnIndex(KEY_PLANID);
         columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
@@ -174,15 +191,18 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         mTemplatesCursor.moveToFirst();
         ArrayList<Long> plans = new ArrayList<Long>();
         long planId;
-        Bundle bundle = new Bundle();
+        Bundle planBundle = new Bundle();
         while (mTemplatesCursor.isAfterLast() == false) {
+          Bundle instanceBundle = new Bundle();
+          instanceBundle.putString("template_id", mTemplatesCursor.getString(columnIndexRowId));
+          mManager.initLoader(mTemplatesCursor.getPosition()*2+1, instanceBundle, this);
           if ((planId = mTemplatesCursor.getLong(columnIndexPlanId)) != 0L) {
             plans.add(planId);
           }
           mTemplatesCursor.moveToNext();
         }
-        bundle.putSerializable("plans", plans);
-        mManager.initLoader(PLANS_CURSOR, bundle, this);
+        planBundle.putSerializable("plans", plans);
+        mManager.initLoader(PLANS_CURSOR, planBundle, this);
       } else {
         mPlanTimeInfo = new HashMap<Long, String>();
         mAdapter.setGroupCursor(mTemplatesCursor);
@@ -203,9 +223,20 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       mAdapter.setGroupCursor(mTemplatesCursor);
       break;
     default:
-      //check if group still exists
-      if (mAdapter.getGroupId(id) != 0)
-          mAdapter.setChildrenCursor(id, c);
+      int groupPosition = id / 2;
+      if (id % 2 == 0) {
+        //check if group still exists
+        if (mAdapter.getGroupId(groupPosition) != 0)
+            mAdapter.setChildrenCursor(groupPosition, c);
+      } else {
+        c.moveToFirst();
+        while (c.isAfterLast() == false) {
+          mInstance2TransactionMap.put(
+              c.getLong(c.getColumnIndex(KEY_INSTANCEID)),
+              c.getLong(c.getColumnIndex(KEY_TRANSACTIONID)));
+          c.moveToNext();
+        }
+      }
     }
   }
   @Override
@@ -218,11 +249,14 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     case PLANS_CURSOR:
       mPlanTimeInfo = null;
     default:
-      try {
-        mAdapter.setChildrenCursor(id, null);
-      } catch (NullPointerException e) {
-        Log.w("TAG", "Adapter expired, try again on the next query: "
-                + e.getMessage());
+      int groupPosition = id / 2;
+      if (id % 2 == 0) {
+        try {
+          mAdapter.setChildrenCursor(groupPosition, null);
+        } catch (NullPointerException e) {
+          Log.w("TAG", "Adapter expired, try again on the next query: "
+                  + e.getMessage());
+        }
       }
     }
   }
@@ -247,6 +281,23 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         text = dateFormat.format(calendar.getTime());
       }
       super.setViewText(v, text);
+    }
+    @Override
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
+        View convertView, ViewGroup parent) {
+      convertView= super.getChildView(groupPosition, childPosition, isLastChild, convertView, parent);
+      Cursor c = getChild(groupPosition, childPosition);
+      ImageView iv = (ImageView)convertView.findViewById(R.id.planInstanceStatus);
+      Long instanceId = c.getLong(c.getColumnIndex(Instances._ID));
+      Log.i(MyApplication.TAG, "looking up instance2transactionamp for instance "+instanceId);
+      Long transactionId = mInstance2TransactionMap.get(instanceId);
+      if (transactionId == null)
+        iv.setImageResource(R.drawable.ic_stat_open);
+      else if (transactionId == 0L)
+        iv.setImageResource(R.drawable.ic_stat_cancelled);
+      else
+        iv.setImageResource(R.drawable.ic_stat_applied);
+      return convertView;
     }
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
@@ -308,12 +359,15 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     @Override
     protected Cursor getChildrenCursor(Cursor groupCursor) {
       long planId = groupCursor.getLong(groupCursor.getColumnIndexOrThrow(KEY_PLANID));
+      
       Bundle bundle = new Bundle();
       bundle.putLong("plan_id", planId);
-      int groupPos = groupCursor.getPosition();
-      if (mManager.getLoader(groupPos) != null && !mManager.getLoader(groupPos).isReset()) {
+      int groupLoaderId = groupCursor.getPosition()*2;
+      //we use groupPos*2 as id of the calendar instances query
+      //and groupPos*2+1 as id of the plan instance status query
+      if (mManager.getLoader(groupLoaderId) != null && !mManager.getLoader(groupLoaderId).isReset()) {
           try {
-            mManager.restartLoader(groupPos, bundle, PlanList.this);
+            mManager.restartLoader(groupLoaderId, bundle, PlanList.this);
           } catch (NullPointerException e) {
             // a NPE is thrown in the following scenario:
             //1)open a group
@@ -324,7 +378,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
             e.printStackTrace();
           }
       } else {
-        mManager.initLoader(groupPos, bundle, PlanList.this);
+        mManager.initLoader(groupLoaderId, bundle, PlanList.this);
       }
       return null;
     }

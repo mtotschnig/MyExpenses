@@ -165,6 +165,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     "CREATE TABLE " + TABLE_CURRENCIES
       + " (" + KEY_ROWID  + " integer primary key autoincrement, code text unique not null);";
 
+  /**
+   * in this table we store links between plan instances and transactions,
+   * thus allowing us to track if an instance has been applied, and to allow editing or cancellation of
+   * transactions added from plan instances 
+   */
+  private static final String PLAN_INSTANCE_STATUS_CREATE =
+      "CREATE TABLE " + TABLE_PLAN_INSTANCE_STATUS 
+      + " ( " + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ")," +
+      KEY_INSTANCEID + " integer," +
+      KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + "), " +
+      "primary key (" + KEY_INSTANCEID + "," + KEY_TRANSACTIONID + "));";
+  
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
 
@@ -208,6 +220,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     initialValues.put(KEY_LABEL, "__SPLIT_TRANSACTION__");
     db.insertOrThrow(TABLE_CATEGORIES, null, initialValues);
     insertCurrencies(db);
+    db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
   }
 
   private void insertCurrencies(SQLiteDatabase db) {
@@ -532,6 +545,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("DROP VIEW templates_extended");
       db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
       db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
+      db.execSQL("CREATE TABLE planinstance_transaction " +
+          "(template_id integer references templates(_id), " +
+          "instance_id integer, " +
+          "transaction_id integer references transactions(_id), " +
+          "primary key (instance_id,transaction_id));");
     }
   }
 }

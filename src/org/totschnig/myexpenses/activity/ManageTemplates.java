@@ -141,8 +141,8 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
-    menu.add(0,EDIT_TEMPLATE,0,R.string.menu_edit);
-    menu.add(0,DELETE_TEMPLATE,0,R.string.menu_delete);
+    menu.add(0,EDIT_TEMPLATE,1,R.string.menu_edit);
+    menu.add(0,DELETE_TEMPLATE,1,R.string.menu_delete);
   }
   @Override
   public boolean onContextItemSelected(MenuItem item) {
