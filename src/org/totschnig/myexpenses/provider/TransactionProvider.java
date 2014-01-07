@@ -369,9 +369,7 @@ public class TransactionProvider extends ContentProvider {
       break;
     case TEMPLATES:
       qb.setTables(VIEW_TEMPLATES_EXTENDED);
-      defaultOrderBy = 
-          KEY_PLANID + ","
-          + (MyApplication.getInstance().getSettings()
+      defaultOrderBy = (MyApplication.getInstance().getSettings()
               .getBoolean(MyApplication.PREFKEY_CATEGORIES_SORT_BY_USAGES, true) ?
               KEY_USAGES + " DESC, " : "")
          + KEY_TITLE;

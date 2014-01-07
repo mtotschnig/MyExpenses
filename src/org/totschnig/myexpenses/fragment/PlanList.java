@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
@@ -43,6 +44,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,53 +52,56 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.android.calendar.CalendarContractCompat.Events;
+import com.android.calendar.CalendarContractCompat.Instances;
 
-public class TemplatesList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class PlanList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   public static final int TEMPLATES_CURSOR=1;
+  public static final int PLANS_CURSOR=2;
   Cursor mTemplatesCursor;
-  private SimpleCursorAdapter mAdapter;
+  private HashMap<Long,String> mPlanTimeInfo;
+  private MyExpandableListAdapter mAdapter;
   //private SimpleCursorAdapter mAdapter;
   //private StickyListHeadersListView mListView;
   int mGroupIdColumnIndex;
   private LoaderManager mManager;
   
-  private int columnIndexAmount, columnIndexLabelSub, columnIndexComment,
-    columnIndexPayee, columnIndexColor,columnIndexTransferPeer,
+  private int columnIndexPlanId, columnIndexAmount, columnIndexLabelSub, columnIndexComment,
+    columnIndexPayee, columnIndexTitle, columnIndexColor,columnIndexTransferPeer,
     columnIndexCurrency;
   boolean indexesCalculated = false;
+  
   
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     setColors();
-    View v = inflater.inflate(R.layout.templates_list, null, false);
-    ListView lv = (ListView) v.findViewById(R.id.list);
+    View v = inflater.inflate(R.layout.plans_list, null, false);
+    ExpandableListView lv = (ExpandableListView) v.findViewById(R.id.list);
 
     mManager = getLoaderManager();
     mManager.initLoader(TEMPLATES_CURSOR, null, this);
-    // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{KEY_TITLE,KEY_LABEL_MAIN,KEY_AMOUNT};
-    // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.title,R.id.category,R.id.amount};
-    mAdapter = new MyAdapter(
-        getActivity(), 
-        R.layout.template_row,
+    mAdapter = new MyExpandableListAdapter(
+        getActivity(),
         null,
-        from,
-        to,
-        0);
+        R.layout.template_row,
+        R.layout.plan_instance_row,
+        new String[]{KEY_TITLE,KEY_LABEL_MAIN,KEY_AMOUNT},
+        new int[]{R.id.title,R.id.category,R.id.amount},
+        new String[]{Instances.BEGIN},
+        new int[]{R.id.date}
+        );
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     //requires using activity (ManageTemplates) to implement OnChildClickListener
     //lv.setOnChildClickListener((OnChildClickListener) getActivity());
-    lv.setOnItemClickListener(new OnItemClickListener()
-    {
-         @Override
-         public void onItemClick(AdapterView<?> a, View v,int position, long id)
-         {
-           TemplateDetailFragment.newInstance(id)
-           .show(getActivity().getSupportFragmentManager(), "TEMPLATE_DETAIL");
-         }
-    });
+//    lv.setOnItemClickListener(new OnItemClickListener()
+//    {
+//         @Override
+//         public void onItemClick(AdapterView<?> a, View v,int position, long id)
+//         {
+//           TemplateDetailFragment.newInstance(id)
+//           .show(getActivity().getSupportFragmentManager(), "TEMPLATE_DETAIL");
+//         }
+//    });
     registerForContextMenu(lv);
     return v;
   }
@@ -107,7 +112,18 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
       return new CursorLoader(getActivity(),
         TransactionProvider.TEMPLATES_URI,
         null,
-        KEY_PLANID + " is null",
+        KEY_PLANID + " is not null",
+        null,
+        null);
+    case PLANS_CURSOR:
+      return new CursorLoader(getActivity(),
+        Events.CONTENT_URI,
+        new String[]{
+          Events._ID,
+          Events.DTSTART,
+          Events.RRULE,
+        },
+        Events._ID + " IN (" + TextUtils.join(",",(ArrayList<Long>) bundle.getSerializable("plans"))  + ")",
         null,
         null);
     }
@@ -119,37 +135,74 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
     case TEMPLATES_CURSOR:
       mTemplatesCursor = c;
       if (!indexesCalculated) {
+        columnIndexPlanId = c.getColumnIndex(KEY_PLANID);
         columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
         columnIndexLabelSub = c.getColumnIndex(KEY_LABEL_SUB);
         columnIndexComment = c.getColumnIndex(KEY_COMMENT);
         columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
+        columnIndexTitle = c.getColumnIndex(KEY_TITLE);
         columnIndexColor = c.getColumnIndex(KEY_COLOR);
         columnIndexTransferPeer = c.getColumnIndex(KEY_TRANSFER_PEER);
         columnIndexCurrency = c.getColumnIndex(KEY_CURRENCY);
         indexesCalculated = true;
       }
-      ((SimpleCursorAdapter) mAdapter).swapCursor(mTemplatesCursor);
+      if (mTemplatesCursor.getCount()>0) {
+        mTemplatesCursor.moveToFirst();
+        ArrayList<Long> plans = new ArrayList<Long>();
+        long planId;
+        Bundle bundle = new Bundle();
+        while (mTemplatesCursor.isAfterLast() == false) {
+          if ((planId = mTemplatesCursor.getLong(columnIndexPlanId)) != 0L) {
+            plans.add(planId);
+          }
+          mTemplatesCursor.moveToNext();
+        }
+        bundle.putSerializable("plans", plans);
+        mManager.initLoader(PLANS_CURSOR, bundle, this);
+      } else {
+        mPlanTimeInfo = new HashMap<Long, String>();
+        mAdapter.setGroupCursor(mTemplatesCursor);
+      }
+      break;
+    case PLANS_CURSOR:
+      mPlanTimeInfo = new HashMap<Long, String>();
+      c.moveToFirst();
+      while (c.isAfterLast() == false) {
+        mPlanTimeInfo.put(
+            c.getLong(c.getColumnIndex(Events._ID)),
+            Plan.prettyTimeInfo(
+                getActivity(),
+                c.getString(c.getColumnIndex(Events.RRULE)),
+                c.getLong(c.getColumnIndex(Events.DTSTART))));
+        c.moveToNext();
+      }
+      mAdapter.setGroupCursor(mTemplatesCursor);
       break;
     }
   }
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
-      ((SimpleCursorAdapter) mAdapter).swapCursor(null);
+    mTemplatesCursor = null;
+    mAdapter.setGroupCursor(null);
   }
-  public class MyAdapter extends SimpleCursorAdapter {
+
+  public class MyExpandableListAdapter extends SimpleCursorTreeAdapter {
     String categorySeparator = " : ",
         commentSeparator = " / ";
-    public MyAdapter(Context context, int layout, Cursor c, String[] from,
-        int[] to, int flags) {
-      super(context, layout, c, from, to, flags);
+    public MyExpandableListAdapter(Context context, Cursor cursor, int groupLayout,
+            int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
+            int[] childrenTo) {
+        super(context, cursor, groupLayout, groupFrom, groupTo, childLayout, childrenFrom,
+                childrenTo);
     }
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-      convertView=super.getView(position, convertView, parent);
+    public View getGroupView(int groupPosition, boolean isExpanded,
+            View convertView, ViewGroup parent) {
+      convertView= super.getGroupView(groupPosition, isExpanded, convertView, parent);
       ImageView button = (ImageView) convertView.findViewById(R.id.handleTemplateOrPlan);
-      button.setTag(position);
+      button.setTag(groupPosition);
       Cursor c = getCursor();
-      c.moveToPosition(position);
+      c.moveToPosition(groupPosition);
       TextView tv1 = (TextView)convertView.findViewById(R.id.amount);
       long amount = c.getLong(columnIndexAmount);
       if (amount < 0) {
@@ -160,6 +213,23 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
         tv1.setTextColor(colorIncome);
       }
       tv1.setText(Utils.convAmount(amount,Utils.getSaveInstance(c.getString(columnIndexCurrency))));
+      Long planId = DbUtils.getLongOrNull(c, KEY_PLANID);
+      if (planId != null) {
+        String planInfo = mPlanTimeInfo.get(planId);
+        if (planInfo == null) {
+          planInfo = "Event deleted from Calendar";
+          button.setVisibility(View.GONE);
+        } else {
+          button.setImageResource(android.R.drawable.ic_menu_my_calendar);
+          button.setVisibility(View.VISIBLE);
+        }
+        ((TextView) convertView.findViewById(R.id.title)).setText(
+            c.getString(columnIndexTitle)
+            +" (" + planInfo + ")");
+      } else {
+        button.setImageResource(R.drawable.manage_plans_icon);
+        button.setVisibility(View.VISIBLE);
+      }
       int color = c.getInt(columnIndexColor);
       convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
       TextView tv2 = (TextView)convertView.findViewById(R.id.category);
@@ -192,6 +262,11 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
       }
       tv2.setText(catText);
       return convertView;
+    }
+    @Override
+    protected Cursor getChildrenCursor(Cursor groupCursor) {
+      // TODO Auto-generated method stub
+      return null;
     }
   }
   public void handleTemplateOrPlan(View v) {

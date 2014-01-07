@@ -21,13 +21,14 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
+import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TemplatesList;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.util.Utils;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.ActionBar.TabListener;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.android.calendar.CalendarContractCompat.Events;
@@ -35,7 +36,11 @@ import com.android.calendar.CalendarContractCompat.Events;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +48,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class ManageTemplates extends ProtectedFragmentActivity {
+public class ManageTemplates extends ProtectedFragmentActivity implements TabListener {
 
   private static final int DELETE_TEMPLATE = Menu.FIRST;
   private static final int CREATE_INSTANCE_EDIT = Menu.FIRST +1;
@@ -51,6 +56,8 @@ public class ManageTemplates extends ProtectedFragmentActivity {
 
   public boolean calledFromCalendar;
   private boolean mTransferEnabled = false;
+  ViewPager mViewPager;
+  SectionsPagerAdapter mSectionsPagerAdapter;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +75,37 @@ public class ManageTemplates extends ProtectedFragmentActivity {
       }
       setContentView(R.layout.manage_templates);
       setTitle(R.string.menu_manage_plans);
+
+    // Set up the action bar.
+    final ActionBar actionBar = getSupportActionBar();
+    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+    // Create the adapter that will return a fragment for each of the three
+    // primary sections of the app.
+    mSectionsPagerAdapter = new SectionsPagerAdapter(
+        getSupportFragmentManager());
+
+    // Set up the ViewPager with the sections adapter.
+    mViewPager = (ViewPager) findViewById(R.id.pager);
+    mViewPager.setAdapter(mSectionsPagerAdapter);
+
+    // When swiping between different sections, select the corresponding
+    // tab. We can also use ActionBar.Tab#select() to do this if we have
+    // a reference to the Tab.
+    mViewPager
+        .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+          @Override
+          public void onPageSelected(int position) {
+            actionBar.setSelectedNavigationItem(position);
+          }
+        });
+
+    actionBar.addTab(actionBar.newTab()
+        .setText("Templates")
+        .setTabListener(this));
+    actionBar.addTab(actionBar.newTab()
+        .setText("Plans")
+        .setTabListener(this));
   }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -137,5 +175,39 @@ public class ManageTemplates extends ProtectedFragmentActivity {
       Toast.makeText(getBaseContext(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
     else
       Toast.makeText(getBaseContext(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
+  }
+  @Override
+  public void onTabSelected(Tab tab, FragmentTransaction ft) {
+    mViewPager.setCurrentItem(tab.getPosition());
+  }
+  @Override
+  public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+  }
+  @Override
+  public void onTabReselected(Tab tab, FragmentTransaction ft) {
+  }
+  public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+    public SectionsPagerAdapter(FragmentManager fm) {
+      super(fm);
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+      // getItem is called to instantiate the fragment for the given page.
+      switch (position){
+      case 0:
+        return new TemplatesList();
+      case 1:
+        return new PlanList();
+      }
+      return null;
+    }
+
+    @Override
+    public int getCount() {
+      // Show 3 total pages.
+      return 2;
+    }
   }
 }
