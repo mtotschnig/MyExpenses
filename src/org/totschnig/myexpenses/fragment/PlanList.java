@@ -157,13 +157,16 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     Cursor c = mAdapter.getChild(group,child);
     long date = c.getLong(c.getColumnIndex(Instances.BEGIN));
     long templateId = mTemplatesCursor.getLong(columnIndexRowId);
+    Long transactionId = mInstance2TransactionMap.get(info.id);
+    Intent i;
+    ContentResolver cr = getActivity().getContentResolver();
     switch(item.getItemId()) {
     case R.id.CREATE_INSTANCE_EDIT_COMMAND:
-      Intent intent = new Intent(getActivity(), ExpenseEdit.class);
-      intent.putExtra("template_id", templateId);
-      intent.putExtra("instance_id", info.id);
-      intent.putExtra("instance_date", date);
-      startActivity(intent);
+      i = new Intent(getActivity(), ExpenseEdit.class);
+      i.putExtra("template_id", templateId);
+      i.putExtra("instance_id", info.id);
+      i.putExtra("instance_date", date);
+      startActivity(i);
       return true;
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:
       if (Template.getInstanceFromDb(templateId).applyInstance(info.id,date)) {
@@ -172,9 +175,12 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         Toast.makeText(getActivity(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
       }
       return true;
+    case R.id.EDIT_COMMAND:
+      i = new Intent(getActivity(), ExpenseEdit.class);
+      i.putExtra(KEY_ROWID, transactionId);
+      startActivity(i);
+      return true;
     case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
-      ContentResolver cr = getActivity().getContentResolver();
-      Long transactionId = mInstance2TransactionMap.get(info.id);
       if (transactionId != null && transactionId >0L) {
         Transaction.delete(transactionId);
       } else {
@@ -188,7 +194,18 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       values.put(KEY_INSTANCEID, info.id);
       cr.insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
       mAdapter.notifyDataSetChanged();
+      return true;
+    case R.id.RESET_PLAN_INSTANCE_COMMAND:
+      if (transactionId != null && transactionId >0L) {
+        Transaction.delete(transactionId);
       }
+      cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+          KEY_INSTANCEID + " = ?",
+          new String[]{String.valueOf(info.id)});
+      mInstance2TransactionMap.remove(info.id);
+      mAdapter.notifyDataSetChanged();
+      return true;
+    }
     return false;
   }
   @Override
