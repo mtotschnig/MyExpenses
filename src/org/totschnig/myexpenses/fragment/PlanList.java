@@ -27,12 +27,15 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -169,6 +172,22 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         Toast.makeText(getActivity(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
       }
       return true;
+    case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
+      ContentResolver cr = getActivity().getContentResolver();
+      Long transactionId = mInstance2TransactionMap.get(info.id);
+      if (transactionId != null && transactionId >0L) {
+        Transaction.delete(transactionId);
+      } else {
+        cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+            KEY_INSTANCEID + " = ?",
+            new String[]{String.valueOf(info.id)});
+      }
+      ContentValues values = new ContentValues();
+      values.putNull(KEY_TRANSACTIONID);
+      values.put(KEY_TEMPLATEID, templateId);
+      values.put(KEY_INSTANCEID, info.id);
+      cr.insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
+      mAdapter.notifyDataSetChanged();
       }
     return false;
   }

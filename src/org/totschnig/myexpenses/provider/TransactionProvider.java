@@ -733,6 +733,9 @@ public class TransactionProvider extends ContentProvider {
           new String[]{target,target,segment,target});
       count=1;
       break;
+    case PLANINSTANCE_TRANSACTION_STATUS:
+      count = db.update(TABLE_PLAN_INSTANCE_STATUS, values, where, whereArgs);
+      break;
     default:
       throw new IllegalArgumentException("Unknown URI " + uri);
     }
