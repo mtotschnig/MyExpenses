@@ -125,7 +125,9 @@
   <string name="licence_validation_success">Chiave di licenza convalidata con successo. Le funzionalità speciali sono state attivate.</string>
   <string name="menu_aggregates">Sommato</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply">Applicare</string>
+  <string name="menu_apply_template">Applicare</string>
+  <string name="menu_apply_template_and_edit">Applicare e modificare</string>
+  <string name="menu_apply_template_and_edit">Applicare e salvare</string>
   <string name="menu_back">Indietro</string>
   <string name="menu_backup">Backup</string>
   <string name="menu_clone_transaction">Ricopiare</string>
@@ -144,8 +146,6 @@
   <string name="menu_create_template_for_transaction">Nuovo modello (operazione)</string>
   <string name="menu_create_template_for_transfer">Nuovo modello (trasferimento)</string>
   <string name="menu_create_transaction">Nuova operazione</string>
-  <string name="menu_create_transaction_from_template_and_edit">Nuova e modificare</string>
-  <string name="menu_create_transaction_from_template_and_save">Nuova e salvare</string>
   <string name="menu_create_transfer">Nuovo trasferimento</string>
   <string name="menu_delete">Cancellare</string>
   <string name="menu_distribution">Distribuzione</string>

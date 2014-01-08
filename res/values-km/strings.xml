@@ -123,7 +123,7 @@
   <string name="licence_validation_success">គន្លឹះអាជ្ញាប័ណ្ណបានបញ្ជាក់​សុពលភាព​បានដោយជោគជ័យ​៖ លក្ខណៈពិសេសល្អជាងគេត្រូវបានដោះសោរ</string>
   <string name="menu_aggregates">សរុប</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply">ដាក់ទៅ</string>
+  <string name="menu_apply_template">ដាក់ទៅ</string>
   <string name="menu_back">ត្រឡប់​ក្រោយ</string>
   <string name="menu_backup">ការ​បម្រុង​ទុក</string>
   <string name="menu_clone_transaction">ក្លូន</string>
@@ -142,8 +142,6 @@
   <string name="menu_create_template_for_transaction">ពុម្ពប្រតិបត្តិការថ្មី</string>
   <string name="menu_create_template_for_transfer">ពុម្ពផ្ទេរថ្មី</string>
   <string name="menu_create_transaction">ប្រតិបត្តិការថ្មី</string>
-  <string name="menu_create_transaction_from_template_and_edit">ថ្មី និងកែ</string>
-  <string name="menu_create_transaction_from_template_and_save">ថ្មី និងរក្សាទុក</string>
   <string name="menu_create_transfer">ផ្ទេរថ្មី</string>
   <string name="menu_delete">លុប</string>
   <string name="menu_distribution">ការចែកចាយ</string>

@@ -99,8 +99,8 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
-    menu.add(0,R.id.CREATE_INSTANCE_SAVE,0,R.string.menu_create_transaction_from_template_and_save);
-    menu.add(0,R.id.CREATE_INSTANCE_EDIT,0,R.string.menu_create_transaction_from_template_and_edit);
+    menu.add(0,R.id.CREATE_INSTANCE_SAVE_COMMAND,0,R.string.menu_apply_template_and_save);
+    menu.add(0,R.id.CREATE_INSTANCE_EDIT_COMMAND,0,R.string.menu_apply_template_and_edit);
   }
   @Override
   public boolean onContextItemSelected(MenuItem item) {
@@ -110,13 +110,13 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
     if (((ManageTemplates) getActivity()).dispatchCommand(item.getItemId(),info.id))
       return true;
     switch(item.getItemId()) {
-    case R.id.CREATE_INSTANCE_EDIT:
+    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
       Intent intent = new Intent(getActivity(), ExpenseEdit.class);
       intent.putExtra("template_id", info.id);
       intent.putExtra("instantiate", true);
       startActivity(intent);
       return true;
-    case R.id.CREATE_INSTANCE_SAVE:
+    case R.id.CREATE_INSTANCE_SAVE_COMMAND:
       //TODO strict mode
       if (Transaction.getInstanceFromTemplate(info.id).save() == null)
         Toast.makeText(getActivity(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();

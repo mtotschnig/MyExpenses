@@ -139,7 +139,9 @@
   <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: Premium-Funktionen wurden freigeschaltet.</string>
   <string name="licence_validation_failure">Lizenz-Schlüssel konnte nicht validiert werden.</string>
   <string name="menu_aggregates">Gesamt</string>
-  <string name="menu_apply">Anwenden</string>
+  <string name="menu_apply_template">Anwenden</string>
+  <string name="menu_apply_template_and_edit">Anwenden und verändern</string>
+  <string name="menu_apply_template_and_save">Anwenden und speichern</string>
   <string name="menu_back">Zurück</string>
   <string name="menu_backup">Sicherungskopie</string>
   <string name="menu_clone_transaction">Klonen</string>
@@ -158,8 +160,6 @@
   <string name="menu_create_template">Neue Vorlage</string>
   <string name="menu_create_template_for_transaction">Neue Vorlage (Buchung)</string>
   <string name="menu_create_template_for_transfer">Neue Vorlage (Umbuchung)</string>
-  <string name="menu_create_transaction_from_template_and_edit">Neu und verändern</string>
-  <string name="menu_create_transaction_from_template_and_save">Neu und speichern</string>
   <string name="menu_delete">Löschen</string>
   <string name="menu_distribution">Verteilung</string>
   <string name="menu_edit">Bearbeiten</string>

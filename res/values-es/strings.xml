@@ -124,7 +124,9 @@
   <string name="licence_validation_success">La clave de licencia es válida: Las características Contrib han sido desbloqueadas.</string>
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply">Aplicar</string>
+  <string name="menu_apply_template">Aplicar</string>
+  <string name="menu_apply_template_and_edit">Aplicar y modificar</string>
+  <string name="menu_apply_template_and_save">Aplicar y guardar</string>
   <string name="menu_back">Espalda</string>
   <string name="menu_backup">Copia de seguridad</string>
   <string name="menu_clone_transaction">Clonar</string>
@@ -143,8 +145,6 @@
   <string name="menu_create_template_for_transaction">Nueva plantilla (asiento)</string>
   <string name="menu_create_template_for_transfer">Nueva plantilla (traslado)</string>
   <string name="menu_create_transaction">Nuevo asiento</string>
-  <string name="menu_create_transaction_from_template_and_edit">Nueva y modificar</string>
-  <string name="menu_create_transaction_from_template_and_save">Nueva y guardar</string>
   <string name="menu_create_transfer">Nuevo traslado a otra cuenta</string>
   <string name="menu_delete">Borrar</string>
   <string name="menu_distribution">Distribución</string>

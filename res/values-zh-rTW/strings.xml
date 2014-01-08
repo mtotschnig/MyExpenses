@@ -125,7 +125,7 @@
   <string name="licence_validation_success">許可密鑰驗證成功：高級功能已被解鎖。</string>
   <string name="menu_aggregates">總金額</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply">採用</string>
+  <string name="menu_apply_template">採用</string>
   <string name="menu_back">上一步</string>
   <string name="menu_backup">備份</string>
   <string name="menu_clone_transaction">複製</string>
@@ -144,8 +144,6 @@
   <string name="menu_create_template_for_transaction">新增交易範本</string>
   <string name="menu_create_template_for_transfer">新增轉移範本</string>
   <string name="menu_create_transaction">新增交易</string>
-  <string name="menu_create_transaction_from_template_and_edit">新增及編輯</string>
-  <string name="menu_create_transaction_from_template_and_save">新增並保存</string>
   <string name="menu_create_transfer">新增轉移</string>
   <string name="menu_delete">刪除</string>
   <string name="menu_distribution">發行版</string>

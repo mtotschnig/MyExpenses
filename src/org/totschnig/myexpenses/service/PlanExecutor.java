@@ -136,7 +136,7 @@ public class PlanExecutor extends IntentService {
               applyIntent.putExtra("template_id", template.id);
               builder.addAction(
                   android.R.drawable.ic_menu_save,
-                  getString(R.string.menu_apply),
+                  getString(R.string.menu_apply_template),
                   PendingIntent.getService(this, notificationId, applyIntent, 0));
               builder.setContentIntent(resultIntent);
               notification = builder.build();

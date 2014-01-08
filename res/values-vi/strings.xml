@@ -138,8 +138,6 @@
   <string name="menu_create_template">Mẫu mới</string>
   <string name="menu_create_template_for_transaction">Mẫu giao dịch mới</string>
   <string name="menu_create_template_for_transfer">Mẫu truyền đổi mới</string>
-  <string name="menu_create_transaction_from_template_and_edit">Tạo mới và chỉnh sửa</string>
-  <string name="menu_create_transaction_from_template_and_save">Tạo mới và lưu</string>
   <string name="menu_delete">Xóa</string>
   <string name="menu_distribution">Phân phối</string>
   <string name="menu_edit">Chỉnh sửa</string>

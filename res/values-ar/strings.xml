@@ -135,8 +135,6 @@
   <string name="menu_create_template">نموذج جديد</string>
   <string name="menu_create_template_for_transaction">نموذج عملية جديد</string>
   <string name="menu_create_template_for_transfer">نموذج تحويل جديد</string>
-  <string name="menu_create_transaction_from_template_and_edit">جديد وتعديل</string>
-  <string name="menu_create_transaction_from_template_and_save">جديد وحفظ</string>
   <string name="menu_delete">حذف</string>
   <string name="menu_distribution">توزيع</string>
   <string name="menu_edit">تعديل</string>

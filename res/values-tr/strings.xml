@@ -125,7 +125,9 @@
   <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı: katkı işlevlerinin kilidi kaldırılmıştır.</string>
   <string name="menu_aggregates">Toplam</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply">Uygula</string>
+  <string name="menu_apply_template">Uygula</string>
+  <string name="menu_apply_template_and_edit">Uygula ve düzenle</string>
+  <string name="menu_apply_template_and_save">Uygula ve kaydet</string>
   <string name="menu_back">Önceki</string>
   <string name="menu_backup">Yedekleme</string>
   <string name="menu_clone_transaction">Klonla</string>
@@ -144,8 +146,6 @@
   <string name="menu_create_template_for_transaction">Yeni muamele şablonu</string>
   <string name="menu_create_template_for_transfer">Yeni transfer şablonu</string>
   <string name="menu_create_transaction">Muamele ekle</string>
-  <string name="menu_create_transaction_from_template_and_edit">Yeni ve düzenle</string>
-  <string name="menu_create_transaction_from_template_and_save">Yeni ve kaydet</string>
   <string name="menu_create_transfer">Virman ekle</string>
   <string name="menu_delete">Sil</string>
   <string name="menu_distribution">Dağılım</string>

@@ -128,7 +128,20 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
       super.onCreateContextMenu(menu, v, menuInfo);
     } else {
-      
+      Long transactionId = mInstance2TransactionMap.get(info.id);
+      if (transactionId == null) {
+        menu.add(0,R.id.CREATE_INSTANCE_SAVE_COMMAND,0,R.string.menu_apply_template_and_save);
+        menu.add(0,R.id.CREATE_INSTANCE_SAVE_COMMAND,0,R.string.menu_apply_template_and_edit);
+        menu.add(0,R.id.CANCEL_PLAN_INSTANCE_COMMAND,0,R.string.menu_cancel_plan_instance);
+      }
+      else if (transactionId == 0L) {
+        menu.add(0,R.id.RESET_PLAN_INSTANCE_COMMAND,0,R.string.menu_reset_plan_instance);
+      }
+      else {
+        menu.add(0,R.id.EDIT_COMMAND,0,R.string.menu_edit);
+        menu.add(0,R.id.CANCEL_PLAN_INSTANCE_COMMAND,0,R.string.menu_cancel_plan_instance);
+        menu.add(0,R.id.RESET_PLAN_INSTANCE_COMMAND,0,R.string.menu_reset_plan_instance);
+      }
     }
   }
   @Override

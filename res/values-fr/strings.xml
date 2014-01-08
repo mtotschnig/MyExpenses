@@ -125,7 +125,9 @@
   <string name="licence_validation_success">Clé de licence validée : L\'accès aux fonctions Premium a été déverrouillé.</string>
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply">Appliquer</string>
+  <string name="menu_apply_template">Appliquer</string>
+  <string name="menu_apply_template_and_edit">Appliquer et éditer</string>
+  <string name="menu_apply_template_and_save">Appliquer et enregistrer</string>
   <string name="menu_back">Retour</string>
   <string name="menu_backup">Sauvegarde</string>
   <string name="menu_clone_transaction">Cloner</string>
@@ -144,8 +146,6 @@
   <string name="menu_create_template_for_transaction">Nouveau modèle (opération)</string>
   <string name="menu_create_template_for_transfer">Nouveau modèle (virement)</string>
   <string name="menu_create_transaction">Nouvelle opération</string>
-  <string name="menu_create_transaction_from_template_and_edit">Nouveau et éditer</string>
-  <string name="menu_create_transaction_from_template_and_save">Nouveau et enregistrer</string>
   <string name="menu_create_transfer">Nouveau virement</string>
   <string name="menu_delete">Effacer</string>
   <string name="menu_distribution">Répartition</string>

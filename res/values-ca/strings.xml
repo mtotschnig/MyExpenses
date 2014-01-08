@@ -125,7 +125,9 @@
   <string name="licence_validation_success">La clau de llicència s\'ha validat: S\'han afegit les opcions Premium.</string>
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply">Aplica</string>
+  <string name="menu_apply_template">Aplica</string>
+  <string name="menu_apply_template_and_edit">Aplica i modifica</string>
+  <string name="menu_apply_template_and_save">Aplica i desar</string>
   <string name="menu_back">Torna</string>
   <string name="menu_backup">Còpia de seguretat</string>
   <string name="menu_clone_transaction">Clona</string>
@@ -144,8 +146,6 @@
   <string name="menu_create_template_for_transaction">Nova plantilla d\'operació</string>
   <string name="menu_create_template_for_transfer">Nova plantilla de transferència</string>
   <string name="menu_create_transaction">Nova operació</string>
-  <string name="menu_create_transaction_from_template_and_edit">Nova i modifica</string>
-  <string name="menu_create_transaction_from_template_and_save">Nova i desar</string>
   <string name="menu_create_transfer">Nova transferència</string>
   <string name="menu_delete">Suprimeix</string>
   <string name="menu_distribution">Per categories</string>

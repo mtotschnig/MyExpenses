@@ -125,7 +125,9 @@
   <string name="licence_validation_success">Licensz kulcs sikeresen ellenőrizve: a Prémium szolgáltatások korlátozásai feloldva!</string>
   <string name="menu_aggregates">Összesen</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply">Alkalmaz</string>
+  <string name="menu_apply_template">Alkalmaz</string>
+  <string name="menu_apply_template_and_edit">Alkalmaz és szerkesztés</string>
+  <string name="menu_apply_template_and_save">Alkalmaz és mentés</string>
   <string name="menu_back">Vissza</string>
   <string name="menu_backup">Mentés</string>
   <string name="menu_clone_transaction">Másolás</string>
@@ -144,8 +146,6 @@
   <string name="menu_create_template_for_transaction">Új tranzakció sablon létrehozása</string>
   <string name="menu_create_template_for_transfer">Új átutalási sablon létrehozása</string>
   <string name="menu_create_transaction">Új tranzakció</string>
-  <string name="menu_create_transaction_from_template_and_edit">Új és szerkesztés</string>
-  <string name="menu_create_transaction_from_template_and_save">Új és mentés</string>
   <string name="menu_create_transfer">Új átutalás</string>
   <string name="menu_delete">Töröl</string>
   <string name="menu_distribution">Elosztás</string>
