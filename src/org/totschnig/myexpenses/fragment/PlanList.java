@@ -291,14 +291,24 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         while (mTemplatesCursor.isAfterLast() == false) {
           Bundle instanceBundle = new Bundle();
           instanceBundle.putString("template_id", mTemplatesCursor.getString(columnIndexRowId));
-          mManager.initLoader(mTemplatesCursor.getPosition()*2+1, instanceBundle, this);
+          //loader for instance2transactionmap
+          int loaderId = mTemplatesCursor.getPosition()*2+1;
+          if (mManager.getLoader(loaderId) != null && !mManager.getLoader(loaderId).isReset()) {
+            mManager.restartLoader(loaderId, instanceBundle, this);
+          } else {
+            mManager.initLoader(loaderId, instanceBundle, this);
+          }
           if ((planId = mTemplatesCursor.getLong(columnIndexPlanId)) != 0L) {
             plans.add(planId);
           }
           mTemplatesCursor.moveToNext();
         }
         planBundle.putSerializable("plans", plans);
-        mManager.initLoader(PLANS_CURSOR, planBundle, this);
+        if (mManager.getLoader(PLANS_CURSOR) != null && !mManager.getLoader(PLANS_CURSOR).isReset()) {
+          mManager.restartLoader(PLANS_CURSOR, planBundle, this);
+        } else {
+          mManager.initLoader(PLANS_CURSOR, planBundle, this);
+        }
       } else {
         mPlanTimeInfo = new HashMap<Long, String>();
         mAdapter.setGroupCursor(mTemplatesCursor);
