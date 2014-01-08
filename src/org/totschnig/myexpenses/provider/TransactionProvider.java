@@ -585,6 +585,9 @@ public class TransactionProvider extends ContentProvider {
       count = db.delete(TABLE_METHODS, "_id=" + segment + whereString,
           whereArgs);
       break;
+    case PLANINSTANCE_TRANSACTION_STATUS:
+      count = db.delete(TABLE_PLAN_INSTANCE_STATUS, where, whereArgs);
+      break;
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
