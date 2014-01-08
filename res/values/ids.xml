@@ -55,4 +55,6 @@
   <item type="id" name="SETTINGS_COMMAND"/>
   <item type="id" name="TEMPLATE_TITLE_DIALOG"/>
   <item type="id" name="WEB_COMMAND"/>
+  <item type="id" name="CREATE_INSTANCE_EDIT"/>
+  <item type="id" name="CREATE_INSTANCE_SAVE"/>
 </resources>

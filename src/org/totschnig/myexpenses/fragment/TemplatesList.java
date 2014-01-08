@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.model.Plan;
@@ -30,6 +31,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -42,6 +44,7 @@ import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -50,6 +53,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.android.calendar.CalendarContractCompat.Events;
@@ -95,8 +99,32 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
-    menu.add(0,ManageTemplates.CREATE_INSTANCE_SAVE,0,R.string.menu_create_transaction_from_template_and_save);
-    menu.add(0,ManageTemplates.CREATE_INSTANCE_EDIT,0,R.string.menu_create_transaction_from_template_and_edit);
+    menu.add(0,R.id.CREATE_INSTANCE_SAVE,0,R.string.menu_create_transaction_from_template_and_save);
+    menu.add(0,R.id.CREATE_INSTANCE_EDIT,0,R.string.menu_create_transaction_from_template_and_edit);
+  }
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+    if (!getUserVisibleHint())
+      return false;
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    if (((ManageTemplates) getActivity()).dispatchCommand(item.getItemId(),info.id))
+      return true;
+    switch(item.getItemId()) {
+    case R.id.CREATE_INSTANCE_EDIT:
+      Intent intent = new Intent(getActivity(), ExpenseEdit.class);
+      intent.putExtra("template_id", info.id);
+      intent.putExtra("instantiate", true);
+      startActivity(intent);
+      return true;
+    case R.id.CREATE_INSTANCE_SAVE:
+      //TODO strict mode
+      if (Transaction.getInstanceFromTemplate(info.id).save() == null)
+        Toast.makeText(getActivity(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
+      else
+        Toast.makeText(getActivity(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
+      return true;
+      }
+    return false;
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {

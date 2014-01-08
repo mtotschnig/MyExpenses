@@ -23,7 +23,9 @@ import java.util.HashMap;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
 import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Transaction;
@@ -46,16 +48,21 @@ import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.CalendarContractCompat.Instances;
@@ -111,6 +118,27 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
 //    });
     registerForContextMenu(lv);
     return v;
+  }
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
+    int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+
+    // Menu entries relevant only for the group
+    if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+      super.onCreateContextMenu(menu, v, menuInfo);
+    } else {
+      
+    }
+  }
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+    if (!getUserVisibleHint())
+      return false;
+    ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
+    if (((ManageTemplates) getActivity()).dispatchCommand(item.getItemId(),info.id))
+      return true;
+    return false;
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
