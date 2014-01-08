@@ -80,7 +80,9 @@ public class PlanExecutor extends IntentService {
           //2) check if they are part of a plan linked to a template
           //3) execute the template
           Log.i(MyApplication.TAG,String.format("found instance %d of plan %d",instanceId,planId));
-          Template template = Template.getInstanceForPlan(planId);
+          //TODO if we have multiple Event instances for one plan, we should maybe cache the template objects
+          //TODO we should set the date of the Event instance on the created transactions
+          Template template = Template.getInstanceForPlanIfInstanceIsOpen(planId,instanceId);
           if (template != null) {
             Log.i(MyApplication.TAG,String.format("belongs to template %d",template.id));
             Notification notification;
@@ -143,6 +145,8 @@ public class PlanExecutor extends IntentService {
               notification.flags |= Notification.FLAG_NO_CLEAR;
             }
             mNotificationManager.notify(notificationId, notification);
+          } else {
+            Log.i(MyApplication.TAG,"Template.getInstanceForPlanIfInstanceIsOpen returned null, instance might already have been dealt with");
           }
           cursor.moveToNext();
         }

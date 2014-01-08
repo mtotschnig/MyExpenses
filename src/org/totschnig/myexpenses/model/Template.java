@@ -125,12 +125,19 @@ public class Template extends Transaction {
   public void setDate(Date date){
     //templates have no date
   }
-  public static Template getInstanceForPlan(long planId) {
+  /**
+   * @param planId
+   * @param instanceId
+   * @return a template that is linked to the calendar event with id planId, but only if the instance instanceId
+   * has not yet been dealt with
+   */
+  public static Template getInstanceForPlanIfInstanceIsOpen(long planId,long instanceId) {
     Cursor c = cr().query(
         CONTENT_URI,
         null,
-        KEY_PLANID + "= ?",
-        new String[] {String.valueOf(planId)},
+        KEY_PLANID + "= ? AND NOT exists(SELECT 1 from planinstance_transaction WHERE "
+            + KEY_INSTANCEID + " = ?)",
+        new String[] {String.valueOf(planId),String.valueOf(instanceId)},
         null);
     if (c == null || c.getCount() == 0) {
       return null;
