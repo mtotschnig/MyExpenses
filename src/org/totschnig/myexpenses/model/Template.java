@@ -271,4 +271,15 @@ public class Template extends Transaction {
     }
     return sb.toString();
   }
+  public boolean applyInstance(long instanceId, long date) {
+    Transaction t = Transaction.getInstanceFromTemplate(this);
+    t.setDate(new Date(date));
+    if (t.save() == null)
+      return false;
+    ContentValues values = new ContentValues();
+    values.put(KEY_TEMPLATEID, id);
+    values.put(KEY_INSTANCEID, instanceId);
+    values.put(KEY_TRANSACTIONID, t.id);
+    return cr().insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values) != null;
+  }
 }

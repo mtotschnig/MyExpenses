@@ -177,7 +177,7 @@ public class TemplateDetailFragment extends DialogFragment implements LoaderMana
       .setView(view)
       .setNegativeButton(android.R.string.ok,this)
       .setPositiveButton(R.string.menu_edit,this)
-      .setNeutralButton(R.string.menu_apply, this)
+      .setNeutralButton(R.string.menu_apply_template, this)
       .create();
   }
   @Override

@@ -42,7 +42,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class Transaction extends Model {
   public Long id = 0L;
   public String comment="",label="",payee = "",referenceNumber="";
-  public Date date;
+  private Date date;
   public Money amount;
   public Long catId;
   //stores a short label of the category or the account the transaction is linked to
@@ -264,8 +264,11 @@ public class Transaction extends Model {
     this.date = date;
     dateAsString = TransactionDatabase.dateTimeFormat.format(date);
   }
-  public String getDate() {
+  public String getDateAsString() {
     return dateAsString;
+  }
+  public Date getDate() {
+    return date;
   }
   /**
    * 

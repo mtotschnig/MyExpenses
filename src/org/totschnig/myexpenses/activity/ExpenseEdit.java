@@ -626,7 +626,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer))
-      setDateTime(mTransaction.date);
+      setDateTime(mTransaction.getDate());
 
     //fill amount
     BigDecimal amount = mTransaction.amount.getAmountMajor();

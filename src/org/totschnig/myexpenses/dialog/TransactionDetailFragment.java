@@ -204,9 +204,9 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       }
     }
     ((TextView) view.findViewById(R.id.Date)).setText(
-        java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(mTransaction.date)
+        java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(mTransaction.getDate())
         + " "
-        + new SimpleDateFormat("HH:mm").format(mTransaction.date));
+        + new SimpleDateFormat("HH:mm").format(mTransaction.getDate()));
     ((TextView) view.findViewById(R.id.Amount)).setText(Utils.formatCurrency(
         new Money(mTransaction.amount.getCurrency(),Math.abs(mTransaction.amount.getAmountMinor()))));
     if (!mTransaction.comment.equals(""))

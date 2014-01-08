@@ -19,15 +19,18 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
 import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.model.Plan;
+import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -36,6 +39,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -130,14 +134,17 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     } else {
       Long transactionId = mInstance2TransactionMap.get(info.id);
       if (transactionId == null) {
+        //state open
         menu.add(0,R.id.CREATE_INSTANCE_SAVE_COMMAND,0,R.string.menu_apply_template_and_save);
         menu.add(0,R.id.CREATE_INSTANCE_SAVE_COMMAND,0,R.string.menu_apply_template_and_edit);
         menu.add(0,R.id.CANCEL_PLAN_INSTANCE_COMMAND,0,R.string.menu_cancel_plan_instance);
       }
       else if (transactionId == 0L) {
+        //state cancelled
         menu.add(0,R.id.RESET_PLAN_INSTANCE_COMMAND,0,R.string.menu_reset_plan_instance);
       }
       else {
+        //state applied
         menu.add(0,R.id.EDIT_COMMAND,0,R.string.menu_edit);
         menu.add(0,R.id.CANCEL_PLAN_INSTANCE_COMMAND,0,R.string.menu_cancel_plan_instance);
         menu.add(0,R.id.RESET_PLAN_INSTANCE_COMMAND,0,R.string.menu_reset_plan_instance);
@@ -149,8 +156,29 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     if (!getUserVisibleHint())
       return false;
     ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
-    if (((ManageTemplates) getActivity()).dispatchCommand(item.getItemId(),info.id))
+    if (ExpandableListView.getPackedPositionType(info.packedPosition) ==
+        ExpandableListView.PACKED_POSITION_TYPE_GROUP)
+      return ((ManageTemplates) getActivity()).dispatchCommand(item.getItemId(),info.id);
+    int group = ExpandableListView.getPackedPositionGroup(info.packedPosition),
+        child = ExpandableListView.getPackedPositionChild(info.packedPosition);
+    Cursor c = mAdapter.getChild(group,child);
+    long date = c.getLong(c.getColumnIndex(Instances.BEGIN));
+    long templateId = mTemplatesCursor.getLong(columnIndexRowId);
+    switch(item.getItemId()) {
+    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
+      Intent intent = new Intent(getActivity(), ExpenseEdit.class);
+      intent.putExtra("template_id", info.id);
+      intent.putExtra("instantiate", true);
+      startActivity(intent);
       return true;
+    case R.id.CREATE_INSTANCE_SAVE_COMMAND:
+      if (Template.getInstanceFromDb(templateId).applyInstance(info.id,date)) {
+        Toast.makeText(getActivity(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
+      } else {
+        Toast.makeText(getActivity(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
+      }
+      return true;
+      }
     return false;
   }
   @Override

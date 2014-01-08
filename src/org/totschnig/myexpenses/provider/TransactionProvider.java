@@ -482,6 +482,10 @@ public class TransactionProvider extends ContentProvider {
       id = db.insertOrThrow(TABLE_FEATURE_USED, null, values);
       newUri = FEATURE_USED_URI + "/" + id;
       break;
+    case PLANINSTANCE_TRANSACTION_STATUS:
+      id = db.insertOrThrow(TABLE_PLAN_INSTANCE_STATUS, null, values);
+      newUri = PLAN_INSTANCE_STATUS_URI + "/" + id;
+      break;
     default:
       throw new IllegalArgumentException("Unknown URI: " + uri);
     }
