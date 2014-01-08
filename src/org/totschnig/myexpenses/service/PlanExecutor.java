@@ -123,7 +123,7 @@ public class PlanExecutor extends IntentService {
               Intent editIntent = new Intent(this,ExpenseEdit.class);
               editIntent.putExtra("notification_id", notificationId);
               editIntent.putExtra("template_id", template.id);
-              editIntent.putExtra("instantiate", true);
+              editIntent.putExtra("instance_id", -1L);
               resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, 0);
               builder.addAction(
                   android.R.drawable.ic_menu_edit,
