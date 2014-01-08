@@ -212,6 +212,10 @@ public class Template extends Transaction {
     Template t = getInstanceFromDb(id);
     if (t.planId != null) {
       Plan.delete(t.planId);
+      cr().delete(
+          TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+          KEY_TEMPLATEID + " = ?",
+          new String[]{String.valueOf(id)});
     }
     cr().delete(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
