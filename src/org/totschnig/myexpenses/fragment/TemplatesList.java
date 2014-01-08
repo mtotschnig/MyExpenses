@@ -113,7 +113,7 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
     case R.id.CREATE_INSTANCE_EDIT_COMMAND:
       Intent intent = new Intent(getActivity(), ExpenseEdit.class);
       intent.putExtra("template_id", info.id);
-      intent.putExtra("instantiate", true);
+      intent.putExtra("instance_id", -1L);
       startActivity(intent);
       return true;
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:

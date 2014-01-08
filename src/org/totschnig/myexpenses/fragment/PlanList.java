@@ -19,19 +19,14 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageTemplates;
-import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
-import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
@@ -46,7 +41,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
@@ -58,14 +52,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 import com.android.calendar.CalendarContractCompat.Events;
@@ -136,7 +126,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       if (transactionId == null) {
         //state open
         menu.add(0,R.id.CREATE_INSTANCE_SAVE_COMMAND,0,R.string.menu_apply_template_and_save);
-        menu.add(0,R.id.CREATE_INSTANCE_SAVE_COMMAND,0,R.string.menu_apply_template_and_edit);
+        menu.add(0,R.id.CREATE_INSTANCE_EDIT_COMMAND,0,R.string.menu_apply_template_and_edit);
         menu.add(0,R.id.CANCEL_PLAN_INSTANCE_COMMAND,0,R.string.menu_cancel_plan_instance);
       }
       else if (transactionId == 0L) {
@@ -167,8 +157,9 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     switch(item.getItemId()) {
     case R.id.CREATE_INSTANCE_EDIT_COMMAND:
       Intent intent = new Intent(getActivity(), ExpenseEdit.class);
-      intent.putExtra("template_id", info.id);
-      intent.putExtra("instantiate", true);
+      intent.putExtra("template_id", templateId);
+      intent.putExtra("instance_id", info.id);
+      intent.putExtra("instance_date", date);
       startActivity(intent);
       return true;
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:

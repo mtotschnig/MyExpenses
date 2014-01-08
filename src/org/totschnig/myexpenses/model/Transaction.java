@@ -52,6 +52,14 @@ public class Transaction extends Model {
   public Long methodId;
   public Long parentId = null;
   /**
+   * id of the template which defines the plan for which this transaction has been created
+   */
+  public Long originTemplateId = null;
+  /**
+   * id of an instance of the event (plan) for which this transaction has been created
+   */
+  public Long originPlanInstanceId = null;
+  /**
    * 0 = is normal, special states are
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_EXPORTED} and
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_UNCOMMITTED}
@@ -192,6 +200,7 @@ public class Transaction extends Model {
     tr.comment = te.comment;
     tr.payee = te.payee;
     tr.label = te.label;
+    tr.originTemplateId = te.id;
     cr().update(
         TransactionProvider.TEMPLATES_URI.buildUpon().appendPath(String.valueOf(te.id)).appendPath("increaseUsage").build(),
         null, null, null);
@@ -309,6 +318,13 @@ public class Transaction extends Model {
         cr().update(
             TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).appendPath("increaseUsage").build(),
             null, null, null);
+      if (originPlanInstanceId != null) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_TEMPLATEID, originTemplateId);
+        values.put(KEY_INSTANCEID, originPlanInstanceId);
+        values.put(KEY_TRANSACTIONID, id);
+        cr().insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
+      }
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
       cr().update(uri,initialValues,null,null);

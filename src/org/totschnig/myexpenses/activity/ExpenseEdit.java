@@ -99,9 +99,10 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private Button mCategoryButton, mPlanButton;
   private Spinner mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter;
+  private ArrayAdapter<String>  mPayeeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
   private AutoCompleteTextView mPayeeText;
-  private TextView mPayeeLabel;
+  private TextView mPayeeLabel, mAmountLabel;
   private ToggleButton mPlanToggleButton;
   public Long mRowId = 0L;
   private Long mTemplateId;
@@ -116,6 +117,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private Cursor mMethodsCursor;
   private Plan mPlan;
 
+  private long mPlanInstanceId,mPlanInstanceDate;
   /**
    *   transaction, transfer or split
    */
@@ -246,8 +248,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       else {
         objectId = mTemplateId;
         //are we editing the template or instantiating a new one
-        if (extras.getBoolean("instantiate"))
+        if ((mPlanInstanceId = extras.getLong("instance_id")) != 0L) {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE;
+          if (mPlanInstanceId != -1L)
+            mPlanInstanceDate = extras.getLong("instance_date");
+        }
         else
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
       }
@@ -576,8 +581,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       setTime();
     }
   };
-  private ArrayAdapter<String>  mPayeeAdapter;
-  private TextView mAmountLabel;
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
@@ -954,6 +957,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
       mTransaction = (Transaction) o;
+      if (taskId == TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE
+          && mPlanInstanceId != 0L) {
+        mTransaction.setDate(new Date(mPlanInstanceDate));
+        mTransaction.originPlanInstanceId = mPlanInstanceId;
+      }
       if (mTransaction instanceof SplitTransaction) {
         mOperationType = MyExpenses.TYPE_SPLIT;
       }
