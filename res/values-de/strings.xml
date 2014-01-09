@@ -178,6 +178,8 @@
   <string name="menu_help">Hilfe</string>
   <string name="menu_invert_transfer">Umkehren</string>
   <string name="menu_manage_plans">Vorlagen und Pläne</string>
+  <string name="menu_manage_plans_tab_templates">Vorlagen</string>
+  <string name="menu_manage_plans_tab_plans">Pläne</string>
   <string name="menu_move_transaction">Verschieben</string>
   <string name="menu_reset">Exportieren und zurücksetzen</string>
   <string name="menu_reset_all">Alle exportieren und zurücksetzen</string>

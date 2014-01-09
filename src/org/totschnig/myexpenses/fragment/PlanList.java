@@ -421,10 +421,10 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         tv1.setTextColor(colorIncome);
       }
       tv1.setText(Utils.convAmount(amount,Utils.getSaveInstance(c.getString(columnIndexCurrency))));
-      Long planId = DbUtils.getLongOrNull(c, KEY_PLANID);
+      Long planId = c.getLong(columnIndexPlanId);
       String planInfo = mPlanTimeInfo.get(planId);
       if (planInfo == null) {
-        planInfo = "Event deleted from Calendar";
+        planInfo = getString(R.string.plan_event_deleted);
       }
       ((TextView) convertView.findViewById(R.id.title)).setText(
           c.getString(columnIndexTitle)

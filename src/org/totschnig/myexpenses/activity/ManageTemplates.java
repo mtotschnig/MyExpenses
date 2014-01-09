@@ -94,10 +94,10 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
         });
 
     actionBar.addTab(actionBar.newTab()
-        .setText("Templates")
+        .setText(R.string.menu_manage_plans_tab_templates)
         .setTabListener(this));
     actionBar.addTab(actionBar.newTab()
-        .setText("Plans")
+        .setText(R.string.menu_manage_plans_tab_plans)
         .setTabListener(this));
   }
   @Override

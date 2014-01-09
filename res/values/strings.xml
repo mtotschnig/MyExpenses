@@ -188,6 +188,8 @@
   <!-- This command inverts the direction of a transfer -->
   <string name="menu_invert_transfer">Invert</string>
   <string name="menu_manage_plans">Templates and plans</string>
+  <string name="menu_manage_plans_tab_templates">Templates</string>
+  <string name="menu_manage_plans_tab_plans">Plans</string>
   <string name="menu_move_transaction">Move</string>
   <string name="menu_reset">Export and reset</string>
   <string name="menu_reset_all">Export and reset all</string>
@@ -237,6 +239,8 @@
   <string name="plan_automatic">automatic</string>
   <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
   <string name="plan_calendar_name">My Expenses planner</string>
+  <!-- This messasge is shown if   -->
+  <string name="plan_event_deleted">The plan associated with this template has been deleted from the calendar.</string>
   <!-- This message is shown, after a user decides to not apply a manual plan -->
   <string name="plan_execution_canceled">Plan execution canceled</string>
   <string name="plan_manual">manual</string>

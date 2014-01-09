@@ -166,6 +166,8 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Inverti</string>
   <string name="menu_manage_plans">Modelli e scadenze</string>
+  <string name="menu_manage_plans_tab_templates">Modelli</string>
+  <string name="menu_manage_plans_tab_plans">Scadenze</string>
   <string name="menu_move_transaction">Spostare</string>
   <string name="menu_reset">Esportare e reinizializzare</string>
   <string name="menu_reset_all">Esportare e reinizializzare tutti</string>
