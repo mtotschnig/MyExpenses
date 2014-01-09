@@ -581,6 +581,10 @@ public class Account extends Model  implements Serializable {
     args.putNull(KEY_TRANSFER_PEER);
     cr().update(TransactionProvider.TRANSACTIONS_URI, args,
         KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
+    cr().delete(
+        TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+        KEY_TRANSACTIONID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?)",
+        selectArgs);
     cr().delete(TransactionProvider.TRANSACTIONS_URI, KEY_ACCOUNTID + " = ?", selectArgs);
   }
   public void deleteAllTemplates() {
