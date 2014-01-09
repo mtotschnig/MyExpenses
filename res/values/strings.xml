@@ -151,6 +151,7 @@
   <string name="menu_apply_template_and_save">Apply and save</string>
   <string name="menu_back">Back</string>
   <string name="menu_backup">Backup</string>
+  <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
   <string name="menu_cancel_plan_instance">Cancel</string>
   <string name="menu_clone_transaction">Clone</string>
   <string name="menu_contrib">Contribute</string>
@@ -193,6 +194,7 @@
   <string name="menu_move_transaction">Move</string>
   <string name="menu_reset">Export and reset</string>
   <string name="menu_reset_all">Export and reset all</string>
+  <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
   <string name="menu_reset_plan_instance">Reset</string>
   <string name="menu_save">Save</string>
   <string name="menu_save_and_new">Save and new</string>
@@ -214,7 +216,6 @@
   <string name="no_split_parts">No split parts.</string>
   <string name="no_templates">No templates.</string>
   <string name="no_title_given">You did not enter any title.</string>
-  <string name="no_upcoming_instances">No upcoming_instances.</string>
   <string name="not_deletable_mapped_transactions">Cannot delete, because mapped transactions exist.</string>
   <string name="not_deletable_mapped_templates">Cannot delete, because mapped templates exist.</string>
   <string name="not_deletable_subcats_exists">This category cannot be deleted, because it has sub-categories.</string>
@@ -249,8 +250,7 @@
   <!-- On Jelly Bean and above, we offer the option of creating a local calendar -->
   <string name="planner_setup_info_jb">You can either create a local dedicated calendar or select an existing one in the settings.</string>
   <string name="planner_setup_info">Please select a calendar for storing plans in the settings.</string>
-  <string name="plan_upcoming_instances_heading">Upcoming instances</string>
-  <!-- payment methods -->
+    <!-- payment methods -->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Credit card</string>
   <string name="pm_deposit">Deposit</string>
