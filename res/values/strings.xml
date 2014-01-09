@@ -59,6 +59,7 @@
   <string name="dialog_command_disabled_distribution">No transactions have been mapped to categories in this account.</string>
   <string name="dialog_confirm_restore_on_install">A backup file has been detected. Do you want to restore it?</string>
   <string name="dialog_contrib_no">Not yet</string>
+  <string name="dialog_contrib_no_usages_left">No free usages left.</string>
   <!-- Placeholder: 1 is name of the feature -->
   <string name="dialog_contrib_premium_feature">%1$s is a premium feature.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation by installing &lt;i>&app_name; Contrib&lt;/i>.</string>
