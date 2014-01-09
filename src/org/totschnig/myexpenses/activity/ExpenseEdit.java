@@ -828,9 +828,12 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     outState.putString("label", mLabel);
     if (mPlan != null)
       outState.putSerializable("plan",mPlan);
-    outState.putLong("methodId", mMethodSpinner.getSelectedItemId());
+    long methodId = mMethodSpinner.getSelectedItemId();
+    if (methodId != android.widget.AdapterView.INVALID_POSITION)
+      outState.putLong("methodId", methodId);
     outState.putLong("accountId", mAccountSpinner.getSelectedItemId());
-    outState.putLong("transferAccountId", mTransferAccountSpinner.getSelectedItemId());
+    if (mOperationType == MyExpenses.TYPE_TRANSFER)
+      outState.putLong("transferAccountId", mTransferAccountSpinner.getSelectedItemId());
   }
 
   private void switchAccountViews() {
