@@ -127,7 +127,7 @@
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Applicare</string>
   <string name="menu_apply_template_and_edit">Applicare e modificare</string>
-  <string name="menu_apply_template_and_edit">Applicare e salvare</string>
+  <string name="menu_apply_template_and_save">Applicare e salvare</string>
   <string name="menu_back">Indietro</string>
   <string name="menu_backup">Backup</string>
   <string name="menu_clone_transaction">Ricopiare</string>
