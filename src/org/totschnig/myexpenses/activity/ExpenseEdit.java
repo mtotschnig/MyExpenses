@@ -250,8 +250,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
         //are we editing the template or instantiating a new one
         if ((mPlanInstanceId = extras.getLong("instance_id")) != 0L) {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE;
-          if (mPlanInstanceId != -1L)
-            mPlanInstanceDate = extras.getLong("instance_date");
+          mPlanInstanceDate = extras.getLong("instance_date");
         }
         else
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
@@ -960,10 +959,13 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
       mTransaction = (Transaction) o;
-      if (taskId == TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE
-          && mPlanInstanceId != 0L) {
-        mTransaction.setDate(new Date(mPlanInstanceDate));
-        mTransaction.originPlanInstanceId = mPlanInstanceId;
+      if (taskId == TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE) {
+        if (mPlanInstanceId > 0L) {
+          mTransaction.originPlanInstanceId = mPlanInstanceId;
+        }
+        if (mPlanInstanceDate != 0L) {
+          mTransaction.setDate(new Date(mPlanInstanceDate));
+        }
       }
       if (mTransaction instanceof SplitTransaction) {
         mOperationType = MyExpenses.TYPE_SPLIT;
