@@ -285,7 +285,6 @@ public class Template extends Transaction {
   public boolean applyInstance(long instanceId, long date) {
     Transaction t = Transaction.getInstanceFromTemplate(this);
     t.setDate(new Date(date));
-    t.originTemplateId = id;
     t.originPlanInstanceId = instanceId;
     return t.save() != null;
   }
