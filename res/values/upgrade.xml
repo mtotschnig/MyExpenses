@@ -18,11 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_112">
-    <item>Fixed handling of week overlapping end/start of year in grouping by week</item>
-  </string-array>
-  <string-array name="whats_new_111">
-    <item>Stability improvements</item>
+  <string-array name="whats_new_114">
+    <item>Improved handling of plans: Apply upcoming instances in advance</item>
+    <item>New translations: Portuguese, Polish, Czech</item>
   </string-array>
 	<string-array name="whats_new_110">
 		<item>Display transaction list and statistical distribution for aggregates of multiple accounts</item>
