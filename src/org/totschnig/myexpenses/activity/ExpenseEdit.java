@@ -1122,11 +1122,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       break;
     case METHODS_CURSOR:
       mMethodsCursor = data;
-      View MethodContainer = findViewById(R.id.MethodRow);
+      View methodContainer = findViewById(R.id.MethodRow);
       if (!data.moveToFirst()) {
-        MethodContainer.setVisibility(View.GONE);
+        methodContainer.setVisibility(View.GONE);
       } else {
-        MethodContainer.setVisibility(View.VISIBLE);
+        methodContainer.setVisibility(View.VISIBLE);
         MatrixCursor extras = new MatrixCursor(new String[] { KEY_ROWID,KEY_LABEL,KEY_IS_NUMBERED });
         extras.addRow(new String[] { "0", "- - - -","0" });
         mMethodsAdapter.swapCursor(new MergeCursor(new Cursor[] {extras,data}));
