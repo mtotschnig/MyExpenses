@@ -31,7 +31,9 @@
   <string name="date_format_illegal">ខុសទ្រង់ទ្រាយ​កាល​បរិច្ឆេទ</string>
   <string name="default_account_description">គណនី​នេះ​ត្រូវបាន​រៀប​ចំ​ដោយ​ស្វ័យ​ប្រវត្តិ​ ក្នុងពេល​បញ្ចូលកម្មវិធី</string>
   <string name="description">ការពិពណ៌នា</string>
+  <string name="dialog_command_disabled_insert_transfer">ប្រតិបត្តិ​ការផ្ទេរ​តម្រូវឱ្យគណនីទីពីរមានរូបិយប័ណ្ណដូចគ្នា។ អ្នកមានគណនីតែមួយប៉ុណ្ណោះជាមួយរូបិយប័ណ្ណជា ​%1$s។</string>
   <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
+  <string name="dialog_command_disabled_insert_transfer_1">បង្កើត​គណនី​បន្ថែម​ទៀត ពី​បញ្ជីរគណនី ចុចចូល​តាម ប៊ូតុង \"លើ\" (នៃ app icon) នៅ​ខាងលើជ្រុងខាងឆ្វេង។</string>
   <string name="dialog_command_disabled_reset_account">គ្មាន​ប្រតិបត្តិការ​ណា​នាំយកចេញ​ឡើយ។</string>
   <string name="dialog_command_disabled_distribution">គ្មាន​ប្រតិបត្តិការ​ណា​ បានភ្ជាប់​ នឹង​ថ្នាក់​ណាមួយ​ ក្នុង​គណនីនេះទេ។</string>
   <string name="dialog_confirm_restore_on_install">ឯកសារព័ត៌មានបម្រុងមួយត្រូវបានគេរកឃើញ។ តើអ្នកចង់ restore វា ឬទេ?</string>
@@ -160,6 +162,7 @@
   <string name="menu_grouping">ដាក់​ជាក្រុម</string>
   <string name="menu_help">ជំនួយ</string>
   <!--This command inverts the direction of a transfer-->
+  <string name="menu_invert_transfer">ត្រឡប់មកវិញ</string>
   <string name="menu_manage_plans">ទិន្នន័យ​គំរូ និងផែនការ</string>
   <string name="menu_move_transaction">រំកិល</string>
   <string name="menu_reset">ការនាំចេញនិងការកំណត់ឡើងវិញ</string>
@@ -344,7 +347,7 @@
   <string name="warning_password_contrib">ការកំណត់សំណួរសន្តិសុខអនុញ្ញាតឱ្យអ្នកដើម្បីដោះសោកម្មវិធីនេះក្នុងករណីដែលអ្នកភ្លេចពាក្យសម្ងាត់របស់អ្នក។</string>
   <string name="warning_password_no_contrib">ប្រសិន​បើអ្នក​ដាក់​លេខ​សម្ងាត់​ សូម​ចាំថា​មិន​អាចភ្លេច​បានឡើយ។ អ្នក​នឹង​មិន​អាចយកវា​ត្រឡប់​មកវិញទេ រហូត​ទាល់​តែ​អ្នក​ដាក់​សំនួរ​សុវត្ថិភាព​មួយ (ត្រូវការកម្មវិធី My Expenses Contrib)។</string>
   <string name="warning_reset_account">ប្រសិនបើអ្នកបន្ត រាល់ប្រតិបត្តិការទាំងអស់របស់គណនីនេះ នឹងត្រូវបានលុបចេញពីមូលដ្ឋានទិន្នន័យ និងមិនអាចត្រូវបានស្ដារឡើងវិញឡើយ។</string>
-  <string name="warning_reset_account_all">ប្រសិនបើអ្នកបន្ត រាល់ប្រតិបត្តិការទាំងអស់របស់គណនីទាំងអស់%1$s នឹងត្រូវបានលុបចេញ ពីមូលដ្ឋានទិន្នន័យ និងមិនអាចត្រូវបានស្ដារ ឡើងវិញឡើយ។</string>
+  <string name="warning_reset_account_all">ប្រសិនបើអ្នកបន្ត រាល់ប្រតិបត្តិការទាំងអស់របស់គណនីទាំងអស់ នឹងត្រូវបានលុបចេញ ពីមូលដ្ឋានទិន្នន័យ និងមិនអាចត្រូវបានស្ដារ ឡើងវិញឡើយ។</string>
   <string name="warning_restore">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានស្ដារឡើងវិញពីការបម្រុងទុក។ ទិន្នន័យបច្ចុប្បន្ន នឹងត្រូវបានលុប។ តើអ្នកចង់បន្តឬ?</string>
   <string name="warning_select_account">សូមជ្រើសរើស​គណនី​មួយ!</string>
   <string name="warning_splitpartcategory_context">ការផ្លាស់ប្តូរដែលជាផ្នែកមួយ នៃការបំបែកអាចត្រូវបាន កែសម្រួល ឬលុបបានតែនៅក្នុងបរិបទនេះទេ។</string>
