@@ -17,14 +17,9 @@ package org.totschnig.myexpenses.fragment;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
-import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
-import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -48,15 +43,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
-
-import com.android.calendar.CalendarContractCompat.Events;
 
 public class TemplatesList extends BudgetListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   public static final int TEMPLATES_CURSOR=1;

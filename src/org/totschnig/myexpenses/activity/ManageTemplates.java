@@ -20,7 +20,6 @@ import java.util.List;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.TemplateDetailFragment;
 import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TemplatesList;
@@ -47,7 +46,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 public class ManageTemplates extends ProtectedFragmentActivity implements TabListener {
   public static final int PLAN_INSTANCES_CURSOR = 1;
 
-  public boolean calledFromCalendar;
+  public long calledFromCalendarWithId = 0;
   private boolean mTransferEnabled = false;
   ViewPager mViewPager;
   SectionsPagerAdapter mSectionsPagerAdapter;
@@ -58,16 +57,9 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       super.onCreate(savedInstanceState);
       Bundle extras = getIntent().getExtras();
       mTransferEnabled = extras.getBoolean("transferEnabled",false);
-      String uriString = extras.getString(Events.CUSTOM_APP_URI);
-      if (uriString != null) {
-        calledFromCalendar = true;
-        List <String> uriPath = Uri.parse(uriString).getPathSegments();
-        //mAccountId = Long.parseLong(uriPath.get(1));
-        TemplateDetailFragment.newInstance(Long.parseLong(uriPath.get(2)))
-          .show(getSupportFragmentManager(), "TEMPLATE_DETAIL");
-      }
-      setContentView(R.layout.manage_templates);
-      setTitle(R.string.menu_manage_plans);
+
+    setContentView(R.layout.manage_templates);
+    setTitle(R.string.menu_manage_plans);
 
     // Set up the action bar.
     final ActionBar actionBar = getSupportActionBar();
@@ -99,6 +91,13 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     actionBar.addTab(actionBar.newTab()
         .setText(R.string.menu_manage_plans_tab_plans)
         .setTabListener(this));
+
+    String uriString = extras.getString(Events.CUSTOM_APP_URI);
+    if (uriString != null) {
+      List <String> uriPath = Uri.parse(uriString).getPathSegments();
+      calledFromCalendarWithId = Long.parseLong(uriPath.get(2));
+      actionBar.setSelectedNavigationItem(1);
+    }
   }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {

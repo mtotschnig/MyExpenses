@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -40,6 +41,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -80,13 +82,15 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     columnIndexPayee, columnIndexTitle, columnIndexColor,columnIndexTransferPeer,
     columnIndexCurrency, columnIndexRowId;
   boolean indexesCalculated = false;
+  private ExpandableListView mListView;
+  private int mExpandedPosition = -1;
   
   
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     setColors();
     View v = inflater.inflate(R.layout.plans_list, null, false);
-    ExpandableListView lv = (ExpandableListView) v.findViewById(R.id.list);
+    mListView = (ExpandableListView) v.findViewById(R.id.list);
 
     mManager = getLoaderManager();
     mManager.initLoader(TEMPLATES_CURSOR, null, this);
@@ -100,20 +104,10 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         new String[]{Instances.BEGIN},
         new int[]{R.id.date}
         );
-    lv.setAdapter(mAdapter);
-    lv.setEmptyView(v.findViewById(R.id.empty));
-    //requires using activity (ManageTemplates) to implement OnChildClickListener
-    //lv.setOnChildClickListener((OnChildClickListener) getActivity());
-//    lv.setOnItemClickListener(new OnItemClickListener()
-//    {
-//         @Override
-//         public void onItemClick(AdapterView<?> a, View v,int position, long id)
-//         {
-//           TemplateDetailFragment.newInstance(id)
-//           .show(getActivity().getSupportFragmentManager(), "TEMPLATE_DETAIL");
-//         }
-//    });
-    registerForContextMenu(lv);
+    mListView.setAdapter(mAdapter);
+    mListView.setEmptyView(v.findViewById(R.id.empty));
+    mListView.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
+    registerForContextMenu(mListView);
     return v;
   }
   @Override
@@ -259,14 +253,16 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
               KEY_TRANSACTIONID
             },
             KEY_TEMPLATEID + " = ?",
-            new String[]{bundle.getString("template_id")},
+            new String[]{String.valueOf(bundle.getLong("template_id"))},
             null);
       }
     }
   }
+  @SuppressLint("NewApi")
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
     int id = loader.getId();
+    long expandedId = ((ManageTemplates) getActivity()).calledFromCalendarWithId;
     switch (id) {
     case TEMPLATES_CURSOR:
       mTemplatesCursor = c;
@@ -286,11 +282,15 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       if (mTemplatesCursor.getCount()>0) {
         mTemplatesCursor.moveToFirst();
         ArrayList<Long> plans = new ArrayList<Long>();
-        long planId;
+        long templateId,planId;
         Bundle planBundle = new Bundle();
         while (mTemplatesCursor.isAfterLast() == false) {
+          templateId = mTemplatesCursor.getLong(columnIndexRowId);
+          if (expandedId == templateId) {
+            mExpandedPosition = mTemplatesCursor.getPosition();
+          }
           Bundle instanceBundle = new Bundle();
-          instanceBundle.putString("template_id", mTemplatesCursor.getString(columnIndexRowId));
+          instanceBundle.putLong("template_id", templateId);
           //loader for instance2transactionmap
           int loaderId = mTemplatesCursor.getPosition()*2+1;
           if (mManager.getLoader(loaderId) != null && !mManager.getLoader(loaderId).isReset()) {
@@ -327,13 +327,20 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         c.moveToNext();
       }
       mAdapter.setGroupCursor(mTemplatesCursor);
+      if (mExpandedPosition != -1) {
+        mListView.expandGroup(mExpandedPosition);
+      }
       break;
     default:
       int groupPosition = id / 2;
       if (id % 2 == 0) {
         //check if group still exists
-        if (mAdapter.getGroupId(groupPosition) != 0)
+        if (mAdapter.getGroupId(groupPosition) != 0) {
             mAdapter.setChildrenCursor(groupPosition, c);
+            if (mExpandedPosition != -1) {
+              mListView.setSelectionFromTop(mExpandedPosition,0);
+            }
+        }
       } else {
         c.moveToFirst();
         while (c.isAfterLast() == false) {
