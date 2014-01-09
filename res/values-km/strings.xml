@@ -164,7 +164,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">ត្រឡប់មកវិញ</string>
   <string name="menu_manage_plans">ទិន្នន័យ​គំរូ និងផែនការ</string>
-  <string name="menu_move_transaction">រំកិល</string>
   <string name="menu_reset">ការនាំចេញនិងការកំណត់ឡើងវិញ</string>
   <string name="menu_reset_all">ការនាំចេញនិងការកំណត់ឡើងវិញទាំងអស់</string>
   <string name="menu_save">រក្សាទុក</string>

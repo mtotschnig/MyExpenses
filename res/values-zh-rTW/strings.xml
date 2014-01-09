@@ -164,7 +164,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">插入</string>
   <string name="menu_manage_plans">範本與計劃</string>
-  <string name="menu_move_transaction">移動</string>
   <string name="menu_reset">匯出和重設</string>
   <string name="menu_reset_all">匯出和重設所有</string>
   <string name="menu_save">保存</string>

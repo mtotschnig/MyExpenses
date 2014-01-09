@@ -168,7 +168,6 @@
   <string name="menu_manage_plans">Plantilles i planificacions</string>
   <string name="menu_manage_plans_tab_templates">Plantilles</string>
   <string name="menu_manage_plans_tab_plans">Planificacions</string>
-  <string name="menu_move_transaction">Mou</string>
   <string name="menu_reset">Exporta i reinicia</string>
   <string name="menu_reset_all">Exporta i reinicia-ho tot</string>
   <string name="menu_save">Desa</string>

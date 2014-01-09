@@ -166,7 +166,6 @@
   <string name="menu_manage_plans">Plantillas y planes</string>
   <string name="menu_manage_plans_tab_templates">Plantillas</string>
   <string name="menu_manage_plans_tab_plans">Planes</string>
-  <string name="menu_move_transaction">Mover</string>
   <string name="menu_reset">Exportar y restablecer</string>
   <string name="menu_reset_all">Exportar y restablecer todas</string>
   <string name="menu_save">Guardar</string>
