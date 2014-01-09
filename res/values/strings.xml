@@ -59,14 +59,16 @@
   <string name="dialog_command_disabled_distribution">No transactions have been mapped to categories in this account.</string>
   <string name="dialog_confirm_restore_on_install">A backup file has been detected. Do you want to restore it?</string>
   <string name="dialog_contrib_no">Not yet</string>
-  <string name="dialog_contrib_no_usages_left">No free usages left.</string>
   <!-- Placeholder: 1 is name of the feature -->
   <string name="dialog_contrib_premium_feature">%1$s is a premium feature.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation by installing &lt;i>&app_name; Contrib&lt;/i>.</string>
   <string name="dialog_contrib_reminder_gain_access">You also gain unrestricted acces to the following features:</string>
   <!-- Placeholders: 1 is feature list -->
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> is offered ad free and open source. Please contribute by installing the paid Contrib version. You gain unrestricted access to the following premium features:</string>
-  <string name="dialog_contrib_usage_count">You have %1$d free usages left.</string>
+  <plurals name="dialog_contrib_usage_count">
+    <item quantity="one">You have one free usage left.</item>
+    <item quantity="other">You have %1$d free usages left.</item>
+  </plurals>
   <string name="dialog_contrib_yes">Buy now</string>
   <string name="dialog_export_delete">Delete exported transactions</string>
   <string name="dialog_export_not_yet_exported">Export only transactions not yet exported</string>

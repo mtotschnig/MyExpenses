@@ -45,7 +45,9 @@
   <string name="dialog_contrib_reminder_gain_access">È inoltre acquisire accesso illimitato ai seguenti caratteristiche:</string>
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;Le mie spese&lt;/i&gt; è gratuito e open source. Si prega di contribuire installando la versione Contrib a pagamento. Ottiene l’accesso illimitato alle seguenti funzionalità speciali:</string>
-  <string name="dialog_contrib_usage_count">Restano %1$d usi gratis.</string>
+  <plurals name="dialog_contrib_usage_count">
+  	<item quantity="other">Restano %1$d usi gratis.</item>
+  	</plurals>
   <string name="dialog_contrib_yes">Compra Ora</string>
   <string name="dialog_export_delete">Cancellare le transazioni esportati</string>
   <string name="dialog_export_not_yet_exported">Esportare solo le operazioni non ancora esportati</string>

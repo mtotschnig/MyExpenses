@@ -57,8 +57,10 @@
   <string name="dialog_command_disabled_reset_account">Keine exportierbare Buchungen vorhanden.</string>
   <string name="dialog_command_disabled_distribution">In diesem Konto wurden keine Buchungen Kategorien zugeordnet.</string>
   <string name="dialog_confirm_restore_on_install">Eine Sicherungskopie ist vorhanden. Soll diese wiederhergestellt werden?</string>
-  <string name="dialog_contrib_usage_count">Diese Funktion kann noch %1$d mal verwendet werden.</string>
   <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden.</string>
+  <plurals name="dialog_contrib_usage_count">
+    <item quantity="other">Diese Funktion kann noch %1$d mal verwendet werden.</item>
+  </plurals>
   <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Sie können diese Einschränkung durch die Installation von &lt;i>&app_name; Contrib&lt;/i> aufheben.</string>
   <string name="dialog_contrib_reminder_gain_access">Auch auf folgende Funktionen können Sie dann uneingeschränkt zugreifen:</string>

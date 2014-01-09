@@ -45,7 +45,9 @@
   <string name="dialog_contrib_reminder_gain_access">Az alábbi szolgáltatások is elérhetővé válnak:</string>
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;Kiadásaim&lt;/i&gt; reklám mentes és nyitott forráskódú. Kérjük, ha elégedett a termékkel, járuljon hozzá a fizetős Contrib verzió használatával. Egyúttal az alábbi prémium szolgáltatások korlátlan használatára lesz jogosult:</string>
-  <string name="dialog_contrib_usage_count">Még %1$d felhasználható számla lehetősége marad.</string>
+  <plurals name="dialog_contrib_usage_count">
+  	<item quantity="other">Még %1$d felhasználható számla lehetősége marad.</item>
+ 	</string>
   <string name="dialog_contrib_yes">Vásárolja meg most</string>
   <string name="dialog_export_delete">Exportált tranzakciók törlése</string>
   <string name="dialog_export_not_yet_exported">A nem exportált tranzakciók exportálása</string>

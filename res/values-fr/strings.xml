@@ -45,7 +45,10 @@
   <string name="dialog_contrib_reminder_gain_access">Vous gagnez également accès illimité aux fonctionnalités suivantes:</string>
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;Mes dépenses&lt;/i&gt; vous est offert sans publicité et open source. S\'il vous plaît, vous pouvez installer la version Contrib payante. Vous obtiendrez un accès illimité aux fonctions Premium suivantes:</string>
-  <string name="dialog_contrib_usage_count">Il vous reste %1$d utilisation(s) gratuite(s).</string>
+  <plurals name="dialog_contrib_usage_count">
+    <item quantity="one">Il vous reste une utilisation gratuite.</item>
+  	<item quantity="other">Il vous reste %1$d utilisations gratuites.</item>
+  </plurals>
   <string name="dialog_contrib_yes">Acheter</string>
   <string name="dialog_export_delete">Effacer les opérations exportées</string>
   <string name="dialog_export_not_yet_exported">Exporter uniquement les opérations qui n\'ont pas encore été exportées</string>

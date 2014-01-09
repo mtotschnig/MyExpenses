@@ -45,7 +45,9 @@
   <string name="dialog_contrib_reminder_gain_access">អ្នក​អាច​ចូល​ទៅកាន់​ផ្នែក​ពិសេស​ដែលហាម​ឃាត់​ ដូចខាងក្រោម៖</string>
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;My Expenses&lt;/i&gt; ផ្តល់​ដោយ​គ្មាន​ការផ្សាយ​ពាណិជ្ជកម្ម ហើយ​ជាកម្មវិធី​បើក​ចំហមួយ។ ហេតុ​នេះ​សូម​រួម​ចំណែក ដោយ​ការ​បញ្ចូល​កម្មវិធី​បង់​ថ្លៃ Contrib ។ អ្នក​អាច​ចូល​ទៅ​កាន់​ផ្នែក​ពិសេស​ ដែល​បាន​ហាមឃាត់​ដូចជា៖</string>
-  <string name="dialog_contrib_usage_count">អ្នក​មាន​​ការ​ប្រើប្រាស់​មិនគិតថ្លៃ​នៅសល់ %1$d ។</string>
+  <plurals name="dialog_contrib_usage_count">
+    <item quantity="other">អ្នក​មាន​​ការ​ប្រើប្រាស់​មិនគិតថ្លៃ​នៅសល់ %1$d ។</item>
+  </plurals>
   <string name="dialog_contrib_yes">ទិញឥឡូវ</string>
   <string name="dialog_export_delete">លុបចោលប្រតិបតិ្តការដែលបាននាំចេញ</string>
   <string name="dialog_export_not_yet_exported">នាំចេញតែប្រតិបត្តិការណាដែលមិនទាន់បាននាំចេញនៅឡើយ</string>

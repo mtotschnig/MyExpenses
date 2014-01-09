@@ -43,7 +43,9 @@
   <string name="default_account_description">هذا الحساب تم انشاؤه تلقائيا خلال التثبيت</string>
   <string name="description">الوصف</string>
   <string name="dialog_confirm_restore_on_install">تم اكتشاف نسخة احتياطية. هل تريد استعادتها؟</string>
-  <string name="dialog_contrib_usage_count">لديك %1$d استعمالات مجانية متبقية</string>
+  <plurals name="dialog_contrib_usage_count">
+  	<item quantity="other">لديك %1$d استعمالات مجانية متبقية</item>
+  </plurals>
   <string name="dialog_contrib_no_usages_left">انتهت فترة الاستعمال المجاني</string>
   <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة.</string>
   <string name="dialog_contrib_reminder_remove_limitation">حذف هذه القيود بتثبيت &lt;i&gt;مصروفاتي Contrib&lt;/i&gt;.</string>

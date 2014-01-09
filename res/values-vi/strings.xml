@@ -43,7 +43,9 @@
   <string name="default_account_description">Tài khỏa này đã được cài đặt tự động trong suốt quá trình cài đặt</string>
   <string name="description">Mô tả</string>
   <string name="dialog_confirm_restore_on_install">Một tập tin sao lưu đã được phát hiện. Bạn có muốn phục hồi tập tin này không?</string>
-  <string name="dialog_contrib_usage_count">Bạn còn %1$d phần sử dụng miễn phí còn lại.</string>
+  <plurals name="dialog_contrib_usage_count">
+  	<item quantity="other">Bạn còn %1$d phần sử dụng miễn phí còn lại.</item>
+  </plurals>
   <string name="dialog_contrib_no_usages_left">Hiện không còn thời hạn cho việc sử dụng miễn phí.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s thuộc về tính năng nâng cao.</string>

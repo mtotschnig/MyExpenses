@@ -44,7 +44,10 @@
   <string name="dialog_contrib_reminder_gain_access">Usted también obtiene acceso sin restricciones a las siguientes características:</string>
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;Mis gastos&lt;/i&gt; se ofrece sin publicidad y de código abierto. Por favor, contribuya instalando la versión pagada Contrib. Usted va a obtener acceso ilimitado a las siguientes características premium:</string>
-  <string name="dialog_contrib_usage_count">Quedan %1$d usos libres.</string>
+  <plurals name="dialog_contrib_usage_count">
+    <item quantity="one">Queda uno uso libre.</item>
+  	<item quantity="other">Quedan %1$d usos libres.</item>
+  </plurals>
   <string name="dialog_contrib_yes">Compre</string>
   <string name="dialog_export_delete">Borrar las transacciones exportados</string>
   <string name="dialog_export_not_yet_exported">Exportar sólo las transacciones aún no exportadas</string>

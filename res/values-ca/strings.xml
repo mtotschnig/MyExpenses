@@ -45,7 +45,9 @@
   <string name="dialog_contrib_reminder_gain_access">També tindreu accés sense restriccions a les següents característiques:</string>
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;Les meves despeses&lt;/i&gt; s\'ofereix sense publicitat i és de codi obert. Si us plau contribuiu instal·lant la versió Contrib de pagament. Obtindreu accés il·limitat a les següents característiques premium:</string>
-  <string name="dialog_contrib_usage_count">Disposeu de %1$d usos gratuïts més.</string>
+  <plurals name="dialog_contrib_usage_count">
+  	<item quantity="other">Disposeu de %1$d usos gratuïts més.</item>
+  </plurals>
   <string name="dialog_contrib_yes">Compreu-ho ara</string>
   <string name="dialog_export_delete">Suprimeix les operacions exportades</string>
   <string name="dialog_export_not_yet_exported">Exporta només les operacions que encara no s\'han exportat</string>

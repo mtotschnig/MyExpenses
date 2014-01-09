@@ -45,7 +45,9 @@
   <string name="dialog_contrib_reminder_gain_access">Bu şekilde aşağıdaki özelliklere de sınırsız erişim elde edersiniz:</string>
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;Harcamalarım&lt;/i&gt; ücretsiz ve özgür yazılım olarak sunulmuştur. Lütfen ücretli Katkı sürümünü kurarak destekte bulunun. Böylece şu özelliklere sınırsız erişim elde edersiniz:</string>
-  <string name="dialog_contrib_usage_count">%1$d ücretsiz kullanım kalmıştır.</string>
+  <plurals name="dialog_contrib_usage_count">
+  	<item quantity="other">%1$d ücretsiz kullanım kalmıştır.</item>
+  </plurals>
   <string name="dialog_contrib_yes">Satın al</string>
   <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
   <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
