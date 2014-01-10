@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_114">
+    <item>Traitement des échéances amélioré : appliquez des instances à venir à l\'avance</item>
+    <item>Nouvelles traductions : portugais, polonais, tchèque</item>
+  </string-array>
   <string-array name="whats_new_110">
     <item>La liste des opérations et la répartition statistique peuvent être affichées pour un ensemble de comptes</item>
   </string-array>
