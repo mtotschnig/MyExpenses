@@ -90,7 +90,7 @@ import android.widget.ToggleButton;
  * Activity for editing a transaction
  * @author Michael Totschnig
  */
-public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment.TaskCallbacks,
+public class ExpenseEdit extends AmountActivity implements
     OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>,ContribIFace {
 
   private Button mDateButton;
