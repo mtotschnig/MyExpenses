@@ -181,8 +181,7 @@ public class TaskExecutionFragment extends Fragment {
           return null;
         }
       case TASK_NEW_FROM_TEMPLATE:
-        Transaction.getInstanceFromTemplate(id[0]).save();
-        return null;
+        return Transaction.getInstanceFromTemplate(id[0]).save();
       case TASK_REQUIRE_ACCOUNT:
         Account account;
         try {

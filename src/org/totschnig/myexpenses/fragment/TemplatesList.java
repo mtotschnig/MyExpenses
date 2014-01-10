@@ -107,11 +107,9 @@ public class TemplatesList extends BudgetListFragment implements LoaderManager.L
       startActivity(intent);
       return true;
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-      //TODO strict mode
-      if (Transaction.getInstanceFromTemplate(info.id).save() == null)
-        Toast.makeText(getActivity(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
-      else
-        Toast.makeText(getActivity(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
+      getActivity().getSupportFragmentManager().beginTransaction()
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,info.id, null), "ASYNC_TASK")
+        .commit();
       return true;
       }
     return false;

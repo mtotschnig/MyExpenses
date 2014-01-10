@@ -42,6 +42,7 @@ import android.support.v4.view.ViewPager;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Toast;
 
 public class ManageTemplates extends ProtectedFragmentActivity implements TabListener {
   public static final int PLAN_INSTANCES_CURSOR = 1;
@@ -181,6 +182,15 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     public int getCount() {
       // Show 3 total pages.
       return 2;
+    }
+  }
+  @Override
+  public void onPostExecute(int taskId, Object o) {
+    super.onPostExecute(taskId, o);
+    switch(taskId) {
+    case TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE:
+      int msg = (o == null ?  R.string.save_transaction_error : R.string.save_transaction_from_template_success);
+      Toast.makeText(this,getString(msg), Toast.LENGTH_LONG).show();
     }
   }
 }
