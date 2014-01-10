@@ -90,11 +90,11 @@ public class TransactionList extends BudgetListFragment implements
   private LoaderManager mManager;
   private SparseBooleanArray mappedCategoriesPerGroup;
 
-  private int columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth, columnIndexWeek, columnIndexDay,
+  private int columnIndexYear, columnIndexYearOfWeekStart,columnIndexMonth, columnIndexWeek, columnIndexDay, columnIndexTransferPeer,
     columnIndexAmount, columnIndexLabelSub, columnIndexComment, columnIndexPayee, columnIndexCrStatus, columnIndexReferenceNumber,
     columnIndexGroupYear, columnIndexGroupSecond, columnIndexGroupMappedCategories, columIndexGroupSumInterim,
     columnIndexGroupSumIncome, columnIndexGroupSumExpense, columnIndexGroupSumTransfer;
-  boolean indexesCalculated, indexesGroupingCalculated = false;
+  boolean indexesCalculated = false, indexesGroupingCalculated = false;
   //the following values are cached from the account object, so that we can react to changes in the observer
   private Grouping mGrouping;
   private Type mType;
@@ -332,6 +332,7 @@ public class TransactionList extends BudgetListFragment implements
         columnIndexReferenceNumber= c.getColumnIndex(KEY_REFERENCE_NUMBER);
         columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
         columnIndexCrStatus = c.getColumnIndex(KEY_CR_STATUS);
+        columnIndexTransferPeer = c.getColumnIndex(KEY_TRANSFER_PEER);
         indexesCalculated = true;
       }
       ((SimpleCursorAdapter) mAdapter).swapCursor(c);
@@ -405,7 +406,7 @@ public class TransactionList extends BudgetListFragment implements
   }
   private boolean checkSplitPartTransfer(int position) {
     mTransactionsCursor.moveToPosition(position);
-    Long transferPeer = DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER);
+    Long transferPeer = DbUtils.getLongOrNull(mTransactionsCursor,columnIndexTransferPeer);
     if (transferPeer != null && DbUtils.hasParent(transferPeer)) {
       Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
       return false;
@@ -418,7 +419,6 @@ public class TransactionList extends BudgetListFragment implements
         int[] to, int flags) {
       super(context, layout, c, from, to, flags);
       inflater = LayoutInflater.from(getSherlockActivity());
-      
     }
     @SuppressWarnings("incomplete-switch")
     @Override
@@ -586,7 +586,7 @@ public class TransactionList extends BudgetListFragment implements
       }
       TextView tv2 = (TextView)convertView.findViewById(R.id.category);
       CharSequence catText = tv2.getText();
-      if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
+      if (DbUtils.getLongOrNull(c,columnIndexTransferPeer) != null) {
         catText = ((amount < 0) ? "=> " : "<= ") + catText;
       } else {
         Long catId = DbUtils.getLongOrNull(c,KEY_CATID);

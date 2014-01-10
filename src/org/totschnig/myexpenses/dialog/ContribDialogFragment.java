@@ -28,6 +28,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Html;
@@ -55,15 +56,19 @@ public class ContribDialogFragment extends DialogFragment implements DialogInter
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx  = getActivity();
+    Resources res = getResources();
     Context wrappedCtx = DialogUtils.wrapContext2(ctx);
     String featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature);
     String featureDescription;
     if (feature.hasTrial)
       featureDescription = getString(R.string.dialog_contrib_premium_feature,
-              "<i>"+getString(getResources().getIdentifier("contrib_feature_" + feature + "_label", "string", ctx.getPackageName()))+"</i>") +
-              (usagesLeft > 0 ? getString(R.string.dialog_contrib_usage_count,usagesLeft) : getString(R.string.dialog_contrib_no_usages_left));
+              "<i>"+getString(res.getIdentifier(
+                  "contrib_feature_" + feature + "_label", "string", ctx.getPackageName()))+"</i>") +
+              (usagesLeft > 0 ?
+                  res.getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft) :
+                  getString(R.string.dialog_contrib_no_usages_left));
     else
-      featureDescription = getString(getResources().getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
+      featureDescription = getString(res.getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
     CharSequence message = Html.fromHtml((String) TextUtils.concat(
         featureDescription," ",
         getString(R.string.dialog_contrib_reminder_remove_limitation)," ",

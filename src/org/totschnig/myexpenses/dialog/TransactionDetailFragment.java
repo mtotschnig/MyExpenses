@@ -52,7 +52,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -62,11 +61,9 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class TransactionDetailFragment extends DialogFragment implements LoaderManager.LoaderCallbacks<Cursor>,OnClickListener {
   Transaction mTransaction;
@@ -207,9 +204,9 @@ public class TransactionDetailFragment extends DialogFragment implements LoaderM
       }
     }
     ((TextView) view.findViewById(R.id.Date)).setText(
-        java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(mTransaction.date)
+        java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(mTransaction.getDate())
         + " "
-        + new SimpleDateFormat("HH:mm").format(mTransaction.date));
+        + new SimpleDateFormat("HH:mm").format(mTransaction.getDate()));
     ((TextView) view.findViewById(R.id.Amount)).setText(Utils.formatCurrency(
         new Money(mTransaction.amount.getCurrency(),Math.abs(mTransaction.amount.getAmountMinor()))));
     if (!mTransaction.comment.equals(""))

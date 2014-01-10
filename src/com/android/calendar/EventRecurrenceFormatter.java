@@ -24,6 +24,7 @@ import android.util.TimeFormatException;
 
 import com.android.calendarcommon2.EventRecurrence;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.totschnig.myexpenses.R;
@@ -154,7 +155,17 @@ public class EventRecurrenceFormatter
      * @return day of week as a string
      */
     private static String dayToString(int day, int dayOfWeekLength) {
-        return DateUtils.getDayOfWeekString(dayToUtilDay(day), dayOfWeekLength);
+        String format;
+        switch(dayOfWeekLength) {
+        case DateUtils.LENGTH_MEDIUM:
+          format = "EEE";
+        default:
+          format = "EEEE";
+        }
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_WEEK, dayToUtilDay(day));
+        return new SimpleDateFormat(format).format(c.getTime());
+        //return DateUtils.getDayOfWeekString(dayToUtilDay(day), dayOfWeekLength);
     }
 
     /**

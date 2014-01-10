@@ -190,6 +190,14 @@ public class Utils {
   public static String convAmount(String text, Currency currency) {
     return convAmount(Long.valueOf(text), currency);
   }
+  public static Currency getSaveInstance(String strCurrency) {
+    try {
+      return Currency.getInstance(strCurrency);
+    } catch (IllegalArgumentException e) {
+      Log.e("MyExpenses",strCurrency + " is not defined in ISO 4217");
+      return Currency.getInstance(Locale.getDefault());
+    }
+  }
   /**
    * utility method that calls formatters for amount
    * this method can be called directly with Long values retrieved from db

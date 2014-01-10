@@ -45,7 +45,9 @@
   <string name="dialog_contrib_reminder_gain_access">També tindreu accés sense restriccions a les següents característiques:</string>
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;Les meves despeses&lt;/i&gt; s\'ofereix sense publicitat i és de codi obert. Si us plau contribuiu instal·lant la versió Contrib de pagament. Obtindreu accés il·limitat a les següents característiques premium:</string>
-  <string name="dialog_contrib_usage_count">Disposeu de %1$d usos gratuïts més.</string>
+  <plurals name="dialog_contrib_usage_count">
+  	<item quantity="other">Disposeu de %1$d usos gratuïts més.</item>
+  </plurals>
   <string name="dialog_contrib_yes">Compreu-ho ara</string>
   <string name="dialog_export_delete">Suprimeix les operacions exportades</string>
   <string name="dialog_export_not_yet_exported">Exporta només les operacions que encara no s\'han exportat</string>
@@ -125,7 +127,9 @@
   <string name="licence_validation_success">La clau de llicència s\'ha validat: S\'han afegit les opcions Premium.</string>
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply">Aplica</string>
+  <string name="menu_apply_template">Aplica</string>
+  <string name="menu_apply_template_and_edit">Aplica i modifica</string>
+  <string name="menu_apply_template_and_save">Aplica i desar</string>
   <string name="menu_back">Torna</string>
   <string name="menu_backup">Còpia de seguretat</string>
   <string name="menu_clone_transaction">Clona</string>
@@ -144,8 +148,6 @@
   <string name="menu_create_template_for_transaction">Nova plantilla d\'operació</string>
   <string name="menu_create_template_for_transfer">Nova plantilla de transferència</string>
   <string name="menu_create_transaction">Nova operació</string>
-  <string name="menu_create_transaction_from_template_and_edit">Nova i modifica</string>
-  <string name="menu_create_transaction_from_template_and_save">Nova i desar</string>
   <string name="menu_create_transfer">Nova transferència</string>
   <string name="menu_delete">Suprimeix</string>
   <string name="menu_distribution">Per categories</string>
@@ -166,7 +168,8 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Inverteix</string>
   <string name="menu_manage_plans">Plantilles i planificacions</string>
-  <string name="menu_move_transaction">Mou</string>
+  <string name="menu_manage_plans_tab_templates">Plantilles</string>
+  <string name="menu_manage_plans_tab_plans">Planificacions</string>
   <string name="menu_reset">Exporta i reinicia</string>
   <string name="menu_reset_all">Exporta i reinicia-ho tot</string>
   <string name="menu_save">Desa</string>

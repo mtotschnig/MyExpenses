@@ -46,7 +46,7 @@
   <string name="menu_create_party_help_text">Öffnet das Formular für die Erfassung einer neuen Partei.</string>
 
   <!-- ManageTemplates -->
-  <string name="help_ManageTemplates_info">Hier werden die Vorlagen für das aktuelle Konto aufgelistet. Während Vorlagen auch von bestehenden Buchungen abgeleitet werden können (über deren Kontextmenü), können Sie hier neue Vorlagen von Grund auf festlegen. &lt;br&gt;&lt;img src="android:ic_menu_my_calendar" /&gt;Dieses Icon zeigt an, dass es für diese Vorlage ein Plan definiert ist. &lt;br&gt;&lt;img src="manage_plans_icon" /&gt; Wenn Sie auf dieses Icon klicken, wird die Vorlage angewendet und die Liste geschlossen.&lt;br&gt;Das Kontextmenü der Vorlagen erlaubt, die Buchung vor dem Speichern zu verändern, und enthält auch den Befehl zum Löschen.</string>
+<!--   <string name="help_ManageTemplates_info">Hier werden die Vorlagen für das aktuelle Konto aufgelistet. Während Vorlagen auch von bestehenden Buchungen abgeleitet werden können (über deren Kontextmenü), können Sie hier neue Vorlagen von Grund auf festlegen. &lt;br&gt;&lt;img src="android:ic_menu_my_calendar" /&gt;Dieses Icon zeigt an, dass es für diese Vorlage ein Plan definiert ist. &lt;br&gt;&lt;img src="manage_plans_icon" /&gt; Wenn Sie auf dieses Icon klicken, wird die Vorlage angewendet und die Liste geschlossen.&lt;br&gt;Das Kontextmenü der Vorlagen erlaubt, die Buchung vor dem Speichern zu verändern, und enthält auch den Befehl zum Löschen.</string> -->
   <string name="menu_create_template_for_transaction_help_text">Eine neue Vorlage für Buchungen anlegen</string>
   <string name="menu_create_template_for_transfer_help_text">Eine neue Vorlage für Umbuchungen anlegen</string>
   <!-- ManageCategories -->

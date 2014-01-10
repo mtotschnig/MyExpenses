@@ -46,7 +46,8 @@ public class DatabaseConstants {
   public static final String KEY_IS_NUMBERED = "is_numbered";
   public static final String KEY_PLANID = "plan_id";
   public static final String KEY_PLAN_EXECUTION = "plan_execution";
-
+  public static final String KEY_TEMPLATEID = "template_id";
+  public static final String KEY_INSTANCEID = "instance_id";
   /**
    * transaction that already has been exported
    */
@@ -71,6 +72,7 @@ public class DatabaseConstants {
   public static final String VIEW_TEMPLATES = "templates_all";
   public static final String VIEW_EXTENDED = "transactions_extended";
   public static final String VIEW_TEMPLATES_EXTENDED = "templates_extended";
+  public static final String TABLE_PLAN_INSTANCE_STATUS = "planinstance_transaction";
 
   /**
    * an SQL CASE expression for transactions

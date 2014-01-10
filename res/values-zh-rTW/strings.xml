@@ -45,7 +45,9 @@
   <string name="dialog_contrib_reminder_gain_access">你也可以無限制地的使用以下特點：</string>
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;開支助手&lt;/i&gt; 是無廣告和開放源碼的。請通過安裝貢獻補丁來為此軟件作出貢獻。你將可以無限制地使用以下高級功能：</string>
-  <string name="dialog_contrib_usage_count">現在你擁有 %1$d 免費使用額。</string>
+  <plurals name="dialog_contrib_usage_count">
+  	<item quantity="other">現在你擁有 %1$d 免費使用額</item>
+  </plurals>
   <string name="dialog_contrib_yes">馬上購買</string>
   <string name="dialog_export_delete">刪除已匯出的交易</string>
   <string name="dialog_export_not_yet_exported">只匯出尚未匯出的交易</string>
@@ -125,7 +127,7 @@
   <string name="licence_validation_success">許可密鑰驗證成功：高級功能已被解鎖。</string>
   <string name="menu_aggregates">總金額</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply">採用</string>
+  <string name="menu_apply_template">採用</string>
   <string name="menu_back">上一步</string>
   <string name="menu_backup">備份</string>
   <string name="menu_clone_transaction">複製</string>
@@ -144,8 +146,6 @@
   <string name="menu_create_template_for_transaction">新增交易範本</string>
   <string name="menu_create_template_for_transfer">新增轉移範本</string>
   <string name="menu_create_transaction">新增交易</string>
-  <string name="menu_create_transaction_from_template_and_edit">新增及編輯</string>
-  <string name="menu_create_transaction_from_template_and_save">新增並保存</string>
   <string name="menu_create_transfer">新增轉移</string>
   <string name="menu_delete">刪除</string>
   <string name="menu_distribution">發行版</string>
@@ -166,7 +166,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">插入</string>
   <string name="menu_manage_plans">範本與計劃</string>
-  <string name="menu_move_transaction">移動</string>
   <string name="menu_reset">匯出和重設</string>
   <string name="menu_reset_all">匯出和重設所有</string>
   <string name="menu_save">保存</string>

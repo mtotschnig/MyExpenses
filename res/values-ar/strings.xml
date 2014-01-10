@@ -43,7 +43,9 @@
   <string name="default_account_description">هذا الحساب تم انشاؤه تلقائيا خلال التثبيت</string>
   <string name="description">الوصف</string>
   <string name="dialog_confirm_restore_on_install">تم اكتشاف نسخة احتياطية. هل تريد استعادتها؟</string>
-  <string name="dialog_contrib_usage_count">لديك %1$d استعمالات مجانية متبقية</string>
+  <plurals name="dialog_contrib_usage_count">
+  	<item quantity="other">لديك %1$d استعمالات مجانية متبقية</item>
+  </plurals>
   <string name="dialog_contrib_no_usages_left">انتهت فترة الاستعمال المجاني</string>
   <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة.</string>
   <string name="dialog_contrib_reminder_remove_limitation">حذف هذه القيود بتثبيت &lt;i&gt;مصروفاتي Contrib&lt;/i&gt;.</string>
@@ -135,8 +137,6 @@
   <string name="menu_create_template">نموذج جديد</string>
   <string name="menu_create_template_for_transaction">نموذج عملية جديد</string>
   <string name="menu_create_template_for_transfer">نموذج تحويل جديد</string>
-  <string name="menu_create_transaction_from_template_and_edit">جديد وتعديل</string>
-  <string name="menu_create_transaction_from_template_and_save">جديد وحفظ</string>
   <string name="menu_delete">حذف</string>
   <string name="menu_distribution">توزيع</string>
   <string name="menu_edit">تعديل</string>
@@ -152,7 +152,6 @@
   <string name="menu_forward">تقدم</string>
   <string name="menu_grouping">تجميع</string>
   <string name="menu_help">مساعدة</string>
-  <string name="menu_move_transaction">تحريك</string>
   <string name="menu_save">حفظ</string>
   <string name="menu_save_and_new">حفظ وجديد</string>
   <string name="menu_reset">تصدير وإعادة تعيين</string>

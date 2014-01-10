@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.service;
 
+import java.util.Date;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -55,7 +57,8 @@ public class PlanExecutor extends IntentService {
           now));
       String[] INSTANCE_PROJECTION = new String[] {
           Instances.EVENT_ID,
-          Instances._ID
+          Instances._ID,
+          Instances.BEGIN
         };
       Uri.Builder eventsUriBuilder = CalendarContractCompat.Instances.CONTENT_URI
           .buildUpon();
@@ -77,10 +80,13 @@ public class PlanExecutor extends IntentService {
         while (cursor.isAfterLast() == false) {
           long planId = cursor.getLong(0);
           Long instanceId = cursor.getLong(1);
+          long date = cursor.getLong(2);
           //2) check if they are part of a plan linked to a template
           //3) execute the template
           Log.i(MyApplication.TAG,String.format("found instance %d of plan %d",instanceId,planId));
-          Template template = Template.getInstanceForPlan(planId);
+          //TODO if we have multiple Event instances for one plan, we should maybe cache the template objects
+          //TODO we should set the date of the Event instance on the created transactions
+          Template template = Template.getInstanceForPlanIfInstanceIsOpen(planId,instanceId);
           if (template != null) {
             Log.i(MyApplication.TAG,String.format("belongs to template %d",template.id));
             Notification notification;
@@ -100,49 +106,55 @@ public class PlanExecutor extends IntentService {
                     .setContentTitle(title)
                     .setContentText(content);
             if (template.planExecutionAutomatic) {
-              Uri uri = Transaction.getInstanceFromTemplate(template).save();
+              Transaction t = Transaction.getInstanceFromTemplate(template);
+              t.setDate(new Date(date));
+              Uri uri = t.save();
               long id = ContentUris.parseId(uri);
-              Intent displayIntent = new Intent(this, MyExpenses.class);
-              displayIntent.putExtra(DatabaseConstants.KEY_ROWID, template.accountId);
-              displayIntent.putExtra("transaction_id", id);
+              Intent displayIntent = new Intent(this, MyExpenses.class)
+                .putExtra(DatabaseConstants.KEY_ROWID, template.accountId)
+                .putExtra("transaction_id", id);
               resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
                   PendingIntent.FLAG_UPDATE_CURRENT);
               builder.setContentIntent(resultIntent);
               builder.setAutoCancel(true);
               notification = builder.build();
             } else {
-              Intent cancelIntent = new Intent(this, PlanNotificationClickHandler.class);
-              cancelIntent.setAction("Cancel");
-              cancelIntent.putExtra("notification_id", notificationId);
-              //we also put the title in the intent, because we need it while we update the notification
-              cancelIntent.putExtra("title", title);
+              Intent cancelIntent = new Intent(this, PlanNotificationClickHandler.class)
+                .setAction("Cancel")
+                .putExtra("notification_id", notificationId)
+                //we also put the title in the intent, because we need it while we update the notification
+                .putExtra("title", title);
               builder.addAction(
                   android.R.drawable.ic_menu_close_clear_cancel,
                   getString(android.R.string.cancel),
                   PendingIntent.getService(this, notificationId, cancelIntent, 0));
-              Intent editIntent = new Intent(this,ExpenseEdit.class);
-              editIntent.putExtra("notification_id", notificationId);
-              editIntent.putExtra("template_id", template.id);
-              editIntent.putExtra("instantiate", true);
+              Intent editIntent = new Intent(this,ExpenseEdit.class)
+                .putExtra("notification_id", notificationId)
+                .putExtra("template_id", template.id)
+                .putExtra("instance_id", -1L)
+                .putExtra("instance_date", date);
               resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, 0);
               builder.addAction(
                   android.R.drawable.ic_menu_edit,
                   getString(R.string.menu_edit),
                   resultIntent);
               Intent applyIntent = new Intent(this, PlanNotificationClickHandler.class);
-              applyIntent.setAction("Apply");
-              applyIntent.putExtra("notification_id", notificationId);
-              applyIntent.putExtra("title", title);
-              applyIntent.putExtra("template_id", template.id);
+              applyIntent.setAction("Apply")
+                .putExtra("notification_id", notificationId)
+                .putExtra("title", title)
+                .putExtra("template_id", template.id)
+                .putExtra("instance_date", date);
               builder.addAction(
                   android.R.drawable.ic_menu_save,
-                  getString(R.string.menu_apply),
+                  getString(R.string.menu_apply_template),
                   PendingIntent.getService(this, notificationId, applyIntent, 0));
               builder.setContentIntent(resultIntent);
               notification = builder.build();
               notification.flags |= Notification.FLAG_NO_CLEAR;
             }
             mNotificationManager.notify(notificationId, notification);
+          } else {
+            Log.i(MyApplication.TAG,"Template.getInstanceForPlanIfInstanceIsOpen returned null, instance might already have been dealt with");
           }
           cursor.moveToNext();
         }
@@ -153,8 +165,8 @@ public class PlanExecutor extends IntentService {
         .putLong(MyApplication.PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP, now));
     PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
     AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-    long interval = 21600000; //6* 60 * 60 * 1000 6 hours
-    //long interval = 60000; // 1 minute
+    //long interval = 21600000; //6* 60 * 60 * 1000 6 hours
+    long interval = 60000; // 1 minute
     manager.set(AlarmManager.RTC, now+interval, 
         pendingIntent);
   }

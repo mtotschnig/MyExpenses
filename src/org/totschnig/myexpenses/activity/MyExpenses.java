@@ -41,7 +41,6 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
-import org.totschnig.myexpenses.util.AllButOneCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
@@ -84,7 +83,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class MyExpenses extends LaunchActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
     EditTextDialogListener, OnNavigationListener,
-    ContribIFace, TaskExecutionFragment.TaskCallbacks  {
+    ContribIFace {
 
   public static final int TYPE_TRANSACTION = 0;
   public static final int TYPE_TRANSFER = 1;
@@ -309,19 +308,26 @@ public class MyExpenses extends LaunchActivity implements
     //with the same currency
     long accountId = 0;
     if (mAccountId < 0) {
-      mAccountsCursor.moveToFirst();
-      String currentCurrency = Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode();
-      int columnIndexCurrency = mAccountsCursor.getColumnIndex(KEY_CURRENCY);
-      while (mAccountsCursor.isAfterLast() == false) {
-        if (mAccountsCursor.getString(columnIndexCurrency).equals(currentCurrency)) {
-          accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
-          break;
+      if (mAccountsCursor != null) {
+        mAccountsCursor.moveToFirst();
+        String currentCurrency = Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode();
+        int columnIndexCurrency = mAccountsCursor.getColumnIndex(KEY_CURRENCY);
+        while (mAccountsCursor.isAfterLast() == false) {
+          if (mAccountsCursor.getString(columnIndexCurrency).equals(currentCurrency)) {
+            accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
+            break;
+          }
+          mAccountsCursor.moveToNext();
         }
-        mAccountsCursor.moveToNext();
+      } else {
+        accountId = 0;
       }
     } else {
       accountId = mAccountId;
     }
+    //since splits are immediately persisted they will not work without an account set
+    if (accountId == 0 && type == TYPE_SPLIT)
+      return;
     i.putExtra(KEY_ACCOUNTID,accountId);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
@@ -366,11 +372,13 @@ public class MyExpenses extends LaunchActivity implements
       }
       return true;
     case R.id.GROUPING_COMMAND:
-      SelectGroupingDialogFragment.newInstance(
-          R.id.GROUPING_COMMAND_DO,
-          Account.getInstanceFromDb(mAccountId)
-              .grouping.ordinal())
-        .show(getSupportFragmentManager(), "SELECT_GROUPING");
+      Account a = Account.getInstanceFromDb(mAccountId);
+      if (a != null) {
+        SelectGroupingDialogFragment.newInstance(
+            R.id.GROUPING_COMMAND_DO,
+            a.grouping.ordinal())
+          .show(getSupportFragmentManager(), "SELECT_GROUPING");
+      }
       return true;
     case R.id.GROUPING_COMMAND_DO:
       Grouping value = Account.Grouping.values()[(Integer)tag];

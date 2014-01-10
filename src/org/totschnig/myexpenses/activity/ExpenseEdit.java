@@ -90,7 +90,7 @@ import android.widget.ToggleButton;
  * Activity for editing a transaction
  * @author Michael Totschnig
  */
-public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment.TaskCallbacks,
+public class ExpenseEdit extends AmountActivity implements
     OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>,ContribIFace {
 
   private Button mDateButton;
@@ -99,9 +99,10 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private Button mCategoryButton, mPlanButton;
   private Spinner mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter;
+  private ArrayAdapter<String>  mPayeeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
   private AutoCompleteTextView mPayeeText;
-  private TextView mPayeeLabel;
+  private TextView mPayeeLabel, mAmountLabel;
   private ToggleButton mPlanToggleButton;
   public Long mRowId = 0L;
   private Long mTemplateId;
@@ -116,6 +117,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
   private Cursor mMethodsCursor;
   private Plan mPlan;
 
+  private long mPlanInstanceId,mPlanInstanceDate;
   /**
    *   transaction, transfer or split
    */
@@ -246,8 +248,10 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       else {
         objectId = mTemplateId;
         //are we editing the template or instantiating a new one
-        if (extras.getBoolean("instantiate"))
+        if ((mPlanInstanceId = extras.getLong("instance_id")) != 0L) {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE;
+          mPlanInstanceDate = extras.getLong("instance_date");
+        }
         else
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
       }
@@ -434,8 +438,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     mPlanButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
         if (mPlanId == null) {
-          if (MyApplication.getInstance().isContribEnabled ||
-              Template.countWithPlan() < 3) {
+          if (getIntent().getExtras().getBoolean("newPlanEnabled")) {
             if (syncStateAndValidate()) {
               launchNewPlan();
             }
@@ -576,8 +579,6 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       setTime();
     }
   };
-  private ArrayAdapter<String>  mPayeeAdapter;
-  private TextView mAmountLabel;
   @Override
   protected Dialog onCreateDialog(int id) {
     switch (id) {
@@ -626,7 +627,7 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     if (!(mTransaction instanceof Template ||
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer))
-      setDateTime(mTransaction.date);
+      setDateTime(mTransaction.getDate());
 
     //fill amount
     BigDecimal amount = mTransaction.amount.getAmountMajor();
@@ -825,9 +826,12 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     outState.putString("label", mLabel);
     if (mPlan != null)
       outState.putSerializable("plan",mPlan);
-    outState.putLong("methodId", mMethodSpinner.getSelectedItemId());
+    long methodId = mMethodSpinner.getSelectedItemId();
+    if (methodId != android.widget.AdapterView.INVALID_POSITION)
+      outState.putLong("methodId", methodId);
     outState.putLong("accountId", mAccountSpinner.getSelectedItemId());
-    outState.putLong("transferAccountId", mTransferAccountSpinner.getSelectedItemId());
+    if (mOperationType == MyExpenses.TYPE_TRANSFER)
+      outState.putLong("transferAccountId", mTransferAccountSpinner.getSelectedItemId());
   }
 
   private void switchAccountViews() {
@@ -954,6 +958,14 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
     case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
     case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
       mTransaction = (Transaction) o;
+      if (taskId == TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE) {
+        if (mPlanInstanceId > 0L) {
+          mTransaction.originPlanInstanceId = mPlanInstanceId;
+        }
+        if (mPlanInstanceDate != 0L) {
+          mTransaction.setDate(new Date(mPlanInstanceDate));
+        }
+      }
       if (mTransaction instanceof SplitTransaction) {
         mOperationType = MyExpenses.TYPE_SPLIT;
       }
@@ -1111,11 +1123,11 @@ public class ExpenseEdit extends AmountActivity implements TaskExecutionFragment
       break;
     case METHODS_CURSOR:
       mMethodsCursor = data;
-      View MethodContainer = findViewById(R.id.MethodRow);
+      View methodContainer = findViewById(R.id.MethodRow);
       if (!data.moveToFirst()) {
-        MethodContainer.setVisibility(View.GONE);
+        methodContainer.setVisibility(View.GONE);
       } else {
-        MethodContainer.setVisibility(View.VISIBLE);
+        methodContainer.setVisibility(View.VISIBLE);
         MatrixCursor extras = new MatrixCursor(new String[] { KEY_ROWID,KEY_LABEL,KEY_IS_NUMBERED });
         extras.addRow(new String[] { "0", "- - - -","0" });
         mMethodsAdapter.swapCursor(new MergeCursor(new Cursor[] {extras,data}));

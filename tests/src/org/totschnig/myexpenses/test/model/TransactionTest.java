@@ -158,8 +158,8 @@ public class TransactionTest extends ModelTest  {
     op1.save();
     //we expect the parent to make sure that parts have the same date
     Transaction restored = Transaction.getInstanceFromDb(op1.id);
-    assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split1.id).getDate()));
-    assertTrue(restored.getDate().equals(Transaction.getInstanceFromDb(split2.id).getDate()));
+    assertTrue(restored.getDateAsString().equals(Transaction.getInstanceFromDb(split1.id).getDateAsString()));
+    assertTrue(restored.getDateAsString().equals(Transaction.getInstanceFromDb(split2.id).getDateAsString()));
     restored.crStatus = CrStatus.CLEARED;
     restored.save();
     try {
