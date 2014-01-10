@@ -41,7 +41,6 @@ import org.totschnig.myexpenses.model.ContribFeature.Feature;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
-import org.totschnig.myexpenses.util.AllButOneCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
@@ -309,15 +308,19 @@ public class MyExpenses extends LaunchActivity implements
     //with the same currency
     long accountId = 0;
     if (mAccountId < 0) {
-      mAccountsCursor.moveToFirst();
-      String currentCurrency = Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode();
-      int columnIndexCurrency = mAccountsCursor.getColumnIndex(KEY_CURRENCY);
-      while (mAccountsCursor.isAfterLast() == false) {
-        if (mAccountsCursor.getString(columnIndexCurrency).equals(currentCurrency)) {
-          accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
-          break;
+      if (mAccountsCursor != null) {
+        mAccountsCursor.moveToFirst();
+        String currentCurrency = Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode();
+        int columnIndexCurrency = mAccountsCursor.getColumnIndex(KEY_CURRENCY);
+        while (mAccountsCursor.isAfterLast() == false) {
+          if (mAccountsCursor.getString(columnIndexCurrency).equals(currentCurrency)) {
+            accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
+            break;
+          }
+          mAccountsCursor.moveToNext();
         }
-        mAccountsCursor.moveToNext();
+      } else {
+        accountId = 0;
       }
     } else {
       accountId = mAccountId;
