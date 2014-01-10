@@ -386,7 +386,8 @@ public class Account extends Model  implements Serializable {
   }
   /**
    * @param id
-   * @return Accouht object, if id == 0, the account with the lowest id is returned,
+   * @return Accouht object, if id == 0, the first entry in the accounts cache will be returned or
+   * if it is empty the account with the lowest id will be fetched from db,
    * if id < 0 we forward to AggregateAccount
    * @throws DataObjectNotFoundException
    */
@@ -395,8 +396,14 @@ public class Account extends Model  implements Serializable {
       return AggregateAccount.getCachedInstance(id);
     Account account;
     String selection = KEY_ROWID + " = ";
-    if (id == 0)
+    if (id == 0) {
+      if (accounts.size() > 0) {
+        for (long _id: accounts.keySet()) {
+          return accounts.get(_id);
+        }
+      }
       selection += "(SELECT min(" + KEY_ROWID + ") FROM accounts)";
+    }
     else {
       account = accounts.get(id);
       if (account != null) {
