@@ -48,7 +48,12 @@ public class Template extends Transaction {
       KEY_AMOUNT,
       KEY_COMMENT,
       KEY_CATID,
+      LABEL_MAIN,
       SHORT_LABEL,
+      "CASE" +
+        " WHEN transfer_peer = 0 AND cat_id AND (SELECT parent_id FROM categories WHERE _id = cat_id)" +
+        " THEN (SELECT label FROM categories WHERE _id = cat_id)" +
+        "END AS label_sub",//different from Transaction, since transfer_peer is treated as boolean here
       KEY_PAYEE_NAME,
       KEY_TRANSFER_PEER,
       KEY_TRANSFER_ACCOUNT,
@@ -59,9 +64,10 @@ public class Template extends Transaction {
       KEY_PLAN_EXECUTION
     };
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength+1];
+    PROJECTION_EXTENDED = new String[baseLength+2];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
+    PROJECTION_EXTENDED[baseLength+1] = KEY_CURRENCY;
   }
   /**
    * derives a new template from an existing Transaction
@@ -119,12 +125,19 @@ public class Template extends Transaction {
   public void setDate(Date date){
     //templates have no date
   }
-  public static Template getInstanceForPlan(long planId) {
+  /**
+   * @param planId
+   * @param instanceId
+   * @return a template that is linked to the calendar event with id planId, but only if the instance instanceId
+   * has not yet been dealt with
+   */
+  public static Template getInstanceForPlanIfInstanceIsOpen(long planId,long instanceId) {
     Cursor c = cr().query(
         CONTENT_URI,
         null,
-        KEY_PLANID + "= ?",
-        new String[] {String.valueOf(planId)},
+        KEY_PLANID + "= ? AND NOT exists(SELECT 1 from planinstance_transaction WHERE "
+            + KEY_INSTANCEID + " = ?)",
+        new String[] {String.valueOf(planId),String.valueOf(instanceId)},
         null);
     if (c == null || c.getCount() == 0) {
       return null;
@@ -206,6 +219,10 @@ public class Template extends Transaction {
     Template t = getInstanceFromDb(id);
     if (t.planId != null) {
       Plan.delete(t.planId);
+      cr().delete(
+          TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+          KEY_TEMPLATEID + " = ?",
+          new String[]{String.valueOf(id)});
     }
     cr().delete(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
@@ -217,9 +234,6 @@ public class Template extends Transaction {
   }
   public static int countPerAccount(long accountId) {
     return countPerAccount(CONTENT_URI,accountId);
-  }
-  public static int countWithPlan() {
-    return count(CONTENT_URI,KEY_PLANID + " IS NOT null",null);
   }
   public static int countAll() {
     return countAll(CONTENT_URI);
@@ -264,5 +278,11 @@ public class Template extends Transaction {
       sb.append(PaymentMethod.getInstanceFromDb(methodId).getDisplayLabel());
     }
     return sb.toString();
+  }
+  public boolean applyInstance(long instanceId, long date) {
+    Transaction t = Transaction.getInstanceFromTemplate(this);
+    t.setDate(new Date(date));
+    t.originPlanInstanceId = instanceId;
+    return t.save() != null;
   }
 }

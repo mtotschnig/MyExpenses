@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.dialog;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 
 import android.app.AlertDialog;
@@ -33,6 +34,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.Html.ImageGetter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -74,7 +76,7 @@ public class HelpDialogFragment extends DialogFragment implements ImageGetter {
       if (resId != 0)
         screenInfo = getString(res.getIdentifier("help_" +activityName + "_info", "string", pack));
       else if (variant == null)
-        throw new NotFoundException();
+        throw new NotFoundException("help_" +activityName + "_info");
       if (variant != null)
         screenInfo = (String) TextUtils.concat(
             screenInfo,
@@ -108,7 +110,7 @@ public class HelpDialogFragment extends DialogFragment implements ImageGetter {
           if (resId == 0)
             resId = res.getIdentifier("menu_" + item + "_help_text","string",pack);
           if (resId == 0)
-            throw new NotFoundException();
+            throw new NotFoundException(item);
           ((TextView) row.findViewById(R.id.help_text)).setText(
               res.getString(resId));
           ll.addView(row);
@@ -118,6 +120,7 @@ public class HelpDialogFragment extends DialogFragment implements ImageGetter {
         resId = res.getIdentifier("help_" +activityName + "_title", "string", pack);
       title = getString(resId);
     } catch (NotFoundException e) {
+      Log.w(MyApplication.TAG, e.getMessage());
       return new AlertDialog.Builder(wrappedCtx)
           .setMessage("Error generating Help dialog")
           .setIcon(android.R.drawable.ic_dialog_alert)

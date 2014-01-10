@@ -42,7 +42,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class Transaction extends Model {
   public Long id = 0L;
   public String comment="",label="",payee = "",referenceNumber="";
-  public Date date;
+  private Date date;
   public Money amount;
   public Long catId;
   //stores a short label of the category or the account the transaction is linked to
@@ -51,6 +51,14 @@ public class Transaction extends Model {
   public Long transfer_account;
   public Long methodId;
   public Long parentId = null;
+  /**
+   * id of the template which defines the plan for which this transaction has been created
+   */
+  public Long originTemplateId = null;
+  /**
+   * id of an instance of the event (plan) for which this transaction has been created
+   */
+  public Long originPlanInstanceId = null;
   /**
    * 0 = is normal, special states are
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_EXPORTED} and
@@ -192,6 +200,7 @@ public class Transaction extends Model {
     tr.comment = te.comment;
     tr.payee = te.payee;
     tr.label = te.label;
+    tr.originTemplateId = te.id;
     cr().update(
         TransactionProvider.TEMPLATES_URI.buildUpon().appendPath(String.valueOf(te.id)).appendPath("increaseUsage").build(),
         null, null, null);
@@ -228,6 +237,10 @@ public class Transaction extends Model {
   }
   
   public static void delete(long id) {
+    cr().delete(
+        TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+        KEY_TRANSACTIONID + " = ?",
+        new String[]{String.valueOf(id)});
     cr().delete(ContentUris.appendId(CONTENT_URI.buildUpon(),id).build(),null,null);
   }
   //needed for Template subclass
@@ -264,8 +277,11 @@ public class Transaction extends Model {
     this.date = date;
     dateAsString = TransactionDatabase.dateTimeFormat.format(date);
   }
-  public String getDate() {
+  public String getDateAsString() {
     return dateAsString;
+  }
+  public Date getDate() {
+    return date;
   }
   /**
    * 
@@ -306,6 +322,13 @@ public class Transaction extends Model {
         cr().update(
             TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).appendPath("increaseUsage").build(),
             null, null, null);
+      if (originPlanInstanceId != null) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_TEMPLATEID, originTemplateId);
+        values.put(KEY_INSTANCEID, originPlanInstanceId);
+        values.put(KEY_TRANSACTIONID, id);
+        cr().insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
+      }
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
       cr().update(uri,initialValues,null,null);

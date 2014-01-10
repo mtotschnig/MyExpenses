@@ -31,7 +31,9 @@
   <string name="date_format_illegal">ខុសទ្រង់ទ្រាយ​កាល​បរិច្ឆេទ</string>
   <string name="default_account_description">គណនី​នេះ​ត្រូវបាន​រៀប​ចំ​ដោយ​ស្វ័យ​ប្រវត្តិ​ ក្នុងពេល​បញ្ចូលកម្មវិធី</string>
   <string name="description">ការពិពណ៌នា</string>
+  <string name="dialog_command_disabled_insert_transfer">ប្រតិបត្តិ​ការផ្ទេរ​តម្រូវឱ្យគណនីទីពីរមានរូបិយប័ណ្ណដូចគ្នា។ អ្នកមានគណនីតែមួយប៉ុណ្ណោះជាមួយរូបិយប័ណ្ណជា ​%1$s។</string>
   <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
+  <string name="dialog_command_disabled_insert_transfer_1">បង្កើត​គណនី​បន្ថែម​ទៀត ពី​បញ្ជីរគណនី ចុចចូល​តាម ប៊ូតុង \"លើ\" (នៃ app icon) នៅ​ខាងលើជ្រុងខាងឆ្វេង។</string>
   <string name="dialog_command_disabled_reset_account">គ្មាន​ប្រតិបត្តិការ​ណា​នាំយកចេញ​ឡើយ។</string>
   <string name="dialog_command_disabled_distribution">គ្មាន​ប្រតិបត្តិការ​ណា​ បានភ្ជាប់​ នឹង​ថ្នាក់​ណាមួយ​ ក្នុង​គណនីនេះទេ។</string>
   <string name="dialog_confirm_restore_on_install">ឯកសារព័ត៌មានបម្រុងមួយត្រូវបានគេរកឃើញ។ តើអ្នកចង់ restore វា ឬទេ?</string>
@@ -43,7 +45,9 @@
   <string name="dialog_contrib_reminder_gain_access">អ្នក​អាច​ចូល​ទៅកាន់​ផ្នែក​ពិសេស​ដែលហាម​ឃាត់​ ដូចខាងក្រោម៖</string>
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;My Expenses&lt;/i&gt; ផ្តល់​ដោយ​គ្មាន​ការផ្សាយ​ពាណិជ្ជកម្ម ហើយ​ជាកម្មវិធី​បើក​ចំហមួយ។ ហេតុ​នេះ​សូម​រួម​ចំណែក ដោយ​ការ​បញ្ចូល​កម្មវិធី​បង់​ថ្លៃ Contrib ។ អ្នក​អាច​ចូល​ទៅ​កាន់​ផ្នែក​ពិសេស​ ដែល​បាន​ហាមឃាត់​ដូចជា៖</string>
-  <string name="dialog_contrib_usage_count">អ្នក​មាន​​ការ​ប្រើប្រាស់​មិនគិតថ្លៃ​នៅសល់ %1$d ។</string>
+  <plurals name="dialog_contrib_usage_count">
+    <item quantity="other">អ្នក​មាន​​ការ​ប្រើប្រាស់​មិនគិតថ្លៃ​នៅសល់ %1$d ។</item>
+  </plurals>
   <string name="dialog_contrib_yes">ទិញឥឡូវ</string>
   <string name="dialog_export_delete">លុបចោលប្រតិបតិ្តការដែលបាននាំចេញ</string>
   <string name="dialog_export_not_yet_exported">នាំចេញតែប្រតិបត្តិការណាដែលមិនទាន់បាននាំចេញនៅឡើយ</string>
@@ -123,7 +127,7 @@
   <string name="licence_validation_success">គន្លឹះអាជ្ញាប័ណ្ណបានបញ្ជាក់​សុពលភាព​បានដោយជោគជ័យ​៖ លក្ខណៈពិសេសល្អជាងគេត្រូវបានដោះសោរ</string>
   <string name="menu_aggregates">សរុប</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply">ដាក់ទៅ</string>
+  <string name="menu_apply_template">ដាក់ទៅ</string>
   <string name="menu_back">ត្រឡប់​ក្រោយ</string>
   <string name="menu_backup">ការ​បម្រុង​ទុក</string>
   <string name="menu_clone_transaction">ក្លូន</string>
@@ -142,8 +146,6 @@
   <string name="menu_create_template_for_transaction">ពុម្ពប្រតិបត្តិការថ្មី</string>
   <string name="menu_create_template_for_transfer">ពុម្ពផ្ទេរថ្មី</string>
   <string name="menu_create_transaction">ប្រតិបត្តិការថ្មី</string>
-  <string name="menu_create_transaction_from_template_and_edit">ថ្មី និងកែ</string>
-  <string name="menu_create_transaction_from_template_and_save">ថ្មី និងរក្សាទុក</string>
   <string name="menu_create_transfer">ផ្ទេរថ្មី</string>
   <string name="menu_delete">លុប</string>
   <string name="menu_distribution">ការចែកចាយ</string>
@@ -162,8 +164,8 @@
   <string name="menu_grouping">ដាក់​ជាក្រុម</string>
   <string name="menu_help">ជំនួយ</string>
   <!--This command inverts the direction of a transfer-->
+  <string name="menu_invert_transfer">ត្រឡប់មកវិញ</string>
   <string name="menu_manage_plans">ទិន្នន័យ​គំរូ និងផែនការ</string>
-  <string name="menu_move_transaction">រំកិល</string>
   <string name="menu_reset">ការនាំចេញនិងការកំណត់ឡើងវិញ</string>
   <string name="menu_reset_all">ការនាំចេញនិងការកំណត់ឡើងវិញទាំងអស់</string>
   <string name="menu_save">រក្សាទុក</string>
@@ -346,7 +348,7 @@
   <string name="warning_password_contrib">ការកំណត់សំណួរសន្តិសុខអនុញ្ញាតឱ្យអ្នកដើម្បីដោះសោកម្មវិធីនេះក្នុងករណីដែលអ្នកភ្លេចពាក្យសម្ងាត់របស់អ្នក។</string>
   <string name="warning_password_no_contrib">ប្រសិន​បើអ្នក​ដាក់​លេខ​សម្ងាត់​ សូម​ចាំថា​មិន​អាចភ្លេច​បានឡើយ។ អ្នក​នឹង​មិន​អាចយកវា​ត្រឡប់​មកវិញទេ រហូត​ទាល់​តែ​អ្នក​ដាក់​សំនួរ​សុវត្ថិភាព​មួយ (ត្រូវការកម្មវិធី My Expenses Contrib)។</string>
   <string name="warning_reset_account">ប្រសិនបើអ្នកបន្ត រាល់ប្រតិបត្តិការទាំងអស់របស់គណនីនេះ នឹងត្រូវបានលុបចេញពីមូលដ្ឋានទិន្នន័យ និងមិនអាចត្រូវបានស្ដារឡើងវិញឡើយ។</string>
-  <string name="warning_reset_account_all">ប្រសិនបើអ្នកបន្ត រាល់ប្រតិបត្តិការទាំងអស់របស់គណនីទាំងអស់%1$s នឹងត្រូវបានលុបចេញ ពីមូលដ្ឋានទិន្នន័យ និងមិនអាចត្រូវបានស្ដារ ឡើងវិញឡើយ។</string>
+  <string name="warning_reset_account_all">ប្រសិនបើអ្នកបន្ត រាល់ប្រតិបត្តិការទាំងអស់របស់គណនីទាំងអស់ នឹងត្រូវបានលុបចេញ ពីមូលដ្ឋានទិន្នន័យ និងមិនអាចត្រូវបានស្ដារ ឡើងវិញឡើយ។</string>
   <string name="warning_restore">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានស្ដារឡើងវិញពីការបម្រុងទុក។ ទិន្នន័យបច្ចុប្បន្ន នឹងត្រូវបានលុប។ តើអ្នកចង់បន្តឬ?</string>
   <string name="warning_select_account">សូមជ្រើសរើស​គណនី​មួយ!</string>
   <string name="warning_splitpartcategory_context">ការផ្លាស់ប្តូរដែលជាផ្នែកមួយ នៃការបំបែកអាចត្រូវបាន កែសម្រួល ឬលុបបានតែនៅក្នុងបរិបទនេះទេ។</string>

@@ -57,8 +57,10 @@
   <string name="dialog_command_disabled_reset_account">Keine exportierbare Buchungen vorhanden.</string>
   <string name="dialog_command_disabled_distribution">In diesem Konto wurden keine Buchungen Kategorien zugeordnet.</string>
   <string name="dialog_confirm_restore_on_install">Eine Sicherungskopie ist vorhanden. Soll diese wiederhergestellt werden?</string>
-  <string name="dialog_contrib_usage_count">Diese Funktion kann noch %1$d mal verwendet werden.</string>
   <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden.</string>
+  <plurals name="dialog_contrib_usage_count">
+    <item quantity="other">Diese Funktion kann noch %1$d mal verwendet werden.</item>
+  </plurals>
   <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion.</string>
   <string name="dialog_contrib_reminder_remove_limitation">Sie können diese Einschränkung durch die Installation von &lt;i>&app_name; Contrib&lt;/i> aufheben.</string>
   <string name="dialog_contrib_reminder_gain_access">Auch auf folgende Funktionen können Sie dann uneingeschränkt zugreifen:</string>
@@ -139,7 +141,9 @@
   <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: Premium-Funktionen wurden freigeschaltet.</string>
   <string name="licence_validation_failure">Lizenz-Schlüssel konnte nicht validiert werden.</string>
   <string name="menu_aggregates">Gesamt</string>
-  <string name="menu_apply">Anwenden</string>
+  <string name="menu_apply_template">Anwenden</string>
+  <string name="menu_apply_template_and_edit">Anwenden und verändern</string>
+  <string name="menu_apply_template_and_save">Anwenden und speichern</string>
   <string name="menu_back">Zurück</string>
   <string name="menu_backup">Sicherungskopie</string>
   <string name="menu_clone_transaction">Klonen</string>
@@ -158,8 +162,6 @@
   <string name="menu_create_template">Neue Vorlage</string>
   <string name="menu_create_template_for_transaction">Neue Vorlage (Buchung)</string>
   <string name="menu_create_template_for_transfer">Neue Vorlage (Umbuchung)</string>
-  <string name="menu_create_transaction_from_template_and_edit">Neu und verändern</string>
-  <string name="menu_create_transaction_from_template_and_save">Neu und speichern</string>
   <string name="menu_delete">Löschen</string>
   <string name="menu_distribution">Verteilung</string>
   <string name="menu_edit">Bearbeiten</string>
@@ -178,7 +180,8 @@
   <string name="menu_help">Hilfe</string>
   <string name="menu_invert_transfer">Umkehren</string>
   <string name="menu_manage_plans">Vorlagen und Pläne</string>
-  <string name="menu_move_transaction">Verschieben</string>
+  <string name="menu_manage_plans_tab_templates">Vorlagen</string>
+  <string name="menu_manage_plans_tab_plans">Pläne</string>
   <string name="menu_reset">Exportieren und zurücksetzen</string>
   <string name="menu_reset_all">Alle exportieren und zurücksetzen</string>
   <string name="menu_save">Speichern</string>

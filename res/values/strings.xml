@@ -68,7 +68,10 @@
   <string name="dialog_contrib_reminder_gain_access">You also gain unrestricted acces to the following features:</string>
   <!-- Placeholders: 1 is feature list -->
   <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> is offered ad free and open source. Please contribute by installing the paid Contrib version. You gain unrestricted access to the following premium features:</string>
-  <string name="dialog_contrib_usage_count">You have %1$d free usages left.</string>
+  <plurals name="dialog_contrib_usage_count">
+    <item quantity="one">You have one free usage left.</item>
+    <item quantity="other">You have %1$d free usages left.</item>
+  </plurals>
   <string name="dialog_contrib_yes">Buy now</string>
   <string name="dialog_export_delete">Delete exported transactions</string>
   <string name="dialog_export_not_yet_exported">Export only transactions not yet exported</string>
@@ -149,9 +152,13 @@
   <string name="licence_validation_success">Licence key successfully validated: Premium features have been unlocked.</string>
   <string name="menu_aggregates">Total</string>
   <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
-  <string name="menu_apply">Apply</string>
+  <string name="menu_apply_template">Apply</string>
+  <string name="menu_apply_template_and_edit">Apply and edit</string>
+  <string name="menu_apply_template_and_save">Apply and save</string>
   <string name="menu_back">Back</string>
   <string name="menu_backup">Backup</string>
+  <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+  <string name="menu_cancel_plan_instance">Cancel</string>
   <string name="menu_clone_transaction">Clone</string>
   <string name="menu_contrib">Contribute</string>
   <!-- Currently used on button for creating a new plan -->
@@ -168,8 +175,6 @@
   <string name="menu_create_template_for_transaction">New transaction template</string>
   <string name="menu_create_template_for_transfer">New transfer template</string>
   <string name="menu_create_transaction">New Transaction</string>
-  <string name="menu_create_transaction_from_template_and_edit">New and edit</string>
-  <string name="menu_create_transaction_from_template_and_save">New and save</string>
   <string name="menu_create_transfer">New Transfer</string>
   <string name="menu_delete">Delete</string>
   <string name="menu_distribution">Distribution</string>
@@ -190,9 +195,12 @@
   <!-- This command inverts the direction of a transfer -->
   <string name="menu_invert_transfer">Invert</string>
   <string name="menu_manage_plans">Templates and plans</string>
-  <string name="menu_move_transaction">Move</string>
+  <string name="menu_manage_plans_tab_templates">Templates</string>
+  <string name="menu_manage_plans_tab_plans">Plans</string>
   <string name="menu_reset">Export and reset</string>
   <string name="menu_reset_all">Export and reset all</string>
+  <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+  <string name="menu_reset_plan_instance">Reset</string>
   <string name="menu_save">Save</string>
   <string name="menu_save_and_new">Save and new</string>
   <string name="menu_settings">Settings</string>
@@ -209,6 +217,7 @@
   <string name="no_exportable_expenses">There are no transactions that have not yet been exported.</string>
   <string name="no_mapped_transactions">No transactions have been mapped to categories during this period.</string>
   <string name="no_parties">No parties.</string>
+  <string name="no_plans">No plans.</string>
   <string name="no_split_parts">No split parts.</string>
   <string name="no_templates">No templates.</string>
   <string name="no_title_given">You did not enter any title.</string>
@@ -236,6 +245,7 @@
   <string name="plan_automatic">automatic</string>
   <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
   <string name="plan_calendar_name">My Expenses planner</string>
+  <string name="plan_event_deleted">The plan associated with this template has been deleted from the calendar.</string>
   <!-- This message is shown, after a user decides to not apply a manual plan -->
   <string name="plan_execution_canceled">Plan execution canceled</string>
   <string name="plan_manual">manual</string>
@@ -244,7 +254,7 @@
   <!-- On Jelly Bean and above, we offer the option of creating a local calendar -->
   <string name="planner_setup_info_jb">You can either create a local dedicated calendar or select an existing one in the settings.</string>
   <string name="planner_setup_info">Please select a calendar for storing plans in the settings.</string>
-  <!-- payment methods -->
+    <!-- payment methods -->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Credit card</string>
   <string name="pm_deposit">Deposit</string>

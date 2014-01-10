@@ -196,7 +196,7 @@ public final class CalendarContractCompat {
      * way to query event occurrences.
      */
     public static final class Instances implements BaseColumns {
-      public static String BEGIN, END, EVENT_ID;
+      public static String BEGIN, END, EVENT_ID, TITLE;
       public static Uri CONTENT_URI;
       static {
         if (legacyApi) {
@@ -205,11 +205,13 @@ public final class CalendarContractCompat {
           BEGIN = "begin";
           END = "end";
           EVENT_ID = "event_id";
+          TITLE = "title";
         } else {
           CONTENT_URI = CalendarContract.Instances.CONTENT_URI;
           BEGIN = CalendarContract.Instances.BEGIN;
           END = CalendarContract.Instances.END;
           EVENT_ID = CalendarContract.Instances.EVENT_ID;
+          TITLE = CalendarContract.Instances.TITLE;
         }
       }
         /**

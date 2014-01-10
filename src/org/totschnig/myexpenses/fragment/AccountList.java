@@ -73,13 +73,7 @@ public class AccountList extends SherlockFragment implements LoaderManager.Loade
           Cursor c = getCursor();
           c.moveToPosition(position);
           int col = c.getColumnIndex("currency");
-          String currencyStr = c.getString(col);
-          Currency currency;
-          try {
-            currency = Currency.getInstance(currencyStr);
-          } catch (IllegalArgumentException e) {
-            currency = Currency.getInstance(Locale.getDefault());
-          }
+          Currency currency = Utils.getSaveInstance(c.getString(col));
           View v = row.findViewById(R.id.color1);
           v.setBackgroundColor(c.getInt(c.getColumnIndex("color")));
           setConvertedAmount((TextView)row.findViewById(R.id.opening_balance), currency);

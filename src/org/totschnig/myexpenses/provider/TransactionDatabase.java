@@ -32,7 +32,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 39;
+  public static final int DATABASE_VERSION = 41;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -73,7 +73,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   }
   private static final String VIEW_DEFINITION_EXTENDED(String tableName) {
     return " AS SELECT " +
-      tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME + ", " + KEY_COLOR +
+      tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME + ", " + KEY_COLOR + ", " + KEY_CURRENCY +
       " FROM " + tableName +
       " LEFT JOIN " + TABLE_PAYEES + " ON " + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID +
       " LEFT JOIN " + TABLE_ACCOUNTS + " ON " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID;
@@ -165,6 +165,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     "CREATE TABLE " + TABLE_CURRENCIES
       + " (" + KEY_ROWID  + " integer primary key autoincrement, code text unique not null);";
 
+  /**
+   * in this table we store links between plan instances and transactions,
+   * thus allowing us to track if an instance has been applied, and to allow editing or cancellation of
+   * transactions added from plan instances 
+   */
+  private static final String PLAN_INSTANCE_STATUS_CREATE =
+      "CREATE TABLE " + TABLE_PLAN_INSTANCE_STATUS 
+      + " ( " + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ")," +
+      KEY_INSTANCEID + " integer," + // references Instances._ID in calendar content provider
+      KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + "), " +
+      "primary key (" + KEY_INSTANCEID + "," + KEY_TRANSACTIONID + "));";
+  
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
 
@@ -208,6 +220,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     initialValues.put(KEY_LABEL, "__SPLIT_TRANSACTION__");
     db.insertOrThrow(TABLE_CATEGORIES, null, initialValues);
     insertCurrencies(db);
+    db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
   }
 
   private void insertCurrencies(SQLiteDatabase db) {
@@ -525,6 +538,20 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
       db.execSQL("CREATE TABLE currency (_id integer primary key autoincrement, code text unique not null);");
       insertCurrencies(db);
+    }
+    if (oldVersion < 40) {
+      //added currency to extended view
+      db.execSQL("DROP VIEW transactions_extended");
+      db.execSQL("DROP VIEW templates_extended");
+      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
+    }
+    if (oldVersion < 41) {
+      db.execSQL("CREATE TABLE planinstance_transaction " +
+          "(template_id integer references templates(_id), " +
+          "instance_id integer, " +
+          "transaction_id integer references transactions(_id), " +
+          "primary key (instance_id,transaction_id));");
     }
   }
 }

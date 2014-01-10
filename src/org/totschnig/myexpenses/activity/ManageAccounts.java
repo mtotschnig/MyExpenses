@@ -51,7 +51,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
  *
  */
 public class ManageAccounts extends LaunchActivity implements
-    OnItemClickListener,ContribIFace, TaskExecutionFragment.TaskCallbacks {
+    OnItemClickListener,ContribIFace {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {

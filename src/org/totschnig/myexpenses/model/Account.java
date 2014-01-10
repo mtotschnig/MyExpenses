@@ -386,7 +386,8 @@ public class Account extends Model  implements Serializable {
   }
   /**
    * @param id
-   * @return Accouht object, if id == 0, the account with the lowest id is returned,
+   * @return Accouht object, if id == 0, the first entry in the accounts cache will be returned or
+   * if it is empty the account with the lowest id will be fetched from db,
    * if id < 0 we forward to AggregateAccount
    * @throws DataObjectNotFoundException
    */
@@ -395,8 +396,14 @@ public class Account extends Model  implements Serializable {
       return AggregateAccount.getCachedInstance(id);
     Account account;
     String selection = KEY_ROWID + " = ";
-    if (id == 0)
+    if (id == 0) {
+      if (accounts.size() > 0) {
+        for (long _id: accounts.keySet()) {
+          return accounts.get(_id);
+        }
+      }
       selection += "(SELECT min(" + KEY_ROWID + ") FROM accounts)";
+    }
     else {
       account = accounts.get(id);
       if (account != null) {
@@ -476,13 +483,7 @@ public class Account extends Model  implements Serializable {
     this.id = c.getLong(c.getColumnIndexOrThrow(KEY_ROWID));
     this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
-    String strCurrency = c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY));
-    try {
-      this.currency = Currency.getInstance(strCurrency);
-    } catch (IllegalArgumentException e) {
-      Log.e("MyExpenses",strCurrency + " is not defined in ISO 4217");
-      this.currency = Currency.getInstance(Locale.getDefault());
-    }    
+    this.currency = Utils.getSaveInstance(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY)));
     this.openingBalance = new Money(this.currency,
         c.getLong(c.getColumnIndexOrThrow(KEY_OPENING_BALANCE)));
     try {
@@ -587,6 +588,10 @@ public class Account extends Model  implements Serializable {
     args.putNull(KEY_TRANSFER_PEER);
     cr().update(TransactionProvider.TRANSACTIONS_URI, args,
         KEY_TRANSFER_ACCOUNT + " = ?", selectArgs);
+    cr().delete(
+        TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+        KEY_TRANSACTIONID + " IN (SELECT " + KEY_ROWID + " from " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?)",
+        selectArgs);
     cr().delete(TransactionProvider.TRANSACTIONS_URI, KEY_ACCOUNTID + " = ?", selectArgs);
   }
   public void deleteAllTemplates() {
