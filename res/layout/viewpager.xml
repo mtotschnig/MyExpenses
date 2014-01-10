@@ -14,13 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-<android.support.v4.view.ViewPager
-      android:layout_width="fill_parent" 
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:id="@+id/viewpager"/>
-</LinearLayout>
+<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/viewpager"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent" />
