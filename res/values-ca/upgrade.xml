@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_114">
+    <item>Millores a la gestió de la planificació: Podeu aplicar les instàncies pendents per endavant</item>
+    <item>Noves traduccions: Portuguès, Polonès, Txec</item>
+  </string-array>
   <string-array name="whats_new_110">
     <item>Mostra la llista d\'operacions i la distribució estadística agrupada dels diferents comptes</item>
   </string-array>

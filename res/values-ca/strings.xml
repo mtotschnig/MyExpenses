@@ -46,7 +46,8 @@
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;Les meves despeses&lt;/i&gt; s\'ofereix sense publicitat i és de codi obert. Si us plau contribuiu instal·lant la versió Contrib de pagament. Obtindreu accés il·limitat a les següents característiques premium:</string>
   <plurals name="dialog_contrib_usage_count">
-  	<item quantity="other">Disposeu de %1$d usos gratuïts més.</item>
+    <item quantity="one">Us queden encara 1 us disponible.</item>
+    <item quantity="other">Us queden encara %1$d usos disponibles.</item>
   </plurals>
   <string name="dialog_contrib_yes">Compreu-ho ara</string>
   <string name="dialog_export_delete">Suprimeix les operacions exportades</string>
@@ -129,9 +130,11 @@
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplica</string>
   <string name="menu_apply_template_and_edit">Aplica i modifica</string>
-  <string name="menu_apply_template_and_save">Aplica i desar</string>
+  <string name="menu_apply_template_and_save">Aplica i desa</string>
   <string name="menu_back">Torna</string>
   <string name="menu_backup">Còpia de seguretat</string>
+  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
+  <string name="menu_cancel_plan_instance">Anul·la</string>
   <string name="menu_clone_transaction">Clona</string>
   <string name="menu_contrib">Contribuïu</string>
   <!--Currently used on button for creating a new plan-->
@@ -172,6 +175,8 @@
   <string name="menu_manage_plans_tab_plans">Planificacions</string>
   <string name="menu_reset">Exporta i reinicia</string>
   <string name="menu_reset_all">Exporta i reinicia-ho tot</string>
+  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
+  <string name="menu_reset_plan_instance">Reinicia</string>
   <string name="menu_save">Desa</string>
   <string name="menu_save_and_new">Desa i nova</string>
   <string name="menu_settings">Preferències</string>
@@ -188,6 +193,7 @@
   <string name="no_exportable_expenses">No hi ha operacions que encara no hagin estat exportades.</string>
   <string name="no_mapped_transactions">No s\'ha assignat cap operació a cap categoria durant aquest període.</string>
   <string name="no_parties">No hi ha cap tercer</string>
+  <string name="no_plans">Cap planificació</string>
   <string name="no_split_parts">No hi ha cap partició.</string>
   <string name="no_templates">No hi ha cap plantilla</string>
   <string name="no_title_given">No heu afegit cap títol.</string>
@@ -215,6 +221,7 @@
   <string name="plan_automatic">automàtic</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Planificador de Les meves despeses</string>
+  <string name="plan_event_deleted">S\'ha suprimit la planificació del calendari associada amb aquesta plantilla.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">S\'ha anul·lat la planificació</string>
   <string name="plan_manual">manual</string>
@@ -352,6 +359,7 @@
   <string name="warning_password_contrib">Configura una pregunta de seguretat per desblocar l\'aplicació, en cas que oblideu la vostra contrasenya.</string>
   <string name="warning_password_no_contrib">Si s\'establiu una contrasenya, aneu amb compte de no oblidar-la. No podreu recuperar-la, llevat que s\'establiu una pregunta de seguretat (Requereix Les meves despeses Contrib).</string>
   <string name="warning_reset_account">Si continueu, totes les operacions d\'aquest compte s\'eliminaran de la base de dades i no es podran restaurar.</string>
+  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
   <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat. S\'esborraran les dades actuals. Voleu continuar?</string>
   <string name="warning_select_account">Si us plau, trieu un compte!</string>
