@@ -59,7 +59,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       Bundle extras = getIntent().getExtras();
       mTransferEnabled = extras.getBoolean("transferEnabled",false);
 
-    setContentView(R.layout.manage_templates);
+    setContentView(R.layout.viewpager);
     setTitle(R.string.menu_manage_plans);
 
     // Set up the action bar.
@@ -72,7 +72,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
         getSupportFragmentManager());
 
     // Set up the ViewPager with the sections adapter.
-    mViewPager = (ViewPager) findViewById(R.id.pager);
+    mViewPager = (ViewPager) findViewById(R.id.viewpager);
     mViewPager.setAdapter(mSectionsPagerAdapter);
 
     // When swiping between different sections, select the corresponding
@@ -114,10 +114,13 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     switch(command) {
     case R.id.INSERT_TA_COMMAND:
     case R.id.INSERT_TRANSFER_COMMAND:
+      PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
+          mSectionsPagerAdapter.getFragmentName(1));
       Intent intent = new Intent(this, ExpenseEdit.class);
       intent.putExtra("operationType",
           command == R.id.INSERT_TA_COMMAND ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
       intent.putExtra("newTemplate", true);
+      intent.putExtra("newPlanEnabled", MyApplication.getInstance().isContribEnabled || pl.newPlanEnabled);
       startActivity(intent);
       return true;
     case R.id.DELETE_COMMAND_DO:
@@ -182,6 +185,12 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     public int getCount() {
       // Show 3 total pages.
       return 2;
+    }
+    public String getFragmentName(int currentPosition) {
+      //http://stackoverflow.com/questions/7379165/update-data-in-listfragment-as-part-of-viewpager
+      //would call this function if it were visible
+      //return makeFragmentName(R.id.viewpager,currentPosition);
+      return "android:switcher:"+R.id.viewpager+":"+getItemId(currentPosition);
     }
   }
   @Override

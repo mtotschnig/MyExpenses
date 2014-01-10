@@ -438,8 +438,7 @@ public class ExpenseEdit extends AmountActivity implements
     mPlanButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
         if (mPlanId == null) {
-          if (MyApplication.getInstance().isContribEnabled ||
-              Template.countWithPlan() < 3) {
+          if (getIntent().getExtras().getBoolean("newPlanEnabled")) {
             if (syncStateAndValidate()) {
               launchNewPlan();
             }

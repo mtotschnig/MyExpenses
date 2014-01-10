@@ -83,6 +83,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   boolean indexesCalculated = false;
   private ExpandableListView mListView;
   private int mExpandedPosition = -1;
+  public boolean newPlanEnabled;
   
   
   @Override
@@ -278,7 +279,9 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
         columnIndexCurrency = c.getColumnIndex(KEY_CURRENCY);
         indexesCalculated = true;
       }
-      if (mTemplatesCursor.getCount()>0) {
+      int planCount = mTemplatesCursor.getCount();
+      newPlanEnabled = planCount < 3;
+      if (planCount>0) {
         mTemplatesCursor.moveToFirst();
         ArrayList<Long> plans = new ArrayList<Long>();
         long templateId,planId;
