@@ -26,7 +26,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.model.Plan;
-import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -59,7 +58,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 import com.android.calendar.CalendarContractCompat.Events;
@@ -163,11 +161,13 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       startActivity(i);
       return true;
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-      if (Template.getInstanceFromDb(templateId).applyInstance(info.id,date)) {
-        Toast.makeText(getActivity(),getString(R.string.save_transaction_from_template_success), Toast.LENGTH_LONG).show();
-      } else {
-        Toast.makeText(getActivity(),getString(R.string.save_transaction_error), Toast.LENGTH_LONG).show();
-      }
+      getActivity().getSupportFragmentManager().beginTransaction()
+        .add(TaskExecutionFragment.newInstance(
+            TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
+            templateId,
+            new Long[]{info.id,date}),
+          "ASYNC_TASK")
+        .commit();
       return true;
     case R.id.EDIT_COMMAND:
       i = new Intent(getActivity(), ExpenseEdit.class);
@@ -175,29 +175,23 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       startActivity(i);
       return true;
     case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
-      if (transactionId != null && transactionId >0L) {
-        Transaction.delete(transactionId);
-      } else {
-        cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-            KEY_INSTANCEID + " = ?",
-            new String[]{String.valueOf(info.id)});
-      }
-      ContentValues values = new ContentValues();
-      values.putNull(KEY_TRANSACTIONID);
-      values.put(KEY_TEMPLATEID, templateId);
-      values.put(KEY_INSTANCEID, info.id);
-      cr.insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
-      mAdapter.notifyDataSetChanged();
+      getActivity().getSupportFragmentManager().beginTransaction()
+        .add(TaskExecutionFragment.newInstance(
+            TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
+            info.id,
+            new Long[]{templateId,transactionId}),
+          "ASYNC_TASK")
+        .commit();
       return true;
     case R.id.RESET_PLAN_INSTANCE_COMMAND:
-      if (transactionId != null && transactionId >0L) {
-        Transaction.delete(transactionId);
-      }
-      cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-          KEY_INSTANCEID + " = ?",
-          new String[]{String.valueOf(info.id)});
+      getActivity().getSupportFragmentManager().beginTransaction()
+      .add(TaskExecutionFragment.newInstance(
+          TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
+          info.id,
+          transactionId),
+        "ASYNC_TASK")
+      .commit();
       mInstance2TransactionMap.remove(info.id);
-      mAdapter.notifyDataSetChanged();
       return true;
     }
     return false;
@@ -497,5 +491,8 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
       }
       return null;
     }
+  }
+  public void refresh() {
+   mAdapter.notifyDataSetChanged();
   }
 }

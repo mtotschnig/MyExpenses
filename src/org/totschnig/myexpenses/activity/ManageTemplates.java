@@ -201,5 +201,8 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       int msg = (o == null ?  R.string.save_transaction_error : R.string.save_transaction_from_template_success);
       Toast.makeText(this,getString(msg), Toast.LENGTH_LONG).show();
     }
+    PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
+        mSectionsPagerAdapter.getFragmentName(1));
+    pl.refresh();
   }
 }

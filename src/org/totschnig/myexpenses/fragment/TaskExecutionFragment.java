@@ -16,24 +16,21 @@
 
 package org.totschnig.myexpenses.fragment;
 
-import java.io.Serializable;
-import java.util.TimeZone;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 
+import java.io.Serializable;
+import java.util.Date;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
-import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 
-import com.android.calendar.CalendarContractCompat.Events;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -62,6 +59,8 @@ public class TaskExecutionFragment extends Fragment {
   public static final int TASK_DELETE_CATEGORY = 14;
   public static final int TASK_NEW_PLAN = 15;
   public static final int TASK_NEW_CALENDAR = 16;
+  public static final int TASK_CANCEL_PLAN_INSTANCE = 17;
+  public static final int TASK_RESET_PLAN_INSTANCE = 18;
 
   /**
    * Callback interface through which the fragment will report the
@@ -161,6 +160,9 @@ public class TaskExecutionFragment extends Fragment {
     @Override
     protected Object doInBackground(Long... id) {
       Transaction t;
+      Long transactionId;
+      Long[] extraInfo;
+      ContentResolver cr;
       switch (mTaskId) {
       case TASK_CLONE:
         Transaction.getInstanceFromDb(id[0]).saveAsNew();
@@ -181,7 +183,13 @@ public class TaskExecutionFragment extends Fragment {
           return null;
         }
       case TASK_NEW_FROM_TEMPLATE:
-        return Transaction.getInstanceFromTemplate(id[0]).save();
+        t = Transaction.getInstanceFromTemplate(id[0]);
+        if (mExtra != null) {
+          extraInfo = (Long[]) mExtra;
+          t.setDate(new Date(extraInfo[1]));
+          t.originPlanInstanceId = extraInfo[0];
+        }
+        return t.save();
       case TASK_REQUIRE_ACCOUNT:
         Account account;
         try {
@@ -235,6 +243,34 @@ public class TaskExecutionFragment extends Fragment {
         return Plan.create((Plan)mExtra);
       case TASK_NEW_CALENDAR:
         return MyApplication.getInstance().createPlanner();
+      case TASK_CANCEL_PLAN_INSTANCE:
+        cr = MyApplication.getInstance().getContentResolver();
+        extraInfo = (Long[]) mExtra;
+        transactionId = extraInfo[1];
+        Long templateId = extraInfo[0];
+        if (transactionId != null && transactionId >0L) {
+          Transaction.delete(transactionId);
+        } else {
+          cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+            KEY_INSTANCEID + " = ?",
+            new String[]{String.valueOf(id[0])});
+        }
+        ContentValues values = new ContentValues();
+        values.putNull(KEY_TRANSACTIONID);
+        values.put(KEY_TEMPLATEID, templateId);
+        values.put(KEY_INSTANCEID, id[0]);
+        cr.insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
+        return null;
+      case TASK_RESET_PLAN_INSTANCE:
+        cr = MyApplication.getInstance().getContentResolver();
+        transactionId = (Long) mExtra;
+        if (transactionId != null && transactionId >0L) {
+          Transaction.delete(transactionId);
+        }
+        cr.delete(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+            KEY_INSTANCEID + " = ?",
+            new String[]{String.valueOf(id[0])});
+        return null;
       }
       return null;
     }
