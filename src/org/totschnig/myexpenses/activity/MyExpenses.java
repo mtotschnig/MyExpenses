@@ -325,6 +325,9 @@ public class MyExpenses extends LaunchActivity implements
     } else {
       accountId = mAccountId;
     }
+    //since splits are immediately persisted they will not work without an account set
+    if (accountId == 0 && type == TYPE_SPLIT)
+      return;
     i.putExtra(KEY_ACCOUNTID,accountId);
     startActivityForResult(i, ACTIVITY_EDIT);
   }
@@ -369,11 +372,13 @@ public class MyExpenses extends LaunchActivity implements
       }
       return true;
     case R.id.GROUPING_COMMAND:
-      SelectGroupingDialogFragment.newInstance(
-          R.id.GROUPING_COMMAND_DO,
-          Account.getInstanceFromDb(mAccountId)
-              .grouping.ordinal())
-        .show(getSupportFragmentManager(), "SELECT_GROUPING");
+      Account a = Account.getInstanceFromDb(mAccountId);
+      if (a != null) {
+        SelectGroupingDialogFragment.newInstance(
+            R.id.GROUPING_COMMAND_DO,
+            a.grouping.ordinal())
+          .show(getSupportFragmentManager(), "SELECT_GROUPING");
+      }
       return true;
     case R.id.GROUPING_COMMAND_DO:
       Grouping value = Account.Grouping.values()[(Integer)tag];
