@@ -16,9 +16,14 @@
 
 package org.totschnig.myexpenses.ui;
 
+import java.lang.reflect.Field;
+
+import org.totschnig.myexpenses.MyApplication;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ResourceCursorTreeAdapter;
@@ -187,6 +192,15 @@ public abstract class SimpleCursorTreeAdapter extends ResourceCursorTreeAdapter 
         
         mChildFromNames = childFromNames;
         mChildTo = childTo;
+        try {
+          // use reflection to disable auto-requery thus preventing strict mode violations
+          Class cls = Class.forName("android.widget.CursorTreeAdapter");
+          Field field = cls.getDeclaredField("mAutoRequery");
+          field.setAccessible(true);
+          field.set(this, false);
+        } catch (Exception e) {
+          Log.e(MyApplication.TAG, e.getMessage());
+        }
     }
     
     /**
