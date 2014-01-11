@@ -151,7 +151,6 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
     long templateId = mTemplatesCursor.getLong(columnIndexRowId);
     Long transactionId = mInstance2TransactionMap.get(info.id);
     Intent i;
-    ContentResolver cr = getActivity().getContentResolver();
     switch(item.getItemId()) {
     case R.id.CREATE_INSTANCE_EDIT_COMMAND:
       i = new Intent(getActivity(), ExpenseEdit.class);
