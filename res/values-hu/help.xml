@@ -30,7 +30,6 @@
   <string name="help_ManageAccounts_title">Számla lista</string>
   <string name="help_ManageAccounts_info">A képernyőn látható az összes számla. Kattintásra az adott számla tranzakciói jelennek meg.</string>
   <string name="menu_create_account_help_text">Megnyit egy űrlapot új számla készítéséhez.</string>
-  <string name="menu_aggregates_help_text">Az összesítő oldalon megjelenítésre kerül az összes kiadás és bevétel az adott pénznemhez tartozóan, függetlenül attól hány számlát érint. A funkció csak a Contrib verzióban érhető el és legalább két számla szükséges egy adott pénznemhez.</string>
   <string name="menu_reset_all_help_text">A számlák alapállapotba állítására szolgáló parancs. Nem használható, ha nincsenek exportálásra váró tranzakciók (Contrib szolgáltatás).</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Ezen a képernyőn láthatóak az előre definiált fizetési módok (Csekk, Hitelkártya, Előleg, Csoportos beszedés) és itt van lehetőség új módok hozzáadására. Bármely elemre kattintva beállítható az összerendelés a fizetési mód és a számla típusa között.</string>

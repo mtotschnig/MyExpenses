@@ -16,7 +16,6 @@
   <string name="help_ManageAccounts_title">Lista kont</string>
   <string name="help_ManageAccounts_info">Ten ekran wyświetla wszystkie konta. Kliknięcie na pozycji listy, otwiera listę transakcji dla danego konta.</string>
   <string name="menu_create_account_help_text">Otwiera formularz tworzenia nowych kont.</string>
-  <string name="menu_aggregates_help_text">Okno dialogowe sumowania oblicza sumy wydatków i przychodów na wszystkich kontach które posiadają tą samą walutę. To polecenie jest dostępne tylko kiedy jakakolwiek waluta istnieje dla przynajmniej dwóch kont (Funkcja Contrib).</string>
   <string name="menu_reset_all_help_text">To polecenie pozwala na zresetowania wszystkich twoich kont w partii. Polecenie nie jest dostępne jeżeli nie ma transakcji do wyeksportowania. (funkcja Contrib).</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Ten ekran wyświetla predefiniowane metody płatności (Czek, Karta Kredytowa, Depozyt, Bezpośredni debet) i pozwala Ci na definiowane nowych. Kliknięcie na pozycji listy, pozwala Ci na zmianę skojarzenia pomiędzy metodą i typem konta.</string>

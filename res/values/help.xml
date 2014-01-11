@@ -34,7 +34,6 @@
   <string name="help_ManageAccounts_title">Accounts list</string>
   <string name="help_ManageAccounts_info">This screen lists all accounts. Clicking on a list entry, opens the transaction list for the account.</string>
   <string name="menu_create_account_help_text">Opens the form for creating a new account.</string>
-  <string name="menu_aggregates_help_text">The aggregates dialog calculates the sum of expenses and income across all accounts that share the same currency. The command is only available if for any currency there exist at least two accounts (Contrib feature).</string>
   <string name="menu_reset_all_help_text">This command allows to reset all your accounts in batch. It is not available if there are no transactions to export (Contrib feature).</string>
 
   <!-- ManageMethods title is in keys-->
