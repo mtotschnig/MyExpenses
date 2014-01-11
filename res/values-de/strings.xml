@@ -1,45 +1,24 @@
-<?xml version="1.0"?>
-<!-- 
-  This file is part of My Expenses.
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<!DOCTYPE resources [
-  <!ENTITY app_name "Meine Ausgaben">
-  <!ENTITY grisbi_file "grisbi.xml">
-  <!ENTITY contrib ' (<b>Premium</b>)'>
-  <!ENTITY continue 'Möchten Sie fortfahren?'>
-]>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="account">Konto</string>
-  <string name="account_type_cash">Bargeldkonto</string>
-  <string name="account_type_bank">Bankkonto</string>
-  <string name="account_type_ccard">Kreditkarte</string>
   <string name="account_type_asset">Anlagekonto</string>
+  <string name="account_type_bank">Bankkonto</string>
+  <string name="account_type_cash">Bargeldkonto</string>
+  <string name="account_type_ccard">Kreditkarte</string>
   <string name="account_type_liability">Kreditkonto</string>
   <string name="already_defined">%1$s existiert bereits</string>
   <string name="amount">Betrag</string>
-  <string name="app_name">&app_name;</string>
+  <string name="app_name">Meine Ausgaben</string>
   <string name="backup_failure">Das Backup auf die SD-Karte ist gescheitert.</string>
   <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich auf der SD-Karte gesichert.</string>
   <string name="category">Kategorie</string>
   <string name="color">Farbe</string>
   <string name="comment">Notizen</string>
-  <string name="contrib_feature_accounts_unlimited_description">Mit &lt;i>&app_name;&lt;/i> können Sie bis zu 5 Konten anlegen.</string>
+  <string name="contrib_feature_accounts_unlimited_description">Mit &lt;i&gt;Meine Ausgaben&lt;/i&gt; können Sie bis zu 5 Konten anlegen.</string>
   <string name="contrib_feature_accounts_unlimited_label">Unbegrenzte Anzahl von Konten</string>
   <string name="contrib_feature_aggregate_label">Gesamtsumme über mehrere Konten</string>
   <string name="contrib_feature_distribution_label">Verteilung der Buchungen auf Kategorien</string>
-  <string name="contrib_feature_plans_unlimited_description">Mit &lt;i>&app_name;&lt;/i> können Sie bis zu 3 Pläne anlegen.</string>
+  <string name="contrib_feature_plans_unlimited_description">Mit &lt;i&gt;Meine Ausgaben&lt;/i&gt; können Sie bis zu 3 Pläne anlegen.</string>
   <string name="contrib_feature_plans_unlimited_label">Unbegrenzte Anzahl von Plänen</string>
   <string name="contrib_feature_reset_all_label">Alle Konten zurücksetzen</string>
   <string name="contrib_feature_security_question_label">Sicherheitsfrage</string>
@@ -50,36 +29,42 @@
   <string name="date">Datum</string>
   <string name="date_format">Datumsformat</string>
   <string name="date_format_illegal">Unzulässiges Datumsformat</string>
-  <string name="default_account_description">Dieses Konto wurde während der Installation automatisch eingerichtet.</string>    
+  <string name="default_account_description">Dieses Konto wurde während der Installation automatisch eingerichtet.</string>
   <string name="description">Beschreibung</string>
   <string name="dialog_command_disabled_insert_transfer">Umbuchungen benötigen ein zweites Konto mit derselben Währung. Sie haben nur ein Konto in %1$s angelegt.</string>
+  <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
   <string name="dialog_command_disabled_insert_transfer_1">Sie können zusätzliche Konten von der Kontenliste (erreichbar über die \'Hinauf\'-Schaltfläche in der oberen linken Ecke) aus anlegen.</string>
   <string name="dialog_command_disabled_reset_account">Keine exportierbare Buchungen vorhanden.</string>
   <string name="dialog_command_disabled_distribution">In diesem Konto wurden keine Buchungen Kategorien zugeordnet.</string>
   <string name="dialog_confirm_restore_on_install">Eine Sicherungskopie ist vorhanden. Soll diese wiederhergestellt werden?</string>
+  <string name="dialog_contrib_no">Noch nicht</string>
   <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden.</string>
+  <!--Placeholder: 1 is name of the feature-->
+  <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Sie können diese Einschränkung durch die Installation von &lt;i&gt;Meine Ausgaben Contrib&lt;/i&gt; aufheben.</string>
+  <string name="dialog_contrib_reminder_gain_access">Auch auf folgende Funktionen können Sie dann uneingeschränkt zugreifen:</string>
+  <!--Placeholders: 1 is feature list-->
+  <string name="dialog_contrib_text">&lt;i&gt;Meine Ausgaben&lt;/i&gt; wird Ihnen ohne Werbung und mit offenem Quellcode angeboten. Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:</string>
   <plurals name="dialog_contrib_usage_count">
+    <item quantity="one">Diese Funktion kann nur noch ein mal verwendet werden.</item>
     <item quantity="other">Diese Funktion kann noch %1$d mal verwendet werden.</item>
   </plurals>
-  <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Sie können diese Einschränkung durch die Installation von &lt;i>&app_name; Contrib&lt;/i> aufheben.</string>
-  <string name="dialog_contrib_reminder_gain_access">Auch auf folgende Funktionen können Sie dann uneingeschränkt zugreifen:</string>
   <string name="dialog_contrib_yes">Kaufen</string>
-  <string name="dialog_contrib_no">Noch nicht</string>
-  <string name="dialog_contrib_text">&lt;i>&app_name;&lt;/i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten. Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:</string>
   <string name="dialog_export_delete">Buchungen nach dem Exportieren löschen</string>
   <string name="dialog_export_not_yet_exported">Nur Buchungen exportieren, die noch nicht exportiert wurden</string>
   <string name="dialog_password_activate_protection">Passwort-Schutz aktivieren</string>
   <string name="dialog_password_change_password">Passwort ändern</string>
   <string name="dialog_password_new_password">Neues Passwort</string>
   <string name="dialog_password_new_password_confirmation">Neues Passwort (Bestätigung)</string>
-  <string name="dialog_remind_rate">Bitte nehmen Sie sich einen Augenblick Zeit, um &app_name; zu bewerten und zu rezensieren. Ihre Kommentare ermöglichen regelmäßige Verbesserungen und Erweiterungen.</string>
-  <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
   <string name="dialog_remind_later">Später</string>
   <string name="dialog_remind_no">Nein danke</string>
-  <string name="dialog_security_question">Frage</string>
+  <string name="dialog_remind_rate">Bitte nehmen Sie sich einen Augenblick Zeit, um Meine Ausgaben zu bewerten und zu rezensieren. Ihre Kommentare ermöglichen regelmäßige Verbesserungen und Erweiterungen.</string>
+  <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
   <string name="dialog_security_answer">Antwort</string>
+  <string name="dialog_security_question">Frage</string>
+  <!--Label for button that leads to creation of new local calendar-->
   <string name="dialog_setup_planner_button_create_new">Neu anlegen</string>
+  <!--Label for button that opens preferences for selecting an existing calendar-->
   <string name="dialog_setup_planner_button_select_existing">Bestehenden auswählen</string>
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
   <string name="dialog_title_menu_command_disabled">Menübefehl deaktiviert</string>
@@ -97,31 +82,31 @@
   <string name="donate">Spenden</string>
   <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal, Flattr oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Contrib-Schlüssel an.</string>
   <string name="expense">Ausgabe</string>
-  <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten Sie eine Minute bevor Sie es erneut versuchen.</string>
   <string name="export_expenses">Ausgaben-Export</string>
+  <string name="export_expenses_outputfile_exists">Die Ausgabedatei existiert bereits. Bitte warten Sie eine Minute bevor Sie es erneut versuchen.</string>
   <string name="export_expenses_sdcard_failure">Fehler beim Ausgaben-Export nach SD-Karte</string>
   <string name="export_expenses_sdcard_success">Ausgaben in Datei %1$s exportiert</string>
   <string name="external_storage_unavailable">Externer Speicher (SD Karte) ist nicht verfügbar</string>
   <string name="feedback">Feedback</string>
   <string name="feedback_email_message">Senden Sie Ihr Feedback, bitte auf Deutsch, Englisch oder Französisch!</string>
   <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
-  <string name="grisbi_import_default_source">Deutsche Standard-Kategorien</string>
-  <string name="grisbi_import_button_categories_only">Kategorien</string>
   <string name="grisbi_import_button_categories_and_parties">Kateg. und Parteien</string>
-  <string name="grisbi_import_parsing">Analyse von %1$s</string>
+  <string name="grisbi_import_button_categories_only">Kategorien</string>
   <string name="grisbi_import_categories_and_parties_success">%1$s Kategorien und %2$s Parteien erfolgreich importiert</string>
   <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
   <string name="grisbi_import_categories_success">%1$s Kategorien erfolgreich importiert</string>
+  <string name="grisbi_import_default_source">Deutsche Standard-Kategorien</string>
+  <string name="grisbi_import_parsing">Analyse von %1$s</string>
   <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
-  <string name="grouping_none">Nicht gruppiert</string>
   <string name="grouping_day">Tag</string>
-  <string name="grouping_week">Woche</string>
-  <string name="grouping_month">Monat</string>
-  <string name="grouping_year">Jahr</string>
-  <string name="grouping_today">Heute</string>
-  <string name="grouping_yesterday">Gestern</string>
-  <string name="grouping_this_week">Diese Woche</string>
   <string name="grouping_last_week">Letzte Woche</string>
+  <string name="grouping_month">Monat</string>
+  <string name="grouping_none">Nicht gruppiert</string>
+  <string name="grouping_this_week">Diese Woche</string>
+  <string name="grouping_today">Heute</string>
+  <string name="grouping_week">Woche</string>
+  <string name="grouping_year">Jahr</string>
+  <string name="grouping_yesterday">Gestern</string>
   <string name="help_button_rate">Bewerten</string>
   <string name="help_contextuel_help">Über den Menü-Eintrag Hilfe, können Sie mehr über die vorhandenen Funktionen erfahren.</string>
   <string name="help_heading_credits">Abspann</string>
@@ -132,36 +117,41 @@
     <item>Verwalten Sie diese direkt auf Ihrem Smartphone.</item>
     <item>Exportieren Sie diese in ein Desktop-Finanzprogrammm (Grisbi, Gnucash, Quicken oder MS Money).</item>
   </string-array>
-  <string name="help_leading">Danke fürs Ausprobieren von <i>&app_name;</i> für Android.</string>
-  <string name="import_categories">Kategorien importieren</string>
+  <string name="help_leading">Danke fürs Ausprobieren von <i>Meine Ausgaben</i> für Android.</string>
   <string name="important_upgrade_information_heading">Wichtige Information</string>
+  <string name="important_upgrade_information_1"></string>
+  <string name="import_categories">Kategorien importieren</string>
   <string name="income">Einnahme</string>
   <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt. Bitte verwenden Sie %1$s</string>
   <string name="label">Bezeichnung</string>
-  <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: Premium-Funktionen wurden freigeschaltet.</string>
   <string name="licence_validation_failure">Lizenz-Schlüssel konnte nicht validiert werden.</string>
+  <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: Premium-Funktionen wurden freigeschaltet.</string>
   <string name="menu_aggregates">Gesamt</string>
+  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Anwenden</string>
   <string name="menu_apply_template_and_edit">Anwenden und verändern</string>
   <string name="menu_apply_template_and_save">Anwenden und speichern</string>
   <string name="menu_back">Zurück</string>
   <string name="menu_backup">Sicherungskopie</string>
+  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
+  <string name="menu_cancel_plan_instance">Annullieren</string>
   <string name="menu_clone_transaction">Klonen</string>
   <string name="menu_contrib">Beitragen</string>
+  <!--Currently used on button for creating a new plan-->
   <string name="menu_create">Erstellen</string>
   <string name="menu_create_account">Neues Konto</string>
+  <string name="menu_create_main_cat">Neue Hauptkategorie</string>
   <string name="menu_create_method">Neue Zahlungsweise</string>
   <string name="menu_create_party">Neue Partei</string>
-  <string name="menu_create_transaction">Neue Buchung</string>
-  <string name="menu_create_transfer">Neue Umbuchung</string>
   <string name="menu_create_split">Neue Splitbuchung</string>
   <string name="menu_create_split_part_category">Neuer Split-Teilbetrag (Kategorie)</string>
   <string name="menu_create_split_part_transfer">Neuer Split-Teilbetrag (Umbuchung)</string>
-  <string name="menu_create_main_cat">Neue Hauptkategorie</string>
   <string name="menu_create_sub_cat">Neue Unterkategorie</string>
   <string name="menu_create_template">Neue Vorlage</string>
   <string name="menu_create_template_for_transaction">Neue Vorlage (Buchung)</string>
   <string name="menu_create_template_for_transfer">Neue Vorlage (Umbuchung)</string>
+  <string name="menu_create_transaction">Neue Buchung</string>
+  <string name="menu_create_transfer">Neue Umbuchung</string>
   <string name="menu_delete">Löschen</string>
   <string name="menu_distribution">Verteilung</string>
   <string name="menu_edit">Bearbeiten</string>
@@ -172,18 +162,21 @@
   <string name="menu_edit_split">Split-Buchung verändern</string>
   <string name="menu_edit_split_part_category">Split-Teilbetrag (Kategorie) verändern</string>
   <string name="menu_edit_split_part_transfer">Split-Teilbetrag (Umbuchung) verändern</string>
-  <string name="menu_edit_transaction">Buchung verändern</string>
   <string name="menu_edit_template">Vorlage verändern</string>
+  <string name="menu_edit_transaction">Buchung verändern</string>
   <string name="menu_edit_transfer">Umbuchung verändern</string>
   <string name="menu_forward">Weiter</string>
   <string name="menu_grouping">Gruppierung</string>
   <string name="menu_help">Hilfe</string>
+  <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Umkehren</string>
   <string name="menu_manage_plans">Vorlagen und Pläne</string>
   <string name="menu_manage_plans_tab_templates">Vorlagen</string>
   <string name="menu_manage_plans_tab_plans">Pläne</string>
   <string name="menu_reset">Exportieren und zurücksetzen</string>
   <string name="menu_reset_all">Alle exportieren und zurücksetzen</string>
+  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
+  <string name="menu_reset_plan_instance">Zurücks.</string>
   <string name="menu_save">Speichern</string>
   <string name="menu_save_and_new">Speichern und neu</string>
   <string name="menu_settings">Einstellungen</string>
@@ -200,6 +193,7 @@
   <string name="no_exportable_expenses">Es gibt keine Buchungen, die noch nicht exportiert wurden.</string>
   <string name="no_mapped_transactions">In diesem Zeitraum wurden keine Buchungen Kategorien zugeordnet.</string>
   <string name="no_parties">Keine Parteien.</string>
+  <string name="no_plans">Keine Pläne</string>
   <string name="no_split_parts">Keine Split-Teilbeträge.</string>
   <string name="no_templates">Keine Vorlagen.</string>
   <string name="no_title_given">Sie haben keinen Titel eingegeben.</string>
@@ -210,10 +204,10 @@
   <string name="oi_pick_colors_info">OI Color Picker installieren für mehr Auswahl</string>
   <string name="opening_balance">Anfangssaldo</string>
   <string name="parse_error_file_not_found">Konnte Datei %1$s nicht finden</string>
-  <string name="parse_error_no_data_found">Keine importierbaren Daten in der Datei gefunden.</string>
-  <string name="parse_error_parse_exception">Konnte Datei nicht analysieren</string>
-  <string name="parse_error_other_exception">Ein Fehler ist aufgetreten: %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Grisbi Datei Version %1$s wird nicht unterstützt</string>
+  <string name="parse_error_no_data_found">Keine importierbaren Daten in der Datei gefunden.</string>
+  <string name="parse_error_other_exception">Ein Fehler ist aufgetreten: %1$s</string>
+  <string name="parse_error_parse_exception">Konnte Datei nicht analysieren</string>
   <string name="password_disabled_reenable">Passwort-Schutz wurde aufgehoben. Sie können diesen in den Einstellungen wieder aktivieren.</string>
   <string name="password_lost">Passwort vergessen</string>
   <string name="password_not_valid">Passwort ungültig. Versuchen Sie es erneut!</string>
@@ -221,103 +215,113 @@
   <string name="password_security_answer_not_valid">Falsche Antwort. Versuchen Sie es erneut!</string>
   <string name="payee">Empfänger</string>
   <string name="payer">Zahler</string>
+  <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s) verknüpft, die gelöscht wurde</string>
+  <!--Plan for future and recurring transactions-->
   <string name="plan">Plan</string>
   <string name="plan_automatic">automatisch</string>
+  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Meine Ausgaben Planer</string>
+  <string name="plan_event_deleted">Der mit dieser Vorlage verknüpfte Plan wurde aus dem Kalender gelöscht.</string>
+  <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Durchführung des Plans abgebrochen</string>
   <string name="plan_manual">manuell</string>
   <string name="planner_create_calendar_failure">Lokaler Kalender konnte nicht angelegt werden</string>
   <string name="planner_create_calendar_success">Lokaler Kalender erfolgreich angelegt</string>
+  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
   <string name="planner_setup_info_jb">Sie können entweder einen speziellen lokalen Kalender anlegen, oder in den Einstellungen einen bestehenden Kalender auswählen.</string>
   <string name="planner_setup_info">Bitte wählen Sie in den Einstellungen den Kalender aus, in dem Pläne gespeichert werden sollen.</string>
+  <!--payment methods-->
   <string name="pm_cheque">Scheck</string>
   <string name="pm_creditcard">Kreditkarte</string>
   <string name="pm_deposit">Einzahlung</string>
   <string name="pm_directdebit">Abbuchung</string>
-  <string name="pm_type_neutral">Neutral</string>
-  <string name="pm_type_debit">Ausgaben</string>
   <string name="pm_type_credit">Einnahmen</string>
-  <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s) verknüpft, die gelöscht wurde</string>
+  <string name="pm_type_debit">Ausgaben</string>
+  <string name="pm_type_neutral">Neutral</string>
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen auf der SD-Karte.</string>
-  <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge (Kategorien, Vorlagen, Konten)</string>
   <string name="pref_categories_sort_by_usages_summaryOn">Häufigkeit der Benutzung</string>
   <string name="pref_categories_sort_by_usages_summaryOff">alphabetische Reihung</string>
-  <string name="pref_category_title_manage">Verwalten</string>
-  <string name="pref_category_title_ui">Benutzerschnittstelle</string>
-  <string name="pref_category_title_import">Import</string>
+  <string name="pref_categories_sort_by_usages_title">Sortierreihenfolge (Kategorien, Vorlagen, Konten)</string>
   <string name="pref_category_title_export">Export</string>
-  <string name="pref_category_title_security">Sicherheit</string>
+  <string name="pref_category_title_import">Import</string>
+  <string name="pref_category_title_manage">Verwalten</string>
   <string name="pref_category_title_more_information">Mehr Information</string>
+  <string name="pref_category_title_security">Sicherheit</string>
+  <string name="pref_category_title_ui">Benutzerschnittstelle</string>
   <string name="pref_contrib_donate_summary">Spenden Sie mittels PayPal, Flattr oder Bitcoin und erhalten Sie Zugriff auf Premium-Funktionen.</string>
   <string name="pref_contrib_donate_title">Spenden</string>
+  <string name="pref_contrib_install_summary">Durch die Installation von Meine Ausgaben Contrib, erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
   <string name="pref_contrib_install_title">Contrib App installieren</string>
-  <string name="pref_contrib_install_summary">Durch die Installation von &app_name; Contrib, erhalten Sie Zugriff auf alle Premium-Funktionen.</string>
-  <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>
   <string name="pref_enter_licence_summary">Wenn Sie einen Contrib-Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
+  <string name="pref_enter_licence_title">Contrib-Schlüssel eingeben</string>
   <string name="pref_export_format_title">Datenformat</string>
   <string name="pref_follow_gplus_title">Meine Ausgaben auf Google+ folgen</string>
+  <string name="pref_import_from_grisbi_summary">Kategorien (und Partner) aus den inkludierten Grisbi-Standard-Definitionen oder aus Ihrer eigenen Datei importieren. Letztere müssen Sie unter dem Namen grisbi.xml in dem Ordner myexpenses im Wurzelverzeichnis der SD-Karte speichern</string>
   <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
-  <string name="pref_import_from_grisbi_summary">Kategorien (und Partner) aus den inkludierten Grisbi-Standard-Definitionen oder aus Ihrer eigenen Datei importieren. Letztere müssen Sie unter dem Namen &grisbi_file; in dem Ordner myexpenses im Wurzelverzeichnis der SD-Karte speichern</string>
   <string name="pref_manage_accounts_title">Konten</string>
-  <string name="pref_manage_categories_title">Kategorien</string>
   <string name="pref_manage_categories_summary">Hinzufügen, Editieren und Löschen von Kategorien.</string>
-  <string name="pref_manage_methods_title">Zahlungsweisen</string>
+  <string name="pref_manage_categories_title">Kategorien</string>
   <string name="pref_manage_methods_summary">Zahlungsweisen hinzufügen und verändern, und diese mit Kontotypen verknüpfen.</string>
-  <string name="pref_manage_parties_title">Parteien</string>
+  <string name="pref_manage_methods_title">Zahlungsweisen</string>
   <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) hinzufügen, editieren und löschen.</string>
-  <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>
+  <string name="pref_manage_parties_title">Parteien</string>
   <string name="pref_more_info_dialog_summary">Übersetzt von Michael Totschnig</string>
+  <!--this is empty for English and gives credit to translators in the other languages-->
+  <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>
   <string name="pref_password_empty">Passwort darf nicht leer sein</string>
   <string name="pref_password_not_equal">Passwörter stimmen nicht überein</string>
-  <string name="pref_perform_share_title">Export versenden</string>
-  <string name="pref_perform_share_summaryOn">Die Datei wird nach jedem Export versendet?</string>
-  <string name="pref_perform_share_summaryOff">Die Datei wird nicht nach jedem Export versendet?</string>
-  <string name="pref_perform_protection_title">Passwortschutz</string>
   <string name="pref_perform_protection_summary">Sollen das Starten und Wiederaufnehmen der App abgesichert werden?</string>
+  <string name="pref_perform_protection_title">Passwortschutz</string>
+  <string name="pref_perform_share_title">Export versenden</string>
+  <string name="pref_perform_share_summaryOff">Die Datei wird nicht nach jedem Export versendet?</string>
+  <string name="pref_perform_share_summaryOn">Die Datei wird nach jedem Export versendet?</string>
+  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Neuen lokalen Planer anlegen</string>
-  <string name="pref_planning_calendar_title">Planer</string>
   <string name="pref_planning_calendar_summary">Wählen Sie den Kalender aus, in dem Pläne für zukünftige und wiederkehrende Buchungen gespeichert werden sollen.</string>
-  <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
+  <string name="pref_planning_calendar_title">Planer</string>
   <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
+  <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
-  <string name="pref_request_licence_title">Contrib-Schlüssel beantragen</string>
   <string name="pref_request_licence_summary">Wenn Sie anderweitig einen Beitrag geleistet haben, beantragen Sie einen Contrib-Schlüssel per E-Mail.</string>
-  <string name="pref_restore_title">Wiederherstellung</string>
+  <string name="pref_request_licence_title">Contrib-Schlüssel beantragen</string>
   <string name="pref_restore_summary">Die Sicherheitskopie aus dem Ordner \"myexpenses\" der SD-Karte wiederherstellen.</string>
+  <string name="pref_restore_title">Wiederherstellung</string>
+  <string name="pref_security_question_summary">Erlaubt den Passwortschutz aufzuheben, sollten Sie das Passwort vergessen. Benötigt Meine Ausgaben Contrib.</string>
   <string name="pref_security_question_title">Sicherheitsfrage</string>
-  <string name="pref_security_question_summary">Erlaubt den Passwortschutz aufzuheben, sollten Sie das Passwort vergessen. Benötigt &app_name; Contrib.</string>
   <string name="pref_send_feedback_title">Feedback senden</string>
+  <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden Apps wählen wollen (Email, Dropbox, Google Docs, …) oder eine URL in einer der unterstützten Schemen angeben</string>
   <string name="pref_share_target_title">Upload URL</string>
-  <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden Apps wählen wollen (Email, Dropbox, Google Docs, &#8230;) oder eine URL in einer der unterstützten Schemen angeben</string>
   <string name="pref_shortcut_account_list_title">\'Kontenliste\' Verknüpfung</string>
   <string name="pref_shortcut_added">Verknüpfung dem Home Screen hinzugefügt</string>
   <string name="pref_shortcut_summary">Fügt den Shortcut dem Home Screen hinzu</string>
+  <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_summary">Jeder Schritt vergrößert die Schrift um 2sp</string>
   <string name="pref_ui_fontsize_title">Schrift vergrößern</string>
   <string name="pref_ui_language_default">System-Standard</string>
   <string name="pref_ui_language_summary">Sprache der Bedienoberfläche festlegen </string>
+  <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Sprache</string>
-  <string name="pref_ui_theme_title">Stil</string>
   <string name="pref_ui_theme_dark">dunkel</string>
   <string name="pref_ui_theme_light">hell</string>
-  <string name="pref_visit_website_title">Website besuchen</string>
+  <string name="pref_ui_theme_title">Stil</string>
   <string name="pref_visit_website_summary">Änderungsprotokoll und FAQ</string>
-  <string name="progress_dialog_create_calendar">Lokaler Kalender wird angelegt &#8230;</string>
-  <string name="progress_dialog_create_plan">Neuer Plan wird angelegt &#8230;</string>
-  <string name="progress_dialog_loading">Buchung wird von Datenbank geladen &#8230;</string>
-  <string name="progress_dialog_setup">Datenbank wird initialisiert &#8230;</string>
+  <string name="pref_visit_website_title">Website besuchen</string>
+  <string name="progress_dialog_create_calendar">Lokaler Kalender wird angelegt …</string>
+  <string name="progress_dialog_create_plan">Neuer Plan wird angelegt …</string>
+  <string name="progress_dialog_loading">Buchung wird von Datenbank geladen …</string>
+  <string name="progress_dialog_setup">Datenbank wird initialisiert …</string>
   <string name="reference_number">Referenznummer</string>
+  <string name="request_licence_mail_description">Bitte beschreiben Sie Ihren Beitrag zu Meine Ausgaben (z.B.: Spende via Paypal, Problembericht, Testen, Übersetzung).</string>
   <string name="request_licence_mail_head">Bitte senden Sie mir einen Contrib-Schlüssel für die Android-Id %1$s.</string>
-  <string name="request_licence_mail_description">Bitte beschreiben Sie Ihren Beitrag zu &app_name; (z.B.: Spende via Paypal, Problembericht, Testen, Übersetzung).</string>
   <string name="restore_db_failure">Fehler bei der Wiederherstellung der Datenbank.</string>
   <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
   <string name="restore_no_backup_found">Keine Datei BACKUP im Ordner \"myexpenses\" der SD-Karte vorhanden.</string>
   <string name="restore_preferences_failure">Fehler bei der Wiederherstellung der Einstellungen</string>
   <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
-  <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden</string>
-  <string name="save_transaction_template_deleted">Vorlage wurde gelöscht</string>
-  <string name="save_transaction_from_template_success">Neue Buchung aus Vorlage wurde erfolgreich gespeichert</string>
   <string name="save_transaction_and_new_success">Erfolgreich gespeichert</string>
+  <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden</string>
+  <string name="save_transaction_from_template_success">Neue Buchung aus Vorlage wurde erfolgreich gespeichert</string>
+  <string name="save_transaction_template_deleted">Vorlage wurde gelöscht</string>
   <string name="select">Auswählen</string>
   <string name="select_category">Kategorie auswählen</string>
   <string name="select_parent_category">Wähle diese Kategorie</string>
@@ -330,8 +334,8 @@
   <string name="status_reconciled">abgestimmt</string>
   <string name="status_uncreconciled">nicht abgestimmt</string>
   <string name="subcategory">Unterkategorie</string>
-  <string name="sum_income">Einnahmen</string>
   <string name="sum_expenses">Ausgaben</string>
+  <string name="sum_income">Einnahmen</string>
   <string name="sum_transfer">Umbuchungen</string>
   <string name="template">Vorlage</string>
   <string name="template_create_success">Vorlage \"%1$s\" erfolgreich angelegt</string>
@@ -347,16 +351,17 @@
   <string name="type">Typ</string>
   <string name="unsplit_amount">Ungesplitteter Betrag</string>
   <string name="unsplit_amount_greater_than_zero">Es wurde noch nicht der gesamte Betrag aufgesplittet.</string>
-  <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. &continue;</string>
-  <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Das bestehende Backup wird gelöscht. &continue;</string>
-  <string name="warning_delete_account">Dieses Konto wird mit all seinen Buchungen gelöscht. &continue;</string>
-  <string name="warning_delete_template">Diese Vorlage (und ein etwaig dafür angelegter Plan) wird gelöscht. &continue;</string>
-  <string name="warning_delete_transaction">Diese Buchung wird gelöscht. &continue;</string>
-  <string name="warning_password_no_contrib">Wenn Sie ein Passwort setzen, passen Sie auf dieses nicht zu vergessen. Sie können dieses nur zurücksetzen, wenn Sie eine Sicherheitsfrage setzen (benötigt &app_name; Contrib).</string>
+  <string name="warning_backup">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Möchten Sie fortfahren?</string>
+  <string name="warning_backup_exists">Die Datenbank und die Einstellungen werden auf der SD-Karte gesichert. Das bestehende Backup wird gelöscht. Möchten Sie fortfahren?</string>
+  <string name="warning_delete_account">Dieses Konto wird mit all seinen Buchungen gelöscht. Möchten Sie fortfahren?</string>
+  <string name="warning_delete_template">Diese Vorlage (und ein etwaig dafür angelegter Plan) wird gelöscht. Möchten Sie fortfahren?</string>
+  <string name="warning_delete_transaction">Diese Buchung wird gelöscht. Möchten Sie fortfahren?</string>
   <string name="warning_password_contrib">Durch das Setzen einer Sicherheitsfrage können Sie den Passwortschutz aufheben, sollten Sie das Passwort vergessen.</string>
-  <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.	Dies kann nicht rückgängig gemacht werden.</string>
+  <string name="warning_password_no_contrib">Wenn Sie ein Passwort setzen, passen Sie auf dieses nicht zu vergessen. Sie können dieses nur zurücksetzen, wenn Sie eine Sicherheitsfrage setzen (benötigt Meine Ausgaben Contrib).</string>
+  <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.\tDies kann nicht rückgängig gemacht werden.</string>
+  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Transaktionen aller Konten%1$s von der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
-  <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten werden gelöscht. &continue;</string>
+  <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup wiederhergestellt. Aktuelle Daten werden gelöscht. Möchten Sie fortfahren?</string>
   <string name="warning_select_account">Wählen Sie bitte ein Konto!</string>
   <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert oder gelöscht werden.</string>
-</resources>      
+</resources>

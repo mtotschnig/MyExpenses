@@ -43,7 +43,11 @@
         style="@style/about_text" />
     <TextView android:text="@string/help_licence_stickylistheaders"
         style="@style/about_text" />
-    <TextView android:text="© 2013 Michael Totschnig"
+    <TextView android:text="@string/help_licence_grisbi"
+        style="@style/about_text" />
+    <TextView android:text="@string/help_licence_aosp"
+        style="@style/about_text" />
+    <TextView android:text="© 2014 Michael Totschnig"
         style="@style/about_text" />
    <!--  Credits -->
    <TextView android:text="@string/help_heading_credits"

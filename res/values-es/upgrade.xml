@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_114">
+    <item>Mejorado manejo de planes: próximas instancias se aplican por adelantado</item>
+    <item>Nuevas traducciones: Portugués, Polaco, Checo</item>
+  </string-array>
   <string-array name="whats_new_110">
     <item>Mostrar la lista de transacciones y la distribución estadística de los agregados de varias cuentas</item>
   </string-array>

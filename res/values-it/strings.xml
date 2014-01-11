@@ -46,8 +46,9 @@
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;Le mie spese&lt;/i&gt; è gratuito e open source. Si prega di contribuire installando la versione Contrib a pagamento. Ottiene l’accesso illimitato alle seguenti funzionalità speciali:</string>
   <plurals name="dialog_contrib_usage_count">
-  	<item quantity="other">Restano %1$d usi gratis.</item>
-  	</plurals>
+    <item quantity="one">Avete uno utilizzo gratuito.</item>
+    <item quantity="other">Restano %1$d utilizzi gratuiti.</item>
+  </plurals>
   <string name="dialog_contrib_yes">Compra Ora</string>
   <string name="dialog_export_delete">Cancellare le transazioni esportati</string>
   <string name="dialog_export_not_yet_exported">Esportare solo le operazioni non ancora esportati</string>
@@ -132,6 +133,8 @@
   <string name="menu_apply_template_and_save">Applicare e salvare</string>
   <string name="menu_back">Indietro</string>
   <string name="menu_backup">Backup</string>
+  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
+  <string name="menu_cancel_plan_instance">Annullare</string>
   <string name="menu_clone_transaction">Ricopiare</string>
   <string name="menu_contrib">Contribuire</string>
   <!--Currently used on button for creating a new plan-->
@@ -172,6 +175,8 @@
   <string name="menu_manage_plans_tab_plans">Scadenze</string>
   <string name="menu_reset">Esportare e reinizializzare</string>
   <string name="menu_reset_all">Esportare e reinizializzare tutti</string>
+  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
+  <string name="menu_reset_plan_instance">Reinizializzare</string>
   <string name="menu_save">Salvare</string>
   <string name="menu_save_and_new">Salvare e nuova</string>
   <string name="menu_settings">Impostazioni</string>
@@ -188,6 +193,7 @@
   <string name="no_exportable_expenses">Non ci sono operazioni che non sono ancora stati esportati.</string>
   <string name="no_mapped_transactions">Nessuna transazione è stata assegnata a categorie in questo periodo.</string>
   <string name="no_parties">Non ci sono beneficiari.</string>
+  <string name="no_plans">Nessun piano.</string>
   <string name="no_split_parts">Nessuna somma parziale.</string>
   <string name="no_templates">Non ci sono modelli.</string>
   <string name="no_title_given">Non hai inserito nessun titolo.</string>
@@ -215,6 +221,7 @@
   <string name="plan_automatic">automatica</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Le mie spese pianificazione</string>
+  <string name="plan_event_deleted">Il piano associato a questo modello è stato eliminato dal calendario.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Esecuzione della scadenza annullata</string>
   <string name="plan_manual">manuale</string>
@@ -352,6 +359,7 @@
   <string name="warning_password_contrib">L\'impostazione di una domanda di sicurezza consente di sbloccare l\'applicazione, nel caso in cui si dimentichi la password.</string>
   <string name="warning_password_no_contrib">Se si imposta una password, fare attenzione a non dimenticare. Non sarà in grado di recuperare, a meno che impostato una domanda di sicurezza (Richiede Le mie spese Contrib).</string>
   <string name="warning_reset_account">Se si continua, tutte le operazioni di questo conto vengono eliminati dal database e non possono essere ripristinati.</string>
+  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se si continua, tutte le operazioni di tutti gli conti%1$s vengono eliminati dal database e non possono essere ripristinati.</string>
   <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup. I dati attuali verranno cancellati. Vuoi continuare?</string>
   <string name="warning_select_account">Si deve selezionare un conto !</string>

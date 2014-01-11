@@ -32,6 +32,7 @@
   <string name="default_account_description">Esta cuenta ha sido establecida automáticamente durante la instalación.</string>
   <string name="description">Descripción</string>
   <string name="dialog_command_disabled_insert_transfer">Los traslados a otra cuenta requieren una segunda cuenta con la misma moneda. Usted tiene sólo una cuenta de divisas %1$s.</string>
+  <!--the Up button refers to the design for Up Navigation recommended by Google http://developer.android.com/training/implementing-navigation/ancestral.html-->
   <string name="dialog_command_disabled_insert_transfer_1">Crear cuentas adicionales desde la lista, accesible a través del botón \'Arriba\' (icono de aplicación) en la esquina superior izquierda.</string>
   <string name="dialog_command_disabled_reset_account">No hay transacciones para exportar.</string>
   <string name="dialog_command_disabled_distribution">Ninguna transacción se ha asignado a las categorías en esta cuenta.</string>
@@ -46,7 +47,7 @@
   <string name="dialog_contrib_text">&lt;i&gt;Mis gastos&lt;/i&gt; se ofrece sin publicidad y de código abierto. Por favor, contribuya instalando la versión pagada Contrib. Usted va a obtener acceso ilimitado a las siguientes características premium:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Queda uno uso libre.</item>
-  	<item quantity="other">Quedan %1$d usos libres.</item>
+    <item quantity="other">Quedan %1$d usos libres.</item>
   </plurals>
   <string name="dialog_contrib_yes">Compre</string>
   <string name="dialog_export_delete">Borrar las transacciones exportados</string>
@@ -132,6 +133,8 @@
   <string name="menu_apply_template_and_save">Aplicar y guardar</string>
   <string name="menu_back">Espalda</string>
   <string name="menu_backup">Copia de seguridad</string>
+  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
+  <string name="menu_cancel_plan_instance">Cancelar</string>
   <string name="menu_clone_transaction">Clonar</string>
   <string name="menu_contrib">Contribuya</string>
   <!--Currently used on button for creating a new plan-->
@@ -165,12 +168,15 @@
   <string name="menu_forward">Adelante</string>
   <string name="menu_grouping">Agrupamiento</string>
   <string name="menu_help">Ayuda</string>
+  <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Invertir</string>
   <string name="menu_manage_plans">Plantillas y planes</string>
   <string name="menu_manage_plans_tab_templates">Plantillas</string>
   <string name="menu_manage_plans_tab_plans">Planes</string>
   <string name="menu_reset">Exportar y restablecer</string>
   <string name="menu_reset_all">Exportar y restablecer todas</string>
+  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
+  <string name="menu_reset_plan_instance">Restabl.</string>
   <string name="menu_save">Guardar</string>
   <string name="menu_save_and_new">Guardar y nueva</string>
   <string name="menu_settings">Configuraciones</string>
@@ -187,6 +193,7 @@
   <string name="no_exportable_expenses">No hay transacciones que aún no han sido exportadas.</string>
   <string name="no_mapped_transactions">Ninguna transacción se ha asignado a las categorías durante este período.</string>
   <string name="no_parties">Ningunos partidos</string>
+  <string name="no_plans">No hay planes.</string>
   <string name="no_split_parts">Ningunas divisiones.</string>
   <string name="no_templates">Ningunas plantillas</string>
   <string name="no_title_given">No ha insertado usted titulo alguno.</string>
@@ -214,6 +221,7 @@
   <string name="plan_automatic">automático</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Mis gastos planificador</string>
+  <string name="plan_event_deleted">El plan asociado con esta plantilla ha sido eliminado del calendario.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Ejecución del plan cancelado</string>
   <string name="plan_manual">manual</string>
@@ -338,7 +346,7 @@
   <string name="transaction">Asiento</string>
   <string name="transfer">Traslado a otra cuenta</string>
   <string name="transfer_from_account">Desde</string>
-  <string name="transfer_to_account">A</string> 
+  <string name="transfer_to_account">A</string>
   <string name="tutorial">Manual</string>
   <string name="type">Tipo</string>
   <string name="unsplit_amount">Importe non dividido</string>
@@ -351,6 +359,7 @@
   <string name="warning_password_contrib">Estableciendo una pregunta de seguridad permite desbloquear la aplicación, en caso de que olvide su contraseña.</string>
   <string name="warning_password_no_contrib">Si usted establece una contraseña, tenga cuidado de no olvidarla. Usted no será capaz de recuperarla, a menos que establece una pregunta de seguridad (Requiere Mis gastos Contrib).</string>
   <string name="warning_reset_account">Si continúa, todas las transacciones de esta cuenta se eliminan de la base de datos y no se pueden restaurar.</string>
+  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Si continúa, todas las transacciones de todas las cuentas%1$s se eliminan de la base de datos y no se pueden restaurar.</string>
   <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de seguridad. Se borrarán los datos actuales. ¿Quiere continuar?</string>
   <string name="warning_select_account">¡Por favor, escoja una cuenta!</string>
