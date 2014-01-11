@@ -34,7 +34,6 @@
   <string name="help_ManageAccounts_title">Kontenliste</string>
   <string name="help_ManageAccounts_info">Dieser Bildschirm listet alle Konten auf. Klick auf einen Eintrag öffnet die Transaktionsliste für das Konto.</string>
   <string name="menu_create_account_help_text">Öffnet das Formular für das Anlegen eines neuen Kontos.</string>
-  <string name="menu_aggregates_help_text">Zeigt in einem Dialogfenster die Summen von Einkommen und Ausgaben über alle Konten, gruppiert nach Währungen. Dieser Befehl steht nur zur Verfügung, wenn es zumindest zwei Konten mit einer gemeinsamen Währung gibt (Premium-Funktion).</string>
   <string name="menu_reset_all_help_text">Dieser Befehl erlaubt alle Konten in einem Durchgang zu exportieren und zurückzusetzen. Wenn es keine Transaktionen gibt, steht er nicht zur Verfügung.</string>
 
   <!-- ManageMethods -->

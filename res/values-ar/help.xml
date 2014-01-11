@@ -14,7 +14,6 @@
   <string name="help_ManageAccounts_title">قائمة الحسابات</string>
   <string name="help_ManageAccounts_info">هذه الشاشة تقوم بعرض كل الحسابات. عند ضغطك على حساب، يقوم بفتح قائمة العمليات الخاصة به.</string>
   <string name="menu_create_account_help_text">يقوم بفتح نموذج لإنشاء حساب جديد.</string>
-  <string name="menu_aggregates_help_text">مربع الاجمالي يقوم بحساب مجموع المصروفات والايرادات لكل الحسابات التي لها نفس نوع العملة. يتم اتاحة الأمر فقط عندما يكون هناك أكثر من حساب بنفس العملة (ميزة خاصة).</string>
   <string name="menu_reset_all_help_text">يتيح هذا الامر بإعادة تعيين كل الحسابات الخاصة بك دفعة واحدة. لن يكون متاح إذا لم يكن هناك عمليات لتصديرها (ميزة خاصة).</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">هذه الشاشة تقوم بعرض طرق الدفع المسبقة (شيك، بطاقة ائتمانية، إيداع، أمر مستديم) ويمكنك إضافة طرق دفع أخرى. بالضغط على مدخلات القائمة ، يمكنك تغيير الارتباط بين الطريقة ونوع الحساب.</string>

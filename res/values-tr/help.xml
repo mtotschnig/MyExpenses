@@ -17,7 +17,6 @@
   <string name="help_ManageAccounts_title">Hesap listesi</string>
   <string name="help_ManageAccounts_info">Bu ekran tüm hesapları listeler. Bir liste unsuruna tıklamak o hesabın muamele listesini açar.</string>
   <string name="menu_create_account_help_text">Yeni bir hesap oluşturma formunu açar.</string>
-  <string name="menu_aggregates_help_text">Agrega diyaloğu aynı para birimini paylaşan tüm hesaplar üzerinde gelir ve gider toplamını hesaplar. Bu komut sadece belli bir para birimi için en az iki hesap varsa kullanılabilir (katkı işlevi).</string>
   <string name="menu_reset_all_help_text">Bu komut hesaplarınızı topluca sıfırlamanıza imkân sağlar. Dışa aktarılacak hiçbir muamele yoksa kullanılamaz (Katkı sürümünü gerektirir).</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme metotlarını (çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerinin tanımlanmasına imkân verir. Bir liste unsuruna tıklamak metot ve hesap türleri arasındaki ilişkiyi değiştirmenize olanak sağlar.</string>

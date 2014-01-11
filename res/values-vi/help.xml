@@ -31,7 +31,6 @@
   <string name="help_ManageAccounts_title">Danh sách tài khoản</string>
   <string name="help_ManageAccounts_info">Màn hình này sẽ liệt kê tất cả các tài khoản. Click vào một dòng bất kỳ, mở danh sách giao dịch với từng tài khoản.</string>
   <string name="menu_create_account_help_text">Mở mẫu đơn để tạo một tài khoản mới.</string>
-  <string name="menu_aggregates_help_text">Hộp thoại gom nhóm tính toán tổng chi tiêu và thu nhập thông qua tất cả các tài khoản cùng loại tiền tệ. Dòng lệnh này chỉ được hiển thị nếu có cùng loại tiền tệ ở ít nhất hai loại tài khoản (tính năng cống hiến).</string>
   <string name="menu_reset_all_help_text">Tùy chọn này sẽ cho phép cài đặt lại thông tin toàn bộ các tài khoản của bạn theo hướng đồng loạt. Hiện điều này không khả thi nếu không có phần giao dịch nào được dùng để xuất dữ liệu (Tính năng cống hiến).</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Màn hình này sẽ liệt kê các phương pháp thanh toán (Séc, thẻ tín dụng, ghi nợ, thẻ nợ trực tiếp) và cho bạn xác định các phần thành toán mới. Click vào danh sách, để có thể tích hợp các phương pháp cho các tài khoản.</string>
