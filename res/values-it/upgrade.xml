@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_114">
+    <item>Gestione migliorata dei piani: applicare istanze imminente in anticipo</item>
+    <item>Nuove traduzioni: portoghese, polacco, ceco</item>
+  </string-array>
   <string-array name="whats_new_110">
     <item>Visualizza la lista delle transazioni e la distribuzione statistica per gli aggregati di più conti</item>
   </string-array>

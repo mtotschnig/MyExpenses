@@ -46,6 +46,7 @@
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt;Meine Ausgaben&lt;/i&gt; wird Ihnen ohne Werbung und mit offenem Quellcode angeboten. Bitte leisten Sie einen Beitrag durch die Installation der bezahlten Contrib Version. Sie erhalten dadurch uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:</string>
   <plurals name="dialog_contrib_usage_count">
+    <item quantity="one">Diese Funktion kann nur noch ein mal verwendet werden.</item>
     <item quantity="other">Diese Funktion kann noch %1$d mal verwendet werden.</item>
   </plurals>
   <string name="dialog_contrib_yes">Kaufen</string>
