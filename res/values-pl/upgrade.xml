@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string-array name="whats_new_114">
+    <item>Usprawniona obsługa planów: Z góry zastosowanie nadchodzących instancji</item>
+    <item>Nowe tłumaczenia: Portugalski, Polski, Czeski</item>
+  </string-array>
+  <string-array name="whats_new_110">
+    <item>Wyświetlanie listy transakcji i statystyczną dystrybucję dla sum wielu kont</item>
+  </string-array>
+  <string-array name="whats_new_108">
+    <item>Tłumaczenie w języku tradycyjnym chińskim</item>
+    <item>Możliwość wyboru konta w formularzu edytowania transakcji</item>
+    <item>Bardziej przejrzysty interfejs użytkownika dla przelewów</item>
+  </string-array>
+  <string-array name="whats_new_104">
+    <item>Ulepszenia interfejsu użytkownika (#94) i poprawki błędów (#95,#96)</item>
+  </string-array>
+  <string-array name="whats_new_102">
+    <item>Bieżący balans jest wyświetlany bardziej widoczny ponownie i wyświetla główne przyciski na dole, kiedy orientacja urządzenia jest ustawiona pionowo</item>
+    <item>Poprawki błędów: Issues #71,#91,#92,#93</item>
+  </string-array>
+  <string-array name="whats_new_100">
+    <item>Kiedy lista transakcji jest pogroupowana, wyświetla pośredni balans dla każdego z okresu w nagłówku grupy</item>
+    <item>Poprawa błędu: Issue #90</item>
+  </string-array>
+  <string-array name="whats_new_95">
+    <item>Możliwość zmiany języka interfejsu użytkownika</item>
+    <item>Możliwość zmiany rozmiaru czcionki</item>
+  </string-array>
+  <string-array name="whats_new_93">
+    <item>Plany na przyszłość i cykliczne transakcje</item>
+    <item>Tłumaczenie w języku Khmer</item>
+  </string-array>
+  <string-array name="whats_new_84">
+    <item>Numer odniesienia (płatność czekiem)</item>
+    <item>Uruchom z launchera na listę kont</item>
+    <item>Zmień między okresami w widoku dystrybucji</item>
+    <item>Możliwość zmiany formatu daty dla eksportu QIF i CSV</item>
+    <item>Ulepszenia interfejsu użytkownika</item>
+  </string-array>
+  <string-array name="whats_new_79">
+    <item>Oznakuj transakcje jako zrobione / uzgodnione (włączone dla kont bankowych i kart kredytowych)</item>
+    <item>Partie mogą być teraz edytowane</item>
+    <item>Tłumaczenie w języku węgierskim</item>
+  </string-array>
+  <string-array name="whats_new_75">
+    <item>Dystrybucja transakcji według kategorii (Premium)</item>
+  </string-array>
+  <string-array name="whats_new_72">
+    <item>Poprawa błędu: Issue #69</item>
+    <item>Tłumaczenie w języku arabskim</item>
+  </string-array>
+  <string-array name="whats_new_67">
+    <item>Grupowanie transakcji na dni, tygodnie, miesiące, lata i wyświetlanie sum dla każdej z grup</item>
+    <item>Odbiorca płatności jest wyświetlany na liście transakcji</item>
+    <item>Lista kont jest posortowana (domyślnie według częstotliwości użytkowania)</item>
+  </string-array>
+</resources>

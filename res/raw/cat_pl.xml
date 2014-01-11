@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="Inne przychody"/>
+<Sub_category Nbc="1" Nb="1" Na="Zasiłek z bezrobocia"/>
+<Sub_category Nbc="1" Nb="2" Na="Rodzinne kieszonkowe"/>
+<Sub_category Nbc="1" Nb="3" Na="Ulga podatkowa"/>
+<Sub_category Nbc="1" Nb="4" Na="Hazard"/>
+<Sub_category Nbc="1" Nb="5" Na="Wzajemne ubezpieczenia"/>
+<Sub_category Nbc="1" Nb="6" Na="Bezpieczeństwo społeczne"/>
+<Category Nb="2" Na="Przejście na emeryturę"/>
+<Sub_category Nbc="2" Nb="1" Na="Fundusz emerytalny"/>
+<Sub_category Nbc="2" Nb="2" Na="Renta"/>
+<Sub_category Nbc="2" Nb="3" Na="Dodatkowa renta"/>
+<Category Nb="3" Na="Dochody z inwestycji"/>
+<Sub_category Nbc="3" Nb="1" Na="Dywidenda"/>
+<Sub_category Nbc="3" Nb="2" Na="Odsetki"/>
+<Sub_category Nbc="3" Nb="3" Na="Zyski kapitałowe"/>
+<Category Nb="4" Na="Wynagrodzenie"/>
+<Sub_category Nbc="4" Nb="1" Na="Nadgodziny"/>
+<Sub_category Nbc="4" Nb="2" Na="Pozostawiony zasiłek"/>
+<Sub_category Nbc="4" Nb="3" Na="Różne składki"/>
+<Sub_category Nbc="4" Nb="5" Na="Wynagrodzenie netto"/>
+<Category Nb="5" Na="Różne przychody"/>
+<Sub_category Nbc="5" Nb="1" Na="Prezenty"/>
+<Sub_category Nbc="5" Nb="2" Na="Spłaty"/>
+<Category Nb="6" Na="Jedzenie"/>
+<Sub_category Nbc="6" Nb="1" Na="Bar"/>
+<Sub_category Nbc="6" Nb="2" Na="Piekarnia"/>
+<Sub_category Nbc="6" Nb="3" Na="Stołówka"/>
+<Sub_category Nbc="6" Nb="4" Na="Cukierki"/>
+<Sub_category Nbc="6" Nb="5" Na="Różne"/>
+<Sub_category Nbc="6" Nb="6" Na="Sklep spożywczy"/>
+<Sub_category Nbc="6" Nb="7" Na="Restauracja"/>
+<Sub_category Nbc="6" Nb="8" Na="Samoobsługa"/>
+<Sub_category Nbc="6" Nb="9" Na="Supermarket"/>
+<Category Nb="7" Na="Zwierzęta"/>
+<Sub_category Nbc="7" Nb="1" Na="Pokarm"/>
+<Sub_category Nbc="7" Nb="2" Na="Różne materiały"/>
+<Sub_category Nbc="7" Nb="4" Na="Weterynarz"/>
+<Category Nb="8" Na="Ubezpieczenie"/>
+<Sub_category Nbc="8" Nb="1" Na="Samochód"/>
+<Sub_category Nbc="8" Nb="2" Na="Zdrowie"/>
+<Sub_category Nbc="8" Nb="3" Na="Dom"/>
+<Sub_category Nbc="8" Nb="4" Na="Odpowiedzialność cywilna"/>
+<Sub_category Nbc="8" Nb="5" Na="Życie"/>
+<Category Nb="9" Na="Samochód"/>
+<Sub_category Nbc="9" Nb="1" Na="Paliwo"/>
+<Sub_category Nbc="9" Nb="2" Na="Naprawy"/>
+<Sub_category Nbc="9" Nb="3" Na="Utrzymanie"/>
+<Sub_category Nbc="9" Nb="4" Na="Parking"/>
+<Sub_category Nbc="9" Nb="5" Na="Grzywny"/>
+<Category Nb="11" Na="Prezenty"/>
+<Category Nb="12" Na="Dzieci"/>
+<Sub_category Nbc="12" Nb="1" Na="Pielęgniarka"/>
+<Sub_category Nbc="12" Nb="2" Na="Różne"/>
+<Sub_category Nbc="12" Nb="3" Na="Nauka"/>
+<Category Nb="13" Na="Nauka"/>
+<Sub_category Nbc="13" Nb="1" Na="Lekcje"/>
+<Sub_category Nbc="13" Nb="2" Na="Opłaty za szkołę"/>
+<Sub_category Nbc="13" Nb="3" Na="Książki"/>
+<Category Nb="14" Na="Różne"/>
+<Sub_category Nbc="14" Nb="1" Na="Prezenty"/>
+<Category Nb="15" Na="Wydatki finansowe"/>
+<Sub_category Nbc="15" Nb="1" Na="Różne"/>
+<Sub_category Nbc="15" Nb="2" Na="Opłaty bankowe"/>
+<Sub_category Nbc="15" Nb="3" Na="Pożyczka/Hipoteka"/>
+<Sub_category Nbc="15" Nb="4" Na="Opłaty"/>
+<Category Nb="16" Na="Profesjonalne wydatki"/>
+<Category Nb="17" Na="Wydatki"/>
+<Sub_category Nbc="17" Nb="1" Na="Różne"/>
+<Sub_category Nbc="17" Nb="2" Na="Dochody"/>
+<Sub_category Nbc="17" Nb="3" Na="Ziemia"/>
+<Category Nb="18" Na="Zakwaterowanie"/>
+<Sub_category Nbc="18" Nb="1" Na="Hotel"/>
+<Sub_category Nbc="18" Nb="2" Na="Wynajem"/>
+<Sub_category Nbc="18" Nb="3" Na="Telewizja"/>
+<Sub_category Nbc="18" Nb="4" Na="Meble"/>
+<Sub_category Nbc="18" Nb="5" Na="Opłaty"/>
+<Sub_category Nbc="18" Nb="6" Na="Ogrzewanie"/>
+<Sub_category Nbc="18" Nb="7" Na="Dekoracje"/>
+<Sub_category Nbc="18" Nb="8" Na="Woda"/>
+<Sub_category Nbc="18" Nb="9" Na="Elektryczność"/>
+<Sub_category Nbc="18" Nb="10" Na="AGD"/>
+<Sub_category Nbc="18" Nb="11" Na="Wyposażenie"/>
+<Sub_category Nbc="18" Nb="12" Na="Gaz"/>
+<Sub_category Nbc="18" Nb="13" Na="Ogród"/>
+<Sub_category Nbc="18" Nb="15" Na="Telefon"/>
+<Sub_category Nbc="18" Nb="16" Na="Telefon komórkowy"/>
+<Sub_category Nbc="19" Nb="1" Na="Snooker"/>
+<Sub_category Nbc="19" Nb="2" Na="Kręgle"/>
+<Sub_category Nbc="19" Nb="3" Na="Filmy"/>
+<Sub_category Nbc="19" Nb="4" Na="Klub nocny"/>
+<Sub_category Nbc="19" Nb="5" Na="IT"/>
+<Sub_category Nbc="19" Nb="6" Na="Gry"/>
+<Sub_category Nbc="19" Nb="7" Na="Książki"/>
+<Sub_category Nbc="19" Nb="8" Na="Parki"/>
+<Sub_category Nbc="19" Nb="9" Na="Koncerty"/>
+<Sub_category Nbc="19" Nb="10" Na="Sport"/>
+<Sub_category Nbc="19" Nb="11" Na="Wideo"/>
+<Sub_category Nbc="19" Nb="12" Na="Podróże"/>
+<Sub_category Nbc="19" Nb="13" Na="Ekwipunek"/>
+<Sub_category Nbc="19" Nb="14" Na="Muzea/Wystawy"/>
+<Category Nb="20" Na="Pożyczka/Hipoteka"/>
+<Sub_category Nbc="20" Nb="1" Na="Kapitał"/>
+<Category Nb="21" Na="Zdrowie"/>
+<Sub_category Nbc="21" Nb="1" Na="Ubezpieczenie"/>
+<Sub_category Nbc="21" Nb="2" Na="Dentysta"/>
+<Sub_category Nbc="21" Nb="3" Na="Szpital"/>
+<Sub_category Nbc="21" Nb="5" Na="Doktor"/>
+<Sub_category Nbc="21" Nb="6" Na="Okulista"/>
+<Sub_category Nbc="21" Nb="7" Na="Osteopata"/>
+<Sub_category Nbc="21" Nb="8" Na="Aptekarz"/>
+<Sub_category Nbc="21" Nb="9" Na="Bezpieczeństwo społeczne"/>
+<Category Nb="22" Na="Pielęgnacja"/>
+<Sub_category Nbc="22" Nb="1" Na="Fryzjer"/>
+<Sub_category Nbc="22" Nb="2" Na="Ubrania"/>
+<Category Nb="23" Na="Transport"/>
+<Sub_category Nbc="23" Nb="1" Na="Autobus"/>
+<Sub_category Nbc="23" Nb="2" Na="Metro"/>
+<Sub_category Nbc="23" Nb="3" Na="Myto"/>
+<Sub_category Nbc="23" Nb="4" Na="Pociąg"/>
+<Sub_category Nbc="23" Nb="5" Na="Tramwaj"/>
+<Sub_category Nbc="23" Nb="6" Na="Podróże"/>
+<Sub_category Nbc="23" Nb="7" Na="Lot"/>
+<Category Nb="24" Na="Wakacje"/>
+<Sub_category Nbc="24" Nb="1" Na="Zakwaterowanie"/>
+<Sub_category Nbc="24" Nb="2" Na="Wizyty"/>
+<Sub_category Nbc="24" Nb="3" Na="Podróże"/></Grisbi_categ>
