@@ -34,14 +34,16 @@
     <string-array name="pref_ui_language_entries">
     	<item>@string/pref_ui_language_default</item>
       <item>العربية</item>
-      <item>Català</item>
+      <item>català</item>
       <item>Deutsch</item>
       <item>English</item>
-      <item>Español</item>
-      <item>Français</item>
-      <item>Magyar</item>
-      <item>Italiano</item>
+      <item>español</item>
+      <item>français</item>
+      <item>magyar</item>
+      <item>italiano</item>
       <item>Khmer</item>
+      <item>polski</item>
+      <item>português</item>
       <item>Türkçe</item>
       <item>Tiếng Việt</item>
       <item>中文 (繁體)</item>
@@ -57,6 +59,8 @@
       <item>hu-HU</item>
       <item>it-IT</item>
       <item>km-KH</item>
+      <item>pl-PL</item>
+      <item>pt-BR</item>
       <item>tr-TR</item>
       <item>vi-VN</item>
       <item>zh-TW</item>

@@ -54,10 +54,10 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
-      setTheme(MyApplication.getThemeId());
-      super.onCreate(savedInstanceState);
-      Bundle extras = getIntent().getExtras();
-      mTransferEnabled = extras.getBoolean("transferEnabled",false);
+    setTheme(MyApplication.getThemeId());
+    super.onCreate(savedInstanceState);
+    Bundle extras = getIntent().getExtras();
+    mTransferEnabled = extras.getBoolean("transferEnabled",false);
 
     setContentView(R.layout.viewpager);
     setTitle(R.string.menu_manage_plans);
@@ -79,12 +79,12 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     // tab. We can also use ActionBar.Tab#select() to do this if we have
     // a reference to the Tab.
     mViewPager
-        .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-          @Override
-          public void onPageSelected(int position) {
-            actionBar.setSelectedNavigationItem(position);
-          }
-        });
+      .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+          actionBar.setSelectedNavigationItem(position);
+        }
+      });
 
     actionBar.addTab(actionBar.newTab()
         .setText(R.string.menu_manage_plans_tab_templates)
@@ -111,17 +111,16 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
+    Intent i;
     switch(command) {
     case R.id.INSERT_TA_COMMAND:
     case R.id.INSERT_TRANSFER_COMMAND:
-      PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
-          mSectionsPagerAdapter.getFragmentName(1));
-      Intent intent = new Intent(this, ExpenseEdit.class);
-      intent.putExtra("operationType",
+      i = new Intent(this, ExpenseEdit.class);
+      i.putExtra("operationType",
           command == R.id.INSERT_TA_COMMAND ? MyExpenses.TYPE_TRANSACTION : MyExpenses.TYPE_TRANSFER);
-      intent.putExtra("newTemplate", true);
-      intent.putExtra("newPlanEnabled", MyApplication.getInstance().isContribEnabled || pl.newPlanEnabled);
-      startActivity(intent);
+      i.putExtra("newTemplate", true);
+      i.putExtra("newPlanEnabled", getNewPlanEnabled());
+      startActivity(i);
       return true;
     case R.id.DELETE_COMMAND_DO:
       FragmentManager fm = getSupportFragmentManager();
@@ -130,8 +129,9 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
         .commit();
       return true;
     case R.id.EDIT_COMMAND:
-      Intent i = new Intent(this, ExpenseEdit.class);
+      i = new Intent(this, ExpenseEdit.class);
       i.putExtra("template_id",(Long)tag);
+      i.putExtra("newPlanEnabled", getNewPlanEnabled());
       //TODO check what to do on Result
       startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
       return true;
@@ -204,5 +204,11 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
     PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
         mSectionsPagerAdapter.getFragmentName(1));
     pl.refresh();
+  }
+  public boolean getNewPlanEnabled() {
+    return MyApplication.getInstance().isContribEnabled ||
+        ((PlanList) getSupportFragmentManager().findFragmentByTag(
+            mSectionsPagerAdapter.getFragmentName(1)))
+          .newPlanEnabled;
   }
 }
