@@ -45,6 +45,10 @@
   <string name="dialog_contrib_reminder_gain_access">Můžete také získat neomezený přístup k následujícím funkcím:</string>
   <!--Placeholders: 1 is feature list-->
   <string name="dialog_contrib_text">&lt;i&gt; Moje výdaje &lt;/i&gt; nenabízí reklamu a mají otevřený vývoj. Prosím přispějte instalací placené verze Contrib. Získáte neomezený přístup k následujícím prémiovým funkcím:</string>
+  <plurals name="dialog_contrib_usage_count">
+    <item quantity="one">Máte jedno použití zdarma.</item>
+    <item quantity="other">Máte %1$d použitích zdarma.</item>
+  </plurals>
   <string name="dialog_contrib_yes">Kupte teď</string>
   <string name="dialog_export_delete">Odstranit exportované transakce</string>
   <string name="dialog_export_not_yet_exported">Exportovat pouze transakce, které ještě nebyly exportovány.</string>
