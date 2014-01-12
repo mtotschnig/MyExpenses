@@ -19,7 +19,7 @@ transactions or for transfers. If you call "New transaction template", you will 
 form:
 
 <div class="screenshot" style="text-align:center">
-<img src="/visuals/screenshots/blog/template_form.png" alt="Template Form" title="Template Form">
+<img src="/visuals/screenshots/blog/2013-12-02/template_form.png" alt="Template Form" title="Template Form">
 </div>
 
 When you click on the button for creating a plan for the first time, My Expenses will ask you where
@@ -33,7 +33,7 @@ app by Dominik Schürmann which allows to create local calendars that are not af
 by this bug.
 
 <div class="screenshot" style="text-align:center">
-<img src="/visuals/screenshots/blog/calendar_setup.png" alt="Calendar setup" title="Calendar setup">
+<img src="/visuals/screenshots/blog/2013-12-02/calendar_setup.png" alt="Calendar setup" title="Calendar setup">
 </div>
 
 When you have created or selected a calendar for storing plans, creating a plan will now create an
@@ -44,7 +44,7 @@ to an overview of your calendar, and you have to use the BACK key to return to M
 change the event any time, either from My Expenses, or through the Calendar.
 
 <div class="screenshot" style="text-align:center">
-<img src="/visuals/screenshots/blog/event_view.png" alt="Event view" title="Event view">
+<img src="/visuals/screenshots/blog/2013-12-02/event_view.png" alt="Event view" title="Event view">
 </div>
 
 Before saving the template, you can configure the plan to be automatic or manual. When an instance of
@@ -59,7 +59,7 @@ MyExpenses is configured to check every six hours if a plan occurence has arrive
 you will see the following notification.
 
 <div class="screenshot" style="text-align:center">
-<img src="/visuals/screenshots/blog/notification.png" alt="Notification" title="Notification">
+<img src="/visuals/screenshots/blog/2013-12-02/notification.png" alt="Notification" title="Notification">
 </div>
 
 I hope, this new feature increases the usefulness of MyExpenses. If you like it or have a suggestion
