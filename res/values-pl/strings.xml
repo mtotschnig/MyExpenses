@@ -14,11 +14,11 @@
   <string name="category">Kategoria</string>
   <string name="color">Kolor</string>
   <string name="comment">Notatki</string>
-  <string name="contrib_feature_accounts_unlimited_description">Ilość kont jakich możesz stworzyć z &lt;i&gt;My Expenses&lt;/i&gt; jest ograniczona do 5.</string>
+  <string name="contrib_feature_accounts_unlimited_description">Ilość kont jakich możesz stworzyć z &lt;i&gt;Moje Wydatki&lt;/i&gt; jest ograniczona do 5.</string>
   <string name="contrib_feature_accounts_unlimited_label">Nieskończona ilość kont</string>
   <string name="contrib_feature_aggregate_label">Sumy dla wszystkich kont</string>
   <string name="contrib_feature_distribution_label">Dystrybucja tranakcji na kategorię.</string>
-  <string name="contrib_feature_plans_unlimited_description">Ilość planów jakich możesz stworzyć z &lt;i&gt;My Expenses&lt;/i&gt; jest ograniczona do 3.</string>
+  <string name="contrib_feature_plans_unlimited_description">Ilość planów jakich możesz stworzyć z &lt;i&gt;Moje Wydatki&lt;/i&gt; jest ograniczona do 3.</string>
   <string name="contrib_feature_plans_unlimited_label">Nieograniczona ilość planów</string>
   <string name="contrib_feature_reset_all_label">Resetuj wszystkie konta</string>
   <string name="contrib_feature_security_question_label">Pytanie bezpieczeństwa</string>
@@ -40,10 +40,10 @@
   <string name="dialog_contrib_no_usages_left">Zabrakło darmowych użyć.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_premium_feature">%1$s jest funkcją premium.</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie instalując &lt;i&gt;My Expenses Contrib&lt;/i&gt;.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie instalując &lt;i&gt;Moje Wydatki Contrib&lt;/i&gt;.</string>
   <string name="dialog_contrib_reminder_gain_access">Dostajesz także nieograniczony dostęp do następujących funkcji:</string>
   <!--Placeholders: 1 is feature list-->
-  <string name="dialog_contrib_text">&lt;i&gt;My Expenses&lt;/i&gt; jest oferowany bez reklam i otwartoźródłowo. Proszę wspomóc nas instalując płatną wersję Contrib. Dostajesz nieograniczony dostęp do następujących funkcji premium:</string>
+  <string name="dialog_contrib_text">&lt;i&gt;Moje Wydatki&lt;/i&gt; jest oferowany bez reklam i otwartoźródłowo. Proszę wspomóc nas instalując płatną wersję Contrib. Dostajesz nieograniczony dostęp do następujących funkcji premium:</string>
   <string name="dialog_contrib_yes">Kup teraz</string>
   <string name="dialog_export_delete">Usuń wyeksportowane transakcje</string>
   <string name="dialog_export_not_yet_exported">Transakcje tylko do eksportu nie zostały jeszcze eksportowane</string>
@@ -244,7 +244,7 @@
   <string name="pref_category_title_ui">Interfejs użytkownika</string>
   <string name="pref_contrib_donate_summary">Podaruj datki przez PayPal, Flattr lub Bitcoin aby dostać dostęp do funkcji premium.</string>
   <string name="pref_contrib_donate_title">Wyślij datek</string>
-  <string name="pref_contrib_install_summary">Instalując My Expenses Contrib, dostajesz dostęp do funkcji premium.</string>
+  <string name="pref_contrib_install_summary">Instalując Moje Wydatki Contrib, dostajesz dostęp do funkcji premium.</string>
   <string name="pref_contrib_install_title">Instaluj aplikację Contrib</string>
   <string name="pref_enter_licence_summary">Jeżeli otrzymałeś klucz Contrib, otrzymasz dostęp do funkcji premium.</string>
   <string name="pref_enter_licence_title">Wprowadź klucz Contrib</string>
@@ -280,7 +280,7 @@
   <string name="pref_request_licence_title">Poproś o klucz Contrib</string>
   <string name="pref_restore_summary">Przywróć kopię zapasową z folderu \"myexpenses\" na karcie pamięci.</string>
   <string name="pref_restore_title">Przywróć</string>
-  <string name="pref_security_question_summary">Pozwala na odblokowanie aplikacji, jeżeli zapomniałeś swojego hasła. Wymaga My Expenses Contrib.</string>
+  <string name="pref_security_question_summary">Pozwala na odblokowanie aplikacji, jeżeli zapomniałeś swojego hasła. Wymaga Moje Wydatki Contrib.</string>
   <string name="pref_security_question_title">Pytanie bezpieczeństwa</string>
   <string name="pref_send_feedback_title">Wyślij opinie</string>
   <string name="pref_share_target_summary">Pozostaw puste pole jeżeli chcesz wybierać pomiędzy stosownymi aplikacjami (E-mail, Dropbox, Dokumenty Google, ...), lub podaj URL w jednym z obsługiwanym schemacie</string>
@@ -349,7 +349,7 @@
   <string name="warning_delete_template">Ten szablon (i każdy przywiązany plan) zostanie usunięty. Czy chcesz kontynuować?</string>
   <string name="warning_delete_transaction">Ta transakcja zostanie usunięta. Czy chcesz kontynuować?</string>
   <string name="warning_password_contrib">Ustawienie pytania bezpieczeństwa pozwala Tobie na odblokowanie aplikacji, w razie zapomnienia swojego hasła.</string>
-  <string name="warning_password_no_contrib">Jeżeli ustawisz hasło, dbaj aby go nie zapomnieć. Nie będziesz mógł go przywrócić, chyba że ustawisz pytanie bezpieczeństwa (Potrzebuje My Expenses Contrib).</string>
+  <string name="warning_password_no_contrib">Jeżeli ustawisz hasło, dbaj aby go nie zapomnieć. Nie będziesz mógł go przywrócić, chyba że ustawisz pytanie bezpieczeństwa (Potrzebuje Moje Wydatki Contrib).</string>
   <string name="warning_reset_account">Jeżeli kontynuujesz, wszystkie transakcje tego konta zostaną usunięte z bazy danych i nie będą mogły zostać przywrócone.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej. Bieżące dane zostaną usunięte. Czy chcesz kontynuować?</string>
