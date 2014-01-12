@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string-array name="whats_new_116">
+    <item>Lepší zpracování plánů: možnost plánovat události do budoucna</item>
+    <item>Nové překlady: portugalština, polština, čestina</item>
+  </string-array>
+  <string-array name="whats_new_110">
+    <item>Zobrazit seznam transakcí a statistické rozdělení pro seskupení více účtů</item>
+  </string-array>
+  <string-array name="whats_new_108">
+    <item>Překlad čínština (tradiční)</item>
+    <item>Povolit výběr účtu ve formuláři úprav transakcí</item>
+    <item>Jasnější uživatelské rozhraní pro převody</item>
+  </string-array>
+  <string-array name="whats_new_104">
+    <item>Vylepšení uživatelského rozhraní (#94) a opravy chyb (#95, #96)</item>
+  </string-array>
+  <string-array name="whats_new_102">
+    <item>Aktuální zůstatek je zobrazen více nápadně a hlavní tlačítka jsou zobrazena dole, pokud je zařízení orientováno horizontálně.</item>
+    <item>Opravy chyb: otázky #71, #91, #92, #93</item>
+  </string-array>
+  <string-array name="whats_new_100">
+    <item>Když je seznam transakcí seskupen zobrazit průběžnou bilanci za každé období v záhlaví skupiny</item>
+    <item>Oprava: chyb #90</item>
+  </string-array>
+  <string-array name="whats_new_95">
+    <item>Jazyk uživatelského rozhraní lze konfigurovat</item>
+    <item>Konfigurovatelná velikost písma</item>
+  </string-array>
+  <string-array name="whats_new_93">
+    <item>Plány pro budoucí a opakované transakce</item>
+    <item>Khmerské¨ý překlad</item>
+  </string-array>
+  <string-array name="whats_new_84">
+    <item>Referenční číslo (šek platby)</item>
+    <item>Začněte se seznamem účtů z výchozí obrazovky</item>
+    <item>Přejeďte mezi obdobími v zobrazení rozložení</item>
+    <item>Konfigurovatelné datum formátu QIF a CSV exportu</item>
+    <item>Vylepšení uživatelského rozhraní</item>
+  </string-array>
+  <string-array name="whats_new_79">
+    <item>Označit transakce jako vymazané / vyřízené (povoleno pro bankovní účty a kreditní karty)</item>
+    <item>Strany lze nyní upravit</item>
+    <item>Maďarský překlad</item>
+  </string-array>
+  <string-array name="whats_new_75">
+    <item>Rozdělení transakcí podle kategorií (Premium)</item>
+  </string-array>
+  <string-array name="whats_new_72">
+    <item>Oprava:chyba #69</item>
+    <item>Arabský překlad</item>
+  </string-array>
+  <string-array name="whats_new_67">
+    <item>Skupina transakcí za den, týden, měsíc, rok a zobrazení součtu za skupinu</item>
+    <item>Příjemce se zobrazí v seznamu transakcí</item>
+    <item>Seznam účtů je seřazený (podle četnosti použití ve výchozím nastavení)</item>
+  </string-array>
+</resources>

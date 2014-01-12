@@ -35,6 +35,7 @@
     	<item>@string/pref_ui_language_default</item>
       <item>العربية</item>
       <item>català</item>
+      <item>čeština</item>
       <item>Deutsch</item>
       <item>English</item>
       <item>español</item>
@@ -52,6 +53,7 @@
     	<item>default</item>
       <item>ar</item>
       <item>ca-ES</item>
+      <item>cs-CZ</item>
       <item>de-DE</item>
       <item>en-US</item>
       <item>es-ES</item>
@@ -136,7 +138,7 @@
       <item>save</item>
     </string-array>
     <integer-array name="version_codes">
-      <item>114</item>
+      <item>116</item>
       <item>110</item>
       <item>108</item>
       <item>104</item>

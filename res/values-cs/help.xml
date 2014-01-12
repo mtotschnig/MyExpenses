@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="help_menu_commands">Příkazy nabídky</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">Seznam transakcí</string>
+  <string name="help_MyExpenses_info">Tato obrazovka obsahuje seznam všech transakcí pro aktuální účet. Z navigačního panelu můžete přejít do seznamu účtů nebo zvolte jiný účet. Pro úpravu položky klepněte na položku seznamu. </string>
+  <string name="help_MyExpenses_crStatus_info">Stav transakce je označena barevným obdélníkem: šedá nevyřešené, modrá pro čisté, zelená pro vyřešené. Kliknutím na obdélník, změníte stav.</string>
+  <string name="menu_create_transaction_help_text">Otevře formulář pro vytvoření nové transakce.</string>
+  <string name="menu_create_transfer_help_text">Převod peněz mezi účty. Tento příkaz je povolena pouze v případě, že máte alespoň jeden další účet se stejnou měnou, jako je ta současná.</string>
+  <string name="menu_create_split_help_text">Rozdělení transakce umožňuje přiřadit dílčí částky pro různé kategorie nebo jako transfery na různé účty.</string>
+  <string name="menu_reset_help_text">Tento příkaz bude expor0ovatt všechny transakce na běžném účtu do souboru na paměťové kartě ve formátu QIF nebo CSV. Ve výchozím nastavení  budou transakce odstraněny z telefonu, ale můžete se rozhodnout ponechat si je a označit je jako exportované. Mé výdaje mohou sdílet soubor bezprostředně po jeho exportu prostřednictvím FTP, e-mailu nebo jiných možností sdílení, pokud tak aplikaci nakonfigurujete  v nastavení.</string>
+  <string name="menu_edit_account_help_text">Upraví vlastnosti běžného účtu (název, popis, počáteční zůstatek, typ účtu, měna a barva).</string>
+  <string name="menu_grouping_help_text">Transakce lze seskupit pro den, týden, měsíc nebo rok. Pro každou skupinu je vypočítán a zobrazen součet příjmů, výdajů a převody  .</string>
+  <string name="menu_distribution_help_text">Zobrazí rozdělení nákladů podle jednotlivých kategorií. Můžete také klepnout na záhlaví skupiny pro kontrolu distribuce pro konkrétní skupiny.</string>
+  <string name="menu_manage_plans_help_text">Otevře seznam šablon a plánů pro běžný účet, kde můžete použít, upravit nebo odstranit a také definovat plány pro budoucí a opakující se transakce.</string>
+  <!--ManageAccounts Accounts list-->
+  <string name="help_ManageAccounts_title">Seznam účtů</string>
+  <string name="help_ManageAccounts_info">Tato obrazovka obsahuje seznam všech účtů. Klepnutí na položku seznamu, otevř seznam transakcí na účtu.</string>
+  <string name="menu_create_account_help_text">Otevře formulář pro vytvoření nového účtu.</string>
+  <string name="menu_reset_all_help_text">Tento příkaz umožňuje obnovit všechny své účty v dávce. Není k dispozici, pokud neexistují žádné transakce pro export (Contrib funkce).</string>
+  <!--ManageMethods title is in keys-->
+  <string name="help_ManageMethods_info">Tato obrazovka obsahuje seznam předdefinovaných platebních metod (šek, kreditní karty, vklad, inkaso) a umožňuje definovat nové. Klepnutím na položku seznamu, umožňuje změnit přidružení mezi typem metod a účtu.</string>
+  <string name="menu_create_method_help_text">Otevře formulář pro vytvoření nového způsobu platby.</string>
+  <!--ManageParties title is in keys-->
+  <string name="help_ManageParties_info">Tato obrazovka obsahuje seznam stran, pro automatické doplňování pole plátce/příjemce. Můžete odstranit a upravit strany prostřednictvím každé položky kontextového menu.</string>
+  <string name="menu_create_party_help_text">Otevře dialog pro zadání názvu nového plátce nebo příjemce.</string>
+  <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_info">Tato obrazovka obsahuje seznam všech dostupných šablon. Zatímco šablony mohou být odvozeny od transakcí prostřednictvím kontextového menu, zde můžete vytvořit nové šablony od počátku (u transakcí nebo převodů). Z kontextového menu šablony, můžete vytvořit instanci šablony a buď ji ihned uložit nebo zadat editační formulář, který můžete změnit před uložením. Místní nabídka také umožňuje editaci a smazání šablony. &lt;h2&gt; Plány &lt;/h2&gt; plány jsou uvedeny na samostatné kartě. Když rozbalíte položku, zobrazí se seznam událostí nadcházející plánu. Namísto čekání na oznámení, které obdržíte pokud dojde-li k události, můžete zde nastavit tyto budoucí výskyty v předstihu tak, aby byly viditelné v seznamu transakcí vyvoláním příslušného příkazu v místní nabídce. Stav události je označena následujícími ikonami: &lt;br&gt;&lt;img src=\"ic_stat_open\" /&gt; Událost, která nebyla dosud použita.&lt;br&gt;&lt;img src=\"ic_stat_applied\" /&gt; Událost byla vyrovnána.&lt;br&gt;&lt;img src=\"ic_stat_cancelled\" /&gt; Událost byla zrušena, například označena k přeskočení. Žádná transakce nebude vytvořena pro tuto instanci. &lt;br&gt;&lt;br&gt; Z místní nabídky, můžete také obnovit události, které odstraní transakci, pokud událost již byla použita, nebo odeberte příznak zrušení.</string>
+  <string name="menu_create_template_for_transaction_help_text">Vytvořit novou šablonu pro transakci</string>
+  <string name="menu_create_template_for_transfer_help_text">Vytvořit novou šablonu pro transfer</string>
+  <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">Tato obrazovka zobrazuje rozložení vašich výdajů a příjmů na kategorie, pro všechny transakce na účtu, nebo pro konkrétní skupiny.</string>
+  <string name="help_ManageCategories_select_info">Kromě akcí, které můžete provádět při správě kategorií z nabídky předvolby (vytvoření, upravení, odstranění), můžete na této obrazovce přiřadit transakci k vybrané kategorii. Vyberte podkategorii pro přiřazení k aktuální transakci kliknutím na tuto kategorii. K přiřazení hlavní kategorie, budete muset vyvolat kontextové menu.</string>
+  <string name="help_ManageCategories_manage_info">Tato obrazovka umožňuje vytvářet, upravovat a odstraňovat kategorie. Ve výchozím nastavení jsou kategorie primárně řazeny podle počtu opakovaných použití dané kategorie (druhou možností je abecední řazení). To vám umožní rychlý přístup ke kategoriím, které nejčastěji používáte. V nastavení se můžete  alternativně rozhodnout pro primární třídění kategorií podle abecedy. Kliknutí na hlavní kategorie otevírá nabídku podkategorií. Z hlavní kategorie místní nabídky můžete přidávat nové podkategorie, odstraňovat kategorie nebo je upravovat. Podkategorie mají také místní nabídky pro odstranění a pro úpravy.</string>
+  <string name="menu_create_main_cat_help_text">Otevře dialog pro zadání názvu nové hlavní kategorie.</string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">Nastavte typ seskupení a zobrazení distribuce za den, měsíc, týden nebo rok.</string>
+  <string name="menu_back_help_text">Přejde na předchozí skupinu. Lze také provést prostřednictvím gesta posunu prstem zleva doprava.</string>
+  <string name="menu_forward_help_text">Přejděte do další skupiny. Lze také provést prostřednictvím gesta posunu zprava doleva.</string>
+  <!--ExpenseEdit-->
+  <string name="help_ExpenseEdit_transaction_title">Formulář pro transakce</string>
+  <string name="help_ExpenseEdit_transfer_title">Formulář pro převody</string>
+  <string name="help_ExpenseEdit_template_title">Formulář pro šablony</string>
+  <string name="help_ExpenseEdit_split_title">Formulář pro rozdělení</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">Formulář pro kategorii rozdělení oddílů</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">Formulář pro převod rozdělení oddílů</string>
+  <string name="help_ExpenseEdit_info">Klepněte na tlačítko pro spuštění kalkulačky.</string>
+  <string name="help_ExpenseEdit_transaction_info">Klepněte na tlačítko Přepnout mezi příjmy a výdaji. Pole příjemce (nebo plátce) si zapamatuje hodnoty, které zadáte a navrhne je znovu v budoucnu. Tlačítko pro výběr způsobu platby je k dispozici, pokud je běžný účet spojený s jakýmkoliv způsobem platby. Ve výchozím nastavení jsou bankovní účty propojeny s platebními metodami (šek, kreditní karty, vklad, inkaso).</string>
+  <string name="help_ExpenseEdit_transfer_info">Vyberte z rozevíracího seznamu účet převodu.</string>
+  <string name="help_ExpenseEdit_template_info">Klepněte na tlačítko pro přepnutí mezi náklady a výnosy. Zadejte název, který jedinečně identifikuje šablonu. &lt;h2&gt; plány &lt;/h2&gt; když vytváříte plán pro šablonu, je přidán do soukromého kalendáře zpracovávaného vaši kalendářní aplikací. Plán lze definovat jako jednorázovou událost nebo jakýkoli druh opakované události, která dokáže zpracovat kalendář. Můžete vytvářet, upravovat a odstranit plán z tlačítka plánu, ale jakmile plán nastaven, můžete k jeho úpravě použít také aplikaci kalendáře. Plán lze nastavit automaticky nebo ručně. Dojde-li události  automatického plánu, vytvoří se transakce a zobrazí se upozornění. Když je plán nastavený jako manuální, také obdrží upozornění, což ponechává volbu zrušení, změny nebo použití šablony na vás.</string>
+  <string name="help_ExpenseEdit_split_info">Zadejte libovolný počet rozdělení stran jak potřebujete pomocí nabídky příkazů  pro kategorie rozdělení a převodu rozdělení. \tDolní polovina obrazovky zobrazí seznam rozdělení stran a  částky, které dosud nebyly zařazeny do kategorie nebo převodu. \tRozdělení transakce lze uložit pouze pokud částka transakce byla přesně přiřazena.</string>
+  <string name="help_ExpenseEdit_splitPartCategory_info">Vyberte kategorii pro rozdělení oddílu.</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_info">Přiřaďte účet převodu k rozdělené části.</string>
+  <string name="menu_create_split_part_category_help_text">Otevře formulář pro přiřazování části rozdělené do kategorií.</string>
+  <string name="menu_create_split_part_transfer_help_text">Otevře formulář pro definici části rozdělení pomocí převodu na jiný účet.</string>
+  <string name="menu_save_help_text">Uložte data a zavřete formulář.</string>
+  <string name="menu_save_and_new_help_text">Uložte data,  formulář ponechte otevřený pro vytvoření nové transakce se stejnými daty.</string>
+  <string name="menu_invert_transfer_help_text">Obrátí směr převodu tím, že vymění \'Od\' a \'Do\' účet.</string>
+  <!--AccountEdit-->
+  <string name="help_AccountEdit_title">Formulář pro účty</string>
+  <string name="help_AccountEdit_info">Účet je označena popiskem, popis má pouze informativní účel. Měnu lze snadno zvolit ze seznamu. Můžete definovat typ účtu jako je z hotovost, bankovní, aktiva, pasiva, kreditní karta. Typ určuje dostupné platební metody, které lze konfigurovat v části Nastavení -&gt; Spravovat -&gt; metody platby.</string>
+  <!--MethodEdit-->
+  <string name="help_MethodEdit_title">Formulář pro metodu platby</string>
+  <string name="help_MethodEdit_info">Na této obrazovce můžete přidružit způsobu platby s typem účtů. Můžete také definovat popisek (s výjimkou předdefinované metody, která má pevný štítek, který nelze upravovat). Prostřednictvím typu metody můžete zjistit, zda je použitelná pro výdaj (má dáti), příjem (dal) nebo oba (neutrální). Lze také nastavit příznak pokud jsou transakce touto metodou číslovány (např. kontrola čísla).</string>
+</resources>

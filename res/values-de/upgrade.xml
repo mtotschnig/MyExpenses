@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-  <string-array name="whats_new_114">
+  <string-array name="whats_new_116">
     <item>Erweiterung der Einsatzmöglichkeit von Plänen: Zukünftige Termine können im Voraus in die Buchungsliste kopiert werden</item>
     <item>Neue Übersetzungen: Portugiesisch, Polnisch, Tschechisch</item>
   </string-array>
