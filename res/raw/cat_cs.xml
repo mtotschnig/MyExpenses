@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="Ostatní příjmy"/>
+<Sub_category Nbc="1" Nb="1" Na="Dávka v nezaměstnanosti"/>
+<Sub_category Nbc="1" Nb="2" Na="Rodinné přídavky"/>
+<Sub_category Nbc="1" Nb="3" Na="Daňový úvěr"/>
+<Sub_category Nbc="1" Nb="4" Na="Hazardní hry"/>
+<Sub_category Nbc="1" Nb="5" Na="Vzájemné pojištění"/>
+<Sub_category Nbc="1" Nb="6" Na="Sociální zabezpečení"/>
+<Category Nb="2" Na="Odchod do důchodu"/>
+<Sub_category Nbc="2" Nb="1" Na="Penzijní fond"/>
+<Sub_category Nbc="2" Nb="2" Na="Důchod"/>
+<Sub_category Nbc="2" Nb="3" Na="Penzijní připojištění"/>
+<Category Nb="3" Na="Výnosy z investic"/>
+<Sub_category Nbc="3" Nb="1" Na="Dividenda"/>
+<Sub_category Nbc="3" Nb="2" Na="Úroky"/>
+<Sub_category Nbc="3" Nb="3" Na="Kapitálový zisk"/>
+<Category Nb="4" Na="Plat"/>
+<Sub_category Nbc="4" Nb="1" Na="Přesčasy"/>
+<Sub_category Nbc="4" Nb="2" Na="Placené volno"/>
+<Sub_category Nbc="4" Nb="3" Na="Různé prémie"/>
+<Sub_category Nbc="4" Nb="4" Na="Success fee"/>
+<Sub_category Nbc="4" Nb="5" Na="Čistý plat"/>
+<Category Nb="5" Na="Růžný příjem"/>
+<Sub_category Nbc="5" Nb="1" Na="Dárky"/>
+<Sub_category Nbc="5" Nb="2" Na="Náhrady"/>
+<Sub_category Nbc="5" Nb="3" Na="Prodej z druhé ruky"/>
+<Category Nb="6" Na="Jídlo"/>
+<Sub_category Nbc="6" Nb="1" Na="Bar"/>
+<Sub_category Nbc="6" Nb="2" Na="Pekařství"/>
+<Sub_category Nbc="6" Nb="3" Na="Kantýna"/>
+<Sub_category Nbc="6" Nb="4" Na="Sladkosti"/>
+<Sub_category Nbc="6" Nb="5" Na="Různé"/>
+<Sub_category Nbc="6" Nb="6" Na="Smíšené zboží"/>
+<Sub_category Nbc="6" Nb="7" Na="Restaurace"/>
+<Sub_category Nbc="6" Nb="8" Na="Samoobsluha"/>
+<Sub_category Nbc="6" Nb="9" Na="Supermarket"/>
+<Category Nb="7" Na="Domácí zvířata"/>
+<Sub_category Nbc="7" Nb="1" Na="Jídlo"/>
+<Sub_category Nbc="7" Nb="2" Na="Různé potřeby"/>
+<Sub_category Nbc="7" Nb="3" Na="Péče o zevnějšek"/>
+<Sub_category Nbc="7" Nb="4" Na="Veterinární lékař"/>
+<Category Nb="8" Na="Pojištění"/>
+<Sub_category Nbc="8" Nb="1" Na="Auto"/>
+<Sub_category Nbc="8" Nb="2" Na="Zdraví"/>
+<Sub_category Nbc="8" Nb="3" Na="Dům"/>
+<Sub_category Nbc="8" Nb="4" Na="Občanskoprávní odpovědnost"/>
+<Sub_category Nbc="8" Nb="5" Na="Život"/>
+<Category Nb="9" Na="Auto"/>
+<Sub_category Nbc="9" Nb="1" Na="Palivo"/>
+<Sub_category Nbc="9" Nb="2" Na="Opravy"/>
+<Sub_category Nbc="9" Nb="3" Na="Údržba"/>
+<Sub_category Nbc="9" Nb="4" Na="Parkování"/>
+<Sub_category Nbc="9" Nb="5" Na="Pokuty"/>
+<Category Nb="11" Na="Dárky"/>
+<Category Nb="12" Na="Děti"/>
+<Sub_category Nbc="12" Nb="1" Na="Zdravotní sestra"/>
+<Sub_category Nbc="12" Nb="2" Na="Různé"/>
+<Sub_category Nbc="12" Nb="3" Na="Studia"/>
+<Category Nb="13" Na="Studia"/>
+<Sub_category Nbc="13" Nb="1" Na="Lekce"/>
+<Sub_category Nbc="13" Nb="2" Na="Školné"/>
+<Sub_category Nbc="13" Nb="3" Na="Knihy"/>
+<Category Nb="14" Na="Různé"/>
+<Sub_category Nbc="14" Nb="1" Na="Dárky"/>
+<Category Nb="15" Na="Finanční výdaje"/>
+<Sub_category Nbc="15" Nb="1" Na="Různé"/>
+<Sub_category Nbc="15" Nb="2" Na="Bankovní poplatky"/>
+<Sub_category Nbc="15" Nb="3" Na="Půjčky a hypotéky"/>
+<Sub_category Nbc="15" Nb="4" Na="Poplatky"/>
+<Sub_category Nbc="15" Nb="5" Na="Refundace"/>
+<Category Nb="16" Na="Profesní výdaje"/>
+<Sub_category Nbc="16" Nb="1" Na="Non vratná"/>
+<Sub_category Nbc="16" Nb="2" Na="Vratná"/>
+<Category Nb="17" Na="Daně"/>
+<Sub_category Nbc="17" Nb="1" Na="Různé"/>
+<Sub_category Nbc="17" Nb="2" Na="Příjem"/>
+<Sub_category Nbc="17" Nb="3" Na="Pozemky"/>
+<Category Nb="18" Na="Bydlení"/>
+<Sub_category Nbc="18" Nb="1" Na="Hotel"/>
+<Sub_category Nbc="18" Nb="2" Na="Nájemné"/>
+<Sub_category Nbc="18" Nb="3" Na="TV"/>
+<Sub_category Nbc="18" Nb="4" Na="Nábytek"/>
+<Sub_category Nbc="18" Nb="5" Na="Poplatky"/>
+<Sub_category Nbc="18" Nb="6" Na="Topení"/>
+<Sub_category Nbc="18" Nb="7" Na="Dekorace"/>
+<Sub_category Nbc="18" Nb="8" Na="Voda"/>
+<Sub_category Nbc="18" Nb="9" Na="Elektřina"/>
+<Sub_category Nbc="18" Nb="10" Na="Bílé zboží"/>
+<Sub_category Nbc="18" Nb="11" Na="Zařízení"/>
+<Sub_category Nbc="18" Nb="12" Na="Plyn"/>
+<Sub_category Nbc="18" Nb="13" Na="Zahrada"/>
+<Sub_category Nbc="18" Nb="14" Na="Údržba domu"/>
+<Sub_category Nbc="18" Nb="15" Na="Telefon"/>
+<Sub_category Nbc="18" Nb="16" Na="Mobilní telefon"/>
+<Category Nb="19" Na="Volný čas"/>
+<Sub_category Nbc="19" Nb="1" Na="Kulečník"/>
+<Sub_category Nbc="19" Nb="2" Na="Bowling"/>
+<Sub_category Nbc="19" Nb="3" Na="Filmy"/>
+<Sub_category Nbc="19" Nb="4" Na="Noční klub"/>
+<Sub_category Nbc="19" Nb="5" Na="Počítače"/>
+<Sub_category Nbc="19" Nb="6" Na="Hry"/>
+<Sub_category Nbc="19" Nb="7" Na="Knihy"/>
+<Sub_category Nbc="19" Nb="8" Na="Parky"/>
+<Sub_category Nbc="19" Nb="9" Na="Koncerty"/>
+<Sub_category Nbc="19" Nb="10" Na="Sport"/>
+<Sub_category Nbc="19" Nb="11" Na="Video"/>
+<Sub_category Nbc="19" Nb="12" Na="Cestování"/>
+<Sub_category Nbc="19" Nb="13" Na="Zařízení"/>
+<Sub_category Nbc="19" Nb="14" Na="Muzea a výstavy"/>
+<Category Nb="20" Na="Půjčky a hypotéky"/>
+<Sub_category Nbc="20" Nb="1" Na="Kapitál"/>
+<Category Nb="21" Na="Zdraví"/>
+<Sub_category Nbc="21" Nb="1" Na="Pojištění"/>
+<Sub_category Nbc="21" Nb="2" Na="Zubař"/>
+<Sub_category Nbc="21" Nb="3" Na="Nemocnice"/>
+<Sub_category Nbc="21" Nb="4" Na="Fyzioterapeut"/>
+<Sub_category Nbc="21" Nb="5" Na="Doktor"/>
+<Sub_category Nbc="21" Nb="6" Na="Oftalmolog"/>
+<Sub_category Nbc="21" Nb="7" Na="Osteopat"/>
+<Sub_category Nbc="21" Nb="8" Na="Lékárna"/>
+<Sub_category Nbc="21" Nb="9" Na="Sociální zabezpečení"/>
+<Category Nb="22" Na="Péče"/>
+<Sub_category Nbc="22" Nb="1" Na="Kadeřnice"/>
+<Sub_category Nbc="22" Nb="2" Na="Oblečení"/>
+<Category Nb="23" Na="Doprava"/>
+<Sub_category Nbc="23" Nb="1" Na="Autobus"/>
+<Sub_category Nbc="23" Nb="2" Na="Metro"/>
+<Sub_category Nbc="23" Nb="3" Na="Mýtné"/>
+<Sub_category Nbc="23" Nb="4" Na="Vlak"/>
+<Sub_category Nbc="23" Nb="5" Na="Šalina"/>
+<Sub_category Nbc="23" Nb="6" Na="Cesty"/>
+<Sub_category Nbc="23" Nb="7" Na="Vzduch"/>
+<Category Nb="24" Na="Svátky"/>
+<Sub_category Nbc="24" Nb="1" Na="Bydlení"/>
+<Sub_category Nbc="24" Nb="2" Na="Návštěvy"/>
+<Sub_category Nbc="24" Nb="3" Na="Cesty"/></Grisbi_categ>
