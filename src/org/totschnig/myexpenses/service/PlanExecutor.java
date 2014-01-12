@@ -32,7 +32,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 public class PlanExecutor extends IntentService {
-
+  //production: 21600000 6* 60 * 60 * 1000 6 hours; for testing: 60000 1 minute
+  public static long INTERVAL = MyApplication.debug ? 60000 : 21600000;
   public PlanExecutor() {
     super("PlanExexcutor");
   }
@@ -165,9 +166,7 @@ public class PlanExecutor extends IntentService {
         .putLong(MyApplication.PREFKEY_PLANNER_LAST_EXECUTION_TIMESTAMP, now));
     PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
     AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-    //long interval = 21600000; //6* 60 * 60 * 1000 6 hours
-    long interval = 60000; // 1 minute
-    manager.set(AlarmManager.RTC, now+interval, 
+    manager.set(AlarmManager.RTC, now + INTERVAL, 
         pendingIntent);
   }
 }
