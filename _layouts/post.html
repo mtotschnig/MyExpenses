@@ -46,9 +46,26 @@
 
   <body>
     <div class="container">
+    
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li id="features-link"><a id="menu-features" href="/en"><span class="glyphicon glyphicon-home"></span></a></li>
+          <li id="menu-moreinfo" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="Archive"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              {% for post in site.posts %}
+                {% if post.url == page.url %}
+                <li class="active"><a>{{ post.date | date: '%B %d, %Y' }} <br/> {{ post.title }}</a></li>
+                {% else %}
+                <li>
+                  <a href="{{ post.url }}">
+                  {{ post.date | date: '%B %d, %Y' }} <br/> 
+                  {{ post.title }}
+                  </a>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
         </ul>
         <h3 class="text-muted">My Expenses Blog</h3>
       </div>
@@ -57,6 +74,7 @@
         <header>
             <h2>{{ page.title }}</h2>
             <span><i class="icon-clock"></i><time datetime="{{page.date|date:"%F"}}">{{page.date|date:"%b %d, %Y"}}</time></span><br/>
+            <span class="exerpt">{{page.excerpt}}</span><br/>
             <span class="category"><i class="icon-tag"></i> {{ page.categories | category_links }}</span><br/>
             <span class="author"><i class="icon-user"></i> {% if page.author %}{{page.author}}{% else %}{{site.author}}{% endif%}</span>
         </header>
