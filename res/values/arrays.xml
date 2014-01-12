@@ -35,6 +35,7 @@
     	<item>@string/pref_ui_language_default</item>
       <item>العربية</item>
       <item>català</item>
+      <item>čeština</item>
       <item>Deutsch</item>
       <item>English</item>
       <item>español</item>
@@ -52,6 +53,7 @@
     	<item>default</item>
       <item>ar</item>
       <item>ca-ES</item>
+      <item>cs-CZ</item>
       <item>de-DE</item>
       <item>en-US</item>
       <item>es-ES</item>
