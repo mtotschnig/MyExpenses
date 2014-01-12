@@ -184,9 +184,14 @@ public class MyExpenses extends LaunchActivity implements
     if (extras != null) {
       mAccountId = extras.getLong(KEY_ROWID,0);
       long idFromNotification = extras.getLong("transaction_id",0);
-      if (idFromNotification != 0)
-        TransactionDetailFragment.newInstance(idFromNotification)
-            .show(getSupportFragmentManager(), "TRANSACTION_DETAIL");
+      if (idFromNotification != 0) {
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.findFragmentByTag("TRANSACTION_DETAIL") == null) {
+          TransactionDetailFragment.newInstance(idFromNotification)
+              .show(getSupportFragmentManager(), "TRANSACTION_DETAIL");
+          getIntent().removeExtra("transaction_id");
+        }
+      }
     }
     if (mAccountId == 0)
       mAccountId = mSettings.getLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, 0);
