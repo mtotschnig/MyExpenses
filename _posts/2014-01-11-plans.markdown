@@ -6,7 +6,7 @@ excerpt: With version 1.11.5, My Expenses planner has become more organised and 
 Comments by users revealed a shortcoming of My Expenses' feature of planning recurrent transactions:
 Users expect them to be visible in their transaction list, before the date arrives, so that they can
 already see the influence of the transaction on their budget. Until now, you could
-apply the template underlying a plans at any time, but the created transactions were then independent
+apply the template underlying a plan at any time, but the created transactions were then independent
 from the actual plan instances, and did not prevent the creation of a new transaction once the date arrived.
 
 With version 1.11.5, currently available for testing, a new way of organizing plans is introduced.
