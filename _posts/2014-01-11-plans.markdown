@@ -24,14 +24,16 @@ symbolising these states and the actions (callable from the context menu) that l
 <img src="/visuals/screenshots/blog/2014-01-11/state_diagram.png" alt="State Diagram" title="State Diagram">
 </div>
 
-* When an instance is open, you can apply it, by either saving it directly to the database, or by visiting an editing form before saving. 
+![State indicator: open](/visuals/ic_stat_open.png) When an instance is open, you can apply it,
+by either saving it directly to the database, or by visiting an editing form before saving.
 You can also cancel it, i.e. you flag it to be skipped when the date arrives.
 
-* When an instance is applied, you can edit the transaction (alter any details), cancel it (the transaction
+![State indicator: applied](/visuals/ic_stat_applied.png) When an instance is applied, you can edit
+the transaction (alter any details), cancel it (the transaction
 will be deleted and the instance flagged to be skipped), or reset it (the transaction will be deleted
 and created normally when the instance occurs).
 
-* When an instance is cancelled, you can reset it (thus removing the cancellation flag and having it
+![State indicator: cancelled](/visuals/ic_stat_cancelled.png) When an instance is cancelled, you can reset it (thus removing the cancellation flag and having it
 be handled normally like an open instance again).
 
 If you have a suggestion on how to improve My Expenses' planner still further, please leave a comment
