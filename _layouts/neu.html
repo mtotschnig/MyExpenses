@@ -290,10 +290,7 @@
             return false;
           });
         });
-        if (location.hash!='')
-          mkActive(location.hash);
-        else
-          $("#features-link").addClass('active');
+        mkActive(location.hash);
 
         loadDeviceArt();
       })
@@ -315,7 +312,14 @@
       });
       //target is hash + id of block  
       function mkActive(target) {
-        var block=target.split("-")[0];
+        var block;
+        var doScroll = true;
+        if (target=='') {
+          block = '#features';
+          doScroll=false;
+        } else {
+          block=target.split("-")[0];
+        }
         //when called with non existent hash do nothing
         if ($(block).length == 0) return;
         $('.block').toggle(false);
@@ -326,12 +330,24 @@
         $('li.active').removeClass('active');
         $(block+"-link").addClass('active');
 
-        $('html, body').animate({
-          scrollTop: $(target).offset().top
-        }, 'slow');
+        if (doScroll) {
+          $('html, body').animate({
+            scrollTop: $(target).offset().top
+          }, 'slow');
+        }
       }
-      window.addEventListener("popstate", function(e) {
-        mkActive(location.hash==""?"#features":location.hash);
+      /*
+      * http://stackoverflow.com/a/12214354/1199911
+      * Necessary hack because WebKit fires a popstate event on document load
+      * https://code.google.com/p/chromium/issues/detail?id=63040
+      * https://bugs.webkit.org/process_bug.cgi
+      */
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          window.addEventListener('popstate', function() {
+             mkActive(location.hash);
+          });
+        }, 0);
       });
       {% if pagelang == "en" or pagelang == "fr" or pagelang == "es" %}
       function whichIcon(address) {
