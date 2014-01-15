@@ -1,5 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_116">
+    <item>Planlamaların yönetimi iyileştirilmiştir: gelecek örneklemeleri önceden uygulama</item>
+    <item>Yeni tercümeler: Portekizce, Lehçe, Çekçe</item>
+  </string-array>
+  <string-array name="whats_new_110">
+    <item>Muamele listesini ve birden çok hesapların agregalarının istatistiksel dağılımını görüntüleme</item>
+  </string-array>
   <string-array name="whats_new_108">
     <item>(Geleneksel) Çince çeviri</item>
     <item>Muamele düzenleme formunda hesap seçimi</item>

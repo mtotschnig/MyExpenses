@@ -7,6 +7,7 @@
   <string name="help_MyExpenses_crStatus_info">Stan transakcji jest oznaczony przez pokolorowany prostokąt: szary dla nieuzgodnionego, niebieski dla czystego, zielony dla uzgodnionego. Kliknięcie na prostokącie, zmienia jego stan.</string>
   <string name="menu_create_transaction_help_text">Otwiera formularz tworzenia nowej transakcji.</string>
   <string name="menu_create_transfer_help_text">Przenieś pieniądze pomiędzy kontami. To polecenie jest włączone tylko jeżeli posiadasz przynajmniej jedno inne konto z tą samą walutą jak bieżąca.</string>
+  <string name="menu_create_split_help_text">Transakcja podziału pozwala Ci na przydzielenie częściowych ilości do innej kategorii lub jako przelew do innego konta.</string>
   <string name="menu_reset_help_text">To polecenie wyeksportuje wszystkie transakcje bieżącego konta do pliku na karcie pamięci w formacie QIF lub CSV. Domyślnie, transakcje zostaną usunięte z twojego telefonu, ale możesz wybrać do zachowania ich i zaznaczenia jako wyeksportowane. Moje Wydatki mogą udostępnić plik natychmiastowo po eksporcie przez FTP, E-mail lub przez inną aplikację do udostępniania plików, jeżeli skonfigurujesz ją do robienia tego w Ustawieniach.</string>
   <string name="menu_edit_account_help_text">Dopasuj właściwości bieżącego konta (tytuł, opis, bilans otwarcia, typ konta, waluta, kolor).</string>
   <string name="menu_grouping_help_text">Możesz grupować transakcje według dnia, tygodnia, miesiąca lub roku. Dla każdej grupy, suma dochodu, wydatków i przelewów jest obliczana i wyświetlana.</string>
@@ -39,11 +40,20 @@
   <string name="help_ExpenseEdit_transaction_title">Formularz dla transakcji</string>
   <string name="help_ExpenseEdit_transfer_title">Formularz dla przelewów</string>
   <string name="help_ExpenseEdit_template_title">Formularz dla szablonów</string>
+  <string name="help_ExpenseEdit_split_title">Formularz dla podziałów</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">Formularz dla części podziału kategorii</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">Formularz dla części podziału przelewu</string>
   <string name="help_ExpenseEdit_info">Kliknięcie na przycisku = otwiera kalkulator.</string>
   <string name="help_ExpenseEdit_transaction_info">Kliknięcie na przycisku - zmienia pomiędzy wydatkami a przychodami. Pole odbiorcy płatności (lub płatnika) zapamiętuje wartości jakie wprowadzasz i będzie je sugerować w przyszłości. Przycisk dla wybierania metody płatności, jest tylko dostępny jeżeli bieżące konto jest typem połączonym z jakąkolwiek metodą płatności. Domyślnie tylko nota bankowe, są połączone do metod płatności (czek, karta kredytowa, depozyt, bezpośredni kredyt).</string>
+  <string name="help_ExpenseEdit_transfer_info">Wybierz konto przelewu z rozwijanego menu.</string>
   <string name="help_ExpenseEdit_template_info">Kliknięcie na przycisku - zmienia pomiędzy wydatkami a przychodami. Wprowadź tytuł który unikalnie zidentyfikuje szablon.&lt;h2&gt;Plans&lt;/h2&gt;Kiedy utworzysz plan dla szablonu, jest on dodany do prywatnego kalendarza osbługiwanego przez twoją aplikację Kalendarza. Możesz zdefiniować plan jako jednorazowe wydarzenie lub jakiegokolwiek powtarzalnego wydarzenia który kalendarz obsługuje. Możesz tworzyć, modyfikować oraz usuwać plan klikając na przycisku planu, ale kiedy plan raz jest ustawiony, możesz używać aplikacji Kalendarza do zarządzania nim. Plan może być ustawiony jako automatyczny lub ręczny. Kiedy wystąpi instancja automatycznego planu, transakcja zostanie utworzona, i dostaniesz o tym powiadomienie. Kiedy plan jest ustawiony jako ręczny, to także dostaniesz o tym powiadomienie, które tym razem da Ci do wyboru jego anulowanie, modyfikację lub zastosowania dla Ciebie szablonu.</string>
+  <string name="help_ExpenseEdit_split_info">Wprowadź tak dużo części podziałów ile potrzebujesz przez polecenie w menu dla podziałów kategorii i podziałów przelewu. Dolna połowa ekranu wyświetla listę części podziału i ilość jaka nie została przydzielona dla kategorii lub przelewu. Możesz tylko zapisać transakcję podziału jeżeli ilość transakcji została już dokładnie przydzielona.</string>
+  <string name="help_ExpenseEdit_splitPartCategory_info">Wybierz kategorię dla części podziału.</string>
+  <string name="menu_create_split_part_category_help_text">Otwiera formularz dla przydzielania części podziału do kategorii.</string>
+  <string name="menu_create_split_part_transfer_help_text">Otwiera formularz dla definiowania części podziału jako przelew do innego konta.</string>
   <string name="menu_save_help_text">Zapiuje dane i zamyka formularz.</string>
   <string name="menu_save_and_new_help_text">Zapisuje dane, zostawia formularz włączony dla tworzenia nowej transakcji z tymi samymi danymi.</string>
+  <string name="menu_invert_transfer_help_text">Odwróć kierunek przelewu poprzez zamianę kont \'Z\' i \'Do\'</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formularz dla kont</string>
   <string name="help_AccountEdit_info">Konto jest identyfikowane przez jego etykietę, opis może mieć tylko cel informacyjny. Waluta może zostać wybrana z lity. Możesz zdefiniować typ konta na Gotówkę, Bank, Kapitał, Płatności, Karta Kredytowa. Typ określa dostępne metody płatności które możesz skonfigurować w menu Ustawień -&gt; Zarządzaj -&gt; Metody Płatności.</string>

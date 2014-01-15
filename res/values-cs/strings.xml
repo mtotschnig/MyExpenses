@@ -9,8 +9,8 @@
   <string name="already_defined">%1$s již definován.</string>
   <string name="amount">Částka</string>
   <string name="app_name">Moje výdaje</string>
-  <string name="backup_failure">Zálohování na sdkartu se nezdařilo.</string>
-  <string name="backup_success">Databáze a preference byly úspěšně zapsány na sdkartu.</string>
+  <string name="backup_failure">Zálohování na paměťovou kartu se nezdařilo.</string>
+  <string name="backup_success">Databáze a preference byly úspěšně zapsány na paměťovou kartu.</string>
   <string name="category">Kategorie</string>
   <string name="color">Barva</string>
   <string name="comment">Poznámky</string>
@@ -47,7 +47,8 @@
   <string name="dialog_contrib_text">&lt;i&gt; Moje výdaje &lt;/i&gt; nenabízí reklamu a mají otevřený vývoj. Prosím přispějte instalací placené verze Contrib. Získáte neomezený přístup k následujícím prémiovým funkcím:</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Máte jedno použití zdarma.</item>
-    <item quantity="other">Máte %1$d použitích zdarma.</item>
+    <item quantity="few">Máte %1$d použití zdarma.</item>
+    <item quantity="other">Máte %1$d použití zdarma.</item>
   </plurals>
   <string name="dialog_contrib_yes">Kupte teď</string>
   <string name="dialog_export_delete">Odstranit exportované transakce</string>
@@ -265,8 +266,7 @@
   <string name="pref_manage_methods_title">Způsoby plateb</string>
   <string name="pref_manage_parties_summary">Přidání, úprava, odstranění strany (plátci a příjemci).</string>
   <string name="pref_manage_parties_title">Oddíly</string>
-  <string name="pref_more_info_dialog_summary"><!-- toto je prázdné pro angličtinu a nabízí poděkování překladatelům v ostatních jazycích--></string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
+  <string name="pref_more_info_dialog_summary">Přeložil Jan Šplíchal</string>
   <string name="pref_more_info_dialog_title">Licence a kredity</string>
   <string name="pref_password_empty">Heslo nesmí být prázdné</string>
   <string name="pref_password_not_equal">Hesla si neodpovídají.</string>
