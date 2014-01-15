@@ -6,11 +6,15 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 
+import junit.framework.Assert;
+
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Account.Type;
@@ -21,9 +25,11 @@ import org.totschnig.myexpenses.util.Result;
 
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 
 public class Fixture {
@@ -193,6 +199,7 @@ public class Fixture {
     split2.save();
 
     // Template
+    Assert.assertTrue("Unable to create planner", MyApplication.getInstance().createPlanner());
     Template template = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.id);
     template.amount = new Money(defaultCurrency,-90000L);
     String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
@@ -202,7 +209,16 @@ public class Fixture {
       throw new RuntimeException("Could not find category");
     template.title = templateSubCat;
     template.payee = testContext.getString(R.string.testData_templatePayee);
-    if (template.save() == null)
+    Uri planUri = new Plan(
+        0,
+        System.currentTimeMillis(),
+        "FREQ=WEEKLY;COUNT=10;WKST=SU",
+        template.title,
+        template.compileDescription(appContext))
+      .save();
+    template.planId = ContentUris.parseId(planUri);
+    Uri templateuri = template.save();
+    if (templateuri == null)
       throw new RuntimeException("Could not save template");
   }
 }
