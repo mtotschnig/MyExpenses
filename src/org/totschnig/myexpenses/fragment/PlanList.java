@@ -26,16 +26,13 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.model.Plan;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.annotation.SuppressLint;
-import android.content.ContentResolver;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -82,8 +79,7 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   private ExpandableListView mListView;
   private int mExpandedPosition = -1;
   public boolean newPlanEnabled;
-  
-  
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     setColors();
@@ -493,5 +489,8 @@ public class PlanList extends BudgetListFragment implements LoaderManager.Loader
   }
   public void refresh() {
    mAdapter.notifyDataSetChanged();
+  }
+  public void listFocus() {
+    mListView.requestFocus();
   }
 }

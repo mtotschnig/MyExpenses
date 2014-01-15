@@ -40,6 +40,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Toast;
@@ -52,6 +53,21 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
   ViewPager mViewPager;
   SectionsPagerAdapter mSectionsPagerAdapter;
   
+  private int monkey_state = 0;
+
+  @Override
+  public boolean onKeyUp (int keyCode, KeyEvent event) {
+    if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+      switch (monkey_state) {
+      case 0:
+        ((PlanList) getSupportFragmentManager().findFragmentByTag(
+            mSectionsPagerAdapter.getFragmentName(1)))
+          .listFocus();
+        return true;
+      }
+    }
+    return super.onKeyUp(keyCode, event);
+  }
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
