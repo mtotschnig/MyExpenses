@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -240,7 +241,7 @@ public class TaskExecutionFragment extends Fragment {
         Transaction.move(id[0],(Long) mExtra);
         return null;
       case TASK_NEW_PLAN:
-        return Plan.create((Plan)mExtra);
+        return ContentUris.parseId(((Plan)mExtra).save());
       case TASK_NEW_CALENDAR:
         return MyApplication.getInstance().createPlanner();
       case TASK_CANCEL_PLAN_INSTANCE:
