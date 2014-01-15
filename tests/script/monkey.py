@@ -1,12 +1,11 @@
 import sys
 
 if (len(sys.argv) < 3):
-  print "Usage: monkeyrunner monkey.py {lang} {country}"
+  print "Usage: monkeyrunner monkey.py {lang} {stage}"
   sys.exit(0)
 
 lang = sys.argv[1]
-country = sys.argv[2]
-stage = sys.argv[3]
+stage = sys.argv[2]
 targetdir = '/home/michael/programmieren/MyExpenses/doc/screenshots/neu/' + lang + '/'
 BACKDOOR_KEY = 'KEYCODE_CAMERA'
 def snapshot(title):
