@@ -200,6 +200,13 @@ public class Fixture {
 
     // Template
     Assert.assertTrue("Unable to create planner", MyApplication.getInstance().createPlanner());
+    //createPlanner sets up a new plan, mPlannerCalendarId is only set in onSharedPreferenceChanged
+    //if it is has not been called yet, when we save our plan, saving fails.
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     Template template = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.id);
     template.amount = new Money(defaultCurrency,-90000L);
     String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
