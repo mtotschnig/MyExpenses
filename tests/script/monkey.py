@@ -183,10 +183,12 @@ def main():
   back()
   back()
   menu(4)
-  if lang == 'de' or lang == 'it':
+  if lang == 'de':
     distance = 26
-  else:
+  elif lang == 'zh':
     distance = 24
+  else:
+    distance = 25
   for _ in range(distance):
     down()
   enter()
