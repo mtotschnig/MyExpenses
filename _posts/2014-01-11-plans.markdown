@@ -9,7 +9,7 @@ already see the influence of the transaction on their budget. Until now, you cou
 apply the template underlying a plan at any time, but the created transactions were then independent
 from the actual plan instances, and did not prevent the creation of a new transaction once the date arrived.
 
-With version 1.11.5, currently available for testing, a new way of organizing plans is introduced.
+With version 1.11.5, a new way of organizing plans is introduced.
 Plans are listed in their own tab separate from simple templates. Plans can be expanded and will show a list of the instances that will
 occur during the next 90 days:
 
