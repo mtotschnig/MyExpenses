@@ -28,7 +28,6 @@ de:
     password: Passwortschutz
     help: Integrierte Hilfe
     backup: Daten Backup und Wiederherstellung
-    aggregate_dialog: Darstellung der Gesamtsummen in der Kontenübersicht (Contrib Version)
     light_theme: "Zwei Themen: hell und dunkel"
   contrib:
     feature-list-title: |
@@ -40,7 +39,6 @@ de:
       split_transaction: Splitbuchung
       security_question: Sicherheitsfrage
       reset_all: Alle Konten zurücksetzen
-      aggregate: Gesamtsumme über mehrere Konten
     licence-howto-buy:
       intro: |
         Die Contrib Lizenz kann auf folgenden Wegen erworben werden:

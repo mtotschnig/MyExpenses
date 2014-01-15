@@ -39,6 +39,9 @@ title:
   vi: Chi Tiêu Của Tôi
   hu: Kiadásaim
   zh-tw: 開支助手
+  pt: Minhas despesas
+  pl: Moje Wydatki
+  cs: Moje výdaje
 langs:
   it: Italiano
   de: Deutsch
@@ -51,6 +54,9 @@ langs:
   ar: العربية
   hu: Magyar
   zh-tw: 中文 (繁體)
+  pt: Português
+  pl: Polski
+  cs: Čeština
 support-email: "support@myexpenses.mobi"
 amazon:
   de: "www.amazon.de"

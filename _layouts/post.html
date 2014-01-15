@@ -46,7 +46,6 @@
 
   <body>
     <div class="container">
-    
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li id="features-link"><a id="menu-features" href="/en"><span class="glyphicon glyphicon-home"></span></a></li>
@@ -59,7 +58,7 @@
                 {% else %}
                 <li>
                   <a href="{{ post.url }}">
-                  {{ post.date | date: '%B %d, %Y' }} <br/> 
+                  {{ post.date | date: '%B %d, %Y' }} <br/>
                   {{ post.title }}
                   </a>
                   {% endif %}

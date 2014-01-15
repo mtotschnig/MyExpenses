@@ -1,0 +1,83 @@
+pl:
+  hero_main: "Personalny menadżer finansów dla systemu Android"
+  hero_sub:
+    use: "Łatwy w użyciu"
+    functionality: "Bogata funkcjonalność"
+    source: "Open Source"
+  menu_title:
+    more_information: Więcej informacji
+  sections:
+    features: Funkcje
+    premium: Przejdź do Premium
+    participate: Współuczestnicz
+    faq: Często zadawane pytania
+    versionlist: Dziennik zmian
+    credits: O programie
+    licence: Licencja
+    sourcecode: Kod źródłowy
+    links: Linki
+  features:
+    plans: Definiuj szablony i plany dla przyszłych i powtarzalnych transakcji
+    grouped_list: Grupuj transakcje na dni, tygodnie, miesiące, lata i wyświetl kwoty dla każdej z grup
+    distribution: Dwa poziomy kategorii (import z Grisbi XML)
+    calculator: Kalkulator
+    export: Eksport do QIF i CSV (Microsoft Excel), może być automatycznie udostępniany (przez E-mail, FTP, Dropbox, ...)
+    password: Zabezpieczenie hasłem
+    help: Zintegrowana Pomoc
+    backup: Kopia zapasowa oraz przywracanie danych
+    light_theme: "Dwa motywy: jasny i ciemny"
+  contrib:
+    feature-list-title: |
+      Następujące funkcje Premium zostaną odblokowane poprzez nabycie licencji Contrib:
+    feature:
+      accounts_unlimited: Nieograniczona ilość kont
+      plans_unlimited: Nieograniczona ilość planów
+      distribution: Dystrybucja tranakcji na kategorię.
+      split_transaction: Podział transakcji
+      security_question: Pytanie bezpieczeństwa
+      reset_all: Resetuj wszystkie konta
+      aggregate: Sumy dla wszystkich kont
+    licence-howto-buy:
+      intro: |
+        Masz następujące opcje dla nabycia licencji Contrib:
+      gplay: |
+        Jeżeli zainstalowałeś Moje Wydatki z Google Play, Zainstaluj
+        <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib">My Expenses Contrib</a>.
+      amazon: |
+        Jeżeli zainstalowałeś Moje Wydatki z Amazon App Store, Zainstaluj
+        <a href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib">My Expenses Contrib</a>.
+      other: |
+        Jeżeli pobrałeś Moje Wydatki z F-Droid, AndroidPit lub Github,
+        wyślij datek przez jedno z poniższych:
+      transfer: |
+        Alternatywnie, przelej pieniądze na następujące konto:
+      key: |
+        i wtedy zażądaj klucz licencyjny przez ekran ustawień.
+        Po otrzymaniu go na e-mail, wprowadź go także z ekranu ustawień.
+      outro: |
+        Google i Amazon pobiera 30% kwoty transakcji, Flattr 10%, PayPal w przybliżeniu 0,45€.
+        Więc jeżeli jest to wygodne dla Ciebie, polecam Ci instalację Moich Wydatków z F-Droid, lub Github i wysłanie datku przez przelew na Paypal lub Flattr.
+  participate:
+    intro: |
+      Z twoim wsparciem, <span class="application">Moje Wydatki</span> będą rosnąć w funkcjonalności, podczas byciem dystrybuowanym
+      bez reklam oraz Open Source.
+    submit_issue: |
+      <span class="application">Moje Wydatki</span> rozwija się poprzez twoje raporty i sugestje.
+      Jeżeli znajdziesz problem lub myślisz o udoskonaleniu,
+      utwórz <a href="https://github.com/mtotschnig/MyExpenses/issues/new">nowy problem</a>, w Github's Issue Tracker.
+    test: |
+      Jeżeli jesteś zainteresowany w pomocy testując nadchodzące wersje, proszę dołączyć się do
+      <a href="https://groups.google.com/forum/#!forum/my-expenses-testing">My Expenses Testing</a> Google
+      Group.
+    translate: |
+      Możesz także pomóc <a class="intern" href="#translate">tłumaczyć</a> <span class="application">Moje Wydatki</span> na nowe języki.
+    premium: |
+      Proszę rozważyć kupno <a class="intern" href="#premium">licencję Contrib</a> dla nieograniczonego dostępu do wszystkich funkcji Premium.
+  google-play:
+  - Śledź swoje wydatki i przychody.
+  - Zarządzaj nimi bezpośrednio na swoim smartfonie.
+  - Eksportuj je do finansowego programu komputerowego t.j. Grisbi, GnuCash, Quicken lub Microsoft Money.
+  permissions-heading: |
+    Moje Wydatki potrzebują następujących uprawnień
+  permissions-calendar: |
+    Czytanie i zapisywanie kalendarza: Plany na przyszłość i powtarzalne transakcje są przechowywane albo w specjalnym lokalnym kalendarza albo w każdym innym kalendarzu jaki wybierzesz.

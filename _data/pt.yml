@@ -1,0 +1,36 @@
+pt:
+  hero_main: "Gerenciador de finanças pessoais para o Android"
+  hero_sub:
+    use: "Fácil de usar"
+    functionality: "Funcionalidade Rich"
+    source: "Open Source"
+  menu_title:
+    more_information: Mais informações
+  sections:
+    features: Características
+    credits: Créditos
+  features:
+    manage_accounts: Até 5 contas com transferências
+    plans: Definir modelos e planos futuros e recorrentes de transações
+    grouped_list: Grupo de transações por dia, semana, mês, ano e exibir somas por grupo
+    distribution: Dois níveis de categorias (importação de Grisbi XML)
+    split: Transação de divisão (versão Contrib)
+    calculator: Calculadora
+    export: Exportação de QIF e CSV (MS Excel), podem ser compartilhados automaticamente (via e-mail, FTP, Dropbox,...)
+    password: Proteção de senha
+    help: Ajuda integrada
+    backup: Restauração e backup de dados
+    light_theme: "Dois temas: luz e trevas"
+  contrib:
+    feature:
+      accounts_unlimited: Número ilimitado de contas
+      plans_unlimited: Número ilimitado de planos
+      distribution: Distribuição de transações por categoria
+      split_transaction: Transação de divisão
+      security_question: Pergunta de segurança
+      reset_all: Reiniciar todas as contas
+      aggregate: Agregar várias contas
+  google-play:
+  - Manter o controle de suas despesas e rendas...
+  - Gerenciá-los diretamente no seu smartphone...
+  - Exportá-las para um programa de Desktop Finanças Grisbi, GnuCash, Quicken ou MS Money.

@@ -1,0 +1,84 @@
+cs:
+  imprint: Tiráž
+  hero_main: "Správa osobních výdajů pro Android"
+  hero_sub:
+    use: "Snadné použití"
+    functionality: "Bohaté funkce"
+    source: "Otevřený vývoj"
+  menu_title:
+    more_information: Více informací
+  sections:
+    features: Funkce
+    premium: Přejít na Premium
+    participate: Zapojte se
+    faq: FAQ
+    versionlist: Seznam změn
+    credits: Na vývoji se podíleli
+    licence: Licence
+    sourcecode: Zdrojový kód
+    links: Odkazy
+  features:
+    manage_accounts: Až pět účtů s převody
+    plans: Předefinujte si šablony a plány pro budoucí a opakující se transakce
+    grouped_list: Souhrnné transakce za den, týden, měsíc a rok a zobrazení celkové částky za skupinu.
+    distribution: Dvě úrovně kategorií (import z Grisbi XML)
+    split: Rozdělení transakce (Contrib verze)
+    calculator: Kalkulačka
+    export: Export do QIF a CSV (MS Excel), může být automaticky sdílen (prostřednictvím e-mailu, FTP, Dropboxu, ...)
+    password: Ochrana heslem
+    help: Integrovaná nápověda
+    backup: Obnovení a zálohování dat
+    aggregate_dialog: Celková finanční situace (Contrib verze)
+    light_theme: "Dvě témata: světlé a tmavé"
+  contrib:
+    feature-list-title: |
+      Následující prémiové funkce, mohou být odemknuty získáním Contrib licence:
+    feature:
+      accounts_unlimited: Neomezený počet účtů
+      plans_unlimited: Neomezený počet plánů
+      distribution: Rozdělení transakcí podle jednotlivých kategorií
+      split_transaction: Rozdělení transakcí
+      security_question: Bezpečnostní otázka
+      reset_all: Obnovit všechny účty
+      aggregate: Sdružení přes více účtů
+    licence-howto-buy:
+      intro: |+
+        Máte následující možnosti pro nákup Contrib licence:
+
+      gplay: |
+        Pokud jste nainstalovali Moje výdaje ze služby Google Play, nainstalujte si <a href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses.contrib"> My Expenses Contrib </a>.
+      amazon: |
+        Pokud jste nainstalovali Moje výdaje z Amazon App Store, nainstalujte si<a href="http://www.amazon.com/gp/product/B00GLB9TC2?ref=mas_pm_MyExpensesContrib"> Moje výdaje Contrib </a>.
+      other: |
+        Pokud jste si stáhli Moje výdaje z F-Droid, Androidpit nebo Github, pošlete svůj dar pomocí jedné z následujících cest:
+      transfer: |
+        Můžete také převést peníze podle následujících informací:
+      key: |
+        a poté požádejte o licenční klíč z obrazovky nastavení.
+        Jakmile jej obdržíte prostřednictvím e-mailu, zadejte ho také z obrazovky nastavení.
+      outro: |
+        Google a Amazon si účtují 30 % z transakce, Flattr 10 %, Paypal cca 0,45€.
+        Takže pokud je pro vás možné, doporučujeme vám nainstalovat My výdaje z F-Droid, Androidpit nebo Github a poslat váš dar převodem z Paypal nebo Flattr.
+  participate:
+    intro: |
+      S vaší podporou a <span class="application"> Moje výdaje</span> neustále rošiřují svoje funkce a mohou být distribuovány zdarma a mít otevřený vývoj.
+    submit_issue: |
+      <span class="application"> Moje výdaje</span> se vyvíjí prostřednictvím vašich zpráv a návrhů.
+      Pokud najdete problém nebo máte nápad na zlepšení, vytvořte na <a href="https://github.com/mtotschnig/MyExpenses/issues/new"> nové téma</a>, Github Issue Tracker.
+    test: |
+      Pokud máte zájem pomoci nám při testování připravovaných verzích, připjte se prosím do<a href="https://groups.google.com/forum/#!forum/my-expenses-testing"> My Expenses testování</a> Google skupina.
+    translate: |
+      Můžete také pomoci <a class="intern" href="#translate"> přeložit</a> <span class="application"> My expenses</span> do nových jazyků.
+    premium: |
+      Prosím, zvažte nákup <a class="intern" href="#premium"> Contrib licenci</a> pro neomezený přístup ke všem funkcím Premium.
+  google-play:
+  - Sledujte své výdaje a příjmy.
+  - Spravujte je přímo na vašem smartphone.
+  - Exportujte je do finančního programu ve vašem PC jako jsou Grisbi, GnuCash, Quicken nebo MS Money.
+  permissions-heading: |+
+    Moje výdaje vyžadují následující oprávnění:
+
+  permissions-calendar: |
+    Čtení a úprava kalendáře: plány pro budoucnost a opakující transakce jsou uloženy ve speciálním místním kalendáři nebo v jakémkoliv jiném přiřazeném kalendáři.
+  permissions-external-storage: |
+    Zápis na USB disk: Možnost exportu a zálohování QIF a CSF souborů z USB disku.
