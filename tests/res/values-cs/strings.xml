@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="testData_account1Label">Moje peněženka</string>
+  <string name="testData_account1Description">Denní výdaje</string>
+  <string name="testData_account2Label">víkend v Paříži</string>
+  <string name="testData_account2Description">Srpen 2012</string>
+  <string name="testData_account2Currency">EUR</string>
+  <string name="testData_account3Label">Bankovní účet</string>
+  <string name="testData_account3Description">Bank of America</string>
+  <string name="testData_transaction1SubCat">Metro</string>
+  <string name="testData_transaction1MainCat">Doprava</string>
+  <string name="testData_transaction2SubCat">Různé</string>
+  <string name="testData_transaction2MainCat">Jídlo</string>
+  <string name="testData_transaction2Comment">Ovoce a zelenina</string>
+  <string name="testData_transaction3SubCat">Palivo</string>
+  <string name="testData_transaction3MainCat">Auto</string>
+  <string name="testData_transaction4SubCat">Restaurace</string>
+  <string name="testData_transaction4MainCat">Jídlo</string>
+  <string name="testData_transaction4Payee">Pizzerie Antonella</string>
+  <string name="testData_transaction6MainCat">Dárky</string>
+    <string name="testData_templateMainCat">Bydlení</string>
+    <string name="testData_templateSubCat">Nájemné</string>
+    <!-- a name typically used as example name -->
+    <string name="testData_templatePayee">Jan Novák</string>
+</resources>
