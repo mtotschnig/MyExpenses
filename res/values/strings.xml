@@ -99,6 +99,7 @@
   <string name="dialog_title_warning_delete_account">Delete account?</string>
   <string name="dialog_title_warning_delete_template">Delete template?</string>
   <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
+  <string name="dialog_title_warning_delete_main_category">Delete main category?</string>
   <string name="dialog_title_welcome">Welcome!</string>
   <string name="donate">Donate</string>
   <string name="donate_dialog_text">Please donate via PayPal, Flattr or Bitcoin, and then request a contrib key from the settings screen.</string>
@@ -374,6 +375,7 @@
   <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. &continue;</string>
   <string name="warning_delete_account">This account will be deleted with all its transactions. &continue;</string>
+  <string name="warning_delete_main_category">This category will be deleted with all its subcategories. &continue;</string>
   <string name="warning_delete_template">This template (and any associated plan) will be deleted. &continue;</string>
   <string name="warning_delete_transaction">This transaction will be deleted. &continue;</string>
   <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
