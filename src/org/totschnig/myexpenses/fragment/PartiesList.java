@@ -19,11 +19,10 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -38,7 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class PartiesList extends SherlockFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class PartiesList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
   SimpleCursorAdapter mAdapter;
   private Cursor mPartiesCursor;
   @Override
@@ -51,7 +50,7 @@ public class PartiesList extends SherlockFragment implements LoaderManager.Loade
 
   @Override
   public boolean onContextItemSelected(android.view.MenuItem item) {
-    SherlockFragmentActivity ctx = getSherlockActivity();
+    FragmentActivity ctx = getActivity();
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:

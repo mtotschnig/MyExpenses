@@ -17,15 +17,13 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
-import com.actionbarsherlock.view.MenuItem;
-
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
+import android.view.MenuItem;
 
 
-public class ProtectedPreferenceActivity extends SherlockPreferenceActivity {
+public class ProtectedPreferenceActivity extends PreferenceActivity {
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   
@@ -34,8 +32,8 @@ public class ProtectedPreferenceActivity extends SherlockPreferenceActivity {
     super.onCreate(savedInstanceState);
     protection = new ProtectionDelegate(this);
     MyApplication.getInstance().setLanguage();
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
+    //ActionBar actionBar = getSupportActionBar();
+    //actionBar.setDisplayHomeAsUpEnabled(true);
   }
   @Override
   protected void onPause() {

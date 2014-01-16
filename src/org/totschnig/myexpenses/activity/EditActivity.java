@@ -20,12 +20,11 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -41,7 +40,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
   
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getSupportMenuInflater();
+    MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.one, menu);
     super.onCreateOptionsMenu(menu);
     return true;

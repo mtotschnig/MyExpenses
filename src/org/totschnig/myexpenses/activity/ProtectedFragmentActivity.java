@@ -21,11 +21,6 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,8 +29,12 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-public class ProtectedFragmentActivity extends SherlockFragmentActivity
+public class ProtectedFragmentActivity extends ActionBarActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
     TaskExecutionFragment.TaskCallbacks{
   public static final int ACTIVITY_EDIT=1;
@@ -113,15 +112,15 @@ public class ProtectedFragmentActivity extends SherlockFragmentActivity
   }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getSupportMenuInflater();
+    MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.common, menu);
     return true;
   }
   @Override
-  public boolean onMenuItemSelected(int featureId, MenuItem item) {
+  public boolean onOptionsItemSelected(MenuItem item) {
       if (dispatchCommand(item.getItemId(),null))
         return true;
-      return super.onMenuItemSelected(featureId, item);
+      return super.onOptionsItemSelected(item);
   }
   @Override
   public boolean dispatchCommand(int command, Object tag) {

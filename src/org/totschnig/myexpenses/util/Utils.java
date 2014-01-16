@@ -442,11 +442,11 @@ public class Utils {
    * @param item
    * @param enabled
    */
-  public static void menuItemSetEnabled(com.actionbarsherlock.view.Menu menu, int id, boolean enabled) {
-    com.actionbarsherlock.view.MenuItem item = menu.findItem(id);
-    item.setEnabled(enabled);
-    item.getIcon().setAlpha(enabled ? 255 : 90);
-  }
+//  public static void menuItemSetEnabled(Menu menu, int id, boolean enabled) {
+//    MenuItem item = menu.findItem(id);
+//    item.setEnabled(enabled);
+//    item.getIcon().setAlpha(enabled ? 255 : 90);
+//  }
 
   public static boolean doesPackageExist(Context context,String targetPackage) {
     try {

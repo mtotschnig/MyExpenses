@@ -24,11 +24,6 @@ import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.app.ActionBar.TabListener;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.android.calendar.CalendarContractCompat.Events;
 
 import android.content.Intent;
@@ -39,8 +34,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBar.Tab;
+import android.support.v7.app.ActionBar.TabListener;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Toast;
@@ -118,7 +118,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
   }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getSupportMenuInflater();
+    MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.templates, menu);
     super.onCreateOptionsMenu(menu);
     menu.findItem(R.id.INSERT_TRANSFER_COMMAND).setVisible(mTransferEnabled);

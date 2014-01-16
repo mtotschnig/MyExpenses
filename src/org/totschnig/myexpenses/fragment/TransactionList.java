@@ -120,7 +120,7 @@ public class TransactionList extends BudgetListFragment implements
     mCurrency = mAccount.currency.getCurrencyCode();
     mOpeningBalance = mAccount.openingBalance.getAmountMinor();
     aObserver = new AccountObserver(new Handler());
-    ContentResolver cr= getSherlockActivity().getContentResolver();
+    ContentResolver cr= getActivity().getContentResolver();
     //when account has changed, we might have
     //1) to refresh the list (currency has changed),
     //2) update current balance(opening balance has changed),
@@ -131,7 +131,7 @@ public class TransactionList extends BudgetListFragment implements
         true,aObserver);
   }
   private void setAdapter() {
-    Context ctx = getSherlockActivity();
+    Context ctx = getActivity();
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};
 
@@ -169,7 +169,7 @@ public class TransactionList extends BudgetListFragment implements
   public void onDestroy() {
     super.onDestroy();
     try {
-      ContentResolver cr = getSherlockActivity().getContentResolver();
+      ContentResolver cr = getActivity().getContentResolver();
       cr.unregisterContentObserver(aObserver);
     } catch (IllegalStateException ise) {
         // Do Nothing.  Observer has already been unregistered.
@@ -192,7 +192,7 @@ public class TransactionList extends BudgetListFragment implements
 
   @Override  
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    final MyExpenses ctx = (MyExpenses) getSherlockActivity();
+    final MyExpenses ctx = (MyExpenses) getActivity();
     mManager = getLoaderManager();
     setGrouping();
     setColors();
@@ -283,13 +283,13 @@ public class TransactionList extends BudgetListFragment implements
       Uri uri = (mAccount.id < 0) ?
           TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter("extended", "1").build() :
           TransactionProvider.TRANSACTIONS_URI;
-      cursorLoader = new CursorLoader(getSherlockActivity(),
+      cursorLoader = new CursorLoader(getActivity(),
           uri, null, selection + " AND parent_id is null",
           selectionArgs, null);
       break;
     //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions
     case SUM_CURSOR:
-      cursorLoader = new CursorLoader(getSherlockActivity(),
+      cursorLoader = new CursorLoader(getActivity(),
           TransactionProvider.TRANSACTIONS_URI,
           new String[] {MAPPED_CATEGORIES},
           selection + " AND (cat_id IS null OR cat_id != " + SPLIT_CATID + ")",
@@ -306,7 +306,7 @@ public class TransactionList extends BudgetListFragment implements
       } else {
         builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.id));
       }
-      cursorLoader = new CursorLoader(getSherlockActivity(),
+      cursorLoader = new CursorLoader(getActivity(),
           builder.build(),
           null,null,null, null);
       break;
@@ -418,7 +418,7 @@ public class TransactionList extends BudgetListFragment implements
     public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
         int[] to, int flags) {
       super(context, layout, c, from, to, flags);
-      inflater = LayoutInflater.from(getSherlockActivity());
+      inflater = LayoutInflater.from(getActivity());
     }
     @SuppressWarnings("incomplete-switch")
     @Override

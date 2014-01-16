@@ -29,15 +29,14 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Utils;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
 import android.support.v4.app.FragmentManager;
 import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
@@ -65,7 +64,7 @@ public class ManageAccounts extends LaunchActivity implements
   }
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getSupportMenuInflater();
+    MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.accounts, menu);
     super.onCreateOptionsMenu(menu);
     return true;

@@ -38,9 +38,13 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -53,11 +57,6 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
 import org.totschnig.myexpenses.util.Utils;
-
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 public class CategoryList extends BudgetListFragment implements
     OnChildClickListener, OnGroupClickListener,LoaderManager.LoaderCallbacks<Cursor> {
@@ -117,7 +116,7 @@ public class CategoryList extends BudgetListFragment implements
       mGroupingSecond = b.getInt("groupingSecond");
       //emptyView.findViewById(R.id.importButton).setVisibility(View.GONE);
       //((TextView) emptyView.findViewById(R.id.noCategories)).setText(R.string.no_mapped_transactions);
-      getSherlockActivity().supportInvalidateOptionsMenu();
+      getActivity().supportInvalidateOptionsMenu();
       mManager.initLoader(SUM_CURSOR, null, this);
       mManager.initLoader(DATEINFO_CURSOR, null, this);
     } else {
@@ -155,7 +154,7 @@ public class CategoryList extends BudgetListFragment implements
   }
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-    ManageCategories ctx = (ManageCategories) getSherlockActivity();
+    ManageCategories ctx = (ManageCategories) getActivity();
     ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
     int type = ExpandableListView.getPackedPositionType(info.packedPosition);
 
@@ -173,7 +172,7 @@ public class CategoryList extends BudgetListFragment implements
 
   @Override
   public boolean onContextItemSelected(android.view.MenuItem item) {
-    ManageCategories ctx = (ManageCategories) getSherlockActivity();
+    ManageCategories ctx = (ManageCategories) getActivity();
     ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
     int type = ExpandableListView.getPackedPositionType(info.packedPosition);
     long cat_id = info.id;
@@ -308,7 +307,7 @@ public class CategoryList extends BudgetListFragment implements
         builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.id));
       }
       return new CursorLoader(
-          getSherlockActivity(),
+          getActivity(),
           builder.build(),
           null,
           buildGroupingClause(),
@@ -341,7 +340,7 @@ public class CategoryList extends BudgetListFragment implements
         projection.add(String.format(Locale.US, "date('%d-01-01','weekday 1','+%d day') AS week_start",mGroupingYear,(mGroupingSecond-1)*7));
         projection.add(String.format(Locale.US, "date('%d-01-01','weekday 1','+%d day') AS week_end",mGroupingYear,mGroupingSecond*7-1));
       }
-      return new CursorLoader(getSherlockActivity(),
+      return new CursorLoader(getActivity(),
           TransactionProvider.TRANSACTIONS_URI,
           projection.toArray(new String[projection.size()]),
           null,null, null);
@@ -407,7 +406,7 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
     int id = loader.getId();
-    SherlockFragmentActivity ctx = getSherlockActivity();
+    ActionBarActivity ctx = (ActionBarActivity) getActivity();
     ActionBar actionBar =  ctx.getSupportActionBar();
     switch(id) {
     case SUM_CURSOR:
@@ -513,7 +512,7 @@ public class CategoryList extends BudgetListFragment implements
 */
   @Override
   public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-    ManageCategories ctx = (ManageCategories) getSherlockActivity();
+    ManageCategories ctx = (ManageCategories) getActivity();
     Intent intent=new Intent();
     long sub_cat = id;
     String label =  ((TextView) v.findViewById(R.id.label)).getText().toString();
@@ -526,7 +525,7 @@ public class CategoryList extends BudgetListFragment implements
   @Override
   public boolean onGroupClick(ExpandableListView parent, View v,
       int groupPosition, long id) {
-    ManageCategories ctx = (ManageCategories) getSherlockActivity();
+    ManageCategories ctx = (ManageCategories) getActivity();
     long cat_id = id;
     mGroupCursor.moveToPosition(groupPosition);
     if (mGroupCursor.getInt(mGroupCursor.getColumnIndex("child_count")) > 0)
@@ -559,7 +558,7 @@ public class CategoryList extends BudgetListFragment implements
       mGroupingSecond = 0;
       break;
     }
-    getSherlockActivity().supportInvalidateOptionsMenu();
+    getActivity().supportInvalidateOptionsMenu();
     reset();
   }
 

@@ -44,9 +44,6 @@ import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
@@ -66,11 +63,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Editable;
 import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -469,18 +470,19 @@ public class ExpenseEdit extends AmountActivity implements
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     if (mTransaction instanceof SplitTransaction) {
-      MenuInflater inflater = getSupportMenuInflater();
+      MenuInflater inflater = getMenuInflater();
       inflater.inflate(R.menu.split, menu);
     } else if (!(mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer)) {
-      menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
-        .setIcon(R.drawable.save_and_new_icon)
-        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+      MenuItemCompat.setShowAsAction(
+          menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
+          .setIcon(R.drawable.save_and_new_icon),
+          MenuItemCompat.SHOW_AS_ACTION_ALWAYS | MenuItemCompat.SHOW_AS_ACTION_WITH_TEXT);
     }
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-      menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
-      .setIcon(R.drawable.invert_transfer_icon)
-      .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+      MenuItemCompat.setShowAsAction(
+          menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
+          .setIcon(R.drawable.invert_transfer_icon), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
     }
     return true;
   }
