@@ -89,8 +89,10 @@ public class Category extends Model {
     }
   }
   public static boolean delete(long id) {
-    return cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
-        null, null) > 0;
+    return cr().delete(CONTENT_URI,
+        KEY_PARENTID + " =  ?  OR " + KEY_ROWID + " = ?",
+        new String[]{String.valueOf(id),String.valueOf(id)}
+        ) > 0;
   }
   @Override
   public Uri save() {

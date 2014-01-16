@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
+import org.totschnig.myexpenses.fragment.TaskExecutionFragment;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -115,6 +116,10 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       case R.id.GROUPING_COMMAND_DO:
         mListFragment.setGrouping(Account.Grouping.values()[(Integer)tag]);
         return true;
+      case R.id.DELETE_COMMAND_DO:
+        getSupportFragmentManager().beginTransaction()
+        .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,(Long)tag, null), "ASYNC_TASK")
+        .commit();
       }
       return super.dispatchCommand(command, tag);
      }

@@ -24,6 +24,7 @@ import java.util.Locale;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageCategories.HelpVariant;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Account.Grouping;
@@ -202,22 +203,30 @@ public class CategoryList extends BudgetListFragment implements
           c = (Cursor) mAdapter.getChild(group,child);
         } else  {
           c = mGroupCursor;
-          if (c.getInt(c.getColumnIndex("child_count")) > 0)
-            message = R.string.not_deletable_subcats_exists;
+/*          if (c.getInt(c.getColumnIndex("child_count")) > 0)
+            message = R.string.not_deletable_subcats_exists;*/
         }
-        if (message == 0 ) {
-          Bundle extras = ctx.getIntent().getExtras();
-          if ((extras != null && extras.getLong(KEY_ROWID) == info.id) || c.getInt(c.getColumnIndex("mapped_transactions")) > 0)
-            message = R.string.not_deletable_mapped_transactions;
-          else if (c.getInt(c.getColumnIndex("mapped_templates")) > 0)
-            message = R.string.not_deletable_mapped_templates;
-        }
+        Bundle extras = ctx.getIntent().getExtras();
+        if ((extras != null && extras.getLong(KEY_ROWID) == info.id) || c.getInt(c.getColumnIndex("mapped_transactions")) > 0)
+          message = R.string.not_deletable_mapped_transactions;
+        else if (c.getInt(c.getColumnIndex("mapped_templates")) > 0)
+          message = R.string.not_deletable_mapped_templates;
         if (message != 0 )
           Toast.makeText(ctx,getString(message), Toast.LENGTH_LONG).show();
-        else
-          ctx.getSupportFragmentManager().beginTransaction()
-          .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_CATEGORY,info.id, null), "ASYNC_TASK")
-          .commit();
+        else {
+          if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.getInt(c.getColumnIndex("child_count")) > 0) {
+            MessageDialogFragment.newInstance(
+                R.string.dialog_title_warning_delete_main_category,
+                R.string.warning_delete_main_category,
+                new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, info.id),
+                null,
+                MessageDialogFragment.Button.noButton())
+              .show(ctx.getSupportFragmentManager(),"DELETE_CATEGORY");
+          } else {
+            ctx.dispatchCommand(R.id.DELETE_COMMAND_DO, info.id);
+          }
+        }
+        return true;
     }
     return false;
     }
@@ -341,6 +350,9 @@ public class CategoryList extends BudgetListFragment implements
     long parentId;
     String selection = "",accountSelector="",sortOrder=null;
     String[] selectionArgs,projection = null;
+    String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " + KEY_ROWID + " FROM "
+        + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES
+        + "." + KEY_ROWID + " OR " + KEY_ROWID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ")";
     if (mAccount != null) {
       if (mAccount.id < 0) {
         selection = " IN " +
@@ -356,10 +368,10 @@ public class CategoryList extends BudgetListFragment implements
       }
       //we need to include transactions mapped to children for main categories
       if (bundle == null)
-        catFilter += " AND cat_id IN (select _id FROM categories subtree where parent_id = categories._id OR _id = categories._id)";
+        catFilter += " AND " + CATTREE_WHERE_CLAUSE;
       else
         catFilter += " AND cat_id  = categories._id";
-      selection = " AND exists (select 1 " + catFilter +")";
+      selection = " AND exists (SELECT 1 " + catFilter +")";
       projection = new String[] {
           KEY_ROWID,
           KEY_LABEL,
@@ -373,8 +385,8 @@ public class CategoryList extends BudgetListFragment implements
           KEY_LABEL,
           KEY_PARENTID,
           "(select count(*) FROM categories subtree where parent_id = categories._id) as child_count",
-          "(select count(*) FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_CATID + "=" + TABLE_CATEGORIES + "." + KEY_ROWID + ") AS mapped_transactions",
-          "(select count(*) FROM " + TABLE_TEMPLATES    + " WHERE " + KEY_CATID + "=" + TABLE_CATEGORIES + "." + KEY_ROWID + ") AS mapped_templates"
+          "(select count(*) FROM " + TABLE_TRANSACTIONS + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS mapped_transactions",
+          "(select count(*) FROM " + TABLE_TEMPLATES    + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS mapped_templates"
       };
     }
     if (bundle == null) {
