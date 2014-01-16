@@ -254,7 +254,7 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
       }
       setLanguage(l);
     }
-    private void setLanguage(Locale locale) {
+    public void setLanguage(Locale locale) {
       if (!Locale.getDefault().equals(locale)) {
         Locale.setDefault(locale);
         Configuration config = new Configuration();
