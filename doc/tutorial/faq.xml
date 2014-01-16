@@ -323,7 +323,7 @@
       </qandaentry>
       <!-- END FAQ 3 -->
 
-      <!-- BEGIN FAQ 4 -->
+      <!-- BEGIN FAQ 4 
       <qandaentry id="faq-contrib-en" lang="en">
         <question id="faq-contrib-q-en">
           <para>
@@ -487,7 +487,7 @@
            </para>
         </answer>
       </qandaentry>
-      <!-- END FAQ 4 -->
+      END FAQ 4 -->
 
       <!-- BEGIN FAQ 5 -->
       <qandaentry id="faq-catxml-en" lang="en">
