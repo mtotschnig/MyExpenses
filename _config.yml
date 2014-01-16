@@ -66,6 +66,29 @@ amazon:
   en: "www.amazon.com"
 versions:
   -
+    - 1.11.5
+    - 2014-01-12
+    -
+      en: |
+        Improved handling of plans: Apply upcoming instances in advance. New translations: Portuguese, Polish, Czech.
+      fr: |
+        Traitement des échéances amélioré : appliquez des instances à venir à l\'avance. Nouvelles traductions : portugais, polonais, tchèque.
+      de: |
+        Erweiterung der Einsatzmöglichkeit von Plänen: Zukünftige Termine können im Voraus in die Buchungsliste kopiert werden. Neue Übersetzungen: Portugiesisch, Polnisch, Tschechisch.
+      it: |
+        Gestione migliorata dei piani: applicare istanze imminente in anticipo. Nuove traduzioni: portoghese, polacco, ceco.
+      es: |
+        Mejorado manejo de planes: próximas instancias se aplican por adelantado. Nuevas traducciones: Portugués, Polaco, Checo.
+      tr: |
+        Planlamaların yönetimi iyileştirilmiştir: gelecek örneklemeleri önceden uygulama. Yeni tercümeler: Portekizce, Lehçe, Çekçe.
+      ca: |
+        Millores a la gestió de la planificació: Podeu aplicar les instàncies pendents per endavant. Noves traduccions: Portuguès, Polonès, Txec.
+      cs: |
+        Lepší zpracování plánů: možnost plánovat události do budoucna. Nové překlady: portugalština, polština, čestina.
+      pl: |
+        Usprawniona obsługa planów: Z góry zastosowanie nadchodzących instancji. Nowe tłumaczenia: Portugalski, Polski, Czeski.
+
+  -
     - 1.11.0
     - 2013-12-31
     -
@@ -80,7 +103,11 @@ versions:
       es: |
         Mostrar la lista de transacciones y la distribución estadística de los agregados de varias cuentas.
       ca: |
-        Mostra la llista d\'operacions i la distribució estadística agrupada dels diferents comptes.
+        Mostra la llista d'operacions i la distribució estadística agrupada dels diferents comptes.
+      cs: |
+        Zobrazit seznam transakcí a statistické rozdělení pro seskupení více účtů.
+      pl: |
+        Wyświetlanie listy transakcji i statystyczną dystrybucję dla sum wielu kont.
   -
     - 1.10.5
     - 2013-12-24
@@ -99,6 +126,10 @@ versions:
         (Geleneksel) Çince çeviri. Muamele düzenleme formunda hesap seçimi. Transferler için daha temiz arayüz. 
       ca: |
         Traducció al Xinès (Tradicional). El formulari d'operacions ara permet triar el compte. La interfície de les transferències ara és més clara.
+      cs: |
+        Překlad čínština (tradiční). Povolit výběr účtu ve formuláři úprav transakcí. Jasnější uživatelské rozhraní pro převody.
+      pl: |
+        Tłumaczenie w języku tradycyjnym chińskim. Możliwość wyboru konta w formularzu edytowania transakcji. Bardziej przejrzysty interfejs użytkownika dla przelewów.
   -
     - 1.10.4
     - 2013-12-16
@@ -117,6 +148,10 @@ versions:
         Gelişmiş kullanıcı arayüzü (#94) ve hata düzeltmeleri (#95,#96).
       ca: |
         Millores a la interfície (#94). Correccions: Problemes (#95,#96).
+      cs: |
+        Vylepšení uživatelského rozhraní (#94) a opravy chyb (#95, #96).
+      pl: |
+        Ulepszenia interfejsu użytkownika (#94) i poprawki błędów (#95,#96).
   -
     - 1.10.3
     - 2013-12-14
@@ -135,6 +170,10 @@ versions:
         Güncel bakiye gene daha belirgin olarak görüntülenir ve cihaz portre yönünde kullanıldığında ana düğmeler aşağıda konumlanır. Hata düzeltmeleri: hata #71,#91,#92,#93.
       ca: |
         Ara el saldo actual es torna a mostrar de forma més destacada  i mostra els botons principals a la part inferior, quan el dispositiu està en orientació vertical. Correccions: Problemes #71,#91,#92,#93.
+      cs: |
+        Aktuální zůstatek je zobrazen více nápadně a hlavní tlačítka jsou zobrazena dole, pokud je zařízení orientováno horizontálně.. Opravy chyb: otázky #71, #91, #92, #93.
+      pl: |
+        Bieżący balans jest wyświetlany bardziej widoczny ponownie i wyświetla główne przyciski na dole, kiedy orientacja urządzenia jest ustawiona pionowo. Poprawki błędów: Issues #71,#91,#92,#93.
   -
     - 1.10.2
     - 2013-12-12
@@ -153,6 +192,10 @@ versions:
         Muamele listesi gruplandığında, grup başlığında her dönem için ara bakiyeyi göster. Hata düzeltmesi: Hata #90.
       ca: |
         Quan la llista d'operacions està agrupada, mostra el balanç intermedi per a cada període a la capçalera del grup. Correcció: Problema #90.
+      cs: |
+        Když je seznam transakcí seskupen zobrazit průběžnou bilanci za každé období v záhlaví skupiny. Oprava: chyb #90.
+      pl: |
+        Kiedy lista transakcji jest pogroupowana, wyświetla pośredni balans dla każdego z okresu w nagłówku grupy. Poprawa błędu: Issue #90.
   -
     - 1.10.1
     - 2013-12-06
@@ -171,6 +214,10 @@ versions:
         Değiştirilebilir arayüz dili. Değiştirilebilir yazı boyutu.
       ca: |
         Idioma configurable. Tipus de lletra configurable.
+      cs: |
+        Jazyk uživatelského rozhraní lze konfigurovat. Konfigurovatelná velikost písma.
+      pl: |
+        Możliwość zmiany języka interfejsu użytkownika. Możliwość zmiany rozmiaru czcionki.
   -
     - 1.10.0
     - 2013-12-01
@@ -191,6 +238,10 @@ versions:
         Tervek készítése a jövőbeli, vagy ismétlődő tranzakciók kezelésére. Khmer nyelv.
       ca: |
         Planificacions per operacions futures i recurrents. Traducció al Khmer.
+      cs: |
+        Plány pro budoucí a opakované transakce. Khmerské¨ý překlad.
+      pl: |
+        Plany na przyszłość i cykliczne transakcje. Tłumaczenie w języku Khmer.
   -
     - 1.9.7
     - 2013-11-07
@@ -211,6 +262,10 @@ versions:
         Referencia szám (csekkes fizetéseknél). Helyből a számlák látszanak. Ujjmozdulattal lapozható időszakok a kiadásoknál. Beállítható dátumformátum a QIF és CSV exportoknál. Felhasználói felület javítások.
       ca: |
         Número de referència (pagaments per xec). Comenceu a la llista de comptes des del llançador. Feu lliscar el dit per canviar de període a la vista de distribució. Es pot configurar el format de la data per a exportar en formats QIF i CSV. Millores a la interfície.
+      cs: |
+        Referenční číslo (šek platby). Začněte se seznamem účtů z výchozí obrazovky. Přejeďte mezi obdobími v zobrazení rozložení. Konfigurovatelné datum formátu QIF a CSV exportu. Vylepšení uživatelského rozhraní.
+      pl: |
+        Numer odniesienia (płatność czekiem). Uruchom z launchera na listę kont. Zmień między okresami w widoku dystrybucji. Możliwość zmiany formatu daty dla eksportu QIF i CSV. Ulepszenia interfejsu użytkownika.
   -
     - 1.9.6
     - 2013-10-18
@@ -233,6 +288,10 @@ versions:
         Tranzakciók megjelölése, mint jóváhagyott, vagy folyamatban/egyeztetés alatt lévő (Bankszámla és hitelkártya számlatípusnál). A pénzügyi folyamatokban résztvevő felek mostantól szerkeszthetőek.
       ca: |
         Marqueu les operacions al aprovar-les / reconciliar-les (activat per a comptes bancaris i targes de crèdit). Ara és possible editar les parts. Traducció a l'hongarès.
+      cs: |
+        Označit transakce jako vymazané / vyřízené (povoleno pro bankovní účty a kreditní karty). Strany lze nyní upravit. Maďarský překlad.
+      pl: |
+        Oznakuj transakcje jako zrobione / uzgodnione (włączone dla kont bankowych i kart kredytowych). Partie mogą być teraz edytowane. Tłumaczenie w języku węgierskim.
   -
     - 1.9.5
     - 2013-10-04
@@ -255,6 +314,10 @@ versions:
         Egy adott tranzakció több kategóriában történő felosztása (Premium változat).
       ca: |
         Distribució d'operacions per categoria (Premium).
+      cs: |
+        Rozdělení transakcí podle kategorií (Premium).
+      pl: |
+        Dystrybucja transakcji według kategorii (Premium).
   -
     - 1.9.1
     - 2013-09-23
@@ -279,6 +342,10 @@ versions:
         Bug fix: #69-es ügy. Arab nyelv.
       ca: |
         Correcció: Problema #69. Traducció a l\'àrab.
+      cs: |
+        Oprava:chyba #69. Arabský překlad.
+      pl: |
+        Poprawa błędu: Issue #69. Tłumaczenie w języku arabskim.
   -
     - 1.9.0
     - 2013-08-20
@@ -317,6 +384,10 @@ versions:
         Tranzakciók összesítése napi, heti, havi és éves viszonylatban. A kedvezményezett a tranzakciós listában megjelenik. A számlák sorrendben látszanak (alapértelmezetten a leggyakrabban használt elöl).
       ca: |
         Agrupeu les operacions per dia, setmana, mes, any i mostreu el total per grup. A la llista d\'operacions es mostra el beneficiari. La llista de comptes està ordenada (per freqüència d\'ús per omissió).
+      cs: |
+        Skupina transakcí za den, týden, měsíc, rok a zobrazení součtu za skupinu. Příjemce se zobrazí v seznamu transakcí. Seznam účtů je seřazený (podle četnosti použití ve výchozím nastavení).
+      pl: |
+        Grupowanie transakcji na dni, tygodnie, miesiące, lata i wyświetlanie sum dla każdej z grup. Odbiorca płatności jest wyświetlany na liście transakcji. Lista kont jest posortowana (domyślnie według częstotliwości użytkowania).
   -
     - 1.8.5.
     - 2013-08-06
