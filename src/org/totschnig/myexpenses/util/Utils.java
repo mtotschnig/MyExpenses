@@ -136,8 +136,12 @@ public class Utils {
     NumberFormat nf = NumberFormat.getCurrencyInstance();
     int fractionDigits = currency.getDefaultFractionDigits();
     nf.setCurrency(currency);
-    nf.setMinimumFractionDigits(fractionDigits);
-    nf.setMaximumFractionDigits(fractionDigits);
+    if (fractionDigits != -1) {
+      nf.setMinimumFractionDigits(fractionDigits);
+      nf.setMaximumFractionDigits(fractionDigits);
+    } else {
+      nf.setMaximumFractionDigits(Money.DEFAULTFRACTIONDIGITS);
+    }
     return nf.format(amount);
   }
   public static Date dateFromSQL(String dateString) {

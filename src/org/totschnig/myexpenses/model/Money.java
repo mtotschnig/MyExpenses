@@ -22,6 +22,10 @@ import java.util.Currency;
 public class Money implements Serializable {
   private Currency currency;
   private Long amountMinor;
+  /**
+   * used with currencies where Currency.getDefaultFractionDigits returns -1
+   */
+  public static int DEFAULTFRACTIONDIGITS = 6;
   
   public Money(Currency currency, Long amountMinor) {
     this.currency = currency;
@@ -40,17 +44,13 @@ public class Money implements Serializable {
     this.amountMinor = amountMinor;
   }
   public void setAmountMajor(BigDecimal amountMajor) {
-    int scale = currency.getDefaultFractionDigits();
+    int scale = fractionDigits(currency);
     this.amountMinor = amountMajor.multiply(new BigDecimal(Math.pow(10,scale))).longValue();
   }
   public BigDecimal getAmountMajor() {
     BigDecimal bd = new BigDecimal(amountMinor);
-    int scale = currency.getDefaultFractionDigits();
-    if (scale != -1) {
-      bd.setScale(scale);
-      return bd.divide(new BigDecimal(Math.pow(10,scale)));
-    }
-    return bd;
+    int scale = fractionDigits(currency);
+    return bd.divide(new BigDecimal(Math.pow(10,scale)));
   }
   @Override
   public boolean equals(Object obj) {
@@ -72,5 +72,14 @@ public class Money implements Serializable {
     } else if (!currency.equals(other.currency))
       return false;
     return true;
+  }
+  /**
+   * @param c
+   * @return getDefaultFractionDigits for a currency, unless it is -1,
+   * then we return 10 in order to allow fractions with currencies like XXX
+   */
+  public int fractionDigits(Currency c) {
+    int digits = c.getDefaultFractionDigits();
+    return (digits == -1) ? DEFAULTFRACTIONDIGITS : digits;
   }
 }
