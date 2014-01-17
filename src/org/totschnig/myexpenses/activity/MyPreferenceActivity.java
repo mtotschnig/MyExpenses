@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -58,7 +59,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   @SuppressWarnings("deprecation")
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(MyApplication.getThemeId(Build.VERSION.SDK_INT < 11));
     super.onCreate(savedInstanceState);
     setTitle(getString(R.string.app_name) + " " + getString(R.string.menu_settings));
     addPreferencesFromResource(R.layout.preferences);

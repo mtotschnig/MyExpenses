@@ -17,7 +17,10 @@ package org.totschnig.myexpenses.activity;
 
 import org.totschnig.myexpenses.MyApplication;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
@@ -27,13 +30,16 @@ public class ProtectedPreferenceActivity extends PreferenceActivity {
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   
+  @SuppressLint("NewApi")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     protection = new ProtectionDelegate(this);
     MyApplication.getInstance().setLanguage();
-    //ActionBar actionBar = getSupportActionBar();
-    //actionBar.setDisplayHomeAsUpEnabled(true);
+    if (Build.VERSION.SDK_INT > 10) {
+      ActionBar actionBar = getActionBar();
+      actionBar.setDisplayHomeAsUpEnabled(true);
+    }
   }
   @Override
   protected void onPause() {

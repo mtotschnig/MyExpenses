@@ -75,4 +75,28 @@
     <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium.s3</item>
     <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall.s3</item>
   </style>
+  <style name="ThemeDark.LegacyPreferenceActivity">
+    <item name="android:windowNoTitle">false</item>
+  </style>
+  <style name="ThemeLight.LegacyPreferenceActivity">
+    <item name="android:windowNoTitle">false</item>
+  </style>
+  <style name="ThemeDark.s1.LegacyPreferenceActivity">
+    <item name="android:windowNoTitle">false</item>
+  </style>
+  <style name="ThemeDark.s2.LegacyPreferenceActivity">
+    <item name="android:windowNoTitle">false</item>
+  </style>
+  <style name="ThemeDark.s3.LegacyPreferenceActivity">
+    <item name="android:windowNoTitle">false</item>
+  </style>
+  <style name="ThemeLight.s1.LegacyPreferenceActivity">
+    <item name="android:windowNoTitle">false</item>
+  </style>
+  <style name="ThemeLight.s2.LegacyPreferenceActivity">
+    <item name="android:windowNoTitle">false</item>
+  </style>
+  <style name="ThemeLight.s3.LegacyPreferenceActivity">
+    <item name="android:windowNoTitle">false</item>
+  </style>
 </resources>

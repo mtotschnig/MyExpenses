@@ -211,6 +211,9 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
         return false;
     }
     public static int getThemeId() {
+      return getThemeId(false);
+    }
+    public static int getThemeId(boolean legacyPreferenceActivity) {
       int fontScale;
       try {
         fontScale = mSelf.mSettings.getInt(PREFKEY_UI_FONTSIZE, 0);
@@ -221,16 +224,17 @@ public class MyApplication extends Application implements OnSharedPreferenceChan
             mSelf.mSettings.edit().remove(PREFKEY_UI_FONTSIZE));
       }
       int resId;
+      String suffix = legacyPreferenceActivity ? ".LegacyPreferenceActivity" : "";
       if (mSelf.mSettings.getString(MyApplication.PREFKEY_UI_THEME_KEY,"dark").equals("light")) {
         if (fontScale < 1 || fontScale > 3)
-          return R.style.ThemeLight;
+          return legacyPreferenceActivity ? R.style.ThemeLight_LegacyPreferenceActivity : R.style.ThemeLight;
         else
-          resId = mSelf.getResources().getIdentifier("ThemeLight.s"+fontScale, "style", mSelf.getPackageName());
+          resId = mSelf.getResources().getIdentifier("ThemeLight.s"+fontScale+suffix, "style", mSelf.getPackageName());
       } else{
         if (fontScale < 1 || fontScale > 3)
-          return R.style.ThemeDark;
+          return legacyPreferenceActivity ? R.style.ThemeDark_LegacyPreferenceActivity : R.style.ThemeDark;
         else
-          resId = mSelf.getResources().getIdentifier("ThemeDark.s"+fontScale, "style", mSelf.getPackageName());
+          resId = mSelf.getResources().getIdentifier("ThemeDark.s"+fontScale+suffix, "style", mSelf.getPackageName());
       }
       return resId;
     }
