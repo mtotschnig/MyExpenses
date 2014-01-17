@@ -216,7 +216,8 @@ public class MyExpenses extends LaunchActivity implements
     myPager = (ViewPager) this.findViewById(R.id.viewpager);
     myPager.setAdapter(this.myAdapter);
     myPager.setOnPageChangeListener(this);
-    myPager.setPageMargin(10);
+    myPager.setPageMargin((int) TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()));
     myPager.setPageMarginDrawable(margin.resourceId);
     mManager= getSupportLoaderManager();
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
