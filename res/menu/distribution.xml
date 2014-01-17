@@ -14,20 +14,21 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
     android:id="@+id/BACK_COMMAND"
     android:title="@string/menu_back"
     android:icon="@drawable/back_icon"
-    android:showAsAction="never"/>
+    app:showAsAction="never"/>
   <item
     android:id="@+id/FORWARD_COMMAND"
     android:icon="@drawable/forward_icon"
     android:title="@string/menu_forward"
-    android:showAsAction="never"/>
+    app:showAsAction="never"/>
   <item
     android:id="@id/GROUPING_COMMAND"
     android:icon="@drawable/grouping_icon"
-    android:showAsAction="ifRoom"
+    app:showAsAction="ifRoom"
     android:title="@string/menu_grouping"/>
 </menu>
