@@ -262,14 +262,23 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(TABLE_ACCOUNTS);
       boolean mergeCurrencyAggregates = uri.getQueryParameter("mergeCurrencyAggregates") != null;
       if (mergeCurrencyAggregates) {
-        String accountSubquery = qb.buildQuery(Account.PROJECTION_EXTENDED, selection, null, groupBy,
+        if (projection != null)
+          throw new IllegalArgumentException(
+              "When calling accounts cursor with mergeCurrencyAggregates, projection is ignored ");
+        String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null, groupBy,
             null, null, null);
         qb.setTables("(SELECT _id,currency,opening_balance,"+
             "opening_balance + (SELECT coalesce(sum(amount),0) FROM "
                 + VIEW_COMMITTED
-                + " WHERE account_id = accounts._id and (cat_id is null OR cat_id != "
-                    + SPLIT_CATID + ") AND date(" + KEY_DATE + ") <= date('now') ) as current_balance " +
-            "from " + TABLE_ACCOUNTS + ") as t");
+                + " WHERE account_id = accounts._id AND (cat_id is null OR cat_id != "
+                    + SPLIT_CATID + ") AND date(" + KEY_DATE + ") <= date('now') ) AS current_balance, " +
+            "(SELECT coalesce(sum(amount),0) FROM "
+                + VIEW_COMMITTED
+                + " WHERE account_id = accounts._id AND " + WHERE_EXPENSE + ") AS sum_expenses," +
+            "(SELECT coalesce(sum(amount),0) FROM "
+              + VIEW_COMMITTED
+              + " WHERE account_id = accounts._id AND " + WHERE_INCOME + ") AS sum_income " +
+            "FROM " + TABLE_ACCOUNTS + ") as t");
         groupBy = "currency";
         having = "count(*) > 1";
         projection = new String[] {
@@ -283,7 +292,8 @@ public class TransactionProvider extends ContentProvider {
             "'NONE' AS grouping",
             "'CASH' AS type",
             "1 AS transfer_enabled",
-            "sum(current_balance) AS current_balance"};
+            "sum(current_balance) AS current_balance",
+            "sum(sum_income) AS sum_income", "sum(sum_expenses) AS sum_expenses", "0 AS sum_transfers"};
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
         String sql = qb.buildUnionQuery(new String[] {accountSubquery,currencySubquery}, null, null);
         c = db.rawQuery(sql, null);

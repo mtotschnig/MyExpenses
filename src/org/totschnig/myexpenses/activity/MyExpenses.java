@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
@@ -52,15 +53,21 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;  
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -100,18 +107,23 @@ public class MyExpenses extends LaunchActivity implements
   public static final int SPLIT_PART_CURSOR=3;
   private LoaderManager mManager;
 
-  //private ExpensesDbAdapter mDbHelper;
-
   int currentPosition = -1;
-  private void setCurrentAccount(long newAccountId) {
+  /**
+   * set the Current account to the current position of mAccountsCursor
+   * @param newAccountId
+   */
+  private void setCurrentAccount() {
+    long newAccountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
     if (mAccountId != newAccountId)
       SharedPreferencesCompat.apply(
         mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId));
     mAccountId = newAccountId;
+    setCustomTitle();
   }
   private Cursor mAccountsCursor;
-  //private Cursor mExpensesCursor;
-  private MyViewPagerAdapter myAdapter;
+
+  private MyViewPagerAdapter mViewPagerAdapter;
+  private SimpleCursorAdapter mDrawerListAdapter;
   private ViewPager myPager;
   private long mAccountId = 0;
   public enum HelpVariant {
@@ -130,6 +142,9 @@ public class MyExpenses extends LaunchActivity implements
   private long sequenceCount = 0;
   private int colorAggregate;
   private SimpleCursorAdapter mNavigationAdapter;
+  private ListView mDrawerList;
+  private DrawerLayout mDrawerLayout;
+  private ActionBarDrawerToggle mDrawerToggle;
   
   /* (non-Javadoc)
    * Called when the activity is first created.
@@ -140,9 +155,9 @@ public class MyExpenses extends LaunchActivity implements
     //if we are launched from the contrib app, we refresh the cached contrib status
     setTheme(MyApplication.getThemeId());
     Resources.Theme theme = getTheme();
-    TypedValue color = new TypedValue();
-    theme.resolveAttribute(R.attr.colorAggregate, color, true);
-    colorAggregate = color.data;
+    TypedValue value = new TypedValue();
+    theme.resolveAttribute(R.attr.colorAggregate, value, true);
+    colorAggregate = value.data;
     mSettings = MyApplication.getInstance().getSettings();
     int prev_version = mSettings.getInt(MyApplication.PREFKEY_CURRENT_VERSION, -1);
     if (prev_version == -1) {
@@ -151,8 +166,68 @@ public class MyExpenses extends LaunchActivity implements
     }
 
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.viewpager);
-    setupActionBar();
+    setContentView(R.layout.activity_main);
+
+    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+    mDrawerList = (ListView) findViewById(R.id.left_drawer);
+    // set a custom shadow that overlays the main content when the drawer opens
+    theme.resolveAttribute(R.attr.drawerShadow, value, true);
+    mDrawerLayout.setDrawerShadow(value.resourceId, GravityCompat.START);
+    String[] from = new String[]{"description","label","opening_balance","sum_income","sum_expenses","sum_transfer","current_balance"};
+    // and an array of the fields we want to bind those fields to
+    int[] to = new int[]{R.id.description,R.id.label,R.id.opening_balance,R.id.sum_income,R.id.sum_expenses,R.id.sum_transfer,R.id.current_balance};
+    mDrawerListAdapter = new SimpleCursorAdapter(this, R.layout.account_row, null, from, to,0) {
+      @Override
+      public View getView(int position, View convertView, ViewGroup parent) {
+        View row=super.getView(position, convertView, parent);
+        Cursor c = getCursor();
+        c.moveToPosition(position);
+        int col = c.getColumnIndex("currency");
+        Currency currency = Utils.getSaveInstance(c.getString(col));
+        View v = row.findViewById(R.id.color1);
+        if (c.getLong(c.getColumnIndex(KEY_ROWID))<0) {
+          row.findViewById(R.id.TransferRow).setVisibility(View.GONE);
+        } else {
+          setConvertedAmount((TextView)row.findViewById(R.id.sum_transfer), currency);
+        }
+        v.setBackgroundColor(c.getInt(c.getColumnIndex("color")));
+        setConvertedAmount((TextView)row.findViewById(R.id.opening_balance), currency);
+        setConvertedAmount((TextView)row.findViewById(R.id.sum_income), currency);
+        setConvertedAmount((TextView)row.findViewById(R.id.sum_expenses), currency);
+        setConvertedAmount((TextView)row.findViewById(R.id.current_balance), currency);
+        col = c.getColumnIndex("description");
+        String description = c.getString(col);
+        if (description.equals(""))
+          row.findViewById(R.id.description).setVisibility(View.GONE);
+        return row;
+      }
+    };
+    mDrawerList.setAdapter(mDrawerListAdapter);
+
+    getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
+        | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
+    getSupportActionBar().setCustomView(R.layout.custom_title);
+    theme.resolveAttribute(R.attr.drawerImage, value, true);
+    mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+        value.resourceId, R.string.drawer_open, R.string.drawer_close) {
+
+    /** Called when a drawer has settled in a completely closed state. */
+    public void onDrawerClosed(View view) {
+        super.onDrawerClosed(view);
+        ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
+    }
+
+    /** Called when a drawer has settled in a completely open state. */
+    public void onDrawerOpened(View drawerView) {
+        super.onDrawerOpened(drawerView);
+        ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
+    }
+};
+
+  // Set the drawer toggle as the DrawerListener
+  mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+    //setupActionBar();
     if (prev_version == -1) {
       getSupportActionBar().hide();
       if (MyApplication.backupExists()) {
@@ -212,9 +287,9 @@ public class MyExpenses extends LaunchActivity implements
     Resources.Theme theme = getTheme();
     TypedValue margin = new TypedValue();
     theme.resolveAttribute(R.attr.pageMargin,margin, true);
-    myAdapter = new MyViewPagerAdapter(this,getSupportFragmentManager(),null);
+    mViewPagerAdapter = new MyViewPagerAdapter(this,getSupportFragmentManager(),null);
     myPager = (ViewPager) this.findViewById(R.id.viewpager);
-    myPager.setAdapter(this.myAdapter);
+    myPager.setAdapter(this.mViewPagerAdapter);
     myPager.setOnPageChangeListener(this);
     myPager.setPageMargin((int) TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics()));
@@ -359,7 +434,7 @@ public class MyExpenses extends LaunchActivity implements
     switch (command) {
     case R.id.DISTRIBUTION_COMMAND:
       tl = (TransactionList) getSupportFragmentManager().findFragmentByTag(
-          myAdapter.getFragmentName(currentPosition));
+          mViewPagerAdapter.getFragmentName(currentPosition));
       if (tl != null && tl.mappedCategories) {
         if (MyApplication.getInstance().isContribEnabled) {
         contribFeatureCalled(Feature.DISTRIBUTION, null);
@@ -422,7 +497,7 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     case R.id.RESET_ACCOUNT_COMMAND:
       tl = (TransactionList) getSupportFragmentManager().findFragmentByTag(
-          myAdapter.getFragmentName(currentPosition));
+          mViewPagerAdapter.getFragmentName(currentPosition));
       if (tl != null && tl.hasItems) {
         if (Utils.isExternalStorageAvailable()) {
           if (mAccountId > 0 || MyApplication.getInstance().isContribEnabled) {
@@ -529,11 +604,8 @@ public class MyExpenses extends LaunchActivity implements
   public void onPageSelected(int position) {
     currentPosition = position;
     mAccountsCursor.moveToPosition(position);
-    long accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
-    setCurrentAccount(accountId);
-    if (accountId == -1)
-      ;
-    getSupportActionBar().setSelectedNavigationItem(position);
+    setCurrentAccount();
+    //getSupportActionBar().setSelectedNavigationItem(position);
   }
   @SuppressWarnings("incomplete-switch")
   @Override
@@ -573,7 +645,7 @@ public class MyExpenses extends LaunchActivity implements
       Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
       builder.appendQueryParameter("mergeCurrencyAggregates", "1");
       return new CursorLoader(this,
-          builder.build(), Account.PROJECTION_FULL, null, null, null);
+          builder.build(), null, null, null, null);
     }
     return null;
   }
@@ -586,7 +658,7 @@ public class MyExpenses extends LaunchActivity implements
       //swaping the cursor is altering the accountId, if the
       //sort order has changed, but we want to move to the same account as before
       long cacheAccountId = mAccountId;
-      myAdapter.swapCursor(cursor);
+      mViewPagerAdapter.swapCursor(cursor);
       mAccountId = cacheAccountId;
       mAccountsCursor.moveToFirst();
       currentPosition = -1;
@@ -594,6 +666,7 @@ public class MyExpenses extends LaunchActivity implements
       while (mAccountsCursor.isAfterLast() == false) {
         if (mAccountsCursor.getLong(columnIndexRowId) == mAccountId) {
           currentPosition = mAccountsCursor.getPosition();
+          break;
         }
         mAccountsCursor.moveToNext();
       }
@@ -603,14 +676,16 @@ public class MyExpenses extends LaunchActivity implements
         mAccountsCursor.moveToFirst();
         mAccountId = mAccountsCursor.getLong(columnIndexRowId);
       }
-      mNavigationAdapter.swapCursor(mAccountsCursor);
-      getSupportActionBar().setSelectedNavigationItem(currentPosition);
+      setCustomTitle();
+      //mNavigationAdapter.swapCursor(mAccountsCursor);
+      //getSupportActionBar().setSelectedNavigationItem(currentPosition);
+      mDrawerListAdapter.swapCursor(mAccountsCursor);
     }
   }
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
     if (arg0.getId() == ACCOUNTS_CURSOR) {
-      myAdapter.swapCursor(null);
+      mViewPagerAdapter.swapCursor(null);
       currentPosition = -1;
       mAccountsCursor = null;
     }
@@ -659,7 +734,7 @@ public class MyExpenses extends LaunchActivity implements
   public void onPostExecute(int taskId,Object o) {
     super.onPostExecute(taskId, o);
     if (taskId == TaskExecutionFragment.TASK_REQUIRE_ACCOUNT) {
-      setCurrentAccount(((Account) o).id);
+      //setCurrentAccount(((Account) o).id);
       getSupportActionBar().show();
       setup();
     }
@@ -692,5 +767,47 @@ public class MyExpenses extends LaunchActivity implements
     //which means that there is at least one currency having multiple accounts
     mAccountsCursor.moveToLast();
     return mAccountsCursor.getLong(mAccountsCursor.getColumnIndexOrThrow(KEY_ROWID)) < 0;
+  }
+
+  private void setConvertedAmount(TextView tv,Currency currency) {
+    tv.setText(Utils.convAmount(tv.getText().toString(),currency));
+  }
+  @Override
+  protected void onPostCreate(Bundle savedInstanceState) {
+      super.onPostCreate(savedInstanceState);
+      // Sync the toggle state after onRestoreInstanceState has occurred.
+      mDrawerToggle.syncState();
+  }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+      super.onConfigurationChanged(newConfig);
+      mDrawerToggle.onConfigurationChanged(newConfig);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+      // Pass the event to ActionBarDrawerToggle, if it returns
+      // true, then it has handled the app icon touch event
+      if (mDrawerToggle.onOptionsItemSelected(item)) {
+        return true;
+      }
+      // Handle your other action bar items...
+
+      return super.onOptionsItemSelected(item);
+  }
+
+  private void setCustomTitle() {
+    View titleBar = getSupportActionBar().getCustomView();
+    ((TextView) titleBar.findViewById(android.R.id.text1)).setText(
+        mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_LABEL)));
+    ((TextView) titleBar.findViewById(R.id.end)).setText(Utils.formatCurrency(
+        new Money(
+            Currency.getInstance(mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_CURRENCY))),
+            mAccountsCursor.getLong(mAccountsCursor.getColumnIndex("current_balance")))));
+    titleBar.findViewById(R.id.color1).setBackgroundColor(
+        mAccountId < 0 ?
+            colorAggregate :
+              mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_COLOR)));
   }
 }

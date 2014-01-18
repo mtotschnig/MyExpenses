@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
   </TableRow>
-  <TableRow>
+  <TableRow android:id="@+id/TransferRow">
     <TextView style="@style/form_label"
         android:layout_marginLeft="@dimen/general_padding"
         android:text="@string/sum_transfer"/>

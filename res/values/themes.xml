@@ -31,8 +31,8 @@
     <item name="colorAggregate">#FFFFFF</item>
     <item name="pageMargin">@drawable/pagermargin_white</item>
     <item name="calcIcon">@drawable/ic_action_calc_light</item>
-    <item name="drawerShadow">drawer_shadow_holo_dark</item>
-    <item name="drawerImage">ic_drawer_holo_dark</item>
+    <item name="drawerShadow">@drawable/drawer_shadow_holo_dark</item>
+    <item name="drawerImage">@drawable/ic_drawer_holo_dark</item>
   </style>
   <style name="ThemeLight" parent="BaseLight">
     <item name="dropdownListPreferredItemHeight">48sp</item>
@@ -43,8 +43,8 @@
     <item name="colorAggregate">#000000</item>
     <item name="pageMargin">@drawable/pagermargin_black</item>
     <item name="calcIcon">@drawable/ic_action_calc_dark</item>
-    <item name="drawerShadow">drawer_shadow_holo_light</item>
-    <item name="drawerImage">ic_drawer_holo_light</item>
+    <item name="drawerShadow">@drawable/drawer_shadow_holo_light</item>
+    <item name="drawerImage">@drawable/ic_drawer_holo_light</item>
   </style>
   <style name="AboutDialog" parent="@android:style/Theme.Dialog">
     <item name="android:textColor">?android:attr/textColorPrimaryInverseDisableOnly</item>
