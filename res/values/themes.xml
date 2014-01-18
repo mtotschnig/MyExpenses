@@ -29,6 +29,7 @@
     <item name="colorIncome">#00D000</item>
     <item name="colorExpense">#FF0000</item>
     <item name="colorAggregate">#FFFFFF</item>
+    <item name="drawerBackground">#222</item>
     <item name="pageMargin">@drawable/pagermargin_white</item>
     <item name="calcIcon">@drawable/ic_action_calc_light</item>
     <item name="drawerShadow">@drawable/drawer_shadow_holo_dark</item>
@@ -41,6 +42,7 @@
     <item name="colorIncome">#008000</item>
     <item name="colorExpense">#800000</item>
     <item name="colorAggregate">#000000</item>
+    <item name="drawerBackground">#ddd</item>
     <item name="pageMargin">@drawable/pagermargin_black</item>
     <item name="calcIcon">@drawable/ic_action_calc_dark</item>
     <item name="drawerShadow">@drawable/drawer_shadow_holo_light</item>
