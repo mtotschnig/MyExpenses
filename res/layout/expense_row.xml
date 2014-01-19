@@ -15,8 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingRight="@dimen/general_padding"
-    android:paddingLeft="@dimen/general_padding"
     android:paddingTop="3dp"
     android:paddingBottom="3dp"
     android:layout_width="fill_parent"

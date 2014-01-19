@@ -20,6 +20,11 @@
     android:orientation="vertical">
   <se.emilsjolander.stickylistheaders.StickyListHeadersListView
       android:id="@+id/list"
+      android:scrollbars="vertical"
+      android:scrollbarStyle="outsideOverlay"
+      android:paddingRight="16dp"
+      android:paddingLeft="16dp"
+      android:fastScrollEnabled="true"
       android:layout_width="match_parent"
       android:layout_height="wrap_content" />
     <TextView
