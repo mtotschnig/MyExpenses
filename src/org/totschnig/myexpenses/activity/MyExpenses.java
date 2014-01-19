@@ -550,6 +550,7 @@ public class MyExpenses extends LaunchActivity implements
       getSupportFragmentManager().beginTransaction()
       .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,(Long)tag, null), "ASYNC_TASK")
       .commit();
+      return true;
     case R.id.CREATE_COMMAND:
       //we need the accounts to be loaded in order to evaluate if the limit has been reached
       if (MyApplication.getInstance().isContribEnabled || (mAccountCount > 0 && mAccountCount < 5)) {
