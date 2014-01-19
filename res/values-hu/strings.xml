@@ -171,6 +171,7 @@
   <string name="menu_manage_plans_tab_templates">Sablonok</string>
   <string name="menu_manage_plans_tab_plans">Tervek</string>
   <string name="menu_reset">Export és alap állapotra visszaállítás</string>
+  <string name="menu_reset_all">Export és teljes reset</string>
   <string name="menu_save">Mentés</string>
   <string name="menu_save_and_new">Mentés és új</string>
   <string name="menu_settings">Beállítások</string>

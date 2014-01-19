@@ -167,6 +167,7 @@
   <string name="menu_invert_transfer">插入</string>
   <string name="menu_manage_plans">範本與計劃</string>
   <string name="menu_reset">匯出和重設</string>
+  <string name="menu_reset_all">匯出和重設所有</string>
   <string name="menu_save">保存</string>
   <string name="menu_save_and_new">保存並新增</string>
   <string name="menu_settings">設定</string>

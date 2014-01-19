@@ -167,6 +167,7 @@
   <string name="menu_invert_transfer">ត្រឡប់មកវិញ</string>
   <string name="menu_manage_plans">ទិន្នន័យ​គំរូ និងផែនការ</string>
   <string name="menu_reset">ការនាំចេញនិងការកំណត់ឡើងវិញ</string>
+  <string name="menu_reset_all">ការនាំចេញនិងការកំណត់ឡើងវិញទាំងអស់</string>
   <string name="menu_save">រក្សាទុក</string>
   <string name="menu_save_and_new">រក្សាទុក និងថ្មី</string>
   <string name="menu_settings">ការកំណត់</string>
