@@ -57,6 +57,11 @@
     android:title="@string/menu_grouping">
   </item>
   <item
+    android:id="@id/CREATE_COMMAND"
+    app:showAsAction="never"
+    android:title="@string/menu_create_account">
+  </item>
+  <item
     android:id="@id/DISTRIBUTION_COMMAND"
     app:showAsAction="ifRoom"
     android:icon="@drawable/distribution_icon"

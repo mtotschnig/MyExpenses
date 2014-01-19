@@ -107,25 +107,14 @@ public class MyExpenses extends LaunchActivity implements
   public static final int SPLIT_PART_CURSOR=3;
   private LoaderManager mManager;
 
-  int currentPosition = -1;
-  /**
-   * set the Current account to the current position of mAccountsCursor
-   * @param newAccountId
-   */
-  private void setCurrentAccount() {
-    long newAccountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
-    if (mAccountId != newAccountId)
-      SharedPreferencesCompat.apply(
-        mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId));
-    mAccountId = newAccountId;
-    setCustomTitle();
-  }
+  int mCurrentPosition = -1;
   private Cursor mAccountsCursor;
 
   private MyViewPagerAdapter mViewPagerAdapter;
   private SimpleCursorAdapter mDrawerListAdapter;
   private ViewPager myPager;
   private long mAccountId = 0;
+  int mAccountCount = 0;
   public enum HelpVariant {
     crStatus
   }
@@ -434,7 +423,7 @@ public class MyExpenses extends LaunchActivity implements
     switch (command) {
     case R.id.DISTRIBUTION_COMMAND:
       tl = (TransactionList) getSupportFragmentManager().findFragmentByTag(
-          mViewPagerAdapter.getFragmentName(currentPosition));
+          mViewPagerAdapter.getFragmentName(mCurrentPosition));
       if (tl != null && tl.mappedCategories) {
         if (MyApplication.getInstance().isContribEnabled) {
         contribFeatureCalled(Feature.DISTRIBUTION, null);
@@ -497,7 +486,7 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     case R.id.RESET_ACCOUNT_COMMAND:
       tl = (TransactionList) getSupportFragmentManager().findFragmentByTag(
-          mViewPagerAdapter.getFragmentName(currentPosition));
+          mViewPagerAdapter.getFragmentName(mCurrentPosition));
       if (tl != null && tl.hasItems) {
         if (Utils.isExternalStorageAvailable()) {
           if (mAccountId > 0 || MyApplication.getInstance().isContribEnabled) {
@@ -567,6 +556,16 @@ public class MyExpenses extends LaunchActivity implements
       getSupportFragmentManager().beginTransaction()
       .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,(Long)tag, null), "ASYNC_TASK")
       .commit();
+    case R.id.CREATE_COMMAND:
+      //we need the accounts to be loaded in order to evaluate if the limit has been reached
+      if (MyApplication.getInstance().isContribEnabled || (mAccountCount > 0 && mAccountCount < 5)) {
+        i = new Intent(this, AccountEdit.class);
+        startActivityForResult(i, 0);
+      }
+      else {
+        CommonCommands.showContribDialog(this,Feature.ACCOUNTS_UNLIMITED, null);
+      }
+      return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -602,7 +601,7 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public void onPageSelected(int position) {
-    currentPosition = position;
+    mCurrentPosition = position;
     mAccountsCursor.moveToPosition(position);
     setCurrentAccount();
     //getSupportActionBar().setSelectedNavigationItem(position);
@@ -649,11 +648,24 @@ public class MyExpenses extends LaunchActivity implements
     }
     return null;
   }
+  /**
+   * set the Current account to the current position of mAccountsCursor
+   * @param newAccountId
+   */
+  private void setCurrentAccount() {
+    long newAccountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
+    if (mAccountId != newAccountId)
+      SharedPreferencesCompat.apply(
+        mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId));
+    mAccountId = newAccountId;
+    setCustomTitle();
+  }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
     int id = loader.getId();
     switch(id) {
     case ACCOUNTS_CURSOR:
+      mAccountCount = 0;
       mAccountsCursor = cursor;
       //swaping the cursor is altering the accountId, if the
       //sort order has changed, but we want to move to the same account as before
@@ -661,22 +673,27 @@ public class MyExpenses extends LaunchActivity implements
       mViewPagerAdapter.swapCursor(cursor);
       mAccountId = cacheAccountId;
       mAccountsCursor.moveToFirst();
-      currentPosition = -1;
+      mCurrentPosition = -1;
       int columnIndexRowId = mAccountsCursor.getColumnIndex(KEY_ROWID);
       while (mAccountsCursor.isAfterLast() == false) {
-        if (mAccountsCursor.getLong(columnIndexRowId) == mAccountId) {
-          currentPosition = mAccountsCursor.getPosition();
-          break;
+        long accountId = mAccountsCursor.getLong(columnIndexRowId);
+        if (accountId == mAccountId) {
+          mCurrentPosition = mAccountsCursor.getPosition();
+        }
+        if (accountId > 0) {
+          mAccountCount++;
         }
         mAccountsCursor.moveToNext();
       }
       //the current account was deleted, we set it to the first
-      if (currentPosition == -1) {
-        currentPosition = 0;
+      if (mCurrentPosition == -1) {
+        mCurrentPosition = 0;
         mAccountsCursor.moveToFirst();
-        mAccountId = mAccountsCursor.getLong(columnIndexRowId);
+        setCurrentAccount();
+      } else {
+        mAccountsCursor.moveToPosition(mCurrentPosition);
+        setCustomTitle();
       }
-      setCustomTitle();
       //mNavigationAdapter.swapCursor(mAccountsCursor);
       //getSupportActionBar().setSelectedNavigationItem(currentPosition);
       mDrawerListAdapter.swapCursor(mAccountsCursor);
@@ -686,7 +703,7 @@ public class MyExpenses extends LaunchActivity implements
   public void onLoaderReset(Loader<Cursor> arg0) {
     if (arg0.getId() == ACCOUNTS_CURSOR) {
       mViewPagerAdapter.swapCursor(null);
-      currentPosition = -1;
+      mCurrentPosition = -1;
       mAccountsCursor = null;
     }
   }
@@ -711,7 +728,7 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-    currentPosition = itemPosition;
+    mCurrentPosition = itemPosition;
     moveToPosition(itemPosition);
     return true;
   }
@@ -752,7 +769,7 @@ public class MyExpenses extends LaunchActivity implements
     //in case we are called before the accounts cursor is loaded, we return false
     if (mAccountsCursor == null)
       return false;
-    mAccountsCursor.moveToPosition(currentPosition);
+    mAccountsCursor.moveToPosition(mCurrentPosition);
     return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow("transfer_enabled")) > 0;
   }
   /**
