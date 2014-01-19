@@ -53,12 +53,6 @@
               <category android:name="android.intent.category.DEFAULT" />
           </intent-filter>
         </activity>
-        <activity android:name=".activity.ManageAccounts" android:label="@string/pref_manage_accounts_title">
-          <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.DEFAULT" />
-          </intent-filter>
-        </activity>
         <activity android:name=".activity.Backup"
             android:theme="@style/Translucent.NoTitleBar">
           <intent-filter>

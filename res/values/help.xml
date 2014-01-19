@@ -29,12 +29,7 @@
   <string name="menu_grouping_help_text">You can group transactions by day, week, month or year. For each group, the sum of income, expenses and transfers is calculated and displayed.</string>
   <string name="menu_distribution_help_text">Display the distribution of your expenses per category. You can also click on a group header to inspect the distribution for a specific group.</string>
   <string name="menu_manage_plans_help_text">Opens the list of templates and plans for the current account, where you can apply, edit or delete them, and also define plans for future and recurrent transactions.</string>
-
-  <!-- ManageAccounts Accounts list -->
-  <string name="help_ManageAccounts_title">Accounts list</string>
-  <string name="help_ManageAccounts_info">This screen lists all accounts. Clicking on a list entry, opens the transaction list for the account.</string>
   <string name="menu_create_account_help_text">Opens the form for creating a new account.</string>
-  <string name="menu_reset_all_help_text">This command allows to reset all your accounts in batch. It is not available if there are no transactions to export (Contrib feature).</string>
 
   <!-- ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">This screen lists the predefined payment methods (Cheque, Credit card, Deposit, Direct debit) and lets you define new ones. Clicking on a list entry, lets you change the association between the method and account types.</string>

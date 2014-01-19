@@ -58,6 +58,7 @@
   </item>
   <item
     android:id="@id/CREATE_COMMAND"
+    android:icon="@drawable/create_account_icon"
     app:showAsAction="never"
     android:title="@string/menu_create_account">
   </item>

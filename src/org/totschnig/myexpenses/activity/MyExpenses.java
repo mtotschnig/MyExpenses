@@ -514,12 +514,6 @@ public class MyExpenses extends LaunchActivity implements
       i.putExtra(KEY_ROWID, mAccountId);
       startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
       return true;
-    case android.R.id.home:
-      i = new Intent(this, ManageAccounts.class);
-      finish();
-      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      startActivity(i);
-      return true;
     case R.id.BACKUP_COMMAND:
       startActivity(new Intent("myexpenses.intent.backup"));
       return true;

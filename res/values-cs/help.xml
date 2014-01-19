@@ -13,11 +13,7 @@
   <string name="menu_grouping_help_text">Transakce lze seskupit pro den, týden, měsíc nebo rok. Pro každou skupinu je vypočítán a zobrazen součet příjmů, výdajů a převody  .</string>
   <string name="menu_distribution_help_text">Zobrazí rozdělení nákladů podle jednotlivých kategorií. Můžete také klepnout na záhlaví skupiny pro kontrolu distribuce pro konkrétní skupiny.</string>
   <string name="menu_manage_plans_help_text">Otevře seznam šablon a plánů pro běžný účet, kde můžete použít, upravit nebo odstranit a také definovat plány pro budoucí a opakující se transakce.</string>
-  <!--ManageAccounts Accounts list-->
-  <string name="help_ManageAccounts_title">Seznam účtů</string>
-  <string name="help_ManageAccounts_info">Tato obrazovka obsahuje seznam všech účtů. Klepnutí na položku seznamu, otevř seznam transakcí na účtu.</string>
   <string name="menu_create_account_help_text">Otevře formulář pro vytvoření nového účtu.</string>
-  <string name="menu_reset_all_help_text">Tento příkaz umožňuje obnovit všechny své účty v dávce. Není k dispozici, pokud neexistují žádné transakce pro export (Contrib funkce).</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Tato obrazovka obsahuje seznam předdefinovaných platebních metod (šek, kreditní karty, vklad, inkaso) a umožňuje definovat nové. Klepnutím na položku seznamu, umožňuje změnit přidružení mezi typem metod a účtu.</string>
   <string name="menu_create_method_help_text">Otevře formulář pro vytvoření nového způsobu platby.</string>

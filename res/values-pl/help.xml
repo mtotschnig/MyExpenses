@@ -13,11 +13,7 @@
   <string name="menu_grouping_help_text">Możesz grupować transakcje według dnia, tygodnia, miesiąca lub roku. Dla każdej grupy, suma dochodu, wydatków i przelewów jest obliczana i wyświetlana.</string>
   <string name="menu_distribution_help_text">Wyświetla dystrybucję twoich wydatków według kategorii. Możesz także kliknąć na nagłówku grupy do sprawdzenia dystrybucji dla poszczególnej grupy.</string>
   <string name="menu_manage_plans_help_text">Otwiera listę szablonów oraz planów dla bieżącego konta, gdzie możesz zastosować, edytować lub edytować je, i także określić plany na przyszłość oraz powtarzających się transakcji.</string>
-  <!--ManageAccounts Accounts list-->
-  <string name="help_ManageAccounts_title">Lista kont</string>
-  <string name="help_ManageAccounts_info">Ten ekran wyświetla wszystkie konta. Kliknięcie na pozycji listy, otwiera listę transakcji dla danego konta.</string>
   <string name="menu_create_account_help_text">Otwiera formularz tworzenia nowych kont.</string>
-  <string name="menu_reset_all_help_text">To polecenie pozwala na zresetowania wszystkich twoich kont w partii. Polecenie nie jest dostępne jeżeli nie ma transakcji do wyeksportowania. (funkcja Contrib).</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Ten ekran wyświetla predefiniowane metody płatności (Czek, Karta Kredytowa, Depozyt, Bezpośredni debet) i pozwala Ci na definiowane nowych. Kliknięcie na pozycji listy, pozwala Ci na zmianę skojarzenia pomiędzy metodą i typem konta.</string>
   <string name="menu_create_method_help_text">Otwiera formularz tworzenia nowej metody płatności</string>

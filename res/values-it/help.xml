@@ -13,11 +13,7 @@
   <string name="menu_grouping_help_text">È possibile raggruppare le transazioni per giorno, settimana, mese o anno. Per ogni gruppo, le somme di redditi, spese e trasferimenti vengono calcolate e visualizzate.</string>
   <string name="menu_distribution_help_text">Visualizzare la distribuzione delle vostre spese per categoria. È anche possibile fare clic su un intestazione di gruppo per controllare la distribuzione di un gruppo specifico.</string>
   <string name="menu_manage_plans_help_text">Apre l\'elenco dei modelli e scadenze del conto corrente, dove è possibile applicare, modificare o cancellare, e anche definire la pianificazione dell\' operazioni futuri e ricorrenti.</string>
-  <!--ManageAccounts Accounts list-->
-  <string name="help_ManageAccounts_title">Elenco dei conti</string>
-  <string name="help_ManageAccounts_info">Questa schermata elenca tutti i conti. Facendo clic su una voce della lista, si apre l\'elenco delle transazioni per il conto.</string>
   <string name="menu_create_account_help_text">Apre il modulo per la creazione di un nuovo conto.</string>
-  <string name="menu_reset_all_help_text">Questo comando consente di reinizializzare tutti i vostri conti in batch. Non è disponibile se non ci sono operazioni (funzionalità speciale).</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Questa schermata elenca i metodi di pagamento predefiniti (assegno, carta di credito, deposito, addebito diretto) e consente di definire nuovi. Facendo clic su una voce dell\'elenco, consente di modificare l\'associazione tra il metodo e tipi di conti.</string>
   <string name="menu_create_method_help_text">Apre il modulo per la creazione di un nuovo metodo di pagamento.</string>

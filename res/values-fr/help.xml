@@ -13,11 +13,7 @@
   <string name="menu_grouping_help_text">Les opérations peuvent être regroupées par jour, semaine, mois ou année. Pour chaque groupe, les totaux des revenus, des dépenses et des transferts sont calculés et affichés.</string>
   <string name="menu_distribution_help_text">Visualisez la répartition de vos dépenses et entrées par catégorie. Vous pouvez aussi cliquer sur un groupe pour inspecter une répartition spécifique.</string>
   <string name="menu_manage_plans_help_text">Ouvre la liste des modèles et des échéances pour le compte courant. Vous pouvez appliquer, modifier, supprimer des modèles mais aussi définir vos opérations futures et périodiques.</string>
-  <!--ManageAccounts Accounts list-->
-  <string name="help_ManageAccounts_title">Liste des comptes</string>
-  <string name="help_ManageAccounts_info">Cet écran affiche tous les comptes. Cliquez sur une entrée de la liste pour accéder à la liste des opérations correspondantes.</string>
   <string name="menu_create_account_help_text">Ouvre le formulaire pour définir un nouveau compte.</string>
-  <string name="menu_reset_all_help_text">Cette commande permet d\'exporter et de réinitialiser tous les comptes d\'un seul coup. S\'affiche uniquement s\'il existe des opérations à exporter (Fonction Premium).</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Cet écran affiche la liste des méthodes prédéfinies de paiement (Chèque, Carte de crédit, Dépôt, Prélèvement) et permet d\'en créer de nouvelles. Si vous cliquez sur une entrée, vous pouvez changer l\'association entre méthode et type de compte.</string>
   <string name="menu_create_method_help_text">Ouvre le formulaire pour définir une nouvelle méthode.</string>

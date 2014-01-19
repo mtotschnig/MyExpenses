@@ -78,8 +78,6 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       .setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_RESTORE)
       .setOnPreferenceClickListener(this);
-    findPreference(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)
-      .setOnPreferenceClickListener(this);
     findPreference(MyApplication.PREFKEY_RATE)
     .setOnPreferenceClickListener(this);
 
@@ -220,11 +218,11 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       startActivityForResult(preference.getIntent(), ACTIVITY_RESTORE);
       return true;
     }
-    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)) {
+/*    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)) {
       addShortcut(".activity.ManageAccounts",R.string.pref_manage_accounts_title, R.drawable.icon);
       Toast.makeText(getBaseContext(),getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
       return true;
-    }
+    }*/
     return false;
   }
   @Override

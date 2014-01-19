@@ -174,7 +174,6 @@
   <string name="menu_manage_plans_tab_templates">Modelli</string>
   <string name="menu_manage_plans_tab_plans">Scadenze</string>
   <string name="menu_reset">Esportare e reinizializzare</string>
-  <string name="menu_reset_all">Esportare e reinizializzare tutti</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
   <string name="menu_reset_plan_instance">Reinizializzare</string>
   <string name="menu_save">Salvare</string>

@@ -174,7 +174,6 @@
   <string name="menu_manage_plans_tab_templates">Modelos</string>
   <string name="menu_manage_plans_tab_plans">Planos</string>
   <string name="menu_reset">Exportação e reset</string>
-  <string name="menu_reset_all">Exportação e redefinir todos os</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
   <string name="menu_reset_plan_instance">Redefinir</string>
   <string name="menu_save">Salvar</string>

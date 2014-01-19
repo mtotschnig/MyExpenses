@@ -13,11 +13,7 @@
   <string name="menu_grouping_help_text">Podeu agrupar les operacions per dia, setmana, mes o any. Per a cada grup, es calcularà i mostrarà la suma dels ingressos, despeses i transferències.</string>
   <string name="menu_distribution_help_text">Mostra la distribució de les vostres despeses per categoria. També podeu clicar a la capçalera d\'un grup per a veure la distribució d\'un grup en particular.</string>
   <string name="menu_manage_plans_help_text">Obre la llista de plantilles i planificacions del compte actual, que us permet aplicar, modificar o suprimir-les, i també definir planificacions de les operacions futures i recurrents.</string>
-  <!--ManageAccounts Accounts list-->
-  <string name="help_ManageAccounts_title">Llista de comptes</string>
-  <string name="help_ManageAccounts_info">Aquesta pantalla llista tots els comptes. Clicant a un d\'ells, s\'obre la llista d\'operacions del compte corresponent.</string>
   <string name="menu_create_account_help_text">Obre la pantalla per obrir un nou compte.</string>
-  <string name="menu_reset_all_help_text">Aquesta ordre permet reiniciar tots els comptes de cop. No està disponible si no hi ha operacions per a exportar (característica Contrib).</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Aquesta pantalla indica les formes de pagament (Xec, Tarja de Crèdit, Ingrés, Càrrec) i us permet definir-ne de nous. Si cliqueu a la llista, podeu canviar la correspondència entre formes i tipus de comptes.</string>
   <string name="menu_create_method_help_text">Obre la pantalla per indicar una nova forma de pagament.</string>

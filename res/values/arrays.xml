@@ -85,6 +85,7 @@
       <item>create_split</item>
       <item>reset</item>
       <item>edit_account</item>
+      <item>create_account</item>
       <item>grouping</item>
       <item>distribution</item>
       <item>manage_plans</item>
