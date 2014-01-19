@@ -686,6 +686,7 @@ public class MyExpenses extends LaunchActivity implements
         mAccountsCursor.moveToFirst();
         setCurrentAccount();
       } else {
+        moveToPosition(mCurrentPosition);
         mAccountsCursor.moveToPosition(mCurrentPosition);
         setCustomTitle();
       }
