@@ -62,6 +62,8 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -173,6 +175,14 @@ public class MyExpenses extends LaunchActivity implements
     mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, from, to,0);
     mDrawerList.setAdapter(mDrawerListAdapter);
     mDrawerList.setAreHeadersSticky(false);
+    mDrawerList.setOnItemClickListener(new OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position,
+          long id) {
+        moveToPosition(position);
+        mDrawerLayout.closeDrawer(mDrawerList);
+      }
+    });
 
     getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
         | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
@@ -267,7 +277,10 @@ public class MyExpenses extends LaunchActivity implements
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
   }
   private void moveToPosition(int position) {
-    myPager.setCurrentItem(position,false);
+    if (myPager.getCurrentItem()==position)
+      setCurrentAccount(position);
+    else
+      myPager.setCurrentItem(position,false);
   }
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
@@ -530,8 +543,7 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public void onPageSelected(int position) {
     mCurrentPosition = position;
-    mAccountsCursor.moveToPosition(position);
-    setCurrentAccount();
+    setCurrentAccount(position);
     //getSupportActionBar().setSelectedNavigationItem(position);
   }
   @SuppressWarnings("incomplete-switch")
@@ -577,16 +589,18 @@ public class MyExpenses extends LaunchActivity implements
     return null;
   }
   /**
-   * set the Current account to the current position of mAccountsCursor
-   * @param newAccountId
+   * set the Current account to the one in the requested position of mAccountsCursor
+   * @param position
    */
-  private void setCurrentAccount() {
+  private void setCurrentAccount(int position) {
+    mAccountsCursor.moveToPosition(position);
     long newAccountId = mAccountsCursor.getLong(columnIndexRowId);
     if (mAccountId != newAccountId)
       SharedPreferencesCompat.apply(
         mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId));
     mAccountId = newAccountId;
     setCustomTitle();
+    mDrawerList.setItemChecked(position, true);
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
@@ -601,6 +615,7 @@ public class MyExpenses extends LaunchActivity implements
         columnIndexDescription = mAccountsCursor.getColumnIndex(KEY_DESCRIPTION);
         indexesCalculated = true;
       }
+      ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(mAccountsCursor);
       //swaping the cursor is altering the accountId, if the
       //sort order has changed, but we want to move to the same account as before
       long cacheAccountId = mAccountId;
@@ -621,16 +636,10 @@ public class MyExpenses extends LaunchActivity implements
       //the current account was deleted, we set it to the first
       if (mCurrentPosition == -1) {
         mCurrentPosition = 0;
-        mAccountsCursor.moveToFirst();
-        setCurrentAccount();
-      } else {
-        moveToPosition(mCurrentPosition);
-        mAccountsCursor.moveToPosition(mCurrentPosition);
-        setCustomTitle();
       }
-      //mNavigationAdapter.swapCursor(mAccountsCursor);
-      //getSupportActionBar().setSelectedNavigationItem(currentPosition);
-      ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(mAccountsCursor);
+      moveToPosition(mCurrentPosition);
+      //should be triggered through onPageSelected
+      //setCurrentAccount(mCurrentPosition);
     }
   }
   @Override
@@ -679,7 +688,6 @@ public class MyExpenses extends LaunchActivity implements
   public void onPostExecute(int taskId,Object o) {
     super.onPostExecute(taskId, o);
     if (taskId == TaskExecutionFragment.TASK_REQUIRE_ACCOUNT) {
-      //setCurrentAccount(((Account) o).id);
       getSupportActionBar().show();
       setup();
     }
@@ -767,9 +775,9 @@ public class MyExpenses extends LaunchActivity implements
       c.moveToPosition(position);
       Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
       View v = row.findViewById(R.id.color1);
-      if (c.getLong(columnIndexRowId)<0) {
-        row.findViewById(R.id.TransferRow).setVisibility(View.GONE);
-      } else {
+      row.findViewById(R.id.TransferRow).setVisibility(
+          c.getLong(columnIndexRowId)<0 ? View.GONE : View.VISIBLE);
+      if (c.getLong(columnIndexRowId)>0) {
         setConvertedAmount((TextView)row.findViewById(R.id.sum_transfer), currency);
       }
       v.setBackgroundColor(c.getInt(columnIndexColor));
