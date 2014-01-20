@@ -88,7 +88,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  */
 public class MyExpenses extends LaunchActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
-    EditTextDialogListener, OnNavigationListener,
+    EditTextDialogListener,
     ContribIFace {
 
   public static final int TYPE_TRANSACTION = 0;
@@ -130,7 +130,6 @@ public class MyExpenses extends LaunchActivity implements
    */
   private long sequenceCount = 0;
   private int colorAggregate;
-  private SimpleCursorAdapter mNavigationAdapter;
   private ListView mDrawerList;
   private DrawerLayout mDrawerLayout;
   private ActionBarDrawerToggle mDrawerToggle;
@@ -216,7 +215,6 @@ public class MyExpenses extends LaunchActivity implements
   // Set the drawer toggle as the DrawerListener
   mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-    //setupActionBar();
     if (prev_version == -1) {
       getSupportActionBar().hide();
       if (MyApplication.backupExists()) {
@@ -288,43 +286,6 @@ public class MyExpenses extends LaunchActivity implements
   }
   private void moveToPosition(int position) {
     myPager.setCurrentItem(position,false);
-  }
-  private void setupActionBar() {
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayShowTitleEnabled(false);
-    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-    mNavigationAdapter = new SimpleCursorAdapter(
-        actionBar.getThemedContext(),
-        R.layout.account_navigation_spinner_item,
-        null,
-        new String[] {KEY_LABEL},
-        new int[] {android.R.id.text1},
-        0) {
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
-        return getCustomView(position,super.getView(position, convertView, parent));
-      }
-      @Override
-      public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return getCustomView(position,super.getDropDownView(position, convertView, parent));
-      }
-      private View getCustomView(int position, View row) {
-        Cursor c = getCursor();
-        c.moveToPosition(position);
-        row.findViewById(R.id.color1).setBackgroundColor(
-            getItemId(position) < 0 ?
-                colorAggregate :
-                c.getInt(c.getColumnIndex(KEY_COLOR)));
-        ((TextView) row.findViewById(R.id.end)).setText(
-            Utils.formatCurrency(
-                new Money(
-                    Currency.getInstance(c.getString(c.getColumnIndex(KEY_CURRENCY))),
-                    c.getLong(c.getColumnIndex("current_balance")))));
-        return row;
-      }
-    };
-    mNavigationAdapter.setDropDownViewResource(R.layout.account_navigation_spinner_dropdown_item);
-    actionBar.setListNavigationCallbacks(mNavigationAdapter, this);
   }
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
@@ -721,12 +682,6 @@ public class MyExpenses extends LaunchActivity implements
     } else {
       Toast.makeText(getBaseContext(),getString(R.string.template_create_success,title), Toast.LENGTH_LONG).show();
     }
-  }
-  @Override
-  public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-    mCurrentPosition = itemPosition;
-    moveToPosition(itemPosition);
-    return true;
   }
   @Override
   public void onPreExecute() {
