@@ -139,7 +139,7 @@ public class MyExpenses extends LaunchActivity implements
   private DrawerLayout mDrawerLayout;
   private ActionBarDrawerToggle mDrawerToggle;
   
-  private int columnIndexRowId, columnIndexColor, columnIndexCurrency, columnIndexDescription;
+  private int columnIndexRowId, columnIndexColor, columnIndexCurrency, columnIndexDescription, columnIndexLabel;
   boolean indexesCalculated = false;
 
   /* (non-Javadoc)
@@ -285,6 +285,8 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(mAccountId > 0);
+    menu.findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(
+        mAccountId > 0 && mAccountCount > 1);
     return super.onPrepareOptionsMenu(menu);
   }
 
@@ -497,7 +499,7 @@ public class MyExpenses extends LaunchActivity implements
       .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_TRANSACTION,(Long)tag, null), "ASYNC_TASK")
       .commit();
       return true;
-    case R.id.CREATE_COMMAND:
+    case R.id.CREATE_ACCOUNT_COMMAND:
       //we need the accounts to be loaded in order to evaluate if the limit has been reached
       if (MyApplication.getInstance().isContribEnabled || (mAccountCount > 0 && mAccountCount < 5)) {
         i = new Intent(this, AccountEdit.class);
@@ -507,6 +509,23 @@ public class MyExpenses extends LaunchActivity implements
         CommonCommands.showContribDialog(this,Feature.ACCOUNTS_UNLIMITED, null);
       }
       return true;
+      case R.id.DELETE_ACCOUNT_COMMAND:
+        mAccountsCursor.moveToPosition(mCurrentPosition);
+        MessageDialogFragment.newInstance(
+            R.string.dialog_title_warning_delete_account,
+            getString(R.string.warning_delete_account,mAccountsCursor.getString(columnIndexLabel)),
+            new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_ACCOUNT_COMMAND_DO,
+                mAccountsCursor.getLong(columnIndexRowId)), //we do not rely on mAccountId being in sync with mCurrentPosition
+            null,
+            MessageDialogFragment.Button.noButton())
+          .show(getSupportFragmentManager(),"DELETE_ACCOUNT");
+        return true;
+      case R.id.DELETE_ACCOUNT_COMMAND_DO:
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+           .add(TaskExecutionFragment.newInstance(TaskExecutionFragment.TASK_DELETE_ACCOUNT,(Long)tag, null), "ASYNC_TASK")
+           .commit();
+        return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -613,6 +632,7 @@ public class MyExpenses extends LaunchActivity implements
         columnIndexColor = mAccountsCursor.getColumnIndex(KEY_COLOR);
         columnIndexCurrency = mAccountsCursor.getColumnIndex(KEY_CURRENCY);
         columnIndexDescription = mAccountsCursor.getColumnIndex(KEY_DESCRIPTION);
+        columnIndexLabel = mAccountsCursor.getColumnIndex(KEY_LABEL);
         indexesCalculated = true;
       }
       ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(mAccountsCursor);
@@ -621,25 +641,26 @@ public class MyExpenses extends LaunchActivity implements
       long cacheAccountId = mAccountId;
       mViewPagerAdapter.swapCursor(cursor);
       mAccountId = cacheAccountId;
-      mAccountsCursor.moveToFirst();
-      mCurrentPosition = -1;
-      while (mAccountsCursor.isAfterLast() == false) {
-        long accountId = mAccountsCursor.getLong(columnIndexRowId);
-        if (accountId == mAccountId) {
-          mCurrentPosition = mAccountsCursor.getPosition();
+      if (mAccountsCursor.moveToFirst()) {
+        mCurrentPosition = -1;
+        while (mAccountsCursor.isAfterLast() == false) {
+          long accountId = mAccountsCursor.getLong(columnIndexRowId);
+          if (accountId == mAccountId) {
+            mCurrentPosition = mAccountsCursor.getPosition();
+          }
+          if (accountId > 0) {
+            mAccountCount++;
+          }
+          mAccountsCursor.moveToNext();
         }
-        if (accountId > 0) {
-          mAccountCount++;
+        //the current account was deleted, we set it to the first
+        if (mCurrentPosition == -1) {
+          mCurrentPosition = 0;
         }
-        mAccountsCursor.moveToNext();
+        moveToPosition(mCurrentPosition);
+        //should be triggered through onPageSelected
+        //setCurrentAccount(mCurrentPosition);
       }
-      //the current account was deleted, we set it to the first
-      if (mCurrentPosition == -1) {
-        mCurrentPosition = 0;
-      }
-      moveToPosition(mCurrentPosition);
-      //should be triggered through onPageSelected
-      //setCurrentAccount(mCurrentPosition);
     }
   }
   @Override
@@ -716,7 +737,7 @@ public class MyExpenses extends LaunchActivity implements
     //in case we are called before the accounts cursor is loaded, we return false
     if (mAccountsCursor == null)
       return false;
-    //we move to the last position in account cursor, and we check if it an aggregate account
+    //we move to the last position in account cursor, and we check if it is an aggregate account
     //which means that there is at least one currency having multiple accounts
     mAccountsCursor.moveToLast();
     return mAccountsCursor.getLong(columnIndexRowId) < 0;
@@ -753,7 +774,7 @@ public class MyExpenses extends LaunchActivity implements
   private void setCustomTitle() {
     View titleBar = getSupportActionBar().getCustomView();
     ((TextView) titleBar.findViewById(android.R.id.text1)).setText(
-        mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_LABEL)));
+        mAccountsCursor.getString(columnIndexLabel));
     ((TextView) titleBar.findViewById(R.id.end)).setText(Utils.formatCurrency(
         new Money(
             Currency.getInstance(mAccountsCursor.getString(columnIndexCurrency)),

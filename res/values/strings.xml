@@ -175,6 +175,7 @@
   <string name="menu_create_transaction">New Transaction</string>
   <string name="menu_create_transfer">New Transfer</string>
   <string name="menu_delete">Delete</string>
+  <string name="menu_delete_account">Delete account</string>
   <string name="menu_distribution">Distribution</string>
   <string name="menu_edit">Edit</string>
   <string name="menu_edit_account">Edit Account</string>
@@ -373,7 +374,7 @@
   <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit.</string>
   <string name="warning_backup">Database and preferences will be saved to sdcard. &continue;</string>
   <string name="warning_backup_exists">Database and preferences will be saved to sdcard. Existing backup will be overwritten. &continue;</string>
-  <string name="warning_delete_account">This account will be deleted with all its transactions. &continue;</string>
+  <string name="warning_delete_account">Account \"%1$s\" will be deleted with all its transactions. &continue;</string>
   <string name="warning_delete_main_category">This category will be deleted with all its subcategories. &continue;</string>
   <string name="warning_delete_template">This template (and any associated plan) will be deleted. &continue;</string>
   <string name="warning_delete_transaction">This transaction will be deleted. &continue;</string>
