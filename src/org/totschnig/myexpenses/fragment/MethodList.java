@@ -39,7 +39,7 @@ public class MethodList extends Fragment implements LoaderManager.LoaderCallback
   
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.accounts_list, null, false);
+    View v = inflater.inflate(R.layout.methods_list, null, false);
     final ListView lv = (ListView) v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{DatabaseConstants.KEY_ROWID};
