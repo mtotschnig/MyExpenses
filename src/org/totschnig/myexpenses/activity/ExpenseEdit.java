@@ -128,9 +128,9 @@ public class ExpenseEdit extends AmountActivity implements
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
   //CALCULATOR_REQUEST in super = 0
-  private static final int ACTIVITY_EDIT_SPLIT = 1;
+  private static final int EDIT_SPLIT_REQUEST = 1;
   private static final int SELECT_CATEGORY_REQUEST = 2;
-  protected static final int ACTIVITY_EDIT_EVENT = 4;
+  protected static final int EDIT_EVENT_REQUEST = 4;
 
   public static final int PAYEES_CURSOR=1;
   public static final int METHODS_CURSOR=2;
@@ -544,7 +544,7 @@ public class ExpenseEdit extends AmountActivity implements
       i.putExtra("operationType", type);
       i.putExtra(KEY_ACCOUNTID,mAccountSpinner.getSelectedItemId());
       i.putExtra(KEY_PARENTID,mTransaction.id);
-      startActivityForResult(i, ACTIVITY_EDIT_SPLIT);
+      startActivityForResult(i, EDIT_SPLIT_REQUEST);
     }
   }
   /**
@@ -1248,7 +1248,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (Utils.isIntentAvailable(this, intent)) {
       //TODO on the Xperia X8 the calendar app started with this intent crashes
       //can we catch such a crash and inform the user?
-      startActivityForResult (intent, ACTIVITY_EDIT_EVENT);
+      startActivityForResult (intent, EDIT_EVENT_REQUEST);
     } else {
       Log.w(MyApplication.TAG,"no intent found for viewing event in calendar");
     }

@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.annotation.SuppressLint;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -282,10 +283,19 @@ public class AccountEdit extends AmountActivity implements OnItemSelectedListene
       }
     }
   }
-
   @Override
   public void onNothingSelected(AdapterView<?> parent) {
     // TODO Auto-generated method stub
-    
+  }
+
+  /*
+   * callback of DbWriteFragment
+   */
+  @Override
+  public void onPostExecute(Object result) {
+    Intent intent=new Intent();
+    intent.putExtra(DatabaseConstants.KEY_ROWID, ContentUris.parseId((Uri)result));
+    setResult(RESULT_OK,intent);
+    finish();
   }
 }

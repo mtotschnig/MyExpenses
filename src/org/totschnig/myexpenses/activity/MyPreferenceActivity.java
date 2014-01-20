@@ -55,7 +55,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
     OnSharedPreferenceChangeListener,
     OnPreferenceClickListener {
   
-  private static final int ACTIVITY_RESTORE = 1;
+  private static final int RESTORE_REQUEST = 1;
   @SuppressWarnings("deprecation")
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -215,7 +215,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
       return true;
     }
     if (preference.getKey().equals(MyApplication.PREFKEY_RESTORE)) {
-      startActivityForResult(preference.getIntent(), ACTIVITY_RESTORE);
+      startActivityForResult(preference.getIntent(), RESTORE_REQUEST);
       return true;
     }
 /*    if (preference.getKey().equals(MyApplication.PREFKEY_SHORTCUT_ACCOUNT_LIST)) {
@@ -228,7 +228,7 @@ public class MyPreferenceActivity extends ProtectedPreferenceActivity implements
   @Override
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
-    if (requestCode == ACTIVITY_RESTORE && resultCode == RESULT_FIRST_USER) {
+    if (requestCode == RESTORE_REQUEST && resultCode == RESULT_FIRST_USER) {
       setResult(resultCode);
       finish();
     }

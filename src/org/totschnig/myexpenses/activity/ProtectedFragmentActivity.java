@@ -37,10 +37,10 @@ import android.view.MenuItem;
 public class ProtectedFragmentActivity extends ActionBarActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
     TaskExecutionFragment.TaskCallbacks{
-  public static final int ACTIVITY_EDIT=1;
-  public static final int ACTIVITY_EDIT_ACCOUNT=2;
-  public static final int ACTIVITY_EXPORT=3;
-  public static final int ACTIVITY_PREFERENCES=4;
+  public static final int EDIT_TRANSACTION_REQUEST=1;
+  public static final int EDIT_ACCOUNT_REQUEST=2;
+  public static final int PREFERENCES_REQUEST=3;
+  public static final int CREATE_ACCOUNT_REQUEST=4;
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;

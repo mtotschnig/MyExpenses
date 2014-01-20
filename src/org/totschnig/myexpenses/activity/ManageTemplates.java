@@ -149,7 +149,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements TabLis
       i.putExtra("template_id",(Long)tag);
       i.putExtra("newPlanEnabled", getNewPlanEnabled());
       //TODO check what to do on Result
-      startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
+      startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
       return true;
     case R.id.DELETE_COMMAND:
       MessageDialogFragment.newInstance(

@@ -170,7 +170,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
            Intent i = new Intent(ctx, ExpenseEdit.class);
            i.putExtra(KEY_ROWID, id);
            //i.putExtra("operationType", operationType);
-           startActivityForResult(i, MyExpenses.ACTIVITY_EDIT);
+           startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
          }
     });
     registerForContextMenu(lv);

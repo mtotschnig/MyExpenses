@@ -291,7 +291,7 @@ public class MyExpenses extends LaunchActivity implements
   protected void onActivityResult(int requestCode, int resultCode, 
       Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == ACTIVITY_EDIT && resultCode == RESULT_OK) {
+    if (requestCode == EDIT_TRANSACTION_REQUEST && resultCode == RESULT_OK) {
       long nextReminder;
       sequenceCount = intent.getLongExtra("sequence_count", 0);
       /*nextReminder = mSettings.getLong("nextReminderRate",TRESHOLD_REMIND_RATE);
@@ -306,6 +306,9 @@ public class MyExpenses extends LaunchActivity implements
           return;
         }
       }
+    }
+    if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
+      mAccountId = intent.getLongExtra(KEY_ROWID, 0);
     }
   }
 
@@ -340,20 +343,8 @@ public class MyExpenses extends LaunchActivity implements
     if (accountId == 0 && type == TYPE_SPLIT)
       return;
     i.putExtra(KEY_ACCOUNTID,accountId);
-    startActivityForResult(i, ACTIVITY_EDIT);
+    startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
   }
-/*  public boolean dispatchLongCommand(int command, Object tag) {
-    Intent i;
-    switch (command) {
-    case R.id.NEW_FROM_TEMPLATE_COMMAND:
-      i = new Intent(this, ExpenseEdit.class);
-      i.putExtra("template_id", (Long) tag);
-      i.putExtra("instantiate", true);
-      startActivityForResult(i, ACTIVITY_EDIT);
-      return true;
-    }
-    return false;
-  }*/
   /**
    * @param command
    * @param tag
@@ -454,7 +445,7 @@ public class MyExpenses extends LaunchActivity implements
     case R.id.EDIT_ACCOUNT_COMMAND:
       i = new Intent(this, AccountEdit.class);
       i.putExtra(KEY_ROWID, mAccountId);
-      startActivityForResult(i, ACTIVITY_EDIT_ACCOUNT);
+      startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
       return true;
     case R.id.BACKUP_COMMAND:
       startActivity(new Intent("myexpenses.intent.backup"));
@@ -497,7 +488,7 @@ public class MyExpenses extends LaunchActivity implements
       //we need the accounts to be loaded in order to evaluate if the limit has been reached
       if (MyApplication.getInstance().isContribEnabled || (mAccountCount > 0 && mAccountCount < 5)) {
         i = new Intent(this, AccountEdit.class);
-        startActivityForResult(i, 0);
+        startActivityForResult(i, CREATE_ACCOUNT_REQUEST);
       }
       else {
         CommonCommands.showContribDialog(this,Feature.ACCOUNTS_UNLIMITED, null);
