@@ -16,6 +16,7 @@
  -->
  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
+    android:paddingBottom="20dp"
     android:layout_height="fill_parent"
     android:orientation="horizontal">
   <View android:id="@+id/color1"
@@ -43,7 +44,6 @@
         android:layout_marginLeft="@dimen/general_padding"
         android:text="@string/opening_balance"/>
     <TextView android:text="OPENING_BALANCE" android:id="@+id/opening_balance"
-        android:layout_marginRight="@dimen/general_padding"
         android:gravity="right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -53,7 +53,6 @@
         android:layout_marginLeft="@dimen/general_padding"
         android:text="@string/sum_income"/>
     <TextView android:text="SUM_INCOME" android:id="@+id/sum_income"
-        android:layout_marginRight="@dimen/general_padding"
         android:gravity="right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -63,7 +62,6 @@
         android:layout_marginLeft="@dimen/general_padding"
         android:text="@string/sum_expenses"/>
   <TextView android:text="SUM_EXPENSES" android:id="@+id/sum_expenses"
-        android:layout_marginRight="@dimen/general_padding"
         android:gravity="right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -73,7 +71,6 @@
         android:layout_marginLeft="@dimen/general_padding"
         android:text="@string/sum_transfer"/>
   <TextView android:text="SUM_TRANSFER" android:id="@+id/sum_transfer"
-        android:layout_marginRight="@dimen/general_padding"
         android:gravity="right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -81,7 +78,6 @@
   <TableRow>
     <View/><View
       android:background="?android:attr/colorForeground"
-      android:layout_marginRight="@dimen/general_padding"
       android:layout_width="fill_parent"
       android:layout_height="4dp"/>
   </TableRow>
@@ -90,7 +86,6 @@
         android:layout_marginLeft="@dimen/general_padding"
         android:text="@string/current_balance"/>
     <TextView android:text="CURRENT_BALANCE" android:id="@+id/current_balance"
-        android:layout_marginRight="@dimen/general_padding"
         android:gravity="right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

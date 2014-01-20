@@ -28,7 +28,6 @@
       android:layout_height="fill_parent"
       android:layout_width="4dp"/>
   <TextView
-  	  android:text="LABEL"
       android:layout_centerVertical="true"
       android:layout_toRightOf="@id/color1"
       android:layout_toLeftOf="@id/end"
@@ -38,7 +37,6 @@
       android:layout_height="wrap_content"
       android:ellipsize="marquee" />
   <TextView
-  	    android:text="END"
         android:textStyle="bold"
         android:id="@+id/end"
         android:layout_centerVertical="true"

@@ -43,6 +43,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -51,13 +55,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -74,7 +78,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBar.OnNavigationListener;
 import android.util.TypedValue;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -111,7 +114,7 @@ public class MyExpenses extends LaunchActivity implements
   private Cursor mAccountsCursor;
 
   private MyViewPagerAdapter mViewPagerAdapter;
-  private SimpleCursorAdapter mDrawerListAdapter;
+  private StickyListHeadersAdapter mDrawerListAdapter;
   private ViewPager myPager;
   private long mAccountId = 0;
   int mAccountCount = 0;
@@ -130,10 +133,13 @@ public class MyExpenses extends LaunchActivity implements
    */
   private long sequenceCount = 0;
   private int colorAggregate;
-  private ListView mDrawerList;
+  private StickyListHeadersListView mDrawerList;
   private DrawerLayout mDrawerLayout;
   private ActionBarDrawerToggle mDrawerToggle;
   
+  private int columnIndexRowId, columnIndexColor, columnIndexCurrency, columnIndexDescription;
+  boolean indexesCalculated = false;
+
   /* (non-Javadoc)
    * Called when the activity is first created.
    * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -157,40 +163,16 @@ public class MyExpenses extends LaunchActivity implements
     setContentView(R.layout.activity_main);
 
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-    mDrawerList = (ListView) findViewById(R.id.left_drawer);
+    mDrawerList = (StickyListHeadersListView) findViewById(R.id.left_drawer);
     // set a custom shadow that overlays the main content when the drawer opens
     theme.resolveAttribute(R.attr.drawerShadow, value, true);
     mDrawerLayout.setDrawerShadow(value.resourceId, GravityCompat.START);
     String[] from = new String[]{"description","label","opening_balance","sum_income","sum_expenses","sum_transfer","current_balance"};
     // and an array of the fields we want to bind those fields to
     int[] to = new int[]{R.id.description,R.id.label,R.id.opening_balance,R.id.sum_income,R.id.sum_expenses,R.id.sum_transfer,R.id.current_balance};
-    mDrawerListAdapter = new SimpleCursorAdapter(this, R.layout.account_row, null, from, to,0) {
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
-        View row=super.getView(position, convertView, parent);
-        Cursor c = getCursor();
-        c.moveToPosition(position);
-        int col = c.getColumnIndex("currency");
-        Currency currency = Utils.getSaveInstance(c.getString(col));
-        View v = row.findViewById(R.id.color1);
-        if (c.getLong(c.getColumnIndex(KEY_ROWID))<0) {
-          row.findViewById(R.id.TransferRow).setVisibility(View.GONE);
-        } else {
-          setConvertedAmount((TextView)row.findViewById(R.id.sum_transfer), currency);
-        }
-        v.setBackgroundColor(c.getInt(c.getColumnIndex("color")));
-        setConvertedAmount((TextView)row.findViewById(R.id.opening_balance), currency);
-        setConvertedAmount((TextView)row.findViewById(R.id.sum_income), currency);
-        setConvertedAmount((TextView)row.findViewById(R.id.sum_expenses), currency);
-        setConvertedAmount((TextView)row.findViewById(R.id.current_balance), currency);
-        col = c.getColumnIndex("description");
-        String description = c.getString(col);
-        if (description.equals(""))
-          row.findViewById(R.id.description).setVisibility(View.GONE);
-        return row;
-      }
-    };
+    mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, from, to,0);
     mDrawerList.setAdapter(mDrawerListAdapter);
+    mDrawerList.setAreHeadersSticky(false);
 
     getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
         | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_HOME_AS_UP);
@@ -341,10 +323,9 @@ public class MyExpenses extends LaunchActivity implements
       if (mAccountsCursor != null) {
         mAccountsCursor.moveToFirst();
         String currentCurrency = Account.getInstanceFromDb(mAccountId).currency.getCurrencyCode();
-        int columnIndexCurrency = mAccountsCursor.getColumnIndex(KEY_CURRENCY);
         while (mAccountsCursor.isAfterLast() == false) {
           if (mAccountsCursor.getString(columnIndexCurrency).equals(currentCurrency)) {
-            accountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
+            accountId = mAccountsCursor.getLong(columnIndexRowId);
             break;
           }
           mAccountsCursor.moveToNext();
@@ -540,7 +521,7 @@ public class MyExpenses extends LaunchActivity implements
     @Override
     public Fragment getItem(Context context, Cursor cursor) {
       Account account;
-      long accountId = cursor.getLong(cursor.getColumnIndex(KEY_ROWID));
+      long accountId = cursor.getLong(columnIndexRowId);
       if (accountId < 0) {
         account = AggregateAccount.getCachedInstance(accountId);
         if (account == null)
@@ -609,7 +590,7 @@ public class MyExpenses extends LaunchActivity implements
    * @param newAccountId
    */
   private void setCurrentAccount() {
-    long newAccountId = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex(KEY_ROWID));
+    long newAccountId = mAccountsCursor.getLong(columnIndexRowId);
     if (mAccountId != newAccountId)
       SharedPreferencesCompat.apply(
         mSettings.edit().putLong(MyApplication.PREFKEY_CURRENT_ACCOUNT, newAccountId));
@@ -618,11 +599,17 @@ public class MyExpenses extends LaunchActivity implements
   }
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-    int id = loader.getId();
-    switch(id) {
+    mAccountCount = 0;
+    mAccountsCursor = cursor;
+    switch(loader.getId()) {
     case ACCOUNTS_CURSOR:
-      mAccountCount = 0;
-      mAccountsCursor = cursor;
+      if (!indexesCalculated) {
+        columnIndexRowId = mAccountsCursor.getColumnIndex(KEY_ROWID);
+        columnIndexColor = mAccountsCursor.getColumnIndex(KEY_COLOR);
+        columnIndexCurrency = mAccountsCursor.getColumnIndex(KEY_CURRENCY);
+        columnIndexDescription = mAccountsCursor.getColumnIndex(KEY_DESCRIPTION);
+        indexesCalculated = true;
+      }
       //swaping the cursor is altering the accountId, if the
       //sort order has changed, but we want to move to the same account as before
       long cacheAccountId = mAccountId;
@@ -630,7 +617,6 @@ public class MyExpenses extends LaunchActivity implements
       mAccountId = cacheAccountId;
       mAccountsCursor.moveToFirst();
       mCurrentPosition = -1;
-      int columnIndexRowId = mAccountsCursor.getColumnIndex(KEY_ROWID);
       while (mAccountsCursor.isAfterLast() == false) {
         long accountId = mAccountsCursor.getLong(columnIndexRowId);
         if (accountId == mAccountId) {
@@ -653,7 +639,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       //mNavigationAdapter.swapCursor(mAccountsCursor);
       //getSupportActionBar().setSelectedNavigationItem(currentPosition);
-      mDrawerListAdapter.swapCursor(mAccountsCursor);
+      ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(mAccountsCursor);
     }
   }
   @Override
@@ -734,7 +720,7 @@ public class MyExpenses extends LaunchActivity implements
     //we move to the last position in account cursor, and we check if it an aggregate account
     //which means that there is at least one currency having multiple accounts
     mAccountsCursor.moveToLast();
-    return mAccountsCursor.getLong(mAccountsCursor.getColumnIndexOrThrow(KEY_ROWID)) < 0;
+    return mAccountsCursor.getLong(columnIndexRowId) < 0;
   }
 
   private void setConvertedAmount(TextView tv,Currency currency) {
@@ -771,11 +757,62 @@ public class MyExpenses extends LaunchActivity implements
         mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_LABEL)));
     ((TextView) titleBar.findViewById(R.id.end)).setText(Utils.formatCurrency(
         new Money(
-            Currency.getInstance(mAccountsCursor.getString(mAccountsCursor.getColumnIndex(KEY_CURRENCY))),
+            Currency.getInstance(mAccountsCursor.getString(columnIndexCurrency)),
             mAccountsCursor.getLong(mAccountsCursor.getColumnIndex("current_balance")))));
     titleBar.findViewById(R.id.color1).setBackgroundColor(
         mAccountId < 0 ?
             colorAggregate :
-              mAccountsCursor.getInt(mAccountsCursor.getColumnIndex(KEY_COLOR)));
+              mAccountsCursor.getInt(columnIndexColor));
+  }
+  public class MyAdapter extends SimpleCursorAdapter {
+    public MyAdapter(Context context, int layout, Cursor c, String[] from,
+        int[] to, int flags) {
+      super(context, layout, c, from, to, flags);
+    }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+      View row=super.getView(position, convertView, parent);
+      Cursor c = getCursor();
+      c.moveToPosition(position);
+      Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
+      View v = row.findViewById(R.id.color1);
+      if (c.getLong(columnIndexRowId)<0) {
+        row.findViewById(R.id.TransferRow).setVisibility(View.GONE);
+      } else {
+        setConvertedAmount((TextView)row.findViewById(R.id.sum_transfer), currency);
+      }
+      v.setBackgroundColor(c.getInt(columnIndexColor));
+      setConvertedAmount((TextView)row.findViewById(R.id.opening_balance), currency);
+      setConvertedAmount((TextView)row.findViewById(R.id.sum_income), currency);
+      setConvertedAmount((TextView)row.findViewById(R.id.sum_expenses), currency);
+      setConvertedAmount((TextView)row.findViewById(R.id.current_balance), currency);
+      String description = c.getString(columnIndexDescription);
+      if (description.equals(""))
+        row.findViewById(R.id.description).setVisibility(View.GONE);
+      return row;
+    }
+  }
+  public class MyGroupedAdapter extends MyAdapter implements StickyListHeadersAdapter {
+    LayoutInflater inflater;
+    public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
+        int[] to, int flags) {
+      super(context, layout, c, from, to, flags);
+      inflater = LayoutInflater.from(MyExpenses.this);
+    }
+    @SuppressLint("NewApi")
+    @Override
+    public View getHeaderView(int position, View convertView, ViewGroup parent) {
+      if (convertView == null) {
+        convertView = inflater.inflate(R.layout.accounts_header, parent, false);
+      }
+      ((TextView) convertView.findViewById(R.id.sectionLabel)).setText(getHeaderId(position)==0?R.string.pref_manage_accounts_title:R.string.menu_aggregates);
+      return convertView;
+    }
+    @Override
+    public long getHeaderId(int position) {
+      Cursor c = getCursor();
+      c.moveToPosition(position);
+      return c.getLong(columnIndexRowId)>0 ? 0 : 1;
+    }
   }
 }
